@@ -8,15 +8,6 @@ using UnityEngine.Assertions;
 
 public class ModUIManager : MonoBehaviour {
 
-    // TEMPORARY ENUM
-    public enum ModType
-    {
-        BATON,
-        BLASTER,
-        SEGWEY,
-        FINGERPRINT
-    }
-
     //// Unity Inspector Fields
     // @TODO : This should be a custom inspector to the Dictionary below.
     [SerializeField]
@@ -28,8 +19,6 @@ public class ModUIManager : MonoBehaviour {
     //// Internal State
     private Dictionary<ModSpot, ModUIcon> modUIcons = new Dictionary<ModSpot, ModUIcon>();
 
-    //// Unity State Functions
-
     void Awake()
     {
         // SEE ABOVE TODO:
@@ -37,6 +26,11 @@ public class ModUIManager : MonoBehaviour {
         modUIcons.Add(ModSpot.Arm_L, UIcon2);
         modUIcons.Add(ModSpot.Arm_R, UIcon3);
         modUIcons.Add(ModSpot.Legs, UIcon4);
+
+        UIcon1.Relocate(ModSpot.Head);
+        UIcon2.Relocate(ModSpot.Arm_L);
+        UIcon3.Relocate(ModSpot.Arm_R);
+        UIcon4.Relocate(ModSpot.Legs);
     }
 
     //// Manager Functions
@@ -57,7 +51,7 @@ public class ModUIManager : MonoBehaviour {
 
     public void SwapMods(ModSpot spotA, ModSpot spotB)
     {
-        Assert.AreNotEqual<ModSpot>(spotA, spotB, "Swapping ModSpots should be different!");
+        Assert.AreNotEqual(spotA, spotB, "Swapping ModSpots should be different!");
 
         ModUIcon UIconA, UIconB;
         modUIcons.TryGetValue(spotA, out UIconA);
@@ -66,8 +60,8 @@ public class ModUIManager : MonoBehaviour {
         modUIcons.Add(spotB, UIconA);
         modUIcons.Add(spotA, UIconB);
 
-        UIconA.animator.SetTrigger(GetTrigger(spotB));
-        UIconB.animator.SetTrigger(GetTrigger(spotA));
+        UIconA.Relocate(spotB);
+        UIconB.Relocate(spotA);
     }
 
     public void SetUIState(ModSpot spot, ModUIState state)
@@ -75,24 +69,5 @@ public class ModUIManager : MonoBehaviour {
         ModUIcon UIcon;
         modUIcons.TryGetValue(spot, out UIcon);
         UIcon.Apply(state);
-    }
-
-    //// Privates
-
-    private string GetTrigger(ModSpot spot)
-    {
-        switch(spot)
-        {
-            case ModSpot.Head:
-                return "MOVE_TO_HEAD";
-            case ModSpot.Arm_L:
-                return "MOVE_TO_LEFT";
-            case ModSpot.Arm_R:
-                return "MOVE_TO_RIGHT";
-            case ModSpot.Legs:
-                return "MOVE_TO_LEGS";
-        }
-
-        throw new System.Exception("IMPOSSIBRU!!");
     }
 }
