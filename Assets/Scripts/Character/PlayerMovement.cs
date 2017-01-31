@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿// Adam Kay
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,6 +14,14 @@ public class PlayerMovement : MonoBehaviour {
     [SerializeField] private bool canMove = true;
 
 
+    private Dictionary<ModSpot, bool> modSpotConstantForceIndices = new Dictionary<ModSpot, bool>() {
+        {ModSpot.Head, false},
+        {ModSpot.Legs, false},
+        {ModSpot.Arm_L, false},
+        {ModSpot.Arm_R, false}
+    };
+
+
     #region Privates
 
     [SerializeField]
@@ -22,6 +32,8 @@ public class PlayerMovement : MonoBehaviour {
     private bool isGrounded;
     private bool isFalling = false;
     private float sphereRadius = 0.1f;
+
+    private List<Vector3> externalForces;
     #endregion
 
     void Awake()
@@ -92,7 +104,7 @@ public class PlayerMovement : MonoBehaviour {
 
     public void AddJetForce(Vector3 constantForce, ModSpot modSpot) {
         modSpotConstantForceIndices[modSpot] = true;
-        if (modSpot == ModSpot.Down) {
+        if (modSpot == ModSpot.Legs) {
             isFalling = true;
         }
         StartCoroutine(ApplyJetForce(constantForce, modSpot));
@@ -100,19 +112,13 @@ public class PlayerMovement : MonoBehaviour {
 
     public void StopConstantForce(ModSpot modSpot) {
         modSpotConstantForceIndices[modSpot] = false;
-        if (modSpot == ModSpot.Down) {
+        if (modSpot == ModSpot.Legs) {
             isFalling = false;
         }
     }
 
-    Dictionary<ModSpot, bool> modSpotConstantForceIndices = new Dictionary<ModSpot, bool>() {
-        {ModSpot.Up, false},
-        {ModSpot.Down, false},
-        {ModSpot.Left, false},
-        {ModSpot.Right, false}
-    };
-
-    IEnumerator ApplyJetForce(Vector3 constantForce, ModSpot modSpot) {
+    
+    private IEnumerator ApplyJetForce(Vector3 constantForce, ModSpot modSpot) {
         int currentIndex = externalForces.FindIndex(vec => vec == Vector3.zero);        
         while (modSpotConstantForceIndices[modSpot] && externalForces[currentIndex].magnitude < constantForce.magnitude - 0.1f) {
             externalForces[currentIndex] = Vector3.Lerp(externalForces[currentIndex], constantForce, 0.1f);
@@ -131,15 +137,15 @@ public class PlayerMovement : MonoBehaviour {
         StartCoroutine(FadeTargetForce(currentIndex));
     }
 
-    IEnumerator FadeTargetForce(int targetIndex) {
+    private IEnumerator FadeTargetForce(int targetIndex) {
         while (externalForces[targetIndex].magnitude > 0.1f) {
             externalForces[targetIndex] = Vector3.Lerp(externalForces[targetIndex], Vector3.zero, 0.1f);
             yield return null;
         }
     }
 
-    List<Vector3> externalForces;
-    IEnumerator AddPsuedoForce(Vector3 forceVector, float decay) {
+    
+    private IEnumerator AddPsuedoForce(Vector3 forceVector, float decay) {
         int currentIndex = externalForces.FindIndex(vec => vec == Vector3.zero);
 
         externalForces[currentIndex] = forceVector;
@@ -167,6 +173,7 @@ public class PlayerMovement : MonoBehaviour {
     
     public bool IsGrounded()
     {
+
         Collider[] cols = Physics.OverlapSphere(foot.transform.position, sphereRadius);
         for (int i = 0; i < cols.Length; i++) {
             if (cols[i].gameObject.layer != (int)Layers.ModMan) {
