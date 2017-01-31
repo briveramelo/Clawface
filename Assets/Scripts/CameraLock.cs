@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿// Adam Kay
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
