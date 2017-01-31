@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class Stats : MonoBehaviour {
+public class Stats : MonoBehaviour, IModifiable {
     
     class VariableReference {
         public Func<object> Get { get; private set; }
