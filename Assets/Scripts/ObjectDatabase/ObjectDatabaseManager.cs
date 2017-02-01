@@ -10,12 +10,22 @@ public class ObjectDatabaseManager : SingletonMonoBehaviour<ObjectDatabaseManage
     [SerializeField]
 	ObjectDatabase _database = new ObjectDatabase();
 
+    new void Awake() {
+        base.Awake();
+
+        DontDestroyOnLoad (gameObject);
+    }
+
     public GameObject GetObject (int index) {
         if (index < 0 || index >= (int)byte.MaxValue) {
             Debug.LogError ("Index out of range! " + index.ToString());
             return null;
         }
         return _database[index].prefab;
+    }
+
+    public int GetObjectLimit (int index) {
+        return _database[index].limit;
     }
 
     public List<ObjectData> AllObjectsInCategory (ObjectDatabase.Category cat) {

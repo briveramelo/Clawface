@@ -1,6 +1,7 @@
 ﻿// Level.cs
 
 using UnityEngine;
+using UnityEngine.Events;
 using System;
 
 /// <summary>
@@ -82,13 +83,16 @@ public class Level {
         }
     }
 
+    [Serializable]
+    public class LevelEvent : UnityEvent { }
+
     #endregion
     #region Vars
 
     const string _DEFAULT_NAME = "New Level";
     public const int MAX_FLOORS = 5;
-    public const int FLOOR_WIDTH = 32;
-    public const int FLOOR_DEPTH = 32;
+    public const int FLOOR_WIDTH = 64;
+    public const int FLOOR_DEPTH = 64;
     public const int FLOOR_HEIGHT = 10;
 
 	/// <summary>
@@ -101,6 +105,11 @@ public class Level {
 	/// </summary>
     [SerializeField]
 	Floor[] _floors;
+
+    [SerializeField]
+    CoordinateSet _playerSpawn;
+
+    public LevelEvent onLevelComplete;
 
 	#endregion
 	#region Constructors
@@ -126,6 +135,8 @@ public class Level {
     public Floor this[int index] {
         get { return _floors[index]; }
     }
+
+    public CoordinateSet PlayerSpawn { get { return _playerSpawn; } }
 
     public ObjectAttributes ObjectAt (CoordinateSet coords) {
         return _floors[coords.floor][coords.x, coords.y, coords.z];

@@ -97,16 +97,16 @@ public class LevelEditorWindow : EditorWindow {
             if (LevelManager.Instance) {
                 LevelManager.Instance.StartEditing();
                 _editing = true;
-                LevelManager.Instance.onCloseLevel.AddListener (CheckLevelLoaded);
-                LevelManager.Instance.onCreateLevel.AddListener (CheckLevelLoaded);
-                LevelManager.Instance.onLoadLevel.AddListener (CheckLevelLoaded);
-                LevelManager.Instance.onSaveLevel.AddListener (CheckLevelLoaded);
+                LevelManager.Instance.onCloseLevel.AddListener(CheckLevelLoaded);
+                LevelManager.Instance.onCreateLevel.AddListener(CheckLevelLoaded);
+                LevelManager.Instance.onLoadLevel.AddListener(CheckLevelLoaded);
+                LevelManager.Instance.onSaveLevel.AddListener(CheckLevelLoaded);
             }
         }
 
         bool dirty = LevelManager.Instance.Dirty;
 
-        _windowScrollPos = EditorGUILayout.BeginScrollView (_windowScrollPos);
+        _windowScrollPos = EditorGUILayout.BeginScrollView(_windowScrollPos);
 
         //
         // Header
@@ -120,7 +120,7 @@ public class LevelEditorWindow : EditorWindow {
 
         // Check if game is running
         if (Application.isPlaying) {
-            EditorGUILayout.LabelField("Level editor disabled while game is running!\nUse game level editor instead.", 
+            EditorGUILayout.LabelField("Level editor disabled while game is running!\nUse game level editor instead.",
                 EditorStyles.boldLabel);
             return;
         }
@@ -193,9 +193,13 @@ public class LevelEditorWindow : EditorWindow {
             //
             // Save level as asset button
             //
-            if (newName != default(string) &&
-                GUILayout.Button("Save level as asset"))
-                LevelManager.Instance.SaveCurrentLevel();
+            if (newName != default(string)) {
+                if (GUILayout.Button("Save level"))
+                    LevelManager.Instance.SaveCurrentLevel();
+                if (GUILayout.Button("Save level as asset"))
+                    LevelManager.Instance.SaveCurrentLevel(true);
+
+            }
 
             try {
                 if (EditorGUI.EndChangeCheck())
@@ -261,7 +265,7 @@ public class LevelEditorWindow : EditorWindow {
             //------------------------------
 
             _objectBrowserScrollPos = EditorGUILayout.BeginScrollView(_objectBrowserScrollPos);
-            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.BeginHorizontal(GUILayout.ExpandHeight (true));
 
             int objectIndex = 0;
             int objectsInRow = 0;
@@ -272,6 +276,7 @@ public class LevelEditorWindow : EditorWindow {
 
             while (objectIndex < filteredObjects.Count) {
                 if (GUILayout.Button(filteredObjects[objectIndex].prefab.name, GUILayout.ExpandWidth(false))) {
+                    Debug.Log (objectIndex + " " + filter);
                     LevelManager.Instance.SelectObjectInCategory(objectIndex, filter);
                     LevelManager.Instance.SelectTool(LevelManager.Tool.Place);
                 }
@@ -287,7 +292,7 @@ public class LevelEditorWindow : EditorWindow {
             }
 
             EditorGUILayout.EndHorizontal();
-            EditorGUILayout.EndScrollView(); 
+            EditorGUILayout.EndScrollView();
         }
 
         EditorGUILayout.EndScrollView();
@@ -304,10 +309,23 @@ public class LevelEditorWindow : EditorWindow {
         // No idea why this works, but this allows 
         // MouseUp events to be processed for left mouse button
         if (e.type == EventType.layout)
-            HandleUtility.AddDefaultControl (GUIUtility.GetControlID(GetHashCode(), FocusType.Passive));
+            HandleUtility.AddDefaultControl(GUIUtility.GetControlID(GetHashCode(), FocusType.Passive));
 
-        if (e.isMouse)
+         if (e.isKey) {
+            if (e.control) {
+                if (e.shift) {
+                    if (e.keyCode == KeyCode.S) { // Ctrl + Shift + S
+                        LevelManager.Instance.SaveCurrentLevel(true);
+                    }
+                } else {
+                    if (e.keyCode == KeyCode.S) { // Ctrl + S
+                        LevelManager.Instance.SaveCurrentLevel();
+                    }
+                }
+            }
+        } else if (e.isMouse) {
             LevelManager.Instance.HandleInputs(Event.current, sc.camera);
+        }
     }
 
     void ShowSceneViewGUI(SceneView sc) {
@@ -315,86 +333,97 @@ public class LevelEditorWindow : EditorWindow {
         Handles.BeginGUI();
 
         // Draw toolbar
-        var toolbarRect = new Rect (4, 4, 256, 32);
-        GUILayout.BeginArea (toolbarRect);
+        var toolbarRect = new Rect(4, 4, 256, 32);
+        GUILayout.BeginArea(toolbarRect);
 
         GUILayout.BeginHorizontal();
 
-        if (GUILayout.Button ("Undo")) {
-            LevelManager.Instance.Undo();
+        var levelLoaded = LevelManager.Instance.LevelLoaded;
+        if (!levelLoaded)
+            GUILayout.Label("No level loaded.");
+        else {
+            GUILayout.Label(LevelManager.Instance.LoadedLevelName + (LevelManager.Instance.Dirty ? "*" : ""));
+
+            if (GUILayout.Button("Undo")) {
+                LevelManager.Instance.Undo();
+            }
+
+            if (GUILayout.Button("Redo")) {
+                LevelManager.Instance.Redo();
+            }
+
+            var drawGrid = LevelManager.Instance.GridEnabled;
+            var newDrawGrid = GUILayout.Toggle(drawGrid, "Draw Grid");
+            if (drawGrid != newDrawGrid) {
+                if (newDrawGrid) LevelManager.Instance.EnableGrid();
+                else LevelManager.Instance.DisableGrid();
+            }
+
         }
 
-        if (GUILayout.Button ("Redo")) {
-            LevelManager.Instance.Redo();
-        }
-
-        var drawGrid = LevelManager.Instance.GridEnabled;
-        var newDrawGrid = GUILayout.Toggle (drawGrid, "Draw Grid");
-        if (drawGrid != newDrawGrid) {
-            if (newDrawGrid) LevelManager.Instance.EnableGrid();
-            else LevelManager.Instance.DisableGrid();
-        }
-        
         GUILayout.EndHorizontal();
 
         GUILayout.EndArea();
 
-        // Draw side panel
-        var sidePanelRect = new Rect (4, 40, 32, 256);
-        GUILayout.BeginArea (sidePanelRect);
+        if (levelLoaded) {
 
-        GUILayout.BeginVertical();
+            // Draw side panel
+            var sidePanelRect = new Rect(4, 40, 32, 256);
+            GUILayout.BeginArea(sidePanelRect);
 
-        // Floor selector
-        GUILayout.BeginVertical();
+            GUILayout.BeginVertical();
 
-        GUILayout.Label ("Floor", GUILayout.ExpandWidth(true));
+            // Floor selector
+            GUILayout.BeginVertical();
 
-        if (GUILayout.Button("^")) {
-            LevelManager.Instance.UpOneFloor();
-        }
+            GUILayout.Label("Floor", GUILayout.ExpandWidth(true));
 
-        GUILayout.Label (LevelManager.Instance.SelectedFloor.ToString(), GUILayout.ExpandWidth(true));
+            if (GUILayout.Button("^")) {
+                LevelManager.Instance.UpOneFloor();
+            }
 
-        if (GUILayout.Button("v")) {
-            LevelManager.Instance.DownOneFloor();
-        }
+            GUILayout.Label(LevelManager.Instance.SelectedFloor.ToString(), GUILayout.ExpandWidth(true));
 
-        GUILayout.EndVertical();
+            if (GUILayout.Button("v")) {
+                LevelManager.Instance.DownOneFloor();
+            }
 
-        GUILayout.Space(32);
+            GUILayout.EndVertical();
+
+            GUILayout.Space(32);
 
 
-        // Y selector
-        GUILayout.BeginVertical();
+            // Y selector
+            GUILayout.BeginVertical();
 
-        GUILayout.Label ("Y", GUILayout.ExpandWidth(true));
+            GUILayout.Label("Y", GUILayout.ExpandWidth(true));
 
-        if (GUILayout.Button("^")) {
-            LevelManager.Instance.IncrementY();
-        }
+            if (GUILayout.Button("^")) {
+                LevelManager.Instance.IncrementY();
+            }
 
-        GUILayout.Label (LevelManager.Instance.CurrentYValue.ToString(), GUILayout.ExpandWidth(true));
+            GUILayout.Label(LevelManager.Instance.CurrentYValue.ToString(), GUILayout.ExpandWidth(true));
 
-        if (GUILayout.Button("v")) {
-            LevelManager.Instance.DecrementY();
-        }
+            if (GUILayout.Button("v")) {
+                LevelManager.Instance.DecrementY();
+            }
 
-        GUILayout.EndVertical();
+            GUILayout.EndVertical();
 
-        GUILayout.EndVertical();
+            GUILayout.EndVertical();
 
-        GUILayout.EndArea();
+            GUILayout.EndArea();
 
-        // Draw object editor (?)
-        if (LevelManager.Instance.HasSelectedObject) {
-            var selectedObject = LevelManager.Instance.SelectedObject;
-            var objectEditorScreenPoint = sc.camera.WorldToScreenPoint(selectedObject.transform.position);
-            objectEditorScreenPoint.x = Mathf.Clamp(objectEditorScreenPoint.x, _OBJECT_EDITOR_WIDTH, sc.camera.pixelWidth - _OBJECT_EDITOR_WIDTH);
-            objectEditorScreenPoint.y = Mathf.Clamp(Screen.height * 0.925f - objectEditorScreenPoint.y, _OBJECT_EDITOR_HEIGHT, sc.camera.pixelHeight - _OBJECT_EDITOR_HEIGHT);
-            var objectEditorRect = new Rect(objectEditorScreenPoint.x, objectEditorScreenPoint.y, _OBJECT_EDITOR_WIDTH, _OBJECT_EDITOR_WIDTH);
+            // Draw object editor (?)
+            if (LevelManager.Instance.HasSelectedObject) {
+                var selectedObject = LevelManager.Instance.SelectedObject;
+                var objectEditorScreenPoint = sc.camera.WorldToScreenPoint(selectedObject.transform.position);
+                objectEditorScreenPoint.x = Mathf.Clamp(objectEditorScreenPoint.x, _OBJECT_EDITOR_WIDTH, sc.camera.pixelWidth - _OBJECT_EDITOR_WIDTH);
+                objectEditorScreenPoint.y = Mathf.Clamp(Screen.height * 0.925f - objectEditorScreenPoint.y, _OBJECT_EDITOR_HEIGHT, sc.camera.pixelHeight - _OBJECT_EDITOR_HEIGHT);
+                var objectEditorRect = new Rect(objectEditorScreenPoint.x, objectEditorScreenPoint.y, _OBJECT_EDITOR_WIDTH, _OBJECT_EDITOR_WIDTH);
 
-            GUILayout.Window(0, objectEditorRect, DrawObjectEditor, selectedObject.name);
+                GUILayout.Window(0, objectEditorRect, DrawObjectEditor, selectedObject.name);
+            }
         }
 
         Handles.EndGUI();
@@ -422,13 +451,8 @@ public class LevelEditorWindow : EditorWindow {
         GUILayout.EndHorizontal();
     }
 
-    void DrawToolbar () {
-
-    }
-
-    void CheckLevelLoaded () {
+    void CheckLevelLoaded() {
         _levelLoaded = LevelManager.Instance.LevelLoaded;
-        OnGUI();
     }
 
     #endregion

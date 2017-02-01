@@ -22,6 +22,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     #endregion
     #region Nested Classes
 
+    [System.Serializable]
     public class LevelManagerEvent : UnityEvent { }
 
     #endregion
@@ -40,6 +41,10 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// Default level path.
     /// </summary>
     const string _LEVEL_PATH = "Assets/Levels/";
+
+    const string _TEMP_LEVEL_PATH = "Assets/Levels/~Temp.asset";
+
+    string _loadedLevelPath = default(string);
 
     /// <summary>
     /// GameObject representing the loaded level.
@@ -130,8 +135,6 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// </summary>
     bool _lastMouseMoveWasDrag = false;
 
-    const int _MAX_UNDOS = 32;
-
     int _currentY = 0;
 
     [SerializeField]
@@ -168,6 +171,12 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
 
     #endregion
     #region Unity Callbacks
+
+    new void Awake () {
+        base.Awake();
+
+        DontDestroyOnLoad (gameObject);
+    }
 
     #endregion
     #region Methods
@@ -271,7 +280,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
 
         switch (_currentTool) {
             case Tool.Select:
-                if (CheckPlacement()) {
+                if (LevelLoaded && CheckPlacement()) {
                     var selectedObject = _loadedObjects[_selectedFloor, x, y, z];
 
                     if (selectedObject != null) {
@@ -282,7 +291,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
                 break;
 
             case Tool.Place:
-                if (_selectedObjectIndex != -1 && _placementAllowed) {
+                if (_selectedObjectIndex != -1 && _placementAllowed  && CanPlaceAnotherObject(_selectedObjectIndex)) {
                     CreateObject((byte)_selectedObjectIndex, _selectedFloor, (byte)x, (byte)y, (byte)z);
                     Event.current.Use();
                 }
@@ -347,16 +356,18 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// Shows a 3D preview of the currently selected asset.
     /// </summary>
     void Show3DAssetPreview(GameObject obj) {
-        var meshFilter = _preview.GetComponent<MeshFilter>();
-        var meshRenderer = _preview.GetComponent<MeshRenderer>();
+        var assetMeshFilter = obj.GetComponentInChildren<MeshFilter>();
+        if (assetMeshFilter == null) return;
 
-        meshFilter.sharedMesh = obj.GetComponentInChildren<MeshFilter>().sharedMesh;
-        meshRenderer.enabled = true;
-        meshRenderer.sharedMaterial = _previewMaterial;
+        var assetMesh = assetMeshFilter.sharedMesh;
+        if (assetMesh == null) return;
 
-        var color = meshRenderer.sharedMaterial.color;
-        color.a = 0.25f;
-        meshRenderer.sharedMaterial.color = color;
+        var previewMeshFilter = _preview.GetComponent<MeshFilter>();
+        var previewMeshRenderer = _preview.GetComponent<MeshRenderer>();
+
+        previewMeshFilter.sharedMesh = assetMesh;
+        previewMeshRenderer.enabled = true;
+        previewMeshRenderer.sharedMaterial = _previewMaterial;
     }
 
     /// <summary>
@@ -394,6 +405,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
         if (_selectedFloor < Level.MAX_FLOORS - 1) {
             CleanupObjects();
             _selectedFloor++;
+            _currentY = 0;
             UpdateHeight();
             ReconstructFloor();
         }
@@ -403,6 +415,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
         if (_selectedFloor > 0) {
             CleanupObjects();
             _selectedFloor--;
+            _currentY = 0;
             UpdateHeight();
             ReconstructFloor();
         }
@@ -478,6 +491,13 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
         return true;
     }
 
+    public bool CanPlaceAnotherObject (int index) {
+        var limit = ObjectDatabaseManager.Instance.GetObjectLimit (index);
+        if (limit < 0) return true;
+        
+        else return _objectCounts[(byte)index] < limit;
+    }
+
     /// <summary>
     /// Draws the 3D cursor in the scene view.
     /// </summary>
@@ -490,7 +510,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
                 break;
 
             case Tool.Place:
-                if (_placementAllowed)
+                if (_placementAllowed  && CanPlaceAnotherObject(_selectedObjectIndex))
                     DrawCube(_preview.transform.position, 1f, 0f, Color.green);
                 else DrawCube(_preview.transform.position, 1f, 0f, Color.gray);
                 break;
@@ -555,18 +575,19 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
             center.z + hyp * Mathf.Sin(rotation + 5 * theta)
         );
 
-        Debug.DrawLine(up1, up2, color, 16f, false);
-        Debug.DrawLine(up2, up3, color, 0f, false);
-        Debug.DrawLine(up3, up4, color, 0f, false);
-        Debug.DrawLine(up4, up1, color, 0f, false);
-        Debug.DrawLine(up1, dn1, color, 0f, false);
-        Debug.DrawLine(up2, dn2, color, 0f, false);
-        Debug.DrawLine(up3, dn3, color, 0f, false);
-        Debug.DrawLine(up4, dn4, color, 0f, false);
-        Debug.DrawLine(dn1, dn2, color, 0f, false);
-        Debug.DrawLine(dn2, dn3, color, 0f, false);
-        Debug.DrawLine(dn3, dn4, color, 0f, false);
-        Debug.DrawLine(dn4, dn1, color, 0f, false);
+        Handles.color = color;
+        Handles.DrawLine(up1, up2);
+        Handles.DrawLine(up2, up3);
+        Handles.DrawLine(up3, up4);
+        Handles.DrawLine(up4, up1);
+        Handles.DrawLine(up1, dn1);
+        Handles.DrawLine(up2, dn2);
+        Handles.DrawLine(up3, dn3);
+        Handles.DrawLine(up4, dn4);
+        Handles.DrawLine(dn1, dn2);
+        Handles.DrawLine(dn2, dn3);
+        Handles.DrawLine(dn3, dn4);
+        Handles.DrawLine(dn4, dn1);
     }
 
     /// <summary>
@@ -581,18 +602,16 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
         Color edgeColor = new Color(0.65f, 0.65f, 0.65f, 0.65f);
 
         for (int x = 0; x <= Level.FLOOR_WIDTH; x++) {
-            Color color = (x == 0 || x == Level.FLOOR_WIDTH) ? edgeColor : lineColor;
+            Handles.color = (x == 0 || x == Level.FLOOR_WIDTH) ? edgeColor : lineColor;
 
-            Debug.DrawLine(new Vector3(x - 0.5f, height, -0.5f),
-                new Vector3(x - 0.5f, height, Level.FLOOR_DEPTH - 0.5f),
-                color, 0, true);
+            Handles.DrawLine(new Vector3(x - 0.5f, height, -0.5f),
+                new Vector3(x - 0.5f, height, Level.FLOOR_DEPTH - 0.5f));
         }
 
         for (int z = 0; z <= Level.FLOOR_DEPTH; z++) {
-            Color color = (z == 0 || z == Level.FLOOR_DEPTH) ? edgeColor : lineColor;
+            Handles.color = (z == 0 || z == Level.FLOOR_DEPTH) ? edgeColor : lineColor;
 
-            Debug.DrawLine(new Vector3(-0.5f, height, z - 0.5f), new Vector3(Level.FLOOR_WIDTH - 0.5f, height, z - 0.5f),
-                color, 0, true);
+            Handles.DrawLine(new Vector3(-0.5f, height, z - 0.5f), new Vector3(Level.FLOOR_WIDTH - 0.5f, height, z - 0.5f));
         }
     }
 
@@ -607,20 +626,21 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
         var d3 = new Vector3 (Level.FLOOR_WIDTH-0.5f, (_selectedFloor) * Level.FLOOR_HEIGHT, Level.FLOOR_DEPTH-0.5f);
         var d4 = new Vector3 (-0.5f, (_selectedFloor) * Level.FLOOR_HEIGHT, Level.FLOOR_DEPTH-0.5f);
 
-        Debug.DrawLine (u1, u2);
-        Debug.DrawLine (u2, u3);
-        Debug.DrawLine (u3, u4);
-        Debug.DrawLine (u4, u1);
+        Handles.color = Color.white;
+        Handles.DrawLine (u1, u2);
+        Handles.DrawLine (u2, u3);
+        Handles.DrawLine (u3, u4);
+        Handles.DrawLine (u4, u1);
 
-        Debug.DrawLine (u1, d1);
-        Debug.DrawLine (u2, d2);
-        Debug.DrawLine (u3, d3);
-        Debug.DrawLine (u4, d4);
+        Handles.DrawLine (u1, d1);
+        Handles.DrawLine (u2, d2);
+        Handles.DrawLine (u3, d3);
+        Handles.DrawLine (u4, d4);
 
-        Debug.DrawLine (d1, d2);
-        Debug.DrawLine (d2, d3);
-        Debug.DrawLine (d3, d4);
-        Debug.DrawLine (d4, d1);
+        Handles.DrawLine (d1, d2);
+        Handles.DrawLine (d2, d3);
+        Handles.DrawLine (d3, d4);
+        Handles.DrawLine (d4, d1);
     }
 
     public byte GetIndex(Level.CoordinateSet coords) {
@@ -637,6 +657,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
         instance.transform.SetParent(_floorObjects[coords.floor].transform);
         instance.transform.position = new Vector3(coords.x, coords.floor * Level.FLOOR_HEIGHT + coords.y, coords.z);
         _loadedObjects[coords.floor, coords.x, coords.y, coords.z] = instance;
+        _objectCounts[index]++;
         _dirty = true;
         _undoStack.Push(new CreateObjectAction(index, coords));
         if (clearRedoStack) _redoStack.Clear();
@@ -648,6 +669,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
 
     public void DeleteObject(Level.CoordinateSet coords, bool clearRedoStack = true) {
         byte deletedObjectIndex = _loadedLevel[coords.floor][coords.x, coords.y, coords.z].index;
+        _objectCounts[deletedObjectIndex]--;
         _loadedLevel[coords.floor][coords.x, coords.y, coords.z].index = byte.MaxValue;
         var obj = _loadedObjects[coords.floor, coords.x, coords.y, coords.z];
         DestroyLoadedObject(obj);
@@ -708,7 +730,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// <param name="index">Index of the object in the browser.</param>
     public void SelectObjectInCategory(int index, ObjectDatabase.Category category) {
         var data = ObjectDatabaseManager.Instance.AllObjectsInCategory(category)[index];
-        _selectedObjectIndex = index;
+        _selectedObjectIndex = data.index;
         var obj = ObjectDatabaseManager.Instance.GetObject(index);
 
         Show3DAssetPreview(obj);
@@ -717,10 +739,12 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// <summary>
     /// Creates a new level.
     /// </summary>
-    public void CreateNewLevel() {
+    public void CreateNewLevel() { 
         _loadedLevel = new Level();
 
         SetupLevelObjects();
+
+        InitObjectCounts ();
 
         onCreateLevel.Invoke();
     }
@@ -728,7 +752,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// <summary>
     /// Saves the current level.
     /// </summary>
-    public void SaveCurrentLevel() {
+    public void SaveCurrentLevel(bool doUseFilePanel=false) {
         var asset = _loadedLevel.ToLevelAsset();
 
         if (asset == default(LevelAsset)) {
@@ -736,7 +760,18 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
             return;
         }
 
-        ScriptableObjectUtility.SaveScriptableObjectWithFilePanel(asset, "Save Level File", asset.ToString(), "asset");
+        if (doUseFilePanel || _loadedLevelPath == default(string)) {
+            string savePath = default(string);
+            if (Application.isEditor) {
+                savePath = ScriptableObjectUtility.SaveScriptableObjectWithFilePanel(asset, "Save Level File", asset.ToString(), "asset");
+            } else {
+                // In-game editor file panel
+            }
+            if (savePath == default(string) || savePath == "") return;
+            _loadedLevelPath = savePath;
+        } else {
+            ScriptableObjectUtility.SaveScriptableObject(asset, _loadedLevelPath, true);
+        }
 
         _dirty = false;
 
@@ -748,8 +783,10 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// </summary>
     public void CloseLevel() {
         _loadedLevel = null;
+        _loadedLevelPath = default(string);
         SelectTool(Tool.Select);
         _selectedFloor = 0;
+
 
         _undoStack.Clear();
         _redoStack.Clear();
@@ -766,8 +803,11 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// </summary>
     public void LoadLevel() {
 
-        string assetPath;
-        LevelAsset asset = ScriptableObjectUtility.LoadScriptableObjectWithFilePanel<LevelAsset>("Load Level File", "Assets", "asset", out assetPath);
+        string assetPath = default(string);
+        LevelAsset asset = null;
+        if (Application.isEditor)
+            asset = ScriptableObjectUtility.LoadScriptableObjectWithFilePanel<LevelAsset>("Load Level File", "Assets", "asset", out assetPath);
+        // else open load panel in-game
 
         // If user cancelled loading
         if (assetPath == default(string) || assetPath == "") return;
@@ -778,9 +818,12 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
             return;
         }
 
+        AssetDatabase.CopyAsset (assetPath, "Assets/Levels/~Temp.asset");
+        var assetCopy = ScriptableObjectUtility.LoadScriptableObject<LevelAsset> (_TEMP_LEVEL_PATH);
+
         if (_loadedLevel != null) CloseLevel();
 
-        Level level = asset.Unpack();
+        Level level = assetCopy.Unpack();
         if (level.Equals(default(Level))) {
             Debug.LogError("Level file is corrupted at " + asset);
             return;
@@ -789,6 +832,8 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
         _loadedLevel = level;
 
         _dirty = false;
+
+        SetupLevelObjects();
 
         GetObjectCounts();
 
@@ -801,7 +846,6 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// Spawns objects from the currently loaded level.
     /// </summary>
     void ReconstructFloor() {
-        SetupLevelObjects();
 
         Debug.Log(string.Format("LEDIT: Loading floor {0}...", _selectedFloor.ToString()));
         for (int x = 0; x < Level.FLOOR_WIDTH; x++) {
@@ -835,11 +879,6 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     }
 
     void GetObjectCounts () {
-        _objectCounts.Clear();
-
-        for (int i = 0; i < (int)byte.MaxValue; i++)
-            _objectCounts.Add ((byte)i, 0);
-
         for (int floor = 0; floor < Level.MAX_FLOORS; floor++) {
             for (int x = 0; x < Level.FLOOR_WIDTH; x++) {
                 for (int y = 0; y < Level.FLOOR_HEIGHT; y++) {
@@ -853,6 +892,13 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
                 }
             }
         }
+    }
+
+    void InitObjectCounts () {
+        _objectCounts.Clear();
+
+        for (int i = 0; i < (int)byte.MaxValue; i++)
+            _objectCounts.Add ((byte)i, 0);
     }
 
     /// <summary>

@@ -154,6 +154,74 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &1347404457
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1347404460}
+  - component: {fileID: 1347404459}
+  - component: {fileID: 1347404458}
+  m_Layer: 0
+  m_Name: ~LevelEditorPreview
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!23 &1347404458
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1347404457}
+  m_Enabled: 0
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_Materials:
+  - {fileID: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+--- !u!33 &1347404459
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1347404457}
+  m_Mesh: {fileID: 0}
+--- !u!4 &1347404460
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1347404457}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 37.474274, y: 0, z: -62.56002}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1679561777
 GameObject:
   m_ObjectHideFlags: 0
@@ -189,10 +257,10 @@ MonoBehaviour:
       limit: 1
       category: 6
     - index: 1
-      path: UNUSED
-      prefab: {fileID: 0}
+      path: Assets/Resources/Prefabs/Blocks/TestCube.prefab
+      prefab: {fileID: 1680617657099180, guid: ef42787c8bd332a47acfd1b2980557a1, type: 2}
       limit: -1
-      category: 0
+      category: 1
     - index: 2
       path: UNUSED
       prefab: {fileID: 0}
@@ -1585,6 +1653,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8055fbb5fa5c1f14389f3c2edb215034, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreateLevel:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: LevelManager+LevelManagerEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  onLoadLevel:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: LevelManager+LevelManagerEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  onSaveLevel:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: LevelManager+LevelManagerEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  onCloseLevel:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: LevelManager+LevelManagerEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!4 &2048369104
 Transform:
   m_ObjectHideFlags: 0
