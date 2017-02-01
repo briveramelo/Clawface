@@ -35,6 +35,12 @@ public class ObjectData {
     public GameObject prefab = null;
 
     /// <summary>
+    /// How many of this object can exist in one level.
+    /// </summary>
+    [SerializeField]
+    public int limit = -1;
+
+    /// <summary>
     /// Category of the object.
     /// </summary>
     [SerializeField]

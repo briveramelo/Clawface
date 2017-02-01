@@ -66,17 +66,20 @@ public class Level {
 
     [Serializable]
     public class ObjectAttributes {
+
+        [SerializeField]
         public byte index; 
+
+        [SerializeField]
         public int yRotation;
+
+        //[SerializeField]
+
 
         public ObjectAttributes (byte index, int yRotation) {
             this.index = index;
             this.yRotation = yRotation;
         }
-
-        //public void SetIndex (byte index) {
-        //    this.index = index;
-        //}
     }
 
     #endregion

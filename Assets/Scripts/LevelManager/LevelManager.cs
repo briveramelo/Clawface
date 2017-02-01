@@ -140,6 +140,8 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     [SerializeField]
     Stack<LevelEditorAction> _redoStack = new Stack<LevelEditorAction>();
 
+    Dictionary<byte, int> _objectCounts = new Dictionary<byte, int>();
+
     public LevelManagerEvent onCreateLevel = new LevelManagerEvent();
     public LevelManagerEvent onLoadLevel = new LevelManagerEvent();
     public LevelManagerEvent onSaveLevel = new LevelManagerEvent();
@@ -754,6 +756,8 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
 
         CleanupObjects();
 
+        _objectCounts.Clear();
+
         onCloseLevel.Invoke();
     }
 
@@ -785,6 +789,8 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
         _loadedLevel = level;
 
         _dirty = false;
+
+        GetObjectCounts();
 
         ReconstructFloor();
 
@@ -825,6 +831,27 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
         for (int floor = 0; floor < Level.MAX_FLOORS; floor++) {
             _floorObjects[floor] = new GameObject("Floor " + floor.ToString());
             _floorObjects[floor].transform.SetParent(_loadedLevelObject.transform);
+        }
+    }
+
+    void GetObjectCounts () {
+        _objectCounts.Clear();
+
+        for (int i = 0; i < (int)byte.MaxValue; i++)
+            _objectCounts.Add ((byte)i, 0);
+
+        for (int floor = 0; floor < Level.MAX_FLOORS; floor++) {
+            for (int x = 0; x < Level.FLOOR_WIDTH; x++) {
+                for (int y = 0; y < Level.FLOOR_HEIGHT; y++) {
+                    for (int z = 0; z < Level.FLOOR_DEPTH; z++) {
+                        var index = _loadedLevel[floor][x,y,z].index;
+
+                        if (index == byte.MaxValue) continue;
+
+                        _objectCounts[index]++;
+                    }
+                }
+            }
         }
     }
 
