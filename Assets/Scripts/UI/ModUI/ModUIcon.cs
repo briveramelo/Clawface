@@ -64,10 +64,10 @@ public class ModUIcon : MonoBehaviour {
                 case ModSpot.Head:
                     icon.sprite = defaultHeadSprite;
                     break;
-                case ModSpot.Arm_L:
+                case ModSpot.ArmL:
                     icon.sprite = defaultArmLeftSprite;
                     break;
-                case ModSpot.Arm_R:
+                case ModSpot.ArmR:
                     icon.sprite = defaultArmRightSprite;
                     break;
                 case ModSpot.Legs:
@@ -91,9 +91,9 @@ public class ModUIcon : MonoBehaviour {
         {
             case ModSpot.Head:
                 return "RELOCATE_TO_HEAD";
-            case ModSpot.Arm_L:
+            case ModSpot.ArmL:
                 return "RELOCATE_TO_ARM_LEFT";
-            case ModSpot.Arm_R:
+            case ModSpot.ArmR:
                 return "RELOCATE_TO_ARM_RIGHT";
             case ModSpot.Legs:
                 return "RELOCATE_TO_LEGS";

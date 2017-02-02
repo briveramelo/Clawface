@@ -24,13 +24,13 @@ public class ModUIManager : MonoBehaviour {
     {
         // SEE ABOVE TODO:
         modUIcons.Add(ModSpot.Head, UIcon1);
-        modUIcons.Add(ModSpot.Arm_L, UIcon2);
-        modUIcons.Add(ModSpot.Arm_R, UIcon3);
+        modUIcons.Add(ModSpot.ArmL, UIcon2);
+        modUIcons.Add(ModSpot.ArmR, UIcon3);
         modUIcons.Add(ModSpot.Legs, UIcon4);
 
         UIcon1.Relocate(ModSpot.Head);
-        UIcon2.Relocate(ModSpot.Arm_L);
-        UIcon3.Relocate(ModSpot.Arm_R);
+        UIcon2.Relocate(ModSpot.ArmL);
+        UIcon3.Relocate(ModSpot.ArmR);
         UIcon4.Relocate(ModSpot.Legs);
     }
 
