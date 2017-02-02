@@ -2,16 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraLayerTests : MonoBehaviour {
+public class CameraLayerController : MonoBehaviour {
 
     Camera mainCamera;
     LayerMask currentLayer;
+    public static CameraLayerController instance;
 
     [SerializeField]
     string startingLayer;
 
-	// Use this for initialization
-	void Start () {
+    private void Awake()
+    {
+        if(instance == null)
+        {
+            instance = this;
+        }
+    }
+
+    // Use this for initialization
+    void Start () {
         mainCamera = GetComponent<Camera>();
         currentLayer = 1 << LayerMask.NameToLayer(startingLayer);
     }
@@ -22,7 +31,10 @@ public class CameraLayerTests : MonoBehaviour {
 
     public void SwitchLayer(LayerMask mask)
     {
-        mainCamera.cullingMask = mainCamera.cullingMask & ~currentLayer | mask;
-        currentLayer = mask;
+        if (currentLayer != mask)
+        {
+            mainCamera.cullingMask = mainCamera.cullingMask & ~currentLayer | mask;
+            currentLayer = mask;
+        }
     }
 }
