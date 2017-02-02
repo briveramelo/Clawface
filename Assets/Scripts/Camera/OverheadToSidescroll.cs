@@ -39,6 +39,10 @@ public class OverheadToSidescroll : MonoBehaviour {
 	void Update () {
         tweenTimer += Time.deltaTime;
 
+        iTween.Stop(Camera.main.gameObject);
+        iTween.MoveTo(Camera.main.gameObject, iTween.Hash("name", "tweenMoveTo", "time", timeToTween - tweenTimer, "position", joystickMovement.transform.position - cameraLock.GetDistance(), "oncomplete", "LockCamera"));
+        iTween.RotateTo(Camera.main.gameObject, iTween.Hash("name", "tweenRotateTo", "time", timeToTween - tweenTimer, "rotation", cameraLock.GetAngle()));
+
         /*
         if (LeanTween.isTweening(Camera.main.gameObject) && tweenTimer < timeToTween)
         {
@@ -53,6 +57,20 @@ public class OverheadToSidescroll : MonoBehaviour {
     {
         if (CameraLock.cameraMode != CameraMode.SIDESCROLL)
         {
+            if (sideScrollLockToAxis != null)
+            {
+                joystickMovement.transform.position = new Vector3(sideScrollLockToAxis.position.x, joystickMovement.transform.position.y, sideScrollLockToAxis.position.z);
+            }
+            iTween.MoveTo(Camera.main.gameObject, iTween.Hash("name", "sidescrollMoveTo", "time", timeToTween, "position", sideScrollCameraPosition.position, "oncomplete", "LockCamera"));
+            iTween.RotateTo(Camera.main.gameObject, iTween.Hash("name", "sidescrollRotateTo", "time", timeToTween, "rotation", sideScrollCameraPosition.eulerAngles));
+            tweenTimer = 0f;
+            cameraLock.UnlockCamera();
+            joystickMovement.SetSidescrolling(true);
+            cameraLock.SetDistance(sidescrollArea.transform.position - sideScrollCameraPosition.position);
+            cameraLock.SetAngle(sideScrollCameraPosition.eulerAngles);
+            CameraLock.cameraMode = CameraMode.SIDESCROLL;
+
+
             /*
             joystickMovement.transform.position = new Vector3(sideScrollLockToAxis.position.x, joystickMovement.transform.position.y, sideScrollLockToAxis.position.z);
             LeanTween.move(Camera.main.gameObject, sideScrollCameraPosition.position, timeToTween).setOnComplete(LockCamera);
@@ -81,6 +99,15 @@ public class OverheadToSidescroll : MonoBehaviour {
     {
         if (CameraLock.cameraMode != CameraMode.OVERHEAD)
         {
+            iTween.MoveTo(Camera.main.gameObject, iTween.Hash("name", "overheadMoveTo", "time", timeToTween, "position", overheadCameraPosition.position, "oncomplete", "LockCamera"));
+            iTween.RotateTo(Camera.main.gameObject, iTween.Hash("name", "overheadRotateTo", "time", timeToTween, "rotation", overheadCameraPosition.eulerAngles));
+            tweenTimer = 0f;
+            cameraLock.UnlockCamera();
+            joystickMovement.SetSidescrolling(false);
+            cameraLock.SetDistance(joystickMovement.transform.position - overheadCameraPosition.position);
+            cameraLock.SetAngle(overheadCameraPosition.eulerAngles);
+            CameraLock.cameraMode = CameraMode.OVERHEAD;
+
             /*
             LeanTween.move(Camera.main.gameObject, overheadCameraPosition.position, timeToTween).setOnComplete(LockCamera);
             LeanTween.rotate(Camera.main.gameObject, overheadCameraPosition.eulerAngles, timeToTween);
