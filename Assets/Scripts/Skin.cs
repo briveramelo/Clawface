@@ -7,11 +7,13 @@ public class Skin : MonoBehaviour, ISkinnable
 {
 
 	public Color GlowColor;
-    public float LerpFactor = 10;
+    public float LerpFactor = .10f;
 
-    private List<Material> _materials = new List<Material>();
-    private Color _currentColor;
-    private Color _targetColor;
+    private List<Material> materials = new List<Material>();
+    private Color currentColor;
+    private Color targetColor;
+
+    bool flag = false;
     void ISkinnable.DeSkin()
     {
         Debug.Log("DEGLOVED");
@@ -26,23 +28,30 @@ public class Skin : MonoBehaviour, ISkinnable
     {
         foreach (var renderer in GetComponentsInChildren<Renderer>())
         {
-            _materials.AddRange(renderer.materials);
+            materials.AddRange(renderer.materials);
         }
     
     }
 
+    private void Update()
+    {
+        if (!flag && Input.GetKeyDown(KeyCode.A))
+        {
+            StartCoroutine(TurnOnGlow());
+        }
+        
+    }
     IEnumerator TurnOnGlow()
     {
-        _targetColor = GlowColor;
+        targetColor = GlowColor;
 
-        _currentColor = Color.Lerp(_currentColor, _targetColor, Time.deltaTime * LerpFactor);
-
-        for (int i = 0; i < _materials.Count; i++)
-        {
-            _materials[i].SetColor("_GlowColor", _currentColor);
+        while (!currentColor.Equals(targetColor)) {
+            currentColor = Color.Lerp(currentColor, targetColor, LerpFactor);
+            materials.ForEach(mat => { mat.SetColor("_GlowColor", currentColor); });
+            yield return null;
         }
+        materials.ForEach(mat => { mat.SetColor("_GlowColor", targetColor); });
 
 
-        yield return null;
     }
 }
