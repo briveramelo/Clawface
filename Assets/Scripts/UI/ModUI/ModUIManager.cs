@@ -19,6 +19,7 @@ public class ModUIManager : MonoBehaviour {
     //// Internal State
     private Dictionary<ModSpot, ModUIcon> modUIcons = new Dictionary<ModSpot, ModUIcon>();
 
+    //// Unity State Functions
     void Awake()
     {
         // SEE ABOVE TODO:
@@ -34,7 +35,6 @@ public class ModUIManager : MonoBehaviour {
     }
 
     //// Manager Functions
-
     public void AttachMod(ModSpot spot, ModType type)
     {
         ModUIcon UIcon;
