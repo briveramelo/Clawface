@@ -113,21 +113,24 @@ public class ModManager : MonoBehaviour
         //TODO: Code for attaching mod to body
         Mod modInSpot;
         modDictionary.TryGetValue(spot, out modInSpot);
-        if (modInSpot == null)
+        if (modInSpot != null)
         {
-            modDictionary.Add(spot, mod);
+            Detach(spot);            
         }
-        else
-        {
-            Detach(spot);
-            modDictionary.Add(spot, mod);
-        }
+        modDictionary.Add(spot, mod);
+        mod.AttachAffect();
     }
 
     private void Detach(ModSpot spot)
     {
         //TODO: Code for detaching mod to body
-        modDictionary.Add(spot, null);
+        Mod modInSpot;
+        modDictionary.TryGetValue(spot, out modInSpot);
+        if (modInSpot != null)
+        {
+            modInSpot.DetachAffect();
+            modDictionary.Add(spot, null);
+        }
     }
 
     private void SwitchMods(ModSpot sourceSpot, ModSpot targetSpot)

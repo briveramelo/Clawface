@@ -5,9 +5,33 @@ using UnityEngine;
 public abstract class Mod : MonoBehaviour {
 
     ModSpot spot;
-    ModType type;    
+    ModType type;
 
     public abstract void Activate();
 
     public abstract void DeActivate();
+
+    public abstract void AttachAffect();
+
+    public abstract void DetachAffect();
+
+    public void setModType(ModType modType)
+    {
+        type = modType;
+    }
+
+    public ModType getModType()
+    {
+        return type;
+    }
+
+    public void setModSpot(ModSpot modSpot)
+    {
+        spot = modSpot;
+    }
+
+    public ModSpot getModSpot()
+    {
+        return spot;
+    }
 }
