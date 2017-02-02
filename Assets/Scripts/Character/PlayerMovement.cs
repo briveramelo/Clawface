@@ -10,8 +10,12 @@ public class PlayerMovement : MonoBehaviour {
     [SerializeField] private Transform foot;
     [SerializeField] private float speed;
     [SerializeField] private bool axisInput;
+    [SerializeField] private bool rightAxisInput;
     [SerializeField] private bool isSidescrolling;
     [SerializeField] private bool canMove = true;
+    [SerializeField] private Vector3 lastMovement;
+    [SerializeField] private Vector3 rightJoystickMovement;
+    
 
 
     private Dictionary<ModSpot, bool> modSpotConstantForceIndices = new Dictionary<ModSpot, bool>() {
@@ -33,6 +37,8 @@ public class PlayerMovement : MonoBehaviour {
     private bool isFalling = false;
     private float sphereRadius = 0.1f;
 
+    private Vector3 movement;
+
     private List<Vector3> externalForces;
     #endregion
 
@@ -49,7 +55,7 @@ public class PlayerMovement : MonoBehaviour {
         }
 
     }
-    Vector3 movement;
+    
 
     
     // Update is called once per frame
@@ -58,18 +64,26 @@ public class PlayerMovement : MonoBehaviour {
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
 
+        float rightH = Input.GetAxis("Camera X");
+        float rightV = Input.GetAxis("Camera Y");
+
         axisInput = CheckForAxisInput(h, v);
+        rightAxisInput = CheckForAxisInput(rightH, rightV);
 
         float hModified = h;
         float vModified = v;
 
+        float rightHModified = rightH;
+        float rightVModified = rightV;
+
         if (isSidescrolling)
         {
             vModified = 0f;
+            rightVModified = 0f;
         }
 
-
         movement = new Vector3(hModified, 0.0f, vModified);
+        rightJoystickMovement = new Vector3(rightHModified, 0.0f, rightVModified);
 
         if (!canMove) {
             movement = Vector3.zero;
@@ -79,8 +93,18 @@ public class PlayerMovement : MonoBehaviour {
 
 
         movement = Camera.main.transform.TransformDirection(movement);
+        rightJoystickMovement = Camera.main.transform.TransformDirection(rightJoystickMovement);
+
         movement.y = 0f;
+        rightJoystickMovement.y = 0f;
+
         movement = movement.normalized;
+        rightJoystickMovement = rightJoystickMovement.normalized;
+
+        if (movement != Vector3.zero)
+        {
+            lastMovement = movement;
+        }
 
         isGrounded = IsGrounded();
     }
@@ -88,6 +112,27 @@ public class PlayerMovement : MonoBehaviour {
     private void FixedUpdate()
     {
         rigid.velocity = movement * speed * Time.fixedDeltaTime + GetExternalForceSum();
+        if (!axisInput)
+        {
+            if (rightAxisInput)
+            {
+                transform.forward = rightJoystickMovement;
+            }
+            else
+            {
+                transform.forward = lastMovement;
+            }
+        }
+        else
+        {   if (rightAxisInput)
+            {
+                transform.forward = rightJoystickMovement;
+            }
+            else
+            {
+                transform.forward = movement;
+            }
+        }
     }
 
     private Vector3 GetExternalForceSum() {
