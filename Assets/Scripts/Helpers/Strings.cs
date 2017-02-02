@@ -10,4 +10,5 @@
     public static string AIMY = "AimY";
     public static string MOVEX = "MoveX";
     public static string MOVEY = "MoveY";
+    public static string ENEMY = "Enemy";
 }
