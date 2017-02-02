@@ -37,8 +37,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1658284269870486}
-  m_LocalRotation: {x: -0.14365621, y: 0.8556177, z: -0.37015995, w: -0.3320585}
-  m_LocalPosition: {x: 9.579438, y: 14.306702, z: 10.106354}
+  m_LocalRotation: {x: -0.37039694, y: -0.3379945, z: 0.14682694, w: -0.8526475}
+  m_LocalPosition: {x: -10.438458, y: 20.567945, z: -12.444296}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -103,11 +103,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b789d2b32ff129d46afe14bcacba15d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectToLockTo: {fileID: 4477646552323968, guid: 8507eaf3562fd0f46bd137118afef809,
-    type: 2}
+  objectToLockTo: {fileID: 0}
   distance: {x: 0, y: 0, z: 0}
   angle: {x: 0, y: 0, z: 0}
-  isLocked: 0
+  isLocked: 1
 --- !u!124 &124274664765551852
 Behaviour:
   m_ObjectHideFlags: 1

@@ -17,6 +17,7 @@ public class PlayerMovement : MonoBehaviour {
     [SerializeField] private Vector3 rightJoystickMovement;
     
 
+
     private Dictionary<ModSpot, bool> modSpotConstantForceIndices = new Dictionary<ModSpot, bool>() {
         {ModSpot.Head, false},
         {ModSpot.Legs, false},
@@ -36,6 +37,8 @@ public class PlayerMovement : MonoBehaviour {
     private bool isFalling = false;
     private float sphereRadius = 0.1f;
 
+    private Vector3 movement;
+
     private List<Vector3> externalForces;
     #endregion
 
@@ -52,7 +55,7 @@ public class PlayerMovement : MonoBehaviour {
         }
 
     }
-    Vector3 movement;
+    
 
     
     // Update is called once per frame
@@ -78,7 +81,6 @@ public class PlayerMovement : MonoBehaviour {
             vModified = 0f;
             rightVModified = 0f;
         }
-
 
         movement = new Vector3(hModified, 0.0f, vModified);
         rightJoystickMovement = new Vector3(rightHModified, 0.0f, rightVModified);
