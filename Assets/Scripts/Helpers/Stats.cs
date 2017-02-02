@@ -30,7 +30,7 @@ public class Stats : MonoBehaviour {
         statDictionary[statType] += statAddend;
     }
 
-    float GetStat(StatType statType) {
+    public float GetStat(StatType statType) {
         float returnFloat = statDictionary[statType];
         return returnFloat;
     }
