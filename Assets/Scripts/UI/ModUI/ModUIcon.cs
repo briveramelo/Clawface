@@ -7,17 +7,24 @@ using UnityEngine.UI;
 
 public class ModUIcon : MonoBehaviour {
 
+    //// CONSTANTS
+    private const float MOVE_TIME = 0.15F;
+
     //// Unity Inspector Fields
     [SerializeField]
+    private GameObject self;
+    [SerializeField]
     private Image icon;
-    [SerializeField]
-    private Animator animator;
-    [SerializeField]
-    private Sprite defaultHeadSprite, defaultArmLeftSprite,
-        defaultArmRightSprite, defaultLegsSprite;
 
     [SerializeField]
     private Image highlightRing;
+
+    // These fields are more of "constants" than parameters used by an individual icon.
+    [SerializeField]
+    private Sprite defaultHeadSprite, defaultArmLeftSprite,
+        defaultArmRightSprite, defaultLegsSprite;
+    [SerializeField]
+    private Vector3 headVector, armLeftVector, armRightVector, legsVector;
 
     //// Internal State
     private ModUIProperties activeProperties;
@@ -40,6 +47,7 @@ public class ModUIcon : MonoBehaviour {
     public void Relocate(ModSpot spot)
     {
         currentSpot = spot;
+        UpdateAppearance();
         UpdateLocation();
     }
 
@@ -71,7 +79,7 @@ public class ModUIcon : MonoBehaviour {
                     icon.sprite = defaultArmRightSprite;
                     break;
                 case ModSpot.Legs:
-                    icon.sprite = defaultHeadSprite;
+                    icon.sprite = defaultLegsSprite;
                     break;
                 default:
                     throw new System.SystemException("IMPOSSIBRU!!!");
@@ -83,20 +91,36 @@ public class ModUIcon : MonoBehaviour {
     }
     private void UpdateLocation()
     {
-        animator.SetTrigger(GetTrigger(currentSpot));
-    }
-    private string GetTrigger(ModSpot spot)
-    {
-        switch (spot)
+        switch (currentSpot)
         {
             case ModSpot.Head:
-                return "RELOCATE_TO_HEAD";
+                iTween.MoveTo(self, iTween.Hash(
+                    "position", headVector,
+                    "isLocal", true,
+                    "time", MOVE_TIME
+                    ));
+                break;
             case ModSpot.ArmL:
-                return "RELOCATE_TO_ARM_LEFT";
+                iTween.MoveTo(self, iTween.Hash(
+                    "position", armLeftVector,
+                    "isLocal", true,
+                    "time", MOVE_TIME
+                    ));
+                break;
             case ModSpot.ArmR:
-                return "RELOCATE_TO_ARM_RIGHT";
+                iTween.MoveTo(self, iTween.Hash(
+                    "position", armRightVector,
+                    "isLocal", true,
+                    "time", MOVE_TIME
+                    ));
+                break;
             case ModSpot.Legs:
-                return "RELOCATE_TO_LEGS";
+                iTween.MoveTo(self, iTween.Hash(
+                    "position", legsVector,
+                    "isLocal", true,
+                    "time", MOVE_TIME
+                    ));
+                break;
             default:
                 throw new System.SystemException("IMPOSSIBRU!!!");
         }

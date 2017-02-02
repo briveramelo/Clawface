@@ -57,6 +57,9 @@ public class ModUIManager : MonoBehaviour {
         modUIcons.TryGetValue(spotA, out UIconA);
         modUIcons.TryGetValue(spotB, out UIconB);
 
+        modUIcons.Remove(spotA);
+        modUIcons.Remove(spotB);
+
         modUIcons.Add(spotB, UIconA);
         modUIcons.Add(spotA, UIconB);
 
