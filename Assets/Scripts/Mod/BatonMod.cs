@@ -84,14 +84,16 @@ public class BatonMod : Mod {
 
     void LayMine()
     {
-        //LayCode
+        GameObject stunMine = BulletPool.instance.getStunMine();
+        stunMine.transform.position = transform.position;
+        stunMine.SetActive(true);
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == Strings.ENEMY && isHitting)
         {
-            //TODO:Do damage
+            other.gameObject.GetComponent<IDamageable>().TakeDamage(attackValue);
         }
     }
 
@@ -114,6 +116,9 @@ public class BatonMod : Mod {
         if (getModSpot() == ModSpot.Head)
         {
             BoostAttack();
+        }else
+        {
+            attackValue = GetComponent<Stats>().GetStat(StatType.Attack);
         }
     }
 
@@ -124,6 +129,9 @@ public class BatonMod : Mod {
         if (getModSpot() == ModSpot.Head)
         {
             RemoveAttackBoost();
+        }else
+        {
+            attackValue = 0.0f;
         }
     }
 }
