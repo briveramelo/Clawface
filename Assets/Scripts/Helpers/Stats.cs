@@ -1,37 +1,47 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 
-
-public class Stats : MonoBehaviour {
+public class Stats : MonoBehaviour, IModifiable {
     
-    [SerializeField] StatsObject statsObject;
-    Dictionary<StatType, float> statDictionary;
+    class VariableReference {
+        public Func<object> Get { get; private set; }
+        public Action<object> Set { get; private set; }
+        public VariableReference(Func<object> getter, Action<object> setter){
+            Get = getter;
+            Set = setter;
+        }
+    }
 
-    void Awake() {        
-        statDictionary = new Dictionary<StatType, float>() {
-            {StatType.Attack, statsObject.attack },
-            {StatType.Defense, statsObject.defense },
-            {StatType.Health, statsObject.health },
-            {StatType.MoveSpeed, statsObject.moveSpeed },
-            {StatType.MiniMapRange, statsObject.miniMapRange },
-            {StatType.RangedAccuracy, statsObject.rangedAccuracy }
+    [SerializeField] StatsObject statsObject;
+    StatsObject originalValuesStatsObject;
+    Dictionary<StatType, VariableReference> statDictionary;
+
+    void Awake() {
+        statsObject = new StatsObject(statsObject);
+        statDictionary = new Dictionary<StatType, VariableReference>() {
+            {StatType.Attack, new VariableReference(()=>statsObject.attack, statValue=> {statsObject.attack = (float)statValue; }) },
+            {StatType.Defense, new VariableReference(()=>statsObject.defense, statValue=> {statsObject.defense = (float)statValue; }) },
+            {StatType.Health, new VariableReference(()=>statsObject.health, statValue=> {statsObject.health = (float)statValue; }) },
+            {StatType.MiniMapRange, new VariableReference(()=>statsObject.miniMapRange, statValue=> {statsObject.miniMapRange = (float)statValue; }) },
+            {StatType.MoveSpeed, new VariableReference(()=>statsObject.moveSpeed, statValue=> {statsObject.moveSpeed = (float)statValue; }) },
+            {StatType.RangedAccuracy, new VariableReference(()=>statsObject.rangedAccuracy, statValue=> {statsObject.rangedAccuracy = (float)statValue; }) },
         };
     }
 
+
     public void Modify(StatType statType, float statMultiplier) {
-        Debug.Log("Before " + statsObject.attack);
-        statDictionary[statType] *= statMultiplier;
-        Debug.Log("After " + statsObject.attack);
+        statDictionary[statType].Set((float)statDictionary[statType].Get() * statMultiplier);
     }
 
     public void Modify(StatType statType, int statAddend) {
-        statDictionary[statType] += statAddend;
+        statDictionary[statType].Set((float)statDictionary[statType].Get() + statAddend);
     }
 
     float GetStat(StatType statType) {
-        float returnFloat = statDictionary[statType];
+        float returnFloat = (float)statDictionary[statType].Get();
         return returnFloat;
     }
 }

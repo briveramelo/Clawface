@@ -19,8 +19,8 @@ public interface IDamageable
 
 public interface IModifiable
 {
-    void Modify(StatType statType, float multiplier);
-    void Modify(StatType statType, int addend);
+    void Modify(StatType statType, float statMultiplier);
+    void Modify(StatType statType, int statAddend);
 }
 
 public interface IUnlockable
