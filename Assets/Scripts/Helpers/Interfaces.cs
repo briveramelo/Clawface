@@ -33,3 +33,9 @@ public interface ICollectable
 {
     void Collect();
 }
+
+public interface ISkinnable
+{
+    void Glow();
+    void DeSkin();
+}
