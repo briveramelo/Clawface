@@ -8,7 +8,14 @@ public class BatonMod : Mod {
     [SerializeField]
     private float attackBoostValue;
     private float attackValue;
-    
+
+    [SerializeField]
+    private Collider pickupCollider;
+
+    [SerializeField]
+    private Collider attackCollider;
+    bool isHitting;
+
     public override void Activate()
     {
         switch (getModSpot())
@@ -72,11 +79,20 @@ public class BatonMod : Mod {
     void Hit()
     {
         //Hit code
+        isHitting = true;
     }
 
     void LayMine()
     {
+        //LayCode
+    }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == Strings.ENEMY && isHitting)
+        {
+            //TODO:Do damage
+        }
     }
 
     void BoostAttack()
@@ -94,7 +110,8 @@ public class BatonMod : Mod {
     public override void AttachAffect()
     {
         //TODO:Disable pickup collider
-        if(getModSpot() == ModSpot.Head)
+        pickupCollider.enabled = false;
+        if (getModSpot() == ModSpot.Head)
         {
             BoostAttack();
         }
@@ -103,6 +120,7 @@ public class BatonMod : Mod {
     public override void DetachAffect()
     {
         //TODO:Enable pickup collider
+        pickupCollider.enabled = true;
         if (getModSpot() == ModSpot.Head)
         {
             RemoveAttackBoost();
