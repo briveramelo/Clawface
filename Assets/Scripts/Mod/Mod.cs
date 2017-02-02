@@ -2,15 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Mod : MonoBehaviour {
+public abstract class Mod : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    ModSpot spot;
+    ModType type;    
+
+    public abstract void Activate();
+
+    public abstract void DeActivate();
 }
