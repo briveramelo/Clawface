@@ -154,16 +154,16 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
---- !u!1 &1347404457
+--- !u!1 &1161827544
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 1347404460}
-  - component: {fileID: 1347404459}
-  - component: {fileID: 1347404458}
+  - component: {fileID: 1161827547}
+  - component: {fileID: 1161827546}
+  - component: {fileID: 1161827545}
   m_Layer: 0
   m_Name: ~LevelEditorPreview
   m_TagString: Untagged
@@ -171,12 +171,12 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!23 &1347404458
+--- !u!23 &1161827545
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1347404457}
+  m_GameObject: {fileID: 1161827544}
   m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -202,21 +202,21 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
---- !u!33 &1347404459
+--- !u!33 &1161827546
 MeshFilter:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1347404457}
+  m_GameObject: {fileID: 1161827544}
   m_Mesh: {fileID: 0}
---- !u!4 &1347404460
+--- !u!4 &1161827547
 Transform:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1347404457}
+  m_GameObject: {fileID: 1161827544}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 37.474274, y: 0, z: -62.56002}
+  m_LocalPosition: {x: 3.7833662, y: 0, z: 5.6934195}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1669,6 +1669,11 @@ MonoBehaviour:
     m_TypeName: LevelManager+LevelManagerEvent, Assembly-CSharp, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   onCloseLevel:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: LevelManager+LevelManagerEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  onSelectObject:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: LevelManager+LevelManagerEvent, Assembly-CSharp, Version=0.0.0.0,

@@ -17,8 +17,16 @@ public class LevelEditorWindow : EditorWindow {
     /// </summary>
     static LevelEditorWindow _Instance;
 
+
+    // Object editor consts
     const float _OBJECT_EDITOR_WIDTH = 128f;
     const float _OBJECT_EDITOR_HEIGHT = 256f;
+
+    const float _TOOLBAR_WIDTH_PERCENT = 0.4f;
+    const float _TOOLBAR_HEIGHT_PERCENT = 0.1f;
+    const float _TOOLBAR_UNDO_REDO_PERCENT = 0.25f;
+    const float _TOOLBAR_SHOW_GRID_PERCENT = 0.25f;
+    const float _TOOLBAR_SNAP_TO_GRID_PERCENT = 0.25f;
 
     /// <summary>
     /// Number of objects shown per row in the object browser.
@@ -36,6 +44,10 @@ public class LevelEditorWindow : EditorWindow {
 
     bool _levelLoaded = false;
 
+    Rect _toolbarRect;
+    Rect _sidePanelRect;
+    Rect _objectEditorRect;
+
     #endregion
     #region Unity Callbacks
 
@@ -44,27 +56,56 @@ public class LevelEditorWindow : EditorWindow {
     /// </summary>
     [MenuItem("Level Editor/Editor Window")]
     public static void ShowWindow() {
-        _Instance = EditorWindow.GetWindow(typeof(LevelEditorWindow)) as LevelEditorWindow;
+        _Instance = GetWindow(typeof(LevelEditorWindow)) as LevelEditorWindow;
     }
 
+    /// <summary>
+    /// Called when the script is enabled (esp. after compilation).
+    /// </summary>
     void OnEnable() {
         titleContent = new GUIContent("Level Editor");
         _editing = false;
     }
 
     void OnDisable() {
-        LevelManager.Instance.StopEditing();
-        _editing = false;
         OnDestroy();
     }
 
-    void OnFocus() {
-        SceneView.onSceneGUIDelegate -= LevelManager.Instance.DrawGrid;
-        SceneView.onSceneGUIDelegate -= LevelManager.Instance.SnapSelected;
-        SceneView.onSceneGUIDelegate -= HandleInputs;
-        SceneView.onSceneGUIDelegate -= LevelManager.Instance.DrawCursor;
-        SceneView.onSceneGUIDelegate -= ShowSceneViewGUI;
-        SceneView.onSceneGUIDelegate -= LevelManager.Instance.DrawRoomBounds;
+    void OnDestroy() {
+        if (LevelManager.Instance.LevelLoaded && LevelManager.Instance.Dirty) {
+            if (EditorUtility.DisplayDialog("Save current level",
+                "Do you wish to save the current level?", 
+                "Save", "Don't Save"))
+                LevelManager.Instance.SaveCurrentLevel();
+            LevelManager.Instance.CloseLevel();
+        }
+
+        if (_editing) DisconnectFromLevelManager();
+    }
+
+    void OnGUI() {
+        if (_Instance == null)
+            _Instance = GetWindow(typeof(LevelEditorWindow)) 
+                as LevelEditorWindow;
+
+        if (!_editing && LevelManager.Instance)
+            ConnectToLevelManager();
+
+        DrawLevelEditorGUI();
+    }
+
+    void ConnectToLevelManager() {
+        // Start editing
+        LevelManager.Instance.StartEditing();
+        _editing = true;
+
+        // Add event listeners
+        LevelManager.Instance.onCloseLevel.AddListener(CheckLevelLoaded);
+        LevelManager.Instance.onCreateLevel.AddListener(CheckLevelLoaded);
+        LevelManager.Instance.onLoadLevel.AddListener(CheckLevelLoaded);
+        LevelManager.Instance.onSaveLevel.AddListener(CheckLevelLoaded);
+
+        // Register delegates
         SceneView.onSceneGUIDelegate += LevelManager.Instance.DrawGrid;
         SceneView.onSceneGUIDelegate += LevelManager.Instance.SnapSelected;
         SceneView.onSceneGUIDelegate += HandleInputs;
@@ -73,79 +114,74 @@ public class LevelEditorWindow : EditorWindow {
         SceneView.onSceneGUIDelegate += LevelManager.Instance.DrawRoomBounds;
     }
 
-    void OnDestroy() {
-        if (LevelManager.Instance.LevelLoaded && LevelManager.Instance.Dirty) {
-            if (EditorUtility.DisplayDialog("Save current level",
-                "Do you wish to save the current level?", "Save", "Don't Save"))
-                LevelManager.Instance.SaveCurrentLevel();
-            LevelManager.Instance.CloseLevel();
-        }
-
-        SceneView.onSceneGUIDelegate -= LevelManager.Instance.DrawGrid;
-        SceneView.onSceneGUIDelegate -= LevelManager.Instance.SnapSelected;
-        SceneView.onSceneGUIDelegate -= HandleInputs;
-        SceneView.onSceneGUIDelegate -= LevelManager.Instance.DrawCursor;
-        SceneView.onSceneGUIDelegate -= ShowSceneViewGUI;
-        SceneView.onSceneGUIDelegate -= LevelManager.Instance.DrawRoomBounds;
-    }
-
-    void OnGUI() {
-        if (_Instance == null)
-            _Instance = EditorWindow.GetWindow(typeof(LevelEditorWindow)) as LevelEditorWindow;
-
-        if (!_editing) {
-            if (LevelManager.Instance) {
-                LevelManager.Instance.StartEditing();
-                _editing = true;
-                LevelManager.Instance.onCloseLevel.AddListener(CheckLevelLoaded);
-                LevelManager.Instance.onCreateLevel.AddListener(CheckLevelLoaded);
-                LevelManager.Instance.onLoadLevel.AddListener(CheckLevelLoaded);
-                LevelManager.Instance.onSaveLevel.AddListener(CheckLevelLoaded);
-            }
-        }
-
-        bool dirty = LevelManager.Instance.Dirty;
-
+    void DrawLevelEditorGUI() {
         _windowScrollPos = EditorGUILayout.BeginScrollView(_windowScrollPos);
 
-        //
-        // Header
-        //
-        EditorGUILayout.LabelField("Under The Skin\nLevel Editor",
-            LevelEditorStyles.Header,
-            GUILayout.ExpandHeight(true),
-            GUILayout.MaxHeight(64));
+        // Draw header
+        DrawHeaderGUI();
 
         EditorGUILayout.Space();
 
         // Check if game is running
         if (Application.isPlaying) {
-            EditorGUILayout.LabelField("Level editor disabled while game is running!\nUse game level editor instead.",
+            EditorGUILayout.LabelField(@"Level editor disabled while game is 
+                running!\nUse game level editor instead.", 
                 EditorStyles.boldLabel);
             return;
         }
 
+        DrawCreateNewLevelButtonGUI();
+        DrawCloseLevelButtonGUI();
+        DrawLoadExistingLevelButtonGUI();
+
+        EditorGUILayout.Space();
+
         //
-        // Create new level button
+        // Level options
         //
+        if (_levelLoaded) {
+
+            DrawLevelSettingsGUI();
+
+            EditorGUILayout.Space();
+
+            DrawSaveLevelButtonsGUI();
+
+            EditorGUILayout.Space();
+            EditorGUILayout.Space();
+
+            DrawObjectBrowserGUI();
+        }
+
+        EditorGUILayout.EndScrollView();
+    }
+
+    void DrawHeaderGUI() {
+        // Title
+        EditorGUILayout.LabelField("Under The Skin\nLevel Editor",
+            LevelEditorStyles.Header,
+            GUILayout.ExpandHeight(true),
+            GUILayout.MaxHeight(64));
+    }
+
+    void DrawCreateNewLevelButtonGUI() {
         if (GUILayout.Button("Create new level",
             GUILayout.ExpandHeight(true),
             GUILayout.MaxHeight(32))) {
-            if (_levelLoaded && dirty) {
+            if (_levelLoaded && LevelManager.Instance.Dirty) {
                 if (EditorUtility.DisplayDialog("Save current level",
                     "Do you wish to save the current level?", "Save", "Don't Save"))
                     LevelManager.Instance.SaveCurrentLevel();
             }
             LevelManager.Instance.CreateNewLevel();
         }
+    }
 
-        //
-        // Close level button
-        //
+    void DrawCloseLevelButtonGUI() {
         if (_levelLoaded && GUILayout.Button("Close level",
             GUILayout.ExpandHeight(true),
             GUILayout.MaxHeight(32))) {
-            if (dirty) {
+            if (LevelManager.Instance.Dirty) {
                 if (EditorUtility.DisplayDialog("Save current level",
                     "Do you wish to save the current level?", "Save", "Don't Save"))
                     LevelManager.Instance.SaveCurrentLevel();
@@ -153,149 +189,106 @@ public class LevelEditorWindow : EditorWindow {
             LevelManager.Instance.CloseLevel();
             Repaint();
         }
+    }
 
-        //
-        // Load existing level button
-        //
+    void DrawLoadExistingLevelButtonGUI() {
         if (GUILayout.Button("Load existing level",
             GUILayout.ExpandHeight(true),
             GUILayout.MaxHeight(32))) {
-            if (_levelLoaded && dirty) {
+            if (_levelLoaded && LevelManager.Instance.Dirty) {
                 if (EditorUtility.DisplayDialog("Save current level",
                     "Do you wish to save the current level?", "Save", "Don't Save"))
                     LevelManager.Instance.SaveCurrentLevel();
             }
             LevelManager.Instance.LoadLevel();
         }
+    }
 
-        //
-        // Level options
-        //
-        if (_levelLoaded) {
+    void DrawLevelSettingsGUI() {
+        EditorGUILayout.LabelField("Level Settings", EditorStyles.boldLabel);
+        EditorGUILayout.Space();
 
-            EditorGUILayout.Space();
+        // Level name
+        var levelName = LevelManager.Instance.LoadedLevel.Name;
+        var newName = EditorGUILayout.TextField("Name", levelName);
+        if (newName != levelName) {
+            LevelManager.Instance.SetLoadedLevelName(newName);
+        }
+    }
 
-            EditorGUILayout.LabelField("Level Settings", EditorStyles.boldLabel);
+    void DrawSaveLevelButtonsGUI() {
+        if (LevelManager.Instance.LoadedLevel.Name != default(string)) {
+            if (GUILayout.Button("Save level"))
+                LevelManager.Instance.SaveCurrentLevel();
+            if (GUILayout.Button("Save level as asset"))
+                LevelManager.Instance.SaveCurrentLevel(true);
+        }
+    }
 
-            EditorGUILayout.Space();
+    void DrawObjectBrowserGUI() {
+        EditorGUILayout.LabelField("Object Browser", EditorStyles.boldLabel);
+        EditorGUILayout.Space();
 
-            EditorGUI.BeginChangeCheck();
+        EditorGUILayout.BeginVertical();
 
-            // Level name
-            var levelName = LevelManager.Instance.LoadedLevelName;
-            var newName = EditorGUILayout.TextField("Name", levelName);
-            if (newName != levelName) {
-                LevelManager.Instance.SetLoadedLevelName(newName);
+        // Filter buttons
+        EditorGUILayout.BeginHorizontal();
+        for (int i = 1; i < (int)ObjectDatabase.Category.COUNT; i++) {
+            bool filterSelected = i == (int)LevelManager.Instance.CurrentObjectFilter;
+            var style = filterSelected ? LevelEditorStyles.SelectedButton : LevelEditorStyles.NormalButton;
+            if (GUILayout.Button(((ObjectDatabase.Category)i).ToString(), style)) {
+                LevelManager.Instance.SetObjectFilter((ObjectDatabase.Category)i);
             }
-
-            EditorGUILayout.Space();
-
-            //
-            // Save level as asset button
-            //
-            if (newName != default(string)) {
-                if (GUILayout.Button("Save level"))
-                    LevelManager.Instance.SaveCurrentLevel();
-                if (GUILayout.Button("Save level as asset"))
-                    LevelManager.Instance.SaveCurrentLevel(true);
-
-            }
-
-            try {
-                if (EditorGUI.EndChangeCheck())
-                    LevelManager.Instance.SetDirty(true);
-            } catch (System.InvalidOperationException) { }
-
-            EditorGUILayout.Space();
-            EditorGUILayout.Space();
-
-            EditorGUILayout.LabelField("Tools", EditorStyles.boldLabel);
-
-            EditorGUILayout.Space();
-
-            //
-            // Toolbar
-            //
-
-            EditorGUILayout.BeginHorizontal();
-            if (GUILayout.Button("Erase Tool")) {
-                LevelManager.Instance.SelectTool(LevelManager.Tool.Erase);
-            }
-            if (GUILayout.Button("Move Tool")) {
-                LevelManager.Instance.SelectTool(LevelManager.Tool.Move);
-            }
-            EditorGUILayout.EndHorizontal();
-
-            EditorGUILayout.Space();
-
-            //
-            // Show grid toggle
-            //
-            if (EditorGUILayout.Toggle("Show Grid", LevelManager.Instance.GridEnabled)) {
-                LevelManager.Instance.EnableGrid();
-            } else LevelManager.Instance.DisableGrid();
-
-            EditorGUILayout.Space();
-
-            //
-            // Object browser
-            //
-            EditorGUILayout.LabelField("Object Browser", EditorStyles.boldLabel);
-
-            EditorGUILayout.Space();
-
-            EditorGUILayout.BeginVertical();
-
-            // Filter buttons
-            EditorGUILayout.BeginHorizontal();
-            for (int i = 1; i < (int)ObjectDatabase.Category.COUNT; i++) {
-                bool filterSelected = i == (int)LevelManager.Instance.CurrentObjectFilter;
-                var style = filterSelected ? LevelEditorStyles.SelectedButton : LevelEditorStyles.NormalButton;
-                if (GUILayout.Button(((ObjectDatabase.Category)i).ToString(), style)) {
-                    LevelManager.Instance.SetObjectFilter((ObjectDatabase.Category)i);
-                }
-            }
-
-            EditorGUILayout.EndHorizontal();
-
-            EditorGUILayout.EndVertical();
-
-            EditorGUILayout.Space();
-
-            //------------------------------
-
-            _objectBrowserScrollPos = EditorGUILayout.BeginScrollView(_objectBrowserScrollPos);
-            EditorGUILayout.BeginHorizontal(GUILayout.ExpandHeight (true));
-
-            int objectIndex = 0;
-            int objectsInRow = 0;
-
-            var filter = LevelManager.Instance.CurrentObjectFilter;
-            var filteredObjects = LevelManager.Instance.FilteredObjects;
-
-
-            while (objectIndex < filteredObjects.Count) {
-                if (GUILayout.Button(filteredObjects[objectIndex].prefab.name, GUILayout.ExpandWidth(false))) {
-                    Debug.Log (objectIndex + " " + filter);
-                    LevelManager.Instance.SelectObjectInCategory(objectIndex, filter);
-                    LevelManager.Instance.SelectTool(LevelManager.Tool.Place);
-                }
-
-                objectIndex++;
-                objectsInRow++;
-
-                if (objectsInRow >= _OBJECTS_PER_ROW) {
-                    EditorGUILayout.EndHorizontal();
-                    EditorGUILayout.BeginHorizontal();
-                    objectsInRow = 0;
-                }
-            }
-
-            EditorGUILayout.EndHorizontal();
-            EditorGUILayout.EndScrollView();
         }
 
+        EditorGUILayout.EndHorizontal();
+        EditorGUILayout.EndVertical();
+        EditorGUILayout.Space();
+
+        //------------------------------
+
+        _objectBrowserScrollPos = EditorGUILayout.BeginScrollView(_objectBrowserScrollPos);
+        EditorGUILayout.BeginHorizontal(GUILayout.ExpandHeight(true));
+
+        int objectIndex = 0;
+        int objectsInRow = 0;
+
+        var filter = LevelManager.Instance.CurrentObjectFilter;
+        var filteredObjects = LevelManager.Instance.FilteredObjects;
+
+
+        while (objectIndex < filteredObjects.Count) {
+            if (GUILayout.Button(filteredObjects[objectIndex].prefab.name, GUILayout.ExpandWidth(false))) {
+                LevelManager.Instance.SelectObjectInCategory(objectIndex, filter);
+                LevelManager.Instance.SelectTool(LevelManager.Tool.Place);
+            }
+
+            objectIndex++;
+            objectsInRow++;
+
+            if (objectsInRow >= _OBJECTS_PER_ROW) {
+                EditorGUILayout.EndHorizontal();
+                EditorGUILayout.BeginHorizontal();
+                objectsInRow = 0;
+            }
+        }
+
+        EditorGUILayout.EndHorizontal();
         EditorGUILayout.EndScrollView();
+    }
+
+    void DisconnectFromLevelManager() {
+        // Stop editing level
+        LevelManager.Instance.StopEditing();
+        _editing = false;
+
+        // Deregister delegates
+        SceneView.onSceneGUIDelegate -= LevelManager.Instance.DrawGrid;
+        SceneView.onSceneGUIDelegate -= LevelManager.Instance.SnapSelected;
+        SceneView.onSceneGUIDelegate -= HandleInputs;
+        SceneView.onSceneGUIDelegate -= LevelManager.Instance.DrawCursor;
+        SceneView.onSceneGUIDelegate -= ShowSceneViewGUI;
+        SceneView.onSceneGUIDelegate -= LevelManager.Instance.DrawRoomBounds;
     }
 
     public static LevelEditorWindow Instance { get { return _Instance; } }
@@ -311,7 +304,7 @@ public class LevelEditorWindow : EditorWindow {
         if (e.type == EventType.layout)
             HandleUtility.AddDefaultControl(GUIUtility.GetControlID(GetHashCode(), FocusType.Passive));
 
-         if (e.isKey) {
+        if (e.isKey) {
             if (e.control) {
                 if (e.shift) {
                     if (e.keyCode == KeyCode.S) { // Ctrl + Shift + S
@@ -324,6 +317,8 @@ public class LevelEditorWindow : EditorWindow {
                 }
             }
         } else if (e.isMouse) {
+            if (MouseOverUI()) LevelManager.Instance.MouseOverUI = true;
+            else LevelManager.Instance.MouseOverUI = false;
             LevelManager.Instance.HandleInputs(Event.current, sc.camera);
         }
     }
@@ -333,8 +328,9 @@ public class LevelEditorWindow : EditorWindow {
         Handles.BeginGUI();
 
         // Draw toolbar
-        var toolbarRect = new Rect(4, 4, 256, 32);
-        GUILayout.BeginArea(toolbarRect);
+        var toolbarWidth = _TOOLBAR_WIDTH_PERCENT * Screen.width;
+        _toolbarRect = new Rect(4, 4, toolbarWidth, _TOOLBAR_HEIGHT_PERCENT * Screen.height);
+        GUILayout.BeginArea(_toolbarRect);
 
         GUILayout.BeginHorizontal();
 
@@ -342,23 +338,35 @@ public class LevelEditorWindow : EditorWindow {
         if (!levelLoaded)
             GUILayout.Label("No level loaded.");
         else {
-            GUILayout.Label(LevelManager.Instance.LoadedLevelName + (LevelManager.Instance.Dirty ? "*" : ""));
+            GUILayout.Label(LevelManager.Instance.LoadedLevel.Name + (LevelManager.Instance.Dirty ? "*" : ""));
 
-            if (GUILayout.Button("Undo")) {
+            var undoRedoWidth = toolbarWidth * _TOOLBAR_UNDO_REDO_PERCENT;
+
+            if (GUILayout.Button("Undo", GUILayout.Width(undoRedoWidth))) {
                 LevelManager.Instance.Undo();
             }
 
-            if (GUILayout.Button("Redo")) {
+            if (GUILayout.Button("Redo", GUILayout.Width(undoRedoWidth))) {
                 LevelManager.Instance.Redo();
             }
 
+            var drawGridToggleWidth = toolbarWidth * _TOOLBAR_SHOW_GRID_PERCENT;
+
             var drawGrid = LevelManager.Instance.GridEnabled;
-            var newDrawGrid = GUILayout.Toggle(drawGrid, "Draw Grid");
+            var newDrawGrid = GUILayout.Toggle(drawGrid, "Draw Grid", GUILayout.Width(drawGridToggleWidth));
             if (drawGrid != newDrawGrid) {
                 if (newDrawGrid) LevelManager.Instance.EnableGrid();
                 else LevelManager.Instance.DisableGrid();
             }
 
+            var snapToGridToggleWidth = toolbarWidth * _TOOLBAR_SNAP_TO_GRID_PERCENT;
+
+            var snapToGrid = LevelManager.Instance.SnapToGrid;
+            var newSnapToGrid = GUILayout.Toggle(snapToGrid, "Snap To Grid", GUILayout.Width(snapToGridToggleWidth));
+            if (snapToGrid != newSnapToGrid) {
+                if (newSnapToGrid) LevelManager.Instance.SnapToGrid = true;
+                else LevelManager.Instance.SnapToGrid = false;
+            }
         }
 
         GUILayout.EndHorizontal();
@@ -368,8 +376,8 @@ public class LevelEditorWindow : EditorWindow {
         if (levelLoaded) {
 
             // Draw side panel
-            var sidePanelRect = new Rect(4, 40, 32, 256);
-            GUILayout.BeginArea(sidePanelRect);
+            _sidePanelRect = new Rect(4, 40, 32, 256);
+            GUILayout.BeginArea(_sidePanelRect);
 
             GUILayout.BeginVertical();
 
@@ -420,9 +428,9 @@ public class LevelEditorWindow : EditorWindow {
                 var objectEditorScreenPoint = sc.camera.WorldToScreenPoint(selectedObject.transform.position);
                 objectEditorScreenPoint.x = Mathf.Clamp(objectEditorScreenPoint.x, _OBJECT_EDITOR_WIDTH, sc.camera.pixelWidth - _OBJECT_EDITOR_WIDTH);
                 objectEditorScreenPoint.y = Mathf.Clamp(Screen.height * 0.925f - objectEditorScreenPoint.y, _OBJECT_EDITOR_HEIGHT, sc.camera.pixelHeight - _OBJECT_EDITOR_HEIGHT);
-                var objectEditorRect = new Rect(objectEditorScreenPoint.x, objectEditorScreenPoint.y, _OBJECT_EDITOR_WIDTH, _OBJECT_EDITOR_WIDTH);
+                _objectEditorRect = new Rect(objectEditorScreenPoint.x, objectEditorScreenPoint.y, _OBJECT_EDITOR_WIDTH, _OBJECT_EDITOR_WIDTH);
 
-                GUILayout.Window(0, objectEditorRect, DrawObjectEditor, selectedObject.name);
+                GUILayout.Window(0, _objectEditorRect, DrawObjectEditor, selectedObject.name);
             }
         }
 
@@ -449,6 +457,11 @@ public class LevelEditorWindow : EditorWindow {
         }
 
         GUILayout.EndHorizontal();
+    }
+
+    bool MouseOverUI () {
+        var mousePos = Event.current.mousePosition;
+        return _toolbarRect.Contains (mousePos) || _sidePanelRect.Contains (mousePos) || _objectEditorRect.Contains(mousePos);
     }
 
     void CheckLevelLoaded() {
