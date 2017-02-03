@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-enum Component
-{
-    UpperComponent = 0, 
-    LowerComponent = 1,
-}
 
 
 public class Door : MonoBehaviour
 {
+    enum Component
+    {
+        UpperComponent = 0, 
+        LowerComponent = 1,
+    }
     public float maxHeight = 150.0f;
     public float moveSpeed = 1.0f;
 

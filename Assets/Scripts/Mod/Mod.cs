@@ -6,12 +6,13 @@ public abstract class Mod : MonoBehaviour {
 
     ModSpot spot;
     ModType type;
+    protected Stats playerStats;
 
     public abstract void Activate();
 
     public abstract void DeActivate();
 
-    public abstract void AttachAffect();
+    public abstract void AttachAffect(ref Stats playerStats);
 
     public abstract void DetachAffect();
 

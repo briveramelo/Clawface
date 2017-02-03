@@ -8,6 +8,9 @@ using UnityEngine.Assertions;
 
 public class ModUIManager : MonoBehaviour {
 
+    public static ModUIManager Instance;
+
+
     //// Unity Inspector Fields
     // @TODO : This should be a custom inspector to the Dictionary below.
     [SerializeField]
@@ -22,6 +25,7 @@ public class ModUIManager : MonoBehaviour {
     //// Unity State Functions
     void Awake()
     {
+        Instance = this;
         // SEE ABOVE TODO:
         modUIcons.Add(ModSpot.Head, UIcon1);
         modUIcons.Add(ModSpot.ArmL, UIcon2);
