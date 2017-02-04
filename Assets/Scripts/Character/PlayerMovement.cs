@@ -68,13 +68,16 @@ public class PlayerMovement : MonoBehaviour {
         float rightV = Input.GetAxis(Strings.AIMY);
 
         axisInput = CheckForAxisInput(h, v);
-        rightAxisInput = CheckForAxisInput(rightV, rightH);
+        rightAxisInput = CheckForAxisInput(rightH, rightV);
+
+
+        Debug.Log(rightH + ", " + rightV);
 
         float hModified = h;
         float vModified = v;
 
-        float rightHModified = rightV;
-        float rightVModified = rightH;
+        float rightHModified = rightH;
+        float rightVModified = rightV;
 
         if (isSidescrolling)
         {
@@ -120,7 +123,10 @@ public class PlayerMovement : MonoBehaviour {
             }
             else
             {
-                transform.forward = lastMovement;
+                if (lastMovement != Vector3.zero)
+                {
+                    transform.forward = lastMovement;
+                }
             }
         }
         else
@@ -130,7 +136,10 @@ public class PlayerMovement : MonoBehaviour {
             }
             else
             {
-                transform.forward = movement;
+                if (movement != Vector3.zero)
+                {
+                    transform.forward = movement;
+                }
             }
         }
     }
