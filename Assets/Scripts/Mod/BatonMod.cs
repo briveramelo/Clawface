@@ -99,26 +99,25 @@ public class BatonMod : Mod {
 
     void BoostAttack()
     {
-        Stats stats = GetComponent<Stats>();
-        stats.Modify(StatType.Attack, attackBoostValue);
+        playerStats.Modify(StatType.Attack, attackBoostValue);
     }
 
     void RemoveAttackBoost()
     {
-        Stats stats = GetComponent<Stats>();
-        stats.Modify(StatType.Attack, 1 / attackBoostValue);
+        playerStats.Modify(StatType.Attack, 1 / attackBoostValue);
     }
 
-    public override void AttachAffect()
+    public override void AttachAffect(ref Stats i_playerStats)
     {
         //TODO:Disable pickup collider
+        playerStats = i_playerStats;
         pickupCollider.enabled = false;
         if (getModSpot() == ModSpot.Head)
         {
             BoostAttack();
         }else
         {
-            attackValue = GetComponent<Stats>().GetStat(StatType.Attack);
+            attackValue = playerStats.GetStat(StatType.Attack);
         }
     }
 
