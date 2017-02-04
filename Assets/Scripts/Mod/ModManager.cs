@@ -1,96 +1,97 @@
-﻿using System.Collections;
+﻿/* 
+ * Author Brandon Rivera-Melo
+ */
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ModManager : MonoBehaviour
 {
+    class ModSocket {
+        public Transform socket;
+        public Mod mod;
+        public ModSocket(Transform i_socket) {
+            socket = i_socket;
+        }
+    }
 
-    Dictionary<ModSpot, Mod> modDictionary;
-    Mod currentModInReach;
-    ModSpot modToSwapOrDrop;    
+    [SerializeField] Transform headSocket, leftArmSocket, rightArmSocket, legsSocket;
+    [SerializeField] Stats playerStats;
+
+    Dictionary<ModSpot, ModSocket> modSocketDictionary;
+    ModSpot modToSwap;
+    bool isOkToDropMod, isOkToSwapMods;    
 
     // Use this for initialization
     void Start()
     {
-        modDictionary = new Dictionary<ModSpot, Mod>();
-        modDictionary.Add(ModSpot.Head, null);
-        modDictionary.Add(ModSpot.Legs, null);
-        modDictionary.Add(ModSpot.ArmL, null);
-        modDictionary.Add(ModSpot.ArmR, null);
-        currentModInReach = null;
-        modToSwapOrDrop = ModSpot.Default;
+        modSocketDictionary = new Dictionary<ModSpot, ModSocket>();
+        modSocketDictionary.Add(ModSpot.Head, new ModSocket(headSocket));
+        modSocketDictionary.Add(ModSpot.Legs, new ModSocket(legsSocket));
+        modSocketDictionary.Add(ModSpot.ArmL, new ModSocket(leftArmSocket));
+        modSocketDictionary.Add(ModSpot.ArmR, new ModSocket(rightArmSocket));
+        modToSwap = ModSpot.Default;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        CheckForPickupCommand();
-        CheckForDropCommand();
+    void Update() {
+        if (isOkToDropMod) {
+            CheckToDropMod();
+        }
+        SetModToSwap();
+        if (isOkToSwapMods) {
+            CheckToSwapMods();
+        }
     }
 
-    void CheckForPickupCommand()
-    {
-        if (Input.GetButton(Strings.PREPARETOPICKUP))
+    private ModSpot GetCommandedModSpot()
+    {        
+        if (Input.GetButtonDown(Strings.UP))
         {
-            if (Input.GetButton(Strings.UP))
-            {
-                Attach(ModSpot.Head);
-            }
-            if (Input.GetButton(Strings.DOWN))
-            {
-                Attach(ModSpot.Legs);
-            }
-            if (Input.GetButton(Strings.LEFT))
-            {
-                Attach(ModSpot.ArmL);
-            }
-            if (Input.GetButton(Strings.RIGHT))
-            {
-                Attach(ModSpot.ArmR);
+            return ModSpot.Head;
+        }
+        if (Input.GetButtonDown(Strings.DOWN))
+        {
+            return ModSpot.Legs;
+        }
+        if (Input.GetButtonDown(Strings.LEFT))
+        {
+            return ModSpot.ArmL;
+        }
+        if (Input.GetButtonDown(Strings.RIGHT))
+        {
+            return ModSpot.ArmR;
+        }        
+        return ModSpot.Default;
+    }
+
+    void CheckToDropMod()
+    {
+        ModSpot selectedMod = GetCommandedModSpot();
+        if (Input.GetButton(Strings.PREPARETOPICKUPORDROP)) {
+            ModSpot spotSelected = GetCommandedModSpot();
+            if (spotSelected != ModSpot.Default && modSocketDictionary[spotSelected].mod != null) {
+                Detach(spotSelected);
             }
         }
     }
 
-    void CheckForDropCommand()
-    {
-        if (Input.GetButton(Strings.PREPARETODROP))
-        {
-            ModSpot spotSelected = ModSpot.Default;
-            if (Input.GetButton(Strings.UP))
-            {
-                spotSelected = ModSpot.Head;
-            }
-            if (Input.GetButton(Strings.DOWN))
-            {
-                spotSelected = ModSpot.Legs;
-            }
-            if (Input.GetButton(Strings.LEFT))
-            {
-                spotSelected = ModSpot.ArmL;
-            }
-            if (Input.GetButton(Strings.RIGHT))
-            {
-                spotSelected = ModSpot.ArmR;
-            }
-            if (modToSwapOrDrop != ModSpot.Default && spotSelected == ModSpot.Default)
-            {
-                if (modToSwapOrDrop != spotSelected)
-                {
-                    SwitchMods(modToSwapOrDrop, spotSelected);
-                }
-                else
-                {
-                    Detach(modToSwapOrDrop);
-                }
-                modToSwapOrDrop = ModSpot.Default;
-            }else
-            {
-                modToSwapOrDrop = spotSelected;
-            }
+    private void SetModToSwap() {
+        if (Input.GetButton(Strings.PREPARETOSWAP) && modToSwap==ModSpot.Default){
+            modToSwap = GetCommandedModSpot();
+            StartCoroutine(DelayIsOkToSwapMods());            
         }
-        if (Input.GetButtonUp(Strings.PREPARETODROP))
-        {
-            modToSwapOrDrop = ModSpot.Default;
+        if (Input.GetButtonUp(Strings.PREPARETOSWAP)) {
+            modToSwap = ModSpot.Default;
+        }
+    }
+
+    private void CheckToSwapMods() {
+        if (modToSwap!=ModSpot.Default) {
+            ModSpot secondMod = GetCommandedModSpot();
+            if (secondMod != ModSpot.Default) {
+                SwapMods(modToSwap, secondMod);
+            }
         }
     }
 
@@ -98,66 +99,92 @@ public class ModManager : MonoBehaviour
     {
         if (other.tag == Strings.MOD)
         {
-            currentModInReach = other.gameObject.GetComponent<Mod>();
+            CheckToAttachMod(other.GetComponent<Mod>());
         }
     }
 
-    private void Attach(ModSpot spot)
-    {
-        Attach(spot, currentModInReach);
-        currentModInReach = null;
+    private void CheckToAttachMod(Mod modToAttach) {
+        if (Input.GetButton(Strings.PREPARETOPICKUPORDROP)) {
+            ModSpot commandedModSpot = GetCommandedModSpot();
+
+            if (commandedModSpot != ModSpot.Default &&
+                modSocketDictionary[commandedModSpot].mod != modToAttach) {
+
+                Attach(commandedModSpot, modToAttach);
+            }
+        }
     }
 
     private void Attach(ModSpot spot, Mod mod)
     {
-        //TODO: Code for attaching mod to body
-        Mod modInSpot;
-        modDictionary.TryGetValue(spot, out modInSpot);
-        if (modInSpot != null)
+        if (modSocketDictionary[spot].mod != null)
         {
             Detach(spot);            
         }
-        modDictionary.Add(spot, mod);
-        mod.AttachAffect();
+
+        ModUIManager.Instance.AttachMod(spot, mod.getModType());
+        mod.transform.SetParent(modSocketDictionary[spot].socket);
+        mod.transform.localPosition = Vector3.zero;
+        mod.transform.localRotation = Quaternion.identity;
+        modSocketDictionary[spot].mod = mod;
+        mod.AttachAffect(ref playerStats);
+        StartCoroutine(DelayIsOkToDropMod());
+    }
+
+    IEnumerator DelayIsOkToDropMod() {
+        isOkToDropMod = false;
+        yield return new WaitForEndOfFrame();
+        isOkToDropMod = true;
+    }
+    IEnumerator DelayIsOkToSwapMods() {
+        isOkToSwapMods = false;
+        yield return new WaitForEndOfFrame();
+        isOkToSwapMods = true;
     }
 
     private void Detach(ModSpot spot)
     {
-        //TODO: Code for detaching mod to body
-        Mod modInSpot;
-        modDictionary.TryGetValue(spot, out modInSpot);
-        if (modInSpot != null)
+        if (modSocketDictionary[spot].mod != null)
         {
-            modInSpot.DetachAffect();
-            modDictionary.Add(spot, null);
+            ModUIManager.Instance.DetachMod(spot);
+            modSocketDictionary[spot].mod.transform.SetParent(null);
+            modSocketDictionary[spot].mod.DetachAffect();
+            modSocketDictionary[spot].mod = null;
         }
     }
 
-    private void SwitchMods(ModSpot sourceSpot, ModSpot targetSpot)
+    private void SwapMods(ModSpot sourceSpot, ModSpot targetSpot)
     {
-        Mod sourceMod;
-        modDictionary.TryGetValue(sourceSpot, out sourceMod);
-        if(sourceMod != null)
+        ModUIManager.Instance.SwapMods(sourceSpot, targetSpot);
+        Mod tempSourceMod = null;
+        Mod tempTargetMod = null;
+        if (modSocketDictionary[sourceSpot].mod != null)
         {
-            Mod targetMod;
-            modDictionary.TryGetValue(targetSpot, out targetMod);
-            if (targetMod != null)
-            {
-                Detach(sourceSpot);
-                Detach(targetSpot);
-                Attach(sourceSpot, targetMod);
-                Attach(targetSpot, sourceMod);
-            }
+            tempSourceMod = modSocketDictionary[sourceSpot].mod;
+            Detach(sourceSpot);
         }
-        modToSwapOrDrop = ModSpot.Default;
+        if (modSocketDictionary[targetSpot].mod != null)
+        {
+            tempTargetMod = modSocketDictionary[targetSpot].mod;
+            Detach(targetSpot);
+        }
+        if (tempSourceMod != null)
+        {
+            Attach(targetSpot, tempSourceMod);            
+        }
+        if (tempTargetMod != null)
+        {
+            Attach(sourceSpot, tempTargetMod);            
+        }
+        modToSwap = ModSpot.Default;
     }
 
     private ModSpot GetModSpot(Mod mod)
     {
         ModSpot spot = ModSpot.Default;
-        foreach (KeyValuePair<ModSpot, Mod> pair in modDictionary)
+        foreach (KeyValuePair<ModSpot, ModSocket> pair in modSocketDictionary)
         {
-            if (pair.Value == mod)
+            if (pair.Value.mod == mod)
             {
                 spot = pair.Key;
                 break;
