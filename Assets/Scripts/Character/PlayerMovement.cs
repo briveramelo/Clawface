@@ -114,11 +114,11 @@ public class PlayerMovement : MonoBehaviour {
         rigid.velocity = movement * speed * Time.fixedDeltaTime + GetExternalForceSum();
         if (!axisInput)
         {
-            if (rightAxisInput)
+            if (rightAxisInput && rightJoystickMovement != Vector3.zero)
             {
                 transform.forward = rightJoystickMovement;
             }
-            else
+            else if(lastMovement != Vector3.zero)
             {
                 if (lastMovement != Vector3.zero)
                 {
@@ -127,7 +127,7 @@ public class PlayerMovement : MonoBehaviour {
             }
         }
         else
-        {   if (rightAxisInput)
+        {   if (rightAxisInput && rightJoystickMovement != Vector3.zero)
             {
                 transform.forward = rightJoystickMovement;
             }
