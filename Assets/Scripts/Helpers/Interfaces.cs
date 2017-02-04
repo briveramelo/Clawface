@@ -32,4 +32,9 @@ public interface IUnlockable
 public interface ICollectable
 {
     void Collect();
+    bool IsCollectable();
+}
+
+public interface ICodexLoggable {
+    CodexType GetCodexType();
 }

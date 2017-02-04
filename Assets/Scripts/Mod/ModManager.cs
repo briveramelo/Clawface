@@ -123,6 +123,7 @@ public class ModManager : MonoBehaviour
         }
 
         ModUIManager.Instance.AttachMod(spot, mod.getModType());
+        mod.setModSpot(spot);
         mod.transform.SetParent(modSocketDictionary[spot].socket);
         mod.transform.localPosition = Vector3.zero;
         mod.transform.localRotation = Quaternion.identity;
