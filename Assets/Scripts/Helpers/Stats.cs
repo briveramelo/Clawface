@@ -40,7 +40,7 @@ public class Stats : MonoBehaviour, IModifiable {
         statDictionary[statType].Set((float)statDictionary[statType].Get() + statAddend);
     }
 
-    float GetStat(StatType statType) {
+    public float GetStat(StatType statType) {
         float returnFloat = (float)statDictionary[statType].Get();
         return returnFloat;
     }

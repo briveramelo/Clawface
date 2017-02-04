@@ -1,7 +1,8 @@
 ﻿public enum ModSpot {
+    Default = -1,
     Head = 0,
-    Arm_L = 1,
-    Arm_R = 2,
+    ArmL = 1,
+    ArmR = 2,
     Legs = 3
 }
 
