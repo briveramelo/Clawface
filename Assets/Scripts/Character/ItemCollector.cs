@@ -12,7 +12,7 @@ public class ItemCollector : MonoBehaviour {
 
     void OnTriggerStay(Collider col) {
         if (col.tag == Strings.CODEX) {
-            Collect(col);
+            CollectCodexEntry(col);
         }
         if (col.tag == Strings.ENEMY) {
             if ((Input.GetButton(Strings.PREPARETOPICKUPORDROP) &&
@@ -20,22 +20,24 @@ public class ItemCollector : MonoBehaviour {
                 (Input.GetButtonDown(Strings.PREPARETOPICKUPORDROP) &&
                 Input.GetButton(Strings.PREPARETOSWAP))) {
 
-                Collect(col);
+                if (col.GetComponent<ICollectable>().IsCollectable()) {
+                    CollectSkin(col);
+                }
             }
         }
     }
 
-    void Collect(Collider collectable) {
-        CollectableType collectableType = collectable.GetComponent<ICollectable>().Collect();
+    void CollectCodexEntry(Collider col) {
+        col.GetComponent<ICollectable>().Collect();
 
-        switch (collectableType) {
-            case CollectableType.Codex:
-                CodexType codexType = collectable.GetComponent<ICodexLoggable>().GetCodexType();
-                TheCodex.Instance.CollectCodex(codexType);
-                break;
-            case CollectableType.Skin:
-                playerStats.Modify(StatType.Health, (int)5);
-                break;
-        }
+        CodexType codexType = col.GetComponent<ICodexLoggable>().GetCodexType();
+        TheCodex.Instance.CollectCodex(codexType);
     }
+
+    void CollectSkin(Collider col) {
+        col.GetComponent<ICollectable>().Collect();
+
+        playerStats.Modify(StatType.Health, (int)5);
+    }
+
 }
