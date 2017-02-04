@@ -31,5 +31,9 @@ public interface IUnlockable
 
 public interface ICollectable
 {
-    void Collect();
+    CollectableType Collect();
+}
+
+public interface ICodexLoggable {
+    CodexType GetCodexType();
 }

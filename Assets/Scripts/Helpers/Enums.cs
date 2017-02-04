@@ -31,6 +31,11 @@ public enum ModType {
     StunBaton=3
 }
 
+public enum CollectableType {
+    Codex=0,
+    Skin=1
+}
+
 public enum CharacterType {
     ModMan=0,
     MallCop=1,
