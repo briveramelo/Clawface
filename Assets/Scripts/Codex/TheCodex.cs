@@ -13,7 +13,6 @@ public class TheCodex : MonoBehaviour {
             {CodexType.Journal, false },
             
         };
-
     }
 
     public void CollectCodex(CodexType codexType) {
