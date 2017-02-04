@@ -84,8 +84,7 @@ public class BatonMod : Mod {
     {        
         if (!isHitting)
         {
-            isHitting = true;
-            print("Hitting");
+            isHitting = true;            
             StartCoroutine(HitCoolDown());
         }
     }
@@ -94,7 +93,6 @@ public class BatonMod : Mod {
     {
         yield return new WaitForSeconds(0.5f);
         isHitting = false;
-        print("Not Hitting");
     }
 
     void LayMine()
