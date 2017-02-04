@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 33244664082367824}
   - component: {fileID: 23030128257680790}
   - component: {fileID: 114957657365454208}
+  - component: {fileID: 65158518969493998}
   m_Layer: 0
   m_Name: SegwayMod
   m_TagString: Mod
@@ -83,34 +84,34 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1540956592722432}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4659963037190060}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!4 &4655230893771362
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1609193411030124}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -0.00000017881, y: 0, z: 0}
-  m_LocalScale: {x: 5, y: 1, z: 5}
+  m_LocalScale: {x: 9, y: 1, z: 9}
   m_Children: []
   m_Father: {fileID: 4659963037190060}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!4 &4659963037190060
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1316314029526810}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.99492025, y: 1, z: 19.87928}
+  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: -0.9949205, y: 1, z: 19.879292}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4849753247140848}
@@ -184,6 +185,18 @@ MeshCollider:
   m_InflateMesh: 0
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!65 &65158518969493998
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1316314029526810}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2, y: 4, z: 2}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!65 &65280161804594890
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -192,7 +205,7 @@ BoxCollider:
   m_GameObject: {fileID: 1463092675298740}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 2, y: 4, z: 2}
   m_Center: {x: 0, y: 0, z: 0}
@@ -217,6 +230,8 @@ MonoBehaviour:
   aoeTime: 0.3
   aoeDamageMod: 0.4
   aoeForce: 10
+  isAttacking: 0
+  isAoeAttacking: 0
 --- !u!136 &136673235413560844
 CapsuleCollider:
   m_ObjectHideFlags: 1
@@ -227,6 +242,6 @@ CapsuleCollider:
   m_IsTrigger: 1
   m_Enabled: 0
   m_Radius: 1
-  m_Height: 3
+  m_Height: 3.98
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 1.2, z: 0}

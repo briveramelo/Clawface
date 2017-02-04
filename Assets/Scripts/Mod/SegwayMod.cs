@@ -50,80 +50,74 @@ public class SegwayMod : Mod {
     [SerializeField]
     private bool isAoeAttacking;
 
-    private List<Transform> attackedGameobjects;
+    private List<Transform> attackedGameobjects = new List<Transform>();
 
     public override void Activate()
     {
         switch (getModSpot())
         {
             case ModSpot.ArmL:
-                Hit();
-                
+                Hit();   
                 break;
             case ModSpot.ArmR:
                 Hit();
-                Debug.Log("Hit");
                 break;
             case ModSpot.Head:
                 break;
             case ModSpot.Legs:
                 AoeAttack();
-                Debug.Log("Aoe");
                 break;
             default:
                 break;
         }
     }
-
-    private void OnTriggerEnter(Collider other)
-    {
-
-    }
-
+    
     private void OnTriggerStay(Collider other)
     {
-        if (isAttacking)
+        if (other.tag != "Player")
         {
-            Debug.Log("Attack");
-            IDamageable damageable = other.GetComponent<IDamageable>();
-            IMovable movable = other.GetComponent<IMovable>();
 
-            if (damageable != null && !attackedGameobjects.Contains(other.transform))
+            if (isAttacking)
             {
-                damageable.TakeDamage(attackValue * attackDamageMod);
-            }
-            if (movable != null && !attackedGameobjects.Contains(other.transform))
-            {
-                Vector3 normalizedDistance = other.transform.position - this.transform.position;
-                normalizedDistance = normalizedDistance.normalized;
-                movable.AddExternalForce(normalizedDistance * attackForce);
-            }
+                IDamageable damageable = other.GetComponent<IDamageable>();
+                IMovable movable = other.GetComponent<IMovable>();
 
-            if (damageable != null || movable != null)
-            {
-                attackedGameobjects.Add(other.transform);
-            }
-        }
-        else if (isAoeAttacking)
-        {
-            Debug.Log("Aoe");
-            IDamageable damageable = other.GetComponent<IDamageable>();
-            IMovable movable = other.GetComponent<IMovable>();
+                if (damageable != null && !attackedGameobjects.Contains(other.transform))
+                {
+                    damageable.TakeDamage(attackValue * attackDamageMod);
+                }
+                if (movable != null && !attackedGameobjects.Contains(other.transform))
+                {
+                    Vector3 normalizedDistance = other.transform.position - this.transform.position;
+                    normalizedDistance = normalizedDistance.normalized;
+                    movable.AddExternalForce(normalizedDistance * attackForce);
+                }
 
-            if (damageable != null && !attackedGameobjects.Contains(other.transform))
-            {
-                damageable.TakeDamage(attackValue * aoeDamageMod);
+                if (damageable != null || movable != null)
+                {
+                    attackedGameobjects.Add(other.transform);
+                }
             }
-            if (movable != null && !attackedGameobjects.Contains(other.transform))
+            else if (isAoeAttacking)
             {
-                Vector3 normalizedDistance = other.transform.position - this.transform.position;
-                normalizedDistance = normalizedDistance.normalized;
-                movable.AddExternalForce(normalizedDistance * aoeForce);
-            }
+                IDamageable damageable = other.GetComponent<IDamageable>();
+                IMovable movable = other.GetComponent<IMovable>();
 
-            if (damageable != null || movable != null)
-            {
-                attackedGameobjects.Add(other.transform);
+                if (damageable != null && !attackedGameobjects.Contains(other.transform))
+                {
+                    damageable.TakeDamage(attackValue * aoeDamageMod);
+                }
+                if (movable != null && !attackedGameobjects.Contains(other.transform))
+                {
+                    Vector3 normalizedDistance = other.transform.position - this.transform.position;
+                    normalizedDistance = normalizedDistance.normalized;
+                    movable.AddExternalForce(normalizedDistance * aoeForce);
+                }
+
+                if (damageable != null || movable != null)
+                {
+                    attackedGameobjects.Add(other.transform);
+                }
             }
         }
     }
@@ -165,11 +159,13 @@ public class SegwayMod : Mod {
     void BoostSpeed()
     {
         playerStats.Modify(StatType.MoveSpeed, speedBoostValue);
+        Debug.Log("Boosted speed value: " + playerStats.GetStat(StatType.MoveSpeed));
     }
 
     void RemoveSpeedBoost()
     {
         playerStats.Modify(StatType.MoveSpeed, 1 / speedBoostValue);
+        Debug.Log("Boosted speed value: " + playerStats.GetStat(StatType.MoveSpeed));
     }
 
     void AoeAttack()
@@ -221,24 +217,21 @@ public class SegwayMod : Mod {
         switch (getModSpot())
         {
             case ModSpot.ArmL:
-                if (Input.GetButton(Strings.LEFT))
+                if (Input.GetButtonDown(Strings.LEFT))
                 {
                     Activate();
-                    Debug.Log("Hit");
                 }
                 break;
             case ModSpot.ArmR:
-                if (Input.GetButton(Strings.RIGHT))
+                if (Input.GetButtonDown(Strings.RIGHT))
                 {
                     Activate();
-                    Debug.Log("Hit");
                 }
                 break;
             case ModSpot.Legs:
-                if (Input.GetButton(Strings.DOWN))
+                if (Input.GetButtonDown(Strings.DOWN))
                 {
                     Activate();
-                    Debug.Log("Aoe");
                 }
                 break;
             default:

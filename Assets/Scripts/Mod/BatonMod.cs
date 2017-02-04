@@ -18,7 +18,6 @@ public class BatonMod : Mod {
 
     public override void Activate()
     {
-        Debug.Log(getModSpot());
         switch (getModSpot())
         {
             case ModSpot.ArmL:
