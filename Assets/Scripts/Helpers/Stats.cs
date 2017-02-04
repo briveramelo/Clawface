@@ -33,7 +33,9 @@ public class Stats : MonoBehaviour, IModifiable {
 
 
     public void Modify(StatType statType, float statMultiplier) {
+        print("Before "+statType +" "+statDictionary[statType].Get());
         statDictionary[statType].Set((float)statDictionary[statType].Get() * statMultiplier);
+        print("Before "+statType+" "+statDictionary[statType].Get());
     }
 
     public void Modify(StatType statType, int statAddend) {
