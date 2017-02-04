@@ -70,9 +70,6 @@ public class PlayerMovement : MonoBehaviour {
         axisInput = CheckForAxisInput(h, v);
         rightAxisInput = CheckForAxisInput(rightH, rightV);
 
-
-        Debug.Log(rightH + ", " + rightV);
-
         float hModified = h;
         float vModified = v;
 

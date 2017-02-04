@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Adam Kay
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,7 +25,7 @@ public class SegwayMod : Mod {
     private float attackDamageMod;
 
     [SerializeField]
-    private Vector3 attackForce;
+    private float attackForce;
 
     [SerializeField]
     private Collider aoeCollider;
@@ -35,16 +37,20 @@ public class SegwayMod : Mod {
     private float aoeDamageMod;
 
     [SerializeField]
-    private Vector3 aoeForce;
+    private float aoeForce;
 
     private static string ENABLEATTACKCOLLIDER = "EnableAttackCollider";
     private static string DISABLEATTACKCOLLIDER = "DisableAttackCollider";
     private static string ENABLEAOECOLLIDER = "EnableAoeCollider";
     private static string DISABLEAOECOLLIDER = "DisableAoeCollider";
 
+    [SerializeField]
     private bool isAttacking;
+
+    [SerializeField]
     private bool isAoeAttacking;
 
+    private List<Transform> attackedGameobjects;
 
     public override void Activate()
     {
@@ -52,32 +58,73 @@ public class SegwayMod : Mod {
         {
             case ModSpot.ArmL:
                 Hit();
+                
                 break;
             case ModSpot.ArmR:
                 Hit();
+                Debug.Log("Hit");
                 break;
             case ModSpot.Head:
                 break;
             case ModSpot.Legs:
                 AoeAttack();
+                Debug.Log("Aoe");
                 break;
             default:
                 break;
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+
+    }
+
     private void OnTriggerStay(Collider other)
     {
         if (isAttacking)
         {
+            Debug.Log("Attack");
             IDamageable damageable = other.GetComponent<IDamageable>();
             IMovable movable = other.GetComponent<IMovable>();
-            damageable.TakeDamage(attackValue * attackDamageMod);
-            movable.AddExternalForce()
+
+            if (damageable != null && !attackedGameobjects.Contains(other.transform))
+            {
+                damageable.TakeDamage(attackValue * attackDamageMod);
+            }
+            if (movable != null && !attackedGameobjects.Contains(other.transform))
+            {
+                Vector3 normalizedDistance = other.transform.position - this.transform.position;
+                normalizedDistance = normalizedDistance.normalized;
+                movable.AddExternalForce(normalizedDistance * attackForce);
+            }
+
+            if (damageable != null || movable != null)
+            {
+                attackedGameobjects.Add(other.transform);
+            }
         }
         else if (isAoeAttacking)
         {
-            
+            Debug.Log("Aoe");
+            IDamageable damageable = other.GetComponent<IDamageable>();
+            IMovable movable = other.GetComponent<IMovable>();
+
+            if (damageable != null && !attackedGameobjects.Contains(other.transform))
+            {
+                damageable.TakeDamage(attackValue * aoeDamageMod);
+            }
+            if (movable != null && !attackedGameobjects.Contains(other.transform))
+            {
+                Vector3 normalizedDistance = other.transform.position - this.transform.position;
+                normalizedDistance = normalizedDistance.normalized;
+                movable.AddExternalForce(normalizedDistance * aoeForce);
+            }
+
+            if (damageable != null || movable != null)
+            {
+                attackedGameobjects.Add(other.transform);
+            }
         }
     }
 
@@ -128,19 +175,22 @@ public class SegwayMod : Mod {
     void AoeAttack()
     {
         EnableAoeCollider();
+        isAoeAttacking = true;
+        attackedGameobjects.Clear();
         Invoke(SegwayMod.DISABLEAOECOLLIDER, aoeTime);
     }
 
     void Hit()
     {
         EnableAttackCollider();
+        isAttacking = true;
+        attackedGameobjects.Clear();
         Invoke(SegwayMod.DISABLEATTACKCOLLIDER, attackTime);
     }
 
     void EnableAttackCollider()
     {
         attackCollider.enabled = true;
-        isAttacking = true;
     }
 
     void DisableAttackCollider()
@@ -152,7 +202,6 @@ public class SegwayMod : Mod {
     void EnableAoeCollider()
     {
         aoeCollider.enabled = true;
-        isAoeAttacking = true;
     }
 
     void DisableAoeCollider()
@@ -175,18 +224,21 @@ public class SegwayMod : Mod {
                 if (Input.GetButton(Strings.LEFT))
                 {
                     Activate();
+                    Debug.Log("Hit");
                 }
                 break;
             case ModSpot.ArmR:
                 if (Input.GetButton(Strings.RIGHT))
                 {
                     Activate();
+                    Debug.Log("Hit");
                 }
                 break;
             case ModSpot.Legs:
                 if (Input.GetButton(Strings.DOWN))
                 {
                     Activate();
+                    Debug.Log("Aoe");
                 }
                 break;
             default:
