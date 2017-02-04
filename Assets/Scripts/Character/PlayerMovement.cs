@@ -21,8 +21,8 @@ public class PlayerMovement : MonoBehaviour {
     private Dictionary<ModSpot, bool> modSpotConstantForceIndices = new Dictionary<ModSpot, bool>() {
         {ModSpot.Head, false},
         {ModSpot.Legs, false},
-        {ModSpot.Arm_L, false},
-        {ModSpot.Arm_R, false}
+        {ModSpot.ArmL, false},
+        {ModSpot.ArmR, false}
     };
 
 
@@ -61,20 +61,20 @@ public class PlayerMovement : MonoBehaviour {
     // Update is called once per frame
     void Update() {
 
-        float h = Input.GetAxis("Horizontal");
-        float v = Input.GetAxis("Vertical");
+        float h = Input.GetAxis(Strings.MOVEX);
+        float v = Input.GetAxis(Strings.MOVEY);
 
-        float rightH = Input.GetAxis("Camera X");
-        float rightV = Input.GetAxis("Camera Y");
+        float rightH = Input.GetAxis(Strings.AIMX);
+        float rightV = Input.GetAxis(Strings.AIMY);
 
         axisInput = CheckForAxisInput(h, v);
-        rightAxisInput = CheckForAxisInput(rightH, rightV);
+        rightAxisInput = CheckForAxisInput(rightV, rightH);
 
         float hModified = h;
         float vModified = v;
 
-        float rightHModified = rightH;
-        float rightVModified = rightV;
+        float rightHModified = rightV;
+        float rightVModified = rightH;
 
         if (isSidescrolling)
         {
