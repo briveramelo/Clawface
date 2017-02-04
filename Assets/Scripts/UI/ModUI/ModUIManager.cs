@@ -41,6 +41,7 @@ public class ModUIManager : MonoBehaviour {
     //// Manager Functions
     public void AttachMod(ModSpot spot, ModType type)
     {
+        Assert.AreNotEqual(spot, ModSpot.Default);
         ModUIcon UIcon;
         modUIcons.TryGetValue(spot, out UIcon);
         UIcon.Attach(modUIProperties.Find((cmp) => { return cmp.type == type; }));
@@ -48,6 +49,7 @@ public class ModUIManager : MonoBehaviour {
 
     public void DetachMod(ModSpot spot)
     {
+        Assert.AreNotEqual(spot, ModSpot.Default);
         ModUIcon UIcon;
         modUIcons.TryGetValue(spot, out UIcon);
         UIcon.Detach();
@@ -56,6 +58,8 @@ public class ModUIManager : MonoBehaviour {
     public void SwapMods(ModSpot spotA, ModSpot spotB)
     {
         Assert.AreNotEqual(spotA, spotB, "Swapping ModSpots should be different!");
+        Assert.AreNotEqual(spotA, ModSpot.Default);
+        Assert.AreNotEqual(spotB, ModSpot.Default);
 
         ModUIcon UIconA, UIconB;
         modUIcons.TryGetValue(spotA, out UIconA);
@@ -73,6 +77,7 @@ public class ModUIManager : MonoBehaviour {
 
     public void SetUIState(ModSpot spot, ModUIState state)
     {
+        Assert.AreNotEqual(spot, ModSpot.Default);
         ModUIcon UIcon;
         modUIcons.TryGetValue(spot, out UIcon);
         UIcon.Apply(state);
