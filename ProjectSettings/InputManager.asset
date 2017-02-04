@@ -358,7 +358,7 @@ InputManager:
     axis: 0
     joyNum: 0
   - serializedVersion: 3
-    m_Name: PrepareToDrop
+    m_Name: PrepareToSwap
     descriptiveName: 
     descriptiveNegativeName: 
     negativeButton: 
@@ -374,7 +374,7 @@ InputManager:
     axis: 0
     joyNum: 0
   - serializedVersion: 3
-    m_Name: PrepareToPickUp
+    m_Name: PrepareToPickUpOrDrop
     descriptiveName: 
     descriptiveNegativeName: 
     negativeButton: 
@@ -449,7 +449,7 @@ InputManager:
     dead: 0.19
     sensitivity: 1
     snap: 0
-    invert: 1
+    invert: 0
     type: 2
     axis: 0
     joyNum: 0
