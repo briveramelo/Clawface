@@ -11,7 +11,7 @@ public class ItemCollector : MonoBehaviour {
     [SerializeField] Stats playerStats;
 
     void OnTriggerStay(Collider col) {
-        if (col.tag == Strings.CODEX) {
+        if (col.tag == Strings.CODEXENTRY) {
             CollectCodexEntry(col);
         }
         if (col.tag == Strings.ENEMY) {
@@ -28,10 +28,7 @@ public class ItemCollector : MonoBehaviour {
     }
 
     void CollectCodexEntry(Collider col) {
-        col.GetComponent<ICollectable>().Collect();
-
-        CodexType codexType = col.GetComponent<ICodexLoggable>().GetCodexType();
-        TheCodex.Instance.CollectCodex(codexType);
+        col.GetComponent<ICollectable>().Collect();        
     }
 
     void CollectSkin(Collider col) {
