@@ -9,6 +9,9 @@ public class SegwayMod : Mod {
 
     [SerializeField]
     private float speedBoostValue;
+
+    [SerializeField] private float rangedAccuracyLoss;
+
     private float speedValue;
     private float attackValue;
 
@@ -131,6 +134,12 @@ public class SegwayMod : Mod {
         {
             BoostSpeed();
         }
+        else if (getModSpot() == ModSpot.Legs)
+        {
+            playerStats.Modify(StatType.MoveSpeed, speedBoostValue);
+            playerStats.Modify(StatType.RangedAccuracy, rangedAccuracyLoss);
+            attackValue = playerStats.GetStat(StatType.Attack);
+        }
         else
         {
             attackValue = playerStats.GetStat(StatType.Attack);
@@ -149,6 +158,12 @@ public class SegwayMod : Mod {
         if (getModSpot() == ModSpot.Head)
         {
             RemoveSpeedBoost();
+        }
+        else if (getModSpot() == ModSpot.Legs)
+        {
+            playerStats.Modify(StatType.MoveSpeed, 1f / speedBoostValue);
+            playerStats.Modify(StatType.RangedAccuracy, 1f / rangedAccuracyLoss);
+            attackValue = playerStats.GetStat(StatType.Attack);
         }
         else
         {

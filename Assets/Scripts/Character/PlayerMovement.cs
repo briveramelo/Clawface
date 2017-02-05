@@ -15,7 +15,8 @@ public class PlayerMovement : MonoBehaviour {
     [SerializeField] private bool canMove = true;
     [SerializeField] private Vector3 lastMovement;
     [SerializeField] private Vector3 rightJoystickMovement;
-    
+
+    private Stats stats;
 
 
     private Dictionary<ModSpot, bool> modSpotConstantForceIndices = new Dictionary<ModSpot, bool>() {
@@ -45,6 +46,7 @@ public class PlayerMovement : MonoBehaviour {
     void Awake()
     {
         rigid = GetComponent<Rigidbody>();
+        stats = GetComponent<Stats>();
     }
 
     // Use this for initialization
@@ -111,7 +113,7 @@ public class PlayerMovement : MonoBehaviour {
 
     private void FixedUpdate()
     {
-        rigid.velocity = movement * speed * Time.fixedDeltaTime + GetExternalForceSum();
+        rigid.velocity = movement * stats.GetStat(StatType.MoveSpeed) * Time.fixedDeltaTime + GetExternalForceSum();
         if (!axisInput)
         {
             if (rightAxisInput && rightJoystickMovement != Vector3.zero)
