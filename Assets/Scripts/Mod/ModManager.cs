@@ -128,7 +128,8 @@ public class ModManager : MonoBehaviour
         mod.transform.localPosition = Vector3.zero;
         mod.transform.localRotation = Quaternion.identity;
         modSocketDictionary[spot].mod = mod;
-        mod.AttachAffect(ref playerStats);
+        IMovable moveable = gameObject.GetComponent<IMovable>();
+        mod.AttachAffect(ref playerStats, ref moveable);
         StartCoroutine(DelayIsOkToDropMod());
     }
 

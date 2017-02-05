@@ -7,10 +7,7 @@ public class BatonMod : Mod {
 
     [SerializeField]
     private float attackBoostValue;
-    private float attackValue;
-
-    [SerializeField]
-    private Collider pickupCollider;
+    private float attackValue;   
 
     [SerializeField]
     private Collider attackCollider;
@@ -123,9 +120,8 @@ public class BatonMod : Mod {
         playerStats.Modify(StatType.Attack, 1 / attackBoostValue);
     }
 
-    public override void AttachAffect(ref Stats i_playerStats)
-    {
-        //TODO:Disable pickup collider
+    public override void AttachAffect(ref Stats i_playerStats, ref IMovable movable)
+    {        
         playerStats = i_playerStats;
         pickupCollider.enabled = false;
         if (getModSpot() == ModSpot.Head)

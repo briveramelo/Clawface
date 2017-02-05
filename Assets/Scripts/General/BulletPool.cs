@@ -10,9 +10,17 @@ public class BulletPool : MonoBehaviour {
     private GameObject stunMinePrefab;
 
     [SerializeField]
-    private int stunMinePoolsize;
+    private GameObject blasterBulletPrefab;
+
+    [SerializeField]
+    private int stunMinePoolSize;
+
+    [SerializeField]
+    private int blasterBulletPoolSize;
 
     List<GameObject> stunMinePool;
+
+    List<GameObject> blasterBulletPool;
 
     private void Awake()
     {
@@ -25,17 +33,34 @@ public class BulletPool : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        InitializeStunMinePool();
+        InitializeBlasterBulletPool();
+    }
+
+    void InitializeStunMinePool()
+    {
         stunMinePool = new List<GameObject>();
-        for (int index=0; index < stunMinePoolsize; index++)
+        for (int index = 0; index < stunMinePoolSize; index++)
         {
             GameObject stunMine = Instantiate(stunMinePrefab);
             stunMine.SetActive(false);
             stunMinePool.Add(stunMine);
         }
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    }
+
+    void InitializeBlasterBulletPool()
+    {
+        blasterBulletPool = new List<GameObject>();
+        for (int index = 0; index < blasterBulletPoolSize; index++)
+        {
+            GameObject blasterBullet = Instantiate(blasterBulletPrefab);
+            blasterBullet.SetActive(false);
+            blasterBulletPool.Add(blasterBullet);
+        }
+    }
+
+    // Update is called once per frame
+    void Update () {
 		
 	}
 
@@ -46,6 +71,18 @@ public class BulletPool : MonoBehaviour {
             if (!stunMine.activeSelf)
             {
                 return stunMine;
+            }
+        }
+        return null;
+    }
+
+    public GameObject getBlasterBullet()
+    {
+        foreach (GameObject blasterBullet in blasterBulletPool)
+        {
+            if (!blasterBullet.activeSelf)
+            {
+                return blasterBullet;
             }
         }
         return null;
