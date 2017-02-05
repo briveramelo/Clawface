@@ -53,6 +53,7 @@ public class OverheadToSidescroll : MonoBehaviour {
         */
     }
 
+    /*
     private void OnTriggerEnter(Collider other)
     {
         if (CameraLock.cameraMode != CameraMode.SIDESCROLL)
@@ -82,6 +83,8 @@ public class OverheadToSidescroll : MonoBehaviour {
             CameraLock.cameraMode = CameraMode.OVERHEAD;
         }
     }
+    */
+
 
     public void SidescrollTriggerEnter()
     {
@@ -91,10 +94,12 @@ public class OverheadToSidescroll : MonoBehaviour {
             {
                 joystickMovement.transform.position = new Vector3(sideScrollLockToAxis.position.x, joystickMovement.transform.position.y, sideScrollLockToAxis.position.z);
             }
+            cameraLock.UnlockCamera();
+
             iTween.MoveTo(Camera.main.gameObject, iTween.Hash("name", "sidescrollMoveTo", "time", timeToTween, "position", sideScrollCameraPosition.position, "oncomplete", "LockCamera"));
             iTween.RotateTo(Camera.main.gameObject, iTween.Hash("name", "sidescrollRotateTo", "time", timeToTween, "rotation", sideScrollCameraPosition.eulerAngles));
             tweenTimer = 0f;
-            cameraLock.UnlockCamera();
+            
             joystickMovement.SetSidescrolling(true);
             cameraLock.SetDistance(sidescrollArea.transform.position - sideScrollCameraPosition.position);
             cameraLock.SetAngle(sideScrollCameraPosition.eulerAngles);
