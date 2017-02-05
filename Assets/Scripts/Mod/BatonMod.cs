@@ -21,14 +21,17 @@ public class BatonMod : Mod {
         switch (getModSpot())
         {
             case ModSpot.ArmL:
+                Debug.Log("Baton Hit");
                 Hit();
                 break;
             case ModSpot.ArmR:
+                Debug.Log("Baton Hit");
                 Hit();
                 break;
             case ModSpot.Head:                
                 break;
             case ModSpot.Legs:
+                Debug.Log("Lay Mine");
                 LayMine();
                 break;
             default:

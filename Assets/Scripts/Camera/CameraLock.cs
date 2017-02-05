@@ -15,11 +15,10 @@ public class CameraLock : MonoBehaviour {
 
     public static CameraMode cameraMode;
 
-    public Transform objectToLockTo;
-    public Vector3 distance;
-    public Vector3 angle;
-
-    public bool isLocked;
+    [SerializeField] private Transform objectToLockTo;
+    [SerializeField] private Vector3 distance;
+    [SerializeField] private Vector3 angle;
+    [SerializeField] private bool isLocked;
 
     // Use this for initialization
     void Start () {
@@ -48,5 +47,30 @@ public class CameraLock : MonoBehaviour {
     public void UnlockCamera()
     {
         isLocked = false;
+    }
+
+    public void SetDistance(Vector3 _distance)
+    {
+        distance = _distance;
+    }
+
+    public void SetAngle(Vector3 _eulerAngles)
+    {
+        angle = _eulerAngles;
+    }
+
+    public void SetAngle(Quaternion _quaternionAngles)
+    {
+        angle = _quaternionAngles.eulerAngles;
+    }
+
+    public Vector3 GetDistance()
+    {
+        return distance;
+    }
+
+    public Vector3 GetAngle()
+    {
+        return angle;
     }
 }
