@@ -5,41 +5,69 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MallCopAI : MonoBehaviour
+public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDamageable
 {
-    enum Action
+    enum MallCopState
     {
         WALK = 0,
         ATTACK = 1
     }
 
-    [SerializeField] Stats m_state;
+    [SerializeField] Stats myStats;
+    [SerializeField] GameObject skin;
 
     public float attackTime = 10.0f;
     public float attackRange = 1.0f;
 
-    private Action m_action = Action.WALK;
+    private MallCopState currentState = MallCopState.WALK;
     private GameObject attackTarget;
 
-    private float m_speed = 0.0f;
-    private float m_rotation_parameter = 0.0f;
+    private float rotationMultiplier = 0.0f;
 
 	// Use this for initialization
 	void Start ()
     {
-        m_speed = m_state.GetStat(StatType.MoveSpeed);
-        m_rotation_parameter = Random.Range(-1.0f, 1.0f);
+        rotationMultiplier = Random.Range(-1.0f, 1.0f);
     }
-	
-	// Update is called once per frame
-	void Update ()
+
+    void IDamageable.TakeDamage(float damage)
     {
-        switch (m_action)
+        myStats.TakeDamage(damage);
+        if (myStats.GetStat(StatType.Health) <= 0) {
+            Destroy(gameObject);
+        }
+    }
+
+    GameObject ICollectable.Collect()
+    {
+        GameObject droppedSkin = Instantiate(skin, null, true) as GameObject;
+        return droppedSkin;
+    }
+
+    bool ICollectable.IsCollectable()
+    {
+        return myStats.GetStat(StatType.Health)<2;
+    }
+
+    void IStunnable.Stun()
+    {
+        
+    }
+
+    void IMovable.AddExternalForce(Vector3 force)
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update ()
+    {
+        switch (currentState)
         {
-            case Action.WALK:
+            case MallCopState.WALK:
                 Walk();
                 break;
-            case Action.ATTACK:
+            case MallCopState.ATTACK:
                 Attack();
                 break;
             default:
@@ -49,9 +77,9 @@ public class MallCopAI : MonoBehaviour
 
     void Walk()
     {
-        float rotation_speed = 50.0f;
-        transform.Rotate(m_rotation_parameter * rotation_speed * Vector3.up * Time.deltaTime);
-        transform.Translate(m_speed * Vector3.forward * Time.deltaTime);
+        float rotationSpeed = 50.0f;
+        transform.Rotate(rotationMultiplier * rotationSpeed * Vector3.up * Time.deltaTime);
+        transform.Translate(myStats.GetStat(StatType.MoveSpeed) * Vector3.forward * Time.deltaTime);
     }
 
     void Attack()
@@ -60,7 +88,7 @@ public class MallCopAI : MonoBehaviour
 
         if(distance > attackRange)
         {
-            float chaseSpeed = m_speed * 2.0f;
+            float chaseSpeed = myStats.GetStat(StatType.MoveSpeed) * 2.0f;
             transform.position = Vector3.MoveTowards(transform.position, attackTarget.transform.position, chaseSpeed * Time.deltaTime);
             transform.LookAt(attackTarget.transform);
         }
@@ -69,24 +97,26 @@ public class MallCopAI : MonoBehaviour
 
         if (attackTime <= 0.0f)
         {
-            initState();
+            ResetToWalking();
         }
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.name == "Player")
+        if (other.name == Strings.PLAYER)
         {
-            m_action = Action.ATTACK;
+            currentState = MallCopState.ATTACK;
             attackTarget = other.gameObject;
         }
     }
 
-    private void initState()
+    private void ResetToWalking()
     {
         attackTime = 10.0f;
-        m_action = Action.WALK;
+        currentState = MallCopState.WALK;
         attackTarget = null;
-        m_rotation_parameter = Random.Range(-1.0f, 1.0f);
+        rotationMultiplier = Random.Range(-1.0f, 1.0f);
     }
+
+    
 }

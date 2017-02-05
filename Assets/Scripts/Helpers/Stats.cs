@@ -44,4 +44,9 @@ public class Stats : MonoBehaviour, IModifiable {
         float returnFloat = (float)statDictionary[statType].Get();
         return returnFloat;
     }
+
+    public void TakeDamage(float damage)
+    {
+        statDictionary[StatType.Health].Set((float)statDictionary[StatType.Health].Get() - damage);
+    }
 }

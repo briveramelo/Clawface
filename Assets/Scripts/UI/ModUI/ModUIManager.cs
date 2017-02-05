@@ -25,6 +25,7 @@ public class ModUIManager : MonoBehaviour {
     //// Unity State Functions
     void Awake()
     {
+        //TODO make proper singleton
         Instance = this;
         // SEE ABOVE TODO:
         modUIcons.Add(ModSpot.Head, UIcon1);

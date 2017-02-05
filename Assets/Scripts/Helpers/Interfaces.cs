@@ -31,7 +31,7 @@ public interface IUnlockable
 
 public interface ICollectable
 {
-    void Collect();
+    GameObject Collect();
     bool IsCollectable();
 }
 
