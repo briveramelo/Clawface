@@ -53,7 +53,7 @@ public class SegwayMod : Mod {
     [SerializeField]
     private bool isAoeAttacking;
 
-    private List<Transform> attackedGameobjects = new List<Transform>();
+    
 
     public override void Activate()
     {
@@ -85,11 +85,11 @@ public class SegwayMod : Mod {
                 IDamageable damageable = other.GetComponent<IDamageable>();
                 IMovable movable = other.GetComponent<IMovable>();
 
-                if (damageable != null && !attackedGameobjects.Contains(other.transform))
+                if (damageable != null && !recentlyHitEnemies.Contains(damageable))
                 {
                     damageable.TakeDamage(attackValue * attackDamageMod);
                 }
-                if (movable != null && !attackedGameobjects.Contains(other.transform))
+                if (movable != null && !recentlyHitEnemies.Contains(damageable))
                 {
                     Vector3 normalizedDistance = other.transform.position - this.transform.position;
                     normalizedDistance = normalizedDistance.normalized;
@@ -98,7 +98,7 @@ public class SegwayMod : Mod {
 
                 if (damageable != null || movable != null)
                 {
-                    attackedGameobjects.Add(other.transform);
+                    recentlyHitEnemies.Add(damageable);
                 }
             }
             else if (isAoeAttacking)
@@ -106,11 +106,11 @@ public class SegwayMod : Mod {
                 IDamageable damageable = other.GetComponent<IDamageable>();
                 IMovable movable = other.GetComponent<IMovable>();
 
-                if (damageable != null && !attackedGameobjects.Contains(other.transform))
+                if (damageable != null && !recentlyHitEnemies.Contains(damageable))
                 {
                     damageable.TakeDamage(attackValue * aoeDamageMod);
                 }
-                if (movable != null && !attackedGameobjects.Contains(other.transform))
+                if (movable != null && !recentlyHitEnemies.Contains(damageable))
                 {
                     Vector3 normalizedDistance = other.transform.position - this.transform.position;
                     normalizedDistance = normalizedDistance.normalized;
@@ -119,7 +119,7 @@ public class SegwayMod : Mod {
 
                 if (damageable != null || movable != null)
                 {
-                    attackedGameobjects.Add(other.transform);
+                    recentlyHitEnemies.Add(damageable);
                 }
             }
         }
@@ -187,7 +187,7 @@ public class SegwayMod : Mod {
     {
         EnableAoeCollider();
         isAoeAttacking = true;
-        attackedGameobjects.Clear();
+        recentlyHitEnemies.Clear();
         Invoke(SegwayMod.DISABLEAOECOLLIDER, aoeTime);
     }
 
@@ -195,7 +195,7 @@ public class SegwayMod : Mod {
     {
         EnableAttackCollider();
         isAttacking = true;
-        attackedGameobjects.Clear();
+        recentlyHitEnemies.Clear();
         Invoke(SegwayMod.DISABLEATTACKCOLLIDER, attackTime);
     }
 

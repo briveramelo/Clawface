@@ -45,7 +45,6 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
     {
         myStats.TakeDamage(damage);
         if (myStats.GetStat(StatType.Health) <= 5 && !isGlowing) {
-            Debug.Log("GLOWING");
             isGlowing = true;
             skinGlowScript.SetToGlow();
         }

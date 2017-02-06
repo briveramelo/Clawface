@@ -229,7 +229,7 @@ public class PlayerMovement : MonoBehaviour {
 
         Collider[] cols = Physics.OverlapSphere(foot.transform.position, sphereRadius);
         for (int i = 0; i < cols.Length; i++) {
-            if (cols[i].gameObject.layer != (int)Layers.ModMan) {
+            if (cols[i].gameObject.layer == (int)Layers.Ground) {
                 return true;
             }
         }

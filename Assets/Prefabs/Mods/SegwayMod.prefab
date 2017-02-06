@@ -111,7 +111,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1316314029526810}
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -0.9949205, y: 1, z: 19.879292}
+  m_LocalPosition: {x: -0.7, y: 1.13, z: -2.57}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4849753247140848}
@@ -221,11 +221,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speedBoostValue: 1.25
+  rangedAccuracyLoss: 0
   pickupCollider: {fileID: 65280161804594890}
   attackCollider: {fileID: 136673235413560844}
   attackTime: 0.3
   attackDamageMod: 0.75
-  attackForce: 20
+  attackForce: 1500
   aoeCollider: {fileID: 64548073773440194}
   aoeTime: 0.3
   aoeDamageMod: 0.4
