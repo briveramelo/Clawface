@@ -8,6 +8,7 @@ public class BatonMod : Mod {
     [SerializeField]
     private float attackBoostValue;
     private float attackValue;
+    private float attackTime = 0.5f;
 
     [SerializeField]
     private Collider pickupCollider;
@@ -91,7 +92,8 @@ public class BatonMod : Mod {
 
     IEnumerator HitCoolDown()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(attackTime);
+        recentlyHitEnemies.Clear();
         isHitting = false;
     }
 
@@ -109,7 +111,12 @@ public class BatonMod : Mod {
     {
         if (other.tag == Strings.ENEMY && isHitting)
         {
-            other.gameObject.GetComponent<IDamageable>().TakeDamage(attackValue);
+            IDamageable damageable = other.gameObject.GetComponent<IDamageable>();
+            if (!recentlyHitEnemies.Contains(damageable)) {
+                damageable.TakeDamage(attackValue);
+                other.gameObject.GetComponent<IStunnable>().Stun();
+                recentlyHitEnemies.Add(damageable);
+            }                        
         }
     }
 
@@ -126,6 +133,7 @@ public class BatonMod : Mod {
     public override void AttachAffect(ref Stats i_playerStats)
     {
         //TODO:Disable pickup collider
+        attackCollider.enabled = true;
         playerStats = i_playerStats;
         pickupCollider.enabled = false;
         if (getModSpot() == ModSpot.Head)
@@ -140,6 +148,7 @@ public class BatonMod : Mod {
     public override void DetachAffect()
     {
         //TODO:Enable pickup collider
+        attackCollider.enabled = false;
         pickupCollider.enabled = true;
         if (getModSpot() == ModSpot.Head)
         {

@@ -2,19 +2,22 @@
  *  @author Cornelia Schultz
  */
 
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
 public class ModUIManager : MonoBehaviour {
 
-    public static ModUIManager Instance;
-
+    // TODO : Rename to `instance`
+    public static ModUIManager Instance = null;
 
     //// Unity Inspector Fields
-    // @TODO : This should be a custom inspector to the Dictionary below.
     [SerializeField]
-    private ModUIcon UIcon1, UIcon2, UIcon3, UIcon4;
+    private GameObject UIconPrefab;
+
+    [SerializeField]
+    private Transform anchor;
 
     [SerializeField]
     private List<ModUIProperties> modUIProperties;
@@ -25,22 +28,33 @@ public class ModUIManager : MonoBehaviour {
     //// Unity State Functions
     void Awake()
     {
-        Instance = this;
-        // SEE ABOVE TODO:
-        modUIcons.Add(ModSpot.Head, UIcon1);
-        modUIcons.Add(ModSpot.ArmL, UIcon2);
-        modUIcons.Add(ModSpot.ArmR, UIcon3);
-        modUIcons.Add(ModSpot.Legs, UIcon4);
+        // Singleton Management
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+        
+        // UIcon Instantiation and Assignment
+        foreach(ModSpot spot in Enum.GetValues(typeof(ModSpot))) {
+            if (spot == ModSpot.Default) break;
 
-        UIcon1.Relocate(ModSpot.Head);
-        UIcon2.Relocate(ModSpot.ArmL);
-        UIcon3.Relocate(ModSpot.ArmR);
-        UIcon4.Relocate(ModSpot.Legs);
+            GameObject obj = Instantiate(UIconPrefab);
+            obj.transform.SetParent(anchor, false);
+            ModUIcon icon = obj.GetComponent<ModUIcon>();
+            modUIcons.Add(spot, icon);
+            icon.Relocate(spot);
+        }
     }
 
     //// Manager Functions
     public void AttachMod(ModSpot spot, ModType type)
     {
+        Assert.AreNotEqual(spot, ModSpot.Default);
         ModUIcon UIcon;
         modUIcons.TryGetValue(spot, out UIcon);
         UIcon.Attach(modUIProperties.Find((cmp) => { return cmp.type == type; }));
@@ -48,6 +62,7 @@ public class ModUIManager : MonoBehaviour {
 
     public void DetachMod(ModSpot spot)
     {
+        Assert.AreNotEqual(spot, ModSpot.Default);
         ModUIcon UIcon;
         modUIcons.TryGetValue(spot, out UIcon);
         UIcon.Detach();
@@ -56,6 +71,8 @@ public class ModUIManager : MonoBehaviour {
     public void SwapMods(ModSpot spotA, ModSpot spotB)
     {
         Assert.AreNotEqual(spotA, spotB, "Swapping ModSpots should be different!");
+        Assert.AreNotEqual(spotA, ModSpot.Default);
+        Assert.AreNotEqual(spotB, ModSpot.Default);
 
         ModUIcon UIconA, UIconB;
         modUIcons.TryGetValue(spotA, out UIconA);
@@ -73,6 +90,7 @@ public class ModUIManager : MonoBehaviour {
 
     public void SetUIState(ModSpot spot, ModUIState state)
     {
+        Assert.AreNotEqual(spot, ModSpot.Default);
         ModUIcon UIcon;
         modUIcons.TryGetValue(spot, out UIcon);
         UIcon.Apply(state);

@@ -11,6 +11,7 @@ public class ModUIcon : MonoBehaviour {
     private const float MOVE_TIME = 0.15F;
 
     //// Unity Inspector Fields
+    #pragma warning disable 0649 // Turn off never assigned warning
     [SerializeField]
     private GameObject self;
     [SerializeField]
@@ -25,6 +26,7 @@ public class ModUIcon : MonoBehaviour {
         defaultArmRightSprite, defaultLegsSprite;
     [SerializeField]
     private Vector3 headVector, armLeftVector, armRightVector, legsVector;
+    #pragma warning restore 0649 // Turn on never assigned warning
 
     //// Internal State
     private ModUIProperties activeProperties;

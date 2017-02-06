@@ -40,5 +40,6 @@ public enum CharacterType {
 public enum Layers {
     ModMan=8,
     Enemy=9,
-    MiniMap=10
+    MiniMap=10,
+    Ground=11
 }

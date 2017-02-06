@@ -7,6 +7,7 @@ public abstract class Mod : MonoBehaviour {
     ModSpot spot;
     ModType type;
     protected Stats playerStats;
+    protected List<IDamageable> recentlyHitEnemies = new List<IDamageable>();
 
     public abstract void Activate();
 
