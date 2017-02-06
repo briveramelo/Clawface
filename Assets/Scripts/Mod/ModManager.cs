@@ -19,6 +19,9 @@ public class ModManager : MonoBehaviour
     [SerializeField] Transform headSocket, leftArmSocket, rightArmSocket, legsSocket;
     [SerializeField] Stats playerStats;
 
+    [SerializeField]
+    private PlayerMovement playerMovement;
+
     Dictionary<ModSpot, ModSocket> modSocketDictionary;
     ModSpot modToSwap;
     ModSpot lastModToSwap;
@@ -142,9 +145,8 @@ public class ModManager : MonoBehaviour
         mod.transform.SetParent(modSocketDictionary[spot].socket);
         mod.transform.localPosition = Vector3.zero;
         mod.transform.localRotation = Quaternion.identity;
-        modSocketDictionary[spot].mod = mod;
-        IMovable moveable = gameObject.GetComponent<IMovable>();
-        mod.AttachAffect(ref playerStats, ref moveable);
+        modSocketDictionary[spot].mod = mod;        
+        mod.AttachAffect(ref playerStats, ref playerMovement);
         StartCoroutine(DelayIsOkToDropMod());
     }
 

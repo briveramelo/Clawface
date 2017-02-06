@@ -7,7 +7,7 @@ public class BlasterBullet : MonoBehaviour {
     Vector3 direction;
 
     float pushForce;
-    float damage;
+    float damage = 1f;
     bool push;
 
     [SerializeField]
@@ -15,13 +15,13 @@ public class BlasterBullet : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        direction = Vector3.zero;
+        direction = Vector3.forward;
         push = false;
     }
 
     void OnEnable()
     {
-        push = false;
+        push = false;        
         StartCoroutine(DestroyAfter());
     }
 
@@ -43,11 +43,6 @@ public class BlasterBullet : MonoBehaviour {
         transform.Translate(direction * speed);
 	}
 
-    public void setDirection(Vector3 newDirection)
-    {
-        direction = newDirection;
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.tag == Strings.ENEMY && push)
@@ -63,15 +58,18 @@ public class BlasterBullet : MonoBehaviour {
 
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.tag == Strings.ENEMY)
+        if (other.gameObject.tag != Strings.PLAYER)
         {
-            IDamageable damageable = other.gameObject.GetComponent<IDamageable>();
-            if (damageable != null) {
-                damageable.TakeDamage(damage);
+            if (other.gameObject.tag == Strings.ENEMY)
+            {
+                IDamageable damageable = other.gameObject.GetComponent<IDamageable>();
+                if (damageable != null)
+                {
+                    damageable.TakeDamage(damage);
+                }
             }
+            push = true;
+            gameObject.SetActive(false);
         }
-        direction = Vector3.zero;
-        push = true;
-        gameObject.SetActive(false);
     }
 }

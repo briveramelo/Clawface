@@ -7,46 +7,57 @@ public class BlasterMod : Mod {
 
     [SerializeField]
     private float rangeBoostValue;
-    IMovable playerMoveable;
+    PlayerMovement playerMovement;
 
     [SerializeField]
     private float kickbackMagnitude;
 
+    private bool readyToShoot;
+
+    [SerializeField]
+    private float coolDownTime;
+
     public override void Activate()
     {
-        Shoot();
+        if (readyToShoot)
+        {
+            Shoot();
+            readyToShoot = false;
+            StartCoroutine(CoolDown());
+        }
+    }
+
+
+    IEnumerator CoolDown()
+    {
+        yield return new WaitForSeconds(coolDownTime);
+        readyToShoot = true;
     }
 
     void Shoot()
     {
         GameObject blasterBullet = BulletPool.instance.getBlasterBullet();
         blasterBullet.transform.position = transform.position;
+        blasterBullet.transform.rotation = transform.rotation;
         if (getModSpot() == ModSpot.Legs)
-        {
-            blasterBullet.GetComponent<BlasterBullet>().setDirection(-transform.up);
-            KickBack(transform.up);
+        {            
+            KickBack(playerMovement.gameObject.transform.up);
         }
         else
-        {
-            blasterBullet.GetComponent<BlasterBullet>().setDirection(transform.forward);
-            KickBack(-transform.forward);
+        {            
+            KickBack(-playerMovement.gameObject.transform.forward);
         }
         blasterBullet.SetActive(true);
     }
 
-    public void setPlayerMoveable(IMovable moveable)
-    {
-        playerMoveable = moveable;
-    }
-
     void KickBack(Vector3 direction)
     {
-        playerMoveable.AddExternalForce(direction * kickbackMagnitude);
+        playerMovement.AddExternalForce(direction * kickbackMagnitude);
     }
 
-    public override void AttachAffect(ref Stats i_playerStats, ref IMovable moveable)
+    public override void AttachAffect(ref Stats i_playerStats, ref PlayerMovement movement)
     {
-        playerMoveable = moveable;
+        playerMovement = movement;
         playerStats = i_playerStats;
         pickupCollider.enabled = false;
         if (getModSpot() == ModSpot.Head)
@@ -68,12 +79,13 @@ public class BlasterMod : Mod {
     public override void DetachAffect()
     {
         playerStats.Modify(StatType.MiniMapRange, 1 / rangeBoostValue);
+        pickupCollider.enabled = true;
     }
 
     // Use this for initialization
     void Start () {
-		
-	}
+        readyToShoot = true;
+    }
 	
 	// Update is called once per frame
 	void Update () {

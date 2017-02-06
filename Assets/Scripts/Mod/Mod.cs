@@ -17,7 +17,7 @@ public abstract class Mod : MonoBehaviour {
 
     public abstract void DeActivate();
 
-    public abstract void AttachAffect(ref Stats playerStats, ref IMovable playerMovable);
+    public abstract void AttachAffect(ref Stats playerStats, ref PlayerMovement playerMovement);
 
     public abstract void DetachAffect();
 

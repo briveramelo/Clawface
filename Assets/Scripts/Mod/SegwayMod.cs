@@ -125,7 +125,7 @@ public class SegwayMod : Mod {
         }
     }
 
-    public override void AttachAffect(ref Stats i_playerStats)
+    public override void AttachAffect(ref Stats i_playerStats, ref PlayerMovement playerMovement)
     {
         //TODO:Disable pickup collider
         playerStats = i_playerStats;
