@@ -10,24 +10,35 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
     enum MallCopState
     {
         WALK = 0,
-        ATTACK = 1
+        ATTACK = 1,
+        STUNNED =2
     }
 
     [SerializeField] Stats myStats;
     [SerializeField] GameObject skin;
+    [SerializeField] Rigidbody rigbod;
 
-    public float attackTime = 10.0f;
-    public float attackRange = 1.0f;
+    [SerializeField, Range(5f, 15f)] private float attackTime;
+    [SerializeField, Range(1,2)] private float maxRunSpeedMultiplier;
+    [SerializeField, Range(2,10)] private float redirectionAccelerationMultipler;
+    [SerializeField, Range(350,600)] private float acceleration;
+    [SerializeField, Range(1, 6)] private int numShocksToStun;
+    [SerializeField, Range(.1f, 1)] private float twitchRange;
+    [SerializeField, Range(.1f, 1f)] private float twitchTime;
+    [SerializeField, Range(30,50)] private float rotationSpeed;
 
     private MallCopState currentState = MallCopState.WALK;
     private GameObject attackTarget;
+    float rotationMultiplier;
+    Vector3 startStunPosition;
 
-    private float rotationMultiplier = 0.0f;
+    int stunCount;
+
 
 	// Use this for initialization
 	void Start ()
     {
-        rotationMultiplier = Random.Range(-1.0f, 1.0f);
+        rotationMultiplier = 1;// (Random.value > 0.5 ? 1 : -1 ) * Random.Range(.5f, 1.0f);
     }
 
     void IDamageable.TakeDamage(float damage)
@@ -51,12 +62,18 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
 
     void IStunnable.Stun()
     {
-        
+        stunCount++;
+        if (stunCount >= numShocksToStun) {
+            stunCount = 0;
+            startStunPosition = transform.position;
+            currentState = MallCopState.STUNNED;
+            Invoke("SetMallCopToWalk", twitchTime);
+        }
     }
 
     void IMovable.AddExternalForce(Vector3 force)
     {
-        
+        rigbod.AddForce(force);
     }
 
     // Update is called once per frame
@@ -70,28 +87,47 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
             case MallCopState.ATTACK:
                 Attack();
                 break;
-            default:
+            case MallCopState.STUNNED:
+                Twitch();
                 break;
         }
     }
 
-    void Walk()
-    {
-        float rotationSpeed = 50.0f;
-        transform.Rotate(rotationMultiplier * rotationSpeed * Vector3.up * Time.deltaTime);
-        transform.Translate(myStats.GetStat(StatType.MoveSpeed) * Vector3.forward * Time.deltaTime);
+    private void SetMallCopToWalk() {
+        currentState = MallCopState.WALK;
     }
 
-    void Attack()
+    private void Walk()
     {
-        float distance = Vector3.Distance(attackTarget.transform.position, transform.position);
-
-        if(distance > attackRange)
-        {
-            float chaseSpeed = myStats.GetStat(StatType.MoveSpeed) * 2.0f;
-            transform.position = Vector3.MoveTowards(transform.position, attackTarget.transform.position, chaseSpeed * Time.deltaTime);
-            transform.LookAt(attackTarget.transform);
+        transform.Rotate(rotationMultiplier * rotationSpeed * Vector3.up * Time.deltaTime);
+        if (ShouldAddMoreForce(myStats.GetStat(StatType.MoveSpeed))) {
+            Vector3 movementDirection = transform.forward;
+            float movementForce = acceleration * Time.deltaTime;
+            rigbod.AddForce(movementDirection * movementForce);
         }
+    }
+
+    private bool ShouldAddMoreForce(float maxSpeed) {
+        float speedProjection = Vector3.Dot(rigbod.velocity, transform.forward);
+        return speedProjection < maxSpeed;
+    }
+
+    private bool ShouldRunQuickly() {
+        float speedProjection = Vector3.Dot(rigbod.velocity, transform.forward);
+        return speedProjection < 0.1f;
+    }
+
+    private void Attack()
+    {        
+        transform.LookAt(attackTarget.transform);
+        Vector3 movementDirection = (attackTarget.transform.position - transform.position).normalized;
+        float movementForce = acceleration * Time.deltaTime;
+        if (ShouldAddMoreForce(myStats.GetStat(StatType.MoveSpeed) * maxRunSpeedMultiplier)) {
+            if (ShouldRunQuickly()){
+                movementForce *= redirectionAccelerationMultipler;
+            }
+            rigbod.AddForce(movementDirection * movementForce);
+        }            
 
         attackTime -= Time.deltaTime;
 
@@ -101,12 +137,21 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
         }
     }
 
+    private void Twitch() {
+        //TODO: Make this allow getting pushed
+        Vector3 newPosition = Random.insideUnitSphere * twitchRange;
+        newPosition.z = Mathf.Abs(newPosition.z);
+        transform.position = startStunPosition + newPosition;
+    }
+
     private void OnTriggerStay(Collider other)
     {
-        if (other.name == Strings.PLAYER)
-        {
-            currentState = MallCopState.ATTACK;
-            attackTarget = other.gameObject;
+        if (currentState==MallCopState.WALK) {
+            if (other.name == Strings.PLAYER)
+            {
+                attackTarget = other.gameObject;
+                currentState = MallCopState.ATTACK;
+            }
         }
     }
 

@@ -195,7 +195,6 @@ public class ModManager : MonoBehaviour
             ModUIManager.Instance.SwapMods(sourceSpot, targetSpot);
         }
         SetAllModUIToIdle();        
-        Debug.Log("SWAPPING");
     }
 
     private ModSpot GetModSpot(Mod mod)
