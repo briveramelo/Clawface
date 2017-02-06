@@ -14,7 +14,7 @@ public interface IStunnable
 
 public interface IDamageable
 {
-    void TakeDamage(int damage);
+    void TakeDamage(float damage);
 }
 
 public interface IModifiable
@@ -29,13 +29,17 @@ public interface IUnlockable
 
 }
 
-public interface ICollectable
-{
-    void Collect();
+public interface ICollectable{
+    GameObject Collect();
+    bool IsCollectable();
 }
 
 public interface ISkinnable
 {
     void Glow();
-    void DeSkin();
+    void DeSkin();    
+}
+
+public interface ICodexLoggable {
+    CodexType GetCodexType();
 }

@@ -61,20 +61,20 @@ public class PlayerMovement : MonoBehaviour {
     // Update is called once per frame
     void Update() {
 
-        float h = Input.GetAxis("Horizontal");
-        float v = Input.GetAxis("Vertical");
+        float h = Input.GetAxis(Strings.MOVEX);
+        float v = Input.GetAxis(Strings.MOVEY);
 
-        float rightH = Input.GetAxis("Camera X");
-        float rightV = Input.GetAxis("Camera Y");
+        float rightH = Input.GetAxis(Strings.AIMX);
+        float rightV = Input.GetAxis(Strings.AIMY);
 
         axisInput = CheckForAxisInput(h, v);
-        rightAxisInput = CheckForAxisInput(rightH, rightV);
+        rightAxisInput = CheckForAxisInput(rightV, rightH);
 
         float hModified = h;
         float vModified = v;
 
-        float rightHModified = rightH;
-        float rightVModified = rightV;
+        float rightHModified = rightV;
+        float rightVModified = rightH;
 
         if (isSidescrolling)
         {
@@ -114,17 +114,17 @@ public class PlayerMovement : MonoBehaviour {
         rigid.velocity = movement * speed * Time.fixedDeltaTime + GetExternalForceSum();
         if (!axisInput)
         {
-            if (rightAxisInput)
+            if (rightAxisInput && rightJoystickMovement != Vector3.zero)
             {
                 transform.forward = rightJoystickMovement;
             }
-            else
+            else if(lastMovement != Vector3.zero)
             {
                 transform.forward = lastMovement;
             }
         }
         else
-        {   if (rightAxisInput)
+        {   if (rightAxisInput && rightJoystickMovement != Vector3.zero)
             {
                 transform.forward = rightJoystickMovement;
             }
