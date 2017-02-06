@@ -15,7 +15,8 @@ public class PlayerMovement : MonoBehaviour {
     [SerializeField] private bool canMove = true;
     [SerializeField] private Vector3 lastMovement;
     [SerializeField] private Vector3 rightJoystickMovement;
-    
+
+    private Stats stats;
 
 
     private Dictionary<ModSpot, bool> modSpotConstantForceIndices = new Dictionary<ModSpot, bool>() {
@@ -45,6 +46,7 @@ public class PlayerMovement : MonoBehaviour {
     void Awake()
     {
         rigid = GetComponent<Rigidbody>();
+        stats = GetComponent<Stats>();
     }
 
     // Use this for initialization
@@ -68,13 +70,13 @@ public class PlayerMovement : MonoBehaviour {
         float rightV = Input.GetAxis(Strings.AIMY);
 
         axisInput = CheckForAxisInput(h, v);
-        rightAxisInput = CheckForAxisInput(rightV, rightH);
+        rightAxisInput = CheckForAxisInput(rightH, rightV);
 
         float hModified = h;
         float vModified = v;
 
-        float rightHModified = rightV;
-        float rightVModified = rightH;
+        float rightHModified = rightH;
+        float rightVModified = rightV;
 
         if (isSidescrolling)
         {
@@ -111,7 +113,7 @@ public class PlayerMovement : MonoBehaviour {
 
     private void FixedUpdate()
     {
-        rigid.velocity = movement * speed * Time.fixedDeltaTime + GetExternalForceSum();
+        rigid.velocity = movement * stats.GetStat(StatType.MoveSpeed) * Time.fixedDeltaTime + GetExternalForceSum();
         if (!axisInput)
         {
             if (rightAxisInput && rightJoystickMovement != Vector3.zero)
@@ -120,7 +122,10 @@ public class PlayerMovement : MonoBehaviour {
             }
             else if(lastMovement != Vector3.zero)
             {
-                transform.forward = lastMovement;
+                if (lastMovement != Vector3.zero)
+                {
+                    transform.forward = lastMovement;
+                }
             }
         }
         else
@@ -130,7 +135,10 @@ public class PlayerMovement : MonoBehaviour {
             }
             else
             {
-                transform.forward = movement;
+                if (movement != Vector3.zero)
+                {
+                    transform.forward = movement;
+                }
             }
         }
     }
@@ -221,7 +229,7 @@ public class PlayerMovement : MonoBehaviour {
 
         Collider[] cols = Physics.OverlapSphere(foot.transform.position, sphereRadius);
         for (int i = 0; i < cols.Length; i++) {
-            if (cols[i].gameObject.layer != (int)Layers.ModMan) {
+            if (cols[i].gameObject.layer == (int)Layers.Ground) {
                 return true;
             }
         }

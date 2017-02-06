@@ -11,6 +11,7 @@ public abstract class Mod : MonoBehaviour {
     public Collider pickupCollider;
 
     protected Stats playerStats;
+    protected List<IDamageable> recentlyHitEnemies = new List<IDamageable>();
 
     public abstract void Activate();
 
