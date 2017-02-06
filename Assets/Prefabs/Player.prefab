@@ -90,7 +90,6 @@ GameObject:
   - component: {fileID: 23602496234249152}
   - component: {fileID: 114848672774352672}
   - component: {fileID: 54593462617906176}
-  - component: {fileID: 114461787128331274}
   - component: {fileID: 114480504078377090}
   m_Layer: 8
   m_Name: Player
@@ -137,6 +136,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4742359599093428}
+  - component: {fileID: 114555581414176706}
+  - component: {fileID: 135512330243647842}
   m_Layer: 8
   m_Name: ModSockets
   m_TagString: Untagged
@@ -274,7 +275,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1462939086107674}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.5, y: 1.9, z: -1.3}
+  m_LocalPosition: {x: 2.94, y: 1.64, z: 3.45}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4193535494941612}
@@ -398,22 +399,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerStats: {fileID: 114480504078377090}
---- !u!114 &114461787128331274
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1462939086107674}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68f5f977dccf3164fbb802e448ce69d8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  headSocket: {fileID: 4072403011179956}
-  leftArmSocket: {fileID: 4687321652014448}
-  rightArmSocket: {fileID: 4279700776781878}
-  legsSocket: {fileID: 4184520404886266}
-  playerStats: {fileID: 114480504078377090}
 --- !u!114 &114480504078377090
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -426,6 +411,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   statsObject: {fileID: 11400000, guid: 26d1bfe71d20b8a46a9ce57ae6c35674, type: 2}
+--- !u!114 &114555581414176706
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1934217911305638}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68f5f977dccf3164fbb802e448ce69d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  headSocket: {fileID: 4072403011179956}
+  leftArmSocket: {fileID: 4687321652014448}
+  rightArmSocket: {fileID: 4279700776781878}
+  legsSocket: {fileID: 4184520404886266}
+  playerStats: {fileID: 114480504078377090}
 --- !u!114 &114848672774352672
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -469,6 +470,18 @@ SphereCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 1.4
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!135 &135512330243647842
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1934217911305638}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.5
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!136 &136903383952019476
 CapsuleCollider:
