@@ -20,7 +20,7 @@ public class ItemCollector : MonoBehaviour {
                 (Input.GetButtonDown(Strings.PREPARETOPICKUPORDROP) &&
                 Input.GetButton(Strings.PREPARETOSWAP))) {
 
-                if (col.GetComponent<ICollectable>().IsCollectable()) {
+                if (col.GetComponent<ISkinnable>().IsSkinnable()) {
                     CollectSkin(col);
                 }
             }
@@ -32,9 +32,8 @@ public class ItemCollector : MonoBehaviour {
     }
 
     void CollectSkin(Collider col) {
-        col.GetComponent<ICollectable>().Collect();
-
-        playerStats.Modify(StatType.Health, (int)5);
+        col.GetComponent<ISkinnable>().DeSkin();
+        playerStats.Modify(StatType.Health, 5);
     }
 
 }

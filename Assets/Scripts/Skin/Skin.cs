@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Skin : MonoBehaviour, ISkinnable
+public class Skin : MonoBehaviour
 {
 
 	public Color GlowColor;
@@ -14,13 +14,12 @@ public class Skin : MonoBehaviour, ISkinnable
     private Color targetColor;
 
     bool flag = false;
-    void ISkinnable.DeSkin()
+    void DeSkin()
     {
         Debug.Log("DEGLOVED");
     }
 
-    void ISkinnable.Glow()
-    {
+    void Glow() {     
         StartCoroutine(TurnOnGlow());
     }
 
@@ -37,6 +36,7 @@ public class Skin : MonoBehaviour, ISkinnable
     {
         if (!flag && Input.GetKeyDown(KeyCode.A))
         {
+            flag = true;
             StartCoroutine(TurnOnGlow());
         }
         

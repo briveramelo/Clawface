@@ -31,13 +31,12 @@ public interface IUnlockable
 
 public interface ICollectable{
     GameObject Collect();
-    bool IsCollectable();
 }
 
 public interface ISkinnable
 {
-    void Glow();
-    void DeSkin();    
+    bool IsSkinnable();
+    GameObject DeSkin();    
 }
 
 public interface ICodexLoggable {
