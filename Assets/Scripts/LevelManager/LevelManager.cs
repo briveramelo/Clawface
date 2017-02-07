@@ -736,9 +736,9 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
         int levelIndex = LevelIndexOfObject (obj);
         _loadedLevel.DeleteObject (_selectedFloor, levelIndex);
         _objectCounts[deletedObjectIndex]--;
+        _undoStack.Push(new DeleteObjectAction(obj, deletedObjectIndex));
         DestroyLoadedObject(obj);
         _dirty = true;
-        _undoStack.Push(new DeleteObjectAction(obj, deletedObjectIndex));
         if (clearRedoStack) _redoStack.Clear();
     }
 
@@ -746,25 +746,23 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
         if (_undoStack.Count <= 0) return;
 
         var undoAction = _undoStack.Pop();
-        undoAction.Undo();
         AddRedo(undoAction);
+        undoAction.Undo();
     }
 
     public void Redo() {
         if (_redoStack.Count <= 0) return;
 
         var redoAction = _redoStack.Pop();
-        redoAction.Redo();
         AddUndo(redoAction);
+        redoAction.Redo();
     }
 
     public void AddRedo(LevelEditorAction redo) {
-        Debug.Log(redo.ToString());
         _redoStack.Push(redo);
     }
 
     public void AddUndo(LevelEditorAction undo) {
-        Debug.Log(undo.ToString());
         _undoStack.Push(undo);
     }
 
