@@ -36,6 +36,7 @@ public class PlayerMovement : MonoBehaviour, IMovable {
     private Rigidbody rigid;
 
     private RaycastHit hitInfo;
+    [SerializeField]
     private bool isGrounded;
     private bool isFalling = false;
     private float sphereRadius = 0.1f;
