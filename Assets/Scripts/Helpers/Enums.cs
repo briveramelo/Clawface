@@ -20,8 +20,18 @@ public enum CodexType {
 }
 
 public enum SFXType {
-    ArmBlaster_Fire = 0,
-    ArmBlaster_Explode=1
+    ArmBlasterFire = 0,
+    ArmBlasterExplode=1,
+    TargetBreak=2,
+    StunBatonSwing=3,
+    StunBatonLayMine=4,
+    StunBatonExplodeMine=5,
+    ForceSegwayPush=6,
+    FingerprintUnlock=7,
+    ModPickup=8,
+    ModDrop=9,
+    ModSwap=10,
+    ModSwapSetup=11
 }
 
 public enum ModType {
