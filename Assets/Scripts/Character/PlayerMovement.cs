@@ -19,7 +19,8 @@ public class PlayerMovement : MonoBehaviour {
     private Stats stats;
 
 
-    private Dictionary<ModSpot, bool> modSpotConstantForceIndices = new Dictionary<ModSpot, bool>() {
+    private Dictionary<ModSpot, bool> modSpotConstantForceIndices = new Dictionary<ModSpot, bool>()
+    {
         {ModSpot.Head, false},
         {ModSpot.Legs, false},
         {ModSpot.ArmL, false},
@@ -113,7 +114,8 @@ public class PlayerMovement : MonoBehaviour {
 
     private void FixedUpdate()
     {
-        rigid.velocity = movement * stats.GetStat(StatType.MoveSpeed) * Time.fixedDeltaTime + GetExternalForceSum();        
+        rigid.velocity = movement * stats.GetStat(StatType.MoveSpeed) * Time.fixedDeltaTime + GetExternalForceSum();  
+              
         if (!axisInput)
         {
             if (rightAxisInput && rightJoystickMovement != Vector3.zero)
