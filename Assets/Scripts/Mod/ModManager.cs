@@ -26,7 +26,10 @@ public class ModManager : MonoBehaviour
     ModSpot modToSwap;
     ModSpot lastModToSwap;
     bool isOkToDropMod = true;
-    bool isOkToSwapMods = true;    
+    bool isOkToSwapMods = true;
+
+    [SerializeField]
+    float triggerThreshold;
 
     // Use this for initialization
     void Start()
@@ -46,7 +49,19 @@ public class ModManager : MonoBehaviour
         SetModToSwap();
         if (isOkToSwapMods) {
             CheckToSwapMods();
-        }        
+        }
+        CheckToActivateMod();
+    }
+
+    private void CheckToActivateMod()
+    {
+        if(!Input.GetButton(Strings.PREPARETOPICKUPORDROP) && !Input.GetButton(Strings.PREPARETOSWAP))
+        {
+            ModSpot spot = GetCommandedModSpot();
+            ModSocket socket;
+            modSocketDictionary.TryGetValue(spot, out socket);
+            socket.mod.Activate();
+        }
     }
 
     private ModSpot GetCommandedModSpot()
@@ -59,11 +74,11 @@ public class ModManager : MonoBehaviour
         {
             return ModSpot.Legs;
         }
-        if (Input.GetButtonDown(Strings.LEFT))
+        if (Input.GetButtonDown(Strings.LEFT) || Input.GetAxis(Strings.LEFTTRIGGER) != triggerThreshold)
         {
             return ModSpot.ArmL;
         }
-        if (Input.GetButtonDown(Strings.RIGHT))
+        if (Input.GetButtonDown(Strings.RIGHT) || Input.GetAxis(Strings.RIGHTTRIGGER) != triggerThreshold)
         {
             return ModSpot.ArmR;
         }        
@@ -71,8 +86,7 @@ public class ModManager : MonoBehaviour
     }
 
     void CheckToDropMod()
-    {
-        
+    {   
         if (Input.GetButton(Strings.PREPARETOPICKUPORDROP)) {
             ModSpot spotSelected = GetCommandedModSpot();            
             if (spotSelected != ModSpot.Default && modSocketDictionary[spotSelected].mod != null) {
