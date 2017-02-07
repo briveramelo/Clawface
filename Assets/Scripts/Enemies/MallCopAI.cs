@@ -1,11 +1,10 @@
 ﻿//MallCop AI created by Lai
-//OnTriggerEnter has a magic string "Player". Fixed by using tag???
 
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDamageable
+public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDamageable, ISkinnable
 {
     enum MallCopState
     {
@@ -14,8 +13,9 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
         STUNNED =2
     }
 
+    [SerializeField] GlowObject skinGlowScript;
     [SerializeField] Stats myStats;
-    [SerializeField] GameObject skin;
+    [SerializeField] GameObject mySkin;
     [SerializeField] Rigidbody rigbod;
 
     [SerializeField, Range(5f, 15f)] private float attackTime;
@@ -29,10 +29,10 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
 
     private MallCopState currentState = MallCopState.WALK;
     private GameObject attackTarget;
-    float rotationMultiplier;
-    Vector3 startStunPosition;
-
-    int stunCount;
+    private float rotationMultiplier;
+    private Vector3 startStunPosition;
+    private int stunCount;
+    bool isGlowing = false;
 
 
 	// Use this for initialization
@@ -44,6 +44,10 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
     void IDamageable.TakeDamage(float damage)
     {
         myStats.TakeDamage(damage);
+        if (myStats.GetStat(StatType.Health) <= 5 && !isGlowing) {
+            isGlowing = true;
+            skinGlowScript.SetToGlow();
+        }
         if (myStats.GetStat(StatType.Health) <= 0) {
             Destroy(gameObject);
         }
@@ -51,13 +55,19 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
 
     GameObject ICollectable.Collect()
     {
-        GameObject droppedSkin = Instantiate(skin, null, true) as GameObject;
+        GameObject droppedSkin = Instantiate(mySkin, null, true) as GameObject;
         return droppedSkin;
     }
 
-    bool ICollectable.IsCollectable()
+    bool ISkinnable.IsSkinnable()
     {
-        return myStats.GetStat(StatType.Health)<2;
+        return myStats.GetStat(StatType.Health)<=5;
+    }
+
+    GameObject ISkinnable.DeSkin()
+    {
+        Destroy(gameObject, 0.1f);
+        return Instantiate(mySkin, null, false);
     }
 
     void IStunnable.Stun()
@@ -161,7 +171,8 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
         currentState = MallCopState.WALK;
         attackTarget = null;
         rotationMultiplier = Random.Range(-1.0f, 1.0f);
+        
     }
 
-    
+
 }

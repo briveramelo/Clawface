@@ -7,19 +7,12 @@ public class CodexEntry : MonoBehaviour, ICollectable {
 
     [SerializeField] CodexType codexType;
     [SerializeField] GameObject codexToPass;
-    bool isCollectable = true;
 
     GameObject ICollectable.Collect()
     {
-        isCollectable = false;
         TheCodex.Instance.CollectCodex(codexType);
         Destroy(gameObject, 0.01f);
         return codexToPass;
-    }
-
-    bool ICollectable.IsCollectable()
-    {
-        return isCollectable;
     }
 
 }
