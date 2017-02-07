@@ -21,7 +21,8 @@ public class StunMine : MonoBehaviour {
     {
         if(other.tag == Strings.ENEMY)
         {
-            other.gameObject.GetComponent<IDamageable>().TakeDamage(damage);
+            other.GetComponent<IDamageable>().TakeDamage(damage);
+            other.GetComponent<IStunnable>().Stun();
             gameObject.SetActive(false);
         }
     }

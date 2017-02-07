@@ -8,9 +8,7 @@ public class BatonMod : Mod {
     [SerializeField]
     private float attackBoostValue;
     private float attackValue;
-
-    [SerializeField]
-    private Collider pickupCollider;
+    private float attackTime = 0.5f;
 
     [SerializeField]
     private Collider attackCollider;
@@ -54,13 +52,13 @@ public class BatonMod : Mod {
             switch (getModSpot())
             {
                 case ModSpot.ArmL:
-                    if (Input.GetButton(Strings.LEFT))
+                    if (Input.GetButton(Strings.LEFT) || Input.GetAxis(Strings.LEFTTRIGGER) != 0)
                     {
                         Activate();
                     }
                     break;
                 case ModSpot.ArmR:
-                    if (Input.GetButton(Strings.RIGHT))
+                    if (Input.GetButton(Strings.RIGHT) || Input.GetAxis(Strings.RIGHTTRIGGER) != 0)
                     {
                         Activate();
                     }
@@ -91,7 +89,8 @@ public class BatonMod : Mod {
 
     IEnumerator HitCoolDown()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(attackTime);
+        recentlyHitEnemies.Clear();
         isHitting = false;
     }
 
@@ -109,7 +108,12 @@ public class BatonMod : Mod {
     {
         if (other.tag == Strings.ENEMY && isHitting)
         {
-            other.gameObject.GetComponent<IDamageable>().TakeDamage(attackValue);
+            IDamageable damageable = other.gameObject.GetComponent<IDamageable>();
+            if (!recentlyHitEnemies.Contains(damageable)) {
+                damageable.TakeDamage(attackValue);
+                other.gameObject.GetComponent<IStunnable>().Stun();
+                recentlyHitEnemies.Add(damageable);
+            }                        
         }
     }
 
@@ -123,9 +127,10 @@ public class BatonMod : Mod {
         playerStats.Modify(StatType.Attack, 1 / attackBoostValue);
     }
 
-    public override void AttachAffect(ref Stats i_playerStats)
+    public override void AttachAffect(ref Stats i_playerStats, ref PlayerMovement playerMovement)
     {
         //TODO:Disable pickup collider
+        attackCollider.enabled = true;
         playerStats = i_playerStats;
         pickupCollider.enabled = false;
         if (getModSpot() == ModSpot.Head)
@@ -140,6 +145,7 @@ public class BatonMod : Mod {
     public override void DetachAffect()
     {
         //TODO:Enable pickup collider
+        attackCollider.enabled = false;
         pickupCollider.enabled = true;
         if (getModSpot() == ModSpot.Head)
         {

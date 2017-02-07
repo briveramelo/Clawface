@@ -6,16 +6,13 @@ using UnityEngine;
 public class CodexEntry : MonoBehaviour, ICollectable {
 
     [SerializeField] CodexType codexType;
+    [SerializeField] GameObject codexToPass;
 
-    void ICollectable.Collect()
+    GameObject ICollectable.Collect()
     {
         TheCodex.Instance.CollectCodex(codexType);
-        Destroy(gameObject);
-    }
-
-    bool ICollectable.IsCollectable()
-    {
-        return true;
+        Destroy(gameObject, 0.01f);
+        return codexToPass;
     }
 
 }

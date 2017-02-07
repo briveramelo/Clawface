@@ -29,10 +29,14 @@ public interface IUnlockable
 
 }
 
-public interface ICollectable
+public interface ICollectable{
+    GameObject Collect();
+}
+
+public interface ISkinnable
 {
-    void Collect();
-    bool IsCollectable();
+    bool IsSkinnable();
+    GameObject DeSkin();    
 }
 
 public interface ICodexLoggable {
