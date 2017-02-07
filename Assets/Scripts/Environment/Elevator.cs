@@ -1,12 +1,12 @@
 ﻿//Elevator created by Lai
-//Use keyboard A to tirgger
-//Player has to have Rigidbody with Gravity
+//Use keyboard A and S to tirgger
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Elevator : MonoBehaviour
+public class Elevator : MonoBehaviour, IUnlockable
 {
     enum State
     {
@@ -16,32 +16,39 @@ public class Elevator : MonoBehaviour
     }
 
     public float moveSpeed = 1.0f;
+    public GameObject MaxPointObject;
 
     private State m_state = State.Down;
     private Vector3 initPosition = Vector3.zero;
     private Vector3 maxPosition = Vector3.zero;
+    private GameObject playerObject;
 
     // Use this for initialization
     void Start ()
     {
         initPosition = transform.position;
-        maxPosition = transform.GetChild(0).transform.position;
+        maxPosition = MaxPointObject.transform.position;
 	}
 	
 	// Update is called once per frame
 	void Update ()
     {
-        if (Input.GetKey(KeyCode.A) && m_state == State.Down) 
-        {
-            StartCoroutine(moveUp());
-        }
-
-        if (Input.GetKey(KeyCode.S) && m_state == State.Up)
-        {
-            StartCoroutine(moveDown());
-        }
+   
     }
 
+    void OnTriggerStay(Collider other)
+    {
+        if (Input.GetKey(KeyCode.A) && m_state == State.Down)
+        {
+            playerObject = other.gameObject;
+            Unlock();
+        }
+        else if (Input.GetKey(KeyCode.S) && m_state == State.Up)
+        {
+            playerObject = other.gameObject;
+            Unlock();
+        }
+    }
 
     IEnumerator moveUp()
     {
@@ -53,6 +60,7 @@ public class Elevator : MonoBehaviour
             yield return 0;
         }
 
+        playerObject.transform.parent = null;
         yield return new WaitForSeconds(2);
         m_state = State.Up;
     }
@@ -68,7 +76,23 @@ public class Elevator : MonoBehaviour
             yield return 0;
         }
 
+        playerObject.transform.parent = null;
         yield return new WaitForSeconds(2);
         m_state = State.Down;
+    }
+
+    public void Unlock()
+    {
+        playerObject.transform.parent = transform;
+
+        if (m_state == State.Down)
+        {
+            StartCoroutine(moveUp());
+        }
+
+        if (m_state == State.Up)
+        {
+            StartCoroutine(moveDown());
+        }
     }
 }
