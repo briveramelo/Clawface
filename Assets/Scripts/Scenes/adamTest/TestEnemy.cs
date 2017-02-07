@@ -7,7 +7,7 @@ public class TestEnemy : MonoBehaviour, IDamageable, IMovable {
 
     private Rigidbody rigid;
 
-    public void AddExternalForce(Vector3 force)
+    void IMovable.AddExternalForce(Vector3 force, float decay)
     {
         Debug.Log("Applied force: " + force);
         force = new Vector3(force.x, 0f, force.z);
