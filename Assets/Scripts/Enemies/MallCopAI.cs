@@ -91,9 +91,9 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
         }
     }
 
-    void IMovable.AddExternalForce(Vector3 forceVector)
+    void IMovable.AddExternalForce(Vector3 forceVector, float decay)
     {
-        StartCoroutine(AddPsuedoForce(forceVector));
+        StartCoroutine(AddPsuedoForce(forceVector, decay));
     }
 
     // Update is called once per frame
@@ -166,7 +166,7 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
         return totalExternalForce;
     }
 
-    private IEnumerator AddPsuedoForce(Vector3 forceVector)
+    private IEnumerator AddPsuedoForce(Vector3 forceVector, float decay)
     {
         int currentIndex = externalForces.FindIndex(vec => vec == Vector3.zero);
 
@@ -174,7 +174,7 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
 
         while (externalForces[currentIndex].magnitude > .2f)
         {
-            externalForces[currentIndex] = Vector3.Lerp(externalForces[currentIndex], Vector3.zero, 0.1f);
+            externalForces[currentIndex] = Vector3.Lerp(externalForces[currentIndex], Vector3.zero, decay);
             yield return null;
         }
         externalForces[currentIndex] = Vector3.zero;
