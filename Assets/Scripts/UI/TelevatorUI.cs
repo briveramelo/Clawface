@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class ElevatorUI : MonoBehaviour {
+public class TelevatorUI : MonoBehaviour {
 
     // An enum to make things a little easier for now
     public enum Floor
