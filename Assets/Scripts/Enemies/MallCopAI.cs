@@ -19,9 +19,6 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
     [SerializeField] Rigidbody rigbod;
 
     [SerializeField, Range(5f, 15f)] private float attackTime;
-    [SerializeField, Range(1,2)] private float maxRunSpeedMultiplier;
-    [SerializeField, Range(2,10)] private float redirectionAccelerationMultipler;
-    [SerializeField, Range(350,600)] private float acceleration;
     [SerializeField, Range(1, 6)] private int numShocksToStun;
     [SerializeField, Range(.1f, 1)] private float twitchRange;
     [SerializeField, Range(.1f, 1f)] private float twitchTime;
@@ -31,13 +28,26 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
     private GameObject attackTarget;
     private float rotationMultiplier;
     private Vector3 startStunPosition;
+    private List<Vector3> externalForces;
+    private Rigidbody rigid;
     private int stunCount;
     bool isGlowing = false;
 
-
-	// Use this for initialization
-	void Start ()
+    void Awake()
     {
+        rigid = GetComponent<Rigidbody>();
+    }
+
+    // Use this for initialization
+    void Start ()
+    {
+        externalForces = new List<Vector3>();
+
+        for (int i = 0; i < 100; i++)
+        {
+            externalForces.Add(Vector3.zero);
+        }
+
         rotationMultiplier = 1;// (Random.value > 0.5 ? 1 : -1 ) * Random.Range(.5f, 1.0f);
     }
 
@@ -81,9 +91,9 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
         }
     }
 
-    void IMovable.AddExternalForce(Vector3 force)
+    void IMovable.AddExternalForce(Vector3 forceVector)
     {
-        rigbod.AddForce(force);
+        StartCoroutine(AddPsuedoForce(forceVector));
     }
 
     // Update is called once per frame
@@ -107,38 +117,22 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
         currentState = MallCopState.WALK;
     }
 
+
     private void Walk()
     {
         transform.Rotate(rotationMultiplier * rotationSpeed * Vector3.up * Time.deltaTime);
-        if (ShouldAddMoreForce(myStats.GetStat(StatType.MoveSpeed))) {
-            Vector3 movementDirection = transform.forward;
-            float movementForce = acceleration * Time.deltaTime;
-            rigbod.AddForce(movementDirection * movementForce);
-        }
-    }
 
-    private bool ShouldAddMoreForce(float maxSpeed) {
-        float speedProjection = Vector3.Dot(rigbod.velocity, transform.forward);
-        return speedProjection < maxSpeed;
-    }
-
-    private bool ShouldRunQuickly() {
-        float speedProjection = Vector3.Dot(rigbod.velocity, transform.forward);
-        return speedProjection < 0.1f;
+        Vector3 movementDirection = transform.forward;
+        rigid.velocity = movementDirection * myStats.GetStat(StatType.MoveSpeed) * Time.fixedDeltaTime + GetExternalForceSum();
     }
 
     private void Attack()
     {        
         transform.LookAt(attackTarget.transform);
         Vector3 movementDirection = (attackTarget.transform.position - transform.position).normalized;
-        float movementForce = acceleration * Time.deltaTime;
-        if (ShouldAddMoreForce(myStats.GetStat(StatType.MoveSpeed) * maxRunSpeedMultiplier)) {
-            if (ShouldRunQuickly()){
-                movementForce *= redirectionAccelerationMultipler;
-            }
-            rigbod.AddForce(movementDirection * movementForce);
-        }            
 
+        rigid.velocity = movementDirection * myStats.GetStat(StatType.MoveSpeed) * Time.fixedDeltaTime + GetExternalForceSum();
+        
         attackTime -= Time.deltaTime;
 
         if (attackTime <= 0.0f)
@@ -165,14 +159,33 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
         }
     }
 
+    private Vector3 GetExternalForceSum()
+    {
+        Vector3 totalExternalForce = Vector3.zero;
+        externalForces.ForEach(force => totalExternalForce += force);
+        return totalExternalForce;
+    }
+
+    private IEnumerator AddPsuedoForce(Vector3 forceVector)
+    {
+        int currentIndex = externalForces.FindIndex(vec => vec == Vector3.zero);
+
+        externalForces[currentIndex] = forceVector;
+
+        while (externalForces[currentIndex].magnitude > .2f)
+        {
+            externalForces[currentIndex] = Vector3.Lerp(externalForces[currentIndex], Vector3.zero, 0.1f);
+            yield return null;
+        }
+        externalForces[currentIndex] = Vector3.zero;
+    }
+
     private void ResetToWalking()
     {
         attackTime = 10.0f;
         currentState = MallCopState.WALK;
         attackTarget = null;
         rotationMultiplier = Random.Range(-1.0f, 1.0f);
-        
     }
-
 
 }
