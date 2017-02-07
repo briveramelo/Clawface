@@ -220,13 +220,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 030b9b1e63597f64288d07d6a83978ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pickupCollider: {fileID: 65280161804594890}
   speedBoostValue: 1.25
   rangedAccuracyLoss: 0
-  pickupCollider: {fileID: 65280161804594890}
   attackCollider: {fileID: 136673235413560844}
   attackTime: 0.3
   attackDamageMod: 0.75
-  attackForce: 1500
+  attackForce: 50
   aoeCollider: {fileID: 64548073773440194}
   aoeTime: 0.3
   aoeDamageMod: 0.4

@@ -4,21 +4,26 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class Stats : MonoBehaviour, IModifiable {
-    
-    class VariableReference {
+public class Stats : MonoBehaviour, IModifiable
+{
+
+    class VariableReference
+    {
         public Func<object> Get { get; private set; }
         public Action<object> Set { get; private set; }
-        public VariableReference(Func<object> getter, Action<object> setter){
+        public VariableReference(Func<object> getter, Action<object> setter)
+        {
             Get = getter;
             Set = setter;
         }
     }
 
-    [SerializeField] StatsObject statsObject;
+    [SerializeField]
+    StatsObject statsObject;
     Dictionary<StatType, VariableReference> statDictionary;
 
-    void Awake() {
+    void Awake()
+    {
         StatsObject tempStatsObject = ScriptableObject.CreateInstance<StatsObject>();
         tempStatsObject.SetValues(statsObject);
         statsObject = tempStatsObject;
@@ -34,19 +39,23 @@ public class Stats : MonoBehaviour, IModifiable {
     }
 
 
-    public void Modify(StatType statType, float statMultiplier) {
+    public void Modify(StatType statType, float statMultiplier)
+    {
         statDictionary[statType].Set((float)statDictionary[statType].Get() * statMultiplier);
     }
 
-    public void Modify(StatType statType, int statAddend) {
+    public void Modify(StatType statType, int statAddend)
+    {
         statDictionary[statType].Set((float)statDictionary[statType].Get() + statAddend);
     }
 
-    public float GetStat(StatType statType) {
+    public float GetStat(StatType statType)
+    {
         return (float)statDictionary[statType].Get();
     }
 
-    public float TakeDamage(float damage){
+    public float TakeDamage(float damage)
+    {
         statDictionary[StatType.Health].Set((float)statDictionary[StatType.Health].Get() - damage);
         return (float)statDictionary[StatType.Health].Get();
     }
