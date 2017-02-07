@@ -23,9 +23,12 @@ public interface IModifiable
     void Modify(StatType statType, int statAddend);
 }
 
-public interface IUnlockable
+public interface ITriggerable
 {
-    void Unlock();
+    void Notify(); // Tells the Triggerable to get ready
+    void Activate(); // Activates the Triggerable
+    void Deactivate(); // Deactivates the Triggerable
+    void Wait(); // Tells the Triggerable to go into standby / wait
 
 }
 
