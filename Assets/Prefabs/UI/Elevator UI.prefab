@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 222799956741619754}
   - component: {fileID: 114807965672622116}
   m_Layer: 5
-  m_Name: Floor 2
+  m_Name: Floor 2 - Trials
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -106,7 +106,7 @@ GameObject:
   - component: {fileID: 222921544661000976}
   - component: {fileID: 114783714077962990}
   m_Layer: 5
-  m_Name: Floor 3
+  m_Name: Floor 3 - Arena
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -123,7 +123,7 @@ GameObject:
   - component: {fileID: 222847023435375812}
   - component: {fileID: 114761032055814180}
   m_Layer: 5
-  m_Name: Floor 1
+  m_Name: Floor 1 - Armory
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -191,13 +191,14 @@ GameObject:
   - component: {fileID: 223660174717397250}
   - component: {fileID: 114605297553024434}
   - component: {fileID: 114485962162223716}
+  - component: {fileID: 114764312993011900}
   m_Layer: 5
   m_Name: Elevator UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1684887296539416
 GameObject:
   m_ObjectHideFlags: 1
@@ -247,7 +248,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: TWO
+  m_Text: TRIALS
 --- !u!114 &114160058996896170
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -280,7 +281,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: ONE
+  m_Text: ARMORY
 --- !u!114 &114191044605426592
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -410,7 +411,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: THREE
+  m_Text: ARENA
 --- !u!114 &114605297553024434
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -492,6 +493,20 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114764312993011900
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1577481535733368}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec936b9aee00d1e4db87823144041c1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  arena: {fileID: 114783714077962990}
+  trials: {fileID: 114807965672622116}
+  armory: {fileID: 114761032055814180}
 --- !u!114 &114783714077962990
 MonoBehaviour:
   m_ObjectHideFlags: 1
