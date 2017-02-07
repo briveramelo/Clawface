@@ -6,15 +6,25 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour {
 
+    public enum MovementMode
+    {
+        PRECISE = 0,
+        ICE = 1
+    }
 
     [SerializeField] private Transform foot;
-    [SerializeField] private float speed;
+    [SerializeField] private float acceleration;
+    [SerializeField] private float maxSpeed;
     [SerializeField] private bool axisInput;
     [SerializeField] private bool rightAxisInput;
     [SerializeField] private bool isSidescrolling;
     [SerializeField] private bool canMove = true;
     [SerializeField] private Vector3 lastMovement;
     [SerializeField] private Vector3 rightJoystickMovement;
+    [SerializeField]
+    private float currentSpeed;
+
+    [SerializeField] private MovementMode movementMode;
 
     private Stats stats;
 
@@ -30,7 +40,7 @@ public class PlayerMovement : MonoBehaviour {
     #region Privates
 
     [SerializeField]
-    public Vector3 velocity;
+    private Vector3 velocity;
     private Rigidbody rigid;
 
     private RaycastHit hitInfo;
@@ -141,6 +151,8 @@ public class PlayerMovement : MonoBehaviour {
                 }
             }
         }
+
+        currentSpeed = rigid.velocity.magnitude;
     }
 
     private Vector3 GetExternalForceSum() {
