@@ -1,10 +1,11 @@
 ﻿// Adam Kay
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour {
+public class PlayerMovement : MonoBehaviour, IMovable {
 
 
     [SerializeField] private Transform foot;
@@ -261,5 +262,10 @@ public class PlayerMovement : MonoBehaviour {
 
         }
         return true;
+    }
+
+    void IMovable.AddExternalForce(Vector3 force)
+    {
+        AddExternalForce(force);
     }
 }
