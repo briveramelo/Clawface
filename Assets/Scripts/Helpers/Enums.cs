@@ -53,3 +53,9 @@ public enum Layers {
     MiniMap=10,
     Ground=11
 }
+
+public enum MovementMode
+{
+    PRECISE = 0,
+    ICE = 1
+}
