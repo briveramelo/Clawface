@@ -6,7 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Elevator : MonoBehaviour, IUnlockable
+public class Elevator : MonoBehaviour, ITriggerable
 {
     enum State
     {
@@ -41,12 +41,12 @@ public class Elevator : MonoBehaviour, IUnlockable
         if (Input.GetKey(KeyCode.A) && m_state == State.Down)
         {
             playerObject = other.gameObject;
-            Unlock();
+            Activate();
         }
         else if (Input.GetKey(KeyCode.S) && m_state == State.Up)
         {
             playerObject = other.gameObject;
-            Unlock();
+            Activate();
         }
     }
 
@@ -81,7 +81,7 @@ public class Elevator : MonoBehaviour, IUnlockable
         m_state = State.Down;
     }
 
-    public void Unlock()
+    public void Activate()
     {
         playerObject.transform.parent = transform;
 
@@ -95,4 +95,8 @@ public class Elevator : MonoBehaviour, IUnlockable
             StartCoroutine(moveDown());
         }
     }
+
+    public void Deactivate() { }
+    public void Notify() { }
+    public void Wait() { }
 }
