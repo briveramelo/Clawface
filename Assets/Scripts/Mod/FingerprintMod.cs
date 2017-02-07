@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class FingerprintMod : Mod {
 
-    IUnlockable unlockableObject;
+    ITriggerable unlockableObject;
     bool attached;
 
     [SerializeField]
@@ -15,7 +15,7 @@ public class FingerprintMod : Mod {
     {
         if (attached && unlockableObject != null)
         {
-            unlockableObject.Unlock();
+            unlockableObject.Activate();
         }
     }
 
@@ -42,7 +42,9 @@ public class FingerprintMod : Mod {
     {
         if(other.gameObject.tag == Strings.UNLOCKABLE)
         {
-            unlockableObject = other.gameObject.GetComponent<IUnlockable>();
+            unlockableObject = other.gameObject.GetComponent<ITriggerable>();
+            if (unlockableObject != null)
+                unlockableObject.Notify();
         }
     }
 
@@ -50,8 +52,9 @@ public class FingerprintMod : Mod {
     {
         if (other.gameObject.tag == Strings.UNLOCKABLE)
         {
-            if(unlockableObject == other.gameObject.GetComponent<IUnlockable>())
+            if(unlockableObject == other.gameObject.GetComponent<ITriggerable>())
             {
+                unlockableObject.Wait();
                 unlockableObject = null;
             }
         }
