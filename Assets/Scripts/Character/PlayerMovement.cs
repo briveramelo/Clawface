@@ -6,15 +6,25 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour {
 
+    
 
     [SerializeField] private Transform foot;
-    [SerializeField] private float speed;
+    [SerializeField] private float acceleration;
+    [SerializeField] private float maxSpeed;
+    [SerializeField]
+    private float iceForceMultiplier;
+    [SerializeField]
+    private float manualDrag;
     [SerializeField] private bool axisInput;
     [SerializeField] private bool rightAxisInput;
     [SerializeField] private bool isSidescrolling;
     [SerializeField] private bool canMove = true;
     [SerializeField] private Vector3 lastMovement;
     [SerializeField] private Vector3 rightJoystickMovement;
+    [SerializeField]
+    private float currentSpeed;
+
+    [SerializeField] private MovementMode movementMode;
 
     private Stats stats;
 
@@ -31,7 +41,7 @@ public class PlayerMovement : MonoBehaviour {
     #region Privates
 
     [SerializeField]
-    public Vector3 velocity;
+    private Vector3 velocity;
     private Rigidbody rigid;
 
     private RaycastHit hitInfo;
@@ -42,6 +52,7 @@ public class PlayerMovement : MonoBehaviour {
     private Vector3 movement;
 
     private List<Vector3> externalForces;
+    private List<Vector3> externalForcesToAdd;
     #endregion
 
     void Awake()
@@ -53,10 +64,11 @@ public class PlayerMovement : MonoBehaviour {
     // Use this for initialization
     void Start() {
         externalForces = new List<Vector3>();
+        externalForcesToAdd = new List<Vector3>();
         for (int i = 0; i < 100; i++) {
             externalForces.Add(Vector3.zero);
         }
-
+        movementMode = MovementMode.PRECISE;
     }
     
 
@@ -110,12 +122,49 @@ public class PlayerMovement : MonoBehaviour {
         }
 
         isGrounded = IsGrounded();
+        maxSpeed = stats.GetStat(StatType.MoveSpeed);
     }
 
     private void FixedUpdate()
     {
-        rigid.velocity = movement * stats.GetStat(StatType.MoveSpeed) * Time.fixedDeltaTime + GetExternalForceSum();  
-              
+        switch (movementMode)
+        {
+            case MovementMode.PRECISE:
+                // Do I even need fixedDeltaTime here if I'm changing the velocity of the rigidbody directly?
+                //  rigid.velocity = movement * stats.GetStat(StatType.MoveSpeed) * Time.fixedDeltaTime + GetExternalForceSum();  
+                rigid.velocity = movement * stats.GetStat(StatType.MoveSpeed) + GetExternalForceSum();
+                break;
+            case MovementMode.ICE:
+
+                rigid.AddForce(movement * acceleration * Time.fixedDeltaTime);
+
+                foreach (Vector3 vector in externalForcesToAdd)
+                {
+                    rigid.AddForce(vector * Time.fixedDeltaTime);
+                }
+
+                
+                Vector3 flatMovement = new Vector3(rigid.velocity.x, 0f, rigid.velocity.z);
+                currentSpeed = flatMovement.magnitude;
+
+                if (currentSpeed > stats.GetStat(StatType.MoveSpeed))
+                {
+                    Vector3 currentFlatVelocity = flatMovement;
+                    currentFlatVelocity = -currentFlatVelocity;
+                    currentFlatVelocity = currentFlatVelocity.normalized;
+                    currentFlatVelocity *= (currentSpeed - stats.GetStat(StatType.MoveSpeed));
+                    currentFlatVelocity *= manualDrag;
+                    rigid.AddForce(currentFlatVelocity);
+                    Debug.Log("Added " + currentFlatVelocity + " with a magnitude of " + currentFlatVelocity.magnitude);
+                }
+                externalForcesToAdd.Clear();
+
+                break;
+            default:
+                rigid.velocity = movement * stats.GetStat(StatType.MoveSpeed) + GetExternalForceSum();
+                break;
+        }
+
         if (!axisInput)
         {
             if (rightAxisInput && rightJoystickMovement != Vector3.zero)
@@ -143,6 +192,9 @@ public class PlayerMovement : MonoBehaviour {
                 }
             }
         }
+
+        velocity = rigid.velocity;
+        currentSpeed = rigid.velocity.magnitude;
     }
 
     private Vector3 GetExternalForceSum() {
@@ -151,9 +203,23 @@ public class PlayerMovement : MonoBehaviour {
         return totalExternalForce;
     }
 
-    public void AddExternalForce(Vector3 forceVector, float decay = 0.1f) {        
-        if (canMove) {
-            StartCoroutine(AddPsuedoForce(forceVector, decay));
+    public void AddExternalForce(Vector3 forceVector, float decay = 0.1f) {
+        switch (movementMode)
+        {
+            case MovementMode.PRECISE:
+            default:
+
+                if (canMove)
+                {
+                    StartCoroutine(AddPsuedoForce(forceVector, decay));
+                }
+                break;
+            case MovementMode.ICE:
+                if (canMove)
+                {
+                    externalForcesToAdd.Add(forceVector * iceForceMultiplier);
+                }
+                break;
         }
     }
 
@@ -263,5 +329,10 @@ public class PlayerMovement : MonoBehaviour {
 
         }
         return true;
+    }
+
+    public void SetMovementMode(MovementMode mode)
+    {
+        movementMode = mode;
     }
 }
