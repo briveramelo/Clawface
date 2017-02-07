@@ -16,11 +16,13 @@ public class Stats : MonoBehaviour, IModifiable {
     }
 
     [SerializeField] StatsObject statsObject;
-    StatsObject originalValuesStatsObject;
     Dictionary<StatType, VariableReference> statDictionary;
 
     void Awake() {
-        statsObject = new StatsObject(statsObject);
+        StatsObject tempStatsObject = ScriptableObject.CreateInstance<StatsObject>();
+        tempStatsObject.SetValues(statsObject);
+        statsObject = tempStatsObject;
+
         statDictionary = new Dictionary<StatType, VariableReference>() {
             {StatType.Attack, new VariableReference(()=>statsObject.attack, statValue=> {statsObject.attack = (float)statValue; }) },
             {StatType.Defense, new VariableReference(()=>statsObject.defense, statValue=> {statsObject.defense = (float)statValue; }) },
@@ -41,7 +43,11 @@ public class Stats : MonoBehaviour, IModifiable {
     }
 
     public float GetStat(StatType statType) {
-        float returnFloat = (float)statDictionary[statType].Get();
-        return returnFloat;
+        return (float)statDictionary[statType].Get();
+    }
+
+    public float TakeDamage(float damage){
+        statDictionary[StatType.Health].Set((float)statDictionary[StatType.Health].Get() - damage);
+        return (float)statDictionary[StatType.Health].Get();
     }
 }
