@@ -17,6 +17,9 @@ public class BlasterMod : Mod {
     [SerializeField]
     private float coolDownTime;
 
+    [SerializeField]
+    private float feetMultiplier;
+
     public override void Activate()
     {
         if (readyToShoot)
@@ -41,7 +44,7 @@ public class BlasterMod : Mod {
         blasterBullet.transform.rotation = transform.rotation;
         if (getModSpot() == ModSpot.Legs)
         {            
-            KickBack(playerMovement.gameObject.transform.up);
+            KickBack(playerMovement.gameObject.transform.up * feetMultiplier);
         }
         else
         {            
