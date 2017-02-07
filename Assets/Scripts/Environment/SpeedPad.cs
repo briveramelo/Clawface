@@ -1,66 +1,40 @@
-﻿using System.Collections;
+﻿//Garin
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class SpeedPad : MonoBehaviour {
-    PlayerMovement pm;
 
-    [SerializeField]
-    float cooldown = 2.0f;
-
-    float cooldownTimer;
-
+    IMovable im;
     Vector3 direction;
     Vector3 pushVector;
 
-    [SerializeField]
-    float force = 5.0f;
+    [SerializeField, Range(5,15)]
+    float force;
 
     bool activated = false;
-    void OnTriggerEnter(Collider other)
+    void OnTriggerStay(Collider col)
     {
-                
-        
-            pm = other.GetComponent<PlayerMovement>();
-            if (pm)
-            {
-                PushPlayer(pushVector,pm);
+   
+        im = col.gameObject.GetComponent<IMovable>();
 
-            }
-            
-        
-    }
-
-    private void FixedUpdate()
-    {
-        if (activated)
+        if (im != null)
         {
-            cooldownTimer -= Time.fixedDeltaTime;
-            if(cooldownTimer <= 0f)
-            {
-                activated = false;
-                cooldownTimer = cooldown;
-            }
+            im.AddExternalForce(pushVector);
         }
+        
     }
+
+    
 
     private void Awake()
     {
         direction = gameObject.transform.forward;
         pushVector = direction;
         pushVector.z += force;
-        cooldownTimer = cooldown;
     }
 
-    void PushPlayer(Vector3 i_force, PlayerMovement pm)
-    {
-        if (!activated)
-        {
-            activated = true;
-            pm.AddExternalForce(pushVector);
-            pm = null;
-        }
-    }
 
     
 }
