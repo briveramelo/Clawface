@@ -1,8 +1,8 @@
-﻿public enum ModSpot
-{
+﻿public enum ModSpot {
+    Default = -1,
     Head = 0,
-    Arm_L = 1,
-    Arm_R = 2,
+    ArmL = 1,
+    ArmR = 2,
     Legs = 3
 }
 
@@ -15,13 +15,31 @@ public enum StatType {
     RangedAccuracy= 5
 }
 
-public enum CodexType
-{
+public enum CodexType {
     Journal=0
 }
 
-public enum SFXType
-{
+public enum SFXType {
     ArmBlaster_Fire = 0,
     ArmBlaster_Explode=1
+}
+
+public enum ModType {
+    ForceSegway=0,
+    ArmBlaster=1,
+    FingerPrint=2,
+    StunBaton=3
+}
+
+public enum CharacterType {
+    ModMan=0,
+    MallCop=1,
+    Butcher=2
+}
+
+public enum Layers {
+    ModMan=8,
+    Enemy=9,
+    MiniMap=10,
+    Ground=11
 }
