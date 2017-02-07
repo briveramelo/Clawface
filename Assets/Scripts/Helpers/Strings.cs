@@ -12,5 +12,7 @@
     public static string MOVEY = "MoveY";
     public static string ENEMY = "Enemy";
     public static string PLAYER = "Player";
-    public static string CODEXENTRY = "CodexEntry";    
+    public static string CODEXENTRY = "CodexEntry";
+    public static string LEFTTRIGGER = "LeftTrigger";
+    public static string RIGHTTRIGGER = "RightTrigger";
 }

@@ -94,13 +94,13 @@ public class BlasterMod : Mod {
             switch (getModSpot())
             {
                 case ModSpot.ArmL:
-                    if (Input.GetButton(Strings.LEFT))
+                    if (Input.GetButton(Strings.LEFT) || Input.GetAxis(Strings.LEFTTRIGGER) != 0)
                     {
                         Activate();
                     }
                     break;
                 case ModSpot.ArmR:
-                    if (Input.GetButton(Strings.RIGHT))
+                    if (Input.GetButton(Strings.RIGHT) || Input.GetAxis(Strings.RIGHTTRIGGER) != 0)
                     {
                         Activate();
                     }
