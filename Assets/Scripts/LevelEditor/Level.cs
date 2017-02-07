@@ -20,7 +20,7 @@ public class Level {
     public class Floor {
 
         const int _MAX_OBJECTS = 1024;
-        
+
         /// <summary>
         /// Byte values at each tile.
         /// </summary>
@@ -32,7 +32,7 @@ public class Level {
         /// Default constructor -- initializes all byte values to byte.MaxValue
         /// which represents empty space.
         /// </summary>
-        public Floor () {
+        public Floor() {
             _values = new List<ObjectAttributes>();
         }
 
@@ -40,12 +40,22 @@ public class Level {
         /// Direct accessor.
         /// </summary>
         public ObjectAttributes this[int i] {
-            get { return _values[i]; }
+            get {
+                if (i < 0 || i >= _values.Count) {
+                    Debug.LogError("Invalid index: " + i);
+                    return default(ObjectAttributes);
+                }
+                return _values[i];
+            }
             set { _values[i] = value; }
         }
 
-        public void AddObject (int index, Vector3 position, int yRotation) {
-            _values.Add (new ObjectAttributes((byte)index, position, yRotation));
+        public void AddObject(int index, Vector3 position, int yRotation) {
+            _values.Add(new ObjectAttributes((byte)index, position, yRotation));
+        }
+
+        public void DeleteObject (int index) {
+            _values.RemoveAt (index);
         }
 
         public List<ObjectAttributes> Objects { get { return _values; } }
@@ -55,7 +65,7 @@ public class Level {
     public class ObjectAttributes {
 
         [SerializeField]
-        public byte index; 
+        public byte index;
 
         [SerializeField]
         public float x;
@@ -69,7 +79,7 @@ public class Level {
         [SerializeField]
         public int yRotation;
 
-        public ObjectAttributes (byte index, Vector3 position, int yRotation) {
+        public ObjectAttributes(byte index, Vector3 position, int yRotation) {
             this.index = index;
             this.yRotation = yRotation;
             this.x = position.x;
@@ -77,7 +87,7 @@ public class Level {
             this.z = position.z;
         }
 
-        public Vector3 Position { get { return new Vector3 (x, y, z); } }
+        public Vector3 Position { get { return new Vector3(x, y, z); } }
     }
 
     [Serializable]
@@ -92,34 +102,39 @@ public class Level {
     public const int FLOOR_DEPTH = 64;
     public const int FLOOR_HEIGHT = 10;
 
-	/// <summary>
-	/// Name of the level.
-	/// </summary>
-	[SerializeField] string _name;
+    /// <summary>
+    /// Name of the level.
+    /// </summary>
+    [SerializeField]
+    string _name;
 
-	/// <summary>
-	/// All floor structures in the level.
-	/// </summary>
-    [SerializeField] Floor[] _floors;
+    /// <summary>
+    /// All floor structures in the level.
+    /// </summary>
+    [SerializeField]
+    Floor[] _floors;
 
-    [SerializeField] float _playerSpawnX = 0f;
+    [SerializeField]
+    float _playerSpawnX = 0f;
 
-    [SerializeField] float _playerSpawnY = 0f;
+    [SerializeField]
+    float _playerSpawnY = 0f;
 
-    [SerializeField] float _playerSpawnZ = 0f;
+    [SerializeField]
+    float _playerSpawnZ = 0f;
 
     public LevelEvent onLevelComplete;
 
-	#endregion
-	#region Constructors
+    #endregion
+    #region Constructors
 
-	/// <summary>
-	/// Default constructor -- inits floor structures.
-	/// </summary>
-	public Level () {
+    /// <summary>
+    /// Default constructor -- inits floor structures.
+    /// </summary>
+    public Level() {
         _name = _DEFAULT_NAME;
 
-		_floors = new Floor[MAX_FLOORS];
+        _floors = new Floor[MAX_FLOORS];
         for (int i = 0; i < MAX_FLOORS; i++) {
             _floors[i] = new Floor();
         }
@@ -146,14 +161,16 @@ public class Level {
         get { return _floors[index]; }
     }
 
-    public Vector3 PlayerSpawnPosition { get {
-            return new Vector3 (
-                _playerSpawnX, 
-                _playerSpawnY, 
+    public Vector3 PlayerSpawnPosition {
+        get {
+            return new Vector3(
+                _playerSpawnX,
+                _playerSpawnY,
                 _playerSpawnZ);
-    } }
+        }
+    }
 
-    public void SetPlayerSpawnPosition (Vector3 position) {
+    public void SetPlayerSpawnPosition(Vector3 position) {
         _playerSpawnX = position.x;
         _playerSpawnY = position.y;
         _playerSpawnZ = position.z;
@@ -163,32 +180,32 @@ public class Level {
     /// Places an object in the level.
     /// </summary>
     /// <param name="index">Index of object.</param>
-    public void AddObject (int index, int floor, Vector3 position, int yRotation) {
-        _floors[floor].AddObject (index, position, yRotation);
+    public void AddObject(int index, int floor, Vector3 position, int yRotation) {
+        _floors[floor].AddObject(index, position, yRotation);
     }
 
     /// <summary>
     /// Removes an object from the level.
     /// </summary>
-    public void DeleteObject (int floor, int index) {
-        _floors[floor].Objects.RemoveAt (index);
+    public void DeleteObject(int floor, int index) {
+        _floors[floor].DeleteObject (index);
     }
 
     /// <summary>
     /// Creates a LevelAsset wrapper for this level.
     /// </summary>
-    public LevelAsset ToLevelAsset () {
-		var asset = ScriptableObject.CreateInstance<LevelAsset>();
-		asset.Pack(this);
-		return asset;
-	}
+    public LevelAsset ToLevelAsset() {
+        var asset = ScriptableObject.CreateInstance<LevelAsset>();
+        asset.Pack(this);
+        return asset;
+    }
 
     #endregion
     #region Overrides
 
-	public override string ToString() {
-		 return _name;
-	}
+    public override string ToString() {
+        return _name;
+    }
 
-	#endregion
+    #endregion
 }

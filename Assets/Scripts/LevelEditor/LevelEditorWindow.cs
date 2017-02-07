@@ -28,6 +28,10 @@ public class LevelEditorWindow : EditorWindow {
     const float _TOOLBAR_SHOW_GRID_PERCENT = 0.25f;
     const float _TOOLBAR_SNAP_TO_GRID_PERCENT = 0.25f;
 
+    const float _ACTION_STACK_Y_OFFSET = 128f;
+    const float _ACTION_STACK_WIDTH = 192f;
+    const float _ACTION_STACK_HEIGHT = 256f;
+
     /// <summary>
     /// Number of objects shown per row in the object browser.
     /// </summary>
@@ -47,6 +51,9 @@ public class LevelEditorWindow : EditorWindow {
     Rect _toolbarRect;
     Rect _sidePanelRect;
     Rect _objectEditorRect;
+
+    Rect _undoStackRect;
+    Rect _redoStackRect;
 
     #endregion
     #region Unity Callbacks
@@ -110,7 +117,7 @@ public class LevelEditorWindow : EditorWindow {
         SceneView.onSceneGUIDelegate += LevelManager.Instance.SnapSelected;
         SceneView.onSceneGUIDelegate += HandleInputs;
         SceneView.onSceneGUIDelegate += LevelManager.Instance.DrawCursor;
-        SceneView.onSceneGUIDelegate += ShowSceneViewGUI;
+        SceneView.onSceneGUIDelegate += DrawSceneViewGUI;
         SceneView.onSceneGUIDelegate += LevelManager.Instance.DrawRoomBounds;
     }
 
@@ -287,7 +294,7 @@ public class LevelEditorWindow : EditorWindow {
         SceneView.onSceneGUIDelegate -= LevelManager.Instance.SnapSelected;
         SceneView.onSceneGUIDelegate -= HandleInputs;
         SceneView.onSceneGUIDelegate -= LevelManager.Instance.DrawCursor;
-        SceneView.onSceneGUIDelegate -= ShowSceneViewGUI;
+        SceneView.onSceneGUIDelegate -= DrawSceneViewGUI;
         SceneView.onSceneGUIDelegate -= LevelManager.Instance.DrawRoomBounds;
     }
 
@@ -323,7 +330,7 @@ public class LevelEditorWindow : EditorWindow {
         }
     }
 
-    void ShowSceneViewGUI(SceneView sc) {
+    void DrawSceneViewGUI(SceneView sc) {
 
         Handles.BeginGUI();
 
@@ -422,6 +429,9 @@ public class LevelEditorWindow : EditorWindow {
 
             GUILayout.EndArea();
 
+            DrawUndoStack();
+            DrawRedoStack();
+
             // Draw object editor (?)
             if (LevelManager.Instance.HasSelectedObject) {
                 var selectedObject = LevelManager.Instance.SelectedObject;
@@ -435,6 +445,40 @@ public class LevelEditorWindow : EditorWindow {
         }
 
         Handles.EndGUI();
+    }
+
+    void DrawUndoStack () {
+        _undoStackRect = new Rect (
+            Screen.width - _ACTION_STACK_WIDTH, 
+            _ACTION_STACK_Y_OFFSET, 
+            _ACTION_STACK_WIDTH, 
+            _ACTION_STACK_HEIGHT);
+        GUILayout.BeginArea (_undoStackRect);
+
+        GUILayout.Label ("Undo Stack");
+
+        foreach (var undo in LevelManager.Instance.UndoStack) {
+            GUILayout.Label (undo.ToShortString());
+        }
+
+        GUILayout.EndArea();
+    }
+
+    void DrawRedoStack () {
+        _redoStackRect = new Rect (
+            Screen.width - _ACTION_STACK_WIDTH, 
+            _ACTION_STACK_HEIGHT + _ACTION_STACK_Y_OFFSET, 
+            _ACTION_STACK_WIDTH, 
+            _ACTION_STACK_HEIGHT);
+        GUILayout.BeginArea (_redoStackRect);
+
+        GUILayout.Label ("Redo Stack");
+
+        foreach (var redo in LevelManager.Instance.RedoStack) {
+            GUILayout.Label (redo.ToShortString());
+        }
+
+        GUILayout.EndArea();
     }
 
 

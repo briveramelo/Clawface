@@ -243,6 +243,10 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// </summary>
     public Vector3 CursorPosition { get { return _cursorPosition; } }
 
+    public Stack<LevelEditorAction> UndoStack { get { return _undoStack; } }
+
+    public Stack<LevelEditorAction> RedoStack { get { return _redoStack; } }
+
     public bool MouseOverUI {
         get { return _mouseOverUI; }
         set { _mouseOverUI = value; }
@@ -365,13 +369,13 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
             case Tool.Place:
                 if (_selectedObjectIndex != -1 && CheckPlacement()  && CanPlaceAnotherObject(_selectedObjectIndex)) {
                     if (_snapToGrid) SnapCursor();
-                    CreateObject((byte)_selectedObjectIndex, _cursorPosition);
+                    CreateObject((byte)_selectedObjectIndex, _cursorPosition, ActionType.Normal);
                     Event.current.Use();
                 }
                 break;
 
             case Tool.Erase:
-                DeleteObject(Selection.activeGameObject);
+                DeleteObject(Selection.activeGameObject, ActionType.Normal);
                 break;
 
             case Tool.Move:
@@ -385,10 +389,10 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
                     _movingObjectID = clickedID;
                     Show3DAssetPreview(clickedObj);
                     _movingObjectOriginalCoords = clickedData.Position;
-                    DeleteObject(clickedObj);
+                    DeleteObject(clickedObj, ActionType.None);
                 } else { // Currently moving
                     if (_placementAllowed) {
-                        CreateObject((byte)_selectedObjectIndex, _cursorPosition);
+                        CreateObject((byte)_selectedObjectIndex, _cursorPosition, ActionType.None);
                         _movingObjectID = -1;
                         DisablePreview();
                     }
@@ -406,7 +410,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
         if (!_lastMouseMoveWasDrag) {
 
             if (_currentTool == Tool.Move && _movingObjectID != -1) {
-                CreateObject((byte)_movingObjectID, _movingObjectOriginalCoords);
+                CreateObject((byte)_movingObjectID, _movingObjectOriginalCoords, ActionType.None);
                 _movingObjectID = -1;
             }
 
@@ -476,6 +480,10 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     public byte ObjectIndexOfObject (GameObject obj) {
         var index = LevelIndexOfObject (obj);
         var data = _loadedLevel[_selectedFloor][index];
+        if (data == null) {
+            Debug.LogError ("Object " + obj.name + " not found in the level file!");
+            return byte.MaxValue;
+        }
         return data.index;
     }
 
@@ -718,7 +726,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
 
     public bool HasSelectedObject { get { return _selectedObject != null; } }
 
-    public void CreateObject(byte index, Vector3 position, bool clearRedoStack = true) {
+    public void CreateObject(byte index, Vector3 position, ActionType actionType) {
         _loadedLevel.AddObject ((int)index, _selectedFloor, position, _currentYRotation);
 
         GameObject instance = SpawnObject(index);
@@ -727,26 +735,45 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
         _loadedObjects.Add (instance);
         _objectCounts[index]++;
         _dirty = true;
-        _undoStack.Push(new CreateObjectAction(index, position, instance));
-        if (clearRedoStack) _redoStack.Clear();
+
+        switch (actionType) {
+            case ActionType.Normal:
+            case ActionType.Redo:
+                _undoStack.Push (new CreateObjectAction(index, instance));
+                break;
+
+            case ActionType.Undo:
+                _redoStack.Push (new DeleteObjectAction (instance, index));
+                break;
+        }
     }
 
-    public void DeleteObject(GameObject obj, bool clearRedoStack = true) {
+    public void DeleteObject(GameObject obj, ActionType actionType) {
         byte deletedObjectIndex = (byte)ObjectIndexOfObject (obj);
         int levelIndex = LevelIndexOfObject (obj);
+
+        var deleteAction = new DeleteObjectAction(obj, deletedObjectIndex);
+        switch (actionType) {
+            case ActionType.Normal:
+            case ActionType.Redo:
+                _undoStack.Push (deleteAction);
+                break;
+
+            case ActionType.Undo:
+                _redoStack.Push (new CreateObjectAction(deletedObjectIndex, obj));
+                break;
+        }    
+
         _loadedLevel.DeleteObject (_selectedFloor, levelIndex);
         _objectCounts[deletedObjectIndex]--;
-        _undoStack.Push(new DeleteObjectAction(obj, deletedObjectIndex));
-        DestroyLoadedObject(obj);
-        _dirty = true;
-        if (clearRedoStack) _redoStack.Clear();
+        _loadedObjects.Remove (obj);
+        DestroyLoadedObject (obj);
     }
 
     public void Undo() {
         if (_undoStack.Count <= 0) return;
 
         var undoAction = _undoStack.Pop();
-        AddRedo(undoAction);
         undoAction.Undo();
     }
 
@@ -754,7 +781,6 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
         if (_redoStack.Count <= 0) return;
 
         var redoAction = _redoStack.Pop();
-        AddUndo(redoAction);
         redoAction.Redo();
     }
 
