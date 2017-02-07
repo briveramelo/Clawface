@@ -46,36 +46,7 @@ public class BatonMod : Mod {
     }
 	
 	// Update is called once per frame
-	void Update () {
-        if (!Input.GetButton(Strings.PREPARETOPICKUPORDROP) && !Input.GetButton(Strings.PREPARETOSWAP))
-        {
-            switch (getModSpot())
-            {
-                case ModSpot.ArmL:
-                    if (Input.GetButton(Strings.LEFT) || Input.GetAxis(Strings.LEFTTRIGGER) != 0)
-                    {
-                        Activate();
-                    }
-                    break;
-                case ModSpot.ArmR:
-                    if (Input.GetButton(Strings.RIGHT) || Input.GetAxis(Strings.RIGHTTRIGGER) != 0)
-                    {
-                        Activate();
-                    }
-                    break;
-                case ModSpot.Head:
-                    Activate();
-                    break;
-                case ModSpot.Legs:
-                    if (Input.GetButtonDown(Strings.DOWN))
-                    {
-                        Activate();
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
+	void Update () {        
 	}
 
     void Hit()
