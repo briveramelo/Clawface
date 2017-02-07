@@ -232,13 +232,13 @@ public class SegwayMod : Mod {
         switch (getModSpot())
         {
             case ModSpot.ArmL:
-                if (Input.GetButtonDown(Strings.LEFT))
+                if (Input.GetButtonDown(Strings.LEFT) || Input.GetAxis(Strings.LEFTTRIGGER) != 0)
                 {
                     Activate();
                 }
                 break;
             case ModSpot.ArmR:
-                if (Input.GetButtonDown(Strings.RIGHT))
+                if (Input.GetButtonDown(Strings.RIGHT) || Input.GetAxis(Strings.RIGHTTRIGGER) != 0)
                 {
                     Activate();
                 }
