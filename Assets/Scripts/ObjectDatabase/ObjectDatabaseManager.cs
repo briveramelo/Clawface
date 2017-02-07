@@ -12,8 +12,9 @@ public class ObjectDatabaseManager : SingletonMonoBehaviour<ObjectDatabaseManage
 
     new void Awake() {
         base.Awake();
-
-        DontDestroyOnLoad (gameObject);
+        
+        if (Application.isPlaying)
+            DontDestroyOnLoad (gameObject);
     }
 
     public GameObject GetObject (int index) {

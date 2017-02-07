@@ -1,4 +1,7 @@
-﻿using System.Collections;
+﻿// LevelManager.cs
+
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
@@ -13,37 +16,51 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// Enum for the current tool mode of the editor.
     /// </summary>
     public enum Tool {
-        Select,
-        Place,
-        Erase,
-        Move
+        Select = 0,
+        Place  = 1,
+        Erase  = 2,
+        Move   = 3
     }
 
     #endregion
     #region Nested Classes
 
-    [System.Serializable]
+    /// <summary>
+    /// Class for LevelManager-specific events
+    /// </summary>
+    [Serializable]
     public class LevelManagerEvent : UnityEvent { }
 
     #endregion
-    #region Vars
-
-    [System.NonSerialized]
-    Level _loadedLevel;
-
-    bool _dirty = false;
-
-    GameObject[,,,] _loadedObjects =
-        new GameObject[Level.MAX_FLOORS, Level.FLOOR_WIDTH,
-        Level.FLOOR_HEIGHT, Level.FLOOR_DEPTH];
+    #region Constants
 
     /// <summary>
     /// Default level path.
     /// </summary>
     const string _LEVEL_PATH = "Assets/Levels/";
 
+    /// <summary>
+    /// Path for temporary level file.
+    /// </summary>
     const string _TEMP_LEVEL_PATH = "Assets/Levels/~Temp.asset";
 
+    /// <summary>
+    /// Editor name of the 3D asset preview object.
+    /// </summary>
+    const string _PREVIEW_NAME = "~LevelEditorPreview";
+
+    #endregion
+    #region Vars
+
+    /// <summary>
+    /// The currently loaded level in LM.
+    /// !!! KEEP NONSERIALIZED !!!
+    /// </summary>
+    [NonSerialized] Level _loadedLevel;
+
+    /// <summary>
+    /// Resource path of current loaded level.
+    /// </summary>
     string _loadedLevelPath = default(string);
 
     /// <summary>
@@ -55,6 +72,21 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// GameObjects representing the floors of the loaded level.
     /// </summary>
     GameObject[] _floorObjects;
+
+    /// <summary>
+    /// All currently loaded objects in the editor.
+    /// </summary>
+    List<GameObject> _loadedObjects = new List<GameObject>();
+
+    /// <summary>
+    /// Current state of the editor tool.
+    /// </summary>
+    Tool _currentTool = Tool.Select;
+
+    /// <summary>
+    /// Are there unsaved changes?
+    /// </summary>
+    bool _dirty = false;
 
     /// <summary>
     /// Index of floor that is currently being edited.
@@ -72,9 +104,9 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     bool _drawGrid = true;
 
     /// <summary>
-    /// Current state of the editor tool.
+    /// Snap objects to grid?
     /// </summary>
-    Tool _currentTool = Tool.Select;
+    bool _snapToGrid = true;
 
     /// <summary>
     /// ID of object being moved.
@@ -84,9 +116,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// <summary>
     /// Original coordinates of object being moved;
     /// </summary>
-    Level.CoordinateSet _movingObjectOriginalCoords;
-
-    const string _PREVIEW_NAME = "~LevelEditorPreview";
+    Vector3 _movingObjectOriginalCoords;
 
     /// <summary>
     /// 3D asset preview object.
@@ -118,8 +148,6 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// </summary>
     GameObject _selectedObject;
 
-    Level.CoordinateSet _selectedObjectCoords;
-
     /// <summary>
     /// Currently applied object filter.
     /// </summary>
@@ -135,7 +163,11 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// </summary>
     bool _lastMouseMoveWasDrag = false;
 
-    int _currentY = 0;
+    int _currentYPosition = 0;
+
+    int _currentYRotation = 0;
+
+    Vector3 _cursorPosition = Vector3.zero;
 
     [SerializeField]
     Stack<LevelEditorAction> _undoStack = new Stack<LevelEditorAction>();
@@ -149,25 +181,76 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     public LevelManagerEvent onLoadLevel = new LevelManagerEvent();
     public LevelManagerEvent onSaveLevel = new LevelManagerEvent();
     public LevelManagerEvent onCloseLevel = new LevelManagerEvent();
+    public LevelManagerEvent onSelectObject = new LevelManagerEvent();
+
+    bool _mouseOverUI = false;
 
     #endregion
     #region Properties
 
+    /// <summary>
+    /// Returns true if a level is currently loaded (read-only).
+    /// </summary>
     public bool LevelLoaded { get { return _loadedLevel != null; } }
 
+    public Level LoadedLevel { get { return _loadedLevel; } }
+
+    /// <summary>
+    /// Returns true if unsaved changes exist (read-only).
+    /// </summary>
     public bool Dirty { get { return _dirty; } }
 
-    public string LoadedLevelName { get { return _loadedLevel.name; } }
-
+    /// <summary>
+    /// Returns true if the grid is currently enabled (read-only).
+    /// </summary>
     public bool GridEnabled { get { return _drawGrid; } }
 
+    /// <summary>
+    /// Gets/sets whether or not objects snap to the grid.
+    /// </summary>
+    public bool SnapToGrid {
+        get { return _snapToGrid; }
+        set { _snapToGrid = value; }
+    }
+
+    /// <summary>
+    /// Returns the currently selected object filter (read-only).
+    /// </summary>
     public ObjectDatabase.Category CurrentObjectFilter { get { return _filter; } }
 
+    /// <summary>
+    /// Returns the objects that pass the current object filter (read-only).
+    /// </summary>
     public List<ObjectData> FilteredObjects { get { return _filteredObjects; } }
 
+    /// <summary>
+    /// Returns the currently selected floor (read-only).
+    /// </summary>
     public int SelectedFloor { get { return _selectedFloor; } }
 
-    public int CurrentYValue { get { return _currentY; } }
+    /// <summary>
+    /// Returns the current editing y-value (read-only).
+    /// </summary>
+    public int CurrentYValue { get { return _currentYPosition; } }
+
+    /// <summary>
+    /// Returns the currently selected object (read-only).
+    /// </summary>
+    public GameObject SelectedObject { get { return _selectedObject; } }
+
+    /// <summary>
+    /// Returns the position of the 3D cursor (read-only).
+    /// </summary>
+    public Vector3 CursorPosition { get { return _cursorPosition; } }
+
+    public Stack<LevelEditorAction> UndoStack { get { return _undoStack; } }
+
+    public Stack<LevelEditorAction> RedoStack { get { return _redoStack; } }
+
+    public bool MouseOverUI {
+        get { return _mouseOverUI; }
+        set { _mouseOverUI = value; }
+    }
 
     #endregion
     #region Unity Callbacks
@@ -175,7 +258,8 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     new void Awake () {
         base.Awake();
 
-        DontDestroyOnLoad (gameObject);
+        if (Application.isPlaying)
+            DontDestroyOnLoad (gameObject);
     }
 
     #endregion
@@ -187,19 +271,14 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
             else Destroy(_preview);
         }
 
-        /*while (true) {
-            var preview = GameObject.Find (_PREVIEW_NAME);
-            if (preview == null) break;
-            DestroyObject (preview);
-        }*/
-
         _filter = ObjectDatabase.Category.Block;
         _filteredObjects = ObjectDatabaseManager.Instance.AllObjectsInCategory(_filter);
         _preview = new GameObject(_PREVIEW_NAME, typeof(MeshFilter), typeof(MeshRenderer));
         //_preview.hideFlags = HideFlags.HideAndDontSave;
         _selectedObjectIndex = -1;
         _selectedFloor = 0;
-        _currentY = 0;
+        _currentYPosition = 0;
+        _currentYRotation = 0;
         _editingPlane = new Plane(Vector3.up, Vector3.zero);
 
         // Load preview material
@@ -228,7 +307,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     }
 
     public void SetLoadedLevelName(string newName) {
-        _loadedLevel.name = newName;
+        _loadedLevel.Name = newName;
         _loadedLevelObject.name = newName + " (Loaded Level)";
     }
 
@@ -239,9 +318,9 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
         invertedMouse.y = screenHeight * 0.925f - invertedMouse.y;
         var ray = camera.ScreenPointToRay(invertedMouse);
         float distance;
-        var point = default(Vector3);
         if (_editingPlane.Raycast(ray, out distance)) {
-            point = ray.GetPoint(distance);
+            _cursorPosition = ray.GetPoint(distance);
+            _cursorPosition.y += 0.5f;
         }
 
         if (currEvent.isMouse) {
@@ -266,54 +345,54 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
                     break;
             }
 
-            HandleMouseMove(point);
+            HandleMouseMove();
         }
     }
 
     public void HandleLeftClick() {
 
+        if (_mouseOverUI) return;
         if (_lastMouseMoveWasDrag) return;
-
-        int x = PreviewArrayX();
-        int y = PreviewArrayY();
-        int z = PreviewArrayZ();
 
         switch (_currentTool) {
             case Tool.Select:
                 if (LevelLoaded && CheckPlacement()) {
-                    var selectedObject = _loadedObjects[_selectedFloor, x, y, z];
+                    var selectedObject = Selection.activeGameObject;
 
                     if (selectedObject != null) {
                         _selectedObject = selectedObject;
-                        _selectedObjectCoords = new Level.CoordinateSet(_selectedFloor, x, y, z);
+                        onSelectObject.Invoke();
                     } else _selectedObject = null;
                 }
                 break;
 
             case Tool.Place:
-                if (_selectedObjectIndex != -1 && _placementAllowed  && CanPlaceAnotherObject(_selectedObjectIndex)) {
-                    CreateObject((byte)_selectedObjectIndex, _selectedFloor, (byte)x, (byte)y, (byte)z);
+                if (_selectedObjectIndex != -1 && CheckPlacement()  && CanPlaceAnotherObject(_selectedObjectIndex)) {
+                    if (_snapToGrid) SnapCursor();
+                    CreateObject((byte)_selectedObjectIndex, _cursorPosition, ActionType.Normal);
                     Event.current.Use();
                 }
                 break;
 
             case Tool.Erase:
-                DeleteObject(_selectedFloor, PreviewArrayX(), PreviewArrayY(), PreviewArrayZ());
+                DeleteObject(Selection.activeGameObject, ActionType.Normal);
                 break;
 
             case Tool.Move:
                 if (_movingObjectID == -1) { // Not currently moving
-                    var clickedObj = _loadedLevel[_selectedFloor][x, y, z];
-                    var clickedID = clickedObj.index;
+                    var clickedObj = Selection.activeGameObject;
+                    var clickedIndex = _loadedObjects.IndexOf (clickedObj);
+                    var clickedData = _loadedLevel[_selectedFloor][clickedIndex];
+                    var clickedID = clickedData.index;
                     if (clickedID == byte.MaxValue) return; // Nothing selected
 
                     _movingObjectID = clickedID;
-                    Show3DAssetPreview(_loadedObjects[_selectedFloor, x, y, z]);
-                    _movingObjectOriginalCoords = new Level.CoordinateSet(_selectedFloor, x, y, z);
-                    DeleteObject(_movingObjectOriginalCoords);
+                    Show3DAssetPreview(clickedObj);
+                    _movingObjectOriginalCoords = clickedData.Position;
+                    DeleteObject(clickedObj, ActionType.None);
                 } else { // Currently moving
                     if (_placementAllowed) {
-                        CreateObject((byte)_selectedObjectIndex, _selectedObjectIndex, x, y, z);
+                        CreateObject((byte)_selectedObjectIndex, _cursorPosition, ActionType.None);
                         _movingObjectID = -1;
                         DisablePreview();
                     }
@@ -326,10 +405,12 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// Handles right clicks in the scene view.
     /// </summary>
     void HandleRightClick() {
+        if (_mouseOverUI) return;
+
         if (!_lastMouseMoveWasDrag) {
 
             if (_currentTool == Tool.Move && _movingObjectID != -1) {
-                CreateObject((byte)_movingObjectID, _movingObjectOriginalCoords);
+                CreateObject((byte)_movingObjectID, _movingObjectOriginalCoords, ActionType.None);
                 _movingObjectID = -1;
             }
 
@@ -342,14 +423,16 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// <summary>
     /// Handles mouse movement in the scene view.
     /// </summary>
-    void HandleMouseMove(Vector3 previewPosition) {
+    void HandleMouseMove() {
+
+        //_mouseOverUI = 
 
         if (_preview == null) return;
 
-        _preview.transform.position = previewPosition;
+        _preview.transform.position = _cursorPosition;
 
-        if (LevelLoaded)
-            SnapPreview();
+        if (LevelLoaded && _snapToGrid)
+            SnapCursor();
     }
 
     /// <summary>
@@ -378,34 +461,37 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
         _preview.GetComponent<MeshRenderer>().enabled = false;
     }
 
-    /// <summary>
-    /// Returns the array position of the 3D preview.
-    /// </summary>
-    int PreviewArrayX() {
-        return Mathf.RoundToInt(_preview.transform.position.x);
-    }
-
-    /// <summary>
-    /// Returns the array position of the 3D preview.
-    /// </summary>
-    int PreviewArrayY() {
-        return Mathf.RoundToInt(_preview.transform.position.y);
-    }
-
-    /// <summary>
-    /// Returns the array position of the 3D preview.
-    /// </summary>
-    int PreviewArrayZ() {
-        return Mathf.RoundToInt(_preview.transform.position.z);
-    }
-
     public Plane EditingPlane { get { return _editingPlane; } }
+
+    public Level.ObjectAttributes AttributesOfObject (GameObject obj) {
+        var index = LevelIndexOfObject (obj);
+        return _loadedLevel[_selectedFloor][index];
+    }
+
+    public Vector3 PositionOfObject (GameObject obj) {
+        var attribs = AttributesOfObject (obj);
+        return attribs.Position;
+    }
+
+    public int LevelIndexOfObject (GameObject obj) {
+        return _loadedObjects.IndexOf (obj);
+    }
+
+    public byte ObjectIndexOfObject (GameObject obj) {
+        var index = LevelIndexOfObject (obj);
+        var data = _loadedLevel[_selectedFloor][index];
+        if (data == null) {
+            Debug.LogError ("Object " + obj.name + " not found in the level file!");
+            return byte.MaxValue;
+        }
+        return data.index;
+    }
 
     public void UpOneFloor () {
         if (_selectedFloor < Level.MAX_FLOORS - 1) {
             CleanupObjects();
             _selectedFloor++;
-            _currentY = 0;
+            _currentYPosition = 0;
             UpdateHeight();
             ReconstructFloor();
         }
@@ -415,28 +501,28 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
         if (_selectedFloor > 0) {
             CleanupObjects();
             _selectedFloor--;
-            _currentY = 0;
+            _currentYPosition = 0;
             UpdateHeight();
             ReconstructFloor();
         }
     }
 
     public void IncrementY () {
-        if (_currentY < Level.FLOOR_HEIGHT - 1) {
-            _currentY++;
+        if (_currentYPosition < Level.FLOOR_HEIGHT - 1) {
+            _currentYPosition++;
             UpdateHeight();
         }
     }
 
     public void DecrementY () {
-        if (_currentY > 0) {
-            _currentY--;
+        if (_currentYPosition > 0) {
+            _currentYPosition--;
             UpdateHeight();
         }
     }
 
     public void UpdateHeight () {
-        _editingPlane.SetNormalAndPosition (new Vector3 (0f, _selectedFloor * Level.FLOOR_HEIGHT + _currentY, 0f), Vector3.up);
+        _editingPlane.SetNormalAndPosition (new Vector3 (0f, _selectedFloor * Level.FLOOR_HEIGHT + _currentYPosition, 0f), Vector3.up);
     }
 
     /// <summary>
@@ -457,15 +543,14 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// <summary>
     /// Snaps the preview asset to the grid.
     /// </summary>
-    public void SnapPreview() {
-        var pos = _preview.transform.position;
+    public void SnapCursor() {
+        var pos = _cursorPosition;
         var snapped = new Vector3(
                 Mathf.Round(pos.x),
-                Mathf.Round(pos.y),
+                Mathf.Round(pos.y) + 0.5f,
                 Mathf.Round(pos.z)
             );
-        _preview.transform.position = snapped;
-        _placementAllowed = CheckPlacement();
+        _cursorPosition = snapped;
     }
 
     /// <summary>
@@ -473,20 +558,16 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// </summary>
     public bool CheckPlacement() {
         // Check x in range
-        int x = PreviewArrayX();
-        if (x < 0 || x >= Level.FLOOR_WIDTH) return false;
+        float x = _cursorPosition.x;
+        if (x < -0.01f || x >= (float)Level.FLOOR_WIDTH + 0.01f) return false;
 
         // Check y in range
-        int y = PreviewArrayY();
-        if (y < 0 || y >= Level.FLOOR_HEIGHT) return false;
+        float y = _cursorPosition.y;
+        if (y < -0.01f || y >= (float)Level.FLOOR_HEIGHT + 0.01f) return false;
 
         // Check z in range
-        int z = PreviewArrayZ();
-        if (z < 0 || z >= Level.FLOOR_DEPTH) return false;
-
-        // Check if obstructed
-        if (_loadedLevel[_selectedFloor][x, y, z].index != byte.MaxValue)
-            return false;
+        float z = _cursorPosition.z;
+        if (z < -0.01f || z >= (float)Level.FLOOR_DEPTH + 0.01f) return false;
 
         return true;
     }
@@ -505,23 +586,23 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
         if (_preview == null) return;
         switch (_currentTool) {
             case Tool.Select:
-                DrawCube(_preview.transform.position, 1.05f, 0f, Color.white);
-                if (_selectedObject != null) DrawCube(_selectedObject.transform.position, 1.1f, -_selectedObject.transform.rotation.eulerAngles.y * Mathf.Deg2Rad, Color.cyan);
+                DrawCube(_cursorPosition, 1.05f, 0f, Color.white);
+                if (_selectedObject != null) DrawCube(_cursorPosition, 1.1f, -_selectedObject.transform.rotation.eulerAngles.y * Mathf.Deg2Rad, Color.cyan);
                 break;
 
             case Tool.Place:
-                if (_placementAllowed  && CanPlaceAnotherObject(_selectedObjectIndex))
-                    DrawCube(_preview.transform.position, 1f, 0f, Color.green);
-                else DrawCube(_preview.transform.position, 1f, 0f, Color.gray);
+                if (CheckPlacement()  && CanPlaceAnotherObject(_selectedObjectIndex))
+                    DrawCube(_cursorPosition, 1f, 0f, Color.green);
+                else DrawCube(_cursorPosition, 1f, 0f, Color.gray);
                 break;
 
             case Tool.Erase:
-                DrawCube(_preview.transform.position, 1.1f, 0f, Color.red);
+                DrawCube(_cursorPosition, 1.1f, 0f, Color.red);
                 break;
 
             case Tool.Move:
-                if (_placementAllowed) DrawCube(_preview.transform.position, 1.1f, 0f, Color.blue);
-                else DrawCube(_preview.transform.position, 1.1f, 0f, Color.gray);
+                if (CheckPlacement()) DrawCube(_cursorPosition, 1.1f, 0f, Color.blue);
+                else DrawCube(_cursorPosition, 1.1f, 0f, Color.gray);
                 break;
         }
     }
@@ -596,7 +677,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     public void DrawGrid(SceneView sc) {
         if (!_drawGrid) return;
 
-        var height = _selectedFloor * Level.FLOOR_HEIGHT + _currentY;
+        var height = _selectedFloor * Level.FLOOR_HEIGHT + _currentYPosition;
 
         Color lineColor = new Color(0.5f, 0.5f, 0.5f, 0.5f);
         Color edgeColor = new Color(0.65f, 0.65f, 0.65f, 0.65f);
@@ -643,70 +724,71 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
         Handles.DrawLine (d4, d1);
     }
 
-    public byte GetIndex(Level.CoordinateSet coords) {
-        return _loadedLevel[coords.floor][coords.x, coords.y, coords.z].index;
-    }
-
     public bool HasSelectedObject { get { return _selectedObject != null; } }
 
-    public GameObject SelectedObject { get { return _selectedObject; } }
+    public void CreateObject(byte index, Vector3 position, ActionType actionType) {
+        _loadedLevel.AddObject ((int)index, _selectedFloor, position, _currentYRotation);
 
-    public void CreateObject(byte index, Level.CoordinateSet coords, bool clearRedoStack = true) {
-        _loadedLevel[coords.floor][coords.x, coords.y, coords.z].index = index;
         GameObject instance = SpawnObject(index);
-        instance.transform.SetParent(_floorObjects[coords.floor].transform);
-        instance.transform.position = new Vector3(coords.x, coords.floor * Level.FLOOR_HEIGHT + coords.y, coords.z);
-        _loadedObjects[coords.floor, coords.x, coords.y, coords.z] = instance;
+        instance.transform.SetParent(_floorObjects[_selectedFloor].transform);
+        instance.transform.position = position;
+        _loadedObjects.Add (instance);
         _objectCounts[index]++;
         _dirty = true;
-        _undoStack.Push(new CreateObjectAction(index, coords));
-        if (clearRedoStack) _redoStack.Clear();
+
+        switch (actionType) {
+            case ActionType.Normal:
+            case ActionType.Redo:
+                _undoStack.Push (new CreateObjectAction(index, instance));
+                break;
+
+            case ActionType.Undo:
+                _redoStack.Push (new DeleteObjectAction (instance, index));
+                break;
+        }
     }
 
-    public void CreateObject(byte index, int floor, int x, int y, int z, bool clearRedoStack = true) {
-        CreateObject(index, new Level.CoordinateSet(floor, x, y, z), clearRedoStack);
-    }
+    public void DeleteObject(GameObject obj, ActionType actionType) {
+        byte deletedObjectIndex = (byte)ObjectIndexOfObject (obj);
+        int levelIndex = LevelIndexOfObject (obj);
 
-    public void DeleteObject(Level.CoordinateSet coords, bool clearRedoStack = true) {
-        byte deletedObjectIndex = _loadedLevel[coords.floor][coords.x, coords.y, coords.z].index;
+        var deleteAction = new DeleteObjectAction(obj, deletedObjectIndex);
+        switch (actionType) {
+            case ActionType.Normal:
+            case ActionType.Redo:
+                _undoStack.Push (deleteAction);
+                break;
+
+            case ActionType.Undo:
+                _redoStack.Push (new CreateObjectAction(deletedObjectIndex, obj));
+                break;
+        }    
+
+        _loadedLevel.DeleteObject (_selectedFloor, levelIndex);
         _objectCounts[deletedObjectIndex]--;
-        _loadedLevel[coords.floor][coords.x, coords.y, coords.z].index = byte.MaxValue;
-        var obj = _loadedObjects[coords.floor, coords.x, coords.y, coords.z];
-        DestroyLoadedObject(obj);
-        _dirty = true;
-        _undoStack.Push(new DeleteObjectAction(deletedObjectIndex, coords));
-        if (clearRedoStack) _redoStack.Clear();
-    }
-
-    public void DeleteObject(int floor, int x, int y, int z, bool clearRedoStack = true) {
-        DeleteObject(new Level.CoordinateSet(floor, x, y, z), clearRedoStack);
+        _loadedObjects.Remove (obj);
+        DestroyLoadedObject (obj);
     }
 
     public void Undo() {
         if (_undoStack.Count <= 0) return;
 
         var undoAction = _undoStack.Pop();
-        var redoObj = undoAction.ToRedo();
         undoAction.Undo();
-        AddRedo(redoObj);
     }
 
     public void Redo() {
         if (_redoStack.Count <= 0) return;
 
         var redoAction = _redoStack.Pop();
-        var undoObj = redoAction.ToUndo();
         redoAction.Redo();
-        AddUndo(undoObj);
     }
 
     public void AddRedo(LevelEditorAction redo) {
-        Debug.Log(redo.ToString());
         _redoStack.Push(redo);
     }
 
     public void AddUndo(LevelEditorAction undo) {
-        Debug.Log(undo.ToString());
         _undoStack.Push(undo);
     }
 
@@ -719,8 +801,8 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     }
 
     public void RotateSelectedObject(int rotation) {
-        var obj = _loadedLevel.ObjectAt(_selectedObjectCoords);
-        obj.yRotation = (obj.yRotation + rotation) % 360;
+        var attribs = AttributesOfObject (_selectedObject);
+        attribs.yRotation = (attribs.yRotation + rotation) % 360;
         _selectedObject.transform.Rotate(0f, rotation, 0f);
     }
 
@@ -848,21 +930,11 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     void ReconstructFloor() {
 
         Debug.Log(string.Format("LEDIT: Loading floor {0}...", _selectedFloor.ToString()));
-        for (int x = 0; x < Level.FLOOR_WIDTH; x++) {
-            for (int y = 0; y < Level.FLOOR_HEIGHT; y++) {
-                for (int z = 0; z < Level.FLOOR_DEPTH; z++) {
-                    byte value = _loadedLevel[_selectedFloor][x, y, z].index;
-
-                    //Debug.Log (string.Format ("Floor {0}: {1}, {2}, {3} = {4}", floor, x, y, z, value));
-
-                    // Skip empty tiles
-                    if (value == byte.MaxValue) continue;
-
-                    var obj = SpawnObject(value);
-                    obj.transform.parent = _floorObjects[_selectedFloor].transform;
-                    obj.transform.position = new Vector3(x, _selectedFloor * Level.FLOOR_HEIGHT + y, z);
-                }
-            }
+        foreach (var attribs in _loadedLevel[_selectedFloor].Objects) {
+            var obj = SpawnObject (attribs.index);
+            obj.transform.parent = _floorObjects[_selectedFloor].transform;
+            obj.transform.position = attribs.Position;
+            _loadedObjects.Add (obj);
         }
     }
 
@@ -870,7 +942,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// Creates base level objects.
     /// </summary>
     void SetupLevelObjects() {
-        _loadedLevelObject = new GameObject(_loadedLevel.name + " (Loaded Level)");
+        _loadedLevelObject = new GameObject(_loadedLevel.Name + " (Loaded Level)");
         _floorObjects = new GameObject[Level.MAX_FLOORS];
         for (int floor = 0; floor < Level.MAX_FLOORS; floor++) {
             _floorObjects[floor] = new GameObject("Floor " + floor.ToString());
@@ -879,18 +951,9 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     }
 
     void GetObjectCounts () {
-        for (int floor = 0; floor < Level.MAX_FLOORS; floor++) {
-            for (int x = 0; x < Level.FLOOR_WIDTH; x++) {
-                for (int y = 0; y < Level.FLOOR_HEIGHT; y++) {
-                    for (int z = 0; z < Level.FLOOR_DEPTH; z++) {
-                        var index = _loadedLevel[floor][x,y,z].index;
-
-                        if (index == byte.MaxValue) continue;
-
-                        _objectCounts[index]++;
-                    }
-                }
-            }
+        foreach (var obj in _loadedObjects) {
+            var index = ObjectIndexOfObject (obj);
+            _objectCounts[index]++;
         }
     }
 
@@ -919,17 +982,9 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     void CleanupObjects() {
         if (_loadedObjects == null) return;
 
-        for (int x = 0; x < Level.FLOOR_WIDTH; x++) {
-            for (int y = 0; y < Level.FLOOR_HEIGHT; y++) {
-                for (int z = 0; z < Level.FLOOR_DEPTH; z++) {
-                    if (_loadedObjects[_selectedFloor, x, y, z] == null) continue;
+        DestroyLoadedObject (_loadedLevelObject);
 
-                    DestroyLoadedObject(_loadedObjects[_selectedFloor, x, y, z]);
-                }
-            }
-        }
-
-        if (_loadedLevelObject != null) DestroyImmediate(_loadedLevelObject);
+        while (_loadedObjects.Count > 0) DestroyLoadedObject (_loadedObjects.PopFront());
     }
 
     void DestroyLoadedObject(GameObject obj) {
