@@ -113,7 +113,7 @@ public class PlayerMovement : MonoBehaviour {
 
     private void FixedUpdate()
     {
-        rigid.velocity = movement * stats.GetStat(StatType.MoveSpeed) * Time.fixedDeltaTime + GetExternalForceSum();
+        rigid.velocity = movement * stats.GetStat(StatType.MoveSpeed) * Time.fixedDeltaTime + GetExternalForceSum();        
         if (!axisInput)
         {
             if (rightAxisInput && rightJoystickMovement != Vector3.zero)
@@ -149,7 +149,7 @@ public class PlayerMovement : MonoBehaviour {
         return totalExternalForce;
     }
 
-    public void AddExternalForce(Vector3 forceVector, float decay = 0.1f) {
+    public void AddExternalForce(Vector3 forceVector, float decay = 0.1f) {        
         if (canMove) {
             StartCoroutine(AddPsuedoForce(forceVector, decay));
         }

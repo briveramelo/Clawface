@@ -125,7 +125,7 @@ public class SegwayMod : Mod {
         }
     }
 
-    public override void AttachAffect(ref Stats i_playerStats)
+    public override void AttachAffect(ref Stats i_playerStats, ref PlayerMovement playerMovement)
     {
         //TODO:Disable pickup collider
         playerStats = i_playerStats;
@@ -232,13 +232,13 @@ public class SegwayMod : Mod {
         switch (getModSpot())
         {
             case ModSpot.ArmL:
-                if (Input.GetButtonDown(Strings.LEFT))
+                if (Input.GetButtonDown(Strings.LEFT) || Input.GetAxis(Strings.LEFTTRIGGER) != 0)
                 {
                     Activate();
                 }
                 break;
             case ModSpot.ArmR:
-                if (Input.GetButtonDown(Strings.RIGHT))
+                if (Input.GetButtonDown(Strings.RIGHT) || Input.GetAxis(Strings.RIGHTTRIGGER) != 0)
                 {
                     Activate();
                 }
