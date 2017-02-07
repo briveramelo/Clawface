@@ -58,9 +58,12 @@ public class ModManager : MonoBehaviour
         if(!Input.GetButton(Strings.PREPARETOPICKUPORDROP) && !Input.GetButton(Strings.PREPARETOSWAP))
         {
             ModSpot spot = GetCommandedModSpot();
-            ModSocket socket;
-            modSocketDictionary.TryGetValue(spot, out socket);
-            socket.mod.Activate();
+            if (spot != ModSpot.Default)
+            {
+                if (modSocketDictionary[spot].mod!=null) {
+                    modSocketDictionary[spot].mod.Activate();
+                }
+            }
         }
     }
 
