@@ -8,6 +8,7 @@ public class BatonMod : Mod {
     [SerializeField]
     private float attackBoostValue;
     private float attackValue;
+    private float attackTime = 0.5f;
 
     [SerializeField]
     private Collider pickupCollider;
@@ -44,56 +45,78 @@ public class BatonMod : Mod {
     // Use this for initialization
     void Start () {
         setModType(ModType.StunBaton);
-	}
+        attackCollider.enabled = false;
+    }
 	
 	// Update is called once per frame
 	void Update () {
-        switch (getModSpot())
+        if (!Input.GetButton(Strings.PREPARETOPICKUPORDROP) && !Input.GetButton(Strings.PREPARETOSWAP))
         {
-            case ModSpot.ArmL:
-                if (Input.GetButton(Strings.LEFT))
-                {
+            switch (getModSpot())
+            {
+                case ModSpot.ArmL:
+                    if (Input.GetButton(Strings.LEFT))
+                    {
+                        Activate();
+                    }
+                    break;
+                case ModSpot.ArmR:
+                    if (Input.GetButton(Strings.RIGHT))
+                    {
+                        Activate();
+                    }
+                    break;
+                case ModSpot.Head:
                     Activate();
-                }
-                break;
-            case ModSpot.ArmR:
-                if (Input.GetButton(Strings.RIGHT))
-                {
-                    Activate();
-                }
-                break;
-            case ModSpot.Head:                
-                    Activate();
-                break;
-            case ModSpot.Legs:
-                if (Input.GetButton(Strings.DOWN))
-                {
-                    Activate();
-                }
-                break;
-            default:
-                break;
+                    break;
+                case ModSpot.Legs:
+                    if (Input.GetButtonDown(Strings.DOWN))
+                    {
+                        Activate();
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
 	}
 
     void Hit()
+    {        
+        if (!isHitting)
+        {
+            isHitting = true;            
+            StartCoroutine(HitCoolDown());
+        }
+    }
+
+    IEnumerator HitCoolDown()
     {
-        //Hit code
-        isHitting = true;
+        yield return new WaitForSeconds(attackTime);
+        recentlyHitEnemies.Clear();
+        isHitting = false;
     }
 
     void LayMine()
     {
         GameObject stunMine = BulletPool.instance.getStunMine();
-        stunMine.transform.position = transform.position;
-        stunMine.SetActive(true);
+        if (stunMine != null)
+        {
+            stunMine.transform.position = transform.position;
+            stunMine.SetActive(true);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == Strings.ENEMY && isHitting)
         {
-            other.gameObject.GetComponent<IDamageable>().TakeDamage(attackValue);
+            IDamageable damageable = other.gameObject.GetComponent<IDamageable>();
+            if (!recentlyHitEnemies.Contains(damageable)) {
+                damageable.TakeDamage(attackValue);
+                other.gameObject.GetComponent<IStunnable>().Stun();
+                recentlyHitEnemies.Add(damageable);
+            }                        
         }
     }
 
@@ -110,6 +133,7 @@ public class BatonMod : Mod {
     public override void AttachAffect(ref Stats i_playerStats)
     {
         //TODO:Disable pickup collider
+        attackCollider.enabled = true;
         playerStats = i_playerStats;
         pickupCollider.enabled = false;
         if (getModSpot() == ModSpot.Head)
@@ -124,6 +148,7 @@ public class BatonMod : Mod {
     public override void DetachAffect()
     {
         //TODO:Enable pickup collider
+        attackCollider.enabled = false;
         pickupCollider.enabled = true;
         if (getModSpot() == ModSpot.Head)
         {
