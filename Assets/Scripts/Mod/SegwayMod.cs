@@ -16,9 +16,6 @@ public class SegwayMod : Mod {
     private float attackValue;
 
     [SerializeField]
-    private Collider pickupCollider;
-
-    [SerializeField]
     private Collider attackCollider;
 
     [SerializeField]
