@@ -4,20 +4,18 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour {
 
+    public static AudioManager instance;
+
     List<AudioSource> audioSources;
     int index;
     AudioClip[] clips;
 
 	// Use this for initialization
 	void Start () {
+        instance = this;
         index = 0;
         audioSources = new List<AudioSource>();
         GetComponents<AudioSource>(audioSources);
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
 	}
 
     public bool PlaySFX(SFXType type)
