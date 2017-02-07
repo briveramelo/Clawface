@@ -66,9 +66,5 @@ public class FingerprintMod : Mod {
 	
 	// Update is called once per frame
 	void Update () {
-		if(Input.GetButtonDown(Strings.UP) || Input.GetButtonDown(Strings.DOWN)|| Input.GetButtonDown(Strings.LEFT)|| Input.GetButtonDown(Strings.RIGHT) || Input.GetAxis(Strings.RIGHTTRIGGER) != 0 || Input.GetAxis(Strings.LEFTTRIGGER) != 0)
-        {
-            Activate();
-        }
 	}
 }
