@@ -60,9 +60,9 @@ public class ModManager : MonoBehaviour
             ModSpot spot = GetCommandedModSpot();
             if (spot != ModSpot.Default)
             {
-                ModSocket socket;
-                modSocketDictionary.TryGetValue(spot, out socket);
-                socket.mod.Activate();
+                if (modSocketDictionary[spot].mod!=null) {
+                    modSocketDictionary[spot].mod.Activate();
+                }
             }
         }
     }
