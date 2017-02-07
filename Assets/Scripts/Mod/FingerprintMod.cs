@@ -61,6 +61,7 @@ public class FingerprintMod : Mod {
     void Start () {
         attached = false;
         unlockableObject = null;
+        unlockColliderVolume.enabled = false;
     }
 	
 	// Update is called once per frame
