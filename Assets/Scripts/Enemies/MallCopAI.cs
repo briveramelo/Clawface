@@ -35,9 +35,11 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
 
     public delegate void OnDeath();
     private OnDeath onDeath;
+    private bool willHasBeenWritten;
 
     public void RegisterDeathEvent(OnDeath onDeath) {
         this.onDeath += onDeath;
+        willHasBeenWritten = true;
     }
 
     void Awake()
@@ -197,7 +199,9 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
 
     private void OnDestroy()
     {
-        onDeath();
+        if (willHasBeenWritten) {
+            onDeath();
+        }
     }
 
 }

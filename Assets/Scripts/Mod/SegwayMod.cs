@@ -52,7 +52,10 @@ public class SegwayMod : Mod {
 
     PlayerMovement playerMovement;
 
-
+    private void Awake()
+    {
+        type = ModType.ForceSegway;
+    }
 
     public override void Activate()
     {
@@ -176,13 +179,11 @@ public class SegwayMod : Mod {
     void BoostSpeed()
     {
         playerStats.Modify(StatType.MoveSpeed, speedBoostValue);
-        Debug.Log("Boosted speed value: " + playerStats.GetStat(StatType.MoveSpeed));
     }
 
     void RemoveSpeedBoost()
     {
         playerStats.Modify(StatType.MoveSpeed, 1 / speedBoostValue);
-        Debug.Log("Boosted speed value: " + playerStats.GetStat(StatType.MoveSpeed));
     }
 
     void AoeAttack()

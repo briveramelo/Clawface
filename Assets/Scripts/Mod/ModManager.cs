@@ -150,14 +150,16 @@ public class ModManager : MonoBehaviour
         }
     }
 
-    private void Attach(ModSpot spot, Mod mod)
+    private void Attach(ModSpot spot, Mod mod, bool isSwapping=false)
     {
-        if (modSocketDictionary[spot].mod != null)
+        if (modSocketDictionary[spot].mod != null && !isSwapping)
         {
             Detach(spot);            
         }
 
-        ModUIManager.Instance.AttachMod(spot, mod.getModType());
+        if (!isSwapping) {
+            ModUIManager.Instance.AttachMod(spot, mod.getModType());
+        }
         mod.setModSpot(spot);
         mod.transform.SetParent(modSocketDictionary[spot].socket);
         mod.transform.localPosition = Vector3.zero;
@@ -178,11 +180,13 @@ public class ModManager : MonoBehaviour
         isOkToSwapMods = true;
     }
 
-    private void Detach(ModSpot spot)
+    private void Detach(ModSpot spot, bool isSwapping=false)
     {
         if (modSocketDictionary[spot].mod != null)
         {
-            ModUIManager.Instance.DetachMod(spot);
+            if (!isSwapping) {
+                ModUIManager.Instance.DetachMod(spot);
+            }
             modSocketDictionary[spot].mod.transform.SetParent(null);
             modSocketDictionary[spot].mod.DetachAffect();
             modSocketDictionary[spot].mod = null;
@@ -196,20 +200,20 @@ public class ModManager : MonoBehaviour
         if (modSocketDictionary[sourceSpot].mod != null)
         {
             tempSourceMod = modSocketDictionary[sourceSpot].mod;
-            Detach(sourceSpot);
+            Detach(sourceSpot, true);
         }
         if (modSocketDictionary[targetSpot].mod != null)
         {
             tempTargetMod = modSocketDictionary[targetSpot].mod;
-            Detach(targetSpot);
+            Detach(targetSpot, true);
         }
         if (tempSourceMod != null)
         {
-            Attach(targetSpot, tempSourceMod);            
+            Attach(targetSpot, tempSourceMod, true);            
         }
         if (tempTargetMod != null)
         {
-            Attach(sourceSpot, tempTargetMod);            
+            Attach(sourceSpot, tempTargetMod, true);            
         }
         if (tempSourceMod != null || tempTargetMod!=null) {
             ModUIManager.Instance.SwapMods(sourceSpot, targetSpot);

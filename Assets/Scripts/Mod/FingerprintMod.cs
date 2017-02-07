@@ -11,6 +11,11 @@ public class FingerprintMod : Mod {
     [SerializeField]
     private Collider unlockColliderVolume;
 
+    private void Awake()
+    {
+        type = ModType.FingerPrint;
+    }
+
     public override void Activate()
     {
         if (attached && unlockableObject != null)
@@ -36,6 +41,11 @@ public class FingerprintMod : Mod {
         attached = false;
         pickupCollider.enabled = true;
         unlockColliderVolume.enabled = false;
+        if (unlockableObject!=null)
+        {
+            unlockableObject.Wait();
+            unlockableObject = null;
+        }
     }
 
     void OnTriggerEnter(Collider other)

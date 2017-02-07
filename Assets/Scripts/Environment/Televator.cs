@@ -19,7 +19,7 @@ public class Televator : MonoBehaviour, ITriggerable
     //// ITriggerable Interface
     public void Activate()
     {
-        switch(selected)
+        switch (selected)
         {
             case TelevatorUI.Floor.ARENA:
                 player.position = arenaTarget.position;

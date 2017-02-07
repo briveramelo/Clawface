@@ -88,6 +88,7 @@ public class BlasterMod : Mod {
     // Use this for initialization
     void Start () {
         readyToShoot = true;
+        type = ModType.ArmBlaster; 
     }
 	
 	// Update is called once per frame
