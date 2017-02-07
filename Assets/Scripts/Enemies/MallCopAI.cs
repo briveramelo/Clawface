@@ -33,6 +33,9 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
     private int stunCount;
     bool isGlowing = false;
 
+    [SerializeField]
+    Animator animator;
+
     void Awake()
     {
         rigid = GetComponent<Rigidbody>();
@@ -120,6 +123,10 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
 
     private void Walk()
     {
+        if (!animator.GetBool(Strings.STARTWALKING))
+        {
+            animator.SetBool(Strings.STARTWALKING, true);
+        }
         transform.Rotate(rotationMultiplier * rotationSpeed * Vector3.up * Time.deltaTime);
 
         Vector3 movementDirection = transform.forward;
