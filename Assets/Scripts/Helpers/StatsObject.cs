@@ -7,7 +7,7 @@ public class StatsObject : ScriptableObject
 {
     public float attack, defense, health, moveSpeed, miniMapRange, rangedAccuracy;
 
-    public StatsObject(StatsObject oldStats) {
+    public void SetValues(StatsObject oldStats) {
         attack = oldStats.attack;
         defense = oldStats.defense;
         health = oldStats.health;
