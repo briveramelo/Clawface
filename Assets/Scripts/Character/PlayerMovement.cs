@@ -29,7 +29,8 @@ public class PlayerMovement : MonoBehaviour {
     private Stats stats;
 
 
-    private Dictionary<ModSpot, bool> modSpotConstantForceIndices = new Dictionary<ModSpot, bool>() {
+    private Dictionary<ModSpot, bool> modSpotConstantForceIndices = new Dictionary<ModSpot, bool>()
+    {
         {ModSpot.Head, false},
         {ModSpot.Legs, false},
         {ModSpot.ArmL, false},
@@ -123,7 +124,8 @@ public class PlayerMovement : MonoBehaviour {
 
     private void FixedUpdate()
     {
-        rigid.velocity = movement * stats.GetStat(StatType.MoveSpeed) * Time.fixedDeltaTime + GetExternalForceSum();
+        rigid.velocity = movement * stats.GetStat(StatType.MoveSpeed) * Time.fixedDeltaTime + GetExternalForceSum();  
+              
         if (!axisInput)
         {
             if (rightAxisInput && rightJoystickMovement != Vector3.zero)
@@ -161,7 +163,7 @@ public class PlayerMovement : MonoBehaviour {
         return totalExternalForce;
     }
 
-    public void AddExternalForce(Vector3 forceVector, float decay = 0.1f) {
+    public void AddExternalForce(Vector3 forceVector, float decay = 0.1f) {        
         if (canMove) {
             StartCoroutine(AddPsuedoForce(forceVector, decay));
         }
@@ -241,7 +243,7 @@ public class PlayerMovement : MonoBehaviour {
 
         Collider[] cols = Physics.OverlapSphere(foot.transform.position, sphereRadius);
         for (int i = 0; i < cols.Length; i++) {
-            if (cols[i].gameObject.layer != (int)Layers.ModMan) {
+            if (cols[i].gameObject.layer == (int)Layers.Ground) {
                 return true;
             }
         }
