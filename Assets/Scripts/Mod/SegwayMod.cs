@@ -50,7 +50,9 @@ public class SegwayMod : Mod {
     [SerializeField]
     private bool isAoeAttacking;
 
-    
+    PlayerMovement playerMovement;
+
+
 
     public override void Activate()
     {
@@ -136,6 +138,8 @@ public class SegwayMod : Mod {
             playerStats.Modify(StatType.MoveSpeed, speedBoostValue);
             playerStats.Modify(StatType.RangedAccuracy, rangedAccuracyLoss);
             attackValue = playerStats.GetStat(StatType.Attack);
+            this.playerMovement = playerMovement;
+            this.playerMovement.SetMovementMode(MovementMode.ICE);
         }
         else
         {
@@ -161,6 +165,7 @@ public class SegwayMod : Mod {
             playerStats.Modify(StatType.MoveSpeed, 1f / speedBoostValue);
             playerStats.Modify(StatType.RangedAccuracy, 1f / rangedAccuracyLoss);
             attackValue = playerStats.GetStat(StatType.Attack);
+            this.playerMovement.SetMovementMode(MovementMode.PRECISE);
         }
         else
         {
