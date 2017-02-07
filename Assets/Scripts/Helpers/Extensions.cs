@@ -16,5 +16,10 @@ namespace ModMan {
         }
 
 
+        public static T GetRandom<T>(this List<T> thisList) {
+            int rand = Random.Range(0, thisList.Count);
+            return thisList[rand];
+        }
     }
+
 }

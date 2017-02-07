@@ -31,7 +31,14 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
     private List<Vector3> externalForces;
     private Rigidbody rigid;
     private int stunCount;
-    bool isGlowing = false;
+    private bool isGlowing = false;
+
+    public delegate void OnDeath();
+    private OnDeath onDeath;
+
+    public void RegisterDeathEvent(OnDeath onDeath) {
+        this.onDeath += onDeath;
+    }
 
     void Awake()
     {
@@ -186,6 +193,11 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
         currentState = MallCopState.WALK;
         attackTarget = null;
         rotationMultiplier = Random.Range(-1.0f, 1.0f);
+    }
+
+    private void OnDestroy()
+    {
+        onDeath();
     }
 
 }
