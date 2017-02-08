@@ -6,13 +6,6 @@ using UnityEngine;
 
 public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDamageable, ISkinnable
 {
-    enum MallCopState
-    {
-        WALK = 0,
-        ATTACK = 1,
-        STUNNED =2
-    }
-
     [SerializeField] GlowObject skinGlowScript;
     [SerializeField] Stats myStats;
     [SerializeField] GameObject mySkin;
@@ -36,6 +29,9 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
     [SerializeField]
     Animator animator;
 
+    bool inRange;
+    bool canAttack;
+
     void Awake()
     {
         rigid = GetComponent<Rigidbody>();
@@ -52,10 +48,13 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
         }
 
         rotationMultiplier = 1;// (Random.value > 0.5 ? 1 : -1 ) * Random.Range(.5f, 1.0f);
+        inRange = false;
+        canAttack = true;
     }
 
     void IDamageable.TakeDamage(float damage)
     {
+        print("ouch");
         myStats.TakeDamage(damage);
         if (myStats.GetStat(StatType.Health) <= 5 && !isGlowing) {
             isGlowing = true;
@@ -123,9 +122,9 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
 
     private void Walk()
     {
-        if (!animator.GetBool(Strings.STARTWALKING))
+        if (animator.GetInteger(Strings.ANIMATIONSTATE) != (int)MallCopAnimationStates.WalkForward)
         {
-            animator.SetBool(Strings.STARTWALKING, true);
+            animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.WalkForward);
         }
         transform.Rotate(rotationMultiplier * rotationSpeed * Vector3.up * Time.deltaTime);
 
@@ -134,35 +133,67 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
     }
 
     private void Attack()
-    {        
-        transform.LookAt(attackTarget.transform);
-        Vector3 movementDirection = (attackTarget.transform.position - transform.position).normalized;
-
-        rigid.velocity = movementDirection * myStats.GetStat(StatType.MoveSpeed) * Time.fixedDeltaTime + GetExternalForceSum();
-        
-        attackTime -= Time.deltaTime;
-
-        if (attackTime <= 0.0f)
+    {
+        if (canAttack)
         {
-            ResetToWalking();
+            Vector3 lookAtPosition = new Vector3(attackTarget.transform.position.x, 0, attackTarget.transform.position.z);
+            transform.LookAt(lookAtPosition);
+            if (inRange)
+            {
+                canAttack = false;
+                if (animator.GetInteger(Strings.ANIMATIONSTATE) != (int)MallCopAnimationStates.Swing)
+                {
+                    animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Swing);
+                    StopAllCoroutines();
+                    StartCoroutine(WaitForAttackAnimation());
+                }else
+                {
+                    print(MallCopAnimationStates.Swing.ToString());
+                    animator.Play(MallCopAnimationStates.Swing.ToString(), -1, 0f);
+                    StartCoroutine(WaitForAttackAnimation());
+                }
+            }
+            else
+            {
+                if (animator.GetInteger(Strings.ANIMATIONSTATE) != (int)MallCopAnimationStates.WalkForward)
+                {
+                    animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.WalkForward);
+                }                
+                Vector3 movementDirection = (attackTarget.transform.position - transform.position).normalized;
+                Vector3 movementDirectionXZ = new Vector3(movementDirection.x, 0, movementDirection.z);
+                rigid.velocity = movementDirectionXZ * myStats.GetStat(StatType.MoveSpeed) * Time.fixedDeltaTime + GetExternalForceSum();
+            }
         }
     }
 
-    private void Twitch() {
-        //TODO: Make this allow getting pushed
-        Vector3 newPosition = Random.insideUnitSphere * twitchRange;
-        newPosition.z = Mathf.Abs(newPosition.z);
-        transform.position = startStunPosition + newPosition;
+    IEnumerator WaitForAttackAnimation()
+    {
+        yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
+        canAttack = true;
+    }
+
+    private void Twitch() {        
+        if (animator.GetInteger(Strings.ANIMATIONSTATE) != (int)MallCopAnimationStates.Stunned)
+        {
+            animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Stunned);
+        }
     }
 
     private void OnTriggerStay(Collider other)
-    {
-        if (currentState==MallCopState.WALK) {
-            if (other.name == Strings.PLAYER)
-            {
-                attackTarget = other.gameObject;
-                currentState = MallCopState.ATTACK;
-            }
+    {   
+        if (other.name == Strings.PLAYER)
+        {
+            attackTarget = other.gameObject;
+            currentState = MallCopState.ATTACK;
+            inRange = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {   
+        if (other.name == Strings.PLAYER)
+        {
+            inRange = false;
         }
     }
 

@@ -75,7 +75,7 @@ public class BatonMod : Mod {
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         if (other.tag == Strings.ENEMY && isHitting)
         {
