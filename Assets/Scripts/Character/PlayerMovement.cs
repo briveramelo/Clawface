@@ -293,10 +293,11 @@ public class PlayerMovement : MonoBehaviour, IDamageable, IMovable
     public void TakeDamage(float damage)
     {
         stats.TakeDamage(damage);
-        if(stats.GetStat(StatType.Health) <= 0)
+        if (stats.GetStat(StatType.Health) <= 0)
         {
             Destroy(gameObject);
         }
+    }
 
     public void SetMovementMode(MovementMode mode)
     {
