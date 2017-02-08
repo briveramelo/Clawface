@@ -31,7 +31,16 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
     private List<Vector3> externalForces;
     private Rigidbody rigid;
     private int stunCount;
-    bool isGlowing = false;
+    private bool isGlowing = false;
+
+    public delegate void OnDeath();
+    private OnDeath onDeath;
+    private bool willHasBeenWritten;
+
+    public void RegisterDeathEvent(OnDeath onDeath) {
+        this.onDeath += onDeath;
+        willHasBeenWritten = true;
+    }
 
     void Awake()
     {
@@ -91,9 +100,9 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
         }
     }
 
-    void IMovable.AddExternalForce(Vector3 forceVector)
+    void IMovable.AddExternalForce(Vector3 forceVector, float decay)
     {
-        StartCoroutine(AddPsuedoForce(forceVector));
+        StartCoroutine(AddPsuedoForce(forceVector, decay));
     }
 
     // Update is called once per frame
@@ -166,7 +175,7 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
         return totalExternalForce;
     }
 
-    private IEnumerator AddPsuedoForce(Vector3 forceVector)
+    private IEnumerator AddPsuedoForce(Vector3 forceVector, float decay)
     {
         int currentIndex = externalForces.FindIndex(vec => vec == Vector3.zero);
 
@@ -174,7 +183,7 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
 
         while (externalForces[currentIndex].magnitude > .2f)
         {
-            externalForces[currentIndex] = Vector3.Lerp(externalForces[currentIndex], Vector3.zero, 0.1f);
+            externalForces[currentIndex] = Vector3.Lerp(externalForces[currentIndex], Vector3.zero, decay);
             yield return null;
         }
         externalForces[currentIndex] = Vector3.zero;
@@ -186,6 +195,13 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
         currentState = MallCopState.WALK;
         attackTarget = null;
         rotationMultiplier = Random.Range(-1.0f, 1.0f);
+    }
+
+    private void OnDestroy()
+    {
+        if (willHasBeenWritten) {
+            onDeath();
+        }
     }
 
 }

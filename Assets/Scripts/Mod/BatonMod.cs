@@ -41,7 +41,7 @@ public class BatonMod : Mod {
 
     // Use this for initialization
     void Start () {
-        setModType(ModType.StunBaton);
+        type = ModType.StunBaton;
         attackCollider.enabled = false;
     }
 	
@@ -80,10 +80,13 @@ public class BatonMod : Mod {
         if (other.tag == Strings.ENEMY && isHitting)
         {
             IDamageable damageable = other.gameObject.GetComponent<IDamageable>();
-            if (!recentlyHitEnemies.Contains(damageable)) {
+            if (!recentlyHitEnemies.Contains(damageable) && damageable!=null) {
                 damageable.TakeDamage(attackValue);
-                other.gameObject.GetComponent<IStunnable>().Stun();
-                recentlyHitEnemies.Add(damageable);
+                IStunnable stunnable = other.gameObject.GetComponent<IStunnable>();
+                if (stunnable != null) {
+                    stunnable.Stun();
+                    recentlyHitEnemies.Add(damageable);
+                }
             }                        
         }
     }

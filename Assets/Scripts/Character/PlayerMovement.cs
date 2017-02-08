@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour {
+public class PlayerMovement : MonoBehaviour, IMovable {
 
     
 
@@ -45,7 +45,7 @@ public class PlayerMovement : MonoBehaviour {
     private Rigidbody rigid;
 
     private RaycastHit hitInfo;
-    private bool isGrounded;
+    public bool isGrounded;
     private bool isFalling = false;
     private float sphereRadius = 0.1f;
 
@@ -155,7 +155,6 @@ public class PlayerMovement : MonoBehaviour {
                     currentFlatVelocity *= (currentSpeed - stats.GetStat(StatType.MoveSpeed));
                     currentFlatVelocity *= manualDrag;
                     rigid.AddForce(currentFlatVelocity);
-                    Debug.Log("Added " + currentFlatVelocity + " with a magnitude of " + currentFlatVelocity.magnitude);
                 }
                 externalForcesToAdd.Clear();
 
@@ -203,7 +202,7 @@ public class PlayerMovement : MonoBehaviour {
         return totalExternalForce;
     }
 
-    public void AddExternalForce(Vector3 forceVector, float decay = 0.1f) {
+    public void AddExternalForce(Vector3 forceVector, float decay=0.1f) {
         switch (movementMode)
         {
             case MovementMode.PRECISE:
@@ -222,49 +221,6 @@ public class PlayerMovement : MonoBehaviour {
                 break;
         }
     }
-
-    public void AddJetForce(Vector3 constantForce, ModSpot modSpot) {
-        modSpotConstantForceIndices[modSpot] = true;
-        if (modSpot == ModSpot.Legs) {
-            isFalling = true;
-        }
-        StartCoroutine(ApplyJetForce(constantForce, modSpot));
-    }
-
-    public void StopConstantForce(ModSpot modSpot) {
-        modSpotConstantForceIndices[modSpot] = false;
-        if (modSpot == ModSpot.Legs) {
-            isFalling = false;
-        }
-    }
-
-    
-    private IEnumerator ApplyJetForce(Vector3 constantForce, ModSpot modSpot) {
-        int currentIndex = externalForces.FindIndex(vec => vec == Vector3.zero);        
-        while (modSpotConstantForceIndices[modSpot] && externalForces[currentIndex].magnitude < constantForce.magnitude - 0.1f) {
-            externalForces[currentIndex] = Vector3.Lerp(externalForces[currentIndex], constantForce, 0.1f);
-            yield return null;
-        }
-        StartCoroutine(FadeTargetForce(currentIndex));
-
-        float period = 5f;
-        float timePassed = 0f;
-        currentIndex = externalForces.FindIndex(vec => vec == Vector3.zero);
-        while (modSpotConstantForceIndices[modSpot]) {
-            externalForces[currentIndex] = 0.3f*constantForce * -Mathf.Sin((Mathf.PI*2/period) * timePassed);
-            timePassed += Time.deltaTime;
-            yield return null;
-        }
-        StartCoroutine(FadeTargetForce(currentIndex));
-    }
-
-    private IEnumerator FadeTargetForce(int targetIndex) {
-        while (externalForces[targetIndex].magnitude > 0.1f) {
-            externalForces[targetIndex] = Vector3.Lerp(externalForces[targetIndex], Vector3.zero, 0.1f);
-            yield return null;
-        }
-    }
-
     
     private IEnumerator AddPsuedoForce(Vector3 forceVector, float decay) {
         int currentIndex = externalForces.FindIndex(vec => vec == Vector3.zero);
@@ -334,5 +290,6 @@ public class PlayerMovement : MonoBehaviour {
     public void SetMovementMode(MovementMode mode)
     {
         movementMode = mode;
+        rigid.useGravity = mode == MovementMode.ICE ? true : false;
     }
 }
