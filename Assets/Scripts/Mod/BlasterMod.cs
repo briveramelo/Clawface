@@ -42,11 +42,11 @@ public class BlasterMod : Mod {
         GameObject blasterBullet = BulletPool.instance.getBlasterBullet();
         blasterBullet.transform.position = transform.position;
         blasterBullet.transform.rotation = transform.rotation;
-        if (getModSpot() == ModSpot.Legs)
+        if (getModSpot() == ModSpot.Legs && playerMovement != null)
         {            
             KickBack(playerMovement.gameObject.transform.up * feetMultiplier);
         }
-        else
+        else if (playerMovement != null)
         {            
             KickBack(-playerMovement.gameObject.transform.forward);
         }

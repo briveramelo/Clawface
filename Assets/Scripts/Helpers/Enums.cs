@@ -64,7 +64,7 @@ enum MallCopState
 public enum MallCopAnimationStates
 {
     Idle = 0,
-    WalkForward = 1,
+    Walk = 1,
     Swing = 2,
     HitReaction = 3,
     Stunned = 4,
