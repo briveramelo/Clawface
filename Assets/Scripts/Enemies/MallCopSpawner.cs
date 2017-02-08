@@ -35,9 +35,11 @@ public class MallCopSpawner : MonoBehaviour {
 
     
     public void ReportDeath() {
-        numMallCops--;
-        if (numMallCops < mallCopWaves[currentWave].minMallCops) {
-            SpawnMallCop();
+        if (Application.isPlaying) {
+            numMallCops--;
+            if (numMallCops < mallCopWaves[currentWave].minMallCops) {
+                SpawnMallCop();
+            }
         }
     }
 
