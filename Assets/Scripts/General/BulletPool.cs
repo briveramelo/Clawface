@@ -42,7 +42,7 @@ public class BulletPool : MonoBehaviour {
         stunMinePool = new List<GameObject>();
         for (int index = 0; index < stunMinePoolSize; index++)
         {
-            GameObject stunMine = Instantiate(stunMinePrefab);
+            GameObject stunMine = Instantiate(stunMinePrefab, DynamicObjectParent.instance.transform);
             stunMine.SetActive(false);
             stunMinePool.Add(stunMine);
         }
@@ -53,7 +53,7 @@ public class BulletPool : MonoBehaviour {
         blasterBulletPool = new List<GameObject>();
         for (int index = 0; index < blasterBulletPoolSize; index++)
         {
-            GameObject blasterBullet = Instantiate(blasterBulletPrefab);
+            GameObject blasterBullet = Instantiate(blasterBulletPrefab, DynamicObjectParent.instance.transform);
             blasterBullet.SetActive(false);
             blasterBulletPool.Add(blasterBullet);
         }

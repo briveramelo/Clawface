@@ -5,17 +5,22 @@ using UnityEngine;
 
 public class FingerprintMod : Mod {
 
-    IUnlockable unlockableObject;
+    ITriggerable unlockableObject;
     bool attached;
 
     [SerializeField]
     private Collider unlockColliderVolume;
 
+    private void Awake()
+    {
+        type = ModType.FingerPrint;
+    }
+
     public override void Activate()
     {
         if (attached && unlockableObject != null)
         {
-            unlockableObject.Unlock();
+            unlockableObject.Activate();
         }
     }
 
@@ -36,13 +41,20 @@ public class FingerprintMod : Mod {
         attached = false;
         pickupCollider.enabled = true;
         unlockColliderVolume.enabled = false;
+        if (unlockableObject!=null)
+        {
+            unlockableObject.Wait();
+            unlockableObject = null;
+        }
     }
 
     void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.tag == Strings.UNLOCKABLE)
         {
-            unlockableObject = other.gameObject.GetComponent<IUnlockable>();
+            unlockableObject = other.gameObject.GetComponent<ITriggerable>();
+            if (unlockableObject != null)
+                unlockableObject.Notify();
         }
     }
 
@@ -50,8 +62,9 @@ public class FingerprintMod : Mod {
     {
         if (other.gameObject.tag == Strings.UNLOCKABLE)
         {
-            if(unlockableObject == other.gameObject.GetComponent<IUnlockable>())
+            if(unlockableObject == other.gameObject.GetComponent<ITriggerable>())
             {
+                unlockableObject.Wait();
                 unlockableObject = null;
             }
         }
@@ -66,9 +79,5 @@ public class FingerprintMod : Mod {
 	
 	// Update is called once per frame
 	void Update () {
-		if(Input.GetButtonDown(Strings.UP) || Input.GetButtonDown(Strings.DOWN)|| Input.GetButtonDown(Strings.LEFT)|| Input.GetButtonDown(Strings.RIGHT) || Input.GetAxis(Strings.RIGHTTRIGGER) != 0 || Input.GetAxis(Strings.LEFTTRIGGER) != 0)
-        {
-            Activate();
-        }
 	}
 }

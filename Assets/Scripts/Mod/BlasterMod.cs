@@ -22,7 +22,7 @@ public class BlasterMod : Mod {
 
     public override void Activate()
     {
-        if (readyToShoot)
+        if (readyToShoot && getModSpot() != ModSpot.Head)
         {
             Shoot();
             readyToShoot = false;
@@ -42,11 +42,11 @@ public class BlasterMod : Mod {
         GameObject blasterBullet = BulletPool.instance.getBlasterBullet();
         blasterBullet.transform.position = transform.position;
         blasterBullet.transform.rotation = transform.rotation;
-        if (getModSpot() == ModSpot.Legs)
+        if (getModSpot() == ModSpot.Legs && playerMovement != null)
         {            
             KickBack(playerMovement.gameObject.transform.up * feetMultiplier);
         }
-        else
+        else if (playerMovement != null)
         {            
             KickBack(-playerMovement.gameObject.transform.forward);
         }
@@ -88,35 +88,10 @@ public class BlasterMod : Mod {
     // Use this for initialization
     void Start () {
         readyToShoot = true;
+        type = ModType.ArmBlaster; 
     }
 	
 	// Update is called once per frame
 	void Update () {
-        if (!Input.GetButton(Strings.PREPARETOPICKUPORDROP) && !Input.GetButton(Strings.PREPARETOSWAP))
-        {
-            switch (getModSpot())
-            {
-                case ModSpot.ArmL:
-                    if (Input.GetButton(Strings.LEFT) || Input.GetAxis(Strings.LEFTTRIGGER) != 0)
-                    {
-                        Activate();
-                    }
-                    break;
-                case ModSpot.ArmR:
-                    if (Input.GetButton(Strings.RIGHT) || Input.GetAxis(Strings.RIGHTTRIGGER) != 0)
-                    {
-                        Activate();
-                    }
-                    break;               
-                case ModSpot.Legs:
-                    if (Input.GetButtonDown(Strings.DOWN))
-                    {
-                        Activate();
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
     }
 }
