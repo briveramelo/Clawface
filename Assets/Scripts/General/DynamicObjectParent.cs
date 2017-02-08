@@ -7,7 +7,7 @@ public class DynamicObjectParent : MonoBehaviour {
     public static DynamicObjectParent instance;
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 		if (instance == null) {
             instance = this;
         }

@@ -290,5 +290,6 @@ public class PlayerMovement : MonoBehaviour, IMovable {
     public void SetMovementMode(MovementMode mode)
     {
         movementMode = mode;
+        rigid.useGravity = mode == MovementMode.ICE ? true : false;
     }
 }
