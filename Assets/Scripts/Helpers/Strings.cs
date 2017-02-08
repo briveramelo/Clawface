@@ -18,6 +18,7 @@
     public static string LEFTTRIGGER = "LeftTrigger";
     public static string RIGHTTRIGGER = "RightTrigger";
     public static string UNLOCKABLE = "Unlockable";
+    public static string ANIMATIONSTATE = "AnimationState";
     public static string DPAD_X = "D-PadX";
     public static string DPAD_Y = "D-PadY";
 }
