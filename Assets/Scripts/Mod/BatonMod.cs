@@ -41,7 +41,8 @@ public class BatonMod : Mod {
 
     // Use this for initialization
     void Start () {
-        setModType(ModType.StunBaton);
+        type = ModType.StunBaton;
+        attackCollider.enabled = false;
     }
 	
 	// Update is called once per frame
@@ -81,8 +82,11 @@ public class BatonMod : Mod {
             IDamageable damageable = other.gameObject.GetComponent<IDamageable>();
             if (damageable != null && !recentlyHitEnemies.Contains(damageable)) {
                 damageable.TakeDamage(attackValue);
-                other.gameObject.GetComponent<IStunnable>().Stun();
-                recentlyHitEnemies.Add(damageable);
+                IStunnable stunnable = other.gameObject.GetComponent<IStunnable>();
+                if (stunnable != null) {
+                    stunnable.Stun();
+                    recentlyHitEnemies.Add(damageable);
+                }
             }                        
         }
     }

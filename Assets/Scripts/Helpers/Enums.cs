@@ -73,3 +73,9 @@ public enum MallCopAnimationStates
     Run = 7,
     Shoot = 8
 }
+
+public enum MovementMode
+{
+    PRECISE = 0,
+    ICE = 1
+}

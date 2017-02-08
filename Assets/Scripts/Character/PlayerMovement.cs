@@ -5,18 +5,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour, IDamageable
+
+public class PlayerMovement : MonoBehaviour, IDamageable, IMovable
 {
 
+    
 
     [SerializeField] private Transform foot;
-    [SerializeField] private float speed;
+    [SerializeField] private float acceleration;
+    [SerializeField] private float maxSpeed;
+    [SerializeField]
+    private float iceForceMultiplier;
+    [SerializeField]
+    private float manualDrag;
     [SerializeField] private bool axisInput;
     [SerializeField] private bool rightAxisInput;
     [SerializeField] private bool isSidescrolling;
     [SerializeField] private bool canMove = true;
     [SerializeField] private Vector3 lastMovement;
     [SerializeField] private Vector3 rightJoystickMovement;
+    [SerializeField]
+    private float currentSpeed;
+
+    [SerializeField] private MovementMode movementMode;
 
     private Stats stats;
 
@@ -33,17 +44,18 @@ public class PlayerMovement : MonoBehaviour, IDamageable
     #region Privates
 
     [SerializeField]
-    public Vector3 velocity;
+    private Vector3 velocity;
     private Rigidbody rigid;
 
     private RaycastHit hitInfo;
-    private bool isGrounded;
+    public bool isGrounded;
     private bool isFalling = false;
     private float sphereRadius = 0.1f;
 
     private Vector3 movement;
 
     private List<Vector3> externalForces;
+    private List<Vector3> externalForcesToAdd;
     #endregion
 
     void Awake()
@@ -55,10 +67,11 @@ public class PlayerMovement : MonoBehaviour, IDamageable
     // Use this for initialization
     void Start() {
         externalForces = new List<Vector3>();
+        externalForcesToAdd = new List<Vector3>();
         for (int i = 0; i < 100; i++) {
             externalForces.Add(Vector3.zero);
         }
-
+        movementMode = MovementMode.PRECISE;
     }
     
 
@@ -112,12 +125,48 @@ public class PlayerMovement : MonoBehaviour, IDamageable
         }
 
         isGrounded = IsGrounded();
+        maxSpeed = stats.GetStat(StatType.MoveSpeed);
     }
 
     private void FixedUpdate()
     {
-        rigid.velocity = movement * stats.GetStat(StatType.MoveSpeed) * Time.fixedDeltaTime + GetExternalForceSum();  
-              
+        switch (movementMode)
+        {
+            case MovementMode.PRECISE:
+                // Do I even need fixedDeltaTime here if I'm changing the velocity of the rigidbody directly?
+                //  rigid.velocity = movement * stats.GetStat(StatType.MoveSpeed) * Time.fixedDeltaTime + GetExternalForceSum();  
+                rigid.velocity = movement * stats.GetStat(StatType.MoveSpeed) + GetExternalForceSum();
+                break;
+            case MovementMode.ICE:
+
+                rigid.AddForce(movement * acceleration * Time.fixedDeltaTime);
+
+                foreach (Vector3 vector in externalForcesToAdd)
+                {
+                    rigid.AddForce(vector * Time.fixedDeltaTime);
+                }
+
+                
+                Vector3 flatMovement = new Vector3(rigid.velocity.x, 0f, rigid.velocity.z);
+                currentSpeed = flatMovement.magnitude;
+
+                if (currentSpeed > stats.GetStat(StatType.MoveSpeed))
+                {
+                    Vector3 currentFlatVelocity = flatMovement;
+                    currentFlatVelocity = -currentFlatVelocity;
+                    currentFlatVelocity = currentFlatVelocity.normalized;
+                    currentFlatVelocity *= (currentSpeed - stats.GetStat(StatType.MoveSpeed));
+                    currentFlatVelocity *= manualDrag;
+                    rigid.AddForce(currentFlatVelocity);
+                }
+                externalForcesToAdd.Clear();
+
+                break;
+            default:
+                rigid.velocity = movement * stats.GetStat(StatType.MoveSpeed) + GetExternalForceSum();
+                break;
+        }
+
         if (!axisInput)
         {
             if (rightAxisInput && rightJoystickMovement != Vector3.zero)
@@ -145,6 +194,9 @@ public class PlayerMovement : MonoBehaviour, IDamageable
                 }
             }
         }
+
+        velocity = rigid.velocity;
+        currentSpeed = rigid.velocity.magnitude;
     }
 
     private Vector3 GetExternalForceSum() {
@@ -153,54 +205,25 @@ public class PlayerMovement : MonoBehaviour, IDamageable
         return totalExternalForce;
     }
 
-    public void AddExternalForce(Vector3 forceVector, float decay = 0.1f) {        
-        if (canMove) {
-            StartCoroutine(AddPsuedoForce(forceVector, decay));
+    public void AddExternalForce(Vector3 forceVector, float decay=0.1f) {
+        switch (movementMode)
+        {
+            case MovementMode.PRECISE:
+            default:
+
+                if (canMove)
+                {
+                    StartCoroutine(AddPsuedoForce(forceVector, decay));
+                }
+                break;
+            case MovementMode.ICE:
+                if (canMove)
+                {
+                    externalForcesToAdd.Add(forceVector * iceForceMultiplier);
+                }
+                break;
         }
     }
-
-    public void AddJetForce(Vector3 constantForce, ModSpot modSpot) {
-        modSpotConstantForceIndices[modSpot] = true;
-        if (modSpot == ModSpot.Legs) {
-            isFalling = true;
-        }
-        StartCoroutine(ApplyJetForce(constantForce, modSpot));
-    }
-
-    public void StopConstantForce(ModSpot modSpot) {
-        modSpotConstantForceIndices[modSpot] = false;
-        if (modSpot == ModSpot.Legs) {
-            isFalling = false;
-        }
-    }
-
-    
-    private IEnumerator ApplyJetForce(Vector3 constantForce, ModSpot modSpot) {
-        int currentIndex = externalForces.FindIndex(vec => vec == Vector3.zero);        
-        while (modSpotConstantForceIndices[modSpot] && externalForces[currentIndex].magnitude < constantForce.magnitude - 0.1f) {
-            externalForces[currentIndex] = Vector3.Lerp(externalForces[currentIndex], constantForce, 0.1f);
-            yield return null;
-        }
-        StartCoroutine(FadeTargetForce(currentIndex));
-
-        float period = 5f;
-        float timePassed = 0f;
-        currentIndex = externalForces.FindIndex(vec => vec == Vector3.zero);
-        while (modSpotConstantForceIndices[modSpot]) {
-            externalForces[currentIndex] = 0.3f*constantForce * -Mathf.Sin((Mathf.PI*2/period) * timePassed);
-            timePassed += Time.deltaTime;
-            yield return null;
-        }
-        StartCoroutine(FadeTargetForce(currentIndex));
-    }
-
-    private IEnumerator FadeTargetForce(int targetIndex) {
-        while (externalForces[targetIndex].magnitude > 0.1f) {
-            externalForces[targetIndex] = Vector3.Lerp(externalForces[targetIndex], Vector3.zero, 0.1f);
-            yield return null;
-        }
-    }
-
     
     private IEnumerator AddPsuedoForce(Vector3 forceVector, float decay) {
         int currentIndex = externalForces.FindIndex(vec => vec == Vector3.zero);
@@ -274,5 +297,10 @@ public class PlayerMovement : MonoBehaviour, IDamageable
         {
             Destroy(gameObject);
         }
+
+    public void SetMovementMode(MovementMode mode)
+    {
+        movementMode = mode;
+        rigid.useGravity = mode == MovementMode.ICE ? true : false;
     }
 }
