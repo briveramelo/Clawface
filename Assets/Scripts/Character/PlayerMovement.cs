@@ -1,10 +1,12 @@
 ﻿// Adam Kay
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour {
+public class PlayerMovement : MonoBehaviour, IDamageable
+{
 
 
     [SerializeField] private Transform foot;
@@ -263,5 +265,14 @@ public class PlayerMovement : MonoBehaviour {
 
         }
         return true;
+    }
+
+    public void TakeDamage(float damage)
+    {
+        stats.TakeDamage(damage);
+        if(stats.GetStat(StatType.Health) <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 }

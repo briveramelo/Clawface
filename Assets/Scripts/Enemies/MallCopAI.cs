@@ -60,7 +60,9 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
         canAttack = true;
         canFall = true;
         PlayerMovement dummy = null;
+        mod.setModSpot(ModSpot.ArmR);
         mod.AttachAffect(ref myStats, ref dummy);
+        
     }
 
     void IDamageable.TakeDamage(float damage)
@@ -157,12 +159,10 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
                 canAttack = false;
                 if (animator.GetInteger(Strings.ANIMATIONSTATE) != (int)MallCopAnimationStates.Swing)
                 {
-                    animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Swing);                    
-                    StartCoroutine(WaitForAttackAnimation());
+                    animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Swing);
                 }else
                 {                    
-                    animator.Play(MallCopAnimationStates.Swing.ToString(), -1, 0f);
-                    StartCoroutine(WaitForAttackAnimation());
+                    animator.Play(MallCopAnimationStates.Swing.ToString(), -1, 0f);                    
                 }
             }
             else
@@ -178,9 +178,8 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
         }
     }
 
-    IEnumerator WaitForAttackAnimation()
-    {
-        yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
+    public void AttackAnimationDone()
+    {       
         canAttack = true;
     }
 
@@ -192,7 +191,7 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
                 canFall = false;
                 canAttack = false;
                 animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Stunned);
-                StartCoroutine(WaitForFallAnimation());
+                //StartCoroutine(WaitForFallAnimation());
             }
         }
     }
@@ -201,7 +200,7 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
     {
         yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
         animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.GettingUp);
-        if (myStats.GetStat(StatType.Health) <= 0)
+        if (myStats.GetStat(StatType.Health) >= 0)
         {
             yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
             canFall = true;
@@ -210,22 +209,22 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
         }
     }
 
-    private void OnTriggerEnter(Collider other)
-    {   
-        if (other.name == Strings.PLAYER && currentState != MallCopState.ATTACK && canAttack)
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.tag == Strings.PLAYER && currentState != MallCopState.ATTACK && canAttack)
         {
             attackTarget = other.gameObject;
             currentState = MallCopState.ATTACK;
             inRange = true;
-        }else if(other.name == Strings.PLAYER && canAttack)
+        }else if(other.gameObject.tag == Strings.PLAYER && canAttack)
         {
             inRange = true;
         }
     }
 
     private void OnTriggerExit(Collider other)
-    {   
-        if (other.name == Strings.PLAYER)
+    {
+        if (other.gameObject.tag == Strings.PLAYER)
         {
             inRange = false;
         }
@@ -255,6 +254,21 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
     public void DoDamage()
     {
         mod.Activate();
+    }
+
+    public void GetUp()
+    {
+        if (myStats.GetStat(StatType.Health) >= 0)
+        {
+            animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.GettingUp);
+        }
+    }
+
+    public void DoneGettingUp()
+    {
+        canFall = true;
+        canAttack = true;
+        currentState = MallCopState.ATTACK;
     }
 
 }
