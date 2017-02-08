@@ -1,10 +1,13 @@
 ﻿// Adam Kay
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour, IMovable {
+
+public class PlayerMovement : MonoBehaviour, IDamageable, IMovable
+{
 
     
 
@@ -285,6 +288,15 @@ public class PlayerMovement : MonoBehaviour, IMovable {
 
         }
         return true;
+    }
+
+    public void TakeDamage(float damage)
+    {
+        stats.TakeDamage(damage);
+        if (stats.GetStat(StatType.Health) <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 
     public void SetMovementMode(MovementMode mode)
