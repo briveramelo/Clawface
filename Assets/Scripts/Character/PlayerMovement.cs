@@ -268,7 +268,7 @@ public class PlayerMovement : MonoBehaviour, IDamageable, IMovable
     }
 
     
-    public bool IsGrounded()
+    private bool IsGrounded()
     {
 
         Collider[] cols = Physics.OverlapSphere(foot.transform.position, sphereRadius);
