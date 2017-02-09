@@ -26,8 +26,8 @@ public class MallCopSpawner : MonoBehaviour {
         }
         set { currentWaveNumber = value; }
     }           
-    int currentWaveNumber=0;
-    int numMallCops=0;
+    [SerializeField] int currentWaveNumber=0;
+    [SerializeField] int numMallCops=0;
 
     void Awake() {
         SpawnMallCop();
@@ -45,7 +45,9 @@ public class MallCopSpawner : MonoBehaviour {
 
     void SpawnMallCop() {
         numMallCops++;
-        GameObject cop = Instantiate(mallCop, spawnPoints.GetRandom(), true);
+        //GameObject cop = Instantiate(mallCop, spawnPoints.GetRandom(), false);
+        GameObject cop = Instantiate(mallCop);
+        cop.transform.position = spawnPoints.GetRandom().position;
         cop.GetComponent<MallCopAI>().RegisterDeathEvent(ReportDeath);
         if (numMallCops < mallCopWaves[currentWave].maxMallCops)
         {
