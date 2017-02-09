@@ -41,7 +41,7 @@ public class BatonMod : Mod {
 
     // Use this for initialization
     void Start () {
-        setModType(ModType.StunBaton);
+        type = ModType.StunBaton;
         attackCollider.enabled = false;
     }
 	
@@ -53,7 +53,7 @@ public class BatonMod : Mod {
     {        
         if (!isHitting)
         {
-            isHitting = true;            
+            isHitting = true;
             StartCoroutine(HitCoolDown());
         }
     }
@@ -75,15 +75,18 @@ public class BatonMod : Mod {
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
-        if (other.tag == Strings.ENEMY && isHitting)
+        if (isHitting)
         {
             IDamageable damageable = other.gameObject.GetComponent<IDamageable>();
-            if (!recentlyHitEnemies.Contains(damageable)) {
+            if (damageable != null && !recentlyHitEnemies.Contains(damageable)) {
                 damageable.TakeDamage(attackValue);
-                other.gameObject.GetComponent<IStunnable>().Stun();
-                recentlyHitEnemies.Add(damageable);
+                IStunnable stunnable = other.gameObject.GetComponent<IStunnable>();
+                if (stunnable != null) {
+                    stunnable.Stun();
+                    recentlyHitEnemies.Add(damageable);
+                }
             }                        
         }
     }
@@ -100,7 +103,6 @@ public class BatonMod : Mod {
 
     public override void AttachAffect(ref Stats i_playerStats, ref PlayerMovement playerMovement)
     {
-        //TODO:Disable pickup collider
         attackCollider.enabled = true;
         playerStats = i_playerStats;
         pickupCollider.enabled = false;
@@ -115,7 +117,6 @@ public class BatonMod : Mod {
 
     public override void DetachAffect()
     {
-        //TODO:Enable pickup collider
         attackCollider.enabled = false;
         pickupCollider.enabled = true;
         if (getModSpot() == ModSpot.Head)
