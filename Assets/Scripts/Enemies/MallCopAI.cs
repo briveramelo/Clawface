@@ -35,7 +35,7 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
     private bool willHasBeenWritten;
 
     public void RegisterDeathEvent(OnDeath onDeath) {
-        this.onDeath += onDeath;
+        this.onDeath = onDeath;
         willHasBeenWritten = true;
     }
 
@@ -80,22 +80,28 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
 
     void IDamageable.TakeDamage(float damage)
     {
-        myStats.TakeDamage(damage);
-        if (myStats.GetStat(StatType.Health) <= 5 && !isGlowing) {
-            isGlowing = true;
-            skinGlowScript.SetToGlow();
-        }
-        if (myStats.GetStat(StatType.Health) <= 0) {
-            if (animator.GetInteger(Strings.ANIMATIONSTATE) != (int)MallCopAnimationStates.Stunned)
+        if (myStats.GetStat(StatType.Health) > 0)
+        {
+            myStats.TakeDamage(damage);
+            if (myStats.GetStat(StatType.Health) <= 5 && !isGlowing)
             {
-                animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Stunned);
+                isGlowing = true;
+                skinGlowScript.SetToGlow();
             }
-            GetComponent<Rigidbody>().isKinematic = true;
-            if (willHasBeenWritten)
+            if (myStats.GetStat(StatType.Health) <= 0)
             {
-                onDeath();
+                if (animator.GetInteger(Strings.ANIMATIONSTATE) != (int)MallCopAnimationStates.Stunned)
+                {
+                    animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Stunned);
+                }
+                GetComponent<Rigidbody>().isKinematic = true;
+                if (willHasBeenWritten)
+                {
+                    onDeath();
+                }
+                mod.DetachAffect();
+                Destroy(gameObject, 5f);
             }
-            //Destroy(gameObject);
         }
     }
 
@@ -213,7 +219,6 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
                 Vector3 movementDirection = attackTarget.transform.position - transform.position;
                 Vector3 movementDirectionXZ = new Vector3(movementDirection.x, 0, movementDirection.z);               
                 rigid.velocity = movementDirectionXZ.normalized * myStats.GetStat(StatType.MoveSpeed) * runMultiplier * Time.fixedDeltaTime + GetExternalForceSum();
-                Debug.Log("running" + rigbod.velocity);
             }
         }
     }
@@ -301,7 +306,7 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
 
     public void GetUp()
     {
-        if (myStats.GetStat(StatType.Health) >= 0)
+        if (myStats.GetStat(StatType.Health) > 0)
         {
             animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.GettingUp);
         }
