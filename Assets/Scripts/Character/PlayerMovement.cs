@@ -27,6 +27,8 @@ public class PlayerMovement : MonoBehaviour, IDamageable, IMovable
     [SerializeField]
     private float currentSpeed;
 
+    Animator animator;
+
     [SerializeField] private MovementMode movementMode;
 
     private Stats stats;
@@ -72,6 +74,7 @@ public class PlayerMovement : MonoBehaviour, IDamageable, IMovable
             externalForces.Add(Vector3.zero);
         }
         movementMode = MovementMode.PRECISE;
+        animator = GetComponent<Animator>();
     }
     
 
@@ -136,6 +139,20 @@ public class PlayerMovement : MonoBehaviour, IDamageable, IMovable
                 // Do I even need fixedDeltaTime here if I'm changing the velocity of the rigidbody directly?
                 //  rigid.velocity = movement * stats.GetStat(StatType.MoveSpeed) * Time.fixedDeltaTime + GetExternalForceSum();  
                 rigid.velocity = movement * stats.GetStat(StatType.MoveSpeed) + GetExternalForceSum();
+                if(rigid.velocity != Vector3.zero)
+                {
+                    if(animator.GetInteger(Strings.ANIMATIONSTATE) != (int)PlayerAnimationStates.Running)
+                    {
+                        animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Running);
+                    }
+                }
+                else
+                {
+                    if (animator.GetInteger(Strings.ANIMATIONSTATE) != (int)PlayerAnimationStates.Idle)
+                    {
+                        animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Idle);
+                    }
+                }
                 break;
             case MovementMode.ICE:
 

@@ -79,3 +79,12 @@ public enum MovementMode
     PRECISE = 0,
     ICE = 1
 }
+
+public enum PlayerAnimationStates
+{
+    Idle = 0,
+    Running = 1,
+    Shoot = 2,
+    Float = 3,
+    Melee = 4
+}
