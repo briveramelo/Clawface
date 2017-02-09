@@ -322,7 +322,9 @@ public class PlayerMovement : MonoBehaviour, IDamageable, IMovable
         stats.TakeDamage(damage);
         if (stats.GetStat(StatType.Health) <= 0)
         {
-            Destroy(gameObject);
+            //Destroy(gameObject);
+            transform.position = GameObject.Find("RespawnPoint").transform.position;
+            stats.Modify(StatType.Health, (int)50);
         }
     }
 
