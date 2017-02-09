@@ -86,5 +86,8 @@ public enum PlayerAnimationStates
     Running = 1,
     Shoot = 2,
     Float = 3,
-    Melee = 4
+    MeleeRight = 4,
+    RunMeleeRight = 5,
+    MeleeLeft = 6,
+    RunMeleeLeft = 7
 }

@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 0bb4816abc27b5a47a129169f04cef83
-timeCreated: 1486600042
+guid: 0d0dcba2db5ac114699f743894d9691b
+timeCreated: 1486623901
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -17,11 +17,11 @@ ModelImporter:
     100018: hip1
     100020: knee
     100022: knee1
-    100024: pSphere18
-    100026: root
-    100028: shoulder
-    100030: shoulder1
-    100032: //RootNode
+    100024: //RootNode
+    100026: pSphere18
+    100028: root
+    100030: shoulder
+    100032: shoulder1
     400000: back
     400002: elbow
     400004: elbow1
@@ -34,13 +34,13 @@ ModelImporter:
     400018: hip1
     400020: knee
     400022: knee1
-    400024: pSphere18
-    400026: root
-    400028: shoulder
-    400030: shoulder1
-    400032: //RootNode
+    400024: //RootNode
+    400026: pSphere18
+    400028: root
+    400030: shoulder
+    400032: shoulder1
     4300000: pSphere18
-    7400000: standing_melee_attack_downward
+    7400000: standing_melee_attack_downward_Mirrored
     9500000: //RootNode
     13700000: pSphere18
   materials:
@@ -65,7 +65,7 @@ ModelImporter:
     extraExposedTransformPaths: []
     clipAnimations:
     - serializedVersion: 16
-      name: standing_melee_attack_downward
+      name: standing_melee_attack_downward_Mirrored
       takeName: mixamo.com
       firstFrame: 0
       lastFrame: 68
@@ -88,7 +88,7 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.24084786
+      - time: 0.23665893
         functionName: ActivateMod
         data: 
         objectReferenceParameter: {fileID: 1205719698033964, guid: 571f3f5304dc6ae4ca659258a79a2b90,
@@ -96,7 +96,7 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.6652286
+      - time: 0.67053366
         functionName: DeActivateMod
         data: 
         objectReferenceParameter: {fileID: 1205719698033964, guid: 571f3f5304dc6ae4ca659258a79a2b90,
