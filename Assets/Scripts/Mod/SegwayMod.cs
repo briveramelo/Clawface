@@ -188,6 +188,7 @@ public class SegwayMod : Mod {
 
     void AoeAttack()
     {
+        AudioManager.instance.PlaySFX(SFXType.ForceSegwayPush);
         EnableAoeCollider();
         isAoeAttacking = true;
         recentlyHitEnemies.Clear();
@@ -196,6 +197,7 @@ public class SegwayMod : Mod {
 
     void Hit()
     {
+        AudioManager.instance.PlaySFX(SFXType.ForceSegwayPush);
         EnableAttackCollider();
         isAttacking = true;
         recentlyHitEnemies.Clear();

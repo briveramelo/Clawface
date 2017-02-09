@@ -24,6 +24,7 @@ public class StunMine : MonoBehaviour {
     {
         if(other.tag == Strings.ENEMY)
         {
+            AudioManager.instance.PlaySFX(SFXType.StunBatonExplodeMine);
             explosionEffect.Emit();
             other.GetComponent<IDamageable>().TakeDamage(damage);
             other.GetComponent<IStunnable>().Stun();

@@ -21,16 +21,18 @@ public class AudioManager : MonoBehaviour {
     public bool PlaySFX(SFXType type)
     {
         bool result = false;
-        if ((int)type < clips.Length)
-        {
-            if (index == audioSources.Count)
+        if ((int)type < clips.Length) {
+            if ((int)type < clips.Length)
             {
-                index = 0;
+                if (index == audioSources.Count)
+                {
+                    index = 0;
+                }
+                audioSources[index].Stop();
+                audioSources[index].clip = clips[(int)type];
+                audioSources[index].Play();
+                result = true;
             }
-            audioSources[index].Stop();
-            audioSources[index].clip = clips[(int)type];
-            audioSources[index].Play();
-            result = true;
         }
         return result;
     }

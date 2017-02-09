@@ -56,6 +56,7 @@ public class BatonMod : Mod {
     {        
         if (!isHitting)
         {
+            AudioManager.instance.PlaySFX(SFXType.StunBatonSwing);
             isHitting = true;
             StartCoroutine(HitCoolDown());
         }
@@ -75,6 +76,7 @@ public class BatonMod : Mod {
         {
             stunMine.transform.position = transform.position;
             stunMine.SetActive(true);
+            AudioManager.instance.PlaySFX(SFXType.StunBatonLayMine);
         }
     }
 
