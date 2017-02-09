@@ -10,6 +10,7 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
     [SerializeField] Stats myStats;
     [SerializeField] GameObject mySkin;
     [SerializeField] Rigidbody rigbod;
+    [SerializeField] Transform foot;
 
     [SerializeField, Range(5f, 15f)] private float attackTime;
     [SerializeField, Range(1, 6)] private int numShocksToStun;
@@ -25,6 +26,9 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
     private Rigidbody rigid;
     private int stunCount;
     private bool isGlowing = false;
+    private bool isGrounded;
+    private bool isFalling = false;
+    private float sphereRadius = 0.1f;
 
     public delegate void OnDeath();
     private OnDeath onDeath;
@@ -127,6 +131,7 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
     // Update is called once per frame
     void Update ()
     {
+        isGrounded = IsGrounded();
         if (myStats.GetStat(StatType.Health) > 0)
         {
             switch (currentState)
@@ -144,6 +149,23 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
         }
     }
 
+    private bool IsGrounded()
+    {
+        Collider[] cols = Physics.OverlapSphere(foot.transform.position, sphereRadius);
+        for (int i = 0; i < cols.Length; i++)
+        {
+            if (cols[i].gameObject.layer == (int)Layers.Ground)
+            {
+                return true;
+            }
+        }
+        if (!isFalling)
+        {
+            StartCoroutine(ApplyGravity());
+        }
+        return false;
+    }
+
     private void Walk()
     {
         if (animator.GetInteger(Strings.ANIMATIONSTATE) != (int)MallCopAnimationStates.Walk)
@@ -158,21 +180,29 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
 
     private void Attack()
     {
-        if (canAttack)
+        rigid.velocity = GetExternalForceSum();
+        if (canAttack && attackTarget != null)
         {
             Vector3 lookAtPosition = new Vector3(attackTarget.transform.position.x, 0, attackTarget.transform.position.z);
+            Quaternion startRotation = transform.rotation;
             transform.LookAt(lookAtPosition);
+            Quaternion targetRotation = transform.rotation;
+            transform.rotation = startRotation;
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 0.1f);
+            transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);
+                                    
             if (inRange)
             {
-                rigid.velocity = Vector3.zero;
+                transform.rotation = targetRotation;
                 canAttack = false;
                 if (animator.GetInteger(Strings.ANIMATIONSTATE) != (int)MallCopAnimationStates.Swing)
-                {
-                    animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Swing);
-                }else
                 {                    
-                    animator.Play(MallCopAnimationStates.Swing.ToString(), -1, 0f);                    
+                    animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Swing);
                 }
+                else
+                {                    
+                    animator.Play(MallCopAnimationStates.Swing.ToString(), -1, 0f);
+                }                
             }
             else
             {
@@ -257,6 +287,22 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
             externalForces[currentIndex] = Vector3.Lerp(externalForces[currentIndex], Vector3.zero, decay);
             yield return null;
         }
+        externalForces[currentIndex] = Vector3.zero;
+    }
+
+    private IEnumerator ApplyGravity()
+    {
+        isFalling = true;
+        int currentIndex = externalForces.FindIndex(vec => vec == Vector3.zero);
+        float timeElapsed = 0f;
+        float gravity = 9.81f;
+        while (!isGrounded && isFalling)
+        {
+            externalForces[currentIndex] = Vector3.down * (gravity * timeElapsed);
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+        isFalling = false;
         externalForces[currentIndex] = Vector3.zero;
     }
 
