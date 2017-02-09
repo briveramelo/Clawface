@@ -88,6 +88,7 @@ public class BlasterMod : Mod {
     {
         playerStats.Modify(StatType.MiniMapRange, 1 / rangeBoostValue);
         pickupCollider.enabled = true;
+        playerMovement = null;
     }
 
     // Use this for initialization
