@@ -14,6 +14,9 @@ public class BatonMod : Mod {
     private Collider attackCollider;
     bool isHitting;
 
+    [SerializeField]
+    private VFXStunBatonImpact impactEffect;
+
     public override void Activate()
     {
         switch (getModSpot())
@@ -81,6 +84,7 @@ public class BatonMod : Mod {
         {
             IDamageable damageable = other.gameObject.GetComponent<IDamageable>();
             if (damageable != null && !recentlyHitEnemies.Contains(damageable)) {
+                impactEffect.Emit();
                 damageable.TakeDamage(attackValue);
                 IStunnable stunnable = other.gameObject.GetComponent<IStunnable>();
                 if (stunnable != null) {

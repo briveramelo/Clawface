@@ -20,6 +20,9 @@ public class BlasterMod : Mod {
     [SerializeField]
     private float feetMultiplier;
 
+    [SerializeField]
+    VFXBlasterShoot blasterEffect; 
+
     public override void Activate()
     {
         if (readyToShoot && getModSpot() != ModSpot.Head)
@@ -51,6 +54,7 @@ public class BlasterMod : Mod {
             KickBack(-playerMovement.gameObject.transform.forward);
         }
         blasterBullet.SetActive(true);
+        blasterEffect.Emit();
     }
 
     void KickBack(Vector3 direction)
