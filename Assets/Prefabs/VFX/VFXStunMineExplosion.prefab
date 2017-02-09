@@ -39,6 +39,7 @@ GameObject:
   - component: {fileID: 198707016324252702}
   - component: {fileID: 199021767255927712}
   - component: {fileID: 114412058733361714}
+  - component: {fileID: 114477356468431298}
   m_Layer: 0
   m_Name: VFXStunMineExplosion
   m_TagString: Untagged
@@ -118,6 +119,17 @@ MonoBehaviour:
   _shockEmitter: {fileID: 198707016324252702}
   _sparkEmitter: {fileID: 198628971096839724}
   _sparkTrailEmitter: {fileID: 198204261220185312}
+--- !u!114 &114477356468431298
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1740099813439758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f55bd3f95446fe54b97c533726cfa2f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!198 &198204261220185312
 ParticleSystem:
   m_ObjectHideFlags: 1
