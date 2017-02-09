@@ -89,8 +89,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1994674684397496}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 13.40125, y: 9.218, z: 100.7093}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 21.476292, y: 9.621, z: 83.61263}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children:
   - {fileID: 4347131536849732}
   m_Father: {fileID: 0}
@@ -201,7 +201,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 5
-  explosionEffect: {fileID: 114155901769937992}
+  explosionEffectPrefab: {fileID: 1740099813439758, guid: 019626f2c1df7d24d993f8c51d5a44de,
+    type: 2}
 --- !u!135 &135970923636219642
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -212,7 +213,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.7
+  m_Radius: 0.2
   m_Center: {x: -0.0000000037252903, y: 0.028326437, z: 0.000000007450581}
 --- !u!198 &198391574356558878
 ParticleSystem:

@@ -8,7 +8,7 @@ public class BatonMod : Mod {
     [SerializeField]
     private float attackBoostValue;
     private float attackValue;
-    private float attackTime = 0.5f;
+    private float attackTime = 1f;
 
     [SerializeField]
     private Collider attackCollider;
@@ -42,10 +42,14 @@ public class BatonMod : Mod {
         //Nothing to do here
     }
 
-    // Use this for initialization
-    void Start () {
+    void Awake()
+    {
         type = ModType.StunBaton;
         attackCollider.enabled = false;
+    }
+
+    // Use this for initialization
+    void Start () {        
     }
 	
 	// Update is called once per frame
@@ -56,6 +60,7 @@ public class BatonMod : Mod {
     {        
         if (!isHitting)
         {
+            AudioManager.instance.PlaySFX(SFXType.StunBatonSwing);
             isHitting = true;
             StartCoroutine(HitCoolDown());
         }
@@ -75,6 +80,7 @@ public class BatonMod : Mod {
         {
             stunMine.transform.position = transform.position;
             stunMine.SetActive(true);
+            AudioManager.instance.PlaySFX(SFXType.StunBatonLayMine);
         }
     }
 

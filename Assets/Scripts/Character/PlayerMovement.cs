@@ -145,23 +145,27 @@ public class PlayerMovement : MonoBehaviour, IDamageable, IMovable
                     if (rigid.velocity != Vector3.zero)
                     {
                         if (animator.GetInteger(Strings.ANIMATIONSTATE) != (int)PlayerAnimationStates.Running)
-                        {
-                            print("Playing running animation");
+                        {                            
                             animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Running);
                         }
                     }
                     else
                     {
                         if (animator.GetInteger(Strings.ANIMATIONSTATE) != (int)PlayerAnimationStates.Idle)
-                        {
-                            print("Playing idle animation");
+                        {                            
                             animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Idle);
                         }
                     }
                 }
                 break;
             case MovementMode.ICE:
-
+                if (!modAnimationManager.GetIsPlaying())
+                {
+                    if (animator.GetInteger(Strings.ANIMATIONSTATE) != (int)PlayerAnimationStates.Idle)
+                    {
+                        animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Idle);
+                    }
+                }
                 rigid.AddForce(movement * acceleration * Time.fixedDeltaTime);
 
                 foreach (Vector3 vector in externalForcesToAdd)
@@ -318,7 +322,9 @@ public class PlayerMovement : MonoBehaviour, IDamageable, IMovable
         stats.TakeDamage(damage);
         if (stats.GetStat(StatType.Health) <= 0)
         {
-            Destroy(gameObject);
+            //Destroy(gameObject);
+            transform.position = GameObject.Find("RespawnPoint").transform.position;
+            stats.Modify(StatType.Health, (int)50);
         }
     }
 
@@ -332,7 +338,7 @@ public class PlayerMovement : MonoBehaviour, IDamageable, IMovable
     {
         if (!modAnimationManager.GetIsPlaying())
         {            
-            if (rigid.velocity != Vector3.zero)
+            if (movementMode == MovementMode.PRECISE && rigid.velocity != Vector3.zero)
             {
                 modAnimationManager.PlayModAnimation(mod, true);
             }
