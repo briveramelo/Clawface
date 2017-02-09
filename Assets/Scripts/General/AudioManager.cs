@@ -6,9 +6,9 @@ public class AudioManager : MonoBehaviour {
 
     public static AudioManager instance;
 
+    [SerializeField] AudioClip[] clips;
     List<AudioSource> audioSources;
     int index;
-    AudioClip[] clips;
 
 	// Use this for initialization
 	void Start () {
