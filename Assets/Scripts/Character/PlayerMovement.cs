@@ -1,10 +1,13 @@
 ﻿// Adam Kay
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour, IMovable {
+
+public class PlayerMovement : MonoBehaviour, IDamageable, IMovable
+{
 
     
 
@@ -24,10 +27,13 @@ public class PlayerMovement : MonoBehaviour, IMovable {
     [SerializeField]
     private float currentSpeed;
 
+    Animator animator;
+
     [SerializeField] private MovementMode movementMode;
 
     private Stats stats;
 
+    private PlayerModAnimationManager modAnimationManager;
 
     private Dictionary<ModSpot, bool> modSpotConstantForceIndices = new Dictionary<ModSpot, bool>()
     {
@@ -37,7 +43,6 @@ public class PlayerMovement : MonoBehaviour, IMovable {
         {ModSpot.ArmR, false}
     };
 
-
     #region Privates
 
     [SerializeField]
@@ -45,7 +50,7 @@ public class PlayerMovement : MonoBehaviour, IMovable {
     private Rigidbody rigid;
 
     private RaycastHit hitInfo;
-    private bool isGrounded;
+    public bool isGrounded;
     private bool isFalling = false;
     private float sphereRadius = 0.1f;
 
@@ -69,6 +74,8 @@ public class PlayerMovement : MonoBehaviour, IMovable {
             externalForces.Add(Vector3.zero);
         }
         movementMode = MovementMode.PRECISE;
+        animator = GetComponent<Animator>();
+        modAnimationManager = GetComponent<PlayerModAnimationManager>();
     }
     
 
@@ -133,6 +140,25 @@ public class PlayerMovement : MonoBehaviour, IMovable {
                 // Do I even need fixedDeltaTime here if I'm changing the velocity of the rigidbody directly?
                 //  rigid.velocity = movement * stats.GetStat(StatType.MoveSpeed) * Time.fixedDeltaTime + GetExternalForceSum();  
                 rigid.velocity = movement * stats.GetStat(StatType.MoveSpeed) + GetExternalForceSum();
+                if (!modAnimationManager.GetIsPlaying())
+                {
+                    if (rigid.velocity != Vector3.zero)
+                    {
+                        if (animator.GetInteger(Strings.ANIMATIONSTATE) != (int)PlayerAnimationStates.Running)
+                        {
+                            print("Playing running animation");
+                            animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Running);
+                        }
+                    }
+                    else
+                    {
+                        if (animator.GetInteger(Strings.ANIMATIONSTATE) != (int)PlayerAnimationStates.Idle)
+                        {
+                            print("Playing idle animation");
+                            animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Idle);
+                        }
+                    }
+                }
                 break;
             case MovementMode.ICE:
 
@@ -248,7 +274,7 @@ public class PlayerMovement : MonoBehaviour, IMovable {
     }
 
     
-    public bool IsGrounded()
+    private bool IsGrounded()
     {
 
         Collider[] cols = Physics.OverlapSphere(foot.transform.position, sphereRadius);
@@ -287,8 +313,33 @@ public class PlayerMovement : MonoBehaviour, IMovable {
         return true;
     }
 
+    public void TakeDamage(float damage)
+    {
+        stats.TakeDamage(damage);
+        if (stats.GetStat(StatType.Health) <= 0)
+        {
+            Destroy(gameObject);
+        }
+    }
+
     public void SetMovementMode(MovementMode mode)
     {
         movementMode = mode;
+        rigid.useGravity = mode == MovementMode.ICE ? true : false;
+    }
+
+    public void PlayAnimation(Mod mod)
+    {
+        if (!modAnimationManager.GetIsPlaying())
+        {            
+            if (rigid.velocity != Vector3.zero)
+            {
+                modAnimationManager.PlayModAnimation(mod, true);
+            }
+            else
+            {
+                modAnimationManager.PlayModAnimation(mod, false);
+            }
+        }
     }
 }

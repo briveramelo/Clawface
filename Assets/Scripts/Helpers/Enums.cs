@@ -54,8 +54,40 @@ public enum Layers {
     Ground=11
 }
 
+enum MallCopState
+{
+    WALK = 0,
+    ATTACK = 1,
+    STUNNED = 2
+}
+
+public enum MallCopAnimationStates
+{
+    Idle = 0,
+    Walk = 1,
+    Swing = 2,
+    HitReaction = 3,
+    Stunned = 4,
+    GettingUp = 5,
+    DrawWeapon = 6,
+    Run = 7,
+    Shoot = 8
+}
+
 public enum MovementMode
 {
     PRECISE = 0,
     ICE = 1
+}
+
+public enum PlayerAnimationStates
+{
+    Idle = 0,
+    Running = 1,
+    Shoot = 2,
+    Float = 3,
+    MeleeRight = 4,
+    RunMeleeRight = 5,
+    MeleeLeft = 6,
+    RunMeleeLeft = 7
 }
