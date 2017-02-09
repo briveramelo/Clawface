@@ -87,7 +87,6 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
                 animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Stunned);
             }
             GetComponent<Rigidbody>().isKinematic = true;
-            //Destroy(gameObject);
         }
     }
 
@@ -138,7 +137,7 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
                     Attack();
                     break;
                 case MallCopState.STUNNED:
-                    Twitch();
+                    Stun();
                     break;
             }
         }
@@ -162,28 +161,54 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
         {
             Vector3 lookAtPosition = new Vector3(attackTarget.transform.position.x, 0, attackTarget.transform.position.z);
             transform.LookAt(lookAtPosition);
-            if (inRange)
+            if (mod.getModType() == ModType.StunBaton)
             {
-                rigid.velocity = Vector3.zero;
-                canAttack = false;
-                if (animator.GetInteger(Strings.ANIMATIONSTATE) != (int)MallCopAnimationStates.Swing)
-                {
-                    animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Swing);
-                }else
-                {                    
-                    animator.Play(MallCopAnimationStates.Swing.ToString(), -1, 0f);                    
-                }
+                StunBatonAction();
+            }else if(mod.getModType() == ModType.ArmBlaster)
+            {
+                ArmBlasterAction();
+            }
+        }
+    }
+
+    private void StunBatonAction()
+    {        
+        if (inRange)
+        {
+            rigid.velocity = Vector3.zero;
+            canAttack = false;
+            if (animator.GetInteger(Strings.ANIMATIONSTATE) != (int)MallCopAnimationStates.Swing)
+            {
+                animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Swing);
             }
             else
             {
-                if (animator.GetInteger(Strings.ANIMATIONSTATE) != (int)MallCopAnimationStates.Run)
-                {
-                    animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Run);
-                }
-                Vector3 movementDirection = attackTarget.transform.position - transform.position;
-                Vector3 movementDirectionXZ = new Vector3(movementDirection.x, 0, movementDirection.z);               
-                rigid.velocity = movementDirectionXZ.normalized * myStats.GetStat(StatType.MoveSpeed) * runMultiplier * Time.fixedDeltaTime + GetExternalForceSum();
+                animator.Play(MallCopAnimationStates.Swing.ToString(), -1, 0f);
             }
+        }
+        else
+        {
+            if (animator.GetInteger(Strings.ANIMATIONSTATE) != (int)MallCopAnimationStates.Run)
+            {
+                animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Run);
+            }
+            Vector3 movementDirection = attackTarget.transform.position - transform.position;
+            Vector3 movementDirectionXZ = new Vector3(movementDirection.x, 0, movementDirection.z);
+            rigid.velocity = movementDirectionXZ.normalized * myStats.GetStat(StatType.MoveSpeed) * runMultiplier * Time.fixedDeltaTime + GetExternalForceSum();
+        }
+    }
+
+    private void ArmBlasterAction()
+    {
+        rigid.velocity = Vector3.zero;
+        canAttack = false;
+        if (animator.GetInteger(Strings.ANIMATIONSTATE) != (int)MallCopAnimationStates.Shoot)
+        {
+            animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Shoot);
+        }
+        else
+        {
+            animator.Play(MallCopAnimationStates.Shoot.ToString(), -1, 0f);
         }
     }
 
@@ -192,7 +217,7 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
         canAttack = true;
     }
 
-    private void Twitch() {
+    private void Stun() {
         if (canFall)
         {
             if (animator.GetInteger(Strings.ANIMATIONSTATE) != (int)MallCopAnimationStates.Stunned)
@@ -200,21 +225,7 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
                 canFall = false;
                 canAttack = false;
                 animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Stunned);
-                //StartCoroutine(WaitForFallAnimation());
             }
-        }
-    }
-
-    IEnumerator WaitForFallAnimation()
-    {
-        yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
-        animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.GettingUp);
-        if (myStats.GetStat(StatType.Health) >= 0)
-        {
-            yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
-            canFall = true;
-            canAttack = true;
-            currentState = MallCopState.ATTACK;
         }
     }
 
