@@ -39,6 +39,9 @@ public class SegwayMod : Mod {
     [SerializeField]
     private float aoeForce;
 
+    [SerializeField]
+    private VFXBlasterShoot shootEffect;
+
     private static string ENABLEATTACKCOLLIDER = "EnableAttackCollider";
     private static string DISABLEATTACKCOLLIDER = "DisableAttackCollider";
     private static string ENABLEAOECOLLIDER = "EnableAoeCollider";
@@ -198,6 +201,7 @@ public class SegwayMod : Mod {
     void Hit()
     {
         AudioManager.instance.PlaySFX(SFXType.ForceSegwayPush);
+        shootEffect.Emit();
         EnableAttackCollider();
         isAttacking = true;
         recentlyHitEnemies.Clear();
