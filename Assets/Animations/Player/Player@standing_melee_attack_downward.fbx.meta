@@ -40,7 +40,7 @@ ModelImporter:
     400030: shoulder1
     400032: //RootNode
     4300000: pSphere18
-    7400000: mixamo.com
+    7400000: standing_melee_attack_downward
     9500000: //RootNode
     13700000: pSphere18
   materials:
@@ -63,7 +63,85 @@ ModelImporter:
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: standing_melee_attack_downward
+      takeName: mixamo.com
+      firstFrame: 0
+      lastFrame: 68
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events:
+      - time: 0.24084786
+        functionName: ActivateMod
+        data: 
+        objectReferenceParameter: {fileID: 1205719698033964, guid: 571f3f5304dc6ae4ca659258a79a2b90,
+          type: 2}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.6652286
+        functionName: DeActivateMod
+        data: 
+        objectReferenceParameter: {fileID: 1205719698033964, guid: 571f3f5304dc6ae4ca659258a79a2b90,
+          type: 2}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      transformMask:
+      - path: 
+        weight: 1
+      - path: pSphere18
+        weight: 1
+      - path: root
+        weight: 1
+      - path: root/back
+        weight: 1
+      - path: root/back/head
+        weight: 1
+      - path: root/back/shoulder
+        weight: 1
+      - path: root/back/shoulder/elbow
+        weight: 1
+      - path: root/back/shoulder/elbow/hand
+        weight: 1
+      - path: root/back/shoulder1
+        weight: 1
+      - path: root/back/shoulder1/elbow1
+        weight: 1
+      - path: root/back/shoulder1/elbow1/hand1
+        weight: 1
+      - path: root/hip
+        weight: 1
+      - path: root/hip/knee
+        weight: 1
+      - path: root/hip/knee/foot
+        weight: 1
+      - path: root/hip1
+        weight: 1
+      - path: root/hip1/knee1
+        weight: 1
+      - path: root/hip1/knee1/foot1
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     isReadable: 1
   meshes:
     lODScreenPercentages: []
