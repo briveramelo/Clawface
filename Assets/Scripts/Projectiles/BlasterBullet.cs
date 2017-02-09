@@ -11,6 +11,9 @@ public class BlasterBullet : MonoBehaviour {
     bool push;
 
     [SerializeField]
+    VFXBlasterProjectileImpact projectileImpactEffect;
+
+    [SerializeField]
     float speed;
 
 	// Use this for initialization
@@ -30,6 +33,7 @@ public class BlasterBullet : MonoBehaviour {
         {
             yield return new WaitForSeconds(3);
             gameObject.SetActive(false);
+            projectileImpactEffect.Emit();
         }
     }
 

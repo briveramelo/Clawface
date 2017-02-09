@@ -59,11 +59,10 @@ public class ModManager : MonoBehaviour
         {
             ModSpot spot = GetCommandedModSpot();
             if (spot != ModSpot.Default)
-            {   
+            {                
                 if (modSocketDictionary[spot].mod != null)
                 {
-
-                    modSocketDictionary[spot].mod.Activate();
+                    playerMovement.PlayAnimation(modSocketDictionary[spot].mod);
                 }
             }
         }
