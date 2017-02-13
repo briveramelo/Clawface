@@ -217,10 +217,10 @@ public class ModManager : MonoBehaviour
 
 
     private ModSpot GetCommandedModSpotDown() {
-        if (Input.GetButtonDown(Strings.HEAD)) {
+        if (Input.GetButtonDown(Strings.HEAD) || Input.GetButton(Strings.LEFTBUMPER)) {
             return ModSpot.Head;
         }
-        if (Input.GetButtonDown(Strings.LEGS)) {
+        if (Input.GetButtonDown(Strings.LEGS) || Input.GetButton(Strings.RIGHTBUMPER)) {
             return ModSpot.Legs;
         }
         if (Input.GetAxis(Strings.LEFTARM) > triggerThreshold && lastLeftArm <= triggerThreshold) {
@@ -234,8 +234,8 @@ public class ModManager : MonoBehaviour
 
     
     private void SetCommandedModSpots() {
-        modSocketDictionary[ModSpot.Head].isActive = Input.GetButton(Strings.HEAD);
-        modSocketDictionary[ModSpot.Legs].isActive = Input.GetButton(Strings.LEGS);
+        modSocketDictionary[ModSpot.Head].isActive = Input.GetButton(Strings.HEAD) || Input.GetButton(Strings.LEFTBUMPER);
+        modSocketDictionary[ModSpot.Legs].isActive = Input.GetButton(Strings.LEGS) || Input.GetButton(Strings.RIGHTBUMPER);
         modSocketDictionary[ModSpot.ArmL].isActive = Input.GetAxis(Strings.LEFTARM) > triggerThreshold;
         modSocketDictionary[ModSpot.ArmR].isActive = Input.GetAxis(Strings.RIGHTARM) > triggerThreshold;      
     }
