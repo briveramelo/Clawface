@@ -15,10 +15,10 @@ public class ItemCollector : MonoBehaviour {
             CollectCodexEntry(col);
         }
         if (col.tag == Strings.ENEMY) {
-            if ((Input.GetButton(Strings.PREPARETOPICKUPORDROP) &&
-                Input.GetButtonDown(Strings.PREPARETOSWAP)) ||
-                (Input.GetButtonDown(Strings.PREPARETOPICKUPORDROP) &&
-                Input.GetButton(Strings.PREPARETOSWAP))) {
+            if ((Input.GetButton(Strings.RIGHTBUMPER) &&
+                Input.GetButtonDown(Strings.LEFTBUMPER)) ||
+                (Input.GetButtonDown(Strings.RIGHTBUMPER) &&
+                Input.GetButton(Strings.LEFTBUMPER))) {
 
                 if (col.GetComponent<ISkinnable>().IsSkinnable()) {
                     CollectSkin(col);

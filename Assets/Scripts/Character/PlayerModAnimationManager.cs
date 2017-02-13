@@ -48,13 +48,11 @@ public class PlayerModAnimationManager : MonoBehaviour {
                 if (animator.GetInteger(Strings.ANIMATIONSTATE) != animationState)
                 {
                     isPlaying = true;
-                    print("Playing mod animation "+ animationState);
                     animator.SetInteger(Strings.ANIMATIONSTATE, animationState);                    
                     StartCoroutine(WaitForAnimation());
                 }else
                 {
                     isPlaying = true;
-                    print("Playing mod animation "+ animationState);
                     PlayerAnimationStates state = (PlayerAnimationStates)animationState;
                     animator.Play(state.ToString(), -1, 0f);
                     StartCoroutine(WaitForAnimation());
@@ -87,7 +85,6 @@ public class PlayerModAnimationManager : MonoBehaviour {
 
     public void AnimationDone()
     {
-        print("Done playing mod animation");
         isPlaying = false;
     }
 
