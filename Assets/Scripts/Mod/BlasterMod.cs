@@ -42,7 +42,8 @@ public class BlasterMod : Mod {
 
     void Shoot()
     {
-        GameObject blasterBullet = BulletPool.instance.getBlasterBullet();
+        AudioManager.Instance.PlaySFX(SFXType.ArmBlasterFire);
+        GameObject blasterBullet = ObjectPool.Instance.GetBlasterBullet();
         blasterBullet.transform.position = transform.position;
         blasterBullet.transform.rotation = transform.rotation;
         if (getModSpot() == ModSpot.Legs && playerMovement != null)
@@ -64,7 +65,7 @@ public class BlasterMod : Mod {
 
     public override void AttachAffect(ref Stats i_playerStats, ref PlayerMovement movement)
     {
-        playerMovement = movement;
+        playerMovement = movement;        
         playerStats = i_playerStats;
         pickupCollider.enabled = false;
         if (getModSpot() == ModSpot.Head)
@@ -87,6 +88,7 @@ public class BlasterMod : Mod {
     {
         playerStats.Modify(StatType.MiniMapRange, 1 / rangeBoostValue);
         pickupCollider.enabled = true;
+        playerMovement = null;
     }
 
     // Use this for initialization
@@ -97,5 +99,12 @@ public class BlasterMod : Mod {
 	
 	// Update is called once per frame
 	void Update () {
+        if (playerMovement != null)
+        {
+            if (getModSpot() != ModSpot.Legs)
+            {
+                transform.forward = playerMovement.transform.forward;
+            }
+        }
     }
 }

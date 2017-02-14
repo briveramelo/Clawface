@@ -35,26 +35,28 @@ public class MallCopSpawner : MonoBehaviour {
 
     
     public void ReportDeath() {
-        if (Application.isPlaying) {
-            numMallCops--;
-            if (numMallCops < mallCopWaves[currentWave].minMallCops) {
-                SpawnMallCop();
-            }
+        numMallCops--;
+        if (numMallCops < mallCopWaves[currentWave].minMallCops) {
+            SpawnMallCop();
         }
     }
 
     void SpawnMallCop() {
-        numMallCops++;
-        //GameObject cop = Instantiate(mallCop, spawnPoints.GetRandom(), false);
-        GameObject cop = Instantiate(mallCop);
-        cop.transform.position = spawnPoints.GetRandom().position;
-        cop.GetComponent<MallCopAI>().RegisterDeathEvent(ReportDeath);
-        if (numMallCops < mallCopWaves[currentWave].maxMallCops)
+        if (Application.isPlaying)
         {
-            Invoke("SpawnMallCop", Random.Range(1f,2f));
-        }
-        else {
-            currentWave++;
+            numMallCops++;
+            //GameObject cop = Instantiate(mallCop, spawnPoints.GetRandom(), false);
+            GameObject cop = Instantiate(mallCop);
+            cop.transform.position = spawnPoints.GetRandom().position;
+            cop.GetComponent<MallCopAI>().RegisterDeathEvent(ReportDeath);
+            if (numMallCops < mallCopWaves[currentWave].maxMallCops)
+            {
+                Invoke("SpawnMallCop", Random.Range(1f, 2f));
+            }
+            else
+            {
+                currentWave++;
+            }
         }
     }
 }

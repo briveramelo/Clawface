@@ -7,27 +7,11 @@ using UnityEngine;
 public class Stats : MonoBehaviour, IModifiable
 {
 
-    class VariableReference
-    {
-        public Func<object> Get { get; private set; }
-        public Action<object> Set { get; private set; }
-        public VariableReference(Func<object> getter, Action<object> setter)
-        {
-            Get = getter;
-            Set = setter;
-        }
-    }
-
-    [SerializeField]
-    StatsObject statsObject;
+    [SerializeField] StatsObject statsObject;
     Dictionary<StatType, VariableReference> statDictionary;
 
     void Awake()
     {
-        StatsObject tempStatsObject = ScriptableObject.CreateInstance<StatsObject>();
-        tempStatsObject.SetValues(statsObject);
-        statsObject = tempStatsObject;
-
         statDictionary = new Dictionary<StatType, VariableReference>() {
             {StatType.Attack, new VariableReference(()=>statsObject.attack, statValue=> {statsObject.attack = (float)statValue; }) },
             {StatType.Defense, new VariableReference(()=>statsObject.defense, statValue=> {statsObject.defense = (float)statValue; }) },
@@ -58,5 +42,20 @@ public class Stats : MonoBehaviour, IModifiable
     {
         statDictionary[StatType.Health].Set((float)statDictionary[StatType.Health].Get() - damage);
         return (float)statDictionary[StatType.Health].Get();
+    }
+
+    class VariableReference
+    {
+        public Func<object> Get { get; private set; }
+        public Action<object> Set { get; private set; }
+        public VariableReference(Func<object> getter, Action<object> setter)
+        {
+            Get = getter;
+            Set = setter;
+        }
+    }
+    [Serializable]
+    struct StatsObject {
+        public float attack, defense, health, moveSpeed, miniMapRange, rangedAccuracy;
     }
 }

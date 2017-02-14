@@ -7,10 +7,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public class ModUIManager : MonoBehaviour {
+public class ModUIManager : Singleton<ModUIManager> {
 
-    // TODO : Rename to `instance`
-    public static ModUIManager Instance = null;
+    protected ModUIManager() { }
 
     //// Unity Inspector Fields
     [SerializeField]
@@ -26,19 +25,9 @@ public class ModUIManager : MonoBehaviour {
     private Dictionary<ModSpot, ModUIcon> modUIcons = new Dictionary<ModSpot, ModUIcon>();
 
     //// Unity State Functions
-    void Awake()
+    protected override void Awake()
     {
-        // Singleton Management
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-        
+        base.Awake();
         // UIcon Instantiation and Assignment
         foreach(ModSpot spot in Enum.GetValues(typeof(ModSpot))) {
             if (spot == ModSpot.Default) break;
