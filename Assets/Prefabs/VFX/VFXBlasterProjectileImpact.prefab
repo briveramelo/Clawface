@@ -39,6 +39,7 @@ GameObject:
   - component: {fileID: 198525821396222554}
   - component: {fileID: 199932632168810814}
   - component: {fileID: 114289068176904776}
+  - component: {fileID: 114985819608146102}
   m_Layer: 0
   m_Name: VFXBlasterProjectileImpact
   m_TagString: Untagged
@@ -86,6 +87,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _puffEmitter: {fileID: 198525821396222554}
   _sparkEmitter: {fileID: 198371870875250410}
+--- !u!114 &114985819608146102
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1991583230680772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19a2540e7aec88f418d5cc6502d5a446, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!198 &198371870875250410
 ParticleSystem:
   m_ObjectHideFlags: 1

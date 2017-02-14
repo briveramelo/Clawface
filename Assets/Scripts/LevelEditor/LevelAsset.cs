@@ -1,44 +1,44 @@
-﻿// LevelAsset.cs
+﻿//// LevelAsset.cs
 
-using UnityEngine;
+//using UnityEngine;
 
-/// <summary>
-/// A ScriptableObject wrapper for the level struct.
-/// </summary>
-[System.Serializable]
-public class LevelAsset : ScriptableObject {
+///// <summary>
+///// A ScriptableObject wrapper for the level struct.
+///// </summary>
+//[System.Serializable]
+//public class LevelAsset : ScriptableObject {
 
-	#region Vars
+//	#region Vars
 
-	/// <summary>
-	/// The Level contained in this LevelAsset.
-	/// </summary>
-	[SerializeField]
-	Level _level;
+//	/// <summary>
+//	/// The Level contained in this LevelAsset.
+//	/// </summary>
+//	[SerializeField]
+//	Level _level;
 
-	#endregion
-	#region Methods
+//	#endregion
+//	#region Methods
 
-	/// <summary>
-	/// Packs a Level struct into this LevelAsset.
-	/// </summary>
-	public void Pack (Level level) {
-		_level = level;
-	}
+//	/// <summary>
+//	/// Packs a Level struct into this LevelAsset.
+//	/// </summary>
+//	public void Pack (Level level) {
+//		_level = level;
+//	}
 
-    /// <summary>
-    /// Unpacks a Level struct from this LevelAsset.
-    /// </summary>
-	public Level Unpack () {
-		return _level;
-	}
+//    /// <summary>
+//    /// Unpacks a Level struct from this LevelAsset.
+//    /// </summary>
+//	public Level Unpack () {
+//		return _level;
+//	}
 
-	#endregion
-	#region Overrides
+//	#endregion
+//	#region Overrides
 
-	public override string ToString() {
-		return _level.ToString();
-	}
+//	public override string ToString() {
+//		return _level.ToString();
+//	}
 
-	#endregion
-}
+//	#endregion
+//}
