@@ -472,11 +472,19 @@ public class LevelEditorWindow : EditorWindow {
             // Draw object editor (?)
             if (LevelManager.Instance.HasSelectedObject) {
                 var selectedObject = LevelManager.Instance.SelectedObject;
-                
+
+                var xMin = _OBJECT_EDITOR_WIDTH / 2;
+                var xMax = sc.camera.pixelWidth - _OBJECT_EDITOR_WIDTH / 2;
+                var yMin = _OBJECT_EDITOR_HEIGHT / 2;
+                var yMax = sc.camera.pixelHeight - _OBJECT_EDITOR_HEIGHT / 2;
+
                 var objectEditorScreenPoint = HandleUtility.WorldToGUIPoint(selectedObject.transform.position);
-                objectEditorScreenPoint.x = Mathf.Clamp(objectEditorScreenPoint.x, _OBJECT_EDITOR_WIDTH, sc.camera.pixelWidth - _OBJECT_EDITOR_WIDTH);
-                objectEditorScreenPoint.y = Mathf.Clamp(Screen.height * 0.925f - objectEditorScreenPoint.y, _OBJECT_EDITOR_HEIGHT, sc.camera.pixelHeight - _OBJECT_EDITOR_HEIGHT);
-                _objectEditorRect = new Rect(objectEditorScreenPoint.x, objectEditorScreenPoint.y, _OBJECT_EDITOR_WIDTH, _OBJECT_EDITOR_WIDTH);
+                objectEditorScreenPoint.x = Mathf.Clamp(objectEditorScreenPoint.x, xMin, xMax);
+                objectEditorScreenPoint.y = Mathf.Clamp(objectEditorScreenPoint.y, yMin, yMax);
+                _objectEditorRect = new Rect(
+                    objectEditorScreenPoint.x - xMin, 
+                    objectEditorScreenPoint.y - yMin, 
+                    _OBJECT_EDITOR_WIDTH, _OBJECT_EDITOR_WIDTH);
 
                 GUILayout.Window(0, _objectEditorRect, DrawObjectEditor, selectedObject.name);
             }

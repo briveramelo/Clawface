@@ -65,36 +65,77 @@ public class Level {
     public class ObjectAttributes {
 
         [SerializeField]
-        public byte index;
-
-        [SerializeField]
-        public float x;
-
-        [SerializeField]
-        public float y;
-
-        [SerializeField]
-        public float z;
-
-        [SerializeField]
-        public int yRotation;
+        public List<SerializeableKeyValuePair<string, string>> attributes = 
+            new List<SerializeableKeyValuePair<string, string>>();
 
         public ObjectAttributes(byte index, Vector3 position, int yRotation) {
-            this.index = index;
-            this.yRotation = yRotation;
-            this.x = position.x;
-            this.y = position.y;
-            this.z = position.z;
+            attributes.Add (new SerializeableKeyValuePair<string, string> ("INDEX", index.ToString()));
+            attributes.Add (new SerializeableKeyValuePair<string, string> ("POSX", position.x.ToString()));
+            attributes.Add (new SerializeableKeyValuePair<string, string> ("POSY", position.y.ToString()));
+            attributes.Add (new SerializeableKeyValuePair<string, string> ("POSZ", position.z.ToString()));
+            attributes.Add (new SerializeableKeyValuePair<string, string> ("ROTX", 0.ToString()));
+            attributes.Add (new SerializeableKeyValuePair<string, string> ("ROTY", yRotation.ToString()));
+            attributes.Add (new SerializeableKeyValuePair<string, string> ("ROTZ", 0.ToString()));
         }
 
         public Vector3 Position {
-            get { return new Vector3(x, y, z); }
+            get {
+                return new Vector3(
+                    GetAttributeAsFloat ("POSX"),
+                    GetAttributeAsFloat ("POSY"),
+                    GetAttributeAsFloat ("POSZ"));
+            }
+        }
+
+        public byte GetAttributeAsByte (string attribName) {
+            foreach (var attribute in attributes)
+                if (attribute.Key == attribName) {
+                    byte result;
+                    if (byte.TryParse (attribute.Value, out result))
+                        return result;
+                    else
+                        throw new NullReferenceException ("Failed to parse attribute \'" + attribName + "\' as byte!");
+                }
+
+            throw new NullReferenceException ("Attribute \'" + attribName + "\' not found!");
+        }
+
+        public float GetAttributeAsFloat (string attribName) {
+            foreach (var attribute in attributes)
+                if (attribute.Key == attribName) {
+                    float result;
+                    if (float.TryParse (attribute.Value, out result))
+                        return result;
+                    else throw new NullReferenceException ("Failed to parse attribute \'" + attribName + "\' as float!");
+                }
+
+            throw new NullReferenceException ("Attribute \'" + attribName + "\' not found!");
+        }
+
+        public string GetAttributeAsString (string attribName) {
+            foreach (var attribute in attributes)
+                if (attribute.Key == attribName)
+                    return attribute.Value;
+
+            throw new NullReferenceException ("Attribute \'" + attribName + "\' not found!");
+        }
+
+        public void SetAttribute (string attribName, string newValue) {
+
+            foreach (var attribute in attributes) {
+                if (attribute.Key == attribName) {
+                    attribute.SetValue(newValue);
+                    return;
+                }
+            }
+
+            throw new NullReferenceException ("Attribute \'" + attribName + "\' not found!");
         }
 
         public void SetPosition (Vector3 pos) {
-            this.x = pos.x;
-            this.y = pos.y;
-            this.z = pos.z;
+            SetAttribute ("POSX", pos.x.ToString());
+            SetAttribute ("POSY", pos.y.ToString());
+            SetAttribute ("POSZ", pos.z.ToString());
         }
     }
 
@@ -131,6 +172,7 @@ public class Level {
     [SerializeField]
     float _playerSpawnZ = 0f;
 
+    [NonSerialized]
     public LevelEvent onLevelComplete;
 
     #endregion

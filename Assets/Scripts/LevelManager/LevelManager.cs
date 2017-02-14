@@ -37,12 +37,12 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// <summary>
     /// Default level path.
     /// </summary>
-    const string _LEVEL_PATH = "Assets/Levels/";
+    const string _LEVEL_PATH = "Assets/Resources/Levels/";
 
     /// <summary>
     /// Path for temporary level file.
     /// </summary>
-    const string _TEMP_LEVEL_PATH = "Assets/Levels/~Temp.asset";
+    const string _TEMP_LEVEL_PATH = "Assets/Resources/Levels/Temp.asset";
 
     /// <summary>
     /// Editor name of the 3D asset preview object.
@@ -376,7 +376,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
             Debug.LogError("Object " + obj.name + " not found in the level file!");
             return byte.MaxValue;
         }
-        return data.index;
+        return data.GetAttributeAsByte ("INDEX");
     }
 
     public void UpOneFloor() {
@@ -588,7 +588,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
 
     public void StartMovingObject(GameObject obj) {
         var data = GetAttributesOfObject(obj);
-        _movingObjectID = data.index;
+        _movingObjectID = data.GetAttributeAsByte ("INDEX");
         Show3DAssetPreview(obj);
         _movingObjectOriginalCoords = data.Position;
         DeleteObject(obj, ActionType.None);
@@ -609,7 +609,9 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
 
     public void RotateSelectedObject(int rotation) {
         var attribs = AttributesOfObject(_selectedObject);
-        attribs.yRotation = (attribs.yRotation + rotation) % 360;
+        var originalRotation = attribs.GetAttributeAsFloat ("YROT");
+        var newRotation = (originalRotation + rotation) % 360;
+        attribs.SetAttribute ("YROT", newRotation.ToString());
         _selectedObject.transform.Rotate(0f, rotation, 0f);
     }
 
@@ -680,6 +682,8 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
         SelectTool(Tool.Select);
         _selectedFloor = 0;
 
+        AssetDatabase.DeleteAsset (_TEMP_LEVEL_PATH);
+
 
         _undoStack.Clear();
         _redoStack.Clear();
@@ -711,7 +715,11 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
             return;
         }
 
-        AssetDatabase.CopyAsset(assetPath, "Assets/Levels/~Temp.asset");
+        if (!AssetDatabase.CopyAsset(assetPath, _TEMP_LEVEL_PATH)) {
+            Debug.LogError ("Failed to create temp copy of loaded level! " + _TEMP_LEVEL_PATH);
+            return;
+        }
+
         var assetCopy = ScriptableObjectUtility.LoadScriptableObject<LevelAsset>(_TEMP_LEVEL_PATH);
 
         if (_loadedLevel != null) CloseLevel();
@@ -744,7 +752,8 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
 
         Debug.Log(string.Format("LEDIT: Loading floor {0}...", _selectedFloor.ToString()));
         foreach (var attribs in _loadedLevel[_selectedFloor].Objects) {
-            var obj = SpawnObject(attribs.index);
+            Debug.Log ("yay");
+            var obj = SpawnObject(attribs.GetAttributeAsByte("INDEX"));
             obj.transform.parent = _floorObjects[_selectedFloor].transform;
             obj.transform.position = attribs.Position;
             _loadedObjects.Add(obj);
