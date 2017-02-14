@@ -6,17 +6,27 @@ using UnityEngine;
 
 public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDamageable, ISkinnable
 {
-    [SerializeField] GlowObject skinGlowScript;
-    [SerializeField] Stats myStats;
-    [SerializeField] GameObject mySkin;
-    [SerializeField] Rigidbody rigbod;
-    [SerializeField] Transform foot;
+    [SerializeField]
+    GlowObject skinGlowScript;
+    [SerializeField]
+    Stats myStats;
+    [SerializeField]
+    GameObject mySkin;
+    [SerializeField]
+    Rigidbody rigbod;
+    [SerializeField]
+    Transform foot;
 
-    [SerializeField, Range(5f, 15f)] private float attackTime;
-    [SerializeField, Range(1, 6)] private int numShocksToStun;
-    [SerializeField, Range(.1f, 1)] private float twitchRange;
-    [SerializeField, Range(.1f, 1f)] private float twitchTime;
-    [SerializeField, Range(30,50)] private float rotationSpeed;
+    [SerializeField, Range(5f, 15f)]
+    private float attackTime;
+    [SerializeField, Range(1, 6)]
+    private int numShocksToStun;
+    [SerializeField, Range(.1f, 1)]
+    private float twitchRange;
+    [SerializeField, Range(.1f, 1f)]
+    private float twitchTime;
+    [SerializeField, Range(30, 50)]
+    private float rotationSpeed;
 
     private MallCopState currentState = MallCopState.WALK;
     private GameObject attackTarget;
@@ -34,7 +44,8 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
     private OnDeath onDeath;
     private bool willHasBeenWritten;
 
-    public void RegisterDeathEvent(OnDeath onDeath) {
+    public void RegisterDeathEvent(OnDeath onDeath)
+    {
         this.onDeath = onDeath;
         willHasBeenWritten = true;
     }
@@ -59,7 +70,7 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
     }
 
     // Use this for initialization
-    void Start ()
+    void Start()
     {
         externalForces = new List<Vector3>();
 
@@ -75,7 +86,7 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
         PlayerMovement dummy = null;
         mod.setModSpot(ModSpot.ArmR);
         mod.AttachAffect(ref myStats, ref dummy);
-        
+
     }
 
     void IDamageable.TakeDamage(float damage)
@@ -102,10 +113,6 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
                 mod.DetachAffect();
                 Destroy(gameObject, 5f);
             }
-<<<<<<< HEAD:Assets/Scripts/Enemies/MallCop/MallCopAI.cs
-            GetComponent<Rigidbody>().isKinematic = true;
-=======
->>>>>>> refs/remotes/origin/master:Assets/Scripts/Enemies/MallCopAI.cs
         }
     }
 
@@ -117,7 +124,7 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
 
     bool ISkinnable.IsSkinnable()
     {
-        return myStats.GetStat(StatType.Health)<=5;
+        return myStats.GetStat(StatType.Health) <= 5;
     }
 
     GameObject ISkinnable.DeSkin()
@@ -129,7 +136,8 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
     void IStunnable.Stun()
     {
         stunCount++;
-        if (stunCount >= numShocksToStun) {
+        if (stunCount >= numShocksToStun)
+        {
             stunCount = 0;
             startStunPosition = transform.position;
             currentState = MallCopState.STUNNED;
@@ -143,7 +151,7 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
     }
 
     // Update is called once per frame
-    void Update ()
+    void Update()
     {
         isGrounded = IsGrounded();
         if (myStats.GetStat(StatType.Health) > 0)
@@ -157,7 +165,7 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
                     Attack();
                     break;
                 case MallCopState.STUNNED:
-                    Stun();
+                    Twitch();
                     break;
             }
         }
@@ -197,82 +205,43 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
         rigid.velocity = GetExternalForceSum();
         if (canAttack && attackTarget != null)
         {
-            
+
             Vector3 lookAtPosition = new Vector3(attackTarget.transform.position.x, 0, attackTarget.transform.position.z);
             transform.LookAt(lookAtPosition);
-<<<<<<< HEAD:Assets/Scripts/Enemies/MallCop/MallCopAI.cs
-            if (mod.getModType() == ModType.StunBaton)
-            {
-                StunBatonAction();
-            }else if(mod.getModType() == ModType.ArmBlaster)
-            {
-                ArmBlasterAction();
-            }
-        }
-    }
-
-    private void StunBatonAction()
-    {        
-        if (inRange)
-        {
-            rigid.velocity = Vector3.zero;
-            canAttack = false;
-            if (animator.GetInteger(Strings.ANIMATIONSTATE) != (int)MallCopAnimationStates.Swing)
-            {
-                animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Swing);
-=======
             transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);
-                                    
+
             if (inRange)
             {
                 canAttack = false;
                 if (animator.GetInteger(Strings.ANIMATIONSTATE) != (int)MallCopAnimationStates.Swing)
-                {                    
+                {
                     animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Swing);
                 }
                 else
-                {                    
+                {
                     animator.Play(MallCopAnimationStates.Swing.ToString(), -1, 0f);
-                }                
->>>>>>> refs/remotes/origin/master:Assets/Scripts/Enemies/MallCopAI.cs
+                }
             }
             else
             {
-                animator.Play(MallCopAnimationStates.Swing.ToString(), -1, 0f);
+                if (animator.GetInteger(Strings.ANIMATIONSTATE) != (int)MallCopAnimationStates.Run)
+                {
+                    animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Run);
+                }
+                Vector3 movementDirection = attackTarget.transform.position - transform.position;
+                Vector3 movementDirectionXZ = new Vector3(movementDirection.x, 0, movementDirection.z);
+                rigid.velocity = movementDirectionXZ.normalized * myStats.GetStat(StatType.MoveSpeed) * runMultiplier * Time.fixedDeltaTime + GetExternalForceSum();
             }
-        }
-        else
-        {
-            if (animator.GetInteger(Strings.ANIMATIONSTATE) != (int)MallCopAnimationStates.Run)
-            {
-                animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Run);
-            }
-            Vector3 movementDirection = attackTarget.transform.position - transform.position;
-            Vector3 movementDirectionXZ = new Vector3(movementDirection.x, 0, movementDirection.z);
-            rigid.velocity = movementDirectionXZ.normalized * myStats.GetStat(StatType.MoveSpeed) * runMultiplier * Time.fixedDeltaTime + GetExternalForceSum();
-        }
-    }
-
-    private void ArmBlasterAction()
-    {
-        rigid.velocity = Vector3.zero;
-        canAttack = false;
-        if (animator.GetInteger(Strings.ANIMATIONSTATE) != (int)MallCopAnimationStates.Shoot)
-        {
-            animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Shoot);
-        }
-        else
-        {
-            animator.Play(MallCopAnimationStates.Shoot.ToString(), -1, 0f);
         }
     }
 
     public void AttackAnimationDone()
-    {       
+    {
         canAttack = true;
     }
 
-    private void Stun() {
+    private void Twitch()
+    {
         if (canFall)
         {
             if (animator.GetInteger(Strings.ANIMATIONSTATE) != (int)MallCopAnimationStates.Stunned)
@@ -280,6 +249,7 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
                 canFall = false;
                 canAttack = false;
                 animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Stunned);
+                //StartCoroutine(WaitForFallAnimation());
             }
         }
     }
@@ -291,7 +261,8 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
             attackTarget = other.gameObject;
             currentState = MallCopState.ATTACK;
             inRange = true;
-        }else if(other.gameObject.tag == Strings.PLAYER && canAttack)
+        }
+        else if (other.gameObject.tag == Strings.PLAYER && canAttack)
         {
             inRange = true;
         }
