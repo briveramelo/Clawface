@@ -42,8 +42,8 @@ public class BlasterMod : Mod {
 
     void Shoot()
     {
-        AudioManager.instance.PlaySFX(SFXType.ArmBlasterFire);
-        GameObject blasterBullet = BulletPool.instance.getBlasterBullet();
+        AudioManager.Instance.PlaySFX(SFXType.ArmBlasterFire);
+        GameObject blasterBullet = ObjectPool.Instance.GetBlasterBullet();
         blasterBullet.transform.position = transform.position;
         blasterBullet.transform.rotation = transform.rotation;
         if (getModSpot() == ModSpot.Legs && playerMovement != null)

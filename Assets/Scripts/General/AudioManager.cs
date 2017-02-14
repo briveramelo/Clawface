@@ -2,21 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AudioManager : MonoBehaviour {
+public class AudioManager : Singleton<AudioManager> {
 
-    public static AudioManager instance;
+    protected AudioManager() { }
 
     [SerializeField] AudioClip[] clips;
-    List<AudioSource> audioSources;
-    int index;
-
-	// Use this for initialization
-	void Start () {
-        instance = this;
-        index = 0;
-        audioSources = new List<AudioSource>();
-        GetComponents<AudioSource>(audioSources);
-	}
+    [SerializeField] List<AudioSource> audioSources;
+    int index=0;
 
     public bool PlaySFX(SFXType type)
     {

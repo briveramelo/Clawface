@@ -319,4 +319,24 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
         currentState = MallCopState.ATTACK;
     }
 
+    private enum MallCopAnimationStates
+    {
+        Idle = 0,
+        Walk = 1,
+        Swing = 2,
+        HitReaction = 3,
+        Stunned = 4,
+        GettingUp = 5,
+        DrawWeapon = 6,
+        Run = 7,
+        Shoot = 8
+    }
+
+    enum MallCopState
+    {
+        WALK = 0,
+        ATTACK = 1,
+        STUNNED = 2
+    }
+
 }

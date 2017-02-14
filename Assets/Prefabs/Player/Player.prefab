@@ -482,7 +482,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1205719698033964}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.545, y: 0.3, z: -5.9}
+  m_LocalPosition: {x: 20.3, y: 11.57, z: 100.1}
   m_LocalScale: {x: 15, y: 15, z: 15}
   m_Children:
   - {fileID: 4700556104748708}
@@ -700,6 +700,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 516db5d8839424649a2083986bfbe7de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 95133427763299508}
 --- !u!114 &114157430755976476
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -729,7 +730,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c7112b3692977d4987101d9add4e51f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statsObject: {fileID: 11400000, guid: 26d1bfe71d20b8a46a9ce57ae6c35674, type: 2}
+  statsObject:
+    attack: 10
+    defense: 10
+    health: 50
+    moveSpeed: 320
+    miniMapRange: 10
+    rangedAccuracy: 10
 --- !u!114 &114993959103341696
 MonoBehaviour:
   m_ObjectHideFlags: 1

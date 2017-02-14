@@ -5,17 +5,13 @@
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public class HealthBar : MonoBehaviour {
+public class HealthBar : Singleton<HealthBar> {
 
-    public static HealthBar instance;
+    protected HealthBar() { }
 
     //// Unity Inspector Fields
     [SerializeField]
     private Transform mask, bar;
-
-    void Awake() {
-        instance = this;
-    }
 
     //// HealthBar Public Interface
     public void SetHealth(float health)

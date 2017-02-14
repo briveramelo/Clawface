@@ -1228,7 +1228,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c7112b3692977d4987101d9add4e51f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statsObject: {fileID: 11400000, guid: 34eebc34cb785424983b163bf1ba75ea, type: 2}
+  statsObject:
+    attack: 15
+    defense: 15
+    health: 50
+    moveSpeed: 300
+    miniMapRange: 10
+    rangedAccuracy: 10
 --- !u!114 &114364864797347686
 MonoBehaviour:
   m_ObjectHideFlags: 1

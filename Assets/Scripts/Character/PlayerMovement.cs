@@ -298,7 +298,7 @@ public class PlayerMovement : MonoBehaviour, IDamageable, IMovable
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawSphere(foot.transform.position, sphereRadius);
+        Gizmos.DrawSphere(foot.transform.position, sphereRadius);        
     }
 
     public void SetSidescrolling(bool mode)
@@ -322,14 +322,14 @@ public class PlayerMovement : MonoBehaviour, IDamageable, IMovable
     public void TakeDamage(float damage)
     {
         stats.TakeDamage(damage);
-        HealthBar.instance.SetHealth(stats.GetStat(StatType.Health) / startHealth);
+        HealthBar.Instance.SetHealth(stats.GetStat(StatType.Health) / startHealth);
         if (stats.GetStat(StatType.Health) <= 0)
         {
             //Destroy(gameObject);
             transform.position = GameObject.Find("RespawnPoint").transform.position;
             stats.Modify(StatType.Health, (int)startHealth);
             startHealth = stats.GetStat(StatType.Health);
-            HealthBar.instance.SetHealth(stats.GetStat(StatType.Health) / startHealth);
+            HealthBar.Instance.SetHealth(stats.GetStat(StatType.Health) / startHealth);
         }
     }
 

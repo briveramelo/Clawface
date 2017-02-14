@@ -51,9 +51,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b299eb73e45ddbd46b2e86d3461810c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stunMinePrefab: {fileID: 1994674684397496, guid: 2621c3eb8d262144d911dc3901d9565b,
-    type: 2}
-  blasterBulletPrefab: {fileID: 1193307479537388, guid: 2ce1ce52e3d791243bea07390d35e3c9,
-    type: 2}
-  stunMinePoolSize: 50
-  blasterBulletPoolSize: 50
+  stunMinePool:
+    prefab: {fileID: 1994674684397496, guid: 2621c3eb8d262144d911dc3901d9565b, type: 2}
+    size: 50
+    objects: []
+  blasterBulletPool:
+    prefab: {fileID: 1193307479537388, guid: 2ce1ce52e3d791243bea07390d35e3c9, type: 2}
+    size: 50
+    objects: []
