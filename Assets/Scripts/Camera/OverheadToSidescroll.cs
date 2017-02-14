@@ -6,28 +6,26 @@ using UnityEngine;
 
 public class OverheadToSidescroll : MonoBehaviour {
 
-    [SerializeField]
-    private BoxCollider sidescrollArea;
-    [SerializeField]
-    private BoxCollider overheadArea;
-    [SerializeField]
-    private Transform overheadCameraPosition;
-    [SerializeField]
-    private Transform sideScrollCameraPosition;
-    [SerializeField]
-    private Transform sideScrollLockToAxis;
-
+    #region Serialized
+    
+    [SerializeField] private BoxCollider sidescrollArea;
+    [SerializeField] private BoxCollider overheadArea;
+    [SerializeField] private Transform overheadCameraPosition;
+    [SerializeField] private Transform sideScrollCameraPosition;
+    [SerializeField] private Transform sideScrollLockToAxis;
     [SerializeField] private float timeToTween;
+    [SerializeField] private bool isTweening;
+    #endregion
 
+
+
+    #region Privates
     private PlayerMovement joystickMovement;
     private CameraLock cameraLock;
 
-    [SerializeField]
-    private bool isTweening;
-
     private float tweenTimer;
-
     private bool startTweenAgain;
+    #endregion
 
     private void Awake()
     {
@@ -35,29 +33,9 @@ public class OverheadToSidescroll : MonoBehaviour {
         cameraLock = Camera.main.gameObject.GetComponent<CameraLock>();
     }
 
-    // Use this for initialization
-    void Start () {
-
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    // Update is called once per frame
+    void Update () {
         tweenTimer += Time.deltaTime;
-
-        //if (isTweening)
-        //{
-        //    if (startTweenAgain)
-        //    {
-        //        iTween.MoveTo(Camera.main.gameObject, iTween.Hash("name", "tweenMoveTo", "time", timeToTween - tweenTimer, "position", joystickMovement.transform.position - cameraLock.GetDistance(), "oncomplete", "LockCamera"));
-        //        iTween.RotateTo(Camera.main.gameObject, iTween.Hash("name", "tweenRotateTo", "time", timeToTween - tweenTimer, "rotation", cameraLock.GetAngle()));
-        //        startTweenAgain = false;
-        //    }
-        //    else
-        //    {
-        //        iTween.Stop(Camera.main.gameObject);
-        //        startTweenAgain = true;
-        //    }
-        //}
 
         if (LeanTween.isTweening(Camera.main.gameObject) && tweenTimer < timeToTween)
         {
@@ -75,22 +53,7 @@ public class OverheadToSidescroll : MonoBehaviour {
             {
                 joystickMovement.transform.position = new Vector3(sideScrollLockToAxis.position.x, joystickMovement.transform.position.y, sideScrollLockToAxis.position.z);
             }
-
-            //cameraLock.UnlockCamera();
-
-            //iTween.MoveTo(Camera.main.gameObject, iTween.Hash("name", "sidescrollMoveTo", "time", timeToTween, "position", sideScrollCameraPosition.position, "oncomplete", "LockCamera"));
-            //iTween.RotateTo(Camera.main.gameObject, iTween.Hash("name", "sidescrollRotateTo", "time", timeToTween, "rotation", sideScrollCameraPosition.eulerAngles));
-            //tweenTimer = 0f;
-
-            //joystickMovement.SetSidescrolling(true);
-            //cameraLock.SetDistance(sidescrollArea.transform.position - sideScrollCameraPosition.position);
-            //cameraLock.SetAngle(sideScrollCameraPosition.eulerAngles);
-            //isTweening = true;
-            //CameraLock.cameraMode = CameraMode.SIDESCROLL;
-
-
-
-            
+ 
             LeanTween.move(Camera.main.gameObject, sideScrollCameraPosition.position, timeToTween).setOnComplete(LockCamera);
             LeanTween.rotate(Camera.main.gameObject, sideScrollCameraPosition.eulerAngles, timeToTween);
             tweenTimer = 0f;
@@ -117,17 +80,6 @@ public class OverheadToSidescroll : MonoBehaviour {
     {
         if (CameraLock.cameraMode != CameraMode.OVERHEAD)
         {
-            //iTween.MoveTo(Camera.main.gameObject, iTween.Hash("name", "overheadMoveTo", "time", timeToTween, "position", overheadCameraPosition.position, "oncomplete", "LockCamera"));
-            //iTween.RotateTo(Camera.main.gameObject, iTween.Hash("name", "overheadRotateTo", "time", timeToTween, "rotation", overheadCameraPosition.eulerAngles));
-            //tweenTimer = 0f;
-            //cameraLock.UnlockCamera();
-            //joystickMovement.SetSidescrolling(false);
-            //cameraLock.SetDistance(joystickMovement.transform.position - overheadCameraPosition.position);
-            //cameraLock.SetAngle(overheadCameraPosition.eulerAngles);
-            //isTweening = true;
-            //CameraLock.cameraMode = CameraMode.OVERHEAD;
-
-
             LeanTween.move(Camera.main.gameObject, overheadCameraPosition.position, timeToTween).setOnComplete(LockCamera);
             LeanTween.rotate(Camera.main.gameObject, overheadCameraPosition.eulerAngles, timeToTween);
             tweenTimer = 0f;
