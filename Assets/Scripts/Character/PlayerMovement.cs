@@ -27,10 +27,13 @@ public class PlayerMovement : MonoBehaviour, IDamageable, IMovable
     [SerializeField]
     private float currentSpeed;
 
+    Animator animator;
+
     [SerializeField] private MovementMode movementMode;
 
     private Stats stats;
 
+    private PlayerModAnimationManager modAnimationManager;
 
     private Dictionary<ModSpot, bool> modSpotConstantForceIndices = new Dictionary<ModSpot, bool>()
     {
@@ -39,7 +42,6 @@ public class PlayerMovement : MonoBehaviour, IDamageable, IMovable
         {ModSpot.ArmL, false},
         {ModSpot.ArmR, false}
     };
-
 
     #region Privates
 
@@ -56,6 +58,7 @@ public class PlayerMovement : MonoBehaviour, IDamageable, IMovable
 
     private List<Vector3> externalForces;
     private List<Vector3> externalForcesToAdd;
+    float startHealth;
     #endregion
 
     void Awake()
@@ -66,12 +69,15 @@ public class PlayerMovement : MonoBehaviour, IDamageable, IMovable
 
     // Use this for initialization
     void Start() {
+        startHealth = stats.GetStat(StatType.Health);
         externalForces = new List<Vector3>();
         externalForcesToAdd = new List<Vector3>();
         for (int i = 0; i < 100; i++) {
             externalForces.Add(Vector3.zero);
         }
         movementMode = MovementMode.PRECISE;
+        animator = GetComponent<Animator>();
+        modAnimationManager = GetComponent<PlayerModAnimationManager>();
     }
     
 
@@ -136,9 +142,32 @@ public class PlayerMovement : MonoBehaviour, IDamageable, IMovable
                 // Do I even need fixedDeltaTime here if I'm changing the velocity of the rigidbody directly?
                 //  rigid.velocity = movement * stats.GetStat(StatType.MoveSpeed) * Time.fixedDeltaTime + GetExternalForceSum();  
                 rigid.velocity = movement * stats.GetStat(StatType.MoveSpeed) + GetExternalForceSum();
+                if (!modAnimationManager.GetIsPlaying())
+                {
+                    if (rigid.velocity != Vector3.zero)
+                    {
+                        if (animator.GetInteger(Strings.ANIMATIONSTATE) != (int)PlayerAnimationStates.Running)
+                        {                            
+                            animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Running);
+                        }
+                    }
+                    else
+                    {
+                        if (animator.GetInteger(Strings.ANIMATIONSTATE) != (int)PlayerAnimationStates.Idle)
+                        {                            
+                            animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Idle);
+                        }
+                    }
+                }
                 break;
             case MovementMode.ICE:
-
+                if (!modAnimationManager.GetIsPlaying())
+                {
+                    if (animator.GetInteger(Strings.ANIMATIONSTATE) != (int)PlayerAnimationStates.Idle)
+                    {
+                        animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Idle);
+                    }
+                }
                 rigid.AddForce(movement * acceleration * Time.fixedDeltaTime);
 
                 foreach (Vector3 vector in externalForcesToAdd)
@@ -251,7 +280,7 @@ public class PlayerMovement : MonoBehaviour, IDamageable, IMovable
     }
 
     
-    public bool IsGrounded()
+    private bool IsGrounded()
     {
 
         Collider[] cols = Physics.OverlapSphere(foot.transform.position, sphereRadius);
@@ -269,7 +298,7 @@ public class PlayerMovement : MonoBehaviour, IDamageable, IMovable
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawSphere(foot.transform.position, sphereRadius);
+        Gizmos.DrawSphere(foot.transform.position, sphereRadius);        
     }
 
     public void SetSidescrolling(bool mode)
@@ -293,9 +322,14 @@ public class PlayerMovement : MonoBehaviour, IDamageable, IMovable
     public void TakeDamage(float damage)
     {
         stats.TakeDamage(damage);
+        HealthBar.Instance.SetHealth(stats.GetStat(StatType.Health) / startHealth);
         if (stats.GetStat(StatType.Health) <= 0)
         {
-            Destroy(gameObject);
+            //Destroy(gameObject);
+            transform.position = GameObject.Find("RespawnPoint").transform.position;
+            stats.Modify(StatType.Health, (int)startHealth);
+            startHealth = stats.GetStat(StatType.Health);
+            HealthBar.Instance.SetHealth(stats.GetStat(StatType.Health) / startHealth);
         }
     }
 
@@ -303,5 +337,20 @@ public class PlayerMovement : MonoBehaviour, IDamageable, IMovable
     {
         movementMode = mode;
         rigid.useGravity = mode == MovementMode.ICE ? true : false;
+    }
+
+    public void PlayAnimation(Mod mod)
+    {
+        if (!modAnimationManager.GetIsPlaying())
+        {            
+            if (movementMode == MovementMode.PRECISE && rigid.velocity != Vector3.zero)
+            {
+                modAnimationManager.PlayModAnimation(mod, true);
+            }
+            else
+            {
+                modAnimationManager.PlayModAnimation(mod, false);
+            }
+        }
     }
 }

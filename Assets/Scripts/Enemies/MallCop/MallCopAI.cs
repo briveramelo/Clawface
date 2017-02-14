@@ -10,6 +10,7 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
     [SerializeField] Stats myStats;
     [SerializeField] GameObject mySkin;
     [SerializeField] Rigidbody rigbod;
+    [SerializeField] Transform foot;
 
     [SerializeField, Range(5f, 15f)] private float attackTime;
     [SerializeField, Range(1, 6)] private int numShocksToStun;
@@ -25,13 +26,16 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
     private Rigidbody rigid;
     private int stunCount;
     private bool isGlowing = false;
+    private bool isGrounded;
+    private bool isFalling = false;
+    private float sphereRadius = 0.1f;
 
     public delegate void OnDeath();
     private OnDeath onDeath;
     private bool willHasBeenWritten;
 
     public void RegisterDeathEvent(OnDeath onDeath) {
-        this.onDeath += onDeath;
+        this.onDeath = onDeath;
         willHasBeenWritten = true;
     }
 
@@ -76,17 +80,32 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
 
     void IDamageable.TakeDamage(float damage)
     {
-        myStats.TakeDamage(damage);
-        if (myStats.GetStat(StatType.Health) <= 5 && !isGlowing) {
-            isGlowing = true;
-            skinGlowScript.SetToGlow();
-        }
-        if (myStats.GetStat(StatType.Health) <= 0) {
-            if (animator.GetInteger(Strings.ANIMATIONSTATE) != (int)MallCopAnimationStates.Stunned)
+        if (myStats.GetStat(StatType.Health) > 0)
+        {
+            myStats.TakeDamage(damage);
+            if (myStats.GetStat(StatType.Health) <= 5 && !isGlowing)
             {
-                animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Stunned);
+                isGlowing = true;
+                skinGlowScript.SetToGlow();
             }
+            if (myStats.GetStat(StatType.Health) <= 0)
+            {
+                if (animator.GetInteger(Strings.ANIMATIONSTATE) != (int)MallCopAnimationStates.Stunned)
+                {
+                    animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Stunned);
+                }
+                GetComponent<Rigidbody>().isKinematic = true;
+                if (willHasBeenWritten)
+                {
+                    onDeath();
+                }
+                mod.DetachAffect();
+                Destroy(gameObject, 5f);
+            }
+<<<<<<< HEAD:Assets/Scripts/Enemies/MallCop/MallCopAI.cs
             GetComponent<Rigidbody>().isKinematic = true;
+=======
+>>>>>>> refs/remotes/origin/master:Assets/Scripts/Enemies/MallCopAI.cs
         }
     }
 
@@ -126,6 +145,7 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
     // Update is called once per frame
     void Update ()
     {
+        isGrounded = IsGrounded();
         if (myStats.GetStat(StatType.Health) > 0)
         {
             switch (currentState)
@@ -143,6 +163,23 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
         }
     }
 
+    private bool IsGrounded()
+    {
+        Collider[] cols = Physics.OverlapSphere(foot.transform.position, sphereRadius);
+        for (int i = 0; i < cols.Length; i++)
+        {
+            if (cols[i].gameObject.layer == (int)Layers.Ground)
+            {
+                return true;
+            }
+        }
+        if (!isFalling)
+        {
+            StartCoroutine(ApplyGravity());
+        }
+        return false;
+    }
+
     private void Walk()
     {
         if (animator.GetInteger(Strings.ANIMATIONSTATE) != (int)MallCopAnimationStates.Walk)
@@ -157,10 +194,13 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
 
     private void Attack()
     {
-        if (canAttack)
+        rigid.velocity = GetExternalForceSum();
+        if (canAttack && attackTarget != null)
         {
+            
             Vector3 lookAtPosition = new Vector3(attackTarget.transform.position.x, 0, attackTarget.transform.position.z);
             transform.LookAt(lookAtPosition);
+<<<<<<< HEAD:Assets/Scripts/Enemies/MallCop/MallCopAI.cs
             if (mod.getModType() == ModType.StunBaton)
             {
                 StunBatonAction();
@@ -180,6 +220,21 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
             if (animator.GetInteger(Strings.ANIMATIONSTATE) != (int)MallCopAnimationStates.Swing)
             {
                 animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Swing);
+=======
+            transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);
+                                    
+            if (inRange)
+            {
+                canAttack = false;
+                if (animator.GetInteger(Strings.ANIMATIONSTATE) != (int)MallCopAnimationStates.Swing)
+                {                    
+                    animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Swing);
+                }
+                else
+                {                    
+                    animator.Play(MallCopAnimationStates.Swing.ToString(), -1, 0f);
+                }                
+>>>>>>> refs/remotes/origin/master:Assets/Scripts/Enemies/MallCopAI.cs
             }
             else
             {
@@ -271,6 +326,22 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
         externalForces[currentIndex] = Vector3.zero;
     }
 
+    private IEnumerator ApplyGravity()
+    {
+        isFalling = true;
+        int currentIndex = externalForces.FindIndex(vec => vec == Vector3.zero);
+        float timeElapsed = 0f;
+        float gravity = 9.81f;
+        while (!isGrounded && isFalling)
+        {
+            externalForces[currentIndex] = Vector3.down * (gravity * timeElapsed);
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+        isFalling = false;
+        externalForces[currentIndex] = Vector3.zero;
+    }
+
     public void DoDamage()
     {
         mod.Activate();
@@ -278,7 +349,7 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
 
     public void GetUp()
     {
-        if (myStats.GetStat(StatType.Health) >= 0)
+        if (myStats.GetStat(StatType.Health) > 0)
         {
             animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.GettingUp);
         }
@@ -291,11 +362,24 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
         currentState = MallCopState.ATTACK;
     }
 
-    private void OnDestroy()
+    private enum MallCopAnimationStates
     {
-        if (willHasBeenWritten) {
-            onDeath();
-        }
+        Idle = 0,
+        Walk = 1,
+        Swing = 2,
+        HitReaction = 3,
+        Stunned = 4,
+        GettingUp = 5,
+        DrawWeapon = 6,
+        Run = 7,
+        Shoot = 8
+    }
+
+    enum MallCopState
+    {
+        WALK = 0,
+        ATTACK = 1,
+        STUNNED = 2
     }
 
 }

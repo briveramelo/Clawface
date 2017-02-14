@@ -81,9 +81,9 @@ public class Televator : MonoBehaviour, ITriggerable
         switch (floor)
         {
             case TelevatorUI.Floor.ARENA:
-                return TelevatorUI.Floor.ARENA;
+                return TelevatorUI.Floor.ARMORY;
             case TelevatorUI.Floor.ARMORY:
-                return TelevatorUI.Floor.TRIALS;
+                return TelevatorUI.Floor.ARENA;
             case TelevatorUI.Floor.TRIALS:
                 return TelevatorUI.Floor.ARENA;
             default:
@@ -95,9 +95,9 @@ public class Televator : MonoBehaviour, ITriggerable
         switch (floor)
         {
             case TelevatorUI.Floor.ARENA:
-                return TelevatorUI.Floor.TRIALS;
-            case TelevatorUI.Floor.ARMORY:
                 return TelevatorUI.Floor.ARMORY;
+            case TelevatorUI.Floor.ARMORY:
+                return TelevatorUI.Floor.ARENA;
             case TelevatorUI.Floor.TRIALS:
                 return TelevatorUI.Floor.ARMORY;
             default:
