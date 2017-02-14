@@ -6,17 +6,11 @@ using UnityEngine;
 
 public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDamageable, ISkinnable
 {
-    enum MallCopState
-    {
-        WALK = 0,
-        ATTACK = 1,
-        STUNNED =2
-    }
-
     [SerializeField] GlowObject skinGlowScript;
     [SerializeField] Stats myStats;
     [SerializeField] GameObject mySkin;
     [SerializeField] Rigidbody rigbod;
+    [SerializeField] Transform foot;
 
     [SerializeField, Range(5f, 15f)] private float attackTime;
     [SerializeField, Range(1, 6)] private int numShocksToStun;
@@ -32,15 +26,32 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
     private Rigidbody rigid;
     private int stunCount;
     private bool isGlowing = false;
+    private bool isGrounded;
+    private bool isFalling = false;
+    private float sphereRadius = 0.1f;
 
     public delegate void OnDeath();
     private OnDeath onDeath;
     private bool willHasBeenWritten;
 
     public void RegisterDeathEvent(OnDeath onDeath) {
-        this.onDeath += onDeath;
+        this.onDeath = onDeath;
         willHasBeenWritten = true;
     }
+
+
+    [SerializeField]
+    float runMultiplier;
+
+    [SerializeField]
+    Animator animator;
+
+    bool inRange;
+    bool canAttack;
+    bool canFall;
+
+    [SerializeField]
+    Mod mod;
 
     void Awake()
     {
@@ -58,17 +69,39 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
         }
 
         rotationMultiplier = 1;// (Random.value > 0.5 ? 1 : -1 ) * Random.Range(.5f, 1.0f);
+        inRange = false;
+        canAttack = true;
+        canFall = true;
+        PlayerMovement dummy = null;
+        mod.setModSpot(ModSpot.ArmR);
+        mod.AttachAffect(ref myStats, ref dummy);
+        
     }
 
     void IDamageable.TakeDamage(float damage)
     {
-        myStats.TakeDamage(damage);
-        if (myStats.GetStat(StatType.Health) <= 5 && !isGlowing) {
-            isGlowing = true;
-            skinGlowScript.SetToGlow();
-        }
-        if (myStats.GetStat(StatType.Health) <= 0) {
-            Destroy(gameObject);
+        if (myStats.GetStat(StatType.Health) > 0)
+        {
+            myStats.TakeDamage(damage);
+            if (myStats.GetStat(StatType.Health) <= 5 && !isGlowing)
+            {
+                isGlowing = true;
+                skinGlowScript.SetToGlow();
+            }
+            if (myStats.GetStat(StatType.Health) <= 0)
+            {
+                if (animator.GetInteger(Strings.ANIMATIONSTATE) != (int)MallCopAnimationStates.Stunned)
+                {
+                    animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Stunned);
+                }
+                GetComponent<Rigidbody>().isKinematic = true;
+                if (willHasBeenWritten)
+                {
+                    onDeath();
+                }
+                mod.DetachAffect();
+                Destroy(gameObject, 5f);
+            }
         }
     }
 
@@ -96,7 +129,7 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
             stunCount = 0;
             startStunPosition = transform.position;
             currentState = MallCopState.STUNNED;
-            Invoke("SetMallCopToWalk", twitchTime);
+            canAttack = false;
         }
     }
 
@@ -108,27 +141,47 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
     // Update is called once per frame
     void Update ()
     {
-        switch (currentState)
+        isGrounded = IsGrounded();
+        if (myStats.GetStat(StatType.Health) > 0)
         {
-            case MallCopState.WALK:
-                Walk();
-                break;
-            case MallCopState.ATTACK:
-                Attack();
-                break;
-            case MallCopState.STUNNED:
-                Twitch();
-                break;
+            switch (currentState)
+            {
+                case MallCopState.WALK:
+                    Walk();
+                    break;
+                case MallCopState.ATTACK:
+                    Attack();
+                    break;
+                case MallCopState.STUNNED:
+                    Twitch();
+                    break;
+            }
         }
     }
 
-    private void SetMallCopToWalk() {
-        currentState = MallCopState.WALK;
+    private bool IsGrounded()
+    {
+        Collider[] cols = Physics.OverlapSphere(foot.transform.position, sphereRadius);
+        for (int i = 0; i < cols.Length; i++)
+        {
+            if (cols[i].gameObject.layer == (int)Layers.Ground)
+            {
+                return true;
+            }
+        }
+        if (!isFalling)
+        {
+            StartCoroutine(ApplyGravity());
+        }
+        return false;
     }
-
 
     private void Walk()
     {
+        if (animator.GetInteger(Strings.ANIMATIONSTATE) != (int)MallCopAnimationStates.Walk)
+        {
+            animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Walk);
+        }
         transform.Rotate(rotationMultiplier * rotationSpeed * Vector3.up * Time.deltaTime);
 
         Vector3 movementDirection = transform.forward;
@@ -136,35 +189,76 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
     }
 
     private void Attack()
-    {        
-        transform.LookAt(attackTarget.transform);
-        Vector3 movementDirection = (attackTarget.transform.position - transform.position).normalized;
-
-        rigid.velocity = movementDirection * myStats.GetStat(StatType.MoveSpeed) * Time.fixedDeltaTime + GetExternalForceSum();
-        
-        attackTime -= Time.deltaTime;
-
-        if (attackTime <= 0.0f)
+    {
+        rigid.velocity = GetExternalForceSum();
+        if (canAttack && attackTarget != null)
         {
-            ResetToWalking();
+            
+            Vector3 lookAtPosition = new Vector3(attackTarget.transform.position.x, 0, attackTarget.transform.position.z);
+            transform.LookAt(lookAtPosition);
+            transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);
+                                    
+            if (inRange)
+            {
+                canAttack = false;
+                if (animator.GetInteger(Strings.ANIMATIONSTATE) != (int)MallCopAnimationStates.Swing)
+                {                    
+                    animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Swing);
+                }
+                else
+                {                    
+                    animator.Play(MallCopAnimationStates.Swing.ToString(), -1, 0f);
+                }                
+            }
+            else
+            {
+                if (animator.GetInteger(Strings.ANIMATIONSTATE) != (int)MallCopAnimationStates.Run)
+                {
+                    animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Run);
+                }
+                Vector3 movementDirection = attackTarget.transform.position - transform.position;
+                Vector3 movementDirectionXZ = new Vector3(movementDirection.x, 0, movementDirection.z);               
+                rigid.velocity = movementDirectionXZ.normalized * myStats.GetStat(StatType.MoveSpeed) * runMultiplier * Time.fixedDeltaTime + GetExternalForceSum();
+            }
         }
     }
 
+    public void AttackAnimationDone()
+    {       
+        canAttack = true;
+    }
+
     private void Twitch() {
-        //TODO: Make this allow getting pushed
-        Vector3 newPosition = Random.insideUnitSphere * twitchRange;
-        newPosition.z = Mathf.Abs(newPosition.z);
-        transform.position = startStunPosition + newPosition;
+        if (canFall)
+        {
+            if (animator.GetInteger(Strings.ANIMATIONSTATE) != (int)MallCopAnimationStates.Stunned)
+            {
+                canFall = false;
+                canAttack = false;
+                animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Stunned);
+                //StartCoroutine(WaitForFallAnimation());
+            }
+        }
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (currentState==MallCopState.WALK) {
-            if (other.name == Strings.PLAYER)
-            {
-                attackTarget = other.gameObject;
-                currentState = MallCopState.ATTACK;
-            }
+        if (other.gameObject.tag == Strings.PLAYER && currentState != MallCopState.ATTACK && canAttack)
+        {
+            attackTarget = other.gameObject;
+            currentState = MallCopState.ATTACK;
+            inRange = true;
+        }else if(other.gameObject.tag == Strings.PLAYER && canAttack)
+        {
+            inRange = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == Strings.PLAYER)
+        {
+            inRange = false;
         }
     }
 
@@ -189,19 +283,60 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
         externalForces[currentIndex] = Vector3.zero;
     }
 
-    private void ResetToWalking()
+    private IEnumerator ApplyGravity()
     {
-        attackTime = 10.0f;
-        currentState = MallCopState.WALK;
-        attackTarget = null;
-        rotationMultiplier = Random.Range(-1.0f, 1.0f);
+        isFalling = true;
+        int currentIndex = externalForces.FindIndex(vec => vec == Vector3.zero);
+        float timeElapsed = 0f;
+        float gravity = 9.81f;
+        while (!isGrounded && isFalling)
+        {
+            externalForces[currentIndex] = Vector3.down * (gravity * timeElapsed);
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+        isFalling = false;
+        externalForces[currentIndex] = Vector3.zero;
     }
 
-    private void OnDestroy()
+    public void DoDamage()
     {
-        if (willHasBeenWritten) {
-            onDeath();
+        mod.Activate();
+    }
+
+    public void GetUp()
+    {
+        if (myStats.GetStat(StatType.Health) > 0)
+        {
+            animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.GettingUp);
         }
+    }
+
+    public void DoneGettingUp()
+    {
+        canFall = true;
+        canAttack = true;
+        currentState = MallCopState.ATTACK;
+    }
+
+    private enum MallCopAnimationStates
+    {
+        Idle = 0,
+        Walk = 1,
+        Swing = 2,
+        HitReaction = 3,
+        Stunned = 4,
+        GettingUp = 5,
+        DrawWeapon = 6,
+        Run = 7,
+        Shoot = 8
+    }
+
+    enum MallCopState
+    {
+        WALK = 0,
+        ATTACK = 1,
+        STUNNED = 2
     }
 
 }

@@ -54,8 +54,21 @@ public enum Layers {
     Ground=11
 }
 
+
 public enum MovementMode
 {
     PRECISE = 0,
     ICE = 1
+}
+
+public enum PlayerAnimationStates
+{
+    Idle = 0,
+    Running = 1,
+    Shoot = 2,
+    Float = 3,
+    MeleeRight = 4,
+    RunMeleeRight = 5,
+    MeleeLeft = 6,
+    RunMeleeLeft = 7
 }

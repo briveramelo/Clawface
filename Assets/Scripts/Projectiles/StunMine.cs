@@ -7,6 +7,9 @@ public class StunMine : MonoBehaviour {
     [SerializeField]
     private float damage;
 
+    [SerializeField]
+    private GameObject explosionEffectPrefab;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -21,6 +24,7 @@ public class StunMine : MonoBehaviour {
     {
         if(other.tag == Strings.ENEMY)
         {
+            Instantiate(explosionEffectPrefab, transform.position, transform.rotation);
             other.GetComponent<IDamageable>().TakeDamage(damage);
             other.GetComponent<IStunnable>().Stun();
             gameObject.SetActive(false);

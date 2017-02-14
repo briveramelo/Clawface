@@ -11,6 +11,9 @@ public class BlasterBullet : MonoBehaviour {
     bool push;
 
     [SerializeField]
+    GameObject projectileImpactEffect;
+
+    [SerializeField]
     float speed;
 
 	// Use this for initialization
@@ -30,6 +33,7 @@ public class BlasterBullet : MonoBehaviour {
         {
             yield return new WaitForSeconds(3);
             gameObject.SetActive(false);
+            Instantiate(projectileImpactEffect, transform.position, transform.rotation);
         }
     }
 
@@ -69,6 +73,7 @@ public class BlasterBullet : MonoBehaviour {
                 }
             }
             push = true;
+            Instantiate(projectileImpactEffect, transform.position, transform.rotation);
             gameObject.SetActive(false);
         }
     }

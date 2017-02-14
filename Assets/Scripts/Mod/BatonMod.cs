@@ -8,11 +8,14 @@ public class BatonMod : Mod {
     [SerializeField]
     private float attackBoostValue;
     private float attackValue;
-    private float attackTime = 0.5f;
+    private float attackTime = 1f;
 
     [SerializeField]
     private Collider attackCollider;
     bool isHitting;
+
+    [SerializeField]
+    private VFXStunBatonImpact impactEffect;
 
     public override void Activate()
     {
@@ -39,10 +42,14 @@ public class BatonMod : Mod {
         //Nothing to do here
     }
 
-    // Use this for initialization
-    void Start () {
+    void Awake()
+    {
         type = ModType.StunBaton;
         attackCollider.enabled = false;
+    }
+
+    // Use this for initialization
+    void Start () {        
     }
 	
 	// Update is called once per frame
@@ -53,7 +60,8 @@ public class BatonMod : Mod {
     {        
         if (!isHitting)
         {
-            isHitting = true;            
+            AudioManager.Instance.PlaySFX(SFXType.StunBatonSwing);
+            isHitting = true;
             StartCoroutine(HitCoolDown());
         }
     }
@@ -67,20 +75,22 @@ public class BatonMod : Mod {
 
     void LayMine()
     {
-        GameObject stunMine = BulletPool.instance.getStunMine();
+        GameObject stunMine = ObjectPool.Instance.GetStunMine();
         if (stunMine != null)
         {
             stunMine.transform.position = transform.position;
             stunMine.SetActive(true);
+            AudioManager.Instance.PlaySFX(SFXType.StunBatonLayMine);
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
-        if (other.tag == Strings.ENEMY && isHitting)
+        if (isHitting)
         {
             IDamageable damageable = other.gameObject.GetComponent<IDamageable>();
-            if (!recentlyHitEnemies.Contains(damageable) && damageable!=null) {
+            if (damageable != null && !recentlyHitEnemies.Contains(damageable)) {
+                impactEffect.Emit();
                 damageable.TakeDamage(attackValue);
                 IStunnable stunnable = other.gameObject.GetComponent<IStunnable>();
                 if (stunnable != null) {
@@ -103,7 +113,6 @@ public class BatonMod : Mod {
 
     public override void AttachAffect(ref Stats i_playerStats, ref PlayerMovement playerMovement)
     {
-        //TODO:Disable pickup collider
         attackCollider.enabled = true;
         playerStats = i_playerStats;
         pickupCollider.enabled = false;
@@ -118,7 +127,6 @@ public class BatonMod : Mod {
 
     public override void DetachAffect()
     {
-        //TODO:Enable pickup collider
         attackCollider.enabled = false;
         pickupCollider.enabled = true;
         if (getModSpot() == ModSpot.Head)
