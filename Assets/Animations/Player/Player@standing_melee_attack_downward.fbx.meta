@@ -1,0 +1,191 @@
+fileFormatVersion: 2
+guid: 0bb4816abc27b5a47a129169f04cef83
+timeCreated: 1486600042
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: back
+    100002: elbow
+    100004: elbow1
+    100006: foot
+    100008: foot1
+    100010: hand
+    100012: hand1
+    100014: head
+    100016: hip
+    100018: hip1
+    100020: knee
+    100022: knee1
+    100024: pSphere18
+    100026: root
+    100028: shoulder
+    100030: shoulder1
+    100032: //RootNode
+    400000: back
+    400002: elbow
+    400004: elbow1
+    400006: foot
+    400008: foot1
+    400010: hand
+    400012: hand1
+    400014: head
+    400016: hip
+    400018: hip1
+    400020: knee
+    400022: knee1
+    400024: pSphere18
+    400026: root
+    400028: shoulder
+    400030: shoulder1
+    400032: //RootNode
+    4300000: pSphere18
+    7400000: standing_melee_attack_downward
+    9500000: //RootNode
+    13700000: pSphere18
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: standing_melee_attack_downward
+      takeName: mixamo.com
+      firstFrame: 0
+      lastFrame: 68
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events:
+      - time: 0.24084786
+        functionName: ActivateMod
+        data: 
+        objectReferenceParameter: {fileID: 1205719698033964, guid: 571f3f5304dc6ae4ca659258a79a2b90,
+          type: 2}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.6652286
+        functionName: DeActivateMod
+        data: 
+        objectReferenceParameter: {fileID: 1205719698033964, guid: 571f3f5304dc6ae4ca659258a79a2b90,
+          type: 2}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      transformMask:
+      - path: 
+        weight: 1
+      - path: pSphere18
+        weight: 1
+      - path: root
+        weight: 1
+      - path: root/back
+        weight: 1
+      - path: root/back/head
+        weight: 1
+      - path: root/back/shoulder
+        weight: 1
+      - path: root/back/shoulder/elbow
+        weight: 1
+      - path: root/back/shoulder/elbow/hand
+        weight: 1
+      - path: root/back/shoulder1
+        weight: 1
+      - path: root/back/shoulder1/elbow1
+        weight: 1
+      - path: root/back/shoulder1/elbow1/hand1
+        weight: 1
+      - path: root/hip
+        weight: 1
+      - path: root/hip/knee
+        weight: 1
+      - path: root/hip/knee/foot
+        weight: 1
+      - path: root/hip1
+        weight: 1
+      - path: root/hip1/knee1
+        weight: 1
+      - path: root/hip1/knee1/foot1
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

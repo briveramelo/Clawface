@@ -20,6 +20,9 @@ public class BlasterMod : Mod {
     [SerializeField]
     private float feetMultiplier;
 
+    [SerializeField]
+    VFXBlasterShoot blasterEffect; 
+
     public override void Activate()
     {
         if (readyToShoot && getModSpot() != ModSpot.Head)
@@ -39,18 +42,20 @@ public class BlasterMod : Mod {
 
     void Shoot()
     {
-        GameObject blasterBullet = BulletPool.instance.getBlasterBullet();
+        AudioManager.Instance.PlaySFX(SFXType.ArmBlasterFire);
+        GameObject blasterBullet = ObjectPool.Instance.GetBlasterBullet();
         blasterBullet.transform.position = transform.position;
         blasterBullet.transform.rotation = transform.rotation;
-        if (getModSpot() == ModSpot.Legs)
+        if (getModSpot() == ModSpot.Legs && playerMovement != null)
         {            
             KickBack(playerMovement.gameObject.transform.up * feetMultiplier);
         }
-        else
+        else if (playerMovement != null)
         {            
             KickBack(-playerMovement.gameObject.transform.forward);
         }
         blasterBullet.SetActive(true);
+        blasterEffect.Emit();
     }
 
     void KickBack(Vector3 direction)
@@ -60,7 +65,7 @@ public class BlasterMod : Mod {
 
     public override void AttachAffect(ref Stats i_playerStats, ref PlayerMovement movement)
     {
-        playerMovement = movement;
+        playerMovement = movement;        
         playerStats = i_playerStats;
         pickupCollider.enabled = false;
         if (getModSpot() == ModSpot.Head)
@@ -83,14 +88,23 @@ public class BlasterMod : Mod {
     {
         playerStats.Modify(StatType.MiniMapRange, 1 / rangeBoostValue);
         pickupCollider.enabled = true;
+        playerMovement = null;
     }
 
     // Use this for initialization
     void Start () {
         readyToShoot = true;
+        type = ModType.ArmBlaster; 
     }
 	
 	// Update is called once per frame
 	void Update () {
+        if (playerMovement != null)
+        {
+            if (getModSpot() != ModSpot.Legs)
+            {
+                transform.forward = playerMovement.transform.forward;
+            }
+        }
     }
 }

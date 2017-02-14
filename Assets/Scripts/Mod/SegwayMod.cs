@@ -39,6 +39,9 @@ public class SegwayMod : Mod {
     [SerializeField]
     private float aoeForce;
 
+    [SerializeField]
+    private VFXBlasterShoot shootEffect;
+
     private static string ENABLEATTACKCOLLIDER = "EnableAttackCollider";
     private static string DISABLEATTACKCOLLIDER = "DisableAttackCollider";
     private static string ENABLEAOECOLLIDER = "EnableAoeCollider";
@@ -50,7 +53,12 @@ public class SegwayMod : Mod {
     [SerializeField]
     private bool isAoeAttacking;
 
-    
+    PlayerMovement playerMovement;
+
+    private void Awake()
+    {
+        type = ModType.ForceSegway;
+    }
 
     public override void Activate()
     {
@@ -136,6 +144,8 @@ public class SegwayMod : Mod {
             playerStats.Modify(StatType.MoveSpeed, speedBoostValue);
             playerStats.Modify(StatType.RangedAccuracy, rangedAccuracyLoss);
             attackValue = playerStats.GetStat(StatType.Attack);
+            this.playerMovement = playerMovement;
+            this.playerMovement.SetMovementMode(MovementMode.ICE);
         }
         else
         {
@@ -161,6 +171,7 @@ public class SegwayMod : Mod {
             playerStats.Modify(StatType.MoveSpeed, 1f / speedBoostValue);
             playerStats.Modify(StatType.RangedAccuracy, 1f / rangedAccuracyLoss);
             attackValue = playerStats.GetStat(StatType.Attack);
+            this.playerMovement.SetMovementMode(MovementMode.PRECISE);
         }
         else
         {
@@ -171,17 +182,16 @@ public class SegwayMod : Mod {
     void BoostSpeed()
     {
         playerStats.Modify(StatType.MoveSpeed, speedBoostValue);
-        Debug.Log("Boosted speed value: " + playerStats.GetStat(StatType.MoveSpeed));
     }
 
     void RemoveSpeedBoost()
     {
         playerStats.Modify(StatType.MoveSpeed, 1 / speedBoostValue);
-        Debug.Log("Boosted speed value: " + playerStats.GetStat(StatType.MoveSpeed));
     }
 
     void AoeAttack()
     {
+        AudioManager.Instance.PlaySFX(SFXType.ForceSegwayPush);
         EnableAoeCollider();
         isAoeAttacking = true;
         recentlyHitEnemies.Clear();
@@ -190,6 +200,8 @@ public class SegwayMod : Mod {
 
     void Hit()
     {
+        AudioManager.Instance.PlaySFX(SFXType.ForceSegwayPush);
+        shootEffect.Emit();
         EnableAttackCollider();
         isAttacking = true;
         recentlyHitEnemies.Clear();

@@ -32,7 +32,7 @@ public class CameraLock : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (isLocked)
+        if (isLocked && objectToLockTo != null)
         {
             transform.position = objectToLockTo.position - distance;
             transform.rotation = Quaternion.Euler(angle);

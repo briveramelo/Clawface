@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class Mod : MonoBehaviour {
 
     ModSpot spot;
-    ModType type;
+    protected ModType type;
 
     [SerializeField]
     public Collider pickupCollider;

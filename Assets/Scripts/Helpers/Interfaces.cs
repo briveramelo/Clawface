@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface IMovable
 {
-    void AddExternalForce(Vector3 force);
+    void AddExternalForce(Vector3 force, float decay=0.1f);
 }
 
 public interface IStunnable
