@@ -4,17 +4,13 @@ using UnityEngine;
 
 public class BlasterBullet : MonoBehaviour {
 
-    Vector3 direction;
+    [SerializeField] private float speed;
 
-    float pushForce;
-    float damage = 1f;
-    bool push;
+    private Vector3 direction;
+    private float pushForce;
+    private float damage = 1f;
+    private bool push;
 
-    [SerializeField]
-    GameObject projectileImpactEffect;
-
-    [SerializeField]
-    float speed;
 
 	// Use this for initialization
 	void Start () {
@@ -32,8 +28,8 @@ public class BlasterBullet : MonoBehaviour {
         if (gameObject.activeSelf)
         {
             yield return new WaitForSeconds(3);
+            CreateImpactEffect();
             gameObject.SetActive(false);
-            Instantiate(projectileImpactEffect, transform.position, transform.rotation);
         }
     }
 
@@ -73,8 +69,17 @@ public class BlasterBullet : MonoBehaviour {
                 }
             }
             push = true;
-            Instantiate(projectileImpactEffect, transform.position, transform.rotation);
+            CreateImpactEffect();
+            //TODO find a better method for colliding with ground
+            //right not it's unreliable            
             gameObject.SetActive(false);
         }
+    }
+
+    private void CreateImpactEffect() {
+        GameObject projectileImpactEffect = ObjectPool.Instance.GetObject(PoolObjectType.BlasterImpactEffect);
+        projectileImpactEffect.SetActive(true);
+        projectileImpactEffect.transform.position = transform.position;
+        projectileImpactEffect.transform.rotation = transform.rotation;
     }
 }
