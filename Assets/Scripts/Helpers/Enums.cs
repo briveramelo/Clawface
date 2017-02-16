@@ -93,3 +93,10 @@ public enum PlayerAnimationStates
     MeleeLeft = 6,
     RunMeleeLeft = 7
 }
+
+public enum ButtonMode
+{
+    Up = 0,
+    Held = 1,
+    Down = 2
+}
