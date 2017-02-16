@@ -4,8 +4,13 @@ using UnityEngine;
 
 public class ExplosionEffect : MonoBehaviour {
 
-	// Use this for initialization
-	void Awake () {
-        Destroy(gameObject, 2f);	
-	}	
+    private void OnEnable()
+    {
+        Invoke("Die", 1f);
+    }
+
+    private void Die()
+    {
+        gameObject.SetActive(false);
+    }
 }

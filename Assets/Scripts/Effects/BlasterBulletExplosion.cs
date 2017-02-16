@@ -4,19 +4,17 @@ using UnityEngine;
 
 public class BlasterBulletExplosion : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-        GetComponent<VFXBlasterProjectileImpact>().Emit();
-        Invoke("KillYourself", 1f);
-	}
+    [SerializeField] private VFXBlasterProjectileImpact effect;
 
-    void KillYourself()
+    private void OnEnable()
     {
-        Destroy(gameObject);
+        effect.Emit();
+        Invoke("Die", 1f);
+    }
+
+    private void Die()
+    {
+        gameObject.SetActive(false);
     }
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }

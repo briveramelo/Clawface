@@ -4,19 +4,17 @@ using UnityEngine;
 
 public class StunMineExplosion : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-        GetComponent<VFXStunMineExplosion>().Emit();
-        Invoke("KillYourself", 1f);
+    [SerializeField] private VFXStunMineExplosion explosionEffect;
+
+    // Use this for initialization
+    private void OnEnable () {
+        explosionEffect.Emit();
+        Invoke("Die", 1f);
 	}
 
-    void KillYourself()
+    private void Die()
     {
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }

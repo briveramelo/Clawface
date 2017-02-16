@@ -11,15 +11,20 @@ public class ObjectPool : Singleton<ObjectPool> {
     private void Start () {
         stunMinePool.Initialize(transform);
         blasterBulletPool.Initialize(transform);
+        blasterImpactEffectPool.Initialize(transform);
+        mallCopPool.Initialize(transform);
+        targetExplosionEffectPool.Initialize(transform);
+        stunMineExplosionEffect.Initialize(transform);
+
 
         pools = new Dictionary<PoolObjectType, Pool>()
         {
             { PoolObjectType.Mine, stunMinePool },
-            { PoolObjectType.MineExplosionEffect, stunMineExplosionEffect },
             { PoolObjectType.BlasterBullet, blasterBulletPool },
             { PoolObjectType.BlasterImpactEffect, blasterImpactEffectPool },
             { PoolObjectType.MallCop, mallCopPool },
             { PoolObjectType.TargetExplosionEffect, targetExplosionEffectPool },
+            { PoolObjectType.MineExplosionEffect, stunMineExplosionEffect },
             
             //Add new pools here
         };
