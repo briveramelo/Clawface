@@ -54,6 +54,27 @@ public enum Layers {
     Ground=11
 }
 
+public enum PoolObjectType {
+    Mine=0,
+    MineExplosionEffect=1,
+    BlasterBullet=2,
+    BlasterImpactEffect=3,
+    MallCop=4,
+    TargetExplosionEffect=5,
+    BloodDecal=6,
+    BloodEmitter=7
+}
+
+public enum WeaponType {
+    Blaster=0,
+    Baton=1        
+}
+
+public enum VictimType {
+    MallCop=0,
+    WallOrGround=1
+}
+
 
 public enum MovementMode
 {
