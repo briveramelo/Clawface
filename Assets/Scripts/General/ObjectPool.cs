@@ -4,10 +4,22 @@ using UnityEngine;
 
 public class ObjectPool : Singleton<ObjectPool> {
 
-    [SerializeField] private Pool stunMinePool, blasterBulletPool, blasterImpactEffectPool, mallCopPool, targetExplosionEffectPool, stunMineExplosionEffect; //Add new pools here
+    #region Unity Inspector Fields
+    [SerializeField] private Pool 
+        stunMinePool,
+        blasterBulletPool,
+        blasterImpactEffectPool,
+        mallCopPool,
+        targetExplosionEffectPool,
+        stunMineExplosionEffect;
+    //Add new pools here
+    #endregion
+
+    #region Private Fields
     private Dictionary<PoolObjectType, Pool> pools;
+    #endregion
 
-
+    #region Unity LifeCycle
     private void Start () {
         stunMinePool.Initialize(transform);
         blasterBulletPool.Initialize(transform);
@@ -29,7 +41,9 @@ public class ObjectPool : Singleton<ObjectPool> {
             //Add new pools here
         };
     }
+    #endregion
 
+    #region Public Methods
     public GameObject GetObject(PoolObjectType poolObject) {
         if (pools.ContainsKey(poolObject)) {
             return pools[poolObject].GetObject();
@@ -38,7 +52,9 @@ public class ObjectPool : Singleton<ObjectPool> {
         Debug.LogFormat("<color=#ffff00>" + debugMessage + "</color>");
         return null;
     }
+    #endregion
 
+    #region Internal Structures
     [System.Serializable]
     struct Pool
     {
@@ -73,4 +89,5 @@ public class ObjectPool : Singleton<ObjectPool> {
             return objToReturn;
         }
     }
+    #endregion
 }

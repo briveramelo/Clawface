@@ -28,21 +28,22 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
     #endregion
 
     #region 3. Private fields
-    public MallCopState currentState = MallCopState.WALK;
+    private MallCopState currentState = MallCopState.WALK;
     private GameObject attackTarget;
     private float rotationMultiplier;
     private Vector3 startStunPosition;
+    private Vector3 velocity;
     private List<Vector3> externalForces;
     private int stunCount;
-    public bool isGlowing = false;
-    public bool isGrounded;
-    public bool isFalling = false;
-    private float sphereRadius = 0.1f;    
+    private bool isGlowing = false;
+    private bool isGrounded;
+    private bool isFalling = false;
+    private float sphereRadius = 0.1f;
     private OnDeath onDeath;
-    public bool willHasBeenWritten;
-    public bool inRange;
-    public bool canAttack;
-    public bool canFall;
+    private bool willHasBeenWritten;
+    private bool inRange;
+    private bool canAttack;
+    private bool canFall;
     #endregion
 
     #region 4. Unity Lifecycle
@@ -87,6 +88,7 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
                     Twitch();
                     break;
             }
+            //velocity = rigbod.velocity;
         }
     }
 
@@ -227,6 +229,9 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
         isGlowing = false;
         animator.SetInteger(Strings.ANIMATIONSTATE, 0);
         currentState = MallCopState.WALK;
+        StopAllCoroutines();
+        rigbod.velocity = Vector3.zero;
+        //TODO check for missing mod and create a new one and attach it
     }
 
     private bool IsGrounded()
@@ -360,7 +365,7 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
         Shoot = 8
     }
 
-    public enum MallCopState
+    private enum MallCopState
     {
         WALK = 0,
         ATTACK = 1,

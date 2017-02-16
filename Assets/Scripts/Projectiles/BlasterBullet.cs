@@ -69,7 +69,9 @@ public class BlasterBullet : MonoBehaviour {
                 }
             }
             push = true;
-            CreateImpactEffect();            
+            CreateImpactEffect();
+            //TODO find a better method for colliding with ground
+            //right not it's unreliable            
             gameObject.SetActive(false);
         }
     }

@@ -60,10 +60,19 @@ public enum PoolObjectType {
     BlasterBullet=2,
     BlasterImpactEffect=3,
     MallCop=4,
-    TargetExplosionEffect=5
+    TargetExplosionEffect=5,
+    BloodDecal=6,
+    BloodEmitter=7
+}
 
-    //BloodDecal=6
-    //BloodEmitter=7
+public enum WeaponType {
+    Blaster=0,
+    Baton=1        
+}
+
+public enum VictimType {
+    MallCop=0,
+    WallOrGround=1
 }
 
 
