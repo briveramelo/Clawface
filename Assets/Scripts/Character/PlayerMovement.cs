@@ -19,13 +19,15 @@ public class PlayerMovement : MonoBehaviour, IDamageable, IMovable
     [SerializeField]
     private float manualDrag;
     [SerializeField] private bool axisInput;
-    [SerializeField] private bool rightAxisInput;
     [SerializeField] private bool isSidescrolling;
     [SerializeField] private bool canMove = true;
     [SerializeField] private Vector3 lastMovement;
-    [SerializeField] private Vector3 rightJoystickMovement;
     [SerializeField]
     private float currentSpeed;
+
+    GameObject currentEnemy;
+    Vector3 currentEnemyVector;
+    LockOnScript lockOnScript;
 
     Animator animator;
 
@@ -69,6 +71,8 @@ public class PlayerMovement : MonoBehaviour, IDamageable, IMovable
 
     // Use this for initialization
     void Start() {
+        lockOnScript = GetComponent<LockOnScript>();
+        currentEnemy = null;
         startHealth = stats.GetStat(StatType.Health);
         externalForces = new List<Vector3>();
         externalForcesToAdd = new List<Vector3>();
@@ -84,30 +88,27 @@ public class PlayerMovement : MonoBehaviour, IDamageable, IMovable
     
     // Update is called once per frame
     void Update() {
-
+        if (lockOnScript != null) {
+            currentEnemy = lockOnScript.GetCurrentEnemy();
+            if(currentEnemy != null)
+            {
+                currentEnemyVector = currentEnemy.transform.position;
+                currentEnemyVector.y = 0;
+            }
+        }
         float h = Input.GetAxis(Strings.MOVEX);
         float v = Input.GetAxis(Strings.MOVEY);
-
-        float rightH = Input.GetAxis(Strings.AIMX);
-        float rightV = Input.GetAxis(Strings.AIMY);
-
         axisInput = CheckForAxisInput(h, v);
-        rightAxisInput = CheckForAxisInput(rightH, rightV);
 
         float hModified = h;
         float vModified = v;
-
-        float rightHModified = rightH;
-        float rightVModified = rightV;
-
+        
         if (isSidescrolling)
         {
             vModified = 0f;
-            rightVModified = 0f;
         }
 
         movement = new Vector3(hModified, 0.0f, vModified);
-        rightJoystickMovement = new Vector3(rightHModified, 0.0f, rightVModified);
 
         if (!canMove) {
             movement = Vector3.zero;
@@ -116,14 +117,11 @@ public class PlayerMovement : MonoBehaviour, IDamageable, IMovable
         velocity = rigid.velocity;
 
 
-        movement = Camera.main.transform.TransformDirection(movement);
-        rightJoystickMovement = Camera.main.transform.TransformDirection(rightJoystickMovement);
+        movement = Camera.main.transform.TransformDirection(movement);       
 
         movement.y = 0f;
-        rightJoystickMovement.y = 0f;
 
         movement = movement.normalized;
-        rightJoystickMovement = rightJoystickMovement.normalized;
 
         if (movement != Vector3.zero)
         {
@@ -198,9 +196,9 @@ public class PlayerMovement : MonoBehaviour, IDamageable, IMovable
 
         if (!axisInput)
         {
-            if (rightAxisInput && rightJoystickMovement != Vector3.zero)
+            if(currentEnemy != null)
             {
-                transform.forward = rightJoystickMovement;
+                transform.forward = currentEnemyVector;
             }
             else if(lastMovement != Vector3.zero)
             {
@@ -210,20 +208,17 @@ public class PlayerMovement : MonoBehaviour, IDamageable, IMovable
                 }
             }
         }
-        else
-        {   if (rightAxisInput && rightJoystickMovement != Vector3.zero)
+        else if (movement != Vector3.zero)
+        {
+            if (currentEnemy != null)
             {
-                transform.forward = rightJoystickMovement;
+                transform.forward = currentEnemyVector;
             }
             else
             {
-                if (movement != Vector3.zero)
-                {
-                    transform.forward = movement;
-                }
+                transform.forward = movement;
             }
         }
-
         velocity = rigid.velocity;
         currentSpeed = rigid.velocity.magnitude;
     }
