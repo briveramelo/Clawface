@@ -2723,7 +2723,7 @@ Prefab:
         type: 2}
       propertyPath: m_TargetTexture
       value: 
-      objectReference: {fileID: 1771699131}
+      objectReference: {fileID: 1651310204}
     - target: {fileID: 20606867456560284, guid: 9981de4f5a8796c4099626eab5bfe43f,
         type: 2}
       propertyPath: orthographic
@@ -3526,8 +3526,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 708893680}
+  - component: {fileID: 708893681}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: TimeManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3546,6 +3547,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &708893681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 708893679}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79c05637e3424864a82893ebf781aa54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  remainingHitstop: 0
+  isInHitstop: 0
 --- !u!1 &733613902
 GameObject:
   m_ObjectHideFlags: 0
@@ -8962,6 +8976,28 @@ Transform:
   m_PrefabParentObject: {fileID: 4232652381133598, guid: 42e0e0714c25e8645aadfe3f7091b738,
     type: 2}
   m_PrefabInternal: {fileID: 1676978747}
+--- !u!84 &1651310204
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_Width: 608
+  m_Height: 536
+  m_AntiAliasing: 2
+  m_DepthFormat: 2
+  m_ColorFormat: 0
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_TextureSettings:
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapMode: 1
 --- !u!1 &1659276228
 GameObject:
   m_ObjectHideFlags: 0
@@ -9483,28 +9519,6 @@ Transform:
   m_PrefabParentObject: {fileID: 4659963037190060, guid: e14e8d6169a17be48982f08387184fc0,
     type: 2}
   m_PrefabInternal: {fileID: 113011718}
---- !u!84 &1771699131
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_Width: 608
-  m_Height: 536
-  m_AntiAliasing: 2
-  m_DepthFormat: 2
-  m_ColorFormat: 0
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_TextureSettings:
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapMode: 1
 --- !u!1 &1775308878
 GameObject:
   m_ObjectHideFlags: 0
