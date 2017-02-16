@@ -19,7 +19,7 @@ public class HitstopManager : Singleton<HitstopManager> {
     void Update () {
 		if (remainingHitstop > 0f)
         {
-            remainingHitstop -= Time.deltaTime;
+            remainingHitstop -= Time.unscaledDeltaTime;
 
             if (remainingHitstop <= 0f)
             {
@@ -35,13 +35,19 @@ public class HitstopManager : Singleton<HitstopManager> {
 
     public void StartHitstop(float time)
     {
+        //remainingHitstop = time;
+        //isInHitstop = true;
+
         remainingHitstop = time;
-        isInHitstop = true;
+        Time.timeScale = 0.00001f;
+        Time.fixedDeltaTime = 0.02f * Time.timeScale;
     }
 
     private void StopHitstop()
     {
-        OnStopEvent();
-        isInHitstop = false;
+        // OnStopEvent();
+        Time.timeScale = 1f;
+        Time.fixedDeltaTime = 0.02f;
+        // isInHitstop = false;
     }
 }
