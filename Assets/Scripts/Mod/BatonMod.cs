@@ -75,7 +75,7 @@ public class BatonMod : Mod {
 
     void LayMine()
     {
-        GameObject stunMine = ObjectPool.Instance.GetStunMine();
+        GameObject stunMine = ObjectPool.Instance.GetObject(PoolObjectType.Mine);
         if (stunMine != null)
         {
             stunMine.transform.position = transform.position;
