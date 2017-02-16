@@ -5,18 +5,14 @@ using ModMan;
 
 public class MallCopSpawner : MonoBehaviour {
 
-    [SerializeField] GameObject mallCop;
+    #region Serialized Unity Fields
     [SerializeField] List<Transform> spawnPoints;
-    [System.Serializable]
-    struct Wave {
-        public int maxMallCops;
-        public int minMallCops;
-        public Wave(int maxMallCops, int minMallCops) {
-            this.maxMallCops = maxMallCops;
-            this.minMallCops = minMallCops;
-        }
-    }
     [SerializeField] List<Wave> mallCopWaves;
+    [SerializeField] int currentWaveNumber=0;
+    [SerializeField] int numMallCops=0;
+    #endregion
+
+    #region private variables
     int currentWave {
         get {
             if (currentWaveNumber >= mallCopWaves.Count) {
@@ -25,30 +21,35 @@ public class MallCopSpawner : MonoBehaviour {
             return currentWaveNumber;
         }
         set { currentWaveNumber = value; }
-    }           
-    [SerializeField] int currentWaveNumber=0;
-    [SerializeField] int numMallCops=0;
+    }
+    #endregion
 
-    void Awake() {
+    #region Unity LifeCycle
+    void Start() {
         SpawnMallCop();
     }
+    #endregion
 
-    
-    public void ReportDeath() {
+    #region Private Methods
+    private void ReportDeath() {
         numMallCops--;
         if (numMallCops < mallCopWaves[currentWave].minMallCops) {
             SpawnMallCop();
         }
     }
 
-    void SpawnMallCop() {
+    private void SpawnMallCop() {
         if (Application.isPlaying)
         {
             numMallCops++;
-            //GameObject cop = Instantiate(mallCop, spawnPoints.GetRandom(), false);
-            GameObject cop = Instantiate(mallCop);
+            GameObject cop = ObjectPool.Instance.GetObject(PoolObjectType.MallCop);
+            cop.SetActive(true);
+            MallCopAI copAI = cop.GetComponent<MallCopAI>();
+            if (!copAI.HasWillBeenWritten()) {
+                copAI.RegisterDeathEvent(ReportDeath);
+            }
             cop.transform.position = spawnPoints.GetRandom().position;
-            cop.GetComponent<MallCopAI>().RegisterDeathEvent(ReportDeath);
+            
             if (numMallCops < mallCopWaves[currentWave].maxMallCops)
             {
                 Invoke("SpawnMallCop", Random.Range(1f, 2f));
@@ -59,4 +60,19 @@ public class MallCopSpawner : MonoBehaviour {
             }
         }
     }
+    #endregion
+
+    #region Internal Structures
+    [System.Serializable]
+    struct Wave
+    {
+        public int maxMallCops;
+        public int minMallCops;
+        public Wave(int maxMallCops, int minMallCops)
+        {
+            this.maxMallCops = maxMallCops;
+            this.minMallCops = minMallCops;
+        }
+    }
+    #endregion
 }
