@@ -84,15 +84,18 @@ public class LevelEditorWindow : EditorWindow {
     }
 
     void OnDestroy() {
-        if (LevelManager.Instance.LevelLoaded && LevelManager.Instance.Dirty) {
-            if (EditorUtility.DisplayDialog("Save current level",
-                "Do you wish to save the current level?",
-                "Save", "Don't Save"))
-                LevelManager.Instance.SaveCurrentLevel();
-            LevelManager.Instance.CloseLevel();
-        }
+        if (_editing) {
 
-        if (_editing) DisconnectFromLevelManager();
+            if (LevelManager.Instance.LevelLoaded && LevelManager.Instance.Dirty) {
+                if (EditorUtility.DisplayDialog("Save current level",
+                    "Do you wish to save the current level?",
+                    "Save", "Don't Save"))
+                    LevelManager.Instance.SaveCurrentLevel();
+                LevelManager.Instance.CloseLevel();
+            }
+
+            DisconnectFromLevelManager();
+        }
     }
 
     void OnGUI() {
@@ -482,8 +485,8 @@ public class LevelEditorWindow : EditorWindow {
                 objectEditorScreenPoint.x = Mathf.Clamp(objectEditorScreenPoint.x, xMin, xMax);
                 objectEditorScreenPoint.y = Mathf.Clamp(objectEditorScreenPoint.y, yMin, yMax);
                 _objectEditorRect = new Rect(
-                    objectEditorScreenPoint.x - xMin, 
-                    objectEditorScreenPoint.y - yMin, 
+                    objectEditorScreenPoint.x - xMin,
+                    objectEditorScreenPoint.y - yMin,
                     _OBJECT_EDITOR_WIDTH, _OBJECT_EDITOR_WIDTH);
 
                 GUILayout.Window(0, _objectEditorRect, DrawObjectEditor, selectedObject.name);
@@ -785,22 +788,21 @@ public class LevelEditorWindow : EditorWindow {
 
 
     void DrawObjectEditor(int windowID) {
-
         var selectedObject = LevelManager.Instance.SelectedObject;
 
         GUILayout.Label("Rotation");
-
         GUILayout.BeginHorizontal();
 
-        if (GUILayout.Button("<-")) {
+        // Rotate CCW button
+        if (GUILayout.Button("<-"))
             LevelManager.Instance.RotateSelectedObject(-5);
-        }
 
-        GUILayout.Label(Mathf.RoundToInt(selectedObject.transform.rotation.eulerAngles.y).ToString() + "°", EditorStyles.centeredGreyMiniLabel);
+        int deg = Mathf.RoundToInt(selectedObject.transform.rotation.eulerAngles.y);
+        GUILayout.Label(deg.ToString() + "°", EditorStyles.centeredGreyMiniLabel);
 
-        if (GUILayout.Button("->")) {
+        // Rotate CW button
+        if (GUILayout.Button("->"))
             LevelManager.Instance.RotateSelectedObject(5);
-        }
 
         GUILayout.EndHorizontal();
     }
