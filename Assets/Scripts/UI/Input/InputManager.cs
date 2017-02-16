@@ -1,4 +1,8 @@
-﻿using System.Collections.Generic;
+﻿/**
+ *  @author Cornelia Schultz
+ */
+
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -25,17 +29,24 @@ public class InputManager : Singleton<InputManager> {
             // Set active scheme to 0th
         }
 
-        void Start()
+        private void Start()
         {
             Assert.AreNotEqual(schemes.Count, 0, "No Control Schemes Found For Platform!");
+        }
+
+        private void Update()
+        {
+            foreach (IController controller in controllers) {
+                controller.Update();
+            }
         }
 
     #endregion
 
     #region Public Interface
 
-        //// Schemes
-        public string ActiveScheme
+    //// Schemes
+    public string ActiveScheme
         {
             get
             {

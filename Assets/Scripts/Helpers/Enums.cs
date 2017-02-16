@@ -96,7 +96,8 @@ public enum PlayerAnimationStates
 
 public enum ButtonMode
 {
-    Up = 0,
-    Held = 1,
-    Down = 2
+    UP = 0, // just went up
+    HELD = 1, // is held
+    DOWN = 2, // just went down
+    IDLE= 3 // is released (not used)
 }

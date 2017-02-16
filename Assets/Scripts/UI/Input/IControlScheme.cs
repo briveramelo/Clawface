@@ -1,4 +1,8 @@
-﻿using System.Collections.Generic;
+﻿/**
+ *  @author Cornelia Schultz
+ */
+
+using System.Collections.Generic;
 using UnityEngine;
 
 public interface IControlScheme  {
