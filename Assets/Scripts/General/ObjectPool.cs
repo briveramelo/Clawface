@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ObjectPool : Singleton<ObjectPool> {
 
-    [SerializeField] private Pool stunMinePool, blasterBulletPool; //Add new pools here
+    [SerializeField] private Pool stunMinePool, blasterBulletPool, blasterImpactEffectPool, mallCopPool, targetExplosionEffectPool, stunMineExplosionEffect; //Add new pools here
     private Dictionary<PoolObjectType, Pool> pools;
 
 
@@ -15,7 +15,11 @@ public class ObjectPool : Singleton<ObjectPool> {
         pools = new Dictionary<PoolObjectType, Pool>()
         {
             { PoolObjectType.Mine, stunMinePool },
+            { PoolObjectType.MineExplosionEffect, stunMineExplosionEffect },
             { PoolObjectType.BlasterBullet, blasterBulletPool },
+            { PoolObjectType.BlasterImpactEffect, blasterImpactEffectPool },
+            { PoolObjectType.MallCop, mallCopPool },
+            { PoolObjectType.TargetExplosionEffect, targetExplosionEffectPool },
             
             //Add new pools here
         };
