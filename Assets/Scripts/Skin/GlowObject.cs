@@ -23,6 +23,10 @@ public class GlowObject : MonoBehaviour
         StartCoroutine(TurnOnGlow());
     }
 
+    public void ResetToNormal() {
+        materials.ForEach(mat => { mat.SetColor("_GlowColor", Color.clear); });
+    }
+
     IEnumerator TurnOnGlow(){
         Color currentColor = materials[0].color;
         while (!currentColor.IsAboutEqual(glowColor)){
