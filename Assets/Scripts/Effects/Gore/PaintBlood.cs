@@ -45,7 +45,7 @@ public class PaintBlood : MonoBehaviour {
 
 
 #if UNITY_EDITOR
-    private bool mDrawDebug;
+    private bool mDrawDebug = true;
     private Vector3 mHitPoint;
     private List<Ray> mRaysDebug = new List<Ray>();
 #endif
@@ -78,7 +78,7 @@ public class PaintBlood : MonoBehaviour {
             {
                 // Paint!
                 Color color = Color.red;
-                Paint(hit.point + hit.normal * 1f, color, 10); // Step back a little
+                Paint(hit.point + hit.normal * 1f, color, 3); // Step back a little
             }
         }
 #endif
@@ -99,7 +99,7 @@ public class PaintBlood : MonoBehaviour {
         int n = 0;
         while (n < drops)
         {
-            var dir = transform.TransformDirection(UnityEngine.Random.onUnitSphere * SplashRange);
+            Vector3 dir = transform.TransformDirection(UnityEngine.Random.onUnitSphere * SplashRange);
 
             // Avoid raycast backward as we're in a 2D space
             if (dir.z < 0) dir.z = UnityEngine.Random.Range(0f, 1f);
@@ -124,15 +124,18 @@ public class PaintBlood : MonoBehaviour {
         int randomIndex = UnityEngine.Random.Range(0, PaintDecalPrefabs.Count);
         Transform paintDecal = PaintDecalPrefabs[randomIndex];
 
-        var paintSplatter = GameObject.Instantiate(paintDecal,
-                                                   hit.point,
+        Vector3 modifiedHit = hit.point;
+
+        modifiedHit.y += .5f;
+        Transform paintSplatter = GameObject.Instantiate(paintDecal,
+                                                   modifiedHit,
                                                    // Rotation from the original sprite to the normal
                                                    // Prefab are currently oriented to z+ so we use the opposite
                                                    Quaternion.FromToRotation(Vector3.back, hit.normal)
                                                    ) as Transform;
         
         // Find an existing material to enable batching
-        var sharedMat = materials.Where(m => m.name.Equals(paintSplatter.GetComponent<Renderer>().material.name)
+        Material sharedMat = materials.Where(m => m.name.Equals(paintSplatter.GetComponent<Renderer>().material.name)
                                             && m.color.Equals(color)
                                         ).FirstOrDefault();
 
@@ -152,7 +155,7 @@ public class PaintBlood : MonoBehaviour {
         }
 
         // Random scale
-        var scaler = UnityEngine.Random.Range(MinScale, MaxScale) * scaleBonus;
+        float scaler = UnityEngine.Random.Range(MinScale, MaxScale) * scaleBonus;
 
         paintSplatter.localScale = new Vector3(
             paintSplatter.localScale.x * scaler,
