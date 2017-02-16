@@ -6,10 +6,16 @@ using UnityEngine;
 
 public class Stats : MonoBehaviour, IModifiable
 {
+    #region Serialized Unity Inspector Fields
+    [SerializeField] private StatsObject statsObject;
+    #endregion
 
-    [SerializeField] StatsObject statsObject;
-    Dictionary<StatType, VariableReference> statDictionary;
+    #region Private Fields
+    private StatsObject originalStats;
+    private Dictionary<StatType, VariableReference> statDictionary;
+    #endregion
 
+    #region Unity LifeCycle
     void Awake()
     {
         statDictionary = new Dictionary<StatType, VariableReference>() {
@@ -20,9 +26,11 @@ public class Stats : MonoBehaviour, IModifiable
             {StatType.MoveSpeed, new VariableReference(()=>statsObject.moveSpeed, statValue=> {statsObject.moveSpeed = (float)statValue; }) },
             {StatType.RangedAccuracy, new VariableReference(()=>statsObject.rangedAccuracy, statValue=> {statsObject.rangedAccuracy = (float)statValue; }) },
         };
+        originalStats = new StatsObject(statsObject);
     }
+    #endregion
 
-
+    #region Public Methods
     public void Modify(StatType statType, float statMultiplier)
     {
         statDictionary[statType].Set((float)statDictionary[statType].Get() * statMultiplier);
@@ -40,10 +48,20 @@ public class Stats : MonoBehaviour, IModifiable
 
     public float TakeDamage(float damage)
     {
-        statDictionary[StatType.Health].Set((float)statDictionary[StatType.Health].Get() - damage);
+        float newHealthValue = (float)statDictionary[StatType.Health].Get() - damage;
+        if (newHealthValue < 0) {
+            newHealthValue = 0;
+        }
+        statDictionary[StatType.Health].Set(newHealthValue);
         return (float)statDictionary[StatType.Health].Get();
     }
 
+    public void ResetStats() {
+        statsObject = originalStats;
+    }
+    #endregion
+
+    #region Internal Structures
     class VariableReference
     {
         public Func<object> Get { get; private set; }
@@ -57,5 +75,14 @@ public class Stats : MonoBehaviour, IModifiable
     [Serializable]
     struct StatsObject {
         public float attack, defense, health, moveSpeed, miniMapRange, rangedAccuracy;
+        public StatsObject(StatsObject other) {
+            attack = other.attack;
+            defense = other.defense;
+            health = other.health;
+            moveSpeed = other.moveSpeed;
+            miniMapRange = other.miniMapRange;
+            rangedAccuracy = other.rangedAccuracy;
+        }
     }
+    #endregion
 }
