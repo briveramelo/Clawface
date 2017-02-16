@@ -1,5 +1,6 @@
 ﻿// Adam Kay
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,15 +13,10 @@ public class HitstopManager : Singleton<HitstopManager> {
     [SerializeField]
     private bool isInHitstop;
 
-    private float hitstopTimer;
+    public event Action OnStopEvent;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    // Update is called once per frame
+    void Update () {
 		if (remainingHitstop > 0f)
         {
             remainingHitstop -= Time.deltaTime;
@@ -45,6 +41,7 @@ public class HitstopManager : Singleton<HitstopManager> {
 
     private void StopHitstop()
     {
+        OnStopEvent();
         isInHitstop = false;
     }
 }
