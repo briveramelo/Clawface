@@ -54,6 +54,12 @@ public enum Layers {
     Ground=11
 }
 
+public enum PoolObjectType {
+    Mine=0,
+    BlasterBullet=1,
+    //BloodDecal=2
+}
+
 
 public enum MovementMode
 {
