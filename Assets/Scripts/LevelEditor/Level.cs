@@ -10,139 +10,7 @@ using System.Collections.Generic;
 /// </summary>
 [Serializable]
 public class Level {
-
-    #region Nested Classes
-
-    /// <summary>
-    /// Floor class holds 3D object data.
-    /// </summary>
-    [Serializable]
-    public class Floor {
-
-        const int _MAX_OBJECTS = 1024;
-
-        /// <summary>
-        /// Byte values at each tile.
-        /// </summary>
-        //public ObjectAttributes[,,] values;
-        [SerializeField]
-        List<ObjectAttributes> _values;
-
-        /// <summary>
-        /// Default constructor -- initializes all byte values to byte.MaxValue
-        /// which represents empty space.
-        /// </summary>
-        public Floor() {
-            _values = new List<ObjectAttributes>();
-        }
-
-        /// <summary>
-        /// Direct accessor.
-        /// </summary>
-        public ObjectAttributes this[int i] {
-            get {
-                if (i < 0 || i >= _values.Count) {
-                    Debug.LogError("Invalid index: " + i);
-                    return default(ObjectAttributes);
-                }
-                return _values[i];
-            }
-            set { _values[i] = value; }
-        }
-
-        public void AddObject(int index, Vector3 position, int yRotation) {
-            _values.Add(new ObjectAttributes((byte)index, position, yRotation));
-        }
-
-        public void DeleteObject (int index) {
-            _values.RemoveAt (index);
-        }
-
-        public List<ObjectAttributes> Objects { get { return _values; } }
-    }
-
-    [Serializable]
-    public class ObjectAttributes {
-
-        [SerializeField]
-        public List<SerializeableKeyValuePair<string, string>> attributes = 
-            new List<SerializeableKeyValuePair<string, string>>();
-
-        public ObjectAttributes(byte index, Vector3 position, int yRotation) {
-            attributes.Add (new SerializeableKeyValuePair<string, string> ("INDEX", index.ToString()));
-            attributes.Add (new SerializeableKeyValuePair<string, string> ("POSX", position.x.ToString()));
-            attributes.Add (new SerializeableKeyValuePair<string, string> ("POSY", position.y.ToString()));
-            attributes.Add (new SerializeableKeyValuePair<string, string> ("POSZ", position.z.ToString()));
-            attributes.Add (new SerializeableKeyValuePair<string, string> ("ROTX", 0.ToString()));
-            attributes.Add (new SerializeableKeyValuePair<string, string> ("ROTY", yRotation.ToString()));
-            attributes.Add (new SerializeableKeyValuePair<string, string> ("ROTZ", 0.ToString()));
-        }
-
-        public Vector3 Position {
-            get {
-                return new Vector3(
-                    GetAttributeAsFloat ("POSX"),
-                    GetAttributeAsFloat ("POSY"),
-                    GetAttributeAsFloat ("POSZ"));
-            }
-        }
-
-        public byte GetAttributeAsByte (string attribName) {
-            foreach (var attribute in attributes)
-                if (attribute.Key == attribName) {
-                    byte result;
-                    if (byte.TryParse (attribute.Value, out result))
-                        return result;
-                    else
-                        throw new NullReferenceException ("Failed to parse attribute \'" + attribName + "\' as byte!");
-                }
-
-            throw new NullReferenceException ("Attribute \'" + attribName + "\' not found!");
-        }
-
-        public float GetAttributeAsFloat (string attribName) {
-            foreach (var attribute in attributes)
-                if (attribute.Key == attribName) {
-                    float result;
-                    if (float.TryParse (attribute.Value, out result))
-                        return result;
-                    else throw new NullReferenceException ("Failed to parse attribute \'" + attribName + "\' as float!");
-                }
-
-            throw new NullReferenceException ("Attribute \'" + attribName + "\' not found!");
-        }
-
-        public string GetAttributeAsString (string attribName) {
-            foreach (var attribute in attributes)
-                if (attribute.Key == attribName)
-                    return attribute.Value;
-
-            throw new NullReferenceException ("Attribute \'" + attribName + "\' not found!");
-        }
-
-        public void SetAttribute (string attribName, string newValue) {
-
-            foreach (var attribute in attributes) {
-                if (attribute.Key == attribName) {
-                    attribute.SetValue(newValue);
-                    return;
-                }
-            }
-
-            throw new NullReferenceException ("Attribute \'" + attribName + "\' not found!");
-        }
-
-        public void SetPosition (Vector3 pos) {
-            SetAttribute ("POSX", pos.x.ToString());
-            SetAttribute ("POSY", pos.y.ToString());
-            SetAttribute ("POSZ", pos.z.ToString());
-        }
-    }
-
-    [Serializable]
-    public class LevelEvent : UnityEvent { }
-
-    #endregion
+    
     #region Vars
 
     const string _DEFAULT_NAME = "New Level";
@@ -161,16 +29,7 @@ public class Level {
     /// All floor structures in the level.
     /// </summary>
     [SerializeField]
-    Floor[] _floors;
-
-    [SerializeField]
-    float _playerSpawnX = 0f;
-
-    [SerializeField]
-    float _playerSpawnY = 0f;
-
-    [SerializeField]
-    float _playerSpawnZ = 0f;
+    FloorArray _floors = new FloorArray();
 
     [NonSerialized]
     public LevelEvent onLevelComplete;
@@ -183,11 +42,7 @@ public class Level {
     /// </summary>
     public Level() {
         _name = _DEFAULT_NAME;
-
-        _floors = new Floor[MAX_FLOORS];
-        for (int i = 0; i < MAX_FLOORS; i++) {
-            _floors[i] = new Floor();
-        }
+        _floors = new FloorArray();
     }
 
     #endregion
@@ -209,21 +64,6 @@ public class Level {
     /// </summary>
     public Floor this[int index] {
         get { return _floors[index]; }
-    }
-
-    public Vector3 PlayerSpawnPosition {
-        get {
-            return new Vector3(
-                _playerSpawnX,
-                _playerSpawnY,
-                _playerSpawnZ);
-        }
-    }
-
-    public void SetPlayerSpawnPosition(Vector3 position) {
-        _playerSpawnX = position.x;
-        _playerSpawnY = position.y;
-        _playerSpawnZ = position.z;
     }
 
     /// <summary>
@@ -256,6 +96,236 @@ public class Level {
     public override string ToString() {
         return _name;
     }
+
+    #endregion
+    #region Nested Classes
+
+    /// <summary>
+    /// Floor class holds 3D object data.
+    /// </summary>
+    [Serializable]
+    public class Floor {
+
+        /// <summary>
+        /// Byte values at each tile.
+        /// </summary>
+        [SerializeField]
+        ObjectArray _objects = new ObjectArray();
+
+        /// <summary>
+        /// Direct accessor.
+        /// </summary>
+        public ObjectAttributes this[int i] {
+            get { return _objects[i]; }
+            set { _objects[i] = value; }
+        }
+
+        public void AddObject(int index, Vector3 position, int yRotation) {
+            _objects.Add(new ObjectAttributes((byte)index, position, yRotation));
+        }
+
+        public void DeleteObject (int index) {
+            _objects.RemoveAt (index);
+        }
+
+        public ObjectArray Objects { get { return _objects; } }
+    }
+
+    [Serializable]
+    public class FloorArray {
+
+        [SerializeField]
+        Floor[] _floors = new Floor[MAX_FLOORS];
+  
+        public FloorArray () {
+            for (int i = 0; i < MAX_FLOORS; i++)
+                _floors[i] = new Floor();
+        }
+
+        public Floor this[int i] {
+            get { return _floors[i]; }
+            set { _floors[i] = value; }
+        }
+    }
+
+    [Serializable]
+    public class ObjectArray {
+        const int _MAX_OBJECTS_PER_FLOOR = 1024;
+
+        [SerializeField]
+        ObjectAttributes[] _objects = new ObjectAttributes[_MAX_OBJECTS_PER_FLOOR];
+
+        public ObjectAttributes this[int i] {
+            get { return _objects[i]; }
+            set { _objects[i] = value; }
+        }
+
+        public int Length { get { return _MAX_OBJECTS_PER_FLOOR; } }
+
+        public void Add (ObjectAttributes obj) {
+            if (obj.Index == byte.MaxValue) throw new IndexOutOfRangeException ("Invalid index!");
+
+            for (int i = 0; i < _MAX_OBJECTS_PER_FLOOR; i++)
+                if (_objects[i] == null || _objects[i].Index == byte.MaxValue) {
+                    _objects[i] = obj;
+                    return;
+                }
+
+            throw new IndexOutOfRangeException ("Too many objects!");
+        }
+
+        public void RemoveAt (int i) {
+            _objects[i] = null;
+        }
+    }
+
+    [Serializable]
+    public class AttributeArray {
+        public const int MAX_OBJECT_ATTRIBUTES = 8;
+
+        [SerializeField]
+        SerializeableStringPair[] _attributes = 
+            new SerializeableStringPair[MAX_OBJECT_ATTRIBUTES];
+
+        public SerializeableStringPair this[int i] {
+            get { return _attributes[i]; }
+            set { _attributes[i] = value; }
+        }
+
+        public void Add (SerializeableStringPair pair) {
+            for (int i = 0; i < MAX_OBJECT_ATTRIBUTES; i++)
+                if (_attributes[i] == null) {
+                    _attributes[i] = pair;
+                    return;
+                }
+        }
+
+        public override string ToString() {
+            string result = "";
+            for (int i = 0; i < MAX_OBJECT_ATTRIBUTES; i++) {
+                var attribute = _attributes[i];
+                if (attribute == null) continue;
+
+                if (i > 0) result += "\n";
+                result += attribute.ToString();
+            }
+            return result;
+        }
+    }
+
+    [Serializable]
+    public class ObjectAttributes {
+
+        [SerializeField] byte _index = byte.MaxValue;
+        [SerializeField] float _posX;
+        [SerializeField] float _posY;
+        [SerializeField] float _posZ;
+        [SerializeField] float _rotX = 0f;
+        [SerializeField] float _rotY;
+        [SerializeField] float _rotZ = 0f;
+        [SerializeField] float _scaleX = 1f;
+        [SerializeField] float _scaleY = 1f;
+        [SerializeField] float _scaleZ = 1f;
+
+        [SerializeField]
+        AttributeArray _attributes = new AttributeArray();
+
+        public ObjectAttributes () {
+            _index = byte.MaxValue;
+        }
+
+        public ObjectAttributes(byte index, Vector3 position, int yRotation) {
+            _index = index;
+            _posX = position.x;
+            _posY = position.y;
+            _posZ = position.z;
+            _rotY = yRotation;
+            //Debug.Log (this.ToString());
+        }
+
+        public byte Index {
+            get { return _index; }
+            set { _index = value; }
+        }
+
+        public Vector3 Position {
+            get { return new Vector3(_posX, _posY, _posZ); }
+        }
+
+        public Vector3 EulerRotation {
+            get { return new Vector3 (
+                _rotX, _rotY, _rotZ); }
+        }
+
+        public float YRotation {
+            get { return _rotY; }
+            set { _rotY = value; }
+        }
+
+        public byte GetAttributeAsByte (string attribName) {
+            for (int i = 0; i < AttributeArray.MAX_OBJECT_ATTRIBUTES; i++) {
+                var attribute = _attributes[i];
+                if (attribute.Key == attribName) {
+                    byte result;
+                    if (byte.TryParse (attribute.Value, out result))
+                        return result;
+                    else
+                        throw new NullReferenceException ("Failed to parse attribute \'" + attribName + "\' as byte!");
+                }
+            }
+
+            throw new NullReferenceException ("Attribute \'" + attribName + "\' not found!");
+        }
+
+        public float GetAttributeAsFloat (string attribName) {
+            for (int i = 0; i < AttributeArray.MAX_OBJECT_ATTRIBUTES; i++) {
+                var attribute = _attributes[i];
+                if (attribute.Key == attribName) {
+                    float result;
+                    if (float.TryParse (attribute.Value, out result))
+                        return result;
+                    else throw new NullReferenceException ("Failed to parse attribute \'" + attribName + "\' as float!");
+                }
+            }
+
+            throw new NullReferenceException ("Attribute \'" + attribName + "\' not found!");
+        }
+
+        public string GetAttributeAsString (string attribName) {
+            for (int i = 0; i < AttributeArray.MAX_OBJECT_ATTRIBUTES; i++) {
+                var attribute = _attributes[i];
+                if (attribute.Key == attribName)
+                    return attribute.Value;
+            }
+
+            throw new NullReferenceException ("Attribute \'" + attribName + "\' not found!");
+        }
+
+        public void SetAttribute (string attribName, string newValue) {
+            for (int i = 0; i < AttributeArray.MAX_OBJECT_ATTRIBUTES; i++) {
+                var attribute = _attributes[i];
+                if (attribute.Key == attribName) {
+                    attribute.SetValue(newValue);
+                    return;
+                }
+            }
+
+            throw new NullReferenceException ("Attribute \'" + attribName + "\' not found!");
+        }
+
+        public void SetPosition (Vector3 pos) {
+            _posX = pos.x;
+            _posY = pos.y;
+            _posZ = pos.z;
+        }
+
+        public override string ToString() {
+            return _attributes.ToString();
+        }
+    }
+
+    [Serializable]
+    public class LevelEvent : UnityEvent { }
 
     #endregion
 }

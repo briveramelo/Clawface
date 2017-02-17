@@ -90,7 +90,7 @@ public class LevelEditorWindow : EditorWindow {
                 if (EditorUtility.DisplayDialog("Save current level",
                     "Do you wish to save the current level?",
                     "Save", "Don't Save"))
-                    LevelManager.Instance.SaveCurrentLevel();
+                    LevelManager.Instance.SaveCurrentLevelToJSON();
                 LevelManager.Instance.CloseLevel();
             }
 
@@ -145,6 +145,11 @@ public class LevelEditorWindow : EditorWindow {
             return;
         }
 
+        if (!_editing) {
+            EditorGUILayout.LabelField("No LevelManager or ObjectDatabaseManager found!", GUILayout.ExpandWidth(true));
+            return;
+        }
+
         DrawCreateNewLevelButtonGUI();
         DrawCloseLevelButtonGUI();
         DrawLoadExistingLevelButtonGUI();
@@ -186,7 +191,7 @@ public class LevelEditorWindow : EditorWindow {
             if (_levelLoaded && LevelManager.Instance.Dirty) {
                 if (EditorUtility.DisplayDialog("Save current level",
                     "Do you wish to save the current level?", "Save", "Don't Save"))
-                    LevelManager.Instance.SaveCurrentLevel();
+                    LevelManager.Instance.SaveCurrentLevelToJSON();
             }
             LevelManager.Instance.CreateNewLevel();
         }
@@ -199,7 +204,7 @@ public class LevelEditorWindow : EditorWindow {
             if (LevelManager.Instance.Dirty) {
                 if (EditorUtility.DisplayDialog("Save current level",
                     "Do you wish to save the current level?", "Save", "Don't Save"))
-                    LevelManager.Instance.SaveCurrentLevel();
+                    LevelManager.Instance.SaveCurrentLevelToJSON();
             }
             LevelManager.Instance.CloseLevel();
             Repaint();
@@ -213,9 +218,9 @@ public class LevelEditorWindow : EditorWindow {
             if (_levelLoaded && LevelManager.Instance.Dirty) {
                 if (EditorUtility.DisplayDialog("Save current level",
                     "Do you wish to save the current level?", "Save", "Don't Save"))
-                    LevelManager.Instance.SaveCurrentLevel();
+                    LevelManager.Instance.SaveCurrentLevelToJSON();
             }
-            LevelManager.Instance.LoadLevel();
+            LevelManager.Instance.LoadLevelFromJSON();
         }
     }
 
@@ -224,6 +229,7 @@ public class LevelEditorWindow : EditorWindow {
         EditorGUILayout.Space();
 
         // Level name
+        if (!LevelManager.Instance.LevelLoaded) return;
         var levelName = LevelManager.Instance.LoadedLevel.Name;
         var newName = EditorGUILayout.TextField("Name", levelName);
         if (newName != levelName) {
@@ -232,11 +238,12 @@ public class LevelEditorWindow : EditorWindow {
     }
 
     void DrawSaveLevelButtonsGUI() {
+        if (!LevelManager.Instance.LevelLoaded) return;
         if (LevelManager.Instance.LoadedLevel.Name != default(string)) {
             if (GUILayout.Button("Save level"))
-                LevelManager.Instance.SaveCurrentLevel();
+                LevelManager.Instance.SaveCurrentLevelToJSON();
             if (GUILayout.Button("Save level as asset"))
-                LevelManager.Instance.SaveCurrentLevel(true);
+                LevelManager.Instance.SaveCurrentLevelToJSON(true);
         }
     }
 
@@ -325,11 +332,11 @@ public class LevelEditorWindow : EditorWindow {
             if (e.control) {
                 if (e.shift) {
                     if (e.keyCode == KeyCode.S) { // Ctrl + Shift + S
-                        LevelManager.Instance.SaveCurrentLevel(true);
+                        LevelManager.Instance.SaveCurrentLevelToJSON(true);
                     }
                 } else {
                     if (e.keyCode == KeyCode.S) { // Ctrl + S
-                        LevelManager.Instance.SaveCurrentLevel();
+                        LevelManager.Instance.SaveCurrentLevelToJSON();
                     }
                 }
             }
@@ -384,7 +391,7 @@ public class LevelEditorWindow : EditorWindow {
             float distance;
             if (LevelManager.Instance.EditingPlane.Raycast(ray, out distance)) {
                 cursorPos = ray.GetPoint(distance);
-                LevelManager.Instance.CursorPosition = cursorPos;
+                LevelManager.Instance.SetCursorPosition(cursorPos);
             }
             SceneView.RepaintAll();
         }

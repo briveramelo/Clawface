@@ -62,7 +62,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// <summary>
     /// Resource path of current loaded level.
     /// </summary>
-    string _loadedLevelPath = default(string);
+    string _loadedLevelPath = "";
 
     /// <summary>
     /// GameObject representing the loaded level.
@@ -376,7 +376,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
             Debug.LogError("Object " + obj.name + " not found in the level file!");
             return byte.MaxValue;
         }
-        return data.GetAttributeAsByte ("INDEX");
+        return data.Index;
     }
 
     public void UpOneFloor() {
@@ -430,6 +430,11 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
             );
             Selection.transforms[0].position = snapped;
         }
+    }
+
+    public void SetCursorPosition (Vector3 newPos) {
+        _cursorPosition = newPos;
+        if (_snapToGrid) SnapCursor();
     }
 
     /// <summary>
@@ -588,7 +593,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
 
     public void StartMovingObject(GameObject obj) {
         var data = GetAttributesOfObject(obj);
-        _movingObjectID = data.GetAttributeAsByte ("INDEX");
+        _movingObjectID = data.Index;
         Show3DAssetPreview(obj);
         _movingObjectOriginalCoords = data.Position;
         DeleteObject(obj, ActionType.None);
@@ -609,9 +614,9 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
 
     public void RotateSelectedObject(int rotation) {
         var attribs = AttributesOfObject(_selectedObject);
-        var originalRotation = attribs.GetAttributeAsFloat ("YROT");
+        var originalRotation = attribs.YRotation;
         var newRotation = (originalRotation + rotation) % 360;
-        attribs.SetAttribute ("YROT", newRotation.ToString());
+        attribs.YRotation = newRotation;
         _selectedObject.transform.Rotate(0f, rotation, 0f);
     }
 
@@ -645,25 +650,29 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// <summary>
     /// Saves the current level.
     /// </summary>
-    public void SaveCurrentLevel(bool doUseFilePanel = false) {
-        var asset = _loadedLevel.ToLevelAsset();
+    public void SaveCurrentLevelToJSON(bool doUseFilePanel = false) {
+        /*var asset = _loadedLevel.ToLevelAsset();
 
         if (asset == default(LevelAsset)) {
             Debug.LogError("Failed to save level!");
             return;
-        }
+        }*/
 
-        if (doUseFilePanel || _loadedLevelPath == default(string)) {
+        if (doUseFilePanel || _loadedLevelPath == "") {
             string savePath = default(string);
             if (Application.isEditor) {
-                savePath = ScriptableObjectUtility.SaveScriptableObjectWithFilePanel(asset, "Save Level File", asset.ToString(), "asset");
+                savePath = EditorUtility.SaveFilePanel ("Save Level to JSON", Application.dataPath, _loadedLevel.Name, "json");
+                if (savePath == default(string) || savePath == "") return;
+                JSONFileUtility.SaveToJSONFile (_loadedLevel, savePath);
+                //savePath = ScriptableObjectUtility.SaveScriptableObjectWithFilePanel(asset, "Save Level File", asset.ToString(), "asset");
             } else {
                 // In-game editor file panel
             }
-            if (savePath == default(string) || savePath == "") return;
+            
             _loadedLevelPath = savePath;
         } else {
-            ScriptableObjectUtility.SaveScriptableObject(asset, _loadedLevelPath, true);
+            JSONFileUtility.SaveToJSONFile (_loadedLevel, _loadedLevelPath);
+            //ScriptableObjectUtility.SaveScriptableObject(asset, _loadedLevelPath, true);
         }
 
         _dirty = false;
@@ -678,7 +687,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
         StopEditing();
 
         _loadedLevel = null;
-        _loadedLevelPath = default(string);
+        _loadedLevelPath = "";
         SelectTool(Tool.Select);
         _selectedFloor = 0;
 
@@ -698,16 +707,19 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// <summary>
     /// Prompts the user for a level asset to load.
     /// </summary>
-    public void LoadLevel() {
+    public void LoadLevelFromJSON() {
 
-        string assetPath = default(string);
+        /*string assetPath = default(string);
         LevelAsset asset = null;
         if (Application.isEditor)
-            asset = ScriptableObjectUtility.LoadScriptableObjectWithFilePanel<LevelAsset>("Load Level File", "Assets", "asset", out assetPath);
+            asset = ScriptableObjectUtility.LoadScriptableObjectWithFilePanel<LevelAsset>("Load Level File", "Assets", "asset", out assetPath);*/
         // else open load panel in-game
+        var assetPath = EditorUtility.OpenFilePanel ("Open Level JSON", Application.dataPath, "json");
 
         // If user cancelled loading
         if (assetPath == default(string) || assetPath == "") return;
+
+        var asset = JSONFileUtility.LoadFromJSONFile<Level>(assetPath);
 
         // If asset failed to load
         if (asset == null) {
@@ -715,27 +727,28 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
             return;
         }
 
-        if (!AssetDatabase.CopyAsset(assetPath, _TEMP_LEVEL_PATH)) {
+        /*if (!AssetDatabase.CopyAsset(assetPath, _TEMP_LEVEL_PATH)) {
             Debug.LogError ("Failed to create temp copy of loaded level! " + _TEMP_LEVEL_PATH);
             return;
         }
 
-        var assetCopy = ScriptableObjectUtility.LoadScriptableObject<LevelAsset>(_TEMP_LEVEL_PATH);
+        var assetCopy = ScriptableObjectUtility.LoadScriptableObject<LevelAsset>(_TEMP_LEVEL_PATH);*/
 
         if (_loadedLevel != null) CloseLevel();
 
-        Level level = assetCopy.Unpack();
+        /*Level level = assetCopy.Unpack();
         if (level.Equals(default(Level))) {
             Debug.LogError("Level file is corrupted at " + asset);
             return;
-        }
+        }*/
 
-        _loadedLevel = level;
+        _loadedLevel = asset;
 
         _dirty = false;
 
         SetupLevelObjects();
 
+        InitObjectCounts();
         GetObjectCounts();
 
         ReconstructFloor();
@@ -751,11 +764,23 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     void ReconstructFloor() {
 
         Debug.Log(string.Format("LEDIT: Loading floor {0}...", _selectedFloor.ToString()));
-        foreach (var attribs in _loadedLevel[_selectedFloor].Objects) {
-            Debug.Log ("yay");
-            var obj = SpawnObject(attribs.GetAttributeAsByte("INDEX"));
+        var objects = _loadedLevel[_selectedFloor].Objects;
+        for (int i = 0; i < objects.Length; i++) {
+            var attribs = objects[i];
+            byte index;
+
+            try {
+                index = attribs.Index;
+            } catch (NullReferenceException) {
+                continue;
+            }
+
+            if (index == byte.MaxValue) continue;
+
+            var obj = SpawnObject(index);
             obj.transform.parent = _floorObjects[_selectedFloor].transform;
             obj.transform.position = attribs.Position;
+            obj.transform.rotation = Quaternion.Euler (attribs.EulerRotation);
             _loadedObjects.Add(obj);
         }
     }
