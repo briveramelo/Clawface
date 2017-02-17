@@ -257,9 +257,34 @@ public class Level {
                 _rotX, _rotY, _rotZ); }
         }
 
-        public float YRotation {
+        public float RotationY {
             get { return _rotY; }
             set { _rotY = value; }
+        }
+
+        public Vector3 Scale {
+            get {
+                return new Vector3 (
+                    _scaleX,
+                    _scaleY,
+                    _scaleZ
+                );
+            }
+        }
+
+        public float ScaleX {
+            get { return _scaleX; }
+            set { _scaleX = value; }
+        }
+
+        public float ScaleY {
+            get { return _scaleY; }
+            set { _scaleY = value; }
+        }
+
+        public float ScaleZ {
+            get { return _scaleZ; }
+            set { _scaleZ = value; }
         }
 
         public byte GetAttributeAsByte (string attribName) {

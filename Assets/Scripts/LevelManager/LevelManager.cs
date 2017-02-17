@@ -1,12 +1,16 @@
 ﻿// LevelManager.cs
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.Events;
 
+/// <summary>
+/// Class to handle all level editing functionality.
+/// Both the editor window and in-game editor use this manager
+/// for consistency.
+/// </summary>
 [ExecuteInEditMode]
 public class LevelManager : SingletonMonoBehaviour<LevelManager> {
 
@@ -23,26 +27,12 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     }
 
     #endregion
-    #region Nested Classes
-
-    /// <summary>
-    /// Class for LevelManager-specific events
-    /// </summary>
-    [Serializable]
-    public class LevelManagerEvent : UnityEvent { }
-
-    #endregion
     #region Constants
 
     /// <summary>
     /// Default level path.
     /// </summary>
     const string _LEVEL_PATH = "Assets/Resources/Levels/";
-
-    /// <summary>
-    /// Path for temporary level file.
-    /// </summary>
-    const string _TEMP_LEVEL_PATH = "Assets/Resources/Levels/Temp.asset";
 
     /// <summary>
     /// Editor name of the 3D asset preview object.
@@ -77,7 +67,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// <summary>
     /// All currently loaded objects in the editor.
     /// </summary>
-    List<GameObject> _loadedObjects = new List<GameObject>();
+    List<ObjectSpawner> _loadedSpawners = new List<ObjectSpawner>();
 
     /// <summary>
     /// Current state of the editor tool.
@@ -132,7 +122,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// <summary>
     /// Path of the 3D asset preview material.
     /// </summary>
-    const string _PREVIEW_MAT_PATH = "Assets/Materials/PreviewGhost.mat";
+    const string _PREVIEW_MAT_PATH = "Assets/Resources/Materials/PreviewGhost.mat";
 
     /// <summary>
     /// Is object placement allowed at the current location?
@@ -162,6 +152,8 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     int _currentYPosition = 0;
 
     int _currentYRotation = 0;
+
+    bool _playingLevel = false;
 
     Vector3 _cursorPosition = Vector3.zero;
 
@@ -247,6 +239,8 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
 
     public bool PreviewActive { get { return _preview != null; } }
 
+    public Material PreviewMaterial { get { return _previewMaterial; } }
+
     public Tool CurrentTool { get { return _currentTool; } }
 
     public Stack<LevelEditorAction> UndoStack { get { return _undoStack; } }
@@ -264,8 +258,15 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     new void Awake() {
         base.Awake();
 
-        if (Application.isPlaying)
+        if (Application.isPlaying) {
             DontDestroyOnLoad(gameObject);
+            if (_loadedLevel != null) PlayCurrentLevel();
+        }
+    }
+
+    private void OnDestroy() {
+        if (Application.isPlaying)
+        StopPlayingLevel();
     }
 
     #endregion
@@ -366,7 +367,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     }
 
     public int LevelIndexOfObject(GameObject obj) {
-        return _loadedObjects.IndexOf(obj);
+        return _loadedSpawners.IndexOf(obj.GetComponent<ObjectSpawner>());
     }
 
     public byte ObjectIndexOfObject(GameObject obj) {
@@ -381,7 +382,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
 
     public void UpOneFloor() {
         if (_selectedFloor < Level.MAX_FLOORS - 1) {
-            CleanupObjects();
+            CleanupSpawners();
             _selectedFloor++;
             _currentYPosition = 0;
             UpdateHeight();
@@ -391,7 +392,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
 
     public void DownOneFloor() {
         if (_selectedFloor > 0) {
-            CleanupObjects();
+            CleanupSpawners();
             _selectedFloor--;
             _currentYPosition = 0;
             UpdateHeight();
@@ -487,7 +488,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     }
 
     public Level.ObjectAttributes GetAttributesOfObject(GameObject obj) {
-        var index = _loadedObjects.IndexOf(obj);
+        var index = _loadedSpawners.IndexOf(obj.GetComponent<ObjectSpawner>());
         var data = _loadedLevel[_selectedFloor][index];
         return data;
     }
@@ -501,23 +502,25 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     }
 
     public void CreateObject(byte index, Vector3 position, ActionType actionType) {
+        if (index < 0 || index >= byte.MaxValue) Debug.LogWarning ("Invalid object!");
+
         _loadedLevel.AddObject((int)index, _selectedFloor, position, _currentYRotation);
 
-        GameObject instance = SpawnObject(index);
-        instance.transform.SetParent(_floorObjects[_selectedFloor].transform);
-        instance.transform.position = position;
-        _loadedObjects.Add(instance);
+        GameObject spawner = CreateSpawner(index);
+        spawner.transform.SetParent(_floorObjects[_selectedFloor].transform);
+        spawner.transform.position = position;
+        _loadedSpawners.Add(spawner.GetComponent<ObjectSpawner>());
         _objectCounts[index]++;
         _dirty = true;
 
         switch (actionType) {
             case ActionType.Normal:
             case ActionType.Redo:
-                _undoStack.Push(new CreateObjectAction(index, instance));
+                _undoStack.Push(new CreateObjectAction(index, spawner));
                 break;
 
             case ActionType.Undo:
-                _redoStack.Push(new DeleteObjectAction(instance, index));
+                _redoStack.Push(new DeleteObjectAction(spawner, index));
                 break;
         }
     }
@@ -540,7 +543,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
 
         _loadedLevel.DeleteObject(_selectedFloor, levelIndex);
         _objectCounts[deletedObjectIndex]--;
-        _loadedObjects.Remove(obj);
+        _loadedSpawners.Remove(obj.GetComponent<ObjectSpawner>());
         DestroyLoadedObject(obj);
     }
 
@@ -614,9 +617,9 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
 
     public void RotateSelectedObject(int rotation) {
         var attribs = AttributesOfObject(_selectedObject);
-        var originalRotation = attribs.YRotation;
+        var originalRotation = attribs.RotationY;
         var newRotation = (originalRotation + rotation) % 360;
-        attribs.YRotation = newRotation;
+        attribs.RotationY = newRotation;
         _selectedObject.transform.Rotate(0f, rotation, 0f);
     }
 
@@ -691,13 +694,11 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
         SelectTool(Tool.Select);
         _selectedFloor = 0;
 
-        AssetDatabase.DeleteAsset (_TEMP_LEVEL_PATH);
-
 
         _undoStack.Clear();
         _redoStack.Clear();
 
-        CleanupObjects();
+        CleanupSpawners();
 
         _objectCounts.Clear();
 
@@ -762,8 +763,6 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// Spawns objects from the currently loaded level.
     /// </summary>
     void ReconstructFloor() {
-
-        Debug.Log(string.Format("LEDIT: Loading floor {0}...", _selectedFloor.ToString()));
         var objects = _loadedLevel[_selectedFloor].Objects;
         for (int i = 0; i < objects.Length; i++) {
             var attribs = objects[i];
@@ -777,11 +776,12 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
 
             if (index == byte.MaxValue) continue;
 
-            var obj = SpawnObject(index);
-            obj.transform.parent = _floorObjects[_selectedFloor].transform;
-            obj.transform.position = attribs.Position;
-            obj.transform.rotation = Quaternion.Euler (attribs.EulerRotation);
-            _loadedObjects.Add(obj);
+            var spawner = CreateSpawner (index);
+            spawner.transform.parent = _floorObjects[_selectedFloor].transform;
+            spawner.transform.position = attribs.Position;
+            spawner.transform.rotation = Quaternion.Euler (attribs.EulerRotation);
+            spawner.transform.localScale = attribs.Scale;
+            _loadedSpawners.Add(spawner.GetComponent<ObjectSpawner>());
         }
     }
 
@@ -798,8 +798,8 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     }
 
     void GetObjectCounts() {
-        foreach (var obj in _loadedObjects) {
-            var index = ObjectIndexOfObject(obj);
+        foreach (var obj in _loadedSpawners) {
+            var index = ObjectIndexOfObject(obj.Template);
             _objectCounts[index]++;
         }
     }
@@ -811,33 +811,64 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
             _objectCounts.Add((byte)i, 0);
     }
 
-    /// <summary>
-    /// Returns a new instance of the object with the given index.
-    /// </summary>
-    public GameObject SpawnObject(byte index) {
-        var template = ObjectDatabaseManager.Instance.GetObject(index);
-        if (Application.isEditor) {
-            return (GameObject)PrefabUtility.InstantiatePrefab(template);
-        } else {
-            return (GameObject)Instantiate(template);
-        }
+    public GameObject CreateSpawner (GameObject template) {
+        GameObject spawner = new GameObject (template.name + " Spawner", typeof (ObjectSpawner));
+        spawner.GetComponent<ObjectSpawner>().SetTemplate (template);
+        return spawner;
     }
 
     /// <summary>
-    /// Cleans up level objects in the scene.
+    /// Returns a new instance of the object with the given index.
     /// </summary>
-    void CleanupObjects() {
-        if (_loadedObjects == null) return;
+    public GameObject CreateSpawner(byte index) {
+        var template = ObjectDatabaseManager.Instance.GetObject(index);
+        return CreateSpawner (template);
+    }
+
+    /// <summary>
+    /// Cleans up level object spawners in the scene.
+    /// </summary>
+    void CleanupSpawners() {
+        if (_loadedSpawners == null) return;
 
         DestroyLoadedObject(_loadedLevelObject);
+        _loadedSpawners.Clear();
 
-        while (_loadedObjects.Count > 0) DestroyLoadedObject(_loadedObjects.PopFront());
+        //while (_loadedSpawners.Count > 0) DestroyLoadedObject(_loadedSpawners.PopFront().gameObject);
     }
 
     void DestroyLoadedObject(GameObject obj) {
         if (Application.isEditor) DestroyImmediate(obj);
         else Destroy(obj);
     }
+
+    public void PlayCurrentLevel () {
+        Debug.Log("play");
+
+        foreach (ObjectSpawner spawner in _loadedSpawners) {
+            spawner.SpawnObject();
+        }
+
+        _playingLevel = true;
+    }
+
+    public void StopPlayingLevel () {
+        Debug.Log ("stop");
+
+        foreach (var spawner in _loadedSpawners)
+            spawner.Reset();
+
+        _playingLevel = false;
+    }
+
+    #endregion
+    #region Nested Classes
+
+    /// <summary>
+    /// Class for LevelManager-specific events
+    /// </summary>
+    [Serializable]
+    public class LevelManagerEvent : UnityEvent { }
 
     #endregion
 }
