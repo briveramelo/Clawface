@@ -78,6 +78,8 @@ public class PlayerMovement : MonoBehaviour, IDamageable, IMovable
         movementMode = MovementMode.PRECISE;
         animator = GetComponent<Animator>();
         modAnimationManager = GetComponent<PlayerModAnimationManager>();
+
+        HitstopManager.Instance.OnStopEvent += OnEndHitstop;
     }
     
 
@@ -85,147 +87,162 @@ public class PlayerMovement : MonoBehaviour, IDamageable, IMovable
     // Update is called once per frame
     void Update() {
 
-        float h = Input.GetAxis(Strings.MOVEX);
-        float v = Input.GetAxis(Strings.MOVEY);
-
-        float rightH = Input.GetAxis(Strings.AIMX);
-        float rightV = Input.GetAxis(Strings.AIMY);
-
-        axisInput = CheckForAxisInput(h, v);
-        rightAxisInput = CheckForAxisInput(rightH, rightV);
-
-        float hModified = h;
-        float vModified = v;
-
-        float rightHModified = rightH;
-        float rightVModified = rightV;
-
-        if (isSidescrolling)
+        if (!HitstopManager.Instance.IsInHitstop())
         {
-            vModified = 0f;
-            rightVModified = 0f;
+
+            float h = Input.GetAxis(Strings.MOVEX);
+            float v = Input.GetAxis(Strings.MOVEY);
+
+            float rightH = Input.GetAxis(Strings.AIMX);
+            float rightV = Input.GetAxis(Strings.AIMY);
+
+            axisInput = CheckForAxisInput(h, v);
+            rightAxisInput = CheckForAxisInput(rightH, rightV);
+
+            float hModified = h;
+            float vModified = v;
+
+            float rightHModified = rightH;
+            float rightVModified = rightV;
+
+            if (isSidescrolling)
+            {
+                vModified = 0f;
+                rightVModified = 0f;
+            }
+
+            movement = new Vector3(hModified, 0.0f, vModified);
+            rightJoystickMovement = new Vector3(rightHModified, 0.0f, rightVModified);
+
+            if (!canMove)
+            {
+                movement = Vector3.zero;
+            }
+
+            velocity = rigid.velocity;
+
+
+            movement = Camera.main.transform.TransformDirection(movement);
+            rightJoystickMovement = Camera.main.transform.TransformDirection(rightJoystickMovement);
+
+            movement.y = 0f;
+            rightJoystickMovement.y = 0f;
+
+            movement = movement.normalized;
+            rightJoystickMovement = rightJoystickMovement.normalized;
+
+            if (movement != Vector3.zero)
+            {
+                lastMovement = movement;
+            }
+
+            isGrounded = IsGrounded();
+            maxSpeed = stats.GetStat(StatType.MoveSpeed);
         }
-
-        movement = new Vector3(hModified, 0.0f, vModified);
-        rightJoystickMovement = new Vector3(rightHModified, 0.0f, rightVModified);
-
-        if (!canMove) {
-            movement = Vector3.zero;
-        }
-
-        velocity = rigid.velocity;
-
-
-        movement = Camera.main.transform.TransformDirection(movement);
-        rightJoystickMovement = Camera.main.transform.TransformDirection(rightJoystickMovement);
-
-        movement.y = 0f;
-        rightJoystickMovement.y = 0f;
-
-        movement = movement.normalized;
-        rightJoystickMovement = rightJoystickMovement.normalized;
-
-        if (movement != Vector3.zero)
+        else
         {
-            lastMovement = movement;
+            rigid.velocity = new Vector3(0f, 0f, 0f);
+            animator.enabled = false;
+            rigid.angularVelocity = new Vector3(0f, 0f, 0f);
         }
-
-        isGrounded = IsGrounded();
-        maxSpeed = stats.GetStat(StatType.MoveSpeed);
     }
 
     private void FixedUpdate()
     {
-        switch (movementMode)
+        if (!HitstopManager.Instance.IsInHitstop())
         {
-            case MovementMode.PRECISE:
-                // Do I even need fixedDeltaTime here if I'm changing the velocity of the rigidbody directly?
-                //  rigid.velocity = movement * stats.GetStat(StatType.MoveSpeed) * Time.fixedDeltaTime + GetExternalForceSum();  
-                rigid.velocity = movement * stats.GetStat(StatType.MoveSpeed) + GetExternalForceSum();
-                if (!modAnimationManager.GetIsPlaying())
-                {
-                    if (rigid.velocity != Vector3.zero)
+            switch (movementMode)
+            {
+                case MovementMode.PRECISE:
+                    // Do I even need fixedDeltaTime here if I'm changing the velocity of the rigidbody directly?
+                    //  rigid.velocity = movement * stats.GetStat(StatType.MoveSpeed) * Time.fixedDeltaTime + GetExternalForceSum();  
+                    rigid.velocity = movement * stats.GetStat(StatType.MoveSpeed) + GetExternalForceSum();
+                    if (!modAnimationManager.GetIsPlaying())
                     {
-                        if (animator.GetInteger(Strings.ANIMATIONSTATE) != (int)PlayerAnimationStates.Running)
-                        {                            
-                            animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Running);
+                        if (rigid.velocity != Vector3.zero)
+                        {
+                            if (animator.GetInteger(Strings.ANIMATIONSTATE) != (int)PlayerAnimationStates.Running)
+                            {
+                                animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Running);
+                            }
+                        }
+                        else
+                        {
+                            if (animator.GetInteger(Strings.ANIMATIONSTATE) != (int)PlayerAnimationStates.Idle)
+                            {
+                                animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Idle);
+                            }
                         }
                     }
-                    else
+                    break;
+                case MovementMode.ICE:
+                    if (!modAnimationManager.GetIsPlaying())
                     {
                         if (animator.GetInteger(Strings.ANIMATIONSTATE) != (int)PlayerAnimationStates.Idle)
-                        {                            
+                        {
                             animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Idle);
                         }
                     }
-                }
-                break;
-            case MovementMode.ICE:
-                if (!modAnimationManager.GetIsPlaying())
-                {
-                    if (animator.GetInteger(Strings.ANIMATIONSTATE) != (int)PlayerAnimationStates.Idle)
+                    rigid.AddForce(movement * acceleration * Time.fixedDeltaTime);
+
+                    foreach (Vector3 vector in externalForcesToAdd)
                     {
-                        animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Idle);
+                        rigid.AddForce(vector * Time.fixedDeltaTime);
+                    }
+
+
+                    Vector3 flatMovement = new Vector3(rigid.velocity.x, 0f, rigid.velocity.z);
+                    currentSpeed = flatMovement.magnitude;
+
+                    if (currentSpeed > stats.GetStat(StatType.MoveSpeed))
+                    {
+                        Vector3 currentFlatVelocity = flatMovement;
+                        currentFlatVelocity = -currentFlatVelocity;
+                        currentFlatVelocity = currentFlatVelocity.normalized;
+                        currentFlatVelocity *= (currentSpeed - stats.GetStat(StatType.MoveSpeed));
+                        currentFlatVelocity *= manualDrag;
+                        rigid.AddForce(currentFlatVelocity);
+                    }
+                    externalForcesToAdd.Clear();
+
+                    break;
+                default:
+                    rigid.velocity = movement * stats.GetStat(StatType.MoveSpeed) + GetExternalForceSum();
+                    break;
+            }
+
+            if (!axisInput)
+            {
+                if (rightAxisInput && rightJoystickMovement != Vector3.zero)
+                {
+                    transform.forward = rightJoystickMovement;
+                }
+                else if (lastMovement != Vector3.zero)
+                {
+                    if (lastMovement != Vector3.zero)
+                    {
+                        transform.forward = lastMovement;
                     }
                 }
-                rigid.AddForce(movement * acceleration * Time.fixedDeltaTime);
-
-                foreach (Vector3 vector in externalForcesToAdd)
-                {
-                    rigid.AddForce(vector * Time.fixedDeltaTime);
-                }
-
-                
-                Vector3 flatMovement = new Vector3(rigid.velocity.x, 0f, rigid.velocity.z);
-                currentSpeed = flatMovement.magnitude;
-
-                if (currentSpeed > stats.GetStat(StatType.MoveSpeed))
-                {
-                    Vector3 currentFlatVelocity = flatMovement;
-                    currentFlatVelocity = -currentFlatVelocity;
-                    currentFlatVelocity = currentFlatVelocity.normalized;
-                    currentFlatVelocity *= (currentSpeed - stats.GetStat(StatType.MoveSpeed));
-                    currentFlatVelocity *= manualDrag;
-                    rigid.AddForce(currentFlatVelocity);
-                }
-                externalForcesToAdd.Clear();
-
-                break;
-            default:
-                rigid.velocity = movement * stats.GetStat(StatType.MoveSpeed) + GetExternalForceSum();
-                break;
-        }
-
-        if (!axisInput)
-        {
-            if (rightAxisInput && rightJoystickMovement != Vector3.zero)
-            {
-                transform.forward = rightJoystickMovement;
-            }
-            else if(lastMovement != Vector3.zero)
-            {
-                if (lastMovement != Vector3.zero)
-                {
-                    transform.forward = lastMovement;
-                }
-            }
-        }
-        else
-        {   if (rightAxisInput && rightJoystickMovement != Vector3.zero)
-            {
-                transform.forward = rightJoystickMovement;
             }
             else
             {
-                if (movement != Vector3.zero)
+                if (rightAxisInput && rightJoystickMovement != Vector3.zero)
                 {
-                    transform.forward = movement;
+                    transform.forward = rightJoystickMovement;
+                }
+                else
+                {
+                    if (movement != Vector3.zero)
+                    {
+                        transform.forward = movement;
+                    }
                 }
             }
-        }
 
-        velocity = rigid.velocity;
-        currentSpeed = rigid.velocity.magnitude;
+            velocity = rigid.velocity;
+            currentSpeed = rigid.velocity.magnitude;
+        }
     }
 
     private Vector3 GetExternalForceSum() {
@@ -352,5 +369,10 @@ public class PlayerMovement : MonoBehaviour, IDamageable, IMovable
                 modAnimationManager.PlayModAnimation(mod, false);
             }
         }
+    }
+
+    private void OnEndHitstop()
+    {
+        animator.enabled = true;
     }
 }

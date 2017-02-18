@@ -9,54 +9,47 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1192868006484574}
+  m_RootGameObject: {fileID: 1865829909728442}
   m_IsPrefabParent: 1
---- !u!1 &1192868006484574
+--- !u!1 &1865829909728442
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4384104832815496}
-  - component: {fileID: 114289271992239290}
+  - component: {fileID: 4525358364441700}
+  - component: {fileID: 114700467547853482}
   m_Layer: 0
-  m_Name: ServiceWrangler
+  m_Name: TimeManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4384104832815496
+--- !u!4 &4525358364441700
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1192868006484574}
+  m_GameObject: {fileID: 1865829909728442}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 29.62315, y: 4.255932, z: 113.46512}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114289271992239290
+--- !u!114 &114700467547853482
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1192868006484574}
+  m_GameObject: {fileID: 1865829909728442}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e31470d6b2fa14344abf1563fa6787ac, type: 3}
+  m_Script: {fileID: 11500000, guid: 79c05637e3424864a82893ebf781aa54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioManager: {fileID: 1442442252967552, guid: 96f667d931d02104a960926eebdaf328,
-    type: 2}
-  bulletPool: {fileID: 1025026249056420, guid: 6a1c0949d9ce284499cf975c5703f9f0, type: 2}
-  healthBar: {fileID: 1839129290864166, guid: 9e616633fc170c84088e1ccb51cff2f9, type: 2}
-  modUIManager: {fileID: 1798858618961604, guid: 8426458b62df47241977e4fdf9870206,
-    type: 2}
-  vfxManager: {fileID: 1296821877547444, guid: 19a41f1c25888174ebedfcbe2688df30, type: 2}
-  hitstopManager: {fileID: 1865829909728442, guid: 15a6e7fc9bda12146b50bb6f74bebcaf,
-    type: 2}
+  remainingHitstop: 0
+  isInHitstop: 0
