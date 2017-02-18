@@ -5,9 +5,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class OverheadTrigger : MonoBehaviour {
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player")
+        if (other.tag == Strings.PLAYER)
         {
             SendMessageUpwards("OverheadTriggerEnter");
         }
@@ -15,7 +16,7 @@ public class OverheadTrigger : MonoBehaviour {
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.tag == "Player")
+        if (other.tag == Strings.PLAYER)
         {
             SendMessageUpwards("OverheadTriggerStay");
         }
@@ -23,7 +24,7 @@ public class OverheadTrigger : MonoBehaviour {
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Player")
+        if (other.tag == Strings.PLAYER)
         {
             SendMessageUpwards("OverheadTriggerExit");
         }

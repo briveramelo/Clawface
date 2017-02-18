@@ -8,7 +8,7 @@ public class SidescrollTrigger : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player")
+        if (other.tag == Strings.PLAYER)
         {
             SendMessageUpwards("SidescrollTriggerEnter");
         }
@@ -16,7 +16,7 @@ public class SidescrollTrigger : MonoBehaviour {
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.tag == "Player")
+        if (other.tag == Strings.PLAYER)
         {
             SendMessageUpwards("SidescrollTriggerStay");
         }
@@ -24,7 +24,7 @@ public class SidescrollTrigger : MonoBehaviour {
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Player")
+        if (other.tag == Strings.PLAYER)
         {
             SendMessageUpwards("SidescrollTriggerExit");
         }
