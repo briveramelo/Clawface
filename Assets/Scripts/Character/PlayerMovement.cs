@@ -92,8 +92,7 @@ public class PlayerMovement : MonoBehaviour, IDamageable, IMovable
             currentEnemy = lockOnScript.GetCurrentEnemy();
             if(currentEnemy != null)
             {
-                currentEnemyVector = currentEnemy.transform.position;
-                currentEnemyVector.y = 0;
+                currentEnemyVector = currentEnemy.transform.position;                
             }
         }
         float h = Input.GetAxis(Strings.MOVEX);
@@ -198,7 +197,11 @@ public class PlayerMovement : MonoBehaviour, IDamageable, IMovable
         {
             if(currentEnemy != null)
             {
-                transform.forward = currentEnemyVector;
+                transform.LookAt(currentEnemyVector, Vector3.up);
+                Quaternion rotation = transform.rotation;
+                rotation.x = 0;
+                rotation.z = 0;
+                transform.rotation = rotation;
             }
             else if(lastMovement != Vector3.zero)
             {
@@ -212,7 +215,11 @@ public class PlayerMovement : MonoBehaviour, IDamageable, IMovable
         {
             if (currentEnemy != null)
             {
-                transform.forward = currentEnemyVector;
+                transform.LookAt(currentEnemyVector, Vector3.up);
+                Quaternion rotation = transform.rotation;
+                rotation.x = 0;
+                rotation.z = 0;
+                transform.rotation = rotation;
             }
             else
             {
