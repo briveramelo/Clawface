@@ -35,6 +35,11 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     const string _LEVEL_PATH = "Assets/Resources/Levels/";
 
     /// <summary>
+    /// Path of the 3D asset preview material.
+    /// </summary>
+    const string _PREVIEW_MAT_PATH = "Assets/Resources/Materials/PreviewGhost.mat";
+
+    /// <summary>
     /// Editor name of the 3D asset preview object.
     /// </summary>
     const string _PREVIEW_NAME = "~LevelEditorPreview";
@@ -46,28 +51,31 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// The currently loaded level in LM.
     /// !!! KEEP NONSERIALIZED !!!
     /// </summary>
+    //[HideInInspector] Level _loadedLevel;
+    //[SerializeField] Level _loadedLevel;
     [NonSerialized]
     Level _loadedLevel;
 
     /// <summary>
     /// Resource path of current loaded level.
     /// </summary>
-    string _loadedLevelPath = "";
+    [SerializeField] string _loadedLevelPath = "";
 
     /// <summary>
     /// GameObject representing the loaded level.
     /// </summary>
-    GameObject _loadedLevelObject;
+    [SerializeField] GameObject _loadedLevelObject;
 
     /// <summary>
     /// GameObjects representing the floors of the loaded level.
     /// </summary>
-    GameObject[] _floorObjects;
+    [SerializeField] GameObject[] _floorObjects;
 
     /// <summary>
     /// All currently loaded objects in the editor.
     /// </summary>
-    List<ObjectSpawner> _loadedSpawners = new List<ObjectSpawner>();
+    [SerializeField] List<ObjectSpawner> _loadedSpawners = 
+        new List<ObjectSpawner>();
 
     /// <summary>
     /// Current state of the editor tool.
@@ -82,7 +90,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// <summary>
     /// Index of floor that is currently being edited.
     /// </summary>
-    int _selectedFloor = 0;
+    [SerializeField] int _selectedFloor = 0;
 
     /// <summary>
     /// Plane representing current editing y-level.
@@ -112,17 +120,12 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// <summary>
     /// 3D asset preview object.
     /// </summary>
-    GameObject _preview;
+    AssetPreview _assetPreview;
 
     /// <summary>
     /// Ghost material for 3D asset preview.
     /// </summary>
     Material _previewMaterial;
-
-    /// <summary>
-    /// Path of the 3D asset preview material.
-    /// </summary>
-    const string _PREVIEW_MAT_PATH = "Assets/Resources/Materials/PreviewGhost.mat";
 
     /// <summary>
     /// Is object placement allowed at the current location?
@@ -149,20 +152,46 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// </summary>
     List<ObjectData> _filteredObjects;
 
+    /// <summary>
+    /// Current editing y position.
+    /// </summary>
     int _currentYPosition = 0;
 
+    /// <summary>
+    /// Current editing y rotation.
+    /// </summary>
     int _currentYRotation = 0;
 
+    /// <summary>
+    /// Is the level currently being played?
+    /// </summary>
     bool _playingLevel = false;
 
+    /// <summary>
+    /// Current 3D cursor position.
+    /// </summary>
     Vector3 _cursorPosition = Vector3.zero;
 
-    [SerializeField]
+    /// <summary>
+    /// Is the mouse currently over UI?
+    /// This must be managed externally, as LM does not know what
+    /// UI elements exist.
+    /// </summary>
+    bool _mouseOverUI = false;
+
+    /// <summary>
+    /// Stack of undo actions.
+    /// </summary>
     Stack<LevelEditorAction> _undoStack = new Stack<LevelEditorAction>();
 
-    [SerializeField]
+    /// <summary>
+    /// Stack of redo actions.
+    /// </summary>
     Stack<LevelEditorAction> _redoStack = new Stack<LevelEditorAction>();
 
+    /// <summary>
+    /// Number of objects of each type (to enforce maximums).
+    /// </summary>
     Dictionary<byte, int> _objectCounts = new Dictionary<byte, int>();
 
     public LevelManagerEvent onCreateLevel = new LevelManagerEvent();
@@ -172,8 +201,6 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     public LevelManagerEvent onSelectObject = new LevelManagerEvent();
     public LevelManagerEvent onDeselectObject = new LevelManagerEvent();
 
-    bool _mouseOverUI = false;
-
     #endregion
     #region Properties
 
@@ -182,7 +209,12 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// </summary>
     public bool LevelLoaded { get { return _loadedLevel != null; } }
 
+    /// <summary>
+    /// Returns the currently loaded level (read-only).
+    /// </summary>
     public Level LoadedLevel { get { return _loadedLevel; } }
+
+    public string LoadedLevelPath { get { return _loadedLevelPath; } }
 
     /// <summary>
     /// Returns true if unsaved changes exist (read-only).
@@ -212,6 +244,9 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// </summary>
     public List<ObjectData> FilteredObjects { get { return _filteredObjects; } }
 
+    /// <summary>
+    /// Returns true if an object is currently selected for placement (read-only).
+    /// </summary>
     public bool HasSelectedObjectForPlacement { get { return _selectedObjectIndexForPlacement != -1; } }
 
     /// <summary>
@@ -237,16 +272,34 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
         set { _cursorPosition = value; }
     }
 
-    public bool PreviewActive { get { return _preview != null; } }
+    /// <summary>
+    /// Returns true if the 3D preview is active (read-only).
+    /// </summary>
+    public bool PreviewActive { get { return _assetPreview != null; } }
 
+    /// <summary>
+    /// Returns the preview material (read-only).
+    /// </summary>
     public Material PreviewMaterial { get { return _previewMaterial; } }
 
+    /// <summary>
+    /// Returns the current tool (read-only).
+    /// </summary>
     public Tool CurrentTool { get { return _currentTool; } }
 
+    /// <summary>
+    /// Returns the undo stack (read-only).
+    /// </summary>
     public Stack<LevelEditorAction> UndoStack { get { return _undoStack; } }
 
+    /// <summary>
+    /// Returns the redo stack (read-only).
+    /// </summary>
     public Stack<LevelEditorAction> RedoStack { get { return _redoStack; } }
 
+    /// <summary>
+    /// Gets/sets whether or not the mouse is currently over UI.
+    /// </summary>
     public bool MouseOverUI {
         get { return _mouseOverUI; }
         set { _mouseOverUI = value; }
@@ -258,45 +311,84 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     new void Awake() {
         base.Awake();
 
-        if (Application.isPlaying) {
-            DontDestroyOnLoad(gameObject);
-            if (_loadedLevel != null) PlayCurrentLevel();
-        }
+        if (LevelObject.Instance != null)
+            _loadedLevel = LevelObject.Instance.Level;
+        else if (_loadedLevelObject != null)
+            _loadedLevel = _loadedLevelObject.GetComponent<LevelObject>().Level;
+
+        if (Application.isPlaying) AwakePlayer();
+        else AwakeEditor();
     }
 
-    private void OnDestroy() {
-        if (Application.isPlaying)
-        StopPlayingLevel();
+    void OnApplicationQuit() {
+        Debug.Log("LevelManager.OnApplicationQuit");
+        if (Application.isPlaying && _playingLevel)
+            StopPlayingLevel();
+    }
+
+    void OnDestroy() {
+        Debug.Log("LevelManager.OnDestroy");
     }
 
     #endregion
     #region Methods
 
+    void AwakePlayer() {
+        Debug.Log("LevelManager.AwakePlayer");
+        DontDestroyOnLoad(gameObject);
+
+        var path = LevelEditorWindow.LastEditedLevelPath;
+        Debug.Log("Last loaded level path: " + path);
+        if (path != default(string) && path != "") {
+            LoadLevelFromJSON(path);
+            
+        }
+
+        if (_loadedLevelObject != null) PlayCurrentLevel();
+        //if (_loadedLevel != null) PlayCurrentLevel();
+    }
+
+    void AwakeEditor() {
+        var path = LevelEditorWindow.LastEditedLevelPath;
+        if (path != default(string) && path != "") {
+            LoadLevelFromJSON (path);
+        }
+        Debug.Log("LevelManager.AwakeEditor");
+    }
+
     public void StartEditing() {
-        if (_preview != null) {
-            if (Application.isEditor) DestroyImmediate(_preview);
-            else Destroy(_preview);
+        if (_assetPreview != null) {
+            if (Application.isEditor) DestroyImmediate(_assetPreview.gameObject);
+            else Destroy(_assetPreview.gameObject);
         }
 
         _filter = ObjectDatabase.Category.Block;
         _filteredObjects = ObjectDatabaseManager.Instance.AllObjectsInCategory(_filter);
-        _preview = new GameObject(_PREVIEW_NAME, typeof(MeshFilter), typeof(MeshRenderer));
-        //_preview.hideFlags = HideFlags.HideAndDontSave;
+        CreateAssetPreview();
         _selectedObjectIndexForPlacement = -1;
         _selectedFloor = 0;
         _currentYPosition = 0;
         _currentYRotation = 0;
         _editingPlane = new Plane(Vector3.up, Vector3.zero);
-
-        // Load preview material
-        if (Application.isEditor) _previewMaterial = AssetDatabase.LoadAssetAtPath<Material>(_PREVIEW_MAT_PATH);
-        else _previewMaterial = Resources.Load<Material>(_PREVIEW_MAT_PATH);
-        if (_previewMaterial == null) Debug.LogError("Failed to load preview material!");
     }
 
     public void StopEditing() {
-        if (_preview != null)
-            DestroyImmediate(_preview);
+        if (_assetPreview != null)
+            DestroyImmediate(_assetPreview.gameObject);
+    }
+
+    void CreateAssetPreview() {
+        _assetPreview = new GameObject(_PREVIEW_NAME,
+            typeof(MeshFilter), typeof(MeshRenderer),
+            typeof(AssetPreview)).GetComponent<AssetPreview>();
+        //_preview.hideFlags = HideFlags.HideAndDontSave;
+
+        // Load preview material
+        if (_previewMaterial == null) {
+            if (Application.isEditor) _previewMaterial = AssetDatabase.LoadAssetAtPath<Material>(_PREVIEW_MAT_PATH);
+            else _previewMaterial = Resources.Load<Material>(_PREVIEW_MAT_PATH);
+            if (_previewMaterial == null) Debug.LogError("Failed to load preview material!");
+        }
     }
 
     public void SetDirty(bool dirty) {
@@ -331,27 +423,17 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// <summary>
     /// Shows a 3D preview of the currently selected asset.
     /// </summary>
-    void Show3DAssetPreview(GameObject obj) {
-        var assetMeshFilter = obj.GetComponentInChildren<MeshFilter>();
-        if (assetMeshFilter == null) return;
-
-        var assetMesh = assetMeshFilter.sharedMesh;
-        if (assetMesh == null) return;
-
-        var previewMeshFilter = _preview.GetComponent<MeshFilter>();
-        var previewMeshRenderer = _preview.GetComponent<MeshRenderer>();
-
-        previewMeshFilter.sharedMesh = assetMesh;
-        previewMeshRenderer.enabled = true;
-        previewMeshRenderer.sharedMaterial = _previewMaterial;
+    void ShowAssetPreview(GameObject obj) {
+        _assetPreview.GetComponent<AssetPreview>().SetPreviewObject(obj);
+        _assetPreview.Show();
     }
 
     /// <summary>
     /// Hides the 3D asset preview.
     /// </summary>
     void DisablePreview() {
-        if (_preview == null) return;
-        _preview.GetComponent<MeshRenderer>().enabled = false;
+        if (_assetPreview == null) return;
+        _assetPreview.Hide();
     }
 
     public Plane EditingPlane { get { return _editingPlane; } }
@@ -382,7 +464,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
 
     public void UpOneFloor() {
         if (_selectedFloor < Level.MAX_FLOORS - 1) {
-            CleanupSpawners();
+            CleanupFloor();
             _selectedFloor++;
             _currentYPosition = 0;
             UpdateHeight();
@@ -392,7 +474,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
 
     public void DownOneFloor() {
         if (_selectedFloor > 0) {
-            CleanupSpawners();
+            CleanupFloor();
             _selectedFloor--;
             _currentYPosition = 0;
             UpdateHeight();
@@ -433,7 +515,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
         }
     }
 
-    public void SetCursorPosition (Vector3 newPos) {
+    public void SetCursorPosition(Vector3 newPos) {
         _cursorPosition = newPos;
         if (_snapToGrid) SnapCursor();
     }
@@ -461,7 +543,9 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
 
         // Check y in range
         float y = _cursorPosition.y;
-        if (y < -0.01f || y >= (float)Level.FLOOR_HEIGHT + 0.01f) return false;
+        float minY = _selectedFloor * Level.FLOOR_HEIGHT - 0.01f;
+        float maxY = (_selectedFloor + 1) * Level.FLOOR_HEIGHT + 0.01f;
+        if (y < minY || y >= maxY) return false;
 
         // Check z in range
         float z = _cursorPosition.z;
@@ -502,7 +586,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     }
 
     public void CreateObject(byte index, Vector3 position, ActionType actionType) {
-        if (index < 0 || index >= byte.MaxValue) Debug.LogWarning ("Invalid object!");
+        if (index < 0 || index >= byte.MaxValue) Debug.LogWarning("Invalid object!");
 
         _loadedLevel.AddObject((int)index, _selectedFloor, position, _currentYRotation);
 
@@ -597,7 +681,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     public void StartMovingObject(GameObject obj) {
         var data = GetAttributesOfObject(obj);
         _movingObjectID = data.Index;
-        Show3DAssetPreview(obj);
+        ShowAssetPreview(obj);
         _movingObjectOriginalCoords = data.Position;
         DeleteObject(obj, ActionType.None);
     }
@@ -632,7 +716,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
         _selectedObjectIndexForPlacement = data.index;
         var obj = ObjectDatabaseManager.Instance.GetObject(index);
 
-        Show3DAssetPreview(obj);
+        ShowAssetPreview(obj);
     }
 
     /// <summary>
@@ -640,6 +724,8 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// </summary>
     public void CreateNewLevel() {
         _loadedLevel = new Level();
+
+        _dirty = false;
 
         SetupLevelObjects();
 
@@ -654,28 +740,20 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// Saves the current level.
     /// </summary>
     public void SaveCurrentLevelToJSON(bool doUseFilePanel = false) {
-        /*var asset = _loadedLevel.ToLevelAsset();
-
-        if (asset == default(LevelAsset)) {
-            Debug.LogError("Failed to save level!");
-            return;
-        }*/
 
         if (doUseFilePanel || _loadedLevelPath == "") {
             string savePath = default(string);
             if (Application.isEditor) {
-                savePath = EditorUtility.SaveFilePanel ("Save Level to JSON", Application.dataPath, _loadedLevel.Name, "json");
+                savePath = EditorUtility.SaveFilePanel("Save Level to JSON", Application.dataPath, _loadedLevel.Name, "json");
                 if (savePath == default(string) || savePath == "") return;
-                JSONFileUtility.SaveToJSONFile (_loadedLevel, savePath);
-                //savePath = ScriptableObjectUtility.SaveScriptableObjectWithFilePanel(asset, "Save Level File", asset.ToString(), "asset");
+                JSONFileUtility.SaveToJSONFile(_loadedLevel, savePath);
             } else {
                 // In-game editor file panel
             }
-            
+
             _loadedLevelPath = savePath;
         } else {
-            JSONFileUtility.SaveToJSONFile (_loadedLevel, _loadedLevelPath);
-            //ScriptableObjectUtility.SaveScriptableObject(asset, _loadedLevelPath, true);
+            JSONFileUtility.SaveToJSONFile(_loadedLevel, _loadedLevelPath);
         }
 
         _dirty = false;
@@ -698,29 +776,17 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
         _undoStack.Clear();
         _redoStack.Clear();
 
-        CleanupSpawners();
+        CleanupLevel();
 
         _objectCounts.Clear();
 
         onCloseLevel.Invoke();
     }
 
-    /// <summary>
-    /// Prompts the user for a level asset to load.
-    /// </summary>
-    public void LoadLevelFromJSON() {
+    public void LoadLevelFromJSON(string path) {
+        var asset = JSONFileUtility.LoadFromJSONFile<Level>(path);
 
-        /*string assetPath = default(string);
-        LevelAsset asset = null;
-        if (Application.isEditor)
-            asset = ScriptableObjectUtility.LoadScriptableObjectWithFilePanel<LevelAsset>("Load Level File", "Assets", "asset", out assetPath);*/
-        // else open load panel in-game
-        var assetPath = EditorUtility.OpenFilePanel ("Open Level JSON", Application.dataPath, "json");
-
-        // If user cancelled loading
-        if (assetPath == default(string) || assetPath == "") return;
-
-        var asset = JSONFileUtility.LoadFromJSONFile<Level>(assetPath);
+        
 
         // If asset failed to load
         if (asset == null) {
@@ -728,20 +794,9 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
             return;
         }
 
-        /*if (!AssetDatabase.CopyAsset(assetPath, _TEMP_LEVEL_PATH)) {
-            Debug.LogError ("Failed to create temp copy of loaded level! " + _TEMP_LEVEL_PATH);
-            return;
-        }
-
-        var assetCopy = ScriptableObjectUtility.LoadScriptableObject<LevelAsset>(_TEMP_LEVEL_PATH);*/
-
         if (_loadedLevel != null) CloseLevel();
 
-        /*Level level = assetCopy.Unpack();
-        if (level.Equals(default(Level))) {
-            Debug.LogError("Level file is corrupted at " + asset);
-            return;
-        }*/
+        LevelEditorWindow.LastEditedLevelPath = path;
 
         _loadedLevel = asset;
 
@@ -757,6 +812,19 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
         StartEditing();
 
         onLoadLevel.Invoke();
+    }
+
+    /// <summary>
+    /// Prompts the user for a level asset to load.
+    /// </summary>
+    public void LoadLevelFromJSON() {
+
+        var assetPath = EditorUtility.OpenFilePanel("Open Level JSON", Application.dataPath, "json");
+
+        // If user cancelled loading
+        if (assetPath == default(string) || assetPath == "") return;
+
+        LoadLevelFromJSON(assetPath);
     }
 
     /// <summary>
@@ -776,10 +844,10 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
 
             if (index == byte.MaxValue) continue;
 
-            var spawner = CreateSpawner (index);
+            var spawner = CreateSpawner(index);
             spawner.transform.parent = _floorObjects[_selectedFloor].transform;
             spawner.transform.position = attribs.Position;
-            spawner.transform.rotation = Quaternion.Euler (attribs.EulerRotation);
+            spawner.transform.rotation = Quaternion.Euler(attribs.EulerRotation);
             spawner.transform.localScale = attribs.Scale;
             _loadedSpawners.Add(spawner.GetComponent<ObjectSpawner>());
         }
@@ -789,7 +857,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// Creates base level objects.
     /// </summary>
     void SetupLevelObjects() {
-        _loadedLevelObject = new GameObject(_loadedLevel.Name + " (Loaded Level)");
+        _loadedLevelObject = new GameObject(_loadedLevel.Name + " (Loaded Level)", typeof(LevelObject));
         _floorObjects = new GameObject[Level.MAX_FLOORS];
         for (int floor = 0; floor < Level.MAX_FLOORS; floor++) {
             _floorObjects[floor] = new GameObject("Floor " + floor.ToString());
@@ -811,9 +879,9 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
             _objectCounts.Add((byte)i, 0);
     }
 
-    public GameObject CreateSpawner (GameObject template) {
-        GameObject spawner = new GameObject (template.name + " Spawner", typeof (ObjectSpawner));
-        spawner.GetComponent<ObjectSpawner>().SetTemplate (template);
+    public GameObject CreateSpawner(GameObject template) {
+        GameObject spawner = new GameObject(template.name + " Spawner", typeof(ObjectSpawner));
+        spawner.GetComponent<ObjectSpawner>().SetTemplate(template);
         return spawner;
     }
 
@@ -822,41 +890,43 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// </summary>
     public GameObject CreateSpawner(byte index) {
         var template = ObjectDatabaseManager.Instance.GetObject(index);
-        return CreateSpawner (template);
+        return CreateSpawner(template);
     }
 
-    /// <summary>
-    /// Cleans up level object spawners in the scene.
-    /// </summary>
-    void CleanupSpawners() {
-        if (_loadedSpawners == null) return;
-
-        DestroyLoadedObject(_loadedLevelObject);
-        _loadedSpawners.Clear();
-
-        //while (_loadedSpawners.Count > 0) DestroyLoadedObject(_loadedSpawners.PopFront().gameObject);
+    void CleanupFloor() {
+        while (_loadedSpawners.Count > 0)
+            DestroyLoadedObject(_loadedSpawners.PopFront().gameObject);
     }
 
-    void DestroyLoadedObject(GameObject obj) {
+    void CleanupLevel() {
+
+        CleanupFloor();
+
+        if (_loadedLevelObject != null)
+            DestroyLoadedObject(_loadedLevelObject);
+    }
+
+    public void DestroyLoadedObject(GameObject obj) {
         if (Application.isEditor) DestroyImmediate(obj);
         else Destroy(obj);
     }
 
-    public void PlayCurrentLevel () {
-        Debug.Log("play");
+    public void PlayCurrentLevel() {
+        Debug.Log("Play");
 
-        foreach (ObjectSpawner spawner in _loadedSpawners) {
-            spawner.SpawnObject();
-        }
+        // Activate all spawners
+        foreach (ObjectSpawner spawner in _loadedSpawners)
+            spawner.Play();
 
         _playingLevel = true;
     }
 
-    public void StopPlayingLevel () {
-        Debug.Log ("stop");
+    public void StopPlayingLevel() {
+        Debug.Log("Stop");
 
+        // Reset all spawners
         foreach (var spawner in _loadedSpawners)
-            spawner.Reset();
+            spawner.ResetSpawner();
 
         _playingLevel = false;
     }
