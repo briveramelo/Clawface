@@ -20,6 +20,18 @@ namespace ModMan {
             int rand = Random.Range(0, thisList.Count);
             return thisList[rand];
         }
+
+        public static string ToHex(this Color color)
+        {
+            int r = (int)(color.r * 256);
+            int g = (int)(color.g * 256);
+            int b = (int)(color.b * 256);
+
+            return "#" + r.ToString("X2") + g.ToString("X2") + b.ToString("X2");
+        }
+
     }
+
+    
 
 }
