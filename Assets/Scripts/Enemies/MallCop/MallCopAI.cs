@@ -250,6 +250,7 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
         StopAllCoroutines();
         rigbod.velocity = Vector3.zero;
         //TODO check for missing mod and create a new one and attach it
+        //TODO check for missing skin too! 
     }
 
     private bool IsGrounded()
