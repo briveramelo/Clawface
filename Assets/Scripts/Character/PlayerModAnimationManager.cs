@@ -9,14 +9,13 @@ public class PlayerModAnimationManager : MonoBehaviour {
         {ModType.StunBaton, PlayerAnimationStates.MeleeRight}
     };
         
-    Animator animator;
+    [SerializeField] Animator animator;
     bool isPlaying;
     Mod currentMod;
     bool modActive;
 
 	// Use this for initialization
 	void Start () {
-        animator = GetComponent<Animator>();
         modActive = false;
         isPlaying = false;
     }
@@ -48,13 +47,11 @@ public class PlayerModAnimationManager : MonoBehaviour {
                 if (animator.GetInteger(Strings.ANIMATIONSTATE) != animationState)
                 {
                     isPlaying = true;
-                    print("Playing mod animation "+ animationState);
                     animator.SetInteger(Strings.ANIMATIONSTATE, animationState);                    
                     StartCoroutine(WaitForAnimation());
                 }else
                 {
                     isPlaying = true;
-                    print("Playing mod animation "+ animationState);
                     PlayerAnimationStates state = (PlayerAnimationStates)animationState;
                     animator.Play(state.ToString(), -1, 0f);
                     StartCoroutine(WaitForAnimation());
@@ -87,7 +84,6 @@ public class PlayerModAnimationManager : MonoBehaviour {
 
     public void AnimationDone()
     {
-        print("Done playing mod animation");
         isPlaying = false;
     }
 

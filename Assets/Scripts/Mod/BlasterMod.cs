@@ -42,7 +42,8 @@ public class BlasterMod : Mod {
 
     void Shoot()
     {
-        GameObject blasterBullet = BulletPool.instance.getBlasterBullet();
+        AudioManager.Instance.PlaySFX(SFXType.ArmBlasterFire);
+        GameObject blasterBullet = ObjectPool.Instance.GetObject(PoolObjectType.BlasterBullet);
         blasterBullet.transform.position = transform.position;
         blasterBullet.transform.rotation = transform.rotation;
         if (getModSpot() == ModSpot.Legs && playerMovement != null)
@@ -87,6 +88,7 @@ public class BlasterMod : Mod {
     {
         playerStats.Modify(StatType.MiniMapRange, 1 / rangeBoostValue);
         pickupCollider.enabled = true;
+        playerMovement = null;
     }
 
     // Use this for initialization
