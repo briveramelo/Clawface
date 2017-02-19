@@ -62,6 +62,7 @@ public class BatonMod : Mod {
         if (!isHitting)
         {
             AudioManager.Instance.PlaySFX(SFXType.StunBatonSwing);
+            
             isHitting = true;
             StartCoroutine(HitCoolDown());
         }
@@ -87,18 +88,28 @@ public class BatonMod : Mod {
 
     private void OnTriggerStay(Collider other)
     {
-        if (isHitting)
+        if (!HitstopManager.Instance.IsInHitstop())
         {
-            IDamageable damageable = other.gameObject.GetComponent<IDamageable>();
-            if (damageable != null && !recentlyHitEnemies.Contains(damageable)) {
-                impactEffect.Emit();
-                damageable.TakeDamage(attackValue);
-                IStunnable stunnable = other.gameObject.GetComponent<IStunnable>();
-                if (stunnable != null) {
-                    stunnable.Stun();
+            if (isHitting)
+            {
+                IDamageable damageable = other.gameObject.GetComponent<IDamageable>();
+                if (damageable != null && !recentlyHitEnemies.Contains(damageable))
+                {
+                    if (other.tag != Strings.PLAYER)
+                    {
+                        HitstopManager.Instance.StartHitstop(3.0f);
+                    }
+                    impactEffect.Emit();
+                    damageable.TakeDamage(attackValue);
                     recentlyHitEnemies.Add(damageable);
+                    IStunnable stunnable = other.gameObject.GetComponent<IStunnable>();
+                    if (stunnable != null)
+                    {
+                        stunnable.Stun();
+                        
+                    }
                 }
-            }                        
+            }
         }
     }
 

@@ -92,140 +92,152 @@ public class PlayerMovement : MonoBehaviour, IMovable
                 currentEnemyVector = currentEnemy.transform.position;
             }
         }
-        float h = Input.GetAxis(Strings.MOVEX);
-        float v = Input.GetAxis(Strings.MOVEY);
-        axisInput = CheckForAxisInput(h, v);
-
-        float hModified = h;
-        float vModified = v;
-
-        if (isSidescrolling)
+		if (!HitstopManager.Instance.IsInHitstop())
         {
-            vModified = 0f;
-        }
+			float h = Input.GetAxis(Strings.MOVEX);
+			float v = Input.GetAxis(Strings.MOVEY);
+			axisInput = CheckForAxisInput(h, v);
 
-        movement = new Vector3(hModified, 0.0f, vModified);
+			float hModified = h;
+			float vModified = v;
 
-        if (!canMove)
+			if (isSidescrolling)
+			{
+				vModified = 0f;
+			}
+
+			movement = new Vector3(hModified, 0.0f, vModified);
+
+			if (!canMove)
+			{
+				movement = Vector3.zero;
+			}
+
+			velocity = rigid.velocity;
+
+
+			movement = Camera.main.transform.TransformDirection(movement);
+
+			movement.y = 0f;
+
+			movement = movement.normalized;
+
+			if (movement != Vector3.zero)
+			{
+				lastMovement = movement;
+			}
+
+			isGrounded = IsGrounded();
+			maxSpeed = statsManager.GetStat(StatType.MoveSpeed);
+		}
+        else
         {
-            movement = Vector3.zero;
+            rigid.velocity = new Vector3(0f, 0f, 0f);
+            animator.enabled = false;
+            rigid.angularVelocity = new Vector3(0f, 0f, 0f);
         }
-
-        velocity = rigid.velocity;
-
-
-        movement = Camera.main.transform.TransformDirection(movement);
-
-        movement.y = 0f;
-
-        movement = movement.normalized;
-
-        if (movement != Vector3.zero)
-        {
-            lastMovement = movement;
-        }
-
-        isGrounded = IsGrounded();
-        maxSpeed = statsManager.GetStat(StatType.MoveSpeed);
     }
 
     private void FixedUpdate()
     {
-        switch (movementMode)
+		if (!HitstopManager.Instance.IsInHitstop())
         {
-            case MovementMode.PRECISE:
-                // Do I even need fixedDeltaTime here if I'm changing the velocity of the rigidbody directly?
-                //  rigid.velocity = movement * stats.GetStat(StatType.MoveSpeed) * Time.fixedDeltaTime + GetExternalForceSum();  
-                rigid.velocity = movement * statsManager.GetStat(StatType.MoveSpeed) + GetExternalForceSum();
-                if (!modAnimationManager.GetIsPlaying())
-                {
-                    if (rigid.velocity != Vector3.zero)
-                    {
-                        if (animator.GetInteger(Strings.ANIMATIONSTATE) != (int)PlayerAnimationStates.Running)
-                        {
-                            animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Running);
-                        }
-                    }
-                    else
-                    {
-                        if (animator.GetInteger(Strings.ANIMATIONSTATE) != (int)PlayerAnimationStates.Idle)
-                        {
-                            animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Idle);
-                        }
-                    }
-                }
-                break;
-            case MovementMode.ICE:
-                if (!modAnimationManager.GetIsPlaying())
-                {
-                    if (animator.GetInteger(Strings.ANIMATIONSTATE) != (int)PlayerAnimationStates.Idle)
-                    {
-                        animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Idle);
-                    }
-                }
-                rigid.AddForce(movement * acceleration * Time.fixedDeltaTime);
+			switch (movementMode)
+			{
+				case MovementMode.PRECISE:
+					// Do I even need fixedDeltaTime here if I'm changing the velocity of the rigidbody directly?
+					//  rigid.velocity = movement * stats.GetStat(StatType.MoveSpeed) * Time.fixedDeltaTime + GetExternalForceSum();  
+					rigid.velocity = movement * statsManager.GetStat(StatType.MoveSpeed) + GetExternalForceSum();
+					if (!modAnimationManager.GetIsPlaying())
+					{
+						if (rigid.velocity != Vector3.zero)
+						{
+							if (animator.GetInteger(Strings.ANIMATIONSTATE) != (int)PlayerAnimationStates.Running)
+							{
+								animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Running);
+							}
+						}
+						else
+						{
+							if (animator.GetInteger(Strings.ANIMATIONSTATE) != (int)PlayerAnimationStates.Idle)
+							{
+								animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Idle);
+							}
+						}
+					}
+					break;
+				case MovementMode.ICE:
+					if (!modAnimationManager.GetIsPlaying())
+					{
+						if (animator.GetInteger(Strings.ANIMATIONSTATE) != (int)PlayerAnimationStates.Idle)
+						{
+							animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Idle);
+						}
+					}
+					rigid.AddForce(movement * acceleration * Time.fixedDeltaTime);
 
-                foreach (Vector3 vector in externalForcesToAdd)
-                {
-                    rigid.AddForce(vector * Time.fixedDeltaTime);
-                }
+					foreach (Vector3 vector in externalForcesToAdd)
+					{
+						rigid.AddForce(vector * Time.fixedDeltaTime);
+					}
 
 
-                Vector3 flatMovement = new Vector3(rigid.velocity.x, 0f, rigid.velocity.z);
-                currentSpeed = flatMovement.magnitude;
+					Vector3 flatMovement = new Vector3(rigid.velocity.x, 0f, rigid.velocity.z);
+					currentSpeed = flatMovement.magnitude;
 
-                if (currentSpeed > statsManager.GetStat(StatType.MoveSpeed))
-                {
-                    Vector3 currentFlatVelocity = flatMovement;
-                    currentFlatVelocity = -currentFlatVelocity;
-                    currentFlatVelocity = currentFlatVelocity.normalized;
-                    currentFlatVelocity *= (currentSpeed - statsManager.GetStat(StatType.MoveSpeed));
-                    currentFlatVelocity *= manualDrag;
-                    rigid.AddForce(currentFlatVelocity);
-                }
-                externalForcesToAdd.Clear();
+					if (currentSpeed > statsManager.GetStat(StatType.MoveSpeed))
+					{
+						Vector3 currentFlatVelocity = flatMovement;
+						currentFlatVelocity = -currentFlatVelocity;
+						currentFlatVelocity = currentFlatVelocity.normalized;
+						currentFlatVelocity *= (currentSpeed - statsManager.GetStat(StatType.MoveSpeed));
+						currentFlatVelocity *= manualDrag;
+						rigid.AddForce(currentFlatVelocity);
+					}
+					externalForcesToAdd.Clear();
 
-                break;
-            default:
-                rigid.velocity = movement * statsManager.GetStat(StatType.MoveSpeed) + GetExternalForceSum();
-                break;
-        }
+					break;
+				default:
+					rigid.velocity = movement * statsManager.GetStat(StatType.MoveSpeed) + GetExternalForceSum();
+					break;
+			}
 
-        if (!axisInput)
-        {
-            if (currentEnemy != null)
-            {
-                transform.LookAt(currentEnemyVector, Vector3.up);
-                Quaternion rotation = transform.rotation;
-                rotation.x = 0;
-                rotation.z = 0;
-                transform.rotation = rotation;
-            }
-            else if (lastMovement != Vector3.zero)
-            {
-                if (lastMovement != Vector3.zero)
-                {
-                    transform.forward = lastMovement;
-                }
-            }
-        }
-        else if (movement != Vector3.zero)
-        {
-            if (currentEnemy != null)
-            {
-                transform.LookAt(currentEnemyVector, Vector3.up);
-                Quaternion rotation = transform.rotation;
-                rotation.x = 0;
-                rotation.z = 0;
-                transform.rotation = rotation;
-            }
-            else
-            {
-                transform.forward = movement;
-            }
-        }
-        velocity = rigid.velocity;
-        currentSpeed = rigid.velocity.magnitude;
+			if (!axisInput)
+			{
+				if (currentEnemy != null)
+				{
+					transform.LookAt(currentEnemyVector, Vector3.up);
+					Quaternion rotation = transform.rotation;
+					rotation.x = 0;
+					rotation.z = 0;
+					transform.rotation = rotation;
+				}
+				else if (lastMovement != Vector3.zero)
+				{
+					if (lastMovement != Vector3.zero)
+					{
+						transform.forward = lastMovement;
+					}
+				}
+			}
+			else if (movement != Vector3.zero)
+			{
+				if (currentEnemy != null)
+				{
+					transform.LookAt(currentEnemyVector, Vector3.up);
+					Quaternion rotation = transform.rotation;
+					rotation.x = 0;
+					rotation.z = 0;
+					transform.rotation = rotation;
+				}
+				else
+				{
+					transform.forward = movement;
+				}
+			}
+			velocity = rigid.velocity;
+			currentSpeed = rigid.velocity.magnitude;
+		}
     }
     #endregion
 
