@@ -1,11 +1,11 @@
 ﻿// LevelEditorAction.cs
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
 
+/// <summary>
+/// Type of level editor action.
+/// </summary>
 public enum ActionType {
     None,
     Normal,
@@ -30,6 +30,9 @@ public abstract class LevelEditorAction {
     /// </summary>
     public abstract void Redo();
 
+    /// <summary>
+    /// Returns a short string representing this action.
+    /// </summary>
     public abstract string ToShortString();
 }
 
@@ -39,17 +42,34 @@ public abstract class LevelEditorAction {
 [Serializable]
 public class CreateObjectAction : LevelEditorAction {
 
+    #region Vars
+
+    /// <summary>
+    /// The created object.
+    /// </summary>
     GameObject _object;
 
+    /// <summary>
+    /// Index of the created object.
+    /// </summary>
     [SerializeField] byte _createdObjectIndex;
 
+    /// <summary>
+    /// Position of the created object.
+    /// </summary>
     [SerializeField] Vector3 _position;
+
+    #endregion
+    #region Constructors
 
     public CreateObjectAction (byte index, GameObject obj) {
         _createdObjectIndex = index;
         _position = obj.transform.position;
         _object = obj;
     }
+
+    #endregion
+    #region LevelEditorAction Implementation
 
     public override void Undo () {
         LevelManager.Instance.DeleteObject (_object, ActionType.Undo);
@@ -66,6 +86,8 @@ public class CreateObjectAction : LevelEditorAction {
     public override string ToShortString() {
         return string.Format("NEW | I: {0} | POS: {1}", _createdObjectIndex, _position.ToString());
     }
+
+    #endregion
 }
 
 /// <summary>
@@ -74,17 +96,34 @@ public class CreateObjectAction : LevelEditorAction {
 [Serializable]
 public class DeleteObjectAction : LevelEditorAction {
 
+    #region Vars
+
+    /// <summary>
+    /// Deleted object.
+    /// </summary>
+    GameObject _object;
+
+    /// <summary>
+    /// Position of the deleted object.
+    /// </summary>
     [SerializeField] Vector3 _position;
 
+    /// <summary>
+    /// Index of the deleted object.
+    /// </summary>
     [SerializeField] byte _deletedObjectIndex;
 
-    GameObject _object;
+    #endregion
+    #region Constructors
 
     public DeleteObjectAction (GameObject obj, byte index) {
         _object = obj;
         _position = obj.transform.position;
         _deletedObjectIndex = index;
     }
+
+    #endregion
+    #region LevelEditorAction Implementation
 
     public override void Undo() {
         LevelManager.Instance.CreateObject (_deletedObjectIndex, _position, ActionType.Undo);
@@ -101,21 +140,43 @@ public class DeleteObjectAction : LevelEditorAction {
     public override string ToShortString() {
         return string.Format ("DEL | I: {0} | POS: {1}", _deletedObjectIndex, _position.ToString());
     }
+
+    #endregion
 }
 
+/// <summary>
+/// Move object action.
+/// </summary>
 public class MoveObjectAction : LevelEditorAction {
 
-    GameObject _obj;
+    #region Vars
 
-    Vector3 _posMovedFrom;
+    /// <summary>
+    /// Object that was moved.
+    /// </summary>
+    [SerializeField] GameObject _obj;
 
-    Vector3 _posMovedTo;
+    /// <summary>
+    /// Original position of object.
+    /// </summary>
+    [SerializeField] Vector3 _posMovedFrom;
+
+    /// <summary>
+    /// New position of object.
+    /// </summary>
+    [SerializeField] Vector3 _posMovedTo;
+
+    #endregion
+    #region Constructors
 
     public MoveObjectAction (GameObject obj, Vector3 oldPos, Vector3 newPos) {
         _obj = obj;
         _posMovedFrom = oldPos;
         _posMovedTo = newPos;
     }
+
+    #endregion
+    #region LevelEditorAction Implementation
 
     public override void Undo() {
         LevelManager.Instance.MoveObject (_obj, _posMovedTo, _posMovedFrom, ActionType.Undo);
@@ -128,4 +189,6 @@ public class MoveObjectAction : LevelEditorAction {
     public override string ToShortString() {
         return string.Format ("MOV | OLD: {0} | NEW: {1}", _posMovedFrom, _posMovedTo);
     }
+
+    #endregion
 }

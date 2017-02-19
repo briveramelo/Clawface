@@ -3,7 +3,10 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 /// <summary>
 /// Serializable class to hold object information.
@@ -62,6 +65,9 @@ public class ObjectDatabase {
 
     #region Enums
 
+    /// <summary>
+    /// Enum for the object filter category.
+    /// </summary>
     public enum Category {
         None = 0,
         Block = 1,
@@ -78,9 +84,15 @@ public class ObjectDatabase {
     #endregion
     #region Vars
 
+    /// <summary>
+    /// All persistent object data.
+    /// </summary>
     [SerializeField]
     ObjectData[] _data = new ObjectData[(int)byte.MaxValue];
 
+    /// <summary>
+    /// Mapping of categories to object data.
+    /// </summary>
     Dictionary<Category, List<ObjectData>> _categories;
 
     //Texture2D[] _thumbnails = new Texture2D[(int)byte.MaxValue];
@@ -89,33 +101,47 @@ public class ObjectDatabase {
     #region Constructors
 
     public ObjectDatabase() {
-        for (int i = 0; i < (int)byte.MaxValue; i++) {
+        for (int i = 0; i < (int)byte.MaxValue; i++)
             _data[i] = new ObjectData(i);
-        }
     }
 
     #endregion
-    #region Methods
+    #region Properties
 
+    /// <summary>
+    /// Gets/sets the object data at an index.
+    /// </summary>
     public ObjectData this[int index] {
         get { return _data[index]; }
         set { _data[index] = value; }
     }
 
+    #endregion
+    #region Methods
+
+    /// <summary>
+    /// Returns a list of all objects in a category.
+    /// </summary>
     public List<ObjectData> AllObjectsInCategory(Category cat) {
         if (_categories == null) BuildCategories();
         return _categories[cat];
     }
 
+    /// <summary>
+    /// Reloads all prefabs.
+    /// </summary>
     public void ReloadPrefabs() {
         for (int i = 0; i < _data.Length; i++) {
             if (_data[i].path == ObjectData.DEFAULT_PATH) continue;
 
-            GameObject loaded;
+            GameObject loaded = null;
             if (Application.isPlaying)
                 loaded = Resources.Load<GameObject>(_data[i].path.Substring("Assets/Resources/".Length));
+
+            #if UNITY_EDITOR
             else
                 loaded = AssetDatabase.LoadAssetAtPath<GameObject>(_data[i].path);
+            #endif
 
             if (loaded == null) {
                 Debug.LogError("Failed to load prefab at " + _data[i].path);
@@ -126,6 +152,9 @@ public class ObjectDatabase {
         }
     }
 
+    /// <summary>
+    /// Builds all object categories.
+    /// </summary>
     public void BuildCategories() {
         Debug.Log("OBJDB: Building object categories...");
 

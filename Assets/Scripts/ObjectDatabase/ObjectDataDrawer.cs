@@ -1,10 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿// ObjectDataDrawer.cs
+
 using UnityEngine;
+
+#if UNITY_EDITOR
 using UnityEditor;
 
+/// <summary>
+/// Custom proerty drawer for ObjectData class.
+/// </summary>
 [CustomPropertyDrawer(typeof(ObjectData))]
 public class ObjectDataDrawer : PropertyDrawer {
+
+    #region Constants
 
     const int _INDEX_LABEL_WIDTH = 64;
     const int _PATH_LABEL_WIDTH = 256;
@@ -18,12 +25,8 @@ public class ObjectDataDrawer : PropertyDrawer {
     const float _LIMIT_FIELD_PERCENT = 0.15f;
     const float _CATEGORY_DROPDOWN_PERCENT = 0.15f;
 
-    public static int PropertyWidth {
-        get {
-            return _INDEX_LABEL_WIDTH + _PATH_LABEL_WIDTH +
-                _PREFAB_FIELD_WIDTH + _LIMIT_FIELD_WIDTH + _CATEGORY_DROPDOWN_WIDTH;
-        }
-    }
+    #endregion
+    #region Overrides
 
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
 
@@ -94,4 +97,7 @@ public class ObjectDataDrawer : PropertyDrawer {
 
         EditorGUI.EndChangeCheck();
     }
+
+    #endregion
 }
+#endif

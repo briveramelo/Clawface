@@ -1,6 +1,8 @@
 ﻿// LevelEditorWindow.cs
 
 using UnityEngine;
+
+#if UNITY_EDITOR
 using UnityEditor;
 
 /// <summary>
@@ -28,8 +30,6 @@ public class LevelEditorWindow : EditorWindow {
     const float _ACTION_STACK_Y_OFFSET = 128f;
     const float _ACTION_STACK_WIDTH = 192f;
     const float _ACTION_STACK_HEIGHT = 256f;
-
-    const string _LAST_EDITED_LEVEL_STR = "LAST_EDITED_LEVEL";
 
     /// <summary>
     /// Number of objects shown per row in the object browser.
@@ -71,11 +71,15 @@ public class LevelEditorWindow : EditorWindow {
     /// </summary>
     bool _lastMouseMoveWasDrag = false;
 
+    /// <summary>
+    /// Allow non-uniform scale on objects?
+    /// </summary>
     bool _allowNonUniformScale = false;
 
+    /// <summary>
+    /// Connected LM.
+    /// </summary>
     LevelManager _levelManager;
-
-    delegate void ButtonAction();
 
     #endregion
     #region Unity Callbacks
@@ -92,7 +96,6 @@ public class LevelEditorWindow : EditorWindow {
     /// Called when the script is enabled (esp. after compilation).
     /// </summary>
     void OnEnable() {
-        //Debug.Log("LevelEditorWindow.OnEnable");
         titleContent = new GUIContent("Level Editor");
         if (Application.isPlaying) OnEnablePlayer();
         else OnEnableEditor();
@@ -102,14 +105,14 @@ public class LevelEditorWindow : EditorWindow {
     /// Called when the script is disabled (i.e. after compilation).
     /// </summary>
     void OnDisable() {
-        Debug.Log("LevelEditorWindow.OnDisable");
+        //Debug.Log("LevelEditorWindow.OnDisable");
     }
 
     /// <summary>
     /// Called when the editor window is destroyed (closed, compiled).
     /// </summary>
     void OnDestroy() {
-        Debug.Log("LevelEditorWindow.OnDestroy");
+        //Debug.Log("LevelEditorWindow.OnDestroy");
         if (_levelManager) {
             if (LevelManager.Instance.LevelLoaded && LevelManager.Instance.Dirty) {
                 if (EditorUtility.DisplayDialog("Save current level",
@@ -119,10 +122,8 @@ public class LevelEditorWindow : EditorWindow {
             }
 
             // Closing window (instead of playing)
-            //if (!EditorApplication.isPlayingOrWillChangePlaymode) {
-                CloseLevelAndKeepPath();
-                DisconnectFromLevelManager();
-            //}
+            CloseLevelAndKeepPath();
+            DisconnectFromLevelManager();
         }
     }
 
@@ -142,12 +143,12 @@ public class LevelEditorWindow : EditorWindow {
     #region Methods
 
     void OnEnableEditor () {
-        Debug.Log("LevelEditorWindow.OnEnableEditor");
+        //Debug.Log("LevelEditorWindow.OnEnableEditor");
         LevelManager.onSingletonInitialized.AddListener(ConnectToLevelManager);
     }
 
     void OnEnablePlayer () {
-        Debug.Log("LevelEditorWindow.OnEnablePlayer");
+        //Debug.Log("LevelEditorWindow.OnEnablePlayer");
     }
 
     /// <summary>
@@ -166,7 +167,6 @@ public class LevelEditorWindow : EditorWindow {
 
         // Register delegates
         SceneView.onSceneGUIDelegate += DrawGrid;
-        SceneView.onSceneGUIDelegate += LevelManager.Instance.SnapSelected;
         SceneView.onSceneGUIDelegate += HandleInputs;
         SceneView.onSceneGUIDelegate += DrawCursor;
         SceneView.onSceneGUIDelegate += DrawSceneViewGUI;
@@ -235,6 +235,9 @@ public class LevelEditorWindow : EditorWindow {
             GUILayout.MaxHeight(64));
     }
 
+    /// <summary>
+    /// Creates a new level.
+    /// </summary>
     void CreateNewLevel() {
         if (_levelLoaded && LevelManager.Instance.Dirty) {
             if (EditorUtility.DisplayDialog("Save current level",
@@ -244,12 +247,18 @@ public class LevelEditorWindow : EditorWindow {
         LevelManager.Instance.CreateNewLevel();
     }
 
+    /// <summary>
+    /// Closes the current level, saving its path.
+    /// </summary>
     void CloseLevelAndKeepPath () {
         var path = LevelManager.Instance.LoadedLevelPath;
         CloseLevel();
-        EditorPrefs.SetString(_LAST_EDITED_LEVEL_STR, path);
+        EditorPrefs.SetString(LevelManager.LAST_EDITED_LEVEL_STR, path);
     }
 
+    /// <summary>
+    /// Closes the current level and discards its path.
+    /// </summary>
     void CloseLevel() {
         // If dirty, prompt to save
         if (LevelManager.Instance.Dirty) {
@@ -259,10 +268,13 @@ public class LevelEditorWindow : EditorWindow {
         }
 
         LevelManager.Instance.CloseLevel();
-        EditorPrefs.SetString(_LAST_EDITED_LEVEL_STR, "");
+        EditorPrefs.SetString(LevelManager.LAST_EDITED_LEVEL_STR, "");
         Repaint();
     }
 
+    /// <summary>
+    /// Loads an existing level.
+    /// </summary>
     void LoadExistingLevel() {
         if (_levelLoaded && LevelManager.Instance.Dirty) {
             if (EditorUtility.DisplayDialog("Save current level",
@@ -287,10 +299,16 @@ public class LevelEditorWindow : EditorWindow {
             LevelManager.Instance.SetLoadedLevelName(newName);
     }
 
+    /// <summary>
+    /// Saves the current level.
+    /// </summary>
     void SaveCurrentLevel() {
         LevelManager.Instance.SaveCurrentLevelToJSON();
     }
 
+    /// <summary>
+    /// Saves the current level, forcing the file browser to open.
+    /// </summary>
     void SaveAsNewLevel() {
         LevelManager.Instance.SaveCurrentLevelToJSON(true);
     }
@@ -328,8 +346,6 @@ public class LevelEditorWindow : EditorWindow {
             _objectBrowserScrollPos = EditorGUILayout.BeginScrollView(_objectBrowserScrollPos);
             EditorGUILayout.BeginHorizontal(GUILayout.ExpandHeight(true));
 
-
-
             while (objectIndex < filteredObjects.Count) {
                 if (GUILayout.Button(filteredObjects[objectIndex].prefab.name, GUILayout.ExpandWidth(false))) {
                     LevelManager.Instance.SelectObjectInCategory(objectIndex, filter);
@@ -363,7 +379,6 @@ public class LevelEditorWindow : EditorWindow {
 
         // Deregister delegates
         SceneView.onSceneGUIDelegate -= DrawGrid;
-        SceneView.onSceneGUIDelegate -= LevelManager.Instance.SnapSelected;
         SceneView.onSceneGUIDelegate -= HandleInputs;
         SceneView.onSceneGUIDelegate -= DrawCursor;
         SceneView.onSceneGUIDelegate -= DrawSceneViewGUI;
@@ -374,11 +389,6 @@ public class LevelEditorWindow : EditorWindow {
     /// Returns the current instance of the editor window.
     /// </summary>
     public static LevelEditorWindow Instance { get { return _Instance; } }
-
-    public static string LastEditedLevelPath {
-        get { return EditorPrefs.GetString (_LAST_EDITED_LEVEL_STR); }
-        set { EditorPrefs.SetString (_LAST_EDITED_LEVEL_STR, value); }
-    }
 
     /// <summary>
     /// Processes GUI input events.
@@ -399,11 +409,13 @@ public class LevelEditorWindow : EditorWindow {
             if (e.control) {
                 if (e.shift) {
                     if (e.keyCode == KeyCode.S) { // Ctrl + Shift + S
-                        LevelManager.Instance.SaveCurrentLevelToJSON(true);
+                        if (LevelManager.Instance.LevelLoaded)
+                            LevelManager.Instance.SaveCurrentLevelToJSON(true);
                     }
                 } else {
                     if (e.keyCode == KeyCode.S) { // Ctrl + S
-                        LevelManager.Instance.SaveCurrentLevelToJSON();
+                        if (LevelManager.Instance.LevelLoaded)
+                            LevelManager.Instance.SaveCurrentLevelToJSON();
                     }
                 }
             }
@@ -544,16 +556,19 @@ public class LevelEditorWindow : EditorWindow {
         }
     }
 
+    /// <summary>
+    /// Draws the level editor GUI in the scene view.
+    /// </summary>
+    /// <param name="sc"></param>
     void DrawSceneViewGUI(SceneView sc) {
 
+        // Draw toolbar
         Handles.BeginGUI();
-
         DrawSceneViewToolbar();
 
         if (LevelManager.Instance.LevelLoaded) {
 
             DrawSceneViewSidePanel();
-
             DrawUndoStack();
             DrawRedoStack();
 
@@ -689,16 +704,16 @@ public class LevelEditorWindow : EditorWindow {
         Color lineColor = new Color(0.5f, 0.5f, 0.5f, 0.5f);
         Color edgeColor = new Color(0.65f, 0.65f, 0.65f, 0.65f);
 
+        // Draw x lines
         for (int x = 0; x <= Level.FLOOR_WIDTH; x++) {
             Handles.color = (x == 0 || x == Level.FLOOR_WIDTH) ? edgeColor : lineColor;
-
             Handles.DrawLine(new Vector3(x - 0.5f, height, -0.5f),
                 new Vector3(x - 0.5f, height, Level.FLOOR_DEPTH - 0.5f));
         }
 
+        // Draw z lines
         for (int z = 0; z <= Level.FLOOR_DEPTH; z++) {
             Handles.color = (z == 0 || z == Level.FLOOR_DEPTH) ? edgeColor : lineColor;
-
             Handles.DrawLine(new Vector3(-0.5f, height, z - 0.5f), new Vector3(Level.FLOOR_WIDTH - 0.5f, height, z - 0.5f));
         }
     }
@@ -706,34 +721,45 @@ public class LevelEditorWindow : EditorWindow {
     public void DrawRoomBounds(SceneView sc) {
         var floor = LevelManager.Instance.SelectedFloor;
 
+        // Calculate upper points
         var u1 = new Vector3(-0.5f, (floor + 1) * Level.FLOOR_HEIGHT, -0.5f);
         var u2 = new Vector3(Level.FLOOR_WIDTH - 0.5f, (floor + 1) * Level.FLOOR_HEIGHT, -0.5f);
         var u3 = new Vector3(Level.FLOOR_WIDTH - 0.5f, (floor + 1) * Level.FLOOR_HEIGHT, Level.FLOOR_DEPTH - 0.5f);
         var u4 = new Vector3(-0.5f, (floor + 1) * Level.FLOOR_HEIGHT, Level.FLOOR_DEPTH - 0.5f);
 
+        // Calculate lower points
         var d1 = new Vector3(-0.5f, (floor) * Level.FLOOR_HEIGHT, -0.5f);
         var d2 = new Vector3(Level.FLOOR_WIDTH - 0.5f, (floor) * Level.FLOOR_HEIGHT, -0.5f);
         var d3 = new Vector3(Level.FLOOR_WIDTH - 0.5f, (floor) * Level.FLOOR_HEIGHT, Level.FLOOR_DEPTH - 0.5f);
         var d4 = new Vector3(-0.5f, (floor) * Level.FLOOR_HEIGHT, Level.FLOOR_DEPTH - 0.5f);
 
         Handles.color = Color.white;
+
+        // Draw upper rect
         Handles.DrawLine(u1, u2);
         Handles.DrawLine(u2, u3);
         Handles.DrawLine(u3, u4);
         Handles.DrawLine(u4, u1);
 
+        // Draw connectors
         Handles.DrawLine(u1, d1);
         Handles.DrawLine(u2, d2);
         Handles.DrawLine(u3, d3);
         Handles.DrawLine(u4, d4);
 
+        // Draw lower rect
         Handles.DrawLine(d1, d2);
         Handles.DrawLine(d2, d3);
         Handles.DrawLine(d3, d4);
         Handles.DrawLine(d4, d1);
     }
 
+    /// <summary>
+    /// Draws the GUI toolbar in the scene view.
+    /// </summary>
     void DrawSceneViewToolbar() {
+
+        // Calculate toolbar rect
         var toolbarWidth = _TOOLBAR_WIDTH_PERCENT * Screen.width;
         _toolbarRect = new Rect(4, 4, toolbarWidth, _TOOLBAR_HEIGHT_PERCENT * Screen.height);
         GUILayout.BeginArea(_toolbarRect);
@@ -742,15 +768,17 @@ public class LevelEditorWindow : EditorWindow {
         var levelLoaded = LevelManager.Instance.LevelLoaded;
         if (!levelLoaded) GUILayout.Label("No level loaded.");
         else {
+
+            // Show level name
             GUILayout.Label(LevelManager.Instance.LoadedLevel.Name + (LevelManager.Instance.Dirty ? "*" : ""));
 
+            // Draw undo/redo buttons
             var undoRedoWidth = toolbarWidth * _TOOLBAR_UNDO_REDO_PERCENT;
-
             DrawEditorButton("Undo", LevelManager.Instance.Undo, GUILayout.Width(undoRedoWidth));
             DrawEditorButton("Redo", LevelManager.Instance.Redo, GUILayout.Width(undoRedoWidth));
 
+            // Draw draw grid toggle
             var drawGridToggleWidth = toolbarWidth * _TOOLBAR_SHOW_GRID_PERCENT;
-
             var drawGrid = LevelManager.Instance.GridEnabled;
             var newDrawGrid = GUILayout.Toggle(drawGrid, "Draw Grid", GUILayout.Width(drawGridToggleWidth));
             if (drawGrid != newDrawGrid) {
@@ -758,8 +786,8 @@ public class LevelEditorWindow : EditorWindow {
                 else LevelManager.Instance.DisableGrid();
             }
 
+            // Draw snap to grid toggle
             var snapToGridToggleWidth = toolbarWidth * _TOOLBAR_SNAP_TO_GRID_PERCENT;
-
             var snapToGrid = LevelManager.Instance.SnapToGrid;
             var newSnapToGrid = GUILayout.Toggle(snapToGrid, "Snap To Grid", GUILayout.Width(snapToGridToggleWidth));
             if (snapToGrid != newSnapToGrid) {
@@ -767,6 +795,7 @@ public class LevelEditorWindow : EditorWindow {
                 else LevelManager.Instance.SnapToGrid = false;
             }
 
+            // Draw move/erase buttons
             DrawEditorButton("Move", SelectMoveTool);
             DrawEditorButton("Erase", SelectEraseTool);
         }
@@ -775,18 +804,26 @@ public class LevelEditorWindow : EditorWindow {
         GUILayout.EndArea();
     }
 
+    /// <summary>
+    /// Selects the move tool.
+    /// </summary>
     void SelectMoveTool() {
         LevelManager.Instance.SelectTool(LevelManager.Tool.Move);
     }
 
+    /// <summary>
+    /// Selects the erase tool.
+    /// </summary>
     void SelectEraseTool() {
         LevelManager.Instance.SelectTool(LevelManager.Tool.Erase);
     }
 
-
-
+    /// <summary>
+    /// Draws the side panel in the scene view.
+    /// </summary>
     void DrawSceneViewSidePanel() {
-        // Draw side panel
+
+        // Calculate side panel rect
         _sidePanelRect = new Rect(4, 40, 32, 256);
         GUILayout.BeginArea(_sidePanelRect);
         GUILayout.BeginVertical();
@@ -794,22 +831,18 @@ public class LevelEditorWindow : EditorWindow {
         // Floor selector
         GUILayout.BeginVertical();
         GUILayout.Label("Floor", GUILayout.ExpandWidth(true));
-
         DrawEditorButton("^", LevelManager.Instance.UpOneFloor);
         GUILayout.Label(LevelManager.Instance.SelectedFloor.ToString(), GUILayout.ExpandWidth(true));
         DrawEditorButton("v", LevelManager.Instance.DownOneFloor);
-
         GUILayout.EndVertical();
         GUILayout.Space(32);
 
         // Y selector
         GUILayout.BeginVertical();
         GUILayout.Label("Y", GUILayout.ExpandWidth(true));
-
         DrawEditorButton("^", LevelManager.Instance.IncrementY);
         GUILayout.Label(LevelManager.Instance.CurrentYValue.ToString(), GUILayout.ExpandWidth(true));
         DrawEditorButton("v", LevelManager.Instance.DecrementY);
-
         GUILayout.EndVertical();
         GUILayout.EndVertical();
         GUILayout.EndArea();
@@ -943,9 +976,21 @@ public class LevelEditorWindow : EditorWindow {
         _levelLoaded = LevelManager.Instance.LevelLoaded;
     }
 
+    /// <summary>
+    /// Draws a simple editor button.
+    /// </summary>
     void DrawEditorButton(string label, ButtonAction buttonAction, params GUILayoutOption[] options) {
         if (GUILayout.Button(label, options)) buttonAction();
     }
 
     #endregion
+    #region Delegates
+
+    /// <summary>
+    /// Delegate for editor button-friendly functions.
+    /// </summary>
+    delegate void ButtonAction();
+
+    #endregion
 }
+#endif
