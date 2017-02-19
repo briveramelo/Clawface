@@ -11,17 +11,15 @@ public class LockOnScript : MonoBehaviour {
     [SerializeField]
     private int rayCastRotationRange;
     private GameObject currentEnemy;
-    private GameObject currentEnemyRight;
-    private GameObject currentEnemyLeft;
     private bool isTargetting;
+    private bool isChangingTarget;
     LayerMask enemyMask = LayerMask.GetMask(Strings.ENEMY);
 
     // Use this for initialization
     void Start () {
-        currentEnemy = null;
-        currentEnemyRight = null;
-        currentEnemyLeft = null;
-        isTargetting = false;        
+        currentEnemy = null;        
+        isTargetting = false;
+        isChangingTarget = false;
     }
 	
 	// Update is called once per frame
@@ -32,39 +30,26 @@ public class LockOnScript : MonoBehaviour {
             {
                 isTargetting = true;
                 AcquireTarget();
-            }
-            if (Mathf.Abs(Input.GetAxis(Strings.AIMX)) >= 0.5f)
+            }            
+            if (Mathf.Abs(Input.GetAxis(Strings.AIMX)) > 0.0f || Mathf.Abs(Input.GetAxis(Strings.AIMY)) > 0.0f)
             {
-                if(Input.GetAxis(Strings.AIMX) < 0)
+                if (!isChangingTarget)
                 {
-                    SwitchEnemy(true);
-                }else if(Input.GetAxis(Strings.AIMX) > 0)
-                {
-                    SwitchEnemy(false);
+                    isChangingTarget = true;
+                    Vector3 inputDirection = Camera.main.transform.TransformDirection(new Vector3(Input.GetAxis(Strings.AIMX), 0.0f, Input.GetAxis(Strings.AIMY)));
+                    inputDirection.y = 0;
+                    GetClosestEnemies(inputDirection);
                 }
+            }else
+            {
+                isChangingTarget = false;
             }
         }else if(Input.GetAxis(Strings.RIGHTTRIGGER) > -0.5f)
         {
             isTargetting = false;
             currentEnemy = null;
-            currentEnemyLeft = null;
-            currentEnemyRight = null;
         }
 	}
-
-    void SwitchEnemy(bool left)
-    {
-        GetClosestEnemies();
-        if (left && currentEnemyLeft != null)
-        {
-            currentEnemy = currentEnemyLeft;
-        }
-        else if(currentEnemyRight != null)
-        {
-            currentEnemy = currentEnemyRight;            
-        }
-        GetClosestEnemies();
-    }
 
     void AcquireTarget()
     {
@@ -87,47 +72,66 @@ public class LockOnScript : MonoBehaviour {
         if(currentEnemy != null)
         {
             print("current " + currentEnemy.name);
-        }
-        GetClosestEnemies();
+        }        
     }
 
-    void GetClosestEnemies()
+    void GetClosestEnemies(Vector3 direction)
     {
-        if(currentEnemy != null)
-        {
-            Vector3 lookAtVector = currentEnemy.transform.position - transform.position;
+        GameObject currentEnemyRight = null;
+        GameObject currentEnemyLeft = null;
+        if (currentEnemy != null)
+        {            
             int count = rayCastRotationRange / rayCastRotationIncrement;
             for(int i = 1; i <= count; i++)
             {                
-                Vector3 castDirection = Quaternion.Euler(0,rayCastRotationIncrement*i,0) * lookAtVector;
+                Vector3 castDirection = Quaternion.Euler(0,rayCastRotationIncrement*i,0) * direction;
                 RaycastHit hit;
                 Ray ray = new Ray(transform.position, castDirection);
-                if(Physics.Raycast(ray, out hit, lockRadius, enemyMask))
+                Debug.DrawRay(transform.position, castDirection, Color.red, 1f);
+                if(Physics.Raycast(ray, out hit, Mathf.Infinity, enemyMask))
                 {
                     if(hit.transform.gameObject != currentEnemy)
                     {
                         currentEnemyRight = hit.transform.gameObject;
-                        print("Right "+ currentEnemyRight.name);
                         break;
                     }
                 }
             }
             for (int i = -1; i >= -count; i--)
             {
-                Vector3 castDirection = Quaternion.Euler(0, rayCastRotationIncrement * i, 0) * lookAtVector;
+                Vector3 castDirection = Quaternion.Euler(0, rayCastRotationIncrement * i, 0) * direction;
                 RaycastHit hit;
                 Ray ray = new Ray(transform.position, castDirection);
-                if (Physics.Raycast(ray, out hit, lockRadius, enemyMask))
+                Debug.DrawRay(transform.position, castDirection, Color.green, 1f);
+                if (Physics.Raycast(ray, out hit, Mathf.Infinity, enemyMask))
                 {
                     if (hit.transform.gameObject != currentEnemy)
                     {
                         currentEnemyLeft = hit.transform.gameObject;
-                        print("Left "+ currentEnemyLeft.name);
                         break;
                     }
                 }
             }
         }
+        if(currentEnemyLeft != null && currentEnemyRight != null)
+        {
+            if(Vector3.Distance(currentEnemyLeft.transform.position, transform.position) > Vector3.Distance(currentEnemyRight.transform.position, transform.position))
+            {
+                currentEnemy = currentEnemyRight;
+            }
+            else
+            {
+                currentEnemy = currentEnemyLeft;
+            }
+        }else if(currentEnemyLeft != null)
+        {
+            currentEnemy = currentEnemyLeft;
+        }
+        else if(currentEnemyRight != null)
+        {
+            currentEnemy = currentEnemyRight;
+        }
+        print("current " + currentEnemy.name);
     }
 
     public GameObject GetCurrentEnemy()
