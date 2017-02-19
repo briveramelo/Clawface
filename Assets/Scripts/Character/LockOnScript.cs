@@ -17,12 +17,13 @@ public class LockOnScript : MonoBehaviour {
     private GameObject currentEnemy;
     private bool isTargetting;
     private bool isChangingTarget;
-    private LayerMask enemyMask = LayerMask.GetMask(Strings.ENEMY);
+    private LayerMask enemyMask;
     #endregion
 
     #region Unity Lifecycle
     // Use this for initialization
     void Start () {
+        enemyMask = LayerMask.GetMask(Strings.ENEMY);
         currentEnemy = null;        
         isTargetting = false;
         isChangingTarget = false;

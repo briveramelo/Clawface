@@ -45,6 +45,7 @@ public class BatonMod : Mod {
     void Awake()
     {
         type = ModType.StunBaton;
+        category = ModCategory.Melee;
         attackCollider.enabled = false;
     }
 
