@@ -4,17 +4,23 @@ using UnityEngine;
 
 public class LockOnScript : MonoBehaviour {
 
+    #region Serialized Unity Inspector fields
     [SerializeField]
     private float lockRadius;
     [SerializeField]
     private int rayCastRotationIncrement;
     [SerializeField]
     private int rayCastRotationRange;
+    #endregion
+
+    #region Private Fields
     private GameObject currentEnemy;
     private bool isTargetting;
     private bool isChangingTarget;
-    LayerMask enemyMask = LayerMask.GetMask(Strings.ENEMY);
+    private LayerMask enemyMask = LayerMask.GetMask(Strings.ENEMY);
+    #endregion
 
+    #region Unity Lifecycle
     // Use this for initialization
     void Start () {
         currentEnemy = null;        
@@ -50,7 +56,16 @@ public class LockOnScript : MonoBehaviour {
             currentEnemy = null;
         }
 	}
+    #endregion
 
+    #region Public Methods
+    public GameObject GetCurrentEnemy()
+    {
+        return currentEnemy;
+    }
+    #endregion
+
+    #region Private Methods
     void AcquireTarget()
     {
         RaycastHit[] hits;
@@ -133,9 +148,6 @@ public class LockOnScript : MonoBehaviour {
         }
         print("current " + currentEnemy.name);
     }
+    #endregion
 
-    public GameObject GetCurrentEnemy()
-    {
-        return currentEnemy;
-    }
 }
