@@ -29,33 +29,10 @@ public class LockOnScript : MonoBehaviour {
     }
 	
 	// Update is called once per frame
-	void Update () {        
-        if(Input.GetAxis(Strings.RIGHTTRIGGER) < -0.5f)
-        {
-            if (!isTargetting)
-            {
-                isTargetting = true;
-                AcquireTarget();
-            }            
-            if (Mathf.Abs(Input.GetAxis(Strings.AIMX)) > 0.0f || Mathf.Abs(Input.GetAxis(Strings.AIMY)) > 0.0f)
-            {
-                if (!isChangingTarget)
-                {
-                    isChangingTarget = true;
-                    Vector3 inputDirection = Camera.main.transform.TransformDirection(new Vector3(Input.GetAxis(Strings.AIMX), 0.0f, Input.GetAxis(Strings.AIMY)));
-                    inputDirection.y = 0;
-                    GetClosestEnemies(inputDirection);
-                }
-            }else
-            {
-                isChangingTarget = false;
-            }
-        }else if(Input.GetAxis(Strings.RIGHTTRIGGER) > -0.5f)
-        {
-            isTargetting = false;
-            currentEnemy = null;
-        }
-	}
+	void Update () {
+        CheckIfCurrentTargetIsAlive();
+        CheckForInputsAndAcquireTarget();
+    }
     #endregion
 
     #region Public Methods
@@ -66,6 +43,45 @@ public class LockOnScript : MonoBehaviour {
     #endregion
 
     #region Private Methods
+
+    void CheckIfCurrentTargetIsAlive()
+    {
+        if (currentEnemy != null && !currentEnemy.activeSelf)
+        {
+            currentEnemy = null;
+        }
+    }
+
+    void CheckForInputsAndAcquireTarget()
+    {
+        if (Input.GetAxis(Strings.RIGHTTRIGGER) < -0.5f)
+        {
+            if (!isTargetting)
+            {
+                isTargetting = true;
+                AcquireTarget();
+            }
+            if (Mathf.Abs(Input.GetAxis(Strings.AIMX)) > 0.0f || Mathf.Abs(Input.GetAxis(Strings.AIMY)) > 0.0f)
+            {
+                if (!isChangingTarget)
+                {
+                    isChangingTarget = true;
+                    Vector3 inputDirection = Camera.main.transform.TransformDirection(new Vector3(Input.GetAxis(Strings.AIMX), 0.0f, Input.GetAxis(Strings.AIMY)));
+                    inputDirection.y = 0;
+                    GetClosestEnemies(inputDirection);
+                }
+            }
+            else
+            {
+                isChangingTarget = false;
+            }
+        }
+        else if (Input.GetAxis(Strings.RIGHTTRIGGER) > -0.5f)
+        {
+            isTargetting = false;
+            currentEnemy = null;
+        }
+    }
     void AcquireTarget()
     {
         RaycastHit[] hits;
@@ -83,11 +99,7 @@ public class LockOnScript : MonoBehaviour {
                     currentEnemy = hit.transform.gameObject;
                 }
             }
-        }
-        if(currentEnemy != null)
-        {
-            print("current " + currentEnemy.name);
-        }        
+        }     
     }
 
     void GetClosestEnemies(Vector3 direction)
@@ -145,8 +157,7 @@ public class LockOnScript : MonoBehaviour {
         else if(currentEnemyRight != null)
         {
             currentEnemy = currentEnemyRight;
-        }
-        print("current " + currentEnemy.name);
+        }        
     }
     #endregion
 
