@@ -2,122 +2,127 @@
  *  @author Cornelia Schultz
  */
 
-public interface IController {
+using UnityEngine;
 
+public abstract class IController {
+    
     // Used to instruct the controller to update its internal state
     // if necessary
-    void Update();
+    public abstract void Update();
+
+    #region Protected Interface
+
+        // A simple Helper.. which is no longer used. :P
+        public bool GetKeyHelper(ButtonMode mode, KeyCode code)
+        {
+            switch(mode)
+            {
+                case ButtonMode.DOWN:
+                    return Input.GetKeyDown(code);
+                case ButtonMode.HELD:
+                    return Input.GetKey(code);
+                case ButtonMode.UP:
+                    return Input.GetKeyUp(code);
+                case ButtonMode.IDLE:
+                    return !Input.GetKey(code);
+                default:
+                    throw new System.Exception("IMPOSSIBRU!");
+            }
+        }
+
+        // This one has taken over :P
+        public ButtonMode GetModeHelper(KeyCode code)
+        {
+            if (Input.GetKeyDown(code))
+                return ButtonMode.DOWN;
+            else if (Input.GetKeyUp(code))
+                return ButtonMode.UP;
+            else if (Input.GetKey(code))
+                return ButtonMode.HELD;
+            else
+                return ButtonMode.IDLE;
+        }
+
+    #endregion
 
     #region Axes
 
-        float GetLeftXAxis();
-        float GetLeftYAxis();
-        float GetRightXAxis();
-        float GetRightYAxis();
+        public abstract float GetLeftXAxis();
+        public abstract float GetLeftYAxis();
+        public abstract float GetRightXAxis();
+        public abstract float GetRightYAxis();
 
     #endregion
 
     #region Primaries
 
-        bool GetLeftPrimaryDown();
-        bool GetLeftPrimaryHeld();
-        bool GetLeftPrimaryUp();
-        bool GetLeftPrimaryIdle();
-    
-        bool GetRightPrimaryDown();
-        bool GetRightPrimaryHeld();
-        bool GetRightPrimaryUp();
-        bool GetRightPrimaryIdle();
+        public abstract ButtonMode GetLeftPrimary();
+        public abstract bool GetLeftPrimary(ButtonMode mode);
+
+        public abstract ButtonMode GetRightPrimary();
+        public abstract bool GetRightPrimary(ButtonMode mode);
 
     #endregion
 
     #region Secondaries
-    
-        bool GetLeftSecondaryDown();
-        bool GetLeftSecondaryHeld();
-        bool GetLeftSecondaryUp();
-        bool GetLeftSecondaryIdle();
 
-        bool GetRightSecondaryDown();
-        bool GetRightSecondaryHeld();
-        bool GetRigthSecondaryUp();
-        bool GetRightSecondaryIdle();
+        public abstract ButtonMode GetLeftSecondary();
+        public abstract bool GetLeftSecondary(ButtonMode mode);
+
+        public abstract ButtonMode GetRightSecondary();
+        public abstract bool GetRightSecondary(ButtonMode mode);
 
     #endregion
 
     #region Tertiaries
 
-        bool GetLeftTertiaryDown();
-        bool GetLeftTertiary();
-        bool GetLeftTertiaryUp();
-        bool GetLeftTertiaryIdle();
+        public abstract ButtonMode GetLeftTertiary();
+        public abstract bool GetLeftTertiary(ButtonMode mode);
 
-        bool GetRigthTertiaryDown();
-        bool GetRightTertiaryHeld();
-        bool GetRightTertiaryUp();
-        bool GetRightTertiaryIdle();
+        public abstract ButtonMode GetRightTertiary();
+        public abstract bool GetRightTertiary(ButtonMode mode);
 
     #endregion
 
     #region Action Keys
 
-        bool GetAction1Down();
-        bool GetAction1Held();
-        bool GetAction1Up();
-        bool GetAction1Idle();
+        public abstract ButtonMode GetAction1();
+        public abstract bool GetAction1(ButtonMode mode);
 
-        bool GetAction2Down();
-        bool GetAction2Held();
-        bool GetAction2Up();
-        bool GetAction2Idle();
+        public abstract ButtonMode GetAction2();
+        public abstract bool GetAction2(ButtonMode mode);
 
-        bool GetAction3Down();
-        bool GetAction3Held();
-        bool GetAction3Up();
-        bool GetAction3Idle();
+        public abstract ButtonMode GetAction3();
+        public abstract bool GetAction3(ButtonMode mode);
 
-        bool GetAction4Down();
-        bool GetAction4Held();
-        bool GetAction4Up();
-        bool GetAction4Idle();
+        public abstract ButtonMode GetAction4();
+        public abstract bool GetAction4(ButtonMode mode);
 
     #endregion
 
     #region DPad
 
-        bool GetDPadUpDown();
-        bool GetDPadUpHeld();
-        bool GetDPadUpUp();
-        bool GetDPadUpIdle();
+        public abstract ButtonMode GetDPadUp();
+        public abstract bool GetDPadUp(ButtonMode mode);
 
-        bool GetDPadDownDown();
-        bool GetDPadDownHeld();
-        bool GetDPadDownUp();
-        bool GetDPadDownIdle();
+        public abstract ButtonMode GetDPadDown();
+        public abstract bool GetDPadDown(ButtonMode mode);
 
-        bool GetDPadLeftDown();
-        bool GetDPadLeftHeld();
-        bool GetDPadLeftUp();
-        bool GetDPadLeftIdle();
+        public abstract ButtonMode GetDPadLeft();
+        public abstract bool GetDPadLeft(ButtonMode mode);
 
-        bool GetDPadRightDown();
-        bool GetDPadRightHeld();
-        bool GetDPadRightUp();
-        bool GetDPadRightIdle();
+        public abstract ButtonMode GetDPadRight();
+        public abstract bool GetDpadRight(ButtonMode mode);
 
     #endregion
 
     #region Specials
 
-        bool GetSelectDown();
-        bool GetSelectHeld();
-        bool GetSelectUp();
-        bool GetSelectIdle();
+        public abstract ButtonMode GetSelect();
+        public abstract bool GetSelect(ButtonMode mode);
 
-        bool GetStartDown();
-        bool GetStartHeld();
-        bool GetStartUp();
-        bool GetStartIdle();
+        public abstract ButtonMode GetStart();
+        public abstract bool GetStart(ButtonMode mode);
 
     #endregion
 }

@@ -26,22 +26,22 @@
     {
         public static class Axes
         {
-            public static string MOVEMENT = "MOVEMENT AXES";
-            public static string LOOK = "LOOK AXES";
+            public const string MOVEMENT = "MOVEMENT AXES";
+            public const string LOOK = "LOOK AXES";
         }
 
         public static class Actions
         {
-            public static string SWAP_MODE = "SWAP MODE";
-            public static string DROP_MODE = "DROP MODE";
-            public static string ACTION_LEGS = "LEGS";
-            public static string ACTION_ARM_LEFT = "ARM LEFT";
-            public static string ACTION_ARM_RIGHT = "ARM RIGHT";
-            public static string ACTION_HEAD = "HEAD";
-            public static string NAV_UP = "UP";
-            public static string NAV_DOWN = "DOWN";
-            public static string NAV_LEFT = "LEFT";
-            public static string NAV_RIGHT = "RIGHT";
+            public const string SWAP_MODE = "SWAP MODE";
+            public const string DROP_MODE = "DROP MODE";
+            public const string ACTION_LEGS = "LEGS";
+            public const string ACTION_ARM_LEFT = "ARM LEFT";
+            public const string ACTION_ARM_RIGHT = "ARM RIGHT";
+            public const string ACTION_HEAD = "HEAD";
+            public const string NAV_UP = "UP";
+            public const string NAV_DOWN = "DOWN";
+            public const string NAV_LEFT = "LEFT";
+            public const string NAV_RIGHT = "RIGHT";
         }
     }
 }

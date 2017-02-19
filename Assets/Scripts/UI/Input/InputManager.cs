@@ -13,9 +13,9 @@ public class InputManager : Singleton<InputManager> {
     #endregion
 
     #region Internal State
-        List<IController> controllers = new List<IController>();
-        List<IControlScheme> schemes = new List<IControlScheme>();
-        int activeScheme = -1;
+        private List<IController> controllers = new List<IController>();
+        private List<IControlScheme> schemes = new List<IControlScheme>();
+        private int activeScheme = -1;
     #endregion
 
     #region Unity Lifecycle Functions
@@ -24,10 +24,25 @@ public class InputManager : Singleton<InputManager> {
         {
             base.Awake();
 
-            // TODO: Insert Controllers and ControlSchemes into lists based on platforms.
+        //// Insert Appropriate Controllers:
+        #if UNITY_STANDALONE
+            // controllers.Add(new KeyboardController());
+        #endif
 
-            // Set active scheme to 0th
-        }
+        #if UNITY_STANDALONE_WIN
+            controllers.Add(new WindowsController());
+        #elif UNITY_STANDALONE_OSX
+            // controllers.Add(new OSXController());
+        #elif UNITY_STANDALONE_LINUX
+            // controllers.Add(new LinuxController());
+        #endif
+
+        //// Insert Schemes
+        schemes.Add(new OriginalScheme());
+
+        // Set Active Scheme
+        activeScheme = schemes.Count > 0 ? 0 : -1;
+    }
 
         private void Start()
         {
@@ -45,8 +60,8 @@ public class InputManager : Singleton<InputManager> {
 
     #region Public Interface
 
-    //// Schemes
-    public string ActiveScheme
+        //// Schemes
+        public string ActiveScheme
         {
             get
             {
@@ -78,10 +93,15 @@ public class InputManager : Singleton<InputManager> {
             return schemes[activeScheme].GetAxes(controllers, axes);
         }
 
-        public bool QueryButton(string button, ButtonMode mode)
+        public ButtonMode[] QueryAction(string action)
         {
             Assert.AreNotEqual(activeScheme, -1, "No Active Scheme Set!");
-            return schemes[activeScheme].GetButton(controllers, button, mode);
+            return schemes[activeScheme].GetAction(controllers, action);
+        }
+        public bool QueryAction(string action, ButtonMode mode)
+        {
+            Assert.AreNotEqual(activeScheme, -1, "No Active Scheme Set!");
+            return schemes[activeScheme].GetAction(controllers, action, mode);
         }
 
     #endregion

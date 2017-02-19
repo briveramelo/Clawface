@@ -3,9 +3,6 @@
  *  
  *  See: http://wiki.unity3d.com/index.php?title=Xbox360Controller
  */
-
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class WindowsController : IController
@@ -20,35 +17,48 @@ public class WindowsController : IController
         static readonly string RIGHT_TRIGGER = "WINDOWS_RIGHT_TRIGGER_AXIS";
         static readonly string LEFT_TRIGGER = "WINDOWS_LEFT_TRIGGER_AXIS";
 
-        static readonly KeyCode LeftSecondary = KeyCode.JoystickButton4;
-        static readonly KeyCode RightSecondary = KeyCode.JoystickButton5;
-        static readonly KeyCode LeftTertiary = KeyCode.JoystickButton8;
-        static readonly KeyCode RightTertiary = KeyCode.JoystickButton9;
+        static readonly KeyCode LEFT_SECONDARY = KeyCode.JoystickButton4;
+        static readonly KeyCode RIGHT_SECONDARY = KeyCode.JoystickButton5;
+        static readonly KeyCode LEFT_TERTIARY = KeyCode.JoystickButton8;
+        static readonly KeyCode RIGHT_TERTIARY = KeyCode.JoystickButton9;
 
-        static readonly KeyCode Action1 = KeyCode.JoystickButton0;
-        static readonly KeyCode Action2 = KeyCode.JoystickButton1;
-        static readonly KeyCode Action3 = KeyCode.JoystickButton2;
-        static readonly KeyCode Action4 = KeyCode.JoystickButton3;
+        static readonly KeyCode ACTION_1 = KeyCode.JoystickButton0;
+        static readonly KeyCode ACTION_2 = KeyCode.JoystickButton1;
+        static readonly KeyCode ACTION_3 = KeyCode.JoystickButton2;
+        static readonly KeyCode ACTION_4 = KeyCode.JoystickButton3;
 
         static readonly string DPAD_VERTICAL = "WINDOWS_DPAD_VERTICAL_AXIS";
         static readonly string DPAD_HORIZONTAL = "WINDOWS_DPAD_HORIZONTAL_AXIS";
 
-        static readonly KeyCode Select = KeyCode.JoystickButton6;
-        static readonly KeyCode Start = KeyCode.JoystickButton7;
+        static readonly KeyCode SELECT = KeyCode.JoystickButton6;
+        static readonly KeyCode START = KeyCode.JoystickButton7;
 
     #endregion
 
     #region Internal State
 
-    private ButtonMode triggerLeft;
+        private ButtonMode triggerLeft;
         private ButtonMode triggerRight;
+        private ButtonMode dPadLeft;
+        private ButtonMode dPadRight;
+        private ButtonMode dPadUp;
+        private ButtonMode dPadDown;
 
     #endregion
 
-    public void Update()
+    public override void Update()
     {
         triggerLeft = Transition(triggerLeft, Input.GetAxis(LEFT_TRIGGER));
         triggerRight = Transition(triggerRight, Input.GetAxis(RIGHT_TRIGGER));
+
+        // These are more complicated
+        float dPadHorizontal = Input.GetAxis(DPAD_HORIZONTAL);
+        float dPadVertical = Input.GetAxis(DPAD_VERTICAL);
+
+        dPadLeft = TransitionDPad(dPadLeft, dPadHorizontal, false);
+        dPadRight = TransitionDPad(dPadRight, dPadHorizontal, true);
+        dPadUp = TransitionDPad(dPadUp, dPadVertical, true);
+        dPadDown = TransitionDPad(dPadDown, dPadVertical, false);
     }
     private ButtonMode Transition(ButtonMode mode, float axis)
     {
@@ -66,22 +76,82 @@ public class WindowsController : IController
                 throw new System.SystemException("IMPOSSIBRU!");
         }
     }
+    private ButtonMode TransitionDPad(ButtonMode mode, float axis, bool positive)
+    {
+        switch(mode)
+        {
+            case ButtonMode.UP:
+                if (axis == 0)
+                {
+                    return ButtonMode.IDLE;
+                }
+                else if (positive)
+                {
+                    return (axis > 0) ? ButtonMode.DOWN : ButtonMode.IDLE;
+                }
+                else
+                {
+                    return (axis < 0) ? ButtonMode.DOWN : ButtonMode.IDLE;
+                }
+            case ButtonMode.DOWN:
+                if (axis == 0)
+                {
+                    return ButtonMode.UP;
+                }
+                else if (positive)
+                {
+                    return (axis > 0) ? ButtonMode.HELD : ButtonMode.UP;
+                }
+                else
+                {
+                    return (axis < 0) ? ButtonMode.HELD : ButtonMode.UP;
+                }
+            case ButtonMode.HELD:
+                if (axis == 0)
+                {
+                    return ButtonMode.UP;
+                }
+                else if (positive)
+                {
+                    return (axis > 0) ? ButtonMode.HELD : ButtonMode.UP;
+                }
+                else
+                {
+                    return (axis < 0) ? ButtonMode.HELD : ButtonMode.UP;
+                }
+            case ButtonMode.IDLE:
+                if (axis == 0)
+                {
+                    return ButtonMode.IDLE;
+                }
+                else if (positive)
+                {
+                    return (axis > 0) ? ButtonMode.DOWN : ButtonMode.IDLE;
+                }
+                else
+                {
+                    return (axis < 0) ? ButtonMode.DOWN : ButtonMode.IDLE;
+                }
+            default:
+                throw new System.Exception("IMPOSSIBRU!");
+        }
+    }
 
     #region Axes
 
-        public float GetLeftXAxis()
+        public override float GetLeftXAxis()
         {
             return Input.GetAxis(LEFT_AXIS_HORIZONTAL);
         }
-        public float GetLeftYAxis()
+        public override float GetLeftYAxis()
         {
             return Input.GetAxis(LEFT_AXIS_VERTICAL);
         }
-        public float GetRightXAxis()
+        public override float GetRightXAxis()
         {
             return Input.GetAxis(RIGHT_AXIS_HORIZONTAL);
         }
-        public float GetRightYAxis()
+        public override float GetRightYAxis()
         {
             return Input.GetAxis(RIGHT_AXIS_VERTICAL);
         }
@@ -89,142 +159,171 @@ public class WindowsController : IController
     #endregion
 
     #region Primaries
-
-        public bool GetLeftPrimaryDown()
+    
+        public override ButtonMode GetLeftPrimary()
         {
-            return triggerLeft == ButtonMode.DOWN;
+            return triggerLeft;
         }
-        public bool GetLeftPrimaryHeld()
+        public override bool GetLeftPrimary(ButtonMode mode)
         {
-            return triggerLeft == ButtonMode.HELD;
+            return triggerLeft == mode;
         }
-        public bool GetLeftPrimaryUp()
+    
+        public override ButtonMode GetRightPrimary()
         {
-            return triggerLeft == ButtonMode.UP;
+            return triggerRight;
         }
-        public bool GetLeftPrimaryIdle()
+        public override bool GetRightPrimary(ButtonMode mode)
         {
-            return triggerLeft == ButtonMode.IDLE;
-        }
-
-        public bool GetRightPrimaryDown()
-        {
-            return triggerRight == ButtonMode.DOWN;
-        }
-        public bool GetRightPrimaryHeld()
-        {
-            return triggerRight == ButtonMode.HELD;
-        }
-        public bool GetRightPrimaryUp()
-        {
-            return triggerRight == ButtonMode.UP;
-        }
-        public bool GetRightPrimaryIdle()
-        {
-            return triggerRight == ButtonMode.IDLE;
+            return triggerRight == mode;
         }
 
     #endregion
 
     #region Secondaries
-
-    public bool GetLeftSecondaryDown()
-    {
-        return Input.GetKeyDown(LeftSecondary);
-    }
-    public bool GetLeftSecondaryHeld()
-    {
-        return Input.GetKey(LeftSecondary);
-    }
-    public bool GetLeftSecondaryUp()
-    {
-        return Input.GetKeyUp(LeftSecondary);
-    }
-    public bool GetLeftSecondaryIdle()
-    {
-        return !Input.GetKey(LeftSecondary);
-    }
-
-    public bool GetRightSecondaryDown()
-    {
-        return Input.GetKeyDown(RightSecondary);
-    }
-    public bool GetRightSecondaryHeld()
-    {
-        return Input.GetKey(RightSecondary);
-    }
-    public bool GetRigthSecondaryUp()
-    {
-        return Input.GetKeyUp(RightSecondary);
-    }
-    public bool GetRightSecondaryIdle()
-    {
-        return !Input.GetKey(RightSecondary);
-    }
+    
+        public override ButtonMode GetLeftSecondary()
+        {
+            return GetModeHelper(LEFT_SECONDARY);
+        }
+        public override bool GetLeftSecondary(ButtonMode mode)
+        {
+            return GetKeyHelper(mode, LEFT_SECONDARY);
+        }
+    
+        public override ButtonMode GetRightSecondary()
+        {
+            return GetModeHelper(RIGHT_SECONDARY);
+        }
+        public override bool GetRightSecondary(ButtonMode mode)
+        {
+            return GetKeyHelper(mode, RIGHT_SECONDARY);
+        }
 
     #endregion
 
     #region Tertiaries
+    
+        public override ButtonMode GetLeftTertiary()
+        {
+            return GetModeHelper(LEFT_TERTIARY);
+        }
+        public override bool GetLeftTertiary(ButtonMode mode)
+        {
+            return GetKeyHelper(mode, LEFT_TERTIARY);
+        }
 
-    public bool GetLeftTertiaryDown();
-    public bool GetLeftTertiary();
-    public bool GetLeftTertiaryUp();
-
-    public bool GetRigthTertiaryDown();
-    public bool GetRightTertiaryHeld();
-    public bool GetRightTertiaryUp();
+        public override ButtonMode GetRightTertiary()
+        {
+            return GetModeHelper(RIGHT_TERTIARY);
+        }
+        public override bool GetRightTertiary(ButtonMode mode)
+        {
+            return GetKeyHelper(mode, RIGHT_TERTIARY);
+        }
 
     #endregion
 
     #region Action Keys
-
-    public bool GetAction1Down();
-    public bool GetAction1Held();
-    public bool GetAction1Up();
-
-    public bool GetAction2Down();
-    public bool GetAction2Held();
-    public bool GetAction2Up();
-
-    public bool GetAction3Down();
-    public bool GetAction3Held();
-    public bool GetAction3Up();
-
-    public bool GetAction4Down();
-    public bool GetAction4Held();
-    public bool GetAction4Up();
+    
+        public override ButtonMode GetAction1()
+        {
+            return GetModeHelper(ACTION_1);
+        }
+        public override bool GetAction1(ButtonMode mode)
+        {
+            return GetKeyHelper(mode, ACTION_1);
+        }
+    
+        public override ButtonMode GetAction2()
+        {
+            return GetModeHelper(ACTION_2);
+        }
+        public override bool GetAction2(ButtonMode mode)
+        {
+            return GetKeyHelper(mode, ACTION_2);
+        }
+    
+        public override ButtonMode GetAction3()
+        {
+            return GetModeHelper(ACTION_3);
+        }
+        public override bool GetAction3(ButtonMode mode)
+        {
+            return GetKeyHelper(mode, ACTION_3);
+        }
+    
+        public override ButtonMode GetAction4()
+        {
+            return GetModeHelper(ACTION_4);
+        }
+        public override bool GetAction4(ButtonMode mode)
+        {
+            return GetKeyHelper(mode, ACTION_4);
+        }
 
     #endregion
 
     #region DPad
+    
+        public override ButtonMode GetDPadUp()
+        {
+            return dPadUp;
+        }
+        public override bool GetDPadUp(ButtonMode mode)
+        {
+            return dPadUp == mode;
+        }
 
-    public bool GetDPadUpDown();
-    public bool GetDPadUpHeld();
-    public bool GetDPadUpUp();
-
-    public bool GetDPadDownDown();
-    public bool GetDPadDownHeld();
-    public bool GetDPadDownUp();
-
-    public bool GetDPadLeftDown();
-    public bool GetDPadLeftHeld();
-    public bool GetDPadLeftUp();
-
-    public bool GetDPadRightDown();
-    public bool GetDPadRightHeld();
-    public bool GetDPadRightUp();
+        public override ButtonMode GetDPadDown()
+        {
+            return dPadDown;
+        }
+        public override bool GetDPadDown(ButtonMode mode)
+        {
+            return dPadDown == mode;
+        }
+    
+        public override ButtonMode GetDPadLeft()
+        {
+            return dPadLeft;
+        }
+        public override bool GetDPadLeft(ButtonMode mode)
+        {
+            return dPadLeft == mode;
+        }
+    
+        public override ButtonMode GetDPadRight()
+        {
+            return dPadRight;
+        }
+        public override bool GetDpadRight(ButtonMode mode)
+        {
+            return dPadRight == mode;
+        }
 
     #endregion
 
     #region Specials
+    
+        public override ButtonMode GetSelect()
+        {
+            return GetModeHelper(SELECT);
+        }
+        public override bool GetSelect(ButtonMode mode)
+        {
+            return GetKeyHelper(mode, SELECT);
+        }
+    
 
-    public bool GetBackDown();
-    public bool GetBackHeld();
-    public bool GetBackUp();
-
-    public bool GetStartDown();
-    public bool GetStartHeld();
-    public bool GetStartUp();
+        public override ButtonMode GetStart()
+        {
+            return GetModeHelper(START);
+        }
+        public override bool GetStart(ButtonMode mode)
+        {
+            return GetKeyHelper(mode, START);
+        }
 
     #endregion
 }
