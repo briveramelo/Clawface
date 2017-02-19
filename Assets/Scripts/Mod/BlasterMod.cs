@@ -95,6 +95,7 @@ public class BlasterMod : Mod {
     void Start () {
         readyToShoot = true;
         type = ModType.ArmBlaster;
+        category = ModCategory.Ranged;
     }
 	
 	// Update is called once per frame
