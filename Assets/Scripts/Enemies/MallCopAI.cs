@@ -67,28 +67,37 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
         PlayerMovement dummy = null;
         mod.setModSpot(ModSpot.ArmR);
         mod.AttachAffect(ref myStats, ref dummy);
-        
+
+        HitstopManager.Instance.OnStopEvent += OnEndHitstop;
     }    
 
     // Update is called once per frame
     void Update ()
     {
-        isGrounded = IsGrounded();
-        if (myStats.GetStat(StatType.Health) > 0)
+        if (!HitstopManager.Instance.IsInHitstop())
         {
-            switch (currentState)
+            isGrounded = IsGrounded();
+            if (myStats.GetStat(StatType.Health) > 0)
             {
-                case MallCopState.WALK:
-                    Walk();
-                    break;
-                case MallCopState.ATTACK:
-                    Attack();
-                    break;
-                case MallCopState.STUNNED:
-                    Twitch();
-                    break;
+                switch (currentState)
+                {
+                    case MallCopState.WALK:
+                        Walk();
+                        break;
+                    case MallCopState.ATTACK:
+                        Attack();
+                        break;
+                    case MallCopState.STUNNED:
+                        Twitch();
+                        break;
+                }
+                //velocity = rigbod.velocity;
             }
-            //velocity = rigbod.velocity;
+        }
+        else
+        {
+            animator.enabled = false;
+            rigbod.velocity = new Vector3(0f, 0f, 0f);
         }
     }
 
@@ -347,6 +356,11 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
                 //StartCoroutine(WaitForFallAnimation());
             }
         }
+    }
+
+    private void OnEndHitstop()
+    {
+        animator.enabled = true;
     }
     #endregion
 
