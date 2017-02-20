@@ -66,8 +66,6 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
         PlayerMovement dummy = null;
         mod.setModSpot(ModSpot.ArmR);
         mod.AttachAffect(ref myStats, ref dummy);
-
-        //HitstopManager.Instance.OnStopEvent += OnEndHitstop;
     }    
 
     // Update is called once per frame
@@ -348,10 +346,6 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
         }
     }
 
-    private void OnEndHitstop()
-    {
-        animator.enabled = true;
-    }
     #endregion
 
     #region 7. Internal Structures
