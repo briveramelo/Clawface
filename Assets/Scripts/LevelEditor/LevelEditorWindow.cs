@@ -114,6 +114,13 @@ public class LevelEditorWindow : EditorWindow {
     /// </summary>
     void OnDisable() {
         //Debug.Log("LevelEditorWindow.OnDisable");
+
+        // Deregister delegates
+        SceneView.onSceneGUIDelegate -= DrawGrid;
+        SceneView.onSceneGUIDelegate -= HandleInputs;
+        SceneView.onSceneGUIDelegate -= DrawCursor;
+        SceneView.onSceneGUIDelegate -= DrawSceneViewGUI;
+        SceneView.onSceneGUIDelegate -= DrawRoomBounds;
     }
 
     /// <summary>
@@ -122,24 +129,19 @@ public class LevelEditorWindow : EditorWindow {
     void OnDestroy() {
         //Debug.Log("LevelEditorWindow.OnDestroy");
         if (_levelManager) {
-            if (LevelManager.Instance.LevelLoaded && LevelManager.Instance.Dirty) {
-                if (EditorUtility.DisplayDialog("Save current level",
-                    "Do you wish to save the current level?",
-                    "Save", "Don't Save"))
-                    LevelManager.Instance.SaveCurrentLevelToJSON();
+            if (LevelManager.Instance.LevelLoaded) {
+                if (LevelManager.Instance.Dirty) {
+                    if (EditorUtility.DisplayDialog("Save current level",
+                        "Do you wish to save the current level?",
+                        "Save", "Don't Save"))
+                        LevelManager.Instance.SaveCurrentLevelToJSON();
+                }
 
                 CloseLevelAndKeepPath();
             }
 
             DisconnectFromLevelManager();
         }
-
-        // Deregister delegates
-        SceneView.onSceneGUIDelegate -= DrawGrid;
-        SceneView.onSceneGUIDelegate -= HandleInputs;
-        SceneView.onSceneGUIDelegate -= DrawCursor;
-        SceneView.onSceneGUIDelegate -= DrawSceneViewGUI;
-        SceneView.onSceneGUIDelegate -= DrawRoomBounds;
     }
 
     void OnGUI() {
@@ -244,7 +246,7 @@ public class LevelEditorWindow : EditorWindow {
     /// Draws the editor header.
     /// </summary>
     void DrawHeaderGUI() {
-        EditorGUILayout.LabelField("Under The Skin\nLevel Editor",
+        EditorGUILayout.LabelField("Project Turing\nLevel Editor",
             LevelEditorStyles.Header,
             GUILayout.ExpandHeight(true),
             GUILayout.MaxHeight(64));
@@ -277,13 +279,31 @@ public class LevelEditorWindow : EditorWindow {
     void CloseLevel() {
         // If dirty, prompt to save
         if (LevelManager.Instance.Dirty) {
-            if (EditorUtility.DisplayDialog("Save current level",
-                    "Do you wish to save the current level?", "Save", "Don't Save"))
-                LevelManager.Instance.SaveCurrentLevelToJSON();
+            var option = EditorUtility.DisplayDialogComplex (
+                "Close current level",
+                "Do you wish to save the current level?",
+                "Save",
+                "Don't Save",
+                "Cancel");
+
+            switch (option) {
+                case 0: // Save level
+                    LevelManager.Instance.SaveCurrentLevelToJSON();
+                    LevelManager.Instance.CloseLevel();
+                    EditorPrefs.SetString(LevelManager.LAST_EDITED_LEVEL_STR, "");
+                    break;
+                case 1: // Don't save level
+                    LevelManager.Instance.CloseLevel();
+                    EditorPrefs.SetString(LevelManager.LAST_EDITED_LEVEL_STR, "");
+                    break;
+                case 2: // Cancel
+                    break;
+            }
+        } else {
+            LevelManager.Instance.CloseLevel();
+            EditorPrefs.SetString(LevelManager.LAST_EDITED_LEVEL_STR, "");
         }
 
-        LevelManager.Instance.CloseLevel();
-        EditorPrefs.SetString(LevelManager.LAST_EDITED_LEVEL_STR, "");
         Repaint();
     }
 
@@ -421,9 +441,33 @@ public class LevelEditorWindow : EditorWindow {
                             LevelManager.Instance.SaveCurrentLevelToJSON(true);
                     }
                 } else {
-                    if (e.keyCode == KeyCode.S) { // Ctrl + S
-                        if (LevelManager.Instance.LevelLoaded)
-                            LevelManager.Instance.SaveCurrentLevelToJSON();
+                    switch (e.keyCode) {
+                        case KeyCode.R:
+                            if (LevelManager.Instance.RedoStack.Count > 0)
+                                LevelManager.Instance.Redo();
+                            else {
+                                try {
+                                    Undo.PerformRedo();
+                                } catch (System.NullReferenceException) { }
+                            }
+                            e.Use();
+                            break;
+
+                        case KeyCode.S: // Ctrl + S
+                            if (LevelManager.Instance.LevelLoaded)
+                                LevelManager.Instance.SaveCurrentLevelToJSON();
+                            break;
+
+                        case KeyCode.Z: // Ctrl + Z
+                            if (LevelManager.Instance.UndoStack.Count > 0)
+                                LevelManager.Instance.Undo();
+                            else {
+                                try {
+                                    Undo.PerformUndo();
+                                } catch (System.NullReferenceException) { }
+                            }
+                            e.Use();
+                            break;
                     }
                 }
             }
@@ -537,20 +581,21 @@ public class LevelEditorWindow : EditorWindow {
 
         switch (LevelManager.Instance.CurrentTool) {
             case LevelManager.Tool.Select:
-                if (LevelManager.Instance.LevelLoaded &&
-                    LevelManager.Instance.CheckPlacement()) {
-                    var selectRay = HandleUtility.GUIPointToWorldRay(e.mousePosition);
+                if (LevelManager.Instance.LevelLoaded) {
+                    if (_hoveredObject) {
+                         LevelManager.Instance.SelectObject(_hoveredObject);
+                    } else LevelManager.Instance.DeselectObject();
+                    /*var selectRay = HandleUtility.GUIPointToWorldRay(e.mousePosition);
                     RaycastHit selectHit;
                     if (Physics.Raycast(selectRay, out selectHit)) {
                         var clickedObject = selectHit.collider.gameObject;
                         LevelManager.Instance.SelectObject(clickedObject);
-                    } else LevelManager.Instance.DeselectObject();
+                    } else LevelManager.Instance.DeselectObject();*/
                 } else LevelManager.Instance.DeselectObject();
                 break;
 
             case LevelManager.Tool.Place:
                 if (LevelManager.Instance.HasSelectedObjectForPlacement &&
-                    LevelManager.Instance.CheckPlacement() &&
                     LevelManager.Instance.CanPlaceAnotherCurrentObject()) {
                     if (LevelManager.Instance.SnapToGrid)
                         LevelManager.Instance.SnapCursor();
@@ -560,24 +605,26 @@ public class LevelEditorWindow : EditorWindow {
                 break;
 
             case LevelManager.Tool.Erase:
-                var eraseRay = HandleUtility.GUIPointToWorldRay(e.mousePosition);
+                if (_hoveredObject) LevelManager.Instance.DeleteObject (_hoveredObject, ActionType.Normal);
+                /*var eraseRay = HandleUtility.GUIPointToWorldRay(e.mousePosition);
                 RaycastHit eraseHit;
                 if (Physics.Raycast(eraseRay, out eraseHit)) {
                     var clickedObject = eraseHit.collider.gameObject;
                     var spawner = clickedObject.GetComponent<ObjectSpawner>();
                     if (spawner == null) spawner = clickedObject.GetComponentInAncestors<ObjectSpawner>();
                     if (spawner != null) LevelManager.Instance.DeleteObject(spawner.gameObject, ActionType.Normal);
-                }
+                }*/
                 break;
 
             case LevelManager.Tool.Move:
                 if (!LevelManager.Instance.IsMovingObject) { // Not currently moving
-                    var moveRay = HandleUtility.GUIPointToWorldRay(e.mousePosition);
+                    /*var moveRay = HandleUtility.GUIPointToWorldRay(e.mousePosition);
                     RaycastHit moveHit;
                     if (Physics.Raycast(moveRay, out moveHit)) {
                         var clickedObject = moveHit.collider.gameObject;
                         LevelManager.Instance.StartMovingObject(clickedObject);
-                    }
+                    }*/
+                    if (_hoveredObject) LevelManager.Instance.StartMovingObject (_hoveredObject);
                 } else { // Currently moving
                     LevelManager.Instance.StopMovingObject();
                 }

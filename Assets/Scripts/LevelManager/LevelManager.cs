@@ -123,7 +123,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// <summary>
     /// ID of object being moved.
     /// </summary>
-    int _movingObjectID = -1;
+    GameObject _movingObject;
 
     /// <summary>
     /// Original coordinates of object being moved;
@@ -344,7 +344,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// <summary>
     /// Returns true if an object is being moved (read-only).
     /// </summary>
-    public bool IsMovingObject { get { return _movingObjectID != -1; } }
+    public bool IsMovingObject { get { return _movingObject != null; } }
 
     #endregion
     #region Unity Callbacks
@@ -608,9 +608,9 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// Updates the editing plane according to the current floor and y-value.
     /// </summary>
     public void UpdateHeight() {
-        _editingPlane.SetNormalAndPosition(
-            new Vector3(0f, _selectedFloor * Level.FLOOR_HEIGHT + _currentYPosition, 0f),
-            Vector3.up);
+        _editingPlane.SetNormalAndPosition(Vector3.up,
+            new Vector3(0f, _selectedFloor * Level.FLOOR_HEIGHT + _currentYPosition, 0f)
+            );
     }
 
     /// <summary>
@@ -775,15 +775,15 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
                 break;
 
             case ActionType.Undo:
-                _redoStack.Push(new MoveObjectAction(obj, newPos, _movingObjectOriginalCoords));
+                _redoStack.Push(new MoveObjectAction(obj, newPos, oldPos));
                 break;
         }
 
-        var i = LevelIndexOfObject(obj);
-        _loadedLevel[_selectedFloor][i].SetPosition(newPos);
+        var attribs = AttributesOfObject (obj);
+        SetObjectPosition (obj, newPos, actionType);
     }
 
-    public void SetObjectPosition(GameObject obj, Vector3 pos, ActionType actionType) {
+    public void SetObjectPosition(GameObject obj,  Vector3 pos, ActionType actionType) {
         var attribs = AttributesOfObject(obj);
         attribs.SetPosition(pos);
         obj.transform.position = pos;
@@ -852,11 +852,10 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// Starts moving an object.
     /// </summary>
     public void StartMovingObject(GameObject obj) {
-        var data = GetAttributesOfObject(obj);
-        _movingObjectID = data.Index;
         ShowAssetPreview(obj);
-        _movingObjectOriginalCoords = data.Position;
-        DeleteObject(obj, ActionType.None);
+        _movingObjectOriginalCoords = obj.transform.position;
+        _movingObject = obj;
+        //DeleteObject(obj, ActionType.None);
     }
 
     /// <summary>
@@ -864,9 +863,10 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// </summary>
     public void StopMovingObject() {
         if (_placementAllowed) {
-            CreateObject((byte)_movingObjectID, _cursorPosition, ActionType.None);
-            _movingObjectID = -1;
-            DisablePreview();
+            //CreateObject((byte)_movingObjectID, _cursorPosition, ActionType.None);
+            //_movingObject.transform.position = _cursorPosition;
+            MoveObject (_movingObject, _movingObjectOriginalCoords, _cursorPosition, ActionType.Normal);
+            ResetMovingObject();
         }
     }
 
@@ -874,8 +874,10 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// Resets the object being moved.
     /// </summary>
     public void ResetMovingObject() {
-        CreateObject((byte)_movingObjectID, _movingObjectOriginalCoords, ActionType.None);
-        _movingObjectID = -1;
+        //CreateObject((byte)_movingObjectID, _movingObjectOriginalCoords, ActionType.None);
+        //_movingObjectID = -1;
+        _movingObject = null;
+        DisablePreview();
     }
 
     /// <summary>
