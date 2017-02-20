@@ -16,32 +16,32 @@ public class LevelEditorStyles {
 		},
 		alignment = TextAnchor.UpperCenter,
 		//border = new RectOffset
-		clipping = TextClipping.Clip,
-		//contentOffset
-		//fixedHeight
-		//fixedWidth
-		//focused
-		//font = 
-		fontSize = 24,
-		fontStyle = FontStyle.Bold,
-		//hover
-		//imagePosition
-		//lineHeight
-		margin = new RectOffset (0, 0, 16, 16),
-		name = "LevelEditorHeader",
-		//normal
-		//onActive
-		//onFocused
-		//onHover
-		//onNormal
-		//overflow = new RectOffset() {
-		//	bottom = 16
-		//},
-		//padding
-		//richText
-		stretchHeight = true,
-		stretchWidth = true,
-		wordWrap = false
+//		clipping = TextClipping.Clip,
+//		//contentOffset
+//		//fixedHeight
+//		//fixedWidth
+//		//focused
+//		//font = 
+//		fontSize = 24,
+//		fontStyle = FontStyle.Bold,
+//		//hover
+//		//imagePosition
+//		//lineHeight
+//		margin = new RectOffset (0, 0, 16, 16),
+//		name = "LevelEditorHeader",
+//		//normal
+//		//onActive
+//		//onFocused
+//		//onHover
+//		//onNormal
+//		//overflow = new RectOffset() {
+//		//	bottom = 16
+//		//},
+//		//padding
+//		//richText
+//		stretchHeight = true,
+//		stretchWidth = true,
+//		wordWrap = false
 	};
 
     /// <summary>

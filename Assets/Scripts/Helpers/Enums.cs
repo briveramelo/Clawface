@@ -41,6 +41,13 @@ public enum ModType {
     StunBaton=3
 }
 
+public enum ModCategory
+{
+    None = 0,
+    Melee = 1,
+    Ranged = 2
+}
+
 public enum CharacterType {
     ModMan=0,
     MallCop=1,
@@ -54,25 +61,27 @@ public enum Layers {
     Ground=11
 }
 
-enum MallCopState
-{
-    WALK = 0,
-    ATTACK = 1,
-    STUNNED = 2
+public enum PoolObjectType {
+    Mine=0,
+    MineExplosionEffect=1,
+    BlasterBullet=2,
+    BlasterImpactEffect=3,
+    MallCop=4,
+    TargetExplosionEffect=5,
+    BloodDecal=6,
+    BloodEmitter=7
 }
 
-public enum MallCopAnimationStates
-{
-    Idle = 0,
-    Walk = 1,
-    Swing = 2,
-    HitReaction = 3,
-    Stunned = 4,
-    GettingUp = 5,
-    DrawWeapon = 6,
-    Run = 7,
-    Shoot = 8
+public enum WeaponType {
+    Blaster=0,
+    Baton=1        
 }
+
+public enum VictimType {
+    MallCop=0,
+    WallOrGround=1
+}
+
 
 public enum MovementMode
 {

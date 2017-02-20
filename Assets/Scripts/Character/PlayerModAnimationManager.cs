@@ -9,24 +9,27 @@ public class PlayerModAnimationManager : MonoBehaviour {
         {ModType.StunBaton, PlayerAnimationStates.MeleeRight}
     };
         
-    Animator animator;
+    [SerializeField] Animator animator;
     bool isPlaying;
     Mod currentMod;
     bool modActive;
 
 	// Use this for initialization
 	void Start () {
-        animator = GetComponent<Animator>();
         modActive = false;
         isPlaying = false;
     }
 	
 	// Update is called once per frame
 	void Update () {
-        /*if (modActive)
+        if (!HitstopManager.Instance.IsInHitstop())
         {
-            currentMod.Activate();
-        }*/
+            animator.enabled = true;
+        }
+        else
+        {
+            animator.enabled = false;
+        }
 	}
 
     public void PlayModAnimation(Mod mod, bool isMoving)
@@ -34,7 +37,7 @@ public class PlayerModAnimationManager : MonoBehaviour {
         if (modToAnimationMap.ContainsKey(mod.getModType()))
         {
             if (!isPlaying)
-            {                
+            {
                 currentMod = mod;
                 int animationState = (int)modToAnimationMap[currentMod.getModType()];
                 if (mod.getModSpot() == ModSpot.ArmL)
@@ -48,19 +51,19 @@ public class PlayerModAnimationManager : MonoBehaviour {
                 if (animator.GetInteger(Strings.ANIMATIONSTATE) != animationState)
                 {
                     isPlaying = true;
-                    print("Playing mod animation "+ animationState);
-                    animator.SetInteger(Strings.ANIMATIONSTATE, animationState);                    
+                    animator.SetInteger(Strings.ANIMATIONSTATE, animationState);
                     StartCoroutine(WaitForAnimation());
-                }else
+                }
+                else
                 {
                     isPlaying = true;
-                    print("Playing mod animation "+ animationState);
                     PlayerAnimationStates state = (PlayerAnimationStates)animationState;
                     animator.Play(state.ToString(), -1, 0f);
                     StartCoroutine(WaitForAnimation());
                 }
             }
-        }else
+        }
+        else
         {
             mod.Activate();
         }
@@ -87,7 +90,6 @@ public class PlayerModAnimationManager : MonoBehaviour {
 
     public void AnimationDone()
     {
-        print("Done playing mod animation");
         isPlaying = false;
     }
 

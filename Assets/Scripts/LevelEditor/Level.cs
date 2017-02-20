@@ -3,97 +3,13 @@
 using UnityEngine;
 using UnityEngine.Events;
 using System;
-using System.Collections.Generic;
 
 /// <summary>
-/// Serializable level struct for easy network transfer.
+/// Serializable level class for easy network transfer.
 /// </summary>
 [Serializable]
 public class Level {
-
-    #region Nested Classes
-
-    /// <summary>
-    /// Floor class holds 3D object data.
-    /// </summary>
-    [Serializable]
-    public class Floor {
-
-        const int _MAX_OBJECTS = 1024;
-
-        /// <summary>
-        /// Byte values at each tile.
-        /// </summary>
-        //public ObjectAttributes[,,] values;
-        [SerializeField]
-        List<ObjectAttributes> _values;
-
-        /// <summary>
-        /// Default constructor -- initializes all byte values to byte.MaxValue
-        /// which represents empty space.
-        /// </summary>
-        public Floor() {
-            _values = new List<ObjectAttributes>();
-        }
-
-        /// <summary>
-        /// Direct accessor.
-        /// </summary>
-        public ObjectAttributes this[int i] {
-            get {
-                if (i < 0 || i >= _values.Count) {
-                    Debug.LogError("Invalid index: " + i);
-                    return default(ObjectAttributes);
-                }
-                return _values[i];
-            }
-            set { _values[i] = value; }
-        }
-
-        public void AddObject(int index, Vector3 position, int yRotation) {
-            _values.Add(new ObjectAttributes((byte)index, position, yRotation));
-        }
-
-        public void DeleteObject (int index) {
-            _values.RemoveAt (index);
-        }
-
-        public List<ObjectAttributes> Objects { get { return _values; } }
-    }
-
-    [Serializable]
-    public class ObjectAttributes {
-
-        [SerializeField]
-        public byte index;
-
-        [SerializeField]
-        public float x;
-
-        [SerializeField]
-        public float y;
-
-        [SerializeField]
-        public float z;
-
-        [SerializeField]
-        public int yRotation;
-
-        public ObjectAttributes(byte index, Vector3 position, int yRotation) {
-            this.index = index;
-            this.yRotation = yRotation;
-            this.x = position.x;
-            this.y = position.y;
-            this.z = position.z;
-        }
-
-        public Vector3 Position { get { return new Vector3(x, y, z); } }
-    }
-
-    [Serializable]
-    public class LevelEvent : UnityEvent { }
-
-    #endregion
+    
     #region Vars
 
     const string _DEFAULT_NAME = "New Level";
@@ -112,18 +28,7 @@ public class Level {
     /// All floor structures in the level.
     /// </summary>
     [SerializeField]
-    Floor[] _floors;
-
-    [SerializeField]
-    float _playerSpawnX = 0f;
-
-    [SerializeField]
-    float _playerSpawnY = 0f;
-
-    [SerializeField]
-    float _playerSpawnZ = 0f;
-
-    public LevelEvent onLevelComplete;
+    FloorArray _floors = new FloorArray();
 
     #endregion
     #region Constructors
@@ -133,11 +38,7 @@ public class Level {
     /// </summary>
     public Level() {
         _name = _DEFAULT_NAME;
-
-        _floors = new Floor[MAX_FLOORS];
-        for (int i = 0; i < MAX_FLOORS; i++) {
-            _floors[i] = new Floor();
-        }
+        _floors = new FloorArray();
     }
 
     #endregion
@@ -161,21 +62,6 @@ public class Level {
         get { return _floors[index]; }
     }
 
-    public Vector3 PlayerSpawnPosition {
-        get {
-            return new Vector3(
-                _playerSpawnX,
-                _playerSpawnY,
-                _playerSpawnZ);
-        }
-    }
-
-    public void SetPlayerSpawnPosition(Vector3 position) {
-        _playerSpawnX = position.x;
-        _playerSpawnY = position.y;
-        _playerSpawnZ = position.z;
-    }
-
     /// <summary>
     /// Places an object in the level.
     /// </summary>
@@ -191,21 +77,383 @@ public class Level {
         _floors[floor].DeleteObject (index);
     }
 
-    /// <summary>
-    /// Creates a LevelAsset wrapper for this level.
-    /// </summary>
-    public LevelAsset ToLevelAsset() {
-        var asset = ScriptableObject.CreateInstance<LevelAsset>();
-        asset.Pack(this);
-        return asset;
-    }
-
     #endregion
     #region Overrides
 
     public override string ToString() {
         return _name;
     }
+
+    #endregion
+    #region Nested Classes
+
+    /// <summary>
+    /// Floor class holds 3D object data.
+    /// </summary>
+    [Serializable]
+    public class Floor {
+
+        /// <summary>
+        /// Byte values at each tile.
+        /// </summary>
+        [SerializeField]
+        ObjectArray _objects = new ObjectArray();
+
+        /// <summary>
+        /// Direct accessor.
+        /// </summary>
+        public ObjectAttributes this[int i] {
+            get { return _objects[i]; }
+            set { _objects[i] = value; }
+        }
+
+        /// <summary>
+        /// Adds an object to this floor.
+        /// </summary>
+        public void AddObject(int index, Vector3 position, int yRotation) {
+            _objects.Add(new ObjectAttributes((byte)index, position, yRotation));
+        }
+
+        /// <summary>
+        /// Deletes an object from this floor.
+        /// </summary>
+        public void DeleteObject (int index) {
+            _objects.RemoveAt (index);
+        }
+
+        /// <summary>
+        /// Returns the array of objects on this floor.
+        /// </summary>
+        public ObjectArray Objects { get { return _objects; } }
+    }
+
+    /// <summary>
+    /// Serializable class wrapper for an array of floors.
+    /// </summary>
+    [Serializable]
+    public class FloorArray {
+
+        /// <summary>
+        /// All floors in this array.
+        /// </summary>
+        [SerializeField]
+        Floor[] _floors = new Floor[MAX_FLOORS];
+  
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
+        public FloorArray () {
+            for (int i = 0; i < MAX_FLOORS; i++)
+                _floors[i] = new Floor();
+        }
+
+        /// <summary>
+        /// Direct accessor.
+        /// </summary>
+        public Floor this[int i] {
+            get { return _floors[i]; }
+            set { _floors[i] = value; }
+        }
+    }
+
+    /// <summary>
+    /// Serializable class wrapper for an array of objects.
+    /// </summary>
+    [Serializable]
+    public class ObjectArray {
+
+        /// <summary>
+        /// Max number of objects on each floor.
+        /// </summary>
+        const int _MAX_OBJECTS_PER_FLOOR = 1024;
+
+        /// <summary>
+        /// Array of objects.
+        /// </summary>
+        [SerializeField]
+        ObjectAttributes[] _objects = new ObjectAttributes[_MAX_OBJECTS_PER_FLOOR];
+
+        /// <summary>
+        /// Direct accessor.
+        /// </summary>
+        public ObjectAttributes this[int i] {
+            get { return _objects[i]; }
+            set { _objects[i] = value; }
+        }
+
+        /// <summary>
+        /// Returns the maximum number of objects on this floor.
+        /// </summary>
+        public int Length { get { return _MAX_OBJECTS_PER_FLOOR; } }
+
+        /// <summary>
+        /// Adds an object to this floor.
+        /// This is O(n), so don't call this too frequently.
+        /// </summary>
+        public void Add (ObjectAttributes obj) {
+            if (obj.Index == byte.MaxValue)
+                throw new IndexOutOfRangeException ("Invalid index!" + obj.Index);
+
+            // Look for an empty slot
+            for (int i = 0; i < _MAX_OBJECTS_PER_FLOOR; i++)
+                if (_objects[i] == null || _objects[i].Index == byte.MaxValue) {
+                    _objects[i] = obj;
+                    return;
+                }
+
+            throw new IndexOutOfRangeException ("Too many objects!");
+        }
+
+        /// <summary>
+        /// Removes the object at the given index.
+        /// </summary>
+        public void RemoveAt (int i) {
+            _objects[i] = null;
+        }
+    }
+
+    /// <summary>
+    /// Serializable class wrapper for an array of attributes.
+    /// </summary>
+    [Serializable]
+    public class AttributeArray {
+
+        /// <summary>
+        /// Maximum number of "special" attributes an object can have.
+        /// </summary>
+        public const int MAX_OBJECT_ATTRIBUTES = 8;
+
+        /// <summary>
+        /// Array of special attributes.
+        /// </summary>
+        [SerializeField]
+        SerializeableStringPair[] _attributes = 
+            new SerializeableStringPair[MAX_OBJECT_ATTRIBUTES];
+
+        /// <summary>
+        /// Direct accessor.
+        /// </summary>
+        public SerializeableStringPair this[int i] {
+            get { return _attributes[i]; }
+            set { _attributes[i] = value; }
+        }
+
+        /// <summary>
+        /// Adds a special property to this object.
+        /// </summary>
+        public void Add (SerializeableStringPair pair) {
+            for (int i = 0; i < MAX_OBJECT_ATTRIBUTES; i++)
+                if (_attributes[i] == null) {
+                    _attributes[i] = pair;
+                    return;
+                }
+        }
+
+        public override string ToString() {
+            string result = "";
+            for (int i = 0; i < MAX_OBJECT_ATTRIBUTES; i++) {
+                var attribute = _attributes[i];
+                if (attribute == null) continue;
+
+                if (i > 0) result += "\n";
+                result += attribute.ToString();
+            }
+            return result;
+        }
+    }
+
+    /// <summary>
+    /// Serializable class to represent object attributes.
+    /// </summary>
+    [Serializable]
+    public class ObjectAttributes {
+
+        [SerializeField] byte _index = byte.MaxValue;
+        [SerializeField] float _posX;
+        [SerializeField] float _posY;
+        [SerializeField] float _posZ;
+        [SerializeField] float _rotX = 0f;
+        [SerializeField] float _rotY;
+        [SerializeField] float _rotZ = 0f;
+        [SerializeField] float _scaleX = 1f;
+        [SerializeField] float _scaleY = 1f;
+        [SerializeField] float _scaleZ = 1f;
+
+        /// <summary>
+        /// Special attributes.
+        /// </summary>
+        [SerializeField]
+        AttributeArray _attributes = new AttributeArray();
+
+        /// <summary>
+        /// Default constructor.
+        /// !! Needed for proper serialization !!
+        /// </summary>
+        public ObjectAttributes () {
+            _index = byte.MaxValue;
+        }
+
+        public ObjectAttributes(byte index, Vector3 position, int yRotation) {
+            _index = index;
+            _posX = position.x;
+            _posY = position.y;
+            _posZ = position.z;
+            _rotY = yRotation;
+            //Debug.Log (this.ToString());
+        }
+
+        /// <summary>
+        /// Returns the index of this object (read-only).
+        /// </summary>
+        public byte Index { get { return _index; } }
+
+        /// <summary>
+        /// Returns the 3D position of this object (read-only).
+        /// </summary>
+        public Vector3 Position {
+            get { return new Vector3(_posX, _posY, _posZ); }
+        }
+
+        /// <summary>
+        /// Returns the euler rotation of this object (read-only).
+        /// </summary>
+        public Vector3 EulerRotation {
+            get { return new Vector3 ( _rotX, _rotY, _rotZ); }
+        }
+
+        /// <summary>
+        /// Gets/sets the y-rotation of this object.
+        /// </summary>
+        public float RotationY {
+            get { return _rotY; }
+            set { _rotY = value; }
+        }
+
+        /// <summary>
+        /// Returns the 3D scale of this object (read-only).
+        /// </summary>
+        public Vector3 Scale { get {
+                return new Vector3 (_scaleX, _scaleY, _scaleZ);
+        } }
+
+        /// <summary>
+        /// Gets/sets the x-scale of this object.
+        /// </summary>
+        public float ScaleX {
+            get { return _scaleX; }
+            set { _scaleX = value; }
+        }
+
+        /// <summary>
+        /// Gets/sets the y-scale of this object.
+        /// </summary>
+        public float ScaleY {
+            get { return _scaleY; }
+            set { _scaleY = value; }
+        }
+
+        /// <summary>
+        /// Gets/sets the z-scale of this object.
+        /// </summary>
+        public float ScaleZ {
+            get { return _scaleZ; }
+            set { _scaleZ = value; }
+        }
+
+        /// <summary>
+        /// Returns the value of the attribute with the given name as a byte.
+        /// </summary>
+        public byte GetAttributeAsByte (string attribName) {
+            for (int i = 0; i < AttributeArray.MAX_OBJECT_ATTRIBUTES; i++) {
+                var attribute = _attributes[i];
+                if (attribute.Key == attribName) {
+                    byte result;
+                    if (byte.TryParse (attribute.Value, out result))
+                        return result;
+                    else
+                        throw new NullReferenceException ("Failed to parse attribute \'" + attribName + "\' as byte!");
+                }
+            }
+
+            throw new NullReferenceException ("Attribute \'" + attribName + "\' not found!");
+        }
+
+        /// <summary>
+        /// Returns the value of the attribute with the given name as a float.
+        /// </summary>
+        public float GetAttributeAsFloat (string attribName) {
+            for (int i = 0; i < AttributeArray.MAX_OBJECT_ATTRIBUTES; i++) {
+                var attribute = _attributes[i];
+                if (attribute.Key == attribName) {
+                    float result;
+                    if (float.TryParse (attribute.Value, out result))
+                        return result;
+                    else throw new NullReferenceException ("Failed to parse attribute \'" + attribName + "\' as float!");
+                }
+            }
+
+            throw new NullReferenceException ("Attribute \'" + attribName + "\' not found!");
+        }
+
+        /// <summary>
+        /// Returns the value of the attribute with the given name as a string.
+        /// </summary>
+        public string GetAttributeAsString (string attribName) {
+            for (int i = 0; i < AttributeArray.MAX_OBJECT_ATTRIBUTES; i++) {
+                var attribute = _attributes[i];
+                if (attribute.Key == attribName)
+                    return attribute.Value;
+            }
+
+            throw new NullReferenceException ("Attribute \'" + attribName + "\' not found!");
+        }
+
+        /// <summary>
+        /// Sets the value of the attribute with the given name.
+        /// </summary>
+        public void SetAttribute (string attribName, string newValue) {
+            for (int i = 0; i < AttributeArray.MAX_OBJECT_ATTRIBUTES; i++) {
+                var attribute = _attributes[i];
+                if (attribute.Key == attribName) {
+                    attribute.SetValue(newValue);
+                    return;
+                }
+            }
+
+            throw new NullReferenceException ("Attribute \'" + attribName + "\' not found!");
+        }
+
+        /// <summary>
+        /// Sets the 3D position of this object.
+        /// </summary>
+        public void SetPosition (Vector3 pos) {
+            _posX = pos.x;
+            _posY = pos.y;
+            _posZ = pos.z;
+        }
+
+        public void SetEulerRotation (Vector3 euler) {
+            _rotX = euler.x;
+            _rotY = euler.y;
+            _rotZ = euler.z;
+        }
+
+        public void Set3DScale (Vector3 scale) {
+            _scaleX = scale.x;
+            _scaleY = scale.y;
+            _scaleZ = scale.z;
+        }
+
+        public override string ToString() {
+            return _attributes.ToString();
+        }
+    }
+
+    /// <summary>
+    /// Events thrown by the level.
+    /// </summary>
+    [Serializable]
+    public class LevelEvent : UnityEvent { }
 
     #endregion
 }

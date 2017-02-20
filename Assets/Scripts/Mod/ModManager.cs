@@ -7,32 +7,25 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ModManager : MonoBehaviour
-{
-    class ModSocket {
-        public Transform socket;
-        public Mod mod;
-        public ModSocket(Transform i_socket) {
-            socket = i_socket;
-        }
-    }
+{    
 
-    [SerializeField] Transform headSocket, leftArmSocket, rightArmSocket, legsSocket;
-    [SerializeField] Stats playerStats;
+    [SerializeField] private Transform headSocket, leftArmSocket, rightArmSocket, legsSocket;
+    [SerializeField] private Stats playerStats;
 
     [SerializeField]
     private PlayerMovement playerMovement;
 
-    Dictionary<ModSpot, ModSocket> modSocketDictionary;
-    ModSpot modToSwap;
-    ModSpot lastModToSwap;
-    bool isOkToDropMod = true;
-    bool isOkToSwapMods = true;
+    private Dictionary<ModSpot, ModSocket> modSocketDictionary;
+    private ModSpot modToSwap;
+    private ModSpot lastModToSwap;
+    private bool isOkToDropMod = true;
+    private bool isOkToSwapMods = true;
 
     [SerializeField]
-    float triggerThreshold;
+    private float triggerThreshold;
 
     // Use this for initialization
-    void Start()
+    private void Start()
     {
         modSocketDictionary = new Dictionary<ModSpot, ModSocket>();
         modSocketDictionary.Add(ModSpot.Head, new ModSocket(headSocket));
@@ -42,7 +35,7 @@ public class ModManager : MonoBehaviour
         modToSwap = ModSpot.Default;
     }
 
-    void Update() {        
+    private void Update() {        
         if (isOkToDropMod) {
             CheckToDropMod();
         }
@@ -51,6 +44,22 @@ public class ModManager : MonoBehaviour
             CheckToSwapMods();
         }
         CheckToActivateMod();
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.tag == Strings.MOD)
+        {
+            if (Input.GetButton(Strings.PREPARETOPICKUPORDROP))
+            {
+                ModSpot commandedModSpot = GetCommandedModSpot();
+
+                if (commandedModSpot != ModSpot.Default && modSocketDictionary[commandedModSpot].mod == null)
+                {
+                    CheckToAttachMod(commandedModSpot, other.GetComponent<Mod>());
+                }
+            }
+        }
     }
 
     private void CheckToActivateMod()
@@ -62,6 +71,10 @@ public class ModManager : MonoBehaviour
             {                
                 if (modSocketDictionary[spot].mod != null)
                 {
+                    if(modSocketDictionary[spot].mod.getModCategory() == ModCategory.Melee)
+                    {
+                        playerMovement.DoMeleePounce();
+                    }
                     playerMovement.PlayAnimation(modSocketDictionary[spot].mod);
                 }
             }
@@ -78,18 +91,18 @@ public class ModManager : MonoBehaviour
         {
             return ModSpot.Legs;
         }
-        if (Input.GetButtonDown(Strings.LEFT) || Input.GetAxis(Strings.LEFTTRIGGER) != triggerThreshold)
+        if (Input.GetButtonDown(Strings.LEFT))
         {
             return ModSpot.ArmL;
         }
-        if (Input.GetButtonDown(Strings.RIGHT) || Input.GetAxis(Strings.RIGHTTRIGGER) != triggerThreshold)
+        if (Input.GetButtonDown(Strings.RIGHT))
         {
             return ModSpot.ArmR;
         }        
         return ModSpot.Default;
     }
 
-    void CheckToDropMod()
+    private void CheckToDropMod()
     {   
         if (Input.GetButton(Strings.PREPARETOPICKUPORDROP)) {
             ModSpot spotSelected = GetCommandedModSpot();            
@@ -112,7 +125,7 @@ public class ModManager : MonoBehaviour
         }
     }
 
-    void SetAllModUIToIdle() {
+    private void SetAllModUIToIdle() {
         foreach (ModSpot modSpot in Enum.GetValues(typeof(ModSpot))) {
             if (modSpot!=ModSpot.Default) {
                 ModUIManager.Instance.SetUIState(modSpot, ModUIState.IDLE);
@@ -130,20 +143,6 @@ public class ModManager : MonoBehaviour
         }
     }
 
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.tag == Strings.MOD)
-        {
-            if (Input.GetButton(Strings.PREPARETOPICKUPORDROP))
-            {
-                ModSpot commandedModSpot = GetCommandedModSpot();
-
-                if (commandedModSpot != ModSpot.Default && modSocketDictionary[commandedModSpot].mod==null){
-                    CheckToAttachMod(commandedModSpot, other.GetComponent<Mod>());
-                }
-            }
-        }
-    }
 
     private void CheckToAttachMod(ModSpot commandedModSpot, Mod modToAttach) {
         if (modSocketDictionary[commandedModSpot].mod != modToAttach) {
@@ -170,12 +169,12 @@ public class ModManager : MonoBehaviour
         StartCoroutine(DelayIsOkToDropMod());
     }
 
-    IEnumerator DelayIsOkToDropMod() {
+    private IEnumerator DelayIsOkToDropMod() {
         isOkToDropMod = false;
         yield return new WaitForEndOfFrame();
         isOkToDropMod = true;
     }
-    IEnumerator DelayIsOkToSwapMods() {
+    private IEnumerator DelayIsOkToSwapMods() {
         isOkToSwapMods = false;
         yield return new WaitForEndOfFrame();
         isOkToSwapMods = true;
@@ -234,5 +233,15 @@ public class ModManager : MonoBehaviour
             }
         }
         return spot;
+    }
+
+    private class ModSocket
+    {
+        public Transform socket;
+        public Mod mod;
+        public ModSocket(Transform i_socket)
+        {
+            socket = i_socket;
+        }
     }
 }
