@@ -32,7 +32,6 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
     private GameObject attackTarget;
     private float rotationMultiplier;
     private Vector3 startStunPosition;
-    private Vector3 velocity;
     private List<Vector3> externalForces;
     private int stunCount;
     private bool isGlowing = false;
@@ -68,36 +67,27 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
         mod.setModSpot(ModSpot.ArmR);
         mod.AttachAffect(ref myStats, ref dummy);
 
-        HitstopManager.Instance.OnStopEvent += OnEndHitstop;
+        //HitstopManager.Instance.OnStopEvent += OnEndHitstop;
     }    
 
     // Update is called once per frame
     void Update ()
     {
-        if (!HitstopManager.Instance.IsInHitstop())
+        isGrounded = IsGrounded();
+        if (myStats.GetStat(StatType.Health) > 0)
         {
-            isGrounded = IsGrounded();
-            if (myStats.GetStat(StatType.Health) > 0)
+            switch (currentState)
             {
-                switch (currentState)
-                {
-                    case MallCopState.WALK:
-                        Walk();
-                        break;
-                    case MallCopState.ATTACK:
-                        Attack();
-                        break;
-                    case MallCopState.STUNNED:
-                        Twitch();
-                        break;
-                }
-                //velocity = rigbod.velocity;
+                case MallCopState.WALK:
+                    Walk();
+                    break;
+                case MallCopState.ATTACK:
+                    Attack();
+                    break;
+                case MallCopState.STUNNED:
+                    Twitch();
+                    break;
             }
-        }
-        else
-        {
-            animator.enabled = false;
-            rigbod.velocity = new Vector3(0f, 0f, 0f);
         }
     }
 

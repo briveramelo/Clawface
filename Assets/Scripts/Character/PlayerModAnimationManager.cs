@@ -19,18 +19,6 @@ public class PlayerModAnimationManager : MonoBehaviour {
         modActive = false;
         isPlaying = false;
     }
-	
-	// Update is called once per frame
-	void Update () {
-        if (!HitstopManager.Instance.IsInHitstop())
-        {
-            animator.enabled = true;
-        }
-        else
-        {
-            animator.enabled = false;
-        }
-	}
 
     public void PlayModAnimation(Mod mod, bool isMoving)
     {
