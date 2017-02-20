@@ -21,6 +21,9 @@ public class LevelEditorWindow : EditorWindow {
     const float _OBJECT_EDITOR_WIDTH = 128f;
     const float _OBJECT_EDITOR_HEIGHT = 256f;
 
+    const float _OBJECT_EDITOR_OFFSET_X = 8f;
+    const float _OBJECT_EDITOR_OFFSET_Y = 8f;
+
     const float _TOOLBAR_WIDTH_PERCENT = 0.6f;
     const float _TOOLBAR_HEIGHT_PERCENT = 0.1f;
     const float _TOOLBAR_UNDO_REDO_PERCENT = 0.15f;
@@ -75,6 +78,8 @@ public class LevelEditorWindow : EditorWindow {
     /// Allow non-uniform scale on objects?
     /// </summary>
     bool _allowNonUniformScale = false;
+
+    GameObject _hoveredObject;
 
     Vector3 _originalRotation;
     Vector3 _originalScale;
@@ -152,7 +157,7 @@ public class LevelEditorWindow : EditorWindow {
     #endregion
     #region Methods
 
-    void OnEnableEditor () {
+    void OnEnableEditor() {
         //Debug.Log("LevelEditorWindow.OnEnableEditor");
         LevelManager.onSingletonInitialized.AddListener(ConnectToLevelManager);
 
@@ -164,7 +169,7 @@ public class LevelEditorWindow : EditorWindow {
         SceneView.onSceneGUIDelegate += DrawRoomBounds;
     }
 
-    void OnEnablePlayer () {
+    void OnEnablePlayer() {
         //Debug.Log("LevelEditorWindow.OnEnablePlayer");
     }
 
@@ -260,7 +265,7 @@ public class LevelEditorWindow : EditorWindow {
     /// <summary>
     /// Closes the current level, saving its path.
     /// </summary>
-    void CloseLevelAndKeepPath () {
+    void CloseLevelAndKeepPath() {
         var path = LevelManager.Instance.LoadedLevelPath;
         CloseLevel();
         EditorPrefs.SetString(LevelManager.LAST_EDITED_LEVEL_STR, path);
@@ -482,13 +487,22 @@ public class LevelEditorWindow : EditorWindow {
                 LevelManager.Instance.SetCursorPosition(cursorPos);
             }
 
+            if (LevelManager.Instance.CurrentTool != LevelManager.Tool.Place) {
+
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit)) {
+                    ObjectSpawner spawner = hit.collider.gameObject.GetComponentInAncestors<ObjectSpawner>();
+                    if (spawner != null) _hoveredObject = spawner.gameObject;
+                } else _hoveredObject = null;
+            }
+
             // Force a repaint to show changes
             SceneView.RepaintAll();
         }
     }
 
-    public void HandleLeftDownOnButton () {
-        Debug.Log ("down");
+    public void HandleLeftDownOnButton() {
+        //Debug.Log ("down");
         var selectedObject = LevelManager.Instance.SelectedObject;
         if (selectedObject != null) {
             _originalRotation = selectedObject.transform.localRotation.eulerAngles;
@@ -496,19 +510,19 @@ public class LevelEditorWindow : EditorWindow {
         }
     }
 
-    public void HandleLeftUpOnButton () {
-        Debug.Log("up");
+    public void HandleLeftUpOnButton() {
+        //Debug.Log("up");
 
         // Record attribute change if necessary
         var selectedObject = LevelManager.Instance.SelectedObject;
         if (selectedObject != null) {
             var newRot = selectedObject.transform.localRotation.eulerAngles;
             if (_originalRotation != newRot) {
-                LevelManager.Instance.RecordAttributeChange (selectedObject, ChangeObjectNormalAttributeAction.AttributeChanged.Rotation, _originalRotation, newRot, ActionType.Normal);
+                LevelManager.Instance.RecordAttributeChange(selectedObject, ChangeObjectNormalAttributeAction.AttributeChanged.Rotation, _originalRotation, newRot, ActionType.Normal);
             } else {
                 var newScale = selectedObject.transform.localScale;
                 if (_originalScale != newScale) {
-                    LevelManager.Instance.RecordAttributeChange (selectedObject, ChangeObjectNormalAttributeAction.AttributeChanged.Scale, _originalScale, newScale, ActionType.Normal);
+                    LevelManager.Instance.RecordAttributeChange(selectedObject, ChangeObjectNormalAttributeAction.AttributeChanged.Scale, _originalScale, newScale, ActionType.Normal);
                 }
             }
         }
@@ -518,9 +532,8 @@ public class LevelEditorWindow : EditorWindow {
     /// Handles left click events.
     /// </summary>
     public void HandleLeftUp(Event e, Camera camera) {
-        
+
         if (MouseOverUI()) return;
-        //if (_lastMouseMoveWasDrag) return;
 
         switch (LevelManager.Instance.CurrentTool) {
             case LevelManager.Tool.Select:
@@ -551,7 +564,9 @@ public class LevelEditorWindow : EditorWindow {
                 RaycastHit eraseHit;
                 if (Physics.Raycast(eraseRay, out eraseHit)) {
                     var clickedObject = eraseHit.collider.gameObject;
-                    LevelManager.Instance.DeleteObject(clickedObject, ActionType.Normal);
+                    var spawner = clickedObject.GetComponent<ObjectSpawner>();
+                    if (spawner == null) spawner = clickedObject.GetComponentInAncestors<ObjectSpawner>();
+                    if (spawner != null) LevelManager.Instance.DeleteObject(spawner.gameObject, ActionType.Normal);
                 }
                 break;
 
@@ -600,8 +615,8 @@ public class LevelEditorWindow : EditorWindow {
         if (LevelManager.Instance.LevelLoaded) {
 
             DrawSceneViewSidePanel();
-            DrawUndoStack();
-            DrawRedoStack();
+            //DrawUndoStack();
+            //DrawRedoStack();
 
             // Draw object editor (?)
             if (LevelManager.Instance.HasSelectedObject) {
@@ -613,15 +628,15 @@ public class LevelEditorWindow : EditorWindow {
                 var yMax = sc.camera.pixelHeight - _OBJECT_EDITOR_HEIGHT / 2;
 
                 var objectEditorScreenPoint = HandleUtility.WorldToGUIPoint(selectedObject.transform.position);
-                objectEditorScreenPoint.x = Mathf.Clamp(objectEditorScreenPoint.x, xMin, xMax);
-                objectEditorScreenPoint.y = Mathf.Clamp(objectEditorScreenPoint.y, yMin, yMax);
+                objectEditorScreenPoint.x = Mathf.Clamp(objectEditorScreenPoint.x + _OBJECT_EDITOR_OFFSET_X, xMin, xMax);
+                objectEditorScreenPoint.y = Mathf.Clamp(objectEditorScreenPoint.y + _OBJECT_EDITOR_OFFSET_Y, yMin, yMax);
                 _objectEditorRect = new Rect(
                     objectEditorScreenPoint.x - xMin,
                     objectEditorScreenPoint.y - yMin,
                     _OBJECT_EDITOR_WIDTH, _OBJECT_EDITOR_WIDTH);
 
-                GUILayout.Window(0, _objectEditorRect, DrawObjectEditor, selectedObject.name, GUILayout.Width (_objectEditorRect.width), GUILayout.Height (_objectEditorRect.height));
-            }
+                GUILayout.Window(0, _objectEditorRect, DrawObjectEditor, selectedObject.name, GUILayout.Width(_objectEditorRect.width), GUILayout.Height(_objectEditorRect.height));
+            } else _objectEditorRect = new Rect(0f, 0f, 0f, 0f);
         }
 
         Handles.EndGUI();
@@ -634,6 +649,41 @@ public class LevelEditorWindow : EditorWindow {
         if (!LevelManager.Instance.PreviewActive) return;
 
         var cursorPos = LevelManager.Instance.CursorPosition;
+
+        if (_hoveredObject) {
+            Color color = Color.black;
+            switch (LevelManager.Instance.CurrentTool) {
+                case LevelManager.Tool.Select:
+                    color = Color.cyan;
+                    break;
+
+                case LevelManager.Tool.Erase:
+                    color = Color.magenta;
+                    break;
+
+                case LevelManager.Tool.Move:
+                    color = Color.blue;
+                    break;
+            }
+
+            //DrawCube(_hoveredObject.transform.position, 
+            //    _hoveredObject.transform.localScale.Max() * 1.05f, 
+            //    _hoveredObject.transform.localRotation.eulerAngles.y, color);
+
+            Handles.color = color;
+            Handles.DrawSolidDisc (_hoveredObject.transform.position, Vector3.up, _hoveredObject.transform.localScale.Max() / 2f);
+        }
+
+        var selectedObject = LevelManager.Instance.SelectedObject;
+        if (selectedObject) {
+            DrawCube(selectedObject.transform.position, selectedObject.transform.localScale.Max() * 1.05f, selectedObject.transform.localEulerAngles.y, Color.cyan);
+            var ray = HandleUtility.GUIPointToWorldRay(_objectEditorRect.position);
+            float d;
+            if (LevelManager.Instance.EditingPlane.Raycast(ray, out d)) {
+                Handles.color = Color.cyan;
+                Handles.DrawLine(ray.GetPoint(d), selectedObject.transform.position);
+            }
+        }
 
         switch (LevelManager.Instance.CurrentTool) {
             case LevelManager.Tool.Select:
@@ -916,8 +966,6 @@ public class LevelEditorWindow : EditorWindow {
         GUILayout.EndArea();
     }
 
-    bool yRotButtonDown = false;
-
     /// <summary>
     /// Draws the object attribute editor.
     /// </summary>
@@ -926,20 +974,20 @@ public class LevelEditorWindow : EditorWindow {
         var attribs = LevelManager.Instance.AttributesOfObject(selectedObject);
 
         // Rotation label
-        GUILayout.Label ("Rotation", EditorStyles.whiteLabel);
-        float yRotation = EditorGUILayout.FloatField ("Rotation", attribs.RotationY);
-        
+        GUILayout.Label("Rotation", EditorStyles.whiteLabel);
+        float yRotation = EditorGUILayout.FloatField("Rotation", attribs.RotationY);
+
         if (yRotation != attribs.RotationY) {
             var rot = attribs.EulerRotation;
             rot.y = yRotation;
-            LevelManager.Instance.SetObjectEulerRotation (selectedObject, rot, ActionType.Normal);
+            LevelManager.Instance.SetObjectEulerRotation(selectedObject, rot, ActionType.Normal);
         }
 
         // Scale label
         GUILayout.Label("Scale", EditorStyles.whiteBoldLabel);
 
         GUILayout.BeginHorizontal();
-        GUILayout.Label ("Allow non-uniform scale", EditorStyles.whiteLabel);
+        GUILayout.Label("Allow non-uniform scale", EditorStyles.whiteLabel);
 
         // Allow non uniform scale checkbox
         //_allowNonUniformScale = GUILayout.Toggle(_allowNonUniformScale, "Allow non-uniform scale", EditorStyles.whiteLabel);
@@ -954,7 +1002,7 @@ public class LevelEditorWindow : EditorWindow {
             if (scaleX != attribs.ScaleX) {
                 var scale = selectedObject.transform.localScale;
                 scale.x = scaleX;
-                LevelManager.Instance.SetObject3DScale (selectedObject, scale, ActionType.Normal);
+                LevelManager.Instance.SetObject3DScale(selectedObject, scale, ActionType.Normal);
             }
 
             // Y scale
@@ -962,7 +1010,7 @@ public class LevelEditorWindow : EditorWindow {
             if (scaleY != attribs.ScaleY) {
                 var scale = selectedObject.transform.localScale;
                 scale.y = scaleY;
-                LevelManager.Instance.SetObject3DScale (selectedObject, scale, ActionType.Normal);
+                LevelManager.Instance.SetObject3DScale(selectedObject, scale, ActionType.Normal);
             }
 
             // Z scale
@@ -970,7 +1018,7 @@ public class LevelEditorWindow : EditorWindow {
             if (scaleZ != attribs.ScaleZ) {
                 var scale = selectedObject.transform.localScale;
                 scale.z = scaleZ;
-                LevelManager.Instance.SetObject3DScale (selectedObject, scale, ActionType.Normal);
+                LevelManager.Instance.SetObject3DScale(selectedObject, scale, ActionType.Normal);
             }
             GUILayout.EndVertical();
 
@@ -982,7 +1030,7 @@ public class LevelEditorWindow : EditorWindow {
                 attribs.ScaleY = scale;
                 attribs.ScaleZ = scale;
                 var scaleVec = new Vector3(scale, scale, scale);
-                LevelManager.Instance.SetObject3DScale (selectedObject, scaleVec, ActionType.Normal);
+                LevelManager.Instance.SetObject3DScale(selectedObject, scaleVec, ActionType.Normal);
             }
         }
     }
