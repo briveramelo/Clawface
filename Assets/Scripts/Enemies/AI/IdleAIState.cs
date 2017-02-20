@@ -14,7 +14,17 @@ public class IdleAIState : IAIState
     public override void Update()
     {
         if (m_Position == Vector3.zero)
+        {
+            m_CharacterAI.UpdateAnimationTo(AnimationStates.Walk);
             GetMovePosition();
+        }
+
+
+        if(m_CharacterAI.TargetInAttackRange())
+        {
+            m_CharacterAI.StopMove();
+            m_CharacterAI.ChangeAIState(new AttackAIState());
+        }
 
         m_CharacterAI.MoveTo(m_Position);
 

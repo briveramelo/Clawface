@@ -11,7 +11,7 @@ public abstract class IAIState
 
     }
 
-    public void setCharacterAI(ICharacterAI i_CharacterAI)
+    public void SetCharacterAI(ICharacterAI i_CharacterAI)
     {
         m_CharacterAI = i_CharacterAI;
     }

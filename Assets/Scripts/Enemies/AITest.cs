@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class AITest : MonoBehaviour
 {
-    LaiCap lai = new LaiCap();
+    public GameObject player;
+    LaiCop lai;
+
 
 	// Use this for initialization
 	void Start ()
     {
+        lai = new LaiCop(player);
         lai.SetGameObject(gameObject);
         lai.SetAI(new EnemyAI(lai));
     }
