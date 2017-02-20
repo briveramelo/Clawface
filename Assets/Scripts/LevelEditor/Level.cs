@@ -432,6 +432,18 @@ public class Level {
             _posZ = pos.z;
         }
 
+        public void SetEulerRotation (Vector3 euler) {
+            _rotX = euler.x;
+            _rotY = euler.y;
+            _rotZ = euler.z;
+        }
+
+        public void Set3DScale (Vector3 scale) {
+            _scaleX = scale.x;
+            _scaleY = scale.y;
+            _scaleZ = scale.z;
+        }
+
         public override string ToString() {
             return _attributes.ToString();
         }

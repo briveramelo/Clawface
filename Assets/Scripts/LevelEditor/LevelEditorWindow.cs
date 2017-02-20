@@ -76,6 +76,9 @@ public class LevelEditorWindow : EditorWindow {
     /// </summary>
     bool _allowNonUniformScale = false;
 
+    Vector3 _originalRotation;
+    Vector3 _originalScale;
+
     /// <summary>
     /// Connected LM.
     /// </summary>
@@ -119,12 +122,19 @@ public class LevelEditorWindow : EditorWindow {
                     "Do you wish to save the current level?",
                     "Save", "Don't Save"))
                     LevelManager.Instance.SaveCurrentLevelToJSON();
+
+                CloseLevelAndKeepPath();
             }
 
-            // Closing window (instead of playing)
-            CloseLevelAndKeepPath();
             DisconnectFromLevelManager();
         }
+
+        // Deregister delegates
+        SceneView.onSceneGUIDelegate -= DrawGrid;
+        SceneView.onSceneGUIDelegate -= HandleInputs;
+        SceneView.onSceneGUIDelegate -= DrawCursor;
+        SceneView.onSceneGUIDelegate -= DrawSceneViewGUI;
+        SceneView.onSceneGUIDelegate -= DrawRoomBounds;
     }
 
     void OnGUI() {
@@ -145,6 +155,13 @@ public class LevelEditorWindow : EditorWindow {
     void OnEnableEditor () {
         //Debug.Log("LevelEditorWindow.OnEnableEditor");
         LevelManager.onSingletonInitialized.AddListener(ConnectToLevelManager);
+
+        // Register delegates
+        SceneView.onSceneGUIDelegate += DrawGrid;
+        SceneView.onSceneGUIDelegate += HandleInputs;
+        SceneView.onSceneGUIDelegate += DrawCursor;
+        SceneView.onSceneGUIDelegate += DrawSceneViewGUI;
+        SceneView.onSceneGUIDelegate += DrawRoomBounds;
     }
 
     void OnEnablePlayer () {
@@ -164,13 +181,6 @@ public class LevelEditorWindow : EditorWindow {
         LevelManager.Instance.onCreateLevel.AddListener(CheckLevelLoaded);
         LevelManager.Instance.onLoadLevel.AddListener(CheckLevelLoaded);
         LevelManager.Instance.onSaveLevel.AddListener(CheckLevelLoaded);
-
-        // Register delegates
-        SceneView.onSceneGUIDelegate += DrawGrid;
-        SceneView.onSceneGUIDelegate += HandleInputs;
-        SceneView.onSceneGUIDelegate += DrawCursor;
-        SceneView.onSceneGUIDelegate += DrawSceneViewGUI;
-        SceneView.onSceneGUIDelegate += DrawRoomBounds;
     }
 
     /// <summary>
@@ -376,13 +386,6 @@ public class LevelEditorWindow : EditorWindow {
         if (LevelManager.Instance.LevelLoaded)
             LevelManager.Instance.CloseLevel();
         _levelManager = null;
-
-        // Deregister delegates
-        SceneView.onSceneGUIDelegate -= DrawGrid;
-        SceneView.onSceneGUIDelegate -= HandleInputs;
-        SceneView.onSceneGUIDelegate -= DrawCursor;
-        SceneView.onSceneGUIDelegate -= DrawSceneViewGUI;
-        SceneView.onSceneGUIDelegate -= DrawRoomBounds;
     }
 
     /// <summary>
@@ -399,7 +402,7 @@ public class LevelEditorWindow : EditorWindow {
         // No idea why this works, but this allows 
         // MouseUp events to be processed for left mouse button.
         // It also disables default handles.
-        if (e.type == EventType.layout) {
+        if (e.rawType == EventType.layout) {
             HandleUtility.AddDefaultControl(GUIUtility.GetControlID(GetHashCode(), FocusType.Passive));
             return;
         }
@@ -427,7 +430,7 @@ public class LevelEditorWindow : EditorWindow {
 
             HandleMouseMove(e);
 
-            if (e.type == EventType.layout)
+            if (e.rawType == EventType.layout)
                 HandleUtility.AddDefaultControl(GUIUtility.GetControlID(GetHashCode(), FocusType.Passive));
 
             HandleInputs(e, sc.camera);
@@ -440,7 +443,7 @@ public class LevelEditorWindow : EditorWindow {
     public void HandleInputs(Event currEvent, Camera camera) {
         // Mouse events
         if (currEvent.isMouse) {
-            switch (currEvent.type) {
+            switch (currEvent.rawType) {
                 case EventType.MouseDrag:
                     _lastMouseMoveWasDrag = true;
                     break;
@@ -452,10 +455,10 @@ public class LevelEditorWindow : EditorWindow {
                 case EventType.MouseUp:
                     switch (currEvent.button) {
                         case 0: // Left click
-                            HandleLeftClick(currEvent, camera);
+                            HandleLeftUp(currEvent, camera);
                             break;
                         case 1: // Right click
-                            HandleRightClick();
+                            HandleRightUp();
                             break;
                     }
                     break;
@@ -484,12 +487,40 @@ public class LevelEditorWindow : EditorWindow {
         }
     }
 
+    public void HandleLeftDownOnButton () {
+        Debug.Log ("down");
+        var selectedObject = LevelManager.Instance.SelectedObject;
+        if (selectedObject != null) {
+            _originalRotation = selectedObject.transform.localRotation.eulerAngles;
+            _originalScale = selectedObject.transform.localScale;
+        }
+    }
+
+    public void HandleLeftUpOnButton () {
+        Debug.Log("up");
+
+        // Record attribute change if necessary
+        var selectedObject = LevelManager.Instance.SelectedObject;
+        if (selectedObject != null) {
+            var newRot = selectedObject.transform.localRotation.eulerAngles;
+            if (_originalRotation != newRot) {
+                LevelManager.Instance.RecordAttributeChange (selectedObject, ChangeObjectNormalAttributeAction.AttributeChanged.Rotation, _originalRotation, newRot, ActionType.Normal);
+            } else {
+                var newScale = selectedObject.transform.localScale;
+                if (_originalScale != newScale) {
+                    LevelManager.Instance.RecordAttributeChange (selectedObject, ChangeObjectNormalAttributeAction.AttributeChanged.Scale, _originalScale, newScale, ActionType.Normal);
+                }
+            }
+        }
+    }
+
     /// <summary>
     /// Handles left click events.
     /// </summary>
-    public void HandleLeftClick(Event e, Camera camera) {
+    public void HandleLeftUp(Event e, Camera camera) {
+        
         if (MouseOverUI()) return;
-        if (_lastMouseMoveWasDrag) return;
+        //if (_lastMouseMoveWasDrag) return;
 
         switch (LevelManager.Instance.CurrentTool) {
             case LevelManager.Tool.Select:
@@ -542,7 +573,7 @@ public class LevelEditorWindow : EditorWindow {
     /// <summary>
     /// Handles right clicks in the scene view.
     /// </summary>
-    void HandleRightClick() {
+    void HandleRightUp() {
         if (MouseOverUI()) return;
 
         if (!_lastMouseMoveWasDrag) {
@@ -589,7 +620,7 @@ public class LevelEditorWindow : EditorWindow {
                     objectEditorScreenPoint.y - yMin,
                     _OBJECT_EDITOR_WIDTH, _OBJECT_EDITOR_WIDTH);
 
-                GUILayout.Window(0, _objectEditorRect, DrawObjectEditor, selectedObject.name);
+                GUILayout.Window(0, _objectEditorRect, DrawObjectEditor, selectedObject.name, GUILayout.Width (_objectEditorRect.width), GUILayout.Height (_objectEditorRect.height));
             }
         }
 
@@ -885,6 +916,8 @@ public class LevelEditorWindow : EditorWindow {
         GUILayout.EndArea();
     }
 
+    bool yRotButtonDown = false;
+
     /// <summary>
     /// Draws the object attribute editor.
     /// </summary>
@@ -893,68 +926,63 @@ public class LevelEditorWindow : EditorWindow {
         var attribs = LevelManager.Instance.AttributesOfObject(selectedObject);
 
         // Rotation label
-        GUILayout.Label("Rotation");
-        GUILayout.BeginHorizontal();
-
-        // Rotate CCW button
-        if (GUILayout.Button("<-"))
-            LevelManager.Instance.RotateSelectedObject(-5);
-
-        // Current object rotation label
-        int deg = Mathf.RoundToInt(attribs.RotationY);
-        GUILayout.Label(deg.ToString() + "°", EditorStyles.centeredGreyMiniLabel);
-
-        // Rotate CW button
-        if (GUILayout.Button("->"))
-            LevelManager.Instance.RotateSelectedObject(5);
-
-        GUILayout.EndHorizontal();
+        GUILayout.Label ("Rotation", EditorStyles.whiteLabel);
+        float yRotation = EditorGUILayout.FloatField ("Rotation", attribs.RotationY);
+        
+        if (yRotation != attribs.RotationY) {
+            var rot = attribs.EulerRotation;
+            rot.y = yRotation;
+            LevelManager.Instance.SetObjectEulerRotation (selectedObject, rot, ActionType.Normal);
+        }
 
         // Scale label
-        GUILayout.Label("Scale");
+        GUILayout.Label("Scale", EditorStyles.whiteBoldLabel);
+
+        GUILayout.BeginHorizontal();
+        GUILayout.Label ("Allow non-uniform scale", EditorStyles.whiteLabel);
 
         // Allow non uniform scale checkbox
-        _allowNonUniformScale = GUILayout.Toggle(_allowNonUniformScale, "Allow non-uniform scale", EditorStyles.centeredGreyMiniLabel);
+        //_allowNonUniformScale = GUILayout.Toggle(_allowNonUniformScale, "Allow non-uniform scale", EditorStyles.whiteLabel);
+        _allowNonUniformScale = GUILayout.Toggle(_allowNonUniformScale, "");
+
+        GUILayout.EndHorizontal();
         if (_allowNonUniformScale) {
-            GUILayout.BeginHorizontal();
+            GUILayout.BeginVertical();
 
             // X scale
-            var scaleX = EditorGUILayout.FloatField("Scale X", attribs.ScaleX, EditorStyles.centeredGreyMiniLabel);
+            var scaleX = EditorGUILayout.FloatField("Scale X", attribs.ScaleX, GUILayout.ExpandWidth(false));
             if (scaleX != attribs.ScaleX) {
-                attribs.ScaleX = scaleX;
                 var scale = selectedObject.transform.localScale;
                 scale.x = scaleX;
-                selectedObject.transform.localScale = scale;
+                LevelManager.Instance.SetObject3DScale (selectedObject, scale, ActionType.Normal);
             }
 
             // Y scale
-            var scaleY = EditorGUILayout.FloatField("Scale Y", attribs.ScaleY, EditorStyles.centeredGreyMiniLabel);
+            var scaleY = EditorGUILayout.FloatField("Scale Y", attribs.ScaleY, GUILayout.ExpandWidth(false));
             if (scaleY != attribs.ScaleY) {
-                attribs.ScaleY = scaleY;
                 var scale = selectedObject.transform.localScale;
                 scale.y = scaleY;
-                selectedObject.transform.localScale = scale;
+                LevelManager.Instance.SetObject3DScale (selectedObject, scale, ActionType.Normal);
             }
 
             // Z scale
-            var scaleZ = EditorGUILayout.FloatField("Scale Z", attribs.ScaleZ, EditorStyles.centeredGreyMiniLabel);
+            var scaleZ = EditorGUILayout.FloatField("Scale Z", attribs.ScaleZ, GUILayout.ExpandWidth(false));
             if (scaleZ != attribs.ScaleZ) {
-                attribs.ScaleZ = scaleZ;
                 var scale = selectedObject.transform.localScale;
                 scale.z = scaleZ;
-                selectedObject.transform.localScale = scale;
+                LevelManager.Instance.SetObject3DScale (selectedObject, scale, ActionType.Normal);
             }
-            GUILayout.EndHorizontal();
+            GUILayout.EndVertical();
 
             // Enforce uniform scale
         } else {
-            var scale = EditorGUILayout.FloatField("Scale", attribs.ScaleX, EditorStyles.centeredGreyMiniLabel);
+            var scale = EditorGUILayout.FloatField("Scale", attribs.ScaleX);
             if (scale != attribs.ScaleX) {
                 attribs.ScaleX = scale;
                 attribs.ScaleY = scale;
                 attribs.ScaleZ = scale;
                 var scaleVec = new Vector3(scale, scale, scale);
-                selectedObject.transform.localScale = scaleVec;
+                LevelManager.Instance.SetObject3DScale (selectedObject, scaleVec, ActionType.Normal);
             }
         }
     }

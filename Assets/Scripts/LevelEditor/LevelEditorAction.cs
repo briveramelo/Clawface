@@ -52,17 +52,19 @@ public class CreateObjectAction : LevelEditorAction {
     /// <summary>
     /// Index of the created object.
     /// </summary>
-    [SerializeField] byte _createdObjectIndex;
+    [SerializeField]
+    byte _createdObjectIndex;
 
     /// <summary>
     /// Position of the created object.
     /// </summary>
-    [SerializeField] Vector3 _position;
+    [SerializeField]
+    Vector3 _position;
 
     #endregion
     #region Constructors
 
-    public CreateObjectAction (byte index, GameObject obj) {
+    public CreateObjectAction(byte index, GameObject obj) {
         _createdObjectIndex = index;
         _position = obj.transform.position;
         _object = obj;
@@ -71,12 +73,12 @@ public class CreateObjectAction : LevelEditorAction {
     #endregion
     #region LevelEditorAction Implementation
 
-    public override void Undo () {
-        LevelManager.Instance.DeleteObject (_object, ActionType.Undo);
+    public override void Undo() {
+        LevelManager.Instance.DeleteObject(_object, ActionType.Undo);
     }
 
-    public override void Redo () {
-        LevelManager.Instance.CreateObject (_createdObjectIndex, _position, ActionType.Redo);
+    public override void Redo() {
+        LevelManager.Instance.CreateObject(_createdObjectIndex, _position, ActionType.Redo);
     }
 
     public override string ToString() {
@@ -106,17 +108,19 @@ public class DeleteObjectAction : LevelEditorAction {
     /// <summary>
     /// Position of the deleted object.
     /// </summary>
-    [SerializeField] Vector3 _position;
+    [SerializeField]
+    Vector3 _position;
 
     /// <summary>
     /// Index of the deleted object.
     /// </summary>
-    [SerializeField] byte _deletedObjectIndex;
+    [SerializeField]
+    byte _deletedObjectIndex;
 
     #endregion
     #region Constructors
 
-    public DeleteObjectAction (GameObject obj, byte index) {
+    public DeleteObjectAction(GameObject obj, byte index) {
         _object = obj;
         _position = obj.transform.position;
         _deletedObjectIndex = index;
@@ -126,19 +130,19 @@ public class DeleteObjectAction : LevelEditorAction {
     #region LevelEditorAction Implementation
 
     public override void Undo() {
-        LevelManager.Instance.CreateObject (_deletedObjectIndex, _position, ActionType.Undo);
+        LevelManager.Instance.CreateObject(_deletedObjectIndex, _position, ActionType.Undo);
     }
 
-    public override void Redo () {
-        LevelManager.Instance.DeleteObject (_object, ActionType.Redo);
+    public override void Redo() {
+        LevelManager.Instance.DeleteObject(_object, ActionType.Redo);
     }
 
     public override string ToString() {
-        return string.Format ("DeleteObjectAction({0})", _position.ToString());
+        return string.Format("DeleteObjectAction({0})", _position.ToString());
     }
 
     public override string ToShortString() {
-        return string.Format ("DEL | I: {0} | POS: {1}", _deletedObjectIndex, _position.ToString());
+        return string.Format("DEL | I: {0} | POS: {1}", _deletedObjectIndex, _position.ToString());
     }
 
     #endregion
@@ -147,6 +151,7 @@ public class DeleteObjectAction : LevelEditorAction {
 /// <summary>
 /// Move object action.
 /// </summary>
+[Serializable]
 public class MoveObjectAction : LevelEditorAction {
 
     #region Vars
@@ -154,22 +159,25 @@ public class MoveObjectAction : LevelEditorAction {
     /// <summary>
     /// Object that was moved.
     /// </summary>
-    [SerializeField] GameObject _obj;
+    [SerializeField]
+    GameObject _obj;
 
     /// <summary>
     /// Original position of object.
     /// </summary>
-    [SerializeField] Vector3 _posMovedFrom;
+    [SerializeField]
+    Vector3 _posMovedFrom;
 
     /// <summary>
     /// New position of object.
     /// </summary>
-    [SerializeField] Vector3 _posMovedTo;
+    [SerializeField]
+    Vector3 _posMovedTo;
 
     #endregion
     #region Constructors
 
-    public MoveObjectAction (GameObject obj, Vector3 oldPos, Vector3 newPos) {
+    public MoveObjectAction(GameObject obj, Vector3 oldPos, Vector3 newPos) {
         _obj = obj;
         _posMovedFrom = oldPos;
         _posMovedTo = newPos;
@@ -179,16 +187,115 @@ public class MoveObjectAction : LevelEditorAction {
     #region LevelEditorAction Implementation
 
     public override void Undo() {
-        LevelManager.Instance.MoveObject (_obj, _posMovedTo, _posMovedFrom, ActionType.Undo);
+        LevelManager.Instance.MoveObject(_obj, _posMovedTo, _posMovedFrom, ActionType.Undo);
     }
 
     public override void Redo() {
-        LevelManager.Instance.MoveObject (_obj, _posMovedFrom, _posMovedTo, ActionType.Redo);
+        LevelManager.Instance.MoveObject(_obj, _posMovedFrom, _posMovedTo, ActionType.Redo);
     }
 
     public override string ToShortString() {
-        return string.Format ("MOV | OLD: {0} | NEW: {1}", _posMovedFrom, _posMovedTo);
+        return string.Format("MOV | OLD: {0} | NEW: {1}", _posMovedFrom, _posMovedTo);
+    }
+}
+
+[Serializable]
+public class ChangeObjectNormalAttributeAction : LevelEditorAction {
+
+    [SerializeField]
+    GameObject _object;
+
+    [SerializeField]
+    AttributeChanged _attrib;
+
+    [SerializeField]
+    Vector3 _oldValue;
+
+    [SerializeField]
+    Vector3 _newValue;
+
+    public enum AttributeChanged {
+        Position,
+        Rotation,
+        Scale
     }
 
-    #endregion
+    public ChangeObjectNormalAttributeAction(GameObject obj, AttributeChanged attrib, Vector3 newValue) {
+        _object = obj;
+        _attrib = attrib;
+
+        switch (attrib) {
+            case AttributeChanged.Position:
+                _oldValue = _object.transform.position;
+                break;
+
+            case AttributeChanged.Rotation:
+                _oldValue = _object.transform.rotation.eulerAngles;
+                break;
+
+            case AttributeChanged.Scale:
+                _oldValue = _object.transform.localScale;
+                break;
+        }
+
+        _newValue = newValue;
+    }
+
+    public override void Undo() {
+        switch (_attrib) {
+            case AttributeChanged.Position:
+                LevelManager.Instance.SetObjectPosition(_object, _oldValue, ActionType.Undo);
+                break;
+
+            case AttributeChanged.Rotation:
+                LevelManager.Instance.SetObjectEulerRotation(_object, _oldValue, ActionType.Undo);
+                break;
+
+            case AttributeChanged.Scale:
+                LevelManager.Instance.SetObject3DScale(_object, _oldValue, ActionType.Undo);
+                break;
+        }
+
+        LevelManager.Instance.RecordAttributeChange (_object, _attrib, _newValue, _oldValue, ActionType.Undo);
+    }
+
+    public override void Redo() {
+        switch (_attrib) {
+            case AttributeChanged.Position:
+                LevelManager.Instance.SetObjectPosition(_object, _newValue, ActionType.Redo);
+                break;
+
+            case AttributeChanged.Rotation:
+                LevelManager.Instance.SetObjectEulerRotation(_object, _newValue, ActionType.Redo);
+                break;
+
+            case AttributeChanged.Scale:
+                LevelManager.Instance.SetObject3DScale(_object, _newValue, ActionType.Redo);
+                break;
+        }
+
+        LevelManager.Instance.RecordAttributeChange (_object, _attrib, _oldValue, _newValue, ActionType.Undo);
+    }
+
+    public override string ToShortString() {
+        return string.Format("CHG {0} | Old: {1} | New: {2}", _attrib.ToString().Substring(0, 1), _oldValue.ToString(), _newValue.ToString());
+    }
 }
+
+[Serializable]
+public class ChangeObjectSpecialAttributeAction : LevelEditorAction {
+
+    public override void Undo() {
+        throw new NotImplementedException();
+    }
+
+    public override void Redo() {
+        throw new NotImplementedException();
+    }
+
+    public override string ToShortString() {
+        throw new NotImplementedException();
+    }
+}
+
+#endregion
