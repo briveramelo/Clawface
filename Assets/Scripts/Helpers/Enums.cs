@@ -38,7 +38,8 @@ public enum ModType {
     ForceSegway=0,
     ArmBlaster=1,
     FingerPrint=2,
-    StunBaton=3
+    StunBaton=3,
+    TankTreads = 4
 }
 
 public enum ModCategory
