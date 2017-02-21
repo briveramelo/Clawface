@@ -38,12 +38,12 @@ public class Elevator : MonoBehaviour, ITriggerable
 
     void OnTriggerStay(Collider other)
     {
-        if (Input.GetKey(KeyCode.A) && m_state == State.Down)
+        if (Input.GetKey(KeyCode.A) && m_state == State.Down) // FIX
         {
             playerObject = other.gameObject;
             Activate();
         }
-        else if (Input.GetKey(KeyCode.S) && m_state == State.Up)
+        else if (Input.GetKey(KeyCode.S) && m_state == State.Up) // FIX
         {
             playerObject = other.gameObject;
             Activate();
