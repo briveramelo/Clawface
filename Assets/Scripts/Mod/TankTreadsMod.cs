@@ -80,11 +80,11 @@ public class TankTreadsMod : Mod
         switch (getModSpot())
         {
             case ModSpot.ArmL:
-                if (Input.GetButton(Strings.LEFT))
+                if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_LEFT, ButtonMode.HELD))
                 {
                     chargeTimer += Time.deltaTime;
                 }
-                if (Input.GetButtonUp(Strings.LEFT))
+                if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_LEFT, ButtonMode.UP)) 
                 {
                     if (chargeTimer >= chargeTime)
                     {
@@ -99,12 +99,12 @@ public class TankTreadsMod : Mod
                 break;
 
             case ModSpot.ArmR:
-                if (Input.GetButton(Strings.RIGHT))
+                if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_RIGHT, ButtonMode.HELD))
                 {
                     chargeTimer += Time.deltaTime;
                 }
 
-                if (Input.GetButtonUp(Strings.RIGHT))
+                if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_RIGHT, ButtonMode.UP))
                 {
                     if (chargeTimer >= chargeTime)
                     {
@@ -165,12 +165,39 @@ public class TankTreadsMod : Mod
 
             if (damageable != null)
             {
+                if (this.transform.root.tag == Strings.PLAYER)
+                {
+                    // If the player is the one attacking
+                    HitstopManager.Instance.StartHitstop(armChargedHitstop);
+                    damageable.TakeDamage(armChargedDamage);
 
+
+                }
+                else
+                {
+                    // If the enemy is the one attacking, they can only affect the player
+                    if (other.transform.root.tag == Strings.PLAYER)
+                    {
+                        damageable.TakeDamage(armChargedDamage);
+                    }
+                }
             }
 
             if (movable != null)
             {
-
+                if (this.transform.root.tag == Strings.PLAYER)
+                {
+                    // If the player is the one attacking
+                    movable.AddExternalForce(GetNormalizedDistance(this.transform.root, other.transform.root) * armChargedForce);
+                }
+                else
+                {
+                    // If the enemy is the one attacking, they can only affect the player
+                    if (other.transform.root.tag == Strings.PLAYER)
+                    {
+                        movable.AddExternalForce(GetNormalizedDistance(this.transform.root, other.transform.root) * armChargedForce);
+                    }
+                }
             }
 
             if (damageable != null || movable != null)
@@ -220,7 +247,7 @@ public class TankTreadsMod : Mod
 
     public override void DeActivate()
     {
-        throw new NotImplementedException();
+
     }
 
     public override void DetachAffect()
@@ -249,6 +276,14 @@ public class TankTreadsMod : Mod
     }
 
     #region Private Methods
+
+    private Vector3 GetNormalizedDistance(Transform forceSender, Transform forceReceiver)
+    {
+        Vector3 normalizedDistance = forceReceiver.position - forceSender.position;
+        normalizedDistance = normalizedDistance.normalized;
+        return normalizedDistance;
+    }
+
     private void EnableAttackCollider()
     {
         attackCollider.enabled = true;
