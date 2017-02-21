@@ -71,6 +71,7 @@ GameObject:
   - component: {fileID: 114993959103341696}
   - component: {fileID: 114091127343071412}
   - component: {fileID: 114986823459479984}
+  - component: {fileID: 114971001971292986}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -738,6 +739,17 @@ MonoBehaviour:
     moveSpeed: 10
     miniMapRange: 10
     rangedAccuracy: 10
+--- !u!114 &114971001971292986
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1205719698033964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28223eb86d14e5447af84ff3b829d375, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114986823459479984
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -773,6 +785,7 @@ MonoBehaviour:
   canMove: 1
   lastMovement: {x: 0, y: 0, z: 0}
   currentSpeed: 0
+  meleePounceRange: 0
   movementMode: 1
   velocity: {x: 0, y: 0, z: 0}
   isGrounded: 0
