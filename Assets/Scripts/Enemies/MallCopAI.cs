@@ -32,7 +32,6 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
     private GameObject attackTarget;
     private float rotationMultiplier;
     private Vector3 startStunPosition;
-    private Vector3 velocity;
     private List<Vector3> externalForces;
     private int stunCount;
     private bool isGlowing = false;
@@ -67,7 +66,6 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
         PlayerMovement dummy = null;
         mod.setModSpot(ModSpot.ArmR);
         mod.AttachAffect(ref myStats, ref dummy);
-        
     }    
 
     // Update is called once per frame
@@ -88,7 +86,6 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
                     Twitch();
                     break;
             }
-            //velocity = rigbod.velocity;
         }
     }
 
@@ -348,6 +345,7 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
             }
         }
     }
+
     #endregion
 
     #region 7. Internal Structures

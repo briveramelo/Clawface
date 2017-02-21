@@ -4,15 +4,29 @@ using UnityEngine;
 
 public abstract class Mod : MonoBehaviour {
 
-    ModSpot spot;
+    #region Public fields    
+    #endregion
+
+    #region Protected Fields
     protected ModType type;
-
-    [SerializeField]
-    public Collider pickupCollider;
-
+    protected ModCategory category;
     protected Stats playerStats;
     protected List<IDamageable> recentlyHitEnemies = new List<IDamageable>();
+    #endregion
 
+    #region Serialized Unity Inspector fields
+    [SerializeField]
+    public Collider pickupCollider;
+    #endregion
+
+    #region Private Fields
+    ModSpot spot;
+    #endregion
+
+    #region Unity Lifecycle
+    #endregion
+
+    #region Public Methods
     public abstract void Activate();
 
     public abstract void DeActivate();
@@ -31,6 +45,11 @@ public abstract class Mod : MonoBehaviour {
         return type;
     }
 
+    public ModCategory getModCategory()
+    {
+        return category;
+    }
+
     public void setModSpot(ModSpot modSpot)
     {
         spot = modSpot;
@@ -40,4 +59,12 @@ public abstract class Mod : MonoBehaviour {
     {
         return spot;
     }
+    #endregion
+
+    #region Private Methods
+    #endregion
+
+    #region Private Structures
+    #endregion
+
 }

@@ -6,235 +6,234 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class PlayerMovement : MonoBehaviour, IDamageable, IMovable
+public class PlayerMovement : MonoBehaviour, IMovable
 {
 
-    
+    #region Public fields
+    #endregion
 
-    [SerializeField] private Transform foot;
-    [SerializeField] private float acceleration;
-    [SerializeField] private float maxSpeed;
+    #region Serialized Unity Inspector fields
+    [SerializeField]
+    private Transform foot;
+    [SerializeField]
+    private float acceleration;
+    [SerializeField]
+    private float maxSpeed;
     [SerializeField]
     private float iceForceMultiplier;
     [SerializeField]
     private float manualDrag;
-    [SerializeField] private bool axisInput;
-    [SerializeField] private bool rightAxisInput;
-    [SerializeField] private bool isSidescrolling;
-    [SerializeField] private bool canMove = true;
-    [SerializeField] private Vector3 lastMovement;
-    [SerializeField] private Vector3 rightJoystickMovement;
+    [SerializeField]
+    private bool axisInput;
+    [SerializeField]
+    private bool isSidescrolling;
+    [SerializeField]
+    private bool canMove = true;
+    [SerializeField]
+    private Vector3 lastMovement;
     [SerializeField]
     private float currentSpeed;
-
-    Animator animator;
-
-    [SerializeField] private MovementMode movementMode;
-
-    private Stats stats;
-
-    private PlayerModAnimationManager modAnimationManager;
-
-    private Dictionary<ModSpot, bool> modSpotConstantForceIndices = new Dictionary<ModSpot, bool>()
-    {
-        {ModSpot.Head, false},
-        {ModSpot.Legs, false},
-        {ModSpot.ArmL, false},
-        {ModSpot.ArmR, false}
-    };
-
-    #region Privates
-
+    [SerializeField]
+    private float meleePounceRange;
+    [SerializeField]
+    private MovementMode movementMode;
     [SerializeField]
     private Vector3 velocity;
-    private Rigidbody rigid;
+    #endregion
 
+    #region Private Fields
+    GameObject currentEnemy;
+    Vector3 currentEnemyVector;
+    LockOnScript lockOnScript;
+    Animator animator;    
+    private PlayerModAnimationManager modAnimationManager;
+    private Rigidbody rigid;
     private RaycastHit hitInfo;
     public bool isGrounded;
     private bool isFalling = false;
     private float sphereRadius = 0.1f;
-
     private Vector3 movement;
-
     private List<Vector3> externalForces;
     private List<Vector3> externalForcesToAdd;
-    float startHealth;
+    private PlayerStatsManager statsManager;
     #endregion
 
+    #region Unity Lifecycle
     void Awake()
     {
-        rigid = GetComponent<Rigidbody>();
-        stats = GetComponent<Stats>();
+        rigid = GetComponent<Rigidbody>();        
     }
 
     // Use this for initialization
-    void Start() {
-        startHealth = stats.GetStat(StatType.Health);
+    void Start()
+    {
+        statsManager = GetComponent<PlayerStatsManager>();
+        lockOnScript = GetComponent<LockOnScript>();
+        currentEnemy = null;        
         externalForces = new List<Vector3>();
         externalForcesToAdd = new List<Vector3>();
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 100; i++)
+        {
             externalForces.Add(Vector3.zero);
         }
         movementMode = MovementMode.PRECISE;
         animator = GetComponent<Animator>();
         modAnimationManager = GetComponent<PlayerModAnimationManager>();
     }
-    
 
-    
     // Update is called once per frame
-    void Update() {
-
-        float h = Input.GetAxis(Strings.MOVEX);
-        float v = Input.GetAxis(Strings.MOVEY);
-
-        float rightH = Input.GetAxis(Strings.AIMX);
-        float rightV = Input.GetAxis(Strings.AIMY);
-
-        axisInput = CheckForAxisInput(h, v);
-        rightAxisInput = CheckForAxisInput(rightH, rightV);
-
-        float hModified = h;
-        float vModified = v;
-
-        float rightHModified = rightH;
-        float rightVModified = rightV;
-
-        if (isSidescrolling)
+    void Update()
+    {
+        if (lockOnScript != null)
         {
-            vModified = 0f;
-            rightVModified = 0f;
+            currentEnemy = lockOnScript.GetCurrentEnemy();
+            if (currentEnemy != null)
+            {
+                currentEnemyVector = currentEnemy.transform.position;
+            }
         }
 
-        movement = new Vector3(hModified, 0.0f, vModified);
-        rightJoystickMovement = new Vector3(rightHModified, 0.0f, rightVModified);
+		float h = Input.GetAxis(Strings.MOVEX);
+		float v = Input.GetAxis(Strings.MOVEY);
+		axisInput = CheckForAxisInput(h, v);
 
-        if (!canMove) {
-            movement = Vector3.zero;
-        }
+		float hModified = h;
+		float vModified = v;
 
-        velocity = rigid.velocity;
+		if (isSidescrolling)
+		{
+			vModified = 0f;
+		}
+
+		movement = new Vector3(hModified, 0.0f, vModified);
+
+		if (!canMove)
+		{
+			movement = Vector3.zero;
+		}
+
+		velocity = rigid.velocity;
 
 
-        movement = Camera.main.transform.TransformDirection(movement);
-        rightJoystickMovement = Camera.main.transform.TransformDirection(rightJoystickMovement);
+		movement = Camera.main.transform.TransformDirection(movement);
 
-        movement.y = 0f;
-        rightJoystickMovement.y = 0f;
+		movement.y = 0f;
 
-        movement = movement.normalized;
-        rightJoystickMovement = rightJoystickMovement.normalized;
+		movement = movement.normalized;
 
-        if (movement != Vector3.zero)
-        {
-            lastMovement = movement;
-        }
+		if (movement != Vector3.zero)
+		{
+			lastMovement = movement;
+		}
 
-        isGrounded = IsGrounded();
-        maxSpeed = stats.GetStat(StatType.MoveSpeed);
+		isGrounded = IsGrounded();
+		maxSpeed = statsManager.GetStat(StatType.MoveSpeed);
     }
 
     private void FixedUpdate()
     {
-        switch (movementMode)
-        {
-            case MovementMode.PRECISE:
-                // Do I even need fixedDeltaTime here if I'm changing the velocity of the rigidbody directly?
-                //  rigid.velocity = movement * stats.GetStat(StatType.MoveSpeed) * Time.fixedDeltaTime + GetExternalForceSum();  
-                rigid.velocity = movement * stats.GetStat(StatType.MoveSpeed) + GetExternalForceSum();
-                if (!modAnimationManager.GetIsPlaying())
-                {
-                    if (rigid.velocity != Vector3.zero)
-                    {
-                        if (animator.GetInteger(Strings.ANIMATIONSTATE) != (int)PlayerAnimationStates.Running)
-                        {                            
-                            animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Running);
-                        }
-                    }
-                    else
-                    {
-                        if (animator.GetInteger(Strings.ANIMATIONSTATE) != (int)PlayerAnimationStates.Idle)
-                        {                            
-                            animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Idle);
-                        }
-                    }
-                }
-                break;
-            case MovementMode.ICE:
-                if (!modAnimationManager.GetIsPlaying())
-                {
-                    if (animator.GetInteger(Strings.ANIMATIONSTATE) != (int)PlayerAnimationStates.Idle)
-                    {
-                        animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Idle);
-                    }
-                }
-                rigid.AddForce(movement * acceleration * Time.fixedDeltaTime);
 
-                foreach (Vector3 vector in externalForcesToAdd)
-                {
-                    rigid.AddForce(vector * Time.fixedDeltaTime);
-                }
+		switch (movementMode)
+		{
+			case MovementMode.PRECISE:
+				// Do I even need fixedDeltaTime here if I'm changing the velocity of the rigidbody directly?
+				//  rigid.velocity = movement * stats.GetStat(StatType.MoveSpeed) * Time.fixedDeltaTime + GetExternalForceSum();  
+				rigid.velocity = movement * statsManager.GetStat(StatType.MoveSpeed) + GetExternalForceSum();
+				if (!modAnimationManager.GetIsPlaying())
+				{
+					if (rigid.velocity != Vector3.zero)
+					{
+						if (animator.GetInteger(Strings.ANIMATIONSTATE) != (int)PlayerAnimationStates.Running)
+						{
+							animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Running);
+						}
+					}
+					else
+					{
+						if (animator.GetInteger(Strings.ANIMATIONSTATE) != (int)PlayerAnimationStates.Idle)
+						{
+							animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Idle);
+						}
+					}
+				}
+				break;
+			case MovementMode.ICE:
+				if (!modAnimationManager.GetIsPlaying())
+				{
+					if (animator.GetInteger(Strings.ANIMATIONSTATE) != (int)PlayerAnimationStates.Idle)
+					{
+						animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Idle);
+					}
+				}
+				rigid.AddForce(movement * acceleration * Time.fixedDeltaTime);
 
-                
-                Vector3 flatMovement = new Vector3(rigid.velocity.x, 0f, rigid.velocity.z);
-                currentSpeed = flatMovement.magnitude;
+				foreach (Vector3 vector in externalForcesToAdd)
+				{
+					rigid.AddForce(vector * Time.fixedDeltaTime);
+				}
 
-                if (currentSpeed > stats.GetStat(StatType.MoveSpeed))
-                {
-                    Vector3 currentFlatVelocity = flatMovement;
-                    currentFlatVelocity = -currentFlatVelocity;
-                    currentFlatVelocity = currentFlatVelocity.normalized;
-                    currentFlatVelocity *= (currentSpeed - stats.GetStat(StatType.MoveSpeed));
-                    currentFlatVelocity *= manualDrag;
-                    rigid.AddForce(currentFlatVelocity);
-                }
-                externalForcesToAdd.Clear();
 
-                break;
-            default:
-                rigid.velocity = movement * stats.GetStat(StatType.MoveSpeed) + GetExternalForceSum();
-                break;
-        }
+				Vector3 flatMovement = new Vector3(rigid.velocity.x, 0f, rigid.velocity.z);
+				currentSpeed = flatMovement.magnitude;
 
-        if (!axisInput)
-        {
-            if (rightAxisInput && rightJoystickMovement != Vector3.zero)
-            {
-                transform.forward = rightJoystickMovement;
-            }
-            else if(lastMovement != Vector3.zero)
-            {
-                if (lastMovement != Vector3.zero)
-                {
-                    transform.forward = lastMovement;
-                }
-            }
-        }
-        else
-        {   if (rightAxisInput && rightJoystickMovement != Vector3.zero)
-            {
-                transform.forward = rightJoystickMovement;
-            }
-            else
-            {
-                if (movement != Vector3.zero)
-                {
-                    transform.forward = movement;
-                }
-            }
-        }
+				if (currentSpeed > statsManager.GetStat(StatType.MoveSpeed))
+				{
+					Vector3 currentFlatVelocity = flatMovement;
+					currentFlatVelocity = -currentFlatVelocity;
+					currentFlatVelocity = currentFlatVelocity.normalized;
+					currentFlatVelocity *= (currentSpeed - statsManager.GetStat(StatType.MoveSpeed));
+					currentFlatVelocity *= manualDrag;
+					rigid.AddForce(currentFlatVelocity);
+				}
+				externalForcesToAdd.Clear();
 
-        velocity = rigid.velocity;
-        currentSpeed = rigid.velocity.magnitude;
+				break;
+			default:
+				rigid.velocity = movement * statsManager.GetStat(StatType.MoveSpeed) + GetExternalForceSum();
+				break;
+		}
+
+		if (!axisInput)
+		{
+			if (currentEnemy != null)
+			{
+				transform.LookAt(currentEnemyVector, Vector3.up);
+				Quaternion rotation = transform.rotation;
+				rotation.x = 0;
+				rotation.z = 0;
+				transform.rotation = rotation;
+			}
+			else if (lastMovement != Vector3.zero)
+			{
+				if (lastMovement != Vector3.zero)
+				{
+					transform.forward = lastMovement;
+				}
+			}
+		}
+		else if (movement != Vector3.zero)
+		{
+			if (currentEnemy != null)
+			{
+				transform.LookAt(currentEnemyVector, Vector3.up);
+				Quaternion rotation = transform.rotation;
+				rotation.x = 0;
+				rotation.z = 0;
+				transform.rotation = rotation;
+			}
+			else
+			{
+				transform.forward = movement;
+			}
+		}
+		velocity = rigid.velocity;
+		currentSpeed = rigid.velocity.magnitude;
     }
+    #endregion
 
-    private Vector3 GetExternalForceSum() {
-        Vector3 totalExternalForce = Vector3.zero;
-        externalForces.ForEach(force => totalExternalForce += force);
-        return totalExternalForce;
-    }
-
-    public void AddExternalForce(Vector3 forceVector, float decay=0.1f) {
+    #region Public Methods
+    public void AddExternalForce(Vector3 forceVector, float decay = 0.1f)
+    {
         switch (movementMode)
         {
             case MovementMode.PRECISE:
@@ -253,24 +252,66 @@ public class PlayerMovement : MonoBehaviour, IDamageable, IMovable
                 break;
         }
     }
-    
-    private IEnumerator AddPsuedoForce(Vector3 forceVector, float decay) {
+    public void SetSidescrolling(bool mode)
+    {
+        isSidescrolling = mode;
+    }
+   
+    public void SetMovementMode(MovementMode mode)
+    {
+        movementMode = mode;
+        rigid.useGravity = mode == MovementMode.ICE ? true : false;
+    }
+
+    public void PlayAnimation(Mod mod)
+    {
+        if (!modAnimationManager.GetIsPlaying())
+        {
+            if (movementMode == MovementMode.PRECISE && rigid.velocity != Vector3.zero)
+            {
+                modAnimationManager.PlayModAnimation(mod, true);
+            }
+            else
+            {
+                modAnimationManager.PlayModAnimation(mod, false);
+            }
+        }
+    }
+
+    public void DoMeleePounce()
+    {
+
+    }
+    #endregion
+
+    #region Private Methods
+    private Vector3 GetExternalForceSum()
+    {
+        Vector3 totalExternalForce = Vector3.zero;
+        externalForces.ForEach(force => totalExternalForce += force);
+        return totalExternalForce;
+    }
+    private IEnumerator AddPsuedoForce(Vector3 forceVector, float decay)
+    {
         int currentIndex = externalForces.FindIndex(vec => vec == Vector3.zero);
 
         externalForces[currentIndex] = forceVector;
-        while (externalForces[currentIndex].magnitude > .2f) {
+        while (externalForces[currentIndex].magnitude > .2f)
+        {
             externalForces[currentIndex] = Vector3.Lerp(externalForces[currentIndex], Vector3.zero, decay);
             yield return null;
         }
         externalForces[currentIndex] = Vector3.zero;
     }
 
-    private IEnumerator ApplyGravity() {
+    private IEnumerator ApplyGravity()
+    {
         isFalling = true;
         int currentIndex = externalForces.FindIndex(vec => vec == Vector3.zero);
         float timeElapsed = 0f;
         float gravity = 9.81f;
-        while (!isGrounded && isFalling) {
+        while (!isGrounded && isFalling)
+        {
             externalForces[currentIndex] = Vector3.down * (gravity * timeElapsed);
             timeElapsed += Time.deltaTime;
             yield return null;
@@ -279,17 +320,20 @@ public class PlayerMovement : MonoBehaviour, IDamageable, IMovable
         externalForces[currentIndex] = Vector3.zero;
     }
 
-    
+
     private bool IsGrounded()
     {
 
         Collider[] cols = Physics.OverlapSphere(foot.transform.position, sphereRadius);
-        for (int i = 0; i < cols.Length; i++) {
-            if (cols[i].gameObject.layer == (int)Layers.Ground) {
+        for (int i = 0; i < cols.Length; i++)
+        {
+            if (cols[i].gameObject.layer == (int)Layers.Ground)
+            {
                 return true;
             }
         }
-        if (!isFalling) {
+        if (!isFalling)
+        {
             StartCoroutine(ApplyGravity());
         }
         return false;
@@ -298,12 +342,7 @@ public class PlayerMovement : MonoBehaviour, IDamageable, IMovable
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawSphere(foot.transform.position, sphereRadius);        
-    }
-
-    public void SetSidescrolling(bool mode)
-    {
-        isSidescrolling = mode;
+        Gizmos.DrawSphere(foot.transform.position, sphereRadius);
     }
 
     private bool CheckForAxisInput(float h, float v)
@@ -318,39 +357,16 @@ public class PlayerMovement : MonoBehaviour, IDamageable, IMovable
         }
         return true;
     }
+    #endregion
 
-    public void TakeDamage(float damage)
+    #region Private Structures
+    private Dictionary<ModSpot, bool> modSpotConstantForceIndices = new Dictionary<ModSpot, bool>()
     {
-        stats.TakeDamage(damage);
-        HealthBar.Instance.SetHealth(stats.GetStat(StatType.Health) / startHealth);
-        if (stats.GetStat(StatType.Health) <= 0)
-        {
-            //Destroy(gameObject);
-            transform.position = GameObject.Find("RespawnPoint").transform.position;
-            stats.Modify(StatType.Health, (int)startHealth);
-            startHealth = stats.GetStat(StatType.Health);
-            HealthBar.Instance.SetHealth(stats.GetStat(StatType.Health) / startHealth);
-        }
-    }
+        {ModSpot.Head, false},
+        {ModSpot.Legs, false},
+        {ModSpot.ArmL, false},
+        {ModSpot.ArmR, false}
+    };
+    #endregion
 
-    public void SetMovementMode(MovementMode mode)
-    {
-        movementMode = mode;
-        rigid.useGravity = mode == MovementMode.ICE ? true : false;
-    }
-
-    public void PlayAnimation(Mod mod)
-    {
-        if (!modAnimationManager.GetIsPlaying())
-        {            
-            if (movementMode == MovementMode.PRECISE && rigid.velocity != Vector3.zero)
-            {
-                modAnimationManager.PlayModAnimation(mod, true);
-            }
-            else
-            {
-                modAnimationManager.PlayModAnimation(mod, false);
-            }
-        }
-    }
 }

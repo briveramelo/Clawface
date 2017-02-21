@@ -71,6 +71,10 @@ public class ModManager : MonoBehaviour
             {                
                 if (modSocketDictionary[spot].mod != null)
                 {
+                    if(modSocketDictionary[spot].mod.getModCategory() == ModCategory.Melee)
+                    {
+                        playerMovement.DoMeleePounce();
+                    }
                     playerMovement.PlayAnimation(modSocketDictionary[spot].mod);
                 }
             }
@@ -87,11 +91,11 @@ public class ModManager : MonoBehaviour
         {
             return ModSpot.Legs;
         }
-        if (Input.GetButtonDown(Strings.LEFT) || Input.GetAxis(Strings.LEFTTRIGGER) != triggerThreshold)
+        if (Input.GetButtonDown(Strings.LEFT))
         {
             return ModSpot.ArmL;
         }
-        if (Input.GetButtonDown(Strings.RIGHT) || Input.GetAxis(Strings.RIGHTTRIGGER) != triggerThreshold)
+        if (Input.GetButtonDown(Strings.RIGHT))
         {
             return ModSpot.ArmR;
         }        

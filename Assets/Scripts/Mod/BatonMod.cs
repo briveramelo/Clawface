@@ -45,6 +45,7 @@ public class BatonMod : Mod {
     void Awake()
     {
         type = ModType.StunBaton;
+        category = ModCategory.Melee;
         attackCollider.enabled = false;
     }
 
@@ -61,6 +62,7 @@ public class BatonMod : Mod {
         if (!isHitting)
         {
             AudioManager.Instance.PlaySFX(SFXType.StunBatonSwing);
+            
             isHitting = true;
             StartCoroutine(HitCoolDown());
         }
@@ -89,15 +91,23 @@ public class BatonMod : Mod {
         if (isHitting)
         {
             IDamageable damageable = other.gameObject.GetComponent<IDamageable>();
-            if (damageable != null && !recentlyHitEnemies.Contains(damageable)) {
+            if (damageable != null && !recentlyHitEnemies.Contains(damageable))
+            {
+                if (other.tag != Strings.PLAYER)
+                {
+                    //TODO check that the player swinging IS NOT a mallcop...
+                    HitstopManager.Instance.StartHitstop(.2f);
+                }
                 impactEffect.Emit();
                 damageable.TakeDamage(attackValue);
+                recentlyHitEnemies.Add(damageable);
                 IStunnable stunnable = other.gameObject.GetComponent<IStunnable>();
-                if (stunnable != null) {
+                if (stunnable != null)
+                {
                     stunnable.Stun();
-                    recentlyHitEnemies.Add(damageable);
+                        
                 }
-            }                        
+            }
         }
     }
 
