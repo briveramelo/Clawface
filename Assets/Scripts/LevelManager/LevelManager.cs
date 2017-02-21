@@ -207,6 +207,9 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// </summary>
     Dictionary<byte, int> _objectCounts = new Dictionary<byte, int>();
 
+    Vector3 _mouseDownWorldPos;
+    Vector2 _mouseDownScreenPos;
+
     public LevelManagerEvent onCreateLevel = new LevelManagerEvent();
     public LevelManagerEvent onLoadLevel = new LevelManagerEvent();
     public LevelManagerEvent onSaveLevel = new LevelManagerEvent();
@@ -346,6 +349,16 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// </summary>
     public bool IsMovingObject { get { return _movingObject != null; } }
 
+    public Vector2 MouseDownScreenPos {
+        get { return _mouseDownScreenPos; }
+        set { _mouseDownScreenPos = value; }
+    }
+
+    public Vector3 MouseDownWorldPos {
+        get { return _mouseDownWorldPos; }
+        set { _mouseDownWorldPos = value; }
+    }
+
     #endregion
     #region Unity Callbacks
 
@@ -465,6 +478,15 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// Sets the dirty status of the LM.
     /// </summary>
     public void SetDirty(bool dirty) { _dirty = dirty; }
+
+    public void HandleLeftDown(Event e) {
+        _mouseDownScreenPos = e.mousePosition;
+        var ray = HandleUtility.GUIPointToWorldRay(_mouseDownScreenPos);
+        float dist;
+        if (LevelManager.Instance.EditingPlane.Raycast(ray, out dist)) {
+            _mouseDownWorldPos = ray.GetPoint(dist);
+        }
+    }
 
     /// <summary>
     /// Selects the given tool.
@@ -656,6 +678,14 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
         return true;
     }
 
+    public List<GameObject> DraggedObjects (Vector2 mousePos, Camera camera) {
+        Rect rect = new Rect (_mouseDownScreenPos, mousePos - _mouseDownScreenPos);
+        foreach (var spawner in _loadedSpawners) {
+            var screenPoint = camera.WorldToScreenPoint (spawner.transform.position);
+            if (rect.Contains (screenPoint))
+        }
+    }
+
     /// <summary>
     /// Resets the currently selected tool (to placement).
     /// </summary>
@@ -779,11 +809,11 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
                 break;
         }
 
-        var attribs = AttributesOfObject (obj);
-        SetObjectPosition (obj, newPos, actionType);
+        var attribs = AttributesOfObject(obj);
+        SetObjectPosition(obj, newPos, actionType);
     }
 
-    public void SetObjectPosition(GameObject obj,  Vector3 pos, ActionType actionType) {
+    public void SetObjectPosition(GameObject obj, Vector3 pos, ActionType actionType) {
         var attribs = AttributesOfObject(obj);
         attribs.SetPosition(pos);
         obj.transform.position = pos;
@@ -801,15 +831,15 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
         obj.transform.localScale = scale;
     }
 
-    public void RecordAttributeChange (GameObject obj, ChangeObjectNormalAttributeAction.AttributeChanged attrib, Vector3 oldValue, Vector3 newValue, ActionType actionType) {
+    public void RecordAttributeChange(GameObject obj, ChangeObjectNormalAttributeAction.AttributeChanged attrib, Vector3 oldValue, Vector3 newValue, ActionType actionType) {
         switch (actionType) {
             case ActionType.Normal:
             case ActionType.Redo:
-                _undoStack.Push (new ChangeObjectNormalAttributeAction (obj, attrib, newValue));
+                _undoStack.Push(new ChangeObjectNormalAttributeAction(obj, attrib, newValue));
                 break;
 
             case ActionType.Undo:
-                _redoStack.Push (new ChangeObjectNormalAttributeAction (obj, attrib, oldValue));
+                _redoStack.Push(new ChangeObjectNormalAttributeAction(obj, attrib, oldValue));
                 break;
         }
     }
@@ -865,7 +895,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
         if (_placementAllowed) {
             //CreateObject((byte)_movingObjectID, _cursorPosition, ActionType.None);
             //_movingObject.transform.position = _cursorPosition;
-            MoveObject (_movingObject, _movingObjectOriginalCoords, _cursorPosition, ActionType.Normal);
+            MoveObject(_movingObject, _movingObjectOriginalCoords, _cursorPosition, ActionType.Normal);
             ResetMovingObject();
         }
     }

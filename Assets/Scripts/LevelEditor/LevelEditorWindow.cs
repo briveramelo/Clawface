@@ -1,6 +1,7 @@
 ﻿// LevelEditorWindow.cs
 
 using UnityEngine;
+using System.Collections.Generic;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -83,6 +84,8 @@ public class LevelEditorWindow : EditorWindow {
 
     Vector3 _originalRotation;
     Vector3 _originalScale;
+
+    List<GameObject> _selectedObjects = new List<GameObject>();
 
     /// <summary>
     /// Connected LM.
@@ -499,6 +502,11 @@ public class LevelEditorWindow : EditorWindow {
 
                 case EventType.MouseDown:
                     _lastMouseMoveWasDrag = false;
+                    switch (currEvent.button) {
+                        case 0: // Left mouse button down
+                            HandleLeftDown (currEvent);
+                            break;
+                    }
                     break;
 
                 case EventType.MouseUp:
@@ -545,6 +553,10 @@ public class LevelEditorWindow : EditorWindow {
         }
     }
 
+    void HandleLeftDown(Event e) {
+        LevelManager.Instance.HandleLeftDown (e);
+    }
+
     public void HandleLeftDownOnButton() {
         //Debug.Log ("down");
         var selectedObject = LevelManager.Instance.SelectedObject;
@@ -582,9 +594,11 @@ public class LevelEditorWindow : EditorWindow {
         switch (LevelManager.Instance.CurrentTool) {
             case LevelManager.Tool.Select:
                 if (LevelManager.Instance.LevelLoaded) {
-                    if (_hoveredObject) {
-                         LevelManager.Instance.SelectObject(_hoveredObject);
-                    } else LevelManager.Instance.DeselectObject();
+                    _selectedObjects = LevelManager.Instance.DraggedObjects (e.mousePosition);
+
+                    if (_selectedObjects != null && _selectedObjects.Count > 0) {
+                         LevelManager.Instance.SelectObjects(_selectedObjects);
+                    } else LevelManager.Instance.DeselectObjects();
                     /*var selectRay = HandleUtility.GUIPointToWorldRay(e.mousePosition);
                     RaycastHit selectHit;
                     if (Physics.Raycast(selectRay, out selectHit)) {
