@@ -30,7 +30,7 @@ public class InputManager : Singleton<InputManager> {
         #endif
 
         #if UNITY_STANDALONE_WIN
-            controllers.Add(new WindowsController());
+            controllers.Add(new XBox360Controller());
         #elif UNITY_STANDALONE_OSX
             // controllers.Add(new OSXController());
         #elif UNITY_STANDALONE_LINUX
@@ -38,7 +38,7 @@ public class InputManager : Singleton<InputManager> {
         #endif
 
         //// Insert Schemes
-        schemes.Add(new OriginalScheme());
+        schemes.Add(new Scheme2());
 
         // Set Active Scheme
         activeScheme = schemes.Count > 0 ? 0 : -1;
@@ -90,18 +90,18 @@ public class InputManager : Singleton<InputManager> {
         public Vector2 QueryAxes(string axes)
         {
             Assert.AreNotEqual(activeScheme, -1, "No Active Scheme Set!");
-            return schemes[activeScheme].GetAxes(controllers, axes);
+            return schemes[activeScheme].QueryAxes(controllers, axes);
         }
 
         public ButtonMode[] QueryAction(string action)
         {
             Assert.AreNotEqual(activeScheme, -1, "No Active Scheme Set!");
-            return schemes[activeScheme].GetAction(controllers, action);
+            return schemes[activeScheme].QueryAction(controllers, action);
         }
         public bool QueryAction(string action, ButtonMode mode)
         {
             Assert.AreNotEqual(activeScheme, -1, "No Active Scheme Set!");
-            return schemes[activeScheme].GetAction(controllers, action, mode);
+            return schemes[activeScheme].QueryAction(controllers, action, mode);
         }
 
     #endregion

@@ -85,29 +85,38 @@ public class PlayerMovement : MonoBehaviour, IDamageable, IMovable
     // Update is called once per frame
     void Update() {
 
-        float h = Input.GetAxis(Strings.MOVEX);
-        float v = Input.GetAxis(Strings.MOVEY);
+        Vector2 move = InputManager.Instance.QueryAxes(Strings.Input.Axes.MOVEMENT);
+        Vector2 look = InputManager.Instance.QueryAxes(Strings.Input.Axes.LOOK);
+        //float h = Input.GetAxis(Strings.MOVEX); REMOVE
+        //float v = Input.GetAxis(Strings.MOVEY);
 
-        float rightH = Input.GetAxis(Strings.AIMX);
-        float rightV = Input.GetAxis(Strings.AIMY);
+        //float rightH = Input.GetAxis(Strings.AIMX);
+        //float rightV = Input.GetAxis(Strings.AIMY);
 
-        axisInput = CheckForAxisInput(h, v);
-        rightAxisInput = CheckForAxisInput(rightH, rightV);
+        axisInput = Mathf.Approximately(move.magnitude, 0F);
+        rightAxisInput = Mathf.Approximately(look.magnitude, 0F);
 
-        float hModified = h;
-        float vModified = v;
+        //axisInput = CheckForAxisInput(h, v);
+        //rightAxisInput = CheckForAxisInput(rightH, rightV);
 
-        float rightHModified = rightH;
-        float rightVModified = rightV;
+        Vector2 moveModified = new Vector2(move.x, move.y);
+        Vector2 lookModified = new Vector2(look.x, look.y);
+        //float hModified = h;
+        //float vModified = v;
+
+        //float rightHModified = rightH;
+        //float rightVModified = rightV;
 
         if (isSidescrolling)
         {
-            vModified = 0f;
-            rightVModified = 0f;
+            moveModified.y = 0F;
+            lookModified.y = 0F;
         }
 
-        movement = new Vector3(hModified, 0.0f, vModified);
-        rightJoystickMovement = new Vector3(rightHModified, 0.0f, rightVModified);
+        movement = new Vector3(moveModified.x, 0.0F, moveModified.y);
+        rightJoystickMovement = new Vector3(lookModified.x, 0.0F, lookModified.y);
+        //movement = new Vector3(hModified, 0.0f, vModified);
+        //rightJoystickMovement = new Vector3(rightHModified, 0.0f, rightVModified);
 
         if (!canMove) {
             movement = Vector3.zero;

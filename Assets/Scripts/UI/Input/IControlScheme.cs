@@ -12,8 +12,8 @@ public interface IControlScheme  {
         get;
     }
 
-    Vector2 GetAxes(List<IController> controllers, string axes);
+    Vector2 QueryAxes(List<IController> controllers, string axes);
 
-    ButtonMode[] GetAction(List<IController> controllers, string action);
-    bool GetAction(List<IController> controllers, string action, ButtonMode mode);
+    ButtonMode[] QueryAction(List<IController> controllers, string action);
+    bool QueryAction(List<IController> controllers, string action, ButtonMode mode);
 }

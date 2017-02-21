@@ -112,7 +112,7 @@ public abstract class IController {
         public abstract bool GetDPadLeft(ButtonMode mode);
 
         public abstract ButtonMode GetDPadRight();
-        public abstract bool GetDpadRight(ButtonMode mode);
+        public abstract bool GetDPadRight(ButtonMode mode);
 
     #endregion
 

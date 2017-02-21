@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OriginalScheme : IControlScheme {
+public class Scheme2 : IControlScheme {
 
     #region Public Interface
 
@@ -14,34 +14,8 @@ public class OriginalScheme : IControlScheme {
         {
             get
             {
-                return "Original Scheme";
+                return "Scheme Two";
             }
-        }
-
-        public Vector2 QueryAxes(List<IController> controllers, string axes)
-        {
-            bool left;
-            switch(axes)
-            {
-                case Strings.Input.Axes.MOVEMENT:
-                    left = true;
-                    break;
-                case Strings.Input.Axes.LOOK:
-                    left = false;
-                    break;
-                default:
-                    throw new Exception("Bad Controller Axes String: " + axes);
-            }
-
-            Vector2 ret = new Vector2(0, 0);
-            foreach (IController controller in controllers)
-            {
-                Vector2 conRet = ConstructAxisValue(controller, left);
-                if (conRet.magnitude > ret.magnitude)
-                    ret = conRet;
-            }
-            
-            return ret;
         }
 
         public ButtonMode[] QueryAction(List<IController> controllers, string action)
@@ -66,7 +40,7 @@ public class OriginalScheme : IControlScheme {
                     case Strings.Input.Actions.ACTION_ARM_RIGHT:
                         modes[i] = controllers[i].GetAction2();
                         break;
-                    case Strings.Input.Actions.ACTION_HEAD:
+                    case Strings.Input.Actions.ACTION_SKIN:
                         modes[i] = controllers[i].GetAction4();
                         break;
                     case Strings.Input.Actions.NAV_UP:
@@ -81,6 +55,12 @@ public class OriginalScheme : IControlScheme {
                     case Strings.Input.Actions.NAV_RIGHT:
                         modes[i] = controllers[i].GetDPadRight();
                         break;
+                    case Strings.Input.Actions.BLOCK:
+                        modes[i] = controllers[i].GetLeftPrimary();
+                        break;
+                    case Strings.Input.Actions.LOCK:
+                        modes[i] = controllers[i].GetRightPrimary();
+                        break;
                     default:
                         throw new Exception("Bad Controller Action String: " + action);
                 }
@@ -88,6 +68,7 @@ public class OriginalScheme : IControlScheme {
 
             return modes;
         }
+
         public bool QueryAction(List<IController> controllers, string action, ButtonMode mode)
         {
             foreach (IController controller in controllers)
@@ -107,16 +88,14 @@ public class OriginalScheme : IControlScheme {
                             return true;
                         break;
                     case Strings.Input.Actions.ACTION_ARM_LEFT:
-                        if (controller.GetAction3(mode) ||
-                                controller.GetLeftPrimary(mode))
+                        if (controller.GetAction3(mode))
                             return true;
                         break;
                     case Strings.Input.Actions.ACTION_ARM_RIGHT:
-                        if (controller.GetAction2(mode) ||
-                                controller.GetRightPrimary(mode))
+                        if (controller.GetAction2(mode))
                             return true;
                         break;
-                    case Strings.Input.Actions.ACTION_HEAD:
+                    case Strings.Input.Actions.ACTION_SKIN:
                         if (controller.GetAction4(mode))
                             return true;
                         break;
@@ -136,12 +115,46 @@ public class OriginalScheme : IControlScheme {
                         if (controller.GetDPadRight(mode))
                             return true;
                         break;
+                    case Strings.Input.Actions.BLOCK:
+                        if (controller.GetLeftPrimary(mode))
+                            return true;
+                        break;
+                    case Strings.Input.Actions.LOCK:
+                        if (controller.GetRightPrimary(mode))
+                            return true;
+                        break;
                     default:
                         throw new Exception("Bad Controller Action String: " + action);
                 }
             }
 
             return false;
+        }
+
+        public Vector2 QueryAxes(List<IController> controllers, string axes)
+        {
+            bool left;
+            switch (axes)
+            {
+                case Strings.Input.Axes.MOVEMENT:
+                    left = true;
+                    break;
+                case Strings.Input.Axes.LOOK:
+                    left = false;
+                    break;
+                default:
+                    throw new Exception("Bad Controller Axes String: " + axes);
+            }
+
+            Vector2 ret = new Vector2(0, 0);
+            foreach (IController controller in controllers)
+            {
+                Vector2 conRet = ConstructAxisValue(controller, left);
+                if (conRet.magnitude > ret.magnitude)
+                    ret = conRet;
+            }
+
+            return ret;
         }
 
     #endregion
@@ -152,7 +165,7 @@ public class OriginalScheme : IControlScheme {
         {
             float x = left ? controller.GetLeftXAxis() : controller.GetRightXAxis();
             float y = left ? controller.GetLeftYAxis() : controller.GetRightYAxis();
-            
+
             return new Vector2(x, y);
         }
 

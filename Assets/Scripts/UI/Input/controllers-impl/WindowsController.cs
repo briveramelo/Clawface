@@ -5,7 +5,7 @@
  */
 using UnityEngine;
 
-public class WindowsController : IController
+public class XBox360Controller : IController
 {
 
     #region Constants
@@ -297,7 +297,7 @@ public class WindowsController : IController
         {
             return dPadRight;
         }
-        public override bool GetDpadRight(ButtonMode mode)
+        public override bool GetDPadRight(ButtonMode mode)
         {
             return dPadRight == mode;
         }
