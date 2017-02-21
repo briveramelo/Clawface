@@ -93,27 +93,24 @@ public class PlayerMovement : MonoBehaviour, IMovable
             }
         }
 
-		float h = Input.GetAxis(Strings.MOVEX);
-		float v = Input.GetAxis(Strings.MOVEY);
-		axisInput = CheckForAxisInput(h, v);
+        Vector2 move = InputManager.Instance.QueryAxes(Strings.Input.Axes.MOVEMENT);
+        axisInput = !Mathf.Approximately(move.magnitude, 0F);
 
-		float hModified = h;
-		float vModified = v;
+        Vector2 moveModified = new Vector2(move.x, move.y);
 
-		if (isSidescrolling)
-		{
-			vModified = 0f;
-		}
+        if (isSidescrolling)
+        {
+            moveModified.y = 0F;
+        }
+        
+        movement = new Vector3(moveModified.x, 0.0F, moveModified.y);
 
-		movement = new Vector3(hModified, 0.0f, vModified);
-
-		if (!canMove)
+        if (!canMove)
 		{
 			movement = Vector3.zero;
 		}
 
 		velocity = rigid.velocity;
-
 
 		movement = Camera.main.transform.TransformDirection(movement);
 
@@ -362,7 +359,6 @@ public class PlayerMovement : MonoBehaviour, IMovable
     #region Private Structures
     private Dictionary<ModSpot, bool> modSpotConstantForceIndices = new Dictionary<ModSpot, bool>()
     {
-        {ModSpot.Head, false},
         {ModSpot.Legs, false},
         {ModSpot.ArmL, false},
         {ModSpot.ArmR, false}

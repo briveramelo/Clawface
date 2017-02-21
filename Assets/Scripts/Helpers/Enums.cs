@@ -1,9 +1,8 @@
 ﻿public enum ModSpot {
     Default = -1,
-    Head = 0,
-    ArmL = 1,
-    ArmR = 2,
-    Legs = 3
+    ArmL = 0,
+    ArmR = 1,
+    Legs = 2
 }
 
 public enum StatType {
@@ -99,4 +98,12 @@ public enum PlayerAnimationStates
     RunMeleeRight = 5,
     MeleeLeft = 6,
     RunMeleeLeft = 7
+}
+
+public enum ButtonMode
+{
+    UP = 0, // just went up
+    HELD = 1, // is held
+    DOWN = 2, // just went down
+    IDLE= 3 // is released (not used)
 }
