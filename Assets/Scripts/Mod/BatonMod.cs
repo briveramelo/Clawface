@@ -88,26 +88,24 @@ public class BatonMod : Mod {
 
     private void OnTriggerStay(Collider other)
     {
-        if (!HitstopManager.Instance.IsInHitstop())
+        if (isHitting)
         {
-            if (isHitting)
+            IDamageable damageable = other.gameObject.GetComponent<IDamageable>();
+            if (damageable != null && !recentlyHitEnemies.Contains(damageable))
             {
-                IDamageable damageable = other.gameObject.GetComponent<IDamageable>();
-                if (damageable != null && !recentlyHitEnemies.Contains(damageable))
+                if (other.tag != Strings.PLAYER)
                 {
-                    if (other.tag != Strings.PLAYER)
-                    {
-                        HitstopManager.Instance.StartHitstop(3.0f);
-                    }
-                    impactEffect.Emit();
-                    damageable.TakeDamage(attackValue);
-                    recentlyHitEnemies.Add(damageable);
-                    IStunnable stunnable = other.gameObject.GetComponent<IStunnable>();
-                    if (stunnable != null)
-                    {
-                        stunnable.Stun();
+                    //TODO check that the player swinging IS NOT a mallcop...
+                    HitstopManager.Instance.StartHitstop(.2f);
+                }
+                impactEffect.Emit();
+                damageable.TakeDamage(attackValue);
+                recentlyHitEnemies.Add(damageable);
+                IStunnable stunnable = other.gameObject.GetComponent<IStunnable>();
+                if (stunnable != null)
+                {
+                    stunnable.Stun();
                         
-                    }
                 }
             }
         }
