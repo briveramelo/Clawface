@@ -101,3 +101,11 @@ public enum PlayerAnimationStates
     MeleeLeft = 6,
     RunMeleeLeft = 7
 }
+
+public enum ButtonMode
+{
+    UP = 0, // just went up
+    HELD = 1, // is held
+    DOWN = 2, // just went down
+    IDLE= 3 // is released (not used)
+}
