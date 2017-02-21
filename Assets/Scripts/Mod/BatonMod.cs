@@ -27,8 +27,6 @@ public class BatonMod : Mod {
             case ModSpot.ArmR:
                 Hit();
                 break;
-            case ModSpot.Head:                
-                break;
             case ModSpot.Legs:
                 LayMine();
                 break;
@@ -45,6 +43,7 @@ public class BatonMod : Mod {
     void Awake()
     {
         type = ModType.StunBaton;
+        category = ModCategory.Melee;
         attackCollider.enabled = false;
     }
 
@@ -87,26 +86,24 @@ public class BatonMod : Mod {
 
     private void OnTriggerStay(Collider other)
     {
-        if (!HitstopManager.Instance.IsInHitstop())
+        if (isHitting)
         {
-            if (isHitting)
+            IDamageable damageable = other.gameObject.GetComponent<IDamageable>();
+            if (damageable != null && !recentlyHitEnemies.Contains(damageable))
             {
-                IDamageable damageable = other.gameObject.GetComponent<IDamageable>();
-                if (damageable != null && !recentlyHitEnemies.Contains(damageable))
+                if (other.tag != Strings.PLAYER)
                 {
-                    if (other.tag != Strings.PLAYER)
-                    {
-                        HitstopManager.Instance.StartHitstop(3.0f);
-                    }
-                    impactEffect.Emit();
-                    damageable.TakeDamage(attackValue);
-                    recentlyHitEnemies.Add(damageable);
-                    IStunnable stunnable = other.gameObject.GetComponent<IStunnable>();
-                    if (stunnable != null)
-                    {
-                        stunnable.Stun();
+                    //TODO check that the player swinging IS NOT a mallcop...
+                    HitstopManager.Instance.StartHitstop(.2f);
+                }
+                impactEffect.Emit();
+                damageable.TakeDamage(attackValue);
+                recentlyHitEnemies.Add(damageable);
+                IStunnable stunnable = other.gameObject.GetComponent<IStunnable>();
+                if (stunnable != null)
+                {
+                    stunnable.Stun();
                         
-                    }
                 }
             }
         }
@@ -127,25 +124,13 @@ public class BatonMod : Mod {
         attackCollider.enabled = true;
         playerStats = i_playerStats;
         pickupCollider.enabled = false;
-        if (getModSpot() == ModSpot.Head)
-        {
-            BoostAttack();
-        }else
-        {
-            attackValue = playerStats.GetStat(StatType.Attack);
-        }
+        attackValue = playerStats.GetStat(StatType.Attack);
     }
 
     public override void DetachAffect()
     {
         attackCollider.enabled = false;
         pickupCollider.enabled = true;
-        if (getModSpot() == ModSpot.Head)
-        {
-            RemoveAttackBoost();
-        }else
-        {
-            attackValue = 0.0f;
-        }
+        attackValue = 0.0f;
     }
 }
