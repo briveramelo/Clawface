@@ -94,7 +94,7 @@ public class PlayerMovement : MonoBehaviour, IMovable
         }
 
         Vector2 move = InputManager.Instance.QueryAxes(Strings.Input.Axes.MOVEMENT);
-        axisInput = Mathf.Approximately(move.magnitude, 0F);
+        axisInput = !Mathf.Approximately(move.magnitude, 0F);
 
         Vector2 moveModified = new Vector2(move.x, move.y);
 
