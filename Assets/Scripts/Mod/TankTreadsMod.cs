@@ -47,6 +47,9 @@ public class TankTreadsMod : Mod
     private float armChargedHitstop;
 
     [SerializeField]
+    private float armChargedForce;
+
+    [SerializeField]
     private float legsMoveSpeedMod;
 
     [SerializeField]
@@ -58,7 +61,10 @@ public class TankTreadsMod : Mod
     private float savedDampenForces;
     private float chargeTimer;
 
-    private bool attackHitboxIsActive;
+    private bool armRegularAttackHitboxIsActive;
+    private bool armChargedAttackHitboxIsActive;
+
+    private List<Transform> objectsHitDuringAttack;
     #endregion Privates
 
 
@@ -120,6 +126,59 @@ public class TankTreadsMod : Mod
         setModType(ModType.TankTreads);
     }
 
+    private void OnTriggerStay(Collider other)
+    {
+        if (armRegularAttackHitboxIsActive)
+        {
+            if (objectsHitDuringAttack.Contains(other.transform.root)) return;
+
+            IDamageable damageable = other.transform.root.GetComponent<IDamageable>();
+
+            if (damageable != null)
+            {
+                objectsHitDuringAttack.Add(other.transform.root);
+
+                if (this.transform.root.tag == Strings.PLAYER)
+                {
+                    // If the player is the one attacking
+                    HitstopManager.Instance.StartHitstop(armRegularHitstop);
+                    damageable.TakeDamage(armRegularDamage);
+                    
+
+                }
+                else
+                {
+                    // If the enemy is the one attacking, they can only affect the player
+                    if (other.transform.root.tag == Strings.PLAYER)
+                    {
+                        damageable.TakeDamage(armRegularDamage);
+                    }
+                }
+            }
+        }
+        else if (armChargedAttackHitboxIsActive)
+        {
+            if (objectsHitDuringAttack.Contains(other.transform.root)) return;
+
+            IDamageable damageable = other.transform.root.GetComponent<IDamageable>();
+            IMovable movable = other.transform.root.GetComponent<IMovable>();
+
+            if (damageable != null)
+            {
+
+            }
+
+            if (movable != null)
+            {
+
+            }
+
+            if (damageable != null || movable != null)
+            {
+                objectsHitDuringAttack.Add(other.transform.root);
+            }
+        }
+    }
 
     public override void Activate()
     {
@@ -186,9 +245,10 @@ public class TankTreadsMod : Mod
 
     public void Hit()
     {
-        Invoke("EnableAttackCollider", armRegularStartupTime);
+        
     }
 
+    #region Private Methods
     private void EnableAttackCollider()
     {
         attackCollider.enabled = true;
@@ -208,7 +268,7 @@ public class TankTreadsMod : Mod
     private IEnumerator ArmRegularActive()
     {
         EnableAttackCollider();
-        attackHitboxIsActive = true;
+        armRegularAttackHitboxIsActive = true;
 
         yield return new WaitForSeconds(armRegularActiveTime);
         ArmRegularCooldown();
@@ -217,7 +277,8 @@ public class TankTreadsMod : Mod
     private IEnumerator ArmRegularCooldown()
     {
         DisableAttackCollider();
-        attackHitboxIsActive = false;
+        armRegularAttackHitboxIsActive = false;
+        objectsHitDuringAttack.Clear();
 
         yield return new WaitForSeconds(armRegularCooldownTime);
     }
@@ -233,7 +294,7 @@ public class TankTreadsMod : Mod
     private IEnumerator ArmChargedActive()
     {
         EnableAttackCollider();
-        attackHitboxIsActive = true;
+        armChargedAttackHitboxIsActive = true;
         
 
         yield return new WaitForSeconds(armChargedActiveTime);
@@ -243,9 +304,11 @@ public class TankTreadsMod : Mod
     private IEnumerator ArmChargedCooldown()
     {
         DisableAttackCollider();
-        attackHitboxIsActive = false;
+        armChargedAttackHitboxIsActive = false;
+        objectsHitDuringAttack.Clear();
 
         yield return new WaitForSeconds(armChargedCooldownTime);
     }
+    #endregion
 
 }
