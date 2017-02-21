@@ -6,8 +6,8 @@ using UnityEngine;
 public class ServiceWrangler : Singleton<ServiceWrangler> {
 
     protected ServiceWrangler() { }
-
-    [SerializeField] private GameObject audioManager, bulletPool, healthBar, modUIManager, vfxManager, inputManager;
+    
+    [SerializeField] private GameObject audioManager, bulletPool, healthBar, modUIManager, vfxManager, inputManager, hitstopManager;
     private static Dictionary<string, PrefabBool> singletonPrefabRegistry;
 
     protected override void Awake() {
@@ -18,7 +18,8 @@ public class ServiceWrangler : Singleton<ServiceWrangler> {
             { typeof(HealthBar).ToString(),             new PrefabBool(ref healthBar) },
             { typeof(ModUIManager).ToString(),          new PrefabBool(ref modUIManager) },
             { typeof(VFXManager).ToString(),            new PrefabBool(ref vfxManager) },
-            { typeof(InputManager).ToString(),          new PrefabBool(ref inputManager) }    
+            { typeof(InputManager).ToString(),          new PrefabBool(ref inputManager) },
+            { typeof(HitstopManager).ToString(),        new PrefabBool(ref hitstopManager) }
         };
         base.Awake();
     }

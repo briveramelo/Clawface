@@ -41,6 +41,13 @@ public enum ModType {
     StunBaton=3
 }
 
+public enum ModCategory
+{
+    None = 0,
+    Melee = 1,
+    Ranged = 2
+}
+
 public enum CharacterType {
     ModMan=0,
     MallCop=1,

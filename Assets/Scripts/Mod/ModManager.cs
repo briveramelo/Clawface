@@ -75,6 +75,10 @@ public class ModManager : MonoBehaviour
             {                
                 if (modSocketDictionary[spot].mod != null)
                 {
+                    if(modSocketDictionary[spot].mod.getModCategory() == ModCategory.Melee)
+                    {
+                        playerMovement.DoMeleePounce();
+                    }
                     playerMovement.PlayAnimation(modSocketDictionary[spot].mod);
                 }
             }
