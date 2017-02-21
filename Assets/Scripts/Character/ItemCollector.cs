@@ -15,11 +15,8 @@ public class ItemCollector : MonoBehaviour {
             CollectCodexEntry(col);
         }
         if (col.tag == Strings.ENEMY) {
-            if ((Input.GetButton(Strings.PREPARETOPICKUPORDROP) &&
-                Input.GetButtonDown(Strings.PREPARETOSWAP)) ||
-                (Input.GetButtonDown(Strings.PREPARETOPICKUPORDROP) &&
-                Input.GetButton(Strings.PREPARETOSWAP))) {
-
+            if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_SKIN,
+                    ButtonMode.DOWN)) {
                 if (col.GetComponent<ISkinnable>().IsSkinnable()) {
                     CollectSkin(col);
                 }
