@@ -31,6 +31,7 @@ public class ObjectPool : Singleton<ObjectPool>
         mallCopPool.Initialize(transform);
         targetExplosionEffectPool.Initialize(transform);
         stunMineExplosionEffect.Initialize(transform);
+        bloodSplatterPool.Initialize(transform);
 
 
         pools = new Dictionary<PoolObjectType, Pool>()
