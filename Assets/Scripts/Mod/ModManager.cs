@@ -28,7 +28,6 @@ public class ModManager : MonoBehaviour
     private void Start()
     {
         modSocketDictionary = new Dictionary<ModSpot, ModSocket>();
-        modSocketDictionary.Add(ModSpot.Head, new ModSocket(headSocket));
         modSocketDictionary.Add(ModSpot.Legs, new ModSocket(legsSocket));
         modSocketDictionary.Add(ModSpot.ArmL, new ModSocket(leftArmSocket));
         modSocketDictionary.Add(ModSpot.ArmR, new ModSocket(rightArmSocket));
@@ -87,11 +86,6 @@ public class ModManager : MonoBehaviour
 
     private ModSpot GetCommandedModSpot()
     {
-        if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_SKIN,
-            ButtonMode.DOWN))
-        {
-            return ModSpot.Head;
-        }
         if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_LEGS,
             ButtonMode.DOWN))
         {
