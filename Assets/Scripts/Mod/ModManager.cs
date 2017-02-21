@@ -50,7 +50,8 @@ public class ModManager : MonoBehaviour
     {
         if (other.tag == Strings.MOD)
         {
-            if (Input.GetButton(Strings.PREPARETOPICKUPORDROP))
+            if (InputManager.Instance.QueryAction(Strings.Input.Actions.DROP_MODE,
+                    ButtonMode.HELD))
             {
                 ModSpot commandedModSpot = GetCommandedModSpot();
 
@@ -64,7 +65,10 @@ public class ModManager : MonoBehaviour
 
     private void CheckToActivateMod()
     {
-        if(!Input.GetButton(Strings.PREPARETOPICKUPORDROP) && !Input.GetButton(Strings.PREPARETOSWAP))
+        if (!InputManager.Instance.QueryAction(Strings.Input.Actions.DROP_MODE,
+                ButtonMode.HELD) &&
+            !InputManager.Instance.QueryAction(Strings.Input.Actions.SWAP_MODE,
+                ButtonMode.HELD))
         {
             ModSpot spot = GetCommandedModSpot();
             if (spot != ModSpot.Default)
@@ -82,20 +86,24 @@ public class ModManager : MonoBehaviour
     }
 
     private ModSpot GetCommandedModSpot()
-    {        
-        if (Input.GetButtonDown(Strings.UP))
+    {
+        if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_SKIN,
+            ButtonMode.DOWN))
         {
             return ModSpot.Head;
         }
-        if (Input.GetButtonDown(Strings.DOWN))
+        if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_LEGS,
+            ButtonMode.DOWN))
         {
             return ModSpot.Legs;
         }
-        if (Input.GetButtonDown(Strings.LEFT))
+        if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_LEFT,
+            ButtonMode.DOWN))
         {
             return ModSpot.ArmL;
         }
-        if (Input.GetButtonDown(Strings.RIGHT))
+        if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_RIGHT,
+            ButtonMode.DOWN))
         {
             return ModSpot.ArmR;
         }        
@@ -104,7 +112,8 @@ public class ModManager : MonoBehaviour
 
     private void CheckToDropMod()
     {   
-        if (Input.GetButton(Strings.PREPARETOPICKUPORDROP)) {
+        if (InputManager.Instance.QueryAction(Strings.Input.Actions.DROP_MODE,
+                ButtonMode.HELD)) {
             ModSpot spotSelected = GetCommandedModSpot();            
             if (spotSelected != ModSpot.Default && modSocketDictionary[spotSelected].mod != null) {
                 Detach(spotSelected);
@@ -113,14 +122,16 @@ public class ModManager : MonoBehaviour
     }
 
     private void SetModToSwap() {
-        if (Input.GetButton(Strings.PREPARETOSWAP) && modToSwap==ModSpot.Default){
+        if (InputManager.Instance.QueryAction(Strings.Input.Actions.SWAP_MODE,
+                ButtonMode.HELD) && modToSwap==ModSpot.Default) {
             StartCoroutine(DelayIsOkToSwapMods());
             modToSwap = GetCommandedModSpot();
             if (modToSwap!=ModSpot.Default) {
                 ModUIManager.Instance.SetUIState(modToSwap, ModUIState.SELECTED);
             }
         }
-        if (Input.GetButtonUp(Strings.PREPARETOSWAP)) {
+        if (InputManager.Instance.QueryAction(Strings.Input.Actions.SWAP_MODE,
+                ButtonMode.UP)) {
             SetAllModUIToIdle();            
         }
     }
