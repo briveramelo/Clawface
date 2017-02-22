@@ -53,6 +53,12 @@ public class TankTreadsMod : Mod
     private float legsMoveSpeedMod;
 
     [SerializeField]
+    private float legsCrushDamage;
+
+    [SerializeField]
+    private float timeBetweenLegsDamageTick;
+
+    [SerializeField]
     private float dampenForcesOnPlayerBy;
     #endregion
 
@@ -65,13 +71,21 @@ public class TankTreadsMod : Mod
     private bool armChargedAttackHitboxIsActive;
 
     private List<Transform> objectsHitDuringAttack;
+
+    private PlayerMovement pMove;
+
+    private bool canAttackAgain;
     #endregion Privates
 
+    #region Unity Lifetime
 
     // Use this for initialization
     void Start()
     {
-
+        
+        attackCollider.enabled = false;
+        setModSpot(ModSpot.Default);
+        objectsHitDuringAttack = new List<Transform>();
     }
 
     // Update is called once per frame
@@ -80,12 +94,16 @@ public class TankTreadsMod : Mod
         switch (getModSpot())
         {
             case ModSpot.ArmL:
+                if (!canAttackAgain) return;
+
                 if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_LEFT, ButtonMode.HELD))
                 {
                     chargeTimer += Time.deltaTime;
+                    pMove.CanMove(false);
                 }
                 if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_LEFT, ButtonMode.UP)) 
                 {
+                    pMove.CanMove(true);
                     if (chargeTimer >= chargeTime)
                     {
                         ChargedHit();
@@ -99,13 +117,17 @@ public class TankTreadsMod : Mod
                 break;
 
             case ModSpot.ArmR:
+                if (!canAttackAgain) return;
+
                 if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_RIGHT, ButtonMode.HELD))
                 {
                     chargeTimer += Time.deltaTime;
+                    pMove.CanMove(false);
                 }
 
                 if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_RIGHT, ButtonMode.UP))
                 {
+                    pMove.CanMove(true);
                     if (chargeTimer >= chargeTime)
                     {
                         ChargedHit();
@@ -115,6 +137,13 @@ public class TankTreadsMod : Mod
                         Hit();
                     }
                     chargeTimer = 0f;
+                }
+
+                break;
+            case ModSpot.Legs:
+                if (pMove.isGrounded)
+                {
+                    // Jump here
                 }
 
                 break;
@@ -138,18 +167,21 @@ public class TankTreadsMod : Mod
             {
                 objectsHitDuringAttack.Add(other.transform.root);
 
-                if (this.transform.root.tag == Strings.PLAYER)
+                if (this.transform.root.tag == Strings.Tags.PLAYER)
                 {
                     // If the player is the one attacking
-                    HitstopManager.Instance.StartHitstop(armRegularHitstop);
-                    damageable.TakeDamage(armRegularDamage);
+                    if (other.transform.root.tag != Strings.Tags.PLAYER)
+                    {
+                        HitstopManager.Instance.StartHitstop(armRegularHitstop);
+                        damageable.TakeDamage(armRegularDamage);
+                    }
                     
 
                 }
                 else
                 {
                     // If the enemy is the one attacking, they can only affect the player
-                    if (other.transform.root.tag == Strings.PLAYER)
+                    if (other.transform.root.tag == Strings.Tags.PLAYER)
                     {
                         damageable.TakeDamage(armRegularDamage);
                     }
@@ -165,18 +197,21 @@ public class TankTreadsMod : Mod
 
             if (damageable != null)
             {
-                if (this.transform.root.tag == Strings.PLAYER)
+                if (this.transform.root.tag == Strings.Tags.PLAYER)
                 {
                     // If the player is the one attacking
-                    HitstopManager.Instance.StartHitstop(armChargedHitstop);
-                    damageable.TakeDamage(armChargedDamage);
+                    if (other.transform.root.tag != Strings.Tags.PLAYER)
+                    {
 
+                        HitstopManager.Instance.StartHitstop(armChargedHitstop);
+                        damageable.TakeDamage(armChargedDamage);
+                    }
 
                 }
                 else
                 {
                     // If the enemy is the one attacking, they can only affect the player
-                    if (other.transform.root.tag == Strings.PLAYER)
+                    if (other.transform.root.tag == Strings.Tags.PLAYER)
                     {
                         damageable.TakeDamage(armChargedDamage);
                     }
@@ -185,7 +220,7 @@ public class TankTreadsMod : Mod
 
             if (movable != null)
             {
-                if (this.transform.root.tag == Strings.PLAYER)
+                if (this.transform.root.tag == Strings.Tags.PLAYER)
                 {
                     // If the player is the one attacking
                     movable.AddExternalForce(GetNormalizedDistance(this.transform.root, other.transform.root) * armChargedForce);
@@ -193,7 +228,7 @@ public class TankTreadsMod : Mod
                 else
                 {
                     // If the enemy is the one attacking, they can only affect the player
-                    if (other.transform.root.tag == Strings.PLAYER)
+                    if (other.transform.root.tag == Strings.Tags.PLAYER)
                     {
                         movable.AddExternalForce(GetNormalizedDistance(this.transform.root, other.transform.root) * armChargedForce);
                     }
@@ -207,24 +242,11 @@ public class TankTreadsMod : Mod
         }
     }
 
+    #endregion
+
     public override void Activate()
     {
-        //switch (getModSpot())
-        //{
-        //    case ModSpot.ArmL:
-        //        Hit();
-        //        break;
-        //    case ModSpot.ArmR:
-        //        Hit();
-        //        break;
-        //    case ModSpot.Head:
-        //        break;
-        //    case ModSpot.Legs:
-        //        LayMine();
-        //        break;
-        //    default:
-        //        break;
-        //}
+
     }
 
 
@@ -233,7 +255,10 @@ public class TankTreadsMod : Mod
     {
         //TODO:Disable pickup collider
         this.playerStats = playerStats;
+        pMove = playerMovement;
         pickupCollider.enabled = false;
+        attackCollider.enabled = false;
+        canAttackAgain = true;
 
         if (getModSpot() == ModSpot.Legs)
         {
@@ -254,6 +279,7 @@ public class TankTreadsMod : Mod
     {
         pickupCollider.enabled = true;
         attackCollider.enabled = false;
+        canAttackAgain = false;
 
         if (getModSpot() == ModSpot.Legs)
         {
@@ -267,12 +293,12 @@ public class TankTreadsMod : Mod
 
     public void ChargedHit()
     {
-
+        StartCoroutine(ArmChargedStartup());
     }
 
     public void Hit()
     {
-        
+        StartCoroutine(ArmRegularStartup());
     }
 
     #region Private Methods
@@ -296,8 +322,9 @@ public class TankTreadsMod : Mod
 
     private IEnumerator ArmRegularStartup()
     {
+        canAttackAgain = false;
         yield return new WaitForSeconds(armRegularStartupTime);
-        ArmRegularActive();
+        StartCoroutine(ArmRegularActive());
     }
 
     private IEnumerator ArmRegularActive()
@@ -306,7 +333,7 @@ public class TankTreadsMod : Mod
         armRegularAttackHitboxIsActive = true;
 
         yield return new WaitForSeconds(armRegularActiveTime);
-        ArmRegularCooldown();
+        StartCoroutine(ArmRegularCooldown());
     }
 
     private IEnumerator ArmRegularCooldown()
@@ -316,14 +343,13 @@ public class TankTreadsMod : Mod
         objectsHitDuringAttack.Clear();
 
         yield return new WaitForSeconds(armRegularCooldownTime);
+        canAttackAgain = true;
     }
 
     private IEnumerator ArmChargedStartup()
     {
-        
-
         yield return new WaitForSeconds(armChargedStartupTime);
-        ArmChargedActive();
+        StartCoroutine(ArmChargedActive());
     }
 
     private IEnumerator ArmChargedActive()
@@ -333,7 +359,7 @@ public class TankTreadsMod : Mod
         
 
         yield return new WaitForSeconds(armChargedActiveTime);
-        ArmChargedCooldown();
+        StartCoroutine(ArmChargedCooldown());
     }
 
     private IEnumerator ArmChargedCooldown()
@@ -343,6 +369,7 @@ public class TankTreadsMod : Mod
         objectsHitDuringAttack.Clear();
 
         yield return new WaitForSeconds(armChargedCooldownTime);
+        canAttackAgain = true;
     }
     #endregion
 

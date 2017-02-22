@@ -260,6 +260,16 @@ public class PlayerMovement : MonoBehaviour, IMovable
         rigid.useGravity = mode == MovementMode.ICE ? true : false;
     }
 
+    public bool CanMove()
+    {
+        return canMove;
+    }
+
+    public void CanMove(bool mode)
+    {
+        canMove = mode;
+    }
+
     public void PlayAnimation(Mod mod)
     {
         if (!modAnimationManager.GetIsPlaying())
