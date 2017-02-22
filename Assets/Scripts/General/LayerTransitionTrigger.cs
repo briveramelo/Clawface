@@ -19,7 +19,7 @@ public class LayerTransitionTrigger : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == Strings.PLAYER)
+        if(other.tag == Strings.Tags.PLAYER)
         {
             CameraLayerController.instance.SwitchLayer(1 << LayerMask.NameToLayer(layerName));
         }

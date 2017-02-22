@@ -11,15 +11,12 @@ public class ItemCollector : MonoBehaviour {
     [SerializeField] Stats playerStats;
 
     void OnTriggerStay(Collider col) {
-        if (col.tag == Strings.CODEXENTRY) {
+        if (col.tag == Strings.Tags.CODEXENTRY) {
             CollectCodexEntry(col);
         }
-        if (col.tag == Strings.ENEMY) {
-            if ((Input.GetButton(Strings.PREPARETOPICKUPORDROP) &&
-                Input.GetButtonDown(Strings.PREPARETOSWAP)) ||
-                (Input.GetButtonDown(Strings.PREPARETOPICKUPORDROP) &&
-                Input.GetButton(Strings.PREPARETOSWAP))) {
-
+        if (col.tag == Strings.Tags.ENEMY) {
+            if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_SKIN,
+                    ButtonMode.DOWN)) {
                 if (col.GetComponent<ISkinnable>().IsSkinnable()) {
                     CollectSkin(col);
                 }

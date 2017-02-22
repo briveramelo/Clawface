@@ -197,7 +197,6 @@ public class FireTrap : MonoBehaviour {
     }
 
     void DoDamage() {
-        Debug.Log("bap");
         foreach (var obj in _objectsInTrap) {
             obj.TakeDamage(_damagePerSecond);
         }

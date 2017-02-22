@@ -45,7 +45,7 @@ public class BlasterBullet : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == Strings.ENEMY && push)
+        if(other.gameObject.tag == Strings.Tags.ENEMY && push)
         {
             Vector3 forceDirection = other.gameObject.transform.position - transform.position;
             IMovable movable = other.gameObject.GetComponent<IMovable>();
@@ -58,9 +58,9 @@ public class BlasterBullet : MonoBehaviour {
 
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.tag != Strings.PLAYER)
+        if (other.gameObject.tag != Strings.Tags.PLAYER)
         {
-            if (other.gameObject.tag == Strings.ENEMY)
+            if (other.gameObject.tag == Strings.Tags.ENEMY)
             {
                 IDamageable damageable = other.gameObject.GetComponent<IDamageable>();
                 if (damageable != null)
