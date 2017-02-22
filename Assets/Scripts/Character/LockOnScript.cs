@@ -23,7 +23,7 @@ public class LockOnScript : MonoBehaviour {
     #region Unity Lifecycle
     // Use this for initialization
     void Start () {
-        enemyMask = LayerMask.GetMask(Strings.ENEMY);
+        enemyMask = LayerMask.GetMask(Strings.Tags.ENEMY);
         currentEnemy = null;        
         isTargetting = false;
         isChangingTarget = false;
@@ -92,7 +92,7 @@ public class LockOnScript : MonoBehaviour {
         float minDistance = Mathf.Infinity;
         foreach (RaycastHit hit in hits)
         {
-            if (hit.transform.gameObject.tag == Strings.ENEMY)
+            if (hit.transform.gameObject.tag == Strings.Tags.ENEMY)
             {
                 float distance = Vector3.Distance(hit.transform.position, transform.position);
                 if (distance < minDistance)

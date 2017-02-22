@@ -91,7 +91,7 @@ public class BatonMod : Mod {
             IDamageable damageable = other.gameObject.GetComponent<IDamageable>();
             if (damageable != null && !recentlyHitEnemies.Contains(damageable))
             {
-                if (other.tag != Strings.PLAYER)
+                if (other.tag != Strings.Tags.PLAYER)
                 {
                     //TODO check that the player swinging IS NOT a mallcop...
                     HitstopManager.Instance.StartHitstop(.2f);

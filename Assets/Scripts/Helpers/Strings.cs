@@ -1,12 +1,16 @@
 ﻿public class Strings  {
     // TODO - This should be reorganized..  I have no idea where any of these
     // are being used or what they're for.
-    public static string MOD = "Mod";
-    public static string ENEMY = "Enemy";
-    public static string PLAYER = "Player";
-    public static string CODEXENTRY = "CodexEntry";
-    public static string UNLOCKABLE = "Unlockable";
     public static string ANIMATIONSTATE = "AnimationState";
+
+    public static class Tags {
+        public static string MOD = "Mod";
+        public static string ENEMY = "Enemy";
+        public static string PLAYER = "Player";
+        public static string CODEXENTRY = "CodexEntry";
+        public static string UNLOCKABLE = "Unlockable";
+        public static string UNTAGGED = "Untagged";
+    }
 
     public static class Input
     {
