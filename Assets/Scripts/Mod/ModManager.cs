@@ -83,11 +83,6 @@ public class ModManager : MonoBehaviour
 
     private ModSpot GetCommandedModSpot()
     {
-        if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_SKIN,
-            ButtonMode.DOWN))
-        {
-            return ModSpot.Head;
-        }
         if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_LEGS,
             ButtonMode.DOWN))
         {

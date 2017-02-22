@@ -75,6 +75,7 @@ GameObject:
   - component: {fileID: 114340441174612758}
   - component: {fileID: 114792726729304200}
   - component: {fileID: 114380732290189190}
+  - component: {fileID: 114228129423457306}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -724,6 +725,17 @@ MonoBehaviour:
   playerStats: {fileID: 114598520009895834}
   playerMovement: {fileID: 114380732290189190}
   stateManager: {fileID: 114792726729304200}
+--- !u!114 &114228129423457306
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1205719698033964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d050d4f177f374449d3dd5baf65758c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114340441174612758
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -778,6 +790,7 @@ MonoBehaviour:
   stateVariables:
     currentEnemy: {fileID: 0}
     currentMod: {fileID: 0}
+    stateFinished: 0
     foot: {fileID: 4090987174063130}
     acceleration: 1000
     iceForceMultiplier: 500
@@ -788,6 +801,7 @@ MonoBehaviour:
     statsManager: {fileID: 114971001971292986}
     animator: {fileID: 95133427763299508}
   moveState: {fileID: 114380732290189190}
+  skinningState: {fileID: 114228129423457306}
   lockOnScript: {fileID: 114986823459479984}
   modAnimationManager: {fileID: 114091127343071412}
   modStateMappings:

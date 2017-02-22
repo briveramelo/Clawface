@@ -13,6 +13,8 @@ public class PlayerStateManager : MonoBehaviour {
     [SerializeField]
     private MoveState moveState;
     [SerializeField]
+    private SkinningState skinningState;
+    [SerializeField]
     private LockOnScript lockOnScript;
     [SerializeField]
     private PlayerModAnimationManager modAnimationManager;
@@ -22,17 +24,19 @@ public class PlayerStateManager : MonoBehaviour {
 
     #region Private Fields
     private IPlayerState movementState;
-    private IPlayerState attackState;
+    private IPlayerState alternateState;
     private Dictionary<ModType, IPlayerState> modStateDictionary;
     private IPlayerState previousMovementState;
     #endregion
 
     #region Unity Lifecycle
     // Use this for initialization
-    void Start () {        
+    void Start () {
+        stateVariables.stateFinished = true;
         moveState.Init(ref stateVariables);
+        skinningState.Init(ref stateVariables);
         movementState = moveState;
-        attackState = null;
+        alternateState = null;
         modStateDictionary = new Dictionary<ModType, IPlayerState>();
         foreach(ModStateMapping mapping in modStateMappings)
         {
@@ -42,26 +46,33 @@ public class PlayerStateManager : MonoBehaviour {
     }
 	
 	// Update is called once per frame
-	void Update () {
+	void Update () {        
         if(lockOnScript != null)
         {
             stateVariables.currentEnemy = lockOnScript.GetCurrentEnemy();            
+        }
+        if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_SKIN, ButtonMode.DOWN))
+        {
+            if (stateVariables.currentEnemy != null && stateVariables.currentEnemy.GetComponent<ISkinnable>().IsSkinnable())
+            {
+                SwitchState(skinningState);                
+            }
         }
         if (movementState != null)
         {
             movementState.StateUpdate();
         }
-        if(attackState != null)
+        if(alternateState != null)
         {
-            if (!modAnimationManager.GetIsPlaying())
+            if (stateVariables.stateFinished)
             {
                 movementState = previousMovementState;
                 previousMovementState = null;
-                attackState = null;
+                alternateState = null;
             }
             else
             {
-                attackState.StateUpdate();
+                alternateState.StateUpdate();
             }
         }
     }
@@ -72,9 +83,9 @@ public class PlayerStateManager : MonoBehaviour {
         {
             movementState.StateFixedUpdate();
         }
-        if (attackState != null)
+        if (alternateState != null)
         {
-            attackState.StateFixedUpdate();
+            alternateState.StateFixedUpdate();
         }
     }
     #endregion
@@ -88,10 +99,7 @@ public class PlayerStateManager : MonoBehaviour {
             {
                 if (movementState != null)
                 {
-                    previousMovementState = movementState;
-                    movementState = null;
-                    stateVariables.rb.velocity = Vector3.zero;
-                    attackState = modStateDictionary[mod.getModType()];
+                    SwitchState(modStateDictionary[mod.getModType()]);
                 }                
             }            
         }
@@ -114,6 +122,18 @@ public class PlayerStateManager : MonoBehaviour {
             }
         }
     }
+
+    private void SwitchState(IPlayerState newState)
+    {
+        if (movementState != null)
+        {
+            previousMovementState = movementState;
+            movementState = null;
+            stateVariables.rb.velocity = Vector3.zero;
+        }
+        alternateState = newState;
+        stateVariables.stateFinished = false;
+    }
     #endregion
 
     #region Private Structures
@@ -124,6 +144,8 @@ public class PlayerStateManager : MonoBehaviour {
         public GameObject currentEnemy;
         [HideInInspector]
         public Mod currentMod;
+        [HideInInspector]
+        public bool stateFinished;
         public Transform foot;
         public float acceleration;
         public float iceForceMultiplier;
@@ -132,7 +154,7 @@ public class PlayerStateManager : MonoBehaviour {
         public MovementMode movementMode;
         public Rigidbody rb;        
         public PlayerStatsManager statsManager;
-        public Animator animator;
+        public Animator animator;        
     }
 
     [System.Serializable]
