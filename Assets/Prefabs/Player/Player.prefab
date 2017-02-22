@@ -72,6 +72,9 @@ GameObject:
   - component: {fileID: 114091127343071412}
   - component: {fileID: 114986823459479984}
   - component: {fileID: 114971001971292986}
+  - component: {fileID: 114340441174612758}
+  - component: {fileID: 114792726729304200}
+  - component: {fileID: 114380732290189190}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -672,7 +675,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!95 &95133427763299508
 Animator:
@@ -719,8 +722,30 @@ MonoBehaviour:
   rightArmSocket: {fileID: 4906421658840088}
   legsSocket: {fileID: 4090987174063130}
   playerStats: {fileID: 114598520009895834}
-  playerMovement: {fileID: 114993959103341696}
-  triggerThreshold: 0
+  playerMovement: {fileID: 114380732290189190}
+  stateManager: {fileID: 114792726729304200}
+--- !u!114 &114340441174612758
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1205719698033964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba193884efb54c04393c10bd6c0ce779, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114380732290189190
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1205719698033964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 602f6778d54610c4eaf8639514c9c060, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114598520009895834
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -739,6 +764,35 @@ MonoBehaviour:
     moveSpeed: 10
     miniMapRange: 10
     rangedAccuracy: 10
+--- !u!114 &114792726729304200
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1205719698033964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c263acf6df7c194db5a797893617f54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stateVariables:
+    currentEnemy: {fileID: 0}
+    currentMod: {fileID: 0}
+    foot: {fileID: 4090987174063130}
+    acceleration: 1000
+    iceForceMultiplier: 500
+    manualDrag: 20
+    meleePounceRange: 0
+    movementMode: 0
+    rb: {fileID: 54528681867152690}
+    statsManager: {fileID: 114971001971292986}
+    animator: {fileID: 95133427763299508}
+  moveState: {fileID: 114380732290189190}
+  lockOnScript: {fileID: 114986823459479984}
+  modAnimationManager: {fileID: 114091127343071412}
+  modStateMappings:
+  - modType: 3
+    state: {fileID: 114340441174612758}
 --- !u!114 &114971001971292986
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -770,7 +824,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1205719698033964}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9d8a01aafa17a3541b0f99c625411c0f, type: 3}
   m_Name: 

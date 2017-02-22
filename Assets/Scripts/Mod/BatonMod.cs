@@ -121,7 +121,7 @@ public class BatonMod : Mod {
         playerStats.Modify(StatType.Attack, 1 / attackBoostValue);
     }
 
-    public override void AttachAffect(ref Stats i_playerStats, ref PlayerMovement playerMovement)
+    public override void AttachAffect(ref Stats i_playerStats, ref MoveState playerMovement)
     {
         attackCollider.enabled = true;
         playerStats = i_playerStats;

@@ -69,7 +69,7 @@ public class PlayerMovement : MonoBehaviour, IMovable
     {
         statsManager = GetComponent<PlayerStatsManager>();
         lockOnScript = GetComponent<LockOnScript>();
-        currentEnemy = null;        
+        currentEnemy = null;
         externalForces = new List<Vector3>();
         externalForcesToAdd = new List<Vector3>();
         for (int i = 0; i < 100; i++)
@@ -129,7 +129,6 @@ public class PlayerMovement : MonoBehaviour, IMovable
 
     private void FixedUpdate()
     {
-
 		switch (movementMode)
 		{
 			case MovementMode.PRECISE:

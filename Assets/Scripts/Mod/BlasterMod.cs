@@ -7,7 +7,7 @@ public class BlasterMod : Mod {
 
     [SerializeField]
     private float rangeBoostValue;
-    PlayerMovement playerMovement;
+    MoveState playerMovement;
 
     [SerializeField]
     private float kickbackMagnitude;
@@ -63,7 +63,7 @@ public class BlasterMod : Mod {
         playerMovement.AddExternalForce(direction * kickbackMagnitude);
     }
 
-    public override void AttachAffect(ref Stats i_playerStats, ref PlayerMovement movement)
+    public override void AttachAffect(ref Stats i_playerStats, ref MoveState movement)
     {
         playerMovement = movement;        
         playerStats = i_playerStats;
