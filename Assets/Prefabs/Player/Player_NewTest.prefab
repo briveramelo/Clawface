@@ -71,6 +71,7 @@ GameObject:
   - component: {fileID: 114769971612484810}
   - component: {fileID: 114381266006196856}
   - component: {fileID: 114721781921652852}
+  - component: {fileID: 114411405976347458}
   m_Layer: 8
   m_Name: Player_NewTest
   m_TagString: Player
@@ -729,7 +730,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!95 &95071063862726906
 Animator:
@@ -800,15 +801,26 @@ MonoBehaviour:
   iceForceMultiplier: 500
   manualDrag: 20
   axisInput: 0
-  rightAxisInput: 0
   isSidescrolling: 0
   canMove: 1
   lastMovement: {x: 0, y: 0, z: 0}
-  rightJoystickMovement: {x: 0, y: 0, z: 0}
   currentSpeed: 0
+  meleePounceRange: 0
   movementMode: 1
   velocity: {x: 0, y: 0, z: 0}
   isGrounded: 0
+--- !u!114 &114411405976347458
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1124708316484250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28223eb86d14e5447af84ff3b829d375, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stats: {fileID: 114769971612484810}
 --- !u!114 &114721781921652852
 MonoBehaviour:
   m_ObjectHideFlags: 1

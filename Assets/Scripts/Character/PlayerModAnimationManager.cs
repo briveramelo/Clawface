@@ -19,21 +19,13 @@ public class PlayerModAnimationManager : MonoBehaviour {
         modActive = false;
         isPlaying = false;
     }
-	
-	// Update is called once per frame
-	void Update () {
-        /*if (modActive)
-        {
-            currentMod.Activate();
-        }*/
-	}
 
     public void PlayModAnimation(Mod mod, bool isMoving)
     {
         if (modToAnimationMap.ContainsKey(mod.getModType()))
         {
             if (!isPlaying)
-            {                
+            {
                 currentMod = mod;
                 int animationState = (int)modToAnimationMap[currentMod.getModType()];
                 if (mod.getModSpot() == ModSpot.ArmL)
@@ -47,9 +39,10 @@ public class PlayerModAnimationManager : MonoBehaviour {
                 if (animator.GetInteger(Strings.ANIMATIONSTATE) != animationState)
                 {
                     isPlaying = true;
-                    animator.SetInteger(Strings.ANIMATIONSTATE, animationState);                    
+                    animator.SetInteger(Strings.ANIMATIONSTATE, animationState);
                     StartCoroutine(WaitForAnimation());
-                }else
+                }
+                else
                 {
                     isPlaying = true;
                     PlayerAnimationStates state = (PlayerAnimationStates)animationState;
@@ -57,7 +50,8 @@ public class PlayerModAnimationManager : MonoBehaviour {
                     StartCoroutine(WaitForAnimation());
                 }
             }
-        }else
+        }
+        else
         {
             mod.Activate();
         }
