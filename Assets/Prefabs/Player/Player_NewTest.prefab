@@ -19,7 +19,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4680385410567394}
-  - component: {fileID: 136486433718157834}
   m_Layer: 0
   m_Name: shoulder1
   m_TagString: Untagged
@@ -73,7 +72,6 @@ GameObject:
   - component: {fileID: 114381266006196856}
   - component: {fileID: 114721781921652852}
   - component: {fileID: 114411405976347458}
-  - component: {fileID: 114969007987586306}
   m_Layer: 8
   m_Name: Player_NewTest
   m_TagString: Player
@@ -134,7 +132,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4812923731202410}
-  - component: {fileID: 136526058085614456}
   m_Layer: 0
   m_Name: knee1
   m_TagString: Untagged
@@ -150,7 +147,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4501820982110770}
-  - component: {fileID: 135840331739352794}
   m_Layer: 0
   m_Name: head
   m_TagString: Untagged
@@ -166,7 +162,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4915708407352692}
-  - component: {fileID: 136631290539865162}
   m_Layer: 0
   m_Name: root
   m_TagString: Untagged
@@ -259,7 +254,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4559023496230944}
-  - component: {fileID: 136279176605557362}
   m_Layer: 0
   m_Name: hip1
   m_TagString: Untagged
@@ -275,7 +269,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4543178542056170}
-  - component: {fileID: 136139599273707984}
   m_Layer: 0
   m_Name: knee
   m_TagString: Untagged
@@ -291,7 +284,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4020005816876104}
-  - component: {fileID: 136932333436513946}
   m_Layer: 0
   m_Name: elbow
   m_TagString: Untagged
@@ -307,7 +299,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4986944721588202}
-  - component: {fileID: 136682465094826446}
   m_Layer: 0
   m_Name: shoulder
   m_TagString: Untagged
@@ -354,7 +345,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4503019513773036}
-  - component: {fileID: 136285989143274694}
   m_Layer: 0
   m_Name: hip
   m_TagString: Untagged
@@ -370,7 +360,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4912761059004258}
-  - component: {fileID: 136867964810735808}
   m_Layer: 0
   m_Name: elbow1
   m_TagString: Untagged
@@ -607,7 +596,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1124708316484250}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 20.3, y: 11.57, z: 100.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4264160054010028}
@@ -741,7 +730,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!95 &95071063862726906
 Animator:
@@ -886,6 +875,7 @@ CapsuleCollider:
   m_Radius: 0.75
   m_Height: 3.75
   m_Direction: 1
+  m_Center: {x: 0, y: 1.8, z: 0}
 --- !u!137 &137786160320040178
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

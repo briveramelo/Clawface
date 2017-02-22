@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 namespace ModMan {
     public static class Extensions
@@ -19,6 +20,13 @@ namespace ModMan {
         public static T GetRandom<T>(this List<T> thisList) {
             int rand = Random.Range(0, thisList.Count);
             return thisList[rand];
+        }
+
+        public static T GetRandom<T>(this List<T> thisList, System.Predicate<T> match)
+        {
+            List<T> sublist = thisList.FindAll(match);            
+            int rand = Random.Range(0, sublist.Count);            
+            return sublist[rand];
         }
 
         public static string ToHex(this Color color)
