@@ -150,7 +150,9 @@ public class PlayerStateManager : MonoBehaviour {
         public float acceleration;
         public float iceForceMultiplier;
         public float manualDrag;
-        public float meleePounceRange;
+        public float meleePounceMaxDistance;
+        public float meleePounceMinDistance;
+        public float meleePounceVelocity;
         public MovementMode movementMode;
         public Rigidbody rb;        
         public PlayerStatsManager statsManager;
