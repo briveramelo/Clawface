@@ -47,7 +47,7 @@ public class ModManager : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.tag == Strings.MOD)
+        if (other.tag == Strings.Tags.MOD)
         {
             if (InputManager.Instance.QueryAction(Strings.Input.Actions.DROP_MODE,
                     ButtonMode.HELD))

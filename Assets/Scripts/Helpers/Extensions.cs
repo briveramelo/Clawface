@@ -38,6 +38,12 @@ namespace ModMan {
             return "#" + r.ToString("X2") + g.ToString("X2") + b.ToString("X2");
         }
 
+        //Clamps at 0, 360
+        public static Vector3 ToVector3(this float inputAngle)
+        {
+            return new Vector3(Mathf.Cos(Mathf.Deg2Rad * inputAngle), 0f, Mathf.Sin(Mathf.Deg2Rad * inputAngle));
+        }
+
     }
 
     

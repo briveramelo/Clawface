@@ -8,7 +8,7 @@ public class OverheadTrigger : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == Strings.PLAYER)
+        if (other.tag == Strings.Tags.PLAYER)
         {
             SendMessageUpwards("OverheadTriggerEnter");
         }
@@ -16,7 +16,7 @@ public class OverheadTrigger : MonoBehaviour {
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.tag == Strings.PLAYER)
+        if (other.tag == Strings.Tags.PLAYER)
         {
             SendMessageUpwards("OverheadTriggerStay");
         }
@@ -24,7 +24,7 @@ public class OverheadTrigger : MonoBehaviour {
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == Strings.PLAYER)
+        if (other.tag == Strings.Tags.PLAYER)
         {
             SendMessageUpwards("OverheadTriggerExit");
         }
