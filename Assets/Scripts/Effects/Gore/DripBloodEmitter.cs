@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class DripBloodEmitter : MonoBehaviour {
+public class BloodDripEmitter : MonoBehaviour {
 
     [SerializeField]
     ParticleSystem bloodDripParticleSystem;
@@ -77,6 +77,17 @@ public class DripBloodEmitter : MonoBehaviour {
             bloodObject.SetActive(true);
             bloodObject.transform.position = modifiedHitPoint;
             bloodObject.transform.rotation = Quaternion.FromToRotation(Vector3.back, hit.normal);
+
+            // Random scale
+            //float scaler = UnityEngine.Random.Range(minDownScale, maxDownScale);
+
+            //Vector3 newScaleDown = new Vector3(
+            //    bloodObject.transform.localScale.x *  scaler,
+            //    bloodObject.transform.localScale.y *  scaler,
+            //    bloodObject.transform.localScale.z
+            //);
+
+            //bloodObject.transform.localScale = newScaleDown;
 
             // Random rotation effect
             int rater = UnityEngine.Random.Range(0, 359);

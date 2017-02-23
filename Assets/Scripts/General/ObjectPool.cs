@@ -12,7 +12,8 @@ public class ObjectPool : Singleton<ObjectPool> {
         blasterImpactEffectPool,
         mallCopPool,
         targetExplosionEffectPool,
-        stunMineExplosionEffect;
+        stunMineExplosionEffect,
+        bloodDecalPool;
     //Add new pools here
     #endregion
 
@@ -28,6 +29,7 @@ public class ObjectPool : Singleton<ObjectPool> {
         mallCopPool.Initialize(transform);
         targetExplosionEffectPool.Initialize(transform);
         stunMineExplosionEffect.Initialize(transform);
+        bloodDecalPool.Initialize(transform);
 
 
         pools = new Dictionary<PoolObjectType, Pool>()
@@ -38,6 +40,7 @@ public class ObjectPool : Singleton<ObjectPool> {
             { PoolObjectType.MallCop, mallCopPool },
             { PoolObjectType.TargetExplosionEffect, targetExplosionEffectPool },
             { PoolObjectType.MineExplosionEffect, stunMineExplosionEffect },
+            {PoolObjectType.BloodDecal, bloodDecalPool }
             
             //Add new pools here
         };

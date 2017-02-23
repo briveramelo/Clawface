@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class DripBloodEmitter : MonoBehaviour {
+public class BlasterBloodEmitter : MonoBehaviour {
 
     [SerializeField]
-    ParticleSystem bloodDripParticleSystem;
+    ParticleSystem blasterBloodParticleSystem;
     [SerializeField]
     float splatterLifetime = 2.5f;
 
@@ -30,7 +30,7 @@ public class DripBloodEmitter : MonoBehaviour {
     private void OnParticleCollision(GameObject other)
     {
 
-        bloodDripParticleSystem.GetCollisionEvents(other, collEvents);
+        blasterBloodParticleSystem.GetCollisionEvents(other, collEvents);
 
         Vector3 loc = collEvents[0].intersection;
         
@@ -39,7 +39,7 @@ public class DripBloodEmitter : MonoBehaviour {
 
     private void ActivateBloodGeyser()
     {
-        bloodDripParticleSystem.Play(false);
+        blasterBloodParticleSystem.Play(false);
     }
 
     public void Paint(Vector3 location, Color color, int drops)
@@ -77,6 +77,17 @@ public class DripBloodEmitter : MonoBehaviour {
             bloodObject.SetActive(true);
             bloodObject.transform.position = modifiedHitPoint;
             bloodObject.transform.rotation = Quaternion.FromToRotation(Vector3.back, hit.normal);
+
+            // Random scale
+            //float scaler = UnityEngine.Random.Range(minDownScale, maxDownScale);
+
+            //Vector3 newScaleDown = new Vector3(
+            //    bloodObject.transform.localScale.x *  scaler,
+            //    bloodObject.transform.localScale.y *  scaler,
+            //    bloodObject.transform.localScale.z
+            //);
+
+            //bloodObject.transform.localScale = newScaleDown;
 
             // Random rotation effect
             int rater = UnityEngine.Random.Range(0, 359);
