@@ -566,28 +566,6 @@ Mesh:
   m_BakedConvexCollisionMesh: 
   m_BakedTriangleCollisionMesh: 
   m_MeshOptimized: 0
---- !u!84 &90066705
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_Width: 697
-  m_Height: 392
-  m_AntiAliasing: 2
-  m_DepthFormat: 2
-  m_ColorFormat: 0
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_TextureSettings:
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapMode: 1
 --- !u!43 &93122772
 Mesh:
   m_ObjectHideFlags: 0
@@ -10135,6 +10113,11 @@ Prefab:
       propertyPath: bloodDecalPool.prefabs.Array.size
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 114973293817662478, guid: 6a1c0949d9ce284499cf975c5703f9f0,
+        type: 2}
+      propertyPath: pools.Array.data[6].prefabs.Array.size
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 4611027295727446, guid: 6a1c0949d9ce284499cf975c5703f9f0, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -10223,6 +10206,41 @@ Prefab:
       value: 
       objectReference: {fileID: 1489536630767924, guid: 0720ab2ce0e66a745b45cef6f6bb2cc9,
         type: 2}
+    - target: {fileID: 114973293817662478, guid: 6a1c0949d9ce284499cf975c5703f9f0,
+        type: 2}
+      propertyPath: pools.Array.data[6].prefabs.Array.data[0]
+      value: 
+      objectReference: {fileID: 1310962398947696, guid: 12ae6235e933c4249bcb5f7b0aa8c0fe,
+        type: 2}
+    - target: {fileID: 114973293817662478, guid: 6a1c0949d9ce284499cf975c5703f9f0,
+        type: 2}
+      propertyPath: pools.Array.data[6].prefabs.Array.data[1]
+      value: 
+      objectReference: {fileID: 1310962398947696, guid: 046caf9a7a1afd64ab8d7d5201c63705,
+        type: 2}
+    - target: {fileID: 114973293817662478, guid: 6a1c0949d9ce284499cf975c5703f9f0,
+        type: 2}
+      propertyPath: pools.Array.data[6].prefabs.Array.data[2]
+      value: 
+      objectReference: {fileID: 1310962398947696, guid: 6303dfcaa1118d143a83e9aa335656e9,
+        type: 2}
+    - target: {fileID: 114973293817662478, guid: 6a1c0949d9ce284499cf975c5703f9f0,
+        type: 2}
+      propertyPath: pools.Array.data[6].prefabs.Array.data[3]
+      value: 
+      objectReference: {fileID: 1310962398947696, guid: 2821542706a3c8d4d8daafcdf0dec4dc,
+        type: 2}
+    - target: {fileID: 114973293817662478, guid: 6a1c0949d9ce284499cf975c5703f9f0,
+        type: 2}
+      propertyPath: pools.Array.data[6].prefabs.Array.data[4]
+      value: 
+      objectReference: {fileID: 1310962398947696, guid: af621f6afbcf14a43a238130c1b4a85b,
+        type: 2}
+    - target: {fileID: 114973293817662478, guid: 6a1c0949d9ce284499cf975c5703f9f0,
+        type: 2}
+      propertyPath: pools.Array.data[6].size
+      value: 350
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6a1c0949d9ce284499cf975c5703f9f0, type: 2}
   m_IsPrefabParent: 0
@@ -10856,6 +10874,28 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e14e8d6169a17be48982f08387184fc0, type: 2}
   m_IsPrefabParent: 0
+--- !u!84 &2070556343
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_Width: 0
+  m_Height: 0
+  m_AntiAliasing: 2
+  m_DepthFormat: 2
+  m_ColorFormat: 0
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_TextureSettings:
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapMode: 1
 --- !u!1 &2073318133
 GameObject:
   m_ObjectHideFlags: 0
