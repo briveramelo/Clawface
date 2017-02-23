@@ -21,13 +21,13 @@ GameObject:
   - component: {fileID: 4370806932311220}
   - component: {fileID: 33536424482931220}
   - component: {fileID: 23990288301583376}
-  - component: {fileID: 95595579415050206}
+  - component: {fileID: 65376392946056496}
   m_Layer: 0
   m_Name: Hologram
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &4370806932311220
 Transform:
@@ -35,13 +35,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1295451284758352}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -57.13, y: 0.043569565, z: -11.37}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!23 &23990288301583376
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -81,20 +81,15 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1295451284758352}
   m_Mesh: {fileID: 4300000, guid: 3091d08148e37434fa00fb542eaae7ec, type: 3}
---- !u!95 &95595579415050206
-Animator:
-  serializedVersion: 3
+--- !u!65 &65376392946056496
+BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1295451284758352}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
   m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 3091d08148e37434fa00fb542eaae7ec, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
+  serializedVersion: 2
+  m_Size: {x: 0.7532135, y: 1.2799383, z: 0.6703252}
+  m_Center: {x: 0, y: 0.6439418, z: 0.0058830543}
