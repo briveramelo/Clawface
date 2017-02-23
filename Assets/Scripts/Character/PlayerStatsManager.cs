@@ -14,16 +14,11 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     #endregion
 
     #region Private Fields
-    private Stats stats;
+    [SerializeField] private Stats stats;
     float startHealth;
     #endregion
 
     #region Unity Lifecycle
-    void Awake()
-    {
-        stats = GetComponent<Stats>();
-    }
-
     // Use this for initialization
     void Start () {
         startHealth = stats.GetStat(StatType.Health);

@@ -13,7 +13,10 @@ public class ModManager : MonoBehaviour
     [SerializeField] private Stats playerStats;
 
     [SerializeField]
-    private PlayerMovement playerMovement;
+    private MoveState playerMovement;
+
+    [SerializeField]
+    private PlayerStateManager stateManager;
 
     private Dictionary<ModSpot, ModSocket> modSocketDictionary;
     private ModSpot modToSwap;
@@ -21,14 +24,10 @@ public class ModManager : MonoBehaviour
     private bool isOkToDropMod = true;
     private bool isOkToSwapMods = true;
 
-    [SerializeField]
-    private float triggerThreshold;
-
     // Use this for initialization
     private void Start()
     {
         modSocketDictionary = new Dictionary<ModSpot, ModSocket>();
-        modSocketDictionary.Add(ModSpot.Head, new ModSocket(headSocket));
         modSocketDictionary.Add(ModSpot.Legs, new ModSocket(legsSocket));
         modSocketDictionary.Add(ModSpot.ArmL, new ModSocket(leftArmSocket));
         modSocketDictionary.Add(ModSpot.ArmR, new ModSocket(rightArmSocket));
@@ -48,9 +47,10 @@ public class ModManager : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.tag == Strings.MOD)
+        if (other.tag == Strings.Tags.MOD)
         {
-            if (Input.GetButton(Strings.PREPARETOPICKUPORDROP))
+            if (InputManager.Instance.QueryAction(Strings.Input.Actions.DROP_MODE,
+                    ButtonMode.HELD))
             {
                 ModSpot commandedModSpot = GetCommandedModSpot();
 
@@ -64,38 +64,36 @@ public class ModManager : MonoBehaviour
 
     private void CheckToActivateMod()
     {
-        if(!Input.GetButton(Strings.PREPARETOPICKUPORDROP) && !Input.GetButton(Strings.PREPARETOSWAP))
+        if (!InputManager.Instance.QueryAction(Strings.Input.Actions.DROP_MODE,
+                ButtonMode.HELD) &&
+            !InputManager.Instance.QueryAction(Strings.Input.Actions.SWAP_MODE,
+                ButtonMode.HELD))
         {
             ModSpot spot = GetCommandedModSpot();
             if (spot != ModSpot.Default)
             {                
                 if (modSocketDictionary[spot].mod != null)
-                {
-                    if(modSocketDictionary[spot].mod.getModCategory() == ModCategory.Melee)
-                    {
-                        playerMovement.DoMeleePounce();
-                    }
-                    playerMovement.PlayAnimation(modSocketDictionary[spot].mod);
+                {                    
+                    stateManager.Attack(modSocketDictionary[spot].mod);
                 }
             }
         }
     }
 
     private ModSpot GetCommandedModSpot()
-    {        
-        if (Input.GetButtonDown(Strings.UP))
-        {
-            return ModSpot.Head;
-        }
-        if (Input.GetButtonDown(Strings.DOWN))
+    {
+        if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_LEGS,
+            ButtonMode.DOWN))
         {
             return ModSpot.Legs;
         }
-        if (Input.GetButtonDown(Strings.LEFT))
+        if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_LEFT,
+            ButtonMode.DOWN))
         {
             return ModSpot.ArmL;
         }
-        if (Input.GetButtonDown(Strings.RIGHT))
+        if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_RIGHT,
+            ButtonMode.DOWN))
         {
             return ModSpot.ArmR;
         }        
@@ -104,7 +102,8 @@ public class ModManager : MonoBehaviour
 
     private void CheckToDropMod()
     {   
-        if (Input.GetButton(Strings.PREPARETOPICKUPORDROP)) {
+        if (InputManager.Instance.QueryAction(Strings.Input.Actions.DROP_MODE,
+                ButtonMode.HELD)) {
             ModSpot spotSelected = GetCommandedModSpot();            
             if (spotSelected != ModSpot.Default && modSocketDictionary[spotSelected].mod != null) {
                 Detach(spotSelected);
@@ -113,14 +112,16 @@ public class ModManager : MonoBehaviour
     }
 
     private void SetModToSwap() {
-        if (Input.GetButton(Strings.PREPARETOSWAP) && modToSwap==ModSpot.Default){
+        if (InputManager.Instance.QueryAction(Strings.Input.Actions.SWAP_MODE,
+                ButtonMode.HELD) && modToSwap==ModSpot.Default) {
             StartCoroutine(DelayIsOkToSwapMods());
             modToSwap = GetCommandedModSpot();
             if (modToSwap!=ModSpot.Default) {
                 ModUIManager.Instance.SetUIState(modToSwap, ModUIState.SELECTED);
             }
         }
-        if (Input.GetButtonUp(Strings.PREPARETOSWAP)) {
+        if (InputManager.Instance.QueryAction(Strings.Input.Actions.SWAP_MODE,
+                ButtonMode.UP)) {
             SetAllModUIToIdle();            
         }
     }

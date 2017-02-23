@@ -24,7 +24,7 @@ public class FingerprintMod : Mod {
         }
     }
 
-    public override void AttachAffect(ref Stats playerStats, ref PlayerMovement playerMovement)
+    public override void AttachAffect(ref Stats playerStats, ref MoveState playerMovement)
     {
         attached = true;
         unlockColliderVolume.enabled = true;
@@ -50,7 +50,7 @@ public class FingerprintMod : Mod {
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == Strings.UNLOCKABLE)
+        if(other.gameObject.tag == Strings.Tags.UNLOCKABLE)
         {
             unlockableObject = other.gameObject.GetComponent<ITriggerable>();
             if (unlockableObject != null)
@@ -60,7 +60,7 @@ public class FingerprintMod : Mod {
 
     void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == Strings.UNLOCKABLE)
+        if (other.gameObject.tag == Strings.Tags.UNLOCKABLE)
         {
             if(unlockableObject == other.gameObject.GetComponent<ITriggerable>())
             {

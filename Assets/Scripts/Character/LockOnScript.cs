@@ -23,7 +23,7 @@ public class LockOnScript : MonoBehaviour {
     #region Unity Lifecycle
     // Use this for initialization
     void Start () {
-        enemyMask = LayerMask.GetMask(Strings.ENEMY);
+        enemyMask = LayerMask.GetMask(Strings.Tags.ENEMY);
         currentEnemy = null;        
         isTargetting = false;
         isChangingTarget = false;
@@ -55,19 +55,20 @@ public class LockOnScript : MonoBehaviour {
 
     void CheckForInputsAndAcquireTarget()
     {
-        if (Input.GetAxis(Strings.RIGHTTRIGGER) < -0.5f)
+        if (InputManager.Instance.QueryAction(Strings.Input.Actions.LOCK, ButtonMode.HELD))
         {
             if (!isTargetting)
             {
                 isTargetting = true;
                 AcquireTarget();
             }
-            if (Mathf.Abs(Input.GetAxis(Strings.AIMX)) > 0.0f || Mathf.Abs(Input.GetAxis(Strings.AIMY)) > 0.0f)
+            if (InputManager.Instance.QueryAxes(Strings.Input.Axes.LOOK).magnitude > 0.0F)
             {
                 if (!isChangingTarget)
                 {
                     isChangingTarget = true;
-                    Vector3 inputDirection = Camera.main.transform.TransformDirection(new Vector3(Input.GetAxis(Strings.AIMX), 0.0f, Input.GetAxis(Strings.AIMY)));
+                    Vector2 aimAxis = InputManager.Instance.QueryAxes(Strings.Input.Axes.LOOK);
+                    Vector3 inputDirection = Camera.main.transform.TransformDirection(new Vector3(aimAxis.x, 0.0f, aimAxis.y));
                     inputDirection.y = 0;
                     GetClosestEnemies(inputDirection);
                 }
@@ -77,7 +78,7 @@ public class LockOnScript : MonoBehaviour {
                 isChangingTarget = false;
             }
         }
-        else if (Input.GetAxis(Strings.RIGHTTRIGGER) > -0.5f)
+        else if (InputManager.Instance.QueryAction(Strings.Input.Actions.LOCK, ButtonMode.UP))
         {
             isTargetting = false;
             currentEnemy = null;
@@ -91,7 +92,7 @@ public class LockOnScript : MonoBehaviour {
         float minDistance = Mathf.Infinity;
         foreach (RaycastHit hit in hits)
         {
-            if (hit.transform.gameObject.tag == Strings.ENEMY)
+            if (hit.transform.gameObject.tag == Strings.Tags.ENEMY)
             {
                 float distance = Vector3.Distance(hit.transform.position, transform.position);
                 if (distance < minDistance)

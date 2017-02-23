@@ -58,19 +58,17 @@ public class Televator : MonoBehaviour, ITriggerable
     {
         if (ready)
         {
-            if (Input.GetAxis(Strings.DPAD_Y) < 0 && !changed)
+            if (InputManager.Instance.QueryAction(Strings.Input.Actions.NAV_UP,
+                    ButtonMode.DOWN))
             {
                 selected = IncrementFloor(selected);
-            } else if (Input.GetAxis(Strings.DPAD_Y) > 0 && !changed)
+            }
+            else if (InputManager.Instance.QueryAction(Strings.Input.Actions.NAV_DOWN,
+                    ButtonMode.DOWN))
             {
                 selected = DecrementFloor(selected);
-            } else if (Input.GetAxis(Strings.DPAD_Y) == 0)
-            {
-                changed = false;
-                return;
             }
 
-            changed = true;
             televatorUI.SelectFloor(selected);
         }
     }
