@@ -359,7 +359,6 @@ public class PlayerMovement : MonoBehaviour, IMovable
     #region Private Structures
     private Dictionary<ModSpot, bool> modSpotConstantForceIndices = new Dictionary<ModSpot, bool>()
     {
-        {ModSpot.Head, false},
         {ModSpot.Legs, false},
         {ModSpot.ArmL, false},
         {ModSpot.ArmR, false}

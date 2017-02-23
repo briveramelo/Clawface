@@ -70,8 +70,6 @@ public class SegwayMod : Mod {
             case ModSpot.ArmR:
                 Hit();
                 break;
-            case ModSpot.Head:
-                break;
             case ModSpot.Legs:
                 AoeAttack();
                 break;
@@ -135,11 +133,7 @@ public class SegwayMod : Mod {
         //TODO:Disable pickup collider
         playerStats = i_playerStats;
         pickupCollider.enabled = false;
-        if (getModSpot() == ModSpot.Head)
-        {
-            BoostSpeed();
-        }
-        else if (getModSpot() == ModSpot.Legs)
+        if (getModSpot() == ModSpot.Legs)
         {
             playerStats.Modify(StatType.MoveSpeed, speedBoostValue);
             playerStats.Modify(StatType.RangedAccuracy, rangedAccuracyLoss);
@@ -162,11 +156,7 @@ public class SegwayMod : Mod {
     {
         pickupCollider.enabled = true;
 
-        if (getModSpot() == ModSpot.Head)
-        {
-            RemoveSpeedBoost();
-        }
-        else if (getModSpot() == ModSpot.Legs)
+        if (getModSpot() == ModSpot.Legs)
         {
             playerStats.Modify(StatType.MoveSpeed, 1f / speedBoostValue);
             playerStats.Modify(StatType.RangedAccuracy, 1f / rangedAccuracyLoss);
