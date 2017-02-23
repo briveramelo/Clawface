@@ -6,51 +6,21 @@ using ModMan;
 public class ObjectPool : Singleton<ObjectPool> {
 
     #region Unity Inspector Fields
-    [SerializeField] private Pool 
-        stunMinePool,
-        blasterBulletPool,
-        blasterImpactEffectPool,
-        mallCopPool,
-        targetExplosionEffectPool,
-        stunMineExplosionEffect,
-        bloodDecalPool;
+    [SerializeField] private List<Pool> pools;
     //Add new pools here
-    #endregion
-
-    #region Private Fields
-    private Dictionary<PoolObjectType, Pool> pools;
     #endregion
 
     #region Unity LifeCycle
     private void Start () {
-        stunMinePool.Initialize(transform);
-        blasterBulletPool.Initialize(transform);
-        blasterImpactEffectPool.Initialize(transform);
-        mallCopPool.Initialize(transform);
-        targetExplosionEffectPool.Initialize(transform);
-        stunMineExplosionEffect.Initialize(transform);
-        bloodDecalPool.Initialize(transform);
-
-
-        pools = new Dictionary<PoolObjectType, Pool>()
-        {
-            { PoolObjectType.Mine, stunMinePool },
-            { PoolObjectType.BlasterBullet, blasterBulletPool },
-            { PoolObjectType.BlasterImpactEffect, blasterImpactEffectPool },
-            { PoolObjectType.MallCop, mallCopPool },
-            { PoolObjectType.TargetExplosionEffect, targetExplosionEffectPool },
-            { PoolObjectType.MineExplosionEffect, stunMineExplosionEffect },
-            {PoolObjectType.BloodDecal, bloodDecalPool }
-            
-            //Add new pools here
-        };
+        pools.ForEach(pool => pool.Initialize(transform));       
     }
     #endregion
 
     #region Public Methods
     public GameObject GetObject(PoolObjectType poolObject) {
-        if (pools.ContainsKey(poolObject)) {
-            return pools[poolObject].GetObject();
+        Pool currentPool = pools.Find(pool => pool.poolObjectType == poolObject);
+        if (currentPool != null) {            
+            return currentPool.GetObject();
         }
         string debugMessage = "No object found. Create a pool for this object";
         Debug.LogFormat("<color=#ffff00>" + debugMessage + "</color>");
@@ -60,16 +30,18 @@ public class ObjectPool : Singleton<ObjectPool> {
 
     #region Internal Structures
     [System.Serializable]
-    struct Pool
+    private class Pool
     {
         public List<GameObject> prefabs;
         public int size;
+        public PoolObjectType poolObjectType;
         [HideInInspector] public List<GameObject> objects;
 
-        public Pool(ref List<GameObject> prefabs, int size) {
+        public Pool(ref List<GameObject> prefabs, PoolObjectType poolObjectType, int size) {
             this.objects = new List<GameObject>();
             this.prefabs = prefabs;
             this.size = size;
+            this.poolObjectType = poolObjectType;
         }
 
         public void Initialize(Transform greatGrandParent) {
