@@ -58,6 +58,7 @@ public class BlasterBullet : MonoBehaviour {
 
     private void OnCollisionEnter(Collision other)
     {
+        //print("Bullet hit " + other.gameObject.name);
         if (other.gameObject.tag != Strings.Tags.PLAYER)
         {
             if (other.gameObject.tag == Strings.Tags.ENEMY)
@@ -67,9 +68,13 @@ public class BlasterBullet : MonoBehaviour {
                 {
                     damageable.TakeDamage(damage);
                 }
+
+                //TODO: Create Impact effect needs to take into account
+                // the type of surface that it had hit.
+                CreateImpactEffect();
             }
             push = true;
-            CreateImpactEffect();
+            
             //TODO find a better method for colliding with ground
             //right not it's unreliable            
             gameObject.SetActive(false);

@@ -566,6 +566,28 @@ Mesh:
   m_BakedConvexCollisionMesh: 
   m_BakedTriangleCollisionMesh: 
   m_MeshOptimized: 0
+--- !u!84 &90066705
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_Width: 697
+  m_Height: 392
+  m_AntiAliasing: 2
+  m_DepthFormat: 2
+  m_ColorFormat: 0
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_TextureSettings:
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapMode: 1
 --- !u!43 &93122772
 Mesh:
   m_ObjectHideFlags: 0
@@ -1669,28 +1691,6 @@ Transform:
   m_PrefabParentObject: {fileID: 4232652381133598, guid: 42e0e0714c25e8645aadfe3f7091b738,
     type: 2}
   m_PrefabInternal: {fileID: 1844542930}
---- !u!84 &271259322
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_Width: 697
-  m_Height: 392
-  m_AntiAliasing: 2
-  m_DepthFormat: 2
-  m_ColorFormat: 0
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_TextureSettings:
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapMode: 1
 --- !u!43 &302754978
 Mesh:
   m_ObjectHideFlags: 0
@@ -2625,7 +2625,7 @@ Prefab:
         type: 2}
       propertyPath: m_TargetTexture
       value: 
-      objectReference: {fileID: 271259322}
+      objectReference: {fileID: 1011511271}
     - target: {fileID: 20606867456560284, guid: 9981de4f5a8796c4099626eab5bfe43f,
         type: 2}
       propertyPath: orthographic
@@ -3713,7 +3713,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1756601216775688, guid: 6ea87b4129aeb464f85efd1a71fe65d1, type: 2}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6ea87b4129aeb464f85efd1a71fe65d1, type: 2}
@@ -4883,11 +4883,33 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1263233416473620, guid: 059be3f6eaa2826478c505087d855a8a, type: 2}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 059be3f6eaa2826478c505087d855a8a, type: 2}
   m_IsPrefabParent: 0
+--- !u!84 &1011511271
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_Width: 697
+  m_Height: 392
+  m_AntiAliasing: 2
+  m_DepthFormat: 2
+  m_ColorFormat: 0
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_TextureSettings:
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapMode: 1
 --- !u!1001 &1033455552
 Prefab:
   m_ObjectHideFlags: 0
@@ -6019,6 +6041,10 @@ Prefab:
     - target: {fileID: 4809621334832360, guid: 0720ab2ce0e66a745b45cef6f6bb2cc9, type: 2}
       propertyPath: m_RootOrder
       value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 1489536630767924, guid: 0720ab2ce0e66a745b45cef6f6bb2cc9, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0720ab2ce0e66a745b45cef6f6bb2cc9, type: 2}
@@ -8254,6 +8280,10 @@ Prefab:
       propertyPath: ShapeModule.radius
       value: 3.2284844
       objectReference: {fileID: 0}
+    - target: {fileID: 1089843352732510, guid: 904f07ad14b48f24c905222fe83aa386, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 904f07ad14b48f24c905222fe83aa386, type: 2}
   m_IsPrefabParent: 0
@@ -10186,6 +10216,12 @@ Prefab:
       propertyPath: bloodDecalPool.prefabs.Array.data[4]
       value: 
       objectReference: {fileID: 1310962398947696, guid: af621f6afbcf14a43a238130c1b4a85b,
+        type: 2}
+    - target: {fileID: 114973293817662478, guid: 6a1c0949d9ce284499cf975c5703f9f0,
+        type: 2}
+      propertyPath: blasterImpactEffectPool.prefabs.Array.data[0]
+      value: 
+      objectReference: {fileID: 1489536630767924, guid: 0720ab2ce0e66a745b45cef6f6bb2cc9,
         type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6a1c0949d9ce284499cf975c5703f9f0, type: 2}

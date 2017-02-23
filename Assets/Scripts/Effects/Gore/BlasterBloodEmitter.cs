@@ -21,20 +21,24 @@ public class BlasterBloodEmitter : MonoBehaviour {
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            ActivateBloodGeyser();
-        }
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    ActivateBloodGeyser();
+        //}
     }
 
     private void OnParticleCollision(GameObject other)
     {
+        print("Bullet hit " + other.name  + " with layer " + other.layer);
+        //print("other: " + other.name + " has layer: " + other.layer);
+        //if (other.layer != 11)
+        //{
+            //blasterBloodParticleSystem.GetCollisionEvents(other, collEvents);
 
-        blasterBloodParticleSystem.GetCollisionEvents(other, collEvents);
+            //Vector3 loc = collEvents[0].intersection;
 
-        Vector3 loc = collEvents[0].intersection;
-        
-        Paint(loc, Color.red, 1);
+            //Paint(loc, Color.red, 1);
+        //}
     }
 
     private void ActivateBloodGeyser()

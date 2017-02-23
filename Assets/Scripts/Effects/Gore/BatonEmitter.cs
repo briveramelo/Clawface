@@ -23,13 +23,5 @@ public class BatonEmitter : MonoBehaviour {
 
         Vector3 loc = collEvents[0].intersection;
     }
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
 }
