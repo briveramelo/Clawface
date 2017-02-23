@@ -24,7 +24,7 @@ public class FingerprintMod : Mod {
         }
     }
 
-    public override void AttachAffect(ref Stats playerStats, ref PlayerMovement playerMovement)
+    public override void AttachAffect(ref Stats playerStats, ref MoveState playerMovement)
     {
         attached = true;
         unlockColliderVolume.enabled = true;
