@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyAI : ICharacterAI
+public abstract class EnemyAI : ICharacterAI
 {
     public EnemyAI(ICharacter i_Character) : base(i_Character)
     {

@@ -8,12 +8,20 @@ public abstract class ICharacter
     protected GameObject m_Target = null;
     protected ICharacterAI m_AI = null;
     protected IAnimation m_Animation = null;
-
     protected Rigidbody m_Rigidbody = null;
+    private List<Vector3> externalForces;
+
 
     public ICharacter(GameObject i_Target)
     {
         m_Target = i_Target;
+
+        externalForces = new List<Vector3>();
+
+        for (int i = 0; i < 100; i++)
+        {
+            externalForces.Add(Vector3.zero);
+        }
     }
 
     #region GameObject:
@@ -48,9 +56,26 @@ public abstract class ICharacter
         m_GameObject.transform.rotation = Quaternion.LookRotation(newDirection);
 
         //Move to target
+        float speed = 200.0f;
         Vector3 movementDirection = m_GameObject.transform.forward;
-        m_Rigidbody.velocity = movementDirection * 200.0f * Time.fixedDeltaTime;
+        m_Rigidbody.velocity = movementDirection * speed * Time.fixedDeltaTime;
     }
+
+    public void RunTo(Vector3 i_Position)
+    {
+        float step = 5.0f * Time.deltaTime;
+
+        //Rotate and Face to target
+        Vector3 targetDirection = i_Position - m_GameObject.transform.position;
+        Vector3 newDirection = Vector3.RotateTowards(m_GameObject.transform.forward, targetDirection, step, 0.0F);
+        m_GameObject.transform.rotation = Quaternion.LookRotation(newDirection);
+
+        //Move to target
+        float speed = 400.0f;
+        Vector3 movementDirection = m_GameObject.transform.forward;
+        m_Rigidbody.velocity = movementDirection * speed * Time.fixedDeltaTime;
+    }
+
 
     public void StopMove()
     {
@@ -68,7 +93,7 @@ public abstract class ICharacter
 
     public void Attack()
     {
-        Debug.Log("I am Attacking you");
+
     }
 
     public Vector3 GetPosition()
@@ -95,7 +120,6 @@ public abstract class ICharacter
 
     public void UpdateAI()
     {
-        Debug.Log(m_Animation);
         m_AI.Update();
     }
     #endregion
