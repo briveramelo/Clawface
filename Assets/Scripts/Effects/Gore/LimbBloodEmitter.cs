@@ -28,7 +28,6 @@ public class LimbBloodEmitter : MonoBehaviour {
     }
     private void OnParticleCollision(GameObject  other)
     {
-        //int safeLength = ps.GetSafeCollisionEventSize();
 
         limbBloodParticleSystem.GetCollisionEvents(other, collEvents);
 
