@@ -78,8 +78,8 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
             externalForces.Add(Vector3.zero);
         }
         Revive();
-        
-        PlayerMovement dummy = null;
+
+        MoveState dummy = null;
         mod.setModSpot(ModSpot.ArmR);
         mod.AttachAffect(ref myStats, ref dummy);
     }    
