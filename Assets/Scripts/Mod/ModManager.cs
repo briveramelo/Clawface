@@ -13,16 +13,16 @@ public class ModManager : MonoBehaviour
     [SerializeField] private Stats playerStats;
 
     [SerializeField]
-    private PlayerMovement playerMovement;
+    private MoveState playerMovement;
+
+    [SerializeField]
+    private PlayerStateManager stateManager;
 
     private Dictionary<ModSpot, ModSocket> modSocketDictionary;
     private ModSpot modToSwap;
     private ModSpot lastModToSwap;
     private bool isOkToDropMod = true;
     private bool isOkToSwapMods = true;
-
-    [SerializeField]
-    private float triggerThreshold;
 
     // Use this for initialization
     private void Start()
@@ -73,12 +73,8 @@ public class ModManager : MonoBehaviour
             if (spot != ModSpot.Default)
             {                
                 if (modSocketDictionary[spot].mod != null)
-                {
-                    if(modSocketDictionary[spot].mod.getModCategory() == ModCategory.Melee)
-                    {
-                        playerMovement.DoMeleePounce();
-                    }
-                    playerMovement.PlayAnimation(modSocketDictionary[spot].mod);
+                {                    
+                    stateManager.Attack(modSocketDictionary[spot].mod);
                 }
             }
         }
