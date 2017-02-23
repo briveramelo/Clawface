@@ -53,6 +53,9 @@ public class TankTreadsMod : Mod
     private float legsMoveSpeedMod;
 
     [SerializeField]
+    private float jumpForce;
+
+    [SerializeField]
     private float legsCrushDamage;
 
     [SerializeField]
@@ -69,10 +72,13 @@ public class TankTreadsMod : Mod
 
     private bool armRegularAttackHitboxIsActive;
     private bool armChargedAttackHitboxIsActive;
+    private bool legAttackHitboxIsActive;
 
     private List<Transform> objectsHitDuringAttack;
 
     private PlayerMovement pMove;
+
+    
 
     private bool canAttackAgain;
     #endregion Privates
@@ -141,9 +147,14 @@ public class TankTreadsMod : Mod
 
                 break;
             case ModSpot.Legs:
-                if (pMove.isGrounded)
+                if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_LEGS, ButtonMode.DOWN))
                 {
-                    // Jump here
+                    if (pMove.isGrounded)
+                    {
+                        // Jump here
+                        pMove.AddExternalForce(Vector3.up * jumpForce);
+                        //pMove.Jump(jumpForce);
+                    }
                 }
 
                 break;
@@ -240,6 +251,10 @@ public class TankTreadsMod : Mod
                 objectsHitDuringAttack.Add(other.transform.root);
             }
         }
+        else if (legAttackHitboxIsActive)
+        {
+
+        }
     }
 
     #endregion
@@ -280,6 +295,7 @@ public class TankTreadsMod : Mod
         pickupCollider.enabled = true;
         attackCollider.enabled = false;
         canAttackAgain = false;
+        
 
         if (getModSpot() == ModSpot.Legs)
         {
@@ -289,6 +305,8 @@ public class TankTreadsMod : Mod
         {
 
         }
+
+        setModSpot(ModSpot.Default);
     }
 
     public void ChargedHit()
