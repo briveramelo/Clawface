@@ -13,7 +13,7 @@ public class AITest : MonoBehaviour
     {
         lai = new LaiCop(player);
         lai.SetGameObject(gameObject);
-        lai.SetAI(new EnemyAI(lai));
+        lai.SetAI(new LaiMallCopAI(lai));
     }
 	
 	// Update is called once per frame
