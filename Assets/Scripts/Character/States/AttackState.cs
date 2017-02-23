@@ -42,8 +42,12 @@ public class AttackState : MonoBehaviour,IPlayerState {
     #region Private Methods
     bool CanPounce()
     {
-        float distance = Vector3.Distance(stateVariables.currentEnemy.transform.position, transform.position);
-        return distance <= stateVariables.meleePounceMaxDistance && distance >= stateVariables.meleePounceMinDistance;
+        if (stateVariables.currentEnemy != null)
+        {
+            float distance = Vector3.Distance(stateVariables.currentEnemy.transform.position, transform.position);
+            return distance <= stateVariables.meleePounceMaxDistance && distance >= stateVariables.meleePounceMinDistance;
+        }
+        return false;
     }
     #endregion
 
