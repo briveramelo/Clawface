@@ -153,7 +153,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// <summary>
     /// Currently selected object in editor;
     /// </summary>
-    GameObject _selectedObject;
+    List<GameObject> _selectedObjects;
 
     /// <summary>
     /// Currently applied object filter.
@@ -281,7 +281,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// <summary>
     /// Returns the currently selected object (read-only).
     /// </summary>
-    public GameObject SelectedObject { get { return _selectedObject; } }
+    public List<GameObject> SelectedObjects { get { return _selectedObjects; } }
 
     /// <summary>
     /// Returns the position of the 3D cursor (read-only).
@@ -342,7 +342,11 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// <summary>
     /// Returns true if an object is selected (read-only).
     /// </summary>
-    public bool HasSelectedObject { get { return _selectedObject != null; } }
+    public bool HasSelectedObjects {
+        get {
+            return _selectedObjects != null && _selectedObjects.Count > 0;
+        }
+    }
 
     /// <summary>
     /// Returns true if an object is being moved (read-only).
@@ -515,24 +519,29 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// <summary>
     /// Selects an object in the level.
     /// </summary>
-    public void SelectObject(GameObject obj) {
+    public void SelectObjects(List<GameObject> objects) {
+        foreach (var obj in objects) {
+            // If selected object is not spawner, find through parents
+            var spawner = obj.GetComponent<ObjectSpawner>();
+            if (spawner == null) spawner = obj.GetComponentInAncestors<ObjectSpawner>();
 
-        // If selected object is not spawner, find through parents
-        var spawner = obj.GetComponent<ObjectSpawner>();
-        if (spawner == null) spawner = obj.GetComponentInAncestors<ObjectSpawner>();
+            if (spawner != null) {
+                if (!_selectedObjects.Contains(spawner.gameObject)) {
+                    _selectedObjects.Add (spawner.gameObject);
+                    onSelectObject.Invoke();
+                }
+                _selectedObjects.Add(spawner.gameObject);
+            }
 
-        if (spawner != null) {
-            if (spawner.gameObject != _selectedObject) onSelectObject.Invoke();
-            _selectedObject = spawner.gameObject;
         }
     }
 
     /// <summary>
     /// Deselects an object.
     /// </summary>
-    public void DeselectObject() {
-        if (_selectedObject != null) onDeselectObject.Invoke();
-        _selectedObject = null;
+    public void DeselectObjects() {
+        if (_selectedObjects != null) onDeselectObject.Invoke();
+        _selectedObjects.Clear();
     }
 
     /// <summary>
@@ -678,12 +687,15 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
         return true;
     }
 
-    public List<GameObject> DraggedObjects (Vector2 mousePos, Camera camera) {
-        Rect rect = new Rect (_mouseDownScreenPos, mousePos - _mouseDownScreenPos);
+    public List<GameObject> DraggedObjects(Vector2 mousePos, Camera camera) {
+        List<GameObject> result = new List<GameObject>();
+        Rect rect = new Rect(_mouseDownScreenPos, mousePos - _mouseDownScreenPos);
         foreach (var spawner in _loadedSpawners) {
-            var screenPoint = camera.WorldToScreenPoint (spawner.transform.position);
-            if (rect.Contains (screenPoint))
+            var screenPoint = camera.WorldToScreenPoint(spawner.transform.position);
+            if (rect.Contains(screenPoint))
+                result.Add(spawner.gameObject);
         }
+        return null;
     }
 
     /// <summary>

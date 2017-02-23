@@ -559,18 +559,18 @@ public class LevelEditorWindow : EditorWindow {
 
     public void HandleLeftDownOnButton() {
         //Debug.Log ("down");
-        var selectedObject = LevelManager.Instance.SelectedObject;
-        if (selectedObject != null) {
+        /*var selectedObjects = LevelManager.Instance.SelectedObjects;
+        if (selectedObjects != null) {
             _originalRotation = selectedObject.transform.localRotation.eulerAngles;
             _originalScale = selectedObject.transform.localScale;
-        }
+        }*/
     }
 
     public void HandleLeftUpOnButton() {
         //Debug.Log("up");
 
         // Record attribute change if necessary
-        var selectedObject = LevelManager.Instance.SelectedObject;
+        /*var selectedObjects = LevelManager.Instance.SelectedObject;
         if (selectedObject != null) {
             var newRot = selectedObject.transform.localRotation.eulerAngles;
             if (_originalRotation != newRot) {
@@ -581,7 +581,7 @@ public class LevelEditorWindow : EditorWindow {
                     LevelManager.Instance.RecordAttributeChange(selectedObject, ChangeObjectNormalAttributeAction.AttributeChanged.Scale, _originalScale, newScale, ActionType.Normal);
                 }
             }
-        }
+        }*/
     }
 
     /// <summary>
@@ -594,7 +594,7 @@ public class LevelEditorWindow : EditorWindow {
         switch (LevelManager.Instance.CurrentTool) {
             case LevelManager.Tool.Select:
                 if (LevelManager.Instance.LevelLoaded) {
-                    _selectedObjects = LevelManager.Instance.DraggedObjects (e.mousePosition);
+                    _selectedObjects = LevelManager.Instance.DraggedObjects (e.mousePosition, camera);
 
                     if (_selectedObjects != null && _selectedObjects.Count > 0) {
                          LevelManager.Instance.SelectObjects(_selectedObjects);
@@ -605,7 +605,7 @@ public class LevelEditorWindow : EditorWindow {
                         var clickedObject = selectHit.collider.gameObject;
                         LevelManager.Instance.SelectObject(clickedObject);
                     } else LevelManager.Instance.DeselectObject();*/
-                } else LevelManager.Instance.DeselectObject();
+                } else LevelManager.Instance.DeselectObjects();
                 break;
 
             case LevelManager.Tool.Place:
@@ -680,8 +680,8 @@ public class LevelEditorWindow : EditorWindow {
             //DrawRedoStack();
 
             // Draw object editor (?)
-            if (LevelManager.Instance.HasSelectedObject) {
-                var selectedObject = LevelManager.Instance.SelectedObject;
+            if (LevelManager.Instance.HasSelectedObjects) {
+                var selectedObject = LevelManager.Instance.SelectedObjects[0];
 
                 var xMin = _OBJECT_EDITOR_WIDTH / 2;
                 var xMax = sc.camera.pixelWidth - _OBJECT_EDITOR_WIDTH / 2;
@@ -735,22 +735,26 @@ public class LevelEditorWindow : EditorWindow {
             Handles.DrawSolidDisc (_hoveredObject.transform.position, Vector3.up, _hoveredObject.transform.localScale.Max() / 2f);
         }
 
-        var selectedObject = LevelManager.Instance.SelectedObject;
-        if (selectedObject) {
-            DrawCube(selectedObject.transform.position, selectedObject.transform.localScale.Max() * 1.05f, selectedObject.transform.localEulerAngles.y, Color.cyan);
-            var ray = HandleUtility.GUIPointToWorldRay(_objectEditorRect.position);
-            float d;
-            if (LevelManager.Instance.EditingPlane.Raycast(ray, out d)) {
-                Handles.color = Color.cyan;
-                Handles.DrawLine(ray.GetPoint(d), selectedObject.transform.position);
+        if (LevelManager.Instance.HasSelectedObjects) {
+            var selectedObject = LevelManager.Instance.SelectedObjects[0];
+            if (selectedObject) {
+                DrawCube(selectedObject.transform.position, selectedObject.transform.localScale.Max() * 1.05f, selectedObject.transform.localEulerAngles.y, Color.cyan);
+                var ray = HandleUtility.GUIPointToWorldRay(_objectEditorRect.position);
+                float d;
+                if (LevelManager.Instance.EditingPlane.Raycast(ray, out d)) {
+                    Handles.color = Color.cyan;
+                    Handles.DrawLine(ray.GetPoint(d), selectedObject.transform.position);
+                }
             }
         }
 
         switch (LevelManager.Instance.CurrentTool) {
             case LevelManager.Tool.Select:
                 DrawCube(cursorPos, 1.05f, 0f, Color.white);
-                if (LevelManager.Instance.HasSelectedObject)
-                    DrawCube(cursorPos, 1.1f, -LevelManager.Instance.SelectedObject.transform.rotation.eulerAngles.y * Mathf.Deg2Rad, Color.cyan);
+                if (LevelManager.Instance.HasSelectedObjects) {
+                    foreach (GameObject obj in LevelManager.Instance.SelectedObjects)
+                        DrawCube(cursorPos, 1.1f, -obj.transform.rotation.eulerAngles.y * Mathf.Deg2Rad, Color.cyan);
+                }
                 break;
 
             case LevelManager.Tool.Place:
@@ -1031,7 +1035,7 @@ public class LevelEditorWindow : EditorWindow {
     /// Draws the object attribute editor.
     /// </summary>
     void DrawObjectEditor(int windowID) {
-        var selectedObject = LevelManager.Instance.SelectedObject;
+        var selectedObject = LevelManager.Instance.SelectedObjects[0];
         var attribs = LevelManager.Instance.AttributesOfObject(selectedObject);
 
         // Rotation label
