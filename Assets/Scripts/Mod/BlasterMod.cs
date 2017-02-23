@@ -25,7 +25,7 @@ public class BlasterMod : Mod {
 
     public override void Activate()
     {
-        if (readyToShoot && getModSpot() != ModSpot.Head)
+        if (readyToShoot)
         {
             Shoot();
             readyToShoot = false;
@@ -68,10 +68,6 @@ public class BlasterMod : Mod {
         playerMovement = movement;        
         playerStats = i_playerStats;
         pickupCollider.enabled = false;
-        if (getModSpot() == ModSpot.Head)
-        {
-            BoostRange();
-        }
     }
 
     void BoostRange()

@@ -19,7 +19,7 @@ public class StunMine : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == Strings.ENEMY)
+        if(other.tag == Strings.Tags.ENEMY)
         {
             GameObject stunMineExplosionEffect = ObjectPool.Instance.GetObject(PoolObjectType.MineExplosionEffect);
             stunMineExplosionEffect.SetActive(true);

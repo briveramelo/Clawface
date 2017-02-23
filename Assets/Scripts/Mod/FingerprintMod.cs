@@ -50,7 +50,7 @@ public class FingerprintMod : Mod {
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == Strings.UNLOCKABLE)
+        if(other.gameObject.tag == Strings.Tags.UNLOCKABLE)
         {
             unlockableObject = other.gameObject.GetComponent<ITriggerable>();
             if (unlockableObject != null)
@@ -60,7 +60,7 @@ public class FingerprintMod : Mod {
 
     void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == Strings.UNLOCKABLE)
+        if (other.gameObject.tag == Strings.Tags.UNLOCKABLE)
         {
             if(unlockableObject == other.gameObject.GetComponent<ITriggerable>())
             {
