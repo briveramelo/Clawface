@@ -18,7 +18,7 @@ public class OverheadToSidescroll : MonoBehaviour {
     #endregion
 
 
-
+    #region Private
     private MoveState joystickMovement;
     private CameraLock cameraLock;
 
