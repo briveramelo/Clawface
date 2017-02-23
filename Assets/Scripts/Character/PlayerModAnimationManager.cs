@@ -13,11 +13,13 @@ public class PlayerModAnimationManager : MonoBehaviour {
     bool isPlaying;
     Mod currentMod;
     bool modActive;
+    PlayerStateManager.StateVariables stateVariables;
 
 	// Use this for initialization
 	void Start () {
         modActive = false;
         isPlaying = false;
+        stateVariables = GetComponent<PlayerStateManager>().stateVariables;
     }
 
     public void PlayModAnimation(Mod mod, bool isMoving)
@@ -79,6 +81,7 @@ public class PlayerModAnimationManager : MonoBehaviour {
     public void AnimationDone()
     {
         isPlaying = false;
+        stateVariables.stateFinished = true;
     }
 
     public bool GetIsPlaying()

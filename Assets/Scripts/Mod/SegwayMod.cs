@@ -53,7 +53,7 @@ public class SegwayMod : Mod {
     [SerializeField]
     private bool isAoeAttacking;
 
-    PlayerMovement playerMovement;
+    MoveState playerMovement;
 
     private void Awake()
     {
@@ -128,7 +128,7 @@ public class SegwayMod : Mod {
         }
     }
 
-    public override void AttachAffect(ref Stats i_playerStats, ref PlayerMovement playerMovement)
+    public override void AttachAffect(ref Stats i_playerStats, ref MoveState playerMovement)
     {
         //TODO:Disable pickup collider
         playerStats = i_playerStats;

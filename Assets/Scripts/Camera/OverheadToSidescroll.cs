@@ -18,9 +18,8 @@ public class OverheadToSidescroll : MonoBehaviour {
     #endregion
 
 
-
-    #region Privates
-    private PlayerMovement joystickMovement;
+    #region Private
+    private MoveState joystickMovement;
     private CameraLock cameraLock;
 
     private float tweenTimer;
@@ -29,7 +28,7 @@ public class OverheadToSidescroll : MonoBehaviour {
 
     private void Awake()
     {
-        joystickMovement = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
+        joystickMovement = GameObject.FindGameObjectWithTag("Player").GetComponent<MoveState>();
         cameraLock = Camera.main.gameObject.GetComponent<CameraLock>();
     }
 
