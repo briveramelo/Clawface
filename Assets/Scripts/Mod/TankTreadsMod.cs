@@ -76,7 +76,7 @@ public class TankTreadsMod : Mod
 
     private List<Transform> objectsHitDuringAttack;
 
-    private PlayerMovement pMove;
+    // private PlayerMovement pMove;
 
     
 
@@ -105,11 +105,11 @@ public class TankTreadsMod : Mod
                 if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_LEFT, ButtonMode.HELD))
                 {
                     chargeTimer += Time.deltaTime;
-                    pMove.CanMove(false);
+                    //pMove.CanMove(false);
                 }
                 if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_LEFT, ButtonMode.UP)) 
                 {
-                    pMove.CanMove(true);
+                    //pMove.CanMove(true);
                     if (chargeTimer >= chargeTime)
                     {
                         ChargedHit();
@@ -128,12 +128,12 @@ public class TankTreadsMod : Mod
                 if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_RIGHT, ButtonMode.HELD))
                 {
                     chargeTimer += Time.deltaTime;
-                    pMove.CanMove(false);
+                    //pMove.CanMove(false);
                 }
 
                 if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_RIGHT, ButtonMode.UP))
                 {
-                    pMove.CanMove(true);
+                    //pMove.CanMove(true);
                     if (chargeTimer >= chargeTime)
                     {
                         ChargedHit();
@@ -149,12 +149,12 @@ public class TankTreadsMod : Mod
             case ModSpot.Legs:
                 if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_LEGS, ButtonMode.DOWN))
                 {
-                    if (pMove.isGrounded)
-                    {
-                        // Jump here
-                        pMove.AddExternalForce(Vector3.up * jumpForce);
-                        //pMove.Jump(jumpForce);
-                    }
+                    //if (pMove.isGrounded)
+                    //{
+                    //    // Jump here
+                    //    pMove.AddExternalForce(Vector3.up * jumpForce);
+                    //    //pMove.Jump(jumpForce);
+                    //}
                 }
 
                 break;
@@ -265,25 +265,30 @@ public class TankTreadsMod : Mod
     }
 
 
-
-    public override void AttachAffect(ref Stats playerStats, ref PlayerMovement playerMovement)
+    public override void AttachAffect(ref Stats playerStats, ref MoveState playerMovement)
     {
-        //TODO:Disable pickup collider
-        this.playerStats = playerStats;
-        pMove = playerMovement;
-        pickupCollider.enabled = false;
-        attackCollider.enabled = false;
-        canAttackAgain = true;
-
-        if (getModSpot() == ModSpot.Legs)
-        {
-            playerStats.Modify(StatType.MoveSpeed, legsMoveSpeedMod);
-        }
-        else
-        {
-
-        }
+        throw new NotImplementedException();
     }
+
+
+    //public override void AttachAffect(ref Stats playerStats)
+    //{
+    //    //TODO:Disable pickup collider
+    //    this.playerStats = playerStats;
+    //    // pMove = playerMovement;
+    //    pickupCollider.enabled = false;
+    //    attackCollider.enabled = false;
+    //    canAttackAgain = true;
+
+    //    if (getModSpot() == ModSpot.Legs)
+    //    {
+    //        playerStats.Modify(StatType.MoveSpeed, legsMoveSpeedMod);
+    //    }
+    //    else
+    //    {
+
+    //    }
+    //}
 
     public override void DeActivate()
     {
@@ -389,6 +394,8 @@ public class TankTreadsMod : Mod
         yield return new WaitForSeconds(armChargedCooldownTime);
         canAttackAgain = true;
     }
+
+    
     #endregion
 
 }
