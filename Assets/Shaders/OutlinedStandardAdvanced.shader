@@ -1,11 +1,8 @@
-﻿Shader "Custom/OutlinedStandardBasic" {
+﻿Shader "Custom/OutlinedStandardAdvanced" {
 	Properties{
 		_Albedo("Albedo", 2D) = "white" {}
 		_Tint("Tint", Color) = (1,1,1,1)
 		_Normal("Normal", 2D) = "normal" {}
-		_Emission("Emission", 2D) = "black" {}
-		_Metallic("Metallic", 2D) = "black" {}
-		_Occlusion("Occlusion", 2D) = "black" {}
 		_Outline("Outline", Range(0,0.1)) = 0
 		_OutlineColor("Color", Color) = (1, 1, 1, 1)
 	}
@@ -50,6 +47,9 @@
 
 			sampler2D _Albedo;
 			sampler2D _Normal;
+			sampler2D _Emission;
+			sampler2D _Metallic;
+			sampler2D _Occlusion;
 			fixed4 _Tint;
 
 	struct Input {
@@ -59,6 +59,9 @@
 	void surf(Input IN, inout SurfaceOutputStandard o) {
 		o.Albedo = tex2D(_Albedo, IN.uv_Albedo) * _Tint;
 		o.Normal = UnpackNormal(tex2D(_Normal, IN.uv_Albedo));
+		o.Emission = tex2D(_Emission, IN.uv_Albedo);
+		o.Metallic = tex2D(_Metallic, IN.uv_Albedo);
+		o.Occlusion = tex2D(_Occlusion, IN.uv_Albedo).r;
 	}
 
 	ENDCG
