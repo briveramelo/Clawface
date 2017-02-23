@@ -193,6 +193,11 @@ GameObject:
   - component: {fileID: 114039923060217312}
   - component: {fileID: 114811580288834416}
   - component: {fileID: 135091071384754506}
+  - component: {fileID: 114545403230164734}
+  - component: {fileID: 114853276370274440}
+  - component: {fileID: 114168768086729626}
+  - component: {fileID: 114838431744635020}
+  - component: {fileID: 114102103994504046}
   m_Layer: 8
   m_Name: Player_Updated
   m_TagString: Player
@@ -1037,15 +1042,15 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1536904553509886}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: -29.64, y: 3.27, z: 49.6}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 20.3, y: 11.57, z: 100.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4368528139770268}
   - {fileID: 4952786677772146}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &23025652409948216
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -1637,8 +1642,8 @@ MonoBehaviour:
   rightArmSocket: {fileID: 4671190826356412}
   legsSocket: {fileID: 4821618133223006}
   playerStats: {fileID: 114773098035982142}
-  playerMovement: {fileID: 0}
-  stateManager: {fileID: 0}
+  playerMovement: {fileID: 114853276370274440}
+  stateManager: {fileID: 114838431744635020}
 --- !u!114 &114039923060217312
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1651,6 +1656,42 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 95573121598383628}
+--- !u!114 &114102103994504046
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1536904553509886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d9dec1806c7068408a80d03aed1c35a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lockRadius: 20
+  rayCastRotationIncrement: 10
+  rayCastRotationRange: 30
+--- !u!114 &114168768086729626
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1536904553509886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba193884efb54c04393c10bd6c0ce779, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114545403230164734
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1536904553509886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d050d4f177f374449d3dd5baf65758c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114773098035982142
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1681,6 +1722,50 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stats: {fileID: 114773098035982142}
+--- !u!114 &114838431744635020
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1536904553509886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c263acf6df7c194db5a797893617f54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stateVariables:
+    currentEnemy: {fileID: 0}
+    currentMod: {fileID: 0}
+    stateFinished: 0
+    foot: {fileID: 4821618133223006}
+    acceleration: 1000
+    iceForceMultiplier: 500
+    manualDrag: 20
+    meleePounceMaxDistance: 7
+    meleePounceMinDistance: 3
+    meleePounceVelocity: 10
+    movementMode: 0
+    rb: {fileID: 54858823036979700}
+    statsManager: {fileID: 114811580288834416}
+    animator: {fileID: 95573121598383628}
+  moveState: {fileID: 114853276370274440}
+  skinningState: {fileID: 114545403230164734}
+  lockOnScript: {fileID: 114102103994504046}
+  modAnimationManager: {fileID: 114039923060217312}
+  modStateMappings:
+  - modType: 3
+    state: {fileID: 114168768086729626}
+--- !u!114 &114853276370274440
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1536904553509886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 602f6778d54610c4eaf8639514c9c060, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!135 &135052852896629320
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -1903,8 +1988,8 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 0}
   m_AABB:
-    m_Center: {x: 0.0012054443, y: 0.018620491, z: 0.030273438}
-    m_Extent: {x: 0.73196775, y: 0.56758595, z: 0.3499622}
+    m_Center: {x: 0.0012054443, y: 0.018620491, z: 0.03027153}
+    m_Extent: {x: 0.73196393, y: 0.56758595, z: 0.3499622}
   m_DirtyAABB: 0
 --- !u!183 &183059762687083196
 Cloth:
