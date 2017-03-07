@@ -77,7 +77,7 @@ public class TankTreadsMod : Mod
     private List<Transform> objectsHitDuringAttack;
 
     // private PlayerMovement pMove;
-
+    private MoveState pMove;
     
 
     private bool canAttackAgain;
@@ -149,12 +149,12 @@ public class TankTreadsMod : Mod
             case ModSpot.Legs:
                 if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_LEGS, ButtonMode.DOWN))
                 {
-                    //if (pMove.isGrounded)
-                    //{
-                    //    // Jump here
-                    //    pMove.AddExternalForce(Vector3.up * jumpForce);
-                    //    //pMove.Jump(jumpForce);
-                    //}
+                    if (pMove.IsGrounded())
+                    {
+                        // Jump here
+                        pMove.AddExternalForce(Vector3.up * jumpForce);
+                        //pMove.Jump(jumpForce);
+                    }
                 }
 
                 break;
