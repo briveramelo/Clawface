@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4611027295727446}
   - component: {fileID: 114973293817662478}
   m_Layer: 0
-  m_Name: BulletPool
+  m_Name: ObjectPool
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -51,33 +51,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b299eb73e45ddbd46b2e86d3461810c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stunMinePool:
-    prefabs:
+  pools:
+  - prefabs:
     - {fileID: 1994674684397496, guid: 2621c3eb8d262144d911dc3901d9565b, type: 2}
     size: 50
+    poolObjectType: 0
     objects: []
-  blasterBulletPool:
-    prefabs:
-    - {fileID: 1193307479537388, guid: 2ce1ce52e3d791243bea07390d35e3c9, type: 2}
-    size: 50
-    objects: []
-  blasterImpactEffectPool:
-    prefabs:
-    - {fileID: 1991583230680772, guid: e492efc089c8dff46be7a0984c6b3879, type: 2}
-    size: 50
-    objects: []
-  mallCopPool:
-    prefabs:
-    - {fileID: 1118372282550480, guid: b0927e1a44bf75241b97accd5b98cf23, type: 2}
-    size: 25
-    objects: []
-  targetExplosionEffectPool:
-    prefabs:
-    - {fileID: 1077872228380438, guid: e1025f7f82e3ebc4795d1ffde7e87c76, type: 2}
-    size: 10
-    objects: []
-  stunMineExplosionEffect:
-    prefabs:
+  - prefabs:
     - {fileID: 1740099813439758, guid: 019626f2c1df7d24d993f8c51d5a44de, type: 2}
     size: 50
+    poolObjectType: 1
+    objects: []
+  - prefabs:
+    - {fileID: 1304047419736928, guid: 24fe3d045dd9b7342a2df29cb1dc6e78, type: 2}
+    size: 25
+    poolObjectType: 2
+    objects: []
+  - prefabs:
+    - {fileID: 1991583230680772, guid: e492efc089c8dff46be7a0984c6b3879, type: 2}
+    size: 25
+    poolObjectType: 3
+    objects: []
+  - prefabs:
+    - {fileID: 1118372282550480, guid: b0927e1a44bf75241b97accd5b98cf23, type: 2}
+    size: 25
+    poolObjectType: 4
+    objects: []
+  - prefabs:
+    - {fileID: 1077872228380438, guid: e1025f7f82e3ebc4795d1ffde7e87c76, type: 2}
+    size: 15
+    poolObjectType: 5
+    objects: []
+  - prefabs: []
+    size: 0
+    poolObjectType: 6
+    objects: []
+  - prefabs: []
+    size: 0
+    poolObjectType: 7
     objects: []
