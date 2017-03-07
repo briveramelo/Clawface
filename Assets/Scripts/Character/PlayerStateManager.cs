@@ -91,7 +91,7 @@ public class PlayerStateManager : MonoBehaviour {
     #endregion
 
     #region Public Methods
-    public void Attack(Mod mod)
+    public void PrimaryAttack(Mod mod)
     {
         if(mod.getModCategory() == ModCategory.Melee)
         {
@@ -104,6 +104,11 @@ public class PlayerStateManager : MonoBehaviour {
             }            
         }
         PlayAnimation(mod);
+    }
+
+    public void SecondaryAttack(Mod mod, bool isHeld)
+    {
+
     }
     #endregion
 
