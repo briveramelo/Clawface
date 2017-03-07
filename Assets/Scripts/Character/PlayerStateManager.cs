@@ -150,6 +150,7 @@ public class PlayerStateManager : MonoBehaviour {
         public float acceleration;
         public float iceForceMultiplier;
         public float manualDrag;
+        [Range (0.01f,.2f)] public float axisThreshold;
         public float meleePounceMaxDistance;
         public float meleePounceMinDistance;
         public float meleePounceVelocity;
