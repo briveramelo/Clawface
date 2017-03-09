@@ -1,60 +1,78 @@
-﻿//Garin
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
-public class BloodDripEmitter : MonoBehaviour {
+public class GoreExplosion : MonoBehaviour {
 
     [SerializeField]
-    ParticleSystem bloodDripParticleSystem;
+    ParticleSystem explosionParticleSystem;
+
     [SerializeField]
     float splatterLifetime = 2.5f;
 
     List<ParticleCollisionEvent> collEvents = new List<ParticleCollisionEvent>();
 
-    public float minDownScale = 0.25f;
+    private float splashRange = 1.5f;
 
-    public float maxDownScale = 0.5f;
+    [SerializeField]
+    private GameObject[] limbs;
 
-    public float SplashRange = 1.5f;
+    [SerializeField]
+    private float limbExplodeForce = 200f;
 
+    private void Awake()
+    {
+        for(int i = 0; i < limbs.Length; i++)
+        {
+            //add a small random force
+            GameObject go = limbs[i];
+            Rigidbody rb = go.GetComponent<Rigidbody>();
+            int dir = Random.Range(0, 2);
+            if(dir == 1)
+            {
+                rb.AddForce(go.transform.forward * limbExplodeForce);
+            }
+            else
+            {
+                rb.AddForce(-go.transform.forward * limbExplodeForce);
+            }
+            
+        }
+    }
 
     private void OnParticleCollision(GameObject other)
     {
-
-        bloodDripParticleSystem.GetCollisionEvents(other, collEvents);
-
+        explosionParticleSystem.GetCollisionEvents(other, collEvents);
         Vector3 loc = collEvents[0].intersection;
-        
         Paint(loc, Color.red, 1);
     }
 
-    public void Paint(Vector3 location, Color color, int drops)
+    private void Paint(Vector3 loc, Color c, int drops)
     {
+
         RaycastHit hit;
 
         // Generate multiple decals in once
         int n = 0;
         while (n < drops)
         {
-            Vector3 dir = transform.TransformDirection(UnityEngine.Random.onUnitSphere * SplashRange);
+            Vector3 dir = transform.TransformDirection(UnityEngine.Random.onUnitSphere * splashRange);
 
             // Avoid raycast backward as we're in a 2D space
             if (dir.z < 0) dir.z = UnityEngine.Random.Range(0f, 1f);
 
             // Raycast around the position to splash everwhere we can
-            if (Physics.Raycast(location, dir, out hit, SplashRange))
+            if (Physics.Raycast(loc, dir, out hit, splashRange))
             {
-                PaintDecal(hit, color);
+                PaintDecal(hit, c);
                 n++;
             }
         }
     }
 
-    private void PaintDecal(RaycastHit hit, Color color)
+    private void PaintDecal(RaycastHit hit, Color c)
     {
-        //fuck z fighting
+        //eff z fighting
         Vector3 modifiedHitPoint = hit.point;
         modifiedHitPoint.y += .5f;
 
@@ -81,17 +99,17 @@ public class BloodDripEmitter : MonoBehaviour {
             int rater = UnityEngine.Random.Range(0, 359);
             bloodObject.transform.RotateAround(hit.point, hit.normal, rater);
 
+            //Invoke("SetInActiveAfterTime", time);
             StartCoroutine(SetInactiveAfterTime(bloodObject, splatterLifetime));
 
         }
     }
 
-    IEnumerator SetInactiveAfterTime(GameObject i_toSet, float i_delay)
+    IEnumerator SetInactiveAfterTime(GameObject i_toSet, float i_Delay)
     {
-        yield return new WaitForSeconds(i_delay);
+        yield return new WaitForSeconds(i_Delay);
 
         i_toSet.SetActive(false);
     }
-
-
+    
 }

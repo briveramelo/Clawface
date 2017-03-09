@@ -7,42 +7,29 @@ using UnityEngine;
 public class LimbBloodEmitter : MonoBehaviour {
 
     [SerializeField]
-    ParticleSystem limbBloodParticleSystem;
+    private ParticleSystem limbBloodParticleSystem;
     [SerializeField]
-    float splatterLifetime = 2.5f;
+    private float splatterLifetime = 2.5f;
 
     List<ParticleCollisionEvent> collEvents = new List<ParticleCollisionEvent>();
 
-    public float MinScale = 0.75f;
+    [SerializeField]
+    private float MinScale = 0.75f;
 
-    public float MaxScale = 3f;
+    [SerializeField]
+    private float MaxScale = 3f;
 
-    public float SplashRange = 1.5f;
+    [SerializeField]
+    private float SplashRange = 1.5f;
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            ActivateBloodGeyser();
-        }
-    }
     private void OnParticleCollision(GameObject  other)
     {
 
         limbBloodParticleSystem.GetCollisionEvents(other, collEvents);
-
         Vector3 loc = collEvents[0].intersection;
-  
         Paint(loc, Color.red, 1);
         
-        
     }
-
-    private void ActivateBloodGeyser()
-    {
-        limbBloodParticleSystem.Play(false);
-    }
-
     public void Paint(Vector3 location, Color color, int drops, float scaleBonus = 1f)
     {
         RaycastHit hit;
@@ -69,7 +56,7 @@ public class LimbBloodEmitter : MonoBehaviour {
     {
         //fuck z fighting
         Vector3 modifiedHitPoint = hit.point;
-        modifiedHitPoint.y += .5f;
+        modifiedHitPoint.y += .25f;
 
         //get an object from pool
         GameObject bloodObject = ObjectPool.Instance.GetObject(PoolObjectType.BloodDecal);

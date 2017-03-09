@@ -13,40 +13,21 @@ public class BlasterBloodEmitter : MonoBehaviour {
 
     List<ParticleCollisionEvent> collEvents = new List<ParticleCollisionEvent>();
 
-    public float minDownScale = 0.25f;
+    //private float minDownScale = 0.25f;
 
-    public float maxDownScale = 0.5f;
+    //private float maxDownScale = 0.5f;
 
-    public float SplashRange = 1.5f;
-
-    private void Update()
-    {
-        //if (Input.GetKeyDown(KeyCode.Space))
-        //{
-        //    ActivateBloodGeyser();
-        //}
-    }
+    private float splashRange = 1.5f;
+    
 
     private void OnParticleCollision(GameObject other)
     {
-        print("Bullet hit " + other.name  + " with layer " + other.layer);
-        //print("other: " + other.name + " has layer: " + other.layer);
-        //if (other.layer != 11)
-        //{
-            //blasterBloodParticleSystem.GetCollisionEvents(other, collEvents);
-
-            //Vector3 loc = collEvents[0].intersection;
-
-            //Paint(loc, Color.red, 1);
-        //}
+            blasterBloodParticleSystem.GetCollisionEvents(other, collEvents);
+            Vector3 loc = collEvents[0].intersection;
+            Paint(loc, Color.red, 1);    
     }
 
-    private void ActivateBloodGeyser()
-    {
-        blasterBloodParticleSystem.Play(false);
-    }
-
-    public void Paint(Vector3 location, Color color, int drops)
+    private void Paint(Vector3 loc, Color c, int drops)
     {
         RaycastHit hit;
 
@@ -54,23 +35,23 @@ public class BlasterBloodEmitter : MonoBehaviour {
         int n = 0;
         while (n < drops)
         {
-            Vector3 dir = transform.TransformDirection(UnityEngine.Random.onUnitSphere * SplashRange);
+            Vector3 dir = transform.TransformDirection(UnityEngine.Random.onUnitSphere * splashRange);
 
             // Avoid raycast backward as we're in a 2D space
             if (dir.z < 0) dir.z = UnityEngine.Random.Range(0f, 1f);
 
             // Raycast around the position to splash everwhere we can
-            if (Physics.Raycast(location, dir, out hit, SplashRange))
+            if (Physics.Raycast(loc, dir, out hit, splashRange))
             {
-                PaintDecal(hit, color);
+                PaintDecal(hit, c);
                 n++;
             }
         }
     }
 
-    private void PaintDecal(RaycastHit hit, Color color)
+    private void PaintDecal(RaycastHit hit, Color c)
     {
-        //fuck z fighting
+        //eff z fighting
         Vector3 modifiedHitPoint = hit.point;
         modifiedHitPoint.y += .5f;
 
@@ -97,11 +78,15 @@ public class BlasterBloodEmitter : MonoBehaviour {
             int rater = UnityEngine.Random.Range(0, 359);
             bloodObject.transform.RotateAround(hit.point, hit.normal, rater);
 
+            //Invoke("SetInActiveAfterTime", time);
             StartCoroutine(SetInactiveAfterTime(bloodObject, splatterLifetime));
 
         }
     }
+    //void SetInactiveAfterTime()
+    //{
 
+    //}
     IEnumerator SetInactiveAfterTime(GameObject i_toSet, float i_delay)
     {
         yield return new WaitForSeconds(i_delay);

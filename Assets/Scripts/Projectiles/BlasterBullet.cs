@@ -83,8 +83,11 @@ public class BlasterBullet : MonoBehaviour {
 
     private void CreateImpactEffect() {
         GameObject projectileImpactEffect = ObjectPool.Instance.GetObject(PoolObjectType.BlasterImpactEffect);
-        projectileImpactEffect.SetActive(true);
-        projectileImpactEffect.transform.position = transform.position;
-        projectileImpactEffect.transform.rotation = transform.rotation;
+        if (projectileImpactEffect != null)
+        {
+            projectileImpactEffect.SetActive(true);
+            projectileImpactEffect.transform.position = transform.position;
+            projectileImpactEffect.transform.rotation = transform.rotation;
+        }
     }
 }
