@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LaiCop : IEnemy
 {
-    public LaiCop(GameObject i_Target) : base(i_Target)
+    public LaiCop()
     {
 
     }

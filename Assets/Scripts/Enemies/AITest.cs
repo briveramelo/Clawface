@@ -5,20 +5,25 @@ using UnityEngine;
 public class AITest : MonoBehaviour
 {
     public GameObject player;
-    LaiCop lai;
+    public GameObject Mallcop;
 
+    IEnemyFactory factory;
 
-	// Use this for initialization
-	void Start ()
+    void Start()
     {
-        lai = new LaiCop(player);
-        lai.SetGameObject(gameObject);
-        lai.SetAI(new LaiMallCopAI(lai));
+        factory = GameFactory.GetEnemyFactory();
     }
-	
-	// Update is called once per frame
-	void Update ()
+
+
+    private void Update()
     {
-        lai.UpdateAI();
+        if (Input.GetKeyUp(KeyCode.Z))
+        {
+            Vector3 position = Vector3.zero;
+            GameObject newObj = Instantiate(Mallcop, new Vector3(0, 0 , 0), Quaternion.identity) as GameObject;
+
+            IEnemy newEnemy = factory.CreateEnemy(newObj, Enemy_Type.Mall_Cop);
+            newEnemy.SetTarget(player);
+        }
     }
 }
