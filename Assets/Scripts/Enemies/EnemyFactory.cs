@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//Enum Example
+//Enum Example: add enemy type here (or in otherwhere)
 public enum Enemy_Type
 {
     Mall_Cop,
@@ -13,45 +13,35 @@ public enum Enemy_Type
 
 public class EnemyFactory : IEnemyFactory
 {
-    GameObject m_Target = null;
 
-    EnemyController m_controller;
+    EnemySystem m_EnemySystem = new EnemySystem();
 
 
     public EnemyFactory()
     {
 
     }
-
-    public EnemyFactory(GameObject Player)
-    {
-        m_Target = Player;
-        m_controller = new EnemyController();
-    }
     
-
-    public override void CreateEnemy(Enemy_Type i_type, GameObject m_GameObject)
+    public override IEnemy CreateEnemy(GameObject m_GameObject, Enemy_Type i_type)
     {
         IEnemy NewEnemy = null;
 
         switch(i_type)
         {
             case Enemy_Type.Mall_Cop:
-                Debug.Log("Mall_Cop");
-                Debug.Log(m_Target);
-                NewEnemy = new LaiCop(m_Target);
+
+                NewEnemy = new LaiCop();
                 NewEnemy.SetGameObject(m_GameObject);
                 NewEnemy.SetAI(new LaiMallCopAI(NewEnemy));
 
-                 m_controller.AddEnemy(NewEnemy);
+                m_EnemySystem.AddEnemy(NewEnemy);
                 break;
-
 
             default:
                 Debug.Log("Cannot Create this Type");
                 break;
         }
 
-        return;
+        return NewEnemy;
     }
 }

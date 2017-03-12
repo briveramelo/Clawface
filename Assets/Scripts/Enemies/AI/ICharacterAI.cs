@@ -88,15 +88,25 @@ public abstract class ICharacterAI
     
     public bool TargetInAttackRange()
     {
-        float distance = Vector3.Distance(m_Character.GetPosition(), m_Character.GetTarget().transform.position);
-        return (distance <= m_AttackRange);
+        if (m_Character.GetTarget() != null)
+        {
+            float distance = Vector3.Distance(m_Character.GetPosition(), m_Character.GetTarget().transform.position);
+            return (distance <= m_AttackRange);
+        }
+        else
+            return false;
     }
 
 
     public bool TargetInChaseRange()
     {
-        float distance = Vector3.Distance(m_Character.GetPosition(), m_Character.GetTarget().transform.position);
-        return (distance <= m_ChaseRange);
+        if (m_Character.GetTarget() != null)
+        {
+            float distance = Vector3.Distance(m_Character.GetPosition(), m_Character.GetTarget().transform.position);
+            return (distance <= m_ChaseRange);
+        }
+        else
+            return false;
     }
 
 

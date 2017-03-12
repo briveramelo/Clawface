@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyController
+public class EnemySystem
 {
-    public EnemyController()
+    private static List<IEnemy> m_Enemys = null;
+
+    public EnemySystem()
     {
         if(m_Enemys == null)
         {
             m_Enemys = new List<IEnemy>();
         }
     }
-
-    private static List<IEnemy> m_Enemys = null;
 
     public void AddEnemy(IEnemy i_Enemy)
     {
@@ -33,7 +33,6 @@ public class EnemyController
     {
         UpdateAI();
     }
-
 
     private void UpdateAI()
     {

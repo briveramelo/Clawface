@@ -5,18 +5,13 @@ using UnityEngine;
 public class AITest : MonoBehaviour
 {
     public GameObject player;
-
     public GameObject Mallcop;
-
-    EnemyController controller;
 
     IEnemyFactory factory;
 
-
     void Start()
     {
-        controller = new EnemyController();
-        factory = GameFactory.GetEnemyFactory(player);
+        factory = GameFactory.GetEnemyFactory();
     }
 
 
@@ -26,31 +21,9 @@ public class AITest : MonoBehaviour
         {
             Vector3 position = Vector3.zero;
             GameObject newObj = Instantiate(Mallcop, new Vector3(0, 0 , 0), Quaternion.identity) as GameObject;
-            factory.CreateEnemy(Enemy_Type.Mall_Cop, newObj);
+
+            IEnemy newEnemy = factory.CreateEnemy(newObj, Enemy_Type.Mall_Cop);
+            newEnemy.SetTarget(player);
         }
-
-        controller.Update();
-
     }
-
-
-    /*
-    IEnemy lai;
-
-	// Use this for initialization
-	void Start ()
-    {
-        lai = new LaiCop(player);
-        lai.SetGameObject(gameObject);
-        lai.SetAI(new LaiMallCopAI(lai));
-    }
-	
-	// Update is called once per frame
-	void Update ()
-    {
-        lai.UpdateAI();
-    }
-
-    */
-
 }

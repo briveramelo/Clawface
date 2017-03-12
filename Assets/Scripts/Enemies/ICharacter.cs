@@ -12,10 +12,8 @@ public abstract class ICharacter
     private List<Vector3> externalForces;
 
 
-    public ICharacter(GameObject i_Target)
+    public ICharacter()
     {
-        m_Target = i_Target;
-
         externalForces = new List<Vector3>();
 
         for (int i = 0; i < 100; i++)
@@ -39,6 +37,12 @@ public abstract class ICharacter
     #endregion
 
     #region Target (Player): 
+
+    public void SetTarget(GameObject i_Target)
+    {
+        m_Target = i_Target;
+    }
+
     public GameObject GetTarget()
     {
         return m_Target;
