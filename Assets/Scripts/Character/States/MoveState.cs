@@ -14,7 +14,7 @@ public class MoveState : MonoBehaviour, IPlayerState
     private Vector3 movement;
     private List<Vector3> externalForces;
     private List<Vector3> externalForcesToAdd;
-    private bool axisInput;
+    private bool isAnyAxisInput;
     private bool isSidescrolling;
     private bool canMove;
     private Vector3 velocity;
@@ -44,7 +44,10 @@ public class MoveState : MonoBehaviour, IPlayerState
             currentEnemyVector = moveStateVariables.currentEnemy.transform.position;
         }
         Vector2 move = InputManager.Instance.QueryAxes(Strings.Input.Axes.MOVEMENT);
-        axisInput = !Mathf.Approximately(move.magnitude, 0F);
+        isAnyAxisInput = move.magnitude > moveStateVariables.axisThreshold;
+        if (!isAnyAxisInput) {
+            move = Vector2.zero;
+        }
 
         Vector2 moveModified = new Vector2(move.x, move.y);
 
@@ -83,8 +86,8 @@ public class MoveState : MonoBehaviour, IPlayerState
         {
             case MovementMode.PRECISE:
                 moveStateVariables.rb.velocity = movement * moveStateVariables.statsManager.GetStat(StatType.MoveSpeed) + GetExternalForceSum();
-                if (moveStateVariables.rb.velocity != Vector3.zero)
-                {
+                if (movement.magnitude > moveStateVariables.axisThreshold)
+                {                    
                     if (moveStateVariables.animator.GetInteger(Strings.ANIMATIONSTATE) != (int)PlayerAnimationStates.Running)
                     {
                         moveStateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Running);
@@ -133,7 +136,7 @@ public class MoveState : MonoBehaviour, IPlayerState
                 break;
         }
 
-        if (!axisInput)
+        if (!isAnyAxisInput)
         {
             if (moveStateVariables.currentEnemy != null)
             {
