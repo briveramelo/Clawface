@@ -81,9 +81,10 @@ public class CameraTrack : MonoBehaviour {
         }
 
         Gizmos.color = Color.white;
-        Gizmos.matrix = _cameraToMove.transform.localToWorldMatrix;
-        if (_cameraToMove != null)
+        if (_cameraToMove != null) {
+            Gizmos.matrix = _cameraToMove.transform.localToWorldMatrix;
             Gizmos.DrawFrustum (_cameraToMove.transform.position, _cameraToMove.fieldOfView, 1f, 0.1f, _cameraToMove.aspect);
+        }
     }
 
     public List<PositionInfo> Positions { get { return _positions; } }
