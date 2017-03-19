@@ -172,26 +172,12 @@ public class MoveState : MonoBehaviour, IPlayerState
         velocity = moveStateVariables.rb.velocity;
         currentSpeed = moveStateVariables.rb.velocity.magnitude;
     }
+
+
     #endregion
 
     #region Private Methods
-    private bool IsGrounded()
-    {
-
-        Collider[] cols = Physics.OverlapSphere(moveStateVariables.foot.transform.position, sphereRadius);
-        for (int i = 0; i < cols.Length; i++)
-        {
-            if (cols[i].gameObject.layer == (int)Layers.Ground)
-            {
-                return true;
-            }
-        }
-        if (!isFalling)
-        {
-            StartCoroutine(ApplyGravity());
-        }
-        return false;
-    }
+    
 
     private IEnumerator ApplyGravity()
     {
@@ -260,6 +246,24 @@ public class MoveState : MonoBehaviour, IPlayerState
         moveStateVariables.movementMode = mode;
         moveStateVariables.rb.useGravity = mode == MovementMode.ICE ? true : false;
     }
-    
+
+    public bool IsGrounded()
+    {
+
+        Collider[] cols = Physics.OverlapSphere(moveStateVariables.foot.transform.position, sphereRadius);
+        for (int i = 0; i < cols.Length; i++)
+        {
+            if (cols[i].gameObject.layer == (int)Layers.Ground)
+            {
+                return true;
+            }
+        }
+        if (!isFalling)
+        {
+            StartCoroutine(ApplyGravity());
+        }
+        return false;
+    }
+
     #endregion
 }
