@@ -112,7 +112,7 @@ public class PlayerStateManager : MonoBehaviour {
     {
         if (!modAnimationManager.GetIsPlaying())
         {
-            if (stateVariables.movementMode == MovementMode.PRECISE && stateVariables.rb.velocity != Vector3.zero)
+            if (stateVariables.movementMode == MovementMode.PRECISE && stateVariables.velBody.velocity != Vector3.zero)
             {
                 modAnimationManager.PlayModAnimation(mod, true);
             }
@@ -129,7 +129,7 @@ public class PlayerStateManager : MonoBehaviour {
         {
             previousMovementState = movementState;
             movementState = null;
-            stateVariables.rb.velocity = Vector3.zero;
+            stateVariables.velBody.velocity = Vector3.zero;
         }
         alternateState = newState;
         stateVariables.stateFinished = false;
@@ -155,7 +155,7 @@ public class PlayerStateManager : MonoBehaviour {
         public float meleePounceMinDistance;
         public float meleePounceVelocity;
         public MovementMode movementMode;
-        public Rigidbody rb;        
+        public VelocityBody velBody;        
         public PlayerStatsManager statsManager;
         public Animator animator;        
     }

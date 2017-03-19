@@ -10,8 +10,7 @@ public enum StatType {
     Defense = 1,
     MoveSpeed = 2,
     Health = 3,
-    MiniMapRange = 4,
-    RangedAccuracy= 5
+    RangedAccuracy= 4
 }
 
 public enum CodexType {

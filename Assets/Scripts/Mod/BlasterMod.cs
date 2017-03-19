@@ -66,13 +66,13 @@ public class BlasterMod : Mod {
     public override void AttachAffect(ref Stats i_playerStats, ref MoveState movement)
     {
         playerMovement = movement;        
-        playerStats = i_playerStats;
+        wielderStats = i_playerStats;
         pickupCollider.enabled = false;
     }
 
     void BoostRange()
     {
-        playerStats.Modify(StatType.MiniMapRange, rangeBoostValue);
+        //playerStats.Modify(StatType.MiniMapRange, rangeBoostValue);
     }
 
     public override void DeActivate()
@@ -82,7 +82,7 @@ public class BlasterMod : Mod {
 
     public override void DetachAffect()
     {
-        playerStats.Modify(StatType.MiniMapRange, 1 / rangeBoostValue);
+        //playerStats.Modify(StatType.MiniMapRange, 1 / rangeBoostValue);
         pickupCollider.enabled = true;
         playerMovement = null;
     }
