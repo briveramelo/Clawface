@@ -259,6 +259,8 @@ public class TankTreadsMod : Mod
 
     #endregion
 
+    #region Public Methods
+
     public override void Activate()
     {
 
@@ -267,7 +269,20 @@ public class TankTreadsMod : Mod
 
     public override void AttachAffect(ref Stats playerStats, ref MoveState playerMovement)
     {
-        throw new NotImplementedException();
+        this.playerStats = playerStats;
+        pMove = playerMovement;
+        pickupCollider.enabled = false;
+        attackCollider.enabled = false;
+        canAttackAgain = true;
+
+        if (getModSpot() == ModSpot.Legs)
+        {
+            playerStats.Modify(StatType.MoveSpeed, legsMoveSpeedMod);
+        }
+        else
+        {
+
+        }
     }
 
 
@@ -323,6 +338,8 @@ public class TankTreadsMod : Mod
     {
         StartCoroutine(ArmRegularStartup());
     }
+
+    #endregion
 
     #region Private Methods
 
