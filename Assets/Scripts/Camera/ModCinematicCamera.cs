@@ -12,17 +12,23 @@ public class ModCinematicCamera : MonoBehaviour {
 
     [SerializeField]
     private Transform cameraPosition2;
+
+    [SerializeField]
+    private float timeToMoveBackToOriginalPosition;
     #endregion
 
     #region Privates
     private Vector3 savedCameraPosition;
     private Vector3 savedCameraRotation;
     private Transform player;
+    private Vector3 savedCameraDistance;
 
     private CameraLock cameraLock;
 
     private bool lookAtPlayer;
     private bool canTweenAgain;
+
+    private float tweenTimer;
     #endregion
 
     #region Unity Methods
@@ -41,29 +47,27 @@ public class ModCinematicCamera : MonoBehaviour {
 	void Update () {
 		if (Input.GetKeyDown(KeyCode.B) && !LeanTween.isTweening(cameraLock.gameObject))
         {
-            LeanTween.cancel(cameraLock.gameObject);
-            canTweenAgain = false;
-            savedCameraPosition = cameraLock.transform.position;
-            savedCameraRotation = cameraLock.transform.rotation.eulerAngles;
-            cameraLock.UnlockCamera();
-            cameraLock.transform.position = cameraPosition1.position;
-            cameraLock.transform.rotation = cameraPosition1.rotation;
-
-            LeanTween.move(cameraLock.gameObject, cameraPosition2, 1f).setEaseInOutQuad().setOnComplete(MoveToSavedPosition);
-            LeanTween.rotate(cameraLock.gameObject, cameraPosition2.rotation.eulerAngles, 1f).setOnComplete(MoveToSavedPosition).setEaseInOutQuad();
+            StartTween();
 
         }
 
         if (lookAtPlayer)
         {
             cameraLock.transform.LookAt(player);
+            LeanTween.cancel(cameraLock.gameObject);
+            tweenTimer -= Time.deltaTime;
+            MoveToSavedPosition();
         }
+
+        
 	}
     #endregion
 
     #region Public Methods
     public void StartTween()
     {
+        savedCameraDistance = player.position - cameraLock.transform.position;
+
         LeanTween.cancel(cameraLock.gameObject);
         canTweenAgain = false;
         savedCameraPosition = cameraLock.transform.position;
@@ -72,8 +76,12 @@ public class ModCinematicCamera : MonoBehaviour {
         cameraLock.transform.position = cameraPosition1.position;
         cameraLock.transform.rotation = cameraPosition1.rotation;
 
+        
+
         LeanTween.move(cameraLock.gameObject, cameraPosition2, 1f).setEaseInOutQuad().setOnComplete(MoveToSavedPosition);
         LeanTween.rotate(cameraLock.gameObject, cameraPosition2.rotation.eulerAngles, 1f).setOnComplete(MoveToSavedPosition).setEaseInOutQuad();
+
+        tweenTimer = timeToMoveBackToOriginalPosition;
 
     }
     #endregion
@@ -82,7 +90,7 @@ public class ModCinematicCamera : MonoBehaviour {
     private void MoveToSavedPosition()
     {
         lookAtPlayer = true;
-        LeanTween.move(cameraLock.gameObject, savedCameraPosition, 1f).setEaseInOutQuad().setOnComplete(EndTween);
+        LeanTween.move(cameraLock.gameObject, player.position - savedCameraDistance, tweenTimer).setOnComplete(EndTween);
         // LeanTween.rotate(cameraLock.gameObject, savedCameraRotation, 1f).setOnComplete(cameraLock.LockCamera).setEaseInOutQuad();
     }
 
