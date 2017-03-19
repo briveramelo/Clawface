@@ -3,6 +3,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
+using ModMan;
 
 public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDamageable, ISkinnable
 {
@@ -21,29 +23,42 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
 
     [SerializeField] private float runMultiplier;
     [SerializeField, Range(5f, 15f)] private float attackTime;
+    [SerializeField, Range(5f, 15f)] private float walkTime;
     [SerializeField, Range(1, 6)] private int numShocksToStun;
     [SerializeField, Range(.1f, 1)] private float twitchRange;
     [SerializeField, Range(.1f, 1f)] private float twitchTime;
     [SerializeField, Range(30,50)] private float rotationSpeed;
+    [SerializeField, Range(1f,5f)] private float attackDistance;
     #endregion
 
     #region 3. Private fields
     private MallCopState currentState = MallCopState.WALK;
+    private MallCopState CurrentState {
+        get { return currentState; }
+        set {
+            currentState = value;
+            if (value == MallCopState.WALK) {
+                canAttack = true;
+            }
+            StartCoroutine(RestartStateTimer());
+        }
+    }
     private GameObject attackTarget;
     private float rotationMultiplier;
     private Vector3 startStunPosition;
-    private Vector3 velocity;
     private List<Vector3> externalForces;
     private int stunCount;
     private bool isGlowing = false;
     private bool isGrounded;
     private bool isFalling = false;
+    private bool stateTimerIsRunning = false;
     private float sphereRadius = 0.1f;
     private OnDeath onDeath;
     private bool willHasBeenWritten;
     private bool inRange;
     private bool canAttack;
     private bool canFall;
+    private float timeInLastState;
     #endregion
 
     #region 4. Unity Lifecycle
@@ -63,64 +78,47 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
             externalForces.Add(Vector3.zero);
         }
         Revive();
-        
-        PlayerMovement dummy = null;
+
+        MoveState dummy = null;
         mod.setModSpot(ModSpot.ArmR);
         mod.AttachAffect(ref myStats, ref dummy);
-
-        HitstopManager.Instance.OnStopEvent += OnEndHitstop;
     }    
 
     // Update is called once per frame
     void Update ()
     {
-        if (!HitstopManager.Instance.IsInHitstop())
+        isGrounded = IsGrounded();
+        if (myStats.GetStat(StatType.Health) > 0)
         {
-            isGrounded = IsGrounded();
-            if (myStats.GetStat(StatType.Health) > 0)
-            {
-                switch (currentState)
-                {
-                    case MallCopState.WALK:
-                        Walk();
-                        break;
-                    case MallCopState.ATTACK:
-                        Attack();
-                        break;
-                    case MallCopState.STUNNED:
-                        Twitch();
-                        break;
-                }
-                //velocity = rigbod.velocity;
+            if (CurrentState == MallCopState.ATTACK && timeInLastState > attackTime) {
+                CurrentState = MallCopState.WALK;
             }
-        }
-        else
-        {
-            animator.enabled = false;
-            rigbod.velocity = new Vector3(0f, 0f, 0f);
+
+
+            switch (CurrentState)
+            {
+                case MallCopState.WALK:
+                    Walk();
+                    break;
+                case MallCopState.ATTACK:
+                    Attack();
+                    break;
+                case MallCopState.STUNNED:
+                    Twitch();
+                    break;
+            }
         }
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.tag == Strings.PLAYER && currentState != MallCopState.ATTACK && canAttack)
+        if ((canAttack && other.gameObject.tag == Strings.Tags.PLAYER) && ((CurrentState != MallCopState.ATTACK) || (attackTarget == null)))
         {
             attackTarget = other.gameObject;
-            currentState = MallCopState.ATTACK;
-            inRange = true;
-        }else if(other.gameObject.tag == Strings.PLAYER && canAttack)
-        {
-            inRange = true;
+            CurrentState = MallCopState.ATTACK;            
         }
     }
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.tag == Strings.PLAYER)
-        {
-            inRange = false;
-        }
-    }
     #endregion
 
     #region 5. Public Methods    
@@ -141,7 +139,7 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
     {
         canFall = true;
         canAttack = true;
-        currentState = MallCopState.ATTACK;
+        CurrentState = MallCopState.ATTACK;        
     }
 
     public void AttackAnimationDone()
@@ -165,7 +163,7 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
                 {
                     animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Stunned);
                 }
-                GetComponent<Rigidbody>().isKinematic = true;
+                rigbod.isKinematic = true;
                 
                 mod.DetachAffect();
                 Invoke("Die", 5f);
@@ -197,7 +195,7 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
         {
             stunCount = 0;
             startStunPosition = transform.position;
-            currentState = MallCopState.STUNNED;
+            CurrentState = MallCopState.STUNNED;
             canAttack = false;
         }
     }
@@ -237,10 +235,22 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
         canFall = true;
         isGlowing = false;
         animator.SetInteger(Strings.ANIMATIONSTATE, 0);
-        currentState = MallCopState.WALK;
+        GetNewWalkTarget();
         StopAllCoroutines();
+        CurrentState = MallCopState.WALK;
         rigbod.velocity = Vector3.zero;
         //TODO check for missing mod and create a new one and attach it
+    }
+
+    private IEnumerator RestartStateTimer() {
+        stateTimerIsRunning = false;
+        yield return new WaitForEndOfFrame();
+        timeInLastState = 0f;
+        stateTimerIsRunning = true;
+        while (stateTimerIsRunning) {
+            timeInLastState += Time.deltaTime;
+            yield return null;
+        }
     }
 
     private bool IsGrounded()
@@ -264,23 +274,74 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
     {
         if (animator.GetInteger(Strings.ANIMATIONSTATE) != (int)MallCopAnimationStates.Walk)
         {
-            animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Walk);
+            animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Walk);            
         }
-        transform.Rotate(rotationMultiplier * rotationSpeed * Vector3.up * Time.deltaTime);
+        if (CurrentState == MallCopState.WALK && timeInLastState > walkTime){
+            GetNewWalkTarget();
+        }
 
-        Vector3 movementDirection = transform.forward;
-        rigbod.velocity = movementDirection * myStats.GetStat(StatType.MoveSpeed) * Time.fixedDeltaTime + GetExternalForceSum();
+        transform.LookAt(walkTarget);
+        transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);
+
+        Vector3 movementDirection = (walkTarget - transform.position).normalized;        
+        rigbod.velocity = movementDirection * myStats.GetStat(StatType.MoveSpeed) * Time.deltaTime + GetExternalForceSum();
+
+        if (IsHittingWall(movementDirection, 2f)) {
+
+            GetNewWalkTarget();
+        }
     }
+
+    private bool IsHittingWall(Vector3 movementDirection, float checkDistance) {
+        Ray raycast = new Ray(foot.position, movementDirection);
+        List<RaycastHit> rayCastHits = new List<RaycastHit>(Physics.RaycastAll(raycast, checkDistance));
+        if (rayCastHits.Any(hit => (
+            hit.collider.tag == Strings.Tags.UNTAGGED ||
+            hit.collider.tag == Strings.Tags.ENEMY ||
+            hit.transform.gameObject.layer == (int)Layers.Ground) )){
+
+            return true;
+        }
+        return false;
+    }
+    Vector3 walkTarget;
+
+    private void GetNewWalkTarget() {
+
+        int numRayChecks = 20;
+        float randStart = Random.Range(0, 360f);
+        int clockwise = Random.value>0.5f ? 1:-1;
+        for (int i = 0; i < numRayChecks; i++) {
+            float angle = randStart + clockwise * i * (360f / numRayChecks);
+            Vector3 moveDirection = angle.ToVector3();
+            if (!IsHittingWall(moveDirection, 6f)) {
+
+                moveDirection = moveDirection.normalized * 50f;
+                moveDirection.y = .1f;
+                walkTarget = foot.position + moveDirection;
+                StartCoroutine(RestartStateTimer());
+                break;
+            }
+        }
+
+    }
+
+    //private void OnDrawGizmos()
+    //{
+    //    Gizmos.color = Color.red;
+    //    Gizmos.DrawLine(foot.position + Vector3.up * 0.1f, walkTarget);
+    //}
 
     private void Attack()
     {
         rigbod.velocity = GetExternalForceSum();
         if (canAttack && attackTarget != null)
         {
-
             Vector3 lookAtPosition = new Vector3(attackTarget.transform.position.x, 0, attackTarget.transform.position.z);
             transform.LookAt(lookAtPosition);
             transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);
+            float distanceToPlayer = Vector3.Distance(transform.position, attackTarget.transform.position);
+            inRange = distanceToPlayer < attackDistance;
 
             if (inRange)
             {
@@ -302,7 +363,9 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
                 }
                 Vector3 movementDirection = attackTarget.transform.position - transform.position;
                 Vector3 movementDirectionXZ = new Vector3(movementDirection.x, 0, movementDirection.z);
-                rigbod.velocity = movementDirectionXZ.normalized * myStats.GetStat(StatType.MoveSpeed) * runMultiplier * Time.fixedDeltaTime + GetExternalForceSum();
+                float targetSpeed = myStats.GetStat(StatType.MoveSpeed) * runMultiplier * Time.deltaTime;
+                
+                rigbod.velocity = movementDirectionXZ.normalized * targetSpeed + GetExternalForceSum();
             }
         }
     }
@@ -358,10 +421,6 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
         }
     }
 
-    private void OnEndHitstop()
-    {
-        animator.enabled = true;
-    }
     #endregion
 
     #region 7. Internal Structures

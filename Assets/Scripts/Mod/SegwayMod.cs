@@ -53,7 +53,7 @@ public class SegwayMod : Mod {
     [SerializeField]
     private bool isAoeAttacking;
 
-    PlayerMovement playerMovement;
+    MoveState playerMovement;
 
     private void Awake()
     {
@@ -69,8 +69,6 @@ public class SegwayMod : Mod {
                 break;
             case ModSpot.ArmR:
                 Hit();
-                break;
-            case ModSpot.Head:
                 break;
             case ModSpot.Legs:
                 AoeAttack();
@@ -130,16 +128,12 @@ public class SegwayMod : Mod {
         }
     }
 
-    public override void AttachAffect(ref Stats i_playerStats, ref PlayerMovement playerMovement)
+    public override void AttachAffect(ref Stats i_playerStats, ref MoveState playerMovement)
     {
         //TODO:Disable pickup collider
         playerStats = i_playerStats;
         pickupCollider.enabled = false;
-        if (getModSpot() == ModSpot.Head)
-        {
-            BoostSpeed();
-        }
-        else if (getModSpot() == ModSpot.Legs)
+        if (getModSpot() == ModSpot.Legs)
         {
             playerStats.Modify(StatType.MoveSpeed, speedBoostValue);
             playerStats.Modify(StatType.RangedAccuracy, rangedAccuracyLoss);
@@ -162,11 +156,7 @@ public class SegwayMod : Mod {
     {
         pickupCollider.enabled = true;
 
-        if (getModSpot() == ModSpot.Head)
-        {
-            RemoveSpeedBoost();
-        }
-        else if (getModSpot() == ModSpot.Legs)
+        if (getModSpot() == ModSpot.Legs)
         {
             playerStats.Modify(StatType.MoveSpeed, 1f / speedBoostValue);
             playerStats.Modify(StatType.RangedAccuracy, 1f / rangedAccuracyLoss);

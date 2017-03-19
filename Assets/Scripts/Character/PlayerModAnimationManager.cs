@@ -13,24 +13,14 @@ public class PlayerModAnimationManager : MonoBehaviour {
     bool isPlaying;
     Mod currentMod;
     bool modActive;
+    PlayerStateManager.StateVariables stateVariables;
 
 	// Use this for initialization
 	void Start () {
         modActive = false;
         isPlaying = false;
+        stateVariables = GetComponent<PlayerStateManager>().stateVariables;
     }
-	
-	// Update is called once per frame
-	void Update () {
-        if (!HitstopManager.Instance.IsInHitstop())
-        {
-            animator.enabled = true;
-        }
-        else
-        {
-            animator.enabled = false;
-        }
-	}
 
     public void PlayModAnimation(Mod mod, bool isMoving)
     {
@@ -91,6 +81,7 @@ public class PlayerModAnimationManager : MonoBehaviour {
     public void AnimationDone()
     {
         isPlaying = false;
+        stateVariables.stateFinished = true;
     }
 
     public bool GetIsPlaying()
