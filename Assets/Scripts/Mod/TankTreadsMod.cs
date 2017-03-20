@@ -74,6 +74,8 @@ public class TankTreadsMod : Mod
 
     private List<Transform> objectsHitDuringAttack;    
     private bool canAttackAgain;
+
+    private float legsTimer;
     #endregion Privates
 
     #region Unity Lifetime
@@ -139,11 +141,21 @@ public class TankTreadsMod : Mod
 
                 break;
             case ModSpot.Legs:
+                legsTimer -= Time.deltaTime;
+
+                if (wielderMovable.IsGrounded())
+                {
+                    legAttackHitboxIsActive = false;
+                    attackCollider.enabled = false;
+                }
+
                 if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_LEGS, ButtonMode.DOWN))
                 {
                     if (wielderMovable.IsGrounded())
                     {
                         wielderMovable.AddDecayingForce(Vector3.up * jumpForce);
+                        legAttackHitboxIsActive = true;
+                        attackCollider.enabled = true;
                     }
                 }
                 break;
@@ -157,21 +169,23 @@ public class TankTreadsMod : Mod
 
     private void OnTriggerStay(Collider other)
     {
+        IDamageable damageable = other.transform.root.GetComponentInChildren<IDamageable>();
+        IMovable movable = other.transform.root.GetComponentInChildren<IMovable>();
+
         if (armRegularAttackHitboxIsActive)
         {
             if (objectsHitDuringAttack.Contains(other.transform.root)) return;
-            IDamageable damageable = other.GetComponent<IDamageable>();
-
+            
             if (damageable != null)
             {
                 objectsHitDuringAttack.Add(other.transform.root);
 
-                if (!other.transform.root.CompareTag(Strings.Tags.PLAYER) &&
-                    transform.root.CompareTag(Strings.Tags.PLAYER)) {
-                    // If the player is the one attacking
-
+                // If the player is the one attacking, and they're attacking something other than the player
+                if (!other.transform.root.CompareTag(Strings.Tags.PLAYER) && transform.root.CompareTag(Strings.Tags.PLAYER)) {
                     HitstopManager.Instance.StartHitstop(armRegularHitstop);
                 }
+
+
                 if (!transform.root.CompareTag(other.transform.root.tag)) {
                     damageable.TakeDamage(armRegularDamage);
                 }
@@ -181,8 +195,6 @@ public class TankTreadsMod : Mod
         {
             if (objectsHitDuringAttack.Contains(other.transform.root)) return;
 
-            IDamageable damageable = other.GetComponent<IDamageable>();
-            IMovable movable = other.GetComponent<IMovable>();
             if (damageable != null)
             {
                 if (this.transform.root.tag == Strings.Tags.PLAYER)
@@ -219,6 +231,7 @@ public class TankTreadsMod : Mod
                     }
                 }
             }
+
             if (damageable != null || movable != null)
             {
                 objectsHitDuringAttack.Add(other.transform.root);
@@ -226,7 +239,25 @@ public class TankTreadsMod : Mod
         }
         else if (legAttackHitboxIsActive)
         {
+            if (damageable != null)
+            {
+                if (legsTimer < 0f)
+                {
+                    if (!this.transform.root.CompareTag(other.transform.root.tag))
+                    {
+                        damageable.TakeDamage(legsCrushDamage);
+                        legsTimer = timeBetweenLegsDamageTick;
+                        legAttackHitboxIsActive = false;
+                        attackCollider.enabled = false;
 
+                        IMovable selfMovable = this.transform.root.GetComponentInChildren<IMovable>();
+                        if (selfMovable != null)
+                        {
+                            selfMovable.AddDecayingForce(Vector3.up * jumpForce);
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -236,7 +267,10 @@ public class TankTreadsMod : Mod
 
     public override void Activate()
     {
-
+        if (this.transform.root.tag != Strings.Tags.PLAYER)
+        {
+            Hit();
+        }
     }
 
 
