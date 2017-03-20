@@ -73,7 +73,7 @@ public class MoveState : MonoBehaviour, IPlayerState
 
     public void StateFixedUpdate()
     {
-        switch (moveStateVariables.movementMode)
+        switch (moveStateVariables.velBody.GetMovementMode())
         {
             case MovementMode.PRECISE:
                 moveStateVariables.velBody.velocity = movement * moveStateVariables.statsManager.GetStat(StatType.MoveSpeed) * Time.fixedDeltaTime;
@@ -163,19 +163,25 @@ public class MoveState : MonoBehaviour, IPlayerState
         velocity = moveStateVariables.velBody.velocity;
         currentSpeed = moveStateVariables.velBody.velocity.magnitude;
     }
+
+
+    #endregion
+
+    #region Private Methods
+    
     #endregion
 
     #region Public Methods
     public void AddExternalForce(Vector3 forceVector, float decay = 0.1f)
     {
-        switch (moveStateVariables.movementMode)
+        switch (moveStateVariables.velBody.GetMovementMode())
         {
             case MovementMode.PRECISE:
             default:
 
                 if (canMove)
                 {
-                    StartCoroutine(moveStateVariables.velBody.AddDecayingForce(forceVector, decay));
+                    moveStateVariables.velBody.AddDecayingForce(forceVector, decay);
                 }
                 break;
             case MovementMode.ICE:
@@ -191,11 +197,5 @@ public class MoveState : MonoBehaviour, IPlayerState
         isSidescrolling = mode;
     }
 
-    public void SetMovementMode(MovementMode mode)
-    {
-        moveStateVariables.movementMode = mode;
-        moveStateVariables.velBody.useGravity = mode == MovementMode.ICE ? true : false;
-    }
-    
     #endregion
 }

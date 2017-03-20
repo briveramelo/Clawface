@@ -787,7 +787,7 @@ MonoBehaviour:
   rightArmSocket: {fileID: 4634169818675522}
   legsSocket: {fileID: 4192219653642208}
   playerStats: {fileID: 114769971612484810}
-  playerMovement: {fileID: 114183958674708450}
+  velBody: {fileID: 114793955708429346}
   stateManager: {fileID: 114800333604838372}
 --- !u!114 &114183958674708450
 MonoBehaviour:
@@ -879,7 +879,6 @@ MonoBehaviour:
     meleePounceMaxDistance: 15
     meleePounceMinDistance: 10
     meleePounceVelocity: 600
-    movementMode: 0
     velBody: {fileID: 114793955708429346}
     statsManager: {fileID: 114411405976347458}
     animator: {fileID: 95668787074051618}

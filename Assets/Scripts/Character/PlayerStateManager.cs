@@ -112,7 +112,7 @@ public class PlayerStateManager : MonoBehaviour {
     {
         if (!modAnimationManager.GetIsPlaying())
         {
-            if (stateVariables.movementMode == MovementMode.PRECISE && stateVariables.velBody.velocity != Vector3.zero)
+            if (stateVariables.velBody.GetMovementMode() == MovementMode.PRECISE && stateVariables.velBody.velocity != Vector3.zero)
             {
                 modAnimationManager.PlayModAnimation(mod, true);
             }
@@ -154,7 +154,6 @@ public class PlayerStateManager : MonoBehaviour {
         public float meleePounceMaxDistance;
         public float meleePounceMinDistance;
         public float meleePounceVelocity;
-        public MovementMode movementMode;
         public VelocityBody velBody;        
         public PlayerStatsManager statsManager;
         public Animator animator;        

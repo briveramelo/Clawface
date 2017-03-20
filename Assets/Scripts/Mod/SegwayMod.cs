@@ -53,8 +53,6 @@ public class SegwayMod : Mod {
     [SerializeField]
     private bool isAoeAttacking;
 
-    MoveState playerMovement;
-
     private void Awake()
     {
         type = ModType.ForceSegway;
@@ -128,7 +126,7 @@ public class SegwayMod : Mod {
         }
     }
 
-    public override void AttachAffect(ref Stats i_playerStats, ref MoveState playerMovement)
+    public override void AttachAffect(ref Stats i_playerStats, IMovable wielderMovable)
     {
         //TODO:Disable pickup collider
         wielderStats = i_playerStats;
@@ -138,8 +136,8 @@ public class SegwayMod : Mod {
             wielderStats.Modify(StatType.MoveSpeed, speedBoostValue);
             wielderStats.Modify(StatType.RangedAccuracy, rangedAccuracyLoss);
             attackValue = wielderStats.GetStat(StatType.Attack);
-            this.playerMovement = playerMovement;
-            this.playerMovement.SetMovementMode(MovementMode.ICE);
+            this.wielderMovable = wielderMovable;
+            this.wielderMovable.SetMovementMode(MovementMode.ICE);
         }
         else
         {
@@ -161,7 +159,7 @@ public class SegwayMod : Mod {
             wielderStats.Modify(StatType.MoveSpeed, 1f / speedBoostValue);
             wielderStats.Modify(StatType.RangedAccuracy, 1f / rangedAccuracyLoss);
             attackValue = wielderStats.GetStat(StatType.Attack);
-            this.playerMovement.SetMovementMode(MovementMode.PRECISE);
+            this.wielderMovable.SetMovementMode(MovementMode.PRECISE);
         }
         else
         {

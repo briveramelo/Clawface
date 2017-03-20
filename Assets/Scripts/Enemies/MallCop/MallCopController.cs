@@ -12,7 +12,10 @@ public abstract class MallCopController : AIController {
     public override State CurrentState {
         set {
             if (stats.health > 0 || value==states.fall) {
-                if ((currentState == states.twitch && !states.twitch.IsMidTwitch()) || currentState != states.twitch) {
+                if ((currentState == states.twitch && !states.twitch.IsMidTwitch()) ||
+                    currentState != states.twitch ||
+                    value==states.fall) {
+
                     if (currentState != null) {
                         currentState.OnExit();
                     }
