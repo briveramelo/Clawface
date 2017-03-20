@@ -11,9 +11,7 @@ public class ModManager : MonoBehaviour
 
     [SerializeField] private Transform headSocket, leftArmSocket, rightArmSocket, legsSocket;
     [SerializeField] private Stats playerStats;
-
-    [SerializeField]
-    private MoveState playerMovement;
+    [SerializeField] private VelocityBody velBody;
 
     [SerializeField]
     private PlayerStateManager stateManager;
@@ -166,7 +164,7 @@ public class ModManager : MonoBehaviour
         mod.transform.localPosition = Vector3.zero;
         mod.transform.localRotation = Quaternion.identity;
         modSocketDictionary[spot].mod = mod;        
-        mod.AttachAffect(ref playerStats, ref playerMovement);
+        mod.AttachAffect(ref playerStats, velBody);
         StartCoroutine(DelayIsOkToDropMod());
     }
 
