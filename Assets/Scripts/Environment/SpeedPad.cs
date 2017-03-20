@@ -21,7 +21,7 @@ public class SpeedPad : MonoBehaviour {
 
         if (im != null)
         {
-            im.AddExternalForce(pushVector);
+            im.AddDecayingForce(pushVector);
         }
         
     }

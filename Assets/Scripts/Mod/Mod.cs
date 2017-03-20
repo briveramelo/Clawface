@@ -10,7 +10,7 @@ public abstract class Mod : MonoBehaviour {
     #region Protected Fields
     protected ModType type;
     protected ModCategory category;
-    protected Stats playerStats;
+    protected Stats wielderStats;
     protected List<IDamageable> recentlyHitEnemies = new List<IDamageable>();
     #endregion
 
