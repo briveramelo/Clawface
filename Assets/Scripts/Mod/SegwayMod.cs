@@ -96,7 +96,7 @@ public class SegwayMod : Mod {
                 {
                     Vector3 normalizedDistance = other.transform.position - this.transform.position;
                     normalizedDistance = normalizedDistance.normalized;
-                    movable.AddExternalForce(normalizedDistance * attackForce);
+                    movable.AddDecayingForce(normalizedDistance * attackForce);
                 }
 
                 if (damageable != null || movable != null)
@@ -117,7 +117,7 @@ public class SegwayMod : Mod {
                 {
                     Vector3 normalizedDistance = other.transform.position - this.transform.position;
                     normalizedDistance = normalizedDistance.normalized;
-                    movable.AddExternalForce(normalizedDistance * aoeForce);
+                    movable.AddDecayingForce(normalizedDistance * aoeForce);
                 }
 
                 if (damageable != null || movable != null)
@@ -131,19 +131,19 @@ public class SegwayMod : Mod {
     public override void AttachAffect(ref Stats i_playerStats, ref MoveState playerMovement)
     {
         //TODO:Disable pickup collider
-        playerStats = i_playerStats;
+        wielderStats = i_playerStats;
         pickupCollider.enabled = false;
         if (getModSpot() == ModSpot.Legs)
         {
-            playerStats.Modify(StatType.MoveSpeed, speedBoostValue);
-            playerStats.Modify(StatType.RangedAccuracy, rangedAccuracyLoss);
-            attackValue = playerStats.GetStat(StatType.Attack);
+            wielderStats.Modify(StatType.MoveSpeed, speedBoostValue);
+            wielderStats.Modify(StatType.RangedAccuracy, rangedAccuracyLoss);
+            attackValue = wielderStats.GetStat(StatType.Attack);
             this.playerMovement = playerMovement;
             this.playerMovement.SetMovementMode(MovementMode.ICE);
         }
         else
         {
-            attackValue = playerStats.GetStat(StatType.Attack);
+            attackValue = wielderStats.GetStat(StatType.Attack);
         }
     }
 
@@ -158,9 +158,9 @@ public class SegwayMod : Mod {
 
         if (getModSpot() == ModSpot.Legs)
         {
-            playerStats.Modify(StatType.MoveSpeed, 1f / speedBoostValue);
-            playerStats.Modify(StatType.RangedAccuracy, 1f / rangedAccuracyLoss);
-            attackValue = playerStats.GetStat(StatType.Attack);
+            wielderStats.Modify(StatType.MoveSpeed, 1f / speedBoostValue);
+            wielderStats.Modify(StatType.RangedAccuracy, 1f / rangedAccuracyLoss);
+            attackValue = wielderStats.GetStat(StatType.Attack);
             this.playerMovement.SetMovementMode(MovementMode.PRECISE);
         }
         else
@@ -171,12 +171,12 @@ public class SegwayMod : Mod {
 
     void BoostSpeed()
     {
-        playerStats.Modify(StatType.MoveSpeed, speedBoostValue);
+        wielderStats.Modify(StatType.MoveSpeed, speedBoostValue);
     }
 
     void RemoveSpeedBoost()
     {
-        playerStats.Modify(StatType.MoveSpeed, 1 / speedBoostValue);
+        wielderStats.Modify(StatType.MoveSpeed, 1 / speedBoostValue);
     }
 
     void AoeAttack()

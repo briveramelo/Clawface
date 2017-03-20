@@ -12,7 +12,8 @@ public class BatonMod : Mod {
 
     [SerializeField]
     private Collider attackCollider;
-    bool isHitting;
+
+    bool isSwinging;
 
     [SerializeField]
     private VFXStunBatonImpact impactEffect;
@@ -22,10 +23,10 @@ public class BatonMod : Mod {
         switch (getModSpot())
         {
             case ModSpot.ArmL:
-                Hit();
+                Swing();
                 break;
             case ModSpot.ArmR:
-                Hit();
+                Swing();
                 break;
             case ModSpot.Legs:
                 LayMine();
@@ -44,24 +45,15 @@ public class BatonMod : Mod {
     {
         type = ModType.StunBaton;
         category = ModCategory.Melee;
-        attackCollider.enabled = false;
     }
 
-    // Use this for initialization
-    void Start () {        
-    }
-	
-	// Update is called once per frame
-	void Update () {        
-	}
-
-    void Hit()
+    void Swing()
     {        
-        if (!isHitting)
+        if (!isSwinging)
         {
             AudioManager.Instance.PlaySFX(SFXType.StunBatonSwing);
             
-            isHitting = true;
+            isSwinging = true;
             StartCoroutine(HitCoolDown());
         }
     }
@@ -70,7 +62,7 @@ public class BatonMod : Mod {
     {
         yield return new WaitForSeconds(attackTime);
         recentlyHitEnemies.Clear();
-        isHitting = false;
+        isSwinging = false;
     }
 
     void LayMine()
@@ -86,14 +78,13 @@ public class BatonMod : Mod {
 
     private void OnTriggerStay(Collider other)
     {
-        if (isHitting)
+        if (isSwinging)
         {
             IDamageable damageable = other.gameObject.GetComponent<IDamageable>();
             if (damageable != null && !recentlyHitEnemies.Contains(damageable))
             {
-                if (other.tag != Strings.Tags.PLAYER)
+                if (transform.root.CompareTag(Strings.Tags.PLAYER))
                 {
-                    //TODO check that the player swinging IS NOT a mallcop...
                     HitstopManager.Instance.StartHitstop(.2f);
                 }
                 impactEffect.Emit();
@@ -111,20 +102,20 @@ public class BatonMod : Mod {
 
     void BoostAttack()
     {
-        playerStats.Modify(StatType.Attack, attackBoostValue);
+        wielderStats.Modify(StatType.Attack, attackBoostValue);
     }
 
     void RemoveAttackBoost()
     {
-        playerStats.Modify(StatType.Attack, 1 / attackBoostValue);
+        wielderStats.Modify(StatType.Attack, 1 / attackBoostValue);
     }
 
     public override void AttachAffect(ref Stats i_playerStats, ref MoveState playerMovement)
     {
         attackCollider.enabled = true;
-        playerStats = i_playerStats;
+        wielderStats = i_playerStats;
         pickupCollider.enabled = false;
-        attackValue = playerStats.GetStat(StatType.Attack);
+        attackValue = wielderStats.GetStat(StatType.Attack);
     }
 
     public override void DetachAffect()

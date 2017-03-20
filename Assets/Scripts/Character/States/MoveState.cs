@@ -8,11 +8,8 @@ public class MoveState : MonoBehaviour, IPlayerState
     #region Private Fields
     PlayerStateManager.StateVariables moveStateVariables;
     Vector3 currentEnemyVector;
-    private bool isGrounded;
-    private bool isFalling = false;
     private float sphereRadius = 0.1f;
     private Vector3 movement;
-    private List<Vector3> externalForces;
     private List<Vector3> externalForcesToAdd;
     private bool isAnyAxisInput;
     private bool isSidescrolling;
@@ -29,12 +26,7 @@ public class MoveState : MonoBehaviour, IPlayerState
         this.moveStateVariables = moveStateVariables;
         canMove = true;
         isSidescrolling = false;
-        externalForces = new List<Vector3>();
         externalForcesToAdd = new List<Vector3>();
-        for (int i = 0; i < 100; i++)
-        {
-            externalForces.Add(Vector3.zero);
-        }
     }
 
     public void StateUpdate()
@@ -63,7 +55,7 @@ public class MoveState : MonoBehaviour, IPlayerState
             movement = Vector3.zero;
         }
 
-        velocity = moveStateVariables.rb.velocity;
+        velocity = moveStateVariables.velBody.velocity;
 
         movement = Camera.main.transform.TransformDirection(movement);
 
@@ -76,7 +68,6 @@ public class MoveState : MonoBehaviour, IPlayerState
             lastMovement = movement;
         }
 
-        isGrounded = IsGrounded();
         maxSpeed = moveStateVariables.statsManager.GetStat(StatType.MoveSpeed);
     }
 
@@ -85,7 +76,7 @@ public class MoveState : MonoBehaviour, IPlayerState
         switch (moveStateVariables.movementMode)
         {
             case MovementMode.PRECISE:
-                moveStateVariables.rb.velocity = movement * moveStateVariables.statsManager.GetStat(StatType.MoveSpeed) + GetExternalForceSum();
+                moveStateVariables.velBody.velocity = movement * moveStateVariables.statsManager.GetStat(StatType.MoveSpeed) * Time.fixedDeltaTime;
                 if (movement.magnitude > moveStateVariables.axisThreshold)
                 {                    
                     if (moveStateVariables.animator.GetInteger(Strings.ANIMATIONSTATE) != (int)PlayerAnimationStates.Running)
@@ -108,15 +99,15 @@ public class MoveState : MonoBehaviour, IPlayerState
                     moveStateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Idle);
                 }
 
-                moveStateVariables.rb.AddForce(movement * moveStateVariables.acceleration * Time.fixedDeltaTime);
+                moveStateVariables.velBody.rigbod.AddForce(movement * moveStateVariables.acceleration * Time.fixedDeltaTime);
 
                 foreach (Vector3 vector in externalForcesToAdd)
                 {
-                    moveStateVariables.rb.AddForce(vector * Time.fixedDeltaTime);
+                    moveStateVariables.velBody.rigbod.AddForce(vector * Time.fixedDeltaTime);
                 }
 
 
-                Vector3 flatMovement = new Vector3(moveStateVariables.rb.velocity.x, 0f, moveStateVariables.rb.velocity.z);
+                Vector3 flatMovement = new Vector3(moveStateVariables.velBody.velocity.x, 0f, moveStateVariables.velBody.velocity.z);
                 currentSpeed = flatMovement.magnitude;
 
                 if (currentSpeed > moveStateVariables.statsManager.GetStat(StatType.MoveSpeed))
@@ -126,13 +117,13 @@ public class MoveState : MonoBehaviour, IPlayerState
                     currentFlatVelocity = currentFlatVelocity.normalized;
                     currentFlatVelocity *= (currentSpeed - moveStateVariables.statsManager.GetStat(StatType.MoveSpeed));
                     currentFlatVelocity *= moveStateVariables.manualDrag;
-                    moveStateVariables.rb.AddForce(currentFlatVelocity);
+                    moveStateVariables.velBody.rigbod.AddForce(currentFlatVelocity);
                 }
                 externalForcesToAdd.Clear();
 
                 break;
             default:
-                moveStateVariables.rb.velocity = movement * moveStateVariables.statsManager.GetStat(StatType.MoveSpeed) + GetExternalForceSum();
+                moveStateVariables.velBody.velocity = movement * moveStateVariables.statsManager.GetStat(StatType.MoveSpeed) * Time.fixedDeltaTime;
                 break;
         }
 
@@ -169,63 +160,8 @@ public class MoveState : MonoBehaviour, IPlayerState
                 transform.forward = movement;
             }
         }
-        velocity = moveStateVariables.rb.velocity;
-        currentSpeed = moveStateVariables.rb.velocity.magnitude;
-    }
-    #endregion
-
-    #region Private Methods
-    private bool IsGrounded()
-    {
-
-        Collider[] cols = Physics.OverlapSphere(moveStateVariables.foot.transform.position, sphereRadius);
-        for (int i = 0; i < cols.Length; i++)
-        {
-            if (cols[i].gameObject.layer == (int)Layers.Ground)
-            {
-                return true;
-            }
-        }
-        if (!isFalling)
-        {
-            StartCoroutine(ApplyGravity());
-        }
-        return false;
-    }
-
-    private IEnumerator ApplyGravity()
-    {
-        isFalling = true;
-        int currentIndex = externalForces.FindIndex(vec => vec == Vector3.zero);
-        float timeElapsed = 0f;
-        float gravity = 9.81f;
-        while (!isGrounded && isFalling)
-        {
-            externalForces[currentIndex] = Vector3.down * (gravity * timeElapsed);
-            timeElapsed += Time.deltaTime;
-            yield return null;
-        }
-        isFalling = false;
-        externalForces[currentIndex] = Vector3.zero;
-    }
-
-    private Vector3 GetExternalForceSum()
-    {
-        Vector3 totalExternalForce = Vector3.zero;
-        externalForces.ForEach(force => totalExternalForce += force);
-        return totalExternalForce;
-    }
-    private IEnumerator AddPsuedoForce(Vector3 forceVector, float decay)
-    {
-        int currentIndex = externalForces.FindIndex(vec => vec == Vector3.zero);
-
-        externalForces[currentIndex] = forceVector;
-        while (externalForces[currentIndex].magnitude > .2f)
-        {
-            externalForces[currentIndex] = Vector3.Lerp(externalForces[currentIndex], Vector3.zero, decay);
-            yield return null;
-        }
-        externalForces[currentIndex] = Vector3.zero;
+        velocity = moveStateVariables.velBody.velocity;
+        currentSpeed = moveStateVariables.velBody.velocity.magnitude;
     }
     #endregion
 
@@ -239,7 +175,7 @@ public class MoveState : MonoBehaviour, IPlayerState
 
                 if (canMove)
                 {
-                    StartCoroutine(AddPsuedoForce(forceVector, decay));
+                    StartCoroutine(moveStateVariables.velBody.AddDecayingForce(forceVector, decay));
                 }
                 break;
             case MovementMode.ICE:
@@ -258,7 +194,7 @@ public class MoveState : MonoBehaviour, IPlayerState
     public void SetMovementMode(MovementMode mode)
     {
         moveStateVariables.movementMode = mode;
-        moveStateVariables.rb.useGravity = mode == MovementMode.ICE ? true : false;
+        moveStateVariables.velBody.useGravity = mode == MovementMode.ICE ? true : false;
     }
     
     #endregion
