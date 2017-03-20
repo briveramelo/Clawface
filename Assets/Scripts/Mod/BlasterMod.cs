@@ -104,4 +104,9 @@ public class BlasterMod : Mod {
             }
         }
     }
+
+    public override void AlternateActivate()
+    {
+        
+    }
 }

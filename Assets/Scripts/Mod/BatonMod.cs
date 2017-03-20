@@ -133,4 +133,9 @@ public class BatonMod : Mod {
         pickupCollider.enabled = true;
         attackValue = 0.0f;
     }
+
+    public override void AlternateActivate()
+    {
+        
+    }
 }

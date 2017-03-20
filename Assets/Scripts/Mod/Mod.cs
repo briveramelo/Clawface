@@ -29,6 +29,8 @@ public abstract class Mod : MonoBehaviour {
     #region Public Methods
     public abstract void Activate();
 
+    public abstract void AlternateActivate();
+
     public abstract void DeActivate();
 
     public abstract void AttachAffect(ref Stats playerStats, ref MoveState playerMovement);
