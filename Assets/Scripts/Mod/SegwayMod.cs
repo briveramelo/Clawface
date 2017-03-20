@@ -230,7 +230,7 @@ public class SegwayMod : Mod {
 	void Update () {        
     }
 
-    public override void AlternateActivate()
+    public override void AlternateActivate(bool isHeld)
     {
         
     }
