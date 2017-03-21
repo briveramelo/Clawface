@@ -63,7 +63,7 @@ public class GrapplerMod : Mod {
         }
     }
 
-    public override void AlternateActivate(bool isHeld)
+    public override void AlternateActivate(bool isHeld, float holdTime)
     {
         if (isHeld && !sharedVariables.specialAttack)
         {
