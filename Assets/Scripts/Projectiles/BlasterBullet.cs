@@ -6,7 +6,8 @@ public class BlasterBullet : MonoBehaviour {
 
     [SerializeField] private float speed;
 
-    private Vector3 direction;
+    private VFXHandler vfxHandler;
+    private Vector3 moveDirection;
     private float pushForce;
     private float damage = 1f;
     private bool push;
@@ -14,7 +15,8 @@ public class BlasterBullet : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        direction = Vector3.forward;
+        vfxHandler = new VFXHandler(transform);
+        moveDirection = Vector3.forward;
         push = false;
     }
 
@@ -28,7 +30,7 @@ public class BlasterBullet : MonoBehaviour {
         if (gameObject.activeSelf)
         {
             yield return new WaitForSeconds(3);
-            CreateImpactEffect();
+            vfxHandler.EmitForBulletCollision();
             gameObject.SetActive(false);
         }
     }
@@ -40,15 +42,15 @@ public class BlasterBullet : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        transform.Translate(direction * speed);
+        transform.Translate(moveDirection* speed * Time.deltaTime);
 	}
 
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.tag == Strings.Tags.ENEMY && push)
         {
-            Vector3 forceDirection = other.gameObject.transform.position - transform.position;
-            IMovable movable = other.gameObject.GetComponent<IMovable>();
+            Vector3 forceDirection = transform.forward;
+            IMovable movable = other.GetComponent<IMovable>();
             if (movable != null)
             {
                 movable.AddDecayingForce(forceDirection.normalized * pushForce);
@@ -71,23 +73,20 @@ public class BlasterBullet : MonoBehaviour {
 
                 //TODO: Create Impact effect needs to take into account
                 // the type of surface that it had hit.
-                CreateImpactEffect();
+                if (Mathf.Abs(transform.forward.y)<0.5f) {
+                    vfxHandler.EmitBloodBilaterally();
+                }
+                else {                    
+                    vfxHandler.EmitBloodInDirection(Quaternion.Euler(Vector3.right*90f), transform.position);
+                }
             }
             push = true;
             
             //TODO find a better method for colliding with ground
-            //right not it's unreliable            
+            //right now it's unreliable            
             gameObject.SetActive(false);
         }
     }
 
-    private void CreateImpactEffect() {
-        GameObject projectileImpactEffect = ObjectPool.Instance.GetObject(PoolObjectType.BlasterImpactEffect);
-        if (projectileImpactEffect != null)
-        {
-            projectileImpactEffect.SetActive(true);
-            projectileImpactEffect.transform.position = transform.position;
-            projectileImpactEffect.transform.rotation = transform.rotation;
-        }
-    }
+    
 }

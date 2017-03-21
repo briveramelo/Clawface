@@ -858,7 +858,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3afd0db1fd3c0f8458609ba77fe305d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1730096350}
+  player: {fileID: 0}
   arenaTarget: {fileID: 363801594}
   armoryTarget: {fileID: 1097886652}
   trialsTarget: {fileID: 0}
@@ -1664,6 +1664,11 @@ Transform:
   m_Father: {fileID: 319817618}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &247066120 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4617600092637414, guid: d3d6c7a46e10f164d980938a0b10dcd3,
+    type: 2}
+  m_PrefabInternal: {fileID: 621576379}
 --- !u!4 &256500220 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4232652381133598, guid: 42e0e0714c25e8645aadfe3f7091b738,
@@ -2580,6 +2585,28 @@ Transform:
   m_Father: {fileID: 1057855184}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!84 &528452165
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_Width: 863
+  m_Height: 485
+  m_AntiAliasing: 2
+  m_DepthFormat: 2
+  m_ColorFormat: 0
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_TextureSettings:
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapMode: 1
 --- !u!1001 &531779020
 Prefab:
   m_ObjectHideFlags: 0
@@ -2628,7 +2655,7 @@ Prefab:
         type: 2}
       propertyPath: objectToLockTo
       value: 
-      objectReference: {fileID: 1730096350}
+      objectReference: {fileID: 247066120}
     - target: {fileID: 4746208711109092, guid: 9981de4f5a8796c4099626eab5bfe43f, type: 2}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 46.771004
@@ -2645,7 +2672,7 @@ Prefab:
         type: 2}
       propertyPath: m_TargetTexture
       value: 
-      objectReference: {fileID: 1423508421}
+      objectReference: {fileID: 528452165}
     - target: {fileID: 20606867456560284, guid: 9981de4f5a8796c4099626eab5bfe43f,
         type: 2}
       propertyPath: orthographic
@@ -3036,22 +3063,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4227551320145856, guid: 95484218d20932749ab939ddc150315f, type: 2}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 86.351006
-      objectReference: {fileID: 0}
-    - target: {fileID: 4227551320145856, guid: 95484218d20932749ab939ddc150315f, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4227551320145856, guid: 95484218d20932749ab939ddc150315f, type: 2}
-      propertyPath: m_LocalScale.y
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4227551320145856, guid: 95484218d20932749ab939ddc150315f, type: 2}
-      propertyPath: m_LocalScale.z
-      value: 4
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 95484218d20932749ab939ddc150315f, type: 2}
   m_IsPrefabParent: 0
@@ -3187,43 +3198,42 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4389115203279782, guid: 571f3f5304dc6ae4ca659258a79a2b90, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 20.3
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4389115203279782, guid: 571f3f5304dc6ae4ca659258a79a2b90, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 11.57
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4389115203279782, guid: 571f3f5304dc6ae4ca659258a79a2b90, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 100.1
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4389115203279782, guid: 571f3f5304dc6ae4ca659258a79a2b90, type: 2}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4389115203279782, guid: 571f3f5304dc6ae4ca659258a79a2b90, type: 2}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4389115203279782, guid: 571f3f5304dc6ae4ca659258a79a2b90, type: 2}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4389115203279782, guid: 571f3f5304dc6ae4ca659258a79a2b90, type: 2}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4389115203279782, guid: 571f3f5304dc6ae4ca659258a79a2b90, type: 2}
       propertyPath: m_RootOrder
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4617600092637414, guid: d3d6c7a46e10f164d980938a0b10dcd3, type: 2}
+      propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
-    - target: {fileID: 114971001971292986, guid: 571f3f5304dc6ae4ca659258a79a2b90,
-        type: 2}
-      propertyPath: stats
-      value: 
-      objectReference: {fileID: 1688738882}
     m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: 571f3f5304dc6ae4ca659258a79a2b90, type: 2}
+  m_ParentPrefab: {fileID: 100100000, guid: d3d6c7a46e10f164d980938a0b10dcd3, type: 2}
   m_IsPrefabParent: 0
 --- !u!43 &679064253
 Mesh:
@@ -6343,28 +6353,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1169816420}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!84 &1172959223
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_Width: 396
-  m_Height: 223
-  m_AntiAliasing: 2
-  m_DepthFormat: 2
-  m_ColorFormat: 0
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_TextureSettings:
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapMode: 1
 --- !u!1 &1183385441
 GameObject:
   m_ObjectHideFlags: 0
@@ -7333,28 +7321,6 @@ Mesh:
   m_BakedConvexCollisionMesh: 
   m_BakedTriangleCollisionMesh: 
   m_MeshOptimized: 0
---- !u!84 &1423508421
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_Width: 396
-  m_Height: 223
-  m_AntiAliasing: 2
-  m_DepthFormat: 2
-  m_ColorFormat: 0
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_TextureSettings:
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapMode: 1
 --- !u!1001 &1431433812
 Prefab:
   m_ObjectHideFlags: 0
@@ -7830,7 +7796,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3afd0db1fd3c0f8458609ba77fe305d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1730096350}
+  player: {fileID: 0}
   arenaTarget: {fileID: 363801594}
   armoryTarget: {fileID: 1097886652}
   trialsTarget: {fileID: 0}
@@ -8823,12 +8789,6 @@ Transform:
   m_PrefabParentObject: {fileID: 4659963037190060, guid: e14e8d6169a17be48982f08387184fc0,
     type: 2}
   m_PrefabInternal: {fileID: 2069920058}
---- !u!114 &1688738882 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114598520009895834, guid: 571f3f5304dc6ae4ca659258a79a2b90,
-    type: 2}
-  m_PrefabInternal: {fileID: 621576379}
-  m_Script: {fileID: 11500000, guid: 3c7112b3692977d4987101d9add4e51f, type: 3}
 --- !u!1 &1689935895
 GameObject:
   m_ObjectHideFlags: 0
@@ -8995,11 +8955,6 @@ Transform:
   m_Father: {fileID: 1659276229}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &1730096350 stripped
-Transform:
-  m_PrefabParentObject: {fileID: 4389115203279782, guid: 571f3f5304dc6ae4ca659258a79a2b90,
-    type: 2}
-  m_PrefabInternal: {fileID: 621576379}
 --- !u!43 &1747299042
 Mesh:
   m_ObjectHideFlags: 0
@@ -10122,16 +10077,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 114973293817662478, guid: 6a1c0949d9ce284499cf975c5703f9f0,
-        type: 2}
-      propertyPath: bloodDecalPool.prefabs.Array.size
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 114973293817662478, guid: 6a1c0949d9ce284499cf975c5703f9f0,
-        type: 2}
-      propertyPath: pools.Array.data[6].prefabs.Array.size
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 4611027295727446, guid: 6a1c0949d9ce284499cf975c5703f9f0, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -10164,109 +10109,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 11
       objectReference: {fileID: 0}
-    - target: {fileID: 1025026249056420, guid: 6a1c0949d9ce284499cf975c5703f9f0, type: 2}
-      propertyPath: m_Name
-      value: ObjectPool
-      objectReference: {fileID: 0}
-    - target: {fileID: 114973293817662478, guid: 6a1c0949d9ce284499cf975c5703f9f0,
-        type: 2}
-      propertyPath: bloodSplatterPool.prefab
-      value: 
-      objectReference: {fileID: 1310962398947696, guid: 12ae6235e933c4249bcb5f7b0aa8c0fe,
-        type: 2}
-    - target: {fileID: 114973293817662478, guid: 6a1c0949d9ce284499cf975c5703f9f0,
-        type: 2}
-      propertyPath: bloodSplatterPool.size
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 114973293817662478, guid: 6a1c0949d9ce284499cf975c5703f9f0,
-        type: 2}
-      propertyPath: bloodDecalPool.size
-      value: 200
-      objectReference: {fileID: 0}
-    - target: {fileID: 114973293817662478, guid: 6a1c0949d9ce284499cf975c5703f9f0,
-        type: 2}
-      propertyPath: bloodDecalPool.prefabs.Array.data[0]
-      value: 
-      objectReference: {fileID: 1310962398947696, guid: 12ae6235e933c4249bcb5f7b0aa8c0fe,
-        type: 2}
-    - target: {fileID: 114973293817662478, guid: 6a1c0949d9ce284499cf975c5703f9f0,
-        type: 2}
-      propertyPath: bloodDecalPool.prefabs.Array.data[1]
-      value: 
-      objectReference: {fileID: 1310962398947696, guid: 046caf9a7a1afd64ab8d7d5201c63705,
-        type: 2}
-    - target: {fileID: 114973293817662478, guid: 6a1c0949d9ce284499cf975c5703f9f0,
-        type: 2}
-      propertyPath: bloodDecalPool.prefabs.Array.data[2]
-      value: 
-      objectReference: {fileID: 1310962398947696, guid: 6303dfcaa1118d143a83e9aa335656e9,
-        type: 2}
-    - target: {fileID: 114973293817662478, guid: 6a1c0949d9ce284499cf975c5703f9f0,
-        type: 2}
-      propertyPath: bloodDecalPool.prefabs.Array.data[3]
-      value: 
-      objectReference: {fileID: 1310962398947696, guid: 2821542706a3c8d4d8daafcdf0dec4dc,
-        type: 2}
-    - target: {fileID: 114973293817662478, guid: 6a1c0949d9ce284499cf975c5703f9f0,
-        type: 2}
-      propertyPath: bloodDecalPool.prefabs.Array.data[4]
-      value: 
-      objectReference: {fileID: 1310962398947696, guid: af621f6afbcf14a43a238130c1b4a85b,
-        type: 2}
-    - target: {fileID: 114973293817662478, guid: 6a1c0949d9ce284499cf975c5703f9f0,
-        type: 2}
-      propertyPath: blasterImpactEffectPool.prefabs.Array.data[0]
-      value: 
-      objectReference: {fileID: 1489536630767924, guid: 0720ab2ce0e66a745b45cef6f6bb2cc9,
-        type: 2}
-    - target: {fileID: 114973293817662478, guid: 6a1c0949d9ce284499cf975c5703f9f0,
-        type: 2}
-      propertyPath: pools.Array.data[6].prefabs.Array.data[0]
-      value: 
-      objectReference: {fileID: 1310962398947696, guid: 12ae6235e933c4249bcb5f7b0aa8c0fe,
-        type: 2}
-    - target: {fileID: 114973293817662478, guid: 6a1c0949d9ce284499cf975c5703f9f0,
-        type: 2}
-      propertyPath: pools.Array.data[6].prefabs.Array.data[1]
-      value: 
-      objectReference: {fileID: 1310962398947696, guid: 046caf9a7a1afd64ab8d7d5201c63705,
-        type: 2}
-    - target: {fileID: 114973293817662478, guid: 6a1c0949d9ce284499cf975c5703f9f0,
-        type: 2}
-      propertyPath: pools.Array.data[6].prefabs.Array.data[2]
-      value: 
-      objectReference: {fileID: 1310962398947696, guid: 6303dfcaa1118d143a83e9aa335656e9,
-        type: 2}
-    - target: {fileID: 114973293817662478, guid: 6a1c0949d9ce284499cf975c5703f9f0,
-        type: 2}
-      propertyPath: pools.Array.data[6].prefabs.Array.data[3]
-      value: 
-      objectReference: {fileID: 1310962398947696, guid: 2821542706a3c8d4d8daafcdf0dec4dc,
-        type: 2}
-    - target: {fileID: 114973293817662478, guid: 6a1c0949d9ce284499cf975c5703f9f0,
-        type: 2}
-      propertyPath: pools.Array.data[6].prefabs.Array.data[4]
-      value: 
-      objectReference: {fileID: 1310962398947696, guid: af621f6afbcf14a43a238130c1b4a85b,
-        type: 2}
-    - target: {fileID: 114973293817662478, guid: 6a1c0949d9ce284499cf975c5703f9f0,
-        type: 2}
-      propertyPath: pools.Array.data[6].size
-      value: 350
-      objectReference: {fileID: 0}
-    - target: {fileID: 114973293817662478, guid: 6a1c0949d9ce284499cf975c5703f9f0,
-        type: 2}
-      propertyPath: pools.Array.data[2].prefabs.Array.data[0]
-      value: 
-      objectReference: {fileID: 1193307479537388, guid: 2ce1ce52e3d791243bea07390d35e3c9,
-        type: 2}
-    - target: {fileID: 114973293817662478, guid: 6a1c0949d9ce284499cf975c5703f9f0,
-        type: 2}
-      propertyPath: pools.Array.data[3].prefabs.Array.data[0]
-      value: 
-      objectReference: {fileID: 1489536630767924, guid: 0720ab2ce0e66a745b45cef6f6bb2cc9,
-        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6a1c0949d9ce284499cf975c5703f9f0, type: 2}
   m_IsPrefabParent: 0

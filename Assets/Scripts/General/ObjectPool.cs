@@ -75,6 +75,9 @@ public class ObjectPool : Singleton<ObjectPool> {
                 string debugMessage = "No more" + poolObjectType.ToString() + " objects found! Make your pool bigger than " + size;
                 Debug.LogFormat("<color=#ffff00>" + debugMessage + "</color>");
             }
+            else{
+                objToReturn.SetActive(true);
+            }
             return objToReturn;
         }
     }

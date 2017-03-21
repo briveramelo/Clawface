@@ -62,7 +62,6 @@ public class LimbBloodEmitter : MonoBehaviour {
         GameObject bloodObject = ObjectPool.Instance.GetObject(PoolObjectType.BloodDecal);
         if (bloodObject)
         {
-            bloodObject.SetActive(true);
             bloodObject.transform.position = modifiedHitPoint;
             bloodObject.transform.rotation = Quaternion.FromToRotation(Vector3.back, hit.normal);
 

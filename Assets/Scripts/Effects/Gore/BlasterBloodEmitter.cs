@@ -18,13 +18,16 @@ public class BlasterBloodEmitter : MonoBehaviour {
     //private float maxDownScale = 0.5f;
 
     private float splashRange = 1.5f;
-    
+
+    void OnEnable() {
+        Invoke("Deactivate", 1f);
+    }    
 
     private void OnParticleCollision(GameObject other)
     {
-            blasterBloodParticleSystem.GetCollisionEvents(other, collEvents);
-            Vector3 loc = collEvents[0].intersection;
-            Paint(loc, Color.red, 1);    
+        blasterBloodParticleSystem.GetCollisionEvents(other, collEvents);
+        Vector3 loc = collEvents[0].intersection;
+        Paint(loc, Color.red, 1);    
     }
 
     private void Paint(Vector3 loc, Color c, int drops)
@@ -53,15 +56,18 @@ public class BlasterBloodEmitter : MonoBehaviour {
     {
         //eff z fighting
         Vector3 modifiedHitPoint = hit.point;
-        modifiedHitPoint.y += .5f;
+        modifiedHitPoint.y += .05f;
 
         //get an object from pool
         GameObject bloodObject = ObjectPool.Instance.GetObject(PoolObjectType.BloodDecal);
         if (bloodObject)
         {
-            bloodObject.SetActive(true);
             bloodObject.transform.position = modifiedHitPoint;
             bloodObject.transform.rotation = Quaternion.FromToRotation(Vector3.back, hit.normal);
+
+            Vector3 angs = bloodObject.transform.rotation.eulerAngles;
+            bloodObject.transform.rotation = Quaternion.Euler(90f, 0f, 0f);
+            Vector3 newNormal = bloodObject.transform.forward;
 
             // Random scale
             //float scaler = UnityEngine.Random.Range(minDownScale, maxDownScale);
@@ -76,17 +82,12 @@ public class BlasterBloodEmitter : MonoBehaviour {
 
             // Random rotation effect
             int rater = UnityEngine.Random.Range(0, 359);
-            bloodObject.transform.RotateAround(hit.point, hit.normal, rater);
+            bloodObject.transform.RotateAround(hit.point, newNormal, rater);
 
-            //Invoke("SetInActiveAfterTime", time);
-            StartCoroutine(SetInactiveAfterTime(bloodObject, splatterLifetime));
-
+            ObjectPool.Instance.StartCoroutine(SetInactiveAfterTime(bloodObject, splatterLifetime));
         }
     }
-    //void SetInactiveAfterTime()
-    //{
-
-    //}
+    
     IEnumerator SetInactiveAfterTime(GameObject i_toSet, float i_delay)
     {
         yield return new WaitForSeconds(i_delay);
@@ -94,5 +95,9 @@ public class BlasterBloodEmitter : MonoBehaviour {
         i_toSet.SetActive(false);
     }
 
+    void Deactivate()
+    {
+        gameObject.SetActive(false);
+    }
 
 }

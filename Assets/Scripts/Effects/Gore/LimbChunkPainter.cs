@@ -15,7 +15,6 @@ public class LimbChunkPainter : MonoBehaviour {
 
     private void OnCollisionEnter(Collision collision)
     {
-        print(collision.contacts.Length);
         ContactPoint contact = collision.contacts[0];
         Paint(contact.point, Color.red);
     }
@@ -49,7 +48,6 @@ public class LimbChunkPainter : MonoBehaviour {
         GameObject bloodObject = ObjectPool.Instance.GetObject(PoolObjectType.BloodDecal);
         if (bloodObject)
         {
-            bloodObject.SetActive(true);
             bloodObject.transform.position = modifiedHitPoint;
             bloodObject.transform.rotation = Quaternion.FromToRotation(Vector3.back, hit.normal);
 

@@ -11,7 +11,6 @@ public class BlasterMod : Mod {
     [SerializeField]
     private float kickbackMagnitude;
 
-    private bool readyToShoot;
 
     [SerializeField]
     private float coolDownTime;
@@ -20,7 +19,12 @@ public class BlasterMod : Mod {
     private float feetMultiplier;
 
     [SerializeField]
-    VFXBlasterShoot blasterEffect; 
+    VFXBlasterShoot blasterEffect;
+
+    [SerializeField] private Transform bulletSpawnPoint;
+
+    private bool readyToShoot;
+
 
     public override void Activate()
     {
@@ -43,7 +47,7 @@ public class BlasterMod : Mod {
     {
         AudioManager.Instance.PlaySFX(SFXType.ArmBlasterFire);
         GameObject blasterBullet = ObjectPool.Instance.GetObject(PoolObjectType.BlasterBullet);
-        blasterBullet.transform.position = transform.position;
+        blasterBullet.transform.position = bulletSpawnPoint.position;
         blasterBullet.transform.rotation = transform.rotation;
         if (wielderMovable != null) {
             if (getModSpot() == ModSpot.Legs && wielderMovable != null) {
@@ -54,7 +58,6 @@ public class BlasterMod : Mod {
             }            
         }
         
-        blasterBullet.SetActive(true);
         blasterEffect.Emit();
     }
 
