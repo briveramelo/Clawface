@@ -127,7 +127,7 @@ public class BatonMod : Mod {
         attackValue = 0.0f;
     }
 
-    public override void AlternateActivate(bool isHeld)
+    public override void AlternateActivate(bool isHeld, float holdTime)
     {
         
     }
