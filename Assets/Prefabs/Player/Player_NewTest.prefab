@@ -76,6 +76,7 @@ GameObject:
   - component: {fileID: 114800333604838372}
   - component: {fileID: 114183958674708450}
   - component: {fileID: 114985794323946042}
+  - component: {fileID: 114793955708429346}
   m_Layer: 8
   m_Name: Player_NewTest
   m_TagString: Player
@@ -786,7 +787,7 @@ MonoBehaviour:
   rightArmSocket: {fileID: 4634169818675522}
   legsSocket: {fileID: 4192219653642208}
   playerStats: {fileID: 114769971612484810}
-  playerMovement: {fileID: 114183958674708450}
+  velBody: {fileID: 114793955708429346}
   stateManager: {fileID: 114800333604838372}
 --- !u!114 &114183958674708450
 MonoBehaviour:
@@ -834,13 +835,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c7112b3692977d4987101d9add4e51f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statsObject:
-    attack: 10
-    defense: 10
-    health: 50
-    moveSpeed: 10
-    miniMapRange: 10
-    rangedAccuracy: 10
+  attack: 5
+  defense: 5
+  health: 50
+  moveSpeed: 340
+  rangedAccuracy: 1
+--- !u!114 &114793955708429346
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1124708316484250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8baf5dc5eb76d149b8ecb529cbc7c96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rigbod: {fileID: 54763374870528968}
+  foot: {fileID: 4192219653642208}
+  footSphereRadius: 0.1
+  isFalling: 0
+  isGrounded: 0
 --- !u!114 &114800333604838372
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -860,11 +875,11 @@ MonoBehaviour:
     acceleration: 1000
     iceForceMultiplier: 500
     manualDrag: 20
+    axisThreshold: 0.04
     meleePounceMaxDistance: 15
     meleePounceMinDistance: 10
-    meleePounceVelocity: 10
-    movementMode: 0
-    rb: {fileID: 54763374870528968}
+    meleePounceVelocity: 600
+    velBody: {fileID: 114793955708429346}
     statsManager: {fileID: 114411405976347458}
     animator: {fileID: 95668787074051618}
   moveState: {fileID: 114183958674708450}

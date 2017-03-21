@@ -51,7 +51,7 @@ public class BlasterBullet : MonoBehaviour {
             IMovable movable = other.gameObject.GetComponent<IMovable>();
             if (movable != null)
             {
-                movable.AddExternalForce(forceDirection.normalized * pushForce);
+                movable.AddDecayingForce(forceDirection.normalized * pushForce);
             }
         }
     }

@@ -26,7 +26,7 @@ public class AttackState : MonoBehaviour,IPlayerState {
     {
         if (CanPounce())
         {
-            stateVariables.rb.velocity = transform.forward * stateVariables.meleePounceVelocity;
+            stateVariables.velBody.velocity = transform.forward * stateVariables.meleePounceVelocity * Time.fixedDeltaTime;
         }
     }
 
