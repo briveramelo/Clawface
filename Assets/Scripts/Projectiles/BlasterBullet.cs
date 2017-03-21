@@ -12,10 +12,10 @@ public class BlasterBullet : MonoBehaviour {
     [SerializeField]
     private float damage;
     [SerializeField]
-    private float damageMultiplier;
+    private float damageMultiplierCharged;
     private bool push;
 
-    public bool isCharged;
+    [HideInInspector] public bool isCharged;
 
 	// Use this for initialization
 	void Start () {        
@@ -74,7 +74,7 @@ public class BlasterBullet : MonoBehaviour {
                 IDamageable damageable = other.gameObject.GetComponent<IDamageable>();
                 if (damageable != null)
                 {
-                    damageable.TakeDamage(isCharged ? damage * damageMultiplier : damage);
+                    damageable.TakeDamage(isCharged ? damage * damageMultiplierCharged : damage);
                 }
 
                 //TODO: Create Impact effect needs to take into account

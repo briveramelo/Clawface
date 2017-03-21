@@ -130,21 +130,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1299809979389700
-GameObject:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 4786529951605290}
-  m_Layer: 0
-  m_Name: Foot
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &1387485931752548
 GameObject:
   m_ObjectHideFlags: 1
@@ -185,6 +170,21 @@ GameObject:
   - component: {fileID: 4915708407352692}
   m_Layer: 0
   m_Name: root
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1480248536862568
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4192219653642208}
+  m_Layer: 0
+  m_Name: Foot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -474,6 +474,19 @@ Transform:
   m_Father: {fileID: 4812923731202410}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4192219653642208
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1480248536862568}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0.089, y: -0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4915708407352692}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!4 &4262262653458912
 Transform:
   m_ObjectHideFlags: 1
@@ -682,25 +695,11 @@ Transform:
   m_Father: {fileID: 4617600092637414}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-<<<<<<< HEAD
---- !u!4 &4786529951605290
-=======
 --- !u!4 &4771931077025050
->>>>>>> Mod
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-<<<<<<< HEAD
-  m_GameObject: {fileID: 1299809979389700}
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0.089, y: -0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4915708407352692}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
-=======
   m_GameObject: {fileID: 1843300887211796}
   m_LocalRotation: {x: 0.065816484, y: 0.93024397, z: -0.20703998, w: 0.2957175}
   m_LocalPosition: {x: -2.948349, y: 4.108, z: 3.7985992}
@@ -709,7 +708,6 @@ Transform:
   m_Father: {fileID: 4617600092637414}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 46.771004, y: 424.35, z: 366.196}
->>>>>>> Mod
 --- !u!4 &4812923731202410
 Transform:
   m_ObjectHideFlags: 1
@@ -751,7 +749,7 @@ Transform:
   - {fileID: 4119600734366272}
   - {fileID: 4503019513773036}
   - {fileID: 4559023496230944}
-  - {fileID: 4786529951605290}
+  - {fileID: 4192219653642208}
   m_Father: {fileID: 4947908588824638}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -797,7 +795,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!95 &95071063862726906
 Animator:
   serializedVersion: 3
@@ -846,16 +844,12 @@ MonoBehaviour:
   headSocket: {fileID: 4364124885054054}
   leftArmSocket: {fileID: 4038012950238166}
   rightArmSocket: {fileID: 4634169818675522}
-  legsSocket: {fileID: 4786529951605290}
+  legsSocket: {fileID: 4192219653642208}
   playerStats: {fileID: 114769971612484810}
   playerMovement: {fileID: 114183958674708450}
   velBody: {fileID: 114793955708429346}
   stateManager: {fileID: 114800333604838372}
-<<<<<<< HEAD
-  holdThresholdTime: 0.3
-=======
   holdThresholdTime: 0.5
->>>>>>> Mod
 --- !u!114 &114183958674708450
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -933,7 +927,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rigbod: {fileID: 54763374870528968}
-  foot: {fileID: 4786529951605290}
+  foot: {fileID: 4192219653642208}
   footSphereRadius: 0.1
   isFalling: 0
   isGrounded: 0
@@ -952,7 +946,7 @@ MonoBehaviour:
     currentEnemy: {fileID: 0}
     currentMod: {fileID: 0}
     stateFinished: 0
-    foot: {fileID: 4786529951605290}
+    foot: {fileID: 4192219653642208}
     acceleration: 1000
     iceForceMultiplier: 500
     manualDrag: 20
