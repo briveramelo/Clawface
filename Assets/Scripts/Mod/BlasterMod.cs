@@ -24,8 +24,6 @@ public class BlasterMod : Mod {
     [SerializeField]
     private float kickBackChargedMultiplier;
 
-    private float holdTime;
-
     [SerializeField] private Transform bulletSpawnPoint;
 
     private bool readyToShoot;
@@ -107,7 +105,6 @@ public class BlasterMod : Mod {
         readyToShoot = true;
         type = ModType.ArmBlaster;
         category = ModCategory.Ranged;
-        holdTime = 0.0f;
     }
 	
 	// Update is called once per frame
@@ -121,18 +118,16 @@ public class BlasterMod : Mod {
         }
     }
 
-    public override void AlternateActivate(bool isHeld)
+    public override void AlternateActivate(bool isHeld, float holdTime)
     {
         if (isHeld)
         {
             blasterEffect.Emit();
-            holdTime += Time.deltaTime;            
         }
         else
         {
             GameObject blasterBullet = SpawnBullet();
             blasterBullet.GetComponent<BlasterBullet>().isCharged = true;
-            holdTime = 0.0f;
             if (getModSpot() == ModSpot.Legs && wielderMovable != null)
             {
                 KickBack(Vector3.up * feetMultiplier * kickBackChargedMultiplier);

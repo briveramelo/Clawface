@@ -220,7 +220,7 @@ public class TankTreadsMod : Mod
         }
     }
 
-    public override void AlternateActivate(bool isHeld)
+    public override void AlternateActivate(bool isHeld, float holdTime)
     {
         switch (getModSpot())
         {
