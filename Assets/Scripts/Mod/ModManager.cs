@@ -18,9 +18,7 @@ public class ModManager : MonoBehaviour
     [SerializeField]
     private Stats playerStats;
     [SerializeField]
-    private MoveState playerMovement;	
-    [SerializeField] private Transform headSocket, leftArmSocket, rightArmSocket, legsSocket;
-    [SerializeField] private Stats playerStats;
+    private MoveState playerMovement;
     [SerializeField] private VelocityBody velBody;
     [SerializeField]
     private PlayerStateManager stateManager;
