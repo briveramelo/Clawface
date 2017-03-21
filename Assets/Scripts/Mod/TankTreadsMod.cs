@@ -72,7 +72,7 @@ public class TankTreadsMod : Mod
     private bool armChargedAttackHitboxIsActive;
     private bool legAttackHitboxIsActive;
 
-    private List<Transform> objectsHitDuringAttack;    
+    private List<Transform> objectsHitDuringAttack;
     private bool canAttackAgain;
 
     private float legsTimer;
@@ -82,7 +82,7 @@ public class TankTreadsMod : Mod
 
     // Use this for initialization
     void Start()
-    {        
+    {
         attackCollider.enabled = false;
         setModSpot(ModSpot.Default);
         objectsHitDuringAttack = new List<Transform>();
@@ -91,38 +91,14 @@ public class TankTreadsMod : Mod
     // Update is called once per frame
     void Update()
     {
-        if (getModSpot() == ModSpot.ArmL || getModSpot() == ModSpot.ArmR)
-        {
-            if (!canAttackAgain) return;
-        }
-
         switch (getModSpot())
         {
             case ModSpot.ArmL:
-                if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_LEFT, ButtonMode.HELD))
-                {
-                    chargeTimer += Time.deltaTime;
-                    //pMove.CanMove(false);
-                }
-                if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_LEFT, ButtonMode.UP))
-                {
-                    AttackBasedOnCharge();
-                }
                 break;
 
             case ModSpot.ArmR:
-                if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_RIGHT, ButtonMode.HELD))
-                {
-                    chargeTimer += Time.deltaTime;
-                    //pMove.CanMove(false);
-                }
-
-                if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_RIGHT, ButtonMode.UP))
-                {
-                    AttackBasedOnCharge();
-                }
-
                 break;
+
             case ModSpot.Legs:
                 legsTimer -= Time.deltaTime;
 
@@ -130,11 +106,6 @@ public class TankTreadsMod : Mod
                 {
                     legAttackHitboxIsActive = false;
                     attackCollider.enabled = false;
-                }
-
-                if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_LEGS, ButtonMode.DOWN))
-                {
-                    
                 }
                 break;
         }
@@ -153,7 +124,7 @@ public class TankTreadsMod : Mod
         if (armRegularAttackHitboxIsActive)
         {
             if (objectsHitDuringAttack.Contains(other.transform.root)) return;
-            
+
             if (damageable != null)
             {
                 objectsHitDuringAttack.Add(other.transform.root);
@@ -229,13 +200,15 @@ public class TankTreadsMod : Mod
 
     public override void Activate()
     {
-        if (this.transform.root.tag != Strings.Tags.PLAYER)
-        {
-            Hit();
-        }
 
         switch (getModSpot())
         {
+            case ModSpot.ArmL:
+            case ModSpot.ArmR:
+                if (!canAttackAgain) return;
+                Hit();
+                break;
+
             case ModSpot.Legs:
                 if (wielderMovable.IsGrounded())
                 {
@@ -247,6 +220,24 @@ public class TankTreadsMod : Mod
         }
     }
 
+    public override void AlternateActivate(bool isHeld)
+    {
+        switch (getModSpot())
+        {
+            case ModSpot.ArmL:
+            case ModSpot.ArmR:
+                if (isHeld)
+                {
+                    wielderStats.moveSpeed = 0;
+                }
+                else
+                {
+                    wielderStats.moveSpeed = savedMoveSpeed;
+                    ChargedHit();
+                }
+                break;
+        }
+    }
 
     public override void AttachAffect(ref Stats wielderStats, IMovable wielderMovable)
     {
@@ -254,6 +245,7 @@ public class TankTreadsMod : Mod
         this.wielderMovable = wielderMovable;
         pickupCollider.enabled = false;
         attackCollider.enabled = false;
+        savedMoveSpeed = wielderStats.moveSpeed;
         canAttackAgain = true;
 
         if (getModSpot() == ModSpot.Legs)
@@ -349,7 +341,6 @@ public class TankTreadsMod : Mod
         EnableAttackCollider();
         armChargedAttackHitboxIsActive = true;
         
-
         yield return new WaitForSeconds(armChargedActiveTime);
         StartCoroutine(ArmChargedCooldown());
     }
@@ -377,11 +368,7 @@ public class TankTreadsMod : Mod
         chargeTimer = 0f;
 	}
 	
-    public override void AlternateActivate(bool isHeld)
-    {
-        
-
-    }
+    
     #endregion
 
 }
