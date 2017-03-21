@@ -790,7 +790,7 @@ MonoBehaviour:
   playerMovement: {fileID: 0}
   velBody: {fileID: 114793955708429346}
   stateManager: {fileID: 114800333604838372}
-  holdThresholdTime: 0.5
+  holdThresholdTime: 0.3
 --- !u!114 &114183958674708450
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -891,7 +891,7 @@ MonoBehaviour:
   modStateMappings:
   - modType: 3
     state: {fileID: 114856118289874358}
-  holdAttackSlowDown: 5
+  holdAttackSlowDown: 3
 --- !u!114 &114856118289874358
 MonoBehaviour:
   m_ObjectHideFlags: 1

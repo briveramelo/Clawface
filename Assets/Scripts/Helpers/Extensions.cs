@@ -24,9 +24,15 @@ namespace ModMan {
 
         public static T GetRandom<T>(this List<T> thisList, System.Predicate<T> match)
         {
-            List<T> sublist = thisList.FindAll(match);            
-            int rand = Random.Range(0, sublist.Count);            
-            return sublist[rand];
+            List<T> sublist = thisList.FindAll(match);
+            T item = default(T);
+            if(sublist.Count == 0)
+            {
+                return item;
+            }
+            int rand = Random.Range(0, sublist.Count);
+            item = sublist[rand];
+            return item;
         }
 
         public static string ToHex(this Color color)

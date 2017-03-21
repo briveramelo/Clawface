@@ -11,7 +11,6 @@ public class BlasterMod : Mod {
     [SerializeField]
     private float kickbackMagnitude;
 
-    private bool readyToShoot;
 
     [SerializeField]
     private float coolDownTime;
@@ -29,6 +28,10 @@ public class BlasterMod : Mod {
     private float maxTime;
 
     private float holdTime;
+
+    [SerializeField] private Transform bulletSpawnPoint;
+
+    private bool readyToShoot;
 
     public override void Activate()
     {
@@ -60,7 +63,6 @@ public class BlasterMod : Mod {
             }            
         }
         
-        blasterBullet.SetActive(true);
         blasterEffect.Emit();
     }
 
@@ -68,7 +70,7 @@ public class BlasterMod : Mod {
     GameObject SpawnBullet()
     {
         GameObject blasterBullet = ObjectPool.Instance.GetObject(PoolObjectType.BlasterBullet);
-        blasterBullet.transform.position = transform.position;
+        blasterBullet.transform.position = bulletSpawnPoint.position;
         blasterBullet.transform.rotation = transform.rotation;
         return blasterBullet;
         
