@@ -18,10 +18,11 @@ public class MallCop : MonoBehaviour, ICollectable, IStunnable, IDamageable, ISk
     [SerializeField] private Stats myStats;
     [SerializeField] private GameObject mySkin;
     [SerializeField] private Mod mod;
+    [SerializeField] private GameObject MallCopGoreExplosion;
     #endregion
 
     #region 3. Private fields
-    
+
 
     private int stunCount;
     private OnDeath onDeath;
@@ -109,7 +110,11 @@ public class MallCop : MonoBehaviour, ICollectable, IStunnable, IDamageable, ISk
         {
             onDeath();
         }
+
+        //on death instantiate explosion!
+        Instantiate(MallCopGoreExplosion, this.transform.position, this.transform.rotation);
         gameObject.SetActive(false);
+
     }
 
     private void Revive() {
