@@ -22,7 +22,7 @@ public class BlasterMod : Mod {
     VFXBlasterShoot blasterEffect;
 
     [SerializeField]
-    float kickBackMultiplier;
+    float kickBackChargedMultiplier;
     [SerializeField] private Transform bulletSpawnPoint;
 
     private bool readyToShoot;
@@ -74,6 +74,7 @@ public class BlasterMod : Mod {
 
     private void KickBack(Vector3 direction)
     {
+        Debug.Log("kick");
         wielderMovable.AddDecayingForce(direction * kickbackMagnitude);
     }
 
@@ -129,11 +130,11 @@ public class BlasterMod : Mod {
             GameObject blasterBullet = SpawnBullet();
             if (getModSpot() == ModSpot.Legs && wielderMovable != null)
             {
-                KickBack(Vector3.up * feetMultiplier * kickBackMultiplier);
+                KickBack(Vector3.up * feetMultiplier * kickBackChargedMultiplier);
             }
             else if (wielderMovable != null)
             {
-                KickBack(-wielderMovable.GetForward() * kickBackMultiplier);
+                KickBack(-wielderMovable.GetForward() * kickBackChargedMultiplier);
             }
             blasterBullet.SetActive(true);
         }

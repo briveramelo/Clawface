@@ -645,7 +645,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1124708316484250}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 20.920551, y: 9.23, z: 101.055435}
+  m_LocalPosition: {x: 20.3, y: 11.57, z: 100.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4264160054010028}
@@ -846,10 +846,10 @@ MonoBehaviour:
   rightArmSocket: {fileID: 4634169818675522}
   legsSocket: {fileID: 4192219653642208}
   playerStats: {fileID: 114769971612484810}
-  playerMovement: {fileID: 0}
+  playerMovement: {fileID: 114183958674708450}
   velBody: {fileID: 114793955708429346}
   stateManager: {fileID: 114800333604838372}
-  holdThresholdTime: 0
+  holdThresholdTime: 0.5
 --- !u!114 &114183958674708450
 MonoBehaviour:
   m_ObjectHideFlags: 1
