@@ -388,7 +388,12 @@ public class TankTreadsMod : Mod
 
         yield return new WaitForSeconds(armChargedCooldownTime);
         canAttackAgain = true;
-    }    
+    }
+
+    public override void AlternateActivate(bool isHeld)
+    {
+        
+    }
     #endregion
 
 }
