@@ -3016,6 +3016,28 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 306465404}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!84 &327156890
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_Width: 0
+  m_Height: 0
+  m_AntiAliasing: 2
+  m_DepthFormat: 2
+  m_ColorFormat: 0
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_TextureSettings:
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapMode: 1
 --- !u!1 &328617473
 GameObject:
   m_ObjectHideFlags: 0
@@ -7247,30 +7269,6 @@ Prefab:
     - target: {fileID: 4962653814870902, guid: 63ab57c78f9b85b42a031412402b31e2, type: 2}
       propertyPath: m_RootOrder
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 137352827536940482, guid: 63ab57c78f9b85b42a031412402b31e2,
-        type: 2}
-      propertyPath: m_AABB.m_Center.y
-      value: 0.01862061
-      objectReference: {fileID: 0}
-    - target: {fileID: 137352827536940482, guid: 63ab57c78f9b85b42a031412402b31e2,
-        type: 2}
-      propertyPath: m_AABB.m_Center.z
-      value: 0.03027153
-      objectReference: {fileID: 0}
-    - target: {fileID: 137352827536940482, guid: 63ab57c78f9b85b42a031412402b31e2,
-        type: 2}
-      propertyPath: m_AABB.m_Extent.x
-      value: 0.73196775
-      objectReference: {fileID: 0}
-    - target: {fileID: 1524006526213512, guid: 63ab57c78f9b85b42a031412402b31e2, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114838431744635020, guid: 63ab57c78f9b85b42a031412402b31e2,
-        type: 2}
-      propertyPath: stateVariables.axisThreshold
-      value: 0.05
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 63ab57c78f9b85b42a031412402b31e2, type: 2}
@@ -16330,28 +16328,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1466600104}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!84 &1473988436
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_Width: 1616
-  m_Height: 909
-  m_AntiAliasing: 2
-  m_DepthFormat: 2
-  m_ColorFormat: 0
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_TextureSettings:
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapMode: 1
 --- !u!1 &1485222225
 GameObject:
   m_ObjectHideFlags: 0
