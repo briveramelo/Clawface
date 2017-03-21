@@ -10,8 +10,7 @@ public enum StatType {
     Defense = 1,
     MoveSpeed = 2,
     Health = 3,
-    MiniMapRange = 4,
-    RangedAccuracy= 5
+    RangedAccuracy= 4
 }
 
 public enum CodexType {
@@ -37,7 +36,8 @@ public enum ModType {
     ForceSegway=0,
     ArmBlaster=1,
     FingerPrint=2,
-    StunBaton=3
+    StunBaton=3,
+    TankTreads = 4
 }
 
 public enum ModCategory

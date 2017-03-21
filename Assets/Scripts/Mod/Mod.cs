@@ -10,7 +10,8 @@ public abstract class Mod : MonoBehaviour {
     #region Protected Fields
     protected ModType type;
     protected ModCategory category;
-    protected Stats playerStats;
+    protected Stats wielderStats;
+    protected IMovable wielderMovable;
     protected List<IDamageable> recentlyHitEnemies = new List<IDamageable>();
     #endregion
 
@@ -31,7 +32,7 @@ public abstract class Mod : MonoBehaviour {
 
     public abstract void DeActivate();
 
-    public abstract void AttachAffect(ref Stats playerStats, ref MoveState playerMovement);
+    public abstract void AttachAffect(ref Stats wielderStats, IMovable wielderMovable);
 
     public abstract void DetachAffect();
 
