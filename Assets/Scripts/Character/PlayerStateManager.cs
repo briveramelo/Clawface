@@ -106,7 +106,7 @@ public class PlayerStateManager : MonoBehaviour {
         PlayAnimation(mod);
     }
 
-    public void SecondaryAttack(Mod mod, bool isHeld)
+    public void SecondaryAttack(Mod mod, bool isHeld, float holdTime)
     {
         if (isHeld && !isHoldAttack)
         {
@@ -120,7 +120,7 @@ public class PlayerStateManager : MonoBehaviour {
             stateVariables.velBody.velocity = Vector3.zero;
             stateVariables.statsManager.ModifyStat(StatType.MoveSpeed, holdAttackSlowDown);
         }
-        mod.AlternateActivate(isHeld);
+        mod.AlternateActivate(isHeld, holdTime);
     }
     #endregion
 

@@ -101,7 +101,7 @@ public class ModManager : MonoBehaviour
                         stateManager.PrimaryAttack(modSocketDictionary[spot].mod);
                     }else
                     {
-                        stateManager.SecondaryAttack(modSocketDictionary[spot].mod, commandedMod.isHeld);
+                        stateManager.SecondaryAttack(modSocketDictionary[spot].mod, commandedMod.isHeld, commandedMod.holdTime);
                     }
                 }
             }
@@ -129,69 +129,57 @@ public class ModManager : MonoBehaviour
     {
         CommandedMod commandedMod = new CommandedMod();
         if(InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_LEGS, ButtonMode.HELD))
-        {            
-            holdTime += Time.deltaTime;
-            if (holdTime > holdThresholdTime)
-            {
-                commandedMod.modSpot = ModSpot.Legs;
-                commandedMod.isHeld = true;
-                isButtonHeld = true;
-            }
+        {
+            CheckIfHoldThresholdIsReached(ModSpot.Legs, ref commandedMod);
         }
         else if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_LEFT, ButtonMode.HELD))
-        {            
-            holdTime += Time.deltaTime;
-            if (holdTime > holdThresholdTime)
-            {
-                commandedMod.modSpot = ModSpot.ArmL;
-                commandedMod.isHeld = true;
-                isButtonHeld = true;
-            }
+        {
+            CheckIfHoldThresholdIsReached(ModSpot.ArmL, ref commandedMod);
         }
         else if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_RIGHT, ButtonMode.HELD))
-        {            
-            holdTime += Time.deltaTime;
-            if (holdTime > holdThresholdTime)
-            {
-                commandedMod.modSpot = ModSpot.ArmR;
-                commandedMod.isHeld = true;
-                isButtonHeld = true;
-            }
+        {
+            CheckIfHoldThresholdIsReached(ModSpot.ArmR, ref commandedMod);
         }
         if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_LEGS,
             ButtonMode.UP))
         {
-            holdTime = 0.0f;
-            commandedMod.modSpot = ModSpot.Legs;
-            if (isButtonHeld)
-            {
-                isButtonHeld = false;
-                commandedMod.wasHeld = true;
-            }
+            AssignCommandedMod(ModSpot.Legs, ref commandedMod);
         }
         else if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_LEFT,
             ButtonMode.UP))
         {
-            holdTime = 0.0f;
-            commandedMod.modSpot = ModSpot.ArmL;
-            if (isButtonHeld)
-            {
-                isButtonHeld = false;
-                commandedMod.wasHeld = true;
-            }
+            AssignCommandedMod(ModSpot.ArmL, ref commandedMod);
         }
         else if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_RIGHT,
             ButtonMode.UP))
         {
-            holdTime = 0.0f;
-            commandedMod.modSpot = ModSpot.ArmR;
-            if (isButtonHeld)
-            {
-                isButtonHeld = false;
-                commandedMod.wasHeld = true;
-            }
+            AssignCommandedMod(ModSpot.ArmR, ref commandedMod);
         }
         return commandedMod;        
+    }
+
+    private void CheckIfHoldThresholdIsReached(ModSpot spot, ref CommandedMod commandedMod)
+    {
+        holdTime += Time.deltaTime;
+        if (holdTime > holdThresholdTime)
+        {
+            commandedMod.modSpot = spot;
+            commandedMod.isHeld = true;
+            commandedMod.holdTime = holdTime;
+            isButtonHeld = true;
+        }
+    }
+
+    private void AssignCommandedMod(ModSpot spot, ref CommandedMod commandedMod)
+    {        
+        commandedMod.modSpot = spot;
+        if (isButtonHeld)
+        {
+            isButtonHeld = false;
+            commandedMod.wasHeld = true;
+            commandedMod.holdTime = holdTime;
+        }
+        holdTime = 0.0f;
     }
 
     private void CheckToDropMod()
@@ -365,7 +353,8 @@ public class ModManager : MonoBehaviour
     {
         public ModSpot modSpot = ModSpot.Default;
         public bool isHeld = false;
-        public bool wasHeld = false; 
+        public bool wasHeld = false;
+        public float holdTime = 0.0f; 
     } 
     #endregion
 
