@@ -54,12 +54,12 @@ public class PlayerStateManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (!modAnimationManager.GetIsPlaying())
+        if (lockOnScript != null)
         {
-            if (lockOnScript != null)
-            {
-                stateVariables.currentEnemy = lockOnScript.GetCurrentEnemy();
-            }
+            stateVariables.currentEnemy = lockOnScript.GetCurrentEnemy();
+        }
+        if (!modAnimationManager.GetIsPlaying())
+        {            
             if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_SKIN, ButtonMode.DOWN))
             {
                 if (stateVariables.currentEnemy != null && stateVariables.currentEnemy.GetComponent<ISkinnable>().IsSkinnable())
@@ -71,24 +71,7 @@ public class PlayerStateManager : MonoBehaviour {
             {
                 state.StateUpdate();
             }
-        }        
-        /*    if (movementState != null)
-        {
-            movementState.StateUpdate();
         }
-        if(alternateState != null)
-        {
-            if (stateVariables.stateFinished)
-            {
-                movementState = previousMovementState;
-                previousMovementState = null;
-                alternateState = null;
-            }
-            else
-            {
-                alternateState.StateUpdate();
-            }
-        }*/
     }
 
     void FixedUpdate()
@@ -99,14 +82,6 @@ public class PlayerStateManager : MonoBehaviour {
             {
                 state.StateFixedUpdate();
             }
-            /*if (movementState != null)
-            {
-                movementState.StateFixedUpdate();
-            }
-            if (alternateState != null)
-            {
-                alternateState.StateFixedUpdate();
-            }*/
             if (stateVariables.stateFinished)
             {   
                 ResetState();

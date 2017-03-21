@@ -9,19 +9,24 @@ public class BlasterBullet : MonoBehaviour {
     private VFXHandler vfxHandler;
     private Vector3 moveDirection;
     private float pushForce;
-    private float damage = 1f;
+    [SerializeField]
+    private float damage;
+    [SerializeField]
+    private float damageMultiplierCharged;
     private bool push;
 
+    [HideInInspector] public bool isCharged;
 
 	// Use this for initialization
-	void Start () {
+	void Start () {        
         vfxHandler = new VFXHandler(transform);
         moveDirection = Vector3.forward;
         push = false;
     }
 
     void OnEnable()
-    {
+    {        
+        isCharged = false;
         push = false;        
         StartCoroutine(DestroyAfter());
     }
@@ -37,6 +42,7 @@ public class BlasterBullet : MonoBehaviour {
 
     void OnDisable()
     {
+        isCharged = false;
         StopAllCoroutines();
     }
 
@@ -68,7 +74,7 @@ public class BlasterBullet : MonoBehaviour {
                 IDamageable damageable = other.gameObject.GetComponent<IDamageable>();
                 if (damageable != null)
                 {
-                    damageable.TakeDamage(damage);
+                    damageable.TakeDamage(isCharged ? damage * damageMultiplierCharged : damage);
                 }
 
                 //TODO: Create Impact effect needs to take into account
