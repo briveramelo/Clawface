@@ -135,14 +135,12 @@ public class PlayerStateManager : MonoBehaviour {
     {
         if (isHeld && !isHoldAttack)
         {
-            print("speed changed");
             isHoldAttack = true;
             stateVariables.velBody.velocity = Vector3.zero;
             stateVariables.statsManager.ModifyStat(StatType.MoveSpeed, 1.0f / holdAttackSlowDown);
         }
         else if(!isHeld)
         {
-            print("speed restored");
             isHoldAttack = false;
             stateVariables.velBody.velocity = Vector3.zero;
             stateVariables.statsManager.ModifyStat(StatType.MoveSpeed, holdAttackSlowDown);
