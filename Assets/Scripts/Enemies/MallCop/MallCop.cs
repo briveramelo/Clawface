@@ -63,7 +63,7 @@ public class MallCop : MonoBehaviour, ICollectable, IStunnable, IDamageable, ISk
                 controller.UpdateState(EMallCopState.Fall);
                 
                 mod.DetachAffect();
-                Invoke("Die", 5f);
+                Invoke("Die", 0f);
             }
         }
     }
