@@ -2,17 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MallCopController : AIController {
+public abstract class MallCopController : AIController {
 
     public string mystate;
-    private MallCopProperties properties;
-    private Mod mod;
-    private States states;
+    protected MallCopProperties properties;
+    protected Mod mod;
+    protected States states;
 
     public override State CurrentState {
         set {
             if (stats.health > 0 || value==states.fall) {
-                if ((currentState == states.twitch && !states.twitch.IsMidTwitch()) || currentState != states.twitch) {
+                if ((currentState == states.twitch && !states.twitch.IsMidTwitch()) ||
+                    currentState != states.twitch ||
+                    value==states.fall) {
+
                     if (currentState != null) {
                         currentState.OnExit();
                     }
@@ -25,7 +28,7 @@ public class MallCopController : AIController {
         }
     }
 
-    public void Initialize(
+    public virtual void Initialize(
         MallCopProperties properties,
         Mod mod,
         VelocityBody velBody,
@@ -35,31 +38,11 @@ public class MallCopController : AIController {
         this.properties = properties;
         this.mod = mod;
         this.stats = stats;
+
         states = new States();
         states.Initialize(properties, this, velBody, animator, stats);
         CurrentState = states.patrol;
-    }
-
-    protected override void Update() {
-
-        if (CurrentState == states.chase &&
-            timeInLastState > properties.maxChaseTime &&
-            attackTarget!=null) {
-
-            CurrentState = states.patrol;            
-        }        
-        base.Update();
-    }
-
-
-    private void OnTriggerStay(Collider other) {
-        if ((other.gameObject.tag == Strings.Tags.PLAYER) &&
-            CurrentState != states.chase && CurrentState!=states.swing) {
-
-            attackTarget = other.gameObject;
-            CurrentState = states.chase;
-        }
-    }
+    }    
 
     public void UpdateState(EMallCopState state) {
 
@@ -77,6 +60,9 @@ public class MallCopController : AIController {
                 CurrentState = states.chase;
                 break;
             case EMallCopState.Twitch:
+                CurrentState = states.twitch;
+                break;
+            case EMallCopState.Fire:
                 CurrentState = states.twitch;
                 break;
         }
@@ -98,12 +84,15 @@ public class MallCopController : AIController {
         base.Reset();
     }
 
-    private class States {
+    protected class States {
         public MallCopPatrolState patrol = new MallCopPatrolState();
         public MallCopChaseState chase= new MallCopChaseState();
         public MallCopSwingState swing = new MallCopSwingState();
         public MallCopTwitchState twitch = new MallCopTwitchState();
         public MallCopFallState fall = new MallCopFallState();
+
+        public MallCopFireState fire = new MallCopFireState();
+        public MallCopFleeState flee = new MallCopFleeState();
 
         public void Initialize(
             MallCopProperties properties,
@@ -117,6 +106,8 @@ public class MallCopController : AIController {
             swing.Initialize(properties, controller, velBody, animator, myStats);
             twitch.Initialize(properties, controller, velBody, animator, myStats);
             fall.Initialize(properties, controller, velBody, animator, myStats);
+            fire.Initialize(properties, controller, velBody, animator, myStats);
+            flee.Initialize(properties, controller, velBody, animator, myStats);
         }
     }
 }
@@ -137,5 +128,7 @@ public enum EMallCopState {
     Swing = 1,
     Fall = 3,
     Chase = 4,
-    Twitch = 5
+    Twitch = 5,
+    Fire=6,
+    Flee=7
 }

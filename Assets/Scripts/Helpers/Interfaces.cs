@@ -5,6 +5,9 @@ using UnityEngine;
 public interface IMovable
 {
     void AddDecayingForce(Vector3 force, float decay=0.1f);
+    bool IsGrounded();
+    void SetMovementMode(MovementMode mode);
+    Vector3 GetForward();
 }
 
 public interface IStunnable
