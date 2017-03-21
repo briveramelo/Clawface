@@ -78,25 +78,29 @@ public class BatonMod : Mod {
     {
         if (isSwinging)
         {
-            IDamageable damageable = other.GetComponent<IDamageable>();
-            if (damageable != null && !recentlyHitEnemies.Contains(damageable))
+
+            if (!other.gameObject.CompareTag(transform.root.tag))
             {
-                if (transform.root.CompareTag(Strings.Tags.PLAYER))
+                IDamageable damageable = other.GetComponent<IDamageable>();
+                if (damageable != null && !recentlyHitEnemies.Contains(damageable))
                 {
-                    AudioManager.Instance.PlaySFX(SFXType.StunBatonHit);
-                    HitstopManager.Instance.StartHitstop(.05f);
-                    Vector3 bloodDirection = transform.root.rotation.eulerAngles;
-                    bloodDirection.x = 23.38f;
-                    Quaternion emissionRotation = Quaternion.Euler(bloodDirection);                                        
-                    vfxHandler.EmitBloodInDirection(emissionRotation, transform.position);
-                }                
-                impactEffect.Emit();
-                damageable.TakeDamage(attackValue);
-                recentlyHitEnemies.Add(damageable);
-                IStunnable stunnable = other.GetComponent<IStunnable>();
-                if (stunnable != null)
-                {
-                    stunnable.Stun();                        
+                    if (transform.root.CompareTag(Strings.Tags.PLAYER))
+                    {
+                        AudioManager.Instance.PlaySFX(SFXType.StunBatonHit);
+                        HitstopManager.Instance.StartHitstop(.05f);
+                        Vector3 bloodDirection = transform.root.rotation.eulerAngles;
+                        bloodDirection.x = 23.38f;
+                        Quaternion emissionRotation = Quaternion.Euler(bloodDirection);
+                        vfxHandler.EmitBloodInDirection(emissionRotation, transform.position);
+                    }
+                    impactEffect.Emit();
+                    damageable.TakeDamage(attackValue);
+                    recentlyHitEnemies.Add(damageable);
+                    IStunnable stunnable = other.GetComponent<IStunnable>();
+                    if (stunnable != null)
+                    {
+                        stunnable.Stun();
+                    }
                 }
             }
         }
