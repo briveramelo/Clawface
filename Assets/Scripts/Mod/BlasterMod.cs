@@ -19,10 +19,16 @@ public class BlasterMod : Mod {
     private float feetMultiplier;
 
     [SerializeField]
-    VFXBlasterShoot blasterEffect;
+    private VFXBlasterShoot blasterEffect;
 
     [SerializeField]
-    float kickBackMultiplier;
+    private float kickBackMultiplier;
+
+    [SerializeField]
+    private float maxTime;
+
+    private float holdTime;
+
     [SerializeField] private Transform bulletSpawnPoint;
 
     private bool readyToShoot;
@@ -47,9 +53,7 @@ public class BlasterMod : Mod {
     void Shoot()
     {
         AudioManager.Instance.PlaySFX(SFXType.ArmBlasterFire);
-        GameObject blasterBullet = ObjectPool.Instance.GetObject(PoolObjectType.BlasterBullet);
-        blasterBullet.transform.position = bulletSpawnPoint.position;
-        blasterBullet.transform.rotation = transform.rotation;
+        GameObject blasterBullet = SpawnBullet();
         if (wielderMovable != null) {
             if (getModSpot() == ModSpot.Legs && wielderMovable != null) {
                 KickBack(Vector3.up * feetMultiplier);
@@ -66,7 +70,7 @@ public class BlasterMod : Mod {
     GameObject SpawnBullet()
     {
         GameObject blasterBullet = ObjectPool.Instance.GetObject(PoolObjectType.BlasterBullet);
-        blasterBullet.transform.position = transform.position;
+        blasterBullet.transform.position = bulletSpawnPoint.position;
         blasterBullet.transform.rotation = transform.rotation;
         return blasterBullet;
         
@@ -106,6 +110,7 @@ public class BlasterMod : Mod {
         readyToShoot = true;
         type = ModType.ArmBlaster;
         category = ModCategory.Ranged;
+        holdTime = 0.0f;
     }
 	
 	// Update is called once per frame
@@ -124,9 +129,17 @@ public class BlasterMod : Mod {
         if (isHeld)
         {
             blasterEffect.Emit();
-        }else
+            holdTime += Time.deltaTime;
+            if(holdTime > maxTime)
+            {
+                holdTime = maxTime;
+            }
+        }
+        else
         {
             GameObject blasterBullet = SpawnBullet();
+            blasterBullet.GetComponent<BlasterBullet>().isCharged = true;
+            holdTime = 0.0f;
             if (getModSpot() == ModSpot.Legs && wielderMovable != null)
             {
                 KickBack(Vector3.up * feetMultiplier * kickBackMultiplier);

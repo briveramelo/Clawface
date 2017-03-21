@@ -10,6 +10,7 @@
         public static string CODEXENTRY = "CodexEntry";
         public static string UNLOCKABLE = "Unlockable";
         public static string UNTAGGED = "Untagged";
+        public static string PLAYERDETECTOR = "PlayerDetector";
     }
 
     public static class Input
