@@ -43,7 +43,6 @@ public class MallCopSpawner : MonoBehaviour {
         {
             numMallCops++;
             GameObject cop = ObjectPool.Instance.GetObject(PoolObjectType.MallCop);
-            cop.SetActive(true);
             MallCop mallCop = cop.GetComponent<MallCop>();
             if (!mallCop.HasWillBeenWritten()) {
                 mallCop.RegisterDeathEvent(ReportDeath);

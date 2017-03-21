@@ -33,7 +33,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1025026249056420}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -82,11 +82,17 @@ MonoBehaviour:
     size: 15
     poolObjectType: 5
     objects: []
-  - prefabs: []
-    size: 0
+  - prefabs:
+    - {fileID: 1310962398947696, guid: 12ae6235e933c4249bcb5f7b0aa8c0fe, type: 2}
+    - {fileID: 1310962398947696, guid: 046caf9a7a1afd64ab8d7d5201c63705, type: 2}
+    - {fileID: 1310962398947696, guid: 6303dfcaa1118d143a83e9aa335656e9, type: 2}
+    - {fileID: 1310962398947696, guid: 2821542706a3c8d4d8daafcdf0dec4dc, type: 2}
+    - {fileID: 1310962398947696, guid: af621f6afbcf14a43a238130c1b4a85b, type: 2}
+    size: 350
     poolObjectType: 6
     objects: []
-  - prefabs: []
-    size: 0
+  - prefabs:
+    - {fileID: 1489536630767924, guid: 0720ab2ce0e66a745b45cef6f6bb2cc9, type: 2}
+    size: 30
     poolObjectType: 7
     objects: []

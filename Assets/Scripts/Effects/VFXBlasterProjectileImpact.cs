@@ -12,4 +12,10 @@ public class VFXBlasterProjectileImpact : MonoBehaviour {
         _puffEmitter.Emit (15);
         _sparkEmitter.Emit (30);
     }
+
+    private void OnParticleCollision(GameObject other)
+    {
+        //print("Bullet hit " + other.transform.root.gameObject.name + " with layer " + other.transform.root.gameObject.layer);
+
+    }
 }
