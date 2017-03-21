@@ -20,7 +20,10 @@ public class BlasterMod : Mod {
     private float feetMultiplier;
 
     [SerializeField]
-    VFXBlasterShoot blasterEffect; 
+    VFXBlasterShoot blasterEffect;
+
+    [SerializeField]
+    float kickBackMultiplier;
 
     public override void Activate()
     {
@@ -56,6 +59,16 @@ public class BlasterMod : Mod {
         
         blasterBullet.SetActive(true);
         blasterEffect.Emit();
+    }
+
+
+    GameObject SpawnBullet()
+    {
+        GameObject blasterBullet = ObjectPool.Instance.GetObject(PoolObjectType.BlasterBullet);
+        blasterBullet.transform.position = transform.position;
+        blasterBullet.transform.rotation = transform.rotation;
+        return blasterBullet;
+        
     }
 
     private void KickBack(Vector3 direction)
@@ -102,6 +115,26 @@ public class BlasterMod : Mod {
             {
                 transform.forward = wielderMovable.GetForward();
             }
+        }
+    }
+
+    public override void AlternateActivate(bool isHeld)
+    {
+        if (isHeld)
+        {
+            blasterEffect.Emit();
+        }else
+        {
+            GameObject blasterBullet = SpawnBullet();
+            if (getModSpot() == ModSpot.Legs && wielderMovable != null)
+            {
+                KickBack(Vector3.up * feetMultiplier * kickBackMultiplier);
+            }
+            else if (wielderMovable != null)
+            {
+                KickBack(-wielderMovable.GetForward() * kickBackMultiplier);
+            }
+            blasterBullet.SetActive(true);
         }
     }
 }
