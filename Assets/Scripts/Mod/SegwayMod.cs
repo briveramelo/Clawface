@@ -227,4 +227,9 @@ public class SegwayMod : Mod {
 	// Update is called once per frame
 	void Update () {        
     }
+
+    public override void AlternateActivate(bool isHeld)
+    {
+        
+    }
 }

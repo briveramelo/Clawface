@@ -375,6 +375,12 @@ public class TankTreadsMod : Mod
             Hit();
         }
         chargeTimer = 0f;
+	}
+	
+    public override void AlternateActivate(bool isHeld)
+    {
+        
+
     }
     #endregion
 
