@@ -787,7 +787,8 @@ MonoBehaviour:
   rightArmSocket: {fileID: 4634169818675522}
   legsSocket: {fileID: 4192219653642208}
   playerStats: {fileID: 114769971612484810}
-  playerMovement: {fileID: 114183958674708450}
+  playerMovement: {fileID: 0}
+  velBody: {fileID: 114793955708429346}
   stateManager: {fileID: 114800333604838372}
   holdThresholdTime: 0.5
 --- !u!114 &114183958674708450
@@ -880,7 +881,6 @@ MonoBehaviour:
     meleePounceMaxDistance: 15
     meleePounceMinDistance: 10
     meleePounceVelocity: 600
-    movementMode: 0
     velBody: {fileID: 114793955708429346}
     statsManager: {fileID: 114411405976347458}
     animator: {fileID: 95668787074051618}
@@ -891,7 +891,7 @@ MonoBehaviour:
   modStateMappings:
   - modType: 3
     state: {fileID: 114856118289874358}
-  holdAttackSlowDown: 3
+  holdAttackSlowDown: 5
 --- !u!114 &114856118289874358
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -6,7 +6,7 @@ using UnityEngine;
 using System.Linq;
 using ModMan;
 
-public class MallCop : MonoBehaviour, ICollectable, IStunnable, IMovable, IDamageable, ISkinnable
+public class MallCop : MonoBehaviour, ICollectable, IStunnable, IDamageable, ISkinnable
 {
 
     #region 2. Serialized Unity Inspector Fields
@@ -44,7 +44,7 @@ public class MallCop : MonoBehaviour, ICollectable, IStunnable, IMovable, IDamag
 
         MoveState dummy = null;
         mod.setModSpot(ModSpot.ArmR);
-        mod.AttachAffect(ref myStats, ref dummy);
+        mod.AttachAffect(ref myStats, velBody);
     }    
 
     #endregion
@@ -90,12 +90,7 @@ public class MallCop : MonoBehaviour, ICollectable, IStunnable, IMovable, IDamag
                 controller.UpdateState(EMallCopState.Twitch);
             }
         }
-    }
-
-    void IMovable.AddDecayingForce(Vector3 forceVector, float decay)
-    {
-        StartCoroutine(velBody.AddDecayingForce(forceVector, decay));
-    }
+    }    
 
     public bool HasWillBeenWritten() { return willHasBeenWritten; }
 

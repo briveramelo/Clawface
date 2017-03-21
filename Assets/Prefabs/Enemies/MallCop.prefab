@@ -86,7 +86,7 @@ GameObject:
   - component: {fileID: 114216556463902696}
   - component: {fileID: 114496568055926532}
   - component: {fileID: 114067057127017272}
-  - component: {fileID: 114252312564590370}
+  - component: {fileID: 114808018247885578}
   m_Layer: 9
   m_Name: MallCop
   m_TagString: Enemy
@@ -1298,20 +1298,6 @@ MonoBehaviour:
   health: 10
   moveSpeed: 140
   rangedAccuracy: 1
---- !u!114 &114252312564590370
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1118372282550480}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1229d5c0ed5463941918277696bb7158, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timeInLastState: 0
-  stateTimerIsRunning: 0
-  attackTarget: {fileID: 0}
 --- !u!114 &114364864797347686
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1323,7 +1309,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2f4d5999add7964caaca967e30d2f48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 114252312564590370}
+  controller: {fileID: 114808018247885578}
   properties:
     runMultiplier: 2.31
     maxChaseTime: 7
@@ -1393,6 +1379,21 @@ MonoBehaviour:
   attackBoostValue: 1.15
   attackCollider: {fileID: 136338992525986000}
   impactEffect: {fileID: 114464561158743098}
+--- !u!114 &114808018247885578
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1118372282550480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33631fdf1dda11a4daeda51794f60e9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeInLastState: 0
+  stateTimerIsRunning: 0
+  attackTarget: {fileID: 0}
+  mystate: 
 --- !u!135 &135859741554379526
 SphereCollider:
   m_ObjectHideFlags: 1

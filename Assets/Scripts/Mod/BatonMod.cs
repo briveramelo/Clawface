@@ -85,7 +85,7 @@ public class BatonMod : Mod {
             {
                 if (transform.root.CompareTag(Strings.Tags.PLAYER))
                 {
-                    HitstopManager.Instance.StartHitstop(.2f);
+                    HitstopManager.Instance.StartHitstop(.05f);
                 }
                 impactEffect.Emit();
                 damageable.TakeDamage(attackValue);
@@ -110,7 +110,7 @@ public class BatonMod : Mod {
         wielderStats.Modify(StatType.Attack, 1 / attackBoostValue);
     }
 
-    public override void AttachAffect(ref Stats i_playerStats, ref MoveState playerMovement)
+    public override void AttachAffect(ref Stats i_playerStats, IMovable wielderMovable)
     {
         attackCollider.enabled = true;
         wielderStats = i_playerStats;

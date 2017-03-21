@@ -157,6 +157,7 @@ public class PlayerStateManager : MonoBehaviour {
         if (!modAnimationManager.GetIsPlaying())
         {   
             modAnimationManager.PlayModAnimation(mod, false);
+
         }
     }
 
@@ -203,7 +204,6 @@ public class PlayerStateManager : MonoBehaviour {
         public float meleePounceMaxDistance;
         public float meleePounceMinDistance;
         public float meleePounceVelocity;
-        public MovementMode movementMode;
         public VelocityBody velBody;        
         public PlayerStatsManager statsManager;
         public Animator animator;        

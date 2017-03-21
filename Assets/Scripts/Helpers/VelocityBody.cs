@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class VelocityBody : MonoBehaviour{
+public class VelocityBody : MonoBehaviour, IMovable{
+
     public Rigidbody rigbod;
     public Transform foot;
     [HideInInspector] public float footSphereRadius= 0.1f;
     [HideInInspector] public bool isFalling;
     [HideInInspector] public bool isGrounded;
 
-    private List<Vector3> externalForces;
+
     public Vector3 velocity {
         get {
             return rigbod.velocity;
@@ -27,12 +28,15 @@ public class VelocityBody : MonoBehaviour{
         set { rigbod.useGravity = value; }
     }
 
+    private List<Vector3> externalForces;
+    private MovementMode movementMode;
+
     void Awake() {        
         InitializeExternalForces();
     }
 
     void Update() {
-        isGrounded = IsGrounded();
+        isGrounded = CheckIsGrounded();
     }
 
     public void InitializeExternalForces() {
@@ -40,6 +44,24 @@ public class VelocityBody : MonoBehaviour{
         for (int i = 0; i < 100; i++) {
             externalForces.Add(Vector3.zero);
         }
+    }
+
+    public void AddDecayingForce(Vector3 force, float decay = 0.1f) {
+        StartCoroutine(IEAddDecayingForce(force, decay));
+    }
+    public bool IsGrounded() {
+        return isGrounded;
+    }
+    public void SetMovementMode(MovementMode movementMode) {
+        this.movementMode = movementMode;
+        useGravity = movementMode == MovementMode.ICE ? true : false;
+    }
+    
+    public MovementMode GetMovementMode() {
+        return movementMode;
+    }
+    public Vector3 GetForward() {
+        return transform.forward;
     }
 
     public void Reset() {
@@ -50,7 +72,7 @@ public class VelocityBody : MonoBehaviour{
         isKinematic = false;
     }
 
-    public IEnumerator AddDecayingForce(Vector3 forceVector, float decay) {
+    public IEnumerator IEAddDecayingForce(Vector3 forceVector, float decay) {
         int currentIndex = externalForces.FindIndex(vec => vec == Vector3.zero);
 
         externalForces[currentIndex] = forceVector;
@@ -62,7 +84,7 @@ public class VelocityBody : MonoBehaviour{
         externalForces[currentIndex] = Vector3.zero;
     }
 
-    private bool IsGrounded() {
+    private bool CheckIsGrounded() {
         Collider[] cols = Physics.OverlapSphere(foot.transform.position, footSphereRadius);
         for (int i = 0; i < cols.Length; i++) {
             if (cols[i].gameObject.layer == (int)Layers.Ground) {
