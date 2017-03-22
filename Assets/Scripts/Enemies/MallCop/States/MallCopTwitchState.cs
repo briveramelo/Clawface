@@ -34,10 +34,6 @@ public class MallCopTwitchState : MallCopState {
             yield return new WaitForEndOfFrame();
         }
         velBody.transform.position = startStunPosition;
-        isMidTwitch = false;
-        if (myStats.health > 0) {
-            controller.UpdateState(EMallCopState.Chase);
-        }        
-        OnExit();
+        isMidTwitch = false;                
     }
 }

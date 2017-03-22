@@ -6,6 +6,8 @@ using ModMan;
 
 public class MallCopPatrolState : MallCopState {
 
+    private Vector3 walkTarget;
+
     public override void OnEnter() {
         animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Walk);
     }
@@ -43,7 +45,7 @@ public class MallCopPatrolState : MallCopState {
         }
         return false;
     }
-    Vector3 walkTarget;
+    
 
     private void GetNewPatrolTarget() {
 

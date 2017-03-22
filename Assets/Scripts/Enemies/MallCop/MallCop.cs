@@ -63,7 +63,7 @@ public class MallCop : MonoBehaviour, ICollectable, IStunnable, IDamageable, ISk
                 controller.UpdateState(EMallCopState.Fall);
                 
                 mod.DetachAffect();
-                Invoke("Die", 0f);
+                Die();
             }
         }
     }
@@ -111,10 +111,8 @@ public class MallCop : MonoBehaviour, ICollectable, IStunnable, IDamageable, ISk
             onDeath();
         }
 
-        //on death instantiate explosion!
-        Instantiate(MallCopGoreExplosion, this.transform.position, this.transform.rotation);
+        //Instantiate(MallCopGoreExplosion, this.transform.position, this.transform.rotation);
         gameObject.SetActive(false);
-
     }
 
     private void Revive() {
