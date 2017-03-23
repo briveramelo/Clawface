@@ -58,7 +58,10 @@ public abstract class MallCopController : AIController {
                 CurrentState = states.twitch;
                 break;
             case EMallCopState.Fire:
-                CurrentState = states.twitch;
+                CurrentState = states.fire;
+                break;
+            case EMallCopState.Flee:
+                CurrentState = states.flee;
                 break;
         }
 
@@ -70,7 +73,7 @@ public abstract class MallCopController : AIController {
     }
 
     #region Animation Events
-    public void Swing() {
+    public void ActivateMod() {
         mod.Activate();
     }
 
@@ -115,9 +118,9 @@ public enum MallCopAnimationStates {
     HitReaction = 3,
     Stunned = 4,
     GettingUp = 5,
-    DrawWeapon = 6,
+    DrawGun = 6,
     Run = 7,
-    Shoot = 8
+    Fire = 8
 }
 public enum EMallCopState {
     Patrol = 0,

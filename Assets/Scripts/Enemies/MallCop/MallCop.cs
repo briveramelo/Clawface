@@ -43,7 +43,6 @@ public class MallCop : MonoBehaviour, ICollectable, IStunnable, IDamageable, ISk
         controller.Initialize(properties, mod, velBody, animator, myStats);
         Revive();
 
-        MoveState dummy = null;
         mod.setModSpot(ModSpot.ArmR);
         mod.AttachAffect(ref myStats, velBody);
     }    
@@ -144,5 +143,4 @@ public class MallCopProperties {
     [Range(1, 6)] public int numShocksToStun;
     [Range(.1f, 1)] public float twitchRange;
     [Range(.1f, 1f)] public float twitchTime;
-    [Range(.1f, 5f)] public float strikingDistance;
 }

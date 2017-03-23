@@ -1317,7 +1317,6 @@ MonoBehaviour:
     numShocksToStun: 1
     twitchRange: 0.17
     twitchTime: 1
-    strikingDistance: 2.81
   velBody: {fileID: 114067057127017272}
   glowObject: {fileID: 114496568055926532}
   animator: {fileID: 95519533197117512}
@@ -1402,7 +1401,7 @@ MonoBehaviour:
   timeInLastState: 0
   stateTimerIsRunning: 0
   attackTarget: {fileID: 0}
-  distanceToPlayer: 0
+  strikingDistance: 2.81
 --- !u!135 &135859741554379526
 SphereCollider:
   m_ObjectHideFlags: 1

@@ -1,10 +1,12 @@
-﻿using System.Collections;
+﻿//Brandon Rivera-Melo
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class MallCopSwingerController : MallCopController {
 
-    public float distanceToPlayer;
+    public float strikingDistance;
 
     protected override void Update() {
 
@@ -21,16 +23,15 @@ public class MallCopSwingerController : MallCopController {
         if ((other.gameObject.tag == Strings.Tags.PLAYER) &&
             CurrentState != states.chase && CurrentState != states.swing) {
 
-            attackTarget = other.gameObject;
+            attackTarget = other.transform;
             UpdateState(EMallCopState.Chase);
         }
     }
 
     void CheckToSwing(ref bool justSwitchedState) {
         if (!justSwitchedState) {
-            if (CurrentState == states.chase) {
-                distanceToPlayer = Vector3.Distance(transform.position, attackTarget.transform.position);
-                bool inStrikingDistance = distanceToPlayer < properties.strikingDistance;
+            if (CurrentState == states.chase) {                
+                bool inStrikingDistance = distanceFromTarget < strikingDistance;
 
                 if (inStrikingDistance) {
                     UpdateState(EMallCopState.Swing);
@@ -65,7 +66,7 @@ public class MallCopSwingerController : MallCopController {
 
     void CheckForFinishedTwitch(ref bool justSwitchedState) {
         if (!justSwitchedState) {
-            if (CurrentState == states.twitch) {
+            if (CurrentState == states.twitch && !states.twitch.IsMidTwitch()) {
                 if (stats.health > 0) {
                     UpdateState(EMallCopState.Chase);
                     justSwitchedState = true;
