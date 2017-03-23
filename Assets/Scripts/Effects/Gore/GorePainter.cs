@@ -3,24 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GorePainter : MonoBehaviour {
-
-    [SerializeField] ParticleSystem ps;
+    
     [SerializeField] float splatterLifetime = 2.5f;
 
-    List<ParticleCollisionEvent> collEvents = new List<ParticleCollisionEvent>();
     public float minDownScale = 0.25f;
     public float maxDownScale = 0.5f;
     public float splashRange = 1.5f;
 
-    private void OnParticleCollision(GameObject other)
-    {
-        ps.GetCollisionEvents(other, collEvents);
-        Vector3 location = collEvents[0].intersection;
-        Paint(location);
-        
-    }
-
-    private void Paint(Vector3 i_location)
+    public void Paint(Vector3 i_location)
     {
         RaycastHit hit;
 

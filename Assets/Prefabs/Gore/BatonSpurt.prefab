@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 198665847604532276}
   - component: {fileID: 199278585219614570}
   - component: {fileID: 114250195528828194}
+  - component: {fileID: 114790078641078216}
   m_Layer: 12
   m_Name: BatonSpurt
   m_TagString: Untagged
@@ -53,8 +54,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7eb4a53ccb703bc4a83ae2b88b7262a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  splatterLifetime: 2.5
+  minDownScale: 0.25
+  maxDownScale: 0.5
+  splashRange: 1.5
+--- !u!114 &114790078641078216
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1089843352732510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f45c1fa4583bb574f9fa20e8629f86f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   ps: {fileID: 198665847604532276}
   splatterLifetime: 2.5
+  gp: {fileID: 114250195528828194}
   minDownScale: 0.25
   maxDownScale: 0.5
   splashRange: 1.5

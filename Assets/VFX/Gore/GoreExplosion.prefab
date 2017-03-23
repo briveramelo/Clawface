@@ -114,6 +114,7 @@ GameObject:
   - component: {fileID: 198773539412507612}
   - component: {fileID: 199860271163619798}
   - component: {fileID: 114595974218196986}
+  - component: {fileID: 114524118254747062}
   m_Layer: 0
   m_Name: ExplosionEffect
   m_TagString: Untagged
@@ -172,13 +173,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1797174689682912}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.73468715, y: -0, z: -0, w: 0.6784062}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4784269604336972}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 94.561005, y: -0.000015258789, z: -0.000015258789}
 --- !u!4 &4517882692315578
 Transform:
   m_ObjectHideFlags: 1
@@ -225,7 +226,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1525977427810654}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 33.691643, y: -36.156063, z: 49.98899}
+  m_LocalPosition: {x: 16.97, y: 11.84, z: 84.44}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4607355650760546}
@@ -519,6 +520,21 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114524118254747062
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1797174689682912}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7eb4a53ccb703bc4a83ae2b88b7262a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  splatterLifetime: 2.5
+  minDownScale: 0.25
+  maxDownScale: 0.5
+  splashRange: 1.5
 --- !u!114 &114595974218196986
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -539,6 +555,7 @@ MonoBehaviour:
   - {fileID: 1841455178830622}
   - {fileID: 1047001565766698}
   limbExplodeForce: 200
+  gp: {fileID: 114524118254747062}
 --- !u!135 &135860627272402568
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -658,7 +675,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 902153090
+  randomSeed: 1432620430
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -1130,7 +1147,7 @@ ParticleSystem:
     m_MeshScale: 1
     m_UseMeshMaterialIndex: 0
     m_UseMeshColors: 1
-    alignToDirection: 0
+    alignToDirection: 1
     randomDirectionAmount: 0
     sphericalDirectionAmount: 0
   EmissionModule:
