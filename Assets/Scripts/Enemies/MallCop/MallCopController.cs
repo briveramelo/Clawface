@@ -1,9 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public abstract class MallCopController : AIController {
-    
+
+    public EMallCopState ECurrentState {
+        get {            
+            return states.GetEState((MallCopState)CurrentState);
+        }
+    }
+
     protected MallCopProperties properties;
     protected Mod mod;
     protected States states;
@@ -40,31 +47,7 @@ public abstract class MallCopController : AIController {
     }    
 
     public void UpdateState(EMallCopState state) {
-
-        switch (state) {
-            case EMallCopState.Swing:
-                CurrentState = states.swing;
-                break;
-            case EMallCopState.Fall:
-                CurrentState = states.fall;
-                break;
-            case EMallCopState.Patrol:
-                CurrentState = states.patrol;
-                break;
-            case EMallCopState.Chase:
-                CurrentState = states.chase;
-                break;
-            case EMallCopState.Twitch:
-                CurrentState = states.twitch;
-                break;
-            case EMallCopState.Fire:
-                CurrentState = states.fire;
-                break;
-            case EMallCopState.Flee:
-                CurrentState = states.flee;
-                break;
-        }
-
+        CurrentState = states.GetState(state);
     }
 
     public override void Reset() {
@@ -93,6 +76,8 @@ public abstract class MallCopController : AIController {
         public MallCopFireState fire = new MallCopFireState();
         public MallCopFleeState flee = new MallCopFleeState();
 
+        private Dictionary<EMallCopState, MallCopState> mallCopStates;
+
         public void Initialize(
             MallCopProperties properties,
             MallCopController controller,
@@ -107,6 +92,24 @@ public abstract class MallCopController : AIController {
             fall.Initialize(properties, controller, velBody, animator, stats);
             fire.Initialize(properties, controller, velBody, animator, stats);
             flee.Initialize(properties, controller, velBody, animator, stats);
+
+            mallCopStates = new Dictionary<EMallCopState, MallCopState>() {
+                {EMallCopState.Swing, swing },
+                {EMallCopState.Fall, fall },
+                {EMallCopState.Patrol, patrol },
+                {EMallCopState.Chase, chase },
+                {EMallCopState.Twitch, twitch },
+                {EMallCopState.Fire, fire },
+                {EMallCopState.Flee, flee },
+            };
+        }
+
+        public MallCopState GetState(EMallCopState state) {
+            return mallCopStates[state];
+        }
+        public EMallCopState GetEState(MallCopState state) {
+            EMallCopState key = mallCopStates.FirstOrDefault(x => x.Value == state).Key;
+            return key;
         }
     }
 }

@@ -53,7 +53,9 @@ public class VelocityBody : MonoBehaviour, IMovable{
     }
 
     public void AddDecayingForce(Vector3 force, float decay = 0.1f) {
-        StartCoroutine(IEAddDecayingForce(force, decay));
+        if (gameObject.activeInHierarchy) {
+            StartCoroutine(IEAddDecayingForce(force, decay));
+        }
     }
     public bool IsGrounded() {
         return isGrounded;
