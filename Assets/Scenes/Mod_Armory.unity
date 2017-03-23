@@ -3175,7 +3175,7 @@ Prefab:
         type: 2}
       propertyPath: m_TargetTexture
       value: 
-      objectReference: {fileID: 1130236751}
+      objectReference: {fileID: 1577133577}
     - target: {fileID: 20606867456560284, guid: 9981de4f5a8796c4099626eab5bfe43f,
         type: 2}
       propertyPath: orthographic
@@ -5736,6 +5736,31 @@ Prefab:
       propertyPath: m_RootOrder
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 114800333604838372, guid: d3d6c7a46e10f164d980938a0b10dcd3,
+        type: 2}
+      propertyPath: DASH_POWER
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 114800333604838372, guid: d3d6c7a46e10f164d980938a0b10dcd3,
+        type: 2}
+      propertyPath: DASH_DECAY
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 114800333604838372, guid: d3d6c7a46e10f164d980938a0b10dcd3,
+        type: 2}
+      propertyPath: playerStatsManager
+      value: 
+      objectReference: {fileID: 1972119040}
+    - target: {fileID: 114800333604838372, guid: d3d6c7a46e10f164d980938a0b10dcd3,
+        type: 2}
+      propertyPath: dashPower
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 114800333604838372, guid: d3d6c7a46e10f164d980938a0b10dcd3,
+        type: 2}
+      propertyPath: dashDecay
+      value: 0.25
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d3d6c7a46e10f164d980938a0b10dcd3, type: 2}
   m_IsPrefabParent: 0
@@ -6558,28 +6583,6 @@ Mesh:
   m_BakedConvexCollisionMesh: 
   m_BakedTriangleCollisionMesh: 
   m_MeshOptimized: 0
---- !u!84 &1130236751
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_Width: 921
-  m_Height: 518
-  m_AntiAliasing: 2
-  m_DepthFormat: 2
-  m_ColorFormat: 0
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_TextureSettings:
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapMode: 1
 --- !u!1001 &1137391862
 Prefab:
   m_ObjectHideFlags: 0
@@ -9339,6 +9342,28 @@ RectTransform:
   m_PrefabParentObject: {fileID: 224925502000044898, guid: 8426458b62df47241977e4fdf9870206,
     type: 2}
   m_PrefabInternal: {fileID: 1572978828}
+--- !u!84 &1577133577
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_Width: 951
+  m_Height: 535
+  m_AntiAliasing: 2
+  m_DepthFormat: 2
+  m_ColorFormat: 0
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_TextureSettings:
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapMode: 1
 --- !u!1 &1621694145
 GameObject:
   m_ObjectHideFlags: 0
@@ -11365,6 +11390,12 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1954897080}
   m_Mesh: {fileID: 1146810701}
+--- !u!114 &1972119040 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114411405976347458, guid: d3d6c7a46e10f164d980938a0b10dcd3,
+    type: 2}
+  m_PrefabInternal: {fileID: 1047228202}
+  m_Script: {fileID: 11500000, guid: 28223eb86d14e5447af84ff3b829d375, type: 3}
 --- !u!1001 &1973971273
 Prefab:
   m_ObjectHideFlags: 0
@@ -11412,28 +11443,6 @@ Transform:
   m_PrefabParentObject: {fileID: 4611027295727446, guid: 6a1c0949d9ce284499cf975c5703f9f0,
     type: 2}
   m_PrefabInternal: {fileID: 1973971273}
---- !u!84 &2020303714
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_Width: 921
-  m_Height: 518
-  m_AntiAliasing: 2
-  m_DepthFormat: 2
-  m_ColorFormat: 0
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_TextureSettings:
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapMode: 1
 --- !u!1001 &2030839130
 Prefab:
   m_ObjectHideFlags: 0
