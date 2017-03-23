@@ -114,23 +114,4 @@ public abstract class MallCopController : AIController {
     }
 }
 
-public enum MallCopAnimationStates {
-    Idle = 0,
-    Walk = 1,
-    Swing = 2,
-    HitReaction = 3,
-    Stunned = 4,
-    GettingUp = 5,
-    DrawGun = 6,
-    Run = 7,
-    Fire = 8
-}
-public enum EMallCopState {
-    Patrol = 0,
-    Swing = 1,
-    Fall = 3,
-    Chase = 4,
-    Twitch = 5,
-    Fire=6,
-    Flee=7
-}
+
