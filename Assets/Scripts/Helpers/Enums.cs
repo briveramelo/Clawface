@@ -109,3 +109,10 @@ public enum ButtonMode
     DOWN = 2, // just went down
     IDLE= 3 // is released (not used)
 }
+
+public enum VibrationTargets
+{
+    LEFT = 0,
+    RIGHT = 1,
+    BOTH = 2
+}
