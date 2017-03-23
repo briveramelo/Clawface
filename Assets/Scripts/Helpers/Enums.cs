@@ -67,10 +67,11 @@ public enum PoolObjectType {
     MineExplosionEffect=1,
     BlasterBullet=2,
     BlasterImpactEffect=3,
-    MallCop=4,
+    MallCopSwinger=4,
     TargetExplosionEffect=5,
     BloodDecal=6,
-    BloodEmitter=7
+    BloodEmitter=7,
+    MallCopBlaster=8
 }
 
 public enum WeaponType {
@@ -110,9 +111,36 @@ public enum ButtonMode
     IDLE= 3 // is released (not used)
 }
 
+
 public enum VibrationTargets
 {
     LEFT = 0,
     RIGHT = 1,
     BOTH = 2
+}
+
+public enum MallCopAnimationStates {
+    Idle = 0,
+    Walk = 1,
+    Swing = 2,
+    HitReaction = 3,
+    Stunned = 4,
+    GettingUp = 5,
+    DrawGun = 6,
+    Run = 7,
+    Fire = 8
+}
+public enum EMallCopState {
+    Patrol = 0,
+    Swing = 1,
+    Fall = 3,
+    Chase = 4,
+    Twitch = 5,
+    Fire = 6,
+    Flee = 7
+}
+
+public enum MallCopType {
+    Swinger=0,
+    Blaster=1
 }

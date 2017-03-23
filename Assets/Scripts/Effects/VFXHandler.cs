@@ -23,7 +23,7 @@ public class VFXHandler {
 
     public void EmitBloodInDirection(Quaternion emissionDirection, Vector3 spawnPoint) {
         GameObject bloodEmitter = ObjectPool.Instance.GetObject(PoolObjectType.BloodEmitter);
-        ObjectPool.Instance.StartCoroutine(RestoreOriginalRotation(bloodEmitter));
+        ObjectPool.Instance.StartCoroutine(RestoreOriginalRotation(bloodEmitter));        
         bloodEmitter.transform.position = spawnPoint;
         bloodEmitter.transform.rotation = emissionDirection;
     }

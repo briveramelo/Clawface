@@ -46,8 +46,16 @@ public class VelocityBody : MonoBehaviour, IMovable{
         }
     }
 
+    public void LookAt(Transform target) {
+        Vector3 lookAtPosition = new Vector3(target.position.x, 0, target.position.z);
+        transform.LookAt(lookAtPosition);
+        transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);
+    }
+
     public void AddDecayingForce(Vector3 force, float decay = 0.1f) {
-        StartCoroutine(IEAddDecayingForce(force, decay));
+        if (gameObject.activeInHierarchy) {
+            StartCoroutine(IEAddDecayingForce(force, decay));
+        }
     }
     public bool IsGrounded() {
         return isGrounded;
@@ -72,7 +80,7 @@ public class VelocityBody : MonoBehaviour, IMovable{
         isKinematic = false;
     }
 
-    public IEnumerator IEAddDecayingForce(Vector3 forceVector, float decay) {
+    private IEnumerator IEAddDecayingForce(Vector3 forceVector, float decay) {
         int currentIndex = externalForces.FindIndex(vec => vec == Vector3.zero);
 
         externalForces[currentIndex] = forceVector;
@@ -115,5 +123,5 @@ public class VelocityBody : MonoBehaviour, IMovable{
         Vector3 totalExternalForce = Vector3.zero;
         externalForces.ForEach(force => totalExternalForce += force);
         return totalExternalForce;
-    }    
+    }            
 }

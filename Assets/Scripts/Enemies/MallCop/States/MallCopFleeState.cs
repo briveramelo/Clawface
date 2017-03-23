@@ -1,25 +1,38 @@
-﻿using System.Collections;
+﻿//Brandon Rivera-Melo
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class MallCopFleeState : MallCopState {
 
+    private bool isFinishedFleeing;
+
     public override void OnEnter() {
         JumpAway();
+        controller.StartCoroutine(RunFleeTimer());
     }
     public override void Update() {
-        Vector3 lookAtPosition = new Vector3(controller.attackTarget.transform.position.x, 0, controller.attackTarget.transform.position.z);
-        velBody.transform.LookAt(lookAtPosition);
-        velBody.transform.rotation = Quaternion.Euler(0f, velBody.transform.rotation.eulerAngles.y, 0f);
-
-
-
+        velBody.LookAt(controller.attackTarget);
+        velBody.velocity = Vector3.zero;
     }
     public override void OnExit() {
 
     }
 
-    private void JumpAway() {
-        
+    public bool IsFinished() {
+        return isFinishedFleeing;
     }
+
+    private void JumpAway() {
+        Vector3 jumpDir = -controller.directionToTarget;
+        velBody.AddDecayingForce(jumpDir * ((MallCopBlasterController)controller).fleeForce);
+    }
+
+    IEnumerator RunFleeTimer() {
+        isFinishedFleeing = false;
+        yield return new WaitForSeconds(.5f);
+        isFinishedFleeing = true;
+    }
+
 }

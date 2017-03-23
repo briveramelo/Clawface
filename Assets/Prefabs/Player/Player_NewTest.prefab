@@ -872,6 +872,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28223eb86d14e5447af84ff3b829d375, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damageModifier: 1
   stats: {fileID: 114769971612484810}
 --- !u!114 &114633845261910096
 MonoBehaviour:
@@ -960,11 +961,17 @@ MonoBehaviour:
   defaultState: {fileID: 114183958674708450}
   skinningState: {fileID: 114985794323946042}
   lockOnScript: {fileID: 114983217752973738}
+  playerStatsManager: {fileID: 114411405976347458}
   modAnimationManager: {fileID: 114721781921652852}
   modStateMappings:
   - modType: 3
     state: {fileID: 114856118289874358}
   holdAttackSlowDown: 3
+  dashPower: 100
+  dashDecay: 0.25
+  dashTime: 1
+  dashIFrameStart: 0.25
+  dashIFrameEnd: 0.75
 --- !u!114 &114856118289874358
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1022,10 +1029,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.75
-  m_Height: 3.75
+  m_Radius: 0.45
+  m_Height: 3.24
   m_Direction: 1
-  m_Center: {x: 0, y: 1.8, z: 0}
+  m_Center: {x: 0, y: 1.58, z: 0}
 --- !u!137 &137786160320040178
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

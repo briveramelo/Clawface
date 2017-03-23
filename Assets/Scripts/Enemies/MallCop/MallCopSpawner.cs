@@ -6,6 +6,7 @@ using ModMan;
 public class MallCopSpawner : MonoBehaviour {
 
     #region Serialized Unity Fields
+    [SerializeField] MallCopType mallCopType;
     [SerializeField] List<Transform> spawnPoints;
     [SerializeField] List<Wave> mallCopWaves;
     [SerializeField] int currentWaveNumber=0;
@@ -13,7 +14,19 @@ public class MallCopSpawner : MonoBehaviour {
     #endregion
 
     #region private variables
-    int currentWave {
+    private PoolObjectType mallCopToSpawn {
+        get {
+            switch (mallCopType) {
+                case MallCopType.Swinger:
+                    return PoolObjectType.MallCopSwinger;
+                case MallCopType.Blaster:
+                    return PoolObjectType.MallCopBlaster;
+            }
+            return PoolObjectType.MallCopSwinger;
+        }
+    }
+
+    private int currentWave {
         get {
             if (currentWaveNumber >= mallCopWaves.Count) {
                 return mallCopWaves.Count-1;
@@ -42,7 +55,7 @@ public class MallCopSpawner : MonoBehaviour {
         if (Application.isPlaying)
         {
             numMallCops++;
-            GameObject cop = ObjectPool.Instance.GetObject(PoolObjectType.MallCop);
+            GameObject cop = ObjectPool.Instance.GetObject(mallCopToSpawn);
             MallCop mallCop = cop.GetComponent<MallCop>();
             if (!mallCop.HasWillBeenWritten()) {
                 mallCop.RegisterDeathEvent(ReportDeath);
