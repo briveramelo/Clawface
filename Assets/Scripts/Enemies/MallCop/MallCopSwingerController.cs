@@ -55,12 +55,15 @@ public class MallCopSwingerController : MallCopController {
 
     void CheckForFinishedSwing(ref bool justSwitchedState) {
         if (!justSwitchedState) {
-            if (CurrentState == states.swing) {
-                if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.99f) {
+            if (CurrentState == states.swing && states.swing.CanRestart()) {                
+                if (distanceFromTarget > strikingDistance) {
                     UpdateState(EMallCopState.Chase);
-                    justSwitchedState = true;
                 }
-            }
+                else {
+                    UpdateState(EMallCopState.Swing);
+                }
+                justSwitchedState = true;
+            }            
         }
     }
 
