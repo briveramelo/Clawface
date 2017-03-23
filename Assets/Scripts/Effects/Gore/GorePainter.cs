@@ -10,6 +10,11 @@ public class GorePainter : MonoBehaviour {
     public float maxDownScale = 0.5f;
     public float splashRange = 1.5f;
 
+    void OnEnable() {
+        StartCoroutine(SetInactiveAfterTime(gameObject, 4f));
+    }
+
+
     public void Paint(Vector3 i_location)
     {
         RaycastHit hit;
@@ -44,16 +49,8 @@ public class GorePainter : MonoBehaviour {
             decal.transform.position = modifiedHitPoint;
             decal.transform.rotation = Quaternion.FromToRotation(Vector3.back, i_hit.normal);
 
-            //Random scale
-            float scaler = UnityEngine.Random.Range(minDownScale, maxDownScale);
-
-            Vector3 newScaleDown = new Vector3(
-                decal.transform.localScale.x * scaler,
-                decal.transform.localScale.y * scaler,
-                decal.transform.localScale.z
-            );
-
-            decal.transform.localScale = newScaleDown;
+            //ScaleDownBlood(decal);
+            
 
             //random rotation
             int rater = UnityEngine.Random.Range(0, 359);
@@ -63,11 +60,23 @@ public class GorePainter : MonoBehaviour {
         }
     }
 
+    private void ScaleDownBlood(GameObject decal) {
+        //Random scale
+        float scaler = UnityEngine.Random.Range(minDownScale, maxDownScale);
+
+        Vector3 newScaleDown = new Vector3(
+            decal.transform.localScale.x * scaler,
+            decal.transform.localScale.y * scaler,
+            decal.transform.localScale.z
+        );
+
+        decal.transform.localScale = newScaleDown;
+    }
+
     IEnumerator SetInactiveAfterTime(GameObject i_toSet, float i_delay)
     {
         yield return new WaitForSeconds(i_delay);
-
-        i_toSet.SetActive(false);
+        i_toSet.SetActive(false);        
     }
 
 }
