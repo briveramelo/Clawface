@@ -3,11 +3,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using MovementEffects;
 
 public class MallCopSwingState : MallCopState {
 
     public override void OnEnter() {
-        controller.StartCoroutine(RunStartupTimer());
+        Timing.RunCoroutine(RunStartupTimer());
         animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Swing);
     }
     public override void Update() {
@@ -18,9 +19,9 @@ public class MallCopSwingState : MallCopState {
         
     }
 
-    IEnumerator RunStartupTimer() {
+    IEnumerator<float> RunStartupTimer() {
         isPastStartup = false;
-        yield return new WaitForSeconds(.2f);
+        yield return Timing.WaitForSeconds(.2f);
         isPastStartup = true;
     }
     bool isPastStartup;

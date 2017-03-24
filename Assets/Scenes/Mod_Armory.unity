@@ -2245,28 +2245,6 @@ Transform:
   m_Father: {fileID: 319817618}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!84 &243782503
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_Width: 1045
-  m_Height: 638
-  m_AntiAliasing: 2
-  m_DepthFormat: 2
-  m_ColorFormat: 0
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_TextureSettings:
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapMode: 1
 --- !u!4 &256500220 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4232652381133598, guid: 42e0e0714c25e8645aadfe3f7091b738,
@@ -2699,6 +2677,28 @@ Mesh:
   m_BakedConvexCollisionMesh: 
   m_BakedTriangleCollisionMesh: 
   m_MeshOptimized: 0
+--- !u!84 &319197960
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_Width: 844
+  m_Height: 501
+  m_AntiAliasing: 2
+  m_DepthFormat: 2
+  m_ColorFormat: 0
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_TextureSettings:
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapMode: 1
 --- !u!1 &319817617
 GameObject:
   m_ObjectHideFlags: 0
@@ -3218,6 +3218,31 @@ Mesh:
   m_BakedConvexCollisionMesh: 
   m_BakedTriangleCollisionMesh: 
   m_MeshOptimized: 0
+--- !u!1 &373364983 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1865829909728442, guid: 15a6e7fc9bda12146b50bb6f74bebcaf,
+    type: 2}
+  m_PrefabInternal: {fileID: 2096724270}
+--- !u!114 &373364984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 373364983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d2433f4570c1404da40af9ea0b12741, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TimeBetweenSlowUpdateCalls: 0.14285715
+  ProfilerDebugAmount: 1
+  AutoTriggerManualTimeframe: 1
+  UpdateCoroutines: 0
+  FixedUpdateCoroutines: 0
+  LateUpdateCoroutines: 0
+  SlowUpdateCoroutines: 0
+  localTime: 0
+  deltaTime: 0
 --- !u!43 &395311687
 Mesh:
   m_ObjectHideFlags: 0
@@ -4027,7 +4052,7 @@ Prefab:
         type: 2}
       propertyPath: m_TargetTexture
       value: 
-      objectReference: {fileID: 243782503}
+      objectReference: {fileID: 319197960}
     - target: {fileID: 20606867456560284, guid: 9981de4f5a8796c4099626eab5bfe43f,
         type: 2}
       propertyPath: orthographic

@@ -3,11 +3,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using MovementEffects;
 
 public class MallCopFireState : MallCopState {
 
     public override void OnEnter() {
-        controller.StartCoroutine(RunStartupTimer());        
+        Timing.RunCoroutine(RunStartupTimer());        
         animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Fire);
     }
     public override void Update() {
@@ -18,9 +19,9 @@ public class MallCopFireState : MallCopState {
         
     }
 
-    IEnumerator RunStartupTimer() {
+    IEnumerator<float> RunStartupTimer() {
         isPastStartup = false;
-        yield return new WaitForSeconds(.2f);
+        yield return Timing.WaitForSeconds(.2f);
         isPastStartup = true;
     }
     bool isPastStartup;
