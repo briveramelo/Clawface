@@ -21,7 +21,6 @@ public class PSManager : MonoBehaviour {
         ps.GetCollisionEvents(other, collEvents);
         Vector3 location = collEvents[0].intersection;
         gp.Paint(location);
-
     }
 
 }
