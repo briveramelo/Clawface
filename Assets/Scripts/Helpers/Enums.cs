@@ -71,7 +71,9 @@ public enum PoolObjectType {
     TargetExplosionEffect=5,
     BloodDecal=6,
     BloodEmitter=7,
-    MallCopBlaster=8
+    MallCopBlaster=8,
+    VFXSegwayBlaster=9,
+    MallCopExplosion=10
 }
 
 public enum WeaponType {

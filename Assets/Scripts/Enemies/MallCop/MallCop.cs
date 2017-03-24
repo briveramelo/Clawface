@@ -122,7 +122,10 @@ public class MallCop : MonoBehaviour, ICollectable, IStunnable, IDamageable, ISk
             onDeath();
         }
 
-        //Instantiate(MallCopGoreExplosion, this.transform.position, this.transform.rotation);
+        GameObject mallCopParts = ObjectPool.Instance.GetObject(PoolObjectType.MallCopExplosion);
+        mallCopParts.transform.position = transform.position + Vector3.up*3f;
+        mallCopParts.transform.rotation = transform.rotation;
+        mallCopParts.DeActivate(5f);        
         gameObject.SetActive(false);
     }
 

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using MovementEffects;
 
 namespace ModMan {
 
@@ -72,6 +73,14 @@ namespace ModMan {
             }
 
             return null;
+        }
+
+        public static void DeActivate(this GameObject obj, float timeToDeactivate) {
+            Timing.RunCoroutine(IEDeActivate(obj, timeToDeactivate));
+        }
+        static IEnumerator<float> IEDeActivate(GameObject obj, float timeToDeactivate) {
+            yield return Timing.WaitForSeconds(timeToDeactivate);
+            obj.SetActive(false);
         }        
     }
 
