@@ -237,6 +237,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1633405559181838
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4839967505857634}
+  m_Layer: 0
+  m_Name: LegSocket
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1662401111093100
 GameObject:
   m_ObjectHideFlags: 1
@@ -439,7 +454,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1195343753092376}
   m_LocalRotation: {x: -0, y: -0.6427878, z: 0, w: -0.76604426}
-  m_LocalPosition: {x: 0.0184, y: -0.0212, z: -0.0056}
+  m_LocalPosition: {x: 0.003, y: 0.0068, z: 0.006}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4546418438896188}
@@ -592,6 +607,7 @@ Transform:
   m_LocalPosition: {x: -0.004146205, y: -0.0000753166, z: -0.009324606}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 4839967505857634}
   - {fileID: 4543178542056170}
   m_Father: {fileID: 4915708407352692}
   m_RootOrder: 1
@@ -608,7 +624,7 @@ Transform:
   m_Children:
   - {fileID: 4345438209807516}
   m_Father: {fileID: 4503019513773036}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4546418438896188
 Transform:
@@ -645,7 +661,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1124708316484250}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 20.3, y: 11.57, z: 100.1}
+  m_LocalPosition: {x: 21.12, y: 11.57, z: 78.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4264160054010028}
@@ -722,6 +738,19 @@ Transform:
   m_Father: {fileID: 4559023496230944}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4839967505857634
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1633405559181838}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: -0.7071068, w: 0}
+  m_LocalPosition: {x: -0.0089, y: 0, z: 0.0092}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4503019513773036}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 180, y: 90, z: 0}
 --- !u!4 &4912761059004258
 Transform:
   m_ObjectHideFlags: 1
@@ -844,7 +873,7 @@ MonoBehaviour:
   headSocket: {fileID: 4364124885054054}
   leftArmSocket: {fileID: 4038012950238166}
   rightArmSocket: {fileID: 4634169818675522}
-  legsSocket: {fileID: 4192219653642208}
+  legsSocket: {fileID: 4839967505857634}
   playerStats: {fileID: 114769971612484810}
   playerMovement: {fileID: 114183958674708450}
   velBody: {fileID: 114793955708429346}
@@ -948,8 +977,7 @@ MonoBehaviour:
     currentMod: {fileID: 0}
     stateFinished: 0
     foot: {fileID: 4192219653642208}
-    acceleration: 1000
-    iceForceMultiplier: 500
+    acceleration: 20
     manualDrag: 20
     axisThreshold: 0.04
     meleePounceMaxDistance: 15

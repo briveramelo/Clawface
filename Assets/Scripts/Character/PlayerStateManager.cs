@@ -86,7 +86,7 @@ public class PlayerStateManager : MonoBehaviour {
                 Vector3 force = Camera.main.transform.TransformDirection(new Vector3(dir.x, 0, dir.y));
                 force.y = 0;
                 force.Normalize();
-                defaultState.AddExternalForce(dashPower * force, dashDecay);
+                stateVariables.velBody.AddDecayingForce(dashPower * force, dashDecay);
                 StartCoroutine(DashController());
             }
             foreach (IPlayerState state in playerStates)
@@ -204,7 +204,6 @@ public class PlayerStateManager : MonoBehaviour {
         public bool stateFinished;
         public Transform foot;
         public float acceleration;
-        public float iceForceMultiplier;
         public float manualDrag;
         [Range (0.01f,.2f)] public float axisThreshold;
         public float meleePounceMaxDistance;
