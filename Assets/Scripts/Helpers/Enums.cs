@@ -111,6 +111,14 @@ public enum ButtonMode
     IDLE= 3 // is released (not used)
 }
 
+
+public enum VibrationTargets
+{
+    LEFT = 0,
+    RIGHT = 1,
+    BOTH = 2
+}
+
 public enum MallCopAnimationStates {
     Idle = 0,
     Walk = 1,
