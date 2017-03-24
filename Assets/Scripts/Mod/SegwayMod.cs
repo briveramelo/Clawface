@@ -13,15 +13,15 @@ public class SegwayMod : Mod {
 
     [SerializeField] private VFXSegway segwayVFX;
 
-    [SerializeField] private float speedBoostValue;
+    [SerializeField] private float speedBoostMultiplier;
     [SerializeField] private float jumpForce;
     [SerializeField] private float rangedAccuracyLoss;
 
-    [SerializeField] private float pushDamage;
+    [SerializeField] private float pushDamageMultiplier;
     [SerializeField] private float pushForce;
     [SerializeField] private float pushTime;
 
-    [SerializeField] private float aoeDamage;
+    [SerializeField] private float aoeDamageMultiplier;
     [SerializeField] private float aoeForce;
     [SerializeField] private float aoeTime;
 
@@ -30,7 +30,8 @@ public class SegwayMod : Mod {
     private static string DISABLEATTACKCOLLIDER = "DisableAttackCollider";
     private static string ENABLEAOECOLLIDER = "EnableAoeCollider";
     private static string DISABLEAOECOLLIDER = "DisableAoeCollider";
-    
+
+    private bool canActivate;
     private bool isPushing;
     private bool isAoeAttacking;   
 
@@ -39,36 +40,32 @@ public class SegwayMod : Mod {
         type = ModType.ForceSegway;
     }
 
-    public override void Activate()
+    // Use this for initialization
+    void Start()
     {
-        switch (getModSpot())
-        {
-            case ModSpot.ArmL:
-                ForcePush();   
-                break;
-            case ModSpot.ArmR:
-                ForcePush();
-                break;
-            case ModSpot.Legs:
-                AoeAttack();
-                if (wielderMovable.IsGrounded()) {
-                    Jump();
-                }
-                break;
-            default:
-                break;
-        }
+        setModType(ModType.ForceSegway);
     }
+
+    void Update()
+    {
+        if (wielderMovable != null)
+        {
+            if (getModSpot() != ModSpot.Legs)
+            {
+                //transform.up = -wielderMovable.GetForward();
+            }
+        }
+    }    
     
     private void OnTriggerStay(Collider other)
     {
-        if (other.tag != "Player")
+        if (GetWielderInstanceID() != other.gameObject.GetInstanceID())
         {            
             if (isPushing || isAoeAttacking)
             {
                 IDamageable damageable = other.GetComponent<IDamageable>();
                 IMovable movable = other.GetComponent<IMovable>();
-                float damage = isPushing ? pushDamage : aoeDamage;
+                float damage = isPushing ? pushDamageMultiplier : aoeDamageMultiplier;
                 float force = isPushing ? pushForce : aoeForce;
 
                 if (damageable != null && !recentlyHitEnemies.Contains(damageable))
@@ -90,6 +87,7 @@ public class SegwayMod : Mod {
 
     public override void AttachAffect(ref Stats i_playerStats, IMovable wielderMovable)
     {
+        this.wielderMovable = wielderMovable;
         wielderStats = i_playerStats;
         pickupCollider.enabled = false;
         segwayVFX.SetIdle(false);
@@ -102,7 +100,7 @@ public class SegwayMod : Mod {
         if (getModSpot() == ModSpot.Legs)
         {
             segwayVFX.SetMoving(true);
-            wielderStats.Modify(StatType.MoveSpeed, speedBoostValue);
+            wielderStats.Modify(StatType.MoveSpeed, speedBoostMultiplier);
             wielderStats.Modify(StatType.RangedAccuracy, rangedAccuracyLoss);
             this.wielderMovable = wielderMovable;
             this.wielderMovable.SetMovementMode(MovementMode.ICE);
@@ -111,6 +109,37 @@ public class SegwayMod : Mod {
         {
             segwayVFX.SetMoving(false);
         }
+    }
+
+    public override void Activate()
+    {
+        switch (getModSpot())
+        {
+            case ModSpot.ArmL:
+                if (!isPushing) {
+                    ForcePush();
+                }
+                break;
+            case ModSpot.ArmR:
+                if (!isPushing) {
+                    ForcePush();
+                }
+                break;
+            case ModSpot.Legs:
+                if (!isAoeAttacking) {
+                    AoeAttack();
+                }
+                if (wielderMovable.IsGrounded())
+                {
+                    Jump();
+                }
+                break;
+        }
+        
+    }
+    public override void AlternateActivate(bool isHeld, float holdTime)
+    {
+
     }
 
     public override void DeActivate()
@@ -125,7 +154,7 @@ public class SegwayMod : Mod {
         segwayVFX.SetIdle(true);
         if (getModSpot() == ModSpot.Legs)
         {
-            wielderStats.Modify(StatType.MoveSpeed, 1f / speedBoostValue);
+            wielderStats.Modify(StatType.MoveSpeed, 1f / speedBoostMultiplier);
             wielderStats.Modify(StatType.RangedAccuracy, 1f / rangedAccuracyLoss);
             this.wielderMovable.SetMovementMode(MovementMode.PRECISE);
         }        
@@ -133,12 +162,12 @@ public class SegwayMod : Mod {
 
     void BoostSpeed()
     {
-        wielderStats.Modify(StatType.MoveSpeed, speedBoostValue);
+        wielderStats.Modify(StatType.MoveSpeed, speedBoostMultiplier);
     }
 
     void RemoveSpeedBoost()
     {
-        wielderStats.Modify(StatType.MoveSpeed, 1 / speedBoostValue);
+        wielderStats.Modify(StatType.MoveSpeed, 1 / speedBoostMultiplier);
     }
 
     void AoeAttack()
@@ -185,22 +214,7 @@ public class SegwayMod : Mod {
     {
         aoeCollider.enabled = false;
         isAoeAttacking = false;
-    }
-
-
-    // Use this for initialization
-    void Start () {
-        setModType(ModType.ForceSegway);
-	}
-	
-	// Update is called once per frame
-	void Update () {        
-    }
-
-    public override void AlternateActivate(bool isHeld, float holdTime)
-    {
-        
-    }
+    }    
 
     void Jump() {
         wielderMovable.AddDecayingForce(Vector3.up * jumpForce);

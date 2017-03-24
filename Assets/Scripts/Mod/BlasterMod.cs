@@ -67,7 +67,7 @@ public class BlasterMod : Mod {
         BlasterBullet blasterBullet = ObjectPool.Instance.GetObject(PoolObjectType.BlasterBullet).GetComponent<BlasterBullet>();
         blasterBullet.transform.position = bulletSpawnPoint.position;
         blasterBullet.transform.rotation = transform.rotation;
-        blasterBullet.SetShooterInstanceID(transform.root.gameObject.GetInstanceID());
+        blasterBullet.SetShooterInstanceID(GetWielderInstanceID());
         return blasterBullet;        
     }
 

@@ -77,7 +77,7 @@ public class BatonMod : Mod {
     private void OnTriggerStay(Collider other)
     {
         if (isSwinging){
-            if (transform.root != other.transform.root &&
+            if (GetWielderInstanceID() != other.gameObject.GetInstanceID() &&
                 (other.gameObject.CompareTag(Strings.Tags.PLAYER) ||
                 other.gameObject.CompareTag(Strings.Tags.ENEMY))){
 

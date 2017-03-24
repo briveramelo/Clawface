@@ -143,8 +143,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1316314029526810}
-  m_LocalRotation: {x: 0.026601251, y: -0, z: -0, w: 0.9996461}
-  m_LocalPosition: {x: 24.14, y: 11.29, z: 82.51}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 5, y: 2.31, z: -14.98}
   m_LocalScale: {x: 2.5000002, y: 2.5000005, z: 2.500001}
   m_Children:
   - {fileID: 4421976224120870}
@@ -274,15 +274,15 @@ MonoBehaviour:
   aoeCollider: {fileID: 64548073773440194}
   attackCollider: {fileID: 136673235413560844}
   segwayVFX: {fileID: 114046701473042792}
-  speedBoostValue: 1.25
+  speedBoostMultiplier: 1.25
   jumpForce: 10
   rangedAccuracyLoss: 0.8
-  pushDamage: 1
+  pushDamageMultiplier: 0.6
   pushForce: 50
-  pushTime: 0.3
-  aoeDamage: 1
+  pushTime: 0.7
+  aoeDamageMultiplier: 0.4
   aoeForce: 50
-  aoeTime: 0.3
+  aoeTime: 0.7
 --- !u!136 &136673235413560844
 CapsuleCollider:
   m_ObjectHideFlags: 1
