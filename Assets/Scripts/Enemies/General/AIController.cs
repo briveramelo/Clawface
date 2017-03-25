@@ -4,6 +4,8 @@ using UnityEngine;
 
 public abstract class AIController : MonoBehaviour {
 
+    [SerializeField] protected string DEBUG_MYSTATE;
+
     [HideInInspector] public float timeInLastState=0;
     [HideInInspector] public bool stateTimerIsRunning=false;
     [HideInInspector] public GameObject attackTarget;
@@ -18,6 +20,7 @@ public abstract class AIController : MonoBehaviour {
                 currentState.OnExit();
             }
             currentState = value;
+            DEBUG_MYSTATE = currentState.ToString();
             currentState.OnEnter();
             StartCoroutine(IERestartStateTimer());
         }

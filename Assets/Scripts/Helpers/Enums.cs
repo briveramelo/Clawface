@@ -29,7 +29,8 @@ public enum SFXType {
     ModPickup=8,
     ModDrop=9,
     ModSwap=10,
-    ModSwapSetup=11
+    ModSwapSetup=11,
+    StunBatonHit=12
 }
 
 public enum ModType {
@@ -37,7 +38,8 @@ public enum ModType {
     ArmBlaster=1,
     FingerPrint=2,
     StunBaton=3,
-    TankTreads = 4
+    TankTreads = 4,
+    Grappler = 5
 }
 
 public enum ModCategory

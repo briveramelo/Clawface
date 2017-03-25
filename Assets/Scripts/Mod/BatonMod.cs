@@ -5,18 +5,16 @@ using UnityEngine;
 
 public class BatonMod : Mod {
 
-    [SerializeField]
-    private float attackBoostValue;
+    [SerializeField] private Collider attackCollider;
+    [SerializeField] private Transform batonTip;
+    [SerializeField] private VFXStunBatonImpact impactEffect;
+    [SerializeField] private Rigidbody rigbod;
+    [SerializeField] private float attackBoostValue;
+
+    private VFXHandler vfxHandler;
     private float attackValue;
     private float attackTime = 1f;
-
-    [SerializeField]
-    private Collider attackCollider;
-
-    bool isSwinging;
-
-    [SerializeField]
-    private VFXStunBatonImpact impactEffect;
+    private bool isSwinging;
 
     public override void Activate()
     {
@@ -45,6 +43,7 @@ public class BatonMod : Mod {
     {
         type = ModType.StunBaton;
         category = ModCategory.Melee;
+        vfxHandler = new VFXHandler(transform);
     }
 
     void Swing()
@@ -71,7 +70,6 @@ public class BatonMod : Mod {
         if (stunMine != null)
         {
             stunMine.transform.position = transform.position;
-            stunMine.SetActive(true);
             AudioManager.Instance.PlaySFX(SFXType.StunBatonLayMine);
         }
     }
@@ -80,21 +78,29 @@ public class BatonMod : Mod {
     {
         if (isSwinging)
         {
-            IDamageable damageable = other.gameObject.GetComponent<IDamageable>();
-            if (damageable != null && !recentlyHitEnemies.Contains(damageable))
+
+            if (!other.gameObject.CompareTag(transform.root.tag))
             {
-                if (transform.root.CompareTag(Strings.Tags.PLAYER))
+                IDamageable damageable = other.GetComponent<IDamageable>();
+                if (damageable != null && !recentlyHitEnemies.Contains(damageable))
                 {
-                    HitstopManager.Instance.StartHitstop(.05f);
-                }
-                impactEffect.Emit();
-                damageable.TakeDamage(attackValue);
-                recentlyHitEnemies.Add(damageable);
-                IStunnable stunnable = other.gameObject.GetComponent<IStunnable>();
-                if (stunnable != null)
-                {
-                    stunnable.Stun();
-                        
+                    if (transform.root.CompareTag(Strings.Tags.PLAYER))
+                    {
+                        AudioManager.Instance.PlaySFX(SFXType.StunBatonHit);
+                        HitstopManager.Instance.StartHitstop(.05f);
+                        Vector3 bloodDirection = transform.root.rotation.eulerAngles;
+                        bloodDirection.x = 23.38f;
+                        Quaternion emissionRotation = Quaternion.Euler(bloodDirection);
+                        vfxHandler.EmitBloodInDirection(emissionRotation, transform.position);
+                    }
+                    impactEffect.Emit();
+                    damageable.TakeDamage(attackValue);
+                    recentlyHitEnemies.Add(damageable);
+                    IStunnable stunnable = other.GetComponent<IStunnable>();
+                    if (stunnable != null)
+                    {
+                        stunnable.Stun();
+                    }
                 }
             }
         }
@@ -123,5 +129,10 @@ public class BatonMod : Mod {
         attackCollider.enabled = false;
         pickupCollider.enabled = true;
         attackValue = 0.0f;
+    }
+
+    public override void AlternateActivate(bool isHeld, float holdTime)
+    {
+        
     }
 }

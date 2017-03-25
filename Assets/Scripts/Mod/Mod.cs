@@ -30,6 +30,8 @@ public abstract class Mod : MonoBehaviour {
     #region Public Methods
     public abstract void Activate();
 
+    public abstract void AlternateActivate(bool isHeld, float holdTime);
+
     public abstract void DeActivate();
 
     public abstract void AttachAffect(ref Stats wielderStats, IMovable wielderMovable);

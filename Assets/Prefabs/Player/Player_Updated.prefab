@@ -1742,6 +1742,7 @@ MonoBehaviour:
   playerStats: {fileID: 114773098035982142}
   playerMovement: {fileID: 114853276370274440}
   stateManager: {fileID: 114838431744635020}
+  holdThresholdTime: 0.3
 --- !u!114 &114039923060217312
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1839,7 +1840,7 @@ MonoBehaviour:
     acceleration: 1000
     iceForceMultiplier: 500
     manualDrag: 20
-    axisThreshold: 0.05
+    axisThreshold: 0
     meleePounceMaxDistance: 7
     meleePounceMinDistance: 3
     meleePounceVelocity: 10

@@ -11,7 +11,7 @@ public class PlayerStateManager : MonoBehaviour {
 
     #region Serialized Unity Inspector fields
     [SerializeField]
-    private MoveState moveState;
+    private MoveState defaultState;
     [SerializeField]
     private SkinningState skinningState;
     [SerializeField]
@@ -20,6 +20,8 @@ public class PlayerStateManager : MonoBehaviour {
     private PlayerModAnimationManager modAnimationManager;
     [SerializeField]
     private ModStateMapping[] modStateMappings;
+    [SerializeField]
+    private float holdAttackSlowDown;
     #endregion
 
     #region Private Fields
@@ -27,15 +29,18 @@ public class PlayerStateManager : MonoBehaviour {
     private IPlayerState alternateState;
     private Dictionary<ModType, IPlayerState> modStateDictionary;
     private IPlayerState previousMovementState;
+    private List<IPlayerState> playerStates;
+    private bool isHoldAttack;
     #endregion
 
     #region Unity Lifecycle
     // Use this for initialization
     void Start () {
+        isHoldAttack = false;
         stateVariables.stateFinished = true;
-        moveState.Init(ref stateVariables);
+        defaultState.Init(ref stateVariables);
         skinningState.Init(ref stateVariables);
-        movementState = moveState;
+        movementState = defaultState;
         alternateState = null;
         modStateDictionary = new Dictionary<ModType, IPlayerState>();
         foreach(ModStateMapping mapping in modStateMappings)
@@ -43,55 +48,50 @@ public class PlayerStateManager : MonoBehaviour {
             mapping.state.Init(ref stateVariables);
             modStateDictionary.Add(mapping.modType, mapping.state);
         }
+        playerStates = new List<IPlayerState>();
+        playerStates.Add(defaultState);
     }
 	
 	// Update is called once per frame
-	void Update () {        
-        if(lockOnScript != null)
+	void Update () {
+        if (lockOnScript != null)
         {
-            stateVariables.currentEnemy = lockOnScript.GetCurrentEnemy();            
+            stateVariables.currentEnemy = lockOnScript.GetCurrentEnemy();
         }
-        if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_SKIN, ButtonMode.DOWN))
-        {
-            if (stateVariables.currentEnemy != null && stateVariables.currentEnemy.GetComponent<ISkinnable>().IsSkinnable())
+        if (!modAnimationManager.GetIsPlaying())
+        {            
+            if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_SKIN, ButtonMode.DOWN))
             {
-                SwitchState(skinningState);                
+                if (stateVariables.currentEnemy != null && stateVariables.currentEnemy.GetComponent<ISkinnable>().IsSkinnable())
+                {
+                    SwitchState(skinningState);
+                }
             }
-        }
-        if (movementState != null)
-        {
-            movementState.StateUpdate();
-        }
-        if(alternateState != null)
-        {
-            if (stateVariables.stateFinished)
+            foreach (IPlayerState state in playerStates)
             {
-                movementState = previousMovementState;
-                previousMovementState = null;
-                alternateState = null;
-            }
-            else
-            {
-                alternateState.StateUpdate();
+                state.StateUpdate();
             }
         }
     }
 
     void FixedUpdate()
     {
-        if (movementState != null)
+        if (!modAnimationManager.GetIsPlaying())
         {
-            movementState.StateFixedUpdate();
-        }
-        if (alternateState != null)
-        {
-            alternateState.StateFixedUpdate();
+            foreach (IPlayerState state in playerStates)
+            {
+                state.StateFixedUpdate();
+            }
+            if (stateVariables.stateFinished)
+            {   
+                ResetState();
+            }
         }
     }
     #endregion
 
     #region Public Methods
-    public void Attack(Mod mod)
+    public void PrimaryAttack(Mod mod)
     {
         if(mod.getModCategory() == ModCategory.Melee)
         {
@@ -105,34 +105,57 @@ public class PlayerStateManager : MonoBehaviour {
         }
         PlayAnimation(mod);
     }
+
+    public void SecondaryAttack(Mod mod, bool isHeld, float holdTime)
+    {
+        if (isHeld && !isHoldAttack)
+        {
+            isHoldAttack = true;
+            stateVariables.velBody.velocity = Vector3.zero;
+            stateVariables.statsManager.ModifyStat(StatType.MoveSpeed, 1.0f / holdAttackSlowDown);
+        }
+        else if(!isHeld)
+        {
+            isHoldAttack = false;
+            stateVariables.velBody.velocity = Vector3.zero;
+            stateVariables.statsManager.ModifyStat(StatType.MoveSpeed, holdAttackSlowDown);
+        }
+        mod.AlternateActivate(isHeld, holdTime);
+    }
     #endregion
 
     #region Private Methods
     private void PlayAnimation(Mod mod)
     {
         if (!modAnimationManager.GetIsPlaying())
-        {
-            if (stateVariables.velBody.GetMovementMode() == MovementMode.PRECISE && stateVariables.velBody.velocity != Vector3.zero)
-            {
-                modAnimationManager.PlayModAnimation(mod, true);
-            }
-            else
-            {
-                modAnimationManager.PlayModAnimation(mod, false);
-            }
+        {   
+            modAnimationManager.PlayModAnimation(mod, false);
+
         }
     }
 
     private void SwitchState(IPlayerState newState)
     {
-        if (movementState != null)
+        /*if (movementState != null)
         {
             previousMovementState = movementState;
             movementState = null;
             stateVariables.velBody.velocity = Vector3.zero;
         }
         alternateState = newState;
+        stateVariables.stateFinished = false;*/
+        //print("Setting");
+        stateVariables.velBody.velocity = Vector3.zero;
+        playerStates.Clear();
+        playerStates.Add(newState);
         stateVariables.stateFinished = false;
+    }
+
+    private void ResetState()
+    {
+        //print("Resetting");
+        playerStates.Clear();
+        playerStates.Add(defaultState);
     }
     #endregion
 

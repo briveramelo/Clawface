@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class MallCopController : AIController {
-
-    public string mystate;
+    
     protected MallCopProperties properties;
     protected Mod mod;
     protected States states;
+    protected Animator animator;
 
     public override State CurrentState {
         set {
@@ -16,13 +16,7 @@ public abstract class MallCopController : AIController {
                     currentState != states.twitch ||
                     value==states.fall) {
 
-                    if (currentState != null) {
-                        currentState.OnExit();
-                    }
-                    currentState = value;
-                    mystate = currentState.ToString();
-                    currentState.OnEnter();
-                    StartCoroutine(IERestartStateTimer());
+                    base.CurrentState = value;                                      
                 }
             }
         }
@@ -38,6 +32,7 @@ public abstract class MallCopController : AIController {
         this.properties = properties;
         this.mod = mod;
         this.stats = stats;
+        this.animator = animator;
 
         states = new States();
         states.Initialize(properties, this, velBody, animator, stats);
@@ -69,6 +64,11 @@ public abstract class MallCopController : AIController {
 
     }
 
+    public override void Reset() {
+        CurrentState = states.patrol;
+        base.Reset();
+    }
+
     #region Animation Events
     public void Swing() {
         mod.Activate();
@@ -79,10 +79,6 @@ public abstract class MallCopController : AIController {
     }
     #endregion
 
-    public override void Reset() {
-        CurrentState = states.patrol;
-        base.Reset();
-    }
 
     protected class States {
         public MallCopPatrolState patrol = new MallCopPatrolState();
@@ -98,16 +94,16 @@ public abstract class MallCopController : AIController {
             MallCopProperties properties,
             MallCopController controller,
             VelocityBody velBody,
-            Animator animator,
-            Stats myStats) {
+            Animator animator, 
+            Stats stats) {
 
-            chase.Initialize(properties, controller, velBody, animator, myStats);
-            patrol.Initialize(properties, controller, velBody, animator, myStats);
-            swing.Initialize(properties, controller, velBody, animator, myStats);
-            twitch.Initialize(properties, controller, velBody, animator, myStats);
-            fall.Initialize(properties, controller, velBody, animator, myStats);
-            fire.Initialize(properties, controller, velBody, animator, myStats);
-            flee.Initialize(properties, controller, velBody, animator, myStats);
+            chase.Initialize(properties, controller, velBody, animator, stats);
+            patrol.Initialize(properties, controller, velBody, animator, stats);
+            swing.Initialize(properties, controller, velBody, animator, stats);
+            twitch.Initialize(properties, controller, velBody, animator, stats);
+            fall.Initialize(properties, controller, velBody, animator, stats);
+            fire.Initialize(properties, controller, velBody, animator, stats);
+            flee.Initialize(properties, controller, velBody, animator, stats);
         }
     }
 }
