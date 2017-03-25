@@ -20,7 +20,7 @@ public class InputEcho : MonoBehaviour {
         ButtonMode actionLegs = manager.QueryAction(Strings.Input.Actions.ACTION_LEGS)[0];
         ButtonMode actionArmLeft = manager.QueryAction(Strings.Input.Actions.ACTION_ARM_LEFT)[0];
         ButtonMode actionArmRight = manager.QueryAction(Strings.Input.Actions.ACTION_ARM_RIGHT)[0];
-        ButtonMode actionHead = manager.QueryAction(Strings.Input.Actions.ACTION_HEAD)[0];
+        //ButtonMode actionHead = manager.QueryAction(Strings.Input.Actions.ACTION_HEAD)[0]; // outdated
         ButtonMode navUp = manager.QueryAction(Strings.Input.Actions.NAV_UP)[0];
         ButtonMode navDown = manager.QueryAction(Strings.Input.Actions.NAV_DOWN)[0];
         ButtonMode navLeft = manager.QueryAction(Strings.Input.Actions.NAV_LEFT)[0];
@@ -36,11 +36,11 @@ public class InputEcho : MonoBehaviour {
             "         Legs:  {4}\n" +
             "     Left Arm:  {5}\n" +
             "    Right Arm:  {6}\n" +
-            "         Head:  {7}\n" +
-            "       Nav Up:  {8}\n" +
-            "     Nav Down:  {9}\n" +
-            "     Nav Left:  {10}\n" +
-            "    Nav Right:  {11}",
+            //"         Head:  {7}\n" +
+            "       Nav Up:  {7}\n" +
+            "     Nav Down:  {8}\n" +
+            "     Nav Left:  {9}\n" +
+            "    Nav Right:  {10}",
             Vector2String(move),
             Vector2String(look),
             ButtonModeString(swap),
@@ -48,7 +48,7 @@ public class InputEcho : MonoBehaviour {
             ButtonModeString(actionLegs),
             ButtonModeString(actionArmLeft),
             ButtonModeString(actionArmRight),
-            ButtonModeString(actionHead),
+            //ButtonModeString(actionHead),
             ButtonModeString(navUp),
             ButtonModeString(navDown),
             ButtonModeString(navLeft),
@@ -56,6 +56,21 @@ public class InputEcho : MonoBehaviour {
         );
 
         info.text = output;
+
+        if (navLeft == ButtonMode.DOWN)
+            manager.Vibrate(VibrationTargets.LEFT, 1.0F);
+        else if (navLeft == ButtonMode.UP)
+            manager.Vibrate(VibrationTargets.LEFT, 0.0F);
+
+        if (navRight == ButtonMode.DOWN)
+            manager.Vibrate(VibrationTargets.RIGHT, 1.0F);
+        else if (navRight == ButtonMode.UP)
+            manager.Vibrate(VibrationTargets.RIGHT, 0.0F);
+
+        if (navDown == ButtonMode.DOWN)
+            manager.Vibrate(VibrationTargets.BOTH, 1.0F);
+        else if (navDown == ButtonMode.UP)
+            manager.Vibrate(VibrationTargets.BOTH, 0.0F);
 	}
 
     private string Vector2String(Vector2 vec)

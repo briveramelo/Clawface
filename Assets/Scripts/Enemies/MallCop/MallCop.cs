@@ -43,7 +43,6 @@ public class MallCop : MonoBehaviour, ICollectable, IStunnable, IDamageable, ISk
         controller.Initialize(properties, mod, velBody, animator, myStats);
         Revive();
 
-        MoveState dummy = null;
         mod.setModSpot(ModSpot.ArmR);
         mod.AttachAffect(ref myStats, velBody);
     }    
@@ -54,16 +53,24 @@ public class MallCop : MonoBehaviour, ICollectable, IStunnable, IDamageable, ISk
 
     void IDamageable.TakeDamage(float damage)
     {        
-        if (myStats.health > 0){
+        if (myStats.health > 0){                        
             myStats.TakeDamage(damage);
             if (myStats.health <= 5 && !glowObject.isGlowing){
                 glowObject.SetToGlow();
             }
-            if (myStats.health <= 0){
+            if (myStats.health <= 0) {
                 controller.UpdateState(EMallCopState.Fall);
-                
+
                 mod.DetachAffect();
                 Die();
+            }
+            else {
+                //TODO: update state to hit reaction state, THEN to chase (too abrupt right now)
+                //TODO: Create hit reaction state
+                if (controller.ECurrentState == EMallCopState.Patrol) {
+                    controller.attackTarget = FindPlayer();
+                    controller.UpdateState(EMallCopState.Chase);
+                }
             }
         }
     }
@@ -100,10 +107,14 @@ public class MallCop : MonoBehaviour, ICollectable, IStunnable, IDamageable, ISk
         willHasBeenWritten = true;
         this.onDeath = onDeath;
     }
-    
+
     #endregion
 
     #region 6. Private Methods
+
+    private Transform FindPlayer() {
+        return GameObject.FindGameObjectWithTag(Strings.Tags.PLAYER).transform;
+    }
 
     private void Die() {
         if (willHasBeenWritten)
@@ -111,7 +122,10 @@ public class MallCop : MonoBehaviour, ICollectable, IStunnable, IDamageable, ISk
             onDeath();
         }
 
-        //Instantiate(MallCopGoreExplosion, this.transform.position, this.transform.rotation);
+        GameObject mallCopParts = ObjectPool.Instance.GetObject(PoolObjectType.MallCopExplosion);
+        mallCopParts.transform.position = transform.position + Vector3.up*3f;
+        mallCopParts.transform.rotation = transform.rotation;
+        mallCopParts.DeActivate(5f);        
         gameObject.SetActive(false);
     }
 
@@ -144,5 +158,4 @@ public class MallCopProperties {
     [Range(1, 6)] public int numShocksToStun;
     [Range(.1f, 1)] public float twitchRange;
     [Range(.1f, 1f)] public float twitchTime;
-    [Range(.1f, 5f)] public float strikingDistance;
 }

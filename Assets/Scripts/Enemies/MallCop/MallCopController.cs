@@ -1,9 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public abstract class MallCopController : AIController {
-    
+
+    public EMallCopState ECurrentState {
+        get {            
+            return states.GetEState((MallCopState)CurrentState);
+        }
+    }
+
     protected MallCopProperties properties;
     protected Mod mod;
     protected States states;
@@ -40,28 +47,7 @@ public abstract class MallCopController : AIController {
     }    
 
     public void UpdateState(EMallCopState state) {
-
-        switch (state) {
-            case EMallCopState.Swing:
-                CurrentState = states.swing;
-                break;
-            case EMallCopState.Fall:
-                CurrentState = states.fall;
-                break;
-            case EMallCopState.Patrol:
-                CurrentState = states.patrol;
-                break;
-            case EMallCopState.Chase:
-                CurrentState = states.chase;
-                break;
-            case EMallCopState.Twitch:
-                CurrentState = states.twitch;
-                break;
-            case EMallCopState.Fire:
-                CurrentState = states.twitch;
-                break;
-        }
-
+        CurrentState = states.GetState(state);
     }
 
     public override void Reset() {
@@ -70,7 +56,7 @@ public abstract class MallCopController : AIController {
     }
 
     #region Animation Events
-    public void Swing() {
+    public void ActivateMod() {
         mod.Activate();
     }
 
@@ -90,6 +76,8 @@ public abstract class MallCopController : AIController {
         public MallCopFireState fire = new MallCopFireState();
         public MallCopFleeState flee = new MallCopFleeState();
 
+        private Dictionary<EMallCopState, MallCopState> mallCopStates;
+
         public void Initialize(
             MallCopProperties properties,
             MallCopController controller,
@@ -104,27 +92,26 @@ public abstract class MallCopController : AIController {
             fall.Initialize(properties, controller, velBody, animator, stats);
             fire.Initialize(properties, controller, velBody, animator, stats);
             flee.Initialize(properties, controller, velBody, animator, stats);
+
+            mallCopStates = new Dictionary<EMallCopState, MallCopState>() {
+                {EMallCopState.Swing, swing },
+                {EMallCopState.Fall, fall },
+                {EMallCopState.Patrol, patrol },
+                {EMallCopState.Chase, chase },
+                {EMallCopState.Twitch, twitch },
+                {EMallCopState.Fire, fire },
+                {EMallCopState.Flee, flee },
+            };
+        }
+
+        public MallCopState GetState(EMallCopState state) {
+            return mallCopStates[state];
+        }
+        public EMallCopState GetEState(MallCopState state) {
+            EMallCopState key = mallCopStates.FirstOrDefault(x => x.Value == state).Key;
+            return key;
         }
     }
 }
 
-public enum MallCopAnimationStates {
-    Idle = 0,
-    Walk = 1,
-    Swing = 2,
-    HitReaction = 3,
-    Stunned = 4,
-    GettingUp = 5,
-    DrawWeapon = 6,
-    Run = 7,
-    Shoot = 8
-}
-public enum EMallCopState {
-    Patrol = 0,
-    Swing = 1,
-    Fall = 3,
-    Chase = 4,
-    Twitch = 5,
-    Fire=6,
-    Flee=7
-}
+

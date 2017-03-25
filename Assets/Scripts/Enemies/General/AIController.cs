@@ -1,17 +1,28 @@
-﻿using System.Collections;
+﻿//Brandon Rivera-Melo
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using MovementEffects;
+using System;
 
 public abstract class AIController : MonoBehaviour {
 
-    [SerializeField] protected string DEBUG_MYSTATE;
+    [SerializeField] protected string DEBUG_CURRENTSTATE;
 
-    [HideInInspector] public float timeInLastState=0;
-    [HideInInspector] public bool stateTimerIsRunning=false;
-    [HideInInspector] public GameObject attackTarget;
+    [HideInInspector] public float timeInLastState = 0;
+    [HideInInspector] public bool stateTimerIsRunning = false;
+    [HideInInspector] public Transform attackTarget;
 
     protected Stats stats;
-
+    protected float distanceFromTarget {get{ return Vector3.Distance(transform.position, attackTarget.position); }}
+    public Vector3 directionToTarget {
+        get {
+            Vector3 dir = attackTarget.position - transform.position;
+            dir.y = 0;
+            return dir.normalized;
+        }
+    }
     protected State currentState;
     public virtual State CurrentState {
         get { return currentState; }
@@ -20,13 +31,19 @@ public abstract class AIController : MonoBehaviour {
                 currentState.OnExit();
             }
             currentState = value;
-            DEBUG_MYSTATE = currentState.ToString();
+            DEBUG_CURRENTSTATE = currentState.ToString();
             currentState.OnEnter();
-            StartCoroutine(IERestartStateTimer());
+            Timing.RunCoroutine(IERestartStateTimer());
         }
     }
+    protected List<Func<bool>> checksToUpdateState;
 
     protected virtual void Update() {
+        checksToUpdateState.ForEach(check => {
+            if (check()) {
+                return;
+            }
+        });
         currentState.Update();
     }
 
@@ -36,17 +53,17 @@ public abstract class AIController : MonoBehaviour {
     }
 
     public void RestartStateTimer() {
-        StartCoroutine(IERestartStateTimer());
+        Timing.RunCoroutine(IERestartStateTimer());
     }
 
-    protected virtual IEnumerator IERestartStateTimer() {
+    protected IEnumerator<float> IERestartStateTimer() {
         stateTimerIsRunning = false;
-        yield return new WaitForEndOfFrame();
+        yield return Timing.WaitForOneFrame;
         timeInLastState = 0f;
         stateTimerIsRunning = true;
         while (stateTimerIsRunning) {
             timeInLastState += Time.deltaTime;
-            yield return new WaitForEndOfFrame();
+            yield return Timing.WaitForOneFrame;
         }
     }
 }
