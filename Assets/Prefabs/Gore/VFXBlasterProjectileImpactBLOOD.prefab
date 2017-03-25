@@ -21,7 +21,8 @@ GameObject:
   - component: {fileID: 4809621334832360}
   - component: {fileID: 198725351466724988}
   - component: {fileID: 199461355905398124}
-  - component: {fileID: 114347339242378504}
+  - component: {fileID: 114145148407552600}
+  - component: {fileID: 114719410930075398}
   m_Layer: 12
   m_Name: VFXBlasterProjectileImpactBLOOD
   m_TagString: Untagged
@@ -36,13 +37,13 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1489536630767924}
   m_LocalRotation: {x: 0.20261638, y: 0, z: 0, w: 0.97925824}
-  m_LocalPosition: {x: 8.04, y: 13.65, z: 195.5}
+  m_LocalPosition: {x: 27.438837, y: -36.5, z: 48.27713}
   m_LocalScale: {x: 0.25000006, y: 0.2500004, z: 0.25000027}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 23.38, y: 0, z: 0}
---- !u!114 &114347339242378504
+--- !u!114 &114145148407552600
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -50,11 +51,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 1489536630767924}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4e8776abafe6ef4fba96f68cc5a594e, type: 3}
+  m_Script: {fileID: 11500000, guid: 7eb4a53ccb703bc4a83ae2b88b7262a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blasterBloodParticleSystem: {fileID: 198725351466724988}
-  splatterLifetime: 2
+  splatterLifetime: 2.5
+  minDownScale: 0.25
+  maxDownScale: 0.5
+  splashRange: 1.5
+--- !u!114 &114719410930075398
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1489536630767924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f45c1fa4583bb574f9fa20e8629f86f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ps: {fileID: 198725351466724988}
+  splatterLifetime: 2.5
+  gp: {fileID: 114145148407552600}
+  minDownScale: 0.25
+  maxDownScale: 0.5
+  splashRange: 1.5
 --- !u!198 &198725351466724988
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -110,7 +130,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 2029889751
+  randomSeed: -929455249
   InitialModule:
     serializedVersion: 3
     enabled: 1

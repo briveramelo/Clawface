@@ -4,30 +4,26 @@ using UnityEngine;
 
 public class BlasterBullet : MonoBehaviour {
 
+    [HideInInspector] public bool isCharged;
+
     [SerializeField] private float speed;
+    [SerializeField] private float damage;
+    [SerializeField] private float damageMultiplierCharged;
 
     private VFXHandler vfxHandler;
     private Vector3 moveDirection;
     private float pushForce;
-    [SerializeField]
-    private float damage;
-    [SerializeField]
-    private float damageMultiplier;
-    private bool push;
-
-    public bool isCharged;
+    private int shooterInstanceID;
 
 	// Use this for initialization
 	void Start () {        
         vfxHandler = new VFXHandler(transform);
         moveDirection = Vector3.forward;
-        push = false;
     }
 
     void OnEnable()
     {        
         isCharged = false;
-        push = false;        
         StartCoroutine(DestroyAfter());
     }
 
@@ -51,42 +47,19 @@ public class BlasterBullet : MonoBehaviour {
         transform.Translate(moveDirection* speed * Time.deltaTime);
 	}
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.gameObject.tag == Strings.Tags.ENEMY && push)
-        {
-            Vector3 forceDirection = transform.forward;
-            IMovable movable = other.GetComponent<IMovable>();
-            if (movable != null)
-            {
-                movable.AddDecayingForce(forceDirection.normalized * pushForce);
-            }
-        }
-    }
-
     private void OnCollisionEnter(Collision other)
     {
-        //print("Bullet hit " + other.gameObject.name);
-        if (other.gameObject.tag != Strings.Tags.PLAYER)
+        if (other.gameObject.GetInstanceID()!=shooterInstanceID)
         {
-            if (other.gameObject.tag == Strings.Tags.ENEMY)
+            bool isEnemy = other.gameObject.CompareTag(Strings.Tags.ENEMY);
+            if (isEnemy || other.gameObject.CompareTag(Strings.Tags.PLAYER))
             {
-                IDamageable damageable = other.gameObject.GetComponent<IDamageable>();
-                if (damageable != null)
-                {
-                    damageable.TakeDamage(isCharged ? damage * damageMultiplier : damage);
-                }
-
-                //TODO: Create Impact effect needs to take into account
-                // the type of surface that it had hit.
-                if (Mathf.Abs(transform.forward.y)<0.5f) {
-                    vfxHandler.EmitBloodBilaterally();
-                }
-                else {                    
-                    vfxHandler.EmitBloodInDirection(Quaternion.Euler(Vector3.right*90f), transform.position);
+                Damage(other.gameObject.GetComponent<IDamageable>());
+                Push(other.gameObject.GetComponent<IMovable>());
+                if (isEnemy) {
+                    EmitBlood();                                              
                 }
             }
-            push = true;
             
             //TODO find a better method for colliding with ground
             //right now it's unreliable            
@@ -94,5 +67,31 @@ public class BlasterBullet : MonoBehaviour {
         }
     }
 
-    
+    public void SetShooterInstanceID(int shooterInstanceID) {
+        this.shooterInstanceID = shooterInstanceID;
+    }
+
+    private void Damage(IDamageable damageable) {        
+        if (damageable != null) {
+            damageable.TakeDamage(isCharged ? damage * damageMultiplierCharged : damage);
+        }
+    }
+
+    private void Push(IMovable movable) {
+        Vector3 forceDirection = transform.forward;        
+        if (movable != null) {
+            movable.AddDecayingForce(forceDirection.normalized * pushForce);
+        }
+    }
+
+    private void EmitBlood() {
+        //TODO: Create Impact effect needs to take into account
+        // the type of surface that it had hit.
+        if (Mathf.Abs(transform.forward.y) < 0.5f) {
+            vfxHandler.EmitBloodBilaterally();
+        }
+        else {
+            vfxHandler.EmitBloodInDirection(Quaternion.Euler(Vector3.right * 90f), transform.position);
+        }
+    }
 }

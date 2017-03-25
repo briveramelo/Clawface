@@ -5,6 +5,10 @@
  */
 using UnityEngine;
 
+#if UNITY_STANDALONE_WIN
+    using XInputWrapper;
+#endif
+
 public class XBox360Controller : IController
 {
 
@@ -323,6 +327,29 @@ public class XBox360Controller : IController
         public override bool GetStart(ButtonMode mode)
         {
             return GetKeyHelper(mode, START);
+        }
+
+    #endregion
+
+    #region Haptics
+
+        public override void Vibrate(VibrationTargets target, float intensity)
+        {
+            #if UNITY_STANDALONE_WIN
+                switch(target)
+                {
+                    case VibrationTargets.LEFT:
+                        Wrapper.VibrateLeft(0, intensity);
+                        break;
+                    case VibrationTargets.RIGHT:
+                        Wrapper.VibrateRight(0, intensity);
+                        break;
+                    case VibrationTargets.BOTH:
+                        Wrapper.VibrateLeft(0, intensity);
+                        Wrapper.VibrateRight(0, intensity);
+                        break;
+                }
+            #endif
         }
 
     #endregion

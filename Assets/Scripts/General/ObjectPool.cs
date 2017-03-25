@@ -5,6 +5,8 @@ using ModMan;
 
 public class ObjectPool : Singleton<ObjectPool> {
 
+    protected ObjectPool() { }
+
     #region Unity Inspector Fields
     [SerializeField] private List<Pool> pools;
     //Add new pools here

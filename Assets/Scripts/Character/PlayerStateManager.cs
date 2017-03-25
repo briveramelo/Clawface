@@ -17,11 +17,23 @@ public class PlayerStateManager : MonoBehaviour {
     [SerializeField]
     private LockOnScript lockOnScript;
     [SerializeField]
+    private PlayerStatsManager playerStatsManager;
+    [SerializeField]
     private PlayerModAnimationManager modAnimationManager;
     [SerializeField]
     private ModStateMapping[] modStateMappings;
     [SerializeField]
     private float holdAttackSlowDown;
+    [SerializeField]
+    private float dashPower = 100.0F;
+    [SerializeField]
+    private float dashDecay = 0.25F;
+    [SerializeField]
+    private float dashTime = 1.0F; // seconds
+    [SerializeField]
+    private float dashIFrameStart = 0.25F;
+    [SerializeField]
+    private float dashIFrameEnd = 0.75F;
     #endregion
 
     #region Private Fields
@@ -31,6 +43,7 @@ public class PlayerStateManager : MonoBehaviour {
     private IPlayerState previousMovementState;
     private List<IPlayerState> playerStates;
     private bool isHoldAttack;
+    private bool canDash = true;
     #endregion
 
     #region Unity Lifecycle
@@ -66,6 +79,15 @@ public class PlayerStateManager : MonoBehaviour {
                 {
                     SwitchState(skinningState);
                 }
+            } else if (InputManager.Instance.QueryAction(Strings.Input.Actions.DODGE, ButtonMode.DOWN) && canDash) // do dodge / dash
+            {
+                ResetState();
+                Vector2 dir = InputManager.Instance.QueryAxes(Strings.Input.Axes.MOVEMENT);
+                Vector3 force = Camera.main.transform.TransformDirection(new Vector3(dir.x, 0, dir.y));
+                force.y = 0;
+                force.Normalize();
+                stateVariables.velBody.AddDecayingForce(dashPower * force, dashDecay);
+                StartCoroutine(DashController());
             }
             foreach (IPlayerState state in playerStates)
             {
@@ -106,7 +128,7 @@ public class PlayerStateManager : MonoBehaviour {
         PlayAnimation(mod);
     }
 
-    public void SecondaryAttack(Mod mod, bool isHeld)
+    public void SecondaryAttack(Mod mod, bool isHeld, float holdTime)
     {
         if (isHeld && !isHoldAttack)
         {
@@ -120,7 +142,7 @@ public class PlayerStateManager : MonoBehaviour {
             stateVariables.velBody.velocity = Vector3.zero;
             stateVariables.statsManager.ModifyStat(StatType.MoveSpeed, holdAttackSlowDown);
         }
-        mod.AlternateActivate(isHeld);
+        mod.AlternateActivate(isHeld, holdTime);
     }
     #endregion
 
@@ -157,6 +179,17 @@ public class PlayerStateManager : MonoBehaviour {
         playerStates.Clear();
         playerStates.Add(defaultState);
     }
+
+    private IEnumerator DashController()
+    {
+        canDash = false;
+        yield return new WaitForSeconds(dashIFrameStart);
+        playerStatsManager.damageModifier = 0.0F;
+        yield return new WaitForSeconds(dashIFrameEnd - dashIFrameStart);
+        playerStatsManager.damageModifier = 1.0F;
+        yield return new WaitForSeconds(dashTime = dashIFrameEnd);
+        canDash = true;
+    }
     #endregion
 
     #region Private Structures
@@ -171,7 +204,6 @@ public class PlayerStateManager : MonoBehaviour {
         public bool stateFinished;
         public Transform foot;
         public float acceleration;
-        public float iceForceMultiplier;
         public float manualDrag;
         [Range (0.01f,.2f)] public float axisThreshold;
         public float meleePounceMaxDistance;

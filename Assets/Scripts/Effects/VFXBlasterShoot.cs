@@ -11,5 +11,5 @@ public class VFXBlasterShoot : MonoBehaviour {
     public void Emit () {
         _puffEmitter.Emit (5);
         _sparkEmitter.Emit (15);
-    }
+    } 
 }
