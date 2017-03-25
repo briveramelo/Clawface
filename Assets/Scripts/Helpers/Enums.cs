@@ -96,13 +96,8 @@ public enum MovementMode
 public enum PlayerAnimationStates
 {
     Idle = 0,
-    Running = 1,
-    Shoot = 2,
-    Float = 3,
-    MeleeRight = 4,
-    RunMeleeRight = 5,
-    MeleeLeft = 6,
-    RunMeleeLeft = 7
+    Running = 1,    
+    StunBaton = 2
 }
 
 public enum ButtonMode
