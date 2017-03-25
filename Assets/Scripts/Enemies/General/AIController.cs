@@ -3,6 +3,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using MovementEffects;
+using System;
 
 public abstract class AIController : MonoBehaviour {
 
@@ -31,11 +33,17 @@ public abstract class AIController : MonoBehaviour {
             currentState = value;
             DEBUG_CURRENTSTATE = currentState.ToString();
             currentState.OnEnter();
-            StartCoroutine(IERestartStateTimer());
+            Timing.RunCoroutine(IERestartStateTimer());
         }
     }
+    protected List<Func<bool>> checksToUpdateState;
 
     protected virtual void Update() {
+        checksToUpdateState.ForEach(check => {
+            if (check()) {
+                return;
+            }
+        });
         currentState.Update();
     }
 
@@ -45,17 +53,17 @@ public abstract class AIController : MonoBehaviour {
     }
 
     public void RestartStateTimer() {
-        StartCoroutine(IERestartStateTimer());
+        Timing.RunCoroutine(IERestartStateTimer());
     }
 
-    protected virtual IEnumerator IERestartStateTimer() {
+    protected IEnumerator<float> IERestartStateTimer() {
         stateTimerIsRunning = false;
-        yield return new WaitForEndOfFrame();
+        yield return Timing.WaitForOneFrame;
         timeInLastState = 0f;
         stateTimerIsRunning = true;
         while (stateTimerIsRunning) {
             timeInLastState += Time.deltaTime;
-            yield return new WaitForEndOfFrame();
+            yield return Timing.WaitForOneFrame;
         }
     }
 }
