@@ -151,7 +151,7 @@ public class AttackState : MonoBehaviour,IPlayerState {
 
     private void CheckForRotationInput()
     {
-        Vector2 controllerMoveDir = InputManager.Instance.QueryAxes(Strings.Input.Axes.MOVEMENT);
+        Vector2 controllerMoveDir = InputManager.Instance.QueryAxes(Strings.Input.Axes.MOVEMENT) * lookSensitivity;
         bool isAnyAxisInput = controllerMoveDir.magnitude > stateVariables.axisThreshold;
         if (!isAnyAxisInput)
         {
@@ -159,7 +159,7 @@ public class AttackState : MonoBehaviour,IPlayerState {
         }
         if (controllerMoveDir != Vector2.zero)
         {
-            stateVariables.playerTransform.forward = new Vector3(controllerMoveDir.x, 0.0f, controllerMoveDir.y) * lookSensitivity;
+            stateVariables.playerTransform.forward = new Vector3(controllerMoveDir.x, 0.0f, controllerMoveDir.y);
         }
     }
     #endregion
