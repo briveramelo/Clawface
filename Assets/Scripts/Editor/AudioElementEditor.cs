@@ -10,6 +10,8 @@ public class AudioElementEditor : Editor {
 
     SerializedObject _serializedTarget;
     SerializedProperty _loopProp;
+    SerializedProperty _changeVolumeEachLoopProp;
+    SerializedProperty _changePitchEachLoopProp;
     SerializedProperty _layeredProp;
     SerializedProperty _bassAudioClipsProp;
     SerializedProperty _midAudioClipsProp;
@@ -26,23 +28,25 @@ public class AudioElementEditor : Editor {
         _target = target as AudioElement;
         _serializedTarget = new SerializedObject (_target);
         _loopProp = _serializedTarget.FindProperty("_loop");
-        _layeredProp = _serializedTarget.FindProperty ("_layered");
-        _bassAudioClipsProp = _serializedTarget.FindProperty("_bassAudioClips");
-        _midAudioClipsProp = _serializedTarget.FindProperty("_midAudioClips");
-        _trebleAudioClipsProp = _serializedTarget.FindProperty("_trebleAudioClips");
-        _audioClipsProp = _serializedTarget.FindProperty("_audioClips");
-        _randomVolumeProp = _serializedTarget.FindProperty("_randomVolume");
-        _volumeProp = _serializedTarget.FindProperty("_volume");
-        _volumeRangeProp = _serializedTarget.FindProperty("_volumeRange");
-        _randomPitchProp = _serializedTarget.FindProperty("_randomPitch");
-        _pitchProp = _serializedTarget.FindProperty("_pitch");
-        _pitchRangeProp = _serializedTarget.FindProperty("_pitchRange");
+        _changeVolumeEachLoopProp = _serializedTarget.FindProperty("_changeVolumeEachLoop");
+        _changePitchEachLoopProp  = _serializedTarget.FindProperty("_changePitchEachLoop");
+        _layeredProp              = _serializedTarget.FindProperty("_layered");
+        _bassAudioClipsProp       = _serializedTarget.FindProperty("_bassAudioClips");
+        _midAudioClipsProp        = _serializedTarget.FindProperty("_midAudioClips");
+        _trebleAudioClipsProp     = _serializedTarget.FindProperty("_trebleAudioClips");
+        _audioClipsProp           = _serializedTarget.FindProperty("_audioClips");
+        _randomVolumeProp         = _serializedTarget.FindProperty("_randomVolume");
+        _volumeProp               = _serializedTarget.FindProperty("_volume");
+        _volumeRangeProp          = _serializedTarget.FindProperty("_volumeRange");
+        _randomPitchProp          = _serializedTarget.FindProperty("_randomPitch");
+        _pitchProp                = _serializedTarget.FindProperty("_pitch");
+        _pitchRangeProp           = _serializedTarget.FindProperty("_pitchRange");
     }
 
     public override void OnInspectorGUI() {
 
-        _loopProp.boolValue = EditorGUILayout.Toggle("Loop", _loopProp.boolValue);
- 
+        _loopProp.boolValue = EditorGUILayout.Toggle ("Looped", _loopProp.boolValue);
+        EditorGUILayout.Space();
         _layeredProp.boolValue = EditorGUILayout.Toggle ("Layered", _layeredProp.boolValue);
         EditorGUILayout.Space();
 
@@ -58,6 +62,10 @@ public class AudioElementEditor : Editor {
         EditorGUILayout.Space();
 
         _randomVolumeProp.boolValue = EditorGUILayout.Toggle ("Random Volume", _randomVolumeProp.boolValue);
+        EditorGUI.BeginDisabledGroup (!_loopProp.boolValue || !_randomVolumeProp.boolValue);
+        _changeVolumeEachLoopProp.boolValue = EditorGUILayout.Toggle ("Change volume each loop", _changeVolumeEachLoopProp.boolValue);
+        EditorGUI.EndDisabledGroup();
+
         EditorGUI.indentLevel++;
         if (_randomVolumeProp.boolValue) {
             EditorGUILayout.PropertyField (_volumeRangeProp, new GUIContent("Random Volume"));
@@ -68,6 +76,10 @@ public class AudioElementEditor : Editor {
         EditorGUILayout.Space();
 
         _randomPitchProp.boolValue = EditorGUILayout.Toggle ("Random Pitch", _randomPitchProp.boolValue);
+        EditorGUI.BeginDisabledGroup (!_loopProp.boolValue || !_randomPitchProp.boolValue);
+        _changePitchEachLoopProp.boolValue = EditorGUILayout.Toggle ("Change pitch each loop", _changePitchEachLoopProp.boolValue);
+        EditorGUI.EndDisabledGroup();
+
         EditorGUI.indentLevel++;
         if (_randomPitchProp.boolValue) {
             EditorGUILayout.PropertyField (_pitchRangeProp, new GUIContent("Random Pitch"));
