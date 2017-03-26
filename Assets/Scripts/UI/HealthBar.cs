@@ -16,6 +16,7 @@ public class HealthBar : Singleton<HealthBar> {
     //// HealthBar Public Interface
     public void SetHealth(float health)
     {
+        Debug.Log("Health is set: " + health);
         Assert.IsTrue(health >= 0.0F && health <= 1.0F);
         mask.localScale = new Vector3(health, 1.0F, 1.0F);
         bar.localScale = new Vector3(health == 0 ? 0 : 1 / health, 1.0F, 1.0F);
