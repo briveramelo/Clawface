@@ -6,7 +6,7 @@ using UnityEngine;
 using System.Linq;
 using ModMan;
 
-public class MallCop : MonoBehaviour, ICollectable, IStunnable, IDamageable, ISkinnable
+public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable
 {
 
     #region 2. Serialized Unity Inspector Fields
@@ -18,7 +18,6 @@ public class MallCop : MonoBehaviour, ICollectable, IStunnable, IDamageable, ISk
     [SerializeField] private Stats myStats;
     [SerializeField] private GameObject mySkin;
     [SerializeField] private Mod mod;
-    [SerializeField] private GameObject MallCopGoreExplosion;
     #endregion
 
     #region 3. Private fields
@@ -34,14 +33,14 @@ public class MallCop : MonoBehaviour, ICollectable, IStunnable, IDamageable, ISk
 
     private void OnEnable() {
         if (willHasBeenWritten) {
-            Revive();
+            ResetForRebirth();
         }       
     }
     
     void Awake ()
     {
         controller.Initialize(properties, mod, velBody, animator, myStats);
-        Revive();
+        ResetForRebirth();
 
         mod.setModSpot(ModSpot.ArmR);
         mod.AttachAffect(ref myStats, velBody);
@@ -73,11 +72,6 @@ public class MallCop : MonoBehaviour, ICollectable, IStunnable, IDamageable, ISk
                 }
             }
         }
-    }
-
-    GameObject ICollectable.Collect(){
-        GameObject droppedSkin = Instantiate(mySkin, null, true) as GameObject;
-        return droppedSkin;
     }
 
     bool ISkinnable.IsSkinnable(){
@@ -129,14 +123,12 @@ public class MallCop : MonoBehaviour, ICollectable, IStunnable, IDamageable, ISk
         gameObject.SetActive(false);
     }
 
-    private void Revive() {
-        StopAllCoroutines();
-
+    private void ResetForRebirth() {
         GetComponent<CapsuleCollider>().enabled = true;
-        myStats.Reset();
-        controller.Reset();
-        glowObject.Reset();
-        velBody.Reset();
+        myStats.ResetForRebirth();
+        controller.ResetForRebirth();
+        glowObject.ResetForRebirth();
+        velBody.ResetForRebirth();
         //TODO check for missing mod and create a new one and attach it
     }       
 

@@ -47,7 +47,7 @@ public abstract class AIController : MonoBehaviour {
         currentState.Update();
     }
 
-    public virtual void Reset() {
+    public virtual void ResetForRebirth() {
         stateTimerIsRunning = false;
         timeInLastState = 0f;
     }

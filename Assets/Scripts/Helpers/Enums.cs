@@ -142,6 +142,14 @@ public enum EMallCopState {
     Flee = 7
 }
 
+public enum EGrapplingBotState {
+    Patrol = 0,
+    Grapple = 1,
+    Explode = 2,
+    Approach = 3,
+    Twitch = 4,
+}
+
 public enum MallCopType {
     Swinger=0,
     Blaster=1
