@@ -12,20 +12,21 @@ public class AudioManager : Singleton<AudioManager> {
 
     public bool PlaySFX(SFXType type)
     {
-        bool result = false;
-        if ((int)type < clips.Length) {
-            if ((int)type < clips.Length)
+        bool result = false;        
+        if ((int)type < clips.Length)
+        {
+            if (index == audioSources.Count)
             {
-                if (index == audioSources.Count)
-                {
-                    index = 0;
-                }
+                index = 0;
+            }
+            if (audioSources[index] != null)
+            {
                 audioSources[index].Stop();
                 audioSources[index].clip = clips[(int)type];
                 audioSources[index].Play();
                 result = true;
             }
-        }
+        }        
         return result;
     }
 }
