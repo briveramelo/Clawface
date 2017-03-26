@@ -4017,7 +4017,7 @@ Prefab:
         type: 2}
       propertyPath: m_TargetTexture
       value: 
-      objectReference: {fileID: 1894210486}
+      objectReference: {fileID: 2052353717}
     - target: {fileID: 114109786921490124, guid: 9981de4f5a8796c4099626eab5bfe43f,
         type: 2}
       propertyPath: lerpSpeed
@@ -7052,6 +7052,11 @@ Prefab:
     - target: {fileID: 4617600092637414, guid: d3d6c7a46e10f164d980938a0b10dcd3, type: 2}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114856118289874358, guid: d3d6c7a46e10f164d980938a0b10dcd3,
+        type: 2}
+      propertyPath: lookSensitivity
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d3d6c7a46e10f164d980938a0b10dcd3, type: 2}
@@ -13060,28 +13065,6 @@ Transform:
   m_Father: {fileID: 1659276229}
   m_RootOrder: 23
   m_LocalEulerAnglesHint: {x: -11.849001, y: 0, z: 0}
---- !u!84 &1894210486
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_Width: 640
-  m_Height: 480
-  m_AntiAliasing: 2
-  m_DepthFormat: 2
-  m_ColorFormat: 0
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_TextureSettings:
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapMode: 1
 --- !u!1001 &1901186674
 Prefab:
   m_ObjectHideFlags: 0
@@ -13693,6 +13676,28 @@ Transform:
   m_PrefabParentObject: {fileID: 4082692730027760, guid: 772f38507e33ddb45b36e530c8184ff0,
     type: 2}
   m_PrefabInternal: {fileID: 2040356313}
+--- !u!84 &2052353717
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_Width: 640
+  m_Height: 480
+  m_AntiAliasing: 2
+  m_DepthFormat: 2
+  m_ColorFormat: 0
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_TextureSettings:
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapMode: 1
 --- !u!1001 &2059883121
 Prefab:
   m_ObjectHideFlags: 0

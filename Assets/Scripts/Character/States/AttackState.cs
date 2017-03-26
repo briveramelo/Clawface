@@ -22,6 +22,8 @@ public class AttackState : MonoBehaviour,IPlayerState {
     private int attackForwadDisplacement;
     [SerializeField]
     private VFXMeleeSwing[] vfxMeleeSwing;
+    [SerializeField]
+    private float lookSensitivity;
     #endregion
 
     #region Private Fields    
@@ -157,7 +159,7 @@ public class AttackState : MonoBehaviour,IPlayerState {
         }
         if (controllerMoveDir != Vector2.zero)
         {
-            stateVariables.playerTransform.forward = new Vector3(controllerMoveDir.x, 0.0f, controllerMoveDir.y);
+            stateVariables.playerTransform.forward = new Vector3(controllerMoveDir.x, 0.0f, controllerMoveDir.y) * lookSensitivity;
         }
     }
     #endregion
