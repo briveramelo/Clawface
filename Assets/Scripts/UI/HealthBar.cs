@@ -7,7 +7,7 @@ using UnityEngine.Assertions;
 
 public class HealthBar : Singleton<HealthBar> {
 
-    private Camera m_Camera;
+    private Camera mCamera;
 
 
 
@@ -28,14 +28,14 @@ public class HealthBar : Singleton<HealthBar> {
     protected override void Awake()
     {
         base.Awake();
-        m_Camera = Camera.main;
+        mCamera = Camera.main;
  
     }
 
     private void Update()
     {
-        //make health bar billboard to main camera.
-        transform.LookAt(transform.position + m_Camera.transform.rotation * Vector3.forward,
-                    m_Camera.transform.rotation * Vector3.up);
+        //billboard to main camera
+        transform.LookAt(transform.position + mCamera.transform.rotation * Vector3.forward,
+                    mCamera.transform.rotation * Vector3.up);
     }
 }

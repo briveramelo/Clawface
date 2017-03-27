@@ -144,3 +144,8 @@ public enum MallCopType {
     Swinger=0,
     Blaster=1
 }
+
+public enum ActionType
+{
+    Skin=0
+}
