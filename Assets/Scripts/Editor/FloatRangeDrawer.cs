@@ -25,9 +25,9 @@ public class FloatRangeDrawer : PropertyDrawer {
 
         EditorGUI.LabelField (new Rect (position.x, position.y, xDiv, yDiv), label);
 
-        EditorGUI.LabelField (new Rect (position.x, position.y + yDiv, position.width, yDiv), min.floatValue.ToString("0.##"));
-        EditorGUI.LabelField (new Rect (position.x + position.width -28f, position.y + yDiv, position.width, yDiv), max.floatValue.ToString("0.##"));
-        EditorGUI.MinMaxSlider (new Rect (position.x + 24f, position.y + yDiv, position.width - 48f, yDiv), ref minValue, ref maxValue, attrib.min, attrib.max);
+        EditorGUI.LabelField (new Rect (position.x, position.y + yDiv, position.width, yDiv), min.floatValue.ToString("0.#"));
+        EditorGUI.LabelField (new Rect (position.x + position.width - 40f, position.y + yDiv, position.width, yDiv), max.floatValue.ToString("0.#"));
+        EditorGUI.MinMaxSlider (new Rect (position.x + 24f, position.y + yDiv, position.width - 56f, yDiv), ref minValue, ref maxValue, attrib.min, attrib.max);
 
         EditorGUI.LabelField(new Rect (position.x + xDiv * 2f, position.y, xDiv, yDiv), "To:");
         minValue = Mathf.Clamp( EditorGUI.FloatField(new Rect(position.x + xDiv + 30f, position.y, xDiv - 30f, yDiv), minValue), attrib.min, maxValue );

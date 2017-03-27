@@ -1,5 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿// AudioElement.cs
+
 using UnityEngine;
 using ModMan;
 
@@ -12,9 +12,10 @@ public class AudioElement : MonoBehaviour {
 
     #region Consts
 
-    const string _BASS_CHANNEL_NAME   = "BASS";
-    const string _MID_CHANNEL_NAME    = "MID";
-    const string _TREBLE_CHANNEL_NAME = "TREBLE";
+    const string _STANDARD_CHANNEL_NAME = "STANDARD";
+    const string _BASS_CHANNEL_NAME     = "BASS";
+    const string _MID_CHANNEL_NAME      = "MID";
+    const string _TREBLE_CHANNEL_NAME   = "TREBLE";
 
     #endregion
     #region Vars
@@ -22,7 +23,7 @@ public class AudioElement : MonoBehaviour {
     /// <summary>
     /// Audio channel object for standard (non-layered) playback.
     /// </summary>
-    {SerializeField] AudioElementChannel _standardChannel;
+    [SerializeField] AudioElementChannel _standardChannel;
 
     /// <summary>
     /// Audio channel object for layered playback.
@@ -33,11 +34,6 @@ public class AudioElement : MonoBehaviour {
     /// Will playback loop?
     /// </summary>
     [SerializeField] bool _loop = false;
-
-    /// <summary>
-    /// Change volume each loop (when using randomized volume)?
-    /// </summary>
-    [SerializeField] bool _changeVolumeEachLoop = false;
 
     /// <summary>
     /// Change pitch each loop (when using randomized pitch)?
@@ -53,11 +49,6 @@ public class AudioElement : MonoBehaviour {
     /// Does this AudioElement use layered playback?
     /// </summary>
 	[SerializeField] bool _layered = false;
-    
-    //[SerializeField] List<AudioClip> _bassAudioClips = new List<AudioClip>();
-    //[SerializeField] List<AudioClip> _midAudioClips = new List<AudioClip>();
-    //[SerializeField] List<AudioClip> _trebleAudioClips = new List<AudioClip>();
-    //[SerializeField] List<AudioClip> _audioClips = new List<AudioClip>();
 
     /// <summary>
     /// Randomize volume on each playback?
@@ -83,12 +74,13 @@ public class AudioElement : MonoBehaviour {
     /// <summary>
     /// Uniform pitch to use.
     /// </summary>
-    [SerializeField] float _pitch = 1f;
+    [SerializeField][Range(0f, 3f)]
+    float _pitch = 1f;
 
     /// <summary>
     /// Range of pitches to use.
     /// </summary>
-    [SerializeField] [FloatRange(-3f, 3f)]
+    [SerializeField][FloatRange(0f, 3f)]
     FloatRange _pitchRange = new FloatRange();
 
     #endregion
@@ -105,119 +97,73 @@ public class AudioElement : MonoBehaviour {
         }
     }
 
-    private void Update() {
-        if (_loop && _playing) {
-            if (_layered) {
-                _bassClipTimer -= Time.deltaTime;
-                if (_bassClipTimer <= 0f) LoopChannel (_bassChannel, ref _bassClipTimer);
-
-                _midClipTimer -= Time.deltaTime;
-                if (_midClipTimer <= 0f) LoopChannel (_midChannel, ref _midClipTimer);
-
-                _trebleClipTimer -= Time.deltaTime;
-                if (_trebleClipTimer <= 0f) LoopChannel (_trebleChannel, ref _trebleClipTimer);
-            } else {
-                _standardClipTimer -= Time.deltaTime;
-                if (_standardClipTimer <= 0f) LoopChannel (_standardChannel, ref _standardClipTimer);
-            }
-        }
-    }
-
     #endregion
     #region Methods
 
+    /// <summary>
+    /// Plays this AudioElement.
+    /// </summary>
     public void Play () {
-
-    } 
-
-    public void PlayChannel (AudioElementChannel channel) {
         if (_loop) _playing = true;
-
-        channel.PlaySound ();
-        
-        
-
-        // Play layered sound
+        var pitch = _randomPitch ? _pitchRange.GetRandomValue() : _pitch;
         if (_layered) {
-            var bassClip = _bassAudioClips.GetRandom();
-            source.PlayOneShot (bassClip);
-
-            var midClip = _midAudioClips.GetRandom();
-            source.PlayOneShot (midClip);
-
-            var trebleClip = _trebleAudioClips.GetRandom();
-            source.PlayOneShot (trebleClip);
-
-            if (_loop) {
-                _bassClipTimer = bassClip.length;
-                _midClipTimer = midClip.length;
-                _trebleClipTimer = trebleClip.length;
-            }
-
-        // Play normal (unlayered) sound
-        } else {
-            var clip = _audioClips.GetRandom();
-            source.PlayOneShot (clip);
-
-            if (_loop) {
-                _clipTimer = clip.length;
-            }
-        }
+            _bassChannel.PlaySound(pitch);
+            _midChannel.PlaySound(pitch);
+            _trebleChannel.PlaySound(pitch);
+        } else _standardChannel.PlaySound(pitch);
     } 
 
+    /// <summary>
+    /// Stops all playback on this AudioElement.
+    /// </summary>
     public void Stop () {
         _playing = false;
         if (_layered) {
-            _bassAudioSource.Stop();
-            _midAudioSource.Stop();
-            _trebleAudioSource.Stop();
-        } else _audioSource.Stop();
+            _bassChannel.Stop();
+            _midChannel.Stop();
+            _trebleChannel.Stop();
+        } else _standardChannel.Stop();
     }
 
-    void LoopSound (AudioSource source, List<AudioClip> clips, ref float timer) {
-        var clip = clips.GetRandom();
-        if (_changeVolumeEachLoop) source.volume = _volumeRange.GetRandomValue();
-        if (_changePitchEachLoop) source.pitch = _pitchRange.GetRandomValue();
-
-        source.PlayOneShot (clip);
-        timer += clip.length;
+    /// <summary>
+    /// Generates all audio channels with default settings.
+    /// </summary>
+    void GenerateAudioChannels () {
+        _standardChannel = GenerateAudioChannel(_STANDARD_CHANNEL_NAME);
+        _bassChannel     = GenerateAudioChannel (_BASS_CHANNEL_NAME);
+        _midChannel      = GenerateAudioChannel (_MID_CHANNEL_NAME);
+        _trebleChannel   = GenerateAudioChannel (_TREBLE_CHANNEL_NAME);
     }
 
-    void GenerateAudioSources () {
-        // Generate/find standard AudioSource
-        var audioSource = GetComponent<AudioSource>();
-        _audioSource = audioSource == null ? gameObject.AddComponent<AudioSource>() : audioSource;
-
-        // Generate/find bass AudioSource
-        var bassObj = gameObject.FindInChildren (_BASS_AUDIOSOURCE_NAME);
-        if (bassObj == null) {
-            bassObj = new GameObject (_BASS_AUDIOSOURCE_NAME, typeof (AudioSource));
-            bassObj.transform.SetParent (transform);
-            bassObj.transform.Reset();
+    /// <summary>
+    /// Generates a default audio channel with the given name.
+    /// </summary>
+    AudioElementChannel GenerateAudioChannel (string channelName) {
+        var channelObj = gameObject.FindInChildren (channelName);
+        if (channelObj == null) {
+            channelObj = new GameObject (
+                channelName, 
+                typeof (AudioSource),
+                typeof (AudioElementChannel)
+                );
+            channelObj.hideFlags = HideFlags.HideInHierarchy;
+            channelObj.transform.SetParent (transform);
+            channelObj.transform.Reset();
+        } else {
+            var channel = channelObj.GetComponent<AudioElementChannel>();
+            if (channel == null) return channelObj.AddComponent<AudioElementChannel>();
         }
-        _bassAudioSource = bassObj.GetComponent<AudioSource>();
-
-        // Generate/find mid AudioSource
-        var midObj = gameObject.FindInChildren (_MID_AUDIOSOURCE_NAME);
-        if (midObj == null) {
-            midObj = new GameObject (_MID_AUDIOSOURCE_NAME, typeof(AudioSource));
-            midObj.transform.SetParent (transform);
-            midObj.transform.Reset();
-        }
-        _midAudioSource = midObj.GetComponent<AudioSource>();
-
-        // Generate/find treble AudioSource
-        var trebleObj = gameObject.FindInChildren (_TREBLE_AUDIOSOURCE_NAME);
-        if (trebleObj == null) {
-            trebleObj = new GameObject (_TREBLE_AUDIOSOURCE_NAME, typeof(AudioSource));
-            trebleObj.transform.SetParent (transform);
-            trebleObj.transform.Reset();
-        }
-        _trebleAudioSource = trebleObj.GetComponent<AudioSource>();
+        return channelObj.GetComponent<AudioElementChannel>();
     }
 
-    bool InvalidAudioSources () {
-        return _audioSource == null || _bassAudioSource == null || 
-            _midAudioSource == null || _trebleAudioSource == null;
+    /// <summary>
+    /// Returns true if any audio channels are invalid.
+    /// </summary>
+    /// <returns></returns>
+    bool InvalidAudioChannels () {
+        return _standardChannel == null || _bassChannel == null || 
+            _midChannel == null || _trebleChannel == null;
     }
+
+    #endregion
 }
