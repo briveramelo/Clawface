@@ -47,7 +47,6 @@ public class Spawner : MonoBehaviour {
 
     #region Private Methods
     private void ReportDeath() {
-        Debug.Log("death reported");
         numEnemies--;
         Invoke("SpawnEnemy", Random.Range(1f,2f));        
     }
