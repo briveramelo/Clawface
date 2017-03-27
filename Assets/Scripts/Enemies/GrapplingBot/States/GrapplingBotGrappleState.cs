@@ -5,26 +5,29 @@ using UnityEngine;
 public class GrapplingBotGrappleState : GrapplingBotState {
 
     private bool isDone;
-    private bool hitTarget;
+    private GrapplerMod mod;
+
+    public void AddedInitialize(GrapplerMod mod) {
+        this.mod = mod;
+    }
 
     public override void OnEnter() {
         controller.ActivateMod();
     }
+
     public override void Update() {
         velBody.LookAt(controller.attackTarget);
-        if (true) {
-            hitTarget = true;
-        }
+        velBody.velocity = Vector3.zero;
     }
     public override void OnExit() {
-
+        
     }
 
     public bool IsDone() {
-        return isDone;
+        return controller.timeInLastState > 1f || HitTarget();
     }
 
     public bool HitTarget() {
-        return hitTarget;
+        return mod.HitTargetThisShot();
     }
 }

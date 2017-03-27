@@ -6,7 +6,7 @@ using UnityEngine;
 using System.Linq;
 using ModMan;
 
-public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable
+public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpawnable
 {
 
     #region 2. Serialized Unity Inspector Fields
@@ -24,15 +24,14 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable
 
 
     private int stunCount;
-    private OnDeath onDeath;
-    private bool willHasBeenWritten;
+    private Will will=new Will();
 
     #endregion
 
     #region 4. Unity Lifecycle
 
     private void OnEnable() {
-        if (willHasBeenWritten) {
+        if (will.willHasBeenWritten) {
             ResetForRebirth();
         }       
     }
@@ -61,7 +60,7 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable
                 controller.UpdateState(EMallCopState.Fall);
 
                 mod.DetachAffect();
-                Die();
+                OnDeath();
             }
             else {
                 //TODO: update state to hit reaction state, THEN to chase (too abrupt right now)
@@ -94,12 +93,12 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable
         }
     }    
 
-    public bool HasWillBeenWritten() { return willHasBeenWritten; }
+    public bool HasWillBeenWritten() { return will.willHasBeenWritten; }
 
     public void RegisterDeathEvent(OnDeath onDeath)
     {
-        willHasBeenWritten = true;
-        this.onDeath = onDeath;
+        will.willHasBeenWritten = true;
+        will.onDeath = onDeath;
     }
 
     #endregion
@@ -110,10 +109,10 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable
         return GameObject.FindGameObjectWithTag(Strings.Tags.PLAYER).transform;
     }
 
-    private void Die() {
-        if (willHasBeenWritten)
+    private void OnDeath() {
+        if (will.willHasBeenWritten)
         {
-            onDeath();
+            will.onDeath();
         }
 
         GameObject mallCopParts = ObjectPool.Instance.GetObject(PoolObjectType.MallCopExplosion);
@@ -127,17 +126,14 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable
         GetComponent<CapsuleCollider>().enabled = true;
         myStats.ResetForRebirth();
         controller.ResetForRebirth();
-        glowObject.ResetForRebirth();
         velBody.ResetForRebirth();
+        glowObject.ResetForRebirth();
         //TODO check for missing mod and create a new one and attach it
     }       
 
     #endregion
 
-    #region 7. Internal Structures
-    
-    public delegate void OnDeath();
-    
+    #region 7. Internal Structures            
     #endregion
 
 }
@@ -150,4 +146,10 @@ public class MallCopProperties {
     [Range(1, 6)] public int numShocksToStun;
     [Range(.1f, 1)] public float twitchRange;
     [Range(.1f, 1f)] public float twitchTime;
+}
+
+public class Will {
+    public OnDeath onDeath;
+    public bool willHasBeenWritten;
+    public bool deathDocumented;
 }

@@ -19,16 +19,17 @@ public class GrapplingBotExplodeState : GrapplingBotState {
     IEnumerator<float> BeginExplosion() {
         yield return Timing.WaitUntilDone(Timing.RunCoroutine(Inflate()));
         Explode();
+        controller.OnDeath();
     }
 
     IEnumerator<float> Inflate() {
-        float remainingTime = properties.timeToInflate;
+        float remainingTime = properties.timeToInflate;        
         while (remainingTime>0) {
             remainingTime -= Time.deltaTime;
 
             controller.transform.localScale += Vector3.one * properties.inflationRate;
             velBody.velocity = Vector3.up * properties.riseOnExplosionSpeed;
-            Shake(remainingTime / properties.timeToInflate);
+            Shake(controller.timeInLastState / properties.timeToInflate);
                         
             yield return Timing.WaitForOneFrame;
         }
@@ -44,18 +45,30 @@ public class GrapplingBotExplodeState : GrapplingBotState {
         GameObject explosion=ObjectPool.Instance.GetObject(PoolObjectType.MineExplosionEffect);
         explosion.transform.position = controller.transform.position;
         List<Collider> nearbyColliders = Physics.OverlapSphere(controller.transform.position, properties.explosionRadius).ToList();
+
         nearbyColliders.ForEach(col => {
+            float distanceToCollider = 0f;
+            Vector3 explosionDirection = GetExplosionDirection(col.transform.position, out distanceToCollider);
+
             IMovable movable = col.GetComponent<IMovable>();
             if (movable != null) {
-                Vector3 explosionDirection = col.transform.position - controller.transform.position;
-                float distanceToCollider = explosionDirection.magnitude;
-                explosionDirection.Normalize();
-                float explosionForce = properties.maxExplosionForce * (1-(distanceToCollider/properties.explosionRadius));//properties.maxExplosionForce;
+                float explosionForce = properties.maxExplosionForce * (1-(distanceToCollider/properties.explosionRadius));
                 movable.AddDecayingForce(explosionDirection * explosionForce);
             }
-        });
+            IDamageable damageable = col.GetComponent<IDamageable>();
+            if (damageable != null) {
+                float explosionDamage = properties.maxExplosionDamage * (1 - (distanceToCollider / properties.explosionRadius));
+                damageable.TakeDamage(explosionDamage);
+            }
+        });        
+    }
 
-        controller.gameObject.SetActive(false);
+    Vector3 GetExplosionDirection(Vector3 other, out float distanceToCollider) {
+        Vector3 explosionDirection = other - controller.transform.position;
+        distanceToCollider = explosionDirection.magnitude;
+        explosionDirection.y = 0;
+        explosionDirection.Normalize();
+        return explosionDirection;
     }
 
 }

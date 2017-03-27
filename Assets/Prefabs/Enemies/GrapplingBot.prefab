@@ -110,7 +110,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1775496334739832}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -15.324981, y: 13.600197, z: 88.29306}
+  m_LocalPosition: {x: 10.71, y: 11.01, z: 92.31}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4418150024951088}
@@ -334,6 +334,7 @@ MonoBehaviour:
   damageMultiplier: 5
   jumpForce: 50
   jumpForceMultiplier: 2
+  pullForce: 5
 --- !u!114 &114362621536635694
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -360,15 +361,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller: {fileID: 114967983117644996}
   properties:
-    rotationCenter: {fileID: 4418150024951088}
+    rotationCenter: {fileID: 4417046574005524}
     approachForce: 50
-    grappleDistance: 4
-    timeToInflate: 3
-    inflationRate: 0.03
-    riseOnExplosionSpeed: 0.1
-    maxShakeRadius: 0.5
-    explosionRadius: 5
+    grappleDistance: 8
+    timeToInflate: 1.5
+    inflationRate: 0.005
+    riseOnExplosionSpeed: 0.3
+    maxShakeRadius: 10
+    explosionRadius: 10
     maxExplosionForce: 100
+    maxExplosionDamage: 5
   velBody: {fileID: 114740554047771098}
   animator: {fileID: 95760199080886884}
   myStats: {fileID: 114771660160539002}
@@ -400,7 +402,7 @@ MonoBehaviour:
   attack: 3
   defense: 1
   health: 4
-  moveSpeed: 300
+  moveSpeed: 0.6
   rangedAccuracy: 400
 --- !u!114 &114793595781494364
 MonoBehaviour:
@@ -454,5 +456,5 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 6.34
   m_Center: {x: 0, y: 0, z: 0}

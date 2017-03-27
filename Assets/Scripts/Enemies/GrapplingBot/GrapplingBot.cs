@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using ModMan;
+using MovementEffects;
 
-public class GrapplingBot : MonoBehaviour, IStunnable, IDamageable {
+public class GrapplingBot : MonoBehaviour, IStunnable, IDamageable, ISpawnable {
 
     [SerializeField] private GrapplingBotController controller;
     [SerializeField] private GrapplingBotProperties properties;
@@ -11,12 +13,22 @@ public class GrapplingBot : MonoBehaviour, IStunnable, IDamageable {
     [SerializeField] private Stats myStats;
     [SerializeField] private Mod mod;
 
+    private Will will = new Will();    
+
     private void OnEnable() {
-        ResetForRebirth();
+        if (will.willHasBeenWritten) {
+            ResetForRebirth();
+        }
     }
 
-    void Awake() {
-        controller.Initialize(properties, mod, velBody, animator, myStats);
+    void Start() {        
+        controller.Initialize(properties, mod, velBody, animator, myStats, this);
+        Timing.RunCoroutine(Begin());
+    }
+
+    IEnumerator<float> Begin() {
+        yield return 0f;
+        mod.AttachAffect(ref myStats, velBody);
     }
 
     void IStunnable.Stun() {
@@ -27,12 +39,40 @@ public class GrapplingBot : MonoBehaviour, IStunnable, IDamageable {
 
     void IDamageable.TakeDamage(float damage) {
         myStats.TakeDamage(damage);
-    }
+        if (myStats.health <= 0) {
+            OnDeath();
+        }
+    }    
 
     private void ResetForRebirth() {
+        will.deathDocumented = false;
         myStats.ResetForRebirth();
         controller.ResetForRebirth();
         velBody.ResetForRebirth();
+    }
+
+    public bool HasWillBeenWritten() { return will.willHasBeenWritten; }
+
+    public void RegisterDeathEvent(OnDeath onDeath)
+    {
+        will.willHasBeenWritten = true;
+        will.onDeath = onDeath;
+    }
+
+    public void OnDeath()
+    {
+        if (!will.deathDocumented) {
+            if (will.willHasBeenWritten)
+            {
+                will.onDeath();
+            }
+            will.deathDocumented = true;
+            GameObject mallCopParts = ObjectPool.Instance.GetObject(PoolObjectType.MallCopExplosion);
+            mallCopParts.transform.position = transform.position + Vector3.up * 3f;
+            mallCopParts.transform.rotation = transform.rotation;
+            mallCopParts.DeActivate(5f);
+            transform.parent.gameObject.SetActive(false);
+        }
     }
 }
 
@@ -47,4 +87,5 @@ public class GrapplingBotProperties {
     public float maxShakeRadius;
     public float explosionRadius;
     public float maxExplosionForce;
+    public float maxExplosionDamage;
 }

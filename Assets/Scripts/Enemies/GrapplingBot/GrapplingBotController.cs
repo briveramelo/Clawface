@@ -11,6 +11,7 @@ public class GrapplingBotController : AIController {
         }
     }
 
+    protected GrapplingBot bot;
     protected GrapplingBotProperties properties;
     protected Mod mod;
     protected States states;
@@ -21,15 +22,17 @@ public class GrapplingBotController : AIController {
         Mod mod,
         VelocityBody velBody,
         Animator animator,
-        Stats stats) {
+        Stats stats,
+        GrapplingBot bot) {
 
         this.properties = properties;
         this.mod = mod;
         this.stats = stats;
         this.animator = animator;
+        this.bot = bot;
 
         states = new States();
-        states.Initialize(properties, this, velBody, animator, stats);
+        states.Initialize(properties, this, velBody, animator, stats, mod);
         CurrentState = states.patrol;
     }
 
@@ -37,13 +40,20 @@ public class GrapplingBotController : AIController {
         CurrentState = states.GetState(state);
     }
 
+    public virtual void OnDeath() {
+        gameObject.SetActive(false);
+    }
+
     public override void ResetForRebirth() {
-        CurrentState = states.patrol;
+        if (states!=null) {
+            CurrentState = states.patrol;
+        }
         base.ResetForRebirth();
     }
 
     #region Animation Events
     public void ActivateMod() {
+        mod.AlternateActivate(true, 10f);
         mod.Activate();
     }
 
@@ -67,13 +77,15 @@ public class GrapplingBotController : AIController {
             GrapplingBotController controller,
             VelocityBody velBody,
             Animator animator,
-            Stats stats) {
+            Stats stats,
+            Mod mod) {
 
             patrol.Initialize(properties, controller, velBody, animator, stats);
             approach.Initialize(properties, controller, velBody, animator, stats);
             explode.Initialize(properties, controller, velBody, animator, stats);
             twitch.Initialize(properties, controller, velBody, animator, stats);
-            grapple.Initialize(properties, controller, velBody, animator, stats);            
+            grapple.Initialize(properties, controller, velBody, animator, stats);
+            grapple.AddedInitialize((GrapplerMod)mod);
 
             grapplingBotStates = new Dictionary<EGrapplingBotState, GrapplingBotState>() {
                 {EGrapplingBotState.Patrol, patrol },

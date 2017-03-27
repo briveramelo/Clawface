@@ -8,27 +8,27 @@ public class GrapplingBotApproachState : GrapplingBotState {
     private bool isDone;
 
     public override void OnEnter() {
-        Timing.RunCoroutine(Timer());
         Approach();
     }
     public override void Update() {
         velBody.LookAt(controller.attackTarget);
+        velBody.velocity = Vector3.zero;
     }
     public override void OnExit() {
 
     }
-    IEnumerator<float> Timer() {
-        isDone = false;
-        yield return Timing.WaitForSeconds(1f);
-        isDone = true;
-    }
 
     void Approach() {
-        Vector3 approachDirection = controller.directionToTarget;
+        float crossMultipler = (Random.value > 0.5f? 1 :-1)*3f;
+        Vector3 crossDirection = Vector3.Cross(controller.directionToTarget, Vector3.up);
+        Vector3 targetLocation = controller.attackTarget.position + crossMultipler * crossDirection;
+        Vector3 approachDirection = (targetLocation - velBody.transform.position);
+        approachDirection.y = 0;
+        approachDirection.Normalize();
         velBody.AddDecayingForce(approachDirection * properties.approachForce);
     }
 
     public bool IsDone() {
-        return isDone;
+        return controller.timeInLastState > 1f;
     }
 }

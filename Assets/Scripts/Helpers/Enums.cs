@@ -73,7 +73,8 @@ public enum PoolObjectType {
     BloodEmitter=7,
     MallCopBlaster=8,
     VFXSegwayBlaster=9,
-    MallCopExplosion=10
+    MallCopExplosion=10,
+    GrapplingBot=11
 }
 
 public enum WeaponType {
@@ -150,7 +151,9 @@ public enum EGrapplingBotState {
     Twitch = 4,
 }
 
-public enum MallCopType {
+public enum SpawnType {
     Swinger=0,
-    Blaster=1
+    Blaster=1,
+    Grappler=2,
+
 }

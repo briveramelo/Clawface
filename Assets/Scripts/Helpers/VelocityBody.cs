@@ -32,7 +32,7 @@ public class VelocityBody : MonoBehaviour, IMovable{
     private bool isFalling;
     private const float iceForceMultiplier = 50f;
     private const float footSphereRadius= 0.1f;
-    private List<Vector3> externalForces;
+    private List<Vector3> externalForces= new List<Vector3>();
     private MovementMode movementMode;
 
     void Start() {        
@@ -41,10 +41,12 @@ public class VelocityBody : MonoBehaviour, IMovable{
 
     protected virtual void Update() {
         isGrounded = CheckIsGrounded();
+        if (!isGrounded && !isFalling) {
+            Timing.RunCoroutine(ApplyGravity(), GetInstanceID().ToString());
+        }
     }
 
     public void InitializeExternalForces() {
-        externalForces = new List<Vector3>();
         for (int i = 0; i < 100; i++) {
             externalForces.Add(Vector3.zero);
         }
@@ -91,6 +93,7 @@ public class VelocityBody : MonoBehaviour, IMovable{
         isFalling = false;
         isGrounded = false;
         isKinematic = false;
+        velocity = Vector3.zero;
     }
 
     private IEnumerator<float> IEAddDecayingForce(Vector3 forceVector, float decay) {
@@ -111,10 +114,7 @@ public class VelocityBody : MonoBehaviour, IMovable{
             if (cols[i].gameObject.layer == (int)Layers.Ground) {
                 return true;
             }
-        }
-        if (!isFalling) {
-            Timing.RunCoroutine(ApplyGravity(), GetInstanceID().ToString());
-        }
+        }        
         return false;
     }
 

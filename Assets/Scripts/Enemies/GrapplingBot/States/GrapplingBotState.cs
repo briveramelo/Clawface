@@ -10,7 +10,7 @@ public abstract class GrapplingBotState : State {
     public Animator animator;
     public Stats myStats;
 
-    public void Initialize(
+    public virtual void Initialize(
         GrapplingBotProperties properties,
         GrapplingBotController controller,
         VelocityBody velBody,

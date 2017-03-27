@@ -1,10 +1,26 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using MovementEffects;
 
 public class GrapplingBotExploderController : GrapplingBotController {
 
+    private Quaternion rotatorStartRotation;
+    private Vector3 startPosition;
+    private Vector3 startScale;
+    private Quaternion startRotation;
+
     void Start() {
+        startPosition = transform.localPosition;
+        startScale = transform.localScale;
+        startRotation = transform.rotation;
+        rotatorStartRotation = transform.parent.rotation;
+
+        Timing.RunCoroutine(Begin());
+    }
+
+    IEnumerator<float> Begin() {
+        yield return Timing.WaitForOneFrame;
         checksToUpdateState = new List<System.Func<bool>>() {
             CheckToEndApproach,
             CheckToEndGrapple,
@@ -19,6 +35,20 @@ public class GrapplingBotExploderController : GrapplingBotController {
             attackTarget = other.transform;
             UpdateState(EGrapplingBotState.Approach);
         }
+    }
+
+    public override void ResetForRebirth()
+    {
+        transform.localPosition = startPosition;
+        transform.localScale = startScale;
+        transform.localRotation = startRotation;
+        transform.parent.rotation = rotatorStartRotation;
+
+        base.ResetForRebirth();
+    }
+
+    public override void OnDeath() {
+        bot.OnDeath();        
     }
 
     bool CheckToEndApproach() {

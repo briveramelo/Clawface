@@ -9,8 +9,9 @@ public class GrapplingBotPatrolState : GrapplingBotState {
         angularSpeed = myStats.moveSpeed * 2 * Mathf.PI * Vector3.Distance(controller.transform.position, properties.rotationCenter.position);        
     }
     public override void Update() {
-        properties.rotationCenter.Rotate(Vector3.up, angularSpeed);
+        properties.rotationCenter.Rotate(Vector3.up, angularSpeed * Time.deltaTime);
         velBody.LookAt(properties.rotationCenter);
+        velBody.transform.forward *= -1;
     }
     public override void OnExit() {
 

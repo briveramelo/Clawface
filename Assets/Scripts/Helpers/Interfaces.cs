@@ -48,3 +48,9 @@ public interface ISkinnable
 public interface ICodexLoggable {
     CodexType GetCodexType();
 }
+
+public interface ISpawnable {
+    bool HasWillBeenWritten();
+    void RegisterDeathEvent(OnDeath onDeath);
+}
+public delegate void OnDeath();

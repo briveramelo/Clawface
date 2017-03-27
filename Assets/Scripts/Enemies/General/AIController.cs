@@ -36,15 +36,18 @@ public abstract class AIController : MonoBehaviour {
             Timing.RunCoroutine(IERestartStateTimer());
         }
     }
-    protected List<Func<bool>> checksToUpdateState;
+    protected List<Func<bool>> checksToUpdateState = new List<Func<bool>>();
 
     protected virtual void Update() {
+        bool hasUpdated = false;
         checksToUpdateState.ForEach(check => {
-            if (check()) {
-                return;
+            if (!hasUpdated && check()) {
+                hasUpdated = true;
             }
         });
-        currentState.Update();
+        if (currentState!=null) {
+            currentState.Update();
+        }
     }
 
     public virtual void ResetForRebirth() {
