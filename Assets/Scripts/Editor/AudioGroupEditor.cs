@@ -1,0 +1,149 @@
+﻿// AudioGroupEditor.cs
+
+using UnityEngine;
+using UnityEditor;
+
+/// <summary>
+/// Custom editor for AudioGroups.
+/// </summary>
+[CustomEditor(typeof(AudioGroup))]
+public class AudioGroupEditor : Editor {
+
+    #region Consts
+
+    const float _REMOVE_CHANNEL_BUTTON_WIDTH = 20f;
+
+    #endregion
+    #region Vars
+
+    /// <summary>
+    /// Target AudioGroup being edited.
+    /// </summary>
+    AudioGroup _target;
+
+    #endregion
+    #region Serialized Properties
+
+    SerializedObject _serializedTarget;
+    SerializedProperty _groupTypeProp;
+    SerializedProperty _loopProp;
+    SerializedProperty _changePitchEachLoopProp;
+    SerializedProperty _bassChannelProp;
+    SerializedProperty _midChannelProp;
+    SerializedProperty _trebleChannelProp;
+    SerializedProperty _standardChannelProp;
+    SerializedProperty _elementChannelsProp;
+    SerializedProperty _randomPitchProp;
+    SerializedProperty _pitchProp;
+    SerializedProperty _pitchRangeProp;
+
+    #endregion
+    #region Unity Callbacks
+
+    private void OnEnable() {
+        _target = target as AudioGroup;
+        _serializedTarget = new SerializedObject (_target);
+        _groupTypeProp            = _serializedTarget.FindProperty("_groupType");
+        _loopProp                 = _serializedTarget.FindProperty("_loop");
+        _changePitchEachLoopProp  = _serializedTarget.FindProperty("_changePitchEachLoop");
+        _bassChannelProp          = _serializedTarget.FindProperty("_bassChannel");
+        _midChannelProp           = _serializedTarget.FindProperty("_midChannel");
+        _trebleChannelProp        = _serializedTarget.FindProperty("_trebleChannel");
+        _standardChannelProp      = _serializedTarget.FindProperty("_standardChannel");
+        _elementChannelsProp      = _serializedTarget.FindProperty("_elementChannels");
+        _randomPitchProp          = _serializedTarget.FindProperty("_randomPitch");
+        _pitchProp                = _serializedTarget.FindProperty("_pitch");
+        _pitchRangeProp           = _serializedTarget.FindProperty("_pitchRange");
+    }
+
+    public override void OnInspectorGUI() {
+        // Update serialized object
+        _serializedTarget.Update();
+
+        // Show play sound button
+        if (GUILayout.Button ("Play Sound", GUILayout.Width (128f)))
+            _target.Play();
+        EditorGUILayout.Space();
+
+        // Global settings header
+        EditorGUILayout.LabelField ("Global Settings", EditorStyles.boldLabel);
+
+        // Group type enum
+        EditorGUILayout.PropertyField (_groupTypeProp);
+
+        // Looped toggle
+        EditorGUILayout.PropertyField (_loopProp);
+        EditorGUILayout.Space();
+
+        // Pitch settings
+        EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+        EditorGUI.indentLevel++;
+        if (_randomPitchProp.boolValue)
+            EditorGUILayout.PropertyField (_pitchRangeProp, new GUIContent("Random Pitch"));
+        else
+            EditorGUILayout.PropertyField (_pitchProp);
+        EditorGUI.indentLevel--;
+        
+        EditorGUILayout.PropertyField (_randomPitchProp);
+        EditorGUI.BeginDisabledGroup (!_loopProp.boolValue || !_randomPitchProp.boolValue);
+        EditorGUILayout.PropertyField (_changePitchEachLoopProp);
+        EditorGUI.EndDisabledGroup();
+        EditorGUILayout.EndVertical();
+        EditorGUILayout.Space();
+
+        // Channels
+        EditorGUILayout.LabelField("Channels", EditorStyles.boldLabel);
+        EditorGUI.indentLevel++;
+        switch ((AudioGroup.GroupType)_groupTypeProp.enumValueIndex) {
+            case AudioGroup.GroupType.Standard:
+                EditorGUILayout.PropertyField (_standardChannelProp);
+                break;
+            case AudioGroup.GroupType.Layered:
+                EditorGUILayout.PropertyField (_bassChannelProp);
+                EditorGUILayout.PropertyField (_midChannelProp);
+                EditorGUILayout.PropertyField (_trebleChannelProp);
+                break;
+            case AudioGroup.GroupType.Elements:
+                int channelCount = _elementChannelsProp.arraySize;
+                for (int i = 0; i < channelCount; i++) {
+                    // Check if elements have been added
+                    if (_elementChannelsProp.arraySize != channelCount)
+                        break;
+
+                    // Draw remove channel button
+                    var element = _elementChannelsProp.GetArrayElementAtIndex(i);
+                    EditorGUILayout.PropertyField(element);
+                    var lastRect = GUILayoutUtility.GetLastRect();
+                    lastRect.x = lastRect.x + lastRect.width - _REMOVE_CHANNEL_BUTTON_WIDTH;
+                    lastRect.width = _REMOVE_CHANNEL_BUTTON_WIDTH;
+                    lastRect.height = _REMOVE_CHANNEL_BUTTON_WIDTH;
+                    if (GUI.Button (lastRect, "x", EditorStyles.toolbarButton)) {
+
+                        // KEEP BOTH OF THESE FUNCTIONS
+                        // First one: sets array element to null
+                        // Second one: actually removes it
+                        if (element.objectReferenceValue != null)
+                            _elementChannelsProp.DeleteArrayElementAtIndex (i);
+                        _elementChannelsProp.DeleteArrayElementAtIndex (i);
+                        break;
+                    }
+                }
+
+                // Draw add new element channel button
+                if (GUILayout.Button("Add new element channel")) {
+                    _target.AddElementChannel();
+                    _serializedTarget.Update();
+                }
+                break;
+
+        }
+            
+        EditorGUI.indentLevel--;
+        EditorGUILayout.Space();
+        
+        // Apply modified properties
+        _serializedTarget.ApplyModifiedProperties();
+    }
+
+    #endregion
+}

@@ -1,13 +1,13 @@
-﻿// AudioElementChannelDrawer.cs
+﻿// AudioChannelDrawer.cs
 
 using UnityEngine;
 using UnityEditor;
 
 /// <summary>
-/// Custom property drawer for AudioElementChannels.
+/// Custom property drawer for AudioChannels.
 /// </summary>
-[CustomPropertyDrawer(typeof(AudioElementChannel))]
-public class AudioElementChannelDrawer : PropertyDrawer {
+[CustomPropertyDrawer(typeof(AudioChannel))]
+public class AudioChannelDrawer : PropertyDrawer {
 
     #region Vars
 
@@ -19,7 +19,7 @@ public class AudioElementChannelDrawer : PropertyDrawer {
     /// <summary>
     /// Target AudioElementChannel.
     /// </summary>
-    AudioElementChannel _targetChannel;
+    AudioChannel _targetChannel;
 
     /// <summary>
     /// Serialized version of target AudioElement Channel.
@@ -41,12 +41,13 @@ public class AudioElementChannelDrawer : PropertyDrawer {
     }
 
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
-        //Color backup = GUI.backgroundColor;
-        //GUI.backgroundColor = Color.gray;
 
         // Acquire target channel if necessary
         if (_targetChannel == null)
-            _targetChannel = property.objectReferenceValue as AudioElementChannel;
+            _targetChannel = property.objectReferenceValue as AudioChannel;
+
+        // If channel is still null, channel was deleted
+        if (_targetChannel == null) return;
 
         // Get serialized reference to target channel if necessary
         if (_serializedChannel == null)
@@ -61,7 +62,11 @@ public class AudioElementChannelDrawer : PropertyDrawer {
         _volumeRangeProp          = _serializedChannel.FindProperty("_volumeRange");
         _changeVolumeEachLoopProp = _serializedChannel.FindProperty("_changeVolumeEachLoop");
 
-        if (_expanded = EditorGUILayout.Foldout (_expanded, "CH: " + _targetChannel.name)) {
+        GUILayout.BeginVertical (EditorStyles.helpBox);
+        if (_expanded = EditorGUILayout.Foldout (_expanded, "Channel: " + _targetChannel.name, true)) {
+            
+            EditorGUILayout.Space();
+            EditorGUILayout.LabelField ("Clips");
             EditorGUI.indentLevel++;
 
             var clips = _targetChannel.Clips;
@@ -77,19 +82,24 @@ public class AudioElementChannelDrawer : PropertyDrawer {
 
             EditorGUI.indentLevel--;
 
-            //EditorGUILayout.Space();
+            EditorGUILayout.Space();
 
             _targetChannel.UseRandomVolume = EditorGUILayout.Toggle ("Random Volume", _targetChannel.UseRandomVolume);
             if (_targetChannel.UseRandomVolume) {
                 EditorGUILayout.PropertyField (_volumeRangeProp);
+                //EditorGUI.BeginDisabledGroup (
                 _targetChannel.ChangeVolumeEachLoop = EditorGUILayout.Toggle ("Change volume each loop", _targetChannel.ChangeVolumeEachLoop);
             } else 
-                _targetChannel.Volume = EditorGUILayout.FloatField ("Volume", _targetChannel.Volume);
+                //_targetChannel.Volume = EditorGUILayout.FloatField ("Volume", _targetChannel.Volume);
+                EditorGUILayout.PropertyField (_volumeProp);
 
             _serializedChannel.ApplyModifiedProperties();
 
             //GUI.contentColor = backup;
+
+            
         }
+        EditorGUILayout.EndVertical();
     }
 
     #endregion
