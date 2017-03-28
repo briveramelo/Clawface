@@ -8,9 +8,7 @@ using UnityEngine.Assertions;
 public class HealthBar : Singleton<HealthBar> {
 
     private Camera mCamera;
-
-
-
+    
     protected HealthBar() { }
 
     //// Unity Inspector Fields
