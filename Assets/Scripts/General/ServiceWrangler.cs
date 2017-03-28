@@ -7,7 +7,7 @@ public class ServiceWrangler : Singleton<ServiceWrangler> {
 
     protected ServiceWrangler() { }
     
-    [SerializeField] private GameObject audioManager, bulletPool, healthBar, modUIManager, vfxManager, inputManager, hitstopManager, playerTeleporter;
+    [SerializeField] private GameObject audioManager, bulletPool, healthBar, modUIManager, vfxManager, inputManager, hitstopManager, playerTeleporter, pauser;
     private static Dictionary<string, PrefabBool> singletonPrefabRegistry;
 
     protected override void Awake() {
@@ -20,7 +20,8 @@ public class ServiceWrangler : Singleton<ServiceWrangler> {
             { typeof(VFXManager).ToString(),            new PrefabBool(ref vfxManager) },
             { typeof(InputManager).ToString(),          new PrefabBool(ref inputManager) },
             { typeof(HitstopManager).ToString(),        new PrefabBool(ref hitstopManager) },
-            { typeof(DEBUG_PlayerTeleporter).ToString(),        new PrefabBool(ref playerTeleporter) }
+            { typeof(DEBUG_PlayerTeleporter).ToString(),new PrefabBool(ref playerTeleporter) },
+            { typeof(Pauser).ToString(),new PrefabBool(ref pauser) }
         };
         base.Awake();
     }
