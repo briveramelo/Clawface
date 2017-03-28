@@ -39,8 +39,14 @@ public class GrapplingBot : MonoBehaviour, IStunnable, IDamageable, ISpawnable {
 
     void IDamageable.TakeDamage(float damage) {
         myStats.TakeDamage(damage);
-        if (myStats.health <= 0) {
+        if (myStats.health <= 0)
+        {
             OnDeath();
+        }
+        else {
+            if (controller.ECurrentState==EGrapplingBotState.Patrol) {
+                controller.UpdateState(EGrapplingBotState.Approach);
+            }
         }
     }    
 

@@ -81,6 +81,9 @@ public class OriginalScheme : IControlScheme {
                     case Strings.Input.Actions.NAV_RIGHT:
                         modes[i] = controllers[i].GetDPadRight();
                         break;
+                    case Strings.Input.Actions.PAUSE:
+                        modes[i] = controllers[i].GetStart();
+                        break;
                     default:
                         throw new Exception("Bad Controller Action String: " + action);
                 }
@@ -134,6 +137,10 @@ public class OriginalScheme : IControlScheme {
                         break;
                     case Strings.Input.Actions.NAV_RIGHT:
                         if (controller.GetDPadRight(mode))
+                            return true;
+                        break;
+                    case Strings.Input.Actions.PAUSE:
+                        if (controller.GetStart(mode))
                             return true;
                         break;
                     default:

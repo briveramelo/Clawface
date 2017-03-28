@@ -12,13 +12,23 @@ public abstract class AIController : MonoBehaviour {
 
     [HideInInspector] public float timeInLastState = 0;
     [HideInInspector] public bool stateTimerIsRunning = false;
-    [HideInInspector] public Transform attackTarget;
+    [HideInInspector]
+    public Transform AttackTarget {
+        get {
+            if (attackTarget==null) {
+                attackTarget = FindPlayer();
+            }
+            return attackTarget;
+        }
+        set { attackTarget = value; }
+    }
+    private Transform attackTarget;
 
     protected Stats stats;
-    protected float distanceFromTarget {get{ return Vector3.Distance(transform.position, attackTarget.position); }}
+    protected float distanceFromTarget {get{ return Vector3.Distance(transform.position, AttackTarget.position); }}
     public Vector3 directionToTarget {
         get {
-            Vector3 dir = attackTarget.position - transform.position;
+            Vector3 dir = AttackTarget.position - transform.position;
             dir.y = 0;
             return dir.normalized;
         }
@@ -57,6 +67,11 @@ public abstract class AIController : MonoBehaviour {
 
     public void RestartStateTimer() {
         Timing.RunCoroutine(IERestartStateTimer());
+    }
+
+    public Transform FindPlayer()
+    {
+        return GameObject.FindGameObjectWithTag(Strings.Tags.PLAYER).transform;
     }
 
     protected IEnumerator<float> IERestartStateTimer() {

@@ -18,8 +18,10 @@ public class GrapplingBotExplodeState : GrapplingBotState {
 
     IEnumerator<float> BeginExplosion() {
         yield return Timing.WaitUntilDone(Timing.RunCoroutine(Inflate()));
-        Explode();
-        controller.OnDeath();
+        if (controller.gameObject.activeInHierarchy) {
+            Explode();
+            controller.OnDeath();
+        }
     }
 
     IEnumerator<float> Inflate() {
@@ -47,18 +49,20 @@ public class GrapplingBotExplodeState : GrapplingBotState {
         List<Collider> nearbyColliders = Physics.OverlapSphere(controller.transform.position, properties.explosionRadius).ToList();
 
         nearbyColliders.ForEach(col => {
-            float distanceToCollider = 0f;
-            Vector3 explosionDirection = GetExplosionDirection(col.transform.position, out distanceToCollider);
+            if (col.gameObject!=controller.gameObject) {
+                float distanceToCollider = 0f;
+                Vector3 explosionDirection = GetExplosionDirection(col.transform.position, out distanceToCollider);
 
-            IMovable movable = col.GetComponent<IMovable>();
-            if (movable != null) {
-                float explosionForce = properties.maxExplosionForce * (1-(distanceToCollider/properties.explosionRadius));
-                movable.AddDecayingForce(explosionDirection * explosionForce);
-            }
-            IDamageable damageable = col.GetComponent<IDamageable>();
-            if (damageable != null) {
-                float explosionDamage = properties.maxExplosionDamage * (1 - (distanceToCollider / properties.explosionRadius));
-                damageable.TakeDamage(explosionDamage);
+                IMovable movable = col.GetComponent<IMovable>();
+                if (movable != null) {
+                    float explosionForce = properties.maxExplosionForce * (1-(distanceToCollider/properties.explosionRadius));
+                    movable.AddDecayingForce(explosionDirection * explosionForce);
+                }
+                IDamageable damageable = col.GetComponent<IDamageable>();
+                if (damageable != null) {
+                    float explosionDamage = properties.maxExplosionDamage * (1 - (distanceToCollider / properties.explosionRadius));
+                    damageable.TakeDamage(explosionDamage);
+                }
             }
         });        
     }

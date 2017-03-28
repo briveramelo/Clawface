@@ -32,7 +32,7 @@ public class GrapplingBotExploderController : GrapplingBotController {
         if ((other.gameObject.tag == Strings.Tags.PLAYER) &&
             CurrentState == states.patrol) {
 
-            attackTarget = other.transform;
+            AttackTarget = other.transform;
             UpdateState(EGrapplingBotState.Approach);
         }
     }
@@ -48,7 +48,8 @@ public class GrapplingBotExploderController : GrapplingBotController {
     }
 
     public override void OnDeath() {
-        bot.OnDeath();        
+        bot.OnDeath();
+        //Timing.KillCoroutines(GetInstanceID().ToString());        
     }
 
     bool CheckToEndApproach() {

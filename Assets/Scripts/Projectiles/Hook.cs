@@ -52,13 +52,13 @@ public class Hook : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {   
-        if (other.gameObject.tag != Strings.Tags.MOD && other.gameObject.tag != Strings.Tags.PLAYERDETECTOR && sharedVariables.modSpot != ModSpot.Legs)
+        if ((other.gameObject.tag == Strings.Tags.PLAYER || other.gameObject.tag == Strings.Tags.ENEMY) && sharedVariables.modSpot != ModSpot.Legs)
         {            
             if (sharedVariables.throwHook)
             {
                 HitTarget();
             }
-            if ((other.gameObject.tag == Strings.Tags.ENEMY || other.gameObject.tag == Strings.Tags.PLAYER) && (sharedVariables.throwHook || sharedVariables.retractHook))
+            if (sharedVariables.throwHook || sharedVariables.retractHook)
             {
                 IDamageable damageable = other.gameObject.GetComponent<IDamageable>();
                 if (damageable != null)

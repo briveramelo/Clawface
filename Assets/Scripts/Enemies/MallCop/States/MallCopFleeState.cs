@@ -14,7 +14,7 @@ public class MallCopFleeState : MallCopState {
         Timing.RunCoroutine(RunFleeTimer());
     }
     public override void Update() {
-        velBody.LookAt(controller.attackTarget);
+        velBody.LookAt(controller.AttackTarget);
         velBody.velocity = Vector3.zero;
     }
     public override void OnExit() {

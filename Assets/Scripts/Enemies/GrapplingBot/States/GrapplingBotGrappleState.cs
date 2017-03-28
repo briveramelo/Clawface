@@ -16,7 +16,7 @@ public class GrapplingBotGrappleState : GrapplingBotState {
     }
 
     public override void Update() {
-        velBody.LookAt(controller.attackTarget);
+        velBody.LookAt(controller.AttackTarget);
         velBody.velocity = Vector3.zero;
     }
     public override void OnExit() {

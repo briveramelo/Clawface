@@ -30,7 +30,8 @@ public enum SFXType {
     ModDrop=9,
     ModSwap=10,
     ModSwapSetup=11,
-    StunBatonHit=12
+    StunBatonHit=12,
+    Pause=13
 }
 
 public enum ModType {
