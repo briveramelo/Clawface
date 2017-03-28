@@ -5,14 +5,8 @@ using MovementEffects;
 
 public class VelocityBody : MonoBehaviour, IMovable{
 
-    public Rigidbody rigbod;
     public Transform foot;
-    [HideInInspector] public float footSphereRadius= 0.1f;
-    [HideInInspector] public bool isFalling;
-    [HideInInspector] public bool isGrounded;
-
-    private const float iceForceMultiplier = 50f;
-
+    [SerializeField] private Rigidbody rigbod;
 
     public Vector3 velocity {
         get {
@@ -33,20 +27,26 @@ public class VelocityBody : MonoBehaviour, IMovable{
         get { return rigbod.useGravity; }
         set { rigbod.useGravity = value;}
     }
+    protected bool isGrounded;
 
-    private List<Vector3> externalForces;
+    private bool isFalling;
+    private const float iceForceMultiplier = 50f;
+    private const float footSphereRadius= 0.1f;
+    private List<Vector3> externalForces= new List<Vector3>();
     private MovementMode movementMode;
 
-    void Awake() {        
+    void Start() {        
         InitializeExternalForces();
     }
 
-    void Update() {
+    protected virtual void Update() {
         isGrounded = CheckIsGrounded();
+        if (!isGrounded && !isFalling) {
+            Timing.RunCoroutine(ApplyGravity(), GetInstanceID().ToString());
+        }
     }
 
     public void InitializeExternalForces() {
-        externalForces = new List<Vector3>();
         for (int i = 0; i < 100; i++) {
             externalForces.Add(Vector3.zero);
         }
@@ -61,7 +61,7 @@ public class VelocityBody : MonoBehaviour, IMovable{
     public void AddDecayingForce(Vector3 force, float decay = 0.1f) {
         if (gameObject.activeInHierarchy) {
             if (movementMode == MovementMode.PRECISE) {
-                Timing.RunCoroutine(IEAddDecayingForce(force, decay));
+                Timing.RunCoroutine(IEAddDecayingForce(force, decay), GetInstanceID().ToString());
             }
             else{
                 rigbod.AddForce(force * iceForceMultiplier);
@@ -74,11 +74,10 @@ public class VelocityBody : MonoBehaviour, IMovable{
     }
     public void SetMovementMode(MovementMode movementMode) {
         this.movementMode = movementMode;
-        useGravity = movementMode == MovementMode.ICE ? true : false;
+        useGravity = movementMode == MovementMode.ICE;
         if (movementMode == MovementMode.PRECISE) {
             AddDecayingForce(rigbod.velocity*.95f, 0.075f);            
         }
-        //TODO figure out how to transition properly from ice BACK to precise...
     }
     
     public MovementMode GetMovementMode() {
@@ -88,12 +87,13 @@ public class VelocityBody : MonoBehaviour, IMovable{
         return transform.forward;
     }
 
-    public void Reset() {
-        StopAllCoroutines();
+    public void ResetForRebirth() {
+        Timing.KillCoroutines(GetInstanceID().ToString());
         externalForces.ForEach(force => force = Vector3.zero);
         isFalling = false;
         isGrounded = false;
         isKinematic = false;
+        velocity = Vector3.zero;
     }
 
     private IEnumerator<float> IEAddDecayingForce(Vector3 forceVector, float decay) {
@@ -114,10 +114,7 @@ public class VelocityBody : MonoBehaviour, IMovable{
             if (cols[i].gameObject.layer == (int)Layers.Ground) {
                 return true;
             }
-        }
-        if (!isFalling) {
-            Timing.RunCoroutine(ApplyGravity());
-        }
+        }        
         return false;
     }
 

@@ -6,7 +6,7 @@ public class DEBUG_PlayerTeleporter : Singleton<DEBUG_PlayerTeleporter> {
 
     protected DEBUG_PlayerTeleporter() { }
 
-	[SerializeField] Transform teleportTarget1, teleportTarget2;
+	[SerializeField] Transform teleportTarget1, teleportTarget2, teleportTarget3;
 	
 	// Update is called once per frame
 	void Update () {
@@ -15,6 +15,9 @@ public class DEBUG_PlayerTeleporter : Singleton<DEBUG_PlayerTeleporter> {
         }
         if (Input.GetKeyDown(KeyCode.R)) {
             Teleport(teleportTarget2);
+        }
+        if (Input.GetKeyDown(KeyCode.Y)) {
+            Teleport(teleportTarget3);
         }
 	}
 

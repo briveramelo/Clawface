@@ -6,7 +6,7 @@ using UnityEngine;
 using System.Linq;
 using ModMan;
 
-public class MallCop : MonoBehaviour, ICollectable, IStunnable, IDamageable, ISkinnable
+public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpawnable
 {
 
     #region 2. Serialized Unity Inspector Fields
@@ -18,30 +18,28 @@ public class MallCop : MonoBehaviour, ICollectable, IStunnable, IDamageable, ISk
     [SerializeField] private Stats myStats;
     [SerializeField] private GameObject mySkin;
     [SerializeField] private Mod mod;
-    [SerializeField] private GameObject MallCopGoreExplosion;
     #endregion
 
     #region 3. Private fields
 
 
     private int stunCount;
-    private OnDeath onDeath;
-    private bool willHasBeenWritten;
+    private Will will=new Will();
 
     #endregion
 
     #region 4. Unity Lifecycle
 
     private void OnEnable() {
-        if (willHasBeenWritten) {
-            Revive();
+        if (will.willHasBeenWritten) {
+            ResetForRebirth();
         }       
     }
     
     void Awake ()
     {
         controller.Initialize(properties, mod, velBody, animator, myStats);
-        Revive();
+        ResetForRebirth();
 
         mod.setModSpot(ModSpot.ArmR);
         mod.AttachAffect(ref myStats, velBody);
@@ -62,7 +60,7 @@ public class MallCop : MonoBehaviour, ICollectable, IStunnable, IDamageable, ISk
                 controller.UpdateState(EMallCopState.Fall);
 
                 mod.DetachAffect();
-                Die();
+                OnDeath();
             }
             else {
                 //TODO: update state to hit reaction state, THEN to chase (too abrupt right now)
@@ -73,11 +71,6 @@ public class MallCop : MonoBehaviour, ICollectable, IStunnable, IDamageable, ISk
                 }
             }
         }
-    }
-
-    GameObject ICollectable.Collect(){
-        GameObject droppedSkin = Instantiate(mySkin, null, true) as GameObject;
-        return droppedSkin;
     }
 
     bool ISkinnable.IsSkinnable(){
@@ -100,12 +93,12 @@ public class MallCop : MonoBehaviour, ICollectable, IStunnable, IDamageable, ISk
         }
     }    
 
-    public bool HasWillBeenWritten() { return willHasBeenWritten; }
+    public bool HasWillBeenWritten() { return will.willHasBeenWritten; }
 
     public void RegisterDeathEvent(OnDeath onDeath)
     {
-        willHasBeenWritten = true;
-        this.onDeath = onDeath;
+        will.willHasBeenWritten = true;
+        will.onDeath = onDeath;
     }
 
     #endregion
@@ -116,10 +109,10 @@ public class MallCop : MonoBehaviour, ICollectable, IStunnable, IDamageable, ISk
         return GameObject.FindGameObjectWithTag(Strings.Tags.PLAYER).transform;
     }
 
-    private void Die() {
-        if (willHasBeenWritten)
+    private void OnDeath() {
+        if (will.willHasBeenWritten)
         {
-            onDeath();
+            will.onDeath();
         }
 
         GameObject mallCopParts = ObjectPool.Instance.GetObject(PoolObjectType.MallCopExplosion);
@@ -129,23 +122,18 @@ public class MallCop : MonoBehaviour, ICollectable, IStunnable, IDamageable, ISk
         gameObject.SetActive(false);
     }
 
-    private void Revive() {
-        StopAllCoroutines();
-
+    private void ResetForRebirth() {
         GetComponent<CapsuleCollider>().enabled = true;
-        myStats.Reset();
-        controller.Reset();
-        glowObject.Reset();
-        velBody.Reset();
+        myStats.ResetForRebirth();
+        controller.ResetForRebirth();
+        velBody.ResetForRebirth();
+        glowObject.ResetForRebirth();
         //TODO check for missing mod and create a new one and attach it
     }       
 
     #endregion
 
-    #region 7. Internal Structures
-    
-    public delegate void OnDeath();
-    
+    #region 7. Internal Structures            
     #endregion
 
 }
@@ -158,4 +146,10 @@ public class MallCopProperties {
     [Range(1, 6)] public int numShocksToStun;
     [Range(.1f, 1)] public float twitchRange;
     [Range(.1f, 1f)] public float twitchTime;
+}
+
+public class Will {
+    public OnDeath onDeath;
+    public bool willHasBeenWritten;
+    public bool deathDocumented;
 }
