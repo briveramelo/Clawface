@@ -23,23 +23,16 @@ public class GoreExplosion : MonoBehaviour {
     [SerializeField]
     GorePainter gp;
 
+    private List<Vector3> startPositions = new List<Vector3>();
+
+    private void OnEnable(){
+        ExplodeLimbs();        
+    }
+
     private void Awake()
     {
-        for(int i = 0; i < limbs.Length; i++)
-        {
-            //add a small random force
-            GameObject go = limbs[i];
-            Rigidbody rb = go.GetComponent<Rigidbody>();
-            int dir = Random.Range(0, 2);
-            if(dir == 1)
-            {
-                rb.AddForce(go.transform.forward * limbExplodeForce);
-            }
-            else
-            {
-                rb.AddForce(-go.transform.forward * limbExplodeForce);
-            }
-            
+        for (int i = 0; i < limbs.Length; i++) {
+            startPositions.Add(limbs[i].transform.localPosition);
         }
     }
 
@@ -48,6 +41,21 @@ public class GoreExplosion : MonoBehaviour {
         explosionParticleSystem.GetCollisionEvents(other, collEvents);
         Vector3 loc = collEvents[0].intersection;
         gp.Paint(loc);
+    }
+
+    private void ExplodeLimbs() {
+        for (int i = 0; i < limbs.Length; i++)
+        {
+            //add a small random force
+            GameObject go = limbs[i];
+            go.transform.localPosition = startPositions[i];
+            Rigidbody rb = go.GetComponent<Rigidbody>();
+            Vector3 explodeDirection = Random.onUnitSphere;
+            explodeDirection.y = Random.Range(2.5f, 4f);
+            explodeDirection.Normalize();
+
+            rb.AddForceAtPosition(explodeDirection* limbExplodeForce, go.transform.position + Random.onUnitSphere);            
+        }
     }
     
 }

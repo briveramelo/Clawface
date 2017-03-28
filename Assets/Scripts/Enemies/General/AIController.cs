@@ -3,6 +3,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using MovementEffects;
+using System;
 
 public abstract class AIController : MonoBehaviour {
 
@@ -10,13 +12,23 @@ public abstract class AIController : MonoBehaviour {
 
     [HideInInspector] public float timeInLastState = 0;
     [HideInInspector] public bool stateTimerIsRunning = false;
-    [HideInInspector] public Transform attackTarget;
+    [HideInInspector]
+    public Transform AttackTarget {
+        get {
+            if (attackTarget==null) {
+                attackTarget = FindPlayer();
+            }
+            return attackTarget;
+        }
+        set { attackTarget = value; }
+    }
+    private Transform attackTarget;
 
     protected Stats stats;
-    protected float distanceFromTarget {get{ return Vector3.Distance(transform.position, attackTarget.position); }}
+    protected float distanceFromTarget {get{ return Vector3.Distance(transform.position, AttackTarget.position); }}
     public Vector3 directionToTarget {
         get {
-            Vector3 dir = attackTarget.position - transform.position;
+            Vector3 dir = AttackTarget.position - transform.position;
             dir.y = 0;
             return dir.normalized;
         }
@@ -31,31 +43,45 @@ public abstract class AIController : MonoBehaviour {
             currentState = value;
             DEBUG_CURRENTSTATE = currentState.ToString();
             currentState.OnEnter();
-            StartCoroutine(IERestartStateTimer());
+            Timing.RunCoroutine(IERestartStateTimer());
+        }
+    }
+    protected List<Func<bool>> checksToUpdateState = new List<Func<bool>>();
+
+    protected virtual void Update() {
+        bool hasUpdated = false;
+        checksToUpdateState.ForEach(check => {
+            if (!hasUpdated && check()) {
+                hasUpdated = true;
+            }
+        });
+        if (currentState!=null) {
+            currentState.Update();
         }
     }
 
-    protected virtual void Update() {
-        currentState.Update();
-    }
-
-    public virtual void Reset() {
+    public virtual void ResetForRebirth() {
         stateTimerIsRunning = false;
         timeInLastState = 0f;
     }
 
     public void RestartStateTimer() {
-        StartCoroutine(IERestartStateTimer());
+        Timing.RunCoroutine(IERestartStateTimer());
     }
 
-    protected virtual IEnumerator IERestartStateTimer() {
+    public Transform FindPlayer()
+    {
+        return GameObject.FindGameObjectWithTag(Strings.Tags.PLAYER).transform;
+    }
+
+    protected IEnumerator<float> IERestartStateTimer() {
         stateTimerIsRunning = false;
-        yield return new WaitForEndOfFrame();
+        yield return Timing.WaitForOneFrame;
         timeInLastState = 0f;
         stateTimerIsRunning = true;
         while (stateTimerIsRunning) {
             timeInLastState += Time.deltaTime;
-            yield return new WaitForEndOfFrame();
+            yield return Timing.WaitForOneFrame;
         }
     }
 }

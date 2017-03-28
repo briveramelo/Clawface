@@ -123,6 +123,10 @@ public class Scheme2 : IControlScheme {
                         if (controller.GetRightPrimary(mode))
                             return true;
                         break;
+                    case Strings.Input.Actions.PAUSE:
+                        if (controller.GetStart(mode))
+                            return true;
+                        break;
                     default:
                         throw new Exception("Bad Controller Action String: " + action);
                 }

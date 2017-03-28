@@ -98,6 +98,8 @@ public class GrapplerMod : Mod {
         wielderMovable = null;
         sharedVariables.modSpot = ModSpot.Default;
     }
+
+    public bool HitTargetThisShot() { return sharedVariables.hitTargetThisShot; }
     #endregion
 
     #region Private Methods
@@ -109,6 +111,7 @@ public class GrapplerMod : Mod {
         public bool throwHook;
         public bool retractHook;
         public bool specialAttack;
+        public bool hitTargetThisShot;
         public IMovable wielderMovable;
         public ModSpot modSpot;
     }

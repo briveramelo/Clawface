@@ -37,6 +37,7 @@
             public const string BLOCK = "BLOCK"; // REMOVE?
             public const string LOCK = "LOCK"; // REMOVE?
             public const string DODGE = "DODGE";
+            public const string PAUSE = "PAUSE";
         }
     }
 }

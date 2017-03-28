@@ -159,6 +159,9 @@ public class CameraTrack : MonoBehaviour {
 
         // First position
         if (index == -1) {
+            if (_speed == null)
+                _speed = new AnimationCurve();
+
             _speed.AddKey (0f, 0f);
             _speed.AddKey (1f, 1f);
 

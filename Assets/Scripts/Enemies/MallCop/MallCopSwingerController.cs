@@ -3,78 +3,73 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class MallCopSwingerController : MallCopController {
 
     public float strikingDistance;
 
-    protected override void Update() {
-
-        bool justSwitchedState = false;
-        CheckToPatrol(ref justSwitchedState);
-        CheckForFinishedSwing(ref justSwitchedState);
-        CheckToSwing(ref justSwitchedState);
-        CheckForFinishedTwitch(ref justSwitchedState);
-
-        base.Update();
+    void Start() {
+        checksToUpdateState = new List<Func<bool>>() {
+            CheckToSwing,
+            CheckToPatrol,
+            CheckForFinishedSwing,
+            CheckForFinishedTwitch
+        };
     }
 
     private void OnTriggerStay(Collider other) {
         if ((other.gameObject.tag == Strings.Tags.PLAYER) &&
             CurrentState != states.chase && CurrentState != states.swing) {
 
-            attackTarget = other.transform;
+            AttackTarget = other.transform;
             UpdateState(EMallCopState.Chase);
         }
     }
 
-    void CheckToSwing(ref bool justSwitchedState) {
-        if (!justSwitchedState) {
-            if (CurrentState == states.chase) {                
-                bool inStrikingDistance = distanceFromTarget < strikingDistance;
+    bool CheckToSwing() {
+        if (CurrentState == states.chase) {                
+            bool inStrikingDistance = distanceFromTarget < strikingDistance;
 
-                if (inStrikingDistance) {
-                    UpdateState(EMallCopState.Swing);
-                    justSwitchedState = true;
-                }
+            if (inStrikingDistance) {
+                UpdateState(EMallCopState.Swing);
+                return true;
             }
         }
+        return false;        
     }
 
-    void CheckToPatrol(ref bool justSwitchedState) {
-        if (!justSwitchedState) {
-            if (CurrentState == states.chase &&
-                timeInLastState > properties.maxChaseTime &&
-                attackTarget != null) {
+    bool CheckToPatrol() {
+        if (CurrentState == states.chase &&
+            timeInLastState > properties.maxChaseTime &&
+            AttackTarget != null) {
 
-                UpdateState(EMallCopState.Patrol);
-                justSwitchedState = true;
+            UpdateState(EMallCopState.Patrol);
+            return true;
+        }        
+        return false;
+    }
+
+    bool CheckForFinishedSwing() {
+        if (CurrentState == states.swing && states.swing.CanRestart()) {                
+            if (distanceFromTarget > strikingDistance) {
+                UpdateState(EMallCopState.Chase);
+            }
+            else {
+                UpdateState(EMallCopState.Swing);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    bool CheckForFinishedTwitch() {        
+        if (CurrentState == states.twitch && !states.twitch.IsMidTwitch()) {
+            if (stats.health > 0) {
+                UpdateState(EMallCopState.Chase);
+                return true;
             }
         }
-    }
-
-    void CheckForFinishedSwing(ref bool justSwitchedState) {
-        if (!justSwitchedState) {
-            if (CurrentState == states.swing && states.swing.CanRestart()) {                
-                if (distanceFromTarget > strikingDistance) {
-                    UpdateState(EMallCopState.Chase);
-                }
-                else {
-                    UpdateState(EMallCopState.Swing);
-                }
-                justSwitchedState = true;
-            }            
-        }
-    }
-
-    void CheckForFinishedTwitch(ref bool justSwitchedState) {
-        if (!justSwitchedState) {
-            if (CurrentState == states.twitch && !states.twitch.IsMidTwitch()) {
-                if (stats.health > 0) {
-                    UpdateState(EMallCopState.Chase);
-                    justSwitchedState = true;
-                }
-            }
-        }
+        return false;
     }
 }

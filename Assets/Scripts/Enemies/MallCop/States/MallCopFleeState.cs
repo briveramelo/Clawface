@@ -3,6 +3,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using MovementEffects;
 
 public class MallCopFleeState : MallCopState {
 
@@ -10,10 +11,10 @@ public class MallCopFleeState : MallCopState {
 
     public override void OnEnter() {
         JumpAway();
-        controller.StartCoroutine(RunFleeTimer());
+        Timing.RunCoroutine(RunFleeTimer());
     }
     public override void Update() {
-        velBody.LookAt(controller.attackTarget);
+        velBody.LookAt(controller.AttackTarget);
         velBody.velocity = Vector3.zero;
     }
     public override void OnExit() {
@@ -29,9 +30,9 @@ public class MallCopFleeState : MallCopState {
         velBody.AddDecayingForce(jumpDir * ((MallCopBlasterController)controller).fleeForce);
     }
 
-    IEnumerator RunFleeTimer() {
+    IEnumerator<float> RunFleeTimer() {
         isFinishedFleeing = false;
-        yield return new WaitForSeconds(.5f);
+        yield return Timing.WaitForSeconds(.5f);
         isFinishedFleeing = true;
     }
 
