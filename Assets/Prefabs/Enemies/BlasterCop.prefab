@@ -1112,7 +1112,6 @@ MonoBehaviour:
   DEBUG_CURRENTSTATE: 
   timeInLastState: 0
   stateTimerIsRunning: 0
-  attackTarget: {fileID: 0}
   fleeForce: 40
   maxDistanceBeforeChasing: 15
   distanceToFire: 9
@@ -1168,8 +1167,6 @@ MonoBehaviour:
   myStats: {fileID: 114562163281978664}
   mySkin: {fileID: 1558599077418482, guid: d3ea349167ea0b042acea2cceeb31643, type: 2}
   mod: {fileID: 114969724012723138}
-  MallCopGoreExplosion: {fileID: 1525977427810654, guid: 0de85c3b32189a24d830e65678bb6457,
-    type: 2}
 --- !u!114 &114562163281978664
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1210,11 +1207,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8baf5dc5eb76d149b8ecb529cbc7c96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rigbod: {fileID: 54902092078257302}
   foot: {fileID: 4313216080101678}
-  footSphereRadius: 0.1
-  isFalling: 0
-  isGrounded: 0
+  rigbod: {fileID: 54902092078257302}
 --- !u!114 &114969724012723138
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1253,7 +1247,7 @@ CapsuleCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1385345176205422}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.2
   m_Height: 1
