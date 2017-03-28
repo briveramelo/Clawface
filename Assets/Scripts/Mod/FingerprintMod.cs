@@ -24,7 +24,7 @@ public class FingerprintMod : Mod {
         }
     }
 
-    public override void AttachAffect(ref Stats playerStats, ref MoveState playerMovement)
+    public override void AttachAffect(ref Stats playerStats, IMovable wielderMovable)
     {
         attached = true;
         unlockColliderVolume.enabled = true;
@@ -80,4 +80,9 @@ public class FingerprintMod : Mod {
 	// Update is called once per frame
 	void Update () {
 	}
+
+    public override void AlternateActivate(bool isHeld, float holdTime)
+    {
+        
+    }
 }

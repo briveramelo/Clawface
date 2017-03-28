@@ -55,8 +55,8 @@ public class Scheme2 : IControlScheme {
                     case Strings.Input.Actions.NAV_RIGHT:
                         modes[i] = controllers[i].GetDPadRight();
                         break;
-                    case Strings.Input.Actions.BLOCK:
-                        modes[i] = controllers[i].GetLeftPrimary();
+                    case Strings.Input.Actions.DODGE:
+                        modes[i] = controllers[i].GetRightTertiary();
                         break;
                     case Strings.Input.Actions.LOCK:
                         modes[i] = controllers[i].GetRightPrimary();
@@ -115,12 +115,16 @@ public class Scheme2 : IControlScheme {
                         if (controller.GetDPadRight(mode))
                             return true;
                         break;
-                    case Strings.Input.Actions.BLOCK:
-                        if (controller.GetLeftPrimary(mode))
+                    case Strings.Input.Actions.DODGE:
+                        if (controller.GetRightTertiary(mode))
                             return true;
                         break;
                     case Strings.Input.Actions.LOCK:
                         if (controller.GetRightPrimary(mode))
+                            return true;
+                        break;
+                    case Strings.Input.Actions.PAUSE:
+                        if (controller.GetStart(mode))
                             return true;
                         break;
                     default:

@@ -7,19 +7,11 @@ public class MoveState : MonoBehaviour, IPlayerState
 {
     #region Private Fields
     PlayerStateManager.StateVariables moveStateVariables;
-    Vector3 currentEnemyVector;
-    private bool isGrounded;
-    private bool isFalling = false;
     private float sphereRadius = 0.1f;
-    private Vector3 movement;
-    private List<Vector3> externalForces;
-    private List<Vector3> externalForcesToAdd;
-    private bool axisInput;
+    private Vector3 moveDirection;
     private bool isSidescrolling;
     private bool canMove;
-    private Vector3 velocity;
-    private Vector3 lastMovement;
-    private float maxSpeed;
+    private Vector3 lastMoveDirection;
     private float currentSpeed;
     #endregion
 
@@ -29,234 +21,115 @@ public class MoveState : MonoBehaviour, IPlayerState
         this.moveStateVariables = moveStateVariables;
         canMove = true;
         isSidescrolling = false;
-        externalForces = new List<Vector3>();
-        externalForcesToAdd = new List<Vector3>();
-        for (int i = 0; i < 100; i++)
-        {
-            externalForces.Add(Vector3.zero);
-        }
+        lastMoveDirection = transform.forward;
     }
 
     public void StateUpdate()
-    {        
-        if (moveStateVariables.currentEnemy != null)
-        {
-            currentEnemyVector = moveStateVariables.currentEnemy.transform.position;
+    {                
+        Vector2 controllerMoveDir = InputManager.Instance.QueryAxes(Strings.Input.Axes.MOVEMENT);
+        bool isAnyAxisInput = controllerMoveDir.magnitude > moveStateVariables.axisThreshold;
+        if (!isAnyAxisInput) {
+            controllerMoveDir = Vector2.zero;
         }
-        Vector2 move = InputManager.Instance.QueryAxes(Strings.Input.Axes.MOVEMENT);
-        axisInput = !Mathf.Approximately(move.magnitude, 0F);
 
-        Vector2 moveModified = new Vector2(move.x, move.y);
+        Vector2 moveModified = new Vector2(controllerMoveDir.x, controllerMoveDir.y);
 
         if (isSidescrolling)
         {
             moveModified.y = 0F;
         }
 
-        movement = new Vector3(moveModified.x, 0.0F, moveModified.y);
+        moveDirection = new Vector3(moveModified.x, 0.0F, moveModified.y);
 
         if (!canMove)
         {
-            movement = Vector3.zero;
+            moveDirection = Vector3.zero;
+            lastMoveDirection = Vector3.zero;
         }
 
-        velocity = moveStateVariables.rb.velocity;
+        moveDirection = Camera.main.transform.TransformDirection(moveDirection);
+        moveDirection.y = 0f;
+        moveDirection.Normalize();
 
-        movement = Camera.main.transform.TransformDirection(movement);
-
-        movement.y = 0f;
-
-        movement = movement.normalized;
-
-        if (movement != Vector3.zero)
+        if (moveDirection != Vector3.zero)
         {
-            lastMovement = movement;
-        }
-
-        isGrounded = IsGrounded();
-        maxSpeed = moveStateVariables.statsManager.GetStat(StatType.MoveSpeed);
+            lastMoveDirection = moveDirection;
+        }        
     }
 
     public void StateFixedUpdate()
     {
-        switch (moveStateVariables.movementMode)
+        switch (moveStateVariables.velBody.GetMovementMode())
         {
             case MovementMode.PRECISE:
-                moveStateVariables.rb.velocity = movement * moveStateVariables.statsManager.GetStat(StatType.MoveSpeed) + GetExternalForceSum();
-                if (moveStateVariables.rb.velocity != Vector3.zero)
-                {
-                    if (moveStateVariables.animator.GetInteger(Strings.ANIMATIONSTATE) != (int)PlayerAnimationStates.Running)
-                    {
-                        moveStateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Running);
-                    }
-                }
-                else
-                {
-                    if (moveStateVariables.animator.GetInteger(Strings.ANIMATIONSTATE) != (int)PlayerAnimationStates.Idle)
-                    {
-                        moveStateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Idle);
-                    }
-                }
+                MovePrecise();
                 break;
             case MovementMode.ICE:
-
-                if (moveStateVariables.animator.GetInteger(Strings.ANIMATIONSTATE) != (int)PlayerAnimationStates.Idle)
-                {
-                    moveStateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Idle);
-                }
-
-                moveStateVariables.rb.AddForce(movement * moveStateVariables.acceleration * Time.fixedDeltaTime);
-
-                foreach (Vector3 vector in externalForcesToAdd)
-                {
-                    moveStateVariables.rb.AddForce(vector * Time.fixedDeltaTime);
-                }
-
-
-                Vector3 flatMovement = new Vector3(moveStateVariables.rb.velocity.x, 0f, moveStateVariables.rb.velocity.z);
-                currentSpeed = flatMovement.magnitude;
-
-                if (currentSpeed > moveStateVariables.statsManager.GetStat(StatType.MoveSpeed))
-                {
-                    Vector3 currentFlatVelocity = flatMovement;
-                    currentFlatVelocity = -currentFlatVelocity;
-                    currentFlatVelocity = currentFlatVelocity.normalized;
-                    currentFlatVelocity *= (currentSpeed - moveStateVariables.statsManager.GetStat(StatType.MoveSpeed));
-                    currentFlatVelocity *= moveStateVariables.manualDrag;
-                    moveStateVariables.rb.AddForce(currentFlatVelocity);
-                }
-                externalForcesToAdd.Clear();
-
-                break;
-            default:
-                moveStateVariables.rb.velocity = movement * moveStateVariables.statsManager.GetStat(StatType.MoveSpeed) + GetExternalForceSum();
-                break;
+                MoveIce();
+                break;            
         }
-
-        if (!axisInput)
-        {
-            if (moveStateVariables.currentEnemy != null)
-            {
-                transform.LookAt(currentEnemyVector, Vector3.up);
-                Quaternion rotation = transform.rotation;
-                rotation.x = 0;
-                rotation.z = 0;
-                transform.rotation = rotation;
-            }
-            else if (lastMovement != Vector3.zero)
-            {
-                if (lastMovement != Vector3.zero)
-                {
-                    transform.forward = lastMovement;
-                }
-            }
-        }
-        else if (movement != Vector3.zero)
-        {
-            if (moveStateVariables.currentEnemy != null)
-            {
-                transform.LookAt(currentEnemyVector, Vector3.up);
-                Quaternion rotation = transform.rotation;
-                rotation.x = 0;
-                rotation.z = 0;
-                transform.rotation = rotation;
-            }
-            else
-            {
-                transform.forward = movement;
-            }
-        }
-        velocity = moveStateVariables.rb.velocity;
-        currentSpeed = moveStateVariables.rb.velocity.magnitude;
+        HandleRotation();            
     }
+
+
     #endregion
 
     #region Private Methods
-    private bool IsGrounded()
-    {
-
-        Collider[] cols = Physics.OverlapSphere(moveStateVariables.foot.transform.position, sphereRadius);
-        for (int i = 0; i < cols.Length; i++)
+    private void MovePrecise() {
+        moveStateVariables.velBody.velocity = moveDirection * moveStateVariables.statsManager.GetStat(StatType.MoveSpeed) * Time.fixedDeltaTime;
+        if (moveDirection.magnitude > moveStateVariables.axisThreshold)
         {
-            if (cols[i].gameObject.layer == (int)Layers.Ground)
+            if (moveStateVariables.animator.GetInteger(Strings.ANIMATIONSTATE) != (int)PlayerAnimationStates.Running)
             {
-                return true;
+                moveStateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Running);
             }
         }
-        if (!isFalling)
+        else
         {
-            StartCoroutine(ApplyGravity());
+            if (moveStateVariables.animator.GetInteger(Strings.ANIMATIONSTATE) != (int)PlayerAnimationStates.Idle)
+            {
+                moveStateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Idle);
+            }
         }
-        return false;
     }
 
-    private IEnumerator ApplyGravity()
-    {
-        isFalling = true;
-        int currentIndex = externalForces.FindIndex(vec => vec == Vector3.zero);
-        float timeElapsed = 0f;
-        float gravity = 9.81f;
-        while (!isGrounded && isFalling)
+    private void MoveIce() {
+        if (moveStateVariables.animator.GetInteger(Strings.ANIMATIONSTATE) != (int)PlayerAnimationStates.Idle)
         {
-            externalForces[currentIndex] = Vector3.down * (gravity * timeElapsed);
-            timeElapsed += Time.deltaTime;
-            yield return null;
+            moveStateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Idle);
         }
-        isFalling = false;
-        externalForces[currentIndex] = Vector3.zero;
+
+        moveStateVariables.velBody.AddDecayingForce(moveDirection * moveStateVariables.acceleration * Time.fixedDeltaTime);
+
+        Vector3 flatMovement = new Vector3(moveStateVariables.velBody.velocity.x, 0f, moveStateVariables.velBody.velocity.z);
+        currentSpeed = flatMovement.magnitude;
+
+        if (currentSpeed > moveStateVariables.statsManager.GetStat(StatType.MoveSpeed))
+        {
+            Vector3 currentFlatVelocity = flatMovement;
+            currentFlatVelocity = -currentFlatVelocity;
+            currentFlatVelocity.Normalize();
+            currentFlatVelocity *= (currentSpeed - moveStateVariables.statsManager.GetStat(StatType.MoveSpeed));
+            currentFlatVelocity *= moveStateVariables.manualDrag;
+            moveStateVariables.velBody.AddDecayingForce(currentFlatVelocity);
+        }
     }
 
-    private Vector3 GetExternalForceSum()
-    {
-        Vector3 totalExternalForce = Vector3.zero;
-        externalForces.ForEach(force => totalExternalForce += force);
-        return totalExternalForce;
-    }
-    private IEnumerator AddPsuedoForce(Vector3 forceVector, float decay)
-    {
-        int currentIndex = externalForces.FindIndex(vec => vec == Vector3.zero);
-
-        externalForces[currentIndex] = forceVector;
-        while (externalForces[currentIndex].magnitude > .2f)
-        {
-            externalForces[currentIndex] = Vector3.Lerp(externalForces[currentIndex], Vector3.zero, decay);
-            yield return null;
+    private void HandleRotation(){
+        if (moveStateVariables.currentEnemy != null){
+            moveStateVariables.velBody.LookAt(moveStateVariables.currentEnemy.transform);
         }
-        externalForces[currentIndex] = Vector3.zero;
+        else{
+            transform.forward = lastMoveDirection;
+        }
     }
     #endregion
 
     #region Public Methods
-    public void AddExternalForce(Vector3 forceVector, float decay = 0.1f)
-    {
-        switch (moveStateVariables.movementMode)
-        {
-            case MovementMode.PRECISE:
-            default:
-
-                if (canMove)
-                {
-                    StartCoroutine(AddPsuedoForce(forceVector, decay));
-                }
-                break;
-            case MovementMode.ICE:
-                if (canMove)
-                {
-                    externalForcesToAdd.Add(forceVector * moveStateVariables.iceForceMultiplier);
-                }
-                break;
-        }
-    }
     public void SetSidescrolling(bool mode)
     {
         isSidescrolling = mode;
     }
 
-    public void SetMovementMode(MovementMode mode)
-    {
-        moveStateVariables.movementMode = mode;
-        moveStateVariables.rb.useGravity = mode == MovementMode.ICE ? true : false;
-    }
-    
     #endregion
 }

@@ -104,5 +104,14 @@ public class InputManager : Singleton<InputManager> {
             return schemes[activeScheme].QueryAction(controllers, action, mode);
         }
 
+        //// Haptics
+        public void Vibrate(VibrationTargets target, float intensity)
+        {
+            foreach (IController controller in controllers)
+            {
+                controller.Vibrate(target, intensity);
+            }
+        }
+
     #endregion
 }

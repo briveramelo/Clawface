@@ -10,8 +10,7 @@ public enum StatType {
     Defense = 1,
     MoveSpeed = 2,
     Health = 3,
-    MiniMapRange = 4,
-    RangedAccuracy= 5
+    RangedAccuracy= 4
 }
 
 public enum CodexType {
@@ -30,14 +29,18 @@ public enum SFXType {
     ModPickup=8,
     ModDrop=9,
     ModSwap=10,
-    ModSwapSetup=11
+    ModSwapSetup=11,
+    StunBatonHit=12,
+    Pause=13
 }
 
 public enum ModType {
     ForceSegway=0,
     ArmBlaster=1,
     FingerPrint=2,
-    StunBaton=3
+    StunBaton=3,
+    TankTreads = 4,
+    Grappler = 5
 }
 
 public enum ModCategory
@@ -65,10 +68,14 @@ public enum PoolObjectType {
     MineExplosionEffect=1,
     BlasterBullet=2,
     BlasterImpactEffect=3,
-    MallCop=4,
+    MallCopSwinger=4,
     TargetExplosionEffect=5,
     BloodDecal=6,
-    BloodEmitter=7
+    BloodEmitter=7,
+    MallCopBlaster=8,
+    VFXSegwayBlaster=9,
+    MallCopExplosion=10,
+    GrapplingBot=11
 }
 
 public enum WeaponType {
@@ -106,4 +113,48 @@ public enum ButtonMode
     HELD = 1, // is held
     DOWN = 2, // just went down
     IDLE= 3 // is released (not used)
+}
+
+
+public enum VibrationTargets
+{
+    LEFT = 0,
+    RIGHT = 1,
+    BOTH = 2
+}
+
+public enum MallCopAnimationStates {
+    Idle = 0,
+    Walk = 1,
+    Swing = 2,
+    HitReaction = 3,
+    Stunned = 4,
+    GettingUp = 5,
+    DrawGun = 6,
+    Run = 7,
+    Fire = 8
+}
+public enum EMallCopState {
+    Patrol = 0,
+    Swing = 1,
+    Fall = 3,
+    Chase = 4,
+    Twitch = 5,
+    Fire = 6,
+    Flee = 7
+}
+
+public enum EGrapplingBotState {
+    Patrol = 0,
+    Grapple = 1,
+    Explode = 2,
+    Approach = 3,
+    Twitch = 4,
+}
+
+public enum SpawnType {
+    Swinger=0,
+    Blaster=1,
+    Grappler=2,
+
 }

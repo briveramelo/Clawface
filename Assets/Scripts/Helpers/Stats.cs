@@ -4,84 +4,105 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class Stats : MonoBehaviour, IModifiable
-{
+public class Stats : MonoBehaviour, IModifiable {
     #region Serialized Unity Inspector Fields
-    [SerializeField] private StatsObject statsObject;
+    public float attack, defense, health, moveSpeed, rangedAccuracy;
     #endregion
 
     #region Private Fields
-    private StatsObject originalStats;
-    private Dictionary<StatType, VariableReference> statDictionary;
+    private StatsMemento originalStats;
     #endregion
 
     #region Unity LifeCycle
-    void Awake()
-    {
-        statDictionary = new Dictionary<StatType, VariableReference>() {
-            {StatType.Attack, new VariableReference(()=>statsObject.attack, statValue=> {statsObject.attack = (float)statValue; }) },
-            {StatType.Defense, new VariableReference(()=>statsObject.defense, statValue=> {statsObject.defense = (float)statValue; }) },
-            {StatType.Health, new VariableReference(()=>statsObject.health, statValue=> {statsObject.health = (float)statValue; }) },
-            {StatType.MiniMapRange, new VariableReference(()=>statsObject.miniMapRange, statValue=> {statsObject.miniMapRange = (float)statValue; }) },
-            {StatType.MoveSpeed, new VariableReference(()=>statsObject.moveSpeed, statValue=> {statsObject.moveSpeed = (float)statValue; }) },
-            {StatType.RangedAccuracy, new VariableReference(()=>statsObject.rangedAccuracy, statValue=> {statsObject.rangedAccuracy = (float)statValue; }) },
-        };
-        originalStats = new StatsObject(statsObject);
+    void Awake() {
+        originalStats = new StatsMemento(attack, defense, health, moveSpeed, rangedAccuracy);
     }
     #endregion
 
     #region Public Methods
-    public void Modify(StatType statType, float statMultiplier)
-    {
-        statDictionary[statType].Set((float)statDictionary[statType].Get() * statMultiplier);
-    }
-
-    public void Modify(StatType statType, int statAddend)
-    {
-        statDictionary[statType].Set((float)statDictionary[statType].Get() + statAddend);
-    }
-
-    public float GetStat(StatType statType)
-    {
-        return (float)statDictionary[statType].Get();
-    }
-
-    public float TakeDamage(float damage)
-    {
-        float newHealthValue = (float)statDictionary[StatType.Health].Get() - damage;
-        if (newHealthValue < 0) {
-            newHealthValue = 0;
+    public void Modify(StatType statType, float statMultiplier) {
+        switch (statType) {
+            case StatType.Attack:
+                attack*=statMultiplier;
+                break;
+            case StatType.Defense:
+                defense *= statMultiplier;
+                break;
+            case StatType.Health:
+                health *= statMultiplier;
+                break;
+            case StatType.MoveSpeed:
+                moveSpeed *= statMultiplier;
+                break;
+            case StatType.RangedAccuracy:
+                rangedAccuracy *= statMultiplier;
+                break;
         }
-        statDictionary[StatType.Health].Set(newHealthValue);
-        return (float)statDictionary[StatType.Health].Get();
     }
 
-    public void ResetStats() {
-        statsObject = originalStats;
+    public void Modify(StatType statType, int statAddend) {
+        switch (statType) {
+            case StatType.Attack:
+                attack += statAddend;
+                break;
+            case StatType.Defense:
+                defense += statAddend;
+                break;
+            case StatType.Health:
+                health += statAddend;
+                break;
+            case StatType.MoveSpeed:
+                moveSpeed += statAddend;
+                break;
+            case StatType.RangedAccuracy:
+                rangedAccuracy += statAddend;
+                break;
+        }
+    }
+
+    public float GetStat(StatType statType) {
+        switch (statType) {
+            case StatType.Attack:
+                return attack;
+            case StatType.Defense:
+                return defense;
+            case StatType.Health:
+                return health;
+            case StatType.MoveSpeed:
+                return moveSpeed;
+            case StatType.RangedAccuracy:
+                return rangedAccuracy;
+        }
+        return -1;
+    }
+
+    public float TakeDamage(float damage) {
+        health-= damage;
+        if (health < 0) {
+            health = 0;
+        }        
+        return health;
+    }
+
+    public void ResetForRebirth() {
+        attack = originalStats.attack;
+        defense = originalStats.defense;
+        health = originalStats.health;
+        moveSpeed = originalStats.moveSpeed;
+        rangedAccuracy = originalStats.rangedAccuracy;
     }
     #endregion
 
     #region Internal Structures
-    class VariableReference
-    {
-        public Func<object> Get { get; private set; }
-        public Action<object> Set { get; private set; }
-        public VariableReference(Func<object> getter, Action<object> setter)
-        {
-            Get = getter;
-            Set = setter;
-        }
-    }
     [Serializable]
-    struct StatsObject {
-        public float attack, defense, health, moveSpeed, miniMapRange, rangedAccuracy;
-        public StatsObject(StatsObject other) {
-            attack = other.attack;
-            defense = other.defense;
-            health = other.health;
-            moveSpeed = other.moveSpeed;
-            miniMapRange = other.miniMapRange;
-            rangedAccuracy = other.rangedAccuracy;
+    struct StatsMemento{
+        public float attack, defense, health, moveSpeed, rangedAccuracy;
+        public StatsMemento(float attack, float defense, float health, float moveSpeed, float rangedAccuracy) {
+            this.attack = attack;
+            this.defense = defense;
+            this.health = health;
+            this.moveSpeed = moveSpeed;
+            this.rangedAccuracy = rangedAccuracy;
         }
     }
     #endregion

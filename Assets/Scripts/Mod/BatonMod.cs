@@ -5,27 +5,26 @@ using UnityEngine;
 
 public class BatonMod : Mod {
 
-    [SerializeField]
-    private float attackBoostValue;
+    [SerializeField] private Collider attackCollider;
+    [SerializeField] private Transform batonTip;
+    [SerializeField] private VFXStunBatonImpact impactEffect;
+    [SerializeField] private Rigidbody rigbod;
+    [SerializeField] private float attackBoostValue;
+
+    private VFXHandler vfxHandler;
     private float attackValue;
     private float attackTime = 1f;
-
-    [SerializeField]
-    private Collider attackCollider;
-    bool isHitting;
-
-    [SerializeField]
-    private VFXStunBatonImpact impactEffect;
+    private bool isSwinging;
 
     public override void Activate()
     {
         switch (getModSpot())
         {
             case ModSpot.ArmL:
-                Hit();
+                Swing();
                 break;
             case ModSpot.ArmR:
-                Hit();
+                Swing();
                 break;
             case ModSpot.Legs:
                 LayMine();
@@ -44,24 +43,16 @@ public class BatonMod : Mod {
     {
         type = ModType.StunBaton;
         category = ModCategory.Melee;
-        attackCollider.enabled = false;
+        vfxHandler = new VFXHandler(transform);
     }
 
-    // Use this for initialization
-    void Start () {        
-    }
-	
-	// Update is called once per frame
-	void Update () {        
-	}
-
-    void Hit()
+    void Swing()
     {        
-        if (!isHitting)
+        if (!isSwinging)
         {
             AudioManager.Instance.PlaySFX(SFXType.StunBatonSwing);
             
-            isHitting = true;
+            isSwinging = true;
             StartCoroutine(HitCoolDown());
         }
     }
@@ -70,7 +61,7 @@ public class BatonMod : Mod {
     {
         yield return new WaitForSeconds(attackTime);
         recentlyHitEnemies.Clear();
-        isHitting = false;
+        isSwinging = false;
     }
 
     void LayMine()
@@ -79,31 +70,33 @@ public class BatonMod : Mod {
         if (stunMine != null)
         {
             stunMine.transform.position = transform.position;
-            stunMine.SetActive(true);
             AudioManager.Instance.PlaySFX(SFXType.StunBatonLayMine);
         }
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (isHitting)
-        {
-            IDamageable damageable = other.gameObject.GetComponent<IDamageable>();
-            if (damageable != null && !recentlyHitEnemies.Contains(damageable))
-            {
-                if (other.tag != Strings.Tags.PLAYER)
-                {
-                    //TODO check that the player swinging IS NOT a mallcop...
-                    HitstopManager.Instance.StartHitstop(.2f);
-                }
-                impactEffect.Emit();
-                damageable.TakeDamage(attackValue);
-                recentlyHitEnemies.Add(damageable);
-                IStunnable stunnable = other.gameObject.GetComponent<IStunnable>();
-                if (stunnable != null)
-                {
-                    stunnable.Stun();
-                        
+        if (isSwinging){
+            if (GetWielderInstanceID() != other.gameObject.GetInstanceID() &&
+                (other.gameObject.CompareTag(Strings.Tags.PLAYER) ||
+                other.gameObject.CompareTag(Strings.Tags.ENEMY))){
+
+                IDamageable damageable = other.GetComponent<IDamageable>();
+                if (damageable != null && !recentlyHitEnemies.Contains(damageable)){
+                    if (transform.root.CompareTag(Strings.Tags.PLAYER)){
+                        AudioManager.Instance.PlaySFX(SFXType.StunBatonHit);
+                        HitstopManager.Instance.StartHitstop(.05f);                        
+                    }
+                    if (!other.CompareTag(Strings.Tags.PLAYER)) {
+                        EmitBlood();
+                    }
+                    impactEffect.Emit();
+                    damageable.TakeDamage(attackValue);
+                    recentlyHitEnemies.Add(damageable);
+                    IStunnable stunnable = other.GetComponent<IStunnable>();
+                    if (stunnable != null){
+                        stunnable.Stun();
+                    }
                 }
             }
         }
@@ -111,20 +104,20 @@ public class BatonMod : Mod {
 
     void BoostAttack()
     {
-        playerStats.Modify(StatType.Attack, attackBoostValue);
+        wielderStats.Modify(StatType.Attack, attackBoostValue);
     }
 
     void RemoveAttackBoost()
     {
-        playerStats.Modify(StatType.Attack, 1 / attackBoostValue);
+        wielderStats.Modify(StatType.Attack, 1 / attackBoostValue);
     }
 
-    public override void AttachAffect(ref Stats i_playerStats, ref MoveState playerMovement)
+    public override void AttachAffect(ref Stats i_playerStats, IMovable wielderMovable)
     {
         attackCollider.enabled = true;
-        playerStats = i_playerStats;
+        wielderStats = i_playerStats;
         pickupCollider.enabled = false;
-        attackValue = playerStats.GetStat(StatType.Attack);
+        attackValue = wielderStats.GetStat(StatType.Attack);
     }
 
     public override void DetachAffect()
@@ -132,5 +125,17 @@ public class BatonMod : Mod {
         attackCollider.enabled = false;
         pickupCollider.enabled = true;
         attackValue = 0.0f;
+    }
+
+    public override void AlternateActivate(bool isHeld, float holdTime)
+    {
+        
+    }
+
+    private void EmitBlood() {
+        Vector3 bloodDirection = transform.root.rotation.eulerAngles;
+        bloodDirection.x = 23.38f;
+        Quaternion emissionRotation = Quaternion.Euler(bloodDirection);
+        vfxHandler.EmitBloodInDirection(emissionRotation, transform.position);
     }
 }

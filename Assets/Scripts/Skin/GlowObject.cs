@@ -5,8 +5,9 @@ using ModMan;
 
 public class GlowObject : MonoBehaviour
 {
-	[SerializeField] Color glowColor;
-	[SerializeField, Range(0.01f, 0.1f)] float lerpFactor;
+    [HideInInspector] public bool isGlowing;
+    [SerializeField] Color glowColor;
+	[SerializeField, Range(0.01f, 0.1f)] private float lerpFactor;
 
 	private List<Material> materials = new List<Material>();
 	
@@ -17,17 +18,20 @@ public class GlowObject : MonoBehaviour
 		foreach (var renderer in GetComponentsInChildren<Renderer>()){
 			materials.AddRange(renderer.materials);
 		}
+        isGlowing = false;
     }
 
     public void SetToGlow() {
+        isGlowing = true;
         StartCoroutine(TurnOnGlow());
     }
 
-    public void ResetToNormal() {
+    public void ResetForRebirth() {
+        isGlowing = false;
         materials.ForEach(mat => { mat.SetColor("_GlowColor", Color.clear); });
     }
 
-    IEnumerator TurnOnGlow(){
+    private IEnumerator TurnOnGlow(){
         Color currentColor = materials[0].color;
         while (!currentColor.IsAboutEqual(glowColor)){
             currentColor = Color.Lerp(currentColor, glowColor, lerpFactor);
