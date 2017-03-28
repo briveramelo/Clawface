@@ -66,7 +66,6 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
                 //TODO: update state to hit reaction state, THEN to chase (too abrupt right now)
                 //TODO: Create hit reaction state
                 if (controller.ECurrentState == EMallCopState.Patrol) {
-                    controller.attackTarget = FindPlayer();
                     controller.UpdateState(EMallCopState.Chase);
                 }
             }
@@ -103,11 +102,7 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
 
     #endregion
 
-    #region 6. Private Methods
-
-    private Transform FindPlayer() {
-        return GameObject.FindGameObjectWithTag(Strings.Tags.PLAYER).transform;
-    }
+    #region 6. Private Methods    
 
     private void OnDeath() {
         if (will.willHasBeenWritten)

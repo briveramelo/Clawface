@@ -94,6 +94,7 @@ public class VelocityBody : MonoBehaviour, IMovable{
         isGrounded = false;
         isKinematic = false;
         velocity = Vector3.zero;
+        rigbod.velocity = Vector3.zero;
     }
 
     private IEnumerator<float> IEAddDecayingForce(Vector3 forceVector, float decay) {

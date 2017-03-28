@@ -13,7 +13,7 @@ public class MallCopSwingState : MallCopState {
     }
     public override void Update() {
         velBody.velocity = Vector3.zero;
-        velBody.LookAt(controller.attackTarget);        
+        velBody.LookAt(controller.AttackTarget);        
     }
     public override void OnExit() {
         
