@@ -42,6 +42,7 @@ public class PlayerModAnimationManager : MonoBehaviour {
                 {
                     isPlaying = true;
                     animator.SetInteger(Strings.ANIMATIONSTATE, animationState);
+                    StopAllCoroutines();
                     StartCoroutine(WaitForAnimation());
                 }
                 else
@@ -49,6 +50,7 @@ public class PlayerModAnimationManager : MonoBehaviour {
                     isPlaying = true;
                     PlayerAnimationStates state = (PlayerAnimationStates)animationState;
                     animator.Play(state.ToString(), -1, 0f);
+                    StopAllCoroutines();
                     StartCoroutine(WaitForAnimation());
                 }
             }
@@ -61,10 +63,12 @@ public class PlayerModAnimationManager : MonoBehaviour {
 
     IEnumerator WaitForAnimation()
     {
-        while(animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.95)
+        //print("Waiting for animation "+ animator.GetInteger(Strings.ANIMATIONSTATE) + " to finish");
+        while (animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.95)
         {
             yield return null;
         }
+        //print("Animation " + animator.GetInteger(Strings.ANIMATIONSTATE) + " finished");
         AnimationDone();
     }
 

@@ -13,6 +13,12 @@ public abstract class Mod : MonoBehaviour {
     protected Stats wielderStats;
     protected IMovable wielderMovable;
     protected List<IDamageable> recentlyHitEnemies = new List<IDamageable>();
+    protected int GetWielderInstanceID() {
+        if (wielderStats != null) {
+            return wielderStats.gameObject.GetInstanceID();
+        }
+        return 0;
+    }
     #endregion
 
     #region Serialized Unity Inspector fields
@@ -29,6 +35,8 @@ public abstract class Mod : MonoBehaviour {
 
     #region Public Methods
     public abstract void Activate();
+
+    public abstract void AlternateActivate(bool isHeld, float holdTime);
 
     public abstract void DeActivate();
 

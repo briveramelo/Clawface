@@ -84,7 +84,7 @@ public class Stats : MonoBehaviour, IModifiable {
         return health;
     }
 
-    public void Reset() {
+    public void ResetForRebirth() {
         attack = originalStats.attack;
         defense = originalStats.defense;
         health = originalStats.health;

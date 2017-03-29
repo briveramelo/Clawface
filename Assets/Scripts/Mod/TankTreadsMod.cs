@@ -72,15 +72,17 @@ public class TankTreadsMod : Mod
     private bool armChargedAttackHitboxIsActive;
     private bool legAttackHitboxIsActive;
 
-    private List<Transform> objectsHitDuringAttack;    
+    private List<Transform> objectsHitDuringAttack;
     private bool canAttackAgain;
+
+    private float legsTimer;
     #endregion Privates
 
     #region Unity Lifetime
 
     // Use this for initialization
     void Start()
-    {        
+    {
         attackCollider.enabled = false;
         setModSpot(ModSpot.Default);
         objectsHitDuringAttack = new List<Transform>();
@@ -92,59 +94,18 @@ public class TankTreadsMod : Mod
         switch (getModSpot())
         {
             case ModSpot.ArmL:
-                if (!canAttackAgain) return;
-
-                if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_LEFT, ButtonMode.HELD))
-                {
-                    chargeTimer += Time.deltaTime;
-                    //pMove.CanMove(false);
-                }
-                if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_LEFT, ButtonMode.UP)) 
-                {
-                    //pMove.CanMove(true);
-                    if (chargeTimer >= chargeTime)
-                    {
-                        ChargedHit();
-                    }
-                    else
-                    {
-                        Hit();
-                    }
-                    chargeTimer = 0f;
-                }
                 break;
 
             case ModSpot.ArmR:
-                if (!canAttackAgain) return;
-
-                if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_RIGHT, ButtonMode.HELD))
-                {
-                    chargeTimer += Time.deltaTime;
-                    //pMove.CanMove(false);
-                }
-
-                if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_RIGHT, ButtonMode.UP))
-                {
-                    //pMove.CanMove(true);
-                    if (chargeTimer >= chargeTime)
-                    {
-                        ChargedHit();
-                    }
-                    else
-                    {
-                        Hit();
-                    }
-                    chargeTimer = 0f;
-                }
-
                 break;
+
             case ModSpot.Legs:
-                if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_LEGS, ButtonMode.DOWN))
+                legsTimer -= Time.deltaTime;
+
+                if (wielderMovable.IsGrounded())
                 {
-                    if (wielderMovable.IsGrounded())
-                    {
-                        wielderMovable.AddDecayingForce(Vector3.up * jumpForce);
-                    }
+                    legAttackHitboxIsActive = false;
+                    attackCollider.enabled = false;
                 }
                 break;
         }
@@ -157,21 +118,23 @@ public class TankTreadsMod : Mod
 
     private void OnTriggerStay(Collider other)
     {
+        IDamageable damageable = other.transform.root.GetComponentInChildren<IDamageable>();
+        IMovable movable = other.transform.root.GetComponentInChildren<IMovable>();
+
         if (armRegularAttackHitboxIsActive)
         {
             if (objectsHitDuringAttack.Contains(other.transform.root)) return;
-            IDamageable damageable = other.GetComponent<IDamageable>();
 
             if (damageable != null)
             {
                 objectsHitDuringAttack.Add(other.transform.root);
 
-                if (!other.transform.root.CompareTag(Strings.Tags.PLAYER) &&
-                    transform.root.CompareTag(Strings.Tags.PLAYER)) {
-                    // If the player is the one attacking
-
+                // If the player is the one attacking, and they're attacking something other than the player
+                if (!other.transform.root.CompareTag(Strings.Tags.PLAYER) && transform.root.CompareTag(Strings.Tags.PLAYER)) {
                     HitstopManager.Instance.StartHitstop(armRegularHitstop);
                 }
+
+
                 if (!transform.root.CompareTag(other.transform.root.tag)) {
                     damageable.TakeDamage(armRegularDamage);
                 }
@@ -181,44 +144,27 @@ public class TankTreadsMod : Mod
         {
             if (objectsHitDuringAttack.Contains(other.transform.root)) return;
 
-            IDamageable damageable = other.GetComponent<IDamageable>();
-            IMovable movable = other.GetComponent<IMovable>();
             if (damageable != null)
             {
-                if (this.transform.root.tag == Strings.Tags.PLAYER)
+                if (this.transform.root.tag == Strings.Tags.PLAYER && other.transform.root.tag != Strings.Tags.PLAYER)
                 {
-                    // If the player is the one attacking
-                    if (other.transform.root.tag != Strings.Tags.PLAYER)
-                    {
-                        HitstopManager.Instance.StartHitstop(armChargedHitstop);
-                        damageable.TakeDamage(armChargedDamage);
-                    }
+                    HitstopManager.Instance.StartHitstop(armChargedHitstop);
                 }
-                else
+
+                if (!transform.root.CompareTag(other.transform.root.tag))
                 {
-                    // If the enemy is the one attacking, they can only affect the player
-                    if (other.transform.root.tag == Strings.Tags.PLAYER)
-                    {
-                        damageable.TakeDamage(armChargedDamage);
-                    }
+                    damageable.TakeDamage(armChargedDamage);
                 }
             }
+
             if (movable != null)
             {
-                if (this.transform.root.tag == Strings.Tags.PLAYER)
+                if (!this.transform.root.CompareTag(other.transform.root.tag))
                 {
-                    // If the player is the one attacking
                     movable.AddDecayingForce(GetNormalizedDistance(this.transform.root, other.transform.root) * armChargedForce);
                 }
-                else
-                {
-                    // If the enemy is the one attacking, they can only affect the player
-                    if (other.transform.root.tag == Strings.Tags.PLAYER)
-                    {
-                        movable.AddDecayingForce(GetNormalizedDistance(this.transform.root, other.transform.root) * armChargedForce);
-                    }
-                }
             }
+
             if (damageable != null || movable != null)
             {
                 objectsHitDuringAttack.Add(other.transform.root);
@@ -226,7 +172,25 @@ public class TankTreadsMod : Mod
         }
         else if (legAttackHitboxIsActive)
         {
+            if (damageable != null)
+            {
+                if (legsTimer < 0f)
+                {
+                    if (!this.transform.root.CompareTag(other.transform.root.tag))
+                    {
+                        damageable.TakeDamage(legsCrushDamage);
+                        legsTimer = timeBetweenLegsDamageTick;
+                        legAttackHitboxIsActive = false;
+                        attackCollider.enabled = false;
 
+                        IMovable selfMovable = this.transform.root.GetComponentInChildren<IMovable>();
+                        if (selfMovable != null)
+                        {
+                            selfMovable.AddDecayingForce(Vector3.up * jumpForce);
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -237,8 +201,43 @@ public class TankTreadsMod : Mod
     public override void Activate()
     {
 
+        switch (getModSpot())
+        {
+            case ModSpot.ArmL:
+            case ModSpot.ArmR:
+                if (!canAttackAgain) return;
+                Hit();
+                break;
+
+            case ModSpot.Legs:
+                if (wielderMovable.IsGrounded())
+                {
+                    wielderMovable.AddDecayingForce(Vector3.up * jumpForce);
+                    legAttackHitboxIsActive = true;
+                    attackCollider.enabled = true;
+                }
+                break;
+        }
     }
 
+    public override void AlternateActivate(bool isHeld, float holdTime)
+    {
+        switch (getModSpot())
+        {
+            case ModSpot.ArmL:
+            case ModSpot.ArmR:
+                if (isHeld)
+                {
+                    wielderStats.moveSpeed = 0;
+                }
+                else
+                {
+                    wielderStats.moveSpeed = savedMoveSpeed;
+                    ChargedHit();
+                }
+                break;
+        }
+    }
 
     public override void AttachAffect(ref Stats wielderStats, IMovable wielderMovable)
     {
@@ -246,6 +245,7 @@ public class TankTreadsMod : Mod
         this.wielderMovable = wielderMovable;
         pickupCollider.enabled = false;
         attackCollider.enabled = false;
+        savedMoveSpeed = wielderStats.moveSpeed;
         canAttackAgain = true;
 
         if (getModSpot() == ModSpot.Legs)
@@ -341,7 +341,6 @@ public class TankTreadsMod : Mod
         EnableAttackCollider();
         armChargedAttackHitboxIsActive = true;
         
-
         yield return new WaitForSeconds(armChargedActiveTime);
         StartCoroutine(ArmChargedCooldown());
     }
@@ -354,7 +353,22 @@ public class TankTreadsMod : Mod
 
         yield return new WaitForSeconds(armChargedCooldownTime);
         canAttackAgain = true;
-    }    
+    }
+
+    private void AttackBasedOnCharge()
+    {
+        if (chargeTimer >= chargeTime)
+        {
+            ChargedHit();
+        }
+        else
+        {
+            Hit();
+        }
+        chargeTimer = 0f;
+	}
+	
+    
     #endregion
 
 }

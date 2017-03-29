@@ -11,7 +11,6 @@ public class BlasterMod : Mod {
     [SerializeField]
     private float kickbackMagnitude;
 
-    private bool readyToShoot;
 
     [SerializeField]
     private float coolDownTime;
@@ -20,7 +19,14 @@ public class BlasterMod : Mod {
     private float feetMultiplier;
 
     [SerializeField]
-    VFXBlasterShoot blasterEffect; 
+    private VFXBlasterShoot blasterEffect;
+
+    [SerializeField]
+    private float kickBackChargedMultiplier;
+
+    [SerializeField] private Transform bulletSpawnPoint;
+
+    private bool readyToShoot;
 
     public override void Activate()
     {
@@ -42,9 +48,7 @@ public class BlasterMod : Mod {
     void Shoot()
     {
         AudioManager.Instance.PlaySFX(SFXType.ArmBlasterFire);
-        GameObject blasterBullet = ObjectPool.Instance.GetObject(PoolObjectType.BlasterBullet);
-        blasterBullet.transform.position = transform.position;
-        blasterBullet.transform.rotation = transform.rotation;
+        SpawnBullet();
         if (wielderMovable != null) {
             if (getModSpot() == ModSpot.Legs && wielderMovable != null) {
                 KickBack(Vector3.up * feetMultiplier);
@@ -54,8 +58,17 @@ public class BlasterMod : Mod {
             }            
         }
         
-        blasterBullet.SetActive(true);
         blasterEffect.Emit();
+    }
+
+
+    BlasterBullet SpawnBullet()
+    {
+        BlasterBullet blasterBullet = ObjectPool.Instance.GetObject(PoolObjectType.BlasterBullet).GetComponent<BlasterBullet>();
+        blasterBullet.transform.position = bulletSpawnPoint.position;
+        blasterBullet.transform.rotation = transform.rotation;
+        blasterBullet.SetShooterInstanceID(GetWielderInstanceID());
+        return blasterBullet;        
     }
 
     private void KickBack(Vector3 direction)
@@ -101,6 +114,27 @@ public class BlasterMod : Mod {
             if (getModSpot() != ModSpot.Legs)
             {
                 transform.forward = wielderMovable.GetForward();
+            }
+        }
+    }
+
+    public override void AlternateActivate(bool isHeld, float holdTime)
+    {
+        if (isHeld)
+        {
+            blasterEffect.Emit();
+        }
+        else
+        {
+            BlasterBullet blasterBullet = SpawnBullet();
+            blasterBullet.isCharged = true;
+            if (getModSpot() == ModSpot.Legs && wielderMovable != null)
+            {
+                KickBack(Vector3.up * feetMultiplier * kickBackChargedMultiplier);
+            }
+            else if (wielderMovable != null)
+            {
+                KickBack(-wielderMovable.GetForward() * kickBackChargedMultiplier);
             }
         }
     }

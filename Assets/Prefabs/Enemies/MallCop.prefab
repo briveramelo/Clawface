@@ -213,7 +213,7 @@ GameObject:
   - component: {fileID: 135859741554379526}
   m_Layer: 0
   m_Name: PlayerDetector
-  m_TagString: Untagged
+  m_TagString: PlayerDetector
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1277,11 +1277,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8baf5dc5eb76d149b8ecb529cbc7c96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rigbod: {fileID: 54477481413527770}
   foot: {fileID: 4009667743967004}
-  footSphereRadius: 0.1
-  isFalling: 0
-  isGrounded: 0
+  rigbod: {fileID: 54477481413527770}
 --- !u!114 &114216556463902696
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1317,7 +1314,6 @@ MonoBehaviour:
     numShocksToStun: 1
     twitchRange: 0.17
     twitchTime: 1
-    strikingDistance: 2.81
   velBody: {fileID: 114067057127017272}
   glowObject: {fileID: 114496568055926532}
   animator: {fileID: 95519533197117512}
@@ -1350,6 +1346,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _shockEmitter: {fileID: 198105625780316136}
   _sparkEmitter: {fileID: 198631986252499234}
+  splatterLifetime: 2.5
+  MinScale: 0.75
+  MaxScale: 3
+  SplashRange: 1.5
 --- !u!114 &114496568055926532
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1376,9 +1376,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pickupCollider: {fileID: 65565654201044114}
-  attackBoostValue: 1.15
   attackCollider: {fileID: 136338992525986000}
+  batonTip: {fileID: 0}
   impactEffect: {fileID: 114464561158743098}
+  rigbod: {fileID: 0}
+  attackBoostValue: 1.15
 --- !u!114 &114808018247885578
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1390,10 +1392,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33631fdf1dda11a4daeda51794f60e9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DEBUG_CURRENTSTATE: 
   timeInLastState: 0
   stateTimerIsRunning: 0
-  attackTarget: {fileID: 0}
-  mystate: 
+  strikingDistance: 2.81
 --- !u!135 &135859741554379526
 SphereCollider:
   m_ObjectHideFlags: 1

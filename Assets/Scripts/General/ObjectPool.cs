@@ -5,6 +5,8 @@ using ModMan;
 
 public class ObjectPool : Singleton<ObjectPool> {
 
+    protected ObjectPool() { }
+
     #region Unity Inspector Fields
     [SerializeField] private List<Pool> pools;
     //Add new pools here
@@ -70,10 +72,12 @@ public class ObjectPool : Singleton<ObjectPool> {
         public GameObject GetObject()
         {
             GameObject objToReturn = objects.GetRandom(obj => !obj.activeSelf);
-            //GameObject thing = objects.Find(obj => !obj.activeSelf);
             if (objToReturn==null) {
-                string debugMessage = "No more" + prefabs[0].name + " objects found! Make your pool bigger than " + size;
+                string debugMessage = "No more " + poolObjectType.ToString() + " objects found! Make your pool bigger than " + size;
                 Debug.LogFormat("<color=#ffff00>" + debugMessage + "</color>");
+            }
+            else{
+                objToReturn.SetActive(true);
             }
             return objToReturn;
         }

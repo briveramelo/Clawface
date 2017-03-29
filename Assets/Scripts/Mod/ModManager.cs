@@ -7,21 +7,35 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ModManager : MonoBehaviour
-{    
+{
 
-    [SerializeField] private Transform headSocket, leftArmSocket, rightArmSocket, legsSocket;
-    [SerializeField] private Stats playerStats;
+    #region Public fields
+    #endregion
+
+    #region Serialized Unity Inspector fields
+    [SerializeField]
+    private Transform headSocket, leftArmSocket, rightArmSocket, legsSocket;
+    [SerializeField]
+    private Stats playerStats;
+    [SerializeField]
+    private MoveState playerMovement;
     [SerializeField] private VelocityBody velBody;
-
     [SerializeField]
     private PlayerStateManager stateManager;
+    [SerializeField]
+    private float holdThresholdTime;
+    #endregion
 
+    #region Private Fields
     private Dictionary<ModSpot, ModSocket> modSocketDictionary;
     private ModSpot modToSwap;
-    private ModSpot lastModToSwap;
     private bool isOkToDropMod = true;
     private bool isOkToSwapMods = true;
+    private bool isButtonHeld = false;
+    private float holdTime;
+    #endregion
 
+    #region Unity Lifecycle
     // Use this for initialization
     private void Start()
     {
@@ -30,14 +44,18 @@ public class ModManager : MonoBehaviour
         modSocketDictionary.Add(ModSpot.ArmL, new ModSocket(leftArmSocket));
         modSocketDictionary.Add(ModSpot.ArmR, new ModSocket(rightArmSocket));
         modToSwap = ModSpot.Default;
+        holdTime = 0.0f;
     }
 
-    private void Update() {        
-        if (isOkToDropMod) {
+    private void Update()
+    {
+        if (isOkToDropMod)
+        {
             CheckToDropMod();
         }
         SetModToSwap();
-        if (isOkToSwapMods) {
+        if (isOkToSwapMods)
+        {
             CheckToSwapMods();
         }
         CheckToActivateMod();
@@ -49,7 +67,7 @@ public class ModManager : MonoBehaviour
         {
             if (InputManager.Instance.QueryAction(Strings.Input.Actions.DROP_MODE,
                     ButtonMode.HELD))
-            {
+            {                
                 ModSpot commandedModSpot = GetCommandedModSpot();
 
                 if (commandedModSpot != ModSpot.Default && modSocketDictionary[commandedModSpot].mod == null)
@@ -59,7 +77,41 @@ public class ModManager : MonoBehaviour
             }
         }
     }
+    #endregion
 
+    #region Public Methods
+    public void SendModDictionaryToAnalytics()
+    {
+        if (modSocketDictionary[ModSpot.ArmL].mod != null)
+        {
+            AnalyticsManager.Instance.modDictionary["armL"] = modSocketDictionary[ModSpot.ArmL].mod.getModType().ToString();
+        }
+        else
+        {
+            AnalyticsManager.Instance.modDictionary["armL"] = "null";
+        }
+
+        if (modSocketDictionary[ModSpot.ArmR].mod != null)
+        {
+            AnalyticsManager.Instance.modDictionary["armR"] = modSocketDictionary[ModSpot.ArmR].mod.getModType().ToString();
+        }
+        else
+        {
+            AnalyticsManager.Instance.modDictionary["armR"] = "null";
+        }
+
+        if (modSocketDictionary[ModSpot.Legs].mod != null)
+        {
+            AnalyticsManager.Instance.modDictionary["legs"] = modSocketDictionary[ModSpot.Legs].mod.getModType().ToString();
+        }
+        else
+        {
+            AnalyticsManager.Instance.modDictionary["legs"] = "null";
+        }
+    }
+    #endregion
+
+    #region Private Methods
     private void CheckToActivateMod()
     {
         if (!InputManager.Instance.QueryAction(Strings.Input.Actions.DROP_MODE,
@@ -67,12 +119,19 @@ public class ModManager : MonoBehaviour
             !InputManager.Instance.QueryAction(Strings.Input.Actions.SWAP_MODE,
                 ButtonMode.HELD))
         {
-            ModSpot spot = GetCommandedModSpot();
+            CommandedMod commandedMod = GetCommandedMod();
+            ModSpot spot = commandedMod.modSpot;
             if (spot != ModSpot.Default)
-            {                
+            {
                 if (modSocketDictionary[spot].mod != null)
-                {                    
-                    stateManager.Attack(modSocketDictionary[spot].mod);
+                {
+                    if (!commandedMod.isHeld && !commandedMod.wasHeld)
+                    {
+                        stateManager.PrimaryAttack(modSocketDictionary[spot].mod);
+                    }else
+                    {
+                        stateManager.SecondaryAttack(modSocketDictionary[spot].mod, commandedMod.isHeld, commandedMod.holdTime);
+                    }
                 }
             }
         }
@@ -80,83 +139,152 @@ public class ModManager : MonoBehaviour
 
     private ModSpot GetCommandedModSpot()
     {
-        if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_LEGS,
-            ButtonMode.DOWN))
+        if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_LEGS, ButtonMode.DOWN))
         {
             return ModSpot.Legs;
         }
-        if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_LEFT,
-            ButtonMode.DOWN))
+        if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_LEFT, ButtonMode.DOWN))
         {
             return ModSpot.ArmL;
         }
-        if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_RIGHT,
-            ButtonMode.DOWN))
+        if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_RIGHT, ButtonMode.DOWN))
         {
             return ModSpot.ArmR;
-        }        
+        }
         return ModSpot.Default;
     }
 
+    private CommandedMod GetCommandedMod()
+    {
+        CommandedMod commandedMod = new CommandedMod();
+        if(InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_LEGS, ButtonMode.HELD))
+        {
+            CheckIfHoldThresholdIsReached(ModSpot.Legs, ref commandedMod);
+        }
+        else if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_LEFT, ButtonMode.HELD))
+        {
+            CheckIfHoldThresholdIsReached(ModSpot.ArmL, ref commandedMod);
+        }
+        else if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_RIGHT, ButtonMode.HELD))
+        {
+            CheckIfHoldThresholdIsReached(ModSpot.ArmR, ref commandedMod);
+        }
+        if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_LEGS,
+            ButtonMode.UP))
+        {
+            AssignCommandedMod(ModSpot.Legs, ref commandedMod);
+        }
+        else if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_LEFT,
+            ButtonMode.UP))
+        {
+            AssignCommandedMod(ModSpot.ArmL, ref commandedMod);
+        }
+        else if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_RIGHT,
+            ButtonMode.UP))
+        {
+            AssignCommandedMod(ModSpot.ArmR, ref commandedMod);
+        }
+        return commandedMod;        
+    }
+
+    private void CheckIfHoldThresholdIsReached(ModSpot spot, ref CommandedMod commandedMod)
+    {
+        holdTime += Time.deltaTime;
+        if (holdTime > holdThresholdTime)
+        {
+            commandedMod.modSpot = spot;
+            commandedMod.isHeld = true;
+            commandedMod.holdTime = holdTime;
+            isButtonHeld = true;
+        }
+    }
+
+    private void AssignCommandedMod(ModSpot spot, ref CommandedMod commandedMod)
+    {        
+        commandedMod.modSpot = spot;
+        if (isButtonHeld)
+        {
+            isButtonHeld = false;
+            commandedMod.wasHeld = true;
+            commandedMod.holdTime = holdTime;
+        }
+        holdTime = 0.0f;
+    }
+
     private void CheckToDropMod()
-    {   
+    {
         if (InputManager.Instance.QueryAction(Strings.Input.Actions.DROP_MODE,
-                ButtonMode.HELD)) {
-            ModSpot spotSelected = GetCommandedModSpot();            
-            if (spotSelected != ModSpot.Default && modSocketDictionary[spotSelected].mod != null) {
+                ButtonMode.HELD))
+        {            
+            ModSpot spotSelected = GetCommandedModSpot();
+            if (spotSelected != ModSpot.Default && modSocketDictionary[spotSelected].mod != null)
+            {
                 Detach(spotSelected);
             }
         }
     }
 
-    private void SetModToSwap() {
+    private void SetModToSwap()
+    {
         if (InputManager.Instance.QueryAction(Strings.Input.Actions.SWAP_MODE,
-                ButtonMode.HELD) && modToSwap==ModSpot.Default) {
-            StartCoroutine(DelayIsOkToSwapMods());
+                ButtonMode.HELD) && modToSwap == ModSpot.Default)
+        {
+            StartCoroutine(DelayIsOkToSwapMods());            
             modToSwap = GetCommandedModSpot();
-            if (modToSwap!=ModSpot.Default) {
+            if (modToSwap != ModSpot.Default)
+            {
                 ModUIManager.Instance.SetUIState(modToSwap, ModUIState.SELECTED);
             }
         }
         if (InputManager.Instance.QueryAction(Strings.Input.Actions.SWAP_MODE,
-                ButtonMode.UP)) {
-            SetAllModUIToIdle();            
+                ButtonMode.UP))
+        {
+            SetAllModUIToIdle();
         }
     }
 
-    private void SetAllModUIToIdle() {
-        foreach (ModSpot modSpot in Enum.GetValues(typeof(ModSpot))) {
-            if (modSpot!=ModSpot.Default) {
+    private void SetAllModUIToIdle()
+    {
+        foreach (ModSpot modSpot in Enum.GetValues(typeof(ModSpot)))
+        {
+            if (modSpot != ModSpot.Default)
+            {
                 ModUIManager.Instance.SetUIState(modSpot, ModUIState.IDLE);
             }
         }
         modToSwap = ModSpot.Default;
     }
 
-    private void CheckToSwapMods() {
-        if (modToSwap!=ModSpot.Default) {
+    private void CheckToSwapMods()
+    {
+        if (modToSwap != ModSpot.Default)
+        {
             ModSpot secondMod = GetCommandedModSpot();
-            if (secondMod != ModSpot.Default && secondMod != modToSwap) {
+            if (secondMod != ModSpot.Default && secondMod != modToSwap)
+            {
                 SwapMods(modToSwap, secondMod);
             }
         }
     }
 
 
-    private void CheckToAttachMod(ModSpot commandedModSpot, Mod modToAttach) {
-        if (modSocketDictionary[commandedModSpot].mod != modToAttach) {
+    private void CheckToAttachMod(ModSpot commandedModSpot, Mod modToAttach)
+    {
+        if (modSocketDictionary[commandedModSpot].mod != modToAttach)
+        {
             Attach(commandedModSpot, modToAttach);
         }
     }
 
-    private void Attach(ModSpot spot, Mod mod, bool isSwapping=false)
+    private void Attach(ModSpot spot, Mod mod, bool isSwapping = false)
     {
         if (modSocketDictionary[spot].mod != null && !isSwapping)
         {
-            Detach(spot);            
+            Detach(spot);
         }
 
-        if (!isSwapping) {
+        if (!isSwapping)
+        {
             ModUIManager.Instance.AttachMod(spot, mod.getModType());
         }
         mod.setModSpot(spot);
@@ -165,31 +293,36 @@ public class ModManager : MonoBehaviour
         mod.transform.localRotation = Quaternion.identity;
         modSocketDictionary[spot].mod = mod;        
         mod.AttachAffect(ref playerStats, velBody);
+        SendModDictionaryToAnalytics();
         StartCoroutine(DelayIsOkToDropMod());
     }
 
-    private IEnumerator DelayIsOkToDropMod() {
+    private IEnumerator DelayIsOkToDropMod()
+    {
         isOkToDropMod = false;
         yield return new WaitForEndOfFrame();
         isOkToDropMod = true;
     }
-    private IEnumerator DelayIsOkToSwapMods() {
+    private IEnumerator DelayIsOkToSwapMods()
+    {
         isOkToSwapMods = false;
         yield return new WaitForEndOfFrame();
         isOkToSwapMods = true;
     }
 
-    private void Detach(ModSpot spot, bool isSwapping=false)
+    private void Detach(ModSpot spot, bool isSwapping = false)
     {
         if (modSocketDictionary[spot].mod != null)
         {
-            if (!isSwapping) {
+            if (!isSwapping)
+            {
                 ModUIManager.Instance.DetachMod(spot);
             }
             modSocketDictionary[spot].mod.transform.SetParent(null);
             modSocketDictionary[spot].mod.DetachAffect();
             modSocketDictionary[spot].mod = null;
         }
+        SendModDictionaryToAnalytics();
     }
 
     private void SwapMods(ModSpot sourceSpot, ModSpot targetSpot)
@@ -208,16 +341,18 @@ public class ModManager : MonoBehaviour
         }
         if (tempSourceMod != null)
         {
-            Attach(targetSpot, tempSourceMod, true);            
+            Attach(targetSpot, tempSourceMod, true);
         }
         if (tempTargetMod != null)
         {
-            Attach(sourceSpot, tempTargetMod, true);            
+            Attach(sourceSpot, tempTargetMod, true);
         }
-        if (tempSourceMod != null || tempTargetMod!=null) {
+        if (tempSourceMod != null || tempTargetMod != null)
+        {
             ModUIManager.Instance.SwapMods(sourceSpot, targetSpot);
         }
-        SetAllModUIToIdle();        
+        SetAllModUIToIdle();
+        SendModDictionaryToAnalytics();
     }
 
     private ModSpot GetModSpot(Mod mod)
@@ -233,7 +368,9 @@ public class ModManager : MonoBehaviour
         }
         return spot;
     }
+    #endregion
 
+    #region Private Structures
     private class ModSocket
     {
         public Transform socket;
@@ -243,4 +380,14 @@ public class ModManager : MonoBehaviour
             socket = i_socket;
         }
     }
+
+    private class CommandedMod
+    {
+        public ModSpot modSpot = ModSpot.Default;
+        public bool isHeld = false;
+        public bool wasHeld = false;
+        public float holdTime = 0.0f; 
+    } 
+    #endregion
+
 }

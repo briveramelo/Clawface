@@ -7,6 +7,8 @@ using UnityEngine;
 
 public class HitstopManager : Singleton<HitstopManager> {
 
+    protected HitstopManager() { }
+
     [SerializeField]
     private float remainingHitstop;
 

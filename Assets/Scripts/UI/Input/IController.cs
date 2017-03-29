@@ -125,4 +125,10 @@ public abstract class IController {
         public abstract bool GetStart(ButtonMode mode);
 
     #endregion
+
+    #region Haptics
+
+        public abstract void Vibrate(VibrationTargets target, float intensity);
+
+    #endregion
 }
