@@ -89,11 +89,17 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - first:
+        name: _AO
+      second: 2.4
+    - first:
+        name: _BaseLight
+      second: 0.35
+    - first:
         name: _BumpScale
       second: 1
     - first:
         name: _Cutoff
-      second: 0.5
+      second: 0.658
     - first:
         name: _DetailNormalMapScale
       second: 1
@@ -111,13 +117,16 @@ Material:
       second: 1
     - first:
         name: _MaskClipValue
-      second: 0.36
+      second: 0.5
     - first:
         name: _Metallic
       second: 0
     - first:
         name: _Mode
       second: 0
+    - first:
+        name: _Occlusion
+      second: 7.5
     - first:
         name: _OcclusionStrength
       second: 1
@@ -129,6 +138,9 @@ Material:
       second: 0
     - first:
         name: _SpecularHighlights
+      second: 1
+    - first:
+        name: _SquashAmount
       second: 1
     - first:
         name: _SrcBlend
@@ -154,7 +166,13 @@ Material:
       second: {r: 0.48965526, g: 1, b: 0, a: 0}
     - first:
         name: _Color
-      second: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+      second: {r: 1, g: 1, b: 1, a: 1}
     - first:
         name: _EmissionColor
       second: {r: 0, g: 0, b: 0, a: 1}
+    - first:
+        name: _TreeInstanceColor
+      second: {r: 1, g: 1, b: 1, a: 1}
+    - first:
+        name: _TreeInstanceScale
+      second: {r: 1, g: 1, b: 1, a: 1}
