@@ -42,6 +42,8 @@ namespace Turing.Audio {
         [Tooltip("List of AudioClips to play in this channel.")]
         List<AudioClip> _clips = new List<AudioClip>();
 
+        float _clipLength;
+
         /// <summary>
         /// Change volume each loop (when using randomized volume)?
         /// </summary>
@@ -50,19 +52,26 @@ namespace Turing.Audio {
         bool _changeVolumeEachLoop = false;
 
         /// <summary>
+        /// Volume scale (from parent AudioGroup).
+        /// </summary>
+        float _volumeScale = 1f;
+
+        /// <summary>
         /// Uniform volume to use with this channel.
         /// </summary>
         [SerializeField]
         [Range(0f, 1f)]
         [Tooltip("Uniform volume to use with this channel.")]
-        float _volume = 1f;
+        float _uniformVolume = 1f;
+
+        float _randomizedVolume = 1f;
 
         /// <summary>
         /// Randomize volume?
         /// </summary>
         [SerializeField]
         [Tooltip("Randomize volume?")]
-        bool _randomVolume = false;
+        bool _useRandomVolume = false;
 
         /// <summary>
         /// Range of values to use for volume.
@@ -70,7 +79,7 @@ namespace Turing.Audio {
         [SerializeField]
         [FloatRange(0f, 1f)]
         [Tooltip("Range of values to use for volume.")]
-        FloatRange _volumeRange = new FloatRange();
+        FloatRange _randomVolumeRange = new FloatRange();
 
         /// <summary>
         /// Timer for playback looping.
@@ -87,12 +96,16 @@ namespace Turing.Audio {
         }
 
         private void Update() {
-            if (_loop && _playing) {
-                _loopTimer -= Time.deltaTime;
-                if (_loopTimer <= 0f) {
-                    LoopSound();
-                }
+            if (_playing) {
+                if (_loop) {
+                    _loopTimer -= Time.deltaTime;
+                    if (_loopTimer <= 0f)
+                        LoopSound();
+                 }
+
+                _audioSource.volume = (_useRandomVolume ? _randomizedVolume : _uniformVolume) * _volumeScale;
             }
+            
         }
 
         #endregion
@@ -108,28 +121,35 @@ namespace Turing.Audio {
         /// </summary>
         public List<AudioClip> Clips { get { return _clips; } }
 
+        public float ClipLength { get { return _clipLength; } }
+
+        public float VolumeScale {
+            get { return _volumeScale; }
+            set { _volumeScale = value; }
+        }
+
         /// <summary>
         /// Gets/sets the uniform volume to use.
         /// </summary>
-        public float Volume {
-            get { return _volume; }
-            set { _volume = value; }
+        public float UniformVolume {
+            get { return _uniformVolume; }
+            set { _uniformVolume = value; }
         }
 
         /// <summary>
         /// Gets/sets the range of volumes to use.
         /// </summary>
-        public FloatRange VolumeRange {
-            get { return _volumeRange; }
-            set { _volumeRange = value; }
+        public FloatRange RandomVolumeRange {
+            get { return _randomVolumeRange; }
+            set { _randomVolumeRange = value; }
         }
 
         /// <summary>
         /// Gets/sets whether or not to randomize volume.
         /// </summary>
         public bool UseRandomVolume {
-            get { return _randomVolume; }
-            set { _randomVolume = value; }
+            get { return _useRandomVolume; }
+            set { _useRandomVolume = value; }
         }
 
         /// <summary>
@@ -158,16 +178,17 @@ namespace Turing.Audio {
             if (_clips.Count <= 0) return;
 
             _loop = loop;
-            _audioSource.volume = _randomVolume ? _volumeRange.GetRandomValue() : _volume;
+            if (_useRandomVolume) _randomizedVolume = _randomVolumeRange.GetRandomValue();
+            _audioSource.volume = (_useRandomVolume ? _randomizedVolume : _uniformVolume) * _volumeScale;
             _audioSource.pitch = pitch;
 
             var clip = _clips.GetRandom();
+            _clipLength = clip.length;
             _audioSource.PlayOneShot(clip);
 
-            if (_loop) {
-                _loopTimer = clip.length;
-                _playing = true;
-            }
+            _playing = true;
+
+            if (_loop) _loopTimer = clip.length;
         }
 
         /// <summary>

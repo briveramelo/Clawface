@@ -28,7 +28,7 @@ public class AudioChannelDrawer : PropertyDrawer {
     /// </summary>
     SerializedObject _serializedChannel;
 
-    SerializedProperty _clipsProp;
+    //SerializedProperty _clipsProp;
     SerializedProperty _volumeProp;
     SerializedProperty _randomVolumeProp;
     SerializedProperty _volumeRangeProp;
@@ -57,10 +57,10 @@ public class AudioChannelDrawer : PropertyDrawer {
         _serializedChannel.Update();
 
         // Get serialized properties
-        _clipsProp                = _serializedChannel.FindProperty("_clips");
-        _volumeProp               = _serializedChannel.FindProperty("_volume");
-        _randomVolumeProp         = _serializedChannel.FindProperty("_randomVolume");
-        _volumeRangeProp          = _serializedChannel.FindProperty("_volumeRange");
+        //_clipsProp                = _serializedChannel.FindProperty("_clips");
+        _volumeProp               = _serializedChannel.FindProperty("_uniformVolume");
+        _randomVolumeProp         = _serializedChannel.FindProperty("_useRandomVolume");
+        _volumeRangeProp          = _serializedChannel.FindProperty("_randomVolumeRange");
         _changeVolumeEachLoopProp = _serializedChannel.FindProperty("_changeVolumeEachLoop");
 
         // Clips box
@@ -97,6 +97,8 @@ public class AudioChannelDrawer : PropertyDrawer {
             EditorGUI.EndDisabledGroup();
         }
         EditorGUILayout.EndVertical();
+
+        _serializedChannel.ApplyModifiedProperties();
     }
 
     #endregion
