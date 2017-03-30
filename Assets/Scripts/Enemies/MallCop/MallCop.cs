@@ -40,7 +40,7 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
     void Awake ()
     {
         controller.Initialize(properties, mod, velBody, animator, myStats);
-        
+
         ResetForRebirth();
         copUICanvas = canvas.GetComponent<CopUI>();
         mod.setModSpot(ModSpot.ArmR);

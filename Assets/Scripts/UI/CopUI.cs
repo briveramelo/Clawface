@@ -49,11 +49,19 @@ public class CopUI : MonoBehaviour {
 
     private void FadeInIconActionImage()
     {
-        LeanTween.value(gameObject, 0f, 1f, 1f).setOnUpdate((float val) => {
+        LeanTween.value(gameObject, .25f, 1f, 1f).setOnUpdate((float val) =>
+        {
             SetAlphaOfActionIcon(val);
-        });
+        }).setOnComplete(FadeOut);
     }
 
+    private void FadeOut()
+    {
+        LeanTween.value(gameObject, 1f, .25f, 1f).setOnUpdate((float val) =>
+        {
+            SetAlphaOfActionIcon(val);
+        }).setOnComplete(FadeInIconActionImage);
+    }
     #endregion
 
     #region Private Structures
