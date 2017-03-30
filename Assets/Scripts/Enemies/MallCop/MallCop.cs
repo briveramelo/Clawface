@@ -78,7 +78,7 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
     }
 
     GameObject ISkinnable.DeSkin(){
-        Invoke("Die", 0.1f);
+        Invoke("OnDeath", 0.1f);
         return Instantiate(mySkin, null, false);
     }
 
