@@ -461,7 +461,6 @@ MonoBehaviour:
   DEBUG_CURRENTSTATE: 
   timeInLastState: 0
   stateTimerIsRunning: 0
-  attackTarget: {fileID: 0}
 --- !u!114 &114981100661966842
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -483,7 +482,7 @@ SphereCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1738390624136678}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
