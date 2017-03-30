@@ -45,6 +45,8 @@ public class ModManager : MonoBehaviour
         modSocketDictionary.Add(ModSpot.ArmR, new ModSocket(rightArmSocket));
         modToSwap = ModSpot.Default;
         holdTime = 0.0f;
+
+        AnalyticsManager.Instance.SetModManager(this);
     }
 
     private void Update()
@@ -80,34 +82,9 @@ public class ModManager : MonoBehaviour
     #endregion
 
     #region Public Methods
-    public void SendModDictionaryToAnalytics()
+    public Dictionary<ModSpot, ModSocket> GetModSpotDictionary()
     {
-        if (modSocketDictionary[ModSpot.ArmL].mod != null)
-        {
-            AnalyticsManager.Instance.modDictionary["armL"] = modSocketDictionary[ModSpot.ArmL].mod.getModType().ToString();
-        }
-        else
-        {
-            AnalyticsManager.Instance.modDictionary["armL"] = "null";
-        }
-
-        if (modSocketDictionary[ModSpot.ArmR].mod != null)
-        {
-            AnalyticsManager.Instance.modDictionary["armR"] = modSocketDictionary[ModSpot.ArmR].mod.getModType().ToString();
-        }
-        else
-        {
-            AnalyticsManager.Instance.modDictionary["armR"] = "null";
-        }
-
-        if (modSocketDictionary[ModSpot.Legs].mod != null)
-        {
-            AnalyticsManager.Instance.modDictionary["legs"] = modSocketDictionary[ModSpot.Legs].mod.getModType().ToString();
-        }
-        else
-        {
-            AnalyticsManager.Instance.modDictionary["legs"] = "null";
-        }
+        return modSocketDictionary;
     }
     #endregion
 
@@ -293,7 +270,6 @@ public class ModManager : MonoBehaviour
         mod.transform.localRotation = Quaternion.identity;
         modSocketDictionary[spot].mod = mod;        
         mod.AttachAffect(ref playerStats, velBody);
-        SendModDictionaryToAnalytics();
         StartCoroutine(DelayIsOkToDropMod());
     }
 
@@ -322,7 +298,6 @@ public class ModManager : MonoBehaviour
             modSocketDictionary[spot].mod.DetachAffect();
             modSocketDictionary[spot].mod = null;
         }
-        SendModDictionaryToAnalytics();
     }
 
     private void SwapMods(ModSpot sourceSpot, ModSpot targetSpot)
@@ -352,7 +327,6 @@ public class ModManager : MonoBehaviour
             ModUIManager.Instance.SwapMods(sourceSpot, targetSpot);
         }
         SetAllModUIToIdle();
-        SendModDictionaryToAnalytics();
     }
 
     private ModSpot GetModSpot(Mod mod)
@@ -370,8 +344,8 @@ public class ModManager : MonoBehaviour
     }
     #endregion
 
-    #region Private Structures
-    private class ModSocket
+    #region Public Structures
+    public class ModSocket
     {
         public Transform socket;
         public Mod mod;
@@ -380,6 +354,10 @@ public class ModManager : MonoBehaviour
             socket = i_socket;
         }
     }
+    #endregion
+
+    #region Private Structures
+
 
     private class CommandedMod
     {
