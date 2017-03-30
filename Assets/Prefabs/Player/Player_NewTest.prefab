@@ -283,6 +283,7 @@ GameObject:
   - component: {fileID: 114932259766740874}
   - component: {fileID: 114547543764326404}
   - component: {fileID: 114944934008047378}
+  - component: {fileID: 114792480004702424}
   m_Layer: 8
   m_Name: PlayerUICanvas
   m_TagString: Untagged
@@ -1233,6 +1234,20 @@ MonoBehaviour:
   health: 50
   moveSpeed: 340
   rangedAccuracy: 1
+--- !u!114 &114792480004702424
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1590624579772008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 264c2f3fd0f25814eb16648a3a9e5ca6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  forward: {x: 0, y: 0, z: 1}
+  up: {x: 0, y: 1, z: 0}
+  updatePeriod: 0
 --- !u!114 &114793955708429346
 MonoBehaviour:
   m_ObjectHideFlags: 1
