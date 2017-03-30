@@ -16,7 +16,7 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
     [SerializeField] private GlowObject glowObject;
     [SerializeField] private Animator animator;
     [SerializeField] private Stats myStats;
-    [SerializeField] private GameObject mySkin;
+    [SerializeField] private GameObject mySkin, uiCanvas;
     [SerializeField] private Mod mod;
     #endregion
 
@@ -54,7 +54,8 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
         if (myStats.health > 0){                        
             myStats.TakeDamage(damage);
             if (myStats.health <= 5 && !glowObject.isGlowing){
-                glowObject.SetToGlow();
+                //glowObject.SetToGlow();
+                uiCanvas.SetActive(true);
             }
             if (myStats.health <= 0) {
                 controller.UpdateState(EMallCopState.Fall);
@@ -119,6 +120,7 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
 
     private void ResetForRebirth() {
         GetComponent<CapsuleCollider>().enabled = true;
+        uiCanvas.SetActive(false);
         myStats.ResetForRebirth();
         controller.ResetForRebirth();
         velBody.ResetForRebirth();
