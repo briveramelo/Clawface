@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿// Adam Kay
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Analytics;
@@ -73,6 +75,7 @@ public class AnalyticsManager : Singleton<AnalyticsManager> {
     private void OnApplicationQuit()
     {
         Debug.Log("Sending data on application quit!");
+        FormatPlayerModsInDictionary(ref quitGameDictionary);
         quitGameDictionary["averageHP"] = (int) (playerHealthTotal / playerHealthTicks);
         quitGameDictionary["currentHP"] = (int) playerStats.GetStat(StatType.Health);
         quitGameDictionary["deaths"] = deaths;
