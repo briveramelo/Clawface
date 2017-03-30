@@ -6,8 +6,6 @@ using UnityEngine;
 using UnityEngine.Assertions;
 
 public class HealthBar : Singleton<HealthBar> {
-
-    private Camera mCamera;
     
     protected HealthBar() { }
 
@@ -26,14 +24,6 @@ public class HealthBar : Singleton<HealthBar> {
     protected override void Awake()
     {
         base.Awake();
-        mCamera = Camera.main;
  
-    }
-
-    private void Update()
-    {
-        //billboard to main camera
-        transform.LookAt(transform.position + mCamera.transform.rotation * Vector3.forward,
-                    mCamera.transform.rotation * Vector3.up);
     }
 }
