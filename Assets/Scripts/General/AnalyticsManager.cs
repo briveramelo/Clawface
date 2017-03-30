@@ -5,10 +5,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Analytics;
 
-public class AnalyticsManager : Singleton<AnalyticsManager> {
+public class AnalyticsManager : Singleton<AnalyticsManager>
+{
 
     #region Public fields
-    
+
 
     #endregion
 
@@ -28,10 +29,13 @@ public class AnalyticsManager : Singleton<AnalyticsManager> {
     #region Private Fields
     private Dictionary<string, object> playerDeathDictionary;
     private Dictionary<string, object> quitGameDictionary;
+    private Dictionary<string, object> modTimeDictionary;
 
     private float timer;
     private float playerHealthTotal;
     private int playerHealthTicks;
+
+    private float totalTime;
 
     private int deaths;
 
@@ -42,7 +46,8 @@ public class AnalyticsManager : Singleton<AnalyticsManager> {
 
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         quitGameDictionary = new Dictionary<string, object>();
         quitGameDictionary.Add("armL", "null");
         quitGameDictionary.Add("armR", "null");
@@ -56,11 +61,20 @@ public class AnalyticsManager : Singleton<AnalyticsManager> {
         playerDeathDictionary.Add("armR", "null");
         playerDeathDictionary.Add("legs", "null");
         playerDeathDictionary.Add("averageHP", 0);
-	}
-	
-	// Update is called once per frame
-	void Update () {
+
+        modTimeDictionary = new Dictionary<string, object>();
+        foreach (ModType mod in System.Enum.GetValues(typeof(ModType)))
+        {
+            modTimeDictionary.Add(mod.ToString(), 0f);
+        }
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
         timer += Time.deltaTime;
+        totalTime += Time.deltaTime;
+
         if (timer >= timeBetweenTicks)
         {
             playerHealthTicks++;
@@ -68,18 +82,26 @@ public class AnalyticsManager : Singleton<AnalyticsManager> {
 
             UpdatePlayerHealthTotal();
         }
-	}
+    }
 
-    
+
 
     private void OnApplicationQuit()
     {
         Debug.Log("Sending data on application quit!");
         FormatPlayerModsInDictionary(ref quitGameDictionary);
-        quitGameDictionary["averageHP"] = (int) (playerHealthTotal / playerHealthTicks);
-        quitGameDictionary["currentHP"] = (int) playerStats.GetStat(StatType.Health);
+        quitGameDictionary["averageHP"] = (int)(playerHealthTotal / playerHealthTicks);
+        quitGameDictionary["currentHP"] = (int)playerStats.GetStat(StatType.Health);
         quitGameDictionary["deaths"] = deaths;
 
+
+        foreach (ModType mod in System.Enum.GetValues(typeof(ModType)))
+        {
+            modTimeDictionary[mod.ToString()] = (float)modTimeDictionary[mod.ToString()] / totalTime;
+            Debug.Log((float) modTimeDictionary[mod.ToString()]);
+        }
+
+        
         Analytics.CustomEvent("quitGame", quitGameDictionary);
     }
     #endregion
@@ -121,7 +143,7 @@ public class AnalyticsManager : Singleton<AnalyticsManager> {
     public void PlayerDeath()
     {
         deaths++;
-        playerDeathDictionary["averageHP"] = (int) (playerHealthTotal / playerHealthTicks);
+        playerDeathDictionary["averageHP"] = (int)(playerHealthTotal / playerHealthTicks);
         FormatPlayerModsInDictionary(ref playerDeathDictionary);
 
         Analytics.CustomEvent("playerDeath", playerDeathDictionary);
@@ -129,12 +151,14 @@ public class AnalyticsManager : Singleton<AnalyticsManager> {
 
         playerHealthTotal = playerStats.GetStat(StatType.Health);
         playerHealthTicks = 1;
-        
+
     }
 
     public void SetModManager(ModManager manager)
     {
         this.manager = manager;
+
+
     }
 
     public void SetPlayerStats(Stats stats)
@@ -150,6 +174,39 @@ public class AnalyticsManager : Singleton<AnalyticsManager> {
     private void UpdatePlayerHealthTotal()
     {
         playerHealthTotal += playerStats.GetStat(StatType.Health);
+    }
+
+    private void UpdateModTimes()
+    {
+        Dictionary<ModSpot, ModManager.ModSocket> modSpotDictionary = manager.GetModSpotDictionary();
+        List<ModType> equippedMods = new List<ModType>();
+
+        if (modSpotDictionary[ModSpot.ArmL] != null)
+        {
+            equippedMods.Add(modSpotDictionary[ModSpot.ArmL].mod.getModType());
+
+        }
+
+        if (modSpotDictionary[ModSpot.ArmR] != null)
+        {
+            if (!equippedMods.Contains(modSpotDictionary[ModSpot.ArmR].mod.getModType()))
+            {
+                equippedMods.Add(modSpotDictionary[ModSpot.ArmR].mod.getModType());
+            }
+        }
+
+        if (modSpotDictionary[ModSpot.Legs] != null)
+        {
+            if (!equippedMods.Contains(modSpotDictionary[ModSpot.Legs].mod.getModType()))
+            {
+                equippedMods.Add(modSpotDictionary[ModSpot.Legs].mod.getModType());
+            }
+        }
+
+        foreach (ModType m in equippedMods)
+        {
+            modTimeDictionary[m.ToString()] = (float) modTimeDictionary[m.ToString()] + timeBetweenTicks;
+        }
     }
     #endregion
 
