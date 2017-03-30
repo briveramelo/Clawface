@@ -17,43 +17,42 @@ public class CopUI : MonoBehaviour {
 
     #region Private Fields
     private Camera mainCamera;
-    private Canvas copCanvas;
-
+    private Color iconColor;
 
     #endregion
 
     #region Unity Lifecycle
 
-    private void Awake()
-    {
-        mainCamera = Camera.main;
-    }
-    private void Update()
-    {
-        //billboard to main camera
-        transform.LookAt(transform.position + mainCamera.transform.rotation * Vector3.forward,
-            mainCamera.transform.rotation * Vector3.up);
-    }
     #endregion
 
     #region Public Methods
     #endregion
 
     #region Private Methods
-    private void ShowAction(ActionType i_action)
+    public void ShowAction(ActionType i_action)
     {
         if (i_action == ActionType.Skin)
         {
             actionImage.sprite = skinActionIcon;
+            SetAlphaOfActionIcon(0f);
+
         }
+        FadeInIconActionImage();
     }
-
-    private void ClearACtion()
+    
+    private void SetAlphaOfActionIcon(float i_val)
     {
-        actionImage.sprite = null;
+        Color c = actionImage.color;
+        c.a = i_val;
+        actionImage.color = c;
     }
 
-
+    private void FadeInIconActionImage()
+    {
+        LeanTween.value(gameObject, 0f, 1f, 1f).setOnUpdate((float val) => {
+            SetAlphaOfActionIcon(val);
+        });
+    }
 
     #endregion
 
