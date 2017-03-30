@@ -8,11 +8,18 @@ public class TrailerLightManager : MonoBehaviour {
 
     [SerializeField] AnimationCurve _lightScaler;
 
+    [SerializeField] List<Light> _ignoreList = new List<Light>();
+
     private void Awake() {
         var lights = FindObjectsOfType<Light>();
         foreach (var light in lights) {
+            if (_ignoreList.Contains (light)) continue;
+
             _intensities.Add (light, light.intensity);
+
         }
+
+        Application.targetFrameRate = 30;
     }
 
     private void Update() {

@@ -43,7 +43,7 @@ Material:
         name: _DetailMask
       second:
         m_Texture: {fileID: 2800000, guid: f66388fd744d15b4d94e0dd145d4980e, type: 3}
-        m_Scale: {x: 1, y: 1}
+        m_Scale: {x: 2, y: 2}
         m_Offset: {x: 0, y: 0}
     - first:
         name: _DetailNormalMap
@@ -90,10 +90,10 @@ Material:
     m_Floats:
     - first:
         name: _BloodSmoothness1
-      second: 1
+      second: 1.5
     - first:
         name: _BloodSmoothness2
-      second: 0.25
+      second: 0.5
     - first:
         name: _BumpScale
       second: 1
@@ -126,7 +126,7 @@ Material:
       second: 0
     - first:
         name: _NormalStrength
-      second: 2
+      second: 1
     - first:
         name: _OcclusionStrength
       second: 1
@@ -157,10 +157,10 @@ Material:
       second: {r: 1, g: 1, b: 1, a: 1}
     - first:
         name: _Color1
-      second: {r: 0.64705884, g: 0.09515572, b: 0.09515572, a: 0}
+      second: {r: 0.89705884, g: 0, b: 0, a: 0}
     - first:
         name: _Color2
-      second: {r: 0.784, g: 0, b: 0, a: 0}
+      second: {r: 0.63235295, g: 0.0046496587, b: 0.0046496587, a: 0}
     - first:
         name: _EmissionColor
       second: {r: 0, g: 0, b: 0, a: 1}
