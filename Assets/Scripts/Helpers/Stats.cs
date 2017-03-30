@@ -17,6 +17,8 @@ public class Stats : MonoBehaviour, IModifiable {
     void Awake() {
         originalStats = new StatsMemento(attack, defense, health, moveSpeed, rangedAccuracy);
     }
+
+    
     #endregion
 
     #region Public Methods
