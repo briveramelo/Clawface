@@ -10,6 +10,7 @@
         public static string CODEXENTRY = "CodexEntry";
         public static string UNLOCKABLE = "Unlockable";
         public static string UNTAGGED = "Untagged";
+        public static string PLAYERDETECTOR = "PlayerDetector";
     }
 
     public static class Input
@@ -33,8 +34,10 @@
             public const string NAV_DOWN = "DOWN";
             public const string NAV_LEFT = "LEFT";
             public const string NAV_RIGHT = "RIGHT";
-            public const string BLOCK = "BLOCK";
-            public const string LOCK = "LOCK";
+            public const string BLOCK = "BLOCK"; // REMOVE?
+            public const string LOCK = "LOCK"; // REMOVE?
+            public const string DODGE = "DODGE";
+            public const string PAUSE = "PAUSE";
         }
     }
 }

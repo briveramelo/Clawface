@@ -11,6 +11,21 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1125338617720806}
   m_IsPrefabParent: 1
+--- !u!1 &1079184611212482
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4374610999489766}
+  m_Layer: 0
+  m_Name: BatonTip
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1125338617720806
 GameObject:
   m_ObjectHideFlags: 0
@@ -24,6 +39,7 @@ GameObject:
   - component: {fileID: 114335544474941894}
   - component: {fileID: 65464401215924514}
   - component: {fileID: 136140200005284156}
+  - component: {fileID: 54346666431372542}
   m_Layer: 0
   m_Name: BatonMod
   m_TagString: Mod
@@ -110,7 +126,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4227551320145856}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4227551320145856
 Transform:
@@ -119,9 +135,10 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1125338617720806}
   m_LocalRotation: {x: -0, y: 0.68423414, z: -0, w: 0.7292624}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -4, y: 2, z: 17}
   m_LocalScale: {x: 4, y: 4, z: 4}
   m_Children:
+  - {fileID: 4374610999489766}
   - {fileID: 4233567450011712}
   - {fileID: 4457097476366742}
   - {fileID: 4110579837553934}
@@ -140,6 +157,19 @@ Transform:
   m_Children:
   - {fileID: 4850968825240728}
   m_Father: {fileID: 4227551320145856}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4374610999489766
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1079184611212482}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.0012, y: 0, z: 0.3624}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4227551320145856}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4457097476366742
@@ -153,7 +183,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4227551320145856}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4850968825240728
 Transform:
@@ -206,6 +236,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1125338617720806}
   m_Mesh: {fileID: 4300000, guid: 7ad2a489fca68394ab9f8fb1306892f7, type: 3}
+--- !u!54 &54346666431372542
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1125338617720806}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!65 &65464401215924514
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -216,7 +261,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 0.5, z: 0.8}
+  m_Size: {x: 0.68, y: 0.5, z: 0.8}
   m_Center: {x: 4.656613e-10, y: 0.05288655, z: 0.08508262}
 --- !u!96 &96755553468574980
 TrailRenderer:
@@ -334,9 +379,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pickupCollider: {fileID: 65464401215924514}
-  attackBoostValue: 1.15
   attackCollider: {fileID: 136140200005284156}
+  batonTip: {fileID: 4374610999489766}
   impactEffect: {fileID: 114976034252107326}
+  rigbod: {fileID: 54346666431372542}
+  attackBoostValue: 1.15
 --- !u!114 &114976034252107326
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -350,6 +397,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _shockEmitter: {fileID: 198386733679587792}
   _sparkEmitter: {fileID: 198817797459857242}
+  splatterLifetime: 2.5
+  MinScale: 0.75
+  MaxScale: 3
+  SplashRange: 1.5
 --- !u!136 &136140200005284156
 CapsuleCollider:
   m_ObjectHideFlags: 1
@@ -358,7 +409,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 1125338617720806}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.09
   m_Height: 0.5
   m_Direction: 2
@@ -418,7 +469,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: -2060525989
+  randomSeed: -690362306
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -2923,7 +2974,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: 490358014
+  randomSeed: -987715997
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -5428,7 +5479,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: 747024058
+  randomSeed: -776524204
   InitialModule:
     serializedVersion: 3
     enabled: 1
