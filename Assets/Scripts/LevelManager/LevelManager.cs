@@ -57,6 +57,8 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     #endregion
     #region Vars
 
+    ILevelEditor _editor;
+
     /// <summary>
     /// The currently loaded level in LM.
     /// !!! KEEP NONSERIALIZED !!!
@@ -150,10 +152,12 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// </summary>
     int _selectedObjectIndexForPlacement;
 
+    List<GameObject> _hoveredObjects = new List<GameObject>();
+
     /// <summary>
     /// Currently selected object in editor;
     /// </summary>
-    List<GameObject> _selectedObjects;
+    List<GameObject> _selectedObjects = new List<GameObject>();
 
     /// <summary>
     /// Currently applied object filter.
@@ -220,6 +224,8 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     #endregion
     #region Properties
 
+    public bool IsConnectedToEditor { get { return _editor != null; } }
+
     /// <summary>
     /// Returns true if a level is currently loaded (read-only).
     /// </summary>
@@ -263,6 +269,10 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// </summary>
     public List<ObjectData> FilteredObjects { get { return _filteredObjects; } }
 
+    public List<GameObject> HoveredObjects { get { return _hoveredObjects; } }
+
+    public List<GameObject> SelectedObjects { get { return _selectedObjects; } }
+
     /// <summary>
     /// Returns true if an object is currently selected for placement (read-only).
     /// </summary>
@@ -277,11 +287,6 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// Returns the current editing y-value (read-only).
     /// </summary>
     public int CurrentYValue { get { return _currentYPosition; } }
-
-    /// <summary>
-    /// Returns the currently selected object (read-only).
-    /// </summary>
-    public List<GameObject> SelectedObjects { get { return _selectedObjects; } }
 
     /// <summary>
     /// Returns the position of the 3D cursor (read-only).
@@ -342,11 +347,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// <summary>
     /// Returns true if an object is selected (read-only).
     /// </summary>
-    public bool HasSelectedObjects {
-        get {
-            return _selectedObjects != null && _selectedObjects.Count > 0;
-        }
-    }
+    public bool HasSelectedObjects { get { return _selectedObjects.Count > 0; } }
 
     /// <summary>
     /// Returns true if an object is being moved (read-only).
@@ -375,6 +376,9 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
         else if (_loadedLevelObject != null)
             _loadedLevel = _loadedLevelObject.GetComponent<LevelObject>().Level;
 
+        _selectedObjects.Clear();
+        _hoveredObjects.Clear();
+
         if (Application.isPlaying) AwakePlayer();
         else AwakeEditor();
     }
@@ -387,10 +391,17 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
 
     void OnDestroy() {
         //Debug.Log("LevelManager.OnDestroy");
+
+        _selectedObjects.Clear();
+        _hoveredObjects.Clear();
     }
 
     #endregion
     #region Methods
+
+    public void SetEditor(ILevelEditor editor) {
+        _editor = editor;
+    }
 
     /// <summary>
     /// Called on awake in the player.
@@ -492,6 +503,61 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
         }
     }
 
+    public void HandleLeftUp(Event e, bool isDragging, Camera camera) {
+        switch (_currentTool) {
+            case Tool.Select:
+                if (LevelLoaded) {
+                    SelectObjects(_hoveredObjects);
+                } else DeselectObjects();
+                break;
+
+            case Tool.Place:
+                if (HasSelectedObjectForPlacement &&
+                    CanPlaceAnotherCurrentObject()) {
+                    if (_snapToGrid) SnapCursor();
+                    CreateCurrentSelectedObjectAtCursor();
+                    e.Use();
+                }
+                break;
+
+            case Tool.Erase:
+                if (_hoveredObjects.Count > 0) DeleteObject(_hoveredObjects[0], LevelEditorAction.ActionType.Normal);
+                break;
+
+            case Tool.Move:
+                if (!IsMovingObject) { // Not currently moving
+                    if (_hoveredObjects.Count > 0) StartMovingObject(_hoveredObjects[0]);
+                } else { // Currently moving
+                    StopMovingObject();
+                }
+                break;
+        }
+    }
+
+    public void HandleMouseMove(Event e, bool isDragging) {
+
+        var ray = _editor.PointerRay;
+        float distance;
+        if (_editingPlane.Raycast(ray, out distance))
+            SetCursorPosition(ray.GetPoint(distance));
+        if (_currentTool != Tool.Place) {
+            if (isDragging) {
+                _hoveredObjects = ObjectsInSelection();
+            } else {
+
+
+
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit)) {
+                    ObjectSpawner spawner = hit.collider.gameObject.GetComponentInAncestors<ObjectSpawner>();
+                    if (spawner != null)
+                        HoverObject(spawner.gameObject);
+                } else _hoveredObjects.Clear();
+            }
+
+        }
+    }
+
     /// <summary>
     /// Selects the given tool.
     /// </summary>
@@ -516,10 +582,30 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
         _loadedLevelObject.name = newName + " (Loaded Level)";
     }
 
+    public void HoverObject(GameObject obj) {
+        _hoveredObjects.Clear();
+        _hoveredObjects.Add(obj);
+    }
+
+    public List<GameObject> ObjectsInSelection() {
+        Camera camera = _editor.ActiveCamera;
+        Rect selectionRect = _editor.SelectionRect;
+        List<GameObject> result = new List<GameObject>();
+        foreach (var spawner in _loadedSpawners) {
+            Vector3 rawScreenPos = camera.WorldToScreenPoint(spawner.transform.position);
+            Vector2 screenPos = new Vector2 (rawScreenPos.x, rawScreenPos.y);
+            if (selectionRect.Contains(screenPos, true)) result.Add(spawner.gameObject);
+        }
+        Debug.Log (result.Count);
+        return result;
+    }
+
+
     /// <summary>
     /// Selects an object in the level.
     /// </summary>
-    public void SelectObjects(List<GameObject> objects) {
+    public void SelectObjects(List<GameObject> objects, bool clearFirst=true) {
+        if (clearFirst) _selectedObjects.Clear();
         foreach (var obj in objects) {
             // If selected object is not spawner, find through parents
             var spawner = obj.GetComponent<ObjectSpawner>();
@@ -527,12 +613,10 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
 
             if (spawner != null) {
                 if (!_selectedObjects.Contains(spawner.gameObject)) {
-                    _selectedObjects.Add (spawner.gameObject);
+                    _selectedObjects.Add(spawner.gameObject);
                     onSelectObject.Invoke();
                 }
-                _selectedObjects.Add(spawner.gameObject);
             }
-
         }
     }
 
@@ -540,8 +624,10 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// Deselects an object.
     /// </summary>
     public void DeselectObjects() {
-        if (_selectedObjects != null) onDeselectObject.Invoke();
-        _selectedObjects.Clear();
+        if (_selectedObjects != null) {
+            onDeselectObject.Invoke();
+            _selectedObjects.Clear();
+        }
     }
 
     /// <summary>
@@ -687,17 +773,6 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
         return true;
     }
 
-    public List<GameObject> DraggedObjects(Vector2 mousePos, Camera camera) {
-        List<GameObject> result = new List<GameObject>();
-        Rect rect = new Rect(_mouseDownScreenPos, mousePos - _mouseDownScreenPos);
-        foreach (var spawner in _loadedSpawners) {
-            var screenPoint = camera.WorldToScreenPoint(spawner.transform.position);
-            if (rect.Contains(screenPoint))
-                result.Add(spawner.gameObject);
-        }
-        return null;
-    }
-
     /// <summary>
     /// Resets the currently selected tool (to placement).
     /// </summary>
@@ -737,13 +812,13 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// Creates one of the currently selected objects at the cursor.
     /// </summary>
     public void CreateCurrentSelectedObjectAtCursor() {
-        CreateObject((byte)_selectedObjectIndexForPlacement, _cursorPosition, ActionType.Normal);
+        CreateObject((byte)_selectedObjectIndexForPlacement, _cursorPosition, LevelEditorAction.ActionType.Normal);
     }
 
     /// <summary>
     /// Crates an object with the given index.
     /// </summary>
-    public void CreateObject(byte index, Vector3 position, ActionType actionType) {
+    public void CreateObject(byte index, Vector3 position, LevelEditorAction.ActionType actionType) {
 
         // Warn if invalid index
         if (index < 0 || index >= byte.MaxValue)
@@ -762,12 +837,12 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
 
         // Update undo/redo stack
         switch (actionType) {
-            case ActionType.Normal:
-            case ActionType.Redo:
+            case LevelEditorAction.ActionType.Normal:
+            case LevelEditorAction.ActionType.Redo:
                 _undoStack.Push(new CreateObjectAction(index, spawner));
                 break;
 
-            case ActionType.Undo:
+            case LevelEditorAction.ActionType.Undo:
                 _redoStack.Push(new DeleteObjectAction(spawner, index));
                 break;
         }
@@ -776,7 +851,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// <summary>
     /// Deletes the given object.
     /// </summary>
-    public void DeleteObject(GameObject obj, ActionType actionType) {
+    public void DeleteObject(GameObject obj, LevelEditorAction.ActionType actionType) {
 
         // Get database index of object
         byte deletedObjectIndex = (byte)ObjectIndexOfObject(obj);
@@ -785,12 +860,12 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
         // Update undo/redo stack
         var deleteAction = new DeleteObjectAction(obj, deletedObjectIndex);
         switch (actionType) {
-            case ActionType.Normal:
-            case ActionType.Redo:
+            case LevelEditorAction.ActionType.Normal:
+            case LevelEditorAction.ActionType.Redo:
                 _undoStack.Push(deleteAction);
                 break;
 
-            case ActionType.Undo:
+            case LevelEditorAction.ActionType.Undo:
                 _redoStack.Push(new CreateObjectAction(deletedObjectIndex, obj));
                 break;
         }
@@ -808,15 +883,15 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// <summary>
     /// Moves an object.
     /// </summary>
-    public void MoveObject(GameObject obj, Vector3 oldPos, Vector3 newPos, ActionType actionType) {
+    public void MoveObject(GameObject obj, Vector3 oldPos, Vector3 newPos, LevelEditorAction.ActionType actionType) {
         var moveAction = new MoveObjectAction(obj, oldPos, newPos);
         switch (actionType) {
-            case ActionType.Normal:
-            case ActionType.Redo:
+            case LevelEditorAction.ActionType.Normal:
+            case LevelEditorAction.ActionType.Redo:
                 _undoStack.Push(moveAction);
                 break;
 
-            case ActionType.Undo:
+            case LevelEditorAction.ActionType.Undo:
                 _redoStack.Push(new MoveObjectAction(obj, newPos, oldPos));
                 break;
         }
@@ -825,32 +900,32 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
         SetObjectPosition(obj, newPos, actionType);
     }
 
-    public void SetObjectPosition(GameObject obj, Vector3 pos, ActionType actionType) {
+    public void SetObjectPosition(GameObject obj, Vector3 pos, LevelEditorAction.ActionType actionType) {
         var attribs = AttributesOfObject(obj);
         attribs.SetPosition(pos);
         obj.transform.position = pos;
     }
 
-    public void SetObjectEulerRotation(GameObject obj, Vector3 rot, ActionType actionType) {
+    public void SetObjectEulerRotation(GameObject obj, Vector3 rot, LevelEditorAction.ActionType actionType) {
         var attribs = AttributesOfObject(obj);
         attribs.SetEulerRotation(rot);
         obj.transform.localRotation = Quaternion.Euler(rot);
     }
 
-    public void SetObject3DScale(GameObject obj, Vector3 scale, ActionType actionType) {
+    public void SetObject3DScale(GameObject obj, Vector3 scale, LevelEditorAction.ActionType actionType) {
         var attribs = AttributesOfObject(obj);
         attribs.Set3DScale(scale);
         obj.transform.localScale = scale;
     }
 
-    public void RecordAttributeChange(GameObject obj, ChangeObjectNormalAttributeAction.AttributeChanged attrib, Vector3 oldValue, Vector3 newValue, ActionType actionType) {
+    public void RecordAttributeChange(GameObject obj, ChangeObjectNormalAttributeAction.AttributeChanged attrib, Vector3 oldValue, Vector3 newValue, LevelEditorAction.ActionType actionType) {
         switch (actionType) {
-            case ActionType.Normal:
-            case ActionType.Redo:
+            case LevelEditorAction.ActionType.Normal:
+            case LevelEditorAction.ActionType.Redo:
                 _undoStack.Push(new ChangeObjectNormalAttributeAction(obj, attrib, newValue));
                 break;
 
-            case ActionType.Undo:
+            case LevelEditorAction.ActionType.Undo:
                 _redoStack.Push(new ChangeObjectNormalAttributeAction(obj, attrib, oldValue));
                 break;
         }
@@ -907,7 +982,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
         if (_placementAllowed) {
             //CreateObject((byte)_movingObjectID, _cursorPosition, ActionType.None);
             //_movingObject.transform.position = _cursorPosition;
-            MoveObject(_movingObject, _movingObjectOriginalCoords, _cursorPosition, ActionType.Normal);
+            MoveObject(_movingObject, _movingObjectOriginalCoords, _cursorPosition, LevelEditorAction.ActionType.Normal);
             ResetMovingObject();
         }
     }
@@ -975,6 +1050,8 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// </summary>
     public void CloseLevel() {
         StopEditing();
+        _hoveredObjects.Clear();
+        _selectedObjects.Clear();
 
         _loadedLevel = null;
         _loadedLevelPath = "";
@@ -1122,8 +1199,12 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     void CleanupLevel() {
         CleanupFloor();
 
-        if (_loadedLevelObject != null)
+        if (_loadedLevelObject != null) {
             DestroyLoadedObject(_loadedLevelObject);
+            _loadedLevelObject = null;
+        }
+
+        for (int i = 0; i < _floorObjects.Length; i++) _floorObjects[i] = null;
     }
 
     /// <summary>

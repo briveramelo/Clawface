@@ -127,6 +127,11 @@ public class ObjectDatabase {
         return _categories[cat];
     }
 
+    //public void AddObject () {
+    //    var data = new ObjectData (_data.Count);
+    //    _data.Add (data);
+    //}
+
     /// <summary>
     /// Reloads all prefabs.
     /// </summary>

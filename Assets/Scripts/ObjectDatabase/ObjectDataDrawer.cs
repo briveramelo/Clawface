@@ -19,11 +19,11 @@ public class ObjectDataDrawer : PropertyDrawer {
     const int _LIMIT_FIELD_WIDTH = 128;
     const int _CATEGORY_DROPDOWN_WIDTH = 128;
 
-    const float _INDEX_LABEL_PERCENT = 0.15f;
-    const float _PATH_LABEL_PERCENT = 0.3f;
-    const float _PREFAB_FIELD_PERCENT = 0.25f;
-    const float _LIMIT_FIELD_PERCENT = 0.15f;
-    const float _CATEGORY_DROPDOWN_PERCENT = 0.15f;
+    public const float INDEX_LABEL_PERCENT = 0.15f;
+    public const float PATH_LABEL_PERCENT = 0.3f;
+    public const float PREFAB_FIELD_PERCENT = 0.25f;
+    public const float LIMIT_FIELD_PERCENT = 0.15f;
+    public const float CATEGORY_DROPDOWN_PERCENT = 0.15f;
 
     #endregion
     #region Overrides
@@ -33,7 +33,7 @@ public class ObjectDataDrawer : PropertyDrawer {
         EditorGUI.BeginChangeCheck();
 
         var currentX = position.x;
-        var indexLabelWidth = position.width * _INDEX_LABEL_PERCENT;
+        var indexLabelWidth = position.width * INDEX_LABEL_PERCENT;
 
         // Index property
         var indexProperty = property.FindPropertyRelative("index");
@@ -50,7 +50,7 @@ public class ObjectDataDrawer : PropertyDrawer {
 
         //currentX += _INDEX_LABEL_WIDTH;
         currentX += indexLabelWidth;
-        var pathLabelWidth = position.width * _PATH_LABEL_PERCENT;
+        var pathLabelWidth = position.width * PATH_LABEL_PERCENT;
 
         // Path property
         var pathProperty = property.FindPropertyRelative("path");
@@ -60,7 +60,7 @@ public class ObjectDataDrawer : PropertyDrawer {
 
         //currentX += _PATH_LABEL_WIDTH;
         currentX += pathLabelWidth;
-        var prefabFieldWidth = position.width * _PREFAB_FIELD_PERCENT;
+        var prefabFieldWidth = position.width * PREFAB_FIELD_PERCENT;
 
         // Prefab property
         var prefabProperty = property.FindPropertyRelative("prefab");
@@ -75,7 +75,7 @@ public class ObjectDataDrawer : PropertyDrawer {
 
         //currentX += _PREFAB_FIELD_WIDTH;
         currentX += prefabFieldWidth;
-        var limitFieldWidth = position.width * _LIMIT_FIELD_PERCENT;
+        var limitFieldWidth = position.width * LIMIT_FIELD_PERCENT;
 
         // Limit property
         var limitProperty = property.FindPropertyRelative("limit");
@@ -84,7 +84,7 @@ public class ObjectDataDrawer : PropertyDrawer {
 
         //currentX += _LIMIT_FIELD_WIDTH;
         currentX += limitFieldWidth;
-        var categoryDropdownWidth = position.width * _CATEGORY_DROPDOWN_PERCENT;
+        var categoryDropdownWidth = position.width * CATEGORY_DROPDOWN_PERCENT;
 
         // Category property
         var categoryProperty = property.FindPropertyRelative("category");

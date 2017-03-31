@@ -20,7 +20,7 @@ public abstract class SingletonMonoBehaviour<T> :
     /// <summary>
     /// Invoked when the instance of this class is initialized.
     /// </summary>
-    public static SingletonEvent onSingletonInitialized = new SingletonEvent();
+    public static SingletonEvent OnSingletonInitializedEditor = new SingletonEvent();
 
     #endregion
     #region Unity Callbacks
@@ -34,7 +34,8 @@ public abstract class SingletonMonoBehaviour<T> :
             Debug.LogError ("An instance of " + typeof(T).ToString() + " already exists!");
 
         _Instance = this;
-        onSingletonInitialized.Invoke();
+        if (!Application.isPlaying)
+            OnSingletonInitializedEditor.Invoke();
     }
 
     #endregion

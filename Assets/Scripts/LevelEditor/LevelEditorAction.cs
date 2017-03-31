@@ -4,16 +4,6 @@ using System;
 using UnityEngine;
 
 /// <summary>
-/// Type of level editor action.
-/// </summary>
-public enum ActionType {
-    None,
-    Normal,
-    Undo,
-    Redo
-}
-
-/// <summary>
 /// Base class for all actions performed in the editor so that they can be
 /// undone and redone.
 /// </summary>
@@ -34,6 +24,16 @@ public abstract class LevelEditorAction {
     /// Returns a short string representing this action.
     /// </summary>
     public abstract string ToShortString();
+
+    /// <summary>
+    /// Type of level editor action.
+    /// </summary>
+    public enum ActionType {
+        None,
+        Normal,
+        Undo,
+        Redo
+    }
 }
 
 /// <summary>
@@ -244,29 +244,29 @@ public class ChangeObjectNormalAttributeAction : LevelEditorAction {
     public override void Undo() {
         switch (_attrib) {
             case AttributeChanged.Position:
-                LevelManager.Instance.SetObjectPosition(_object, _oldValue, ActionType.Undo);
+                LevelManager.Instance.SetObjectPosition(_object, _oldValue, LevelEditorAction.ActionType.Undo);
                 break;
 
             case AttributeChanged.Rotation:
-                LevelManager.Instance.SetObjectEulerRotation(_object, _oldValue, ActionType.Undo);
+                LevelManager.Instance.SetObjectEulerRotation(_object, _oldValue, LevelEditorAction.ActionType.Undo);
                 break;
 
             case AttributeChanged.Scale:
-                LevelManager.Instance.SetObject3DScale(_object, _oldValue, ActionType.Undo);
+                LevelManager.Instance.SetObject3DScale(_object, _oldValue, LevelEditorAction.ActionType.Undo);
                 break;
         }
 
-        LevelManager.Instance.RecordAttributeChange (_object, _attrib, _newValue, _oldValue, ActionType.Undo);
+        LevelManager.Instance.RecordAttributeChange(_object, _attrib, _newValue, _oldValue, LevelEditorAction.ActionType.Undo);
     }
 
     public override void Redo() {
         switch (_attrib) {
             case AttributeChanged.Position:
-                LevelManager.Instance.SetObjectPosition(_object, _newValue, ActionType.Redo);
+                LevelManager.Instance.SetObjectPosition(_object, _newValue, LevelEditorAction.ActionType.Redo);
                 break;
 
             case AttributeChanged.Rotation:
-                LevelManager.Instance.SetObjectEulerRotation(_object, _newValue, ActionType.Redo);
+                LevelManager.Instance.SetObjectEulerRotation(_object, _newValue, LevelEditorAction.ActionType.Redo);
                 break;
 
             case AttributeChanged.Scale:
@@ -274,7 +274,7 @@ public class ChangeObjectNormalAttributeAction : LevelEditorAction {
                 break;
         }
 
-        LevelManager.Instance.RecordAttributeChange (_object, _attrib, _oldValue, _newValue, ActionType.Undo);
+        LevelManager.Instance.RecordAttributeChange(_object, _attrib, _oldValue, _newValue, ActionType.Undo);
     }
 
     public override string ToShortString() {

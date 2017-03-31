@@ -68,6 +68,10 @@ public class ObjectDatabaseManager :
         _database.BuildCategories();
     }
 
+    //public void AddObject () {
+    //    _database.AddObject();
+    //}
+
     /// <summary>
     /// Saves the database to a JSON file.
     /// </summary>
