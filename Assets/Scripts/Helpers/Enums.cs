@@ -154,7 +154,11 @@ public enum EGrapplingBotState {
 
 public enum SpawnType {
     Swinger=0,
-    Blaster=1,
-    Grappler=2,
+    Blaster = 1,
+    Grappler = 2,
+}
 
+public enum ActionType
+{
+    Skin=0
 }
