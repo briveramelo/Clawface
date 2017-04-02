@@ -81,6 +81,7 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
             timer = 0;
 
             UpdatePlayerHealthTotal();
+            UpdateModTimes();
         }
     }
 
@@ -93,15 +94,15 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         quitGameDictionary["averageHP"] = (int)(playerHealthTotal / playerHealthTicks);
         quitGameDictionary["currentHP"] = (int)playerStats.GetStat(StatType.Health);
         quitGameDictionary["deaths"] = deaths;
+        quitGameDictionary["sessionTimeMinutes"] = totalTime / 60f;
 
 
         foreach (ModType mod in System.Enum.GetValues(typeof(ModType)))
         {
             modTimeDictionary[mod.ToString()] = (float)modTimeDictionary[mod.ToString()] / totalTime;
-            Debug.Log((float) modTimeDictionary[mod.ToString()]);
         }
 
-        
+        Analytics.CustomEvent("modTimes", modTimeDictionary);
         Analytics.CustomEvent("quitGame", quitGameDictionary);
     }
     #endregion
@@ -181,13 +182,12 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         Dictionary<ModSpot, ModManager.ModSocket> modSpotDictionary = manager.GetModSpotDictionary();
         List<ModType> equippedMods = new List<ModType>();
 
-        if (modSpotDictionary[ModSpot.ArmL] != null)
+        if (modSpotDictionary[ModSpot.ArmL].mod != null)
         {
             equippedMods.Add(modSpotDictionary[ModSpot.ArmL].mod.getModType());
-
         }
 
-        if (modSpotDictionary[ModSpot.ArmR] != null)
+        if (modSpotDictionary[ModSpot.ArmR].mod != null)
         {
             if (!equippedMods.Contains(modSpotDictionary[ModSpot.ArmR].mod.getModType()))
             {
@@ -195,7 +195,7 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
             }
         }
 
-        if (modSpotDictionary[ModSpot.Legs] != null)
+        if (modSpotDictionary[ModSpot.Legs].mod != null)
         {
             if (!equippedMods.Contains(modSpotDictionary[ModSpot.Legs].mod.getModType()))
             {
