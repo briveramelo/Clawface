@@ -84,4 +84,10 @@ namespace ModMan {
         }        
     }
 
+    public static class TransformExtensions {
+        public static void Reset (this Transform tr) {
+            tr.localPosition = Vector3.zero;
+            tr.localRotation = Quaternion.identity;
+        }
+    }
 }
