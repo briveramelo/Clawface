@@ -19,7 +19,7 @@ public class TrailerLightManager : MonoBehaviour {
 
         }
 
-        Application.targetFrameRate = 30;
+        Application.targetFrameRate = 60;
     }
 
     private void Update() {
