@@ -34,6 +34,23 @@ public class BatonMod : Mod {
         }
     }
 
+    public override void ActivateModCanvas()
+    {
+        if (modCanvas && !isAttached)
+        {
+            modCanvas.SetActive(true);
+        }
+    }
+
+    public override void DeactivateModCanvas()
+    {
+        if (modCanvas)
+        {
+            modCanvas.SetActive(false);
+        }
+    }
+
+
     public override void DeActivate()
     {
         //Nothing to do here
@@ -44,13 +61,15 @@ public class BatonMod : Mod {
         type = ModType.StunBaton;
         category = ModCategory.Melee;
         vfxHandler = new VFXHandler(transform);
+        if (modCanvas) { modCanvas.SetActive(false); }
+       
     }
 
     void Swing()
     {        
         if (!isSwinging)
         {
-            AudioManager.Instance.PlaySFX(SFXType.StunBatonSwing);
+            //AudioManager.Instance.PlaySFX(SFXType.StunBatonSwing);
             
             isSwinging = true;
             StartCoroutine(HitCoolDown());
@@ -84,7 +103,7 @@ public class BatonMod : Mod {
                 IDamageable damageable = other.GetComponent<IDamageable>();
                 if (damageable != null && !recentlyHitEnemies.Contains(damageable)){
                     if (transform.root.CompareTag(Strings.Tags.PLAYER)){
-                        AudioManager.Instance.PlaySFX(SFXType.StunBatonHit);
+                        AudioManager.Instance.PlaySFX(SFXType.StunBatonImpact);
                         HitstopManager.Instance.StartHitstop(.05f);                        
                     }
                     if (!other.CompareTag(Strings.Tags.PLAYER)) {
@@ -114,14 +133,17 @@ public class BatonMod : Mod {
 
     public override void AttachAffect(ref Stats i_playerStats, IMovable wielderMovable)
     {
+        isAttached = true;
         attackCollider.enabled = true;
         wielderStats = i_playerStats;
         pickupCollider.enabled = false;
         attackValue = wielderStats.GetStat(StatType.Attack);
+   
     }
 
     public override void DetachAffect()
     {
+        isAttached = false;
         attackCollider.enabled = false;
         pickupCollider.enabled = true;
         attackValue = 0.0f;

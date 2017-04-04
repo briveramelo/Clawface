@@ -30,8 +30,10 @@ public enum SFXType {
     ModDrop=9,
     ModSwap=10,
     ModSwapSetup=11,
-    StunBatonHit=12,
-    Pause=13
+    StunBatonImpact=12,
+    StunBatonSwing1 = 13,
+    StunBatonSwing2 = 14,
+    //Pause=15
 }
 
 public enum ModType {
@@ -98,13 +100,9 @@ public enum MovementMode
 public enum PlayerAnimationStates
 {
     Idle = 0,
-    Running = 1,
-    Shoot = 2,
-    Float = 3,
-    MeleeRight = 4,
-    RunMeleeRight = 5,
-    MeleeLeft = 6,
-    RunMeleeLeft = 7
+    Running = 1,    
+    StunBatonR = 2,
+    StunBatonL = 3
 }
 
 public enum ButtonMode

@@ -22,7 +22,7 @@ public class Pauser : Singleton<Pauser>
 
     void Pause()
     {
-        AudioManager.Instance.PlaySFX(SFXType.Pause);
+        //AudioManager.Instance.PlaySFX(SFXType.Pause);
         //TODO display pause menu
         isPaused = !isPaused;
         Time.timeScale = isPaused ? 0 : 1;
