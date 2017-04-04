@@ -116,7 +116,8 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
 
     private void OnApplicationQuit()
     {
-        float totalTimeMinutes = totalTime / 60f;
+        int totalTimeMinutes = (int) totalTime / 60;
+        if (totalTimeMinutes < 1) totalTimeMinutes = 1;
 
         FormatPlayerModsInDictionary(ref quitGameDictionary);
         quitGameDictionary["averageHP"] = (int)(playerHealthTotal / playerHealthTicks);
