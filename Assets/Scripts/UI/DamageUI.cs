@@ -8,7 +8,6 @@ using UnityEngine.UI;
 
 public class DamageUI : MonoBehaviour
 {
-
     #region Unity Inspector Fields
     // Unity Objects
     [SerializeField]
