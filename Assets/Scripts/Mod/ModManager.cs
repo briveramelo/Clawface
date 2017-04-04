@@ -64,7 +64,7 @@ public class ModManager : MonoBehaviour
     private void OnTriggerStay(Collider other)
     {
         if (other.tag == Strings.Tags.MOD)
-        {
+        {            
             if (InputManager.Instance.QueryAction(Strings.Input.Actions.DROP_MODE,
                     ButtonMode.HELD))
             {                
@@ -75,6 +75,22 @@ public class ModManager : MonoBehaviour
                     CheckToAttachMod(commandedModSpot, other.GetComponent<Mod>());
                 }
             }
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == Strings.Tags.MOD)
+        {
+            other.GetComponent<Mod>().ActivateModCanvas();
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == Strings.Tags.MOD)
+        {
+            other.GetComponent<Mod>().DeactivateModCanvas();
         }
     }
     #endregion
@@ -278,6 +294,7 @@ public class ModManager : MonoBehaviour
 
     private void Attach(ModSpot spot, Mod mod, bool isSwapping = false)
     {
+       
         if (modSocketDictionary[spot].mod != null && !isSwapping)
         {
             Detach(spot);
@@ -295,6 +312,7 @@ public class ModManager : MonoBehaviour
         mod.AttachAffect(ref playerStats, velBody);
         SendModDictionaryToAnalytics();
         StartCoroutine(DelayIsOkToDropMod());
+        mod.DeactivateModCanvas();
     }
 
     private IEnumerator DelayIsOkToDropMod()
