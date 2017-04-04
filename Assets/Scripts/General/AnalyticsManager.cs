@@ -49,13 +49,13 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
     // Dictionary of how much damage enemies did with their mods
     private Dictionary<string, object> enemyModDamageDictionary;
 
-    // Dictionary of how many times each mod was used in the left arm slot, in average per minute that mod was equipped in that slot
+    // Dictionary of how many times each mod was used in the left arm slot
     private Dictionary<string, object> modArmLPressesDictionary;
 
-    // Dictionary of how many times each mod was used in the right arm slot, in average per minute that mod was equipped in that slot
+    // Dictionary of how many times each mod was used in the right arm slot
     private Dictionary<string, object> modArmRPressesDictionary;
 
-    // Dictionary of how many times each mod was used in the legs slot, in average per minute that mod was equipped in that slot
+    // Dictionary of how many times each mod was used in the legs slot
     private Dictionary<string, object> modLegsPressesDictionary;
 
     // Dictionary of how many times the player scored kills with each mod
@@ -168,17 +168,10 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         buttonPressesDictionary["skin"] = (float)buttonPressesDictionary["skin"] / totalTimeMinutes;
 
 
-        // Changes mod times to be a percentage of total play time, and mod presses to be average per minute
+        // Changes mod times to be a percentage of total play time
         foreach (ModType mod in System.Enum.GetValues(typeof(ModType)))
         {
             modRatioDictionary[mod.ToString()] = (float)modTimeDictionary[mod.ToString()] / totalTime;
-
-            float modTimeInMins = (float)modTimeDictionary[mod.ToString()] / 60f;
-            if (modTimeInMins < 1f) Mathf.Ceil(modTimeInMins);
-
-            modArmLPressesDictionary[mod.ToString()] = (float)modArmLPressesDictionary[mod.ToString()] / modTimeInMins;
-            modArmRPressesDictionary[mod.ToString()] = (float)modArmRPressesDictionary[mod.ToString()] / modTimeInMins;
-            modLegsPressesDictionary[mod.ToString()] = (float)modLegsPressesDictionary[mod.ToString()] / modTimeInMins;
         }
 
         if (sendData)
