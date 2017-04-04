@@ -79,7 +79,7 @@ GameObject:
   - component: {fileID: 114793955708429346}
   - component: {fileID: 114633845261910096}
   m_Layer: 8
-  m_Name: Player_NewTest
+  m_Name: Player_UI
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1031,6 +1031,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 95668787074051618}
+  animations: []
 --- !u!114 &114729164451201918
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1110,6 +1111,8 @@ MonoBehaviour:
     velBody: {fileID: 114793955708429346}
     statsManager: {fileID: 114411405976347458}
     animator: {fileID: 95668787074051618}
+    playerTransform: {fileID: 0}
+    modAnimationManager: {fileID: 0}
   defaultState: {fileID: 114183958674708450}
   skinningState: {fileID: 114985794323946042}
   lockOnScript: {fileID: 114983217752973738}
@@ -1135,6 +1138,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba193884efb54c04393c10bd6c0ce779, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  coolDownFrameCount: 0
+  inputCheckFrameCount: 0
+  totalAttackPoses: 0
+  highlightPoses: 
+  attackForwadDisplacement: 0
+  vfxMeleeSwing: []
+  lookSensitivity: 0
 --- !u!114 &114983217752973738
 MonoBehaviour:
   m_ObjectHideFlags: 1
