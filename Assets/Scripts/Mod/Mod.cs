@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class Mod : MonoBehaviour {
 
-    #region Public fields    
+    #region Public fields
     #endregion
 
     #region Protected Fields
@@ -19,11 +19,14 @@ public abstract class Mod : MonoBehaviour {
         }
         return 0;
     }
+
+    protected bool isAttached;
     #endregion
 
     #region Serialized Unity Inspector fields
     [SerializeField]
     public Collider pickupCollider;
+    public GameObject modCanvas;
     #endregion
 
     #region Private Fields
@@ -43,6 +46,10 @@ public abstract class Mod : MonoBehaviour {
     public abstract void AttachAffect(ref Stats wielderStats, IMovable wielderMovable);
 
     public abstract void DetachAffect();
+
+    public abstract void ActivateModCanvas();
+
+    public abstract void DeactivateModCanvas();
 
     public void setModType(ModType modType)
     {

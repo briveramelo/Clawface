@@ -315,7 +315,15 @@ public class TankTreadsMod : Mod
     #endregion
 
     #region Private Methods
+    public override void ActivateModCanvas()
+    {
+        
+    }
 
+    public override void DeactivateModCanvas()
+    {
+
+    }
     private Vector3 GetNormalizedDistance(Transform forceSender, Transform forceReceiver)
     {
         Vector3 normalizedDistance = forceReceiver.position - forceSender.position;
