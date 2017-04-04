@@ -44,6 +44,7 @@ public class SegwayMod : Mod {
     void Start()
     {
         setModType(ModType.ForceSegway);
+        modCanvas.SetActive(false);
     }
 
     void Update()
@@ -100,6 +101,7 @@ public class SegwayMod : Mod {
 
     public override void AttachAffect(ref Stats i_playerStats, IMovable wielderMovable)
     {
+        isAttached = true;
         this.wielderMovable = wielderMovable;
         wielderStats = i_playerStats;
         pickupCollider.enabled = false;
@@ -150,6 +152,22 @@ public class SegwayMod : Mod {
         }
         
     }
+
+    public override void ActivateModCanvas()
+    {
+        if (modCanvas && !isAttached)
+        {
+            modCanvas.SetActive(true);
+        }
+    }
+
+    public override void DeactivateModCanvas()
+    {
+        if (modCanvas)
+        {
+            modCanvas.SetActive(false);
+        }
+    }
     public override void AlternateActivate(bool isHeld, float holdTime)
     {
 
@@ -162,6 +180,7 @@ public class SegwayMod : Mod {
 
     public override void DetachAffect()
     {
+        isAttached = false;
         pickupCollider.enabled = true;
         segwayVFX.SetMoving(false);
         segwayVFX.SetIdle(true);

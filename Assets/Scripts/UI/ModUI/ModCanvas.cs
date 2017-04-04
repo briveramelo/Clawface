@@ -3,45 +3,38 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CopUI : MonoBehaviour {
+public class ModCanvas : MonoBehaviour {
 
     #region Public fields
     #endregion
 
     #region Serialized Unity Inspector fields
     [SerializeField]
-    private Sprite skinActionIcon;
-    [SerializeField]
-    private Image actionImage;
+    private Image modIconGraphic;
     #endregion
 
-    #region Private Fields
-    private Color iconColor;
-    #endregion
-
-    #region Unity Lifecycle
-    #endregion
-
-    #region Public Methods
-    #endregion
-
-    #region Private Methods
-    public void ShowAction(ActionType i_action)
+    private void OnEnable()
     {
-        if (i_action == ActionType.Skin)
-        {
-            actionImage.sprite = skinActionIcon;
-            SetAlphaOfActionIcon(0f);
-
-        }
         FadeInIconActionImage();
     }
-    
+    private void OnDisable()
+    {
+        FadeOutIconActionImage();
+    }
+
+    private void FadeOutIconActionImage()
+    {
+        Color c = modIconGraphic.color;
+        c.a = 0f;
+        modIconGraphic.color = c;
+    }
+
+
     private void SetAlphaOfActionIcon(float i_val)
     {
-        Color c = actionImage.color;
+        Color c = modIconGraphic.color;
         c.a = i_val;
-        actionImage.color = c;
+        modIconGraphic.color = c;
     }
 
     private void FadeInIconActionImage()
@@ -59,9 +52,4 @@ public class CopUI : MonoBehaviour {
             SetAlphaOfActionIcon(val);
         }).setOnComplete(FadeInIconActionImage);
     }
-    #endregion
-
-    #region Private Structures
-    #endregion
-
 }
