@@ -69,7 +69,7 @@ public class BatonMod : Mod {
     {        
         if (!isSwinging)
         {
-            AudioManager.Instance.PlaySFX(SFXType.StunBatonSwing);
+            //AudioManager.Instance.PlaySFX(SFXType.StunBatonSwing);
             
             isSwinging = true;
             StartCoroutine(HitCoolDown());
@@ -103,7 +103,7 @@ public class BatonMod : Mod {
                 IDamageable damageable = other.GetComponent<IDamageable>();
                 if (damageable != null && !recentlyHitEnemies.Contains(damageable)){
                     if (transform.root.CompareTag(Strings.Tags.PLAYER)){
-                        AudioManager.Instance.PlaySFX(SFXType.StunBatonHit);
+                        AudioManager.Instance.PlaySFX(SFXType.StunBatonImpact);
                         HitstopManager.Instance.StartHitstop(.05f);                        
                     }
                     if (!other.CompareTag(Strings.Tags.PLAYER)) {
