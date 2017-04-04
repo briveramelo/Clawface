@@ -70,7 +70,7 @@ public class BatonMod : Mod {
         if (stunMine != null)
         {
             stunMine.transform.position = transform.position;
-            AudioManager.Instance.PlaySFX(SFXType.StunBatonLayMine);
+            //AudioManager.Instance.PlaySFX(SFXType.StunBatonLayMine);
         }
     }
 
@@ -84,7 +84,7 @@ public class BatonMod : Mod {
                 IDamageable damageable = other.GetComponent<IDamageable>();
                 if (damageable != null && !recentlyHitEnemies.Contains(damageable)){
                     if (transform.root.CompareTag(Strings.Tags.PLAYER)){
-                        AudioManager.Instance.PlaySFX(SFXType.StunBatonHit);
+                        AudioManager.Instance.PlaySFX(SFXType.StunBatonImpact);
                         HitstopManager.Instance.StartHitstop(.05f);                        
                     }
                     if (!other.CompareTag(Strings.Tags.PLAYER)) {

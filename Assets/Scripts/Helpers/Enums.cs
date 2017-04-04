@@ -18,7 +18,7 @@ public enum CodexType {
 }
 
 public enum SFXType {
-    ArmBlasterFire = 0,
+    /*ArmBlasterFire = 0,
     ArmBlasterExplode=1,
     TargetBreak=2,
     StunBatonSwing=3,
@@ -31,7 +31,14 @@ public enum SFXType {
     ModSwap=10,
     ModSwapSetup=11,
     StunBatonHit=12,
-    Pause=13
+    Pause=13,*/
+    BlasterCharge,
+    BlasterProjectileImpact,
+    BloodExplosion,
+    StunBatonCharge,
+    StunBatonImpact,
+    StunBatonSwing,
+    BlasterShoot
 }
 
 public enum ModType {

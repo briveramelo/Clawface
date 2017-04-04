@@ -47,7 +47,7 @@ public class BlasterMod : Mod {
 
     void Shoot()
     {
-        AudioManager.Instance.PlaySFX(SFXType.ArmBlasterFire);
+        AudioManager.Instance.PlaySFX(SFXType.BlasterShoot);
         SpawnBullet();
         if (wielderMovable != null) {
             if (getModSpot() == ModSpot.Legs && wielderMovable != null) {
