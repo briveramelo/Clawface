@@ -60,6 +60,11 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
         stats.Modify(type, multiplier);
         return true;
     }
+
+    public float GetHealth()
+    {
+        return stats.GetStat(StatType.Health);
+    }
     #endregion
 
     #region Private Methods

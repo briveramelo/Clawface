@@ -16,4 +16,9 @@ public class TestEnemy : MonoBehaviour, IDamageable {
     {
         rigid = GetComponent<Rigidbody>();
     }
+
+    public float GetHealth()
+    {
+        return 1;
+    }
 }

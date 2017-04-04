@@ -79,6 +79,11 @@ public class SegwayMod : Mod {
                         AnalyticsManager.Instance.AddEnemyModDamage(this.getModType(), (wielderStats.GetStat(StatType.Attack) * damage));
                     }
                     damageable.TakeDamage(wielderStats.GetStat(StatType.Attack) * damage);
+
+                    if (damageable.GetHealth() <= 0.01f)
+                    {
+                        AnalyticsManager.Instance.AddModKill(this.getModType());
+                    }
                 }
                 if (movable != null && !recentlyHitEnemies.Contains(damageable))
                 {

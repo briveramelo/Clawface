@@ -14,11 +14,9 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
     #endregion
 
     #region Serialized Unity Inspector fields
-    [SerializeField]
-    private Stats playerStats;
 
     [SerializeField]
-    private ModManager manager;
+    private bool sendData;
 
     [SerializeField]
     private float timeBetweenTicks;
@@ -27,15 +25,41 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
 
 
     #region Private Fields
+    private Stats playerStats;
+    private ModManager manager;
+
+    // Dictionary of stats that is recorded and sent on player death
     private Dictionary<string, object> playerDeathDictionary;
+
+    // Dictionary of general stats that is sent on exiting the game
     private Dictionary<string, object> quitGameDictionary;
+
+    // Dictionary of times (in seconds) of what mods were equipped during gameplay
     private Dictionary<string, object> modTimeDictionary;
+
+    // Dictionary of times (in ratios of time mod equipped / total time playing) of what mods were equipped in any slot during gameplay
+    private Dictionary<string, object> modRatioDictionary;
+
+    // Dictionary of how many times buttons were pressed during gameplay, in average per minute
     private Dictionary<string, object> buttonPressesDictionary;
+
+    // Dictionary of how much damage the player did with every mod in the game
     private Dictionary<string, object> modDamageDictionary;
+
+    // Dictionary of how much damage enemies did with their mods
     private Dictionary<string, object> enemyModDamageDictionary;
+
+    // Dictionary of how many times each mod was used in the left arm slot, in average per minute that mod was equipped in that slot
     private Dictionary<string, object> modArmLPressesDictionary;
+
+    // Dictionary of how many times each mod was used in the right arm slot, in average per minute that mod was equipped in that slot
     private Dictionary<string, object> modArmRPressesDictionary;
+
+    // Dictionary of how many times each mod was used in the legs slot, in average per minute that mod was equipped in that slot
     private Dictionary<string, object> modLegsPressesDictionary;
+
+    // Dictionary of how many times the player scored kills with each mod
+    private Dictionary<string, object> modKillsDictionary;
 
     private float timer;
     private float playerHealthTotal;
@@ -61,6 +85,9 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         quitGameDictionary.Add("averageHP", 0);
         quitGameDictionary.Add("currentHP", 0);
         quitGameDictionary.Add("deaths", 0);
+        quitGameDictionary.Add("swaps", 0f);
+        quitGameDictionary.Add("drops", 0f);
+        quitGameDictionary.Add("sessionTimeMins", 0);
 
         playerDeathDictionary = new Dictionary<string, object>();
         playerDeathDictionary.Add("armL", "null");
@@ -69,20 +96,24 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         playerDeathDictionary.Add("averageHP", 0);
 
         modTimeDictionary = new Dictionary<string, object>();
+        modRatioDictionary = new Dictionary<string, object>();
         modDamageDictionary = new Dictionary<string, object>();
         enemyModDamageDictionary = new Dictionary<string, object>();
         modArmLPressesDictionary = new Dictionary<string, object>();
         modArmRPressesDictionary = new Dictionary<string, object>();
         modLegsPressesDictionary = new Dictionary<string, object>();
+        modKillsDictionary = new Dictionary<string, object>();
 
         foreach (ModType mod in System.Enum.GetValues(typeof(ModType)))
         {
             modTimeDictionary.Add(mod.ToString(), 0f);
+            modRatioDictionary.Add(mod.ToString(), 0f);
             modDamageDictionary.Add(mod.ToString(), 0f);
             enemyModDamageDictionary.Add(mod.ToString(), 0f);
             modArmLPressesDictionary.Add(mod.ToString(), 0f);
             modArmRPressesDictionary.Add(mod.ToString(), 0f);
             modLegsPressesDictionary.Add(mod.ToString(), 0f);
+            modKillsDictionary.Add(mod.ToString(), 0f);
         }
 
         buttonPressesDictionary = new Dictionary<string, object>();
@@ -116,14 +147,17 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
 
     private void OnApplicationQuit()
     {
-        int totalTimeMinutes = (int) totalTime / 60;
+
+        int totalTimeMinutes = (int)totalTime / 60;
         if (totalTimeMinutes < 1) totalTimeMinutes = 1;
 
         FormatPlayerModsInDictionary(ref quitGameDictionary);
         quitGameDictionary["averageHP"] = (int)(playerHealthTotal / playerHealthTicks);
         quitGameDictionary["currentHP"] = (int)playerStats.GetStat(StatType.Health);
+        quitGameDictionary["swaps"] = (float)quitGameDictionary["swaps"] / totalTimeMinutes;
+        quitGameDictionary["drops"] = (float)quitGameDictionary["drops"] / totalTimeMinutes;
         quitGameDictionary["deaths"] = deaths;
-        quitGameDictionary["sessionTimeMinutes"] = totalTimeMinutes;
+        quitGameDictionary["sessionTimeMins"] = totalTimeMinutes;
 
         // Changes button presses to be average per minute
         buttonPressesDictionary["armL"] = (float)buttonPressesDictionary["armL"] / totalTimeMinutes;
@@ -137,20 +171,29 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         // Changes mod times to be a percentage of total play time, and mod presses to be average per minute
         foreach (ModType mod in System.Enum.GetValues(typeof(ModType)))
         {
-            modTimeDictionary[mod.ToString()] = (float)modTimeDictionary[mod.ToString()] / totalTime;
-            modArmLPressesDictionary[mod.ToString()] = (float)modArmLPressesDictionary[mod.ToString()] / totalTimeMinutes;
-            modArmRPressesDictionary[mod.ToString()] = (float)modArmRPressesDictionary[mod.ToString()] / totalTimeMinutes;
-            modLegsPressesDictionary[mod.ToString()] = (float)modLegsPressesDictionary[mod.ToString()] / totalTimeMinutes;
+            modRatioDictionary[mod.ToString()] = (float)modTimeDictionary[mod.ToString()] / totalTime;
+
+            float modTimeInMins = (float)modTimeDictionary[mod.ToString()] / 60f;
+            if (modTimeInMins < 1f) Mathf.Ceil(modTimeInMins);
+
+            modArmLPressesDictionary[mod.ToString()] = (float)modArmLPressesDictionary[mod.ToString()] / modTimeInMins;
+            modArmRPressesDictionary[mod.ToString()] = (float)modArmRPressesDictionary[mod.ToString()] / modTimeInMins;
+            modLegsPressesDictionary[mod.ToString()] = (float)modLegsPressesDictionary[mod.ToString()] / modTimeInMins;
         }
 
-        Analytics.CustomEvent("modTimes", modTimeDictionary);
-        Analytics.CustomEvent("quitGame", quitGameDictionary);
-        Analytics.CustomEvent("buttonPresses", buttonPressesDictionary);
-        Analytics.CustomEvent("modDamage", modDamageDictionary);
-        Analytics.CustomEvent("enemyModDamage", enemyModDamageDictionary);
-        Analytics.CustomEvent("armLButtonPresses", modArmLPressesDictionary);
-        Analytics.CustomEvent("armRButtonPresses", modArmRPressesDictionary);
-        Analytics.CustomEvent("legsButtonPresses", modLegsPressesDictionary);
+        if (sendData)
+        {
+            Analytics.CustomEvent("modTimes", modTimeDictionary);
+            Analytics.CustomEvent("modRatios", modRatioDictionary);
+            Analytics.CustomEvent("quitGame", quitGameDictionary);
+            Analytics.CustomEvent("buttonPresses", buttonPressesDictionary);
+            Analytics.CustomEvent("modDamage", modDamageDictionary);
+            Analytics.CustomEvent("enemyModDamage", enemyModDamageDictionary);
+            Analytics.CustomEvent("armLButtonPresses", modArmLPressesDictionary);
+            Analytics.CustomEvent("armRButtonPresses", modArmRPressesDictionary);
+            Analytics.CustomEvent("legsButtonPresses", modLegsPressesDictionary);
+            Analytics.CustomEvent("modKills", modKillsDictionary);
+        }
     }
     #endregion
 
@@ -188,13 +231,26 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
 
     }
 
+    public void SwapMods()
+    {
+        quitGameDictionary["swaps"] = (float) quitGameDictionary["swaps"] + 1f;
+    }
+
+    public void DropMod()
+    {
+        quitGameDictionary["drops"] = (float)quitGameDictionary["drops"] + 1f;
+    }
+
     public void PlayerDeath()
     {
         deaths++;
         playerDeathDictionary["averageHP"] = (int)(playerHealthTotal / playerHealthTicks);
         FormatPlayerModsInDictionary(ref playerDeathDictionary);
 
-        Analytics.CustomEvent("playerDeath", playerDeathDictionary);
+        if (sendData)
+        {
+            Analytics.CustomEvent("playerDeath", playerDeathDictionary);
+        }
 
 
         playerHealthTotal = playerStats.GetStat(StatType.Health);
@@ -217,6 +273,11 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
     public void AddEnemyModDamage(ModType modType, float damage)
     {
         enemyModDamageDictionary[modType.ToString()] = (float)enemyModDamageDictionary[modType.ToString()] + damage;
+    }
+
+    public void AddModKill(ModType modType)
+    {
+        modKillsDictionary[modType.ToString()] = (float)modKillsDictionary[modType.ToString()] + 1f;
     }
 
     public void SetPlayerStats(Stats stats)

@@ -75,6 +75,11 @@ public class Hook : MonoBehaviour {
                     }
 
                     damageable.TakeDamage(damage);
+
+                    if (damageable.GetHealth() <= 0.01f)
+                    {
+                        AnalyticsManager.Instance.AddModKill(ModType.Grappler);
+                    }
                 }
             }
         }

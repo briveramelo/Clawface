@@ -88,6 +88,11 @@ public class BlasterBullet : MonoBehaviour {
             }
 
             damageable.TakeDamage(damageResult);
+
+            if (damageable.GetHealth() <= 0.01f)
+            {
+                AnalyticsManager.Instance.AddModKill(ModType.ArmBlaster);
+            }
         }
     }
 
