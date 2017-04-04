@@ -70,6 +70,14 @@ public class SegwayMod : Mod {
 
                 if (damageable != null && !recentlyHitEnemies.Contains(damageable))
                 {
+                    if (this.transform.root.tag == Strings.Tags.PLAYER)
+                    {
+                        AnalyticsManager.Instance.AddModDamage(this.getModType(), (wielderStats.GetStat(StatType.Attack) * damage));
+                    }
+                    else
+                    {
+                        AnalyticsManager.Instance.AddEnemyModDamage(this.getModType(), (wielderStats.GetStat(StatType.Attack) * damage));
+                    }
                     damageable.TakeDamage(wielderStats.GetStat(StatType.Attack) * damage);
                 }
                 if (movable != null && !recentlyHitEnemies.Contains(damageable))
