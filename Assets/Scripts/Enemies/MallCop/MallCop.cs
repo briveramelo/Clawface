@@ -42,7 +42,8 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
         controller.Initialize(properties, mod, velBody, animator, myStats);
 
         ResetForRebirth();
-        copUICanvas = canvas.GetComponent<CopUI>();
+        if (canvas) { copUICanvas = canvas.GetComponent<CopUI>(); }
+       
         mod.setModSpot(ModSpot.ArmR);
         mod.AttachAffect(ref myStats, velBody);
     }    
@@ -123,7 +124,8 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
 
     private void ResetForRebirth() {
         GetComponent<CapsuleCollider>().enabled = true;
-        canvas.SetActive(false);
+        if (canvas) { canvas.SetActive(false); }
+        
         myStats.ResetForRebirth();
         controller.ResetForRebirth();
         velBody.ResetForRebirth();
