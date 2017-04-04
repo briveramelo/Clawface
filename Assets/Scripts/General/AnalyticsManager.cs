@@ -30,7 +30,12 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
     private Dictionary<string, object> playerDeathDictionary;
     private Dictionary<string, object> quitGameDictionary;
     private Dictionary<string, object> modTimeDictionary;
-    private Dictionary<string, object> buttonPresses;
+    private Dictionary<string, object> buttonPressesDictionary;
+    private Dictionary<string, object> modDamageDictionary;
+    private Dictionary<string, object> enemyModDamageDictionary;
+    private Dictionary<string, object> modArmLPressesDictionary;
+    private Dictionary<string, object> modArmRPressesDictionary;
+    private Dictionary<string, object> modLegsPressesDictionary;
 
     private float timer;
     private float playerHealthTotal;
@@ -64,18 +69,29 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         playerDeathDictionary.Add("averageHP", 0);
 
         modTimeDictionary = new Dictionary<string, object>();
+        modDamageDictionary = new Dictionary<string, object>();
+        enemyModDamageDictionary = new Dictionary<string, object>();
+        modArmLPressesDictionary = new Dictionary<string, object>();
+        modArmRPressesDictionary = new Dictionary<string, object>();
+        modLegsPressesDictionary = new Dictionary<string, object>();
+
         foreach (ModType mod in System.Enum.GetValues(typeof(ModType)))
         {
             modTimeDictionary.Add(mod.ToString(), 0f);
+            modDamageDictionary.Add(mod.ToString(), 0f);
+            enemyModDamageDictionary.Add(mod.ToString(), 0f);
+            modArmLPressesDictionary.Add(mod.ToString(), 0f);
+            modArmRPressesDictionary.Add(mod.ToString(), 0f);
+            modLegsPressesDictionary.Add(mod.ToString(), 0f);
         }
 
-        buttonPresses = new Dictionary<string, object>();
-        buttonPresses.Add("armL", 0f);
-        buttonPresses.Add("armR", 0f);
-        buttonPresses.Add("legs", 0f);
-        buttonPresses.Add("dodge", 0f);
-        buttonPresses.Add("swap", 0f);
-        buttonPresses.Add("skin", 0f);
+        buttonPressesDictionary = new Dictionary<string, object>();
+        buttonPressesDictionary.Add("armL", 0f);
+        buttonPressesDictionary.Add("armR", 0f);
+        buttonPressesDictionary.Add("legs", 0f);
+        buttonPressesDictionary.Add("dodge", 0f);
+        buttonPressesDictionary.Add("swap", 0f);
+        buttonPressesDictionary.Add("skin", 0f);
     }
 
     // Update is called once per frame
@@ -100,33 +116,40 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
 
     private void OnApplicationQuit()
     {
-        Debug.Log("Sending data on application quit!");
+        float totalTimeMinutes = totalTime / 60f;
+
         FormatPlayerModsInDictionary(ref quitGameDictionary);
         quitGameDictionary["averageHP"] = (int)(playerHealthTotal / playerHealthTicks);
         quitGameDictionary["currentHP"] = (int)playerStats.GetStat(StatType.Health);
         quitGameDictionary["deaths"] = deaths;
-        quitGameDictionary["sessionTimeMinutes"] = totalTime / 60f;
-
-        float totalTimeMinutes = totalTime / 60f;
+        quitGameDictionary["sessionTimeMinutes"] = totalTimeMinutes;
 
         // Changes button presses to be average per minute
-        buttonPresses["armL"] = (float)buttonPresses["armL"] / totalTimeMinutes;
-        buttonPresses["armR"] = (float)buttonPresses["armR"] / totalTimeMinutes;
-        buttonPresses["legs"] = (float)buttonPresses["legs"] / totalTimeMinutes;
-        buttonPresses["dodge"] = (float)buttonPresses["dodge"] / totalTimeMinutes;
-        buttonPresses["swap"] = (float)buttonPresses["swap"] / totalTimeMinutes;
-        buttonPresses["skin"] = (float)buttonPresses["skin"] / totalTimeMinutes;
+        buttonPressesDictionary["armL"] = (float)buttonPressesDictionary["armL"] / totalTimeMinutes;
+        buttonPressesDictionary["armR"] = (float)buttonPressesDictionary["armR"] / totalTimeMinutes;
+        buttonPressesDictionary["legs"] = (float)buttonPressesDictionary["legs"] / totalTimeMinutes;
+        buttonPressesDictionary["dodge"] = (float)buttonPressesDictionary["dodge"] / totalTimeMinutes;
+        buttonPressesDictionary["swap"] = (float)buttonPressesDictionary["swap"] / totalTimeMinutes;
+        buttonPressesDictionary["skin"] = (float)buttonPressesDictionary["skin"] / totalTimeMinutes;
 
 
-        // Changes mod times to be a percentage of total play time
+        // Changes mod times to be a percentage of total play time, and mod presses to be average per minute
         foreach (ModType mod in System.Enum.GetValues(typeof(ModType)))
         {
             modTimeDictionary[mod.ToString()] = (float)modTimeDictionary[mod.ToString()] / totalTime;
+            modArmLPressesDictionary[mod.ToString()] = (float)modArmLPressesDictionary[mod.ToString()] / totalTimeMinutes;
+            modArmRPressesDictionary[mod.ToString()] = (float)modArmRPressesDictionary[mod.ToString()] / totalTimeMinutes;
+            modLegsPressesDictionary[mod.ToString()] = (float)modLegsPressesDictionary[mod.ToString()] / totalTimeMinutes;
         }
 
         Analytics.CustomEvent("modTimes", modTimeDictionary);
         Analytics.CustomEvent("quitGame", quitGameDictionary);
-        Analytics.CustomEvent("buttonPresses", buttonPresses);
+        Analytics.CustomEvent("buttonPresses", buttonPressesDictionary);
+        Analytics.CustomEvent("modDamage", modDamageDictionary);
+        Analytics.CustomEvent("enemyModDamage", enemyModDamageDictionary);
+        Analytics.CustomEvent("armLButtonPresses", modArmLPressesDictionary);
+        Analytics.CustomEvent("armRButtonPresses", modArmRPressesDictionary);
+        Analytics.CustomEvent("legsButtonPresses", modLegsPressesDictionary);
     }
     #endregion
 
@@ -185,6 +208,16 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
 
     }
 
+    public void AddModDamage(ModType modType, float damage)
+    {
+        modDamageDictionary[modType.ToString()] = (float) modDamageDictionary[modType.ToString()] + damage;
+    }
+
+    public void AddEnemyModDamage(ModType modType, float damage)
+    {
+        enemyModDamageDictionary[modType.ToString()] = (float)enemyModDamageDictionary[modType.ToString()] + damage;
+    }
+
     public void SetPlayerStats(Stats stats)
     {
         playerStats = stats;
@@ -202,33 +235,54 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
 
     private void UpdateButtonPresses()
     {
-        if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_LEFT, ButtonMode.DOWN)) {
-            buttonPresses["armL"] = (float)buttonPresses["armL"] + 1f;
+        Dictionary<ModSpot, ModManager.ModSocket> modSocketDictionary = manager.GetModSpotDictionary();
+
+        if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_LEFT, ButtonMode.DOWN))
+        {
+            buttonPressesDictionary["armL"] = (float)buttonPressesDictionary["armL"] + 1f;
+
+            if (modSocketDictionary[ModSpot.ArmL].mod != null)
+            {
+                string modTypeToString = modSocketDictionary[ModSpot.ArmL].mod.getModType().ToString();
+                modArmLPressesDictionary[modTypeToString] = (float)modArmLPressesDictionary[modTypeToString] + 1f;
+            }
         }
 
         if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_RIGHT, ButtonMode.DOWN))
         {
-            buttonPresses["armR"] = (float)buttonPresses["armR"] + 1f;
+            buttonPressesDictionary["armR"] = (float)buttonPressesDictionary["armR"] + 1f;
+
+            if (modSocketDictionary[ModSpot.ArmR].mod != null)
+            {
+                string modTypeToString = modSocketDictionary[ModSpot.ArmR].mod.getModType().ToString();
+                modArmRPressesDictionary[modTypeToString] = (float)modArmRPressesDictionary[modTypeToString] + 1f;
+            }
         }
 
         if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_LEGS, ButtonMode.DOWN))
         {
-            buttonPresses["legs"] = (float)buttonPresses["legs"] + 1f;
+            buttonPressesDictionary["legs"] = (float)buttonPressesDictionary["legs"] + 1f;
+
+            if (modSocketDictionary[ModSpot.Legs].mod != null)
+            {
+                string modTypeToString = modSocketDictionary[ModSpot.Legs].mod.getModType().ToString();
+                modLegsPressesDictionary[modTypeToString] = (float)modLegsPressesDictionary[modTypeToString] + 1f;
+            }
         }
 
         if (InputManager.Instance.QueryAction(Strings.Input.Actions.DODGE, ButtonMode.DOWN))
         {
-            buttonPresses["dodge"] = (float)buttonPresses["dodge"] + 1f;
+            buttonPressesDictionary["dodge"] = (float)buttonPressesDictionary["dodge"] + 1f;
         }
 
         if (InputManager.Instance.QueryAction(Strings.Input.Actions.SWAP_MODE, ButtonMode.DOWN))
         {
-            buttonPresses["swap"] = (float)buttonPresses["swap"] + 1f;
+            buttonPressesDictionary["swap"] = (float)buttonPressesDictionary["swap"] + 1f;
         }
 
         if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_SKIN, ButtonMode.DOWN))
         {
-            buttonPresses["skin"] = (float)buttonPresses["skin"] + 1f;
+            buttonPressesDictionary["skin"] = (float)buttonPressesDictionary["skin"] + 1f;
         }
     }
 

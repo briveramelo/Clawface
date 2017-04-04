@@ -60,9 +60,20 @@ public class Hook : MonoBehaviour {
             }
             if (sharedVariables.throwHook || sharedVariables.retractHook)
             {
+                
+
                 IDamageable damageable = other.gameObject.GetComponent<IDamageable>();
                 if (damageable != null)
                 {
+                    if (this.transform.root.CompareTag(Strings.Tags.PLAYER))
+                    {
+                        AnalyticsManager.Instance.AddModDamage(ModType.Grappler, damage);
+                    }
+                    else if (this.transform.root.CompareTag(Strings.Tags.ENEMY))
+                    {
+                        AnalyticsManager.Instance.AddEnemyModDamage(ModType.Grappler, damage);
+                    }
+
                     damageable.TakeDamage(damage);
                 }
             }

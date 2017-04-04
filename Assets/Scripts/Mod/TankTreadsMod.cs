@@ -129,13 +129,24 @@ public class TankTreadsMod : Mod
             {
                 objectsHitDuringAttack.Add(other.transform.root);
 
+                bool isPlayer = false;
                 // If the player is the one attacking, and they're attacking something other than the player
                 if (!other.transform.root.CompareTag(Strings.Tags.PLAYER) && transform.root.CompareTag(Strings.Tags.PLAYER)) {
                     HitstopManager.Instance.StartHitstop(armRegularHitstop);
+                    isPlayer = true;
+                    
                 }
 
 
                 if (!transform.root.CompareTag(other.transform.root.tag)) {
+                    if (isPlayer)
+                    {
+                        AnalyticsManager.Instance.AddModDamage(this.getModType(), (int)armRegularDamage);
+                    }
+                    else
+                    {
+                        AnalyticsManager.Instance.AddEnemyModDamage(this.getModType(), (int)armRegularDamage);
+                    }
                     damageable.TakeDamage(armRegularDamage);
                 }
             }
@@ -146,13 +157,23 @@ public class TankTreadsMod : Mod
 
             if (damageable != null)
             {
+                bool isPlayer = false;
                 if (this.transform.root.tag == Strings.Tags.PLAYER && other.transform.root.tag != Strings.Tags.PLAYER)
                 {
+                    isPlayer = true;
                     HitstopManager.Instance.StartHitstop(armChargedHitstop);
                 }
 
                 if (!transform.root.CompareTag(other.transform.root.tag))
                 {
+                    if (isPlayer)
+                    {
+                        AnalyticsManager.Instance.AddModDamage(this.getModType(), (int)armChargedDamage);
+                    }
+                    else
+                    {
+                        AnalyticsManager.Instance.AddEnemyModDamage(this.getModType(), (int)armChargedDamage);
+                    }
                     damageable.TakeDamage(armChargedDamage);
                 }
             }
@@ -178,6 +199,14 @@ public class TankTreadsMod : Mod
                 {
                     if (!this.transform.root.CompareTag(other.transform.root.tag))
                     {
+                        if (this.transform.root.CompareTag(Strings.Tags.PLAYER))
+                        {
+                            AnalyticsManager.Instance.AddModDamage(this.getModType(), legsCrushDamage);
+                        }
+                        else
+                        {
+                            AnalyticsManager.Instance.AddEnemyModDamage(this.getModType(), legsCrushDamage);
+                        }
                         damageable.TakeDamage(legsCrushDamage);
                         legsTimer = timeBetweenLegsDamageTick;
                         legAttackHitboxIsActive = false;

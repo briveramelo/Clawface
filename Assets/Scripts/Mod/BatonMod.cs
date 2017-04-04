@@ -85,7 +85,12 @@ public class BatonMod : Mod {
                 if (damageable != null && !recentlyHitEnemies.Contains(damageable)){
                     if (transform.root.CompareTag(Strings.Tags.PLAYER)){
                         AudioManager.Instance.PlaySFX(SFXType.StunBatonHit);
-                        HitstopManager.Instance.StartHitstop(.05f);                        
+                        HitstopManager.Instance.StartHitstop(.05f);
+                        AnalyticsManager.Instance.AddModDamage(this.getModType(), attackValue);                       
+                    }
+                    else
+                    {
+                        AnalyticsManager.Instance.AddEnemyModDamage(this.getModType(), attackValue);
                     }
                     if (!other.CompareTag(Strings.Tags.PLAYER)) {
                         EmitBlood();
