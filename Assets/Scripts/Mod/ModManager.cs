@@ -312,6 +312,7 @@ public class ModManager : MonoBehaviour
             if (!isSwapping)
             {
                 ModUIManager.Instance.DetachMod(spot);
+                AnalyticsManager.Instance.DropMod();
             }
             modSocketDictionary[spot].mod.transform.SetParent(null);
             modSocketDictionary[spot].mod.DetachAffect();
@@ -323,6 +324,7 @@ public class ModManager : MonoBehaviour
     {
         Mod tempSourceMod = null;
         Mod tempTargetMod = null;
+        AnalyticsManager.Instance.SwapMods();
         if (modSocketDictionary[sourceSpot].mod != null)
         {
             tempSourceMod = modSocketDictionary[sourceSpot].mod;

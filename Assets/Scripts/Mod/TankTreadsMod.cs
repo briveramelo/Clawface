@@ -148,6 +148,10 @@ public class TankTreadsMod : Mod
                         AnalyticsManager.Instance.AddEnemyModDamage(this.getModType(), (int)armRegularDamage);
                     }
                     damageable.TakeDamage(armRegularDamage);
+                    if (damageable.GetHealth() <= 0.01f)
+                    {
+                        AnalyticsManager.Instance.AddModKill(this.getModType());
+                    }
                 }
             }
         }
@@ -175,6 +179,10 @@ public class TankTreadsMod : Mod
                         AnalyticsManager.Instance.AddEnemyModDamage(this.getModType(), (int)armChargedDamage);
                     }
                     damageable.TakeDamage(armChargedDamage);
+                    if (damageable.GetHealth() <= 0.01f)
+                    {
+                        AnalyticsManager.Instance.AddModKill(this.getModType());
+                    }
                 }
             }
 
@@ -208,6 +216,12 @@ public class TankTreadsMod : Mod
                             AnalyticsManager.Instance.AddEnemyModDamage(this.getModType(), legsCrushDamage);
                         }
                         damageable.TakeDamage(legsCrushDamage);
+
+                        if (damageable.GetHealth() <= 0.01f)
+                        {
+                            AnalyticsManager.Instance.AddModKill(this.getModType());
+                        }
+
                         legsTimer = timeBetweenLegsDamageTick;
                         legAttackHitboxIsActive = false;
                         attackCollider.enabled = false;

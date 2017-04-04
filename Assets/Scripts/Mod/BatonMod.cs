@@ -105,7 +105,12 @@ public class BatonMod : Mod {
                     if (transform.root.CompareTag(Strings.Tags.PLAYER)){
                         AudioManager.Instance.PlaySFX(SFXType.StunBatonHit);
                         HitstopManager.Instance.StartHitstop(.05f);
-                        AnalyticsManager.Instance.AddModDamage(this.getModType(), attackValue);                       
+                        AnalyticsManager.Instance.AddModDamage(this.getModType(), attackValue);
+
+                        if (damageable.GetHealth() <= 0.01f)
+                        {
+                            AnalyticsManager.Instance.AddModKill(this.getModType());
+                        }
                     }
                     else
                     {
