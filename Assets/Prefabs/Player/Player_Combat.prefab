@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 114793955708429346}
   - component: {fileID: 114633845261910096}
   m_Layer: 8
-  m_Name: Player_NewTest
+  m_Name: Player_Combat
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1085,6 +1085,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageModifier: 1
+  damageUI: {fileID: 0}
   stats: {fileID: 114769971612484810}
 --- !u!114 &114581622741047066
 MonoBehaviour:
@@ -1155,11 +1156,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8baf5dc5eb76d149b8ecb529cbc7c96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rigbod: {fileID: 54763374870528968}
   foot: {fileID: 4192219653642208}
-  footSphereRadius: 0.1
-  isFalling: 0
-  isGrounded: 0
+  rigbod: {fileID: 54763374870528968}
 --- !u!114 &114800333604838372
 MonoBehaviour:
   m_ObjectHideFlags: 1

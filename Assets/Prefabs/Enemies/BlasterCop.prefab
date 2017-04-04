@@ -160,7 +160,7 @@ GameObject:
   - component: {fileID: 114342564459455200}
   - component: {fileID: 114232377073380234}
   m_Layer: 9
-  m_Name: MallCopCanvas (1)
+  m_Name: MallCopCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1239,7 +1239,7 @@ MonoBehaviour:
   animator: {fileID: 95336391681727560}
   myStats: {fileID: 114562163281978664}
   mySkin: {fileID: 1558599077418482, guid: d3ea349167ea0b042acea2cceeb31643, type: 2}
-  uiCanvas: {fileID: 1169284740923970}
+  canvas: {fileID: 1169284740923970}
   mod: {fileID: 114969724012723138}
 --- !u!114 &114562163281978664
 MonoBehaviour:
@@ -1322,6 +1322,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pickupCollider: {fileID: 65505833295624902}
+  modCanvas: {fileID: 0}
   rangeBoostValue: 1.15
   kickbackMagnitude: 9
   coolDownTime: 0.1
