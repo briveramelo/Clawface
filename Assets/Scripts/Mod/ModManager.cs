@@ -185,6 +185,7 @@ public class ModManager : MonoBehaviour
         {
             CheckIfHoldThresholdIsReached(ModSpot.ArmR, ref commandedMod);
         }
+
         if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_LEGS,
             ButtonMode.UP))
         {
