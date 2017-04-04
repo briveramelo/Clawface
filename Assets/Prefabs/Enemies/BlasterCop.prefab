@@ -159,13 +159,14 @@ GameObject:
   - component: {fileID: 223927003738646404}
   - component: {fileID: 114342564459455200}
   - component: {fileID: 114232377073380234}
+  - component: {fileID: 114680551256405116}
   m_Layer: 9
   m_Name: MallCopCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1193841890797956
 GameObject:
   m_ObjectHideFlags: 1
@@ -1239,7 +1240,7 @@ MonoBehaviour:
   animator: {fileID: 95336391681727560}
   myStats: {fileID: 114562163281978664}
   mySkin: {fileID: 1558599077418482, guid: d3ea349167ea0b042acea2cceeb31643, type: 2}
-  canvas: {fileID: 1169284740923970}
+  copUICanvas: {fileID: 114680551256405116}
   mod: {fileID: 114969724012723138}
 --- !u!114 &114562163281978664
 MonoBehaviour:
@@ -1270,6 +1271,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 0.34
   color: {r: 1, g: 0, b: 0, a: 1}
+--- !u!114 &114680551256405116
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1169284740923970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b99012dfb82d98d47983e0d2c0936a42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skinActionIcon: {fileID: 21300000, guid: 62496808546f1cc43b3ff9c8dc96e117, type: 3}
+  actionImage: {fileID: 114925724431600594}
 --- !u!114 &114925724431600594
 MonoBehaviour:
   m_ObjectHideFlags: 1
