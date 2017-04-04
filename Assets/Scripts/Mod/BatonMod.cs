@@ -69,7 +69,7 @@ public class BatonMod : Mod {
     {        
         if (!isSwinging)
         {
-            AudioManager.Instance.PlaySFX(SFXType.StunBatonSwing);
+            //AudioManager.Instance.PlaySFX(SFXType.StunBatonSwing);
             
             isSwinging = true;
             StartCoroutine(HitCoolDown());

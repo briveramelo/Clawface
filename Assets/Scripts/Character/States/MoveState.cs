@@ -78,17 +78,19 @@ public class MoveState : MonoBehaviour, IPlayerState
     private void MovePrecise() {
         moveStateVariables.velBody.velocity = moveDirection * moveStateVariables.statsManager.GetStat(StatType.MoveSpeed) * Time.fixedDeltaTime;
         if (moveDirection.magnitude > moveStateVariables.axisThreshold)
-        {
+        {   
             if (moveStateVariables.animator.GetInteger(Strings.ANIMATIONSTATE) != (int)PlayerAnimationStates.Running)
             {
                 moveStateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Running);
+                moveStateVariables.animator.speed = 1.0f;
             }
         }
         else
-        {
+        {   
             if (moveStateVariables.animator.GetInteger(Strings.ANIMATIONSTATE) != (int)PlayerAnimationStates.Idle)
             {
                 moveStateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Idle);
+                moveStateVariables.animator.speed = 1.0f;
             }
         }
     }
@@ -97,6 +99,7 @@ public class MoveState : MonoBehaviour, IPlayerState
         if (moveStateVariables.animator.GetInteger(Strings.ANIMATIONSTATE) != (int)PlayerAnimationStates.Idle)
         {
             moveStateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Idle);
+            moveStateVariables.animator.speed = 1.0f;
         }
 
         moveStateVariables.velBody.AddDecayingForce(moveDirection * moveStateVariables.acceleration * Time.fixedDeltaTime);

@@ -27,19 +27,6 @@ public class AudioManager : Singleton<AudioManager> {
         bool result = false;
         var audioGroup = audioGroups[(int)type];
         if (audioGroup != null) audioGroup.Play();
-        /*if ((int)type < clips.Length) {
-            if ((int)type < clips.Length)
-            {
-                if (index == audioSources.Count)
-                {
-                    index = 0;
-                }
-                audioSources[index].Stop();
-                audioSources[index].clip = clips[(int)type];
-                audioSources[index].Play();
-                result = true;
-            }
-        }*/
         return result;
     }
 }
