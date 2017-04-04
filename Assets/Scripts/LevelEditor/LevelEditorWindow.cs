@@ -2,8 +2,6 @@
 
 using UnityEngine;
 using System.Collections.Generic;
-
-#if UNITY_EDITOR
 using UnityEditor;
 
 /// <summary>
@@ -11,38 +9,51 @@ using UnityEditor;
 /// </summary>
 public class LevelEditorWindow : EditorWindow, ILevelEditor {
 
+    #region Constants
+
+    // GUI style constants
+    const string _SCENEVIEW_SKIN_PATH = "LevelEditorGUISkin.guiskin";
+
+    // Object browser constants
+    const int _OBJECTS_PER_ROW = 6;
+
+    // Object editor constants
+    const float _OBJECT_EDITOR_WIDTH = 128f;
+    const float _OBJECT_EDITOR_HEIGHT = 256f;
+    const float _OBJECT_EDITOR_OFFSET_X = 8f;
+    const float _OBJECT_EDITOR_OFFSET_Y = 8f;
+
+    // Toolbar constants
+    const float _TOOLBAR_WIDTH_PERCENT = 0.6f;
+    const float _TOOLBAR_HEIGHT_PERCENT = 0.1f;
+    const float _TOOLBAR_HEIGHT = 48f;
+    const float _TOOLBAR_UNDO_REDO_PERCENT = 0.15f;
+    const float _TOOLBAR_SHOW_GRID_PERCENT = 0.2f;
+    const float _TOOLBAR_SNAP_TO_GRID_PERCENT = 0.2f;
+
+    // Side panel constants
+    const float _SIDEPANEL_WIDTH = 64f;
+    const float _SIDEPANEL_HEIGHT = 256f;
+
+    // Action stack constants
+    const float _ACTION_STACK_Y_OFFSET = 128f;
+    const float _ACTION_STACK_WIDTH = 192f;
+    const float _ACTION_STACK_HEIGHT = 256f;
+
+    // General constants
+    const float _DRAG_DIST = 8f;
+
+    // Color 'constants'
+    Color _DRAGBOX_FILL_COLOR = new Color(0.5f, 0.5f, 0.5f, 0.25f);
+    Color _DRAGBOX_STROKE_COLOR = new Color(0.6f, 0.6f, 0.6f, 0.5f);
+   
+    #endregion
     #region Vars
 
     /// <summary>
     /// The current instance of this window.
     /// </summary>
     static LevelEditorWindow _Instance;
-
-    // Object editor constants
-    const float _OBJECT_EDITOR_WIDTH = 128f;
-    const float _OBJECT_EDITOR_HEIGHT = 256f;
-
-    const float _OBJECT_EDITOR_OFFSET_X = 8f;
-    const float _OBJECT_EDITOR_OFFSET_Y = 8f;
-
-    const float _TOOLBAR_WIDTH_PERCENT = 0.6f;
-    const float _TOOLBAR_HEIGHT_PERCENT = 0.1f;
-    const float _TOOLBAR_UNDO_REDO_PERCENT = 0.15f;
-    const float _TOOLBAR_SHOW_GRID_PERCENT = 0.2f;
-    const float _TOOLBAR_SNAP_TO_GRID_PERCENT = 0.2f;
-
-    const float _ACTION_STACK_Y_OFFSET = 128f;
-    const float _ACTION_STACK_WIDTH = 192f;
-    const float _ACTION_STACK_HEIGHT = 256f;
-
-    const float _DRAG_DIST = 8f;
-    Color _dragBoxFill = new Color(0.5f, 0.5f, 0.5f, 0.25f);
-    Color _dragBoxStroke = new Color(0.6f, 0.6f, 0.6f, 0.5f);
-
-    /// <summary>
-    /// Number of objects shown per row in the object browser.
-    /// </summary>
-    const int _OBJECTS_PER_ROW = 6;
 
     /// <summary>
     /// Current scroll position in the object browser.
@@ -84,13 +95,21 @@ public class LevelEditorWindow : EditorWindow, ILevelEditor {
     /// </summary>
     bool _allowNonUniformScale = false;
 
+    /// <summary>
+    /// Object rotation before edit.
+    /// </summary>
     Vector3 _originalRotation;
+
+    /// <summary>
+    /// Object scale before edit.
+    /// </summary>
     Vector3 _originalScale;
 
     /// <summary>
     /// Connected LM.
     /// </summary>
     LevelManager _levelManager;
+
 
     bool _leftMouseDown = false;
     Vector2 _mouseDownScreenPos;
@@ -99,6 +118,10 @@ public class LevelEditorWindow : EditorWindow, ILevelEditor {
 
     SceneView _sceneView;
     Ray _pointerRay;
+
+    bool _settingsWindowExpanded = false;
+
+    GUISkin _sceneViewGUISkin;
 
     #endregion
     #region Unity Callbacks
@@ -147,7 +170,6 @@ public class LevelEditorWindow : EditorWindow, ILevelEditor {
                         "Save", "Don't Save"))
                         LevelManager.Instance.SaveCurrentLevelToJSON();
                 }
-
                 CloseLevelAndKeepPath();
             }
 
@@ -161,7 +183,10 @@ public class LevelEditorWindow : EditorWindow, ILevelEditor {
                 as LevelEditorWindow;
 
         // If not connected to LM, attempt to
-        if (!Application.isPlaying && (!_levelManager || !LevelManager.Instance.IsConnectedToEditor)) ConnectToLevelManager();
+        if (!Application.isPlaying &&
+            (!_levelManager || !LevelManager.Instance.IsConnectedToEditor) &&
+            LevelManager.Instance != null)
+            ConnectToLevelManager();
 
         // Draw window GUI
         DrawLevelEditorGUI();
@@ -170,18 +195,27 @@ public class LevelEditorWindow : EditorWindow, ILevelEditor {
     #endregion
     #region ILevelEditor Implementation
 
+    /// <summary>
+    /// Returns the active scene view camera (read-only).
+    /// </summary>
     public Camera ActiveCamera {
         get {
             if (_sceneView == null) {
-                Debug.LogError ("No scene view set!");
+                Debug.LogError("No scene view set!");
                 return null;
             }
             return _sceneView.camera;
         }
     }
 
+    /// <summary>
+    /// Returns the current selection rectangle (read-only).
+    /// </summary>
     public Rect SelectionRect { get { return _selectionRect; } }
 
+    /// <summary>
+    /// Returns the ray currently cast by the pointer (read-only).
+    /// </summary>
     public Ray PointerRay { get { return _pointerRay; } }
 
     #endregion
@@ -191,12 +225,9 @@ public class LevelEditorWindow : EditorWindow, ILevelEditor {
         //Debug.Log("LevelEditorWindow.OnEnableEditor");
         LevelManager.OnSingletonInitializedEditor.AddListener(ConnectToLevelManager);
 
-        // Register delegates
-        SceneView.onSceneGUIDelegate += DrawGrid;
-        SceneView.onSceneGUIDelegate += HandleInputs;
-        SceneView.onSceneGUIDelegate += DrawCursor;
-        SceneView.onSceneGUIDelegate += DrawSceneViewGUI;
-        SceneView.onSceneGUIDelegate += DrawRoomBounds;
+        if (_sceneViewGUISkin == null)
+            _sceneViewGUISkin = EditorGUIUtility.Load (_SCENEVIEW_SKIN_PATH) as GUISkin;
+        if (_sceneViewGUISkin == null) Debug.LogError ("Failed to load SceneView GUISkin!");
     }
 
     void OnEnablePlayer() {
@@ -210,7 +241,7 @@ public class LevelEditorWindow : EditorWindow, ILevelEditor {
 
         // Start editing
         LevelManager.Instance.StartEditing();
-        LevelManager.Instance.SetEditor (this);
+        LevelManager.Instance.SetEditor(this);
         _levelManager = LevelManager.Instance;
 
         // Add event listeners
@@ -218,6 +249,13 @@ public class LevelEditorWindow : EditorWindow, ILevelEditor {
         LevelManager.Instance.onCreateLevel.AddListener(CheckLevelLoaded);
         LevelManager.Instance.onLoadLevel.AddListener(CheckLevelLoaded);
         LevelManager.Instance.onSaveLevel.AddListener(CheckLevelLoaded);
+
+        // Register scene viewdelegates
+        SceneView.onSceneGUIDelegate += DrawGrid;
+        SceneView.onSceneGUIDelegate += HandleInputs;
+        SceneView.onSceneGUIDelegate += DrawCursor;
+        SceneView.onSceneGUIDelegate += DrawSceneViewGUI;
+        SceneView.onSceneGUIDelegate += DrawRoomBounds;
     }
 
     /// <summary>
@@ -243,11 +281,12 @@ public class LevelEditorWindow : EditorWindow, ILevelEditor {
         // If not connected, there is probably no LevelManager or
         // ObjectDatabaseManager in the scene
         if (!_levelManager) {
+            EditorGUILayout.BeginVertical(EditorStyles.helpBox);
             EditorGUILayout.LabelField("No LevelManager or ObjectDatabaseManager!",
                 GUILayout.ExpandWidth(true));
+            EditorGUILayout.EndVertical();
         } else {
-
-            EditorGUILayout.BeginHorizontal(EditorStyles.helpBox);
+            EditorGUILayout.BeginHorizontal(EditorStyles.helpBox, GUILayout.ExpandWidth(true));
 
             // Draw create/close/load level buttons
             DrawEditorButton("Create new level", CreateNewLevel);
@@ -289,10 +328,10 @@ public class LevelEditorWindow : EditorWindow, ILevelEditor {
     /// Draws the editor header.
     /// </summary>
     void DrawHeaderGUI() {
-        EditorGUILayout.LabelField("Project Turing\nLevel Editor",
-            LevelEditorStyles.Header,
-            GUILayout.ExpandHeight(true),
-            GUILayout.MaxHeight(64));
+        EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+        EditorGUILayout.LabelField("Project Turing Level Editor",
+            EditorStyles.boldLabel);
+        EditorGUILayout.EndVertical();
     }
 
     /// <summary>
@@ -370,11 +409,13 @@ public class LevelEditorWindow : EditorWindow, ILevelEditor {
         EditorGUILayout.Space();
 
         // Level name
-        if (!LevelManager.Instance.LevelLoaded) return;
-        var levelName = LevelManager.Instance.LoadedLevel.Name;
+        string levelName = "";
+        if (LevelManager.Instance != null && LevelManager.Instance.LoadedLevel != null)
+            levelName = LevelManager.Instance.LoadedLevel.Name;
         var newName = EditorGUILayout.TextField("Name", levelName);
-        if (newName != levelName)
+        if (LevelManager.Instance != null && newName != levelName)
             LevelManager.Instance.SetLoadedLevelName(newName);
+        EditorGUILayout.Space();
     }
 
     /// <summary>
@@ -444,6 +485,18 @@ public class LevelEditorWindow : EditorWindow, ILevelEditor {
 
             EditorGUILayout.EndHorizontal();
             EditorGUILayout.EndScrollView();
+        }
+
+        EditorGUILayout.EndVertical();
+    }
+
+    void DrawLevelEditorSettingsGUI () {
+        EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+
+        _settingsWindowExpanded = EditorGUILayout.Foldout (_settingsWindowExpanded, "Settings", true);
+        if (_settingsWindowExpanded) {
+            EditorGUI.indentLevel++;
+            EditorGUI.indentLevel--;
         }
 
         EditorGUILayout.EndVertical();
@@ -521,15 +574,18 @@ public class LevelEditorWindow : EditorWindow, ILevelEditor {
 
             // Mouse events
         } else if (e.isMouse) {
-            if (MouseOverUI()) LevelManager.Instance.MouseOverUI = true;
-            else LevelManager.Instance.MouseOverUI = false;
+            if (LevelManager.Instance != null) {
 
-            HandleMouseMove(sc, e);
+                if (MouseOverUI()) LevelManager.Instance.MouseOverUI = true;
+                else LevelManager.Instance.MouseOverUI = false;
 
-            if (e.rawType == EventType.layout)
-                HandleUtility.AddDefaultControl(GUIUtility.GetControlID(GetHashCode(), FocusType.Passive));
+                HandleMouseMove(sc, e);
 
-            HandleInputs(e, sc.camera);
+                if (e.rawType == EventType.layout)
+                    HandleUtility.AddDefaultControl(GUIUtility.GetControlID(GetHashCode(), FocusType.Passive));
+
+                HandleInputs(e, sc.camera);
+            }
         }
     }
 
@@ -577,9 +633,9 @@ public class LevelEditorWindow : EditorWindow, ILevelEditor {
             if (_leftMouseDown)
                 _isDragging = Vector2.Distance(_mouseDownScreenPos, e.mousePosition) >= _DRAG_DIST;
 
-            _pointerRay = HandleUtility.GUIPointToWorldRay (e.mousePosition);
+            _pointerRay = HandleUtility.GUIPointToWorldRay(e.mousePosition);
 
-            LevelManager.Instance.HandleMouseMove (e, _isDragging);
+            LevelManager.Instance.HandleMouseMove(e, _isDragging);
 
 
             // Force a repaint to show changes
@@ -625,12 +681,12 @@ public class LevelEditorWindow : EditorWindow, ILevelEditor {
     /// </summary>
     public void HandleLeftUp(Event e, Camera camera) {
 
-        
+
         _leftMouseDown = false;
 
         if (MouseOverUI()) return;
 
-        LevelManager.Instance.HandleLeftUp (e, _isDragging, camera);
+        LevelManager.Instance.HandleLeftUp(e, _isDragging, camera);
 
         _isDragging = false;
     }
@@ -659,6 +715,8 @@ public class LevelEditorWindow : EditorWindow, ILevelEditor {
     void DrawSceneViewGUI(SceneView sc) {
         if (_sceneView == null) _sceneView = sc;
 
+        GUI.skin = _sceneViewGUISkin;
+
         // Draw toolbar
         Handles.BeginGUI();
         DrawSceneViewToolbar();
@@ -666,9 +724,11 @@ public class LevelEditorWindow : EditorWindow, ILevelEditor {
         if (_isDragging) {
             var dragPoint = Event.current.mousePosition;
             //_selectionRect = new Rect(_mouseDownScreenPos.x, _mouseDownScreenPos.y, dragPoint.x - _mouseDownScreenPos.x, dragPoint.y - _mouseDownScreenPos.y);
-            _selectionRect = new Rect (_mouseDownScreenPos, dragPoint - _mouseDownScreenPos);
-            Handles.DrawSolidRectangleWithOutline(_selectionRect, _dragBoxFill, _dragBoxStroke);
+            _selectionRect = new Rect(_mouseDownScreenPos, dragPoint - _mouseDownScreenPos);
+            Handles.DrawSolidRectangleWithOutline(_selectionRect, _DRAGBOX_FILL_COLOR, _DRAGBOX_STROKE_COLOR);
         }
+
+        if (LevelManager.Instance == null) return;
 
         if (LevelManager.Instance.LevelLoaded) {
 
@@ -705,6 +765,7 @@ public class LevelEditorWindow : EditorWindow, ILevelEditor {
     /// Draws the 3D cursor in the scene view.
     /// </summary>
     public void DrawCursor(SceneView sc) {
+        if (LevelManager.Instance == null) return;
         if (!LevelManager.Instance.PreviewActive) return;
 
         var cursorPos = LevelManager.Instance.CursorPosition;
@@ -842,6 +903,7 @@ public class LevelEditorWindow : EditorWindow, ILevelEditor {
     /// Draws the asset placement grid.
     /// </summary>
     public void DrawGrid(SceneView sc) {
+        if (LevelManager.Instance == null) return;
         if (!LevelManager.Instance.GridEnabled) return;
 
         var height = LevelManager.Instance.SelectedFloor * Level.FLOOR_HEIGHT + LevelManager.Instance.CurrentYValue;
@@ -864,6 +926,7 @@ public class LevelEditorWindow : EditorWindow, ILevelEditor {
     }
 
     public void DrawRoomBounds(SceneView sc) {
+        if (LevelManager.Instance == null) return;
         var floor = LevelManager.Instance.SelectedFloor;
 
         // Calculate upper points
@@ -906,9 +969,16 @@ public class LevelEditorWindow : EditorWindow, ILevelEditor {
 
         // Calculate toolbar rect
         var toolbarWidth = _TOOLBAR_WIDTH_PERCENT * Screen.width;
-        _toolbarRect = new Rect(4, 4, toolbarWidth, _TOOLBAR_HEIGHT_PERCENT * Screen.height);
-        GUILayout.BeginArea(_toolbarRect);
+        _toolbarRect = new Rect(4, 4, toolbarWidth, _TOOLBAR_HEIGHT);
+        GUILayout.BeginArea(_toolbarRect, _sceneViewGUISkin.window);
         GUILayout.BeginHorizontal();
+
+        if (LevelManager.Instance == null) {
+            GUILayout.Label("No LevelManager in scene!");
+            GUILayout.EndHorizontal();
+            GUILayout.EndArea();
+            return;
+        }
 
         var levelLoaded = LevelManager.Instance.LevelLoaded;
         if (!levelLoaded) GUILayout.Label("No level loaded.");
@@ -969,24 +1039,24 @@ public class LevelEditorWindow : EditorWindow, ILevelEditor {
     void DrawSceneViewSidePanel() {
 
         // Calculate side panel rect
-        _sidePanelRect = new Rect(4, 40, 32, 256);
-        GUILayout.BeginArea(_sidePanelRect);
+        _sidePanelRect = new Rect(4, 64, _SIDEPANEL_WIDTH, _SIDEPANEL_HEIGHT);
+        GUILayout.BeginArea(_sidePanelRect, _sceneViewGUISkin.window);
         GUILayout.BeginVertical();
 
         // Floor selector
         GUILayout.BeginVertical();
         GUILayout.Label("Floor", GUILayout.ExpandWidth(true));
         DrawEditorButton("^", LevelManager.Instance.UpOneFloor);
-        GUILayout.Label(LevelManager.Instance.SelectedFloor.ToString(), GUILayout.ExpandWidth(true));
+        GUILayout.Box (LevelManager.Instance.SelectedFloor.ToString());
         DrawEditorButton("v", LevelManager.Instance.DownOneFloor);
         GUILayout.EndVertical();
         GUILayout.Space(32);
 
         // Y selector
         GUILayout.BeginVertical();
-        GUILayout.Label("Y", GUILayout.ExpandWidth(true));
+        GUILayout.Label("Y-Value", GUILayout.ExpandWidth(true));
         DrawEditorButton("^", LevelManager.Instance.IncrementY);
-        GUILayout.Label(LevelManager.Instance.CurrentYValue.ToString(), GUILayout.ExpandWidth(true));
+        GUILayout.Box(LevelManager.Instance.CurrentYValue.ToString());
         DrawEditorButton("v", LevelManager.Instance.DecrementY);
         GUILayout.EndVertical();
         GUILayout.EndVertical();
@@ -1133,4 +1203,3 @@ public class LevelEditorWindow : EditorWindow, ILevelEditor {
 
     #endregion
 }
-#endif
