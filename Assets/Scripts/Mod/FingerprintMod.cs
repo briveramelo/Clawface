@@ -6,7 +6,6 @@ using UnityEngine;
 public class FingerprintMod : Mod {
 
     ITriggerable unlockableObject;
-    bool attached;
 
     [SerializeField]
     private Collider unlockColliderVolume;
@@ -18,15 +17,25 @@ public class FingerprintMod : Mod {
 
     public override void Activate()
     {
-        if (attached && unlockableObject != null)
+        if (isAttached && unlockableObject != null)
         {
             unlockableObject.Activate();
         }
     }
 
+    public override void ActivateModCanvas()
+    {
+
+    }
+
+    public override void DeactivateModCanvas()
+    {
+
+    }
     public override void AttachAffect(ref Stats playerStats, IMovable wielderMovable)
     {
-        attached = true;
+        
+        isAttached = true;
         unlockColliderVolume.enabled = true;
         pickupCollider.enabled = false;
     }
@@ -38,7 +47,7 @@ public class FingerprintMod : Mod {
 
     public override void DetachAffect()
     {
-        attached = false;
+        isAttached = false;
         pickupCollider.enabled = true;
         unlockColliderVolume.enabled = false;
         if (unlockableObject!=null)
@@ -72,7 +81,7 @@ public class FingerprintMod : Mod {
 
     // Use this for initialization
     void Start () {
-        attached = false;
+        isAttached = false;
         unlockableObject = null;
         unlockColliderVolume.enabled = false;
     }

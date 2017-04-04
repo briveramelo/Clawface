@@ -26,7 +26,7 @@ public class GlowObject : MonoBehaviour
         StartCoroutine(TurnOnGlow());
     }
 
-    public void Reset() {
+    public void ResetForRebirth() {
         isGlowing = false;
         materials.ForEach(mat => { mat.SetColor("_GlowColor", Color.clear); });
     }

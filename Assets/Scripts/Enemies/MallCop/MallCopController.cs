@@ -50,9 +50,9 @@ public abstract class MallCopController : AIController {
         CurrentState = states.GetState(state);
     }
 
-    public override void Reset() {
+    public override void ResetForRebirth() {
         CurrentState = states.patrol;
-        base.Reset();
+        base.ResetForRebirth();
     }
 
     #region Animation Events

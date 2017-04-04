@@ -25,7 +25,7 @@ public class MallCopBlasterController : MallCopController {
         if ((other.gameObject.tag == Strings.Tags.PLAYER) &&
             CurrentState != states.flee) {
 
-            attackTarget = other.transform;
+            AttackTarget = other.transform;
             UpdateState(EMallCopState.Flee);
         }
     }
@@ -42,7 +42,7 @@ public class MallCopBlasterController : MallCopController {
     bool CheckToPatrol() {
         if (CurrentState == states.chase &&
             timeInLastState > properties.maxChaseTime &&
-            attackTarget != null) {
+            AttackTarget != null) {
 
             UpdateState(EMallCopState.Patrol);
             return true;

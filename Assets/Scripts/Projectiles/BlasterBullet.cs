@@ -47,23 +47,24 @@ public class BlasterBullet : MonoBehaviour {
         transform.Translate(moveDirection* speed * Time.deltaTime);
 	}
 
-    private void OnCollisionEnter(Collision other)
+    private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.GetInstanceID()!=shooterInstanceID)
         {
             bool isEnemy = other.gameObject.CompareTag(Strings.Tags.ENEMY);
-            if (isEnemy || other.gameObject.CompareTag(Strings.Tags.PLAYER))
+            bool isPlayer = other.gameObject.CompareTag(Strings.Tags.PLAYER);
+            
+            if (isEnemy || isPlayer)
             {
                 Damage(other.gameObject.GetComponent<IDamageable>());
                 Push(other.gameObject.GetComponent<IMovable>());
                 if (isEnemy) {
                     EmitBlood();                                              
                 }
-            }
-            
-            //TODO find a better method for colliding with ground
-            //right now it's unreliable            
-            gameObject.SetActive(false);
+                //TODO find a better method for colliding with ground
+                //right now it's unreliable            
+                gameObject.SetActive(false);
+            }                        
         }
     }
 

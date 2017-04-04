@@ -32,7 +32,8 @@ public enum SFXType {
     ModSwapSetup=11,
     StunBatonImpact=12,
     StunBatonSwing1 = 13,
-    StunBatonSwing2 = 14
+    StunBatonSwing2 = 14,
+    //Pause=15
 }
 
 public enum ModType {
@@ -75,7 +76,8 @@ public enum PoolObjectType {
     BloodEmitter=7,
     MallCopBlaster=8,
     VFXSegwayBlaster=9,
-    MallCopExplosion=10
+    MallCopExplosion=10,
+    GrapplingBot=11
 }
 
 public enum WeaponType {
@@ -140,7 +142,21 @@ public enum EMallCopState {
     Flee = 7
 }
 
-public enum MallCopType {
+public enum EGrapplingBotState {
+    Patrol = 0,
+    Grapple = 1,
+    Explode = 2,
+    Approach = 3,
+    Twitch = 4,
+}
+
+public enum SpawnType {
     Swinger=0,
-    Blaster=1
+    Blaster = 1,
+    Grappler = 2,
+}
+
+public enum ActionType
+{
+    Skin=0
 }
