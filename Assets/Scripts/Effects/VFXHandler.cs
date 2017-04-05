@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using MovementEffects;
 
 public class VFXHandler {
 
@@ -22,8 +23,8 @@ public class VFXHandler {
     }
 
     public void EmitBloodInDirection(Quaternion emissionDirection, Vector3 spawnPoint) {
-        GameObject bloodEmitter = ObjectPool.Instance.GetObject(PoolObjectType.BloodEmitter);
-        ObjectPool.Instance.StartCoroutine(RestoreOriginalRotation(bloodEmitter));
+        GameObject bloodEmitter = ObjectPool.Instance.GetObject(PoolObjectType.BloodEmitter);        
+        Timing.RunCoroutine(RestoreOriginalRotation(bloodEmitter)); 
         bloodEmitter.transform.position = spawnPoint;
         bloodEmitter.transform.rotation = emissionDirection;
     }
@@ -39,9 +40,9 @@ public class VFXHandler {
         }
     }
 
-    IEnumerator RestoreOriginalRotation(GameObject gameObjectToRestore) {
+    IEnumerator<float> RestoreOriginalRotation(GameObject gameObjectToRestore) {
         Quaternion startRotation = gameObjectToRestore.transform.rotation;
-        yield return new WaitForSeconds(3f);
+        yield return Timing.WaitForSeconds(3f);
         gameObjectToRestore.transform.rotation = startRotation;
     }
 }

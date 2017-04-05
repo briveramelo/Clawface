@@ -1,6 +1,9 @@
-﻿using System.Collections;
+﻿//Brandon Rivera-Melo
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using MovementEffects;
 
 public class MallCopTwitchState : MallCopState {
 
@@ -8,7 +11,7 @@ public class MallCopTwitchState : MallCopState {
 
     public override void OnEnter() {
         animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.HitReaction);        
-        velBody.StartCoroutine(Twitch());
+        Timing.RunCoroutine(Twitch());
     }
     public override void Update() {
         
@@ -22,7 +25,7 @@ public class MallCopTwitchState : MallCopState {
         return isMidTwitch;
     }
 
-    private IEnumerator Twitch() {
+    private IEnumerator<float> Twitch() {
         isMidTwitch = true;
         velBody.velocity = Vector3.zero;
         startStunPosition = velBody.transform.position;
@@ -31,13 +34,9 @@ public class MallCopTwitchState : MallCopState {
         while (twitchTime > 0) {
             velBody.transform.position = startStunPosition + Random.onUnitSphere * twitchRadius;
             twitchTime -= Time.deltaTime;
-            yield return new WaitForEndOfFrame();
+            yield return Timing.WaitForOneFrame;
         }
         velBody.transform.position = startStunPosition;
-        isMidTwitch = false;
-        if (myStats.health > 0) {
-            controller.UpdateState(EMallCopState.Chase);
-        }        
-        OnExit();
+        isMidTwitch = false;                
     }
 }

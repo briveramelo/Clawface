@@ -21,7 +21,8 @@ GameObject:
   - component: {fileID: 4321725220377516}
   - component: {fileID: 198458181152674756}
   - component: {fileID: 199745379938759690}
-  - component: {fileID: 114652700110840810}
+  - component: {fileID: 114861811915146830}
+  - component: {fileID: 114941695985247710}
   m_Layer: 12
   m_Name: LimbBloodSpurt
   m_TagString: Untagged
@@ -42,7 +43,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -219.118, y: 52.09899, z: 9.386993}
---- !u!114 &114652700110840810
+--- !u!114 &114861811915146830
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -50,14 +51,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 1263233416473620}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64522dbacd45e4b4ab877aff7582e184, type: 3}
+  m_Script: {fileID: 11500000, guid: 7eb4a53ccb703bc4a83ae2b88b7262a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  limbBloodParticleSystem: {fileID: 198458181152674756}
   splatterLifetime: 2.5
-  MinScale: 0.75
-  MaxScale: 2
-  SplashRange: 1.5
+  minDownScale: 0.25
+  maxDownScale: 0.5
+  splashRange: 1.5
+--- !u!114 &114941695985247710
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1263233416473620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f45c1fa4583bb574f9fa20e8629f86f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ps: {fileID: 198458181152674756}
+  splatterLifetime: 2.5
+  gp: {fileID: 114861811915146830}
+  minDownScale: 0.25
+  maxDownScale: 0.5
+  splashRange: 1.5
 --- !u!198 &198458181152674756
 ParticleSystem:
   m_ObjectHideFlags: 1

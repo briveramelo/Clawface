@@ -6,7 +6,7 @@ using UnityEngine;
 using System.Linq;
 using ModMan;
 
-public class MallCop : MonoBehaviour, ICollectable, IStunnable, IDamageable, ISkinnable
+public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpawnable
 {
 
     #region 2. Serialized Unity Inspector Fields
@@ -17,32 +17,32 @@ public class MallCop : MonoBehaviour, ICollectable, IStunnable, IDamageable, ISk
     [SerializeField] private Animator animator;
     [SerializeField] private Stats myStats;
     [SerializeField] private GameObject mySkin;
+    [SerializeField] private CopUI copUICanvas;
     [SerializeField] private Mod mod;
     #endregion
 
     #region 3. Private fields
-    
+
 
     private int stunCount;
-    private OnDeath onDeath;
-    private bool willHasBeenWritten;
+    private Will will=new Will();
 
     #endregion
 
     #region 4. Unity Lifecycle
 
     private void OnEnable() {
-        if (willHasBeenWritten) {
-            Revive();
+        if (will.willHasBeenWritten) {
+            ResetForRebirth();
         }       
     }
     
     void Awake ()
     {
         controller.Initialize(properties, mod, velBody, animator, myStats);
-        Revive();
 
-        MoveState dummy = null;
+        ResetForRebirth();
+       
         mod.setModSpot(ModSpot.ArmR);
         mod.AttachAffect(ref myStats, velBody);
     }    
@@ -53,23 +53,27 @@ public class MallCop : MonoBehaviour, ICollectable, IStunnable, IDamageable, ISk
 
     void IDamageable.TakeDamage(float damage)
     {        
-        if (myStats.health > 0){
+        if (myStats.health > 0){                        
             myStats.TakeDamage(damage);
             if (myStats.health <= 5 && !glowObject.isGlowing){
                 glowObject.SetToGlow();
+                copUICanvas.gameObject.SetActive(true);
+                copUICanvas.ShowAction(ActionType.Skin);
             }
-            if (myStats.health <= 0){
+            if (myStats.health <= 0) {
                 controller.UpdateState(EMallCopState.Fall);
-                
+
                 mod.DetachAffect();
-                Invoke("Die", 5f);
+                OnDeath();
+            }
+            else {
+                //TODO: update state to hit reaction state, THEN to chase (too abrupt right now)
+                //TODO: Create hit reaction state
+                if (controller.ECurrentState == EMallCopState.Patrol) {
+                    controller.UpdateState(EMallCopState.Chase);
+                }
             }
         }
-    }
-
-    GameObject ICollectable.Collect(){
-        GameObject droppedSkin = Instantiate(mySkin, null, true) as GameObject;
-        return droppedSkin;
     }
 
     bool ISkinnable.IsSkinnable(){
@@ -77,7 +81,7 @@ public class MallCop : MonoBehaviour, ICollectable, IStunnable, IDamageable, ISk
     }
 
     GameObject ISkinnable.DeSkin(){
-        Invoke("Die", 0.1f);
+        Invoke("OnDeath", 0.1f);
         return Instantiate(mySkin, null, false);
     }
 
@@ -92,43 +96,46 @@ public class MallCop : MonoBehaviour, ICollectable, IStunnable, IDamageable, ISk
         }
     }    
 
-    public bool HasWillBeenWritten() { return willHasBeenWritten; }
+    public bool HasWillBeenWritten() { return will.willHasBeenWritten; }
 
     public void RegisterDeathEvent(OnDeath onDeath)
     {
-        willHasBeenWritten = true;
-        this.onDeath = onDeath;
+        will.willHasBeenWritten = true;
+        will.onDeath = onDeath;
     }
-    
+
     #endregion
 
-    #region 6. Private Methods
+    #region 6. Private Methods    
 
-    private void Die() {
-        if (willHasBeenWritten)
+    private void OnDeath() {
+        if (will.willHasBeenWritten)
         {
-            onDeath();
+            will.onDeath();
         }
+
+        GameObject mallCopParts = ObjectPool.Instance.GetObject(PoolObjectType.MallCopExplosion);
+        mallCopParts.transform.position = transform.position + Vector3.up*3f;
+        mallCopParts.transform.rotation = transform.rotation;
+        mallCopParts.DeActivate(5f);        
         gameObject.SetActive(false);
     }
 
-    private void Revive() {
-        StopAllCoroutines();
-
+    private void ResetForRebirth() {
         GetComponent<CapsuleCollider>().enabled = true;
-        myStats.Reset();
-        controller.Reset();
-        glowObject.Reset();
-        velBody.Reset();
+        copUICanvas.gameObject.SetActive(false);
+
+
+        myStats.ResetForRebirth();
+        controller.ResetForRebirth();
+        velBody.ResetForRebirth();
+        glowObject.ResetForRebirth();
         //TODO check for missing mod and create a new one and attach it
     }       
 
     #endregion
 
-    #region 7. Internal Structures
-    
-    public delegate void OnDeath();
-    
+    #region 7. Internal Structures            
     #endregion
 
 }
@@ -141,5 +148,10 @@ public class MallCopProperties {
     [Range(1, 6)] public int numShocksToStun;
     [Range(.1f, 1)] public float twitchRange;
     [Range(.1f, 1f)] public float twitchTime;
-    [Range(.1f, 5f)] public float strikingDistance;
+}
+
+public class Will {
+    public OnDeath onDeath;
+    public bool willHasBeenWritten;
+    public bool deathDocumented;
 }

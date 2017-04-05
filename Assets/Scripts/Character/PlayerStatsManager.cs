@@ -8,9 +8,12 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
 
 
     #region Public fields
+    [HideInInspector] public float damageModifier = 1.0F;
     #endregion
 
     #region Serialized Unity Inspector fields
+    [SerializeField]
+    private DamageUI damageUI;
     #endregion
 
     #region Private Fields
@@ -33,7 +36,8 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     #region Public Methods
     public void TakeDamage(float damage)
     {
-        stats.TakeDamage(damage);
+        damageUI.DoDamageEffect();
+        stats.TakeDamage(damageModifier * damage);
         HealthBar.Instance.SetHealth(stats.GetStat(StatType.Health) / startHealth);
         if (stats.GetStat(StatType.Health) <= 0)
         {   

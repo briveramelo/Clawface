@@ -34,6 +34,23 @@ public class BatonMod : Mod {
         }
     }
 
+    public override void ActivateModCanvas()
+    {
+        if (modCanvas && !isAttached)
+        {
+            modCanvas.SetActive(true);
+        }
+    }
+
+    public override void DeactivateModCanvas()
+    {
+        if (modCanvas)
+        {
+            modCanvas.SetActive(false);
+        }
+    }
+
+
     public override void DeActivate()
     {
         //Nothing to do here
@@ -44,13 +61,15 @@ public class BatonMod : Mod {
         type = ModType.StunBaton;
         category = ModCategory.Melee;
         vfxHandler = new VFXHandler(transform);
+        if (modCanvas) { modCanvas.SetActive(false); }
+       
     }
 
     void Swing()
     {        
         if (!isSwinging)
         {
-            AudioManager.Instance.PlaySFX(SFXType.StunBatonSwing);
+            //AudioManager.Instance.PlaySFX(SFXType.StunBatonSwing);
             
             isSwinging = true;
             StartCoroutine(HitCoolDown());
@@ -70,33 +89,33 @@ public class BatonMod : Mod {
         if (stunMine != null)
         {
             stunMine.transform.position = transform.position;
-            AudioManager.Instance.PlaySFX(SFXType.StunBatonLayMine);
+            //AudioManager.Instance.PlaySFX(SFXType.StunBatonLayMine);
         }
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (isSwinging)
-        {
-            IDamageable damageable = other.GetComponent<IDamageable>();
-            if (damageable != null && !recentlyHitEnemies.Contains(damageable))
-            {
-                if (transform.root.CompareTag(Strings.Tags.PLAYER))
-                {
-                    AudioManager.Instance.PlaySFX(SFXType.StunBatonHit);
-                    HitstopManager.Instance.StartHitstop(.05f);
-                    Vector3 bloodDirection = transform.root.rotation.eulerAngles;
-                    bloodDirection.x = 23.38f;
-                    Quaternion emissionRotation = Quaternion.Euler(bloodDirection);                                        
-                    vfxHandler.EmitBloodInDirection(emissionRotation, transform.position);
-                }                
-                impactEffect.Emit();
-                damageable.TakeDamage(attackValue);
-                recentlyHitEnemies.Add(damageable);
-                IStunnable stunnable = other.GetComponent<IStunnable>();
-                if (stunnable != null)
-                {
-                    stunnable.Stun();                        
+        if (isSwinging){
+            if (GetWielderInstanceID() != other.gameObject.GetInstanceID() &&
+                (other.gameObject.CompareTag(Strings.Tags.PLAYER) ||
+                other.gameObject.CompareTag(Strings.Tags.ENEMY))){
+
+                IDamageable damageable = other.GetComponent<IDamageable>();
+                if (damageable != null && !recentlyHitEnemies.Contains(damageable)){
+                    if (transform.root.CompareTag(Strings.Tags.PLAYER)){
+                        AudioManager.Instance.PlaySFX(SFXType.StunBatonImpact);
+                        HitstopManager.Instance.StartHitstop(.05f);                        
+                    }
+                    if (!other.CompareTag(Strings.Tags.PLAYER)) {
+                        EmitBlood();
+                    }
+                    impactEffect.Emit();
+                    damageable.TakeDamage(attackValue);
+                    recentlyHitEnemies.Add(damageable);
+                    IStunnable stunnable = other.GetComponent<IStunnable>();
+                    if (stunnable != null){
+                        stunnable.Stun();
+                    }
                 }
             }
         }
@@ -114,14 +133,17 @@ public class BatonMod : Mod {
 
     public override void AttachAffect(ref Stats i_playerStats, IMovable wielderMovable)
     {
+        isAttached = true;
         attackCollider.enabled = true;
         wielderStats = i_playerStats;
         pickupCollider.enabled = false;
         attackValue = wielderStats.GetStat(StatType.Attack);
+   
     }
 
     public override void DetachAffect()
     {
+        isAttached = false;
         attackCollider.enabled = false;
         pickupCollider.enabled = true;
         attackValue = 0.0f;
@@ -130,5 +152,12 @@ public class BatonMod : Mod {
     public override void AlternateActivate(bool isHeld, float holdTime)
     {
         
+    }
+
+    private void EmitBlood() {
+        Vector3 bloodDirection = transform.root.rotation.eulerAngles;
+        bloodDirection.x = 23.38f;
+        Quaternion emissionRotation = Quaternion.Euler(bloodDirection);
+        vfxHandler.EmitBloodInDirection(emissionRotation, transform.position);
     }
 }
