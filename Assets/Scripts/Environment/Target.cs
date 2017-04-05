@@ -18,7 +18,7 @@ public class Target : MonoBehaviour, IDamageable {
 
     void IDamageable.TakeDamage(float damage) {
         Instantiate(explosion, null, true);
-        AudioManager.Instance.PlaySFX(SFXType.TargetBreak);
+        //AudioManager.Instance.PlaySFX(SFXType.TargetBreak);
         Destroy(gameObject);
     }
 

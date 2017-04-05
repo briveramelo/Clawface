@@ -26,13 +26,21 @@ public class CameraTrack : MonoBehaviour {
     float _t = 0f;
     float _progress = 0f;
 
-    
-
     bool _playing = false;
+
+    [SerializeField]
+    List<CameraEvent> _events = new List<CameraEvent>();
+
+    List<CameraEvent> _eventsToDo = new List<CameraEvent>();
 
     private void Awake() {
         if (_playOnAwake) PlayFromBeginning();
-    } 
+    }
+
+    private void Start() {
+        foreach (var camEvent in _events)
+            _eventsToDo.Add (camEvent);
+    }
 
     private void Update() {
         if (_playing) {
@@ -48,6 +56,14 @@ public class CameraTrack : MonoBehaviour {
             _cameraToMove.transform.position = position;
             _cameraToMove.transform.rotation = rotation;
             _cameraToMove.fieldOfView = Mathf.Lerp (_positions[backPos].fov, _positions[forwardPos].fov, _progress - backPos);
+
+            for (int i = 0; i < _events.Count; i++) {
+                var camEvent = _events[i];
+                if (camEvent.time <= _t) {
+                    camEvent.onTrigger.Invoke();
+                    _events.RemoveAt (i);
+                }
+            }
 
             if (_progress == _positions.Count - 1) {
                 onCompleteTrack.Invoke();
@@ -137,6 +153,9 @@ public class CameraTrack : MonoBehaviour {
         _cameraToMove.transform.position = _positions[0].transform.position;
         _cameraToMove.transform.rotation = _positions[0].transform.rotation;
         _cameraToMove.fieldOfView = _positions[0].fov;
+
+        _eventsToDo.Clear();
+        foreach (var camEvent in _events) _eventsToDo.Add (camEvent);
     }
 
     public void AddPosition () {
@@ -159,6 +178,9 @@ public class CameraTrack : MonoBehaviour {
 
         // First position
         if (index == -1) {
+            if (_speed == null)
+                _speed = new AnimationCurve();
+
             _speed.AddKey (0f, 0f);
             _speed.AddKey (1f, 1f);
 
@@ -207,9 +229,22 @@ public class CameraTrack : MonoBehaviour {
         _positions.RemoveAt (index);
     }
 
+    public void AddCameraEvent () {
+        _events.Add (new CameraEvent());
+    }
+
     [System.Serializable]
     public class PositionInfo {
         public Transform transform;
         public float fov = 60f;
+    }
+
+    [System.Serializable]
+    public class CameraEvent {
+        [SerializeField]
+        public UnityEvent onTrigger = new UnityEvent();
+
+        [SerializeField]
+        public float time = 0f;
     }
 }

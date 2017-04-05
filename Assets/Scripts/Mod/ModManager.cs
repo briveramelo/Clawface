@@ -64,7 +64,7 @@ public class ModManager : MonoBehaviour
     private void OnTriggerStay(Collider other)
     {
         if (other.tag == Strings.Tags.MOD)
-        {
+        {            
             if (InputManager.Instance.QueryAction(Strings.Input.Actions.DROP_MODE,
                     ButtonMode.HELD))
             {                
@@ -77,9 +77,54 @@ public class ModManager : MonoBehaviour
             }
         }
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == Strings.Tags.MOD)
+        {
+            other.GetComponent<Mod>().ActivateModCanvas();
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == Strings.Tags.MOD)
+        {
+            other.GetComponent<Mod>().DeactivateModCanvas();
+        }
+    }
     #endregion
 
     #region Public Methods
+    public void SendModDictionaryToAnalytics()
+    {
+        if (modSocketDictionary[ModSpot.ArmL].mod != null)
+        {
+            AnalyticsManager.Instance.modDictionary["armL"] = modSocketDictionary[ModSpot.ArmL].mod.getModType().ToString();
+        }
+        else
+        {
+            AnalyticsManager.Instance.modDictionary["armL"] = "null";
+        }
+
+        if (modSocketDictionary[ModSpot.ArmR].mod != null)
+        {
+            AnalyticsManager.Instance.modDictionary["armR"] = modSocketDictionary[ModSpot.ArmR].mod.getModType().ToString();
+        }
+        else
+        {
+            AnalyticsManager.Instance.modDictionary["armR"] = "null";
+        }
+
+        if (modSocketDictionary[ModSpot.Legs].mod != null)
+        {
+            AnalyticsManager.Instance.modDictionary["legs"] = modSocketDictionary[ModSpot.Legs].mod.getModType().ToString();
+        }
+        else
+        {
+            AnalyticsManager.Instance.modDictionary["legs"] = "null";
+        }
+    }
     #endregion
 
     #region Private Methods
@@ -140,6 +185,7 @@ public class ModManager : MonoBehaviour
         {
             CheckIfHoldThresholdIsReached(ModSpot.ArmR, ref commandedMod);
         }
+
         if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_LEGS,
             ButtonMode.UP))
         {
@@ -249,6 +295,7 @@ public class ModManager : MonoBehaviour
 
     private void Attach(ModSpot spot, Mod mod, bool isSwapping = false)
     {
+       
         if (modSocketDictionary[spot].mod != null && !isSwapping)
         {
             Detach(spot);
@@ -264,7 +311,9 @@ public class ModManager : MonoBehaviour
         mod.transform.localRotation = Quaternion.identity;
         modSocketDictionary[spot].mod = mod;        
         mod.AttachAffect(ref playerStats, velBody);
+        SendModDictionaryToAnalytics();
         StartCoroutine(DelayIsOkToDropMod());
+        mod.DeactivateModCanvas();
     }
 
     private IEnumerator DelayIsOkToDropMod()
@@ -292,6 +341,7 @@ public class ModManager : MonoBehaviour
             modSocketDictionary[spot].mod.DetachAffect();
             modSocketDictionary[spot].mod = null;
         }
+        SendModDictionaryToAnalytics();
     }
 
     private void SwapMods(ModSpot sourceSpot, ModSpot targetSpot)
@@ -321,6 +371,7 @@ public class ModManager : MonoBehaviour
             ModUIManager.Instance.SwapMods(sourceSpot, targetSpot);
         }
         SetAllModUIToIdle();
+        SendModDictionaryToAnalytics();
     }
 
     private ModSpot GetModSpot(Mod mod)

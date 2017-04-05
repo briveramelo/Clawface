@@ -13,7 +13,7 @@ public abstract class IController {
     #region Protected Interface
 
         // A simple Helper.. which is no longer used. :P
-        public bool GetKeyHelper(ButtonMode mode, KeyCode code)
+        protected bool GetKeyHelper(ButtonMode mode, KeyCode code)
         {
             switch(mode)
             {
@@ -31,7 +31,7 @@ public abstract class IController {
         }
 
         // This one has taken over :P
-        public ButtonMode GetModeHelper(KeyCode code)
+        protected ButtonMode GetModeHelper(KeyCode code)
         {
             if (Input.GetKeyDown(code))
                 return ButtonMode.DOWN;
@@ -41,7 +41,69 @@ public abstract class IController {
                 return ButtonMode.HELD;
             else
                 return ButtonMode.IDLE;
+    }
+
+    // Another Helper for transitioning axes to DPad!
+    protected ButtonMode AxisToDPad(ButtonMode current, float axis, bool positive)
+    {
+        switch(current)
+        {
+            case ButtonMode.UP:
+                if (axis == 0)
+                {
+                    return ButtonMode.IDLE;
+                }
+                else if (positive)
+                {
+                    return (axis > 0) ? ButtonMode.DOWN : ButtonMode.IDLE;
+                }
+                else
+                {
+                    return (axis < 0) ? ButtonMode.DOWN : ButtonMode.IDLE;
+                }
+            case ButtonMode.DOWN:
+                if (axis == 0)
+                {
+                    return ButtonMode.UP;
+                }
+                else if (positive)
+                {
+                    return (axis > 0) ? ButtonMode.HELD : ButtonMode.UP;
+                }
+                else
+                {
+                    return (axis < 0) ? ButtonMode.HELD : ButtonMode.UP;
+                }
+            case ButtonMode.HELD:
+                if (axis == 0)
+                {
+                    return ButtonMode.UP;
+                }
+                else if (positive)
+                {
+                    return (axis > 0) ? ButtonMode.HELD : ButtonMode.UP;
+                }
+                else
+                {
+                    return (axis < 0) ? ButtonMode.HELD : ButtonMode.UP;
+                }
+            case ButtonMode.IDLE:
+                if (axis == 0)
+                {
+                    return ButtonMode.IDLE;
+                }
+                else if (positive)
+                {
+                    return (axis > 0) ? ButtonMode.DOWN : ButtonMode.IDLE;
+                }
+                else
+                {
+                    return (axis < 0) ? ButtonMode.DOWN : ButtonMode.IDLE;
+                }
+            default:
+                throw new System.Exception("IMPOSSIBRU!");
         }
+    }
 
     #endregion
 
@@ -123,6 +185,12 @@ public abstract class IController {
 
         public abstract ButtonMode GetStart();
         public abstract bool GetStart(ButtonMode mode);
+
+    #endregion
+
+    #region Haptics
+
+        public abstract void Vibrate(VibrationTargets target, float intensity);
 
     #endregion
 }

@@ -19,14 +19,13 @@ public class InputManager : Singleton<InputManager> {
     #endregion
 
     #region Unity Lifecycle Functions
-
         protected override void Awake()
         {
             base.Awake();
 
         //// Insert Appropriate Controllers:
         #if UNITY_STANDALONE
-            // controllers.Add(new KeyboardController());
+            controllers.Add(new KeyboardController());
         #endif
 
         #if UNITY_STANDALONE_WIN
@@ -102,6 +101,15 @@ public class InputManager : Singleton<InputManager> {
         {
             Assert.AreNotEqual(activeScheme, -1, "No Active Scheme Set!");
             return schemes[activeScheme].QueryAction(controllers, action, mode);
+        }
+
+        //// Haptics
+        public void Vibrate(VibrationTargets target, float intensity)
+        {
+            foreach (IController controller in controllers)
+            {
+                controller.Vibrate(target, intensity);
+            }
         }
 
     #endregion

@@ -5,6 +5,10 @@
  */
 using UnityEngine;
 
+#if UNITY_STANDALONE_WIN
+    using XInputWrapper;
+#endif
+
 public class XBox360Controller : IController
 {
 
@@ -37,12 +41,12 @@ public class XBox360Controller : IController
 
     #region Internal State
 
-        private ButtonMode triggerLeft;
-        private ButtonMode triggerRight;
-        private ButtonMode dPadLeft;
-        private ButtonMode dPadRight;
-        private ButtonMode dPadUp;
-        private ButtonMode dPadDown;
+        private ButtonMode triggerLeft = ButtonMode.IDLE;
+        private ButtonMode triggerRight = ButtonMode.IDLE;
+        private ButtonMode dPadLeft = ButtonMode.IDLE;
+        private ButtonMode dPadRight = ButtonMode.IDLE;
+        private ButtonMode dPadUp = ButtonMode.IDLE;
+        private ButtonMode dPadDown = ButtonMode.IDLE;
 
     #endregion
 
@@ -55,10 +59,10 @@ public class XBox360Controller : IController
         float dPadHorizontal = Input.GetAxis(DPAD_HORIZONTAL);
         float dPadVertical = Input.GetAxis(DPAD_VERTICAL);
 
-        dPadLeft = TransitionDPad(dPadLeft, dPadHorizontal, false);
-        dPadRight = TransitionDPad(dPadRight, dPadHorizontal, true);
-        dPadUp = TransitionDPad(dPadUp, dPadVertical, true);
-        dPadDown = TransitionDPad(dPadDown, dPadVertical, false);
+        dPadLeft = AxisToDPad(dPadLeft, dPadHorizontal, false);
+        dPadRight = AxisToDPad(dPadRight, dPadHorizontal, true);
+        dPadUp = AxisToDPad(dPadUp, dPadVertical, true);
+        dPadDown = AxisToDPad(dPadDown, dPadVertical, false);
     }
     private ButtonMode Transition(ButtonMode mode, float axis)
     {
@@ -74,66 +78,6 @@ public class XBox360Controller : IController
                 return axis == 0 ? ButtonMode.IDLE : ButtonMode.DOWN;
             default:
                 throw new System.SystemException("IMPOSSIBRU!");
-        }
-    }
-    private ButtonMode TransitionDPad(ButtonMode mode, float axis, bool positive)
-    {
-        switch(mode)
-        {
-            case ButtonMode.UP:
-                if (axis == 0)
-                {
-                    return ButtonMode.IDLE;
-                }
-                else if (positive)
-                {
-                    return (axis > 0) ? ButtonMode.DOWN : ButtonMode.IDLE;
-                }
-                else
-                {
-                    return (axis < 0) ? ButtonMode.DOWN : ButtonMode.IDLE;
-                }
-            case ButtonMode.DOWN:
-                if (axis == 0)
-                {
-                    return ButtonMode.UP;
-                }
-                else if (positive)
-                {
-                    return (axis > 0) ? ButtonMode.HELD : ButtonMode.UP;
-                }
-                else
-                {
-                    return (axis < 0) ? ButtonMode.HELD : ButtonMode.UP;
-                }
-            case ButtonMode.HELD:
-                if (axis == 0)
-                {
-                    return ButtonMode.UP;
-                }
-                else if (positive)
-                {
-                    return (axis > 0) ? ButtonMode.HELD : ButtonMode.UP;
-                }
-                else
-                {
-                    return (axis < 0) ? ButtonMode.HELD : ButtonMode.UP;
-                }
-            case ButtonMode.IDLE:
-                if (axis == 0)
-                {
-                    return ButtonMode.IDLE;
-                }
-                else if (positive)
-                {
-                    return (axis > 0) ? ButtonMode.DOWN : ButtonMode.IDLE;
-                }
-                else
-                {
-                    return (axis < 0) ? ButtonMode.DOWN : ButtonMode.IDLE;
-                }
-            default:
-                throw new System.Exception("IMPOSSIBRU!");
         }
     }
 
@@ -323,6 +267,29 @@ public class XBox360Controller : IController
         public override bool GetStart(ButtonMode mode)
         {
             return GetKeyHelper(mode, START);
+        }
+
+    #endregion
+
+    #region Haptics
+
+        public override void Vibrate(VibrationTargets target, float intensity)
+        {
+            #if UNITY_STANDALONE_WIN
+                switch(target)
+                {
+                    case VibrationTargets.LEFT:
+                        Wrapper.VibrateLeft(0, intensity);
+                        break;
+                    case VibrationTargets.RIGHT:
+                        Wrapper.VibrateRight(0, intensity);
+                        break;
+                    case VibrationTargets.BOTH:
+                        Wrapper.VibrateLeft(0, intensity);
+                        Wrapper.VibrateRight(0, intensity);
+                        break;
+                }
+            #endif
         }
 
     #endregion
