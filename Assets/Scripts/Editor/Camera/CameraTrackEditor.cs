@@ -9,6 +9,8 @@ using UnityEditor;
 [CustomEditor(typeof(CameraTrack))]
 public class CameraTrackEditor : Editor {
 
+    const float _MINI_BUTTON_WIDTH = 20f;
+
     #region Vars
 
     /// <summary>
@@ -31,6 +33,7 @@ public class CameraTrackEditor : Editor {
     SerializedProperty _speedCurveProp;
     SerializedProperty _positionsProp;
     SerializedProperty _onCompleteTrackProp;
+    SerializedProperty _eventsProp;
 
     #endregion
     #region Unity Callbacks
@@ -44,6 +47,7 @@ public class CameraTrackEditor : Editor {
         _speedCurveProp = _serializedTarget.FindProperty("_speed");
         _positionsProp = _serializedTarget.FindProperty("_positions");
         _onCompleteTrackProp = _serializedTarget.FindProperty ("onCompleteTrack");
+        _eventsProp = _serializedTarget.FindProperty("_events");
     }
 
     public override void OnInspectorGUI() {
@@ -63,25 +67,37 @@ public class CameraTrackEditor : Editor {
         GUILayout.Label("Playback Progress: " + _target.Progress.ToString());
 
         // Show playback control buttons
-        GUILayout.BeginHorizontal();
-        if (_target.IsPlaying) if (GUILayout.Button("Pause")) _target.Pause();
-        else if (GUILayout.Button("Play")) _target.Play();
+        GUILayout.BeginHorizontal(EditorStyles.helpBox);
+        if (_target.IsPlaying) {
+            if (GUILayout.Button("Pause")) _target.Pause();
+        } else {
+                if (GUILayout.Button("Play")) _target.Play();
+        }
         if (GUILayout.Button("Stop")) _target.Stop();
         GUILayout.EndHorizontal();
+
+        EditorUtility.SetDirty (_target);
     }
     void DrawEditorInspector() {
         // Update serialized data
         _serializedTarget.Update();
 
         // Draw serialized properties
+        EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+        EditorGUILayout.LabelField("Camera Track Settings", EditorStyles.boldLabel);
         EditorGUILayout.PropertyField(_cameraProp);
         EditorGUILayout.PropertyField(_playOnAwakeProp);
         EditorGUILayout.PropertyField(_speedCurveProp);
+        EditorGUILayout.Space();
         EditorGUILayout.PropertyField(_onCompleteTrackProp);
+        EditorGUILayout.EndVertical();
 
         // Draw header
         EditorGUILayout.Space();
+        EditorGUILayout.BeginVertical (EditorStyles.helpBox);
+        EditorGUILayout.BeginVertical (EditorStyles.helpBox);
         EditorGUILayout.LabelField ("Positions", EditorStyles.boldLabel);
+        EditorGUILayout.EndVertical();
 
         // Draw positions
         if (_positionsProp.arraySize > 0) {
@@ -101,19 +117,19 @@ public class CameraTrackEditor : Editor {
                 bool deleted = false;
 
                 // Draw control buttons
-                GUILayout.BeginHorizontal(GUILayout.MinHeight(height), GUILayout.ExpandHeight(true));
-                GUILayout.Label (i.ToString());
+                GUILayout.BeginHorizontal(GUILayout.MinHeight(height), GUILayout.ExpandHeight(true), GUILayout.ExpandWidth (false));
+                GUILayout.Label (i.ToString(), GUILayout.MaxWidth (32f));
 
-                GUILayout.BeginHorizontal(GUILayout.Width(64f));
-                if (GUILayout.Button(_AddPositionButtonContent)) _target.AddPositionAfterIndex(index);
-                if (GUILayout.Button(_DeletePositionButtonContent)) {
+                //GUILayout.BeginHorizontal(GUILayout.Width(64f));
+                if (GUILayout.Button(_AddPositionButtonContent, GUILayout.Width (_MINI_BUTTON_WIDTH))) _target.AddPositionAfterIndex(index);
+                if (GUILayout.Button(_DeletePositionButtonContent, GUILayout.Width (_MINI_BUTTON_WIDTH))) {
                     _target.DeletePositionAtIndex(index);
                     _positionsProp.DeleteArrayElementAtIndex(index);
                     deleted = true;
                 }
-                if (GUILayout.Button(_MovePositionUpButtonContent)) _target.MovePositionBackward(index);
-                if (GUILayout.Button(_MovePositionDownButtonContent)) _target.MovePositionForward(index);
-                GUILayout.EndHorizontal();
+                if (GUILayout.Button(_MovePositionUpButtonContent, GUILayout.Width (_MINI_BUTTON_WIDTH))) _target.MovePositionBackward(index);
+                if (GUILayout.Button(_MovePositionDownButtonContent, GUILayout.Width (_MINI_BUTTON_WIDTH))) _target.MovePositionForward(index);
+                //GUILayout.EndHorizontal();
 
                 // Draw position properties
                 if (!deleted) {
@@ -126,11 +142,24 @@ public class CameraTrackEditor : Editor {
             GUILayout.EndVertical();
         }
 
-        // Apply modified serialized changes
-        _serializedTarget.ApplyModifiedProperties();
+        
 
         // Draw add new position button
+        EditorGUILayout.BeginVertical(EditorStyles.helpBox);
         if (GUILayout.Button("Add new position")) _target.AddPosition();
+        EditorGUILayout.EndVertical();
+        EditorGUILayout.EndVertical();
+
+        EditorGUILayout.Space();
+
+        EditorGUILayout.PropertyField (_eventsProp, true);
+        //for (int i = 0; i < _eventsProp.arraySize; i++)
+            //EditorGUILayout.PropertyField (_eventsProp.GetArrayElementAtIndex(i));
+
+        if (GUILayout.Button ("Add new event")) _target.AddCameraEvent();
+
+        // Apply modified serialized changes
+        _serializedTarget.ApplyModifiedProperties();
     }
 
     #endregion

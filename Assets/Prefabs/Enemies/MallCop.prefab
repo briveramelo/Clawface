@@ -217,7 +217,6 @@ GameObject:
   - component: {fileID: 114272014647171304}
   - component: {fileID: 114342429780170378}
   - component: {fileID: 114709168524529216}
-  - component: {fileID: 114410948192784054}
   m_Layer: 9
   m_Name: MallCopCanvas
   m_TagString: Untagged
@@ -717,7 +716,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1207151392854452}
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -0.0645, y: 0.081, z: 0.016}
+  m_LocalPosition: {x: -0.132, y: 0.081, z: 0.016}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4713946383697304}
@@ -744,7 +743,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1182660559069628}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0.3366}
+  m_LocalPosition: {x: -0, y: 0.012, z: 0.098}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4713946383697304}
@@ -853,7 +852,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1118372282550480}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 24.83492, y: 9.0002, z: 106.84368}
+  m_LocalPosition: {x: -44.546288, y: 0.043569565, z: -8.282255}
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children:
   - {fileID: 4203017246125288}
@@ -1084,7 +1083,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1801706767356082}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0, z: 0.3289}
+  m_LocalPosition: {x: 0, y: 0.015, z: 0.109}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4591663116469216}
@@ -1156,7 +1155,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1260788799510830}
-  m_Mesh: {fileID: 4300000, guid: 7ad2a489fca68394ab9f8fb1306892f7, type: 3}
+  m_Mesh: {fileID: 4300000, guid: ac55e80eebc496445b05d92e039453d0, type: 3}
 --- !u!54 &54477481413527770
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -1422,7 +1421,7 @@ MonoBehaviour:
   animator: {fileID: 95519533197117512}
   myStats: {fileID: 114216556463902696}
   mySkin: {fileID: 1558599077418482, guid: d3ea349167ea0b042acea2cceeb31643, type: 2}
-  canvas: {fileID: 1183100696542480}
+  copUICanvas: {fileID: 114709168524529216}
   mod: {fileID: 114722627437004840}
 --- !u!114 &114406113363863610
 MonoBehaviour:
@@ -1437,19 +1436,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 0.34
   color: {r: 1, g: 0, b: 0, a: 1}
---- !u!114 &114410948192784054
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1183100696542480}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b99012dfb82d98d47983e0d2c0936a42, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  skinActionIcon: {fileID: 21300000, guid: 62496808546f1cc43b3ff9c8dc96e117, type: 3}
-  actionImage: {fileID: 114321643848977182}
 --- !u!114 &114464561158743098
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1699,7 +1685,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: 189453250
+  randomSeed: -2044265522
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -4192,7 +4178,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 1209176041
+  randomSeed: -54998847
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -6769,7 +6755,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: -1753492077
+  randomSeed: -537880815
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -9262,7 +9248,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: 784043146
+  randomSeed: -242814503
   InitialModule:
     serializedVersion: 3
     enabled: 1
