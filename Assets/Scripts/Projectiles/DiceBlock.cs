@@ -144,10 +144,9 @@ public class DiceBlock : MonoBehaviour {
         Collider[] cols = Physics.OverlapSphere(this.transform.position, explosionRadius);
         for (int i = 0; i < cols.Length; i++)
         {
-            if (cols[i].gameObject.layer == (int)Layers.Enemy)
-            {
-                damageableList.Add(cols[i].GetComponentInChildren<IDamageable>());
-            }
+
+            damageableList.Add(cols[i].GetComponentInChildren<IDamageable>());
+
         }
 
         foreach (IDamageable damageable in damageableList)
