@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 223855699938425254}
   - component: {fileID: 114232199689473718}
   - component: {fileID: 114517872133112954}
+  - component: {fileID: 225938771510752462}
   m_Layer: 0
   m_Name: LogoCanvas
   m_TagString: Untagged
@@ -173,3 +174,14 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!225 &225938771510752462
+CanvasGroup:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1408835384276192}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
