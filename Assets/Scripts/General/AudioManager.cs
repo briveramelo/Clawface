@@ -18,15 +18,19 @@ public class AudioManager : Singleton<AudioManager> {
         base.Awake();
 
         foreach (var prefab in prefabs) {
-            audioGroups.Add (Instantiate (prefab).GetComponent<AudioGroup>());
+            GameObject audioObject = Instantiate(prefab);
+            audioGroups.Add (audioObject.GetComponent<AudioGroup>());
+            audioObject.transform.parent = transform;
         }
     }
 
     public bool PlaySFX(SFXType type)
     {
         bool result = false;
-        var audioGroup = audioGroups[(int)type];
-        if (audioGroup != null) audioGroup.Play();
+        if ((int)type < audioGroups.Count) {
+            var audioGroup = audioGroups[(int)type];
+            if (audioGroup != null) audioGroup.Play();
+        }
         return result;
     }
 }
