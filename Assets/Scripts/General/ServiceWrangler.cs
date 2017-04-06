@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class ServiceWrangler : Singleton<ServiceWrangler> {
 
     protected ServiceWrangler() { }
     
-    [SerializeField] private GameObject audioManager, bulletPool, healthBar, modUIManager, vfxManager, inputManager, hitstopManager, playerTeleporter, pauser, analyticsManager;
+    [SerializeField]
+    private GameObject audioManager, bulletPool, healthBar, modUIManager, vfxManager, inputManager,
+            hitstopManager, playerTeleporter, pauser, analyticsManager, menuManager;
     private static Dictionary<string, PrefabBool> singletonPrefabRegistry;
 
     protected override void Awake() {
@@ -22,7 +22,8 @@ public class ServiceWrangler : Singleton<ServiceWrangler> {
             { typeof(HitstopManager).ToString(),        new PrefabBool(ref hitstopManager) },
             { typeof(DEBUG_PlayerTeleporter).ToString(),new PrefabBool(ref playerTeleporter) },
             { typeof(Pauser).ToString(),                new PrefabBool(ref pauser) },
-            { typeof(AnalyticsManager).ToString(),      new PrefabBool(ref analyticsManager) }    
+            { typeof(AnalyticsManager).ToString(),      new PrefabBool(ref analyticsManager) },
+            { typeof(MenuManager).ToString(),           new PrefabBool(ref menuManager) }         
         };
         base.Awake();
     }
