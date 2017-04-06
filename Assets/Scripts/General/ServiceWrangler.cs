@@ -6,8 +6,8 @@ using UnityEngine;
 public class ServiceWrangler : Singleton<ServiceWrangler> {
 
     protected ServiceWrangler() { }
-
-    [SerializeField] private GameObject audioManager, bulletPool, healthBar, modUIManager;
+    
+    [SerializeField] private GameObject audioManager, bulletPool, healthBar, modUIManager, vfxManager, inputManager, hitstopManager, playerTeleporter, pauser, analyticsManager;
     private static Dictionary<string, PrefabBool> singletonPrefabRegistry;
 
     protected override void Awake() {
@@ -16,7 +16,13 @@ public class ServiceWrangler : Singleton<ServiceWrangler> {
             { typeof(AudioManager).ToString(),          new PrefabBool(ref audioManager) },
             { typeof(ObjectPool).ToString(),            new PrefabBool(ref bulletPool) },
             { typeof(HealthBar).ToString(),             new PrefabBool(ref healthBar) },
-            { typeof(ModUIManager).ToString(),          new PrefabBool(ref modUIManager) }
+            { typeof(ModUIManager).ToString(),          new PrefabBool(ref modUIManager) },
+            { typeof(VFXManager).ToString(),            new PrefabBool(ref vfxManager) },
+            { typeof(InputManager).ToString(),          new PrefabBool(ref inputManager) },
+            { typeof(HitstopManager).ToString(),        new PrefabBool(ref hitstopManager) },
+            { typeof(DEBUG_PlayerTeleporter).ToString(),new PrefabBool(ref playerTeleporter) },
+            { typeof(Pauser).ToString(),                new PrefabBool(ref pauser) },
+            { typeof(AnalyticsManager).ToString(),      new PrefabBool(ref analyticsManager) }    
         };
         base.Awake();
     }
@@ -27,7 +33,9 @@ public class ServiceWrangler : Singleton<ServiceWrangler> {
                 GameObject singletonGameObject = Instantiate(singletonRegistered.Value.prefab, null, true) as GameObject;
                 singletonGameObject.transform.position = Vector3.zero;
                 singletonGameObject.transform.rotation = Quaternion.identity;
-                Debug.LogWarning(singletonRegistered.Key + " required Loading");
+
+                string debugMessage = singletonRegistered.Key + " required Loading. Place this prefab in your scene";
+                Debug.LogFormat("<color=#ffff00>" + debugMessage + "</color>");
             }
         }
     }
@@ -41,8 +49,9 @@ public class ServiceWrangler : Singleton<ServiceWrangler> {
         {
             singletonPrefabRegistry[typeString].isRegistered = true;
         }
-        else {
-            Debug.LogWarning(typeString + " attempting duplicate or unprepared service registry");
+        else if (typeString != (typeof(ServiceWrangler)).ToString()) {
+            string debugMessage = typeString + " attempting duplicate or unprepared service registry. Add this singleton to the singletonPrefabRegistry";
+            Debug.LogFormat("<color=#ffff00>" + debugMessage + "</color>");
         }
     }
 

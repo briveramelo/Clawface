@@ -5,29 +5,26 @@ using UnityEngine;
 
 public class BatonMod : Mod {
 
-    [SerializeField]
-    private float attackBoostValue;
+    [SerializeField] private Collider attackCollider;
+    [SerializeField] private Transform batonTip;
+    [SerializeField] private VFXStunBatonImpact impactEffect;
+    [SerializeField] private Rigidbody rigbod;
+    [SerializeField] private float attackBoostValue;
+
+    private VFXHandler vfxHandler;
     private float attackValue;
     private float attackTime = 1f;
-
-    [SerializeField]
-    private Collider attackCollider;
-    bool isHitting;
-
-    [SerializeField]
-    private VFXStunBatonImpact impactEffect;
+    private bool isSwinging;
 
     public override void Activate()
     {
         switch (getModSpot())
         {
             case ModSpot.ArmL:
-                Hit();
+                Swing();
                 break;
             case ModSpot.ArmR:
-                Hit();
-                break;
-            case ModSpot.Head:                
+                Swing();
                 break;
             case ModSpot.Legs:
                 LayMine();
@@ -37,6 +34,23 @@ public class BatonMod : Mod {
         }
     }
 
+    public override void ActivateModCanvas()
+    {
+        if (modCanvas && !isAttached)
+        {
+            modCanvas.SetActive(true);
+        }
+    }
+
+    public override void DeactivateModCanvas()
+    {
+        if (modCanvas)
+        {
+            modCanvas.SetActive(false);
+        }
+    }
+
+
     public override void DeActivate()
     {
         //Nothing to do here
@@ -45,23 +59,19 @@ public class BatonMod : Mod {
     void Awake()
     {
         type = ModType.StunBaton;
-        attackCollider.enabled = false;
+        category = ModCategory.Melee;
+        vfxHandler = new VFXHandler(transform);
+        if (modCanvas) { modCanvas.SetActive(false); }
+       
     }
 
-    // Use this for initialization
-    void Start () {        
-    }
-	
-	// Update is called once per frame
-	void Update () {        
-	}
-
-    void Hit()
+    void Swing()
     {        
-        if (!isHitting)
+        if (!isSwinging)
         {
-            AudioManager.Instance.PlaySFX(SFXType.StunBatonSwing);
-            isHitting = true;
+            //AudioManager.Instance.PlaySFX(SFXType.StunBatonSwing);
+            
+            isSwinging = true;
             StartCoroutine(HitCoolDown());
         }
     }
@@ -70,71 +80,84 @@ public class BatonMod : Mod {
     {
         yield return new WaitForSeconds(attackTime);
         recentlyHitEnemies.Clear();
-        isHitting = false;
+        isSwinging = false;
     }
 
     void LayMine()
     {
-        GameObject stunMine = ObjectPool.Instance.GetStunMine();
+        GameObject stunMine = ObjectPool.Instance.GetObject(PoolObjectType.Mine);
         if (stunMine != null)
         {
             stunMine.transform.position = transform.position;
-            stunMine.SetActive(true);
-            AudioManager.Instance.PlaySFX(SFXType.StunBatonLayMine);
+            //AudioManager.Instance.PlaySFX(SFXType.StunBatonLayMine);
         }
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (isHitting)
-        {
-            IDamageable damageable = other.gameObject.GetComponent<IDamageable>();
-            if (damageable != null && !recentlyHitEnemies.Contains(damageable)) {
-                impactEffect.Emit();
-                damageable.TakeDamage(attackValue);
-                IStunnable stunnable = other.gameObject.GetComponent<IStunnable>();
-                if (stunnable != null) {
-                    stunnable.Stun();
+        if (isSwinging){
+            if (GetWielderInstanceID() != other.gameObject.GetInstanceID() &&
+                (other.gameObject.CompareTag(Strings.Tags.PLAYER) ||
+                other.gameObject.CompareTag(Strings.Tags.ENEMY))){
+
+                IDamageable damageable = other.GetComponent<IDamageable>();
+                if (damageable != null && !recentlyHitEnemies.Contains(damageable)){
+                    if (transform.root.CompareTag(Strings.Tags.PLAYER)){
+                        AudioManager.Instance.PlaySFX(SFXType.StunBatonImpact);
+                        HitstopManager.Instance.StartHitstop(.05f);                        
+                    }
+                    if (!other.CompareTag(Strings.Tags.PLAYER)) {
+                        EmitBlood();
+                    }
+                    impactEffect.Emit();
+                    damageable.TakeDamage(attackValue);
                     recentlyHitEnemies.Add(damageable);
+                    IStunnable stunnable = other.GetComponent<IStunnable>();
+                    if (stunnable != null){
+                        stunnable.Stun();
+                    }
                 }
-            }                        
+            }
         }
     }
 
     void BoostAttack()
     {
-        playerStats.Modify(StatType.Attack, attackBoostValue);
+        wielderStats.Modify(StatType.Attack, attackBoostValue);
     }
 
     void RemoveAttackBoost()
     {
-        playerStats.Modify(StatType.Attack, 1 / attackBoostValue);
+        wielderStats.Modify(StatType.Attack, 1 / attackBoostValue);
     }
 
-    public override void AttachAffect(ref Stats i_playerStats, ref PlayerMovement playerMovement)
+    public override void AttachAffect(ref Stats i_playerStats, IMovable wielderMovable)
     {
+        isAttached = true;
         attackCollider.enabled = true;
-        playerStats = i_playerStats;
+        wielderStats = i_playerStats;
         pickupCollider.enabled = false;
-        if (getModSpot() == ModSpot.Head)
-        {
-            BoostAttack();
-        }else
-        {
-            attackValue = playerStats.GetStat(StatType.Attack);
-        }
+        attackValue = wielderStats.GetStat(StatType.Attack);
+   
     }
 
     public override void DetachAffect()
     {
+        isAttached = false;
         attackCollider.enabled = false;
         pickupCollider.enabled = true;
-        if (getModSpot() == ModSpot.Head)
-        {
-            RemoveAttackBoost();
-        }else
-        {
-            attackValue = 0.0f;
-        }
+        attackValue = 0.0f;
+    }
+
+    public override void AlternateActivate(bool isHeld, float holdTime)
+    {
+        
+    }
+
+    private void EmitBlood() {
+        Vector3 bloodDirection = transform.root.rotation.eulerAngles;
+        bloodDirection.x = 23.38f;
+        Quaternion emissionRotation = Quaternion.Euler(bloodDirection);
+        vfxHandler.EmitBloodInDirection(emissionRotation, transform.position);
     }
 }

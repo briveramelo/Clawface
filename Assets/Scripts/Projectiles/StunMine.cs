@@ -7,24 +7,14 @@ public class StunMine : MonoBehaviour {
     [SerializeField]
     private float damage;
 
-    [SerializeField]
-    private GameObject explosionEffectPrefab;
-
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == Strings.ENEMY)
+        if(other.tag == Strings.Tags.ENEMY)
         {
-            Instantiate(explosionEffectPrefab, transform.position, transform.rotation);
+            GameObject stunMineExplosionEffect = ObjectPool.Instance.GetObject(PoolObjectType.MineExplosionEffect);
+            stunMineExplosionEffect.transform.position = transform.position;
+            stunMineExplosionEffect.transform.rotation = transform.rotation;
+
             other.GetComponent<IDamageable>().TakeDamage(damage);
             other.GetComponent<IStunnable>().Stun();
             gameObject.SetActive(false);

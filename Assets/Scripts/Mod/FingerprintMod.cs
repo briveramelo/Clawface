@@ -6,7 +6,6 @@ using UnityEngine;
 public class FingerprintMod : Mod {
 
     ITriggerable unlockableObject;
-    bool attached;
 
     [SerializeField]
     private Collider unlockColliderVolume;
@@ -18,15 +17,25 @@ public class FingerprintMod : Mod {
 
     public override void Activate()
     {
-        if (attached && unlockableObject != null)
+        if (isAttached && unlockableObject != null)
         {
             unlockableObject.Activate();
         }
     }
 
-    public override void AttachAffect(ref Stats playerStats, ref PlayerMovement playerMovement)
+    public override void ActivateModCanvas()
     {
-        attached = true;
+
+    }
+
+    public override void DeactivateModCanvas()
+    {
+
+    }
+    public override void AttachAffect(ref Stats playerStats, IMovable wielderMovable)
+    {
+        
+        isAttached = true;
         unlockColliderVolume.enabled = true;
         pickupCollider.enabled = false;
     }
@@ -38,7 +47,7 @@ public class FingerprintMod : Mod {
 
     public override void DetachAffect()
     {
-        attached = false;
+        isAttached = false;
         pickupCollider.enabled = true;
         unlockColliderVolume.enabled = false;
         if (unlockableObject!=null)
@@ -50,7 +59,7 @@ public class FingerprintMod : Mod {
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == Strings.UNLOCKABLE)
+        if(other.gameObject.tag == Strings.Tags.UNLOCKABLE)
         {
             unlockableObject = other.gameObject.GetComponent<ITriggerable>();
             if (unlockableObject != null)
@@ -60,7 +69,7 @@ public class FingerprintMod : Mod {
 
     void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == Strings.UNLOCKABLE)
+        if (other.gameObject.tag == Strings.Tags.UNLOCKABLE)
         {
             if(unlockableObject == other.gameObject.GetComponent<ITriggerable>())
             {
@@ -72,7 +81,7 @@ public class FingerprintMod : Mod {
 
     // Use this for initialization
     void Start () {
-        attached = false;
+        isAttached = false;
         unlockableObject = null;
         unlockColliderVolume.enabled = false;
     }
@@ -80,4 +89,9 @@ public class FingerprintMod : Mod {
 	// Update is called once per frame
 	void Update () {
 	}
+
+    public override void AlternateActivate(bool isHeld, float holdTime)
+    {
+        
+    }
 }

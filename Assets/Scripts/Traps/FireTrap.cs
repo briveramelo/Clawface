@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using ModMan;
 
 public class FireTrap : MonoBehaviour {
 
@@ -197,7 +198,6 @@ public class FireTrap : MonoBehaviour {
     }
 
     void DoDamage() {
-        Debug.Log("bap");
         foreach (var obj in _objectsInTrap) {
             obj.TakeDamage(_damagePerSecond);
         }
