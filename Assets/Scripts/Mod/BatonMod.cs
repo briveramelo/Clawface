@@ -89,7 +89,7 @@ public class BatonMod : Mod {
         if (stunMine != null)
         {
             stunMine.transform.position = transform.position;
-            AudioManager.Instance.PlaySFX(SFXType.StunBatonLayMine);
+            //AudioManager.Instance.PlaySFX(SFXType.StunBatonLayMine);
         }
     }
 
