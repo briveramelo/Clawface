@@ -157,6 +157,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4074033785249770}
   - component: {fileID: 114662478772661676}
+  - component: {fileID: 135789637571021650}
   m_Layer: 8
   m_Name: ModSockets
   m_TagString: Untagged
@@ -1598,6 +1599,18 @@ Behaviour:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1784958778192948}
   m_Enabled: 1
+--- !u!135 &135789637571021650
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1238118875601504}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 2.25
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!136 &136607729430217502
 CapsuleCollider:
   m_ObjectHideFlags: 1
