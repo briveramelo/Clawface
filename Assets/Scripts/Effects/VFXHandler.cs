@@ -13,7 +13,9 @@ public class VFXHandler {
 
     public void EmitForBulletCollision() {
         GameObject effect = ObjectPool.Instance.GetObject(PoolObjectType.BlasterImpactEffect);
-        effect.transform.position = transform.position;
+        if (effect) {
+            effect.transform.position = transform.position;
+        }
     }
 
 
