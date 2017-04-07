@@ -51,7 +51,8 @@ public enum ModType {
     FingerPrint=2,
     StunBaton=3,
     TankTreads = 4,
-    Grappler = 5
+    Grappler = 5,
+    Boomerang = 6
 }
 
 public enum ModCategory

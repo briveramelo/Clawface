@@ -10,6 +10,7 @@ public abstract class Mod : MonoBehaviour {
     #region Protected Fields
     protected ModType type;
     protected ModCategory category;
+    public bool hasState;
     protected Stats wielderStats;
     protected IMovable wielderMovable;
     protected List<IDamageable> recentlyHitEnemies = new List<IDamageable>();

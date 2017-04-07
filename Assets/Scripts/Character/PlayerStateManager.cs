@@ -123,7 +123,7 @@ public class PlayerStateManager : MonoBehaviour {
         {
             stateVariables.currentMod = mod;
         }
-        if (stateVariables.currentMod.getModCategory() == ModCategory.Melee)
+        if (stateVariables.currentMod.hasState)
         {
             
             if (modStateDictionary[mod.getModType()] != null)
