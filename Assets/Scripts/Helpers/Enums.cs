@@ -39,7 +39,7 @@ public enum SFXType {
     StunBatonImpact,
     StunBatonSwing,
     BlasterShoot,
-    StunBatonImpact=12,
+    //StunBatonImpact=12,
     StunBatonSwing1 = 13,
     StunBatonSwing2 = 14,
     //Pause=15

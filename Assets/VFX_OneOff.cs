@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using ModMan;
 
 public class VFX_OneOff : MonoBehaviour {
 
@@ -9,6 +10,12 @@ public class VFX_OneOff : MonoBehaviour {
     void Awake () {
         _ps = GetComponentsInChildren<ParticleSystem>();
 
+    }
+
+    private void OnEnable()
+    {
+        Play();
+        gameObject.DeActivate(2f);
     }
 
     public void Play () {
