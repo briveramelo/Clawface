@@ -21,6 +21,8 @@ public class GrapplerMod : Mod {
     #region Unity Lifecycle
     // Use this for initialization
     void Start () {
+        type = ModType.Grappler;
+        category = ModCategory.Ranged;
         sharedVariables = new SharedVariables();
         sharedVariables.throwHook = false;
         sharedVariables.retractHook = false;
@@ -106,9 +108,7 @@ public class GrapplerMod : Mod {
     }
 
     public bool HitTargetThisShot() { return sharedVariables.hitTargetThisShot; }
-    #endregion
 
-    #region Private Methods
     public override void ActivateModCanvas()
     {
         if (modCanvas && !isAttached)
@@ -124,6 +124,9 @@ public class GrapplerMod : Mod {
             modCanvas.SetActive(false);
         }
     }
+    #endregion
+
+    #region Private Methods
     #endregion
 
     #region Private Structures
