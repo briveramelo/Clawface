@@ -53,7 +53,6 @@ public class BlasterBullet : MonoBehaviour {
         {
             bool isEnemy = other.gameObject.CompareTag(Strings.Tags.ENEMY);
             bool isPlayer = other.gameObject.CompareTag(Strings.Tags.PLAYER);
-            
             if (isEnemy || isPlayer)
             {
                 Damage(other.gameObject.GetComponent<IDamageable>());
@@ -61,10 +60,11 @@ public class BlasterBullet : MonoBehaviour {
                 if (isEnemy) {
                     EmitBlood();                                              
                 }
-                //TODO find a better method for colliding with ground
-                //right now it's unreliable            
+            }
+            if (isEnemy || isPlayer || other.gameObject.layer==(int)Layers.Ground) {
+                vfxHandler.EmitForBulletCollision();
                 gameObject.SetActive(false);
-            }                        
+            }
         }
     }
 
