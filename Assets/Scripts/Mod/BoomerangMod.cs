@@ -4,12 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BoomerangMod : Mod {
-    
+
 
     #region Public fields
     #endregion
 
     #region Serialized Unity Inspector fields
+    [SerializeField]
+    private float maxDistance;
     #endregion
 
     #region Private Fields

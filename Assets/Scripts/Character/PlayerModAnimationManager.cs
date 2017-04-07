@@ -6,18 +6,16 @@ public class PlayerModAnimationManager : MonoBehaviour {
 
     private Dictionary<ModType, PlayerAnimationStates> modToAnimationMap = new Dictionary<ModType, PlayerAnimationStates>()
     {
-        {ModType.StunBaton, PlayerAnimationStates.StunBatonR}
+        {ModType.StunBaton, PlayerAnimationStates.StunBatonR},
+        {ModType.Boomerang, PlayerAnimationStates.BoomerangR}
     };
         
     [SerializeField] Animator animator;
-    [SerializeField] AnimationClip[] animations;
-    private PlayerStateManager.StateVariables stateVariables;
     private Mod currentMod;
     private PlayerAnimationStates currentAnimationState;
 
 	// Use this for initialization
 	void Start () {
-        stateVariables = GetComponent<PlayerStateManager>().stateVariables;
         currentMod = null;
         currentAnimationState = PlayerAnimationStates.Idle;
     }

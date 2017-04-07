@@ -131,7 +131,7 @@ public class PlayerStateManager : MonoBehaviour {
                 if (movementState != null)
                 {                    
                     SwitchState(modStateDictionary[mod.getModType()]);
-                    ((AttackState)modStateDictionary[mod.getModType()]).Attack();
+                    ((IPlayerState)modStateDictionary[mod.getModType()]).Attack();
                 }                
             }
         }else
@@ -218,7 +218,7 @@ public class PlayerStateManager : MonoBehaviour {
     public struct ModStateMapping
     {
         public ModType modType;
-        public AttackState state;
+        public IPlayerState state;
     }
     #endregion
 
