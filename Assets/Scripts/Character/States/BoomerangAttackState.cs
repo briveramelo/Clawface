@@ -15,7 +15,7 @@ public class BoomerangAttackState : IPlayerState {
 
     #region Private Fields
     private int currentAttackPose;
-    private int frameCount;    
+    private int frameCount;
     #endregion
 
     #region Unity Lifecycle
@@ -57,7 +57,21 @@ public class BoomerangAttackState : IPlayerState {
     #region Public Methods
     public override void Attack()
     {
-        stateVariables.currentMod.Activate();
+        if (!((BoomerangMod)(stateVariables.currentMod)).isActive)
+        {
+            if(stateVariables.currentEnemy != null)
+            {
+                ((BoomerangMod)(stateVariables.currentMod)).SetEnemyDistance(Mathf.Abs(transform.position.z - stateVariables.currentEnemy.transform.position.z));
+            }
+            else
+            {
+                ((BoomerangMod)(stateVariables.currentMod)).SetEnemyDistance(Mathf.Infinity);
+            }
+            stateVariables.currentMod.Activate();
+        }else
+        {
+            ResetState();
+        }
     }
     #endregion
 
