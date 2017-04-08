@@ -495,11 +495,16 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     public void SetDirty(bool dirty) { _dirty = dirty; }
 
     public void HandleLeftDown(Event e) {
-        _mouseDownScreenPos = e.mousePosition;
-        var ray = HandleUtility.GUIPointToWorldRay(_mouseDownScreenPos);
-        float dist;
-        if (LevelManager.Instance.EditingPlane.Raycast(ray, out dist)) {
-            _mouseDownWorldPos = ray.GetPoint(dist);
+        if (Application.isEditor) {
+
+            #if UNITY_EDITOR
+            _mouseDownScreenPos = e.mousePosition;
+            var ray = HandleUtility.GUIPointToWorldRay(_mouseDownScreenPos);
+            float dist;
+            if (LevelManager.Instance.EditingPlane.Raycast(ray, out dist)) {
+                _mouseDownWorldPos = ray.GetPoint(dist);
+            }
+            #endif
         }
     }
 
