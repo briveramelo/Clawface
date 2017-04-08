@@ -10,12 +10,13 @@ public class BoomerangAttackState : IPlayerState {
 
     #region Serialized Unity Inspector fields
     [SerializeField]
-    private VFXMeleeSwing vfx;
+    private VFXMeleeSwing vfx;    
     #endregion
 
     #region Private Fields
     private int currentAttackPose;
     private int frameCount;
+    private bool isWaitingForButtonRelease;
     #endregion
 
     #region Unity Lifecycle
@@ -32,11 +33,11 @@ public class BoomerangAttackState : IPlayerState {
 
     public override void StateUpdate()
     {
-        if (!stateVariables.stateFinished)
+        if (!stateVariables.stateFinished && !isWaitingForButtonRelease)
         {
             if (frameCount == 0)
             {
-                stateVariables.modAnimationManager.PlayModAnimation(stateVariables.currentMod, (float)currentAttackPose / (float)totalAttackPoses);
+                stateVariables.modAnimationManager.PlayModAnimation(stateVariables.currentMod, currentAttackPose / (float)totalAttackPoses);
                 currentAttackPose++;
                 if (currentAttackPose > highlightPoses[0])
                 {
@@ -72,6 +73,20 @@ public class BoomerangAttackState : IPlayerState {
         {
             ResetState();
         }
+    }
+
+    public override void SecondaryAttack(bool isHeld, float holdTime)
+    {
+        if (isHeld)
+        {
+            isWaitingForButtonRelease = true;
+            stateVariables.modAnimationManager.PlayModAnimation(stateVariables.currentMod, specialAttackPose / (float)totalAttackPoses);            
+        }
+        else
+        {
+            isWaitingForButtonRelease = false;
+        }
+        stateVariables.currentMod.AlternateActivate(isHeld, holdTime);
     }
     #endregion
 

@@ -11,6 +11,8 @@ public abstract class IPlayerState:MonoBehaviour {
     [SerializeField]
     protected int[] highlightPoses;
     [SerializeField]
+    protected int specialAttackPose;
+    [SerializeField]
     protected int coolDownFrameCount;
     [SerializeField]
     protected int inputCheckFrameCount;
@@ -28,6 +30,7 @@ public abstract class IPlayerState:MonoBehaviour {
 
     #region Public Methods
     public abstract void Attack();
+    public abstract void SecondaryAttack(bool isHeld,float holdTime);
     #endregion
 
     #region Private Methods

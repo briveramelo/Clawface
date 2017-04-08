@@ -87,6 +87,11 @@ public class StunBatonAttackState : IPlayerState {
     {
         isAttackRequested = true;
     }
+
+    public override void SecondaryAttack(bool isHeld, float holdTime)
+    {
+
+    }
     #endregion
 
     #region Private Methods

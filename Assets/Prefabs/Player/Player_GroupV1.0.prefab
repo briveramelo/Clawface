@@ -1276,6 +1276,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   totalAttackPoses: 0
   highlightPoses: 
+  specialAttackPose: 0
   coolDownFrameCount: 0
   inputCheckFrameCount: 0
 --- !u!114 &114138284110721576
@@ -1343,6 +1344,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   totalAttackPoses: 10
   highlightPoses: 04000000
+  specialAttackPose: 10
   coolDownFrameCount: 50
   inputCheckFrameCount: 0
   vfx: {fileID: 114138284110721576}
@@ -1486,7 +1488,6 @@ MonoBehaviour:
   rightArmSocket: {fileID: 4451163009890190}
   legsSocket: {fileID: 4513937150758152}
   playerStats: {fileID: 114956949786023248}
-  playerMovement: {fileID: 0}
   velBody: {fileID: 114287188701716314}
   stateManager: {fileID: 114380878024399892}
   holdThresholdTime: 0.5
@@ -1552,6 +1553,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   totalAttackPoses: 0
   highlightPoses: 
+  specialAttackPose: 0
   coolDownFrameCount: 0
   inputCheckFrameCount: 0
 --- !u!114 &114947520124113842
@@ -1567,6 +1569,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   totalAttackPoses: 10
   highlightPoses: 0400000009000000
+  specialAttackPose: 0
   coolDownFrameCount: 50
   inputCheckFrameCount: 30
   attackForwadDisplacement: 1

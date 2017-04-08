@@ -131,7 +131,7 @@ public class PlayerStateManager : MonoBehaviour {
                 if (movementState != null)
                 {                    
                     SwitchState(modStateDictionary[mod.getModType()]);
-                    ((IPlayerState)modStateDictionary[mod.getModType()]).Attack();
+                    modStateDictionary[mod.getModType()].Attack();
                 }                
             }
         }else
@@ -142,6 +142,10 @@ public class PlayerStateManager : MonoBehaviour {
 
     public void SecondaryAttack(Mod mod, bool isHeld, float holdTime)
     {
+        if (stateVariables.currentMod != mod)
+        {
+            stateVariables.currentMod = mod;
+        }
         if (isHeld && !isHoldAttack)
         {
             isHoldAttack = true;
@@ -154,7 +158,21 @@ public class PlayerStateManager : MonoBehaviour {
             stateVariables.velBody.velocity = Vector3.zero;
             stateVariables.statsManager.ModifyStat(StatType.MoveSpeed, holdAttackSlowDown);
         }
-        mod.AlternateActivate(isHeld, holdTime);
+        if (stateVariables.currentMod.hasState)
+        {
+            if (modStateDictionary[mod.getModType()] != null)
+            {
+                if (movementState != null)
+                {
+                    SwitchState(modStateDictionary[mod.getModType()]);
+                    modStateDictionary[mod.getModType()].SecondaryAttack(isHeld, holdTime);
+                }
+            }
+        }
+        else
+        {
+            mod.AlternateActivate(isHeld, holdTime);
+        }
     }
     #endregion
 

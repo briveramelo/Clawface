@@ -36,12 +36,17 @@ public class ChargeAttackState : IPlayerState
     public override void Attack()
     {
     }
+    public override void SecondaryAttack(bool isHeld, float holdTime)
+    {
+        
+    }
     #endregion
 
     #region Private Methods
     protected override void ResetState()
     {
     }
+    
     #endregion
 
     #region Private Structures
