@@ -23,6 +23,8 @@ public class BoomerangMod : Mod {
     private float chargeDamageMultiplier;
     [SerializeField]
     private float movementSpeed;
+    [SerializeField]
+    private float growRate;
     #endregion
 
     #region Private Fields
@@ -33,6 +35,8 @@ public class BoomerangMod : Mod {
     private float enemyDistance;
     private float minorAxisLength;
     private float majorAxisLength;
+    private Vector3 initialScale;
+    private float damageMultiplier;
     #endregion
 
     #region Unity Lifecycle
@@ -49,6 +53,7 @@ public class BoomerangMod : Mod {
         player = null;
         enemyDistance = Mathf.Infinity;
         minorAxisLength = maxWidth;
+        damageMultiplier = standardDamageMultiplier;
     }
 	
 	// Update is called once per frame
@@ -105,7 +110,7 @@ public class BoomerangMod : Mod {
         {
             if(other.tag == Strings.Tags.ENEMY)
             {
-                other.gameObject.GetComponent<IDamageable>().TakeDamage(wielderStats.attack * standardDamageMultiplier);
+                other.gameObject.GetComponent<IDamageable>().TakeDamage(wielderStats.attack * damageMultiplier);
             }
             else
             {
@@ -120,14 +125,7 @@ public class BoomerangMod : Mod {
     {
         if (!isActive)
         {
-            isActive = true;
-            damageCollider.enabled = true;
-            initialPosition = transform.position;
-            transform.rotation = Quaternion.identity;
-            player = transform.parent;
-            transform.parent = null;
-            TRMatrix = Matrix4x4.TRS(initialPosition, wielderMovable.GetRotation(), Vector3.one);
-            majorAxisLength = enemyDistance > maxDistance ? maxDistance / 2.0f : enemyDistance / 2.0f;
+            ReleaseBoomerang();
         }
     }
 
@@ -141,7 +139,18 @@ public class BoomerangMod : Mod {
 
     public override void AlternateActivate(bool isHeld, float holdTime)
     {
-        
+        if (!isActive)
+        {
+            if (isHeld)
+            {
+                transform.localScale = Vector3.Lerp(transform.localScale, initialScale * 2.0f, growRate);
+            }
+            else
+            {
+                damageMultiplier = chargeDamageMultiplier;
+                ReleaseBoomerang();
+            }
+        }
     }
 
     public override void AttachAffect(ref Stats wielderStats, IMovable wielderMovable)
@@ -149,7 +158,8 @@ public class BoomerangMod : Mod {
         isAttached = true;
         this.wielderMovable = wielderMovable;        
         this.wielderStats = wielderStats;
-        pickupCollider.enabled = false;        
+        pickupCollider.enabled = false;
+        initialScale = transform.localScale;
     }
 
     public override void DeActivate()
@@ -160,6 +170,9 @@ public class BoomerangMod : Mod {
         transform.localPosition = Vector3.zero;
         initialPosition = Vector3.zero;
         player = null;
+        transform.forward = wielderMovable.GetForward();
+        transform.localScale = initialScale;
+        damageMultiplier = standardDamageMultiplier;
     }
 
     public override void DeactivateModCanvas()
@@ -186,6 +199,18 @@ public class BoomerangMod : Mod {
     #endregion
 
     #region Private Methods
+    private void ReleaseBoomerang()
+    {
+        isActive = true;
+        damageCollider.enabled = true;
+        initialPosition = transform.position;
+        transform.rotation = Quaternion.identity;
+        player = transform.parent;
+        transform.parent = null;
+        TRMatrix = Matrix4x4.TRS(initialPosition, wielderMovable.GetRotation(), Vector3.one);
+        transform.forward = wielderMovable.GetForward();
+        majorAxisLength = enemyDistance > maxDistance ? maxDistance / 2.0f : enemyDistance / 2.0f;
+    }
     #endregion
 
     #region Private Structures
