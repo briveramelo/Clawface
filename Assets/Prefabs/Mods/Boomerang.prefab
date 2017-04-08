@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 95911434847623902}
   - component: {fileID: 65371520106775296}
   - component: {fileID: 114540640554467584}
+  - component: {fileID: 135665361892582434}
   m_Layer: 0
   m_Name: Boomerang
   m_TagString: Mod
@@ -204,6 +205,13 @@ MonoBehaviour:
   hasState: 1
   pickupCollider: {fileID: 65371520106775296}
   modCanvas: {fileID: 1736212784191878}
+  isActive: 0
+  maxDistance: 6
+  maxWidth: 2
+  damageCollider: {fileID: 135665361892582434}
+  standardDamageMultiplier: 1
+  chargeDamageMultiplier: 2
+  movementSpeed: 20
 --- !u!114 &114696090971045056
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -241,6 +249,18 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+--- !u!135 &135665361892582434
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1329047879542186}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.11047166
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!222 &222751321893056810
 CanvasRenderer:
   m_ObjectHideFlags: 1

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using MovementEffects;
+using System;
 
 public class VelocityBody : MonoBehaviour, IMovable{
 
@@ -139,5 +140,10 @@ public class VelocityBody : MonoBehaviour, IMovable{
         Vector3 totalExternalForce = Vector3.zero;
         externalForces.ForEach(force => totalExternalForce += force);
         return totalExternalForce;
-    }            
+    }
+
+    public Quaternion GetRotation()
+    {
+        return transform.rotation;
+    }
 }
