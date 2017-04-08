@@ -32,7 +32,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     #endregion
     #region Constants
 
-    public const float TILE_UNIT_WIDTH = 1f;
+    public const float TILE_UNIT_WIDTH = 5f;
 
     /// <summary>
     /// Default level path.
@@ -209,7 +209,10 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// <summary>
     /// Number of objects of each type (to enforce maximums).
     /// </summary>
-    Dictionary<byte, int> _objectCounts = new Dictionary<byte, int>();
+    [SerializeField]
+    //Dictionary<byte, int> _objectCounts = new Dictionary<byte, int>();
+    //ByteToIntDict _objectCounts = new ByteToIntDict();
+    List<int> _objectCounts;
 
     Vector3 _mouseDownWorldPos;
     Vector2 _mouseDownScreenPos;
@@ -467,7 +470,6 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// </summary>
     void CreateAssetPreview() {
         _assetPreview = new GameObject(_PREVIEW_NAME,
-            typeof(MeshFilter), typeof(MeshRenderer),
             typeof(AssetPreview)).GetComponent<AssetPreview>();
         //_preview.hideFlags = HideFlags.HideAndDontSave;
 
@@ -495,11 +497,16 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     public void SetDirty(bool dirty) { _dirty = dirty; }
 
     public void HandleLeftDown(Event e) {
-        _mouseDownScreenPos = e.mousePosition;
-        var ray = HandleUtility.GUIPointToWorldRay(_mouseDownScreenPos);
-        float dist;
-        if (LevelManager.Instance.EditingPlane.Raycast(ray, out dist)) {
-            _mouseDownWorldPos = ray.GetPoint(dist);
+        if (Application.isEditor) {
+
+            #if UNITY_EDITOR
+            _mouseDownScreenPos = e.mousePosition;
+            var ray = HandleUtility.GUIPointToWorldRay(_mouseDownScreenPos);
+            float dist;
+            if (LevelManager.Instance.EditingPlane.Raycast(ray, out dist)) {
+                _mouseDownWorldPos = ray.GetPoint(dist);
+            }
+            #endif
         }
     }
 
@@ -832,7 +839,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
         spawner.transform.SetParent(_floorObjects[_selectedFloor].transform);
         spawner.transform.position = position;
         _loadedSpawners.Add(spawner.GetComponent<ObjectSpawner>());
-        _objectCounts[index]++;
+        _objectCounts[(int)index]++;
         _dirty = true;
 
         // Update undo/redo stack
@@ -1002,9 +1009,13 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// </summary>
     /// <param name="index">Index of the object in the browser.</param>
     public void SelectObjectInCategory(int index, ObjectDatabase.Category category) {
+        
         var data = ObjectDatabaseManager.Instance.AllObjectsInCategory(category)[index];
+        
         _selectedObjectIndexForPlacement = data.index;
-        var obj = ObjectDatabaseManager.Instance.GetObject(index);
+        var obj = ObjectDatabaseManager.Instance.GetObject(data.index);
+
+        Debug.Log (string.Format ("Object {0} ({1}) selected from category {2}.", obj.name, index.ToString(), category.ToString()));
 
         ShowAssetPreview(obj);
     }
@@ -1162,10 +1173,13 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// Resets the object counter.
     /// </summary>
     void InitObjectCounts() {
-        _objectCounts.Clear();
+        if (_objectCounts == null)
+            _objectCounts = new List<int>();
 
-        for (int i = 0; i < (int)byte.MaxValue; i++)
-            _objectCounts.Add((byte)i, 0);
+        for (int i = 0; i < (int)byte.MaxValue; i++) {
+            if (i >= _objectCounts.Count) _objectCounts.Add (0);
+            else _objectCounts[i] = 0;
+        }
     }
 
     /// <summary>
@@ -1249,6 +1263,9 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// </summary>
     [Serializable]
     public class LevelManagerEvent : UnityEvent { }
+
+    [Serializable]
+    public class ByteToIntDict : Dictionary<byte, int> { }
 
     #endregion
 }

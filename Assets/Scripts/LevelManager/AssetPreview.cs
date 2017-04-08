@@ -19,6 +19,8 @@ public class AssetPreview : SingletonMonoBehaviour<AssetPreview> {
     [SerializeField]
     List<GameObject> _children = new List<GameObject>();
 
+    int _numChildren = 0;
+
     #endregion
     #region Unity Callbacks
 
@@ -38,8 +40,8 @@ public class AssetPreview : SingletonMonoBehaviour<AssetPreview> {
     /// Shows the asset preview.
     /// </summary>
     public void Show () {
-        foreach (var child in _children)
-            child.GetComponent<MeshRenderer>().enabled = true;
+        for (int i = 0; i < _children.Count; i++)
+            _children[i].GetComponent<MeshRenderer>().enabled = i < _numChildren;
     }
 
     /// <summary>
@@ -72,6 +74,8 @@ public class AssetPreview : SingletonMonoBehaviour<AssetPreview> {
             _children[i].transform.localRotation = templateChildren[i].transform.localRotation;
             _children[i].transform.localScale = templateChildren[i].transform.localScale;
         }
+
+        _numChildren = templateChildren.Length;
     }
 
     #endregion

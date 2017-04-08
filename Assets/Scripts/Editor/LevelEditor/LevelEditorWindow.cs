@@ -229,7 +229,9 @@ public class LevelEditorWindow : EditorWindow, ILevelEditor {
 
     void OnEnableEditor() {
         //Debug.Log("LevelEditorWindow.OnEnableEditor");
-        LevelManager.OnSingletonInitializedEditor.AddListener(ConnectToLevelManager);
+        if (LevelManager.Instance == null)
+            LevelManager.OnSingletonInitializedEditor.AddListener(ConnectToLevelManager);
+        else ConnectToLevelManager();
 
         if (_sceneViewGUISkin == null)
             _sceneViewGUISkin = EditorGUIUtility.Load (_SCENEVIEW_SKIN_PATH) as GUISkin;
@@ -528,6 +530,8 @@ public class LevelEditorWindow : EditorWindow, ILevelEditor {
     /// Processes GUI input events.
     /// </summary>
     void HandleInputs(SceneView sc) {
+        if (Application.isPlaying) return;
+
         var e = Event.current;
 
         // No idea why this works, but this allows 
@@ -599,6 +603,8 @@ public class LevelEditorWindow : EditorWindow, ILevelEditor {
     /// Handles inputs.
     /// </summary>
     public void HandleInputs(Event currEvent, Camera camera) {
+
+
         // Mouse events
         if (currEvent.isMouse) {
             switch (currEvent.rawType) {
@@ -775,6 +781,7 @@ public class LevelEditorWindow : EditorWindow, ILevelEditor {
         if (!LevelManager.Instance.PreviewActive) return;
 
         var cursorPos = LevelManager.Instance.CursorPosition;
+        var w = LevelManager.TILE_UNIT_WIDTH;
 
         if (LevelManager.Instance.HasSelectedObjects) {
             Color color = Color.black;
@@ -798,13 +805,13 @@ public class LevelEditorWindow : EditorWindow, ILevelEditor {
 
             Handles.color = color;
             foreach (var hovered in LevelManager.Instance.HoveredObjects)
-                Handles.DrawSolidDisc(hovered.transform.position, Vector3.up, hovered.transform.localScale.Max() / 2f);
+                Handles.DrawSolidDisc(hovered.transform.position, Vector3.up, hovered.transform.localScale.Max() / 2f * w);
         }
 
         if (LevelManager.Instance.HasSelectedObjects) {
             var selectedObject = LevelManager.Instance.SelectedObjects[0];
             if (selectedObject) {
-                DrawCube(selectedObject.transform.position, selectedObject.transform.localScale.Max() * 1.05f, selectedObject.transform.localEulerAngles.y, Color.cyan);
+                DrawCube(selectedObject.transform.position, selectedObject.transform.localScale.Max() * 1.05f * w, selectedObject.transform.localEulerAngles.y, Color.cyan);
                 var ray = HandleUtility.GUIPointToWorldRay(_objectEditorRect.position);
                 float d;
                 if (LevelManager.Instance.EditingPlane.Raycast(ray, out d)) {
@@ -816,27 +823,27 @@ public class LevelEditorWindow : EditorWindow, ILevelEditor {
 
         switch (LevelManager.Instance.CurrentTool) {
             case LevelManager.Tool.Select:
-                DrawCube(cursorPos, 1.05f, 0f, Color.white);
+                DrawCube(cursorPos, 1.05f * w, 0f, Color.white);
                 if (LevelManager.Instance.HasSelectedObjects) {
                     foreach (GameObject obj in LevelManager.Instance.SelectedObjects)
-                        DrawCube(cursorPos, 1.1f, -obj.transform.rotation.eulerAngles.y * Mathf.Deg2Rad, Color.cyan);
+                        DrawCube(cursorPos, 1.1f * w, -obj.transform.rotation.eulerAngles.y * Mathf.Deg2Rad, Color.cyan);
                 }
                 break;
 
             case LevelManager.Tool.Place:
                 if (LevelManager.Instance.CheckPlacement() &&
                     LevelManager.Instance.CanPlaceAnotherCurrentObject())
-                    DrawCube(cursorPos, 1f, 0f, Color.green);
-                else DrawCube(cursorPos, 1f, 0f, Color.gray);
+                    DrawCube(cursorPos, 1f * w, 0f, Color.green);
+                else DrawCube(cursorPos, 1f * w, 0f, Color.gray);
                 break;
 
             case LevelManager.Tool.Erase:
-                DrawCube(cursorPos, 1.1f, 0f, Color.red);
+                DrawCube(cursorPos, 1.1f * w, 0f, Color.red);
                 break;
 
             case LevelManager.Tool.Move:
-                if (LevelManager.Instance.CheckPlacement()) DrawCube(cursorPos, 1.1f, 0f, Color.blue);
-                else DrawCube(cursorPos, 1.1f, 0f, Color.gray);
+                if (LevelManager.Instance.CheckPlacement()) DrawCube(cursorPos, 1.1f * w, 0f, Color.blue);
+                else DrawCube(cursorPos, 1.1f * w, 0f, Color.gray);
                 break;
         }
     }
@@ -913,6 +920,7 @@ public class LevelEditorWindow : EditorWindow, ILevelEditor {
         if (!LevelManager.Instance.GridEnabled) return;
 
         var height = LevelManager.Instance.SelectedFloor * Level.FLOOR_HEIGHT + LevelManager.Instance.CurrentYValue;
+        float w = LevelManager.TILE_UNIT_WIDTH;
 
         Color lineColor = new Color(0.5f, 0.5f, 0.5f, 0.5f);
         Color edgeColor = new Color(0.65f, 0.65f, 0.65f, 0.65f);
@@ -920,32 +928,33 @@ public class LevelEditorWindow : EditorWindow, ILevelEditor {
         // Draw x lines
         for (int x = 0; x <= Level.FLOOR_WIDTH; x++) {
             Handles.color = (x == 0 || x == Level.FLOOR_WIDTH) ? edgeColor : lineColor;
-            Handles.DrawLine(new Vector3(x - 0.5f, height, -0.5f),
-                new Vector3(x - 0.5f, height, Level.FLOOR_DEPTH - 0.5f));
+            Handles.DrawLine(new Vector3((x - 0.5f) * w, height, -0.5f * w),
+                new Vector3((x - 0.5f) * w, height, (Level.FLOOR_DEPTH - 0.5f) * w));
         }
 
         // Draw z lines
         for (int z = 0; z <= Level.FLOOR_DEPTH; z++) {
             Handles.color = (z == 0 || z == Level.FLOOR_DEPTH) ? edgeColor : lineColor;
-            Handles.DrawLine(new Vector3(-0.5f, height, z - 0.5f), new Vector3(Level.FLOOR_WIDTH - 0.5f, height, z - 0.5f));
+            Handles.DrawLine(new Vector3(-0.5f * w, height, (z - 0.5f) * w), new Vector3((Level.FLOOR_WIDTH - 0.5f) * w, height, (z - 0.5f) * w));
         }
     }
 
     public void DrawRoomBounds(SceneView sc) {
         if (LevelManager.Instance == null) return;
         var floor = LevelManager.Instance.SelectedFloor;
+        float w = LevelManager.TILE_UNIT_WIDTH;
 
         // Calculate upper points
-        var u1 = new Vector3(-0.5f, (floor + 1) * Level.FLOOR_HEIGHT, -0.5f);
-        var u2 = new Vector3(Level.FLOOR_WIDTH - 0.5f, (floor + 1) * Level.FLOOR_HEIGHT, -0.5f);
-        var u3 = new Vector3(Level.FLOOR_WIDTH - 0.5f, (floor + 1) * Level.FLOOR_HEIGHT, Level.FLOOR_DEPTH - 0.5f);
-        var u4 = new Vector3(-0.5f, (floor + 1) * Level.FLOOR_HEIGHT, Level.FLOOR_DEPTH - 0.5f);
+        var u1 = new Vector3(-0.5f, (floor + 1) * Level.FLOOR_HEIGHT, -0.5f) * w;
+        var u2 = new Vector3(Level.FLOOR_WIDTH - 0.5f, (floor + 1) * Level.FLOOR_HEIGHT, -0.5f) * w;
+        var u3 = new Vector3(Level.FLOOR_WIDTH - 0.5f, (floor + 1) * Level.FLOOR_HEIGHT, Level.FLOOR_DEPTH - 0.5f) * w;
+        var u4 = new Vector3(-0.5f, (floor + 1) * Level.FLOOR_HEIGHT, Level.FLOOR_DEPTH - 0.5f) * w;
 
         // Calculate lower points
-        var d1 = new Vector3(-0.5f, (floor) * Level.FLOOR_HEIGHT, -0.5f);
-        var d2 = new Vector3(Level.FLOOR_WIDTH - 0.5f, (floor) * Level.FLOOR_HEIGHT, -0.5f);
-        var d3 = new Vector3(Level.FLOOR_WIDTH - 0.5f, (floor) * Level.FLOOR_HEIGHT, Level.FLOOR_DEPTH - 0.5f);
-        var d4 = new Vector3(-0.5f, (floor) * Level.FLOOR_HEIGHT, Level.FLOOR_DEPTH - 0.5f);
+        var d1 = new Vector3(-0.5f, (floor) * Level.FLOOR_HEIGHT, -0.5f) * w;
+        var d2 = new Vector3(Level.FLOOR_WIDTH - 0.5f, (floor) * Level.FLOOR_HEIGHT, -0.5f) * w;
+        var d3 = new Vector3(Level.FLOOR_WIDTH - 0.5f, (floor) * Level.FLOOR_HEIGHT, Level.FLOOR_DEPTH - 0.5f) * w;
+        var d4 = new Vector3(-0.5f, (floor) * Level.FLOOR_HEIGHT, Level.FLOOR_DEPTH - 0.5f) * w;
 
         Handles.color = Color.white;
 
@@ -972,6 +981,7 @@ public class LevelEditorWindow : EditorWindow, ILevelEditor {
     /// Draws the GUI toolbar in the scene view.
     /// </summary>
     void DrawSceneViewToolbar() {
+        if (Application.isPlaying) return;
 
         // Calculate toolbar rect
         var toolbarWidth = _TOOLBAR_WIDTH_PERCENT * Screen.width;

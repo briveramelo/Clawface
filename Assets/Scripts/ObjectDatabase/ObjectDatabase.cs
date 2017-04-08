@@ -78,7 +78,9 @@ public class ObjectDatabase {
         Special = 6,
         Effect = 7,
         Dev = 8,
-        COUNT = 9
+        Player = 9,
+        Enemy = 10,
+        COUNT = 11
     }
 
     #endregion
@@ -93,6 +95,7 @@ public class ObjectDatabase {
     /// <summary>
     /// Mapping of categories to object data.
     /// </summary>
+    [SerializeField]
     Dictionary<Category, List<ObjectData>> _categories;
 
     //Texture2D[] _thumbnails = new Texture2D[(int)byte.MaxValue];
