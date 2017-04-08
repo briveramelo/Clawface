@@ -50,10 +50,13 @@ public class ObjectSpawner : MonoBehaviour {
             throw new System.NullReferenceException ("Null template given to spawner!");
 
         _template = template;
+        //transform.localScale = template.transform.localScale;
 
         // Show preview
         var meshFilters = _template.GetComponentsInChildren<MeshFilter>();
         for (int i = 0; i < meshFilters.Length; i++) {
+            
+
             GameObject child;
 
             // Add new children if necessary
@@ -62,6 +65,7 @@ public class ObjectSpawner : MonoBehaviour {
                 child.GetComponent<MeshRenderer>().sharedMaterial = LevelManager.Instance.PreviewMaterial;
                 child.CopyColliderFromGameObject (meshFilters[i].gameObject);
                 child.transform.SetParent (transform);
+                _children.Add(child);
             }
             else child = _children[i];
 
@@ -85,9 +89,9 @@ public class ObjectSpawner : MonoBehaviour {
         }
 
         _instance.transform.SetParent (LevelManager.Instance.transform);
-        _instance.transform.position = transform.position;
-        _instance.transform.localRotation = transform.localRotation;
-        _instance.transform.localScale = transform.localScale;
+        _instance.transform.position = _children[0].transform.position;
+        _instance.transform.localRotation = _children[0].transform.localRotation;
+        _instance.transform.localScale = _children[0].transform.localScale;
         gameObject.SetActive(false);
     }
 
