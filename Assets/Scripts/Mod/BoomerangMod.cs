@@ -62,11 +62,14 @@ public class BoomerangMod : Mod {
             if (getModSpot() == ModSpot.ArmR)
             {
                 UpdateBoomerangPosition();
+            }else if (getModSpot() == ModSpot.ArmL)
+            {
+                UpdateBoomerangPosition(-1);
             }
         }
 	}
 
-    void UpdateBoomerangPosition()
+    void UpdateBoomerangPosition(int leftHandMultiplier = 1)
     {
         //Equation of an ellipse x^2/a^2 + y^2/b^2 = 1
         Vector3 relativePosition = TRMatrix.inverse.MultiplyPoint3x4(transform.position);
@@ -81,7 +84,7 @@ public class BoomerangMod : Mod {
             movementSpeed = -movementSpeed;
             float relativeZ = zCoordinate - majorAxisLength;
             xCoordinate = (Mathf.Sqrt(1 - ((relativeZ) * (relativeZ)) / (majorAxisLength * majorAxisLength)) * minorAxisLength);
-            float relativeX = -xCoordinate;
+            float relativeX = -xCoordinate * leftHandMultiplier;
             transform.position = TRMatrix.MultiplyPoint3x4(new Vector3(relativeX, yCoordinate, zCoordinate));
         }
         else if(zCoordinate < 0.0f)
@@ -99,7 +102,7 @@ public class BoomerangMod : Mod {
             {
                 xCoordinate = -xCoordinate;
             }
-            float relativeX = xCoordinate;
+            float relativeX = xCoordinate * leftHandMultiplier;
             transform.position = TRMatrix.MultiplyPoint3x4(new Vector3(relativeX, yCoordinate, zCoordinate));
         }
     }

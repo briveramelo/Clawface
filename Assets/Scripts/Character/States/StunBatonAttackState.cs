@@ -23,6 +23,7 @@ public class StunBatonAttackState : IPlayerState {
     private bool isAttackRequested;
     private int frameCount;
     private int currentAttackPose;
+    private int leftHandOffset;
     private int highlightPoseIndex;
     private bool weHaveHitHighlightPose;
     #endregion
@@ -107,7 +108,7 @@ public class StunBatonAttackState : IPlayerState {
 
     private void ChangePose()
     {
-        stateVariables.modAnimationManager.PlayModAnimation(stateVariables.currentMod, (float)currentAttackPose / (float)totalAttackPoses);        
+        stateVariables.modAnimationManager.PlayModAnimation(stateVariables.currentMod, currentAttackPose, totalAttackPoses);        
         currentAttackPose++;
         if(currentAttackPose == highlightPoses[highlightPoseIndex])
         {

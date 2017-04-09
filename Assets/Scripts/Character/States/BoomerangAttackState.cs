@@ -37,7 +37,7 @@ public class BoomerangAttackState : IPlayerState {
         {
             if (frameCount == 0)
             {
-                stateVariables.modAnimationManager.PlayModAnimation(stateVariables.currentMod, currentAttackPose / (float)totalAttackPoses);
+                stateVariables.modAnimationManager.PlayModAnimation(stateVariables.currentMod, currentAttackPose, totalAttackPoses);
                 currentAttackPose++;
                 if (currentAttackPose > highlightPoses[0])
                 {
@@ -80,7 +80,7 @@ public class BoomerangAttackState : IPlayerState {
         if (isHeld)
         {
             isWaitingForButtonRelease = true;
-            stateVariables.modAnimationManager.PlayModAnimation(stateVariables.currentMod, specialAttackPose / (float)totalAttackPoses);            
+            stateVariables.modAnimationManager.PlayModAnimation(stateVariables.currentMod, specialAttackPose, totalAttackPoses);            
         }
         else
         {
