@@ -89,7 +89,7 @@ public class TankTreadsMod : Mod
     }
 
     // Update is called once per frame
-    void Update()
+    protected override void Update()
     {
         switch (getModSpot())
         {
@@ -200,44 +200,31 @@ public class TankTreadsMod : Mod
 
     public override void Activate()
     {
-
+        Action swingAction = chargeSettings.isCharged ? (Action)ActivateStandard : ActivateCharged; 
         switch (getModSpot())
         {
             case ModSpot.ArmL:
             case ModSpot.ArmR:
                 if (!canAttackAgain) return;
-                Hit();
+                swingAction();
                 break;
 
             case ModSpot.Legs:
-                if (wielderMovable.IsGrounded())
-                {
-                    wielderMovable.AddDecayingForce(Vector3.up * jumpForce);
-                    legAttackHitboxIsActive = true;
-                    attackCollider.enabled = true;
-                }
+                Jump();
                 break;
         }
     }
 
-    public override void AlternateActivate(bool isHeld, float holdTime)
+    protected override void ActivateStandard()
     {
-        switch (getModSpot())
-        {
-            case ModSpot.ArmL:
-            case ModSpot.ArmR:
-                if (isHeld)
-                {
-                    wielderStats.moveSpeed = 0;
-                }
-                else
-                {
-                    wielderStats.moveSpeed = savedMoveSpeed;
-                    ChargedHit();
-                }
-                break;
-        }
+        Hit();
     }
+
+    protected override void ActivateCharged()
+    {
+        ChargedHit();
+    }
+
 
     public override void AttachAffect(ref Stats wielderStats, IMovable wielderMovable)
     {
@@ -261,16 +248,13 @@ public class TankTreadsMod : Mod
 
     public override void DetachAffect()
     {
-        pickupCollider.enabled = true;
         attackCollider.enabled = false;
         canAttackAgain = false;        
-
         if (getModSpot() == ModSpot.Legs)
         {
             wielderStats.Modify(StatType.MoveSpeed, 1f / legsMoveSpeedMod);
         }
-
-        setModSpot(ModSpot.Default);
+        base.DetachAffect();
     }
 
     public void ChargedHit()
@@ -286,15 +270,6 @@ public class TankTreadsMod : Mod
     #endregion
 
     #region Private Methods
-    public override void ActivateModCanvas()
-    {
-        
-    }
-
-    public override void DeactivateModCanvas()
-    {
-
-    }
     private Vector3 GetNormalizedDistance(Transform forceSender, Transform forceReceiver)
     {
         Vector3 normalizedDistance = forceReceiver.position - forceSender.position;
@@ -375,6 +350,15 @@ public class TankTreadsMod : Mod
         }
         chargeTimer = 0f;
 	}
+
+    private void Jump() {
+        if (wielderMovable.IsGrounded())
+        {
+            wielderMovable.AddDecayingForce(Vector3.up * jumpForce);
+            legAttackHitboxIsActive = true;
+            attackCollider.enabled = true;
+        }
+    }
 	
     
     #endregion

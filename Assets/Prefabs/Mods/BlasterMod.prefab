@@ -312,12 +312,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pickupCollider: {fileID: 65286971079796370}
   modCanvas: {fileID: 1631652510854260}
+  chargeSettings:
+    timeToCharge: 1
+    timeCharged: 0
   rangeBoostValue: 1.15
-  kickbackMagnitude: 9
+  kickbackForce: 9
   coolDownTime: 0.1
-  feetMultiplier: 2
+  feetMultiplier: 5
   blasterEffect: {fileID: 114240664814391858}
-  kickBackChargedMultiplier: 5
+  kickBackChargedMultiplier: 3
   bulletSpawnPoint: {fileID: 4303765111120432}
 --- !u!114 &114446361273923502
 MonoBehaviour:

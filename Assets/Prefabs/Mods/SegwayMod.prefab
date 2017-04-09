@@ -49,22 +49,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1540956592722432
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 4421976224120870}
-  - component: {fileID: 136673235413560844}
-  m_Layer: 0
-  m_Name: attackCollider
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &1580223449270506
 GameObject:
   m_ObjectHideFlags: 1
@@ -145,21 +129,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4659963037190060}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
---- !u!4 &4421976224120870
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1540956592722432}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.673, z: 0}
-  m_LocalScale: {x: 0.33, y: 0.33000016, z: 0.33000016}
-  m_Children: []
-  m_Father: {fileID: 4659963037190060}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4655230893771362
 Transform:
   m_ObjectHideFlags: 1
@@ -171,7 +142,7 @@ Transform:
   m_LocalScale: {x: 1.6666666, y: 0.3333335, z: 1.6666675}
   m_Children: []
   m_Father: {fileID: 4659963037190060}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4659963037190060
 Transform:
@@ -183,7 +154,6 @@ Transform:
   m_LocalPosition: {x: 5, y: 2.31, z: -14.98}
   m_LocalScale: {x: 2.5000002, y: 2.5000005, z: 2.500001}
   m_Children:
-  - {fileID: 4421976224120870}
   - {fileID: 4655230893771362}
   - {fileID: 4120684821083518}
   - {fileID: 4822043772925276}
@@ -202,7 +172,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1.0000005, z: 1.0000005}
   m_Children: []
   m_Father: {fileID: 4659963037190060}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!23 &23268002796119672
 MeshRenderer:
@@ -310,9 +280,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pickupCollider: {fileID: 65942445369230588}
   modCanvas: {fileID: 1780465521823646}
+  chargeSettings:
+    timeToCharge: 2
+    timeCharged: 0
   aoeCollider: {fileID: 64548073773440194}
-  attackCollider: {fileID: 136673235413560844}
   segwayVFX: {fileID: 114046701473042792}
+  attackRadius: 0.65
+  attackLength: 4
   speedBoostMultiplier: 1.25
   jumpForce: 10
   rangedAccuracyLoss: 0.8
@@ -400,19 +374,6 @@ MonoBehaviour:
   forward: {x: 0, y: 0, z: 1}
   up: {x: 0, y: 1, z: 0}
   updatePeriod: 0
---- !u!136 &136673235413560844
-CapsuleCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1540956592722432}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 0
-  m_Radius: 0.65
-  m_Height: 4
-  m_Direction: 1
-  m_Center: {x: 0, y: 1.69, z: 0}
 --- !u!198 &198570011329822486
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -6327,7 +6288,7 @@ RectTransform:
   m_Children:
   - {fileID: 224698192115296198}
   m_Father: {fileID: 4659963037190060}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}

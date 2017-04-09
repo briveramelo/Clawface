@@ -228,7 +228,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pickupCollider: {fileID: 65209099370088602}
   modCanvas: {fileID: 1431774864512322}
+  chargeSettings:
+    timeToCharge: 2
+    timeCharged: 0
   hook: {fileID: 114929120214224340}
+  jumpForce: 30
+  jumpForceMultiplier: 2
 --- !u!114 &114399477563612414
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -324,8 +329,6 @@ MonoBehaviour:
   rotateSpeed: 500
   damage: 5
   damageMultiplier: 5
-  jumpForce: 50
-  jumpForceMultiplier: 2
   pullForce: 5
 --- !u!222 &222070531113919024
 CanvasRenderer:

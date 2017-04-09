@@ -21,10 +21,6 @@ public class Hook : MonoBehaviour {
     [SerializeField]
     private float damageMultiplier;
     [SerializeField]
-    private float jumpForce;
-    [SerializeField]
-    private float jumpForceMultiplier;
-    [SerializeField]
     private float pullForce;
     #endregion
 
@@ -32,7 +28,6 @@ public class Hook : MonoBehaviour {
     private float initSize;
     private Vector3 initPos;
     GrapplerMod.SharedVariables sharedVariables;
-    private bool charging;
     private bool isPullingWielder;
     private bool justStartedThrowing;
     #endregion
@@ -44,41 +39,22 @@ public class Hook : MonoBehaviour {
         initPos = transform.localPosition;
         justStartedThrowing = true;        
     }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
     private void OnTriggerEnter(Collider other)
     {   
         if ((other.gameObject.tag == Strings.Tags.PLAYER || other.gameObject.tag == Strings.Tags.ENEMY) && sharedVariables.modSpot != ModSpot.Legs)
         {            
-            if (sharedVariables.throwHook)
-            {
+            if (sharedVariables.throwHook){
                 HitTarget();
             }
-            if (sharedVariables.throwHook || sharedVariables.retractHook)
-            {
+            if (sharedVariables.throwHook || sharedVariables.retractHook){
                 IDamageable damageable = other.gameObject.GetComponent<IDamageable>();
-                if (damageable != null)
-                {
+                if (damageable != null){
                     damageable.TakeDamage(damage);
                 }
             }
         }
-    }
-
-    void HitTarget() {
-        sharedVariables.throwHook = false;
-        sharedVariables.retractHook = true;
-        if (sharedVariables.specialAttack)
-        {
-            sharedVariables.specialAttack = false;
-            isPullingWielder = true;
-            sharedVariables.hitTargetThisShot = true;
-        }
-    }
+    }    
     #endregion
 
     #region Public Methods
@@ -89,11 +65,7 @@ public class Hook : MonoBehaviour {
     public void Throw()
     {
         transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z + growRate * Time.deltaTime);
-        transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z + growRate * Time.deltaTime / 2.0f);
-        if (sharedVariables.modSpot == ModSpot.Legs && sharedVariables.wielderMovable.IsGrounded())
-        {
-            Jump();
-        }
+        transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z + growRate * Time.deltaTime / 2.0f);        
         if (transform.localScale.z > maxLength)
         {
             SwitchFromThrowToRetract();
@@ -102,19 +74,7 @@ public class Hook : MonoBehaviour {
             justStartedThrowing = false;
             sharedVariables.hitTargetThisShot = false;
         }
-    }
-
-    void Jump() {
-        float force = charging ? jumpForce * jumpForceMultiplier : jumpForce;
-        sharedVariables.wielderMovable.AddDecayingForce(Vector3.up * force);
-        charging = false;
-    }
-
-    void SwitchFromThrowToRetract() {
-        transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, maxLength);
-        sharedVariables.throwHook = false;
-        sharedVariables.retractHook = true;
-    }
+    }        
 
     public void Retract()
     {
@@ -129,25 +89,40 @@ public class Hook : MonoBehaviour {
             FinishRetracting();
         }
     }
+    public void Rotate()
+    {
+        transform.Rotate(Vector3.forward, rotateSpeed * Time.deltaTime);
+    }
+    #endregion
 
-    void FinishRetracting() {
+    #region Private Methods
+    void FinishRetracting()
+    {
         transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, initSize);
         transform.localPosition = initPos;
         sharedVariables.retractHook = false;
         isPullingWielder = false;
-        sharedVariables.specialAttack = false;
-        justStartedThrowing = true;                
+        sharedVariables.isCharged = false;
+        justStartedThrowing = true;
     }
-
-    public void Rotate()
+    void SwitchFromThrowToRetract()
     {
-        transform.Rotate(Vector3.forward, rotateSpeed * Time.deltaTime);
-        charging = true;
+        transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, maxLength);
+        sharedVariables.throwHook = false;
+        sharedVariables.retractHook = true;
     }
 
-    #endregion
-
-    #region Private Methods
+    void HitTarget()
+    {
+        sharedVariables.throwHook = false;
+        sharedVariables.retractHook = true;
+        if (sharedVariables.isCharged)
+        {
+            sharedVariables.isCharged = false;
+            isPullingWielder = true;
+            sharedVariables.hitTargetThisShot = true;
+        }
+    }
     #endregion
 
     #region Private Structures

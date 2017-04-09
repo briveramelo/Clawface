@@ -14,17 +14,26 @@ public class BatonMod : Mod {
     private VFXHandler vfxHandler;
     private float attackValue;
     private float attackTime = 1f;
-    private bool isSwinging;
+    private bool isSwinging;    
+
+    protected override void Awake()
+    {
+        type = ModType.StunBaton;
+        category = ModCategory.Melee;
+        vfxHandler = new VFXHandler(transform);
+        base.Awake();
+    }
 
     public override void Activate()
     {
+        Action swingAction = chargeSettings.isCharged ? (Action)ActivateStandard : ActivateCharged;
         switch (getModSpot())
         {
             case ModSpot.ArmL:
-                Swing();
+                swingAction();
                 break;
             case ModSpot.ArmR:
-                Swing();
+                swingAction();
                 break;
             case ModSpot.Legs:
                 LayMine();
@@ -34,43 +43,24 @@ public class BatonMod : Mod {
         }
     }
 
-    public override void ActivateModCanvas()
-    {
-        if (modCanvas && !isAttached)
-        {
-            modCanvas.SetActive(true);
-        }
-    }
-
-    public override void DeactivateModCanvas()
-    {
-        if (modCanvas)
-        {
-            modCanvas.SetActive(false);
-        }
-    }
-
 
     public override void DeActivate()
     {
         //Nothing to do here
     }
 
-    void Awake()
-    {
-        type = ModType.StunBaton;
-        category = ModCategory.Melee;
-        vfxHandler = new VFXHandler(transform);
-        if (modCanvas) { modCanvas.SetActive(false); }
-       
+    protected override void ActivateStandard() {
+        Swing();
+    }
+    protected override void ActivateCharged(){
+        Swing();
     }
 
     void Swing()
     {        
         if (!isSwinging)
         {
-            //AudioManager.Instance.PlaySFX(SFXType.StunBatonSwing);
-            
+            //AudioManager.Instance.PlaySFX(SFXType.StunBatonSwing);            
             isSwinging = true;
             StartCoroutine(HitCoolDown());
         }
@@ -110,6 +100,7 @@ public class BatonMod : Mod {
                         EmitBlood();
                     }
                     impactEffect.Emit();
+                    float damageValue = chargeSettings.isCharged ? attackBoostValue : attackValue;
                     damageable.TakeDamage(attackValue);
                     recentlyHitEnemies.Add(damageable);
                     IStunnable stunnable = other.GetComponent<IStunnable>();
@@ -143,16 +134,8 @@ public class BatonMod : Mod {
 
     public override void DetachAffect()
     {
-        isAttached = false;
-        attackCollider.enabled = false;
-        pickupCollider.enabled = true;
-        attackValue = 0.0f;
-    }
-
-    public override void AlternateActivate(bool isHeld, float holdTime)
-    {
-        
-    }
+        base.DetachAffect();
+    }    
 
     private void EmitBlood() {
         Vector3 bloodDirection = transform.root.rotation.eulerAngles;

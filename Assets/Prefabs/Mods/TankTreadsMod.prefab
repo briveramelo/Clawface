@@ -104,6 +104,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
 --- !u!33 &33403252484979098
 MeshFilter:
@@ -163,6 +164,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pickupCollider: {fileID: 65194628639770346}
+  modCanvas: {fileID: 0}
+  chargeSettings:
+    timeToCharge: 2
+    timeCharged: 0
   attackCollider: {fileID: 65412432695913298}
   chargeTime: 1
   armRegularDamage: 5

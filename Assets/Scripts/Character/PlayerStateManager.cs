@@ -33,7 +33,7 @@ public class PlayerStateManager : MonoBehaviour {
     [SerializeField]
     private float dashIFrameStart = 0.25F;
     [SerializeField]
-    private float dashIFrameEnd = 0.75F;
+    private float dashIFrameEnd = 0.75F;    
     #endregion
 
     #region Private Fields
@@ -42,7 +42,6 @@ public class PlayerStateManager : MonoBehaviour {
     private Dictionary<ModType, IPlayerState> modStateDictionary;
     private IPlayerState previousMovementState;
     private List<IPlayerState> playerStates;
-    private bool isHoldAttack;
     private bool canDash = true;
     private bool stateChanged;
     #endregion
@@ -50,7 +49,6 @@ public class PlayerStateManager : MonoBehaviour {
     #region Unity Lifecycle
     // Use this for initialization
     void Start () {
-        isHoldAttack = false;
         stateChanged = false;
         stateVariables.stateFinished = true;
         stateVariables.playerTransform = transform;
@@ -117,44 +115,42 @@ public class PlayerStateManager : MonoBehaviour {
     #endregion
 
     #region Public Methods
-    public void PrimaryAttack(Mod mod)
+    public void Attack(Mod mod)
     {
-        if(stateVariables.currentMod != mod)
-        {
+        if(stateVariables.currentMod != mod){
             stateVariables.currentMod = mod;
         }
-        if (stateVariables.currentMod.getModCategory() == ModCategory.Melee)
-        {
-            
-            if (modStateDictionary[mod.getModType()] != null)
-            {
-                if (movementState != null)
-                {                    
+
+        if (stateVariables.currentMod.getModCategory() == ModCategory.Melee){            
+            if (modStateDictionary[mod.getModType()] != null){
+                if (movementState != null){                    
                     SwitchState(modStateDictionary[mod.getModType()]);
                     ((AttackState)modStateDictionary[mod.getModType()]).Attack();
                 }                
             }
-        }else
-        {
+        }
+        else {
             stateVariables.currentMod.Activate();
         }
     }
 
-    public void SecondaryAttack(Mod mod, bool isHeld, float holdTime)
+    public void Charge(Mod mod) {
+        if (mod.modChargeSettings.timeCharged > 0.5f) {
+
+        }
+    }
+
+    public void SecondaryAttack(Mod mod, bool isHeld)
     {
-        if (isHeld && !isHoldAttack)
-        {
-            isHoldAttack = true;
+        if (isHeld){
             stateVariables.velBody.velocity = Vector3.zero;
             stateVariables.statsManager.ModifyStat(StatType.MoveSpeed, 1.0f / holdAttackSlowDown);
         }
-        else if(!isHeld)
-        {
-            isHoldAttack = false;
+        else{
             stateVariables.velBody.velocity = Vector3.zero;
             stateVariables.statsManager.ModifyStat(StatType.MoveSpeed, holdAttackSlowDown);
         }
-        mod.AlternateActivate(isHeld, holdTime);
+        mod.Activate();
     }
     #endregion
 

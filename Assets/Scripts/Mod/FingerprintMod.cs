@@ -10,9 +10,10 @@ public class FingerprintMod : Mod {
     [SerializeField]
     private Collider unlockColliderVolume;
 
-    private void Awake()
+    protected override void Awake()
     {
         type = ModType.FingerPrint;
+        base.Awake();
     }
 
     public override void Activate()
@@ -23,15 +24,6 @@ public class FingerprintMod : Mod {
         }
     }
 
-    public override void ActivateModCanvas()
-    {
-
-    }
-
-    public override void DeactivateModCanvas()
-    {
-
-    }
     public override void AttachAffect(ref Stats playerStats, IMovable wielderMovable)
     {
         
@@ -47,14 +39,13 @@ public class FingerprintMod : Mod {
 
     public override void DetachAffect()
     {
-        isAttached = false;
-        pickupCollider.enabled = true;
         unlockColliderVolume.enabled = false;
         if (unlockableObject!=null)
         {
             unlockableObject.Wait();
             unlockableObject = null;
         }
+        base.DetachAffect();
     }
 
     void OnTriggerEnter(Collider other)
@@ -87,10 +78,16 @@ public class FingerprintMod : Mod {
     }
 	
 	// Update is called once per frame
-	void Update () {
+	protected override void Update () {
+        base.Update();
 	}
 
-    public override void AlternateActivate(bool isHeld, float holdTime)
+    protected override void ActivateCharged()
+    {
+        
+    }
+
+    protected override void ActivateStandard()
     {
         
     }
