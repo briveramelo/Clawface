@@ -61,8 +61,7 @@ public class BatonMod : Mod {
         type = ModType.StunBaton;
         category = ModCategory.Melee;
         vfxHandler = new VFXHandler(transform);
-        if (modCanvas) { modCanvas.SetActive(false); }
-       
+        if (modCanvas) { modCanvas.SetActive(false); }       
     }
 
     void Swing()

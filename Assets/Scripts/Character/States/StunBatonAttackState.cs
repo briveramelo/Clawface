@@ -3,21 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackState : MonoBehaviour,IPlayerState {
+public class StunBatonAttackState : IPlayerState {
 
 
     #region Public fields
     #endregion
 
     #region Serialized Unity Inspector fields
-    [SerializeField]
-    private int coolDownFrameCount;
-    [SerializeField]
-    private int inputCheckFrameCount;
-    [SerializeField]
-    private int totalAttackPoses;
-    [SerializeField]
-    private int[] highlightPoses;
+
     [SerializeField]
     private int attackForwadDisplacement;
     [SerializeField]
@@ -26,17 +19,17 @@ public class AttackState : MonoBehaviour,IPlayerState {
     private float lookSensitivity;
     #endregion
 
-    #region Private Fields    
-    private PlayerStateManager.StateVariables stateVariables;
+    #region Private Fields
     private bool isAttackRequested;
     private int frameCount;
     private int currentAttackPose;
+    private int leftHandOffset;
     private int highlightPoseIndex;
     private bool weHaveHitHighlightPose;
     #endregion
 
     #region Unity Lifecycle
-    public void Init(ref PlayerStateManager.StateVariables stateVariables)
+    public override void Init(ref PlayerStateManager.StateVariables stateVariables)
     {
         isAttackRequested = false;
         this.stateVariables = stateVariables;
@@ -46,7 +39,7 @@ public class AttackState : MonoBehaviour,IPlayerState {
         highlightPoseIndex = 0;
     }
 
-    public void StateFixedUpdate()
+    public override void StateFixedUpdate()
     {
         CheckForRotationInput();
         if (CanPounce())
@@ -55,7 +48,7 @@ public class AttackState : MonoBehaviour,IPlayerState {
         }
     }
 
-    public void StateUpdate()
+    public override void StateUpdate()
     {
         if (!stateVariables.stateFinished)
         {
@@ -80,7 +73,7 @@ public class AttackState : MonoBehaviour,IPlayerState {
                 }
                 else
                 {
-                    ResetVariables();
+                    ResetState();
                 }
             }else
             {
@@ -91,9 +84,14 @@ public class AttackState : MonoBehaviour,IPlayerState {
     #endregion
 
     #region Public Methods
-    public void Attack()
+    public override void Attack()
     {
         isAttackRequested = true;
+    }
+
+    public override void SecondaryAttack(bool isHeld, float holdTime)
+    {
+
     }
     #endregion
 
@@ -110,7 +108,7 @@ public class AttackState : MonoBehaviour,IPlayerState {
 
     private void ChangePose()
     {
-        stateVariables.modAnimationManager.PlayModAnimation(stateVariables.currentMod, (float)currentAttackPose / (float)totalAttackPoses);        
+        stateVariables.modAnimationManager.PlayModAnimation(stateVariables.currentMod, currentAttackPose, totalAttackPoses);        
         currentAttackPose++;
         if(currentAttackPose == highlightPoses[highlightPoseIndex])
         {
@@ -138,7 +136,7 @@ public class AttackState : MonoBehaviour,IPlayerState {
         }
     }
 
-    private void ResetVariables()
+    protected override void ResetState()
     {
         stateVariables.stateFinished = true;
         frameCount = 0;
