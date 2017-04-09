@@ -39,7 +39,7 @@ public class OverheadToSidescroll : MonoBehaviour {
         if (LeanTween.isTweening(Camera.main.gameObject) && tweenTimer < timeToTween)
         {
             LeanTween.cancel(Camera.main.gameObject);
-            LeanTween.move(Camera.main.gameObject, joystickMovement.transform.position - cameraLock.GetDistance(), timeToTween - tweenTimer).setOnComplete(LockCamera);
+            LeanTween.move(Camera.main.gameObject, joystickMovement.GetStateVariables().playerTransform.position - cameraLock.GetDistance(), timeToTween - tweenTimer).setOnComplete(LockCamera);
             LeanTween.rotate(Camera.main.gameObject, cameraLock.GetAngle(), timeToTween - tweenTimer);
         }
     }
@@ -50,7 +50,7 @@ public class OverheadToSidescroll : MonoBehaviour {
         {
             if (sideScrollLockToAxis != null)
             {
-                joystickMovement.transform.position = new Vector3(sideScrollLockToAxis.position.x, joystickMovement.transform.position.y, sideScrollLockToAxis.position.z);
+                joystickMovement.GetStateVariables().playerTransform.position = new Vector3(sideScrollLockToAxis.position.x, joystickMovement.GetStateVariables().playerTransform.position.y, sideScrollLockToAxis.position.z);
             }
  
             LeanTween.move(Camera.main.gameObject, sideScrollCameraPosition.position, timeToTween).setOnComplete(LockCamera);
@@ -84,7 +84,7 @@ public class OverheadToSidescroll : MonoBehaviour {
             tweenTimer = 0f;
             cameraLock.UnlockCamera();
             joystickMovement.SetSidescrolling(false);
-            cameraLock.SetDistance(joystickMovement.transform.position - overheadCameraPosition.position);
+            cameraLock.SetDistance(joystickMovement.GetStateVariables().playerTransform.position - overheadCameraPosition.position);
             cameraLock.SetAngle(overheadCameraPosition.eulerAngles);
             CameraLock.cameraMode = CameraMode.OVERHEAD;
 

@@ -3,9 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkinningState : IPlayerState
-{
-    
+public class GeyserAttackState : IPlayerState {
+
     #region Public fields
     #endregion
 
@@ -20,33 +19,39 @@ public class SkinningState : IPlayerState
     {
         this.stateVariables = stateVariables;
     }
-
     public override void StateFixedUpdate()
     {
-
+        
     }
 
     public override void StateUpdate()
     {
-        stateVariables.currentEnemy.GetComponent<ISkinnable>().DeSkin();
-        stateVariables.stateFinished = true;
+        
     }
     #endregion
 
     #region Public Methods
     public override void Attack()
     {
+        ((GeyserMod)stateVariables.currentMod).SetFootPosition(stateVariables.foot.position);
+        stateVariables.currentMod.Activate();
+        ResetState();
     }
-
     public override void SecondaryAttack(bool isHeld, float holdTime)
     {
-
+        ((GeyserMod)stateVariables.currentMod).SetFootPosition(stateVariables.foot.position);
+        stateVariables.currentMod.AlternateActivate(isHeld, holdTime);
+        if (!isHeld)
+        {
+            ResetState();
+        }
     }
     #endregion
 
     #region Private Methods
     protected override void ResetState()
     {
+        stateVariables.stateFinished = true;
     }
     #endregion
 
