@@ -7,7 +7,6 @@ using ModMan;
 namespace Turing.Audio {
 
     [ExecuteInEditMode]
-    [RequireComponent(typeof(AudioSource))]
     public class MusicGroup : MonoBehaviour {
 
         const string _INSTRUMENTS_PARENT_NAME = "INSTRUMENTS";
@@ -45,8 +44,12 @@ namespace Turing.Audio {
                     GenerateMusicChannels();
                 }
             } else {
-                if (_playOnAwake) Play();
+                
             }
+        }
+
+        private void Awake() {
+            if (Application.isPlaying && _playOnAwake) Play();
         }
 
         private void FixedUpdate() {
@@ -64,7 +67,8 @@ namespace Turing.Audio {
             _playbackTime = 0f;
 
             foreach (var instrument in _instrumentChannels) {
-                instrument.PlayTrack();
+                instrument.SetBPM (_bpm);
+                instrument.PlayTrack(false);
             }
 
             _beatTimer = 60f / _bpm - Time.fixedDeltaTime;

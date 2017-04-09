@@ -12,12 +12,13 @@ namespace Turing.Audio {
     public class MusicChannel : MonoBehaviour {
 
         [SerializeField]
-        AudioSource _audioSource;
+        AudioSource[] _audioSources = new AudioSource[2];
 
         [Range(0f, 1f)]
-        [SerializeField] float _volume = 1f;
+        [SerializeField]
+        float _volume = 1f;
 
-        float _volumeScale =1f;
+        float _volumeScale = 1f;
 
         [SerializeField]
         MusicGroup _parent;
@@ -29,11 +30,24 @@ namespace Turing.Audio {
 
         bool _playing = false;
 
-        private void Awake() {
-            if (_parent == null) _parent = GetComponentInParent<MusicGroup>();
-            _parent.onBeat.AddListener(CheckForLoop);
+        ClipInfo _currentClip;
+        ClipInfo _nextClip;
 
-            if (_audioSource == null) _audioSource = GetComponent<AudioSource>();
+        int _audioSourceToPlay = 0;
+
+        float _bpm;
+
+        private void Awake() {
+            _audioSources = GetComponentsInChildren<AudioSource>();
+            if (_audioSources.Length < 2) _audioSources = new AudioSource[2];
+            if (_audioSources[0] == null) _audioSources[0] = gameObject.AddComponent<AudioSource>();
+            if (_audioSources[1] == null) _audioSources[1] = gameObject.AddComponent<AudioSource>();
+
+            foreach (var a in _audioSources) {
+                a.loop = false;
+                a.playOnAwake = false;
+                a.volume = _volume;
+            }
         }
 
         public List<ClipInfo> Clips { get { return _clips; } }
@@ -43,47 +57,69 @@ namespace Turing.Audio {
             set { _volumeScale = value; }
         }
 
-        public void PlayTrack () {
-            if (_clips.Count <= 0) return;
-            if (_audioSource == null)
-                _audioSource = GetComponent<AudioSource>();
+        public void SetBPM(float bpm) { _bpm = bpm; }
 
-            _audioSource.volume = _volume;
+        IEnumerator MusicLoop() {
 
-            var clip = _clips.GetRandom();
-            _beatsLeft = clip.Beats;
-            _audioSource.PlayOneShot(clip.Clip);
+            while (true) {
+                Debug.Log ("loop");
 
-            Debug.Log (_beatsLeft / 126f * 60f);
-            Debug.Log (clip.Clip.length);
+                _audioSourceToPlay = 1 - _audioSourceToPlay;
+                var audioSource = _audioSources[_audioSourceToPlay];
+                audioSource.volume = _volume * _volumeScale;
 
-            _playing = true;
+                if (!_playing) {
+                    _currentClip = _clips.GetRandom();
+                    audioSource.clip = _currentClip.Clip;
+                    audioSource.volume = _volume * _volumeScale;
+                    audioSource.Play();
+                    _playing = true;
+                } else {
+                    _currentClip = _nextClip;
+                }
+
+                _nextClip = _clips.GetRandom();
+                double dt = 60f / _bpm * _currentClip.Beats;
+                Debug.Log (dt);
+                var otherAudioSource = _audioSources[1-_audioSourceToPlay];
+
+                otherAudioSource.clip = _nextClip.Clip;
+                otherAudioSource.volume = _volumeScale * _volume;
+                otherAudioSource.PlayScheduled(AudioSettings.dspTime + dt);
+
+                yield return new WaitForSecondsRealtime((float)dt);
+            }
         }
 
-        public void Stop () {
-            _audioSource.Stop();
+        public void PlayTrack(bool isLoop = true) {
+            if (_clips.Count <= 0) return;
+
+            StartCoroutine(MusicLoop());
+        }
+
+        public void Stop() {
+            StopAllCoroutines();
+            _audioSources[0].Stop();
+            _audioSources[1].Stop();
             _playing = false;
         }
 
         public void SetParent(MusicGroup parent) {
             _parent = parent;
-            parent.onBeat.AddListener(CheckForLoop);
         }
 
-        public void AddClip (AudioClip clip) {
-            _clips.Add(new ClipInfo (clip));
-        }
-
-        public void CheckForLoop () {
-            if (_beatsLeft-- == 0) PlayTrack();
+        public void AddClip(AudioClip clip) {
+            _clips.Add(new ClipInfo(clip));
         }
 
         [System.Serializable]
         public class ClipInfo {
-            [SerializeField] AudioClip _clip;
-            [SerializeField] int _bars = 4;
+            [SerializeField]
+            AudioClip _clip;
+            [SerializeField]
+            int _bars = 4;
 
-            public ClipInfo (AudioClip clip) {
+            public ClipInfo(AudioClip clip) {
                 _clip = clip;
             }
 
