@@ -6,8 +6,8 @@ public class PlayerModAnimationManager : MonoBehaviour {
 
     private Dictionary<ModType, PlayerAnimationStates> modToAnimationMap = new Dictionary<ModType, PlayerAnimationStates>()
     {
-        {ModType.StunBaton, PlayerAnimationStates.StunBatonR},
-        {ModType.Boomerang, PlayerAnimationStates.BoomerangR}
+        {ModType.StunBaton, PlayerAnimationStates.StunBaton},
+        {ModType.Boomerang, PlayerAnimationStates.Boomerang}
     };
         
     [SerializeField] Animator animator;
@@ -28,10 +28,6 @@ public class PlayerModAnimationManager : MonoBehaviour {
             {
                 if (modToAnimationMap.TryGetValue(mod.getModType(), out currentAnimationState))
                 {
-                    if(mod.getModSpot() == ModSpot.ArmL)
-                    {
-                        currentAnimationState++;
-                    }
                     animator.Play(currentAnimationState.ToString(), -1, frame);
                     animator.speed = 0f;
                 }
