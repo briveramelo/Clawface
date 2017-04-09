@@ -5,7 +5,7 @@ using UnityEngine;
 
 public abstract class IPlayerState:MonoBehaviour {
 
-    #region
+    #region Serialized Fields
     [SerializeField]
     protected int totalAttackPoses;
     [SerializeField]
@@ -16,6 +16,11 @@ public abstract class IPlayerState:MonoBehaviour {
     protected int coolDownFrameCount;
     [SerializeField]
     protected int inputCheckFrameCount;
+    [SerializeField]
+    protected bool isBlockingState;
+    #endregion
+
+    #region Protected Fields
     protected PlayerStateManager.StateVariables stateVariables;
     #endregion
 

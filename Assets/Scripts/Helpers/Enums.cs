@@ -52,7 +52,8 @@ public enum ModType {
     StunBaton=3,
     TankTreads = 4,
     Grappler = 5,
-    Boomerang = 6
+    Boomerang = 6,
+    Geyser = 7
 }
 
 public enum ModCategory
@@ -87,7 +88,8 @@ public enum PoolObjectType {
     MallCopBlaster=8,
     VFXSegwayBlaster=9,
     MallCopExplosion=10,
-    GrapplingBot=11
+    GrapplingBot=11,
+    GeyserProjectile = 12
 }
 
 public enum WeaponType {
