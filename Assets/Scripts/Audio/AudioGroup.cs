@@ -11,7 +11,7 @@ namespace Turing.Audio {
     /// </summary>
     [ExecuteInEditMode]
     [RequireComponent(typeof(AudioSource), typeof(AudioChannel))]
-    public class AudioGroup : MonoBehaviour {
+    public sealed class AudioGroup : MonoBehaviour {
 
         #region Consts
 

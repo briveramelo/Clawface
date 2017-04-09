@@ -11,7 +11,8 @@ namespace Turing.Audio {
     /// </summary>
     [System.Serializable]
     [ExecuteInEditMode]
-    public class AudioChannel : MonoBehaviour {
+    [AddComponentMenu("")]
+    public sealed class AudioChannel : MonoBehaviour {
 
         #region Vars
 
@@ -89,13 +90,13 @@ namespace Turing.Audio {
         #endregion
         #region Unity Callbacks
 
-        private void OnEnable() {
+        void OnEnable() {
             _audioSource = GetComponentInParent<AudioSource>();
             if (_parent == null)
                 _parent = GetComponentInParent<AudioGroup>();
         }
 
-        private void Update() {
+        void Update() {
             if (_playing) {
                 if (_loop) {
                     _loopTimer -= Time.deltaTime;
@@ -206,6 +207,10 @@ namespace Turing.Audio {
         public void Stop() {
             _audioSource.Stop();
             _playing = false;
+        }
+
+        public void AddClip (AudioClip clip) {
+            _clips.Add(clip);
         }
 
         #endregion
