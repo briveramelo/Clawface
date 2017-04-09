@@ -1,51 +1,75 @@
-﻿//// ObjectDatabaseManagerEditor.cs
+﻿// ObjectDatabaseManagerEditor.cs
 
-//using UnityEngine;
-//using UnityEditor;
+using UnityEngine;
+using UnityEditor;
 
-///// <summary>
-///// Custom editor for OBJDB manager.
-///// </summary>
-//[CustomEditor(typeof(ObjectDatabaseManager))]
-//public class ObjectDatabaseManagerEditor : Editor {
+/// <summary>
+/// Custom editor for OBJDB manager.
+/// </summary>
+[CustomEditor(typeof(ObjectDatabaseManager))]
+public class ObjectDatabaseManagerEditor : Editor {
 
-//    #region Vars
+    #region Vars
 
-//    /// <summary>
-//    /// Target OBJDB manager.
-//    /// </summary>
-//    ObjectDatabaseManager _target;
+    /// <summary>
+    /// Target OBJDB manager.
+    /// </summary>
+    ObjectDatabaseManager _target;
 
-//    #endregion
-//    #region Unity Callbacks
+    SerializedObject _serializedTarget;
 
-//    void OnEnable() {
-//        _target = target as ObjectDatabaseManager;
-//    }
+    #endregion
+    #region Serialized Properties
 
-//    #endregion
-//    #region Unity Overrides
+    SerializedProperty _databaseProp;
 
-//    public override void OnInspectorGUI() {
+    #endregion
+    #region Unity Callbacks
 
-//        // Rebuild categories button
-//        if (GUILayout.Button("Rebuild categories")) {
-//            _target.RebuildCategories();
-//        }
+    void OnEnable() {
+        _target = target as ObjectDatabaseManager;
+        _serializedTarget = new SerializedObject (_target);
+        _databaseProp = _serializedTarget.FindProperty("_database");
+    }
 
-//        // JSON save button
-//        if (GUILayout.Button("Save database to JSON")) {
-//            _target.SaveToJSON();
-//        }
+    #endregion
+    #region Unity Overrides
 
-//        // JSON load button
-//        if (GUILayout.Button("Load database from JSON")) {
-//            _target.LoadFromJSON();
-//        }
+    public override void OnInspectorGUI() {
 
-//        // Draw default GUI (for database elements)
-//        base.OnInspectorGUI();
-//    }
+        _serializedTarget.Update();
 
-//    #endregion
-//}
+        EditorGUILayout.BeginVertical (EditorStyles.helpBox);
+
+        // Rebuild categories button
+        if (GUILayout.Button("Rebuild categories")) {
+            _target.RebuildCategories();
+        }
+
+        // JSON save button
+        if (GUILayout.Button("Save database to JSON")) {
+            _target.SaveToJSON();
+        }
+
+        // JSON load button
+        if (GUILayout.Button("Load database from JSON")) {
+            _target.LoadFromJSON();
+        }
+
+        EditorGUILayout.EndHorizontal();
+
+        EditorGUILayout.BeginVertical (EditorStyles.helpBox);
+
+        EditorGUILayout.PropertyField(_databaseProp);
+
+        GUILayout.Space(4);
+
+        //if (GUILayout.Button("Add object")) _target.AddObject();
+
+        EditorGUILayout.EndVertical();
+
+        _serializedTarget.ApplyModifiedProperties();
+    }
+
+    #endregion
+}

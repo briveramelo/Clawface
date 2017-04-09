@@ -74,9 +74,11 @@ public class GrapplingBot : MonoBehaviour, IStunnable, IDamageable, ISpawnable {
             }
             will.deathDocumented = true;
             GameObject mallCopParts = ObjectPool.Instance.GetObject(PoolObjectType.MallCopExplosion);
-            mallCopParts.transform.position = transform.position + Vector3.up * 3f;
-            mallCopParts.transform.rotation = transform.rotation;
-            mallCopParts.DeActivate(5f);
+            if (mallCopParts) {
+                mallCopParts.transform.position = transform.position + Vector3.up * 3f;
+                mallCopParts.transform.rotation = transform.rotation;
+                mallCopParts.DeActivate(5f);
+            }
             transform.parent.gameObject.SetActive(false);
         }
     }
