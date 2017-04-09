@@ -20,7 +20,7 @@ public class PlayerModAnimationManager : MonoBehaviour {
         currentAnimationState = PlayerAnimationStates.Idle;
     }
 
-    public void PlayModAnimation(Mod mod, float frame)
+    public void PlayModAnimation(Mod mod, int frame, int totalFrames)
     {
         if (mod != currentMod)
         {
@@ -28,7 +28,11 @@ public class PlayerModAnimationManager : MonoBehaviour {
             {
                 if (modToAnimationMap.TryGetValue(mod.getModType(), out currentAnimationState))
                 {
-                    animator.Play(currentAnimationState.ToString(), -1, frame);
+                    if (mod.getModSpot() == ModSpot.ArmL)
+                    {
+                        frame += totalFrames/2;
+                    }
+                    animator.Play(currentAnimationState.ToString(), -1, frame / (float)totalFrames);
                     animator.speed = 0f;
                 }
             }

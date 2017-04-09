@@ -29,30 +29,37 @@ public class GeyserMod : Mod {
     #region Public Methods
     public override void Activate()
     {
+
     }
 
     public override void ActivateModCanvas()
     {
+
     }
 
     public override void AlternateActivate(bool isHeld, float holdTime)
     {
+
     }
 
     public override void AttachAffect(ref Stats wielderStats, IMovable wielderMovable)
     {
+
     }
 
     public override void DeActivate()
     {
+
     }
 
     public override void DeactivateModCanvas()
     {
+
     }
 
     public override void DetachAffect()
     {
+
     }
     #endregion
 
