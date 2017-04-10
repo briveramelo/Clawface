@@ -129,9 +129,9 @@ public class PlayerStateManager : MonoBehaviour {
                 }                
             }
         }
-        else {
+        //else {
             stateVariables.currentMod.Activate();
-        }
+        //}
     }
 
     public void Charge(Mod mod) {

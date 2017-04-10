@@ -7,11 +7,10 @@ using System.Linq;
 
 public class BatonMod : Mod {
 
-    private void OnDrawGizmos() {
+    private void OnDrawGizmosSelected() {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(capsuleBounds.start.position, capsuleBounds.radius);
-        Gizmos.DrawWireSphere(capsuleBounds.end.position, capsuleBounds.radius);
-        Gizmos.DrawLine(capsuleBounds.start.position, capsuleBounds.end.position);
+        Gizmos.DrawWireSphere(capsuleBounds.end.position, capsuleBounds.radius);        
     }
 
     [SerializeField] private VFXStunBatonImpact impactEffect;
@@ -29,7 +28,7 @@ public class BatonMod : Mod {
     }
 
     public override void Activate(Action onComplete=null){
-        base.Activate(onComplete);      
+        base.Activate();        
     }
 
 
@@ -55,21 +54,17 @@ public class BatonMod : Mod {
 
     IEnumerator<float> Swing(){
         //AudioManager.Instance.PlaySFX(SFXType.StunBatonSwing);
-        float timeRemaining = energySettings.coolDownTime;
-        int layerMask = ~(1 << (int)Layers.PlayerDetector);
-        while (timeRemaining>0) {
-            Physics.OverlapCapsule(capsuleBounds.start.position, capsuleBounds.end.position, capsuleBounds.radius, layerMask).ToList().ForEach(other => {
-                //TODO
-                //Figure out why player isn't detected when mallcop swings
-                Debug.Log(other);
+        float timeRemaining = energySettings.timeToAttack;        
+        while (timeRemaining>0 && isActiveAndEnabled) {            
+            GetOverlap().ForEach(other => {
                 if (GetWielderInstanceID() != other.gameObject.GetInstanceID() &&
                     (other.gameObject.CompareTag(Strings.Tags.PLAYER) ||
                     other.gameObject.CompareTag(Strings.Tags.ENEMY))){
 
                     IDamageable damageable = other.GetComponent<IDamageable>();
                     if (damageable != null && !recentlyHitEnemies.Contains(damageable)){
+                        AudioManager.Instance.PlaySFX(SFXType.StunBatonImpact);
                         if (wielderStats.gameObject.CompareTag(Strings.Tags.PLAYER)){
-                            AudioManager.Instance.PlaySFX(SFXType.StunBatonImpact);
                             HitstopManager.Instance.StartHitstop(energySettings.hitStopTime);                        
                         }
                         if (!other.CompareTag(Strings.Tags.PLAYER)) {
@@ -88,6 +83,11 @@ public class BatonMod : Mod {
             timeRemaining -= Time.deltaTime;
             yield return 0f;
         }
+    }
+
+    private List<Collider> GetOverlap(){ 
+        int layerMask =LayerMasker.GetLayerMask(LayerMasker.Damageable);
+        return Physics.OverlapCapsule(capsuleBounds.start.position, capsuleBounds.end.position, capsuleBounds.radius, layerMask).ToList();
     }
 
     void LayMine(){

@@ -208,6 +208,7 @@ public abstract class Mod : MonoBehaviour {
         public float coolDownTime { get { return attackSettings.timeToCoolDown; } }
         public float attack { get { return attackSettings.attack; } }
         public float hitStopTime { get { return attackSettings.timeToHitStop; } }
+        public float timeToAttack { get { return attackSettings.timeToAttack; } }
         public AttackSettings attackSettings {
             get {
                 if (mod.getModSpot()==ModSpot.Legs) {
@@ -239,6 +240,7 @@ public abstract class Mod : MonoBehaviour {
     [System.Serializable]
     public class AttackSettings {
         public float timeToCoolDown;
+        public float timeToAttack;
         public float attack;
         public float timeToHitStop;
     }

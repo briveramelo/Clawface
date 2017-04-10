@@ -28,6 +28,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
+--- !u!1 &1108482251936534
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4108063479681664}
+  m_Layer: 0
+  m_Name: capsuleEnd
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1316314029526810
 GameObject:
   m_ObjectHideFlags: 0
@@ -62,6 +77,21 @@ GameObject:
   - component: {fileID: 114452280051216354}
   m_Layer: 0
   m_Name: ActionImage
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1615369576885356
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4128817946837334}
+  m_Layer: 0
+  m_Name: capsuleStart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -102,6 +132,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!4 &4108063479681664
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1108482251936534}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -1.12, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4659963037190060}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4120684821083518
 Transform:
   m_ObjectHideFlags: 1
@@ -115,6 +158,19 @@ Transform:
   m_Father: {fileID: 4659963037190060}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!4 &4128817946837334
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1615369576885356}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.106, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4659963037190060}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4659963037190060
 Transform:
   m_ObjectHideFlags: 1
@@ -128,6 +184,8 @@ Transform:
   - {fileID: 4120684821083518}
   - {fileID: 4822043772925276}
   - {fileID: 224734758828339344}
+  - {fileID: 4128817946837334}
+  - {fileID: 4108063479681664}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
@@ -241,18 +299,22 @@ MonoBehaviour:
     timeToChargeLeg: 3
     standardArmAttackSettings:
       timeToCoolDown: 0.4
+      timeToAttack: 0.2
       attack: 2
       timeToHitStop: 0.05
     chargedArmAttackSettings:
       timeToCoolDown: 1.5
+      timeToAttack: 0.1
       attack: 8
       timeToHitStop: 0.1
     standardLegAttackSettings:
       timeToCoolDown: 0.7
+      timeToAttack: 0.1
       attack: 1
       timeToHitStop: 0.04
     chargedLegAttackSettings:
       timeToCoolDown: 1.8
+      timeToAttack: 0.1
       attack: 6
       timeToHitStop: 0.1
     timeCharged: 0
@@ -264,13 +326,13 @@ MonoBehaviour:
     aoePushForce: 10
   chargedForceSettings:
     jumpForce: 15
-    armpushForce: 60
+    armpushForce: 80
     aoePushForce: 20
-  attackRadius: 0.65
-  attackLength: 4
+  capsuleBounds:
+    start: {fileID: 4128817946837334}
+    end: {fileID: 4108063479681664}
+    radius: 0.5
   speedBoostMultiplier: 1.25
-  pushTime: 0.7
-  aoeTime: 0.7
   aoeRadius: 3
 --- !u!114 &114242993152467452
 MonoBehaviour:

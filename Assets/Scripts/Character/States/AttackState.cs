@@ -59,7 +59,7 @@ public class AttackState : MonoBehaviour,IPlayerState {
     {
         if (!stateVariables.stateFinished)
         {
-            stateVariables.currentMod.Activate();
+            //stateVariables.currentMod.Activate();
             if (frameCount == 0)
             {
                 ChangePose();

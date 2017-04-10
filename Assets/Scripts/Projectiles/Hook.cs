@@ -34,8 +34,7 @@ public class Hook : MonoBehaviour {
         initPos = transform.localPosition;
     }
 
-    private void OnTriggerEnter(Collider other)
-    {   
+    private void OnTriggerEnter(Collider other){   
         if ((other.gameObject.CompareTag(Strings.Tags.PLAYER) ||
             other.gameObject.CompareTag(Strings.Tags.ENEMY) ||
             other.gameObject.layer==(int)Layers.Ground) && 

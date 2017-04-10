@@ -10,36 +10,22 @@ using MovementEffects;
 
 public class SegwayMod : Mod {
 
-    private void OnDrawGizmosSelected()
-    {
+    private void OnDrawGizmosSelected(){
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, attackRadius);
-        Gizmos.DrawWireSphere(pushCapsuleEndPosition, attackRadius);
-        Gizmos.DrawLine(transform.position, pushCapsuleEndPosition);
+        Gizmos.DrawWireSphere(capsuleBounds.start.position, capsuleBounds.radius);
+        Gizmos.DrawWireSphere(capsuleBounds.end.position, capsuleBounds.radius);        
 
-        Gizmos.DrawWireSphere(transform.position, aoeRadius);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(capsuleBounds.start.position, aoeRadius);
     }
     
     [SerializeField] private VFXSegway segwayVFX;
     [SerializeField] private ForceSettings standardForceSettings;
     [SerializeField] private ForceSettings chargedForceSettings;
 
-    [SerializeField] private float attackRadius;
-    [SerializeField] private float attackLength;
+    [SerializeField] private CapsuleBounds capsuleBounds;
     [SerializeField] private float speedBoostMultiplier;
-
-    [SerializeField] private float pushTime;
-    [SerializeField] private float aoeTime;
     [SerializeField] private float aoeRadius;
-
-    private Vector3 pushCapsuleEndPosition {
-        get { return transform.position - transform.up * attackLength; }
-    }
-
-    private static string ENABLEATTACKCOLLIDER = "EnableAttackCollider";
-    private static string DISABLEATTACKCOLLIDER = "DisableAttackCollider";
-    private static string ENABLEAOECOLLIDER = "EnableAoeCollider";
-    private static string DISABLEAOECOLLIDER = "DisableAoeCollider";
 
     // Use this for initialization
     void Start()
@@ -116,16 +102,6 @@ public class SegwayMod : Mod {
         base.DetachAffect();
     }
 
-    void BoostSpeed()
-    {
-        wielderStats.Modify(StatType.MoveSpeed, speedBoostMultiplier);
-    }
-
-    void RemoveSpeedBoost()
-    {
-        wielderStats.Modify(StatType.MoveSpeed, 1 / speedBoostMultiplier);
-    }
-
     void AoeAttack(){
         
     }
@@ -138,17 +114,17 @@ public class SegwayMod : Mod {
             blasterFX.transform.position = transform.position;
             blasterFX.transform.forward = -transform.up;
         }        
-        Timing.RunCoroutine(PushForTime(pushTime));                        
+        Timing.RunCoroutine(PushForTime());                        
     }
 
     void MegaForcePush() {
         ForcePush();
     }
 
-    IEnumerator<float> PushForTime(float timeToPush) {
-        float timeRemaining = timeToPush;
+    IEnumerator<float> PushForTime() {
+        float timeRemaining = energySettings.timeToAttack;
         while (timeRemaining>0) {
-            Physics.OverlapCapsule(transform.position, pushCapsuleEndPosition, attackRadius).ToList().ForEach(other => {
+            GetOverlap().ForEach(other => {
                 if (GetWielderInstanceID() != other.gameObject.GetInstanceID()){                    
                     IDamageable damageable = other.GetComponent<IDamageable>();
                     IMovable movable = other.GetComponent<IMovable>();
@@ -159,7 +135,7 @@ public class SegwayMod : Mod {
                             damageable.TakeDamage(attack);                            
                         }                                        
                         if (movable != null){                            
-                            Vector3 pushDirection = (other.transform.position - transform.position).normalized;
+                            Vector3 pushDirection = (other.transform.position - transform.position).NormalizedNoY();
                             movable.AddDecayingForce(pushDirection * pushForce);
                         }
                     }
@@ -168,6 +144,13 @@ public class SegwayMod : Mod {
             timeRemaining -= Time.deltaTime;
             yield return 0f;
         }
+    }
+
+    List<Collider> GetOverlap(){ 
+        if (getModSpot()!=ModSpot.Legs){ 
+            return Physics.OverlapCapsule(capsuleBounds.start.position, capsuleBounds.end.position, capsuleBounds.radius).ToList();
+        }
+        return Physics.OverlapSphere(capsuleBounds.start.position, aoeRadius).ToList();
     }
 
     void Jump() {
@@ -181,7 +164,10 @@ public class SegwayMod : Mod {
     }
     private float pushForce {
         get {
-            return IsCharged() ? chargedForceSettings.armpushForce : standardForceSettings.armpushForce;
+            if (getModSpot()!=ModSpot.Legs){ 
+                return IsCharged() ? chargedForceSettings.armpushForce : standardForceSettings.armpushForce;
+            }
+            return IsCharged() ? chargedForceSettings.aoePushForce : standardForceSettings.aoePushForce;
         }
     }
 

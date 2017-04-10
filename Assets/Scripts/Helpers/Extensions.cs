@@ -59,6 +59,10 @@ namespace ModMan {
         {
             return new Vector3(Mathf.Cos(Mathf.Deg2Rad * inputAngle), 0f, Mathf.Sin(Mathf.Deg2Rad * inputAngle));
         }
+        public static Vector3 NormalizedNoY(this Vector3 vector){ 
+            vector.y=0;
+            return vector.normalized;
+        }
     }
 
     public static class GameObjectExtensions {
