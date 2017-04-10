@@ -51,7 +51,9 @@ public enum ModType {
     FingerPrint=2,
     StunBaton=3,
     TankTreads = 4,
-    Grappler = 5
+    Grappler = 5,
+    Boomerang = 6,
+    Geyser = 7
 }
 
 public enum ModCategory
@@ -91,7 +93,8 @@ public enum PoolObjectType {
     MallCopBlaster=8,
     VFXSegwayBlaster=9,
     MallCopExplosion=10,
-    GrapplingBot=11
+    GrapplingBot=11,
+    GeyserProjectile = 12
 }
 
 public enum WeaponType {
@@ -115,8 +118,8 @@ public enum PlayerAnimationStates
 {
     Idle = 0,
     Running = 1,    
-    StunBatonR = 2,
-    StunBatonL = 3
+    StunBaton = 2,
+    Boomerang = 3
 }
 
 public enum ButtonMode

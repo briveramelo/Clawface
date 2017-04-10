@@ -21,6 +21,7 @@ public abstract class Mod : MonoBehaviour {
     #region Protected Fields
     protected ModType type;
     protected ModCategory category;
+    public bool hasState;
     protected Stats wielderStats;
     protected IMovable wielderMovable;
     protected List<IDamageable> recentlyHitEnemies = new List<IDamageable>();
@@ -86,8 +87,12 @@ public abstract class Mod : MonoBehaviour {
     }
 
     protected abstract void ActivateStandardArms();
+    protected abstract void BeginChargingArms();
+    protected abstract void RunChargingArms();
     protected abstract void ActivateChargedArms();
     protected abstract void ActivateStandardLegs();
+    protected abstract void BeginChargingLegs();
+    protected abstract void RunChargingLegs();
     protected abstract void ActivateChargedLegs();
 
     public abstract void DeActivate();

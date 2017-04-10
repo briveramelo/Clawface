@@ -66,6 +66,10 @@ public class BlasterMod : Mod {
     protected override void ActivateChargedLegs(){
         ActivateStandardArms();
     }
+    protected override void BeginChargingLegs(){ }
+    protected override void RunChargingLegs(){ }
+    protected override void BeginChargingArms(){ }
+    protected override void RunChargingArms(){ }
 
     private BlasterBullet Shoot(){
         AudioManager.Instance.PlaySFX(SFXType.BlasterShoot);

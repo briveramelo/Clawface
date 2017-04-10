@@ -55,6 +55,10 @@ public class TankTreadsMod : Mod
     protected override void ActivateChargedLegs(){
         Jump();
     }
+    protected override void BeginChargingLegs(){ }
+    protected override void RunChargingLegs(){ }
+    protected override void BeginChargingArms(){ }
+    protected override void RunChargingArms(){ }
 
     public override void AttachAffect(ref Stats wielderStats, IMovable wielderMovable){
         base.AttachAffect(ref wielderStats, wielderMovable);

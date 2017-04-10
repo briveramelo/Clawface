@@ -84,6 +84,10 @@ public class SegwayMod : Mod {
             Jump();
         }
     }
+    protected override void BeginChargingLegs(){ }
+    protected override void RunChargingLegs(){ }
+    protected override void BeginChargingArms(){ }
+    protected override void RunChargingArms(){ }
 
     public override void DeActivate()
     {

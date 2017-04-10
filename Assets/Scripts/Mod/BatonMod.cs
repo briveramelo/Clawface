@@ -19,8 +19,7 @@ public class BatonMod : Mod {
     private VFXHandler vfxHandler;
     private ProjectileProperties projectileProperties = new ProjectileProperties();
 
-    protected override void Awake()
-    {        
+    protected override void Awake(){        
         type = ModType.StunBaton;
         category = ModCategory.Melee;
         vfxHandler = new VFXHandler(transform);
@@ -40,6 +39,7 @@ public class BatonMod : Mod {
     protected override void ActivateStandardArms() {
         Timing.RunCoroutine(Swing());
     }
+
     protected override void ActivateChargedArms(){
         Timing.RunCoroutine(Swing());
     }
@@ -51,6 +51,10 @@ public class BatonMod : Mod {
     protected override void ActivateChargedLegs(){
         LayMine();
     }
+    protected override void BeginChargingLegs(){ }
+    protected override void RunChargingLegs(){ }
+    protected override void BeginChargingArms(){ }
+    protected override void RunChargingArms(){ }
 
     IEnumerator<float> Swing(){
         //AudioManager.Instance.PlaySFX(SFXType.StunBatonSwing);
