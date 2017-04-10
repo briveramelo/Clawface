@@ -10,26 +10,49 @@ public class FingerprintMod : Mod {
     [SerializeField]
     private Collider unlockColliderVolume;
 
-    protected override void Awake()
-    {
+    protected override void Awake(){
         type = ModType.FingerPrint;
         base.Awake();
     }
 
-    public override void Activate()
+    // Use this for initialization
+    void Start () {
+        isAttached = false;
+        unlockableObject = null;
+        unlockColliderVolume.enabled = false;
+    }
+	
+	// Update is called once per frame
+	protected override void Update () {
+        base.Update();
+	}
+
+    public override void Activate(Action onComplete=null)
     {
-        if (isAttached && unlockableObject != null)
-        {
+        if (isAttached && unlockableObject != null){
             unlockableObject.Activate();
         }
     }
 
-    public override void AttachAffect(ref Stats playerStats, IMovable wielderMovable)
+    protected override void ActivateChargedArms(){
+
+    }
+
+    protected override void ActivateStandardArms(){
+
+    }
+    protected override void ActivateStandardLegs(){
+        ActivateStandardArms();
+    }
+
+    protected override void ActivateChargedLegs(){
+        ActivateStandardArms();
+    }
+
+    public override void AttachAffect(ref Stats wielderStats, IMovable wielderMovable)
     {
-        
-        isAttached = true;
-        unlockColliderVolume.enabled = true;
-        pickupCollider.enabled = false;
+        base.AttachAffect(ref wielderStats, wielderMovable);        
+        unlockColliderVolume.enabled = true;        
     }
 
     public override void DeActivate()
@@ -68,27 +91,5 @@ public class FingerprintMod : Mod {
                 unlockableObject = null;
             }
         }
-    }
-
-    // Use this for initialization
-    void Start () {
-        isAttached = false;
-        unlockableObject = null;
-        unlockColliderVolume.enabled = false;
-    }
-	
-	// Update is called once per frame
-	protected override void Update () {
-        base.Update();
-	}
-
-    protected override void ActivateCharged()
-    {
-        
-    }
-
-    protected override void ActivateStandard()
-    {
-        
-    }
+    }    
 }

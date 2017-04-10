@@ -1260,6 +1260,8 @@ MonoBehaviour:
   health: 10
   moveSpeed: 140
   rangedAccuracy: 1
+  shotSpeed: 13
+  shotPushForce: 3
 --- !u!114 &114675050104935016
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1339,13 +1341,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pickupCollider: {fileID: 65505833295624902}
   modCanvas: {fileID: 0}
-  rangeBoostValue: 1.15
-  kickbackMagnitude: 9
-  coolDownTime: 0.1
-  feetMultiplier: 2
+  energySettings:
+    timeToChargeArm: 0
+    timeToChargeLeg: 0
+    standardArmAttackSettings:
+      timeToCoolDown: 0
+      attack: 0
+      timeToHitStop: 0
+    chargedArmAttackSettings:
+      timeToCoolDown: 0
+      attack: 0
+      timeToHitStop: 0
+    standardLegAttackSettings:
+      timeToCoolDown: 0
+      attack: 0
+      timeToHitStop: 0
+    chargedLegAttackSettings:
+      timeToCoolDown: 0
+      attack: 0
+      timeToHitStop: 0
+    timeCharged: 0
+    isCoolingDown: 0
   blasterEffect: {fileID: 114234597598472604}
-  kickBackChargedMultiplier: 5
   bulletSpawnPoint: {fileID: 4959142172828002}
+  kickbackForce: 0
+  kickbackForceCharged: 0
+  kickbackForceFeetMultiplier: 0
 --- !u!135 &135652806102363036
 SphereCollider:
   m_ObjectHideFlags: 1

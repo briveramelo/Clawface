@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using MovementEffects;
+using System;
 
 public abstract class Mod : MonoBehaviour {
 
@@ -11,8 +13,8 @@ public abstract class Mod : MonoBehaviour {
         }
         return 0;
     }
-    public ChargeSettings modChargeSettings {
-        get { return chargeSettings; }
+    public EnergySettings modEnergySettings {
+        get { return energySettings; }
     }
     #endregion
 
@@ -23,12 +25,20 @@ public abstract class Mod : MonoBehaviour {
     protected IMovable wielderMovable;
     protected List<IDamageable> recentlyHitEnemies = new List<IDamageable>();
     protected bool isAttached;
+    public float attack {
+        get {
+            if (wielderStats != null) {
+                return wielderStats.attack + energySettings.attack;
+            }
+            return energySettings.attack;
+        }
+    }
     #endregion
 
     #region Serialized Unity Inspector fields
     [SerializeField] protected Collider pickupCollider;
     [SerializeField] protected GameObject modCanvas;
-    [SerializeField] protected ChargeSettings chargeSettings;
+    [SerializeField] protected EnergySettings energySettings;
     #endregion
 
     #region Private Fields
@@ -40,6 +50,8 @@ public abstract class Mod : MonoBehaviour {
         if (modCanvas) {
             modCanvas.SetActive(false);
         }
+        Mod mod = this;
+        energySettings.Initialize(ref mod);
     }
     protected virtual void Update()
     {
@@ -49,7 +61,7 @@ public abstract class Mod : MonoBehaviour {
 
     #region Public Methods
     public bool IsCharged() {
-        return chargeSettings.isCharged;
+        return energySettings.IsCharged;
     }
 
     public void PlayCharged() {
@@ -60,27 +72,39 @@ public abstract class Mod : MonoBehaviour {
     }
 
     public void UpdateChargeTime(float deltaTime) {        
-        chargeSettings.timeCharged += deltaTime;
+        energySettings.timeCharged += deltaTime;
     }
     public void ResetChargeTime() {
-        chargeSettings.Reset();
-    }   
+        energySettings.Reset();
+    }
 
-    public abstract void Activate();
+    public virtual void Activate(Action onComplete=null) {
+        if (!energySettings.isCoolingDown){
+            Timing.RunCoroutine(BeginCoolDown(onComplete));            
+            useAction();
+        }
+    }
 
-    protected abstract void ActivateStandard();
-    protected abstract void ActivateCharged();
+    protected abstract void ActivateStandardArms();
+    protected abstract void ActivateChargedArms();
+    protected abstract void ActivateStandardLegs();
+    protected abstract void ActivateChargedLegs();
 
     public abstract void DeActivate();
 
-    public abstract void AttachAffect(ref Stats wielderStats, IMovable wielderMovable);
+    public virtual void AttachAffect(ref Stats wielderStats, IMovable wielderMovable) {
+        isAttached = true;
+        this.wielderStats = wielderStats;
+        this.wielderMovable = wielderMovable;
+        pickupCollider.enabled = false;
+    }
 
     public virtual void DetachAffect() {
         isAttached = false;
         wielderMovable = null;
         wielderStats = null;
         recentlyHitEnemies.Clear();
-        chargeSettings.Reset();
+        energySettings.Reset();
         pickupCollider.enabled = true;
         setModSpot(ModSpot.Default);
     }
@@ -129,35 +153,94 @@ public abstract class Mod : MonoBehaviour {
     #endregion
 
     #region Private Methods
+    protected IEnumerator<float> BeginCoolDown(Action onComplete){
+        energySettings.CheckToSetAsCharged();
+        recentlyHitEnemies.Clear();
+        yield return Timing.WaitUntilDone(Timing.RunCoroutine(energySettings.BeginCoolDown()));
+        if (onComplete!=null) {
+            onComplete();
+        }
+    }
+
+
     private void HandleChargeEffects() {
-        if (chargeSettings.isStarting) {
+        if (energySettings.isStarting) {
             //vfxModCharge.Enable();
         }
-        if (chargeSettings.isCharged) {
+        if (energySettings.IsCharged) {
 
         }
     }
+
+    private Action useAction {
+        get {
+            if (getModSpot()==ModSpot.ArmL || getModSpot()==ModSpot.ArmR) {
+                return IsCharged() ? (Action)ActivateChargedArms : ActivateStandardArms;
+            }
+            return IsCharged() ? (Action)ActivateChargedLegs : ActivateStandardLegs;
+        }
+    }
+
     #endregion
 
     #region Private Structures
     [System.Serializable]
-    public class ChargeSettings {
+    public class EnergySettings {
 
-        public float timeToCharge;
+        public float timeToChargeArm;
+        public float timeToChargeLeg;
+        public AttackSettings standardArmAttackSettings;
+        public AttackSettings chargedArmAttackSettings;
+        public AttackSettings standardLegAttackSettings;
+        public AttackSettings chargedLegAttackSettings;
+
         [HideInInspector] public float timeCharged;
+        [HideInInspector] public bool isCoolingDown;
 
-        public ChargeSettings(float timeToCharge) {
-            this.timeToCharge = timeToCharge;
+        private Mod mod;
+        private bool isCharged;
+
+        public bool IsCharged { get { return isCharged; } }
+        public float timeToCharge { get { return mod.getModSpot() == ModSpot.Legs ? timeToChargeLeg : timeToChargeArm; } }
+        public bool isCharging { get { return timeCharged > 0f; } }
+        public bool isStarting { get { return timeCharged == 0f; } }
+
+        public float coolDownTime { get { return attackSettings.timeToCoolDown; } }
+        public float attack { get { return attackSettings.attack; } }
+        public float hitStopTime { get { return attackSettings.timeToHitStop; } }
+        public AttackSettings attackSettings {
+            get {
+                if (mod.getModSpot()==ModSpot.Legs) {
+                    return IsCharged ? chargedLegAttackSettings : standardLegAttackSettings;
+                }
+                return IsCharged ? chargedArmAttackSettings : standardArmAttackSettings;
+            }
         }
 
-        public bool isCharged { get { return timeCharged > timeToCharge; } }
-        public bool isCharging { get { return timeCharged > 0f; } }
-        public bool isStarting { get { return timeCharged ==0f; } }
-
+        public IEnumerator<float> BeginCoolDown() {            
+            isCoolingDown = true;
+            yield return Timing.WaitForSeconds(coolDownTime);
+            isCoolingDown = false;
+            isCharged = false;
+        }
+        public void Initialize(ref Mod mod) {
+            this.mod = mod;
+        }
         public void Reset() {
             timeCharged = 0f;
         }
+        public void CheckToSetAsCharged() {
+            if (timeCharged>timeToCharge) {
+                isCharged = true;
+            }
+        }
+    }
 
+    [System.Serializable]
+    public class AttackSettings {
+        public float timeToCoolDown;
+        public float attack;
+        public float timeToHitStop;
     }
     #endregion
 

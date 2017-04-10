@@ -165,24 +165,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pickupCollider: {fileID: 65194628639770346}
   modCanvas: {fileID: 0}
-  chargeSettings:
-    timeToCharge: 2
+  energySettings:
+    timeToChargeArm: 1
+    timeToChargeLeg: 1
+    standardArmAttackSettings:
+      timeToCoolDown: 0.3
+      attack: 2
+      timeToHitStop: 0.05
+    chargedArmAttackSettings:
+      timeToCoolDown: 1
+      attack: 7
+      timeToHitStop: 0.1
+    standardLegAttackSettings:
+      timeToCoolDown: 0.5
+      attack: 2
+      timeToHitStop: 0.02
+    chargedLegAttackSettings:
+      timeToCoolDown: 1.5
+      attack: 5
+      timeToHitStop: 0.05
     timeCharged: 0
-  attackCollider: {fileID: 65412432695913298}
-  chargeTime: 1
-  armRegularDamage: 5
-  armRegularStartupTime: 0.1
-  armRegularActiveTime: 0.1
-  armRegularCooldownTime: 0.4
-  armRegularHitstop: 0.05
-  armChargedDamage: 15
-  armChargedStartupTime: 0.1
-  armChargedActiveTime: 0.1
-  armChargedCooldownTime: 0.4
-  armChargedHitstop: 0.1
-  armChargedForce: 5
+    isCoolingDown: 0
+  attackSphereRadius: 1
   legsMoveSpeedMod: 1
-  jumpForce: 50
-  legsCrushDamage: 3
-  timeBetweenLegsDamageTick: 0.1
-  dampenForcesOnPlayerBy: 3
+  standardForceSettings:
+    jumpForce: 15
+    armpushForce: 10
+  chargedForceSettings:
+    jumpForce: 30
+    armpushForce: 20

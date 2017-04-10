@@ -126,7 +126,7 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
     private void ResetForRebirth() {
         GetComponent<CapsuleCollider>().enabled = true;
         copUICanvas.gameObject.SetActive(false);
-
+        mod.DeactivateModCanvas();
 
         myStats.ResetForRebirth();
         controller.ResetForRebirth();

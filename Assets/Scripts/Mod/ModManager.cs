@@ -148,7 +148,9 @@ public class ModManager : MonoBehaviour
 
             allModSpots.ForEach(spot=>{
                 if (!chargeSpots.Contains(spot) && modSocketDictionary[spot].mod!=null) {
-                    modSocketDictionary[spot].mod.ResetChargeTime();
+                    if (modSocketDictionary[spot].mod.modEnergySettings.isCharging) {
+                        modSocketDictionary[spot].mod.ResetChargeTime();
+                    }
                 }
             });
         }

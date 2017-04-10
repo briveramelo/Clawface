@@ -60,9 +60,10 @@ public abstract class MallCopController : AIController {
         if (mod==null || mod.GetWielderInstanceID()!=gameObject.GetInstanceID()) {
             Debug.Log(mod.GetWielderInstanceID() + " " + gameObject.GetInstanceID());
             GameObject newMod = Instantiate(modPrefab);
-            mod = newMod.GetComponent<Mod>();            
+            mod = newMod.GetComponent<Mod>();
         }
-        mod.transform.Reset(modMemento);
+        mod.transform.Reset(modMemento);        
+        mod.DeactivateModCanvas();            
         base.ResetForRebirth();
     }
 

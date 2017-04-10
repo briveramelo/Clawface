@@ -1434,7 +1434,7 @@ MonoBehaviour:
   distance: {x: 0, y: 0, z: 0}
   angle: {x: 0, y: 0, z: 0}
   isLocked: 1
-  lerpSpeed: 0.1
+  smoothTime: 0.05
 --- !u!114 &114612041117335546
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1468,7 +1468,6 @@ MonoBehaviour:
   playerMovement: {fileID: 114073429793509938}
   velBody: {fileID: 114287188701716314}
   stateManager: {fileID: 114380878024399892}
-  holdThresholdTime: 0.5
 --- !u!114 &114676186908838716
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1565,6 +1564,8 @@ MonoBehaviour:
   health: 50
   moveSpeed: 340
   rangedAccuracy: 1
+  shotSpeed: 18
+  shotPushForce: 8
 --- !u!114 &114982282502008236
 MonoBehaviour:
   m_ObjectHideFlags: 1

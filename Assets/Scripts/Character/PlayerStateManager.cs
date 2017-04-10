@@ -135,7 +135,7 @@ public class PlayerStateManager : MonoBehaviour {
     }
 
     public void Charge(Mod mod) {
-        if (mod.modChargeSettings.timeCharged > 0.5f) {
+        if (mod.modEnergySettings.timeCharged > 0.5f) {
 
         }
     }

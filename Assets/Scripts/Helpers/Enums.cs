@@ -71,7 +71,12 @@ public enum Layers {
     ModMan=8,
     Enemy=9,
     MiniMap=10,
-    Ground=11
+    Ground=11,
+    Blood=12,
+    Hologram=13,
+    Globe_Text=14,
+    PlayerDetector=15
+        
 }
 
 public enum PoolObjectType {

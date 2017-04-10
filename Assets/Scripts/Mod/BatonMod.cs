@@ -2,45 +2,34 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using MovementEffects;
+using System.Linq;
 
 public class BatonMod : Mod {
 
-    [SerializeField] private Collider attackCollider;
-    [SerializeField] private Transform batonTip;
+    private void OnDrawGizmos() {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(capsuleBounds.start.position, capsuleBounds.radius);
+        Gizmos.DrawWireSphere(capsuleBounds.end.position, capsuleBounds.radius);
+        Gizmos.DrawLine(capsuleBounds.start.position, capsuleBounds.end.position);
+    }
+
     [SerializeField] private VFXStunBatonImpact impactEffect;
-    [SerializeField] private Rigidbody rigbod;
-    [SerializeField] private float attackBoostValue;
+    [SerializeField] private CapsuleBounds capsuleBounds;
 
     private VFXHandler vfxHandler;
-    private float attackValue;
-    private float attackTime = 1f;
-    private bool isSwinging;    
+    private ProjectileProperties projectileProperties = new ProjectileProperties();
 
     protected override void Awake()
-    {
+    {        
         type = ModType.StunBaton;
         category = ModCategory.Melee;
         vfxHandler = new VFXHandler(transform);
         base.Awake();
     }
 
-    public override void Activate()
-    {
-        Action swingAction = chargeSettings.isCharged ? (Action)ActivateStandard : ActivateCharged;
-        switch (getModSpot())
-        {
-            case ModSpot.ArmL:
-                swingAction();
-                break;
-            case ModSpot.ArmR:
-                swingAction();
-                break;
-            case ModSpot.Legs:
-                LayMine();
-                break;
-            default:
-                break;
-        }
+    public override void Activate(Action onComplete=null){
+        base.Activate(onComplete);      
     }
 
 
@@ -49,98 +38,81 @@ public class BatonMod : Mod {
         //Nothing to do here
     }
 
-    protected override void ActivateStandard() {
-        Swing();
+    protected override void ActivateStandardArms() {
+        Timing.RunCoroutine(Swing());
     }
-    protected override void ActivateCharged(){
-        Swing();
-    }
-
-    void Swing()
-    {        
-        if (!isSwinging)
-        {
-            //AudioManager.Instance.PlaySFX(SFXType.StunBatonSwing);            
-            isSwinging = true;
-            StartCoroutine(HitCoolDown());
-        }
+    protected override void ActivateChargedArms(){
+        Timing.RunCoroutine(Swing());
     }
 
-    IEnumerator HitCoolDown()
-    {
-        yield return new WaitForSeconds(attackTime);
-        recentlyHitEnemies.Clear();
-        isSwinging = false;
+    protected override void ActivateStandardLegs(){
+        LayMine();        
     }
 
-    void LayMine()
-    {
-        GameObject stunMine = ObjectPool.Instance.GetObject(PoolObjectType.Mine);
-        if (stunMine != null)
-        {
-            stunMine.transform.position = transform.position;
-            //AudioManager.Instance.PlaySFX(SFXType.StunBatonLayMine);
-        }
+    protected override void ActivateChargedLegs(){
+        LayMine();
     }
 
-    private void OnTriggerStay(Collider other)
-    {
-        if (isSwinging){
-            if (GetWielderInstanceID() != other.gameObject.GetInstanceID() &&
-                (other.gameObject.CompareTag(Strings.Tags.PLAYER) ||
-                other.gameObject.CompareTag(Strings.Tags.ENEMY))){
+    IEnumerator<float> Swing(){
+        //AudioManager.Instance.PlaySFX(SFXType.StunBatonSwing);
+        float timeRemaining = energySettings.coolDownTime;
+        int layerMask = ~(1 << (int)Layers.PlayerDetector);
+        while (timeRemaining>0) {
+            Physics.OverlapCapsule(capsuleBounds.start.position, capsuleBounds.end.position, capsuleBounds.radius, layerMask).ToList().ForEach(other => {
+                //TODO
+                //Figure out why player isn't detected when mallcop swings
+                Debug.Log(other);
+                if (GetWielderInstanceID() != other.gameObject.GetInstanceID() &&
+                    (other.gameObject.CompareTag(Strings.Tags.PLAYER) ||
+                    other.gameObject.CompareTag(Strings.Tags.ENEMY))){
 
-                IDamageable damageable = other.GetComponent<IDamageable>();
-                if (damageable != null && !recentlyHitEnemies.Contains(damageable)){
-                    if (transform.root.CompareTag(Strings.Tags.PLAYER)){
-                        AudioManager.Instance.PlaySFX(SFXType.StunBatonImpact);
-                        HitstopManager.Instance.StartHitstop(.05f);                        
-                    }
-                    if (!other.CompareTag(Strings.Tags.PLAYER)) {
-                        EmitBlood();
-                    }
-                    impactEffect.Emit();
-                    float damageValue = chargeSettings.isCharged ? attackBoostValue : attackValue;
-                    damageable.TakeDamage(attackValue);
-                    recentlyHitEnemies.Add(damageable);
-                    IStunnable stunnable = other.GetComponent<IStunnable>();
-                    if (stunnable != null){
-                        stunnable.Stun();
+                    IDamageable damageable = other.GetComponent<IDamageable>();
+                    if (damageable != null && !recentlyHitEnemies.Contains(damageable)){
+                        if (wielderStats.gameObject.CompareTag(Strings.Tags.PLAYER)){
+                            AudioManager.Instance.PlaySFX(SFXType.StunBatonImpact);
+                            HitstopManager.Instance.StartHitstop(energySettings.hitStopTime);                        
+                        }
+                        if (!other.CompareTag(Strings.Tags.PLAYER)) {
+                            EmitBlood();
+                        }
+                        impactEffect.Emit();
+                        damageable.TakeDamage(energySettings.attack);
+                        recentlyHitEnemies.Add(damageable);
+                        IStunnable stunnable = other.GetComponent<IStunnable>();
+                        if (stunnable != null){
+                            stunnable.Stun();
+                        }
                     }
                 }
-            }
+            });
+            timeRemaining -= Time.deltaTime;
+            yield return 0f;
         }
     }
 
-    void BoostAttack()
-    {
-        wielderStats.Modify(StatType.Attack, attackBoostValue);
+    void LayMine(){
+        GameObject stunMine = ObjectPool.Instance.GetObject(PoolObjectType.Mine);
+        if (stunMine != null){
+            //AudioManager.Instance.PlaySFX(SFXType.StunBatonLayMine);
+            projectileProperties.Initialize(GetWielderInstanceID(), attack);
+            stunMine.GetComponent<StunMine>().SetProjectileProperties(projectileProperties);
+            stunMine.transform.position = transform.position;
+        }
     }
 
-    void RemoveAttackBoost()
-    {
-        wielderStats.Modify(StatType.Attack, 1 / attackBoostValue);
+    public override void AttachAffect(ref Stats wielderStats, IMovable wielderMovable){
+        base.AttachAffect(ref wielderStats, wielderMovable);
     }
 
-    public override void AttachAffect(ref Stats i_playerStats, IMovable wielderMovable)
-    {
-        isAttached = true;
-        attackCollider.enabled = true;
-        wielderStats = i_playerStats;
-        pickupCollider.enabled = false;
-        attackValue = wielderStats.GetStat(StatType.Attack);
-   
-    }
-
-    public override void DetachAffect()
-    {
+    public override void DetachAffect(){
         base.DetachAffect();
     }    
 
     private void EmitBlood() {
-        Vector3 bloodDirection = transform.root.rotation.eulerAngles;
+        Vector3 bloodDirection = wielderStats.transform.rotation.eulerAngles;
         bloodDirection.x = 23.38f;
         Quaternion emissionRotation = Quaternion.Euler(bloodDirection);
         vfxHandler.EmitBloodInDirection(emissionRotation, transform.position);
-    }
+    }    
+
 }

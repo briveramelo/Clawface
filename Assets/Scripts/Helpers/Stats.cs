@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Stats : MonoBehaviour, IModifiable {
     #region Serialized Unity Inspector Fields
-    public float attack, defense, health, moveSpeed, rangedAccuracy;
+    public float attack, defense, health, moveSpeed, rangedAccuracy, shotSpeed, shotPushForce;
     #endregion
 
     #region Private Fields
@@ -15,7 +15,7 @@ public class Stats : MonoBehaviour, IModifiable {
 
     #region Unity LifeCycle
     void Awake() {
-        originalStats = new StatsMemento(attack, defense, health, moveSpeed, rangedAccuracy);
+        originalStats = new StatsMemento(attack, defense, health, moveSpeed, rangedAccuracy, shotSpeed, shotPushForce);
     }
     #endregion
 
@@ -96,14 +96,16 @@ public class Stats : MonoBehaviour, IModifiable {
     #region Internal Structures
     [Serializable]
     struct StatsMemento{
-        public float attack, defense, health, moveSpeed, rangedAccuracy;
-        public StatsMemento(float attack, float defense, float health, float moveSpeed, float rangedAccuracy) {
+        public float attack, defense, health, moveSpeed, rangedAccuracy, shotSpeed, shotPushForce;
+        public StatsMemento(float attack, float defense, float health, float moveSpeed, float rangedAccuracy, float shotSpeed, float shotPushForce) {
             this.attack = attack;
             this.defense = defense;
             this.health = health;
             this.moveSpeed = moveSpeed;
             this.rangedAccuracy = rangedAccuracy;
+            this.shotSpeed = shotSpeed;
+            this.shotPushForce = shotPushForce;
         }
-    }
+    }    
     #endregion
 }
