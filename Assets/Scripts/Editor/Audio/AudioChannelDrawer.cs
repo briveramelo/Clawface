@@ -8,7 +8,7 @@ using Turing.Audio;
 /// Custom property drawer for AudioChannels.
 /// </summary>
 [CustomPropertyDrawer(typeof(AudioChannel))]
-public class AudioChannelDrawer : PropertyDrawer {
+public sealed class AudioChannelDrawer : PropertyDrawer {
 
     #region Vars
 
@@ -28,7 +28,6 @@ public class AudioChannelDrawer : PropertyDrawer {
     /// </summary>
     SerializedObject _serializedChannel;
 
-    //SerializedProperty _clipsProp;
     SerializedProperty _volumeProp;
     SerializedProperty _randomVolumeProp;
     SerializedProperty _volumeRangeProp;
@@ -57,43 +56,42 @@ public class AudioChannelDrawer : PropertyDrawer {
         _serializedChannel.Update();
 
         // Get serialized properties
-        //_clipsProp                = _serializedChannel.FindProperty("_clips");
-        _volumeProp               = _serializedChannel.FindProperty("_uniformVolume");
-        _randomVolumeProp         = _serializedChannel.FindProperty("_useRandomVolume");
-        _volumeRangeProp          = _serializedChannel.FindProperty("_randomVolumeRange");
+        _volumeProp = _serializedChannel.FindProperty("_uniformVolume");
+        _randomVolumeProp = _serializedChannel.FindProperty("_useRandomVolume");
+        _volumeRangeProp = _serializedChannel.FindProperty("_randomVolumeRange");
         _changeVolumeEachLoopProp = _serializedChannel.FindProperty("_changeVolumeEachLoop");
 
         // Clips box
-        GUILayout.BeginVertical (EditorStyles.helpBox);
-        if (_expanded = EditorGUILayout.Foldout (_expanded, "Channel: " + _targetChannel.name, true)) {
-            
+        GUILayout.BeginVertical(EditorStyles.helpBox);
+        if (_expanded = EditorGUILayout.Foldout(_expanded, "Channel: " + _targetChannel.name, true)) {
+
             EditorGUILayout.Space();
-            EditorGUILayout.LabelField ("Clips");
+            EditorGUILayout.LabelField("Clips");
             EditorGUI.indentLevel++;
 
             var clips = _targetChannel.Clips;
 
             for (int i = 0; i < _targetChannel.Clips.Count; i++) {
-                var clip = clips[i];
-                var changedClip = EditorGUILayout.ObjectField (clip, typeof(AudioClip), false) as AudioClip;
-                if (changedClip == null) clips.RemoveAt(i);
+                var clip = _targetChannel.Clips[i];
+                var changedClip = EditorGUILayout.ObjectField(clip, typeof(AudioClip), false) as AudioClip;
+                if (changedClip == null) _targetChannel.Clips.RemoveAt(i);
                 else _targetChannel.Clips[i] = changedClip;
             }
             var newClip = EditorGUILayout.ObjectField(null, typeof(AudioClip), false) as AudioClip;
-            if (newClip != null) clips.Add (newClip);
+            if (newClip != null) _targetChannel.AddClip(newClip);
 
             EditorGUI.indentLevel--;
 
             EditorGUILayout.Space();
 
-            EditorGUILayout.PropertyField (_randomVolumeProp);
+            EditorGUILayout.PropertyField(_randomVolumeProp);
             if (_targetChannel.UseRandomVolume)
-                EditorGUILayout.PropertyField (_volumeRangeProp);
-            else 
-                EditorGUILayout.PropertyField (_volumeProp);
+                EditorGUILayout.PropertyField(_volumeRangeProp);
+            else
+                EditorGUILayout.PropertyField(_volumeProp);
 
-            EditorGUI.BeginDisabledGroup (!_targetChannel.Parent.Loop || !_randomVolumeProp.boolValue);
-            EditorGUILayout.PropertyField (_changeVolumeEachLoopProp);
+            EditorGUI.BeginDisabledGroup(!_targetChannel.Parent.Loop || !_randomVolumeProp.boolValue);
+            EditorGUILayout.PropertyField(_changeVolumeEachLoopProp);
             EditorGUI.EndDisabledGroup();
         }
         EditorGUILayout.EndVertical();

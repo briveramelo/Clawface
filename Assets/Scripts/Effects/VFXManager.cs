@@ -23,9 +23,11 @@ public class VFXManager : Singleton<VFXManager> {
         switch (vfxRequest.victimType) {
             case VictimType.MallCop:
                 GameObject bloodSprayEffect = ObjectPool.Instance.GetObject(PoolObjectType.BloodEmitter);
-                bloodSprayEffect.transform.SetParent(vfxRequest.targetParent);
-                bloodSprayEffect.transform.localPosition = Vector3.zero;
-                bloodSprayEffect.transform.localRotation = Quaternion.identity;
+                if (bloodSprayEffect) {
+                    bloodSprayEffect.transform.SetParent(vfxRequest.targetParent);
+                    bloodSprayEffect.transform.localPosition = Vector3.zero;
+                    bloodSprayEffect.transform.localRotation = Quaternion.identity;
+                }
 
                 break;
             case VictimType.WallOrGround:

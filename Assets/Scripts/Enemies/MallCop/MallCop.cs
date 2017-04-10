@@ -41,10 +41,10 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
     {
         controller.Initialize(properties, mod, velBody, animator, myStats);
 
-        ResetForRebirth();
        
         mod.setModSpot(ModSpot.ArmR);
         mod.AttachAffect(ref myStats, velBody);
+        ResetForRebirth();
     }    
 
     #endregion
@@ -115,9 +115,11 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
         }
 
         GameObject mallCopParts = ObjectPool.Instance.GetObject(PoolObjectType.MallCopExplosion);
-        mallCopParts.transform.position = transform.position + Vector3.up*3f;
-        mallCopParts.transform.rotation = transform.rotation;
-        mallCopParts.DeActivate(5f);        
+        if (mallCopParts) {
+            mallCopParts.transform.position = transform.position + Vector3.up*3f;
+            mallCopParts.transform.rotation = transform.rotation;
+            mallCopParts.DeActivate(5f);        
+        }
         gameObject.SetActive(false);
     }
 

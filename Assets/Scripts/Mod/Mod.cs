@@ -5,20 +5,21 @@ using UnityEngine;
 public abstract class Mod : MonoBehaviour {
 
     #region Public fields
-    #endregion
-
-    #region Protected Fields
-    protected ModType type;
-    protected ModCategory category;
-    protected Stats wielderStats;
-    protected IMovable wielderMovable;
-    protected List<IDamageable> recentlyHitEnemies = new List<IDamageable>();
-    protected int GetWielderInstanceID() {
+    public int GetWielderInstanceID() {
         if (wielderStats != null) {
             return wielderStats.gameObject.GetInstanceID();
         }
         return 0;
     }
+    #endregion
+
+    #region Protected Fields
+    protected ModType type;
+    protected ModCategory category;
+    public bool hasState;
+    protected Stats wielderStats;
+    protected IMovable wielderMovable;
+    protected List<IDamageable> recentlyHitEnemies = new List<IDamageable>();
 
     protected bool isAttached;
     #endregion
