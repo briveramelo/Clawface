@@ -30,6 +30,9 @@ namespace Turing.Audio {
         SerializedProperty _groupTypeProp;
         SerializedProperty _loopProp;
         SerializedProperty _playOnAwakeProp;
+        SerializedProperty _spatialBlendProp;
+        SerializedProperty _minDistanceProp;
+        SerializedProperty _maxDistanceProp;
         SerializedProperty _changePitchEachLoopProp;
         SerializedProperty _bassChannelProp;
         SerializedProperty _midChannelProp;
@@ -51,6 +54,9 @@ namespace Turing.Audio {
             _groupTypeProp = _serializedTarget.FindProperty("_groupType");
             _loopProp = _serializedTarget.FindProperty("_loop");
             _playOnAwakeProp = _serializedTarget.FindProperty("_playOnAwake");
+            _spatialBlendProp = _serializedTarget.FindProperty("_spatialBlend");
+            _minDistanceProp = _serializedTarget.FindProperty ("_minDistance");
+            _maxDistanceProp = _serializedTarget.FindProperty ("_maxDistance");
             _changePitchEachLoopProp = _serializedTarget.FindProperty("_changePitchEachLoop");
             _bassChannelProp = _serializedTarget.FindProperty("_bassChannel");
             _midChannelProp = _serializedTarget.FindProperty("_midChannel");
@@ -102,6 +108,10 @@ namespace Turing.Audio {
 
                 // Play on awake toggle
                 EditorGUILayout.PropertyField(_playOnAwakeProp);
+
+                EditorGUILayout.PropertyField(_spatialBlendProp);
+
+                EditorGUILayout.PropertyField(_maxDistanceProp);
 
                 // Use volume envelope toggle
                 EditorGUILayout.PropertyField(_useVolumeEnvelopeProp);

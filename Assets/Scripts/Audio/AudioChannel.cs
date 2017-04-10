@@ -178,16 +178,25 @@ namespace Turing.Audio {
         public void PlaySound(float pitch, bool loop = false) {
             if (_clips.Count <= 0) return;
 
+            _volumeScale = _parent.VolumeScale;
+
             _loop = loop;
             if (_useRandomVolume) _randomizedVolume = _randomVolumeRange.GetRandomValue();
-            var d = Vector3.Distance (transform.position, Camera.main.transform.position);
-            Debug.Log (d);
+            //var d = Vector3.Distance (transform.position, Camera.main.transform.position);
+            //Debug.Log (d);
 
             //float spatial = _audioSource.GetCustomCurve(AudioSourceCurveType.CustomRolloff).Evaluate(d);
-            float spatial = CalculateRolloff(d);
-            Debug.Log (spatial);
+            float twoDVolume = (_useRandomVolume ? _randomizedVolume : _uniformVolume) * _volumeScale;
+            //float threeDVolume = Mathf.Clamp01(CalculateRolloff(d));
+            //float spatialBlend = _audioSource.spatialBlend;
 
-            _audioSource.volume = (_useRandomVolume ? _randomizedVolume : _uniformVolume) * _volumeScale * spatial;
+            //float v = twoDVolume * (1f - spatialBlend) + threeDVolume * spatialBlend;
+
+            //Debug.Log (string.Format ("2D volume: {0} | 3D volume: {1} | spatial: {2} | v: {3}", twoDVolume.ToString(), threeDVolume.ToString(), spatialBlend.ToString(), v.ToString()));
+            //float spatial = Mathf.Clamp01(CalculateRolloff(d) * (_audioSource.spatialBlend) + (1f - _audioSource.spatialBlend));
+            //Debug.Log (spatial);
+
+            _audioSource.volume = twoDVolume * _volumeScale;
             _audioSource.pitch = pitch;
 
             var clip = _clips.GetRandom();
@@ -220,19 +229,6 @@ namespace Turing.Audio {
 
         public void AddClip (AudioClip clip) {
             _clips.Add(clip);
-        }
-
-        float CalculateRolloff (float dist) {
-            float factor = 1f;
-            float min = _audioSource.minDistance;
-            float max = _audioSource.maxDistance;
-            switch (_audioSource.rolloffMode) {
-                case AudioRolloffMode.Linear:
-                case AudioRolloffMode.Logarithmic:
-                    factor = 1f - (dist - min) / (max - min);
-                    break;
-            }
-            return factor;
         }
 
         #endregion
