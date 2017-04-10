@@ -138,9 +138,13 @@ namespace Turing.Audio {
                     GenerateAudioChannels();
                 }
             } else {
-                if (_playOnAwake) Play();
+                
             }
         }
+
+        private void Start() {
+            if (Application.isPlaying && _playOnAwake) Play();
+        } 
 
         void Update() {
             if (_playing) {
