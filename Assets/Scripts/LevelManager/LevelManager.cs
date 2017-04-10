@@ -903,7 +903,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
                 break;
         }
 
-        var attribs = AttributesOfObject(obj);
+        //var attribs = AttributesOfObject(obj);
         SetObjectPosition(obj, newPos, actionType);
     }
 

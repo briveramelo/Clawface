@@ -160,7 +160,7 @@ public class CameraTrackEditor : Editor {
 
                     // Draw position properties
                     if (!deleted) {
-                        SerializedProperty prop = _positionsProp.GetArrayElementAtIndex(i);
+                        SerializedProperty prop = positionInfo;
                         EditorGUILayout.PropertyField(prop);
                     }
                     GUILayout.EndHorizontal();

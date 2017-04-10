@@ -30,7 +30,7 @@ public class FireTrap : MonoBehaviour {
 
     Transform _grate;
 
-    Collider _damageVolume;
+    //Collider _damageVolume;
 
     [Tooltip("How long it takes for the trap to open (seconds).")]
     [SerializeField]
@@ -70,7 +70,7 @@ public class FireTrap : MonoBehaviour {
         _door1 = gameObject.FindInChildren("Door1").transform;
         _door2 = gameObject.FindInChildren("Door2").transform;
         _grate = gameObject.FindInChildren("Grate").transform;
-        _damageVolume = GetComponent<Collider>();
+        //_damageVolume = GetComponent<Collider>();
 
         if (_mode == Mode.ContinuousStream) Open();
     }

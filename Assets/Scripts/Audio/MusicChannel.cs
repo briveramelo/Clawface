@@ -19,8 +19,8 @@ namespace Turing.Audio {
 
         float _volumeScale = 1f;
 
-        [SerializeField]
-        MusicGroup _parent;
+        //[SerializeField]
+        //MusicGroup _parent;
 
         [SerializeField]
         List<ClipInfo> _clips = new List<ClipInfo>();
@@ -103,9 +103,9 @@ namespace Turing.Audio {
             _playing = false;
         }
 
-        public void SetParent(MusicGroup parent) {
-            _parent = parent;
-        }
+        //public void SetParent(MusicGroup parent) {
+            //_parent = parent;
+        //}
 
         public void AddClip(AudioClip clip) {
             _clips.Add(new ClipInfo(clip));

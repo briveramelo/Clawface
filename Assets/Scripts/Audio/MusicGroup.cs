@@ -112,13 +112,13 @@ namespace Turing.Audio {
                 channel = channelObj.GetComponent<MusicChannel>();
                 if (channel == null) channel = channelObj.AddComponent<MusicChannel>();
             }
-            channel.SetParent (this);
+            //channel.SetParent (this);
             return channel;
         }
 
         public void AddInstrumentChannel () {
             var channel = GenerateMusicChannel (_INSTRUMENTS_PARENT_NAME + _instrumentChannelIndex++, _instrumentParent.transform);
-            channel.SetParent (this);
+            //channel.SetParent (this);
             _instrumentChannels.Add (channel);
         }
 
