@@ -204,5 +204,10 @@ public class CameraTrackEditor : Editor {
         _serializedTarget.ApplyModifiedProperties();
     }
 
+    [MenuItem("Camera/Create camera track")]
+    static void CreateCameraTrack () {
+        new GameObject("New camera track", typeof(CameraTrack));
+    }
+
     #endregion
 }

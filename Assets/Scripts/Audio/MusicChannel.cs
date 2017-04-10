@@ -8,7 +8,6 @@ namespace Turing.Audio {
     [System.Serializable]
     [ExecuteInEditMode]
     [AddComponentMenu("")]
-    [RequireComponent(typeof(AudioSource))]
     public class MusicChannel : MonoBehaviour {
 
         [SerializeField]

@@ -10,7 +10,7 @@ namespace Turing.Audio {
     public class MusicGroup : MonoBehaviour {
 
         const string _INSTRUMENTS_PARENT_NAME = "INSTRUMENTS";
-        const HideFlags _CHANNEL_HIDE_FLAGS = HideFlags.HideInHierarchy;
+        const HideFlags _CHANNEL_HIDE_FLAGS = HideFlags.None;//HideFlags.HideInHierarchy;
 
         [SerializeField] float _bpm;
         float _beatTimer;
@@ -129,5 +129,6 @@ namespace Turing.Audio {
         protected bool InvalidAudioChannels() {
             return _instrumentParent == null;
         }
+
     }
 }
