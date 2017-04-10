@@ -11,7 +11,8 @@ namespace Turing.Audio {
     /// </summary>
     [System.Serializable]
     [ExecuteInEditMode]
-    public class AudioChannel : MonoBehaviour {
+    [AddComponentMenu("")]
+    public sealed class AudioChannel : MonoBehaviour {
 
         #region Vars
 
@@ -89,13 +90,13 @@ namespace Turing.Audio {
         #endregion
         #region Unity Callbacks
 
-        private void OnEnable() {
+        void Awake() {
             _audioSource = GetComponentInParent<AudioSource>();
             if (_parent == null)
                 _parent = GetComponentInParent<AudioGroup>();
         }
 
-        private void Update() {
+        void Update() {
             if (_playing) {
                 if (_loop) {
                     _loopTimer -= Time.deltaTime;
@@ -179,12 +180,21 @@ namespace Turing.Audio {
 
             _loop = loop;
             if (_useRandomVolume) _randomizedVolume = _randomVolumeRange.GetRandomValue();
-            _audioSource.volume = (_useRandomVolume ? _randomizedVolume : _uniformVolume) * _volumeScale;
+            var d = Vector3.Distance (transform.position, Camera.main.transform.position);
+            Debug.Log (d);
+
+            //float spatial = _audioSource.GetCustomCurve(AudioSourceCurveType.CustomRolloff).Evaluate(d);
+            float spatial = CalculateRolloff(d);
+            Debug.Log (spatial);
+
+            _audioSource.volume = (_useRandomVolume ? _randomizedVolume : _uniformVolume) * _volumeScale * spatial;
             _audioSource.pitch = pitch;
 
             var clip = _clips.GetRandom();
             _clipLength = clip.length;
-            _audioSource.PlayOneShot(clip);
+            _audioSource.PlayOneShot(clip, _audioSource.volume);
+            //_audioSource.clip = clip;
+            //_audioSource.Play();
 
             _playing = true;
 
@@ -206,6 +216,23 @@ namespace Turing.Audio {
         public void Stop() {
             _audioSource.Stop();
             _playing = false;
+        }
+
+        public void AddClip (AudioClip clip) {
+            _clips.Add(clip);
+        }
+
+        float CalculateRolloff (float dist) {
+            float factor = 1f;
+            float min = _audioSource.minDistance;
+            float max = _audioSource.maxDistance;
+            switch (_audioSource.rolloffMode) {
+                case AudioRolloffMode.Linear:
+                case AudioRolloffMode.Logarithmic:
+                    factor = 1f - (dist - min) / (max - min);
+                    break;
+            }
+            return factor;
         }
 
         #endregion

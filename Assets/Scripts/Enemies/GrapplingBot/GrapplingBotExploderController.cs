@@ -2,18 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using MovementEffects;
+using ModMan;
 
 public class GrapplingBotExploderController : GrapplingBotController {
 
     private Quaternion rotatorStartRotation;
-    private Vector3 startPosition;
-    private Vector3 startScale;
-    private Quaternion startRotation;
+    private TransformMemento tMemento = new TransformMemento();
 
     void Start() {
-        startPosition = transform.localPosition;
-        startScale = transform.localScale;
-        startRotation = transform.rotation;
+        tMemento.Initialize(transform);
         rotatorStartRotation = transform.parent.rotation;
 
         Timing.RunCoroutine(Begin());
@@ -35,22 +32,7 @@ public class GrapplingBotExploderController : GrapplingBotController {
             AttackTarget = other.transform;
             UpdateState(EGrapplingBotState.Approach);
         }
-    }
-
-    public override void ResetForRebirth()
-    {
-        transform.localPosition = startPosition;
-        transform.localScale = startScale;
-        transform.localRotation = startRotation;
-        transform.parent.rotation = rotatorStartRotation;
-
-        base.ResetForRebirth();
-    }
-
-    public override void OnDeath() {
-        bot.OnDeath();
-        //Timing.KillCoroutines(GetInstanceID().ToString());        
-    }
+    }    
 
     bool CheckToEndApproach() {
         if (CurrentState == states.approach && states.approach.IsDone()) {            
@@ -76,5 +58,19 @@ public class GrapplingBotExploderController : GrapplingBotController {
             return true;
         }
         return false;
+    }
+
+    public override void ResetForRebirth()
+    {
+        transform.Reset(tMemento);
+        transform.parent.rotation = rotatorStartRotation;
+
+        base.ResetForRebirth();
+    }
+
+    public override void OnDeath()
+    {
+        bot.OnDeath();
+        //Timing.KillCoroutines(GetInstanceID().ToString());        
     }
 }

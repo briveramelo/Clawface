@@ -11,7 +11,7 @@ namespace Turing.Audio {
     /// </summary>
     [ExecuteInEditMode]
     [RequireComponent(typeof(AudioSource), typeof(AudioChannel))]
-    public class AudioGroup : MonoBehaviour {
+    public sealed class AudioGroup : MonoBehaviour {
 
         #region Consts
 
@@ -138,15 +138,19 @@ namespace Turing.Audio {
                     GenerateAudioChannels();
                 }
             } else {
-                if (_playOnAwake) Play();
+                
             }
         }
+
+        private void Start() {
+            if (Application.isPlaying && _playOnAwake) Play();
+        } 
 
         void Update() {
             if (_playing) {
                 _playbackTime += Time.deltaTime;
                 if (_playbackTime >= _longestClipLength) {
-                    if (_loop) Play();
+                    if (_loop) Play(true);
                     else _playing = false;
 
                 } else {
@@ -182,10 +186,12 @@ namespace Turing.Audio {
         /// <summary>
         /// Plays this AudioElement.
         /// </summary>
-        public void Play() {
+        public void Play(bool loop=false) {
             _playing = true;
             _playbackTime = 0f;
-            var pitch = _randomPitch ? _pitchRange.GetRandomValue() : _pitch;
+            float pitch;
+            if (loop && _randomPitch && _changePitchEachLoop) pitch = _pitchRange.GetRandomValue();
+            else pitch = _randomPitch ? _pitchRange.GetRandomValue() : _pitch;
 
             if (_useVolumeEnvelope) {
                 if (!Application.isPlaying) SetVolumeScale(1f);

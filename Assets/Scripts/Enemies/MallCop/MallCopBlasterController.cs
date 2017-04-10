@@ -4,13 +4,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using ModMan;
 
 public class MallCopBlasterController : MallCopController {
 
     [SerializeField] public float fleeForce;
     [SerializeField] float maxDistanceBeforeChasing;
     [SerializeField] float distanceToFire;
-    
 
     void Awake() {
         checksToUpdateState = new List<Func<bool>>() {
@@ -76,5 +76,5 @@ public class MallCopBlasterController : MallCopController {
         }        
         return false;
     }
-    
+
 }
