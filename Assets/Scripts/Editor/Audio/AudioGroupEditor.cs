@@ -189,5 +189,13 @@ namespace Turing.Audio {
         }
 
         #endregion
+        #region Methods
+
+        [MenuItem("Audio/Create audio group")]
+        static void CreateAudioGroup () {
+            new GameObject("New audio group", typeof(AudioGroup));
+        }
+
+        #endregion
     }
 }

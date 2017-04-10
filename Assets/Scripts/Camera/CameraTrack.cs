@@ -124,7 +124,11 @@ public class CameraTrack : MonoBehaviour {
 
     public bool IsPlaying { get { return _playing; } }
 
-    public float EndTime { get { return _speed.keys[_speed.length - 1].time; } }
+    public float EndTime { get {
+            if (_speed == null) return 0f;
+            if (_speed.length == 0) return 0f;
+            return _speed.keys[_speed.length - 1].time;
+        } }
 
     public void PlayFromBeginning() {
         _t = 0f;
