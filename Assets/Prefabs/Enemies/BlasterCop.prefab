@@ -1151,9 +1151,9 @@ MonoBehaviour:
   timeInLastState: 0
   stateTimerIsRunning: 0
   modPrefab: {fileID: 1145115233867226, guid: 2f619f5e2ccdab34c8932a9bb87e4d67, type: 2}
-  fleeForce: 40
-  maxDistanceBeforeChasing: 15
-  distanceToFire: 9
+  fleeForce: 40.99
+  maxDistanceBeforeChasing: 12
+  distanceToFire: 6
 --- !u!114 &114232377073380234
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1257,11 +1257,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attack: 5
   defense: 5
-  health: 10
-  moveSpeed: 140
+  health: 40
+  moveSpeed: 200
   rangedAccuracy: 1
   shotSpeed: 13
   shotPushForce: 3
+  skinnableHealth: 7
 --- !u!114 &114675050104935016
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1346,18 +1347,22 @@ MonoBehaviour:
     timeToChargeLeg: 0
     standardArmAttackSettings:
       timeToCoolDown: 0
+      timeToAttack: 0
       attack: 0
       timeToHitStop: 0
     chargedArmAttackSettings:
       timeToCoolDown: 0
+      timeToAttack: 0
       attack: 0
       timeToHitStop: 0
     standardLegAttackSettings:
       timeToCoolDown: 0
+      timeToAttack: 0
       attack: 0
       timeToHitStop: 0
     chargedLegAttackSettings:
       timeToCoolDown: 0
+      timeToAttack: 0
       attack: 0
       timeToHitStop: 0
     timeCharged: 0

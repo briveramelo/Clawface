@@ -135,7 +135,7 @@ public class SegwayMod : Mod {
                             damageable.TakeDamage(attack);                            
                         }                                        
                         if (movable != null){                            
-                            Vector3 pushDirection = (other.transform.position - transform.position).NormalizedNoY();
+                            Vector3 pushDirection = -transform.up.NormalizedNoY();
                             movable.AddDecayingForce(pushDirection * pushForce);
                         }
                     }

@@ -28,7 +28,15 @@ public class SkinningState : MonoBehaviour, IPlayerState
 
     public void StateUpdate()
     {
-        stateVariables.currentEnemy.GetComponent<ISkinnable>().DeSkin();
+        ISkinnable skinnable =stateVariables.currentEnemy.GetComponent<ISkinnable>();
+        if (skinnable!=null){ 
+            //TODO apply skin texture to player model
+            GameObject skin = skinnable.DeSkin();
+            SkinStats skinStats = skin.GetComponent<SkinStats>();
+            Stats stats = GetComponent<Stats>();
+            stats.Modify(StatType.Health, skinStats.GetSkinHealth());
+            HealthBar.Instance.SetHealth(stats.GetHealthFraction());
+        }
         stateVariables.stateFinished = true;
     }
     #endregion

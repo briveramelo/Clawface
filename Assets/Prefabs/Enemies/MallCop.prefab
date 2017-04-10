@@ -1460,11 +1460,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attack: 5
   defense: 5
-  health: 10
-  moveSpeed: 140
+  health: 50
+  moveSpeed: 200
   rangedAccuracy: 1
   shotSpeed: 13
   shotPushForce: 4
+  skinnableHealth: 8
 --- !u!114 &114272014647171304
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1633,12 +1634,12 @@ MonoBehaviour:
     timeToChargeLeg: 1
     standardArmAttackSettings:
       timeToCoolDown: 0.2
-      timeToAttack: 1.2
+      timeToAttack: 0.8
       attack: 2
       timeToHitStop: 0.1
     chargedArmAttackSettings:
       timeToCoolDown: 1.5
-      timeToAttack: 1.2
+      timeToAttack: 0.8
       attack: 8
       timeToHitStop: 0.15
     standardLegAttackSettings:

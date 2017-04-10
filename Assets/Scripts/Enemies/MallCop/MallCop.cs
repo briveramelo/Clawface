@@ -55,7 +55,7 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
     {        
         if (myStats.health > 0){                        
             myStats.TakeDamage(damage);
-            if (myStats.health <= 5 && !glowObject.isGlowing){
+            if (myStats.health <= myStats.skinnableHealth && !glowObject.isGlowing){
                 glowObject.SetToGlow();
                 copUICanvas.gameObject.SetActive(true);
                 copUICanvas.ShowAction(ActionType.Skin);
@@ -77,7 +77,7 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
     }
 
     bool ISkinnable.IsSkinnable(){
-        return myStats.health <= 5;
+        return myStats.health <= myStats.skinnableHealth;
     }
 
     GameObject ISkinnable.DeSkin(){
