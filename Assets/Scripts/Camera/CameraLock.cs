@@ -20,7 +20,7 @@ public class CameraLock : MonoBehaviour {
     [SerializeField] private Vector3 angle;
     [SerializeField] private bool isLocked;
     [SerializeField]
-    private float lerpSpeed;
+    private float smoothTime;
 
     // Use this for initialization
     void Start () {
@@ -37,7 +37,7 @@ public class CameraLock : MonoBehaviour {
         if (isLocked && objectToLockTo != null)
         {
             Vector3 maxSpeed = Vector3.zero;
-            transform.position = Vector3.SmoothDamp(transform.position, objectToLockTo.position - distance, ref maxSpeed, lerpSpeed);
+            transform.position = Vector3.SmoothDamp(transform.position, objectToLockTo.position - distance, ref maxSpeed, smoothTime);
             transform.rotation = Quaternion.Euler(angle);
         }
 	}
