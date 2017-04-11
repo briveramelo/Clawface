@@ -12,11 +12,11 @@ public class SegwayMod : Mod {
 
     private void OnDrawGizmosSelected(){
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(capsuleBounds.start.position, capsuleBounds.radius);
-        Gizmos.DrawWireSphere(capsuleBounds.end.position, capsuleBounds.radius);        
+        Gizmos.DrawWireSphere(capsuleBounds.Start, capsuleBounds.radius);
+        Gizmos.DrawWireSphere(capsuleBounds.End, capsuleBounds.radius);        
 
         Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(capsuleBounds.start.position, aoeRadius);
+        Gizmos.DrawWireSphere(capsuleBounds.Start, aoeRadius);
     }
     
     [SerializeField] private VFXSegway segwayVFX;
@@ -164,9 +164,9 @@ public class SegwayMod : Mod {
 
     List<Collider> GetOverlap(){ 
         if (getModSpot()!=ModSpot.Legs){ 
-            return Physics.OverlapCapsule(capsuleBounds.start.position, capsuleBounds.end.position, capsuleBounds.radius).ToList();
+            return Physics.OverlapCapsule(capsuleBounds.Start, capsuleBounds.End, capsuleBounds.radius).ToList();
         }
-        return Physics.OverlapSphere(capsuleBounds.start.position, aoeRadius).ToList();
+        return Physics.OverlapSphere(capsuleBounds.Start, aoeRadius).ToList();
     }
 
     void Jump() {

@@ -3,6 +3,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEditor;
+using ModMan;
 
 /// <summary>
 /// Main level editor GUI class.

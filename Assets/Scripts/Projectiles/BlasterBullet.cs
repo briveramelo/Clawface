@@ -97,36 +97,3 @@ public class BlasterBullet : MonoBehaviour {
         }
     }
 }
-
-public class ShooterProperties {
-    public int shooterInstanceID { get { return projectileProperties.shooterInstanceID; } }
-    public float damage { get { return projectileProperties.damage; } }
-    public float speed;
-    public float pushForce;
-    private ProjectileProperties projectileProperties=new ProjectileProperties();
-    public void Initialize(int shooterInstanceID, float damage, float speed, float pushForce)
-    {
-        projectileProperties.Initialize(shooterInstanceID, damage); 
-        this.pushForce = pushForce;
-        this.speed = speed;
-    }
-    public void Initialize(ProjectileProperties projectileProperties, float speed, float pushForce) {
-        this.projectileProperties = projectileProperties;
-        this.pushForce = pushForce;
-        this.speed = speed;
-    }
-    public ShooterProperties() { }
-}
-public class ProjectileProperties {
-    public int shooterInstanceID;
-    public float damage;
-    public ProjectileProperties() { }
-    public ProjectileProperties(int shooterInstanceID, float damage) {
-        this.shooterInstanceID = shooterInstanceID;
-        this.damage = damage;
-    }
-    public void Initialize(int shooterInstanceID, float damage) {
-        this.shooterInstanceID = shooterInstanceID;
-        this.damage = damage;
-    }
-}

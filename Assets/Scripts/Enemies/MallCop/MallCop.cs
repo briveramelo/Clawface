@@ -160,15 +160,3 @@ public class MallCopProperties {
     [Range(.1f, 1)] public float twitchRange;
     [Range(.1f, 1f)] public float twitchTime;
 }
-
-public class Will {
-    public OnDeath onDeath;
-    public bool willHasBeenWritten;
-    public bool deathDocumented;
-    public bool isDead;
-    public void Reset() {
-        willHasBeenWritten=false;
-        deathDocumented=false;
-        isDead=false;
-    }
-}

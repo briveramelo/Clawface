@@ -9,8 +9,8 @@ public class BatonMod : Mod {
 
     private void OnDrawGizmosSelected() {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(capsuleBounds.start.position, capsuleBounds.radius);
-        Gizmos.DrawWireSphere(capsuleBounds.end.position, capsuleBounds.radius);        
+        Gizmos.DrawWireSphere(capsuleBounds.Start, capsuleBounds.radius);
+        Gizmos.DrawWireSphere(capsuleBounds.End, capsuleBounds.radius);        
     }
 
     [SerializeField] private VFXStunBatonImpact impactEffect;
@@ -93,7 +93,7 @@ public class BatonMod : Mod {
 
     private List<Collider> GetOverlap(){ 
         int layerMask =LayerMasker.GetLayerMask(LayerMasker.Damageable);
-        return Physics.OverlapCapsule(capsuleBounds.start.position, capsuleBounds.end.position, capsuleBounds.radius, layerMask).ToList();
+        return Physics.OverlapCapsule(capsuleBounds.Start, capsuleBounds.End, capsuleBounds.radius, layerMask).ToList();
     }
 
     void LayMine(){
