@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class SoundEffect
+public class SoundEffect
 {
     protected GameObject m_SFX_GameObject = null;
     protected Turing.Audio.AudioGroup m_AudioGroup = null;
