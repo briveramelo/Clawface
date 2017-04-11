@@ -62,10 +62,10 @@ public class DiceBlock : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            AddRandomForce();
-        }
+        //if (Input.GetKeyDown(KeyCode.M))
+        //{
+        //    AddRandomForce();
+        //}
 
         if (CheckGroundedSide(side1))
         {
@@ -112,6 +112,14 @@ public class DiceBlock : MonoBehaviour {
     public void AddRandomForce()
     {
         rigid.AddForce(new Vector3(Random.Range(0f, 1f), 0.3f, Random.Range(0f, 1f)) * forceStrength);
+        rigid.AddTorque(Random.onUnitSphere * tumbleStrength);
+        willExplode = true;
+        explosionTimer = 0;
+    }
+
+    public void Roll(Vector3 direction)
+    {
+        rigid.AddForce(direction * forceStrength);
         rigid.AddTorque(Random.onUnitSphere * tumbleStrength);
         willExplode = true;
         explosionTimer = 0;
