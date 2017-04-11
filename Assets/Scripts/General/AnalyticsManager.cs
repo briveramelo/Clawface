@@ -125,6 +125,7 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         buttonPressesDictionary.Add("skin", 0f);
     }
 
+#if !UNITY_EDITOR
     // Update is called once per frame
     void Update()
     {
@@ -141,9 +142,8 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         }
 
         UpdateButtonPresses();
-    }
-
-
+}
+#endif
 
     private void OnApplicationQuit()
     {
@@ -174,6 +174,7 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
             modRatioDictionary[mod.ToString()] = (float)modTimeDictionary[mod.ToString()] / totalTime;
         }
 
+#if !UNITY_EDITOR
         if (sendData)
         {
             Analytics.CustomEvent("modTimes", modTimeDictionary);
@@ -187,10 +188,11 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
             Analytics.CustomEvent("legsButtonPresses", modLegsPressesDictionary);
             Analytics.CustomEvent("modKills", modKillsDictionary);
         }
+#endif
     }
-    #endregion
+#endregion
 
-    #region Public Methods
+#region Public Methods
     public void FormatPlayerModsInDictionary(ref Dictionary<string, object> dict)
     {
         Dictionary<ModSpot, ModManager.ModSocket> modSocketDictionary = manager.GetModSpotDictionary();
@@ -236,15 +238,17 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
 
     public void PlayerDeath()
     {
+
         deaths++;
         playerDeathDictionary["averageHP"] = (int)(playerHealthTotal / playerHealthTicks);
         FormatPlayerModsInDictionary(ref playerDeathDictionary);
 
+#if !UNITY_EDITOR
         if (sendData)
         {
             Analytics.CustomEvent("playerDeath", playerDeathDictionary);
         }
-
+#endif
 
         playerHealthTotal = playerStats.GetStat(StatType.Health);
         playerHealthTicks = 1;
@@ -280,9 +284,9 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         playerHealthTicks = 1;
     }
 
-    #endregion
+#endregion
 
-    #region Private Methods
+#region Private Methods
     private void UpdatePlayerHealthTotal()
     {
         playerHealthTotal += playerStats.GetStat(StatType.Health);
@@ -372,9 +376,9 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
             modTimeDictionary[m.ToString()] = (float) modTimeDictionary[m.ToString()] + timeBetweenTicks;
         }
     }
-    #endregion
+#endregion
 
-    #region Private Structures
-    #endregion
+#region Private Structures
+#endregion
 
 }
