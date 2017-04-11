@@ -35,6 +35,8 @@ public class SkinningState : IPlayerState
             GameObject skin = skinnable.DeSkin();
             skin.transform.SetParent(skinSlot);
             skin.transform.ResetFull();
+            skin.GetComponent<SkinnedMeshRenderer>().rootBone=skinSlot;
+
             SkinStats skinStats = skin.GetComponent<SkinStats>();
             Stats stats = GetComponent<Stats>();
             stats.Modify(StatType.Health, skinStats.GetSkinHealth());

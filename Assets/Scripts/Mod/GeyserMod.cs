@@ -74,7 +74,6 @@ public class GeyserMod : Mod {
         if (!targetCanvas.activeSelf){
             targetCanvas.SetActive(true);
         }
-        Vector3 forwardVector = wielderMovable.GetForward().NormalizedNoY();        
         Vector3 canvasPosition = targetPosition + Vector3.up*0.2f;
         targetCanvas.transform.position = canvasPosition;
         targetCanvas.transform.rotation = Quaternion.Euler(90.0f, 0.0f, 0.0f);

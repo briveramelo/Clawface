@@ -132,12 +132,6 @@ public class LevelEditorWindow : EditorWindow, ILevelEditor {
     [MenuItem("Level Editor/Editor Window")]
     public static void ShowWindow() {
         _Instance = GetWindow(typeof(LevelEditorWindow)) as LevelEditorWindow;
-        if (LevelManager.Instance == null) {
-            GameObject lm = new GameObject ("LevelManager", typeof (LevelManager));
-        }
-        if (ObjectDatabaseManager.Instance == null) {
-            GameObject objdb = new GameObject ("ObjectDatabaseManager", typeof(ObjectDatabaseManager));
-        }
     }
 
     /// <summary>
