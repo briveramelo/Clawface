@@ -36,8 +36,7 @@ public class BlasterMod : Mod {
     }
 
     public override void AttachAffect(ref Stats wielderStats, IMovable wielderMovable){
-        base.AttachAffect(ref wielderStats, wielderMovable);
-        shooterProperties.Initialize(GetWielderInstanceID(),wielderStats.attack, wielderStats.shotSpeed, wielderStats.shotPushForce);
+        base.AttachAffect(ref wielderStats, wielderMovable);        
     }
 
     public override void DeActivate()
@@ -85,6 +84,7 @@ public class BlasterMod : Mod {
         if (blasterBullet){
             blasterBullet.transform.position = bulletSpawnPoint.position;
             blasterBullet.transform.rotation = transform.rotation;
+            shooterProperties.Initialize(GetWielderInstanceID(),wielderStats.attack, wielderStats.shotSpeed, wielderStats.shotPushForce);
             blasterBullet.SetShooterProperties(shooterProperties);
         }
         return blasterBullet;
