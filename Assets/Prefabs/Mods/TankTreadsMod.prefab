@@ -104,6 +104,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
 --- !u!33 &33403252484979098
 MeshFilter:
@@ -162,7 +163,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 537ea8b8d2275e1428da09a92c1d598f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hasState: 0
   pickupCollider: {fileID: 65194628639770346}
+  modCanvas: {fileID: 0}
   attackCollider: {fileID: 65412432695913298}
   chargeTime: 1
   armRegularDamage: 5
@@ -181,3 +184,4 @@ MonoBehaviour:
   legsCrushDamage: 3
   timeBetweenLegsDamageTick: 0.1
   dampenForcesOnPlayerBy: 3
+  crushForce: 100
