@@ -59,7 +59,6 @@ public class BlasterBullet : MonoBehaviour {
 
     private void Damage(IDamageable damageable) {        
         if (damageable != null) {
-            float damageResult = isCharged ? damage * damageMultiplierCharged : damage;
 
             if (this.transform.root.CompareTag(Strings.Tags.PLAYER))
             {

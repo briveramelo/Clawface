@@ -43,7 +43,7 @@ public class Hook : MonoBehaviour {
             if (isThrowing){
                 HitTarget();
             }
-            if (sharedVariables.throwHook || sharedVariables.retractHook)
+            if (isThrowing || isRetracting)
             {
                 
 
