@@ -101,8 +101,9 @@ public class BatonMod : Mod {
 
                 IDamageable damageable = other.GetComponent<IDamageable>();
                 if (damageable != null && !recentlyHitEnemies.Contains(damageable)){
-                    if (transform.root.CompareTag(Strings.Tags.PLAYER)){
-                        AudioManager.Instance.PlaySFX(SFXType.StunBatonImpact);
+                    AudioManager.Instance.PlaySFX(SFXType.StunBatonImpact);
+
+                    if (transform.root.CompareTag(Strings.Tags.PLAYER)){ 
                         HitstopManager.Instance.StartHitstop(.05f);
                         AnalyticsManager.Instance.AddModDamage(this.getModType(), attackValue);
 
