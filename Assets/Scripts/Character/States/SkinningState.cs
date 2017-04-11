@@ -12,6 +12,7 @@ public class SkinningState : IPlayerState
 
     #region Serialized Unity Inspector fields
     [SerializeField] private Transform skinSlot;
+    [SerializeField] private List<CapsuleCollider> clothColliders;
     #endregion
 
     #region Private Fields
@@ -34,8 +35,8 @@ public class SkinningState : IPlayerState
         if (skinnable!=null){
             GameObject skin = skinnable.DeSkin();
             skin.transform.SetParent(skinSlot);
-            skin.transform.ResetFull();
-            skin.GetComponent<SkinnedMeshRenderer>().rootBone=skinSlot;
+            skin.transform.ResetFull();            
+            skin.GetComponent<Cloth>().capsuleColliders = clothColliders.ToArray();
 
             SkinStats skinStats = skin.GetComponent<SkinStats>();
             Stats stats = GetComponent<Stats>();
