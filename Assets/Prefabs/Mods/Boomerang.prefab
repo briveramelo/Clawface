@@ -74,8 +74,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1329047879542186}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 24.297083, y: 10.47, z: 83.9752}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -11.692268, y: -7.7302, z: -110.56743}
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children:
   - {fileID: 224578616548916598}
@@ -203,14 +203,38 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hasState: 1
+  vfxModChargePrefab: {fileID: 1868770362516384, guid: 75076dc3f3739ff4bb01ae67a336ecc5,
+    type: 2}
   pickupCollider: {fileID: 65371520106775296}
   modCanvas: {fileID: 1736212784191878}
-  isActive: 0
+  energySettings:
+    timeToChargeArm: 1
+    timeToChargeLeg: 1
+    standardArmAttackSettings:
+      timeToCoolDown: 1
+      timeToAttack: 1
+      attack: 3
+      timeToHitStop: 0
+    chargedArmAttackSettings:
+      timeToCoolDown: 1.5
+      timeToAttack: 1
+      attack: 9
+      timeToHitStop: 0
+    standardLegAttackSettings:
+      timeToCoolDown: 0
+      timeToAttack: 0
+      attack: 0
+      timeToHitStop: 0
+    chargedLegAttackSettings:
+      timeToCoolDown: 0
+      timeToAttack: 0
+      attack: 0
+      timeToHitStop: 0
+    timeCharged: 0
+    isCoolingDown: 0
   maxDistance: 6
   maxWidth: 2
   damageCollider: {fileID: 135665361892582434}
-  standardDamageMultiplier: 1
-  chargeDamageMultiplier: 2
   movementSpeed: 20
   growRate: 0.01
 --- !u!114 &114696090971045056

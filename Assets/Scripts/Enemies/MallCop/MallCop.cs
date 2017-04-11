@@ -55,7 +55,7 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
     {        
         if (myStats.health > 0){                        
             myStats.TakeDamage(damage);
-            if (myStats.health <= 5 && !glowObject.isGlowing){
+            if (myStats.health <= myStats.skinnableHealth && !glowObject.isGlowing){
                 glowObject.SetToGlow();
                 copUICanvas.gameObject.SetActive(true);
                 copUICanvas.ShowAction(ActionType.Skin);
@@ -82,7 +82,7 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
     }
 
     bool ISkinnable.IsSkinnable(){
-        return myStats.health <= 5;
+        return myStats.health <= myStats.skinnableHealth;
     }
 
     GameObject ISkinnable.DeSkin(){
@@ -114,29 +114,33 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
     #region 6. Private Methods    
 
     private void OnDeath() {
-        if (will.willHasBeenWritten)
-        {
-            will.onDeath();
-        }
+        if (!will.isDead) {
+            will.isDead=true;
+            if (will.willHasBeenWritten)
+            {
+                will.onDeath();
+            }
 
-        GameObject mallCopParts = ObjectPool.Instance.GetObject(PoolObjectType.MallCopExplosion);
-        if (mallCopParts) {
-            mallCopParts.transform.position = transform.position + Vector3.up*3f;
-            mallCopParts.transform.rotation = transform.rotation;
-            mallCopParts.DeActivate(5f);        
+            GameObject mallCopParts = ObjectPool.Instance.GetObject(PoolObjectType.MallCopExplosion);
+            if (mallCopParts) {
+                mallCopParts.transform.position = transform.position + Vector3.up*3f;
+                mallCopParts.transform.rotation = transform.rotation;
+                mallCopParts.DeActivate(5f);        
+            }
+            gameObject.SetActive(false);
         }
-        gameObject.SetActive(false);
     }
 
     private void ResetForRebirth() {
         GetComponent<CapsuleCollider>().enabled = true;
         copUICanvas.gameObject.SetActive(false);
-
+        mod.DeactivateModCanvas();
 
         myStats.ResetForRebirth();
         controller.ResetForRebirth();
         velBody.ResetForRebirth();
         glowObject.ResetForRebirth();
+        will.Reset();
         //TODO check for missing mod and create a new one and attach it
     }       
 
@@ -161,4 +165,10 @@ public class Will {
     public OnDeath onDeath;
     public bool willHasBeenWritten;
     public bool deathDocumented;
+    public bool isDead;
+    public void Reset() {
+        willHasBeenWritten=false;
+        deathDocumented=false;
+        isDead=false;
+    }
 }

@@ -7,36 +7,26 @@ public class BoomerangMod : Mod {
 
 
     #region Public fields
-    public bool isActive;
     #endregion
 
     #region Serialized Unity Inspector fields
-    [SerializeField]
-    private float maxDistance;
-    [SerializeField]
-    private float maxWidth;
-    [SerializeField]
-    private SphereCollider damageCollider;
-    [SerializeField]
-    private float standardDamageMultiplier;
-    [SerializeField]
-    private float chargeDamageMultiplier;
-    [SerializeField]
-    private float movementSpeed;
-    [SerializeField]
-    private float growRate;
+    [SerializeField] private float maxDistance;
+    [SerializeField] private float maxWidth;
+    [SerializeField] private SphereCollider damageCollider;
+    [SerializeField] private float movementSpeed;
+    [SerializeField] private float growRate;
     #endregion
 
     #region Private Fields
+    private bool isActive;
     private Vector3 initialPosition;
-    private Transform player;
+    private Transform modSocket;
     private bool returning;
     private Matrix4x4 TRMatrix;
     private float enemyDistance;
     private float minorAxisLength;
     private float majorAxisLength;
     private Vector3 initialScale;
-    private float damageMultiplier;
     #endregion
 
     #region Unity Lifecycle
@@ -45,19 +35,13 @@ public class BoomerangMod : Mod {
         type = ModType.Boomerang;
         category = ModCategory.Ranged;
         damageCollider.enabled = false;
-        if (modCanvas)
-        {
-            modCanvas.SetActive(false);
-        }
-        initialPosition = Vector3.zero;
-        player = null;
         enemyDistance = Mathf.Infinity;
         minorAxisLength = maxWidth;
-        damageMultiplier = standardDamageMultiplier;
     }
 	
 	// Update is called once per frame
-	void Update () {
+	protected override void Update () {
+        base.Update();
         if (isActive) {
             if (getModSpot() == ModSpot.ArmR)
             {
@@ -67,101 +51,45 @@ public class BoomerangMod : Mod {
                 UpdateBoomerangPosition(-1);
             }
         }
-	}
-
-    void UpdateBoomerangPosition(int leftHandMultiplier = 1)
-    {
-        //Equation of an ellipse x^2/a^2 + y^2/b^2 = 1
-        Vector3 relativePosition = TRMatrix.inverse.MultiplyPoint3x4(transform.position);
-        float xCoordinate = relativePosition.x;
-        float yCoordinate = relativePosition.y;
-        float zCoordinate = relativePosition.z;
-        zCoordinate += movementSpeed * Time.deltaTime;
-        if (zCoordinate > majorAxisLength * 2.0f)
-        {
-            returning = true;
-            zCoordinate = majorAxisLength * 2.0f;
-            movementSpeed = -movementSpeed;
-            float relativeZ = zCoordinate - majorAxisLength;
-            xCoordinate = (Mathf.Sqrt(1 - ((relativeZ) * (relativeZ)) / (majorAxisLength * majorAxisLength)) * minorAxisLength);
-            float relativeX = -xCoordinate * leftHandMultiplier;
-            transform.position = TRMatrix.MultiplyPoint3x4(new Vector3(relativeX, yCoordinate, zCoordinate));
+        if (energySettings.isCharging && !isActive){ 
+            transform.localScale = Vector3.Lerp(transform.localScale, initialScale * 2.0f, growRate);
         }
-        else if(zCoordinate < 0.0f)
-        {
-            zCoordinate = 0.0f;
-            movementSpeed = -movementSpeed;
-            DeActivate();
-            returning = false;
-        }
-        else
-        {
-            float relativeZ = zCoordinate - majorAxisLength;
-            xCoordinate = (Mathf.Sqrt(1 - ((relativeZ) * (relativeZ)) / (majorAxisLength * majorAxisLength)) * minorAxisLength);
-            if (returning)
-            {
-                xCoordinate = -xCoordinate;
-            }
-            float relativeX = xCoordinate * leftHandMultiplier;
-            transform.position = TRMatrix.MultiplyPoint3x4(new Vector3(relativeX, yCoordinate, zCoordinate));
-        }
-    }
+	}    
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.tag != Strings.Tags.PLAYER)
-        {
-            if(other.tag == Strings.Tags.ENEMY)
-            {
-                other.gameObject.GetComponent<IDamageable>().TakeDamage(wielderStats.attack * damageMultiplier);
-            }
-            else
-            {
-                //TODO: Figure out what to do
-            }
+        if(other.gameObject.GetInstanceID()!=GetWielderInstanceID() && isActive){
+            if(other.gameObject.CompareTag(Strings.Tags.ENEMY) || other.gameObject.CompareTag(Strings.Tags.PLAYER)){
+                IDamageable damageable = other.gameObject.GetComponent<IDamageable>();
+                if (damageable!=null){ 
+                    damageable.TakeDamage(attack);
+                }
+            }            
         }
     }
     #endregion
 
     #region Public Methods
-    public override void Activate()
+    public bool IsActive() { return isActive; }
+
+    public override void Activate(Action onComplete=null)
     {
-        if (!isActive)
-        {
-            ReleaseBoomerang();
-        }
+        base.Activate();
     }
 
-    public override void ActivateModCanvas()
-    {
-        if (modCanvas && !isAttached)
-        {
-            modCanvas.SetActive(true);
-        }        
-    }
+    protected override void BeginChargingArms(){ }
+    protected override void RunChargingArms(){ GrowSize(); }
+    protected override void ActivateStandardArms(){ ReleaseBoomerang(); }
+    protected override void ActivateChargedArms(){ ReleaseBoomerang(); }
 
-    public override void AlternateActivate(bool isHeld, float holdTime)
-    {
-        if (!isActive)
-        {
-            if (isHeld)
-            {
-                transform.localScale = Vector3.Lerp(transform.localScale, initialScale * 2.0f, growRate);
-            }
-            else
-            {
-                damageMultiplier = chargeDamageMultiplier;
-                ReleaseBoomerang();
-            }
-        }
-    }
+    protected override void BeginChargingLegs(){ }
+    protected override void RunChargingLegs(){ }
+    protected override void ActivateChargedLegs(){ }
+    protected override void ActivateStandardLegs(){ }
 
-    public override void AttachAffect(ref Stats wielderStats, IMovable wielderMovable)
-    {
-        isAttached = true;
-        this.wielderMovable = wielderMovable;        
-        this.wielderStats = wielderStats;
-        pickupCollider.enabled = false;
+
+    public override void AttachAffect(ref Stats wielderStats, IMovable wielderMovable){
+        base.AttachAffect(ref wielderStats, wielderMovable);        
         initialScale = transform.localScale;
     }
 
@@ -169,30 +97,19 @@ public class BoomerangMod : Mod {
     {
         isActive = false;
         damageCollider.enabled = false;
-        transform.parent = player;
+        movementSpeed = -movementSpeed;
+        returning = false;
+        transform.parent = modSocket;
         transform.localPosition = Vector3.zero;
-        initialPosition = Vector3.zero;
-        player = null;
+        initialPosition = Vector3.zero;        
         transform.forward = wielderMovable.GetForward();
         transform.localScale = initialScale;
-        damageMultiplier = standardDamageMultiplier;
-    }
-
-    public override void DeactivateModCanvas()
-    {
-        if (modCanvas)
-        {
-            modCanvas.SetActive(false);
-        }
     }
 
     public override void DetachAffect()
     {
-        isAttached = false;
-        pickupCollider.enabled = true;
-        damageCollider.enabled = false;
-        wielderMovable = null;
-        setModSpot(ModSpot.Default);
+        base.DetachAffect();
+        damageCollider.enabled = false;        
     }
 
     public void SetEnemyDistance(float distance)
@@ -201,18 +118,50 @@ public class BoomerangMod : Mod {
     }
     #endregion
 
-    #region Private Methods
-    private void ReleaseBoomerang()
-    {
+    #region Private Methods    
+    private void GrowSize() {
+        transform.localScale = Vector3.Lerp(transform.localScale, initialScale * 2.0f, growRate);
+    }
+    private void ReleaseBoomerang(){
         isActive = true;
         damageCollider.enabled = true;
         initialPosition = transform.position;
         transform.rotation = Quaternion.identity;
-        player = transform.parent;
-        transform.parent = null;
+        modSocket = transform.parent;
+        transform.parent.DetachChildren();
         TRMatrix = Matrix4x4.TRS(initialPosition, wielderMovable.GetRotation(), Vector3.one);
         transform.forward = wielderMovable.GetForward();
         majorAxisLength = enemyDistance > maxDistance ? maxDistance / 2.0f : enemyDistance / 2.0f;
+    }
+    void UpdateBoomerangPosition(int leftHandMultiplier = 1){
+        //Equation of an ellipse x^2/a^2 + y^2/b^2 = 1
+        Vector3 relativePosition = TRMatrix.inverse.MultiplyPoint3x4(transform.position);
+        float xCoordinate = relativePosition.x;
+        float yCoordinate = relativePosition.y;
+        float zCoordinate = relativePosition.z;
+        zCoordinate += movementSpeed * Time.deltaTime;
+        if (zCoordinate > majorAxisLength * 2.0f){
+            returning = true;
+            zCoordinate = majorAxisLength * 2.0f;
+            movementSpeed = -movementSpeed;
+            float relativeZ = zCoordinate - majorAxisLength;
+            xCoordinate = (Mathf.Sqrt(1 - ((relativeZ) * (relativeZ)) / (majorAxisLength * majorAxisLength)) * minorAxisLength);
+            float relativeX = -xCoordinate * leftHandMultiplier;
+            transform.position = TRMatrix.MultiplyPoint3x4(new Vector3(relativeX, yCoordinate, zCoordinate));
+        }
+        else if (zCoordinate < 0.0f){
+            zCoordinate = 0.0f;            
+            DeActivate();
+        }
+        else{
+            float relativeZ = zCoordinate - majorAxisLength;
+            xCoordinate = (Mathf.Sqrt(1 - ((relativeZ) * (relativeZ)) / (majorAxisLength * majorAxisLength)) * minorAxisLength);
+            if (returning){
+                xCoordinate = -xCoordinate;
+            }
+            float relativeX = xCoordinate * leftHandMultiplier;
+            transform.position = TRMatrix.MultiplyPoint3x4(new Vector3(relativeX, yCoordinate, zCoordinate));
+        }
     }
     #endregion
 

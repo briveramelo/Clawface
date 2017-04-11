@@ -44,7 +44,7 @@ public interface ICollectable{
 public interface ISkinnable
 {
     bool IsSkinnable();
-    GameObject DeSkin();    
+    GameObject DeSkin();
 }
 
 public interface ICodexLoggable {

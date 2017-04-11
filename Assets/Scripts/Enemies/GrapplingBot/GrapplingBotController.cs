@@ -53,7 +53,6 @@ public class GrapplingBotController : AIController {
 
     #region Animation Events
     public void ActivateMod() {
-        mod.AlternateActivate(true, 10f);
         mod.Activate();
     }
 

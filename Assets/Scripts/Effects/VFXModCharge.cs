@@ -34,8 +34,10 @@ public class VFXModCharge : MonoBehaviour {
         foreach (var ps in _chargedParticleSystems) ps.Stop();
         foreach (var ps in _chargingParticleSystems) {
             var main = ps.main;
-            main.duration = time;
-            ps.Play();
+            if (!ps.isPlaying) {
+                main.duration = time;
+                ps.Play();
+            }
         }
     }
 
