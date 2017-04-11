@@ -4,376 +4,135 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using MovementEffects;
+using System.Linq;
 
 public class TankTreadsMod : Mod
 {
+    private void OnDrawGizmosSelected(){
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, attackSphereRadius);
+    }
+
     #region Serialized
-    [SerializeField]
-    private Collider attackCollider;
-
-    [SerializeField]
-    private float chargeTime;
-
-    [SerializeField]
-    private float armRegularDamage;
-
-    [SerializeField]
-    private float armRegularStartupTime;
-
-    [SerializeField]
-    private float armRegularActiveTime;
-
-    [SerializeField]
-    private float armRegularCooldownTime;
-
-    [SerializeField]
-    private float armRegularHitstop;
-
-    [SerializeField]
-    private float armChargedDamage;
-
-    [SerializeField]
-    private float armChargedStartupTime;
-
-    [SerializeField]
-    private float armChargedActiveTime;
-
-    [SerializeField]
-    private float armChargedCooldownTime;
-
-    [SerializeField]
-    private float armChargedHitstop;
-
-    [SerializeField]
-    private float armChargedForce;
-
-    [SerializeField]
-    private float legsMoveSpeedMod;
-
-    [SerializeField]
-    private float jumpForce;
-
-    [SerializeField]
-    private float legsCrushDamage;
-
-    [SerializeField]
-    private float timeBetweenLegsDamageTick;
-
-    [SerializeField]
-    private float dampenForcesOnPlayerBy;
-
-    [SerializeField]
-    private float crushForce;
+    [SerializeField] private float attackSphereRadius;    
+    [SerializeField] private float legsMoveSpeedMod;
+    [SerializeField] private ForceSettings standardForceSettings;
+    [SerializeField] private ForceSettings chargedForceSettings;
     #endregion
 
     #region Privates
-    private float savedMoveSpeed;
-    private float savedDampenForces;
-    private float chargeTimer;
-
-    private bool armRegularAttackHitboxIsActive;
-    private bool armChargedAttackHitboxIsActive;
-    private bool legAttackHitboxIsActive;
-
-    private List<Transform> objectsHitDuringAttack;
-    private bool canAttackAgain;
-
-    private float legsTimer;
     #endregion Privates
 
     #region Unity Lifetime
-
-    // Use this for initialization
-    void Start()
-    {
-        attackCollider.enabled = false;
-        setModSpot(ModSpot.Default);
-        objectsHitDuringAttack = new List<Transform>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        switch (getModSpot())
-        {
-            case ModSpot.ArmL:
-                break;
-
-            case ModSpot.ArmR:
-                break;
-
-            case ModSpot.Legs:
-                legsTimer -= Time.deltaTime;
-
-                if (wielderMovable.IsGrounded())
-                {
-                    legAttackHitboxIsActive = false;
-                    attackCollider.enabled = false;
-                }
-                break;
-        }
-    }
-
-    void Awake()
-    {
+    protected override void Awake(){
+        base.Awake();
         setModType(ModType.TankTreads);
     }
-
-    private void OnTriggerStay(Collider other)
-    {
-        IDamageable damageable = other.transform.root.GetComponentInChildren<IDamageable>();
-        IMovable movable = other.transform.root.GetComponentInChildren<IMovable>();
-
-        if (armRegularAttackHitboxIsActive)
-        {
-            if (objectsHitDuringAttack.Contains(other.transform.root)) return;
-
-            if (damageable != null)
-            {
-                objectsHitDuringAttack.Add(other.transform.root);
-
-                // If the player is the one attacking, and they're attacking something other than the player
-                if (!other.transform.root.CompareTag(Strings.Tags.PLAYER) && transform.root.CompareTag(Strings.Tags.PLAYER)) {
-                    HitstopManager.Instance.StartHitstop(armRegularHitstop);
-                }
-
-
-                if (!transform.root.CompareTag(other.transform.root.tag)) {
-                    damageable.TakeDamage(armRegularDamage);
-                }
-            }
-        }
-        else if (armChargedAttackHitboxIsActive)
-        {
-            if (objectsHitDuringAttack.Contains(other.transform.root)) return;
-
-            if (damageable != null)
-            {
-                if (this.transform.root.tag == Strings.Tags.PLAYER && other.transform.root.tag != Strings.Tags.PLAYER)
-                {
-                    HitstopManager.Instance.StartHitstop(armChargedHitstop);
-                }
-
-                if (!transform.root.CompareTag(other.transform.root.tag))
-                {
-                    damageable.TakeDamage(armChargedDamage);
-                }
-            }
-
-            if (movable != null)
-            {
-                if (!this.transform.root.CompareTag(other.transform.root.tag))
-                {
-                    movable.AddDecayingForce(GetNormalizedDistance(this.transform.root, other.transform.root) * armChargedForce);
-                }
-            }
-
-            if (damageable != null || movable != null)
-            {
-                objectsHitDuringAttack.Add(other.transform.root);
-            }
-        }
-        else if (legAttackHitboxIsActive)
-        {
-            if (damageable != null)
-            {
-                if (!this.transform.root.CompareTag(other.transform.root.tag))
-                {
-                    damageable.TakeDamage(legsCrushDamage);
-                }
-
-            }
-        }
+    // Use this for initialization
+    void Start(){        
+        setModSpot(ModSpot.Default);
     }
-
     #endregion
 
     #region Public Methods
 
-    public override void Activate()
-    {
-
-        switch (getModSpot())
-        {
-            case ModSpot.ArmL:
-            case ModSpot.ArmR:
-                if (!canAttackAgain) return;
-                Hit();
-                break;
-
-            case ModSpot.Legs:
-                if (wielderMovable.IsGrounded())
-                {
-                    wielderMovable.AddDecayingForce(Vector3.up * jumpForce);
-                }
-                else
-                {
-                    wielderMovable.AddDecayingForce(Vector3.down * crushForce);
-                    legAttackHitboxIsActive = true;
-                    attackCollider.enabled = true;
-                }
-                break;
-        }
+    public override void Activate(Action onComplete=null){
+        base.Activate(onComplete);
     }
 
-    public override void AlternateActivate(bool isHeld, float holdTime)
-    {
-        switch (getModSpot())
-        {
-            case ModSpot.ArmL:
-            case ModSpot.ArmR:
-                if (isHeld)
-                {
-                    wielderStats.moveSpeed = 0;
-                }
 
-                else if (!isHeld && holdTime > chargeTime)
-                {
-                    wielderStats.moveSpeed = savedMoveSpeed;
-                    ChargedHit();
-                }
-                break;
-        }
-    }
+    protected override void BeginChargingArms(){ }
+    protected override void RunChargingArms(){ }
+    protected override void ActivateStandardArms(){ Hit(); }
 
-    public override void AttachAffect(ref Stats wielderStats, IMovable wielderMovable)
-    {
-        this.wielderStats = wielderStats;
-        this.wielderMovable = wielderMovable;
-        pickupCollider.enabled = false;
-        attackCollider.enabled = false;
-        savedMoveSpeed = wielderStats.moveSpeed;
-        canAttackAgain = true;
+    protected override void ActivateChargedArms(){ Hit(); }
 
-        if (getModSpot() == ModSpot.Legs)
-        {
+    protected override void BeginChargingLegs(){ }
+    protected override void RunChargingLegs(){ }
+    protected override void ActivateStandardLegs(){ Jump(); }
+
+    protected override void ActivateChargedLegs(){ Jump(); }
+
+
+    public override void AttachAffect(ref Stats wielderStats, IMovable wielderMovable){
+        base.AttachAffect(ref wielderStats, wielderMovable);
+        if (getModSpot() == ModSpot.Legs){
             this.wielderStats.Modify(StatType.MoveSpeed, legsMoveSpeedMod);
         }        
     }
 
-    public override void DeActivate()
-    {
+    public override void DeActivate(){
 
     }
 
-    public override void DetachAffect()
-    {
-        pickupCollider.enabled = true;
-        attackCollider.enabled = false;
-        canAttackAgain = false;        
-
-        if (getModSpot() == ModSpot.Legs)
-        {
+    public override void DetachAffect(){    
+        if (getModSpot() == ModSpot.Legs){
             wielderStats.Modify(StatType.MoveSpeed, 1f / legsMoveSpeedMod);
         }
+        base.DetachAffect();
+    }   
 
-        setModSpot(ModSpot.Default);
+    public void Hit(){
+        Timing.RunCoroutine(DoHit());
     }
 
-    public void ChargedHit()
-    {
-        StartCoroutine(ArmChargedStartup());
-    }
+    IEnumerator<float> DoHit() {
+        float timeRemaining = energySettings.coolDownTime;
+        while (timeRemaining>0) {
+            Physics.OverlapSphere(transform.position, attackSphereRadius).ToList().ForEach(other=> {
+                if (GetWielderInstanceID()!=other.gameObject.GetInstanceID() ) {
+                    IDamageable damageable = other.GetComponent<IDamageable>();
+                    IMovable movable = other.GetComponent<IMovable>();
 
-    public void Hit()
-    {
-        StartCoroutine(ArmRegularStartup());
+                    if (recentlyHitEnemies.Contains(damageable)) return;
+
+                    if (damageable != null){
+                        recentlyHitEnemies.Add(damageable);
+                        damageable.TakeDamage(attack);
+                
+                        if (wielderStats.CompareTag(Strings.Tags.PLAYER)) {
+                            HitstopManager.Instance.StartHitstop(energySettings.hitStopTime);
+                        }                                
+                    }
+                    if (movable != null){                    
+                        Vector3 direction = (other.transform.position - transform.position).normalized;
+                        movable.AddDecayingForce(direction * pushForce);                    
+                    }
+                }
+            });
+            timeRemaining -= Time.deltaTime;
+            yield return 0f;
+        }
     }
 
     #endregion
 
     #region Private Methods
-    public override void ActivateModCanvas()
-    {
-        
-    }
 
-    public override void DeactivateModCanvas()
-    {
-
-    }
-    private Vector3 GetNormalizedDistance(Transform forceSender, Transform forceReceiver)
-    {
-        Vector3 normalizedDistance = forceReceiver.position - forceSender.position;
-        normalizedDistance = normalizedDistance.normalized;
-        return normalizedDistance;
-    }
-
-    private void EnableAttackCollider()
-    {
-        attackCollider.enabled = true;
-    }
-
-    private void DisableAttackCollider()
-    {
-        attackCollider.enabled = false;
-    }
-
-    private IEnumerator ArmRegularStartup()
-    {
-        canAttackAgain = false;
-        yield return new WaitForSeconds(armRegularStartupTime);
-        StartCoroutine(ArmRegularActive());
-    }
-
-    private IEnumerator ArmRegularActive()
-    {
-        EnableAttackCollider();
-        armRegularAttackHitboxIsActive = true;
-
-        yield return new WaitForSeconds(armRegularActiveTime);
-        StartCoroutine(ArmRegularCooldown());
-    }
-
-    private IEnumerator ArmRegularCooldown()
-    {
-        DisableAttackCollider();
-        armRegularAttackHitboxIsActive = false;
-        objectsHitDuringAttack.Clear();
-
-        yield return new WaitForSeconds(armRegularCooldownTime);
-        canAttackAgain = true;
-    }
-
-    private IEnumerator ArmChargedStartup()
-    {
-        yield return new WaitForSeconds(armChargedStartupTime);
-        StartCoroutine(ArmChargedActive());
-    }
-
-    private IEnumerator ArmChargedActive()
-    {
-        EnableAttackCollider();
-        armChargedAttackHitboxIsActive = true;
-        
-        yield return new WaitForSeconds(armChargedActiveTime);
-        StartCoroutine(ArmChargedCooldown());
-    }
-
-    private IEnumerator ArmChargedCooldown()
-    {
-        DisableAttackCollider();
-        armChargedAttackHitboxIsActive = false;
-        objectsHitDuringAttack.Clear();
-
-        yield return new WaitForSeconds(armChargedCooldownTime);
-        canAttackAgain = true;
-    }
-
-    private void AttackBasedOnCharge()
-    {
-        if (chargeTimer >= chargeTime)
-        {
-            ChargedHit();
+    private void Jump() {
+        if (wielderMovable.IsGrounded()){
+            wielderMovable.AddDecayingForce(Vector3.up * jumpForce);
         }
-        else
-        {
-            Hit();
+    }
+
+    private float jumpForce {
+        get {
+            return IsCharged() ? chargedForceSettings.jumpForce : standardForceSettings.jumpForce;
         }
-        chargeTimer = 0f;
-	}
-	
-    
+    }
+    private float pushForce {
+        get {
+            return IsCharged() ? chargedForceSettings.armpushForce : standardForceSettings.armpushForce;
+        }
+    }
+
     #endregion
-
+    #region PRIVATE Structures
+    [System.Serializable]
+    private class ForceSettings {
+        public float jumpForce;
+        public float armpushForce;
+    }
+    #endregion
 }

@@ -52,9 +52,10 @@ public class StunBatonAttackState : IPlayerState {
     {
         if (!stateVariables.stateFinished)
         {
-            stateVariables.currentMod.Activate();
+            //stateVariables.currentMod.Activate();
             if (frameCount == 0)
             {
+                Debug.Log("pose changed");
                 ChangePose();
             }
             if (weHaveHitHighlightPose)

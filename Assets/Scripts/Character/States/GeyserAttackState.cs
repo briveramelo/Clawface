@@ -33,14 +33,14 @@ public class GeyserAttackState : IPlayerState {
     #region Public Methods
     public override void Attack()
     {
-        ((GeyserMod)stateVariables.currentMod).SetFootPosition(stateVariables.foot.position);
+        //((GeyserMod)stateVariables.currentMod).SetFoot(stateVariables.foot.position);
         stateVariables.currentMod.Activate();
         ResetState();
     }
     public override void SecondaryAttack(bool isHeld, float holdTime)
     {
-        ((GeyserMod)stateVariables.currentMod).SetFootPosition(stateVariables.foot.position);
-        stateVariables.currentMod.AlternateActivate(isHeld, holdTime);
+        //((GeyserMod)stateVariables.currentMod).SetFoot(stateVariables.foot.position);
+        //stateVariables.currentMod.AlternateActivate(isHeld, holdTime);
         if (!isHeld)
         {
             ResetState();

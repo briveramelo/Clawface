@@ -38,11 +38,25 @@ GameObject:
   - component: {fileID: 23314776124032510}
   - component: {fileID: 114335544474941894}
   - component: {fileID: 65464401215924514}
-  - component: {fileID: 136140200005284156}
   - component: {fileID: 54346666431372542}
   m_Layer: 0
   m_Name: BatonMod
   m_TagString: Mod
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1300178929313092
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4479478928804504}
+  m_Layer: 0
+  m_Name: capsuleEnd
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -133,6 +147,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
+--- !u!1 &1790393267075158
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4478293297758136}
+  m_Layer: 0
+  m_Name: capsuleStart
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1883641122955782
 GameObject:
   m_ObjectHideFlags: 0
@@ -179,6 +208,8 @@ Transform:
   - {fileID: 4457097476366742}
   - {fileID: 4110579837553934}
   - {fileID: 224911571129466796}
+  - {fileID: 4478293297758136}
+  - {fileID: 4479478928804504}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 86.351006, z: 0}
@@ -221,6 +252,32 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4227551320145856}
   m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4478293297758136
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1790393267075158}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.02, z: 0.148}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4227551320145856}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4479478928804504
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1300178929313092}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.02, z: -0.14}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4227551320145856}
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4850968825240728
 Transform:
@@ -430,13 +487,40 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hasState: 1
+  vfxModChargePrefab: {fileID: 1868770362516384, guid: 75076dc3f3739ff4bb01ae67a336ecc5,
+    type: 2}
   pickupCollider: {fileID: 65464401215924514}
   modCanvas: {fileID: 1883641122955782}
-  attackCollider: {fileID: 136140200005284156}
-  batonTip: {fileID: 4374610999489766}
+  energySettings:
+    timeToChargeArm: 1
+    timeToChargeLeg: 1
+    standardArmAttackSettings:
+      timeToCoolDown: 0.2
+      timeToAttack: 0.1
+      attack: 5
+      timeToHitStop: 0.1
+    chargedArmAttackSettings:
+      timeToCoolDown: 1.5
+      timeToAttack: 0.1
+      attack: 12
+      timeToHitStop: 0.15
+    standardLegAttackSettings:
+      timeToCoolDown: 0.2
+      timeToAttack: 0
+      attack: 1
+      timeToHitStop: 0
+    chargedLegAttackSettings:
+      timeToCoolDown: 1
+      timeToAttack: 0
+      attack: 3
+      timeToHitStop: 0
+    timeCharged: 0
+    isCoolingDown: 0
   impactEffect: {fileID: 114976034252107326}
-  rigbod: {fileID: 54346666431372542}
-  attackBoostValue: 1.15
+  capsuleBounds:
+    start: {fileID: 4478293297758136}
+    end: {fileID: 4479478928804504}
+    radius: 0.2
 --- !u!114 &114370939795365882
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -505,19 +589,6 @@ MonoBehaviour:
   forward: {x: 0, y: 0, z: 1}
   up: {x: 0, y: 1, z: 0}
   updatePeriod: 0
---- !u!136 &136140200005284156
-CapsuleCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1125338617720806}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 0
-  m_Radius: 0.09
-  m_Height: 0.5
-  m_Direction: 2
-  m_Center: {x: 4.656613e-10, y: 0.03, z: 0.08508262}
 --- !u!198 &198386733679587792
 ParticleSystem:
   m_ObjectHideFlags: 1

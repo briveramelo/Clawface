@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Stats : MonoBehaviour, IModifiable {
     #region Serialized Unity Inspector Fields
-    public float attack, defense, health, moveSpeed, rangedAccuracy;
+    public float attack, defense, health, moveSpeed, rangedAccuracy, shotSpeed, shotPushForce, skinnableHealth;
     #endregion
 
     #region Private Fields
@@ -15,7 +15,7 @@ public class Stats : MonoBehaviour, IModifiable {
 
     #region Unity LifeCycle
     void Awake() {
-        originalStats = new StatsMemento(attack, defense, health, moveSpeed, rangedAccuracy);
+        originalStats = new StatsMemento(attack, defense, health, moveSpeed, rangedAccuracy, shotSpeed, shotPushForce, skinnableHealth);
     }
     #endregion
 
@@ -50,6 +50,9 @@ public class Stats : MonoBehaviour, IModifiable {
                 break;
             case StatType.Health:
                 health += statAddend;
+                if (health>originalStats.health){
+                    health=originalStats.health;
+                }
                 break;
             case StatType.MoveSpeed:
                 moveSpeed += statAddend;
@@ -76,6 +79,10 @@ public class Stats : MonoBehaviour, IModifiable {
         return -1;
     }
 
+    public float GetHealthFraction(){ 
+        return health/originalStats.health;    
+    }
+
     public float TakeDamage(float damage) {
         health-= damage;
         if (health < 0) {
@@ -96,14 +103,17 @@ public class Stats : MonoBehaviour, IModifiable {
     #region Internal Structures
     [Serializable]
     struct StatsMemento{
-        public float attack, defense, health, moveSpeed, rangedAccuracy;
-        public StatsMemento(float attack, float defense, float health, float moveSpeed, float rangedAccuracy) {
+        public float attack, defense, health, moveSpeed, rangedAccuracy, shotSpeed, shotPushForce, skinnableHealth;
+        public StatsMemento(float attack, float defense, float health, float moveSpeed, float rangedAccuracy, float shotSpeed, float shotPushForce, float skinnableHealth) {
             this.attack = attack;
             this.defense = defense;
             this.health = health;
             this.moveSpeed = moveSpeed;
             this.rangedAccuracy = rangedAccuracy;
+            this.shotSpeed = shotSpeed;
+            this.shotPushForce = shotPushForce;
+            this.skinnableHealth=skinnableHealth;
         }
-    }
+    }    
     #endregion
 }

@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using MovementEffects;
+using System;
 
 public abstract class Mod : MonoBehaviour {
 
@@ -11,6 +13,9 @@ public abstract class Mod : MonoBehaviour {
         }
         return 0;
     }
+    public EnergySettings modEnergySettings {
+        get { return energySettings; }
+    }
     #endregion
 
     #region Protected Fields
@@ -20,14 +25,23 @@ public abstract class Mod : MonoBehaviour {
     protected Stats wielderStats;
     protected IMovable wielderMovable;
     protected List<IDamageable> recentlyHitEnemies = new List<IDamageable>();
-
+    protected VFXModCharge vfxModCharge;
     protected bool isAttached;
+    public float attack {
+        get {
+            if (wielderStats != null) {
+                return wielderStats.attack + energySettings.attack;
+            }
+            return energySettings.attack;
+        }
+    }
     #endregion
 
     #region Serialized Unity Inspector fields
-    [SerializeField]
-    public Collider pickupCollider;
-    public GameObject modCanvas;
+    [SerializeField] protected GameObject vfxModChargePrefab;
+    [SerializeField] protected Collider pickupCollider;
+    [SerializeField] protected GameObject modCanvas;
+    [SerializeField] protected EnergySettings energySettings;
     #endregion
 
     #region Private Fields
@@ -35,22 +49,115 @@ public abstract class Mod : MonoBehaviour {
     #endregion
 
     #region Unity Lifecycle
+    protected virtual void Awake(){
+        DeactivateModCanvas();
+        Mod mod = this;
+        energySettings.Initialize(ref mod);
+        vfxModCharge=Instantiate(vfxModChargePrefab, transform).GetComponent<VFXModCharge>();
+    }
+    protected virtual void Update()
+    {
+        if (energySettings.isCharging) {
+            RunCharging();
+        }
+    }
     #endregion
 
     #region Public Methods
-    public abstract void Activate();
+    public bool IsCharged() {
+        return energySettings.IsCharged;
+    }
 
-    public abstract void AlternateActivate(bool isHeld, float holdTime);
+    public void PlayCharged() {
+        //vfxModCharge.Enable();
+    }
+    public void StopCharged() {
+        //vfxModCharge.Disable();
+    }
+
+    public void UpdateChargeTime(float deltaTime) {        
+        energySettings.timeCharged += deltaTime;
+    }
+    public void ResetChargeTime() {
+        energySettings.Reset();
+    }
+
+    public virtual void Activate(Action onComplete=null) {
+        if (!energySettings.isCoolingDown){
+            Timing.RunCoroutine(BeginCoolDown(onComplete));            
+            useAction();
+        }
+        EndCharging();
+    }
+
+
+    public virtual void BeginCharging() {
+        vfxModCharge.StartCharging(energySettings.timeToCharge);
+        if (getModSpot()==ModSpot.Legs) {
+            BeginChargingLegs();
+        }
+        else {
+            BeginChargingArms();
+        }
+    }
+    public virtual void RunCharging() {
+        UpdateChargeTime(Time.deltaTime);
+        if (getModSpot()==ModSpot.Legs) {
+            RunChargingLegs();
+        }
+        else {
+            RunChargingArms();
+        }
+    }
+    protected void EndCharging() {
+        vfxModCharge.StopCharging();
+    }
+
+    protected abstract void BeginChargingArms();
+    protected abstract void RunChargingArms();
+    protected abstract void ActivateStandardArms();
+    protected abstract void ActivateChargedArms();
+
+    protected abstract void BeginChargingLegs();
+    protected abstract void RunChargingLegs();
+    protected abstract void ActivateStandardLegs();
+    protected abstract void ActivateChargedLegs();
 
     public abstract void DeActivate();
 
-    public abstract void AttachAffect(ref Stats wielderStats, IMovable wielderMovable);
+    public virtual void AttachAffect(ref Stats wielderStats, IMovable wielderMovable) {
+        isAttached = true;
+        this.wielderStats = wielderStats;
+        this.wielderMovable = wielderMovable;
+        pickupCollider.enabled = false;
+    }
 
-    public abstract void DetachAffect();
+    public virtual void DetachAffect() {
+        isAttached = false;
+        wielderMovable = null;
+        wielderStats = null;
+        recentlyHitEnemies.Clear();
+        energySettings.Reset();
+        pickupCollider.enabled = true;
+        setModSpot(ModSpot.Default);
+    }
 
-    public abstract void ActivateModCanvas();
+        
+    public virtual void ActivateModCanvas()
+    {
+        if (modCanvas && !isAttached)
+        {
+            modCanvas.SetActive(true);
+        }
+    }
 
-    public abstract void DeactivateModCanvas();
+    public virtual void DeactivateModCanvas()
+    {
+        if (modCanvas)
+        {
+            modCanvas.SetActive(false);
+        }
+    }
 
     public void setModType(ModType modType)
     {
@@ -79,9 +186,88 @@ public abstract class Mod : MonoBehaviour {
     #endregion
 
     #region Private Methods
+    protected IEnumerator<float> BeginCoolDown(Action onComplete){
+        energySettings.CheckToSetAsCharged();
+        recentlyHitEnemies.Clear();
+        yield return Timing.WaitUntilDone(Timing.RunCoroutine(energySettings.BeginCoolDown()));
+        if (onComplete!=null) {
+            onComplete();
+        }
+    }
+
+    private Action useAction {
+        get {
+            if (getModSpot()==ModSpot.ArmL || getModSpot()==ModSpot.ArmR) {
+                return IsCharged() ? (Action)ActivateChargedArms : ActivateStandardArms;
+            }
+            return IsCharged() ? (Action)ActivateChargedLegs : ActivateStandardLegs;
+        }
+    }
+
     #endregion
 
     #region Private Structures
+    [System.Serializable]
+    public class EnergySettings {
+
+        public float timeToChargeArm;
+        public float timeToChargeLeg;
+        public AttackSettings standardArmAttackSettings;
+        public AttackSettings chargedArmAttackSettings;
+        public AttackSettings standardLegAttackSettings;
+        public AttackSettings chargedLegAttackSettings;
+
+        [HideInInspector] public float timeCharged;
+        [HideInInspector] public bool isCoolingDown;
+
+        private Mod mod;
+        private bool isCharged;
+
+        public bool IsCharged { get { return isCharged; } }
+        public float timeToCharge { get { return mod.getModSpot() == ModSpot.Legs ? timeToChargeLeg : timeToChargeArm; } }
+        public bool isCharging { get { return timeCharged > 0f; } }
+        public bool isStarting { get { return timeCharged == 0f; } }
+
+        public float coolDownTime { get { return attackSettings.timeToCoolDown; } }
+        public float attack { get { return attackSettings.attack; } }
+        public float hitStopTime { get { return attackSettings.timeToHitStop; } }
+        public float timeToAttack { get { return attackSettings.timeToAttack; } }
+        public float chargeFraction { get { return Mathf.Clamp01(timeCharged/timeToCharge);}}
+        public AttackSettings attackSettings {
+            get {
+                if (mod.getModSpot()==ModSpot.Legs) {
+                    return IsCharged ? chargedLegAttackSettings : standardLegAttackSettings;
+                }
+                return IsCharged ? chargedArmAttackSettings : standardArmAttackSettings;
+            }
+        }
+
+        public IEnumerator<float> BeginCoolDown() {            
+            isCoolingDown = true;
+            yield return Timing.WaitForSeconds(coolDownTime);
+            isCoolingDown = false;
+            isCharged = false;
+        }
+        public void Initialize(ref Mod mod) {
+            this.mod = mod;
+        }
+        public void Reset() {
+            timeCharged = 0f;
+        }
+        public void CheckToSetAsCharged() {
+            if (timeCharged>timeToCharge) {
+                isCharged = true;
+            }
+        }
+    }
+
+    [System.Serializable]
+    public class AttackSettings {
+        public float timeToCoolDown;
+        public float timeToAttack;
+        public float attack;
+        public float timeToHitStop;
+    }
     #endregion
 
 }
