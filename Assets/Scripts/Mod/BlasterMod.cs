@@ -84,7 +84,7 @@ public class BlasterMod : Mod {
         if (blasterBullet){
             blasterBullet.transform.position = bulletSpawnPoint.position;
             blasterBullet.transform.rotation = transform.rotation;
-            shooterProperties.Initialize(GetWielderInstanceID(),wielderStats.attack, wielderStats.shotSpeed, wielderStats.shotPushForce);
+            shooterProperties.Initialize(GetWielderInstanceID(),attack, wielderStats.shotSpeed, wielderStats.shotPushForce);
             blasterBullet.SetShooterProperties(shooterProperties);
         }
         return blasterBullet;
