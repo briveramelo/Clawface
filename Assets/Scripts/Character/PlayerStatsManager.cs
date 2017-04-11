@@ -25,7 +25,8 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     // Use this for initialization
     void Start () {
         startHealth = stats.GetStat(StatType.Health);
-    }
+        AnalyticsManager.Instance.SetPlayerStats(this.stats);
+}
 	
 	// Update is called once per frame
 	void Update () {
@@ -45,6 +46,7 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
             stats.Modify(StatType.Health, (int)startHealth);
             startHealth = stats.GetStat(StatType.Health);
             HealthBar.Instance.SetHealth(stats.GetStat(StatType.Health) / startHealth);
+            AnalyticsManager.Instance.PlayerDeath();
         }
     }
 
@@ -57,6 +59,11 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     {
         stats.Modify(type, multiplier);
         return true;
+    }
+
+    public float GetHealth()
+    {
+        return stats.GetStat(StatType.Health);
     }
     #endregion
 

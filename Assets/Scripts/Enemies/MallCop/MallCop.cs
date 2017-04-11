@@ -76,6 +76,11 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
         }
     }
 
+    float IDamageable.GetHealth()
+    {
+        return myStats.health;
+    }
+
     bool ISkinnable.IsSkinnable(){
         return myStats.health <= myStats.skinnableHealth;
     }

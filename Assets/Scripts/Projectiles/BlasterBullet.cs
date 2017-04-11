@@ -38,6 +38,8 @@ public class BlasterBullet : MonoBehaviour {
             bool isPlayer = other.gameObject.CompareTag(Strings.Tags.PLAYER);
             if (isEnemy || isPlayer)
             {
+                
+
                 Damage(other.gameObject.GetComponent<IDamageable>());
                 Push(other.gameObject.GetComponent<IMovable>());
                 if (isEnemy) {
@@ -57,7 +59,22 @@ public class BlasterBullet : MonoBehaviour {
 
     private void Damage(IDamageable damageable) {        
         if (damageable != null) {
+
+            if (this.transform.root.CompareTag(Strings.Tags.PLAYER))
+            {
+                AnalyticsManager.Instance.AddModDamage(ModType.ArmBlaster, shooterProperties.damage);
+            }
+            else if (this.transform.root.CompareTag(Strings.Tags.ENEMY))
+            {
+                AnalyticsManager.Instance.AddEnemyModDamage(ModType.ArmBlaster, shooterProperties.damage);
+            }
+
             damageable.TakeDamage(shooterProperties.damage);
+
+            if (damageable.GetHealth() <= 0.01f)
+            {
+                AnalyticsManager.Instance.AddModKill(ModType.ArmBlaster);
+            }
         }
     }
 

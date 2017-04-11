@@ -22,6 +22,11 @@ public class Target : MonoBehaviour, IDamageable {
         Destroy(gameObject);
     }
 
+    float IDamageable.GetHealth()
+    {
+        return 1;
+    }
+
     void Update() {        
         transform.position = startPosition + Vector3.up * amplitude * Mathf.Sin(phaseShift + (Mathf.PI * 2 * Time.time / period));
     }

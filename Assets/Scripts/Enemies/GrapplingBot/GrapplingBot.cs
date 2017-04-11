@@ -48,6 +48,11 @@ public class GrapplingBot : MonoBehaviour, IStunnable, IDamageable, ISpawnable {
                 controller.UpdateState(EGrapplingBotState.Approach);
             }
         }
+    }
+    
+    float IDamageable.GetHealth()
+    {
+        return myStats.health;
     }    
 
     private void ResetForRebirth() {

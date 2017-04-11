@@ -42,9 +42,30 @@ public class Hook : MonoBehaviour {
 
             if (isThrowing){
                 HitTarget();
+            }
+            if (isThrowing || isRetracting)
+            {
+                
+
                 IDamageable damageable = other.gameObject.GetComponent<IDamageable>();
-                if (damageable != null){
+                if (damageable != null)
+                {
+                    if (this.transform.root.CompareTag(Strings.Tags.PLAYER))
+                    {
+                        AnalyticsManager.Instance.AddModDamage(ModType.Grappler, mod.attack);
+                    }
+                    else if (this.transform.root.CompareTag(Strings.Tags.ENEMY))
+                    {
+                        AnalyticsManager.Instance.AddEnemyModDamage(ModType.Grappler, mod.attack);
+                    }
+
                     damageable.TakeDamage(mod.attack);
+
+                    if (damageable.GetHealth() <= 0.01f)
+                    {
+                        AnalyticsManager.Instance.AddModKill(ModType.Grappler);
+                    }
+
                 }
             }            
         }
