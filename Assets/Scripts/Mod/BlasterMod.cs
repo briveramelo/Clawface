@@ -47,7 +47,7 @@ public class BlasterMod : Mod {
 
     void Shoot()
     {
-        AudioManager.Instance.PlaySFX(SFXType.ArmBlasterFire);
+        AudioManager.Instance.PlaySFX(SFXType.BlasterShoot);
         SpawnBullet();
         if (wielderMovable != null) {
             if (getModSpot() == ModSpot.Legs && wielderMovable != null) {
@@ -65,9 +65,11 @@ public class BlasterMod : Mod {
     BlasterBullet SpawnBullet()
     {
         BlasterBullet blasterBullet = ObjectPool.Instance.GetObject(PoolObjectType.BlasterBullet).GetComponent<BlasterBullet>();
-        blasterBullet.transform.position = bulletSpawnPoint.position;
-        blasterBullet.transform.rotation = transform.rotation;
-        blasterBullet.SetShooterInstanceID(GetWielderInstanceID());
+        if (blasterBullet) {
+            blasterBullet.transform.position = bulletSpawnPoint.position;
+            blasterBullet.transform.rotation = transform.rotation;
+            blasterBullet.SetShooterInstanceID(GetWielderInstanceID());
+        }
         return blasterBullet;        
     }
 
@@ -147,7 +149,9 @@ public class BlasterMod : Mod {
         else
         {
             BlasterBullet blasterBullet = SpawnBullet();
-            blasterBullet.isCharged = true;
+            if (blasterBullet) {
+                blasterBullet.isCharged = true;
+            }
             if (getModSpot() == ModSpot.Legs && wielderMovable != null)
             {
                 KickBack(Vector3.up * feetMultiplier * kickBackChargedMultiplier);

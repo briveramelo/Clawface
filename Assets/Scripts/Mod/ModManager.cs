@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class ModManager : MonoBehaviour
 {
@@ -17,8 +18,6 @@ public class ModManager : MonoBehaviour
     private Transform headSocket, leftArmSocket, rightArmSocket, legsSocket;
     [SerializeField]
     private Stats playerStats;
-    [SerializeField]
-    private MoveState playerMovement;
     [SerializeField] private VelocityBody velBody;
     [SerializeField]
     private PlayerStateManager stateManager;
@@ -51,6 +50,8 @@ public class ModManager : MonoBehaviour
 
     private void Update()
     {
+        CheckToPickUpMod();
+
         if (isOkToDropMod)
         {
             CheckToDropMod();
@@ -63,19 +64,21 @@ public class ModManager : MonoBehaviour
         CheckToActivateMod();
     }
 
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.tag == Strings.Tags.MOD)
-        {            
-            if (InputManager.Instance.QueryAction(Strings.Input.Actions.DROP_MODE,
-                    ButtonMode.HELD))
-            {                
-                ModSpot commandedModSpot = GetCommandedModSpot();
-
-                if (commandedModSpot != ModSpot.Default && modSocketDictionary[commandedModSpot].mod == null)
-                {
-                    CheckToAttachMod(commandedModSpot, other.GetComponent<Mod>());
-                }
+    private void CheckToPickUpMod() {
+        if (InputManager.Instance.QueryAction(Strings.Input.Actions.DROP_MODE, ButtonMode.HELD)){
+            ModSpot commandedModSpot = GetCommandedModSpot();
+            if (commandedModSpot != ModSpot.Default && modSocketDictionary[commandedModSpot].mod == null){
+                List<Collider> cols = Physics.OverlapSphere(transform.position, 2.25f).ToList();
+                bool foundMod = false;
+                cols.ForEach(other => {
+                    if (!foundMod && other.tag == Strings.Tags.MOD){                
+                        Mod modToAttach = other.GetComponent<Mod>();
+                        if (modSocketDictionary[commandedModSpot].mod != modToAttach){
+                            Attach(commandedModSpot, modToAttach);
+                            foundMod = true;
+                        }
+                    }
+                });
             }
         }
     }
@@ -152,15 +155,15 @@ public class ModManager : MonoBehaviour
         CommandedMod commandedMod = new CommandedMod();
         if(InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_LEGS, ButtonMode.HELD))
         {
-            CheckIfHoldThresholdIsReached(ModSpot.Legs, ref commandedMod);
+            CheckIfModIsCharged(ModSpot.Legs, ref commandedMod);
         }
         else if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_LEFT, ButtonMode.HELD))
         {
-            CheckIfHoldThresholdIsReached(ModSpot.ArmL, ref commandedMod);
+            CheckIfModIsCharged(ModSpot.ArmL, ref commandedMod);
         }
         else if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_RIGHT, ButtonMode.HELD))
         {
-            CheckIfHoldThresholdIsReached(ModSpot.ArmR, ref commandedMod);
+            CheckIfModIsCharged(ModSpot.ArmR, ref commandedMod);
         }
 
         if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_LEGS,
@@ -181,7 +184,7 @@ public class ModManager : MonoBehaviour
         return commandedMod;        
     }
 
-    private void CheckIfHoldThresholdIsReached(ModSpot spot, ref CommandedMod commandedMod)
+    private void CheckIfModIsCharged(ModSpot spot, ref CommandedMod commandedMod)
     {
         holdTime += Time.deltaTime;
         if (holdTime > holdThresholdTime)
@@ -264,10 +267,7 @@ public class ModManager : MonoBehaviour
 
     private void CheckToAttachMod(ModSpot commandedModSpot, Mod modToAttach)
     {
-        if (modSocketDictionary[commandedModSpot].mod != modToAttach)
-        {
-            Attach(commandedModSpot, modToAttach);
-        }
+        
     }
 
     private void Attach(ModSpot spot, Mod mod, bool isSwapping = false)

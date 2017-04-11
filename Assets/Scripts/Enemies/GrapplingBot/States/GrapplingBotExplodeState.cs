@@ -45,7 +45,9 @@ public class GrapplingBotExplodeState : GrapplingBotState {
 
     void Explode() {
         GameObject explosion=ObjectPool.Instance.GetObject(PoolObjectType.MineExplosionEffect);
-        explosion.transform.position = controller.transform.position;
+        if (explosion) {
+            explosion.transform.position = controller.transform.position;
+        }
         List<Collider> nearbyColliders = Physics.OverlapSphere(controller.transform.position, properties.explosionRadius).ToList();
 
         nearbyColliders.ForEach(col => {

@@ -61,15 +61,14 @@ public class BatonMod : Mod {
         type = ModType.StunBaton;
         category = ModCategory.Melee;
         vfxHandler = new VFXHandler(transform);
-        if (modCanvas) { modCanvas.SetActive(false); }
-       
+        if (modCanvas) { modCanvas.SetActive(false); }       
     }
 
     void Swing()
     {        
         if (!isSwinging)
         {
-            AudioManager.Instance.PlaySFX(SFXType.StunBatonSwing);
+            //AudioManager.Instance.PlaySFX(SFXType.StunBatonSwing);
             
             isSwinging = true;
             StartCoroutine(HitCoolDown());
@@ -89,7 +88,7 @@ public class BatonMod : Mod {
         if (stunMine != null)
         {
             stunMine.transform.position = transform.position;
-            AudioManager.Instance.PlaySFX(SFXType.StunBatonLayMine);
+            //AudioManager.Instance.PlaySFX(SFXType.StunBatonLayMine);
         }
     }
 
@@ -103,7 +102,7 @@ public class BatonMod : Mod {
                 IDamageable damageable = other.GetComponent<IDamageable>();
                 if (damageable != null && !recentlyHitEnemies.Contains(damageable)){
                     if (transform.root.CompareTag(Strings.Tags.PLAYER)){
-                        AudioManager.Instance.PlaySFX(SFXType.StunBatonHit);
+                        AudioManager.Instance.PlaySFX(SFXType.StunBatonImpact);
                         HitstopManager.Instance.StartHitstop(.05f);
                         AnalyticsManager.Instance.AddModDamage(this.getModType(), attackValue);
 
@@ -115,6 +114,7 @@ public class BatonMod : Mod {
                     else
                     {
                         AnalyticsManager.Instance.AddEnemyModDamage(this.getModType(), attackValue);
+
                     }
                     if (!other.CompareTag(Strings.Tags.PLAYER)) {
                         EmitBlood();

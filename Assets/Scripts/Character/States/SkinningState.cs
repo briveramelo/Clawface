@@ -1,10 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkinningState : MonoBehaviour, IPlayerState
+public class SkinningState : IPlayerState
 {
-
+    
     #region Public fields
     #endregion
 
@@ -12,21 +13,20 @@ public class SkinningState : MonoBehaviour, IPlayerState
     #endregion
 
     #region Private Fields
-    private PlayerStateManager.StateVariables stateVariables;
     #endregion
 
     #region Unity Lifecycle
-    public void Init(ref PlayerStateManager.StateVariables stateVariables)
+    public override void Init(ref PlayerStateManager.StateVariables stateVariables)
     {
         this.stateVariables = stateVariables;
     }
 
-    public void StateFixedUpdate()
+    public override void StateFixedUpdate()
     {
 
     }
 
-    public void StateUpdate()
+    public override void StateUpdate()
     {
         stateVariables.currentEnemy.GetComponent<ISkinnable>().DeSkin();
         stateVariables.stateFinished = true;
@@ -34,9 +34,20 @@ public class SkinningState : MonoBehaviour, IPlayerState
     #endregion
 
     #region Public Methods
+    public override void Attack()
+    {
+    }
+
+    public override void SecondaryAttack(bool isHeld, float holdTime)
+    {
+
+    }
     #endregion
 
     #region Private Methods
+    protected override void ResetState()
+    {
+    }
     #endregion
 
     #region Private Structures

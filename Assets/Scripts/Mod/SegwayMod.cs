@@ -204,7 +204,7 @@ public class SegwayMod : Mod {
 
     void AoeAttack()
     {
-        AudioManager.Instance.PlaySFX(SFXType.ForceSegwayPush);
+        //AudioManager.Instance.PlaySFX(SFXType.ForceSegwayPush);
         EnableAoeCollider();
         isAoeAttacking = true;
         recentlyHitEnemies.Clear();
@@ -213,7 +213,7 @@ public class SegwayMod : Mod {
 
     void ForcePush()
     {
-        AudioManager.Instance.PlaySFX(SFXType.ForceSegwayPush);
+        //AudioManager.Instance.PlaySFX(SFXType.ForceSegwayPush);
         GameObject blasterFX = ObjectPool.Instance.GetObject(PoolObjectType.VFXSegwayBlaster);
         if (blasterFX) {
             blasterFX.DeActivate(1.1f);

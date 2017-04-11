@@ -3,10 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MoveState : MonoBehaviour, IPlayerState
+public class MoveState : IPlayerState
 {
     #region Private Fields
-    PlayerStateManager.StateVariables moveStateVariables;
     private float sphereRadius = 0.1f;
     private Vector3 moveDirection;
     private bool isSidescrolling;
@@ -16,18 +15,18 @@ public class MoveState : MonoBehaviour, IPlayerState
     #endregion
 
     #region Public Methods    
-    public void Init(ref PlayerStateManager.StateVariables moveStateVariables)
+    public override void Init(ref PlayerStateManager.StateVariables moveStateVariables)
     {
-        this.moveStateVariables = moveStateVariables;
+        this.stateVariables = moveStateVariables;
         canMove = true;
         isSidescrolling = false;
-        lastMoveDirection = transform.forward;
+        lastMoveDirection = moveStateVariables.playerTransform.forward;
     }
 
-    public void StateUpdate()
+    public override void StateUpdate()
     {                
         Vector2 controllerMoveDir = InputManager.Instance.QueryAxes(Strings.Input.Axes.MOVEMENT);
-        bool isAnyAxisInput = controllerMoveDir.magnitude > moveStateVariables.axisThreshold;
+        bool isAnyAxisInput = controllerMoveDir.magnitude > stateVariables.axisThreshold;
         if (!isAnyAxisInput) {
             controllerMoveDir = Vector2.zero;
         }
@@ -57,9 +56,9 @@ public class MoveState : MonoBehaviour, IPlayerState
         }        
     }
 
-    public void StateFixedUpdate()
+    public override void StateFixedUpdate()
     {
-        switch (moveStateVariables.velBody.GetMovementMode())
+        switch (stateVariables.velBody.GetMovementMode())
         {
             case MovementMode.PRECISE:
                 MovePrecise();
@@ -76,52 +75,59 @@ public class MoveState : MonoBehaviour, IPlayerState
 
     #region Private Methods
     private void MovePrecise() {
-        moveStateVariables.velBody.velocity = moveDirection * moveStateVariables.statsManager.GetStat(StatType.MoveSpeed) * Time.fixedDeltaTime;
-        if (moveDirection.magnitude > moveStateVariables.axisThreshold)
-        {
-            if (moveStateVariables.animator.GetInteger(Strings.ANIMATIONSTATE) != (int)PlayerAnimationStates.Running)
+        stateVariables.velBody.velocity = moveDirection * stateVariables.statsManager.GetStat(StatType.MoveSpeed) * Time.fixedDeltaTime;
+        if (moveDirection.magnitude > stateVariables.axisThreshold)
+        {   
+            if (stateVariables.animator.GetInteger(Strings.ANIMATIONSTATE) != (int)PlayerAnimationStates.Running)
             {
-                moveStateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Running);
+                stateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Running);
+                stateVariables.animator.speed = 1.0f;
             }
         }
         else
-        {
-            if (moveStateVariables.animator.GetInteger(Strings.ANIMATIONSTATE) != (int)PlayerAnimationStates.Idle)
+        {   
+            if (stateVariables.animator.GetInteger(Strings.ANIMATIONSTATE) != (int)PlayerAnimationStates.Idle)
             {
-                moveStateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Idle);
+                stateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Idle);
+                stateVariables.animator.speed = 1.0f;
             }
         }
     }
 
     private void MoveIce() {
-        if (moveStateVariables.animator.GetInteger(Strings.ANIMATIONSTATE) != (int)PlayerAnimationStates.Idle)
+        if (stateVariables.animator.GetInteger(Strings.ANIMATIONSTATE) != (int)PlayerAnimationStates.Idle)
         {
-            moveStateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Idle);
+            stateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Idle);
+            stateVariables.animator.speed = 1.0f;
         }
 
-        moveStateVariables.velBody.AddDecayingForce(moveDirection * moveStateVariables.acceleration * Time.fixedDeltaTime);
+        stateVariables.velBody.AddDecayingForce(moveDirection * stateVariables.acceleration * Time.fixedDeltaTime);
 
-        Vector3 flatMovement = new Vector3(moveStateVariables.velBody.velocity.x, 0f, moveStateVariables.velBody.velocity.z);
+        Vector3 flatMovement = new Vector3(stateVariables.velBody.velocity.x, 0f, stateVariables.velBody.velocity.z);
         currentSpeed = flatMovement.magnitude;
 
-        if (currentSpeed > moveStateVariables.statsManager.GetStat(StatType.MoveSpeed))
+        if (currentSpeed > stateVariables.statsManager.GetStat(StatType.MoveSpeed))
         {
             Vector3 currentFlatVelocity = flatMovement;
             currentFlatVelocity = -currentFlatVelocity;
             currentFlatVelocity.Normalize();
-            currentFlatVelocity *= (currentSpeed - moveStateVariables.statsManager.GetStat(StatType.MoveSpeed));
-            currentFlatVelocity *= moveStateVariables.manualDrag;
-            moveStateVariables.velBody.AddDecayingForce(currentFlatVelocity);
+            currentFlatVelocity *= (currentSpeed - stateVariables.statsManager.GetStat(StatType.MoveSpeed));
+            currentFlatVelocity *= stateVariables.manualDrag;
+            stateVariables.velBody.AddDecayingForce(currentFlatVelocity);
         }
     }
 
     private void HandleRotation(){
-        if (moveStateVariables.currentEnemy != null){
-            moveStateVariables.velBody.LookAt(moveStateVariables.currentEnemy.transform);
+        if (stateVariables.currentEnemy != null){
+            stateVariables.velBody.LookAt(stateVariables.currentEnemy.transform);
         }
         else{
-            transform.forward = lastMoveDirection;
+            stateVariables.playerTransform.forward = lastMoveDirection;
         }
+    }
+
+    protected override void ResetState()
+    {
     }
     #endregion
 
@@ -131,5 +137,18 @@ public class MoveState : MonoBehaviour, IPlayerState
         isSidescrolling = mode;
     }
 
+    public PlayerStateManager.StateVariables GetStateVariables()
+    {
+        return stateVariables;
+    }
+
+    public override void Attack()
+    {
+    }
+
+    public override void SecondaryAttack(bool isHeld, float holdTime)
+    {
+
+    }
     #endregion
 }

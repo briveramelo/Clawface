@@ -8,6 +8,7 @@ public interface IMovable
     bool IsGrounded();
     void SetMovementMode(MovementMode mode);
     Vector3 GetForward();
+    Quaternion GetRotation();
 }
 
 public interface IStunnable

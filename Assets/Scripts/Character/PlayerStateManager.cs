@@ -41,16 +41,20 @@ public class PlayerStateManager : MonoBehaviour {
     private IPlayerState alternateState;
     private Dictionary<ModType, IPlayerState> modStateDictionary;
     private IPlayerState previousMovementState;
-    private List<IPlayerState> playerStates;
+    private IPlayerState playerState;
     private bool isHoldAttack;
     private bool canDash = true;
+    private bool stateChanged;
     #endregion
 
     #region Unity Lifecycle
     // Use this for initialization
     void Start () {
         isHoldAttack = false;
+        stateChanged = false;
         stateVariables.stateFinished = true;
+        stateVariables.playerTransform = transform;
+        stateVariables.modAnimationManager = modAnimationManager;
         defaultState.Init(ref stateVariables);
         skinningState.Init(ref stateVariables);
         movementState = defaultState;
@@ -61,75 +65,74 @@ public class PlayerStateManager : MonoBehaviour {
             mapping.state.Init(ref stateVariables);
             modStateDictionary.Add(mapping.modType, mapping.state);
         }
-        playerStates = new List<IPlayerState>();
-        playerStates.Add(defaultState);
+        playerState = defaultState;
     }
 	
 	// Update is called once per frame
 	void Update () {
+        if (stateChanged && stateVariables.stateFinished)
+        {
+            ResetState();
+        }
         if (lockOnScript != null)
         {
             stateVariables.currentEnemy = lockOnScript.GetCurrentEnemy();
         }
-        if (!modAnimationManager.GetIsPlaying())
-        {            
-            if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_SKIN, ButtonMode.DOWN))
+        if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_SKIN, ButtonMode.DOWN))
+        {
+            if (stateVariables.currentEnemy != null && stateVariables.currentEnemy.GetComponent<ISkinnable>().IsSkinnable())
             {
-                if (stateVariables.currentEnemy != null && stateVariables.currentEnemy.GetComponent<ISkinnable>().IsSkinnable())
-                {
-                    SwitchState(skinningState);
-                }
-            } else if (InputManager.Instance.QueryAction(Strings.Input.Actions.DODGE, ButtonMode.DOWN) && canDash) // do dodge / dash
-            {
-                ResetState();
-                Vector2 dir = InputManager.Instance.QueryAxes(Strings.Input.Axes.MOVEMENT);
-                Vector3 force = Camera.main.transform.TransformDirection(new Vector3(dir.x, 0, dir.y));
-                force.y = 0;
-                force.Normalize();
-                stateVariables.velBody.AddDecayingForce(dashPower * force, dashDecay);
-                StartCoroutine(DashController());
+                SwitchState(skinningState);
             }
-            foreach (IPlayerState state in playerStates)
-            {
-                state.StateUpdate();
-            }
-        }
+        } else if (InputManager.Instance.QueryAction(Strings.Input.Actions.DODGE, ButtonMode.DOWN) && canDash) // do dodge / dash
+        {
+            ResetState();
+            Vector2 dir = InputManager.Instance.QueryAxes(Strings.Input.Axes.MOVEMENT);
+            Vector3 force = Camera.main.transform.TransformDirection(new Vector3(dir.x, 0, dir.y));
+            force.y = 0;
+            force.Normalize();
+            stateVariables.velBody.AddDecayingForce(dashPower * force, dashDecay);
+            StartCoroutine(DashController());
+        }            
+        playerState.StateUpdate();
     }
 
     void FixedUpdate()
     {
-        if (!modAnimationManager.GetIsPlaying())
-        {
-            foreach (IPlayerState state in playerStates)
-            {
-                state.StateFixedUpdate();
-            }
-            if (stateVariables.stateFinished)
-            {   
-                ResetState();
-            }
-        }
+        playerState.StateFixedUpdate();
     }
     #endregion
 
     #region Public Methods
     public void PrimaryAttack(Mod mod)
     {
-        if(mod.getModCategory() == ModCategory.Melee)
+        if(stateVariables.currentMod != mod)
         {
+            stateVariables.currentMod = mod;
+        }
+        if (stateVariables.currentMod.hasState)
+        {
+            
             if (modStateDictionary[mod.getModType()] != null)
             {
                 if (movementState != null)
-                {
+                {                    
                     SwitchState(modStateDictionary[mod.getModType()]);
+                    modStateDictionary[mod.getModType()].Attack();
                 }                
-            }            
+            }
+        }else
+        {
+            stateVariables.currentMod.Activate();
         }
-        PlayAnimation(mod);
     }
 
     public void SecondaryAttack(Mod mod, bool isHeld, float holdTime)
     {
+        if (stateVariables.currentMod != mod)
+        {
+            stateVariables.currentMod = mod;
+        }
         if (isHeld && !isHoldAttack)
         {
             isHoldAttack = true;
@@ -142,42 +145,38 @@ public class PlayerStateManager : MonoBehaviour {
             stateVariables.velBody.velocity = Vector3.zero;
             stateVariables.statsManager.ModifyStat(StatType.MoveSpeed, holdAttackSlowDown);
         }
-        mod.AlternateActivate(isHeld, holdTime);
+        if (stateVariables.currentMod.hasState)
+        {
+            if (modStateDictionary[mod.getModType()] != null)
+            {
+                if (movementState != null)
+                {
+                    SwitchState(modStateDictionary[mod.getModType()]);
+                    modStateDictionary[mod.getModType()].SecondaryAttack(isHeld, holdTime);
+                }
+            }
+        }
+        else
+        {
+            mod.AlternateActivate(isHeld, holdTime);
+        }
     }
     #endregion
 
     #region Private Methods
-    private void PlayAnimation(Mod mod)
-    {
-        if (!modAnimationManager.GetIsPlaying())
-        {   
-            modAnimationManager.PlayModAnimation(mod, false);
-
-        }
-    }
-
     private void SwitchState(IPlayerState newState)
     {
-        /*if (movementState != null)
-        {
-            previousMovementState = movementState;
-            movementState = null;
-            stateVariables.velBody.velocity = Vector3.zero;
-        }
-        alternateState = newState;
-        stateVariables.stateFinished = false;*/
-        //print("Setting");
-        stateVariables.velBody.velocity = Vector3.zero;
-        playerStates.Clear();
-        playerStates.Add(newState);
+        stateVariables.velBody.velocity = Vector3.zero;        
+        playerState = newState;
         stateVariables.stateFinished = false;
+        stateChanged = true;
     }
 
     private void ResetState()
     {
-        //print("Resetting");
-        playerStates.Clear();
-        playerStates.Add(defaultState);
+        stateVariables.animator.Play(PlayerAnimationStates.Idle.ToString());        
+        playerState = defaultState;
+        stateChanged = false;
     }
 
     private IEnumerator DashController()
@@ -211,14 +210,18 @@ public class PlayerStateManager : MonoBehaviour {
         public float meleePounceVelocity;
         public VelocityBody velBody;        
         public PlayerStatsManager statsManager;
-        public Animator animator;        
+        public Animator animator;
+        [HideInInspector]
+        public Transform playerTransform;
+        [HideInInspector]
+        public PlayerModAnimationManager modAnimationManager;
     }
 
     [System.Serializable]
     public struct ModStateMapping
     {
         public ModType modType;
-        public AttackState state;
+        public IPlayerState state;
     }
     #endregion
 

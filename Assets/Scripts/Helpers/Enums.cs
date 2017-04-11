@@ -18,7 +18,7 @@ public enum CodexType {
 }
 
 public enum SFXType {
-    ArmBlasterFire = 0,
+    /*ArmBlasterFire = 0,
     ArmBlasterExplode=1,
     TargetBreak=2,
     StunBatonSwing=3,
@@ -31,7 +31,18 @@ public enum SFXType {
     ModSwap=10,
     ModSwapSetup=11,
     StunBatonHit=12,
-    Pause=13
+    Pause=13,*/
+    BlasterCharge,
+    BlasterProjectileImpact,
+    BloodExplosion,
+    StunBatonCharge,
+    StunBatonImpact,
+    StunBatonSwing,
+    BlasterShoot,
+    //StunBatonImpact=12,
+    StunBatonSwing1 = 13,
+    StunBatonSwing2 = 14,
+    //Pause=15
 }
 
 public enum ModType {
@@ -40,7 +51,9 @@ public enum ModType {
     FingerPrint=2,
     StunBaton=3,
     TankTreads = 4,
-    Grappler = 5
+    Grappler = 5,
+    Boomerang = 6,
+    Geyser = 7
 }
 
 public enum ModCategory
@@ -75,7 +88,8 @@ public enum PoolObjectType {
     MallCopBlaster=8,
     VFXSegwayBlaster=9,
     MallCopExplosion=10,
-    GrapplingBot=11
+    GrapplingBot=11,
+    GeyserProjectile = 12
 }
 
 public enum WeaponType {
@@ -98,13 +112,9 @@ public enum MovementMode
 public enum PlayerAnimationStates
 {
     Idle = 0,
-    Running = 1,
-    Shoot = 2,
-    Float = 3,
-    MeleeRight = 4,
-    RunMeleeRight = 5,
-    MeleeLeft = 6,
-    RunMeleeLeft = 7
+    Running = 1,    
+    StunBaton = 2,
+    Boomerang = 3
 }
 
 public enum ButtonMode
