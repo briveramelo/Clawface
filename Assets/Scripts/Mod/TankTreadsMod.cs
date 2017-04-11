@@ -89,11 +89,23 @@ public class TankTreadsMod : Mod
 
                     if (damageable != null){
                         recentlyHitEnemies.Add(damageable);
-                        damageable.TakeDamage(attack);
+                        
                 
                         if (wielderStats.CompareTag(Strings.Tags.PLAYER)) {
+                            AnalyticsManager.Instance.AddModDamage(this.getModType(), Attack);
                             HitstopManager.Instance.StartHitstop(energySettings.hitStopTime);
-                        }                                
+
+                            if (damageable.GetHealth() - Attack < 0.1f)
+                            {
+                                AnalyticsManager.Instance.AddModKill(this.getModType());
+                            }
+                        }      
+                        else
+                        {
+                            AnalyticsManager.Instance.AddEnemyModDamage(this.getModType(), Attack);
+                        }
+
+                        damageable.TakeDamage(Attack);
                     }
                     if (movable != null){                    
                         Vector3 direction = (other.transform.position - transform.position).normalized;

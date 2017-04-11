@@ -27,7 +27,7 @@ public abstract class Mod : MonoBehaviour {
     protected List<IDamageable> recentlyHitEnemies = new List<IDamageable>();
     protected VFXModCharge vfxModCharge;
     protected bool isAttached;
-    public float attack {
+    public float Attack {
         get {
             if (wielderStats != null) {
                 return wielderStats.attack + energySettings.attack;

@@ -63,6 +63,11 @@ public class BlasterBullet : MonoBehaviour {
             if (this.transform.root.CompareTag(Strings.Tags.PLAYER))
             {
                 AnalyticsManager.Instance.AddModDamage(ModType.ArmBlaster, shooterProperties.damage);
+
+                if (damageable.GetHealth() - shooterProperties.damage <= 0.01f)
+                {
+                    AnalyticsManager.Instance.AddModKill(ModType.ArmBlaster);
+                }
             }
             else if (this.transform.root.CompareTag(Strings.Tags.ENEMY))
             {
@@ -71,10 +76,6 @@ public class BlasterBullet : MonoBehaviour {
 
             damageable.TakeDamage(shooterProperties.damage);
 
-            if (damageable.GetHealth() <= 0.01f)
-            {
-                AnalyticsManager.Instance.AddModKill(ModType.ArmBlaster);
-            }
         }
     }
 

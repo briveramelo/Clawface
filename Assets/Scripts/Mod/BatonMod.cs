@@ -58,9 +58,21 @@ public class BatonMod : Mod {
                     IDamageable damageable = other.GetComponent<IDamageable>();
                     if (damageable != null && !recentlyHitEnemies.Contains(damageable)){
                         AudioManager.Instance.PlaySFX(SFXType.StunBatonImpact);
+
                         if (wielderStats.gameObject.CompareTag(Strings.Tags.PLAYER)){
-                            HitstopManager.Instance.StartHitstop(energySettings.hitStopTime);                        
+                            HitstopManager.Instance.StartHitstop(energySettings.hitStopTime);
+                            AnalyticsManager.Instance.AddModDamage(this.getModType(), energySettings.attack);
+
+                            if (damageable.GetHealth() - energySettings.attack < 0.1f)
+                            {
+                                AnalyticsManager.Instance.AddModKill(this.getModType());
+                            }
                         }
+                        else
+                        {
+                            AnalyticsManager.Instance.AddEnemyModDamage(this.getModType(), energySettings.attack);
+                        }
+
                         if (!other.CompareTag(Strings.Tags.PLAYER)) {
                             EmitBlood();
                         }
@@ -88,7 +100,7 @@ public class BatonMod : Mod {
         GameObject stunMine = ObjectPool.Instance.GetObject(PoolObjectType.Mine);
         if (stunMine != null){
             //AudioManager.Instance.PlaySFX(SFXType.StunBatonLayMine);
-            projectileProperties.Initialize(GetWielderInstanceID(), attack);
+            projectileProperties.Initialize(GetWielderInstanceID(), Attack);
             stunMine.GetComponent<StunMine>().SetProjectileProperties(projectileProperties);
             stunMine.transform.position = transform.position;
         }
