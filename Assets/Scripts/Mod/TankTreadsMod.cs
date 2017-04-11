@@ -61,6 +61,9 @@ public class TankTreadsMod : Mod
 
     [SerializeField]
     private float dampenForcesOnPlayerBy;
+
+    [SerializeField]
+    private float crushForce;
     #endregion
 
     #region Privates
@@ -174,22 +177,11 @@ public class TankTreadsMod : Mod
         {
             if (damageable != null)
             {
-                if (legsTimer < 0f)
+                if (!this.transform.root.CompareTag(other.transform.root.tag))
                 {
-                    if (!this.transform.root.CompareTag(other.transform.root.tag))
-                    {
-                        damageable.TakeDamage(legsCrushDamage);
-                        legsTimer = timeBetweenLegsDamageTick;
-                        legAttackHitboxIsActive = false;
-                        attackCollider.enabled = false;
-
-                        IMovable selfMovable = this.transform.root.GetComponentInChildren<IMovable>();
-                        if (selfMovable != null)
-                        {
-                            selfMovable.AddDecayingForce(Vector3.up * jumpForce);
-                        }
-                    }
+                    damageable.TakeDamage(legsCrushDamage);
                 }
+
             }
         }
     }
@@ -213,6 +205,10 @@ public class TankTreadsMod : Mod
                 if (wielderMovable.IsGrounded())
                 {
                     wielderMovable.AddDecayingForce(Vector3.up * jumpForce);
+                }
+                else
+                {
+                    wielderMovable.AddDecayingForce(Vector3.down * crushForce);
                     legAttackHitboxIsActive = true;
                     attackCollider.enabled = true;
                 }
@@ -230,7 +226,8 @@ public class TankTreadsMod : Mod
                 {
                     wielderStats.moveSpeed = 0;
                 }
-                else
+
+                else if (!isHeld && holdTime > chargeTime)
                 {
                     wielderStats.moveSpeed = savedMoveSpeed;
                     ChargedHit();
