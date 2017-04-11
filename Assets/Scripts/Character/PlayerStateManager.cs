@@ -103,20 +103,18 @@ public class PlayerStateManager : MonoBehaviour {
     #endregion
 
     #region Public Methods
-    public void Attack(Mod mod)
-    {
-        if(stateVariables.currentMod != mod){
+    public void Attack(Mod mod){
+        if (stateVariables.currentMod != mod){
             stateVariables.currentMod = mod;
         }
-        if (stateVariables.currentMod.hasState){            
+        if (stateVariables.currentMod.hasState){
             if (modStateDictionary[mod.getModType()] != null){
-                if (movementState != null){                    
+                if (movementState != null){
                     SwitchState(modStateDictionary[mod.getModType()]);
                     modStateDictionary[mod.getModType()].Attack();
                 }                
             }
         }
-        stateVariables.currentMod.Activate();
     }
 
     public void Charge(Mod mod) {
