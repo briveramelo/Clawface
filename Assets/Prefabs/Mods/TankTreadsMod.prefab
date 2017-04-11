@@ -53,8 +53,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1900001040235860}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 23.622269, y: 10.0002, z: 105.47743}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4605699294152020}
@@ -104,6 +104,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
 --- !u!33 &33403252484979098
 MeshFilter:
@@ -162,22 +163,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 537ea8b8d2275e1428da09a92c1d598f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hasState: 0
+  vfxModChargePrefab: {fileID: 1868770362516384, guid: 75076dc3f3739ff4bb01ae67a336ecc5,
+    type: 2}
   pickupCollider: {fileID: 65194628639770346}
-  attackCollider: {fileID: 65412432695913298}
-  chargeTime: 1
-  armRegularDamage: 5
-  armRegularStartupTime: 0.1
-  armRegularActiveTime: 0.1
-  armRegularCooldownTime: 0.4
-  armRegularHitstop: 0.05
-  armChargedDamage: 15
-  armChargedStartupTime: 0.1
-  armChargedActiveTime: 0.1
-  armChargedCooldownTime: 0.4
-  armChargedHitstop: 0.1
-  armChargedForce: 5
+  modCanvas: {fileID: 0}
+  energySettings:
+    timeToChargeArm: 1
+    timeToChargeLeg: 1
+    standardArmAttackSettings:
+      timeToCoolDown: 0.3
+      timeToAttack: 0
+      attack: 2
+      timeToHitStop: 0.05
+    chargedArmAttackSettings:
+      timeToCoolDown: 1
+      timeToAttack: 0
+      attack: 7
+      timeToHitStop: 0.1
+    standardLegAttackSettings:
+      timeToCoolDown: 0.5
+      timeToAttack: 0
+      attack: 2
+      timeToHitStop: 0.02
+    chargedLegAttackSettings:
+      timeToCoolDown: 1.5
+      timeToAttack: 0
+      attack: 5
+      timeToHitStop: 0.05
+    timeCharged: 0
+    isCoolingDown: 0
+  attackSphereRadius: 1
   legsMoveSpeedMod: 1
-  jumpForce: 50
-  legsCrushDamage: 3
-  timeBetweenLegsDamageTick: 0.1
-  dampenForcesOnPlayerBy: 3
+  standardForceSettings:
+    jumpForce: 15
+    armpushForce: 10
+  chargedForceSettings:
+    jumpForce: 30
+    armpushForce: 20

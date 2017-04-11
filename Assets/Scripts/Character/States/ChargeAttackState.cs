@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChargeAttackState : MonoBehaviour, IPlayerState
+public class ChargeAttackState : IPlayerState
 {
 
     #region Public fields
@@ -13,33 +13,43 @@ public class ChargeAttackState : MonoBehaviour, IPlayerState
     #endregion
 
     #region Private Fields
-    private PlayerStateManager.StateVariables stateVariables;
     #endregion
 
     #region Unity Lifecycle
-    public void Init(ref PlayerStateManager.StateVariables stateVariables)
+    public override void Init(ref PlayerStateManager.StateVariables stateVariables)
     {
         this.stateVariables = stateVariables;
     }
 
-    public void StateFixedUpdate()
+    public override void StateFixedUpdate()
     {
 
     }
 
-    public void StateUpdate()
+    public override void StateUpdate()
     {
         
     }
-#endregion
+    #endregion
 
-#region Public Methods
-#endregion
+    #region Public Methods
+    public override void Attack()
+    {
+    }
+    public override void SecondaryAttack(bool isHeld, float holdTime)
+    {
+        
+    }
+    #endregion
 
-#region Private Methods
-#endregion
+    #region Private Methods
+    protected override void ResetState()
+    {
+    }
+    
+    #endregion
 
-#region Private Structures
-#endregion
+    #region Private Structures
+    #endregion
 
 }
