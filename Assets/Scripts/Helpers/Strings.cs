@@ -13,6 +13,15 @@
         public static string PLAYERDETECTOR = "PlayerDetector";
     }
 
+    public static class MenuStrings
+    {
+        public static string MAIN = "MainMenu";
+        public static string CREDITS = "Credits";
+        public static string LOAD = "LoadMenu";
+        public static string LOGO = "LogoMenu";
+        public static string PAUSE = "PauseMenu";
+    }
+
     public static class Input
     {
         public static class Axes
