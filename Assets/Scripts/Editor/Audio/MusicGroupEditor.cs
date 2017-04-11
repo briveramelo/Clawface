@@ -104,4 +104,9 @@ public class MusicGroupEditor : Editor {
         _serializedTarget.ApplyModifiedProperties();
 
     }
+
+    [MenuItem("Audio/Create music group")]
+    static void CreateMusicGroup() {
+        new GameObject("New music group", typeof(MusicGroup));
+    }
 }

@@ -160,7 +160,7 @@ public class CameraTrackEditor : Editor {
 
                     // Draw position properties
                     if (!deleted) {
-                        SerializedProperty prop = _positionsProp.GetArrayElementAtIndex(i);
+                        SerializedProperty prop = positionInfo;
                         EditorGUILayout.PropertyField(prop);
                     }
                     GUILayout.EndHorizontal();
@@ -202,6 +202,11 @@ public class CameraTrackEditor : Editor {
 
         // Apply modified serialized changes
         _serializedTarget.ApplyModifiedProperties();
+    }
+
+    [MenuItem("Camera/Create camera track")]
+    static void CreateCameraTrack () {
+        new GameObject("New camera track", typeof(CameraTrack));
     }
 
     #endregion

@@ -10,7 +10,6 @@ namespace Turing.Audio {
     /// Audio class to emulate FMOD-style functionality.
     /// </summary>
     [ExecuteInEditMode]
-    [RequireComponent(typeof(AudioSource), typeof(AudioChannel))]
     public sealed class AudioGroup : MonoBehaviour {
 
         #region Consts
@@ -31,6 +30,8 @@ namespace Turing.Audio {
         [SerializeField]
         [Tooltip("Type of group setup to use.")]
         GroupType _groupType = GroupType.Standard;
+
+        AudioListener _audioListener;
 
         /// <summary>
         /// AudioChannel object for standard (non-layered) playback.
@@ -68,6 +69,16 @@ namespace Turing.Audio {
 
         [SerializeField]
         bool _playOnAwake = false;
+
+        [Range(0f, 1f)]
+        [SerializeField]
+        float _spatialBlend = 0f;
+
+        [SerializeField]
+        float _minDistance = 1f;
+
+        [SerializeField]
+        float _maxDistance = 500f;
 
         /// <summary>
         /// Change pitch each loop (when using randomized pitch)?
@@ -138,15 +149,20 @@ namespace Turing.Audio {
                     GenerateAudioChannels();
                 }
             } else {
-                if (_playOnAwake) Play();
+                
             }
         }
+
+        private void Start() {
+            _audioListener = FindObjectOfType<AudioListener>();
+            if (Application.isPlaying && _playOnAwake) Play();
+        } 
 
         void Update() {
             if (_playing) {
                 _playbackTime += Time.deltaTime;
                 if (_playbackTime >= _longestClipLength) {
-                    if (_loop) Play();
+                    if (_loop) Play(true);
                     else _playing = false;
 
                 } else {
@@ -159,20 +175,26 @@ namespace Turing.Audio {
             }
         }
 
-        #endregion
-            #region Properties
+        private void OnDrawGizmosSelected() {
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireSphere (transform.position, _maxDistance);
+        }
 
-            /// <summary>
-            /// Returns true if this AudioGroup loops (read-only).
-            /// </summary>
+        #endregion
+        #region Properties
+
+        /// <summary>
+        /// Returns true if this AudioGroup loops (read-only).
+        /// </summary>
         public bool Loop { get { return _loop; } }
 
         public bool IsPlaying { get { return _playing; } }
 
         public float VolumeScale {
             get {
-                if (_useVolumeEnvelope) return _volumeEnvelope.Evaluate(_playbackTime);
-                else return 1f;
+                float v = _useVolumeEnvelope ? _volumeEnvelope.Evaluate(_playbackTime) : 1f;
+                v *= (1f - _spatialBlend) + CalculateSpatializedVolumeScale();
+                return v;
             }
         }
 
@@ -182,16 +204,18 @@ namespace Turing.Audio {
         /// <summary>
         /// Plays this AudioElement.
         /// </summary>
-        public void Play() {
+        public void Play(bool loop=false) {
             _playing = true;
             _playbackTime = 0f;
-            var pitch = _randomPitch ? _pitchRange.GetRandomValue() : _pitch;
+            float pitch;
+            if (loop && _randomPitch && _changePitchEachLoop) pitch = _pitchRange.GetRandomValue();
+            else pitch = _randomPitch ? _pitchRange.GetRandomValue() : _pitch;
 
             if (_useVolumeEnvelope) {
                 if (!Application.isPlaying) SetVolumeScale(1f);
                 else {
-                    if (_volumeEnvelope == null || _volumeEnvelope.length == 0) SetVolumeScale(1f);
-                    SetVolumeScale(_volumeEnvelope.Evaluate(0f));
+                    if (_volumeEnvelope == null || _volumeEnvelope.length == 0) SetVolumeScale(VolumeScale);
+                    SetVolumeScale(VolumeScale);
                 }
             }
 
@@ -322,6 +346,18 @@ namespace Turing.Audio {
         bool InvalidAudioChannels() {
             return _standardChannel == null || _bassChannel == null ||
                 _midChannel == null || _trebleChannel == null || _elementParent == null;
+        }
+
+        float CalculateSpatializedVolumeScale () {
+            return _spatialBlend * CalculateRolloff();
+        }
+
+        float CalculateRolloff () {
+            float d = Vector3.Distance (_audioListener.transform.position, transform.position);
+            float min = _minDistance;
+            float max = _maxDistance;
+            float factor = 1f - (d - min) / (max - min);
+            return Mathf.Clamp01(factor);
         }
 
         #endregion
