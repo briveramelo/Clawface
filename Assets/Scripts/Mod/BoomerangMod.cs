@@ -62,7 +62,7 @@ public class BoomerangMod : Mod {
             if(other.gameObject.CompareTag(Strings.Tags.ENEMY) || other.gameObject.CompareTag(Strings.Tags.PLAYER)){
                 IDamageable damageable = other.gameObject.GetComponent<IDamageable>();
                 if (damageable!=null){ 
-                    damageable.TakeDamage(attack);
+                    damageable.TakeDamage(Attack);
                 }
             }            
         }

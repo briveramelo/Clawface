@@ -100,7 +100,7 @@ public class BatonMod : Mod {
         GameObject stunMine = ObjectPool.Instance.GetObject(PoolObjectType.Mine);
         if (stunMine != null){
             //AudioManager.Instance.PlaySFX(SFXType.StunBatonLayMine);
-            projectileProperties.Initialize(GetWielderInstanceID(), attack);
+            projectileProperties.Initialize(GetWielderInstanceID(), Attack);
             stunMine.GetComponent<StunMine>().SetProjectileProperties(projectileProperties);
             stunMine.transform.position = transform.position;
         }

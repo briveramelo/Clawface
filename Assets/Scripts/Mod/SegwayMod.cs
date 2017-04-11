@@ -135,20 +135,20 @@ public class SegwayMod : Mod {
                         {
                             if (wielderStats.CompareTag(Strings.Tags.PLAYER))
                             {
-                                AnalyticsManager.Instance.AddModDamage(this.getModType(), attack);
+                                AnalyticsManager.Instance.AddModDamage(this.getModType(), Attack);
 
-                                if (damageable.GetHealth() - attack < 0.1f)
+                                if (damageable.GetHealth() - Attack < 0.1f)
                                 {
                                     AnalyticsManager.Instance.AddModKill(this.getModType());
                                 }
                             }
                             else
                             {
-                                AnalyticsManager.Instance.AddEnemyModDamage(this.getModType(), attack);
+                                AnalyticsManager.Instance.AddEnemyModDamage(this.getModType(), Attack);
                             }
 
                             recentlyHitEnemies.Add(damageable);
-                            damageable.TakeDamage(attack);
+                            damageable.TakeDamage(Attack);
                         }                                 
                         if (movable != null){                            
                             Vector3 pushDirection = -transform.up.NormalizedNoY();

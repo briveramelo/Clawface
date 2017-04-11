@@ -49,19 +49,21 @@ public class Hook : MonoBehaviour {
                 {
                     if (this.transform.root.CompareTag(Strings.Tags.PLAYER))
                     {
-                        AnalyticsManager.Instance.AddModDamage(ModType.Grappler, mod.attack);
+                        AnalyticsManager.Instance.AddModDamage(ModType.Grappler, mod.Attack);
+
+                        if (damageable.GetHealth() - mod.Attack <= 0.01f)
+                        {
+                            AnalyticsManager.Instance.AddModKill(ModType.Grappler);
+                        }
                     }
                     else if (this.transform.root.CompareTag(Strings.Tags.ENEMY))
                     {
-                        AnalyticsManager.Instance.AddEnemyModDamage(ModType.Grappler, mod.attack);
+                        AnalyticsManager.Instance.AddEnemyModDamage(ModType.Grappler, mod.Attack);
                     }
 
-                    if (damageable.GetHealth() - mod.attack <= 0.01f)
-                    {
-                        AnalyticsManager.Instance.AddModKill(ModType.Grappler);
-                    }
+                    
 
-                    damageable.TakeDamage(mod.attack);                  
+                    damageable.TakeDamage(mod.Attack);                  
                 }
             }        
         }
