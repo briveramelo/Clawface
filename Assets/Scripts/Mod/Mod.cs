@@ -25,6 +25,7 @@ public abstract class Mod : MonoBehaviour {
     protected Stats wielderStats;
     protected IMovable wielderMovable;
     protected List<IDamageable> recentlyHitEnemies = new List<IDamageable>();
+    protected VFXModCharge vfxModCharge;
     protected bool isAttached;
     public float attack {
         get {
@@ -37,6 +38,7 @@ public abstract class Mod : MonoBehaviour {
     #endregion
 
     #region Serialized Unity Inspector fields
+    [SerializeField] protected GameObject vfxModChargePrefab;
     [SerializeField] protected Collider pickupCollider;
     [SerializeField] protected GameObject modCanvas;
     [SerializeField] protected EnergySettings energySettings;
@@ -48,15 +50,16 @@ public abstract class Mod : MonoBehaviour {
 
     #region Unity Lifecycle
     protected virtual void Awake(){
-        if (modCanvas) {
-            modCanvas.SetActive(false);
-        }
+        DeactivateModCanvas();
         Mod mod = this;
         energySettings.Initialize(ref mod);
+        vfxModCharge=Instantiate(vfxModChargePrefab, transform).GetComponent<VFXModCharge>();
     }
     protected virtual void Update()
     {
-        HandleChargeEffects();
+        if (energySettings.isCharging) {
+            RunCharging();
+        }
     }
     #endregion
 
@@ -84,15 +87,40 @@ public abstract class Mod : MonoBehaviour {
             Timing.RunCoroutine(BeginCoolDown(onComplete));            
             useAction();
         }
+        EndCharging();
     }
 
-    protected abstract void ActivateStandardArms();
+
+    public virtual void BeginCharging() {
+        vfxModCharge.StartCharging(energySettings.timeToCharge);
+        if (getModSpot()==ModSpot.Legs) {
+            BeginChargingLegs();
+        }
+        else {
+            BeginChargingArms();
+        }
+    }
+    public virtual void RunCharging() {
+        UpdateChargeTime(Time.deltaTime);
+        if (getModSpot()==ModSpot.Legs) {
+            RunChargingLegs();
+        }
+        else {
+            RunChargingArms();
+        }
+    }
+    protected void EndCharging() {
+        vfxModCharge.StopCharging();
+    }
+
     protected abstract void BeginChargingArms();
     protected abstract void RunChargingArms();
+    protected abstract void ActivateStandardArms();
     protected abstract void ActivateChargedArms();
-    protected abstract void ActivateStandardLegs();
+
     protected abstract void BeginChargingLegs();
     protected abstract void RunChargingLegs();
+    protected abstract void ActivateStandardLegs();
     protected abstract void ActivateChargedLegs();
 
     public abstract void DeActivate();
@@ -167,16 +195,6 @@ public abstract class Mod : MonoBehaviour {
         }
     }
 
-
-    private void HandleChargeEffects() {
-        if (energySettings.isStarting) {
-            //vfxModCharge.Enable();
-        }
-        if (energySettings.IsCharged) {
-
-        }
-    }
-
     private Action useAction {
         get {
             if (getModSpot()==ModSpot.ArmL || getModSpot()==ModSpot.ArmR) {
@@ -214,6 +232,7 @@ public abstract class Mod : MonoBehaviour {
         public float attack { get { return attackSettings.attack; } }
         public float hitStopTime { get { return attackSettings.timeToHitStop; } }
         public float timeToAttack { get { return attackSettings.timeToAttack; } }
+        public float chargeFraction { get { return Mathf.Clamp01(timeCharged/timeToCharge);}}
         public AttackSettings attackSettings {
             get {
                 if (mod.getModSpot()==ModSpot.Legs) {

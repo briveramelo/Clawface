@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using ModMan;
 
 public class SkinningState : IPlayerState
 {
@@ -10,6 +11,7 @@ public class SkinningState : IPlayerState
     #endregion
 
     #region Serialized Unity Inspector fields
+    [SerializeField] private Transform skinSlot;
     #endregion
 
     #region Private Fields
@@ -29,14 +31,15 @@ public class SkinningState : IPlayerState
     public override void StateUpdate()
     {
         ISkinnable skinnable =stateVariables.currentEnemy.GetComponent<ISkinnable>();
-        if (skinnable!=null){ 
-            //TODO apply skin texture to player model
+        if (skinnable!=null){
             GameObject skin = skinnable.DeSkin();
+            skin.transform.SetParent(skinSlot);
+            skin.transform.ResetFull();
             SkinStats skinStats = skin.GetComponent<SkinStats>();
             Stats stats = GetComponent<Stats>();
             stats.Modify(StatType.Health, skinStats.GetSkinHealth());
             HealthBar.Instance.SetHealth(stats.GetHealthFraction());
-        }
+        }        
         stateVariables.stateFinished = true;
     }
     #endregion

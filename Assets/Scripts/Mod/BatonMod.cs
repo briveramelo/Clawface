@@ -36,25 +36,15 @@ public class BatonMod : Mod {
         //Nothing to do here
     }
 
-    protected override void ActivateStandardArms() {
-        Timing.RunCoroutine(Swing());
-    }
-
-    protected override void ActivateChargedArms(){
-        Timing.RunCoroutine(Swing());
-    }
-
-    protected override void ActivateStandardLegs(){
-        LayMine();        
-    }
-
-    protected override void ActivateChargedLegs(){
-        LayMine();
-    }
-    protected override void BeginChargingLegs(){ }
-    protected override void RunChargingLegs(){ }
     protected override void BeginChargingArms(){ }
     protected override void RunChargingArms(){ }
+    protected override void ActivateStandardArms(){ Timing.RunCoroutine(Swing()); }
+    protected override void ActivateChargedArms(){ Timing.RunCoroutine(Swing()); }
+
+    protected override void BeginChargingLegs(){ }
+    protected override void RunChargingLegs(){ }
+    protected override void ActivateChargedLegs(){ LayMine(); }
+    protected override void ActivateStandardLegs(){ LayMine(); }
 
     IEnumerator<float> Swing(){
         //AudioManager.Instance.PlaySFX(SFXType.StunBatonSwing);

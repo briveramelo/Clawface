@@ -904,7 +904,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1385345176205422}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 14.1, y: 9, z: 89.6}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children:
   - {fileID: 4454646408904882}
@@ -1241,7 +1241,7 @@ MonoBehaviour:
   glowObject: {fileID: 114253570924100316}
   animator: {fileID: 95336391681727560}
   myStats: {fileID: 114562163281978664}
-  mySkin: {fileID: 1558599077418482, guid: d3ea349167ea0b042acea2cceeb31643, type: 2}
+  mySkin: {fileID: 1159073468258504, guid: ec448e052b9fdff47ad7231d7f9d7bd7, type: 2}
   copUICanvas: {fileID: 114680551256405116}
   mod: {fileID: 114969724012723138}
 --- !u!114 &114562163281978664
@@ -1340,38 +1340,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b46b2a14cefa1b4498b8ad99597bbe5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hasState: 0
+  vfxModChargePrefab: {fileID: 1868770362516384, guid: 75076dc3f3739ff4bb01ae67a336ecc5,
+    type: 2}
   pickupCollider: {fileID: 65505833295624902}
   modCanvas: {fileID: 0}
   energySettings:
-    timeToChargeArm: 0
-    timeToChargeLeg: 0
+    timeToChargeArm: 1
+    timeToChargeLeg: 1
     standardArmAttackSettings:
-      timeToCoolDown: 0
+      timeToCoolDown: 0.2
       timeToAttack: 0
-      attack: 0
+      attack: 1
       timeToHitStop: 0
     chargedArmAttackSettings:
-      timeToCoolDown: 0
+      timeToCoolDown: 1
       timeToAttack: 0
-      attack: 0
+      attack: 4
       timeToHitStop: 0
     standardLegAttackSettings:
-      timeToCoolDown: 0
+      timeToCoolDown: 0.1
       timeToAttack: 0
-      attack: 0
+      attack: 1
       timeToHitStop: 0
     chargedLegAttackSettings:
-      timeToCoolDown: 0
+      timeToCoolDown: 2
       timeToAttack: 0
-      attack: 0
+      attack: 3
       timeToHitStop: 0
     timeCharged: 0
     isCoolingDown: 0
   blasterEffect: {fileID: 114234597598472604}
   bulletSpawnPoint: {fileID: 4959142172828002}
-  kickbackForce: 0
-  kickbackForceCharged: 0
-  kickbackForceFeetMultiplier: 0
+  kickbackForce: 5
+  kickbackForceCharged: 20
+  kickbackForceFeetMultiplier: 3
 --- !u!135 &135652806102363036
 SphereCollider:
   m_ObjectHideFlags: 1

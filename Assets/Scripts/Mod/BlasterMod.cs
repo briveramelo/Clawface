@@ -50,26 +50,27 @@ public class BlasterMod : Mod {
         base.DetachAffect();
     }
 
+    protected override void BeginChargingArms(){ }
+    protected override void RunChargingArms(){ }
     protected override void ActivateStandardArms(){
         Shoot();
         FireKickBack();
     }
-
     protected override void ActivateChargedArms(){
-        ActivateStandardArms();
+        Shoot();
+        FireKickBack();
     }
 
-    protected override void ActivateStandardLegs(){
-        ActivateStandardArms();
-    }
-
-    protected override void ActivateChargedLegs(){
-        ActivateStandardArms();
-    }
     protected override void BeginChargingLegs(){ }
     protected override void RunChargingLegs(){ }
-    protected override void BeginChargingArms(){ }
-    protected override void RunChargingArms(){ }
+    protected override void ActivateChargedLegs(){
+        Shoot();
+        FireKickBack();
+    }
+    protected override void ActivateStandardLegs(){
+        Shoot();
+        FireKickBack();
+    }    
 
     private BlasterBullet Shoot(){
         AudioManager.Instance.PlaySFX(SFXType.BlasterShoot);

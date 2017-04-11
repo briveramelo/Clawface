@@ -66,12 +66,13 @@ public class SegwayMod : Mod {
         base.Activate();   
     }
 
-    protected override void ActivateChargedArms(){
-        MegaForcePush();
-    }
-    protected override void ActivateStandardArms(){
-        ForcePush();
-    }
+    protected override void BeginChargingArms(){ }
+    protected override void RunChargingArms(){ }
+    protected override void ActivateStandardArms(){ ForcePush(); }
+    protected override void ActivateChargedArms(){ MegaForcePush(); }
+
+    protected override void BeginChargingLegs(){ }
+    protected override void RunChargingLegs(){ }
     protected override void ActivateChargedLegs(){
         MegaForcePush();
         if (wielderMovable.IsGrounded()) {
@@ -83,11 +84,7 @@ public class SegwayMod : Mod {
         if (wielderMovable.IsGrounded()) {
             Jump();
         }
-    }
-    protected override void BeginChargingLegs(){ }
-    protected override void RunChargingLegs(){ }
-    protected override void BeginChargingArms(){ }
-    protected override void RunChargingArms(){ }
+    }        
 
     public override void DeActivate()
     {

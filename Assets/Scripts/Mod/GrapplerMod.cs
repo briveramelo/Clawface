@@ -43,26 +43,17 @@ public class GrapplerMod : Mod {
     public override void Activate(Action onComplete=null)
     {
         base.Activate(onComplete);
-    }
+    }    
 
-    protected override void ActivateStandardArms(){
-        hook.Throw(false);
-    }
-
-    protected override void ActivateChargedArms(){
-        hook.Throw(true);
-    }
-    protected override void ActivateStandardLegs(){
-        Jump();
-    }
-
-    protected override void ActivateChargedLegs(){
-        Jump();
-    }
-    protected override void BeginChargingLegs(){ }
-    protected override void RunChargingLegs(){ }
     protected override void BeginChargingArms(){ }
     protected override void RunChargingArms(){ }
+    protected override void ActivateStandardArms(){ hook.Throw(false); }
+    protected override void ActivateChargedArms(){ hook.Throw(true); }
+
+    protected override void BeginChargingLegs(){ }
+    protected override void RunChargingLegs(){ }
+    protected override void ActivateStandardLegs(){ Jump(); }
+    protected override void ActivateChargedLegs(){ Jump(); }
 
     private void Jump() {
         if (wielderMovable.IsGrounded()) {

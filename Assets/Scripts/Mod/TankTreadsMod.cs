@@ -41,24 +41,19 @@ public class TankTreadsMod : Mod
         base.Activate(onComplete);
     }
 
-    protected override void ActivateStandardArms(){
-        Hit();
-    }
 
-    protected override void ActivateChargedArms(){
-        Hit();
-    }
-    protected override void ActivateStandardLegs(){
-        Jump();
-    }
-
-    protected override void ActivateChargedLegs(){
-        Jump();
-    }
-    protected override void BeginChargingLegs(){ }
-    protected override void RunChargingLegs(){ }
     protected override void BeginChargingArms(){ }
     protected override void RunChargingArms(){ }
+    protected override void ActivateStandardArms(){ Hit(); }
+
+    protected override void ActivateChargedArms(){ Hit(); }
+
+    protected override void BeginChargingLegs(){ }
+    protected override void RunChargingLegs(){ }
+    protected override void ActivateStandardLegs(){ Jump(); }
+
+    protected override void ActivateChargedLegs(){ Jump(); }
+
 
     public override void AttachAffect(ref Stats wielderStats, IMovable wielderMovable){
         base.AttachAffect(ref wielderStats, wielderMovable);

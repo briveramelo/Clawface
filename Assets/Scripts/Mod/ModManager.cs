@@ -129,34 +129,23 @@ public class ModManager : MonoBehaviour
         if (!InputManager.Instance.QueryAction(Strings.Input.Actions.DROP_MODE, ButtonMode.HELD) &&
             !InputManager.Instance.QueryAction(Strings.Input.Actions.SWAP_MODE, ButtonMode.HELD)){
 
-            List<ModSpot> chargeSpots = GetCommandedModSpots(ButtonMode.HELD);
-            if (!chargeSpots.Contains(ModSpot.Default)) {
-                chargeSpots.ForEach(spot => {
-                    if (modSocketDictionary[spot].mod != null){
-                        modSocketDictionary[spot].mod.UpdateChargeTime(Time.deltaTime);
-                    }
-                });
-            }
-
-            CheckToFireMod();
-
-            allModSpots.ForEach(spot=>{
-                if (!chargeSpots.Contains(spot) && modSocketDictionary[spot].mod!=null) {
-                    if (modSocketDictionary[spot].mod.modEnergySettings.isCharging) {
-                        modSocketDictionary[spot].mod.ResetChargeTime();
-                    }
-                }
-            });
+            CheckForModInput((ModSpot spot)=> { modSocketDictionary[spot].mod.BeginCharging();}, ButtonMode.DOWN);
+            CheckForModInput((ModSpot spot)=> { modSocketDictionary[spot].mod.RunCharging();}, ButtonMode.HELD);
+            CheckForModInput((ModSpot spot)=> {
+                stateManager.Attack(modSocketDictionary[spot].mod);
+                modSocketDictionary[spot].mod.ResetChargeTime();
+            }, ButtonMode.UP);                    
         }
     }
 
-    private void CheckToFireMod() {
-        ModSpot fireSpot = GetCommandedModSpot(ButtonMode.UP);        
-        if (fireSpot != ModSpot.Default){
-            Mod mod = modSocketDictionary[fireSpot].mod;
-            if (mod != null) {
-                stateManager.Attack(mod);
-            }
+    private void CheckForModInput(Action<ModSpot> onComplete, ButtonMode mode) {
+        List<ModSpot> chargeSpots = GetCommandedModSpots(mode);
+        if (!chargeSpots.Contains(ModSpot.Default)) {
+            chargeSpots.ForEach(spot => {
+                if (modSocketDictionary[spot].mod != null){
+                    onComplete(spot);                    
+                }
+            });
         }
     }
 

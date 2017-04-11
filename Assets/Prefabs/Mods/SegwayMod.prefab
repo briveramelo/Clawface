@@ -177,8 +177,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1316314029526810}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5, y: 2.31, z: -14.98}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -18.622269, y: -7.6902003, z: -120.45743}
   m_LocalScale: {x: 2.5000002, y: 2.5000005, z: 2.500001}
   m_Children:
   - {fileID: 4120684821083518}
@@ -292,6 +292,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 030b9b1e63597f64288d07d6a83978ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hasState: 0
+  vfxModChargePrefab: {fileID: 1868770362516384, guid: 75076dc3f3739ff4bb01ae67a336ecc5,
+    type: 2}
   pickupCollider: {fileID: 65942445369230588}
   modCanvas: {fileID: 1780465521823646}
   energySettings:

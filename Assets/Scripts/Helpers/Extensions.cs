@@ -93,5 +93,10 @@ namespace ModMan {
             tr.localPosition = Vector3.zero;
             tr.localRotation = Quaternion.identity;
         }
+        public static void ResetFull (this Transform tr) {
+            tr.localPosition = Vector3.zero;
+            tr.localRotation = Quaternion.identity;
+            tr.localScale = Vector3.one;
+        }
     }
 }

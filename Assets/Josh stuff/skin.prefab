@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 95191415842972410}
   - component: {fileID: 183863251181316276}
   - component: {fileID: 137558569254086046}
+  - component: {fileID: 114248459750386192}
   m_Layer: 0
   m_Name: skin
   m_TagString: Untagged
@@ -67,6 +68,18 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114248459750386192
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1159073468258504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49c2553a437d5b4498bc6779d2eb7739, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skinHealth: 5
 --- !u!137 &137558569254086046
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
@@ -97,6 +110,7 @@ SkinnedMeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
   serializedVersion: 2
   m_Quality: 0
