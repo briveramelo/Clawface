@@ -35,20 +35,17 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     #endregion
 
     #region Public Methods
-    public void TakeDamage(float damage)
+    public void TakeDamage(Damager damager)
     {
         damageUI.DoDamageEffect();
-        stats.TakeDamage(damageModifier * damage);
-        HealthBar.Instance.SetHealth(stats.GetStat(StatType.Health) / startHealth);
-        if (stats.GetStat(StatType.Health) <= 0)
-        {   
-            transform.position = GameObject.Find("RespawnPoint").transform.position;
-            stats.Modify(StatType.Health, (int)startHealth);
-            startHealth = stats.GetStat(StatType.Health);
-            HealthBar.Instance.SetHealth(stats.GetStat(StatType.Health) / startHealth);
-            AnalyticsManager.Instance.PlayerDeath();
+        stats.TakeDamage(damageModifier * damager.damage);
+        HealthBar.Instance.SetHealth(stats.GetHealthFraction());
+        if (stats.GetStat(StatType.Health) <= 0){   
+            Revive();
         }
     }
+
+
 
     public float GetStat(StatType type)
     {
@@ -57,7 +54,7 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
 
     public bool ModifyStat(StatType type, float multiplier)
     {
-        stats.Modify(type, multiplier);
+        stats.Multiply(type, multiplier);
         return true;
     }
 
@@ -68,6 +65,13 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     #endregion
 
     #region Private Methods
+    private void Revive() {
+        transform.position = GameObject.Find("RespawnPoint").transform.position;
+        stats.Add(StatType.Health, (int)startHealth);
+        startHealth = stats.GetStat(StatType.Health);
+        HealthBar.Instance.SetHealth(stats.GetHealthFraction());
+        AnalyticsManager.Instance.PlayerDeath();
+    }
     #endregion
 
     #region Private Structures

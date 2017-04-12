@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using MovementEffects;
 
 [System.Serializable]
 public class CapsuleBounds {
@@ -79,3 +80,31 @@ public class ShooterProperties {
     public ShooterProperties() { }
 }
 
+public class Damager{
+    public float damage;
+    public DamagerType damagerType;
+    public Vector3 impactDirection;
+    public void Set(float damage, DamagerType damagerType, Vector3 impactDirection) {
+        this.damage=damage;
+        this.damagerType=damagerType;
+        this.impactDirection=impactDirection;
+    }
+}
+
+public class Damaged {
+    public DamagedType damageType;
+    public Transform owner;
+    public void Set(DamagedType damageType, Transform owner) {
+        this.damageType=damageType;
+        this.owner=owner;
+    }
+}
+
+public class DamagePack {
+    public Damager damager;
+    public Damaged damaged;
+    public void Set(Damager damager, Damaged damaged) {
+        this.damager=damager;
+        this.damaged=damaged;
+    }
+}

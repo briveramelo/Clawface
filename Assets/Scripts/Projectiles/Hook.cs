@@ -25,6 +25,7 @@ public class Hook : MonoBehaviour {
     private bool isThrowing;
     private bool isRetracting;
     private Vector3 pullDirection;
+    private Damager damager=new Damager();
     #endregion
 
     #region Unity Lifecycle
@@ -60,10 +61,9 @@ public class Hook : MonoBehaviour {
                     {
                         AnalyticsManager.Instance.AddEnemyModDamage(ModType.Grappler, mod.Attack);
                     }
-
                     
-
-                    damageable.TakeDamage(mod.Attack);                  
+                    damager.Set(mod.Attack, DamagerType.GrapplingHook, transform.forward);
+                    damageable.TakeDamage(damager);
                 }
             }        
         }

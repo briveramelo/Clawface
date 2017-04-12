@@ -58,7 +58,7 @@ public class TankTreadsMod : Mod
     public override void AttachAffect(ref Stats wielderStats, IMovable wielderMovable){
         base.AttachAffect(ref wielderStats, wielderMovable);
         if (getModSpot() == ModSpot.Legs){
-            this.wielderStats.Modify(StatType.MoveSpeed, legsMoveSpeedMod);
+            this.wielderStats.Multiply(StatType.MoveSpeed, legsMoveSpeedMod);
         }        
     }
 
@@ -68,7 +68,7 @@ public class TankTreadsMod : Mod
 
     public override void DetachAffect(){    
         if (getModSpot() == ModSpot.Legs){
-            wielderStats.Modify(StatType.MoveSpeed, 1f / legsMoveSpeedMod);
+            wielderStats.Multiply(StatType.MoveSpeed, 1f / legsMoveSpeedMod);
         }
         base.DetachAffect();
     }   
@@ -104,8 +104,8 @@ public class TankTreadsMod : Mod
                         {
                             AnalyticsManager.Instance.AddEnemyModDamage(this.getModType(), Attack);
                         }
-
-                        damageable.TakeDamage(Attack);
+                        damager.Set(Attack, getDamageType(), wielderMovable.GetForward());
+                        damageable.TakeDamage(damager);
                     }
                     if (movable != null){                    
                         Vector3 direction = (other.transform.position - transform.position).normalized;

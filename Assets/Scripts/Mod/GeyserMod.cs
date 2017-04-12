@@ -61,7 +61,7 @@ public class GeyserMod : Mod {
         GameObject projectile = ObjectPool.Instance.GetObject(PoolObjectType.GeyserProjectile);
         if (projectile) {            
             projectileProperties.Initialize(GetWielderInstanceID(), Attack);
-            projectile.GetComponent<GeyserProjectile>().SetShooterProperties(projectileProperties);
+            projectile.GetComponent<GeyserProjectile>().SetProjectileProperties(projectileProperties);
         }        
         return projectile;
     }

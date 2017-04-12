@@ -16,13 +16,11 @@ public class BatonMod : Mod {
     [SerializeField] private VFXStunBatonImpact impactEffect;
     [SerializeField] private CapsuleBounds capsuleBounds;
 
-    private VFXHandler vfxHandler;
     private ProjectileProperties projectileProperties = new ProjectileProperties();
 
     protected override void Awake(){        
         type = ModType.StunBaton;
         category = ModCategory.Melee;
-        vfxHandler = new VFXHandler(transform);
         base.Awake();
     }
 
@@ -63,21 +61,19 @@ public class BatonMod : Mod {
                             HitstopManager.Instance.StartHitstop(energySettings.hitStopTime);
                             AnalyticsManager.Instance.AddModDamage(this.getModType(), energySettings.attack);
 
-                            if (damageable.GetHealth() - energySettings.attack < 0.1f)
+                            if (damageable.GetHealth() - Attack < 0.1f)
                             {
                                 AnalyticsManager.Instance.AddModKill(this.getModType());
                             }
                         }
                         else
                         {
-                            AnalyticsManager.Instance.AddEnemyModDamage(this.getModType(), energySettings.attack);
+                            AnalyticsManager.Instance.AddEnemyModDamage(this.getModType(), Attack);
                         }
-
-                        if (!other.CompareTag(Strings.Tags.PLAYER)) {
-                            EmitBlood();
-                        }
+                        
                         impactEffect.Emit();
-                        damageable.TakeDamage(energySettings.attack);
+                        damager.Set(Attack, getDamageType(), wielderMovable.GetForward());
+                        damageable.TakeDamage(damager);
                         recentlyHitEnemies.Add(damageable);
                         IStunnable stunnable = other.GetComponent<IStunnable>();
                         if (stunnable != null){
@@ -112,13 +108,6 @@ public class BatonMod : Mod {
 
     public override void DetachAffect(){
         base.DetachAffect();
-    }    
-
-    private void EmitBlood() {
-        Vector3 bloodDirection = wielderStats.transform.rotation.eulerAngles;
-        bloodDirection.x = 23.38f;
-        Quaternion emissionRotation = Quaternion.Euler(bloodDirection);
-        vfxHandler.EmitBloodInDirection(emissionRotation, transform.position);
-    }    
+    }      
 
 }

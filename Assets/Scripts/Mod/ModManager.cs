@@ -112,7 +112,7 @@ public class ModManager : MonoBehaviour
             CheckForModInput((ModSpot spot)=> {
                 stateManager.Attack(modSocketDictionary[spot].mod);
                 modSocketDictionary[spot].mod.Activate();
-                modSocketDictionary[spot].mod.ResetChargeTime();
+                modSocketDictionary[spot].mod.EndCharging();
             }, ButtonMode.UP);                    
         }
     }
@@ -163,7 +163,9 @@ public class ModManager : MonoBehaviour
         if (InputManager.Instance.QueryAction(Strings.Input.Actions.DROP_MODE, ButtonMode.HELD)){            
             ModSpot spotSelected = GetCommandedModSpot(ButtonMode.DOWN);
             if (spotSelected != ModSpot.Default && modSocketDictionary[spotSelected].mod != null){
-                Detach(spotSelected);
+                if (!modSocketDictionary[spotSelected].mod.modEnergySettings.isInUse) {
+                    Detach(spotSelected);
+                }
             }
         }
     }
@@ -196,7 +198,19 @@ public class ModManager : MonoBehaviour
         if (modToSwap != ModSpot.Default){
             ModSpot secondMod = GetCommandedModSpot(ButtonMode.DOWN);
             if (secondMod != ModSpot.Default && secondMod != modToSwap){
-                SwapMods(modToSwap, secondMod);
+                Mod mod1= modSocketDictionary[modToSwap].mod;
+                if (mod1!=null) {
+                    if (mod1.modEnergySettings.isInUse ||mod1.modEnergySettings.isCharging) {
+                        return;
+                    }
+                }
+                Mod mod2= modSocketDictionary[secondMod].mod;
+                if (mod2!=null) {
+                    if (mod2.modEnergySettings.isInUse ||mod2.modEnergySettings.isCharging) {
+                        return;
+                    }
+                }
+                SwapMods(modToSwap, secondMod);                
             }
         }
     }

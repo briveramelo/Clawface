@@ -22,7 +22,7 @@ public class Stats : MonoBehaviour, IModifiable {
     #endregion
 
     #region Public Methods
-    public void Modify(StatType statType, float statMultiplier) {
+    public void Multiply(StatType statType, float statMultiplier) {
         switch (statType) {
             case StatType.Attack:
                 attack*=statMultiplier;
@@ -42,7 +42,7 @@ public class Stats : MonoBehaviour, IModifiable {
         }
     }
 
-    public void Modify(StatType statType, int statAddend) {
+    public void Add(StatType statType, int statAddend) {
         switch (statType) {
             case StatType.Attack:
                 attack += statAddend;

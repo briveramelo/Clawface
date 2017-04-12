@@ -155,6 +155,12 @@ namespace ModMan {
             tr.localScale = tMemento.startScale;
             tr.localRotation = tMemento.startRotation;
         }
+
+        public static IEnumerator<float> ResetRotation(this Transform transformToRestore, float timeToDelay) {
+            Quaternion startRotation = transformToRestore.rotation;
+            yield return Timing.WaitForSeconds(timeToDelay);
+            transformToRestore.rotation = startRotation;
+        }
     
     }
 }

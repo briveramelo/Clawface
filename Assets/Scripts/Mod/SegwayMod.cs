@@ -53,7 +53,7 @@ public class SegwayMod : Mod {
 
         if (getModSpot() == ModSpot.Legs){
             segwayVFX.SetMoving(true);
-            this.wielderStats.Modify(StatType.MoveSpeed, speedBoostMultiplier);
+            this.wielderStats.Multiply(StatType.MoveSpeed, speedBoostMultiplier);
             this.wielderMovable = wielderMovable;
             this.wielderMovable.SetMovementMode(MovementMode.ICE);
         }
@@ -97,7 +97,7 @@ public class SegwayMod : Mod {
         segwayVFX.SetIdle(true);
         if (getModSpot() == ModSpot.Legs)
         {
-            wielderStats.Modify(StatType.MoveSpeed, 1f / speedBoostMultiplier);
+            wielderStats.Multiply(StatType.MoveSpeed, 1f / speedBoostMultiplier);
             this.wielderMovable.SetMovementMode(MovementMode.PRECISE);
         }
         base.DetachAffect();
@@ -148,7 +148,8 @@ public class SegwayMod : Mod {
                             }
 
                             recentlyHitEnemies.Add(damageable);
-                            damageable.TakeDamage(Attack);
+                            damager.Set(Attack, getDamageType(), wielderMovable.GetForward());
+                            damageable.TakeDamage(damager);
                         }                                 
                         if (movable != null){                            
                             Vector3 pushDirection = -transform.up.NormalizedNoY();
