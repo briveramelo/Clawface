@@ -1204,8 +1204,13 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// Removes all spawners from the current floor.
     /// </summary>
     void CleanupFloor() {
-        while (_loadedSpawners.Count > 0)
+        while (_loadedSpawners.Count > 0) {
+            if (_loadedSpawners[0] == null || _loadedSpawners[0].gameObject == null) {
+                _loadedSpawners.RemoveAt(0);
+                continue;
+            }
             DestroyLoadedObject(_loadedSpawners.PopFront().gameObject);
+        }
     }
 
     /// <summary>

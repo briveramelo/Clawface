@@ -49,6 +49,9 @@ public class ObjectData {
     [SerializeField]
     public ObjectDatabase.Category category = ObjectDatabase.Category.None;
 
+    [SerializeField]
+    public ObjectDatabase.SnapMode snapMode = ObjectDatabase.SnapMode.Center;
+
     /// <summary>
     /// Index constructor.
     /// </summary>
@@ -80,7 +83,14 @@ public class ObjectDatabase {
         Dev = 8,
         Player = 9,
         Enemy = 10,
-        COUNT = 11
+        Whitebox = 11,
+        COUNT = 12
+    }
+
+    public enum SnapMode {
+        Center,
+        Edge,
+        Corner
     }
 
     #endregion

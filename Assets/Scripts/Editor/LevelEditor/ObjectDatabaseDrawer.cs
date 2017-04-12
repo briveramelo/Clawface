@@ -9,13 +9,17 @@ public class ObjectDatabaseDrawer : PropertyDrawer {
     ObjectDatabase _target;
     SerializedProperty _dataProp;
 
+    float _partWidth;
+
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
+        _partWidth = position.width / (ObjectDataDrawer.INDEX_LABEL_PARTS + ObjectDataDrawer.PREFAB_FIELD_PARTS + ObjectDataDrawer.LIMIT_FIELD_PARTS + ObjectDataDrawer.CATEGORY_DROPDOWN_PARTS + ObjectDataDrawer.SNAPMODE_DROPDOWN_PARTS);
+
         EditorGUILayout.BeginHorizontal();
-        EditorGUILayout.LabelField ("Index", GUILayout.MinWidth(position.width * ObjectDataDrawer.INDEX_LABEL_PERCENT));
-        EditorGUILayout.LabelField ("Path", GUILayout.MinWidth(position.width * ObjectDataDrawer.PATH_LABEL_PERCENT));
-        EditorGUILayout.LabelField ("Prefab", GUILayout.MinWidth(position.width * ObjectDataDrawer.PREFAB_FIELD_PERCENT));
-        EditorGUILayout.LabelField ("Limit", GUILayout.MinWidth(position.width * ObjectDataDrawer.LIMIT_FIELD_PERCENT));
-        EditorGUILayout.LabelField ("Category", GUILayout.MinWidth(position.width * ObjectDataDrawer.CATEGORY_DROPDOWN_PERCENT));
+        EditorGUILayout.LabelField ("Index", EditorStyles.boldLabel, GUILayout.MinWidth(ObjectDataDrawer.INDEX_LABEL_PARTS * _partWidth));
+        EditorGUILayout.LabelField ("Prefab", EditorStyles.boldLabel, GUILayout.MinWidth(ObjectDataDrawer.PREFAB_FIELD_PARTS * _partWidth));
+        EditorGUILayout.LabelField ("Limit", EditorStyles.boldLabel, GUILayout.MinWidth(ObjectDataDrawer.LIMIT_FIELD_PARTS * _partWidth));
+        EditorGUILayout.LabelField ("Category", EditorStyles.boldLabel, GUILayout.MinWidth(ObjectDataDrawer.CATEGORY_DROPDOWN_PARTS * _partWidth));
+        EditorGUILayout.LabelField ("Snap Mode", EditorStyles.boldLabel, GUILayout.MinWidth(ObjectDataDrawer.SNAPMODE_DROPDOWN_PARTS * _partWidth));
         EditorGUILayout.EndHorizontal();
         EditorGUILayout.BeginVertical();
 
