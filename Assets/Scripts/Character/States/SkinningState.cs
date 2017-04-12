@@ -41,7 +41,7 @@ public class SkinningState : IPlayerState
             skinObject.SetActive(true);
             SkinStats skinStats = skin.GetComponent<SkinStats>();
             Stats stats = GetComponent<Stats>();
-            stats.Modify(StatType.Health, skinStats.GetSkinHealth());
+            stats.Add(StatType.Health, skinStats.GetSkinHealth());
             HealthBar.Instance.SetHealth(stats.GetHealthFraction());
         }        
         stateVariables.stateFinished = true;
