@@ -521,7 +521,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
             case Tool.Place:
                 if (HasSelectedObjectForPlacement &&
                     CanPlaceAnotherCurrentObject()) {
-                    if (_snapToGrid) SnapCursor();
+                    //if (_snapToGrid) SnapCursor();
                     CreateCurrentSelectedObjectAtCursor();
                     e.Use();
                 }
@@ -603,7 +603,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
             Vector2 screenPos = new Vector2 (rawScreenPos.x, rawScreenPos.y);
             if (selectionRect.Contains(screenPos, true)) result.Add(spawner.gameObject);
         }
-        Debug.Log (result.Count);
+        //Debug.Log (result.Count);
         return result;
     }
 
@@ -756,6 +756,9 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
         Vector3 pos = _cursorPosition;
         Vector3 snapped = pos;
         if (_selectedObjectIndexForPlacement != -1) {
+            float closestX;
+            float closestZ;
+
             switch (_selectedObjectSnapMode) {
                 case ObjectDatabase.SnapMode.Center:
                     snapped = new Vector3(
@@ -767,11 +770,24 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
                     break;
 
                 case ObjectDatabase.SnapMode.Corner:
+                    closestX = Mathf.Round (pos.x / TILE_UNIT_WIDTH) * TILE_UNIT_WIDTH;
+                    closestZ = Mathf.Round (pos.z / TILE_UNIT_WIDTH) * TILE_UNIT_WIDTH;
+                    bool left = closestX >= pos.x;
+                    bool down = closestZ >= pos.z;
+                    snapped = new Vector3 (
+                        closestX,
+                        _currentYPosition,
+                        closestZ
+                        );
+                    _currentPlacementYRotation = left ? (down ? 0f : 90f) : (down ? 270f : 180f);
+                    float half = TILE_UNIT_WIDTH / 2f;
+                    snapped.x += left ? -half : half;
+                    snapped.z += down ? -half : half;
                     break;
 
                 case ObjectDatabase.SnapMode.Edge:
-                    float closestX = Mathf.Round(pos.x / TILE_UNIT_WIDTH) * TILE_UNIT_WIDTH;
-                    float closestZ = Mathf.Round(pos.z / TILE_UNIT_WIDTH) * TILE_UNIT_WIDTH;
+                    closestX = Mathf.Round(pos.x / TILE_UNIT_WIDTH) * TILE_UNIT_WIDTH;
+                    closestZ = Mathf.Round(pos.z / TILE_UNIT_WIDTH) * TILE_UNIT_WIDTH;
                     float distToClosestX = Mathf.Abs (pos.x - closestX);
                     float distToClosestZ = Mathf.Abs (pos.z - closestZ);
                     bool snapToX = distToClosestX <= distToClosestZ;
@@ -783,8 +799,9 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
                     _currentPlacementYRotation = snapToX ? 0f : 90f;
                     break;
             }
+
+            _cursorPosition = snapped;
         }
-        _cursorPosition = snapped;
     }
 
     /// <summary>
@@ -861,6 +878,8 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
 
         // Add object to level file
         _loadedLevel.AddObject((int)index, _selectedFloor, position, _currentPlacementYRotation);
+
+        Debug.Log (_currentPlacementYRotation);
 
         // Create spawner
         GameObject spawner = CreateSpawner(index);
@@ -1044,8 +1063,6 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
         _selectedObjectIndexForPlacement = data.index;
         _selectedObjectSnapMode = data.snapMode;
         var obj = ObjectDatabaseManager.Instance.GetObject(data.index);
-
-        _currentPlacementYRotation = 0f;
 
         Debug.Log (string.Format ("Object {0} ({1}) selected from category {2}.", obj.name, index.ToString(), category.ToString()));
 
