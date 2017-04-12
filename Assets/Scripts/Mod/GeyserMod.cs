@@ -13,6 +13,7 @@ public class GeyserMod : Mod {
     [SerializeField] private float shortRangeDistance;
     [SerializeField] private float longRangeDistance;
     [SerializeField] private float maxScaleMultiplier;
+    [SerializeField] private float minScaleMultiplier;
     [SerializeField] private GameObject targetCanvas;
     [SerializeField] private GameObject targetImage;
     #endregion
@@ -53,7 +54,7 @@ public class GeyserMod : Mod {
     private void Erupt(){
         GameObject geyser = GetGeyser();
         Vector3 forwardVector = wielderMovable.GetForward().NormalizedNoY();
-        geyser.transform.position = foot.position + forwardVector * shortRangeDistance;
+        geyser.transform.position = targetPosition;
         FinishFiring();
     }
 
@@ -114,13 +115,13 @@ public class GeyserMod : Mod {
 
     private Vector3 targetPosition {
         get {
-            return foot.position + wielderMovable.GetForward() * (energySettings.chargeFraction*longRangeDistance);
+            return foot.position + wielderMovable.GetForward() * (shortRangeDistance + energySettings.chargeFraction*(longRangeDistance-shortRangeDistance));
         }
     }
 
     private Vector3 chargeScale {
         get {
-            return Vector3.one * maxScaleMultiplier * energySettings.chargeFraction;
+            return Vector3.one * (minScaleMultiplier + (maxScaleMultiplier-minScaleMultiplier) * energySettings.chargeFraction);
         }
     }
 

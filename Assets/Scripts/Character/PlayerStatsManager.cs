@@ -12,8 +12,8 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     #endregion
 
     #region Serialized Unity Inspector fields
-    [SerializeField]
-    private DamageUI damageUI;
+    [SerializeField] private DamageUI damageUI;
+    [SerializeField] private CameraLock cameraLock;
     #endregion
 
     #region Private Fields
@@ -39,7 +39,10 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     {
         damageUI.DoDamageEffect();
         stats.TakeDamage(damageModifier * damager.damage);
-        HealthBar.Instance.SetHealth(stats.GetHealthFraction());
+        float healthFraction = stats.GetHealthFraction();
+        HealthBar.Instance.SetHealth(healthFraction);
+        cameraLock.Shake(.4f);
+        //InputManager.Instance.Vibrate(VibrationTargets.BOTH, .2f); //BREAKS THE COMPUTER
         if (stats.GetStat(StatType.Health) <= 0){   
             Revive();
         }
