@@ -336,13 +336,12 @@ MonoBehaviour:
       timeToHitStop: 0
     timeCharged: 0
     isCoolingDown: 0
+    isActive: 0
+    hasStartedCharging: 0
   shortRangeDistance: 3
-  longRangeDistance: 6
-  maxScaleMultiplier: 2
-  targetLerpFactor: 0.01
-  scaleLerpFactor: 0.01
-  standarDamageMultiplier: 1
-  chargeDamageMultiplier: 2
+  longRangeDistance: 8
+  maxScaleMultiplier: 3
+  minScaleMultiplier: 1
   targetCanvas: {fileID: 1263932901431604}
   targetImage: {fileID: 1338105920809534}
 --- !u!114 &114876056122338820

@@ -9,20 +9,18 @@ public class BatonMod : Mod {
 
     private void OnDrawGizmosSelected() {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(capsuleBounds.start.position, capsuleBounds.radius);
-        Gizmos.DrawWireSphere(capsuleBounds.end.position, capsuleBounds.radius);        
+        Gizmos.DrawWireSphere(capsuleBounds.Start, capsuleBounds.radius);
+        Gizmos.DrawWireSphere(capsuleBounds.End, capsuleBounds.radius);        
     }
 
     [SerializeField] private VFXStunBatonImpact impactEffect;
     [SerializeField] private CapsuleBounds capsuleBounds;
 
-    private VFXHandler vfxHandler;
     private ProjectileProperties projectileProperties = new ProjectileProperties();
 
     protected override void Awake(){        
         type = ModType.StunBaton;
         category = ModCategory.Melee;
-        vfxHandler = new VFXHandler(transform);
         base.Awake();
     }
 
@@ -58,14 +56,24 @@ public class BatonMod : Mod {
                     IDamageable damageable = other.GetComponent<IDamageable>();
                     if (damageable != null && !recentlyHitEnemies.Contains(damageable)){
                         AudioManager.Instance.PlaySFX(SFXType.StunBatonImpact);
+
                         if (wielderStats.gameObject.CompareTag(Strings.Tags.PLAYER)){
-                            HitstopManager.Instance.StartHitstop(energySettings.hitStopTime);                        
+                            HitstopManager.Instance.StartHitstop(energySettings.hitStopTime);
+                            AnalyticsManager.Instance.AddModDamage(this.getModType(), energySettings.attack);
+
+                            if (damageable.GetHealth() - Attack < 0.1f)
+                            {
+                                AnalyticsManager.Instance.AddModKill(this.getModType());
+                            }
                         }
-                        if (!other.CompareTag(Strings.Tags.PLAYER)) {
-                            EmitBlood();
+                        else
+                        {
+                            AnalyticsManager.Instance.AddEnemyModDamage(this.getModType(), Attack);
                         }
+                        
                         impactEffect.Emit();
-                        damageable.TakeDamage(energySettings.attack);
+                        damager.Set(Attack, getDamageType(), wielderMovable.GetForward());
+                        damageable.TakeDamage(damager);
                         recentlyHitEnemies.Add(damageable);
                         IStunnable stunnable = other.GetComponent<IStunnable>();
                         if (stunnable != null){
@@ -81,14 +89,14 @@ public class BatonMod : Mod {
 
     private List<Collider> GetOverlap(){ 
         int layerMask =LayerMasker.GetLayerMask(LayerMasker.Damageable);
-        return Physics.OverlapCapsule(capsuleBounds.start.position, capsuleBounds.end.position, capsuleBounds.radius, layerMask).ToList();
+        return Physics.OverlapCapsule(capsuleBounds.Start, capsuleBounds.End, capsuleBounds.radius, layerMask).ToList();
     }
 
     void LayMine(){
         GameObject stunMine = ObjectPool.Instance.GetObject(PoolObjectType.Mine);
         if (stunMine != null){
             //AudioManager.Instance.PlaySFX(SFXType.StunBatonLayMine);
-            projectileProperties.Initialize(GetWielderInstanceID(), attack);
+            projectileProperties.Initialize(GetWielderInstanceID(), Attack);
             stunMine.GetComponent<StunMine>().SetProjectileProperties(projectileProperties);
             stunMine.transform.position = transform.position;
         }
@@ -100,13 +108,6 @@ public class BatonMod : Mod {
 
     public override void DetachAffect(){
         base.DetachAffect();
-    }    
-
-    private void EmitBlood() {
-        Vector3 bloodDirection = wielderStats.transform.rotation.eulerAngles;
-        bloodDirection.x = 23.38f;
-        Quaternion emissionRotation = Quaternion.Euler(bloodDirection);
-        vfxHandler.EmitBloodInDirection(emissionRotation, transform.position);
-    }    
+    }      
 
 }

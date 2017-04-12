@@ -45,6 +45,24 @@ public enum SFXType {
     //Pause=15
 }
 
+public enum DamagerType {
+    SegwayPush=0,
+    BlasterBullet=1,
+    StunSwing=2,
+    TankTreads=3,
+    GrapplingHook=4,
+    Boomerang=5,
+    Geyser=6,
+    StunMine=7,
+    FireTrap=8,
+    GrapplingBotExplosion=9
+}
+
+public enum DamagedType {
+    MallCop=0,
+    Milo=1,
+}
+
 public enum ModType {
     ForceSegway=0,
     ArmBlaster=1,
@@ -77,8 +95,7 @@ public enum Layers {
     Blood=12,
     Hologram=13,
     Globe_Text=14,
-    PlayerDetector=15
-        
+    PlayerDetector=15        
 }
 
 public enum PoolObjectType {
@@ -96,17 +113,6 @@ public enum PoolObjectType {
     GrapplingBot=11,
     GeyserProjectile = 12
 }
-
-public enum WeaponType {
-    Blaster=0,
-    Baton=1        
-}
-
-public enum VictimType {
-    MallCop=0,
-    WallOrGround=1
-}
-
 
 public enum MovementMode
 {

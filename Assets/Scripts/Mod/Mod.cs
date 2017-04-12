@@ -21,13 +21,15 @@ public abstract class Mod : MonoBehaviour {
     #region Protected Fields
     protected ModType type;
     protected ModCategory category;
+    protected DamagerType damageType;
     public bool hasState;
     protected Stats wielderStats;
     protected IMovable wielderMovable;
     protected List<IDamageable> recentlyHitEnemies = new List<IDamageable>();
     protected VFXModCharge vfxModCharge;
     protected bool isAttached;
-    public float attack {
+    protected Damager damager=new Damager();
+    public float Attack {
         get {
             if (wielderStats != null) {
                 return wielderStats.attack + energySettings.attack;
@@ -56,10 +58,7 @@ public abstract class Mod : MonoBehaviour {
         vfxModCharge=Instantiate(vfxModChargePrefab, transform).GetComponent<VFXModCharge>();
     }
     protected virtual void Update()
-    {
-        if (energySettings.isCharging) {
-            RunCharging();
-        }
+    {        
     }
     #endregion
 
@@ -75,42 +74,42 @@ public abstract class Mod : MonoBehaviour {
         //vfxModCharge.Disable();
     }
 
-    public void UpdateChargeTime(float deltaTime) {        
-        energySettings.timeCharged += deltaTime;
-    }
-    public void ResetChargeTime() {
-        energySettings.Reset();
-    }
-
     public virtual void Activate(Action onComplete=null) {
-        if (!energySettings.isCoolingDown){
+        if (!energySettings.isInUse){
             Timing.RunCoroutine(BeginCoolDown(onComplete));            
             useAction();
         }
-        EndCharging();
     }
 
 
     public virtual void BeginCharging() {
-        vfxModCharge.StartCharging(energySettings.timeToCharge);
-        if (getModSpot()==ModSpot.Legs) {
-            BeginChargingLegs();
-        }
-        else {
-            BeginChargingArms();
+        if (!energySettings.isInUse) {
+            vfxModCharge.StartCharging(energySettings.timeToCharge);
+            energySettings.hasStartedCharging = true;
+            if (getModSpot()==ModSpot.Legs) {
+                BeginChargingLegs();
+            }
+            else {
+                BeginChargingArms();
+            }
         }
     }
+    int i = 0;
     public virtual void RunCharging() {
-        UpdateChargeTime(Time.deltaTime);
-        if (getModSpot()==ModSpot.Legs) {
-            RunChargingLegs();
-        }
-        else {
-            RunChargingArms();
+        if (!energySettings.isInUse && energySettings.hasStartedCharging) {
+            energySettings.timeCharged += Time.deltaTime;
+            if (getModSpot()==ModSpot.Legs) {
+                RunChargingLegs();
+            }
+            else {
+                RunChargingArms();
+            }
+            i++;
         }
     }
-    protected void EndCharging() {
+    public void EndCharging() {
         vfxModCharge.StopCharging();
+        energySettings.Reset();
     }
 
     protected abstract void BeginChargingArms();
@@ -183,6 +182,7 @@ public abstract class Mod : MonoBehaviour {
     {
         return spot;
     }
+    public DamagerType getDamageType() {return damageType; }        
     #endregion
 
     #region Private Methods
@@ -222,11 +222,14 @@ public abstract class Mod : MonoBehaviour {
 
         private Mod mod;
         private bool isCharged;
+        public bool isActive;
+        public bool hasStartedCharging;
 
         public bool IsCharged { get { return isCharged; } }
         public float timeToCharge { get { return mod.getModSpot() == ModSpot.Legs ? timeToChargeLeg : timeToChargeArm; } }
         public bool isCharging { get { return timeCharged > 0f; } }
         public bool isStarting { get { return timeCharged == 0f; } }
+        public bool isInUse { get { return isCoolingDown || isActive;} }
 
         public float coolDownTime { get { return attackSettings.timeToCoolDown; } }
         public float attack { get { return attackSettings.attack; } }
@@ -253,6 +256,7 @@ public abstract class Mod : MonoBehaviour {
         }
         public void Reset() {
             timeCharged = 0f;
+            hasStartedCharging=false;
         }
         public void CheckToSetAsCharged() {
             if (timeCharged>timeToCharge) {
