@@ -9,11 +9,12 @@ public class GeyserProjectile : MonoBehaviour {
 
     #region Serialized Unity Inspector fields
     [SerializeField] private VFXBlasterShoot vfx;
-    [SerializeField] private ProjectileProperties projectileProperties;
     [SerializeField] private float lifeTime;
     #endregion
 
     #region Private Fields
+    private ProjectileProperties projectileProperties;
+    private Damager damager=new Damager();
     #endregion
 
     #region Unity Lifecycle
@@ -51,7 +52,8 @@ public class GeyserProjectile : MonoBehaviour {
             if (projectileProperties.shooterInstanceID != other.gameObject.GetInstanceID()) {
                 IDamageable damageable = other.GetComponent<IDamageable>();
                 if (damageable!=null) {
-                    damageable.TakeDamage(projectileProperties.damage);
+                    damager.Set(projectileProperties.damage, DamagerType.Geyser, Vector3.down);
+                    damageable.TakeDamage(damager);
                 }
             }
         }
@@ -59,7 +61,7 @@ public class GeyserProjectile : MonoBehaviour {
     #endregion
 
     #region Public Methods
-    public void SetShooterProperties(ProjectileProperties projectileProperties) {
+    public void SetProjectileProperties(ProjectileProperties projectileProperties) {
         this.projectileProperties = projectileProperties;
     }
 #endregion

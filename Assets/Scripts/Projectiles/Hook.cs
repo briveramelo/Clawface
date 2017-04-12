@@ -25,6 +25,7 @@ public class Hook : MonoBehaviour {
     private bool isThrowing;
     private bool isRetracting;
     private Vector3 pullDirection;
+    private Damager damager=new Damager();
     #endregion
 
     #region Unity Lifecycle
@@ -40,13 +41,31 @@ public class Hook : MonoBehaviour {
             other.gameObject.layer==(int)Layers.Ground) && 
             mod.getModSpot()!= ModSpot.Legs){
 
-            if (isThrowing){
+
+            if (isThrowing)
+            {
                 HitTarget();
                 IDamageable damageable = other.gameObject.GetComponent<IDamageable>();
-                if (damageable != null){
-                    damageable.TakeDamage(mod.attack);
+                if (damageable != null)
+                {
+                    if (this.transform.root.CompareTag(Strings.Tags.PLAYER))
+                    {
+                        AnalyticsManager.Instance.AddModDamage(ModType.Grappler, mod.Attack);
+
+                        if (damageable.GetHealth() - mod.Attack <= 0.01f)
+                        {
+                            AnalyticsManager.Instance.AddModKill(ModType.Grappler);
+                        }
+                    }
+                    else if (this.transform.root.CompareTag(Strings.Tags.ENEMY))
+                    {
+                        AnalyticsManager.Instance.AddEnemyModDamage(ModType.Grappler, mod.Attack);
+                    }
+                    
+                    damager.Set(mod.Attack, DamagerType.GrapplingHook, transform.forward);
+                    damageable.TakeDamage(damager);
                 }
-            }            
+            }        
         }
     }    
     #endregion

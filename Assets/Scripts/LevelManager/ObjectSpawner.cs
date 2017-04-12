@@ -2,6 +2,7 @@
 
 using System.Collections.Generic;
 using UnityEngine;
+using ModMan;
 
 #if UNITY_EDITOR
 using UnityEditor;
