@@ -153,6 +153,10 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// </summary>
     int _selectedObjectIndexForPlacement;
 
+    ObjectDatabase.SnapMode _selectedObjectSnapMode;
+
+    float _currentPlacementYRotation = 0f;
+
     List<GameObject> _hoveredObjects = new List<GameObject>();
 
     /// <summary>
@@ -174,11 +178,6 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// Current editing y position.
     /// </summary>
     int _currentYPosition = 0;
-
-    /// <summary>
-    /// Current editing y rotation.
-    /// </summary>
-    int _currentYRotation = 0;
 
     /// <summary>
     /// Is the level currently being played?
@@ -454,7 +453,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
         _selectedObjectIndexForPlacement = -1;
         _selectedFloor = 0;
         _currentYPosition = 0;
-        _currentYRotation = 0;
+        _currentPlacementYRotation = 0f;
         _editingPlane = new Plane(Vector3.up, Vector3.zero);
     }
 
@@ -744,19 +743,47 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     public void SetCursorPosition(Vector3 newPos) {
         _cursorPosition = newPos;
         if (_snapToGrid) SnapCursor();
-        if (_assetPreview != null) _assetPreview.transform.position = _cursorPosition;
+        if (_assetPreview != null) {
+            _assetPreview.transform.position = _cursorPosition;
+            _assetPreview.transform.rotation = Quaternion.Euler (0f, _currentPlacementYRotation, 0f);
+        }
     }
 
     /// <summary>
     /// Snaps the preview asset to the grid.
     /// </summary>
     public void SnapCursor() {
-        var pos = _cursorPosition;
-        var snapped = new Vector3(
-                Mathf.Round(pos.x / TILE_UNIT_WIDTH) * TILE_UNIT_WIDTH,
-                Mathf.Round(pos.y / TILE_UNIT_WIDTH) * TILE_UNIT_WIDTH,
-                Mathf.Round(pos.z / TILE_UNIT_WIDTH) * TILE_UNIT_WIDTH
-            );
+        Vector3 pos = _cursorPosition;
+        Vector3 snapped = pos;
+        if (_selectedObjectIndexForPlacement != -1) {
+            switch (_selectedObjectSnapMode) {
+                case ObjectDatabase.SnapMode.Center:
+                    snapped = new Vector3(
+                        Mathf.Round(pos.x / TILE_UNIT_WIDTH) * TILE_UNIT_WIDTH,
+                        Mathf.Round(pos.y / TILE_UNIT_WIDTH) * TILE_UNIT_WIDTH,
+                        Mathf.Round(pos.z / TILE_UNIT_WIDTH) * TILE_UNIT_WIDTH
+                    );
+                    _currentPlacementYRotation = 0f;
+                    break;
+
+                case ObjectDatabase.SnapMode.Corner:
+                    break;
+
+                case ObjectDatabase.SnapMode.Edge:
+                    float closestX = Mathf.Round(pos.x / TILE_UNIT_WIDTH) * TILE_UNIT_WIDTH;
+                    float closestZ = Mathf.Round(pos.z / TILE_UNIT_WIDTH) * TILE_UNIT_WIDTH;
+                    float distToClosestX = Mathf.Abs (pos.x - closestX);
+                    float distToClosestZ = Mathf.Abs (pos.z - closestZ);
+                    bool snapToX = distToClosestX <= distToClosestZ;
+                    snapped = new Vector3 (
+                        snapToX ? closestX : Mathf.Floor (pos.x / TILE_UNIT_WIDTH) * TILE_UNIT_WIDTH + TILE_UNIT_WIDTH / 2f,
+                        Mathf.Round(pos.y / TILE_UNIT_WIDTH) * TILE_UNIT_WIDTH,
+                        snapToX ? Mathf.Floor (pos.z / TILE_UNIT_WIDTH) * TILE_UNIT_WIDTH + TILE_UNIT_WIDTH / 2f : closestZ
+                        );
+                    _currentPlacementYRotation = snapToX ? 0f : 90f;
+                    break;
+            }
+        }
         _cursorPosition = snapped;
     }
 
@@ -766,17 +793,17 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     public bool CheckPlacement() {
         // Check x in range
         float x = _cursorPosition.x;
-        if (x < -0.01f || x >= (float)Level.FLOOR_WIDTH * TILE_UNIT_WIDTH + 0.01f) return false;
+        if (x < -0.05f || x >= (float)Level.FLOOR_WIDTH * TILE_UNIT_WIDTH + 0.05f) return false;
 
         // Check y in range
         float y = _cursorPosition.y;
-        float minY = _selectedFloor * Level.FLOOR_HEIGHT * TILE_UNIT_WIDTH - 0.01f;
-        float maxY = (_selectedFloor + 1) * Level.FLOOR_HEIGHT * TILE_UNIT_WIDTH + 0.01f;
+        float minY = _selectedFloor * Level.FLOOR_HEIGHT * TILE_UNIT_WIDTH - 0.05f;
+        float maxY = (_selectedFloor + 1) * Level.FLOOR_HEIGHT * TILE_UNIT_WIDTH + 0.05f;
         if (y < minY || y >= maxY) return false;
 
         // Check z in range
         float z = _cursorPosition.z;
-        if (z < -0.01f || z >= (float)Level.FLOOR_DEPTH * TILE_UNIT_WIDTH + 0.01f) return false;
+        if (z < -0.05f || z >= (float)Level.FLOOR_DEPTH * TILE_UNIT_WIDTH + 0.05f) return false;
 
         return true;
     }
@@ -833,12 +860,13 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
             throw new IndexOutOfRangeException("Invalid index! " + index);
 
         // Add object to level file
-        _loadedLevel.AddObject((int)index, _selectedFloor, position, _currentYRotation);
+        _loadedLevel.AddObject((int)index, _selectedFloor, position, _currentPlacementYRotation);
 
         // Create spawner
         GameObject spawner = CreateSpawner(index);
         spawner.transform.SetParent(_floorObjects[_selectedFloor].transform);
         spawner.transform.position = position;
+        spawner.transform.localRotation = Quaternion.Euler (0f, _currentPlacementYRotation, 0f);
         _loadedSpawners.Add(spawner.GetComponent<ObjectSpawner>());
         _objectCounts[(int)index]++;
         _dirty = true;
@@ -1014,7 +1042,10 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
         var data = ObjectDatabaseManager.Instance.AllObjectsInCategory(category)[index];
         
         _selectedObjectIndexForPlacement = data.index;
+        _selectedObjectSnapMode = data.snapMode;
         var obj = ObjectDatabaseManager.Instance.GetObject(data.index);
+
+        _currentPlacementYRotation = 0f;
 
         Debug.Log (string.Format ("Object {0} ({1}) selected from category {2}.", obj.name, index.ToString(), category.ToString()));
 
@@ -1204,8 +1235,13 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// Removes all spawners from the current floor.
     /// </summary>
     void CleanupFloor() {
-        while (_loadedSpawners.Count > 0)
+        while (_loadedSpawners.Count > 0) {
+            if (_loadedSpawners[0] == null || _loadedSpawners[0].gameObject == null) {
+                _loadedSpawners.RemoveAt(0);
+                continue;
+            }
             DestroyLoadedObject(_loadedSpawners.PopFront().gameObject);
+        }
     }
 
     /// <summary>
