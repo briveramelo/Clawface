@@ -58,10 +58,7 @@ public abstract class Mod : MonoBehaviour {
         vfxModCharge=Instantiate(vfxModChargePrefab, transform).GetComponent<VFXModCharge>();
     }
     protected virtual void Update()
-    {
-        if (energySettings.isCharging) {
-            RunCharging();
-        }
+    {        
     }
     #endregion
 
@@ -97,6 +94,7 @@ public abstract class Mod : MonoBehaviour {
             }
         }
     }
+    int i = 0;
     public virtual void RunCharging() {
         if (!energySettings.isInUse && energySettings.hasStartedCharging) {
             energySettings.timeCharged += Time.deltaTime;
@@ -106,6 +104,7 @@ public abstract class Mod : MonoBehaviour {
             else {
                 RunChargingArms();
             }
+            i++;
         }
     }
     public void EndCharging() {
