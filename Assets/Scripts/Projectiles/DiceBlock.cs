@@ -62,63 +62,105 @@ public class DiceBlock : MonoBehaviour {
     [SerializeField]
     private float explosionDamage;
 
+    [SerializeField]
+    private float startScale;
+
+    [SerializeField]
+    private float endScale;
+
+    [SerializeField]
+    private float scaleSpeed;
+
     #endregion
 
     #region Privates
     private Transform upSide;
     private float explosionTimer;
     private bool willExplode;
-
+    private float totalTimeAlive;
     private DiceSide faceUpSide;
+    private bool drawExplosion;
+    private float drawExplosionTimer;
+    private ShooterProperties shooterProperties = new ShooterProperties();
     #endregion
 
     #region Unity LifeCycle
     // Use this for initialization
     void Start()
     {
+        this.gameObject.transform.localScale = new Vector3(startScale, startScale, startScale);
+    }
 
+    private void OnDrawGizmos()
+    {
+        if (drawExplosion)
+        {
+            drawExplosionTimer += Time.deltaTime;
+            if (drawExplosionTimer > 1.5f)
+            {
+                drawExplosion = false;
+                StopAndReset();
+            }
+
+            Gizmos.DrawWireSphere(this.transform.position, explosionRadius * GetMultiplierFromDiceSide());
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (CheckGroundedSide(side1))
+        if (this.gameObject.activeSelf)
         {
-            faceUpSide = DiceSide.One;
-        }
-        else if (CheckGroundedSide(side2))
-        {
-            faceUpSide = DiceSide.Two;
-        }
-        else if (CheckGroundedSide(side3))
-        {
-            faceUpSide = DiceSide.Three;
-        }
-        else if (CheckGroundedSide(side4))
-        {
-            faceUpSide = DiceSide.Four;
-        }
-        else if (CheckGroundedSide(side5))
-        {
-            faceUpSide = DiceSide.Five;
-        }
-        else if (CheckGroundedSide(side6))
-        {
-            faceUpSide = DiceSide.Six;
-        } 
-        else
-        {
-            faceUpSide = DiceSide.None;
-        }
-
-        if (faceUpSide != DiceSide.None)
-        {
-            explosionTimer += Time.deltaTime;
-            if (willExplode && explosionTimer >= timeTilExplosion)
+            if (this.gameObject.transform.localScale.x < endScale)
             {
-                Explode(explosionDamage * GetMultiplierFromDiceSide());
+                this.gameObject.transform.localScale = new Vector3(this.gameObject.transform.localScale.x + scaleSpeed * Time.deltaTime, 
+                    this.gameObject.transform.localScale.y + scaleSpeed * Time.deltaTime, this.gameObject.transform.localScale.z + scaleSpeed * Time.deltaTime);
+            }
+
+            totalTimeAlive += Time.deltaTime;
+
+            if (CheckGroundedSide(side1))
+            {
+                faceUpSide = DiceSide.One;
+            }
+            else if (CheckGroundedSide(side2))
+            {
+                faceUpSide = DiceSide.Two;
+            }
+            else if (CheckGroundedSide(side3))
+            {
+                faceUpSide = DiceSide.Three;
+            }
+            else if (CheckGroundedSide(side4))
+            {
+                faceUpSide = DiceSide.Four;
+            }
+            else if (CheckGroundedSide(side5))
+            {
+                faceUpSide = DiceSide.Five;
+            }
+            else if (CheckGroundedSide(side6))
+            {
+                faceUpSide = DiceSide.Six;
+            }
+            else
+            {
+                faceUpSide = DiceSide.None;
+            }
+
+            if (faceUpSide != DiceSide.None)
+            {
+                explosionTimer += Time.deltaTime;
+                if (willExplode && explosionTimer >= timeTilExplosion)
+                {
+                    Explode();
+                }
             }
         }
+
+        if (totalTimeAlive > 10f) Explode();
+
+        
     }
     #endregion
 
@@ -132,12 +174,27 @@ public class DiceBlock : MonoBehaviour {
         explosionTimer = 0;
     }
 
+    public void StopAndReset()
+    {
+        totalTimeAlive = 0f;
+        gameObject.SetActive(false);
+        willExplode = false;
+        this.gameObject.transform.localScale = new Vector3(startScale, startScale, startScale);
+        this.gameObject.GetComponentInChildren<MeshRenderer>().enabled = true;
+    }
+
     public void Roll(Vector3 direction)
     {
         rigid.AddForce(direction.normalized * forceStrength);
         rigid.AddTorque(Random.onUnitSphere * tumbleStrength);
         willExplode = true;
         explosionTimer = 0;
+        drawExplosionTimer = 0f;
+    }
+
+    public void SetShooterProperties(ShooterProperties shooter)
+    {
+        shooterProperties = shooter;
     }
 
     public float GetMultiplierFromDiceSide()
@@ -182,28 +239,34 @@ public class DiceBlock : MonoBehaviour {
         return false;
     }
 
-    private void Explode(float damage)
+    private void Explode()
     {
         List<IDamageable> damageableList = new List<IDamageable>();
 
-        Collider[] cols = Physics.OverlapSphere(this.transform.position, explosionRadius);
+        Collider[] cols = Physics.OverlapSphere(this.transform.position, explosionRadius * GetMultiplierFromDiceSide());
         for (int i = 0; i < cols.Length; i++)
         {
-
-            damageableList.Add(cols[i].GetComponentInChildren<IDamageable>());
-
+            if (cols[i].gameObject.GetInstanceID() != shooterProperties.shooterInstanceID)
+            {
+                damageableList.Add(cols[i].GetComponentInChildren<IDamageable>());
+            }
         }
 
         foreach (IDamageable damageable in damageableList)
         {
-            Damager damager = new Damager();
-            damager.damage = damage;
-            damager.impactDirection = this.transform.position;
-            damager.damagerType = DamagerType.Dice;
-            damageable.TakeDamage(damager);
+            if (damageable != null)
+            {
+                Damager damager = new Damager();
+                damager.Set(shooterProperties.damage * GetMultiplierFromDiceSide(), DamagerType.Dice, this.transform.position);
+                Debug.Log(damager.damage);
+                damageable.TakeDamage(damager);
+            }
         }
 
-        Destroy(this.gameObject);
+        // Temp code for the sake of drawing explosions as gizmo wireframes
+        this.gameObject.GetComponent<MeshRenderer>().enabled = false;
+        drawExplosion = true;
+        willExplode = false;
     }
 
     #endregion
