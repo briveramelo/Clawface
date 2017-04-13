@@ -37,8 +37,9 @@ public class TankTreadsMod : Mod
 
     #region Public Methods
 
-    public override void Activate(Action onComplete=null){
-        base.Activate(onComplete);
+    public override void Activate(Action onCompleteCoolDown=null, Action onActivate=null){
+        onActivate = ()=> { SFXManager.Instance.Play(SFXType.TankTreads_Swing, transform.position);};
+        base.Activate(onCompleteCoolDown, onActivate);
     }
 
 
@@ -88,6 +89,7 @@ public class TankTreadsMod : Mod
                     if (recentlyHitEnemies.Contains(damageable)) return;
 
                     if (damageable != null){
+                        SFXManager.Instance.Play(SFXType.TankTreads_Attack, transform.position);
                         recentlyHitEnemies.Add(damageable);
                         
                 

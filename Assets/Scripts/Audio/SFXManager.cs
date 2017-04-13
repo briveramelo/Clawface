@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SFXManager : MonoBehaviour
+public class SFXManager : Singleton<SFXManager>
 {
-    Dictionary<SFXType, SoundEffect> SFD = new Dictionary<SFXType, SoundEffect>();
+    protected SFXManager() { }
+    private Dictionary<SFXType, SoundEffect> sfxDictionary;
 
     #region SFX Object
     [SerializeField]
@@ -31,40 +32,40 @@ public class SFXManager : MonoBehaviour
 
     private void Start()
     {
-        SoundEffect SFX = new SoundEffect(BloodExplosion);
-        SFD.Add(SFXType.BloodExplosion, SFX);
-
-        SFX = new SoundEffect(BlasterCharge);
-        SFD.Add(SFXType.BlasterCharge, SFX);
-
-        SFX = new SoundEffect(BlasterProjectile_Impact);
-        SFD.Add(SFXType.BlasterProjectileImpact, SFX);
-
-        SFX = new SoundEffect(BlasterShoot);
-        SFD.Add(SFXType.BlasterShoot, SFX);
-
-        SFX = new SoundEffect(GrapplingGun_Shoot);
-        SFD.Add(SFXType.GrapplingGun_Shoot, SFX);
-
-        SFX = new SoundEffect(StunBatonCharge);
-        SFD.Add(SFXType.StunBatonCharge, SFX);
-
-        SFX = new SoundEffect(StunBatonImpact);
-        SFD.Add(SFXType.StunBatonImpact, SFX);
-
-        SFX = new SoundEffect(StunBatonSwing);
-        SFD.Add(SFXType.StunBatonSwing, SFX);
-
-        SFX = new SoundEffect(TankTreads_Attack);
-        SFD.Add(SFXType.TankTreads_Attack, SFX);
-
-        SFX = new SoundEffect(TankTreads_Swing);
-        SFD.Add(SFXType.TankTreads_Swing, SFX);
-
+        sfxDictionary = new Dictionary<SFXType, SoundEffect>() {
+            {SFXType.BloodExplosion, new SoundEffect(Instantiate(BloodExplosion)) },
+            {SFXType.BlasterCharge, new SoundEffect(Instantiate(BlasterCharge)) },
+            {SFXType.BlasterProjectileImpact, new SoundEffect(Instantiate(BlasterProjectile_Impact)) },
+            {SFXType.BlasterShoot, new SoundEffect(Instantiate(BlasterShoot)) },
+            {SFXType.GrapplingGun_Shoot, new SoundEffect(Instantiate(GrapplingGun_Shoot)) },
+            {SFXType.StunBatonCharge, new SoundEffect(Instantiate(StunBatonCharge)) },
+            {SFXType.StunBatonImpact, new SoundEffect(Instantiate(StunBatonImpact)) },
+            {SFXType.StunBatonSwing, new SoundEffect(Instantiate(StunBatonSwing)) },
+            {SFXType.TankTreads_Attack, new SoundEffect(Instantiate(TankTreads_Attack)) },
+            {SFXType.TankTreads_Swing, new SoundEffect(Instantiate(TankTreads_Swing)) }
+        };
+        foreach(KeyValuePair<SFXType, SoundEffect> kp in sfxDictionary) {
+            kp.Value.SetParent(transform);
+        }      
     }
 
-    public void Play(SFXType i_Type)
+    public void Play(SFXType i_Type, Vector3 position)
     {
-        SFD[i_Type].Play();
+        if (sfxDictionary.ContainsKey(i_Type)) {
+            sfxDictionary[i_Type].Play(position);
+            return;
+        }
+        string message="No SFX Found for " + i_Type + ". Please add.";
+        Debug.LogFormat("<color=#0000FF>" + message + "</color>");
+        
+    }
+
+    public void Stop(SFXType i_Type) {
+        if (sfxDictionary.ContainsKey(i_Type)) {
+            sfxDictionary[i_Type].Stop();
+            return;
+        }
+        string message="No SFX Found for " + i_Type + ". Please add.";
+        Debug.LogFormat("<color=#0000FF>" + message + "</color>");
     }
 }

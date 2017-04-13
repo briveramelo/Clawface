@@ -74,10 +74,13 @@ public abstract class Mod : MonoBehaviour {
         //vfxModCharge.Disable();
     }
 
-    public virtual void Activate(Action onComplete=null) {
+    public virtual void Activate(Action onCompleteCoolDown=null, Action onActivate=null) {
         if (!energySettings.isInUse){
-            Timing.RunCoroutine(BeginCoolDown(onComplete));            
+            Timing.RunCoroutine(BeginCoolDown(onCompleteCoolDown));            
             useAction();
+            if (onActivate!=null) {
+                onActivate();
+            }
         }
     }
 
