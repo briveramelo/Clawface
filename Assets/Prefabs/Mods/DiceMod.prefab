@@ -65,6 +65,23 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1850952778261168
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4735947026327300}
+  - component: {fileID: 33567673621613998}
+  - component: {fileID: 23466572410736016}
+  m_Layer: 0
+  m_Name: Capsule
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1891895839945968
 GameObject:
   m_ObjectHideFlags: 0
@@ -73,13 +90,11 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4108714286435872}
-  - component: {fileID: 33492188538952858}
-  - component: {fileID: 23916149531673862}
   - component: {fileID: 114885437093737794}
   - component: {fileID: 65427258851758646}
   m_Layer: 0
   m_Name: DiceMod
-  m_TagString: Untagged
+  m_TagString: Mod
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -136,12 +151,13 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1891895839945968}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 5.0907583, y: 10.58468, z: 78.84382}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224414608765367000}
   - {fileID: 4211268888462366}
   - {fileID: 4250488396338662}
+  - {fileID: 4735947026327300}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -151,8 +167,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1189282880345126}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.917}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children:
   - {fileID: 4070084460638548}
@@ -165,19 +181,32 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1893880887262064}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.006, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.91}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children: []
   m_Father: {fileID: 4108714286435872}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!23 &23916149531673862
+--- !u!4 &4735947026327300
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1850952778261168}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4108714286435872}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!23 &23466572410736016
 MeshRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1891895839945968}
+  m_GameObject: {fileID: 1850952778261168}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -204,12 +233,12 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!33 &33492188538952858
+--- !u!33 &33567673621613998
 MeshFilter:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1891895839945968}
+  m_GameObject: {fileID: 1850952778261168}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!65 &65427258851758646
 BoxCollider:
@@ -221,8 +250,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.3049145, y: 2.6685495, z: 1.401268}
-  m_Center: {x: 0.0035581589, y: -0.01980257, z: -0.03507614}
+  m_Size: {x: 1.9341063, y: 2.6685495, z: 2.015236}
+  m_Center: {x: -0.030838728, y: -0.01980257, z: 0.035572052}
 --- !u!114 &114047618133116616
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -334,14 +363,14 @@ MonoBehaviour:
     timeToChargeArm: 1
     timeToChargeLeg: 1
     standardArmAttackSettings:
-      timeToCoolDown: 0
+      timeToCoolDown: 0.8
       timeToAttack: 0
-      attack: 0
+      attack: 3
       timeToHitStop: 0
     chargedArmAttackSettings:
-      timeToCoolDown: 0
+      timeToCoolDown: 0.8
       timeToAttack: 0
-      attack: 0
+      attack: 4
       timeToHitStop: 0
     standardLegAttackSettings:
       timeToCoolDown: 0
@@ -355,6 +384,8 @@ MonoBehaviour:
       timeToHitStop: 0
     timeCharged: 0
     isCoolingDown: 0
+    isActive: 0
+    hasStartedCharging: 0
   blasterEffect: {fileID: 114759411832738320}
   bulletSpawnPoint: {fileID: 4250488396338662}
 --- !u!198 &198117800488203860
@@ -412,7 +443,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: 319325012
+  randomSeed: -728898440
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -3289,7 +3320,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: -648160893
+  randomSeed: -1836522339
   InitialModule:
     serializedVersion: 3
     enabled: 1
