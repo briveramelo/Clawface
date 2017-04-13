@@ -36,6 +36,7 @@ public class BlasterBullet : MonoBehaviour {
             }
             if (isEnemy || isPlayer || other.gameObject.layer==(int)Layers.Ground) {
                 SFXManager.Instance.Play(SFXType.BlasterProjectileImpact, transform.position);
+                EmitBulletCollision();
                 gameObject.SetActive(false);
             }
         }

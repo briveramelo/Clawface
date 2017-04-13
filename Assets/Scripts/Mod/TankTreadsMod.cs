@@ -39,6 +39,7 @@ public class TankTreadsMod : Mod
 
     public override void Activate(Action onCompleteCoolDown=null, Action onActivate=null){
         onActivate = ()=> { SFXManager.Instance.Play(SFXType.TankTreads_Swing, transform.position);};
+        onCompleteCoolDown = ()=> { SFXManager.Instance.Stop(SFXType.TankTreads_Swing);};
         base.Activate(onCompleteCoolDown, onActivate);
     }
 

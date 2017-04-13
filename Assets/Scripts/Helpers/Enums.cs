@@ -40,7 +40,8 @@ public enum DamagerType {
     Geyser=6,
     StunMine=7,
     FireTrap=8,
-    GrapplingBotExplosion=9
+    GrapplingBotExplosion=9,
+    Dice=10
 }
 
 public enum DamagedType {
@@ -56,7 +57,8 @@ public enum ModType {
     TankTreads = 4,
     Grappler = 5,
     Boomerang = 6,
-    Geyser = 7
+    Geyser = 7,
+    Dice = 8
 }
 
 public enum ModCategory
@@ -96,7 +98,8 @@ public enum PoolObjectType {
     VFXSegwayBlaster=9,
     MallCopExplosion=10,
     GrapplingBot=11,
-    GeyserProjectile = 12
+    GeyserProjectile = 12,
+    DiceBlock=13
 }
 
 public enum MovementMode

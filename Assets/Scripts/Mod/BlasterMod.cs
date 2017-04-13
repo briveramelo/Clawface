@@ -51,7 +51,10 @@ public class BlasterMod : Mod {
         base.DetachAffect();
     }
 
-    public override void BeginCharging(){ base.BeginCharging(); SFXManager.Instance.Play(SFXType.BlasterCharge, transform.position);}
+    public override void BeginCharging(Action onBegin=null){
+        onBegin=()=> {  SFXManager.Instance.Play(SFXType.BlasterCharge, transform.position); };
+        base.BeginCharging(onBegin);
+    }
     protected override void BeginChargingArms(){ }
     protected override void RunChargingArms(){ }
     
