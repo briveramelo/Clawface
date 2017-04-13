@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using ModMan;
 
 #if UNITY_EDITOR
 using UnityEditor;

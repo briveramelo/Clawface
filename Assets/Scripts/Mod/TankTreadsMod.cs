@@ -58,7 +58,7 @@ public class TankTreadsMod : Mod
     public override void AttachAffect(ref Stats wielderStats, IMovable wielderMovable){
         base.AttachAffect(ref wielderStats, wielderMovable);
         if (getModSpot() == ModSpot.Legs){
-            this.wielderStats.Modify(StatType.MoveSpeed, legsMoveSpeedMod);
+            this.wielderStats.Multiply(StatType.MoveSpeed, legsMoveSpeedMod);
         }        
     }
 
@@ -68,7 +68,7 @@ public class TankTreadsMod : Mod
 
     public override void DetachAffect(){    
         if (getModSpot() == ModSpot.Legs){
-            wielderStats.Modify(StatType.MoveSpeed, 1f / legsMoveSpeedMod);
+            wielderStats.Multiply(StatType.MoveSpeed, 1f / legsMoveSpeedMod);
         }
         base.DetachAffect();
     }   
@@ -89,11 +89,23 @@ public class TankTreadsMod : Mod
 
                     if (damageable != null){
                         recentlyHitEnemies.Add(damageable);
-                        damageable.TakeDamage(attack);
+                        
                 
                         if (wielderStats.CompareTag(Strings.Tags.PLAYER)) {
+                            AnalyticsManager.Instance.AddModDamage(this.getModType(), Attack);
                             HitstopManager.Instance.StartHitstop(energySettings.hitStopTime);
-                        }                                
+
+                            if (damageable.GetHealth() - Attack < 0.1f)
+                            {
+                                AnalyticsManager.Instance.AddModKill(this.getModType());
+                            }
+                        }      
+                        else
+                        {
+                            AnalyticsManager.Instance.AddEnemyModDamage(this.getModType(), Attack);
+                        }
+                        damager.Set(Attack, getDamageType(), wielderMovable.GetForward());
+                        damageable.TakeDamage(damager);
                     }
                     if (movable != null){                    
                         Vector3 direction = (other.transform.position - transform.position).normalized;

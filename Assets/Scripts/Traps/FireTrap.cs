@@ -65,11 +65,13 @@ public class FireTrap : MonoBehaviour {
     State _currentState = State.Closed;
 
     List<IDamageable> _objectsInTrap = new List<IDamageable>();
+    private Damager damager=new Damager();
 
     void Awake() {
         _door1 = gameObject.FindInChildren("Door1").transform;
         _door2 = gameObject.FindInChildren("Door2").transform;
         _grate = gameObject.FindInChildren("Grate").transform;
+        damager.Set(_damagePerSecond, DamagerType.FireTrap, Vector3.up);
         //_damageVolume = GetComponent<Collider>();
 
         if (_mode == Mode.ContinuousStream) Open();
@@ -197,9 +199,9 @@ public class FireTrap : MonoBehaviour {
         _grate.localPosition = new Vector3(0f, grateY, 0f);
     }
 
-    void DoDamage() {
+    void DoDamage() {        
         foreach (var obj in _objectsInTrap) {
-            obj.TakeDamage(_damagePerSecond);
+            obj.TakeDamage(damager);
         }
     }
 }

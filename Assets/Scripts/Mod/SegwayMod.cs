@@ -12,11 +12,11 @@ public class SegwayMod : Mod {
 
     private void OnDrawGizmosSelected(){
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(capsuleBounds.start.position, capsuleBounds.radius);
-        Gizmos.DrawWireSphere(capsuleBounds.end.position, capsuleBounds.radius);        
+        Gizmos.DrawWireSphere(capsuleBounds.Start, capsuleBounds.radius);
+        Gizmos.DrawWireSphere(capsuleBounds.End, capsuleBounds.radius);        
 
         Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(capsuleBounds.start.position, aoeRadius);
+        Gizmos.DrawWireSphere(capsuleBounds.Start, aoeRadius);
     }
     
     [SerializeField] private VFXSegway segwayVFX;
@@ -53,7 +53,7 @@ public class SegwayMod : Mod {
 
         if (getModSpot() == ModSpot.Legs){
             segwayVFX.SetMoving(true);
-            this.wielderStats.Modify(StatType.MoveSpeed, speedBoostMultiplier);
+            this.wielderStats.Multiply(StatType.MoveSpeed, speedBoostMultiplier);
             this.wielderMovable = wielderMovable;
             this.wielderMovable.SetMovementMode(MovementMode.ICE);
         }
@@ -97,7 +97,7 @@ public class SegwayMod : Mod {
         segwayVFX.SetIdle(true);
         if (getModSpot() == ModSpot.Legs)
         {
-            wielderStats.Modify(StatType.MoveSpeed, 1f / speedBoostMultiplier);
+            wielderStats.Multiply(StatType.MoveSpeed, 1f / speedBoostMultiplier);
             this.wielderMovable.SetMovementMode(MovementMode.PRECISE);
         }
         base.DetachAffect();
@@ -131,10 +131,26 @@ public class SegwayMod : Mod {
                     IMovable movable = other.GetComponent<IMovable>();
 
                     if (!recentlyHitEnemies.Contains(damageable)) {
-                        if (damageable != null) {
+                        if (damageable != null)
+                        {
+                            if (wielderStats.CompareTag(Strings.Tags.PLAYER))
+                            {
+                                AnalyticsManager.Instance.AddModDamage(this.getModType(), Attack);
+
+                                if (damageable.GetHealth() - Attack < 0.1f)
+                                {
+                                    AnalyticsManager.Instance.AddModKill(this.getModType());
+                                }
+                            }
+                            else
+                            {
+                                AnalyticsManager.Instance.AddEnemyModDamage(this.getModType(), Attack);
+                            }
+
                             recentlyHitEnemies.Add(damageable);
-                            damageable.TakeDamage(attack);                            
-                        }                                        
+                            damager.Set(Attack, getDamageType(), wielderMovable.GetForward());
+                            damageable.TakeDamage(damager);
+                        }                                 
                         if (movable != null){                            
                             Vector3 pushDirection = -transform.up.NormalizedNoY();
                             movable.AddDecayingForce(pushDirection * pushForce);
@@ -149,9 +165,9 @@ public class SegwayMod : Mod {
 
     List<Collider> GetOverlap(){ 
         if (getModSpot()!=ModSpot.Legs){ 
-            return Physics.OverlapCapsule(capsuleBounds.start.position, capsuleBounds.end.position, capsuleBounds.radius).ToList();
+            return Physics.OverlapCapsule(capsuleBounds.Start, capsuleBounds.End, capsuleBounds.radius).ToList();
         }
-        return Physics.OverlapSphere(capsuleBounds.start.position, aoeRadius).ToList();
+        return Physics.OverlapSphere(capsuleBounds.Start, aoeRadius).ToList();
     }
 
     void Jump() {
