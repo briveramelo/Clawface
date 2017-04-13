@@ -321,12 +321,12 @@ MonoBehaviour:
     standardArmAttackSettings:
       timeToCoolDown: 0.2
       timeToAttack: 0
-      attack: 1
+      attack: 3
       timeToHitStop: 0
     chargedArmAttackSettings:
       timeToCoolDown: 1
       timeToAttack: 0
-      attack: 4
+      attack: 50
       timeToHitStop: 0
     standardLegAttackSettings:
       timeToCoolDown: 0.1
@@ -340,6 +340,8 @@ MonoBehaviour:
       timeToHitStop: 0
     timeCharged: 0
     isCoolingDown: 0
+    isActive: 0
+    hasStartedCharging: 0
   blasterEffect: {fileID: 114240664814391858}
   bulletSpawnPoint: {fileID: 4303765111120432}
   kickbackForce: 9
