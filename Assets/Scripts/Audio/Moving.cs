@@ -35,12 +35,12 @@ public class Moving : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.S))
         {
-            m_SFX.Play(SFXType.TankTreads_Attack, Camera.main.transform.position);
+            m_SFX.Play(SFXType.TankTreads_Attack, transform.position);
         }
 
         if (Input.GetKeyDown(KeyCode.D))
         {
-            m_SFX.Play(SFXType.BlasterCharge, Camera.main.transform.position);
+            m_SFX.Play(SFXType.BlasterCharge, transform.position);
         }
     }
 }
