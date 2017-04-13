@@ -24,8 +24,10 @@ public class BatonMod : Mod {
         base.Awake();
     }
 
-    public override void Activate(Action onComplete=null){
-        base.Activate();        
+    public override void Activate(Action onCompleteCoolDown=null, Action onActivate=null){
+        onActivate = ()=> { SFXManager.Instance.Play(SFXType.StunBatonSwing, transform.position);};
+        base.Activate(onCompleteCoolDown, onActivate);
+        SFXManager.Instance.Stop(SFXType.StunBatonCharge);
     }
 
 
@@ -34,7 +36,7 @@ public class BatonMod : Mod {
         //Nothing to do here
     }
 
-    protected override void BeginChargingArms(){ }
+    protected override void BeginChargingArms(){SFXManager.Instance.Play(SFXType.StunBatonCharge, transform.position); }
     protected override void RunChargingArms(){ }
     protected override void ActivateStandardArms(){ Timing.RunCoroutine(Swing()); }
     protected override void ActivateChargedArms(){ Timing.RunCoroutine(Swing()); }
@@ -45,7 +47,7 @@ public class BatonMod : Mod {
     protected override void ActivateStandardLegs(){ LayMine(); }
 
     IEnumerator<float> Swing(){
-        //AudioManager.Instance.PlaySFX(SFXType.StunBatonSwing);
+        SFXManager.Instance.Play(SFXType.StunBatonSwing, transform.position);
         float timeRemaining = energySettings.timeToAttack;        
         while (timeRemaining>0 && isActiveAndEnabled) {            
             GetOverlap().ForEach(other => {
@@ -55,7 +57,7 @@ public class BatonMod : Mod {
 
                     IDamageable damageable = other.GetComponent<IDamageable>();
                     if (damageable != null && !recentlyHitEnemies.Contains(damageable)){
-                        AudioManager.Instance.PlaySFX(SFXType.StunBatonImpact);
+                        SFXManager.Instance.Play(SFXType.StunBatonImpact, transform.position);
 
                         if (wielderStats.gameObject.CompareTag(Strings.Tags.PLAYER)){
                             HitstopManager.Instance.StartHitstop(energySettings.hitStopTime);
@@ -95,7 +97,7 @@ public class BatonMod : Mod {
     void LayMine(){
         GameObject stunMine = ObjectPool.Instance.GetObject(PoolObjectType.Mine);
         if (stunMine != null){
-            //AudioManager.Instance.PlaySFX(SFXType.StunBatonLayMine);
+            //SFXManager.Instance.Play(SFXType.StunBatonLayMine);
             projectileProperties.Initialize(GetWielderInstanceID(), Attack);
             stunMine.GetComponent<StunMine>().SetProjectileProperties(projectileProperties);
             stunMine.transform.position = transform.position;

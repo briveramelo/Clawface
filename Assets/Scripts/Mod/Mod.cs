@@ -74,23 +74,29 @@ public abstract class Mod : MonoBehaviour {
         //vfxModCharge.Disable();
     }
 
-    public virtual void Activate(Action onComplete=null) {
+    public virtual void Activate(Action onCompleteCoolDown=null, Action onActivate=null) {
         if (!energySettings.isInUse){
-            Timing.RunCoroutine(BeginCoolDown(onComplete));            
+            Timing.RunCoroutine(BeginCoolDown(onCompleteCoolDown));            
             useAction();
+            if (onActivate!=null) {
+                onActivate();
+            }
         }
     }
 
 
-    public virtual void BeginCharging() {
+    public virtual void BeginCharging(Action onBegin=null) {
         if (!energySettings.isInUse) {
             vfxModCharge.StartCharging(energySettings.timeToCharge);
-            energySettings.hasStartedCharging = true;
+            energySettings.StartCharging();
             if (getModSpot()==ModSpot.Legs) {
                 BeginChargingLegs();
             }
             else {
                 BeginChargingArms();
+            }
+            if(onBegin!=null) {
+                onBegin();
             }
         }
     }
@@ -219,11 +225,11 @@ public abstract class Mod : MonoBehaviour {
 
         [HideInInspector] public float timeCharged;
         [HideInInspector] public bool isCoolingDown;
+        [HideInInspector] public bool isActive;
+        [HideInInspector] public bool hasStartedCharging;
 
         private Mod mod;
         private bool isCharged;
-        public bool isActive;
-        public bool hasStartedCharging;
 
         public bool IsCharged { get { return isCharged; } }
         public float timeToCharge { get { return mod.getModSpot() == ModSpot.Legs ? timeToChargeLeg : timeToChargeArm; } }
@@ -262,6 +268,9 @@ public abstract class Mod : MonoBehaviour {
             if (timeCharged>timeToCharge) {
                 isCharged = true;
             }
+        }
+        public void StartCharging() {
+            hasStartedCharging=true;
         }
     }
 

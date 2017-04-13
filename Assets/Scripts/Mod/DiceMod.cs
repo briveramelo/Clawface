@@ -24,9 +24,9 @@ public class DiceMod : Mod {
     #endregion
 
     #region Public Methods
-    public override void Activate(Action onComplete = null)
+    public override void Activate(Action onCompleteCoolDown=null, Action onActivate=null)
     {
-        base.Activate(onComplete);
+        base.Activate(onCompleteCoolDown, onActivate);
     }
 
     public override void AttachAffect(ref Stats wielderStats, IMovable wielderMovable)
