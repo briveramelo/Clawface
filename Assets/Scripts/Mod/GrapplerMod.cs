@@ -40,13 +40,15 @@ public class GrapplerMod : Mod {
     #endregion
 
     #region Public Methods
-    public override void Activate(Action onComplete=null)
+    public override void Activate(Action onCompleteCoolDown=null, Action onActivate=null)
     {
-        base.Activate(onComplete);
+        onActivate = ()=> { SFXManager.Instance.Play(SFXType.GrapplingGun_Shoot, transform.position);};
+        base.Activate(onCompleteCoolDown, onActivate);
     }    
 
     protected override void BeginChargingArms(){ }
     protected override void RunChargingArms(){ }
+    
     protected override void ActivateStandardArms(){ hook.Throw(false); }
     protected override void ActivateChargedArms(){ hook.Throw(true); }
 

@@ -127,9 +127,10 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
 
             GameObject mallCopParts = ObjectPool.Instance.GetObject(PoolObjectType.MallCopExplosion);
             if (mallCopParts) {
+                SFXManager.Instance.Play(SFXType.BloodExplosion, transform.position);
                 mallCopParts.transform.position = transform.position + Vector3.up*3f;
                 mallCopParts.transform.rotation = transform.rotation;
-                mallCopParts.DeActivate(5f);        
+                mallCopParts.DeActivate(5f);                
             }
             gameObject.SetActive(false);
         }

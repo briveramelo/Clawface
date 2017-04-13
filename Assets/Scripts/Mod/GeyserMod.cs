@@ -36,8 +36,8 @@ public class GeyserMod : Mod {
     #endregion
 
     #region Public Methods
-    public override void Activate(Action onComplete=null){
-        base.Activate();
+    public override void Activate(Action onCompleteCoolDown=null, Action onActivate=null){
+        base.Activate(onCompleteCoolDown, onActivate);
     }
 
     protected override void BeginChargingArms(){  }

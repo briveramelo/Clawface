@@ -12,8 +12,8 @@ public enum CameraMode
     THIRDPERSON = 2
 }
 public enum CameraState {
-    SmoothDamp=0,
-    Lerp=1
+    SmoothDamping=0,
+    Shaking=1
 }
 
 public class CameraLock : MonoBehaviour {
@@ -25,55 +25,54 @@ public class CameraLock : MonoBehaviour {
     [SerializeField] private Vector3 angle;
     [SerializeField] private bool isLocked;
     [SerializeField] private float smoothTime;
-    private CameraState camState;
+    private CameraState camState=CameraState.SmoothDamping;
     // Use this for initialization
     void Start () {
-		if (distance == Vector3.zero && angle == Vector3.zero)
-        {
+		if (distance == Vector3.zero && angle == Vector3.zero){
             cameraMode = CameraMode.OVERHEAD;
             distance = objectToLockTo.position - transform.position;
             angle = transform.rotation.eulerAngles;
         }
-        camState = CameraState.SmoothDamp;
 	}
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-        if (isLocked && objectToLockTo != null)
-        {
+        if (isLocked && objectToLockTo != null){
             Vector3 maxSpeed = Vector3.zero;
-            if (camState==CameraState.SmoothDamp) {
+            if (camState==CameraState.SmoothDamping) {
                 transform.position = Vector3.SmoothDamp(transform.position, objectToLockTo.position - distance, ref maxSpeed, smoothTime);
             }
-            else if(camState==CameraState.Lerp) {
-                transform.position = Vector3.Lerp(transform.position, objectToLockTo.position - distance, .1f);
+            else if(camState==CameraState.Shaking) {
+                transform.position = objectToLockTo.position - distance;
             }
             transform.rotation = Quaternion.Euler(angle);
         }
 	}
 
-    public void Shake(float shakeTime) {
+    public void Shake(float shakeTime, float maxShakeMagnitude=0.15f) {
         string shakeString = "CameraLock";
         Timing.KillCoroutines(shakeString);
-        Timing.RunCoroutine(ShakeCam(shakeTime), Segment.LateUpdate, shakeString);
+        Timing.RunCoroutine(ShakeCam(shakeTime,maxShakeMagnitude), Segment.LateUpdate, shakeString);
     }
 
-    private IEnumerator<float> ShakeCam(float shakeTime) {
-        camState=CameraState.Lerp;
+    private IEnumerator<float> ShakeCam(float shakeTime, float maxShakeMagnitude) {
+        camState=CameraState.Shaking;
         float timeRemaining=shakeTime;
-        float shakeMaxMagnitude=.1f;        
-        float shakeMagnitude=shakeMaxMagnitude;
+        float shakeMagnitude=maxShakeMagnitude;
+        int camSide=1;
         while (timeRemaining>0f) {
             shakeMagnitude = Mathf.Lerp(shakeMagnitude, 0f, 0.05f);
             Vector3 shakeDirection = Random.onUnitSphere;
             shakeDirection-=Vector3.Project(shakeDirection, transform.forward);
+            shakeDirection.x=Mathf.Abs(shakeDirection.x) * camSide;
             shakeDirection.Normalize();
             shakeDirection *= shakeMagnitude;
             transform.position+=shakeDirection;
+            camSide*=-1;
             timeRemaining -=Time.deltaTime;
             yield return 0f;
         }
-        camState=CameraState.SmoothDamp;
+        camState=CameraState.SmoothDamping;
     }
 
     public void LockCamera()

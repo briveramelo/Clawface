@@ -27,7 +27,7 @@ public class FingerprintMod : Mod {
         base.Update();
 	}
 
-    public override void Activate(Action onComplete=null)
+    public override void Activate(Action onCompleteCoolDown=null, Action onActivate=null)
     {
         if (isAttached && unlockableObject != null){
             unlockableObject.Activate();

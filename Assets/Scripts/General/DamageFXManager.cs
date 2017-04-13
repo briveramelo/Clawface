@@ -22,7 +22,8 @@ public class DamageFXManager : Singleton<DamageFXManager> {
                     {DamagerType.SegwayPush, EmitBlood },
                     {DamagerType.StunMine, EmitGeyser },
                     {DamagerType.StunSwing, EmitBlood },
-                    {DamagerType.TankTreads, EmitBlood }
+                    {DamagerType.TankTreads, EmitBlood },
+                    {DamagerType.Dice, EmitGeyser }
                 }
             },
             {DamagedType.Milo,
@@ -36,7 +37,8 @@ public class DamageFXManager : Singleton<DamageFXManager> {
                     {DamagerType.SegwayPush, EmitBlood },
                     {DamagerType.StunMine, EmitGeyser },
                     {DamagerType.StunSwing, EmitBlood },
-                    {DamagerType.TankTreads, EmitBlood }
+                    {DamagerType.TankTreads, EmitBlood },
+                    {DamagerType.Dice, EmitGeyser }
                 }
             },            
         };
