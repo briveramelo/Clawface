@@ -27,6 +27,24 @@ public class DiceBlock : MonoBehaviour {
     private Transform side6;
 
     [SerializeField]
+    private float oneMultiply;
+
+    [SerializeField]
+    private float twoMultiply;
+
+    [SerializeField]
+    private float threeMultiply;
+
+    [SerializeField]
+    private float fourMultiply;
+
+    [SerializeField]
+    private float fiveMultiply;
+
+    [SerializeField]
+    private float sixMultiply;
+
+    [SerializeField]
     private float sphereRadius;
 
     [SerializeField]
@@ -50,6 +68,8 @@ public class DiceBlock : MonoBehaviour {
     private Transform upSide;
     private float explosionTimer;
     private bool willExplode;
+
+    private DiceSide faceUpSide;
     #endregion
 
     #region Unity LifeCycle
@@ -62,46 +82,41 @@ public class DiceBlock : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        //if (Input.GetKeyDown(KeyCode.M))
-        //{
-        //    AddRandomForce();
-        //}
-
         if (CheckGroundedSide(side1))
         {
-
+            faceUpSide = DiceSide.One;
         }
         else if (CheckGroundedSide(side2))
         {
-
+            faceUpSide = DiceSide.Two;
         }
         else if (CheckGroundedSide(side3))
         {
-
+            faceUpSide = DiceSide.Three;
         }
         else if (CheckGroundedSide(side4))
         {
-
+            faceUpSide = DiceSide.Four;
         }
         else if (CheckGroundedSide(side5))
         {
-
+            faceUpSide = DiceSide.Five;
         }
         else if (CheckGroundedSide(side6))
         {
-
+            faceUpSide = DiceSide.Six;
         } 
         else
         {
-            upSide = null;
+            faceUpSide = DiceSide.None;
         }
 
-        if (upSide != null)
+        if (faceUpSide != DiceSide.None)
         {
             explosionTimer += Time.deltaTime;
             if (willExplode && explosionTimer >= timeTilExplosion)
             {
-                Explode(explosionDamage);
+                Explode(explosionDamage * GetMultiplierFromDiceSide());
             }
         }
     }
@@ -119,12 +134,34 @@ public class DiceBlock : MonoBehaviour {
 
     public void Roll(Vector3 direction)
     {
-        rigid.AddForce(direction * forceStrength);
+        rigid.AddForce(direction.normalized * forceStrength);
         rigid.AddTorque(Random.onUnitSphere * tumbleStrength);
         willExplode = true;
         explosionTimer = 0;
     }
 
+    public float GetMultiplierFromDiceSide()
+    {
+        switch (faceUpSide)
+        {
+            case DiceSide.One:
+                return oneMultiply;
+            case DiceSide.Two:
+                return twoMultiply;
+            case DiceSide.Three:
+                return threeMultiply;
+            case DiceSide.Four:
+                return fourMultiply;
+            case DiceSide.Five:
+                return fiveMultiply;
+            case DiceSide.Six:
+                return sixMultiply;
+            case DiceSide.None:
+                return 0f;
+        }
+
+        return 0f;
+    }
     #endregion
 
 
@@ -159,7 +196,11 @@ public class DiceBlock : MonoBehaviour {
 
         foreach (IDamageable damageable in damageableList)
         {
-            damageable.TakeDamage(damage);
+            Damager damager = new Damager();
+            damager.damage = damage;
+            damager.impactDirection = this.transform.position;
+            damager.damagerType = DamagerType.Dice;
+            damageable.TakeDamage(damager);
         }
 
         Destroy(this.gameObject);
@@ -167,5 +208,17 @@ public class DiceBlock : MonoBehaviour {
 
     #endregion
 
+    #region Private Declarations
+    private enum DiceSide {
+        One = 1,
+        Two = 2,
+        Three = 3,
+        Four = 4,
+        Five = 5,
+        Six = 6,
+        None = 7
+    }
+
+    #endregion
 
 }

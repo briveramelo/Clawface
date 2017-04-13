@@ -18,17 +18,7 @@ public class DiceMod : Mod {
         type = ModType.Dice;
         category = ModCategory.Ranged;
 	}
-	
-	// Update is called once per frame
-	protected override void Update () {
-        if (wielderMovable != null)
-        {
-            if (getModSpot() != ModSpot.Legs)
-            {
-                transform.forward = wielderMovable.GetForward();
-            }
-        }
-    }
+
     #endregion
 
     #region Public Methods
@@ -40,47 +30,38 @@ public class DiceMod : Mod {
 
     public override void DeActivate()
     {
-        throw new NotImplementedException();
     }
 
     protected override void ActivateChargedArms()
     {
-        throw new NotImplementedException();
     }
 
     protected override void ActivateChargedLegs()
     {
-        throw new NotImplementedException();
     }
 
     protected override void ActivateStandardArms()
     {
-        throw new NotImplementedException();
     }
 
     protected override void ActivateStandardLegs()
     {
-        throw new NotImplementedException();
     }
 
     protected override void BeginChargingArms()
     {
-        throw new NotImplementedException();
     }
 
     protected override void BeginChargingLegs()
     {
-        throw new NotImplementedException();
     }
 
     protected override void RunChargingArms()
     {
-        throw new NotImplementedException();
     }
 
     protected override void RunChargingLegs()
     {
-        throw new NotImplementedException();
     }
 
     #endregion
@@ -93,6 +74,7 @@ public class DiceMod : Mod {
         {
             diceBlock.transform.position = bulletSpawnPoint.position;
             diceBlock.transform.rotation = transform.rotation;
+            diceBlock.Roll(this.gameObject.transform.position + bulletSpawnPoint.position);
         }
         return diceBlock;
     }
