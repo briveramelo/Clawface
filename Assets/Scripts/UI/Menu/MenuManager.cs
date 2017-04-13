@@ -10,14 +10,25 @@ public class MenuManager : Singleton<MenuManager> {
 
     #region Unity Serialization Fields
     [SerializeField]
-    private List<Menu> menus;
+    private List<GameObject> menuPrefabs;
     #endregion
 
     #region Private Fields
+    private List<Menu> menus;
     private Queue<TransitionBundle> transitionQueue = new Queue<TransitionBundle>();
     #endregion
 
     #region Unity Lifecycle Functions
+    private void Start()
+    {
+        foreach (GameObject prefab in menuPrefabs)
+        {
+            GameObject obj = Instantiate(prefab);
+            obj.transform.SetParent(gameObject.transform, false);
+            Menu menu = obj.GetComponent<Menu>();
+            menus.Add(menu);
+        }
+    }
     void Update()
     {
         while (transitionQueue.Count > 0)

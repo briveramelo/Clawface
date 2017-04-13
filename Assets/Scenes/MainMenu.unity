@@ -3040,6 +3040,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4153a05d1d10e684697848bf0206baff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 0}
 --- !u!1 &212148290
 GameObject:
   m_ObjectHideFlags: 0
@@ -6300,11 +6301,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1192868006484574, guid: 35e2e81db0ce1444abf0202e84477b36, type: 2}
       propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1192868006484574, guid: 35e2e81db0ce1444abf0202e84477b36, type: 2}
-      propertyPath: m_StaticEditorFlags
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 35e2e81db0ce1444abf0202e84477b36, type: 2}

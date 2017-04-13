@@ -72,6 +72,7 @@ GameObject:
   - component: {fileID: 114858629342104144}
   - component: {fileID: 114910005969493454}
   - component: {fileID: 225777717085089894}
+  - component: {fileID: 114317228408207874}
   m_Layer: 0
   m_Name: LoadMenu
   m_TagString: Untagged
@@ -131,6 +132,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &114317228408207874
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1364298826775566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fcb963899cb32944b8c1809014a628d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 225777717085089894}
+  loadingBar: {fileID: 114506131717339034}
+  loadingText: {fileID: 114534170786470390}
 --- !u!114 &114421711328974382
 MonoBehaviour:
   m_ObjectHideFlags: 1

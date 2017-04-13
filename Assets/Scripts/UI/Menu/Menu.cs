@@ -14,6 +14,18 @@ public abstract class Menu : MonoBehaviour {
     }
     #endregion
 
+    #region Protected Fields
+    [SerializeField]
+    protected CanvasGroup canvasGroup;
+    #endregion
+
+    #region Unity Lifecycle Methods
+    private void Start()
+    {
+        canvasGroup.alpha = 0.0F;
+    }
+    #endregion
+
     #region Public Interface
     public Menu(string name)
     {
@@ -23,7 +35,7 @@ public abstract class Menu : MonoBehaviour {
     public abstract void DoTransition(Transition transition, Effect[] effects);
     #endregion
 
-   #region Protected Interface
+    #region Protected Interface
     protected virtual void OnTransitionStarted(Transition transition, Effect[] effects)
     {
         if (TransitionStarted != null)

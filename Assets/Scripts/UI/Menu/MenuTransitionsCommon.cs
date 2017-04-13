@@ -9,7 +9,7 @@ using UnityEngine.Assertions;
 public class MenuTransitionsCommon {
 
     #region Public Interface
-    IEnumerator FadeCoroutine(float startAlpha, float endAlpha, float duration,
+    public static IEnumerator FadeCoroutine(float startAlpha, float endAlpha, float duration,
             CanvasGroup canvas, TransitionComplete callback)
     {
         Assert.IsTrue(duration > 0.0F);
