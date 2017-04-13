@@ -77,7 +77,7 @@ public class BoomerangMod : Mod {
     {
         base.Activate();
     }
-
+    float startTime;
     protected override void BeginChargingArms(){ }
     protected override void RunChargingArms(){ GrowSize(); }
     protected override void ActivateStandardArms(){ ReleaseBoomerang(); }
