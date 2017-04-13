@@ -225,11 +225,11 @@ public abstract class Mod : MonoBehaviour {
 
         [HideInInspector] public float timeCharged;
         [HideInInspector] public bool isCoolingDown;
+        [HideInInspector] public bool isActive;
+        [HideInInspector] public bool hasStartedCharging;
 
         private Mod mod;
         private bool isCharged;
-        public bool isActive;
-        public bool hasStartedCharging;
 
         public bool IsCharged { get { return isCharged; } }
         public float timeToCharge { get { return mod.getModSpot() == ModSpot.Legs ? timeToChargeLeg : timeToChargeArm; } }

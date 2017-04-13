@@ -82,6 +82,7 @@ public class DiceBlock : MonoBehaviour {
     private bool drawExplosion;
     private float drawExplosionTimer;
     private ShooterProperties shooterProperties = new ShooterProperties();
+    Damager damager = new Damager();
     #endregion
 
     #region Unity LifeCycle
@@ -255,10 +256,8 @@ public class DiceBlock : MonoBehaviour {
         foreach (IDamageable damageable in damageableList)
         {
             if (damageable != null)
-            {
-                Damager damager = new Damager();
-                damager.Set(shooterProperties.damage * GetMultiplierFromDiceSide(), DamagerType.Dice, this.transform.position);
-                Debug.Log(damager.damage);
+            {                
+                damager.Set(shooterProperties.damage * GetMultiplierFromDiceSide(), DamagerType.Dice, Vector3.down);
                 damageable.TakeDamage(damager);
             }
         }
