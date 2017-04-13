@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using MovementEffects;
 using System.Linq;
+using ModMan;
 
 public class GrapplingBotExplodeState : GrapplingBotState {    
+
+    private Damager damager=new Damager();
 
     public override void OnEnter() {
         Timing.RunCoroutine(BeginExplosion());
@@ -63,7 +66,8 @@ public class GrapplingBotExplodeState : GrapplingBotState {
                 IDamageable damageable = col.GetComponent<IDamageable>();
                 if (damageable != null) {
                     float explosionDamage = properties.maxExplosionDamage * (1 - (distanceToCollider / properties.explosionRadius));
-                    damageable.TakeDamage(explosionDamage);
+                    damager.Set(explosionDamage, DamagerType.GrapplingBotExplosion, explosionDirection);
+                    damageable.TakeDamage(damager);
                 }
             }
         });        
@@ -72,8 +76,7 @@ public class GrapplingBotExplodeState : GrapplingBotState {
     Vector3 GetExplosionDirection(Vector3 other, out float distanceToCollider) {
         Vector3 explosionDirection = other - controller.transform.position;
         distanceToCollider = explosionDirection.magnitude;
-        explosionDirection.y = 0;
-        explosionDirection.Normalize();
+        explosionDirection.NormalizedNoY();
         return explosionDirection;
     }
 

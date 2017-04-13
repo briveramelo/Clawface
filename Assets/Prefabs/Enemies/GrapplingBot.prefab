@@ -205,6 +205,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
 --- !u!23 &23726913455550954
 MeshRenderer:
@@ -236,6 +237,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
 --- !u!23 &23975715653884334
 MeshRenderer:
@@ -267,6 +269,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
 --- !u!33 &33060816335191074
 MeshFilter:
@@ -356,14 +359,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e35b892bc77956b48afc197fc6adade3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mod: {fileID: 114793595781494364}
   growRate: 10
   shrinkRate: 10
   maxLength: 3
   rotateSpeed: 500
-  damage: 5
-  damageMultiplier: 5
-  jumpForce: 50
-  jumpForceMultiplier: 2
   pullForce: 5
 --- !u!114 &114362621536635694
 MonoBehaviour:
@@ -434,6 +434,9 @@ MonoBehaviour:
   health: 4
   moveSpeed: 0.6
   rangedAccuracy: 400
+  shotSpeed: 0
+  shotPushForce: 0
+  skinnableHealth: 0
 --- !u!114 &114793595781494364
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -445,8 +448,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 205d2f24998c3ca4195927aa09b17b01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hasState: 0
+  vfxModChargePrefab: {fileID: 1868770362516384, guid: 75076dc3f3739ff4bb01ae67a336ecc5,
+    type: 2}
   pickupCollider: {fileID: 65642169863216036}
+  modCanvas: {fileID: 0}
+  energySettings:
+    timeToChargeArm: 2
+    timeToChargeLeg: 2
+    standardArmAttackSettings:
+      timeToCoolDown: 0.8
+      timeToAttack: 0
+      attack: 4
+      timeToHitStop: 0.03
+    chargedArmAttackSettings:
+      timeToCoolDown: 2
+      timeToAttack: 0
+      attack: 9
+      timeToHitStop: 0.1
+    standardLegAttackSettings:
+      timeToCoolDown: 0.5
+      timeToAttack: 0
+      attack: 2
+      timeToHitStop: 0.03
+    chargedLegAttackSettings:
+      timeToCoolDown: 2
+      timeToAttack: 0
+      attack: 6
+      timeToHitStop: 0.07
+    timeCharged: 0
+    isCoolingDown: 0
   hook: {fileID: 114263965654539232}
+  jumpForce: 30
+  jumpForceMultiplier: 2
 --- !u!114 &114967983117644996
 MonoBehaviour:
   m_ObjectHideFlags: 1
