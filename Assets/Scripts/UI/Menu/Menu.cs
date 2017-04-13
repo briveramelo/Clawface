@@ -23,7 +23,7 @@ public abstract class Menu : MonoBehaviour {
     public abstract void DoTransition(Transition transition, Effect[] effects);
     #endregion
 
-    #region Protected Interface
+   #region Protected Interface
     protected virtual void OnTransitionStarted(Transition transition, Effect[] effects)
     {
         if (TransitionStarted != null)
