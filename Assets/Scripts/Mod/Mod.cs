@@ -85,15 +85,18 @@ public abstract class Mod : MonoBehaviour {
     }
 
 
-    public virtual void BeginCharging() {
+    public virtual void BeginCharging(Action onBegin=null) {
         if (!energySettings.isInUse) {
             vfxModCharge.StartCharging(energySettings.timeToCharge);
-            energySettings.hasStartedCharging = true;
+            energySettings.StartCharging();
             if (getModSpot()==ModSpot.Legs) {
                 BeginChargingLegs();
             }
             else {
                 BeginChargingArms();
+            }
+            if(onBegin!=null) {
+                onBegin();
             }
         }
     }
@@ -265,6 +268,9 @@ public abstract class Mod : MonoBehaviour {
             if (timeCharged>timeToCharge) {
                 isCharged = true;
             }
+        }
+        public void StartCharging() {
+            hasStartedCharging=true;
         }
     }
 
