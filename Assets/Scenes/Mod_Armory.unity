@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -17451,16 +17451,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 916157218}
     m_Modifications:
-    - target: {fileID: 114973293817662478, guid: 6a1c0949d9ce284499cf975c5703f9f0,
-        type: 2}
-      propertyPath: pools.Array.size
-      value: 14
-      objectReference: {fileID: 0}
-    - target: {fileID: 114973293817662478, guid: 6a1c0949d9ce284499cf975c5703f9f0,
-        type: 2}
-      propertyPath: pools.Array.data[13].prefabs.Array.size
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4611027295727446, guid: 6a1c0949d9ce284499cf975c5703f9f0, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -17492,22 +17482,6 @@ Prefab:
     - target: {fileID: 4611027295727446, guid: 6a1c0949d9ce284499cf975c5703f9f0, type: 2}
       propertyPath: m_RootOrder
       value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 114973293817662478, guid: 6a1c0949d9ce284499cf975c5703f9f0,
-        type: 2}
-      propertyPath: pools.Array.data[13].prefabs.Array.data[0]
-      value: 
-      objectReference: {fileID: 1398760943834546, guid: 42ecd427abb67654ab7249b9f117659c,
-        type: 2}
-    - target: {fileID: 114973293817662478, guid: 6a1c0949d9ce284499cf975c5703f9f0,
-        type: 2}
-      propertyPath: pools.Array.data[13].size
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 114973293817662478, guid: 6a1c0949d9ce284499cf975c5703f9f0,
-        type: 2}
-      propertyPath: pools.Array.data[13].poolObjectType
-      value: 13
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6a1c0949d9ce284499cf975c5703f9f0, type: 2}
