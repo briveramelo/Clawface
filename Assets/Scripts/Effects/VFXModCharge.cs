@@ -22,20 +22,21 @@ public class VFXModCharge : MonoBehaviour {
             _chargeTimer -= Time.deltaTime;
             if (_chargeTimer <= 0f) {
                 foreach (var ps in _chargingParticleSystems) ps.Stop();
-                foreach (var ps in _onChargedParticleSystems) ps.Play();
+                foreach (var ps in _onChargedParticleSystems) { ps.Play(); }
                 foreach (var ps in _chargedParticleSystems) ps.Play();
             }
         }
     }
-
     public void StartCharging (float time) {
         _chargeTimer = time;
         _playing = true;
         foreach (var ps in _chargedParticleSystems) ps.Stop();
         foreach (var ps in _chargingParticleSystems) {
             var main = ps.main;
-            main.duration = time;
-            ps.Play();
+            if (!ps.isPlaying) {
+                main.duration = time;
+                ps.Play();
+            }
         }
     }
 

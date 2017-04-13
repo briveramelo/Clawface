@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using MovementEffects;
 
 public class Hook : MonoBehaviour {
 
@@ -8,33 +9,23 @@ public class Hook : MonoBehaviour {
     #endregion
 
     #region Serialized Unity Inspector fields
-    [SerializeField]
-    private float growRate;
-    [SerializeField]
-    private float shrinkRate;
-    [SerializeField]
-    private float maxLength;
-    [SerializeField]
-    private float rotateSpeed;
-    [SerializeField]
-    private float damage;
-    [SerializeField]
-    private float damageMultiplier;
-    [SerializeField]
-    private float jumpForce;
-    [SerializeField]
-    private float jumpForceMultiplier;
-    [SerializeField]
-    private float pullForce;
+    [SerializeField] GrapplerMod mod;
+    [SerializeField] private float growRate;
+    [SerializeField] private float shrinkRate;
+    [SerializeField] private float maxLength;
+    [SerializeField] private float rotateSpeed;
+    [SerializeField] private float pullForce;
     #endregion
 
     #region Private Fields
     private float initSize;
     private Vector3 initPos;
-    GrapplerMod.SharedVariables sharedVariables;
-    private bool charging;
+    private bool isCharged;
     private bool isPullingWielder;
-    private bool justStartedThrowing;
+    private bool isThrowing;
+    private bool isRetracting;
+    private Vector3 pullDirection;
+    private Damager damager=new Damager();
     #endregion
 
     #region Unity Lifecycle
@@ -42,112 +33,92 @@ public class Hook : MonoBehaviour {
     void Start () {
         initSize = transform.localScale.z;
         initPos = transform.localPosition;
-        justStartedThrowing = true;        
     }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
-    private void OnTriggerEnter(Collider other)
-    {   
-        if ((other.gameObject.tag == Strings.Tags.PLAYER || other.gameObject.tag == Strings.Tags.ENEMY) && sharedVariables.modSpot != ModSpot.Legs)
-        {            
-            if (sharedVariables.throwHook)
+    private void OnTriggerEnter(Collider other){   
+        if ((other.gameObject.CompareTag(Strings.Tags.PLAYER) ||
+            other.gameObject.CompareTag(Strings.Tags.ENEMY) ||
+            other.gameObject.layer==(int)Layers.Ground) && 
+            mod.getModSpot()!= ModSpot.Legs){
+
+
+            if (isThrowing)
             {
                 HitTarget();
-            }
-            if (sharedVariables.throwHook || sharedVariables.retractHook)
-            {
                 IDamageable damageable = other.gameObject.GetComponent<IDamageable>();
                 if (damageable != null)
                 {
-                    damageable.TakeDamage(damage);
-                }
-            }
-        }
-    }
+                    if (this.transform.root.CompareTag(Strings.Tags.PLAYER))
+                    {
+                        AnalyticsManager.Instance.AddModDamage(ModType.Grappler, mod.Attack);
 
-    void HitTarget() {
-        sharedVariables.throwHook = false;
-        sharedVariables.retractHook = true;
-        if (sharedVariables.specialAttack)
-        {
-            sharedVariables.specialAttack = false;
-            isPullingWielder = true;
-            sharedVariables.hitTargetThisShot = true;
+                        if (damageable.GetHealth() - mod.Attack <= 0.01f)
+                        {
+                            AnalyticsManager.Instance.AddModKill(ModType.Grappler);
+                        }
+                    }
+                    else if (this.transform.root.CompareTag(Strings.Tags.ENEMY))
+                    {
+                        AnalyticsManager.Instance.AddEnemyModDamage(ModType.Grappler, mod.Attack);
+                    }
+                    
+                    damager.Set(mod.Attack, DamagerType.GrapplingHook, transform.forward);
+                    damageable.TakeDamage(damager);
+                }
+            }        
         }
-    }
+    }    
     #endregion
 
     #region Public Methods
-    public void Init(ref GrapplerMod.SharedVariables sharedVariables)
-    {
-        this.sharedVariables = sharedVariables;
+    public void Throw(bool isCharged){
+        this.isCharged = isCharged;
+        Timing.RunCoroutine(ThrowHook());
     }
-    public void Throw()
-    {
-        transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z + growRate * Time.deltaTime);
-        transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z + growRate * Time.deltaTime / 2.0f);
-        if (sharedVariables.modSpot == ModSpot.Legs && sharedVariables.wielderMovable.IsGrounded())
-        {
-            Jump();
+    IEnumerator<float> ThrowHook() {
+        isThrowing= true;
+        while (transform.localScale.z < maxLength && isThrowing){
+            transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z + growRate * Time.deltaTime);
+            transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z + growRate * Time.deltaTime / 2.0f);                          
+            yield return 0f;
         }
-        if (transform.localScale.z > maxLength)
-        {
-            SwitchFromThrowToRetract();
-        }
-        if (justStartedThrowing) {
-            justStartedThrowing = false;
-            sharedVariables.hitTargetThisShot = false;
-        }
+        isThrowing= false;
+        Timing.RunCoroutine(Retract());
     }
 
-    void Jump() {
-        float force = charging ? jumpForce * jumpForceMultiplier : jumpForce;
-        sharedVariables.wielderMovable.AddDecayingForce(Vector3.up * force);
-        charging = false;
-    }
-
-    void SwitchFromThrowToRetract() {
-        transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, maxLength);
-        sharedVariables.throwHook = false;
-        sharedVariables.retractHook = true;
-    }
-
-    public void Retract()
-    {
-        transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z - shrinkRate * Time.deltaTime);
-        transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z - shrinkRate * Time.deltaTime / 2.0f);
-        if (isPullingWielder)
-        {
-            sharedVariables.wielderMovable.AddDecayingForce(sharedVariables.wielderMovable.GetForward() * pullForce);
-        }        
-        if (transform.localScale.z < initSize)
-        {
-            FinishRetracting();
+    void HitTarget(){
+        isThrowing = false;
+        mod.SetHitTargetThisShot(true);
+        if (isCharged) {
+            isPullingWielder = true;
+            pullDirection = mod.WielderMovable.GetForward();
         }
     }
 
-    void FinishRetracting() {
-        transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, initSize);
-        transform.localPosition = initPos;
-        sharedVariables.retractHook = false;
-        isPullingWielder = false;
-        sharedVariables.specialAttack = false;
-        justStartedThrowing = true;                
+    private void PullToTarget() {
+        mod.WielderMovable.AddDecayingForce(pullDirection * pullForce);
     }
 
-    public void Rotate()
-    {
-        transform.Rotate(Vector3.forward, rotateSpeed * Time.deltaTime);
-        charging = true;
+    private IEnumerator<float> Retract(){        
+        while (transform.localScale.z > initSize){
+            if (isPullingWielder) {
+                PullToTarget();
+            }
+            transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z - shrinkRate * Time.deltaTime);
+            transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z - shrinkRate * Time.deltaTime / 2.0f);
+            yield return 0f;
+        }      
+        FinishRetracting();        
     }
 
     #endregion
 
     #region Private Methods
+    void FinishRetracting(){
+        transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, initSize);
+        transform.localPosition = initPos;
+        isPullingWielder = false;
+    }        
     #endregion
 
     #region Private Structures

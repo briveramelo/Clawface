@@ -4,19 +4,17 @@ using UnityEngine;
 
 public class GeyserProjectile : MonoBehaviour {
 
-    #region Public fields
-    [HideInInspector]
-    public float damage;
+    #region Public fields    
     #endregion
 
     #region Serialized Unity Inspector fields
-    [SerializeField]
-    private VFXBlasterShoot vfx;
-    [SerializeField]
-    private float lifeTime;
+    [SerializeField] private VFXBlasterShoot vfx;
+    [SerializeField] private float lifeTime;
     #endregion
 
     #region Private Fields
+    private ProjectileProperties projectileProperties;
+    private Damager damager=new Damager();
     #endregion
 
     #region Unity Lifecycle
@@ -49,17 +47,23 @@ public class GeyserProjectile : MonoBehaviour {
         transform.localScale = Vector3.one;
     }
 
-    void OnTriggerEnter(Collider other)
-    {
-        print(other.tag);
-        if(other.tag == Strings.Tags.ENEMY)
-        {
-            other.GetComponent<IDamageable>().TakeDamage(damage);
+    void OnTriggerEnter(Collider other){
+        if((other.CompareTag(Strings.Tags.ENEMY) || other.CompareTag(Strings.Tags.PLAYER))){
+            if (projectileProperties.shooterInstanceID != other.gameObject.GetInstanceID()) {
+                IDamageable damageable = other.GetComponent<IDamageable>();
+                if (damageable!=null) {
+                    damager.Set(projectileProperties.damage, DamagerType.Geyser, Vector3.down);
+                    damageable.TakeDamage(damager);
+                }
+            }
         }
     }
-#endregion
+    #endregion
 
-#region Public Methods
+    #region Public Methods
+    public void SetProjectileProperties(ProjectileProperties projectileProperties) {
+        this.projectileProperties = projectileProperties;
+    }
 #endregion
 
 #region Private Methods

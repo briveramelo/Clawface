@@ -19,6 +19,7 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
     [SerializeField] private GameObject mySkin;
     [SerializeField] private CopUI copUICanvas;
     [SerializeField] private Mod mod;
+    [SerializeField] private Transform bloodEmissionLocation;
     #endregion
 
     #region 3. Private fields
@@ -26,6 +27,8 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
 
     private int stunCount;
     private Will will=new Will();
+    private Damaged damaged = new Damaged();
+    private DamagePack damagePack=new DamagePack();
 
     #endregion
 
@@ -40,8 +43,7 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
     void Awake ()
     {
         controller.Initialize(properties, mod, velBody, animator, myStats);
-
-       
+        damaged.Set(DamagedType.MallCop, bloodEmissionLocation);
         mod.setModSpot(ModSpot.ArmR);
         mod.AttachAffect(ref myStats, velBody);
         ResetForRebirth();
@@ -51,11 +53,13 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
 
     #region 5. Public Methods   
 
-    void IDamageable.TakeDamage(float damage)
+    void IDamageable.TakeDamage(Damager damager)
     {        
         if (myStats.health > 0){                        
-            myStats.TakeDamage(damage);
-            if (myStats.health <= 5 && !glowObject.isGlowing){
+            myStats.TakeDamage(damager.damage);            
+            damagePack.Set(damager, damaged);            
+            DamageFXManager.Instance.EmitDamageEffect(damagePack);
+            if (myStats.health <= myStats.skinnableHealth && !glowObject.isGlowing){
                 glowObject.SetToGlow();
                 copUICanvas.gameObject.SetActive(true);
                 copUICanvas.ShowAction(ActionType.Skin);
@@ -76,8 +80,13 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
         }
     }
 
+    float IDamageable.GetHealth()
+    {
+        return myStats.health;
+    }
+
     bool ISkinnable.IsSkinnable(){
-        return myStats.health <= 5;
+        return myStats.health <= myStats.skinnableHealth;
     }
 
     GameObject ISkinnable.DeSkin(){
@@ -109,29 +118,33 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
     #region 6. Private Methods    
 
     private void OnDeath() {
-        if (will.willHasBeenWritten)
-        {
-            will.onDeath();
-        }
+        if (!will.isDead) {
+            will.isDead=true;
+            if (will.willHasBeenWritten)
+            {
+                will.onDeath();
+            }
 
-        GameObject mallCopParts = ObjectPool.Instance.GetObject(PoolObjectType.MallCopExplosion);
-        if (mallCopParts) {
-            mallCopParts.transform.position = transform.position + Vector3.up*3f;
-            mallCopParts.transform.rotation = transform.rotation;
-            mallCopParts.DeActivate(5f);        
+            GameObject mallCopParts = ObjectPool.Instance.GetObject(PoolObjectType.MallCopExplosion);
+            if (mallCopParts) {
+                mallCopParts.transform.position = transform.position + Vector3.up*3f;
+                mallCopParts.transform.rotation = transform.rotation;
+                mallCopParts.DeActivate(5f);        
+            }
+            gameObject.SetActive(false);
         }
-        gameObject.SetActive(false);
     }
 
     private void ResetForRebirth() {
         GetComponent<CapsuleCollider>().enabled = true;
         copUICanvas.gameObject.SetActive(false);
-
+        mod.DeactivateModCanvas();
 
         myStats.ResetForRebirth();
         controller.ResetForRebirth();
         velBody.ResetForRebirth();
         glowObject.ResetForRebirth();
+        will.Reset();
         //TODO check for missing mod and create a new one and attach it
     }       
 
@@ -150,10 +163,4 @@ public class MallCopProperties {
     [Range(1, 6)] public int numShocksToStun;
     [Range(.1f, 1)] public float twitchRange;
     [Range(.1f, 1f)] public float twitchTime;
-}
-
-public class Will {
-    public OnDeath onDeath;
-    public bool willHasBeenWritten;
-    public bool deathDocumented;
 }

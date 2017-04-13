@@ -18,13 +18,14 @@ public interface IStunnable
 
 public interface IDamageable
 {
-    void TakeDamage(float damage);
+    void TakeDamage(Damager damager);
+    float GetHealth();
 }
 
 public interface IModifiable
 {
-    void Modify(StatType statType, float statMultiplier);
-    void Modify(StatType statType, int statAddend);
+    void Multiply(StatType statType, float statMultiplier);
+    void Add(StatType statType, int statAddend);
 }
 
 public interface ITriggerable
@@ -43,7 +44,7 @@ public interface ICollectable{
 public interface ISkinnable
 {
     bool IsSkinnable();
-    GameObject DeSkin();    
+    GameObject DeSkin();
 }
 
 public interface ICodexLoggable {
