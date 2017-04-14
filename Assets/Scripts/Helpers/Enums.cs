@@ -18,31 +18,16 @@ public enum CodexType {
 }
 
 public enum SFXType {
-    /*ArmBlasterFire = 0,
-    ArmBlasterExplode=1,
-    TargetBreak=2,
-    StunBatonSwing=3,
-    StunBatonLayMine=4,
-    StunBatonExplodeMine=5,
-    ForceSegwayPush=6,
-    FingerprintUnlock=7,
-    ModPickup=8,
-    ModDrop=9,
-    ModSwap=10,
-    ModSwapSetup=11,
-    StunBatonHit=12,
-    Pause=13,*/
+    BloodExplosion,
     BlasterCharge,
     BlasterProjectileImpact,
-    BloodExplosion,
+    BlasterShoot,
+    GrapplingGun_Shoot,
     StunBatonCharge,
     StunBatonImpact,
     StunBatonSwing,
-    BlasterShoot,
-    //StunBatonImpact=12,
-    StunBatonSwing1 = 13,
-    StunBatonSwing2 = 14,
-    //Pause=15
+    TankTreads_Attack,
+    TankTreads_Swing, 
 }
 
 public enum DamagerType {
@@ -55,7 +40,8 @@ public enum DamagerType {
     Geyser=6,
     StunMine=7,
     FireTrap=8,
-    GrapplingBotExplosion=9
+    GrapplingBotExplosion=9,
+    Dice=10
 }
 
 public enum DamagedType {
@@ -71,7 +57,8 @@ public enum ModType {
     TankTreads = 4,
     Grappler = 5,
     Boomerang = 6,
-    Geyser = 7
+    Geyser = 7,
+    Dice = 8
 }
 
 public enum ModCategory
@@ -111,7 +98,8 @@ public enum PoolObjectType {
     VFXSegwayBlaster=9,
     MallCopExplosion=10,
     GrapplingBot=11,
-    GeyserProjectile = 12
+    GeyserProjectile = 12,
+    DiceBlock=13
 }
 
 public enum MovementMode

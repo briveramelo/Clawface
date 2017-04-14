@@ -122,13 +122,12 @@ public class StunBatonAttackState : IPlayerState {
             if (currentAttackPose % 2 != 0)
             {
                 vfxMeleeSwing[1].PlayAnimation();
-                AudioManager.Instance.PlaySFX(SFXType.StunBatonSwing2);
             }
             else
             {
                 vfxMeleeSwing[0].PlayAnimation();
-                AudioManager.Instance.PlaySFX(SFXType.StunBatonSwing1);
             }
+            //SFXManager.Instance.Play(SFXType.StunBatonSwing);
         }
         if (currentAttackPose > totalAttackPoses)
         {

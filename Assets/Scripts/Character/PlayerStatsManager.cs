@@ -42,7 +42,8 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
         float healthFraction = stats.GetHealthFraction();
         HealthBar.Instance.SetHealth(healthFraction);
         cameraLock.Shake(.4f);
-        //InputManager.Instance.Vibrate(VibrationTargets.BOTH, .2f); //BREAKS THE COMPUTER
+        float shakeIntensity = 1f-healthFraction;
+        InputManager.Instance.Vibrate(VibrationTargets.BOTH, shakeIntensity);
         if (stats.GetStat(StatType.Health) <= 0){   
             Revive();
         }

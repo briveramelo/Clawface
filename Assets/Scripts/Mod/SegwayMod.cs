@@ -62,8 +62,8 @@ public class SegwayMod : Mod {
         }
     }
 
-    public override void Activate(Action onComplete=null){
-        base.Activate();   
+    public override void Activate(Action onCompleteCoolDown=null, Action onActivate=null){
+        base.Activate(onCompleteCoolDown, onActivate);   
     }
 
     protected override void BeginChargingArms(){ }
@@ -108,7 +108,7 @@ public class SegwayMod : Mod {
     }
 
     void ForcePush(){
-        //AudioManager.Instance.PlaySFX(SFXType.ForceSegwayPush);
+        //SFXManager.Instance.Play(SFXType.ForceSegwayPush);
         GameObject blasterFX = ObjectPool.Instance.GetObject(PoolObjectType.VFXSegwayBlaster);
         if (blasterFX) {
             blasterFX.DeActivate(1.1f);

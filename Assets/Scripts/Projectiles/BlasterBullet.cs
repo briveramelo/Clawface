@@ -34,7 +34,9 @@ public class BlasterBullet : MonoBehaviour {
                 Damage(other.gameObject.GetComponent<IDamageable>());
                 Push(other.gameObject.GetComponent<IMovable>());                
             }
-            if (isEnemy || isPlayer || other.gameObject.layer==(int)Layers.Ground) {                
+            if (isEnemy || isPlayer || other.gameObject.layer==(int)Layers.Ground) {
+                SFXManager.Instance.Play(SFXType.BlasterProjectileImpact, transform.position);
+                EmitBulletCollision();
                 gameObject.SetActive(false);
             }
         }
@@ -46,7 +48,7 @@ public class BlasterBullet : MonoBehaviour {
 
     private void Damage(IDamageable damageable) {        
         if (damageable != null) {
-
+            
             if (this.transform.root.CompareTag(Strings.Tags.PLAYER))
             {
                 AnalyticsManager.Instance.AddModDamage(ModType.ArmBlaster, shooterProperties.damage);

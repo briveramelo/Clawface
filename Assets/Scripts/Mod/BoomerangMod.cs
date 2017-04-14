@@ -73,9 +73,9 @@ public class BoomerangMod : Mod {
     #region Public Methods
     public bool IsActive() { return energySettings.isActive; }
 
-    public override void Activate(Action onComplete=null)
+    public override void Activate(Action onCompleteCoolDown=null, Action onActivate=null)
     {
-        base.Activate();
+        base.Activate(onCompleteCoolDown, onActivate);
     }
     float startTime;
     protected override void BeginChargingArms(){ }
