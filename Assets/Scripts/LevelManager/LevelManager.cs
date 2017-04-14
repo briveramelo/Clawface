@@ -64,7 +64,8 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// The currently loaded level in LM.
     /// !!! KEEP NONSERIALIZED !!!
     /// </summary>
-    [NonSerialized]
+    //[NonSerialized]
+    [SerializeField]
     Level _loadedLevel;
 
     /// <summary>
