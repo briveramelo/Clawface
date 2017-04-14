@@ -28,7 +28,7 @@
 	struct Input
 	{
 		float2 uv_MainTex;
-	};
+	};	
 
 	void surf(Input IN, inout SurfaceOutput o) {
 		fixed4 c = tex2D(_MainTex, IN.uv_MainTex) * _Color;
@@ -37,6 +37,8 @@
 		clip(o.Alpha - _Cutoff);
 	}
 	ENDCG
+
+
 	}
 		FallBack "Diffuse"
 }

@@ -82,6 +82,7 @@ public abstract class Mod : MonoBehaviour {
                 onActivate();
             }
         }
+        EndCharging();
     }
 
 

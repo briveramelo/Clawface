@@ -90,16 +90,24 @@ public class ModManager : MonoBehaviour
             ModSpot commandedModSpot = GetCommandedModSpot(ButtonMode.DOWN);
             if (commandedModSpot != ModSpot.Default && modSocketDictionary[commandedModSpot].mod == null){
                 List<Collider> cols = Physics.OverlapSphere(transform.position, 2.25f).ToList();
-                bool foundMod = false;
+                Mod modToAttach=null;
+                float shortestDistanceAway=10f;
                 cols.ForEach(other => {
-                    if (!foundMod && other.tag == Strings.Tags.MOD){                
-                        Mod modToAttach = other.GetComponent<Mod>();
-                        if (modSocketDictionary[commandedModSpot].mod != modToAttach){
-                            Attach(commandedModSpot, modToAttach);
-                            foundMod = true;
+                    if (other.tag == Strings.Tags.MOD){                        
+                        if (!IsHoldingMod(other.transform)) {
+                            float distanceAway = Vector3.Distance(transform.position, other.transform.position);
+                            if (distanceAway<shortestDistanceAway) {
+                                modToAttach = other.GetComponent<Mod>();
+                                shortestDistanceAway=distanceAway;
+                            }
                         }
                     }
                 });
+                if(modToAttach!=null) {
+                    if (modSocketDictionary[commandedModSpot].mod != modToAttach){
+                        Attach(commandedModSpot, modToAttach);
+                    }
+                }
             }
         }
     }
@@ -111,8 +119,7 @@ public class ModManager : MonoBehaviour
             CheckForModInput((ModSpot spot)=> { modSocketDictionary[spot].mod.RunCharging();}, ButtonMode.HELD);
             CheckForModInput((ModSpot spot)=> {
                 stateManager.Attack(modSocketDictionary[spot].mod);
-                modSocketDictionary[spot].mod.Activate();
-                modSocketDictionary[spot].mod.EndCharging();
+                modSocketDictionary[spot].mod.Activate();               
             }, ButtonMode.UP);                    
         }
     }
@@ -305,6 +312,15 @@ public class ModManager : MonoBehaviour
         public bool wasHeld = false;
         public float holdTime = 0.0f; 
     } 
+
+    private bool IsHoldingMod(Transform otherMod) {
+        foreach (KeyValuePair<ModSpot, ModSocket> modSocket in modSocketDictionary) {
+            if (modSocket.Value.socket==otherMod.parent) {
+                return true;
+            }
+        }
+        return false;        
+    }
     #endregion
 
 }
