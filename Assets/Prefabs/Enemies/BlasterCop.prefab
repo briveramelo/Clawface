@@ -1231,7 +1231,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller: {fileID: 114105641788173152}
   properties:
-    runMultiplier: 2.31
+    runMultiplier: 1.8
     maxChaseTime: 7
     walkTime: 5
     numShocksToStun: 1
@@ -1258,8 +1258,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attack: 5
   defense: 5
+<<<<<<< HEAD
   health: 25
   moveSpeed: 200
+=======
+  health: 40
+  moveSpeed: 150
+>>>>>>> refs/remotes/origin/master
   rangedAccuracy: 1
   shotSpeed: 13
   shotPushForce: 3

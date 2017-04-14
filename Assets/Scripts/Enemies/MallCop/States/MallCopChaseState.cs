@@ -23,7 +23,7 @@ public class MallCopChaseState : MallCopState {
         
         Vector3 movementDirection = controller.AttackTarget.position - velBody.transform.position;
         Vector3 movementDirectionXZ = new Vector3(movementDirection.x, 0, movementDirection.z);
-        float targetSpeed = myStats.moveSpeed * properties.runMultiplier * Time.deltaTime;
+        float targetSpeed = Mathf.Clamp(myStats.moveSpeed * properties.runMultiplier * Time.deltaTime, 0f, 7f);
         velBody.velocity = movementDirectionXZ.normalized * targetSpeed;        
     }
 }
