@@ -90,9 +90,9 @@ public class ObjectSpawner : MonoBehaviour {
         }
 
         _instance.transform.SetParent (LevelManager.Instance.transform);
-        _instance.transform.position = _children[0].transform.position;
-        _instance.transform.localRotation = _children[0].transform.localRotation;
-        _instance.transform.localScale = _children[0].transform.localScale;
+        _instance.transform.position = transform.position;
+        _instance.transform.localRotation = transform.localRotation;
+        _instance.transform.localScale = transform.localScale;
         gameObject.SetActive(false);
     }
 
