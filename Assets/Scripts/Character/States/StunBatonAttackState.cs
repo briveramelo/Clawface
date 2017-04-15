@@ -52,7 +52,7 @@ public class StunBatonAttackState : IPlayerState {
     {
         if (!stateVariables.stateFinished)
         {
-            stateVariables.currentMod.Activate();
+            
             if (frameCount == 0)
             {
                 ChangePose();
@@ -87,6 +87,7 @@ public class StunBatonAttackState : IPlayerState {
     public override void Attack()
     {
         isAttackRequested = true;
+        stateVariables.currentMod.Activate();
     }
 
     public override void SecondaryAttack(bool isHeld, float holdTime)
@@ -122,13 +123,12 @@ public class StunBatonAttackState : IPlayerState {
             if (currentAttackPose % 2 != 0)
             {
                 vfxMeleeSwing[1].PlayAnimation();
-                AudioManager.Instance.PlaySFX(SFXType.StunBatonSwing2);
             }
             else
             {
                 vfxMeleeSwing[0].PlayAnimation();
-                AudioManager.Instance.PlaySFX(SFXType.StunBatonSwing1);
             }
+            //SFXManager.Instance.Play(SFXType.StunBatonSwing);
         }
         if (currentAttackPose > totalAttackPoses)
         {

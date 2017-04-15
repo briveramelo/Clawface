@@ -58,7 +58,7 @@ public class BoomerangAttackState : IPlayerState {
     #region Public Methods
     public override void Attack()
     {
-        if (!((BoomerangMod)(stateVariables.currentMod)).isActive)
+        if (!((BoomerangMod)(stateVariables.currentMod)).IsActive())
         {
             if(stateVariables.currentEnemy != null)
             {
@@ -86,7 +86,7 @@ public class BoomerangAttackState : IPlayerState {
         {
             isWaitingForButtonRelease = false;
         }
-        stateVariables.currentMod.AlternateActivate(isHeld, holdTime);
+        //stateVariables.currentMod.AlternateActivate(isHeld, holdTime);
     }
     #endregion
 
