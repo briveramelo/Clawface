@@ -33,7 +33,7 @@ public class PlayerStateManager : MonoBehaviour {
     [SerializeField]
     private float dashIFrameStart = 0.25F;
     [SerializeField]
-    private float dashIFrameEnd = 0.75F;
+    private float dashIFrameEnd = 0.75F;    
     #endregion
 
     #region Private Fields
@@ -41,7 +41,7 @@ public class PlayerStateManager : MonoBehaviour {
     private IPlayerState alternateState;
     private Dictionary<ModType, IPlayerState> modStateDictionary;
     private IPlayerState previousMovementState;
-    private IPlayerState playerState;
+    private List<IPlayerState> playerStates;
     private bool isHoldAttack;
     private bool canDash = true;
     private bool stateChanged;
@@ -50,7 +50,6 @@ public class PlayerStateManager : MonoBehaviour {
     #region Unity Lifecycle
     // Use this for initialization
     void Start () {
-        isHoldAttack = false;
         stateChanged = false;
         stateVariables.stateFinished = true;
         stateVariables.playerTransform = transform;
@@ -65,7 +64,7 @@ public class PlayerStateManager : MonoBehaviour {
             mapping.state.Init(ref stateVariables);
             modStateDictionary.Add(mapping.modType, mapping.state);
         }
-        playerState = defaultState;
+        playerStates = new List<IPlayerState>(){ defaultState};
     }
 	
 	// Update is called once per frame
@@ -94,45 +93,38 @@ public class PlayerStateManager : MonoBehaviour {
             stateVariables.velBody.AddDecayingForce(dashPower * force, dashDecay);
             StartCoroutine(DashController());
         }            
-        playerState.StateUpdate();
+        playerStates.ForEach(state=>state.StateUpdate());
     }
 
     void FixedUpdate()
     {
-        playerState.StateFixedUpdate();
+        playerStates.ForEach(state=>state.StateFixedUpdate());
     }
     #endregion
 
     #region Public Methods
-    public void PrimaryAttack(Mod mod)
-    {
-        if(stateVariables.currentMod != mod)
-        {
+    public void Attack(Mod mod){
+        if (stateVariables.currentMod != mod){
             stateVariables.currentMod = mod;
         }
-        if (stateVariables.currentMod.hasState)
-        {
-            
-            if (modStateDictionary[mod.getModType()] != null)
-            {
-                if (movementState != null)
-                {                    
+        if (stateVariables.currentMod.hasState){
+            if (modStateDictionary[mod.getModType()] != null){
+                if (movementState != null){
                     SwitchState(modStateDictionary[mod.getModType()]);
                     modStateDictionary[mod.getModType()].Attack();
                 }                
             }
-        }else
-        {
-            stateVariables.currentMod.Activate();
         }
     }
 
-    public void SecondaryAttack(Mod mod, bool isHeld, float holdTime)
-    {
-        if (stateVariables.currentMod != mod)
-        {
-            stateVariables.currentMod = mod;
+    public void Charge(Mod mod) {
+        if (mod.modEnergySettings.timeCharged > 0.5f) {
+
         }
+    }
+
+    public void SecondaryAttack(Mod mod, bool isHeld)
+    {
         if (isHeld && !isHoldAttack)
         {
             isHoldAttack = true;
@@ -145,37 +137,25 @@ public class PlayerStateManager : MonoBehaviour {
             stateVariables.velBody.velocity = Vector3.zero;
             stateVariables.statsManager.ModifyStat(StatType.MoveSpeed, holdAttackSlowDown);
         }
-        if (stateVariables.currentMod.hasState)
-        {
-            if (modStateDictionary[mod.getModType()] != null)
-            {
-                if (movementState != null)
-                {
-                    SwitchState(modStateDictionary[mod.getModType()]);
-                    modStateDictionary[mod.getModType()].SecondaryAttack(isHeld, holdTime);
-                }
-            }
-        }
-        else
-        {
-            mod.AlternateActivate(isHeld, holdTime);
-        }
+        //mod.AlternateActivate(isHeld, holdTime);
     }
     #endregion
 
     #region Private Methods
     private void SwitchState(IPlayerState newState)
     {
-        stateVariables.velBody.velocity = Vector3.zero;        
-        playerState = newState;
+        stateVariables.velBody.velocity = Vector3.zero;
+        playerStates.Clear();
+        playerStates.Add(newState);
         stateVariables.stateFinished = false;
         stateChanged = true;
     }
 
     private void ResetState()
     {
-        stateVariables.animator.Play(PlayerAnimationStates.Idle.ToString());        
-        playerState = defaultState;
+        stateVariables.animator.Play(PlayerAnimationStates.Idle.ToString());
+        playerStates.Clear();
+        playerStates.Add(defaultState);
         stateChanged = false;
     }
 

@@ -3,6 +3,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEditor;
+using ModMan;
 
 /// <summary>
 /// Main level editor GUI class.
@@ -15,7 +16,7 @@ public class LevelEditorWindow : EditorWindow, ILevelEditor {
     const string _SCENEVIEW_SKIN_PATH = "LevelEditorGUISkin.guiskin";
 
     // Object browser constants
-    const int _OBJECTS_PER_ROW = 6;
+    const int _OBJECTS_PER_ROW = 5;
 
     // Object editor constants
     const float _OBJECT_EDITOR_WIDTH = 128f;
@@ -132,12 +133,6 @@ public class LevelEditorWindow : EditorWindow, ILevelEditor {
     [MenuItem("Level Editor/Editor Window")]
     public static void ShowWindow() {
         _Instance = GetWindow(typeof(LevelEditorWindow)) as LevelEditorWindow;
-        if (LevelManager.Instance == null) {
-            GameObject lm = new GameObject ("LevelManager", typeof (LevelManager));
-        }
-        if (ObjectDatabaseManager.Instance == null) {
-            GameObject objdb = new GameObject ("ObjectDatabaseManager", typeof(ObjectDatabaseManager));
-        }
     }
 
     /// <summary>
@@ -473,10 +468,10 @@ public class LevelEditorWindow : EditorWindow, ILevelEditor {
 
             // Draw object buttons
             _objectBrowserScrollPos = EditorGUILayout.BeginScrollView(_objectBrowserScrollPos);
-            EditorGUILayout.BeginHorizontal(GUILayout.ExpandHeight(true));
+            EditorGUILayout.BeginHorizontal();
 
             while (objectIndex < filteredObjects.Count) {
-                if (GUILayout.Button(filteredObjects[objectIndex].prefab.name, GUILayout.ExpandWidth(false))) {
+                if (GUILayout.Button(filteredObjects[objectIndex].prefab.name, GUILayout.ExpandWidth(true))) {
                     LevelManager.Instance.SelectObjectInCategory(objectIndex, filter);
                     LevelManager.Instance.SelectTool(LevelManager.Tool.Place);
                 }

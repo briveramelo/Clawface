@@ -22,7 +22,7 @@ public class LevelManagerEditor : Editor {
     public override void OnInspectorGUI() {
         _target = target as LevelManager;
 
-        //EditorGUILayout.LabelField ("Level loaded: " + _target.LevelLoaded.ToString());
+        EditorGUILayout.LabelField ("Level loaded: " + _target.LevelLoaded.ToString());
 
         base.OnInspectorGUI();
     }

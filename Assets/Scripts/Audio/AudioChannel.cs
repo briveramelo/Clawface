@@ -11,7 +11,8 @@ namespace Turing.Audio {
     /// </summary>
     [System.Serializable]
     [ExecuteInEditMode]
-    public class AudioChannel : MonoBehaviour {
+    [AddComponentMenu("")]
+    public sealed class AudioChannel : MonoBehaviour {
 
         #region Vars
 
@@ -89,13 +90,13 @@ namespace Turing.Audio {
         #endregion
         #region Unity Callbacks
 
-        private void OnEnable() {
+        void Awake() {
             _audioSource = GetComponentInParent<AudioSource>();
             if (_parent == null)
                 _parent = GetComponentInParent<AudioGroup>();
         }
 
-        private void Update() {
+        void Update() {
             if (_playing) {
                 if (_loop) {
                     _loopTimer -= Time.deltaTime;
@@ -177,14 +178,32 @@ namespace Turing.Audio {
         public void PlaySound(float pitch, bool loop = false) {
             if (_clips.Count <= 0) return;
 
+            _volumeScale = _parent.VolumeScale;
+
             _loop = loop;
             if (_useRandomVolume) _randomizedVolume = _randomVolumeRange.GetRandomValue();
-            _audioSource.volume = (_useRandomVolume ? _randomizedVolume : _uniformVolume) * _volumeScale;
+            //var d = Vector3.Distance (transform.position, Camera.main.transform.position);
+            //Debug.Log (d);
+
+            //float spatial = _audioSource.GetCustomCurve(AudioSourceCurveType.CustomRolloff).Evaluate(d);
+            float twoDVolume = (_useRandomVolume ? _randomizedVolume : _uniformVolume) * _volumeScale;
+            //float threeDVolume = Mathf.Clamp01(CalculateRolloff(d));
+            //float spatialBlend = _audioSource.spatialBlend;
+
+            //float v = twoDVolume * (1f - spatialBlend) + threeDVolume * spatialBlend;
+
+            //Debug.Log (string.Format ("2D volume: {0} | 3D volume: {1} | spatial: {2} | v: {3}", twoDVolume.ToString(), threeDVolume.ToString(), spatialBlend.ToString(), v.ToString()));
+            //float spatial = Mathf.Clamp01(CalculateRolloff(d) * (_audioSource.spatialBlend) + (1f - _audioSource.spatialBlend));
+            //Debug.Log (spatial);
+
+            _audioSource.volume = twoDVolume * _volumeScale;
             _audioSource.pitch = pitch;
 
             var clip = _clips.GetRandom();
             _clipLength = clip.length;
-            _audioSource.PlayOneShot(clip);
+            _audioSource.PlayOneShot(clip, _audioSource.volume);
+            //_audioSource.clip = clip;
+            //_audioSource.Play();
 
             _playing = true;
 
@@ -206,6 +225,10 @@ namespace Turing.Audio {
         public void Stop() {
             _audioSource.Stop();
             _playing = false;
+        }
+
+        public void AddClip (AudioClip clip) {
+            _clips.Add(clip);
         }
 
         #endregion

@@ -37,8 +37,7 @@ public class HitstopManager : Singleton<HitstopManager> {
 
     public void StartHitstop(float time)
     {
-        //remainingHitstop = time;
-        //isInHitstop = true;
+        isInHitstop = true;
         //TODO recommendation: Lerp to the target timescale for a smoother transition in and out
 
         remainingHitstop = time;
@@ -51,6 +50,6 @@ public class HitstopManager : Singleton<HitstopManager> {
         // OnStopEvent();
         Time.timeScale = 1f;
         Time.fixedDeltaTime = 0.02f;
-        // isInHitstop = false;
+        isInHitstop = false;
     }
 }
