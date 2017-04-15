@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using MovementEffects;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -79,7 +80,7 @@ public class DiceBlock : MonoBehaviour {
     private bool willExplode;
     private float totalTimeAlive;
     private DiceSide faceUpSide;
-    private bool drawExplosion;
+    private bool isExploding;
     private float drawExplosionTimer;
     private ShooterProperties shooterProperties = new ShooterProperties();
     Damager damager = new Damager();
@@ -94,15 +95,8 @@ public class DiceBlock : MonoBehaviour {
 
     private void OnDrawGizmos()
     {
-        if (drawExplosion)
+        if (isExploding)
         {
-            drawExplosionTimer += Time.deltaTime;
-            if (drawExplosionTimer > 1.5f)
-            {
-                drawExplosion = false;
-                StopAndReset();
-            }
-
             Gizmos.DrawWireSphere(this.transform.position, explosionRadius * GetMultiplierFromDiceSide());
         }
     }
@@ -112,49 +106,61 @@ public class DiceBlock : MonoBehaviour {
     {
         if (this.gameObject.activeSelf)
         {
+            totalTimeAlive += Time.deltaTime;
+
             if (this.gameObject.transform.localScale.x < endScale)
             {
                 this.gameObject.transform.localScale = new Vector3(this.gameObject.transform.localScale.x + scaleSpeed * Time.deltaTime, 
                     this.gameObject.transform.localScale.y + scaleSpeed * Time.deltaTime, this.gameObject.transform.localScale.z + scaleSpeed * Time.deltaTime);
             }
 
-            totalTimeAlive += Time.deltaTime;
+            if (isExploding)
+            {
+                drawExplosionTimer += Time.deltaTime;
 
-            if (CheckGroundedSide(side1))
-            {
-                faceUpSide = DiceSide.One;
-            }
-            else if (CheckGroundedSide(side2))
-            {
-                faceUpSide = DiceSide.Two;
-            }
-            else if (CheckGroundedSide(side3))
-            {
-                faceUpSide = DiceSide.Three;
-            }
-            else if (CheckGroundedSide(side4))
-            {
-                faceUpSide = DiceSide.Four;
-            }
-            else if (CheckGroundedSide(side5))
-            {
-                faceUpSide = DiceSide.Five;
-            }
-            else if (CheckGroundedSide(side6))
-            {
-                faceUpSide = DiceSide.Six;
+                if (drawExplosionTimer > 1.5f)
+                {
+                    StopAndReset();
+                }
             }
             else
             {
-                faceUpSide = DiceSide.None;
-            }
-
-            if (faceUpSide != DiceSide.None)
-            {
-                explosionTimer += Time.deltaTime;
-                if (willExplode && explosionTimer >= timeTilExplosion)
+                if (CheckGroundedSide(side1))
                 {
-                    Explode();
+                    faceUpSide = DiceSide.One;
+                }
+                else if (CheckGroundedSide(side2))
+                {
+                    faceUpSide = DiceSide.Two;
+                }
+                else if (CheckGroundedSide(side3))
+                {
+                    faceUpSide = DiceSide.Three;
+                }
+                else if (CheckGroundedSide(side4))
+                {
+                    faceUpSide = DiceSide.Four;
+                }
+                else if (CheckGroundedSide(side5))
+                {
+                    faceUpSide = DiceSide.Five;
+                }
+                else if (CheckGroundedSide(side6))
+                {
+                    faceUpSide = DiceSide.Six;
+                }
+                else
+                {
+                    faceUpSide = DiceSide.None;
+                }
+
+                if (faceUpSide != DiceSide.None)
+                {
+                    explosionTimer += Time.deltaTime;
+                    if (willExplode && explosionTimer >= timeTilExplosion)
+                    {
+                        Explode();
+                    }
                 }
             }
         }
@@ -177,11 +183,14 @@ public class DiceBlock : MonoBehaviour {
 
     public void StopAndReset()
     {
+        isExploding = false;
+        drawExplosionTimer = 0f;
         totalTimeAlive = 0f;
         gameObject.SetActive(false);
         willExplode = false;
         this.gameObject.transform.localScale = new Vector3(startScale, startScale, startScale);
         this.gameObject.GetComponentInChildren<MeshRenderer>().enabled = true;
+
     }
 
     public void Roll(Vector3 direction)
@@ -224,6 +233,14 @@ public class DiceBlock : MonoBehaviour {
 
 
     #region Private Methods
+    private void StartExplosionEffect()
+    {
+        // Temp code for the sake of drawing explosions as gizmo wireframes
+        this.gameObject.GetComponent<MeshRenderer>().enabled = false;
+        isExploding = true;
+        willExplode = false;
+    }
+
     private bool CheckGroundedSide(Transform side)
     {
         Collider[] cols = Physics.OverlapSphere(side.position, sphereRadius);
@@ -262,15 +279,14 @@ public class DiceBlock : MonoBehaviour {
             }
         }
 
-        // Temp code for the sake of drawing explosions as gizmo wireframes
-        this.gameObject.GetComponent<MeshRenderer>().enabled = false;
-        drawExplosion = true;
-        willExplode = false;
+
+        StartExplosionEffect();
+
     }
 
-    #endregion
+#endregion
 
-    #region Private Declarations
+#region Private Declarations
     private enum DiceSide {
         One = 1,
         Two = 2,
@@ -281,6 +297,6 @@ public class DiceBlock : MonoBehaviour {
         None = 7
     }
 
-    #endregion
+#endregion
 
 }

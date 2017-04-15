@@ -169,7 +169,7 @@ public class BoomerangMod : Mod {
         }
 
         float rotationSpeed = zCoordinateCompletion * maxRotationRate + minRotationRate;
-        transform.Rotate(Vector3.up * rotationSpeed * Time.deltaTime);
+        transform.Rotate(Vector3.up * rotationSpeed * Time.fixedDeltaTime);
     }
 
     private float GetXCoordinate(float y) {

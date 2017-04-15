@@ -76,7 +76,7 @@ GameObject:
   - component: {fileID: 33567673621613998}
   - component: {fileID: 23466572410736016}
   m_Layer: 0
-  m_Name: Capsule
+  m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -151,7 +151,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1891895839945968}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.0907583, y: 10.58468, z: 78.84382}
+  m_LocalPosition: {x: -20.165234, y: 2.36, z: 62.041122}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224414608765367000}
@@ -194,13 +194,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1850952778261168}
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4108714286435872}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &23466572410736016
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -239,7 +239,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1850952778261168}
-  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 4300002, guid: 03b38773e2679b04e85fbf30257bb8cf, type: 3}
 --- !u!65 &65427258851758646
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -443,7 +443,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: -728898440
+  randomSeed: 788864539
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -3320,7 +3320,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: -1836522339
+  randomSeed: -526336196
   InitialModule:
     serializedVersion: 3
     enabled: 1

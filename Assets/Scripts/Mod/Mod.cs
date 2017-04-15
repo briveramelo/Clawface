@@ -76,7 +76,7 @@ public abstract class Mod : MonoBehaviour {
 
     public virtual void Activate(Action onCompleteCoolDown=null, Action onActivate=null) {
         if (!energySettings.isInUse){
-            Timing.RunCoroutine(BeginCoolDown(onCompleteCoolDown));            
+            Timing.RunCoroutine(BeginCoolDown(onCompleteCoolDown), Segment.FixedUpdate);
             useAction();
             if (onActivate!=null) {
                 onActivate();
@@ -196,7 +196,7 @@ public abstract class Mod : MonoBehaviour {
     protected IEnumerator<float> BeginCoolDown(Action onComplete){
         energySettings.CheckToSetAsCharged();
         recentlyHitEnemies.Clear();
-        yield return Timing.WaitUntilDone(Timing.RunCoroutine(energySettings.BeginCoolDown()));
+        yield return Timing.WaitUntilDone(Timing.RunCoroutine(energySettings.BeginCoolDown(), Segment.FixedUpdate));
         if (onComplete!=null) {
             onComplete();
         }
