@@ -112,8 +112,8 @@ public class SegwayMod : Mod {
         GameObject blasterFX = ObjectPool.Instance.GetObject(PoolObjectType.VFXSegwayBlaster);
         if (blasterFX) {
             blasterFX.DeActivate(1.1f);
-            blasterFX.transform.position = transform.position;
-            blasterFX.transform.forward = -transform.up;
+            blasterFX.transform.position = capsuleBounds.Start;
+            blasterFX.transform.forward = transform.forward;
         }        
         Timing.RunCoroutine(PushForTime());                        
     }
@@ -152,7 +152,7 @@ public class SegwayMod : Mod {
                             damageable.TakeDamage(damager);
                         }                                 
                         if (movable != null){                            
-                            Vector3 pushDirection = -transform.up.NormalizedNoY();
+                            Vector3 pushDirection = wielderMovable.GetForward();
                             movable.AddDecayingForce(pushDirection * pushForce);
                         }
                     }
