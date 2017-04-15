@@ -178,8 +178,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1316314029526810}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -18.622269, y: -7.6902003, z: -120.45743}
-  m_LocalScale: {x: 2.5000002, y: 2.5000005, z: 2.500001}
+  m_LocalPosition: {x: -8.4, y: 1.036, z: 13.315}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4120684821083518}
   - {fileID: 4822043772925276}
@@ -322,6 +322,8 @@ MonoBehaviour:
       timeToHitStop: 0.1
     timeCharged: 0
     isCoolingDown: 0
+    isActive: 0
+    hasStartedCharging: 0
   segwayVFX: {fileID: 114046701473042792}
   standardForceSettings:
     jumpForce: 10
@@ -3348,7 +3350,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 697964247
+  randomSeed: -725303248
   InitialModule:
     serializedVersion: 3
     enabled: 1
