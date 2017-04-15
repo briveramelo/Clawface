@@ -68,7 +68,7 @@ public class BoomerangAttackState : IPlayerState {
             {
                 ((BoomerangMod)(stateVariables.currentMod)).SetEnemyDistance(Mathf.Infinity);
             }
-            //stateVariables.currentMod.Activate();
+            stateVariables.currentMod.Activate();
         }else
         {
             ResetState();

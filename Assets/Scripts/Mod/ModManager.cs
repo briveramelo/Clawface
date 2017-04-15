@@ -119,7 +119,9 @@ public class ModManager : MonoBehaviour
             CheckForModInput((ModSpot spot)=> { modSocketDictionary[spot].mod.RunCharging();}, ButtonMode.HELD);
             CheckForModInput((ModSpot spot)=> {
                 stateManager.Attack(modSocketDictionary[spot].mod);
-                modSocketDictionary[spot].mod.Activate();               
+                if (!modSocketDictionary[spot].mod.hasState) {
+                    modSocketDictionary[spot].mod.Activate();               
+                }
             }, ButtonMode.UP);                    
         }
     }
