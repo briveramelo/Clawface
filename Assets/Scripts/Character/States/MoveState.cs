@@ -101,10 +101,12 @@ public class MoveState : IPlayerState
             stateVariables.animator.speed = 1.0f;
         }
 
-        stateVariables.velBody.AddDecayingForce(moveDirection * stateVariables.acceleration * Time.fixedDeltaTime);
-
         Vector3 flatMovement = new Vector3(stateVariables.velBody.velocity.x, 0f, stateVariables.velBody.velocity.z);
         currentSpeed = flatMovement.magnitude;
+
+        if (currentSpeed < stateVariables.statsManager.GetStat(StatType.MoveSpeed)){ 
+            stateVariables.velBody.AddDecayingForce(moveDirection * stateVariables.acceleration * Time.fixedDeltaTime);
+        }
 
         if (currentSpeed > stateVariables.statsManager.GetStat(StatType.MoveSpeed))
         {
