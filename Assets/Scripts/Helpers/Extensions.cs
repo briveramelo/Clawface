@@ -74,7 +74,7 @@ namespace ModMan {
     public static class GameObjectExtensions {
 
         public static void DeActivate(this GameObject obj, float timeToDeactivate) {
-            Timing.RunCoroutine(IEDeActivate(obj, timeToDeactivate));
+            Timing.RunCoroutine(IEDeActivate(obj, timeToDeactivate), Segment.FixedUpdate);
         }
         static IEnumerator<float> IEDeActivate(GameObject obj, float timeToDeactivate) {
             yield return Timing.WaitForSeconds(timeToDeactivate);
