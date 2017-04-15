@@ -23,6 +23,15 @@ public class DiceMod : Mod {
 
     #endregion
 
+    protected override void Update () {
+        if (wielderMovable != null){
+            if (getModSpot() != ModSpot.Legs){
+                transform.forward = wielderMovable.GetForward();
+            }
+        }
+        base.Update();
+    }
+
     #region Public Methods
     public override void Activate(Action onCompleteCoolDown=null, Action onActivate=null)
     {

@@ -36,7 +36,7 @@ public class SegwayMod : Mod {
     protected override void Update(){
         if (wielderMovable != null){
             if (getModSpot() != ModSpot.Legs){
-                //transform.up = -wielderMovable.GetForward();
+                transform.forward = wielderMovable.GetForward();
             }
         }
     }    
@@ -47,8 +47,8 @@ public class SegwayMod : Mod {
         segwayVFX.SetIdle(false);
 
         //TODO ask art to set default rotation to this value
-        transform.localEulerAngles = new Vector3(-90f, 0f, 0f);
-        transform.localPosition = new Vector3(0f, 0.015f, 0.09f);
+        //transform.localEulerAngles = new Vector3(-90f, 0f, 0f);
+        //transform.localPosition = new Vector3(0f, 0.015f, 0.09f);
         //
 
         if (getModSpot() == ModSpot.Legs){

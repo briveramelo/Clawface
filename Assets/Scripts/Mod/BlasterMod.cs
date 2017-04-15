@@ -29,6 +29,7 @@ public class BlasterMod : Mod {
                 transform.forward = wielderMovable.GetForward();
             }
         }
+        base.Update();
     }
 
     public override void Activate(Action onCompleteCoolDown=null, Action onActivate=null){
