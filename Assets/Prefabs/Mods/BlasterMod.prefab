@@ -150,7 +150,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1145115233867226}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 12, y: 2, z: 2.39}
+  m_LocalPosition: {x: -11.622269, y: -8.0002, z: -103.08743}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children:
   - {fileID: 4303765111120432}
@@ -310,15 +310,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b46b2a14cefa1b4498b8ad99597bbe5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hasState: 0
+  vfxModChargePrefab: {fileID: 1868770362516384, guid: 75076dc3f3739ff4bb01ae67a336ecc5,
+    type: 2}
   pickupCollider: {fileID: 65286971079796370}
   modCanvas: {fileID: 1631652510854260}
-  rangeBoostValue: 1.15
-  kickbackMagnitude: 9
-  coolDownTime: 0.1
-  feetMultiplier: 2
+  energySettings:
+    timeToChargeArm: 1
+    timeToChargeLeg: 1
+    standardArmAttackSettings:
+      timeToCoolDown: 0.2
+      timeToAttack: 0
+      attack: 1
+      timeToHitStop: 0
+    chargedArmAttackSettings:
+      timeToCoolDown: 1
+      timeToAttack: 0
+      attack: 30
+      timeToHitStop: 0
+    standardLegAttackSettings:
+      timeToCoolDown: 0.1
+      timeToAttack: 0
+      attack: 1
+      timeToHitStop: 0
+    chargedLegAttackSettings:
+      timeToCoolDown: 2
+      timeToAttack: 0
+      attack: 3
+      timeToHitStop: 0
+    timeCharged: 0
+    isCoolingDown: 0
   blasterEffect: {fileID: 114240664814391858}
-  kickBackChargedMultiplier: 5
   bulletSpawnPoint: {fileID: 4303765111120432}
+  kickbackForce: 9
+  kickbackForceCharged: 25
+  kickbackForceFeetMultiplier: 1.75
 --- !u!114 &114446361273923502
 MonoBehaviour:
   m_ObjectHideFlags: 1

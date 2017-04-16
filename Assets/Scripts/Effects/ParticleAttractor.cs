@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
-using UnityEditor;
+//using UnityEditor;
 
 [RequireComponent(typeof(ParticleSystem))]
 public class ParticleAttractor : MonoBehaviour {
@@ -18,6 +17,10 @@ public class ParticleAttractor : MonoBehaviour {
 
     [SerializeField] float _lifetimeReductionFactor = 0.5f;
 
+    [SerializeField] bool _useAttractionOverTime = false;
+
+    [SerializeField] AnimationCurve _attractionOverTime;
+
     ParticleSystem.Particle[] _particles;
 
     ParticleSystem _ps;
@@ -29,7 +32,7 @@ public class ParticleAttractor : MonoBehaviour {
 
     private void LateUpdate() {
         var alive = _ps.GetParticles (_particles);
-        var dp = Time.deltaTime * _attractorStrength;
+        var dp = Time.deltaTime * (_useAttractionOverTime ? _attractionOverTime.Evaluate(_ps.time) : _attractorStrength);
         for (int i = 0; i < alive; i++) {
             var d = (_attractorOrigin.position - _particles[i].position);
             float dv = 0f;

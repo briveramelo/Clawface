@@ -18,22 +18,35 @@ public enum CodexType {
 }
 
 public enum SFXType {
-    ArmBlasterFire = 0,
-    ArmBlasterExplode=1,
-    TargetBreak=2,
-    StunBatonSwing=3,
-    StunBatonLayMine=4,
-    StunBatonExplodeMine=5,
-    ForceSegwayPush=6,
-    FingerprintUnlock=7,
-    ModPickup=8,
-    ModDrop=9,
-    ModSwap=10,
-    ModSwapSetup=11,
-    StunBatonImpact=12,
-    StunBatonSwing1 = 13,
-    StunBatonSwing2 = 14,
-    //Pause=15
+    BloodExplosion,
+    BlasterCharge,
+    BlasterProjectileImpact,
+    BlasterShoot,
+    GrapplingGun_Shoot,
+    StunBatonCharge,
+    StunBatonImpact,
+    StunBatonSwing,
+    TankTreads_Attack,
+    TankTreads_Swing, 
+}
+
+public enum DamagerType {
+    SegwayPush=0,
+    BlasterBullet=1,
+    StunSwing=2,
+    TankTreads=3,
+    GrapplingHook=4,
+    Boomerang=5,
+    Geyser=6,
+    StunMine=7,
+    FireTrap=8,
+    GrapplingBotExplosion=9,
+    Dice=10
+}
+
+public enum DamagedType {
+    MallCop=0,
+    Milo=1,
 }
 
 public enum ModType {
@@ -42,7 +55,10 @@ public enum ModType {
     FingerPrint=2,
     StunBaton=3,
     TankTreads = 4,
-    Grappler = 5
+    Grappler = 5,
+    Boomerang = 6,
+    Geyser = 7,
+    Dice = 8
 }
 
 public enum ModCategory
@@ -62,7 +78,11 @@ public enum Layers {
     ModMan=8,
     Enemy=9,
     MiniMap=10,
-    Ground=11
+    Ground=11,
+    Blood=12,
+    Hologram=13,
+    Globe_Text=14,
+    PlayerDetector=15        
 }
 
 public enum PoolObjectType {
@@ -77,19 +97,10 @@ public enum PoolObjectType {
     MallCopBlaster=8,
     VFXSegwayBlaster=9,
     MallCopExplosion=10,
-    GrapplingBot=11
+    GrapplingBot=11,
+    GeyserProjectile = 12,
+    DiceBlock=13
 }
-
-public enum WeaponType {
-    Blaster=0,
-    Baton=1        
-}
-
-public enum VictimType {
-    MallCop=0,
-    WallOrGround=1
-}
-
 
 public enum MovementMode
 {
@@ -101,8 +112,8 @@ public enum PlayerAnimationStates
 {
     Idle = 0,
     Running = 1,    
-    StunBatonR = 2,
-    StunBatonL = 3
+    StunBaton = 2,
+    Boomerang = 3
 }
 
 public enum ButtonMode

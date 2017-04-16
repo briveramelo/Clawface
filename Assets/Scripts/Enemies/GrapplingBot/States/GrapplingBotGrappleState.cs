@@ -28,6 +28,6 @@ public class GrapplingBotGrappleState : GrapplingBotState {
     }
 
     public bool HitTarget() {
-        return mod.HitTargetThisShot();
+        return mod.GetHitTargetThisShot();
     }
 }
