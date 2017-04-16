@@ -36,7 +36,7 @@ public class SegwayMod : Mod {
     protected override void Update(){
         if (wielderMovable != null){
             if (getModSpot() != ModSpot.Legs){
-                //transform.up = -wielderMovable.GetForward();
+                transform.forward = wielderMovable.GetForward();
             }
         }
     }    
@@ -47,8 +47,8 @@ public class SegwayMod : Mod {
         segwayVFX.SetIdle(false);
 
         //TODO ask art to set default rotation to this value
-        transform.localEulerAngles = new Vector3(-90f, 0f, 0f);
-        transform.localPosition = new Vector3(0f, 0.015f, 0.09f);
+        //transform.localEulerAngles = new Vector3(-90f, 0f, 0f);
+        //transform.localPosition = new Vector3(0f, 0.015f, 0.09f);
         //
 
         if (getModSpot() == ModSpot.Legs){
@@ -112,8 +112,8 @@ public class SegwayMod : Mod {
         GameObject blasterFX = ObjectPool.Instance.GetObject(PoolObjectType.VFXSegwayBlaster);
         if (blasterFX) {
             blasterFX.DeActivate(1.1f);
-            blasterFX.transform.position = transform.position;
-            blasterFX.transform.forward = -transform.up;
+            blasterFX.transform.position = capsuleBounds.Start;
+            blasterFX.transform.forward = transform.forward;
         }        
         Timing.RunCoroutine(PushForTime());                        
     }
@@ -152,7 +152,7 @@ public class SegwayMod : Mod {
                             damageable.TakeDamage(damager);
                         }                                 
                         if (movable != null){                            
-                            Vector3 pushDirection = -transform.up.NormalizedNoY();
+                            Vector3 pushDirection = wielderMovable.GetForward();
                             movable.AddDecayingForce(pushDirection * pushForce);
                         }
                     }

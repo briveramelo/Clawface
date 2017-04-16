@@ -134,8 +134,8 @@ public class BoomerangMod : Mod {
         }
         TRMatrix = Matrix4x4.TRS(initialPosition, wielderMovable.GetRotation(), Vector3.one);
         transform.forward = wielderMovable.GetForward();
-        majorAxisRadius = enemyDistance > maxDistance ? maxDistance / 2.0f : (enemyDistance+0.2f) / 2.0f;
-        majorAxisRadius = Mathf.Clamp(majorAxisRadius, 0f, maxDistance);
+        //majorAxisRadius = enemyDistance > maxDistance ? maxDistance / 2.0f : (enemyDistance+1f) / 2.0f;
+        majorAxisRadius = maxDistance/2.0f;
     }
     void UpdateBoomerangPosition(int leftHandMultiplier = 1){
         //Equation of an ellipse x^2/a^2 + y^2/b^2 = 1

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DiceBlock : MonoBehaviour {
+public class DiceBlock : MonoBehaviour, IMovable {
 
     #region Unity Inspector Fields
     [SerializeField]
@@ -173,6 +173,15 @@ public class DiceBlock : MonoBehaviour {
 
 
     #region Public Methods
+    void IMovable.AddDecayingForce(Vector3 force, float decay=0.1f) {
+        rigid.AddForce(force);
+    }
+    bool IMovable.IsGrounded() { return false;}
+    void IMovable.SetMovementMode(MovementMode mode) { }
+    Vector3 IMovable.GetForward() { return transform.forward;}
+    Quaternion IMovable.GetRotation() { return transform.rotation;}
+
+
     public void AddRandomForce()
     {
         rigid.AddForce(new Vector3(Random.Range(0f, 1f), 0.3f, Random.Range(0f, 1f)) * forceStrength);

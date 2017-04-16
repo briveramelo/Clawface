@@ -114,7 +114,7 @@ public abstract class Mod : MonoBehaviour {
             i++;
         }
     }
-    public void EndCharging() {
+    private void EndCharging() {
         vfxModCharge.StopCharging();
         energySettings.Reset();
     }
