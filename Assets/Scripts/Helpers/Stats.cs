@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Stats : MonoBehaviour, IModifiable {
     #region Serialized Unity Inspector Fields
-    public float attack, defense, health, moveSpeed, rangedAccuracy;
+    public float attack, defense, health, moveSpeed, rangedAccuracy, shotSpeed, shotPushForce, skinnableHealth;
     #endregion
 
     #region Private Fields
@@ -15,12 +15,14 @@ public class Stats : MonoBehaviour, IModifiable {
 
     #region Unity LifeCycle
     void Awake() {
-        originalStats = new StatsMemento(attack, defense, health, moveSpeed, rangedAccuracy);
+        originalStats = new StatsMemento(attack, defense, health, moveSpeed, rangedAccuracy, shotSpeed, shotPushForce, skinnableHealth);
     }
+
+    
     #endregion
 
     #region Public Methods
-    public void Modify(StatType statType, float statMultiplier) {
+    public void Multiply(StatType statType, float statMultiplier) {
         switch (statType) {
             case StatType.Attack:
                 attack*=statMultiplier;
@@ -40,7 +42,7 @@ public class Stats : MonoBehaviour, IModifiable {
         }
     }
 
-    public void Modify(StatType statType, int statAddend) {
+    public void Add(StatType statType, int statAddend) {
         switch (statType) {
             case StatType.Attack:
                 attack += statAddend;
@@ -50,6 +52,9 @@ public class Stats : MonoBehaviour, IModifiable {
                 break;
             case StatType.Health:
                 health += statAddend;
+                if (health>originalStats.health){
+                    health=originalStats.health;
+                }
                 break;
             case StatType.MoveSpeed:
                 moveSpeed += statAddend;
@@ -76,6 +81,10 @@ public class Stats : MonoBehaviour, IModifiable {
         return -1;
     }
 
+    public float GetHealthFraction(){ 
+        return health/originalStats.health;    
+    }
+
     public float TakeDamage(float damage) {
         health-= damage;
         if (health < 0) {
@@ -84,7 +93,7 @@ public class Stats : MonoBehaviour, IModifiable {
         return health;
     }
 
-    public void Reset() {
+    public void ResetForRebirth() {
         attack = originalStats.attack;
         defense = originalStats.defense;
         health = originalStats.health;
@@ -96,14 +105,17 @@ public class Stats : MonoBehaviour, IModifiable {
     #region Internal Structures
     [Serializable]
     struct StatsMemento{
-        public float attack, defense, health, moveSpeed, rangedAccuracy;
-        public StatsMemento(float attack, float defense, float health, float moveSpeed, float rangedAccuracy) {
+        public float attack, defense, health, moveSpeed, rangedAccuracy, shotSpeed, shotPushForce, skinnableHealth;
+        public StatsMemento(float attack, float defense, float health, float moveSpeed, float rangedAccuracy, float shotSpeed, float shotPushForce, float skinnableHealth) {
             this.attack = attack;
             this.defense = defense;
             this.health = health;
             this.moveSpeed = moveSpeed;
             this.rangedAccuracy = rangedAccuracy;
+            this.shotSpeed = shotSpeed;
+            this.shotPushForce = shotPushForce;
+            this.skinnableHealth=skinnableHealth;
         }
-    }
+    }    
     #endregion
 }

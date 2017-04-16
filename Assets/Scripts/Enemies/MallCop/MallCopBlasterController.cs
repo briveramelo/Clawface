@@ -4,13 +4,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using ModMan;
 
 public class MallCopBlasterController : MallCopController {
 
     [SerializeField] public float fleeForce;
     [SerializeField] float maxDistanceBeforeChasing;
     [SerializeField] float distanceToFire;
-    
 
     void Awake() {
         checksToUpdateState = new List<Func<bool>>() {
@@ -25,7 +25,7 @@ public class MallCopBlasterController : MallCopController {
         if ((other.gameObject.tag == Strings.Tags.PLAYER) &&
             CurrentState != states.flee) {
 
-            attackTarget = other.transform;
+            AttackTarget = other.transform;
             UpdateState(EMallCopState.Flee);
         }
     }
@@ -42,7 +42,7 @@ public class MallCopBlasterController : MallCopController {
     bool CheckToPatrol() {
         if (CurrentState == states.chase &&
             timeInLastState > properties.maxChaseTime &&
-            attackTarget != null) {
+            AttackTarget != null) {
 
             UpdateState(EMallCopState.Patrol);
             return true;
@@ -76,5 +76,5 @@ public class MallCopBlasterController : MallCopController {
         }        
         return false;
     }
-    
+
 }

@@ -8,12 +8,12 @@ using MovementEffects;
 public class MallCopSwingState : MallCopState {
 
     public override void OnEnter() {
-        Timing.RunCoroutine(RunStartupTimer());
+        Timing.RunCoroutine(RunStartupTimer(), Segment.FixedUpdate);
         animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Swing);
     }
     public override void Update() {
         velBody.velocity = Vector3.zero;
-        velBody.LookAt(controller.attackTarget);        
+        velBody.LookAt(controller.AttackTarget);        
     }
     public override void OnExit() {
         

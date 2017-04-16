@@ -1,61 +1,108 @@
-﻿//using System.Collections;
-//using System.Collections.Generic;
-//using UnityEngine;
-//using UnityEditor;
-//using System.IO;
+﻿// ObjectDatabaseManager.cs
 
-//[ExecuteInEditMode]
-//public class ObjectDatabaseManager : SingletonMonoBehaviour<ObjectDatabaseManager> {
+using System.Collections.Generic;
+using System.IO;
+using UnityEngine;
 
-//    [SerializeField]
-//	ObjectDatabase _database = new ObjectDatabase();
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
-//    new void Awake() {
-//        base.Awake();
-        
-//        if (Application.isPlaying)
-//            DontDestroyOnLoad (gameObject);
-//    }
+/// <summary>
+/// Manager to store object database data.
+/// </summary>
+[ExecuteInEditMode]
+public class ObjectDatabaseManager : 
+    SingletonMonoBehaviour<ObjectDatabaseManager> 
+ {
+    #region Vars
 
-//    public GameObject GetObject (int index) {
-//        if (index < 0 || index >= (int)byte.MaxValue) {
-//            Debug.LogError ("Index out of range! " + index.ToString());
-//            return null;
-//        }
-//        return _database[index].prefab;
-//    }
+    /// <summary>
+    /// Object info database.
+    /// </summary>
+    [SerializeField]
+    ObjectDatabase _database = new ObjectDatabase();
 
-//    public int GetObjectLimit (int index) {
-//        return _database[index].limit;
-//    }
+    #endregion
+    #region Unity Callbacks
 
-//    public List<ObjectData> AllObjectsInCategory (ObjectDatabase.Category cat) {
-//        return _database.AllObjectsInCategory (cat);
-//    }
+    new void Awake() {
+        base.Awake();
 
-//    public void RebuildCategories () {
-//        _database.BuildCategories();
-//    }
+        if (Application.isPlaying)
+            DontDestroyOnLoad(gameObject);
+    }
 
-//    public void SaveToJSON () {
-//        var dbAsJSON = JsonUtility.ToJson (_database);
-//        var path = EditorUtility.SaveFilePanel ("Save database file", Application.dataPath, "ObjectDatabase", "json");
-//        if (path == default(string) || path == "") return;
-//        if (!File.Exists(path)) File.CreateText(path).Write (dbAsJSON);
-//        else File.WriteAllText (path, dbAsJSON);
-//    }
+    #endregion
+    #region Methods
 
-//    public void LoadFromJSON () {
-//        var path = EditorUtility.OpenFilePanel ("Open database file", Application.dataPath, "json");
-//        if (path == default(string) || path == "") return;
-//        var newDB = JsonUtility.FromJson<ObjectDatabase> (File.ReadAllText(path));
-//        if (newDB == null) {
-//            Debug.LogError ("Failed to load database.");
-//            return;
-//        }
+    /// <summary>
+    /// Returns the object with the given index.
+    /// </summary>
+    public GameObject GetObject(int index) {
+        if (index < 0 || index >= (int)byte.MaxValue) {
+            Debug.LogError("Index out of range! " + index.ToString());
+            return null;
+        }
+        return _database[index].prefab;
+    }
 
-//        _database = newDB;
-//        newDB.ReloadPrefabs();
-//        newDB.BuildCategories();
-//    }
-//}
+    /// <summary>
+    /// Returns the limit for objects with the given index.
+    /// </summary>
+    public int GetObjectLimit(int index) {
+        return _database[index].limit;
+    }
+
+    /// <summary>
+    /// Returns a list of all objects in a given category.
+    /// </summary>
+    public List<ObjectData> AllObjectsInCategory(ObjectDatabase.Category cat) {
+        return _database.AllObjectsInCategory(cat);
+    }
+
+    /// <summary>
+    /// Builds categories.
+    /// </summary>
+    public void RebuildCategories() {
+        _database.BuildCategories();
+    }
+
+    //public void AddObject () {
+    //    _database.AddObject();
+    //}
+
+    /// <summary>
+    /// Saves the database to a JSON file.
+    /// </summary>
+    public void SaveToJSON() {
+        #if UNITY_EDITOR
+        var dbAsJSON = JsonUtility.ToJson(_database);
+        var path = EditorUtility.SaveFilePanel("Save database file", Application.dataPath, "ObjectDatabase", "json");
+        if (path == default(string) || path == "") return;
+        if (!File.Exists(path)) File.CreateText(path).Write(dbAsJSON);
+        else File.WriteAllText(path, dbAsJSON);
+        #endif
+    }
+
+    /// <summary>
+    /// Loads database info from a JSON file.
+    /// </summary>
+    public void LoadFromJSON() {
+        #if UNITY_EDITOR
+        var path = EditorUtility.OpenFilePanel("Open database file", Application.dataPath, "json");
+        if (path == default(string) || path == "") return;
+        var newDB = JsonUtility.FromJson<ObjectDatabase>(File.ReadAllText(path));
+        if (newDB == null) {
+            Debug.LogError("Failed to load database.");
+            return;
+        }
+
+        _database = newDB;
+        newDB.ReloadPrefabs();
+        newDB.BuildCategories();
+        #endif
+    }
+
+    #endregion
+}

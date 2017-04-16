@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using ModMan;
 
 public class MallCopSwingerController : MallCopController {
 
@@ -22,7 +23,7 @@ public class MallCopSwingerController : MallCopController {
         if ((other.gameObject.tag == Strings.Tags.PLAYER) &&
             CurrentState != states.chase && CurrentState != states.swing) {
 
-            attackTarget = other.transform;
+            AttackTarget = other.transform;
             UpdateState(EMallCopState.Chase);
         }
     }
@@ -42,7 +43,7 @@ public class MallCopSwingerController : MallCopController {
     bool CheckToPatrol() {
         if (CurrentState == states.chase &&
             timeInLastState > properties.maxChaseTime &&
-            attackTarget != null) {
+            AttackTarget != null) {
 
             UpdateState(EMallCopState.Patrol);
             return true;

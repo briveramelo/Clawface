@@ -12,7 +12,7 @@ public class MallCopFireState : MallCopState {
         animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Fire);
     }
     public override void Update() {
-        velBody.LookAt(controller.attackTarget);
+        velBody.LookAt(controller.AttackTarget);
         velBody.velocity = Vector3.zero;              
     }
     public override void OnExit() {

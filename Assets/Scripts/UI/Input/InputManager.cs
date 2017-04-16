@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
+using MovementEffects;
 
 public class InputManager : Singleton<InputManager> {
 
@@ -19,14 +20,13 @@ public class InputManager : Singleton<InputManager> {
     #endregion
 
     #region Unity Lifecycle Functions
-
         protected override void Awake()
         {
             base.Awake();
 
         //// Insert Appropriate Controllers:
         #if UNITY_STANDALONE
-            // controllers.Add(new KeyboardController());
+            controllers.Add(new KeyboardController());
         #endif
 
         #if UNITY_STANDALONE_WIN
@@ -56,12 +56,16 @@ public class InputManager : Singleton<InputManager> {
             }
         }
 
+        private void OnDisable() {
+            controllers.ForEach(controller=> { controller.Vibrate(VibrationTargets.BOTH, 0f);});
+        }
+
     #endregion
 
     #region Public Interface
 
-        //// Schemes
-        public string ActiveScheme
+    //// Schemes
+    public string ActiveScheme
         {
             get
             {
@@ -105,13 +109,26 @@ public class InputManager : Singleton<InputManager> {
         }
 
         //// Haptics
-        public void Vibrate(VibrationTargets target, float intensity)
+        public void Vibrate(VibrationTargets target, float intensity, float duration=0.3f)
         {
-            foreach (IController controller in controllers)
-            {
-                controller.Vibrate(target, intensity);
-            }
+            duration=Mathf.Clamp(duration, 0.3f, 1f);
+            controllers.ForEach(controller=> { controller.Vibrate(VibrationTargets.BOTH, 0f);});
+            Timing.KillCoroutines("vibrate");
+            Timing.RunCoroutine(VibrateForTime(target, intensity, duration), "vibrate");
         }
 
     #endregion
+
+    #region
+    private IEnumerator<float> VibrateForTime(VibrationTargets target, float intensity, float duration=0.2f) {
+        float timeRemaining=duration;
+        controllers.ForEach(controller=> { controller.Vibrate(target, intensity);});
+        while(timeRemaining>0f) {
+            timeRemaining-=Time.deltaTime;
+            yield return 0f;
+        }
+        controllers.ForEach(controller=> { controller.Vibrate(target, 0f);});
+    }
+    #endregion
+
 }

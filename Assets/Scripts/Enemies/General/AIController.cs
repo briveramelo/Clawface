@@ -5,22 +5,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using MovementEffects;
 using System;
+using ModMan;
 
 public abstract class AIController : MonoBehaviour {
 
     [SerializeField] protected string DEBUG_CURRENTSTATE;
 
     [HideInInspector] public float timeInLastState = 0;
-    [HideInInspector] public bool stateTimerIsRunning = false;
-    [HideInInspector] public Transform attackTarget;
+    [HideInInspector] public bool stateTimerIsRunning = false;    
+    public Transform AttackTarget {
+        get {
+            if (attackTarget==null) {
+                attackTarget = FindPlayer();
+            }
+            return attackTarget;
+        }
+        set { attackTarget = value; }
+    }
+    private Transform attackTarget;
 
     protected Stats stats;
-    protected float distanceFromTarget {get{ return Vector3.Distance(transform.position, attackTarget.position); }}
+    protected float distanceFromTarget {get{ return Vector3.Distance(transform.position, AttackTarget.position); }}
     public Vector3 directionToTarget {
         get {
-            Vector3 dir = attackTarget.position - transform.position;
-            dir.y = 0;
-            return dir.normalized;
+            return (AttackTarget.position - transform.position).NormalizedNoY();            
         }
     }
     protected State currentState;
@@ -36,24 +44,32 @@ public abstract class AIController : MonoBehaviour {
             Timing.RunCoroutine(IERestartStateTimer());
         }
     }
-    protected List<Func<bool>> checksToUpdateState;
+    protected List<Func<bool>> checksToUpdateState = new List<Func<bool>>();
 
     protected virtual void Update() {
+        bool hasUpdated = false;
         checksToUpdateState.ForEach(check => {
-            if (check()) {
-                return;
+            if (!hasUpdated && check()) {
+                hasUpdated = true;
             }
         });
-        currentState.Update();
+        if (currentState!=null) {
+            currentState.Update();
+        }
     }
 
-    public virtual void Reset() {
+    public virtual void ResetForRebirth() {
         stateTimerIsRunning = false;
         timeInLastState = 0f;
     }
 
     public void RestartStateTimer() {
         Timing.RunCoroutine(IERestartStateTimer());
+    }
+
+    public Transform FindPlayer()
+    {
+        return GameObject.FindGameObjectWithTag(Strings.Tags.PLAYER).transform;
     }
 
     protected IEnumerator<float> IERestartStateTimer() {

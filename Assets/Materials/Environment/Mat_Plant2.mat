@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Mat_Plant2
-  m_Shader: {fileID: 10511, guid: 0000000000000000f000000000000000, type: 0}
+  m_Shader: {fileID: 4800000, guid: 3bdf4005f9439c44a9fbfff31a431be5, type: 3}
   m_ShaderKeywords: _EMISSION _METALLICGLOSSMAP _NORMALMAP
   m_LightmapFlags: 1
   m_CustomRenderQueue: -1
@@ -15,6 +15,12 @@ Material:
   m_SavedProperties:
     serializedVersion: 2
     m_TexEnvs:
+    - first:
+        name: _Albedo
+      second:
+        m_Texture: {fileID: 2800000, guid: 7e65b3ae26d53e34bbae66239dcea5e3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - first:
         name: _BumpMap
       second:
@@ -58,6 +64,12 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - first:
+        name: _Normal
+      second:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - first:
         name: _OcclusionMap
       second:
         m_Texture: {fileID: 0}
@@ -65,6 +77,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     - first:
         name: _ParallaxMap
+      second:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - first:
+        name: _texcoord
       second:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -98,6 +116,9 @@ Material:
         name: _GlossyReflections
       second: 1
     - first:
+        name: _MaskClipValue
+      second: -4.01
+    - first:
         name: _Metallic
       second: 0
     - first:
@@ -125,12 +146,24 @@ Material:
         name: _SrcBlend
       second: 1
     - first:
+        name: _TintStrength
+      second: 1.91
+    - first:
         name: _UVSec
       second: 0
     - first:
+        name: _WindIntensity
+      second: 0.075
+    - first:
         name: _ZWrite
       second: 1
+    - first:
+        name: __dirty
+      second: 1
     m_Colors:
+    - first:
+        name: _AlbedoTint
+      second: {r: 0.32413793, g: 1, b: 0, a: 0}
     - first:
         name: _Color
       second: {r: 1, g: 1, b: 1, a: 1}

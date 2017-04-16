@@ -10,361 +10,179 @@ Material:
   m_Shader: {fileID: 4800000, guid: 4ab0dd1a1f482f0498ff996f3f799473, type: 3}
   m_ShaderKeywords: _EMISSION
   m_LightmapFlags: 0
+  m_EnableInstancingVariants: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
+  disabledShaderPasses: []
   m_SavedProperties:
-    serializedVersion: 2
+    serializedVersion: 3
     m_TexEnvs:
-    - first:
-        name: _Albedo
-      second:
+    - _Albedo:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - first:
-        name: _BloodMask
-      second:
+    - _BloodMask:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - first:
-        name: _Blood_Normal
-      second:
+    - _Blood_Normal:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - first:
-        name: _BumpMap
-      second:
+    - _BumpMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - first:
-        name: _DetailAlbedoMap
-      second:
+    - _DetailAlbedoMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - first:
-        name: _DetailMask
-      second:
+    - _DetailMask:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - first:
-        name: _DetailNormalMap
-      second:
+    - _DetailNormalMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - first:
-        name: _EmissionMap
-      second:
+    - _EmissionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - first:
-        name: _Emissive
-      second:
+    - _Emissive:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - first:
-        name: _Foam
-      second:
+    - _Foam:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - first:
-        name: _Lines
-      second:
+    - _Lines:
         m_Texture: {fileID: 2800000, guid: 1f258855ef253c64e9c94b0426e6b2a7, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - first:
-        name: _MainTex
-      second:
+    - _MainTex:
         m_Texture: {fileID: 2800000, guid: f85b0d7ba3dd82d488740839b6ece716, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - first:
-        name: _MainTexture
-      second:
+    - _MainTexture:
         m_Texture: {fileID: 2800000, guid: 83415cde86f0e3a46b78f48fee67bd4a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - first:
-        name: _Metallic
-      second:
+    - _Metallic:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - first:
-        name: _MetallicGlossMap
-      second:
+    - _MetallicGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - first:
-        name: _Normal
-      second:
+    - _Normal:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - first:
-        name: _OcclusionMap
-      second:
+    - _OcclusionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - first:
-        name: _ParallaxMap
-      second:
+    - _ParallaxMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - first:
-        name: _TextureSample1
-      second:
+    - _TextureSample1:
         m_Texture: {fileID: 2800000, guid: bd734c29baceb63499732f24fbaea45f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - first:
-        name: _ToonShade
-      second:
+    - _ToonShade:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - first:
-        name: _WaterNormal
-      second:
+    - _WaterNormal:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - first:
-        name: _holo_base
-      second:
+    - _holo_base:
         m_Texture: {fileID: 2800000, guid: f85b0d7ba3dd82d488740839b6ece716, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - first:
-        name: _holo_earth
-      second:
+    - _holo_earth:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - first:
-        name: _holo_lines
-      second:
+    - _holo_lines:
         m_Texture: {fileID: 2800000, guid: e5667aebd2af31c4c954edb5aa27d4b7, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - first:
-        name: _texcoord
-      second:
+    - _texcoord:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - first:
-        name: _ASEOutlineWidth
-      second: 1
-    - first:
-        name: _BloodMetallic
-      second: 0
-    - first:
-        name: _BloodSmoothness
-      second: 0
-    - first:
-        name: _BumpScale
-      second: 1
-    - first:
-        name: _ChromaticAberration
-      second: 0.1
-    - first:
-        name: _Cutoff
-      second: 0.5
-    - first:
-        name: _DetailNormalMapScale
-      second: 1
-    - first:
-        name: _Distortion
-      second: 0.5
-    - first:
-        name: _DstBlend
-      second: 0
-    - first:
-        name: _Float2
-      second: 0
-    - first:
-        name: _Float3
-      second: 0
-    - first:
-        name: _Float4
-      second: 0
-    - first:
-        name: _Float5
-      second: 0
-    - first:
-        name: _FoamDepth
-      second: 0
-    - first:
-        name: _FoamFalloff
-      second: 0
-    - first:
-        name: _FoamSmoothness
-      second: 0
-    - first:
-        name: _FoamSpecular
-      second: 0
-    - first:
-        name: _GlossMapScale
-      second: 1
-    - first:
-        name: _Glossiness
-      second: 0.5
-    - first:
-        name: _GlossyReflections
-      second: 1
-    - first:
-        name: _HologramLineIntensity
-      second: 0.47
-    - first:
-        name: _LandTransparency
-      second: 0.75
-    - first:
-        name: _LineIntensity
-      second: 2.21
-    - first:
-        name: _LineSize
-      second: 0.2
-    - first:
-        name: _LineSpeed
-      second: 0.7
-    - first:
-        name: _MapTransparency
-      second: 0.713
-    - first:
-        name: _MaskClipValue
-      second: 0.5
-    - first:
-        name: _MaskIntensity
-      second: 1
-    - first:
-        name: _MeshTransparency
-      second: 0.45
-    - first:
-        name: _Metallic
-      second: 0
-    - first:
-        name: _Mode
-      second: 0
-    - first:
-        name: _N
-      second: 0
-    - first:
-        name: _Normal
-      second: 0
-    - first:
-        name: _NormalIntensity
-      second: 7.26
-    - first:
-        name: _NormalScale
-      second: 0
-    - first:
-        name: _OcclusionStrength
-      second: 1
-    - first:
-        name: _Parallax
-      second: 0.02
-    - first:
-        name: _SmoothnessTextureChannel
-      second: 0
-    - first:
-        name: _SpecularHighlights
-      second: 1
-    - first:
-        name: _SrcBlend
-      second: 1
-    - first:
-        name: _TessMax
-      second: 25
-    - first:
-        name: _TessMin
-      second: 10
-    - first:
-        name: _TessValue
-      second: 4
-    - first:
-        name: _TextureSmoothness
-      second: 0
-    - first:
-        name: _TransAmbient
-      second: 0.164
-    - first:
-        name: _TransDirect
-      second: 1
-    - first:
-        name: _TransNormalDistortion
-      second: 0.108
-    - first:
-        name: _TransScattering
-      second: 2
-    - first:
-        name: _TransShadow
-      second: 0
-    - first:
-        name: _Translucency
-      second: 32.3
-    - first:
-        name: _Transparency
-      second: 0.457
-    - first:
-        name: _UVSec
-      second: 0
-    - first:
-        name: _WaterDepth
-      second: 0
-    - first:
-        name: _WaterFalloff
-      second: 0
-    - first:
-        name: _WaterSmoothness
-      second: 0
-    - first:
-        name: _WaterSpecular
-      second: 0
-    - first:
-        name: _ZWrite
-      second: 1
-    - first:
-        name: __dirty
-      second: 0
-    - first:
-        name: _transparency
-      second: 1
+    - _ASEOutlineWidth: 1
+    - _BloodMetallic: 0
+    - _BloodSmoothness: 0
+    - _BumpScale: 1
+    - _ChromaticAberration: 0.1
+    - _Cutoff: 0.5
+    - _DetailNormalMapScale: 1
+    - _Distortion: 0.5
+    - _DstBlend: 0
+    - _Float2: 0
+    - _Float3: 0
+    - _Float4: 0
+    - _Float5: 0
+    - _FoamDepth: 0
+    - _FoamFalloff: 0
+    - _FoamSmoothness: 0
+    - _FoamSpecular: 0
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _HologramLineIntensity: 0.47
+    - _LandTransparency: 0
+    - _LineIntensity: 9
+    - _LineSize: 0.2
+    - _LineSpeed: 0.7
+    - _MapTransparency: 0.713
+    - _MaskClipValue: 0.5
+    - _MaskIntensity: 1
+    - _MeshTransparency: 0.502
+    - _Metallic: 0
+    - _Mode: 0
+    - _N: 0
+    - _Normal: 0
+    - _NormalIntensity: 7.26
+    - _NormalScale: 0
+    - _OcclusionStrength: 1
+    - _Parallax: 0.02
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _TessMax: 25
+    - _TessMin: 10
+    - _TessValue: 4
+    - _TextureSmoothness: 0
+    - _TransAmbient: 0.164
+    - _TransDirect: 1
+    - _TransNormalDistortion: 0.108
+    - _TransScattering: 2
+    - _TransShadow: 0
+    - _Translucency: 32.3
+    - _Transparency: 0.457
+    - _UVSec: 0
+    - _WaterDepth: 0
+    - _WaterFalloff: 0
+    - _WaterSmoothness: 0
+    - _WaterSpecular: 0
+    - _ZWrite: 1
+    - __dirty: 0
+    - _transparency: 1
     m_Colors:
-    - first:
-        name: _ASEOutlineColor
-      second: {r: 0, g: 0, b: 0, a: 0}
-    - first:
-        name: _BloodColor
-      second: {r: 0.9044118, g: 0, b: 0, a: 0}
-    - first:
-        name: _Color
-      second: {r: 1, g: 1, b: 1, a: 1}
-    - first:
-        name: _ColorTint
-      second: {r: 1, g: 1, b: 1, a: 0}
-    - first:
-        name: _DeepColor
-      second: {r: 0, g: 0, b: 0, a: 0}
-    - first:
-        name: _EmissionColor
-      second: {r: 0, g: 0, b: 0, a: 1}
-    - first:
-        name: _ShalowColor
-      second: {r: 1, g: 1, b: 1, a: 0}
-    - first:
-        name: _SpecColor
-      second: {r: 1, g: 1, b: 1, a: 1}
+    - _ASEOutlineColor: {r: 0, g: 0, b: 0, a: 0}
+    - _BloodColor: {r: 0.9044118, g: 0, b: 0, a: 0}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _ColorTint: {r: 0.5338992, g: 0.71189654, b: 0.9191176, a: 0}
+    - _DeepColor: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _ShalowColor: {r: 1, g: 1, b: 1, a: 0}
+    - _SpecColor: {r: 1, g: 1, b: 1, a: 1}

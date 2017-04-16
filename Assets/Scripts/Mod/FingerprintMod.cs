@@ -6,29 +6,57 @@ using UnityEngine;
 public class FingerprintMod : Mod {
 
     ITriggerable unlockableObject;
-    bool attached;
 
     [SerializeField]
     private Collider unlockColliderVolume;
 
-    private void Awake()
-    {
+    protected override void Awake(){
         type = ModType.FingerPrint;
+        base.Awake();
     }
 
-    public override void Activate()
+    // Use this for initialization
+    void Start () {
+        isAttached = false;
+        unlockableObject = null;
+        unlockColliderVolume.enabled = false;
+    }
+	
+	// Update is called once per frame
+	protected override void Update () {
+        base.Update();
+	}
+
+    public override void Activate(Action onCompleteCoolDown=null, Action onActivate=null)
     {
-        if (attached && unlockableObject != null)
-        {
+        if (isAttached && unlockableObject != null){
             unlockableObject.Activate();
         }
     }
 
-    public override void AttachAffect(ref Stats playerStats, IMovable wielderMovable)
+    protected override void ActivateChargedArms(){
+
+    }
+
+    protected override void ActivateStandardArms(){
+
+    }
+    protected override void ActivateStandardLegs(){
+        ActivateStandardArms();
+    }
+
+    protected override void ActivateChargedLegs(){
+        ActivateStandardArms();
+    }
+    protected override void BeginChargingLegs(){ }
+    protected override void RunChargingLegs(){ }
+    protected override void BeginChargingArms(){ }
+    protected override void RunChargingArms(){ }
+
+    public override void AttachAffect(ref Stats wielderStats, IMovable wielderMovable)
     {
-        attached = true;
-        unlockColliderVolume.enabled = true;
-        pickupCollider.enabled = false;
+        base.AttachAffect(ref wielderStats, wielderMovable);        
+        unlockColliderVolume.enabled = true;        
     }
 
     public override void DeActivate()
@@ -38,14 +66,13 @@ public class FingerprintMod : Mod {
 
     public override void DetachAffect()
     {
-        attached = false;
-        pickupCollider.enabled = true;
         unlockColliderVolume.enabled = false;
         if (unlockableObject!=null)
         {
             unlockableObject.Wait();
             unlockableObject = null;
         }
+        base.DetachAffect();
     }
 
     void OnTriggerEnter(Collider other)
@@ -68,21 +95,5 @@ public class FingerprintMod : Mod {
                 unlockableObject = null;
             }
         }
-    }
-
-    // Use this for initialization
-    void Start () {
-        attached = false;
-        unlockableObject = null;
-        unlockColliderVolume.enabled = false;
-    }
-	
-	// Update is called once per frame
-	void Update () {
-	}
-
-    public override void AlternateActivate(bool isHeld, float holdTime)
-    {
-        
-    }
+    }    
 }

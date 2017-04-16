@@ -59,15 +59,35 @@ namespace ModMan {
         {
             return new Vector3(Mathf.Cos(Mathf.Deg2Rad * inputAngle), 0f, Mathf.Sin(Mathf.Deg2Rad * inputAngle));
         }
+        public static Vector3 NormalizedNoY(this Vector3 vector){ 
+            vector.y=0;
+            return vector.normalized;
+        }
+        /// <summary>
+        /// Returns the greatest of this vector's components.
+        /// </summary>
+	    public static float Max (this Vector3 v) {
+            return Mathf.Max (v.x, v.y, v.z);
+        }
     }
 
     public static class GameObjectExtensions {
 
-        public static GameObject FindInChildren(this GameObject obj, string name)
-        {
+        public static void DeActivate(this GameObject obj, float timeToDeactivate) {
+            Timing.RunCoroutine(IEDeActivate(obj, timeToDeactivate), Segment.FixedUpdate);
+        }
+        static IEnumerator<float> IEDeActivate(GameObject obj, float timeToDeactivate) {
+            yield return Timing.WaitForSeconds(timeToDeactivate);
+            obj.SetActive(false);
+        }
+        
+        /// <summary>
+        /// Finds a GameObject with a certain name in the children of the given
+        /// GameObject.
+        /// </summary>
+	    public static GameObject FindInChildren (this GameObject obj, string name) {
             var childTransforms = obj.GetComponentsInChildren<Transform>();
-            foreach (var childTr in childTransforms)
-            {
+            foreach (var childTr in childTransforms) {
                 var childObj = childTr.gameObject;
                 if (childObj.name == name) return childObj;
             }
@@ -75,13 +95,72 @@ namespace ModMan {
             return null;
         }
 
-        public static void DeActivate(this GameObject obj, float timeToDeactivate) {
-            Timing.RunCoroutine(IEDeActivate(obj, timeToDeactivate));
+        /// <summary>
+        /// Finds the given component type in ancestors (parents, grandparents, etc.)
+        /// </summary>
+        public static T GetComponentInAncestors<T> (this GameObject obj) {
+            var parent = obj.transform.parent;
+            while (parent != null) {
+                var component = parent.GetComponent<T>();
+                if (component != null) return component;
+                parent = parent.transform.parent;
+            }
+
+            return default(T);
         }
-        static IEnumerator<float> IEDeActivate(GameObject obj, float timeToDeactivate) {
-            yield return Timing.WaitForSeconds(timeToDeactivate);
-            obj.SetActive(false);
+
+        /// <summary>
+        /// Copies the settings of a component from one GameObject to another.
+        /// </summary>
+        public static bool CopyComponentFromGameObject<T> (this GameObject obj, GameObject other) where T : Component {
+            T otherComponent = other.GetComponent<T>();
+            if (otherComponent == null) return false;
+
+            T thisComponent = obj.GetComponent<T>();
+            if (thisComponent == null) thisComponent = obj.AddComponent<T>();
+
+            System.Reflection.FieldInfo[] fields = otherComponent.GetType().GetFields();
+            foreach (var field in fields) {
+                field.SetValue (thisComponent, field.GetValue (otherComponent));
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Copies collider information from one object to another.
+        /// </summary>
+        public static bool CopyColliderFromGameObject (this GameObject obj, GameObject other) {
+            if (CopyComponentFromGameObject<BoxCollider>(obj, other)) return true;
+            if (CopyComponentFromGameObject<SphereCollider>(obj, other)) return true;
+            if (CopyComponentFromGameObject<CapsuleCollider>(obj, other)) return true;
+            if (CopyComponentFromGameObject<MeshCollider>(obj, other)) return true;
+            return false;
         }        
     }
 
+    public static class TransformExtensions {
+        public static void Reset (this Transform tr) {
+            tr.localPosition = Vector3.zero;
+            tr.localRotation = Quaternion.identity;
+        }
+        public static void ResetFull (this Transform tr) {
+            tr.localPosition = Vector3.zero;
+            tr.localRotation = Quaternion.identity;
+            tr.localScale = Vector3.one;
+        }
+
+        public static void Reset(this Transform tr, TransformMemento tMemento){
+            tr.localPosition = tMemento.startPosition;
+            tr.localScale = tMemento.startScale;
+            tr.localRotation = tMemento.startRotation;
+        }
+
+        public static IEnumerator<float> ResetRotation(this Transform transformToRestore, float timeToDelay) {
+            Quaternion startRotation = transformToRestore.rotation;
+            yield return Timing.WaitForSeconds(timeToDelay);
+            transformToRestore.rotation = startRotation;
+        }
+    
+    }
 }

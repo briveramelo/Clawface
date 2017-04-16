@@ -6,7 +6,7 @@ using UnityEngine;
 using System.Linq;
 using ModMan;
 
-public class MallCop : MonoBehaviour, ICollectable, IStunnable, IDamageable, ISkinnable
+public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpawnable
 {
 
     #region 2. Serialized Unity Inspector Fields
@@ -17,75 +17,80 @@ public class MallCop : MonoBehaviour, ICollectable, IStunnable, IDamageable, ISk
     [SerializeField] private Animator animator;
     [SerializeField] private Stats myStats;
     [SerializeField] private GameObject mySkin;
+    [SerializeField] private CopUI copUICanvas;
     [SerializeField] private Mod mod;
-    [SerializeField] private GameObject MallCopGoreExplosion;
+    [SerializeField] private Transform bloodEmissionLocation;
     #endregion
 
     #region 3. Private fields
 
 
     private int stunCount;
-    private OnDeath onDeath;
-    private bool willHasBeenWritten;
+    private Will will=new Will();
+    private Damaged damaged = new Damaged();
+    private DamagePack damagePack=new DamagePack();
 
     #endregion
 
     #region 4. Unity Lifecycle
 
     private void OnEnable() {
-        if (willHasBeenWritten) {
-            Revive();
+        if (will.willHasBeenWritten) {
+            ResetForRebirth();
         }       
     }
     
     void Awake ()
     {
         controller.Initialize(properties, mod, velBody, animator, myStats);
-        Revive();
-
+        damaged.Set(DamagedType.MallCop, bloodEmissionLocation);
         mod.setModSpot(ModSpot.ArmR);
         mod.AttachAffect(ref myStats, velBody);
+        ResetForRebirth();
     }    
 
     #endregion
 
     #region 5. Public Methods   
 
-    void IDamageable.TakeDamage(float damage)
+    void IDamageable.TakeDamage(Damager damager)
     {        
         if (myStats.health > 0){                        
-            myStats.TakeDamage(damage);
-            if (myStats.health <= 5 && !glowObject.isGlowing){
+            myStats.TakeDamage(damager.damage);            
+            damagePack.Set(damager, damaged);            
+            DamageFXManager.Instance.EmitDamageEffect(damagePack);
+            if (myStats.health <= myStats.skinnableHealth && !glowObject.isGlowing){
                 glowObject.SetToGlow();
+                copUICanvas.gameObject.SetActive(true);
+                copUICanvas.ShowAction(ActionType.Skin);
             }
             if (myStats.health <= 0) {
                 controller.UpdateState(EMallCopState.Fall);
 
                 mod.DetachAffect();
-                Die();
+                OnDeath();
             }
             else {
                 //TODO: update state to hit reaction state, THEN to chase (too abrupt right now)
                 //TODO: Create hit reaction state
                 if (controller.ECurrentState == EMallCopState.Patrol) {
-                    controller.attackTarget = FindPlayer();
                     controller.UpdateState(EMallCopState.Chase);
                 }
             }
         }
     }
 
-    GameObject ICollectable.Collect(){
-        GameObject droppedSkin = Instantiate(mySkin, null, true) as GameObject;
-        return droppedSkin;
+    float IDamageable.GetHealth()
+    {
+        return myStats.health;
     }
 
     bool ISkinnable.IsSkinnable(){
-        return myStats.health <= 5;
+        return myStats.health <= myStats.skinnableHealth;
     }
 
     GameObject ISkinnable.DeSkin(){
-        Invoke("Die", 0.1f);
+        Invoke("OnDeath", 0.1f);
         return Instantiate(mySkin, null, false);
     }
 
@@ -100,52 +105,53 @@ public class MallCop : MonoBehaviour, ICollectable, IStunnable, IDamageable, ISk
         }
     }    
 
-    public bool HasWillBeenWritten() { return willHasBeenWritten; }
+    public bool HasWillBeenWritten() { return will.willHasBeenWritten; }
 
     public void RegisterDeathEvent(OnDeath onDeath)
     {
-        willHasBeenWritten = true;
-        this.onDeath = onDeath;
+        will.willHasBeenWritten = true;
+        will.onDeath = onDeath;
     }
 
     #endregion
 
-    #region 6. Private Methods
+    #region 6. Private Methods    
 
-    private Transform FindPlayer() {
-        return GameObject.FindGameObjectWithTag(Strings.Tags.PLAYER).transform;
-    }
+    private void OnDeath() {
+        if (!will.isDead) {
+            will.isDead=true;
+            if (will.willHasBeenWritten)
+            {
+                will.onDeath();
+            }
 
-    private void Die() {
-        if (willHasBeenWritten)
-        {
-            onDeath();
+            GameObject mallCopParts = ObjectPool.Instance.GetObject(PoolObjectType.MallCopExplosion);
+            if (mallCopParts) {
+                SFXManager.Instance.Play(SFXType.BloodExplosion, transform.position);
+                mallCopParts.transform.position = transform.position + Vector3.up*3f;
+                mallCopParts.transform.rotation = transform.rotation;
+                mallCopParts.DeActivate(5f);                
+            }
+            gameObject.SetActive(false);
         }
-
-        GameObject mallCopParts = ObjectPool.Instance.GetObject(PoolObjectType.MallCopExplosion);
-        mallCopParts.transform.position = transform.position + Vector3.up*3f;
-        mallCopParts.transform.rotation = transform.rotation;
-        mallCopParts.DeActivate(5f);        
-        gameObject.SetActive(false);
     }
 
-    private void Revive() {
-        StopAllCoroutines();
-
+    private void ResetForRebirth() {
         GetComponent<CapsuleCollider>().enabled = true;
-        myStats.Reset();
-        controller.Reset();
-        glowObject.Reset();
-        velBody.Reset();
+        copUICanvas.gameObject.SetActive(false);
+        mod.DeactivateModCanvas();
+
+        myStats.ResetForRebirth();
+        controller.ResetForRebirth();
+        velBody.ResetForRebirth();
+        glowObject.ResetForRebirth();
+        will.Reset();
         //TODO check for missing mod and create a new one and attach it
     }       
 
     #endregion
 
-    #region 7. Internal Structures
-    
-    public delegate void OnDeath();
-    
+    #region 7. Internal Structures            
     #endregion
 
 }

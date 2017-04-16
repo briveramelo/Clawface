@@ -1,6 +1,5 @@
 ﻿public class Strings  {
-    // TODO - This should be reorganized..  I have no idea where any of these
-    // are being used or what they're for.
+
     public static string ANIMATIONSTATE = "AnimationState";
 
     public static class Tags {
@@ -37,6 +36,7 @@
             public const string BLOCK = "BLOCK"; // REMOVE?
             public const string LOCK = "LOCK"; // REMOVE?
             public const string DODGE = "DODGE";
+            public const string PAUSE = "PAUSE";
         }
     }
 }

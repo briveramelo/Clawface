@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using ModMan;
 
 public abstract class MallCopController : AIController {
 
@@ -11,10 +12,13 @@ public abstract class MallCopController : AIController {
         }
     }
 
+    [SerializeField] protected GameObject modPrefab;
+
     protected MallCopProperties properties;
     protected Mod mod;
     protected States states;
     protected Animator animator;
+    protected TransformMemento modMemento = new TransformMemento();
 
     public override State CurrentState {
         set {
@@ -43,6 +47,7 @@ public abstract class MallCopController : AIController {
 
         states = new States();
         states.Initialize(properties, this, velBody, animator, stats);
+        modMemento.Initialize(mod.transform);
         CurrentState = states.patrol;
     }    
 
@@ -50,9 +55,16 @@ public abstract class MallCopController : AIController {
         CurrentState = states.GetState(state);
     }
 
-    public override void Reset() {
+    public override void ResetForRebirth() {
         CurrentState = states.patrol;
-        base.Reset();
+        if (mod==null || mod.GetWielderInstanceID()!=gameObject.GetInstanceID()) {
+            Debug.Log(mod.GetWielderInstanceID() + " " + gameObject.GetInstanceID());
+            GameObject newMod = Instantiate(modPrefab);
+            mod = newMod.GetComponent<Mod>();
+        }
+        mod.transform.Reset(modMemento);        
+        mod.DeactivateModCanvas();            
+        base.ResetForRebirth();
     }
 
     #region Animation Events
