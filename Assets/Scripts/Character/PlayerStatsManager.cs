@@ -23,10 +23,11 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
 
     #region Unity Lifecycle
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         startHealth = stats.GetStat(StatType.Health);
         AnalyticsManager.Instance.SetPlayerStats(this.stats);
-}
+    }
 	
 	// Update is called once per frame
 	void Update () {
