@@ -16,6 +16,10 @@ public class MainMenu : Menu
 
     public static void StartGame()
     {
+        //call pertinent menu manager stuff
+    }
 
+    public static void FadeInMenu()
+    {
     }
 }
