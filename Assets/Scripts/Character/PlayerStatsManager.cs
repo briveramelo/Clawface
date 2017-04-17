@@ -23,10 +23,15 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
 
     #region Unity Lifecycle
     // Use this for initialization
-    void Start () {
-        startHealth = stats.GetStat(StatType.Health);
+    void Start()
+    {
+        stats.SetMaxHealth(UpgradeManager.Instance.GetHealthLevel());
+        startHealth = stats.GetStat(StatType.MaxHealth);
         AnalyticsManager.Instance.SetPlayerStats(this.stats);
-}
+        UpgradeManager.Instance.SetPlayerStats(this.stats);
+        UpgradeManager.Instance.SetPlayerStatsManager(this);
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -49,7 +54,11 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
         }
     }
 
-
+    public void UpdateMaxHealth()
+    {
+        float healthFraction = stats.GetHealthFraction();
+        HealthBar.Instance.SetHealth(healthFraction);
+    }
 
     public float GetStat(StatType type)
     {
@@ -72,7 +81,7 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     private void Revive() {
         transform.position = GameObject.Find("RespawnPoint").transform.position;
         stats.Add(StatType.Health, (int)startHealth);
-        startHealth = stats.GetStat(StatType.Health);
+        startHealth = stats.GetStat(StatType.MaxHealth);
         HealthBar.Instance.SetHealth(stats.GetHealthFraction());
         AnalyticsManager.Instance.PlayerDeath();
     }
