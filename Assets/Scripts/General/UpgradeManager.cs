@@ -60,6 +60,7 @@ public class UpgradeManager : Singleton<UpgradeManager> {
 
     #region Privates
     private bool canMoveCursor;
+    private PlayerStatsManager playerStatsManager;
     private Stats playerStats;
     #endregion
 
@@ -68,7 +69,6 @@ public class UpgradeManager : Singleton<UpgradeManager> {
     // Use this for initialization
     void Start () {
         maxLevel = expNeeded.Count;
-        playerStats = GameObject.FindGameObjectWithTag(Strings.Tags.PLAYER).GetComponentInChildren<Stats>();
 	}
 
     private void Update()
@@ -76,7 +76,7 @@ public class UpgradeManager : Singleton<UpgradeManager> {
 
         if (Input.GetKeyDown(KeyCode.M))
         {
-            AddEXP(4);
+            AddEXP(10000);
         }
 
 
@@ -132,7 +132,7 @@ public class UpgradeManager : Singleton<UpgradeManager> {
         {
             currentEXP += exp;
 
-            if (currentEXP >= expNeeded[currentLevel])
+            while (currentLevel < maxLevel && currentEXP >= expNeeded[currentLevel])
             {
                 currentEXP -= expNeeded[currentLevel];
                 currentLevel++;
@@ -156,6 +156,16 @@ public class UpgradeManager : Singleton<UpgradeManager> {
     public int GetHealthLevel()
     {
         return healthUpgrades[pointsInvestedInHealth];
+    }
+
+    public void SetPlayerStatsManager(PlayerStatsManager stats)
+    {
+        playerStatsManager = stats;
+    }
+
+    public void SetPlayerStats(Stats stats)
+    {
+        playerStats = stats;
     }
     #endregion
 
@@ -391,6 +401,16 @@ public class UpgradeManager : Singleton<UpgradeManager> {
                     currentSelection = UpgradeMenuSelection.HP0;
                 }
                 break;
+        }
+
+        if (playerStats != null)
+        {
+            playerStats.SetMaxHealth(GetHealthLevel());
+        }
+
+        if (playerStatsManager != null)
+        {
+            playerStatsManager.UpdateMaxHealth();
         }
     }
 

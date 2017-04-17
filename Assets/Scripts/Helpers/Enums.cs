@@ -11,7 +11,8 @@ public enum StatType {
     MoveSpeed = 2,
     Health = 3,
     RangedAccuracy= 4,
-    MaxHealth = 5
+    MaxHealth = 5,
+    EXP = 6
 }
 
 public enum CodexType {
