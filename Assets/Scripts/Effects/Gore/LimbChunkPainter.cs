@@ -12,11 +12,13 @@ public class LimbChunkPainter : MonoBehaviour {
     
     float minDownScale = 1f;
     float maxDownScale = 2f;
+    private Collider[] dummyColliders;
 
     private void OnCollisionEnter(Collision collision)
     {
         ContactPoint contact = collision.contacts[0];
         Paint(contact.point, Color.red);
+        dummyColliders=new Collider[3];
     }
 
 
@@ -30,10 +32,13 @@ public class LimbChunkPainter : MonoBehaviour {
         if (dir.z < 0) dir.z = UnityEngine.Random.Range(0f, 1f);
 
         // Raycast around the position to splash everwhere we can
-        if (Physics.Raycast(loc, dir, out hit, .1f))
-        {
+        int ground = LayerMasker.GetLayerMask(Layers.Ground);
+        int blood = LayerMasker.GetLayerMask(Layers.Blood);
+        
+        if(Physics.Raycast(loc , dir, out hit, 1.5f, ground) && 
+            Physics.OverlapSphereNonAlloc(hit.point, 0.2f, null, blood)<3){
+                        
             PaintDecal(hit, c);
-               
         }
         
     }
@@ -42,7 +47,7 @@ public class LimbChunkPainter : MonoBehaviour {
     {
         //eff z fighting
         Vector3 modifiedHitPoint = hit.point;
-        modifiedHitPoint.y += .5f;
+        modifiedHitPoint.y += .05f;
 
         //get an object from pool
         GameObject bloodObject = ObjectPool.Instance.GetObject(PoolObjectType.BloodDecal);

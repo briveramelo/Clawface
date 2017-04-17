@@ -54,9 +54,9 @@ GameObject:
   - component: {fileID: 54128532361798382}
   - component: {fileID: 33440438714347980}
   - component: {fileID: 23268002796119672}
-  - component: {fileID: 65942445369230588}
   - component: {fileID: 114115179002809138}
   - component: {fileID: 114046701473042792}
+  - component: {fileID: 65808996196913348}
   m_Layer: 0
   m_Name: SegwayMod
   m_TagString: Mod
@@ -139,7 +139,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1108482251936534}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.12, z: 0}
+  m_LocalPosition: {x: 0, y: 0.14, z: 3.13}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4659963037190060}
@@ -152,7 +152,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1758412857724162}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0.002, y: 0.073, z: -0.02}
+  m_LocalPosition: {x: 0.002, y: 0.07, z: 1.15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4659963037190060}
@@ -165,7 +165,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1615369576885356}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.106, z: 0}
+  m_LocalPosition: {x: 0, y: 0.14, z: 1.13}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4659963037190060}
@@ -178,8 +178,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1316314029526810}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -18.622269, y: -7.6902003, z: -120.45743}
-  m_LocalScale: {x: 2.5000002, y: 2.5000005, z: 2.500001}
+  m_LocalPosition: {x: -5.551, y: 1.47, z: 13.315}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4120684821083518}
   - {fileID: 4822043772925276}
@@ -196,7 +196,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1092505358661420}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0.0020004273, y: 0.072999954, z: -0.01999855}
+  m_LocalPosition: {x: 0.0020004273, y: 0.07, z: 1.15}
   m_LocalScale: {x: 1, y: 1.0000005, z: 1.0000005}
   m_Children: []
   m_Father: {fileID: 4659963037190060}
@@ -256,7 +256,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &65942445369230588
+--- !u!65 &65808996196913348
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -266,8 +266,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.55, y: 0.65, z: 0.53}
-  m_Center: {x: 0, y: 0.26755902, z: -0.008966612}
+  m_Size: {x: 0.6486312, y: 0.86634934, z: 1.3127475}
+  m_Center: {x: 0, y: 0.19315398, z: 0.50539875}
 --- !u!114 &114046701473042792
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -295,7 +295,7 @@ MonoBehaviour:
   hasState: 0
   vfxModChargePrefab: {fileID: 1868770362516384, guid: 75076dc3f3739ff4bb01ae67a336ecc5,
     type: 2}
-  pickupCollider: {fileID: 65942445369230588}
+  pickupCollider: {fileID: 65808996196913348}
   modCanvas: {fileID: 1780465521823646}
   energySettings:
     timeToChargeArm: 2
@@ -322,20 +322,22 @@ MonoBehaviour:
       timeToHitStop: 0.1
     timeCharged: 0
     isCoolingDown: 0
+    isActive: 0
+    hasStartedCharging: 0
   segwayVFX: {fileID: 114046701473042792}
   standardForceSettings:
     jumpForce: 10
-    armpushForce: 40
-    aoePushForce: 10
+    armpushForce: 30
+    aoePushForce: 12
   chargedForceSettings:
     jumpForce: 15
-    armpushForce: 80
+    armpushForce: 45
     aoePushForce: 20
   capsuleBounds:
     start: {fileID: 4128817946837334}
     end: {fileID: 4108063479681664}
     radius: 0.5
-  speedBoostMultiplier: 1.25
+  speedBoostMultiplier: 0.05
   aoeRadius: 3
 --- !u!114 &114242993152467452
 MonoBehaviour:
@@ -947,7 +949,7 @@ ParticleSystem:
         m_RotationOrder: 4
     rateOverDistance:
       minMaxState: 0
-      scalar: 10
+      scalar: 1
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -3348,7 +3350,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 697964247
+  randomSeed: -1889417848
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -6325,7 +6327,7 @@ RectTransform:
   m_GameObject: {fileID: 1780465521823646}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.333, y: 0.333, z: 0.333}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224698192115296198}
   m_Father: {fileID: 4659963037190060}

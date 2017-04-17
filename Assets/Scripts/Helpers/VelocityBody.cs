@@ -43,7 +43,7 @@ public class VelocityBody : MonoBehaviour, IMovable{
     protected virtual void Update() {
         isGrounded = CheckIsGrounded();
         if (!isGrounded && !isFalling) {
-            Timing.RunCoroutine(ApplyGravity(), GetInstanceID().ToString());
+            Timing.RunCoroutine(ApplyGravity(), Segment.FixedUpdate, GetInstanceID().ToString());
         }
     }
 
@@ -62,7 +62,7 @@ public class VelocityBody : MonoBehaviour, IMovable{
     public void AddDecayingForce(Vector3 force, float decay = 0.1f) {
         if (gameObject.activeInHierarchy) {
             if (movementMode == MovementMode.PRECISE) {
-                Timing.RunCoroutine(IEAddDecayingForce(force, decay), GetInstanceID().ToString());
+                Timing.RunCoroutine(IEAddDecayingForce(force, decay), Segment.FixedUpdate, GetInstanceID().ToString());
             }
             else{
                 rigbod.AddForce(force * iceForceMultiplier);

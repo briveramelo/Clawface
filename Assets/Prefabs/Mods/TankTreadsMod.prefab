@@ -172,14 +172,14 @@ MonoBehaviour:
     timeToChargeArm: 1
     timeToChargeLeg: 1
     standardArmAttackSettings:
-      timeToCoolDown: 0.3
-      timeToAttack: 0
-      attack: 2
-      timeToHitStop: 0.05
-    chargedArmAttackSettings:
       timeToCoolDown: 1
       timeToAttack: 0
-      attack: 7
+      attack: 5
+      timeToHitStop: 0.05
+    chargedArmAttackSettings:
+      timeToCoolDown: 2
+      timeToAttack: 0
+      attack: 14
       timeToHitStop: 0.1
     standardLegAttackSettings:
       timeToCoolDown: 0.5
@@ -193,6 +193,8 @@ MonoBehaviour:
       timeToHitStop: 0.05
     timeCharged: 0
     isCoolingDown: 0
+    isActive: 0
+    hasStartedCharging: 0
   attackSphereRadius: 1
   legsMoveSpeedMod: 1
   standardForceSettings:

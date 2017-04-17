@@ -5,13 +5,8 @@ using MovementEffects;
 
 public class BlasterBullet : MonoBehaviour {
 
-    private VFXHandler vfxHandler;
     private ShooterProperties shooterProperties=new ShooterProperties();
-
-	// Use this for initialization
-	void Start () {        
-        vfxHandler = new VFXHandler(transform);
-    }
+    private Damager damager = new Damager();
 
     void OnEnable()
     {        
@@ -21,7 +16,7 @@ public class BlasterBullet : MonoBehaviour {
     private IEnumerator<float> DestroyAfter() {
         yield return Timing.WaitForSeconds(3f);
         if (gameObject.activeSelf){
-            vfxHandler.EmitForBulletCollision();
+            EmitBulletCollision();
             gameObject.SetActive(false);
         }
     }
@@ -32,22 +27,16 @@ public class BlasterBullet : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.GetInstanceID()!=shooterProperties.shooterInstanceID)
-        {
+        if (other.gameObject.GetInstanceID()!=shooterProperties.shooterInstanceID){
             bool isEnemy = other.gameObject.CompareTag(Strings.Tags.ENEMY);
             bool isPlayer = other.gameObject.CompareTag(Strings.Tags.PLAYER);
-            if (isEnemy || isPlayer)
-            {
-                
-
+            if (isEnemy || isPlayer){                
                 Damage(other.gameObject.GetComponent<IDamageable>());
-                Push(other.gameObject.GetComponent<IMovable>());
-                if (isEnemy) {
-                    EmitBlood();                                              
-                }
+                Push(other.gameObject.GetComponent<IMovable>());                
             }
             if (isEnemy || isPlayer || other.gameObject.layer==(int)Layers.Ground) {
-                vfxHandler.EmitForBulletCollision();
+                SFXManager.Instance.Play(SFXType.BlasterProjectileImpact, transform.position);
+                EmitBulletCollision();
                 gameObject.SetActive(false);
             }
         }
@@ -59,7 +48,7 @@ public class BlasterBullet : MonoBehaviour {
 
     private void Damage(IDamageable damageable) {        
         if (damageable != null) {
-
+            
             if (this.transform.root.CompareTag(Strings.Tags.PLAYER))
             {
                 AnalyticsManager.Instance.AddModDamage(ModType.ArmBlaster, shooterProperties.damage);
@@ -73,9 +62,8 @@ public class BlasterBullet : MonoBehaviour {
             {
                 AnalyticsManager.Instance.AddEnemyModDamage(ModType.ArmBlaster, shooterProperties.damage);
             }
-
-            damageable.TakeDamage(shooterProperties.damage);
-
+            damager.Set(shooterProperties.damage, DamagerType.BlasterBullet, transform.forward);
+            damageable.TakeDamage(damager);
         }
     }
 
@@ -85,48 +73,11 @@ public class BlasterBullet : MonoBehaviour {
             movable.AddDecayingForce(forceDirection.normalized * shooterProperties.pushForce);
         }
     }
+    private void EmitBulletCollision() {
+        GameObject effect = ObjectPool.Instance.GetObject(PoolObjectType.BlasterImpactEffect);
+        if (effect) {
+            effect.transform.position = transform.position;
+        }    
+    }
 
-    private void EmitBlood() {
-        //TODO: Create Impact effect needs to take into account
-        // the type of surface that it had hit.
-        if (Mathf.Abs(transform.forward.y) < 0.5f) {
-            vfxHandler.EmitBloodBilaterally();
-        }
-        else {
-            vfxHandler.EmitBloodInDirection(Quaternion.Euler(Vector3.right * 90f), transform.position);
-        }
-    }
-}
-
-public class ShooterProperties {
-    public int shooterInstanceID { get { return projectileProperties.shooterInstanceID; } }
-    public float damage { get { return projectileProperties.damage; } }
-    public float speed;
-    public float pushForce;
-    private ProjectileProperties projectileProperties=new ProjectileProperties();
-    public void Initialize(int shooterInstanceID, float damage, float speed, float pushForce)
-    {
-        projectileProperties.Initialize(shooterInstanceID, damage); 
-        this.pushForce = pushForce;
-        this.speed = speed;
-    }
-    public void Initialize(ProjectileProperties projectileProperties, float speed, float pushForce) {
-        this.projectileProperties = projectileProperties;
-        this.pushForce = pushForce;
-        this.speed = speed;
-    }
-    public ShooterProperties() { }
-}
-public class ProjectileProperties {
-    public int shooterInstanceID;
-    public float damage;
-    public ProjectileProperties() { }
-    public ProjectileProperties(int shooterInstanceID, float damage) {
-        this.shooterInstanceID = shooterInstanceID;
-        this.damage = damage;
-    }
-    public void Initialize(int shooterInstanceID, float damage) {
-        this.shooterInstanceID = shooterInstanceID;
-        this.damage = damage;
-    }
 }

@@ -16,9 +16,9 @@ public class Target : MonoBehaviour, IDamageable {
         phaseShift = Random.Range(0, 2f);
     }
 
-    void IDamageable.TakeDamage(float damage) {
+    void IDamageable.TakeDamage(Damager damager) {
         Instantiate(explosion, null, true);
-        //AudioManager.Instance.PlaySFX(SFXType.TargetBreak);
+        //SFXManager.Instance.Play(SFXType.TargetBreak);
         Destroy(gameObject);
     }
 

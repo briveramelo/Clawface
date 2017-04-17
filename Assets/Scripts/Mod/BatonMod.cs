@@ -9,25 +9,25 @@ public class BatonMod : Mod {
 
     private void OnDrawGizmosSelected() {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(capsuleBounds.start.position, capsuleBounds.radius);
-        Gizmos.DrawWireSphere(capsuleBounds.end.position, capsuleBounds.radius);        
+        Gizmos.DrawWireSphere(capsuleBounds.Start, capsuleBounds.radius);
+        Gizmos.DrawWireSphere(capsuleBounds.End, capsuleBounds.radius);        
     }
 
     [SerializeField] private VFXStunBatonImpact impactEffect;
     [SerializeField] private CapsuleBounds capsuleBounds;
 
-    private VFXHandler vfxHandler;
     private ProjectileProperties projectileProperties = new ProjectileProperties();
 
     protected override void Awake(){        
         type = ModType.StunBaton;
         category = ModCategory.Melee;
-        vfxHandler = new VFXHandler(transform);
         base.Awake();
     }
 
-    public override void Activate(Action onComplete=null){
-        base.Activate();        
+    public override void Activate(Action onCompleteCoolDown=null, Action onActivate=null){
+        onActivate = ()=> { SFXManager.Instance.Play(SFXType.StunBatonSwing, transform.position);};
+        base.Activate(onCompleteCoolDown, onActivate);
+        SFXManager.Instance.Stop(SFXType.StunBatonCharge);
     }
 
 
@@ -36,7 +36,7 @@ public class BatonMod : Mod {
         //Nothing to do here
     }
 
-    protected override void BeginChargingArms(){ }
+    protected override void BeginChargingArms(){SFXManager.Instance.Play(SFXType.StunBatonCharge, transform.position); }
     protected override void RunChargingArms(){ }
     protected override void ActivateStandardArms(){ Timing.RunCoroutine(Swing()); }
     protected override void ActivateChargedArms(){ Timing.RunCoroutine(Swing()); }
@@ -47,7 +47,7 @@ public class BatonMod : Mod {
     protected override void ActivateStandardLegs(){ LayMine(); }
 
     IEnumerator<float> Swing(){
-        //AudioManager.Instance.PlaySFX(SFXType.StunBatonSwing);
+        SFXManager.Instance.Play(SFXType.StunBatonSwing, transform.position);
         float timeRemaining = energySettings.timeToAttack;        
         while (timeRemaining>0 && isActiveAndEnabled) {            
             GetOverlap().ForEach(other => {
@@ -57,27 +57,25 @@ public class BatonMod : Mod {
 
                     IDamageable damageable = other.GetComponent<IDamageable>();
                     if (damageable != null && !recentlyHitEnemies.Contains(damageable)){
-                        AudioManager.Instance.PlaySFX(SFXType.StunBatonImpact);
+                        SFXManager.Instance.Play(SFXType.StunBatonImpact, transform.position);
 
                         if (wielderStats.gameObject.CompareTag(Strings.Tags.PLAYER)){
                             HitstopManager.Instance.StartHitstop(energySettings.hitStopTime);
                             AnalyticsManager.Instance.AddModDamage(this.getModType(), energySettings.attack);
 
-                            if (damageable.GetHealth() - energySettings.attack < 0.1f)
+                            if (damageable.GetHealth() - Attack < 0.1f)
                             {
                                 AnalyticsManager.Instance.AddModKill(this.getModType());
                             }
                         }
                         else
                         {
-                            AnalyticsManager.Instance.AddEnemyModDamage(this.getModType(), energySettings.attack);
+                            AnalyticsManager.Instance.AddEnemyModDamage(this.getModType(), Attack);
                         }
-
-                        if (!other.CompareTag(Strings.Tags.PLAYER)) {
-                            EmitBlood();
-                        }
+                        
                         impactEffect.Emit();
-                        damageable.TakeDamage(energySettings.attack);
+                        damager.Set(Attack, getDamageType(), wielderMovable.GetForward());
+                        damageable.TakeDamage(damager);
                         recentlyHitEnemies.Add(damageable);
                         IStunnable stunnable = other.GetComponent<IStunnable>();
                         if (stunnable != null){
@@ -93,13 +91,13 @@ public class BatonMod : Mod {
 
     private List<Collider> GetOverlap(){ 
         int layerMask =LayerMasker.GetLayerMask(LayerMasker.Damageable);
-        return Physics.OverlapCapsule(capsuleBounds.start.position, capsuleBounds.end.position, capsuleBounds.radius, layerMask).ToList();
+        return Physics.OverlapCapsule(capsuleBounds.Start, capsuleBounds.End, capsuleBounds.radius, layerMask).ToList();
     }
 
     void LayMine(){
         GameObject stunMine = ObjectPool.Instance.GetObject(PoolObjectType.Mine);
         if (stunMine != null){
-            //AudioManager.Instance.PlaySFX(SFXType.StunBatonLayMine);
+            //SFXManager.Instance.Play(SFXType.StunBatonLayMine);
             projectileProperties.Initialize(GetWielderInstanceID(), Attack);
             stunMine.GetComponent<StunMine>().SetProjectileProperties(projectileProperties);
             stunMine.transform.position = transform.position;
@@ -112,13 +110,6 @@ public class BatonMod : Mod {
 
     public override void DetachAffect(){
         base.DetachAffect();
-    }    
-
-    private void EmitBlood() {
-        Vector3 bloodDirection = wielderStats.transform.rotation.eulerAngles;
-        bloodDirection.x = 23.38f;
-        Quaternion emissionRotation = Quaternion.Euler(bloodDirection);
-        vfxHandler.EmitBloodInDirection(emissionRotation, transform.position);
-    }    
+    }      
 
 }

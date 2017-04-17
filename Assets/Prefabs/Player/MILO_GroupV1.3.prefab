@@ -2093,7 +2093,7 @@ MonoBehaviour:
   distance: {x: 0, y: 0, z: 0}
   angle: {x: 0, y: 0, z: 0}
   isLocked: 1
-  smoothTime: 0
+  smoothTime: 0.05
 --- !u!114 &114085947543669454
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2164,6 +2164,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageModifier: 1
   damageUI: {fileID: 114437873578944648}
+  cameraLock: {fileID: 114039158401886610}
   stats: {fileID: 114948172144602864}
 --- !u!114 &114289161165935638
 MonoBehaviour:
@@ -4503,9 +4504,9 @@ Canvas:
   m_GameObject: {fileID: 1856391226490604}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
+  m_RenderMode: 1
+  m_Camera: {fileID: 20409318532647080}
+  m_PlaneDistance: 1
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
@@ -4549,6 +4550,6 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 13, y: 30}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}

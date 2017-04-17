@@ -19,6 +19,7 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
     [SerializeField] private GameObject mySkin;
     [SerializeField] private CopUI copUICanvas;
     [SerializeField] private Mod mod;
+    [SerializeField] private Transform bloodEmissionLocation;
     #endregion
 
     #region 3. Private fields
@@ -26,6 +27,8 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
 
     private int stunCount;
     private Will will=new Will();
+    private Damaged damaged = new Damaged();
+    private DamagePack damagePack=new DamagePack();
 
     #endregion
 
@@ -40,8 +43,7 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
     void Awake ()
     {
         controller.Initialize(properties, mod, velBody, animator, myStats);
-
-       
+        damaged.Set(DamagedType.MallCop, bloodEmissionLocation);
         mod.setModSpot(ModSpot.ArmR);
         mod.AttachAffect(ref myStats, velBody);
         ResetForRebirth();
@@ -51,10 +53,12 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
 
     #region 5. Public Methods   
 
-    void IDamageable.TakeDamage(float damage)
+    void IDamageable.TakeDamage(Damager damager)
     {        
         if (myStats.health > 0){                        
-            myStats.TakeDamage(damage);
+            myStats.TakeDamage(damager.damage);            
+            damagePack.Set(damager, damaged);            
+            DamageFXManager.Instance.EmitDamageEffect(damagePack);
             if (myStats.health <= myStats.skinnableHealth && !glowObject.isGlowing){
                 glowObject.SetToGlow();
                 copUICanvas.gameObject.SetActive(true);
@@ -123,9 +127,10 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
 
             GameObject mallCopParts = ObjectPool.Instance.GetObject(PoolObjectType.MallCopExplosion);
             if (mallCopParts) {
+                SFXManager.Instance.Play(SFXType.BloodExplosion, transform.position);
                 mallCopParts.transform.position = transform.position + Vector3.up*3f;
                 mallCopParts.transform.rotation = transform.rotation;
-                mallCopParts.DeActivate(5f);        
+                mallCopParts.DeActivate(5f);                
             }
             gameObject.SetActive(false);
         }
@@ -159,16 +164,4 @@ public class MallCopProperties {
     [Range(1, 6)] public int numShocksToStun;
     [Range(.1f, 1)] public float twitchRange;
     [Range(.1f, 1f)] public float twitchTime;
-}
-
-public class Will {
-    public OnDeath onDeath;
-    public bool willHasBeenWritten;
-    public bool deathDocumented;
-    public bool isDead;
-    public void Reset() {
-        willHasBeenWritten=false;
-        deathDocumented=false;
-        isDead=false;
-    }
 }

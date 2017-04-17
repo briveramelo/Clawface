@@ -37,8 +37,10 @@ public class TankTreadsMod : Mod
 
     #region Public Methods
 
-    public override void Activate(Action onComplete=null){
-        base.Activate(onComplete);
+    public override void Activate(Action onCompleteCoolDown=null, Action onActivate=null){
+        onActivate = ()=> { SFXManager.Instance.Play(SFXType.TankTreads_Swing, transform.position);};
+        onCompleteCoolDown = ()=> { SFXManager.Instance.Stop(SFXType.TankTreads_Swing);};
+        base.Activate(onCompleteCoolDown, onActivate);
     }
 
 
@@ -58,7 +60,7 @@ public class TankTreadsMod : Mod
     public override void AttachAffect(ref Stats wielderStats, IMovable wielderMovable){
         base.AttachAffect(ref wielderStats, wielderMovable);
         if (getModSpot() == ModSpot.Legs){
-            this.wielderStats.Modify(StatType.MoveSpeed, legsMoveSpeedMod);
+            this.wielderStats.Multiply(StatType.MoveSpeed, legsMoveSpeedMod);
         }        
     }
 
@@ -68,7 +70,7 @@ public class TankTreadsMod : Mod
 
     public override void DetachAffect(){    
         if (getModSpot() == ModSpot.Legs){
-            wielderStats.Modify(StatType.MoveSpeed, 1f / legsMoveSpeedMod);
+            wielderStats.Multiply(StatType.MoveSpeed, 1f / legsMoveSpeedMod);
         }
         base.DetachAffect();
     }   
@@ -88,6 +90,7 @@ public class TankTreadsMod : Mod
                     if (recentlyHitEnemies.Contains(damageable)) return;
 
                     if (damageable != null){
+                        SFXManager.Instance.Play(SFXType.TankTreads_Attack, transform.position);
                         recentlyHitEnemies.Add(damageable);
                         
                 
@@ -104,8 +107,8 @@ public class TankTreadsMod : Mod
                         {
                             AnalyticsManager.Instance.AddEnemyModDamage(this.getModType(), Attack);
                         }
-
-                        damageable.TakeDamage(Attack);
+                        damager.Set(Attack, getDamageType(), wielderMovable.GetForward());
+                        damageable.TakeDamage(damager);
                     }
                     if (movable != null){                    
                         Vector3 direction = (other.transform.position - transform.position).normalized;
