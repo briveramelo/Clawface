@@ -54,7 +54,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1900001040235860}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -8.969999, y: 2.0500002, z: -1.11}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4605699294152020}
@@ -182,12 +182,12 @@ MonoBehaviour:
       attack: 14
       timeToHitStop: 0.1
     standardLegAttackSettings:
-      timeToCoolDown: 0.5
+      timeToCoolDown: 0.1
       timeToAttack: 0
       attack: 2
       timeToHitStop: 0.02
     chargedLegAttackSettings:
-      timeToCoolDown: 1.5
+      timeToCoolDown: 0.1
       timeToAttack: 0
       attack: 5
       timeToHitStop: 0.05
@@ -195,11 +195,15 @@ MonoBehaviour:
     isCoolingDown: 0
     isActive: 0
     hasStartedCharging: 0
-  attackSphereRadius: 1
+  attackSphereRadius: 1.5
   legsMoveSpeedMod: 1
   standardForceSettings:
-    jumpForce: 15
-    armpushForce: 10
+    jumpForce: 50
+    armPushForce: 10
+    crushForce: 100
+    crushPushForce: 30
   chargedForceSettings:
-    jumpForce: 30
-    armpushForce: 20
+    jumpForce: 70
+    armPushForce: 20
+    crushForce: 150
+    crushPushForce: 50
