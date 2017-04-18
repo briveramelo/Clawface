@@ -5,6 +5,20 @@ using UnityEngine;
 
 public class FadeIn : Menu {
 
+    #region Public Fields
+    public override bool Displayed
+    {
+        get
+        {
+            return displayed;
+        }
+    }
+    #endregion
+
+    #region Private Fields
+    private bool displayed = false;
+    #endregion
+
     public FadeIn(string name) : base(name)
     {
     }

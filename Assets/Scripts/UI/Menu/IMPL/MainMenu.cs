@@ -2,10 +2,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 public class MainMenu : Menu
 {
+
+    #region Public Fields
+    public override bool Displayed
+    {
+        get
+        {
+            return Displayed;
+        }
+    }
+    #endregion
 
     bool menuShowing = false;
     
@@ -20,7 +31,14 @@ public class MainMenu : Menu
     [SerializeField]
     GameObject fadeCanvasGameObject;
 
+    [SerializeField]
+    Button startButton;
+
     CanvasGroup fadeCanvasGroup;
+
+    #region Private Fields
+    private bool displayed = false;
+    #endregion
 
     private void Update()
     {
@@ -38,7 +56,6 @@ public class MainMenu : Menu
     {
         creditsCanvasGroup = creditsCanvasGameObject.GetComponent<CanvasGroup>();
         fadeCanvasGroup = fadeCanvasGameObject.GetComponent<CanvasGroup>();
-        
     }
 
     private void Start()
@@ -51,10 +68,12 @@ public class MainMenu : Menu
         switch (transition)
         {
             case Transition.HIDE:
-                StartCoroutine(MenuTransitionsCommon.FadeCoroutine(1.0f, 0.0f, 1.0f, canvasGroup, null));
+                StartCoroutine(MenuTransitionsCommon.FadeCoroutine(1.0f, 0.0f, 1.0f, canvasGroup,
+                    () => { displayed = false; }));
                 break;
             case Transition.SHOW:
-                StartCoroutine(MenuTransitionsCommon.FadeCoroutine(0.0f, 1.0f, 1.0f, canvasGroup, null));
+                StartCoroutine(MenuTransitionsCommon.FadeCoroutine(0.0f, 1.0f, 1.0f, canvasGroup,
+                    () => { displayed = true; startButton.Select(); }));
                 break;
         }
     }
@@ -83,7 +102,10 @@ public class MainMenu : Menu
     }
     void LoadLevelOne()
     {
-        SceneManager.LoadScene(1);
+        Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
+        LoadMenu loadMenu = (LoadMenu) menu;
+        loadMenu.TargetScene = "Scenes/Gucci_V1.1";
+        MenuManager.Instance.DoTransition(loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
     }
 
     public void ShowCredits()

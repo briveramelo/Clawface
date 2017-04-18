@@ -5,11 +5,36 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Assertions;
+using UnityEngine.SceneManagement;
 
 public class LoadMenu : Menu {
 
     #region Constants
     private static readonly float LOADING_TIME = 3.0F; // seconds
+    #endregion
+
+    #region Public Fields
+    public string TargetScene
+    {
+        get
+        {
+            return target;
+        }
+        set
+        {
+            target = value;
+        }
+    }
+
+    public override bool Displayed
+    {
+        get
+        {
+            return displayed;
+        }
+    }
+
     #endregion
 
     #region Serialized Unity Fields
@@ -22,6 +47,7 @@ public class LoadMenu : Menu {
     #region Private Fields
     private bool displayed = false;
     private bool loaded = false;
+    private string target = "";
     #endregion
 
     #region Unity Lifecycle Methods
@@ -74,7 +100,6 @@ public class LoadMenu : Menu {
         displayed = false;
         loadingBar.size = 0.0F;
         loadingText.text = "Loading";
-        // TODO Load Level
     }
 
     private IEnumerator LoadingCoroutine()
@@ -82,12 +107,11 @@ public class LoadMenu : Menu {
         loadingBar.size = 0.0F;
         loaded = false;
 
-        float elapsedTime = 0.0F;
-        while (elapsedTime < LOADING_TIME)
+        AsyncOperation async = SceneManager.LoadSceneAsync(target);
+        while (!async.isDone)
         {
-            loadingBar.size = Mathf.Lerp(0.0F, 1.0F, elapsedTime / LOADING_TIME);
+            loadingBar.size = Mathf.Lerp(0.0F, 1.0F, async.progress);
             yield return new WaitForEndOfFrame();
-            elapsedTime += Time.deltaTime;
         }
 
         loadingBar.size = 1.0F;
