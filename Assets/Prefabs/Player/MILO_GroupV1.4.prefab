@@ -343,9 +343,10 @@ GameObject:
   - component: {fileID: 114262679976600040}
   - component: {fileID: 114511205613729550}
   - component: {fileID: 114274055915119208}
-  - component: {fileID: 114669996070473884}
   - component: {fileID: 114219942142771250}
   - component: {fileID: 114757405180030592}
+  - component: {fileID: 114669996070473884}
+  - component: {fileID: 114418838666246668}
   - component: {fileID: 114596854088733754}
   - component: {fileID: 114802490439380712}
   - component: {fileID: 114312393174095174}
@@ -2115,6 +2116,8 @@ MonoBehaviour:
     state: {fileID: 114437370391544734}
   - modType: 7
     state: {fileID: 114911006479525106}
+  - modType: 4
+    state: {fileID: 114418838666246668}
   holdAttackSlowDown: 3
   dashPower: 100
   dashDecay: 0.25
@@ -2200,6 +2203,28 @@ MonoBehaviour:
   _startUV: -1
   _endUV: 1
   _effectSpeed: 5
+--- !u!114 &114418838666246668
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1459183804676488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34a7310c2cba5fa49950c335dcab2914, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  totalAttackPoses: 10
+  highlightPoses: 0400000009000000
+  specialAttackPose: 0
+  coolDownFrameCount: 20
+  inputCheckFrameCount: 15
+  isBlockingState: 0
+  attackForwadDisplacement: 1
+  vfxMeleeSwing:
+  - {fileID: 114329415609671058}
+  - {fileID: 114852742521727666}
+  lookSensitivity: 0.04
 --- !u!114 &114437370391544734
 MonoBehaviour:
   m_ObjectHideFlags: 1

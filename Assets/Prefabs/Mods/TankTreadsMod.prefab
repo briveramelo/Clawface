@@ -54,7 +54,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1900001040235860}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -8.969999, y: 2.0500002, z: -1.11}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4605699294152020}
@@ -163,7 +163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 537ea8b8d2275e1428da09a92c1d598f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hasState: 0
+  hasState: 1
   vfxModChargePrefab: {fileID: 1868770362516384, guid: 75076dc3f3739ff4bb01ae67a336ecc5,
     type: 2}
   pickupCollider: {fileID: 65194628639770346}
@@ -200,10 +200,10 @@ MonoBehaviour:
   standardForceSettings:
     jumpForce: 50
     armPushForce: 10
-    crushForce: 100
+    crushForce: 80
     crushPushForce: 30
   chargedForceSettings:
     jumpForce: 70
     armPushForce: 20
-    crushForce: 150
+    crushForce: 100
     crushPushForce: 50
