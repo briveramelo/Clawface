@@ -28,6 +28,9 @@ public class DiceBlock : MonoBehaviour, IMovable {
     private Transform side6;
 
     [SerializeField]
+    private Transform vfxExplosion;
+
+    [SerializeField]
     private float oneMultiply;
 
     [SerializeField]
@@ -99,6 +102,7 @@ public class DiceBlock : MonoBehaviour, IMovable {
         {
             Gizmos.DrawWireSphere(this.transform.position, explosionRadius * GetMultiplierFromDiceSide());
         }
+        
     }
 
     // Update is called once per frame
@@ -205,6 +209,8 @@ public class DiceBlock : MonoBehaviour, IMovable {
         side4.gameObject.SetActive(true);
         side5.gameObject.SetActive(true);
         side6.gameObject.SetActive(true);
+        vfxExplosion.gameObject.SetActive(false);
+        vfxExplosion.localScale = new Vector3(1f, 1f, 1f);
 
     }
 
@@ -258,6 +264,8 @@ public class DiceBlock : MonoBehaviour, IMovable {
         side4.gameObject.SetActive(false);
         side5.gameObject.SetActive(false);
         side6.gameObject.SetActive(false);
+        vfxExplosion.gameObject.SetActive(true);
+        vfxExplosion.localScale *= GetMultiplierFromDiceSide();
         isExploding = true;
         willExplode = false;
     }
