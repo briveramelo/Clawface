@@ -37,15 +37,19 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     #region Public Methods
     public void TakeDamage(Damager damager)
     {
-        damageUI.DoDamageEffect();
-        stats.TakeDamage(damageModifier * damager.damage);
-        float healthFraction = stats.GetHealthFraction();
-        HealthBar.Instance.SetHealth(healthFraction);
-        cameraLock.Shake(.4f);
-        float shakeIntensity = 1f-healthFraction;
-        InputManager.Instance.Vibrate(VibrationTargets.BOTH, shakeIntensity);
-        if (stats.GetStat(StatType.Health) <= 0){   
-            Revive();
+        if (damageModifier > 0.0f)
+        {
+            damageUI.DoDamageEffect();
+            stats.TakeDamage(damageModifier * damager.damage);
+            float healthFraction = stats.GetHealthFraction();
+            HealthBar.Instance.SetHealth(healthFraction);
+            cameraLock.Shake(.4f);
+            float shakeIntensity = 1f - healthFraction;
+            InputManager.Instance.Vibrate(VibrationTargets.BOTH, shakeIntensity);
+            if (stats.GetStat(StatType.Health) <= 0)
+            {
+                Revive();
+            }
         }
     }
 
