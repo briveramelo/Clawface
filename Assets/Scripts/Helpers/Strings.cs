@@ -15,7 +15,7 @@
     public static class MenuStrings
     {
         public static string MAIN = "MainMenu";
-        public static string CREDITS = "Credits";
+        public static string CREDITS = "CreditsMenu";
         public static string LOAD = "LoadMenu";
         public static string LOGO = "LogoMenu";
         public static string PAUSE = "PauseMenu";

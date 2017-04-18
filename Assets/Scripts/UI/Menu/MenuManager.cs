@@ -14,13 +14,14 @@ public class MenuManager : Singleton<MenuManager> {
     #endregion
 
     #region Private Fields
-    private List<Menu> menus;
+    private List<Menu> menus = new List<Menu>();
     private Queue<TransitionBundle> transitionQueue = new Queue<TransitionBundle>();
     #endregion
 
     #region Unity Lifecycle Functions
     private void Start()
     {
+        
         foreach (GameObject prefab in menuPrefabs)
         {
             GameObject obj = Instantiate(prefab);

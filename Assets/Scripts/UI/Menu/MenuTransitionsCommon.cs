@@ -5,6 +5,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.EventSystems;
 
 public class MenuTransitionsCommon {
 
@@ -12,19 +13,31 @@ public class MenuTransitionsCommon {
     public static IEnumerator FadeCoroutine(float startAlpha, float endAlpha, float duration,
             CanvasGroup canvas, TransitionComplete callback)
     {
+        
         Assert.IsTrue(duration > 0.0F);
-        Assert.IsNotNull(callback);
+
+        //TODO: Event System management. Make sure it's on or off when these transitions
+        // are going on such that you aren't "selecting" on things when they are fading or hidden
 
         float elapsedTime = 0.0F;
         while (elapsedTime < duration)
         {
+            ////Debug.Log("a: " + startAlpha);
+            //startAlpha = Mathf.Lerp(startAlpha, endAlpha, .1f);
+            //canvas.alpha = startAlpha;
             canvas.alpha = Mathf.Lerp(startAlpha, endAlpha, elapsedTime / duration);
             yield return new WaitForEndOfFrame();
             elapsedTime += Time.deltaTime;
         }
+     
 
         canvas.alpha = endAlpha;
-        callback();
+
+        if (callback != null)
+        {
+            callback();
+        }
+       
     }
     #endregion
 
