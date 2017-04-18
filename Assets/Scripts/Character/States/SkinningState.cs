@@ -14,6 +14,7 @@ public class SkinningState : IPlayerState
     [SerializeField] private Transform skinSlot;
     [SerializeField] private List<CapsuleCollider> clothColliders;
     [SerializeField] private GameObject skinObject;
+    [SerializeField] private PlayerStatsManager playerStatsManager;
     #endregion
 
     #region Private Fields
@@ -23,6 +24,10 @@ public class SkinningState : IPlayerState
     public override void Init(ref PlayerStateManager.StateVariables stateVariables)
     {
         this.stateVariables = stateVariables;
+    }
+
+    public void RemoveSkin() {
+        skinObject.SetActive(false);
     }
 
     public override void StateFixedUpdate()
@@ -40,11 +45,12 @@ public class SkinningState : IPlayerState
             //skin.GetComponent<Cloth>().capsuleColliders = clothColliders.ToArray();
             skinObject.SetActive(true);
             SkinStats skinStats = skin.GetComponent<SkinStats>();
+            playerStatsManager.TakeSkin(skinStats.GetSkinHealth());
             Stats stats = GetComponent<Stats>();
-            stats.Add(StatType.Health, skinStats.GetSkinHealth());
             HealthBar.Instance.SetHealth(stats.GetHealthFraction());
         }        
         stateVariables.stateFinished = true;
+        stateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Idle);
     }
     #endregion
 

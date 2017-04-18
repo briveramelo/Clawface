@@ -14,11 +14,14 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     #region Serialized Unity Inspector fields
     [SerializeField] private DamageUI damageUI;
     [SerializeField] private CameraLock cameraLock;
+    [SerializeField] private SkinningState skinningState;
     #endregion
 
     #region Private Fields
     [SerializeField] private Stats stats;
     float startHealth;
+    float healthAtLastSkin;
+    float lastSkinHealthBoost;
     #endregion
 
     #region Unity Lifecycle
@@ -42,15 +45,24 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     #region Public Methods
     public void TakeDamage(Damager damager)
     {
-        damageUI.DoDamageEffect();
-        stats.TakeDamage(damageModifier * damager.damage);
-        float healthFraction = stats.GetHealthFraction();
-        HealthBar.Instance.SetHealth(healthFraction);
-        cameraLock.Shake(.4f);
-        float shakeIntensity = 1f-healthFraction;
-        InputManager.Instance.Vibrate(VibrationTargets.BOTH, shakeIntensity);
-        if (stats.GetStat(StatType.Health) <= 0){   
-            Revive();
+        if (damageModifier > 0.0f)
+        {
+            damageUI.DoDamageEffect();
+            stats.TakeDamage(damageModifier * damager.damage);
+            float healthFraction = stats.GetHealthFraction();
+            HealthBar.Instance.SetHealth(healthFraction);
+            cameraLock.Shake(.4f);
+            float shakeIntensity = 1f - healthFraction;
+            InputManager.Instance.Vibrate(VibrationTargets.BOTH, shakeIntensity);
+
+            if (stats.health < healthAtLastSkin-lastSkinHealthBoost) {
+                skinningState.RemoveSkin();
+            }
+
+            if (stats.GetStat(StatType.Health) <= 0)
+            {
+                Revive();
+            }
         }
     }
 
@@ -58,6 +70,12 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     {
         float healthFraction = stats.GetHealthFraction();
         HealthBar.Instance.SetHealth(healthFraction);
+    }
+
+    public void TakeSkin(int skinHealth) {
+        stats.Add(StatType.Health, skinHealth);
+        healthAtLastSkin = stats.health;
+        lastSkinHealthBoost=skinHealth;
     }
 
     public float GetStat(StatType type)
