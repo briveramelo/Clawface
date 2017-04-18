@@ -20,17 +20,18 @@ public class ModUIManager : Singleton<ModUIManager> {
 
         [SerializeField]
         private List<ModUIProperties> modUIProperties;
-    #pragma warning restore 0649 // Turn on never assigned warning
+#pragma warning restore 0649 // Turn on never assigned warning
     #endregion
 
     #region Internal State
-        private Dictionary<ModSpot, ModUIcon> modUIcons = new Dictionary<ModSpot, ModUIcon>();
+    private Dictionary<ModSpot, ModUIcon> modUIcons = new Dictionary<ModSpot, ModUIcon>();
     #endregion
 
     #region Unity State Functions
         protected override void Awake()
         {
-            base.Awake();
+        shouldRegister=false;
+        base.Awake();
             // UIcon Instantiation and Assignment
             foreach(ModSpot spot in Enum.GetValues(typeof(ModSpot))) {
                 if (spot == ModSpot.Default) break;

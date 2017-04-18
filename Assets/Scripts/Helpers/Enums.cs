@@ -10,7 +10,9 @@ public enum StatType {
     Defense = 1,
     MoveSpeed = 2,
     Health = 3,
-    RangedAccuracy= 4
+    RangedAccuracy= 4,
+    MaxHealth = 5,
+    EXP = 6
 }
 
 public enum CodexType {
@@ -113,7 +115,9 @@ public enum PlayerAnimationStates
     Idle = 0,
     Running = 1,    
     StunBaton = 2,
-    Boomerang = 3
+    Boomerang = 3,
+    Dash = 4,
+    TankTreads = 5
 }
 
 public enum ButtonMode

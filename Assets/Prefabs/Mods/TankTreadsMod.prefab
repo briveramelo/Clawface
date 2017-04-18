@@ -163,7 +163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 537ea8b8d2275e1428da09a92c1d598f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hasState: 0
+  hasState: 1
   vfxModChargePrefab: {fileID: 1868770362516384, guid: 75076dc3f3739ff4bb01ae67a336ecc5,
     type: 2}
   pickupCollider: {fileID: 65194628639770346}
@@ -182,12 +182,12 @@ MonoBehaviour:
       attack: 14
       timeToHitStop: 0.1
     standardLegAttackSettings:
-      timeToCoolDown: 0.5
+      timeToCoolDown: 0.1
       timeToAttack: 0
       attack: 2
       timeToHitStop: 0.02
     chargedLegAttackSettings:
-      timeToCoolDown: 1.5
+      timeToCoolDown: 0.1
       timeToAttack: 0
       attack: 5
       timeToHitStop: 0.05
@@ -195,11 +195,15 @@ MonoBehaviour:
     isCoolingDown: 0
     isActive: 0
     hasStartedCharging: 0
-  attackSphereRadius: 1
+  attackSphereRadius: 1.5
   legsMoveSpeedMod: 1
   standardForceSettings:
-    jumpForce: 15
-    armpushForce: 10
+    jumpForce: 50
+    armPushForce: 10
+    crushForce: 80
+    crushPushForce: 30
   chargedForceSettings:
-    jumpForce: 30
-    armpushForce: 20
+    jumpForce: 70
+    armPushForce: 20
+    crushForce: 100
+    crushPushForce: 50

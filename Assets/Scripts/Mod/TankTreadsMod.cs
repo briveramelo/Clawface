@@ -22,6 +22,7 @@ public class TankTreadsMod : Mod
     #endregion
 
     #region Privates
+    private bool isCrushing = false;
     #endregion Privates
 
     #region Unity Lifetime
@@ -32,6 +33,15 @@ public class TankTreadsMod : Mod
     // Use this for initialization
     void Start(){        
         setModSpot(ModSpot.Default);
+    }
+
+    protected override void Update()
+    {
+        base.Update();
+        if (wielderMovable != null)
+        {
+            if (wielderMovable.IsGrounded()) isCrushing = false;
+        }
     }
     #endregion
 
@@ -52,16 +62,41 @@ public class TankTreadsMod : Mod
 
     protected override void BeginChargingLegs(){ }
     protected override void RunChargingLegs(){ }
-    protected override void ActivateStandardLegs(){ Jump(); }
+    protected override void ActivateStandardLegs()
+    {
+        if (wielderMovable.IsGrounded())
+        {
+            Jump();
+        }
+        else
+        {
+            Stomp();
+        }
+    }
 
-    protected override void ActivateChargedLegs(){ Jump(); }
+    protected override void ActivateChargedLegs()
+    {
+        if (wielderMovable.IsGrounded())
+        {
+            Jump();
+        }
+        else
+        {
+            Stomp();
+        }
+    }
 
 
     public override void AttachAffect(ref Stats wielderStats, IMovable wielderMovable){
         base.AttachAffect(ref wielderStats, wielderMovable);
         if (getModSpot() == ModSpot.Legs){
             this.wielderStats.Multiply(StatType.MoveSpeed, legsMoveSpeedMod);
-        }        
+            hasState = false;
+        }
+        else
+        {
+            hasState = true;
+        }
     }
 
     public override void DeActivate(){
@@ -121,14 +156,74 @@ public class TankTreadsMod : Mod
         }
     }
 
+    IEnumerator<float> DoCrush()
+    {
+        float timeBetweenHits = energySettings.coolDownTime;
+
+        while (isCrushing)
+        {
+            Physics.OverlapSphere(transform.position, attackSphereRadius).ToList().ForEach(other =>
+            {
+                if (GetWielderInstanceID() != other.gameObject.GetInstanceID())
+                {
+                    IDamageable damageable = other.GetComponent<IDamageable>();
+                    IMovable movable = other.GetComponent<IMovable>();
+
+                   
+                    if (damageable != null && timeBetweenHits < 0f)
+                    {
+                        SFXManager.Instance.Play(SFXType.TankTreads_Attack, transform.position);
+                        recentlyHitEnemies.Add(damageable);
+                        timeBetweenHits = energySettings.coolDownTime;
+
+                        if (wielderStats.CompareTag(Strings.Tags.PLAYER))
+                        {
+                            AnalyticsManager.Instance.AddModDamage(this.getModType(), Attack);
+
+                            if (damageable.GetHealth() - Attack < 0.1f)
+                            {
+                                AnalyticsManager.Instance.AddModKill(this.getModType());
+                            }
+                        }
+                        else
+                        {
+                            AnalyticsManager.Instance.AddEnemyModDamage(this.getModType(), Attack);
+                        }
+                        damager.Set(Attack, getDamageType(), wielderMovable.GetForward());
+                        damageable.TakeDamage(damager);
+                    }
+
+                    if (movable != null)
+                    {
+                        AddCrushPushForce(other, movable);
+                    }
+                }
+            });
+            timeBetweenHits -= Time.deltaTime;
+            yield return 0f;
+        }
+    }
+
     #endregion
 
     #region Private Methods
 
-    private void Jump() {
-        if (wielderMovable.IsGrounded()){
-            wielderMovable.AddDecayingForce(Vector3.up * jumpForce);
-        }
+    private void Jump()
+    {
+        wielderMovable.AddDecayingForce(Vector3.up * jumpForce);
+    }
+
+    private void Stomp()
+    {
+        wielderMovable.AddDecayingForce(Vector3.down * crushForce);
+        isCrushing = true;
+        Timing.RunCoroutine(DoCrush());
+    }
+
+    private void AddCrushPushForce(Collider other, IMovable movable)
+    {
+        Vector3 direction = (other.transform.position - transform.position).normalized;
+        movable.AddDecayingForce(direction * crushPushForce);
     }
 
     private float jumpForce {
@@ -136,9 +231,26 @@ public class TankTreadsMod : Mod
             return IsCharged() ? chargedForceSettings.jumpForce : standardForceSettings.jumpForce;
         }
     }
+
+    private float crushForce
+    {
+        get
+        {
+            return IsCharged() ? chargedForceSettings.crushForce : standardForceSettings.crushForce;
+        }
+    }
+
+    private float crushPushForce
+    {
+        get
+        {
+            return IsCharged() ? chargedForceSettings.crushPushForce : standardForceSettings.crushPushForce;
+        }
+    }
+
     private float pushForce {
         get {
-            return IsCharged() ? chargedForceSettings.armpushForce : standardForceSettings.armpushForce;
+            return IsCharged() ? chargedForceSettings.armPushForce : standardForceSettings.armPushForce;
         }
     }
 
@@ -147,7 +259,9 @@ public class TankTreadsMod : Mod
     [System.Serializable]
     private class ForceSettings {
         public float jumpForce;
-        public float armpushForce;
+        public float armPushForce;
+        public float crushForce;
+        public float crushPushForce;
     }
     #endregion
 }
