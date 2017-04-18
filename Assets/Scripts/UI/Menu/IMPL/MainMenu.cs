@@ -44,12 +44,18 @@ public class MainMenu : Menu
     {
         if (Input.anyKey && !menuShowing)
         {
-            menuShowing = true;
-            DoTransition(Transition.SHOW, new Effect[] { });
+            ShowMenu();
         }
     }
     public MainMenu() : base(Strings.MenuStrings.MAIN)
     {
+    }
+
+    public void ShowMenu()
+    {
+
+        menuShowing = true;
+        DoTransition(Transition.SHOW, new Effect[] { });
     }
 
     private void Awake()
@@ -65,6 +71,7 @@ public class MainMenu : Menu
 
     public override void DoTransition(Transition transition, Effect[] effects)
     {
+        EventSystem.current.GetComponent<StandaloneInputModule>().enabled = false;
         switch (transition)
         {
             case Transition.HIDE:

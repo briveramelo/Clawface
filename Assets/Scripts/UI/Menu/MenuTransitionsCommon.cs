@@ -13,12 +13,9 @@ public class MenuTransitionsCommon {
     public static IEnumerator FadeCoroutine(float startAlpha, float endAlpha, float duration,
             CanvasGroup canvas, TransitionComplete callback)
     {
-        
+        //turn off event system
+        EventSystem.current.GetComponent<StandaloneInputModule>().DeactivateModule();
         Assert.IsTrue(duration > 0.0F);
-
-        //TODO: Event System management. Make sure it's on or off when these transitions
-        // are going on such that you aren't "selecting" on things when they are fading or hidden
-
         float elapsedTime = 0.0F;
         while (elapsedTime < duration)
         {
@@ -33,11 +30,14 @@ public class MenuTransitionsCommon {
 
         canvas.alpha = endAlpha;
 
+        //turn on event system
+        EventSystem.current.GetComponent<StandaloneInputModule>().ActivateModule();
+
         if (callback != null)
         {
             callback();
         }
-       
+
     }
     #endregion
 
