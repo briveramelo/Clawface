@@ -199,6 +199,12 @@ public class DiceBlock : MonoBehaviour, IMovable {
         willExplode = false;
         this.gameObject.transform.localScale = new Vector3(startScale, startScale, startScale);
         this.gameObject.GetComponentInChildren<MeshRenderer>().enabled = true;
+        side1.gameObject.SetActive(true);
+        side2.gameObject.SetActive(true);
+        side3.gameObject.SetActive(true);
+        side4.gameObject.SetActive(true);
+        side5.gameObject.SetActive(true);
+        side6.gameObject.SetActive(true);
 
     }
 
@@ -246,6 +252,12 @@ public class DiceBlock : MonoBehaviour, IMovable {
     {
         // Temp code for the sake of drawing explosions as gizmo wireframes
         this.gameObject.GetComponent<MeshRenderer>().enabled = false;
+        side1.gameObject.SetActive(false);
+        side2.gameObject.SetActive(false);
+        side3.gameObject.SetActive(false);
+        side4.gameObject.SetActive(false);
+        side5.gameObject.SetActive(false);
+        side6.gameObject.SetActive(false);
         isExploding = true;
         willExplode = false;
     }
@@ -287,7 +299,6 @@ public class DiceBlock : MonoBehaviour, IMovable {
                 damageable.TakeDamage(damager);
             }
         }
-
 
         StartExplosionEffect();
 
