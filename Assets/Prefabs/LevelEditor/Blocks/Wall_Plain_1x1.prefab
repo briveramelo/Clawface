@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4180033136637136}
   - component: {fileID: 33510082639032966}
   - component: {fileID: 23986349112023256}
+  - component: {fileID: 65387789452696580}
   m_Layer: 0
   m_Name: Wall_Plain_1x1
   m_TagString: Untagged
@@ -80,3 +81,15 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1590019470051508}
   m_Mesh: {fileID: 4300000, guid: f554af53fc69aef4c8b11936da66550f, type: 3}
+--- !u!65 &65387789452696580
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1590019470051508}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 5, y: 5, z: 1}
+  m_Center: {x: 0, y: 2.5, z: 0}
