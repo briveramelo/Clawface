@@ -33,7 +33,9 @@ public class PlayerStateManager : MonoBehaviour {
     [SerializeField]
     private float dashIFrameStart = 0.25F;
     [SerializeField]
-    private float dashIFrameEnd = 0.75F;    
+    private float dashIFrameEnd = 0.75F;
+    [SerializeField]
+    private DashState dashState;    
     #endregion
 
     #region Private Fields
@@ -54,8 +56,10 @@ public class PlayerStateManager : MonoBehaviour {
         stateVariables.stateFinished = true;
         stateVariables.playerTransform = transform;
         stateVariables.modAnimationManager = modAnimationManager;
+        stateVariables.statsManager = playerStatsManager;
         defaultState.Init(ref stateVariables);
         skinningState.Init(ref stateVariables);
+        dashState.Init(ref stateVariables);
         movementState = defaultState;
         alternateState = null;
         modStateDictionary = new Dictionary<ModType, IPlayerState>();
@@ -83,15 +87,16 @@ public class PlayerStateManager : MonoBehaviour {
             {
                 SwitchState(skinningState);
             }
-        } else if (InputManager.Instance.QueryAction(Strings.Input.Actions.DODGE, ButtonMode.DOWN) && canDash) // do dodge / dash
+        } else if (InputManager.Instance.QueryAction(Strings.Input.Actions.DODGE, ButtonMode.DOWN) && canDash && stateVariables.stateFinished) // do dodge / dash
         {
-            ResetState();
+            /*ResetState();
             Vector2 dir = InputManager.Instance.QueryAxes(Strings.Input.Axes.MOVEMENT);
             Vector3 force = Camera.main.transform.TransformDirection(new Vector3(dir.x, 0, dir.y));
             force.y = 0;
             force.Normalize();
             stateVariables.velBody.AddDecayingForce(dashPower * force, dashDecay);
-            StartCoroutine(DashController());
+            StartCoroutine(DashController());*/
+            SwitchState(dashState);
         }            
         playerStates.ForEach(state=>state.StateUpdate());
     }
