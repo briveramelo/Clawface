@@ -26,9 +26,14 @@ public class MainMenu : Menu
     {
         if (Input.anyKey && !menuShowing)
         {
-            menuShowing = true;
-            DoTransition(Transition.SHOW, new Effect[] { });
+            ShowMainMenu();
         }
+    }
+
+    public void ShowMainMenu()
+    {
+        menuShowing = true;
+        DoTransition(Transition.SHOW, new Effect[] { });
     }
     public MainMenu() : base(Strings.MenuStrings.MAIN)
     {
@@ -69,7 +74,6 @@ public class MainMenu : Menu
     {
         
         StartCoroutine(MenuTransitionsCommon.FadeCoroutine(1.0f, 0.0f, 1.0f, canvasGroup, ShowCredits));
-        //MenuManager.Instance.DoTransition(Strings.MenuStrings.MAIN, Transition.HIDE, new Effect[] { });
        
     }
     

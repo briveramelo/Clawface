@@ -249,6 +249,7 @@ GameObject:
   - component: {fileID: 114272014647171304}
   - component: {fileID: 114342429780170378}
   - component: {fileID: 114709168524529216}
+  - component: {fileID: 114626530383387114}
   m_Layer: 9
   m_Name: MallCopCanvas
   m_TagString: Untagged
@@ -950,8 +951,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1118372282550480}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 29.22359, y: 3.9590816, z: -4.2686844}
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children:
   - {fileID: 4203017246125288}
@@ -1388,7 +1389,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attack: 5
   defense: 5
-  health: 50
+  health: 25
   moveSpeed: 160
   rangedAccuracy: 1
   shotSpeed: 13
@@ -1434,7 +1435,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 8fe31fabe3253c64da26abb850d30219, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -1577,6 +1578,20 @@ MonoBehaviour:
     start: {fileID: 4149281235311608}
     end: {fileID: 4253833904153400}
     radius: 0.6
+--- !u!114 &114626530383387114
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1183100696542480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 264c2f3fd0f25814eb16648a3a9e5ca6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  forward: {x: 0, y: 0, z: 1}
+  up: {x: 0, y: 1, z: 0}
+  updatePeriod: 0
 --- !u!114 &114709168524529216
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1588,7 +1603,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b99012dfb82d98d47983e0d2c0936a42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skinActionIcon: {fileID: 21300000, guid: 62496808546f1cc43b3ff9c8dc96e117, type: 3}
+  skinActionIcon: {fileID: 21300000, guid: 8fe31fabe3253c64da26abb850d30219, type: 3}
   actionImage: {fileID: 114321643848977182}
 --- !u!114 &114808018247885578
 MonoBehaviour:
