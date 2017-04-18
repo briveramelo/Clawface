@@ -17,6 +17,10 @@ public class DashState : IPlayerState {
     private int iFrameEnd;
     [SerializeField]
     private float dashVelocity;
+    [SerializeField]
+    private VFXDashPuff dashPuff;
+    [SerializeField]
+    private GameObject dashTrail;
     #endregion
 
     #region Private Fields
@@ -40,6 +44,11 @@ public class DashState : IPlayerState {
 
     public override void StateUpdate()
     {
+        if(currentFrame == 0)
+        {
+            dashPuff.Play();
+            dashTrail.GetComponent<TrailRenderer>().enabled = true;
+        }
         currentFrame++;
         PlayAnimation();
         CheckForIFrames();
@@ -69,6 +78,7 @@ public class DashState : IPlayerState {
         currentPose = 0;
         stateVariables.statsManager.damageModifier = 1.0f;
         stateVariables.velBody.velocity = Vector3.zero;
+        dashTrail.GetComponent<TrailRenderer>().enabled = false;
         stateVariables.stateFinished = true;
     }
 
