@@ -31,7 +31,15 @@ namespace Turing.Audio {
         [Tooltip("Type of group setup to use.")]
         GroupType _groupType = GroupType.Standard;
 
-        AudioListener _audioListener;
+        private AudioListener al;
+        AudioListener _audioListener {
+            get {
+                if (al==null) {
+                    al = FindObjectOfType<AudioListener>().GetComponent<AudioListener>();
+                }
+                return al;
+            }
+        }
 
         /// <summary>
         /// AudioChannel object for standard (non-layered) playback.
@@ -154,7 +162,6 @@ namespace Turing.Audio {
         }
 
         private void Start() {
-            _audioListener = FindObjectOfType<AudioListener>();
             if (Application.isPlaying && _playOnAwake) Play();
         } 
 

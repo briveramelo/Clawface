@@ -326,7 +326,7 @@ MonoBehaviour:
     chargedArmAttackSettings:
       timeToCoolDown: 1
       timeToAttack: 0
-      attack: 4
+      attack: 30
       timeToHitStop: 0
     standardLegAttackSettings:
       timeToCoolDown: 0.1
@@ -344,7 +344,7 @@ MonoBehaviour:
   bulletSpawnPoint: {fileID: 4303765111120432}
   kickbackForce: 9
   kickbackForceCharged: 25
-  kickbackForceFeetMultiplier: 3
+  kickbackForceFeetMultiplier: 1.75
 --- !u!114 &114446361273923502
 MonoBehaviour:
   m_ObjectHideFlags: 1

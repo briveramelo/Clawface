@@ -21,13 +21,15 @@ public abstract class Mod : MonoBehaviour {
     #region Protected Fields
     protected ModType type;
     protected ModCategory category;
+    protected DamagerType damageType;
     public bool hasState;
     protected Stats wielderStats;
     protected IMovable wielderMovable;
     protected List<IDamageable> recentlyHitEnemies = new List<IDamageable>();
     protected VFXModCharge vfxModCharge;
     protected bool isAttached;
-    public float attack {
+    protected Damager damager=new Damager();
+    public float Attack {
         get {
             if (wielderStats != null) {
                 return wielderStats.attack + energySettings.attack;
@@ -56,10 +58,7 @@ public abstract class Mod : MonoBehaviour {
         vfxModCharge=Instantiate(vfxModChargePrefab, transform).GetComponent<VFXModCharge>();
     }
     protected virtual void Update()
-    {
-        if (energySettings.isCharging) {
-            RunCharging();
-        }
+    {        
     }
     #endregion
 
@@ -75,42 +74,49 @@ public abstract class Mod : MonoBehaviour {
         //vfxModCharge.Disable();
     }
 
-    public void UpdateChargeTime(float deltaTime) {        
-        energySettings.timeCharged += deltaTime;
-    }
-    public void ResetChargeTime() {
-        energySettings.Reset();
-    }
-
-    public virtual void Activate(Action onComplete=null) {
-        if (!energySettings.isCoolingDown){
-            Timing.RunCoroutine(BeginCoolDown(onComplete));            
+    public virtual void Activate(Action onCompleteCoolDown=null, Action onActivate=null) {
+        if (!energySettings.isInUse){
+            Timing.RunCoroutine(BeginCoolDown(onCompleteCoolDown), Segment.FixedUpdate);
             useAction();
+            if (onActivate!=null) {
+                onActivate();
+            }
         }
         EndCharging();
     }
 
 
-    public virtual void BeginCharging() {
-        vfxModCharge.StartCharging(energySettings.timeToCharge);
-        if (getModSpot()==ModSpot.Legs) {
-            BeginChargingLegs();
-        }
-        else {
-            BeginChargingArms();
+    public virtual void BeginCharging(Action onBegin=null) {
+        if (!energySettings.isInUse) {
+            vfxModCharge.StartCharging(energySettings.timeToCharge);
+            energySettings.StartCharging();
+            if (getModSpot()==ModSpot.Legs) {
+                BeginChargingLegs();
+            }
+            else {
+                BeginChargingArms();
+            }
+            if(onBegin!=null) {
+                onBegin();
+            }
         }
     }
+    int i = 0;
     public virtual void RunCharging() {
-        UpdateChargeTime(Time.deltaTime);
-        if (getModSpot()==ModSpot.Legs) {
-            RunChargingLegs();
-        }
-        else {
-            RunChargingArms();
+        if (!energySettings.isInUse && energySettings.hasStartedCharging) {
+            energySettings.timeCharged += Time.deltaTime;
+            if (getModSpot()==ModSpot.Legs) {
+                RunChargingLegs();
+            }
+            else {
+                RunChargingArms();
+            }
+            i++;
         }
     }
-    protected void EndCharging() {
+    private void EndCharging() {
         vfxModCharge.StopCharging();
+        energySettings.Reset();
     }
 
     protected abstract void BeginChargingArms();
@@ -183,13 +189,14 @@ public abstract class Mod : MonoBehaviour {
     {
         return spot;
     }
+    public DamagerType getDamageType() {return damageType; }        
     #endregion
 
     #region Private Methods
     protected IEnumerator<float> BeginCoolDown(Action onComplete){
         energySettings.CheckToSetAsCharged();
         recentlyHitEnemies.Clear();
-        yield return Timing.WaitUntilDone(Timing.RunCoroutine(energySettings.BeginCoolDown()));
+        yield return Timing.WaitUntilDone(Timing.RunCoroutine(energySettings.BeginCoolDown(), Segment.FixedUpdate));
         if (onComplete!=null) {
             onComplete();
         }
@@ -219,6 +226,8 @@ public abstract class Mod : MonoBehaviour {
 
         [HideInInspector] public float timeCharged;
         [HideInInspector] public bool isCoolingDown;
+        [HideInInspector] public bool isActive;
+        [HideInInspector] public bool hasStartedCharging;
 
         private Mod mod;
         private bool isCharged;
@@ -227,6 +236,7 @@ public abstract class Mod : MonoBehaviour {
         public float timeToCharge { get { return mod.getModSpot() == ModSpot.Legs ? timeToChargeLeg : timeToChargeArm; } }
         public bool isCharging { get { return timeCharged > 0f; } }
         public bool isStarting { get { return timeCharged == 0f; } }
+        public bool isInUse { get { return isCoolingDown || isActive;} }
 
         public float coolDownTime { get { return attackSettings.timeToCoolDown; } }
         public float attack { get { return attackSettings.attack; } }
@@ -253,11 +263,15 @@ public abstract class Mod : MonoBehaviour {
         }
         public void Reset() {
             timeCharged = 0f;
+            hasStartedCharging=false;
         }
         public void CheckToSetAsCharged() {
             if (timeCharged>timeToCharge) {
                 isCharged = true;
             }
+        }
+        public void StartCharging() {
+            hasStartedCharging=true;
         }
     }
 

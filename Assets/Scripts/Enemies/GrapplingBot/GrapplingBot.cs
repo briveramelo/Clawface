@@ -37,8 +37,8 @@ public class GrapplingBot : MonoBehaviour, IStunnable, IDamageable, ISpawnable {
         }
     }
 
-    void IDamageable.TakeDamage(float damage) {
-        myStats.TakeDamage(damage);
+    void IDamageable.TakeDamage(Damager damager) {
+        myStats.TakeDamage(damager.damage);
         if (myStats.health <= 0)
         {
             OnDeath();
@@ -48,6 +48,11 @@ public class GrapplingBot : MonoBehaviour, IStunnable, IDamageable, ISpawnable {
                 controller.UpdateState(EGrapplingBotState.Approach);
             }
         }
+    }
+    
+    float IDamageable.GetHealth()
+    {
+        return myStats.health;
     }    
 
     private void ResetForRebirth() {

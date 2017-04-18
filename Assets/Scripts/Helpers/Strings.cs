@@ -1,6 +1,5 @@
 ﻿public class Strings  {
-    // TODO - This should be reorganized..  I have no idea where any of these
-    // are being used or what they're for.
+
     public static string ANIMATIONSTATE = "AnimationState";
 
     public static class Tags {
@@ -16,7 +15,7 @@
     public static class MenuStrings
     {
         public static string MAIN = "MainMenu";
-        public static string CREDITS = "Credits";
+        public static string CREDITS = "CreditsMenu";
         public static string LOAD = "LoadMenu";
         public static string LOGO = "LogoMenu";
         public static string PAUSE = "PauseMenu";
