@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 public class MainMenu : Menu
 {
 
@@ -15,6 +16,11 @@ public class MainMenu : Menu
 
     [SerializeField]
     GameObject creditsDefaultSelected;
+
+    [SerializeField]
+    GameObject fadeCanvasGameObject;
+
+    CanvasGroup fadeCanvasGroup;
 
     private void Update()
     {
@@ -31,7 +37,7 @@ public class MainMenu : Menu
     private void Awake()
     {
         creditsCanvasGroup = creditsCanvasGameObject.GetComponent<CanvasGroup>();
-
+        fadeCanvasGroup = fadeCanvasGameObject.GetComponent<CanvasGroup>();
         
     }
 
@@ -55,8 +61,8 @@ public class MainMenu : Menu
 
     public void StartGame()
     {
-        //call pertinent menu manager stuff
-        StartCoroutine(MenuTransitionsCommon.FadeCoroutine(1.0f, 0.0f, 1.0f, canvasGroup, LoadLevelOne));
+        //fade out self
+        StartCoroutine(MenuTransitionsCommon.FadeCoroutine(1.0f, 0.0f, 1.0f, canvasGroup, FadeOut));
     }
 
     public void FireCredits()
@@ -69,9 +75,15 @@ public class MainMenu : Menu
     
     
 
+    void FadeOut()
+    {
+        //fade out to black
+        fadeCanvasGameObject.SetActive(true);
+        StartCoroutine(MenuTransitionsCommon.FadeCoroutine(0.0f, 1.0f, 1.0f, fadeCanvasGroup, LoadLevelOne));
+    }
     void LoadLevelOne()
     {
-        Debug.Log("loading level one");
+        SceneManager.LoadScene(1);
     }
 
     public void ShowCredits()
