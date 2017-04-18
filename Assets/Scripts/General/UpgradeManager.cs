@@ -304,7 +304,7 @@ public class UpgradeManager : Singleton<UpgradeManager> {
         switch (currentSelection)
         {
             case UpgradeMenuSelection.HP1:
-                if (availablePoints >= 1) return true;
+                if (pointsInvestedInHealth == 0 && availablePoints >= 1) return true;
                 break;
             case UpgradeMenuSelection.HP2:
                 if (pointsInvestedInHealth == 1 && availablePoints >= 1) return true;
