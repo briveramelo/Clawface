@@ -19,6 +19,10 @@ public class MenuManager : Singleton<MenuManager> {
     #endregion
 
     #region Unity Lifecycle Functions
+    protected override void Awake() {
+        shouldRegister=false;
+    }
+
     private void Start()
     {
         

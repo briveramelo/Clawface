@@ -11,12 +11,15 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 {
     private static T instance;    
     private static object lockObject = new object();
+    protected bool shouldRegister=true;
 
     protected virtual void Awake() {
         if (instance == null)
         {
             instance = this as T;
-            ServiceWrangler.Instance.RegisterSingleton(instance);
+            if(shouldRegister) {
+                ServiceWrangler.Instance.RegisterSingleton(instance);
+            }
             DontDestroyOnLoad(gameObject);
         }
         else {
