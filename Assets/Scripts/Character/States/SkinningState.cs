@@ -13,6 +13,7 @@ public class SkinningState : IPlayerState
     #region Serialized Unity Inspector fields
     [SerializeField] private Transform skinSlot;
     [SerializeField] private List<CapsuleCollider> clothColliders;
+    [SerializeField] private GameObject skinObject;
     #endregion
 
     #region Private Fields
@@ -34,13 +35,13 @@ public class SkinningState : IPlayerState
         ISkinnable skinnable =stateVariables.currentEnemy.GetComponent<ISkinnable>();
         if (skinnable!=null){
             GameObject skin = skinnable.DeSkin();
-            skin.transform.SetParent(skinSlot);
-            skin.transform.ResetFull();            
-            skin.GetComponent<Cloth>().capsuleColliders = clothColliders.ToArray();
-
+            //skin.transform.SetParent(skinSlot);
+            //skin.transform.ResetFull();            
+            //skin.GetComponent<Cloth>().capsuleColliders = clothColliders.ToArray();
+            skinObject.SetActive(true);
             SkinStats skinStats = skin.GetComponent<SkinStats>();
             Stats stats = GetComponent<Stats>();
-            stats.Modify(StatType.Health, skinStats.GetSkinHealth());
+            stats.Add(StatType.Health, skinStats.GetSkinHealth());
             HealthBar.Instance.SetHealth(stats.GetHealthFraction());
         }        
         stateVariables.stateFinished = true;

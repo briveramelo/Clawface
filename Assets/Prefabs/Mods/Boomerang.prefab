@@ -75,7 +75,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1329047879542186}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -11.692268, y: -7.7302, z: -110.56743}
+  m_LocalPosition: {x: 2.85, y: 1.4, z: -20.676998}
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children:
   - {fileID: 224578616548916598}
@@ -232,11 +232,17 @@ MonoBehaviour:
       timeToHitStop: 0
     timeCharged: 0
     isCoolingDown: 0
-  maxDistance: 6
-  maxWidth: 2
+    isActive: 0
+    hasStartedCharging: 0
+  chargedMaxDistance: 10
+  standardMaxDistance: 6
+  ellipseHeightWidthRatio: 1.618
   damageCollider: {fileID: 135665361892582434}
-  movementSpeed: 20
-  growRate: 0.01
+  maxMovementSpeed: 25
+  minMovementSpeed: 5
+  chargedScale: 2.5
+  maxRotationRate: 1200
+  minRotationRate: 200
 --- !u!114 &114696090971045056
 MonoBehaviour:
   m_ObjectHideFlags: 1

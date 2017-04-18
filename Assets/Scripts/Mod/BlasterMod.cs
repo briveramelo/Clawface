@@ -29,15 +29,17 @@ public class BlasterMod : Mod {
                 transform.forward = wielderMovable.GetForward();
             }
         }
+        base.Update();
     }
 
-    public override void Activate(Action onComplete=null){
-        base.Activate(onComplete);
+    public override void Activate(Action onCompleteCoolDown=null, Action onActivate=null){
+        onActivate = ()=> { SFXManager.Instance.Play(SFXType.BlasterShoot, transform.position);};
+        base.Activate(onCompleteCoolDown, onActivate);
+        SFXManager.Instance.Stop(SFXType.BlasterCharge);
     }
 
     public override void AttachAffect(ref Stats wielderStats, IMovable wielderMovable){
-        base.AttachAffect(ref wielderStats, wielderMovable);
-        shooterProperties.Initialize(GetWielderInstanceID(),wielderStats.attack, wielderStats.shotSpeed, wielderStats.shotPushForce);
+        base.AttachAffect(ref wielderStats, wielderMovable);        
     }
 
     public override void DeActivate()
@@ -50,8 +52,13 @@ public class BlasterMod : Mod {
         base.DetachAffect();
     }
 
+    public override void BeginCharging(Action onBegin=null){
+        onBegin=()=> {  SFXManager.Instance.Play(SFXType.BlasterCharge, transform.position); };
+        base.BeginCharging(onBegin);
+    }
     protected override void BeginChargingArms(){ }
     protected override void RunChargingArms(){ }
+    
     protected override void ActivateStandardArms(){
         Shoot();
         FireKickBack();
@@ -73,7 +80,7 @@ public class BlasterMod : Mod {
     }    
 
     private BlasterBullet Shoot(){
-        AudioManager.Instance.PlaySFX(SFXType.BlasterShoot);
+        SFXManager.Instance.Play(SFXType.BlasterShoot, transform.position);
         blasterEffect.Emit();
         BlasterBullet bullet = SpawnBullet();        
         return bullet;
@@ -85,6 +92,7 @@ public class BlasterMod : Mod {
         if (blasterBullet){
             blasterBullet.transform.position = bulletSpawnPoint.position;
             blasterBullet.transform.rotation = transform.rotation;
+            shooterProperties.Initialize(GetWielderInstanceID(),Attack, wielderStats.shotSpeed, wielderStats.shotPushForce);
             blasterBullet.SetShooterProperties(shooterProperties);
         }
         return blasterBullet;
