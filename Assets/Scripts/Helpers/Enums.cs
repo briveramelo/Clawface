@@ -113,7 +113,8 @@ public enum PlayerAnimationStates
     Idle = 0,
     Running = 1,    
     StunBaton = 2,
-    Boomerang = 3
+    Boomerang = 3,
+    TankTreads = 4
 }
 
 public enum ButtonMode
