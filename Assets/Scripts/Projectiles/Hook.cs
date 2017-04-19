@@ -13,12 +13,10 @@ public class Hook : MonoBehaviour {
     [SerializeField] private float growRate;
     [SerializeField] private float shrinkRate;
     [SerializeField] private float maxLength;
-    [SerializeField] private float rotateSpeed;
     [SerializeField] private float pullForce;
     #endregion
 
     #region Private Fields
-    private float initSize;
     private Vector3 initPos;
     private bool isCharged;
     private bool isPullingWielder;
@@ -31,7 +29,6 @@ public class Hook : MonoBehaviour {
     #region Unity Lifecycle
     // Use this for initialization
     void Start () {
-        initSize = transform.localScale.z;
         initPos = transform.localPosition;
     }
 
@@ -77,9 +74,9 @@ public class Hook : MonoBehaviour {
     }
     IEnumerator<float> ThrowHook() {
         isThrowing= true;
-        while (transform.localScale.z < maxLength && isThrowing){
-            transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z + growRate * Time.deltaTime);
-            transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z + growRate * Time.deltaTime / 2.0f);                          
+        while (transform.localPosition.z < maxLength && isThrowing){
+            //transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z + growRate * Time.deltaTime);
+            transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z + growRate * Time.deltaTime);                          
             yield return 0f;
         }
         isThrowing= false;
@@ -100,12 +97,12 @@ public class Hook : MonoBehaviour {
     }
 
     private IEnumerator<float> Retract(){        
-        while (transform.localScale.z > initSize){
+        while (transform.localPosition.z > initPos.z){
             if (isPullingWielder) {
                 PullToTarget();
             }
-            transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z - shrinkRate * Time.deltaTime);
-            transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z - shrinkRate * Time.deltaTime / 2.0f);
+            //transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z - shrinkRate * Time.deltaTime);
+            transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z - shrinkRate * Time.deltaTime);
             yield return 0f;
         }      
         FinishRetracting();        
@@ -115,7 +112,6 @@ public class Hook : MonoBehaviour {
 
     #region Private Methods
     void FinishRetracting(){
-        transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, initSize);
         transform.localPosition = initPos;
         isPullingWielder = false;
     }        

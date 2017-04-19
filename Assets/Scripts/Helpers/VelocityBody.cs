@@ -28,11 +28,12 @@ public class VelocityBody : MonoBehaviour, IMovable{
         get { return rigbod.useGravity; }
         set { rigbod.useGravity = value;}
     }
+    [SerializeField]
     protected bool isGrounded;
 
     private bool isFalling;
     private const float iceForceMultiplier = 50f;
-    private const float footSphereRadius= 0.1f;
+    private const float footSphereRadius= 0.2f;
     private List<Vector3> externalForces= new List<Vector3>();
     private MovementMode movementMode;
 
@@ -43,7 +44,7 @@ public class VelocityBody : MonoBehaviour, IMovable{
     protected virtual void Update() {
         isGrounded = CheckIsGrounded();
         if (!isGrounded && !isFalling) {
-            Timing.RunCoroutine(ApplyGravity(), GetInstanceID().ToString());
+            Timing.RunCoroutine(ApplyGravity(), Segment.FixedUpdate, GetInstanceID().ToString());
         }
     }
 
@@ -62,7 +63,7 @@ public class VelocityBody : MonoBehaviour, IMovable{
     public void AddDecayingForce(Vector3 force, float decay = 0.1f) {
         if (gameObject.activeInHierarchy) {
             if (movementMode == MovementMode.PRECISE) {
-                Timing.RunCoroutine(IEAddDecayingForce(force, decay), GetInstanceID().ToString());
+                Timing.RunCoroutine(IEAddDecayingForce(force, decay), Segment.FixedUpdate, GetInstanceID().ToString());
             }
             else{
                 rigbod.AddForce(force * iceForceMultiplier);

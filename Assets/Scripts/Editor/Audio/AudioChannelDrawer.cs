@@ -94,7 +94,11 @@ public sealed class AudioChannelDrawer : PropertyDrawer {
             EditorGUILayout.PropertyField(_changeVolumeEachLoopProp);
             EditorGUI.EndDisabledGroup();
         }
+
+        if (GUILayout.Button ("Preview")) _targetChannel.PlaySound(1f, false);
         EditorGUILayout.EndVertical();
+
+
 
         _serializedChannel.ApplyModifiedProperties();
     }

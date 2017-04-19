@@ -52,7 +52,7 @@ public class StunBatonAttackState : IPlayerState {
     {
         if (!stateVariables.stateFinished)
         {
-            //stateVariables.currentMod.Activate();
+            
             if (frameCount == 0)
             {
                 ChangePose();
@@ -87,6 +87,7 @@ public class StunBatonAttackState : IPlayerState {
     public override void Attack()
     {
         isAttackRequested = true;
+        stateVariables.currentMod.Activate();
     }
 
     public override void SecondaryAttack(bool isHeld, float holdTime)

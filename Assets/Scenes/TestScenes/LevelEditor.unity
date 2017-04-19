@@ -51,7 +51,7 @@ LightmapSettings:
     m_AlbedoBoost: 1
     m_TemporalCoherenceThreshold: 1
     m_EnvironmentLightingMode: 0
-    m_EnableBakedLightmaps: 1
+    m_EnableBakedLightmaps: 0
     m_EnableRealtimeLightmaps: 1
   m_LightmapEditorSettings:
     serializedVersion: 8
@@ -133,8 +133,8 @@ Light:
   m_Enabled: 1
   serializedVersion: 8
   m_Type: 1
-  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
-  m_Intensity: 1
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Intensity: 2
   m_Range: 10
   m_SpotAngle: 30
   m_CookieSize: 10
@@ -402,6 +402,146 @@ Prefab:
     - target: {fileID: 4668240800307126, guid: ebbe08bd05e0e1f47b66b9335afe30ce, type: 2}
       propertyPath: m_RootOrder
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114905651652157932, guid: ebbe08bd05e0e1f47b66b9335afe30ce,
+        type: 2}
+      propertyPath: _database._data.Array.data[19].path
+      value: Assets/Prefabs/LevelEditor/Whitebox/Whitebox_Cube.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 114905651652157932, guid: ebbe08bd05e0e1f47b66b9335afe30ce,
+        type: 2}
+      propertyPath: _database._data.Array.data[19].prefab
+      value: 
+      objectReference: {fileID: 1560591290627110, guid: a83c53cf7de507043bf5adfac41f55e7,
+        type: 2}
+    - target: {fileID: 114905651652157932, guid: ebbe08bd05e0e1f47b66b9335afe30ce,
+        type: 2}
+      propertyPath: _database._data.Array.data[19].category
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 114905651652157932, guid: ebbe08bd05e0e1f47b66b9335afe30ce,
+        type: 2}
+      propertyPath: _database._data.Array.data[13].path
+      value: Assets/Prefabs/LevelEditor/Blocks/Floor_TileBW_1x1.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 114905651652157932, guid: ebbe08bd05e0e1f47b66b9335afe30ce,
+        type: 2}
+      propertyPath: _database._data.Array.data[13].prefab
+      value: 
+      objectReference: {fileID: 1913047075517806, guid: 5e8de53b04286774eb88c82677bd41dc,
+        type: 2}
+    - target: {fileID: 114905651652157932, guid: ebbe08bd05e0e1f47b66b9335afe30ce,
+        type: 2}
+      propertyPath: _database._data.Array.data[20].path
+      value: Assets/Prefabs/LevelEditor/Blocks/Wall_Plain_1x1.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 114905651652157932, guid: ebbe08bd05e0e1f47b66b9335afe30ce,
+        type: 2}
+      propertyPath: _database._data.Array.data[20].prefab
+      value: 
+      objectReference: {fileID: 1590019470051508, guid: 5d95284a6bb6f2d47ab27f6df78fd039,
+        type: 2}
+    - target: {fileID: 114905651652157932, guid: ebbe08bd05e0e1f47b66b9335afe30ce,
+        type: 2}
+      propertyPath: _database._data.Array.data[20].category
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114905651652157932, guid: ebbe08bd05e0e1f47b66b9335afe30ce,
+        type: 2}
+      propertyPath: _database._data.Array.data[20].snapMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114905651652157932, guid: ebbe08bd05e0e1f47b66b9335afe30ce,
+        type: 2}
+      propertyPath: _database._data.Array.data[2].path
+      value: Assets/Prefabs/LevelEditor/Blocks/Floor_Hallway_1x1.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 114905651652157932, guid: ebbe08bd05e0e1f47b66b9335afe30ce,
+        type: 2}
+      propertyPath: _database._data.Array.data[2].prefab
+      value: 
+      objectReference: {fileID: 1405792540740400, guid: abc63bfd9a990ef42af01fabae7cf529,
+        type: 2}
+    - target: {fileID: 114905651652157932, guid: ebbe08bd05e0e1f47b66b9335afe30ce,
+        type: 2}
+      propertyPath: _database._data.Array.data[3].path
+      value: Assets/Prefabs/LevelEditor/Decorations/Decoration_Plant_1x1_01.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 114905651652157932, guid: ebbe08bd05e0e1f47b66b9335afe30ce,
+        type: 2}
+      propertyPath: _database._data.Array.data[3].prefab
+      value: 
+      objectReference: {fileID: 1939645744089446, guid: 27bb6264ceb54924f8ace7d7edc586d8,
+        type: 2}
+    - target: {fileID: 114905651652157932, guid: ebbe08bd05e0e1f47b66b9335afe30ce,
+        type: 2}
+      propertyPath: _database._data.Array.data[4].path
+      value: Assets/Prefabs/LevelEditor/Decorations/Decoration_Plant_1x1_02.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 114905651652157932, guid: ebbe08bd05e0e1f47b66b9335afe30ce,
+        type: 2}
+      propertyPath: _database._data.Array.data[4].prefab
+      value: 
+      objectReference: {fileID: 1666207618042484, guid: a246ac4d6a904964092f43a4d83a04d3,
+        type: 2}
+    - target: {fileID: 114905651652157932, guid: ebbe08bd05e0e1f47b66b9335afe30ce,
+        type: 2}
+      propertyPath: _database._data.Array.data[5].path
+      value: Assets/Prefabs/LevelEditor/Decorations/Decoration_Plant_1x1_03.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 114905651652157932, guid: ebbe08bd05e0e1f47b66b9335afe30ce,
+        type: 2}
+      propertyPath: _database._data.Array.data[5].prefab
+      value: 
+      objectReference: {fileID: 1263999126974866, guid: ce0f75e8b9df4d746839d62d47886975,
+        type: 2}
+    - target: {fileID: 114905651652157932, guid: ebbe08bd05e0e1f47b66b9335afe30ce,
+        type: 2}
+      propertyPath: _database._data.Array.data[6].path
+      value: Assets/Prefabs/LevelEditor/Decorations/Decoration_Chair_1x1_01.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 114905651652157932, guid: ebbe08bd05e0e1f47b66b9335afe30ce,
+        type: 2}
+      propertyPath: _database._data.Array.data[6].prefab
+      value: 
+      objectReference: {fileID: 1940018903992538, guid: 9177e7c436698964e99d69f4e1aed040,
+        type: 2}
+    - target: {fileID: 114905651652157932, guid: ebbe08bd05e0e1f47b66b9335afe30ce,
+        type: 2}
+      propertyPath: _database._data.Array.data[21].path
+      value: Assets/Prefabs/LevelEditor/Whitebox/Whitebox_Plane.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 114905651652157932, guid: ebbe08bd05e0e1f47b66b9335afe30ce,
+        type: 2}
+      propertyPath: _database._data.Array.data[21].prefab
+      value: 
+      objectReference: {fileID: 1206669178408170, guid: bb493607f393d514f8ce54c26c930a4f,
+        type: 2}
+    - target: {fileID: 114905651652157932, guid: ebbe08bd05e0e1f47b66b9335afe30ce,
+        type: 2}
+      propertyPath: _database._data.Array.data[21].category
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 114905651652157932, guid: ebbe08bd05e0e1f47b66b9335afe30ce,
+        type: 2}
+      propertyPath: _database._data.Array.data[22].path
+      value: Assets/Prefabs/LevelEditor/Blocks/Corner_Plain_1x1.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 114905651652157932, guid: ebbe08bd05e0e1f47b66b9335afe30ce,
+        type: 2}
+      propertyPath: _database._data.Array.data[22].prefab
+      value: 
+      objectReference: {fileID: 1706456867766694, guid: 2a1a3bc0945c84440ae3e3bf52b3f6dc,
+        type: 2}
+    - target: {fileID: 114905651652157932, guid: ebbe08bd05e0e1f47b66b9335afe30ce,
+        type: 2}
+      propertyPath: _database._data.Array.data[22].category
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114905651652157932, guid: ebbe08bd05e0e1f47b66b9335afe30ce,
+        type: 2}
+      propertyPath: _database._data.Array.data[22].snapMode
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ebbe08bd05e0e1f47b66b9335afe30ce, type: 2}

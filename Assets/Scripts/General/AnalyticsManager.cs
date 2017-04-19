@@ -147,32 +147,33 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
 
     private void OnApplicationQuit()
     {
-
-        int totalTimeMinutes = (int)totalTime / 60;
-        if (totalTimeMinutes < 1) totalTimeMinutes = 1;
-
-        FormatPlayerModsInDictionary(ref quitGameDictionary);
-        quitGameDictionary["averageHP"] = (int)(playerHealthTotal / playerHealthTicks);
-        quitGameDictionary["currentHP"] = (int)playerStats.GetStat(StatType.Health);
-        quitGameDictionary["swaps"] = (float)quitGameDictionary["swaps"] / totalTimeMinutes;
-        quitGameDictionary["drops"] = (float)quitGameDictionary["drops"] / totalTimeMinutes;
-        quitGameDictionary["deaths"] = deaths;
-        quitGameDictionary["sessionTimeMins"] = totalTimeMinutes;
-
-        // Changes button presses to be average per minute
-        buttonPressesDictionary["armL"] = (float)buttonPressesDictionary["armL"] / totalTimeMinutes;
-        buttonPressesDictionary["armR"] = (float)buttonPressesDictionary["armR"] / totalTimeMinutes;
-        buttonPressesDictionary["legs"] = (float)buttonPressesDictionary["legs"] / totalTimeMinutes;
-        buttonPressesDictionary["dodge"] = (float)buttonPressesDictionary["dodge"] / totalTimeMinutes;
-        buttonPressesDictionary["swap"] = (float)buttonPressesDictionary["swap"] / totalTimeMinutes;
-        buttonPressesDictionary["skin"] = (float)buttonPressesDictionary["skin"] / totalTimeMinutes;
-
-
-        // Changes mod times to be a percentage of total play time
-        foreach (ModType mod in System.Enum.GetValues(typeof(ModType)))
+        if (playerStats != null)
         {
-            modRatioDictionary[mod.ToString()] = (float)modTimeDictionary[mod.ToString()] / totalTime;
-        }
+            int totalTimeMinutes = (int)totalTime / 60;
+            if (totalTimeMinutes < 1) totalTimeMinutes = 1;
+
+            FormatPlayerModsInDictionary(ref quitGameDictionary);
+            quitGameDictionary["averageHP"] = (int)(playerHealthTotal / playerHealthTicks);
+            quitGameDictionary["currentHP"] = (int)playerStats.GetStat(StatType.Health);
+            quitGameDictionary["swaps"] = (float)quitGameDictionary["swaps"] / totalTimeMinutes;
+            quitGameDictionary["drops"] = (float)quitGameDictionary["drops"] / totalTimeMinutes;
+            quitGameDictionary["deaths"] = deaths;
+            quitGameDictionary["sessionTimeMins"] = totalTimeMinutes;
+
+            // Changes button presses to be average per minute
+            buttonPressesDictionary["armL"] = (float)buttonPressesDictionary["armL"] / totalTimeMinutes;
+            buttonPressesDictionary["armR"] = (float)buttonPressesDictionary["armR"] / totalTimeMinutes;
+            buttonPressesDictionary["legs"] = (float)buttonPressesDictionary["legs"] / totalTimeMinutes;
+            buttonPressesDictionary["dodge"] = (float)buttonPressesDictionary["dodge"] / totalTimeMinutes;
+            buttonPressesDictionary["swap"] = (float)buttonPressesDictionary["swap"] / totalTimeMinutes;
+            buttonPressesDictionary["skin"] = (float)buttonPressesDictionary["skin"] / totalTimeMinutes;
+
+
+            // Changes mod times to be a percentage of total play time
+            foreach (ModType mod in System.Enum.GetValues(typeof(ModType)))
+            {
+                modRatioDictionary[mod.ToString()] = (float)modTimeDictionary[mod.ToString()] / totalTime;
+            }
 
 #if !UNITY_EDITOR
         if (sendData)
@@ -189,41 +190,44 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
             Analytics.CustomEvent("modKills", modKillsDictionary);
         }
 #endif
+        }
     }
 #endregion
 
 #region Public Methods
     public void FormatPlayerModsInDictionary(ref Dictionary<string, object> dict)
     {
-        Dictionary<ModSpot, ModManager.ModSocket> modSocketDictionary = manager.GetModSpotDictionary();
+        if (manager != null)
+        {
+            Dictionary<ModSpot, ModManager.ModSocket> modSocketDictionary = manager.GetModSpotDictionary();
 
-        if (modSocketDictionary[ModSpot.ArmL].mod != null)
-        {
-            dict["armL"] = modSocketDictionary[ModSpot.ArmL].mod.getModType().ToString();
-        }
-        else
-        {
-            dict["armL"] = "null";
-        }
+            if (modSocketDictionary[ModSpot.ArmL].mod != null)
+            {
+                dict["armL"] = modSocketDictionary[ModSpot.ArmL].mod.getModType().ToString();
+            }
+            else
+            {
+                dict["armL"] = "null";
+            }
 
-        if (modSocketDictionary[ModSpot.ArmR].mod != null)
-        {
-            dict["armR"] = modSocketDictionary[ModSpot.ArmR].mod.getModType().ToString();
-        }
-        else
-        {
-            dict["armR"] = "null";
-        }
+            if (modSocketDictionary[ModSpot.ArmR].mod != null)
+            {
+                dict["armR"] = modSocketDictionary[ModSpot.ArmR].mod.getModType().ToString();
+            }
+            else
+            {
+                dict["armR"] = "null";
+            }
 
-        if (modSocketDictionary[ModSpot.Legs].mod != null)
-        {
-            dict["legs"] = modSocketDictionary[ModSpot.Legs].mod.getModType().ToString();
+            if (modSocketDictionary[ModSpot.Legs].mod != null)
+            {
+                dict["legs"] = modSocketDictionary[ModSpot.Legs].mod.getModType().ToString();
+            }
+            else
+            {
+                dict["legs"] = "null";
+            }
         }
-        else
-        {
-            dict["legs"] = "null";
-        }
-
     }
 
     public void SwapMods()
