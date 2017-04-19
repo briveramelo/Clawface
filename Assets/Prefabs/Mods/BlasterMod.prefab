@@ -321,12 +321,12 @@ MonoBehaviour:
     standardArmAttackSettings:
       timeToCoolDown: 0.2
       timeToAttack: 0
-      attack: 3
+      attack: 1
       timeToHitStop: 0
     chargedArmAttackSettings:
       timeToCoolDown: 1
       timeToAttack: 0
-      attack: 50
+      attack: 30
       timeToHitStop: 0
     standardLegAttackSettings:
       timeToCoolDown: 0.1
@@ -346,7 +346,7 @@ MonoBehaviour:
   bulletSpawnPoint: {fileID: 4303765111120432}
   kickbackForce: 9
   kickbackForceCharged: 25
-  kickbackForceFeetMultiplier: 3
+  kickbackForceFeetMultiplier: 1.75
 --- !u!114 &114446361273923502
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -427,10 +427,10 @@ ParticleSystem:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  moveWithTransform: 0
+  moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: -258316200
+  randomSeed: 1178906144
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -3304,10 +3304,10 @@ ParticleSystem:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  moveWithTransform: 0
+  moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: -1809347284
+  randomSeed: 565922337
   InitialModule:
     serializedVersion: 3
     enabled: 1

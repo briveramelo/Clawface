@@ -6,12 +6,18 @@ using ModMan;
 public class GorePainter : MonoBehaviour {
     
     [SerializeField] float splatterLifetime;
-    [SerializeField] int maxOverlappingDecals;
-    [SerializeField] private float minDownScale;
-    [SerializeField] private float maxDownScale;
     [SerializeField] private float splashRange;
+    private float minDownScale=1;
+    private float maxDownScale=2;
+    int maxOverlappingDecals=5;
 
-    void OnEnable() {
+    private Collider[] dummyColliders;
+
+    private void Awake() {
+        dummyColliders=new Collider[maxOverlappingDecals];
+    }
+
+    void OnEnable() {        
         gameObject.DeActivate(4f);
     }
 
@@ -31,8 +37,9 @@ public class GorePainter : MonoBehaviour {
         //raycast around location to splash, but not on already placed blood
         int ground = LayerMasker.GetLayerMask(Layers.Ground);
         int blood = LayerMasker.GetLayerMask(Layers.Blood);
+        
         if(Physics.Raycast(i_location , dir, out hit, splashRange, ground) && 
-            Physics.RaycastNonAlloc(new Ray(i_location , dir), null, splashRange, blood)<maxOverlappingDecals){
+            Physics.OverlapSphereNonAlloc(hit.point, .1f, dummyColliders, blood)<maxOverlappingDecals){
                         
             PlaceDecal(hit);
         }
@@ -53,12 +60,12 @@ public class GorePainter : MonoBehaviour {
             decal.transform.position = modifiedHitPoint;
             decal.transform.rotation = Quaternion.FromToRotation(Vector3.back, i_hit.normal);
 
-            //ScaleDownBlood(decal);
+            ScaleDownBlood(decal);
             
-
             //random rotation
             int rater = UnityEngine.Random.Range(0, 359);
-            decal.transform.RotateAround(i_hit.point, i_hit.normal, rater);            
+            decal.transform.RotateAround(i_hit.point, i_hit.normal, rater);
+            decal.isStatic=true;            
         }
     }
 

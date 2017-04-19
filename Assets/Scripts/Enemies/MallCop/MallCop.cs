@@ -125,6 +125,8 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
                 will.onDeath();
             }
 
+            UpgradeManager.Instance.AddEXP(Mathf.FloorToInt(myStats.exp));
+
             GameObject mallCopParts = ObjectPool.Instance.GetObject(PoolObjectType.MallCopExplosion);
             if (mallCopParts) {
                 SFXManager.Instance.Play(SFXType.BloodExplosion, transform.position);
