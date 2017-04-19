@@ -30,6 +30,8 @@ public enum SFXType {
     StunBatonSwing,
     TankTreads_Attack,
     TankTreads_Swing, 
+    Dash,
+    SegwayBlast_Standard,
 }
 
 public enum DamagerType {

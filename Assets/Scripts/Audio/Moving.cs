@@ -5,12 +5,12 @@ using UnityEngine;
 public class Moving : MonoBehaviour
 {
     public float speed = 10.0f;
-    SFXManager m_SFX;
+//    SFXManager m_SFX;
 
     // Use this for initialization
     void Start ()
     {
-        m_SFX = GetComponent<SFXManager>();
+ //       m_SFX = GetComponent<SFXManager>();
     }
 	
 	// Update is called once per frame
@@ -35,12 +35,17 @@ public class Moving : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.S))
         {
-            m_SFX.Play(SFXType.TankTreads_Attack, transform.position);
+            SFXManager.Instance.Play(SFXType.TankTreads_Attack, transform.position);
         }
 
         if (Input.GetKeyDown(KeyCode.D))
         {
-            m_SFX.Play(SFXType.BlasterCharge, transform.position);
+            SFXManager.Instance.Play(SFXType.BlasterCharge, transform.position);
+        }
+
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            SFXManager.Instance.Play(SFXType.SegwayBlast_Standard, transform.position);
         }
     }
 }
