@@ -28,11 +28,16 @@ public class SFXManager : Singleton<SFXManager>
     private GameObject TankTreads_Attack;
     [SerializeField]
     private GameObject TankTreads_Swing;
+    [SerializeField]
+    private GameObject Dash;
+    [SerializeField]
+    private GameObject SegwayBlast_Standard;
     #endregion
 
     private void Start()
     {
-        sfxDictionary = new Dictionary<SFXType, SoundEffect>() {
+        sfxDictionary = new Dictionary<SFXType, SoundEffect>()
+        {
             {SFXType.BloodExplosion, new SoundEffect(Instantiate(BloodExplosion)) },
             {SFXType.BlasterCharge, new SoundEffect(Instantiate(BlasterCharge)) },
             {SFXType.BlasterProjectileImpact, new SoundEffect(Instantiate(BlasterProjectile_Impact)) },
@@ -42,7 +47,9 @@ public class SFXManager : Singleton<SFXManager>
             {SFXType.StunBatonImpact, new SoundEffect(Instantiate(StunBatonImpact)) },
             {SFXType.StunBatonSwing, new SoundEffect(Instantiate(StunBatonSwing)) },
             {SFXType.TankTreads_Attack, new SoundEffect(Instantiate(TankTreads_Attack)) },
-            {SFXType.TankTreads_Swing, new SoundEffect(Instantiate(TankTreads_Swing)) }
+            {SFXType.TankTreads_Swing, new SoundEffect(Instantiate(TankTreads_Swing)) },
+            {SFXType.Dash, new SoundEffect(Instantiate(Dash)) },
+            {SFXType.SegwayBlast_Standard, new SoundEffect(Instantiate(SegwayBlast_Standard)) }
         };
         foreach(KeyValuePair<SFXType, SoundEffect> kp in sfxDictionary) {
             kp.Value.SetParent(transform);
