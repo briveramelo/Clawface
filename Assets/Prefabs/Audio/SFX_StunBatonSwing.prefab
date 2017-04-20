@@ -298,6 +298,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 0.568
+  m_Pitch: 0.9426602
   Loop: 0
   Mute: 0
   Spatialize: 0
@@ -376,6 +377,8 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
+  m_Volume: 0.426992
+  m_Pitch: 0.9426602
   Loop: 0
   Mute: 0
   Spatialize: 0
@@ -614,6 +617,8 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
+  m_Volume: 0.602
+  m_Pitch: 0.9426602
   Loop: 0
   Mute: 0
   Spatialize: 0
@@ -933,6 +938,8 @@ MonoBehaviour:
   _uniformVolume: 0.8
   _useRandomVolume: 1
   _randomVolumeRange:
+    _min: 0.39374736
+    _max: 0.45421246
 --- !u!114 &114620279911083918
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -965,6 +972,7 @@ MonoBehaviour:
   _clips:
   - {fileID: 8300000, guid: 9f5a330566ac1f640b01c6968d4c7705, type: 3}
   _changeVolumeEachLoop: 0
+  _uniformVolume: 0.602
   _useRandomVolume: 0
   _randomVolumeRange:
     _min: 1
