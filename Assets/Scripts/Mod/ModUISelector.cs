@@ -63,7 +63,9 @@ public class ModUISelector : MonoBehaviour {
     private void OnHeld() {
         Vector2 selectAxis = InputManager.Instance.QueryAxes(Strings.Input.Axes.LOOK);
         if (selectAxis.magnitude > minJoystickSelectionThreshold) {
+            Debug.Log(selectAxis);
             float selectionAngle = selectAxis.As360Angle();
+            Debug.Log(selectionAngle);
             modUIElements.ForEach(modUIElement=> {
                 HandleUIScaling(ref modUIElement, selectionAngle);
                 SetSelectedMod(ref modUIElement, selectionAngle);
@@ -117,7 +119,7 @@ public class ModUISelector : MonoBehaviour {
         public Vector2 myPosition;
         public bool isBulging;
 
-        private const float modUIRadius = 2f;
+        private const float modUIRadius = 200f;
 
         public ModUIElement(ModType modType, GameObject uiElement) {
             this.modType=modType;
@@ -130,7 +132,7 @@ public class ModUISelector : MonoBehaviour {
             range.max = (360/numMods)*(myIndex+1);
             myAngle = range.middle;
             myPosition = myAngle.AsVector2();
-
+            uiElement.SetActive(true);
             
             uiElement.transform.localPosition = myPosition * modUIRadius;
         }
@@ -142,8 +144,8 @@ public class ModUISelector : MonoBehaviour {
             return false;
         }
 
-        private Vector3 maxScale=Vector3.one * 2f;
-        private Vector3 endScale=Vector3.one * 1.8f;
+        private Vector3 maxScale=Vector3.one * 5f;
+        private Vector3 endScale=Vector3.one * 4f;
         private Vector3 startScale = Vector3.one;
         public IEnumerator<float> Bulge(string coroutineString) {
             isBulging=true;
