@@ -178,6 +178,8 @@ namespace Turing.Audio {
         public void PlaySound(float pitch, bool loop = false) {
             if (_clips.Count <= 0) return;
 
+            if (_parent == null) _parent = GetComponentInParent<AudioGroup>();
+
             _volumeScale = _parent.VolumeScale;
 
             _loop = loop;
