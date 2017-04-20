@@ -85,31 +85,16 @@ public class ModManager : MonoBehaviour
     #endregion
 
     #region Private Methods
-    private void CheckToPickUpMod() {
-        if (InputManager.Instance.QueryAction(Strings.Input.Actions.DROP_MODE, ButtonMode.HELD)){
-            ModSpot commandedModSpot = GetCommandedModSpot(ButtonMode.DOWN);
-            if (commandedModSpot != ModSpot.Default && modSocketDictionary[commandedModSpot].mod == null){
-                List<Collider> cols = Physics.OverlapSphere(transform.position, 2.25f).ToList();
-                Mod modToAttach=null;
-                float shortestDistanceAway=10f;
-                cols.ForEach(other => {
-                    if (other.tag == Strings.Tags.MOD){                        
-                        if (!IsHoldingMod(other.transform)) {
-                            float distanceAway = Vector3.Distance(transform.position, other.transform.position);
-                            if (distanceAway<shortestDistanceAway) {
-                                modToAttach = other.GetComponent<Mod>();
-                                shortestDistanceAway=distanceAway;
-                            }
-                        }
-                    }
-                });
-                if(modToAttach!=null) {
-                    if (modSocketDictionary[commandedModSpot].mod != modToAttach){
-                        Attach(commandedModSpot, modToAttach);
-                    }
+    private void CheckToPickUpMod() {        
+        List<Collider> cols = Physics.OverlapSphere(transform.position, 2.25f).ToList();
+        cols.ForEach(other => {
+            if (other.tag == Strings.Tags.MOD){                        
+                if (!IsHoldingMod(other.transform)) {
+                    Attach(commandedModSpot, other.GetComponent<Mod>());
+                    AddToModInventory()
                 }
             }
-        }
+        });            
     }
     private void CheckToChargeAndFireMods(){
         if (!InputManager.Instance.QueryAction(Strings.Input.Actions.DROP_MODE, ButtonMode.HELD) &&
