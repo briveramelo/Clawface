@@ -35,7 +35,7 @@ public class Moving : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.S))
         {
-            SFXManager.Instance.Play(SFXType.TankTreads_Attack, transform.position);
+            SFXManager.Instance.PlayFollowObject(SFXType.TankTreads_Attack, transform);
         }
 
         if (Input.GetKeyDown(KeyCode.D))
@@ -45,7 +45,7 @@ public class Moving : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.A))
         {
-            SFXManager.Instance.Play(SFXType.SegwayBlast_Standard, transform.position);
+            SFXManager.Instance.Play(SFXType.TankTreads_Attack, transform.position);
         }
     }
 }
