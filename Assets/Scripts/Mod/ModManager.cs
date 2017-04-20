@@ -21,6 +21,7 @@ public class ModManager : MonoBehaviour
     [SerializeField] private VelocityBody velBody;
     [SerializeField]
     private PlayerStateManager stateManager;
+    [SerializeField] ModInventory modInventory;
     #endregion
 
     #region Private Fields
@@ -35,9 +36,9 @@ public class ModManager : MonoBehaviour
     private void Start()
     {
         modSocketDictionary = new Dictionary<ModSpot, ModSocket>(){
+            {ModSpot.ArmR, new ModSocket(rightArmSocket) },
             {ModSpot.Legs, new ModSocket(legsSocket) },
             {ModSpot.ArmL, new ModSocket(leftArmSocket) },
-            {ModSpot.ArmR, new ModSocket(rightArmSocket) },
         };
         allModSpots = new List<ModSpot>() {
             ModSpot.ArmL, ModSpot.ArmR, ModSpot.Legs
@@ -90,8 +91,14 @@ public class ModManager : MonoBehaviour
         cols.ForEach(other => {
             if (other.tag == Strings.Tags.MOD){                        
                 if (!IsHoldingMod(other.transform)) {
-                    Attach(commandedModSpot, other.GetComponent<Mod>());
-                    AddToModInventory()
+                    Mod mod = other.GetComponent<Mod>();
+                    foreach (KeyValuePair<ModSpot, ModSocket> modSpotSocket in modSocketDictionary) {
+                        if (modSpotSocket.Value.mod==null){
+                            Attach(modSpotSocket.Key, mod);
+                            return;
+                        }
+                    }
+                    modInventory.CollectMod(mod.getModType());
                 }
             }
         });            

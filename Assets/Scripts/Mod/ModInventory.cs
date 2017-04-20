@@ -20,11 +20,20 @@ public class ModInventory : MonoBehaviour {
             {ModType.TankTreads, new InventoryItem() },
         };
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
+    public bool IsModAvailable(ModType modType) {
+        if (modInventory.ContainsKey(modType)) {
+            return modInventory[modType].isCollected;
+        }
+        return false;
+    }
+
+    public void CollectMod(ModType modType) {
+        if (!modInventory.ContainsKey(modType)) {
+            modInventory.Add(modType, new InventoryItem());
+        }        
+        modInventory[modType].isCollected = true;
+    }
 
     class InventoryItem {
         public bool isCollected;
