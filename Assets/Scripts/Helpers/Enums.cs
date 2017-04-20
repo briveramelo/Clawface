@@ -60,7 +60,8 @@ public enum ModType {
     Grappler = 5,
     Boomerang = 6,
     Geyser = 7,
-    Dice = 8
+    Dice = 8,
+    None=9
 }
 
 public enum ModCategory

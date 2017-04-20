@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using ModMan;
 
 public class ModManager : MonoBehaviour
 {
@@ -22,6 +23,7 @@ public class ModManager : MonoBehaviour
     [SerializeField]
     private PlayerStateManager stateManager;
     [SerializeField] ModInventory modInventory;
+    [SerializeField] ModUISelector modUISelector;
     #endregion
 
     #region Private Fields
@@ -51,31 +53,39 @@ public class ModManager : MonoBehaviour
 
     private void Update()
     {
-        CheckToPickUpMod();
+        CheckToCollectMod();
 
         if (isOkToDropMod){
-            CheckToDropMod();
+            //CheckToDropMod();
         }
         SetModToSwap();
         if (isOkToSwapMods){
             CheckToSwapMods();
         }
         CheckToChargeAndFireMods();
+        CheckToActivateModCanvas();
+    }
+    
+    List<Mod> overlapMods = new List<Mod>();
+    private void CheckToActivateModCanvas() {
+        float closestDistance=10f;
+        Mod modToActivate=null;
+        overlapMods.Clear();
+        Physics.OverlapSphere(transform.position, 1f).ToList().ForEach(col=> {
+            if(col.tag == Strings.Tags.MOD){
+                float distanceAway = Vector3.Distance(transform.position, col.transform.position);
+                if (distanceAway < closestDistance) {
+                    closestDistance = distanceAway;
+                    modToActivate = col.GetComponent<Mod>();
+                    overlapMods.Add(modToActivate);
+                }
+            }
+        });
+        if (modToActivate!=null) {
+            overlapMods.ForEach(mod=>mod.DeactivateModCanvas());
+            modToActivate.ActivateModCanvas();
+        }
     }    
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.tag == Strings.Tags.MOD){
-            other.GetComponent<Mod>().ActivateModCanvas();
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.tag == Strings.Tags.MOD){
-            other.GetComponent<Mod>().DeactivateModCanvas();
-        }
-    }
     #endregion
 
     #region Public Methods
@@ -86,23 +96,28 @@ public class ModManager : MonoBehaviour
     #endregion
 
     #region Private Methods
-    private void CheckToPickUpMod() {        
-        List<Collider> cols = Physics.OverlapSphere(transform.position, 2.25f).ToList();
-        cols.ForEach(other => {
+    private void CheckToCollectMod() {        
+        Physics.OverlapSphere(transform.position, 2.25f).ToList().ForEach(other => {
             if (other.tag == Strings.Tags.MOD){                        
                 if (!IsHoldingMod(other.transform)) {
-                    Mod mod = other.GetComponent<Mod>();
-                    foreach (KeyValuePair<ModSpot, ModSocket> modSpotSocket in modSocketDictionary) {
-                        if (modSpotSocket.Value.mod==null){
-                            Attach(modSpotSocket.Key, mod);
-                            return;
-                        }
+                    Mod mod = other.GetComponent<Mod>();                    
+                    if (mod!=null) {
+                        modInventory.CollectMod(mod.getModType());
+                        modUISelector.UpdateUI();
+                        modSocketDictionary.ForEach((modSpot, modSocket)=> {
+                            if (modSocket.mod==null){
+                                Destroy(other.gameObject);
+                                mod = modInventory.GetMod(mod.getModType(), modSpot);
+                                Attach(modSpot, mod);
+                                return;
+                            }
+                        });                                            
                     }
-                    modInventory.CollectMod(mod.getModType());
                 }
             }
         });            
-    }
+    }    
+
     private void CheckToChargeAndFireMods(){
         if (!InputManager.Instance.QueryAction(Strings.Input.Actions.DROP_MODE, ButtonMode.HELD) &&
             !InputManager.Instance.QueryAction(Strings.Input.Actions.SWAP_MODE, ButtonMode.HELD)){

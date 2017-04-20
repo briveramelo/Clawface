@@ -127,6 +127,18 @@ public class Scheme2 : IControlScheme {
                         if (controller.GetStart(mode))
                             return true;
                         break;
+                    case Strings.Input.Actions.EQUIP_ARM_RIGHT:
+                        if (controller.GetDPadRight(mode))
+                            return true;
+                        break;
+                    case Strings.Input.Actions.EQUIP_LEGS:
+                        if (controller.GetDPadDown(mode))
+                            return true;
+                        break;
+                    case Strings.Input.Actions.EQUIP_ARM_LEFT:
+                        if (controller.GetDPadLeft(mode))
+                            return true;
+                        break;
                     default:
                         throw new Exception("Bad Controller Action String: " + action);
                 }

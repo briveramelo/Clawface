@@ -163,4 +163,21 @@ namespace ModMan {
         }
     
     }
+
+    public static class Vector2Extensions {
+        public static float As360Angle(this Vector2 inputVector){
+			return Mathf.Atan2 (inputVector.y, inputVector.x) * Mathf.Rad2Deg;
+		}
+        public static Vector2 AsVector2(this float inputAngle){
+			return new Vector2(Mathf.Cos (Mathf.Deg2Rad * inputAngle),Mathf.Sin (Mathf.Deg2Rad * inputAngle));
+		}
+    }
+
+    public static class DictionaryExtensions {
+        public static void ForEach<T, U>(this Dictionary<T,U> thisDictionary, System.Action<T,U> action) {
+            foreach(KeyValuePair<T, U> kvpElement in thisDictionary) {
+                action(kvpElement.Key, kvpElement.Value);
+            }
+        }
+    }
 }

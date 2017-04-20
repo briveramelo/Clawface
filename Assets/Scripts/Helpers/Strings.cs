@@ -46,6 +46,10 @@
             public const string LOCK = "LOCK"; // REMOVE?
             public const string DODGE = "DODGE";
             public const string PAUSE = "PAUSE";
+
+            public const string EQUIP_ARM_LEFT = "EQUIP ARM LEFT";
+            public const string EQUIP_ARM_RIGHT = "EQUIP ARM RIGHT";
+            public const string EQUIP_LEGS = "EQUIP LEGS";
         }
     }
 }
