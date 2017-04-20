@@ -67,10 +67,14 @@ public class FireTrap : MonoBehaviour {
     List<IDamageable> _objectsInTrap = new List<IDamageable>();
     private Damager damager=new Damager();
 
+
+    VFXFireEffect _fireEffect;
+
     void Awake() {
         _door1 = gameObject.FindInChildren("Door1").transform;
         _door2 = gameObject.FindInChildren("Door2").transform;
         _grate = gameObject.FindInChildren("Grate").transform;
+        _fireEffect = GetComponentInChildren<VFXFireEffect>();
         damager.Set(_damagePerSecond, DamagerType.FireTrap, Vector3.up);
         //_damageVolume = GetComponent<Collider>();
 
@@ -99,6 +103,8 @@ public class FireTrap : MonoBehaviour {
                 else {
                     _t = _openTime;
                     _currentState = State.Open;
+
+                    if (_fireEffect != null) _fireEffect.Play();
 
                     if (_mode == Mode.ContinuousOpenClose)
                         _stateTimer = _stayOpenTime;
@@ -129,8 +135,9 @@ public class FireTrap : MonoBehaviour {
         }
     }
 
-    private void OnCollisionEnter(Collision collision) {
-        var damageable = collision.gameObject.GetComponent<IDamageable>();
+    //private void OnCollisionEnter(Collision collision) {
+    void OnTriggerEnter (Collider other) {
+        var damageable = other.gameObject.GetComponent<IDamageable>();
         if (damageable == null) return;
 
         if (!_objectsInTrap.Contains (damageable)) {
@@ -139,8 +146,8 @@ public class FireTrap : MonoBehaviour {
         }
     }
 
-    private void OnCollisionExit(Collision collision) {
-        var damageable = collision.gameObject.GetComponent<IDamageable>();
+    private void OnTriggerExit(Collider other) {
+        var damageable = other.gameObject.GetComponent<IDamageable>();
         if (damageable == null) return;
 
         if (_objectsInTrap.Contains(damageable)) {
@@ -187,7 +194,7 @@ public class FireTrap : MonoBehaviour {
 
     public void Close() {
         if (_currentState == State.Closed) return;
-
+        if (_fireEffect != null) _fireEffect.Stop();
         _currentState = State.Closing;
     }
 
@@ -202,6 +209,7 @@ public class FireTrap : MonoBehaviour {
     void DoDamage() {        
         foreach (var obj in _objectsInTrap) {
             obj.TakeDamage(damager);
+            Debug.Log ("damage " + obj.ToString());
         }
     }
 }

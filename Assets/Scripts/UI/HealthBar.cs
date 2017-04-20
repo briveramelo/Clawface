@@ -13,6 +13,13 @@ public class HealthBar : Singleton<HealthBar> {
     private Transform mask, bar;
     #endregion
 
+    #region Unity Lifecycle
+    protected override void Awake() {
+        shouldRegister=false;
+        base.Awake();
+    }
+    #endregion
+
     #region Public Interface
     public void SetHealth(float health)
     {
@@ -24,10 +31,5 @@ public class HealthBar : Singleton<HealthBar> {
 
     #region Protected Interface
     protected HealthBar() { }
-
-    protected override void Awake()
-    {
-        base.Awake();
-    }
     #endregion
 }

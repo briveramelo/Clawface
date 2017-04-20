@@ -13,6 +13,9 @@ public class CameraTrackEditor : Editor {
 
     const float _MINI_BUTTON_WIDTH = 20f;
 
+    const string _EDITOR_VAR_POSITIONS_EXPANDED_PATH = "EVAR_CAMTRACKEDITOR_POSITIONSEXPANDED";
+    const string _EDITOR_VAR_EVENTS_EXPANDED_PATH = "EVAR_CAMTRACKEDITOR_EVENTSEXPANDED";
+
     #endregion
     #region Vars
 
@@ -62,6 +65,11 @@ public class CameraTrackEditor : Editor {
         _eventsProp = _serializedTarget.FindProperty("_events");
 
         _target.CheckPositionNames();
+
+        _positionsExpanded = EditorPrefs.HasKey (_EDITOR_VAR_POSITIONS_EXPANDED_PATH) ? 
+            EditorPrefs.GetBool (_EDITOR_VAR_POSITIONS_EXPANDED_PATH) : false;
+        _eventsExpanded = EditorPrefs.HasKey (_EDITOR_VAR_EVENTS_EXPANDED_PATH) ?
+            EditorPrefs.GetBool (_EDITOR_VAR_EVENTS_EXPANDED_PATH) : false;
     }
 
     public override void OnInspectorGUI() {
@@ -125,7 +133,9 @@ public class CameraTrackEditor : Editor {
         EditorGUILayout.Space();
         EditorGUILayout.BeginVertical(EditorStyles.helpBox);
         EditorGUI.indentLevel++;
+        var oldPosExpanded = _positionsExpanded;
         _positionsExpanded = EditorGUILayout.Foldout(_positionsExpanded, "Positions", true, EditorStyles.toolbarDropDown);
+        if (_positionsExpanded != oldPosExpanded) EditorPrefs.SetBool (_EDITOR_VAR_POSITIONS_EXPANDED_PATH, _positionsExpanded);
         if (_positionsExpanded) {
 
             EditorGUILayout.BeginVertical(EditorStyles.helpBox);
@@ -147,7 +157,7 @@ public class CameraTrackEditor : Editor {
 
                     // Draw control buttons
                     GUILayout.BeginHorizontal(GUILayout.MinHeight(height), GUILayout.ExpandHeight(true), GUILayout.ExpandWidth(false));
-                    GUILayout.Label(i.ToString(), GUILayout.MaxWidth(32f));
+                    GUILayout.Label(i.ToString(), EditorStyles.boldLabel, GUILayout.MaxWidth(32f));
 
                     if (GUILayout.Button(_AddPositionButtonContent, GUILayout.Width(_MINI_BUTTON_WIDTH))) _target.AddPositionAfterIndex(index);
                     if (GUILayout.Button(_DeletePositionButtonContent, GUILayout.Width(_MINI_BUTTON_WIDTH))) {
@@ -172,7 +182,6 @@ public class CameraTrackEditor : Editor {
             EditorGUILayout.Space();
             if (GUILayout.Button("Add new position")) _target.AddPosition();
             EditorGUILayout.EndVertical();
-            EditorGUILayout.Space();
 
             
 
@@ -184,7 +193,9 @@ public class CameraTrackEditor : Editor {
         // Draw events
         EditorGUILayout.BeginVertical(EditorStyles.helpBox);
         EditorGUI.indentLevel++;
+        var oldEventsExpanded = _eventsExpanded;
         _eventsExpanded = EditorGUILayout.Foldout(_eventsExpanded, "Events", true, EditorStyles.toolbarDropDown);
+        if (_eventsExpanded != oldEventsExpanded) EditorPrefs.SetBool (_EDITOR_VAR_EVENTS_EXPANDED_PATH, _eventsExpanded);
         if (_eventsExpanded) {
             for (int i = 0; i < _eventsProp.arraySize; i++) {
                 EditorGUILayout.BeginHorizontal(EditorStyles.helpBox);

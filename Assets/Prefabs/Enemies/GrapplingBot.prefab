@@ -363,7 +363,6 @@ MonoBehaviour:
   growRate: 10
   shrinkRate: 10
   maxLength: 3
-  rotateSpeed: 500
   pullForce: 5
 --- !u!114 &114362621536635694
 MonoBehaviour:
@@ -432,11 +431,13 @@ MonoBehaviour:
   attack: 3
   defense: 1
   health: 4
+  maxHealth: 0
   moveSpeed: 0.6
   rangedAccuracy: 400
   shotSpeed: 0
   shotPushForce: 0
   skinnableHealth: 0
+  exp: 5
 --- !u!114 &114793595781494364
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -478,6 +479,8 @@ MonoBehaviour:
       timeToHitStop: 0.07
     timeCharged: 0
     isCoolingDown: 0
+    isActive: 0
+    hasStartedCharging: 0
   hook: {fileID: 114263965654539232}
   jumpForce: 30
   jumpForceMultiplier: 2

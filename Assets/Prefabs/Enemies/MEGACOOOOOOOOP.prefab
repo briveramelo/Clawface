@@ -1216,6 +1216,7 @@ MonoBehaviour:
   mySkin: {fileID: 1558599077418482, guid: d3ea349167ea0b042acea2cceeb31643, type: 2}
   copUICanvas: {fileID: 0}
   mod: {fileID: 114982806279320056}
+  bloodEmissionLocation: {fileID: 0}
 --- !u!114 &114415375127894608
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1257,8 +1258,13 @@ MonoBehaviour:
   attack: 0
   defense: 0
   health: 0
+  maxHealth: 0
   moveSpeed: 0
   rangedAccuracy: 0
+  shotSpeed: 0
+  shotPushForce: 0
+  skinnableHealth: 0
+  exp: 5000
 --- !u!114 &114982806279320056
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1271,13 +1277,41 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hasState: 0
+  vfxModChargePrefab: {fileID: 0}
   pickupCollider: {fileID: 65116208745554860}
   modCanvas: {fileID: 0}
-  attackCollider: {fileID: 136840465921444948}
-  batonTip: {fileID: 0}
+  energySettings:
+    timeToChargeArm: 0
+    timeToChargeLeg: 0
+    standardArmAttackSettings:
+      timeToCoolDown: 0
+      timeToAttack: 0
+      attack: 0
+      timeToHitStop: 0
+    chargedArmAttackSettings:
+      timeToCoolDown: 0
+      timeToAttack: 0
+      attack: 0
+      timeToHitStop: 0
+    standardLegAttackSettings:
+      timeToCoolDown: 0
+      timeToAttack: 0
+      attack: 0
+      timeToHitStop: 0
+    chargedLegAttackSettings:
+      timeToCoolDown: 0
+      timeToAttack: 0
+      attack: 0
+      timeToHitStop: 0
+    timeCharged: 0
+    isCoolingDown: 0
+    isActive: 0
+    hasStartedCharging: 0
   impactEffect: {fileID: 0}
-  rigbod: {fileID: 0}
-  attackBoostValue: 1.15
+  capsuleBounds:
+    start: {fileID: 0}
+    end: {fileID: 0}
+    radius: 0
 --- !u!135 &135559231117264428
 SphereCollider:
   m_ObjectHideFlags: 1

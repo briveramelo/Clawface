@@ -34,6 +34,8 @@ public class CameraTrack : MonoBehaviour {
     float _t = 0f;
     float _progress = 0f;
 
+    int _lastReachedPosition = -1;
+
     bool _playing = false;
 
     [SerializeField]
@@ -58,6 +60,10 @@ public class CameraTrack : MonoBehaviour {
             _progress = Mathf.Clamp(_speed.Evaluate(_t), 0f, _positions.Count - 1);
 
             int backPos = Mathf.FloorToInt(_progress);
+            if (backPos > _lastReachedPosition) {
+                _lastReachedPosition = backPos;
+                _positions[_lastReachedPosition].onReachPosition.Invoke();
+            }
             int forwardPos = Mathf.CeilToInt(_progress);
             var position = Vector3.Lerp(_positions[backPos].transform.position, _positions[forwardPos].transform.position, _progress - backPos);
             var rotation = Quaternion.Lerp(_positions[backPos].transform.rotation, _positions[forwardPos].transform.rotation, _progress - backPos);
@@ -281,6 +287,7 @@ public class CameraTrack : MonoBehaviour {
     public class PositionInfo {
         public Transform transform;
         public float fov = 60f;
+        public UnityEvent onReachPosition = new UnityEvent();
 
         public void SetName (string n) {
             transform.gameObject.name = n;

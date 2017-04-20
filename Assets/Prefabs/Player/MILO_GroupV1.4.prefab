@@ -343,14 +343,16 @@ GameObject:
   - component: {fileID: 114262679976600040}
   - component: {fileID: 114511205613729550}
   - component: {fileID: 114274055915119208}
-  - component: {fileID: 114669996070473884}
   - component: {fileID: 114219942142771250}
   - component: {fileID: 114757405180030592}
+  - component: {fileID: 114669996070473884}
+  - component: {fileID: 114418838666246668}
   - component: {fileID: 114596854088733754}
   - component: {fileID: 114802490439380712}
   - component: {fileID: 114312393174095174}
   - component: {fileID: 114437370391544734}
   - component: {fileID: 114911006479525106}
+  - component: {fileID: 114479749974163238}
   m_Layer: 8
   m_Name: Player_Combat
   m_TagString: Player
@@ -895,7 +897,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1131712323251080}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.27406555, z: -0.034835756}
+  m_LocalPosition: {x: 0, y: 0.249, z: -0.035}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4372796885086008}
@@ -908,7 +910,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1173179429265638}
   m_LocalRotation: {x: 0.36188334, y: 0.4698932, z: -0.16906492, w: 0.7871835}
-  m_LocalPosition: {x: 4.8, y: 29.3, z: 89.3}
+  m_LocalPosition: {x: -22.46, y: 27.149998, z: -11.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4267299147697722}
@@ -2115,12 +2117,15 @@ MonoBehaviour:
     state: {fileID: 114437370391544734}
   - modType: 7
     state: {fileID: 114911006479525106}
+  - modType: 4
+    state: {fileID: 114418838666246668}
   holdAttackSlowDown: 3
   dashPower: 100
   dashDecay: 0.25
   dashTime: 1
   dashIFrameStart: 0.25
   dashIFrameEnd: 0.75
+  dashState: {fileID: 114479749974163238}
 --- !u!114 &114262679976600040
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2200,6 +2205,28 @@ MonoBehaviour:
   _startUV: -1
   _endUV: 1
   _effectSpeed: 5
+--- !u!114 &114418838666246668
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1459183804676488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34a7310c2cba5fa49950c335dcab2914, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  totalAttackPoses: 10
+  highlightPoses: 0400000009000000
+  specialAttackPose: 0
+  coolDownFrameCount: 20
+  inputCheckFrameCount: 15
+  isBlockingState: 0
+  attackForwadDisplacement: 1
+  vfxMeleeSwing:
+  - {fileID: 114329415609671058}
+  - {fileID: 114852742521727666}
+  lookSensitivity: 0.04
 --- !u!114 &114437370391544734
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2218,6 +2245,27 @@ MonoBehaviour:
   inputCheckFrameCount: 0
   isBlockingState: 0
   vfx: {fileID: 114329415609671058}
+--- !u!114 &114479749974163238
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1459183804676488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b51a99eff3f55f544885bdbf9e16daac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  totalAttackPoses: 10
+  highlightPoses: 02000000
+  specialAttackPose: 0
+  coolDownFrameCount: 0
+  inputCheckFrameCount: 0
+  isBlockingState: 1
+  totalDashFrames: 30
+  iFrameStart: 10
+  iFrameEnd: 20
+  dashDistance: 100
 --- !u!114 &114511205613729550
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2434,6 +2482,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   foot: {fileID: 4059810595044070}
   rigbod: {fileID: 54119545732022108}
+  isGrounded: 0
 --- !u!114 &114852742521727666
 MonoBehaviour:
   m_ObjectHideFlags: 1
