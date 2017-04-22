@@ -53,6 +53,7 @@ GameObject:
   - component: {fileID: 114523460135072850}
   - component: {fileID: 114354809456206988}
   - component: {fileID: 114690565361989230}
+  - component: {fileID: 114213571736797354}
   m_Layer: 8
   m_Name: Player_Combat
   m_TagString: Player
@@ -2607,6 +2608,28 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114213571736797354
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1023188269503380}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34a7310c2cba5fa49950c335dcab2914, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  totalAttackPoses: 10
+  highlightPoses: 0400000009000000
+  specialAttackPose: 0
+  coolDownFrameCount: 20
+  inputCheckFrameCount: 15
+  isBlockingState: 0
+  attackForwadDisplacement: 1
+  vfxMeleeSwing:
+  - {fileID: 114490995272954892}
+  - {fileID: 114667530398561874}
+  lookSensitivity: 0.04
 --- !u!114 &114237573507162854
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2830,6 +2853,8 @@ MonoBehaviour:
     state: {fileID: 114523460135072850}
   - modType: 7
     state: {fileID: 114354809456206988}
+  - modType: 4
+    state: {fileID: 114213571736797354}
   holdAttackSlowDown: 3
   dashPower: 100
   dashDecay: 0.25
@@ -2947,11 +2972,13 @@ MonoBehaviour:
   attack: 5
   defense: 5
   health: 50
+  maxHealth: 0
   moveSpeed: 340
   rangedAccuracy: 1
   shotSpeed: 18
   shotPushForce: 8
   skinnableHealth: 1e+21
+  exp: 0
 --- !u!114 &114750513312717682
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3041,6 +3068,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   foot: {fileID: 4790418606983650}
   rigbod: {fileID: 54685033312392808}
+  isGrounded: 0
 --- !u!114 &114880246909824428
 MonoBehaviour:
   m_ObjectHideFlags: 1
