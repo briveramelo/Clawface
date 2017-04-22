@@ -52,34 +52,43 @@ public class StunBatonAttackState : IPlayerState {
     {
         if (!stateVariables.stateFinished)
         {
-            
-            if (frameCount == 0)
+            if (stateVariables.currentMod.getModSpot() == ModSpot.Legs)
             {
-                ChangePose();
+                //((BatonMod)stateVariables.currentMod).footPosition = stateVariables.foot.position;
+                stateVariables.currentMod.Activate();
+                stateVariables.stateFinished = true;
             }
-            if (weHaveHitHighlightPose)
+            else
             {
-                frameCount++;
-            }
-            if (frameCount > coolDownFrameCount)
-            {
-                if (frameCount < coolDownFrameCount + inputCheckFrameCount)
+                if (frameCount == 0)
                 {
-                    if (isAttackRequested)
+                    ChangePose();
+                }
+                if (weHaveHitHighlightPose)
+                {
+                    frameCount++;
+                }
+                if (frameCount > coolDownFrameCount)
+                {
+                    if (frameCount < coolDownFrameCount + inputCheckFrameCount)
                     {
-                        frameCount = 0;
-                        weHaveHitHighlightPose = false;
+                        if (isAttackRequested)
+                        {
+                            frameCount = 0;
+                            weHaveHitHighlightPose = false;
+                        }
+                    }
+                    else
+                    {
+                        ResetState();
                     }
                 }
                 else
                 {
-                    ResetState();
+                    isAttackRequested = false;
                 }
-            }else
-            {
-                isAttackRequested = false;
             }
-        }
+        }        
     }
     #endregion
 

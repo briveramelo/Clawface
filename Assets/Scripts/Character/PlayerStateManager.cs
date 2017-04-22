@@ -89,13 +89,6 @@ public class PlayerStateManager : MonoBehaviour {
             }
         } else if (InputManager.Instance.QueryAction(Strings.Input.Actions.DODGE, ButtonMode.DOWN) && canDash && stateVariables.stateFinished) // do dodge / dash
         {
-            /*ResetState();
-            Vector2 dir = InputManager.Instance.QueryAxes(Strings.Input.Axes.MOVEMENT);
-            Vector3 force = Camera.main.transform.TransformDirection(new Vector3(dir.x, 0, dir.y));
-            force.y = 0;
-            force.Normalize();
-            stateVariables.velBody.AddDecayingForce(dashPower * force, dashDecay);
-            StartCoroutine(DashController());*/
             SwitchState(dashState);
         }            
         playerStates.ForEach(state=>state.StateUpdate());

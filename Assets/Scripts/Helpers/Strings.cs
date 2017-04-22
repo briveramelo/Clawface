@@ -13,6 +13,11 @@
         public static string PROJECTILE = "Projectile";
     }
 
+    public static class Layers
+    {
+        public static string GROUND = "Ground";
+    }
+
     public static class MenuStrings
     {
         public static string MAIN = "MainMenu";

@@ -13389,17 +13389,10 @@ Prefab:
       propertyPath: m_Name
       value: BatonMod (1)
       objectReference: {fileID: 0}
-    - target: {fileID: 4227551320145856, guid: 95484218d20932749ab939ddc150315f, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4227551320145856, guid: 95484218d20932749ab939ddc150315f, type: 2}
-      propertyPath: m_LocalScale.y
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4227551320145856, guid: 95484218d20932749ab939ddc150315f, type: 2}
-      propertyPath: m_LocalScale.z
-      value: 4
+    - target: {fileID: 114335544474941894, guid: 95484218d20932749ab939ddc150315f,
+        type: 2}
+      propertyPath: slamPush
+      value: 100
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 95484218d20932749ab939ddc150315f, type: 2}
@@ -18193,18 +18186,6 @@ Prefab:
     - target: {fileID: 1125338617720806, guid: 95484218d20932749ab939ddc150315f, type: 2}
       propertyPath: m_Name
       value: BatonMod (2)
-      objectReference: {fileID: 0}
-    - target: {fileID: 4227551320145856, guid: 95484218d20932749ab939ddc150315f, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4227551320145856, guid: 95484218d20932749ab939ddc150315f, type: 2}
-      propertyPath: m_LocalScale.y
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4227551320145856, guid: 95484218d20932749ab939ddc150315f, type: 2}
-      propertyPath: m_LocalScale.z
-      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 95484218d20932749ab939ddc150315f, type: 2}
@@ -40239,23 +40220,6 @@ Prefab:
       propertyPath: m_Name
       value: MallCop (3)
       objectReference: {fileID: 0}
-    - target: {fileID: 114216556463902696, guid: b0927e1a44bf75241b97accd5b98cf23,
-        type: 2}
-      propertyPath: health
-      value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 4450835766107874, guid: b0927e1a44bf75241b97accd5b98cf23, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4450835766107874, guid: b0927e1a44bf75241b97accd5b98cf23, type: 2}
-      propertyPath: m_LocalScale.y
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4450835766107874, guid: b0927e1a44bf75241b97accd5b98cf23, type: 2}
-      propertyPath: m_LocalScale.z
-      value: 5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b0927e1a44bf75241b97accd5b98cf23, type: 2}
   m_IsPrefabParent: 0
@@ -41479,6 +41443,11 @@ Prefab:
     - target: {fileID: 4287202648313988, guid: fa35ad097c0cfd24f93f9e850c3b9675, type: 2}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 54685033312392808, guid: fa35ad097c0cfd24f93f9e850c3b9675,
+        type: 2}
+      propertyPath: m_CollisionDetection
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: fa35ad097c0cfd24f93f9e850c3b9675, type: 2}
