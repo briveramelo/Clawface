@@ -172,6 +172,13 @@ namespace ModMan {
         public static Vector2 AsVector2(this float inputAngle){
 			return new Vector2(Mathf.Cos (Mathf.Deg2Rad * inputAngle),Mathf.Sin (Mathf.Deg2Rad * inputAngle));
 		}
+        public static bool IsAboutEqual(this Vector3 thisVector, Vector3 otherVector, float tolerance=0.02f) {
+            float xDif = Mathf.Abs(thisVector.x - otherVector.x);
+            float yDif = Mathf.Abs(thisVector.y - otherVector.y);
+            float zDif = Mathf.Abs(thisVector.z - otherVector.z);
+            float total = xDif + yDif + zDif;
+            return total<tolerance;
+        }
     }
 
     public static class DictionaryExtensions {

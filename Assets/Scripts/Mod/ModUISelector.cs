@@ -12,21 +12,16 @@ public class ModUISelector : MonoBehaviour {
     [SerializeField] private GameObject modEquipCanvas;
     [SerializeField] private GameObject blasterIcon, boomerangeIcon, diceIcon, segwayIcon, geyserIcon, grapplerIcon, stunbatonIcon;
     [SerializeField] private ModInventory modInventory;
+    [SerializeField] private ModManager modManager;
     [SerializeField] private float minJoystickSelectionThreshold;
 
-    private List<string> equipCommands = new List<string>() {
-        Strings.Input.Actions.EQUIP_ARM_RIGHT,
-        Strings.Input.Actions.EQUIP_LEGS,
-        Strings.Input.Actions.EQUIP_ARM_LEFT,
-    };
-    private List<string> buttonCommands = new List<string>() {
-        Strings.Input.Actions.EQUIP_ARM_RIGHT,
-        Strings.Input.Actions.EQUIP_LEGS,
-        Strings.Input.Actions.EQUIP_ARM_LEFT,
-    };
-    private List<ModUIElement> modUIElements;
-    private ModType selectedModType;
-    private List<ModUIElement> modUIBulgeList=new List<ModUIElement>();
+    private Dictionary<ModSpot, string> equipCommands = new Dictionary<ModSpot, string>() {
+        {ModSpot.ArmR, Strings.Input.Actions.EQUIP_ARM_RIGHT },
+        {ModSpot.Legs, Strings.Input.Actions.EQUIP_LEGS },
+        {ModSpot.ArmL, Strings.Input.Actions.EQUIP_ARM_LEFT },
+    };    
+    private List<ModUIElement> modUIElements;    
+    private List<ModUIElement> notSelectedList=new List<ModUIElement>();
 
     private void Awake() {
         modUIElements=new List<ModUIElement>() {
@@ -51,68 +46,80 @@ public class ModUISelector : MonoBehaviour {
 	}    
 
     private void CheckToEquipMod() {
-        equipCommands.ForEach(command=> {
-            if (InputManager.Instance.QueryAction(command, ButtonMode.DOWN)) {
+        foreach (KeyValuePair<ModSpot, string> spotCommands in equipCommands) {
+            if (InputManager.Instance.QueryAction(spotCommands.Value, ButtonMode.DOWN)) {
                 OnDown();
-                return;
+                break;
             }
-            if (InputManager.Instance.QueryAction(command, ButtonMode.HELD)) {
+            if (InputManager.Instance.QueryAction(spotCommands.Value, ButtonMode.HELD)) {
                 OnHeld();
-                return;
+                break;
             }
-            if (InputManager.Instance.QueryAction(command, ButtonMode.UP)) {
-                OnUp();
-                return;
+            if (InputManager.Instance.QueryAction(spotCommands.Value, ButtonMode.UP)) {
+                OnUp(spotCommands.Key);
+                break;
             }
-        });
+        }        
     }
 
     private void OnDown() {
+        modUIElements.ForEach(modUIElement => {
+            modUIElement.Close();
+        });
+        HitstopManager.Instance.LerpToTimeScale(0.1f, 0.05f);
         modEquipCanvas.SetActive(true);
     }
 
     private void OnHeld() {
         Vector2 selectAxis = InputManager.Instance.QueryAxes(Strings.Input.Axes.LOOK);
         if (selectAxis.magnitude > minJoystickSelectionThreshold) {
-            float selectionAngle = selectAxis.As360Angle();
-            if (!modUIElements.Any(modElm=>modElm.isSelected)) {
-                modUIElements.ForEach(modElm=>modElm.SetIsSelected(selectionAngle));
-            }
-            ModUIElement selectedUIElement = modUIElements.Find(modElm=>modElm.isSelected);
-            selectedModType = selectedUIElement.modType;
-            if(selectedUIElement.canBulge) {
-                selectedUIElement.InitializeBulge();
-                modUIBulgeList.Clear();
-                modUIBulgeList.Add(selectedUIElement);
-                List<ModUIElement> modElms = modUIElements.Except(modUIBulgeList).ToList();
-                modElms.ForEach(modElm=> {
-                    if (modElm.canShrink) {
-                        Debug.Log(modElm.modType + " can shrink");
-                        modElm.InitializeShrink();
-                    }
-                });
-            }                                                   
+            SelectMod(selectAxis.As360Angle());            
+            DeselectMods(ref notSelectedList);
+        }
+        else {
+            if (notSelectedList.Count > 0) {
+                DeselectMods(ref notSelectedList);            
+            }      
         }
     }
 
-    private void OnUp() {
+    private void OnUp(ModSpot spot) {
+        if (modUIElements.Exists(elm=> elm.isSelected)) {
+            modManager.EquipMod(spot, modUIElements.Find(elm => elm.isSelected).modType);
+        }
+
         modUIElements.ForEach(modUIElement=> {
             modUIElement.Close();
         });
+        HitstopManager.Instance.LerpToTimeScale(1f, 0.15f);
         modEquipCanvas.SetActive(false);
     }
 
-    private void HandleUIScaling(ref ModUIElement modUIElement, float selectionAngle) {                        
-        if (modUIElement.canBulge) {
-            modUIElement.InitializeBulge();
-        }            
-        else if (modUIElement.canShrink){
-            modUIElement.InitializeShrink();
-        }                    
+    private void SelectMod(float selectionAngle) {        
+        ModUIElement selectedUIElement = null;
+        foreach (ModUIElement modElm in modUIElements) {
+            if (modElm.uiElement.activeSelf) {
+                modElm.SetIsSelected(selectionAngle);
+                if (modElm.isSelected) {
+                    selectedUIElement = modElm;                    
+                    break;
+                }
+            }
+        }           
+        if(selectedUIElement.canBulge) {
+            selectedUIElement.InitializeBulge();
+            notSelectedList.Clear();
+            notSelectedList.Add(selectedUIElement);
+            notSelectedList = modUIElements.Except(notSelectedList).ToList();
+        }
     }
 
-    public ModType GetSelectedMod() {
-        return selectedModType;
+    private void DeselectMods(ref List<ModUIElement> modUIElementsToDeselect) {
+        modUIElementsToDeselect.ForEach(modElm=> {
+            if (!modElm.isShrinking && !modElm.isAtStartScale) {
+                modElm.InitializeShrink();
+            }
+        });
     }
 
     public void UpdateUI() {        
@@ -126,6 +133,7 @@ public class ModUISelector : MonoBehaviour {
         });
     }
 
+    #region Private Structures
     private class ModUIElement {
         public GameObject uiElement;
         public ModType modType;
@@ -134,11 +142,12 @@ public class ModUISelector : MonoBehaviour {
         public Vector2 myPosition;
         public bool isBulging;
         private bool wasSelected;
-        public bool canBulge { get { return !isBulging && !wasSelected && isSelected;} }
+        public bool canBulge { get { return !isBulging && isSelected && !wasSelected; } }
         public bool canShrink { get { return !isShrinking && !isSelected && wasSelected;} }
         public bool isShrinking;
         public bool isRescaling { get {return isBulging || isShrinking; } }
         public bool isSelected;
+        public bool isAtStartScale { get { return uiElement.transform.localScale.IsAboutEqual(startScale); } }
 
         private const float modUIRadius = 200f;
         private string coroutineString;
@@ -154,10 +163,8 @@ public class ModUISelector : MonoBehaviour {
             float window = (360/numMods);
             range.Min = window*(myIndex - 0.5f);
             range.Max = window*(myIndex + 0.5f);
-            Debug.Log(modType + " " + range.Min + " " + range.Max + " " + range.Middle);
             myAngle = range.Middle;
             myPosition = myAngle.AsVector2();
-            //Debug.Log(modType + " " + myAngle + " " + myPosition);
             uiElement.SetActive(true);            
             uiElement.transform.localPosition = myPosition * modUIRadius;
             coroutineString = modType + "modUI";
@@ -169,13 +176,14 @@ public class ModUISelector : MonoBehaviour {
 
         public void Close() {
             isSelected=false;
+            Timing.KillCoroutines(coroutineString);
             uiElement.transform.localScale = startScale;
         }
 
         private IEnumerator<float> InternalUpdate() {
             while(true) {
-                wasSelected=isSelected;
                 yield return 0f;
+                wasSelected=isSelected;
             }
         }
 
@@ -191,10 +199,11 @@ public class ModUISelector : MonoBehaviour {
             isBulging=true;
             yield return Timing.WaitUntilDone(Timing.RunCoroutine(LerpToScale(maxScale, 0.3f), coroutineString));
             yield return Timing.WaitUntilDone(Timing.RunCoroutine(LerpToScale(endScale, 0.2f), coroutineString));
-            isBulging =false;
+            isBulging =false;            
         }
 
         public void InitializeShrink() {
+            isSelected = false;
             Timing.KillCoroutines(coroutineString);
             Timing.RunCoroutine(LerpToScale(startScale, 0.2f));
         }
@@ -210,7 +219,8 @@ public class ModUISelector : MonoBehaviour {
                 distance = Vector3.Distance(uiElement.transform.localScale, targetScale);
                 uiElement.transform.localScale = Vector3.Lerp(uiElement.transform.localScale, targetScale, lerpFraction);
                 yield return 0f;
-            }            
+            }
+            uiElement.transform.localScale = targetScale;
         }
     }
 
@@ -229,9 +239,9 @@ public class ModUISelector : MonoBehaviour {
         }
         public bool IsInRange(float angle) {
             if (min<max) {
-                return angle<max && angle>=min;
+                return angle<=max && angle>=min;
             }
-            return angle<=max && angle>min;
+            return angle<=max || angle>=min;
         }
 
 
@@ -256,4 +266,5 @@ public class ModUISelector : MonoBehaviour {
             return value;
         }
     }
+    #endregion
 }

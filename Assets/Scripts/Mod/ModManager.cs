@@ -93,11 +93,18 @@ public class ModManager : MonoBehaviour
     {
         return modSocketDictionary;
     }
+
+    public void EquipMod(ModSpot spot, ModType type) {
+        Mod modToEquip = modInventory.GetMod(type, spot);
+        if (modToEquip!=null) {
+            Attach(spot, modToEquip);
+        }
+    }
     #endregion
 
     #region Private Methods
     private void CheckToCollectMod() {        
-        Physics.OverlapSphere(transform.position, 2.25f).ToList().ForEach(other => {
+        Physics.OverlapSphere(transform.position, 1.25f).ToList().ForEach(other => {
             if (other.tag == Strings.Tags.MOD){                        
                 if (!IsHoldingMod(other.transform)) {
                     Mod mod = other.GetComponent<Mod>();                    
@@ -107,12 +114,12 @@ public class ModManager : MonoBehaviour
                             modUISelector.UpdateUI();
                             foreach(KeyValuePair<ModSpot, ModSocket> modSpotSocket in modSocketDictionary) {
                                 if (modSpotSocket.Value.mod==null){
-                                    Destroy(other.gameObject);
                                     mod = modInventory.GetMod(mod.getModType(), modSpotSocket.Key);
                                     Attach(modSpotSocket.Key, mod);
                                     break;
                                 }
                             }                                                                     
+                            Destroy(other.gameObject);
                         }
                     }
                 }
@@ -234,7 +241,7 @@ public class ModManager : MonoBehaviour
     }
 
     private void Attach(ModSpot spot, Mod mod, bool isSwapping = false){
-       
+        mod.gameObject.SetActive(true);
         if (modSocketDictionary[spot].mod != null && !isSwapping){
             Detach(spot);
         }
@@ -271,7 +278,8 @@ public class ModManager : MonoBehaviour
                 ModUIManager.Instance.DetachMod(spot);
                 AnalyticsManager.Instance.DropMod();
             }
-            modSocketDictionary[spot].mod.transform.SetParent(null);
+            modSocketDictionary[spot].mod.transform.SetParent(modInventory.GetModParent(modSocketDictionary[spot].mod.getModType()));
+            modSocketDictionary[spot].mod.gameObject.SetActive(false);
             modSocketDictionary[spot].mod.DetachAffect();
             modSocketDictionary[spot].mod = null;
         }

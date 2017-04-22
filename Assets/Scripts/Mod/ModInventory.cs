@@ -9,19 +9,19 @@ using System.Linq;
 public class ModInventory : MonoBehaviour {
 
     [SerializeField] private GameObject baton, blaster, boomerang, dice, geyser, grappler, segway; 
-    private Dictionary<ModType, InventoryItem> modInventory;
+    private Dictionary<ModType, ModInventoryPack> modInventory;
 
 
 	// Use this for initialization
 	void Awake () {
-		modInventory = new Dictionary<ModType, InventoryItem>() {
-            {ModType.ArmBlaster, new InventoryItem(transform, blaster) },
-            {ModType.Boomerang, new InventoryItem(transform, boomerang) },
-            {ModType.Dice, new InventoryItem(transform, dice) },
-            {ModType.ForceSegway, new InventoryItem(transform, segway) },
-            {ModType.Geyser, new InventoryItem(transform, geyser) },
-            {ModType.Grappler, new InventoryItem(transform, grappler) },
-            {ModType.StunBaton, new InventoryItem(transform, baton) },            
+		modInventory = new Dictionary<ModType, ModInventoryPack>() {
+            {ModType.ArmBlaster, new ModInventoryPack(transform, blaster) },
+            {ModType.Boomerang, new ModInventoryPack(transform, boomerang) },
+            {ModType.Dice, new ModInventoryPack(transform, dice) },
+            {ModType.ForceSegway, new ModInventoryPack(transform, segway) },
+            {ModType.Geyser, new ModInventoryPack(transform, geyser) },
+            {ModType.Grappler, new ModInventoryPack(transform, grappler) },
+            {ModType.StunBaton, new ModInventoryPack(transform, baton) },            
         };
 	}
 
@@ -44,13 +44,14 @@ public class ModInventory : MonoBehaviour {
 
     List<ModType> availableMods=new List<ModType>();
     public List<ModType> GetAvailableModTypes() {
-        //availableMods.Clear();
-        //foreach (KeyValuePair<ModType, InventoryItem> mod in modInventory) {
-        //    if (mod.Value.isCollected) {
-        //        availableMods.Add(mod.Key);
-        //    }
-        //}
         return availableMods;
+    }
+
+    public Transform GetModParent(ModType modType) {
+        if (modInventory.ContainsKey(modType)) {
+            return modInventory[modType].parent;
+        }
+        return null;
     }
 
     public Mod GetMod(ModType modType, ModSpot modSpot) {
@@ -74,13 +75,13 @@ public class ModInventory : MonoBehaviour {
         return false;
     }
 
-    class InventoryItem {
+    class ModInventoryPack {
         public Transform parent;
         public GameObject modPrefab;
-        public Dictionary<ModSpot, ModSocket> modSockets;
+        public Dictionary<ModSpot, ModContainer> modContainers;
         public bool isCollected;
 
-        public InventoryItem(Transform parent, GameObject modPrefab) {
+        public ModInventoryPack(Transform parent, GameObject modPrefab) {
             this.parent = parent;
             this.modPrefab=modPrefab;
             Initialize();
@@ -91,33 +92,33 @@ public class ModInventory : MonoBehaviour {
             GameObject baby = new GameObject(modPrefab.name);
             baby.transform.SetParent(parent);
             Transform babyTran =baby.transform;
-            modSockets=new Dictionary<ModSpot, ModSocket>() {
-                {ModSpot.ArmL, new ModSocket(Instantiate(modPrefab, babyTran)) },
-                {ModSpot.ArmR, new ModSocket(Instantiate(modPrefab, babyTran)) },
-                {ModSpot.Legs, new ModSocket(Instantiate(modPrefab, babyTran)) },
+            modContainers=new Dictionary<ModSpot, ModContainer>() {
+                {ModSpot.ArmL, new ModContainer(Instantiate(modPrefab, babyTran)) },
+                {ModSpot.ArmR, new ModContainer(Instantiate(modPrefab, babyTran)) },
+                {ModSpot.Legs, new ModContainer(Instantiate(modPrefab, babyTran)) },
             };
-            modSockets.ForEach((key, value)=>value.modObject.SetActive(false));
+            modContainers.ForEach((key, value)=>value.modObject.SetActive(false));
         }
 
         public Mod GetMod(ModSpot modSpot) {            
-            if (!modSockets[modSpot].isEquipped) {
-                modSockets[modSpot].modObject.SetActive(true);
-                return modSockets[modSpot].mod;
+            if (!modContainers[modSpot].isEquipped) {
+                modContainers[modSpot].modObject.SetActive(true);
+                return modContainers[modSpot].mod;
             }
             return null;
         }
 
         public void HideMod(ModSpot modSpot) {
-            modSockets[modSpot].modObject.SetActive(true);
+            modContainers[modSpot].modObject.SetActive(true);
         }
     }
 
-    private class ModSocket {
+    private class ModContainer {
         public GameObject modObject;
         public Mod mod;
         public bool isEquipped { get{ return modObject.activeSelf;} }
 
-        public ModSocket(GameObject modObject) {
+        public ModContainer(GameObject modObject) {
             this.modObject=modObject;
             mod=modObject.GetComponent<Mod>();
         }
