@@ -7,22 +7,22 @@ public class ServiceWrangler : Singleton<ServiceWrangler> {
 
     protected ServiceWrangler() { }
     
-    [SerializeField] private GameObject sfxManager, objectPool, inputManager, hitstopManager,
-            playerTeleporter, pauser, analyticsManager, damageFXManager, menuManager;
+
+    [SerializeField] private GameObject sfxManager, objectPool, inputManager, hitstopManager, playerTeleporter, pauser, analyticsManager, damageFXManager, upgradeManager;
     private static Dictionary<string, PrefabBool> singletonPrefabRegistry;
 
     protected override void Awake() {
         singletonPrefabRegistry = new Dictionary<string, PrefabBool>()
         {
-            { typeof(SFXManager).ToString(),            new PrefabBool(ref sfxManager) },
+            { typeof(SFXManager).ToString(),          new PrefabBool(ref sfxManager) },
             { typeof(ObjectPool).ToString(),            new PrefabBool(ref objectPool) },
             { typeof(InputManager).ToString(),          new PrefabBool(ref inputManager) },
             { typeof(HitstopManager).ToString(),        new PrefabBool(ref hitstopManager) },
             { typeof(DEBUG_PlayerTeleporter).ToString(),new PrefabBool(ref playerTeleporter) },
             { typeof(Pauser).ToString(),                new PrefabBool(ref pauser) },
             { typeof(AnalyticsManager).ToString(),      new PrefabBool(ref analyticsManager) },
-            { typeof(DamageFXManager).ToString(),       new PrefabBool(ref damageFXManager) },
-            { typeof(MenuManager).ToString(),           new PrefabBool(ref menuManager) }
+            { typeof(DamageFXManager).ToString(),      new PrefabBool(ref damageFXManager) },
+            { typeof(UpgradeManager).ToString(),       new PrefabBool(ref upgradeManager) }
         };
         base.Awake();
     }

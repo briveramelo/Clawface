@@ -14,19 +14,27 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     #region Serialized Unity Inspector fields
     [SerializeField] private DamageUI damageUI;
     [SerializeField] private CameraLock cameraLock;
+    [SerializeField] private SkinningState skinningState;
     #endregion
 
     #region Private Fields
     [SerializeField] private Stats stats;
     float startHealth;
+    float healthAtLastSkin;
+    float lastSkinHealthBoost;
     #endregion
 
     #region Unity Lifecycle
     // Use this for initialization
-    void Start () {
-        startHealth = stats.GetStat(StatType.Health);
+    void Start()
+    {
+        stats.SetMaxHealth(UpgradeManager.Instance.GetHealthLevel());
+        startHealth = stats.GetStat(StatType.MaxHealth);
         AnalyticsManager.Instance.SetPlayerStats(this.stats);
-}
+        UpgradeManager.Instance.SetPlayerStats(this.stats);
+        UpgradeManager.Instance.SetPlayerStatsManager(this);
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -46,6 +54,11 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
             cameraLock.Shake(.4f);
             float shakeIntensity = 1f - healthFraction;
             InputManager.Instance.Vibrate(VibrationTargets.BOTH, shakeIntensity);
+
+            if (stats.health < healthAtLastSkin-lastSkinHealthBoost) {
+                skinningState.RemoveSkin();
+            }
+
             if (stats.GetStat(StatType.Health) <= 0)
             {
                 Revive();
@@ -53,7 +66,17 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
         }
     }
 
+    public void UpdateMaxHealth()
+    {
+        float healthFraction = stats.GetHealthFraction();
+        HealthBar.Instance.SetHealth(healthFraction);
+    }
 
+    public void TakeSkin(int skinHealth) {
+        stats.Add(StatType.Health, skinHealth);
+        healthAtLastSkin = stats.health;
+        lastSkinHealthBoost=skinHealth;
+    }
 
     public float GetStat(StatType type)
     {
@@ -76,7 +99,7 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     private void Revive() {
         transform.position = GameObject.Find("RespawnPoint").transform.position;
         stats.Add(StatType.Health, (int)startHealth);
-        startHealth = stats.GetStat(StatType.Health);
+        startHealth = stats.GetStat(StatType.MaxHealth);
         HealthBar.Instance.SetHealth(stats.GetHealthFraction());
         AnalyticsManager.Instance.PlayerDeath();
     }
