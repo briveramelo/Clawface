@@ -137,6 +137,8 @@ public class MainMenu : Menu
     public void ShowCredits()
     {
         creditsCanvasGameObject.SetActive(true);
+        //turn off event system
+        EventSystem.current.GetComponent<StandaloneInputModule>().DeactivateModule();
         StartCoroutine(MenuTransitionsCommon.FadeCoroutine(0.0f, 1.0f, 1.0f, creditsCanvasGroup, HideSelf));
     }
 
@@ -144,6 +146,8 @@ public class MainMenu : Menu
     {
         EventSystem.current.SetSelectedGameObject(creditsDefaultSelected);
         gameObject.SetActive(false);
+        //turn on event system
+        EventSystem.current.GetComponent<StandaloneInputModule>().ActivateModule();
     }
     
 }

@@ -129,19 +129,23 @@ public class MenuManager : Singleton<MenuManager> {
             case Menu.Transition.NONE:
             case Menu.Transition.HIDE:
                 bundle.menu.canvasGroup.blocksRaycasts = false;
+                bundle.menu.canvasGroup.interactable = false;
                 break;
             case Menu.Transition.SHOW:
                 bundle.menu.canvasGroup.blocksRaycasts = true;
+                bundle.menu.canvasGroup.interactable = true;
                 menuStack.Push(bundle.menu);
                 break;
             case Menu.Transition.TOGGLE:
                 if (!bundle.menu.Displayed)
                 {
                     bundle.menu.canvasGroup.blocksRaycasts = true;
+                    bundle.menu.canvasGroup.interactable = true;
                     menuStack.Push(bundle.menu);
                 } else
                 {
                     bundle.menu.canvasGroup.blocksRaycasts = false;
+                    bundle.menu.canvasGroup.interactable = false;
                 }
                 break;
         }

@@ -46,7 +46,13 @@ public class PauseMenu : Menu {
         if (canPause && InputManager.Instance.QueryAction(Strings.Input.Actions.PAUSE,
             ButtonMode.DOWN))
         {
-            MenuManager.Instance.DoTransition(this, Transition.TOGGLE, new Effect[] {});
+            if (!paused)
+            {
+                MenuManager.Instance.DoTransition(this, Transition.TOGGLE, new Effect[] { });
+            } else
+            {
+                MenuManager.Instance.ClearMenus();
+            }
         }
     }
     #endregion
@@ -59,8 +65,8 @@ public class PauseMenu : Menu {
         switch (transition)
         {
             case Transition.SHOW:
+                if (displayed) return;
                 TogglePaused();
-                canvasGroup.blocksRaycasts = true;
                 MenuManager.Instance.DoTransitionOthers(this, Transition.HIDE,
                     new Effect[] { Effect.FADE });
                 OnTransitionStarted(transition, effects);
@@ -68,7 +74,7 @@ public class PauseMenu : Menu {
                     canvasGroup, ShowComplete));
                 break;
             case Transition.HIDE:
-                canvasGroup.blocksRaycasts = false;
+                if (!displayed) return;
                 OnTransitionStarted(transition, effects);
                 StartCoroutine(MenuTransitionsCommon.FadeCoroutine(1.0F, 0.0F, 1.0F,
                     canvasGroup, HideComplete));
@@ -93,6 +99,7 @@ public class PauseMenu : Menu {
         Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
         LoadMenu loadMenu = (LoadMenu)menu;
         loadMenu.TargetScene = "Scenes/MainMenu";
+        loadMenu.Fast = true;
         MenuManager.Instance.DoTransition(loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
     }
     #endregion

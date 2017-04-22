@@ -5,19 +5,12 @@
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public class HealthBar : Singleton<HealthBar> {
+public class HealthBar : MonoBehaviour {
     
 
     #region Unity Inspector Fields
     [SerializeField]
     private Transform mask, bar;
-    #endregion
-
-    #region Unity Lifecycle
-    protected override void Awake() {
-        shouldRegister=false;
-        base.Awake();
-    }
     #endregion
 
     #region Public Interface

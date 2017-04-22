@@ -54,6 +54,8 @@ public class CreditsMenu : Menu
 
     public void FireBack()
     {
+        //turn off event system
+        EventSystem.current.GetComponent<StandaloneInputModule>().DeactivateModule();
         StartCoroutine(MenuTransitionsCommon.FadeCoroutine(1.0f, 0.0f, 1.0f, canvasGroup, ShowMain));
     }
 
@@ -62,5 +64,7 @@ public class CreditsMenu : Menu
         mainMenuCanvasGameObject.SetActive(true);
         StartCoroutine(MenuTransitionsCommon.FadeCoroutine(0.0f, 1.0f, 1.0f, mainMenuCanvasGroup, null));
         mainDefaultSelected.Select();
+        //turn on event system
+        EventSystem.current.GetComponent<StandaloneInputModule>().ActivateModule();
     }
 }
