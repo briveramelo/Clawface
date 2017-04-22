@@ -102,7 +102,8 @@ public enum PoolObjectType {
     GrapplingBot=11,
     GeyserProjectile = 12,
     DiceBlock=13,
-    GeyserShield = 14
+    GeyserShield = 14,
+    BoomerangProjectile = 15
 }
 
 public enum MovementMode

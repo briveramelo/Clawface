@@ -19,6 +19,10 @@ public class BoomerangMod : Mod {
     [SerializeField] private float chargedScale;    
     [SerializeField] private float maxRotationRate;
     [SerializeField] private float minRotationRate;
+    [SerializeField]
+    private int chargeFeetBoomerangCount;
+    [SerializeField]
+    private float chargeFeetDelayBetweenBoomerangs;
     #endregion
 
     #region Private Fields
@@ -30,16 +34,20 @@ public class BoomerangMod : Mod {
     private float majorAxisRadius;
     private Vector3 initialScale;
     private Vector3 pickUpScale;
+    private GameObject boomerangProjectile;
+    private List<GameObject> boomerangProjectiles;
     #endregion
 
     #region Unity Lifecycle
+
     // Use this for initialization
     void Start () {
         type = ModType.Boomerang;
         category = ModCategory.Ranged;
         damageCollider.enabled = false;
         enemyDistance = Mathf.Infinity;
-        initialScale = transform.localScale;        
+        initialScale = transform.localScale;
+        boomerangProjectiles = new List<GameObject>();
     }
 	
 	// Update is called once per frame
@@ -77,17 +85,6 @@ public class BoomerangMod : Mod {
     {
         base.Activate(onCompleteCoolDown, onActivate);
     }
-    float startTime;
-    protected override void BeginChargingArms(){ }
-    protected override void RunChargingArms(){ GrowSize(); }
-    protected override void ActivateStandardArms(){ ReleaseBoomerang(); }
-    protected override void ActivateChargedArms(){ ReleaseBoomerang(); }
-
-    protected override void BeginChargingLegs(){ }
-    protected override void RunChargingLegs(){ }
-    protected override void ActivateChargedLegs(){ }
-    protected override void ActivateStandardLegs(){ }
-
 
     public override void AttachAffect(ref Stats wielderStats, IMovable wielderMovable){                
         base.AttachAffect(ref wielderStats, wielderMovable);
@@ -118,7 +115,79 @@ public class BoomerangMod : Mod {
     }
     #endregion
 
-    #region Private Methods    
+    #region Private Methods  
+    protected override void BeginChargingArms() { }
+    protected override void RunChargingArms() { GrowSize(); }
+    protected override void ActivateStandardArms() { ReleaseBoomerang(); }
+    protected override void ActivateChargedArms() { ReleaseBoomerang(); }
+
+    protected override void BeginChargingLegs() { }
+    protected override void RunChargingLegs() { }
+    protected override void ActivateChargedLegs() {
+        FireFromDick(true);
+    }
+    protected override void ActivateStandardLegs() {
+        FireFromDick();
+    }
+
+    private void FireFromDick(bool charge = false)
+    {
+        if (charge)
+        {
+            if (NoActiveProjectiles())
+            {
+                boomerangProjectiles.Clear();
+                StartCoroutine(SpawnTheHorde());
+            }
+        }else
+        {
+            if (boomerangProjectile == null || !boomerangProjectile.activeSelf)
+            {
+                boomerangProjectile = FireBoomerang();
+            }
+        }
+    }
+
+    private IEnumerator SpawnTheHorde()
+    {
+        int count = 0;
+        while (count < chargeFeetBoomerangCount)
+        {
+            GameObject projectile = FireBoomerang(true);
+            if (projectile)
+            {
+                boomerangProjectiles.Add(projectile);
+            }
+            count++;
+            print("spawn " + count);
+            yield return new WaitForSeconds(chargeFeetDelayBetweenBoomerangs);
+        }
+        yield return null;
+    }
+
+    private bool NoActiveProjectiles()
+    {
+        foreach(GameObject projectile in boomerangProjectiles)
+        {
+            if (projectile.activeSelf)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private GameObject FireBoomerang(bool charge = false)
+    {
+        GameObject projectile = ObjectPool.Instance.GetObject(PoolObjectType.BoomerangProjectile);
+        if (projectile)
+        {
+            transform.rotation = Quaternion.identity;
+            projectile.GetComponent<BoomerangProjectile>().Go(wielderStats, wielderStats.gameObject.GetInstanceID(), transform, charge);
+        }
+        return projectile;
+    }
+
     private void GrowSize() {
         transform.localScale = pickUpScale * (1+ (chargedScale-1.8f) * energySettings.chargeFraction);
     }
