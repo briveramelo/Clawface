@@ -15,6 +15,8 @@ public class BatonMod : Mod {
 
     [SerializeField] private VFXStunBatonImpact impactEffect;
     [SerializeField] private CapsuleBounds capsuleBounds;
+    [SerializeField]
+    private float jumpForce;
 
     private ProjectileProperties projectileProperties = new ProjectileProperties();
 
@@ -43,8 +45,8 @@ public class BatonMod : Mod {
 
     protected override void BeginChargingLegs(){ }
     protected override void RunChargingLegs(){ }
-    protected override void ActivateChargedLegs(){ LayMine(); }
-    protected override void ActivateStandardLegs(){ LayMine(); }
+    protected override void ActivateChargedLegs(){ Jump(); }
+    protected override void ActivateStandardLegs(){ Jump(); }
 
     IEnumerator<float> Swing(){
         SFXManager.Instance.Play(SFXType.StunBatonSwing, transform.position);
@@ -89,19 +91,14 @@ public class BatonMod : Mod {
         }
     }
 
+    private void Jump()
+    {
+        wielderMovable.AddDecayingForce(Vector3.up * jumpForce);
+    }
+
     private List<Collider> GetOverlap(){ 
         int layerMask =LayerMasker.GetLayerMask(LayerMasker.Damageable);
         return Physics.OverlapCapsule(capsuleBounds.Start, capsuleBounds.End, capsuleBounds.radius, layerMask).ToList();
-    }
-
-    void LayMine(){
-        GameObject stunMine = ObjectPool.Instance.GetObject(PoolObjectType.Mine);
-        if (stunMine != null){
-            //SFXManager.Instance.Play(SFXType.StunBatonLayMine);
-            projectileProperties.Initialize(GetWielderInstanceID(), Attack);
-            stunMine.GetComponent<StunMine>().SetProjectileProperties(projectileProperties);
-            stunMine.transform.position = transform.position;
-        }
     }
 
     public override void AttachAffect(ref Stats wielderStats, IMovable wielderMovable){
