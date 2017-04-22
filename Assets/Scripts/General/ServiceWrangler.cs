@@ -6,9 +6,11 @@ using UnityEngine;
 public class ServiceWrangler : Singleton<ServiceWrangler> {
 
     protected ServiceWrangler() { }
-    
 
-    [SerializeField] private GameObject sfxManager, objectPool, inputManager, hitstopManager, playerTeleporter, pauser, analyticsManager, damageFXManager, upgradeManager;
+
+    [SerializeField]
+    private GameObject sfxManager, objectPool, inputManager, hitstopManager, playerTeleporter, 
+         analyticsManager, damageFXManager, upgradeManager, menuManager;
     private static Dictionary<string, PrefabBool> singletonPrefabRegistry;
 
     protected override void Awake() {
@@ -19,7 +21,7 @@ public class ServiceWrangler : Singleton<ServiceWrangler> {
             { typeof(InputManager).ToString(),          new PrefabBool(ref inputManager) },
             { typeof(HitstopManager).ToString(),        new PrefabBool(ref hitstopManager) },
             { typeof(DEBUG_PlayerTeleporter).ToString(),new PrefabBool(ref playerTeleporter) },
-            { typeof(Pauser).ToString(),                new PrefabBool(ref pauser) },
+            { typeof(MenuManager).ToString(),                new PrefabBool(ref menuManager) },
             { typeof(AnalyticsManager).ToString(),      new PrefabBool(ref analyticsManager) },
             { typeof(DamageFXManager).ToString(),      new PrefabBool(ref damageFXManager) },
             { typeof(UpgradeManager).ToString(),       new PrefabBool(ref upgradeManager) }
