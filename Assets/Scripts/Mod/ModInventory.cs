@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿//BRANDON RIVERA-MELO
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using ModMan;
@@ -42,12 +44,12 @@ public class ModInventory : MonoBehaviour {
 
     List<ModType> availableMods=new List<ModType>();
     public List<ModType> GetAvailableModTypes() {
-        availableMods.Clear();
-        foreach (KeyValuePair<ModType, InventoryItem> mod in modInventory) {
-            if (mod.Value.isCollected) {
-                availableMods.Add(mod.Key);
-            }
-        }
+        //availableMods.Clear();
+        //foreach (KeyValuePair<ModType, InventoryItem> mod in modInventory) {
+        //    if (mod.Value.isCollected) {
+        //        availableMods.Add(mod.Key);
+        //    }
+        //}
         return availableMods;
     }
 
@@ -61,7 +63,15 @@ public class ModInventory : MonoBehaviour {
     public void CollectMod(ModType modType) {
         if (modInventory.ContainsKey(modType) && !modInventory[modType].isCollected) {            
             modInventory[modType].isCollected = true;
+            availableMods.Add(modType);
         }
+    }
+
+    public bool IsModCollected(ModType modType) {
+        if (modInventory.ContainsKey(modType)) {
+            return modInventory[modType].isCollected;
+        }
+        return false;
     }
 
     class InventoryItem {

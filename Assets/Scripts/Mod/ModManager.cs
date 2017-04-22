@@ -102,16 +102,18 @@ public class ModManager : MonoBehaviour
                 if (!IsHoldingMod(other.transform)) {
                     Mod mod = other.GetComponent<Mod>();                    
                     if (mod!=null) {
-                        modInventory.CollectMod(mod.getModType());
-                        modUISelector.UpdateUI();
-                        modSocketDictionary.ForEach((modSpot, modSocket)=> {
-                            if (modSocket.mod==null){
-                                Destroy(other.gameObject);
-                                mod = modInventory.GetMod(mod.getModType(), modSpot);
-                                Attach(modSpot, mod);
-                                return;
-                            }
-                        });                                            
+                        if(!modInventory.IsModCollected(mod.getModType())) {
+                            modInventory.CollectMod(mod.getModType());
+                            modUISelector.UpdateUI();
+                            foreach(KeyValuePair<ModSpot, ModSocket> modSpotSocket in modSocketDictionary) {
+                                if (modSpotSocket.Value.mod==null){
+                                    Destroy(other.gameObject);
+                                    mod = modInventory.GetMod(mod.getModType(), modSpotSocket.Key);
+                                    Attach(modSpotSocket.Key, mod);
+                                    break;
+                                }
+                            }                                                                     
+                        }
                     }
                 }
             }

@@ -166,7 +166,8 @@ namespace ModMan {
 
     public static class Vector2Extensions {
         public static float As360Angle(this Vector2 inputVector){
-			return Mathf.Atan2 (inputVector.y, inputVector.x) * Mathf.Rad2Deg;
+            float start = Mathf.Atan2 (inputVector.y, inputVector.x);
+            return (start > 0 ? start : (2*Mathf.PI + start)) * 360 / (2*Mathf.PI);
 		}
         public static Vector2 AsVector2(this float inputAngle){
 			return new Vector2(Mathf.Cos (Mathf.Deg2Rad * inputAngle),Mathf.Sin (Mathf.Deg2Rad * inputAngle));
