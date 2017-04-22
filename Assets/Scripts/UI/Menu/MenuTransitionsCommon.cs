@@ -19,9 +19,6 @@ public class MenuTransitionsCommon {
         float elapsedTime = 0.0F;
         while (elapsedTime < duration)
         {
-            ////Debug.Log("a: " + startAlpha);
-            //startAlpha = Mathf.Lerp(startAlpha, endAlpha, .1f);
-            //canvas.alpha = startAlpha;
             canvas.alpha = Mathf.Lerp(startAlpha, endAlpha, elapsedTime / duration);
             yield return new WaitForEndOfFrame();
             elapsedTime += Time.deltaTime;

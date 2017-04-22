@@ -85,6 +85,21 @@ public class MainMenu : Menu
         }
     }
 
+    public void PlayUIEnter()
+    {
+        SFXManager.Instance.Play(SFXType.UI_Hover, gameObject.transform.position);
+    }
+
+    public void PlayUIConfirm()
+    {
+        SFXManager.Instance.Play(SFXType.UI_Click, gameObject.transform.position);
+    }
+
+    public void PlayUIBack()
+    {
+        SFXManager.Instance.Play(SFXType.UI_Back, gameObject.transform.position);
+
+    }
     public void StartGame()
     {
         //fade out self
