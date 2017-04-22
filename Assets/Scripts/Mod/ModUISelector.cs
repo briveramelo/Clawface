@@ -36,37 +36,33 @@ public class ModUISelector : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update () {
-        if (Time.timeScale!=0) {
-            CheckToEquipMod();
-            if (Input.GetKeyDown(KeyCode.Keypad1)) {
-                UpdateUI();
-            }
-        }
+    void Update () {        
+        CheckToEquipMod();                
 	}    
 
     private void CheckToEquipMod() {
-        foreach (KeyValuePair<ModSpot, string> spotCommands in equipCommands) {
+        foreach (KeyValuePair<ModSpot, string> spotCommands in equipCommands) {            
             if (InputManager.Instance.QueryAction(spotCommands.Value, ButtonMode.DOWN)) {
-                OnDown();
+                OnDown(spotCommands.Key);
                 break;
             }
             if (InputManager.Instance.QueryAction(spotCommands.Value, ButtonMode.HELD)) {
                 OnHeld();
                 break;
-            }
+            }                        
             if (InputManager.Instance.QueryAction(spotCommands.Value, ButtonMode.UP)) {
                 OnUp(spotCommands.Key);
                 break;
-            }
+            }            
         }        
     }
 
-    private void OnDown() {
+    private void OnDown(ModSpot spot) {
         modUIElements.ForEach(modUIElement => {
             modUIElement.Close();
-        });
-        HitstopManager.Instance.LerpToTimeScale(0.1f, 0.05f);
+        });        
+        HitstopManager.Instance.LerpToTimeScale(0.1f, 0.05f);        
+        ModUIManager.Instance.SetUIState(spot, ModUIState.ACTIVATED);
         modEquipCanvas.SetActive(true);
     }
 
@@ -91,7 +87,9 @@ public class ModUISelector : MonoBehaviour {
         modUIElements.ForEach(modUIElement=> {
             modUIElement.Close();
         });
-        HitstopManager.Instance.LerpToTimeScale(1f, 0.15f);
+        
+        HitstopManager.Instance.LerpToTimeScale(1f, 0.15f);        
+        ModUIManager.Instance.SetUIState(spot, ModUIState.IDLE);
         modEquipCanvas.SetActive(false);
     }
 
