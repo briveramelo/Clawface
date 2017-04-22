@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.Video;
+
 public class MainMenu : Menu
 {
 
@@ -34,28 +36,35 @@ public class MainMenu : Menu
     [SerializeField]
     Button startButton;
 
+    [SerializeField]
+    VideoPlayer projector;
+
+    [SerializeField]
+    VideoClip staticLoop;
+
     CanvasGroup fadeCanvasGroup;
+  
 
     #region Private Fields
     private bool displayed = false;
     #endregion
 
-    private void Update()
-    {
-        if (Input.anyKey && !menuShowing)
-        {
-            ShowMenu();
-        }
-    }
+
+    
     public MainMenu() : base(Strings.MenuStrings.MAIN)
     {
     }
 
+
+
     public void ShowMenu()
     {
-
-        menuShowing = true;
-        DoTransition(Transition.SHOW, new Effect[] { });
+        
+        if (!menuShowing)
+        {
+            DoTransition(Transition.SHOW, new Effect[] { });
+            menuShowing = true;
+        }
     }
 
     private void Awake()
@@ -64,10 +73,33 @@ public class MainMenu : Menu
         fadeCanvasGroup = fadeCanvasGameObject.GetComponent<CanvasGroup>();
     }
 
+
     private void Start()
     {
         creditsCanvasGameObject.SetActive(false);
+
+       
     }
+
+    private void Update()
+    {
+        if (Input.anyKey)
+        {
+            ShowMenu();
+        }
+    }
+
+
+    public void PlayMenuMusic()
+    {
+        MusicManager.Instance.PlayMusic(MusicType.MainMenu_Track, gameObject.transform.position);
+    }
+    
+    public void KillVideo()
+    {
+        projector.gameObject.SetActive(false);
+    }
+
 
     public override void DoTransition(Transition transition, Effect[] effects)
     {
@@ -79,7 +111,7 @@ public class MainMenu : Menu
                     () => { displayed = false; }));
                 break;
             case Transition.SHOW:
-                StartCoroutine(MenuTransitionsCommon.FadeCoroutine(0.0f, 1.0f, 1.0f, canvasGroup,
+                StartCoroutine(MenuTransitionsCommon.FadeCoroutine(0.0f, 1.0f, 2.0f, canvasGroup,
                     () => { displayed = true; startButton.Select(); }));
                 break;
         }
