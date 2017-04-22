@@ -5,7 +5,6 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.EventSystems;
 
 public class MenuTransitionsCommon {
 
@@ -19,12 +18,10 @@ public class MenuTransitionsCommon {
         {
             canvas.alpha = Mathf.Lerp(startAlpha, endAlpha, elapsedTime / duration);
             yield return new WaitForEndOfFrame();
-            elapsedTime += Time.deltaTime;
+            elapsedTime += Time.unscaledDeltaTime;
         }
      
-
         canvas.alpha = endAlpha;
-        
 
         if (callback != null)
         {

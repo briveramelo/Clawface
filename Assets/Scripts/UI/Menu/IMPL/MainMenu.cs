@@ -95,10 +95,6 @@ public class MainMenu : Menu
         MusicManager.Instance.PlayMusic(MusicType.MainMenu_Track, gameObject.transform.position);
     }
     
-    public void KillVideo()
-    {
-        projector.gameObject.SetActive(false);
-    }
 
 
     public override void DoTransition(Transition transition, Effect[] effects)
@@ -156,6 +152,10 @@ public class MainMenu : Menu
     }
     void LoadLevelOne()
     {
+        MusicManager.Instance.Stop(MusicType.MainMenu_Track);
+        Menu pMenu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.PAUSE);
+        PauseMenu pauseMenu = (PauseMenu)pMenu;
+        pauseMenu.CanPause = true;
         Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
         LoadMenu loadMenu = (LoadMenu) menu;
         loadMenu.TargetScene = "Scenes/Gucci_V1.1";
