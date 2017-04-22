@@ -88,7 +88,8 @@ public class BlasterMod : Mod {
 
     private BlasterBullet SpawnBullet()
     {
-        BlasterBullet blasterBullet = ObjectPool.Instance.GetObject(PoolObjectType.BlasterBullet).GetComponent<BlasterBullet>();
+        PoolObjectType poolObjType = IsCharged() ? PoolObjectType.BlasterBulletCharged : PoolObjectType.BlasterBullet;
+        BlasterBullet blasterBullet = ObjectPool.Instance.GetObject(poolObjType).GetComponent<BlasterBullet>();
         if (blasterBullet){
             blasterBullet.transform.position = bulletSpawnPoint.position;
             blasterBullet.transform.rotation = transform.rotation;

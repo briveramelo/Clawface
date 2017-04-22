@@ -101,7 +101,9 @@ public enum PoolObjectType {
     MallCopExplosion=10,
     GrapplingBot=11,
     GeyserProjectile = 12,
-    DiceBlock=13
+    DiceBlock=13,
+    BlasterBulletCharged=14,
+    VFXSegwayBlasterCharged = 15,
 }
 
 public enum MovementMode
