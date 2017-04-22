@@ -16,6 +16,11 @@ public class ModUISelector : MonoBehaviour {
         Strings.Input.Actions.EQUIP_LEGS,
         Strings.Input.Actions.EQUIP_ARM_LEFT,
     };
+    private List<string> buttonCommands = new List<string>() {
+        Strings.Input.Actions.EQUIP_ARM_RIGHT,
+        Strings.Input.Actions.EQUIP_LEGS,
+        Strings.Input.Actions.EQUIP_ARM_LEFT,
+    };
     private List<ModUIElement> modUIElements;
     private ModType selectedModType;
 
