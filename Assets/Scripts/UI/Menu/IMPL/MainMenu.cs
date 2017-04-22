@@ -109,6 +109,10 @@ public class MainMenu : Menu
     }
     void LoadLevelOne()
     {
+        Menu pMenu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.PAUSE);
+        PauseMenu pauseMenu = (PauseMenu)pMenu;
+        pauseMenu.CanPause = true;
+
         Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
         LoadMenu loadMenu = (LoadMenu) menu;
         loadMenu.TargetScene = "Scenes/Gucci_V1.1";
