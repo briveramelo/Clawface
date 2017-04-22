@@ -104,6 +104,9 @@ public enum PoolObjectType {
     DiceBlock=13,
     BlasterBulletCharged=14,
     VFXSegwayBlasterCharged = 15,
+    BlasterImpactEffectCharged = 16,
+    VFXBlasterShoot=17,
+    VFXBlasterShootCharged=18
 }
 
 public enum MovementMode
