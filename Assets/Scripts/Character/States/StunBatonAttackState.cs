@@ -40,8 +40,7 @@ public class StunBatonAttackState : IPlayerState {
     }
 
     public override void StateFixedUpdate()
-    {
-        CheckForRotationInput();
+    {        
         if (CanPounce())
         {
             stateVariables.velBody.velocity = stateVariables.playerTransform.forward * stateVariables.meleePounceVelocity * Time.fixedDeltaTime;
@@ -122,7 +121,7 @@ public class StunBatonAttackState : IPlayerState {
         currentAttackPose++;
         if(currentAttackPose == highlightPoses[highlightPoseIndex])
         {
-            stateVariables.playerTransform.position += stateVariables.playerTransform.forward * attackForwadDisplacement;
+            stateVariables.velBody.AddDecayingForce(stateVariables.playerTransform.forward * attackForwadDisplacement);
             highlightPoseIndex++;
             if(highlightPoseIndex == highlightPoses.Length)
             {
