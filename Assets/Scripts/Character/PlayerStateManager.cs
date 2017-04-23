@@ -142,8 +142,11 @@ public class PlayerStateManager : MonoBehaviour {
     #region Private Methods
     private void SwitchState(IPlayerState newState)
     {
-        stateVariables.velBody.velocity = Vector3.zero;
-        playerStates.Clear();
+        if (newState.IsBlockingState())
+        {
+            stateVariables.velBody.velocity = Vector3.zero;
+            playerStates.Clear();
+        }
         playerStates.Add(newState);
         stateVariables.stateFinished = false;
         stateChanged = true;
