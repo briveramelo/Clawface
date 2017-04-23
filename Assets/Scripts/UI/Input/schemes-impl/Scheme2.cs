@@ -32,7 +32,7 @@ public class Scheme2 : IControlScheme {
                     //    modes[i] = controllers[i].GetRightSecondary();
                     //    break;
                     case Strings.Input.Actions.PICKUP:
-                        modes[i] = controllers[i].GetAction3();
+                        modes[i] = controllers[i].GetAction4();
                         break;
                     case Strings.Input.Actions.LOCK:
                         modes[i] = controllers[i].GetRightSecondary();
@@ -51,18 +51,18 @@ public class Scheme2 : IControlScheme {
                     case Strings.Input.Actions.ACTION_SKIN:
                         modes[i] = controllers[i].GetAction4();
                         break;
-                    //case Strings.Input.Actions.NAV_UP:
-                    //    modes[i] = controllers[i].GetDPadUp();
-                    //    break;
-                    //case Strings.Input.Actions.NAV_DOWN:
-                    //    modes[i] = controllers[i].GetDPadDown();
-                    //    break;
-                    //case Strings.Input.Actions.NAV_LEFT:
-                    //    modes[i] = controllers[i].GetDPadLeft();
-                    //    break;
-                    //case Strings.Input.Actions.NAV_RIGHT:
-                    //    modes[i] = controllers[i].GetDPadRight();
-                    //    break;
+                    case Strings.Input.Actions.NAV_UP:
+                        modes[i] = controllers[i].GetDPadUp();
+                        break;
+                    case Strings.Input.Actions.NAV_DOWN:
+                        modes[i] = controllers[i].GetDPadDown();
+                        break;
+                    case Strings.Input.Actions.NAV_LEFT:
+                        modes[i] = controllers[i].GetDPadLeft();
+                        break;
+                    case Strings.Input.Actions.NAV_RIGHT:
+                        modes[i] = controllers[i].GetDPadRight();
+                        break;
                     case Strings.Input.Actions.EQUIP_ARM_RIGHT:
                         modes[i] = controllers[i].GetAction2();
                         break;
@@ -93,18 +93,14 @@ public class Scheme2 : IControlScheme {
                         if (controller.GetLeftSecondary(mode))
                             return true;
                         break;
-                //case Strings.Input.Actions.DROP_MODE:
-                //    if (controller.GetRightSecondary(mode))
-                //        return true;
-                //    break;
+                    //case Strings.Input.Actions.DROP_MODE:
+                    //    if (controller.GetRightSecondary(mode))
+                    //        return true;
+                    //    break;
                     case Strings.Input.Actions.PICKUP:
-                        if (controller.GetAction3(mode))
+                        if (controller.GetAction4(mode))
                             return true;
-                        break;
-                    case Strings.Input.Actions.LOCK:
-                        if (controller.GetRightSecondary(mode))
-                            return true;
-                        break;
+                        break;                    
                     case Strings.Input.Actions.ACTION_LEGS:
                         if (controller.GetAction1(mode))
                             return true;
@@ -123,18 +119,18 @@ public class Scheme2 : IControlScheme {
                         if (controller.GetAction4(mode))
                             return true;
                         break;
-                    //case Strings.Input.Actions.NAV_UP:
-                    //    if (controller.GetDPadUp(mode))
-                    //        return true;
-                    //    break;
-                    //case Strings.Input.Actions.NAV_DOWN:
-                    //    if (controller.GetDPadDown(mode))
-                    //        return true;
-                    //    break;
-                    //case Strings.Input.Actions.NAV_LEFT:
-                    //    if (controller.GetDPadLeft(mode))
-                    //        return true;
-                    //    break;
+                    case Strings.Input.Actions.NAV_UP:
+                        if (controller.GetDPadUp(mode))
+                            return true;
+                        break;
+                    case Strings.Input.Actions.NAV_DOWN:
+                        if (controller.GetDPadDown(mode))
+                            return true;
+                        break;
+                    case Strings.Input.Actions.NAV_LEFT:
+                        if (controller.GetDPadLeft(mode))
+                            return true;
+                        break;
                     case Strings.Input.Actions.NAV_RIGHT:
                         if (controller.GetDPadRight(mode))
                             return true;
@@ -143,10 +139,10 @@ public class Scheme2 : IControlScheme {
                         if (controller.GetRightTertiary(mode))
                             return true;
                         break;
-                    //case Strings.Input.Actions.LOCK:
-                    //    if (controller.GetRightPrimary(mode))
-                    //        return true;
-                    //    break;
+                    case Strings.Input.Actions.LOCK:
+                        if (controller.GetRightSecondary(mode))
+                            return true;
+                        break;
                     case Strings.Input.Actions.PAUSE:
                         if (controller.GetStart(mode))
                             return true;

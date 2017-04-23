@@ -81,10 +81,10 @@ public class ModUISelector : MonoBehaviour {
     List<ModSpot> allModSpots = new List<ModSpot>() { ModSpot.ArmL, ModSpot.ArmR, ModSpot.Legs};
 
     private void OnHeld() {
-        Vector2 selectAxis2 = InputManager.Instance.QueryAxes(Strings.Input.Axes.LOOK);
-        Vector2 selectAxis1 = InputManager.Instance.QueryAxes(Strings.Input.Axes.MOVEMENT);
+        Vector2 moveAxis = InputManager.Instance.QueryAxes(Strings.Input.Axes.MOVEMENT);
+        Vector2 lookAxis = InputManager.Instance.QueryAxes(Strings.Input.Axes.LOOK);
 
-        Vector2 selectAxis = selectAxis1;
+        Vector2 selectAxis = lookAxis;
         if (selectAxis.magnitude > minJoystickSelectionThreshold) {
             SelectMod(selectAxis.As360Angle());            
             DeselectMods(ref notSelectedList);
