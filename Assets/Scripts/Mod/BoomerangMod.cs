@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MovementEffects;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -37,10 +38,10 @@ public class BoomerangMod : Mod {
     private List<GameObject> boomerangProjectiles;
     private float angle;
     private float rotation;
-    private float rightHandStartAngle = 0f;
-    private float rightHandEndAngle = 300f;
-    private float leftHandStartAngle = 250f;
-    private float leftHandEndAngle = -30f;
+    private float rightHandStartAngle = -80f;
+    private float rightHandEndAngle = 250f;
+    private float leftHandStartAngle = 260f;
+    private float leftHandEndAngle = -80f;
     #endregion
 
     #region Unity Lifecycle
@@ -55,19 +56,25 @@ public class BoomerangMod : Mod {
         boomerangProjectiles = new List<GameObject>();
         majorAxisRadius = standardMaxDistance/2.0f;
     }
-	
-	// Update is called once per frame
-	protected override void Update () {
-        base.Update();
-        if (energySettings.isActive) {
+
+    private void FixedUpdate() {
+        if (energySettings.isActive)
+        {
             if (getModSpot() == ModSpot.ArmR)
             {
                 UpdateBoomerangPosition();
-            }else if (getModSpot() == ModSpot.ArmL)
+            }
+            else if (getModSpot() == ModSpot.ArmL)
             {
                 UpdateBoomerangPosition(true);
             }
         }
+    }
+
+    // Update is called once per frame
+    protected override void Update () {
+        base.Update();
+       
 	}    
 
     void OnTriggerEnter(Collider other)
@@ -88,13 +95,13 @@ public class BoomerangMod : Mod {
     public bool IsActive() { return energySettings.isActive; }
 
     public override void Activate(Action onCompleteCoolDown=null, Action onActivate=null)
-    {
+    {        
         base.Activate(onCompleteCoolDown, onActivate);
     }
 
     public override void AttachAffect(ref Stats wielderStats, IMovable wielderMovable){                
         base.AttachAffect(ref wielderStats, wielderMovable);
-        pickUpScale=transform.localScale;
+        pickUpScale = transform.localScale;
     }
 
     public override void DeActivate()
@@ -104,8 +111,8 @@ public class BoomerangMod : Mod {
         energySettings.isActive = false;
         damageCollider.enabled = false;        
         returning = false;
-        transform.localScale = initialScale;
         transform.parent = modSocket;
+        transform.localScale = pickUpScale;        
         transform.localPosition = Vector3.zero;
         initialPosition = Vector3.zero;        
         transform.forward = wielderMovable.GetForward();
@@ -145,7 +152,7 @@ public class BoomerangMod : Mod {
             if (NoActiveProjectiles())
             {
                 boomerangProjectiles.Clear();
-                StartCoroutine(SpawnTheHorde());
+                Timing.RunCoroutine(SpawnTheHorde(),Segment.FixedUpdate);
             }
         }else
         {
@@ -156,7 +163,7 @@ public class BoomerangMod : Mod {
         }
     }
 
-    private IEnumerator SpawnTheHorde()
+    private IEnumerator<float> SpawnTheHorde()
     {
         int count = 0;
         while (count < chargeFeetBoomerangCount)
@@ -167,10 +174,9 @@ public class BoomerangMod : Mod {
                 boomerangProjectiles.Add(projectile);
             }
             count++;
-            print("spawn " + count);
-            yield return new WaitForSeconds(chargeFeetDelayBetweenBoomerangs);
+            yield return Timing.WaitForSeconds(chargeFeetDelayBetweenBoomerangs);
         }
-        yield return null;
+        yield return 0f;
     }
 
     private bool NoActiveProjectiles()
@@ -197,7 +203,7 @@ public class BoomerangMod : Mod {
     }
 
     private void GrowSize() {
-        transform.localScale = pickUpScale * (1+ (chargedScale-1.8f) * energySettings.chargeFraction);
+        transform.localScale = pickUpScale * (1+ (chargedScale) * energySettings.chargeFraction);
     }
     private void ReleaseBoomerang(){
         energySettings.isActive = true;
@@ -205,10 +211,8 @@ public class BoomerangMod : Mod {
         initialPosition = transform.position;
         transform.rotation = Quaternion.identity;
         modSocket = transform.parent;
-        transform.parent.DetachChildren();
-        if (IsCharged()) {
-            transform.localScale = initialScale * chargedScale;
-        }
+        transform.SetParent(null);
+        
         TRMatrix = Matrix4x4.TRS(initialPosition, wielderMovable.GetRotation(), Vector3.one);
         transform.forward = wielderMovable.GetForward();
         if(getModSpot() == ModSpot.ArmL)

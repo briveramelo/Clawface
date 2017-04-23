@@ -1,5 +1,7 @@
-﻿using System;
+﻿using MovementEffects;
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GrapplerMod : Mod {
@@ -96,32 +98,32 @@ public class GrapplerMod : Mod {
     {
         if (!wielderMovable.IsGrounded() && !tornadoMode)
         {            
-            StartCoroutine(StartTornado());
+            Timing.RunCoroutine(StartTornado(),Segment.Update);
         }
     }
 
-    private IEnumerator StartTornado()
+    private IEnumerator<float> StartTornado()
     {
         tornadoMode = true;
         hook.ExtendHook();
         while (!wielderMovable.IsGrounded())
-        {
+        {            
             Vector3 forward = wielderMovable.GetForward();
             forward.y = 0f;
             transform.forward = forward;
-            angle += tornadoSpeed;
-            wielderStats.gameObject.transform.rotation = Quaternion.AngleAxis(angle, Vector3.up);
+            angle += tornadoSpeed;            
+            wielderStats.gameObject.transform.rotation = Quaternion.AngleAxis(angle, Vector3.up);            
             float force = isCharged ? chargedTornadoFallingForce : standardTornadoFallingForce;
             wielderMovable.AddDecayingForce(Vector3.up * force);
             DamageEnemies();
-            yield return null;
+            yield return 0;
         }
         angle = 0f;
         hook.RetractHook();
         transform.forward = Vector3.down;
         isCharged = false;
         tornadoMode = false;
-        yield return null;
+        yield return 0;
     }
 
     private void DamageEnemies()

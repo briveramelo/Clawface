@@ -14,6 +14,8 @@ public class ServiceWrangler : Singleton<ServiceWrangler> {
     private static Dictionary<string, PrefabBool> singletonPrefabRegistry;
 
     protected override void Awake() {
+        Application.targetFrameRate = 60;
+        
         singletonPrefabRegistry = new Dictionary<string, PrefabBool>()
         {
             { typeof(SFXManager).ToString(),          new PrefabBool(ref sfxManager) },

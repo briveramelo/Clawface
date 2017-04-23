@@ -11,6 +11,7 @@
         public static string UNTAGGED = "Untagged";
         public static string PLAYERDETECTOR = "PlayerDetector";
         public static string PROJECTILE = "Projectile";
+        public static string WALL = "Wall";
     }
 
     public static class Layers

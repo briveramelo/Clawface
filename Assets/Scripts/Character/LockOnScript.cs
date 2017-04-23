@@ -25,11 +25,6 @@ public class LockOnScript : MonoBehaviour {
     #endregion
 
     #region Unity Lifecycle
-    private void OnDrawGizmos() {
-        Gizmos.color = Color.red;
-        Gizmos.DrawRay(rayCastOrigin.position, raycastDirection);
-    }
-
     // Use this for initialization
     void Start () {                
         enemyMask = LayerMasker.GetLayerMask(Layers.Enemy);

@@ -90,6 +90,12 @@ public class PlayerStateManager : MonoBehaviour {
     {
         playerStates.ForEach(state=>state.StateFixedUpdate());
     }
+
+    private void OnCollisionEnter(Collision collision) {
+        if (collision.transform.gameObject.CompareTag(Strings.Tags.WALL)) {
+            stateVariables.velBody.velocity = Vector3.zero;
+        }
+    }
     #endregion
 
     #region Public Methods

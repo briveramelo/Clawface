@@ -83,7 +83,9 @@ namespace ModMan {
         }
         static IEnumerator<float> IEDeActivate(GameObject obj, float timeToDeactivate) {
             yield return Timing.WaitForSeconds(timeToDeactivate);
-            obj.SetActive(false);
+            if (obj!=null) {
+                obj.SetActive(false);
+            }
         }
         
         /// <summary>

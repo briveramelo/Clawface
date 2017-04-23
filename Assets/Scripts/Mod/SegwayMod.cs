@@ -75,15 +75,15 @@ public class SegwayMod : Mod {
     protected override void RunChargingLegs(){ }
     protected override void ActivateChargedLegs(){
         MegaForcePush();
-        if (wielderMovable.IsGrounded()) {
-            Jump();
-        }
+        //if (wielderMovable.IsGrounded()) {
+        //   Jump();
+        //}
     }
     protected override void ActivateStandardLegs(){
         ForcePush();
-        if (wielderMovable.IsGrounded()) {
-            Jump();
-        }
+        //if (wielderMovable.IsGrounded()) {
+        //    Jump();
+        //}
     }        
 
     public override void DeActivate()
