@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,17 +26,9 @@ public class PlayerStateManager : MonoBehaviour {
     [SerializeField]
     private float holdAttackSlowDown;
     [SerializeField]
-    private float dashPower = 100.0F;
+    private DashState dashState;
     [SerializeField]
-    private float dashDecay = 0.25F;
-    [SerializeField]
-    private float dashTime = 1.0F; // seconds
-    [SerializeField]
-    private float dashIFrameStart = 0.25F;
-    [SerializeField]
-    private float dashIFrameEnd = 0.75F;
-    [SerializeField]
-    private DashState dashState;    
+    private float dashCoolDown;
     #endregion
 
     #region Private Fields
@@ -82,28 +75,26 @@ public class PlayerStateManager : MonoBehaviour {
             stateVariables.currentEnemy = lockOnScript.GetCurrentEnemy();
         }
         if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_SKIN, ButtonMode.DOWN))
-        {
-            if (stateVariables.currentEnemy != null && stateVariables.currentEnemy.GetComponent<ISkinnable>().IsSkinnable())
-            {
-                SwitchState(skinningState);
-            }
+        {           
+            SwitchState(skinningState);
         } else if (InputManager.Instance.QueryAction(Strings.Input.Actions.DODGE, ButtonMode.DOWN) && canDash && stateVariables.stateFinished) // do dodge / dash
         {
-            /*ResetState();
-            Vector2 dir = InputManager.Instance.QueryAxes(Strings.Input.Axes.MOVEMENT);
-            Vector3 force = Camera.main.transform.TransformDirection(new Vector3(dir.x, 0, dir.y));
-            force.y = 0;
-            force.Normalize();
-            stateVariables.velBody.AddDecayingForce(dashPower * force, dashDecay);
-            StartCoroutine(DashController());*/
             SwitchState(dashState);
+            canDash = false;
+            StartCoroutine(WaitForDashCoolDown());
         }            
         playerStates.ForEach(state=>state.StateUpdate());
-    }
+    }    
 
     void FixedUpdate()
     {
         playerStates.ForEach(state=>state.StateFixedUpdate());
+    }
+
+    private void OnCollisionEnter(Collision collision) {
+        if (collision.transform.gameObject.CompareTag(Strings.Tags.WALL)) {
+            stateVariables.velBody.velocity = Vector3.zero;
+        }
     }
     #endregion
 
@@ -149,8 +140,11 @@ public class PlayerStateManager : MonoBehaviour {
     #region Private Methods
     private void SwitchState(IPlayerState newState)
     {
-        stateVariables.velBody.velocity = Vector3.zero;
-        playerStates.Clear();
+        if (newState.IsBlockingState())
+        {
+            stateVariables.velBody.velocity = Vector3.zero;
+            playerStates.Clear();
+        }
         playerStates.Add(newState);
         stateVariables.stateFinished = false;
         stateChanged = true;
@@ -164,14 +158,9 @@ public class PlayerStateManager : MonoBehaviour {
         stateChanged = false;
     }
 
-    private IEnumerator DashController()
+    private IEnumerator WaitForDashCoolDown()
     {
-        canDash = false;
-        yield return new WaitForSeconds(dashIFrameStart);
-        playerStatsManager.damageModifier = 0.0F;
-        yield return new WaitForSeconds(dashIFrameEnd - dashIFrameStart);
-        playerStatsManager.damageModifier = 1.0F;
-        yield return new WaitForSeconds(dashTime = dashIFrameEnd);
+        yield return new WaitForSeconds(dashCoolDown);
         canDash = true;
     }
     #endregion

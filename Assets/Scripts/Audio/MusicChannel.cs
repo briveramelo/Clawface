@@ -61,7 +61,7 @@ namespace Turing.Audio {
         IEnumerator MusicLoop() {
 
             while (true) {
-                Debug.Log ("loop");
+                //Debug.Log ("loop");
 
                 _audioSourceToPlay = 1 - _audioSourceToPlay;
                 var audioSource = _audioSources[_audioSourceToPlay];
@@ -79,7 +79,7 @@ namespace Turing.Audio {
 
                 _nextClip = _clips.GetRandom();
                 double dt = 60f / _bpm * _currentClip.Beats;
-                Debug.Log (dt);
+                //Debug.Log (dt);
                 var otherAudioSource = _audioSources[1-_audioSourceToPlay];
 
                 otherAudioSource.clip = _nextClip.Clip;

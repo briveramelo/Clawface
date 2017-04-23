@@ -156,7 +156,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1108482251936534}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.14, z: 3.13}
+  m_LocalPosition: {x: 0, y: 0.14, z: 4.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4659963037190060}
@@ -209,7 +209,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1316314029526810}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -8.4, y: 1.47, z: 13.315}
+  m_LocalPosition: {x: 1.98, y: 1.47, z: 16.31}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4170505518199076}
@@ -367,7 +367,7 @@ MonoBehaviour:
   capsuleBounds:
     start: {fileID: 4128817946837334}
     end: {fileID: 4108063479681664}
-    radius: 0.5
+    radius: 1
   speedBoostMultiplier: 0.05
   aoeRadius: 3
 --- !u!114 &114242993152467452
@@ -503,7 +503,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -2101380828
+  randomSeed: -1179905879
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -6286,10 +6286,10 @@ ParticleSystem:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  moveWithTransform: 1
+  moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 1332997816
+  randomSeed: -669320200
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -6409,7 +6409,7 @@ ParticleSystem:
         m_NumColorKeys: 2
         m_NumAlphaKeys: 2
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 1, b: 1, a: 0.24705882}
+      maxColor: {r: 1, g: 1, b: 1, a: 0.49803922}
     startSize:
       minMaxState: 3
       scalar: 1.5
@@ -6573,7 +6573,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 0
     randomizeRotationDirection: 0
-    maxNumParticles: 100
+    maxNumParticles: 59
     size3D: 0
     rotation3D: 0
     gravityModifier:
@@ -6625,7 +6625,7 @@ ParticleSystem:
     boxY: 0.3
     boxZ: 0.05
     radius:
-      value: 0.25
+      value: 0.1
       mode: 0
       spread: 0
       speed:
@@ -6727,7 +6727,7 @@ ParticleSystem:
     serializedVersion: 4
     rateOverTime:
       minMaxState: 0
-      scalar: 75
+      scalar: 50
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -6815,7 +6815,7 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 2
           time: 0
-          value: 0.40075684
+          value: 0.19851685
           inSlope: 0
           outSlope: 0
           tangentMode: 0
