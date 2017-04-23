@@ -238,11 +238,12 @@ MonoBehaviour:
   standardMaxDistance: 6
   ellipseHeightWidthRatio: 1.618
   damageCollider: {fileID: 135665361892582434}
-  maxMovementSpeed: 25
-  minMovementSpeed: 5
+  boomerangSpeed: 3
   chargedScale: 2.5
   maxRotationRate: 1200
   minRotationRate: 200
+  chargeFeetBoomerangCount: 3
+  chargeFeetDelayBetweenBoomerangs: 0.5
 --- !u!114 &114696090971045056
 MonoBehaviour:
   m_ObjectHideFlags: 1

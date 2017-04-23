@@ -28,6 +28,9 @@ public class DiceBlock : MonoBehaviour, IMovable {
     private Transform side6;
 
     [SerializeField]
+    private Transform vfxExplosion;
+
+    [SerializeField]
     private float oneMultiply;
 
     [SerializeField]
@@ -99,6 +102,7 @@ public class DiceBlock : MonoBehaviour, IMovable {
         {
             Gizmos.DrawWireSphere(this.transform.position, explosionRadius * GetMultiplierFromDiceSide());
         }
+        
     }
 
     // Update is called once per frame
@@ -199,6 +203,14 @@ public class DiceBlock : MonoBehaviour, IMovable {
         willExplode = false;
         this.gameObject.transform.localScale = new Vector3(startScale, startScale, startScale);
         this.gameObject.GetComponentInChildren<MeshRenderer>().enabled = true;
+        side1.gameObject.SetActive(true);
+        side2.gameObject.SetActive(true);
+        side3.gameObject.SetActive(true);
+        side4.gameObject.SetActive(true);
+        side5.gameObject.SetActive(true);
+        side6.gameObject.SetActive(true);
+        vfxExplosion.gameObject.SetActive(false);
+        vfxExplosion.localScale = new Vector3(1f, 1f, 1f);
 
     }
 
@@ -246,6 +258,14 @@ public class DiceBlock : MonoBehaviour, IMovable {
     {
         // Temp code for the sake of drawing explosions as gizmo wireframes
         this.gameObject.GetComponent<MeshRenderer>().enabled = false;
+        side1.gameObject.SetActive(false);
+        side2.gameObject.SetActive(false);
+        side3.gameObject.SetActive(false);
+        side4.gameObject.SetActive(false);
+        side5.gameObject.SetActive(false);
+        side6.gameObject.SetActive(false);
+        vfxExplosion.gameObject.SetActive(true);
+        vfxExplosion.localScale *= GetMultiplierFromDiceSide();
         isExploding = true;
         willExplode = false;
     }
@@ -287,7 +307,6 @@ public class DiceBlock : MonoBehaviour, IMovable {
                 damageable.TakeDamage(damager);
             }
         }
-
 
         StartExplosionEffect();
 

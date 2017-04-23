@@ -78,6 +78,7 @@ public class GrapplingBot : MonoBehaviour, IStunnable, IDamageable, ISpawnable {
                 will.onDeath();
             }
             will.deathDocumented = true;
+            UpgradeManager.Instance.AddEXP(Mathf.FloorToInt(myStats.exp));
             GameObject mallCopParts = ObjectPool.Instance.GetObject(PoolObjectType.MallCopExplosion);
             if (mallCopParts) {
                 mallCopParts.transform.position = transform.position + Vector3.up * 3f;

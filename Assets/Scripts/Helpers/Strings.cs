@@ -10,6 +10,21 @@
         public static string UNLOCKABLE = "Unlockable";
         public static string UNTAGGED = "Untagged";
         public static string PLAYERDETECTOR = "PlayerDetector";
+        public static string PROJECTILE = "Projectile";
+    }
+
+    public static class Layers
+    {
+        public static string GROUND = "Ground";
+    }
+
+    public static class MenuStrings
+    {
+        public static string MAIN = "MainMenu";
+        public static string CREDITS = "CreditsMenu";
+        public static string LOAD = "LoadMenu";
+        public static string LOGO = "LogoMenu";
+        public static string PAUSE = "PauseMenu";
     }
 
     public static class Input
