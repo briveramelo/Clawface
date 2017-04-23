@@ -6,12 +6,16 @@ using UnityEngine;
 public class ServiceWrangler : Singleton<ServiceWrangler> {
 
     protected ServiceWrangler() { }
-    
 
-    [SerializeField] private GameObject sfxManager, objectPool, inputManager, hitstopManager, playerTeleporter, pauser, analyticsManager, damageFXManager, upgradeManager;
+
+    [SerializeField]
+    private GameObject sfxManager, objectPool, inputManager, hitstopManager, playerTeleporter,
+         analyticsManager, damageFXManager, upgradeManager, menuManager, musicManager;
     private static Dictionary<string, PrefabBool> singletonPrefabRegistry;
 
     protected override void Awake() {
+        Application.targetFrameRate = 60;
+        
         singletonPrefabRegistry = new Dictionary<string, PrefabBool>()
         {
             { typeof(SFXManager).ToString(),          new PrefabBool(ref sfxManager) },
@@ -19,10 +23,11 @@ public class ServiceWrangler : Singleton<ServiceWrangler> {
             { typeof(InputManager).ToString(),          new PrefabBool(ref inputManager) },
             { typeof(HitstopManager).ToString(),        new PrefabBool(ref hitstopManager) },
             { typeof(DEBUG_PlayerTeleporter).ToString(),new PrefabBool(ref playerTeleporter) },
-            { typeof(Pauser).ToString(),                new PrefabBool(ref pauser) },
+            { typeof(MenuManager).ToString(),                new PrefabBool(ref menuManager) },
             { typeof(AnalyticsManager).ToString(),      new PrefabBool(ref analyticsManager) },
             { typeof(DamageFXManager).ToString(),      new PrefabBool(ref damageFXManager) },
-            { typeof(UpgradeManager).ToString(),       new PrefabBool(ref upgradeManager) }
+            { typeof(UpgradeManager).ToString(),       new PrefabBool(ref upgradeManager) },
+            { typeof(MusicManager).ToString(),       new PrefabBool(ref musicManager) }
         };
         base.Awake();
     }
@@ -49,7 +54,7 @@ public class ServiceWrangler : Singleton<ServiceWrangler> {
         {
             singletonPrefabRegistry[typeString].isRegistered = true;
         }
-        else if (typeString != (typeof(ServiceWrangler)).ToString()) {
+        else if (typeString != (typeof(ServiceWrangler)).ToString()) {            
             string debugMessage = typeString + " attempting duplicate or unprepared service registry. Add this singleton to the singletonPrefabRegistry";
             Debug.LogFormat("<color=#ffff00>" + debugMessage + "</color>");
         }

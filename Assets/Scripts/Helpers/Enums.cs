@@ -29,7 +29,15 @@ public enum SFXType {
     StunBatonImpact,
     StunBatonSwing,
     TankTreads_Attack,
-    TankTreads_Swing, 
+    TankTreads_Swing,
+    UI_Click,
+    UI_Hover,
+    UI_Back
+}
+
+public enum MusicType
+{
+    MainMenu_Track
 }
 
 public enum DamagerType {
@@ -60,7 +68,8 @@ public enum ModType {
     Grappler = 5,
     Boomerang = 6,
     Geyser = 7,
-    Dice = 8
+    Dice = 8,
+    None=9
 }
 
 public enum ModCategory

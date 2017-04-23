@@ -12,11 +12,12 @@ public abstract class Menu : MonoBehaviour {
     {
         get { return menuName; }
     }
+    public abstract bool Displayed { get; }
     #endregion
 
-    #region Protected Fields
+    #region Serialized Unity Fields
     [SerializeField]
-    protected CanvasGroup canvasGroup;
+    public CanvasGroup canvasGroup;
     #endregion
 
     #region Unity Lifecycle Methods

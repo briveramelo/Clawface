@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 114564542680752718}
   - component: {fileID: 114483454905954544}
   - component: {fileID: 225742725251650176}
+  - component: {fileID: 114259449498455594}
   m_Layer: 0
   m_Name: FadeCanvas
   m_TagString: Untagged
@@ -74,6 +75,18 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114259449498455594
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1553834765134152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ccee2578a4c44c48a1dfceb8ed1d765, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 225742725251650176}
 --- !u!114 &114483454905954544
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -101,7 +114,7 @@ MonoBehaviour:
   m_Script: {fileID: 1980459831, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}

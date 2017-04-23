@@ -24,9 +24,9 @@ public class BatonMod : Mod {
     [SerializeField]
     private float slamPush;
     [SerializeField]
-    private VFXBlasterShoot vfx;
-    [SerializeField]
     private float chargeMultiplier;
+    [SerializeField]
+    private float slamForceDecayRate;
 
     private ProjectileProperties projectileProperties = new ProjectileProperties();
     private bool wasCharged;
@@ -153,7 +153,8 @@ public class BatonMod : Mod {
     {
         if (!wielderMovable.IsGrounded())
         {
-            wielderMovable.AddDecayingForce(Vector3.down * slamForce);
+            wielderMovable.StopVerticalMovement();
+            wielderMovable.AddDecayingForce(Vector3.down * slamForce, slamForceDecayRate);
             StartCoroutine(TurnOnSlamBox());
         }
     }
@@ -169,9 +170,12 @@ public class BatonMod : Mod {
         RaycastHit hit;
         if(wasCharged && Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.NameToLayer(Strings.Layers.GROUND))){
             wasCharged = false;
-            vfx.transform.position = hit.transform.position;
-            vfx.Emit();
+
+            GameObject blasterShoot = ObjectPool.Instance.GetObject(PoolObjectType.VFXBlasterShoot);
+            blasterShoot.transform.position = hit.transform.position;
+            blasterShoot.transform.rotation = transform.rotation;            
         }
+        InputManager.Instance.Vibrate(VibrationTargets.BOTH, 1f);
         slamBox.enabled = false;
         yield return null;
     }

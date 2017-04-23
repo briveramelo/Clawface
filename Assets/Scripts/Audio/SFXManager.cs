@@ -28,6 +28,12 @@ public class SFXManager : Singleton<SFXManager>
     private GameObject TankTreads_Attack;
     [SerializeField]
     private GameObject TankTreads_Swing;
+    [SerializeField]
+    private GameObject UI_Click;
+    [SerializeField]
+    private GameObject UI_Hover;
+    [SerializeField]
+    private GameObject UI_Back;
     #endregion
 
     private void Start()
@@ -42,7 +48,10 @@ public class SFXManager : Singleton<SFXManager>
             {SFXType.StunBatonImpact, new SoundEffect(Instantiate(StunBatonImpact)) },
             {SFXType.StunBatonSwing, new SoundEffect(Instantiate(StunBatonSwing)) },
             {SFXType.TankTreads_Attack, new SoundEffect(Instantiate(TankTreads_Attack)) },
-            {SFXType.TankTreads_Swing, new SoundEffect(Instantiate(TankTreads_Swing)) }
+            {SFXType.TankTreads_Swing, new SoundEffect(Instantiate(TankTreads_Swing)) },
+            {SFXType.UI_Click, new SoundEffect(Instantiate(UI_Click))},
+            {SFXType.UI_Hover, new SoundEffect(Instantiate(UI_Hover))},
+            {SFXType.UI_Back, new SoundEffect(Instantiate(UI_Back))}
         };
         foreach(KeyValuePair<SFXType, SoundEffect> kp in sfxDictionary) {
             kp.Value.SetParent(transform);
@@ -59,6 +68,8 @@ public class SFXManager : Singleton<SFXManager>
         Debug.LogFormat("<color=#0000FF>" + message + "</color>");
         
     }
+
+  
 
     public void Stop(SFXType i_Type) {
         if (sfxDictionary.ContainsKey(i_Type)) {
