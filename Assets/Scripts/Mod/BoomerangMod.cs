@@ -14,11 +14,14 @@ public class BoomerangMod : Mod {
     [SerializeField] private float standardMaxDistance;
     [SerializeField] private float ellipseHeightWidthRatio;
     [SerializeField] private SphereCollider damageCollider;
-    [SerializeField] private float maxMovementSpeed;
-    [SerializeField] private float minMovementSpeed;
+    [SerializeField] private float boomerangSpeed;
     [SerializeField] private float chargedScale;    
     [SerializeField] private float maxRotationRate;
     [SerializeField] private float minRotationRate;
+    [SerializeField]
+    private int chargeFeetBoomerangCount;
+    [SerializeField]
+    private float chargeFeetDelayBetweenBoomerangs;
     #endregion
 
     #region Private Fields
@@ -30,16 +33,27 @@ public class BoomerangMod : Mod {
     private float majorAxisRadius;
     private Vector3 initialScale;
     private Vector3 pickUpScale;
+    private GameObject boomerangProjectile;
+    private List<GameObject> boomerangProjectiles;
+    private float angle;
+    private float rotation;
+    private float rightHandStartAngle = 0f;
+    private float rightHandEndAngle = 300f;
+    private float leftHandStartAngle = 250f;
+    private float leftHandEndAngle = -30f;
     #endregion
 
     #region Unity Lifecycle
+
     // Use this for initialization
     void Start () {
         type = ModType.Boomerang;
         category = ModCategory.Ranged;
         damageCollider.enabled = false;
         enemyDistance = Mathf.Infinity;
-        initialScale = transform.localScale;        
+        initialScale = transform.localScale;
+        boomerangProjectiles = new List<GameObject>();
+        majorAxisRadius = standardMaxDistance/2.0f;
     }
 	
 	// Update is called once per frame
@@ -51,7 +65,7 @@ public class BoomerangMod : Mod {
                 UpdateBoomerangPosition();
             }else if (getModSpot() == ModSpot.ArmL)
             {
-                UpdateBoomerangPosition(-1);
+                UpdateBoomerangPosition(true);
             }
         }
 	}    
@@ -77,17 +91,6 @@ public class BoomerangMod : Mod {
     {
         base.Activate(onCompleteCoolDown, onActivate);
     }
-    float startTime;
-    protected override void BeginChargingArms(){ }
-    protected override void RunChargingArms(){ GrowSize(); }
-    protected override void ActivateStandardArms(){ ReleaseBoomerang(); }
-    protected override void ActivateChargedArms(){ ReleaseBoomerang(); }
-
-    protected override void BeginChargingLegs(){ }
-    protected override void RunChargingLegs(){ }
-    protected override void ActivateChargedLegs(){ }
-    protected override void ActivateStandardLegs(){ }
-
 
     public override void AttachAffect(ref Stats wielderStats, IMovable wielderMovable){                
         base.AttachAffect(ref wielderStats, wielderMovable);
@@ -96,6 +99,8 @@ public class BoomerangMod : Mod {
 
     public override void DeActivate()
     {
+        angle = 0.0f;
+        rotation = 0.0f;
         energySettings.isActive = false;
         damageCollider.enabled = false;        
         returning = false;
@@ -118,7 +123,79 @@ public class BoomerangMod : Mod {
     }
     #endregion
 
-    #region Private Methods    
+    #region Private Methods  
+    protected override void BeginChargingArms() { }
+    protected override void RunChargingArms() { GrowSize(); }
+    protected override void ActivateStandardArms() { ReleaseBoomerang(); }
+    protected override void ActivateChargedArms() { ReleaseBoomerang(); }
+
+    protected override void BeginChargingLegs() { }
+    protected override void RunChargingLegs() { }
+    protected override void ActivateChargedLegs() {
+        FireFromDick(true);
+    }
+    protected override void ActivateStandardLegs() {
+        FireFromDick();
+    }
+
+    private void FireFromDick(bool charge = false)
+    {
+        if (charge)
+        {
+            if (NoActiveProjectiles())
+            {
+                boomerangProjectiles.Clear();
+                StartCoroutine(SpawnTheHorde());
+            }
+        }else
+        {
+            if (boomerangProjectile == null || !boomerangProjectile.activeSelf)
+            {
+                boomerangProjectile = FireBoomerang();
+            }
+        }
+    }
+
+    private IEnumerator SpawnTheHorde()
+    {
+        int count = 0;
+        while (count < chargeFeetBoomerangCount)
+        {
+            GameObject projectile = FireBoomerang(true);
+            if (projectile)
+            {
+                boomerangProjectiles.Add(projectile);
+            }
+            count++;
+            print("spawn " + count);
+            yield return new WaitForSeconds(chargeFeetDelayBetweenBoomerangs);
+        }
+        yield return null;
+    }
+
+    private bool NoActiveProjectiles()
+    {
+        foreach(GameObject projectile in boomerangProjectiles)
+        {
+            if (projectile.activeSelf)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private GameObject FireBoomerang(bool charge = false)
+    {
+        GameObject projectile = ObjectPool.Instance.GetObject(PoolObjectType.BoomerangProjectile);
+        if (projectile)
+        {
+            transform.rotation = Quaternion.identity;
+            projectile.GetComponent<BoomerangProjectile>().Go(wielderStats, wielderStats.gameObject.GetInstanceID(), transform, charge);
+        }
+        return projectile;
+    }
+
     private void GrowSize() {
         transform.localScale = pickUpScale * (1+ (chargedScale-1.8f) * energySettings.chargeFraction);
     }
@@ -134,42 +211,45 @@ public class BoomerangMod : Mod {
         }
         TRMatrix = Matrix4x4.TRS(initialPosition, wielderMovable.GetRotation(), Vector3.one);
         transform.forward = wielderMovable.GetForward();
-        //majorAxisRadius = enemyDistance > maxDistance ? maxDistance / 2.0f : (enemyDistance+1f) / 2.0f;
-        majorAxisRadius = maxDistance/2.0f;
+        if(getModSpot() == ModSpot.ArmL)
+        {
+            angle = leftHandStartAngle;
+        }else if(getModSpot() == ModSpot.ArmR)
+        {
+            angle = rightHandStartAngle;
+        }
     }
-    void UpdateBoomerangPosition(int leftHandMultiplier = 1){
-        //Equation of an ellipse x^2/a^2 + y^2/b^2 = 1
-        Vector3 relativePosition = TRMatrix.inverse.MultiplyPoint3x4(transform.position);
-        float xCoordinate = relativePosition.x;
-        float yCoordinate = relativePosition.y;
-        float zCoordinate = relativePosition.z;
-        float zCoordinateCompletion = Mathf.Abs(zCoordinate / (majorAxisRadius*2));
-        float movementSpeed = (returning ? -1 : 1) * (minMovementSpeed + maxMovementSpeed * (1.0f-zCoordinateCompletion));
-        zCoordinate += movementSpeed * Time.deltaTime;
-        if (zCoordinate > majorAxisRadius * 2f){
-            returning = true;
-            zCoordinate = majorAxisRadius * 2f;            
-            float relativeZ = zCoordinate - majorAxisRadius;
-            xCoordinate = GetXCoordinate(relativeZ);
-            float relativeX = -xCoordinate * leftHandMultiplier;
-            transform.position = TRMatrix.MultiplyPoint3x4(new Vector3(relativeX, yCoordinate, zCoordinate));
+    void UpdateBoomerangPosition(bool leftHand = false){
+        if (leftHand)
+        {
+            angle -= boomerangSpeed;
         }
-        else if (zCoordinate < 0.0f){
-            zCoordinate = 0.0f;            
-            DeActivate();
+        else
+        {
+            angle += boomerangSpeed;
         }
-        else{
-            float relativeZ = zCoordinate - majorAxisRadius;
-            xCoordinate = GetXCoordinate(relativeZ);
-            if (returning){
-                xCoordinate = -xCoordinate;
+        //Equation of an ellipse
+        // x = a*cos(t)
+        float x = minorAxisRadius * Mathf.Cos(angle * Mathf.Deg2Rad);
+        // y = b*sin(t)
+        float z = majorAxisRadius * Mathf.Sin(angle * Mathf.Deg2Rad) + majorAxisRadius;
+        transform.position = TRMatrix.MultiplyPoint3x4(new Vector3(x, 0f, z));
+        rotation += minRotationRate;
+        transform.rotation = Quaternion.AngleAxis(rotation, Vector3.up);
+        if (leftHand)
+        {
+            if (angle < leftHandEndAngle)
+            {
+                DeActivate();
             }
-            float relativeX = xCoordinate * leftHandMultiplier;
-            transform.position = TRMatrix.MultiplyPoint3x4(new Vector3(relativeX, yCoordinate, zCoordinate));
         }
-
-        float rotationSpeed = zCoordinateCompletion * maxRotationRate + minRotationRate;
-        transform.Rotate(Vector3.up * rotationSpeed * Time.fixedDeltaTime);
+        else
+        {
+            if (angle > rightHandEndAngle)
+            {
+                DeActivate();
+            }
+        }
     }
 
     private float GetXCoordinate(float y) {

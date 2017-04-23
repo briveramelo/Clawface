@@ -10,7 +10,9 @@ public enum StatType {
     Defense = 1,
     MoveSpeed = 2,
     Health = 3,
-    RangedAccuracy= 4
+    RangedAccuracy= 4,
+    MaxHealth = 5,
+    EXP = 6
 }
 
 public enum CodexType {
@@ -99,7 +101,14 @@ public enum PoolObjectType {
     MallCopExplosion=10,
     GrapplingBot=11,
     GeyserProjectile = 12,
-    DiceBlock=13
+    DiceBlock=13,
+    BlasterBulletCharged=14,
+    VFXSegwayBlasterCharged = 15,
+    BlasterImpactEffectCharged = 16,
+    VFXBlasterShoot=17,
+    VFXBlasterShootCharged=18,
+	GeyserShield = 19,
+    BoomerangProjectile = 20
 }
 
 public enum MovementMode
@@ -114,7 +123,8 @@ public enum PlayerAnimationStates
     Running = 1,    
     StunBaton = 2,
     Boomerang = 3,
-    Dash = 4
+    Dash = 4,
+    TankTreads = 5
 }
 
 public enum ButtonMode

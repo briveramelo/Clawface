@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Stats : MonoBehaviour, IModifiable {
     #region Serialized Unity Inspector Fields
-    public float attack, defense, health, moveSpeed, rangedAccuracy, shotSpeed, shotPushForce, skinnableHealth;
+    public float attack, defense, health, maxHealth, moveSpeed, rangedAccuracy, shotSpeed, shotPushForce, skinnableHealth, exp;
     #endregion
 
     #region Private Fields
@@ -15,7 +15,7 @@ public class Stats : MonoBehaviour, IModifiable {
 
     #region Unity LifeCycle
     void Awake() {
-        originalStats = new StatsMemento(attack, defense, health, moveSpeed, rangedAccuracy, shotSpeed, shotPushForce, skinnableHealth);
+        originalStats = new StatsMemento(attack, defense, health, maxHealth, moveSpeed, rangedAccuracy, shotSpeed, shotPushForce, skinnableHealth, exp);
     }
 
     
@@ -42,6 +42,7 @@ public class Stats : MonoBehaviour, IModifiable {
         }
     }
 
+    
     public void Add(StatType statType, int statAddend) {
         switch (statType) {
             case StatType.Attack:
@@ -73,17 +74,28 @@ public class Stats : MonoBehaviour, IModifiable {
                 return defense;
             case StatType.Health:
                 return health;
+            case StatType.MaxHealth:
+                return maxHealth;
             case StatType.MoveSpeed:
                 return moveSpeed;
             case StatType.RangedAccuracy:
                 return rangedAccuracy;
+            case StatType.EXP:
+                return exp;
         }
         return -1;
     }
 
     public float GetHealthFraction(){ 
-        return health/originalStats.health;    
+        return health/maxHealth;    
     }
+
+    public void SetMaxHealth(float newMax)
+    {
+        maxHealth = newMax;
+        originalStats.maxHealth = newMax;
+    }
+
 
     public float TakeDamage(float damage) {
         health-= damage;
@@ -105,16 +117,18 @@ public class Stats : MonoBehaviour, IModifiable {
     #region Internal Structures
     [Serializable]
     struct StatsMemento{
-        public float attack, defense, health, moveSpeed, rangedAccuracy, shotSpeed, shotPushForce, skinnableHealth;
-        public StatsMemento(float attack, float defense, float health, float moveSpeed, float rangedAccuracy, float shotSpeed, float shotPushForce, float skinnableHealth) {
+        public float attack, defense, health, maxHealth, moveSpeed, rangedAccuracy, shotSpeed, shotPushForce, skinnableHealth, exp;
+        public StatsMemento(float attack, float defense, float health, float maxHealth, float moveSpeed, float rangedAccuracy, float shotSpeed, float shotPushForce, float skinnableHealth, float exp) {
             this.attack = attack;
             this.defense = defense;
             this.health = health;
+            this.maxHealth = maxHealth;
             this.moveSpeed = moveSpeed;
             this.rangedAccuracy = rangedAccuracy;
             this.shotSpeed = shotSpeed;
             this.shotPushForce = shotPushForce;
             this.skinnableHealth=skinnableHealth;
+            this.exp = exp;
         }
     }    
     #endregion

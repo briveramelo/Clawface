@@ -36,6 +36,10 @@ public abstract class IPlayerState:MonoBehaviour {
     #region Public Methods
     public abstract void Attack();
     public abstract void SecondaryAttack(bool isHeld,float holdTime);
+    public bool IsBlockingState()
+    {
+        return isBlockingState;
+    }
     #endregion
 
     #region Private Methods

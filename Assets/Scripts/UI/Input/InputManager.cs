@@ -108,6 +108,12 @@ public class InputManager : Singleton<InputManager> {
             return schemes[activeScheme].QueryAction(controllers, action, mode);
         }
 
+        //// AnyKey Wrapper
+        public bool AnyKey()
+        {
+            return Input.anyKey;
+        }
+
         //// Haptics
         public void Vibrate(VibrationTargets target, float intensity, float duration=0.3f)
         {

@@ -21,6 +21,7 @@ public class DashState : IPlayerState {
     private VFXDashPuff dashPuff;
     [SerializeField]
     private GameObject dashTrail;
+    [SerializeField] private Collider playerCollider;
     #endregion
 
     #region Private Fields
@@ -99,11 +100,14 @@ public class DashState : IPlayerState {
     {
         if(currentFrame == iFrameStart)
         {
-            stateVariables.statsManager.damageModifier = 0.0f;            
+            stateVariables.statsManager.damageModifier = 0.0f;
+            playerCollider.enabled=false;
+                        
         }
         if (currentFrame == iFrameEnd)
         {
             stateVariables.statsManager.damageModifier = 1.0f;
+            playerCollider.enabled=true;
         }
     }
 

@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using MovementEffects;
-using System;
 
 public class VelocityBody : MonoBehaviour, IMovable{
 
@@ -28,11 +26,12 @@ public class VelocityBody : MonoBehaviour, IMovable{
         get { return rigbod.useGravity; }
         set { rigbod.useGravity = value;}
     }
+    [SerializeField]
     protected bool isGrounded;
 
     private bool isFalling;
     private const float iceForceMultiplier = 50f;
-    private const float footSphereRadius= 0.1f;
+    private const float footSphereRadius= 0.2f;
     private List<Vector3> externalForces= new List<Vector3>();
     private MovementMode movementMode;
 
