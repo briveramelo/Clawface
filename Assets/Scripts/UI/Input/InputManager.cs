@@ -26,7 +26,7 @@ public class InputManager : Singleton<InputManager> {
 
         //// Insert Appropriate Controllers:
         #if UNITY_STANDALONE
-            controllers.Add(new KeyboardController());
+            //controllers.Add(new KeyboardController());
         #endif
 
         #if UNITY_STANDALONE_WIN
