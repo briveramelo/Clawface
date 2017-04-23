@@ -75,15 +75,15 @@ public class SegwayMod : Mod {
     protected override void RunChargingLegs(){ }
     protected override void ActivateChargedLegs(){
         MegaForcePush();
-        if (wielderMovable.IsGrounded()) {
-            Jump();
-        }
+        //if (wielderMovable.IsGrounded()) {
+        //   Jump();
+        //}
     }
     protected override void ActivateStandardLegs(){
         ForcePush();
-        if (wielderMovable.IsGrounded()) {
-            Jump();
-        }
+        //if (wielderMovable.IsGrounded()) {
+        //    Jump();
+        //}
     }        
 
     public override void DeActivate()
@@ -109,7 +109,8 @@ public class SegwayMod : Mod {
 
     void ForcePush(){
         //SFXManager.Instance.Play(SFXType.ForceSegwayPush);
-        GameObject blasterFX = ObjectPool.Instance.GetObject(PoolObjectType.VFXSegwayBlaster);
+        PoolObjectType poolObjType = IsCharged() ? PoolObjectType.VFXSegwayBlasterCharged : PoolObjectType.VFXSegwayBlaster;
+        GameObject blasterFX = ObjectPool.Instance.GetObject(poolObjType);
         if (blasterFX) {
             blasterFX.DeActivate(1.1f);
             blasterFX.transform.position = capsuleBounds.Start;

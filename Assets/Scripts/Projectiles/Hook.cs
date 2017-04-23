@@ -140,16 +140,19 @@ public class Hook : MonoBehaviour {
 
     private IEnumerator<float> Retract()
     {
+        if (isPullingWielder) {
+            PullToTarget();            
+        }
         while (transform.localPosition.z > initPos.z)
         {
-            if (isPullingWielder)
-            {
-                PullToTarget();
-            }
+            //if (isPullingWielder)
+            //{
+            //  PullToTarget()
+            //}
             //transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z - shrinkRate * Time.deltaTime);
             transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z - shrinkRate * Time.deltaTime);
             yield return 0f;
-        }
+        }        
         FinishRetracting();
         isThrowing = false;
     }

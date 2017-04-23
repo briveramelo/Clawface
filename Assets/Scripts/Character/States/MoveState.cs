@@ -12,6 +12,7 @@ public class MoveState : IPlayerState
     private bool canMove;
     private Vector3 lastMoveDirection;
     private float currentSpeed;
+    private Vector3 lastLookDirection;
     #endregion
 
     #region Public Methods    
@@ -26,11 +27,18 @@ public class MoveState : IPlayerState
     public override void StateUpdate()
     {                
         Vector2 controllerMoveDir = InputManager.Instance.QueryAxes(Strings.Input.Axes.MOVEMENT);
+        Vector2 lookDir = InputManager.Instance.QueryAxes(Strings.Input.Axes.LOOK);
         bool isAnyAxisInput = controllerMoveDir.magnitude > stateVariables.axisThreshold;
         if (!isAnyAxisInput) {
             controllerMoveDir = Vector2.zero;
         }
-
+        if(lookDir.magnitude > stateVariables.axisThreshold)
+        {
+            lastLookDirection = new Vector3(lookDir.x, 0, lookDir.y);
+        }else
+        {
+            lastLookDirection = Vector3.zero;
+        }
         Vector2 moveModified = new Vector2(controllerMoveDir.x, controllerMoveDir.y);
 
         if (isSidescrolling)
@@ -123,7 +131,10 @@ public class MoveState : IPlayerState
         if (stateVariables.currentEnemy != null){
             stateVariables.velBody.LookAt(stateVariables.currentEnemy.transform);
         }
-        else{
+        else if(lastLookDirection != Vector3.zero){
+            stateVariables.playerTransform.forward = lastLookDirection;
+        }else
+        {
             stateVariables.playerTransform.forward = lastMoveDirection;
         }
     }

@@ -249,6 +249,7 @@ GameObject:
   - component: {fileID: 114272014647171304}
   - component: {fileID: 114342429780170378}
   - component: {fileID: 114709168524529216}
+  - component: {fileID: 114295102679162160}
   m_Layer: 9
   m_Name: MallCopCanvas
   m_TagString: Untagged
@@ -1431,6 +1432,20 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+--- !u!114 &114295102679162160
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1183100696542480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 264c2f3fd0f25814eb16648a3a9e5ca6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  forward: {x: 0, y: 0, z: 1}
+  up: {x: 0, y: 1, z: 0}
+  updatePeriod: 0
 --- !u!114 &114321643848977182
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1596,6 +1611,9 @@ MonoBehaviour:
   jumpForce: 0
   slamForce: 0
   slamBox: {fileID: 65716800929020632}
+  slamPush: 0
+  vfx: {fileID: 0}
+  chargeMultiplier: 0
 --- !u!114 &114709168524529216
 MonoBehaviour:
   m_ObjectHideFlags: 1

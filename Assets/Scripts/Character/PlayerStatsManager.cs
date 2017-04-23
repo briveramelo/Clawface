@@ -15,6 +15,7 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     [SerializeField] private DamageUI damageUI;
     [SerializeField] private CameraLock cameraLock;
     [SerializeField] private SkinningState skinningState;
+    [SerializeField] private HealthBar healthBar;
     #endregion
 
     #region Private Fields
@@ -50,7 +51,7 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
             damageUI.DoDamageEffect();
             stats.TakeDamage(damageModifier * damager.damage);
             float healthFraction = stats.GetHealthFraction();
-            HealthBar.Instance.SetHealth(healthFraction);
+            healthBar.SetHealth(healthFraction);
             cameraLock.Shake(.4f);
             float shakeIntensity = 1f - healthFraction;
             InputManager.Instance.Vibrate(VibrationTargets.BOTH, shakeIntensity);
@@ -69,7 +70,7 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     public void UpdateMaxHealth()
     {
         float healthFraction = stats.GetHealthFraction();
-        HealthBar.Instance.SetHealth(healthFraction);
+        healthBar.SetHealth(healthFraction);
     }
 
     public void TakeSkin(int skinHealth) {
@@ -100,7 +101,7 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
         transform.position = GameObject.Find("RespawnPoint").transform.position;
         stats.Add(StatType.Health, (int)startHealth);
         startHealth = stats.GetStat(StatType.MaxHealth);
-        HealthBar.Instance.SetHealth(stats.GetHealthFraction());
+        healthBar.SetHealth(stats.GetHealthFraction());
         AnalyticsManager.Instance.PlayerDeath();
     }
     #endregion

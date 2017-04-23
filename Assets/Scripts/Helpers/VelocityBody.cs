@@ -6,6 +6,8 @@ public class VelocityBody : MonoBehaviour, IMovable{
 
     public Transform foot;
     [SerializeField] private Rigidbody rigbod;
+    [SerializeField]
+    private float iceForceMultiplier;
 
     public Vector3 velocity {
         get {
@@ -15,7 +17,7 @@ public class VelocityBody : MonoBehaviour, IMovable{
             rigbod.velocity = value;
             if (movementMode==MovementMode.PRECISE) {
                 rigbod.velocity += GetExternalForceSum();
-            }
+            }            
         }
     }
     public bool isKinematic {
@@ -26,11 +28,11 @@ public class VelocityBody : MonoBehaviour, IMovable{
         get { return rigbod.useGravity; }
         set { rigbod.useGravity = value;}
     }
-    [SerializeField]
+
     protected bool isGrounded;
 
     private bool isFalling;
-    private const float iceForceMultiplier = 50f;
+    
     private const float footSphereRadius= 0.2f;
     private List<Vector3> externalForces= new List<Vector3>();
     private MovementMode movementMode;
@@ -44,6 +46,21 @@ public class VelocityBody : MonoBehaviour, IMovable{
         if (!isGrounded && !isFalling) {
             Timing.RunCoroutine(ApplyGravity(), Segment.FixedUpdate, GetInstanceID().ToString());
         }
+        //if (movementMode==MovementMode.ICE) {            
+        //    float x = Mathf.Clamp(rigbod.velocity.x, -20f, 20f);
+        //    float y = Mathf.Clamp(rigbod.velocity.y, -20f, 20f);
+        //    float z = Mathf.Clamp(rigbod.velocity.z, -20f, 20f);
+        //    rigbod.velocity = new Vector3(x, y, z);
+        //}
+    }
+
+    public void StopVerticalMovement() {
+        externalForces.ForEach(force => {
+            force.y = 0;
+        });
+        Vector3 vel = rigbod.velocity;
+        vel.y = 0;
+        rigbod.velocity = vel;
     }
 
     public void InitializeExternalForces() {
@@ -64,7 +81,7 @@ public class VelocityBody : MonoBehaviour, IMovable{
                 Timing.RunCoroutine(IEAddDecayingForce(force, decay), Segment.FixedUpdate, GetInstanceID().ToString());
             }
             else{
-                rigbod.AddForce(force * iceForceMultiplier);
+                rigbod.AddForce(force * iceForceMultiplier);                
             }
         }    
     }
@@ -112,7 +129,7 @@ public class VelocityBody : MonoBehaviour, IMovable{
     private bool CheckIsGrounded() {
         Collider[] cols = Physics.OverlapSphere(foot.transform.position, footSphereRadius);
         for (int i = 0; i < cols.Length; i++) {
-            if (cols[i].gameObject.layer == (int)Layers.Ground) {
+            if (cols[i].gameObject.layer == (int)Layers.Ground || cols[i].gameObject.layer == (int)Layers.Enemy) {
                 return true;
             }
         }        

@@ -9,6 +9,8 @@ public interface IMovable
     void SetMovementMode(MovementMode mode);
     Vector3 GetForward();
     Quaternion GetRotation();
+
+    void StopVerticalMovement();
 }
 
 public interface IStunnable

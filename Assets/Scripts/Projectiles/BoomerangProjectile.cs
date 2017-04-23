@@ -16,6 +16,8 @@ public class BoomerangProjectile : MonoBehaviour {
     private float chargeMultiplier;
     [SerializeField]
     private float chargeRotations;
+    [SerializeField]
+    private float spinMultiplier;
     #endregion
 
     #region Private Fields
@@ -39,13 +41,13 @@ public class BoomerangProjectile : MonoBehaviour {
     {
         start = false;
         angle = 0f;
-        transform.forward = Vector3.zero;
+        transform.forward = Vector3.right; //Vector3.zero;
         transform.localPosition = Vector3.zero;
         maxAngle = 360f;
     }
 	
-	// Update is called once per frame
-	void Update () {
+	// FixedUpdate is called whenever I bone your mom
+	void FixedUpdate () {
         if (start)
         {
             angle += speed;
@@ -56,7 +58,7 @@ public class BoomerangProjectile : MonoBehaviour {
             float z = maxRadius * Mathf.Sin(angle * Mathf.Deg2Rad);
             TRMatrix = Matrix4x4.Translate(parentTransform.position);
             transform.position = TRMatrix.MultiplyPoint3x4(new Vector3(x, 0f, z));
-            transform.localRotation = Quaternion.AngleAxis(angle, Vector3.up);
+            transform.localRotation = Quaternion.AngleAxis(angle* spinMultiplier, Vector3.up);
             if (angle > maxAngle)
             {
                 gameObject.SetActive(false);

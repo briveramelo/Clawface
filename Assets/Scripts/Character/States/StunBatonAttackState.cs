@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class StunBatonAttackState : IPlayerState {
@@ -15,8 +16,7 @@ public class StunBatonAttackState : IPlayerState {
     private int attackForwadDisplacement;
     [SerializeField]
     private VFXMeleeSwing[] vfxMeleeSwing;
-    [SerializeField]
-    private float lookSensitivity;
+    private bool isStarting=true;
     #endregion
 
     #region Private Fields
@@ -41,19 +41,23 @@ public class StunBatonAttackState : IPlayerState {
 
     public override void StateFixedUpdate()
     {        
-        if (CanPounce())
+        /*if (CanPounce())
         {
             stateVariables.velBody.velocity = stateVariables.playerTransform.forward * stateVariables.meleePounceVelocity * Time.fixedDeltaTime;
-        }
+        }*/
     }
 
     public override void StateUpdate()
     {
+        if (isStarting) {
+            isStarting = false;
+            Physics.IgnoreLayerCollision((int)Layers.ModMan, (int)Layers.Enemy, true);
+        }
+
         if (!stateVariables.stateFinished)
         {
             if (stateVariables.currentMod.getModSpot() == ModSpot.Legs)
             {
-                //((BatonMod)stateVariables.currentMod).footPosition = stateVariables.foot.position;
                 stateVariables.currentMod.Activate();
                 stateVariables.stateFinished = true;
             }
@@ -119,9 +123,9 @@ public class StunBatonAttackState : IPlayerState {
     {
         stateVariables.modAnimationManager.PlayModAnimation(stateVariables.currentMod, currentAttackPose, totalAttackPoses);        
         currentAttackPose++;
-        if(currentAttackPose == highlightPoses[highlightPoseIndex])
+        if (currentAttackPose == highlightPoses[highlightPoseIndex])
         {
-            stateVariables.velBody.AddDecayingForce(stateVariables.playerTransform.forward * attackForwadDisplacement);
+            stateVariables.playerTransform.position += stateVariables.playerTransform.forward * attackForwadDisplacement;            
             highlightPoseIndex++;
             if(highlightPoseIndex == highlightPoses.Length)
             {
@@ -136,7 +140,6 @@ public class StunBatonAttackState : IPlayerState {
             {
                 vfxMeleeSwing[0].PlayAnimation();
             }
-            //SFXManager.Instance.Play(SFXType.StunBatonSwing);
         }
         if (currentAttackPose > totalAttackPoses)
         {
@@ -153,20 +156,9 @@ public class StunBatonAttackState : IPlayerState {
         highlightPoseIndex = 0;
         weHaveHitHighlightPose = false;
         stateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Idle);
-    }
 
-    private void CheckForRotationInput()
-    {
-        Vector2 controllerMoveDir = InputManager.Instance.QueryAxes(Strings.Input.Axes.MOVEMENT) * lookSensitivity;
-        bool isAnyAxisInput = controllerMoveDir.magnitude > stateVariables.axisThreshold;
-        if (!isAnyAxisInput)
-        {
-            controllerMoveDir = Vector2.zero;
-        }
-        if (controllerMoveDir != Vector2.zero)
-        {
-            stateVariables.playerTransform.forward = new Vector3(controllerMoveDir.x, 0.0f, controllerMoveDir.y);
-        }
+        Physics.IgnoreLayerCollision((int)Layers.ModMan, (int)Layers.Enemy, false);
+        isStarting = true;      
     }
     #endregion
 

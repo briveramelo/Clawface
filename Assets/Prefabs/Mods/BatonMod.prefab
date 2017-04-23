@@ -271,7 +271,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1125338617720806}
   m_LocalRotation: {x: -0, y: 0.68423414, z: -0, w: 0.7292624}
-  m_LocalPosition: {x: -5.41, y: 1.131, z: -8.49}
+  m_LocalPosition: {x: -5.35, y: 1.131, z: -5.29}
   m_LocalScale: {x: 4, y: 4, z: 4}
   m_Children:
   - {fileID: 4374610999489766}
@@ -663,11 +663,11 @@ MonoBehaviour:
     end: {fileID: 4479478928804504}
     radius: 0.2
   jumpForce: 30
-  slamForce: 40
+  slamForce: 100
   slamBox: {fileID: 65383966087847664}
   slamPush: 100
-  vfx: {fileID: 114662021644186500}
   chargeMultiplier: 5
+  slamForceDecayRate: 0.225
 --- !u!114 &114370939795365882
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -3,26 +3,27 @@
  */
 
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.EventSystems;
 
 public class MenuManager : Singleton<MenuManager> {
 
     #region Unity Serialization Fields
     [SerializeField]
     private List<GameObject> menuPrefabs;
+    [SerializeField]
+    private StandaloneInputModule input;
     #endregion
 
     #region Private Fields
     private List<Menu> menus = new List<Menu>();
     private Queue<TransitionBundle> transitionQueue = new Queue<TransitionBundle>();
+    private Stack<Menu> menuStack = new Stack<Menu>();
     #endregion
 
     #region Unity Lifecycle Functions
-    protected override void Awake() {
-        shouldRegister=false;
-    }
-
     private void Start()
     {
         
@@ -36,10 +37,16 @@ public class MenuManager : Singleton<MenuManager> {
     }
     void Update()
     {
-        while (transitionQueue.Count > 0)
+        if (transitionQueue.Count > 0)
         {
-            TransitionBundle bundle = transitionQueue.Dequeue();
-            bundle.menu.DoTransition(bundle.transition, bundle.effects);
+            EnableEventSystem(false);
+            while (transitionQueue.Count > 0)
+            {
+                TransitionBundle bundle = transitionQueue.Dequeue();
+                ProcessBundle(bundle);
+                bundle.menu.DoTransition(bundle.transition, bundle.effects);
+            }
+            EnableEventSystem(true);
         }
     }
     #endregion
@@ -48,7 +55,7 @@ public class MenuManager : Singleton<MenuManager> {
     public void DoTransition(string menuName, Menu.Transition transition,
             Menu.Effect[] effects)
     {
-        Menu menu = menus.Find((cmp) => { return menuName == cmp.MenuName; });
+        Menu menu = GetMenuByName(menuName);
         Assert.IsNotNull(menu);
         transitionQueue.Enqueue(new TransitionBundle(menu, transition, effects));
     }
@@ -60,7 +67,7 @@ public class MenuManager : Singleton<MenuManager> {
     public void DoTransitionOthers(string menuName, Menu.Transition transition,
             Menu.Effect[] effects)
     {
-        Menu menu = menus.Find((cmp) => { return menuName == cmp.MenuName; });
+        Menu menu = GetMenuByName(menuName);
         Assert.IsNotNull(menu);
         DoTransitionOthers(menu, transition, effects);
     }
@@ -73,10 +80,76 @@ public class MenuManager : Singleton<MenuManager> {
             transitionQueue.Enqueue(new TransitionBundle(other, transition, effects));
         }
     }
+
+    public void EnableEventSystem(bool enabled)
+    {
+        input.enabled = enabled;
+    }
+
+    public bool PopMenu(bool removeRoot = false)
+    {
+        switch (menuStack.Count) {
+            case 0:
+                return false;
+            case 1:
+                if (!removeRoot)
+                {
+                    return false;
+                }
+                break;
+        }
+        DoTransition(menuStack.Pop(), Menu.Transition.HIDE, new Menu.Effect[] { });
+        return true;
+    }
+    public void ClearMenus()
+    {
+        while (menuStack.Count > 0)
+        {
+            DoTransition(menuStack.Pop(), Menu.Transition.HIDE, new Menu.Effect[] { });
+        }
+    }
+
+    public Menu GetMenuByName(string menuName)
+    {
+        return menus.Find((cmp) => { return menuName == cmp.MenuName; });
+    }
     #endregion
 
-    #region
-    protected MenuManager() { }
+    #region Private Interface
+    private MenuManager() { }
+
+    private void ProcessBundle(TransitionBundle bundle)
+    {
+        if (bundle.effects.Contains(Menu.Effect.EXCLUSIVE))
+        {
+            menuStack.Clear();
+        }
+        switch (bundle.transition)
+        {
+            case Menu.Transition.NONE:
+            case Menu.Transition.HIDE:
+                bundle.menu.canvasGroup.blocksRaycasts = false;
+                bundle.menu.canvasGroup.interactable = false;
+                break;
+            case Menu.Transition.SHOW:
+                bundle.menu.canvasGroup.blocksRaycasts = true;
+                bundle.menu.canvasGroup.interactable = true;
+                menuStack.Push(bundle.menu);
+                break;
+            case Menu.Transition.TOGGLE:
+                if (!bundle.menu.Displayed)
+                {
+                    bundle.menu.canvasGroup.blocksRaycasts = true;
+                    bundle.menu.canvasGroup.interactable = true;
+                    menuStack.Push(bundle.menu);
+                } else
+                {
+                    bundle.menu.canvasGroup.blocksRaycasts = false;
+                    bundle.menu.canvasGroup.interactable = false;
+                }
+                break;
+        }
+    }
     #endregion
 
     #region Types

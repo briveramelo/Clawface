@@ -11,6 +11,7 @@
         public static string UNTAGGED = "Untagged";
         public static string PLAYERDETECTOR = "PlayerDetector";
         public static string PROJECTILE = "Projectile";
+        public static string WALL = "Wall";
     }
 
     public static class Layers
@@ -39,6 +40,8 @@
         {
             public const string SWAP_MODE = "SWAP MODE";
             public const string DROP_MODE = "DROP MODE";
+
+            public const string PICKUP = "PICK UP";
             public const string ACTION_LEGS = "LEGS";
             public const string ACTION_ARM_LEFT = "ARM LEFT";
             public const string ACTION_ARM_RIGHT = "ARM RIGHT";
@@ -52,6 +55,10 @@
             public const string LOCK = "LOCK"; // REMOVE?
             public const string DODGE = "DODGE";
             public const string PAUSE = "PAUSE";
+            
+            public const string EQUIP_ARM_LEFT = "EQUIP ARM LEFT";
+            public const string EQUIP_ARM_RIGHT = "EQUIP ARM RIGHT";
+            public const string EQUIP_LEGS = "EQUIP LEGS";
         }
     }
 }
