@@ -17,11 +17,11 @@ public class ModUISelector : MonoBehaviour {
 
     private Dictionary<ModSpot, string> equipCommands = new Dictionary<ModSpot, string>() {
         {ModSpot.ArmR, Strings.Input.Actions.EQUIP_ARM_RIGHT },
-        {ModSpot.Legs, Strings.Input.Actions.EQUIP_LEGS },
+        {ModSpot.Legs, Strings.Input.Actions.ACTION_LEGS },
         {ModSpot.ArmL, Strings.Input.Actions.EQUIP_ARM_LEFT },
     };    
-    private List<ModUIElement> modUIElements;    
     private List<ModUIElement> notSelectedList=new List<ModUIElement>();
+    private List<ModUIElement> modUIElements;    
 
     private void Awake() {
         modUIElements=new List<ModUIElement>() {
@@ -42,21 +42,16 @@ public class ModUISelector : MonoBehaviour {
 	}
 
     private void CheckToActivateUI() {
-        foreach (KeyValuePair<ModSpot, string> spotCommands in equipCommands) {            
-            if (InputManager.Instance.QueryAction(spotCommands.Value, ButtonMode.DOWN)) {
-
-                if (!modEquipCanvas.activeSelf)
-                {
+        if (InputManager.Instance.QueryAction(Strings.Input.Actions.SWAP_MODE, ButtonMode.HELD)) {
+            foreach (KeyValuePair<ModSpot, string> spotCommands in equipCommands) {            
+                if (InputManager.Instance.QueryAction(spotCommands.Value, ButtonMode.DOWN)) {
                     OnDown(spotCommands.Key);
-                    selectedSpot = spotCommands.Key;
+                    selectedSpot = spotCommands.Key;                    
+                    break;
                 }
-                else {
-                }
-
-                break;
             }
         }
-        if (Input.anyKeyDown) {
+        if (InputManager.Instance.QueryAction(Strings.Input.Actions.SWAP_MODE, ButtonMode.UP)) {
             OnUp(selectedSpot);
         }
     }
@@ -66,35 +61,30 @@ public class ModUISelector : MonoBehaviour {
     private void CheckToEquipMod() {
         if (modEquipCanvas.activeSelf) {
             OnHeld();
-        }
-        
-        //foreach (KeyValuePair<ModSpot, string> spotCommands in equipCommands) {            
-        //    if (InputManager.Instance.QueryAction(spotCommands.Value, ButtonMode.DOWN)) {
-        //        OnDown(spotCommands.Key);
-        //        break;
-        //    }
-        //    //if (InputManager.Instance.QueryAction(spotCommands.Value, ButtonMode.HELD)) {
-        //    //    OnHeld();
-        //    //    break;
-        //    //}                        
-        //    if (InputManager.Instance.QueryAction(spotCommands.Value, ButtonMode.UP)) {
-        //        OnUp(spotCommands.Key);
-        //        break;
-        //    }            
-        //}        
+        }                     
     }
 
-    private void OnDown(ModSpot spot) {
-        modUIElements.ForEach(modUIElement => {
-            modUIElement.Close();
-        });        
-        HitstopManager.Instance.LerpToTimeScale(0.1f, 0.05f);        
-        ModUIManager.Instance.SetUIState(spot, ModUIState.ACTIVATED);
-        modEquipCanvas.SetActive(true);
+    private void OnDown(ModSpot selectedSpot) {
+        if (!modEquipCanvas.activeSelf) {
+            modUIElements.ForEach(modUIElement => {
+                modUIElement.Close();
+            });        
+            HitstopManager.Instance.LerpToTimeScale(0.1f, 0.05f);        
+            modEquipCanvas.SetActive(true);
+        }        
+        allModSpots.ForEach(spot=> {
+            ModUIManager.Instance.SetUIState(spot, ModUIState.IDLE);
+        });
+        ModUIManager.Instance.SetUIState(selectedSpot, ModUIState.ACTIVATED);
+
     }
+    List<ModSpot> allModSpots = new List<ModSpot>() { ModSpot.ArmL, ModSpot.ArmR, ModSpot.Legs};
 
     private void OnHeld() {
-        Vector2 selectAxis = InputManager.Instance.QueryAxes(Strings.Input.Axes.LOOK);
+        Vector2 selectAxis2 = InputManager.Instance.QueryAxes(Strings.Input.Axes.LOOK);
+        Vector2 selectAxis1 = InputManager.Instance.QueryAxes(Strings.Input.Axes.MOVEMENT);
+
+        Vector2 selectAxis = selectAxis1;
         if (selectAxis.magnitude > minJoystickSelectionThreshold) {
             SelectMod(selectAxis.As360Angle());            
             DeselectMods(ref notSelectedList);
@@ -106,37 +96,38 @@ public class ModUISelector : MonoBehaviour {
         }
     }
 
-    private void OnUp(ModSpot spot) {
+    private void OnUp(ModSpot selectedModSpot) {
         if (modUIElements.Exists(elm=> elm.isSelected)) {
-            modManager.EquipMod(spot, modUIElements.Find(elm => elm.isSelected).modType);
+            modManager.EquipMod(selectedModSpot, modUIElements.Find(elm => elm.isSelected).modType);
         }
 
         modUIElements.ForEach(modUIElement=> {
             modUIElement.Close();
         });
         
-        HitstopManager.Instance.LerpToTimeScale(1f, 0.15f);        
-        ModUIManager.Instance.SetUIState(spot, ModUIState.IDLE);
+        HitstopManager.Instance.LerpToTimeScale(1f, 0.15f);
+        allModSpots.ForEach(spot => {
+            ModUIManager.Instance.SetUIState(spot, ModUIState.IDLE);
+        });
         modEquipCanvas.SetActive(false);
     }
 
     private void SelectMod(float selectionAngle) {        
-        ModUIElement selectedUIElement = null;
+        
         foreach (ModUIElement modElm in modUIElements) {
             if (modElm.uiElement.activeSelf) {
                 modElm.SetIsSelected(selectionAngle);
                 if (modElm.isSelected) {
-                    selectedUIElement = modElm;                    
+                    if (modElm.canBulge) {
+                        modElm.InitializeBulge();
+                        notSelectedList.Clear();
+                        notSelectedList.Add(modElm);
+                        notSelectedList = modUIElements.Except(notSelectedList).ToList();
+                    }
                     break;
                 }
             }
         }           
-        if(selectedUIElement.canBulge) {
-            selectedUIElement.InitializeBulge();
-            notSelectedList.Clear();
-            notSelectedList.Add(selectedUIElement);
-            notSelectedList = modUIElements.Except(notSelectedList).ToList();
-        }
     }
 
     private void DeselectMods(ref List<ModUIElement> modUIElementsToDeselect) {

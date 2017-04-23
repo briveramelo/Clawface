@@ -168,7 +168,6 @@ public class LockOnScript : MonoBehaviour {
             if (hit.transform!=null && hit.transform.gameObject != currentEnemy && hit.transform.gameObject.CompareTag(Strings.Tags.ENEMY)){
                 Vector3 pointDir = -(transform.position - hit.point).NormalizedNoY();
                 float angleDiff = Mathf.Abs(inputDirection.As360Angle() - pointDir.As360Angle());
-                print(pointDir);
                 if (angleDiff < smallestAngleDifference) {
                     smallestAngleDifference = angleDiff;
                     currentEnemySide = hit.transform.gameObject;

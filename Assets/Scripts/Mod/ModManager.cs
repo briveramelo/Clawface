@@ -151,13 +151,19 @@ public class ModManager : MonoBehaviour
 
     
     private ModSpot GetCommandedModSpot(ButtonMode mode){
-        if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_LEGS, mode)){
+        if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_LEGS, mode) ||
+            InputManager.Instance.QueryAction(Strings.Input.Actions.EQUIP_LEGS, mode))
+        {
             return ModSpot.Legs;
         }
-        if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_LEFT, mode)){
+        if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_LEFT, mode) ||
+            InputManager.Instance.QueryAction(Strings.Input.Actions.EQUIP_ARM_LEFT, mode))
+        {
             return ModSpot.ArmL;
         }
-        if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_RIGHT, mode)){
+        if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_RIGHT, mode) ||
+            InputManager.Instance.QueryAction(Strings.Input.Actions.EQUIP_ARM_RIGHT, mode))
+        {
             return ModSpot.ArmR;
         }
         return ModSpot.Default;
@@ -165,13 +171,19 @@ public class ModManager : MonoBehaviour
 
     private List<ModSpot> GetCommandedModSpots(ButtonMode mode) {
         List<ModSpot> modSpots = new List<ModSpot>();
-        if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_LEGS, mode)){
+        if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_LEGS, mode) ||
+            InputManager.Instance.QueryAction(Strings.Input.Actions.EQUIP_LEGS, mode))
+        {
             modSpots.Add(ModSpot.Legs);
         }
-        if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_LEFT, mode)){
+        if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_LEFT, mode) ||
+            InputManager.Instance.QueryAction(Strings.Input.Actions.EQUIP_ARM_LEFT, mode))
+        {
             modSpots.Add(ModSpot.ArmL);
         }
-        if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_RIGHT, mode)){
+        if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_RIGHT, mode) ||
+            InputManager.Instance.QueryAction(Strings.Input.Actions.EQUIP_ARM_RIGHT, mode))
+        {
             modSpots.Add(ModSpot.ArmR);
         }
 
