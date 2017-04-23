@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 8b4ff12a00ab1aa46a77de2e9be0a79a, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -7077,7 +7077,6 @@ Transform:
   - {fileID: 133355890}
   - {fileID: 659674186}
   - {fileID: 1706240520}
-  - {fileID: 976018545}
   - {fileID: 688676179}
   - {fileID: 714032806}
   - {fileID: 1273906544}
@@ -7085,6 +7084,7 @@ Transform:
   - {fileID: 695553705}
   - {fileID: 1787912766}
   - {fileID: 811489605}
+  - {fileID: 976018545}
   - {fileID: 320237437}
   - {fileID: 577739880}
   - {fileID: 1163709718}
@@ -16796,6 +16796,11 @@ Prefab:
     - target: {fileID: 4361346077811718, guid: e2a8c38ee67e8a34086cda532589701e, type: 2}
       propertyPath: m_LocalScale.z
       value: 887.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 23963439050407704, guid: e2a8c38ee67e8a34086cda532589701e,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e2a8c38ee67e8a34086cda532589701e, type: 2}
