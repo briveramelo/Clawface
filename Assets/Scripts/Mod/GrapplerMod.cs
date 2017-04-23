@@ -127,7 +127,7 @@ public class GrapplerMod : Mod {
     private void DamageEnemies()
     {
         RaycastHit hit;
-        if(Physics.BoxCast(transform.position, new Vector3(tornadoDamageBoxWidth, 0f, hook.GetMaxLength()), transform.forward, out hit, Quaternion.identity, Mathf.Infinity, LayerMask.GetMask(Strings.Tags.ENEMY)))
+        if(Physics.BoxCast(transform.position, new Vector3(tornadoDamageBoxWidth, 0f, hook.GetMaxLength()), transform.forward, out hit, Quaternion.identity, hook.GetMaxLength()*2, LayerMask.GetMask(Strings.Tags.ENEMY)))
         {
             IDamageable damageable = hit.transform.gameObject.GetComponent<IDamageable>();
             if (damageable != null)
