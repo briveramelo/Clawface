@@ -36,25 +36,52 @@ public class ModUISelector : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update () {        
+    void Update () {
+        CheckToActivateUI();
         CheckToEquipMod();                
-	}    
+	}
 
-    private void CheckToEquipMod() {
+    private void CheckToActivateUI() {
         foreach (KeyValuePair<ModSpot, string> spotCommands in equipCommands) {            
             if (InputManager.Instance.QueryAction(spotCommands.Value, ButtonMode.DOWN)) {
-                OnDown(spotCommands.Key);
+
+                if (!modEquipCanvas.activeSelf)
+                {
+                    OnDown(spotCommands.Key);
+                    selectedSpot = spotCommands.Key;
+                }
+                else {
+                }
+
                 break;
             }
-            if (InputManager.Instance.QueryAction(spotCommands.Value, ButtonMode.HELD)) {
-                OnHeld();
-                break;
-            }                        
-            if (InputManager.Instance.QueryAction(spotCommands.Value, ButtonMode.UP)) {
-                OnUp(spotCommands.Key);
-                break;
-            }            
-        }        
+        }
+        if (Input.anyKeyDown) {
+            OnUp(selectedSpot);
+        }
+    }
+    ModSpot selectedSpot;
+
+
+    private void CheckToEquipMod() {
+        if (modEquipCanvas.activeSelf) {
+            OnHeld();
+        }
+        
+        //foreach (KeyValuePair<ModSpot, string> spotCommands in equipCommands) {            
+        //    if (InputManager.Instance.QueryAction(spotCommands.Value, ButtonMode.DOWN)) {
+        //        OnDown(spotCommands.Key);
+        //        break;
+        //    }
+        //    //if (InputManager.Instance.QueryAction(spotCommands.Value, ButtonMode.HELD)) {
+        //    //    OnHeld();
+        //    //    break;
+        //    //}                        
+        //    if (InputManager.Instance.QueryAction(spotCommands.Value, ButtonMode.UP)) {
+        //        OnUp(spotCommands.Key);
+        //        break;
+        //    }            
+        //}        
     }
 
     private void OnDown(ModSpot spot) {
@@ -147,7 +174,7 @@ public class ModUISelector : MonoBehaviour {
         public bool isSelected;
         public bool isAtStartScale { get { return uiElement.transform.localScale.IsAboutEqual(startScale); } }
 
-        private const float modUIRadius = 200f;
+        private const float modUIRadius = 177f;
         private string coroutineString;
 
         public ModUIElement(ModType modType, GameObject uiElement) {

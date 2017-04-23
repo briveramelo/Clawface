@@ -97,7 +97,7 @@ public class ModManager : MonoBehaviour
 
     #region Private Methods
     private void CheckToCollectMod() {
-        if (InputManager.Instance.QueryAction(Strings.Input.Actions.PICKUP, ButtonMode.DOWN)) {
+        //if (InputManager.Instance.QueryAction(Strings.Input.Actions.PICKUP, ButtonMode.DOWN)) {
             Physics.OverlapSphere(transform.position, modPickupRadius).ToList().ForEach(other => {
                 if (other.tag == Strings.Tags.MOD){                        
                     if (!IsHoldingMod(other.transform)) {
@@ -121,7 +121,7 @@ public class ModManager : MonoBehaviour
                     }
                 }
             });            
-        }
+        //}
     }    
 
     private void CheckToChargeAndFireMods(){

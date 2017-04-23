@@ -69,6 +69,11 @@ namespace ModMan {
 	    public static float Max (this Vector3 v) {
             return Mathf.Max (v.x, v.y, v.z);
         }
+
+        public static float As360Angle(this Vector3 inputVector) {
+            float start = Mathf.Atan2(inputVector.z, inputVector.x);
+            return (start > 0 ? start : (2 * Mathf.PI + start)) * 360 / (2 * Mathf.PI);
+        }
     }
 
     public static class GameObjectExtensions {

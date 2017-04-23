@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
+using ModMan;
 
 public class LockOnScript : MonoBehaviour {
 
@@ -11,19 +13,26 @@ public class LockOnScript : MonoBehaviour {
     private int rayCastRotationIncrement;
     [SerializeField]
     private int rayCastRotationRange;
+    [SerializeField] private Transform rayCastOrigin;
     #endregion
 
     #region Private Fields
     private GameObject currentEnemy;
     private bool isTargetting;
     private bool isChangingTarget;
-    private LayerMask enemyMask;
+    private int enemyMask;
+    private Vector3 raycastDirection;
     #endregion
 
     #region Unity Lifecycle
+    private void OnDrawGizmos() {
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(rayCastOrigin.position, raycastDirection);
+    }
+
     // Use this for initialization
-    void Start () {
-        enemyMask = LayerMask.GetMask(Strings.Tags.ENEMY);
+    void Start () {                
+        enemyMask = LayerMasker.GetLayerMask(Layers.Enemy);
         currentEnemy = null;        
         isTargetting = false;
         isChangingTarget = false;
@@ -55,34 +64,22 @@ public class LockOnScript : MonoBehaviour {
 
     void CheckForInputsAndAcquireTarget()
     {
-        if (InputManager.Instance.QueryAction(Strings.Input.Actions.LOCK, ButtonMode.HELD))
+        if (InputManager.Instance.QueryAction(Strings.Input.Actions.LOCK, ButtonMode.DOWN))
         {
             if (!isTargetting)
             {
                 isTargetting = true;
                 AcquireTarget();
             }
-            if (InputManager.Instance.QueryAxes(Strings.Input.Axes.LOOK).magnitude > 0.0F)
-            {
-                if (!isChangingTarget)
-                {
-                    isChangingTarget = true;
-                    Vector2 aimAxis = InputManager.Instance.QueryAxes(Strings.Input.Axes.LOOK);
-                    Vector3 inputDirection = Camera.main.transform.TransformDirection(new Vector3(aimAxis.x, 0.0f, aimAxis.y));
-                    inputDirection.y = 0;
-                    GetClosestEnemies(inputDirection);
-                }
+            else {
+                isTargetting = false;
+                currentEnemy = null;
             }
-            else
-            {
-                isChangingTarget = false;
-            }
+            
         }
-        else if (InputManager.Instance.QueryAction(Strings.Input.Actions.LOCK, ButtonMode.UP))
-        {
-            isTargetting = false;
-            currentEnemy = null;
-        }
+        if (isTargetting) {
+            CheckToChangeTarget();
+        }        
     }
     void AcquireTarget()
     {
@@ -104,6 +101,24 @@ public class LockOnScript : MonoBehaviour {
         }     
     }
 
+    private void CheckToChangeTarget() {
+        if (InputManager.Instance.QueryAxes(Strings.Input.Axes.LOOK).magnitude > 0.0F)
+        {
+            if (!isChangingTarget)
+            {
+                isChangingTarget = true;
+                Vector2 aimAxis = InputManager.Instance.QueryAxes(Strings.Input.Axes.LOOK);
+                Vector3 inputDirection = Camera.main.transform.TransformDirection(new Vector3(aimAxis.x, 0.0f, aimAxis.y));//new Vector3(aimAxis.x, 0, aimAxis.y);// transform.forward;
+                inputDirection.y = 0;
+                GetClosestEnemies(inputDirection);
+            }
+        }
+        else
+        {
+            isChangingTarget = false;
+        }
+    }
+
     void GetClosestEnemies(Vector3 direction)
     {
         GameObject currentEnemyRight = null;
@@ -111,35 +126,14 @@ public class LockOnScript : MonoBehaviour {
         if (currentEnemy != null)
         {            
             int count = rayCastRotationRange / rayCastRotationIncrement;
+            float smallestAngleDifference = 1000f;
             for(int i = 1; i <= count; i++)
-            {                
-                Vector3 castDirection = Quaternion.Euler(0,rayCastRotationIncrement*i,0) * direction;
-                RaycastHit hit;
-                Ray ray = new Ray(transform.position, castDirection);
-                Debug.DrawRay(transform.position, castDirection, Color.red, 1f);
-                if(Physics.Raycast(ray, out hit, Mathf.Infinity, enemyMask))
-                {
-                    if(hit.transform.gameObject != currentEnemy)
-                    {
-                        currentEnemyRight = hit.transform.gameObject;
-                        break;
-                    }
-                }
+            {
+                SetCurrentEnemies(i, direction, ref currentEnemyRight, ref smallestAngleDifference);
             }
             for (int i = -1; i >= -count; i--)
             {
-                Vector3 castDirection = Quaternion.Euler(0, rayCastRotationIncrement * i, 0) * direction;
-                RaycastHit hit;
-                Ray ray = new Ray(transform.position, castDirection);
-                Debug.DrawRay(transform.position, castDirection, Color.green, 1f);
-                if (Physics.Raycast(ray, out hit, Mathf.Infinity, enemyMask))
-                {
-                    if (hit.transform.gameObject != currentEnemy)
-                    {
-                        currentEnemyLeft = hit.transform.gameObject;
-                        break;
-                    }
-                }
+                SetCurrentEnemies(i, direction, ref currentEnemyLeft, ref smallestAngleDifference);
             }
         }
         if(currentEnemyLeft != null && currentEnemyRight != null)
@@ -161,6 +155,29 @@ public class LockOnScript : MonoBehaviour {
             currentEnemy = currentEnemyRight;
         }        
     }
+
+    Ray ray = new Ray();
+    RaycastHit[] hits = new RaycastHit[10];
+    private void SetCurrentEnemies(int i, Vector3 inputDirection, ref GameObject currentEnemySide, ref float smallestAngleDifference) {
+        raycastDirection = Quaternion.Euler(0, rayCastRotationIncrement * i, 0) * inputDirection;
+        ray.origin = rayCastOrigin.position;
+        ray.direction = raycastDirection;
+        
+        Physics.RaycastNonAlloc(ray, hits, rayCastRotationRange);
+        foreach (RaycastHit hit in hits) {
+            if (hit.transform!=null && hit.transform.gameObject != currentEnemy && hit.transform.gameObject.CompareTag(Strings.Tags.ENEMY)){
+                Vector3 pointDir = -(transform.position - hit.point).NormalizedNoY();
+                float angleDiff = Mathf.Abs(inputDirection.As360Angle() - pointDir.As360Angle());
+                print(pointDir);
+                if (angleDiff < smallestAngleDifference) {
+                    smallestAngleDifference = angleDiff;
+                    currentEnemySide = hit.transform.gameObject;
+                }                    
+            }                                
+        }
+    }
+
+    
     #endregion
 
 }
