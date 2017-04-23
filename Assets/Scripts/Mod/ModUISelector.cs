@@ -12,6 +12,7 @@ public class ModUISelector : MonoBehaviour {
     [SerializeField] private GameObject modEquipCanvas;
     [SerializeField] private GameObject blasterIcon, boomerangeIcon, diceIcon, segwayIcon, geyserIcon, grapplerIcon, stunbatonIcon;
     [SerializeField] private ModInventory modInventory;
+    [SerializeField] private ModUIManager modUIManager;
     [SerializeField] private ModManager modManager;
     [SerializeField] private float minJoystickSelectionThreshold;
 
@@ -73,9 +74,9 @@ public class ModUISelector : MonoBehaviour {
             modEquipCanvas.SetActive(true);
         }        
         allModSpots.ForEach(spot=> {
-            ModUIManager.Instance.SetUIState(spot, ModUIState.IDLE);
+            modUIManager.SetUIState(spot, ModUIState.IDLE);
         });
-        ModUIManager.Instance.SetUIState(selectedSpot, ModUIState.ACTIVATED);
+        modUIManager.SetUIState(selectedSpot, ModUIState.ACTIVATED);
 
     }
     List<ModSpot> allModSpots = new List<ModSpot>() { ModSpot.ArmL, ModSpot.ArmR, ModSpot.Legs};
@@ -107,7 +108,7 @@ public class ModUISelector : MonoBehaviour {
         
         HitstopManager.Instance.LerpToTimeScale(1f, 0.15f);
         allModSpots.ForEach(spot => {
-            ModUIManager.Instance.SetUIState(spot, ModUIState.IDLE);
+            modUIManager.SetUIState(spot, ModUIState.IDLE);
         });
         modEquipCanvas.SetActive(false);
     }

@@ -249,6 +249,7 @@ GameObject:
   - component: {fileID: 114272014647171304}
   - component: {fileID: 114342429780170378}
   - component: {fileID: 114709168524529216}
+  - component: {fileID: 114295102679162160}
   m_Layer: 9
   m_Name: MallCopCanvas
   m_TagString: Untagged
@@ -511,6 +512,7 @@ GameObject:
   - component: {fileID: 114546108055613086}
   - component: {fileID: 65541383895908204}
   - component: {fileID: 54237443411360944}
+  - component: {fileID: 65716800929020632}
   m_Layer: 0
   m_Name: BatonMod
   m_TagString: Mod
@@ -950,8 +952,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1118372282550480}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -7.98, y: 0.65, z: -32.6}
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children:
   - {fileID: 4203017246125288}
@@ -1255,6 +1257,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.5, y: 0.5, z: 0.8}
   m_Center: {x: 4.656613e-10, y: 0.05288655, z: 0.08508262}
+--- !u!65 &65716800929020632
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1789212117796556}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.041057028, y: 0.03439899, z: 0.28315106}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!95 &95519533197117512
 Animator:
   serializedVersion: 3
@@ -1375,6 +1389,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   foot: {fileID: 4009667743967004}
   rigbod: {fileID: 54477481413527770}
+  isGrounded: 0
 --- !u!114 &114216556463902696
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1388,7 +1403,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attack: 5
   defense: 5
-  health: 50
+  health: 25
   maxHealth: 0
   moveSpeed: 160
   rangedAccuracy: 1
@@ -1417,6 +1432,20 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+--- !u!114 &114295102679162160
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1183100696542480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 264c2f3fd0f25814eb16648a3a9e5ca6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  forward: {x: 0, y: 0, z: 1}
+  up: {x: 0, y: 1, z: 0}
+  updatePeriod: 0
 --- !u!114 &114321643848977182
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1579,6 +1608,9 @@ MonoBehaviour:
     start: {fileID: 4149281235311608}
     end: {fileID: 4253833904153400}
     radius: 0.6
+  jumpForce: 0
+  slamForce: 0
+  slamBox: {fileID: 65716800929020632}
 --- !u!114 &114709168524529216
 MonoBehaviour:
   m_ObjectHideFlags: 1

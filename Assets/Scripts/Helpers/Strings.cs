@@ -10,6 +10,12 @@
         public static string UNLOCKABLE = "Unlockable";
         public static string UNTAGGED = "Untagged";
         public static string PLAYERDETECTOR = "PlayerDetector";
+        public static string PROJECTILE = "Projectile";
+    }
+
+    public static class Layers
+    {
+        public static string GROUND = "Ground";
     }
 
     public static class MenuStrings

@@ -14,7 +14,9 @@ public class Pauser : Singleton<Pauser>
     // Update is called once per frame
     void Update()
     {
-        if (InputManager.Instance.QueryAction(Strings.Input.Actions.PAUSE, ButtonMode.DOWN))
+        //if (InputManager.Instance.QueryAction(Strings.Input.Actions.PAUSE, ButtonMode.DOWN))
+        //{
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             Pause();
         }        
@@ -27,4 +29,5 @@ public class Pauser : Singleton<Pauser>
         isPaused = !isPaused;
         Time.timeScale = isPaused ? 0 : 1;
     }
+    
 }

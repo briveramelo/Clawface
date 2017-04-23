@@ -40,8 +40,7 @@ public class StunBatonAttackState : IPlayerState {
     }
 
     public override void StateFixedUpdate()
-    {
-        CheckForRotationInput();
+    {        
         if (CanPounce())
         {
             stateVariables.velBody.velocity = stateVariables.playerTransform.forward * stateVariables.meleePounceVelocity * Time.fixedDeltaTime;
@@ -52,34 +51,43 @@ public class StunBatonAttackState : IPlayerState {
     {
         if (!stateVariables.stateFinished)
         {
-            
-            if (frameCount == 0)
+            if (stateVariables.currentMod.getModSpot() == ModSpot.Legs)
             {
-                ChangePose();
+                //((BatonMod)stateVariables.currentMod).footPosition = stateVariables.foot.position;
+                stateVariables.currentMod.Activate();
+                stateVariables.stateFinished = true;
             }
-            if (weHaveHitHighlightPose)
+            else
             {
-                frameCount++;
-            }
-            if (frameCount > coolDownFrameCount)
-            {
-                if (frameCount < coolDownFrameCount + inputCheckFrameCount)
+                if (frameCount == 0)
                 {
-                    if (isAttackRequested)
+                    ChangePose();
+                }
+                if (weHaveHitHighlightPose)
+                {
+                    frameCount++;
+                }
+                if (frameCount > coolDownFrameCount)
+                {
+                    if (frameCount < coolDownFrameCount + inputCheckFrameCount)
                     {
-                        frameCount = 0;
-                        weHaveHitHighlightPose = false;
+                        if (isAttackRequested)
+                        {
+                            frameCount = 0;
+                            weHaveHitHighlightPose = false;
+                        }
+                    }
+                    else
+                    {
+                        ResetState();
                     }
                 }
                 else
                 {
-                    ResetState();
+                    isAttackRequested = false;
                 }
-            }else
-            {
-                isAttackRequested = false;
             }
-        }
+        }        
     }
     #endregion
 
@@ -113,7 +121,7 @@ public class StunBatonAttackState : IPlayerState {
         currentAttackPose++;
         if(currentAttackPose == highlightPoses[highlightPoseIndex])
         {
-            stateVariables.playerTransform.position += stateVariables.playerTransform.forward * attackForwadDisplacement;
+            stateVariables.velBody.AddDecayingForce(stateVariables.playerTransform.forward * attackForwadDisplacement);
             highlightPoseIndex++;
             if(highlightPoseIndex == highlightPoses.Length)
             {

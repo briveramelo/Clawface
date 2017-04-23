@@ -20,10 +20,10 @@ public class ModManager : MonoBehaviour
     [SerializeField]
     private Stats playerStats;
     [SerializeField] private VelocityBody velBody;
-    [SerializeField]
-    private PlayerStateManager stateManager;
-    [SerializeField] ModInventory modInventory;
-    [SerializeField] ModUISelector modUISelector;
+    [SerializeField] private PlayerStateManager stateManager;
+    [SerializeField] private ModInventory modInventory;
+    [SerializeField] private ModUISelector modUISelector;
+    [SerializeField] private ModUIManager modUIManager;
     #endregion
 
     #region Private Fields
@@ -190,13 +190,13 @@ public class ModManager : MonoBehaviour
         if (modSpots.Count==0) {
             modSpots.Add(ModSpot.Default);
         }
-        return modSpots;
+        return modSpots;        
     }    
 
     private void SetAllModUIToIdle(){
         foreach (ModSpot modSpot in Enum.GetValues(typeof(ModSpot))){
             if (modSpot != ModSpot.Default){
-                ModUIManager.Instance.SetUIState(modSpot, ModUIState.IDLE);
+                modUIManager.SetUIState(modSpot, ModUIState.IDLE);
             }
         }
         modToSwap = ModSpot.Default;
@@ -209,7 +209,7 @@ public class ModManager : MonoBehaviour
         }
 
         if (!isSwapping){
-            ModUIManager.Instance.AttachMod(spot, mod.getModType());
+            modUIManager.AttachMod(spot, mod.getModType());
         }
         mod.setModSpot(spot);
         mod.transform.SetParent(modSocketDictionary[spot].socket);
@@ -219,18 +219,11 @@ public class ModManager : MonoBehaviour
         mod.AttachAffect(ref playerStats, velBody);        
         mod.DeactivateModCanvas();
     }
-    
-    private IEnumerator DelayIsOkToSwapMods()
-    {
-        isOkToSwapMods = false;
-        yield return new WaitForEndOfFrame();
-        isOkToSwapMods = true;
-    }
 
     private void Detach(ModSpot spot, bool isSwapping = false){
         if (modSocketDictionary[spot].mod != null){
             if (!isSwapping){
-                ModUIManager.Instance.DetachMod(spot);
+                modUIManager.DetachMod(spot);
                 AnalyticsManager.Instance.DropMod();
             }
             modSocketDictionary[spot].mod.transform.SetParent(modInventory.GetModParent(modSocketDictionary[spot].mod.getModType()));
@@ -238,31 +231,6 @@ public class ModManager : MonoBehaviour
             modSocketDictionary[spot].mod.DetachAffect();
             modSocketDictionary[spot].mod = null;
         }
-    }
-
-    private void SwapMods(ModSpot sourceSpot, ModSpot targetSpot){
-        Mod tempSourceMod = null;
-        Mod tempTargetMod = null;
-        AnalyticsManager.Instance.SwapMods();
-        if (modSocketDictionary[sourceSpot].mod != null)
-        {
-            tempSourceMod = modSocketDictionary[sourceSpot].mod;
-            Detach(sourceSpot, true);
-        }
-        if (modSocketDictionary[targetSpot].mod != null){
-            tempTargetMod = modSocketDictionary[targetSpot].mod;
-            Detach(targetSpot, true);
-        }
-        if (tempSourceMod != null){
-            Attach(targetSpot, tempSourceMod, true);
-        }
-        if (tempTargetMod != null){
-            Attach(sourceSpot, tempTargetMod, true);
-        }
-        if (tempSourceMod != null || tempTargetMod != null){
-            ModUIManager.Instance.SwapMods(sourceSpot, targetSpot);
-        }
-        SetAllModUIToIdle();
     }
     #endregion
 
@@ -284,7 +252,7 @@ public class ModManager : MonoBehaviour
         public ModSpot modSpot = ModSpot.Default;
         public bool isHeld = false;
         public bool wasHeld = false;
-        public float holdTime = 0.0f; 
+        public float holdTime = 0.0f;
     } 
 
     private bool IsHoldingMod(Transform otherMod) {

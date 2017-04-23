@@ -29,7 +29,15 @@ public enum SFXType {
     StunBatonImpact,
     StunBatonSwing,
     TankTreads_Attack,
-    TankTreads_Swing, 
+    TankTreads_Swing,
+    UI_Click,
+    UI_Hover,
+    UI_Back
+}
+
+public enum MusicType
+{
+    MainMenu_Track
 }
 
 public enum DamagerType {
@@ -102,7 +110,14 @@ public enum PoolObjectType {
     MallCopExplosion=10,
     GrapplingBot=11,
     GeyserProjectile = 12,
-    DiceBlock=13
+    DiceBlock=13,
+    BlasterBulletCharged=14,
+    VFXSegwayBlasterCharged = 15,
+    BlasterImpactEffectCharged = 16,
+    VFXBlasterShoot=17,
+    VFXBlasterShootCharged=18,
+	GeyserShield = 19,
+    BoomerangProjectile = 20
 }
 
 public enum MovementMode

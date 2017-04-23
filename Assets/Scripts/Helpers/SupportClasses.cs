@@ -61,7 +61,10 @@ public class ProjectileProperties {
 }
 
 public class ShooterProperties {
-    public int shooterInstanceID { get { return projectileProperties.shooterInstanceID; } }
+    public int shooterInstanceID {
+        get { return projectileProperties.shooterInstanceID; }
+        set { projectileProperties.shooterInstanceID = value; }
+    }
     public float damage { get { return projectileProperties.damage; } }
     public float speed;
     public float pushForce;
