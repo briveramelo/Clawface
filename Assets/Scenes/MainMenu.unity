@@ -627,7 +627,7 @@ Prefab:
     - target: {fileID: 224915733895269818, guid: 5f7f38047b9d2b44da22f1e2773bb9be,
         type: 2}
       propertyPath: m_RootOrder
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 224915733895269818, guid: 5f7f38047b9d2b44da22f1e2773bb9be,
         type: 2}
@@ -2397,7 +2397,7 @@ Prefab:
     - target: {fileID: 224187466563544612, guid: 508429bc42a9fbc41b7ae63130389866,
         type: 2}
       propertyPath: m_RootOrder
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 224187466563544612, guid: 508429bc42a9fbc41b7ae63130389866,
         type: 2}
@@ -19562,14 +19562,20 @@ MonoBehaviour:
     - serializedVersion: 2
       time: 27.974304
       value: 1.8439412
-      inSlope: 0.079072975
-      outSlope: 0.079072975
+      inSlope: 0.15470442
+      outSlope: 0.15470442
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 32.07437
+      value: 2.7920427
+      inSlope: 0.23124057
+      outSlope: 0.23124057
       tangentMode: 0
     - serializedVersion: 2
       time: 36.174435
       value: 3.740144
-      inSlope: 0.18590018
-      outSlope: 0.18590018
+      inSlope: 0.5437848
+      outSlope: 0.5437848
       tangentMode: 0
     - serializedVersion: 2
       time: 38.117115
@@ -19654,7 +19660,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 209919410}
-          m_MethodName: KillVideo
+          m_MethodName: KillScreen
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -19682,7 +19688,7 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-  _nameCount: 14
+  _nameCount: 15
   _events:
   - onTrigger:
       m_PersistentCalls:
@@ -31676,7 +31682,7 @@ Prefab:
     - target: {fileID: 224227375760854964, guid: 3a37b95781185d34b90e291772bed29e,
         type: 2}
       propertyPath: m_RootOrder
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 224227375760854964, guid: 3a37b95781185d34b90e291772bed29e,
         type: 2}
@@ -31945,6 +31951,12 @@ Prefab:
       propertyPath: projector
       value: 
       objectReference: {fileID: 126541300}
+    - target: {fileID: 114096518371835152, guid: c4a105a005598b64daf5e9fd41695e31,
+        type: 2}
+      propertyPath: staticLoop
+      value: 
+      objectReference: {fileID: 32900000, guid: 17e4b44ac9e787f4e877e92da510a94a,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c4a105a005598b64daf5e9fd41695e31, type: 2}
   m_IsPrefabParent: 0

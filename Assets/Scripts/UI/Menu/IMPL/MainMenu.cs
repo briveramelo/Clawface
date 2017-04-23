@@ -64,6 +64,7 @@ public class MainMenu : Menu
         {
             DoTransition(Transition.SHOW, new Effect[] { });
             menuShowing = true;
+            
         }
     }
 
@@ -172,6 +173,12 @@ public class MainMenu : Menu
     {
         EventSystem.current.SetSelectedGameObject(creditsDefaultSelected);
         gameObject.SetActive(false);
+    }
+
+    public void KillScreen()
+    {
+        projector.clip = staticLoop;
+        projector.isLooping = true;
     }
     
 }
