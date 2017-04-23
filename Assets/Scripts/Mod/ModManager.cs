@@ -21,6 +21,8 @@ public class ModManager : MonoBehaviour
     [SerializeField] private VelocityBody velBody;
     [SerializeField]
     private PlayerStateManager stateManager;
+    [SerializeField]
+    private ModUIManager modUIManager;
     #endregion
 
     #region Private Fields
@@ -186,7 +188,7 @@ public class ModManager : MonoBehaviour
             StartCoroutine(DelayIsOkToSwapMods());            
             modToSwap = GetCommandedModSpot(ButtonMode.DOWN);
             if (modToSwap != ModSpot.Default){
-                ModUIManager.Instance.SetUIState(modToSwap, ModUIState.SELECTED);
+                modUIManager.SetUIState(modToSwap, ModUIState.SELECTED);
             }
         }
         if (InputManager.Instance.QueryAction(Strings.Input.Actions.SWAP_MODE, ButtonMode.UP)){
@@ -197,7 +199,7 @@ public class ModManager : MonoBehaviour
     private void SetAllModUIToIdle(){
         foreach (ModSpot modSpot in Enum.GetValues(typeof(ModSpot))){
             if (modSpot != ModSpot.Default){
-                ModUIManager.Instance.SetUIState(modSpot, ModUIState.IDLE);
+                modUIManager.SetUIState(modSpot, ModUIState.IDLE);
             }
         }
         modToSwap = ModSpot.Default;
@@ -231,7 +233,7 @@ public class ModManager : MonoBehaviour
         }
 
         if (!isSwapping){
-            ModUIManager.Instance.AttachMod(spot, mod.getModType());
+            modUIManager.AttachMod(spot, mod.getModType());
         }
         mod.setModSpot(spot);
         mod.transform.SetParent(modSocketDictionary[spot].socket);
@@ -259,7 +261,7 @@ public class ModManager : MonoBehaviour
     private void Detach(ModSpot spot, bool isSwapping = false){
         if (modSocketDictionary[spot].mod != null){
             if (!isSwapping){
-                ModUIManager.Instance.DetachMod(spot);
+                modUIManager.DetachMod(spot);
                 AnalyticsManager.Instance.DropMod();
             }
             modSocketDictionary[spot].mod.transform.SetParent(null);
@@ -288,7 +290,7 @@ public class ModManager : MonoBehaviour
             Attach(sourceSpot, tempTargetMod, true);
         }
         if (tempSourceMod != null || tempTargetMod != null){
-            ModUIManager.Instance.SwapMods(sourceSpot, targetSpot);
+            modUIManager.SwapMods(sourceSpot, targetSpot);
         }
         SetAllModUIToIdle();
     }

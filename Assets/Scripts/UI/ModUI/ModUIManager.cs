@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public class ModUIManager : Singleton<ModUIManager> {
+public class ModUIManager : MonoBehaviour {
 
 
     #region Serialized Unity Fields
@@ -28,10 +28,8 @@ public class ModUIManager : Singleton<ModUIManager> {
     #endregion
 
     #region Unity State Functions
-        protected override void Awake()
+        private void Awake()
         {
-        shouldRegister=false;
-        base.Awake();
             // UIcon Instantiation and Assignment
             foreach(ModSpot spot in Enum.GetValues(typeof(ModSpot))) {
                 if (spot == ModSpot.Default) break;
