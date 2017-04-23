@@ -39,7 +39,7 @@ public class BoomerangProjectile : MonoBehaviour {
     {
         start = false;
         angle = 0f;
-        transform.forward = Vector3.zero;
+        transform.forward = Vector3.right; //Vector3.zero;
         transform.localPosition = Vector3.zero;
         maxAngle = 360f;
     }

@@ -52,7 +52,7 @@ public class ServiceWrangler : Singleton<ServiceWrangler> {
         {
             singletonPrefabRegistry[typeString].isRegistered = true;
         }
-        else if (typeString != (typeof(ServiceWrangler)).ToString()) {
+        else if (typeString != (typeof(ServiceWrangler)).ToString()) {            
             string debugMessage = typeString + " attempting duplicate or unprepared service registry. Add this singleton to the singletonPrefabRegistry";
             Debug.LogFormat("<color=#ffff00>" + debugMessage + "</color>");
         }
