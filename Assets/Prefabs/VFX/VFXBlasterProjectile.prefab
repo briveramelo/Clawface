@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 54293444176919594}
   m_Layer: 0
   m_Name: VFXBlasterProjectile
-  m_TagString: Untagged
+  m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -203,10 +203,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9aba7aa4c71bf6641b131b68d391ad80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isCharged: 0
-  speed: 20
-  damage: 2
-  damageMultiplierCharged: 2
 --- !u!123 &123945899868075588
 LensFlare:
   m_ObjectHideFlags: 1

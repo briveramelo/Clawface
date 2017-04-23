@@ -106,7 +106,9 @@ public enum PoolObjectType {
     VFXSegwayBlasterCharged = 15,
     BlasterImpactEffectCharged = 16,
     VFXBlasterShoot=17,
-    VFXBlasterShootCharged=18
+    VFXBlasterShootCharged=18,
+	GeyserShield = 19,
+    BoomerangProjectile = 20
 }
 
 public enum MovementMode
