@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,17 +26,9 @@ public class PlayerStateManager : MonoBehaviour {
     [SerializeField]
     private float holdAttackSlowDown;
     [SerializeField]
-    private float dashPower = 100.0F;
+    private DashState dashState;
     [SerializeField]
-    private float dashDecay = 0.25F;
-    [SerializeField]
-    private float dashTime = 1.0F; // seconds
-    [SerializeField]
-    private float dashIFrameStart = 0.25F;
-    [SerializeField]
-    private float dashIFrameEnd = 0.75F;
-    [SerializeField]
-    private DashState dashState;    
+    private float dashCoolDown;
     #endregion
 
     #region Private Fields
@@ -90,9 +83,11 @@ public class PlayerStateManager : MonoBehaviour {
         } else if (InputManager.Instance.QueryAction(Strings.Input.Actions.DODGE, ButtonMode.DOWN) && canDash && stateVariables.stateFinished) // do dodge / dash
         {
             SwitchState(dashState);
+            canDash = false;
+            StartCoroutine(WaitForDashCoolDown());
         }            
         playerStates.ForEach(state=>state.StateUpdate());
-    }
+    }    
 
     void FixedUpdate()
     {
@@ -160,14 +155,9 @@ public class PlayerStateManager : MonoBehaviour {
         stateChanged = false;
     }
 
-    private IEnumerator DashController()
+    private IEnumerator WaitForDashCoolDown()
     {
-        canDash = false;
-        yield return new WaitForSeconds(dashIFrameStart);
-        playerStatsManager.damageModifier = 0.0F;
-        yield return new WaitForSeconds(dashIFrameEnd - dashIFrameStart);
-        playerStatsManager.damageModifier = 1.0F;
-        yield return new WaitForSeconds(dashTime = dashIFrameEnd);
+        yield return new WaitForSeconds(dashCoolDown);
         canDash = true;
     }
     #endregion
