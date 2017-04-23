@@ -5,8 +5,7 @@ using UnityEngine;
 using MovementEffects;
 
 public class BlasterMod : Mod {
-
-    [SerializeField] private VFXBlasterShoot blasterEffect;
+    
     [SerializeField] private Transform bulletSpawnPoint;
 
     [SerializeField] private float kickbackForce;
@@ -81,14 +80,18 @@ public class BlasterMod : Mod {
 
     private BlasterBullet Shoot(){
         SFXManager.Instance.Play(SFXType.BlasterShoot, transform.position);
-        blasterEffect.Emit();
+        PoolObjectType poolObjType = IsCharged() ? PoolObjectType.VFXBlasterShootCharged: PoolObjectType.VFXBlasterShoot;
+        GameObject vfx = ObjectPool.Instance.GetObject(poolObjType);
+        vfx.transform.position = bulletSpawnPoint.position;
+        vfx.transform.rotation = transform.rotation;
         BlasterBullet bullet = SpawnBullet();        
         return bullet;
     }
 
     private BlasterBullet SpawnBullet()
     {
-        BlasterBullet blasterBullet = ObjectPool.Instance.GetObject(PoolObjectType.BlasterBullet).GetComponent<BlasterBullet>();
+        PoolObjectType poolObjType = IsCharged() ? PoolObjectType.BlasterBulletCharged : PoolObjectType.BlasterBullet;
+        BlasterBullet blasterBullet = ObjectPool.Instance.GetObject(poolObjType).GetComponent<BlasterBullet>();
         if (blasterBullet){
             blasterBullet.transform.position = bulletSpawnPoint.position;
             blasterBullet.transform.rotation = transform.rotation;
