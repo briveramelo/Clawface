@@ -51,8 +51,7 @@ public enum DamagerType {
     StunMine=7,
     FireTrap=8,
     GrapplingBotExplosion=9,
-    Dice=10,
-    SegwayPushCharged=11
+    Dice=10
 }
 
 public enum DamagedType {
@@ -121,14 +120,12 @@ public enum PoolObjectType {
     BoomerangProjectile = 20,
     GeyserGushLine = 21,
     DiceBlockExplosion=22
-    SkinEffect=23
 }
 
 public enum MovementMode
 {
     PRECISE = 0,
-    ICE = 1,
-    RAGDOLL = 2
+    ICE = 1
 }
 
 public enum PlayerAnimationStates
@@ -175,9 +172,7 @@ public enum EMallCopState {
     Chase = 4,
     Twitch = 5,
     Fire = 6,
-    Flee = 7,
-    Idle = 8,
-    GettingUp = 9
+    Flee = 7
 }
 
 public enum EGrapplingBotState {
