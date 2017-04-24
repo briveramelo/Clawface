@@ -42,6 +42,9 @@ public class MainMenu : Menu
     [SerializeField]
     VideoClip staticLoop;
 
+    [SerializeField]
+    CameraTrack track;
+
     CanvasGroup fadeCanvasGroup;
   
 
@@ -62,8 +65,9 @@ public class MainMenu : Menu
         
         if (!menuShowing)
         {
-            DoTransition(Transition.SHOW, new Effect[] { });
-            menuShowing = true;
+            //DoTransition(Transition.SHOW, new Effect[] { });
+            StartCoroutine(MenuTransitionsCommon.FadeCoroutine(0.0f, 1.0f, 1.0f, canvasGroup, SkipToMenuShow));
+
             
         }
     }
@@ -86,7 +90,8 @@ public class MainMenu : Menu
     {
         if (Input.anyKey)
         {
-            ShowMenu();
+            //ShowMenu();
+            SkipToMenuHide();
         }
     }
 
@@ -179,6 +184,19 @@ public class MainMenu : Menu
     {
         projector.clip = staticLoop;
         projector.isLooping = true;
+    }
+
+    public void SkipToMenuHide()
+    {
+         
+        StartCoroutine(MenuTransitionsCommon.FadeCoroutine(0.0f, 1.0f, 1.0f, fadeCanvasGroup, SkipToMenuShow));
+    }
+
+    public void SkipToMenuShow()
+    {
+        menuShowing = true;
+        track.JumpToPosition(3);
+        StartCoroutine(MenuTransitionsCommon.FadeCoroutine(1.0f, 0.0f, 1.0f, fadeCanvasGroup, null));
     }
     
 }
