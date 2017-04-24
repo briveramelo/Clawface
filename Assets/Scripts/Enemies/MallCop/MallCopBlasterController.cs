@@ -31,6 +31,7 @@ public class MallCopBlasterController : MallCopController {
             CheckToPatrol,
             CheckFinishTwitching,
             CheckToFinishFiring,
+            CheckFinishGettingUp,
             CheckToFlee,
         };
     }
@@ -79,6 +80,16 @@ public class MallCopBlasterController : MallCopController {
             }
         }
         return false;        
+    }
+
+    bool CheckFinishGettingUp () {
+        if (CurrentState == states.gettingUp && states.gettingUp.IsDoneGettingUp) {
+            if (stats.health > 0) {
+                UpdateState(EMallCopState.Chase);
+                return true;
+            }
+        }
+        return false;
     }
 
     bool CheckToFinishFiring() {

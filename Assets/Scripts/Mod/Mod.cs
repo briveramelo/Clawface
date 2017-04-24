@@ -27,6 +27,7 @@ public abstract class Mod : MonoBehaviour {
     protected IMovable wielderMovable;
     protected List<IDamageable> recentlyHitEnemies = new List<IDamageable>();
     protected VFXModCharge vfxModCharge;
+    protected GameObject vfxModCooldownInstance;
     protected bool isAttached;
     protected Damager damager=new Damager();
     public float Attack {
@@ -40,7 +41,7 @@ public abstract class Mod : MonoBehaviour {
     #endregion
 
     #region Serialized Unity Inspector fields
-    [SerializeField] protected GameObject vfxModChargePrefab;
+    [SerializeField] protected GameObject vfxModChargePrefab, vfxModCooldownPrefab;
     [SerializeField] protected Collider pickupCollider;
     [SerializeField] protected GameObject modCanvas;
     [SerializeField] protected EnergySettings energySettings;
@@ -56,6 +57,9 @@ public abstract class Mod : MonoBehaviour {
         Mod mod = this;
         energySettings.Initialize(ref mod);
         vfxModCharge=Instantiate(vfxModChargePrefab, transform).GetComponent<VFXModCharge>();
+        vfxModCooldownInstance=Instantiate(vfxModCooldownPrefab, transform);
+        vfxModCooldownInstance.transform.localPosition=Vector3.zero;
+        vfxModCooldownInstance.SetActive(false);
     }
     protected virtual void Update()
     {        
@@ -67,16 +71,9 @@ public abstract class Mod : MonoBehaviour {
         return energySettings.IsCharged;
     }
 
-    public void PlayCharged() {
-        //vfxModCharge.Enable();
-    }
-    public void StopCharged() {
-        //vfxModCharge.Disable();
-    }
-
     public virtual void Activate(Action onCompleteCoolDown=null, Action onActivate=null) {
         if (!energySettings.isInUse){
-            Timing.RunCoroutine(BeginCoolDown(onCompleteCoolDown), Segment.FixedUpdate);
+            Timing.RunCoroutine(RunCooldown(onCompleteCoolDown), Segment.FixedUpdate);
             useAction();
             if (onActivate!=null) {
                 onActivate();
@@ -117,6 +114,7 @@ public abstract class Mod : MonoBehaviour {
     private void EndCharging() {
         vfxModCharge.StopCharging();
         energySettings.Reset();
+        vfxModCooldownInstance.SetActive(false);
     }
 
     protected abstract void BeginChargingArms();
@@ -193,13 +191,14 @@ public abstract class Mod : MonoBehaviour {
     #endregion
 
     #region Private Methods
-    protected IEnumerator<float> BeginCoolDown(Action onComplete){
+    protected IEnumerator<float> RunCooldown(Action onComplete){
         energySettings.CheckToSetAsCharged();
         recentlyHitEnemies.Clear();
         yield return Timing.WaitUntilDone(Timing.RunCoroutine(energySettings.BeginCoolDown(), Segment.FixedUpdate));
         if (onComplete!=null) {
             onComplete();
         }
+        vfxModCooldownInstance.SetActive(true);
     }
 
     private Action useAction {
