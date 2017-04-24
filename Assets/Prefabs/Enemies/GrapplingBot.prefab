@@ -126,7 +126,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1775496334739832}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 10.71, y: 11.01, z: 92.31}
+  m_LocalPosition: {x: -22.89552, y: 0, z: -1.2101269}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4418150024951088}
@@ -417,6 +417,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   foot: {fileID: 4418150024951088}
   rigbod: {fileID: 54663591123167298}
+  iceForceMultiplier: 0
+  movementMode: 0
 --- !u!114 &114771660160539002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -452,6 +454,8 @@ MonoBehaviour:
   hasState: 0
   vfxModChargePrefab: {fileID: 1868770362516384, guid: 75076dc3f3739ff4bb01ae67a336ecc5,
     type: 2}
+  vfxModCooldownPrefab: {fileID: 1020022290495414, guid: 28c736c9f78d4cc4b8ea1d4a2875356d,
+    type: 2}
   pickupCollider: {fileID: 65642169863216036}
   modCanvas: {fileID: 0}
   energySettings:
@@ -484,6 +488,10 @@ MonoBehaviour:
   hook: {fileID: 114263965654539232}
   jumpForce: 30
   jumpForceMultiplier: 2
+  tornadoSpeed: 0
+  standardTornadoFallingForce: 0
+  chargedTornadoFallingForce: 0
+  tornadoDamageBoxWidth: 0
 --- !u!114 &114967983117644996
 MonoBehaviour:
   m_ObjectHideFlags: 1

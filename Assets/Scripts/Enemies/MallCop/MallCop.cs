@@ -66,7 +66,7 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
                 copUICanvas.ShowAction(ActionType.Skin);
             }
 
-            if (damager.damagerType == DamagerType.SegwayPushCharged)
+            if (damager.damagerType == DamagerType.SegwayPushCharged && ragdollController != null)
                 ragdollController.EnterRagdoll(2f);
 
             if (myStats.health <= 0) {
