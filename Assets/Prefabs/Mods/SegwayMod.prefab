@@ -357,17 +357,20 @@ MonoBehaviour:
     hasStartedCharging: 0
   segwayVFX: {fileID: 114046701473042792}
   standardForceSettings:
-    jumpForce: 10
+    jumpForce: 5
     armpushForce: 30
     aoePushForce: 12
+    capsuleLength: 3
   chargedForceSettings:
     jumpForce: 15
     armpushForce: 100
     aoePushForce: 20
-  capsuleBounds:
+    capsuleLength: 5
+  capsuleBoundsDirection:
     start: {fileID: 4128817946837334}
-    end: {fileID: 4108063479681664}
+    endingDirection: {fileID: 4108063479681664}
     radius: 1
+    length: 3
   speedBoostMultiplier: 0.05
   aoeRadius: 3
 --- !u!114 &114242993152467452
