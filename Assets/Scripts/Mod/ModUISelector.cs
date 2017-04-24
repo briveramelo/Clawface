@@ -9,7 +9,7 @@ using System.Linq;
 
 public class ModUISelector : MonoBehaviour {
 
-    [SerializeField] private GameObject modEquipCanvas;
+    [SerializeField] private GameObject modEquipCanvas;//, selectionHighlighter;
     [SerializeField] private GameObject blasterIcon, boomerangeIcon, diceIcon, segwayIcon, geyserIcon, grapplerIcon, stunbatonIcon;
     [SerializeField] private ModInventory modInventory;
     [SerializeField] private ModUIManager modUIManager;
@@ -145,6 +145,8 @@ public class ModUISelector : MonoBehaviour {
 
     private void SelectMod(ModUIElement modElm) {
         selectedMod = modElm.modType;
+        //selectionHighlighter.transform.localPosition = modElm.selectHighlighterPosition;
+        //selectionHighlighter.transform.localRotation = modElm.selectHighlighterRotation;
         modElm.InitializeBulge();
         notSelectedList.Clear();
         notSelectedList.Add(modElm);
@@ -180,7 +182,6 @@ public class ModUISelector : MonoBehaviour {
         public ModType modType = ModType.None;
         public Range360 range;
         public float myAngle;
-        public Vector2 myPosition;
         public bool isBulging;
         private bool wasSelected;
         public bool canBulge { get { return !isBulging && isSelected && !wasSelected; } }
@@ -190,8 +191,13 @@ public class ModUISelector : MonoBehaviour {
         public bool isSelected;
         public bool isAtStartScale { get { return uiElement.transform.localScale.IsAboutEqual(startScale); } }
 
+        public Vector2 myPosition { get { return myAngle.AsVector2() * modUIRadius; } }
+        public Vector3 selectHighlighterPosition { get { return myAngle.AsVector2() * selectionRadius; } }
+        public Quaternion selectHighlighterRotation { get { return Quaternion.AngleAxis(myAngle, Vector3.forward); } }
         public int myIndex=-1;
         private const float modUIRadius = 177f;
+        private const float selectionRadius = 169f;
+
         private string coroutineString;
 
         public ModUIElement(ModType modType, GameObject uiElement) {
@@ -206,10 +212,9 @@ public class ModUISelector : MonoBehaviour {
             float window = (360/numMods);
             range.Min = window*(myIndex - 0.5f);
             range.Max = window*(myIndex + 0.5f);
-            myAngle = range.Middle;
-            myPosition = myAngle.AsVector2();
-            uiElement.SetActive(true);            
-            uiElement.transform.localPosition = myPosition * modUIRadius;
+            myAngle = range.Middle;            
+            uiElement.SetActive(true);
+            uiElement.transform.localPosition = myPosition;
             coroutineString = modType + "modUI";
         }
 
@@ -234,8 +239,8 @@ public class ModUISelector : MonoBehaviour {
             }
         }
 
-        private Vector3 maxScale=Vector3.one * 3f;
-        private Vector3 endScale=Vector3.one * 2.5f;
+        private Vector3 maxScale=Vector3.one * 2f;
+        private Vector3 endScale=Vector3.one * 1.75f;
         private Vector3 startScale = Vector3.one;
 
         public void InitializeBulge() {

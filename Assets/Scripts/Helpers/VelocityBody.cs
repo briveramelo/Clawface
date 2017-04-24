@@ -8,6 +8,16 @@ public class VelocityBody : MonoBehaviour, IMovable{
     [SerializeField] private Rigidbody rigbod;
     [SerializeField]
     private float iceForceMultiplier;
+    [SerializeField]private MovementMode movementMode;
+
+    protected bool isGrounded;
+
+    private bool isFalling;
+    
+    private const float footSphereRadius= 0.2f;
+    private List<Vector3> externalForces= new List<Vector3>();
+    private Collider[] groundColliders = new Collider[10];
+    private int groundMask = LayerMasker.GetLayerMask(new List<Layers>() { Layers.Ground, Layers.Enemy });
 
     public Vector3 velocity {
         get {
@@ -29,22 +39,17 @@ public class VelocityBody : MonoBehaviour, IMovable{
         set { rigbod.useGravity = value;}
     }
 
-    protected bool isGrounded;
-
-    private bool isFalling;
-    
-    private const float footSphereRadius= 0.2f;
-    private List<Vector3> externalForces= new List<Vector3>();
-    private MovementMode movementMode;
 
     void Start() {        
         InitializeExternalForces();
     }
 
     protected virtual void Update() {
-        isGrounded = CheckIsGrounded();
-        if (!isGrounded && !isFalling) {
-            Timing.RunCoroutine(ApplyGravity(), Segment.FixedUpdate, GetInstanceID().ToString());
+        if (!useGravity) {
+            isGrounded = CheckIsGrounded();
+            if (!isGrounded && !isFalling) {
+                Timing.RunCoroutine(ApplyGravity(), Segment.FixedUpdate, GetInstanceID().ToString());
+            }
         }
         //if (movementMode==MovementMode.ICE) {            
         //    float x = Mathf.Clamp(rigbod.velocity.x, -20f, 20f);
@@ -127,29 +132,27 @@ public class VelocityBody : MonoBehaviour, IMovable{
     }
 
     private bool CheckIsGrounded() {
-        Collider[] cols = Physics.OverlapSphere(foot.transform.position, footSphereRadius);
-        for (int i = 0; i < cols.Length; i++) {
-            if (cols[i].gameObject.layer == (int)Layers.Ground || cols[i].gameObject.layer == (int)Layers.Enemy) {
+        groundColliders = Physics.OverlapSphere(foot.transform.position, footSphereRadius, groundMask);
+        for (int i = 0; i < groundColliders.Length; i++) {
+            if (groundColliders[i].gameObject.layer == (int)Layers.Ground || groundColliders[i].gameObject.layer == (int)Layers.Enemy) {
                 return true;
             }
         }        
         return false;
     }
 
-    private IEnumerator<float> ApplyGravity() {
-        if (!useGravity) {
-            isFalling = true;
-            int currentIndex = externalForces.FindIndex(vec => vec == Vector3.zero);
-            float timeElapsed = 0f;
-            float gravity = 9.81f;
-            while (!isGrounded && isFalling && !useGravity) {
-                externalForces[currentIndex] = Vector3.down * (gravity * timeElapsed);
-                timeElapsed += Time.deltaTime;
-                yield return Timing.WaitForOneFrame;
-            }
-            isFalling = false;
-            externalForces[currentIndex] = Vector3.zero;
+    private IEnumerator<float> ApplyGravity() {        
+        isFalling = true;
+        int currentIndex = externalForces.FindIndex(vec => vec == Vector3.zero);
+        float timeElapsed = 0f;
+        float gravity = 9.81f;
+        while (!isGrounded && isFalling && !useGravity) {
+            externalForces[currentIndex] = Vector3.down * (gravity * timeElapsed);
+            timeElapsed += Time.deltaTime;
+            yield return Timing.WaitForOneFrame;
         }
+        isFalling = false;
+        externalForces[currentIndex] = Vector3.zero;        
     }
 
     private Vector3 GetExternalForceSum() {
