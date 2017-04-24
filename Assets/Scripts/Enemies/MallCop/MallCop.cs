@@ -165,5 +165,5 @@ public class MallCopProperties {
     [Range(5f, 15f)] public float walkTime;
     [Range(1, 6)] public int numShocksToStun;
     [Range(.1f, 1)] public float twitchRange;
-    [Range(.1f, 1f)] public float twitchTime;
+    [Range(.1f, 1f)] public float twitchTime;    
 }

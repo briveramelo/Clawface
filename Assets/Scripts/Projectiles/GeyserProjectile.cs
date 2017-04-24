@@ -49,7 +49,7 @@ public class GeyserProjectile : MonoBehaviour {
             if (projectileProperties.shooterInstanceID != other.gameObject.GetInstanceID()) {
                 IDamageable damageable = other.GetComponent<IDamageable>();
                 if (damageable!=null) {
-                    damager.Set(projectileProperties.damage, DamagerType.Geyser, Vector3.up);
+                    damager.Set(projectileProperties.damage, DamagerType.Geyser, Vector3.down);
                     damageable.TakeDamage(damager);
                 }
             }

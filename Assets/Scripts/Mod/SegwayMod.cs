@@ -12,18 +12,18 @@ public class SegwayMod : Mod {
 
     private void OnDrawGizmosSelected(){
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(capsuleBounds.Start, capsuleBounds.radius);
-        Gizmos.DrawWireSphere(capsuleBounds.End, capsuleBounds.radius);        
+        Gizmos.DrawWireSphere(capsuleBoundsDirection.Start, capsuleBoundsDirection.radius);
+        Gizmos.DrawWireSphere(capsuleBoundsDirection.End, capsuleBoundsDirection.radius);        
 
         Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(capsuleBounds.Start, aoeRadius);
+        Gizmos.DrawWireSphere(capsuleBoundsDirection.Start, aoeRadius);
     }
     
     [SerializeField] private VFXSegway segwayVFX;
     [SerializeField] private ForceSettings standardForceSettings;
     [SerializeField] private ForceSettings chargedForceSettings;
 
-    [SerializeField] private CapsuleBounds capsuleBounds;
+    [SerializeField] private CapsuleBoundsDirection capsuleBoundsDirection;
     [SerializeField] private float speedBoostMultiplier;
     [SerializeField] private float aoeRadius;
 
@@ -46,11 +46,6 @@ public class SegwayMod : Mod {
         base.AttachAffect(ref wielderStats, wielderMovable);        
         segwayVFX.SetIdle(false);
 
-        //TODO ask art to set default rotation to this value
-        //transform.localEulerAngles = new Vector3(-90f, 0f, 0f);
-        //transform.localPosition = new Vector3(0f, 0.015f, 0.09f);
-        //
-
         if (getModSpot() == ModSpot.Legs){
             segwayVFX.SetMoving(true);
             this.wielderStats.Multiply(StatType.MoveSpeed, speedBoostMultiplier);
@@ -63,6 +58,7 @@ public class SegwayMod : Mod {
     }
 
     public override void Activate(Action onCompleteCoolDown=null, Action onActivate=null){
+        capsuleBoundsDirection.length = IsCharged() ? chargedForceSettings.capsuleLength : standardForceSettings.capsuleLength;
         base.Activate(onCompleteCoolDown, onActivate);   
     }
 
@@ -75,15 +71,15 @@ public class SegwayMod : Mod {
     protected override void RunChargingLegs(){ }
     protected override void ActivateChargedLegs(){
         MegaForcePush();
-        //if (wielderMovable.IsGrounded()) {
-        //   Jump();
-        //}
+        if (wielderMovable.IsGrounded()) {
+           Jump();
+        }
     }
     protected override void ActivateStandardLegs(){
         ForcePush();
-        //if (wielderMovable.IsGrounded()) {
-        //    Jump();
-        //}
+        if (wielderMovable.IsGrounded()) {
+            Jump();
+        }
     }        
 
     public override void DeActivate()
@@ -113,13 +109,13 @@ public class SegwayMod : Mod {
         GameObject blasterFX = ObjectPool.Instance.GetObject(poolObjType);
         if (blasterFX) {
             blasterFX.DeActivate(1.1f);
-            blasterFX.transform.position = capsuleBounds.Start;
+            blasterFX.transform.position = capsuleBoundsDirection.Start;
             blasterFX.transform.forward = transform.forward;
         }        
         Timing.RunCoroutine(PushForTime());                        
     }
 
-    void MegaForcePush() {
+    void MegaForcePush() {        
         ForcePush();
     }
 
@@ -166,9 +162,9 @@ public class SegwayMod : Mod {
 
     List<Collider> GetOverlap(){ 
         if (getModSpot()!=ModSpot.Legs){ 
-            return Physics.OverlapCapsule(capsuleBounds.Start, capsuleBounds.End, capsuleBounds.radius).ToList();
+            return Physics.OverlapCapsule(capsuleBoundsDirection.Start, capsuleBoundsDirection.End, capsuleBoundsDirection.radius).ToList();
         }
-        return Physics.OverlapSphere(capsuleBounds.Start, aoeRadius).ToList();
+        return Physics.OverlapSphere(capsuleBoundsDirection.Start, aoeRadius).ToList();
     }
 
     void Jump() {
@@ -195,6 +191,7 @@ public class SegwayMod : Mod {
         public float jumpForce;
         public float armpushForce;
         public float aoePushForce;
+        public float capsuleLength;
     }
     #endregion
 }
