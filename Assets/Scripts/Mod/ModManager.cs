@@ -25,6 +25,7 @@ public class ModManager : MonoBehaviour
     [SerializeField] private ModInventory modInventory;
     [SerializeField] private ModUISelector modUISelector;
     [SerializeField] private ModUIManager modUIManager;
+    [SerializeField] private float modPickupRadius;
     #endregion
 
     #region Private Fields
@@ -33,11 +34,16 @@ public class ModManager : MonoBehaviour
     private ModSpot modToSwap;    
     private bool isOkToSwapMods = true;
     List<Mod> overlapMods = new List<Mod>();
-    private float modPickupRadius;
     private bool canActivate=true;
     #endregion
 
     #region Unity Lifecycle
+
+    private void OnDrawGizmos() {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, modPickupRadius);
+    }
+
     private void Start()
     {
         modSocketDictionary = new Dictionary<ModSpot, ModSocket>(){
@@ -58,7 +64,7 @@ public class ModManager : MonoBehaviour
     {
         CheckToCollectMod();                
         CheckToChargeAndFireMods();
-        CheckToActivateModCanvas();
+        //CheckToActivateModCanvas();
     }
     
     
