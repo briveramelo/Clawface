@@ -29,7 +29,7 @@ public class VelocityBody : MonoBehaviour, IMovable{
         set { rigbod.useGravity = value;}
     }
 
-    protected bool isGrounded;
+    [SerializeField] protected bool isGrounded;
 
     private bool isFalling;
     

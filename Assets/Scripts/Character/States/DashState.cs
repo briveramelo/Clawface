@@ -78,7 +78,9 @@ public class DashState : IPlayerState {
         currentFrame = 0;
         currentPose = 0;
         stateVariables.statsManager.damageModifier = 1.0f;
-        stateVariables.velBody.velocity = Vector3.zero;
+        if (stateVariables.velBody.GetMovementMode()==MovementMode.ICE) {
+            stateVariables.velBody.velocity = stateVariables.velBody.GetForward() * dashVelocity/10f;
+        }
         dashTrail.GetComponent<TrailRenderer>().enabled = false;
         stateVariables.stateFinished = true;
     }
