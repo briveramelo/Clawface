@@ -170,7 +170,9 @@ public enum EMallCopState {
     Chase = 4,
     Twitch = 5,
     Fire = 6,
-    Flee = 7
+    Flee = 7,
+    Idle = 8,
+    GettingUp = 9
 }
 
 public enum EGrapplingBotState {

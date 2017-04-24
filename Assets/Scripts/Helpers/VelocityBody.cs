@@ -17,7 +17,14 @@ public class VelocityBody : MonoBehaviour, IMovable{
     private const float footSphereRadius= 0.2f;
     private List<Vector3> externalForces= new List<Vector3>();
     private Collider[] groundColliders = new Collider[10];
-    private int groundMask = LayerMasker.GetLayerMask(new List<Layers>() { Layers.Ground, Layers.Enemy });
+    private int groundMask {
+        get {
+            if (gameObject.CompareTag(Strings.Tags.PLAYER)) {
+                return LayerMasker.GetLayerMask(new List<Layers>() { Layers.Ground, Layers.Enemy });
+            }
+            return LayerMasker.GetLayerMask(Layers.Ground);
+        }
+    }
 
     public Vector3 velocity {
         get {
