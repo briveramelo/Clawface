@@ -39,7 +39,6 @@ public class VelocityBody : MonoBehaviour, IMovable{
         set { rigbod.useGravity = value;}
     }
 
-
     void Start() {        
         InitializeExternalForces();
     }
