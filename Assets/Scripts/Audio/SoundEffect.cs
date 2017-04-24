@@ -45,4 +45,8 @@ public class SoundEffect
         m_SFX_GameObject.transform.localPosition = Vector3.zero;
     }
 
+    public bool IsPlaying{ 
+        get{return m_AudioGroup.IsPlaying; }
+    }
+
 }

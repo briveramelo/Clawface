@@ -32,6 +32,12 @@ public class SFXManager : Singleton<SFXManager>
     private GameObject Dash;
     [SerializeField]
     private GameObject SegwayBlast_Standard;
+    [SerializeField]
+    private GameObject UI_Click;
+    [SerializeField]
+    private GameObject UI_Hover;
+    [SerializeField]
+    private GameObject UI_Back;
     #endregion
 
     private void Start()
@@ -49,7 +55,10 @@ public class SFXManager : Singleton<SFXManager>
             {SFXType.TankTreads_Attack,         InitList(TankTreads_Attack) },
             {SFXType.TankTreads_Swing,          InitList(TankTreads_Swing) },
             {SFXType.Dash,                      InitList(Dash) },
-            {SFXType.SegwayBlast_Standard,      InitList(SegwayBlast_Standard) }
+            {SFXType.SegwayBlast_Standard,      InitList(SegwayBlast_Standard) },
+            {SFXType.UI_Click,                  InitList(UI_Click)},
+            {SFXType.UI_Hover,                  InitList(UI_Hover)},
+            {SFXType.UI_Back,                   InitList(UI_Back)}
         };
     }
 
@@ -109,7 +118,6 @@ public class SFXManager : Singleton<SFXManager>
                 }
             }
         }
-
         string message="No SFX Found for " + i_Type + ". Please add.";
         Debug.LogFormat("<color=#0000FF>" + message + "</color>");
     }
@@ -118,7 +126,7 @@ public class SFXManager : Singleton<SFXManager>
     private List<SoundEffect> InitList(GameObject i_SFX)
     {
         List<SoundEffect> List = new List<SoundEffect>();
-        int numSFX = 10;
+        int numSFX = 20;
 
         for(int i = 0; i < numSFX; i++)
         {
@@ -130,7 +138,11 @@ public class SFXManager : Singleton<SFXManager>
 
     private IEnumerator WaitForReturnList(SoundEffect i_SFX)
     {
-        yield return new WaitForSeconds(5.0f);
+        //yield return new WaitForSeconds(5f); Took this out suspecting it could be causing the problem and replacing it with the lines below
+        yield return null;
+        while(i_SFX.IsPlaying){ 
+            yield return null;        
+        }
         i_SFX.Available = true;
         i_SFX.SetParent(transform);
     }

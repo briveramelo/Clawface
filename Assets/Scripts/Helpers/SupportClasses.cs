@@ -13,6 +13,15 @@ public class CapsuleBounds {
 }
 
 [System.Serializable]
+public class CapsuleBoundsDirection {
+
+    public Transform start, endingDirection;
+    public float radius, length;
+    public Vector3 Start { get { return start.position; } }
+    public Vector3 End { get { return start.position + (endingDirection.position - start.position).normalized * length; } }
+}
+
+[System.Serializable]
 public class BoxBounds {
 
     public Transform center, corner;
@@ -61,7 +70,10 @@ public class ProjectileProperties {
 }
 
 public class ShooterProperties {
-    public int shooterInstanceID { get { return projectileProperties.shooterInstanceID; } }
+    public int shooterInstanceID {
+        get { return projectileProperties.shooterInstanceID; }
+        set { projectileProperties.shooterInstanceID = value; }
+    }
     public float damage { get { return projectileProperties.damage; } }
     public float speed;
     public float pushForce;

@@ -35,21 +35,31 @@ public class BoomerangAttackState : IPlayerState {
     {
         if (!stateVariables.stateFinished && !isWaitingForButtonRelease)
         {
-            if (frameCount == 0)
+            if (stateVariables.currentMod.getModSpot() == ModSpot.Legs)
             {
-                stateVariables.modAnimationManager.PlayModAnimation(stateVariables.currentMod, currentAttackPose, totalAttackPoses);
-                currentAttackPose++;
-                if (currentAttackPose > highlightPoses[0])
+                stateVariables.currentMod.Activate();
+                stateVariables.stateFinished = true;
+            }
+            else
+            {
+                if (frameCount == 0)
                 {
-                    vfx.PlayAnimation();
+                    stateVariables.modAnimationManager.PlayModAnimation(stateVariables.currentMod, currentAttackPose, totalAttackPoses);
+                    currentAttackPose++;
+                    if (currentAttackPose > highlightPoses[0])
+                    {
+                        vfx.PlayAnimation();
+                        frameCount++;
+                    }
+                }
+                else if (frameCount < coolDownFrameCount)
+                {
                     frameCount++;
                 }
-            }else if(frameCount < coolDownFrameCount)
-            {
-                frameCount++;
-            }else
-            {
-                ResetState();
+                else
+                {
+                    ResetState();
+                }
             }
         }
     }

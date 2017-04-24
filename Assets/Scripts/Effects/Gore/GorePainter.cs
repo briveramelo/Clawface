@@ -49,7 +49,8 @@ public class GorePainter : MonoBehaviour {
     {
         //eff z fighting, place things up a bit
         Vector3 modifiedHitPoint = i_hit.point;
-        modifiedHitPoint += .05f *  i_hit.normal;
+        
+        modifiedHitPoint += (Random.Range(.01f,0.1f)) *  i_hit.normal;
 
         //get decal from pool
         GameObject decal = ObjectPool.Instance.GetObject(PoolObjectType.BloodDecal);

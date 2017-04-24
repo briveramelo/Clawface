@@ -20,6 +20,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4407724866750206}
   - component: {fileID: 114107010160287452}
+  - component: {fileID: 114728092765543774}
+  - component: {fileID: 114048358561865896}
   m_Layer: 0
   m_Name: MenuManager
   m_TagString: Untagged
@@ -40,6 +42,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114048358561865896
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1527279472529640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1077351063, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalAxis: Horizontal
+  m_VerticalAxis: Vertical
+  m_SubmitButton: Submit
+  m_CancelButton: Cancel
+  m_InputActionsPerSecond: 10
+  m_RepeatDelay: 0.5
+  m_ForceModuleActive: 0
 --- !u!114 &114107010160287452
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -53,3 +73,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   menuPrefabs:
   - {fileID: 1364298826775566, guid: 24eb26592f0589542b1ceab6bd5a987d, type: 2}
+  - {fileID: 1364298826775566, guid: 8d50824d919a6394492e1e405c4be955, type: 2}
+  input: {fileID: 114048358561865896}
+--- !u!114 &114728092765543774
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1527279472529640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -619905303, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FirstSelected: {fileID: 0}
+  m_sendNavigationEvents: 1
+  m_DragThreshold: 5

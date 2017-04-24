@@ -80,4 +80,9 @@ public class BlasterBullet : MonoBehaviour {
         }    
     }
 
+    public void SetWielderInstanceID(int id)
+    {
+        shooterProperties.shooterInstanceID = id;
+    }
+
 }

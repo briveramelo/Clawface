@@ -15,6 +15,9 @@ public class SkinningState : IPlayerState
     [SerializeField] private List<CapsuleCollider> clothColliders;
     [SerializeField] private GameObject skinObject;
     [SerializeField] private PlayerStatsManager playerStatsManager;
+    [SerializeField] private HealthBar healthBar;
+    [SerializeField] private Stats stats;
+    [SerializeField] private float skinRadius;
     #endregion
 
     #region Private Fields
@@ -37,21 +40,21 @@ public class SkinningState : IPlayerState
 
     public override void StateUpdate()
     {
-        ISkinnable skinnable =stateVariables.currentEnemy.GetComponent<ISkinnable>();
-        if (skinnable!=null){
+        ISkinnable skinnable = GetClosestEnemy();        
+        if (skinnable!=null && skinnable.IsSkinnable())
+        {
             GameObject skin = skinnable.DeSkin();
-            //skin.transform.SetParent(skinSlot);
-            //skin.transform.ResetFull();            
-            //skin.GetComponent<Cloth>().capsuleColliders = clothColliders.ToArray();
             skinObject.SetActive(true);
             SkinStats skinStats = skin.GetComponent<SkinStats>();
-            playerStatsManager.TakeSkin(skinStats.GetSkinHealth());
-            Stats stats = GetComponent<Stats>();
-            HealthBar.Instance.SetHealth(stats.GetHealthFraction());
+            playerStatsManager.TakeSkin(skinStats.GetSkinHealth());            
+            healthBar.SetHealth(stats.GetHealthFraction());
+            GameObject skinningEffect = ObjectPool.Instance.GetObject(PoolObjectType.SkinEffect);
+            skinningEffect.transform.position = transform.position;            
         }        
         stateVariables.stateFinished = true;
         stateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Idle);
     }
+    
     #endregion
 
     #region Public Methods
@@ -66,6 +69,30 @@ public class SkinningState : IPlayerState
     #endregion
 
     #region Private Methods
+    private ISkinnable GetClosestEnemy()
+    {
+        Collider[] enemies = Physics.OverlapSphere(transform.position, skinRadius, LayerMask.GetMask(Strings.Tags.ENEMY));        
+        if (enemies != null)
+        {
+            Collider closestEnemy = null;
+            float closestDistance = Mathf.Infinity;
+            foreach (Collider enemy in enemies)
+            {
+                float distance = Vector3.Distance(enemy.ClosestPoint(transform.position), transform.position);
+                if(closestDistance > distance)
+                {
+                    closestDistance = distance;
+                    closestEnemy = enemy;
+                }
+            }
+            if(closestEnemy != null)
+            {
+                return closestEnemy.gameObject.GetComponent<ISkinnable>();
+            }
+        }
+        return null;
+    }
+
     protected override void ResetState()
     {
     }

@@ -69,6 +69,11 @@ namespace ModMan {
 	    public static float Max (this Vector3 v) {
             return Mathf.Max (v.x, v.y, v.z);
         }
+
+        public static float As360Angle(this Vector3 inputVector) {
+            float start = Mathf.Atan2(inputVector.z, inputVector.x);
+            return (start > 0 ? start : (2 * Mathf.PI + start)) * 360 / (2 * Mathf.PI);
+        }
     }
 
     public static class GameObjectExtensions {
@@ -78,7 +83,9 @@ namespace ModMan {
         }
         static IEnumerator<float> IEDeActivate(GameObject obj, float timeToDeactivate) {
             yield return Timing.WaitForSeconds(timeToDeactivate);
-            obj.SetActive(false);
+            if (obj!=null) {
+                obj.SetActive(false);
+            }
         }
         
         /// <summary>
@@ -162,5 +169,30 @@ namespace ModMan {
             transformToRestore.rotation = startRotation;
         }
     
+    }
+
+    public static class Vector2Extensions {
+        public static float As360Angle(this Vector2 inputVector){
+            float start = Mathf.Atan2 (inputVector.y, inputVector.x);
+            return (start > 0 ? start : (2*Mathf.PI + start)) * 360 / (2*Mathf.PI);
+		}
+        public static Vector2 AsVector2(this float inputAngle){
+			return new Vector2(Mathf.Cos (Mathf.Deg2Rad * inputAngle),Mathf.Sin (Mathf.Deg2Rad * inputAngle));
+		}
+        public static bool IsAboutEqual(this Vector3 thisVector, Vector3 otherVector, float tolerance=0.02f) {
+            float xDif = Mathf.Abs(thisVector.x - otherVector.x);
+            float yDif = Mathf.Abs(thisVector.y - otherVector.y);
+            float zDif = Mathf.Abs(thisVector.z - otherVector.z);
+            float total = xDif + yDif + zDif;
+            return total<tolerance;
+        }
+    }
+
+    public static class DictionaryExtensions {
+        public static void ForEach<T, U>(this Dictionary<T,U> thisDictionary, System.Action<T,U> action) {
+            foreach(KeyValuePair<T, U> kvpElement in thisDictionary) {
+                action(kvpElement.Key, kvpElement.Value);
+            }
+        }
     }
 }

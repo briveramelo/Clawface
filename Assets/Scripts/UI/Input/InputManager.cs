@@ -26,7 +26,7 @@ public class InputManager : Singleton<InputManager> {
 
         //// Insert Appropriate Controllers:
         #if UNITY_STANDALONE
-            controllers.Add(new KeyboardController());
+            //controllers.Add(new KeyboardController());
         #endif
 
         #if UNITY_STANDALONE_WIN
@@ -120,7 +120,7 @@ public class InputManager : Singleton<InputManager> {
             duration=Mathf.Clamp(duration, 0.3f, 1f);
             controllers.ForEach(controller=> { controller.Vibrate(VibrationTargets.BOTH, 0f);});
             Timing.KillCoroutines("vibrate");
-            Timing.RunCoroutine(VibrateForTime(target, intensity, duration), "vibrate");
+            Timing.RunCoroutine(VibrateForTime(target, intensity, duration), Segment.FixedUpdate, "vibrate");
         }
 
     #endregion
@@ -130,7 +130,7 @@ public class InputManager : Singleton<InputManager> {
         float timeRemaining=duration;
         controllers.ForEach(controller=> { controller.Vibrate(target, intensity);});
         while(timeRemaining>0f) {
-            timeRemaining-=Time.deltaTime;
+            timeRemaining-=Time.fixedUnscaledDeltaTime;
             yield return 0f;
         }
         controllers.ForEach(controller=> { controller.Vibrate(target, 0f);});
