@@ -41,7 +41,7 @@
             public const string SWAP_MODE = "SWAP MODE";
             public const string DROP_MODE = "DROP MODE";
 
-            public const string PICKUP = "PICK UP";
+            public const string ACTIVATE_UI = "ACTIVATE UI";
             public const string ACTION_LEGS = "LEGS";
             public const string ACTION_ARM_LEFT = "ARM LEFT";
             public const string ACTION_ARM_RIGHT = "ARM RIGHT";
