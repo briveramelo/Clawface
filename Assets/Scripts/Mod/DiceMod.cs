@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using ModMan;
+using MovementEffects;
 
 public class DiceMod : Mod {
 
@@ -71,6 +73,13 @@ public class DiceMod : Mod {
 
     protected override void ActivateChargedLegs()
     {
+        blasterEffect.Emit();
+        wielderMovable.AddDecayingForce(Vector3.up * legPlayerJumpForce);
+        DiceBlock diceBlock1 = SpawnDiceAtPosition(bulletSpawnPoint.position, Vector3.zero);
+        diceBlock1.PrimeExplosion(legTimeTilExplosion);
+        Timing.CallDelayed(0.05f, SpawnDiceAtLegsAndPrime);
+        Timing.CallDelayed(0.1f, SpawnDiceAtLegsAndPrime);
+        
     }
 
     protected override void ActivateStandardArms()
@@ -109,6 +118,12 @@ public class DiceMod : Mod {
     #endregion
 
     #region Private Methods
+
+    private void SpawnDiceAtLegsAndPrime()
+    {
+        DiceBlock diceBlock = SpawnDiceAtPosition(bulletSpawnPoint.position, Vector3.zero);
+        diceBlock.PrimeExplosion(legTimeTilExplosion);
+    }
 
     private DiceBlock SpawnDiceAtPosition(Vector3 position, Vector3 rotation)
     {
