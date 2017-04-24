@@ -1389,6 +1389,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   foot: {fileID: 4009667743967004}
   rigbod: {fileID: 54477481413527770}
+  iceForceMultiplier: 0
+  movementMode: 0
   isGrounded: 0
 --- !u!114 &114216556463902696
 MonoBehaviour:
@@ -1544,7 +1546,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4459bc4938fbdce4dab448c115726a99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 0.34
+  radius: 0.2
   color: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &114496568055926532
 MonoBehaviour:
@@ -1612,8 +1614,8 @@ MonoBehaviour:
   slamForce: 0
   slamBox: {fileID: 65716800929020632}
   slamPush: 0
-  vfx: {fileID: 0}
   chargeMultiplier: 0
+  slamForceDecayRate: 0
 --- !u!114 &114709168524529216
 MonoBehaviour:
   m_ObjectHideFlags: 1

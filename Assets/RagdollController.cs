@@ -27,41 +27,48 @@ public class RagdollController : MonoBehaviour {
     }
 
     private void Start() {
-        if (_startRagdolled) EnterRagdoll(1f);
+        if (_startRagdolled) EnterRagdoll();
         else ExitRagdoll();
     }
 
     private void Update() {
         if (_ragdollTimer > 0f) {
             _ragdollTimer -= Time.deltaTime;
-            if (_ragdollTimer <= 0f) ExitRagdoll();
+
+            if (_ragdollTimer <= 0f) {
+                ExitRagdoll();
+                _ragdollTimer = -1f;
+            }
         }
     }
 
     public void EnterRagdoll (float timer=-1f) {
         _animator.enabled = false;
         _ragdolled = true;
-        _vb.enabled = false;
-        _rb.velocity = Vector3.zero;
+        //_vb.enabled = false;
+        //_rb.velocity = Vector3.zero;
         _rb.detectCollisions = false;
 
         _ragdollTimer = timer;
 
         _controller.UpdateState (EMallCopState.Idle);
 
+        _vb.SetMovementMode (MovementMode.RAGDOLL);
+
         foreach (var rb in _ragdollRBs) {
 
             // Skip parent RB
             if (rb == _rb) continue;
 
-            //rb.isKinematic = true;
             rb.constraints = RigidbodyConstraints.None;
+            rb.detectCollisions = true;
+            rb.useGravity = true;
         }
     }
 
     public void ExitRagdoll () {
         _animator.enabled = true;
-        _vb.enabled = true;
+        //_vb.enabled = true;
         _ragdolled = false;
         _rb.detectCollisions = true;
         transform.position = _skeleton.transform.position;
@@ -69,13 +76,17 @@ public class RagdollController : MonoBehaviour {
 
         _controller.UpdateState(EMallCopState.GettingUp);
 
+        _vb.SetMovementMode (MovementMode.PRECISE);
+
         foreach (var rb in _ragdollRBs) {
+
 
             // Skip parent RB
             if (rb == _rb) continue;
 
-            //rb.isKinematic = false;
             rb.constraints = RigidbodyConstraints.FreezeAll;
+            rb.detectCollisions = false;
+            rb.useGravity = true;
         }
     }
 }

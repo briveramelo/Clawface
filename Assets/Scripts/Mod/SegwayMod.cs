@@ -149,7 +149,8 @@ public class SegwayMod : Mod {
                             }
 
                             recentlyHitEnemies.Add(damageable);
-                            damager.Set(Attack, getDamageType(), wielderMovable.GetForward());
+                            DamagerType dmgType = IsCharged() ? DamagerType.SegwayPushCharged : DamagerType.SegwayPush;
+                            damager.Set(Attack, dmgType, wielderMovable.GetForward());
                             damageable.TakeDamage(damager);
                         }                                 
                         if (movable != null){                            

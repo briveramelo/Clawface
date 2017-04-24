@@ -9,5 +9,7 @@ public class MallCopIdleState : MallCopState {
 
     public override void OnExit() {}
 
-    public override void Update() {}
+    public override void Update() {
+        velBody.velocity = Vector3.zero;
+    }
 }

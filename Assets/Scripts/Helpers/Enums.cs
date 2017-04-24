@@ -51,7 +51,8 @@ public enum DamagerType {
     StunMine=7,
     FireTrap=8,
     GrapplingBotExplosion=9,
-    Dice=10
+    Dice=10,
+    SegwayPushCharged=11
 }
 
 public enum DamagedType {
@@ -123,7 +124,8 @@ public enum PoolObjectType {
 public enum MovementMode
 {
     PRECISE = 0,
-    ICE = 1
+    ICE = 1,
+    RAGDOLL = 2
 }
 
 public enum PlayerAnimationStates

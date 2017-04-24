@@ -106,6 +106,7 @@ public abstract class MallCopController : AIController {
             fall.Initialize(properties, controller, velBody, animator, stats);
             fire.Initialize(properties, controller, velBody, animator, stats);
             flee.Initialize(properties, controller, velBody, animator, stats);
+            idle.Initialize(properties, controller, velBody, animator, stats);
             gettingUp.Initialize (properties, controller, velBody, animator, stats);
 
             mallCopStates = new Dictionary<EMallCopState, MallCopState>() {
