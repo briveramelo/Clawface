@@ -145,8 +145,8 @@ public class SFXManager : Singleton<SFXManager>
                 }
             }
         }
-        string message="No SFX Found for " + i_Type + ". Please add.";
-        Debug.LogFormat("<color=#0000FF>" + message + "</color>");
+//       string message="No SFX Found for " + i_Type + ". Please add.";
+//       Debug.LogFormat("<color=#0000FF>" + message + "</color>");
     }
     
 
