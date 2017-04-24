@@ -74,7 +74,8 @@ public class ModUISelector : MonoBehaviour {
     private IEnumerator<float> DelayCanActivate(string command) {        
         while (!InputManager.Instance.QueryAction(command, ButtonMode.UP)) {
             yield return 0f;
-        }        
+        }
+        yield return 0f;        
         modManager.SetCanActivate();
     }
 
@@ -145,6 +146,7 @@ public class ModUISelector : MonoBehaviour {
 
     private void SelectMod(ModUIElement modElm) {
         selectedMod = modElm.modType;
+        
         //selectionHighlighter.transform.localPosition = modElm.selectHighlighterPosition;
         //selectionHighlighter.transform.localRotation = modElm.selectHighlighterRotation;
         modElm.InitializeBulge();
