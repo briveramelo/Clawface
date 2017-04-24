@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using ModMan;
+using MovementEffects;
 
 public class ModManager : MonoBehaviour
 {
@@ -33,6 +34,7 @@ public class ModManager : MonoBehaviour
     private bool isOkToSwapMods = true;
     List<Mod> overlapMods = new List<Mod>();
     private float modPickupRadius;
+    private bool canActivate=true;
     #endregion
 
     #region Unity Lifecycle
@@ -87,11 +89,16 @@ public class ModManager : MonoBehaviour
         return modSocketDictionary;
     }
 
-    public void EquipMod(ModSpot spot, ModType type) {
+    public void EquipMod(ModSpot spot, ModType type) {        
+        canActivate = false;
         Mod modToEquip = modInventory.GetMod(type, spot);
         if (modToEquip!=null) {
             Attach(spot, modToEquip);
         }
+    }
+
+    public void SetCanActivate() {
+        canActivate = true;
     }
     #endregion
 
@@ -124,13 +131,12 @@ public class ModManager : MonoBehaviour
         //}
     }    
 
-    private void CheckToChargeAndFireMods(){
-        if (!InputManager.Instance.QueryAction(Strings.Input.Actions.SWAP_MODE, ButtonMode.HELD)){
-
+    private void CheckToChargeAndFireMods(){        
+        if (canActivate){
             CheckForModInput((ModSpot spot)=> { modSocketDictionary[spot].mod.BeginCharging();}, ButtonMode.DOWN);
             CheckForModInput((ModSpot spot)=> { modSocketDictionary[spot].mod.RunCharging();}, ButtonMode.HELD);
             CheckForModInput((ModSpot spot)=> {
-                stateManager.Attack(modSocketDictionary[spot].mod);
+                stateManager.Attack(modSocketDictionary[spot].mod);                    
                 if (!modSocketDictionary[spot].mod.hasState) {
                     modSocketDictionary[spot].mod.Activate();               
                 }
@@ -147,7 +153,7 @@ public class ModManager : MonoBehaviour
                 }
             });
         }
-    }
+    }    
 
     
     private ModSpot GetCommandedModSpot(ButtonMode mode){

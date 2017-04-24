@@ -31,8 +31,8 @@ public class Scheme2 : IControlScheme {
                     //case Strings.Input.Actions.DROP_MODE:
                     //    modes[i] = controllers[i].GetRightSecondary();
                     //    break;
-                    case Strings.Input.Actions.PICKUP:
-                        modes[i] = controllers[i].GetAction4();
+                    case Strings.Input.Actions.ACTIVATE_UI:
+                        modes[i] = controllers[i].GetRightTertiary();
                         break;
                     case Strings.Input.Actions.LOCK:
                         modes[i] = controllers[i].GetRightSecondary();
@@ -73,7 +73,7 @@ public class Scheme2 : IControlScheme {
                         modes[i] = controllers[i].GetAction3();
                         break;
                     case Strings.Input.Actions.DODGE:
-                        modes[i] = controllers[i].GetRightTertiary();
+                        modes[i] = controllers[i].GetLeftSecondary();
                         break;
                     default:
                         throw new Exception("Bad Controller Action String: " + action);
@@ -97,8 +97,8 @@ public class Scheme2 : IControlScheme {
                     //    if (controller.GetRightSecondary(mode))
                     //        return true;
                     //    break;
-                    case Strings.Input.Actions.PICKUP:
-                        if (controller.GetAction4(mode))
+                    case Strings.Input.Actions.ACTIVATE_UI:
+                        if (controller.GetRightTertiary(mode))
                             return true;
                         break;                    
                     case Strings.Input.Actions.ACTION_LEGS:
@@ -136,7 +136,7 @@ public class Scheme2 : IControlScheme {
                             return true;
                         break;
                     case Strings.Input.Actions.DODGE:
-                        if (controller.GetRightTertiary(mode))
+                        if (controller.GetLeftSecondary(mode))
                             return true;
                         break;
                     case Strings.Input.Actions.LOCK:

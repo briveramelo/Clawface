@@ -16,10 +16,10 @@ public class ModUISelector : MonoBehaviour {
     [SerializeField] private ModManager modManager;
     [SerializeField] private float minJoystickSelectionThreshold;
 
-    private Dictionary<ModSpot, string> equipCommands = new Dictionary<ModSpot, string>() {
-        {ModSpot.ArmR, Strings.Input.Actions.EQUIP_ARM_RIGHT },
-        {ModSpot.Legs, Strings.Input.Actions.ACTION_LEGS },
-        {ModSpot.ArmL, Strings.Input.Actions.EQUIP_ARM_LEFT },
+    public static Dictionary<ModSpot, List<string>> equipCommands = new Dictionary<ModSpot, List<string>>() {
+        {ModSpot.ArmR, new List<string>() {Strings.Input.Actions.EQUIP_ARM_RIGHT,Strings.Input.Actions.ACTION_ARM_RIGHT } },
+        {ModSpot.Legs, new List<string>() {Strings.Input.Actions.ACTION_LEGS } },
+        {ModSpot.ArmL, new List<string>() {Strings.Input.Actions.EQUIP_ARM_LEFT,Strings.Input.Actions.ACTION_ARM_LEFT} },        
     };    
     private List<ModUIElement> notSelectedList=new List<ModUIElement>();
     private List<ModUIElement> modUIElements;    
@@ -39,73 +39,89 @@ public class ModUISelector : MonoBehaviour {
     // Update is called once per frame
     void Update () {
         CheckToActivateUI();
-        CheckToEquipMod();                
+        CheckToEquipMod();        
 	}
 
     private void CheckToActivateUI() {
-        if (InputManager.Instance.QueryAction(Strings.Input.Actions.SWAP_MODE, ButtonMode.HELD)) {
-            foreach (KeyValuePair<ModSpot, string> spotCommands in equipCommands) {            
-                if (InputManager.Instance.QueryAction(spotCommands.Value, ButtonMode.DOWN)) {
-                    OnDown(spotCommands.Key);
-                    selectedSpot = spotCommands.Key;                    
-                    break;
-                }
+        if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTIVATE_UI, ButtonMode.DOWN)) {            
+            if (!modEquipCanvas.activeSelf) {                
+                OpenCanvas();
+            }
+            else {
+                CloseCanvas();
             }
         }
-        if (InputManager.Instance.QueryAction(Strings.Input.Actions.SWAP_MODE, ButtonMode.UP)) {
-            OnUp(selectedSpot);
-        }
+        
     }
-    ModSpot selectedSpot;
 
 
     private void CheckToEquipMod() {
         if (modEquipCanvas.activeSelf) {
-            OnHeld();
+            CheckToSelectModUI();
+            foreach (KeyValuePair<ModSpot, List<string>> spotCommands in equipCommands) {
+                foreach (string command in spotCommands.Value) {
+                    if (InputManager.Instance.QueryAction(command, ButtonMode.DOWN)) {
+                        modManager.EquipMod(spotCommands.Key, selectedMod);
+                        Timing.RunCoroutine(DelayCanActivate(command));
+                        CloseCanvas();
+                        return;
+                    }
+                }                
+            }
         }                     
+    }    
+
+    private IEnumerator<float> DelayCanActivate(string command) {        
+        while (!InputManager.Instance.QueryAction(command, ButtonMode.UP)) {
+            yield return 0f;
+        }        
+        modManager.SetCanActivate();
     }
 
-    private void OnDown(ModSpot selectedSpot) {
-        if (!modEquipCanvas.activeSelf) {
-            modUIElements.ForEach(modUIElement => {
-                modUIElement.Close();
-            });        
-            HitstopManager.Instance.LerpToTimeScale(0.1f, 0.05f);        
-            modEquipCanvas.SetActive(true);
-        }        
-        allModSpots.ForEach(spot=> {
+
+    private void OpenCanvas() {
+        HitstopManager.Instance.LerpToTimeScale(0.1f, 0.05f);
+        modEquipCanvas.SetActive(true);        
+        modUIElements.ForEach(modUIElement => {
+            modUIElement.Close();
+        });
+
+        ModUIElement firstElement = modUIElements.Find(elm => elm.myIndex == 0);
+        if (firstElement!=null) {
+            firstElement.SetSelected();        
+            selectedMod = firstElement.modType;
+        }
+
+        allModSpots.ForEach(spot => {
             modUIManager.SetUIState(spot, ModUIState.IDLE);
         });
-        modUIManager.SetUIState(selectedSpot, ModUIState.ACTIVATED);
-
     }
-    List<ModSpot> allModSpots = new List<ModSpot>() { ModSpot.ArmL, ModSpot.ArmR, ModSpot.Legs};
 
-    private void OnHeld() {
+    List<ModSpot> allModSpots = new List<ModSpot>() { ModSpot.ArmL, ModSpot.ArmR, ModSpot.Legs};
+    ModType selectedMod;
+    private void CheckToSelectModUI() {
         Vector2 moveAxis = InputManager.Instance.QueryAxes(Strings.Input.Axes.MOVEMENT);
         Vector2 lookAxis = InputManager.Instance.QueryAxes(Strings.Input.Axes.LOOK);
 
         Vector2 selectAxis = lookAxis;
         if (selectAxis.magnitude > minJoystickSelectionThreshold) {
-            SelectMod(selectAxis.As360Angle());            
+            CheckToSelectMod(selectAxis.As360Angle());            
             DeselectMods(ref notSelectedList);
         }
         else {
-            if (notSelectedList.Count > 0) {
+            if (notSelectedList.Count > 0 && !justStarting) {
+                justStarting = true;
                 DeselectMods(ref notSelectedList);            
             }      
         }
     }
+    bool justStarting;
 
-    private void OnUp(ModSpot selectedModSpot) {
-        if (modUIElements.Exists(elm=> elm.isSelected)) {
-            modManager.EquipMod(selectedModSpot, modUIElements.Find(elm => elm.isSelected).modType);
-        }
-
-        modUIElements.ForEach(modUIElement=> {
+    private void CloseCanvas() {        
+        modUIElements.ForEach(modUIElement => {
             modUIElement.Close();
         });
-        
+
         HitstopManager.Instance.LerpToTimeScale(1f, 0.15f);
         allModSpots.ForEach(spot => {
             modUIManager.SetUIState(spot, ModUIState.IDLE);
@@ -113,23 +129,31 @@ public class ModUISelector : MonoBehaviour {
         modEquipCanvas.SetActive(false);
     }
 
-    private void SelectMod(float selectionAngle) {        
-        
+    private void CheckToSelectMod(float selectionAngle) {        
         foreach (ModUIElement modElm in modUIElements) {
             if (modElm.uiElement.activeSelf) {
                 modElm.SetIsSelected(selectionAngle);
                 if (modElm.isSelected) {
                     if (modElm.canBulge) {
-                        modElm.InitializeBulge();
-                        notSelectedList.Clear();
-                        notSelectedList.Add(modElm);
-                        notSelectedList = modUIElements.Except(notSelectedList).ToList();
+                        SelectMod(modElm);
                     }
                     break;
                 }
             }
         }           
     }
+
+    private void SelectMod(ModUIElement modElm) {
+        selectedMod = modElm.modType;
+        modElm.InitializeBulge();
+        notSelectedList.Clear();
+        notSelectedList.Add(modElm);
+        notSelectedList = modUIElements.Except(notSelectedList).ToList();
+        if (selectedMod!= modUIElements[0].modType) {
+            justStarting = false;
+        }
+    }
+    
 
     private void DeselectMods(ref List<ModUIElement> modUIElementsToDeselect) {
         modUIElementsToDeselect.ForEach(modElm=> {
@@ -153,7 +177,7 @@ public class ModUISelector : MonoBehaviour {
     #region Private Structures
     private class ModUIElement {
         public GameObject uiElement;
-        public ModType modType;
+        public ModType modType = ModType.None;
         public Range360 range;
         public float myAngle;
         public Vector2 myPosition;
@@ -166,6 +190,7 @@ public class ModUISelector : MonoBehaviour {
         public bool isSelected;
         public bool isAtStartScale { get { return uiElement.transform.localScale.IsAboutEqual(startScale); } }
 
+        public int myIndex=-1;
         private const float modUIRadius = 177f;
         private string coroutineString;
 
@@ -177,6 +202,7 @@ public class ModUISelector : MonoBehaviour {
 
         public void Set(ModType modType, int numMods, int myIndex) {
             this.modType = modType;
+            this.myIndex = myIndex;
             float window = (360/numMods);
             range.Min = window*(myIndex - 0.5f);
             range.Max = window*(myIndex + 0.5f);
@@ -189,6 +215,10 @@ public class ModUISelector : MonoBehaviour {
 
         public void SetIsSelected(float angle) {
             isSelected = range.IsInRange(angle);         
+        }
+        public void SetSelected() {
+            isSelected = true;
+            InitializeBulge();
         }
 
         public void Close() {
