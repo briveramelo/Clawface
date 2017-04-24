@@ -3194,10 +3194,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 24
       objectReference: {fileID: 0}
-    - target: {fileID: 114198258213580998, guid: e6f3a17700d6d664e81ee0d2edf0880c,
+    - target: {fileID: 114302370910752028, guid: e6f3a17700d6d664e81ee0d2edf0880c,
         type: 2}
-      propertyPath: iceForceMultiplier
-      value: 50
+      propertyPath: totalDashFrames
+      value: 25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e6f3a17700d6d664e81ee0d2edf0880c, type: 2}
@@ -40293,28 +40293,9 @@ Prefab:
       propertyPath: m_RootOrder
       value: 67
       objectReference: {fileID: 0}
-    - target: {fileID: 65366088388431694, guid: 63254373bf80731499befa0b1c0c41a2,
-        type: 2}
-      propertyPath: m_Size.z
-      value: 1.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4365555529149416, guid: 63254373bf80731499befa0b1c0c41a2, type: 2}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 180
-      objectReference: {fileID: 0}
-    - target: {fileID: 65366088388431694, guid: 63254373bf80731499befa0b1c0c41a2,
-        type: 2}
-      propertyPath: m_Center.z
-      value: -0.3
-      objectReference: {fileID: 0}
     - target: {fileID: 1658251845377058, guid: 63254373bf80731499befa0b1c0c41a2, type: 2}
       propertyPath: m_Name
       value: hallwaynormalwall (2)
-      objectReference: {fileID: 0}
-    - target: {fileID: 65366088388431694, guid: 63254373bf80731499befa0b1c0c41a2,
-        type: 2}
-      propertyPath: m_Center.x
-      value: 0.00000011920929
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 63254373bf80731499befa0b1c0c41a2, type: 2}
@@ -41270,16 +41251,6 @@ Prefab:
       propertyPath: m_Name
       value: Door (1)
       objectReference: {fileID: 0}
-    - target: {fileID: 23990791980229646, guid: 97478e3f8206eaa46aa59f7f8ffccc52,
-        type: 2}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 1d2691c49bbe268458d6917ee2bae78c, type: 2}
-    - target: {fileID: 23732073883039954, guid: 97478e3f8206eaa46aa59f7f8ffccc52,
-        type: 2}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 1d2691c49bbe268458d6917ee2bae78c, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 97478e3f8206eaa46aa59f7f8ffccc52, type: 2}
   m_IsPrefabParent: 0
