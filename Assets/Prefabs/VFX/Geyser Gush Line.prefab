@@ -38,6 +38,8 @@ GameObject:
   - component: {fileID: 4758494748042504}
   - component: {fileID: 198659486587618642}
   - component: {fileID: 199481134658219074}
+  - component: {fileID: 114393206752893090}
+  - component: {fileID: 65402691040515792}
   m_Layer: 0
   m_Name: Geyser Gush Line
   m_TagString: Untagged
@@ -65,13 +67,37 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1588457389109232}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 16.56, y: 0.63693, z: -0.67}
-  m_LocalScale: {x: 0.10598586, y: 0.105985865, z: 0.18090092}
+  m_LocalPosition: {x: -17.99572, y: 0.79, z: 2.0929828}
+  m_LocalScale: {x: 0.106, y: 0.106, z: 0.106}
   m_Children:
   - {fileID: 4089052156069334}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &65402691040515792
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1588457389109232}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 30, y: 30, z: 30}
+  m_Center: {x: 0, y: 0, z: 15}
+--- !u!114 &114393206752893090
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1588457389109232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52fb9ed8fa94ac84fa0f5c6426f01dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageMultiplier: 0
 --- !u!198 &198353113251467926
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -83,7 +109,7 @@ ParticleSystem:
   simulationSpeed: 2
   looping: 0
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   autoRandomSeed: 1
   startDelay:
     minMaxState: 0
@@ -127,7 +153,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 1368611993
+  randomSeed: 767939534
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -3015,7 +3041,7 @@ ParticleSystem:
   simulationSpeed: 2
   looping: 0
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   autoRandomSeed: 1
   startDelay:
     minMaxState: 0
@@ -3059,7 +3085,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 817502754
+  randomSeed: -1642315628
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -3408,7 +3434,7 @@ ParticleSystem:
     rotation3D: 0
     gravityModifier:
       minMaxState: 0
-      scalar: 3
+      scalar: 2
       maxCurve:
         serializedVersion: 2
         m_Curve:
