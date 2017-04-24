@@ -4,29 +4,31 @@ using UnityEngine;
 
 public class StunMine : MonoBehaviour {
 
-    [SerializeField]
-    private float damage;
+    private ProjectileProperties projectileProperties;
+    private Damager damager= new Damager();
 
-    [SerializeField]
-    private GameObject explosionEffectPrefab;
+    public void SetProjectileProperties(ProjectileProperties projectileProperties) {
+        this.projectileProperties = projectileProperties;
+    }
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.tag == Strings.ENEMY)
-        {
-            Instantiate(explosionEffectPrefab, transform.position, transform.rotation);
-            other.GetComponent<IDamageable>().TakeDamage(damage);
-            other.GetComponent<IStunnable>().Stun();
+    private void OnTriggerEnter(Collider other){
+        if((other.gameObject.CompareTag(Strings.Tags.ENEMY) ||
+           other.gameObject.CompareTag(Strings.Tags.PLAYER)) &&
+           other.gameObject.GetInstanceID()!=projectileProperties.shooterInstanceID){
+            GameObject stunMineExplosionEffect = ObjectPool.Instance.GetObject(PoolObjectType.MineExplosionEffect);
+            if (stunMineExplosionEffect) {
+                stunMineExplosionEffect.transform.position = transform.position;
+                stunMineExplosionEffect.transform.rotation = transform.rotation;
+            }
+            IDamageable damageable = other.GetComponent<IDamageable>();
+            if (damageable!=null) {
+                damager.Set(projectileProperties.damage, DamagerType.StunMine, Vector3.down);
+                damageable.TakeDamage(damager);
+            }
+            IStunnable stunnable = other.GetComponent<IStunnable>();
+            if (stunnable!=null) {
+                stunnable.Stun();
+            }
             gameObject.SetActive(false);
         }
     }

@@ -6,90 +6,41 @@ public class PlayerModAnimationManager : MonoBehaviour {
 
     private Dictionary<ModType, PlayerAnimationStates> modToAnimationMap = new Dictionary<ModType, PlayerAnimationStates>()
     {
-        {ModType.StunBaton, PlayerAnimationStates.MeleeRight}
+        {ModType.StunBaton, PlayerAnimationStates.StunBaton},
+        {ModType.Boomerang, PlayerAnimationStates.Boomerang},
+        {ModType.TankTreads, PlayerAnimationStates.TankTreads}
     };
         
-    Animator animator;
-    bool isPlaying;
-    Mod currentMod;
-    bool modActive;
+    [SerializeField] Animator animator;
+    private Mod currentMod;
+    private PlayerAnimationStates currentAnimationState;
 
 	// Use this for initialization
 	void Start () {
-        animator = GetComponent<Animator>();
-        modActive = false;
-        isPlaying = false;
+        currentMod = null;
+        currentAnimationState = PlayerAnimationStates.Idle;
     }
-	
-	// Update is called once per frame
-	void Update () {
-        /*if (modActive)
-        {
-            currentMod.Activate();
-        }*/
-	}
 
-    public void PlayModAnimation(Mod mod, bool isMoving)
+    public void PlayModAnimation(Mod mod, int frame, int totalFrames)
     {
-        if (modToAnimationMap.ContainsKey(mod.getModType()))
+        if (mod != currentMod)
         {
-            if (!isPlaying)
-            {                
-                currentMod = mod;
-                int animationState = (int)modToAnimationMap[currentMod.getModType()];
-                if (mod.getModSpot() == ModSpot.ArmL)
+            if (modToAnimationMap.ContainsKey(mod.getModType()))
+            {
+                if (modToAnimationMap.TryGetValue(mod.getModType(), out currentAnimationState))
                 {
-                    animationState += 2;
-                }
-                if (isMoving)
-                {
-                    animationState++;
-                }
-                if (animator.GetInteger(Strings.ANIMATIONSTATE) != animationState)
-                {
-                    isPlaying = true;
-                    animator.SetInteger(Strings.ANIMATIONSTATE, animationState);                    
-                    StartCoroutine(WaitForAnimation());
-                }else
-                {
-                    isPlaying = true;
-                    PlayerAnimationStates state = (PlayerAnimationStates)animationState;
-                    animator.Play(state.ToString(), -1, 0f);
-                    StartCoroutine(WaitForAnimation());
+                    if (mod.getModSpot() == ModSpot.ArmL)
+                    {
+                        frame += totalFrames/2;
+                    }
+                    animator.Play(currentAnimationState.ToString(), -1, frame / (float)totalFrames);
+                    animator.speed = 0f;
                 }
             }
         }else
         {
-            mod.Activate();
+            animator.Play(currentAnimationState.ToString(), -1, frame);
+            animator.speed = 0f;
         }
-    }
-
-    IEnumerator WaitForAnimation()
-    {
-        while(animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.95)
-        {
-            yield return null;
-        }
-        AnimationDone();
-    }
-
-    public void ActivateMod()
-    {
-        currentMod.Activate();
-    }
-
-    public void DeActivateMod()
-    {
-        modActive = false;
-    }
-
-    public void AnimationDone()
-    {
-        isPlaying = false;
-    }
-
-    public bool GetIsPlaying()
-    {
-        return isPlaying;
     }
 }

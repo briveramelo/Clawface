@@ -1,11 +1,29 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿// SingletonMonoBehaviour.cs
+
 using UnityEngine;
+using UnityEngine.Events;
 
+/// <summary>
+/// Editor-friendly singleton base class.
+/// </summary>
 [ExecuteInEditMode]
-public abstract class SingletonMonoBehaviour<T> : MonoBehaviour where T : MonoBehaviour {
+public abstract class SingletonMonoBehaviour<T> : 
+    MonoBehaviour where T : MonoBehaviour 
+{
+    #region Vars
 
-	static SingletonMonoBehaviour<T> _Instance;
+    /// <summary>
+    /// The currently active instance of this class.
+    /// </summary>
+    static SingletonMonoBehaviour<T> _Instance;
+
+    /// <summary>
+    /// Invoked when the instance of this class is initialized.
+    /// </summary>
+    public static SingletonEvent OnSingletonInitializedEditor = new SingletonEvent();
+
+    #endregion
+    #region Unity Callbacks
 
     protected void OnEnable () {
         if (_Instance == null) Awake(); 
@@ -16,11 +34,25 @@ public abstract class SingletonMonoBehaviour<T> : MonoBehaviour where T : MonoBe
             Debug.LogError ("An instance of " + typeof(T).ToString() + " already exists!");
 
         _Instance = this;
-    } 
-
-    public static T Instance {
-        get {
-            return _Instance as T;
-        }
+        if (!Application.isPlaying)
+            OnSingletonInitializedEditor.Invoke();
     }
+
+    #endregion
+    #region Properties
+
+    /// <summary>
+    /// Returns the active instance of this Singleton.
+    /// </summary>
+    public static T Instance { get { return _Instance as T; } }
+
+    #endregion
+    #region Nested Classes
+
+    /// <summary>
+    /// Class for singleton-related events.
+    /// </summary>
+    public class SingletonEvent : UnityEvent { }
+
+    #endregion
 }

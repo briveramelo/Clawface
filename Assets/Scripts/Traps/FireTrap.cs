@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using ModMan;
 
 public class FireTrap : MonoBehaviour {
 
@@ -29,7 +30,7 @@ public class FireTrap : MonoBehaviour {
 
     Transform _grate;
 
-    Collider _damageVolume;
+    //Collider _damageVolume;
 
     [Tooltip("How long it takes for the trap to open (seconds).")]
     [SerializeField]
@@ -64,12 +65,18 @@ public class FireTrap : MonoBehaviour {
     State _currentState = State.Closed;
 
     List<IDamageable> _objectsInTrap = new List<IDamageable>();
+    private Damager damager=new Damager();
+
+
+    VFXFireEffect _fireEffect;
 
     void Awake() {
         _door1 = gameObject.FindInChildren("Door1").transform;
         _door2 = gameObject.FindInChildren("Door2").transform;
         _grate = gameObject.FindInChildren("Grate").transform;
-        _damageVolume = GetComponent<Collider>();
+        _fireEffect = GetComponentInChildren<VFXFireEffect>();
+        damager.Set(_damagePerSecond, DamagerType.FireTrap, Vector3.up);
+        //_damageVolume = GetComponent<Collider>();
 
         if (_mode == Mode.ContinuousStream) Open();
     }
@@ -96,6 +103,8 @@ public class FireTrap : MonoBehaviour {
                 else {
                     _t = _openTime;
                     _currentState = State.Open;
+
+                    if (_fireEffect != null) _fireEffect.Play();
 
                     if (_mode == Mode.ContinuousOpenClose)
                         _stateTimer = _stayOpenTime;
@@ -126,8 +135,9 @@ public class FireTrap : MonoBehaviour {
         }
     }
 
-    private void OnCollisionEnter(Collision collision) {
-        var damageable = collision.gameObject.GetComponent<IDamageable>();
+    //private void OnCollisionEnter(Collision collision) {
+    void OnTriggerEnter (Collider other) {
+        var damageable = other.gameObject.GetComponent<IDamageable>();
         if (damageable == null) return;
 
         if (!_objectsInTrap.Contains (damageable)) {
@@ -136,8 +146,8 @@ public class FireTrap : MonoBehaviour {
         }
     }
 
-    private void OnCollisionExit(Collision collision) {
-        var damageable = collision.gameObject.GetComponent<IDamageable>();
+    private void OnTriggerExit(Collider other) {
+        var damageable = other.gameObject.GetComponent<IDamageable>();
         if (damageable == null) return;
 
         if (_objectsInTrap.Contains(damageable)) {
@@ -184,7 +194,7 @@ public class FireTrap : MonoBehaviour {
 
     public void Close() {
         if (_currentState == State.Closed) return;
-
+        if (_fireEffect != null) _fireEffect.Stop();
         _currentState = State.Closing;
     }
 
@@ -196,10 +206,10 @@ public class FireTrap : MonoBehaviour {
         _grate.localPosition = new Vector3(0f, grateY, 0f);
     }
 
-    void DoDamage() {
-        Debug.Log("bap");
+    void DoDamage() {        
         foreach (var obj in _objectsInTrap) {
-            obj.TakeDamage(_damagePerSecond);
+            obj.TakeDamage(damager);
+            Debug.Log ("damage " + obj.ToString());
         }
     }
 }

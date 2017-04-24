@@ -1,0 +1,76 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1451638012112422}
+  m_IsPrefabParent: 1
+--- !u!1 &1451638012112422
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4363519444912864}
+  - component: {fileID: 114011090875893694}
+  m_Layer: 0
+  m_Name: SFXManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4363519444912864
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1451638012112422}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114011090875893694
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1451638012112422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ed3db6f7d2031745b1ed4f10888b26a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BloodExplosion: {fileID: 1837314519996326, guid: 1f6b0ed073d701a4aad574ae2632b8e2,
+    type: 2}
+  BlasterCharge: {fileID: 1761550517562176, guid: d720bda1a9c93dd40999eab2ffba23b6,
+    type: 2}
+  BlasterProjectile_Impact: {fileID: 1217056616446900, guid: b576d1b0682367945a6c7bb1cfe68856,
+    type: 2}
+  BlasterShoot: {fileID: 1579506943045628, guid: 38b0214657c8bdb43bd1c5cd0fa2b7b1,
+    type: 2}
+  GrapplingGun_Shoot: {fileID: 1778022221532068, guid: 578c88e7554946a41b249421fef646ca,
+    type: 2}
+  StunBatonCharge: {fileID: 1883752545520946, guid: 02c191fcd03eda044804de4312921d0c,
+    type: 2}
+  StunBatonImpact: {fileID: 1983893654634856, guid: f4b95877a3bf72143abacafe4f3afb4e,
+    type: 2}
+  StunBatonSwing: {fileID: 1527780403247456, guid: 76946743511e5cd41b767c7bf4fe2669,
+    type: 2}
+  TankTreads_Attack: {fileID: 1516425594234386, guid: 562a5bf5fcccd214a813ca154fce9cc2,
+    type: 2}
+  TankTreads_Swing: {fileID: 1019276142555734, guid: 41014e63bd8f06546acaa8963aae1f39,
+    type: 2}
+  UI_Click: {fileID: 1930543454955458, guid: 8555ade2e80a4824dab59c8801049055, type: 2}
+  UI_Hover: {fileID: 1030182249277204, guid: f512e5335ae47654fb1f4ea0a9d549b3, type: 2}
+  UI_Back: {fileID: 1970718853534828, guid: 1c694bec04d87ab468cb62ff91878a32, type: 2}

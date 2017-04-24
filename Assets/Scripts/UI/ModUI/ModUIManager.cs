@@ -9,90 +9,87 @@ using UnityEngine.Assertions;
 
 public class ModUIManager : MonoBehaviour {
 
-    // TODO : Rename to `instance`
-    public static ModUIManager Instance = null;
 
-    //// Unity Inspector Fields
-    [SerializeField]
-    private GameObject UIconPrefab;
+    #region Serialized Unity Fields
+    #pragma warning disable 0649 // Turn off never assigned warning
+        [SerializeField]
+        private GameObject UIconPrefab;
 
-    [SerializeField]
-    private Transform anchor;
+        [SerializeField]
+        private Transform anchor;
 
-    [SerializeField]
-    private List<ModUIProperties> modUIProperties;
+        [SerializeField]
+        private List<ModUIProperties> modUIProperties;
+#pragma warning restore 0649 // Turn on never assigned warning
+    #endregion
 
-    //// Internal State
+    #region Internal State
     private Dictionary<ModSpot, ModUIcon> modUIcons = new Dictionary<ModSpot, ModUIcon>();
+    #endregion
 
-    //// Unity State Functions
-    void Awake()
-    {
-        // Singleton Management
-        if (Instance == null)
+    #region Unity State Functions
+        private void Awake()
         {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
+            // UIcon Instantiation and Assignment
+            foreach(ModSpot spot in Enum.GetValues(typeof(ModSpot))) {
+                if (spot == ModSpot.Default) break;
+
+                GameObject obj = Instantiate(UIconPrefab);
+                obj.transform.SetParent(anchor, false);
+                ModUIcon icon = obj.GetComponent<ModUIcon>();
+                modUIcons.Add(spot, icon);
+                icon.Relocate(spot);
+            }
         }
-        else
+    #endregion
+
+    #region Public Interface
+        public void AttachMod(ModSpot spot, ModType type)
         {
-            Destroy(gameObject);
+            Assert.AreNotEqual(spot, ModSpot.Default);
+            ModUIcon UIcon;
+            modUIcons.TryGetValue(spot, out UIcon);
+            UIcon.Attach(modUIProperties.Find((cmp) => { return cmp.type == type; }));
         }
-        
-        // UIcon Instantiation and Assignment
-        foreach(ModSpot spot in Enum.GetValues(typeof(ModSpot))) {
-            if (spot == ModSpot.Default) break;
 
-            GameObject obj = Instantiate(UIconPrefab);
-            obj.transform.SetParent(anchor, false);
-            ModUIcon icon = obj.GetComponent<ModUIcon>();
-            modUIcons.Add(spot, icon);
-            icon.Relocate(spot);
+        public void DetachMod(ModSpot spot)
+        {
+            Assert.AreNotEqual(spot, ModSpot.Default);
+            ModUIcon UIcon;
+            modUIcons.TryGetValue(spot, out UIcon);
+            UIcon.Detach();
         }
-    }
 
-    //// Manager Functions
-    public void AttachMod(ModSpot spot, ModType type)
-    {
-        Assert.AreNotEqual(spot, ModSpot.Default);
-        ModUIcon UIcon;
-        modUIcons.TryGetValue(spot, out UIcon);
-        UIcon.Attach(modUIProperties.Find((cmp) => { return cmp.type == type; }));
-    }
+        public void SwapMods(ModSpot spotA, ModSpot spotB)
+        {
+            Assert.AreNotEqual(spotA, spotB, "Swapping ModSpots should be different!");
+            Assert.AreNotEqual(spotA, ModSpot.Default);
+            Assert.AreNotEqual(spotB, ModSpot.Default);
 
-    public void DetachMod(ModSpot spot)
-    {
-        Assert.AreNotEqual(spot, ModSpot.Default);
-        ModUIcon UIcon;
-        modUIcons.TryGetValue(spot, out UIcon);
-        UIcon.Detach();
-    }
+            ModUIcon UIconA, UIconB;
+            modUIcons.TryGetValue(spotA, out UIconA);
+            modUIcons.TryGetValue(spotB, out UIconB);
 
-    public void SwapMods(ModSpot spotA, ModSpot spotB)
-    {
-        Assert.AreNotEqual(spotA, spotB, "Swapping ModSpots should be different!");
-        Assert.AreNotEqual(spotA, ModSpot.Default);
-        Assert.AreNotEqual(spotB, ModSpot.Default);
+            modUIcons.Remove(spotA);
+            modUIcons.Remove(spotB);
 
-        ModUIcon UIconA, UIconB;
-        modUIcons.TryGetValue(spotA, out UIconA);
-        modUIcons.TryGetValue(spotB, out UIconB);
+            modUIcons.Add(spotB, UIconA);
+            modUIcons.Add(spotA, UIconB);
 
-        modUIcons.Remove(spotA);
-        modUIcons.Remove(spotB);
+            UIconA.Relocate(spotB);
+            UIconB.Relocate(spotA);
+        }
 
-        modUIcons.Add(spotB, UIconA);
-        modUIcons.Add(spotA, UIconB);
+        public void SetUIState(ModSpot spot, ModUIState state)
+        {
+            Assert.AreNotEqual(spot, ModSpot.Default);
+            ModUIcon UIcon;
+            modUIcons.TryGetValue(spot, out UIcon);
+            UIcon.Apply(state);
+        }
+    #endregion
 
-        UIconA.Relocate(spotB);
-        UIconB.Relocate(spotA);
-    }
-
-    public void SetUIState(ModSpot spot, ModUIState state)
-    {
-        Assert.AreNotEqual(spot, ModSpot.Default);
-        ModUIcon UIcon;
-        modUIcons.TryGetValue(spot, out UIcon);
-        UIcon.Apply(state);
-    }
+    #region Protected Interface
+        protected ModUIManager() { }
+    #endregion
 }
