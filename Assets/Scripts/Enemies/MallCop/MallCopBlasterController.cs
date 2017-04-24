@@ -18,15 +18,8 @@ public class MallCopBlasterController : MallCopController {
             CheckToPatrol,
             CheckFinishTwitching,
             CheckToFinishFiring,
-<<<<<<< HEAD
-<<<<<<< HEAD
-            CheckFinishGettingUp
-=======
+            CheckFinishGettingUp,
             CheckToFlee,
->>>>>>> refs/remotes/origin/master
-=======
-            CheckFinishGettingUp
->>>>>>> origin/Art
         };
     } 
 
