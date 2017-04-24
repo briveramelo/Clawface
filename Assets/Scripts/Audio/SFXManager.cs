@@ -33,6 +33,14 @@ public class SFXManager : Singleton<SFXManager>
     [SerializeField]
     private GameObject SegwayBlast_Standard;
     [SerializeField]
+    private GameObject Boomerang_Throw;
+    [SerializeField]
+    private GameObject DiceLauncher_Shoot;
+    [SerializeField]
+    private GameObject GeyserMod_Splash;
+    [SerializeField]
+    private GameObject ModCooldown;
+    [SerializeField]
     private GameObject UI_Click;
     [SerializeField]
     private GameObject UI_Hover;
@@ -56,6 +64,10 @@ public class SFXManager : Singleton<SFXManager>
             {SFXType.TankTreads_Swing,          InitList(TankTreads_Swing) },
             {SFXType.Dash,                      InitList(Dash) },
             {SFXType.SegwayBlast_Standard,      InitList(SegwayBlast_Standard) },
+            {SFXType.Boomerang_Throw,           InitList(Boomerang_Throw) },
+            {SFXType.DiceLauncher_Shoot,        InitList(DiceLauncher_Shoot) },
+            {SFXType.GeyserMod_Splash,          InitList(GeyserMod_Splash) },
+            {SFXType.ModCooldown,               InitList(ModCooldown) },
             {SFXType.UI_Click,                  InitList(UI_Click)},
             {SFXType.UI_Hover,                  InitList(UI_Hover)},
             {SFXType.UI_Back,                   InitList(UI_Back)}
@@ -76,6 +88,14 @@ public class SFXManager : Singleton<SFXManager>
                     return;
                 }
             }
+
+            //If the SFX all are not available, create a new one 
+            SoundEffect newSFX = new SoundEffect(Instantiate(sfxDictionary[i_Type][0].GetObject()), transform);
+            newSFX.Available = false;
+            newSFX.Play(position);
+            sfxDictionary[i_Type].Add(newSFX);
+            StartCoroutine(WaitForReturnList(newSFX));
+            return;
         }
 
         string message="No SFX Found for " + i_Type + ". Please add.";
@@ -98,6 +118,13 @@ public class SFXManager : Singleton<SFXManager>
                 }
             }
 
+            //If the SFX all are not available, create a new one 
+            SoundEffect newSFX = new SoundEffect(Instantiate(sfxDictionary[i_Type][0].GetObject()), transform);
+            newSFX.Available = false;
+            newSFX.PlayFollowObject(i_parents);
+            sfxDictionary[i_Type].Add(newSFX);
+            StartCoroutine(WaitForReturnList(newSFX));
+            return;
         }
 
         string message = "No SFX Found for " + i_Type + ". Please add.";
@@ -126,7 +153,7 @@ public class SFXManager : Singleton<SFXManager>
     private List<SoundEffect> InitList(GameObject i_SFX)
     {
         List<SoundEffect> List = new List<SoundEffect>();
-        int numSFX = 20;
+        int numSFX = 5;
 
         for(int i = 0; i < numSFX; i++)
         {
@@ -136,13 +163,17 @@ public class SFXManager : Singleton<SFXManager>
         return List;
     }
 
+
     private IEnumerator WaitForReturnList(SoundEffect i_SFX)
     {
         //yield return new WaitForSeconds(5f); Took this out suspecting it could be causing the problem and replacing it with the lines below
         yield return null;
-        while(i_SFX.IsPlaying){ 
+
+        while(i_SFX.IsPlaying)
+        { 
             yield return null;        
         }
+
         i_SFX.Available = true;
         i_SFX.SetParent(transform);
     }

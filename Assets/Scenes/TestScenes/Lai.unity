@@ -525,7 +525,7 @@ Prefab:
         type: 2}
       propertyPath: m_TargetTexture
       value: 
-      objectReference: {fileID: 978522451}
+      objectReference: {fileID: 1840775049}
     - target: {fileID: 81941642721282950, guid: 9981de4f5a8796c4099626eab5bfe43f,
         type: 2}
       propertyPath: m_Enabled
@@ -534,30 +534,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9981de4f5a8796c4099626eab5bfe43f, type: 2}
   m_IsPrefabParent: 0
---- !u!84 &978522451
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_Width: 1920
-  m_Height: 1080
-  m_AntiAliasing: 2
-  m_DepthFormat: 2
-  m_ColorFormat: 0
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_TextureSettings:
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapMode: 1
-  m_Dimension: 2
-  m_VolumeDepth: 1
 --- !u!1001 &1077923092
 Prefab:
   m_ObjectHideFlags: 0
@@ -658,30 +634,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8426458b62df47241977e4fdf9870206, type: 2}
   m_IsPrefabParent: 0
---- !u!84 &1104787662
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_Width: 1920
-  m_Height: 1080
-  m_AntiAliasing: 2
-  m_DepthFormat: 2
-  m_ColorFormat: 0
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_TextureSettings:
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapMode: 1
-  m_Dimension: 2
-  m_VolumeDepth: 1
 --- !u!1001 &1129497486
 Prefab:
   m_ObjectHideFlags: 0
@@ -778,6 +730,17 @@ MonoBehaviour:
   Dash: {fileID: 1613444645928584, guid: 307129c6df02d3842803c569d60b6f82, type: 2}
   SegwayBlast_Standard: {fileID: 1881127224112104, guid: 0c81bf290c28ae94f97cb35ba88ae4ed,
     type: 2}
+  Boomerang_Throw: {fileID: 1670425139498140, guid: f507c7a31fa01cd488875a8bfae0439e,
+    type: 2}
+  DiceLauncher_Shoot: {fileID: 1204382096079016, guid: 497f9f235b5b1434d84ce503fa54492b,
+    type: 2}
+  GeyserMod_Splash: {fileID: 1976970383135798, guid: d451e5dbc04fb1643b1955532da20ab7,
+    type: 2}
+  ModCooldown: {fileID: 1152392839611050, guid: e677618a88f3e74488e9ef6b30b96cea,
+    type: 2}
+  UI_Click: {fileID: 1930543454955458, guid: 8555ade2e80a4824dab59c8801049055, type: 2}
+  UI_Hover: {fileID: 1030182249277204, guid: f512e5335ae47654fb1f4ea0a9d549b3, type: 2}
+  UI_Back: {fileID: 1970718853534828, guid: 1c694bec04d87ab468cb62ff91878a32, type: 2}
 --- !u!4 &1357257249
 Transform:
   m_ObjectHideFlags: 0
@@ -805,6 +768,30 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f889c70ad205d904898d8f78dcd880fb, type: 2}
   m_IsPrefabParent: 0
+--- !u!84 &1598668062
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_Width: 1920
+  m_Height: 1080
+  m_AntiAliasing: 2
+  m_DepthFormat: 2
+  m_ColorFormat: 0
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_TextureSettings:
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapMode: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
 --- !u!1 &1614897212
 GameObject:
   m_ObjectHideFlags: 0
@@ -961,6 +948,30 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b0927e1a44bf75241b97accd5b98cf23, type: 2}
   m_IsPrefabParent: 0
+--- !u!84 &1840775049
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_Width: 1920
+  m_Height: 1080
+  m_AntiAliasing: 2
+  m_DepthFormat: 2
+  m_ColorFormat: 0
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_TextureSettings:
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapMode: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
 --- !u!1001 &2084554310
 Prefab:
   m_ObjectHideFlags: 0
@@ -1024,10 +1035,11 @@ MonoBehaviour:
   inputManager: {fileID: 0}
   hitstopManager: {fileID: 0}
   playerTeleporter: {fileID: 0}
-  pauser: {fileID: 0}
   analyticsManager: {fileID: 0}
   damageFXManager: {fileID: 0}
   upgradeManager: {fileID: 0}
+  menuManager: {fileID: 0}
+  musicManager: {fileID: 0}
 --- !u!114 &2085714760
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1044,7 +1056,8 @@ MonoBehaviour:
   inputManager: {fileID: 0}
   hitstopManager: {fileID: 0}
   playerTeleporter: {fileID: 0}
-  pauser: {fileID: 0}
   analyticsManager: {fileID: 0}
   damageFXManager: {fileID: 0}
   upgradeManager: {fileID: 0}
+  menuManager: {fileID: 0}
+  musicManager: {fileID: 0}

@@ -49,4 +49,8 @@ public class SoundEffect
         get{return m_AudioGroup.IsPlaying; }
     }
 
+    public GameObject GetObject()
+    {
+        return m_SFX_GameObject;
+    }
 }

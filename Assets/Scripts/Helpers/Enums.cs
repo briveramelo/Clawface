@@ -32,6 +32,10 @@ public enum SFXType {
     TankTreads_Swing, 
     Dash,
     SegwayBlast_Standard,
+    Boomerang_Throw, 
+    DiceLauncher_Shoot,
+    GeyserMod_Splash,
+    ModCooldown,
     UI_Click,
     UI_Hover,
     UI_Back
