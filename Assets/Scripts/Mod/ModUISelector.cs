@@ -16,10 +16,10 @@ public class ModUISelector : MonoBehaviour {
     [SerializeField] private ModManager modManager;
     [SerializeField] private float minJoystickSelectionThreshold;
 
-    public static Dictionary<ModSpot, string> equipCommands = new Dictionary<ModSpot, string>() {
-        {ModSpot.ArmR, Strings.Input.Actions.EQUIP_ARM_RIGHT },
-        {ModSpot.Legs, Strings.Input.Actions.ACTION_LEGS },
-        {ModSpot.ArmL, Strings.Input.Actions.EQUIP_ARM_LEFT },
+    public static Dictionary<ModSpot, List<string>> equipCommands = new Dictionary<ModSpot, List<string>>() {
+        {ModSpot.ArmR, new List<string>() {Strings.Input.Actions.EQUIP_ARM_RIGHT,Strings.Input.Actions.ACTION_ARM_RIGHT } },
+        {ModSpot.Legs, new List<string>() {Strings.Input.Actions.ACTION_LEGS } },
+        {ModSpot.ArmL, new List<string>() {Strings.Input.Actions.EQUIP_ARM_LEFT,Strings.Input.Actions.ACTION_ARM_LEFT} },        
     };    
     private List<ModUIElement> notSelectedList=new List<ModUIElement>();
     private List<ModUIElement> modUIElements;    
@@ -58,22 +58,23 @@ public class ModUISelector : MonoBehaviour {
     private void CheckToEquipMod() {
         if (modEquipCanvas.activeSelf) {
             CheckToSelectModUI();
-            foreach (KeyValuePair<ModSpot, string> spotCommands in equipCommands) {            
-                if (InputManager.Instance.QueryAction(spotCommands.Value, ButtonMode.DOWN)) {
-                    modManager.EquipMod(spotCommands.Key, selectedMod);
-                    Timing.RunCoroutine(DelayCanActivate(spotCommands.Key));
-                    CloseCanvas();
-                    break;
-                }
+            foreach (KeyValuePair<ModSpot, List<string>> spotCommands in equipCommands) {
+                foreach (string command in spotCommands.Value) {
+                    if (InputManager.Instance.QueryAction(command, ButtonMode.DOWN)) {
+                        modManager.EquipMod(spotCommands.Key, selectedMod);
+                        Timing.RunCoroutine(DelayCanActivate(command));
+                        CloseCanvas();
+                        return;
+                    }
+                }                
             }
         }                     
     }    
 
-    private IEnumerator<float> DelayCanActivate(ModSpot modSpot) {        
-        while (InputManager.Instance.QueryAction(equipCommands[modSpot], ButtonMode.HELD)) {
+    private IEnumerator<float> DelayCanActivate(string command) {        
+        while (!InputManager.Instance.QueryAction(command, ButtonMode.UP)) {
             yield return 0f;
-        }
-        yield return 0f;
+        }        
         modManager.SetCanActivate();
     }
 
