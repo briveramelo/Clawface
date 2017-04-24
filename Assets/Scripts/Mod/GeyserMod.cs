@@ -64,6 +64,14 @@ public class GeyserMod : Mod {
     {
         base.AttachAffect(ref wielderStats, wielderMovable);
         foot = ((VelocityBody)wielderMovable).foot;
+        if (getModSpot() == ModSpot.Legs)
+        {
+            hasState = false;
+        }
+        else
+        {
+            hasState = true;
+        }
     }
 
     public override void DeActivate() { }

@@ -22,7 +22,6 @@ GameObject:
   - component: {fileID: 33237032072665210}
   - component: {fileID: 23441495511087336}
   - component: {fileID: 95240170778012600}
-  - component: {fileID: 65541843784057244}
   m_Layer: 0
   m_Name: HallwayWall_screen
   m_TagString: Untagged
@@ -36,13 +35,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1511441227787202}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 27.86, y: 2.5, z: 15.34}
+  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 3, y: 2.5, z: -14.216366}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &23441495511087336
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -82,18 +81,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1511441227787202}
   m_Mesh: {fileID: 4300000, guid: 3d989fd6dc7730449ae62d9734e164ea, type: 3}
---- !u!65 &65541843784057244
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1511441227787202}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 5, y: 5, z: 1.4}
-  m_Center: {x: 0.00000011920929, y: 0, z: -0.3}
 --- !u!95 &95240170778012600
 Animator:
   serializedVersion: 3
