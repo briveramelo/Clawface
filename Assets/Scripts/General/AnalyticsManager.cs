@@ -61,6 +61,9 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
     // Dictionary of how many times the player scored kills with each mod
     private Dictionary<string, object> modKillsDictionary;
 
+    // Dictionary of level event triggers
+    private Dictionary<string, object> levelDataDictionary;
+
     private float timer;
     private float playerHealthTotal;
     private int playerHealthTicks;
@@ -95,6 +98,7 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         playerDeathDictionary.Add("legs", "null");
         playerDeathDictionary.Add("averageHP", 0);
 
+        
         modTimeDictionary = new Dictionary<string, object>();
         modRatioDictionary = new Dictionary<string, object>();
         modDamageDictionary = new Dictionary<string, object>();
@@ -178,6 +182,7 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
 #if !UNITY_EDITOR
         if (sendData)
         {
+            Analytics.CustomEvent("levelTriggers", levelDataDictionary);
             Analytics.CustomEvent("modTimes", modTimeDictionary);
             Analytics.CustomEvent("modRatios", modRatioDictionary);
             Analytics.CustomEvent("quitGame", quitGameDictionary);
@@ -238,6 +243,27 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
     public void DropMod()
     {
         quitGameDictionary["drops"] = (float)quitGameDictionary["drops"] + 1f;
+    }
+
+    public void ActivateLevelTrigger(string triggerName)
+    {
+        if (levelDataDictionary.ContainsKey(triggerName))
+        {
+            levelDataDictionary[triggerName] = true;
+        }
+    }
+
+    public void AddLevelTrigger(string triggerName)
+    {
+        if (levelDataDictionary == null)
+        {
+            levelDataDictionary = new Dictionary<string, object>();
+        }
+
+        if (!levelDataDictionary.ContainsKey(triggerName))
+        {
+            levelDataDictionary.Add(triggerName, false);
+        }
     }
 
     public void PlayerDeath()

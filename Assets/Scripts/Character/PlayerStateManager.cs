@@ -50,6 +50,7 @@ public class PlayerStateManager : MonoBehaviour {
         stateVariables.playerTransform = transform;
         stateVariables.modAnimationManager = modAnimationManager;
         stateVariables.statsManager = playerStatsManager;
+        stateVariables.defaultState = defaultState;
         defaultState.Init(ref stateVariables);
         skinningState.Init(ref stateVariables);
         dashState.Init(ref stateVariables);
@@ -189,6 +190,8 @@ public class PlayerStateManager : MonoBehaviour {
         public Transform playerTransform;
         [HideInInspector]
         public PlayerModAnimationManager modAnimationManager;
+        [HideInInspector]
+        public IPlayerState defaultState;
     }
 
     [System.Serializable]
