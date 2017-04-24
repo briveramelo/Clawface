@@ -15,12 +15,11 @@ public class GeyserShield : MonoBehaviour {
     [SerializeField]
     private float pushForce;
     [SerializeField]
-    private VFXBlasterShoot vfx;
+    private GameObject vfx;
     #endregion
 
     #region Private Fields
     private bool isCharged;
-    private bool isFiring;
     private ProjectileProperties projectileProperties;
     #endregion
 
@@ -29,21 +28,17 @@ public class GeyserShield : MonoBehaviour {
     void OnDisable()
     {
         isCharged = false;
-        isFiring = false;
+        vfx.SetActive(false);
     }
 
     // Use this for initialization
     void Start () {
         isCharged = false;
-        isFiring = false;
     }
 	
 	// Update is called once per frame
 	void Update () {
-        if (isFiring)
-        {
-            vfx.Emit();
-        }
+        
     }
 
     void OnTriggerEnter(Collider other)
@@ -70,14 +65,14 @@ public class GeyserShield : MonoBehaviour {
 #region Public Methods
     public void Fire()
     {
-        isFiring = true;
+        vfx.SetActive(true);
         StartCoroutine(WaitForSweetDeath(normalLiveTime));
     }
 
     public void FireCharged()
     {
+        vfx.SetActive(true);
         isCharged = true;
-        isFiring = true;
         StartCoroutine(WaitForSweetDeath(chargeLiveTime));
     }
 
