@@ -28,17 +28,25 @@ public class Scheme2 : IControlScheme {
                     case Strings.Input.Actions.SWAP_MODE:
                         modes[i] = controllers[i].GetLeftSecondary();
                         break;
-                    case Strings.Input.Actions.DROP_MODE:
+                    //case Strings.Input.Actions.DROP_MODE:
+                    //    modes[i] = controllers[i].GetRightSecondary();
+                    //    break;
+                    case Strings.Input.Actions.ACTIVATE_UI:
+                        modes[i] = controllers[i].GetRightTertiary();
+                        break;
+                    case Strings.Input.Actions.LOCK:
                         modes[i] = controllers[i].GetRightSecondary();
                         break;
                     case Strings.Input.Actions.ACTION_LEGS:
                         modes[i] = controllers[i].GetAction1();
                         break;
                     case Strings.Input.Actions.ACTION_ARM_LEFT:
-                        modes[i] = controllers[i].GetAction3();
+                        modes[i] = controllers[i].GetLeftPrimary();
+                        //modes[i] = controllers[i].GetAction3();
                         break;
                     case Strings.Input.Actions.ACTION_ARM_RIGHT:
-                        modes[i] = controllers[i].GetAction2();
+                        modes[i] = controllers[i].GetRightPrimary();
+                        //modes[i] = controllers[i].GetAction3();                        
                         break;
                     case Strings.Input.Actions.ACTION_SKIN:
                         modes[i] = controllers[i].GetAction4();
@@ -55,11 +63,17 @@ public class Scheme2 : IControlScheme {
                     case Strings.Input.Actions.NAV_RIGHT:
                         modes[i] = controllers[i].GetDPadRight();
                         break;
-                    case Strings.Input.Actions.DODGE:
-                        modes[i] = controllers[i].GetRightTertiary();
+                    case Strings.Input.Actions.EQUIP_ARM_RIGHT:
+                        modes[i] = controllers[i].GetAction2();
                         break;
-                    case Strings.Input.Actions.LOCK:
-                        modes[i] = controllers[i].GetRightPrimary();
+                    case Strings.Input.Actions.EQUIP_LEGS:
+                        modes[i] = controllers[i].GetAction1();
+                        break;
+                    case Strings.Input.Actions.EQUIP_ARM_LEFT:
+                        modes[i] = controllers[i].GetAction3();
+                        break;
+                    case Strings.Input.Actions.DODGE:
+                        modes[i] = controllers[i].GetLeftSecondary();
                         break;
                     default:
                         throw new Exception("Bad Controller Action String: " + action);
@@ -79,20 +93,26 @@ public class Scheme2 : IControlScheme {
                         if (controller.GetLeftSecondary(mode))
                             return true;
                         break;
-                    case Strings.Input.Actions.DROP_MODE:
-                        if (controller.GetRightSecondary(mode))
+                    //case Strings.Input.Actions.DROP_MODE:
+                    //    if (controller.GetRightSecondary(mode))
+                    //        return true;
+                    //    break;
+                    case Strings.Input.Actions.ACTIVATE_UI:
+                        if (controller.GetRightTertiary(mode))
                             return true;
-                        break;
+                        break;                    
                     case Strings.Input.Actions.ACTION_LEGS:
                         if (controller.GetAction1(mode))
                             return true;
                         break;
                     case Strings.Input.Actions.ACTION_ARM_LEFT:
-                        if (controller.GetAction3(mode))
+                        //if (controller.GetAction3(mode))
+                        if (controller.GetLeftPrimary(mode))
                             return true;
                         break;
                     case Strings.Input.Actions.ACTION_ARM_RIGHT:
-                        if (controller.GetAction2(mode))
+                        //if (controller.GetAction2(mode))
+                        if (controller.GetRightPrimary(mode))
                             return true;
                         break;
                     case Strings.Input.Actions.ACTION_SKIN:
@@ -116,15 +136,27 @@ public class Scheme2 : IControlScheme {
                             return true;
                         break;
                     case Strings.Input.Actions.DODGE:
-                        if (controller.GetRightTertiary(mode))
+                        if (controller.GetLeftSecondary(mode))
                             return true;
                         break;
                     case Strings.Input.Actions.LOCK:
-                        if (controller.GetRightPrimary(mode))
+                        if (controller.GetRightSecondary(mode))
                             return true;
                         break;
                     case Strings.Input.Actions.PAUSE:
                         if (controller.GetStart(mode))
+                            return true;
+                        break;
+                    case Strings.Input.Actions.EQUIP_ARM_RIGHT:
+                        if (controller.GetAction2(mode))
+                            return true;
+                        break;
+                    case Strings.Input.Actions.EQUIP_LEGS:
+                        if (controller.GetAction1(mode))
+                            return true;
+                        break;
+                    case Strings.Input.Actions.EQUIP_ARM_LEFT:
+                        if (controller.GetAction3(mode))
                             return true;
                         break;
                     default:

@@ -48,13 +48,15 @@ public class GoreExplosion : MonoBehaviour {
         {
             //add a small random force
             GameObject go = limbs[i];
-            go.transform.localPosition = startPositions[i];
-            Rigidbody rb = go.GetComponent<Rigidbody>();
-            Vector3 explodeDirection = Random.onUnitSphere;
-            explodeDirection.y = Random.Range(2.5f, 4f);
-            explodeDirection.Normalize();
+            if (go!=null) {
+                go.transform.localPosition = startPositions[i];
+                Rigidbody rb = go.GetComponent<Rigidbody>();
+                Vector3 explodeDirection = Random.onUnitSphere;
+                explodeDirection.y = Random.Range(2.5f, 4f);
+                explodeDirection.Normalize();
 
-            rb.AddForceAtPosition(explodeDirection* limbExplodeForce, go.transform.position + Random.onUnitSphere);            
+                rb.AddForceAtPosition(explodeDirection* limbExplodeForce, go.transform.position + Random.onUnitSphere);            
+            }
         }
     }
     

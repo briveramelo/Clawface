@@ -352,9 +352,13 @@ public class DiceBlock : MonoBehaviour, IMovable {
 
     }
 
-#endregion
+    public void StopVerticalMovement() {
+     //Suck a dick
+    }
 
-#region Private Declarations
+    #endregion
+
+    #region Private Declarations
     private enum DiceSide {
         One = 1,
         Two = 2,

@@ -6,6 +6,7 @@ using UnityEngine.Events;
 public class CameraTrack : MonoBehaviour {
 
     const float _GIZMO_SPHERE_RADIUS = 0.1f;
+    const float _GET_TIME_RESOLUTION = 0.01f;
 
     Color _editorColor = Color.blue;
     Color _idleColor = Color.white;
@@ -269,6 +270,37 @@ public class CameraTrack : MonoBehaviour {
 
     public void RemoveCameraEvent(int i) {
         _events.RemoveAt(i);
+    }
+
+    public void JumpToTime (float t) {
+        _t = t;
+        PreviewTime (t);
+    }
+
+    public void JumpToPosition (int i) {
+        JumpToTime (GetTimesOfPosition (i)[0]);
+    }
+
+    List<float> GetTimesOfPosition (int i) {
+        float t = 0f;
+        bool behindPosition = true;
+        List<float> results = new List<float>();
+        for (; t <= _speed.keys[_speed.length-1].time; t += _GET_TIME_RESOLUTION) {
+            float p = _speed.Evaluate (t);
+            if (p >= i) {
+                if (behindPosition) {
+                    results.Add (t);
+                    behindPosition = false;
+                }
+            } else {
+                if (!behindPosition) {
+                    results.Add (t);
+                    behindPosition = true;
+                }
+            }
+        }
+
+        return results;
     }
 
     public void PreviewTime(float t) {

@@ -90,7 +90,7 @@ public class UpgradeManager : Singleton<UpgradeManager> {
             else
             {
                 currentSelection = UpgradeMenuSelection.HP0;
-                canvasUI.SetActive(true);
+                //canvasUI.SetActive(true);
                 canMoveCursor = true;
             }
         }

@@ -28,6 +28,10 @@ public class ObjectPool : Singleton<ObjectPool> {
         Debug.LogFormat("<color=#ffff00>" + debugMessage + "</color>");
         return null;
     }
+    public void ResetPools()
+    {
+        pools.ForEach(pool => { pool.Reset(); });
+    }
     #endregion
 
     #region Internal Structures
@@ -80,6 +84,13 @@ public class ObjectPool : Singleton<ObjectPool> {
                 objToReturn.SetActive(true);
             }
             return objToReturn;
+        }
+
+        public void Reset()
+        {
+            objects.ForEach(obj => {
+                obj.SetActive(false);
+            });
         }
     }
     #endregion

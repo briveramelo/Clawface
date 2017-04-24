@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 54918926821305888}
   m_Layer: 0
   m_Name: BlasterBullet
-  m_TagString: Untagged
+  m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -147,6 +147,7 @@ TrailRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_Time: 0.15
   m_Parameters:
@@ -177,30 +178,15 @@ TrailRenderer:
       m_PostInfinity: 2
       m_RotationOrder: 0
     colorGradient:
-      key0:
-        serializedVersion: 2
-        rgba: 4294967295
-      key1:
-        serializedVersion: 2
-        rgba: 4294967295
-      key2:
-        serializedVersion: 2
-        rgba: 4294967295
-      key3:
-        serializedVersion: 2
-        rgba: 4294967295
-      key4:
-        serializedVersion: 2
-        rgba: 16777215
-      key5:
-        serializedVersion: 2
-        rgba: 0
-      key6:
-        serializedVersion: 2
-        rgba: 0
-      key7:
-        serializedVersion: 2
-        rgba: 0
+      serializedVersion: 2
+      key0: {r: 1, g: 1, b: 1, a: 1}
+      key1: {r: 1, g: 1, b: 1, a: 1}
+      key2: {r: 1, g: 1, b: 1, a: 1}
+      key3: {r: 1, g: 1, b: 1, a: 1}
+      key4: {r: 1, g: 1, b: 1, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
       ctime0: 0
       ctime1: 16384
       ctime2: 32768
@@ -237,10 +223,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9aba7aa4c71bf6641b131b68d391ad80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isCharged: 0
-  speed: 18
-  damage: 1
-  damageMultiplierCharged: 4
 --- !u!136 &136196263692677232
 CapsuleCollider:
   m_ObjectHideFlags: 1
