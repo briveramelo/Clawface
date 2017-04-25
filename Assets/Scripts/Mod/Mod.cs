@@ -25,7 +25,7 @@ public abstract class Mod : MonoBehaviour {
     public bool hasState;
     protected Stats wielderStats;
     protected IMovable wielderMovable;
-    protected List<IDamageable> recentlyHitEnemies = new List<IDamageable>();
+    protected List<GameObject> recentlyHitObjects = new List<GameObject>();
     protected VFXModCharge vfxModCharge;
     protected bool isAttached;
     protected Damager damager=new Damager();
@@ -142,7 +142,7 @@ public abstract class Mod : MonoBehaviour {
         isAttached = false;
         wielderMovable = null;
         wielderStats = null;
-        recentlyHitEnemies.Clear();
+        recentlyHitObjects.Clear();
         energySettings.Reset();
         pickupCollider.enabled = true;
         setModSpot(ModSpot.Default);
@@ -195,7 +195,7 @@ public abstract class Mod : MonoBehaviour {
     #region Private Methods
     protected IEnumerator<float> BeginCoolDown(Action onComplete){
         energySettings.CheckToSetAsCharged();
-        recentlyHitEnemies.Clear();
+        recentlyHitObjects.Clear();
         yield return Timing.WaitUntilDone(Timing.RunCoroutine(energySettings.BeginCoolDown(), Segment.FixedUpdate));
         if (onComplete!=null) {
             onComplete();
