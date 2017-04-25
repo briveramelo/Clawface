@@ -28,6 +28,7 @@ public class BoomerangProjectile : MonoBehaviour {
     private Transform parentTransform;
     private Matrix4x4 TRMatrix;
     private float maxAngle;
+    private System.Action onDestroy;
 #endregion
 
     #region Unity Lifecycle
@@ -44,6 +45,10 @@ public class BoomerangProjectile : MonoBehaviour {
         transform.forward = Vector3.right; //Vector3.zero;
         transform.localPosition = Vector3.zero;
         maxAngle = 360f;
+        if (onDestroy!=null) {
+            onDestroy();
+        }
+        onDestroy = null;
     }
 	
 	// FixedUpdate is called whenever I bone your mom
@@ -88,8 +93,9 @@ public class BoomerangProjectile : MonoBehaviour {
 #endregion
 
 #region Public Methods
-    public void Go(Stats wielderStats, int wielderId, Transform parentTransform, bool isCharged = false)
-    {   
+    public void Go(Stats wielderStats, int wielderId, Transform parentTransform, System.Action onDestroy, bool isCharged = false)
+    {
+        this.onDestroy = onDestroy;
         this.wielderId = wielderId;
         transform.position = Vector3.zero;
         this.parentTransform = parentTransform;
