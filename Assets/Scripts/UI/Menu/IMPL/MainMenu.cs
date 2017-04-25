@@ -71,7 +71,6 @@ public class MainMenu : Menu
         if (Input.anyKey && !menuShowing)
         {
             SkipToMenuHide();
-            //ShowMenu();
         }
 
     }
@@ -89,29 +88,35 @@ public class MainMenu : Menu
 
     public void SkipToMenuHide()
     {
-        StartCoroutine(MenuTransitionsCommon.FadeCoroutine(0.0f, 1.0f, 1.0f, fadeCanvasGroup, SkipToMenuShow));
+        StartCoroutine(MenuTransitionsCommon.FadeCoroutine(0.0f, 1.0f, 1.0f, fadeCanvasGroup, OpenEyes));
     }
 
     public void SkipToMenuShow()
     {
-        CloseEyes();
         track.JumpToPosition(3);
-        ShowMenu();
         KillScreen();
-
-        //StartCoroutine(MenuTransitionsCommon.FadeCoroutine(1.0f, 0.0f, 1.0f, fadeCanvasGroup, null));
+        ShowMenu();
     }
 
     public void CloseEyes()
     {
-        StartCoroutine(MenuTransitionsCommon.FadeCoroutine(0.0f, 1.0f, 0.25f, fadeCanvasGroup, OpenEyes));
+        //if(MathfadeCanvasGroup.alpha)
+        if (!Mathf.Equals(1.0f, fadeCanvasGroup.alpha))
+        {
+            StartCoroutine(MenuTransitionsCommon.FadeCoroutine(0.0f, 1.0f, 0.25f, fadeCanvasGroup, SkipToMenuShow));
+        }
+        else
+        {
+            SkipToMenuShow();
+        }
     }
 
     public void OpenEyes()
     {
+        SkipToMenuShow();
         bloodAndGore.SetActive(true);
         miloTheRobot.SetActive(true);
-        StartCoroutine(MenuTransitionsCommon.FadeCoroutine(1.0f, 0.0f, 0.25f, fadeCanvasGroup, null));
+        StartCoroutine(MenuTransitionsCommon.FadeCoroutine(1.0f, 0.0f, 1.0f, fadeCanvasGroup, null));
     }
     public void ShowCredits()
     {
@@ -143,9 +148,7 @@ public class MainMenu : Menu
 
     public void StartGame()
     {
-        //fade out self
         StartCoroutine(MenuTransitionsCommon.FadeCoroutine(1.0f, 0.0f, 1.0f, canvasGroup, FadeOut));
-        //DoTransition(Transition.HIDE, new Effect[] { });
     }
 
     public void FireCredits()
