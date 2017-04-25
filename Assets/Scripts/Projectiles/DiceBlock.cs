@@ -28,12 +28,6 @@ public class DiceBlock : MonoBehaviour, IMovable {
     private Transform side6;
 
     [SerializeField]
-    private Collider blockCollider;
-
-    [SerializeField]
-    private Transform vfxExplosion;
-
-    [SerializeField]
     private float oneMultiply;
 
     [SerializeField]
@@ -62,6 +56,9 @@ public class DiceBlock : MonoBehaviour, IMovable {
 
     [SerializeField]
     private float tumbleStrength;
+
+    [SerializeField]
+    private float decayingForceMultiplier;
 
     [SerializeField]
     private float timeTilExplosion;
@@ -189,7 +186,8 @@ public class DiceBlock : MonoBehaviour, IMovable {
 
     #region Public Methods
     void IMovable.AddDecayingForce(Vector3 force, float decay=0.1f) {
-        rigid.AddForce(force);
+        Debug.Log("Added force!");
+        rigid.AddForce(force * decayingForceMultiplier);
     }
     bool IMovable.IsGrounded() { return false;}
     void IMovable.SetMovementMode(MovementMode mode) { }
