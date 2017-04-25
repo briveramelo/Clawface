@@ -84,8 +84,6 @@ public abstract class MallCopController : AIController {
         public MallCopSwingState swing = new MallCopSwingState();
         public MallCopTwitchState twitch = new MallCopTwitchState();
         public MallCopFallState fall = new MallCopFallState();
-        public MallCopIdleState idle = new MallCopIdleState();
-        public MallCopGettingUpState gettingUp = new MallCopGettingUpState();
 
         public MallCopFireState fire = new MallCopFireState();
         public MallCopFleeState flee = new MallCopFleeState();
@@ -106,8 +104,6 @@ public abstract class MallCopController : AIController {
             fall.Initialize(properties, controller, velBody, animator, stats);
             fire.Initialize(properties, controller, velBody, animator, stats);
             flee.Initialize(properties, controller, velBody, animator, stats);
-            idle.Initialize(properties, controller, velBody, animator, stats);
-            gettingUp.Initialize (properties, controller, velBody, animator, stats);
 
             mallCopStates = new Dictionary<EMallCopState, MallCopState>() {
                 {EMallCopState.Swing, swing },
@@ -117,8 +113,6 @@ public abstract class MallCopController : AIController {
                 {EMallCopState.Twitch, twitch },
                 {EMallCopState.Fire, fire },
                 {EMallCopState.Flee, flee },
-                {EMallCopState.Idle, idle },
-                {EMallCopState.GettingUp, gettingUp }
             };
         }
 

@@ -1866,7 +1866,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1135078425380690}
   m_LocalRotation: {x: 0.36188334, y: 0.4698932, z: -0.16906492, w: 0.7871835}
-  m_LocalPosition: {x: -22.46, y: 20, z: -11.7}
+  m_LocalPosition: {x: 11.87, y: 21.92, z: -25.89}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4860239308268526}
@@ -2765,7 +2765,6 @@ MonoBehaviour:
   skinObject: {fileID: 1137292900949812}
   playerStatsManager: {fileID: 114525289534274630}
   healthBar: {fileID: 114700689932892252}
-  stats: {fileID: 114776082409394740}
   skinRadius: 2
 --- !u!114 &114084010113247784
 MonoBehaviour:
@@ -3048,9 +3047,9 @@ MonoBehaviour:
   coolDownFrameCount: 0
   inputCheckFrameCount: 0
   isBlockingState: 1
-  totalDashFrames: 30
+  totalDashFrames: 25
   iFrameStart: 5
-  iFrameEnd: 25
+  iFrameEnd: 20
   dashVelocity: 25
   dashPuff: {fileID: 114078537507502732}
   dashTrail: {fileID: 1198167928581944}
@@ -3563,6 +3562,7 @@ MonoBehaviour:
     animator: {fileID: 95188465348483346}
     playerTransform: {fileID: 0}
     modAnimationManager: {fileID: 0}
+    defaultState: {fileID: 0}
   defaultState: {fileID: 114682248774392870}
   skinningState: {fileID: 114079048127339704}
   lockOnScript: {fileID: 114217986184097012}

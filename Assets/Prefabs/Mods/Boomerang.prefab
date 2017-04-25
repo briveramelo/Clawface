@@ -205,8 +205,6 @@ MonoBehaviour:
   hasState: 1
   vfxModChargePrefab: {fileID: 1868770362516384, guid: 75076dc3f3739ff4bb01ae67a336ecc5,
     type: 2}
-  vfxModCooldownPrefab: {fileID: 1020022290495414, guid: 28c736c9f78d4cc4b8ea1d4a2875356d,
-    type: 2}
   pickupCollider: {fileID: 65371520106775296}
   modCanvas: {fileID: 1736212784191878}
   energySettings:
@@ -223,12 +221,12 @@ MonoBehaviour:
       attack: 9
       timeToHitStop: 0
     standardLegAttackSettings:
-      timeToCoolDown: 0
+      timeToCoolDown: 0.3
       timeToAttack: 0
       attack: 0
       timeToHitStop: 0
     chargedLegAttackSettings:
-      timeToCoolDown: 0
+      timeToCoolDown: 1
       timeToAttack: 0
       attack: 0
       timeToHitStop: 0

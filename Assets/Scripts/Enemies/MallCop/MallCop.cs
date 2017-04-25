@@ -20,7 +20,6 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
     [SerializeField] private CopUI copUICanvas;
     [SerializeField] private Mod mod;
     [SerializeField] private Transform bloodEmissionLocation;
-    [SerializeField] private RagdollController ragdollController;
     #endregion
 
     #region 3. Private fields
@@ -65,10 +64,6 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
                 copUICanvas.gameObject.SetActive(true);
                 copUICanvas.ShowAction(ActionType.Skin);
             }
-
-            if (damager.damagerType == DamagerType.SegwayPushCharged && ragdollController != null)
-                ragdollController.EnterRagdoll(2f);
-
             if (myStats.health <= 0) {
                 controller.UpdateState(EMallCopState.Fall);
 

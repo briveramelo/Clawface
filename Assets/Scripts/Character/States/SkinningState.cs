@@ -16,7 +16,6 @@ public class SkinningState : IPlayerState
     [SerializeField] private GameObject skinObject;
     [SerializeField] private PlayerStatsManager playerStatsManager;
     [SerializeField] private HealthBar healthBar;
-    [SerializeField] private Stats stats;
     [SerializeField] private float skinRadius;
     #endregion
 
@@ -46,10 +45,9 @@ public class SkinningState : IPlayerState
             GameObject skin = skinnable.DeSkin();
             skinObject.SetActive(true);
             SkinStats skinStats = skin.GetComponent<SkinStats>();
-            playerStatsManager.TakeSkin(skinStats.GetSkinHealth());            
+            playerStatsManager.TakeSkin(skinStats.GetSkinHealth());
+            Stats stats = GetComponent<Stats>();
             healthBar.SetHealth(stats.GetHealthFraction());
-            GameObject skinningEffect = ObjectPool.Instance.GetObject(PoolObjectType.SkinEffect);
-            skinningEffect.transform.position = transform.position;            
         }        
         stateVariables.stateFinished = true;
         stateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Idle);
