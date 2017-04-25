@@ -47,10 +47,15 @@ public class BoomerangMod : Mod {
 
     #region Unity Lifecycle
 
-    // Use this for initialization
-    void Start () {
+    protected override void Awake() {
         type = ModType.Boomerang;
         category = ModCategory.Ranged;
+        base.Awake();
+    }
+
+    // Use this for initialization
+    void Start () {
+        
         damageCollider.enabled = false;
         enemyDistance = Mathf.Infinity;
         initialScale = transform.localScale;
