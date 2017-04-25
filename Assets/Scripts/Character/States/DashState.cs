@@ -40,12 +40,7 @@ public class DashState : IPlayerState {
 
     public override void StateFixedUpdate()
     {
-
-    }
-
-    public override void StateUpdate()
-    {
-        if(currentFrame == 0)
+        if (currentFrame == 0)
         {
             dashPuff.Play();
             dashTrail.GetComponent<TrailRenderer>().enabled = true;
@@ -58,6 +53,11 @@ public class DashState : IPlayerState {
         {
             ResetState();
         }
+    }
+
+    public override void StateUpdate()
+    {
+        
     }
     #endregion
 
