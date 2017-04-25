@@ -15,7 +15,7 @@
     }
 
     public static class Scenes {
-        public static string Level1 = "Scenes/Gucci_V1.2";
+        public static string Level1 = "Scenes/EAE_Level";
         public static string MainMenu = "Scenes/MainMenu";
     }
 
