@@ -119,7 +119,8 @@ public enum PoolObjectType {
 	GeyserShield = 19,
     BoomerangProjectile = 20,
     GeyserGushLine = 21,
-    DiceBlockExplosion=22
+    DiceBlockExplosion=22,
+    GeyserBase = 23
 }
 
 public enum MovementMode
