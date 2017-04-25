@@ -135,6 +135,7 @@ public enum PoolObjectType {
     DiceBlockExplosion=22,
     GeyserBase = 23,
     SkinningEffect = 24,
+    HealthGain = 25,
 }
 
 public enum MovementMode

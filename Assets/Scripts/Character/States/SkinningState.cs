@@ -50,6 +50,12 @@ public class SkinningState : IPlayerState
             healthBar.SetHealth(stats.GetHealthFraction());
             GameObject skinningEffect = ObjectPool.Instance.GetObject(PoolObjectType.SkinningEffect);
             skinningEffect.transform.position = transform.position;
+
+            GameObject healthJuice = ObjectPool.Instance.GetObject(PoolObjectType.HealthGain);
+            if (healthJuice) {
+                healthJuice.transform.position = transform.position + Vector3.up * 3.2f;
+                healthJuice.DeActivate(3f);
+            }
         }        
         stateVariables.stateFinished = true;
         stateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Idle);
