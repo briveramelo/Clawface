@@ -22,13 +22,14 @@ public abstract class AIController : MonoBehaviour {
         }
         set { attackTarget = value; }
     }
+    public Vector3 AttackTargetPosition { get { return AttackTarget.position - transform.forward * .1f; } }
     private Transform attackTarget;
 
     protected Stats stats;
     protected float distanceFromTarget {get{ return Vector3.Distance(transform.position, AttackTarget.position); }}
     public Vector3 directionToTarget {
         get {
-            return (AttackTarget.position - transform.position).NormalizedNoY();            
+            return (AttackTargetPosition - transform.position).NormalizedNoY();            
         }
     }
     protected State currentState;

@@ -3,21 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class Pauser : Singleton<Pauser>
+public class Pauser : MonoBehaviour
 {
 
-    protected Pauser() { }
+    public static Pauser Instance;
 
     private bool isPaused;
+
+    private void Awake() {
+        if (Instance!=null) {
+            Destroy(gameObject);
+        }
+    }
 
 
     // Update is called once per frame
     void Update()
     {
-        //if (InputManager.Instance.QueryAction(Strings.Input.Actions.PAUSE, ButtonMode.DOWN))
-        //{
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
+        if (InputManager.Instance.QueryAction(Strings.Input.Actions.PAUSE, ButtonMode.DOWN))
+        {        
             Pause();
         }        
     }

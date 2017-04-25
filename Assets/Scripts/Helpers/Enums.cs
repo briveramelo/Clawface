@@ -51,7 +51,8 @@ public enum DamagerType {
     StunMine=7,
     FireTrap=8,
     GrapplingBotExplosion=9,
-    Dice=10
+    Dice=10,
+    StunStomp = 11,
 }
 
 public enum DamagedType {
@@ -119,7 +120,9 @@ public enum PoolObjectType {
 	GeyserShield = 19,
     BoomerangProjectile = 20,
     GeyserGushLine = 21,
-    DiceBlockExplosion=22
+    DiceBlockExplosion=22,
+    GeyserBase = 23,
+    SkinningEffect = 24,
 }
 
 public enum MovementMode

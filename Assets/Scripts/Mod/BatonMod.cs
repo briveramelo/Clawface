@@ -131,7 +131,8 @@ public class BatonMod : Mod {
             float attack = wasCharged ? energySettings.chargedLegAttackSettings.attack : energySettings.standardLegAttackSettings.attack;
             if (damageable != null)
             {
-                damager.Set(attack, getDamageType(), Vector3.down);
+                DamagerType dType = getModSpot()==ModSpot.Legs ? DamagerType.StunStomp : DamagerType.StunSwing;
+                damager.Set(attack, dType, Vector3.down);
                 damageable.TakeDamage(damager);
             }
             if(wasCharged && moveable != null)
