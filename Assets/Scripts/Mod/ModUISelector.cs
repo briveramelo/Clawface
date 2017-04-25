@@ -44,14 +44,15 @@ public class ModUISelector : MonoBehaviour {
 
     private void CheckToActivateUI() {
         if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTIVATE_UI, ButtonMode.DOWN)) {            
-            if (!modEquipCanvas.activeSelf) {                
-                OpenCanvas();
+            if (modUIElements.Exists(elm=>elm.isSet)) {
+                if (!modEquipCanvas.activeSelf) {                
+                    OpenCanvas();
+                }
+                else {
+                    CloseCanvas();
+                }
             }
-            else {
-                CloseCanvas();
-            }
-        }
-        
+        }        
     }
 
 
@@ -186,6 +187,7 @@ public class ModUISelector : MonoBehaviour {
         public float myAngle;
         public bool isBulging;
         private bool wasSelected;
+        public bool isSet { get { return uiElement.activeSelf; } }
         public bool canBulge { get { return !isBulging && isSelected && !wasSelected; } }
         public bool canShrink { get { return !isShrinking && !isSelected && wasSelected;} }
         public bool isShrinking;
