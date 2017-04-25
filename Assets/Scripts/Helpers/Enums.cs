@@ -117,7 +117,9 @@ public enum PoolObjectType {
     VFXBlasterShoot=17,
     VFXBlasterShootCharged=18,
 	GeyserShield = 19,
-    BoomerangProjectile = 20
+    BoomerangProjectile = 20,
+    GeyserGushLine = 21,
+    DiceBlockExplosion=22
 }
 
 public enum MovementMode

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using ModMan;
+using MovementEffects;
 
 public class GeyserMod : Mod {
 
@@ -14,14 +15,31 @@ public class GeyserMod : Mod {
     [SerializeField] private float longRangeDistance;
     [SerializeField] private float maxScaleMultiplier;
     [SerializeField] private float minScaleMultiplier;
-    [SerializeField] private GameObject targetCanvas;
+    [SerializeField]
+    private GameObject geyserBase;
+    [SerializeField]
+    private GameObject geyserTarget;
+    [SerializeField]
+    private int numberOfSquirts;
+    [SerializeField]
+    private float squirtDistanceOffset;
+    [SerializeField]
+    private float timeBetweenSquirts;
+    [SerializeField]
+    private float timeForEachSquirt;
+    [SerializeField]
+    private float megaSquirtWaitTime;
     #endregion
 
     #region Private Fields
     private Transform foot;
-    private Transform originalParent;
+    private Transform originalGeyserBaseParent;
+    private Transform originalGeyserTargetParent;
     private ProjectileProperties projectileProperties = new ProjectileProperties();
     private GameObject geyserShield;
+    private GameObject geyser;
+    private Vector3 finalForwardVector;
+    private Vector3 finalFootPosition;
     #endregion
 
     #region Unity Lifecycle
@@ -30,8 +48,10 @@ public class GeyserMod : Mod {
         DeactivateModCanvas();
         type = ModType.Geyser;
         category = ModCategory.Ranged;
-        targetCanvas.SetActive(false);
-        originalParent = null;
+        originalGeyserBaseParent = null;
+        originalGeyserTargetParent = null;
+        geyserBase.SetActive(false);
+        geyserTarget.SetActive(false);
     }
     #endregion
 
@@ -44,6 +64,14 @@ public class GeyserMod : Mod {
     {
         base.AttachAffect(ref wielderStats, wielderMovable);
         foot = ((VelocityBody)wielderMovable).foot;
+        if (getModSpot() == ModSpot.Legs)
+        {
+            hasState = false;
+        }
+        else
+        {
+            hasState = true;
+        }
     }
 
     public override void DeActivate() { }
@@ -64,8 +92,9 @@ public class GeyserMod : Mod {
     protected override void BeginChargingArms() { }
     protected override void RunChargingArms() { Charging(); }
     protected override void ActivateStandardArms() { Erupt(); }
-    protected override void ActivateChargedArms() { MegaErupt(); }
-
+    protected override void ActivateChargedArms() {
+        StartSquirtTrail();
+    }
 
     protected override void BeginChargingLegs() { }
     protected override void RunChargingLegs() { }
@@ -86,12 +115,49 @@ public class GeyserMod : Mod {
         }
     }
 
+    private void StartSquirtTrail()
+    {
+        finalForwardVector = wielderMovable.GetForward().NormalizedNoY();
+        finalFootPosition = foot.position;
+        Timing.RunCoroutine(SquirtSquirt());
+    }
+
+    private IEnumerator<float> SquirtSquirt()
+    {
+        float distance = Vector3.Distance(finalFootPosition, targetPosition) - squirtDistanceOffset;
+        distance /= numberOfSquirts;
+        for(int i = 1; i <= numberOfSquirts; i++)
+        {
+            GameObject squirt = ObjectPool.Instance.GetObject(PoolObjectType.GeyserGushLine);
+            squirt.transform.position = finalFootPosition + finalForwardVector * distance * i;
+            squirt.GetComponent<GeyserLine>().Fire(i / (float)numberOfSquirts, timeForEachSquirt, projectileProperties);
+            yield return Timing.WaitForSeconds(timeBetweenSquirts);
+        }
+        yield return Timing.WaitForSeconds(megaSquirtWaitTime);
+        MegaErupt();
+        yield return 0;
+    }
+
     private void Erupt()
     {
-        GameObject geyser = GetGeyser();
-        Vector3 forwardVector = wielderMovable.GetForward().NormalizedNoY();
-        geyser.transform.position = targetPosition;
-        FinishFiring();
+        geyser = GetGeyser();
+        if (geyser)
+        {
+            Vector3 forwardVector = wielderMovable.GetForward().NormalizedNoY();
+            geyser.transform.position = targetPosition;
+            InitializeGeyserBase();
+            FinishFiring();
+        }
+    }
+
+    private void InitializeGeyserBase()
+    {
+        originalGeyserBaseParent = geyserBase.transform.parent;
+        geyserBase.transform.parent = null;
+        geyserBase.SetActive(true);
+        geyserBase.transform.position = targetPosition;
+        geyserBase.transform.rotation = Quaternion.identity;
+        geyserBase.transform.localScale = chargeScale;
     }
 
     private GameObject GetGeyser()
@@ -107,38 +173,65 @@ public class GeyserMod : Mod {
 
     private void Charging()
     {
-        if (originalParent == null)
+        if (originalGeyserTargetParent == null)
         {
-            originalParent = targetCanvas.transform.parent;
-            targetCanvas.transform.SetParent(null);
+            originalGeyserTargetParent = geyserTarget.transform.parent;
+            geyserTarget.transform.parent = null;
         }
-        if (!targetCanvas.activeSelf)
+        if (!geyserTarget.activeSelf)
         {
-            targetCanvas.SetActive(true);
+            geyserTarget.SetActive(true);
         }
         Vector3 canvasPosition = targetPosition + Vector3.up * 0.2f;
-        targetCanvas.transform.position = canvasPosition;
-        targetCanvas.transform.rotation = Quaternion.identity;
-        targetCanvas.transform.localScale = chargeScale;
+        geyserTarget.transform.position = canvasPosition;
+        geyserTarget.transform.rotation = Quaternion.identity;
+        geyserTarget.transform.localScale = chargeScale;
     }
 
     private void MegaErupt()
     {
-        GameObject geyser = GetGeyser();
+        geyser = GetGeyser();
         if (geyser)
         {
-            geyser.transform.position = targetPosition;
-            geyser.transform.localScale = chargeScale;
+            geyser.transform.position = finalFootPosition + finalForwardVector * longRangeDistance;
+            geyser.transform.localScale = Vector3.one * maxScaleMultiplier;
+            originalGeyserBaseParent = geyserBase.transform.parent;
+            geyserBase.transform.parent = null;
+            geyserBase.SetActive(true);
+            geyserBase.transform.position = geyser.transform.position;
+            geyserBase.transform.rotation = Quaternion.identity;
+            geyserBase.transform.localScale = geyser.transform.localScale;
         }
         FinishFiring();
     }
     private void FinishFiring()
+    {        
+        //geyserTarget.transform.position = targetPosition;
+        geyserTarget.transform.localScale = chargeScale;
+        geyserTarget.transform.SetParent(originalGeyserTargetParent);
+        geyserTarget.SetActive(false);
+        Timing.RunCoroutine(WaitForGeyserToDie());
+        originalGeyserBaseParent = null;
+        originalGeyserTargetParent = null;
+    }
+
+    private IEnumerator<float> WaitForGeyserToDie()
     {
-        targetCanvas.transform.SetParent(originalParent);
-        targetCanvas.transform.position = targetPosition;
-        targetCanvas.transform.localScale = chargeScale;
-        targetCanvas.SetActive(false);
-        originalParent = null;
+        if (geyser) {
+            while (geyser.activeSelf)
+            {
+                yield return 0;
+            }
+            ResetGeyserBase();
+        }
+        yield return 0;
+    }
+
+    private void ResetGeyserBase()
+    {        
+        geyserBase.transform.localScale = chargeScale;
+        geyserBase.transform.parent = originalGeyserBaseParent;
+        geyserBase.SetActive(false);
     }
 
     private Vector3 targetPosition

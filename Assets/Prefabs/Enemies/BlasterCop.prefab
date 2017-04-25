@@ -903,8 +903,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1385345176205422}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 132.51, y: 0, z: 10.468138}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -14.51, y: 1.44, z: 36.11}
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children:
   - {fileID: 4454646408904882}
@@ -1151,9 +1151,10 @@ MonoBehaviour:
   timeInLastState: 0
   stateTimerIsRunning: 0
   modPrefab: {fileID: 1145115233867226, guid: 2f619f5e2ccdab34c8932a9bb87e4d67, type: 2}
-  fleeForce: 40.99
-  maxDistanceBeforeChasing: 12
-  distanceToFire: 6
+  playerDetectorSphereCollider: {fileID: 135652806102363036}
+  fleeForce: 40
+  closeEnoughToFireDistance: 10
+  fleeRadius: 4.5
 --- !u!114 &114232377073380234
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1258,7 +1259,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attack: 5
   defense: 5
-  health: 40
+  health: 25
   maxHealth: 0
   moveSpeed: 150
   rangedAccuracy: 1
@@ -1332,7 +1333,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   foot: {fileID: 4313216080101678}
   rigbod: {fileID: 54902092078257302}
-  isGrounded: 0
+  iceForceMultiplier: 0
+  movementMode: 0
 --- !u!114 &114969724012723138
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1376,7 +1378,6 @@ MonoBehaviour:
     isCoolingDown: 0
     isActive: 0
     hasStartedCharging: 0
-  blasterEffect: {fileID: 114234597598472604}
   bulletSpawnPoint: {fileID: 4959142172828002}
   kickbackForce: 5
   kickbackForceCharged: 20
@@ -1392,7 +1393,7 @@ SphereCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 1
-  m_Center: {x: 0, y: 0.43, z: 0}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!136 &136665024391862300
 CapsuleCollider:
   m_ObjectHideFlags: 1

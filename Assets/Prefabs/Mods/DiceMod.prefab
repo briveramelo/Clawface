@@ -150,8 +150,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1891895839945968}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -16.09, y: 1.4, z: 17.25}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -36.6, z: -138.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224414608765367000}
@@ -301,7 +301,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 7ee88358ba049f74c98fa2a7295dd4d3, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 110db4adf52e8eb469317d0dc45be3b9, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -388,6 +388,9 @@ MonoBehaviour:
     hasStartedCharging: 0
   blasterEffect: {fileID: 114759411832738320}
   bulletSpawnPoint: {fileID: 4250488396338662}
+  legPlayerJumpForce: 20
+  armTimeTilExplosion: 1
+  legTimeTilExplosion: 6
 --- !u!198 &198117800488203860
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -443,7 +446,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: -1346689484
+  randomSeed: -2011822014
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -3320,7 +3323,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: 1576074763
+  randomSeed: -348093746
   InitialModule:
     serializedVersion: 3
     enabled: 1
