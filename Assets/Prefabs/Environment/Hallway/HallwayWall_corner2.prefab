@@ -22,10 +22,10 @@ GameObject:
   - component: {fileID: 33294976227802266}
   - component: {fileID: 23876687305950862}
   - component: {fileID: 95383590789232088}
-  - component: {fileID: 64019983176616650}
+  - component: {fileID: 64556282630885226}
   m_Layer: 0
   m_Name: HallwayWall_corner2
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -37,12 +37,12 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1931377344449974}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 17.58, y: 2.496, z: 12.817104}
+  m_LocalPosition: {x: 17.9, y: 2.6, z: 13.316}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &23876687305950862
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -82,7 +82,7 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1931377344449974}
   m_Mesh: {fileID: 4300000, guid: 2f6b36d496fdb0e49903901d2a2b4703, type: 3}
---- !u!64 &64019983176616650
+--- !u!64 &64556282630885226
 MeshCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
