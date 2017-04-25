@@ -953,7 +953,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1118372282550480}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -7.98, y: 0.65, z: -32.6}
+  m_LocalPosition: {x: -36.129997, y: 0.65, z: -12.96}
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children:
   - {fileID: 4203017246125288}
@@ -1389,7 +1389,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   foot: {fileID: 4009667743967004}
   rigbod: {fileID: 54477481413527770}
-  isGrounded: 0
+  iceForceMultiplier: 0
+  movementMode: 0
 --- !u!114 &114216556463902696
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1574,6 +1575,8 @@ MonoBehaviour:
   hasState: 0
   vfxModChargePrefab: {fileID: 1868770362516384, guid: 75076dc3f3739ff4bb01ae67a336ecc5,
     type: 2}
+  vfxModCooldownPrefab: {fileID: 1020022290495414, guid: 28c736c9f78d4cc4b8ea1d4a2875356d,
+    type: 2}
   pickupCollider: {fileID: 65541383895908204}
   modCanvas: {fileID: 0}
   energySettings:
@@ -1612,8 +1615,8 @@ MonoBehaviour:
   slamForce: 0
   slamBox: {fileID: 65716800929020632}
   slamPush: 0
-  vfx: {fileID: 0}
   chargeMultiplier: 0
+  slamForceDecayRate: 0
 --- !u!114 &114709168524529216
 MonoBehaviour:
   m_ObjectHideFlags: 1

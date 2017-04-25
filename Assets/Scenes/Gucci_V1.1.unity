@@ -1529,27 +1529,6 @@ Prefab:
       propertyPath: m_Name
       value: MallCop (4)
       objectReference: {fileID: 0}
-    - target: {fileID: 114216556463902696, guid: b0927e1a44bf75241b97accd5b98cf23,
-        type: 2}
-      propertyPath: health
-      value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 4450835766107874, guid: b0927e1a44bf75241b97accd5b98cf23, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4450835766107874, guid: b0927e1a44bf75241b97accd5b98cf23, type: 2}
-      propertyPath: m_LocalScale.y
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4450835766107874, guid: b0927e1a44bf75241b97accd5b98cf23, type: 2}
-      propertyPath: m_LocalScale.z
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1118372282550480, guid: b0927e1a44bf75241b97accd5b98cf23, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b0927e1a44bf75241b97accd5b98cf23, type: 2}
   m_IsPrefabParent: 0
@@ -34301,27 +34280,6 @@ Prefab:
       propertyPath: m_Name
       value: BlasterCop (1)
       objectReference: {fileID: 0}
-    - target: {fileID: 114562163281978664, guid: 853a9c96bc025954896d8b6c0a793ef2,
-        type: 2}
-      propertyPath: health
-      value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 4785573374739294, guid: 853a9c96bc025954896d8b6c0a793ef2, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4785573374739294, guid: 853a9c96bc025954896d8b6c0a793ef2, type: 2}
-      propertyPath: m_LocalScale.y
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4785573374739294, guid: 853a9c96bc025954896d8b6c0a793ef2, type: 2}
-      propertyPath: m_LocalScale.z
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1385345176205422, guid: 853a9c96bc025954896d8b6c0a793ef2, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 853a9c96bc025954896d8b6c0a793ef2, type: 2}
   m_IsPrefabParent: 0
@@ -40687,6 +40645,16 @@ Prefab:
     - target: {fileID: 4960153125730312, guid: e6f3a17700d6d664e81ee0d2edf0880c, type: 2}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114198258213580998, guid: e6f3a17700d6d664e81ee0d2edf0880c,
+        type: 2}
+      propertyPath: iceForceMultiplier
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 114760442030253710, guid: e6f3a17700d6d664e81ee0d2edf0880c,
+        type: 2}
+      propertyPath: stateVariables.acceleration
+      value: 100
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e6f3a17700d6d664e81ee0d2edf0880c, type: 2}
