@@ -32,10 +32,10 @@ public class Scheme2 : IControlScheme {
                     //    modes[i] = controllers[i].GetRightSecondary();
                     //    break;
                     case Strings.Input.Actions.ACTIVATE_UI:
-                        modes[i] = controllers[i].GetRightTertiary();
+                        modes[i] = controllers[i].GetRightSecondary();
                         break;
                     case Strings.Input.Actions.LOCK:
-                        modes[i] = controllers[i].GetRightSecondary();
+                        modes[i] = controllers[i].GetRightTertiary();
                         break;
                     case Strings.Input.Actions.ACTION_LEGS:
                         modes[i] = controllers[i].GetAction1();
@@ -98,7 +98,7 @@ public class Scheme2 : IControlScheme {
                     //        return true;
                     //    break;
                     case Strings.Input.Actions.ACTIVATE_UI:
-                        if (controller.GetRightTertiary(mode))
+                        if (controller.GetRightSecondary(mode))
                             return true;
                         break;                    
                     case Strings.Input.Actions.ACTION_LEGS:
@@ -140,7 +140,7 @@ public class Scheme2 : IControlScheme {
                             return true;
                         break;
                     case Strings.Input.Actions.LOCK:
-                        if (controller.GetRightSecondary(mode))
+                        if (controller.GetRightTertiary(mode))
                             return true;
                         break;
                     case Strings.Input.Actions.PAUSE:
