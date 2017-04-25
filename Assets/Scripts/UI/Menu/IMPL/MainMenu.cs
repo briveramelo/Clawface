@@ -21,20 +21,23 @@ public class MainMenu : Menu
     #endregion
 
     bool menuShowing = false;
-    
+
+    [SerializeField]
     CanvasGroup creditsCanvasGroup;
 
     [SerializeField]
-    GameObject creditsCanvasGameObject;
+    CanvasGroup fadeCanvasGroup;
 
     [SerializeField]
-    GameObject creditsDefaultSelected;
+    Button creditsDefaultSelectedButton;
 
     [SerializeField]
-    GameObject fadeCanvasGameObject;
+    Button mainDefaultSelectedButton;
 
-    [SerializeField]
-    Button startButton;
+
+
+    //[SerializeField]
+    //Button startButton;
 
     [SerializeField]
     VideoPlayer projector;
@@ -44,8 +47,7 @@ public class MainMenu : Menu
 
     [SerializeField]
     CameraTrack track;
-
-    CanvasGroup fadeCanvasGroup;
+    
   
 
     #region Private Fields
@@ -65,34 +67,43 @@ public class MainMenu : Menu
         
         if (!menuShowing)
         {
-            //DoTransition(Transition.SHOW, new Effect[] { });
-            StartCoroutine(MenuTransitionsCommon.FadeCoroutine(0.0f, 1.0f, 1.0f, canvasGroup, SkipToMenuShow));
-
+            StartCoroutine(MenuTransitionsCommon.FadeCoroutine(0.0f, 1.0f, 1.0f, canvasGroup, EnableES));
             
         }
     }
 
+    private void EnableES()
+    {
+        EventSystem.current.GetComponent<StandaloneInputModule>().enabled = true;
+        EventSystem.current.SetSelectedGameObject(mainDefaultSelectedButton.gameObject);
+    }
+
     private void Awake()
     {
-        creditsCanvasGroup = creditsCanvasGameObject.GetComponent<CanvasGroup>();
-        fadeCanvasGroup = fadeCanvasGameObject.GetComponent<CanvasGroup>();
+        fadeCanvasGroup = fadeCanvasGroup.GetComponent<CanvasGroup>();
+
     }
 
 
     private void Start()
     {
-        creditsCanvasGameObject.SetActive(false);
+        creditsCanvasGroup.gameObject.SetActive(false);
 
-       
+        
+        EventSystem.current.GetComponent<StandaloneInputModule>().enabled = false;
+
+
     }
 
     private void Update()
     {
         if (Input.anyKey)
         {
-            //ShowMenu();
             SkipToMenuHide();
+            //ShowMenu();
         }
+
+        Debug.Log(MenuManager.Instance);
     }
 
 
@@ -101,8 +112,6 @@ public class MainMenu : Menu
         MusicManager.Instance.PlayMusic(MusicType.MainMenu_Track, gameObject.transform.position);
     }
     
-
-
     public override void DoTransition(Transition transition, Effect[] effects)
     {
         
@@ -114,51 +123,36 @@ public class MainMenu : Menu
                 break;
             case Transition.SHOW:
                 StartCoroutine(MenuTransitionsCommon.FadeCoroutine(0.0f, 1.0f, 2.0f, canvasGroup,
-                    () => { displayed = true; startButton.Select(); }));
+                    () => { displayed = true; /*startButton.Select();*/ }));
                 break;
         }
     }
 
-    public void PlayUIEnter()
-    {
-        SFXManager.Instance.Play(SFXType.UI_Hover, gameObject.transform.position);
-    }
-
-    public void PlayUIConfirm()
-    {
-        SFXManager.Instance.Play(SFXType.UI_Click, gameObject.transform.position);
-    }
-
-    public void PlayUIBack()
-    {
-        SFXManager.Instance.Play(SFXType.UI_Back, gameObject.transform.position);
-
-    }
+ 
     public void StartGame()
     {
         //fade out self
         StartCoroutine(MenuTransitionsCommon.FadeCoroutine(1.0f, 0.0f, 1.0f, canvasGroup, FadeOut));
+        //DoTransition(Transition.HIDE, new Effect[] { });
     }
 
     public void FireCredits()
     {
-        
         StartCoroutine(MenuTransitionsCommon.FadeCoroutine(1.0f, 0.0f, 1.0f, canvasGroup, ShowCredits));
-        //MenuManager.Instance.DoTransition(Strings.MenuStrings.MAIN, Transition.HIDE, new Effect[] { });
-       
     }
     
     
 
     void FadeOut()
     {
-        //fade out to black
-        fadeCanvasGameObject.SetActive(true);
+        ////fade out to black
+        fadeCanvasGroup.gameObject.SetActive(true);
         StartCoroutine(MenuTransitionsCommon.FadeCoroutine(0.0f, 1.0f, 1.0f, fadeCanvasGroup, LoadLevelOne));
     }
     void LoadLevelOne()
     {
         MusicManager.Instance.Stop(MusicType.MainMenu_Track);
+        
         Menu pMenu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.PAUSE);
         PauseMenu pauseMenu = (PauseMenu)pMenu;
         pauseMenu.CanPause = true;
@@ -170,13 +164,13 @@ public class MainMenu : Menu
 
     public void ShowCredits()
     {
-        creditsCanvasGameObject.SetActive(true);
+        creditsCanvasGroup.gameObject.SetActive(true);
         StartCoroutine(MenuTransitionsCommon.FadeCoroutine(0.0f, 1.0f, 1.0f, creditsCanvasGroup, HideSelf));
     }
 
     void HideSelf()
     {
-        EventSystem.current.SetSelectedGameObject(creditsDefaultSelected);
+        EventSystem.current.SetSelectedGameObject(creditsDefaultSelectedButton.gameObject);
         gameObject.SetActive(false);
     }
 
@@ -188,7 +182,6 @@ public class MainMenu : Menu
 
     public void SkipToMenuHide()
     {
-         
         StartCoroutine(MenuTransitionsCommon.FadeCoroutine(0.0f, 1.0f, 1.0f, fadeCanvasGroup, SkipToMenuShow));
     }
 
@@ -196,7 +189,8 @@ public class MainMenu : Menu
     {
         menuShowing = true;
         track.JumpToPosition(3);
-        StartCoroutine(MenuTransitionsCommon.FadeCoroutine(1.0f, 0.0f, 1.0f, fadeCanvasGroup, null));
+
+        StartCoroutine(MenuTransitionsCommon.FadeCoroutine(1.0f, 0.0f, 1.0f, fadeCanvasGroup, ShowMenu));
     }
     
 }

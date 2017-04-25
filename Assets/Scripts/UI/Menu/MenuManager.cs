@@ -13,7 +13,6 @@ public class MenuManager : Singleton<MenuManager> {
     #region Unity Serialization Fields
     [SerializeField]
     private List<GameObject> menuPrefabs;
-    [SerializeField]
     private StandaloneInputModule input;
     #endregion
 
@@ -24,6 +23,11 @@ public class MenuManager : Singleton<MenuManager> {
     #endregion
 
     #region Unity Lifecycle Functions
+
+    private void Awake()
+    {
+        input = EventSystem.current.GetComponent<StandaloneInputModule>();
+    }
     private void Start()
     {
         
