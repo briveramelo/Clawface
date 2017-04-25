@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using ModMan;
-
+using MovementEffects;
+using System.Linq;
 public class Spawner : MonoBehaviour {
 
     #region Serialized Unity Fields
@@ -10,7 +11,7 @@ public class Spawner : MonoBehaviour {
     [SerializeField] List<Transform> spawnPoints;
     [SerializeField] List<Wave> waves;
     [SerializeField] int currentWaveNumber=0;
-    [SerializeField] int numEnemies=0;
+    [SerializeField] int numEnemies=0;    
     #endregion
 
     #region private variables
@@ -41,38 +42,42 @@ public class Spawner : MonoBehaviour {
 
     #region Unity LifeCycle
     void Start() {
-        SpawnEnemy();
+        CheckToSpawnEnemyCluster();
     }
     #endregion
 
     #region Private Methods
     private void ReportDeath() {
         numEnemies--;
-        Invoke("SpawnEnemy", Random.Range(1f,2f));        
+        CheckToSpawnEnemyCluster();
     }
 
-    private void SpawnEnemy() {        
+    private void CheckToSpawnEnemyCluster() { 
         if (Application.isPlaying){
-            if (numEnemies < waves[currentWave].max){
-                GameObject spawnedObject = ObjectPool.Instance.GetObject(objectToSpawn);
-                if (spawnedObject){
-                    numEnemies++;
-                    ISpawnable spawnable = spawnedObject.GetComponentInChildren<ISpawnable>();
-                    if (!spawnable.HasWillBeenWritten()){
-                        spawnable.RegisterDeathEvent(ReportDeath);
-                    }
-                    spawnedObject.transform.position = spawnPoints.GetRandom().position;
+            if (numEnemies < waves[currentWave].min){
+                Timing.RunCoroutine(SpawnEnemyCluster());
+            }
+        }
+    }
 
-                    if (numEnemies < waves[currentWave].max){
-                        Invoke("SpawnEnemy", Random.Range(1f, 2f));
-                    }
-                    else{
-                        currentWave++;
-                    }
+    private IEnumerator<float> SpawnEnemyCluster() {
+        int enemiesToSpawn = waves[currentWave].max - numEnemies;
+        numEnemies += enemiesToSpawn;
+        for (int i=0; i<enemiesToSpawn; i++) {
+            yield return Timing.WaitForSeconds(Random.Range(1f, 2f));
+            GameObject spawnedObject = ObjectPool.Instance.GetObject(objectToSpawn);
+            if (spawnedObject) {
+                ISpawnable spawnable = spawnedObject.GetComponentInChildren<ISpawnable>();
+                if (!spawnable.HasWillBeenWritten()) {
+                    spawnable.RegisterDeathEvent(ReportDeath);
+                }
+                if (!spawnPoints.Any(sp=>sp==null)) {
+                    spawnedObject.transform.position = spawnPoints.GetRandom().position;                
                 }
             }
         }
     }
+    
     #endregion
 
     #region Internal Structures

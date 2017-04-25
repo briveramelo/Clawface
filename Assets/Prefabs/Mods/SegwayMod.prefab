@@ -209,7 +209,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1316314029526810}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 248.2, y: 1.02, z: 10.43}
+  m_LocalPosition: {x: 1.98, y: 1.47, z: 16.31}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4170505518199076}
@@ -326,6 +326,8 @@ MonoBehaviour:
   hasState: 0
   vfxModChargePrefab: {fileID: 1868770362516384, guid: 75076dc3f3739ff4bb01ae67a336ecc5,
     type: 2}
+  vfxModCooldownPrefab: {fileID: 1020022290495414, guid: 28c736c9f78d4cc4b8ea1d4a2875356d,
+    type: 2}
   pickupCollider: {fileID: 65808996196913348}
   modCanvas: {fileID: 1780465521823646}
   energySettings:
@@ -357,12 +359,12 @@ MonoBehaviour:
     hasStartedCharging: 0
   segwayVFX: {fileID: 114046701473042792}
   standardForceSettings:
-    jumpForce: 5
+    jumpForce: 15
     armpushForce: 30
     aoePushForce: 12
     capsuleLength: 3
   chargedForceSettings:
-    jumpForce: 9
+    jumpForce: 25
     armpushForce: 45
     aoePushForce: 20
     capsuleLength: 5
@@ -392,7 +394,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 2692fd2047d6f5047a0d00493c55c03b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6e28826d01e01a646bbd29e4c7af1690, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

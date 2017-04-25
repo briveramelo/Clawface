@@ -44,14 +44,15 @@ public class ModUISelector : MonoBehaviour {
 
     private void CheckToActivateUI() {
         if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTIVATE_UI, ButtonMode.DOWN)) {            
-            if (!modEquipCanvas.activeSelf) {                
-                OpenCanvas();
+            if (modUIElements.Exists(elm=>elm.isSet)) {
+                if (!modEquipCanvas.activeSelf) {                
+                    OpenCanvas();
+                }
+                else {
+                    CloseCanvas();
+                }
             }
-            else {
-                CloseCanvas();
-            }
-        }
-        
+        }        
     }
 
 
@@ -61,10 +62,22 @@ public class ModUISelector : MonoBehaviour {
             foreach (KeyValuePair<ModSpot, List<string>> spotCommands in equipCommands) {
                 foreach (string command in spotCommands.Value) {
                     if (InputManager.Instance.QueryAction(command, ButtonMode.DOWN)) {
-                        modManager.EquipMod(spotCommands.Key, selectedMod);
-                        Timing.RunCoroutine(DelayCanActivate(command));
-                        CloseCanvas();
-                        return;
+                        if (modManager.GetModSpotDictionary()[spotCommands.Key].mod == null ||
+                            (modManager.GetModSpotDictionary()[spotCommands.Key].mod != null &&
+                            !modManager.GetModSpotDictionary()[spotCommands.Key].mod.modEnergySettings.isActive)) {
+
+                            modManager.EquipMod(spotCommands.Key, selectedMod);
+                            Timing.RunCoroutine(DelayCanActivate(command));
+                            CloseCanvas();
+                        }
+                        else {
+                            ModUIElement modElm = modUIElements.Find(elm => elm.isSelected);
+                            if (modElm != null) {
+                                modElm.SetBadSelection();
+                                //SFXManager.Instance.Play(SFXType.BAD_UI_SOUND);
+                            }
+                        }
+                        return;                        
                     }
                 }                
             }
@@ -77,6 +90,10 @@ public class ModUISelector : MonoBehaviour {
         }
         yield return 0f;        
         modManager.SetCanActivate();
+    }
+
+    private void IndicateBadSelection() {
+        //SFXManager.Instance.Play(SFXType.BAD_UI_SOUND);
     }
 
 
@@ -149,7 +166,7 @@ public class ModUISelector : MonoBehaviour {
         
         //selectionHighlighter.transform.localPosition = modElm.selectHighlighterPosition;
         //selectionHighlighter.transform.localRotation = modElm.selectHighlighterRotation;
-        modElm.InitializeBulge();
+        modElm.SetSelected();
         notSelectedList.Clear();
         notSelectedList.Add(modElm);
         notSelectedList = modUIElements.Except(notSelectedList).ToList();
@@ -162,7 +179,7 @@ public class ModUISelector : MonoBehaviour {
     private void DeselectMods(ref List<ModUIElement> modUIElementsToDeselect) {
         modUIElementsToDeselect.ForEach(modElm=> {
             if (!modElm.isShrinking && !modElm.isAtStartScale) {
-                modElm.InitializeShrink();
+                modElm.SetUnSelected();
             }
         });
     }
@@ -181,11 +198,16 @@ public class ModUISelector : MonoBehaviour {
     #region Private Structures
     private class ModUIElement {
         public GameObject uiElement;
-        public ModType modType = ModType.None;
         public Range360 range;
+        public ModType modType = ModType.None;
         public float myAngle;
+        public int myIndex=-1;
         public bool isBulging;
-        private bool wasSelected;
+
+        public Quaternion selectHighlighterRotation { get { return Quaternion.AngleAxis(myAngle, Vector3.forward); } }
+        public Vector2 myPosition { get { return myAngle.AsVector2() * modUIRadius; } }
+        public Vector3 selectHighlighterPosition { get { return myAngle.AsVector2() * selectionRadius; } }
+        public bool isSet { get { return uiElement.activeSelf; } }
         public bool canBulge { get { return !isBulging && isSelected && !wasSelected; } }
         public bool canShrink { get { return !isShrinking && !isSelected && wasSelected;} }
         public bool isShrinking;
@@ -193,14 +215,15 @@ public class ModUISelector : MonoBehaviour {
         public bool isSelected;
         public bool isAtStartScale { get { return uiElement.transform.localScale.IsAboutEqual(startScale); } }
 
-        public Vector2 myPosition { get { return myAngle.AsVector2() * modUIRadius; } }
-        public Vector3 selectHighlighterPosition { get { return myAngle.AsVector2() * selectionRadius; } }
-        public Quaternion selectHighlighterRotation { get { return Quaternion.AngleAxis(myAngle, Vector3.forward); } }
-        public int myIndex=-1;
+
+        private Vector3 maxScale = Vector3.one * 2f;
+        private Vector3 endScale = Vector3.one * 1.75f;
+        private Vector3 startScale = Vector3.one;
+        private string coroutineString;
+        private bool wasSelected;
+
         private const float modUIRadius = 177f;
         private const float selectionRadius = 169f;
-
-        private string coroutineString;
 
         public ModUIElement(ModType modType, GameObject uiElement) {
             this.modType=modType;
@@ -222,49 +245,44 @@ public class ModUISelector : MonoBehaviour {
 
         public void SetIsSelected(float angle) {
             isSelected = range.IsInRange(angle);         
-        }
+        }       
+
+        public void SetBadSelection() {
+            uiElement.transform.localPosition = myPosition;
+            Timing.KillCoroutines(coroutineString);
+            Timing.RunCoroutine(Shake());
+        }        
+                
         public void SetSelected() {
             isSelected = true;
-            InitializeBulge();
-        }
-
-        public void Close() {
-            isSelected=false;
-            Timing.KillCoroutines(coroutineString);
-            uiElement.transform.localScale = startScale;
-        }
-
-        private IEnumerator<float> InternalUpdate() {
-            while(true) {
-                yield return 0f;
-                wasSelected=isSelected;
-            }
-        }
-
-        private Vector3 maxScale=Vector3.one * 2f;
-        private Vector3 endScale=Vector3.one * 1.75f;
-        private Vector3 startScale = Vector3.one;
-
-        public void InitializeBulge() {
+            uiElement.transform.localPosition = myPosition;
             Timing.KillCoroutines(coroutineString);
             Timing.RunCoroutine(Bulge());
         }
-        private IEnumerator<float> Bulge() {
-            isBulging=true;
-            yield return Timing.WaitUntilDone(Timing.RunCoroutine(LerpToScale(maxScale, 0.3f), coroutineString));
-            yield return Timing.WaitUntilDone(Timing.RunCoroutine(LerpToScale(endScale, 0.2f), coroutineString));
-            isBulging =false;            
-        }
-
-        public void InitializeShrink() {
+        
+        public void SetUnSelected() {
+            uiElement.transform.localPosition = myPosition;
             isSelected = false;
             Timing.KillCoroutines(coroutineString);
             Timing.RunCoroutine(LerpToScale(startScale, 0.2f));
         }
-        private IEnumerable<float> Shrink() {
+        public void Close() {
+            uiElement.transform.localPosition = myPosition;
+            isSelected = false;
+            Timing.KillCoroutines(coroutineString);
+            uiElement.transform.localScale = startScale;
+        }
+
+        private IEnumerable<float> ScaleToStart() {
             isShrinking=true;
             yield return Timing.WaitUntilDone(Timing.RunCoroutine(LerpToScale(startScale, 0.1f)));
             isShrinking=false;
+        }
+        private IEnumerator<float> Bulge() {
+            isBulging = true;
+            yield return Timing.WaitUntilDone(Timing.RunCoroutine(LerpToScale(maxScale, 0.3f), coroutineString));
+            yield return Timing.WaitUntilDone(Timing.RunCoroutine(LerpToScale(endScale, 0.2f), coroutineString));
+            isBulging = false;
         }
 
         private IEnumerator<float> LerpToScale(Vector3 targetScale, float lerpFraction) {            
@@ -275,6 +293,23 @@ public class ModUISelector : MonoBehaviour {
                 yield return 0f;
             }
             uiElement.transform.localScale = targetScale;
+        }
+        private IEnumerator<float> Shake() {
+            Vector3 startPosition = myPosition;
+            float shakeRadius = 8f;
+            float twitchTime = .3f;
+            while (twitchTime > 0) {
+                uiElement.transform.localPosition = startPosition + Random.onUnitSphere * shakeRadius;
+                twitchTime -= Time.fixedUnscaledDeltaTime;
+                yield return Timing.WaitForOneFrame;
+            }
+            uiElement.transform.localPosition = myPosition;
+        }
+        private IEnumerator<float> InternalUpdate() {
+            while (true) {
+                yield return 0f;
+                wasSelected = isSelected;
+            }
         }
     }
 

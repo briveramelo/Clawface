@@ -9,47 +9,47 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1099378161662884}
+  m_RootGameObject: {fileID: 1301403161032552}
   m_IsPrefabParent: 1
---- !u!1 &1099378161662884
+--- !u!1 &1301403161032552
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4580535884467650}
-  - component: {fileID: 114570278747412126}
+  - component: {fileID: 4323343633235490}
+  - component: {fileID: 114136389417991618}
   m_Layer: 0
-  m_Name: Grapple
+  m_Name: MODUI_Tazer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4580535884467650
+--- !u!4 &4323343633235490
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1099378161662884}
+  m_GameObject: {fileID: 1301403161032552}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -17.823547, y: -36.5, z: -101.01834}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114570278747412126
+--- !u!114 &114136389417991618
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1099378161662884}
+  m_GameObject: {fileID: 1301403161032552}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f41dd3443491cd44490ff5062f726779, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  typeField: 5
-  spriteField: {fileID: 21300000, guid: f02d45b9b1244f8489a8b8415ba11855, type: 3}
+  typeField: 3
+  spriteField: {fileID: 21300000, guid: 4c5bde2cc75be3e4eaeb78722df008fe, type: 3}

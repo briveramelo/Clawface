@@ -44,49 +44,51 @@ public class StunBatonAttackState : IPlayerState {
     }
 
     public override void StateFixedUpdate()
-    {        
-        /*if (CanPounce())
-        {
-            stateVariables.velBody.velocity = stateVariables.playerTransform.forward * stateVariables.meleePounceVelocity * Time.fixedDeltaTime;
-        }*/
+    { 
     }
 
     public override void StateUpdate()
     {
-        if (isStarting) {
-            isStarting = false;
-            Physics.IgnoreLayerCollision((int)Layers.ModMan, (int)Layers.Enemy, true);
-        }
+        DisableEnemyCollision();
 
         if (!stateVariables.stateFinished)
         {
             if (stateVariables.currentMod.getModSpot() == ModSpot.Legs)
             {
-                stateVariables.currentMod.Activate();
-                stateVariables.stateFinished = true;
+                ActivateLegs();
             }
             else
             {
                 if (frameCount == 0)
                 {
+                    //Not reached highlight pose
                     ChangePose();
                 }
                 if (weHaveHitHighlightPose)
                 {
+                    //Start state cooldown counter
                     frameCount++;
                 }
                 if (frameCount > coolDownFrameCount)
                 {
+                    //Counter is past cooldown
                     if (frameCount < coolDownFrameCount + inputCheckFrameCount)
                     {
+                        //Check if player has requested for input
                         if (isAttackRequested)
                         {
+                            //Reset cooldown counter
                             frameCount = 0;
+                            //Fire the mod
                             weHaveHitHighlightPose = false;
+                            stateVariables.currentMod.modEnergySettings.isActive = false;
+                            stateVariables.currentMod.Activate();
+                            stateVariables.currentMod.modEnergySettings.isActive = true;
                         }
                     }
                     else
                     {
+                        //No input requested
                         ResetState();
                     }
                 }
@@ -95,14 +97,13 @@ public class StunBatonAttackState : IPlayerState {
                     isAttackRequested = false;
                 }
             }
-        }        
-    }
+        }
+    }    
 
     private void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.tag == Strings.Tags.WALL)
         {
-            print("hitting");
             isHittingAWall = true;
         }
     }
@@ -111,7 +112,6 @@ public class StunBatonAttackState : IPlayerState {
     {
         if (collision.gameObject.tag == Strings.Tags.WALL)
         {
-            print("not hitting");
             isHittingAWall = false;
         }
     }
@@ -121,7 +121,13 @@ public class StunBatonAttackState : IPlayerState {
     public override void Attack()
     {
         isAttackRequested = true;
-        stateVariables.currentMod.Activate();
+        if (!stateVariables.currentMod.modEnergySettings.isActive)
+        {
+            stateVariables.currentMod.Activate();
+            if (stateVariables.currentMod.getModSpot() != ModSpot.Legs) {
+                stateVariables.currentMod.modEnergySettings.isActive = true;
+            }
+        }
     }
 
     public override void SecondaryAttack(bool isHeld, float holdTime)
@@ -131,6 +137,21 @@ public class StunBatonAttackState : IPlayerState {
     #endregion
 
     #region Private Methods
+    private void ActivateLegs()
+    {
+        stateVariables.currentMod.Activate();
+        stateVariables.stateFinished = true;
+    }
+
+    private void DisableEnemyCollision()
+    {
+        if (isStarting)
+        {
+            isStarting = false;
+            Physics.IgnoreLayerCollision((int)Layers.ModMan, (int)Layers.Enemy, true);
+        }
+    }
+
     private bool CanPounce()
     {
         if (stateVariables.currentEnemy != null)
@@ -177,6 +198,7 @@ public class StunBatonAttackState : IPlayerState {
 
     protected override void ResetState()
     {
+        stateVariables.currentMod.modEnergySettings.isActive = false;
         stateVariables.stateFinished = true;
         frameCount = 0;
         isAttackRequested = false;
@@ -184,7 +206,6 @@ public class StunBatonAttackState : IPlayerState {
         highlightPoseIndex = 0;
         weHaveHitHighlightPose = false;
         stateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Idle);
-
         Physics.IgnoreLayerCollision((int)Layers.ModMan, (int)Layers.Enemy, false);
         isStarting = true;      
     }
