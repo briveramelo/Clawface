@@ -93,11 +93,7 @@ public class SFXManager : Singleton<SFXManager>
             }
 
             //If the SFX all are not available, create a new one 
-            SoundEffect newSFX = new SoundEffect(Instantiate(sfxDictionary[i_Type][0].GetObject()), transform);
-            newSFX.Available = false;
-            newSFX.Play(position);
-            sfxDictionary[i_Type].Add(newSFX);
-            StartCoroutine(WaitForReturnList(newSFX));
+            CreateNewSFX(i_Type, sfxDictionary[i_Type]).Play(position);
             return;
         }
 
@@ -122,11 +118,7 @@ public class SFXManager : Singleton<SFXManager>
             }
 
             //If the SFX all are not available, create a new one 
-            SoundEffect newSFX = new SoundEffect(Instantiate(sfxDictionary[i_Type][0].GetObject()), transform);
-            newSFX.Available = false;
-            newSFX.PlayFollowObject(i_parents);
-            sfxDictionary[i_Type].Add(newSFX);
-            StartCoroutine(WaitForReturnList(newSFX));
+            CreateNewSFX(i_Type, sfxDictionary[i_Type]).PlayFollowObject(i_parents);
             return;
         }
 
@@ -164,6 +156,16 @@ public class SFXManager : Singleton<SFXManager>
         }
 
         return List;
+    }
+
+    private SoundEffect CreateNewSFX(SFXType i_Type, List<SoundEffect> List)
+    {
+        SoundEffect newSFX = new SoundEffect(Instantiate(List[0].GetObject()), transform);
+        List.Add(newSFX);
+        newSFX.Available = false;
+        StartCoroutine(WaitForReturnList(newSFX));
+
+        return newSFX;
     }
 
 
