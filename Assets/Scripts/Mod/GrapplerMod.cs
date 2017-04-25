@@ -14,6 +14,8 @@ public class GrapplerMod : Mod {
     [SerializeField] private Hook hook;
     [SerializeField] private float jumpForce;
     [SerializeField] private float jumpForceMultiplier;
+    [SerializeField] private float maxHookLengthStandard;
+    [SerializeField] private float maxHookLengthCharged;    
     [SerializeField]
     private float tornadoSpeed;
     [SerializeField]
@@ -59,6 +61,7 @@ public class GrapplerMod : Mod {
     {
         if (!hook.IsThrown() && !energySettings.isCoolingDown)
         {
+            hook.maxLength = IsCharged() ? maxHookLengthCharged : maxHookLengthStandard;
             if (getModSpot() != ModSpot.Legs)
             {
                 onActivate = () => { SFXManager.Instance.Play(SFXType.GrapplingGun_Shoot, transform.position); };

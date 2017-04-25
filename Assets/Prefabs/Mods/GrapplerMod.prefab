@@ -253,12 +253,12 @@ MonoBehaviour:
     timeToChargeArm: 2
     timeToChargeLeg: 2
     standardArmAttackSettings:
-      timeToCoolDown: 1
+      timeToCoolDown: 0.6
       timeToAttack: 0
       attack: 4
       timeToHitStop: 0.03
     chargedArmAttackSettings:
-      timeToCoolDown: 2
+      timeToCoolDown: 1.3
       timeToAttack: 0
       attack: 9
       timeToHitStop: 0.1
@@ -279,6 +279,8 @@ MonoBehaviour:
   hook: {fileID: 114929120214224340}
   jumpForce: 50
   jumpForceMultiplier: 1
+  maxHookLengthStandard: 2
+  maxHookLengthCharged: 5
   tornadoSpeed: 50
   standardTornadoFallingForce: 0.5
   chargedTornadoFallingForce: 0.8
@@ -372,11 +374,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e35b892bc77956b48afc197fc6adade3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxLength: 2
   mod: {fileID: 114176279886086948}
   growRate: 10
   shrinkRate: 10
-  maxLength: 2
-  pullForce: 30
+  pullForce: 80
 --- !u!222 &222070531113919024
 CanvasRenderer:
   m_ObjectHideFlags: 1

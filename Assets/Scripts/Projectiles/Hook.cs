@@ -6,13 +6,13 @@ using MovementEffects;
 public class Hook : MonoBehaviour {
 
     #region Public fields
+    [HideInInspector] public float maxLength;
     #endregion
 
     #region Serialized Unity Inspector fields
     [SerializeField] GrapplerMod mod;
     [SerializeField] private float growRate;
     [SerializeField] private float shrinkRate;
-    [SerializeField] private float maxLength;
     [SerializeField] private float pullForce;
     #endregion
 
