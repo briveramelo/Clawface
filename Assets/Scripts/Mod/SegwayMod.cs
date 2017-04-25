@@ -127,7 +127,7 @@ public class SegwayMod : Mod {
                     IDamageable damageable = other.GetComponent<IDamageable>();
                     IMovable movable = other.GetComponent<IMovable>();
 
-                    if (!recentlyHitEnemies.Contains(damageable)) {
+                    if (!recentlyHitObjects.Contains(other.gameObject)) {
                         if (damageable != null)
                         {
                             if (wielderStats.CompareTag(Strings.Tags.PLAYER))
@@ -144,13 +144,18 @@ public class SegwayMod : Mod {
                                 AnalyticsManager.Instance.AddEnemyModDamage(this.getModType(), Attack);
                             }
 
-                            recentlyHitEnemies.Add(damageable);
+                            
                             damager.Set(Attack, getDamageType(), wielderMovable.GetForward());
                             damageable.TakeDamage(damager);
                         }                                 
                         if (movable != null){                            
                             Vector3 pushDirection = wielderMovable.GetForward();
                             movable.AddDecayingForce(pushDirection * pushForce);
+                        }
+
+                        if (damageable != null || movable != null)
+                        {
+                            recentlyHitObjects.Add(other.gameObject);
                         }
                     }
                 }
