@@ -15,7 +15,9 @@ public class Door : MonoBehaviour
     public float moveSpeed = 1.0f;
 
     private GameObject MovePart;
-    private bool IsOpening = false;
+    private bool isOpening = false;
+
+    public bool isOpen { get { return isOpening; } }
 
     // Use this for initialization
     void Start()
@@ -31,13 +33,13 @@ public class Door : MonoBehaviour
 
     void OnTriggerEnter()
     {
-        if (IsOpening == false)
+        if (isOpening == false)
             StartCoroutine(openDoor());
     }
 
-    IEnumerator openDoor()
+    public IEnumerator openDoor()
     {
-        IsOpening = true;
+        isOpening = true;
 
         for (float i = 0; i < maxHeight; i += 1.0f)
         {
@@ -53,6 +55,8 @@ public class Door : MonoBehaviour
             yield return 0;
         }
 
-        IsOpening = false;
+        isOpening = false;
     }
+
+
 }
