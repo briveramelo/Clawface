@@ -48,6 +48,8 @@ public class SkinningState : IPlayerState
             playerStatsManager.TakeSkin(skinStats.GetSkinHealth());
             Stats stats = GetComponent<Stats>();
             healthBar.SetHealth(stats.GetHealthFraction());
+            GameObject skinningEffect = ObjectPool.Instance.GetObject(PoolObjectType.SkinningEffect);
+            skinningEffect.transform.position = transform.position;
         }        
         stateVariables.stateFinished = true;
         stateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Idle);

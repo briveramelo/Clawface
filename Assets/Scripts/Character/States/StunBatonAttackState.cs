@@ -124,7 +124,9 @@ public class StunBatonAttackState : IPlayerState {
         if (!stateVariables.currentMod.modEnergySettings.isActive)
         {
             stateVariables.currentMod.Activate();
-            stateVariables.currentMod.modEnergySettings.isActive = true;
+            if (stateVariables.currentMod.getModSpot() != ModSpot.Legs) {
+                stateVariables.currentMod.modEnergySettings.isActive = true;
+            }
         }
     }
 
