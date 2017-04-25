@@ -34,10 +34,11 @@ public class GrapplerMod : Mod {
 
     #region Unity Lifecycle
     // Use this for initialization
-    void Start () {
+    protected override void Awake() {
         type = ModType.Grappler;
         category = ModCategory.Ranged;
-        angle = 0f;        
+        angle = 0f;
+        base.Awake();
     }
 
     // Update is called once per frame

@@ -43,10 +43,15 @@ public class GeyserMod : Mod {
 
     #region Unity Lifecycle
     // Use this for initialization
-    void Start () {
-        DeactivateModCanvas();
+    protected override void Awake() {
         type = ModType.Geyser;
         category = ModCategory.Ranged;
+        base.Awake();
+    }
+
+    void Start () {
+        DeactivateModCanvas();
+        
         originalGeyserBaseParent = null;
         originalGeyserTargetParent = null;
         geyserTarget.SetActive(false);

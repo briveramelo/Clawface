@@ -28,9 +28,10 @@ public class SegwayMod : Mod {
     [SerializeField] private float aoeRadius;
 
     // Use this for initialization
-    void Start()
+    protected override void Awake()
     {
-        setModType(ModType.ForceSegway);        
+        setModType(ModType.ForceSegway); 
+        base.Awake();       
     }
 
     protected override void Update(){
