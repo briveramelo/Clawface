@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using ModMan;
 using MovementEffects;
-
+using System.Linq;
 public class Spawner : MonoBehaviour {
 
     #region Serialized Unity Fields
@@ -71,7 +71,9 @@ public class Spawner : MonoBehaviour {
                 if (!spawnable.HasWillBeenWritten()) {
                     spawnable.RegisterDeathEvent(ReportDeath);
                 }
-                spawnedObject.transform.position = spawnPoints.GetRandom().position;                
+                if (!spawnPoints.Any(sp=>sp==null)) {
+                    spawnedObject.transform.position = spawnPoints.GetRandom().position;                
+                }
             }
         }
     }
