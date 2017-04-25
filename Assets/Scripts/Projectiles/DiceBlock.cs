@@ -64,9 +64,6 @@ public class DiceBlock : MonoBehaviour, IMovable {
     private float timeTilExplosion;
 
     [SerializeField]
-    private float explosionDamage;
-
-    [SerializeField]
     private float startScale;
 
     [SerializeField]
@@ -186,7 +183,6 @@ public class DiceBlock : MonoBehaviour, IMovable {
 
     #region Public Methods
     void IMovable.AddDecayingForce(Vector3 force, float decay=0.1f) {
-        Debug.Log("Added force!");
         rigid.AddForce(force * decayingForceMultiplier);
     }
     bool IMovable.IsGrounded() { return false;}
