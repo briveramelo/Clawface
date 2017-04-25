@@ -51,7 +51,7 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
         else {
             guard = true;
             Destroy(gameObject);
-            Debug.LogWarning("Destroying duplicate singleton!" + typeof(T));
+            Debug.LogWarning("Destroying duplicate singleton " + typeof(T) +"!");
         }
     }
     /// <summary>

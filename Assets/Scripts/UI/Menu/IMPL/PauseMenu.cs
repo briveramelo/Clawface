@@ -89,7 +89,7 @@ public class PauseMenu : Menu {
     {
         Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
         LoadMenu loadMenu = (LoadMenu)menu;
-        loadMenu.TargetScene = "Scenes/Gucci_V1.1";
+        loadMenu.TargetScene = Strings.Scenes.Level1;
         MenuManager.Instance.DoTransition(loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
     }
 
@@ -98,7 +98,7 @@ public class PauseMenu : Menu {
         canPause = false;
         Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
         LoadMenu loadMenu = (LoadMenu)menu;
-        loadMenu.TargetScene = "Scenes/MainMenu";
+        loadMenu.TargetScene = Strings.Scenes.MainMenu;
         loadMenu.Fast = true;
         MenuManager.Instance.DoTransition(loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
     }

@@ -23,7 +23,8 @@ public class DamageFXManager : Singleton<DamageFXManager> {
                     {DamagerType.StunMine, EmitGeyser },
                     {DamagerType.FireTrap, EmitBlood },
                     {DamagerType.GrapplingBotExplosion, EmitBlood },
-                    {DamagerType.Dice, EmitGeyser }
+                    {DamagerType.Dice, EmitGeyser },
+                    {DamagerType.StunStomp, EmitGeyser}
                 }
             },
             {DamagedType.Milo,
@@ -38,7 +39,8 @@ public class DamageFXManager : Singleton<DamageFXManager> {
                     {DamagerType.StunMine, EmitGeyser },
                     {DamagerType.FireTrap, EmitBlood },
                     {DamagerType.GrapplingBotExplosion, EmitBlood },
-                    {DamagerType.Dice, EmitGeyser }
+                    {DamagerType.Dice, EmitGeyser },
+                    {DamagerType.StunStomp, EmitGeyser}
                 }
             },            
         };

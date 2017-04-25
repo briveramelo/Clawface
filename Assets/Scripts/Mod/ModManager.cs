@@ -56,7 +56,7 @@ public class ModManager : MonoBehaviour
         };
         modToSwap = ModSpot.Default;
 
-        AnalyticsManager.Instance.SetModManager(this);
+        //AnalyticsManager.Instance.SetModManager(this);
 
     }
 

@@ -903,9 +903,9 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1385345176205422}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 232.13, y: 0, z: 6.22}
-  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -6.399914, y: 0, z: 9.388999}
+  m_LocalScale: {x: 4.5, y: 4.5, z: 4.5}
   m_Children:
   - {fileID: 4454646408904882}
   - {fileID: 4012356860644534}
@@ -1333,7 +1333,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   foot: {fileID: 4313216080101678}
   rigbod: {fileID: 54902092078257302}
-  iceForceMultiplier: 0
+  iceForceMultiplier: 15
   movementMode: 0
 --- !u!114 &114969724012723138
 MonoBehaviour:
@@ -1348,6 +1348,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hasState: 0
   vfxModChargePrefab: {fileID: 1868770362516384, guid: 75076dc3f3739ff4bb01ae67a336ecc5,
+    type: 2}
+  vfxModCooldownPrefab: {fileID: 1020022290495414, guid: 28c736c9f78d4cc4b8ea1d4a2875356d,
     type: 2}
   pickupCollider: {fileID: 65505833295624902}
   modCanvas: {fileID: 0}
@@ -1404,9 +1406,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.2
-  m_Height: 1
+  m_Height: 0.82
   m_Direction: 1
-  m_Center: {x: 0.035, y: 0.53, z: 0}
+  m_Center: {x: 0.035, y: 0.44, z: 0}
 --- !u!137 &137252983340896732
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

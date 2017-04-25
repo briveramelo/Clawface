@@ -158,7 +158,7 @@ public class MainMenu : Menu
         pauseMenu.CanPause = true;
         Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
         LoadMenu loadMenu = (LoadMenu) menu;
-        loadMenu.TargetScene = "Scenes/Gucci_V1.1";
+        loadMenu.TargetScene = Strings.Scenes.Level1;
         MenuManager.Instance.DoTransition(loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
     }
 
