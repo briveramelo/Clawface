@@ -7,10 +7,11 @@ using System;
 public abstract class Mod : MonoBehaviour {
 
     #region Public fields
+    public bool hasState;
     public int GetWielderInstanceID() {
         if (wielderStats != null) {
             return wielderStats.gameObject.GetInstanceID();
-        }
+        }        
         return 0;
     }
     public EnergySettings modEnergySettings {
@@ -22,7 +23,6 @@ public abstract class Mod : MonoBehaviour {
     protected ModType type;
     protected ModCategory category;
     protected DamagerType damageType;
-    public bool hasState;
     protected Stats wielderStats;
     protected IMovable wielderMovable;
     protected List<GameObject> recentlyHitObjects = new List<GameObject>();
@@ -30,6 +30,7 @@ public abstract class Mod : MonoBehaviour {
     protected GameObject vfxModCooldownInstance;
     protected bool isAttached;
     protected Damager damager=new Damager();
+    protected string coroutineString { get { return GetInstanceID().ToString(); } }
     public float Attack {
         get {
             if (wielderStats != null) {
@@ -70,7 +71,9 @@ public abstract class Mod : MonoBehaviour {
     public bool IsCharged() {
         return energySettings.IsCharged;
     }
-
+    public void KillCoroutines() {
+        Timing.KillCoroutines(coroutineString);
+    }
     public void PlayCharged() {
         //vfxModCharge.Enable();
     }
@@ -144,12 +147,13 @@ public abstract class Mod : MonoBehaviour {
     }
 
     public virtual void DetachAffect() {
+        //Debug.Log("detached");
         isAttached = false;
         wielderMovable = null;
         wielderStats = null;
         recentlyHitObjects.Clear();
         energySettings.Reset();
-        pickupCollider.enabled = true;
+        //pickupCollider.enabled = true;
         setModSpot(ModSpot.Default);
     }
 

@@ -32,9 +32,9 @@ public class VelocityBody : MonoBehaviour, IMovable{
         }
         set {
             rigbod.velocity = value;
-            if (movementMode==MovementMode.PRECISE) {
+            if (movementMode == MovementMode.PRECISE) {
                 rigbod.velocity += GetExternalForceSum();
-            }            
+            }
         }
     }
     public bool isKinematic {
