@@ -47,6 +47,7 @@ public class DiceMod : Mod {
     #region Public Methods
     public override void Activate(Action onCompleteCoolDown=null, Action onActivate=null)
     {
+        onActivate = ()=> { SFXManager.Instance.Play(SFXType.DiceLauncher_Shoot, transform.position);};
         base.Activate(onCompleteCoolDown, onActivate);
     }
 

@@ -84,6 +84,7 @@ public class BoomerangProjectile : MonoBehaviour {
                 IDamageable damageable = other.gameObject.GetComponent<IDamageable>();
                 if (damageable != null)
                 {
+                    SFXManager.Instance.Play(SFXType.Boomerang_Impact, transform.position);
                     damager.impactDirection = transform.forward;
                     damageable.TakeDamage(damager);
                 }

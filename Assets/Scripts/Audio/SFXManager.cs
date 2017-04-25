@@ -33,11 +33,21 @@ public class SFXManager : Singleton<SFXManager>
     [SerializeField]
     private GameObject SegwayBlast_Standard;
     [SerializeField]
+    private GameObject SegwayHover;
+    [SerializeField]
     private GameObject Boomerang_Throw;
     [SerializeField]
     private GameObject DiceLauncher_Shoot;
     [SerializeField]
     private GameObject GeyserMod_Splash;
+    [SerializeField]
+    private GameObject GeyserMod_MiniSplash;
+    [SerializeField]
+    private GameObject Boomerang_Impact;
+    [SerializeField]
+    private GameObject PlayerTakeDamage;
+    [SerializeField]
+    private GameObject PlayerDeath;
     [SerializeField]
     private GameObject ModCooldown;
     [SerializeField]
@@ -66,9 +76,14 @@ public class SFXManager : Singleton<SFXManager>
             {SFXType.TankTreads_Swing,          InitList(TankTreads_Swing) },
             {SFXType.Dash,                      InitList(Dash) },
             {SFXType.SegwayBlast_Standard,      InitList(SegwayBlast_Standard) },
+            {SFXType.SegwayBlast,         InitList(SegwayHover) },
             {SFXType.Boomerang_Throw,           InitList(Boomerang_Throw) },
             {SFXType.DiceLauncher_Shoot,        InitList(DiceLauncher_Shoot) },
             {SFXType.GeyserMod_Splash,          InitList(GeyserMod_Splash) },
+            {SFXType.GeyserMod_MiniSplash,      InitList(GeyserMod_MiniSplash) },
+            {SFXType.Boomerang_Impact,          InitList(Boomerang_Impact) },
+            {SFXType.PlayerTakeDamage,          InitList(PlayerTakeDamage) },
+            {SFXType.PlayerDeath,               InitList(PlayerDeath) },
             {SFXType.ModCooldown,               InitList(ModCooldown) },
             {SFXType.MallCopHurt,               InitList(MallCopHurt) },
             {SFXType.UI_Click,                  InitList(UI_Click)},
