@@ -122,11 +122,11 @@ public class TankTreadsMod : Mod
                     IDamageable damageable = other.GetComponent<IDamageable>();
                     IMovable movable = other.GetComponent<IMovable>();
 
-                    if (recentlyHitEnemies.Contains(damageable)) return;
+                    if (recentlyHitObjects.Contains(other.gameObject)) return;
 
                     if (damageable != null){
                         SFXManager.Instance.Play(SFXType.TankTreads_Attack, transform.position);
-                        recentlyHitEnemies.Add(damageable);
+                        
                         
                 
                         if (wielderStats.CompareTag(Strings.Tags.PLAYER)) {
@@ -148,6 +148,11 @@ public class TankTreadsMod : Mod
                     if (movable != null){                    
                         Vector3 direction = (other.transform.position - transform.position).normalized;
                         movable.AddDecayingForce(direction * pushForce);                    
+                    }
+
+                    if (damageable != null || movable != null)
+                    {
+                        recentlyHitObjects.Add(other.gameObject);
                     }
                 }
             });
@@ -173,7 +178,7 @@ public class TankTreadsMod : Mod
                     if (damageable != null && timeBetweenHits < 0f)
                     {
                         SFXManager.Instance.Play(SFXType.TankTreads_Attack, transform.position);
-                        recentlyHitEnemies.Add(damageable);
+                        
                         timeBetweenHits = energySettings.coolDownTime;
 
                         if (wielderStats.CompareTag(Strings.Tags.PLAYER))
@@ -196,6 +201,11 @@ public class TankTreadsMod : Mod
                     if (movable != null)
                     {
                         AddCrushPushForce(other, movable);
+                    }
+
+                    if (damageable != null || movable != null)
+                    {
+                        recentlyHitObjects.Add(other.gameObject);
                     }
                 }
             });
