@@ -19,17 +19,17 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4024060376384866}
-  - component: {fileID: 136635035142650532}
   - component: {fileID: 114452971821525876}
   - component: {fileID: 54949717682584338}
   - component: {fileID: 108475686332020880}
+  - component: {fileID: 135857939773228522}
   m_Layer: 0
   m_Name: BlasterBullet_Charged
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1310982713451028
 GameObject:
   m_ObjectHideFlags: 1
@@ -71,7 +71,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1174176324685092}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -23.22, y: 2.11, z: 3.02}
+  m_LocalPosition: {x: -4.1851683, y: 6.75, z: -11.655497}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_Children:
   - {fileID: 4982830005210084}
@@ -272,8 +272,8 @@ LensFlare:
     serializedVersion: 2
     m_Bits: 6
   m_Directional: 0
---- !u!136 &136635035142650532
-CapsuleCollider:
+--- !u!135 &135857939773228522
+SphereCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -281,9 +281,8 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
+  serializedVersion: 2
   m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!198 &198898365317419566
 ParticleSystem:

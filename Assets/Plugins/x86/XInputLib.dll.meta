@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: ff92cadfcd94fd04da364ea4d8ef9e55
+guid: c6ae40e6bb2308f42856ff1dadacc3cd
 timeCreated: 1490288318
 licenseType: Free
 PluginImporter:
@@ -16,7 +16,7 @@ PluginImporter:
         enabled: 0
         settings:
           Exclude Android: 0
-          Exclude Editor: 1
+          Exclude Editor: 0
           Exclude Linux: 0
           Exclude Linux64: 0
           Exclude LinuxUniversal: 0
@@ -24,8 +24,8 @@ PluginImporter:
           Exclude OSXIntel64: 0
           Exclude OSXUniversal: 0
           Exclude WebGL: 0
-          Exclude Win: 1
-          Exclude Win64: 0
+          Exclude Win: 0
+          Exclude Win64: 1
           Exclude iOS: 0
     data:
       first:
@@ -62,7 +62,7 @@ PluginImporter:
       first:
         Editor: Editor
       second:
-        enabled: 0
+        enabled: 1
         settings:
           CPU: x86_64
           DefaultValueInitialized: true
@@ -86,7 +86,7 @@ PluginImporter:
       second:
         enabled: 1
         settings:
-          CPU: AnyCPU
+          CPU: None
     data:
       first:
         Standalone: Linux
@@ -133,16 +133,16 @@ PluginImporter:
       first:
         Standalone: Win
       second:
-        enabled: 0
+        enabled: 1
         settings:
           CPU: None
     data:
       first:
         Standalone: Win64
       second:
-        enabled: 1
+        enabled: 0
         settings:
-          CPU: AnyCPU
+          CPU: None
     data:
       first:
         WebGL: WebGL
