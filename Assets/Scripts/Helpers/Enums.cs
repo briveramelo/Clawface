@@ -94,7 +94,8 @@ public enum Layers {
     Blood=12,
     Hologram=13,
     Globe_Text=14,
-    PlayerDetector=15        
+    PlayerDetector=15,
+    DiceBlocks=17        
 }
 
 public enum PoolObjectType {
