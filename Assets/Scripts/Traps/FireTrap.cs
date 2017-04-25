@@ -209,7 +209,6 @@ public class FireTrap : MonoBehaviour {
     void DoDamage() {        
         foreach (var obj in _objectsInTrap) {
             obj.TakeDamage(damager);
-            Debug.Log ("damage " + obj.ToString());
         }
     }
 }

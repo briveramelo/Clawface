@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,8 +9,9 @@ public class GeyserProjectile : MonoBehaviour {
     #endregion
 
     #region Serialized Unity Inspector fields
-    [SerializeField] private VFXBlasterShoot vfx;
     [SerializeField] private float lifeTime;
+    [SerializeField]
+    private float upForce;
     #endregion
 
     #region Private Fields
@@ -18,6 +20,7 @@ public class GeyserProjectile : MonoBehaviour {
     #endregion
 
     #region Unity Lifecycle
+
     // Use this for initialization
     void Start () {
 		
@@ -28,18 +31,11 @@ public class GeyserProjectile : MonoBehaviour {
         StartCoroutine(WaitToDisable());
     }
 
-    IEnumerator WaitToDisable()
-    {
-        yield return new WaitForSeconds(lifeTime);
-        gameObject.SetActive(false);
-    }
+    
 
     // Update is called once per frame
     void Update () {
-        if (gameObject.activeSelf)
-        {
-            vfx.Emit();
-        }
+       
 	}    
 
     void OnDisable()
@@ -47,14 +43,17 @@ public class GeyserProjectile : MonoBehaviour {
         transform.localScale = Vector3.one;
     }
 
-    void OnTriggerEnter(Collider other){
-        if((other.CompareTag(Strings.Tags.ENEMY) || other.CompareTag(Strings.Tags.PLAYER))){
-            if (projectileProperties.shooterInstanceID != other.gameObject.GetInstanceID()) {
-                IDamageable damageable = other.GetComponent<IDamageable>();
-                if (damageable!=null) {
-                    damager.Set(projectileProperties.damage, DamagerType.Geyser, Vector3.down);
-                    damageable.TakeDamage(damager);
-                }
+    void OnTriggerEnter(Collider other){       
+        if (projectileProperties.shooterInstanceID != other.gameObject.GetInstanceID()) {
+            IDamageable damageable = other.GetComponent<IDamageable>();
+            if (damageable!=null) {
+                damager.Set(projectileProperties.damage, DamagerType.Geyser, Vector3.down);
+                damageable.TakeDamage(damager);
+            }
+            IMovable moveable = other.GetComponent<IMovable>();
+            if(moveable != null)
+            {
+                moveable.AddDecayingForce(Vector3.up * upForce * transform.localScale.magnitude);
             }
         }
     }
@@ -64,12 +63,17 @@ public class GeyserProjectile : MonoBehaviour {
     public void SetProjectileProperties(ProjectileProperties projectileProperties) {
         this.projectileProperties = projectileProperties;
     }
-#endregion
+    #endregion
 
-#region Private Methods
-#endregion
+    #region Private Methods
+    private IEnumerator WaitToDisable()
+    {
+        yield return new WaitForSeconds(lifeTime);
+        gameObject.SetActive(false);
+    }
+    #endregion
 
-#region Private Structures
-#endregion
+    #region Private Structures
+    #endregion
 
 }

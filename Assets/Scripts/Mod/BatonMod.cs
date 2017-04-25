@@ -15,17 +15,43 @@ public class BatonMod : Mod {
 
     [SerializeField] private VFXStunBatonImpact impactEffect;
     [SerializeField] private CapsuleBounds capsuleBounds;
+    [SerializeField]
+    private float jumpForce;
+    [SerializeField]
+    private float slamForce;
+    [SerializeField]
+    Collider slamBox;
+    [SerializeField]
+    private float slamPush;
+    [SerializeField]
+    private float chargeMultiplier;
+    [SerializeField]
+    private float slamForceDecayRate;
 
     private ProjectileProperties projectileProperties = new ProjectileProperties();
+    private bool wasCharged;
+    
+
+    //public Vector3 footPosition;
 
     protected override void Awake(){        
         type = ModType.StunBaton;
         category = ModCategory.Melee;
+        //footPosition = Vector3.zero;
         base.Awake();
     }
+    
+    void Start()
+    {
+        slamBox.enabled = false;
+        wasCharged = false;
+    }   
 
     public override void Activate(Action onCompleteCoolDown=null, Action onActivate=null){
-        onActivate = ()=> { SFXManager.Instance.Play(SFXType.StunBatonSwing, transform.position);};
+        if (getModSpot() != ModSpot.Legs)
+        {
+            onActivate = () => { SFXManager.Instance.Play(SFXType.StunBatonSwing, transform.position); };
+        }
         base.Activate(onCompleteCoolDown, onActivate);
         SFXManager.Instance.Stop(SFXType.StunBatonCharge);
     }
@@ -43,8 +69,15 @@ public class BatonMod : Mod {
 
     protected override void BeginChargingLegs(){ }
     protected override void RunChargingLegs(){ }
-    protected override void ActivateChargedLegs(){ LayMine(); }
-    protected override void ActivateStandardLegs(){ LayMine(); }
+    protected override void ActivateChargedLegs(){
+        wasCharged = true;
+        Jump();
+        Slam();
+    }
+    protected override void ActivateStandardLegs(){
+        Jump();
+        Slam();
+    }
 
     IEnumerator<float> Swing(){
         SFXManager.Instance.Play(SFXType.StunBatonSwing, transform.position);
@@ -56,7 +89,7 @@ public class BatonMod : Mod {
                     other.gameObject.CompareTag(Strings.Tags.ENEMY))){
 
                     IDamageable damageable = other.GetComponent<IDamageable>();
-                    if (damageable != null && !recentlyHitEnemies.Contains(damageable)){
+                    if (damageable != null && !recentlyHitObjects.Contains(other.gameObject)){
                         SFXManager.Instance.Play(SFXType.StunBatonImpact, transform.position);
 
                         if (wielderStats.gameObject.CompareTag(Strings.Tags.PLAYER)){
@@ -76,7 +109,7 @@ public class BatonMod : Mod {
                         impactEffect.Emit();
                         damager.Set(Attack, getDamageType(), wielderMovable.GetForward());
                         damageable.TakeDamage(damager);
-                        recentlyHitEnemies.Add(damageable);
+                        recentlyHitObjects.Add(other.gameObject);
                         IStunnable stunnable = other.GetComponent<IStunnable>();
                         if (stunnable != null){
                             stunnable.Stun();
@@ -89,27 +122,80 @@ public class BatonMod : Mod {
         }
     }
 
+    void OnTriggerEnter(Collider other)
+    {
+        if(isAttached && other.gameObject.GetInstanceID() != projectileProperties.shooterInstanceID)
+        {
+            IDamageable damageable = other.gameObject.GetComponent<IDamageable>();
+            IMovable moveable = other.gameObject.GetComponent<IMovable>();
+            float attack = wasCharged ? energySettings.chargedLegAttackSettings.attack : energySettings.standardLegAttackSettings.attack;
+            if (damageable != null)
+            {
+                DamagerType dType = getModSpot()==ModSpot.Legs ? DamagerType.StunStomp : DamagerType.StunSwing;
+                damager.Set(attack, dType, Vector3.down);
+                damageable.TakeDamage(damager);
+            }
+            if(wasCharged && moveable != null)
+            {
+                moveable.AddDecayingForce(-moveable.GetForward() * slamPush);
+            }
+        }
+    }
+
+    private void Jump()
+    {
+        if (wielderMovable.IsGrounded())
+        {
+            wielderMovable.AddDecayingForce(Vector3.up * jumpForce);
+        }
+    }
+
+    private void Slam(bool charged = false)
+    {
+        if (!wielderMovable.IsGrounded())
+        {
+            wielderMovable.StopVerticalMovement();
+            wielderMovable.AddDecayingForce(Vector3.down * slamForce, slamForceDecayRate);
+            StartCoroutine(TurnOnSlamBox());
+        }
+    }
+
+    private IEnumerator TurnOnSlamBox()
+    {
+        slamBox.enabled = true;
+        while (!wielderMovable.IsGrounded())
+        {
+            yield return null;
+        }
+        Ray ray = new Ray(transform.position, Vector3.down);
+        RaycastHit hit;
+        if(wasCharged && Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.NameToLayer(Strings.Layers.GROUND))){
+            wasCharged = false;
+
+            GameObject blasterShoot = ObjectPool.Instance.GetObject(PoolObjectType.VFXBlasterShoot);
+            blasterShoot.transform.position = hit.transform.position;
+            blasterShoot.transform.rotation = transform.rotation;            
+        }
+        InputManager.Instance.Vibrate(VibrationTargets.BOTH, 1f);
+        slamBox.enabled = false;
+        yield return null;
+    }
+
     private List<Collider> GetOverlap(){ 
         int layerMask =LayerMasker.GetLayerMask(LayerMasker.Damageable);
         return Physics.OverlapCapsule(capsuleBounds.Start, capsuleBounds.End, capsuleBounds.radius, layerMask).ToList();
     }
 
-    void LayMine(){
-        GameObject stunMine = ObjectPool.Instance.GetObject(PoolObjectType.Mine);
-        if (stunMine != null){
-            //SFXManager.Instance.Play(SFXType.StunBatonLayMine);
-            projectileProperties.Initialize(GetWielderInstanceID(), Attack);
-            stunMine.GetComponent<StunMine>().SetProjectileProperties(projectileProperties);
-            stunMine.transform.position = transform.position;
-        }
-    }
-
     public override void AttachAffect(ref Stats wielderStats, IMovable wielderMovable){
+        projectileProperties.shooterInstanceID = wielderStats.gameObject.GetInstanceID();
         base.AttachAffect(ref wielderStats, wielderMovable);
     }
 
     public override void DetachAffect(){
+        projectileProperties.shooterInstanceID = 0;
+        //footPosition = Vector3.zero;
         base.DetachAffect();
+        wasCharged = false;
     }      
 
 }

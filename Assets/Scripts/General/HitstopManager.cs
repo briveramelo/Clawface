@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using MovementEffects;
 
 public class HitstopManager : Singleton<HitstopManager> {
 
@@ -16,6 +17,7 @@ public class HitstopManager : Singleton<HitstopManager> {
     private bool isInHitstop;
 
     public event Action OnStopEvent;
+    private const string coroutineString = "TimePolice";
 
     // Update is called once per frame
     void Update () {
@@ -42,6 +44,23 @@ public class HitstopManager : Singleton<HitstopManager> {
 
         remainingHitstop = time;
         Time.timeScale = 0.2f;
+        Time.fixedDeltaTime = 0.02f * Time.timeScale;
+    }
+
+    public void LerpToTimeScale(float newTimeScale, float lerpFactor=0.05f) {
+        newTimeScale = Mathf.Clamp01(newTimeScale);
+        lerpFactor = Mathf.Clamp01(lerpFactor);
+        Timing.KillCoroutines(coroutineString);
+        Timing.RunCoroutine(LerpToTime(newTimeScale, lerpFactor), coroutineString);        
+    }
+
+    private IEnumerator<float> LerpToTime(float newTimeScale, float lerpFactor) {
+        while (Mathf.Abs(Time.timeScale-newTimeScale) > 0.02f) {
+            Time.timeScale = Mathf.Lerp(Time.timeScale, newTimeScale, lerpFactor);
+            Time.fixedDeltaTime = 0.02f * Time.timeScale;
+            yield return 0f;
+        }
+        Time.timeScale = newTimeScale;
         Time.fixedDeltaTime = 0.02f * Time.timeScale;
     }
 

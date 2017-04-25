@@ -67,7 +67,7 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
             if (myStats.health <= 0) {
                 controller.UpdateState(EMallCopState.Fall);
 
-                mod.DetachAffect();
+                //mod.DetachAffect();
                 OnDeath();
             }
             else {
@@ -134,6 +134,7 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
                 mallCopParts.transform.rotation = transform.rotation;
                 mallCopParts.DeActivate(5f);                
             }
+            mod.KillCoroutines();            
             gameObject.SetActive(false);
         }
     }
@@ -149,6 +150,7 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
         glowObject.ResetForRebirth();
         will.Reset();
         //TODO check for missing mod and create a new one and attach it
+        mod.setModSpot(ModSpot.ArmR);        
     }       
 
     #endregion
@@ -165,5 +167,5 @@ public class MallCopProperties {
     [Range(5f, 15f)] public float walkTime;
     [Range(1, 6)] public int numShocksToStun;
     [Range(.1f, 1)] public float twitchRange;
-    [Range(.1f, 1f)] public float twitchTime;
+    [Range(.1f, 1f)] public float twitchTime;    
 }

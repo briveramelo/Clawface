@@ -106,11 +106,35 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _WaterTexture:
-        m_Texture: {fileID: 2800000, guid: b7bd7cbc041e5b64a9e5bd5316c3db6c, type: 3}
+        m_Texture: {fileID: 2800000, guid: b74f725ca5679c1469b99c670bfc1deb, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _WaveOffsetMask:
         m_Texture: {fileID: 2800000, guid: c3601d86dc75b874388afdcfe227871a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _crack:
+        m_Texture: {fileID: 2800000, guid: 4ba90a5caf294e3488925cbab8a37753, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _crack_DISP:
+        m_Texture: {fileID: 2800000, guid: d64d689b194fb3745b61d1dbeb4fc537, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _crack_NRM:
+        m_Texture: {fileID: 2800000, guid: d94181f51faa97b48a81589966ede767, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _crack_OCC:
+        m_Texture: {fileID: 2800000, guid: 07d3f3a75be094c4e80021bd5f75e178, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _crackmask:
+        m_Texture: {fileID: 2800000, guid: c5413a19717587b4f8e32b6af356a559, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _crackwatermask:
+        m_Texture: {fileID: 2800000, guid: 005311242bbb41f4c8430f85ec89c922, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _geysertargetmaskinverse:
@@ -140,39 +164,42 @@ Material:
     - _DstBlend: 0
     - _Float0: 0
     - _Float1: 1
-    - _Float2: 5.83
+    - _Float2: 0
     - _Float4: 1
-    - _FoamSmoothness: 0.054
-    - _FoamTiling: 2.55
+    - _FoamSmoothness: 0
+    - _FoamTiling: 1.76
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _MaskClipValue: 0.73
+    - _MaskClipValue: 0.5
     - _Metallic: 0
     - _Mode: 0
+    - _NormalHeight: 0.1
     - _NormalMapStren: 0
     - _NormalMapStrength: 0
     - _NormalMapTiling: 2.56
     - _NormalMapo: 0
     - _Norn: 0
     - _OcclusionStrength: 1
-    - _Opacity: 1
+    - _Opacity: 0.417
     - _Parallax: 0.02
+    - _RubbleHeight: 0.38
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Transparency: 1
     - _UVSec: 0
-    - _WaterSmoothness: 0.482
-    - _WaterTiling: 2.93
-    - _WaveHeight: 1.13
-    - _WaveSpeed: 2.2
+    - _WaterSmoothness: 0
+    - _WaterTiling: 0.36
+    - _WaveHeight: 1.18
+    - _WaveSpeed: 2.44
     - _ZWrite: 1
     - __dirty: 0
     - _foamtiling: 2.55
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Color0: {r: 0.102941155, g: 0.8144014, b: 1, a: 0}
+    - _DebrisTint: {r: 1, g: 1, b: 1, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _WaterColor: {r: 0.9558824, g: 0, b: 0, a: 0}
-    - _WaterColorTint: {r: 0.83823526, g: 0.8594321, b: 1, a: 0}
+    - _WaterColorTint: {r: 0.5095156, g: 0.79525113, b: 0.9117647, a: 0}

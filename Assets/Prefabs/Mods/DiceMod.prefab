@@ -151,7 +151,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1891895839945968}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -20.165234, y: 2.36, z: 62.041122}
+  m_LocalPosition: {x: 0, y: -36.6, z: -138.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224414608765367000}
@@ -301,7 +301,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: a0cd234c08d9a334fa82099f7ddea1d4, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 110db4adf52e8eb469317d0dc45be3b9, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -357,6 +357,8 @@ MonoBehaviour:
   hasState: 0
   vfxModChargePrefab: {fileID: 1868770362516384, guid: 75076dc3f3739ff4bb01ae67a336ecc5,
     type: 2}
+  vfxModCooldownPrefab: {fileID: 1020022290495414, guid: 28c736c9f78d4cc4b8ea1d4a2875356d,
+    type: 2}
   pickupCollider: {fileID: 65427258851758646}
   modCanvas: {fileID: 1086148575322010}
   energySettings:
@@ -373,9 +375,9 @@ MonoBehaviour:
       attack: 4
       timeToHitStop: 0
     standardLegAttackSettings:
-      timeToCoolDown: 0
+      timeToCoolDown: 0.8
       timeToAttack: 0
-      attack: 0
+      attack: 3
       timeToHitStop: 0
     chargedLegAttackSettings:
       timeToCoolDown: 0
@@ -388,6 +390,9 @@ MonoBehaviour:
     hasStartedCharging: 0
   blasterEffect: {fileID: 114759411832738320}
   bulletSpawnPoint: {fileID: 4250488396338662}
+  legPlayerJumpForce: 20
+  armTimeTilExplosion: 1
+  legTimeTilExplosion: 6
 --- !u!198 &198117800488203860
 ParticleSystem:
   m_ObjectHideFlags: 1

@@ -156,7 +156,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1108482251936534}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.14, z: 3.13}
+  m_LocalPosition: {x: 0, y: 0.14, z: 4.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4659963037190060}
@@ -208,8 +208,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1316314029526810}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.607, z: 0.047}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1.98, y: 1.47, z: 16.31}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4170505518199076}
@@ -246,7 +246,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 4b0e2d6277bda2d478b5968840caaf30, type: 2}
+  - {fileID: 2100000, guid: 3bd77bbf7bb57024f920c3ba082f3567, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -271,7 +271,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1316314029526810}
-  m_Mesh: {fileID: 4300000, guid: 775030632de51d04f84d350b866673d9, type: 3}
+  m_Mesh: {fileID: 4300002, guid: 775030632de51d04f84d350b866673d9, type: 3}
 --- !u!54 &54128532361798382
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -326,6 +326,8 @@ MonoBehaviour:
   hasState: 0
   vfxModChargePrefab: {fileID: 1868770362516384, guid: 75076dc3f3739ff4bb01ae67a336ecc5,
     type: 2}
+  vfxModCooldownPrefab: {fileID: 1020022290495414, guid: 28c736c9f78d4cc4b8ea1d4a2875356d,
+    type: 2}
   pickupCollider: {fileID: 65808996196913348}
   modCanvas: {fileID: 1780465521823646}
   energySettings:
@@ -357,17 +359,20 @@ MonoBehaviour:
     hasStartedCharging: 0
   segwayVFX: {fileID: 114046701473042792}
   standardForceSettings:
-    jumpForce: 10
+    jumpForce: 15
     armpushForce: 30
     aoePushForce: 12
+    capsuleLength: 3
   chargedForceSettings:
-    jumpForce: 15
+    jumpForce: 25
     armpushForce: 45
     aoePushForce: 20
-  capsuleBounds:
+    capsuleLength: 5
+  capsuleBoundsDirection:
     start: {fileID: 4128817946837334}
-    end: {fileID: 4108063479681664}
-    radius: 0.5
+    endingDirection: {fileID: 4108063479681664}
+    radius: 1
+    length: 3
   speedBoostMultiplier: 0.05
   aoeRadius: 3
 --- !u!114 &114242993152467452
@@ -503,7 +508,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -554950664
+  randomSeed: -1179905879
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -6289,7 +6294,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 1146981185
+  randomSeed: -669320200
   InitialModule:
     serializedVersion: 3
     enabled: 1
