@@ -141,11 +141,12 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
             playerHealthTicks++;
             timer = 0;
 
-            UpdatePlayerHealthTotal();
+            UpdatePlayerHealthTotal();            
             UpdateModTimes();
+            
         }
-
-        UpdateButtonPresses();
+                
+        UpdateButtonPresses();        
 }
 #endif
 
@@ -319,91 +320,88 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
 #region Private Methods
     private void UpdatePlayerHealthTotal()
     {
-        playerHealthTotal += playerStats.GetStat(StatType.Health);
+        if (playerStats!=null) {
+            playerHealthTotal += playerStats.GetStat(StatType.Health);
+        }
     }
 
     private void UpdateButtonPresses()
     {
-        Dictionary<ModSpot, ModManager.ModSocket> modSocketDictionary = manager.GetModSpotDictionary();
+        if (manager != null) {
+            Dictionary<ModSpot, ModManager.ModSocket> modSocketDictionary = manager.GetModSpotDictionary();
 
-        if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_LEFT, ButtonMode.DOWN))
-        {
-            buttonPressesDictionary["armL"] = (float)buttonPressesDictionary["armL"] + 1f;
+            if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_LEFT, ButtonMode.DOWN)) {
+                buttonPressesDictionary["armL"] = (float)buttonPressesDictionary["armL"] + 1f;
 
-            if (modSocketDictionary[ModSpot.ArmL].mod != null)
-            {
-                string modTypeToString = modSocketDictionary[ModSpot.ArmL].mod.getModType().ToString();
-                modArmLPressesDictionary[modTypeToString] = (float)modArmLPressesDictionary[modTypeToString] + 1f;
+                if (modSocketDictionary[ModSpot.ArmL].mod != null) {
+                    string modTypeToString = modSocketDictionary[ModSpot.ArmL].mod.getModType().ToString();
+                    modArmLPressesDictionary[modTypeToString] = (float)modArmLPressesDictionary[modTypeToString] + 1f;
+                }
             }
-        }
 
-        if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_RIGHT, ButtonMode.DOWN))
-        {
-            buttonPressesDictionary["armR"] = (float)buttonPressesDictionary["armR"] + 1f;
+            if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_RIGHT, ButtonMode.DOWN)) {
+                buttonPressesDictionary["armR"] = (float)buttonPressesDictionary["armR"] + 1f;
 
-            if (modSocketDictionary[ModSpot.ArmR].mod != null)
-            {
-                string modTypeToString = modSocketDictionary[ModSpot.ArmR].mod.getModType().ToString();
-                modArmRPressesDictionary[modTypeToString] = (float)modArmRPressesDictionary[modTypeToString] + 1f;
+                if (modSocketDictionary[ModSpot.ArmR].mod != null) {
+                    string modTypeToString = modSocketDictionary[ModSpot.ArmR].mod.getModType().ToString();
+                    modArmRPressesDictionary[modTypeToString] = (float)modArmRPressesDictionary[modTypeToString] + 1f;
+                }
             }
-        }
 
-        if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_LEGS, ButtonMode.DOWN))
-        {
-            buttonPressesDictionary["legs"] = (float)buttonPressesDictionary["legs"] + 1f;
+            if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_LEGS, ButtonMode.DOWN)) {
+                buttonPressesDictionary["legs"] = (float)buttonPressesDictionary["legs"] + 1f;
 
-            if (modSocketDictionary[ModSpot.Legs].mod != null)
-            {
-                string modTypeToString = modSocketDictionary[ModSpot.Legs].mod.getModType().ToString();
-                modLegsPressesDictionary[modTypeToString] = (float)modLegsPressesDictionary[modTypeToString] + 1f;
+                if (modSocketDictionary[ModSpot.Legs].mod != null) {
+                    string modTypeToString = modSocketDictionary[ModSpot.Legs].mod.getModType().ToString();
+                    modLegsPressesDictionary[modTypeToString] = (float)modLegsPressesDictionary[modTypeToString] + 1f;
+                }
             }
-        }
 
-        if (InputManager.Instance.QueryAction(Strings.Input.Actions.DODGE, ButtonMode.DOWN))
-        {
-            buttonPressesDictionary["dodge"] = (float)buttonPressesDictionary["dodge"] + 1f;
-        }
+            if (InputManager.Instance.QueryAction(Strings.Input.Actions.DODGE, ButtonMode.DOWN)) {
+                buttonPressesDictionary["dodge"] = (float)buttonPressesDictionary["dodge"] + 1f;
+            }
 
-        if (InputManager.Instance.QueryAction(Strings.Input.Actions.SWAP_MODE, ButtonMode.DOWN))
-        {
-            buttonPressesDictionary["swap"] = (float)buttonPressesDictionary["swap"] + 1f;
-        }
+            if (InputManager.Instance.QueryAction(Strings.Input.Actions.SWAP_MODE, ButtonMode.DOWN)) {
+                buttonPressesDictionary["swap"] = (float)buttonPressesDictionary["swap"] + 1f;
+            }
 
-        if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_SKIN, ButtonMode.DOWN))
-        {
-            buttonPressesDictionary["skin"] = (float)buttonPressesDictionary["skin"] + 1f;
+            if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_SKIN, ButtonMode.DOWN)) {
+                buttonPressesDictionary["skin"] = (float)buttonPressesDictionary["skin"] + 1f;
+            }
         }
     }
 
     private void UpdateModTimes()
     {
-        Dictionary<ModSpot, ModManager.ModSocket> modSpotDictionary = manager.GetModSpotDictionary();
-        List<ModType> equippedMods = new List<ModType>();
+        if (manager!=null) {
+            Dictionary<ModSpot, ModManager.ModSocket> modSpotDictionary = manager.GetModSpotDictionary();
+            List<ModType> equippedMods = new List<ModType>();
 
-        if (modSpotDictionary[ModSpot.ArmL].mod != null)
-        {
-            equippedMods.Add(modSpotDictionary[ModSpot.ArmL].mod.getModType());
-        }
-
-        if (modSpotDictionary[ModSpot.ArmR].mod != null)
-        {
-            if (!equippedMods.Contains(modSpotDictionary[ModSpot.ArmR].mod.getModType()))
+            if (modSpotDictionary[ModSpot.ArmL].mod != null)
             {
-                equippedMods.Add(modSpotDictionary[ModSpot.ArmR].mod.getModType());
+                equippedMods.Add(modSpotDictionary[ModSpot.ArmL].mod.getModType());
             }
-        }
 
-        if (modSpotDictionary[ModSpot.Legs].mod != null)
-        {
-            if (!equippedMods.Contains(modSpotDictionary[ModSpot.Legs].mod.getModType()))
+            if (modSpotDictionary[ModSpot.ArmR].mod != null)
             {
-                equippedMods.Add(modSpotDictionary[ModSpot.Legs].mod.getModType());
+                if (!equippedMods.Contains(modSpotDictionary[ModSpot.ArmR].mod.getModType()))
+                {
+                    equippedMods.Add(modSpotDictionary[ModSpot.ArmR].mod.getModType());
+                }
             }
-        }
 
-        foreach (ModType m in equippedMods)
-        {
-            modTimeDictionary[m.ToString()] = (float) modTimeDictionary[m.ToString()] + timeBetweenTicks;
+            if (modSpotDictionary[ModSpot.Legs].mod != null)
+            {
+                if (!equippedMods.Contains(modSpotDictionary[ModSpot.Legs].mod.getModType()))
+                {
+                    equippedMods.Add(modSpotDictionary[ModSpot.Legs].mod.getModType());
+                }
+            }
+
+            foreach (ModType m in equippedMods)
+            {
+                modTimeDictionary[m.ToString()] = (float) modTimeDictionary[m.ToString()] + timeBetweenTicks;
+            }
         }
     }
 #endregion

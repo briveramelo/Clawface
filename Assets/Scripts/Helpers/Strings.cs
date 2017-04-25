@@ -14,6 +14,11 @@
         public static string WALL = "Wall";
     }
 
+    public static class Scenes {
+        public static string Level1 = "Scenes/EAE_Level";//Gucci_V1.2";
+        public static string MainMenu = "Scenes/MainMenu";
+    }
+
     public static class Layers
     {
         public static string GROUND = "Ground";
@@ -26,6 +31,7 @@
         public static string LOAD = "LoadMenu";
         public static string LOGO = "LogoMenu";
         public static string PAUSE = "PauseMenu";
+        public static string FADE = "FadeMenu";
     }
 
     public static class Input

@@ -12,12 +12,14 @@ public class GeyserLine : MonoBehaviour {
     #region Serialized Unity Inspector fields
     [SerializeField]
     private float damageMultiplier;
+    [SerializeField]
+    private float upForce;
     #endregion
 
     #region Private Fields
     private Vector3 initialScale;
     private ParticleSystem myParticleSystem;
-    private ProjectileProperties projectileProperties;
+    private ProjectileProperties projectileProperties = new ProjectileProperties();
     private Damager damager;
     #endregion
 
@@ -26,7 +28,6 @@ public class GeyserLine : MonoBehaviour {
     {
         myParticleSystem = GetComponent<ParticleSystem>();
         initialScale = transform.localScale;
-        projectileProperties = new ProjectileProperties();
         damager = new Damager();
     }
 
@@ -52,10 +53,15 @@ public class GeyserLine : MonoBehaviour {
             if (projectileProperties.shooterInstanceID != other.gameObject.GetInstanceID())
             {
                 IDamageable damageable = other.GetComponent<IDamageable>();
+                IMovable moveable = other.GetComponent<IMovable>();
                 if (damageable != null)
                 {
-                    damager.Set(projectileProperties.damage * damageMultiplier, DamagerType.Geyser, Vector3.up);
+                    damager.Set(projectileProperties.damage * damageMultiplier, DamagerType.Geyser, Vector3.down);
                     damageable.TakeDamage(damager);
+                }
+                if (moveable != null)
+                {
+                    moveable.AddDecayingForce(Vector3.up * upForce);
                 }
             }
         }

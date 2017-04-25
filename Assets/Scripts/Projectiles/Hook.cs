@@ -6,13 +6,13 @@ using MovementEffects;
 public class Hook : MonoBehaviour {
 
     #region Public fields
+    [HideInInspector] public float maxLength;
     #endregion
 
     #region Serialized Unity Inspector fields
     [SerializeField] GrapplerMod mod;
     [SerializeField] private float growRate;
     [SerializeField] private float shrinkRate;
-    [SerializeField] private float maxLength;
     [SerializeField] private float pullForce;
     #endregion
 
@@ -69,6 +69,7 @@ public class Hook : MonoBehaviour {
 
     #region Public Methods
     public void Throw(bool isCharged){
+        mod.modEnergySettings.isActive = true;
         this.isCharged = isCharged;
         Timing.RunCoroutine(ThrowAndRetractHook());
     }
@@ -96,6 +97,7 @@ public class Hook : MonoBehaviour {
 
     #region Private Methods
     private void FinishRetracting(){
+        mod.modEnergySettings.isActive = false;
         transform.localPosition = initPos;
         isPullingWielder = false;
     }

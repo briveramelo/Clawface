@@ -42,14 +42,20 @@ public class BoomerangMod : Mod {
     private float rightHandEndAngle = 250f;
     private float leftHandStartAngle = 260f;
     private float leftHandEndAngle = -80f;
+    private int boomerangsAlive;
     #endregion
 
     #region Unity Lifecycle
 
-    // Use this for initialization
-    void Start () {
+    protected override void Awake() {
         type = ModType.Boomerang;
         category = ModCategory.Ranged;
+        base.Awake();
+    }
+
+    // Use this for initialization
+    void Start () {
+        
         damageCollider.enabled = false;
         enemyDistance = Mathf.Infinity;
         initialScale = transform.localScale;
@@ -95,7 +101,8 @@ public class BoomerangMod : Mod {
     public bool IsActive() { return energySettings.isActive; }
 
     public override void Activate(Action onCompleteCoolDown=null, Action onActivate=null)
-    {        
+    {
+        onActivate = () => { energySettings.isActive = true; };
         base.Activate(onCompleteCoolDown, onActivate);
     }
 
@@ -177,7 +184,7 @@ public class BoomerangMod : Mod {
         {
             GameObject projectile = FireBoomerang(true);
             if (projectile)
-            {
+            {                
                 boomerangProjectiles.Add(projectile);
             }
             count++;
@@ -204,16 +211,23 @@ public class BoomerangMod : Mod {
         if (projectile)
         {
             transform.rotation = Quaternion.identity;
-            projectile.GetComponent<BoomerangProjectile>().Go(wielderStats, wielderStats.gameObject.GetInstanceID(), transform, charge);
+            boomerangsAlive++;
+            projectile.GetComponent<BoomerangProjectile>().Go(wielderStats, wielderStats.gameObject.GetInstanceID(), transform, OnBoomerangDestroyed, charge);
         }
         return projectile;
+    }
+
+    private void OnBoomerangDestroyed() {
+        boomerangsAlive--;
+        if (boomerangsAlive==0) {
+            energySettings.isActive = false;
+        }
     }
 
     private void GrowSize() {
         transform.localScale = pickUpScale * (1+ (chargedScale) * energySettings.chargeFraction);
     }
-    private void ReleaseBoomerang(){
-        energySettings.isActive = true;
+    private void ReleaseBoomerang(){        
         damageCollider.enabled = true;
         initialPosition = transform.position;
         transform.rotation = Quaternion.identity;

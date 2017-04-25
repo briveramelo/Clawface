@@ -23,8 +23,8 @@ GameObject:
   - component: {fileID: 23431490297530456}
   - component: {fileID: 64287627860576516}
   - component: {fileID: 54458075283795518}
-  - component: {fileID: 114957248777934530}
-  m_Layer: 11
+  - component: {fileID: 114539599433703366}
+  m_Layer: 0
   m_Name: ModPlatform (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38,7 +38,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1225557470557598}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -12.13, y: 0.44, z: -3.92}
+  m_LocalPosition: {x: 1.95, y: 0, z: 16.12}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children: []
   m_Father: {fileID: 0}
@@ -112,7 +112,7 @@ MeshCollider:
   m_InflateMesh: 0
   m_SkinWidth: 0.1
   m_Mesh: {fileID: 4300004, guid: d886693a518949c4c8900ef40b99e135, type: 3}
---- !u!114 &114957248777934530
+--- !u!114 &114539599433703366
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -120,10 +120,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1225557470557598}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8baf5dc5eb76d149b8ecb529cbc7c96, type: 3}
+  m_Script: {fileID: 11500000, guid: 771f172bc30d5d1489ece8e0149275aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  foot: {fileID: 0}
   rigbod: {fileID: 54458075283795518}
-  iceForceMultiplier: 3
-  movementMode: 1
+  forceMultiplier: 15
+  minTorque: 9
+  maxTorque: 20

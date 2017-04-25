@@ -118,6 +118,7 @@ GameObject:
   - component: {fileID: 54756918913283096}
   - component: {fileID: 114345075073150838}
   - component: {fileID: 23678042691680908}
+  - component: {fileID: 65810799436508682}
   m_Layer: 11
   m_Name: DiceBlock
   m_TagString: Untagged
@@ -326,7 +327,6 @@ GameObject:
   - component: {fileID: 4338860431634150}
   - component: {fileID: 33592328273110730}
   - component: {fileID: 23589087019655070}
-  - component: {fileID: 65275677791781762}
   m_Layer: 11
   m_Name: Mesh
   m_TagString: Untagged
@@ -738,18 +738,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &65275677791781762
+--- !u!65 &65810799436508682
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1978413344503728}
+  m_GameObject: {fileID: 1398760943834546}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.17380448, y: 0.17380448, z: 0.17463295}
-  m_Center: {x: 0.00000023841858, y: 0.08690236, z: -0.0004132837}
+  m_Size: {x: 0.85, y: 0.85, z: 0.85}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &114345075073150838
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -768,18 +768,17 @@ MonoBehaviour:
   side4: {fileID: 4981199109944878}
   side5: {fileID: 4236267929107014}
   side6: {fileID: 4421677899251340}
-  blockCollider: {fileID: 65275677791781762}
-  vfxExplosion: {fileID: 4083703167623048}
-  oneMultiply: 0.4
-  twoMultiply: 0.8
+  oneMultiply: 0.5
+  twoMultiply: 0.75
   threeMultiply: 1
-  fourMultiply: 1.2
+  fourMultiply: 1.25
   fiveMultiply: 1.5
   sixMultiply: 2
   sphereRadius: 0.2
   explosionRadius: 3
   forceStrength: 600
   tumbleStrength: 300
+  decayingForceMultiplier: 15
   timeTilExplosion: 1
   explosionDamage: 5
   startScale: 0.1

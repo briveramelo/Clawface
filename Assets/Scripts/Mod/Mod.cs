@@ -7,10 +7,11 @@ using System;
 public abstract class Mod : MonoBehaviour {
 
     #region Public fields
+    public bool hasState;
     public int GetWielderInstanceID() {
         if (wielderStats != null) {
             return wielderStats.gameObject.GetInstanceID();
-        }
+        }        
         return 0;
     }
     public EnergySettings modEnergySettings {
@@ -22,13 +23,14 @@ public abstract class Mod : MonoBehaviour {
     protected ModType type;
     protected ModCategory category;
     protected DamagerType damageType;
-    public bool hasState;
     protected Stats wielderStats;
     protected IMovable wielderMovable;
-    protected List<IDamageable> recentlyHitEnemies = new List<IDamageable>();
+    protected List<GameObject> recentlyHitObjects = new List<GameObject>();
     protected VFXModCharge vfxModCharge;
+    protected GameObject vfxModCooldownInstance;
     protected bool isAttached;
     protected Damager damager=new Damager();
+    protected string coroutineString { get { return GetInstanceID().ToString(); } }
     public float Attack {
         get {
             if (wielderStats != null) {
@@ -38,9 +40,9 @@ public abstract class Mod : MonoBehaviour {
         }
     }
     #endregion
-
+    
     #region Serialized Unity Inspector fields
-    [SerializeField] protected GameObject vfxModChargePrefab;
+    [SerializeField] protected GameObject vfxModChargePrefab, vfxModCooldownPrefab;
     [SerializeField] protected Collider pickupCollider;
     [SerializeField] protected GameObject modCanvas;
     [SerializeField] protected EnergySettings energySettings;
@@ -56,6 +58,9 @@ public abstract class Mod : MonoBehaviour {
         Mod mod = this;
         energySettings.Initialize(ref mod);
         vfxModCharge=Instantiate(vfxModChargePrefab, transform).GetComponent<VFXModCharge>();
+        vfxModCooldownInstance = Instantiate(vfxModCooldownPrefab, transform);
+        vfxModCooldownInstance.transform.localPosition = Vector3.zero;
+        vfxModCooldownInstance.SetActive(false);
     }
     protected virtual void Update()
     {        
@@ -66,7 +71,9 @@ public abstract class Mod : MonoBehaviour {
     public bool IsCharged() {
         return energySettings.IsCharged;
     }
-
+    public void KillCoroutines() {
+        Timing.KillCoroutines(coroutineString);
+    }
     public void PlayCharged() {
         //vfxModCharge.Enable();
     }
@@ -76,7 +83,7 @@ public abstract class Mod : MonoBehaviour {
 
     public virtual void Activate(Action onCompleteCoolDown=null, Action onActivate=null) {
         if (!energySettings.isInUse){
-            Timing.RunCoroutine(BeginCoolDown(onCompleteCoolDown), Segment.FixedUpdate);
+            Timing.RunCoroutine(RunCooldown(onCompleteCoolDown), Segment.FixedUpdate);
             useAction();
             if (onActivate!=null) {
                 onActivate();
@@ -117,6 +124,7 @@ public abstract class Mod : MonoBehaviour {
     private void EndCharging() {
         vfxModCharge.StopCharging();
         energySettings.Reset();
+        vfxModCooldownInstance.SetActive(false);
     }
 
     protected abstract void BeginChargingArms();
@@ -139,12 +147,13 @@ public abstract class Mod : MonoBehaviour {
     }
 
     public virtual void DetachAffect() {
+        //Debug.Log("detached");
         isAttached = false;
         wielderMovable = null;
         wielderStats = null;
-        recentlyHitEnemies.Clear();
+        recentlyHitObjects.Clear();
         energySettings.Reset();
-        pickupCollider.enabled = true;
+        //pickupCollider.enabled = true;
         setModSpot(ModSpot.Default);
     }
 
@@ -193,13 +202,14 @@ public abstract class Mod : MonoBehaviour {
     #endregion
 
     #region Private Methods
-    protected IEnumerator<float> BeginCoolDown(Action onComplete){
+    protected IEnumerator<float> RunCooldown(Action onComplete){
         energySettings.CheckToSetAsCharged();
-        recentlyHitEnemies.Clear();
+        recentlyHitObjects.Clear();
         yield return Timing.WaitUntilDone(Timing.RunCoroutine(energySettings.BeginCoolDown(), Segment.FixedUpdate));
         if (onComplete!=null) {
             onComplete();
         }
+        vfxModCooldownInstance.SetActive(true);
     }
 
     private Action useAction {

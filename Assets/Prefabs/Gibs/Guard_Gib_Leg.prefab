@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 23940571442913434}
   - component: {fileID: 136313389639748696}
   - component: {fileID: 54030219017736248}
+  - component: {fileID: 114560404034261400}
   m_Layer: 0
   m_Name: Guard_Gib_Leg
   m_TagString: Untagged
@@ -73,6 +74,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
 --- !u!33 &33509190272513334
 MeshFilter:
@@ -96,6 +98,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &114560404034261400
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1041624804318074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34d6c015cabbb434c8251f319c6480d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rigbod: {fileID: 54722191211485026, guid: a5303f0a46557864ea4eb23286d0fe03, type: 2}
+  forceMultiplier: 1
 --- !u!136 &136313389639748696
 CapsuleCollider:
   m_ObjectHideFlags: 1

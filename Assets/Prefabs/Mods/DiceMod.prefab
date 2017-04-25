@@ -301,7 +301,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 110db4adf52e8eb469317d0dc45be3b9, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7ee88358ba049f74c98fa2a7295dd4d3, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -357,6 +357,8 @@ MonoBehaviour:
   hasState: 0
   vfxModChargePrefab: {fileID: 1868770362516384, guid: 75076dc3f3739ff4bb01ae67a336ecc5,
     type: 2}
+  vfxModCooldownPrefab: {fileID: 1020022290495414, guid: 28c736c9f78d4cc4b8ea1d4a2875356d,
+    type: 2}
   pickupCollider: {fileID: 65427258851758646}
   modCanvas: {fileID: 1086148575322010}
   energySettings:
@@ -373,9 +375,9 @@ MonoBehaviour:
       attack: 4
       timeToHitStop: 0
     standardLegAttackSettings:
-      timeToCoolDown: 0
+      timeToCoolDown: 0.8
       timeToAttack: 0
-      attack: 0
+      attack: 3
       timeToHitStop: 0
     chargedLegAttackSettings:
       timeToCoolDown: 0

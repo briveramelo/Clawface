@@ -16,8 +16,6 @@ public class GeyserMod : Mod {
     [SerializeField] private float maxScaleMultiplier;
     [SerializeField] private float minScaleMultiplier;
     [SerializeField]
-    private GameObject geyserBase;
-    [SerializeField]
     private GameObject geyserTarget;
     [SerializeField]
     private int numberOfSquirts;
@@ -40,17 +38,22 @@ public class GeyserMod : Mod {
     private GameObject geyser;
     private Vector3 finalForwardVector;
     private Vector3 finalFootPosition;
+    private GameObject geyserBase;
     #endregion
 
     #region Unity Lifecycle
     // Use this for initialization
-    void Start () {
-        DeactivateModCanvas();
+    protected override void Awake() {
         type = ModType.Geyser;
         category = ModCategory.Ranged;
+        base.Awake();
+    }
+
+    void Start () {
+        DeactivateModCanvas();
+        
         originalGeyserBaseParent = null;
         originalGeyserTargetParent = null;
-        geyserBase.SetActive(false);
         geyserTarget.SetActive(false);
     }
     #endregion
@@ -64,14 +67,7 @@ public class GeyserMod : Mod {
     {
         base.AttachAffect(ref wielderStats, wielderMovable);
         foot = ((VelocityBody)wielderMovable).foot;
-        if (getModSpot() == ModSpot.Legs)
-        {
-            hasState = false;
-        }
-        else
-        {
-            hasState = true;
-        }
+        hasState = false;        
     }
 
     public override void DeActivate() { }
@@ -130,6 +126,7 @@ public class GeyserMod : Mod {
         {
             GameObject squirt = ObjectPool.Instance.GetObject(PoolObjectType.GeyserGushLine);
             squirt.transform.position = finalFootPosition + finalForwardVector * distance * i;
+            projectileProperties.Initialize(GetWielderInstanceID(), Attack);
             squirt.GetComponent<GeyserLine>().Fire(i / (float)numberOfSquirts, timeForEachSquirt, projectileProperties);
             yield return Timing.WaitForSeconds(timeBetweenSquirts);
         }
@@ -145,19 +142,23 @@ public class GeyserMod : Mod {
         {
             Vector3 forwardVector = wielderMovable.GetForward().NormalizedNoY();
             geyser.transform.position = targetPosition;
-            InitializeGeyserBase();
+            GetGeyserBase();
             FinishFiring();
         }
     }
 
-    private void InitializeGeyserBase()
+    private void GetGeyserBase()
     {
-        originalGeyserBaseParent = geyserBase.transform.parent;
-        geyserBase.transform.parent = null;
-        geyserBase.SetActive(true);
-        geyserBase.transform.position = targetPosition;
-        geyserBase.transform.rotation = Quaternion.identity;
-        geyserBase.transform.localScale = chargeScale;
+
+        geyserBase = ObjectPool.Instance.GetObject(PoolObjectType.GeyserBase);
+        if (geyserBase)
+        {
+            geyserBase.SetActive(false);
+            geyserBase.transform.position = targetPosition;
+            geyserBase.transform.rotation = Quaternion.identity;
+            geyserBase.transform.localScale = chargeScale;
+            geyserBase.SetActive(true);
+        }
     }
 
     private GameObject GetGeyser()
@@ -194,13 +195,13 @@ public class GeyserMod : Mod {
         if (geyser)
         {
             geyser.transform.position = finalFootPosition + finalForwardVector * longRangeDistance;
-            geyser.transform.localScale = Vector3.one * maxScaleMultiplier;
-            originalGeyserBaseParent = geyserBase.transform.parent;
-            geyserBase.transform.parent = null;
-            geyserBase.SetActive(true);
-            geyserBase.transform.position = geyser.transform.position;
-            geyserBase.transform.rotation = Quaternion.identity;
-            geyserBase.transform.localScale = geyser.transform.localScale;
+            geyser.transform.localScale = Vector3.one * (1+maxScaleMultiplier);
+            GetGeyserBase();
+            if (geyserBase)
+            {
+                geyserBase.transform.position = finalFootPosition + finalForwardVector * longRangeDistance;
+                geyserBase.transform.localScale = Vector3.one * maxScaleMultiplier;
+            }
         }
         FinishFiring();
     }
@@ -222,7 +223,7 @@ public class GeyserMod : Mod {
             {
                 yield return 0;
             }
-            ResetGeyserBase();
+            //ResetGeyserBase();
         }
         yield return 0;
     }

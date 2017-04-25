@@ -14,6 +14,8 @@ public class GrapplerMod : Mod {
     [SerializeField] private Hook hook;
     [SerializeField] private float jumpForce;
     [SerializeField] private float jumpForceMultiplier;
+    [SerializeField] private float maxHookLengthStandard;
+    [SerializeField] private float maxHookLengthCharged;    
     [SerializeField]
     private float tornadoSpeed;
     [SerializeField]
@@ -27,17 +29,16 @@ public class GrapplerMod : Mod {
     #region Private Fields
     private bool hitTargetThisShot;
     private bool tornadoMode;
-    private float angle;
-    private bool isCharged;
+    private float angle;    
     #endregion
 
     #region Unity Lifecycle
     // Use this for initialization
-    void Start () {
+    protected override void Awake() {
         type = ModType.Grappler;
         category = ModCategory.Ranged;
         angle = 0f;
-        isCharged = false;
+        base.Awake();
     }
 
     // Update is called once per frame
@@ -56,14 +57,14 @@ public class GrapplerMod : Mod {
 
     #region Public Methods
     public override void Activate(Action onCompleteCoolDown=null, Action onActivate=null)
-    {
-        if (!hook.IsThrown() && !energySettings.isCoolingDown)
+    {                            
+        if (getModSpot() != ModSpot.Legs)
         {
-            if (getModSpot() != ModSpot.Legs)
-            {
-                onActivate = () => { SFXManager.Instance.Play(SFXType.GrapplingGun_Shoot, transform.position); };
-            }
-        }
+            onActivate = () => {
+                hook.maxLength = IsCharged() ? maxHookLengthCharged : maxHookLengthStandard;
+                SFXManager.Instance.Play(SFXType.GrapplingGun_Shoot, transform.position);
+            };
+        }        
         base.Activate(onCompleteCoolDown, onActivate);
     }    
 
@@ -81,14 +82,12 @@ public class GrapplerMod : Mod {
     }    
 
     protected override void ActivateChargedLegs(){        
-        Jump();
-        isCharged = true;
+        Jump();        
         Tornado();
     }
 
     private void Jump() {
-        if (wielderMovable.IsGrounded()) {
-            isCharged = false;
+        if (wielderMovable.IsGrounded()) {            
             float force = energySettings.IsCharged ? jumpForce * jumpForceMultiplier : jumpForce;
             wielderMovable.AddDecayingForce(Vector3.up * force);
         }
@@ -113,7 +112,7 @@ public class GrapplerMod : Mod {
             transform.forward = forward;
             angle += tornadoSpeed;            
             wielderStats.gameObject.transform.rotation = Quaternion.AngleAxis(angle, Vector3.up);            
-            float force = isCharged ? chargedTornadoFallingForce : standardTornadoFallingForce;
+            float force = IsCharged() ? chargedTornadoFallingForce : standardTornadoFallingForce;
             wielderMovable.AddDecayingForce(Vector3.up * force);
             DamageEnemies();
             yield return 0;
@@ -121,7 +120,7 @@ public class GrapplerMod : Mod {
         angle = 0f;
         hook.RetractHook();
         transform.forward = Vector3.down;
-        isCharged = false;
+        
         tornadoMode = false;
         yield return 0;
     }
@@ -134,7 +133,7 @@ public class GrapplerMod : Mod {
             IDamageable damageable = hit.transform.gameObject.GetComponent<IDamageable>();
             if (damageable != null)
             {
-                damager.damage = isCharged ? energySettings.chargedLegAttackSettings.attack : energySettings.standardLegAttackSettings.attack;
+                damager.damage = IsCharged() ? energySettings.chargedLegAttackSettings.attack : energySettings.standardLegAttackSettings.attack;
                 damager.damagerType = DamagerType.GrapplingHook;
                 damager.impactDirection = transform.forward;
                 damageable.TakeDamage(damager);
