@@ -2548,7 +2548,8 @@ Prefab:
       propertyPath: m_Alpha
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114259449498455594, guid: 508429bc42a9fbc41b7ae63130389866, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 508429bc42a9fbc41b7ae63130389866, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &168859784
@@ -8954,7 +8955,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 500
-  field of view: 60
+  field of view: 43.156082
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -8978,8 +8979,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 572193503}
-  m_LocalRotation: {x: -0.19527583, y: -0, z: -0, w: 0.98074836}
-  m_LocalPosition: {x: 0, y: -2.08, z: 72.99}
+  m_LocalRotation: {x: -0.082406335, y: -0, z: -0, w: 0.99659884}
+  m_LocalPosition: {x: 0, y: -0.39885044, z: 66.65652}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1448368482}
@@ -15348,6 +15349,10 @@ Prefab:
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1740682707523662, guid: 26156351f01e60b47a4f111d17d6dd00, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 26156351f01e60b47a4f111d17d6dd00, type: 2}
   m_IsPrefabParent: 0
@@ -19738,14 +19743,47 @@ MonoBehaviour:
     fov: 60
     onReachPosition:
       m_PersistentCalls:
-        m_Calls: []
+        m_Calls:
+        - m_Target: {fileID: 209919410}
+          m_MethodName: ShowMenu
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
       m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
   - transform: {fileID: 2138034631}
     fov: 60
     onReachPosition:
       m_PersistentCalls:
-        m_Calls: []
+        m_Calls:
+        - m_Target: {fileID: 209919410}
+          m_MethodName: KillScreen
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 209919410}
+          m_MethodName: CloseEyes
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
       m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
   onCompleteTrack:
@@ -19768,18 +19806,7 @@ MonoBehaviour:
   _events:
   - onTrigger:
       m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 944985333}
-          m_MethodName: SetActive
-          m_Mode: 6
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 1
-          m_CallState: 2
+        m_Calls: []
       m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
     time: 10
@@ -20492,6 +20519,11 @@ Prefab:
 Transform:
   m_PrefabParentObject: {fileID: 400000, guid: 428c8f39338bb134eb1d6225f1ae9644, type: 3}
   m_PrefabInternal: {fileID: 1267987003}
+--- !u!1 &1286074970 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1536904553509886, guid: 63ab57c78f9b85b42a031412402b31e2,
+    type: 2}
+  m_PrefabInternal: {fileID: 1705721486}
 --- !u!1001 &1289945327
 Prefab:
   m_ObjectHideFlags: 0
@@ -31999,7 +32031,7 @@ Prefab:
         type: 2}
       propertyPath: staticLoop
       value: 
-      objectReference: {fileID: 32900000, guid: 17e4b44ac9e787f4e877e92da510a94a,
+      objectReference: {fileID: 32900000, guid: fc4823d66fdbafa4db90d973b310e754,
         type: 3}
     - target: {fileID: 114096518371835152, guid: c4a105a005598b64daf5e9fd41695e31,
         type: 2}
@@ -32071,6 +32103,16 @@ Prefab:
       propertyPath: mainDefaultSelectedButton
       value: 
       objectReference: {fileID: 94936797}
+    - target: {fileID: 114096518371835152, guid: c4a105a005598b64daf5e9fd41695e31,
+        type: 2}
+      propertyPath: bloodAndGore
+      value: 
+      objectReference: {fileID: 944985333}
+    - target: {fileID: 114096518371835152, guid: c4a105a005598b64daf5e9fd41695e31,
+        type: 2}
+      propertyPath: miloTheRobot
+      value: 
+      objectReference: {fileID: 1286074970}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c4a105a005598b64daf5e9fd41695e31, type: 2}
   m_IsPrefabParent: 0

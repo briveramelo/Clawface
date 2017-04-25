@@ -20,7 +20,7 @@ public class MainMenu : Menu
     }
     #endregion
 
-    bool menuShowing = false;
+    private bool menuShowing = false;
 
     [SerializeField]
     CanvasGroup creditsCanvasGroup;
@@ -34,7 +34,11 @@ public class MainMenu : Menu
     [SerializeField]
     Button mainDefaultSelectedButton;
 
+    [SerializeField]
+    GameObject bloodAndGore;
 
+    [SerializeField]
+    GameObject miloTheRobot;
 
     //[SerializeField]
     //Button startButton;
@@ -67,6 +71,7 @@ public class MainMenu : Menu
         
         if (!menuShowing)
         {
+            menuShowing = true;
             StartCoroutine(MenuTransitionsCommon.FadeCoroutine(0.0f, 1.0f, 1.0f, canvasGroup, EnableES));
             
         }
@@ -74,36 +79,27 @@ public class MainMenu : Menu
 
     private void EnableES()
     {
-        EventSystem.current.GetComponent<StandaloneInputModule>().enabled = true;
+        EventSystem.current.GetComponent<StandaloneInputModule>().ActivateModule();
         EventSystem.current.SetSelectedGameObject(mainDefaultSelectedButton.gameObject);
-    }
-
-    private void Awake()
-    {
-        fadeCanvasGroup = fadeCanvasGroup.GetComponent<CanvasGroup>();
-
     }
 
 
     private void Start()
     {
         creditsCanvasGroup.gameObject.SetActive(false);
-
-        
-        EventSystem.current.GetComponent<StandaloneInputModule>().enabled = false;
+        EventSystem.current.GetComponent<StandaloneInputModule>().DeactivateModule();
 
 
     }
 
     private void Update()
     {
-        if (Input.anyKey)
+        if (Input.anyKey && !menuShowing)
         {
             SkipToMenuHide();
             //ShowMenu();
         }
-
-        Debug.Log(MenuManager.Instance);
+        
     }
 
 
@@ -162,6 +158,17 @@ public class MainMenu : Menu
         MenuManager.Instance.DoTransition(loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
     }
 
+    public void CloseEyes()
+    {
+        StartCoroutine(MenuTransitionsCommon.FadeCoroutine(0.0f, 1.0f, 0.25f, fadeCanvasGroup,OpenEyes));
+    }
+
+    public void OpenEyes()
+    {
+        bloodAndGore.SetActive(true);
+        miloTheRobot.SetActive(true);
+        StartCoroutine(MenuTransitionsCommon.FadeCoroutine(1.0f, 0.0f, 0.25f, fadeCanvasGroup, null));
+    }
     public void ShowCredits()
     {
         creditsCanvasGroup.gameObject.SetActive(true);
@@ -187,10 +194,12 @@ public class MainMenu : Menu
 
     public void SkipToMenuShow()
     {
-        menuShowing = true;
+        CloseEyes();
         track.JumpToPosition(3);
+        ShowMenu();
+        KillScreen();
 
-        StartCoroutine(MenuTransitionsCommon.FadeCoroutine(1.0f, 0.0f, 1.0f, fadeCanvasGroup, ShowMenu));
+        //StartCoroutine(MenuTransitionsCommon.FadeCoroutine(1.0f, 0.0f, 1.0f, fadeCanvasGroup, null));
     }
     
 }

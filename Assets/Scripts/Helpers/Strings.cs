@@ -26,6 +26,7 @@
         public static string LOAD = "LoadMenu";
         public static string LOGO = "LogoMenu";
         public static string PAUSE = "PauseMenu";
+        public static string FADE = "FadeMenu";
     }
 
     public static class Input

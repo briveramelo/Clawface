@@ -24,9 +24,19 @@ public class MenuManager : Singleton<MenuManager> {
 
     #region Unity Lifecycle Functions
 
-    private void Awake()
+    protected override void Awake()
     {
-        input = EventSystem.current.GetComponent<StandaloneInputModule>();
+        base.Awake();
+        if (!EventSystem.current)
+        {
+            string message = "No EventSystem found in the scene, please add one!";
+            Debug.LogFormat("<color=#ffff00>" + message + "</color>");
+        }
+        else
+        {
+            input = EventSystem.current.GetComponent<StandaloneInputModule>();
+        }
+        
     }
     private void Start()
     {
@@ -87,7 +97,10 @@ public class MenuManager : Singleton<MenuManager> {
 
     public void EnableEventSystem(bool enabled)
     {
-        input.enabled = enabled;
+        if (input)
+        { 
+            input.enabled = enabled;
+        }
     }
 
     public bool PopMenu(bool removeRoot = false)
