@@ -1389,8 +1389,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   foot: {fileID: 4009667743967004}
   rigbod: {fileID: 54477481413527770}
-  iceForceMultiplier: 0
-  movementMode: 0
   isGrounded: 0
 --- !u!114 &114216556463902696
 MonoBehaviour:
@@ -1546,7 +1544,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4459bc4938fbdce4dab448c115726a99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 0.2
+  radius: 0.34
   color: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &114496568055926532
 MonoBehaviour:
@@ -1575,8 +1573,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hasState: 0
   vfxModChargePrefab: {fileID: 1868770362516384, guid: 75076dc3f3739ff4bb01ae67a336ecc5,
-    type: 2}
-  vfxModCooldownPrefab: {fileID: 1020022290495414, guid: 28c736c9f78d4cc4b8ea1d4a2875356d,
     type: 2}
   pickupCollider: {fileID: 65541383895908204}
   modCanvas: {fileID: 0}
@@ -1616,8 +1612,8 @@ MonoBehaviour:
   slamForce: 0
   slamBox: {fileID: 65716800929020632}
   slamPush: 0
+  vfx: {fileID: 0}
   chargeMultiplier: 0
-  slamForceDecayRate: 0
 --- !u!114 &114709168524529216
 MonoBehaviour:
   m_ObjectHideFlags: 1
