@@ -58,6 +58,10 @@ public class MoveState : IPlayerState
         moveDirection.y = 0f;
         moveDirection.Normalize();
 
+        lastLookDirection = Camera.main.transform.TransformDirection(lastLookDirection);
+        lastLookDirection.y = 0f;
+        lastLookDirection.Normalize();
+
         if (moveDirection != Vector3.zero)
         {
             lastMoveDirection = moveDirection;
