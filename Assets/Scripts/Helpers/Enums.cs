@@ -29,7 +29,19 @@ public enum SFXType {
     StunBatonImpact,
     StunBatonSwing,
     TankTreads_Attack,
-    TankTreads_Swing,
+    TankTreads_Swing, 
+    Dash,
+    SegwayBlast_Standard,
+    SegwayBlast,
+    Boomerang_Throw, 
+    DiceLauncher_Shoot,
+    GeyserMod_Splash,
+    GeyserMod_MiniSplash,
+    Boomerang_Impact,
+    PlayerTakeDamage,
+    PlayerDeath,
+    ModCooldown,
+    MallCopHurt,
     UI_Click,
     UI_Hover,
     UI_Back
@@ -123,6 +135,7 @@ public enum PoolObjectType {
     DiceBlockExplosion=22,
     GeyserBase = 23,
     SkinningEffect = 24,
+    HealthGain = 25,
 }
 
 public enum MovementMode

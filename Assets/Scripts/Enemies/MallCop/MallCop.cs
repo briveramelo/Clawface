@@ -57,7 +57,8 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
     {        
         if (myStats.health > 0){                        
             myStats.TakeDamage(damager.damage);            
-            damagePack.Set(damager, damaged);            
+            damagePack.Set(damager, damaged);
+            SFXManager.Instance.Play(SFXType.MallCopHurt, transform.position);
             DamageFXManager.Instance.EmitDamageEffect(damagePack);
             if (myStats.health <= myStats.skinnableHealth && !glowObject.isGlowing){
                 glowObject.SetToGlow();

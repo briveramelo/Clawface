@@ -367,6 +367,12 @@ namespace Turing.Audio {
             return Mathf.Clamp01(factor);
         }
 
+        public float GetClipLength()
+        {
+            return _longestClipLength;
+        }
+
+
         #endregion
         #region Enums
 

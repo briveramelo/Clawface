@@ -47,10 +47,15 @@ public class BoomerangMod : Mod {
 
     #region Unity Lifecycle
 
-    // Use this for initialization
-    void Start () {
+    protected override void Awake() {
         type = ModType.Boomerang;
         category = ModCategory.Ranged;
+        base.Awake();
+    }
+
+    // Use this for initialization
+    void Start () {
+        
         damageCollider.enabled = false;
         enemyDistance = Mathf.Infinity;
         initialScale = transform.localScale;
@@ -84,6 +89,7 @@ public class BoomerangMod : Mod {
             if(other.gameObject.CompareTag(Strings.Tags.ENEMY) || other.gameObject.CompareTag(Strings.Tags.PLAYER)){
                 IDamageable damageable = other.gameObject.GetComponent<IDamageable>();
                 if (damageable!=null){
+
                     damager.Set(Attack, getDamageType(), wielderMovable.GetForward()); 
                     damageable.TakeDamage(damager);
                 }
@@ -97,7 +103,9 @@ public class BoomerangMod : Mod {
 
     public override void Activate(Action onCompleteCoolDown=null, Action onActivate=null)
     {
-        onActivate = () => { energySettings.isActive = true; };
+        onActivate = () => {            
+            energySettings.isActive = true;
+        };
         base.Activate(onCompleteCoolDown, onActivate);
     }
 
@@ -205,6 +213,7 @@ public class BoomerangMod : Mod {
         GameObject projectile = ObjectPool.Instance.GetObject(PoolObjectType.BoomerangProjectile);
         if (projectile)
         {
+            SFXManager.Instance.Play(SFXType.Boomerang_Throw, transform.position);
             transform.rotation = Quaternion.identity;
             boomerangsAlive++;
             projectile.GetComponent<BoomerangProjectile>().Go(wielderStats, wielderStats.gameObject.GetInstanceID(), transform, OnBoomerangDestroyed, charge);
@@ -222,7 +231,8 @@ public class BoomerangMod : Mod {
     private void GrowSize() {
         transform.localScale = pickUpScale * (1+ (chargedScale) * energySettings.chargeFraction);
     }
-    private void ReleaseBoomerang(){        
+    private void ReleaseBoomerang(){
+        SFXManager.Instance.Play(SFXType.Boomerang_Throw, transform.position);
         damageCollider.enabled = true;
         initialPosition = transform.position;
         transform.rotation = Quaternion.identity;

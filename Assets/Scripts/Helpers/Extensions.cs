@@ -81,12 +81,27 @@ namespace ModMan {
         public static void DeActivate(this GameObject obj, float timeToDeactivate) {
             Timing.RunCoroutine(IEDeActivate(obj, timeToDeactivate), Segment.FixedUpdate);
         }
+        public static void FollowAndDeActivate(this GameObject obj, float timeToDeactivate, Transform objToFollow, Vector3 offset) {
+            Timing.RunCoroutine(IEDeActivate(obj, timeToDeactivate, objToFollow, offset), Segment.FixedUpdate);
+        }
         static IEnumerator<float> IEDeActivate(GameObject obj, float timeToDeactivate) {
             yield return Timing.WaitForSeconds(timeToDeactivate);
             if (obj!=null) {
                 obj.SetActive(false);
             }
         }
+        static IEnumerator<float> IEDeActivate(GameObject obj, float timeToDeactivate, Transform objToFollow, Vector3 offset) {
+            float timeRemaining=timeToDeactivate;
+            while(timeRemaining>0f && obj!=null) {
+                timeRemaining-=Time.fixedDeltaTime;
+                obj.transform.position = objToFollow.position + offset;
+                yield return 0f;
+            }            
+            if (obj!=null) {
+                obj.SetActive(false);
+            }
+        }
+        
         
         /// <summary>
         /// Finds a GameObject with a certain name in the children of the given

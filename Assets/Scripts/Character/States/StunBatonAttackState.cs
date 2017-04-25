@@ -56,6 +56,7 @@ public class StunBatonAttackState : IPlayerState {
             if (stateVariables.currentMod.getModSpot() == ModSpot.Legs)
             {
                 ActivateLegs();
+                ResetState();
             }
             else
             {
@@ -140,7 +141,7 @@ public class StunBatonAttackState : IPlayerState {
     private void ActivateLegs()
     {
         stateVariables.currentMod.Activate();
-        stateVariables.stateFinished = true;
+        //stateVariables.stateFinished = true;
     }
 
     private void DisableEnemyCollision()
