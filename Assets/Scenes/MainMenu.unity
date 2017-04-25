@@ -2546,7 +2546,12 @@ Prefab:
     - target: {fileID: 225742725251650176, guid: 508429bc42a9fbc41b7ae63130389866,
         type: 2}
       propertyPath: m_Alpha
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 225742725251650176, guid: 508429bc42a9fbc41b7ae63130389866,
+        type: 2}
+      propertyPath: m_BlocksRaycasts
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114259449498455594, guid: 508429bc42a9fbc41b7ae63130389866, type: 2}
@@ -16781,6 +16786,18 @@ RectTransform:
   m_PrefabParentObject: {fileID: 224187466563544612, guid: 508429bc42a9fbc41b7ae63130389866,
     type: 2}
   m_PrefabInternal: {fileID: 166539590}
+--- !u!114 &1055167980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1055167978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9884fa1490057dd4d82b3524bcba6622, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 1055167981}
 --- !u!225 &1055167981 stripped
 CanvasGroup:
   m_PrefabParentObject: {fileID: 225742725251650176, guid: 508429bc42a9fbc41b7ae63130389866,

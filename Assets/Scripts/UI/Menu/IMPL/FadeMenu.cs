@@ -26,7 +26,7 @@ public class FadeMenu : Menu {
         switch (transition)
         {
             case Transition.HIDE:
-                StartCoroutine(MenuTransitionsCommon.FadeCoroutine(1.0f, 0.0f, 1.0f, canvasGroup,
+                StartCoroutine(MenuTransitionsCommon.FadeCoroutine(1.0f, 0.0f, 3.0f, canvasGroup,
                     () => { displayed = false; }));
                 break;
             case Transition.SHOW:
@@ -38,11 +38,6 @@ public class FadeMenu : Menu {
 
     // Use this for initialization
     void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+        DoTransition(Transition.HIDE, new Effect[] { });	
 	}
 }
