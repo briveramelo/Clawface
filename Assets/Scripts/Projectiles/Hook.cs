@@ -69,6 +69,7 @@ public class Hook : MonoBehaviour {
 
     #region Public Methods
     public void Throw(bool isCharged){
+        mod.modEnergySettings.isActive = true;
         this.isCharged = isCharged;
         Timing.RunCoroutine(ThrowAndRetractHook());
     }
@@ -96,6 +97,7 @@ public class Hook : MonoBehaviour {
 
     #region Private Methods
     private void FinishRetracting(){
+        mod.modEnergySettings.isActive = false;
         transform.localPosition = initPos;
         isPullingWielder = false;
     }
