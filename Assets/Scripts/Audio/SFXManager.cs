@@ -41,6 +41,8 @@ public class SFXManager : Singleton<SFXManager>
     [SerializeField]
     private GameObject ModCooldown;
     [SerializeField]
+    private GameObject MallCopHurt;
+    [SerializeField]
     private GameObject UI_Click;
     [SerializeField]
     private GameObject UI_Hover;
@@ -68,6 +70,7 @@ public class SFXManager : Singleton<SFXManager>
             {SFXType.DiceLauncher_Shoot,        InitList(DiceLauncher_Shoot) },
             {SFXType.GeyserMod_Splash,          InitList(GeyserMod_Splash) },
             {SFXType.ModCooldown,               InitList(ModCooldown) },
+            {SFXType.MallCopHurt,               InitList(MallCopHurt) },
             {SFXType.UI_Click,                  InitList(UI_Click)},
             {SFXType.UI_Hover,                  InitList(UI_Hover)},
             {SFXType.UI_Back,                   InitList(UI_Back)}

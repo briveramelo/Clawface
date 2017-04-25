@@ -36,6 +36,7 @@ public enum SFXType {
     DiceLauncher_Shoot,
     GeyserMod_Splash,
     ModCooldown,
+    MallCopHurt,
     UI_Click,
     UI_Hover,
     UI_Back
