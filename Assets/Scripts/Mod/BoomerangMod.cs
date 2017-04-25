@@ -102,6 +102,13 @@ public class BoomerangMod : Mod {
     public override void AttachAffect(ref Stats wielderStats, IMovable wielderMovable){                
         base.AttachAffect(ref wielderStats, wielderMovable);
         pickUpScale = transform.localScale;
+        if(getModSpot() == ModSpot.Legs)
+        {
+            hasState = false;
+        }else
+        {
+            hasState = true;
+        }
     }
 
     public override void DeActivate()

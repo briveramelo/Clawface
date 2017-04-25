@@ -17,6 +17,8 @@ public class StunBatonAttackState : IPlayerState {
     [SerializeField]
     private VFXMeleeSwing[] vfxMeleeSwing;
     private bool isStarting=true;
+    [SerializeField]
+    private float wallPushBack;
     #endregion
 
     #region Private Fields
@@ -26,6 +28,7 @@ public class StunBatonAttackState : IPlayerState {
     private int leftHandOffset;
     private int highlightPoseIndex;
     private bool weHaveHitHighlightPose;
+    private bool isHittingAWall;
     #endregion
 
     #region Unity Lifecycle
@@ -37,6 +40,7 @@ public class StunBatonAttackState : IPlayerState {
         currentAttackPose = 1;
         weHaveHitHighlightPose = false;
         highlightPoseIndex = 0;
+        isHittingAWall = false;
     }
 
     public override void StateFixedUpdate()
@@ -93,6 +97,24 @@ public class StunBatonAttackState : IPlayerState {
             }
         }        
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.tag == Strings.Tags.WALL)
+        {
+            print("hitting");
+            isHittingAWall = true;
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.tag == Strings.Tags.WALL)
+        {
+            print("not hitting");
+            isHittingAWall = false;
+        }
+    }
     #endregion
 
     #region Public Methods
@@ -125,7 +147,13 @@ public class StunBatonAttackState : IPlayerState {
         currentAttackPose++;
         if (currentAttackPose == highlightPoses[highlightPoseIndex])
         {
-            stateVariables.playerTransform.position += stateVariables.playerTransform.forward * attackForwadDisplacement;            
+            if (!isHittingAWall)
+            {
+                stateVariables.playerTransform.position += stateVariables.playerTransform.forward * attackForwadDisplacement;
+            }else
+            {
+                stateVariables.playerTransform.position -= stateVariables.playerTransform.forward * wallPushBack;
+            }
             highlightPoseIndex++;
             if(highlightPoseIndex == highlightPoses.Length)
             {

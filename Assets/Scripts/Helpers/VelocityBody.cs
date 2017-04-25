@@ -6,12 +6,11 @@ public class VelocityBody : MonoBehaviour, IMovable{
 
     public Transform foot;
     [SerializeField] private Rigidbody rigbod;
-    [SerializeField] private Rigidbody ragdollRigBod;
     [SerializeField]
     private float iceForceMultiplier;
     [SerializeField]private MovementMode movementMode;
 
-    public bool isGrounded;
+    protected bool isGrounded;
 
     private bool isFalling;
     
@@ -89,16 +88,11 @@ public class VelocityBody : MonoBehaviour, IMovable{
 
     public void AddDecayingForce(Vector3 force, float decay = 0.1f) {
         if (gameObject.activeInHierarchy) {
-            switch (movementMode) {
-                case MovementMode.PRECISE:
-                    Timing.RunCoroutine(IEAddDecayingForce(force, decay), Segment.FixedUpdate, GetInstanceID().ToString());
-                    break;
-                case MovementMode.ICE:
-                    rigbod.AddForce(force * iceForceMultiplier);  
-                    break;
-                case MovementMode.RAGDOLL:
-                    ragdollRigBod.AddForce (force * iceForceMultiplier);
-                    break;
+            if (movementMode == MovementMode.PRECISE) {
+                Timing.RunCoroutine(IEAddDecayingForce(force, decay), Segment.FixedUpdate, GetInstanceID().ToString());
+            }
+            else{
+                rigbod.AddForce(force * iceForceMultiplier);                
             }
         }    
     }
@@ -111,8 +105,6 @@ public class VelocityBody : MonoBehaviour, IMovable{
         useGravity = movementMode == MovementMode.ICE;
         if (movementMode == MovementMode.PRECISE) {
             AddDecayingForce(rigbod.velocity*.95f, 0.075f);            
-        } else if (movementMode == MovementMode.RAGDOLL) {
-            AddDecayingForce(ragdollRigBod.velocity*.95f, 0.075f);            
         }
     }
     

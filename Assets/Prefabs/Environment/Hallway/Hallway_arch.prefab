@@ -21,9 +21,10 @@ GameObject:
   - component: {fileID: 4510774659789118}
   - component: {fileID: 33019788872808294}
   - component: {fileID: 23492344435965032}
+  - component: {fileID: 64774748413917586}
   m_Layer: 0
   m_Name: Hallway_arch
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -35,7 +36,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1444781607158292}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -9.292743, y: 2.5, z: -4.53861}
+  m_LocalPosition: {x: 55.73, y: 2.6, z: 10.52}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -79,4 +80,18 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1444781607158292}
+  m_Mesh: {fileID: 4300000, guid: be7cc2fc1004f0041af761c0b06fda62, type: 3}
+--- !u!64 &64774748413917586
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1444781607158292}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Convex: 0
+  m_InflateMesh: 0
+  m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: be7cc2fc1004f0041af761c0b06fda62, type: 3}
