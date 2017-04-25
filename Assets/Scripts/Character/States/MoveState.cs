@@ -65,7 +65,10 @@ public class MoveState : IPlayerState
         if (moveDirection != Vector3.zero)
         {
             lastMoveDirection = moveDirection;
-        }        
+        } else if (lastLookDirection != Vector3.zero)
+        {
+            lastMoveDirection = lastLookDirection;
+        }    
     }
 
     public override void StateFixedUpdate()
@@ -132,12 +135,13 @@ public class MoveState : IPlayerState
     }
 
     private void HandleRotation(){
-        if (stateVariables.currentEnemy != null){
+        if (stateVariables.currentEnemy != null) {
             stateVariables.velBody.LookAt(stateVariables.currentEnemy.transform);
         }
-        else if(lastLookDirection != Vector3.zero){
+        else if (lastLookDirection != Vector3.zero) {
             stateVariables.playerTransform.forward = lastLookDirection;
-        }else
+        }
+        else
         {
             stateVariables.playerTransform.forward = lastMoveDirection;
         }

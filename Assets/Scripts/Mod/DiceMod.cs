@@ -27,9 +27,10 @@ public class DiceMod : Mod {
 
     #region Unity Lifetime
     // Use this for initialization
-    void Start () {
+    protected override void Awake () {
         type = ModType.Dice;
         category = ModCategory.Ranged;
+        base.Awake();
 	}
 
     #endregion
