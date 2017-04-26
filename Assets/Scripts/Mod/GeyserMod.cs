@@ -143,6 +143,7 @@ public class GeyserMod : Mod {
         geyser = GetGeyser();
         if (geyser)
         {
+            SFXManager.Instance.Play(SFXType.GeyserMod_MiniSplash, transform.position);
             Vector3 forwardVector = wielderMovable.GetForward().NormalizedNoY();
             geyser.transform.position = targetPosition;
             GetGeyserBase();
@@ -168,8 +169,7 @@ public class GeyserMod : Mod {
     {
         GameObject projectile = ObjectPool.Instance.GetObject(PoolObjectType.GeyserProjectile);
         if (projectile)
-        {
-            SFXManager.Instance.Play(SFXType.GeyserMod_Splash, transform.position);
+        {            
             projectileProperties.Initialize(GetWielderInstanceID(), Attack);
             projectile.GetComponent<GeyserProjectile>().SetProjectileProperties(projectileProperties);
         }
@@ -198,6 +198,7 @@ public class GeyserMod : Mod {
         geyser = GetGeyser();
         if (geyser)
         {
+            SFXManager.Instance.Play(SFXType.GeyserMod_Splash, transform.position);
             geyser.transform.position = finalFootPosition + finalForwardVector * longRangeDistance;
             geyser.transform.localScale = Vector3.one * (1+maxScaleMultiplier);
             GetGeyserBase();
