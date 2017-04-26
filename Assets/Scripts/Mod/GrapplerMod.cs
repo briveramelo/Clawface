@@ -96,7 +96,8 @@ public class GrapplerMod : Mod {
     private void Tornado()
     {
         if (!wielderMovable.IsGrounded() && !tornadoMode)
-        {            
+        {
+            SFXManager.Instance.Play(SFXType.GrapplingGun_Shoot, transform.position);
             Timing.RunCoroutine(StartTornado(),Segment.Update);
         }
     }

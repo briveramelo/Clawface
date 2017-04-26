@@ -104,9 +104,9 @@ namespace Turing.Audio {
                         LoopSound();
                  }
 
-                _audioSource.volume = (_useRandomVolume ? _randomizedVolume : _uniformVolume) * _volumeScale;
+                
             }
-            
+            _audioSource.volume = (_useRandomVolume ? _randomizedVolume : _uniformVolume) * _parent.VolumeScale;
         }
 
         #endregion
@@ -203,9 +203,9 @@ namespace Turing.Audio {
 
             var clip = _clips.GetRandom();
             _clipLength = clip.length;
-            _audioSource.PlayOneShot(clip, _audioSource.volume);
-            //_audioSource.clip = clip;
-            //_audioSource.Play();
+            //_audioSource.PlayOneShot(clip, _audioSource.volume);
+            _audioSource.clip = clip;
+            _audioSource.Play();
 
             _playing = true;
 

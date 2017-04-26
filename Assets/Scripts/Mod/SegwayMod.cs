@@ -52,6 +52,7 @@ public class SegwayMod : Mod {
             this.wielderStats.Multiply(StatType.MoveSpeed, speedBoostMultiplier);
             this.wielderMovable = wielderMovable;
             this.wielderMovable.SetMovementMode(MovementMode.ICE);
+            SFXManager.Instance.PlayFollowObject(SFXType.SegwayBlast, transform);
         }
         else{
             segwayVFX.SetMoving(false);
@@ -96,6 +97,7 @@ public class SegwayMod : Mod {
         {
             wielderStats.Multiply(StatType.MoveSpeed, 1f / speedBoostMultiplier);
             this.wielderMovable.SetMovementMode(MovementMode.PRECISE);
+            SFXManager.Instance.Stop(SFXType.SegwayBlast_Standard);
         }
         base.DetachAffect();
     }
@@ -105,7 +107,7 @@ public class SegwayMod : Mod {
     }
 
     void ForcePush(){
-        //SFXManager.Instance.Play(SFXType.ForceSegwayPush);
+        SFXManager.Instance.Play(SFXType.SegwayBlast_Standard, transform.position);
         PoolObjectType poolObjType = IsCharged() ? PoolObjectType.VFXSegwayBlasterCharged : PoolObjectType.VFXSegwayBlaster;
         GameObject blasterFX = ObjectPool.Instance.GetObject(poolObjType);
         if (blasterFX) {

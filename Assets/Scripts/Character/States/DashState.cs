@@ -42,6 +42,7 @@ public class DashState : IPlayerState {
     {
         if (currentFrame == 0)
         {
+            SFXManager.Instance.Play(SFXType.Dash, transform.position);
             dashPuff.Play();
             dashTrail.GetComponent<TrailRenderer>().enabled = true;
         }
