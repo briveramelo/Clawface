@@ -23,6 +23,7 @@ public class Hook : MonoBehaviour {
     private bool isThrowing;
     private Vector3 pullDirection;
     private Damager damager=new Damager();
+    private bool isPlayer;
     #endregion
 
     #region Unity Lifecycle
@@ -44,21 +45,25 @@ public class Hook : MonoBehaviour {
                 IDamageable damageable = other.gameObject.GetComponent<IDamageable>();
                 if (damageable != null)
                 {
-                    if (transform.root.CompareTag(Strings.Tags.PLAYER))
-                    {
-                        AnalyticsManager.Instance.AddModDamage(ModType.Grappler, mod.Attack);
+                    
+                    
+                    damager.Set(mod.Attack, DamagerType.GrapplingHook, transform.forward);
 
-                        if (damageable.GetHealth() - mod.Attack <= 0.01f)
+                    if (isPlayer)
+                    {
+                        AnalyticsManager.Instance.AddModDamage(ModType.Grappler, damager.damage);
+
+                        if (damageable.GetHealth() - damager.damage <= 0.01f)
                         {
                             AnalyticsManager.Instance.AddModKill(ModType.Grappler);
                         }
                     }
-                    else if (transform.root.CompareTag(Strings.Tags.ENEMY))
+                    else
                     {
-                        AnalyticsManager.Instance.AddEnemyModDamage(ModType.Grappler, mod.Attack);
+                        AnalyticsManager.Instance.AddEnemyModDamage(ModType.Grappler, damager.damage);
                     }
-                    
-                    damager.Set(mod.Attack, DamagerType.GrapplingHook, transform.forward);
+
+
                     damageable.TakeDamage(damager);
                 }
             }        
@@ -77,6 +82,11 @@ public class Hook : MonoBehaviour {
     public float GetMaxLength()
     {
         return maxLength;
+    }
+
+    public void SetShooterType(bool isPlayer)
+    {
+        this.isPlayer = isPlayer;
     }
 
     public void ExtendHook()

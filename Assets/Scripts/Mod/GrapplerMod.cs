@@ -34,10 +34,11 @@ public class GrapplerMod : Mod {
 
     #region Unity Lifecycle
     // Use this for initialization
-    void Start () {
+    protected override void Awake() {
         type = ModType.Grappler;
         category = ModCategory.Ranged;
-        angle = 0f;        
+        angle = 0f;
+        base.Awake();
     }
 
     // Update is called once per frame
@@ -95,7 +96,8 @@ public class GrapplerMod : Mod {
     private void Tornado()
     {
         if (!wielderMovable.IsGrounded() && !tornadoMode)
-        {            
+        {
+            SFXManager.Instance.Play(SFXType.GrapplingGun_Shoot, transform.position);
             Timing.RunCoroutine(StartTornado(),Segment.Update);
         }
     }
@@ -135,6 +137,22 @@ public class GrapplerMod : Mod {
                 damager.damage = IsCharged() ? energySettings.chargedLegAttackSettings.attack : energySettings.standardLegAttackSettings.attack;
                 damager.damagerType = DamagerType.GrapplingHook;
                 damager.impactDirection = transform.forward;
+
+                if (wielderStats.gameObject.CompareTag(Strings.Tags.PLAYER))
+                {
+                    AnalyticsManager.Instance.AddModDamage(ModType.Grappler, damager.damage);
+
+                    if (damageable.GetHealth() - damager.damage <= 0.01f)
+                    {
+                        AnalyticsManager.Instance.AddModKill(ModType.Grappler);
+                    }
+                }
+                else
+                {
+                    AnalyticsManager.Instance.AddEnemyModDamage(ModType.Grappler, damager.damage);
+                }
+
+
                 damageable.TakeDamage(damager);
             }
         }
@@ -142,6 +160,14 @@ public class GrapplerMod : Mod {
 
     public override void AttachAffect(ref Stats wielderStats, IMovable wielderMovable){
         base.AttachAffect(ref wielderStats, wielderMovable);
+        if (wielderStats.gameObject.CompareTag(Strings.Tags.PLAYER))
+        {
+            hook.SetShooterType(true);
+        }
+        else
+        {
+            hook.SetShooterType(false);
+        }
     }
 
     public override void DeActivate()
