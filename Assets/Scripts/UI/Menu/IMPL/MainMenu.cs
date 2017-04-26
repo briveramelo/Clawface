@@ -70,6 +70,7 @@ public class MainMenu : Menu
     {
         if (Input.anyKey && !menuShowing)
         {
+            menuShowing = true;
             SkipToMenuHide();
         }
 
@@ -93,7 +94,7 @@ public class MainMenu : Menu
 
     public void SkipToMenuShow()
     {
-        track.JumpToPosition(3);
+        track.JumpToPosition(4);
         KillScreen();
         ShowMenu();
     }
@@ -158,13 +159,9 @@ public class MainMenu : Menu
 
     public void ShowMenu()
     {
-
-        if (!menuShowing)
-        {
-            menuShowing = true;
-            StartCoroutine(MenuTransitionsCommon.FadeCoroutine(0.0f, 1.0f, 1.0f, canvasGroup, EnableES));
-
-        }
+        
+        StartCoroutine(MenuTransitionsCommon.FadeCoroutine(0.0f, 1.0f, 1.0f, canvasGroup, EnableES));
+        
     }
 
 
