@@ -100,6 +100,15 @@ public class BlasterMod : Mod {
             blasterBullet.transform.rotation = transform.rotation;
             shooterProperties.Initialize(GetWielderInstanceID(),Attack, wielderStats.shotSpeed, wielderStats.shotPushForce);
             blasterBullet.SetShooterProperties(shooterProperties);
+
+            if (wielderStats.gameObject.CompareTag(Strings.Tags.PLAYER))
+            {
+                blasterBullet.SetShooterType(false);
+            }
+            else
+            {
+                blasterBullet.SetShooterType(true);
+            }
         }
         return blasterBullet;
     }

@@ -1,5 +1,6 @@
 ﻿// Adam Kay
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -129,7 +130,7 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         buttonPressesDictionary.Add("skin", 0f);
     }
 
-#if !UNITY_EDITOR
+//#if !UNITY_EDITOR
     // Update is called once per frame
     void Update()
     {
@@ -147,38 +148,18 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         }
                 
         UpdateButtonPresses();        
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            WriteOutToTextFile();
+        }
 }
-#endif
+    //#endif
 
     private void OnApplicationQuit()
     {
-        if (playerStats != null)
-        {
-            int totalTimeMinutes = (int)totalTime / 60;
-            if (totalTimeMinutes < 1) totalTimeMinutes = 1;
 
-            FormatPlayerModsInDictionary(ref quitGameDictionary);
-            quitGameDictionary["averageHP"] = (int)(playerHealthTotal / playerHealthTicks);
-            quitGameDictionary["currentHP"] = (int)playerStats.GetStat(StatType.Health);
-            quitGameDictionary["swaps"] = (float)quitGameDictionary["swaps"] / totalTimeMinutes;
-            quitGameDictionary["drops"] = (float)quitGameDictionary["drops"] / totalTimeMinutes;
-            quitGameDictionary["deaths"] = deaths;
-            quitGameDictionary["sessionTimeMins"] = totalTimeMinutes;
-
-            // Changes button presses to be average per minute
-            buttonPressesDictionary["armL"] = (float)buttonPressesDictionary["armL"] / totalTimeMinutes;
-            buttonPressesDictionary["armR"] = (float)buttonPressesDictionary["armR"] / totalTimeMinutes;
-            buttonPressesDictionary["legs"] = (float)buttonPressesDictionary["legs"] / totalTimeMinutes;
-            buttonPressesDictionary["dodge"] = (float)buttonPressesDictionary["dodge"] / totalTimeMinutes;
-            buttonPressesDictionary["swap"] = (float)buttonPressesDictionary["swap"] / totalTimeMinutes;
-            buttonPressesDictionary["skin"] = (float)buttonPressesDictionary["skin"] / totalTimeMinutes;
-
-
-            // Changes mod times to be a percentage of total play time
-            foreach (ModType mod in System.Enum.GetValues(typeof(ModType)))
-            {
-                modRatioDictionary[mod.ToString()] = (float)modTimeDictionary[mod.ToString()] / totalTime;
-            }
+        FormatDictionaries();
 
 #if !UNITY_EDITOR
         if (sendData)
@@ -196,7 +177,7 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
             Analytics.CustomEvent("modKills", modKillsDictionary);
         }
 #endif
-        }
+
     }
 #endregion
 
@@ -310,14 +291,109 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
 
     public void SetPlayerStats(Stats stats)
     {
-        playerStats = stats;
-        playerHealthTotal = stats.GetStat(StatType.Health);
-        playerHealthTicks = 1;
+        if (stats != null)
+        {
+            playerStats = stats;
+            playerHealthTotal = stats.GetStat(StatType.Health);
+            playerHealthTicks = 1;
+        }
     }
 
-#endregion
+    #endregion
 
-#region Private Methods
+    #region Private Methods
+
+    private void FormatDictionaries()
+    {
+        if (playerStats != null)
+        {
+            int totalTimeMinutes = Mathf.FloorToInt(totalTime) / 60;
+            if (totalTimeMinutes < 1) totalTimeMinutes = 1;
+
+            FormatPlayerModsInDictionary(ref quitGameDictionary);
+            quitGameDictionary["averageHP"] = (int)(playerHealthTotal / playerHealthTicks);
+            quitGameDictionary["currentHP"] = (int)playerStats.GetStat(StatType.Health);
+            quitGameDictionary["swaps"] = (float)quitGameDictionary["swaps"];
+            quitGameDictionary["drops"] = (float)quitGameDictionary["drops"];
+            quitGameDictionary["deaths"] = deaths;
+            quitGameDictionary["sessionTimeMins"] = totalTimeMinutes;
+
+            // Changes button presses to be average per minute
+            buttonPressesDictionary["armL"] = (float)buttonPressesDictionary["armL"] / (float)totalTimeMinutes;
+            buttonPressesDictionary["armR"] = (float)buttonPressesDictionary["armR"] / (float)totalTimeMinutes;
+            buttonPressesDictionary["legs"] = (float)buttonPressesDictionary["legs"] / (float)totalTimeMinutes;
+            buttonPressesDictionary["dodge"] = (float)buttonPressesDictionary["dodge"] / (float)totalTimeMinutes;
+            buttonPressesDictionary["swap"] = (float)buttonPressesDictionary["swap"] / (float)totalTimeMinutes;
+            buttonPressesDictionary["skin"] = (float)buttonPressesDictionary["skin"] / (float)totalTimeMinutes;
+
+
+            // Changes mod times to be a percentage of total play time
+            foreach (ModType mod in System.Enum.GetValues(typeof(ModType)))
+            {
+                modRatioDictionary[mod.ToString()] = (float)modTimeDictionary[mod.ToString()] / totalTime;
+            }
+        }
+    }
+
+    private void WriteOutToTextFile()
+    {
+        string filePath = "./TestInfo.txt";
+
+        FormatDictionaries();
+
+        System.IO.File.AppendAllText(filePath, Environment.NewLine + "Mod Ratios:" + Environment.NewLine);
+        AppendTextToFileFromModDictionary(filePath, modRatioDictionary);
+
+        System.IO.File.AppendAllText(filePath, Environment.NewLine + "Mod Times (in seconds):" + Environment.NewLine);
+        AppendTextToFileFromModDictionary(filePath, modTimeDictionary);
+
+        System.IO.File.AppendAllText(filePath, Environment.NewLine + "Total Player Mod Damage:" + Environment.NewLine);
+        AppendTextToFileFromModDictionary(filePath, modDamageDictionary);
+
+        System.IO.File.AppendAllText(filePath, Environment.NewLine + "Total Enemy Mod Damage:" + Environment.NewLine);
+        AppendTextToFileFromModDictionary(filePath, enemyModDamageDictionary);
+
+        System.IO.File.AppendAllText(filePath, Environment.NewLine + "Left Arm Mod Button Presses:" + Environment.NewLine);
+        AppendTextToFileFromModDictionary(filePath, modArmLPressesDictionary);
+
+        System.IO.File.AppendAllText(filePath, Environment.NewLine + "Right Arm Mod Button Presses:" + Environment.NewLine);
+        AppendTextToFileFromModDictionary(filePath, modArmRPressesDictionary);
+
+        System.IO.File.AppendAllText(filePath, Environment.NewLine + "Leg Mod Button Presses:" + Environment.NewLine);
+        AppendTextToFileFromModDictionary(filePath, modLegsPressesDictionary);
+
+        System.IO.File.AppendAllText(filePath, Environment.NewLine + "Mod Kills:" + Environment.NewLine);
+        AppendTextToFileFromModDictionary(filePath, modKillsDictionary);
+
+        System.IO.File.AppendAllText(filePath, Environment.NewLine + "Quit Game Dictionary:" + Environment.NewLine);
+        System.IO.File.AppendAllText(filePath, "Left Arm: " + quitGameDictionary["armL"].ToString() + Environment.NewLine);
+        System.IO.File.AppendAllText(filePath, "Right Arm:" + quitGameDictionary["armR"].ToString() + Environment.NewLine);
+        System.IO.File.AppendAllText(filePath, "Legs:" + quitGameDictionary["legs"].ToString() + Environment.NewLine);
+        System.IO.File.AppendAllText(filePath, "Average HP: " + quitGameDictionary["averageHP"] + Environment.NewLine);
+        System.IO.File.AppendAllText(filePath, "Current HP: " + quitGameDictionary["currentHP"] + Environment.NewLine);
+        System.IO.File.AppendAllText(filePath, "Deaths: " + quitGameDictionary["deaths"] + Environment.NewLine);
+        System.IO.File.AppendAllText(filePath, "Swaps: " + quitGameDictionary["swaps"] + Environment.NewLine);
+        System.IO.File.AppendAllText(filePath, "Drops: " + quitGameDictionary["drops"] + Environment.NewLine);
+        System.IO.File.AppendAllText(filePath, "Seesion Time (in Minutes): " + quitGameDictionary["sessionTimeMins"] + Environment.NewLine);
+
+        System.IO.File.AppendAllText(filePath, Environment.NewLine + "Button Presses:" + Environment.NewLine);
+        System.IO.File.AppendAllText(filePath, String.Format("Right Arm: {0}" + Environment.NewLine, (float)buttonPressesDictionary["armR"]));
+        System.IO.File.AppendAllText(filePath, String.Format("Left Arm: {0}" + Environment.NewLine, (float)buttonPressesDictionary["armL"]));
+        System.IO.File.AppendAllText(filePath, String.Format("Legs: {0}" + Environment.NewLine, (float)buttonPressesDictionary["legs"]));
+        System.IO.File.AppendAllText(filePath, String.Format("Dodge: {0}" + Environment.NewLine, (float)buttonPressesDictionary["dodge"]));
+        System.IO.File.AppendAllText(filePath, String.Format("Swap: {0}" + Environment.NewLine, (float)buttonPressesDictionary["swap"]));
+        System.IO.File.AppendAllText(filePath, String.Format("Skin: {0}" + Environment.NewLine, (float)buttonPressesDictionary["skin"]));
+
+    }
+
+    private void AppendTextToFileFromModDictionary(string fileName, Dictionary<string, object> dict)
+    {
+        foreach (ModType mod in System.Enum.GetValues(typeof(ModType)))
+        {
+            System.IO.File.AppendAllText(fileName, String.Format("{0}, {1}" + Environment.NewLine, mod.ToString(), (float)dict[mod.ToString()]));
+        }
+    }
+
     private void UpdatePlayerHealthTotal()
     {
         if (playerStats!=null) {
@@ -330,7 +406,7 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         if (manager != null) {
             Dictionary<ModSpot, ModManager.ModSocket> modSocketDictionary = manager.GetModSpotDictionary();
 
-            if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_LEFT, ButtonMode.DOWN)) {
+            if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_LEFT, ButtonMode.DOWN) || InputManager.Instance.QueryAction(Strings.Input.Actions.EQUIP_ARM_LEFT, ButtonMode.DOWN)) {
                 buttonPressesDictionary["armL"] = (float)buttonPressesDictionary["armL"] + 1f;
 
                 if (modSocketDictionary[ModSpot.ArmL].mod != null) {
@@ -339,7 +415,7 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
                 }
             }
 
-            if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_RIGHT, ButtonMode.DOWN)) {
+            if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_RIGHT, ButtonMode.DOWN) || InputManager.Instance.QueryAction(Strings.Input.Actions.EQUIP_ARM_RIGHT, ButtonMode.DOWN)) {
                 buttonPressesDictionary["armR"] = (float)buttonPressesDictionary["armR"] + 1f;
 
                 if (modSocketDictionary[ModSpot.ArmR].mod != null) {

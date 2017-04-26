@@ -17,6 +17,7 @@ public class GeyserProjectile : MonoBehaviour {
     #region Private Fields
     private ProjectileProperties projectileProperties;
     private Damager damager=new Damager();
+    private bool isPlayer;
     private List<GameObject> objectsHitThisGush=new List<GameObject>();
     #endregion
 
@@ -45,6 +46,7 @@ public class GeyserProjectile : MonoBehaviour {
         transform.localScale = Vector3.one;
     }
 
+
     void OnTriggerEnter(Collider other){
         if (!objectsHitThisGush.Contains(other.gameObject)) {
             if (projectileProperties.shooterInstanceID != other.gameObject.GetInstanceID()) {
@@ -52,6 +54,21 @@ public class GeyserProjectile : MonoBehaviour {
                 IDamageable damageable = other.GetComponent<IDamageable>();
                 if (damageable!=null) {                    
                     damager.Set(projectileProperties.damage, DamagerType.Geyser, Vector3.down);
+
+					if (isPlayer)
+                	{
+                    	AnalyticsManager.Instance.AddModDamage(ModType.Geyser, damager.damage);
+
+                    	if (damageable.GetHealth() - damager.damage <= 0.01f)
+                    	{
+                        	AnalyticsManager.Instance.AddModKill(ModType.Geyser);
+                    	}
+                	}
+                	else
+                	{
+                    	AnalyticsManager.Instance.AddEnemyModDamage(ModType.Geyser, damager.damage);
+                	}
+                    
                     damageable.TakeDamage(damager);
                 }
                 IMovable moveable = other.GetComponent<IMovable>();
@@ -67,6 +84,11 @@ public class GeyserProjectile : MonoBehaviour {
     #region Public Methods
     public void SetProjectileProperties(ProjectileProperties projectileProperties) {
         this.projectileProperties = projectileProperties;
+    }
+
+    public void SetShooterType(bool isPlayer)
+    {
+        this.isPlayer = isPlayer;
     }
     #endregion
 
