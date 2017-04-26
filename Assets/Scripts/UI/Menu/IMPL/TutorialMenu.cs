@@ -27,6 +27,7 @@ public class TutorialMenu : Menu {
     private int currentImage = 0;
     private bool transitioning = false;
     private bool advancing = false;
+    private bool showing = false;
     #endregion
 
     public TutorialMenu(string name) : base(Strings.MenuStrings.TUTORIAL)
@@ -68,6 +69,7 @@ public class TutorialMenu : Menu {
 
     public void ShowImages(int seq)
     {
+        showing = true;
         ResetTriggers();
         currentSequence = seq;
         
@@ -84,7 +86,7 @@ public class TutorialMenu : Menu {
 
     private void Update()
     {
-        if(Input.anyKey && !transitioning && !advancing)
+        if(Input.anyKey && !transitioning && !advancing && showing)
         {
             advancing = true;
             AdvanceImage();
@@ -186,6 +188,8 @@ public class TutorialMenu : Menu {
             StartCoroutine(MenuTransitionsCommon.FadeCoroutine(0.0f, 1.0f, 1.0f, canvasGroup, () => { advancing = false; transitioning = false; }));
             return;
         }
+        showing = false;
+       
     }
     #endregion
 }
