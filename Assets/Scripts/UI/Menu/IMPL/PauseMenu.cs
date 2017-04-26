@@ -49,10 +49,12 @@ public class PauseMenu : Menu {
         {
             if (!paused)
             {
+                canPause = false;
                 MenuManager.Instance.DoTransition(this, Transition.TOGGLE, new Effect[] { });
             }
             else
             {
+                canPause = false;
                 MenuManager.Instance.ClearMenus();
             }
         }
@@ -122,12 +124,13 @@ public class PauseMenu : Menu {
     {
         displayed = true;
         restartButton.Select();
-        //TogglePaused();
+        canPause = true;
     }
     private void HideComplete()
     {
         displayed = false;
         TogglePaused();
+        canPause = true;
     }
 
     #endregion
