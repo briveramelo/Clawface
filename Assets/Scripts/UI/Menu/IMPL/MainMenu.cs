@@ -61,7 +61,7 @@ public class MainMenu : Menu
     private void Start()
     {
         creditsCanvasGroup.gameObject.SetActive(false);
-        EventSystem.current.GetComponent<StandaloneInputModule>().DeactivateModule();
+        MenuManager.Instance.EnableEventSystem(false);
 
 
     }
@@ -175,8 +175,8 @@ public class MainMenu : Menu
     #region Private Interface
     private void EnableES()
     {
-        EventSystem.current.GetComponent<StandaloneInputModule>().ActivateModule();
-        EventSystem.current.SetSelectedGameObject(mainDefaultSelectedButton.gameObject);
+        MenuManager.Instance.EnableEventSystem(true);
+        mainDefaultSelectedButton.Select();
     }
 
     private void FadeOut()
@@ -220,7 +220,7 @@ public class MainMenu : Menu
 
     private void HideSelf()
     {
-        EventSystem.current.SetSelectedGameObject(creditsDefaultSelectedButton.gameObject);
+        creditsDefaultSelectedButton.Select();
         gameObject.SetActive(false);
     }
 
