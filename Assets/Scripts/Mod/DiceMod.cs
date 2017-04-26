@@ -134,6 +134,15 @@ public class DiceMod : Mod {
             diceBlock.transform.rotation = Quaternion.Euler(rotation);
             shooterProperties.Initialize(GetWielderInstanceID(), Attack, wielderStats.shotSpeed, wielderStats.shotPushForce);
             diceBlock.SetShooterProperties(shooterProperties);
+
+            if (wielderStats.gameObject.CompareTag(Strings.Tags.PLAYER))
+            {
+                diceBlock.SetShooterType(true);
+            }
+            else
+            {
+                diceBlock.SetShooterType(false);
+            }
         }
         return diceBlock;
     }
