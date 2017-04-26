@@ -37,23 +37,23 @@ public class PauseMenu : Menu {
     #region Private Fields
     private bool displayed = false;
     private bool paused = false;
-    private bool canPause = false;
+    private bool canPause = true;
     #endregion
 
     #region Unity Lifecycle Methods
     void Update()
     {
-        if (canPause && InputManager.Instance.QueryAction(Strings.Input.Actions.PAUSE,
-            ButtonMode.DOWN))
-        {
-            if (!paused)
-            {
-                MenuManager.Instance.DoTransition(this, Transition.TOGGLE, new Effect[] { });
-            } else
-            {
-                MenuManager.Instance.ClearMenus();
-            }
-        }
+        //if (canPause && InputManager.Instance.QueryAction(Strings.Input.Actions.PAUSE,
+        //    ButtonMode.DOWN))
+        //{
+        //    if (!paused)
+        //    {
+        //        MenuManager.Instance.DoTransition(this, Transition.TOGGLE, new Effect[] { });
+        //    } else
+        //    {
+        //        MenuManager.Instance.ClearMenus();
+        //    }
+        //}
     }
     #endregion
 
@@ -119,6 +119,7 @@ public class PauseMenu : Menu {
     {
         displayed = true;
         restartButton.Select();
+        //TogglePaused();
     }
     private void HideComplete()
     {

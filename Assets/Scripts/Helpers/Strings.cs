@@ -32,6 +32,7 @@
         public static string LOGO = "LogoMenu";
         public static string PAUSE = "PauseMenu";
         public static string FADE = "FadeMenu";
+        public static string TUTORIAL = "TutorialMenu";
     }
 
     public static class Input
