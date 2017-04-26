@@ -33,12 +33,14 @@ public class PauseMenu : Menu {
     #region Serialized Unity Fields
     [SerializeField]
     private Button restartButton;
+    [SerializeField]
+    private Button deadNavButton;
     #endregion
 
     #region Private Fields
     private bool displayed = false;
     private bool paused = false;
-    private bool canPause = true;
+    private bool canPause = false;
     #endregion
 
     #region Unity Lifecycle Methods
@@ -79,6 +81,7 @@ public class PauseMenu : Menu {
                 break;
             case Transition.HIDE:
                 if (!displayed) return;
+                deadNavButton.Select();
                 OnTransitionStarted(transition, effects);
                 StartCoroutine(MenuTransitionsCommon.FadeCoroutine(1.0F, 0.0F, 1.0F,
                     canvasGroup, HideComplete));
