@@ -157,6 +157,15 @@ public class DiceMod : Mod {
             shooterProperties.Initialize(GetWielderInstanceID(), Attack, wielderStats.shotSpeed, wielderStats.shotPushForce);
             diceBlock.SetShooterProperties(shooterProperties);
             diceBlock.Roll(direction);
+
+            if (wielderStats.gameObject.CompareTag(Strings.Tags.PLAYER))
+            {
+                diceBlock.SetShooterType(true);
+            }
+            else
+            {
+                diceBlock.SetShooterType(false);
+            }
         }
         return diceBlock;
     }
