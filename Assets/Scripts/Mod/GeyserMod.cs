@@ -123,6 +123,16 @@ public class GeyserMod : Mod {
             squirt.transform.position = finalFootPosition + finalForwardVector * distance * i;
             projectileProperties.Initialize(GetWielderInstanceID(), Attack);
             squirt.GetComponent<GeyserLine>().Fire(i / (float)numberOfSquirts, timeForEachSquirt, projectileProperties);
+
+            if (wielderStats.gameObject.CompareTag(Strings.Tags.PLAYER))
+            {
+                squirt.GetComponent<GeyserLine>().SetShooterType(true);
+            }
+            else
+            {
+                squirt.GetComponent<GeyserLine>().SetShooterType(false);
+            }
+
             yield return Timing.WaitForSeconds(timeBetweenSquirts);
         }
         yield return Timing.WaitForSeconds(megaSquirtWaitTime);
@@ -163,6 +173,15 @@ public class GeyserMod : Mod {
         {
             projectileProperties.Initialize(GetWielderInstanceID(), Attack);
             projectile.GetComponent<GeyserProjectile>().SetProjectileProperties(projectileProperties);
+
+            if (wielderStats.gameObject.CompareTag(Strings.Tags.PLAYER))
+            {
+                projectile.GetComponent<GeyserProjectile>().SetShooterType(true);
+            }
+            else
+            {
+                projectile.GetComponent<GeyserProjectile>().SetShooterType(false);
+            }
         }
         return projectile;
     }
