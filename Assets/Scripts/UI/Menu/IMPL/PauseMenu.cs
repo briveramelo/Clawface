@@ -3,6 +3,7 @@
  */
 
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PauseMenu : Menu {
@@ -90,7 +91,8 @@ public class PauseMenu : Menu {
     {
         Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
         LoadMenu loadMenu = (LoadMenu)menu;
-        loadMenu.TargetScene = Strings.Scenes.Level1;
+        Scene scene = SceneManager.GetActiveScene();
+        loadMenu.TargetScene = scene.name;
         MenuManager.Instance.DoTransition(loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
     }
 
