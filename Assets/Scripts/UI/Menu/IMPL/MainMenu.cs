@@ -152,6 +152,11 @@ public class MainMenu : Menu
         StartCoroutine(MenuTransitionsCommon.FadeCoroutine(1.0f, 0.0f, 1.0f, canvasGroup, FadeOut));
     }
 
+    public void StartArena()
+    {
+        StartCoroutine(MenuTransitionsCommon.FadeCoroutine(1.0f, 0.0f, 1.0f, canvasGroup, FadeOutToArena));
+    }
+
     public void FireCredits()
     {
         StartCoroutine(MenuTransitionsCommon.FadeCoroutine(1.0f, 0.0f, 1.0f, canvasGroup, ShowCredits));
@@ -180,6 +185,12 @@ public class MainMenu : Menu
         fadeCanvasGroup.gameObject.SetActive(true);
         StartCoroutine(MenuTransitionsCommon.FadeCoroutine(0.0f, 1.0f, 1.0f, fadeCanvasGroup, LoadLevelOne));
     }
+
+    private void FadeOutToArena() {
+        fadeCanvasGroup.gameObject.SetActive(true);
+        StartCoroutine(MenuTransitionsCommon.FadeCoroutine(0.0f, 1.0f, 1.0f, fadeCanvasGroup, LoadArena));
+    }
+
     private void LoadLevelOne()
     {
         MusicManager.Instance.Stop(MusicType.MainMenu_Track);
@@ -193,6 +204,19 @@ public class MainMenu : Menu
         MenuManager.Instance.DoTransition(loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
     }
 
+    private void LoadArena()
+    {
+        MusicManager.Instance.Stop(MusicType.MainMenu_Track);
+
+        Menu pMenu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.PAUSE);
+        PauseMenu pauseMenu = (PauseMenu)pMenu;
+        pauseMenu.CanPause = true;
+        Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
+        LoadMenu loadMenu = (LoadMenu)menu;
+        //loadMenu.TargetScene = Strings.Scenes.Level1;
+        loadMenu.TargetScene = Strings.Scenes.Arena;
+        MenuManager.Instance.DoTransition(loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+    }
 
     private void HideSelf()
     {
