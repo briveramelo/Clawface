@@ -15,7 +15,7 @@
     }
 
     public static class Scenes {
-        public static string Level1 = "Scenes/EAE_Level";//Gucci_V1.2";
+        public static string Level1 = "Scenes/EAE_Level1.1";//Gucci_V1.2";
         public static string MainMenu = "Scenes/MainMenu";
         public static string Arena = "Scenes/Gucci_V1.2";
     }
