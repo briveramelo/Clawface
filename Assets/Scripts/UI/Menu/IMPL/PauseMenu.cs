@@ -37,7 +37,7 @@ public class PauseMenu : Menu {
     #region Private Fields
     private bool displayed = false;
     private bool paused = false;
-    private bool canPause = false;
+    private bool canPause = true;
     #endregion
 
     #region Unity Lifecycle Methods
@@ -49,7 +49,8 @@ public class PauseMenu : Menu {
             if (!paused)
             {
                 MenuManager.Instance.DoTransition(this, Transition.TOGGLE, new Effect[] { });
-            } else
+            }
+            else
             {
                 MenuManager.Instance.ClearMenus();
             }
@@ -119,6 +120,7 @@ public class PauseMenu : Menu {
     {
         displayed = true;
         restartButton.Select();
+        //TogglePaused();
     }
     private void HideComplete()
     {

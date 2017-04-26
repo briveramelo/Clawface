@@ -7,6 +7,7 @@ public class BlasterBullet : MonoBehaviour {
 
     private ShooterProperties shooterProperties=new ShooterProperties();
     private Damager damager = new Damager();
+    private bool shooter;
 
     void OnEnable()
     {        
@@ -46,10 +47,17 @@ public class BlasterBullet : MonoBehaviour {
         this.shooterProperties = shooterProperties;
     }
 
+    // 0 = Player, Enemy = 1
+    public void SetShooterType(bool playerOrEnemy)
+    {
+        shooter = playerOrEnemy;
+    }
+
     private void Damage(IDamageable damageable) {        
         if (damageable != null) {
-            
-            if (this.transform.root.CompareTag(Strings.Tags.PLAYER))
+
+            // Shooter is player
+            if (!shooter)
             {
                 AnalyticsManager.Instance.AddModDamage(ModType.ArmBlaster, shooterProperties.damage);
 
@@ -58,7 +66,7 @@ public class BlasterBullet : MonoBehaviour {
                     AnalyticsManager.Instance.AddModKill(ModType.ArmBlaster);
                 }
             }
-            else if (this.transform.root.CompareTag(Strings.Tags.ENEMY))
+            else
             {
                 AnalyticsManager.Instance.AddEnemyModDamage(ModType.ArmBlaster, shooterProperties.damage);
             }

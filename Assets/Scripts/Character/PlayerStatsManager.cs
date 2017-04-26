@@ -55,6 +55,7 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
             cameraLock.Shake(.4f);
             float shakeIntensity = 1f - healthFraction;
             InputManager.Instance.Vibrate(VibrationTargets.BOTH, shakeIntensity);
+            SFXManager.Instance.Play(SFXType.PlayerTakeDamage, transform.position);
 
             if (stats.health < healthAtLastSkin-lastSkinHealthBoost) {
                 skinningState.RemoveSkin();
@@ -98,6 +99,7 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
 
     #region Private Methods
     private void Revive() {
+        SFXManager.Instance.Play(SFXType.PlayerDeath, transform.position);
         transform.position = GameObject.Find("RespawnPoint").transform.position;
         stats.Add(StatType.Health, (int)startHealth);
         startHealth = stats.GetStat(StatType.MaxHealth);

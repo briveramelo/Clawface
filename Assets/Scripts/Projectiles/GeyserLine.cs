@@ -21,6 +21,7 @@ public class GeyserLine : MonoBehaviour {
     private ParticleSystem myParticleSystem;
     private ProjectileProperties projectileProperties = new ProjectileProperties();
     private Damager damager;
+    private bool isPlayer;
     #endregion
 
 #region Unity Lifecycle
@@ -57,6 +58,22 @@ public class GeyserLine : MonoBehaviour {
                 if (damageable != null)
                 {
                     damager.Set(projectileProperties.damage * damageMultiplier, DamagerType.Geyser, Vector3.down);
+
+                    // Shooter is player
+                    if (isPlayer)
+                    {
+                        AnalyticsManager.Instance.AddModDamage(ModType.Geyser, damager.damage);
+
+                        if (damageable.GetHealth() - damager.damage <= 0.01f)
+                        {
+                            AnalyticsManager.Instance.AddModKill(ModType.Geyser);
+                        }
+                    }
+                    else
+                    {
+                        AnalyticsManager.Instance.AddEnemyModDamage(ModType.Geyser, damager.damage);
+                    }
+
                     damageable.TakeDamage(damager);
                 }
                 if (moveable != null)
@@ -76,6 +93,11 @@ public class GeyserLine : MonoBehaviour {
         transform.localScale = initialScale * intensity;
         myParticleSystem.Play();
         Timing.RunCoroutine(WaitForParticleSystem(liveTime));
+    }
+
+    public void SetShooterType(bool isPlayer)
+    {
+        this.isPlayer = isPlayer;
     }
     #endregion
 
