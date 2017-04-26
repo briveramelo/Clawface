@@ -15,7 +15,8 @@ public class BlasterMod : Mod {
     private ShooterProperties shooterProperties= new ShooterProperties();
 
     // Use this for initialization
-    void Start () {
+    protected override void Awake () {
+        base.Awake();
         type = ModType.ArmBlaster;
         category = ModCategory.Ranged;             
     }
@@ -52,7 +53,9 @@ public class BlasterMod : Mod {
     }
 
     public override void BeginCharging(Action onBegin=null){
-        onBegin=()=> {  SFXManager.Instance.Play(SFXType.BlasterCharge, transform.position); };
+        onBegin=()=> {  
+            SFXManager.Instance.Play(SFXType.BlasterCharge, transform.position);
+            };
         base.BeginCharging(onBegin);
     }
     protected override void BeginChargingArms(){ }

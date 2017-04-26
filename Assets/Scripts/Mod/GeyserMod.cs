@@ -43,10 +43,15 @@ public class GeyserMod : Mod {
 
     #region Unity Lifecycle
     // Use this for initialization
-    void Start () {
-        DeactivateModCanvas();
+    protected override void Awake() {
         type = ModType.Geyser;
         category = ModCategory.Ranged;
+        base.Awake();
+    }
+
+    void Start () {
+        DeactivateModCanvas();
+        
         originalGeyserBaseParent = null;
         originalGeyserTargetParent = null;
         geyserTarget.SetActive(false);
@@ -120,19 +125,22 @@ public class GeyserMod : Mod {
         for(int i = 1; i <= numberOfSquirts; i++)
         {
             GameObject squirt = ObjectPool.Instance.GetObject(PoolObjectType.GeyserGushLine);
-            squirt.transform.position = finalFootPosition + finalForwardVector * distance * i;
-            projectileProperties.Initialize(GetWielderInstanceID(), Attack);
-            squirt.GetComponent<GeyserLine>().Fire(i / (float)numberOfSquirts, timeForEachSquirt, projectileProperties);
 
-            if (wielderStats.gameObject.CompareTag(Strings.Tags.PLAYER))
-            {
+            if (squirt) {
+                SFXManager.Instance.Play(SFXType.GeyserMod_MiniSplash, transform.position);
+                squirt.transform.position = finalFootPosition + finalForwardVector * distance * i;
+                projectileProperties.Initialize(GetWielderInstanceID(), Attack);
+                squirt.GetComponent<GeyserLine>().Fire(i / (float)numberOfSquirts, timeForEachSquirt, projectileProperties);
+
+                if (wielderStats.gameObject.CompareTag(Strings.Tags.PLAYER))
+            	{
                 squirt.GetComponent<GeyserLine>().SetShooterType(true);
+            	}
+            	else
+            	{
+                	squirt.GetComponent<GeyserLine>().SetShooterType(false);
+            	}
             }
-            else
-            {
-                squirt.GetComponent<GeyserLine>().SetShooterType(false);
-            }
-
             yield return Timing.WaitForSeconds(timeBetweenSquirts);
         }
         yield return Timing.WaitForSeconds(megaSquirtWaitTime);
@@ -171,6 +179,7 @@ public class GeyserMod : Mod {
         GameObject projectile = ObjectPool.Instance.GetObject(PoolObjectType.GeyserProjectile);
         if (projectile)
         {
+            SFXManager.Instance.Play(SFXType.GeyserMod_Splash, transform.position);
             projectileProperties.Initialize(GetWielderInstanceID(), Attack);
             projectile.GetComponent<GeyserProjectile>().SetProjectileProperties(projectileProperties);
 

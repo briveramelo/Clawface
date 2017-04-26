@@ -18,6 +18,7 @@ public class GeyserProjectile : MonoBehaviour {
     private ProjectileProperties projectileProperties;
     private Damager damager=new Damager();
     private bool isPlayer;
+    private List<GameObject> objectsHitThisGush=new List<GameObject>();
     #endregion
 
     #region Unity Lifecycle
@@ -30,6 +31,7 @@ public class GeyserProjectile : MonoBehaviour {
     void OnEnable()
     {
         StartCoroutine(WaitToDisable());
+        objectsHitThisGush.Clear();
     }
 
     
@@ -44,32 +46,36 @@ public class GeyserProjectile : MonoBehaviour {
         transform.localScale = Vector3.one;
     }
 
-    void OnTriggerEnter(Collider other){       
-        if (projectileProperties.shooterInstanceID != other.gameObject.GetInstanceID()) {
-            IDamageable damageable = other.GetComponent<IDamageable>();
-            if (damageable!=null) {
-                damager.Set(projectileProperties.damage, DamagerType.Geyser, Vector3.down);
 
-                // Shooter is player
-                if (isPlayer)
-                {
-                    AnalyticsManager.Instance.AddModDamage(ModType.Geyser, damager.damage);
+    void OnTriggerEnter(Collider other){
+        if (!objectsHitThisGush.Contains(other.gameObject)) {
+            if (projectileProperties.shooterInstanceID != other.gameObject.GetInstanceID()) {
+                objectsHitThisGush.Add(other.gameObject);
+                IDamageable damageable = other.GetComponent<IDamageable>();
+                if (damageable!=null) {                    
+                    damager.Set(projectileProperties.damage, DamagerType.Geyser, Vector3.down);
 
-                    if (damageable.GetHealth() - damager.damage <= 0.01f)
-                    {
-                        AnalyticsManager.Instance.AddModKill(ModType.Geyser);
-                    }
+					if (isPlayer)
+                	{
+                    	AnalyticsManager.Instance.AddModDamage(ModType.Geyser, damager.damage);
+
+                    	if (damageable.GetHealth() - damager.damage <= 0.01f)
+                    	{
+                        	AnalyticsManager.Instance.AddModKill(ModType.Geyser);
+                    	}
+                	}
+                	else
+                	{
+                    	AnalyticsManager.Instance.AddEnemyModDamage(ModType.Geyser, damager.damage);
+                	}
+                    
+                    damageable.TakeDamage(damager);
                 }
-                else
+                IMovable moveable = other.GetComponent<IMovable>();
+                if(moveable != null)
                 {
-                    AnalyticsManager.Instance.AddEnemyModDamage(ModType.Geyser, damager.damage);
+                    moveable.AddDecayingForce(Vector3.up * upForce * transform.localScale.magnitude);
                 }
-                damageable.TakeDamage(damager);
-            }
-            IMovable moveable = other.GetComponent<IMovable>();
-            if(moveable != null)
-            {
-                moveable.AddDecayingForce(Vector3.up * upForce * transform.localScale.magnitude);
             }
         }
     }

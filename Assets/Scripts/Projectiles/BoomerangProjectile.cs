@@ -100,6 +100,7 @@ public class BoomerangProjectile : MonoBehaviour {
                         AnalyticsManager.Instance.AddEnemyModDamage(ModType.Boomerang, damager.damage);
                     }
 
+                    SFXManager.Instance.Play(SFXType.Boomerang_Impact, transform.position);
                     damager.impactDirection = transform.forward;
                     damageable.TakeDamage(damager);
                 }
