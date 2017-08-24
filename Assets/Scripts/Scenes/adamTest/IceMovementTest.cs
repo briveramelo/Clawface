@@ -58,25 +58,26 @@ public class IceMovementTest : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        float h = Input.GetAxis(Strings.MOVEX);
-        float v = Input.GetAxis(Strings.MOVEY);
+        // FIX LATER
+        //float h = Input.GetAxis(Strings.MOVEX);
+        //float v = Input.GetAxis(Strings.MOVEY);
 
-        float rightH = Input.GetAxis(Strings.AIMX);
-        float rightV = Input.GetAxis(Strings.AIMY);
+        //float rightH = Input.GetAxis(Strings.AIMX);
+        //float rightV = Input.GetAxis(Strings.AIMY);
 
-        axisInput = CheckForAxisInput(h, v);
-        rightAxisInput = CheckForAxisInput(rightH, rightV);
+        //axisInput = CheckForAxisInput(h, v);
+        //rightAxisInput = CheckForAxisInput(rightH, rightV);
 
-        float hModified = h;
-        float vModified = v;
+        //float hModified = h;
+        //float vModified = v;
 
-        float rightHModified = rightH;
-        float rightVModified = rightV;
+        //float rightHModified = rightH;
+        //float rightVModified = rightV;
 
 
 
-        movement = new Vector3(hModified, 0.0f, vModified);
-        rightJoystickMovement = new Vector3(rightHModified, 0.0f, rightVModified);
+        //movement = new Vector3(hModified, 0.0f, vModified);
+        //rightJoystickMovement = new Vector3(rightHModified, 0.0f, rightVModified);
 
         if (!canMove)
         {

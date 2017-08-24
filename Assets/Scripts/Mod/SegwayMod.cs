@@ -4,154 +4,85 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using ModMan;
+using System.Linq;
+using MovementEffects;
 
 public class SegwayMod : Mod {
 
-    [SerializeField]
-    private float speedBoostValue;
+    private void OnDrawGizmosSelected(){
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(capsuleBoundsDirection.Start, capsuleBoundsDirection.radius);
+        Gizmos.DrawWireSphere(capsuleBoundsDirection.End, capsuleBoundsDirection.radius);        
 
-    [SerializeField] private float rangedAccuracyLoss;
-
-    private float speedValue;
-    private float attackValue;
-
-    [SerializeField]
-    private Collider attackCollider;
-
-    [SerializeField]
-    private float attackTime;
-
-    [SerializeField]
-    private float attackDamageMod;
-
-    [SerializeField]
-    private float attackForce;
-
-    [SerializeField]
-    private Collider aoeCollider;
-
-    [SerializeField]
-    private float aoeTime;
-
-    [SerializeField]
-    private float aoeDamageMod;
-
-    [SerializeField]
-    private float aoeForce;
-
-    [SerializeField]
-    private VFXBlasterShoot shootEffect;
-
-    private static string ENABLEATTACKCOLLIDER = "EnableAttackCollider";
-    private static string DISABLEATTACKCOLLIDER = "DisableAttackCollider";
-    private static string ENABLEAOECOLLIDER = "EnableAoeCollider";
-    private static string DISABLEAOECOLLIDER = "DisableAoeCollider";
-
-    [SerializeField]
-    private bool isAttacking;
-
-    [SerializeField]
-    private bool isAoeAttacking;
-
-    PlayerMovement playerMovement;
-
-    private void Awake()
-    {
-        type = ModType.ForceSegway;
-    }
-
-    public override void Activate()
-    {
-        switch (getModSpot())
-        {
-            case ModSpot.ArmL:
-                Hit();   
-                break;
-            case ModSpot.ArmR:
-                Hit();
-                break;
-            case ModSpot.Head:
-                break;
-            case ModSpot.Legs:
-                AoeAttack();
-                break;
-            default:
-                break;
-        }
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(capsuleBoundsDirection.Start, aoeRadius);
     }
     
-    private void OnTriggerStay(Collider other)
+    [SerializeField] private VFXSegway segwayVFX;
+    [SerializeField] private ForceSettings standardForceSettings;
+    [SerializeField] private ForceSettings chargedForceSettings;
+
+    [SerializeField] private CapsuleBoundsDirection capsuleBoundsDirection;
+    [SerializeField] private float speedBoostMultiplier;
+    [SerializeField] private float aoeRadius;
+
+    // Use this for initialization
+    protected override void Awake()
     {
-        if (other.tag != "Player")
-        {
+        setModType(ModType.ForceSegway); 
+        base.Awake();       
+    }
 
-            if (isAttacking)
-            {
-                IDamageable damageable = other.GetComponent<IDamageable>();
-                IMovable movable = other.GetComponent<IMovable>();
-
-                if (damageable != null && !recentlyHitEnemies.Contains(damageable))
-                {
-                    damageable.TakeDamage(attackValue * attackDamageMod);
-                }
-                if (movable != null && !recentlyHitEnemies.Contains(damageable))
-                {
-                    Vector3 normalizedDistance = other.transform.position - this.transform.position;
-                    normalizedDistance = normalizedDistance.normalized;
-                    movable.AddExternalForce(normalizedDistance * attackForce);
-                }
-
-                if (damageable != null || movable != null)
-                {
-                    recentlyHitEnemies.Add(damageable);
-                }
+    protected override void Update(){
+        if (wielderMovable != null){
+            if (getModSpot() != ModSpot.Legs){
+                transform.forward = wielderMovable.GetForward();
             }
-            else if (isAoeAttacking)
-            {
-                IDamageable damageable = other.GetComponent<IDamageable>();
-                IMovable movable = other.GetComponent<IMovable>();
+        }
+    }    
 
-                if (damageable != null && !recentlyHitEnemies.Contains(damageable))
-                {
-                    damageable.TakeDamage(attackValue * aoeDamageMod);
-                }
-                if (movable != null && !recentlyHitEnemies.Contains(damageable))
-                {
-                    Vector3 normalizedDistance = other.transform.position - this.transform.position;
-                    normalizedDistance = normalizedDistance.normalized;
-                    movable.AddExternalForce(normalizedDistance * aoeForce);
-                }
+    public override void AttachAffect(ref Stats wielderStats, IMovable wielderMovable)
+    {
+        base.AttachAffect(ref wielderStats, wielderMovable);        
+        segwayVFX.SetIdle(false);
 
-                if (damageable != null || movable != null)
-                {
-                    recentlyHitEnemies.Add(damageable);
-                }
-            }
+        if (getModSpot() == ModSpot.Legs){
+            segwayVFX.SetMoving(true);
+            this.wielderStats.Multiply(StatType.MoveSpeed, speedBoostMultiplier);
+            this.wielderMovable = wielderMovable;
+            this.wielderMovable.SetMovementMode(MovementMode.ICE);
+            SFXManager.Instance.PlayFollowObject(SFXType.SegwayBlast, transform);
+        }
+        else{
+            segwayVFX.SetMoving(false);
         }
     }
 
-    public override void AttachAffect(ref Stats i_playerStats, ref PlayerMovement playerMovement)
-    {
-        //TODO:Disable pickup collider
-        playerStats = i_playerStats;
-        pickupCollider.enabled = false;
-        if (getModSpot() == ModSpot.Head)
-        {
-            BoostSpeed();
-        }
-        else if (getModSpot() == ModSpot.Legs)
-        {
-            playerStats.Modify(StatType.MoveSpeed, speedBoostValue);
-            playerStats.Modify(StatType.RangedAccuracy, rangedAccuracyLoss);
-            attackValue = playerStats.GetStat(StatType.Attack);
-            this.playerMovement = playerMovement;
-            this.playerMovement.SetMovementMode(MovementMode.ICE);
-        }
-        else
-        {
-            attackValue = playerStats.GetStat(StatType.Attack);
+    public override void Activate(Action onCompleteCoolDown=null, Action onActivate=null){
+        capsuleBoundsDirection.length = IsCharged() ? chargedForceSettings.capsuleLength : standardForceSettings.capsuleLength;
+        base.Activate(onCompleteCoolDown, onActivate);   
+    }
+
+    protected override void BeginChargingArms(){ }
+    protected override void RunChargingArms(){ }
+    protected override void ActivateStandardArms(){ ForcePush(); }
+    protected override void ActivateChargedArms(){ MegaForcePush(); }
+
+    protected override void BeginChargingLegs(){ }
+    protected override void RunChargingLegs(){ }
+    protected override void ActivateChargedLegs(){
+        MegaForcePush();
+        if (wielderMovable.IsGrounded()) {
+           Jump();
         }
     }
+    protected override void ActivateStandardLegs(){
+        ForcePush();
+        if (wielderMovable.IsGrounded()) {
+            Jump();
+        }
+    }        
 
     public override void DeActivate()
     {
@@ -159,84 +90,116 @@ public class SegwayMod : Mod {
     }
 
     public override void DetachAffect()
-    {
-        pickupCollider.enabled = true;
-
-        if (getModSpot() == ModSpot.Head)
+    {        
+        segwayVFX.SetMoving(false);
+        segwayVFX.SetIdle(true);
+        if (getModSpot() == ModSpot.Legs)
         {
-            RemoveSpeedBoost();
+            wielderStats.Multiply(StatType.MoveSpeed, 1f / speedBoostMultiplier);
+            this.wielderMovable.SetMovementMode(MovementMode.PRECISE);
+            SFXManager.Instance.Stop(SFXType.SegwayBlast_Standard);
         }
-        else if (getModSpot() == ModSpot.Legs)
-        {
-            playerStats.Modify(StatType.MoveSpeed, 1f / speedBoostValue);
-            playerStats.Modify(StatType.RangedAccuracy, 1f / rangedAccuracyLoss);
-            attackValue = playerStats.GetStat(StatType.Attack);
-            this.playerMovement.SetMovementMode(MovementMode.PRECISE);
+        base.DetachAffect();
+    }
+
+    void AoeAttack(){
+        
+    }
+
+    void ForcePush(){
+        SFXManager.Instance.Play(SFXType.SegwayBlast_Standard, transform.position);
+        PoolObjectType poolObjType = IsCharged() ? PoolObjectType.VFXSegwayBlasterCharged : PoolObjectType.VFXSegwayBlaster;
+        GameObject blasterFX = ObjectPool.Instance.GetObject(poolObjType);
+        if (blasterFX) {
+            blasterFX.DeActivate(1.1f);
+            blasterFX.transform.position = capsuleBoundsDirection.Start;
+            blasterFX.transform.forward = transform.forward;
+        }        
+        Timing.RunCoroutine(PushForTime());                        
+    }
+
+    void MegaForcePush() {        
+        ForcePush();
+    }
+
+    IEnumerator<float> PushForTime() {
+        float timeRemaining = energySettings.timeToAttack;
+        while (timeRemaining>0) {
+            GetOverlap().ForEach(other => {
+                if (GetWielderInstanceID() != other.gameObject.GetInstanceID()){                    
+                    IDamageable damageable = other.GetComponent<IDamageable>();
+                    IMovable movable = other.GetComponent<IMovable>();
+
+                    if (!recentlyHitObjects.Contains(other.gameObject)) {
+                        if (damageable != null)
+                        {
+                            if (wielderStats.CompareTag(Strings.Tags.PLAYER))
+                            {
+                                AnalyticsManager.Instance.AddModDamage(this.getModType(), Attack);
+
+                                if (damageable.GetHealth() - Attack < 0.1f)
+                                {
+                                    AnalyticsManager.Instance.AddModKill(this.getModType());
+                                }
+                            }
+                            else
+                            {
+                                AnalyticsManager.Instance.AddEnemyModDamage(this.getModType(), Attack);
+                            }
+
+                            
+                            damager.Set(Attack, getDamageType(), wielderMovable.GetForward());
+                            damageable.TakeDamage(damager);
+                        }                                 
+                        if (movable != null){                            
+                            Vector3 pushDirection = wielderMovable.GetForward();
+                            movable.AddDecayingForce(pushDirection * pushForce);
+                        }
+
+                        if (damageable != null || movable != null)
+                        {
+                            recentlyHitObjects.Add(other.gameObject);
+                        }
+                    }
+                }
+            });
+            timeRemaining -= Time.deltaTime;
+            yield return 0f;
         }
-        else
-        {
-            attackValue = 0.0f;
+    }
+
+    List<Collider> GetOverlap(){ 
+        if (getModSpot()!=ModSpot.Legs){ 
+            return Physics.OverlapCapsule(capsuleBoundsDirection.Start, capsuleBoundsDirection.End, capsuleBoundsDirection.radius).ToList();
+        }
+        return Physics.OverlapSphere(capsuleBoundsDirection.Start, aoeRadius).ToList();
+    }
+
+    void Jump() {
+        wielderMovable.AddDecayingForce(Vector3.up * jumpForce);
+    }
+
+    private float jumpForce {
+        get {
+            return IsCharged() ? chargedForceSettings.jumpForce : standardForceSettings.jumpForce;
+        }
+    }
+    private float pushForce {
+        get {
+            if (getModSpot()!=ModSpot.Legs){ 
+                return IsCharged() ? chargedForceSettings.armpushForce : standardForceSettings.armpushForce;
+            }
+            return IsCharged() ? chargedForceSettings.aoePushForce : standardForceSettings.aoePushForce;
         }
     }
 
-    void BoostSpeed()
-    {
-        playerStats.Modify(StatType.MoveSpeed, speedBoostValue);
+    #region Private Structures
+    [System.Serializable]
+    private class ForceSettings {
+        public float jumpForce;
+        public float armpushForce;
+        public float aoePushForce;
+        public float capsuleLength;
     }
-
-    void RemoveSpeedBoost()
-    {
-        playerStats.Modify(StatType.MoveSpeed, 1 / speedBoostValue);
-    }
-
-    void AoeAttack()
-    {
-        AudioManager.Instance.PlaySFX(SFXType.ForceSegwayPush);
-        EnableAoeCollider();
-        isAoeAttacking = true;
-        recentlyHitEnemies.Clear();
-        Invoke(SegwayMod.DISABLEAOECOLLIDER, aoeTime);
-    }
-
-    void Hit()
-    {
-        AudioManager.Instance.PlaySFX(SFXType.ForceSegwayPush);
-        shootEffect.Emit();
-        EnableAttackCollider();
-        isAttacking = true;
-        recentlyHitEnemies.Clear();
-        Invoke(SegwayMod.DISABLEATTACKCOLLIDER, attackTime);
-    }
-
-    void EnableAttackCollider()
-    {
-        attackCollider.enabled = true;
-    }
-
-    void DisableAttackCollider()
-    {
-        attackCollider.enabled = false;
-        isAttacking = false;
-    }
-
-    void EnableAoeCollider()
-    {
-        aoeCollider.enabled = true;
-    }
-
-    void DisableAoeCollider()
-    {
-        aoeCollider.enabled = false;
-        isAoeAttacking = false;
-    }
-
-
-    // Use this for initialization
-    void Start () {
-        setModType(ModType.ForceSegway);
-	}
-	
-	// Update is called once per frame
-	void Update () {        
-    }
+    #endregion
 }

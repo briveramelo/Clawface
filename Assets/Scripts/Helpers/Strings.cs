@@ -1,24 +1,72 @@
 ﻿public class Strings  {
-    // TODO - This should be reorganized..  I have no idea where any of these
-    // are being used or what they're for.
-    public static string MOD = "Mod";
-    public static string UP = "Up";
-    public static string DOWN = "Down";
-    public static string LEFT = "Left";
-    public static string RIGHT = "Right";
-    public static string PREPARETOSWAP = "PrepareToSwap";
-    public static string PREPARETOPICKUPORDROP = "PrepareToPickUpOrDrop";
-    public static string AIMX = "AimX";
-    public static string AIMY = "AimY";
-    public static string MOVEX = "MoveX";
-    public static string MOVEY = "MoveY";
-    public static string ENEMY = "Enemy";
-    public static string PLAYER = "Player";
-    public static string CODEXENTRY = "CodexEntry";
-    public static string LEFTTRIGGER = "LeftTrigger";
-    public static string RIGHTTRIGGER = "RightTrigger";
-    public static string UNLOCKABLE = "Unlockable";
+
     public static string ANIMATIONSTATE = "AnimationState";
-    public static string DPAD_X = "D-PadX";
-    public static string DPAD_Y = "D-PadY";
+
+    public static class Tags {
+        public static string MOD = "Mod";
+        public static string ENEMY = "Enemy";
+        public static string PLAYER = "Player";
+        public static string CODEXENTRY = "CodexEntry";
+        public static string UNLOCKABLE = "Unlockable";
+        public static string UNTAGGED = "Untagged";
+        public static string PLAYERDETECTOR = "PlayerDetector";
+        public static string PROJECTILE = "Projectile";
+        public static string WALL = "Wall";
+    }
+
+    public static class Scenes {
+        public static string Level1 = "Scenes/EAE_Level1.1";//Gucci_V1.2";
+        public static string MainMenu = "Scenes/MainMenu";
+        public static string Arena = "Scenes/Gucci_V1.2";
+    }
+
+    public static class Layers
+    {
+        public static string GROUND = "Ground";
+    }
+
+    public static class MenuStrings
+    {
+        public static string MAIN = "MainMenu";
+        public static string CREDITS = "CreditsMenu";
+        public static string LOAD = "LoadMenu";
+        public static string LOGO = "LogoMenu";
+        public static string PAUSE = "PauseMenu";
+        public static string FADE = "FadeMenu";
+        public static string TUTORIAL = "TutorialMenu";
+    }
+
+    public static class Input
+    {
+        public static class Axes
+        {
+            public const string MOVEMENT = "MOVEMENT AXES";
+            public const string LOOK = "LOOK AXES";
+        }
+
+        public static class Actions
+        {
+            public const string SWAP_MODE = "SWAP MODE";
+            public const string DROP_MODE = "DROP MODE";
+
+            public const string ACTIVATE_UI = "ACTIVATE UI";
+            public const string ACTION_LEGS = "LEGS";
+            public const string ACTION_ARM_LEFT = "ARM LEFT";
+            public const string ACTION_ARM_RIGHT = "ARM RIGHT";
+            public const string ACTION_HEAD = "HEAD"; // REMOVE?
+            public const string ACTION_SKIN = "SKIN";
+            public const string NAV_UP = "UP";
+            public const string NAV_DOWN = "DOWN";
+            public const string NAV_LEFT = "LEFT";
+            public const string NAV_RIGHT = "RIGHT";
+            public const string BLOCK = "BLOCK"; // REMOVE?
+            public const string LOCK = "LOCK"; // REMOVE?
+            public const string DODGE = "DODGE";
+            public const string PAUSE = "PAUSE";
+            
+            public const string EQUIP_ARM_LEFT = "EQUIP ARM LEFT";
+            public const string EQUIP_ARM_RIGHT = "EQUIP ARM RIGHT";
+            public const string EQUIP_LEGS = "EQUIP LEGS";
+        }
+    }
 }

@@ -38,7 +38,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1442442252967552}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -112,7 +112,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -192,7 +192,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -272,7 +272,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -352,7 +352,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -432,7 +432,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -456,5 +456,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fa8bab245665f7429338a7d84f5467c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clips: []
-  audioSources: []
+  prefabs:
+  - {fileID: 1761550517562176, guid: d720bda1a9c93dd40999eab2ffba23b6, type: 2}
+  - {fileID: 1217056616446900, guid: b576d1b0682367945a6c7bb1cfe68856, type: 2}
+  - {fileID: 1962448112315312, guid: 44974e83797a94149a4fa5b04cb280ed, type: 2}
+  - {fileID: 1883752545520946, guid: 02c191fcd03eda044804de4312921d0c, type: 2}
+  - {fileID: 1983893654634856, guid: f4b95877a3bf72143abacafe4f3afb4e, type: 2}
+  - {fileID: 1527780403247456, guid: 76946743511e5cd41b767c7bf4fe2669, type: 2}

@@ -8,7 +8,7 @@ public class DeathTrap : MonoBehaviour {
 
     private void OnTriggerEnter(Collider col)
     {
-        if (col.tag == Strings.PLAYER) {
+        if (col.tag == Strings.Tags.PLAYER) {
             col.transform.position = respawnPoint.position;
         }
     }

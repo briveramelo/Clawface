@@ -34,7 +34,7 @@ public class Skin : MonoBehaviour
 
     private void Update()
     {
-        if (!flag && Input.GetKeyDown(KeyCode.A))
+        if (!flag && Input.GetKeyDown(KeyCode.A)) // REMOVE?
         {
             flag = true;
             StartCoroutine(TurnOnGlow());

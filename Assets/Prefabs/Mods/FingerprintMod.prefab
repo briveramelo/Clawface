@@ -278,6 +278,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
 --- !u!33 &33516895512258634
 MeshFilter:
@@ -326,7 +327,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00f43707893857a44bc316e7956f5371, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hasState: 0
+  vfxModChargePrefab: {fileID: 0}
+  vfxModCooldownPrefab: {fileID: 1020022290495414, guid: 28c736c9f78d4cc4b8ea1d4a2875356d,
+    type: 2}
   pickupCollider: {fileID: 65040811693430894}
+  modCanvas: {fileID: 0}
+  energySettings:
+    timeToChargeArm: 0
+    timeToChargeLeg: 0
+    standardArmAttackSettings:
+      timeToCoolDown: 0
+      timeToAttack: 0
+      attack: 0
+      timeToHitStop: 0
+    chargedArmAttackSettings:
+      timeToCoolDown: 0
+      timeToAttack: 0
+      attack: 0
+      timeToHitStop: 0
+    standardLegAttackSettings:
+      timeToCoolDown: 0
+      timeToAttack: 0
+      attack: 0
+      timeToHitStop: 0
+    chargedLegAttackSettings:
+      timeToCoolDown: 0
+      timeToAttack: 0
+      attack: 0
+      timeToHitStop: 0
+    timeCharged: 0
+    isCoolingDown: 0
+    isActive: 0
+    hasStartedCharging: 0
   unlockColliderVolume: {fileID: 135823533767539418}
 --- !u!135 &135823533767539418
 SphereCollider:
