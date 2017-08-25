@@ -137,6 +137,8 @@ namespace Turing.LevelEditor
 
             EditorGUILayout.EndHorizontal();
             EditorGUILayout.EndVertical();
+            
+
             EditorGUILayout.BeginVertical(EditorStyles.helpBox);
 
             int objectIndex = 0;
@@ -149,10 +151,14 @@ namespace Turing.LevelEditor
             {
                 // Draw object buttons
                 _objectBrowserScrollPos = EditorGUILayout.BeginScrollView(_objectBrowserScrollPos);
-                EditorGUILayout.BeginHorizontal();
+                EditorGUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));
+
+                var buttonWidth = EditorGUIUtility.currentViewWidth / (float)_OBJECTS_PER_ROW - EditorStyles.helpBox.padding.horizontal - EditorStyles.helpBox.padding.left;
+
+                GUILayoutOption[] buttonStyle = { GUILayout.ExpandWidth(true), GUILayout.Width (buttonWidth) };
 
                 while (objectIndex < filteredObjects.Count) {
-                    if (GUILayout.Button(filteredObjects[objectIndex].prefab.name, GUILayout.ExpandWidth(true))) {
+                    if (GUILayout.Button(filteredObjects[objectIndex].prefab.name, buttonStyle)) {
                         LevelManager.Instance.SelectObjectInCategory(objectIndex, filter);
                         LevelManager.Instance.SelectTool(LevelManager.Tool.Place);
                     }

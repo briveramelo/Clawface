@@ -20,7 +20,7 @@ namespace Turing.LevelEditor
         const string _SCENEVIEW_SKIN_PATH = "LevelEditorGUISkin.guiskin";
 
         // Object browser constants
-        const int _OBJECTS_PER_ROW = 5;
+        const int _OBJECTS_PER_ROW = 4;
 
         // Object editor constants
         const float _OBJECT_EDITOR_WIDTH = 128f;
