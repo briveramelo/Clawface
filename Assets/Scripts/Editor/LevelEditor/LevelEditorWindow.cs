@@ -16,6 +16,8 @@ namespace Turing.LevelEditor
     {
         #region Constants
 
+        const float _MIN_WINDOW_WIDTH = 512f;
+
         // GUI style constants
         const string _SCENEVIEW_SKIN_PATH = "LevelEditorGUISkin.guiskin";
 
@@ -166,6 +168,7 @@ namespace Turing.LevelEditor
         {
             _Instance = GetWindow(typeof(LevelEditorWindow))
                 as LevelEditorWindow;
+            _Instance.minSize = new Vector2 (_MIN_WINDOW_WIDTH, 100f);
         }
 
         /// <summary>
