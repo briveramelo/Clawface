@@ -20,7 +20,7 @@ public abstract class SingletonMonoBehaviour<T> :
     /// <summary>
     /// Invoked when the instance of this class is initialized.
     /// </summary>
-    public static SingletonEvent OnSingletonInitializedEditor = new SingletonEvent();
+    public static UnityEvent OnSingletonInitializedEditor = new UnityEvent();
 
     #endregion
     #region Unity Callbacks
@@ -42,17 +42,9 @@ public abstract class SingletonMonoBehaviour<T> :
     #region Properties
 
     /// <summary>
-    /// Returns the active instance of this Singleton.
+    /// Returns the active instance of this Singleton (read-only).
     /// </summary>
     public static T Instance { get { return _Instance as T; } }
-
-    #endregion
-    #region Nested Classes
-
-    /// <summary>
-    /// Class for singleton-related events.
-    /// </summary>
-    public class SingletonEvent : UnityEvent { }
 
     #endregion
 }

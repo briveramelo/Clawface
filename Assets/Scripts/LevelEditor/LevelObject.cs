@@ -2,41 +2,46 @@
 
 using UnityEngine;
 
-/// <summary>
-/// Class for a level GameObject.
-/// </summary>
-[ExecuteInEditMode]
-public class LevelObject : SingletonMonoBehaviour<LevelObject> {
-
-    #region Vars
+namespace Turing.LevelEditor
+{
 
     /// <summary>
-    /// The level data this LevelObject wraps.
+    /// Class for a level GameObject.
     /// </summary>
-    [SerializeField] Level _level;
+    [ExecuteInEditMode]
+    public class LevelObject : SingletonMonoBehaviour<LevelObject>
+    {
 
-    #endregion
-    #region Unity Callbacks
+        #region Vars
 
-    new void Awake() {
+        /// <summary>
+        /// The level data this LevelObject wraps.
+        /// </summary>
+        [SerializeField] Level _level;
 
-        // Destroy the old instance
-        if (Instance != null)
-            LevelManager.Instance.DestroyLoadedObject (Instance.gameObject);
+        #endregion
+        #region Unity Callbacks
 
-        base.Awake();
+        new void Awake() {
+
+            // Destroy the old instance
+            if (Instance != null)
+                LevelManager.Instance.DestroyLoadedObject(Instance.gameObject);
+
+            base.Awake();
+        }
+
+        #endregion
+        #region Properties
+
+        /// <summary>
+        /// Gets/sets the encapsulated level.
+        /// </summary>
+        public Level Level {
+            get { return _level; }
+            set { _level = value; }
+        }
+
+        #endregion
     }
-
-    #endregion
-    #region Properties
-
-    /// <summary>
-    /// Gets/sets the encapsulated level.
-    /// </summary>
-    public Level Level {
-        get { return _level; }
-        set { _level = value; }
-    }
-
-    #endregion
 }

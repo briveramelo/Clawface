@@ -3,30 +3,75 @@
 using UnityEngine;
 using UnityEditor;
 
-[CustomPropertyDrawer(typeof(ObjectDatabase))]
-public class ObjectDatabaseDrawer : PropertyDrawer {
+namespace Turing.LevelEditor
+{
+    /// <summary>
+    /// Custom PropertyDrawer for ObjectDatabases.
+    /// </summary>
+    [CustomPropertyDrawer(typeof(ObjectDatabase))]
+    public class ObjectDatabaseDrawer : PropertyDrawer
+    {
+        #region Vars
 
-    ObjectDatabase _target;
-    SerializedProperty _dataProp;
+        /// <summary>
+        /// Target ObjectDatabase.
+        /// </summary>
+        ObjectDatabase _target;
 
-    float _partWidth;
+        /// <summary>
+        /// Database SerializedProperty.
+        /// </summary>
+        SerializedProperty _dataProp;
 
-    public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
-        _partWidth = position.width / (ObjectDataDrawer.INDEX_LABEL_PARTS + ObjectDataDrawer.PREFAB_FIELD_PARTS + ObjectDataDrawer.LIMIT_FIELD_PARTS + ObjectDataDrawer.CATEGORY_DROPDOWN_PARTS + ObjectDataDrawer.SNAPMODE_DROPDOWN_PARTS);
+        float _partWidth;
 
-        EditorGUILayout.BeginHorizontal();
-        EditorGUILayout.LabelField ("Index", EditorStyles.boldLabel, GUILayout.MinWidth(ObjectDataDrawer.INDEX_LABEL_PARTS * _partWidth));
-        EditorGUILayout.LabelField ("Prefab", EditorStyles.boldLabel, GUILayout.MinWidth(ObjectDataDrawer.PREFAB_FIELD_PARTS * _partWidth));
-        EditorGUILayout.LabelField ("Limit", EditorStyles.boldLabel, GUILayout.MinWidth(ObjectDataDrawer.LIMIT_FIELD_PARTS * _partWidth));
-        EditorGUILayout.LabelField ("Category", EditorStyles.boldLabel, GUILayout.MinWidth(ObjectDataDrawer.CATEGORY_DROPDOWN_PARTS * _partWidth));
-        EditorGUILayout.LabelField ("Snap Mode", EditorStyles.boldLabel, GUILayout.MinWidth(ObjectDataDrawer.SNAPMODE_DROPDOWN_PARTS * _partWidth));
-        EditorGUILayout.EndHorizontal();
-        EditorGUILayout.BeginVertical();
+        #endregion
+        #region Overrides
 
-        _dataProp = property.FindPropertyRelative ("_data");
-        for (int i = 0; i < _dataProp.arraySize; i++)
-            EditorGUILayout.PropertyField (_dataProp.GetArrayElementAtIndex(i));
+        public override void OnGUI(Rect position, SerializedProperty property, 
+            GUIContent label) 
+        {
+            _partWidth = position.width / (
+                ObjectDataDrawer.INDEX_LABEL_PARTS + 
+                ObjectDataDrawer.PREFAB_FIELD_PARTS + 
+                ObjectDataDrawer.LIMIT_FIELD_PARTS + 
+                ObjectDataDrawer.CATEGORY_DROPDOWN_PARTS + 
+                ObjectDataDrawer.SNAPMODE_DROPDOWN_PARTS);
 
-        EditorGUILayout.EndVertical();
+            EditorGUILayout.BeginHorizontal();
+
+            // Index field
+            EditorGUILayout.LabelField("Index", EditorStyles.boldLabel, 
+                GUILayout.MinWidth(ObjectDataDrawer.INDEX_LABEL_PARTS * _partWidth));
+
+            // Prefab field
+            EditorGUILayout.LabelField("Prefab", EditorStyles.boldLabel, 
+                GUILayout.MinWidth(ObjectDataDrawer.PREFAB_FIELD_PARTS * _partWidth));
+
+            // Limit field
+            EditorGUILayout.LabelField("Limit", EditorStyles.boldLabel, 
+                GUILayout.MinWidth(ObjectDataDrawer.LIMIT_FIELD_PARTS * _partWidth));
+
+            // Category field
+            EditorGUILayout.LabelField("Category", EditorStyles.boldLabel, 
+                GUILayout.MinWidth(ObjectDataDrawer.CATEGORY_DROPDOWN_PARTS * _partWidth));
+
+            // Snap mode field
+            EditorGUILayout.LabelField("Snap Mode", EditorStyles.boldLabel, 
+                GUILayout.MinWidth(ObjectDataDrawer.SNAPMODE_DROPDOWN_PARTS * _partWidth));
+
+            EditorGUILayout.EndHorizontal();
+
+            // Draw data
+            EditorGUILayout.BeginVertical();
+
+            _dataProp = property.FindPropertyRelative("_data");
+            for (int i = 0; i < _dataProp.arraySize; i++)
+                EditorGUILayout.PropertyField(_dataProp.GetArrayElementAtIndex(i));
+
+            EditorGUILayout.EndVertical();
+        }
+
+        #endregion
     }
 }

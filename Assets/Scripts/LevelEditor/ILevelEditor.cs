@@ -1,9 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿// ILevelEditor.cs
+
 using UnityEngine;
 
-public interface ILevelEditor {
-
+/// <summary>
+/// Interface for classes that can edit levels.
+/// </summary>
+public interface ILevelEditor 
+{
 	Camera ActiveCamera { get; }
 
     Rect SelectionRect { get; }
