@@ -68,7 +68,12 @@ namespace Turing.LevelEditor
                 if ((i + 1) >= _children.Count) {
                     var previewChild = new GameObject(("Preview" + i), typeof(MeshFilter), typeof(MeshRenderer));
                     previewChild.transform.SetParent(transform);
-                    previewChild.GetComponent<MeshRenderer>().sharedMaterial = LevelManager.Instance.PreviewMaterial;
+                    var materials = new Material[8];
+                    for (int m = 0; m < 8; m++) {
+                       materials[m] = LevelManager.Instance.PreviewMaterial;
+                    }
+                    previewChild.GetComponent<MeshRenderer>().sharedMaterials = materials;
+                    
                     _children.Add(previewChild);
                 }
 

@@ -67,7 +67,11 @@ namespace Turing.LevelEditor
                 // Add new children if necessary
                 if ((i + 1) >= _children.Count) {
                     child = new GameObject("Preview" + i, typeof(MeshFilter), typeof(MeshRenderer));
-                    child.GetComponent<MeshRenderer>().sharedMaterial = LevelManager.Instance.PreviewMaterial;
+                    var materials = new Material[8];
+                    for (int m = 0; m < 8; m++) {
+                        materials[m] = LevelManager.Instance.PreviewMaterial;
+                    }
+                    child.GetComponent<MeshRenderer>().sharedMaterials = materials;
                     child.CopyColliderFromGameObject(meshFilters[i].gameObject);
                     child.transform.SetParent(transform);
                     _children.Add(child);
