@@ -20,13 +20,9 @@ namespace Turing.LevelEditor
         /// </summary>
         const string _DEFAULT_NAME = "New Level";
 
-
-        public const int MAX_FLOORS = 5;
-
-
-        public const int FLOOR_WIDTH = 64;
-        public const int FLOOR_DEPTH = 64;
-        public const int FLOOR_HEIGHT = 10;
+        public const int LEVEL_WIDTH = 64;
+        public const int LEVEL_DEPTH = 64;
+        public const int LEVEL_HEIGHT = 10;
 
         #endregion
         #region Vars
@@ -41,7 +37,7 @@ namespace Turing.LevelEditor
         /// All floor structures in the level.
         /// </summary>
         [SerializeField]
-        FloorArray _floors = new FloorArray();
+        FloorObject _floor = new FloorObject();
 
         #endregion
         #region Constructors
@@ -51,7 +47,7 @@ namespace Turing.LevelEditor
         /// </summary>
         public Level() {
             _name = _DEFAULT_NAME;
-            _floors = new FloorArray();
+            _floor = new FloorObject();
         }
 
         #endregion
@@ -71,30 +67,31 @@ namespace Turing.LevelEditor
         /// <summary>
         /// Direct accessor (read-only).
         /// </summary>
-        public Floor this[int index] {
-            get { return _floors[index]; }
-        }
+        public FloorObject Floor { get { return _floor; } }
 
         /// <summary>
         /// Places an object in the level.
         /// </summary>
         /// <param name="index">Index of object.</param>
-        public void AddObject(int index, int floor, Vector3 position,
-            float yRotation) {
-            _floors[floor].AddObject(index, position, yRotation);
+        public void AddObject(int index, Vector3 position,
+            float yRotation) 
+        {
+            _floor.AddObject(index, position, yRotation);
         }
 
         /// <summary>
         /// Removes an object from the level.
         /// </summary>
-        public void DeleteObject(int floor, int index) {
-            _floors[floor].DeleteObject(index);
+        public void DeleteObject(int index) 
+        {
+            _floor.DeleteObject(index);
         }
 
         #endregion
         #region Overrides
 
-        public override string ToString() {
+        public override string ToString() 
+        {
             return _name;
         }
 
@@ -105,7 +102,7 @@ namespace Turing.LevelEditor
         /// Floor class holds 3D object data.
         /// </summary>
         [Serializable]
-        public class Floor
+        public class FloorObject
         {
             /// <summary>
             /// Byte values at each tile.
@@ -141,35 +138,6 @@ namespace Turing.LevelEditor
             /// Returns the array of objects on this floor.
             /// </summary>
             public ObjectArray Objects { get { return _objects; } }
-        }
-
-        /// <summary>
-        /// Serializable class wrapper for an array of floors.
-        /// </summary>
-        [Serializable]
-        public class FloorArray
-        {
-            /// <summary>
-            /// All floors in this array.
-            /// </summary>
-            [SerializeField]
-            Floor[] _floors = new Floor[MAX_FLOORS];
-
-            /// <summary>
-            /// Default constructor.
-            /// </summary>
-            public FloorArray() {
-                for (int i = 0; i < MAX_FLOORS; i++)
-                    _floors[i] = new Floor();
-            }
-
-            /// <summary>
-            /// Direct accessor.
-            /// </summary>
-            public Floor this[int i] {
-                get { return _floors[i]; }
-                set { _floors[i] = value; }
-            }
         }
 
         /// <summary>

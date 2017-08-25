@@ -89,10 +89,10 @@ namespace Turing.LevelEditor
         GameObject _loadedLevelObject;
 
         /// <summary>
-        /// GameObjects representing the floors of the loaded level.
+        /// GameObject representing the floor of the loaded level.
         /// </summary>
         [SerializeField]
-        GameObject[] _floorObjects;
+        GameObject _floorObject;
 
         /// <summary>
         /// All currently loaded objects in the editor.
@@ -110,12 +110,6 @@ namespace Turing.LevelEditor
         /// Are there unsaved changes?
         /// </summary>
         bool _dirty = false;
-
-        /// <summary>
-        /// Index of floor that is currently being edited.
-        /// </summary>
-        [SerializeField]
-        int _selectedFloor = 0;
 
         /// <summary>
         /// Plane representing current editing y-level.
@@ -292,11 +286,6 @@ namespace Turing.LevelEditor
         public bool HasSelectedObjectForPlacement { get { return _selectedObjectIndexForPlacement != -1; } }
 
         /// <summary>
-        /// Returns the currently selected floor (read-only).
-        /// </summary>
-        public int SelectedFloor { get { return _selectedFloor; } }
-
-        /// <summary>
         /// Returns the current editing y-value (read-only).
         /// </summary>
         public int CurrentYValue { get { return _currentYPosition; } }
@@ -465,7 +454,6 @@ namespace Turing.LevelEditor
             _filter = ObjectDatabase.Category.Block;
             CreateAssetPreview();
             _selectedObjectIndexForPlacement = -1;
-            _selectedFloor = 0;
             _currentYPosition = 0;
             _currentPlacementYRotation = 0f;
             _editingPlane = new Plane(Vector3.up, Vector3.zero);
@@ -674,7 +662,7 @@ namespace Turing.LevelEditor
         /// </summary>
         public Level.ObjectAttributes AttributesOfObject(GameObject obj) {
             var index = LevelIndexOfObject(obj);
-            return _loadedLevel[_selectedFloor][index];
+            return _loadedLevel.Floor[index];
         }
 
         /// <summary>
@@ -689,7 +677,7 @@ namespace Turing.LevelEditor
         /// </summary>
         public byte ObjectIndexOfObject(GameObject obj) {
             var index = LevelIndexOfObject(obj);
-            var data = _loadedLevel[_selectedFloor][index];
+            var data = _loadedLevel.Floor[index];
             if (data == null) {
                 Debug.LogError("Object " + obj.name + " not found in the level file!");
                 return byte.MaxValue;
@@ -698,36 +686,10 @@ namespace Turing.LevelEditor
         }
 
         /// <summary>
-        /// Moves editing up by one floor.
-        /// </summary>
-        public void UpOneFloor() {
-            if (_selectedFloor < Level.MAX_FLOORS - 1) {
-                CleanupFloor();
-                _selectedFloor++;
-                _currentYPosition = 0;
-                UpdateHeight();
-                ReconstructFloor();
-            }
-        }
-
-        /// <summary>
-        /// Moves editing down by one floor.
-        /// </summary>
-        public void DownOneFloor() {
-            if (_selectedFloor > 0) {
-                CleanupFloor();
-                _selectedFloor--;
-                _currentYPosition = 0;
-                UpdateHeight();
-                ReconstructFloor();
-            }
-        }
-
-        /// <summary>
         /// Moves the editing plane up by one tile.
         /// </summary>
         public void IncrementY() {
-            if (_currentYPosition < Level.FLOOR_HEIGHT - TILE_UNIT_WIDTH) {
+            if (_currentYPosition < Level.LEVEL_HEIGHT - TILE_UNIT_WIDTH) {
                 _currentYPosition++;
                 UpdateHeight();
             }
@@ -748,7 +710,7 @@ namespace Turing.LevelEditor
         /// </summary>
         public void UpdateHeight() {
             _editingPlane.SetNormalAndPosition(Vector3.up,
-                new Vector3(0f, _selectedFloor * Level.FLOOR_HEIGHT + _currentYPosition, 0f)
+                new Vector3(0f, _currentYPosition, 0f)
                 );
         }
 
@@ -822,20 +784,21 @@ namespace Turing.LevelEditor
         /// <summary>
         /// Checks the placement of the preview asset to see if it is valid.
         /// </summary>
-        public bool CheckPlacement() {
+        public bool CheckPlacement() 
+        {
             // Check x in range
             float x = _cursorPosition.x;
-            if (x < -0.05f || x >= (float)Level.FLOOR_WIDTH * TILE_UNIT_WIDTH + 0.05f) return false;
+            if (x < -0.05f || x >= (float)Level.LEVEL_WIDTH * TILE_UNIT_WIDTH + 0.05f) return false;
 
             // Check y in range
             float y = _cursorPosition.y;
-            float minY = _selectedFloor * Level.FLOOR_HEIGHT * TILE_UNIT_WIDTH - 0.05f;
-            float maxY = (_selectedFloor + 1) * Level.FLOOR_HEIGHT * TILE_UNIT_WIDTH + 0.05f;
+            float minY = - 0.05f;
+            float maxY = Level.LEVEL_HEIGHT * TILE_UNIT_WIDTH + 0.05f;
             if (y < minY || y >= maxY) return false;
 
             // Check z in range
             float z = _cursorPosition.z;
-            if (z < -0.05f || z >= (float)Level.FLOOR_DEPTH * TILE_UNIT_WIDTH + 0.05f) return false;
+            if (z < -0.05f || z >= (float)Level.LEVEL_DEPTH * TILE_UNIT_WIDTH + 0.05f) return false;
 
             return true;
         }
@@ -843,7 +806,8 @@ namespace Turing.LevelEditor
         /// <summary>
         /// Resets the currently selected tool (to placement).
         /// </summary>
-        public void ResetTool() {
+        public void ResetTool() 
+        {
             _selectedObjectIndexForPlacement = -1;
             DisablePreview();
             _currentTool = Tool.Select;
@@ -852,7 +816,8 @@ namespace Turing.LevelEditor
         /// <summary>
         /// Returns true if allowed to place more of the object with the given index.
         /// </summary>
-        public bool CanPlaceAnotherObject(int index) {
+        public bool CanPlaceAnotherObject(int index) 
+        {
             var limit = ObjectDatabaseManager.Instance.GetObjectLimit(index);
             if (limit < 0) return true;
 
@@ -862,23 +827,26 @@ namespace Turing.LevelEditor
         /// <summary>
         /// Returns true if allowed to place more of the currently selected object.
         /// </summary>
-        public bool CanPlaceAnotherCurrentObject() {
+        public bool CanPlaceAnotherCurrentObject() 
+        {
             return CanPlaceAnotherObject(_selectedObjectIndexForPlacement);
         }
 
         /// <summary>
         /// Gets the object attributes of the given object.
         /// </summary>
-        public Level.ObjectAttributes GetAttributesOfObject(GameObject obj) {
+        public Level.ObjectAttributes GetAttributesOfObject(GameObject obj) 
+        {
             var index = _loadedSpawners.IndexOf(obj.GetComponent<ObjectSpawner>());
-            var data = _loadedLevel[_selectedFloor][index];
+            var data = _loadedLevel.Floor[index];
             return data;
         }
 
         /// <summary>
         /// Creates one of the currently selected objects at the cursor.
         /// </summary>
-        public void CreateCurrentSelectedObjectAtCursor() {
+        public void CreateCurrentSelectedObjectAtCursor() 
+        {
             CreateObject((byte)_selectedObjectIndexForPlacement, _cursorPosition, LevelEditorAction.ActionType.Normal);
         }
 
@@ -892,13 +860,13 @@ namespace Turing.LevelEditor
                 throw new IndexOutOfRangeException("Invalid index! " + index);
 
             // Add object to level file
-            _loadedLevel.AddObject((int)index, _selectedFloor, position, _currentPlacementYRotation);
+            _loadedLevel.AddObject((int)index, position, _currentPlacementYRotation);
 
             Debug.Log(_currentPlacementYRotation);
 
             // Create spawner
             GameObject spawner = CreateSpawner(index);
-            spawner.transform.SetParent(_floorObjects[_selectedFloor].transform);
+            spawner.transform.SetParent(_floorObject.transform);
             spawner.transform.position = position;
             spawner.transform.localRotation = Quaternion.Euler(0f, _currentPlacementYRotation, 0f);
             _loadedSpawners.Add(spawner.GetComponent<ObjectSpawner>());
@@ -941,7 +909,7 @@ namespace Turing.LevelEditor
             }
 
             // Delete object from level
-            _loadedLevel.DeleteObject(_selectedFloor, levelIndex);
+            _loadedLevel.DeleteObject(levelIndex);
 
             // Delete spawner
             _objectCounts[deletedObjectIndex]--;
@@ -1132,7 +1100,6 @@ namespace Turing.LevelEditor
             _loadedLevel = null;
             _loadedLevelPath = "";
             SelectTool(Tool.Select);
-            _selectedFloor = 0;
 
             _undoStack.Clear();
             _redoStack.Clear();
@@ -1189,8 +1156,9 @@ namespace Turing.LevelEditor
         /// <summary>
         /// Spawns objects from the currently loaded level.
         /// </summary>
-        void ReconstructFloor() {
-            var objects = _loadedLevel[_selectedFloor].Objects;
+        void ReconstructFloor() 
+        {
+            var objects = _loadedLevel.Floor.Objects;
             for (int i = 0; i < objects.Length; i++) {
                 var attribs = objects[i];
                 byte index;
@@ -1206,7 +1174,7 @@ namespace Turing.LevelEditor
 
                 // Create spawner
                 var spawner = CreateSpawner(index);
-                spawner.transform.parent = _floorObjects[_selectedFloor].transform;
+                spawner.transform.parent = _floorObject.transform;
                 spawner.transform.position = attribs.Position;
                 spawner.transform.rotation = Quaternion.Euler(attribs.EulerRotation);
                 spawner.transform.localScale = attribs.Scale;
@@ -1217,20 +1185,20 @@ namespace Turing.LevelEditor
         /// <summary>
         /// Creates base level objects.
         /// </summary>
-        void SetupLevelObjects() {
+        void SetupLevelObjects() 
+        {
             _loadedLevelObject = new GameObject(_loadedLevel.Name + " (Loaded Level)", typeof(LevelObject));
-            _floorObjects = new GameObject[Level.MAX_FLOORS];
-            for (int floor = 0; floor < Level.MAX_FLOORS; floor++) {
-                _floorObjects[floor] = new GameObject("Floor " + floor.ToString());
-                _floorObjects[floor].transform.SetParent(_loadedLevelObject.transform);
-            }
+            _floorObject = new GameObject("Floor");
+            _floorObject.transform.SetParent(_loadedLevelObject.transform);
         }
 
         /// <summary>
         /// Counts the number of each object in the scene.
         /// </summary>
-        void GetObjectCounts() {
-            foreach (var obj in _loadedSpawners) {
+        void GetObjectCounts()
+        {
+            foreach (var obj in _loadedSpawners) 
+            {
                 var index = ObjectIndexOfObject(obj.Template);
                 _objectCounts[index]++;
             }
@@ -1290,7 +1258,7 @@ namespace Turing.LevelEditor
                 _loadedLevelObject = null;
             }
 
-            for (int i = 0; i < _floorObjects.Length; i++) _floorObjects[i] = null;
+            _floorObject = null;
         }
 
         /// <summary>

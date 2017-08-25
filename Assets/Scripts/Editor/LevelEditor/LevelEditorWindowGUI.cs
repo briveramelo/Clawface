@@ -322,15 +322,6 @@ namespace Turing.LevelEditor
             GUILayout.BeginArea(_sidePanelRect, _sceneViewGUISkin.window);
             GUILayout.BeginVertical();
 
-            // Floor selector
-            GUILayout.BeginVertical();
-            GUILayout.Label("Floor", GUILayout.ExpandWidth(true));
-            DrawEditorButton("^", LevelManager.Instance.UpOneFloor);
-            GUILayout.Box(LevelManager.Instance.SelectedFloor.ToString());
-            DrawEditorButton("v", LevelManager.Instance.DownOneFloor);
-            GUILayout.EndVertical();
-            GUILayout.Space(32);
-
             // Y selector
             GUILayout.BeginVertical();
             GUILayout.Label("Y-Value", GUILayout.ExpandWidth(true));

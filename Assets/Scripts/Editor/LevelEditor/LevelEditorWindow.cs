@@ -38,7 +38,7 @@ namespace Turing.LevelEditor
 
         // Side panel constants
         const float _SIDEPANEL_WIDTH = 64f;
-        const float _SIDEPANEL_HEIGHT = 256f;
+        const float _SIDEPANEL_HEIGHT = 128f;
 
         // Action stack constants
         const float _ACTION_STACK_Y_OFFSET = 128f;
@@ -847,43 +847,42 @@ namespace Turing.LevelEditor
             if (LevelManager.Instance == null) return;
             if (!LevelManager.Instance.GridEnabled) return;
 
-            var height = LevelManager.Instance.SelectedFloor * Level.FLOOR_HEIGHT + LevelManager.Instance.CurrentYValue;
+            var height = LevelManager.Instance.CurrentYValue;
             float w = LevelManager.TILE_UNIT_WIDTH;
 
             Color lineColor = new Color(0.5f, 0.5f, 0.5f, 0.5f);
             Color edgeColor = new Color(0.65f, 0.65f, 0.65f, 0.65f);
 
             // Draw x lines
-            for (int x = 0; x <= Level.FLOOR_WIDTH; x++) {
-                Handles.color = (x == 0 || x == Level.FLOOR_WIDTH) ? edgeColor : lineColor;
+            for (int x = 0; x <= Level.LEVEL_WIDTH; x++) {
+                Handles.color = (x == 0 || x == Level.LEVEL_WIDTH) ? edgeColor : lineColor;
                 Handles.DrawLine(new Vector3((x - 0.5f) * w, height, -0.5f * w),
-                    new Vector3((x - 0.5f) * w, height, (Level.FLOOR_DEPTH - 0.5f) * w));
+                    new Vector3((x - 0.5f) * w, height, (Level.LEVEL_DEPTH - 0.5f) * w));
             }
 
             // Draw z lines
-            for (int z = 0; z <= Level.FLOOR_DEPTH; z++) {
-                Handles.color = (z == 0 || z == Level.FLOOR_DEPTH) ? edgeColor : lineColor;
-                Handles.DrawLine(new Vector3(-0.5f * w, height, (z - 0.5f) * w), new Vector3((Level.FLOOR_WIDTH - 0.5f) * w, height, (z - 0.5f) * w));
+            for (int z = 0; z <= Level.LEVEL_DEPTH; z++) {
+                Handles.color = (z == 0 || z == Level.LEVEL_DEPTH) ? edgeColor : lineColor;
+                Handles.DrawLine(new Vector3(-0.5f * w, height, (z - 0.5f) * w), new Vector3((Level.LEVEL_WIDTH - 0.5f) * w, height, (z - 0.5f) * w));
             }
         }
 
         public void DrawRoomBounds(SceneView sc) 
         {
             if (LevelManager.Instance == null) return;
-            var floor = LevelManager.Instance.SelectedFloor;
             float w = LevelManager.TILE_UNIT_WIDTH;
 
             // Calculate upper points
-            var u1 = new Vector3(-0.5f, (floor + 1) * Level.FLOOR_HEIGHT, -0.5f) * w;
-            var u2 = new Vector3(Level.FLOOR_WIDTH - 0.5f, (floor + 1) * Level.FLOOR_HEIGHT, -0.5f) * w;
-            var u3 = new Vector3(Level.FLOOR_WIDTH - 0.5f, (floor + 1) * Level.FLOOR_HEIGHT, Level.FLOOR_DEPTH - 0.5f) * w;
-            var u4 = new Vector3(-0.5f, (floor + 1) * Level.FLOOR_HEIGHT, Level.FLOOR_DEPTH - 0.5f) * w;
+            var u1 = new Vector3(-0.5f, Level.LEVEL_HEIGHT, -0.5f) * w;
+            var u2 = new Vector3(Level.LEVEL_WIDTH - 0.5f, Level.LEVEL_HEIGHT, -0.5f) * w;
+            var u3 = new Vector3(Level.LEVEL_WIDTH - 0.5f, Level.LEVEL_HEIGHT, Level.LEVEL_DEPTH - 0.5f) * w;
+            var u4 = new Vector3(-0.5f, Level.LEVEL_HEIGHT, Level.LEVEL_DEPTH - 0.5f) * w;
 
             // Calculate lower points
-            var d1 = new Vector3(-0.5f, (floor) * Level.FLOOR_HEIGHT, -0.5f) * w;
-            var d2 = new Vector3(Level.FLOOR_WIDTH - 0.5f, (floor) * Level.FLOOR_HEIGHT, -0.5f) * w;
-            var d3 = new Vector3(Level.FLOOR_WIDTH - 0.5f, (floor) * Level.FLOOR_HEIGHT, Level.FLOOR_DEPTH - 0.5f) * w;
-            var d4 = new Vector3(-0.5f, (floor) * Level.FLOOR_HEIGHT, Level.FLOOR_DEPTH - 0.5f) * w;
+            var d1 = new Vector3(-0.5f, Level.LEVEL_HEIGHT, -0.5f) * w;
+            var d2 = new Vector3(Level.LEVEL_WIDTH - 0.5f, Level.LEVEL_HEIGHT, -0.5f) * w;
+            var d3 = new Vector3(Level.LEVEL_WIDTH - 0.5f, Level.LEVEL_HEIGHT, Level.LEVEL_DEPTH - 0.5f) * w;
+            var d4 = new Vector3(-0.5f, Level.LEVEL_HEIGHT, Level.LEVEL_DEPTH - 0.5f) * w;
 
             Handles.color = Color.white;
 
