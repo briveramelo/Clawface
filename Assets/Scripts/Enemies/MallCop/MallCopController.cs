@@ -57,12 +57,13 @@ public abstract class MallCopController : AIController {
 
     public override void ResetForRebirth() {
         CurrentState = states.patrol;
-        if (mod==null || mod.GetWielderInstanceID()!=gameObject.GetInstanceID()) {
-            Debug.Log(mod.GetWielderInstanceID() + " " + gameObject.GetInstanceID());
-            GameObject newMod = Instantiate(modPrefab);
-            mod = newMod.GetComponent<Mod>();            
-        }
-        mod.transform.Reset(modMemento);
+        //if (mod==null || mod.GetWielderInstanceID()!=gameObject.GetInstanceID()) {
+        //    Debug.Log(mod.GetWielderInstanceID() + " " + gameObject.GetInstanceID());
+        //    GameObject newMod = Instantiate(modPrefab);
+        //    mod = newMod.GetComponent<Mod>();
+        //}
+        mod.transform.Reset(modMemento);        
+        mod.DeactivateModCanvas();            
         base.ResetForRebirth();
     }
 

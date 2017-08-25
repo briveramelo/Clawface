@@ -37,8 +37,8 @@ public class GrapplingBot : MonoBehaviour, IStunnable, IDamageable, ISpawnable {
         }
     }
 
-    void IDamageable.TakeDamage(float damage) {
-        myStats.TakeDamage(damage);
+    void IDamageable.TakeDamage(Damager damager) {
+        myStats.TakeDamage(damager.damage);
         if (myStats.health <= 0)
         {
             OnDeath();
@@ -48,6 +48,11 @@ public class GrapplingBot : MonoBehaviour, IStunnable, IDamageable, ISpawnable {
                 controller.UpdateState(EGrapplingBotState.Approach);
             }
         }
+    }
+    
+    float IDamageable.GetHealth()
+    {
+        return myStats.health;
     }    
 
     private void ResetForRebirth() {
@@ -73,6 +78,7 @@ public class GrapplingBot : MonoBehaviour, IStunnable, IDamageable, ISpawnable {
                 will.onDeath();
             }
             will.deathDocumented = true;
+            UpgradeManager.Instance.AddEXP(Mathf.FloorToInt(myStats.exp));
             GameObject mallCopParts = ObjectPool.Instance.GetObject(PoolObjectType.MallCopExplosion);
             if (mallCopParts) {
                 mallCopParts.transform.position = transform.position + Vector3.up * 3f;

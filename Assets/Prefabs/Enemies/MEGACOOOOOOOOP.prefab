@@ -59,7 +59,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1056045280973424
 GameObject:
   m_ObjectHideFlags: 0
@@ -138,7 +138,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1228362043265566
 GameObject:
   m_ObjectHideFlags: 1
@@ -186,7 +186,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1324377458658862
 GameObject:
   m_ObjectHideFlags: 1
@@ -745,7 +745,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1376787468233440}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -13.091151, y: -8.624619e-17, z: -5.0579085}
+  m_LocalPosition: {x: -0.16559505, y: 0, z: -6.64669}
   m_LocalScale: {x: 25, y: 25, z: 25}
   m_Children:
   - {fileID: 4797836993244680}
@@ -1020,6 +1020,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
 --- !u!23 &23507041399502920
 MeshRenderer:
@@ -1051,6 +1052,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
 --- !u!23 &23575324942922384
 MeshRenderer:
@@ -1082,6 +1084,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
 --- !u!23 &23836621340443368
 MeshRenderer:
@@ -1113,6 +1116,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
 --- !u!33 &33257489031013650
 MeshFilter:
@@ -1197,19 +1201,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2f4d5999add7964caaca967e30d2f48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skinGlowScript: {fileID: 114542979473121216}
+  controller: {fileID: 0}
+  properties:
+    runMultiplier: 0
+    maxChaseTime: 0
+    walkTime: 0
+    numShocksToStun: 0
+    twitchRange: 0
+    twitchTime: 0
+  velBody: {fileID: 0}
+  glowObject: {fileID: 0}
+  animator: {fileID: 95754879695407412}
   myStats: {fileID: 114736910705748888}
   mySkin: {fileID: 1558599077418482, guid: d3ea349167ea0b042acea2cceeb31643, type: 2}
-  rigbod: {fileID: 54178199926880820}
-  foot: {fileID: 4063796564752010}
-  animator: {fileID: 95754879695407412}
+  copUICanvas: {fileID: 0}
   mod: {fileID: 114982806279320056}
-  runMultiplier: 2
-  attackTime: 8.2
-  numShocksToStun: 2
-  twitchRange: 0.17
-  twitchTime: 1
-  rotationSpeed: 35.7
+  bloodEmissionLocation: {fileID: 0}
 --- !u!114 &114415375127894608
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1234,6 +1241,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8ec0fb3ff2a5454e8863609a58514d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isGlowing: 0
   glowColor: {r: 0.024221476, g: 0.7904545, b: 0.8235294, a: 0}
   lerpFactor: 0.052
 --- !u!114 &114736910705748888
@@ -1247,13 +1255,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c7112b3692977d4987101d9add4e51f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statsObject:
-    attack: 0
-    defense: 0
-    health: 0
-    moveSpeed: 0
-    miniMapRange: 0
-    rangedAccuracy: 0
+  attack: 0
+  defense: 0
+  health: 0
+  maxHealth: 0
+  moveSpeed: 0
+  rangedAccuracy: 0
+  shotSpeed: 0
+  shotPushForce: 0
+  skinnableHealth: 0
+  exp: 5000
 --- !u!114 &114982806279320056
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1265,10 +1276,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc76f5160f9b98448989422952af959c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hasState: 0
+  vfxModChargePrefab: {fileID: 0}
   pickupCollider: {fileID: 65116208745554860}
-  attackBoostValue: 1.15
-  attackCollider: {fileID: 136840465921444948}
+  modCanvas: {fileID: 0}
+  energySettings:
+    timeToChargeArm: 0
+    timeToChargeLeg: 0
+    standardArmAttackSettings:
+      timeToCoolDown: 0
+      timeToAttack: 0
+      attack: 0
+      timeToHitStop: 0
+    chargedArmAttackSettings:
+      timeToCoolDown: 0
+      timeToAttack: 0
+      attack: 0
+      timeToHitStop: 0
+    standardLegAttackSettings:
+      timeToCoolDown: 0
+      timeToAttack: 0
+      attack: 0
+      timeToHitStop: 0
+    chargedLegAttackSettings:
+      timeToCoolDown: 0
+      timeToAttack: 0
+      attack: 0
+      timeToHitStop: 0
+    timeCharged: 0
+    isCoolingDown: 0
+    isActive: 0
+    hasStartedCharging: 0
   impactEffect: {fileID: 0}
+  capsuleBounds:
+    start: {fileID: 0}
+    end: {fileID: 0}
+    radius: 0
 --- !u!135 &135559231117264428
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -1374,6 +1417,7 @@ SkinnedMeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
   serializedVersion: 2
   m_Quality: 0

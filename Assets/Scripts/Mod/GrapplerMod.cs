@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MovementEffects;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,89 +7,167 @@ using UnityEngine;
 public class GrapplerMod : Mod {
 
     #region Public fields
+    public IMovable WielderMovable { get { return wielderMovable; } }
     #endregion
 
     #region Serialized Unity Inspector fields
+    [SerializeField] private Hook hook;
+    [SerializeField] private float jumpForce;
+    [SerializeField] private float jumpForceMultiplier;
+    [SerializeField] private float maxHookLengthStandard;
+    [SerializeField] private float maxHookLengthCharged;    
     [SerializeField]
-    private Hook hook;
+    private float tornadoSpeed;
+    [SerializeField]
+    private float standardTornadoFallingForce;
+    [SerializeField]
+    private float chargedTornadoFallingForce;
+    [SerializeField]
+    private float tornadoDamageBoxWidth;
     #endregion
 
     #region Private Fields
-    private SharedVariables sharedVariables;
-    private bool rotateHook;
+    private bool hitTargetThisShot;
+    private bool tornadoMode;
+    private float angle;    
     #endregion
 
     #region Unity Lifecycle
     // Use this for initialization
-    void Start () {
-        sharedVariables = new SharedVariables();
-        sharedVariables.throwHook = false;
-        sharedVariables.retractHook = false;
-        rotateHook = false;
+    protected override void Awake() {
         type = ModType.Grappler;
         category = ModCategory.Ranged;
-        hook.Init(ref sharedVariables);
-        if (modCanvas)
-        {
-            modCanvas.SetActive(false);
-        }
+        angle = 0f;
+        base.Awake();
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    protected override void Update () {
         if (wielderMovable != null)
         {
             if (getModSpot() != ModSpot.Legs)
             {
-                transform.forward = wielderMovable.GetForward();
+                Vector3 forward = wielderMovable.GetForward().normalized;
+                forward.y = 0f;
+                transform.forward = forward;
             }
-        }
-        if (sharedVariables.throwHook)
-        {
-            hook.Throw();
-        }
-        else if (sharedVariables.retractHook)
-        {
-            hook.Retract();
-        }
-        if (rotateHook)
-        {
-            hook.Rotate();
-        }
+        }        
 	}
     #endregion
 
     #region Public Methods
-    public override void Activate()
-    {
-        if (!sharedVariables.throwHook && !sharedVariables.retractHook)
+    public override void Activate(Action onCompleteCoolDown=null, Action onActivate=null)
+    {                            
+        if (getModSpot() != ModSpot.Legs)
         {
-            sharedVariables.throwHook = true;
+            onActivate = () => {
+                hook.maxLength = IsCharged() ? maxHookLengthCharged : maxHookLengthStandard;
+                SFXManager.Instance.Play(SFXType.GrapplingGun_Shoot, transform.position);
+            };
+        }        
+        base.Activate(onCompleteCoolDown, onActivate);
+    }    
+
+    protected override void BeginChargingArms(){ }
+    protected override void RunChargingArms(){ }
+    
+    protected override void ActivateStandardArms(){ hook.Throw(false); }
+    protected override void ActivateChargedArms(){ hook.Throw(true); }
+
+    protected override void BeginChargingLegs(){ }
+    protected override void RunChargingLegs(){ }
+    protected override void ActivateStandardLegs(){
+        Jump();
+        Tornado();
+    }    
+
+    protected override void ActivateChargedLegs(){        
+        Jump();        
+        Tornado();
+    }
+
+    private void Jump() {
+        if (wielderMovable.IsGrounded()) {            
+            float force = energySettings.IsCharged ? jumpForce * jumpForceMultiplier : jumpForce;
+            wielderMovable.AddDecayingForce(Vector3.up * force);
         }
     }
 
-    public override void AlternateActivate(bool isHeld, float holdTime)
+    private void Tornado()
     {
-        if (isHeld && !sharedVariables.specialAttack)
+        if (!wielderMovable.IsGrounded() && !tornadoMode)
         {
-            rotateHook = true;
-            sharedVariables.specialAttack = true;
-        }
-        else if(!isHeld)
-        {
-            rotateHook = false;
-            sharedVariables.throwHook = true;            
+            SFXManager.Instance.Play(SFXType.GrapplingGun_Shoot, transform.position);
+            Timing.RunCoroutine(StartTornado(),Segment.Update);
         }
     }
 
-    public override void AttachAffect(ref Stats wielderStats, IMovable wielderMovable)
+    private IEnumerator<float> StartTornado()
     {
-        isAttached = true;
-        this.wielderMovable = wielderMovable;
-        sharedVariables.wielderMovable = wielderMovable;
-        this.wielderStats = wielderStats;
-        pickupCollider.enabled = false;
-        sharedVariables.modSpot = getModSpot();
+        tornadoMode = true;
+        hook.ExtendHook();
+        while (!wielderMovable.IsGrounded())
+        {            
+            Vector3 forward = wielderMovable.GetForward();
+            forward.y = 0f;
+            transform.forward = forward;
+            angle += tornadoSpeed;            
+            wielderStats.gameObject.transform.rotation = Quaternion.AngleAxis(angle, Vector3.up);            
+            float force = IsCharged() ? chargedTornadoFallingForce : standardTornadoFallingForce;
+            wielderMovable.AddDecayingForce(Vector3.up * force);
+            DamageEnemies();
+            yield return 0;
+        }
+        angle = 0f;
+        hook.RetractHook();
+        transform.forward = Vector3.down;
+        
+        tornadoMode = false;
+        yield return 0;
+    }
+
+    private void DamageEnemies()
+    {
+        RaycastHit hit;
+        if(Physics.BoxCast(transform.position, new Vector3(tornadoDamageBoxWidth, 0f, hook.GetMaxLength()), transform.forward, out hit, Quaternion.identity, hook.GetMaxLength()*2, LayerMask.GetMask(Strings.Tags.ENEMY)))
+        {
+            IDamageable damageable = hit.transform.gameObject.GetComponent<IDamageable>();
+            if (damageable != null)
+            {
+                damager.damage = IsCharged() ? energySettings.chargedLegAttackSettings.attack : energySettings.standardLegAttackSettings.attack;
+                damager.damagerType = DamagerType.GrapplingHook;
+                damager.impactDirection = transform.forward;
+
+                if (wielderStats.gameObject.CompareTag(Strings.Tags.PLAYER))
+                {
+                    AnalyticsManager.Instance.AddModDamage(ModType.Grappler, damager.damage);
+
+                    if (damageable.GetHealth() - damager.damage <= 0.01f)
+                    {
+                        AnalyticsManager.Instance.AddModKill(ModType.Grappler);
+                    }
+                }
+                else
+                {
+                    AnalyticsManager.Instance.AddEnemyModDamage(ModType.Grappler, damager.damage);
+                }
+
+
+                damageable.TakeDamage(damager);
+            }
+        }
+    }
+
+    public override void AttachAffect(ref Stats wielderStats, IMovable wielderMovable){
+        base.AttachAffect(ref wielderStats, wielderMovable);
+        if (wielderStats.gameObject.CompareTag(Strings.Tags.PLAYER))
+        {
+            hook.SetShooterType(true);
+        }
+        else
+        {
+            hook.SetShooterType(false);
+        }
     }
 
     public override void DeActivate()
@@ -96,46 +175,18 @@ public class GrapplerMod : Mod {
         
     }
 
-    public override void DetachAffect()
-    {
-        isAttached = false;
-        pickupCollider.enabled = true;
-        sharedVariables.wielderMovable = null;
-        wielderMovable = null;
-        sharedVariables.modSpot = ModSpot.Default;
+    public override void DetachAffect(){
+        base.DetachAffect();
     }
 
-    public bool HitTargetThisShot() { return sharedVariables.hitTargetThisShot; }
+    public bool GetHitTargetThisShot() { return hitTargetThisShot; }
+    public void SetHitTargetThisShot(bool hitTarget) { hitTargetThisShot = hitTarget;}
     #endregion
 
     #region Private Methods
-    public override void ActivateModCanvas()
-    {
-        if (modCanvas && !isAttached)
-        {
-            modCanvas.SetActive(true);
-        }
-    }
-
-    public override void DeactivateModCanvas()
-    {
-        if (modCanvas)
-        {
-            modCanvas.SetActive(false);
-        }
-    }
     #endregion
 
     #region Private Structures
-    public class SharedVariables
-    {
-        public bool throwHook;
-        public bool retractHook;
-        public bool specialAttack;
-        public bool hitTargetThisShot;
-        public IMovable wielderMovable;
-        public ModSpot modSpot;
-    }
     #endregion
 
 }

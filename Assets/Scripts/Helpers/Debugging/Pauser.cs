@@ -3,12 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class Pauser : Singleton<Pauser>
+public class Pauser : MonoBehaviour
 {
 
-    protected Pauser() { }
+    public static Pauser Instance;
 
     private bool isPaused;
+
+    private void Awake() {
+        if (Instance!=null) {
+            Destroy(gameObject);
+        }
+    }
 
 
     // Update is called once per frame
@@ -22,9 +28,10 @@ public class Pauser : Singleton<Pauser>
 
     void Pause()
     {
-        //AudioManager.Instance.PlaySFX(SFXType.Pause);
+        //SFXManager.Instance.Play(SFXType.Pause);
         //TODO display pause menu
         isPaused = !isPaused;
         Time.timeScale = isPaused ? 0 : 1;
     }
+    
 }

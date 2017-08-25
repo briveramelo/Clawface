@@ -9,7 +9,7 @@ namespace Turing.Audio {
     /// Custom editor for AudioGroups.
     /// </summary>
     [CustomEditor(typeof(AudioGroup))]
-    public class AudioGroupEditor : Editor {
+    public sealed class AudioGroupEditor : Editor {
 
         #region Consts
 
@@ -30,6 +30,9 @@ namespace Turing.Audio {
         SerializedProperty _groupTypeProp;
         SerializedProperty _loopProp;
         SerializedProperty _playOnAwakeProp;
+        SerializedProperty _spatialBlendProp;
+        SerializedProperty _minDistanceProp;
+        SerializedProperty _maxDistanceProp;
         SerializedProperty _changePitchEachLoopProp;
         SerializedProperty _bassChannelProp;
         SerializedProperty _midChannelProp;
@@ -45,23 +48,26 @@ namespace Turing.Audio {
         #endregion
         #region Unity Callbacks
 
-        private void OnEnable() {
+        void OnEnable() {
             _target = target as AudioGroup;
             _serializedTarget = new SerializedObject(_target);
-            _groupTypeProp           = _serializedTarget.FindProperty("_groupType");
-            _loopProp                = _serializedTarget.FindProperty("_loop");
-            _playOnAwakeProp         = _serializedTarget.FindProperty("_playOnAwake");
+            _groupTypeProp = _serializedTarget.FindProperty("_groupType");
+            _loopProp = _serializedTarget.FindProperty("_loop");
+            _playOnAwakeProp = _serializedTarget.FindProperty("_playOnAwake");
+            _spatialBlendProp = _serializedTarget.FindProperty("_spatialBlend");
+            _minDistanceProp = _serializedTarget.FindProperty ("_minDistance");
+            _maxDistanceProp = _serializedTarget.FindProperty ("_maxDistance");
             _changePitchEachLoopProp = _serializedTarget.FindProperty("_changePitchEachLoop");
-            _bassChannelProp         = _serializedTarget.FindProperty("_bassChannel");
-            _midChannelProp          = _serializedTarget.FindProperty("_midChannel");
-            _trebleChannelProp       = _serializedTarget.FindProperty("_trebleChannel");
-            _standardChannelProp     = _serializedTarget.FindProperty("_standardChannel");
-            _elementChannelsProp     = _serializedTarget.FindProperty("_elementChannels");
-            _useVolumeEnvelopeProp   = _serializedTarget.FindProperty("_useVolumeEnvelope");
-            _volumeEnvelopeProp      = _serializedTarget.FindProperty("_volumeEnvelope");
-            _randomPitchProp         = _serializedTarget.FindProperty("_randomPitch");
-            _pitchProp               = _serializedTarget.FindProperty("_pitch");
-            _pitchRangeProp          = _serializedTarget.FindProperty("_pitchRange");
+            _bassChannelProp = _serializedTarget.FindProperty("_bassChannel");
+            _midChannelProp = _serializedTarget.FindProperty("_midChannel");
+            _trebleChannelProp = _serializedTarget.FindProperty("_trebleChannel");
+            _standardChannelProp = _serializedTarget.FindProperty("_standardChannel");
+            _elementChannelsProp = _serializedTarget.FindProperty("_elementChannels");
+            _useVolumeEnvelopeProp = _serializedTarget.FindProperty("_useVolumeEnvelope");
+            _volumeEnvelopeProp = _serializedTarget.FindProperty("_volumeEnvelope");
+            _randomPitchProp = _serializedTarget.FindProperty("_randomPitch");
+            _pitchProp = _serializedTarget.FindProperty("_pitch");
+            _pitchRangeProp = _serializedTarget.FindProperty("_pitchRange");
         }
 
         public override void OnInspectorGUI() {
@@ -90,8 +96,8 @@ namespace Turing.Audio {
             EditorGUILayout.LabelField("Global Settings", EditorStyles.boldLabel);
 
             if (Application.isPlaying) {
-                EditorGUILayout.LabelField (_target.IsPlaying ? "Playing" : "Stopped");
-                EditorGUILayout.LabelField ("Current volume scale: " + _target.VolumeScale);
+                EditorGUILayout.LabelField(_target.IsPlaying ? "Playing" : "Stopped");
+                EditorGUILayout.LabelField("Current volume scale: " + _target.VolumeScale);
             } else {
 
                 // Group type enum
@@ -101,18 +107,20 @@ namespace Turing.Audio {
                 EditorGUILayout.PropertyField(_loopProp);
 
                 // Play on awake toggle
-                EditorGUILayout.PropertyField (_playOnAwakeProp);
+                EditorGUILayout.PropertyField(_playOnAwakeProp);
+
+                EditorGUILayout.PropertyField(_spatialBlendProp);
+
+                EditorGUILayout.PropertyField(_maxDistanceProp);
 
                 // Use volume envelope toggle
-                EditorGUILayout.PropertyField (_useVolumeEnvelopeProp);
+                EditorGUILayout.PropertyField(_useVolumeEnvelopeProp);
 
                 // Volume envelope
-                EditorGUI.BeginDisabledGroup (!_useVolumeEnvelopeProp.boolValue);
-                EditorGUILayout.PropertyField (_volumeEnvelopeProp);
+                EditorGUI.BeginDisabledGroup(!_useVolumeEnvelopeProp.boolValue);
+                EditorGUILayout.PropertyField(_volumeEnvelopeProp);
                 EditorGUI.EndDisabledGroup();
-
-                EditorGUILayout.TextArea ("Looping and volume envelope functionality are not available in the editor. Test them in play mode.", EditorStyles.helpBox);
-
+                EditorGUILayout.TextArea("Looping and volume envelope functionality are not available in the editor. Test them in play mode.", EditorStyles.helpBox);
             }
             EditorGUILayout.Space();
 
@@ -134,9 +142,8 @@ namespace Turing.Audio {
             EditorGUILayout.EndVertical();
             EditorGUILayout.Space();
 
-            EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-
             // Channels
+            EditorGUILayout.BeginVertical(EditorStyles.helpBox);
             EditorGUILayout.LabelField("Channels", EditorStyles.boldLabel);
             EditorGUI.indentLevel++;
             switch ((AudioGroup.GroupType)_groupTypeProp.enumValueIndex) {
@@ -184,12 +191,19 @@ namespace Turing.Audio {
             }
 
             EditorGUI.indentLevel--;
-
             EditorGUILayout.EndVertical();
             EditorGUILayout.Space();
 
             // Apply modified properties
             _serializedTarget.ApplyModifiedProperties();
+        }
+
+        #endregion
+        #region Methods
+
+        [MenuItem("Audio/Create audio group")]
+        static void CreateAudioGroup () {
+            new GameObject("New audio group", typeof(AudioGroup));
         }
 
         #endregion

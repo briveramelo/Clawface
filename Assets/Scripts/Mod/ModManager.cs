@@ -6,6 +6,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using ModMan;
+using MovementEffects;
 
 public class ModManager : MonoBehaviour
 {
@@ -18,397 +20,261 @@ public class ModManager : MonoBehaviour
     private Transform headSocket, leftArmSocket, rightArmSocket, legsSocket;
     [SerializeField]
     private Stats playerStats;
-    [SerializeField]
-    private MoveState playerMovement;
     [SerializeField] private VelocityBody velBody;
-    [SerializeField]
-    private PlayerStateManager stateManager;
-    [SerializeField]
-    private float holdThresholdTime;
+    [SerializeField] private PlayerStateManager stateManager;
+    [SerializeField] private ModInventory modInventory;
+    [SerializeField] private ModUISelector modUISelector;
+    [SerializeField] private ModUIManager modUIManager;
+    [SerializeField] private float modPickupRadius;
     #endregion
 
     #region Private Fields
     private Dictionary<ModSpot, ModSocket> modSocketDictionary;
-    private ModSpot modToSwap;
-    private bool isOkToDropMod = true;
+    private List<ModSpot> allModSpots;
+    private ModSpot modToSwap;    
     private bool isOkToSwapMods = true;
-    private bool isButtonHeld = false;
-    private float holdTime;
+    List<Mod> overlapMods = new List<Mod>();
+    private bool canActivate=true;
     #endregion
 
     #region Unity Lifecycle
-    // Use this for initialization
+
+    private void OnDrawGizmos() {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, modPickupRadius);
+    }
+
     private void Start()
     {
-        modSocketDictionary = new Dictionary<ModSpot, ModSocket>();
-        modSocketDictionary.Add(ModSpot.Legs, new ModSocket(legsSocket));
-        modSocketDictionary.Add(ModSpot.ArmL, new ModSocket(leftArmSocket));
-        modSocketDictionary.Add(ModSpot.ArmR, new ModSocket(rightArmSocket));
+        modSocketDictionary = new Dictionary<ModSpot, ModSocket>(){
+            {ModSpot.ArmR, new ModSocket(rightArmSocket) },
+            {ModSpot.Legs, new ModSocket(legsSocket) },
+            {ModSpot.ArmL, new ModSocket(leftArmSocket) },
+        };
+        allModSpots = new List<ModSpot>() {
+            ModSpot.ArmL, ModSpot.ArmR, ModSpot.Legs
+        };
         modToSwap = ModSpot.Default;
-        holdTime = 0.0f;
+
+        AnalyticsManager.Instance.SetModManager(this);
+
     }
 
     private void Update()
     {
-        CheckToPickUpMod();
-
-        if (isOkToDropMod)
-        {
-            CheckToDropMod();
-        }
-        SetModToSwap();
-        if (isOkToSwapMods)
-        {
-            CheckToSwapMods();
-        }
-        CheckToActivateMod();
+        CheckToCollectMod();                
+        CheckToChargeAndFireMods();
+        //CheckToActivateModCanvas();
     }
-
-    private void CheckToPickUpMod() {
-        if (InputManager.Instance.QueryAction(Strings.Input.Actions.DROP_MODE, ButtonMode.HELD)){
-            ModSpot commandedModSpot = GetCommandedModSpot();
-            if (commandedModSpot != ModSpot.Default && modSocketDictionary[commandedModSpot].mod == null){
-                List<Collider> cols = Physics.OverlapSphere(transform.position, 2.25f).ToList();
-                bool foundMod = false;
-                cols.ForEach(other => {
-                    if (!foundMod && other.tag == Strings.Tags.MOD){                
-                        Mod modToAttach = other.GetComponent<Mod>();
-                        if (modSocketDictionary[commandedModSpot].mod != modToAttach){
-                            Attach(commandedModSpot, modToAttach);
-                            foundMod = true;
-                        }
-                    }
-                });
+    
+    
+    private void CheckToActivateModCanvas() {
+        float closestDistance=10f;
+        Mod modToActivate=null;
+        overlapMods.Clear();
+        Physics.OverlapSphere(transform.position, modPickupRadius).ToList().ForEach(col=> {
+            if(col.tag == Strings.Tags.MOD){
+                float distanceAway = Vector3.Distance(transform.position, col.transform.position);
+                if (distanceAway < closestDistance) {
+                    closestDistance = distanceAway;
+                    modToActivate = col.GetComponent<Mod>();
+                    overlapMods.Add(modToActivate);
+                }
             }
+        });
+        if (modToActivate!=null) {
+            overlapMods.ForEach(mod=>mod.DeactivateModCanvas());
+            modToActivate.ActivateModCanvas();
         }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.tag == Strings.Tags.MOD)
-        {
-            other.GetComponent<Mod>().ActivateModCanvas();
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.tag == Strings.Tags.MOD)
-        {
-            other.GetComponent<Mod>().DeactivateModCanvas();
-        }
-    }
+    }    
     #endregion
 
     #region Public Methods
-    public void SendModDictionaryToAnalytics()
+    public Dictionary<ModSpot, ModSocket> GetModSpotDictionary()
     {
-        if (modSocketDictionary[ModSpot.ArmL].mod != null)
-        {
-            AnalyticsManager.Instance.modDictionary["armL"] = modSocketDictionary[ModSpot.ArmL].mod.getModType().ToString();
-        }
-        else
-        {
-            AnalyticsManager.Instance.modDictionary["armL"] = "null";
-        }
+        return modSocketDictionary;
+    }
 
-        if (modSocketDictionary[ModSpot.ArmR].mod != null)
-        {
-            AnalyticsManager.Instance.modDictionary["armR"] = modSocketDictionary[ModSpot.ArmR].mod.getModType().ToString();
+    public void EquipMod(ModSpot spot, ModType type) {        
+        canActivate = false;
+        Mod modToEquip = modInventory.GetMod(type, spot);
+        if (modToEquip!=null) {
+            Attach(spot, modToEquip);
         }
-        else
-        {
-            AnalyticsManager.Instance.modDictionary["armR"] = "null";
-        }
+    }
 
-        if (modSocketDictionary[ModSpot.Legs].mod != null)
-        {
-            AnalyticsManager.Instance.modDictionary["legs"] = modSocketDictionary[ModSpot.Legs].mod.getModType().ToString();
-        }
-        else
-        {
-            AnalyticsManager.Instance.modDictionary["legs"] = "null";
-        }
+    public void SetCanActivate() {
+        canActivate = true;
     }
     #endregion
 
     #region Private Methods
-    private void CheckToActivateMod()
-    {
-        if (!InputManager.Instance.QueryAction(Strings.Input.Actions.DROP_MODE,
-                ButtonMode.HELD) &&
-            !InputManager.Instance.QueryAction(Strings.Input.Actions.SWAP_MODE,
-                ButtonMode.HELD))
-        {
-            CommandedMod commandedMod = GetCommandedMod();
-            ModSpot spot = commandedMod.modSpot;
-            if (spot != ModSpot.Default)
-            {
-                if (modSocketDictionary[spot].mod != null)
-                {
-                    if (!commandedMod.isHeld && !commandedMod.wasHeld)
-                    {
-                        stateManager.PrimaryAttack(modSocketDictionary[spot].mod);
-                    }else
-                    {
-                        stateManager.SecondaryAttack(modSocketDictionary[spot].mod, commandedMod.isHeld, commandedMod.holdTime);
+    private void CheckToCollectMod() {
+        //if (InputManager.Instance.QueryAction(Strings.Input.Actions.PICKUP, ButtonMode.DOWN)) {
+            Physics.OverlapSphere(transform.position, modPickupRadius).ToList().ForEach(other => {
+                if (other.tag == Strings.Tags.MOD){                        
+                    if (!IsHoldingMod(other.transform)) {
+                        Mod mod = other.GetComponent<Mod>();                    
+                        if (mod!=null) {
+                            if(!modInventory.IsModCollected(mod.getModType())) {
+                                modInventory.CollectMod(mod.getModType());
+                                modUISelector.UpdateUI();
+                                foreach(KeyValuePair<ModSpot, ModSocket> modSpotSocket in modSocketDictionary) {
+                                    if (modSpotSocket.Value.mod==null){
+                                        mod = modInventory.GetMod(mod.getModType(), modSpotSocket.Key);
+                                        if (mod!=null) {
+                                            Attach(modSpotSocket.Key, mod);
+                                        }
+                                        break;
+                                    }
+                                }                                                                     
+                                Destroy(other.gameObject);
+                            }
+                        }
                     }
                 }
-            }
+            });            
+        //}
+    }    
+
+    private void CheckToChargeAndFireMods(){        
+        if (canActivate){
+            CheckForModInput((ModSpot spot)=> { modSocketDictionary[spot].mod.BeginCharging();}, ButtonMode.DOWN);
+            CheckForModInput((ModSpot spot)=> { modSocketDictionary[spot].mod.RunCharging();}, ButtonMode.HELD);
+            CheckForModInput((ModSpot spot)=> {
+                stateManager.Attack(modSocketDictionary[spot].mod);                    
+                if (!modSocketDictionary[spot].mod.hasState) {
+                    modSocketDictionary[spot].mod.Activate();               
+                }
+            }, ButtonMode.UP);                    
         }
     }
 
-    private ModSpot GetCommandedModSpot()
-    {
-        if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_LEGS, ButtonMode.DOWN))
+    private void CheckForModInput(Action<ModSpot> onComplete, ButtonMode mode) {
+        List<ModSpot> chargeSpots = GetCommandedModSpots(mode);
+        if (!chargeSpots.Contains(ModSpot.Default)) {
+            chargeSpots.ForEach(spot => {
+                if (modSocketDictionary[spot].mod != null){
+                    onComplete(spot);                    
+                }
+            });
+        }
+    }    
+
+    
+    private ModSpot GetCommandedModSpot(ButtonMode mode){
+        if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_LEGS, mode) ||
+            InputManager.Instance.QueryAction(Strings.Input.Actions.EQUIP_LEGS, mode))
         {
             return ModSpot.Legs;
         }
-        if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_LEFT, ButtonMode.DOWN))
+        if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_LEFT, mode) ||
+            InputManager.Instance.QueryAction(Strings.Input.Actions.EQUIP_ARM_LEFT, mode))
         {
             return ModSpot.ArmL;
         }
-        if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_RIGHT, ButtonMode.DOWN))
+        if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_RIGHT, mode) ||
+            InputManager.Instance.QueryAction(Strings.Input.Actions.EQUIP_ARM_RIGHT, mode))
         {
             return ModSpot.ArmR;
         }
         return ModSpot.Default;
     }
 
-    private CommandedMod GetCommandedMod()
-    {
-        CommandedMod commandedMod = new CommandedMod();
-        if(InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_LEGS, ButtonMode.HELD))
+    private List<ModSpot> GetCommandedModSpots(ButtonMode mode) {
+        List<ModSpot> modSpots = new List<ModSpot>();
+        if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_LEGS, mode) ||
+            InputManager.Instance.QueryAction(Strings.Input.Actions.EQUIP_LEGS, mode))
         {
-            CheckIfModIsCharged(ModSpot.Legs, ref commandedMod);
+            modSpots.Add(ModSpot.Legs);
         }
-        else if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_LEFT, ButtonMode.HELD))
+        if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_LEFT, mode) ||
+            InputManager.Instance.QueryAction(Strings.Input.Actions.EQUIP_ARM_LEFT, mode))
         {
-            CheckIfModIsCharged(ModSpot.ArmL, ref commandedMod);
+            modSpots.Add(ModSpot.ArmL);
         }
-        else if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_RIGHT, ButtonMode.HELD))
+        if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_RIGHT, mode) ||
+            InputManager.Instance.QueryAction(Strings.Input.Actions.EQUIP_ARM_RIGHT, mode))
         {
-            CheckIfModIsCharged(ModSpot.ArmR, ref commandedMod);
+            modSpots.Add(ModSpot.ArmR);
         }
 
-        if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_LEGS,
-            ButtonMode.UP))
-        {
-            AssignCommandedMod(ModSpot.Legs, ref commandedMod);
+        if (modSpots.Count==0) {
+            modSpots.Add(ModSpot.Default);
         }
-        else if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_LEFT,
-            ButtonMode.UP))
-        {
-            AssignCommandedMod(ModSpot.ArmL, ref commandedMod);
-        }
-        else if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_RIGHT,
-            ButtonMode.UP))
-        {
-            AssignCommandedMod(ModSpot.ArmR, ref commandedMod);
-        }
-        return commandedMod;        
-    }
+        return modSpots;        
+    }    
 
-    private void CheckIfModIsCharged(ModSpot spot, ref CommandedMod commandedMod)
-    {
-        holdTime += Time.deltaTime;
-        if (holdTime > holdThresholdTime)
-        {
-            commandedMod.modSpot = spot;
-            commandedMod.isHeld = true;
-            commandedMod.holdTime = holdTime;
-            isButtonHeld = true;
-        }
-    }
-
-    private void AssignCommandedMod(ModSpot spot, ref CommandedMod commandedMod)
-    {        
-        commandedMod.modSpot = spot;
-        if (isButtonHeld)
-        {
-            isButtonHeld = false;
-            commandedMod.wasHeld = true;
-            commandedMod.holdTime = holdTime;
-        }
-        holdTime = 0.0f;
-    }
-
-    private void CheckToDropMod()
-    {
-        if (InputManager.Instance.QueryAction(Strings.Input.Actions.DROP_MODE,
-                ButtonMode.HELD))
-        {            
-            ModSpot spotSelected = GetCommandedModSpot();
-            if (spotSelected != ModSpot.Default && modSocketDictionary[spotSelected].mod != null)
-            {
-                Detach(spotSelected);
-            }
-        }
-    }
-
-    private void SetModToSwap()
-    {
-        if (InputManager.Instance.QueryAction(Strings.Input.Actions.SWAP_MODE,
-                ButtonMode.HELD) && modToSwap == ModSpot.Default)
-        {
-            StartCoroutine(DelayIsOkToSwapMods());            
-            modToSwap = GetCommandedModSpot();
-            if (modToSwap != ModSpot.Default)
-            {
-                ModUIManager.Instance.SetUIState(modToSwap, ModUIState.SELECTED);
-            }
-        }
-        if (InputManager.Instance.QueryAction(Strings.Input.Actions.SWAP_MODE,
-                ButtonMode.UP))
-        {
-            SetAllModUIToIdle();
-        }
-    }
-
-    private void SetAllModUIToIdle()
-    {
-        foreach (ModSpot modSpot in Enum.GetValues(typeof(ModSpot)))
-        {
-            if (modSpot != ModSpot.Default)
-            {
-                ModUIManager.Instance.SetUIState(modSpot, ModUIState.IDLE);
+    private void SetAllModUIToIdle(){
+        foreach (ModSpot modSpot in Enum.GetValues(typeof(ModSpot))){
+            if (modSpot != ModSpot.Default){
+                modUIManager.SetUIState(modSpot, ModUIState.IDLE);
             }
         }
         modToSwap = ModSpot.Default;
-    }
+    }    
 
-    private void CheckToSwapMods()
-    {
-        if (modToSwap != ModSpot.Default)
-        {
-            ModSpot secondMod = GetCommandedModSpot();
-            if (secondMod != ModSpot.Default && secondMod != modToSwap)
-            {
-                SwapMods(modToSwap, secondMod);
-            }
-        }
-    }
-
-
-    private void CheckToAttachMod(ModSpot commandedModSpot, Mod modToAttach)
-    {
-        
-    }
-
-    private void Attach(ModSpot spot, Mod mod, bool isSwapping = false)
-    {
-       
-        if (modSocketDictionary[spot].mod != null && !isSwapping)
-        {
+    private void Attach(ModSpot spot, Mod mod, bool isSwapping = false){
+        mod.gameObject.SetActive(true);
+        if (modSocketDictionary[spot].mod != null && !isSwapping){
             Detach(spot);
         }
 
-        if (!isSwapping)
-        {
-            ModUIManager.Instance.AttachMod(spot, mod.getModType());
+        if (!isSwapping){
+            modUIManager.AttachMod(spot, mod.getModType());
         }
         mod.setModSpot(spot);
         mod.transform.SetParent(modSocketDictionary[spot].socket);
         mod.transform.localPosition = Vector3.zero;
         mod.transform.localRotation = Quaternion.identity;
         modSocketDictionary[spot].mod = mod;        
-        mod.AttachAffect(ref playerStats, velBody);
-        SendModDictionaryToAnalytics();
-        StartCoroutine(DelayIsOkToDropMod());
+        mod.AttachAffect(ref playerStats, velBody);        
         mod.DeactivateModCanvas();
     }
 
-    private IEnumerator DelayIsOkToDropMod()
-    {
-        isOkToDropMod = false;
-        yield return new WaitForEndOfFrame();
-        isOkToDropMod = true;
-    }
-    private IEnumerator DelayIsOkToSwapMods()
-    {
-        isOkToSwapMods = false;
-        yield return new WaitForEndOfFrame();
-        isOkToSwapMods = true;
-    }
-
-    private void Detach(ModSpot spot, bool isSwapping = false)
-    {
-        if (modSocketDictionary[spot].mod != null)
-        {
-            if (!isSwapping)
-            {
-                ModUIManager.Instance.DetachMod(spot);
+    private void Detach(ModSpot spot, bool isSwapping = false){
+        if (modSocketDictionary[spot].mod != null){
+            if (!isSwapping){
+                modUIManager.DetachMod(spot);
+                AnalyticsManager.Instance.DropMod();
             }
-            modSocketDictionary[spot].mod.transform.SetParent(null);
+            modSocketDictionary[spot].mod.transform.SetParent(modInventory.GetModParent(modSocketDictionary[spot].mod.getModType()));
+            modSocketDictionary[spot].mod.gameObject.SetActive(false);
             modSocketDictionary[spot].mod.DetachAffect();
             modSocketDictionary[spot].mod = null;
         }
-        SendModDictionaryToAnalytics();
     }
+    #endregion
 
-    private void SwapMods(ModSpot sourceSpot, ModSpot targetSpot)
+    #region Public Structures
+    public class ModSocket
     {
-        Mod tempSourceMod = null;
-        Mod tempTargetMod = null;
-        if (modSocketDictionary[sourceSpot].mod != null)
-        {
-            tempSourceMod = modSocketDictionary[sourceSpot].mod;
-            Detach(sourceSpot, true);
+        public Transform socket;
+        public Mod mod;
+        public ModSocket(Transform i_socket){
+            socket = i_socket;
         }
-        if (modSocketDictionary[targetSpot].mod != null)
-        {
-            tempTargetMod = modSocketDictionary[targetSpot].mod;
-            Detach(targetSpot, true);
-        }
-        if (tempSourceMod != null)
-        {
-            Attach(targetSpot, tempSourceMod, true);
-        }
-        if (tempTargetMod != null)
-        {
-            Attach(sourceSpot, tempTargetMod, true);
-        }
-        if (tempSourceMod != null || tempTargetMod != null)
-        {
-            ModUIManager.Instance.SwapMods(sourceSpot, targetSpot);
-        }
-        SetAllModUIToIdle();
-        SendModDictionaryToAnalytics();
-    }
-
-    private ModSpot GetModSpot(Mod mod)
-    {
-        ModSpot spot = ModSpot.Default;
-        foreach (KeyValuePair<ModSpot, ModSocket> pair in modSocketDictionary)
-        {
-            if (pair.Value.mod == mod)
-            {
-                spot = pair.Key;
-                break;
-            }
-        }
-        return spot;
     }
     #endregion
 
     #region Private Structures
-    private class ModSocket
-    {
-        public Transform socket;
-        public Mod mod;
-        public ModSocket(Transform i_socket)
-        {
-            socket = i_socket;
-        }
-    }
 
-    private class CommandedMod
-    {
+
+    private class CommandedMod{
         public ModSpot modSpot = ModSpot.Default;
         public bool isHeld = false;
         public bool wasHeld = false;
-        public float holdTime = 0.0f; 
+        public float holdTime = 0.0f;
     } 
+
+    private bool IsHoldingMod(Transform otherMod) {
+        foreach (KeyValuePair<ModSpot, ModSocket> modSocket in modSocketDictionary) {
+            if (modSocket.Value.socket==otherMod.parent) {
+                return true;
+            }
+        }
+        return false;        
+    }
     #endregion
 
 }

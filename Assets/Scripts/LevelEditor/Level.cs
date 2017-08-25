@@ -66,7 +66,7 @@ public class Level {
     /// Places an object in the level.
     /// </summary>
     /// <param name="index">Index of object.</param>
-    public void AddObject(int index, int floor, Vector3 position, int yRotation) {
+    public void AddObject(int index, int floor, Vector3 position, float yRotation) {
         _floors[floor].AddObject(index, position, yRotation);
     }
 
@@ -110,7 +110,7 @@ public class Level {
         /// <summary>
         /// Adds an object to this floor.
         /// </summary>
-        public void AddObject(int index, Vector3 position, int yRotation) {
+        public void AddObject(int index, Vector3 position, float yRotation) {
             _objects.Add(new ObjectAttributes((byte)index, position, yRotation));
         }
 
@@ -293,7 +293,7 @@ public class Level {
             _index = byte.MaxValue;
         }
 
-        public ObjectAttributes(byte index, Vector3 position, int yRotation) {
+        public ObjectAttributes(byte index, Vector3 position, float yRotation) {
             _index = index;
             _posX = position.x;
             _posY = position.y;

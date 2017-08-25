@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using ModMan;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -32,7 +33,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     #endregion
     #region Constants
 
-    public const float TILE_UNIT_WIDTH = 1f;
+    public const float TILE_UNIT_WIDTH = 5f;
 
     /// <summary>
     /// Default level path.
@@ -63,7 +64,8 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// The currently loaded level in LM.
     /// !!! KEEP NONSERIALIZED !!!
     /// </summary>
-    [NonSerialized]
+    //[NonSerialized]
+    [SerializeField]
     Level _loadedLevel;
 
     /// <summary>
@@ -152,6 +154,10 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// </summary>
     int _selectedObjectIndexForPlacement;
 
+    ObjectDatabase.SnapMode _selectedObjectSnapMode;
+
+    float _currentPlacementYRotation = 0f;
+
     List<GameObject> _hoveredObjects = new List<GameObject>();
 
     /// <summary>
@@ -173,11 +179,6 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// Current editing y position.
     /// </summary>
     int _currentYPosition = 0;
-
-    /// <summary>
-    /// Current editing y rotation.
-    /// </summary>
-    int _currentYRotation = 0;
 
     /// <summary>
     /// Is the level currently being played?
@@ -209,7 +210,10 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// <summary>
     /// Number of objects of each type (to enforce maximums).
     /// </summary>
-    Dictionary<byte, int> _objectCounts = new Dictionary<byte, int>();
+    [SerializeField]
+    //Dictionary<byte, int> _objectCounts = new Dictionary<byte, int>();
+    //ByteToIntDict _objectCounts = new ByteToIntDict();
+    List<int> _objectCounts;
 
     Vector3 _mouseDownWorldPos;
     Vector2 _mouseDownScreenPos;
@@ -450,7 +454,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
         _selectedObjectIndexForPlacement = -1;
         _selectedFloor = 0;
         _currentYPosition = 0;
-        _currentYRotation = 0;
+        _currentPlacementYRotation = 0f;
         _editingPlane = new Plane(Vector3.up, Vector3.zero);
     }
 
@@ -467,7 +471,6 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// </summary>
     void CreateAssetPreview() {
         _assetPreview = new GameObject(_PREVIEW_NAME,
-            typeof(MeshFilter), typeof(MeshRenderer),
             typeof(AssetPreview)).GetComponent<AssetPreview>();
         //_preview.hideFlags = HideFlags.HideAndDontSave;
 
@@ -495,11 +498,16 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     public void SetDirty(bool dirty) { _dirty = dirty; }
 
     public void HandleLeftDown(Event e) {
-        _mouseDownScreenPos = e.mousePosition;
-        var ray = HandleUtility.GUIPointToWorldRay(_mouseDownScreenPos);
-        float dist;
-        if (LevelManager.Instance.EditingPlane.Raycast(ray, out dist)) {
-            _mouseDownWorldPos = ray.GetPoint(dist);
+        if (Application.isEditor) {
+
+            #if UNITY_EDITOR
+            _mouseDownScreenPos = e.mousePosition;
+            var ray = HandleUtility.GUIPointToWorldRay(_mouseDownScreenPos);
+            float dist;
+            if (LevelManager.Instance.EditingPlane.Raycast(ray, out dist)) {
+                _mouseDownWorldPos = ray.GetPoint(dist);
+            }
+            #endif
         }
     }
 
@@ -514,7 +522,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
             case Tool.Place:
                 if (HasSelectedObjectForPlacement &&
                     CanPlaceAnotherCurrentObject()) {
-                    if (_snapToGrid) SnapCursor();
+                    //if (_snapToGrid) SnapCursor();
                     CreateCurrentSelectedObjectAtCursor();
                     e.Use();
                 }
@@ -596,7 +604,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
             Vector2 screenPos = new Vector2 (rawScreenPos.x, rawScreenPos.y);
             if (selectionRect.Contains(screenPos, true)) result.Add(spawner.gameObject);
         }
-        Debug.Log (result.Count);
+        //Debug.Log (result.Count);
         return result;
     }
 
@@ -736,20 +744,65 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     public void SetCursorPosition(Vector3 newPos) {
         _cursorPosition = newPos;
         if (_snapToGrid) SnapCursor();
-        if (_assetPreview != null) _assetPreview.transform.position = _cursorPosition;
+        if (_assetPreview != null) {
+            _assetPreview.transform.position = _cursorPosition;
+            _assetPreview.transform.rotation = Quaternion.Euler (0f, _currentPlacementYRotation, 0f);
+        }
     }
 
     /// <summary>
     /// Snaps the preview asset to the grid.
     /// </summary>
     public void SnapCursor() {
-        var pos = _cursorPosition;
-        var snapped = new Vector3(
-                Mathf.Round(pos.x / TILE_UNIT_WIDTH) * TILE_UNIT_WIDTH,
-                Mathf.Round(pos.y / TILE_UNIT_WIDTH) * TILE_UNIT_WIDTH,
-                Mathf.Round(pos.z / TILE_UNIT_WIDTH) * TILE_UNIT_WIDTH
-            );
-        _cursorPosition = snapped;
+        Vector3 pos = _cursorPosition;
+        Vector3 snapped = pos;
+        if (_selectedObjectIndexForPlacement != -1) {
+            float closestX;
+            float closestZ;
+
+            switch (_selectedObjectSnapMode) {
+                case ObjectDatabase.SnapMode.Center:
+                    snapped = new Vector3(
+                        Mathf.Round(pos.x / TILE_UNIT_WIDTH) * TILE_UNIT_WIDTH,
+                        Mathf.Round(pos.y / TILE_UNIT_WIDTH) * TILE_UNIT_WIDTH,
+                        Mathf.Round(pos.z / TILE_UNIT_WIDTH) * TILE_UNIT_WIDTH
+                    );
+                    _currentPlacementYRotation = 0f;
+                    break;
+
+                case ObjectDatabase.SnapMode.Corner:
+                    closestX = Mathf.Round (pos.x / TILE_UNIT_WIDTH) * TILE_UNIT_WIDTH;
+                    closestZ = Mathf.Round (pos.z / TILE_UNIT_WIDTH) * TILE_UNIT_WIDTH;
+                    bool left = closestX >= pos.x;
+                    bool down = closestZ >= pos.z;
+                    snapped = new Vector3 (
+                        closestX,
+                        _currentYPosition,
+                        closestZ
+                        );
+                    _currentPlacementYRotation = left ? (down ? 0f : 90f) : (down ? 270f : 180f);
+                    float half = TILE_UNIT_WIDTH / 2f;
+                    snapped.x += left ? -half : half;
+                    snapped.z += down ? -half : half;
+                    break;
+
+                case ObjectDatabase.SnapMode.Edge:
+                    closestX = Mathf.Round(pos.x / TILE_UNIT_WIDTH) * TILE_UNIT_WIDTH;
+                    closestZ = Mathf.Round(pos.z / TILE_UNIT_WIDTH) * TILE_UNIT_WIDTH;
+                    float distToClosestX = Mathf.Abs (pos.x - closestX);
+                    float distToClosestZ = Mathf.Abs (pos.z - closestZ);
+                    bool snapToX = distToClosestX <= distToClosestZ;
+                    snapped = new Vector3 (
+                        snapToX ? closestX : Mathf.Floor (pos.x / TILE_UNIT_WIDTH) * TILE_UNIT_WIDTH + TILE_UNIT_WIDTH / 2f,
+                        Mathf.Round(pos.y / TILE_UNIT_WIDTH) * TILE_UNIT_WIDTH,
+                        snapToX ? Mathf.Floor (pos.z / TILE_UNIT_WIDTH) * TILE_UNIT_WIDTH + TILE_UNIT_WIDTH / 2f : closestZ
+                        );
+                    _currentPlacementYRotation = snapToX ? 0f : 90f;
+                    break;
+            }
+
+            _cursorPosition = snapped;
+        }
     }
 
     /// <summary>
@@ -758,17 +811,17 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     public bool CheckPlacement() {
         // Check x in range
         float x = _cursorPosition.x;
-        if (x < -0.01f || x >= (float)Level.FLOOR_WIDTH * TILE_UNIT_WIDTH + 0.01f) return false;
+        if (x < -0.05f || x >= (float)Level.FLOOR_WIDTH * TILE_UNIT_WIDTH + 0.05f) return false;
 
         // Check y in range
         float y = _cursorPosition.y;
-        float minY = _selectedFloor * Level.FLOOR_HEIGHT * TILE_UNIT_WIDTH - 0.01f;
-        float maxY = (_selectedFloor + 1) * Level.FLOOR_HEIGHT * TILE_UNIT_WIDTH + 0.01f;
+        float minY = _selectedFloor * Level.FLOOR_HEIGHT * TILE_UNIT_WIDTH - 0.05f;
+        float maxY = (_selectedFloor + 1) * Level.FLOOR_HEIGHT * TILE_UNIT_WIDTH + 0.05f;
         if (y < minY || y >= maxY) return false;
 
         // Check z in range
         float z = _cursorPosition.z;
-        if (z < -0.01f || z >= (float)Level.FLOOR_DEPTH * TILE_UNIT_WIDTH + 0.01f) return false;
+        if (z < -0.05f || z >= (float)Level.FLOOR_DEPTH * TILE_UNIT_WIDTH + 0.05f) return false;
 
         return true;
     }
@@ -825,14 +878,17 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
             throw new IndexOutOfRangeException("Invalid index! " + index);
 
         // Add object to level file
-        _loadedLevel.AddObject((int)index, _selectedFloor, position, _currentYRotation);
+        _loadedLevel.AddObject((int)index, _selectedFloor, position, _currentPlacementYRotation);
+
+        Debug.Log (_currentPlacementYRotation);
 
         // Create spawner
         GameObject spawner = CreateSpawner(index);
         spawner.transform.SetParent(_floorObjects[_selectedFloor].transform);
         spawner.transform.position = position;
+        spawner.transform.localRotation = Quaternion.Euler (0f, _currentPlacementYRotation, 0f);
         _loadedSpawners.Add(spawner.GetComponent<ObjectSpawner>());
-        _objectCounts[index]++;
+        _objectCounts[(int)index]++;
         _dirty = true;
 
         // Update undo/redo stack
@@ -896,7 +952,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
                 break;
         }
 
-        var attribs = AttributesOfObject(obj);
+        //var attribs = AttributesOfObject(obj);
         SetObjectPosition(obj, newPos, actionType);
     }
 
@@ -1002,9 +1058,14 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// </summary>
     /// <param name="index">Index of the object in the browser.</param>
     public void SelectObjectInCategory(int index, ObjectDatabase.Category category) {
+        
         var data = ObjectDatabaseManager.Instance.AllObjectsInCategory(category)[index];
+        
         _selectedObjectIndexForPlacement = data.index;
-        var obj = ObjectDatabaseManager.Instance.GetObject(index);
+        _selectedObjectSnapMode = data.snapMode;
+        var obj = ObjectDatabaseManager.Instance.GetObject(data.index);
+
+        Debug.Log (string.Format ("Object {0} ({1}) selected from category {2}.", obj.name, index.ToString(), category.ToString()));
 
         ShowAssetPreview(obj);
     }
@@ -1162,10 +1223,13 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// Resets the object counter.
     /// </summary>
     void InitObjectCounts() {
-        _objectCounts.Clear();
+        if (_objectCounts == null)
+            _objectCounts = new List<int>();
 
-        for (int i = 0; i < (int)byte.MaxValue; i++)
-            _objectCounts.Add((byte)i, 0);
+        for (int i = 0; i < (int)byte.MaxValue; i++) {
+            if (i >= _objectCounts.Count) _objectCounts.Add (0);
+            else _objectCounts[i] = 0;
+        }
     }
 
     /// <summary>
@@ -1189,8 +1253,13 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// Removes all spawners from the current floor.
     /// </summary>
     void CleanupFloor() {
-        while (_loadedSpawners.Count > 0)
+        while (_loadedSpawners.Count > 0) {
+            if (_loadedSpawners[0] == null || _loadedSpawners[0].gameObject == null) {
+                _loadedSpawners.RemoveAt(0);
+                continue;
+            }
             DestroyLoadedObject(_loadedSpawners.PopFront().gameObject);
+        }
     }
 
     /// <summary>
@@ -1249,6 +1318,9 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager> {
     /// </summary>
     [Serializable]
     public class LevelManagerEvent : UnityEvent { }
+
+    [Serializable]
+    public class ByteToIntDict : Dictionary<byte, int> { }
 
     #endregion
 }

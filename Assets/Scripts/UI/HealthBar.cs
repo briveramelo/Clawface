@@ -5,7 +5,7 @@
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public class HealthBar : Singleton<HealthBar> {
+public class HealthBar : MonoBehaviour {
     
 
     #region Unity Inspector Fields
@@ -24,10 +24,5 @@ public class HealthBar : Singleton<HealthBar> {
 
     #region Protected Interface
     protected HealthBar() { }
-
-    protected override void Awake()
-    {
-        base.Awake();
-    }
     #endregion
 }

@@ -49,6 +49,9 @@ public class ObjectData {
     [SerializeField]
     public ObjectDatabase.Category category = ObjectDatabase.Category.None;
 
+    [SerializeField]
+    public ObjectDatabase.SnapMode snapMode = ObjectDatabase.SnapMode.Center;
+
     /// <summary>
     /// Index constructor.
     /// </summary>
@@ -78,7 +81,16 @@ public class ObjectDatabase {
         Special = 6,
         Effect = 7,
         Dev = 8,
-        COUNT = 9
+        Player = 9,
+        Enemy = 10,
+        Whitebox = 11,
+        COUNT = 12
+    }
+
+    public enum SnapMode {
+        Center,
+        Edge,
+        Corner
     }
 
     #endregion
@@ -93,6 +105,7 @@ public class ObjectDatabase {
     /// <summary>
     /// Mapping of categories to object data.
     /// </summary>
+    [SerializeField]
     Dictionary<Category, List<ObjectData>> _categories;
 
     //Texture2D[] _thumbnails = new Texture2D[(int)byte.MaxValue];

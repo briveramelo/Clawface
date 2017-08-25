@@ -5,14 +5,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using MovementEffects;
 using System;
+using ModMan;
 
 public abstract class AIController : MonoBehaviour {
 
     [SerializeField] protected string DEBUG_CURRENTSTATE;
 
     [HideInInspector] public float timeInLastState = 0;
-    [HideInInspector] public bool stateTimerIsRunning = false;
-    [HideInInspector]
+    [HideInInspector] public bool stateTimerIsRunning = false;    
     public Transform AttackTarget {
         get {
             if (attackTarget==null) {
@@ -22,15 +22,14 @@ public abstract class AIController : MonoBehaviour {
         }
         set { attackTarget = value; }
     }
+    public Vector3 AttackTargetPosition { get { return AttackTarget.position - transform.forward * .1f; } }
     private Transform attackTarget;
 
     protected Stats stats;
     protected float distanceFromTarget {get{ return Vector3.Distance(transform.position, AttackTarget.position); }}
     public Vector3 directionToTarget {
         get {
-            Vector3 dir = AttackTarget.position - transform.position;
-            dir.y = 0;
-            return dir.normalized;
+            return (AttackTargetPosition - transform.position).NormalizedNoY();            
         }
     }
     protected State currentState;

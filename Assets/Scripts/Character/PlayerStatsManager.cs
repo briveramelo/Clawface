@@ -12,19 +12,29 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     #endregion
 
     #region Serialized Unity Inspector fields
-    [SerializeField]
-    private DamageUI damageUI;
+    [SerializeField] private DamageUI damageUI;
+    [SerializeField] private CameraLock cameraLock;
+    [SerializeField] private SkinningState skinningState;
+    [SerializeField] private HealthBar healthBar;
     #endregion
 
     #region Private Fields
     [SerializeField] private Stats stats;
     float startHealth;
+    float healthAtLastSkin;
+    float lastSkinHealthBoost;
     #endregion
 
     #region Unity Lifecycle
     // Use this for initialization
-    void Start () {
-        startHealth = stats.GetStat(StatType.Health);
+    void Start()
+    {
+        stats.SetMaxHealth(UpgradeManager.Instance.GetHealthLevel());
+        startHealth = stats.GetStat(StatType.MaxHealth);
+        AnalyticsManager.Instance.SetPlayerStats(this.stats);
+        UpgradeManager.Instance.SetPlayerStats(this.stats);
+        UpgradeManager.Instance.SetPlayerStatsManager(this);
+
     }
 	
 	// Update is called once per frame
@@ -34,18 +44,40 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     #endregion
 
     #region Public Methods
-    public void TakeDamage(float damage)
+    public void TakeDamage(Damager damager)
     {
-        damageUI.DoDamageEffect();
-        stats.TakeDamage(damageModifier * damage);
-        HealthBar.Instance.SetHealth(stats.GetStat(StatType.Health) / startHealth);
-        if (stats.GetStat(StatType.Health) <= 0)
-        {   
-            transform.position = GameObject.Find("RespawnPoint").transform.position;
-            stats.Modify(StatType.Health, (int)startHealth);
-            startHealth = stats.GetStat(StatType.Health);
-            HealthBar.Instance.SetHealth(stats.GetStat(StatType.Health) / startHealth);
+        if (damageModifier > 0.0f)
+        {
+            damageUI.DoDamageEffect();
+            stats.TakeDamage(damageModifier * damager.damage);
+            float healthFraction = stats.GetHealthFraction();
+            healthBar.SetHealth(healthFraction);
+            cameraLock.Shake(.4f);
+            float shakeIntensity = 1f - healthFraction;
+            InputManager.Instance.Vibrate(VibrationTargets.BOTH, shakeIntensity);
+            SFXManager.Instance.Play(SFXType.PlayerTakeDamage, transform.position);
+
+            if (stats.health < healthAtLastSkin-lastSkinHealthBoost) {
+                skinningState.RemoveSkin();
+            }
+
+            if (stats.GetStat(StatType.Health) <= 0)
+            {
+                Revive();
+            }
         }
+    }
+
+    public void UpdateMaxHealth()
+    {
+        float healthFraction = stats.GetHealthFraction();
+        healthBar.SetHealth(healthFraction);
+    }
+
+    public void TakeSkin(int skinHealth) {
+        stats.Add(StatType.Health, skinHealth);
+        healthAtLastSkin = stats.health;
+        lastSkinHealthBoost=skinHealth;
     }
 
     public float GetStat(StatType type)
@@ -55,12 +87,25 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
 
     public bool ModifyStat(StatType type, float multiplier)
     {
-        stats.Modify(type, multiplier);
+        stats.Multiply(type, multiplier);
         return true;
+    }
+
+    public float GetHealth()
+    {
+        return stats.GetStat(StatType.Health);
     }
     #endregion
 
     #region Private Methods
+    private void Revive() {
+        SFXManager.Instance.Play(SFXType.PlayerDeath, transform.position);
+        transform.position = GameObject.Find("RespawnPoint").transform.position;
+        stats.Add(StatType.Health, (int)startHealth);
+        startHealth = stats.GetStat(StatType.MaxHealth);
+        healthBar.SetHealth(stats.GetHealthFraction());
+        AnalyticsManager.Instance.PlayerDeath();
+    }
     #endregion
 
     #region Private Structures

@@ -6,23 +6,22 @@ public class PlayerModAnimationManager : MonoBehaviour {
 
     private Dictionary<ModType, PlayerAnimationStates> modToAnimationMap = new Dictionary<ModType, PlayerAnimationStates>()
     {
-        {ModType.StunBaton, PlayerAnimationStates.StunBatonR}
+        {ModType.StunBaton, PlayerAnimationStates.StunBaton},
+        {ModType.Boomerang, PlayerAnimationStates.Boomerang},
+        {ModType.TankTreads, PlayerAnimationStates.TankTreads}
     };
         
     [SerializeField] Animator animator;
-    [SerializeField] AnimationClip[] animations;
-    private PlayerStateManager.StateVariables stateVariables;
     private Mod currentMod;
     private PlayerAnimationStates currentAnimationState;
 
 	// Use this for initialization
 	void Start () {
-        stateVariables = GetComponent<PlayerStateManager>().stateVariables;
         currentMod = null;
         currentAnimationState = PlayerAnimationStates.Idle;
     }
 
-    public void PlayModAnimation(Mod mod, float frame)
+    public void PlayModAnimation(Mod mod, int frame, int totalFrames)
     {
         if (mod != currentMod)
         {
@@ -30,11 +29,11 @@ public class PlayerModAnimationManager : MonoBehaviour {
             {
                 if (modToAnimationMap.TryGetValue(mod.getModType(), out currentAnimationState))
                 {
-                    if(mod.getModSpot() == ModSpot.ArmL)
+                    if (mod.getModSpot() == ModSpot.ArmL)
                     {
-                        currentAnimationState++;
+                        frame += totalFrames/2;
                     }
-                    animator.Play(currentAnimationState.ToString(), -1, frame);
+                    animator.Play(currentAnimationState.ToString(), -1, frame / (float)totalFrames);
                     animator.speed = 0f;
                 }
             }

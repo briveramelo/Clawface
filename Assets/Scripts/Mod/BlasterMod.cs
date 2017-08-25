@@ -2,93 +2,44 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using MovementEffects;
 
 public class BlasterMod : Mod {
-
-    [SerializeField]
-    private float rangeBoostValue;
-
-    [SerializeField]
-    private float kickbackMagnitude;
-
-
-    [SerializeField]
-    private float coolDownTime;
-
-    [SerializeField]
-    private float feetMultiplier;
-
-    [SerializeField]
-    private VFXBlasterShoot blasterEffect;
-
-    [SerializeField]
-    private float kickBackChargedMultiplier;
-
+    
     [SerializeField] private Transform bulletSpawnPoint;
 
-    private bool readyToShoot;
+    [SerializeField] private float kickbackForce;
+    [SerializeField] private float kickbackForceCharged;
+    [SerializeField] private float kickbackForceFeetMultiplier;
 
-    public override void Activate()
-    {
-        if (readyToShoot)
-        {
-            Shoot();
-            readyToShoot = false;
-            StartCoroutine(CoolDown());
-        }
+    private ShooterProperties shooterProperties= new ShooterProperties();
+
+    // Use this for initialization
+    protected override void Awake () {
+        base.Awake();
+        type = ModType.ArmBlaster;
+        category = ModCategory.Ranged;             
     }
 
-
-    IEnumerator CoolDown()
-    {
-        yield return new WaitForSeconds(coolDownTime);
-        readyToShoot = true;
-    }
-
-    void Shoot()
-    {
-        AudioManager.Instance.PlaySFX(SFXType.BlasterShoot);
-        SpawnBullet();
-        if (wielderMovable != null) {
-            if (getModSpot() == ModSpot.Legs && wielderMovable != null) {
-                KickBack(Vector3.up * feetMultiplier);
+    
+    // Update is called once per frame
+    protected override void Update () {
+        if (wielderMovable != null){
+            if (getModSpot() != ModSpot.Legs){
+                transform.forward = wielderMovable.GetForward();
             }
-            else {
-                KickBack(-wielderMovable.GetForward());
-            }            
         }
-        
-        blasterEffect.Emit();
+        base.Update();
     }
 
-
-    BlasterBullet SpawnBullet()
-    {
-        BlasterBullet blasterBullet = ObjectPool.Instance.GetObject(PoolObjectType.BlasterBullet).GetComponent<BlasterBullet>();
-        if (blasterBullet) {
-            blasterBullet.transform.position = bulletSpawnPoint.position;
-            blasterBullet.transform.rotation = transform.rotation;
-            blasterBullet.SetShooterInstanceID(GetWielderInstanceID());
-        }
-        return blasterBullet;        
+    public override void Activate(Action onCompleteCoolDown=null, Action onActivate=null){
+        onActivate = ()=> { SFXManager.Instance.Play(SFXType.BlasterShoot, transform.position);};
+        base.Activate(onCompleteCoolDown, onActivate);
+        SFXManager.Instance.Stop(SFXType.BlasterCharge);
     }
 
-    private void KickBack(Vector3 direction)
-    {
-        wielderMovable.AddDecayingForce(direction * kickbackMagnitude);
-    }
-
-    public override void AttachAffect(ref Stats wielderStats, IMovable wielderMovable)
-    {
-        isAttached = true;
-        this.wielderMovable = wielderMovable;        
-        this.wielderStats = wielderStats;
-        pickupCollider.enabled = false;
-    }
-
-    void BoostRange()
-    {
-        //playerStats.Modify(StatType.MiniMapRange, rangeBoostValue);
+    public override void AttachAffect(ref Stats wielderStats, IMovable wielderMovable){
+        base.AttachAffect(ref wielderStats, wielderMovable);        
     }
 
     public override void DeActivate()
@@ -98,68 +49,91 @@ public class BlasterMod : Mod {
 
     public override void DetachAffect()
     {
-        isAttached = false;
-        //playerStats.Modify(StatType.MiniMapRange, 1 / rangeBoostValue);
-        pickupCollider.enabled = true;
-        wielderMovable = null;
-        
+        base.DetachAffect();
     }
 
-    // Use this for initialization
-    void Start () {
-        readyToShoot = true;
-        type = ModType.ArmBlaster;
-        category = ModCategory.Ranged;
-        if (modCanvas) { modCanvas.SetActive(false); }
-       
+    public override void BeginCharging(Action onBegin=null){
+        onBegin=()=> {  
+            SFXManager.Instance.Play(SFXType.BlasterCharge, transform.position);
+            };
+        base.BeginCharging(onBegin);
+    }
+    protected override void BeginChargingArms(){ }
+    protected override void RunChargingArms(){ }
+    
+    protected override void ActivateStandardArms(){
+        Shoot();
+        FireKickBack();
+    }
+    protected override void ActivateChargedArms(){
+        Shoot();
+        FireKickBack();
     }
 
-    public override void ActivateModCanvas()
+    protected override void BeginChargingLegs(){ }
+    protected override void RunChargingLegs(){ }
+    protected override void ActivateChargedLegs(){
+        Shoot();
+        FireKickBack();
+    }
+    protected override void ActivateStandardLegs(){
+        Shoot();
+        FireKickBack();
+    }    
+
+    private BlasterBullet Shoot(){
+        SFXManager.Instance.Play(SFXType.BlasterShoot, transform.position);
+        PoolObjectType poolObjType = IsCharged() ? PoolObjectType.VFXBlasterShootCharged: PoolObjectType.VFXBlasterShoot;
+        GameObject vfx = ObjectPool.Instance.GetObject(poolObjType);
+        vfx.transform.position = bulletSpawnPoint.position;
+        vfx.transform.rotation = transform.rotation;
+        BlasterBullet bullet = SpawnBullet();        
+        return bullet;
+    }
+
+    private BlasterBullet SpawnBullet()
     {
-        if (modCanvas && !isAttached)
-        {
-            modCanvas.SetActive(true);
+        PoolObjectType poolObjType = IsCharged() ? PoolObjectType.BlasterBulletCharged : PoolObjectType.BlasterBullet;
+        BlasterBullet blasterBullet = ObjectPool.Instance.GetObject(poolObjType).GetComponent<BlasterBullet>();
+        if (blasterBullet){
+            blasterBullet.transform.position = bulletSpawnPoint.position;
+            blasterBullet.transform.rotation = transform.rotation;
+            shooterProperties.Initialize(GetWielderInstanceID(),Attack, wielderStats.shotSpeed, wielderStats.shotPushForce);
+            blasterBullet.SetShooterProperties(shooterProperties);
+
+            if (wielderStats.gameObject.CompareTag(Strings.Tags.PLAYER))
+            {
+                blasterBullet.SetShooterType(false);
+            }
+            else
+            {
+                blasterBullet.SetShooterType(true);
+            }
+        }
+        return blasterBullet;
+    }
+
+    private void FireKickBack() {        
+        if (wielderMovable != null){            
+            wielderMovable.AddDecayingForce(KickBackDirection * KickBack);
         }
     }
 
-    public override void DeactivateModCanvas()
-    {
-        if (modCanvas)
-        {
-            modCanvas.SetActive(false);
+    private float KickBack {
+        get{
+            float force = energySettings.IsCharged ? kickbackForceCharged : kickbackForce;
+            if (getModSpot()==ModSpot.Legs) {                
+                return kickbackForceFeetMultiplier * force;
+            }            
+            return force;
         }
     }
-    // Update is called once per frame
-    void Update () {
-        if (wielderMovable != null)
-        {
-            if (getModSpot() != ModSpot.Legs)
-            {
-                transform.forward = wielderMovable.GetForward();
-            }
-        }
-    }
-
-    public override void AlternateActivate(bool isHeld, float holdTime)
-    {
-        if (isHeld)
-        {
-            blasterEffect.Emit();
-        }
-        else
-        {
-            BlasterBullet blasterBullet = SpawnBullet();
-            if (blasterBullet) {
-                blasterBullet.isCharged = true;
-            }
-            if (getModSpot() == ModSpot.Legs && wielderMovable != null)
-            {
-                KickBack(Vector3.up * feetMultiplier * kickBackChargedMultiplier);
-            }
-            else if (wielderMovable != null)
-            {
-                KickBack(-wielderMovable.GetForward() * kickBackChargedMultiplier);
-            }
+    private Vector3 KickBackDirection {
+        get {
+            if (getModSpot() == ModSpot.Legs){
+                return Vector3.up;
+            }                        
+            return -wielderMovable.GetForward();            
         }
     }
 }

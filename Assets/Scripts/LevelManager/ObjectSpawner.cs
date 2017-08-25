@@ -2,6 +2,7 @@
 
 using System.Collections.Generic;
 using UnityEngine;
+using ModMan;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -50,10 +51,13 @@ public class ObjectSpawner : MonoBehaviour {
             throw new System.NullReferenceException ("Null template given to spawner!");
 
         _template = template;
+        //transform.localScale = template.transform.localScale;
 
         // Show preview
         var meshFilters = _template.GetComponentsInChildren<MeshFilter>();
         for (int i = 0; i < meshFilters.Length; i++) {
+            
+
             GameObject child;
 
             // Add new children if necessary
@@ -62,6 +66,7 @@ public class ObjectSpawner : MonoBehaviour {
                 child.GetComponent<MeshRenderer>().sharedMaterial = LevelManager.Instance.PreviewMaterial;
                 child.CopyColliderFromGameObject (meshFilters[i].gameObject);
                 child.transform.SetParent (transform);
+                _children.Add(child);
             }
             else child = _children[i];
 

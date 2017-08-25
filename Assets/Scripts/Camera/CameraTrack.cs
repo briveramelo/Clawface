@@ -6,6 +6,7 @@ using UnityEngine.Events;
 public class CameraTrack : MonoBehaviour {
 
     const float _GIZMO_SPHERE_RADIUS = 0.1f;
+    const float _GET_TIME_RESOLUTION = 0.01f;
 
     Color _editorColor = Color.blue;
     Color _idleColor = Color.white;
@@ -34,6 +35,8 @@ public class CameraTrack : MonoBehaviour {
     float _t = 0f;
     float _progress = 0f;
 
+    int _lastReachedPosition = -1;
+
     bool _playing = false;
 
     [SerializeField]
@@ -58,6 +61,10 @@ public class CameraTrack : MonoBehaviour {
             _progress = Mathf.Clamp(_speed.Evaluate(_t), 0f, _positions.Count - 1);
 
             int backPos = Mathf.FloorToInt(_progress);
+            if (backPos > _lastReachedPosition) {
+                _lastReachedPosition = backPos;
+                _positions[_lastReachedPosition].onReachPosition.Invoke();
+            }
             int forwardPos = Mathf.CeilToInt(_progress);
             var position = Vector3.Lerp(_positions[backPos].transform.position, _positions[forwardPos].transform.position, _progress - backPos);
             var rotation = Quaternion.Lerp(_positions[backPos].transform.rotation, _positions[forwardPos].transform.rotation, _progress - backPos);
@@ -124,7 +131,11 @@ public class CameraTrack : MonoBehaviour {
 
     public bool IsPlaying { get { return _playing; } }
 
-    public float EndTime { get { return _speed.keys[_speed.length - 1].time; } }
+    public float EndTime { get {
+            if (_speed == null) return 0f;
+            if (_speed.length == 0) return 0f;
+            return _speed.keys[_speed.length - 1].time;
+        } }
 
     public void PlayFromBeginning() {
         _t = 0f;
@@ -261,6 +272,37 @@ public class CameraTrack : MonoBehaviour {
         _events.RemoveAt(i);
     }
 
+    public void JumpToTime (float t) {
+        _t = t;
+        PreviewTime (t);
+    }
+
+    public void JumpToPosition (int i) {
+        JumpToTime (GetTimesOfPosition (i)[0]);
+    }
+
+    List<float> GetTimesOfPosition (int i) {
+        float t = 0f;
+        bool behindPosition = true;
+        List<float> results = new List<float>();
+        for (; t <= _speed.keys[_speed.length-1].time; t += _GET_TIME_RESOLUTION) {
+            float p = _speed.Evaluate (t);
+            if (p >= i) {
+                if (behindPosition) {
+                    results.Add (t);
+                    behindPosition = false;
+                }
+            } else {
+                if (!behindPosition) {
+                    results.Add (t);
+                    behindPosition = true;
+                }
+            }
+        }
+
+        return results;
+    }
+
     public void PreviewTime(float t) {
         _progress = Mathf.Clamp(_speed.Evaluate(t), 0f, _positions.Count - 1);
 
@@ -277,6 +319,7 @@ public class CameraTrack : MonoBehaviour {
     public class PositionInfo {
         public Transform transform;
         public float fov = 60f;
+        public UnityEvent onReachPosition = new UnityEvent();
 
         public void SetName (string n) {
             transform.gameObject.name = n;

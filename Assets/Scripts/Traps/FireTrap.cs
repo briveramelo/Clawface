@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using ModMan;
+using System.Linq;
 
 public class FireTrap : MonoBehaviour {
 
@@ -30,7 +31,7 @@ public class FireTrap : MonoBehaviour {
 
     Transform _grate;
 
-    Collider _damageVolume;
+    //Collider _damageVolume;
 
     [Tooltip("How long it takes for the trap to open (seconds).")]
     [SerializeField]
@@ -64,20 +65,39 @@ public class FireTrap : MonoBehaviour {
 
     State _currentState = State.Closed;
 
-    List<IDamageable> _objectsInTrap = new List<IDamageable>();
+    private Damager damager=new Damager();
+
+
+    VFXFireEffect _fireEffect;
 
     void Awake() {
         _door1 = gameObject.FindInChildren("Door1").transform;
         _door2 = gameObject.FindInChildren("Door2").transform;
         _grate = gameObject.FindInChildren("Grate").transform;
-        _damageVolume = GetComponent<Collider>();
+        _fireEffect = GetComponentInChildren<VFXFireEffect>();
+        damager.Set(_damagePerSecond, DamagerType.FireTrap, Vector3.up);
+        //_damageVolume = GetComponent<Collider>();
 
         if (_mode == Mode.ContinuousStream) Open();
     }
 
     void Update() {
         var dt = Time.deltaTime;
+        List<IDamageable> _objectsInTrap = new List<IDamageable>();
+        Physics.OverlapBox(transform.position, new Vector3(2.5f, 2.5f, 2.5f)).ToList().ForEach(collider => {
+            var damageable = collider.gameObject.GetComponent<IDamageable>();
+            if (damageable == null) return;
 
+            if (!_objectsInTrap.Contains(damageable))
+            {
+                _objectsInTrap.Add(damageable);
+                if (_mode == Mode.PressureTrigger && _currentState == State.Closed) Open();
+            }
+        });
+        if(_objectsInTrap.Count == 0)
+        {
+            Close();
+        }
         switch (_currentState) {
             case State.Closing:
                 if (_t >= dt) _t -= dt;
@@ -98,6 +118,8 @@ public class FireTrap : MonoBehaviour {
                     _t = _openTime;
                     _currentState = State.Open;
 
+                    if (_fireEffect != null) _fireEffect.Play();
+
                     if (_mode == Mode.ContinuousOpenClose)
                         _stateTimer = _stayOpenTime;
                 }
@@ -108,7 +130,7 @@ public class FireTrap : MonoBehaviour {
             case State.Open:
                 _damageTimer -= dt;
                 if (_damageTimer <= 0f) {
-                    DoDamage();
+                    DoDamage(_objectsInTrap);
                     _damageTimer += 1f;
                 }
 
@@ -127,24 +149,19 @@ public class FireTrap : MonoBehaviour {
         }
     }
 
-    private void OnCollisionEnter(Collision collision) {
-        var damageable = collision.gameObject.GetComponent<IDamageable>();
-        if (damageable == null) return;
-
-        if (!_objectsInTrap.Contains (damageable)) {
-            _objectsInTrap.Add(damageable);
-            if (_mode == Mode.PressureTrigger && _currentState == State.Closed) Open();
-        }
+    //private void OnCollisionEnter(Collision collision) {
+    void OnTriggerEnter (Collider other) {
+        
     }
 
-    private void OnCollisionExit(Collision collision) {
-        var damageable = collision.gameObject.GetComponent<IDamageable>();
+    private void OnTriggerExit(Collider other) {
+        /*var damageable = other.gameObject.GetComponent<IDamageable>();
         if (damageable == null) return;
 
         if (_objectsInTrap.Contains(damageable)) {
             _objectsInTrap.Remove (damageable);
             if (_objectsInTrap.Count == 0 && _currentState == State.Open) Close();
-        }
+        }*/
     }
 
     public Mode TrapMode {
@@ -185,7 +202,7 @@ public class FireTrap : MonoBehaviour {
 
     public void Close() {
         if (_currentState == State.Closed) return;
-
+        if (_fireEffect != null) _fireEffect.Stop();
         _currentState = State.Closing;
     }
 
@@ -197,9 +214,9 @@ public class FireTrap : MonoBehaviour {
         _grate.localPosition = new Vector3(0f, grateY, 0f);
     }
 
-    void DoDamage() {
+    void DoDamage(List<IDamageable> _objectsInTrap) {        
         foreach (var obj in _objectsInTrap) {
-            obj.TakeDamage(_damagePerSecond);
+            obj.TakeDamage(damager);
         }
     }
 }

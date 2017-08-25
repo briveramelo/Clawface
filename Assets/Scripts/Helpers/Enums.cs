@@ -10,7 +10,9 @@ public enum StatType {
     Defense = 1,
     MoveSpeed = 2,
     Health = 3,
-    RangedAccuracy= 4
+    RangedAccuracy= 4,
+    MaxHealth = 5,
+    EXP = 6
 }
 
 public enum CodexType {
@@ -18,31 +20,56 @@ public enum CodexType {
 }
 
 public enum SFXType {
-    /*ArmBlasterFire = 0,
-    ArmBlasterExplode=1,
-    TargetBreak=2,
-    StunBatonSwing=3,
-    StunBatonLayMine=4,
-    StunBatonExplodeMine=5,
-    ForceSegwayPush=6,
-    FingerprintUnlock=7,
-    ModPickup=8,
-    ModDrop=9,
-    ModSwap=10,
-    ModSwapSetup=11,
-    StunBatonHit=12,
-    Pause=13,*/
+    BloodExplosion,
     BlasterCharge,
     BlasterProjectileImpact,
-    BloodExplosion,
+    BlasterShoot,
+    GrapplingGun_Shoot,
     StunBatonCharge,
     StunBatonImpact,
     StunBatonSwing,
-    BlasterShoot,
-    //StunBatonImpact=12,
-    StunBatonSwing1 = 13,
-    StunBatonSwing2 = 14,
-    //Pause=15
+    TankTreads_Attack,
+    TankTreads_Swing, 
+    Dash,
+    SegwayBlast_Standard,
+    SegwayBlast,
+    Boomerang_Throw, 
+    DiceLauncher_Shoot,
+    GeyserMod_Splash,
+    GeyserMod_MiniSplash,
+    Boomerang_Impact,
+    PlayerTakeDamage,
+    PlayerDeath,
+    ModCooldown,
+    MallCopHurt,
+    UI_Click,
+    UI_Hover,
+    UI_Back
+}
+
+public enum MusicType
+{
+    MainMenu_Track
+}
+
+public enum DamagerType {
+    SegwayPush=0,
+    BlasterBullet=1,
+    StunSwing=2,
+    TankTreads=3,
+    GrapplingHook=4,
+    Boomerang=5,
+    Geyser=6,
+    StunMine=7,
+    FireTrap=8,
+    GrapplingBotExplosion=9,
+    Dice=10,
+    StunStomp = 11,
+}
+
+public enum DamagedType {
+    MallCop=0,
+    Milo=1,
 }
 
 public enum ModType {
@@ -51,7 +78,11 @@ public enum ModType {
     FingerPrint=2,
     StunBaton=3,
     TankTreads = 4,
-    Grappler = 5
+    Grappler = 5,
+    Boomerang = 6,
+    Geyser = 7,
+    Dice = 8,
+    None=9
 }
 
 public enum ModCategory
@@ -71,7 +102,12 @@ public enum Layers {
     ModMan=8,
     Enemy=9,
     MiniMap=10,
-    Ground=11
+    Ground=11,
+    Blood=12,
+    Hologram=13,
+    Globe_Text=14,
+    PlayerDetector=15,
+    DiceBlocks=17        
 }
 
 public enum PoolObjectType {
@@ -86,19 +122,22 @@ public enum PoolObjectType {
     MallCopBlaster=8,
     VFXSegwayBlaster=9,
     MallCopExplosion=10,
-    GrapplingBot=11
+    GrapplingBot=11,
+    GeyserProjectile = 12,
+    DiceBlock=13,
+    BlasterBulletCharged=14,
+    VFXSegwayBlasterCharged = 15,
+    BlasterImpactEffectCharged = 16,
+    VFXBlasterShoot=17,
+    VFXBlasterShootCharged=18,
+	GeyserShield = 19,
+    BoomerangProjectile = 20,
+    GeyserGushLine = 21,
+    DiceBlockExplosion=22,
+    GeyserBase = 23,
+    SkinningEffect = 24,
+    HealthGain = 25,
 }
-
-public enum WeaponType {
-    Blaster=0,
-    Baton=1        
-}
-
-public enum VictimType {
-    MallCop=0,
-    WallOrGround=1
-}
-
 
 public enum MovementMode
 {
@@ -110,8 +149,10 @@ public enum PlayerAnimationStates
 {
     Idle = 0,
     Running = 1,    
-    StunBatonR = 2,
-    StunBatonL = 3
+    StunBaton = 2,
+    Boomerang = 3,
+    Dash = 4,
+    TankTreads = 5
 }
 
 public enum ButtonMode

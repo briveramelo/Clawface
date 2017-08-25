@@ -1,98 +1,96 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using MovementEffects;
 
 public class BlasterBullet : MonoBehaviour {
 
-    [HideInInspector] public bool isCharged;
-
-    [SerializeField] private float speed;
-    [SerializeField] private float damage;
-    [SerializeField] private float damageMultiplierCharged;
-
-    private VFXHandler vfxHandler;
-    private Vector3 moveDirection;
-    private float pushForce;
-    private int shooterInstanceID;
-
-	// Use this for initialization
-	void Start () {        
-        vfxHandler = new VFXHandler(transform);
-        moveDirection = Vector3.forward;
-    }
+    private ShooterProperties shooterProperties=new ShooterProperties();
+    private Damager damager = new Damager();
+    private bool shooter;
 
     void OnEnable()
     {        
-        isCharged = false;
-        StartCoroutine(DestroyAfter());
+        Timing.RunCoroutine(DestroyAfter());
     }
 
-    IEnumerator DestroyAfter() {
-        if (gameObject.activeSelf)
-        {
-            yield return new WaitForSeconds(3);
-            vfxHandler.EmitForBulletCollision();
+    private IEnumerator<float> DestroyAfter() {
+        yield return Timing.WaitForSeconds(3f);
+        if (gameObject.activeSelf){
+            EmitBulletCollision();
             gameObject.SetActive(false);
         }
     }
 
-    void OnDisable()
-    {
-        isCharged = false;
-        StopAllCoroutines();
-    }
-
-    // Update is called once per frame
     void Update () {
-        transform.Translate(moveDirection* speed * Time.deltaTime);
+        transform.Translate(Vector3.forward * shooterProperties.speed * Time.deltaTime);
 	}
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.GetInstanceID()!=shooterInstanceID)
-        {
+        if (other.gameObject.GetInstanceID()!=shooterProperties.shooterInstanceID){
             bool isEnemy = other.gameObject.CompareTag(Strings.Tags.ENEMY);
             bool isPlayer = other.gameObject.CompareTag(Strings.Tags.PLAYER);
-            if (isEnemy || isPlayer)
-            {
+            if (isEnemy || isPlayer){                
                 Damage(other.gameObject.GetComponent<IDamageable>());
-                Push(other.gameObject.GetComponent<IMovable>());
-                if (isEnemy) {
-                    EmitBlood();                                              
-                }
+                Push(other.gameObject.GetComponent<IMovable>());                
             }
             if (isEnemy || isPlayer || other.gameObject.layer==(int)Layers.Ground) {
-                vfxHandler.EmitForBulletCollision();
+                SFXManager.Instance.Play(SFXType.BlasterProjectileImpact, transform.position);
+                EmitBulletCollision();
                 gameObject.SetActive(false);
             }
         }
     }
 
-    public void SetShooterInstanceID(int shooterInstanceID) {
-        this.shooterInstanceID = shooterInstanceID;
+    public void SetShooterProperties(ShooterProperties shooterProperties) {
+        this.shooterProperties = shooterProperties;
+    }
+
+    // 0 = Player, Enemy = 1
+    public void SetShooterType(bool playerOrEnemy)
+    {
+        shooter = playerOrEnemy;
     }
 
     private void Damage(IDamageable damageable) {        
         if (damageable != null) {
-            damageable.TakeDamage(isCharged ? damage * damageMultiplierCharged : damage);
+
+            // Shooter is player
+            if (!shooter)
+            {
+                AnalyticsManager.Instance.AddModDamage(ModType.ArmBlaster, shooterProperties.damage);
+
+                if (damageable.GetHealth() - shooterProperties.damage <= 0.01f)
+                {
+                    AnalyticsManager.Instance.AddModKill(ModType.ArmBlaster);
+                }
+            }
+            else
+            {
+                AnalyticsManager.Instance.AddEnemyModDamage(ModType.ArmBlaster, shooterProperties.damage);
+            }
+            damager.Set(shooterProperties.damage, DamagerType.BlasterBullet, transform.forward);
+            damageable.TakeDamage(damager);
         }
     }
 
     private void Push(IMovable movable) {
         Vector3 forceDirection = transform.forward;        
         if (movable != null) {
-            movable.AddDecayingForce(forceDirection.normalized * pushForce);
+            movable.AddDecayingForce(forceDirection.normalized * shooterProperties.pushForce);
         }
+    }
+    private void EmitBulletCollision() {
+        GameObject effect = ObjectPool.Instance.GetObject(PoolObjectType.BlasterImpactEffect);
+        if (effect) {
+            effect.transform.position = transform.position;
+        }    
     }
 
-    private void EmitBlood() {
-        //TODO: Create Impact effect needs to take into account
-        // the type of surface that it had hit.
-        if (Mathf.Abs(transform.forward.y) < 0.5f) {
-            vfxHandler.EmitBloodBilaterally();
-        }
-        else {
-            vfxHandler.EmitBloodInDirection(Quaternion.Euler(Vector3.right * 90f), transform.position);
-        }
+    public void SetWielderInstanceID(int id)
+    {
+        shooterProperties.shooterInstanceID = id;
     }
+
 }
