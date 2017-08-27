@@ -41,10 +41,10 @@ public class MallCopSwingerController : MallCopController {
     }
 
     bool CheckToPatrol() {
-        if (CurrentState == states.chase &&
-            timeInLastState > properties.maxChaseTime &&
-            AttackTarget != null) {
-
+        //if (CurrentState == states.chase &&
+        //    timeInLastState > properties.maxChaseTime &&
+        //    AttackTarget != null) {
+        if (CurrentState == states.chase && AttackTarget == null) {
             UpdateState(EMallCopState.Patrol);
             return true;
         }        

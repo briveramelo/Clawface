@@ -105,14 +105,22 @@ public class BatonMod : Mod {
                         {
                             AnalyticsManager.Instance.AddEnemyModDamage(this.getModType(), Attack);
                         }
-                        
-                        impactEffect.Emit();
-                        damager.Set(Attack, getDamageType(), wielderMovable.GetForward());
-                        damageable.TakeDamage(damager);
-                        recentlyHitObjects.Add(other.gameObject);
-                        IStunnable stunnable = other.GetComponent<IStunnable>();
-                        if (stunnable != null){
-                            stunnable.Stun();
+
+                        //Make sure the Baton only damages an enemy if the wielder is the player and vice versa
+                        if (wielderStats.gameObject.CompareTag(Strings.Tags.PLAYER) && other.gameObject.CompareTag(Strings.Tags.ENEMY) ||
+                            wielderStats.gameObject.CompareTag(Strings.Tags.ENEMY) && other.gameObject.CompareTag(Strings.Tags.PLAYER))
+                        {
+
+                            impactEffect.Emit();
+                            damager.Set(Attack, getDamageType(), wielderMovable.GetForward());
+                            damageable.TakeDamage(damager);
+                            recentlyHitObjects.Add(other.gameObject);
+                            IStunnable stunnable = other.GetComponent<IStunnable>();
+                            if (stunnable != null)
+                            {
+                                stunnable.Stun();
+                            }
+
                         }
                     }
                 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using ModMan;
+using UnityEngine.AI;
 
 public abstract class MallCopController : AIController {
 
@@ -38,15 +39,17 @@ public abstract class MallCopController : AIController {
         Mod mod,
         VelocityBody velBody,
         Animator animator,
-        Stats stats) {
+        Stats stats,
+        NavMeshAgent navAgent) {
 
         this.properties = properties;
         this.mod = mod;
         this.stats = stats;
         this.animator = animator;
+        this.navAgent = navAgent;
 
         states = new States();
-        states.Initialize(properties, this, velBody, animator, stats);
+        states.Initialize(properties, this, velBody, animator, stats, navAgent);
         modMemento.Initialize(mod.transform);
         CurrentState = states.patrol;
     }    
@@ -95,15 +98,16 @@ public abstract class MallCopController : AIController {
             MallCopController controller,
             VelocityBody velBody,
             Animator animator, 
-            Stats stats) {
+            Stats stats,
+            NavMeshAgent navAgent) {
 
-            chase.Initialize(properties, controller, velBody, animator, stats);
-            patrol.Initialize(properties, controller, velBody, animator, stats);
-            swing.Initialize(properties, controller, velBody, animator, stats);
-            twitch.Initialize(properties, controller, velBody, animator, stats);
-            fall.Initialize(properties, controller, velBody, animator, stats);
-            fire.Initialize(properties, controller, velBody, animator, stats);
-            flee.Initialize(properties, controller, velBody, animator, stats);
+            chase.Initialize(properties, controller, velBody, animator, stats, navAgent);
+            patrol.Initialize(properties, controller, velBody, animator, stats, navAgent);
+            swing.Initialize(properties, controller, velBody, animator, stats, navAgent);
+            twitch.Initialize(properties, controller, velBody, animator, stats, navAgent);
+            fall.Initialize(properties, controller, velBody, animator, stats, navAgent);
+            fire.Initialize(properties, controller, velBody, animator, stats, navAgent);
+            flee.Initialize(properties, controller, velBody, animator, stats, navAgent);
 
             mallCopStates = new Dictionary<EMallCopState, MallCopState>() {
                 {EMallCopState.Swing, swing },

@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDamageable, ISkinnable
+public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, ISkinnable
 {
     #region 1. Public fields
 
@@ -79,9 +79,9 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
         }
         Revive();
 
-        PlayerMovement dummy = null;
+        //PlayerMovement dummy = null;
         mod.setModSpot(ModSpot.ArmR);
-        mod.AttachAffect(ref myStats, ref dummy);
+        //mod.AttachAffect(ref myStats, ref dummy);
 
     }
 
@@ -109,13 +109,13 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.tag == Strings.PLAYER && currentState != MallCopState.ATTACK && canAttack)
+        if (other.gameObject.tag == Strings.Tags.PLAYER && currentState != MallCopState.ATTACK && canAttack)
         {
             attackTarget = other.gameObject;
             currentState = MallCopState.ATTACK;
             inRange = true;
         }
-        else if (other.gameObject.tag == Strings.PLAYER && canAttack)
+        else if (other.gameObject.tag == Strings.Tags.PLAYER && canAttack)
         {
             inRange = true;
         }
@@ -123,7 +123,7 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == Strings.PLAYER)
+        if (other.gameObject.tag == Strings.Tags.PLAYER)
         {
             inRange = false;
         }
@@ -156,29 +156,29 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
         canAttack = true;
     }
 
-    void IDamageable.TakeDamage(float damage)
-    {
-        if (myStats.GetStat(StatType.Health) > 0)
-        {
-            myStats.TakeDamage(damage);
-            if (myStats.GetStat(StatType.Health) <= 5 && !isGlowing)
-            {
-                isGlowing = true;
-                skinGlowScript.SetToGlow();
-            }
-            if (myStats.GetStat(StatType.Health) <= 0)
-            {
-                if (animator.GetInteger(Strings.ANIMATIONSTATE) != (int)MallCopAnimationStates.Stunned)
-                {
-                    animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Stunned);
-                }
-                GetComponent<Rigidbody>().isKinematic = true;
+    //void IDamageable.TakeDamage(Damager damage)
+    //{
+    //    if (myStats.GetStat(StatType.Health) > 0)
+    //    {
+    //        myStats.TakeDamage(damage.damage);
+    //        if (myStats.GetStat(StatType.Health) <= 5 && !isGlowing)
+    //        {
+    //            isGlowing = true;
+    //            skinGlowScript.SetToGlow();
+    //        }
+    //        if (myStats.GetStat(StatType.Health) <= 0)
+    //        {
+    //            if (animator.GetInteger(Strings.ANIMATIONSTATE) != (int)MallCopAnimationStates.Stunned)
+    //            {
+    //                animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Stunned);
+    //            }
+    //            GetComponent<Rigidbody>().isKinematic = true;
 
-                mod.DetachAffect();
-                Invoke("Die", 5f);
-            }
-        }
-    }
+    //            mod.DetachAffect();
+    //            Invoke("Die", 5f);
+    //        }
+    //    }
+    //}
 
     GameObject ICollectable.Collect()
     {
@@ -209,10 +209,10 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
         }
     }
 
-    void IMovable.AddExternalForce(Vector3 forceVector, float decay)
-    {
-        StartCoroutine(AddPsuedoForce(forceVector, decay));
-    }
+    //void IMovable.AddDecayingForce(Vector3 forceVector, float decay)
+    //{
+    //    StartCoroutine(AddPsuedoForce(forceVector, decay));
+    //}
 
     public bool HasWillBeenWritten() { return willHasBeenWritten; }
 
@@ -231,13 +231,14 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, IMovable, IDam
         {
             onDeath();
         }
-        skinGlowScript.ResetToNormal();
+        skinGlowScript.ResetForRebirth();
+        //skinGlowScript.ResetToNormal();
         gameObject.SetActive(false);
     }
 
     private void Revive()
     {
-        myStats.ResetStats();
+        myStats.ResetForRebirth();
         isFalling = false;
         rigbod.isKinematic = false;
         rotationMultiplier = 1;// (Random.value > 0.5 ? 1 : -1 ) * Random.Range(.5f, 1.0f);

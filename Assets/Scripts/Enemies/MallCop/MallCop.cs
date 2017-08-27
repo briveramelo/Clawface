@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using ModMan;
+using UnityEngine.AI;
 
 public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpawnable
 {
@@ -16,6 +17,7 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
     [SerializeField] private GlowObject glowObject;
     [SerializeField] private Animator animator;
     [SerializeField] private Stats myStats;
+    [SerializeField] private NavMeshAgent navAgent;
     [SerializeField] private GameObject mySkin;
     [SerializeField] private CopUI copUICanvas;
     [SerializeField] private Mod mod;
@@ -42,7 +44,7 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
     
     void Awake ()
     {
-        controller.Initialize(properties, mod, velBody, animator, myStats);
+        controller.Initialize(properties, mod, velBody, animator, myStats, navAgent);
         damaged.Set(DamagedType.MallCop, bloodEmissionLocation);
         mod.setModSpot(ModSpot.ArmR);
         mod.AttachAffect(ref myStats, velBody);
