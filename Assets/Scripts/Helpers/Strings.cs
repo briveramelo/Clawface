@@ -11,6 +11,13 @@
         public static string UNTAGGED = "Untagged";
         public static string PLAYERDETECTOR = "PlayerDetector";
         public static string PROJECTILE = "Projectile";
+        public static string WALL = "Wall";
+    }
+
+    public static class Scenes {
+        public static string Level1 = "Scenes/EAE_Level1.1";//Gucci_V1.2";
+        public static string MainMenu = "Scenes/MainMenu";
+        public static string Arena = "Scenes/Gucci_V1.2";
     }
 
     public static class Layers
@@ -25,6 +32,8 @@
         public static string LOAD = "LoadMenu";
         public static string LOGO = "LogoMenu";
         public static string PAUSE = "PauseMenu";
+        public static string FADE = "FadeMenu";
+        public static string TUTORIAL = "TutorialMenu";
     }
 
     public static class Input
@@ -39,6 +48,8 @@
         {
             public const string SWAP_MODE = "SWAP MODE";
             public const string DROP_MODE = "DROP MODE";
+
+            public const string ACTIVATE_UI = "ACTIVATE UI";
             public const string ACTION_LEGS = "LEGS";
             public const string ACTION_ARM_LEFT = "ARM LEFT";
             public const string ACTION_ARM_RIGHT = "ARM RIGHT";
@@ -52,6 +63,10 @@
             public const string LOCK = "LOCK"; // REMOVE?
             public const string DODGE = "DODGE";
             public const string PAUSE = "PAUSE";
+            
+            public const string EQUIP_ARM_LEFT = "EQUIP ARM LEFT";
+            public const string EQUIP_ARM_RIGHT = "EQUIP ARM RIGHT";
+            public const string EQUIP_LEGS = "EQUIP LEGS";
         }
     }
 }

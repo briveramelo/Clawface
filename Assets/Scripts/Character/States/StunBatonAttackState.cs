@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class StunBatonAttackState : IPlayerState {
@@ -15,8 +16,9 @@ public class StunBatonAttackState : IPlayerState {
     private int attackForwadDisplacement;
     [SerializeField]
     private VFXMeleeSwing[] vfxMeleeSwing;
+    private bool isStarting=true;
     [SerializeField]
-    private float lookSensitivity;
+    private float wallPushBack;
     #endregion
 
     #region Private Fields
@@ -26,6 +28,7 @@ public class StunBatonAttackState : IPlayerState {
     private int leftHandOffset;
     private int highlightPoseIndex;
     private bool weHaveHitHighlightPose;
+    private bool isHittingAWall;
     #endregion
 
     #region Unity Lifecycle
@@ -37,48 +40,56 @@ public class StunBatonAttackState : IPlayerState {
         currentAttackPose = 1;
         weHaveHitHighlightPose = false;
         highlightPoseIndex = 0;
+        isHittingAWall = false;
     }
 
     public override void StateFixedUpdate()
-    {        
-        if (CanPounce())
-        {
-            stateVariables.velBody.velocity = stateVariables.playerTransform.forward * stateVariables.meleePounceVelocity * Time.fixedDeltaTime;
-        }
+    { 
     }
 
     public override void StateUpdate()
     {
+        DisableEnemyCollision();
+
         if (!stateVariables.stateFinished)
         {
             if (stateVariables.currentMod.getModSpot() == ModSpot.Legs)
             {
-                //((BatonMod)stateVariables.currentMod).footPosition = stateVariables.foot.position;
-                stateVariables.currentMod.Activate();
-                stateVariables.stateFinished = true;
+                ActivateLegs();
+                ResetState();
             }
             else
             {
                 if (frameCount == 0)
                 {
+                    //Not reached highlight pose
                     ChangePose();
                 }
                 if (weHaveHitHighlightPose)
                 {
+                    //Start state cooldown counter
                     frameCount++;
                 }
                 if (frameCount > coolDownFrameCount)
                 {
+                    //Counter is past cooldown
                     if (frameCount < coolDownFrameCount + inputCheckFrameCount)
                     {
+                        //Check if player has requested for input
                         if (isAttackRequested)
                         {
+                            //Reset cooldown counter
                             frameCount = 0;
+                            //Fire the mod
                             weHaveHitHighlightPose = false;
+                            stateVariables.currentMod.modEnergySettings.isActive = false;
+                            stateVariables.currentMod.Activate();
+                            stateVariables.currentMod.modEnergySettings.isActive = true;
                         }
                     }
                     else
                     {
+                        //No input requested
                         ResetState();
                     }
                 }
@@ -87,7 +98,23 @@ public class StunBatonAttackState : IPlayerState {
                     isAttackRequested = false;
                 }
             }
-        }        
+        }
+    }    
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.tag == Strings.Tags.WALL)
+        {
+            isHittingAWall = true;
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.tag == Strings.Tags.WALL)
+        {
+            isHittingAWall = false;
+        }
     }
     #endregion
 
@@ -95,7 +122,13 @@ public class StunBatonAttackState : IPlayerState {
     public override void Attack()
     {
         isAttackRequested = true;
-        stateVariables.currentMod.Activate();
+        if (!stateVariables.currentMod.modEnergySettings.isActive)
+        {
+            stateVariables.currentMod.Activate();
+            if (stateVariables.currentMod.getModSpot() != ModSpot.Legs) {
+                stateVariables.currentMod.modEnergySettings.isActive = true;
+            }
+        }
     }
 
     public override void SecondaryAttack(bool isHeld, float holdTime)
@@ -105,6 +138,21 @@ public class StunBatonAttackState : IPlayerState {
     #endregion
 
     #region Private Methods
+    private void ActivateLegs()
+    {
+        stateVariables.currentMod.Activate();
+        //stateVariables.stateFinished = true;
+    }
+
+    private void DisableEnemyCollision()
+    {
+        if (isStarting)
+        {
+            isStarting = false;
+            Physics.IgnoreLayerCollision((int)Layers.ModMan, (int)Layers.Enemy, true);
+        }
+    }
+
     private bool CanPounce()
     {
         if (stateVariables.currentEnemy != null)
@@ -119,9 +167,15 @@ public class StunBatonAttackState : IPlayerState {
     {
         stateVariables.modAnimationManager.PlayModAnimation(stateVariables.currentMod, currentAttackPose, totalAttackPoses);        
         currentAttackPose++;
-        if(currentAttackPose == highlightPoses[highlightPoseIndex])
+        if (currentAttackPose == highlightPoses[highlightPoseIndex])
         {
-            stateVariables.velBody.AddDecayingForce(stateVariables.playerTransform.forward * attackForwadDisplacement);
+            if (!isHittingAWall)
+            {
+                stateVariables.playerTransform.position += stateVariables.playerTransform.forward * attackForwadDisplacement;
+            }else
+            {
+                stateVariables.playerTransform.position -= stateVariables.playerTransform.forward * wallPushBack;
+            }
             highlightPoseIndex++;
             if(highlightPoseIndex == highlightPoses.Length)
             {
@@ -136,7 +190,6 @@ public class StunBatonAttackState : IPlayerState {
             {
                 vfxMeleeSwing[0].PlayAnimation();
             }
-            //SFXManager.Instance.Play(SFXType.StunBatonSwing);
         }
         if (currentAttackPose > totalAttackPoses)
         {
@@ -146,6 +199,7 @@ public class StunBatonAttackState : IPlayerState {
 
     protected override void ResetState()
     {
+        stateVariables.currentMod.modEnergySettings.isActive = false;
         stateVariables.stateFinished = true;
         frameCount = 0;
         isAttackRequested = false;
@@ -153,20 +207,8 @@ public class StunBatonAttackState : IPlayerState {
         highlightPoseIndex = 0;
         weHaveHitHighlightPose = false;
         stateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Idle);
-    }
-
-    private void CheckForRotationInput()
-    {
-        Vector2 controllerMoveDir = InputManager.Instance.QueryAxes(Strings.Input.Axes.MOVEMENT) * lookSensitivity;
-        bool isAnyAxisInput = controllerMoveDir.magnitude > stateVariables.axisThreshold;
-        if (!isAnyAxisInput)
-        {
-            controllerMoveDir = Vector2.zero;
-        }
-        if (controllerMoveDir != Vector2.zero)
-        {
-            stateVariables.playerTransform.forward = new Vector3(controllerMoveDir.x, 0.0f, controllerMoveDir.y);
-        }
+        Physics.IgnoreLayerCollision((int)Layers.ModMan, (int)Layers.Enemy, false);
+        isStarting = true;      
     }
     #endregion
 

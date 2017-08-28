@@ -16,6 +16,8 @@ public class BoomerangProjectile : MonoBehaviour {
     private float chargeMultiplier;
     [SerializeField]
     private float chargeRotations;
+    [SerializeField]
+    private float spinMultiplier;
     #endregion
 
     #region Private Fields
@@ -26,6 +28,9 @@ public class BoomerangProjectile : MonoBehaviour {
     private Transform parentTransform;
     private Matrix4x4 TRMatrix;
     private float maxAngle;
+    private System.Action onDestroy;
+
+    private bool isPlayer;
 #endregion
 
     #region Unity Lifecycle
@@ -39,13 +44,17 @@ public class BoomerangProjectile : MonoBehaviour {
     {
         start = false;
         angle = 0f;
-        transform.forward = Vector3.zero;
+        transform.forward = Vector3.right; //Vector3.zero;
         transform.localPosition = Vector3.zero;
         maxAngle = 360f;
+        if (onDestroy!=null) {
+            onDestroy();
+        }
+        onDestroy = null;
     }
 	
-	// Update is called once per frame
-	void Update () {
+	// FixedUpdate is called whenever I bone your mom
+	void FixedUpdate () {
         if (start)
         {
             angle += speed;
@@ -56,7 +65,7 @@ public class BoomerangProjectile : MonoBehaviour {
             float z = maxRadius * Mathf.Sin(angle * Mathf.Deg2Rad);
             TRMatrix = Matrix4x4.Translate(parentTransform.position);
             transform.position = TRMatrix.MultiplyPoint3x4(new Vector3(x, 0f, z));
-            transform.localRotation = Quaternion.AngleAxis(angle, Vector3.up);
+            transform.localRotation = Quaternion.AngleAxis(angle* spinMultiplier, Vector3.up);
             if (angle > maxAngle)
             {
                 gameObject.SetActive(false);
@@ -77,6 +86,21 @@ public class BoomerangProjectile : MonoBehaviour {
                 IDamageable damageable = other.gameObject.GetComponent<IDamageable>();
                 if (damageable != null)
                 {
+                    if (isPlayer)
+                    {
+                        AnalyticsManager.Instance.AddModDamage(ModType.Boomerang, damager.damage);
+
+                        if (damageable.GetHealth() - damager.damage <= 0.01f)
+                        {
+                            AnalyticsManager.Instance.AddModKill(ModType.Boomerang);
+                        }
+                    }
+                    else
+                    {
+                        AnalyticsManager.Instance.AddEnemyModDamage(ModType.Boomerang, damager.damage);
+                    }
+
+                    SFXManager.Instance.Play(SFXType.Boomerang_Impact, transform.position);
                     damager.impactDirection = transform.forward;
                     damageable.TakeDamage(damager);
                 }
@@ -86,13 +110,24 @@ public class BoomerangProjectile : MonoBehaviour {
 #endregion
 
 #region Public Methods
-    public void Go(Stats wielderStats, int wielderId, Transform parentTransform, bool isCharged = false)
-    {   
+    public void Go(Stats wielderStats, int wielderId, Transform parentTransform, System.Action onDestroy, bool isCharged = false)
+    {
+        this.onDestroy = onDestroy;
         this.wielderId = wielderId;
         transform.position = Vector3.zero;
         this.parentTransform = parentTransform;
         damager.damage = isCharged ? wielderStats.attack * chargeMultiplier: wielderStats.attack;
         damager.damagerType = DamagerType.Boomerang;
+
+        if (wielderStats.gameObject.CompareTag(Strings.Tags.PLAYER))
+        {
+            isPlayer = true;
+        }
+        else
+        {
+            isPlayer = false;
+        }
+
         if (isCharged)
         {
             maxAngle = 360f * chargeRotations;

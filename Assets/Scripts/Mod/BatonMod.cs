@@ -24,9 +24,9 @@ public class BatonMod : Mod {
     [SerializeField]
     private float slamPush;
     [SerializeField]
-    private VFXBlasterShoot vfx;
-    [SerializeField]
     private float chargeMultiplier;
+    [SerializeField]
+    private float slamForceDecayRate;
 
     private ProjectileProperties projectileProperties = new ProjectileProperties();
     private bool wasCharged;
@@ -89,7 +89,7 @@ public class BatonMod : Mod {
                     other.gameObject.CompareTag(Strings.Tags.ENEMY))){
 
                     IDamageable damageable = other.GetComponent<IDamageable>();
-                    if (damageable != null && !recentlyHitEnemies.Contains(damageable)){
+                    if (damageable != null && !recentlyHitObjects.Contains(other.gameObject)){
                         SFXManager.Instance.Play(SFXType.StunBatonImpact, transform.position);
 
                         if (wielderStats.gameObject.CompareTag(Strings.Tags.PLAYER)){
@@ -109,7 +109,7 @@ public class BatonMod : Mod {
                         impactEffect.Emit();
                         damager.Set(Attack, getDamageType(), wielderMovable.GetForward());
                         damageable.TakeDamage(damager);
-                        recentlyHitEnemies.Add(damageable);
+                        recentlyHitObjects.Add(other.gameObject);
                         IStunnable stunnable = other.GetComponent<IStunnable>();
                         if (stunnable != null){
                             stunnable.Stun();
@@ -131,7 +131,8 @@ public class BatonMod : Mod {
             float attack = wasCharged ? energySettings.chargedLegAttackSettings.attack : energySettings.standardLegAttackSettings.attack;
             if (damageable != null)
             {
-                damager.Set(attack, getDamageType(), Vector3.down);
+                DamagerType dType = getModSpot()==ModSpot.Legs ? DamagerType.StunStomp : DamagerType.StunSwing;
+                damager.Set(attack, dType, Vector3.down);
                 damageable.TakeDamage(damager);
             }
             if(wasCharged && moveable != null)
@@ -153,7 +154,8 @@ public class BatonMod : Mod {
     {
         if (!wielderMovable.IsGrounded())
         {
-            wielderMovable.AddDecayingForce(Vector3.down * slamForce);
+            wielderMovable.StopVerticalMovement();
+            wielderMovable.AddDecayingForce(Vector3.down * slamForce, slamForceDecayRate);
             StartCoroutine(TurnOnSlamBox());
         }
     }
@@ -169,9 +171,12 @@ public class BatonMod : Mod {
         RaycastHit hit;
         if(wasCharged && Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.NameToLayer(Strings.Layers.GROUND))){
             wasCharged = false;
-            vfx.transform.position = hit.transform.position;
-            vfx.Emit();
+
+            GameObject blasterShoot = ObjectPool.Instance.GetObject(PoolObjectType.VFXBlasterShoot);
+            blasterShoot.transform.position = hit.transform.position;
+            blasterShoot.transform.rotation = transform.rotation;            
         }
+        InputManager.Instance.Vibrate(VibrationTargets.BOTH, 1f);
         slamBox.enabled = false;
         yield return null;
     }

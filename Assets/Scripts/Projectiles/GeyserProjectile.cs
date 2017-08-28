@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,16 +9,20 @@ public class GeyserProjectile : MonoBehaviour {
     #endregion
 
     #region Serialized Unity Inspector fields
-    [SerializeField] private VFXBlasterShoot vfx;
     [SerializeField] private float lifeTime;
+    [SerializeField]
+    private float upForce;
     #endregion
 
     #region Private Fields
     private ProjectileProperties projectileProperties;
     private Damager damager=new Damager();
+    private bool isPlayer;
+    private List<GameObject> objectsHitThisGush=new List<GameObject>();
     #endregion
 
     #region Unity Lifecycle
+
     // Use this for initialization
     void Start () {
 		
@@ -26,20 +31,14 @@ public class GeyserProjectile : MonoBehaviour {
     void OnEnable()
     {
         StartCoroutine(WaitToDisable());
+        objectsHitThisGush.Clear();
     }
 
-    IEnumerator WaitToDisable()
-    {
-        yield return new WaitForSeconds(lifeTime);
-        gameObject.SetActive(false);
-    }
+    
 
     // Update is called once per frame
     void Update () {
-        if (gameObject.activeSelf)
-        {
-            vfx.Emit();
-        }
+       
 	}    
 
     void OnDisable()
@@ -47,13 +46,35 @@ public class GeyserProjectile : MonoBehaviour {
         transform.localScale = Vector3.one;
     }
 
+
     void OnTriggerEnter(Collider other){
-        if((other.CompareTag(Strings.Tags.ENEMY) || other.CompareTag(Strings.Tags.PLAYER))){
+        if (!objectsHitThisGush.Contains(other.gameObject)) {
             if (projectileProperties.shooterInstanceID != other.gameObject.GetInstanceID()) {
+                objectsHitThisGush.Add(other.gameObject);
                 IDamageable damageable = other.GetComponent<IDamageable>();
-                if (damageable!=null) {
+                if (damageable!=null) {                    
                     damager.Set(projectileProperties.damage, DamagerType.Geyser, Vector3.down);
+
+					if (isPlayer)
+                	{
+                    	AnalyticsManager.Instance.AddModDamage(ModType.Geyser, damager.damage);
+
+                    	if (damageable.GetHealth() - damager.damage <= 0.01f)
+                    	{
+                        	AnalyticsManager.Instance.AddModKill(ModType.Geyser);
+                    	}
+                	}
+                	else
+                	{
+                    	AnalyticsManager.Instance.AddEnemyModDamage(ModType.Geyser, damager.damage);
+                	}
+                    
                     damageable.TakeDamage(damager);
+                }
+                IMovable moveable = other.GetComponent<IMovable>();
+                if(moveable != null)
+                {
+                    moveable.AddDecayingForce(Vector3.up * upForce * transform.localScale.magnitude);
                 }
             }
         }
@@ -64,12 +85,22 @@ public class GeyserProjectile : MonoBehaviour {
     public void SetProjectileProperties(ProjectileProperties projectileProperties) {
         this.projectileProperties = projectileProperties;
     }
-#endregion
 
-#region Private Methods
-#endregion
+    public void SetShooterType(bool isPlayer)
+    {
+        this.isPlayer = isPlayer;
+    }
+    #endregion
 
-#region Private Structures
-#endregion
+    #region Private Methods
+    private IEnumerator WaitToDisable()
+    {
+        yield return new WaitForSeconds(lifeTime);
+        gameObject.SetActive(false);
+    }
+    #endregion
+
+    #region Private Structures
+    #endregion
 
 }

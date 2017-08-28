@@ -2,100 +2,235 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.Video;
+
 public class MainMenu : Menu
 {
 
-    bool menuShowing = false;
-    
+    #region Public Fields
+    public override bool Displayed
+    {
+        get
+        {
+            return Displayed;
+        }
+    }
+    #endregion
+
+    #region Serialized Unity Fields
+    private bool menuShowing = false;
+
+    [SerializeField]
     CanvasGroup creditsCanvasGroup;
 
     [SerializeField]
-    GameObject creditsCanvasGameObject;
-
-    [SerializeField]
-    GameObject creditsDefaultSelected;
-
-    [SerializeField]
-    GameObject fadeCanvasGameObject;
-
     CanvasGroup fadeCanvasGroup;
+
+    [SerializeField]
+    Button creditsDefaultSelectedButton;
+
+    [SerializeField]
+    Button mainDefaultSelectedButton;
+
+    [SerializeField]
+    GameObject bloodAndGore;
+
+    [SerializeField]
+    GameObject miloTheRobot;
+    
+    [SerializeField]
+    VideoPlayer projector;
+
+    [SerializeField]
+    VideoClip staticLoop;
+
+    [SerializeField]
+    CameraTrack track;
+
+    #endregion
+
+    #region Private Fields
+    private bool displayed = false;
+    #endregion
+
+    #region Unity Lifecycle Methods
+
+    private void Start()
+    {
+        creditsCanvasGroup.gameObject.SetActive(false);
+        MenuManager.Instance.EnableEventSystem(false);
+
+
+    }
 
     private void Update()
     {
         if (Input.anyKey && !menuShowing)
         {
             menuShowing = true;
-            DoTransition(Transition.SHOW, new Effect[] { });
+            SkipToMenuHide();
+        }
+
+    }
+
+
+    #endregion
+
+    #region Public Interface
+
+    public void KillScreen()
+    {
+        projector.clip = staticLoop;
+        projector.isLooping = true;
+    }
+
+    public void SkipToMenuHide()
+    {
+        StartCoroutine(MenuTransitionsCommon.FadeCoroutine(0.0f, 1.0f, 1.0f, fadeCanvasGroup, OpenEyes));
+    }
+
+    public void SkipToMenuShow()
+    {
+        track.JumpToPosition(4);
+        KillScreen();
+        ShowMenu();
+    }
+
+    public void CloseEyes()
+    {
+        //if(MathfadeCanvasGroup.alpha)
+        if (!Mathf.Equals(1.0f, fadeCanvasGroup.alpha))
+        {
+            StartCoroutine(MenuTransitionsCommon.FadeCoroutine(0.0f, 1.0f, 0.25f, fadeCanvasGroup, SkipToMenuShow));
+        }
+        else
+        {
+            SkipToMenuShow();
         }
     }
-    public MainMenu() : base(Strings.MenuStrings.MAIN)
+
+    public void OpenEyes()
     {
+        SkipToMenuShow();
+        bloodAndGore.SetActive(true);
+        miloTheRobot.SetActive(true);
+        StartCoroutine(MenuTransitionsCommon.FadeCoroutine(1.0f, 0.0f, 1.0f, fadeCanvasGroup, null));
+    }
+    public void ShowCredits()
+    {
+        creditsCanvasGroup.gameObject.SetActive(true);
+        StartCoroutine(MenuTransitionsCommon.FadeCoroutine(0.0f, 1.0f, 1.0f, creditsCanvasGroup, HideSelf));
     }
 
-    private void Awake()
+    public void PlayMenuMusic()
     {
-        creditsCanvasGroup = creditsCanvasGameObject.GetComponent<CanvasGroup>();
-        fadeCanvasGroup = fadeCanvasGameObject.GetComponent<CanvasGroup>();
-        
-    }
-
-    private void Start()
-    {
-        creditsCanvasGameObject.SetActive(false);
+        MusicManager.Instance.PlayMusic(MusicType.MainMenu_Track, gameObject.transform.position);
     }
 
     public override void DoTransition(Transition transition, Effect[] effects)
     {
+
         switch (transition)
         {
             case Transition.HIDE:
-                StartCoroutine(MenuTransitionsCommon.FadeCoroutine(1.0f, 0.0f, 1.0f, canvasGroup, null));
+                StartCoroutine(MenuTransitionsCommon.FadeCoroutine(1.0f, 0.0f, 1.0f, canvasGroup,
+                    () => { displayed = false; }));
                 break;
             case Transition.SHOW:
-                StartCoroutine(MenuTransitionsCommon.FadeCoroutine(0.0f, 1.0f, 1.0f, canvasGroup, null));
+                StartCoroutine(MenuTransitionsCommon.FadeCoroutine(0.0f, 1.0f, 2.0f, canvasGroup,
+                    () => { displayed = true; /*startButton.Select();*/ }));
                 break;
         }
     }
 
+
     public void StartGame()
     {
-        //fade out self
         StartCoroutine(MenuTransitionsCommon.FadeCoroutine(1.0f, 0.0f, 1.0f, canvasGroup, FadeOut));
+    }
+
+    public void StartArena()
+    {
+        StartCoroutine(MenuTransitionsCommon.FadeCoroutine(1.0f, 0.0f, 1.0f, canvasGroup, FadeOutToArena));
     }
 
     public void FireCredits()
     {
-        
         StartCoroutine(MenuTransitionsCommon.FadeCoroutine(1.0f, 0.0f, 1.0f, canvasGroup, ShowCredits));
-        //MenuManager.Instance.DoTransition(Strings.MenuStrings.MAIN, Transition.HIDE, new Effect[] { });
-       
     }
-    
-    
 
-    void FadeOut()
+    public void ShowMenu()
     {
-        //fade out to black
-        fadeCanvasGameObject.SetActive(true);
+        
+        StartCoroutine(MenuTransitionsCommon.FadeCoroutine(0.0f, 1.0f, 1.0f, canvasGroup, EnableES));
+        
+    }
+
+
+    #endregion
+
+    #region Private Interface
+    private void EnableES()
+    {
+        MenuManager.Instance.EnableEventSystem(true);
+        mainDefaultSelectedButton.Select();
+    }
+
+    private void FadeOut()
+    {
+        ////fade out to black
+        fadeCanvasGroup.gameObject.SetActive(true);
         StartCoroutine(MenuTransitionsCommon.FadeCoroutine(0.0f, 1.0f, 1.0f, fadeCanvasGroup, LoadLevelOne));
     }
-    void LoadLevelOne()
-    {
-        SceneManager.LoadScene(1);
+
+    private void FadeOutToArena() {
+        fadeCanvasGroup.gameObject.SetActive(true);
+        StartCoroutine(MenuTransitionsCommon.FadeCoroutine(0.0f, 1.0f, 1.0f, fadeCanvasGroup, LoadArena));
     }
 
-    public void ShowCredits()
+    private void LoadLevelOne()
     {
-        creditsCanvasGameObject.SetActive(true);
-        StartCoroutine(MenuTransitionsCommon.FadeCoroutine(0.0f, 1.0f, 1.0f, creditsCanvasGroup, HideSelf));
+        MusicManager.Instance.Stop(MusicType.MainMenu_Track);
+
+        Menu pMenu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.PAUSE);
+        PauseMenu pauseMenu = (PauseMenu)pMenu;
+        pauseMenu.CanPause = true;
+        Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
+        LoadMenu loadMenu = (LoadMenu)menu;
+        loadMenu.TargetScene = Strings.Scenes.Level1;
+        MenuManager.Instance.DoTransition(loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
     }
 
-    void HideSelf()
+    private void LoadArena()
     {
-        EventSystem.current.SetSelectedGameObject(creditsDefaultSelected);
+        MusicManager.Instance.Stop(MusicType.MainMenu_Track);
+
+        Menu pMenu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.PAUSE);
+        PauseMenu pauseMenu = (PauseMenu)pMenu;
+        pauseMenu.CanPause = true;
+        Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
+        LoadMenu loadMenu = (LoadMenu)menu;
+        //loadMenu.TargetScene = Strings.Scenes.Level1;
+        loadMenu.TargetScene = Strings.Scenes.Arena;
+        MenuManager.Instance.DoTransition(loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+    }
+
+    private void HideSelf()
+    {
+        creditsDefaultSelectedButton.Select();
         gameObject.SetActive(false);
     }
+
+    #endregion
+
+    public MainMenu() : base(Strings.MenuStrings.MAIN)
+    {
+    }
+
+
+
     
 }

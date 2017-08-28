@@ -30,6 +30,26 @@ public enum SFXType {
     StunBatonSwing,
     TankTreads_Attack,
     TankTreads_Swing, 
+    Dash,
+    SegwayBlast_Standard,
+    SegwayBlast,
+    Boomerang_Throw, 
+    DiceLauncher_Shoot,
+    GeyserMod_Splash,
+    GeyserMod_MiniSplash,
+    Boomerang_Impact,
+    PlayerTakeDamage,
+    PlayerDeath,
+    ModCooldown,
+    MallCopHurt,
+    UI_Click,
+    UI_Hover,
+    UI_Back
+}
+
+public enum MusicType
+{
+    MainMenu_Track
 }
 
 public enum DamagerType {
@@ -43,7 +63,8 @@ public enum DamagerType {
     StunMine=7,
     FireTrap=8,
     GrapplingBotExplosion=9,
-    Dice=10
+    Dice=10,
+    StunStomp = 11,
 }
 
 public enum DamagedType {
@@ -60,7 +81,8 @@ public enum ModType {
     Grappler = 5,
     Boomerang = 6,
     Geyser = 7,
-    Dice = 8
+    Dice = 8,
+    None=9
 }
 
 public enum ModCategory
@@ -84,7 +106,8 @@ public enum Layers {
     Blood=12,
     Hologram=13,
     Globe_Text=14,
-    PlayerDetector=15        
+    PlayerDetector=15,
+    DiceBlocks=17        
 }
 
 public enum PoolObjectType {
@@ -108,7 +131,12 @@ public enum PoolObjectType {
     VFXBlasterShoot=17,
     VFXBlasterShootCharged=18,
 	GeyserShield = 19,
-    BoomerangProjectile = 20
+    BoomerangProjectile = 20,
+    GeyserGushLine = 21,
+    DiceBlockExplosion=22,
+    GeyserBase = 23,
+    SkinningEffect = 24,
+    HealthGain = 25,
 }
 
 public enum MovementMode

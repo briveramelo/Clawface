@@ -92,15 +92,15 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1145115233867226}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -8.271309, y: 1.39, z: -4.592968}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -21.75, y: 1.468, z: -3.489057}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children:
   - {fileID: 4564136626918456}
   - {fileID: 224167046383277494}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!4 &4564136626918456
 Transform:
   m_ObjectHideFlags: 1
@@ -245,18 +245,20 @@ MonoBehaviour:
   hasState: 0
   vfxModChargePrefab: {fileID: 1868770362516384, guid: 75076dc3f3739ff4bb01ae67a336ecc5,
     type: 2}
+  vfxModCooldownPrefab: {fileID: 1020022290495414, guid: 28c736c9f78d4cc4b8ea1d4a2875356d,
+    type: 2}
   pickupCollider: {fileID: 65209099370088602}
   modCanvas: {fileID: 1431774864512322}
   energySettings:
     timeToChargeArm: 2
     timeToChargeLeg: 2
     standardArmAttackSettings:
-      timeToCoolDown: 1
+      timeToCoolDown: 0.6
       timeToAttack: 0
       attack: 4
       timeToHitStop: 0.03
     chargedArmAttackSettings:
-      timeToCoolDown: 2
+      timeToCoolDown: 1.3
       timeToAttack: 0
       attack: 9
       timeToHitStop: 0.1
@@ -277,9 +279,12 @@ MonoBehaviour:
   hook: {fileID: 114929120214224340}
   jumpForce: 50
   jumpForceMultiplier: 1
-  tornadoSpeed: 20
+  maxHookLengthStandard: 2
+  maxHookLengthCharged: 4
+  tornadoSpeed: 50
   standardTornadoFallingForce: 0.5
   chargedTornadoFallingForce: 0.8
+  tornadoDamageBoxWidth: 1
 --- !u!114 &114399477563612414
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -350,7 +355,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 2e7c02721ca41a445b9daf7c55c16419, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fc4b8f391b26b3b459ff9ac29cc5acf2, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -369,11 +374,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e35b892bc77956b48afc197fc6adade3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxLength: 2
   mod: {fileID: 114176279886086948}
   growRate: 10
   shrinkRate: 10
-  maxLength: 2
-  pullForce: 5
+  pullForce: 55
 --- !u!222 &222070531113919024
 CanvasRenderer:
   m_ObjectHideFlags: 1

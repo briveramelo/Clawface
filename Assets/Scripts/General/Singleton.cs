@@ -9,25 +9,8 @@
 /// </summary>
 public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 {
-    private static T instance;    
-    private static object lockObject = new object();
-    protected bool shouldRegister=true;
 
-    protected virtual void Awake() {
-        if (instance == null)
-        {
-            instance = this as T;
-            if(shouldRegister) {
-                ServiceWrangler.Instance.RegisterSingleton(instance);
-            }
-            DontDestroyOnLoad(gameObject);
-        }
-        else {
-            Destroy(gameObject);
-            Debug.LogWarning("Destroying duplicate singleton!" + typeof(T));
-        }
-    }
-
+    #region Public Fields
     public static T Instance
     {
         get
@@ -38,13 +21,39 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
                     "' already destroyed on application quit." +
                     " Won't create again - returning null.");
                 return null;
-            }            
+            }
 
-            return instance;            
+            return instance;
         }
     }
+    #endregion
 
+    #region Protected Fields
+    protected bool shouldRegister = true;
+    #endregion
+
+    #region Private Fields
+    private static T instance;
     private static bool applicationIsQuitting = false;
+    private static bool guard = false;
+    #endregion
+
+    #region Unity Lifecycle Functions
+    protected virtual void Awake() {
+        if (instance == null)
+        {
+            instance = this as T;
+            if(shouldRegister) {
+                ServiceWrangler.Instance.RegisterSingleton(instance);
+            }
+            DontDestroyOnLoad(gameObject);
+        }
+        else {
+            guard = true;
+            Destroy(gameObject);
+            Debug.LogWarning("Destroying duplicate singleton " + typeof(T) +"!");
+        }
+    }
     /// <summary>
     /// When Unity quits, it destroys objects in a random order.
     /// In principle, a Singleton is only destroyed when application quits.
@@ -55,6 +64,12 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
     /// </summary>
     public void OnDestroy()
     {
-        applicationIsQuitting = true;
+        if (!guard) {
+            applicationIsQuitting = true;
+        } else
+        {
+            guard = false;
+        }
     }
+    #endregion
 }

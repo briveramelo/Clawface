@@ -50,6 +50,7 @@ public class PlayerStateManager : MonoBehaviour {
         stateVariables.playerTransform = transform;
         stateVariables.modAnimationManager = modAnimationManager;
         stateVariables.statsManager = playerStatsManager;
+        stateVariables.defaultState = defaultState;
         defaultState.Init(ref stateVariables);
         skinningState.Init(ref stateVariables);
         dashState.Init(ref stateVariables);
@@ -89,6 +90,12 @@ public class PlayerStateManager : MonoBehaviour {
     void FixedUpdate()
     {
         playerStates.ForEach(state=>state.StateFixedUpdate());
+    }
+
+    private void OnCollisionEnter(Collision collision) {
+        if (collision.transform.gameObject.CompareTag(Strings.Tags.WALL)) {
+            stateVariables.velBody.velocity = Vector3.zero;
+        }
     }
     #endregion
 
@@ -134,14 +141,16 @@ public class PlayerStateManager : MonoBehaviour {
     #region Private Methods
     private void SwitchState(IPlayerState newState)
     {
-        if (newState.IsBlockingState())
-        {
-            stateVariables.velBody.velocity = Vector3.zero;
-            playerStates.Clear();
+        if(playerStates[0] == defaultState) {
+            if (newState.IsBlockingState())
+            {
+                stateVariables.velBody.velocity = Vector3.zero;
+                playerStates.Clear();
+            }        
+            playerStates.Add(newState);
+            stateVariables.stateFinished = false;
+            stateChanged = true;
         }
-        playerStates.Add(newState);
-        stateVariables.stateFinished = false;
-        stateChanged = true;
     }
 
     private void ResetState()
@@ -183,6 +192,8 @@ public class PlayerStateManager : MonoBehaviour {
         public Transform playerTransform;
         [HideInInspector]
         public PlayerModAnimationManager modAnimationManager;
+        [HideInInspector]
+        public IPlayerState defaultState;
     }
 
     [System.Serializable]

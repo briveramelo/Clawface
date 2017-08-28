@@ -6,13 +6,13 @@ using MovementEffects;
 public class Hook : MonoBehaviour {
 
     #region Public fields
+    [HideInInspector] public float maxLength;
     #endregion
 
     #region Serialized Unity Inspector fields
     [SerializeField] GrapplerMod mod;
     [SerializeField] private float growRate;
     [SerializeField] private float shrinkRate;
-    [SerializeField] private float maxLength;
     [SerializeField] private float pullForce;
     #endregion
 
@@ -23,6 +23,7 @@ public class Hook : MonoBehaviour {
     private bool isThrowing;
     private Vector3 pullDirection;
     private Damager damager=new Damager();
+    private bool isPlayer;
     #endregion
 
     #region Unity Lifecycle
@@ -44,21 +45,25 @@ public class Hook : MonoBehaviour {
                 IDamageable damageable = other.gameObject.GetComponent<IDamageable>();
                 if (damageable != null)
                 {
-                    if (transform.root.CompareTag(Strings.Tags.PLAYER))
-                    {
-                        AnalyticsManager.Instance.AddModDamage(ModType.Grappler, mod.Attack);
+                    
+                    
+                    damager.Set(mod.Attack, DamagerType.GrapplingHook, transform.forward);
 
-                        if (damageable.GetHealth() - mod.Attack <= 0.01f)
+                    if (isPlayer)
+                    {
+                        AnalyticsManager.Instance.AddModDamage(ModType.Grappler, damager.damage);
+
+                        if (damageable.GetHealth() - damager.damage <= 0.01f)
                         {
                             AnalyticsManager.Instance.AddModKill(ModType.Grappler);
                         }
                     }
-                    else if (transform.root.CompareTag(Strings.Tags.ENEMY))
+                    else
                     {
-                        AnalyticsManager.Instance.AddEnemyModDamage(ModType.Grappler, mod.Attack);
+                        AnalyticsManager.Instance.AddEnemyModDamage(ModType.Grappler, damager.damage);
                     }
-                    
-                    damager.Set(mod.Attack, DamagerType.GrapplingHook, transform.forward);
+
+
                     damageable.TakeDamage(damager);
                 }
             }        
@@ -69,6 +74,7 @@ public class Hook : MonoBehaviour {
 
     #region Public Methods
     public void Throw(bool isCharged){
+        mod.modEnergySettings.isActive = true;
         this.isCharged = isCharged;
         Timing.RunCoroutine(ThrowAndRetractHook());
     }
@@ -76,6 +82,11 @@ public class Hook : MonoBehaviour {
     public float GetMaxLength()
     {
         return maxLength;
+    }
+
+    public void SetShooterType(bool isPlayer)
+    {
+        this.isPlayer = isPlayer;
     }
 
     public void ExtendHook()
@@ -96,6 +107,7 @@ public class Hook : MonoBehaviour {
 
     #region Private Methods
     private void FinishRetracting(){
+        mod.modEnergySettings.isActive = false;
         transform.localPosition = initPos;
         isPullingWielder = false;
     }
@@ -140,16 +152,19 @@ public class Hook : MonoBehaviour {
 
     private IEnumerator<float> Retract()
     {
+        if (isPullingWielder) {
+            PullToTarget();            
+        }
         while (transform.localPosition.z > initPos.z)
         {
-            if (isPullingWielder)
-            {
-                PullToTarget();
-            }
+            //if (isPullingWielder)
+            //{
+            //  PullToTarget()
+            //}
             //transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z - shrinkRate * Time.deltaTime);
             transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z - shrinkRate * Time.deltaTime);
             yield return 0f;
-        }
+        }        
         FinishRetracting();
         isThrowing = false;
     }

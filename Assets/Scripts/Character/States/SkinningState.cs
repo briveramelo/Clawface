@@ -15,8 +15,8 @@ public class SkinningState : IPlayerState
     [SerializeField] private List<CapsuleCollider> clothColliders;
     [SerializeField] private GameObject skinObject;
     [SerializeField] private PlayerStatsManager playerStatsManager;
-    [SerializeField]
-    private float skinRadius;
+    [SerializeField] private HealthBar healthBar;
+    [SerializeField] private float skinRadius;
     #endregion
 
     #region Private Fields
@@ -47,7 +47,14 @@ public class SkinningState : IPlayerState
             SkinStats skinStats = skin.GetComponent<SkinStats>();
             playerStatsManager.TakeSkin(skinStats.GetSkinHealth());
             Stats stats = GetComponent<Stats>();
-            HealthBar.Instance.SetHealth(stats.GetHealthFraction());
+            healthBar.SetHealth(stats.GetHealthFraction());
+            GameObject skinningEffect = ObjectPool.Instance.GetObject(PoolObjectType.SkinningEffect);
+            skinningEffect.transform.position = transform.position;
+
+            GameObject healthJuice = ObjectPool.Instance.GetObject(PoolObjectType.HealthGain);
+            if (healthJuice) {                                
+                healthJuice.FollowAndDeActivate(3f, transform, Vector3.up * 3.2f);
+            }
         }        
         stateVariables.stateFinished = true;
         stateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Idle);

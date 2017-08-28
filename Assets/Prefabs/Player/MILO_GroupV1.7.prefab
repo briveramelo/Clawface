@@ -2465,6 +2465,7 @@ MonoBehaviour:
   damageUI: {fileID: 114321190104386428}
   cameraLock: {fileID: 114547435527990188}
   skinningState: {fileID: 114219367861871714}
+  healthBar: {fileID: 114344489139817748}
   stats: {fileID: 114222515541336284}
 --- !u!114 &114109285062280514
 MonoBehaviour:
@@ -2575,6 +2576,7 @@ MonoBehaviour:
   - {fileID: 136049077604911712}
   skinObject: {fileID: 1650696690189918}
   playerStatsManager: {fileID: 114073478725281102}
+  healthBar: {fileID: 114344489139817748}
   skinRadius: 2
 --- !u!114 &114222515541336284
 MonoBehaviour:
@@ -3094,6 +3096,7 @@ MonoBehaviour:
   playerStats: {fileID: 114222515541336284}
   velBody: {fileID: 114795426740313032}
   stateManager: {fileID: 114109285062280514}
+  modUIManager: {fileID: 114949949992910966}
 --- !u!114 &114949949992910966
 MonoBehaviour:
   m_ObjectHideFlags: 1
