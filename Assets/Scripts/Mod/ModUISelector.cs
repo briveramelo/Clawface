@@ -18,7 +18,7 @@ public class ModUISelector : MonoBehaviour {
 
     public static Dictionary<ModSpot, List<string>> equipCommands = new Dictionary<ModSpot, List<string>>() {
         {ModSpot.ArmR, new List<string>() {Strings.Input.Actions.EQUIP_ARM_RIGHT,Strings.Input.Actions.ACTION_ARM_RIGHT } },
-        {ModSpot.Legs, new List<string>() {Strings.Input.Actions.ACTION_LEGS } },
+        //{ModSpot.Legs, new List<string>() {Strings.Input.Actions.ACTION_LEGS } },
         {ModSpot.ArmL, new List<string>() {Strings.Input.Actions.EQUIP_ARM_LEFT,Strings.Input.Actions.ACTION_ARM_LEFT} },        
     };    
     private List<ModUIElement> notSelectedList=new List<ModUIElement>();
@@ -115,7 +115,9 @@ public class ModUISelector : MonoBehaviour {
         });
     }
 
-    List<ModSpot> allModSpots = new List<ModSpot>() { ModSpot.ArmL, ModSpot.ArmR, ModSpot.Legs};
+    List<ModSpot> allModSpots = new List<ModSpot>() { ModSpot.ArmL, ModSpot.ArmR
+    //, ModSpot.Legs
+    };
     ModType selectedMod;
     private void CheckToSelectModUI() {
         Vector2 moveAxis = InputManager.Instance.QueryAxes(Strings.Input.Axes.MOVEMENT);
