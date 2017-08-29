@@ -20,6 +20,8 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
     [SerializeField] private CopUI copUICanvas;
     [SerializeField] private Mod mod;
     [SerializeField] private Transform bloodEmissionLocation;
+    [SerializeField] private EnemyScoreUI scoreUI;
+    [SerializeField] private int scoreValue = 200;
     #endregion
 
     #region 3. Private fields
@@ -29,6 +31,7 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
     private Will will=new Will();
     private Damaged damaged = new Damaged();
     private DamagePack damagePack=new DamagePack();
+    
 
     #endregion
 
@@ -47,6 +50,8 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
         mod.setModSpot(ModSpot.ArmR);
         mod.AttachAffect(ref myStats, velBody);
         ResetForRebirth();
+        scoreUI.owner = this.gameObject;
+       
     }    
 
     #endregion
@@ -126,6 +131,7 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
                 will.onDeath();
             }
 
+            //TODO: Score modification for MallCop
             UpgradeManager.Instance.AddEXP(Mathf.FloorToInt(myStats.exp));
 
             GameObject mallCopParts = ObjectPool.Instance.GetObject(PoolObjectType.MallCopExplosion);
@@ -135,8 +141,18 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
                 mallCopParts.transform.rotation = transform.rotation;
                 mallCopParts.DeActivate(5f);                
             }
-            mod.KillCoroutines();            
-            gameObject.SetActive(false);
+            mod.KillCoroutines();
+            if (scoreUI)
+            {
+                //display the player's score bonus and report to the score manager
+                scoreUI.DisplayScoreAndHide(scoreValue);
+            }
+            else
+            {
+                Debug.Log("No score ui attached to: " + gameObject.name);
+            }
+            //EnemyScoreUI.d
+            //gameObject.SetActive(false);
         }
     }
 

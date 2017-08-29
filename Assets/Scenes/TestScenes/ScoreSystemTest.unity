@@ -21678,15 +21678,15 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4450835766107874, guid: b0927e1a44bf75241b97accd5b98cf23, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 126.116844
+      value: 37.34
       objectReference: {fileID: 0}
     - target: {fileID: 4450835766107874, guid: b0927e1a44bf75241b97accd5b98cf23, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 0.05000305
+      value: 6.86
       objectReference: {fileID: 0}
     - target: {fileID: 4450835766107874, guid: b0927e1a44bf75241b97accd5b98cf23, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 2.3987246
+      value: -8.47
       objectReference: {fileID: 0}
     - target: {fileID: 4450835766107874, guid: b0927e1a44bf75241b97accd5b98cf23, type: 2}
       propertyPath: m_LocalRotation.x
@@ -21712,6 +21712,11 @@ Prefab:
       propertyPath: m_Name
       value: MallCop (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 114364864797347686, guid: b0927e1a44bf75241b97accd5b98cf23,
+        type: 2}
+      propertyPath: scoreUI
+      value: 
+      objectReference: {fileID: 914811485}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b0927e1a44bf75241b97accd5b98cf23, type: 2}
   m_IsPrefabParent: 0
@@ -28521,6 +28526,23 @@ Prefab:
     - {fileID: 0}
   m_ParentPrefab: {fileID: 100100000, guid: 309570f72253b2b4bbf473d43cf0a53c, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &914811484 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1541391354729010, guid: 9ec26f13e1bf7314996faec7bbd0bcfb,
+    type: 2}
+  m_PrefabInternal: {fileID: 1994991527}
+--- !u!114 &914811485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 914811484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad311a7c405b1194190443c12144651f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreText_: {fileID: 1398129560}
 --- !u!1 &915270834
 GameObject:
   m_ObjectHideFlags: 0
@@ -43741,6 +43763,12 @@ Transform:
   m_Father: {fileID: 1681418514}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1398129560 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114288157296506086, guid: 9ec26f13e1bf7314996faec7bbd0bcfb,
+    type: 2}
+  m_PrefabInternal: {fileID: 1994991527}
+  m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
 --- !u!1 &1398160149
 GameObject:
   m_ObjectHideFlags: 0
