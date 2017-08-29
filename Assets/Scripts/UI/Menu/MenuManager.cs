@@ -13,6 +13,7 @@ public class MenuManager : Singleton<MenuManager> {
     #region Unity Serialization Fields
     [SerializeField]
     private List<GameObject> menuPrefabs;
+    [SerializeField]
     private StandaloneInputModule input;
     #endregion
 
@@ -23,24 +24,8 @@ public class MenuManager : Singleton<MenuManager> {
     #endregion
 
     #region Unity Lifecycle Functions
-
-    protected override void Awake()
-    {
-        base.Awake();
-        if (!EventSystem.current)
-        {
-            string message = "No EventSystem found in the scene, please add one!";
-            Debug.LogFormat("<color=#ffff00>" + message + "</color>");
-        }
-        else
-        {
-            input = EventSystem.current.GetComponent<StandaloneInputModule>();
-        }
-        
-    }
     private void Start()
     {
-        
         foreach (GameObject prefab in menuPrefabs)
         {
             GameObject obj = Instantiate(prefab);

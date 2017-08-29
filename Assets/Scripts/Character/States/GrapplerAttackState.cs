@@ -33,11 +33,7 @@ public class GrapplerAttackState : IPlayerState
         if (!stateVariables.stateFinished)
         {
             count++;
-            if (stateVariables.currentMod.getModSpot() == ModSpot.Legs)
-            {
-                stateVariables.currentMod.Activate();
-            }
-            else if(stateVariables.currentMod.getModSpot() == ModSpot.ArmL || stateVariables.currentMod.getModSpot() == ModSpot.ArmR)
+            if (stateVariables.currentMod.getModSpot() == ModSpot.ArmL || stateVariables.currentMod.getModSpot() == ModSpot.ArmR)
             {
                 stateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Idle);
                 stateVariables.currentMod.Activate();

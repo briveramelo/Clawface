@@ -25,9 +25,7 @@ public class BlasterMod : Mod {
     // Update is called once per frame
     protected override void Update () {
         if (wielderMovable != null){
-            if (getModSpot() != ModSpot.Legs){
-                transform.forward = wielderMovable.GetForward();
-            }
+            transform.forward = wielderMovable.GetForward();
         }
         base.Update();
     }
@@ -122,17 +120,11 @@ public class BlasterMod : Mod {
     private float KickBack {
         get{
             float force = energySettings.IsCharged ? kickbackForceCharged : kickbackForce;
-            if (getModSpot()==ModSpot.Legs) {                
-                return kickbackForceFeetMultiplier * force;
-            }            
             return force;
         }
     }
     private Vector3 KickBackDirection {
-        get {
-            if (getModSpot() == ModSpot.Legs){
-                return Vector3.up;
-            }                        
+        get {                   
             return -wielderMovable.GetForward();            
         }
     }
