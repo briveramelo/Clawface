@@ -48,10 +48,7 @@ public class BatonMod : Mod {
     }   
 
     public override void Activate(Action onCompleteCoolDown=null, Action onActivate=null){
-        if (getModSpot() != ModSpot.Legs)
-        {
-            onActivate = () => { SFXManager.Instance.Play(SFXType.StunBatonSwing, transform.position); };
-        }
+        onActivate = () => { SFXManager.Instance.Play(SFXType.StunBatonSwing, transform.position); };
         base.Activate(onCompleteCoolDown, onActivate);
         SFXManager.Instance.Stop(SFXType.StunBatonCharge);
     }
@@ -131,7 +128,7 @@ public class BatonMod : Mod {
             float attack = wasCharged ? energySettings.chargedLegAttackSettings.attack : energySettings.standardLegAttackSettings.attack;
             if (damageable != null)
             {
-                DamagerType dType = getModSpot()==ModSpot.Legs ? DamagerType.StunStomp : DamagerType.StunSwing;
+                DamagerType dType = DamagerType.StunSwing;
                 damager.Set(attack, dType, Vector3.down);
                 damageable.TakeDamage(damager);
             }

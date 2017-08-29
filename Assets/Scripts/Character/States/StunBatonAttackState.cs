@@ -53,51 +53,43 @@ public class StunBatonAttackState : IPlayerState {
 
         if (!stateVariables.stateFinished)
         {
-            if (stateVariables.currentMod.getModSpot() == ModSpot.Legs)
+            if (frameCount == 0)
             {
-                ActivateLegs();
-                ResetState();
+                //Not reached highlight pose
+                ChangePose();
             }
-            else
+            if (weHaveHitHighlightPose)
             {
-                if (frameCount == 0)
+                //Start state cooldown counter
+                frameCount++;
+            }
+            if (frameCount > coolDownFrameCount)
+            {
+                //Counter is past cooldown
+                if (frameCount < coolDownFrameCount + inputCheckFrameCount)
                 {
-                    //Not reached highlight pose
-                    ChangePose();
-                }
-                if (weHaveHitHighlightPose)
-                {
-                    //Start state cooldown counter
-                    frameCount++;
-                }
-                if (frameCount > coolDownFrameCount)
-                {
-                    //Counter is past cooldown
-                    if (frameCount < coolDownFrameCount + inputCheckFrameCount)
+                    //Check if player has requested for input
+                    if (isAttackRequested)
                     {
-                        //Check if player has requested for input
-                        if (isAttackRequested)
-                        {
-                            //Reset cooldown counter
-                            frameCount = 0;
-                            //Fire the mod
-                            weHaveHitHighlightPose = false;
-                            stateVariables.currentMod.modEnergySettings.isActive = false;
-                            stateVariables.currentMod.Activate();
-                            stateVariables.currentMod.modEnergySettings.isActive = true;
-                        }
-                    }
-                    else
-                    {
-                        //No input requested
-                        ResetState();
+                        //Reset cooldown counter
+                        frameCount = 0;
+                        //Fire the mod
+                        weHaveHitHighlightPose = false;
+                        stateVariables.currentMod.modEnergySettings.isActive = false;
+                        stateVariables.currentMod.Activate();
+                        stateVariables.currentMod.modEnergySettings.isActive = true;
                     }
                 }
                 else
                 {
-                    isAttackRequested = false;
+                    //No input requested
+                    ResetState();
                 }
             }
+            else
+            {
+                isAttackRequested = false;
+            }            
         }
     }    
 
@@ -125,9 +117,7 @@ public class StunBatonAttackState : IPlayerState {
         if (!stateVariables.currentMod.modEnergySettings.isActive)
         {
             stateVariables.currentMod.Activate();
-            if (stateVariables.currentMod.getModSpot() != ModSpot.Legs) {
-                stateVariables.currentMod.modEnergySettings.isActive = true;
-            }
+            stateVariables.currentMod.modEnergySettings.isActive = true;
         }
     }
 

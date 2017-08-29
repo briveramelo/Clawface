@@ -35,8 +35,7 @@ public class Hook : MonoBehaviour {
     private void OnTriggerEnter(Collider other){   
         if ((other.gameObject.CompareTag(Strings.Tags.PLAYER) ||
             other.gameObject.CompareTag(Strings.Tags.ENEMY) ||
-            other.gameObject.layer==(int)Layers.Ground) && 
-            mod.getModSpot()!= ModSpot.Legs){
+            other.gameObject.layer==(int)Layers.Ground)){
 
 
             if (isThrowing)

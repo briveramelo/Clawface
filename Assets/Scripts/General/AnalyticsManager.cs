@@ -206,14 +206,14 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
                 dict["armR"] = "null";
             }
 
-            if (modSocketDictionary[ModSpot.Legs].mod != null)
-            {
-                dict["legs"] = modSocketDictionary[ModSpot.Legs].mod.getModType().ToString();
-            }
-            else
-            {
+            //if (modSocketDictionary[ModSpot.Legs].mod != null)
+            //{
+            //    dict["legs"] = modSocketDictionary[ModSpot.Legs].mod.getModType().ToString();
+            //}
+            //else
+            //{
                 dict["legs"] = "null";
-            }
+            //}
         }
     }
 
@@ -427,10 +427,10 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
             if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_LEGS, ButtonMode.DOWN)) {
                 buttonPressesDictionary["legs"] = (float)buttonPressesDictionary["legs"] + 1f;
 
-                if (modSocketDictionary[ModSpot.Legs].mod != null) {
-                    string modTypeToString = modSocketDictionary[ModSpot.Legs].mod.getModType().ToString();
-                    modLegsPressesDictionary[modTypeToString] = (float)modLegsPressesDictionary[modTypeToString] + 1f;
-                }
+                //if (modSocketDictionary[ModSpot.Legs].mod != null) {
+                //    string modTypeToString = modSocketDictionary[ModSpot.Legs].mod.getModType().ToString();
+                //    modLegsPressesDictionary[modTypeToString] = (float)modLegsPressesDictionary[modTypeToString] + 1f;
+                //}
             }
 
             if (InputManager.Instance.QueryAction(Strings.Input.Actions.DODGE, ButtonMode.DOWN)) {
@@ -466,13 +466,13 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
                 }
             }
 
-            if (modSpotDictionary[ModSpot.Legs].mod != null)
-            {
-                if (!equippedMods.Contains(modSpotDictionary[ModSpot.Legs].mod.getModType()))
-                {
-                    equippedMods.Add(modSpotDictionary[ModSpot.Legs].mod.getModType());
-                }
-            }
+            //if (modSpotDictionary[ModSpot.Legs].mod != null)
+            //{
+            //    if (!equippedMods.Contains(modSpotDictionary[ModSpot.Legs].mod.getModType()))
+            //    {
+            //        equippedMods.Add(modSpotDictionary[ModSpot.Legs].mod.getModType());
+            //    }
+            //}
 
             foreach (ModType m in equippedMods)
             {

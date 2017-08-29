@@ -1,8 +1,7 @@
 ﻿public enum ModSpot {
     Default = -1,
     ArmL = 0,
-    ArmR = 1,
-    Legs = 2
+    ArmR = 1
 }
 
 public enum StatType {
@@ -75,14 +74,12 @@ public enum DamagedType {
 public enum ModType {
     ForceSegway=0,
     ArmBlaster=1,
-    FingerPrint=2,
-    StunBaton=3,
-    TankTreads = 4,
-    Grappler = 5,
-    Boomerang = 6,
-    Geyser = 7,
-    Dice = 8,
-    None=9
+    StunBaton=2,
+    Grappler = 3,
+    Boomerang = 4,
+    Geyser = 5,
+    Dice = 6,
+    None=7
 }
 
 public enum ModCategory
