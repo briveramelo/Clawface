@@ -8,6 +8,7 @@ public class InputEcho : MonoBehaviour {
     public Text info;
 	
 	// Update is called once per frame
+    /*
 	void Update () {
         // Poll our inputs
         InputManager manager = InputManager.Instance;
@@ -15,16 +16,16 @@ public class InputEcho : MonoBehaviour {
         Vector2 move = manager.QueryAxes(Strings.Input.Axes.MOVEMENT);
         Vector2 look = manager.QueryAxes(Strings.Input.Axes.LOOK);
 
-        ButtonMode swap = manager.QueryAction(Strings.Input.Actions.SWAP_MODE)[0];
-        ButtonMode drop = manager.QueryAction(Strings.Input.Actions.DROP_MODE)[0];
-        ButtonMode actionLegs = manager.QueryAction(Strings.Input.Actions.ACTION_LEGS)[0];
-        ButtonMode actionArmLeft = manager.QueryAction(Strings.Input.Actions.ACTION_ARM_LEFT)[0];
-        ButtonMode actionArmRight = manager.QueryAction(Strings.Input.Actions.ACTION_ARM_RIGHT)[0];
+        ButtonMode swap = manager.QueryAction(Strings.Input.Actions.SWAP_MODE);
+        ButtonMode drop = manager.QueryAction(Strings.Input.Actions.DROP_MODE);
+        ButtonMode actionLegs = manager.QueryAction(Strings.Input.Actions.ACTION_LEGS);
+        ButtonMode actionArmLeft = manager.QueryAction(Strings.Input.Actions.ACTION_ARM_LEFT);
+        ButtonMode actionArmRight = manager.QueryAction(Strings.Input.Actions.ACTION_ARM_RIGHT);
         //ButtonMode actionHead = manager.QueryAction(Strings.Input.Actions.ACTION_HEAD)[0]; // outdated
-        ButtonMode navUp = manager.QueryAction(Strings.Input.Actions.NAV_UP)[0];
-        ButtonMode navDown = manager.QueryAction(Strings.Input.Actions.NAV_DOWN)[0];
-        ButtonMode navLeft = manager.QueryAction(Strings.Input.Actions.NAV_LEFT)[0];
-        ButtonMode navRight = manager.QueryAction(Strings.Input.Actions.NAV_RIGHT)[0];
+        ButtonMode navUp = manager.QueryAction(Strings.Input.Actions.NAV_UP);
+        ButtonMode navDown = manager.QueryAction(Strings.Input.Actions.NAV_DOWN);
+        ButtonMode navLeft = manager.QueryAction(Strings.Input.Actions.NAV_LEFT);
+        ButtonMode navRight = manager.QueryAction(Strings.Input.Actions.NAV_RIGHT);
 
         // Create a Nice String and Print out:
         string output = string.Format(
@@ -72,6 +73,7 @@ public class InputEcho : MonoBehaviour {
         else if (navDown == ButtonMode.UP)
             manager.Vibrate(VibrationTargets.BOTH, 0.0F);
 	}
+    */
 
     private string Vector2String(Vector2 vec)
     {
