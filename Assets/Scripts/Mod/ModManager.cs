@@ -23,7 +23,6 @@ public class ModManager : MonoBehaviour
     [SerializeField] private VelocityBody velBody;
     [SerializeField] private PlayerStateManager stateManager;
     [SerializeField] private ModInventory modInventory;
-    [SerializeField] private ModUISelector modUISelector;
     [SerializeField] private ModUIManager modUIManager;
     [SerializeField] private float modPickupRadius;
     #endregion
@@ -170,7 +169,6 @@ public class ModManager : MonoBehaviour
                 if (!modInventory.IsModCollected(mod.getModType()))
                 {
                     modInventory.CollectMod(mod.getModType());
-                    modUISelector.UpdateUI();
                     foreach (KeyValuePair<ModSpot, ModSocket> modSpotSocket in modSocketDictionary)
                     {
                         if (modSpotSocket.Value.mod == null)
