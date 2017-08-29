@@ -28,7 +28,7 @@ public class TankTreadsMod : Mod
     #region Unity Lifetime
     protected override void Awake(){
         base.Awake();
-        setModType(ModType.TankTreads);
+        //setModType(ModType.TankTreads);
     }
     // Use this for initialization
     void Start(){        

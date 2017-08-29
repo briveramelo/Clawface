@@ -57,6 +57,49 @@ public class ModManager : MonoBehaviour
 
         AnalyticsManager.Instance.SetModManager(this);
 
+        modInventory = GetComponent<ModInventory>();
+        Debug.Assert(modInventory);
+        AttachRandomMods();
+
+    }
+
+    private void AttachRandomMods()
+    {
+        ModType rightHandModType = (ModType)UnityEngine.Random.Range(0, (int) ModType.None);
+        ModType leftHandModType = (ModType)UnityEngine.Random.Range(0, (int)ModType.None);
+        while(leftHandModType == rightHandModType)
+        {
+            leftHandModType = (ModType)UnityEngine.Random.Range(0, (int)ModType.None);
+        }
+        Debug.Log("Right hand mod " + rightHandModType.ToString());
+        Debug.Log("Left hand mod " + leftHandModType.ToString());
+        GameObject rightHandMod = InstantiateMod(rightHandModType);
+        GameObject leftHandMod = InstantiateMod(leftHandModType);
+        InitializeAndAttachMod(rightHandMod);
+        InitializeAndAttachMod(leftHandMod);
+    }
+
+    private GameObject InstantiateMod(ModType modType)
+    {
+        switch (modType)
+        {
+            case ModType.ArmBlaster:                
+                return Instantiate(modInventory.blaster);
+            case ModType.Boomerang:
+                return Instantiate(modInventory.boomerang);
+            case ModType.Dice:
+                return Instantiate(modInventory.dice);
+            case ModType.ForceSegway:
+                return Instantiate(modInventory.segway);
+            case ModType.Geyser:
+                return Instantiate(modInventory.geyser);
+            case ModType.Grappler:
+                return Instantiate(modInventory.grappler);
+            case ModType.StunBaton:
+                return Instantiate(modInventory.baton);
+            default:
+                return null;
+        }
     }
 
     private void Update()
@@ -110,29 +153,41 @@ public class ModManager : MonoBehaviour
     #region Private Methods
     private void CheckToCollectMod() {
         Physics.OverlapSphere(transform.position, modPickupRadius).ToList().ForEach(other => {
-            if (other.tag == Strings.Tags.MOD){                        
-                if (!IsHoldingMod(other.transform)) {
-                    Mod mod = other.GetComponent<Mod>();                    
-                    if (mod!=null) {
-                        if(!modInventory.IsModCollected(mod.getModType())) {
-                            modInventory.CollectMod(mod.getModType());
-                            modUISelector.UpdateUI();
-                            foreach(KeyValuePair<ModSpot, ModSocket> modSpotSocket in modSocketDictionary) {
-                                if (modSpotSocket.Value.mod==null){
-                                    mod = modInventory.GetMod(mod.getModType(), modSpotSocket.Key);
-                                    if (mod!=null) {
-                                        Attach(modSpotSocket.Key, mod);
-                                    }
-                                    break;
-                                }
-                            }                                                                     
-                            Destroy(other.gameObject);
-                        }
-                    }
-                }
+            if (other.tag == Strings.Tags.MOD)
+            {
+                InitializeAndAttachMod(other.gameObject);
             }
         });
-    }    
+    }
+
+    private void InitializeAndAttachMod(GameObject other)
+    {
+        if (!IsHoldingMod(other.transform))
+        {
+            Mod mod = other.GetComponent<Mod>();
+            if (mod != null)
+            {
+                if (!modInventory.IsModCollected(mod.getModType()))
+                {
+                    modInventory.CollectMod(mod.getModType());
+                    modUISelector.UpdateUI();
+                    foreach (KeyValuePair<ModSpot, ModSocket> modSpotSocket in modSocketDictionary)
+                    {
+                        if (modSpotSocket.Value.mod == null)
+                        {
+                            mod = modInventory.GetMod(mod.getModType(), modSpotSocket.Key);
+                            if (mod != null)
+                            {
+                                Attach(modSpotSocket.Key, mod);
+                            }
+                            break;
+                        }
+                    }
+                    Destroy(other.gameObject);
+                }
+            }
+        }
+    }
 
     private void CheckToChargeAndFireMods(){        
         if (canActivate){
