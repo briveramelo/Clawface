@@ -88,9 +88,9 @@ public class ModUIcon : MonoBehaviour {
                     case ModSpot.ArmR:
                         icon.sprite = defaultArmRightSprite;
                         break;
-                    case ModSpot.Legs:
-                        icon.sprite = defaultLegsSprite;
-                        break;
+                    //case ModSpot.Legs:
+                    //    icon.sprite = defaultLegsSprite;
+                    //    break;
                     default:
                         throw new System.SystemException("IMPOSSIBRU!!!");
                 }
@@ -117,13 +117,13 @@ public class ModUIcon : MonoBehaviour {
                         "time", MOVE_TIME
                         ));
                     break;
-                case ModSpot.Legs:
-                    iTween.MoveTo(self, iTween.Hash(
-                        "position", legsVector,
-                        "isLocal", true,
-                        "time", MOVE_TIME
-                        ));
-                    break;
+                //case ModSpot.Legs:
+                //    iTween.MoveTo(self, iTween.Hash(
+                //        "position", legsVector,
+                //        "isLocal", true,
+                //        "time", MOVE_TIME
+                //        ));
+                //    break;
                 default:
                     throw new System.SystemException("IMPOSSIBRU!!!");
             }

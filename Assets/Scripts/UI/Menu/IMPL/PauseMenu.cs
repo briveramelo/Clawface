@@ -3,6 +3,7 @@
  */
 
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PauseMenu : Menu {
@@ -32,6 +33,8 @@ public class PauseMenu : Menu {
     #region Serialized Unity Fields
     [SerializeField]
     private Button restartButton;
+    [SerializeField]
+    private Button deadNavButton;
     #endregion
 
     #region Private Fields
@@ -48,9 +51,12 @@ public class PauseMenu : Menu {
         {
             if (!paused)
             {
+                canPause = false;
                 MenuManager.Instance.DoTransition(this, Transition.TOGGLE, new Effect[] { });
-            } else
+            }
+            else
             {
+                canPause = false;
                 MenuManager.Instance.ClearMenus();
             }
         }
@@ -75,6 +81,7 @@ public class PauseMenu : Menu {
                 break;
             case Transition.HIDE:
                 if (!displayed) return;
+                deadNavButton.Select();
                 OnTransitionStarted(transition, effects);
                 StartCoroutine(MenuTransitionsCommon.FadeCoroutine(1.0F, 0.0F, 1.0F,
                     canvasGroup, HideComplete));
@@ -89,7 +96,8 @@ public class PauseMenu : Menu {
     {
         Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
         LoadMenu loadMenu = (LoadMenu)menu;
-        loadMenu.TargetScene = Strings.Scenes.Level1;
+        Scene scene = SceneManager.GetActiveScene();
+        loadMenu.TargetScene = scene.name;
         MenuManager.Instance.DoTransition(loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
     }
 
@@ -119,11 +127,13 @@ public class PauseMenu : Menu {
     {
         displayed = true;
         restartButton.Select();
+        canPause = true;
     }
     private void HideComplete()
     {
         displayed = false;
         TogglePaused();
+        canPause = true;
     }
 
     #endregion

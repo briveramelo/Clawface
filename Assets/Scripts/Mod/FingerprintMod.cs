@@ -11,7 +11,7 @@ public class FingerprintMod : Mod {
     private Collider unlockColliderVolume;
 
     protected override void Awake(){
-        type = ModType.FingerPrint;
+        //type = ModType.FingerPrint;
         base.Awake();
     }
 

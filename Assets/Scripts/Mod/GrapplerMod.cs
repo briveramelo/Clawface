@@ -45,26 +45,20 @@ public class GrapplerMod : Mod {
     protected override void Update () {
         if (wielderMovable != null)
         {
-            if (getModSpot() != ModSpot.Legs)
-            {
-                Vector3 forward = wielderMovable.GetForward().normalized;
-                forward.y = 0f;
-                transform.forward = forward;
-            }
+            Vector3 forward = wielderMovable.GetForward().normalized;
+            forward.y = 0f;
+            transform.forward = forward;
         }        
 	}
     #endregion
 
     #region Public Methods
     public override void Activate(Action onCompleteCoolDown=null, Action onActivate=null)
-    {                            
-        if (getModSpot() != ModSpot.Legs)
-        {
-            onActivate = () => {
-                hook.maxLength = IsCharged() ? maxHookLengthCharged : maxHookLengthStandard;
-                SFXManager.Instance.Play(SFXType.GrapplingGun_Shoot, transform.position);
-            };
-        }        
+    {  
+        onActivate = () => {
+            hook.maxLength = IsCharged() ? maxHookLengthCharged : maxHookLengthStandard;
+            SFXManager.Instance.Play(SFXType.GrapplingGun_Shoot, transform.position);
+        };   
         base.Activate(onCompleteCoolDown, onActivate);
     }    
 
