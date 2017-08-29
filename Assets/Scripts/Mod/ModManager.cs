@@ -213,13 +213,11 @@ public class ModManager : MonoBehaviour
 
     
     private ModSpot GetCommandedModSpot(ButtonMode mode){        
-        if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_LEFT, mode) ||
-            InputManager.Instance.QueryAction(Strings.Input.Actions.EQUIP_ARM_LEFT, mode))
+        if (InputManager.Instance.QueryAction(Strings.Input.Actions.FIRE_LEFT, mode))
         {
             return ModSpot.ArmL;
         }
-        if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_RIGHT, mode) ||
-            InputManager.Instance.QueryAction(Strings.Input.Actions.EQUIP_ARM_RIGHT, mode))
+        if (InputManager.Instance.QueryAction(Strings.Input.Actions.FIRE_RIGHT, mode))
         {
             return ModSpot.ArmR;
         }
@@ -228,13 +226,11 @@ public class ModManager : MonoBehaviour
 
     private List<ModSpot> GetCommandedModSpots(ButtonMode mode) {
         List<ModSpot> modSpots = new List<ModSpot>();        
-        if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_LEFT, mode) ||
-            InputManager.Instance.QueryAction(Strings.Input.Actions.EQUIP_ARM_LEFT, mode))
+        if (InputManager.Instance.QueryAction(Strings.Input.Actions.FIRE_LEFT, mode))
         {
             modSpots.Add(ModSpot.ArmL);
         }
-        if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_RIGHT, mode) ||
-            InputManager.Instance.QueryAction(Strings.Input.Actions.EQUIP_ARM_RIGHT, mode))
+        if (InputManager.Instance.QueryAction(Strings.Input.Actions.FIRE_RIGHT, mode))
         {
             modSpots.Add(ModSpot.ArmR);
         }
