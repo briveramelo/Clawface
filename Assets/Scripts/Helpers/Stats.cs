@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Stats : MonoBehaviour, IModifiable {
     #region Serialized Unity Inspector Fields
-    public float attack, defense, health, maxHealth, moveSpeed, rangedAccuracy, shotSpeed, shotPushForce, skinnableHealth, exp;
+    public float attack, defense, health, maxHealth, moveSpeed, rangedAccuracy, shotSpeed, shotPushForce, skinnableHealth, exp, scoreValue;
     #endregion
 
     #region Private Fields
