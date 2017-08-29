@@ -47,17 +47,59 @@ public class ModManager : MonoBehaviour
     private void Start()
     {
         modSocketDictionary = new Dictionary<ModSpot, ModSocket>(){
-            {ModSpot.ArmR, new ModSocket(rightArmSocket) },
-            {ModSpot.Legs, new ModSocket(legsSocket) },
+            {ModSpot.ArmR, new ModSocket(rightArmSocket) },            
             {ModSpot.ArmL, new ModSocket(leftArmSocket) },
         };
         allModSpots = new List<ModSpot>() {
-            ModSpot.ArmL, ModSpot.ArmR, ModSpot.Legs
+            ModSpot.ArmL, ModSpot.ArmR
         };
         modToSwap = ModSpot.Default;
 
         AnalyticsManager.Instance.SetModManager(this);
 
+        modInventory = GetComponent<ModInventory>();
+        Debug.Assert(modInventory);
+        AttachRandomMods();
+
+    }
+
+    private void AttachRandomMods()
+    {
+        ModType rightHandModType = (ModType)UnityEngine.Random.Range(0, (int) ModType.None);
+        ModType leftHandModType = (ModType)UnityEngine.Random.Range(0, (int)ModType.None);
+        while(leftHandModType == rightHandModType)
+        {
+            leftHandModType = (ModType)UnityEngine.Random.Range(0, (int)ModType.None);
+        }
+        Debug.Log("Right hand mod " + rightHandModType.ToString());
+        Debug.Log("Left hand mod " + leftHandModType.ToString());
+        GameObject rightHandMod = InstantiateMod(rightHandModType);
+        GameObject leftHandMod = InstantiateMod(leftHandModType);
+        InitializeAndAttachMod(rightHandMod);
+        InitializeAndAttachMod(leftHandMod);
+    }
+
+    private GameObject InstantiateMod(ModType modType)
+    {
+        switch (modType)
+        {
+            case ModType.ArmBlaster:                
+                return Instantiate(modInventory.blaster);
+            case ModType.Boomerang:
+                return Instantiate(modInventory.boomerang);
+            case ModType.Dice:
+                return Instantiate(modInventory.dice);
+            case ModType.ForceSegway:
+                return Instantiate(modInventory.segway);
+            case ModType.Geyser:
+                return Instantiate(modInventory.geyser);
+            case ModType.Grappler:
+                return Instantiate(modInventory.grappler);
+            case ModType.StunBaton:
+                return Instantiate(modInventory.baton);
+            default:
+                return null;
+        }
     }
 
     private void Update()
@@ -110,32 +152,42 @@ public class ModManager : MonoBehaviour
 
     #region Private Methods
     private void CheckToCollectMod() {
-        //if (InputManager.Instance.QueryAction(Strings.Input.Actions.PICKUP, ButtonMode.DOWN)) {
-            Physics.OverlapSphere(transform.position, modPickupRadius).ToList().ForEach(other => {
-                if (other.tag == Strings.Tags.MOD){                        
-                    if (!IsHoldingMod(other.transform)) {
-                        Mod mod = other.GetComponent<Mod>();                    
-                        if (mod!=null) {
-                            if(!modInventory.IsModCollected(mod.getModType())) {
-                                modInventory.CollectMod(mod.getModType());
-                                modUISelector.UpdateUI();
-                                foreach(KeyValuePair<ModSpot, ModSocket> modSpotSocket in modSocketDictionary) {
-                                    if (modSpotSocket.Value.mod==null){
-                                        mod = modInventory.GetMod(mod.getModType(), modSpotSocket.Key);
-                                        if (mod!=null) {
-                                            Attach(modSpotSocket.Key, mod);
-                                        }
-                                        break;
-                                    }
-                                }                                                                     
-                                Destroy(other.gameObject);
+        Physics.OverlapSphere(transform.position, modPickupRadius).ToList().ForEach(other => {
+            if (other.tag == Strings.Tags.MOD)
+            {
+                InitializeAndAttachMod(other.gameObject);
+            }
+        });
+    }
+
+    private void InitializeAndAttachMod(GameObject other)
+    {
+        if (!IsHoldingMod(other.transform))
+        {
+            Mod mod = other.GetComponent<Mod>();
+            if (mod != null)
+            {
+                if (!modInventory.IsModCollected(mod.getModType()))
+                {
+                    modInventory.CollectMod(mod.getModType());
+                    modUISelector.UpdateUI();
+                    foreach (KeyValuePair<ModSpot, ModSocket> modSpotSocket in modSocketDictionary)
+                    {
+                        if (modSpotSocket.Value.mod == null)
+                        {
+                            mod = modInventory.GetMod(mod.getModType(), modSpotSocket.Key);
+                            if (mod != null)
+                            {
+                                Attach(modSpotSocket.Key, mod);
                             }
+                            break;
                         }
                     }
+                    Destroy(other.gameObject);
                 }
-            });            
-        //}
-    }    
+            }
+        }
+    }
 
     private void CheckToChargeAndFireMods(){        
         if (canActivate){
@@ -162,12 +214,7 @@ public class ModManager : MonoBehaviour
     }    
 
     
-    private ModSpot GetCommandedModSpot(ButtonMode mode){
-        if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_LEGS, mode) ||
-            InputManager.Instance.QueryAction(Strings.Input.Actions.EQUIP_LEGS, mode))
-        {
-            return ModSpot.Legs;
-        }
+    private ModSpot GetCommandedModSpot(ButtonMode mode){        
         if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_LEFT, mode) ||
             InputManager.Instance.QueryAction(Strings.Input.Actions.EQUIP_ARM_LEFT, mode))
         {
@@ -182,12 +229,7 @@ public class ModManager : MonoBehaviour
     }
 
     private List<ModSpot> GetCommandedModSpots(ButtonMode mode) {
-        List<ModSpot> modSpots = new List<ModSpot>();
-        if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_LEGS, mode) ||
-            InputManager.Instance.QueryAction(Strings.Input.Actions.EQUIP_LEGS, mode))
-        {
-            modSpots.Add(ModSpot.Legs);
-        }
+        List<ModSpot> modSpots = new List<ModSpot>();        
         if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_LEFT, mode) ||
             InputManager.Instance.QueryAction(Strings.Input.Actions.EQUIP_ARM_LEFT, mode))
         {

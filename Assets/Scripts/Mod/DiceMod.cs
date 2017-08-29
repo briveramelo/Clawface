@@ -37,9 +37,7 @@ public class DiceMod : Mod {
 
     protected override void Update () {
         if (wielderMovable != null){
-            if (getModSpot() != ModSpot.Legs){
-                transform.forward = wielderMovable.GetForward();
-            }
+            transform.forward = wielderMovable.GetForward();
         }
         base.Update();
     }
