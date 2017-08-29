@@ -1,8 +1,7 @@
 ﻿public enum ModSpot {
     Default = -1,
     ArmL = 0,
-    ArmR = 1,
-    Legs = 2
+    ArmR = 1
 }
 
 public enum StatType {

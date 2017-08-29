@@ -96,7 +96,7 @@ public class ModInventory : MonoBehaviour {
             modContainers=new Dictionary<ModSpot, ModContainer>() {
                 {ModSpot.ArmL, new ModContainer(Instantiate(modPrefab, babyTran)) },
                 {ModSpot.ArmR, new ModContainer(Instantiate(modPrefab, babyTran)) },
-                {ModSpot.Legs, new ModContainer(Instantiate(modPrefab, babyTran)) },
+                //{ModSpot.Legs, new ModContainer(Instantiate(modPrefab, babyTran)) },
             };
             modContainers.ForEach((key, value)=>value.modObject.SetActive(false));
         }

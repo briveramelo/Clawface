@@ -88,25 +88,15 @@ public class TankTreadsMod : Mod
 
 
     public override void AttachAffect(ref Stats wielderStats, IMovable wielderMovable){
-        base.AttachAffect(ref wielderStats, wielderMovable);
-        if (getModSpot() == ModSpot.Legs){
-            this.wielderStats.Multiply(StatType.MoveSpeed, legsMoveSpeedMod);
-            hasState = false;
-        }
-        else
-        {
-            hasState = true;
-        }
+        base.AttachAffect(ref wielderStats, wielderMovable);        
+        hasState = true;
     }
 
     public override void DeActivate(){
 
     }
 
-    public override void DetachAffect(){    
-        if (getModSpot() == ModSpot.Legs){
-            wielderStats.Multiply(StatType.MoveSpeed, 1f / legsMoveSpeedMod);
-        }
+    public override void DetachAffect(){
         base.DetachAffect();
     }   
 
