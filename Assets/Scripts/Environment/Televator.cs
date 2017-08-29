@@ -58,6 +58,8 @@ public class Televator : MonoBehaviour, ITriggerable
     {
         if (ready)
         {
+            throw new SystemException("REWIRE INPUTS!");
+            /*
             if (InputManager.Instance.QueryAction(Strings.Input.Actions.NAV_UP,
                     ButtonMode.DOWN))
             {
@@ -70,6 +72,7 @@ public class Televator : MonoBehaviour, ITriggerable
             }
 
             televatorUI.SelectFloor(selected);
+            */
         }
     }
 

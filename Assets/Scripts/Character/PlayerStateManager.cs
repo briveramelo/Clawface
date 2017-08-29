@@ -75,7 +75,7 @@ public class PlayerStateManager : MonoBehaviour {
         {
             stateVariables.currentEnemy = lockOnScript.GetCurrentEnemy();
         }
-        if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_SKIN, ButtonMode.DOWN))
+        if (InputManager.Instance.QueryAction(Strings.Input.Actions.SKIN, ButtonMode.DOWN))
         {           
             SwitchState(skinningState);
         } else if (InputManager.Instance.QueryAction(Strings.Input.Actions.DODGE, ButtonMode.DOWN) && canDash && stateVariables.stateFinished) // do dodge / dash
