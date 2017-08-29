@@ -4,27 +4,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EnemyScoreUI : MonoBehaviour {
+public class WorldScoreUI : MonoBehaviour {
 
 
     #region Public Fields
-
-    public GameObject owner
-    {
-        get
-        {
-            return owner_;
-        }
-        set
-        {
-            owner_ = value;
-        }
-    }
-    #endregion
+     #endregion
 
     #region Serialized Unity Inspector Fields
     [SerializeField]
     private Text scoreText_;
+    
     #endregion
 
     #region Private Fields
@@ -35,18 +24,21 @@ public class EnemyScoreUI : MonoBehaviour {
     #region Unity Lifecycle
     void Start()
     {
-        //TODO: get stats from current enemy and get score value
-        SetAlphaOfScoreText(0f);
+        //SetAlphaOfScoreText(0f);
     }
     #endregion
 
     #region Public Methods
-    public void DisplayScoreAndHide(int i_val)
+    public void DisplayScoreAndHide(int i_val, int i_delay)
     {
         scoreValue_ = i_val;
-        scoreText_.text = "+"+scoreValue_.ToString();
-        SetAlphaOfScoreText(1f);
-        HideScoreTextAfterDelay(2f);
+        if (i_val > 0)
+            scoreText_.text = "+";
+        else if (i_val < 0)
+            scoreText_.text = "-";
+
+        scoreText_.text += i_val.ToString();
+        HideScoreTextAfterDelay(i_delay);
     }
     #endregion
 
@@ -63,21 +55,22 @@ public class EnemyScoreUI : MonoBehaviour {
 
     private void HideScoreTextAfterDelay(float i_delay)
     {
+        //TODO: Just needs a timer that goes i_delay amount of seconds...
         LeanTween.value(gameObject, 0f, 1f, i_delay).setOnUpdate((float val) =>
            {
-               //Debug.Log("sorry");
-           }).setOnComplete(HideScore);
+           }).setOnComplete(HideAndReset);
     }
 
-    private void HideScore()
+    private void HideAndReset()
     {
         SetAlphaOfScoreText(0f);
+        scoreText_.text = "";
         Suicide();
     }
 
     private void Suicide()
     {
-        owner_.SetActive(false);
+        gameObject.SetActive(false);
     }
 
 
@@ -85,12 +78,4 @@ public class EnemyScoreUI : MonoBehaviour {
 
     #region Private Structures
     #endregion
-
-
-
-
-    //// Update is called once per frame
-    //void Update () {
-
-    //}
 }

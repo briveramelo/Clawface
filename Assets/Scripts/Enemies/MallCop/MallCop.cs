@@ -20,7 +20,7 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
     [SerializeField] private CopUI copUICanvas;
     [SerializeField] private Mod mod;
     [SerializeField] private Transform bloodEmissionLocation;
-    [SerializeField] private EnemyScoreUI scoreUI;
+    [SerializeField] private int scorePopupDelay = 2;
     [SerializeField] private int scoreValue = 200;
     #endregion
 
@@ -50,7 +50,6 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
         mod.setModSpot(ModSpot.ArmR);
         mod.AttachAffect(ref myStats, velBody);
         ResetForRebirth();
-        scoreUI.owner = this.gameObject;
        
     }    
 
@@ -131,7 +130,6 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
                 will.onDeath();
             }
 
-            //TODO: Score modification for MallCop
             UpgradeManager.Instance.AddEXP(Mathf.FloorToInt(myStats.exp));
 
             GameObject mallCopParts = ObjectPool.Instance.GetObject(PoolObjectType.MallCopExplosion);
@@ -142,17 +140,26 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
                 mallCopParts.DeActivate(5f);                
             }
             mod.KillCoroutines();
-            if (scoreUI)
+
+            //grab score ui from pool to display
+            //GameObject mallCopParts = ObjectPool.Instance.GetObject(PoolObjectType.MallCopExplosion);
+            GameObject worldScoreObject = ObjectPool.Instance.GetObject(PoolObjectType.WorldScoreCanvas);
+            if (worldScoreObject)
             {
-                //display the player's score bonus and report to the score manager
-                scoreUI.DisplayScoreAndHide(scoreValue);
+                
+                //worldScoreObject.GetComponent<Canvas>().gtransform.SetPositionAndRotation(gameObject.transform.position,gameObject.transform.rotation);
+                worldScoreObject.GetComponent<Canvas>().GetComponent<RectTransform>().SetPositionAndRotation(transform.position, transform.rotation);                //worldScoreObject.transform.position = transform.position /*+ Vector3.up * 3f*/;
+                //Debug.Log("Score is at " + worldScoreObject.transform.position.ToString());
+                WorldScoreUI popUpScore = worldScoreObject.GetComponent<WorldScoreUI>();
+                popUpScore.DisplayScoreAndHide(scoreValue, scorePopupDelay);
             }
             else
             {
-                Debug.Log("No score ui attached to: " + gameObject.name);
+                Debug.Log("Wasn't able to get world canvas from world canvas pool!");
             }
-            //EnemyScoreUI.d
-            //gameObject.SetActive(false);
+
+            //KILL SELF
+            Death();
         }
     }
 
@@ -169,6 +176,11 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
         //TODO check for missing mod and create a new one and attach it
         mod.setModSpot(ModSpot.ArmR);        
     }       
+
+    private void Death()
+    {
+        gameObject.SetActive(false);
+    }
 
     #endregion
 
