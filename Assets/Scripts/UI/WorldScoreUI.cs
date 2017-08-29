@@ -1,4 +1,5 @@
-﻿using System;
+﻿//Garin
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,32 +13,29 @@ public class WorldScoreUI : MonoBehaviour {
 
     #region Serialized Unity Inspector Fields
     [SerializeField]
-    private Text scoreText_;
+    private Text scoreText;
     
     #endregion
 
     #region Private Fields
-    private int scoreValue_;
-    private GameObject owner_;
+    private int scoreValue;
+    private GameObject owner;
     #endregion
 
     #region Unity Lifecycle
-    void Start()
-    {
-        //SetAlphaOfScoreText(0f);
-    }
+
     #endregion
 
     #region Public Methods
     public void DisplayScoreAndHide(int i_val, int i_delay)
     {
-        scoreValue_ = i_val;
+        scoreValue = i_val;
         if (i_val > 0)
-            scoreText_.text = "+";
+            scoreText.text = "+";
         else if (i_val < 0)
-            scoreText_.text = "-";
+            scoreText.text = "-";
 
-        scoreText_.text += i_val.ToString();
+        scoreText.text += i_val.ToString();
         HideScoreTextAfterDelay(i_delay);
     }
     #endregion
@@ -45,11 +43,12 @@ public class WorldScoreUI : MonoBehaviour {
     #region Private Methods
 
 
+
     private void SetAlphaOfScoreText(float i_val)
     {
-        Color c = scoreText_.color;
+        Color c = scoreText.color;
         c.a = i_val;
-        scoreText_.color = c;
+        scoreText.color = c;
         
     }
 
@@ -64,7 +63,7 @@ public class WorldScoreUI : MonoBehaviour {
     private void HideAndReset()
     {
         SetAlphaOfScoreText(0f);
-        scoreText_.text = "";
+        scoreText.text = "";
         Suicide();
     }
 

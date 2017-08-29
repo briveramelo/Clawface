@@ -142,21 +142,15 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
             mod.KillCoroutines();
 
             //grab score ui from pool to display
-            //GameObject mallCopParts = ObjectPool.Instance.GetObject(PoolObjectType.MallCopExplosion);
             GameObject worldScoreObject = ObjectPool.Instance.GetObject(PoolObjectType.WorldScoreCanvas);
             if (worldScoreObject)
             {
-                
-                //worldScoreObject.GetComponent<Canvas>().gtransform.SetPositionAndRotation(gameObject.transform.position,gameObject.transform.rotation);
                 worldScoreObject.GetComponent<Canvas>().GetComponent<RectTransform>().SetPositionAndRotation(transform.position, transform.rotation);                //worldScoreObject.transform.position = transform.position /*+ Vector3.up * 3f*/;
-                //Debug.Log("Score is at " + worldScoreObject.transform.position.ToString());
                 WorldScoreUI popUpScore = worldScoreObject.GetComponent<WorldScoreUI>();
                 popUpScore.DisplayScoreAndHide(scoreValue, scorePopupDelay);
+                ScoreManager.Instance.AddToScoreAndCombo(scoreValue);
             }
-            else
-            {
-                Debug.Log("Wasn't able to get world canvas from world canvas pool!");
-            }
+
 
             //KILL SELF
             Death();
