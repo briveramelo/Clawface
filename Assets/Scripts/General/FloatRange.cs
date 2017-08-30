@@ -1,24 +1,29 @@
 ﻿// FloatRange.cs
+// Author: Aaron
+
+using System;
 
 using UnityEngine;
 
 /// <summary>
 /// Class to define a float range.
 /// </summary>
-[System.Serializable]
-public class FloatRange {
-
+[Serializable]
+public class FloatRange
+{
     #region Vars
 
     /// <summary>
     /// Mininum boundary.
     /// </summary>
-    [SerializeField] float _min = 1f;
+    [SerializeField]
+    float min = 1f;
 
     /// <summary>
     /// Maximum boundary.
     /// </summary>
-    [SerializeField] float _max = 1f;
+    [SerializeField]
+    float max = 1f;
 
     #endregion
     #region Properties
@@ -26,17 +31,19 @@ public class FloatRange {
     /// <summary>
     /// Gets/sets the minumum boundary of this FloatRange.
     /// </summary>
-    public float Min {
-        get { return _min; }
-        set { _min = value; }
+    public float Min
+    {
+        get { return min; }
+        set { min = value; }
     }
 
     /// <summary>
     /// Gets/sets the maximum boundary of this FloatRange.
     /// </summary>
-    public float Max {
-        get { return _max; }
-        set { _max = value; }
+    public float Max
+    {
+        get { return max; }
+        set { max = value; }
     }
 
     #endregion
@@ -45,8 +52,9 @@ public class FloatRange {
     /// <summary>
     /// Returns a random value from the range.
     /// </summary>
-    public float GetRandomValue () {
-        return Random.Range (_min, _max);
+    public float GetRandomValue()
+    {
+        return UnityEngine.Random.Range(min, max);
     }
 
     #endregion

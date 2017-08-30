@@ -1,4 +1,5 @@
 ﻿// Level.cs
+// Author: Aaron
 
 using System;
 
@@ -18,7 +19,7 @@ namespace Turing.LevelEditor
         /// <summary>
         /// Default level name.
         /// </summary>
-        const string _DEFAULT_NAME = "New Level";
+        const string DEFAULT_NAME = "New Level";
 
         public const int LEVEL_WIDTH = 64;
         public const int LEVEL_DEPTH = 64;
@@ -30,24 +31,24 @@ namespace Turing.LevelEditor
         /// <summary>
         /// Name of the level.
         /// </summary>
-        [SerializeField]
-        string _name;
+        [SerializeField] string name;
 
         /// <summary>
-        /// All floor structures in the level.
+        /// All objects in the level.
         /// </summary>
         [SerializeField]
-        FloorObject _floor = new FloorObject();
+        ObjectArray objects = new ObjectArray();
 
         #endregion
         #region Constructors
 
         /// <summary>
-        /// Default constructor -- inits floor structures.
+        /// Default constructor -- inits object list.
         /// </summary>
-        public Level() {
-            _name = _DEFAULT_NAME;
-            _floor = new FloorObject();
+        public Level()
+        {
+            name = DEFAULT_NAME;
+            objects = new ObjectArray();
         }
 
         #endregion
@@ -56,9 +57,10 @@ namespace Turing.LevelEditor
         /// <summary>
         /// Gets/sets the name of this level.
         /// </summary>
-        public string Name {
-            get { return _name; }
-            set { _name = value; }
+        public string Name
+        {
+            get { return name; }
+            set { name = value; }
         }
 
         #endregion
@@ -67,7 +69,7 @@ namespace Turing.LevelEditor
         /// <summary>
         /// Direct accessor (read-only).
         /// </summary>
-        public FloorObject Floor { get { return _floor; } }
+        public ObjectArray Objects { get { return objects; } }
 
         /// <summary>
         /// Places an object in the level.
@@ -76,7 +78,9 @@ namespace Turing.LevelEditor
         public void AddObject(int index, Vector3 position,
             float yRotation) 
         {
-            _floor.AddObject(index, position, yRotation);
+            var attribs = new ObjectAttributes ((byte)index,
+                position, yRotation);
+            objects.Add(attribs);
         }
 
         /// <summary>
@@ -84,7 +88,7 @@ namespace Turing.LevelEditor
         /// </summary>
         public void DeleteObject(int index) 
         {
-            _floor.DeleteObject(index);
+            objects.RemoveAt(index);
         }
 
         #endregion
@@ -92,53 +96,11 @@ namespace Turing.LevelEditor
 
         public override string ToString() 
         {
-            return _name;
+            return name;
         }
 
         #endregion
         #region Nested Classes
-
-        /// <summary>
-        /// Floor class holds 3D object data.
-        /// </summary>
-        [Serializable]
-        public class FloorObject
-        {
-            /// <summary>
-            /// Byte values at each tile.
-            /// </summary>
-            [SerializeField]
-            ObjectArray _objects = new ObjectArray();
-
-            /// <summary>
-            /// Direct accessor.
-            /// </summary>
-            public ObjectAttributes this[int i] {
-                get { return _objects[i]; }
-                set { _objects[i] = value; }
-            }
-
-            /// <summary>
-            /// Adds an object to this floor.
-            /// </summary>
-            public void AddObject(int index, Vector3 position,
-                float yRotation) {
-                _objects.Add(new ObjectAttributes((byte)index, position,
-                    yRotation));
-            }
-
-            /// <summary>
-            /// Deletes an object from this floor.
-            /// </summary>
-            public void DeleteObject(int index) {
-                _objects.RemoveAt(index);
-            }
-
-            /// <summary>
-            /// Returns the array of objects on this floor.
-            /// </summary>
-            public ObjectArray Objects { get { return _objects; } }
-        }
 
         /// <summary>
         /// Serializable class wrapper for an array of objects.
@@ -149,42 +111,44 @@ namespace Turing.LevelEditor
             /// <summary>
             /// Max number of objects on each floor.
             /// </summary>
-            const int _MAX_OBJECTS_PER_FLOOR = 1024;
+            const int MAX_OBJECTS_PER_FLOOR = 1024;
 
             /// <summary>
             /// Array of objects.
             /// </summary>
             [SerializeField]
-            ObjectAttributes[] _objects =
-                new ObjectAttributes[_MAX_OBJECTS_PER_FLOOR];
+            ObjectAttributes[] objects =
+                new ObjectAttributes[MAX_OBJECTS_PER_FLOOR];
 
             /// <summary>
             /// Direct accessor.
             /// </summary>
-            public ObjectAttributes this[int i] {
-                get { return _objects[i]; }
-                set { _objects[i] = value; }
+            public ObjectAttributes this[int i]
+            {
+                get { return objects[i]; }
+                set { objects[i] = value; }
             }
 
             /// <summary>
             /// Returns the maximum number of objects on this floor.
             /// </summary>
-            public int Length { get { return _MAX_OBJECTS_PER_FLOOR; } }
+            public int Length { get { return MAX_OBJECTS_PER_FLOOR; } }
 
             /// <summary>
             /// Adds an object to this floor.
             /// This is O(n), so don't call this too frequently.
             /// </summary>
-            public void Add(ObjectAttributes obj) {
+            public void Add(ObjectAttributes obj)
+            {
                 if (obj.Index == byte.MaxValue)
                     throw new IndexOutOfRangeException(
                         "Invalid index!" + obj.Index);
 
                 // Look for an empty slot
-                for (int i = 0; i < _MAX_OBJECTS_PER_FLOOR; i++)
-                    if (_objects[i] == null ||
-                        _objects[i].Index == byte.MaxValue) {
-                        _objects[i] = obj;
+                for (int i = 0; i < MAX_OBJECTS_PER_FLOOR; i++)
+                    if (objects[i] == null ||
+                        objects[i].Index == byte.MaxValue) {
+                        objects[i] = obj;
                         return;
                     }
 
@@ -194,8 +158,9 @@ namespace Turing.LevelEditor
             /// <summary>
             /// Removes the object at the given index.
             /// </summary>
-            public void RemoveAt(int i) {
-                _objects[i] = null;
+            public void RemoveAt(int i)
+            {
+                objects[i] = null;
             }
         }
 
@@ -214,32 +179,37 @@ namespace Turing.LevelEditor
             /// Array of special attributes.
             /// </summary>
             [SerializeField]
-            SerializeableStringPair[] _attributes =
-                new SerializeableStringPair[MAX_OBJECT_ATTRIBUTES];
+            SerializableStringPair[] attributes =
+                new SerializableStringPair[MAX_OBJECT_ATTRIBUTES];
 
             /// <summary>
             /// Direct accessor.
             /// </summary>
-            public SerializeableStringPair this[int i] {
-                get { return _attributes[i]; }
-                set { _attributes[i] = value; }
+            public SerializableStringPair this[int i]
+            {
+                get { return attributes[i]; }
+                set { attributes[i] = value; }
             }
 
             /// <summary>
             /// Adds a special property to this object.
             /// </summary>
-            public void Add(SerializeableStringPair pair) {
+            public void Add(SerializableStringPair pair)
+            {
                 for (int i = 0; i < MAX_OBJECT_ATTRIBUTES; i++)
-                    if (_attributes[i] == null) {
-                        _attributes[i] = pair;
+                    if (attributes[i] == null)
+                    {
+                        attributes[i] = pair;
                         return;
                     }
             }
 
-            public override string ToString() {
+            public override string ToString()
+            {
                 string result = "";
-                for (int i = 0; i < MAX_OBJECT_ATTRIBUTES; i++) {
-                    var attribute = _attributes[i];
+                for (int i = 0; i < MAX_OBJECT_ATTRIBUTES; i++)
+                {
+                    var attribute = attributes[i];
                     if (attribute == null) continue;
 
                     if (i > 0) result += "\n";
@@ -255,106 +225,119 @@ namespace Turing.LevelEditor
         [Serializable]
         public class ObjectAttributes
         {
-            [SerializeField] byte _index = byte.MaxValue;
-            [SerializeField] float _posX;
-            [SerializeField] float _posY;
-            [SerializeField] float _posZ;
-            [SerializeField] float _rotX = 0f;
-            [SerializeField] float _rotY;
-            [SerializeField] float _rotZ = 0f;
-            [SerializeField] float _scaleX = 1f;
-            [SerializeField] float _scaleY = 1f;
-            [SerializeField] float _scaleZ = 1f;
+            [SerializeField] byte index = byte.MaxValue;
+            [SerializeField] float posX;
+            [SerializeField] float posY;
+            [SerializeField] float posZ;
+            [SerializeField] float rotX = 0f;
+            [SerializeField] float rotY = 0f;
+            [SerializeField] float rotZ = 0f;
+            [SerializeField] float scaleX = 1f;
+            [SerializeField] float scaleY = 1f;
+            [SerializeField] float scaleZ = 1f;
 
             /// <summary>
             /// Special attributes.
             /// </summary>
             [SerializeField]
-            AttributeArray _attributes = new AttributeArray();
+            AttributeArray attributes = new AttributeArray();
 
             /// <summary>
             /// Default constructor.
             /// !! Needed for proper serialization !!
             /// </summary>
-            public ObjectAttributes() {
-                _index = byte.MaxValue;
+            public ObjectAttributes()
+            {
+                index = byte.MaxValue;
             }
 
-            public ObjectAttributes(byte index, Vector3 position, float yRotation) {
-                _index = index;
-                _posX = position.x;
-                _posY = position.y;
-                _posZ = position.z;
-                _rotY = yRotation;
+            public ObjectAttributes(byte index, Vector3 position, 
+                float yRotation)
+            {
+                this.index = index;
+                posX = position.x;
+                posY = position.y;
+                posZ = position.z;
+                rotY = yRotation;
             }
 
             /// <summary>
             /// Returns the index of this object (read-only).
             /// </summary>
-            public byte Index { get { return _index; } }
+            public byte Index { get { return index; } }
 
             /// <summary>
             /// Returns the 3D position of this object (read-only).
             /// </summary>
-            public Vector3 Position {
-                get { return new Vector3(_posX, _posY, _posZ); }
+            public Vector3 Position
+            {
+                get { return new Vector3(posX, posY, posZ); }
             }
 
             /// <summary>
             /// Returns the euler rotation of this object (read-only).
             /// </summary>
-            public Vector3 EulerRotation {
-                get { return new Vector3(_rotX, _rotY, _rotZ); }
+            public Vector3 EulerRotation
+            {
+                get { return new Vector3(rotX, rotY, rotZ); }
             }
 
             /// <summary>
             /// Gets/sets the y-rotation of this object.
             /// </summary>
-            public float RotationY {
-                get { return _rotY; }
-                set { _rotY = value; }
+            public float RotationY
+            {
+                get { return rotY; }
+                set { rotY = value; }
             }
 
             /// <summary>
             /// Returns the 3D scale of this object (read-only).
             /// </summary>
-            public Vector3 Scale {
+            public Vector3 Scale
+            {
                 get {
-                    return new Vector3(_scaleX, _scaleY, _scaleZ);
+                    return new Vector3(scaleX, scaleY, scaleZ);
                 }
             }
 
             /// <summary>
             /// Gets/sets the x-scale of this object.
             /// </summary>
-            public float ScaleX {
-                get { return _scaleX; }
-                set { _scaleX = value; }
+            public float ScaleX
+            {
+                get { return scaleX; }
+                set { scaleX = value; }
             }
 
             /// <summary>
             /// Gets/sets the y-scale of this object.
             /// </summary>
-            public float ScaleY {
-                get { return _scaleY; }
-                set { _scaleY = value; }
+            public float ScaleY
+            {
+                get { return scaleY; }
+                set { scaleY = value; }
             }
 
             /// <summary>
             /// Gets/sets the z-scale of this object.
             /// </summary>
-            public float ScaleZ {
-                get { return _scaleZ; }
-                set { _scaleZ = value; }
+            public float ScaleZ
+            {
+                get { return scaleZ; }
+                set { scaleZ = value; }
             }
 
             /// <summary>
             /// Returns the value of the attribute with the given name as a byte.
             /// </summary>
-            public byte GetAttributeAsByte(string attribName) {
-                for (int i = 0; i < AttributeArray.MAX_OBJECT_ATTRIBUTES; i++) {
-                    var attribute = _attributes[i];
-                    if (attribute.Key == attribName) {
+            public byte GetAttributeAsByte(string attribName)
+            {
+                for (int i = 0; i < AttributeArray.MAX_OBJECT_ATTRIBUTES; i++)
+                {
+                    var attribute = attributes[i];
+                    if (attribute.Key == attribName)
+                    {
                         byte result;
                         if (byte.TryParse(attribute.Value, out result))
                             return result;
@@ -372,10 +355,13 @@ namespace Turing.LevelEditor
             /// <summary>
             /// Returns the value of the attribute with the given name as a float.
             /// </summary>
-            public float GetAttributeAsFloat(string attribName) {
-                for (int i = 0; i < AttributeArray.MAX_OBJECT_ATTRIBUTES; i++) {
-                    var attribute = _attributes[i];
-                    if (attribute.Key == attribName) {
+            public float GetAttributeAsFloat(string attribName)
+            {
+                for (int i = 0; i < AttributeArray.MAX_OBJECT_ATTRIBUTES; i++)
+                {
+                    var attribute = attributes[i];
+                    if (attribute.Key == attribName)
+                    {
                         float result;
                         if (float.TryParse(attribute.Value, out result))
                             return result;
@@ -392,9 +378,10 @@ namespace Turing.LevelEditor
             /// <summary>
             /// Returns the value of the attribute with the given name as a string.
             /// </summary>
-            public string GetAttributeAsString(string attribName) {
+            public string GetAttributeAsString(string attribName)
+            {
                 for (int i = 0; i < AttributeArray.MAX_OBJECT_ATTRIBUTES; i++) {
-                    var attribute = _attributes[i];
+                    var attribute = attributes[i];
                     if (attribute.Key == attribName)
                         return attribute.Value;
                 }
@@ -406,10 +393,13 @@ namespace Turing.LevelEditor
             /// <summary>
             /// Sets the value of the attribute with the given name.
             /// </summary>
-            public void SetAttribute(string attribName, string newValue) {
-                for (int i = 0; i < AttributeArray.MAX_OBJECT_ATTRIBUTES; i++) {
-                    var attribute = _attributes[i];
-                    if (attribute.Key == attribName) {
+            public void SetAttribute(string attribName, string newValue)
+            {
+                for (int i = 0; i < AttributeArray.MAX_OBJECT_ATTRIBUTES; i++)
+                {
+                    var attribute = attributes[i];
+                    if (attribute.Key == attribName)
+                    {
                         attribute.SetValue(newValue);
                         return;
                     }
@@ -422,32 +412,36 @@ namespace Turing.LevelEditor
             /// <summary>
             /// Sets the 3D position of this object.
             /// </summary>
-            public void SetPosition(Vector3 pos) {
-                _posX = pos.x;
-                _posY = pos.y;
-                _posZ = pos.z;
+            public void SetPosition(Vector3 pos)
+            {
+                posX = pos.x;
+                posY = pos.y;
+                posZ = pos.z;
             }
 
             /// <summary>
             /// Sets the rotation of an object with euler angles.
             /// </summary>
-            public void SetEulerRotation(Vector3 euler) {
-                _rotX = euler.x;
-                _rotY = euler.y;
-                _rotZ = euler.z;
+            public void SetEulerRotation(Vector3 euler)
+            {
+                rotX = euler.x;
+                rotY = euler.y;
+                rotZ = euler.z;
             }
 
             /// <summary>
             /// Sets the 3D local scale of an object.
             /// </summary>
-            public void Set3DScale(Vector3 scale) {
-                _scaleX = scale.x;
-                _scaleY = scale.y;
-                _scaleZ = scale.z;
+            public void Set3DScale(Vector3 scale)
+            {
+                scaleX = scale.x;
+                scaleY = scale.y;
+                scaleZ = scale.z;
             }
 
-            public override string ToString() {
-                return _attributes.ToString();
+            public override string ToString()
+            {
+                return attributes.ToString();
             }
         }
 

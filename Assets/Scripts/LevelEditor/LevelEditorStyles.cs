@@ -1,17 +1,20 @@
 ﻿// LevelEditorStyles.cs
+// Author: Aaron
 
 using UnityEngine;
 
 /// <summary>
 /// Class to store level editor GUIStyles.
 /// </summary>
-public class LevelEditorStyles {
-
+public class LevelEditorStyles
+{
     /// <summary>
     /// Header label style.
     /// </summary>
-	public static GUIStyle Header = new GUIStyle () {
-		active = new GUIStyleState () {
+	public static GUIStyle Header = new GUIStyle ()
+    {
+		active = new GUIStyleState ()
+        {
 
 		},
 		alignment = TextAnchor.UpperCenter,
@@ -47,14 +50,16 @@ public class LevelEditorStyles {
     /// <summary>
     /// Normal button style.
     /// </summary>
-    public static GUIStyle NormalButton = new GUIStyle () {
+    public static GUIStyle NormalButton = new GUIStyle ()
+    {
         alignment = TextAnchor.MiddleCenter,
     };
 
     /// <summary>
     /// Selected button style.
     /// </summary>
-	public static GUIStyle SelectedButton = new GUIStyle () {
+	public static GUIStyle SelectedButton = new GUIStyle ()
+    {
 		normal = new GUIStyleState () {
             background = Texture2D.blackTexture,
             textColor = Color.white
