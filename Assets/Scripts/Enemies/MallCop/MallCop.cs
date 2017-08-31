@@ -147,6 +147,7 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
             {
                 worldScoreObject.GetComponent<Canvas>().GetComponent<RectTransform>().SetPositionAndRotation(transform.position, transform.rotation);                //worldScoreObject.transform.position = transform.position /*+ Vector3.up * 3f*/;
                 WorldScoreUI popUpScore = worldScoreObject.GetComponent<WorldScoreUI>();
+
                 popUpScore.DisplayScoreAndHide(scoreValue, scorePopupDelay);
                 ScoreManager.Instance.AddToScoreAndCombo(scoreValue);
             }

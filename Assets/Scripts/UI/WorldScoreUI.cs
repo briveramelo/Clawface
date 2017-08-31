@@ -19,11 +19,17 @@ public class WorldScoreUI : MonoBehaviour {
 
     #region Private Fields
     private int scoreValue;
-    private GameObject owner;
+    //private GameObject owner;
+    //private GameObject myChild;
     #endregion
 
     #region Unity Lifecycle
 
+    private void OnEnable()
+    {
+        scoreText = gameObject.transform.GetChild(0).gameObject.GetComponent<Text>();
+        scoreText.text = "";
+    }
     #endregion
 
     #region Public Methods
