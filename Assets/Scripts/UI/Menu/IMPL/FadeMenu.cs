@@ -27,11 +27,11 @@ public class FadeMenu : Menu {
         {
             case Transition.HIDE:
                 StartCoroutine(MenuTransitionsCommon.FadeCoroutine(1.0f, 0.0f, 3.0f, canvasGroup,
-                    () => { displayed = false; }));
+                    () => { displayed = false; canvasGroup.blocksRaycasts = false; }));
                 break;
             case Transition.SHOW:
                 StartCoroutine(MenuTransitionsCommon.FadeCoroutine(0.0f, 1.0f, 1.0f, canvasGroup,
-                    () => { displayed = true; }));
+                    () => { displayed = true; canvasGroup.blocksRaycasts = true; }));
                 break;
         }
     }

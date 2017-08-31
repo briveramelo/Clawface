@@ -1,52 +1,22 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.SceneManagement;
+﻿using UnityEngine;
 
 public class LevelTransitionManager : MonoBehaviour {
-
-    #region Public fields
-    #endregion
 
     #region Serialized Unity Inspector fields
     [SerializeField]
     private float checkFrequency = 10.0f;
-
-    [SerializeField]
-    private GameObject endLevelCanvas;
     #endregion
 
     #region Private Fields
-    private Spawner[] spawners;    
-    private bool levelIsComplete;
+    private Spawner[] spawners;
     #endregion
 
     #region Unity Lifecycle
-    private void Awake()
-    {
-        levelIsComplete = false;
-        endLevelCanvas.SetActive(false);
-    }
-
     // Use this for initialization
     void Start () {
         spawners = FindObjectsOfType<Spawner>();        
         InvokeRepeating("CheckForLevelCompletion", checkFrequency, checkFrequency);
     }
-
-    private void Update()
-    {
-        if (levelIsComplete)
-        {
-            if (InputManager.Instance.AnyKey())
-            {
-                SceneManager.LoadScene(0);
-            }
-        }
-    }
-    #endregion
-
-    #region Public Methods
     #endregion
 
     #region Private Methods
@@ -70,16 +40,10 @@ public class LevelTransitionManager : MonoBehaviour {
             CancelInvoke();
             Debug.Log("Level done");
             
-            levelIsComplete = true;
-            endLevelCanvas.SetActive(true);
+            MenuManager.Instance.DoTransition(Strings.MenuStrings.STAGE_OVER,
+                Menu.Transition.SHOW, new Menu.Effect[] { Menu.Effect.EXCLUSIVE });
         }
     }
-    #endregion
-
-    #region Public Structures
-    #endregion
-
-    #region Private Structures
     #endregion
 
 }
