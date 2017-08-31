@@ -133,6 +133,7 @@ public enum PoolObjectType {
     GeyserBase = 23,
     SkinningEffect = 24,
     HealthGain = 25,
+    WorldScoreCanvas = 26,
 }
 
 public enum MovementMode
