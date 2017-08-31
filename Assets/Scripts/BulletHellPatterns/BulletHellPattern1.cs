@@ -9,9 +9,6 @@ public class BulletHellPattern1 : MonoBehaviour {
 
 
     float amplitudeX = 10.0f;
-    float amplitudeY = 5.0f;
-    float omegaX = 1.0f;
-    float omegaY = 5.0f;
     float index;
     public float k;
     public int n;
