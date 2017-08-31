@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.EventSystems;
+using Rewired.Integration.UnityUI;
 
 public class MenuManager : Singleton<MenuManager> {
 
@@ -14,7 +14,7 @@ public class MenuManager : Singleton<MenuManager> {
     [SerializeField]
     private List<GameObject> menuPrefabs;
     [SerializeField]
-    private StandaloneInputModule input;
+    private RewiredStandaloneInputModule input;
     #endregion
 
     #region Private Fields
