@@ -21,7 +21,7 @@ public abstract class Menu : MonoBehaviour {
     #endregion
 
     #region Unity Lifecycle Methods
-    private void Start()
+    protected virtual void Start()
     {
         canvasGroup.alpha = 0.0F;
     }
