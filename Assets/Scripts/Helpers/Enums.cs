@@ -1,8 +1,7 @@
 ﻿public enum ModSpot {
     Default = -1,
     ArmL = 0,
-    ArmR = 1,
-    Legs = 2
+    ArmR = 1
 }
 
 public enum StatType {
@@ -29,7 +28,19 @@ public enum SFXType {
     StunBatonImpact,
     StunBatonSwing,
     TankTreads_Attack,
-    TankTreads_Swing,
+    TankTreads_Swing, 
+    Dash,
+    SegwayBlast_Standard,
+    SegwayBlast,
+    Boomerang_Throw, 
+    DiceLauncher_Shoot,
+    GeyserMod_Splash,
+    GeyserMod_MiniSplash,
+    Boomerang_Impact,
+    PlayerTakeDamage,
+    PlayerDeath,
+    ModCooldown,
+    MallCopHurt,
     UI_Click,
     UI_Hover,
     UI_Back
@@ -63,14 +74,12 @@ public enum DamagedType {
 public enum ModType {
     ForceSegway=0,
     ArmBlaster=1,
-    FingerPrint=2,
-    StunBaton=3,
-    TankTreads = 4,
-    Grappler = 5,
-    Boomerang = 6,
-    Geyser = 7,
-    Dice = 8,
-    None=9
+    StunBaton=2,
+    Grappler = 3,
+    Boomerang = 4,
+    Geyser = 5,
+    Dice = 6,
+    None=7
 }
 
 public enum ModCategory
@@ -94,7 +103,8 @@ public enum Layers {
     Blood=12,
     Hologram=13,
     Globe_Text=14,
-    PlayerDetector=15        
+    PlayerDetector=15,
+    DiceBlocks=17        
 }
 
 public enum PoolObjectType {
@@ -123,6 +133,7 @@ public enum PoolObjectType {
     DiceBlockExplosion=22,
     GeyserBase = 23,
     SkinningEffect = 24,
+    HealthGain = 25,
 }
 
 public enum MovementMode

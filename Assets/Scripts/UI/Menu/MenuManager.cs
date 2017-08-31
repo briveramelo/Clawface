@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.EventSystems;
+using Rewired.Integration.UnityUI;
 
 public class MenuManager : Singleton<MenuManager> {
 
@@ -14,7 +14,7 @@ public class MenuManager : Singleton<MenuManager> {
     [SerializeField]
     private List<GameObject> menuPrefabs;
     [SerializeField]
-    private StandaloneInputModule input;
+    private RewiredStandaloneInputModule input;
     #endregion
 
     #region Private Fields
@@ -26,7 +26,6 @@ public class MenuManager : Singleton<MenuManager> {
     #region Unity Lifecycle Functions
     private void Start()
     {
-        
         foreach (GameObject prefab in menuPrefabs)
         {
             GameObject obj = Instantiate(prefab);
@@ -83,7 +82,10 @@ public class MenuManager : Singleton<MenuManager> {
 
     public void EnableEventSystem(bool enabled)
     {
-        input.enabled = enabled;
+        if (input)
+        { 
+            input.enabled = enabled;
+        }
     }
 
     public bool PopMenu(bool removeRoot = false)

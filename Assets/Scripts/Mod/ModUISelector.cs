@@ -17,9 +17,11 @@ public class ModUISelector : MonoBehaviour {
     [SerializeField] private float minJoystickSelectionThreshold;
 
     public static Dictionary<ModSpot, List<string>> equipCommands = new Dictionary<ModSpot, List<string>>() {
+        /* REWIRE INPUTS!!!
         {ModSpot.ArmR, new List<string>() {Strings.Input.Actions.EQUIP_ARM_RIGHT,Strings.Input.Actions.ACTION_ARM_RIGHT } },
-        {ModSpot.Legs, new List<string>() {Strings.Input.Actions.ACTION_LEGS } },
+        //{ModSpot.Legs, new List<string>() {Strings.Input.Actions.ACTION_LEGS } },
         {ModSpot.ArmL, new List<string>() {Strings.Input.Actions.EQUIP_ARM_LEFT,Strings.Input.Actions.ACTION_ARM_LEFT} },        
+        */
     };    
     private List<ModUIElement> notSelectedList=new List<ModUIElement>();
     private List<ModUIElement> modUIElements;    
@@ -43,6 +45,8 @@ public class ModUISelector : MonoBehaviour {
 	}
 
     private void CheckToActivateUI() {
+        throw new System.Exception("REWIRE INPUT!");
+        /*
         if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTIVATE_UI, ButtonMode.DOWN)) {            
             if (modUIElements.Exists(elm=>elm.isSet)) {
                 if (!modEquipCanvas.activeSelf) {                
@@ -52,7 +56,8 @@ public class ModUISelector : MonoBehaviour {
                     CloseCanvas();
                 }
             }
-        }        
+        } 
+        */       
     }
 
 
@@ -115,7 +120,9 @@ public class ModUISelector : MonoBehaviour {
         });
     }
 
-    List<ModSpot> allModSpots = new List<ModSpot>() { ModSpot.ArmL, ModSpot.ArmR, ModSpot.Legs};
+    List<ModSpot> allModSpots = new List<ModSpot>() { ModSpot.ArmL, ModSpot.ArmR
+    //, ModSpot.Legs
+    };
     ModType selectedMod;
     private void CheckToSelectModUI() {
         Vector2 moveAxis = InputManager.Instance.QueryAxes(Strings.Input.Axes.MOVEMENT);

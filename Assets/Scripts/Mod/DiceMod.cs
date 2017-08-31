@@ -27,18 +27,17 @@ public class DiceMod : Mod {
 
     #region Unity Lifetime
     // Use this for initialization
-    void Start () {
+    protected override void Awake () {
         type = ModType.Dice;
         category = ModCategory.Ranged;
+        base.Awake();
 	}
 
     #endregion
 
     protected override void Update () {
         if (wielderMovable != null){
-            if (getModSpot() != ModSpot.Legs){
-                transform.forward = wielderMovable.GetForward();
-            }
+            transform.forward = wielderMovable.GetForward();
         }
         base.Update();
     }
@@ -46,6 +45,7 @@ public class DiceMod : Mod {
     #region Public Methods
     public override void Activate(Action onCompleteCoolDown=null, Action onActivate=null)
     {
+        onActivate = ()=> { SFXManager.Instance.Play(SFXType.DiceLauncher_Shoot, transform.position);};
         base.Activate(onCompleteCoolDown, onActivate);
     }
 
@@ -134,6 +134,15 @@ public class DiceMod : Mod {
             diceBlock.transform.rotation = Quaternion.Euler(rotation);
             shooterProperties.Initialize(GetWielderInstanceID(), Attack, wielderStats.shotSpeed, wielderStats.shotPushForce);
             diceBlock.SetShooterProperties(shooterProperties);
+
+            if (wielderStats.gameObject.CompareTag(Strings.Tags.PLAYER))
+            {
+                diceBlock.SetShooterType(true);
+            }
+            else
+            {
+                diceBlock.SetShooterType(false);
+            }
         }
         return diceBlock;
     }
@@ -148,6 +157,15 @@ public class DiceMod : Mod {
             shooterProperties.Initialize(GetWielderInstanceID(), Attack, wielderStats.shotSpeed, wielderStats.shotPushForce);
             diceBlock.SetShooterProperties(shooterProperties);
             diceBlock.Roll(direction);
+
+            if (wielderStats.gameObject.CompareTag(Strings.Tags.PLAYER))
+            {
+                diceBlock.SetShooterType(true);
+            }
+            else
+            {
+                diceBlock.SetShooterType(false);
+            }
         }
         return diceBlock;
     }

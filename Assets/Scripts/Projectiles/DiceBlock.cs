@@ -89,6 +89,8 @@ public class DiceBlock : MonoBehaviour, IMovable {
     private Transform assignedExplosionEffect;
     Damager damager = new Damager();
 
+    private bool isPlayer;
+
     private DiceSide faceUpSideLastUpdate;
     #endregion
 
@@ -215,6 +217,11 @@ public class DiceBlock : MonoBehaviour, IMovable {
         rigid.AddTorque(Random.onUnitSphere * tumbleStrength);
     }
 
+    public void SetShooterType(bool isPlayer)
+    {
+        this.isPlayer = isPlayer;
+    }
+
     public void PrimeExplosion(float explodeAfterHowLong)
     {
         timeTilExplosion = explodeAfterHowLong;
@@ -296,8 +303,25 @@ public class DiceBlock : MonoBehaviour, IMovable {
         foreach (IDamageable damageable in damageableList)
         {
             if (damageable != null)
-            {                
+            {
                 damager.Set(shooterProperties.damage * GetMultiplierFromDiceSide(), DamagerType.Dice, Vector3.down);
+
+                // Shooter is player
+                if (isPlayer)
+                {
+                    AnalyticsManager.Instance.AddModDamage(ModType.Dice, damager.damage);
+
+                    if (damageable.GetHealth() - damager.damage <= 0.01f)
+                    {
+                        AnalyticsManager.Instance.AddModKill(ModType.Dice);
+                    }
+                }
+                else
+                {
+                    AnalyticsManager.Instance.AddEnemyModDamage(ModType.Dice, damager.damage);
+                }
+
+                
                 damageable.TakeDamage(damager);
             }
         }

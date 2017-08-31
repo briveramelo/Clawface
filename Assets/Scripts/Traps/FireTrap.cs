@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using ModMan;
+using System.Linq;
 
 public class FireTrap : MonoBehaviour {
 
@@ -64,7 +65,6 @@ public class FireTrap : MonoBehaviour {
 
     State _currentState = State.Closed;
 
-    List<IDamageable> _objectsInTrap = new List<IDamageable>();
     private Damager damager=new Damager();
 
 
@@ -83,7 +83,21 @@ public class FireTrap : MonoBehaviour {
 
     void Update() {
         var dt = Time.deltaTime;
+        List<IDamageable> _objectsInTrap = new List<IDamageable>();
+        Physics.OverlapBox(transform.position, new Vector3(2.5f, 2.5f, 2.5f)).ToList().ForEach(collider => {
+            var damageable = collider.gameObject.GetComponent<IDamageable>();
+            if (damageable == null) return;
 
+            if (!_objectsInTrap.Contains(damageable))
+            {
+                _objectsInTrap.Add(damageable);
+                if (_mode == Mode.PressureTrigger && _currentState == State.Closed) Open();
+            }
+        });
+        if(_objectsInTrap.Count == 0)
+        {
+            Close();
+        }
         switch (_currentState) {
             case State.Closing:
                 if (_t >= dt) _t -= dt;
@@ -116,7 +130,7 @@ public class FireTrap : MonoBehaviour {
             case State.Open:
                 _damageTimer -= dt;
                 if (_damageTimer <= 0f) {
-                    DoDamage();
+                    DoDamage(_objectsInTrap);
                     _damageTimer += 1f;
                 }
 
@@ -137,23 +151,17 @@ public class FireTrap : MonoBehaviour {
 
     //private void OnCollisionEnter(Collision collision) {
     void OnTriggerEnter (Collider other) {
-        var damageable = other.gameObject.GetComponent<IDamageable>();
-        if (damageable == null) return;
-
-        if (!_objectsInTrap.Contains (damageable)) {
-            _objectsInTrap.Add(damageable);
-            if (_mode == Mode.PressureTrigger && _currentState == State.Closed) Open();
-        }
+        
     }
 
     private void OnTriggerExit(Collider other) {
-        var damageable = other.gameObject.GetComponent<IDamageable>();
+        /*var damageable = other.gameObject.GetComponent<IDamageable>();
         if (damageable == null) return;
 
         if (_objectsInTrap.Contains(damageable)) {
             _objectsInTrap.Remove (damageable);
             if (_objectsInTrap.Count == 0 && _currentState == State.Open) Close();
-        }
+        }*/
     }
 
     public Mode TrapMode {
@@ -206,7 +214,7 @@ public class FireTrap : MonoBehaviour {
         _grate.localPosition = new Vector3(0f, grateY, 0f);
     }
 
-    void DoDamage() {        
+    void DoDamage(List<IDamageable> _objectsInTrap) {        
         foreach (var obj in _objectsInTrap) {
             obj.TakeDamage(damager);
         }

@@ -28,16 +28,15 @@ public class SegwayMod : Mod {
     [SerializeField] private float aoeRadius;
 
     // Use this for initialization
-    void Start()
+    protected override void Awake()
     {
-        setModType(ModType.ForceSegway);        
+        setModType(ModType.ForceSegway); 
+        base.Awake();       
     }
 
     protected override void Update(){
         if (wielderMovable != null){
-            if (getModSpot() != ModSpot.Legs){
-                transform.forward = wielderMovable.GetForward();
-            }
+            transform.forward = wielderMovable.GetForward();
         }
     }    
 
@@ -45,16 +44,7 @@ public class SegwayMod : Mod {
     {
         base.AttachAffect(ref wielderStats, wielderMovable);        
         segwayVFX.SetIdle(false);
-
-        if (getModSpot() == ModSpot.Legs){
-            segwayVFX.SetMoving(true);
-            this.wielderStats.Multiply(StatType.MoveSpeed, speedBoostMultiplier);
-            this.wielderMovable = wielderMovable;
-            this.wielderMovable.SetMovementMode(MovementMode.ICE);
-        }
-        else{
-            segwayVFX.SetMoving(false);
-        }
+        segwayVFX.SetMoving(false);
     }
 
     public override void Activate(Action onCompleteCoolDown=null, Action onActivate=null){
@@ -90,12 +80,7 @@ public class SegwayMod : Mod {
     public override void DetachAffect()
     {        
         segwayVFX.SetMoving(false);
-        segwayVFX.SetIdle(true);
-        if (getModSpot() == ModSpot.Legs)
-        {
-            wielderStats.Multiply(StatType.MoveSpeed, 1f / speedBoostMultiplier);
-            this.wielderMovable.SetMovementMode(MovementMode.PRECISE);
-        }
+        segwayVFX.SetIdle(true);        
         base.DetachAffect();
     }
 
@@ -104,7 +89,7 @@ public class SegwayMod : Mod {
     }
 
     void ForcePush(){
-        //SFXManager.Instance.Play(SFXType.ForceSegwayPush);
+        SFXManager.Instance.Play(SFXType.SegwayBlast_Standard, transform.position);
         PoolObjectType poolObjType = IsCharged() ? PoolObjectType.VFXSegwayBlasterCharged : PoolObjectType.VFXSegwayBlaster;
         GameObject blasterFX = ObjectPool.Instance.GetObject(poolObjType);
         if (blasterFX) {
@@ -165,11 +150,8 @@ public class SegwayMod : Mod {
         }
     }
 
-    List<Collider> GetOverlap(){ 
-        if (getModSpot()!=ModSpot.Legs){ 
-            return Physics.OverlapCapsule(capsuleBoundsDirection.Start, capsuleBoundsDirection.End, capsuleBoundsDirection.radius).ToList();
-        }
-        return Physics.OverlapSphere(capsuleBoundsDirection.Start, aoeRadius).ToList();
+    List<Collider> GetOverlap(){         
+        return Physics.OverlapCapsule(capsuleBoundsDirection.Start, capsuleBoundsDirection.End, capsuleBoundsDirection.radius).ToList();
     }
 
     void Jump() {
@@ -182,11 +164,8 @@ public class SegwayMod : Mod {
         }
     }
     private float pushForce {
-        get {
-            if (getModSpot()!=ModSpot.Legs){ 
-                return IsCharged() ? chargedForceSettings.armpushForce : standardForceSettings.armpushForce;
-            }
-            return IsCharged() ? chargedForceSettings.aoePushForce : standardForceSettings.aoePushForce;
+        get {            
+            return IsCharged() ? chargedForceSettings.armpushForce : standardForceSettings.armpushForce;
         }
     }
 

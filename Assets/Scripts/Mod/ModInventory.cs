@@ -8,12 +8,13 @@ using System.Linq;
 
 public class ModInventory : MonoBehaviour {
 
-    [SerializeField] private GameObject baton, blaster, boomerang, dice, geyser, grappler, segway; 
+    public GameObject baton, blaster, boomerang, dice, geyser, grappler, segway; 
     private Dictionary<ModType, ModInventoryPack> modInventory;
+    private List<ModType> availableMods = new List<ModType>();
 
 
-	// Use this for initialization
-	void Awake () {
+    // Use this for initialization
+    void Awake () {
 		modInventory = new Dictionary<ModType, ModInventoryPack>() {
             {ModType.ArmBlaster, new ModInventoryPack(transform, blaster) },
             {ModType.Boomerang, new ModInventoryPack(transform, boomerang) },
@@ -42,7 +43,7 @@ public class ModInventory : MonoBehaviour {
         return false;
     }
 
-    List<ModType> availableMods=new List<ModType>();
+    
     public List<ModType> GetAvailableModTypes() {
         return availableMods;
     }
@@ -95,7 +96,7 @@ public class ModInventory : MonoBehaviour {
             modContainers=new Dictionary<ModSpot, ModContainer>() {
                 {ModSpot.ArmL, new ModContainer(Instantiate(modPrefab, babyTran)) },
                 {ModSpot.ArmR, new ModContainer(Instantiate(modPrefab, babyTran)) },
-                {ModSpot.Legs, new ModContainer(Instantiate(modPrefab, babyTran)) },
+                //{ModSpot.Legs, new ModContainer(Instantiate(modPrefab, babyTran)) },
             };
             modContainers.ForEach((key, value)=>value.modObject.SetActive(false));
         }

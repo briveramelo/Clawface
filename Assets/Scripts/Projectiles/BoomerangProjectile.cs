@@ -29,6 +29,8 @@ public class BoomerangProjectile : MonoBehaviour {
     private Matrix4x4 TRMatrix;
     private float maxAngle;
     private System.Action onDestroy;
+
+    private bool isPlayer;
 #endregion
 
     #region Unity Lifecycle
@@ -84,6 +86,21 @@ public class BoomerangProjectile : MonoBehaviour {
                 IDamageable damageable = other.gameObject.GetComponent<IDamageable>();
                 if (damageable != null)
                 {
+                    if (isPlayer)
+                    {
+                        AnalyticsManager.Instance.AddModDamage(ModType.Boomerang, damager.damage);
+
+                        if (damageable.GetHealth() - damager.damage <= 0.01f)
+                        {
+                            AnalyticsManager.Instance.AddModKill(ModType.Boomerang);
+                        }
+                    }
+                    else
+                    {
+                        AnalyticsManager.Instance.AddEnemyModDamage(ModType.Boomerang, damager.damage);
+                    }
+
+                    SFXManager.Instance.Play(SFXType.Boomerang_Impact, transform.position);
                     damager.impactDirection = transform.forward;
                     damageable.TakeDamage(damager);
                 }
@@ -101,6 +118,16 @@ public class BoomerangProjectile : MonoBehaviour {
         this.parentTransform = parentTransform;
         damager.damage = isCharged ? wielderStats.attack * chargeMultiplier: wielderStats.attack;
         damager.damagerType = DamagerType.Boomerang;
+
+        if (wielderStats.gameObject.CompareTag(Strings.Tags.PLAYER))
+        {
+            isPlayer = true;
+        }
+        else
+        {
+            isPlayer = false;
+        }
+
         if (isCharged)
         {
             maxAngle = 360f * chargeRotations;

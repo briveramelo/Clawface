@@ -15,7 +15,8 @@ public class BlasterMod : Mod {
     private ShooterProperties shooterProperties= new ShooterProperties();
 
     // Use this for initialization
-    void Start () {
+    protected override void Awake () {
+        base.Awake();
         type = ModType.ArmBlaster;
         category = ModCategory.Ranged;             
     }
@@ -24,9 +25,7 @@ public class BlasterMod : Mod {
     // Update is called once per frame
     protected override void Update () {
         if (wielderMovable != null){
-            if (getModSpot() != ModSpot.Legs){
-                transform.forward = wielderMovable.GetForward();
-            }
+            transform.forward = wielderMovable.GetForward();
         }
         base.Update();
     }
@@ -52,7 +51,9 @@ public class BlasterMod : Mod {
     }
 
     public override void BeginCharging(Action onBegin=null){
-        onBegin=()=> {  SFXManager.Instance.Play(SFXType.BlasterCharge, transform.position); };
+        onBegin=()=> {  
+            SFXManager.Instance.Play(SFXType.BlasterCharge, transform.position);
+            };
         base.BeginCharging(onBegin);
     }
     protected override void BeginChargingArms(){ }
@@ -97,6 +98,15 @@ public class BlasterMod : Mod {
             blasterBullet.transform.rotation = transform.rotation;
             shooterProperties.Initialize(GetWielderInstanceID(),Attack, wielderStats.shotSpeed, wielderStats.shotPushForce);
             blasterBullet.SetShooterProperties(shooterProperties);
+
+            if (wielderStats.gameObject.CompareTag(Strings.Tags.PLAYER))
+            {
+                blasterBullet.SetShooterType(false);
+            }
+            else
+            {
+                blasterBullet.SetShooterType(true);
+            }
         }
         return blasterBullet;
     }
@@ -110,17 +120,11 @@ public class BlasterMod : Mod {
     private float KickBack {
         get{
             float force = energySettings.IsCharged ? kickbackForceCharged : kickbackForce;
-            if (getModSpot()==ModSpot.Legs) {                
-                return kickbackForceFeetMultiplier * force;
-            }            
             return force;
         }
     }
     private Vector3 KickBackDirection {
-        get {
-            if (getModSpot() == ModSpot.Legs){
-                return Vector3.up;
-            }                        
+        get {                   
             return -wielderMovable.GetForward();            
         }
     }

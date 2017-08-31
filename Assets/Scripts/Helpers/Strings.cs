@@ -15,8 +15,9 @@
     }
 
     public static class Scenes {
-        public static string Level1 = "Scenes/EAE_Level";//Gucci_V1.2";
+        public static string Level1 = "Scenes/EAE_Level1.1";//Gucci_V1.2";
         public static string MainMenu = "Scenes/MainMenu";
+        public static string Arena = "Scenes/Gucci_V1.2";
     }
 
     public static class Layers
@@ -31,39 +32,26 @@
         public static string LOAD = "LoadMenu";
         public static string LOGO = "LogoMenu";
         public static string PAUSE = "PauseMenu";
+        public static string FADE = "FadeMenu";
+        public static string TUTORIAL = "TutorialMenu";
     }
 
     public static class Input
     {
         public static class Axes
         {
-            public const string MOVEMENT = "MOVEMENT AXES";
-            public const string LOOK = "LOOK AXES";
+            public const string MOVEMENT = "Move";
+            public const string LOOK = "Look";
         }
 
         public static class Actions
         {
-            public const string SWAP_MODE = "SWAP MODE";
-            public const string DROP_MODE = "DROP MODE";
-
-            public const string ACTIVATE_UI = "ACTIVATE UI";
-            public const string ACTION_LEGS = "LEGS";
-            public const string ACTION_ARM_LEFT = "ARM LEFT";
-            public const string ACTION_ARM_RIGHT = "ARM RIGHT";
-            public const string ACTION_HEAD = "HEAD"; // REMOVE?
-            public const string ACTION_SKIN = "SKIN";
-            public const string NAV_UP = "UP";
-            public const string NAV_DOWN = "DOWN";
-            public const string NAV_LEFT = "LEFT";
-            public const string NAV_RIGHT = "RIGHT";
-            public const string BLOCK = "BLOCK"; // REMOVE?
-            public const string LOCK = "LOCK"; // REMOVE?
-            public const string DODGE = "DODGE";
-            public const string PAUSE = "PAUSE";
-            
-            public const string EQUIP_ARM_LEFT = "EQUIP ARM LEFT";
-            public const string EQUIP_ARM_RIGHT = "EQUIP ARM RIGHT";
-            public const string EQUIP_LEGS = "EQUIP LEGS";
+            public const string FIRE_RIGHT = "Fire Right";
+            public const string FIRE_LEFT = "Fire Left";
+            public const string PAUSE = "Pause";
+            public const string LOCK = "Lock";
+            public const string SKIN = "Skin";
+            public const string DODGE = "Dodge";
         }
     }
 }
