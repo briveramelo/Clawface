@@ -34,7 +34,6 @@ public class ModUISelector : MonoBehaviour {
             new ModUIElement(ModType.ForceSegway, segwayIcon),
             new ModUIElement(ModType.Geyser, geyserIcon),
             new ModUIElement(ModType.Grappler, grapplerIcon),
-            new ModUIElement(ModType.StunBaton, stunbatonIcon),            
         };
     }
 

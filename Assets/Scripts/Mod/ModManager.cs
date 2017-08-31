@@ -25,6 +25,7 @@ public class ModManager : MonoBehaviour
     [SerializeField] private ModInventory modInventory;
     [SerializeField] private ModUIManager modUIManager;
     [SerializeField] private float modPickupRadius;
+    [SerializeField] private ModType[] modPool;
     #endregion
 
     #region Private Fields
@@ -62,72 +63,12 @@ public class ModManager : MonoBehaviour
 
     }
 
-    private void AttachRandomMods()
-    {
-        ModType rightHandModType = (ModType)UnityEngine.Random.Range(0, (int) ModType.None);
-        ModType leftHandModType = (ModType)UnityEngine.Random.Range(0, (int)ModType.None);
-        while(leftHandModType == rightHandModType)
-        {
-            leftHandModType = (ModType)UnityEngine.Random.Range(0, (int)ModType.None);
-        }
-        Debug.Log("Right hand mod " + rightHandModType.ToString());
-        Debug.Log("Left hand mod " + leftHandModType.ToString());
-        GameObject rightHandMod = InstantiateMod(rightHandModType);
-        GameObject leftHandMod = InstantiateMod(leftHandModType);
-        InitializeAndAttachMod(rightHandMod);
-        InitializeAndAttachMod(leftHandMod);
-    }
-
-    private GameObject InstantiateMod(ModType modType)
-    {
-        switch (modType)
-        {
-            case ModType.ArmBlaster:                
-                return Instantiate(modInventory.blaster);
-            case ModType.Boomerang:
-                return Instantiate(modInventory.boomerang);
-            case ModType.Dice:
-                return Instantiate(modInventory.dice);
-            case ModType.ForceSegway:
-                return Instantiate(modInventory.segway);
-            case ModType.Geyser:
-                return Instantiate(modInventory.geyser);
-            case ModType.Grappler:
-                return Instantiate(modInventory.grappler);
-            case ModType.StunBaton:
-                return Instantiate(modInventory.baton);
-            default:
-                return null;
-        }
-    }
-
     private void Update()
     {
         CheckToCollectMod();                
         CheckToChargeAndFireMods();
         //CheckToActivateModCanvas();
     }
-    
-    
-    private void CheckToActivateModCanvas() {
-        float closestDistance=10f;
-        Mod modToActivate=null;
-        overlapMods.Clear();
-        Physics.OverlapSphere(transform.position, modPickupRadius).ToList().ForEach(col=> {
-            if(col.tag == Strings.Tags.MOD){
-                float distanceAway = Vector3.Distance(transform.position, col.transform.position);
-                if (distanceAway < closestDistance) {
-                    closestDistance = distanceAway;
-                    modToActivate = col.GetComponent<Mod>();
-                    overlapMods.Add(modToActivate);
-                }
-            }
-        });
-        if (modToActivate!=null) {
-            overlapMods.ForEach(mod=>mod.DeactivateModCanvas());
-            modToActivate.ActivateModCanvas();
-        }
-    }    
     #endregion
 
     #region Public Methods
@@ -150,6 +91,42 @@ public class ModManager : MonoBehaviour
     #endregion
 
     #region Private Methods
+
+
+    private void AttachRandomMods()
+    {
+        if (modPool != null && modPool.Length > 0)
+        {
+            ModType rightHandModType = modPool[UnityEngine.Random.Range(0, modPool.Length)];
+            ModType leftHandModType = modPool[UnityEngine.Random.Range(0, modPool.Length)];
+            GameObject rightHandMod = InstantiateMod(rightHandModType);
+            GameObject leftHandMod = InstantiateMod(leftHandModType);
+            InitializeAndAttachMod(rightHandMod);
+            InitializeAndAttachMod(leftHandMod);
+        }
+    }
+
+    private GameObject InstantiateMod(ModType modType)
+    {
+        switch (modType)
+        {
+            case ModType.ArmBlaster:
+                return Instantiate(modInventory.blaster);
+            case ModType.Boomerang:
+                return Instantiate(modInventory.boomerang);
+            case ModType.Dice:
+                return Instantiate(modInventory.dice);
+            case ModType.ForceSegway:
+                return Instantiate(modInventory.segway);
+            case ModType.Geyser:
+                return Instantiate(modInventory.geyser);
+            case ModType.Grappler:
+                return Instantiate(modInventory.grappler);
+            default:
+                return null;
+        }
+    }
+
     private void CheckToCollectMod() {
         Physics.OverlapSphere(transform.position, modPickupRadius).ToList().ForEach(other => {
             if (other.tag == Strings.Tags.MOD)
@@ -166,23 +143,20 @@ public class ModManager : MonoBehaviour
             Mod mod = other.GetComponent<Mod>();
             if (mod != null)
             {
-                if (!modInventory.IsModCollected(mod.getModType()))
+                modInventory.CollectMod(mod.getModType());
+                foreach (KeyValuePair<ModSpot, ModSocket> modSpotSocket in modSocketDictionary)
                 {
-                    modInventory.CollectMod(mod.getModType());
-                    foreach (KeyValuePair<ModSpot, ModSocket> modSpotSocket in modSocketDictionary)
+                    if (modSpotSocket.Value.mod == null)
                     {
-                        if (modSpotSocket.Value.mod == null)
+                        mod = modInventory.GetMod(mod.getModType(), modSpotSocket.Key);
+                        if (mod != null)
                         {
-                            mod = modInventory.GetMod(mod.getModType(), modSpotSocket.Key);
-                            if (mod != null)
-                            {
-                                Attach(modSpotSocket.Key, mod);
-                            }
-                            break;
+                            Attach(modSpotSocket.Key, mod);
                         }
+                        break;
                     }
-                    Destroy(other.gameObject);
                 }
+                Destroy(other.gameObject);
             }
         }
     }
@@ -278,6 +252,33 @@ public class ModManager : MonoBehaviour
             modSocketDictionary[spot].mod.gameObject.SetActive(false);
             modSocketDictionary[spot].mod.DetachAffect();
             modSocketDictionary[spot].mod = null;
+        }
+    }
+
+
+
+
+    private void CheckToActivateModCanvas()
+    {
+        float closestDistance = 10f;
+        Mod modToActivate = null;
+        overlapMods.Clear();
+        Physics.OverlapSphere(transform.position, modPickupRadius).ToList().ForEach(col => {
+            if (col.tag == Strings.Tags.MOD)
+            {
+                float distanceAway = Vector3.Distance(transform.position, col.transform.position);
+                if (distanceAway < closestDistance)
+                {
+                    closestDistance = distanceAway;
+                    modToActivate = col.GetComponent<Mod>();
+                    overlapMods.Add(modToActivate);
+                }
+            }
+        });
+        if (modToActivate != null)
+        {
+            overlapMods.ForEach(mod => mod.DeactivateModCanvas());
+            modToActivate.ActivateModCanvas();
         }
     }
     #endregion
