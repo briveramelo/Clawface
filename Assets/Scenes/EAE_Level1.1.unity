@@ -6911,6 +6911,12 @@ Transform:
   m_PrefabParentObject: {fileID: 4497519745509320, guid: 309570f72253b2b4bbf473d43cf0a53c,
     type: 2}
   m_PrefabInternal: {fileID: 233949685}
+--- !u!114 &234891282 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114580093468250700, guid: 9afd80b390ca825469a516514ec4d491,
+    type: 2}
+  m_PrefabInternal: {fileID: 143425093}
+  m_Script: {fileID: 11500000, guid: 56a79b0651ec205499536ac56affd126, type: 3}
 --- !u!4 &237601008 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4497519745509320, guid: 309570f72253b2b4bbf473d43cf0a53c,
@@ -15142,7 +15148,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sequenceToFire: 2
-  tutorialCanvas: {fileID: 0}
+  tutorialCanvas: {fileID: 234891282}
 --- !u!65 &512415810
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -23096,7 +23102,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sequenceToFire: 3
-  tutorialCanvas: {fileID: 0}
+  tutorialCanvas: {fileID: 234891282}
 --- !u!65 &734011496
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -28581,7 +28587,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sequenceToFire: 4
-  tutorialCanvas: {fileID: 0}
+  tutorialCanvas: {fileID: 234891282}
 --- !u!65 &917208591
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -58067,7 +58073,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sequenceToFire: 1
-  tutorialCanvas: {fileID: 0}
+  tutorialCanvas: {fileID: 234891282}
 --- !u!65 &1868558137
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -58764,7 +58770,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sequenceToFire: 0
-  tutorialCanvas: {fileID: 0}
+  tutorialCanvas: {fileID: 234891282}
 --- !u!65 &1897438453
 BoxCollider:
   m_ObjectHideFlags: 0
