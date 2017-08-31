@@ -6,14 +6,15 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.EventSystems;
+using Rewired.Integration.UnityUI;
 
 public class MenuManager : Singleton<MenuManager> {
 
     #region Unity Serialization Fields
     [SerializeField]
     private List<GameObject> menuPrefabs;
-    private StandaloneInputModule input;
+    [SerializeField]
+    private RewiredStandaloneInputModule input;
     #endregion
 
     #region Private Fields
@@ -23,24 +24,8 @@ public class MenuManager : Singleton<MenuManager> {
     #endregion
 
     #region Unity Lifecycle Functions
-
-    protected override void Awake()
-    {
-        base.Awake();
-        if (!EventSystem.current)
-        {
-            string message = "No EventSystem found in the scene, please add one!";
-            Debug.LogFormat("<color=#ffff00>" + message + "</color>");
-        }
-        else
-        {
-            input = EventSystem.current.GetComponent<StandaloneInputModule>();
-        }
-        
-    }
     private void Start()
     {
-        
         foreach (GameObject prefab in menuPrefabs)
         {
             GameObject obj = Instantiate(prefab);

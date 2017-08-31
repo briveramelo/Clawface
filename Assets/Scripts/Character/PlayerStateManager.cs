@@ -75,7 +75,7 @@ public class PlayerStateManager : MonoBehaviour {
         {
             stateVariables.currentEnemy = lockOnScript.GetCurrentEnemy();
         }
-        if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_SKIN, ButtonMode.DOWN))
+        if (InputManager.Instance.QueryAction(Strings.Input.Actions.SKIN, ButtonMode.DOWN))
         {           
             SwitchState(skinningState);
         } else if (InputManager.Instance.QueryAction(Strings.Input.Actions.DODGE, ButtonMode.DOWN) && canDash && stateVariables.stateFinished) // do dodge / dash
@@ -141,14 +141,16 @@ public class PlayerStateManager : MonoBehaviour {
     #region Private Methods
     private void SwitchState(IPlayerState newState)
     {
-        if (newState.IsBlockingState())
-        {
-            stateVariables.velBody.velocity = Vector3.zero;
-            playerStates.Clear();
+        if(playerStates[0] == defaultState) {
+            if (newState.IsBlockingState())
+            {
+                stateVariables.velBody.velocity = Vector3.zero;
+                playerStates.Clear();
+            }        
+            playerStates.Add(newState);
+            stateVariables.stateFinished = false;
+            stateChanged = true;
         }
-        playerStates.Add(newState);
-        stateVariables.stateFinished = false;
-        stateChanged = true;
     }
 
     private void ResetState()

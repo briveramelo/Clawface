@@ -21,7 +21,7 @@ public class Pauser : MonoBehaviour
     void Update()
     {
         if (InputManager.Instance.QueryAction(Strings.Input.Actions.PAUSE, ButtonMode.DOWN))
-        {        
+        {
             Pause();
         }        
     }

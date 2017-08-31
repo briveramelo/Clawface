@@ -202,14 +202,17 @@ namespace Turing.Audio {
             _audioSource.pitch = pitch;
 
             var clip = _clips.GetRandom();
-            _clipLength = clip.length;
-            //_audioSource.PlayOneShot(clip, _audioSource.volume);
-            _audioSource.clip = clip;
-            _audioSource.Play();
+            if (clip)
+            {
+                _clipLength = clip.length;
+                //_audioSource.PlayOneShot(clip, _audioSource.volume);
+                _audioSource.clip = clip;
+                _audioSource.Play();
 
-            _playing = true;
+                _playing = true;
 
-            if (_loop) _loopTimer = clip.length;
+                if (_loop) _loopTimer = clip.length;
+            }
         }
 
         /// <summary>

@@ -45,26 +45,20 @@ public class GrapplerMod : Mod {
     protected override void Update () {
         if (wielderMovable != null)
         {
-            if (getModSpot() != ModSpot.Legs)
-            {
-                Vector3 forward = wielderMovable.GetForward().normalized;
-                forward.y = 0f;
-                transform.forward = forward;
-            }
+            Vector3 forward = wielderMovable.GetForward().normalized;
+            forward.y = 0f;
+            transform.forward = forward;
         }        
 	}
     #endregion
 
     #region Public Methods
     public override void Activate(Action onCompleteCoolDown=null, Action onActivate=null)
-    {                            
-        if (getModSpot() != ModSpot.Legs)
-        {
-            onActivate = () => {
-                hook.maxLength = IsCharged() ? maxHookLengthCharged : maxHookLengthStandard;
-                SFXManager.Instance.Play(SFXType.GrapplingGun_Shoot, transform.position);
-            };
-        }        
+    {  
+        onActivate = () => {
+            hook.maxLength = IsCharged() ? maxHookLengthCharged : maxHookLengthStandard;
+            SFXManager.Instance.Play(SFXType.GrapplingGun_Shoot, transform.position);
+        };   
         base.Activate(onCompleteCoolDown, onActivate);
     }    
 
@@ -137,6 +131,22 @@ public class GrapplerMod : Mod {
                 damager.damage = IsCharged() ? energySettings.chargedLegAttackSettings.attack : energySettings.standardLegAttackSettings.attack;
                 damager.damagerType = DamagerType.GrapplingHook;
                 damager.impactDirection = transform.forward;
+
+                if (wielderStats.gameObject.CompareTag(Strings.Tags.PLAYER))
+                {
+                    AnalyticsManager.Instance.AddModDamage(ModType.Grappler, damager.damage);
+
+                    if (damageable.GetHealth() - damager.damage <= 0.01f)
+                    {
+                        AnalyticsManager.Instance.AddModKill(ModType.Grappler);
+                    }
+                }
+                else
+                {
+                    AnalyticsManager.Instance.AddEnemyModDamage(ModType.Grappler, damager.damage);
+                }
+
+
                 damageable.TakeDamage(damager);
             }
         }
@@ -144,6 +154,14 @@ public class GrapplerMod : Mod {
 
     public override void AttachAffect(ref Stats wielderStats, IMovable wielderMovable){
         base.AttachAffect(ref wielderStats, wielderMovable);
+        if (wielderStats.gameObject.CompareTag(Strings.Tags.PLAYER))
+        {
+            hook.SetShooterType(true);
+        }
+        else
+        {
+            hook.SetShooterType(false);
+        }
     }
 
     public override void DeActivate()
