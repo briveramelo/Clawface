@@ -102,6 +102,8 @@ public class UpgradeManager : Singleton<UpgradeManager> {
 
             HandleCursorInput();
             
+            /*
+             * Why is this here? :P
             if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_LEGS, ButtonMode.DOWN))
             {
                 if (CheckIfEnoughPointsToUnlockCurrentSelection())
@@ -109,6 +111,7 @@ public class UpgradeManager : Singleton<UpgradeManager> {
                     UnlockCurrentSelection();
                 }
             }
+            */
 
 
             UpdateHealthPipColor();
