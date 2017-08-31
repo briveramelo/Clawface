@@ -98,8 +98,7 @@ namespace Turing.LevelEditor
         /// All currently loaded objects in the editor.
         /// </summary>
         [SerializeField]
-        List<ObjectSpawner> loadedSpawners =
-            new List<ObjectSpawner>();
+        List<ObjectSpawner> loadedSpawners = new List<ObjectSpawner>();
 
         /// <summary>
         /// Current state of the editor tool.
@@ -496,8 +495,7 @@ namespace Turing.LevelEditor
         /// </summary>
         void CreateAssetPreview()
         {
-            assetPreview = new GameObject(PREVIEW_NAME,
-                typeof(AssetPreview)).GetComponent<AssetPreview>();
+            assetPreview = new GameObject(PREVIEW_NAME, typeof(AssetPreview)).GetComponent<AssetPreview>();
             //_preview.hideFlags = HideFlags.HideAndDontSave;
 
             // Load preview material
@@ -516,8 +514,7 @@ namespace Turing.LevelEditor
         void LoadPreviewMaterialEditor()
         {
             #if UNITY_EDITOR
-            previewMaterial = AssetDatabase.LoadAssetAtPath<Material>(
-                PREVIEW_MAT_PATH);
+            previewMaterial = AssetDatabase.LoadAssetAtPath<Material>(PREVIEW_MAT_PATH);
             #endif
         }
 
@@ -547,27 +544,31 @@ namespace Turing.LevelEditor
             switch (currentTool)
             {
                 case Tool.Select:
+
                     if (LevelLoaded)
                     {
                         SelectObjects(hoveredObjects);
                     } 
                     else DeselectObjects();
+
                     break;
 
                 case Tool.Place:
-                    if (HasSelectedObjectForPlacement &&
-                        CanPlaceAnotherCurrentObject())
+
+                    if (HasSelectedObjectForPlacement && CanPlaceAnotherCurrentObject())
                     {
                         //if (_snapToGrid) SnapCursor();
                         CreateCurrentSelectedObjectAtCursor();
                         e.Use();
                     }
+
                     break;
 
                 case Tool.Erase:
+
                     if (hoveredObjects.Count > 0)
-                        DeleteObject(hoveredObjects[0], 
-                            LevelEditorAction.ActionType.Normal);
+                        DeleteObject(hoveredObjects[0], LevelEditorAction.ActionType.Normal);
+
                     break;
 
                 case Tool.Move:
@@ -583,6 +584,7 @@ namespace Turing.LevelEditor
                     { 
                         StopMovingObject();
                     }
+
                     break;
             }
         }
@@ -591,6 +593,7 @@ namespace Turing.LevelEditor
         {
             var ray = editor.PointerRay;
             float distance;
+
             if (editingPlane.Raycast(ray, out distance))
                 SetCursorPosition(ray.GetPoint(distance));
 
@@ -599,16 +602,16 @@ namespace Turing.LevelEditor
                 if (isDragging)
                 {
                     hoveredObjects = ObjectsInSelection();
-                } 
-                
+                }
                 else
                 {
                     RaycastHit hit;
+
                     if (Physics.Raycast(ray, out hit))
                     {
                         ObjectSpawner spawner = hit.collider.gameObject.GetComponentInAncestors<ObjectSpawner>();
-                        if (spawner != null)
-                            HoverObject(spawner.gameObject);
+
+                        if (spawner != null) HoverObject(spawner.gameObject);
                     } 
                     
                     else hoveredObjects.Clear();
@@ -782,8 +785,7 @@ namespace Turing.LevelEditor
         /// </summary>
         public void UpdateHeight()
         {
-            editingPlane.SetNormalAndPosition(Vector3.up,
-                new Vector3(0f, currentYPosition, 0f));
+            editingPlane.SetNormalAndPosition(Vector3.up, new Vector3(0f, currentYPosition, 0f));
         }
 
         /// <summary>
@@ -796,8 +798,7 @@ namespace Turing.LevelEditor
             if (assetPreview != null)
             {
                 assetPreview.transform.position = cursorPosition;
-                assetPreview.transform.rotation =
-                    Quaternion.Euler(0f, currentPlacementYRotation, 0f);
+                assetPreview.transform.rotation = Quaternion.Euler(0f, currentPlacementYRotation, 0f);
             }
         }
 
@@ -816,41 +817,48 @@ namespace Turing.LevelEditor
                 switch (selectedObjectSnapMode)
                 {
                     case ObjectDatabase.SnapMode.Center:
+
                         snapped = new Vector3(
                             Mathf.Round(pos.x / TILE_UNIT_WIDTH) * TILE_UNIT_WIDTH,
                             Mathf.Round(pos.y / TILE_UNIT_WIDTH) * TILE_UNIT_WIDTH,
-                            Mathf.Round(pos.z / TILE_UNIT_WIDTH) * TILE_UNIT_WIDTH
-                        );
+                            Mathf.Round(pos.z / TILE_UNIT_WIDTH) * TILE_UNIT_WIDTH);
+
                         currentPlacementYRotation = 0f;
+
                         break;
 
                     case ObjectDatabase.SnapMode.Corner:
+
                         closestX = Mathf.Round(pos.x / TILE_UNIT_WIDTH) * TILE_UNIT_WIDTH;
                         closestZ = Mathf.Round(pos.z / TILE_UNIT_WIDTH) * TILE_UNIT_WIDTH;
+
                         bool left = closestX >= pos.x;
                         bool down = closestZ >= pos.z;
-                        snapped = new Vector3(
-                            closestX,
-                            currentYPosition,
-                            closestZ
-                            );
+
+                        snapped = new Vector3(closestX, currentYPosition, closestZ);
+
                         currentPlacementYRotation = left ? (down ? 0f : 90f) : (down ? 270f : 180f);
                         float half = TILE_UNIT_WIDTH / 2f;
                         snapped.x += left ? -half : half;
                         snapped.z += down ? -half : half;
+
                         break;
 
                     case ObjectDatabase.SnapMode.Edge:
+
                         closestX = Mathf.Round(pos.x / TILE_UNIT_WIDTH) * TILE_UNIT_WIDTH;
                         closestZ = Mathf.Round(pos.z / TILE_UNIT_WIDTH) * TILE_UNIT_WIDTH;
+
                         float distToClosestX = Mathf.Abs(pos.x - closestX);
                         float distToClosestZ = Mathf.Abs(pos.z - closestZ);
+
                         bool snapToX = distToClosestX <= distToClosestZ;
+
                         snapped = new Vector3(
                             snapToX ? closestX : Mathf.Floor(pos.x / TILE_UNIT_WIDTH) * TILE_UNIT_WIDTH + TILE_UNIT_WIDTH / 2f,
                             Mathf.Round(pos.y / TILE_UNIT_WIDTH) * TILE_UNIT_WIDTH,
-                            snapToX ? Mathf.Floor(pos.z / TILE_UNIT_WIDTH) * TILE_UNIT_WIDTH + TILE_UNIT_WIDTH / 2f : closestZ
-                            );
+                            snapToX ? Mathf.Floor(pos.z / TILE_UNIT_WIDTH) * TILE_UNIT_WIDTH + TILE_UNIT_WIDTH / 2f : closestZ);
+
                         currentPlacementYRotation = snapToX ? 0f : 90f;
                         break;
                 }
@@ -925,8 +933,7 @@ namespace Turing.LevelEditor
         /// </summary>
         public void CreateCurrentSelectedObjectAtCursor() 
         {
-            CreateObject((byte)selectedObjectIndexForPlacement, 
-                cursorPosition, LevelEditorAction.ActionType.Normal);
+            CreateObject((byte)selectedObjectIndexForPlacement, cursorPosition, LevelEditorAction.ActionType.Normal);
         }
 
         /// <summary>
@@ -940,8 +947,7 @@ namespace Turing.LevelEditor
                 throw new IndexOutOfRangeException("Invalid index! " + index);
 
             // Add object to level file
-            loadedLevel.AddObject((int)index, position, 
-                currentPlacementYRotation);
+            loadedLevel.AddObject((int)index, position, currentPlacementYRotation);
 
             if (Application.isEditor || Debug.isDebugBuild)
                 Debug.Log(currentPlacementYRotation);
@@ -959,6 +965,7 @@ namespace Turing.LevelEditor
             switch (actionType)
             {
                 case LevelEditorAction.ActionType.Normal:
+
                 case LevelEditorAction.ActionType.Redo:
                     undoStack.Push(new CreateObjectAction(index, spawner));
                     break;
@@ -980,8 +987,11 @@ namespace Turing.LevelEditor
 
             // Update undo/redo stack
             var deleteAction = new DeleteObjectAction(obj, deletedObjectIndex);
-            switch (actionType) {
+
+            switch (actionType)
+            {
                 case LevelEditorAction.ActionType.Normal:
+
                 case LevelEditorAction.ActionType.Redo:
                     undoStack.Push(deleteAction);
                     break;
@@ -1004,13 +1014,14 @@ namespace Turing.LevelEditor
         /// <summary>
         /// Moves an object.
         /// </summary>
-        public void MoveObject(GameObject obj, Vector3 oldPos, Vector3 newPos, 
-            LevelEditorAction.ActionType actionType)
+        public void MoveObject(GameObject obj, Vector3 oldPos, Vector3 newPos, LevelEditorAction.ActionType actionType)
         {
             var moveAction = new MoveObjectAction(obj, oldPos, newPos);
+
             switch (actionType)
             {
                 case LevelEditorAction.ActionType.Normal:
+
                 case LevelEditorAction.ActionType.Redo:
                     undoStack.Push(moveAction);
                     break;
@@ -1024,24 +1035,21 @@ namespace Turing.LevelEditor
             SetObjectPosition(obj, newPos, actionType);
         }
 
-        public void SetObjectPosition(GameObject obj, Vector3 pos, 
-            LevelEditorAction.ActionType actionType)
+        public void SetObjectPosition(GameObject obj, Vector3 pos, LevelEditorAction.ActionType actionType)
         {
             var attribs = AttributesOfObject(obj);
             attribs.SetPosition(pos);
             obj.transform.position = pos;
         }
 
-        public void SetObjectEulerRotation(GameObject obj, Vector3 rot, 
-            LevelEditorAction.ActionType actionType)
+        public void SetObjectEulerRotation(GameObject obj, Vector3 rot, LevelEditorAction.ActionType actionType)
         {
             var attribs = AttributesOfObject(obj);
             attribs.SetEulerRotation(rot);
             obj.transform.localRotation = Quaternion.Euler(rot);
         }
 
-        public void SetObject3DScale(GameObject obj, Vector3 scale, 
-            LevelEditorAction.ActionType actionType)
+        public void SetObject3DScale(GameObject obj, Vector3 scale, LevelEditorAction.ActionType actionType)
         {
             var attribs = AttributesOfObject(obj);
             attribs.Set3DScale(scale);
@@ -1055,6 +1063,7 @@ namespace Turing.LevelEditor
             switch (actionType)
             {
                 case LevelEditorAction.ActionType.Normal:
+
                 case LevelEditorAction.ActionType.Redo:
                     undoStack.Push(new ChangeObjectNormalAttributeAction(obj, attrib, newValue));
                     break;
@@ -1119,11 +1128,11 @@ namespace Turing.LevelEditor
         /// </summary>
         public void StopMovingObject()
         {
-            if (placementAllowed) {
+            if (placementAllowed)
+            {
                 //CreateObject((byte)_movingObjectID, _cursorPosition, ActionType.None);
                 //_movingObject.transform.position = _cursorPosition;
-                MoveObject(movingObject, movingObjectOriginalCoords, 
-                    cursorPosition, LevelEditorAction.ActionType.Normal);
+                MoveObject(movingObject, movingObjectOriginalCoords, cursorPosition, LevelEditorAction.ActionType.Normal);
                 ResetMovingObject();
             }
         }
@@ -1143,13 +1152,13 @@ namespace Turing.LevelEditor
         /// Selects an asset from the object browser.
         /// </summary>
         /// <param name="index">Index of the object in the browser.</param>
-        public void SelectObjectInCategory(int index, 
-            ObjectDatabase.Category category)
+        public void SelectObjectInCategory(int index, ObjectDatabase.Category category)
         {
             var data = ObjectDatabaseManager.Instance.AllObjectsInCategory(category)[index];
 
             selectedObjectIndexForPlacement = data.index;
             selectedObjectSnapMode = data.snapMode;
+
             var obj = ObjectDatabaseManager.Instance.GetObject(data.index);
 
             if (Application.isEditor || Debug.isDebugBuild)
@@ -1184,8 +1193,7 @@ namespace Turing.LevelEditor
                 if (Application.isEditor)
                 {
                     #if UNITY_EDITOR
-                    savePath = EditorUtility.SaveFilePanel("Save Level to JSON", 
-                        Application.dataPath, loadedLevel.Name, "json");
+                    savePath = EditorUtility.SaveFilePanel("Save Level to JSON", Application.dataPath, loadedLevel.Name, "json");
                     if (savePath == default(string) || savePath == "") return;
                     JSONFileUtility.SaveToJSONFile(loadedLevel, savePath);
                     #endif
@@ -1281,6 +1289,7 @@ namespace Turing.LevelEditor
         void ReconstructFloor() 
         {
             var objects = loadedLevel.Objects;
+
             for (int i = 0; i < objects.Length; i++)
             {
                 var attribs = objects[i];
@@ -1314,8 +1323,7 @@ namespace Turing.LevelEditor
         /// </summary>
         void SetupLevelObjects() 
         {
-            loadedLevelObject = new GameObject(loadedLevel.Name + 
-                " (Loaded Level)", typeof(LevelObject));
+            loadedLevelObject = new GameObject(loadedLevel.Name + " (Loaded Level)", typeof(LevelObject));
             floorObject = new GameObject("Floor");
             floorObject.transform.SetParent(loadedLevelObject.transform);
         }
@@ -1352,8 +1360,7 @@ namespace Turing.LevelEditor
         /// </summary>
         public GameObject CreateSpawner(GameObject template)
         {
-            GameObject spawner = new GameObject(template.name + 
-                " Spawner", typeof(ObjectSpawner));
+            GameObject spawner = new GameObject(template.name + " Spawner", typeof(ObjectSpawner));
             spawner.GetComponent<ObjectSpawner>().SetTemplate(template);
             return spawner;
         }
@@ -1374,8 +1381,7 @@ namespace Turing.LevelEditor
         {
             while (loadedSpawners.Count > 0)
             {
-                if (loadedSpawners[0] == null || 
-                    loadedSpawners[0].gameObject == null)
+                if (loadedSpawners[0] == null || loadedSpawners[0].gameObject == null)
                 {
                     loadedSpawners.RemoveAt(0);
                     continue;
