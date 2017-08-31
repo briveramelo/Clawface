@@ -105,6 +105,11 @@ public class ScoreManager : Singleton<ScoreManager> {
         }
     }
 
+    public int GetCurrentMultiplier()
+    {
+        return (currentCombo < scoreMultiplierPerCombo.Count) ? scoreMultiplierPerCombo[currentCombo] : scoreMultiplierPerCombo[scoreMultiplierPerCombo.Count - 1];
+    }
+
     public void AddToScoreAndCombo(int points)
     {
         AddToScore(points);
