@@ -163,14 +163,21 @@ public class ModManager : MonoBehaviour
 
     private void CheckToChargeAndFireMods(){        
         if (canActivate){
-            CheckForModInput((ModSpot spot)=> { modSocketDictionary[spot].mod.BeginCharging();}, ButtonMode.DOWN);
-            CheckForModInput((ModSpot spot)=> { modSocketDictionary[spot].mod.RunCharging();}, ButtonMode.HELD);
+            //CheckForModInput((ModSpot spot)=> { modSocketDictionary[spot].mod.BeginCharging();}, ButtonMode.DOWN);
+            //CheckForModInput((ModSpot spot)=> { modSocketDictionary[spot].mod.RunCharging();}, ButtonMode.HELD);
             CheckForModInput((ModSpot spot)=> {
                 stateManager.Attack(modSocketDictionary[spot].mod);                    
                 if (!modSocketDictionary[spot].mod.hasState) {
                     modSocketDictionary[spot].mod.Activate();               
                 }
-            }, ButtonMode.UP);                    
+            }, ButtonMode.DOWN);
+            CheckForModInput((ModSpot spot) => {
+                stateManager.Attack(modSocketDictionary[spot].mod);
+                if (!modSocketDictionary[spot].mod.hasState)
+                {
+                    modSocketDictionary[spot].mod.Activate();
+                }
+            }, ButtonMode.HELD);
         }
     }
 
