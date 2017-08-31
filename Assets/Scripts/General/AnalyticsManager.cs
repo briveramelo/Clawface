@@ -406,7 +406,7 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         if (manager != null) {
             Dictionary<ModSpot, ModManager.ModSocket> modSocketDictionary = manager.GetModSpotDictionary();
 
-            if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_LEFT, ButtonMode.DOWN) || InputManager.Instance.QueryAction(Strings.Input.Actions.EQUIP_ARM_LEFT, ButtonMode.DOWN)) {
+            if (InputManager.Instance.QueryAction(Strings.Input.Actions.FIRE_LEFT, ButtonMode.DOWN)) {
                 buttonPressesDictionary["armL"] = (float)buttonPressesDictionary["armL"] + 1f;
 
                 if (modSocketDictionary[ModSpot.ArmL].mod != null) {
@@ -415,7 +415,7 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
                 }
             }
 
-            if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_ARM_RIGHT, ButtonMode.DOWN) || InputManager.Instance.QueryAction(Strings.Input.Actions.EQUIP_ARM_RIGHT, ButtonMode.DOWN)) {
+            if (InputManager.Instance.QueryAction(Strings.Input.Actions.FIRE_RIGHT, ButtonMode.DOWN)) {
                 buttonPressesDictionary["armR"] = (float)buttonPressesDictionary["armR"] + 1f;
 
                 if (modSocketDictionary[ModSpot.ArmR].mod != null) {
@@ -424,24 +424,11 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
                 }
             }
 
-            if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_LEGS, ButtonMode.DOWN)) {
-                buttonPressesDictionary["legs"] = (float)buttonPressesDictionary["legs"] + 1f;
-
-                //if (modSocketDictionary[ModSpot.Legs].mod != null) {
-                //    string modTypeToString = modSocketDictionary[ModSpot.Legs].mod.getModType().ToString();
-                //    modLegsPressesDictionary[modTypeToString] = (float)modLegsPressesDictionary[modTypeToString] + 1f;
-                //}
-            }
-
             if (InputManager.Instance.QueryAction(Strings.Input.Actions.DODGE, ButtonMode.DOWN)) {
                 buttonPressesDictionary["dodge"] = (float)buttonPressesDictionary["dodge"] + 1f;
             }
 
-            if (InputManager.Instance.QueryAction(Strings.Input.Actions.SWAP_MODE, ButtonMode.DOWN)) {
-                buttonPressesDictionary["swap"] = (float)buttonPressesDictionary["swap"] + 1f;
-            }
-
-            if (InputManager.Instance.QueryAction(Strings.Input.Actions.ACTION_SKIN, ButtonMode.DOWN)) {
+            if (InputManager.Instance.QueryAction(Strings.Input.Actions.SKIN, ButtonMode.DOWN)) {
                 buttonPressesDictionary["skin"] = (float)buttonPressesDictionary["skin"] + 1f;
             }
         }
