@@ -13,7 +13,7 @@ using Turing.Audio;
 [CustomPropertyDrawer(typeof(AudioChannel))]
 public sealed class AudioChannelDrawer : PropertyDrawer
 {
-    #region Vars
+    #region Private Fields
 
     /// <summary>
     /// Is the clip list expanded?
@@ -37,7 +37,7 @@ public sealed class AudioChannelDrawer : PropertyDrawer
     SerializedProperty changeVolumeEachLoopProp;
 
     #endregion
-    #region Unity Overrides
+    #region Public Methods
 
     public override float GetPropertyHeight(SerializedProperty property, 
         GUIContent label)

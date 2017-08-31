@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using ModMan;
 
-public class VFX_OneOff : MonoBehaviour {
+public class VFXOneOff : MonoBehaviour {
 
 	ParticleSystem[] _ps;
 

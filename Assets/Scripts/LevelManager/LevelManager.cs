@@ -724,7 +724,7 @@ namespace Turing.LevelEditor
         /// <summary>
         /// Gets the attributes of the given object.
         /// </summary>
-        public Level.ObjectAttributes AttributesOfObject(GameObject obj)
+        public ObjectAttributes AttributesOfObject(GameObject obj)
         {
             var index = LevelIndexOfObject(obj);
             return loadedLevel.Objects[index];
@@ -913,7 +913,7 @@ namespace Turing.LevelEditor
         /// <summary>
         /// Gets the object attributes of the given object.
         /// </summary>
-        public Level.ObjectAttributes GetAttributesOfObject(GameObject obj) 
+        public ObjectAttributes GetAttributesOfObject(GameObject obj) 
         {
             var index = loadedSpawners.IndexOf(obj.GetComponent<ObjectSpawner>());
             var data = loadedLevel.Objects[index];

@@ -12,20 +12,22 @@ namespace Turing.LevelEditor
     /// </summary>
     [ExecuteInEditMode]
     [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
-    public class AssetPreview : EditorSingleton<AssetPreview>
+    public sealed class AssetPreview : EditorSingleton<AssetPreview>
     {
-        #region Vars
+        #region Private Fields
 
         /// <summary>
         /// The child preview models.
         /// </summary>
         List<GameObject> children = new List<GameObject>();
 
-        // Number of child preview models
+        /// <summary>
+        /// Number of child preview models.
+        /// </summary>
         int numChildren = 0;
 
         #endregion
-        #region Unity Callbacks
+        #region Unity Lifecycle
 
         new void Awake() 
         {
@@ -37,7 +39,7 @@ namespace Turing.LevelEditor
         }
 
         #endregion
-        #region Methods
+        #region Public Methods
 
         /// <summary>
         /// Shows the asset preview.

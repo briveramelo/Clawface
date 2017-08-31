@@ -9,10 +9,9 @@ namespace Turing.LevelEditor
     /// Class for a level GameObject.
     /// </summary>
     [ExecuteInEditMode]
-    public class LevelObject : EditorSingleton<LevelObject>
+    public sealed class LevelObject : EditorSingleton<LevelObject>
     {
-
-        #region Vars
+        #region Serialized Unity Inspector Fields
 
         /// <summary>
         /// The level data this LevelObject wraps.
@@ -20,7 +19,7 @@ namespace Turing.LevelEditor
         [SerializeField] Level level;
 
         #endregion
-        #region Unity Callbacks
+        #region Unity Lifecycle
 
         new void Awake()
         {
@@ -32,7 +31,7 @@ namespace Turing.LevelEditor
         }
 
         #endregion
-        #region Properties
+        #region Public Methods
 
         /// <summary>
         /// Gets/sets the encapsulated level.

@@ -11,7 +11,7 @@ using UnityEngine.Events;
 public abstract class EditorSingleton<T> : 
     Singleton<T> where T : MonoBehaviour 
 {
-    #region Vars
+    #region Public Fields
 
     /// <summary>
     /// Invoked when the instance of this class is initialized.
@@ -19,7 +19,7 @@ public abstract class EditorSingleton<T> :
     public static UnityEvent OnSingletonInitializedEditor = new UnityEvent();
 
     #endregion
-    #region Unity Callbacks
+    #region Unity Lifecycle
 
     new protected void Awake() {
         base.Awake();

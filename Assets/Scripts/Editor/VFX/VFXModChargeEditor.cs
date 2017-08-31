@@ -1,21 +1,35 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿// VFXModChargeEditor.cs
+// Author: Aaron
+
 using UnityEditor;
 
+using UnityEngine;
+
+/// <summary>
+/// Custom editor for VFXModCharge.
+/// </summary>
 [CustomEditor(typeof(VFXModCharge))]
-public class VFXModChargeEditor : Editor {
+public sealed class VFXModChargeEditor : Editor
+{
+    #region Private Fields
 
-    VFXModCharge _target;
+    VFXModCharge VFXTarget;
 
-    public override void OnInspectorGUI() {
+    #endregion
+    #region Unity Lifecycle
+
+    public override void OnInspectorGUI()
+    {
         base.OnInspectorGUI();
 
-        if (_target == null) _target = target as VFXModCharge;
+        if (VFXTarget == null) VFXTarget = target as VFXModCharge;
 
-        if (Application.isPlaying) {
-            if (GUILayout.Button ("Play")) _target.StartCharging();
-            if (GUILayout.Button ("Stop")) _target.StopCharging();
+        if (Application.isPlaying)
+        {
+            if (GUILayout.Button ("Play")) VFXTarget.StartCharging();
+            if (GUILayout.Button ("Stop")) VFXTarget.StopCharging();
         }
     }
+
+    #endregion
 }

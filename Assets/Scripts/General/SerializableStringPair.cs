@@ -11,7 +11,7 @@ using UnityEngine;
 [Serializable]
 public class SerializableStringPair
 {
-    #region Vars
+    #region Serialized Unity Inspector Fields
 
     /// <summary>
     /// Key of this pair.
@@ -24,7 +24,7 @@ public class SerializableStringPair
     [SerializeField] string value;
 
     #endregion
-    #region Properties
+    #region Public Methods
 
     /// <summary>
     /// Returns the key of this pair (read-only).
@@ -36,9 +36,6 @@ public class SerializableStringPair
     /// </summary>
     public string Value { get { return value; } }
 
-    #endregion
-    #region Constructors
-
     /// <summary>
     /// Key/value constructor.
     /// </summary>
@@ -47,9 +44,6 @@ public class SerializableStringPair
         this.key = key;
         this.value = value;
     }
-
-    #endregion
-    #region Methods
 
     /// <summary>
     /// Sets the value of this pair.

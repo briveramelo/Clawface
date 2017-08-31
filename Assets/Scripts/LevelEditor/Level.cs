@@ -7,40 +7,44 @@ using UnityEngine;
 
 namespace Turing.LevelEditor
 {
-
     /// <summary>
     /// Serializable level class for easy network transfer.
     /// </summary>
     [Serializable]
     public class Level
     {
-        #region Constants
-
-        /// <summary>
-        /// Default level name.
-        /// </summary>
-        const string DEFAULT_NAME = "New Level";
+        #region Public Fields
 
         public const int LEVEL_WIDTH = 64;
         public const int LEVEL_DEPTH = 64;
         public const int LEVEL_HEIGHT = 10;
 
         #endregion
-        #region Vars
+        #region Serialized Unity Inspector Fields
 
         /// <summary>
         /// Name of the level.
         /// </summary>
+        [Tooltip("Name of the level.")]
         [SerializeField] string name;
 
         /// <summary>
         /// All objects in the level.
         /// </summary>
+        [Tooltip("All objects in the level.")]
         [SerializeField]
         ObjectArray objects = new ObjectArray();
 
         #endregion
-        #region Constructors
+        #region Private Fields
+
+        /// <summary>
+        /// Default level name.
+        /// </summary>
+        const string DEFAULT_NAME = "New Level";
+
+        #endregion
+        #region Public Methods
 
         /// <summary>
         /// Default constructor -- inits object list.
@@ -51,9 +55,6 @@ namespace Turing.LevelEditor
             objects = new ObjectArray();
         }
 
-        #endregion
-        #region Properties
-
         /// <summary>
         /// Gets/sets the name of this level.
         /// </summary>
@@ -62,9 +63,6 @@ namespace Turing.LevelEditor
             get { return name; }
             set { name = value; }
         }
-
-        #endregion
-        #region Methods
 
         /// <summary>
         /// Direct accessor (read-only).
@@ -91,16 +89,13 @@ namespace Turing.LevelEditor
             objects.RemoveAt(index);
         }
 
-        #endregion
-        #region Overrides
-
         public override string ToString() 
         {
             return name;
         }
 
         #endregion
-        #region Nested Classes
+        #region Public Structures
 
         /// <summary>
         /// Serializable class wrapper for an array of objects.
@@ -216,232 +211,6 @@ namespace Turing.LevelEditor
                     result += attribute.ToString();
                 }
                 return result;
-            }
-        }
-
-        /// <summary>
-        /// Serializable class to represent object attributes.
-        /// </summary>
-        [Serializable]
-        public class ObjectAttributes
-        {
-            [SerializeField] byte index = byte.MaxValue;
-            [SerializeField] float posX;
-            [SerializeField] float posY;
-            [SerializeField] float posZ;
-            [SerializeField] float rotX = 0f;
-            [SerializeField] float rotY = 0f;
-            [SerializeField] float rotZ = 0f;
-            [SerializeField] float scaleX = 1f;
-            [SerializeField] float scaleY = 1f;
-            [SerializeField] float scaleZ = 1f;
-
-            /// <summary>
-            /// Special attributes.
-            /// </summary>
-            [SerializeField]
-            AttributeArray attributes = new AttributeArray();
-
-            /// <summary>
-            /// Default constructor.
-            /// !! Needed for proper serialization !!
-            /// </summary>
-            public ObjectAttributes()
-            {
-                index = byte.MaxValue;
-            }
-
-            public ObjectAttributes(byte index, Vector3 position, 
-                float yRotation)
-            {
-                this.index = index;
-                posX = position.x;
-                posY = position.y;
-                posZ = position.z;
-                rotY = yRotation;
-            }
-
-            /// <summary>
-            /// Returns the index of this object (read-only).
-            /// </summary>
-            public byte Index { get { return index; } }
-
-            /// <summary>
-            /// Returns the 3D position of this object (read-only).
-            /// </summary>
-            public Vector3 Position
-            {
-                get { return new Vector3(posX, posY, posZ); }
-            }
-
-            /// <summary>
-            /// Returns the euler rotation of this object (read-only).
-            /// </summary>
-            public Vector3 EulerRotation
-            {
-                get { return new Vector3(rotX, rotY, rotZ); }
-            }
-
-            /// <summary>
-            /// Gets/sets the y-rotation of this object.
-            /// </summary>
-            public float RotationY
-            {
-                get { return rotY; }
-                set { rotY = value; }
-            }
-
-            /// <summary>
-            /// Returns the 3D scale of this object (read-only).
-            /// </summary>
-            public Vector3 Scale
-            {
-                get {
-                    return new Vector3(scaleX, scaleY, scaleZ);
-                }
-            }
-
-            /// <summary>
-            /// Gets/sets the x-scale of this object.
-            /// </summary>
-            public float ScaleX
-            {
-                get { return scaleX; }
-                set { scaleX = value; }
-            }
-
-            /// <summary>
-            /// Gets/sets the y-scale of this object.
-            /// </summary>
-            public float ScaleY
-            {
-                get { return scaleY; }
-                set { scaleY = value; }
-            }
-
-            /// <summary>
-            /// Gets/sets the z-scale of this object.
-            /// </summary>
-            public float ScaleZ
-            {
-                get { return scaleZ; }
-                set { scaleZ = value; }
-            }
-
-            /// <summary>
-            /// Returns the value of the attribute with the given name as a byte.
-            /// </summary>
-            public byte GetAttributeAsByte(string attribName)
-            {
-                for (int i = 0; i < AttributeArray.MAX_OBJECT_ATTRIBUTES; i++)
-                {
-                    var attribute = attributes[i];
-                    if (attribute.Key == attribName)
-                    {
-                        byte result;
-                        if (byte.TryParse(attribute.Value, out result))
-                            return result;
-                        else
-                            throw new NullReferenceException(
-                                "Failed to parse attribute \'" + attribName +
-                                "\' as byte!");
-                    }
-                }
-
-                throw new NullReferenceException("Attribute \'" + attribName +
-                    "\' not found!");
-            }
-
-            /// <summary>
-            /// Returns the value of the attribute with the given name as a float.
-            /// </summary>
-            public float GetAttributeAsFloat(string attribName)
-            {
-                for (int i = 0; i < AttributeArray.MAX_OBJECT_ATTRIBUTES; i++)
-                {
-                    var attribute = attributes[i];
-                    if (attribute.Key == attribName)
-                    {
-                        float result;
-                        if (float.TryParse(attribute.Value, out result))
-                            return result;
-                        else throw new NullReferenceException(
-                            "Failed to parse attribute \'" + attribName +
-                            "\' as float!");
-                    }
-                }
-
-                throw new NullReferenceException("Attribute \'" + attribName +
-                    "\' not found!");
-            }
-
-            /// <summary>
-            /// Returns the value of the attribute with the given name as a string.
-            /// </summary>
-            public string GetAttributeAsString(string attribName)
-            {
-                for (int i = 0; i < AttributeArray.MAX_OBJECT_ATTRIBUTES; i++) {
-                    var attribute = attributes[i];
-                    if (attribute.Key == attribName)
-                        return attribute.Value;
-                }
-
-                throw new NullReferenceException("Attribute \'" + attribName +
-                    "\' not found!");
-            }
-
-            /// <summary>
-            /// Sets the value of the attribute with the given name.
-            /// </summary>
-            public void SetAttribute(string attribName, string newValue)
-            {
-                for (int i = 0; i < AttributeArray.MAX_OBJECT_ATTRIBUTES; i++)
-                {
-                    var attribute = attributes[i];
-                    if (attribute.Key == attribName)
-                    {
-                        attribute.SetValue(newValue);
-                        return;
-                    }
-                }
-
-                throw new NullReferenceException("Attribute \'" + attribName +
-                    "\' not found!");
-            }
-
-            /// <summary>
-            /// Sets the 3D position of this object.
-            /// </summary>
-            public void SetPosition(Vector3 pos)
-            {
-                posX = pos.x;
-                posY = pos.y;
-                posZ = pos.z;
-            }
-
-            /// <summary>
-            /// Sets the rotation of an object with euler angles.
-            /// </summary>
-            public void SetEulerRotation(Vector3 euler)
-            {
-                rotX = euler.x;
-                rotY = euler.y;
-                rotZ = euler.z;
-            }
-
-            /// <summary>
-            /// Sets the 3D local scale of an object.
-            /// </summary>
-            public void Set3DScale(Vector3 scale)
-            {
-                scaleX = scale.x;
-                scaleY = scale.y;
-                scaleZ = scale.z;
-            }
-
-            public override string ToString()
-            {
-                return attributes.ToString();
             }
         }
 

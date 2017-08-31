@@ -10,10 +10,12 @@ using UnityEngine;
 /// </summary>
 public static class JSONFileUtility
 {
+    #region Public Methods
+
     /// <summary>
     /// Saves the given object as a JSON file to the given path.
     /// </summary>
-	public static void SaveToJSONFile (object obj, string path)
+    public static void SaveToJSONFile (object obj, string path)
     {
         var json = JsonUtility.ToJson(obj);
         File.WriteAllText(path, json);
@@ -27,4 +29,6 @@ public static class JSONFileUtility
         var json = File.ReadAllText (path);
         return JsonUtility.FromJson<T>(json);
     }
+
+    #endregion
 }

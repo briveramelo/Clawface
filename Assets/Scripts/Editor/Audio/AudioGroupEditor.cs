@@ -13,20 +13,14 @@ namespace Turing.Audio
     [CustomEditor(typeof(AudioGroup))]
     public sealed class AudioGroupEditor : Editor
     {
-        #region Consts
+        #region Private Fields
 
         const float _REMOVE_CHANNEL_BUTTON_WIDTH = 20f;
-
-        #endregion
-        #region Vars
 
         /// <summary>
         /// Target AudioGroup being edited.
         /// </summary>
         AudioGroup AGTarget;
-
-        #endregion
-        #region Serialized Properties
 
         SerializedObject serializedTarget;
         SerializedProperty groupTypeProp;
@@ -48,30 +42,33 @@ namespace Turing.Audio
         SerializedProperty pitchRangeProp;
 
         #endregion
-        #region Unity Callbacks
+        #region Unity Lifecycle
 
         void OnEnable()
         {
             AGTarget = target as AudioGroup;
             serializedTarget = new SerializedObject(AGTarget);
-            groupTypeProp = serializedTarget.FindProperty("_groupType");
-            loopProp = serializedTarget.FindProperty("_loop");
-            playOnAwakeProp = serializedTarget.FindProperty("_playOnAwake");
-            spatialBlendProp = serializedTarget.FindProperty("_spatialBlend");
-            minDistanceProp = serializedTarget.FindProperty ("_minDistance");
-            maxDistanceProp = serializedTarget.FindProperty ("_maxDistance");
-            changePitchEachLoopProp = serializedTarget.FindProperty("_changePitchEachLoop");
-            bassChannelProp = serializedTarget.FindProperty("_bassChannel");
-            midChannelProp = serializedTarget.FindProperty("_midChannel");
-            trebleChannelProp = serializedTarget.FindProperty("_trebleChannel");
-            standardChannelProp = serializedTarget.FindProperty("_standardChannel");
-            elementChannelsProp = serializedTarget.FindProperty("_elementChannels");
-            useVolumeEnvelopeProp = serializedTarget.FindProperty("_useVolumeEnvelope");
-            volumeEnvelopeProp = serializedTarget.FindProperty("_volumeEnvelope");
-            randomPitchProp = serializedTarget.FindProperty("_randomPitch");
-            pitchProp = serializedTarget.FindProperty("_pitch");
-            pitchRangeProp = serializedTarget.FindProperty("_pitchRange");
+            groupTypeProp = serializedTarget.FindProperty("groupType");
+            loopProp = serializedTarget.FindProperty("loop");
+            playOnAwakeProp = serializedTarget.FindProperty("playOnAwake");
+            spatialBlendProp = serializedTarget.FindProperty("spatialBlend");
+            minDistanceProp = serializedTarget.FindProperty ("minDistance");
+            maxDistanceProp = serializedTarget.FindProperty ("maxDistance");
+            changePitchEachLoopProp = serializedTarget.FindProperty("changePitchEachLoop");
+            bassChannelProp = serializedTarget.FindProperty("bassChannel");
+            midChannelProp = serializedTarget.FindProperty("midChannel");
+            trebleChannelProp = serializedTarget.FindProperty("trebleChannel");
+            standardChannelProp = serializedTarget.FindProperty("standardChannel");
+            elementChannelsProp = serializedTarget.FindProperty("elementChannels");
+            useVolumeEnvelopeProp = serializedTarget.FindProperty("useVolumeEnvelope");
+            volumeEnvelopeProp = serializedTarget.FindProperty("volumeEnvelope");
+            randomPitchProp = serializedTarget.FindProperty("randomPitch");
+            pitchProp = serializedTarget.FindProperty("pitch");
+            pitchRangeProp = serializedTarget.FindProperty("pitchRange");
         }
+
+        #endregion
+        #region Public Methods
 
         public override void OnInspectorGUI()
         {
@@ -211,7 +208,7 @@ namespace Turing.Audio
         }
 
         #endregion
-        #region Methods
+        #region Private Methods
 
         /// <summary>
         /// Creates a new audio group (accessible from editor).

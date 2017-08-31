@@ -11,22 +11,23 @@ using UnityEngine;
 [Serializable]
 public class FloatRange
 {
-    #region Vars
+    #region Serialized Unity Inspector Fields
 
     /// <summary>
     /// Mininum boundary.
     /// </summary>
-    [SerializeField]
-    float min = 1f;
+    [Tooltip("Mininum boundary.")]
+    [SerializeField] float min = 1f;
 
     /// <summary>
     /// Maximum boundary.
     /// </summary>
+    [Tooltip("Maximum boundary.")]
     [SerializeField]
     float max = 1f;
 
     #endregion
-    #region Properties
+    #region Public Methods
 
     /// <summary>
     /// Gets/sets the minumum boundary of this FloatRange.
@@ -45,9 +46,6 @@ public class FloatRange
         get { return max; }
         set { max = value; }
     }
-
-    #endregion
-    #region Methods
 
     /// <summary>
     /// Returns a random value from the range.

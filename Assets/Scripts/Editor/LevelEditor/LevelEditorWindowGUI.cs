@@ -1,13 +1,16 @@
 ﻿// LevelEditorWindowGUI.cs
+// Author: Aaron
+
+using UnityEditor;
 
 using UnityEngine;
-using UnityEditor;
 
 namespace Turing.LevelEditor
 {
-    public partial class LevelEditorWindow :
+    public sealed partial class LevelEditorWindow :
         EditorWindow
     {
+        #region Private Methods
 
         /// <summary>
         /// Draws the level editor window.
@@ -15,7 +18,7 @@ namespace Turing.LevelEditor
         void DrawLevelEditorGUI() 
         {
             // Start main scroll view
-            _windowScrollPos = EditorGUILayout.BeginScrollView(_windowScrollPos);
+            windowScrollPos = EditorGUILayout.BeginScrollView(windowScrollPos);
 
             // Draw header
             DrawHeaderGUI();
@@ -34,7 +37,7 @@ namespace Turing.LevelEditor
 
             // If not connected, there is probably no LevelManager or
             // ObjectDatabaseManager in the scene
-            if (!_levelManager) 
+            if (!levelManager) 
             {
                 EditorGUILayout.BeginVertical(EditorStyles.helpBox);
                 EditorGUILayout.LabelField("No LevelManager or ObjectDatabaseManager!",
@@ -54,7 +57,7 @@ namespace Turing.LevelEditor
                 EditorGUILayout.EndHorizontal();
 
                 // Draw next controls if a level is loaded
-                EditorGUI.BeginDisabledGroup(!_levelLoaded);
+                EditorGUI.BeginDisabledGroup(!levelLoaded);
 
                 // Draw level settings
                 EditorGUILayout.Space();
@@ -150,10 +153,10 @@ namespace Turing.LevelEditor
             if (filteredObjects != null) 
             {
                 // Draw object buttons
-                _objectBrowserScrollPos = EditorGUILayout.BeginScrollView(_objectBrowserScrollPos);
+                objectBrowserScrollPos = EditorGUILayout.BeginScrollView(objectBrowserScrollPos);
                 EditorGUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));
 
-                var buttonWidth = EditorGUIUtility.currentViewWidth / (float)_OBJECTS_PER_ROW - EditorStyles.helpBox.padding.horizontal - EditorStyles.helpBox.padding.left;
+                var buttonWidth = EditorGUIUtility.currentViewWidth / (float)OBJECTS_PER_ROW - EditorStyles.helpBox.padding.horizontal - EditorStyles.helpBox.padding.left;
 
                 GUILayoutOption[] buttonStyle = { GUILayout.ExpandWidth(true), GUILayout.Width (buttonWidth) };
 
@@ -166,7 +169,7 @@ namespace Turing.LevelEditor
                     objectIndex++;
                     objectsInRow++;
 
-                    if (objectsInRow >= _OBJECTS_PER_ROW) {
+                    if (objectsInRow >= OBJECTS_PER_ROW) {
                         EditorGUILayout.EndHorizontal();
                         EditorGUILayout.BeginHorizontal();
                         objectsInRow = 0;
@@ -184,10 +187,10 @@ namespace Turing.LevelEditor
         {
             EditorGUILayout.BeginVertical(EditorStyles.helpBox);
 
-            _settingsWindowExpanded = EditorGUILayout.Foldout(
-                _settingsWindowExpanded, "Settings", true);
+            settingsWindowExpanded = EditorGUILayout.Foldout(
+                settingsWindowExpanded, "Settings", true);
 
-            if (_settingsWindowExpanded) 
+            if (settingsWindowExpanded) 
             {
                 EditorGUI.indentLevel++;
                 EditorGUI.indentLevel--;
@@ -202,20 +205,20 @@ namespace Turing.LevelEditor
         /// <param name="sc"></param>
         void DrawSceneViewGUI(SceneView sc) 
         {
-            if (_sceneView == null) _sceneView = sc;
+            if (sceneView == null) sceneView = sc;
 
-            GUI.skin = _sceneViewGUISkin;
+            GUI.skin = sceneViewGUISkin;
 
             // Draw toolbar
             Handles.BeginGUI();
             DrawSceneViewToolbarGUI();
 
-            if (_isDragging) 
+            if (isDragging) 
             {
                 var dragPoint = Event.current.mousePosition;
                 //_selectionRect = new Rect(_mouseDownScreenPos.x, _mouseDownScreenPos.y, dragPoint.x - _mouseDownScreenPos.x, dragPoint.y - _mouseDownScreenPos.y);
-                _selectionRect = new Rect(_mouseDownScreenPos, dragPoint - _mouseDownScreenPos);
-                Handles.DrawSolidRectangleWithOutline(_selectionRect, _DRAGBOX_FILL_COLOR, _DRAGBOX_STROKE_COLOR);
+                selectionRect = new Rect(mouseDownScreenPos, dragPoint - mouseDownScreenPos);
+                Handles.DrawSolidRectangleWithOutline(selectionRect, DRAGBOX_FILL_COLOR, DRAGBOX_STROKE_COLOR);
             }
 
             if (LevelManager.Instance == null) return;
@@ -232,23 +235,26 @@ namespace Turing.LevelEditor
                 {
                     var selectedObject = LevelManager.Instance.SelectedObjects[0];
 
-                    var xMin = _OBJECT_EDITOR_WIDTH / 2;
-                    var xMax = sc.camera.pixelWidth - _OBJECT_EDITOR_WIDTH / 2;
-                    var yMin = _OBJECT_EDITOR_HEIGHT / 2;
-                    var yMax = sc.camera.pixelHeight - _OBJECT_EDITOR_HEIGHT / 2;
+                    var xMin = OBJECT_EDITOR_WIDTH / 2;
+                    var xMax = sc.camera.pixelWidth - OBJECT_EDITOR_WIDTH / 2;
+                    var yMin = OBJECT_EDITOR_HEIGHT / 2;
+                    var yMax = sc.camera.pixelHeight - OBJECT_EDITOR_HEIGHT / 2;
 
                     var objectEditorScreenPoint = HandleUtility.WorldToGUIPoint(selectedObject.transform.position);
-                    objectEditorScreenPoint.x = Mathf.Clamp(objectEditorScreenPoint.x + _OBJECT_EDITOR_OFFSET_X, xMin, xMax);
-                    objectEditorScreenPoint.y = Mathf.Clamp(objectEditorScreenPoint.y + _OBJECT_EDITOR_OFFSET_Y, yMin, yMax);
-                    _objectEditorRect = new Rect(
+                    objectEditorScreenPoint.x = Mathf.Clamp(objectEditorScreenPoint.x + OBJECT_EDITOR_OFFSET_X, xMin, xMax);
+                    objectEditorScreenPoint.y = Mathf.Clamp(objectEditorScreenPoint.y + OBJECT_EDITOR_OFFSET_Y, yMin, yMax);
+                    objectEditorRect = new Rect(
                         objectEditorScreenPoint.x - xMin,
                         objectEditorScreenPoint.y - yMin,
-                        _OBJECT_EDITOR_WIDTH, _OBJECT_EDITOR_WIDTH);
+                        OBJECT_EDITOR_WIDTH, OBJECT_EDITOR_WIDTH);
 
-                    GUILayout.Window(0, _objectEditorRect, DrawObjectEditorGUI, selectedObject.name, GUILayout.Width(_objectEditorRect.width), GUILayout.Height(_objectEditorRect.height));
+                    GUILayout.Window(0, objectEditorRect, DrawObjectEditorGUI, 
+                        selectedObject.name, 
+                        GUILayout.Width(objectEditorRect.width), 
+                        GUILayout.Height(objectEditorRect.height));
                 } 
                 
-                else _objectEditorRect = new Rect(0f, 0f, 0f, 0f);
+                else objectEditorRect = new Rect(0f, 0f, 0f, 0f);
             }
 
             Handles.EndGUI();
@@ -262,9 +268,9 @@ namespace Turing.LevelEditor
             if (Application.isPlaying) return;
 
             // Calculate toolbar rect
-            var toolbarWidth = _TOOLBAR_WIDTH_PERCENT * Screen.width;
-            _toolbarRect = new Rect(4, 4, toolbarWidth, _TOOLBAR_HEIGHT);
-            GUILayout.BeginArea(_toolbarRect, _sceneViewGUISkin.window);
+            var toolbarWidth = TOOLBAR_WIDTH_PERCENT * Screen.width;
+            toolbarRect = new Rect(4, 4, toolbarWidth, TOOLBAR_HEIGHT);
+            GUILayout.BeginArea(toolbarRect, sceneViewGUISkin.window);
             GUILayout.BeginHorizontal();
 
             if (LevelManager.Instance == null) 
@@ -280,17 +286,16 @@ namespace Turing.LevelEditor
 
             else 
             {
-
                 // Show level name
                 GUILayout.Label(LevelManager.Instance.LoadedLevel.Name + (LevelManager.Instance.Dirty ? "*" : ""));
 
                 // Draw undo/redo buttons
-                var undoRedoWidth = toolbarWidth * _TOOLBAR_UNDO_REDO_PERCENT;
+                var undoRedoWidth = toolbarWidth * TOOLBAR_UNDO_REDO_PERCENT;
                 DrawEditorButton("Undo", LevelManager.Instance.Undo, GUILayout.Width(undoRedoWidth));
                 DrawEditorButton("Redo", LevelManager.Instance.Redo, GUILayout.Width(undoRedoWidth));
 
                 // Draw draw grid toggle
-                var drawGridToggleWidth = toolbarWidth * _TOOLBAR_SHOW_GRID_PERCENT;
+                var drawGridToggleWidth = toolbarWidth * TOOLBAR_SHOW_GRID_PERCENT;
                 var drawGrid = LevelManager.Instance.GridEnabled;
                 var newDrawGrid = GUILayout.Toggle(drawGrid, "Draw Grid", GUILayout.Width(drawGridToggleWidth));
                 if (drawGrid != newDrawGrid) 
@@ -300,7 +305,7 @@ namespace Turing.LevelEditor
                 }
 
                 // Draw snap to grid toggle
-                var snapToGridToggleWidth = toolbarWidth * _TOOLBAR_SNAP_TO_GRID_PERCENT;
+                var snapToGridToggleWidth = toolbarWidth * TOOLBAR_SNAP_TO_GRID_PERCENT;
                 var snapToGrid = LevelManager.Instance.SnapToGrid;
                 var newSnapToGrid = GUILayout.Toggle(snapToGrid, "Snap To Grid", GUILayout.Width(snapToGridToggleWidth));
                 if (snapToGrid != newSnapToGrid) 
@@ -324,8 +329,8 @@ namespace Turing.LevelEditor
         void DrawSceneViewSidePanelGUI() 
         {
             // Calculate side panel rect
-            _sidePanelRect = new Rect(4, 64, _SIDEPANEL_WIDTH, _SIDEPANEL_HEIGHT);
-            GUILayout.BeginArea(_sidePanelRect, _sceneViewGUISkin.window);
+            sidePanelRect = new Rect(4, 64, SIDEPANEL_WIDTH, SIDEPANEL_HEIGHT);
+            GUILayout.BeginArea(sidePanelRect, sceneViewGUISkin.window);
             GUILayout.BeginVertical();
 
             // Y selector
@@ -345,14 +350,14 @@ namespace Turing.LevelEditor
         void DrawUndoStackGUI() 
         {
             // Calculate rect
-            _undoStackRect = new Rect(
-                Screen.width - _ACTION_STACK_WIDTH,
-                _ACTION_STACK_Y_OFFSET,
-                _ACTION_STACK_WIDTH,
-                _ACTION_STACK_HEIGHT);
+            undoStackRect = new Rect(
+                Screen.width - ACTION_STACK_WIDTH,
+                ACTION_STACK_Y_OFFSET,
+                ACTION_STACK_WIDTH,
+                ACTION_STACK_HEIGHT);
 
             // Draw labels
-            GUILayout.BeginArea(_undoStackRect);
+            GUILayout.BeginArea(undoStackRect);
             GUILayout.Label("Undo Stack");
             foreach (var undo in LevelManager.Instance.UndoStack)
                 GUILayout.Label(undo.ToShortString());
@@ -365,13 +370,13 @@ namespace Turing.LevelEditor
         void DrawRedoStackGUI() 
         {
             // Calculate rect
-            _redoStackRect = new Rect(
-                Screen.width - _ACTION_STACK_WIDTH,
-                _ACTION_STACK_HEIGHT + _ACTION_STACK_Y_OFFSET,
-                _ACTION_STACK_WIDTH, _ACTION_STACK_HEIGHT);
+            redoStackRect = new Rect(
+                Screen.width - ACTION_STACK_WIDTH,
+                ACTION_STACK_HEIGHT + ACTION_STACK_Y_OFFSET,
+                ACTION_STACK_WIDTH, ACTION_STACK_HEIGHT);
 
             // Draw labels
-            GUILayout.BeginArea(_redoStackRect);
+            GUILayout.BeginArea(redoStackRect);
             GUILayout.Label("Redo Stack");
             foreach (var redo in LevelManager.Instance.RedoStack)
                 GUILayout.Label(redo.ToShortString());
@@ -405,10 +410,10 @@ namespace Turing.LevelEditor
 
             // Allow non uniform scale checkbox
             //_allowNonUniformScale = GUILayout.Toggle(_allowNonUniformScale, "Allow non-uniform scale", EditorStyles.whiteLabel);
-            _allowNonUniformScale = GUILayout.Toggle(_allowNonUniformScale, "");
+            allowNonUniformScale = GUILayout.Toggle(allowNonUniformScale, "");
 
             GUILayout.EndHorizontal();
-            if (_allowNonUniformScale) 
+            if (allowNonUniformScale) 
             {
                 GUILayout.BeginVertical();
 
@@ -472,5 +477,7 @@ namespace Turing.LevelEditor
         {
             if (GUILayout.Button(label, options)) buttonAction();
         }
+
+        #endregion
     }
 }

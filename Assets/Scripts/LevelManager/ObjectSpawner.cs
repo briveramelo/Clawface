@@ -16,9 +16,9 @@ namespace Turing.LevelEditor
     /// <summary>
     /// Class to spawn an object on level start.
     /// </summary>
-    public class ObjectSpawner : MonoBehaviour
+    public sealed class ObjectSpawner : MonoBehaviour
     {
-        #region Vars
+        #region Serialized Unity Inspector Fields
 
         /// <summary>
         /// Prefab to spawn.
@@ -31,21 +31,21 @@ namespace Turing.LevelEditor
         [SerializeField]
         List<GameObject> children = new List<GameObject>();
 
+        #endregion
+        #region Private Fields
+
         /// <summary>
         /// Spawned instance of template.
         /// </summary>
         GameObject instance;
 
         #endregion
-        #region Properties
+        #region Public Methods
 
         /// <summary>
         /// Returns the template used in this spawner (read-only).
         /// </summary>
         public GameObject Template { get { return template; } }
-
-        #endregion
-        #region Methods
 
         /// <summary>
         /// Sets the template of this spawner.

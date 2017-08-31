@@ -1,77 +1,78 @@
 ﻿// ObjectDatabaseDrawer.cs
+// Author: Aaron
 
-using UnityEngine;
+using Turing.LevelEditor;
+
 using UnityEditor;
 
-namespace Turing.LevelEditor
+using UnityEngine;
+
+/// <summary>
+/// Custom PropertyDrawer for ObjectDatabases.
+/// </summary>
+[CustomPropertyDrawer(typeof(ObjectDatabase))]
+public sealed class ObjectDatabaseDrawer : PropertyDrawer
 {
+    #region Private Fields
+
     /// <summary>
-    /// Custom PropertyDrawer for ObjectDatabases.
+    /// Target ObjectDatabase.
     /// </summary>
-    [CustomPropertyDrawer(typeof(ObjectDatabase))]
-    public class ObjectDatabaseDrawer : PropertyDrawer
+    ObjectDatabase target;
+
+    /// <summary>
+    /// Database SerializedProperty.
+    /// </summary>
+    SerializedProperty dataProp;
+
+    float partWidth;
+
+    #endregion
+    #region Unity Lifecycle
+
+    public override void OnGUI(Rect position, SerializedProperty property,
+        GUIContent label)
     {
-        #region Vars
+        partWidth = position.width / (
+            ObjectDataDrawer.INDEX_LABEL_PARTS +
+            ObjectDataDrawer.PREFAB_FIELD_PARTS +
+            ObjectDataDrawer.LIMIT_FIELD_PARTS +
+            ObjectDataDrawer.CATEGORY_DROPDOWN_PARTS +
+            ObjectDataDrawer.SNAPMODE_DROPDOWN_PARTS);
 
-        /// <summary>
-        /// Target ObjectDatabase.
-        /// </summary>
-        ObjectDatabase _target;
+        EditorGUILayout.BeginHorizontal();
 
-        /// <summary>
-        /// Database SerializedProperty.
-        /// </summary>
-        SerializedProperty _dataProp;
+        // Index field
+        EditorGUILayout.LabelField("Index", EditorStyles.boldLabel,
+            GUILayout.MinWidth(ObjectDataDrawer.INDEX_LABEL_PARTS * partWidth));
 
-        float _partWidth;
+        // Prefab field
+        EditorGUILayout.LabelField("Prefab", EditorStyles.boldLabel,
+            GUILayout.MinWidth(ObjectDataDrawer.PREFAB_FIELD_PARTS * partWidth));
 
-        #endregion
-        #region Overrides
+        // Limit field
+        EditorGUILayout.LabelField("Limit", EditorStyles.boldLabel,
+            GUILayout.MinWidth(ObjectDataDrawer.LIMIT_FIELD_PARTS * partWidth));
 
-        public override void OnGUI(Rect position, SerializedProperty property, 
-            GUIContent label) 
-        {
-            _partWidth = position.width / (
-                ObjectDataDrawer.INDEX_LABEL_PARTS + 
-                ObjectDataDrawer.PREFAB_FIELD_PARTS + 
-                ObjectDataDrawer.LIMIT_FIELD_PARTS + 
-                ObjectDataDrawer.CATEGORY_DROPDOWN_PARTS + 
-                ObjectDataDrawer.SNAPMODE_DROPDOWN_PARTS);
+        // Category field
+        EditorGUILayout.LabelField("Category", EditorStyles.boldLabel,
+            GUILayout.MinWidth(ObjectDataDrawer.CATEGORY_DROPDOWN_PARTS * partWidth));
 
-            EditorGUILayout.BeginHorizontal();
+        // Snap mode field
+        EditorGUILayout.LabelField("Snap Mode", EditorStyles.boldLabel,
+            GUILayout.MinWidth(ObjectDataDrawer.SNAPMODE_DROPDOWN_PARTS * partWidth));
 
-            // Index field
-            EditorGUILayout.LabelField("Index", EditorStyles.boldLabel, 
-                GUILayout.MinWidth(ObjectDataDrawer.INDEX_LABEL_PARTS * _partWidth));
+        EditorGUILayout.EndHorizontal();
 
-            // Prefab field
-            EditorGUILayout.LabelField("Prefab", EditorStyles.boldLabel, 
-                GUILayout.MinWidth(ObjectDataDrawer.PREFAB_FIELD_PARTS * _partWidth));
+        // Draw data
+        EditorGUILayout.BeginVertical();
 
-            // Limit field
-            EditorGUILayout.LabelField("Limit", EditorStyles.boldLabel, 
-                GUILayout.MinWidth(ObjectDataDrawer.LIMIT_FIELD_PARTS * _partWidth));
+        dataProp = property.FindPropertyRelative("data");
+        for (int i = 0; i < dataProp.arraySize; i++)
+            EditorGUILayout.PropertyField(dataProp.GetArrayElementAtIndex(i));
 
-            // Category field
-            EditorGUILayout.LabelField("Category", EditorStyles.boldLabel, 
-                GUILayout.MinWidth(ObjectDataDrawer.CATEGORY_DROPDOWN_PARTS * _partWidth));
-
-            // Snap mode field
-            EditorGUILayout.LabelField("Snap Mode", EditorStyles.boldLabel, 
-                GUILayout.MinWidth(ObjectDataDrawer.SNAPMODE_DROPDOWN_PARTS * _partWidth));
-
-            EditorGUILayout.EndHorizontal();
-
-            // Draw data
-            EditorGUILayout.BeginVertical();
-
-            _dataProp = property.FindPropertyRelative("_data");
-            for (int i = 0; i < _dataProp.arraySize; i++)
-                EditorGUILayout.PropertyField(_dataProp.GetArrayElementAtIndex(i));
-
-            EditorGUILayout.EndVertical();
-        }
-
-        #endregion
+        EditorGUILayout.EndVertical();
     }
+
+    #endregion
 }

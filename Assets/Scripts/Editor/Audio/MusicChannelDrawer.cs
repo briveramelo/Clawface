@@ -11,10 +11,13 @@ using UnityEngine;
 /// Custom PropertyDraw for MusicChannels.
 /// </summary>
 [CustomPropertyDrawer(typeof(MusicChannel))]
-public class MusicChannelDrawer : PropertyDrawer
+public sealed class MusicChannelDrawer : PropertyDrawer
 {
-    #region Vars
+    #region Private Fields
 
+    /// <summary>
+    /// Is this drawer currently expanded?
+    /// </summary>
     bool expanded = false;
 
     MusicChannel targetChannel;
@@ -25,6 +28,7 @@ public class MusicChannelDrawer : PropertyDrawer
     SerializedProperty clipsProp;
 
     #endregion
+    #region Public Methods
 
     public override void OnGUI(Rect position, SerializedProperty property,
         GUIContent label)
@@ -83,4 +87,6 @@ public class MusicChannelDrawer : PropertyDrawer
 
         serializedChannel.ApplyModifiedProperties();
     }
+
+    #endregion
 }

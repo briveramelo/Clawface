@@ -11,9 +11,9 @@ using UnityEngine;
 /// Custom editor for OBJDB manager.
 /// </summary>
 [CustomEditor(typeof(ObjectDatabaseManager))]
-public class ObjectDatabaseManagerEditor : Editor
+public sealed class ObjectDatabaseManagerEditor : Editor
 {
-    #region Vars
+    #region Private Fields
 
     /// <summary>
     /// Target OBJDB manager.
@@ -22,23 +22,17 @@ public class ObjectDatabaseManagerEditor : Editor
 
     SerializedObject serializedTarget;
 
-    #endregion
-    #region Serialized Properties
-
     SerializedProperty databaseProp;
 
     #endregion
-    #region Unity Callbacks
+    #region Unity Lifecycle
 
     void OnEnable()
     {
         target = target as ObjectDatabaseManager;
         serializedTarget = new SerializedObject(target);
-        databaseProp = serializedTarget.FindProperty("_database");
+        databaseProp = serializedTarget.FindProperty("database");
     }
-
-    #endregion
-    #region Unity Overrides
 
     public override void OnInspectorGUI()
     {
