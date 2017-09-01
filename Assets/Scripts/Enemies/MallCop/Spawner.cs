@@ -21,8 +21,6 @@ public class Spawner : MonoBehaviour {
     private PoolObjectType objectToSpawn {
         get {
             switch (spawnType) {
-                case SpawnType.Swinger:
-                    return PoolObjectType.MallCopSwinger;
                 case SpawnType.Blaster:
                     return PoolObjectType.MallCopBlaster;
                 case SpawnType.Grappler:
@@ -31,18 +29,6 @@ public class Spawner : MonoBehaviour {
             return PoolObjectType.MallCopSwinger;
         }
     }
-
-    /*
-    private int currentWave {
-        get {
-            if (currentWaveNumber >= waves.Count) {
-                return waves.Count-1;
-            }
-            return currentWaveNumber;
-        }
-        set { currentWaveNumber = value; }
-    }
-    */
 
     #endregion
 

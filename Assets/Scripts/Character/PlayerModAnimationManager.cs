@@ -6,7 +6,6 @@ public class PlayerModAnimationManager : MonoBehaviour {
 
     private Dictionary<ModType, PlayerAnimationStates> modToAnimationMap = new Dictionary<ModType, PlayerAnimationStates>()
     {
-        {ModType.StunBaton, PlayerAnimationStates.StunBaton},
         {ModType.Boomerang, PlayerAnimationStates.Boomerang}
     };
         

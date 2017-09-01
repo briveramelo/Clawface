@@ -21,8 +21,7 @@ public class ModInventory : MonoBehaviour {
             {ModType.Dice, new ModInventoryPack(transform, dice) },
             {ModType.ForceSegway, new ModInventoryPack(transform, segway) },
             {ModType.Geyser, new ModInventoryPack(transform, geyser) },
-            {ModType.Grappler, new ModInventoryPack(transform, grappler) },
-            {ModType.StunBaton, new ModInventoryPack(transform, baton) },            
+            {ModType.Grappler, new ModInventoryPack(transform, grappler) },          
         };
 	}
 
