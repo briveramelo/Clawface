@@ -20,6 +20,8 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
     [SerializeField] private CopUI copUICanvas;
     [SerializeField] private Mod mod;
     [SerializeField] private Transform bloodEmissionLocation;
+    [SerializeField] private int scorePopupDelay = 2;
+    [SerializeField] private int scoreValue = 200;
     #endregion
 
     #region 3. Private fields
@@ -29,6 +31,7 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
     private Will will=new Will();
     private Damaged damaged = new Damaged();
     private DamagePack damagePack=new DamagePack();
+    
 
     #endregion
 
@@ -47,6 +50,7 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
         mod.setModSpot(ModSpot.ArmR);
         mod.AttachAffect(ref myStats, velBody);
         ResetForRebirth();
+       
     }    
 
     #endregion
@@ -135,8 +139,23 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
                 mallCopParts.transform.rotation = transform.rotation;
                 mallCopParts.DeActivate(5f);                
             }
-            mod.KillCoroutines();            
-            gameObject.SetActive(false);
+            mod.KillCoroutines();
+
+            //grab score ui from pool to display
+            GameObject worldScoreObject = ObjectPool.Instance.GetObject(PoolObjectType.WorldScoreCanvas);
+            if (worldScoreObject)
+            {
+                worldScoreObject.GetComponent<Canvas>().GetComponent<RectTransform>().SetPositionAndRotation(transform.position, transform.rotation);                //worldScoreObject.transform.position = transform.position /*+ Vector3.up * 3f*/;
+                WorldScoreUI popUpScore = worldScoreObject.GetComponent<WorldScoreUI>();
+
+                int scoreBonus = scoreValue * ScoreManager.Instance.GetCurrentMultiplier();
+                popUpScore.DisplayScoreAndHide(scoreBonus, scorePopupDelay);
+                ScoreManager.Instance.AddToScoreAndCombo(scoreBonus);
+            }
+
+
+            //KILL SELF
+            Death();
         }
     }
 
@@ -153,6 +172,11 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
         //TODO check for missing mod and create a new one and attach it
         mod.setModSpot(ModSpot.ArmR);        
     }       
+
+    private void Death()
+    {
+        gameObject.SetActive(false);
+    }
 
     #endregion
 
