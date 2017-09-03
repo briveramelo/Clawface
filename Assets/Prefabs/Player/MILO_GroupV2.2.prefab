@@ -951,7 +951,6 @@ GameObject:
   - component: {fileID: 114431980687847404}
   - component: {fileID: 114393925808811496}
   - component: {fileID: 114718126352253880}
-  - component: {fileID: 114939128493667106}
   - component: {fileID: 114735502742847106}
   - component: {fileID: 114686586384067228}
   - component: {fileID: 114316281525598734}
@@ -2926,7 +2925,6 @@ MonoBehaviour:
   legsSocket: {fileID: 4508562259557808}
   playerStats: {fileID: 114431980687847404}
   velBody: {fileID: 114317335038089030}
-  stateManager: {fileID: 114735502742847106}
   modInventory: {fileID: 114638770178090026}
   modUIManager: {fileID: 114971870691102608}
   modPickupRadius: 1
@@ -3168,7 +3166,6 @@ MonoBehaviour:
     defaultState: {fileID: 0}
   defaultState: {fileID: 114686586384067228}
   skinningState: {fileID: 114316281525598734}
-  lockOnScript: {fileID: 114939128493667106}
   playerStatsManager: {fileID: 114718126352253880}
   modAnimationManager: {fileID: 114393925808811496}
   modStateMappings: []
@@ -3371,21 +3368,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114939128493667106
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1792002726004920}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d9dec1806c7068408a80d03aed1c35a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lockRadius: 20
-  rayCastRotationIncrement: 3
-  rayCastRotationRange: 20
-  rayCastOrigin: {fileID: 4054385020203090}
 --- !u!114 &114950621441372966
 MonoBehaviour:
   m_ObjectHideFlags: 1

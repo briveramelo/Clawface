@@ -16,8 +16,6 @@ public class PlayerStateManager : MonoBehaviour {
     [SerializeField]
     private SkinningState skinningState;
     [SerializeField]
-    private LockOnScript lockOnScript;
-    [SerializeField]
     private PlayerStatsManager playerStatsManager;
     [SerializeField]
     private PlayerModAnimationManager modAnimationManager;
@@ -70,10 +68,6 @@ public class PlayerStateManager : MonoBehaviour {
         if (stateChanged && stateVariables.stateFinished)
         {
             ResetState();
-        }
-        if (lockOnScript != null)
-        {
-            stateVariables.currentEnemy = lockOnScript.GetCurrentEnemy();
         }
         if (InputManager.Instance.QueryAction(Strings.Input.Actions.SKIN, ButtonMode.DOWN))
         {           
