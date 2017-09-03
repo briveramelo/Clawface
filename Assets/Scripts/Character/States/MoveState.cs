@@ -135,10 +135,7 @@ public class MoveState : IPlayerState
     }
 
     private void HandleRotation(){
-        if (stateVariables.currentEnemy != null) {
-            stateVariables.velBody.LookAt(stateVariables.currentEnemy.transform);
-        }
-        else if (lastLookDirection != Vector3.zero) {
+        if (lastLookDirection != Vector3.zero) {
             stateVariables.playerTransform.forward = lastLookDirection;
         }
         else
