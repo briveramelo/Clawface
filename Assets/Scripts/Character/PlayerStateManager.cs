@@ -134,7 +134,6 @@ public class PlayerStateManager : MonoBehaviour {
             stateVariables.velBody.velocity = Vector3.zero;
             stateVariables.statsManager.ModifyStat(StatType.MoveSpeed, holdAttackSlowDown);
         }
-        //mod.AlternateActivate(isHeld, holdTime);
     }
     #endregion
 
