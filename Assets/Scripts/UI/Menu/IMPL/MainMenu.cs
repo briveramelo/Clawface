@@ -69,7 +69,7 @@ public class MainMenu : Menu
 
     private void Update()
     {
-        if (Input.anyKey && !menuShowing)
+        if (InputManager.Instance.AnyKey() && !menuShowing)
         {
             menuShowing = true;
             SkipToMenuHide();
