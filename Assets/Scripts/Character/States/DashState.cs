@@ -71,14 +71,6 @@ public class DashState : IPlayerState {
     #endregion
 
     #region Public Methods
-    public override void Attack()
-    {
-        throw new NotImplementedException();
-    }
-    public override void SecondaryAttack(bool isHeld, float holdTime)
-    {
-        throw new NotImplementedException();
-    }
     #endregion
 
     #region Private Methods

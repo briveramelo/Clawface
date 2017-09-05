@@ -24,8 +24,6 @@ public abstract class IPlayerState:MonoBehaviour {
     #endregion
 
     #region Public Methods
-    public abstract void Attack();
-    public abstract void SecondaryAttack(bool isHeld,float holdTime);
     public bool IsBlockingState()
     {
         return isBlockingState;

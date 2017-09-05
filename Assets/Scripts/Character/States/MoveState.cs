@@ -155,14 +155,5 @@ public class MoveState : IPlayerState
     {
         return stateVariables;
     }
-
-    public override void Attack()
-    {
-    }
-
-    public override void SecondaryAttack(bool isHeld, float holdTime)
-    {
-
-    }
     #endregion
 }
