@@ -1,73 +1,92 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEditor;
+﻿// MusicChannelDrawer.cs
+// Author: Aaron
+
 using Turing.Audio;
 
+using UnityEditor;
+
+using UnityEngine;
+
+/// <summary>
+/// Custom PropertyDraw for MusicChannels.
+/// </summary>
 [CustomPropertyDrawer(typeof(MusicChannel))]
-public class MusicChannelDrawer : PropertyDrawer {
+public sealed class MusicChannelDrawer : PropertyDrawer
+{
+    #region Private Fields
 
-    bool _expanded = false;
+    /// <summary>
+    /// Is this drawer currently expanded?
+    /// </summary>
+    bool expanded = false;
 
-    MusicChannel _targetChannel;
+    MusicChannel targetChannel;
 
-    SerializedObject _serializedChannel;
+    SerializedObject serializedChannel;
 
-    SerializedProperty _volumeProp;
-    SerializedProperty _clipsProp;
+    SerializedProperty volumeProp;
+    SerializedProperty clipsProp;
 
-    public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
+    #endregion
+    #region Public Methods
 
+    public override void OnGUI(Rect position, SerializedProperty property,
+        GUIContent label)
+    {
         // Acquire target channel if necessary
-        if (_targetChannel == null)
-            _targetChannel = property.objectReferenceValue as MusicChannel;
+        if (targetChannel == null)
+            targetChannel = property.objectReferenceValue 
+                as MusicChannel;
 
         // If channel is still null, channel was deleted
-        if (_targetChannel == null) return;
+        if (targetChannel == null) return;
 
         // Get serialized reference to target channel if necessary
-        if (_serializedChannel == null)
-            _serializedChannel = new SerializedObject(property.objectReferenceValue);
+        if (serializedChannel == null)
+            serializedChannel = new SerializedObject(property.objectReferenceValue);
 
-        _serializedChannel.Update();
+        serializedChannel.Update();
 
         // Get serialized properties
-        _volumeProp = _serializedChannel.FindProperty("_volume");
+        volumeProp = serializedChannel.FindProperty("_volume");
 
         // Clips box
         GUILayout.BeginVertical(EditorStyles.helpBox);
-        if (_expanded = EditorGUILayout.Foldout(_expanded, "Channel: " + _targetChannel.name, true)) {
-
+        if (expanded = EditorGUILayout.Foldout(expanded, 
+            "Channel: " + targetChannel.name, true))
+        {
             EditorGUILayout.Space();
             EditorGUILayout.LabelField("Clips");
             EditorGUI.indentLevel++;
 
-            _clipsProp = _serializedChannel.FindProperty ("_clips");
+            clipsProp = serializedChannel.FindProperty ("_clips");
 
-            for (int i = 0; i < _clipsProp.arraySize; i++) {
-                var clip = _clipsProp.GetArrayElementAtIndex(i);
+            for (int i = 0; i < clipsProp.arraySize; i++) {
+                var clip = clipsProp.GetArrayElementAtIndex(i);
                 var clipProp = clip.FindPropertyRelative("_clip");
                 var barsProp = clip.FindPropertyRelative("_bars");
                 EditorGUILayout.BeginHorizontal();
                 //var changedClip = EditorGUILayout.ObjectField(clip.Clip, typeof(AudioClip), false) as AudioClip;
                 EditorGUILayout.PropertyField(clipProp);
-                if (clipProp.objectReferenceValue == null) _targetChannel.Clips.RemoveAt(i);
+                if (clipProp.objectReferenceValue == null) targetChannel.Clips.RemoveAt(i);
                 //else _targetChannel.Clips[i].Clip = changedClip;
                 //clip.Bars = EditorGUILayout.IntField (clip.Bars);
                 EditorGUILayout.PropertyField (barsProp);
                 EditorGUILayout.EndHorizontal();
             }
             var newClip = EditorGUILayout.ObjectField(null, typeof(AudioClip), false) as AudioClip;
-            if (newClip != null) _targetChannel.AddClip(newClip);
+            if (newClip != null) targetChannel.AddClip(newClip);
 
             EditorGUI.indentLevel--;
 
             EditorGUILayout.Space();
 
-            EditorGUILayout.PropertyField(_volumeProp);
+            EditorGUILayout.PropertyField(volumeProp);
         }
         EditorGUILayout.EndVertical();
 
-        _serializedChannel.ApplyModifiedProperties();
+        serializedChannel.ApplyModifiedProperties();
     }
+
+    #endregion
 }

@@ -1,36 +1,35 @@
 ﻿// LevelManagerEditor.cs
+// Author: Aaron
+
+using Turing.LevelEditor;
 
 using UnityEditor;
 
-namespace Turing.LevelEditor
+/// <summary>
+/// Custom editor for LevelManager.
+/// </summary>
+[CustomEditor(typeof(LevelManager))]
+public sealed class LevelManagerEditor : Editor
 {
+    #region Private Fields
 
     /// <summary>
-    /// Custom editor for LevelManager.
+    /// Target LevelManager.
     /// </summary>
-    [CustomEditor(typeof(LevelManager))]
-    public class LevelManagerEditor : Editor
+    LevelManager LMTarget;
+
+    #endregion
+    #region Unity Lifecycle
+
+    public override void OnInspectorGUI()
     {
-        #region Vars
+        LMTarget = target as LevelManager;
 
-        /// <summary>
-        /// Target LevelManager.
-        /// </summary>
-        LevelManager _target;
+        EditorGUILayout.LabelField("Level loaded: " +
+            LMTarget.LevelLoaded.ToString());
 
-        #endregion
-        #region Overrides
-
-        public override void OnInspectorGUI() 
-        {
-            _target = target as LevelManager;
-
-            EditorGUILayout.LabelField("Level loaded: " + 
-                _target.LevelLoaded.ToString());
-
-            base.OnInspectorGUI();
-        }
-
-        #endregion
+        base.OnInspectorGUI();
     }
+
+    #endregion
 }

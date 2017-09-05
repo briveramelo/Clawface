@@ -1,10 +1,13 @@
 ﻿// LevelManager.cs
+// Author: Aaron
+
+using ModMan;
 
 using System;
 using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.Events;
-using ModMan;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -12,14 +15,13 @@ using UnityEditor;
 
 namespace Turing.LevelEditor
 {
-
     /// <summary>
     /// Class to handle all level editing functionality.
     /// Both the editor window and in-game editor use this manager
     /// for consistency.
     /// </summary>
     [ExecuteInEditMode]
-    public class LevelManager : SingletonMonoBehaviour<LevelManager>
+    public class LevelManager : EditorSingleton<LevelManager>
     {
         #region Enums
 
@@ -42,17 +44,17 @@ namespace Turing.LevelEditor
         /// <summary>
         /// Default level path.
         /// </summary>
-        const string _LEVEL_PATH = "Assets/Resources/Levels/";
+        const string LEVEL_PATH = "Assets/Resources/Levels/";
 
         /// <summary>
         /// Path of the 3D asset preview material.
         /// </summary>
-        const string _PREVIEW_MAT_PATH = "Assets/Resources/Materials/PreviewGhost.mat";
+        const string PREVIEW_MAT_PATH = "Assets/Resources/Materials/PreviewGhost.mat";
 
         /// <summary>
         /// Editor name of the 3D asset preview object.
         /// </summary>
-        const string _PREVIEW_NAME = "~LevelEditorPreview";
+        const string PREVIEW_NAME = "~LevelEditorPreview";
 
         /// <summary>
         /// Key name of last edited level string.
@@ -62,7 +64,7 @@ namespace Turing.LevelEditor
         #endregion
         #region Vars
 
-        ILevelEditor _editor;
+        ILevelEditor editor;
 
         /// <summary>
         /// The currently loaded level in LM.
@@ -70,155 +72,150 @@ namespace Turing.LevelEditor
         /// the editor OnEnable. Use _levelLoaded to see if a level is actually
         /// loaded.
         /// </summary>
-        [SerializeField]
-        Level _loadedLevel = null;
+        [SerializeField] Level loadedLevel = null;
 
-        [SerializeField]
-        bool _levelLoaded = false;
+        /// <summary>
+        /// Is a level currently loaded?
+        /// </summary>
+        [SerializeField] bool levelLoaded = false;
 
         /// <summary>
         /// Resource path of current loaded level.
         /// </summary>
-        [SerializeField]
-        string _loadedLevelPath = "";
+        [SerializeField] string loadedLevelPath = "";
 
         /// <summary>
         /// GameObject representing the loaded level.
         /// </summary>
-        [SerializeField]
-        GameObject _loadedLevelObject;
+        [SerializeField] GameObject loadedLevelObject;
 
         /// <summary>
         /// GameObject representing the floor of the loaded level.
         /// </summary>
-        [SerializeField]
-        GameObject _floorObject;
+        [SerializeField] GameObject floorObject;
 
         /// <summary>
         /// All currently loaded objects in the editor.
         /// </summary>
         [SerializeField]
-        List<ObjectSpawner> _loadedSpawners =
+        List<ObjectSpawner> loadedSpawners =
             new List<ObjectSpawner>();
 
         /// <summary>
         /// Current state of the editor tool.
         /// </summary>
-        Tool _currentTool = Tool.Select;
+        Tool currentTool = Tool.Select;
 
         /// <summary>
         /// Are there unsaved changes?
         /// </summary>
-        bool _dirty = false;
+        bool dirty = false;
 
         /// <summary>
         /// Plane representing current editing y-level.
         /// </summary>
-        Plane _editingPlane = new Plane(Vector3.up, Vector3.zero);
+        Plane editingPlane = new Plane(Vector3.up, Vector3.zero);
 
         /// <summary>
         /// Show the placement grid?
         /// </summary>
-        bool _drawGrid = true;
+        bool drawGrid = true;
 
         /// <summary>
         /// Snap objects to grid?
         /// </summary>
-        bool _snapToGrid = true;
+        bool snapToGrid = true;
 
         /// <summary>
         /// ID of object being moved.
         /// </summary>
-        GameObject _movingObject;
+        GameObject movingObject;
 
         /// <summary>
         /// Original coordinates of object being moved;
         /// </summary>
-        Vector3 _movingObjectOriginalCoords;
+        Vector3 movingObjectOriginalCoords;
 
         /// <summary>
         /// 3D asset preview object.
         /// </summary>
-        AssetPreview _assetPreview;
+        AssetPreview assetPreview;
 
         /// <summary>
         /// Ghost material for 3D asset preview.
         /// </summary>
-        Material _previewMaterial;
+        Material previewMaterial;
 
         /// <summary>
         /// Is object placement allowed at the current location?
         /// </summary>
-        bool _placementAllowed = true;
+        bool placementAllowed = true;
 
         /// <summary>
         /// Index of the currently selected object.
         /// </summary>
-        int _selectedObjectIndexForPlacement;
+        int selectedObjectIndexForPlacement;
 
-        ObjectDatabase.SnapMode _selectedObjectSnapMode;
+        ObjectDatabase.SnapMode selectedObjectSnapMode;
 
-        float _currentPlacementYRotation = 0f;
+        float currentPlacementYRotation = 0f;
 
-        List<GameObject> _hoveredObjects = new List<GameObject>();
+        List<GameObject> hoveredObjects = new List<GameObject>();
 
         /// <summary>
         /// Currently selected object in editor;
         /// </summary>
-        List<GameObject> _selectedObjects = new List<GameObject>();
+        List<GameObject> selectedObjects = new List<GameObject>();
 
         /// <summary>
         /// Currently applied object filter.
         /// </summary>
-        ObjectDatabase.Category _filter = ObjectDatabase.Category.Block;
+        ObjectDatabase.Category filter = ObjectDatabase.Category.Block;
 
         /// <summary>
         /// List of objects that pass the current filter.
         /// </summary>
-        List<ObjectData> _filteredObjects;
+        List<ObjectData> filteredObjects;
 
         /// <summary>
         /// Current editing y position.
         /// </summary>
-        int _currentYPosition = 0;
+        int currentYPosition = 0;
 
         /// <summary>
         /// Is the level currently being played?
         /// </summary>
-        bool _playingLevel = false;
+        bool playingLevel = false;
 
         /// <summary>
         /// Current 3D cursor position.
         /// </summary>
-        Vector3 _cursorPosition = Vector3.zero;
+        Vector3 cursorPosition = Vector3.zero;
 
         /// <summary>
         /// Is the mouse currently over UI?
         /// This must be managed externally, as LM does not know what
         /// UI elements exist.
         /// </summary>
-        bool _mouseOverUI = false;
+        bool mouseOverUI = false;
 
         /// <summary>
         /// Stack of undo actions.
         /// </summary>
-        Stack<LevelEditorAction> _undoStack = new Stack<LevelEditorAction>();
+        Stack<LevelEditorAction> undoStack = new Stack<LevelEditorAction>();
 
         /// <summary>
         /// Stack of redo actions.
         /// </summary>
-        Stack<LevelEditorAction> _redoStack = new Stack<LevelEditorAction>();
+        Stack<LevelEditorAction> redoStack = new Stack<LevelEditorAction>();
 
         /// <summary>
         /// Number of objects of each type (to enforce maximums).
         /// </summary>
-        [SerializeField]
-        //Dictionary<byte, int> _objectCounts = new Dictionary<byte, int>();
-        //ByteToIntDict _objectCounts = new ByteToIntDict();
-        List<int> _objectCounts;
+        [SerializeField] List<int> objectCounts;
 
-        Vector3 _mouseDownWorldPos;
-        Vector2 _mouseDownScreenPos;
+        Vector3 mouseDownWorldPos;
+        Vector2 mouseDownScreenPos;
 
         public LevelManagerEvent onCreateLevel = new LevelManagerEvent();
         public LevelManagerEvent onLoadLevel = new LevelManagerEvent();
@@ -230,300 +227,337 @@ namespace Turing.LevelEditor
         #endregion
         #region Properties
 
-        public bool IsConnectedToEditor { get { return _editor != null; } }
+        /// <summary>
+        /// Returns true if the LevelManager is connected to an editor (read-only).
+        /// </summary>
+        public bool IsConnectedToEditor { get { return editor != null; } }
 
         /// <summary>
         /// Returns true if a level is currently loaded (read-only).
         /// </summary>
-        //public bool LevelLoaded { get { return _loadedLevel != null; } }
-        public bool LevelLoaded { get { return _levelLoaded; } }
+        public bool LevelLoaded { get { return levelLoaded; } }
 
         /// <summary>
         /// Returns the currently loaded level (read-only).
         /// </summary>
-        public Level LoadedLevel { get { return _loadedLevel; } }
+        public Level LoadedLevel { get { return loadedLevel; } }
 
         /// <summary>
         /// Returns the path of the currently loaded level.
         /// </summary>
-        public string LoadedLevelPath { get { return _loadedLevelPath; } }
+        public string LoadedLevelPath { get { return loadedLevelPath; } }
 
         /// <summary>
         /// Returns true if unsaved changes exist (read-only).
         /// </summary>
-        public bool Dirty { get { return _dirty; } }
+        public bool Dirty { get { return dirty; } }
 
         /// <summary>
         /// Returns true if the grid is currently enabled (read-only).
         /// </summary>
-        public bool GridEnabled { get { return _drawGrid; } }
+        public bool GridEnabled { get { return drawGrid; } }
 
         /// <summary>
         /// Gets/sets whether or not objects snap to the grid.
         /// </summary>
-        public bool SnapToGrid {
-            get { return _snapToGrid; }
-            set { _snapToGrid = value; }
+        public bool SnapToGrid
+        {
+            get { return snapToGrid; }
+            set { snapToGrid = value; }
         }
 
         /// <summary>
         /// Returns the currently selected object filter (read-only).
         /// </summary>
-        public ObjectDatabase.Category CurrentObjectFilter { get { return _filter; } }
+        public ObjectDatabase.Category CurrentObjectFilter { get { return filter; } }
 
         /// <summary>
         /// Returns the objects that pass the current object filter (read-only).
         /// </summary>
-        public List<ObjectData> FilteredObjects { get { return _filteredObjects; } }
+        public List<ObjectData> FilteredObjects { get { return filteredObjects; } }
 
-        public List<GameObject> HoveredObjects { get { return _hoveredObjects; } }
+        /// <summary>
+        /// Returns the list of objects that are currently hovered over by the
+        /// pointer or selection rect (read-only).
+        /// </summary>
+        public List<GameObject> HoveredObjects { get { return hoveredObjects; } }
 
-        public List<GameObject> SelectedObjects { get { return _selectedObjects; } }
+        /// <summary>
+        /// Returns the objects that are currently selected (read-only).
+        /// </summary>
+        public List<GameObject> SelectedObjects { get { return selectedObjects; } }
 
         /// <summary>
         /// Returns true if an object is currently selected for placement (read-only).
         /// </summary>
-        public bool HasSelectedObjectForPlacement { get { return _selectedObjectIndexForPlacement != -1; } }
+        public bool HasSelectedObjectForPlacement
+        {
+            get { return selectedObjectIndexForPlacement != -1; }
+        }
 
         /// <summary>
         /// Returns the current editing y-value (read-only).
         /// </summary>
-        public int CurrentYValue { get { return _currentYPosition; } }
+        public int CurrentYValue { get { return currentYPosition; } }
 
         /// <summary>
         /// Returns the position of the 3D cursor (read-only).
         /// </summary>
-        public Vector3 CursorPosition {
-            get { return _cursorPosition; }
-            set { _cursorPosition = value; }
+        public Vector3 CursorPosition
+        {
+            get { return cursorPosition; }
+            set { cursorPosition = value; }
         }
 
         /// <summary>
         /// Returns true if the 3D preview is active (read-only).
         /// </summary>
-        public bool PreviewActive { get { return _assetPreview != null; } }
+        public bool PreviewActive { get { return assetPreview != null; } }
 
         /// <summary>
         /// Returns the preview material (read-only).
         /// </summary>
-        public Material PreviewMaterial { get { return _previewMaterial; } }
+        public Material PreviewMaterial { get { return previewMaterial; } }
 
         /// <summary>
         /// Returns the current tool (read-only).
         /// </summary>
-        public Tool CurrentTool { get { return _currentTool; } }
+        public Tool CurrentTool { get { return currentTool; } }
 
         /// <summary>
         /// Returns the undo stack (read-only).
         /// </summary>
-        public Stack<LevelEditorAction> UndoStack { get { return _undoStack; } }
+        public Stack<LevelEditorAction> UndoStack { get { return undoStack; } }
 
         /// <summary>
         /// Returns the redo stack (read-only).
         /// </summary>
-        public Stack<LevelEditorAction> RedoStack { get { return _redoStack; } }
+        public Stack<LevelEditorAction> RedoStack { get { return redoStack; } }
 
         /// <summary>
         /// Gets/sets whether or not the mouse is currently over UI.
         /// </summary>
-        public bool MouseOverUI {
-            get { return _mouseOverUI; }
-            set { _mouseOverUI = value; }
+        public bool MouseOverUI
+        {
+            get { return mouseOverUI; }
+            set { mouseOverUI = value; }
         }
 
-#if UNITY_EDITOR
+        #if UNITY_EDITOR
         /// <summary>
         /// Gets/sets the path of the last edited level.
         /// </summary>
-        public static string LastEditedLevelPath {
+        public static string LastEditedLevelPath
+        {
             get { return EditorPrefs.GetString(LAST_EDITED_LEVEL_STR); }
             set { EditorPrefs.SetString(LAST_EDITED_LEVEL_STR, value); }
         }
-#endif
+        #endif
 
         /// <summary>
         /// Returns the editing plane (read-only).
         /// </summary>
-        public Plane EditingPlane { get { return _editingPlane; } }
+        public Plane EditingPlane { get { return editingPlane; } }
 
         /// <summary>
         /// Returns true if an object is selected (read-only).
         /// </summary>
-        public bool HasSelectedObjects { get { return _selectedObjects.Count > 0; } }
+        public bool HasSelectedObjects { get { return selectedObjects.Count > 0; } }
 
         /// <summary>
         /// Returns true if an object is being moved (read-only).
         /// </summary>
-        public bool IsMovingObject { get { return _movingObject != null; } }
+        public bool IsMovingObject { get { return movingObject != null; } }
 
-        public Vector2 MouseDownScreenPos {
-            get { return _mouseDownScreenPos; }
-            set { _mouseDownScreenPos = value; }
+        public Vector2 MouseDownScreenPos
+        {
+            get { return mouseDownScreenPos; }
+            set { mouseDownScreenPos = value; }
         }
 
-        public Vector3 MouseDownWorldPos {
-            get { return _mouseDownWorldPos; }
-            set { _mouseDownWorldPos = value; }
+        public Vector3 MouseDownWorldPos
+        {
+            get { return mouseDownWorldPos; }
+            set { mouseDownWorldPos = value; }
         }
 
         #endregion
         #region Unity Callbacks
 
-        new void Awake() {
+        new void Awake()
+        {
             base.Awake();
 
             // Try to reacquire the loaded level on application play
             if (LevelObject.Instance != null)
-                _loadedLevel = LevelObject.Instance.Level;
-            else if (_loadedLevelObject != null)
-                _loadedLevel = _loadedLevelObject.GetComponent<LevelObject>().Level;
+                loadedLevel = LevelObject.Instance.Level;
+            else if (loadedLevelObject != null)
+                loadedLevel = loadedLevelObject.GetComponent<LevelObject>().Level;
 
-            _selectedObjects.Clear();
-            _hoveredObjects.Clear();
+            selectedObjects.Clear();
+            hoveredObjects.Clear();
 
             if (Application.isPlaying) AwakePlayer();
             else AwakeEditor();
         }
 
-        void OnApplicationQuit() {
-            //Debug.Log("LevelManager.OnApplicationQuit");
-            if (Application.isPlaying && _playingLevel)
+        void OnApplicationQuit()
+        {
+            if (Application.isPlaying && playingLevel)
                 StopPlayingLevel();
         }
 
-        void OnDestroy() {
-            //Debug.Log("LevelManager.OnDestroy");
+        new void OnDestroy()
+        {
+            base.OnDestroy();
 
-            _selectedObjects.Clear();
-            _hoveredObjects.Clear();
+            selectedObjects.Clear();
+            hoveredObjects.Clear();
         }
 
         #endregion
         #region Methods
 
-        public void SetEditor(ILevelEditor editor) {
-            _editor = editor;
+        /// <summary>
+        /// Sets the editor that is currently connected to LevelManager.
+        /// </summary>
+        public void SetEditor(ILevelEditor editor)
+        {
+            this.editor = editor;
         }
 
         /// <summary>
         /// Called on awake in the player.
         /// </summary>
-        void AwakePlayer() {
-            //Debug.Log("LevelManager.AwakePlayer");
+        void AwakePlayer()
+        {
             DontDestroyOnLoad(gameObject);
 
-#if UNITY_EDITOR
+            #if UNITY_EDITOR
             var path = LastEditedLevelPath;
-            //Debug.Log("Last loaded level path: " + path);
-            if (path != default(string) && path != "") {
+            if (path != default(string) && path != "")
+            {
                 LoadLevelFromJSON(path);
-
             }
-#endif
+            #endif
 
-            if (_loadedLevelObject != null) PlayCurrentLevel();
+            if (loadedLevelObject != null) PlayCurrentLevel();
         }
 
         /// <summary>
         /// Called on awake in the editor.
         /// </summary>
-        void AwakeEditor() {
-            //Debug.Log("LevelManager.AwakeEditor");
-#if UNITY_EDITOR
+        void AwakeEditor()
+        {
+            #if UNITY_EDITOR
             var path = LastEditedLevelPath;
-            if (path != default(string) && path != "") {
+            if (path != default(string) && path != "")
+            {
                 LoadLevelFromJSON(path);
             }
-#endif
+            #endif
         }
 
         /// <summary>
         /// Prepares the LM for editing.
         /// </summary>
-        public void StartEditing() {
-            if (_assetPreview != null) {
-                if (Application.isEditor) DestroyImmediate(_assetPreview.gameObject);
-                else Destroy(_assetPreview.gameObject);
+        public void StartEditing()
+        {
+            if (assetPreview != null)
+            {
+                if (Application.isEditor) DestroyImmediate(assetPreview.gameObject);
+                else Destroy(assetPreview.gameObject);
             }
 
             // OBJDB instance may not be initialized yet, so wait for event
             ObjectDatabaseManager.OnSingletonInitializedEditor.AddListener(() => {
-                _filteredObjects = ObjectDatabaseManager.Instance.AllObjectsInCategory(_filter);
+                filteredObjects = ObjectDatabaseManager.Instance.AllObjectsInCategory(filter);
             });
 
-            _filter = ObjectDatabase.Category.Block;
+            filter = ObjectDatabase.Category.Block;
             CreateAssetPreview();
-            _selectedObjectIndexForPlacement = -1;
-            _currentYPosition = 0;
-            _currentPlacementYRotation = 0f;
-            _editingPlane = new Plane(Vector3.up, Vector3.zero);
+            selectedObjectIndexForPlacement = -1;
+            currentYPosition = 0;
+            currentPlacementYRotation = 0f;
+            editingPlane = new Plane(Vector3.up, Vector3.zero);
         }
 
         /// <summary>
         /// Stops the LM from editing.
         /// </summary>
-        public void StopEditing() {
-            if (_assetPreview != null)
-                DestroyImmediate(_assetPreview.gameObject);
+        public void StopEditing()
+        {
+            if (assetPreview != null)
+                DestroyImmediate(assetPreview.gameObject);
         }
 
         /// <summary>
         /// Initializes the 3D asset preview.
         /// </summary>
-        void CreateAssetPreview() {
-            _assetPreview = new GameObject(_PREVIEW_NAME,
+        void CreateAssetPreview()
+        {
+            assetPreview = new GameObject(PREVIEW_NAME,
                 typeof(AssetPreview)).GetComponent<AssetPreview>();
             //_preview.hideFlags = HideFlags.HideAndDontSave;
 
             // Load preview material
-            if (_previewMaterial == null) {
-
+            if (previewMaterial == null)
+            {
                 if (Application.isEditor) LoadPreviewMaterialEditor();
-                else _previewMaterial = Resources.Load<Material>(_PREVIEW_MAT_PATH);
-                if (_previewMaterial == null) Debug.LogError("Failed to load preview material!");
+                else previewMaterial = Resources.Load<Material>(PREVIEW_MAT_PATH);
+
+                if (previewMaterial == null) Debug.LogError("Failed to load preview material!");
             }
         }
 
         /// <summary>
         /// Loads the preview materials.
         /// </summary>
-        void LoadPreviewMaterialEditor() {
-#if UNITY_EDITOR
-            _previewMaterial = AssetDatabase.LoadAssetAtPath<Material>(
-                _PREVIEW_MAT_PATH);
-#endif
+        void LoadPreviewMaterialEditor()
+        {
+            #if UNITY_EDITOR
+            previewMaterial = AssetDatabase.LoadAssetAtPath<Material>(
+                PREVIEW_MAT_PATH);
+            #endif
         }
 
         /// <summary>
         /// Sets the dirty status of the LM.
         /// </summary>
-        public void SetDirty(bool dirty) { _dirty = dirty; }
+        public void SetDirty(bool dirty) { this.dirty = dirty; }
 
-        public void HandleLeftDown(Event e) {
-            if (Application.isEditor) {
-
-#if UNITY_EDITOR
-                _mouseDownScreenPos = e.mousePosition;
-                var ray = HandleUtility.GUIPointToWorldRay(_mouseDownScreenPos);
+        public void HandleLeftDown(Event e)
+        {
+            if (Application.isEditor)
+            {
+                #if UNITY_EDITOR
+                mouseDownScreenPos = e.mousePosition;
+                var ray = HandleUtility.GUIPointToWorldRay(mouseDownScreenPos);
                 float dist;
-                if (LevelManager.Instance.EditingPlane.Raycast(ray, out dist)) {
-                    _mouseDownWorldPos = ray.GetPoint(dist);
+                if (Instance.EditingPlane.Raycast(ray, out dist))
+                {
+                    mouseDownWorldPos = ray.GetPoint(dist);
                 }
-#endif
+                #endif
             }
         }
 
-        public void HandleLeftUp(Event e, bool isDragging, Camera camera) {
-            switch (_currentTool) {
+        public void HandleLeftUp(Event e, bool isDragging, Camera camera)
+        {
+            switch (currentTool)
+            {
                 case Tool.Select:
-                    if (LevelLoaded) {
-                        SelectObjects(_hoveredObjects);
-                    } else DeselectObjects();
+                    if (LevelLoaded)
+                    {
+                        SelectObjects(hoveredObjects);
+                    } 
+                    else DeselectObjects();
                     break;
 
                 case Tool.Place:
                     if (HasSelectedObjectForPlacement &&
-                        CanPlaceAnotherCurrentObject()) {
+                        CanPlaceAnotherCurrentObject())
+                    {
                         //if (_snapToGrid) SnapCursor();
                         CreateCurrentSelectedObjectAtCursor();
                         e.Use();
@@ -531,38 +565,53 @@ namespace Turing.LevelEditor
                     break;
 
                 case Tool.Erase:
-                    if (_hoveredObjects.Count > 0) DeleteObject(_hoveredObjects[0], LevelEditorAction.ActionType.Normal);
+                    if (hoveredObjects.Count > 0)
+                        DeleteObject(hoveredObjects[0], 
+                            LevelEditorAction.ActionType.Normal);
                     break;
 
                 case Tool.Move:
-                    if (!IsMovingObject) { // Not currently moving
-                        if (_hoveredObjects.Count > 0) StartMovingObject(_hoveredObjects[0]);
-                    } else { // Currently moving
+                    // Not currently moving
+                    if (!IsMovingObject)
+                    { 
+                        if (hoveredObjects.Count > 0)
+                            StartMovingObject(hoveredObjects[0]);
+                    } 
+
+                    // Currently moving
+                    else
+                    { 
                         StopMovingObject();
                     }
                     break;
             }
         }
 
-        public void HandleMouseMove(Event e, bool isDragging) {
-
-            var ray = _editor.PointerRay;
+        public void HandleMouseMove(Event e, bool isDragging)
+        {
+            var ray = editor.PointerRay;
             float distance;
-            if (_editingPlane.Raycast(ray, out distance))
+            if (editingPlane.Raycast(ray, out distance))
                 SetCursorPosition(ray.GetPoint(distance));
-            if (_currentTool != Tool.Place) {
-                if (isDragging) {
-                    _hoveredObjects = ObjectsInSelection();
-                } else {
 
-
-
+            if (currentTool != Tool.Place)
+            {
+                if (isDragging)
+                {
+                    hoveredObjects = ObjectsInSelection();
+                } 
+                
+                else
+                {
                     RaycastHit hit;
-                    if (Physics.Raycast(ray, out hit)) {
+                    if (Physics.Raycast(ray, out hit))
+                    {
                         ObjectSpawner spawner = hit.collider.gameObject.GetComponentInAncestors<ObjectSpawner>();
                         if (spawner != null)
                             HoverObject(spawner.gameObject);
-                    } else _hoveredObjects.Clear();
+                    } 
+                    
+                    else hoveredObjects.Clear();
                 }
 
             }
@@ -571,42 +620,47 @@ namespace Turing.LevelEditor
         /// <summary>
         /// Selects the given tool.
         /// </summary>
-        public void SelectTool(Tool tool) {
-            _currentTool = tool;
+        public void SelectTool(Tool tool)
+        {
+            currentTool = tool;
             if (tool != Tool.Place) DisablePreview();
         }
 
         /// <summary>
         /// Sets the object browser filter.
         /// </summary>
-        public void SetObjectFilter(ObjectDatabase.Category filterIndex) {
-            _filter = filterIndex;
-            _filteredObjects = ObjectDatabaseManager.Instance.AllObjectsInCategory(_filter);
+        public void SetObjectFilter(ObjectDatabase.Category filterIndex)
+        {
+            filter = filterIndex;
+            filteredObjects = ObjectDatabaseManager.Instance.AllObjectsInCategory(filter);
         }
 
         /// <summary>
         /// Sets the name of the loaded level.
         /// </summary>
-        public void SetLoadedLevelName(string newName) {
-            _loadedLevel.Name = newName;
-            _loadedLevelObject.name = newName + " (Loaded Level)";
+        public void SetLoadedLevelName(string newName)
+        {
+            loadedLevel.Name = newName;
+            loadedLevelObject.name = newName + " (Loaded Level)";
         }
 
-        public void HoverObject(GameObject obj) {
-            _hoveredObjects.Clear();
-            _hoveredObjects.Add(obj);
+        public void HoverObject(GameObject obj)
+        {
+            hoveredObjects.Clear();
+            hoveredObjects.Add(obj);
         }
 
-        public List<GameObject> ObjectsInSelection() {
-            Camera camera = _editor.ActiveCamera;
-            Rect selectionRect = _editor.SelectionRect;
+        public List<GameObject> ObjectsInSelection()
+        {
+            Camera camera = editor.ActiveCamera;
+            Rect selectionRect = editor.SelectionRect;
             List<GameObject> result = new List<GameObject>();
-            foreach (var spawner in _loadedSpawners) {
+            foreach (var spawner in loadedSpawners)
+            {
                 Vector3 rawScreenPos = camera.WorldToScreenPoint(spawner.transform.position);
                 Vector2 screenPos = new Vector2(rawScreenPos.x, rawScreenPos.y);
                 if (selectionRect.Contains(screenPos, true)) result.Add(spawner.gameObject);
             }
-            //Debug.Log (result.Count);
             return result;
         }
 
@@ -614,16 +668,20 @@ namespace Turing.LevelEditor
         /// <summary>
         /// Selects an object in the level.
         /// </summary>
-        public void SelectObjects(List<GameObject> objects, bool clearFirst = true) {
-            if (clearFirst) _selectedObjects.Clear();
-            foreach (var obj in objects) {
+        public void SelectObjects(List<GameObject> objects, bool clearFirst = true)
+        {
+            if (clearFirst) selectedObjects.Clear();
+            foreach (var obj in objects)
+            {
                 // If selected object is not spawner, find through parents
                 var spawner = obj.GetComponent<ObjectSpawner>();
                 if (spawner == null) spawner = obj.GetComponentInAncestors<ObjectSpawner>();
 
-                if (spawner != null) {
-                    if (!_selectedObjects.Contains(spawner.gameObject)) {
-                        _selectedObjects.Add(spawner.gameObject);
+                if (spawner != null)
+                {
+                    if (!selectedObjects.Contains(spawner.gameObject))
+                    {
+                        selectedObjects.Add(spawner.gameObject);
                         onSelectObject.Invoke();
                     }
                 }
@@ -633,52 +691,62 @@ namespace Turing.LevelEditor
         /// <summary>
         /// Deselects an object.
         /// </summary>
-        public void DeselectObjects() {
-            if (_selectedObjects != null) {
+        public void DeselectObjects()
+        {
+            if (selectedObjects != null)
+            {
                 onDeselectObject.Invoke();
-                _selectedObjects.Clear();
+                selectedObjects.Clear();
             }
         }
 
         /// <summary>
         /// Shows a 3D preview of the currently selected asset.
         /// </summary>
-        void ShowAssetPreview(GameObject obj) {
-            if (obj == null) throw new System.NullReferenceException("No asset given!");
-            _assetPreview.GetComponent<AssetPreview>().SetPreviewObject(obj);
-            _assetPreview.Show();
+        void ShowAssetPreview(GameObject obj)
+        {
+            if (obj == null)
+                throw new System.NullReferenceException("No asset given!");
+
+            assetPreview.GetComponent<AssetPreview>().SetPreviewObject(obj);
+            assetPreview.Show();
         }
 
         /// <summary>
         /// Hides the 3D asset preview.
         /// </summary>
-        void DisablePreview() {
-            if (_assetPreview == null) return;
-            _assetPreview.Hide();
+        void DisablePreview()
+        {
+            if (assetPreview == null) return;
+            assetPreview.Hide();
         }
 
         /// <summary>
         /// Gets the attributes of the given object.
         /// </summary>
-        public Level.ObjectAttributes AttributesOfObject(GameObject obj) {
+        public ObjectAttributes AttributesOfObject(GameObject obj)
+        {
             var index = LevelIndexOfObject(obj);
-            return _loadedLevel.Floor[index];
+            return loadedLevel.Objects[index];
         }
 
         /// <summary>
         /// Gets the index in the level of the given object.
         /// </summary>
-        public int LevelIndexOfObject(GameObject obj) {
-            return _loadedSpawners.IndexOf(obj.GetComponent<ObjectSpawner>());
+        public int LevelIndexOfObject(GameObject obj)
+        {
+            return loadedSpawners.IndexOf(obj.GetComponent<ObjectSpawner>());
         }
 
         /// <summary>
         /// Gets the database index of the given object.
         /// </summary>
-        public byte ObjectIndexOfObject(GameObject obj) {
+        public byte ObjectIndexOfObject(GameObject obj)
+        {
             var index = LevelIndexOfObject(obj);
-            var data = _loadedLevel.Floor[index];
-            if (data == null) {
+            var data = loadedLevel.Objects[index];
+            if (data == null)
+            {
                 Debug.LogError("Object " + obj.name + " not found in the level file!");
                 return byte.MaxValue;
             }
@@ -688,9 +756,11 @@ namespace Turing.LevelEditor
         /// <summary>
         /// Moves the editing plane up by one tile.
         /// </summary>
-        public void IncrementY() {
-            if (_currentYPosition < Level.LEVEL_HEIGHT - TILE_UNIT_WIDTH) {
-                _currentYPosition++;
+        public void IncrementY()
+        {
+            if (currentYPosition < Level.LEVEL_HEIGHT - TILE_UNIT_WIDTH)
+            {
+                currentYPosition++;
                 UpdateHeight();
             }
         }
@@ -698,9 +768,11 @@ namespace Turing.LevelEditor
         /// <summary>
         /// Moves the editing plane down by one tile.
         /// </summary>
-        public void DecrementY() {
-            if (_currentYPosition > 0) {
-                _currentYPosition--;
+        public void DecrementY()
+        {
+            if (currentYPosition > 0)
+            {
+                currentYPosition--;
                 UpdateHeight();
             }
         }
@@ -708,42 +780,48 @@ namespace Turing.LevelEditor
         /// <summary>
         /// Updates the editing plane according to the current floor and y-value.
         /// </summary>
-        public void UpdateHeight() {
-            _editingPlane.SetNormalAndPosition(Vector3.up,
-                new Vector3(0f, _currentYPosition, 0f)
-                );
+        public void UpdateHeight()
+        {
+            editingPlane.SetNormalAndPosition(Vector3.up,
+                new Vector3(0f, currentYPosition, 0f));
         }
 
         /// <summary>
         /// Sets the cursor position, snapping if necessary.
         /// </summary>
-        public void SetCursorPosition(Vector3 newPos) {
-            _cursorPosition = newPos;
-            if (_snapToGrid) SnapCursor();
-            if (_assetPreview != null) {
-                _assetPreview.transform.position = _cursorPosition;
-                _assetPreview.transform.rotation = Quaternion.Euler(0f, _currentPlacementYRotation, 0f);
+        public void SetCursorPosition(Vector3 newPos)
+        {
+            cursorPosition = newPos;
+            if (snapToGrid) SnapCursor();
+            if (assetPreview != null)
+            {
+                assetPreview.transform.position = cursorPosition;
+                assetPreview.transform.rotation =
+                    Quaternion.Euler(0f, currentPlacementYRotation, 0f);
             }
         }
 
         /// <summary>
         /// Snaps the preview asset to the grid.
         /// </summary>
-        public void SnapCursor() {
-            Vector3 pos = _cursorPosition;
+        public void SnapCursor()
+        {
+            Vector3 pos = cursorPosition;
             Vector3 snapped = pos;
-            if (_selectedObjectIndexForPlacement != -1) {
+            if (selectedObjectIndexForPlacement != -1)
+            {
                 float closestX;
                 float closestZ;
 
-                switch (_selectedObjectSnapMode) {
+                switch (selectedObjectSnapMode)
+                {
                     case ObjectDatabase.SnapMode.Center:
                         snapped = new Vector3(
                             Mathf.Round(pos.x / TILE_UNIT_WIDTH) * TILE_UNIT_WIDTH,
                             Mathf.Round(pos.y / TILE_UNIT_WIDTH) * TILE_UNIT_WIDTH,
                             Mathf.Round(pos.z / TILE_UNIT_WIDTH) * TILE_UNIT_WIDTH
                         );
-                        _currentPlacementYRotation = 0f;
+                        currentPlacementYRotation = 0f;
                         break;
 
                     case ObjectDatabase.SnapMode.Corner:
@@ -753,10 +831,10 @@ namespace Turing.LevelEditor
                         bool down = closestZ >= pos.z;
                         snapped = new Vector3(
                             closestX,
-                            _currentYPosition,
+                            currentYPosition,
                             closestZ
                             );
-                        _currentPlacementYRotation = left ? (down ? 0f : 90f) : (down ? 270f : 180f);
+                        currentPlacementYRotation = left ? (down ? 0f : 90f) : (down ? 270f : 180f);
                         float half = TILE_UNIT_WIDTH / 2f;
                         snapped.x += left ? -half : half;
                         snapped.z += down ? -half : half;
@@ -773,11 +851,11 @@ namespace Turing.LevelEditor
                             Mathf.Round(pos.y / TILE_UNIT_WIDTH) * TILE_UNIT_WIDTH,
                             snapToX ? Mathf.Floor(pos.z / TILE_UNIT_WIDTH) * TILE_UNIT_WIDTH + TILE_UNIT_WIDTH / 2f : closestZ
                             );
-                        _currentPlacementYRotation = snapToX ? 0f : 90f;
+                        currentPlacementYRotation = snapToX ? 0f : 90f;
                         break;
                 }
 
-                _cursorPosition = snapped;
+                cursorPosition = snapped;
             }
         }
 
@@ -787,17 +865,17 @@ namespace Turing.LevelEditor
         public bool CheckPlacement() 
         {
             // Check x in range
-            float x = _cursorPosition.x;
+            float x = cursorPosition.x;
             if (x < -0.05f || x >= (float)Level.LEVEL_WIDTH * TILE_UNIT_WIDTH + 0.05f) return false;
 
             // Check y in range
-            float y = _cursorPosition.y;
+            float y = cursorPosition.y;
             float minY = - 0.05f;
             float maxY = Level.LEVEL_HEIGHT * TILE_UNIT_WIDTH + 0.05f;
             if (y < minY || y >= maxY) return false;
 
             // Check z in range
-            float z = _cursorPosition.z;
+            float z = cursorPosition.z;
             if (z < -0.05f || z >= (float)Level.LEVEL_DEPTH * TILE_UNIT_WIDTH + 0.05f) return false;
 
             return true;
@@ -808,9 +886,9 @@ namespace Turing.LevelEditor
         /// </summary>
         public void ResetTool() 
         {
-            _selectedObjectIndexForPlacement = -1;
+            selectedObjectIndexForPlacement = -1;
             DisablePreview();
-            _currentTool = Tool.Select;
+            currentTool = Tool.Select;
         }
 
         /// <summary>
@@ -821,7 +899,7 @@ namespace Turing.LevelEditor
             var limit = ObjectDatabaseManager.Instance.GetObjectLimit(index);
             if (limit < 0) return true;
 
-            else return _objectCounts[(byte)index] < limit;
+            else return objectCounts[(byte)index] < limit;
         }
 
         /// <summary>
@@ -829,16 +907,16 @@ namespace Turing.LevelEditor
         /// </summary>
         public bool CanPlaceAnotherCurrentObject() 
         {
-            return CanPlaceAnotherObject(_selectedObjectIndexForPlacement);
+            return CanPlaceAnotherObject(selectedObjectIndexForPlacement);
         }
 
         /// <summary>
         /// Gets the object attributes of the given object.
         /// </summary>
-        public Level.ObjectAttributes GetAttributesOfObject(GameObject obj) 
+        public ObjectAttributes GetAttributesOfObject(GameObject obj) 
         {
-            var index = _loadedSpawners.IndexOf(obj.GetComponent<ObjectSpawner>());
-            var data = _loadedLevel.Floor[index];
+            var index = loadedSpawners.IndexOf(obj.GetComponent<ObjectSpawner>());
+            var data = loadedLevel.Objects[index];
             return data;
         }
 
@@ -847,41 +925,46 @@ namespace Turing.LevelEditor
         /// </summary>
         public void CreateCurrentSelectedObjectAtCursor() 
         {
-            CreateObject((byte)_selectedObjectIndexForPlacement, _cursorPosition, LevelEditorAction.ActionType.Normal);
+            CreateObject((byte)selectedObjectIndexForPlacement, 
+                cursorPosition, LevelEditorAction.ActionType.Normal);
         }
 
         /// <summary>
         /// Crates an object with the given index.
         /// </summary>
-        public void CreateObject(byte index, Vector3 position, LevelEditorAction.ActionType actionType) {
-
+        public void CreateObject(byte index, Vector3 position, 
+            LevelEditorAction.ActionType actionType)
+        {
             // Warn if invalid index
             if (index < 0 || index >= byte.MaxValue)
                 throw new IndexOutOfRangeException("Invalid index! " + index);
 
             // Add object to level file
-            _loadedLevel.AddObject((int)index, position, _currentPlacementYRotation);
+            loadedLevel.AddObject((int)index, position, 
+                currentPlacementYRotation);
 
-            Debug.Log(_currentPlacementYRotation);
+            if (Application.isEditor || Debug.isDebugBuild)
+                Debug.Log(currentPlacementYRotation);
 
             // Create spawner
             GameObject spawner = CreateSpawner(index);
-            spawner.transform.SetParent(_floorObject.transform);
+            spawner.transform.SetParent(floorObject.transform);
             spawner.transform.position = position;
-            spawner.transform.localRotation = Quaternion.Euler(0f, _currentPlacementYRotation, 0f);
-            _loadedSpawners.Add(spawner.GetComponent<ObjectSpawner>());
-            _objectCounts[(int)index]++;
-            _dirty = true;
+            spawner.transform.localRotation = Quaternion.Euler(0f, currentPlacementYRotation, 0f);
+            loadedSpawners.Add(spawner.GetComponent<ObjectSpawner>());
+            objectCounts[(int)index]++;
+            dirty = true;
 
             // Update undo/redo stack
-            switch (actionType) {
+            switch (actionType)
+            {
                 case LevelEditorAction.ActionType.Normal:
                 case LevelEditorAction.ActionType.Redo:
-                    _undoStack.Push(new CreateObjectAction(index, spawner));
+                    undoStack.Push(new CreateObjectAction(index, spawner));
                     break;
 
                 case LevelEditorAction.ActionType.Undo:
-                    _redoStack.Push(new DeleteObjectAction(spawner, index));
+                    redoStack.Push(new DeleteObjectAction(spawner, index));
                     break;
             }
         }
@@ -889,8 +972,8 @@ namespace Turing.LevelEditor
         /// <summary>
         /// Deletes the given object.
         /// </summary>
-        public void DeleteObject(GameObject obj, LevelEditorAction.ActionType actionType) {
-
+        public void DeleteObject(GameObject obj, LevelEditorAction.ActionType actionType)
+        {
             // Get database index of object
             byte deletedObjectIndex = (byte)ObjectIndexOfObject(obj);
             int levelIndex = LevelIndexOfObject(obj);
@@ -900,37 +983,40 @@ namespace Turing.LevelEditor
             switch (actionType) {
                 case LevelEditorAction.ActionType.Normal:
                 case LevelEditorAction.ActionType.Redo:
-                    _undoStack.Push(deleteAction);
+                    undoStack.Push(deleteAction);
                     break;
 
                 case LevelEditorAction.ActionType.Undo:
-                    _redoStack.Push(new CreateObjectAction(deletedObjectIndex, obj));
+                    redoStack.Push(new CreateObjectAction(deletedObjectIndex, obj));
                     break;
             }
 
             // Delete object from level
-            _loadedLevel.DeleteObject(levelIndex);
+            loadedLevel.DeleteObject(levelIndex);
 
             // Delete spawner
-            _objectCounts[deletedObjectIndex]--;
-            _loadedSpawners.Remove(obj.GetComponent<ObjectSpawner>());
+            objectCounts[deletedObjectIndex]--;
+            loadedSpawners.Remove(obj.GetComponent<ObjectSpawner>());
             DestroyLoadedObject(obj);
-            _dirty = true;
+            dirty = true;
         }
 
         /// <summary>
         /// Moves an object.
         /// </summary>
-        public void MoveObject(GameObject obj, Vector3 oldPos, Vector3 newPos, LevelEditorAction.ActionType actionType) {
+        public void MoveObject(GameObject obj, Vector3 oldPos, Vector3 newPos, 
+            LevelEditorAction.ActionType actionType)
+        {
             var moveAction = new MoveObjectAction(obj, oldPos, newPos);
-            switch (actionType) {
+            switch (actionType)
+            {
                 case LevelEditorAction.ActionType.Normal:
                 case LevelEditorAction.ActionType.Redo:
-                    _undoStack.Push(moveAction);
+                    undoStack.Push(moveAction);
                     break;
 
                 case LevelEditorAction.ActionType.Undo:
-                    _redoStack.Push(new MoveObjectAction(obj, newPos, oldPos));
+                    redoStack.Push(new MoveObjectAction(obj, newPos, oldPos));
                     break;
             }
 
@@ -938,33 +1024,43 @@ namespace Turing.LevelEditor
             SetObjectPosition(obj, newPos, actionType);
         }
 
-        public void SetObjectPosition(GameObject obj, Vector3 pos, LevelEditorAction.ActionType actionType) {
+        public void SetObjectPosition(GameObject obj, Vector3 pos, 
+            LevelEditorAction.ActionType actionType)
+        {
             var attribs = AttributesOfObject(obj);
             attribs.SetPosition(pos);
             obj.transform.position = pos;
         }
 
-        public void SetObjectEulerRotation(GameObject obj, Vector3 rot, LevelEditorAction.ActionType actionType) {
+        public void SetObjectEulerRotation(GameObject obj, Vector3 rot, 
+            LevelEditorAction.ActionType actionType)
+        {
             var attribs = AttributesOfObject(obj);
             attribs.SetEulerRotation(rot);
             obj.transform.localRotation = Quaternion.Euler(rot);
         }
 
-        public void SetObject3DScale(GameObject obj, Vector3 scale, LevelEditorAction.ActionType actionType) {
+        public void SetObject3DScale(GameObject obj, Vector3 scale, 
+            LevelEditorAction.ActionType actionType)
+        {
             var attribs = AttributesOfObject(obj);
             attribs.Set3DScale(scale);
             obj.transform.localScale = scale;
         }
 
-        public void RecordAttributeChange(GameObject obj, ChangeObjectNormalAttributeAction.AttributeChanged attrib, Vector3 oldValue, Vector3 newValue, LevelEditorAction.ActionType actionType) {
-            switch (actionType) {
+        public void RecordAttributeChange(GameObject obj, 
+            ChangeObjectNormalAttributeAction.AttributeChanged attrib, 
+            Vector3 oldValue, Vector3 newValue, LevelEditorAction.ActionType actionType)
+        {
+            switch (actionType)
+            {
                 case LevelEditorAction.ActionType.Normal:
                 case LevelEditorAction.ActionType.Redo:
-                    _undoStack.Push(new ChangeObjectNormalAttributeAction(obj, attrib, newValue));
+                    undoStack.Push(new ChangeObjectNormalAttributeAction(obj, attrib, newValue));
                     break;
 
                 case LevelEditorAction.ActionType.Undo:
-                    _redoStack.Push(new ChangeObjectNormalAttributeAction(obj, attrib, oldValue));
+                    redoStack.Push(new ChangeObjectNormalAttributeAction(obj, attrib, oldValue));
                     break;
             }
         }
@@ -972,55 +1068,62 @@ namespace Turing.LevelEditor
         /// <summary>
         /// Undoes the most recent action.
         /// </summary>
-        public void Undo() {
-            if (_undoStack.Count <= 0) return;
+        public void Undo()
+        {
+            if (undoStack.Count <= 0) return;
 
-            var undoAction = _undoStack.Pop();
+            var undoAction = undoStack.Pop();
             undoAction.Undo();
         }
 
         /// <summary>
         /// Redoes the most recent action.
         /// </summary>
-        public void Redo() {
-            if (_redoStack.Count <= 0) return;
+        public void Redo()
+        {
+            if (redoStack.Count <= 0) return;
 
-            var redoAction = _redoStack.Pop();
+            var redoAction = redoStack.Pop();
             redoAction.Redo();
         }
 
         /// <summary>
         /// Enables the grid.
         /// </summary>
-        public void EnableGrid() {
-            _drawGrid = true;
+        public void EnableGrid()
+        {
+            drawGrid = true;
         }
 
         /// <summary>
         /// Disables the grid.
         /// </summary>
-        public void DisableGrid() {
-            _drawGrid = false;
+        public void DisableGrid()
+        {
+            drawGrid = false;
         }
 
         /// <summary>
         /// Starts moving an object.
         /// </summary>
-        public void StartMovingObject(GameObject obj) {
+        public void StartMovingObject(GameObject obj)
+        {
             ShowAssetPreview(obj);
-            _movingObjectOriginalCoords = obj.transform.position;
-            _movingObject = obj;
+            movingObjectOriginalCoords = obj.transform.position;
+            movingObject = obj;
             //DeleteObject(obj, ActionType.None);
         }
 
         /// <summary>
         /// Stops moving an object.
         /// </summary>
-        public void StopMovingObject() {
-            if (_placementAllowed) {
+        public void StopMovingObject()
+        {
+            if (placementAllowed) {
                 //CreateObject((byte)_movingObjectID, _cursorPosition, ActionType.None);
                 //_movingObject.transform.position = _cursorPosition;
-                MoveObject(_movingObject, _movingObjectOriginalCoords, _cursorPosition, LevelEditorAction.ActionType.Normal);
+                MoveObject(movingObject, movingObjectOriginalCoords, 
+                    cursorPosition, LevelEditorAction.ActionType.Normal);
                 ResetMovingObject();
             }
         }
@@ -1028,10 +1131,11 @@ namespace Turing.LevelEditor
         /// <summary>
         /// Resets the object being moved.
         /// </summary>
-        public void ResetMovingObject() {
+        public void ResetMovingObject()
+        {
             //CreateObject((byte)_movingObjectID, _movingObjectOriginalCoords, ActionType.None);
             //_movingObjectID = -1;
-            _movingObject = null;
+            movingObject = null;
             DisablePreview();
         }
 
@@ -1039,15 +1143,18 @@ namespace Turing.LevelEditor
         /// Selects an asset from the object browser.
         /// </summary>
         /// <param name="index">Index of the object in the browser.</param>
-        public void SelectObjectInCategory(int index, ObjectDatabase.Category category) {
-
+        public void SelectObjectInCategory(int index, 
+            ObjectDatabase.Category category)
+        {
             var data = ObjectDatabaseManager.Instance.AllObjectsInCategory(category)[index];
 
-            _selectedObjectIndexForPlacement = data.index;
-            _selectedObjectSnapMode = data.snapMode;
+            selectedObjectIndexForPlacement = data.index;
+            selectedObjectSnapMode = data.snapMode;
             var obj = ObjectDatabaseManager.Instance.GetObject(data.index);
 
-            Debug.Log(string.Format("Object {0} ({1}) selected from category {2}.", obj.name, index.ToString(), category.ToString()));
+            if (Application.isEditor || Debug.isDebugBuild)
+                Debug.Log(string.Format("Object {0} ({1}) selected from category {2}.", 
+                    obj.name, index.ToString(), category.ToString()));
 
             ShowAssetPreview(obj);
         }
@@ -1055,10 +1162,11 @@ namespace Turing.LevelEditor
         /// <summary>
         /// Creates a new level.
         /// </summary>
-        public void CreateNewLevel() {
-            _loadedLevel = new Level();
-            _dirty = false;
-            _levelLoaded = true;
+        public void CreateNewLevel()
+        {
+            loadedLevel = new Level();
+            dirty = false;
+            levelLoaded = true;
             SetupLevelObjects();
             InitObjectCounts();
             StartEditing();
@@ -1068,69 +1176,82 @@ namespace Turing.LevelEditor
         /// <summary>
         /// Saves the current level.
         /// </summary>
-        public void SaveCurrentLevelToJSON(bool doUseFilePanel = false) {
-
-            if (doUseFilePanel || _loadedLevelPath == "") {
+        public void SaveCurrentLevelToJSON(bool doUseFilePanel = false)
+        {
+            if (doUseFilePanel || loadedLevelPath == "")
+            {
                 string savePath = default(string);
-                if (Application.isEditor) {
-#if UNITY_EDITOR
-                    savePath = EditorUtility.SaveFilePanel("Save Level to JSON", Application.dataPath, _loadedLevel.Name, "json");
+                if (Application.isEditor)
+                {
+                    #if UNITY_EDITOR
+                    savePath = EditorUtility.SaveFilePanel("Save Level to JSON", 
+                        Application.dataPath, loadedLevel.Name, "json");
                     if (savePath == default(string) || savePath == "") return;
-                    JSONFileUtility.SaveToJSONFile(_loadedLevel, savePath);
-#endif
-                } else {
+                    JSONFileUtility.SaveToJSONFile(loadedLevel, savePath);
+                    #endif
+                } 
+                
+                else
+                {
                     // In-game editor file panel
                 }
 
-                _loadedLevelPath = savePath;
-            } else JSONFileUtility.SaveToJSONFile(_loadedLevel, _loadedLevelPath);
+                loadedLevelPath = savePath;
+            } 
+            
+            else JSONFileUtility.SaveToJSONFile(loadedLevel, loadedLevelPath);
 
-            _dirty = false;
+            dirty = false;
             onSaveLevel.Invoke();
         }
 
         /// <summary>
         /// Closes the currently loaded level.
         /// </summary>
-        public void CloseLevel() {
+        public void CloseLevel()
+        {
             StopEditing();
-            _hoveredObjects.Clear();
-            _selectedObjects.Clear();
+            hoveredObjects.Clear();
+            selectedObjects.Clear();
 
-            _loadedLevel = null;
-            _loadedLevelPath = "";
+            loadedLevel = null;
+            loadedLevelPath = "";
             SelectTool(Tool.Select);
 
-            _undoStack.Clear();
-            _redoStack.Clear();
+            undoStack.Clear();
+            redoStack.Clear();
 
             CleanupLevel();
-            _objectCounts.Clear();
-            _levelLoaded = false;
+            objectCounts.Clear();
+            levelLoaded = false;
             onCloseLevel.Invoke();
         }
 
         /// <summary>
         /// Loads a JSON level file from the given path.
         /// </summary>
-        public void LoadLevelFromJSON(string path) {
+        public void LoadLevelFromJSON(string path)
+        {
             var asset = JSONFileUtility.LoadFromJSONFile<Level>(path);
 
             // If asset failed to load
-            if (asset == null) {
-                Debug.LogError("Failed to load level!");
+            if (asset == null)
+            {
+                if (Application.isEditor || Debug.isDebugBuild)
+                    Debug.LogError("Failed to load level!");
+
                 return;
             }
 
-            if (_loadedLevel != null) CloseLevel();
+            if (loadedLevel != null) CloseLevel();
 
-#if UNITY_EDITOR
+            #if UNITY_EDITOR
             LastEditedLevelPath = path;
-#endif
+            #endif
 
-            _loadedLevel = asset;
-            _levelLoaded = true;
-            _dirty = false;
+            loadedLevel = asset;
+            levelLoaded = true;
+            dirty = false;
             SetupLevelObjects();
             InitObjectCounts();
             GetObjectCounts();
@@ -1142,15 +1263,16 @@ namespace Turing.LevelEditor
         /// <summary>
         /// Prompts the user for a level asset to load.
         /// </summary>
-        public void LoadLevelFromJSON() {
-#if UNITY_EDITOR
+        public void LoadLevelFromJSON()
+        {
+            #if UNITY_EDITOR
             var assetPath = EditorUtility.OpenFilePanel("Open Level JSON", Application.dataPath, "json");
 
             // If user cancelled loading
             if (assetPath == default(string) || assetPath == "") return;
 
             LoadLevelFromJSON(assetPath);
-#endif
+            #endif
         }
 
         /// <summary>
@@ -1158,14 +1280,19 @@ namespace Turing.LevelEditor
         /// </summary>
         void ReconstructFloor() 
         {
-            var objects = _loadedLevel.Floor.Objects;
-            for (int i = 0; i < objects.Length; i++) {
+            var objects = loadedLevel.Objects;
+            for (int i = 0; i < objects.Length; i++)
+            {
                 var attribs = objects[i];
                 byte index;
 
-                try {
+                try
+                {
                     index = attribs.Index;
-                } catch (NullReferenceException) {
+                } 
+                
+                catch (NullReferenceException)
+                {
                     continue;
                 }
 
@@ -1174,11 +1301,11 @@ namespace Turing.LevelEditor
 
                 // Create spawner
                 var spawner = CreateSpawner(index);
-                spawner.transform.parent = _floorObject.transform;
+                spawner.transform.parent = floorObject.transform;
                 spawner.transform.position = attribs.Position;
                 spawner.transform.rotation = Quaternion.Euler(attribs.EulerRotation);
                 spawner.transform.localScale = attribs.Scale;
-                _loadedSpawners.Add(spawner.GetComponent<ObjectSpawner>());
+                loadedSpawners.Add(spawner.GetComponent<ObjectSpawner>());
             }
         }
 
@@ -1187,9 +1314,10 @@ namespace Turing.LevelEditor
         /// </summary>
         void SetupLevelObjects() 
         {
-            _loadedLevelObject = new GameObject(_loadedLevel.Name + " (Loaded Level)", typeof(LevelObject));
-            _floorObject = new GameObject("Floor");
-            _floorObject.transform.SetParent(_loadedLevelObject.transform);
+            loadedLevelObject = new GameObject(loadedLevel.Name + 
+                " (Loaded Level)", typeof(LevelObject));
+            floorObject = new GameObject("Floor");
+            floorObject.transform.SetParent(loadedLevelObject.transform);
         }
 
         /// <summary>
@@ -1197,31 +1325,35 @@ namespace Turing.LevelEditor
         /// </summary>
         void GetObjectCounts()
         {
-            foreach (var obj in _loadedSpawners) 
+            foreach (var obj in loadedSpawners) 
             {
                 var index = ObjectIndexOfObject(obj.Template);
-                _objectCounts[index]++;
+                objectCounts[index]++;
             }
         }
 
         /// <summary>
         /// Resets the object counter.
         /// </summary>
-        void InitObjectCounts() {
-            if (_objectCounts == null)
-                _objectCounts = new List<int>();
+        void InitObjectCounts()
+        {
+            if (objectCounts == null)
+                objectCounts = new List<int>();
 
-            for (int i = 0; i < (int)byte.MaxValue; i++) {
-                if (i >= _objectCounts.Count) _objectCounts.Add(0);
-                else _objectCounts[i] = 0;
+            for (int i = 0; i < (int)byte.MaxValue; i++)
+            {
+                if (i >= objectCounts.Count) objectCounts.Add(0);
+                else objectCounts[i] = 0;
             }
         }
 
         /// <summary>
         /// Creates a spawner for the given template.
         /// </summary>
-        public GameObject CreateSpawner(GameObject template) {
-            GameObject spawner = new GameObject(template.name + " Spawner", typeof(ObjectSpawner));
+        public GameObject CreateSpawner(GameObject template)
+        {
+            GameObject spawner = new GameObject(template.name + 
+                " Spawner", typeof(ObjectSpawner));
             spawner.GetComponent<ObjectSpawner>().SetTemplate(template);
             return spawner;
         }
@@ -1229,7 +1361,8 @@ namespace Turing.LevelEditor
         /// <summary>
         /// Returns a new instance of the object with the given index.
         /// </summary>
-        public GameObject CreateSpawner(byte index) {
+        public GameObject CreateSpawner(byte index)
+        {
             var template = ObjectDatabaseManager.Instance.GetObject(index);
             return CreateSpawner(template);
         }
@@ -1237,34 +1370,42 @@ namespace Turing.LevelEditor
         /// <summary>
         /// Removes all spawners from the current floor.
         /// </summary>
-        void CleanupFloor() {
-            while (_loadedSpawners.Count > 0) {
-                if (_loadedSpawners[0] == null || _loadedSpawners[0].gameObject == null) {
-                    _loadedSpawners.RemoveAt(0);
+        void CleanupFloor()
+        {
+            while (loadedSpawners.Count > 0)
+            {
+                if (loadedSpawners[0] == null || 
+                    loadedSpawners[0].gameObject == null)
+                {
+                    loadedSpawners.RemoveAt(0);
                     continue;
                 }
-                DestroyLoadedObject(_loadedSpawners.PopFront().gameObject);
+
+                DestroyLoadedObject(loadedSpawners.PopFront().gameObject);
             }
         }
 
         /// <summary>
         /// Cleans up the floor and level.
         /// </summary>
-        void CleanupLevel() {
+        void CleanupLevel()
+        {
             CleanupFloor();
 
-            if (_loadedLevelObject != null) {
-                DestroyLoadedObject(_loadedLevelObject);
-                _loadedLevelObject = null;
+            if (loadedLevelObject != null)
+            {
+                DestroyLoadedObject(loadedLevelObject);
+                loadedLevelObject = null;
             }
 
-            _floorObject = null;
+            floorObject = null;
         }
 
         /// <summary>
         /// Uses the proper function to destroy the given object.
         /// </summary>
-        public void DestroyLoadedObject(GameObject obj) {
+        public void DestroyLoadedObject(GameObject obj)
+        {
             if (Application.isEditor) DestroyImmediate(obj);
             else Destroy(obj);
         }
@@ -1272,27 +1413,29 @@ namespace Turing.LevelEditor
         /// <summary>
         /// Starts playing the currently loaded level.
         /// </summary>
-        public void PlayCurrentLevel() {
+        public void PlayCurrentLevel()
+        {
             //Debug.Log("Play");
 
             // Activate all spawners
-            foreach (ObjectSpawner spawner in _loadedSpawners)
+            foreach (ObjectSpawner spawner in loadedSpawners)
                 spawner.Play();
 
-            _playingLevel = true;
+            playingLevel = true;
         }
 
         /// <summary>
         /// Stops playing the currently loaded level.
         /// </summary>
-        public void StopPlayingLevel() {
+        public void StopPlayingLevel()
+        {
             //Debug.Log("Stop");
 
             // Reset all spawners
-            foreach (var spawner in _loadedSpawners)
+            foreach (var spawner in loadedSpawners)
                 spawner.ResetSpawner();
 
-            _playingLevel = false;
+            playingLevel = false;
         }
 
         #endregion

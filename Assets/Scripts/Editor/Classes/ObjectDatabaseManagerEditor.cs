@@ -1,66 +1,68 @@
 ﻿// ObjectDatabaseManagerEditor.cs
+// Author: Aaron
+
+using Turing.LevelEditor;
+
+using UnityEditor;
 
 using UnityEngine;
-using UnityEditor;
 
 /// <summary>
 /// Custom editor for OBJDB manager.
 /// </summary>
 [CustomEditor(typeof(ObjectDatabaseManager))]
-public class ObjectDatabaseManagerEditor : Editor {
-
-    #region Vars
+public sealed class ObjectDatabaseManagerEditor : Editor
+{
+    #region Private Fields
 
     /// <summary>
     /// Target OBJDB manager.
     /// </summary>
-    ObjectDatabaseManager _target;
+    ObjectDatabaseManager objDBTarget;
 
-    SerializedObject _serializedTarget;
+    SerializedObject serializedTarget;
 
-    #endregion
-    #region Serialized Properties
-
-    SerializedProperty _databaseProp;
+    SerializedProperty databaseProp;
 
     #endregion
-    #region Unity Callbacks
+    #region Unity Lifecycle
 
-    void OnEnable() {
-        _target = target as ObjectDatabaseManager;
-        _serializedTarget = new SerializedObject (_target);
-        _databaseProp = _serializedTarget.FindProperty("_database");
+    void OnEnable()
+    {
+        target = target as ObjectDatabaseManager;
+        serializedTarget = new SerializedObject(target);
+        databaseProp = serializedTarget.FindProperty("database");
     }
 
-    #endregion
-    #region Unity Overrides
+    public override void OnInspectorGUI()
+    {
+        serializedTarget.Update();
 
-    public override void OnInspectorGUI() {
-
-        _serializedTarget.Update();
-
-        EditorGUILayout.BeginVertical (EditorStyles.helpBox);
+        EditorGUILayout.BeginVertical(EditorStyles.helpBox);
 
         // Rebuild categories button
-        if (GUILayout.Button("Rebuild categories")) {
-            _target.RebuildCategories();
+        if (GUILayout.Button("Rebuild categories"))
+        {
+            objDBTarget.RebuildCategories();
         }
 
         // JSON save button
-        if (GUILayout.Button("Save database to JSON")) {
-            _target.SaveToJSON();
+        if (GUILayout.Button("Save database to JSON"))
+        {
+            objDBTarget.SaveToJSON();
         }
 
         // JSON load button
-        if (GUILayout.Button("Load database from JSON")) {
-            _target.LoadFromJSON();
+        if (GUILayout.Button("Load database from JSON"))
+        {
+            objDBTarget.LoadFromJSON();
         }
 
         EditorGUILayout.EndHorizontal();
 
-        EditorGUILayout.BeginVertical (EditorStyles.helpBox);
+        EditorGUILayout.BeginVertical(EditorStyles.helpBox);
 
-        EditorGUILayout.PropertyField(_databaseProp);
+        EditorGUILayout.PropertyField(databaseProp);
 
         GUILayout.Space(4);
 
@@ -68,7 +70,7 @@ public class ObjectDatabaseManagerEditor : Editor {
 
         EditorGUILayout.EndVertical();
 
-        _serializedTarget.ApplyModifiedProperties();
+        serializedTarget.ApplyModifiedProperties();
     }
 
     #endregion

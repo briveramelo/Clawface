@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using MovementEffects;
 using System;
+using Turing.VFX;
 
 public abstract class Mod : MonoBehaviour {
 
@@ -26,7 +27,9 @@ public abstract class Mod : MonoBehaviour {
     protected Stats wielderStats;
     protected IMovable wielderMovable;
     protected List<GameObject> recentlyHitObjects = new List<GameObject>();
-    protected VFXModCharge vfxModCharge;
+    protected VFXOneOff vfxModChargeLoop;
+    protected VFXOneOff vfxModChargeComplete;
+    protected VFXOneOff vfxModChargedLoop;
     protected GameObject vfxModCooldownInstance;
     protected bool isAttached;
     protected Damager damager=new Damager();
@@ -42,7 +45,8 @@ public abstract class Mod : MonoBehaviour {
     #endregion
     
     #region Serialized Unity Inspector fields
-    [SerializeField] protected GameObject vfxModChargePrefab, vfxModCooldownPrefab;
+    [SerializeField] protected GameObject vfxModChargeLoopPrefab, 
+        vfxModChargeCompletePrefab, vfxModChargedLoopPrefab, vfxModCooldownPrefab;
     [SerializeField] protected Collider pickupCollider;
     [SerializeField] protected GameObject modCanvas;
     [SerializeField] protected EnergySettings energySettings;
@@ -57,7 +61,9 @@ public abstract class Mod : MonoBehaviour {
         DeactivateModCanvas();
         Mod mod = this;
         energySettings.Initialize(ref mod);
-        vfxModCharge=Instantiate(vfxModChargePrefab, transform).GetComponent<VFXModCharge>();
+        vfxModChargeLoop = Instantiate(vfxModChargeLoopPrefab, transform).GetComponent<VFXOneOff>();
+        vfxModChargeComplete = Instantiate(vfxModChargeCompletePrefab, transform).GetComponent<VFXOneOff>();
+        vfxModChargedLoop = Instantiate(vfxModChargedLoopPrefab, transform).GetComponent<VFXOneOff>();
         vfxModCooldownInstance = Instantiate(vfxModCooldownPrefab, transform);
         vfxModCooldownInstance.transform.localPosition = Vector3.zero;
         vfxModCooldownInstance.SetActive(false);
@@ -95,7 +101,7 @@ public abstract class Mod : MonoBehaviour {
 
     public virtual void BeginCharging(Action onBegin=null) {
         if (!energySettings.isInUse) {
-            vfxModCharge.StartCharging(energySettings.timeToCharge);
+            vfxModChargeLoop.Play();
             energySettings.StartCharging();
             BeginChargingArms();
             if(onBegin!=null) {
@@ -112,7 +118,7 @@ public abstract class Mod : MonoBehaviour {
         }
     }
     private void EndCharging() {
-        vfxModCharge.StopCharging();
+        vfxModChargeLoop.Stop();
         energySettings.Reset();
         vfxModCooldownInstance.SetActive(false);
     }
