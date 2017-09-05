@@ -22,6 +22,10 @@ public class DashState : IPlayerState {
     [SerializeField]
     private GameObject dashTrail;
     [SerializeField] private Collider playerCollider;
+    [SerializeField]
+    protected int[] highlightPoses;
+    [SerializeField]
+    protected int totalAttackPoses;
     #endregion
 
     #region Private Fields
