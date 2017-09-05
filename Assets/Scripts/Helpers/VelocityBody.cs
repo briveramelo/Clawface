@@ -13,6 +13,7 @@ public class VelocityBody : MonoBehaviour, IMovable{
     protected bool isGrounded;
 
     private bool isFalling;
+    private Vector3 moveDirection;
     
     private const float footSphereRadius= 0.2f;
     private List<Vector3> externalForces= new List<Vector3>();
@@ -49,6 +50,19 @@ public class VelocityBody : MonoBehaviour, IMovable{
             return false;
         }
         set { rigbod.useGravity = value;}
+    }
+
+    // Used to communicate move direction between movement and dash states
+    public Vector3 MoveDirection
+    {
+        get
+        {
+            return moveDirection;
+        }
+        set
+        {
+            moveDirection = value;
+        }
     }
 
     void Start() {        

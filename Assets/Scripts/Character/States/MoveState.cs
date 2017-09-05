@@ -68,7 +68,8 @@ public class MoveState : IPlayerState
         } else if (lastLookDirection != Vector3.zero)
         {
             lastMoveDirection = lastLookDirection;
-        }    
+        }
+        stateVariables.velBody.MoveDirection = lastMoveDirection;
     }
 
     public override void StateFixedUpdate()
@@ -154,15 +155,6 @@ public class MoveState : IPlayerState
     public PlayerStateManager.StateVariables GetStateVariables()
     {
         return stateVariables;
-    }
-
-    public override void Attack()
-    {
-    }
-
-    public override void SecondaryAttack(bool isHeld, float holdTime)
-    {
-
     }
     #endregion
 }

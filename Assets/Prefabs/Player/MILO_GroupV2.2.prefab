@@ -954,7 +954,6 @@ GameObject:
   - component: {fileID: 114718126352253880}
   - component: {fileID: 114735502742847106}
   - component: {fileID: 114686586384067228}
-  - component: {fileID: 114316281525598734}
   - component: {fileID: 114317335038089030}
   - component: {fileID: 114580235128441396}
   - component: {fileID: 114567311059056386}
@@ -2682,34 +2681,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Intensity: 2
---- !u!114 &114316281525598734
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1792002726004920}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d050d4f177f374449d3dd5baf65758c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  totalAttackPoses: 0
-  highlightPoses: 
-  specialAttackPose: 0
-  coolDownFrameCount: 0
-  inputCheckFrameCount: 0
-  isBlockingState: 0
-  skinSlot: {fileID: 4930213012904400}
-  clothColliders:
-  - {fileID: 136743161442994816}
-  - {fileID: 136927700153439536}
-  - {fileID: 136320688028544862}
-  - {fileID: 136596999670559796}
-  - {fileID: 136702293009619920}
-  skinObject: {fileID: 1245328660536446}
-  playerStatsManager: {fileID: 114718126352253880}
-  healthBar: {fileID: 114813071139170524}
-  skinRadius: 2
 --- !u!114 &114317335038089030
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3042,11 +3013,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b51a99eff3f55f544885bdbf9e16daac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  totalAttackPoses: 10
-  highlightPoses: 01000000
-  specialAttackPose: 0
-  coolDownFrameCount: 0
-  inputCheckFrameCount: 0
   isBlockingState: 1
   totalDashFrames: 25
   iFrameStart: 5
@@ -3055,6 +3021,10 @@ MonoBehaviour:
   dashPuff: {fileID: 114511005088535178}
   dashTrail: {fileID: 1591211809506738}
   playerCollider: {fileID: 136027429023219260}
+  highlightPoses: 01000000
+  totalAttackPoses: 10
+  healthBar: {fileID: 114813071139170524}
+  skinRadius: 2
 --- !u!114 &114580235128441396
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3126,11 +3096,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 602f6778d54610c4eaf8639514c9c060, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  totalAttackPoses: 0
-  highlightPoses: 
-  specialAttackPose: 0
-  coolDownFrameCount: 0
-  inputCheckFrameCount: 0
   isBlockingState: 0
 --- !u!114 &114718126352253880
 MonoBehaviour:
@@ -3146,7 +3111,7 @@ MonoBehaviour:
   damageModifier: 1
   damageUI: {fileID: 114451849692283354}
   cameraLock: {fileID: 114524686827076962}
-  skinningState: {fileID: 114316281525598734}
+  skinObject: {fileID: 1245328660536446}
   healthBar: {fileID: 114813071139170524}
   stats: {fileID: 114431980687847404}
 --- !u!114 &114735502742847106
@@ -3171,7 +3136,7 @@ MonoBehaviour:
     playerTransform: {fileID: 0}
     defaultState: {fileID: 0}
   defaultState: {fileID: 114686586384067228}
-  skinningState: {fileID: 114316281525598734}
+  skinningState: {fileID: 0}
   playerStatsManager: {fileID: 114718126352253880}
   modAnimationManager: {fileID: 114393925808811496}
   holdAttackSlowDown: 3
