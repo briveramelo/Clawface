@@ -6,9 +6,11 @@ using MovementEffects;
 using System.Linq;
 public class Spawner : MonoBehaviour
 {
+    public GameObject spawnPrefab;
     public bool useIntensityCurve, manualEdits;
     public AnimationCurve intensityCurve;
     public List<TestWave> testwaves = new List<TestWave>();
+
 
     #region Serialized Unity Fields
     [SerializeField] SpawnType spawnType;
@@ -20,8 +22,6 @@ public class Spawner : MonoBehaviour
     private int currentWave = 0;
 
     #endregion
-
-
 
 
     #region private variables
@@ -59,8 +59,9 @@ public class Spawner : MonoBehaviour
     { 
         if (Application.isPlaying)
         {
-            if (currentWave < waves.Count && currentNumEnemies < waves[currentWave].min)
+            if (currentWave < testwaves.Count && currentNumEnemies < testwaves[currentWave].totalNumSpawns.Min)
             {
+                Debug.Log("TEST");
                 Timing.RunCoroutine(SpawnEnemyCluster());
             }
         }
@@ -68,7 +69,7 @@ public class Spawner : MonoBehaviour
 
     private IEnumerator<float> SpawnEnemyCluster()
     {
-        int enemiesToSpawn = currentWave < waves.Count ? waves[currentWave].max - currentNumEnemies : 0;
+        int enemiesToSpawn = currentWave < testwaves.Count ? testwaves[currentWave].totalNumSpawns.Max - currentNumEnemies : 0;
         currentNumEnemies += enemiesToSpawn;
 
         for (int i = 0;  i < enemiesToSpawn; i++)
@@ -95,7 +96,8 @@ public class Spawner : MonoBehaviour
         currentWave++;
     }
 
-    #endregion
+#endregion
+
 
     public bool IsLastWave()
     {
@@ -107,6 +109,7 @@ public class Spawner : MonoBehaviour
         return currentNumEnemies == 0 ? true : false;
     }
 
+    
     #region Internal Structures
     [System.Serializable]
     struct Wave
@@ -120,6 +123,7 @@ public class Spawner : MonoBehaviour
         }
     }
     #endregion
+    
 }
 
 

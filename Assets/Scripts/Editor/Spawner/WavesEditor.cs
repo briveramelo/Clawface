@@ -13,7 +13,8 @@ public class WavesEditor : Editor {
     List<TestWave> wavesList;
     GUIStyle intensityTipLabelStyle;    
 
-    void OnEnable() {
+    void OnEnable()
+    {
         spawnPrefab = serializedObject.FindProperty("spawnPrefab");
         useIntensityCurve = serializedObject.FindProperty("useIntensityCurve");
         manualEdits = serializedObject.FindProperty("manualEdits");
@@ -23,7 +24,6 @@ public class WavesEditor : Editor {
         intensityTipLabelStyle = new GUIStyle();
         intensityTipLabelStyle.wordWrap = true;
         intensityTipLabelStyle.fontStyle = FontStyle.Italic;
-        //intensityTipLabelStyle.fixedHeight = 10;
         intensityTipLabelStyle.fixedHeight = 30;
     }
 
@@ -47,9 +47,9 @@ public class WavesEditor : Editor {
             }
         }
         AdjustWaveIntensity(useIntensity, useManualEdits);
-        EditorGUI.BeginDisabledGroup(useIntensity);
+ //       EditorGUI.BeginDisabledGroup(useIntensity);
         EditorGUILayout.PropertyField(waves, true);
-        EditorGUI.EndDisabledGroup();        
+ //       EditorGUI.EndDisabledGroup();        
 
         serializedObject.ApplyModifiedProperties();
     }
