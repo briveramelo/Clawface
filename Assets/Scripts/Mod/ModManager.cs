@@ -21,7 +21,6 @@ public class ModManager : MonoBehaviour
     [SerializeField]
     private Stats playerStats;
     [SerializeField] private VelocityBody velBody;
-    [SerializeField] private PlayerStateManager stateManager;
     [SerializeField] private ModInventory modInventory;
     [SerializeField] private ModUIManager modUIManager;
     [SerializeField] private float modPickupRadius;
@@ -166,13 +165,11 @@ public class ModManager : MonoBehaviour
             //CheckForModInput((ModSpot spot)=> { modSocketDictionary[spot].mod.BeginCharging();}, ButtonMode.DOWN);
             //CheckForModInput((ModSpot spot)=> { modSocketDictionary[spot].mod.RunCharging();}, ButtonMode.HELD);
             CheckForModInput((ModSpot spot)=> {
-                stateManager.Attack(modSocketDictionary[spot].mod);                    
                 if (!modSocketDictionary[spot].mod.hasState) {
                     modSocketDictionary[spot].mod.Activate();               
                 }
             }, ButtonMode.DOWN);
             CheckForModInput((ModSpot spot) => {
-                stateManager.Attack(modSocketDictionary[spot].mod);
                 if (!modSocketDictionary[spot].mod.hasState)
                 {
                     modSocketDictionary[spot].mod.Activate();
