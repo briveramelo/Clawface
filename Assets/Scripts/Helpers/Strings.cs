@@ -50,7 +50,6 @@
             public const string FIRE_RIGHT = "Fire Right";
             public const string FIRE_LEFT = "Fire Left";
             public const string PAUSE = "Pause";
-            public const string LOCK = "Lock";
             public const string SKIN = "Skin";
             public const string DODGE = "Dodge";
         }
