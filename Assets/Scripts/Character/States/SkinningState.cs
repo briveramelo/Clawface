@@ -23,6 +23,7 @@ public class SkinningState : IPlayerState
     #endregion
 
     #region Unity Lifecycle
+
     public override void Init(ref PlayerStateManager.StateVariables stateVariables)
     {
         this.stateVariables = stateVariables;

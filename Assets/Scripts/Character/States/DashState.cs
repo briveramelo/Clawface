@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using ModMan;
 
 public class DashState : IPlayerState {
 
@@ -26,6 +27,8 @@ public class DashState : IPlayerState {
     protected int[] highlightPoses;
     [SerializeField]
     protected int totalAttackPoses;
+    [SerializeField] private HealthBar healthBar;
+    [SerializeField] private float skinRadius;
     #endregion
 
     #region Private Fields
@@ -54,6 +57,7 @@ public class DashState : IPlayerState {
         PlayAnimation();
         CheckForIFrames();
         MovePlayer();
+        SkinEnemies();
         if (currentFrame == totalDashFrames)
         {
             ResetState();
@@ -123,6 +127,51 @@ public class DashState : IPlayerState {
         Vector3 forward = stateVariables.velBody.GetForward();
         forward.y = 0f;
         stateVariables.velBody.velocity = forward * dashVelocity;
+    }
+    
+    private void SkinEnemies()
+    {
+        ISkinnable skinnable = GetClosestEnemy();
+        if (skinnable != null && skinnable.IsSkinnable())
+        {
+            GameObject skin = skinnable.DeSkin();
+            SkinStats skinStats = skin.GetComponent<SkinStats>();
+            stateVariables.statsManager.TakeSkin(skinStats.GetSkinHealth());
+            Stats stats = GetComponent<Stats>();
+            healthBar.SetHealth(stats.GetHealthFraction());
+            GameObject skinningEffect = ObjectPool.Instance.GetObject(PoolObjectType.SkinningEffect);
+            skinningEffect.transform.position = transform.position;
+
+            GameObject healthJuice = ObjectPool.Instance.GetObject(PoolObjectType.HealthGain);
+            if (healthJuice)
+            {
+                healthJuice.FollowAndDeActivate(3f, transform, Vector3.up * 3.2f);
+            }
+        }
+    }
+
+    private ISkinnable GetClosestEnemy()
+    {
+        Collider[] enemies = Physics.OverlapSphere(transform.position, skinRadius, LayerMask.GetMask(Strings.Tags.ENEMY));
+        if (enemies != null)
+        {
+            Collider closestEnemy = null;
+            float closestDistance = Mathf.Infinity;
+            foreach (Collider enemy in enemies)
+            {
+                float distance = Vector3.Distance(enemy.ClosestPoint(transform.position), transform.position);
+                if (closestDistance > distance)
+                {
+                    closestDistance = distance;
+                    closestEnemy = enemy;
+                }
+            }
+            if (closestEnemy != null)
+            {
+                return closestEnemy.gameObject.GetComponent<ISkinnable>();
+            }
+        }
+        return null;
     }
     #endregion
 
