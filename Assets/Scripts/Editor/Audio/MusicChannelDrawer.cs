@@ -48,7 +48,7 @@ public sealed class MusicChannelDrawer : PropertyDrawer
         serializedChannel.Update();
 
         // Get serialized properties
-        volumeProp = serializedChannel.FindProperty("_volume");
+        volumeProp = serializedChannel.FindProperty("volume");
 
         // Clips box
         GUILayout.BeginVertical(EditorStyles.helpBox);
@@ -59,7 +59,7 @@ public sealed class MusicChannelDrawer : PropertyDrawer
             EditorGUILayout.LabelField("Clips");
             EditorGUI.indentLevel++;
 
-            clipsProp = serializedChannel.FindProperty ("_clips");
+            clipsProp = serializedChannel.FindProperty ("clips");
 
             for (int i = 0; i < clipsProp.arraySize; i++) {
                 var clip = clipsProp.GetArrayElementAtIndex(i);

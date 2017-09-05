@@ -29,8 +29,8 @@ public sealed class ObjectDatabaseManagerEditor : Editor
 
     void OnEnable()
     {
-        target = target as ObjectDatabaseManager;
-        serializedTarget = new SerializedObject(target);
+        objDBTarget = target as ObjectDatabaseManager;
+        serializedTarget = new SerializedObject(objDBTarget);
         databaseProp = serializedTarget.FindProperty("database");
     }
 

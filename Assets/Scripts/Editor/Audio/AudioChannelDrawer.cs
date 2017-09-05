@@ -63,11 +63,11 @@ public sealed class AudioChannelDrawer : PropertyDrawer
         serializedChannel.Update();
 
         // Get serialized properties
-        volumeProp = serializedChannel.FindProperty("_uniformVolume");
-        randomVolumeProp = serializedChannel.FindProperty("_useRandomVolume");
-        volumeRangeProp = serializedChannel.FindProperty("_randomVolumeRange");
+        volumeProp = serializedChannel.FindProperty("uniformVolume");
+        randomVolumeProp = serializedChannel.FindProperty("useRandomVolume");
+        volumeRangeProp = serializedChannel.FindProperty("randomVolumeRange");
         changeVolumeEachLoopProp = 
-            serializedChannel.FindProperty("_changeVolumeEachLoop");
+            serializedChannel.FindProperty("changeVolumeEachLoop");
 
         // Clips box
         GUILayout.BeginVertical(EditorStyles.helpBox);

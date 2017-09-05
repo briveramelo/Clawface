@@ -27,7 +27,6 @@ namespace Turing.Audio
         SerializedProperty loopProp;
         SerializedProperty playOnAwakeProp;
         SerializedProperty spatialBlendProp;
-        SerializedProperty minDistanceProp;
         SerializedProperty maxDistanceProp;
         SerializedProperty changePitchEachLoopProp;
         SerializedProperty bassChannelProp;
@@ -52,7 +51,6 @@ namespace Turing.Audio
             loopProp = serializedTarget.FindProperty("loop");
             playOnAwakeProp = serializedTarget.FindProperty("playOnAwake");
             spatialBlendProp = serializedTarget.FindProperty("spatialBlend");
-            minDistanceProp = serializedTarget.FindProperty ("minDistance");
             maxDistanceProp = serializedTarget.FindProperty ("maxDistance");
             changePitchEachLoopProp = serializedTarget.FindProperty("changePitchEachLoop");
             bassChannelProp = serializedTarget.FindProperty("bassChannel");
