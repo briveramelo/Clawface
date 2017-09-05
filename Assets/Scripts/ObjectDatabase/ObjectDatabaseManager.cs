@@ -16,7 +16,7 @@ namespace Turing.LevelEditor
     /// Manager to store object database data.
     /// </summary>
     [ExecuteInEditMode]
-    public class ObjectDatabaseManager :
+    public sealed class ObjectDatabaseManager :
         EditorSingleton<ObjectDatabaseManager>
     {
         #region Vars

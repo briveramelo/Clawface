@@ -1,6 +1,8 @@
 ﻿// FireTrapEditor.cs
 // Author: Aaron
 
+using Turing.Gameplay;
+
 using UnityEditor;
 
 using UnityEngine;

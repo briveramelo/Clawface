@@ -12,17 +12,9 @@ namespace Turing.LevelEditor
     /// Custom proerty drawer for ObjectData class.
     /// </summary>
     [CustomPropertyDrawer(typeof(ObjectData))]
-    public class ObjectDataDrawer : PropertyDrawer
+    public sealed class ObjectDataDrawer : PropertyDrawer
     {
-
-        #region Constants
-
-        const int INDEX_LABEL_WIDTH = 64;
-        const int PATH_LABEL_WIDTH = 256;
-        const int PREFAB_FIELD_WIDTH = 128;
-        const int LIMIT_FIELD_WIDTH = 128;
-        const int CATEGORY_DROPDOWN_WIDTH = 128;
-        const int SNAPMODE_DROPDOWN_WIDTH = 128;
+        #region Public Fields
 
         public const float INDEX_LABEL_PERCENT = 0.15f;
         public const float PATH_LABEL_PERCENT = 0.3f;
@@ -38,7 +30,14 @@ namespace Turing.LevelEditor
         public const float SNAPMODE_DROPDOWN_PARTS = 2f;
 
         #endregion
-        #region Vars
+        #region Private Fields
+
+        const int INDEX_LABEL_WIDTH = 64;
+        const int PATH_LABEL_WIDTH = 256;
+        const int PREFAB_FIELD_WIDTH = 128;
+        const int LIMIT_FIELD_WIDTH = 128;
+        const int CATEGORY_DROPDOWN_WIDTH = 128;
+        const int SNAPMODE_DROPDOWN_WIDTH = 128;
 
         float partWidth;
         float indexLabelWidth = 0f;
@@ -48,7 +47,7 @@ namespace Turing.LevelEditor
         float snapModeDropdownWidth = 0f;
 
         #endregion
-        #region Overrides
+        #region Unity Lifecycle
 
         public override void OnGUI(Rect position, SerializedProperty property,
             GUIContent label) 

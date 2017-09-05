@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Turing.VFX;
 
 public class DashState : IPlayerState {
 
@@ -18,7 +19,7 @@ public class DashState : IPlayerState {
     [SerializeField]
     private float dashVelocity;
     [SerializeField]
-    private VFXDashPuff dashPuff;
+    private VFXOneOff dashPuff;
     [SerializeField]
     private GameObject dashTrail;
     [SerializeField] private Collider playerCollider;

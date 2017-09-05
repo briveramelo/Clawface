@@ -16,42 +16,9 @@ namespace Turing.LevelEditor
     /// Serializable class to hold object data.
     /// </summary>
     [Serializable]
-    public class ObjectDatabase
+    public sealed class ObjectDatabase
     {
-        #region Enums
-
-        /// <summary>
-        /// Enum for the object filter category.
-        /// </summary>
-        public enum Category
-        {
-            None       = 0,
-            Block      = 1,
-            Trap       = 2,
-            Mod        = 3,
-            Decoration = 4,
-            Light      = 5,
-            Special    = 6,
-            Effect     = 7,
-            Dev        = 8,
-            Player     = 9,
-            Enemy      = 10,
-            Whitebox   = 11,
-            COUNT      = 12
-        }
-
-        /// <summary>
-        /// Enum for object snapping mode in the editor.
-        /// </summary>
-        public enum SnapMode
-        {
-            Center,
-            Edge,
-            Corner
-        }
-
-        #endregion
-        #region Vars
+        #region Serialized Unity Inspector Fields
 
         /// <summary>
         /// All persistent object data.
@@ -65,19 +32,14 @@ namespace Turing.LevelEditor
         [SerializeField]
         Dictionary<Category, List<ObjectData>> categories;
 
-        //Texture2D[] _thumbnails = new Texture2D[(int)byte.MaxValue];
-
         #endregion
-        #region Constructors
+        #region Public Methods
 
         public ObjectDatabase()
         {
             for (int i = 0; i < (int)byte.MaxValue; i++)
                 data[i] = new ObjectData(i);
         }
-
-        #endregion
-        #region Properties
 
         /// <summary>
         /// Gets/sets the object data at an index.
@@ -88,9 +50,6 @@ namespace Turing.LevelEditor
             set { data[index] = value; }
         }
 
-        #endregion
-        #region Methods
-
         /// <summary>
         /// Returns a list of all objects in a category.
         /// </summary>
@@ -99,11 +58,6 @@ namespace Turing.LevelEditor
             if (categories == null) BuildCategories();
             return categories[cat];
         }
-
-        //public void AddObject () {
-        //    var data = new ObjectData (_data.Count);
-        //    _data.Add (data);
-        //}
 
         /// <summary>
         /// Reloads all prefabs.
@@ -183,21 +137,38 @@ namespace Turing.LevelEditor
             }
         }
 
-        /*public void RenderThumbnails () {
-            var assetRenderCamera = GameObject.Find ("~AssetRenderCamera").GetComponent<Camera>();
-            var renderTexture = new RenderTexture(256, 256, 16);
-            renderTexture.Create();
-            assetRenderCamera.targetTexture = renderTexture;
-            for (int i = 0; i < (int)byte.MaxValue; i++) {
-                if (_data[i].prefab != null) {
-                    var instance = PrefabUtility.InstantiatePrefab(_data[i].prefab);
-                    _thumbnails[i] = new Texture2D (256, 256);
-                    //_thumbnails[i].s
-                    //_thumbnails[i].ReadPixels (new Rect (0,0,256,256),
-                }
-            }
-            renderTexture.Release();
-        }*/
+        #endregion
+        #region Public Structures
+
+        /// <summary>
+        /// Enum for the object filter category.
+        /// </summary>
+        public enum Category
+        {
+            None       = 0,
+            Block      = 1,
+            Trap       = 2,
+            Mod        = 3,
+            Decoration = 4,
+            Light      = 5,
+            Special    = 6,
+            Effect     = 7,
+            Dev        = 8,
+            Player     = 9,
+            Enemy      = 10,
+            Whitebox   = 11,
+            COUNT      = 12
+        }
+
+        /// <summary>
+        /// Enum for object snapping mode in the editor.
+        /// </summary>
+        public enum SnapMode
+        {
+            Center,
+            Edge,
+            Corner
+        }
 
         #endregion
     }
