@@ -35,6 +35,7 @@
         public static string FADE = "FadeMenu";
         public static string TUTORIAL = "TutorialMenu";
         public static string STAGE_OVER = "StageOverMenu";
+        public static string SETTINGS = "Settings";
     }
 
     public static class Input

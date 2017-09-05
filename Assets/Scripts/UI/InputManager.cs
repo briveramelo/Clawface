@@ -33,10 +33,8 @@ public class InputManager : Singleton<InputManager> {
     #endregion
 
     #region Unity Lifecycle Functions
-    protected override void Awake()
+    protected void Start()
     {
-        base.Awake();
-
         player = ReInput.players.GetPlayer(0); // get the only player
     }
 
