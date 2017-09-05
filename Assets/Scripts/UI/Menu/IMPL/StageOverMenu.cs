@@ -1,7 +1,9 @@
-﻿/**
+﻿
+
+using System;
+/**
 *  @author Cornelia Schultz
 */
-
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,6 +15,14 @@ public class StageOverMenu : Menu
         get
         {
             return displayed;
+        }
+    }
+
+    public override Button InitialSelection
+    {
+        get
+        {
+            return quitButton;
         }
     }
     #endregion
@@ -48,13 +58,13 @@ public class StageOverMenu : Menu
                     new Effect[] { Effect.FADE });
                 OnTransitionStarted(transition, effects);
                 StartCoroutine(MenuTransitionsCommon.FadeCoroutine(0.0F, 1.0F, 1.0F,
-                    canvasGroup, ShowComplete));
+                    canvasGroup, () => { ShowComplete(); OnTransitionEnded(transition, effects); }));
                 break;
             case Transition.HIDE:
                 if (!displayed) return;
                 OnTransitionStarted(transition, effects);
                 StartCoroutine(MenuTransitionsCommon.FadeCoroutine(1.0F, 0.0F, 1.0F,
-                    canvasGroup, HideComplete));
+                    canvasGroup, () => { HideComplete(); OnTransitionEnded(transition, effects); }));
                 break;
             case Transition.TOGGLE:
                 DoTransition(Displayed ? Transition.HIDE : Transition.SHOW, effects);
@@ -83,7 +93,6 @@ public class StageOverMenu : Menu
     private void ShowComplete()
     {
         displayed = true;
-        quitButton.Select();
     }
 
     private void HideComplete()

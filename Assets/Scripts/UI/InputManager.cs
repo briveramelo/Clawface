@@ -84,7 +84,7 @@ public class InputManager : Singleton<InputManager> {
     //// AnyKey Wrapper
     public bool AnyKey()
     {
-        return Input.anyKey;
+        return Input.anyKey || player.GetAnyButton();
     }
 
     //// Haptics
