@@ -23,6 +23,7 @@ public class SkinningState : IPlayerState
     #endregion
 
     #region Unity Lifecycle
+
     public override void Init(ref PlayerStateManager.StateVariables stateVariables)
     {
         this.stateVariables = stateVariables;
@@ -63,14 +64,6 @@ public class SkinningState : IPlayerState
     #endregion
 
     #region Public Methods
-    public override void Attack()
-    {
-    }
-
-    public override void SecondaryAttack(bool isHeld, float holdTime)
-    {
-
-    }
     #endregion
 
     #region Private Methods
