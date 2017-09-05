@@ -516,6 +516,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4544099420175226}
   - component: {fileID: 114355702257531424}
+  - component: {fileID: 114414235507628002}
   m_Layer: 0
   m_Name: MILO_GroupV2.2
   m_TagString: Untagged
@@ -2862,6 +2863,18 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+--- !u!114 &114414235507628002
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1455269595373724}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2728607e3a4c2347be96d93a18d9caf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetFrameRate: 60
 --- !u!114 &114431980687847404
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3148,27 +3161,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stateVariables:
-    currentEnemy: {fileID: 0}
-    currentMod: {fileID: 0}
     stateFinished: 0
-    foot: {fileID: 4472340084632030}
     acceleration: 50
     manualDrag: 30
     axisThreshold: 0.04
-    meleePounceMaxDistance: 15
-    meleePounceMinDistance: 10
-    meleePounceVelocity: 600
     velBody: {fileID: 114317335038089030}
     statsManager: {fileID: 114718126352253880}
     animator: {fileID: 95937341787480974}
     playerTransform: {fileID: 0}
-    modAnimationManager: {fileID: 0}
     defaultState: {fileID: 0}
   defaultState: {fileID: 114686586384067228}
   skinningState: {fileID: 114316281525598734}
   playerStatsManager: {fileID: 114718126352253880}
   modAnimationManager: {fileID: 114393925808811496}
-  modStateMappings: []
   holdAttackSlowDown: 3
   dashState: {fileID: 114567311059056386}
   dashCoolDown: 1
