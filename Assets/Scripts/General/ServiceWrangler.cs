@@ -36,7 +36,7 @@ public class ServiceWrangler : Singleton<ServiceWrangler> {
     private void Start() {
         foreach (KeyValuePair<string, PrefabBool> singletonRegistered in singletonPrefabRegistry) {
             if (!singletonRegistered.Value.isRegistered) {
-                GameObject singletonGameObject = Instantiate(singletonRegistered.Value.prefab, null, true) as GameObject;
+                GameObject singletonGameObject = Instantiate(singletonRegistered.Value.prefab, gameObject.transform, true) as GameObject;
                 singletonGameObject.transform.position = Vector3.zero;
                 singletonGameObject.transform.rotation = Quaternion.identity;
 
