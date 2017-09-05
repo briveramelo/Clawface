@@ -31,7 +31,7 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
     private Will will=new Will();
     private Damaged damaged = new Damaged();
     private DamagePack damagePack=new DamagePack();
-    
+    private bool lastChance;
 
     #endregion
 
@@ -50,7 +50,7 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
         mod.setModSpot(ModSpot.ArmR);
         mod.AttachAffect(ref myStats, velBody);
         ResetForRebirth();
-       
+        lastChance = false;
     }    
 
     #endregion
@@ -70,10 +70,17 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
                 copUICanvas.ShowAction(ActionType.Skin);
             }
             if (myStats.health <= 0) {
-                controller.UpdateState(EMallCopState.Fall);
-
-                //mod.DetachAffect();
-                OnDeath();
+                if (lastChance)
+                {
+                    controller.UpdateState(EMallCopState.Fall);
+                    //mod.DetachAffect();
+                    OnDeath();
+                }
+                else
+                {
+                    myStats.health = 1;
+                    lastChance = true;
+                }
             }
             else {
                 //TODO: update state to hit reaction state, THEN to chase (too abrupt right now)

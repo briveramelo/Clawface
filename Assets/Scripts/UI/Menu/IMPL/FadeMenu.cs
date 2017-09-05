@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FadeMenu : Menu {
 
@@ -18,6 +19,14 @@ public class FadeMenu : Menu {
         get
         {
             return displayed;
+        }
+    }
+
+    public override Button InitialSelection // these menus probably won't use this
+    {
+        get
+        {
+            return null;
         }
     }
 

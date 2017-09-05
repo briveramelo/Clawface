@@ -14,8 +14,6 @@ public class PlayerStateManager : MonoBehaviour {
     [SerializeField]
     private MoveState defaultState;
     [SerializeField]
-    private SkinningState skinningState;
-    [SerializeField]
     private PlayerStatsManager playerStatsManager;
     [SerializeField]
     private PlayerModAnimationManager modAnimationManager;
@@ -47,7 +45,6 @@ public class PlayerStateManager : MonoBehaviour {
         stateVariables.statsManager = playerStatsManager;
         stateVariables.defaultState = defaultState;
         defaultState.Init(ref stateVariables);
-        skinningState.Init(ref stateVariables);
         dashState.Init(ref stateVariables);
         movementState = defaultState;
         alternateState = null;
@@ -60,10 +57,7 @@ public class PlayerStateManager : MonoBehaviour {
         {
             ResetState();
         }
-        if (InputManager.Instance.QueryAction(Strings.Input.Actions.SKIN, ButtonMode.DOWN))
-        {           
-            SwitchState(skinningState);
-        } else if (InputManager.Instance.QueryAction(Strings.Input.Actions.DODGE, ButtonMode.DOWN) && canDash && stateVariables.stateFinished) // do dodge / dash
+        if (InputManager.Instance.QueryAction(Strings.Input.Actions.DODGE, ButtonMode.DOWN) && canDash && stateVariables.stateFinished) // do dodge / dash
         {
             SwitchState(dashState);
             canDash = false;
