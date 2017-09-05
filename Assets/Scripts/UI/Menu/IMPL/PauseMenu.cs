@@ -40,7 +40,7 @@ public class PauseMenu : Menu {
     #region Private Fields
     private bool displayed = false;
     private bool paused = false;
-    private bool canPause = false;
+    private bool canPause = false; // used to indicate the game is in a level and "can pause"
     #endregion
 
     #region Unity Lifecycle Methods
@@ -49,14 +49,12 @@ public class PauseMenu : Menu {
         if (canPause && InputManager.Instance.QueryAction(Strings.Input.Actions.PAUSE,
             ButtonMode.DOWN))
         {
-            if (!paused)
+            if (!paused && !displayed)
             {
-                canPause = false;
                 MenuManager.Instance.DoTransition(this, Transition.TOGGLE, new Effect[] { });
             }
-            else
+            else if (displayed)
             {
-                canPause = false;
                 MenuManager.Instance.ClearMenus();
             }
         }
@@ -127,13 +125,11 @@ public class PauseMenu : Menu {
     {
         displayed = true;
         restartButton.Select();
-        canPause = true;
     }
     private void HideComplete()
     {
         displayed = false;
         TogglePaused();
-        canPause = true;
     }
 
     #endregion
