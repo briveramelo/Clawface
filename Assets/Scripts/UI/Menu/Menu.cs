@@ -3,6 +3,7 @@
  */
 
 using UnityEngine;
+using UnityEngine.UI;
 
 public abstract class Menu : MonoBehaviour {
 
@@ -11,6 +12,11 @@ public abstract class Menu : MonoBehaviour {
     public string MenuName
     {
         get { return menuName; }
+    }
+
+    public abstract Button InitialSelection
+    {
+        get;
     }
     public abstract bool Displayed { get; }
     #endregion
@@ -46,6 +52,11 @@ public abstract class Menu : MonoBehaviour {
     {
         if (TransitionEnded != null)
             TransitionEnded(transition, effects);
+
+        if (Displayed) // menu is now visible (it wasn't before)
+        {
+            InitialSelection.Select();
+        }
     }
     #endregion
 
