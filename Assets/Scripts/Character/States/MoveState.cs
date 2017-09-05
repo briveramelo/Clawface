@@ -18,7 +18,7 @@ public class MoveState : IPlayerState
     #region Public Methods    
     public override void Init(ref PlayerStateManager.StateVariables moveStateVariables)
     {
-        this.stateVariables = moveStateVariables;
+        stateVariables = moveStateVariables;
         canMove = true;
         isSidescrolling = false;
         lastMoveDirection = moveStateVariables.playerTransform.forward;
@@ -137,10 +137,6 @@ public class MoveState : IPlayerState
     private void HandleRotation(){
         if (lastLookDirection != Vector3.zero) {
             stateVariables.playerTransform.forward = lastLookDirection;
-        }
-        else
-        {
-            stateVariables.playerTransform.forward = lastMoveDirection;
         }
     }
 
