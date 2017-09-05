@@ -45,6 +45,14 @@ public class LoadMenu : Menu {
         }
     }
 
+    public override Button InitialSelection
+    {
+        get
+        {
+            return null;
+        }
+    }
+
     #endregion
 
     #region Serialized Unity Fields
@@ -87,13 +95,13 @@ public class LoadMenu : Menu {
                     new Effect[] { Effect.FADE });
                 OnTransitionStarted(transition, effects);
                 StartCoroutine(MenuTransitionsCommon.FadeCoroutine(0.0F, 1.0F, 1.0F,
-                    canvasGroup, ShowComplete));
+                    canvasGroup, () => { ShowComplete(); OnTransitionEnded(transition, effects); }));
                 break;
             case Transition.HIDE:
                 if (!displayed) return;
                 OnTransitionStarted(transition, effects);
                 StartCoroutine(MenuTransitionsCommon.FadeCoroutine(1.0F, 0.0F, 1.0F,
-                    canvasGroup, HideComplete));
+                    canvasGroup, () => { HideComplete(); OnTransitionEnded(transition, effects); }));
                 break;
             case Transition.TOGGLE:
                 DoTransition(displayed ? Transition.HIDE : Transition.SHOW, effects);
