@@ -68,7 +68,8 @@ public class MoveState : IPlayerState
         } else if (lastLookDirection != Vector3.zero)
         {
             lastMoveDirection = lastLookDirection;
-        }    
+        }
+        stateVariables.velBody.MoveDirection = lastMoveDirection;
     }
 
     public override void StateFixedUpdate()

@@ -116,9 +116,9 @@ public class DashState : IPlayerState {
 
     private void MovePlayer()
     {
-        Vector3 forward = stateVariables.velBody.GetForward();
-        forward.y = 0f;
-        stateVariables.velBody.velocity = forward * dashVelocity;
+        Vector3 direction = stateVariables.velBody.MoveDirection;
+        direction.y = 0f;
+        stateVariables.velBody.velocity = direction * dashVelocity;
     }
     
     private void SkinEnemies()
