@@ -1,7 +1,9 @@
-﻿/**
- *  @author Cornelia Schultz
- */
+﻿
 
+using System;
+/**
+*  @author Cornelia Schultz
+*/
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -16,6 +18,15 @@ public class PauseMenu : Menu {
             return displayed;
         }
     }
+
+    public override Button InitialSelection
+    {
+        get
+        {
+            return restartButton;
+        }
+    }
+
     public bool CanPause
     {
         get
@@ -33,8 +44,6 @@ public class PauseMenu : Menu {
     #region Serialized Unity Fields
     [SerializeField]
     private Button restartButton;
-    [SerializeField]
-    private Button deadNavButton;
     #endregion
 
     #region Private Fields
@@ -75,14 +84,13 @@ public class PauseMenu : Menu {
                     new Effect[] { Effect.FADE });
                 OnTransitionStarted(transition, effects);
                 StartCoroutine(MenuTransitionsCommon.FadeCoroutine(0.0F, 1.0F, 1.0F,
-                    canvasGroup, ShowComplete));
+                    canvasGroup, () => { ShowComplete(); OnTransitionEnded(transition, effects); }));
                 break;
             case Transition.HIDE:
                 if (!displayed) return;
-                deadNavButton.Select();
                 OnTransitionStarted(transition, effects);
                 StartCoroutine(MenuTransitionsCommon.FadeCoroutine(1.0F, 0.0F, 1.0F,
-                    canvasGroup, HideComplete));
+                    canvasGroup, () => { HideComplete(); OnTransitionEnded(transition, effects); }));
                 break;
             case Transition.TOGGLE:
                 DoTransition(displayed ? Transition.HIDE : Transition.SHOW, effects);
@@ -124,7 +132,6 @@ public class PauseMenu : Menu {
     private void ShowComplete()
     {
         displayed = true;
-        restartButton.Select();
     }
     private void HideComplete()
     {

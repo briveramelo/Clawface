@@ -18,6 +18,14 @@ public class MainMenu : Menu
             return Displayed;
         }
     }
+
+    public override Button InitialSelection // these menus probably won't use this
+    {
+        get
+        {
+            return null;
+        }
+    }
     #endregion
 
     #region Serialized Unity Fields
