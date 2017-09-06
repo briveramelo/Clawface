@@ -25,9 +25,7 @@ public class BlasterMod : Mod {
     // Update is called once per frame
     protected override void Update () {
         if (wielderMovable != null){
-            if (getModSpot() != ModSpot.Legs){
-                transform.forward = wielderMovable.GetForward();
-            }
+            transform.forward = wielderMovable.GetForward();
         }
         base.Update();
     }
@@ -97,7 +95,9 @@ public class BlasterMod : Mod {
         BlasterBullet blasterBullet = ObjectPool.Instance.GetObject(poolObjType).GetComponent<BlasterBullet>();
         if (blasterBullet){
             blasterBullet.transform.position = bulletSpawnPoint.position;
-            blasterBullet.transform.rotation = transform.rotation;
+            blasterBullet.transform.forward = transform.forward;
+            blasterBullet.transform.rotation = Quaternion.Euler(0f, blasterBullet.transform.rotation.eulerAngles.y, 0f);
+
             shooterProperties.Initialize(GetWielderInstanceID(),Attack, wielderStats.shotSpeed, wielderStats.shotPushForce);
             blasterBullet.SetShooterProperties(shooterProperties);
 
@@ -122,17 +122,11 @@ public class BlasterMod : Mod {
     private float KickBack {
         get{
             float force = energySettings.IsCharged ? kickbackForceCharged : kickbackForce;
-            if (getModSpot()==ModSpot.Legs) {                
-                return kickbackForceFeetMultiplier * force;
-            }            
             return force;
         }
     }
     private Vector3 KickBackDirection {
-        get {
-            if (getModSpot() == ModSpot.Legs){
-                return Vector3.up;
-            }                        
+        get {                   
             return -wielderMovable.GetForward();            
         }
     }

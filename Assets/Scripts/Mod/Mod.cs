@@ -97,12 +97,7 @@ public abstract class Mod : MonoBehaviour {
         if (!energySettings.isInUse) {
             vfxModCharge.StartCharging(energySettings.timeToCharge);
             energySettings.StartCharging();
-            if (getModSpot()==ModSpot.Legs) {
-                BeginChargingLegs();
-            }
-            else {
-                BeginChargingArms();
-            }
+            BeginChargingArms();
             if(onBegin!=null) {
                 onBegin();
             }
@@ -111,13 +106,8 @@ public abstract class Mod : MonoBehaviour {
     int i = 0;
     public virtual void RunCharging() {
         if (!energySettings.isInUse && energySettings.hasStartedCharging) {
-            energySettings.timeCharged += Time.deltaTime;
-            if (getModSpot()==ModSpot.Legs) {
-                RunChargingLegs();
-            }
-            else {
-                RunChargingArms();
-            }
+            energySettings.timeCharged += Time.deltaTime;            
+            RunChargingArms();
             i++;
         }
     }
@@ -243,7 +233,7 @@ public abstract class Mod : MonoBehaviour {
         private bool isCharged;
 
         public bool IsCharged { get { return isCharged; } }
-        public float timeToCharge { get { return mod.getModSpot() == ModSpot.Legs ? timeToChargeLeg : timeToChargeArm; } }
+        public float timeToCharge { get { return timeToChargeArm; } }
         public bool isCharging { get { return timeCharged > 0f; } }
         public bool isStarting { get { return timeCharged == 0f; } }
         public bool isInUse { get { return isCoolingDown || isActive;} }
@@ -255,9 +245,6 @@ public abstract class Mod : MonoBehaviour {
         public float chargeFraction { get { return Mathf.Clamp01(timeCharged/timeToCharge);}}
         public AttackSettings attackSettings {
             get {
-                if (mod.getModSpot()==ModSpot.Legs) {
-                    return IsCharged ? chargedLegAttackSettings : standardLegAttackSettings;
-                }
                 return IsCharged ? chargedArmAttackSettings : standardArmAttackSettings;
             }
         }

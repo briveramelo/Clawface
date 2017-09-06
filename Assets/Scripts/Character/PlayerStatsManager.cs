@@ -8,13 +8,14 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
 
 
     #region Public fields
-    [HideInInspector] public float damageModifier = 1.0F;
+    //[HideInInspector]
+    public float damageModifier = 1.0F;
     #endregion
 
     #region Serialized Unity Inspector fields
     [SerializeField] private DamageUI damageUI;
     [SerializeField] private CameraLock cameraLock;
-    [SerializeField] private SkinningState skinningState;
+    [SerializeField] private GameObject skinObject;
     [SerializeField] private HealthBar healthBar;
     #endregion
 
@@ -58,7 +59,7 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
             SFXManager.Instance.Play(SFXType.PlayerTakeDamage, transform.position);
 
             if (stats.health < healthAtLastSkin-lastSkinHealthBoost) {
-                skinningState.RemoveSkin();
+                skinObject.SetActive(false);
             }
 
             if (stats.GetStat(StatType.Health) <= 0)
@@ -78,6 +79,7 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
         stats.Add(StatType.Health, skinHealth);
         healthAtLastSkin = stats.health;
         lastSkinHealthBoost=skinHealth;
+        skinObject.SetActive(true);
     }
 
     public float GetStat(StatType type)

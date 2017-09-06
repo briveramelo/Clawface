@@ -1,8 +1,7 @@
 ﻿public enum ModSpot {
     Default = -1,
     ArmL = 0,
-    ArmR = 1,
-    Legs = 2
+    ArmR = 1
 }
 
 public enum StatType {
@@ -73,16 +72,13 @@ public enum DamagedType {
 }
 
 public enum ModType {
-    ForceSegway=0,
-    ArmBlaster=1,
-    FingerPrint=2,
-    StunBaton=3,
-    TankTreads = 4,
-    Grappler = 5,
-    Boomerang = 6,
-    Geyser = 7,
-    Dice = 8,
-    None=9
+    ForceSegway = 0,
+    ArmBlaster = 1,
+    Grappler = 2,
+    Boomerang = 3,
+    Geyser = 4,
+    Dice = 5,
+    None = 6
 }
 
 public enum ModCategory
@@ -137,6 +133,7 @@ public enum PoolObjectType {
     GeyserBase = 23,
     SkinningEffect = 24,
     HealthGain = 25,
+    WorldScoreCanvas = 26,
 }
 
 public enum MovementMode
@@ -182,6 +179,7 @@ public enum MallCopAnimationStates {
     Run = 7,
     Fire = 8
 }
+
 public enum EMallCopState {
     Patrol = 0,
     Swing = 1,
@@ -201,9 +199,8 @@ public enum EGrapplingBotState {
 }
 
 public enum SpawnType {
-    Swinger=0,
-    Blaster = 1,
-    Grappler = 2,
+    Blaster = 0,
+    Grappler = 1,
 }
 
 public enum ActionType

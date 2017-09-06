@@ -43,6 +43,14 @@ public class TutorialMenu : Menu {
         }
     }
 
+    public override Button InitialSelection
+    {
+        get
+        {
+            return null;
+        }
+    }
+
     #endregion
 
     #region Public Interface

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FadeMenu : Menu {
 
@@ -21,17 +22,25 @@ public class FadeMenu : Menu {
         }
     }
 
+    public override Button InitialSelection // these menus probably won't use this
+    {
+        get
+        {
+            return null;
+        }
+    }
+
     public override void DoTransition(Transition transition, Effect[] effects)
     {
         switch (transition)
         {
             case Transition.HIDE:
                 StartCoroutine(MenuTransitionsCommon.FadeCoroutine(1.0f, 0.0f, 3.0f, canvasGroup,
-                    () => { displayed = false; }));
+                    () => { displayed = false; canvasGroup.blocksRaycasts = false; }));
                 break;
             case Transition.SHOW:
                 StartCoroutine(MenuTransitionsCommon.FadeCoroutine(0.0f, 1.0f, 1.0f, canvasGroup,
-                    () => { displayed = true; }));
+                    () => { displayed = true; canvasGroup.blocksRaycasts = true; }));
                 break;
         }
     }

@@ -906,7 +906,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1385345176205422}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 145.63522, y: 0.05, z: 11.036366}
+  m_LocalPosition: {x: 234.35, y: 0, z: 10.58}
   m_LocalScale: {x: 4.5, y: 4.5, z: 4.5}
   m_Children:
   - {fileID: 4454646408904882}
@@ -1249,6 +1249,8 @@ MonoBehaviour:
   copUICanvas: {fileID: 114680551256405116}
   mod: {fileID: 114969724012723138}
   bloodEmissionLocation: {fileID: 4152619606481072}
+  scorePopupDelay: 2
+  scoreValue: 200
 --- !u!114 &114562163281978664
 MonoBehaviour:
   m_ObjectHideFlags: 1
