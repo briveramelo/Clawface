@@ -104,7 +104,7 @@ public class MallCopBlasterController : MallCopController {
                 CurrentState != states.flee) {
 
                 AttackTarget = col.transform;
-                UpdateState(EMallCopState.Flee);
+                //UpdateState(EMallCopState.Flee);
                 return true;
             }
         }
