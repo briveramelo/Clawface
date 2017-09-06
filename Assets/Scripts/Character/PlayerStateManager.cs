@@ -47,16 +47,16 @@ public class PlayerStateManager : MonoBehaviour {
     }
 	
 	// Update is called once per frame
-	void Update () {
-        if (stateChanged && stateVariables.stateFinished)
-        {
-            ResetState();
-        }         
+	void Update () {              
         playerStates.ForEach(state=>state.StateUpdate());
     }    
 
     void FixedUpdate()
     {
+        if (stateChanged && stateVariables.stateFinished)
+        {
+            ResetState();
+        }
         if (InputManager.Instance.QueryAction(Strings.Input.Actions.DODGE, ButtonMode.DOWN) && canDash) // do dodge / dash
         {
             SwitchState(dashState);
@@ -106,7 +106,7 @@ public class PlayerStateManager : MonoBehaviour {
             yield return null;
         }
         yield return new WaitForSeconds(dashCoolDown);
-        canDash = true;
+        canDash = true;        
     }
     #endregion
 
