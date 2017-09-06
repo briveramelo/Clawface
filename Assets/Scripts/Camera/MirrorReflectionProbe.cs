@@ -24,10 +24,15 @@ namespace Turing.Effects
 
         private void Update()
         {
-            transform.position = new Vector3(
-                camera.position.x,
-                camera.position.y,
-                camera.position.z);
+            if (camera == null) camera = Camera.main.transform;
+
+            else
+            {
+                transform.position = new Vector3(
+                    camera.position.x,
+                    camera.position.y,
+                    camera.position.z);
+            }
         }
 
         #endregion
