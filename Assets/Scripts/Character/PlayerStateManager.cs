@@ -27,11 +27,7 @@ public class PlayerStateManager : MonoBehaviour {
 
     #region Private Fields
     private IPlayerState movementState;
-    private IPlayerState alternateState;
-    private Dictionary<ModType, IPlayerState> modStateDictionary;
-    private IPlayerState previousMovementState;
     private List<IPlayerState> playerStates;
-    private bool isHoldAttack;
     private bool canDash = true;
     private bool stateChanged;
     #endregion
@@ -47,27 +43,26 @@ public class PlayerStateManager : MonoBehaviour {
         defaultState.Init(ref stateVariables);
         dashState.Init(ref stateVariables);
         movementState = defaultState;
-        alternateState = null;
         playerStates = new List<IPlayerState>(){ defaultState};
     }
 	
 	// Update is called once per frame
-	void Update () {
-        if (stateChanged && stateVariables.stateFinished)
-        {
-            ResetState();
-        }
-        if (InputManager.Instance.QueryAction(Strings.Input.Actions.DODGE, ButtonMode.DOWN) && canDash && stateVariables.stateFinished) // do dodge / dash
-        {
-            SwitchState(dashState);
-            canDash = false;
-            StartCoroutine(WaitForDashCoolDown());
-        }            
+	void Update () {              
         playerStates.ForEach(state=>state.StateUpdate());
     }    
 
     void FixedUpdate()
     {
+        if (stateChanged && stateVariables.stateFinished)
+        {
+            ResetState();
+        }
+        if (InputManager.Instance.QueryAction(Strings.Input.Actions.DODGE, ButtonMode.DOWN) && canDash) // do dodge / dash
+        {
+            SwitchState(dashState);
+            canDash = false;
+            StartCoroutine(WaitForDashCoolDown());
+        }
         playerStates.ForEach(state=>state.StateFixedUpdate());
     }
 
@@ -106,8 +101,12 @@ public class PlayerStateManager : MonoBehaviour {
 
     private IEnumerator WaitForDashCoolDown()
     {
+        while (!stateVariables.stateFinished)
+        {
+            yield return null;
+        }
         yield return new WaitForSeconds(dashCoolDown);
-        canDash = true;
+        canDash = true;        
     }
     #endregion
 

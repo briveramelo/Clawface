@@ -39,7 +39,6 @@ GameObject:
   - component: {fileID: 4558666104998600}
   - component: {fileID: 33598660916233658}
   - component: {fileID: 23081221717360770}
-  - component: {fileID: 95911434847623902}
   - component: {fileID: 65371520106775296}
   - component: {fileID: 114540640554467584}
   - component: {fileID: 135665361892582434}
@@ -75,7 +74,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1329047879542186}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.52, y: 1.4, z: -21.559998}
+  m_LocalPosition: {x: -5.0029373, y: 1.38, z: 5.0600147}
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children:
   - {fileID: 224578616548916598}
@@ -133,23 +132,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.5, y: 0.5, z: 0.5}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!95 &95911434847623902
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1329047879542186}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 94d786fb1c25c2d45be0e98efe286693, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114221033581847990
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -217,8 +199,8 @@ MonoBehaviour:
     timeToChargeArm: 1
     timeToChargeLeg: 1
     standardArmAttackSettings:
-      timeToCoolDown: 1
-      timeToAttack: 1
+      timeToCoolDown: 0.1
+      timeToAttack: 0
       attack: 3
       timeToHitStop: 0
     chargedArmAttackSettings:
@@ -240,16 +222,10 @@ MonoBehaviour:
     isCoolingDown: 0
     isActive: 0
     hasStartedCharging: 0
-  chargedMaxDistance: 10
-  standardMaxDistance: 6
-  ellipseHeightWidthRatio: 1.618
-  damageCollider: {fileID: 135665361892582434}
-  boomerangSpeed: 5
-  chargedScale: 1
-  maxRotationRate: 1200
-  minRotationRate: 200
-  chargeFeetBoomerangCount: 3
-  chargeFeetDelayBetweenBoomerangs: 0.5
+  bulletSpawnPoint: {fileID: 4558666104998600}
+  kickbackForce: 0
+  kickbackForceCharged: 0
+  kickbackForceFeetMultiplier: 0
 --- !u!114 &114696090971045056
 MonoBehaviour:
   m_ObjectHideFlags: 1

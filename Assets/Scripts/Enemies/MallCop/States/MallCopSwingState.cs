@@ -13,7 +13,9 @@ public class MallCopSwingState : MallCopState {
     }
     public override void Update() {
         velBody.velocity = Vector3.zero;
-        velBody.LookAt(controller.AttackTarget);        
+        velBody.LookAt(controller.AttackTarget);
+
+        navAgent.velocity = Vector3.zero;
     }
     public override void OnExit() {
         

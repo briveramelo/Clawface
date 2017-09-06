@@ -8,7 +8,8 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
 
 
     #region Public fields
-    [HideInInspector] public float damageModifier = 1.0F;
+    //[HideInInspector]
+    public float damageModifier = 1.0F;
     #endregion
 
     #region Serialized Unity Inspector fields

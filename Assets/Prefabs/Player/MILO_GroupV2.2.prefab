@@ -3004,9 +3004,9 @@ MonoBehaviour:
   defense: 5
   health: 50
   maxHealth: 0
-  moveSpeed: 340
+  moveSpeed: 700
   rangedAccuracy: 1
-  shotSpeed: 18
+  shotSpeed: 21
   shotPushForce: 8
   skinnableHealth: 1e+21
   exp: 0
@@ -3055,7 +3055,7 @@ MonoBehaviour:
   modInventory: {fileID: 114638770178090026}
   modUIManager: {fileID: 114971870691102608}
   modPickupRadius: 1
-  modPool: 0000000001000000020000000400000005000000
+  modPool: 000000000100000002000000040000000500000003000000
 --- !u!114 &114474670441011538
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3185,10 +3185,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isBlockingState: 1
-  totalDashFrames: 25
-  iFrameStart: 5
-  iFrameEnd: 20
-  dashVelocity: 25
+  totalDashFrames: 17
+  iFrameStart: 1
+  iFrameEnd: 14
+  dashVelocity: 30
   dashPuff: {fileID: 114511005088535178}
   dashTrail: {fileID: 1591211809506738}
   playerCollider: {fileID: 136027429023219260}
@@ -3368,7 +3368,7 @@ MonoBehaviour:
   modAnimationManager: {fileID: 114393925808811496}
   holdAttackSlowDown: 3
   dashState: {fileID: 114567311059056386}
-  dashCoolDown: 1
+  dashCoolDown: 0.1
 --- !u!114 &114750866406089160
 MonoBehaviour:
   m_ObjectHideFlags: 1

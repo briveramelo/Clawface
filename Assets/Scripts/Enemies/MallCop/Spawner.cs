@@ -71,9 +71,12 @@ public class Spawner : MonoBehaviour
     {
         currentNumEnemies--;
 
-        if (currentNumEnemies <= waves[currentWave].totalNumSpawns.Min)
+        if (waves.Count > currentWave)
         {
-            GoToNextWave();
+            if (currentNumEnemies <= waves[currentWave].totalNumSpawns.Min)
+            {
+                GoToNextWave();
+            }
         }
     }
 
