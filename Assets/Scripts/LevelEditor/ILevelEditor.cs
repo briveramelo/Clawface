@@ -22,4 +22,12 @@ public interface ILevelEditor
     /// Returns the Ray cast by the pointer (read-only).
     /// </summary>
     Ray PointerRay { get; }
+
+    string LastEditedLevelPath { get; set; }
+
+    Material PreviewMaterial { get; }
+
+    string GetOpenLevelPath();
+
+    string GetSaveLevelPath();
 }

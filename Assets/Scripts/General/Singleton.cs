@@ -48,7 +48,9 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
             if(shouldRegister) {
                 ServiceWrangler.Instance.RegisterSingleton(instance);
             }
-            DontDestroyOnLoad(gameObject);
+
+            if (Application.isPlaying)
+                DontDestroyOnLoad(gameObject);
         }
         else {
             guard = true;

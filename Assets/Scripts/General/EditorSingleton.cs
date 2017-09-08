@@ -18,6 +18,8 @@ public abstract class EditorSingleton<T> :
     /// </summary>
     public static UnityEvent OnSingletonInitializedEditor = new UnityEvent();
 
+    new bool shouldRegister = false;
+
     #endregion
     #region Unity Lifecycle
 

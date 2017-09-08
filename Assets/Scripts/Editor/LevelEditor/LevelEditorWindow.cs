@@ -18,6 +18,17 @@ namespace Turing.LevelEditor
         #region Public Fields
 
         /// <summary>
+        /// Key name of last edited level string.
+        /// </summary>
+        public const string LAST_EDITED_LEVEL_STR = "LAST_EDITED_LEVEL";
+
+        /// <summary>
+        /// Path of the 3D asset preview material.
+        /// </summary>
+        const string PREVIEW_MAT_PATH = "Assets/Resources/Materials/PreviewGhost.mat";
+
+
+        /// <summary>
         /// The current instance of this window.
         /// </summary>
         public static LevelEditorWindow Instance;
@@ -228,6 +239,8 @@ namespace Turing.LevelEditor
                 Instance = GetWindow(typeof(LevelEditorWindow))
                     as LevelEditorWindow;
 
+            if (LevelManager.Instance == null) return;
+
             // If not connected to LM, attempt to do so
             if (!Application.isPlaying &&
                 (!levelManager || !LevelManager.Instance.IsConnectedToEditor) 
@@ -240,6 +253,17 @@ namespace Turing.LevelEditor
 
         #endregion
         #region Public Methods
+
+        public string GetOpenLevelPath ()
+        {
+            return EditorUtility.OpenFilePanel("Open Level JSON", Application.dataPath, "json");
+        }
+
+        public string GetSaveLevelPath ()
+        {
+            return EditorUtility.SaveFilePanel("Save Level to JSON", 
+                        Application.dataPath, levelManager.LoadedLevel.Name, "json");
+        }
 
         /// <summary>
         /// Returns the active scene view camera (read-only).
@@ -263,6 +287,19 @@ namespace Turing.LevelEditor
         /// Returns the ray currently cast by the pointer (read-only).
         /// </summary>
         public Ray PointerRay { get { return pointerRay; } }
+
+        public string LastEditedLevelPath {
+            get { return EditorPrefs.GetString(LAST_EDITED_LEVEL_STR); }
+            set {
+                EditorPrefs.SetString(LAST_EDITED_LEVEL_STR, value);
+            }
+        }
+
+        public Material PreviewMaterial {
+            get { return AssetDatabase.LoadAssetAtPath<Material>(
+                PREVIEW_MAT_PATH);
+            }
+        }
 
         /// <summary>
         /// Handles inputs.
@@ -566,7 +603,7 @@ namespace Turing.LevelEditor
         {
             // Save level path
             var path = LevelManager.Instance.LoadedLevelPath;
-            EditorPrefs.SetString(LevelManager.LAST_EDITED_LEVEL_STR, path);
+            EditorPrefs.SetString(LAST_EDITED_LEVEL_STR, path);
 
             CloseLevel();
         }
@@ -592,14 +629,14 @@ namespace Turing.LevelEditor
                         LevelManager.Instance.SaveCurrentLevelToJSON();
                         LevelManager.Instance.CloseLevel();
                         EditorPrefs.SetString(
-                            LevelManager.LAST_EDITED_LEVEL_STR, "");
+                            LAST_EDITED_LEVEL_STR, "");
                         break;
 
                     // Don't save level
                     case 1: 
                         LevelManager.Instance.CloseLevel();
                         EditorPrefs.SetString(
-                            LevelManager.LAST_EDITED_LEVEL_STR, "");
+                            LAST_EDITED_LEVEL_STR, "");
                         break;
 
                     // Cancel
@@ -612,7 +649,7 @@ namespace Turing.LevelEditor
             else 
             {
                 LevelManager.Instance.CloseLevel();
-                EditorPrefs.SetString(LevelManager.LAST_EDITED_LEVEL_STR, "");
+                EditorPrefs.SetString(LAST_EDITED_LEVEL_STR, "");
             }
 
             // Force a GUI repaint
