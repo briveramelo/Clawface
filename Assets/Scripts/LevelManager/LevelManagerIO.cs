@@ -1,12 +1,43 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿// LevelManagerIO.cs
+// Author: Aaron
+
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Turing.LevelEditor
 {
-
+    /// <summary>
+    /// Holds all I/O functionality for the LM.
+    /// </summary>
     public partial class LevelManager : EditorSingleton<LevelManager>
     {
+        #region Public Fields
+
+        /// <summary>
+        /// Invoked when a new level is created.
+        /// </summary>
+        [HideInInspector]
+        public UnityEvent onCreateLevel = new UnityEvent();
+
+        /// <summary>
+        /// Invoked when a level is loaded.
+        /// </summary>
+        [HideInInspector]
+        public UnityEvent onLoadLevel = new UnityEvent();
+
+        /// <summary>
+        /// Invoked when a level is saved.
+        /// </summary>
+        [HideInInspector]
+        public UnityEvent onSaveLevel = new UnityEvent();
+
+        /// <summary>
+        /// Invoked when a level is closed.
+        /// </summary>
+        [HideInInspector]
+        public UnityEvent onCloseLevel = new UnityEvent();
+
+        #endregion
         #region Private Fields
 
         /// <summary>
@@ -82,7 +113,9 @@ namespace Turing.LevelEditor
                 if (savePath == default(string) || savePath == "") return;
                 JSONFileUtility.SaveToJSONFile(loadedLevel, savePath);
                 loadedLevelPath = savePath;
-            } else JSONFileUtility.SaveToJSONFile(loadedLevel, loadedLevelPath);
+            } 
+            
+            else JSONFileUtility.SaveToJSONFile(loadedLevel, loadedLevelPath);
 
             dirty = false;
             onSaveLevel.Invoke();

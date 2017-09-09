@@ -1,10 +1,9 @@
 ﻿// ObjectDataDrawer.cs
 // Author: Aaron
 
-using UnityEngine;
-
-#if UNITY_EDITOR
 using UnityEditor;
+
+using UnityEngine;
 
 namespace Turing.LevelEditor
 {
@@ -132,5 +131,4 @@ namespace Turing.LevelEditor
 
         #endregion
     }
-#endif
 }

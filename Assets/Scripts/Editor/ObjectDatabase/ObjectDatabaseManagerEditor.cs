@@ -22,6 +22,7 @@ public sealed class ObjectDatabaseManagerEditor : Editor
 
     SerializedObject serializedTarget;
 
+    SerializedProperty shouldRegisterProp;
     SerializedProperty databaseProp;
 
     #endregion
@@ -31,12 +32,15 @@ public sealed class ObjectDatabaseManagerEditor : Editor
     {
         objDBTarget = target as ObjectDatabaseManager;
         serializedTarget = new SerializedObject(objDBTarget);
+        shouldRegisterProp = serializedTarget.FindProperty("shouldRegister");
         databaseProp = serializedTarget.FindProperty("database");
     }
 
     public override void OnInspectorGUI()
     {
         serializedTarget.Update();
+
+        EditorGUILayout.PropertyField(shouldRegisterProp);
 
         EditorGUILayout.BeginVertical(EditorStyles.helpBox);
 

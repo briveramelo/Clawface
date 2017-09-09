@@ -1,11 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿// LevelManagerInput.cs
+// Author: Aaron
 
 using ModMan;
 
+using UnityEngine;
+
 namespace Turing.LevelEditor
 {
+    /// <summary>
+    /// Holds functionality for mouse input to the LM.
+    /// </summary>
     public partial class LevelManager : EditorSingleton<LevelManager>
     {
         #region Private Fields
@@ -22,7 +26,14 @@ namespace Turing.LevelEditor
         /// </summary>
         bool mouseOverUI = false;
 
+        /// <summary>
+        /// World position at mouse click.
+        /// </summary>
         Vector3 mouseDownWorldPos;
+
+        /// <summary>
+        /// Screen position at mouse click.
+        /// </summary>
         Vector2 mouseDownScreenPos;
 
         #endregion
@@ -46,21 +57,29 @@ namespace Turing.LevelEditor
             set { mouseOverUI = value; }
         }
 
+        /// <summary>
+        /// Gets/sets the screen position of the mouse on click.
+        /// </summary>
         public Vector2 MouseDownScreenPos
         {
             get { return mouseDownScreenPos; }
             set { mouseDownScreenPos = value; }
         }
 
+        /// <summary>
+        /// Gets/sets the world position of the mouse on click.
+        /// </summary>
         public Vector3 MouseDownWorldPos
         {
             get { return mouseDownWorldPos; }
             set { mouseDownWorldPos = value; }
         }
 
+        /// <summary>
+        /// Handles a left mouse button click.
+        /// </summary>
         public void HandleLeftDown(Event e)
         {
-
             mouseDownScreenPos = e.mousePosition;
             var ray = editor.PointerRay;
             float dist;
@@ -70,6 +89,9 @@ namespace Turing.LevelEditor
             }
         }
 
+        /// <summary>
+        /// Handles a left mouse button up event.
+        /// </summary>
         public void HandleLeftUp(Event e, bool isDragging, Camera camera)
         {
             switch (currentTool)
@@ -114,6 +136,9 @@ namespace Turing.LevelEditor
             }
         }
 
+        /// <summary>
+        /// Handles a mouse movement event.
+        /// </summary>
         public void HandleMouseMove(Event e, bool isDragging)
         {
             var ray = editor.PointerRay;
@@ -131,7 +156,9 @@ namespace Turing.LevelEditor
                     RaycastHit hit;
                     if (Physics.Raycast(ray, out hit))
                     {
-                        ObjectSpawner spawner = hit.collider.gameObject.GetComponentInAncestors<ObjectSpawner>();
+                        ObjectSpawner spawner = 
+                            hit.collider.gameObject.
+                            GetComponentInAncestors<ObjectSpawner>();
                         if (spawner != null)
                             HoverObject(spawner.gameObject);
                     } else hoveredObjects.Clear();

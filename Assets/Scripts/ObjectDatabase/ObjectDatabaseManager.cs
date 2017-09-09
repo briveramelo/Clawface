@@ -27,8 +27,6 @@ namespace Turing.LevelEditor
         [SerializeField]
         ObjectDatabase database = new ObjectDatabase();
 
-        new bool shouldRegister = false;
-
         #endregion
         #region Unity Callbacks
 

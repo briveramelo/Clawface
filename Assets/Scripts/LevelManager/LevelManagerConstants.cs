@@ -3,10 +3,16 @@
 
 namespace Turing.LevelEditor
 {
+    /// <summary>
+    /// Holds constants useful to the LM.
+    /// </summary>
     public partial class LevelManager : EditorSingleton<LevelManager>
     {
         #region Public Fields
 
+        /// <summary>
+        /// Scale value of a single tile.
+        /// </summary>
         public const float TILE_UNIT_WIDTH = 5f;
 
         #endregion
