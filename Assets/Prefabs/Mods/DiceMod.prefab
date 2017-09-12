@@ -370,7 +370,7 @@ MonoBehaviour:
     standardArmAttackSettings:
       timeToCoolDown: 0.8
       timeToAttack: 0
-      attack: 3
+      attack: 1
       timeToHitStop: 0
     chargedArmAttackSettings:
       timeToCoolDown: 0.8
@@ -394,8 +394,8 @@ MonoBehaviour:
   blasterEffect: {fileID: 114759411832738320}
   bulletSpawnPoint: {fileID: 4250488396338662}
   legPlayerJumpForce: 20
-  armTimeTilExplosion: 1
-  legTimeTilExplosion: 6
+  armTimeTilExplosion: 0.8
+  legTimeTilExplosion: 0
 --- !u!198 &198117800488203860
 ParticleSystem:
   m_ObjectHideFlags: 1
