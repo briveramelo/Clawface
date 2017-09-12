@@ -21,10 +21,8 @@ public class SegwayMod : Mod {
     
     [SerializeField] private VFXSegway segwayVFX;
     [SerializeField] private ForceSettings standardForceSettings;
-    [SerializeField] private ForceSettings chargedForceSettings;
 
     [SerializeField] private CapsuleBoundsDirection capsuleBoundsDirection;
-    [SerializeField] private float speedBoostMultiplier;
     [SerializeField] private float aoeRadius;
 
     // Use this for initialization
@@ -48,29 +46,11 @@ public class SegwayMod : Mod {
     }
 
     public override void Activate(Action onCompleteCoolDown=null, Action onActivate=null){
-        capsuleBoundsDirection.length = IsCharged() ? chargedForceSettings.capsuleLength : standardForceSettings.capsuleLength;
+        capsuleBoundsDirection.length = standardForceSettings.capsuleLength;
         base.Activate(onCompleteCoolDown, onActivate);   
     }
 
-    protected override void BeginChargingArms(){ }
-    protected override void RunChargingArms(){ }
     protected override void ActivateStandardArms(){ ForcePush(); }
-    protected override void ActivateChargedArms(){ MegaForcePush(); }
-
-    protected override void BeginChargingLegs(){ }
-    protected override void RunChargingLegs(){ }
-    protected override void ActivateChargedLegs(){
-        MegaForcePush();
-        if (wielderMovable.IsGrounded()) {
-           Jump();
-        }
-    }
-    protected override void ActivateStandardLegs(){
-        ForcePush();
-        if (wielderMovable.IsGrounded()) {
-            Jump();
-        }
-    }        
 
     public override void DeActivate()
     {
@@ -84,13 +64,9 @@ public class SegwayMod : Mod {
         base.DetachAffect();
     }
 
-    void AoeAttack(){
-        
-    }
-
     void ForcePush(){
         SFXManager.Instance.Play(SFXType.SegwayBlast_Standard, transform.position);
-        PoolObjectType poolObjType = IsCharged() ? PoolObjectType.VFXSegwayBlasterCharged : PoolObjectType.VFXSegwayBlaster;
+        PoolObjectType poolObjType = PoolObjectType.VFXSegwayBlaster;
         GameObject blasterFX = ObjectPool.Instance.GetObject(poolObjType);
         if (blasterFX) {
             blasterFX.DeActivate(1.1f);
@@ -98,10 +74,6 @@ public class SegwayMod : Mod {
             blasterFX.transform.forward = transform.forward;
         }        
         Timing.RunCoroutine(PushForTime());                        
-    }
-
-    void MegaForcePush() {        
-        ForcePush();
     }
 
     IEnumerator<float> PushForTime() {
@@ -154,27 +126,16 @@ public class SegwayMod : Mod {
         return Physics.OverlapCapsule(capsuleBoundsDirection.Start, capsuleBoundsDirection.End, capsuleBoundsDirection.radius).ToList();
     }
 
-    void Jump() {
-        wielderMovable.AddDecayingForce(Vector3.up * jumpForce);
-    }
-
-    private float jumpForce {
-        get {
-            return IsCharged() ? chargedForceSettings.jumpForce : standardForceSettings.jumpForce;
-        }
-    }
     private float pushForce {
         get {            
-            return IsCharged() ? chargedForceSettings.armpushForce : standardForceSettings.armpushForce;
+            return standardForceSettings.armpushForce;
         }
     }
 
     #region Private Structures
     [System.Serializable]
     private class ForceSettings {
-        public float jumpForce;
         public float armpushForce;
-        public float aoePushForce;
         public float capsuleLength;
     }
     #endregion
