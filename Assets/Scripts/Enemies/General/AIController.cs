@@ -3,6 +3,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using MovementEffects;
 using System;
 using ModMan;
@@ -26,6 +27,8 @@ public abstract class AIController : MonoBehaviour {
     private Transform attackTarget;
 
     protected Stats stats;
+    protected NavMeshAgent navAgent;
+
     protected float distanceFromTarget {get{ return Vector3.Distance(transform.position, AttackTarget.position); }}
     public Vector3 directionToTarget {
         get {
