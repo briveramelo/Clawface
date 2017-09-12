@@ -47,9 +47,9 @@ public class Spawner : MonoBehaviour
     #region Unity LifeCycle
     void Start()
     {
-        foreach (Transform child in transform)
+        foreach (Transform child_point in transform)
         {
-            spawnPoints.Add(child);
+            spawnPoints.Add(child_point);
         }
 
         CheckToSpawnEnemyCluster();
@@ -111,7 +111,6 @@ public class Spawner : MonoBehaviour
 
             foreach (Transform point in spawnPoints)
             {
-
                 GameObject spawnedObject = ObjectPool.Instance.GetObject(objectToSpawn);
 
                 if (spawnedObject)
@@ -125,6 +124,10 @@ public class Spawner : MonoBehaviour
 
                     spawnedObject.transform.position = point.position;
                     currentNumEnemies++;
+                }
+                else
+                {
+                    Debug.LogFormat("<color=#ffff00>" + "NOT ENOUGH SPAWN-OBJECT" + "</color>");
                 }
             }
         }
@@ -205,8 +208,8 @@ public class Wave
     void SetNextWaveTime(float intensity)
     {
         float timeBase = intensity * TimeToNextWaveMax;
-        NextWaveTime.Min = Mathf.Clamp(timeBase - 10, TimeToNextWaveMin, TimeToNextWaveMax);
-        NextWaveTime.Max = Mathf.Clamp(timeBase + 10, TimeToNextWaveMin, TimeToNextWaveMax);
+        NextWaveTime.Min = Mathf.Clamp(timeBase - 1, TimeToNextWaveMin, TimeToNextWaveMax);
+        NextWaveTime.Max = Mathf.Clamp(timeBase + 1, TimeToNextWaveMin, TimeToNextWaveMax);
     }
 
 
