@@ -75,10 +75,11 @@ public class DashState : IPlayerState {
 
     #region Private Methods
     protected override void ResetState()
-    {
+    {        
         currentFrame = 0;
         currentPose = 0;
         stateVariables.statsManager.damageModifier = 1.0f;
+        playerCollider.enabled = true;
         if (stateVariables.velBody.GetMovementMode()==MovementMode.ICE) {
             stateVariables.velBody.velocity = stateVariables.velBody.GetForward() * dashVelocity/10f;
         }
@@ -105,9 +106,7 @@ public class DashState : IPlayerState {
         {
             stateVariables.statsManager.damageModifier = 0.0f;
             playerCollider.enabled=false;
-                        
-        }
-        if (currentFrame == iFrameEnd)
+        }else if (currentFrame == iFrameEnd)
         {
             stateVariables.statsManager.damageModifier = 1.0f;
             playerCollider.enabled=true;

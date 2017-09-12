@@ -95,7 +95,9 @@ public class BlasterMod : Mod {
         BlasterBullet blasterBullet = ObjectPool.Instance.GetObject(poolObjType).GetComponent<BlasterBullet>();
         if (blasterBullet){
             blasterBullet.transform.position = bulletSpawnPoint.position;
-            blasterBullet.transform.rotation = transform.rotation;
+            blasterBullet.transform.forward = transform.forward;
+            blasterBullet.transform.rotation = Quaternion.Euler(0f, blasterBullet.transform.rotation.eulerAngles.y, 0f);
+
             shooterProperties.Initialize(GetWielderInstanceID(),Attack, wielderStats.shotSpeed, wielderStats.shotPushForce);
             blasterBullet.SetShooterProperties(shooterProperties);
 
