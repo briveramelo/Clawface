@@ -243,52 +243,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hasState: 0
-  vfxModChargeLoopPrefab: {fileID: 1849683956559748, guid: 4ca7de1d9e971e44d945da50eab7eab3,
-    type: 2}
-  vfxModChargeCompletePrefab: {fileID: 1259595306316432, guid: 77440824ea0f8d747b67d7a976c025bd,
-    type: 2}
-  vfxModChargedLoopPrefab: {fileID: 1016067235512554, guid: 0d57115def143a6439e5d28615b38112,
-    type: 2}
-  vfxModCooldownPrefab: {fileID: 1020022290495414, guid: 28c736c9f78d4cc4b8ea1d4a2875356d,
-    type: 2}
   pickupCollider: {fileID: 65209099370088602}
   modCanvas: {fileID: 1431774864512322}
   energySettings:
-    timeToChargeArm: 2
-    timeToChargeLeg: 2
     standardArmAttackSettings:
       timeToCoolDown: 0.6
       timeToAttack: 0
       attack: 4
-      timeToHitStop: 0.03
-    chargedArmAttackSettings:
-      timeToCoolDown: 1.3
-      timeToAttack: 0
-      attack: 9
-      timeToHitStop: 0.1
-    standardLegAttackSettings:
-      timeToCoolDown: 0.2
-      timeToAttack: 0
-      attack: 2
-      timeToHitStop: 0.03
-    chargedLegAttackSettings:
-      timeToCoolDown: 0.2
-      timeToAttack: 0
-      attack: 6
-      timeToHitStop: 0.07
-    timeCharged: 0
     isCoolingDown: 0
     isActive: 0
-    hasStartedCharging: 0
   hook: {fileID: 114929120214224340}
-  jumpForce: 50
-  jumpForceMultiplier: 1
   maxHookLengthStandard: 2
-  maxHookLengthCharged: 4
-  tornadoSpeed: 50
-  standardTornadoFallingForce: 0.5
-  chargedTornadoFallingForce: 0.8
-  tornadoDamageBoxWidth: 1
 --- !u!114 &114399477563612414
 MonoBehaviour:
   m_ObjectHideFlags: 1

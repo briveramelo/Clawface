@@ -235,47 +235,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hasState: 0
-  vfxModChargeLoopPrefab: {fileID: 1849683956559748, guid: 4ca7de1d9e971e44d945da50eab7eab3,
-    type: 2}
-  vfxModChargeCompletePrefab: {fileID: 1259595306316432, guid: 77440824ea0f8d747b67d7a976c025bd,
-    type: 2}
-  vfxModChargedLoopPrefab: {fileID: 1016067235512554, guid: 0d57115def143a6439e5d28615b38112,
-    type: 2}
-  vfxModCooldownPrefab: {fileID: 1020022290495414, guid: 28c736c9f78d4cc4b8ea1d4a2875356d,
-    type: 2}
   pickupCollider: {fileID: 65286971079796370}
   modCanvas: {fileID: 1631652510854260}
   energySettings:
-    timeToChargeArm: 1
-    timeToChargeLeg: 1
     standardArmAttackSettings:
       timeToCoolDown: 0.1
       timeToAttack: 0
       attack: 1
-      timeToHitStop: 0
-    chargedArmAttackSettings:
-      timeToCoolDown: 1
-      timeToAttack: 0
-      attack: 30
-      timeToHitStop: 0
-    standardLegAttackSettings:
-      timeToCoolDown: 0.1
-      timeToAttack: 0
-      attack: 1
-      timeToHitStop: 0
-    chargedLegAttackSettings:
-      timeToCoolDown: 2
-      timeToAttack: 0
-      attack: 3
-      timeToHitStop: 0
-    timeCharged: 0
     isCoolingDown: 0
     isActive: 0
-    hasStartedCharging: 0
   bulletSpawnPoint: {fileID: 4303765111120432}
-  kickbackForce: 0
-  kickbackForceCharged: 0
-  kickbackForceFeetMultiplier: 0
 --- !u!114 &114446361273923502
 MonoBehaviour:
   m_ObjectHideFlags: 1
