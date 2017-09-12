@@ -27,7 +27,7 @@ public class DashState : IPlayerState {
     protected int[] highlightPoses;
     [SerializeField]
     protected int totalAttackPoses;
-    [SerializeField] private HealthBar healthBar;
+    [SerializeField] private OnScreenScoreUI healthBar;
     [SerializeField] private float skinRadius;
     #endregion
 
