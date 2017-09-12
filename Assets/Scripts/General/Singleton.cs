@@ -45,12 +45,13 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
         if (instance == null)
         {
             instance = this as T;
-            if(shouldRegister) {
-                ServiceWrangler.Instance.RegisterSingleton(instance);
-            }
-
             if (Application.isPlaying)
+            {
+                if (shouldRegister)
+                    ServiceWrangler.Instance.RegisterSingleton(instance);
+
                 DontDestroyOnLoad(gameObject);
+            }  
         }
         else {
             guard = true;
