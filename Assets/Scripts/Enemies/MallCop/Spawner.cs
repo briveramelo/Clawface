@@ -15,9 +15,6 @@ public class Spawner : MonoBehaviour
 
     #region Serialized Unity Fields
     [SerializeField] SpawnType spawnType;
-    [SerializeField] List<Transform> spawnPoints;
-
-
     #endregion
 
 
@@ -26,6 +23,9 @@ public class Spawner : MonoBehaviour
     private int currentWave = 0;
     private float NextWaveTime = 10.0f;
     private float currentWaveTime = 0.0f;
+
+    List<Transform> spawnPoints = new List<Transform>();
+
 
     private PoolObjectType objectToSpawn
     {
@@ -47,6 +47,11 @@ public class Spawner : MonoBehaviour
     #region Unity LifeCycle
     void Start()
     {
+        foreach (Transform child in transform)
+        {
+            spawnPoints.Add(child);
+        }
+
         CheckToSpawnEnemyCluster();
     }
 
@@ -71,12 +76,9 @@ public class Spawner : MonoBehaviour
     {
         currentNumEnemies--;
 
-        if (waves.Count > currentWave)
+        if (currentWave < waves.Count && currentNumEnemies <= waves[currentWave].totalNumSpawns.Min * spawnPoints.Count)
         {
-            if (currentNumEnemies <= waves[currentWave].totalNumSpawns.Min)
-            {
-                GoToNextWave();
-            }
+            GoToNextWave();
         }
     }
 
@@ -102,25 +104,27 @@ public class Spawner : MonoBehaviour
     private IEnumerator<float> SpawnEnemyCluster()
     {
         int enemiesToSpawn = waves[currentWave].totalNumSpawns.Max;
-        currentNumEnemies += enemiesToSpawn;
 
         for (int i = 0;  i < enemiesToSpawn; i++)
         {
             yield return Timing.WaitForSeconds(Random.Range(1f, 2f));
-            GameObject spawnedObject = ObjectPool.Instance.GetObject(objectToSpawn);
 
-            if (spawnedObject)
+            foreach (Transform point in spawnPoints)
             {
-                ISpawnable spawnable = spawnedObject.GetComponentInChildren<ISpawnable>();
 
-                if (!spawnable.HasWillBeenWritten())
-                {
-                    spawnable.RegisterDeathEvent(ReportDeath);
-                }
+                GameObject spawnedObject = ObjectPool.Instance.GetObject(objectToSpawn);
 
-                if (!spawnPoints.Any(sp=>sp==null))
+                if (spawnedObject)
                 {
-                    spawnedObject.transform.position = spawnPoints.GetRandom().position;                
+                    ISpawnable spawnable = spawnedObject.GetComponentInChildren<ISpawnable>();
+
+                    if (!spawnable.HasWillBeenWritten())
+                    {
+                        spawnable.RegisterDeathEvent(ReportDeath);
+                    }
+
+                    spawnedObject.transform.position = point.position;
+                    currentNumEnemies++;
                 }
             }
         }
