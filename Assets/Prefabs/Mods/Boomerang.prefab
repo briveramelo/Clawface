@@ -185,43 +185,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hasState: 0
-  vfxModChargePrefab: {fileID: 1868770362516384, guid: 75076dc3f3739ff4bb01ae67a336ecc5,
-    type: 2}
-  vfxModCooldownPrefab: {fileID: 1020022290495414, guid: 28c736c9f78d4cc4b8ea1d4a2875356d,
-    type: 2}
   pickupCollider: {fileID: 65371520106775296}
   modCanvas: {fileID: 1736212784191878}
   energySettings:
-    timeToChargeArm: 1
-    timeToChargeLeg: 1
     standardArmAttackSettings:
       timeToCoolDown: 0.2
       timeToAttack: 0
       attack: 3
-      timeToHitStop: 0
-    chargedArmAttackSettings:
-      timeToCoolDown: 1.5
-      timeToAttack: 1
-      attack: 9
-      timeToHitStop: 0
-    standardLegAttackSettings:
-      timeToCoolDown: 0.3
-      timeToAttack: 0
-      attack: 0
-      timeToHitStop: 0
-    chargedLegAttackSettings:
-      timeToCoolDown: 1
-      timeToAttack: 0
-      attack: 0
-      timeToHitStop: 0
-    timeCharged: 0
     isCoolingDown: 0
     isActive: 0
-    hasStartedCharging: 0
   bulletSpawnPoint: {fileID: 4558666104998600}
-  kickbackForce: 0
-  kickbackForceCharged: 0
-  kickbackForceFeetMultiplier: 0
 --- !u!114 &114696090971045056
 MonoBehaviour:
   m_ObjectHideFlags: 1

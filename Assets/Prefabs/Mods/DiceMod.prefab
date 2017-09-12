@@ -355,44 +355,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hasState: 0
-  vfxModChargePrefab: {fileID: 1868770362516384, guid: 75076dc3f3739ff4bb01ae67a336ecc5,
-    type: 2}
-  vfxModCooldownPrefab: {fileID: 1020022290495414, guid: 28c736c9f78d4cc4b8ea1d4a2875356d,
-    type: 2}
   pickupCollider: {fileID: 65427258851758646}
   modCanvas: {fileID: 1086148575322010}
   energySettings:
-    timeToChargeArm: 1
-    timeToChargeLeg: 1
     standardArmAttackSettings:
       timeToCoolDown: 0.8
       timeToAttack: 0
       attack: 1
-      timeToHitStop: 0
-    chargedArmAttackSettings:
-      timeToCoolDown: 0.8
-      timeToAttack: 0
-      attack: 4
-      timeToHitStop: 0
-    standardLegAttackSettings:
-      timeToCoolDown: 0.8
-      timeToAttack: 0
-      attack: 3
-      timeToHitStop: 0
-    chargedLegAttackSettings:
-      timeToCoolDown: 0
-      timeToAttack: 0
-      attack: 0
-      timeToHitStop: 0
-    timeCharged: 0
     isCoolingDown: 0
     isActive: 0
-    hasStartedCharging: 0
   blasterEffect: {fileID: 114759411832738320}
   bulletSpawnPoint: {fileID: 4250488396338662}
-  legPlayerJumpForce: 20
   armTimeTilExplosion: 0.8
-  legTimeTilExplosion: 0
 --- !u!198 &198117800488203860
 ParticleSystem:
   m_ObjectHideFlags: 1
