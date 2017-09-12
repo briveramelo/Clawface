@@ -18,7 +18,7 @@ public class GoreExplosion : MonoBehaviour {
     private GameObject[] limbs;
 
     [SerializeField]
-    private float limbExplodeForce = 200f;
+    private float limbExplodeForce = 5000f;
 
     [SerializeField]
     GorePainter gp;
