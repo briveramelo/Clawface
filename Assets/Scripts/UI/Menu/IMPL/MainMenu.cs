@@ -178,6 +178,11 @@ public class MainMenu : Menu
         
     }
 
+    public void ShowSettings()
+    {
+        MenuManager.Instance.DoTransition(Strings.MenuStrings.SETTINGS, Transition.SHOW, new Effect[] { Effect.FADE });
+    }
+
 
     #endregion
 

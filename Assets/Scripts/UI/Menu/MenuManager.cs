@@ -24,12 +24,12 @@ public class MenuManager : Singleton<MenuManager> {
     #endregion
 
     #region Unity Lifecycle Functions
-    private void Start()
+    protected override void Awake()
     {
+        base.Awake();
         foreach (GameObject prefab in menuPrefabs)
         {
-            GameObject obj = Instantiate(prefab);
-            obj.transform.SetParent(gameObject.transform, false);
+            GameObject obj = Instantiate(prefab, gameObject.transform, false);
             Menu menu = obj.GetComponent<Menu>();
             menus.Add(menu);
         }
