@@ -7,17 +7,10 @@ using UnityEngine;
 public class BoomerangMod : Mod {
 
     #region Serialized
-
     [SerializeField] private Transform bulletSpawnPoint;
-
-    [SerializeField] private float kickbackForce;
-    [SerializeField] private float kickbackForceCharged;
-    [SerializeField] private float kickbackForceFeetMultiplier;
-
     #endregion
 
     #region Privates
-
     private ShooterProperties shooterProperties = new ShooterProperties();
     #endregion
 
@@ -63,40 +56,11 @@ public class BoomerangMod : Mod {
     public override void DetachAffect()
     {
         base.DetachAffect();
-    }
-
-    public override void BeginCharging(Action onBegin = null)
-    {
-        onBegin = () => {
-            SFXManager.Instance.Play(SFXType.BlasterCharge, transform.position);
-        };
-        base.BeginCharging(onBegin);
-    }
-    protected override void BeginChargingArms() { }
-    protected override void RunChargingArms() { }
+    }   
 
     protected override void ActivateStandardArms()
     {
         Shoot();
-        FireKickBack();
-    }
-    protected override void ActivateChargedArms()
-    {
-        Shoot();
-        FireKickBack();
-    }
-
-    protected override void BeginChargingLegs() { }
-    protected override void RunChargingLegs() { }
-    protected override void ActivateChargedLegs()
-    {
-        Shoot();
-        FireKickBack();
-    }
-    protected override void ActivateStandardLegs()
-    {
-        Shoot();
-        FireKickBack();
     }
     #endregion
 
@@ -104,7 +68,7 @@ public class BoomerangMod : Mod {
     private BoomerangBullet Shoot()
     {
         SFXManager.Instance.Play(SFXType.BlasterShoot, transform.position);
-        PoolObjectType poolObjType = IsCharged() ? PoolObjectType.VFXBlasterShootCharged : PoolObjectType.VFXBlasterShoot;
+        PoolObjectType poolObjType = PoolObjectType.VFXBlasterShoot;
         GameObject vfx = ObjectPool.Instance.GetObject(poolObjType);
         vfx.transform.position = bulletSpawnPoint.position;
         vfx.transform.rotation = transform.rotation;
@@ -135,30 +99,4 @@ public class BoomerangMod : Mod {
         }
         return boomerangBullet;
     }
-
-    private void FireKickBack()
-    {
-        if (wielderMovable != null)
-        {
-            wielderMovable.AddDecayingForce(KickBackDirection * KickBack);
-        }
-    }
-
-    private float KickBack
-    {
-        get
-        {
-            float force = energySettings.IsCharged ? kickbackForceCharged : kickbackForce;
-            return force;
-        }
-    }
-    private Vector3 KickBackDirection
-    {
-        get
-        {
-            return -wielderMovable.GetForward();
-        }
-    }
-
-
 }

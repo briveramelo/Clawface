@@ -108,11 +108,11 @@ public enum Layers {
 
 public enum PoolObjectType {
     Mine=0,
-    MineExplosionEffect=1,
+    MineExplosionEffect=1,//
     BlasterBullet=2,
     BlasterImpactEffect=3,
-    MallCopSwinger=4,
-    TargetExplosionEffect=5,
+    MallCopSwinger=4,//
+    TargetExplosionEffect=5,//
     BloodDecal=6,
     BloodEmitter=7,
     MallCopBlaster=8,
@@ -121,8 +121,8 @@ public enum PoolObjectType {
     GrapplingBot=11,
     GeyserProjectile = 12,
     DiceBlock=13,
-    BlasterBulletCharged=14,
-    VFXSegwayBlasterCharged = 15,
+    BlasterBulletCharged=14,//
+    VFXSegwayBlasterCharged = 15,//
     BlasterImpactEffectCharged = 16,
     VFXBlasterShoot=17,
     VFXBlasterShootCharged=18,

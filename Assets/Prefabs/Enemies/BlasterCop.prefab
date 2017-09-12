@@ -321,6 +321,7 @@ GameObject:
   - component: {fileID: 114253570924100316}
   - component: {fileID: 114928895147777496}
   - component: {fileID: 114105641788173152}
+  - component: {fileID: 195488204217186714}
   m_Layer: 9
   m_Name: BlasterCop
   m_TagString: Enemy
@@ -1243,6 +1244,7 @@ MonoBehaviour:
   glowObject: {fileID: 114253570924100316}
   animator: {fileID: 95336391681727560}
   myStats: {fileID: 114562163281978664}
+  navAgent: {fileID: 195488204217186714}
   mySkin: {fileID: 1754484396476528, guid: cc3475efaf656c240a9632ee2547b108, type: 2}
   copUICanvas: {fileID: 114680551256405116}
   mod: {fileID: 114969724012723138}
@@ -1266,7 +1268,7 @@ MonoBehaviour:
   maxHealth: 0
   moveSpeed: 150
   rangedAccuracy: 1
-  shotSpeed: 13
+  shotSpeed: 20
   shotPushForce: 3
   skinnableHealth: 7
   exp: 2
@@ -1492,6 +1494,27 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.031190634, y: 0.101231724, z: 0.08972222}
     m_Extent: {x: 0.41612852, y: 0.45704928, z: 0.2894698}
   m_DirtyAABB: 0
+--- !u!195 &195488204217186714
+NavMeshAgent:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1385345176205422}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 8
+  m_Acceleration: 15
+  avoidancePriority: 50
+  m_AngularSpeed: 360
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!198 &198117302005338336
 ParticleSystem:
   m_ObjectHideFlags: 1

@@ -3,6 +3,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public abstract class MallCopState : State {
 
@@ -11,18 +12,21 @@ public abstract class MallCopState : State {
     public VelocityBody velBody;
     public Animator animator;
     public Stats myStats;
+    public NavMeshAgent navAgent;
 
     public void Initialize(
         MallCopProperties properties,
         MallCopController controller,
         VelocityBody velBody,
         Animator animator,
-        Stats myStats) {
+        Stats myStats,
+        NavMeshAgent navAgent) {
 
         this.properties = properties;
         this.controller = controller;
         this.velBody = velBody;
         this.animator = animator;
         this.myStats = myStats;
+        this.navAgent = navAgent;
     }
 }
