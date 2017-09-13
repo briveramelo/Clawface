@@ -36,7 +36,8 @@ namespace Turing.Audio
         /// <summary>
         /// Uniform volume to use with this channel.
         /// </summary>
-        [SerializeField][Range(0f, 1f)]
+        [SerializeField]
+        [Range(0f, 1f)]
         [Tooltip("Uniform volume to use with this channel.")]
         float uniformVolume = 1f;
 
@@ -50,7 +51,8 @@ namespace Turing.Audio
         /// <summary>
         /// Range of values to use for volume.
         /// </summary>
-        [SerializeField][FloatRange(0f, 1f)]
+        [SerializeField]
+        [FloatRange(0f, 1f)]
         [Tooltip("Range of values to use for volume.")]
         FloatRange randomVolumeRange = new FloatRange();
 
@@ -103,25 +105,31 @@ namespace Turing.Audio
         void Awake()
         {
             audioSource = GetComponentInParent<AudioSource>();
+
             if (parent == null)
                 parent = GetComponentInParent<AudioGroup>();
+            if (parent == null)
+                Debug.LogError("Failed to find parent AudioGroup!", gameObject);
         }
 
         void Update()
         {
-            if (playing)
+            if (Application.isPlaying)
             {
-                if (loop)
+                if (playing)
                 {
-                    loopTimer -= Time.deltaTime;
-                    if (loopTimer <= 0f)
-                        LoopSound();
-                 }
-            }
+                    if (loop)
+                    {
+                        loopTimer -= Time.deltaTime;
+                        if (loopTimer <= 0f)
+                            LoopSound();
+                    }
+                }
 
-            audioSource.volume = 
-                (useRandomVolume ? randomizedVolume : uniformVolume) * 
-                parent.VolumeScale;
+                audioSource.volume =
+                    (useRandomVolume ? randomizedVolume : uniformVolume) *
+                    parent.VolumeScale;
+            }
         }
 
         #endregion
@@ -199,7 +207,7 @@ namespace Turing.Audio
         /// <summary>
         /// Plays a sound from this channel.
         /// </summary>
-        public void PlaySound(float pitch, bool loop=false)
+        public void PlaySound(float pitch, bool loop = false)
         {
             // If no clips to play, return
             if (clips.Count <= 0) return;
@@ -244,7 +252,7 @@ namespace Turing.Audio
         /// <summary>
         /// Adds an AudioClip to this channel.
         /// </summary>
-        public void AddClip (AudioClip clip)
+        public void AddClip(AudioClip clip)
         {
             clips.Add(clip);
         }
