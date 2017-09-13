@@ -1,34 +1,69 @@
-﻿using System.Collections;
+﻿// TrailerLightManager.cs
+// Author: Aaron
+
 using System.Collections.Generic;
+
 using UnityEngine;
 
-public class TrailerLightManager : MonoBehaviour {
+namespace Turing.VFX
+{
+    /// <summary>
+    /// Manager for lighting for the trailer.
+    /// </summary>
+    public sealed class TrailerLightManager : MonoBehaviour
+    {
+        #region Serialized Unity Inspector Fields
 
-	Dictionary<Light, float> _intensities = new Dictionary<Light, float>();
+        /// <summary>
+        /// Lighting scale curve.
+        /// </summary>
+        [Tooltip("Lighting scale curve.")]
+        [SerializeField] AnimationCurve lightScaler;
 
-    [SerializeField] AnimationCurve _lightScaler;
+        /// <summary>
+        /// Lights to ignore.
+        /// </summary>
+        [Tooltip("Lights to ignore.")]
+        [SerializeField] List<Light> ignoreList = new List<Light>();
 
-    [SerializeField] List<Light> _ignoreList = new List<Light>();
+        #endregion
+        #region Private Fields
 
-    private void Awake() {
-        var lights = FindObjectsOfType<Light>();
-        foreach (var light in lights) {
-            if (_ignoreList.Contains (light)) continue;
+        Dictionary<Light, float> intensities = 
+            new Dictionary<Light, float>();
 
-            _intensities.Add (light, light.intensity);
+        #endregion
+        #region Unity Lifecycle
 
+        private void Awake()
+        {
+            var lights = FindObjectsOfType<Light>();
+            foreach (var light in lights)
+            {
+                if (ignoreList.Contains(light)) continue;
+
+                intensities.Add(light, light.intensity);
+            }
+
+            Application.targetFrameRate = 60;
         }
 
-        Application.targetFrameRate = 60;
-    }
-
-    private void Update() {
-        ScaleLights (_lightScaler.Evaluate (Time.realtimeSinceStartup));
-    }
-
-    void ScaleLights (float value) {
-        foreach (var light in _intensities.Keys) {
-            light.intensity = _intensities[light] * value;
+        private void Update()
+        {
+            ScaleLights(lightScaler.Evaluate(Time.realtimeSinceStartup));
         }
+
+        #endregion
+        #region Private Methods
+
+        void ScaleLights(float value)
+        {
+            foreach (var light in intensities.Keys)
+            {
+                light.intensity = intensities[light] * value;
+            }
+        }
+
+        #endregion
     }
 }
