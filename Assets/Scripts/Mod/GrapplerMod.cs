@@ -11,12 +11,13 @@ public class GrapplerMod : Mod {
     #endregion
 
     #region Serialized Unity Inspector fields
-    [SerializeField] private Hook hook;    
-    [SerializeField] private float maxHookLengthStandard;
+    [SerializeField] private Transform hookTransform;    
+    [SerializeField] private HookProperties hookProperties;
     #endregion
 
     #region Private Fields
     private bool hitTargetThisShot;
+    private Hook currentHook;
     #endregion
 
     #region Unity Lifecycle
@@ -24,6 +25,7 @@ public class GrapplerMod : Mod {
     protected override void Awake() {
         type = ModType.Grappler;
         category = ModCategory.Ranged;
+        currentHook = null;
         base.Awake();
     }
 
@@ -41,25 +43,32 @@ public class GrapplerMod : Mod {
     #region Public Methods
     public override void Activate(Action onCompleteCoolDown=null, Action onActivate=null)
     {  
-        onActivate = () => {
-            hook.maxLength = maxHookLengthStandard;
+        onActivate = () => {            
             SFXManager.Instance.Play(SFXType.GrapplingGun_Shoot, transform.position);
         };   
         base.Activate(onCompleteCoolDown, onActivate);
     }
     
-    protected override void ActivateStandardArms(){ hook.Throw(false); }    
+    protected override void ActivateStandardArms(){
+        //Is there a projectile already out there?
+        if (currentHook)
+        {
+            currentHook.transform.SetParent(null);
+            currentHook.gameObject.SetActive(false);
+        }
+        //Get Projectile
+        GameObject hookObject = ObjectPool.Instance.GetObject(PoolObjectType.GrapplingHook);        
+        if (hookObject)
+        {
+            //Initialize
+            currentHook = hookObject.GetComponent<Hook>();
+            currentHook.transform.SetParent(hookTransform);
+            currentHook.Init(hookProperties, hookTransform);
+        }
+    }    
 
     public override void AttachAffect(ref Stats wielderStats, IMovable wielderMovable){
-        base.AttachAffect(ref wielderStats, wielderMovable);
-        if (wielderStats.gameObject.CompareTag(Strings.Tags.PLAYER))
-        {
-            hook.SetShooterType(true);
-        }
-        else
-        {
-            hook.SetShooterType(false);
-        }
+        base.AttachAffect(ref wielderStats, wielderMovable);        
     }
 
     public override void DeActivate()
@@ -79,6 +88,17 @@ public class GrapplerMod : Mod {
     #endregion
 
     #region Private Structures
+    [Serializable]
+    public class HookProperties
+    {        
+        public float projectileSpeed;
+        public float projectileHitDamage;
+        public float projectileDamagePerFrame;
+        public float homingAngle;
+        public float homingDistance;
+        public int maxChainableEnemies;
+        public float maxDistance;
+    }
     #endregion
 
 }

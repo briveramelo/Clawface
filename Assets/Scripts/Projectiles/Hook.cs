@@ -2,170 +2,143 @@
 using System.Collections.Generic;
 using UnityEngine;
 using MovementEffects;
+using System;
 
 public class Hook : MonoBehaviour {
 
     #region Public fields
-    [HideInInspector] public float maxLength;
     #endregion
 
     #region Serialized Unity Inspector fields
-    [SerializeField] GrapplerMod mod;
-    [SerializeField] private float growRate;
-    [SerializeField] private float shrinkRate;
-    [SerializeField] private float pullForce;
+    [SerializeField] private Transform startingPoint;
+    [SerializeField] private Transform endingPoint;
     #endregion
 
     #region Private Fields
-    private Vector3 initPos;
-    private bool isCharged;
-    private bool isPullingWielder;
-    private bool isThrowing;
-    private Vector3 pullDirection;
-    private Damager damager=new Damager();
-    private bool isPlayer;
+    private GrapplerMod.HookProperties hookProperties;    
+    private Transform target;
+    private bool isTargetHit;
+    private int enemyCount;
     #endregion
 
     #region Unity Lifecycle
     // Use this for initialization
     void Start () {
-        initPos = transform.localPosition;
+        
     }
 
-    private void OnTriggerEnter(Collider other){   
-        if ((other.gameObject.CompareTag(Strings.Tags.PLAYER) ||
-            other.gameObject.CompareTag(Strings.Tags.ENEMY) ||
-            other.gameObject.layer==(int)Layers.Ground)){
+    private void OnDisable()
+    {
+        ResetToDefaults();
+    }
 
+    private void FixedUpdate()
+    {
+        
+    }
 
-            if (isThrowing)
+    private void Update()
+    {
+        //Are hook properties set and have we not hit a target
+        if (hookProperties != null && !isTargetHit)
+        {
+            //Check for max distance
+            if(CalculateChainLength() >= hookProperties.maxDistance)
             {
-                HitTarget();
-                IDamageable damageable = other.gameObject.GetComponent<IDamageable>();
-                if (damageable != null)
-                {
-                    
-                    
-                    damager.Set(mod.Attack, DamagerType.GrapplingHook, transform.forward);
-
-                    if (isPlayer)
-                    {
-                        AnalyticsManager.Instance.AddModDamage(ModType.Grappler, damager.damage);
-
-                        if (damageable.GetHealth() - damager.damage <= 0.01f)
-                        {
-                            AnalyticsManager.Instance.AddModKill(ModType.Grappler);
-                        }
-                    }
-                    else
-                    {
-                        AnalyticsManager.Instance.AddEnemyModDamage(ModType.Grappler, damager.damage);
-                    }
-
-
-                    damageable.TakeDamage(damager);
-                }
-            }        
+                gameObject.SetActive(false);
+                return;
+            }
+            //Move forward
+            endingPoint.position = endingPoint.position + (endingPoint.forward * hookProperties.projectileSpeed);
+            //Check for target if no target
+            if (target == null || (target != null && !target.gameObject.activeSelf))
+            {
+                target = null;
+                CheckForTargets();
+            }
+            else
+            {
+                // Look at target
+                endingPoint.LookAt(target);
+                // Ensure the forward vector is in 2D
+                endingPoint.forward = new Vector3(endingPoint.forward.x, 0f, endingPoint.forward.z);
+            }
         }
     }
-    
+
+    private void CheckForTargets()
+    {
+        //Sphere cast to get all enemies
+        RaycastHit[] hits = Physics.SphereCastAll(endingPoint.position, hookProperties.homingDistance, Vector3.zero, LayerMask.GetMask(Strings.Layers.ENEMY));
+        if(hits != null && hits.Length > 0)
+        {
+            foreach(RaycastHit hit in hits)
+            {
+                //Check if enemy is within homing angle
+                float angle = Mathf.Abs(Vector3.Angle(endingPoint.forward, hit.transform.position));
+                if(angle < hookProperties.homingAngle / 2f)
+                {
+                    // Acquire target
+                    target = hit.transform;
+                    break;
+                }
+            }
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        // Is the collided object an enemy
+        if(other.tag == Strings.Tags.ENEMY)
+        {
+            //Set bool
+            isTargetHit = true;
+            //Parent endpoint to enemy
+            endingPoint.SetParent(other.gameObject.transform);
+            //Increment enemycount
+            enemyCount++;
+            //Check for max enemies
+            if (enemyCount < hookProperties.maxChainableEnemies)
+            {
+                //Spawn next chain
+                SpawnNextChain();
+            }
+        }
+    }
     #endregion
 
     #region Public Methods
-    public void Throw(bool isCharged){
-        mod.modEnergySettings.isActive = true;
-        this.isCharged = isCharged;
-        Timing.RunCoroutine(ThrowAndRetractHook());
-    }
-
-    public float GetMaxLength()
+    public void Init(GrapplerMod.HookProperties properties, Transform hookTransform, int enemyCount = 0)
     {
-        return maxLength;
-    }
-
-    public void SetShooterType(bool isPlayer)
-    {
-        this.isPlayer = isPlayer;
-    }
-
-    public void ExtendHook()
-    {
-        Timing.RunCoroutine(ThrowHook());
-    }
-
-    public void RetractHook()
-    {
-        Timing.RunCoroutine(Retract());
-    }
-
-    public bool IsThrown()
-    {
-        return isThrowing;
+        hookProperties = properties;
+        transform.position = hookTransform.position;
+        transform.forward = hookTransform.forward;
+        this.enemyCount = enemyCount;
     }
     #endregion
 
     #region Private Methods
-    private void FinishRetracting(){
-        mod.modEnergySettings.isActive = false;
-        transform.localPosition = initPos;
-        isPullingWielder = false;
+    private void ResetToDefaults()
+    {
+        hookProperties = null;
+        target = null;
+        isTargetHit = false;
+        enemyCount = 0;
+        startingPoint.localPosition = Vector3.zero;
+        endingPoint.SetParent(transform);
+        endingPoint.localPosition = Vector3.zero;
     }
 
-    private IEnumerator<float> ThrowAndRetractHook()
+    private float CalculateChainLength()
     {
-        isThrowing = true;
-        while (transform.localPosition.z < maxLength && isThrowing)
-        {            
-            transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z + growRate * Time.deltaTime);
-            yield return 0f;
-        }
-        isThrowing = false;
-        Timing.RunCoroutine(Retract());
+       return Vector3.Distance(startingPoint.position, endingPoint.position);
     }
-
-    private IEnumerator<float> ThrowHook()
+    
+    private void SpawnNextChain()
     {
-        isThrowing = true;
-        while (transform.localPosition.z < maxLength && isThrowing)
-        {
-            transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z + growRate * Time.deltaTime);
-            yield return 0f;
-        }
-    }
-
-    private void HitTarget()
-    {
-        isThrowing = false;
-        mod.SetHitTargetThisShot(true);
-        if (isCharged)
-        {
-            isPullingWielder = true;
-            pullDirection = mod.WielderMovable.GetForward();
-        }
-    }
-
-    private void PullToTarget()
-    {
-        mod.WielderMovable.AddDecayingForce(pullDirection * pullForce);
-    }
-
-    private IEnumerator<float> Retract()
-    {
-        if (isPullingWielder) {
-            PullToTarget();            
-        }
-        while (transform.localPosition.z > initPos.z)
-        {
-            //if (isPullingWielder)
-            //{
-            //  PullToTarget()
-            //}
-            //transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z - shrinkRate * Time.deltaTime);
-            transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z - shrinkRate * Time.deltaTime);
-            yield return 0f;
-        }        
-        FinishRetracting();
-        isThrowing = false;
+        GrapplerMod.HookProperties newProperties = hookProperties;
+        newProperties.maxDistance -= CalculateChainLength();
+        //Spawn enemy
     }
     #endregion
 
