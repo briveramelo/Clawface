@@ -34,6 +34,8 @@
         public static string PAUSE = "PauseMenu";
         public static string FADE = "FadeMenu";
         public static string TUTORIAL = "TutorialMenu";
+        public static string STAGE_OVER = "StageOverMenu";
+        public static string SETTINGS = "Settings";
     }
 
     public static class Input
@@ -49,7 +51,6 @@
             public const string FIRE_RIGHT = "Fire Right";
             public const string FIRE_LEFT = "Fire Left";
             public const string PAUSE = "Pause";
-            public const string LOCK = "Lock";
             public const string SKIN = "Skin";
             public const string DODGE = "Dodge";
         }

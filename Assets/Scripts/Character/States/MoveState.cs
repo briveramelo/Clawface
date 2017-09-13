@@ -18,7 +18,7 @@ public class MoveState : IPlayerState
     #region Public Methods    
     public override void Init(ref PlayerStateManager.StateVariables moveStateVariables)
     {
-        this.stateVariables = moveStateVariables;
+        stateVariables = moveStateVariables;
         canMove = true;
         isSidescrolling = false;
         lastMoveDirection = moveStateVariables.playerTransform.forward;
@@ -68,7 +68,8 @@ public class MoveState : IPlayerState
         } else if (lastLookDirection != Vector3.zero)
         {
             lastMoveDirection = lastLookDirection;
-        }    
+        }
+        stateVariables.velBody.MoveDirection = lastMoveDirection;
     }
 
     public override void StateFixedUpdate()
@@ -135,15 +136,8 @@ public class MoveState : IPlayerState
     }
 
     private void HandleRotation(){
-        if (stateVariables.currentEnemy != null) {
-            stateVariables.velBody.LookAt(stateVariables.currentEnemy.transform);
-        }
-        else if (lastLookDirection != Vector3.zero) {
+        if (lastLookDirection != Vector3.zero) {
             stateVariables.playerTransform.forward = lastLookDirection;
-        }
-        else
-        {
-            stateVariables.playerTransform.forward = lastMoveDirection;
         }
     }
 
@@ -161,15 +155,6 @@ public class MoveState : IPlayerState
     public PlayerStateManager.StateVariables GetStateVariables()
     {
         return stateVariables;
-    }
-
-    public override void Attack()
-    {
-    }
-
-    public override void SecondaryAttack(bool isHeld, float holdTime)
-    {
-
     }
     #endregion
 }

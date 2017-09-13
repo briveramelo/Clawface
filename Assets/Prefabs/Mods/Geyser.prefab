@@ -307,50 +307,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92244819fcb501b44967c14280bb78fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hasState: 1
-  vfxModChargePrefab: {fileID: 1868770362516384, guid: 75076dc3f3739ff4bb01ae67a336ecc5,
-    type: 2}
-  vfxModCooldownPrefab: {fileID: 1020022290495414, guid: 28c736c9f78d4cc4b8ea1d4a2875356d,
-    type: 2}
+  hasState: 0
   pickupCollider: {fileID: 65003413662208174}
   modCanvas: {fileID: 1301330211412350}
   energySettings:
-    timeToChargeArm: 3
-    timeToChargeLeg: 1
     standardArmAttackSettings:
       timeToCoolDown: 0.5
-      timeToAttack: 0.5
+      timeToAttack: 0
       attack: 5
-      timeToHitStop: 0
-    chargedArmAttackSettings:
-      timeToCoolDown: 0.5
-      timeToAttack: 0.5
-      attack: 10
-      timeToHitStop: 0
-    standardLegAttackSettings:
-      timeToCoolDown: 0.4
-      timeToAttack: 0
-      attack: 0
-      timeToHitStop: 0
-    chargedLegAttackSettings:
-      timeToCoolDown: 0.8
-      timeToAttack: 0
-      attack: 0
-      timeToHitStop: 0
-    timeCharged: 0
     isCoolingDown: 0
     isActive: 0
-    hasStartedCharging: 0
   shortRangeDistance: 3
-  longRangeDistance: 8
-  maxScaleMultiplier: 0.8
   minScaleMultiplier: 0.3
   geyserTarget: {fileID: 1453224934583048}
-  numberOfSquirts: 3
-  squirtDistanceOffset: 3
-  timeBetweenSquirts: 0.2
-  timeForEachSquirt: 5
-  megaSquirtWaitTime: 0.6
 --- !u!114 &114876056122338820
 MonoBehaviour:
   m_ObjectHideFlags: 1

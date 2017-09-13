@@ -20,7 +20,8 @@ public class MallCopPatrolState : MallCopState {
 
     }
 
-    private void Patrol() {        
+    private void Patrol() {
+       
         if (controller.timeInLastState > properties.walkTime) {
             GetNewPatrolTarget();
         }
@@ -36,6 +37,7 @@ public class MallCopPatrolState : MallCopState {
     }
 
     private bool IsHittingWall(Vector3 movementDirection, float checkDistance) {
+
         Ray raycast = new Ray(velBody.foot.position, movementDirection);
         List<RaycastHit> rayCastHits = new List<RaycastHit>(Physics.RaycastAll(raycast, checkDistance));
         if (rayCastHits.Any(hit => (

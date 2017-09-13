@@ -72,14 +72,13 @@ public enum DamagedType {
 }
 
 public enum ModType {
-    ForceSegway=0,
-    ArmBlaster=1,
-    StunBaton=2,
-    Grappler = 3,
-    Boomerang = 4,
-    Geyser = 5,
-    Dice = 6,
-    None=7
+    ForceSegway = 0,
+    ArmBlaster = 1,
+    Grappler = 2,
+    Boomerang = 3,
+    Geyser = 4,
+    Dice = 5,
+    None = 6
 }
 
 public enum ModCategory
@@ -109,11 +108,11 @@ public enum Layers {
 
 public enum PoolObjectType {
     Mine=0,
-    MineExplosionEffect=1,
+    MineExplosionEffect=1,//
     BlasterBullet=2,
     BlasterImpactEffect=3,
-    MallCopSwinger=4,
-    TargetExplosionEffect=5,
+    MallCopSwinger=4,//
+    TargetExplosionEffect=5,//
     BloodDecal=6,
     BloodEmitter=7,
     MallCopBlaster=8,
@@ -122,8 +121,8 @@ public enum PoolObjectType {
     GrapplingBot=11,
     GeyserProjectile = 12,
     DiceBlock=13,
-    BlasterBulletCharged=14,
-    VFXSegwayBlasterCharged = 15,
+    BlasterBulletCharged=14,//
+    VFXSegwayBlasterCharged = 15,//
     BlasterImpactEffectCharged = 16,
     VFXBlasterShoot=17,
     VFXBlasterShootCharged=18,
@@ -134,6 +133,7 @@ public enum PoolObjectType {
     GeyserBase = 23,
     SkinningEffect = 24,
     HealthGain = 25,
+    WorldScoreCanvas = 26,
 }
 
 public enum MovementMode
@@ -179,6 +179,7 @@ public enum MallCopAnimationStates {
     Run = 7,
     Fire = 8
 }
+
 public enum EMallCopState {
     Patrol = 0,
     Swing = 1,
@@ -198,9 +199,8 @@ public enum EGrapplingBotState {
 }
 
 public enum SpawnType {
-    Swinger=0,
-    Blaster = 1,
-    Grappler = 2,
+    Blaster = 0,
+    Grappler = 1,
 }
 
 public enum ActionType

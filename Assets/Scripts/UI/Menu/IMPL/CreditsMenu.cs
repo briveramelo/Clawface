@@ -16,6 +16,14 @@ public class CreditsMenu : Menu
             return displayed;
         }
     }
+
+    public override Button InitialSelection // these menus probably won't use this
+    {
+        get
+        {
+            return null;
+        }
+    }
     #endregion
 
     [SerializeField]

@@ -33,10 +33,8 @@ public class InputManager : Singleton<InputManager> {
     #endregion
 
     #region Unity Lifecycle Functions
-    protected override void Awake()
+    protected void Start()
     {
-        base.Awake();
-
         player = ReInput.players.GetPlayer(0); // get the only player
     }
 
@@ -84,7 +82,7 @@ public class InputManager : Singleton<InputManager> {
     //// AnyKey Wrapper
     public bool AnyKey()
     {
-        return Input.anyKey;
+        return Input.anyKey || player.GetAnyButton();
     }
 
     //// Haptics
