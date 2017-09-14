@@ -105,6 +105,7 @@ public class PauseMenu : Menu {
         Scene scene = SceneManager.GetActiveScene();
         loadMenu.TargetScene = scene.name;
         MenuManager.Instance.DoTransition(loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+        if (paused) TogglePaused();
     }
 
     public void quitAction()
@@ -115,6 +116,7 @@ public class PauseMenu : Menu {
         loadMenu.TargetScene = Strings.Scenes.MainMenu;
         loadMenu.Fast = true;
         MenuManager.Instance.DoTransition(loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+        if (paused) TogglePaused();
     }
 
 

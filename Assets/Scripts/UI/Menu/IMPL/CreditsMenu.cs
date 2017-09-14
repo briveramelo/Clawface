@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class CreditsMenu : Menu
 {
-
     #region Public Fields
+
     public override bool Displayed
     {
         get
@@ -17,62 +14,74 @@ public class CreditsMenu : Menu
         }
     }
 
-    public override Button InitialSelection // these menus probably won't use this
+    public override Button InitialSelection
     {
         get
         {
-            return null;
+            return returnButton;
         }
     }
+
     #endregion
+
+    #region Unity Serilization Fields
 
     [SerializeField]
-    GameObject mainMenuCanvasGameObject;
+    private Button returnButton;
 
-    CanvasGroup mainMenuCanvasGroup;
-    Button mainDefaultSelected;
-
-    #region Private Fields
-    private bool displayed = false;
     #endregion
 
-    public CreditsMenu() : base(Strings.MenuStrings.CREDITS)
-    {
-    }
+    #region Private Fields
 
-    private void Start()
-    {
-        mainMenuCanvasGroup = mainMenuCanvasGameObject.GetComponent<CanvasGroup>();
-        mainDefaultSelected = mainMenuCanvasGameObject.GetComponentInChildren<Button>();
-    }
+    private bool displayed = false;
+
+    #endregion
+
+    #region Public Interface
+
+    public CreditsMenu() : base(Strings.MenuStrings.CREDITS) {}
+
     public override void DoTransition(Transition transition, Effect[] effects)
     {
         switch (transition)
         {
             case Transition.HIDE:
-                StartCoroutine(MenuTransitionsCommon.FadeCoroutine(1.0f, 0.0f, 1.0f, canvasGroup, 
-                    () => { displayed = false; }));
+                if (!displayed) return;
+                OnTransitionStarted(transition, effects);
+                StartCoroutine(MenuTransitionsCommon.FadeCoroutine(1.0F, 0.0F, 1.0F,
+                    canvasGroup, () => { HideComplete(); OnTransitionEnded(transition, effects); }));
                 break;
             case Transition.SHOW:
-                StartCoroutine(MenuTransitionsCommon.FadeCoroutine(0.0f, 1.0f, 1.0f, canvasGroup,
-                    () => { displayed = true; }));
+                if (displayed) return;
+                OnTransitionStarted(transition, effects);
+                StartCoroutine(MenuTransitionsCommon.FadeCoroutine(0.0F, 1.0F, 1.0F,
+                    canvasGroup, () => { ShowComplete(); OnTransitionEnded(transition, effects); }));
                 break;
+            case Transition.TOGGLE:
+                DoTransition(displayed ? Transition.HIDE : Transition.SHOW, effects);
+                return;
         }
     }
 
-    public void FireBack()
+    public void BackAction()
     {
-        //turn off event system
-        MenuManager.Instance.EnableEventSystem(false);
-        StartCoroutine(MenuTransitionsCommon.FadeCoroutine(1.0f, 0.0f, 1.0f, canvasGroup, ShowMain));
+        MenuManager.Instance.DoTransition(Strings.MenuStrings.MAIN,
+            Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
     }
 
-    void ShowMain()
+    #endregion
+
+    #region Private Interface
+
+    private void HideComplete()
     {
-        mainMenuCanvasGameObject.SetActive(true);
-        StartCoroutine(MenuTransitionsCommon.FadeCoroutine(0.0f, 1.0f, 1.0f, mainMenuCanvasGroup, null));
-        mainDefaultSelected.Select();
-        //turn on event system
-        MenuManager.Instance.EnableEventSystem(true);
+        displayed = false;
     }
+
+    private void ShowComplete()
+    {
+        displayed = true;
+    }
+
+    #endregion
 }
