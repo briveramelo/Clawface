@@ -1,43 +1,97 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿// VFXMeleeSwing.cs
+// Author: Aaron
+
 using UnityEngine;
 
-public class VFXMeleeSwing : MonoBehaviour {
+namespace Turing.VFX
+{
+    /// <summary>
+    /// Behavior for melee swing meshes.
+    /// </summary>
+    public class VFXMeleeSwing : MonoBehaviour
+    {
+        #region Serialized Unity Inspector Fields
 
-	[SerializeField] float _startUV = 1f;
-    [SerializeField] float _endUV = 1f;
+        /// <summary>
+        /// UV value to start effect at.
+        /// </summary>
+        [Tooltip("UV value to start effect at.")]
+        [SerializeField] float startUV = 1f;
 
-    [SerializeField] float _effectSpeed = 1f;
+        /// <summary>
+        /// UV value to end effect at.
+        /// </summary>
+        [Tooltip("UV value to end effect at.")]
+        [SerializeField] float endUV = 1f;
 
-    bool _playing = false;
+        /// <summary>
+        /// Speed of effect.
+        /// </summary>
+        [Tooltip("Speed of effect.")]
+        [SerializeField] float effectSpeed = 1f;
 
-    Material _mat;
+        #endregion
+        #region Private Fields
 
-    private void Awake() {
-        _mat = GetComponent<MeshRenderer>().material;
-        PlayAnimation();
-    }
+        /// <summary>
+        /// Is this effect currently playing?
+        /// </summary>
+        bool playing = false;
 
-    private void Update() {
-        if (_playing) {
-            var dUV = (_endUV - _startUV) * Time.deltaTime * _effectSpeed;
-            SetUV (Mathf.Clamp(_mat.mainTextureOffset.x + dUV, _startUV, _endUV));
-            if (_mat.mainTextureOffset.x == _endUV) {
-                _playing = false;
-                GetComponent<MeshRenderer>().enabled = false;
+        /// <summary>
+        /// Material used in this effect.
+        /// </summary>
+        Material mat;
+
+        #endregion
+        #region Unity Lifecycle
+
+        private void Awake()
+        {
+            mat = GetComponent<MeshRenderer>().material;
+            PlayAnimation();
+        }
+
+        private void Update()
+        {
+            if (playing)
+            {
+                var dUV = (endUV - startUV) * Time.deltaTime * effectSpeed;
+                SetUV(Mathf.Clamp(mat.mainTextureOffset.x + dUV, startUV, endUV));
+                if (mat.mainTextureOffset.x == endUV)
+                {
+                    playing = false;
+                    GetComponent<MeshRenderer>().enabled = false;
+                }
             }
         }
-    }
 
-    public void PlayAnimation () {
-        GetComponent<MeshRenderer>().enabled = true;
-        SetUV (_startUV);
-        _playing = true;
-    }
+        #endregion
+        #region Public Methods
 
-    void SetUV (float newUV) {
-        var offset = _mat.mainTextureOffset;
-        offset.x = newUV;
-        _mat.mainTextureOffset = offset;
+        /// <summary>
+        /// Plays this effect.
+        /// </summary>
+        public void PlayAnimation()
+        {
+            GetComponent<MeshRenderer>().enabled = true;
+            SetUV(startUV);
+            playing = true;
+        }
+
+        #endregion
+        #region Private Methods
+
+        /// <summary>
+        /// Sets the UV of the effect mesh.
+        /// </summary>
+        void SetUV(float newUV)
+        {
+            var offset = mat.mainTextureOffset;
+            offset.x = newUV;
+            mat.mainTextureOffset = offset;
+        }
+
+        #endregion
     }
 }

@@ -1,32 +1,45 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEditor;
+﻿// MusicGroupEditor.cs
+// Author: Aaron
+
 using Turing.Audio;
 
+using UnityEditor;
+
+using UnityEngine;
+
+/// <summary>
+/// Custom editor for MusicGroups.
+/// </summary>
 [CustomEditor(typeof(MusicGroup))]
-public class MusicGroupEditor : Editor {
+public sealed class MusicGroupEditor : Editor
+{
+    #region Private Fields
 
-    const float _REMOVE_INSTRUMENT_BUTTON_WIDTH = 20f;
+    const float REMOVE_INSTRUMENT_BUTTON_WIDTH = 20f;
 
-    MusicGroup _target;
+    MusicGroup MGTarget;
 
-    SerializedObject _serializedTarget;
-    SerializedProperty _playOnAwakeProp;
-    SerializedProperty _bpmProp;
-    SerializedProperty _instrumentChannelsProp;
+    SerializedObject serializedTarget;
+    SerializedProperty playOnAwakeProp;
+    SerializedProperty bpmProp;
+    SerializedProperty instrumentChannelsProp;
 
-    void OnEnable() {
-        _target = target as MusicGroup;
-        _serializedTarget = new SerializedObject(_target);
-        _playOnAwakeProp = _serializedTarget.FindProperty("_playOnAwake");
-        _bpmProp = _serializedTarget.FindProperty("_bpm");
-        _instrumentChannelsProp = _serializedTarget.FindProperty("_instrumentChannels");
+    #endregion
+    #region Unity Lifecycle
+
+    void OnEnable()
+    {
+        MGTarget = target as MusicGroup;
+        serializedTarget = new SerializedObject(MGTarget);
+        playOnAwakeProp = serializedTarget.FindProperty("playOnAwake");
+        bpmProp = serializedTarget.FindProperty("bpm");
+        instrumentChannelsProp = serializedTarget.FindProperty("instrumentChannels");
     }
 
-    public override void OnInspectorGUI() {
+    public override void OnInspectorGUI()
+    {
         // Update serialized object
-        _serializedTarget.Update();
+        serializedTarget.Update();
 
         EditorGUILayout.Space();
 
@@ -35,11 +48,11 @@ public class MusicGroupEditor : Editor {
 
         // Show play sound button
         if (GUILayout.Button("Play Track", GUILayout.Width(96f)))
-            _target.Play();
+            MGTarget.Play();
 
         // Show stop sound button
         if (GUILayout.Button("Stop Track", GUILayout.Width(96f)))
-            _target.Stop();
+            MGTarget.Stop();
 
         EditorGUILayout.EndHorizontal();
         EditorGUILayout.Space();
@@ -49,12 +62,16 @@ public class MusicGroupEditor : Editor {
         // Global settings header
         EditorGUILayout.LabelField("Global Settings", EditorStyles.boldLabel);
 
-        if (Application.isPlaying) {
-            EditorGUILayout.LabelField(_target.IsPlaying ? "Playing" : "Stopped");
-            EditorGUILayout.LabelField("Current volume scale: " + _target.VolumeScale);
-        } else {
-            EditorGUILayout.PropertyField(_playOnAwakeProp);
-            EditorGUILayout.PropertyField(_bpmProp);
+        if (Application.isPlaying)
+        {
+            EditorGUILayout.LabelField(MGTarget.IsPlaying ? "Playing" : "Stopped");
+            EditorGUILayout.LabelField("Current volume scale: " + MGTarget.VolumeScale);
+        } 
+        
+        else
+        {
+            EditorGUILayout.PropertyField(playOnAwakeProp);
+            EditorGUILayout.PropertyField(bpmProp);
             EditorGUILayout.TextArea("Looping functionality is not available in the editor. Test it in play mode.", EditorStyles.helpBox);
         }
 
@@ -66,47 +83,58 @@ public class MusicGroupEditor : Editor {
         EditorGUILayout.LabelField("Channels", EditorStyles.boldLabel);
         EditorGUI.indentLevel++;
 
-        int instrumentCount = _instrumentChannelsProp.arraySize;
-        for (int i = 0; i < instrumentCount; i++) {
+        int instrumentCount = instrumentChannelsProp.arraySize;
+        for (int i = 0; i < instrumentCount; i++)
+        {
             // Check if instruments have been added
-            if (_instrumentChannelsProp.arraySize != instrumentCount)
+            if (instrumentChannelsProp.arraySize != instrumentCount)
                 break;
 
             // Draw remove instrument button
-            var instrument = _instrumentChannelsProp.GetArrayElementAtIndex(i);
+            var instrument = instrumentChannelsProp.GetArrayElementAtIndex(i);
             EditorGUILayout.PropertyField(instrument);
             var lastRect = GUILayoutUtility.GetLastRect();
-            lastRect.x = lastRect.x + lastRect.width - _REMOVE_INSTRUMENT_BUTTON_WIDTH;
-            lastRect.width = _REMOVE_INSTRUMENT_BUTTON_WIDTH;
-            lastRect.height = _REMOVE_INSTRUMENT_BUTTON_WIDTH;
-            if (GUI.Button(lastRect, "x", EditorStyles.toolbarButton)) {
-
+            lastRect.x = lastRect.x + lastRect.width - REMOVE_INSTRUMENT_BUTTON_WIDTH;
+            lastRect.width = REMOVE_INSTRUMENT_BUTTON_WIDTH;
+            lastRect.height = REMOVE_INSTRUMENT_BUTTON_WIDTH;
+            if (GUI.Button(lastRect, "x", EditorStyles.toolbarButton))
+            {
                 // KEEP BOTH OF THESE FUNCTIONS
                 // First one: sets array element to null
                 // Second one: actually removes it
                 if (instrument.objectReferenceValue != null)
-                    _instrumentChannelsProp.DeleteArrayElementAtIndex(i);
-                _instrumentChannelsProp.DeleteArrayElementAtIndex(i);
+                    instrumentChannelsProp.DeleteArrayElementAtIndex(i);
+                instrumentChannelsProp.DeleteArrayElementAtIndex(i);
                 break;
             }
         }
 
         // Draw add new element channel button
-        if (GUILayout.Button("Add new element channel")) {
-            _target.AddInstrumentChannel();
-            _serializedTarget.Update();
+        if (GUILayout.Button("Add new element channel"))
+        {
+            MGTarget.AddInstrumentChannel();
+            serializedTarget.Update();
         }
         EditorGUI.indentLevel--;
         EditorGUILayout.EndVertical();
         EditorGUILayout.Space();
 
         // Apply modified properties
-        _serializedTarget.ApplyModifiedProperties();
+        serializedTarget.ApplyModifiedProperties();
 
     }
 
+    #endregion
+    #region Private Methods
+
+    /// <summary>
+    /// Creates a new music group (accessible from editor toolbar).
+    /// </summary>
     [MenuItem("Audio/Create music group")]
-    static void CreateMusicGroup() {
+    static void CreateMusicGroup()
+    {
         new GameObject("New music group", typeof(MusicGroup));
     }
+
+    #endregion
 }

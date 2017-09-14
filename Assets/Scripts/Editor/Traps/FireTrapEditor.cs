@@ -1,45 +1,54 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿// FireTrapEditor.cs
+// Author: Aaron
+
+using Turing.Gameplay;
+
 using UnityEditor;
 
+using UnityEngine;
+
+/// <summary>
+/// Custom editor for FireTraps.
+/// </summary>
 [CustomEditor(typeof(FireTrap))]
-public class FireTrapEditor : Editor {
+public sealed class FireTrapEditor : Editor
+{
+    #region Unity Lifecycle
 
-    public override void OnInspectorGUI() {
-        //base.OnInspectorGUI();
-
-        var _target = target as FireTrap;
+    public override void OnInspectorGUI()
+    {
+        var FTTarget = target as FireTrap;
 
         EditorGUILayout.Space();
 
-        _target.TrapMode = (FireTrap.Mode)EditorGUILayout.EnumPopup ("Trap Mode", _target.TrapMode);
+        FTTarget.TrapMode = (FireTrap.Mode)EditorGUILayout.EnumPopup ("Trap Mode", FTTarget.TrapMode);
 
-        switch (_target.TrapMode) {
+        switch (FTTarget.TrapMode)
+        {
             case FireTrap.Mode.ContinuousOpenClose:
-                _target.OpenTime = EditorGUILayout.FloatField ("Open Time", _target.OpenTime);
-                _target.CloseTime = EditorGUILayout.FloatField ("Close Time", _target.CloseTime);
-                _target.StayOpenTime = EditorGUILayout.FloatField ("Stay Open Time", _target.StayOpenTime);
-                _target.StayClosedTime = EditorGUILayout.FloatField ("Stay Closed Time", _target.StayClosedTime);
+                FTTarget.OpenTime = EditorGUILayout.FloatField ("Open Time", FTTarget.OpenTime);
+                FTTarget.CloseTime = EditorGUILayout.FloatField ("Close Time", FTTarget.CloseTime);
+                FTTarget.StayOpenTime = EditorGUILayout.FloatField ("Stay Open Time", FTTarget.StayOpenTime);
+                FTTarget.StayClosedTime = EditorGUILayout.FloatField ("Stay Closed Time", FTTarget.StayClosedTime);
                 break;
 
             case FireTrap.Mode.ContinuousStream:
                 break;
 
             case FireTrap.Mode.PressureTrigger:
-                _target.OpenTime = EditorGUILayout.FloatField ("Open Time", _target.OpenTime);
-                _target.CloseTime = EditorGUILayout.FloatField ("Close Time", _target.CloseTime);
+                FTTarget.OpenTime = EditorGUILayout.FloatField ("Open Time", FTTarget.OpenTime);
+                FTTarget.CloseTime = EditorGUILayout.FloatField ("Close Time", FTTarget.CloseTime);
                 break;
         }
 
-        _target.DamagePerSecond = EditorGUILayout.FloatField ("Damage Per Second", _target.DamagePerSecond);
+        FTTarget.DamagePerSecond = EditorGUILayout.FloatField ("Damage Per Second", FTTarget.DamagePerSecond);
 
-        if (Application.isPlaying) {
-
-            
-
-            if (GUILayout.Button("Open")) _target.Open();
-            if (GUILayout.Button("Close")) _target.Close();
+        if (Application.isPlaying)
+        {
+            if (GUILayout.Button("Open")) FTTarget.Open();
+            if (GUILayout.Button("Close")) FTTarget.Close();
         }
     }
+
+    #endregion
 }

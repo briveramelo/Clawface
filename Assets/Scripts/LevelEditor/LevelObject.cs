@@ -1,42 +1,47 @@
 ﻿// LevelObject.cs
+// Author: Aaron
 
 using UnityEngine;
 
-/// <summary>
-/// Class for a level GameObject.
-/// </summary>
-[ExecuteInEditMode]
-public class LevelObject : SingletonMonoBehaviour<LevelObject> {
-
-    #region Vars
-
+namespace Turing.LevelEditor
+{
     /// <summary>
-    /// The level data this LevelObject wraps.
+    /// Class for a level GameObject.
     /// </summary>
-    [SerializeField] Level _level;
+    [ExecuteInEditMode]
+    public sealed class LevelObject : EditorSingleton<LevelObject>
+    {
+        #region Serialized Unity Inspector Fields
 
-    #endregion
-    #region Unity Callbacks
+        /// <summary>
+        /// The level data this LevelObject wraps.
+        /// </summary>
+        [SerializeField] Level level;
 
-    new void Awake() {
+        #endregion
+        #region Unity Lifecycle
 
-        // Destroy the old instance
-        if (Instance != null)
-            LevelManager.Instance.DestroyLoadedObject (Instance.gameObject);
+        new void Awake()
+        {
+            // Destroy the old instance
+            if (Instance != null)
+                LevelManager.Instance.DestroyLoadedObject(Instance.gameObject);
 
-        base.Awake();
+            base.Awake();
+        }
+
+        #endregion
+        #region Public Methods
+
+        /// <summary>
+        /// Gets/sets the encapsulated level.
+        /// </summary>
+        public Level Level
+        {
+            get { return level; }
+            set { level = value; }
+        }
+
+        #endregion
     }
-
-    #endregion
-    #region Properties
-
-    /// <summary>
-    /// Gets/sets the encapsulated level.
-    /// </summary>
-    public Level Level {
-        get { return _level; }
-        set { _level = value; }
-    }
-
-    #endregion
 }
