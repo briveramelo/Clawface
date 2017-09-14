@@ -1,140 +1,226 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿// TemporaryGib.cs
+// Author: Aaron
+
+using System.Collections;
+
 using UnityEngine;
 
-public class TemporaryGib : MonoBehaviour {
+namespace Turing.VFX
+{
+    /// <summary>
+    /// Behavior to control temporary gib objects.
+    /// </summary>
+    public sealed class TemporaryGib : MonoBehaviour
+    {
+        #region Serialized Unity Inspector Fields
 
-    const float _BLOOD_SMEAR_Y_OFFSET = 0.01f;
-    const int _MAX_SMEAR_POINTS = 10;
-    static Quaternion _BLOOD_SMEAR_ROTATION = Quaternion.Euler(90f, 0f, 0f);
-
-    [SerializeField]
-    float _lifetime = 5f;
-    [SerializeField]
-    float _fadeTime = 2f;
-    [SerializeField]
-    float _bloodPaintDist = 1f;
-    [SerializeField]
-    bool _doSmear = false;
-
-    int _groundLayerMask = 1 << (int)Layers.Ground;
-
-    float _smearY;
-
-    Vector3[] _smearPoints;
-
-
-    float _t;
-
-    Color _color;
-    Color _originalColor;
-
-    Material _material;
-
-    Rigidbody _rb;
-
-    LineRenderer _lineRenderer;
-    Vector3 _lastSmearPoint;
+        /// <summary>
+        /// Lifetime of this gib (seconds).
+        /// </summary>
+        [Tooltip("Lifetime of this gib (seconds).")]
+        [SerializeField] float lifetime = 5f;
+        
+        /// <summary>
+        /// Time taken to fade (seconds).
+        /// </summary>
+        [Tooltip("Time taken to fade (seconds).")]
+        [SerializeField] float fadeTime = 2f;
+        
+        /// <summary>
+        /// Distance to paint blood (UU).
+        /// </summary>
+        [Tooltip("Distance to paint blood (UU).")]
+        [SerializeField] float bloodPaintDist = 1f;
+        
+        /// <summary>
+        /// Show blood smear?
+        /// </summary>
+        [Tooltip("Show blood smear?")]
+        [SerializeField] bool doSmear = false;
 
 
-    private void Awake() {
-        _material = GetComponentInChildren<MeshRenderer>(true).material;
-        _originalColor = _material.color;
-        _color = _material.color;
+        #endregion
+        #region Private Fields
 
-        if (_doSmear) {
-            _lineRenderer = GetComponentInChildren<LineRenderer>(true);
+        const float BLOOD_SMEAR_Y_OFFSET = 0.01f;
 
-            _lineRenderer.enabled = false;
-            _smearPoints = new Vector3[_MAX_SMEAR_POINTS];
-            _lineRenderer.positionCount = 0;
-            _lineRenderer.SetPositions(_smearPoints);
-        }
+        /// <summary>
+        /// Maximum number of points in smear trail.
+        /// </summary>
+        const int MAX_SMEAR_POINTS = 10;
 
-        StartCoroutine(LiveAndFade());
-    }
+        /// <summary>
+        /// Rotation of smear points.
+        /// </summary>
+        static Quaternion BLOOD_SMEAR_ROTATION = 
+            Quaternion.Euler(90f, 0f, 0f);
 
-    private void OnEnable() {
-        _color = _originalColor;
-        _material.color = _color;
-    }
+        /// <summary>
+        /// Layer mask of the gorund.
+        /// </summary>
+        int groundLayerMask = 1 << (int)Layers.Ground;
 
-    private void OnCollisionEnter(Collision collision) {
-        if (_doSmear) {
+        /// <summary>
+        /// Y-position of smear points.
+        /// </summary>
+        float smearY;
 
-            if (collision.collider.gameObject.layer == (int)Layers.Ground) {
-                var point = collision.contacts[0].point;
-                var smearPos = transform.position;
-                RaycastHit hit;
-                if (Physics.Raycast(transform.position, Vector3.down, out hit, Mathf.Infinity, _groundLayerMask)) {
-                    _smearY = hit.point.y;
-                }
+        /// <summary>
+        /// List of smear points.
+        /// </summary>
+        Vector3[] smearPoints;
 
-                smearPos.y = _smearY + _BLOOD_SMEAR_Y_OFFSET;
-                _lineRenderer.enabled = true;
-                _lastSmearPoint = smearPos;
-                _smearPoints[0] = _lastSmearPoint;
-                _smearPoints[1] = _lastSmearPoint;
-                _lineRenderer.positionCount = 2;
+        /// <summary>
+        /// Current lifetime (seconds).
+        /// </summary>
+        float t;
+
+        /// <summary>
+        /// Current gib color.
+        /// </summary>
+        Color color;
+
+        /// <summary>
+        /// Original gib color.
+        /// </summary>
+        Color originalColor;
+
+        /// <summary>
+        /// Gib material.
+        /// </summary>
+        Material material;
+
+        /// <summary>
+        /// Rigidbody attached to this gib.
+        /// </summary>
+        Rigidbody rb;
+
+        /// <summary>
+        /// LineRenderer attached to this gib.
+        /// </summary>
+        LineRenderer lineRenderer;
+
+        /// <summary>
+        /// Last point of smearing.
+        /// </summary>
+        Vector3 lastSmearPoint;
+
+        #endregion
+        #region Unity Lifecycle
+
+        private void Awake()
+        {
+            material = GetComponentInChildren<MeshRenderer>(true).material;
+            originalColor = material.color;
+            color = material.color;
+
+            if (doSmear)
+            {
+                lineRenderer = GetComponentInChildren<LineRenderer>(true);
+
+                lineRenderer.enabled = false;
+                smearPoints = new Vector3[MAX_SMEAR_POINTS];
+                lineRenderer.positionCount = 0;
+                lineRenderer.SetPositions(smearPoints);
             }
+
+            StartCoroutine(LiveAndFade());
         }
-    }
 
-    private void OnCollisionStay(Collision collision) {
-        if (_doSmear) {
-            if (collision.collider.gameObject.layer == (int)Layers.Ground) {
-                var point = collision.contacts[0].point;
-                var smearPos = transform.position;
-                smearPos.y = point.y + _BLOOD_SMEAR_Y_OFFSET;
-                var dist = Vector3.Distance(smearPos, _lastSmearPoint);
-                if (dist >= _bloodPaintDist) {
+        private void OnEnable()
+        {
+            color = originalColor;
+            material.color = color;
+        }
 
-                    if (_lineRenderer.positionCount < _MAX_SMEAR_POINTS - 1)
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (doSmear)
+            {
 
-                        _lineRenderer.positionCount++;
-
-                    var start = Mathf.Min(_lineRenderer.positionCount, _MAX_SMEAR_POINTS) - 1;
-                    for (int i = start; i > 1; i--) {
-                        _smearPoints[i] = _smearPoints[i - 1];
+                if (collision.collider.gameObject.layer == (int)Layers.Ground)
+                {
+                    var point = collision.contacts[0].point;
+                    var smearPos = transform.position;
+                    RaycastHit hit;
+                    if (Physics.Raycast(transform.position, Vector3.down, out hit, 
+                        Mathf.Infinity, groundLayerMask))
+                    {
+                        smearY = hit.point.y;
                     }
 
-                    _smearPoints[1] = smearPos;
-                    _lastSmearPoint = smearPos;
-
-                } else {
-                    _smearPoints[0] = smearPos;
+                    smearPos.y = smearY + BLOOD_SMEAR_Y_OFFSET;
+                    lineRenderer.enabled = true;
+                    lastSmearPoint = smearPos;
+                    smearPoints[0] = lastSmearPoint;
+                    smearPoints[1] = lastSmearPoint;
+                    lineRenderer.positionCount = 2;
                 }
-
-                _lineRenderer.SetPositions(_smearPoints);
-
-                _lineRenderer.transform.rotation = _BLOOD_SMEAR_ROTATION;
             }
         }
-    }
 
-    private void OnCollisionExit(Collision collision) {
-        //if (collision.collider.gameObject.layer == (int)Layers.Ground)
-        //_lineRenderer.enabled = false;
-    }
+        private void OnCollisionStay(Collision collision)
+        {
+            if (doSmear)
+            {
+                if (collision.collider.gameObject.layer == (int)Layers.Ground)
+                {
+                    var point = collision.contacts[0].point;
+                    var smearPos = transform.position;
+                    smearPos.y = point.y + BLOOD_SMEAR_Y_OFFSET;
+                    var dist = Vector3.Distance(smearPos, lastSmearPoint);
+                    if (dist >= bloodPaintDist)
+                    {
+                        if (lineRenderer.positionCount < MAX_SMEAR_POINTS - 1)
+                            lineRenderer.positionCount++;
 
-    private IEnumerator LiveAndFade() {
-        yield return new WaitForSecondsRealtime(_lifetime);
+                        var start = Mathf.Min(lineRenderer.positionCount, 
+                            MAX_SMEAR_POINTS) - 1;
 
-        _t = _fadeTime;
-        while (_t > 0f) {
+                        for (int i = start; i > 1; i--)
+                        {
+                            smearPoints[i] = smearPoints[i - 1];
+                        }
 
-            _t -= Time.deltaTime;
-            _color.a = _t / _fadeTime;
-            _material.color = _color;
-            if (_doSmear) {
-                var color = _lineRenderer.material.color;
-                color.a = _color.a;
-                _lineRenderer.material.color = color;
+                        smearPoints[1] = smearPos;
+                        lastSmearPoint = smearPos;
+
+                    } 
+                    
+                    else
+                    {
+                        smearPoints[0] = smearPos;
+                    }
+
+                    lineRenderer.SetPositions(smearPoints);
+                    lineRenderer.transform.rotation = BLOOD_SMEAR_ROTATION;
+                }
             }
+        }
+
+        private IEnumerator LiveAndFade()
+        {
+            yield return new WaitForSecondsRealtime(lifetime);
+
+            t = fadeTime;
+            while (t > 0f)
+            {
+                t -= Time.deltaTime;
+                color.a = t / fadeTime;
+                material.color = color;
+                if (doSmear)
+                {
+                    var color = lineRenderer.material.color;
+                    this.color.a = color.a;
+                    lineRenderer.material.color = color;
+                }
+                yield return null;
+            }
+
+            Destroy(gameObject);
             yield return null;
         }
 
-        Destroy(gameObject);
-        yield return null;
+        #endregion
     }
 }
