@@ -1,222 +1,326 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿// FireTrap.cs
+// Author: Aaron
+
 using ModMan;
+
+using System.Collections.Generic;
 using System.Linq;
 
-public class FireTrap : MonoBehaviour {
+using Turing.VFX;
 
-    const float _DOOR_OPEN_DISTANCE = 0.25f;
-    const float _DOOR_Y = 0.2f;
-    const float _GRATE_LIFT_DISTANCE = 0.25f;
-    const float _GRATE_MIN_Y = -0.03f;
-    const float _GRATE_MAX_Y = 0.02f;
+using UnityEngine;
 
-    enum State {
-        Closed,
-        Open,
-        Opening,
-        Closing
-    }
+namespace Turing.Gameplay
+{
+    /// <summary>
+    /// Behavior to control fire traps.
+    /// </summary>
+    public sealed class FireTrap : MonoBehaviour
+    {
+        #region Serialized Unity Inspector Fields
 
-    public enum Mode {
-        ContinuousStream,
-        ContinuousOpenClose,
-        PressureTrigger
-    }
+        /// <summary>
+        /// How long it takes for the trap to open (seconds).
+        /// </summary>
+        [Tooltip("How long it takes for the trap to open (seconds).")]
+        [SerializeField] float openTime = 1f;
 
-    Transform _door1;
+        /// <summary>
+        /// How long the trap stays open (seconds).
+        /// </summary>
+        [Tooltip("How long the trap stays open (seconds).")]
+        [SerializeField] float stayOpenTime = 3f;
 
-    Transform _door2;
+        /// <summary>
+        /// How long it takes for the trap to close (seconds).
+        /// </summary>
+        [Tooltip("How long it takes for the trap to close (seconds).")]
+        [SerializeField] float closeTime = 1f;
 
-    Transform _grate;
+        /// <summary>
+        /// How long the trap stays closed (seconds).
+        /// </summary>
+        [Tooltip("How long the trap stays closed (seconds).")]
+        [SerializeField] float stayClosedTime = 3f;
 
-    //Collider _damageVolume;
+        /// <summary>
+        /// How much damage to deal to objects in the trap per second.
+        /// </summary>
+        [Tooltip("How much damage to deal to objects in the trap per second.")]
+        [SerializeField] float damagePerSecond = 10f;
 
-    [Tooltip("How long it takes for the trap to open (seconds).")]
-    [SerializeField]
-    float _openTime = 1f;
+        /// <summary>
+        /// Type of trap functionality.
+        /// </summary>
+        [Tooltip("Type of trap functionality.")]
+        [SerializeField] Mode mode;
 
-    [Tooltip("How long the trap stays open (seconds).")]
-    [SerializeField]
-    float _stayOpenTime = 3f;
+        #endregion
+        #region Private Fields
 
-    [Tooltip("How long it takes for the trap to close (seconds).")]
-    [SerializeField]
-    float _closeTime = 1f;
+        const float DOOR_OPEN_DISTANCE = 0.25f;
+        const float DOOR_Y = 0.2f;
+        const float GRATE_LIFT_DISTANCE = 0.25f;
+        const float GRATE_MIN_Y = -0.03f;
+        const float GRATE_MAX_Y = 0.02f;
 
-    [Tooltip("How long the trap stays closed (seconds).")]
-    [SerializeField]
-    float _stayClosedTime = 3f;
+        /// <summary>
+        /// Transforms for the various pieces of the trap.
+        /// </summary>
+        Transform door1, door2, grate;
 
-    [Tooltip("How much damage to deal to objects in the trap per second.")]
-    [SerializeField]
-    float _damagePerSecond = 10f;
-
-    float _damageTimer = 0f;
-
-    [Tooltip("Type of trap functionality.")]
-    [SerializeField]
-    Mode _mode;
-
-    float _t;
-
-    float _stateTimer;
-
-    State _currentState = State.Closed;
-
-    private Damager damager=new Damager();
+        /// <summary>
+        /// Timer for the applying damage.
+        /// </summary>
+        float damageTimer = 0f;
 
 
-    VFXFireEffect _fireEffect;
+        float t;
 
-    void Awake() {
-        _door1 = gameObject.FindInChildren("Door1").transform;
-        _door2 = gameObject.FindInChildren("Door2").transform;
-        _grate = gameObject.FindInChildren("Grate").transform;
-        _fireEffect = GetComponentInChildren<VFXFireEffect>();
-        damager.Set(_damagePerSecond, DamagerType.FireTrap, Vector3.up);
-        //_damageVolume = GetComponent<Collider>();
+        /// <summary>
+        /// Timer for current state.
+        /// </summary>
+        float stateTimer;
 
-        if (_mode == Mode.ContinuousStream) Open();
-    }
+        /// <summary>
+        /// Current state.
+        /// </summary>
+        State currentState = State.Closed;
 
-    void Update() {
-        var dt = Time.deltaTime;
-        List<IDamageable> _objectsInTrap = new List<IDamageable>();
-        Physics.OverlapBox(transform.position, new Vector3(2.5f, 2.5f, 2.5f)).ToList().ForEach(collider => {
-            var damageable = collider.gameObject.GetComponent<IDamageable>();
-            if (damageable == null) return;
+        /// <summary>
+        /// Damager object attached to this fire trap.
+        /// </summary>
+        Damager damager = new Damager();
 
-            if (!_objectsInTrap.Contains(damageable))
-            {
-                _objectsInTrap.Add(damageable);
-                if (_mode == Mode.PressureTrigger && _currentState == State.Closed) Open();
-            }
-        });
-        if(_objectsInTrap.Count == 0)
+        /// <summary>
+        /// Fire effect used on this trap.
+        /// </summary>
+        VFXOneOff fireEffect;
+
+        #endregion
+        #region Public Structures
+
+        /// <summary>
+        /// Enum for trap mode.
+        /// </summary>
+        public enum Mode
         {
-            Close();
+            ContinuousStream,
+            ContinuousOpenClose,
+            PressureTrigger
         }
-        switch (_currentState) {
-            case State.Closing:
-                if (_t >= dt) _t -= dt;
-                else {
-                    _t = 0f;
-                    _currentState = State.Closed;
 
-                    if (_mode == Mode.ContinuousOpenClose)
-                        _stateTimer = _stayClosedTime;
-                }
+        #endregion
+        #region Private Structures
 
-                DrawFrame(_t / _closeTime);
-                break;
-
-            case State.Opening:
-                if (_t <= _openTime - dt) _t += dt;
-                else {
-                    _t = _openTime;
-                    _currentState = State.Open;
-
-                    if (_fireEffect != null) _fireEffect.Play();
-
-                    if (_mode == Mode.ContinuousOpenClose)
-                        _stateTimer = _stayOpenTime;
-                }
-
-                DrawFrame(_t / _openTime);
-                break;
-
-            case State.Open:
-                _damageTimer -= dt;
-                if (_damageTimer <= 0f) {
-                    DoDamage(_objectsInTrap);
-                    _damageTimer += 1f;
-                }
-
-                if (_mode == Mode.ContinuousOpenClose) {
-                    _stateTimer -= dt;
-                    if (_stateTimer <= 0f) Close();
-                }
-                break;
-
-            case State.Closed:
-                if (_mode == Mode.ContinuousOpenClose) {
-                    _stateTimer -= dt;
-                    if (_stateTimer <= 0f) Open();
-                }
-                break;
+        /// <summary>
+        /// Enum for states.
+        /// </summary>
+        enum State
+        {
+            Closed,
+            Open,
+            Opening,
+            Closing
         }
-    }
 
-    //private void OnCollisionEnter(Collision collision) {
-    void OnTriggerEnter (Collider other) {
-        
-    }
+        #endregion
+        #region Unity Lifecycle
 
-    private void OnTriggerExit(Collider other) {
-        /*var damageable = other.gameObject.GetComponent<IDamageable>();
-        if (damageable == null) return;
+        void Awake()
+        {
+            door1 = gameObject.FindInChildren("Door1").transform;
+            door2 = gameObject.FindInChildren("Door2").transform;
+            grate = gameObject.FindInChildren("Grate").transform;
+            fireEffect = GetComponentInChildren<VFXOneOff>();
+            damager.Set(damagePerSecond, DamagerType.FireTrap, Vector3.up);
+            //_damageVolume = GetComponent<Collider>();
 
-        if (_objectsInTrap.Contains(damageable)) {
-            _objectsInTrap.Remove (damageable);
-            if (_objectsInTrap.Count == 0 && _currentState == State.Open) Close();
-        }*/
-    }
-
-    public Mode TrapMode {
-        get { return _mode; }
-        set { _mode = value; }
-    }
-
-    public float OpenTime {
-        get { return _openTime; }
-        set { _openTime = value; }
-    }
-
-    public float StayOpenTime {
-        get { return _stayOpenTime; }
-        set { _stayOpenTime = value; }
-    }
-
-    public float DamagePerSecond {
-        get { return _damagePerSecond; }
-        set { _damagePerSecond = value; }
-    }
-
-    public float CloseTime {
-        get { return _closeTime; }
-        set { _closeTime = value; }
-    }
-
-    public float StayClosedTime {
-        get { return _stayClosedTime; }
-        set { _stayClosedTime = value; }
-    }
-
-    public void Open() {
-        if (_currentState == State.Open) return;
-
-        _currentState = State.Opening;
-    }
-
-    public void Close() {
-        if (_currentState == State.Closed) return;
-        if (_fireEffect != null) _fireEffect.Stop();
-        _currentState = State.Closing;
-    }
-
-    void DrawFrame(float t) {
-        _door1.localPosition = new Vector3(0f, _DOOR_Y, t * _DOOR_OPEN_DISTANCE);
-        _door2.localPosition = new Vector3(0f, _DOOR_Y, -t * _DOOR_OPEN_DISTANCE);
-
-        var grateY = _GRATE_MIN_Y + (_GRATE_MAX_Y - _GRATE_MIN_Y) * t;
-        _grate.localPosition = new Vector3(0f, grateY, 0f);
-    }
-
-    void DoDamage(List<IDamageable> _objectsInTrap) {        
-        foreach (var obj in _objectsInTrap) {
-            obj.TakeDamage(damager);
+            if (mode == Mode.ContinuousStream) Open();
         }
+
+        void Update()
+        {
+            var dt = Time.deltaTime;
+            List<IDamageable> objectsInTrap = new List<IDamageable>();
+            Physics.OverlapBox(transform.position, new Vector3(2.5f, 2.5f, 2.5f)).ToList().ForEach(collider =>
+            {
+                var damageable = collider.gameObject.GetComponent<IDamageable>();
+                if (damageable == null) return;
+
+                if (!objectsInTrap.Contains(damageable))
+                {
+                    objectsInTrap.Add(damageable);
+                    if (mode == Mode.PressureTrigger && currentState == State.Closed) Open();
+                }
+            });
+
+            if (objectsInTrap.Count == 0)
+            {
+                Close();
+            }
+
+            switch (currentState)
+            {
+                case State.Closing:
+                    if (t >= dt) t -= dt;
+                    else
+                    {
+                        t = 0f;
+                        currentState = State.Closed;
+
+                        if (mode == Mode.ContinuousOpenClose)
+                            stateTimer = stayClosedTime;
+                    }
+
+                    DrawFrame(t / closeTime);
+                    break;
+
+                case State.Opening:
+                    if (t <= openTime - dt) t += dt;
+                    else
+                    {
+                        t = openTime;
+                        currentState = State.Open;
+
+                        if (fireEffect != null) fireEffect.Play();
+
+                        if (mode == Mode.ContinuousOpenClose)
+                            stateTimer = stayOpenTime;
+                    }
+
+                    DrawFrame(t / openTime);
+                    break;
+
+                case State.Open:
+                    damageTimer -= dt;
+                    if (damageTimer <= 0f)
+                    {
+                        DoDamage(objectsInTrap);
+                        damageTimer += 1f;
+                    }
+
+                    if (mode == Mode.ContinuousOpenClose)
+                    {
+                        stateTimer -= dt;
+                        if (stateTimer <= 0f) Close();
+                    }
+                    break;
+
+                case State.Closed:
+                    if (mode == Mode.ContinuousOpenClose)
+                    {
+                        stateTimer -= dt;
+                        if (stateTimer <= 0f) Open();
+                    }
+                    break;
+            }
+        }
+
+        #endregion
+        #region Public Methods
+
+        /// <summary>
+        /// Gets/sets the mode of this trap.
+        /// </summary>
+        public Mode TrapMode
+        {
+            get { return mode; }
+            set { mode = value; }
+        }
+
+        /// <summary>
+        /// Gets/sets the opening time of this trap.
+        /// </summary>
+        public float OpenTime
+        {
+            get { return openTime; }
+            set { openTime = value; }
+        }
+
+        /// <summary>
+        /// Gets/sets the time to stay open.
+        /// </summary>
+        public float StayOpenTime
+        {
+            get { return stayOpenTime; }
+            set { stayOpenTime = value; }
+        }
+
+        /// <summary>
+        /// Gets/sets the DPS of this trap.
+        /// </summary>
+        public float DamagePerSecond
+        {
+            get { return damagePerSecond; }
+            set { damagePerSecond = value; }
+        }
+
+        /// <summary>
+        /// Gets/sets the closing time of this trap.
+        /// </summary>
+        public float CloseTime
+        {
+            get { return closeTime; }
+            set { closeTime = value; }
+        }
+
+        /// <summary>
+        /// Gets/sets the time to stay closed.
+        /// </summary>
+        public float StayClosedTime
+        {
+            get { return stayClosedTime; }
+            set { stayClosedTime = value; }
+        }
+
+        /// <summary>
+        /// Opens the trap.
+        /// </summary>
+        public void Open()
+        {
+            if (currentState == State.Open) return;
+
+            currentState = State.Opening;
+        }
+
+        /// <summary>
+        /// Closes the trap.
+        /// </summary>
+        public void Close()
+        {
+            if (currentState == State.Closed) return;
+            if (fireEffect != null) fireEffect.Stop();
+            currentState = State.Closing;
+        }
+
+        #endregion
+        #region Private Methods
+
+        /// <summary>
+        /// Draws a frame of the trap's coded animation.
+        /// </summary>
+        void DrawFrame(float t)
+        {
+            door1.localPosition = new Vector3(0f, DOOR_Y, t * DOOR_OPEN_DISTANCE);
+            door2.localPosition = new Vector3(0f, DOOR_Y, -t * DOOR_OPEN_DISTANCE);
+
+            var grateY = GRATE_MIN_Y + (GRATE_MAX_Y - GRATE_MIN_Y) * t;
+            grate.localPosition = new Vector3(0f, grateY, 0f);
+        }
+
+        /// <summary>
+        /// Deals damage to everything in the trap.
+        /// </summary>
+        /// <param name="_objectsInTrap"></param>
+        void DoDamage(List<IDamageable> objectsInTrap)
+        {
+            foreach (var obj in objectsInTrap)
+            {
+                obj.TakeDamage(damager);
+            }
+        }
+
+        #endregion
     }
 }

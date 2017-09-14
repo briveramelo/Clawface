@@ -2557,7 +2557,7 @@ Animator:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1792002726004920}
   m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: dd99e14240a57e74cb433f4d52b4649e, type: 3}
+  m_Avatar: {fileID: 9000000, guid: f7d9c9c601e73e744802a91d6fd7c531, type: 3}
   m_Controller: {fileID: 9100000, guid: f402bb6a0c0faab4bb4a89f5d8573c62, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
@@ -2701,9 +2701,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ea52a1222619d04ab5757fbbf31268e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _startUV: -1
-  _endUV: 1
-  _effectSpeed: 5
+  startUV: 1
+  endUV: 1
+  effectSpeed: 1
 --- !u!114 &114170718684844090
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3067,9 +3067,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ea52a1222619d04ab5757fbbf31268e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _startUV: -1
-  _endUV: 1
-  _effectSpeed: 5
+  startUV: 1
+  endUV: 1
+  effectSpeed: 1
 --- !u!114 &114511005088535178
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3078,9 +3078,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1393049755015518}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38df31aa2aba2b144a04810cbe230984, type: 3}
+  m_Script: {fileID: 11500000, guid: 1c04c1e44b827c143ae1f433e9d82d3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playOnAwake: 1
 --- !u!114 &114524686827076962
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5795,7 +5796,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 1659637962
+  randomSeed: -815198417
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -8894,7 +8895,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -1368654799
+  randomSeed: -204396959
   InitialModule:
     serializedVersion: 3
     enabled: 1

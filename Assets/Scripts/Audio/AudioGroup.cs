@@ -1,18 +1,139 @@
 ﻿// AudioGroup.cs
+// Author: Aaron
 
-using System.Collections.Generic;
-using UnityEngine;
 using ModMan;
 
-namespace Turing.Audio {
+using System.Collections.Generic;
 
+using UnityEngine;
+
+namespace Turing.Audio
+{
     /// <summary>
     /// Audio class to emulate FMOD-style functionality.
     /// </summary>
     [ExecuteInEditMode]
-    public sealed class AudioGroup : MonoBehaviour {
+    public sealed class AudioGroup : MonoBehaviour
+    {
+        #region Public Fields
 
-        #region Consts
+
+
+        #endregion
+        #region Serialized Unity Inspector Fields
+
+        /// <summary>
+        /// Type of group setup to use.
+        /// </summary>
+        [SerializeField]
+        [Tooltip("Type of group setup to use.")]
+        GroupType groupType = GroupType.Standard;
+
+        /// <summary>
+        /// AudioChannel object for standard (non-layered) playback.
+        /// </summary>
+        [SerializeField]
+        [Tooltip("Audio channel object for standard (non-layered) playback.")]
+        AudioChannel standardChannel;
+
+        /// <summary>
+        /// AudioChannel objects for layered playback.
+        /// </summary>
+        [SerializeField]
+        [Tooltip("Audio channel objects for layered playback.")]
+        AudioChannel bassChannel, midChannel, trebleChannel;
+
+        /// <summary>
+        /// List of element AudioChannels.
+        /// </summary>
+        [SerializeField]
+        [Tooltip("List of element AudioChannels.")]
+        List<AudioChannel> elementChannels = new List<AudioChannel>();
+
+        /// <summary>
+        /// Will playback loop?
+        /// </summary>
+        [SerializeField]
+        [Tooltip("Will playback loop?")]
+        bool loop = false;
+
+        /// <summary>
+        /// Should this AudioGroup play on awake?
+        /// </summary>
+        [SerializeField]
+        [Tooltip("Should this AudioGroup play on awake?")]
+        bool playOnAwake = false;
+        
+        /// <summary>
+        /// The spatial blend of this AudioGroup (0 = 2D, 1 = 3D).
+        /// </summary>
+        [SerializeField][Range(0f, 1f)]
+        [Tooltip("The spatial blend of this AudioGroup (0 = 2D, 1 = 3D).")]
+        float spatialBlend = 0f;
+
+        /// <summary>
+        /// The max distance at which this AudioGroup can be heard (UU).
+        /// </summary>
+        [SerializeField]
+        [Tooltip("The max distance at which this AudioGroup can be heard (UU).")]
+        float maxDistance = 500f;
+
+        /// <summary>
+        /// Change pitch each loop (when using randomized pitch)?
+        /// </summary>
+        [SerializeField]
+        [Tooltip("Change pitch each loop (when using randomized pitch)?")]
+        bool changePitchEachLoop = false;
+
+        /// <summary>
+        /// Use the volume envelope for this AudioGroup?
+        /// </summary>
+        [SerializeField]
+        [Tooltip("Use the volume envelope for this AudioGroup?")]
+        bool useVolumeEnvelope = false;
+
+        /// <summary>
+        /// Volume envelope for this AudioGroup.
+        /// </summary>
+        [SerializeField]
+        [Tooltip("Volume envelope for this AudioGroup.")]
+        AnimationCurve volumeEnvelope;
+
+        /// <summary>
+        /// Randomize pitch on each playback?
+        /// </summary>
+        [SerializeField]
+        [Tooltip("Randomize pitch on each playback?")]
+        bool randomPitch = false;
+
+        /// <summary>
+        /// Uniform pitch to use.
+        /// </summary>
+        [SerializeField][Range(0f, 3f)]
+        [Tooltip("Uniform pitch to use.")]
+        float pitch = 1f;
+
+        /// <summary>
+        /// Range of pitches to use.
+        /// </summary>
+        [SerializeField][FloatRange(0f, 3f)]
+        [Tooltip("Range of pitches to use.")]
+        FloatRange pitchRange = new FloatRange();
+
+        /// <summary>
+        /// Index of next element channel (for naming).
+        /// </summary>
+        [SerializeField]
+        int elementChannelIndex = 0;
+
+        /// <summary>
+        /// GameObject to which to parent element AudioChannels.
+        /// </summary>
+        [SerializeField]
+        Transform elementParent;
+
+        #endregion
+        #region Private Fields
 
         const string _STANDARD_CHANNEL_NAME = "STANDARD";
         const string _BASS_CHANNEL_NAME = "BASS";
@@ -21,231 +142,153 @@ namespace Turing.Audio {
         const string _ELEMENTS_PARENT_NAME = "ELEMENTS";
         const HideFlags _CHANNEL_HIDE_FLAGS = HideFlags.HideInHierarchy;
 
-        #endregion
-        #region Vars
-
-        /// <summary>
-        /// Type of group setup to use.
-        /// </summary>
-        [SerializeField]
-        [Tooltip("Type of group setup to use.")]
-        GroupType _groupType = GroupType.Standard;
-
-        private AudioListener al;
-        AudioListener _audioListener {
-            get {
-                if (al==null) {
-                    al = FindObjectOfType<AudioListener>().GetComponent<AudioListener>();
-                }
-                return al;
-            }
-        }
-
-        /// <summary>
-        /// AudioChannel object for standard (non-layered) playback.
-        /// </summary>
-        [SerializeField]
-        [Tooltip("Audio channel object for standard (non-layered) playback.")]
-        AudioChannel _standardChannel;
-
-        /// <summary>
-        /// AudioChannel objects for layered playback.
-        /// </summary>
-        [SerializeField]
-        [Tooltip("Audio channel objects for layered playback.")]
-        AudioChannel _bassChannel, _midChannel, _trebleChannel;
-
-        [SerializeField]
-        /// <summary>
-        /// GameObject to which to parent element AudioChannels.
-        /// </summary>
-        Transform _elementParent;
-
-        /// <summary>
-        /// List of element AudioChannels.
-        /// </summary>
-        [SerializeField]
-        [Tooltip("List of element AudioChannels.")]
-        List<AudioChannel> _elementChannels = new List<AudioChannel>();
-
-        /// <summary>
-        /// Will playback loop?
-        /// </summary>
-        [SerializeField]
-        [Tooltip("Will playback loop?")]
-        bool _loop = false;
-
-        [SerializeField]
-        bool _playOnAwake = false;
-
-        [Range(0f, 1f)]
-        [SerializeField]
-        float _spatialBlend = 0f;
-
-        [SerializeField]
-        float _minDistance = 1f;
-
-        [SerializeField]
-        float _maxDistance = 500f;
-
-        /// <summary>
-        /// Change pitch each loop (when using randomized pitch)?
-        /// </summary>
-        [SerializeField]
-        [Tooltip("Change pitch each loop (when using randomized pitch)?")]
-        bool _changePitchEachLoop = false;
+        AudioListener al;
 
         /// <summary>
         /// If looped, is this AudioGroup currently playing?
         /// </summary>
-        bool _playing = false;
-
-        float _playbackTime = 0f;
-
-        float _longestClipLength;
-
-        [SerializeField]
-        bool _useVolumeEnvelope = false;
+        bool playing = false;
 
         /// <summary>
-        /// Volume envelope for this AudioGroup.
+        /// Current playback time of the AudioGroup (seconds).
         /// </summary>
-        [SerializeField]
-        [Tooltip("Volume envelope for this AudioGroup.")]
-        AnimationCurve _volumeEnvelope;
+        float playbackTime = 0f;
 
         /// <summary>
-        /// Randomize pitch on each playback?
+        /// Length of the longest clip in this AudioGroup (used for looping).
         /// </summary>
-        [SerializeField]
-        [Tooltip("Randomize pitch on each playback?")]
-        bool _randomPitch = false;
-
-        /// <summary>
-        /// Uniform pitch to use.
-        /// </summary>
-        [SerializeField]
-        [Range(0f, 3f)]
-        [Tooltip("Uniform pitch to use.")]
-        float _pitch = 1f;
-
-        /// <summary>
-        /// Range of pitches to use.
-        /// </summary>
-        [SerializeField]
-        [FloatRange(0f, 3f)]
-        [Tooltip("Range of pitches to use.")]
-        FloatRange _pitchRange = new FloatRange();
-
-        /// <summary>
-        /// Index of next element channel (for naming).
-        /// </summary>
-        [SerializeField]
-        int _elementChannelIndex = 0;
+        float longestClipLength;
 
         #endregion
-        #region Unity Callbacks
+        #region Unity Lifecycle
 
-        private void OnEnable() {
-            if (!Application.isPlaying) {
+        private void OnEnable()
+        {
+            if (!Application.isPlaying)
+            {
                 var channels = GetComponentsInChildren<AudioChannel>();
-                if (channels == null) {
-                    Debug.LogWarning("No AudioChannels found on this AudioGroup! Generating now.", gameObject);
+                if (channels == null)
+                {
+                    if (Application.isEditor || Debug.isDebugBuild)
+                        Debug.LogWarning(
+                            "No AudioChannels found on this AudioGroup! Generating now.", 
+                            gameObject);
+
                     GenerateAudioChannels();
-                } else if (InvalidAudioChannels()) {
-                    Debug.LogWarning("Fixing AudioChannels...", gameObject);
+                } 
+                
+                else if (InvalidAudioChannels())
+                {
+                    if (Application.isEditor || Debug.isDebugBuild)
+                        Debug.LogWarning("Fixing AudioChannels...", gameObject);
+
                     GenerateAudioChannels();
                 }
-            } else {
-                
-            }
+            } 
         }
 
-        private void Start() {
-            if (Application.isPlaying && _playOnAwake) Play();
+        private void Start()
+        {
+            if (Application.isPlaying && playOnAwake) Play();
         } 
 
-        void Update() {
-            if (_playing) {
-                _playbackTime += Time.deltaTime;
-                if (_playbackTime >= _longestClipLength) {
-                    if (_loop) Play(true);
-                    else _playing = false;
-
-                } else {
-                    if (_useVolumeEnvelope) {
-                        if (_volumeEnvelope != null && _volumeEnvelope.length > 0) {
-                            SetVolumeScale(_volumeEnvelope.Evaluate(_playbackTime));
+        void Update()
+        {
+            if (playing)
+            {
+                playbackTime += Time.deltaTime;
+                if (playbackTime >= longestClipLength)
+                {
+                    if (loop) Play(true);
+                    else playing = false;
+                } 
+                
+                else
+                {
+                    if (useVolumeEnvelope)
+                    {
+                        if (volumeEnvelope != null && volumeEnvelope.length > 0)
+                        {
+                            SetVolumeScale(volumeEnvelope.Evaluate(playbackTime));
                         }
                     }
                 }
             }
         }
 
-        private void OnDrawGizmosSelected() {
+        private void OnDrawGizmosSelected()
+        {
             Gizmos.color = Color.blue;
-            Gizmos.DrawWireSphere (transform.position, _maxDistance);
+            Gizmos.DrawWireSphere (transform.position, maxDistance);
         }
 
         #endregion
-        #region Properties
+        #region Public Methods
 
         /// <summary>
         /// Returns true if this AudioGroup loops (read-only).
         /// </summary>
-        public bool Loop { get { return _loop; } }
+        public bool Loop { get { return loop; } }
 
-        public bool IsPlaying { get { return _playing; } }
+        /// <summary>
+        /// Returns true if this AudioGroup is playing (read-only).
+        /// </summary>
+        public bool IsPlaying { get { return playing; } }
 
-        public float VolumeScale {
+        /// <summary>
+        /// Returns the current volume scale of this AudioGroup (read-only).
+        /// </summary>
+        public float VolumeScale
+        {
             get {
-                float v = _useVolumeEnvelope ? _volumeEnvelope.Evaluate(_playbackTime) : 1f;
-                v *= (1f - _spatialBlend) + CalculateSpatializedVolumeScale();
+                float v = useVolumeEnvelope ? volumeEnvelope.Evaluate(playbackTime) : 1f;
+                v *= (1f - spatialBlend) + CalculateSpatializedVolumeScale();
                 return v;
             }
         }
 
-        #endregion
-        #region Methods
-
         /// <summary>
         /// Plays this AudioElement.
         /// </summary>
-        public void Play(bool loop=false) {
-            _playing = true;
-            _playbackTime = 0f;
-            float pitch;
-            if (loop && _randomPitch && _changePitchEachLoop) pitch = _pitchRange.GetRandomValue();
-            else pitch = _randomPitch ? _pitchRange.GetRandomValue() : _pitch;
+        public void Play(bool loop=false)
+        {
+            playing = true;
+            playbackTime = 0f;
+            if (loop && randomPitch && changePitchEachLoop) pitch = pitchRange.GetRandomValue();
+            else pitch = randomPitch ? pitchRange.GetRandomValue() : pitch;
 
-            if (_useVolumeEnvelope) {
+            if (useVolumeEnvelope) {
                 if (!Application.isPlaying) SetVolumeScale(1f);
                 else {
-                    if (_volumeEnvelope == null || _volumeEnvelope.length == 0) SetVolumeScale(VolumeScale);
+                    if (volumeEnvelope == null || volumeEnvelope.length == 0) SetVolumeScale(VolumeScale);
                     SetVolumeScale(VolumeScale);
                 }
             }
 
-            switch (_groupType) {
+            switch (groupType)
+            {
                 case GroupType.Standard:
-                    _standardChannel.PlaySound(pitch);
-                    _longestClipLength = _standardChannel.ClipLength;
+                    standardChannel.PlaySound(pitch);
+                    longestClipLength = standardChannel.ClipLength;
                     break;
+
                 case GroupType.Layered:
-                    _bassChannel.PlaySound(pitch);
-                    _midChannel.PlaySound(pitch);
-                    _trebleChannel.PlaySound(pitch);
-                    _longestClipLength = Mathf.Max(_bassChannel.ClipLength,
-                        _midChannel.ClipLength, _trebleChannel.ClipLength);
+                    bassChannel.PlaySound(pitch);
+                    midChannel.PlaySound(pitch);
+                    trebleChannel.PlaySound(pitch);
+                    longestClipLength = Mathf.Max(bassChannel.ClipLength,
+                        midChannel.ClipLength, trebleChannel.ClipLength);
                     break;
+
                 case GroupType.Elements:
                     float maxLength = 0f;
-                    foreach (var channel in _elementChannels) {
+                    foreach (var channel in elementChannels)
+                    {
                         channel.PlaySound(pitch);
                         if (channel.ClipLength > maxLength)
                             maxLength = channel.ClipLength;
                     }
-                    _longestClipLength = maxLength;
+                    longestClipLength = maxLength;
                     break;
             }
         }
@@ -253,37 +296,48 @@ namespace Turing.Audio {
         /// <summary>
         /// Stops all playback on this AudioElement.
         /// </summary>
-        public void Stop() {
-            _playing = false;
+        public void Stop()
+        {
+            playing = false;
 
-            switch (_groupType) {
+            switch (groupType)
+            {
                 case GroupType.Standard:
-                    _standardChannel.Stop();
+                    standardChannel.Stop();
                     break;
+
                 case GroupType.Layered:
-                    _bassChannel.Stop();
-                    _midChannel.Stop();
-                    _trebleChannel.Stop();
+                    bassChannel.Stop();
+                    midChannel.Stop();
+                    trebleChannel.Stop();
                     break;
+
                 case GroupType.Elements:
-                    foreach (var channel in _elementChannels)
+                    foreach (var channel in elementChannels)
                         channel.Stop();
                     break;
             }
         }
 
-        void SetVolumeScale(float volumeScale) {
-            switch (_groupType) {
+        /// <summary>
+        /// Sets the volume scale of this AudioGroup.
+        /// </summary>
+        void SetVolumeScale(float volumeScale)
+        {
+            switch (groupType)
+            {
                 case GroupType.Standard:
-                    _standardChannel.VolumeScale = volumeScale;
+                    standardChannel.VolumeScale = volumeScale;
                     break;
+
                 case GroupType.Layered:
-                    _bassChannel.VolumeScale = volumeScale;
-                    _midChannel.VolumeScale = volumeScale;
-                    _trebleChannel.VolumeScale = volumeScale;
+                    bassChannel.VolumeScale = volumeScale;
+                    midChannel.VolumeScale = volumeScale;
+                    trebleChannel.VolumeScale = volumeScale;
                     break;
+
                 case GroupType.Elements:
-                    foreach (var channel in _elementChannels)
+                    foreach (var channel in elementChannels)
                         channel.VolumeScale = volumeScale;
                     break;
             }
@@ -292,26 +346,30 @@ namespace Turing.Audio {
         /// <summary>
         /// Generates all audio channels with default settings.
         /// </summary>
-        void GenerateAudioChannels() {
-            _standardChannel = GenerateAudioChannel(_STANDARD_CHANNEL_NAME, transform);
-            _bassChannel = GenerateAudioChannel(_BASS_CHANNEL_NAME, transform);
-            _midChannel = GenerateAudioChannel(_MID_CHANNEL_NAME, transform);
-            _trebleChannel = GenerateAudioChannel(_TREBLE_CHANNEL_NAME, transform);
-            if (_elementParent == null) {
-                _elementParent = new GameObject(_ELEMENTS_PARENT_NAME).transform;
-                _elementParent.hideFlags = _CHANNEL_HIDE_FLAGS;
-                _elementParent.SetParent(transform);
-                _elementParent.Reset();
+        void GenerateAudioChannels()
+        {
+            standardChannel = GenerateAudioChannel(_STANDARD_CHANNEL_NAME, transform);
+            bassChannel = GenerateAudioChannel(_BASS_CHANNEL_NAME, transform);
+            midChannel = GenerateAudioChannel(_MID_CHANNEL_NAME, transform);
+            trebleChannel = GenerateAudioChannel(_TREBLE_CHANNEL_NAME, transform);
+            if (elementParent == null)
+            {
+                elementParent = new GameObject(_ELEMENTS_PARENT_NAME).transform;
+                elementParent.hideFlags = _CHANNEL_HIDE_FLAGS;
+                elementParent.SetParent(transform);
+                elementParent.Reset();
             }
         }
 
         /// <summary>
         /// Generates a default audio channel with the given name.
         /// </summary>
-        AudioChannel GenerateAudioChannel(string channelName, Transform parent) {
+        AudioChannel GenerateAudioChannel(string channelName, Transform parent)
+        {
             var channelObj = gameObject.FindInChildren(channelName);
             AudioChannel channel;
-            if (channelObj == null) {
+            if (channelObj == null)
+            {
                 channelObj = new GameObject(
                     channelName,
                     typeof(AudioSource),
@@ -321,10 +379,14 @@ namespace Turing.Audio {
                 channelObj.transform.SetParent(parent);
                 channelObj.transform.Reset();
                 channel = channelObj.GetComponent<AudioChannel>();
-            } else {
+            } 
+            
+            else
+            {
                 channel = channelObj.GetComponent<AudioChannel>();
                 if (channel == null) channel = channelObj.AddComponent<AudioChannel>();
             }
+
             channel.SetParent(this);
             return channel;
         }
@@ -332,56 +394,86 @@ namespace Turing.Audio {
         /// <summary>
         /// Adds an element channel to this AudioGroup.
         /// </summary>
-        public void AddElementChannel() {
-            var channel = GenerateAudioChannel(_ELEMENTS_PARENT_NAME + _elementChannelIndex++, _elementParent.transform);
+        public void AddElementChannel()
+        {
+            var channel = GenerateAudioChannel(_ELEMENTS_PARENT_NAME + 
+                elementChannelIndex++, elementParent.transform);
             channel.SetParent(this);
-            _elementChannels.Add(channel);
+            elementChannels.Add(channel);
         }
 
         /// <summary>
         /// Removes an elementchannel from this AudioGroup.
         /// </summary>
         /// <param name="index"></param>
-        public void RemoveElementChannel(int index) {
-            _elementChannels.RemoveAt(index);
+        public void RemoveElementChannel(int index)
+        {
+            elementChannels.RemoveAt(index);
+        }
+
+        /// <summary>
+        /// Returns the longest clip length in this AudioGroup.
+        /// </summary>
+        public float GetClipLength()
+        {
+            return longestClipLength;
+        }
+
+        #endregion
+        #region Private Methods
+
+        /// <summary>
+        /// Returns the current AudioListener in the scene.
+        /// </summary>
+        AudioListener AudioListener {
+            get {
+                if (al==null) {
+                    al = FindObjectOfType<AudioListener>().GetComponent<AudioListener>();
+                }
+                return al;
+            }
         }
 
         /// <summary>
         /// Returns true if any audio channels are invalid.
         /// </summary>
         /// <returns></returns>
-        bool InvalidAudioChannels() {
-            return _standardChannel == null || _bassChannel == null ||
-                _midChannel == null || _trebleChannel == null || _elementParent == null;
+        bool InvalidAudioChannels()
+        {
+            return standardChannel == null || bassChannel == null ||
+                midChannel == null || trebleChannel == null || elementParent == null;
         }
 
-        float CalculateSpatializedVolumeScale () {
-            return _spatialBlend * CalculateRolloff();
+        /// <summary>
+        /// Calculates the spatialized (3D) volume of this AudioGroup.
+        /// </summary>
+        float CalculateSpatializedVolumeScale ()
+        {
+            return spatialBlend * CalculateRolloff();
         }
 
-        float CalculateRolloff () {
-            float d = Vector3.Distance (_audioListener.transform.position, transform.position);
-            float min = _minDistance;
-            float max = _maxDistance;
+        /// <summary>
+        /// Calculates the 3D rolloff factor of this AudioGroup.
+        /// </summary>
+        float CalculateRolloff ()
+        {
+            float d = Vector3.Distance (AudioListener.transform.position, transform.position);
+            float min = 0.01f;
+            float max = maxDistance;
             float factor = 1f - (d - min) / (max - min);
             return Mathf.Clamp01(factor);
         }
 
-        public float GetClipLength()
-        {
-            return _longestClipLength;
-        }
-
-
         #endregion
-        #region Enums
+        #region Public Structures
 
         /// <summary>
         /// Enum for type of AudioGroup.
         /// </summary>
-        public enum GroupType {
+        public enum GroupType
+        {
             Standard = 0, // Single channel
-            Layered = 1, // Bass/mid/treble channels
+            Layered  = 1, // Bass/mid/treble channels
             Elements = 2  // Per-element channels
         }
 
