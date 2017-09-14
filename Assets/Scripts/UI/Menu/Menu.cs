@@ -53,7 +53,7 @@ public abstract class Menu : MonoBehaviour {
         if (TransitionEnded != null)
             TransitionEnded(transition, effects);
 
-        if (Displayed) // menu is now visible (it wasn't before)
+        if (InitialSelection != null && Displayed) // menu is now visible (it wasn't before)
         {
             InitialSelection.Select();
         }
