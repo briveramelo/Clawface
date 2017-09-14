@@ -1,39 +1,89 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿// FlickerLight.cs
+// Author: Aaron
+
+using System.Collections;
+
 using UnityEngine;
 
-public class FlickerLight : MonoBehaviour {
+namespace Turing.VFX
+{
+    /// <summary>
+    /// Behavior to flicker light intensity.
+    /// </summary>
+    public class FlickerLight : MonoBehaviour
+    {
+        #region Serialized Unity Inspector Fields
 
-	Light _light;
+        /// <summary>
+        /// Intensity of flickering.
+        /// </summary>
+        [Tooltip("Intensity of flickering.")]
+        [SerializeField] float flickerIntensity = 0.5f;
 
-    [SerializeField] float _flickerIntensity = 0.5f;
-    [SerializeField] float _flickerFrequency = 0.1f;
+        /// <summary>
+        /// Frequency of flickering (seconds).
+        /// </summary>
+        [Tooltip("Frequency of flickering (seconds).")]
+        [SerializeField] float flickerFrequency = 0.1f;
 
-    float _min;
-    float _max;
+        #endregion
+        #region Private Fields
 
-    private void Awake() {
-        _light = GetComponent<Light>();
-        _max = _light.intensity;
-        _min = _max * _flickerIntensity;
-        StartCoroutine (Flicker());
-    }
+        /// <summary>
+        /// Light attached to this behavior.
+        /// </summary>
+        new Light light;
 
-    IEnumerator Flicker () {
-        while (true) {
-            while (_light == null) yield return null;
+        /// <summary>
+        /// Min/max light intensity.
+        /// </summary>
+        float min, max;
 
-            _light.intensity = Random.Range (_min, _max);
+        #endregion
+        #region Unity Lifecycle
 
-            yield return new WaitForSeconds (_flickerFrequency);
+        private void Awake()
+        {
+            light = GetComponent<Light>();
+            max = light.intensity;
+            min = max * flickerIntensity;
+            StartCoroutine(Flicker());
         }
-    }
 
-    public void Play() {
-        StartCoroutine (Flicker());
-    }
+        #endregion
+        #region Public Methods
 
-    public void Stop () {
-        StopCoroutine (Flicker());
+        /// <summary>
+        /// Starts flickering.
+        /// </summary>
+        public void Play()
+        {
+            StartCoroutine(Flicker());
+        }
+
+        /// <summary>
+        /// Pauses flickering.
+        /// </summary>
+        public void Stop()
+        {
+            StopCoroutine(Flicker());
+        }
+
+        #endregion
+        #region Private Methods
+
+        IEnumerator Flicker()
+        {
+            while (true)
+            {
+                while (light == null) yield return null;
+
+                light.intensity = Random.Range(min, max);
+
+                yield return new WaitForSeconds(flickerFrequency);
+            }
+        }
+
+        #endregion
     }
 }

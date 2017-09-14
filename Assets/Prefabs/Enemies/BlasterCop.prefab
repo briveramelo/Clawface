@@ -1181,11 +1181,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1505985593502190}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd35086a4b64a4241adcaac8c9994126, type: 3}
+  m_Script: {fileID: 11500000, guid: 1c04c1e44b827c143ae1f433e9d82d3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _puffEmitter: {fileID: 198117302005338336}
-  _sparkEmitter: {fileID: 198133955849570714}
+  playOnAwake: 1
 --- !u!114 &114253570924100316
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1366,43 +1365,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hasState: 0
-  vfxModChargePrefab: {fileID: 1868770362516384, guid: 75076dc3f3739ff4bb01ae67a336ecc5,
-    type: 2}
-  vfxModCooldownPrefab: {fileID: 1020022290495414, guid: 28c736c9f78d4cc4b8ea1d4a2875356d,
-    type: 2}
   pickupCollider: {fileID: 65505833295624902}
   modCanvas: {fileID: 0}
   energySettings:
-    timeToChargeArm: 1
-    timeToChargeLeg: 1
     standardArmAttackSettings:
       timeToCoolDown: 0.2
       timeToAttack: 0
       attack: 1
-      timeToHitStop: 0
-    chargedArmAttackSettings:
-      timeToCoolDown: 1
-      timeToAttack: 0
-      attack: 4
-      timeToHitStop: 0
-    standardLegAttackSettings:
-      timeToCoolDown: 0.1
-      timeToAttack: 0
-      attack: 1
-      timeToHitStop: 0
-    chargedLegAttackSettings:
-      timeToCoolDown: 2
-      timeToAttack: 0
-      attack: 3
-      timeToHitStop: 0
-    timeCharged: 0
     isCoolingDown: 0
     isActive: 0
-    hasStartedCharging: 0
   bulletSpawnPoint: {fileID: 4959142172828002}
-  kickbackForce: 5
-  kickbackForceCharged: 20
-  kickbackForceFeetMultiplier: 3
 --- !u!135 &135652806102363036
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -1574,7 +1546,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: 1385791257
+  randomSeed: 965801115
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -4709,7 +4681,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: 658742260
+  randomSeed: -604050459
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -7799,7 +7771,7 @@ ParticleSystemRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 2100000, guid: 8093ab957cd52fb42bf158be2e38f5a2, type: 2}
+  - {fileID: 2100000, guid: 574a0dc5a644b9b428cce2e353b1fb47, type: 2}
   - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -7851,7 +7823,7 @@ ParticleSystemRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 2100000, guid: 4bdc62e67384df04aa3a117eded9c1f1, type: 2}
+  - {fileID: 2100000, guid: 574a0dc5a644b9b428cce2e353b1fb47, type: 2}
   - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0

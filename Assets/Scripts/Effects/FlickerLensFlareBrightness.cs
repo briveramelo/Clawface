@@ -1,39 +1,88 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿// FlickerLensFlareBrightness.cs
+// Author: Aaron
+
+using System.Collections;
+
 using UnityEngine;
 
-public class FlickerLensFlareBrightness : MonoBehaviour {
+namespace Turing.VFX
+{
+    /// <summary>
+    /// Behavior to flicker the brightness of a LensFlare.
+    /// </summary>
+    public sealed class FlickerLensFlareBrightness : MonoBehaviour
+    {
+        #region Serialized Unity Inspector Fields
 
-	LensFlare _flare;
+        /// <summary>
+        /// Intensity of flickering.
+        /// </summary>
+        [Tooltip("Intensity of flickering.")]
+        [SerializeField] float flickerIntensity = 0.5f;
+        
+        /// <summary>
+        /// Frequency of flickering (seconds).
+        /// </summary>
+        [Tooltip("Frequency of flickering (seconds).")]
+        [SerializeField] float flickerFrequency = 0.1f;
 
-    [SerializeField] float _flickerIntensity = 0.5f;
-    [SerializeField] float _flickerFrequency = 0.1f;
+        #endregion
+        #region Private Fields
 
-    float _min;
-    float _max;
+        /// <summary>
+        /// LensFlare attached to this object.
+        /// </summary>
+        LensFlare flare;
 
-    private void Awake() {
-        _flare = GetComponent<LensFlare>();
-        _max = _flare.brightness;
-        _min = _max * _flickerIntensity;
-        //StartCoroutine (Flicker());
-    }
+        /// <summary>
+        /// Min/max brightness.
+        /// </summary>
+        float min, max;
 
-    IEnumerator Flicker () {
-        while (true) {
-            while (_flare == null) yield return null;
+        #endregion
+        #region Unity Lifecycle
 
-            _flare.brightness = Random.Range (_min, _max);
-
-            yield return new WaitForSeconds (_flickerFrequency);
+        private void Awake()
+        {
+            flare = GetComponent<LensFlare>();
+            max = flare.brightness;
+            min = max * flickerIntensity;
         }
-    }
 
-    public void Play() {
-        StartCoroutine (Flicker());
-    }
+        #endregion
+        #region Public Methods
 
-    public void Stop () {
-        StopCoroutine (Flicker());
+        /// <summary>
+        /// Starts flickering.
+        /// </summary>
+        public void Play()
+        {
+            StartCoroutine(Flicker());
+        }
+
+        /// <summary>
+        /// Pauses flickering.
+        /// </summary>
+        public void Stop()
+        {
+            StopCoroutine(Flicker());
+        }
+
+        #endregion
+        #region Private Methods
+
+        IEnumerator Flicker()
+        {
+            while (true)
+            {
+                while (flare == null) yield return null;
+
+                flare.brightness = Random.Range(min, max);
+
+                yield return new WaitForSeconds(flickerFrequency);
+            }
+        }
+
+        #endregion
     }
 }
