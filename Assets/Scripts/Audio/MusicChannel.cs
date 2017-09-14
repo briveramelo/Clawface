@@ -1,138 +1,245 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿// MusicChannel.cs
+// Author: Aaron
+
 using ModMan;
 
-namespace Turing.Audio {
+using System;
+using System.Collections;
+using System.Collections.Generic;
 
-    [System.Serializable]
+using UnityEngine;
+
+namespace Turing.Audio
+{
+    [Serializable]
     [ExecuteInEditMode]
-    [AddComponentMenu("")]
-    public class MusicChannel : MonoBehaviour {
+    public sealed class MusicChannel : MonoBehaviour
+    {
+        #region Serialized Unity Inspector Fields
 
+        /// <summary>
+        /// The AudioSources attached to this MusicChannel.
+        /// </summary>
         [SerializeField]
-        AudioSource[] _audioSources = new AudioSource[2];
+        [Tooltip("The AudioSources attached to this MusicChannel.")]
+        AudioSource[] audioSources = new AudioSource[2];
 
-        [Range(0f, 1f)]
+        /// <summary>
+        /// The current volume of this MusicChannel.
+        /// </summary>
+        [SerializeField][Range(0f, 1f)]
+        [Tooltip("The current volume of this MusicChannel.")]
+        float volume = 1f;
+
+        /// <summary>
+        /// All clips in this MusicChannel.
+        /// </summary>
         [SerializeField]
-        float _volume = 1f;
+        [Tooltip("All clips in this MusicChannel.")]
+        List<ClipInfo> clips = new List<ClipInfo>();
 
-        float _volumeScale = 1f;
+        #endregion
+        #region Private Fields
 
-        //[SerializeField]
-        //MusicGroup _parent;
+        /// <summary>
+        /// The current volume scaler of this MusicChannel.
+        /// </summary>
+        float volumeScale = 1f;
 
-        [SerializeField]
-        List<ClipInfo> _clips = new List<ClipInfo>();
+        /// <summary>
+        /// Number of beats left in playback.
+        /// </summary>
+        int beatsLeft;
 
-        int _beatsLeft;
+        /// <summary>
+        /// Is this MusicChannel playing?
+        /// </summary>
+        bool playing = false;
 
-        bool _playing = false;
+        /// <summary>
+        /// Current clip being played.
+        /// </summary>
+        ClipInfo currentClip;
 
-        ClipInfo _currentClip;
-        ClipInfo _nextClip;
+        /// <summary>
+        /// Next clip to be played.
+        /// </summary>
+        ClipInfo nextClip;
 
-        int _audioSourceToPlay = 0;
+        /// <summary>
+        /// AudioSource index to use for next playback.
+        /// </summary>
+        int audioSourceToPlay = 0;
 
-        float _bpm;
+        /// <summary>
+        /// Beats per minute in playback.
+        /// </summary>
+        float bpm;
 
-        private void Awake() {
-            _audioSources = GetComponentsInChildren<AudioSource>();
-            if (_audioSources.Length < 2) _audioSources = new AudioSource[2];
-            if (_audioSources[0] == null) _audioSources[0] = gameObject.AddComponent<AudioSource>();
-            if (_audioSources[1] == null) _audioSources[1] = gameObject.AddComponent<AudioSource>();
+        #endregion
+        #region Unity Lifecycle
 
-            foreach (var a in _audioSources) {
+        private void Awake()
+        {
+            audioSources = GetComponentsInChildren<AudioSource>();
+            if (audioSources.Length < 2) audioSources = new AudioSource[2];
+            if (audioSources[0] == null) audioSources[0] = 
+                    gameObject.AddComponent<AudioSource>();
+            if (audioSources[1] == null) audioSources[1] = 
+                    gameObject.AddComponent<AudioSource>();
+
+            foreach (var a in audioSources)
+            {
                 a.loop = false;
                 a.playOnAwake = false;
-                a.volume = _volume;
+                a.volume = volume;
             }
         }
 
-        public List<ClipInfo> Clips { get { return _clips; } }
+        #endregion
+        #region Public Methods
 
-        public float VolumeScale {
-            get { return _volumeScale; }
-            set { _volumeScale = value; }
+        /// <summary>
+        /// Returns a list of clip info for this channel (read-only).
+        /// </summary>
+        public List<ClipInfo> Clips { get { return clips; } }
+
+        /// <summary>
+        /// Gets/sets the volume scale for this channel.
+        /// </summary>
+        public float VolumeScale
+        {
+            get { return volumeScale; }
+            set { volumeScale = value; }
         }
 
-        public void SetBPM(float bpm) { _bpm = bpm; }
+        /// <summary>
+        /// Sets the beats per minute of music playback.
+        /// </summary>
+        public void SetBPM(float bpm) { this.bpm = bpm; }
 
-        IEnumerator MusicLoop() {
+        /// <summary>
+        /// Plays this MusicChannel.
+        /// </summary>
+        /// <param name="isLoop"></param>
+        public void PlayTrack(bool isLoop=true)
+        {
+            if (clips.Count <= 0) return;
 
-            while (true) {
-                //Debug.Log ("loop");
+            StartCoroutine(MusicLoop());
+        }
 
-                _audioSourceToPlay = 1 - _audioSourceToPlay;
-                var audioSource = _audioSources[_audioSourceToPlay];
-                audioSource.volume = _volume * _volumeScale;
+        /// <summary>
+        /// Stops playback.
+        /// </summary>
+        public void Stop()
+        {
+            StopAllCoroutines();
+            audioSources[0].Stop();
+            audioSources[1].Stop();
+            playing = false;
+        }
 
-                if (!_playing) {
-                    _currentClip = _clips.GetRandom();
-                    audioSource.clip = _currentClip.Clip;
-                    audioSource.volume = _volume * _volumeScale;
+        /// <summary>
+        /// Adds a clip to this channel.
+        /// </summary>
+        public void AddClip(AudioClip clip)
+        {
+            clips.Add(new ClipInfo(clip));
+        }
+
+        #endregion
+        #region Private Methods
+
+        /// <summary>
+        /// Coroutine for music playback.
+        /// </summary>
+        IEnumerator MusicLoop()
+        {
+            while (true)
+            {
+                audioSourceToPlay = 1 - audioSourceToPlay;
+                var audioSource = audioSources[audioSourceToPlay];
+                audioSource.volume = volume * volumeScale;
+
+                if (!playing)
+                {
+                    currentClip = clips.GetRandom();
+                    audioSource.clip = currentClip.Clip;
+                    audioSource.volume = volume * volumeScale;
                     audioSource.Play();
-                    _playing = true;
-                } else {
-                    _currentClip = _nextClip;
+                    playing = true;
+                } 
+                
+                else
+                {
+                    currentClip = nextClip;
                 }
 
-                _nextClip = _clips.GetRandom();
-                double dt = 60f / _bpm * _currentClip.Beats;
+                nextClip = clips.GetRandom();
+                double dt = 60f / bpm * currentClip.Beats;
                 //Debug.Log (dt);
-                var otherAudioSource = _audioSources[1-_audioSourceToPlay];
+                var otherAudioSource = audioSources[1 - audioSourceToPlay];
 
-                otherAudioSource.clip = _nextClip.Clip;
-                otherAudioSource.volume = _volumeScale * _volume;
+                otherAudioSource.clip = nextClip.Clip;
+                otherAudioSource.volume = volumeScale * volume;
                 otherAudioSource.PlayScheduled(AudioSettings.dspTime + dt);
 
                 yield return new WaitForSecondsRealtime((float)dt);
             }
         }
 
-        public void PlayTrack(bool isLoop = true) {
-            if (_clips.Count <= 0) return;
+        #endregion
+        #region Public Structures
 
-            StartCoroutine(MusicLoop());
-        }
+        /// <summary>
+        /// Class to store clip info.
+        /// </summary>
+        [Serializable]
+        public class ClipInfo
+        {
+            /// <summary>
+            /// AudioClip to use.
+            /// </summary>
+            [SerializeField] AudioClip clip;
+            
+            /// <summary>
+            /// Number of bars in the clip.
+            /// </summary>
+            [SerializeField] int bars = 4;
 
-        public void Stop() {
-            StopAllCoroutines();
-            _audioSources[0].Stop();
-            _audioSources[1].Stop();
-            _playing = false;
-        }
-
-        //public void SetParent(MusicGroup parent) {
-            //_parent = parent;
-        //}
-
-        public void AddClip(AudioClip clip) {
-            _clips.Add(new ClipInfo(clip));
-        }
-
-        [System.Serializable]
-        public class ClipInfo {
-            [SerializeField]
-            AudioClip _clip;
-            [SerializeField]
-            int _bars = 4;
-
-            public ClipInfo(AudioClip clip) {
-                _clip = clip;
+            /// <summary>
+            /// AudioClip constructor.
+            /// </summary>
+            public ClipInfo(AudioClip clip)
+            {
+                this.clip = clip;
             }
 
-            public int Bars {
-                get { return _bars; }
-                set { _bars = value; }
+            /// <summary>
+            /// Gets/sets the number of bars in this clip.
+            /// </summary>
+            public int Bars
+            {
+                get { return bars; }
+                set { bars = value; }
             }
 
-            public AudioClip Clip {
-                get { return _clip; }
-                set { _clip = value; }
+            /// <summary>
+            /// Gets/sets the referenced AudioClip.
+            /// </summary>
+            public AudioClip Clip
+            {
+                get { return clip; }
+                set { clip = value; }
             }
 
-            public int Beats { get { return _bars * 4; } }
+            /// <summary>
+            /// Returns the number of beats in this clip.
+            /// </summary>
+            public int Beats { get { return bars * 4; } }
         }
+
+        #endregion
     }
 }
