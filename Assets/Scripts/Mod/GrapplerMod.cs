@@ -54,7 +54,7 @@ public class GrapplerMod : Mod {
         if (currentHook)
         {
             currentHook.transform.SetParent(null);
-            currentHook.gameObject.SetActive(false);
+            currentHook.ResetToDefaults();
         }
         //Get Projectile
         GameObject hookObject = ObjectPool.Instance.GetObject(PoolObjectType.GrapplingHook);        
@@ -63,6 +63,7 @@ public class GrapplerMod : Mod {
             //Initialize
             currentHook = hookObject.GetComponent<Hook>();
             currentHook.transform.SetParent(hookTransform);
+            HookProperties newProperties = new HookProperties(hookProperties);            
             currentHook.Init(hookProperties, hookTransform);
         }
     }    
@@ -87,18 +88,43 @@ public class GrapplerMod : Mod {
     #region Private Methods
     #endregion
 
-    #region Private Structures
+    #region Public structures
     [Serializable]
     public class HookProperties
-    {        
+    {
+        [Tooltip("How fast you want the hook to go bruh?")]
         public float projectileSpeed;
+        [Tooltip("How hard you want the hook to hit bruh?")]
         public float projectileHitDamage;
-        public float projectileDamagePerFrame;
+        [Tooltip("Angle within which the hook will spot his bitch-ass")]
         public float homingAngle;
-        public float homingDistance;
+        [Tooltip("Radius within which the hook will spot his bitch-ass")]
+        public float homingRadius;
+        [Tooltip("Damage hook finna do after attaching")]
+        public float projectileDamagePerSecond;
+        [Tooltip("Max fucc-bois the hook can attach to")]
         public int maxChainableEnemies;
+        [Tooltip("Max distance the hook can travel")]
         public float maxDistance;
+        [Tooltip("Max distance the chain homies can travel")]
+        public float maxDistancePerSubChain;
+
+        public HookProperties(HookProperties other)
+        {
+            projectileSpeed = other.projectileSpeed;
+            projectileHitDamage = other.projectileHitDamage;
+            homingAngle = other.homingAngle;
+            homingRadius = other.homingRadius;
+            projectileDamagePerSecond = other.projectileDamagePerSecond;
+            maxChainableEnemies = other.maxChainableEnemies;
+            maxDistance = other.maxDistance;
+            maxDistancePerSubChain = other.maxDistancePerSubChain;
+        }
     }
+    #endregion
+
+    #region Private Structures
+
     #endregion
 
 }

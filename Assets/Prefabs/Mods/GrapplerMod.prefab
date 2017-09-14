@@ -254,13 +254,13 @@ MonoBehaviour:
   hookTransform: {fileID: 4564136626918456}
   hookProperties:
     projectileSpeed: 0.5
-    projectileHitDamage: 5
-    projectileIncrementalDamage: 1
-    projectileDamagePerFrame: 1
-    homingAngle: 30
-    homingDistance: 10
-    maxChainableEnemies: 1
-    maxDistance: 10
+    projectileHitDamage: 10
+    homingAngle: 90
+    homingRadius: 10
+    projectileDamagePerSecond: 5
+    maxChainableEnemies: 3
+    maxDistance: 20
+    maxDistancePerSubChain: 5
 --- !u!114 &114399477563612414
 MonoBehaviour:
   m_ObjectHideFlags: 1

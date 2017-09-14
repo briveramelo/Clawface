@@ -268,8 +268,11 @@ namespace Turing.Audio
             switch (groupType)
             {
                 case GroupType.Standard:
-                    standardChannel.PlaySound(pitch);
-                    longestClipLength = standardChannel.ClipLength;
+                    if (standardChannel)
+                    {
+                        standardChannel.PlaySound(pitch);
+                        longestClipLength = standardChannel.ClipLength;
+                    }
                     break;
 
                 case GroupType.Layered:
