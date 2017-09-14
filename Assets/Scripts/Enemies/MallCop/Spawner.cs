@@ -8,10 +8,13 @@ public class Spawner : MonoBehaviour
 {
     public bool useIntensityCurve, manualEdits;
     public AnimationCurve intensityCurve;
+    public AnimationCurve timingCurve;
+
     public List<Wave> waves = new List<Wave>();
 
     public int currentWaveNumber = 0;
     public int currentNumEnemies = 0;
+    public float TimeToNextWave = 0.0f;
 
     #region Serialized Unity Fields
     [SerializeField] SpawnType spawnType;
@@ -21,8 +24,7 @@ public class Spawner : MonoBehaviour
     #region private variables
 
     private int currentWave = 0;
-    private float NextWaveTime = 10.0f;
-    private float currentWaveTime = 0.0f;
+
 
     List<Transform> spawnPoints = new List<Transform>();
 
@@ -47,6 +49,8 @@ public class Spawner : MonoBehaviour
     #region Unity LifeCycle
     void Start()
     {
+        TimeToNextWave = waves[0].Time;
+
         foreach (Transform child_point in transform)
         {
             spawnPoints.Add(child_point);
@@ -57,15 +61,21 @@ public class Spawner : MonoBehaviour
 
     private void Update()
     {
-        /*
-        currentWaveTime += Time.deltaTime;
 
-        if(currentWaveTime > NextWaveTime)
+        TimeToNextWave -= Time.deltaTime;
+
+        if(TimeToNextWave < 0.0f)
         {
-            GoToNextWave();
-            currentWaveTime = 0.0f;
+            if(currentWave < waves.Count)
+            {
+                GoToNextWave();
+                TimeToNextWave = waves[currentWave].Time;
+            }
+            else
+            {
+                TimeToNextWave = 0.0f;
+            }
         }
-        */
     }
 
 
@@ -107,7 +117,7 @@ public class Spawner : MonoBehaviour
 
         for (int i = 0;  i < enemiesToSpawn; i++)
         {
-            yield return Timing.WaitForSeconds(Random.Range(1f, 2f));
+            yield return Timing.WaitForSeconds(Random.Range(waves[currentWave].SpawningTime.Min, waves[currentWave].SpawningTime.Max));
 
             foreach (Transform point in spawnPoints)
             {
@@ -156,14 +166,13 @@ public class Wave
 
     const int spawnMin = 1;
     const int spawnMax = 15;
-    const float timeBetweenMin = .25f;
-    const float timeBetweenMax = 5;
+    const float timeBetweenMin = 0.25f;
+    const float timeBetweenMax = 2.0f;
 
     const int spawnOffset = 1;
-    const float spawnTimeOffset = .3f;
+    const float spawnTimeOffset = 0.3f;
 
-    const float TimeToNextWaveMin = 30.0f;
-    const float TimeToNextWaveMax = 60.0f;
+    const float TimeToNextWave_Max = 60.0f;
 
     #endregion
 
@@ -171,6 +180,7 @@ public class Wave
 
     [HideInInspector] public int remainingSpawns;
     [SerializeField, Range(0, 1)] float intensity;
+    [SerializeField, Range(0, TimeToNextWave_Max)] float TimeToNextWave;
 
     public float Intensity
     {
@@ -181,16 +191,28 @@ public class Wave
             ApplyIntensityValue();
         }
     }
+
+    public float Time
+    {
+        get { return TimeToNextWave; }
+        set
+        {
+            value = value < 0 ? 0 : value;
+            value = value > 1 ? 1 : value;
+
+            TimeToNextWave = TimeToNextWave_Max * value;
+        }
+    }
+
+
     public void ApplyIntensityValue()
     {
         SetTotalSpawns(intensity);
         SetTimeBetweenSpawns(intensity);
-        SetNextWaveTime(intensity);
     }
 
     [IntRange(spawnMin, spawnMax)] public IntRange totalNumSpawns;
-    [FloatRange(timeBetweenMin, timeBetweenMax)] public FloatRange timeBetweenSpawns_sec;
-    [FloatRange(TimeToNextWaveMin, TimeToNextWaveMax)] public FloatRange NextWaveTime;
+    [FloatRange(timeBetweenMin, timeBetweenMax)] public FloatRange SpawningTime;
 
     void SetTotalSpawns(float intensity)
     {
@@ -201,17 +223,9 @@ public class Wave
     void SetTimeBetweenSpawns(float intensity)
     {
         float timeBase = Mathf.Clamp(timeBetweenMax * (1 - intensity), timeBetweenMin, timeBetweenMax);
-        timeBetweenSpawns_sec.Min = Mathf.Clamp(timeBase - spawnTimeOffset, timeBetweenMin, timeBetweenMax);
-        timeBetweenSpawns_sec.Max = Mathf.Clamp(timeBase + spawnTimeOffset, timeBetweenMin, timeBetweenMax);
+        SpawningTime.Min = Mathf.Clamp(timeBase - spawnTimeOffset, timeBetweenMin, timeBetweenMax);
+        SpawningTime.Max = Mathf.Clamp(timeBase + spawnTimeOffset, timeBetweenMin, timeBetweenMax);
     }
-
-    void SetNextWaveTime(float intensity)
-    {
-        float timeBase = intensity * TimeToNextWaveMax;
-        NextWaveTime.Min = Mathf.Clamp(timeBase - 1, TimeToNextWaveMin, TimeToNextWaveMax);
-        NextWaveTime.Max = Mathf.Clamp(timeBase + 1, TimeToNextWaveMin, TimeToNextWaveMax);
-    }
-
 
     public void Reset()
     {
@@ -240,7 +254,7 @@ public class Wave
             {
                 break;
             }
-            yield return Timing.WaitForSeconds(timeBetweenSpawns_sec.GetRandomValue());
+            yield return Timing.WaitForSeconds(SpawningTime.GetRandomValue());
         }
     }
 }
