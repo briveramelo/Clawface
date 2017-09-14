@@ -124,7 +124,7 @@ public class MenuManager : Singleton<MenuManager> {
     {
         if (bundle.effects.Contains(Menu.Effect.EXCLUSIVE))
         {
-            menuStack.Clear(); // not sure if this is correct...
+            while (PopMenu(true)) { }; // we're clearing the stack
         }
         switch (bundle.transition)
         {
