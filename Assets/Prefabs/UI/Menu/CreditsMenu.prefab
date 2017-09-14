@@ -77,9 +77,9 @@ GameObject:
   - component: {fileID: 114191899429981202}
   - component: {fileID: 114621602018896746}
   - component: {fileID: 225421541887426728}
-  - component: {fileID: 114644834172100420}
+  - component: {fileID: 114770041160847016}
   m_Layer: 0
-  m_Name: CreditsCanvas
+  m_Name: CreditsMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -285,19 +285,6 @@ MonoBehaviour:
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: "Chuan-Chin Lai\r\nJosh Levenson\r\nI-Shun Lo\r\nCherlin Mao\r\nLauren Mee\r\n"
---- !u!114 &114644834172100420
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1455054256658072}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00bb64999230ac8438a3aabe14a92481, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  canvasGroup: {fileID: 225421541887426728}
-  mainMenuCanvasGameObject: {fileID: 0}
 --- !u!114 &114677177117686730
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -349,8 +336,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114644834172100420}
-        m_MethodName: FireBack
+      - m_Target: {fileID: 114770041160847016}
+        m_MethodName: BackAction
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -428,12 +415,25 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Sprite: {fileID: 21300000, guid: ed1b404bbf309f842a6f59609800df61, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114770041160847016
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1455054256658072}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b7a043184be42046b2201560ac9d686, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 225421541887426728}
+  returnButton: {fileID: 114699470675864288}
 --- !u!222 &222167865560547030
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -527,7 +527,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1455054256658072}
   m_LocalRotation: {x: -0.017248286, y: -0, z: -0, w: 0.9998513}
-  m_LocalPosition: {x: 0, y: 0, z: 101.12}
+  m_LocalPosition: {x: 0, y: 0, z: 62.62}
   m_LocalScale: {x: 0.0568138, y: 0.056813776, z: 0.056813776}
   m_Children:
   - {fileID: 224338248366329564}
@@ -540,7 +540,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: -1.9770001, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 19.53}
+  m_AnchoredPosition: {x: -24, y: 23.53}
   m_SizeDelta: {x: 800.00006, y: 450.11288}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224338248366329564
@@ -604,7 +604,7 @@ CanvasGroup:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1455054256658072}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
