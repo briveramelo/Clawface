@@ -1,6 +1,8 @@
 ﻿// VFXOneOff.cs
 // Author: Aaron
 
+using System.Collections;
+
 using UnityEngine;
 
 namespace Turing.VFX
@@ -41,6 +43,24 @@ namespace Turing.VFX
             if (playOnAwake) Play();
         }
 
+        void OnEnable ()
+        {
+            if (playOnAwake) Play();
+        }
+
+        #endregion
+        #region Private Methods
+
+        /// <summary>
+        /// Timer for self-disabling.
+        /// </summary>
+        IEnumerator DisableTimer()
+        {
+            yield return new WaitForSeconds (EffectDuration);
+
+            gameObject.SetActive(false);
+        }
+
         #endregion
         #region Public Methods
 
@@ -49,12 +69,16 @@ namespace Turing.VFX
         /// </summary>
         public void Play()
         {
+            gameObject.SetActive (true);
+
             foreach (var particleSystem in particleSystems)
                 particleSystem.Play();
             foreach (var light in lights) light.enabled = true;
             foreach (var lensFlare in lensFlares) lensFlare.enabled = true;
             foreach (var lightFlicker in lightFlickers) lightFlicker.Play();
             foreach (var lensFlareFlicker in lensFlareFlickers) lensFlareFlicker.Play();
+
+            StartCoroutine(DisableTimer());
         }
 
         /// <summary>
@@ -68,6 +92,25 @@ namespace Turing.VFX
             foreach (var lensFlare in lensFlares) lensFlare.enabled = false;
             foreach (var lightFlicker in lightFlickers) lightFlicker.Stop();
             foreach (var lensFlareFlicker in lensFlareFlickers) lensFlareFlicker.Stop();
+        }
+
+        /// <summary>
+        /// Returns the duration of this effect (equal to the time length
+        /// of the longest aspect of this effect).
+        /// </summary>
+        public float EffectDuration
+        {
+            get
+            {
+                float max = 0f;
+
+                // Check particle systems
+                foreach (var particleSystem in particleSystems)
+                    if (particleSystem.main.duration > max)
+                        max = particleSystem.main.duration;
+
+                return max;
+            }
         }
 
         #endregion
