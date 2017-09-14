@@ -1,12 +1,22 @@
 using UnityEngine;
 using UnityEditor;
-
 using System.IO;
 
 namespace Cinemachine.Editor
 {
-    public static class ScriptableObjectUtility
+    public class ScriptableObjectUtility : ScriptableObject
     {
+        public static string CinemachineInstallPath
+        {
+            get
+            {
+                ScriptableObject dummy = ScriptableObject.CreateInstance<ScriptableObjectUtility>();
+                    string path = Application.dataPath + AssetDatabase.GetAssetPath(
+                            MonoScript.FromScriptableObject(dummy)).Substring("Assets".Length);
+                    return path.Substring(0, path.LastIndexOf('/')) + "/../../..";
+            }
+        }
+
         public static void Create<T>(bool prependFolderName = false, bool trimName = true) where T : ScriptableObject
         {
             string className = typeof(T).Name;

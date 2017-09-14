@@ -23,12 +23,13 @@ namespace Cinemachine.Utility
             {
                 Type type = src.GetType();
                 FieldInfo[] fields = type.GetFields(bindingAttr);
-                foreach (FieldInfo field in fields)
-                    if (!field.IsStatic)
-                        field.SetValue(dst, field.GetValue(src));
+                for (int i = 0; i < fields.Length; ++i)
+                    if (!fields[i].IsStatic)
+                        fields[i].SetValue(dst, fields[i].GetValue(src));
             }
         }
 
+#if UNITY_EDITOR
         /// <summary>Search the assembly for all types that match a predicate</summary>
         /// <param name="assembly">The assembly to search</param>
         /// <param name="predicate">The type to look for</param>
@@ -99,6 +100,7 @@ namespace Cinemachine.Utility
 
             return foundTypes;
         }
+#endif
 
         /// <summary>Cheater extension to access internal field of an object</summary>
         /// <param name="type">The type of the field</param>

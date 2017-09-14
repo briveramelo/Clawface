@@ -46,7 +46,7 @@ namespace Cinemachine
         /// <summary>The priority will determine which camera becomes active based on the
         /// state of other cameras and this camera.  Higher numbers have greater priority.
         /// </summary>
-        [SaveDuringPlay]
+        [NoSaveDuringPlay]
         [Tooltip("The priority will determine which camera becomes active based on the state of other cameras and this camera.  Higher numbers have greater priority.")]
         public int m_Priority = 10;
 
@@ -88,12 +88,11 @@ namespace Cinemachine
         /// * CinemachineVirtualCameraBase vcam: the virtual camera being updated
         /// * CinemachineCore.Stage stage: what stage in the pipeline has just been updated
         /// * ref CameraState newState: the current state of the vcam
-        /// * CameraState previousState: the state of the vcam last frame (needed for damping calculateions, etc)
         /// * float deltaTime: the frame timestep.  0 or -1 means "don't consider the previous frame"
         /// </summary>
         public delegate void OnPostPipelineStageDelegate(
             CinemachineVirtualCameraBase vcam, CinemachineCore.Stage stage,
-            ref CameraState newState, CameraState previousState, float deltaTime);
+            ref CameraState newState, float deltaTime);
 
         /// <summary>Get the name of the Virtual Camera.  Base implementation
         /// returns the owner GameObject's name.</summary>
@@ -118,6 +117,10 @@ namespace Cinemachine
         /// necessary to position the Unity camera.  It is the output of this class.</summary>
         public abstract CameraState State { get; }
 
+        /// <summary>For cameras that implement child cameras, return the live child,
+        /// otherwise, just returns self.</summary>
+        public bool InconsistentTargetAnimation { get; set; }
+
         /// <summary>Just returns self.</summary>
         public virtual ICinemachineCamera LiveChildOrSelf { get { return this; } }
 
@@ -135,6 +138,12 @@ namespace Cinemachine
             }
         }
 
+        /// <summary>Check whether the vcam a live child of this camera.  
+        /// This base class implementation always returns false.</summary>
+        /// <param name="vcam">The Virtual Camera to check</param>
+        /// <returns>True if the vcam is currently actively influencing the state of this vcam</returns>
+        public virtual bool IsLiveChild(ICinemachineCamera vcam) { return false; }
+
         /// <summary>Get the LookAt target for the Aim component in the CinemachinePipeline.</summary>
         public abstract Transform LookAt { get; set; }
 
@@ -142,7 +151,7 @@ namespace Cinemachine
         public abstract Transform Follow { get; set; }
 
         /// <summary>Set this to force the next update to ignore deltaTime and reset itself</summary>
-        public bool PreviousStateInvalid { get; set; }
+        public bool PreviousStateIsValid { get; set; }
 
         /// <summary>Called by CinemachineCore at designated update time
         /// so the vcam can position itself and track its targets.  
@@ -155,6 +164,13 @@ namespace Cinemachine
         /// Base class implementation does nothing.</summary>
         /// <param name="fromCam">The camera being deactivated.  May be null.</param>
         public virtual void OnTransitionFromCamera(ICinemachineCamera fromCam) {}
+
+        /// <summary>Support for opaque post-processing module.  
+        /// Called from each vcam's OnEnable.</summary>
+        internal static CinemachineBrain.VcamEvent sPostProcessingOnEnableHook = new CinemachineBrain.VcamEvent();
+
+        /// <summary>Support for opaque post-processing module</summary>
+        internal Component PostProcessingComponent { get; set; }
 
         /// <summary>Base class implementation does nothing.</summary>
         protected virtual void Start()
@@ -177,21 +193,22 @@ namespace Cinemachine
         {
             // Sanity check - if another vcam component is enabled, shut down
             var vcamComponents = GetComponents<CinemachineVirtualCameraBase>();
-            if (vcamComponents.Length > 1)
+            for (int i = 0; i < vcamComponents.Length; ++i)
             {
-                foreach (var vcam in vcamComponents)
+                if (vcamComponents[i].enabled && vcamComponents[i] != this)
                 {
-                    if (vcam.enabled && vcam != this)
-                    {
-                        Debug.LogError(Name
-                            + " has multiple CinemachineVirtualCameraBase-derived components.  Disabling "
-                            + GetType().Name + ".");
-                        enabled = false;
-                    }
+                    Debug.LogError(Name
+                        + " has multiple CinemachineVirtualCameraBase-derived components.  Disabling "
+                        + GetType().Name + ".");
+                    enabled = false;
                 }
             }
+            if (sPostProcessingOnEnableHook != null)
+                sPostProcessingOnEnableHook.Invoke(this);
             UpdateSlaveStatus();
             UpdatePriorityQueueStatus();    // Add to queue
+            PreviousStateIsValid = false;
+            InconsistentTargetAnimation = false;
         }
 
         /// <summary>Base class implementation makes sure the priority queue remains up-to-date.</summary>

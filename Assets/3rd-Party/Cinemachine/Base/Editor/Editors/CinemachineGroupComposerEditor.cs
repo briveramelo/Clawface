@@ -33,7 +33,9 @@ namespace Cinemachine.Editor
                     {
                         "m_Script",
                         SerializedPropertyHelper.PropertyName(() => Target.m_MinimumFOV),
-                        SerializedPropertyHelper.PropertyName(() => Target.m_MaximumFOV)
+                        SerializedPropertyHelper.PropertyName(() => Target.m_MaximumFOV),
+                        SerializedPropertyHelper.PropertyName(() => Target.m_MinimumOrthoSize),
+                        SerializedPropertyHelper.PropertyName(() => Target.m_MaximumOrthoSize)
                     };
                 case CinemachineGroupComposer.AdjustmentMode.ZoomOnly:
                     return new string[]
@@ -42,23 +44,27 @@ namespace Cinemachine.Editor
                         SerializedPropertyHelper.PropertyName(() => Target.m_MaxDollyIn),
                         SerializedPropertyHelper.PropertyName(() => Target.m_MaxDollyOut),
                         SerializedPropertyHelper.PropertyName(() => Target.m_MinimumDistance),
-                        SerializedPropertyHelper.PropertyName(() => Target.m_MaximumDistance)
+                        SerializedPropertyHelper.PropertyName(() => Target.m_MaximumDistance),
+                        SerializedPropertyHelper.PropertyName(() => Target.m_MinimumOrthoSize),
+                        SerializedPropertyHelper.PropertyName(() => Target.m_MaximumOrthoSize)
                     };
                 default:
-                    return new string[] { "m_Script" };
+                    return new string[] 
+                    { 
+                        "m_Script",
+                        SerializedPropertyHelper.PropertyName(() => Target.m_MinimumOrthoSize),
+                        SerializedPropertyHelper.PropertyName(() => Target.m_MaximumOrthoSize)
+                    };
             }
         }
 
         public override void OnInspectorGUI()
         {
-            Transform lookAt = Target.VirtualCamera.LookAt;
-            CinemachineTargetGroup group = lookAt == null ? null : lookAt.GetComponent<CinemachineTargetGroup>();
-            if (group == null)
-            {
+            if (Target.IsValid && Target.TargetGroup == null)
                 EditorGUILayout.HelpBox(
-                    "LookAt target must be a CinemachineTargetGroup",
-                    MessageType.Error);
-            }
+                    "The Framing settings will be ignored because the LookAt target is not a kind of CinemachineTargetGroup", 
+                    MessageType.Info);
+
             base.OnInspectorGUI();
         }
 
@@ -66,18 +72,15 @@ namespace Cinemachine.Editor
         private static void DrawGroupComposerGizmos(CinemachineGroupComposer target, GizmoType selectionType)
         {
             // Show the group bounding box, as viewed from the camera position
-            ICinemachineCamera vcam = target.VirtualCamera;
-            if (vcam == null || vcam.LookAt == null)
-                return;
-            CinemachineTargetGroup group = vcam.LookAt.GetComponent<CinemachineTargetGroup>();
-            if (group == null)
-                return;
-            Matrix4x4 m = Gizmos.matrix;
-            Bounds b = target.m_LastBounds;
-            Gizmos.matrix = target.m_lastBoundsMatrix;
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawWireCube(b.center, b.size);
-            Gizmos.matrix = m;
+            if (target.TargetGroup != null)
+            {
+                Matrix4x4 m = Gizmos.matrix;
+                Bounds b = target.m_LastBounds;
+                Gizmos.matrix = target.m_lastBoundsMatrix;
+                Gizmos.color = Color.yellow;
+                Gizmos.DrawWireCube(b.center, b.size);
+                Gizmos.matrix = m;
+            }
         }
     }
 }

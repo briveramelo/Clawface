@@ -35,6 +35,12 @@ namespace Cinemachine
         CameraState State { get; }
 
         /// <summary>
+        /// Set by the core if the target is being moved in both Fixed and regular Update.
+        /// This can be a source of camera jitter.
+        /// </summary>
+        bool InconsistentTargetAnimation { get; set; }
+
+        /// <summary>
         /// Gets the virtual camera game attached to this class.
         /// </summary>
         GameObject VirtualCameraGameObject { get; }
@@ -47,6 +53,11 @@ namespace Cinemachine
         /// For cameras that implement child cameras, returns the parent vcam, otherwise null.
         /// </summary>
         ICinemachineCamera ParentCamera { get; }
+
+        /// <summary>Check whether the vcam is a live child of this camera.</summary>
+        /// <param name="vcam">The Virtual Camera to check</param>
+        /// <returns>True if the vcam is currently actively influencing the state of this vcam</returns>
+        bool IsLiveChild(ICinemachineCamera vcam);
 
         /// <summary>
         /// Updates this Cinemachine Camera. For an active camera this should be

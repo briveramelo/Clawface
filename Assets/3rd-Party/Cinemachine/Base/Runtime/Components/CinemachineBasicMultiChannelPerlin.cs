@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Cinemachine
 {
@@ -22,8 +23,9 @@ namespace Cinemachine
         /// Serialized property for referencing a NoiseSettings asset
         /// </summary>
         [HideInInspector]
-        [Tooltip("The shared asset containing the Noise Profile.  Define the frequencies and amplitudes there to make a characteristic noise profile.  Make your own or just use one of the many presets.")]
-        public NoiseSettings m_Definition;
+        [Tooltip("The asset containing the Noise Profile.  Define the frequencies and amplitudes there to make a characteristic noise profile.  Make your own or just use one of the many presets.")]
+        [FormerlySerializedAs("m_Definition")]
+        public NoiseSettings m_NoiseProfile;
 
         /// <summary>
         /// Gain to apply to the amplitudes defined in the settings asset.
@@ -39,7 +41,7 @@ namespace Cinemachine
 
         /// <summary>True if the component is valid, i.e. it has a noise definition and is enabled.</summary>
         public bool IsValid
-        { get { return enabled && m_Definition != null; } }
+        { get { return enabled && m_NoiseProfile != null; } }
 
         /// <summary>Get the Cinemachine Virtual Camera affected by this component</summary>
         public ICinemachineCamera VirtualCamera
@@ -52,28 +54,25 @@ namespace Cinemachine
         /// <summary>Applies noise to the Correction channel of the CameraState if the
         /// delta time is greater than 0.  Otherwise, does nothing.</summary>
         /// <param name="curState">The current camera state</param>
-        /// <param name="statePrevFrame">The camera state on the previous frame (unused)</param>
         /// <param name="deltaTime">How much to advance the perlin noise generator.
         /// Noise is only applied if this value is greater than 0</param>
-        /// <returns>curState with noise applied, or curState if deltaTime not greater than 0</returns>
-        public CameraState MutateCameraState(
-            CameraState curState, CameraState statePrevFrame, float deltaTime)
+        public void MutateCameraState(ref CameraState curState, float deltaTime)
         {
             if (!IsValid || deltaTime <= 0)
-                return curState;
+                return;
 
-            CameraState newState = curState;
+            //UnityEngine.Profiling.Profiler.BeginSample("CinemachineBasicMultiChannelPerlin.MutateCameraState");
             if (!mInitialized)
                 Initialize();
 
             ++mNoiseTime;
             float time = mNoiseTime * deltaTime * m_FrequencyGain;
-            newState.PositionCorrection += newState.CorrectedOrientation * GetCombinedFilterResults(
-                    m_Definition.PositionNoise, time, mNoiseOffsets) * m_AmplitudeGain;
+            curState.PositionCorrection += curState.CorrectedOrientation * GetCombinedFilterResults(
+                    m_NoiseProfile.PositionNoise, time, mNoiseOffsets) * m_AmplitudeGain;
             Quaternion rotNoise = Quaternion.Euler(GetCombinedFilterResults(
-                        m_Definition.OrientationNoise, time, mNoiseOffsets) * m_AmplitudeGain);
-            newState.OrientationCorrection = newState.OrientationCorrection * rotNoise;
-            return newState;
+                        m_NoiseProfile.OrientationNoise, time, mNoiseOffsets) * m_AmplitudeGain);
+            curState.OrientationCorrection = curState.OrientationCorrection * rotNoise;
+            //UnityEngine.Profiling.Profiler.EndSample();
         }
 
         private bool mInitialized = false;
@@ -98,8 +97,9 @@ namespace Cinemachine
             float zPos = 0f;
             if (noiseParams != null)
             {
-                foreach (NoiseSettings.TransformNoiseParams param in noiseParams)
+                for (int i = 0; i < noiseParams.Length; ++i)
                 {
+                    NoiseSettings.TransformNoiseParams param = noiseParams[i];
                     Vector3 timeVal = new Vector3(
                             param.X.Frequency, param.Y.Frequency, param.Z.Frequency);
                     timeVal.Scale(time * Vector3.one + noiseOffsets);
