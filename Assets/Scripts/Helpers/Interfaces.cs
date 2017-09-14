@@ -49,10 +49,6 @@ public interface ISkinnable
     GameObject DeSkin();
 }
 
-public interface ICodexLoggable {
-    CodexType GetCodexType();
-}
-
 public interface ISpawnable {
     bool HasWillBeenWritten();
     void RegisterDeathEvent(OnDeath onDeath);
