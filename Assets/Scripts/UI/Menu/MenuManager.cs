@@ -101,6 +101,17 @@ public class MenuManager : Singleton<MenuManager> {
                 break;
         }
         DoTransition(menuStack.Pop(), Menu.Transition.HIDE, new Menu.Effect[] { });
+
+        // Reassign Selection
+        Menu menu = menuStack.Peek();
+        if (menu != null)
+        {
+            if (menu.InitialSelection != null)
+            {
+                menu.InitialSelection.Select();
+            }
+        }
+
         return true;
     }
     public void ClearMenus()
