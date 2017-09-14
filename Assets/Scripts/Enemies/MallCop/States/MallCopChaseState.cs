@@ -14,7 +14,7 @@ public class MallCopChaseState : MallCopState {
         Chase();        
     }
     public override void OnExit() {
-
+        
     }
 
     void Chase() {
@@ -26,16 +26,7 @@ public class MallCopChaseState : MallCopState {
             velBody.transform.LookAt(lookAtPosition);
             velBody.transform.rotation = Quaternion.Euler(0f, velBody.transform.rotation.eulerAngles.y, 0f);
         }
-        velBody.velocity = Vector3.zero;
-
-
-        //float targetSpeed = myStats.moveSpeed * properties.runMultiplier;
-        //velBody.velocity = controller.directionToTarget * targetSpeed * Time.deltaTime;        
-
+        velBody.velocity = Vector3.zero;      
         navAgent.SetDestination(controller.AttackTarget.position);
-     
-
-       
-
     }
 }
