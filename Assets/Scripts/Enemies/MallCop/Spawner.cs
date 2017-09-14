@@ -25,7 +25,6 @@ public class Spawner : MonoBehaviour
 
     private int currentWave = 0;
 
-
     List<Transform> spawnPoints = new List<Transform>();
 
 
@@ -49,7 +48,7 @@ public class Spawner : MonoBehaviour
     #region Unity LifeCycle
     void Start()
     {
-        TimeToNextWave = waves[0].Time;
+        if(waves.Count > 0) TimeToNextWave = waves[0].Time;
 
         foreach (Transform child_point in transform)
         {
@@ -187,6 +186,8 @@ public class Wave
         get { return intensity; }
         set
         {
+            value = value < 0 ? 0 : value;
+            value = value > 1 ? 1 : value;
             intensity = value;
             ApplyIntensityValue();
         }
