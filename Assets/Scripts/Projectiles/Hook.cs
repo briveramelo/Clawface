@@ -76,6 +76,18 @@ public class Hook : MonoBehaviour {
             //Move forward
             endingPoint.position = endingPoint.position + (endingPoint.forward * hookProperties.projectileSpeed);
             
+        } else if (isTargetHit)
+        {
+            endingPoint.position = new Vector3(target.position.x, endingPoint.position.y, target.position.z);
+            IDamageable damageable = target.GetComponent<IDamageable>();
+            if (damageable.GetHealth() <= 0f)
+            {
+                ConnectToNextSegment();
+                if (!target)
+                {
+                    ResetToDefaults();
+                }
+            }
         }
     }
     #endregion
@@ -89,6 +101,21 @@ public class Hook : MonoBehaviour {
     public Hook GetNextHook()
     {
         return nextHook;
+    }
+
+    public Transform GetTarget()
+    {
+        return target;
+    }
+
+    public void ClearTarget()
+    {
+        target = null;
+    }
+
+    public void ClearNextHook()
+    {
+        nextHook = null;
     }
 
     public void Init(GrapplerMod.HookProperties properties, Transform hookTransform, int enemyCount = 0, List<Transform> ignoreEnemies = null)
@@ -120,7 +147,9 @@ public class Hook : MonoBehaviour {
         gameObject.SetActive(false);
         StopAllCoroutines();
     }
+    #endregion
 
+    #region Private Methods
     private void ResetNextHook()
     {
         if (nextHook)
@@ -130,9 +159,7 @@ public class Hook : MonoBehaviour {
             nextHook = null;
         }
     }
-    #endregion
 
-    #region Private Methods
     private float CalculateChainLength()
     {
        return Vector3.Distance(startingPoint.position, endingPoint.position);
@@ -176,8 +203,8 @@ public class Hook : MonoBehaviour {
             StartCoroutine(DoDamagePerSecond());
             //Set bool
             isTargetHit = true;
-            //Parent endpoint to enemy
-            endingPoint.SetParent(target);
+            //Set endpoint position
+            endingPoint.position = other.ClosestPoint(endingPoint.position);
             //Increment enemycount
             enemyCount++;
             //Check for max enemies
@@ -193,34 +220,53 @@ public class Hook : MonoBehaviour {
     {
         while (true)
         {
-            IDamageable damageable = target.GetComponent<IDamageable>();
-            if (damageable != null)
+            yield return new WaitForSeconds(1f);
+            if (target)
             {
-                damager.impactDirection = endingPoint.transform.forward;
-                damager.damage = hookProperties.projectileDamagePerSecond;
-                damageable.TakeDamage(damager);
-            }
-            if(damageable.GetHealth() <= 0f)
-            {
-                ConnectToNextSegment();
-                if (!nextHook)
+                IDamageable damageable = target.GetComponent<IDamageable>();
+                if (damageable != null)
                 {
-                    break;
+                    damager.impactDirection = endingPoint.transform.forward;
+                    damager.damage = hookProperties.projectileDamagePerSecond;
+                    damageable.TakeDamage(damager);
                 }
             }
-            yield return new WaitForSeconds(1f);
+            else
+            {
+                break;
+            }
         }
     }
 
     private void ConnectToNextSegment()
     {
-        Transform newEndingPoint = nextHook.GetEndingPoint();
-        endingPoint.position = newEndingPoint.position;
-        endingPoint.forward = newEndingPoint.forward;
-        endingPoint.SetParent(newEndingPoint.parent);
-        Hook newNextHook = nextHook.GetNextHook();
-        ResetNextHook();
-        nextHook = newNextHook;
+        if (nextHook)
+        {
+            Transform newEndingPoint = nextHook.GetEndingPoint();
+            endingPoint.position = newEndingPoint.position;
+            endingPoint.forward = newEndingPoint.forward;
+            endingPoint.SetParent(newEndingPoint.parent);
+            Hook newNextHook = nextHook.GetNextHook();
+            Transform newTarget = nextHook.GetTarget();
+            if (newNextHook)
+            {
+                newNextHook.transform.SetParent(endingPoint);
+                newNextHook.transform.localPosition = Vector3.zero;
+            }
+            nextHook.ClearNextHook();
+            nextHook.ClearTarget();
+            ResetNextHook();
+            nextHook = newNextHook;
+            target = newTarget;
+            if (!target)
+            {
+                isTargetHit = false;
+            }
+        }
+        else
+        {
+            isTargetHit = false;
+        }
     }
 
     private void CheckForTargets()
