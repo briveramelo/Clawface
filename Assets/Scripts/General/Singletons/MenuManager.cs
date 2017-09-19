@@ -23,7 +23,7 @@ public class MenuManager : Singleton<MenuManager> {
     #region Private Fields
     private List<Menu> menus = new List<Menu>();
     private Queue<TransitionBundle> transitionQueue = new Queue<TransitionBundle>();
-    private Stack<Menu> menuStack = new Stack<Menu>();
+    private List<Menu> menuStack = new List<Menu>();
     #endregion
 
     #region Unity Lifecycle Functions
@@ -103,15 +103,16 @@ public class MenuManager : Singleton<MenuManager> {
                 }
                 break;
         }
-        DoTransition(menuStack.Pop(), Menu.Transition.HIDE, new Menu.Effect[] { });
+        Menu menu = menuStack[0];
+        DoTransition(menu, Menu.Transition.HIDE, new Menu.Effect[] { });
+        menuStack.RemoveAt(0);
 
         // Reassign Selection
         if (menuStack.Count != 0)
         {
-            Menu menu = menuStack.Peek();
-            if (menu.InitialSelection != null)
+            if (menuStack[0].InitialSelection != null)
             {
-                menu.InitialSelection.Select();
+                menuStack[0].InitialSelection.Select();
             }
         } else
         {
@@ -146,12 +147,13 @@ public class MenuManager : Singleton<MenuManager> {
             case Menu.Transition.HIDE:
                 bundle.menu.CanvasGroup.blocksRaycasts = false;
                 bundle.menu.CanvasGroup.interactable = false;
+                menuStack.RemoveAll((cmp) => { return cmp.MenuName == bundle.menu.MenuName; });
                 break;
             case Menu.Transition.SHOW:
                 deadNavButton.gameObject.SetActive(false);
                 bundle.menu.CanvasGroup.blocksRaycasts = true;
                 bundle.menu.CanvasGroup.interactable = true;
-                menuStack.Push(bundle.menu);
+                menuStack.Add(bundle.menu);
                 break;
             case Menu.Transition.TOGGLE:
                 // Do nothing, a SHOW or HIDE will come through soon.

@@ -69,7 +69,6 @@ public class PauseMenu : Menu {
         Scene scene = SceneManager.GetActiveScene();
         loadMenu.TargetScene = scene.name;
         MenuManager.Instance.DoTransition(loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
-        if (paused) TogglePaused();
     }
 
     public void quitAction()
@@ -80,7 +79,6 @@ public class PauseMenu : Menu {
         loadMenu.TargetScene = Strings.Scenes.MainMenu;
         loadMenu.Fast = true;
         MenuManager.Instance.DoTransition(loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
-        if (paused) TogglePaused();
     }
 
     #endregion
@@ -99,21 +97,21 @@ public class PauseMenu : Menu {
 
     protected override void ShowStarted()
     {
-        TogglePaused();
+        SetPaused(true);
     }
     protected override void HideComplete()
     {
         base.HideComplete();
-        TogglePaused();
+        SetPaused(false);
     }
 
     #endregion
 
     #region Private Interface
 
-    private void TogglePaused()
+    private void SetPaused(bool paused)
     {
-        paused = !paused;
+        this.paused = paused;
         Time.timeScale = paused ? 0 : 1;
     }
 

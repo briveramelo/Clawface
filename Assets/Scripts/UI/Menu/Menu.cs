@@ -80,7 +80,7 @@ public abstract class Menu : MonoBehaviour {
                 CallByEffect(transition, effects);
                 return;
             case Transition.TOGGLE:
-                DoTransition(Displayed ? Transition.HIDE : Transition.SHOW, effects);
+                MenuManager.Instance.DoTransition(this, Displayed ? Transition.HIDE : Transition.SHOW, effects);
                 return;
             case Transition.SPECIAL:
                 OnTransitionStarted(transition, effects);
