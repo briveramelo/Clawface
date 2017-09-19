@@ -137,7 +137,8 @@ public enum PoolObjectType {
     WorldScoreCanvas = 26,
     GrapplingHook = 27,
     TurretBullet = 28,
-    SpreadGunBullet = 29
+    GeyserFissure = 29,	
+    SpreadGunBullet = 30
 }
 
 public enum MovementMode
