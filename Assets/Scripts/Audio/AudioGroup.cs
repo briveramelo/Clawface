@@ -4,6 +4,7 @@
 using ModMan;
 
 using System.Collections.Generic;
+using System.Linq;
 
 using UnityEngine;
 
@@ -135,12 +136,12 @@ namespace Turing.Audio
         #endregion
         #region Private Fields
 
-        const string _STANDARD_CHANNEL_NAME = "STANDARD";
-        const string _BASS_CHANNEL_NAME = "BASS";
-        const string _MID_CHANNEL_NAME = "MID";
-        const string _TREBLE_CHANNEL_NAME = "TREBLE";
-        const string _ELEMENTS_PARENT_NAME = "ELEMENTS";
-        const HideFlags _CHANNEL_HIDE_FLAGS = HideFlags.HideInHierarchy;
+        const string STANDARD_CHANNEL_NAME = "STANDARD";
+        const string BASS_CHANNEL_NAME = "BASS";
+        const string MID_CHANNEL_NAME = "MID";
+        const string TREBLE_CHANNEL_NAME = "TREBLE";
+        const string ELEMENTS_PARENT_NAME = "ELEMENTS";
+        const HideFlags CHANNEL_HIDE_FLAGS = HideFlags.HideInHierarchy;
 
         AudioListener al;
 
@@ -268,7 +269,7 @@ namespace Turing.Audio
             switch (groupType)
             {
                 case GroupType.Standard:
-                    standardChannel.PlaySound(pitch);
+                    StandardChannel.PlaySound(pitch);
                     longestClipLength = standardChannel.ClipLength;
                     break;
 
@@ -282,7 +283,7 @@ namespace Turing.Audio
 
                 case GroupType.Elements:
                     float maxLength = 0f;
-                    foreach (var channel in elementChannels)
+                    foreach (var channel in ElementChannels)
                     {
                         channel.PlaySound(pitch);
                         if (channel.ClipLength > maxLength)
@@ -348,14 +349,14 @@ namespace Turing.Audio
         /// </summary>
         void GenerateAudioChannels()
         {
-            standardChannel = GenerateAudioChannel(_STANDARD_CHANNEL_NAME, transform);
-            bassChannel = GenerateAudioChannel(_BASS_CHANNEL_NAME, transform);
-            midChannel = GenerateAudioChannel(_MID_CHANNEL_NAME, transform);
-            trebleChannel = GenerateAudioChannel(_TREBLE_CHANNEL_NAME, transform);
+            standardChannel = GenerateAudioChannel(STANDARD_CHANNEL_NAME, transform);
+            bassChannel = GenerateAudioChannel(BASS_CHANNEL_NAME, transform);
+            midChannel = GenerateAudioChannel(MID_CHANNEL_NAME, transform);
+            trebleChannel = GenerateAudioChannel(TREBLE_CHANNEL_NAME, transform);
             if (elementParent == null)
             {
-                elementParent = new GameObject(_ELEMENTS_PARENT_NAME).transform;
-                elementParent.hideFlags = _CHANNEL_HIDE_FLAGS;
+                elementParent = new GameObject(ELEMENTS_PARENT_NAME).transform;
+                elementParent.hideFlags = CHANNEL_HIDE_FLAGS;
                 elementParent.SetParent(transform);
                 elementParent.Reset();
             }
@@ -375,9 +376,10 @@ namespace Turing.Audio
                     typeof(AudioSource),
                     typeof(AudioChannel)
                     );
-                channelObj.hideFlags = _CHANNEL_HIDE_FLAGS;
+                channelObj.hideFlags = CHANNEL_HIDE_FLAGS;
                 channelObj.transform.SetParent(parent);
                 channelObj.transform.Reset();
+                channelObj.GetComponent<AudioSource>().playOnAwake = false;
                 channel = channelObj.GetComponent<AudioChannel>();
             } 
             
@@ -396,7 +398,7 @@ namespace Turing.Audio
         /// </summary>
         public void AddElementChannel()
         {
-            var channel = GenerateAudioChannel(_ELEMENTS_PARENT_NAME + 
+            var channel = GenerateAudioChannel(ELEMENTS_PARENT_NAME + 
                 elementChannelIndex++, elementParent.transform);
             channel.SetParent(this);
             elementChannels.Add(channel);
@@ -431,6 +433,36 @@ namespace Turing.Audio
                     al = FindObjectOfType<AudioListener>().GetComponent<AudioListener>();
                 }
                 return al;
+            }
+        }
+
+        AudioChannel StandardChannel
+        {
+            get
+            {
+                if (standardChannel != null)
+                    return standardChannel;
+
+                standardChannel = gameObject.
+                    FindInChildren(STANDARD_CHANNEL_NAME).
+                    GetComponent<AudioChannel>();
+
+                return standardChannel;
+            }
+        }
+
+        List<AudioChannel> ElementChannels
+        {
+            get
+            {
+                if (elementChannels != null)
+                    return elementChannels;
+
+                elementChannels = 
+                    gameObject.FindInChildren (ELEMENTS_PARENT_NAME).
+                    GetComponentsInChildren<AudioChannel>().ToList<AudioChannel>();
+
+                return elementChannels;
             }
         }
 
