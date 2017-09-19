@@ -42,17 +42,18 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
     private void OnEnable() {
         if (will.willHasBeenWritten) {
             ResetForRebirth();
-        }       
+        }
+        navAgent.enabled = true;
     }
     
     void Awake ()
     {
         controller.Initialize(properties, mod, velBody, animator, myStats, navAgent);
-        damaged.Set(DamagedType.MallCop, bloodEmissionLocation);
+        
         mod.setModSpot(ModSpot.ArmR);
         mod.AttachAffect(ref myStats, velBody);
         ResetForRebirth();
-        lastChance = false;
+        navAgent.enabled = false;
     }    
 
     #endregion
@@ -65,6 +66,7 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
             myStats.TakeDamage(damager.damage);            
             damagePack.Set(damager, damaged);
             SFXManager.Instance.Play(SFXType.MallCopHurt, transform.position);
+            damaged.Set(DamagedType.MallCop, bloodEmissionLocation);
             DamageFXManager.Instance.EmitDamageEffect(damagePack);
             if (myStats.health <= myStats.skinnableHealth && !glowObject.isGlowing){
                 glowObject.SetToGlow();
@@ -179,11 +181,13 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
         glowObject.ResetForRebirth();
         will.Reset();
         //TODO check for missing mod and create a new one and attach it
-        mod.setModSpot(ModSpot.ArmR);        
+        mod.setModSpot(ModSpot.ArmR);
+        lastChance = false;
     }       
 
     private void Death()
     {
+        navAgent.enabled = false;
         gameObject.SetActive(false);
     }
 

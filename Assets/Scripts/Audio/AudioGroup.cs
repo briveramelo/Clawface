@@ -379,6 +379,7 @@ namespace Turing.Audio
                 channelObj.hideFlags = CHANNEL_HIDE_FLAGS;
                 channelObj.transform.SetParent(parent);
                 channelObj.transform.Reset();
+                channelObj.GetComponent<AudioSource>().playOnAwake = false;
                 channel = channelObj.GetComponent<AudioChannel>();
             } 
             
