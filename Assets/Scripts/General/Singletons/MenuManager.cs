@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.EventSystems;
+using UnityEngine.UI;
 using Rewired.Integration.UnityUI;
 
 public class MenuManager : Singleton<MenuManager> {
@@ -16,6 +16,8 @@ public class MenuManager : Singleton<MenuManager> {
     private List<GameObject> menuPrefabs;
     [SerializeField]
     private RewiredStandaloneInputModule input;
+    [SerializeField]
+    private Button deadNavButton;
     #endregion
 
     #region Private Fields
@@ -113,17 +115,15 @@ public class MenuManager : Singleton<MenuManager> {
             }
         } else
         {
-            EventSystem.current.SetSelectedGameObject(null);
+            deadNavButton.gameObject.SetActive(true);
+            deadNavButton.Select();
         }
 
         return true;
     }
     public void ClearMenus()
     {
-        while (menuStack.Count > 0)
-        {
-            DoTransition(menuStack.Pop(), Menu.Transition.HIDE, new Menu.Effect[] { });
-        }
+        while (PopMenu(true)) { } // clear stack
     }
 
     public Menu GetMenuByName(string menuName)
@@ -139,7 +139,7 @@ public class MenuManager : Singleton<MenuManager> {
     {
         if (bundle.effects.Contains(Menu.Effect.EXCLUSIVE))
         {
-            while (PopMenu(true)) { }; // we're clearing the stack
+            ClearMenus();
         }
         switch (bundle.transition)
         {
@@ -148,6 +148,7 @@ public class MenuManager : Singleton<MenuManager> {
                 bundle.menu.CanvasGroup.interactable = false;
                 break;
             case Menu.Transition.SHOW:
+                deadNavButton.gameObject.SetActive(false);
                 bundle.menu.CanvasGroup.blocksRaycasts = true;
                 bundle.menu.CanvasGroup.interactable = true;
                 menuStack.Push(bundle.menu);

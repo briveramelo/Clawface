@@ -103,6 +103,7 @@ public class PauseMenu : Menu {
     }
     protected override void HideComplete()
     {
+        base.HideComplete();
         TogglePaused();
     }
 
