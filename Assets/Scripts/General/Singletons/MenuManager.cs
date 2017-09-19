@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.EventSystems;
 using Rewired.Integration.UnityUI;
 
 public class MenuManager : Singleton<MenuManager> {
@@ -103,13 +104,16 @@ public class MenuManager : Singleton<MenuManager> {
         DoTransition(menuStack.Pop(), Menu.Transition.HIDE, new Menu.Effect[] { });
 
         // Reassign Selection
-        Menu menu = menuStack.Peek();
-        if (menu != null)
+        if (menuStack.Count != 0)
         {
+            Menu menu = menuStack.Peek();
             if (menu.InitialSelection != null)
             {
                 menu.InitialSelection.Select();
             }
+        } else
+        {
+            EventSystem.current.SetSelectedGameObject(null);
         }
 
         return true;
