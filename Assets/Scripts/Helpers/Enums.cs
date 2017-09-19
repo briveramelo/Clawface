@@ -136,7 +136,8 @@ public enum PoolObjectType {
     HealthGain = 25,
     WorldScoreCanvas = 26,
     GrapplingHook = 27,
-    TurretBullet = 28
+    TurretBullet = 28,
+    GeyserFissure = 29
 }
 
 public enum MovementMode
