@@ -149,10 +149,12 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
                 
         UpdateButtonPresses();        
 
+        /*
         if (Input.GetKeyDown(KeyCode.P))
         {
             WriteOutToTextFile();
         }
+        */
 }
     //#endif
 
