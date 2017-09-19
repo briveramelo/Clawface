@@ -85,8 +85,8 @@ public class DamageFXManager : Singleton<DamageFXManager> {
         SetupBlood(ObjectPool.Instance.GetObject(PoolObjectType.BloodEmitter), damaged, false);
     }
 
-    private void SetupBlood(GameObject emitter, Damaged damaged, bool facingFront){
-        if (emitter != null){
+    private void SetupBlood(GameObject emitter, Damaged damaged, bool facingFront){        
+        if (emitter != null){ // && damaged.owner!=null
             emitter.transform.position = damaged.owner.position;
             Vector3 bulletAngs = damaged.owner.rotation.eulerAngles + (facingFront ? Vector3.zero : Vector3.up * 180f);
             Vector3 projectileAngs = emitter.transform.rotation.eulerAngles;

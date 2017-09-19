@@ -69,6 +69,7 @@ public enum DamagerType {
 public enum DamagedType {
     MallCop=0,
     Milo=1,
+    Zombie=2,
 }
 
 public enum ModType {
@@ -135,6 +136,7 @@ public enum PoolObjectType {
     HealthGain = 25,
     WorldScoreCanvas = 26,
     GrapplingHook = 27,
+    TurretBullet = 28
 }
 
 public enum MovementMode
@@ -190,6 +192,16 @@ public enum EMallCopState {
     Fire = 6,
     Flee = 7
 }
+
+public enum EZombieState
+{
+    Patrol = 0,
+    Chase = 1,
+    Attack = 3,
+    Fall = 4,
+    Twitch = 5
+}
+
 
 public enum EGrapplingBotState {
     Patrol = 0,
