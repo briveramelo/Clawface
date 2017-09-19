@@ -135,7 +135,8 @@ public enum PoolObjectType {
     SkinningEffect = 24,
     HealthGain = 25,
     WorldScoreCanvas = 26,
-    TurretBullet = 27
+    GrapplingHook = 27,
+    TurretBullet = 28
 }
 
 public enum MovementMode

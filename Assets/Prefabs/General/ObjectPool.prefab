@@ -51,6 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b299eb73e45ddbd46b2e86d3461810c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shouldRegister: 1
   pools:
   - prefabs:
     - {fileID: 1719855240616946, guid: 636364673f9463240aef3607a378cf11, type: 2}
@@ -98,7 +99,7 @@ MonoBehaviour:
     objects: []
   - prefabs:
     - {fileID: 1775496334739832, guid: 99e41d3bf6149df4184f45d0cf60d277, type: 2}
-    size: 10
+    size: 0
     poolObjectType: 11
     objects: []
   - prefabs:
@@ -179,5 +180,10 @@ MonoBehaviour:
   - prefabs:
     - {fileID: 1780053103215904, guid: 584c741a425a10b4790a0f89c6f2863f, type: 2}
     size: 200
+    poolObjectType: 28
+    objects: []
+  - prefabs:
+    - {fileID: 1209526036473628, guid: 512e80148ad4746408748a35bf65c78f, type: 2}
+    size: 25
     poolObjectType: 27
     objects: []
