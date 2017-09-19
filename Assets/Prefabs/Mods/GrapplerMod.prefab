@@ -59,7 +59,6 @@ GameObject:
   - component: {fileID: 33132065640198932}
   - component: {fileID: 65291332778266886}
   - component: {fileID: 23098096954476194}
-  - component: {fileID: 114929120214224340}
   - component: {fileID: 54030489420536162}
   m_Layer: 0
   m_Name: Hook
@@ -93,7 +92,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1145115233867226}
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -21.75, y: 1.468, z: -3.489057}
+  m_LocalPosition: {x: -0.9819746, y: 3.88, z: 168.5772}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children:
   - {fileID: 4564136626918456}
@@ -252,8 +251,16 @@ MonoBehaviour:
       attack: 4
     isCoolingDown: 0
     isActive: 0
-  hook: {fileID: 114929120214224340}
-  maxHookLengthStandard: 2
+  hookTransform: {fileID: 4564136626918456}
+  hookProperties:
+    projectileSpeed: 0.5
+    projectileHitDamage: 10
+    homingAngle: 90
+    homingRadius: 10
+    projectileDamagePerSecond: 5
+    maxChainableEnemies: 3
+    maxDistance: 20
+    maxDistancePerSubChain: 5
 --- !u!114 &114399477563612414
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -332,22 +339,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114929120214224340
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1808191123820236}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e35b892bc77956b48afc197fc6adade3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxLength: 2
-  mod: {fileID: 114176279886086948}
-  growRate: 10
-  shrinkRate: 10
-  pullForce: 55
 --- !u!222 &222070531113919024
 CanvasRenderer:
   m_ObjectHideFlags: 1
