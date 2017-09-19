@@ -143,27 +143,20 @@ public class MenuManager : Singleton<MenuManager> {
         }
         switch (bundle.transition)
         {
-            case Menu.Transition.NONE:
             case Menu.Transition.HIDE:
-                bundle.menu.canvasGroup.blocksRaycasts = false;
-                bundle.menu.canvasGroup.interactable = false;
+                bundle.menu.CanvasGroup.blocksRaycasts = false;
+                bundle.menu.CanvasGroup.interactable = false;
                 break;
             case Menu.Transition.SHOW:
-                bundle.menu.canvasGroup.blocksRaycasts = true;
-                bundle.menu.canvasGroup.interactable = true;
+                bundle.menu.CanvasGroup.blocksRaycasts = true;
+                bundle.menu.CanvasGroup.interactable = true;
                 menuStack.Push(bundle.menu);
                 break;
             case Menu.Transition.TOGGLE:
-                if (!bundle.menu.Displayed)
-                {
-                    bundle.menu.canvasGroup.blocksRaycasts = true;
-                    bundle.menu.canvasGroup.interactable = true;
-                    menuStack.Push(bundle.menu);
-                } else
-                {
-                    bundle.menu.canvasGroup.blocksRaycasts = false;
-                    bundle.menu.canvasGroup.interactable = false;
-                }
+                // Do nothing, a SHOW or HIDE will come through soon.
+                break;
+            case Menu.Transition.SPECIAL:
+                // There's nothing to do.. we don't know if a show is coming or not..
                 break;
         }
     }
