@@ -16,7 +16,7 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     [SerializeField] private DamageUI damageUI;
     [SerializeField] private CameraLock cameraLock;
     [SerializeField] private GameObject skinObject;
-    [SerializeField] private HealthBar healthBar;
+    [SerializeField] private OnScreenScoreUI healthBar;
     #endregion
 
     #region Private Fields

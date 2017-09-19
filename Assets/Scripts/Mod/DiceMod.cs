@@ -4,12 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using ModMan;
 using MovementEffects;
+using Turing.VFX;
 
 public class DiceMod : Mod {
 
     #region Serialized Fields
     [SerializeField]
-    private VFXBlasterShoot blasterEffect;
+    private VFXOneOff blasterEffect;
     [SerializeField]
     private Transform bulletSpawnPoint;
 
@@ -52,12 +53,14 @@ public class DiceMod : Mod {
     {
     }
 
+
     protected override void ActivateStandardArms()
     {
-        blasterEffect.Emit();
+        blasterEffect.Play();
         DiceBlock diceBlock = SpawnDiceAndRoll(bulletSpawnPoint.forward);
         diceBlock.PrimeExplosion(armTimeTilExplosion);
     }
+
     #endregion
 
     #region Private Methods

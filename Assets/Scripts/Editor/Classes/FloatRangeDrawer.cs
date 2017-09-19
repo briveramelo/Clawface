@@ -1,27 +1,35 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿// FloatRangeDrawer.cs
+// Author: Aaron
+
 using UnityEditor;
 
+using UnityEngine;
+
+/// <summary>
+/// Custom PropertyDrawer for FloatRange.
+/// </summary>
 [CustomPropertyDrawer(typeof(FloatRangeAttribute))]
-public class FloatRangeDrawer : PropertyDrawer {
+public sealed class FloatRangeDrawer : PropertyDrawer
+{
+    #region Private Fields
 
-    const float _X_DIV_VALUE = 0.33f;
-    const float _Y_DIV_VALUE = 0.5f;
+    const float X_DIV_VALUE = 0.33f;
+    const float Y_DIV_VALUE = 0.5f;
 
-    public override float GetPropertyHeight(SerializedProperty property, GUIContent label) {
-        return base.GetPropertyHeight(property, label) + 16f;
-    }
+    #endregion
+    #region Unity Lifecycle
 
-    public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
+    public override void OnGUI(Rect position, SerializedProperty property, 
+        GUIContent label)
+    {
         var attrib = attribute as FloatRangeAttribute;
-        var min = property.FindPropertyRelative ("_min");
+        var min = property.FindPropertyRelative ("min");
         var minValue = min.floatValue;
-        var max = property.FindPropertyRelative ("_max");
+        var max = property.FindPropertyRelative ("max");
         var maxValue = max.floatValue;
 
-        var xDiv = position.width * _X_DIV_VALUE;
-        var yDiv = position.height * _Y_DIV_VALUE;
+        var xDiv = position.width * X_DIV_VALUE;
+        var yDiv = position.height * Y_DIV_VALUE;
 
         EditorGUI.LabelField (new Rect (position.x, position.y, xDiv, yDiv), label);
 
@@ -37,4 +45,15 @@ public class FloatRangeDrawer : PropertyDrawer {
         min.floatValue = minValue;
         max.floatValue = maxValue;
     }
+
+    #endregion
+    #region Public Methods
+
+    public override float GetPropertyHeight(SerializedProperty property, 
+        GUIContent label)
+    {
+        return base.GetPropertyHeight(property, label) + 16f;
+    }
+
+    #endregion
 }

@@ -28,6 +28,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1175033407109762
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4357210296677768}
+  m_Layer: 0
+  m_Name: ELEMENTS
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1194725027458840
 GameObject:
   m_ObjectHideFlags: 0
@@ -125,6 +140,7 @@ Transform:
   - {fileID: 4268319362506264}
   - {fileID: 4505733623688108}
   - {fileID: 4625329255306834}
+  - {fileID: 4357210296677768}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -153,6 +169,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4082746898203010}
   m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4357210296677768
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1175033407109762}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4082746898203010}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4505733623688108
 Transform:
@@ -202,10 +231,10 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_audioClip: {fileID: 8300000, guid: e99a6e73b662d5b418451742c5dd399f, type: 3}
+  m_PlayOnAwake: 0
   m_Volume: 1
-  m_Pitch: 0.97070926
+  m_Pitch: 1
   Loop: 0
   Mute: 0
   Spatialize: 0
@@ -248,7 +277,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   spreadCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -272,7 +301,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
 --- !u!82 &82238023109097582
 AudioSource:
   m_ObjectHideFlags: 1
@@ -283,7 +312,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -363,7 +392,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -443,7 +472,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -524,13 +553,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e594d69e58e793c47b9d13e384085fc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _clips: []
-  _changeVolumeEachLoop: 0
-  _uniformVolume: 1
-  _useRandomVolume: 0
-  _randomVolumeRange:
-    _min: 1
-    _max: 1
+  clips: []
+  changeVolumeEachLoop: 0
+  uniformVolume: 1
+  useRandomVolume: 0
+  randomVolumeRange:
+    min: 1
+    max: 1
 --- !u!114 &114115878537730042
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -542,13 +571,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e594d69e58e793c47b9d13e384085fc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _clips: []
-  _changeVolumeEachLoop: 0
-  _uniformVolume: 1
-  _useRandomVolume: 0
-  _randomVolumeRange:
-    _min: 1
-    _max: 1
+  clips: []
+  changeVolumeEachLoop: 0
+  uniformVolume: 1
+  useRandomVolume: 0
+  randomVolumeRange:
+    min: 1
+    max: 1
 --- !u!114 &114400473428285376
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -560,14 +589,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e594d69e58e793c47b9d13e384085fc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _clips:
+  clips:
   - {fileID: 8300000, guid: e99a6e73b662d5b418451742c5dd399f, type: 3}
-  _changeVolumeEachLoop: 0
-  _uniformVolume: 1
-  _useRandomVolume: 0
-  _randomVolumeRange:
-    _min: 1
-    _max: 1
+  changeVolumeEachLoop: 0
+  uniformVolume: 1
+  useRandomVolume: 0
+  randomVolumeRange:
+    min: 1
+    max: 1
 --- !u!114 &114737742303941850
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -579,13 +608,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e594d69e58e793c47b9d13e384085fc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _clips: []
-  _changeVolumeEachLoop: 0
-  _uniformVolume: 1
-  _useRandomVolume: 0
-  _randomVolumeRange:
-    _min: 1
-    _max: 1
+  clips: []
+  changeVolumeEachLoop: 0
+  uniformVolume: 1
+  useRandomVolume: 0
+  randomVolumeRange:
+    min: 1
+    max: 1
 --- !u!114 &114926956462236042
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -597,29 +626,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d167c7d70ccec34481b86b1564156d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _groupType: 0
-  _standardChannel: {fileID: 114400473428285376}
-  _bassChannel: {fileID: 114058517569364676}
-  _midChannel: {fileID: 114737742303941850}
-  _trebleChannel: {fileID: 114115878537730042}
-  _elementParent: {fileID: 4625329255306834}
-  _elementChannels: []
-  _loop: 0
-  _playOnAwake: 0
-  _spatialBlend: 0
-  _minDistance: 1
-  _maxDistance: 500
-  _changePitchEachLoop: 0
-  _useVolumeEnvelope: 0
-  _volumeEnvelope:
+  groupType: 0
+  standardChannel: {fileID: 114400473428285376}
+  bassChannel: {fileID: 114058517569364676}
+  midChannel: {fileID: 114737742303941850}
+  trebleChannel: {fileID: 114115878537730042}
+  elementChannels: []
+  loop: 0
+  playOnAwake: 0
+  spatialBlend: 0
+  maxDistance: 500
+  changePitchEachLoop: 0
+  useVolumeEnvelope: 0
+  volumeEnvelope:
     serializedVersion: 2
     m_Curve: []
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _randomPitch: 0
-  _pitch: 1
-  _pitchRange:
-    _min: 0.95
-    _max: 1.05
-  _elementChannelIndex: 0
+  randomPitch: 0
+  pitch: 1
+  pitchRange:
+    min: 1
+    max: 1
+  elementChannelIndex: 0
+  elementParent: {fileID: 4357210296677768}
