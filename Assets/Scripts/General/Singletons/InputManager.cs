@@ -45,6 +45,12 @@ public class InputManager : Singleton<InputManager> {
     //// Query Controls
     public Vector2 QueryAxes(string axisAlias)
     {
+        // If player isn't hooked up yet, no input.
+        if (player == null)
+        {
+            return new Vector2(0, 0);
+        }
+
         string axisX = axisAlias + " X";
         string axisY = axisAlias + " Y";
 
@@ -53,6 +59,12 @@ public class InputManager : Singleton<InputManager> {
 
     public ButtonMode QueryAction(string action)
     {
+        // If player isn't hooked up yet, no input.
+        if (player == null)
+        {
+            return ButtonMode.IDLE;
+        }
+
         if (player.GetButtonDown(action))
             return ButtonMode.DOWN;
         else if (player.GetButtonUp(action))
@@ -64,6 +76,12 @@ public class InputManager : Singleton<InputManager> {
     }
     public bool QueryAction(string action, ButtonMode mode)
     {
+        // If player isn't hooked up yet, no input.
+        if (player == null)
+        {
+            return (mode == ButtonMode.IDLE) ? true : false;
+        }
+
         switch (mode)
         {
             case ButtonMode.DOWN:

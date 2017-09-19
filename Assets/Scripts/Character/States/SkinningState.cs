@@ -15,7 +15,7 @@ public class SkinningState : IPlayerState
     [SerializeField] private List<CapsuleCollider> clothColliders;
     [SerializeField] private GameObject skinObject;
     [SerializeField] private PlayerStatsManager playerStatsManager;
-    [SerializeField] private HealthBar healthBar;
+    [SerializeField] private OnScreenScoreUI healthBar;
     [SerializeField] private float skinRadius;
     #endregion
 
