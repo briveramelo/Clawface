@@ -64,6 +64,7 @@ public enum DamagerType {
     GrapplingBotExplosion=9,
     Dice=10,
     StunStomp = 11,
+    SpreadGun = 12,
 }
 
 public enum DamagedType {

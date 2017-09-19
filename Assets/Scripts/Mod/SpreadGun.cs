@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SpreadGun : Mod {
 
-#region Serialized fields
+    #region Serialized fields
     [SerializeField] private SpreadGunProperties gunProperties;
     [SerializeField] private Transform bulletSpawnTransform;
     #endregion
@@ -35,7 +35,7 @@ public class SpreadGun : Mod {
     }
     #endregion
 
-#region Public functions
+    #region Public functions
     public override void AttachAffect(ref Stats wielderStats, IMovable wielderMovable)
     {
         base.AttachAffect(ref wielderStats, wielderMovable);
@@ -85,7 +85,8 @@ public class SpreadGun : Mod {
     private Vector3 CalculateForward(int count)
     {
         float rotationAngle = -gunProperties.spreadAngle / 2.0f + (incrementAngle * count);
-        return transform.forward;
+        Vector3 forwardVector2D = new Vector3(transform.forward.x, 0f, transform.forward.z);
+        return Quaternion.Euler(0f, rotationAngle, 0f) * forwardVector2D;
     }
     #endregion
 
