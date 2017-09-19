@@ -130,6 +130,8 @@ public class Hook : MonoBehaviour {
         }
         damager = new Damager();
         damager.damagerType = DamagerType.GrapplingHook;
+        endingPoint.SetParent(null);
+        endingPoint.forward = transform.forward;
     }
 
     public void ResetToDefaults()
