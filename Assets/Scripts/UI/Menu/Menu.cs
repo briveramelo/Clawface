@@ -2,6 +2,7 @@
  *  @author Cornelia Schultz
  */
 
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,12 +19,29 @@ public abstract class Menu : MonoBehaviour {
     {
         get;
     }
-    public abstract bool Displayed { get; }
+    public bool Displayed
+    {
+        get
+        {
+            return displayed;
+        }
+    }
+
+    public CanvasGroup CanvasGroup
+    {
+        get
+        {
+            return canvasGroup;
+        }
+    }
     #endregion
 
     #region Serialized Unity Fields
     [SerializeField]
-    public CanvasGroup canvasGroup;
+    private CanvasGroup canvasGroup;
+
+    [SerializeField]
+    private float faderDuration = 1F;
     #endregion
 
     #region Unity Lifecycle Methods
@@ -33,13 +51,44 @@ public abstract class Menu : MonoBehaviour {
     }
     #endregion
 
+    #region Private Fields
+    
+    private bool displayed;
+
+    #endregion
+
     #region Public Interface
     public Menu(string name)
     {
         menuName = name;
     }
 
-    public abstract void DoTransition(Transition transition, Effect[] effects);
+    public void DoTransition(Transition transition, Effect[] effects)
+    {
+        switch (transition)
+        {
+            case Transition.SHOW:
+                if (Displayed) return;
+                OnTransitionStarted(transition, effects);
+                ShowStarted();
+                CallByEffect(transition, effects);
+                return;
+            case Transition.HIDE:
+                if (!Displayed) return;
+                OnTransitionStarted(transition, effects);
+                HideStarted();
+                CallByEffect(transition, effects);
+                return;
+            case Transition.TOGGLE:
+                DoTransition(Displayed ? Transition.HIDE : Transition.SHOW, effects);
+                return;
+            case Transition.SPECIAL:
+                OnTransitionStarted(transition, effects);
+                SpecialStarted();
+                Special(transition, effects);
+                return;
+        }
+    }
     #endregion
 
     #region Protected Interface
@@ -58,6 +107,97 @@ public abstract class Menu : MonoBehaviour {
             InitialSelection.Select();
         }
     }
+
+    //// Helper Functions for Transitioning between menus
+    // Default Show / Hide
+    protected abstract void DefaultShow(Transition transition, Effect[] effects);
+    protected abstract void DefaultHide(Transition transition, Effect[] effects);
+
+    // Effect Based Implementations
+    protected virtual void Fade(Transition transition, Effect[] effects)
+    {
+        float start = (transition == Transition.SHOW) ? 0F : 1F;
+        float end = (transition == Transition.SHOW) ? 1F : 0F;
+        StartCoroutine(MenuTransitionsCommon.FadeCoroutine(start, end, faderDuration,
+            canvasGroup, () =>
+            {
+                if (transition == Transition.SHOW)
+                {
+                    ShowComplete();
+                } else
+                {
+                    HideComplete();
+                }
+
+                OnTransitionEnded(transition, effects);
+            }));
+    }
+    protected virtual void Tween(Transition transition, Effect[] effects)
+    {
+        throw new NotImplementedException();
+    }
+    protected virtual void Instant(Transition transition, Effect[] effects)
+    {
+        canvasGroup.alpha = (transition == Transition.SHOW) ? 1F : 0F;
+        if (transition == Transition.SHOW)
+        {
+            ShowComplete();
+        } else
+        {
+            HideComplete();
+        }
+        OnTransitionEnded(transition, effects);
+    }
+    protected virtual void Special(Transition transition, Effect[] effects)
+    {
+        throw new NotImplementedException();
+    }
+
+    // "Events" Used Internally by implementations
+    protected virtual void ShowStarted() { }
+    protected virtual void ShowComplete()
+    {
+        displayed = true;
+    }
+    protected virtual void HideStarted() { }
+    protected virtual void HideComplete()
+    {
+        displayed = false;
+    }
+    protected virtual void SpecialStarted() { }
+    protected virtual void SpecialComplete() { } 
+    #endregion
+
+    #region Private Interface
+
+    private void CallByEffect(Transition transition, Effect[] effects)
+    {
+        foreach (Effect effect in effects)
+        { // First come, first serve
+            if (effect == Effect.FADE)
+            {
+                Fade(transition, effects);
+                return;
+            } else if (effect == Effect.TWEEN)
+            {
+                Tween(transition, effects);
+                return;
+            } else if (effect == Effect.INSTANT)
+            {
+                Instant(transition, effects);
+                return;
+            }
+        }
+
+        if (transition == Transition.SHOW)
+        {
+            DefaultShow(transition, effects);
+        } else
+        {
+            DefaultHide(transition, effects);
+        }
+    }
+
     #endregion
 
     #region Types
@@ -66,13 +206,11 @@ public abstract class Menu : MonoBehaviour {
         SHOW,       // Reveals this menu
         HIDE,       // Hides this menu
         TOGGLE,     // Toggles the show state (shown -> hide; hidden -> show)
-        NONE,       // No visibilty transition.  Useful (maybe) if we add more effects
+        SPECIAL,    // No visibilty transition.  Useful (maybe) if we add more effects
     }
     public enum Effect
     {
-        // The default if one of the following is not provided is implementation defined
-        ADDITIVE,   // Adds this menu without dismissing other menus
-        EXCLUSIVE,  // Adds this menu WHILE dismissing other menus
+        EXCLUSIVE,  // Adds this menu WHILE dismissing other menus, the default is Additive
 
         // Some Useful Effect Types
         INSTANT,    // Do transition instantly
