@@ -98,7 +98,7 @@ public class BulletBehavior : MonoBehaviour {
     }
     private void EmitBulletCollision()
     {
-        GameObject effect = ObjectPool.Instance.GetObject(PoolObjectType.BlasterImpactEffect);
+        GameObject effect = ObjectPool.Instance.GetObject(PoolObjectType.VFXBlasterImpactEffect);
         if (effect)
         {
             effect.transform.position = transform.position;

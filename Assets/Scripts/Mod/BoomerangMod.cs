@@ -40,7 +40,7 @@ public class BoomerangMod : Mod {
     {
         onActivate = () => { SFXManager.Instance.Play(SFXType.BlasterShoot, transform.position); };
         base.Activate(onCompleteCoolDown, onActivate);
-        SFXManager.Instance.Stop(SFXType.BlasterCharge);
+        //SFXManager.Instance.Stop(SFXType.BlasterCharge);
     }
 
     public override void AttachAffect(ref Stats wielderStats, IMovable wielderMovable)

@@ -131,10 +131,10 @@ public class DashState : IPlayerState {
             stateVariables.statsManager.TakeSkin(skinStats.GetSkinHealth());
             Stats stats = GetComponent<Stats>();
             healthBar.SetHealth(stats.GetHealthFraction());
-            GameObject skinningEffect = ObjectPool.Instance.GetObject(PoolObjectType.SkinningEffect);
+            GameObject skinningEffect = ObjectPool.Instance.GetObject(PoolObjectType.VFXSkinningEffect);
             skinningEffect.transform.position = transform.position;
 
-            GameObject healthJuice = ObjectPool.Instance.GetObject(PoolObjectType.HealthGain);
+            GameObject healthJuice = ObjectPool.Instance.GetObject(PoolObjectType.VFXHealthGain);
             if (healthJuice)
             {
                 healthJuice.FollowAndDeActivate(3f, transform, Vector3.up * 3.2f);
