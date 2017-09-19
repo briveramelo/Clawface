@@ -15,11 +15,10 @@ public class GeyserFissure : MonoBehaviour {
 
     private float killTimer;
 
-    // Use this for initialization
-    void Start () {
+    private void Awake()
+    {
         hitEnemies = new List<Transform>();
-	}
-
+    }
 
     void OnEnable()
     {
