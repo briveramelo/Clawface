@@ -203,7 +203,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -283,7 +283,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -363,7 +363,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -443,7 +443,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 0
   m_Pitch: 0.98783076
   Loop: 0
@@ -488,7 +488,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   spreadCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -512,7 +512,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
 --- !u!114 &114308948538841062
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -524,13 +524,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e594d69e58e793c47b9d13e384085fc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _clips: []
-  _changeVolumeEachLoop: 0
-  _uniformVolume: 1
-  _useRandomVolume: 0
-  _randomVolumeRange:
-    _min: 1
-    _max: 1
+  clips: []
+  changeVolumeEachLoop: 0
+  uniformVolume: 1
+  useRandomVolume: 0
+  randomVolumeRange:
+    min: 1
+    max: 1
 --- !u!114 &114676307120109866
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -542,13 +542,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e594d69e58e793c47b9d13e384085fc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _clips: []
-  _changeVolumeEachLoop: 0
-  _uniformVolume: 1
-  _useRandomVolume: 0
-  _randomVolumeRange:
-    _min: 1
-    _max: 1
+  clips: []
+  changeVolumeEachLoop: 0
+  uniformVolume: 1
+  useRandomVolume: 0
+  randomVolumeRange:
+    min: 1
+    max: 1
 --- !u!114 &114698804750411258
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -560,14 +560,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e594d69e58e793c47b9d13e384085fc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _clips:
-  - {fileID: 8300000, guid: 08b8c30329e766b4ebdc674356d3ee50, type: 3}
-  _changeVolumeEachLoop: 0
-  _uniformVolume: 1
-  _useRandomVolume: 0
-  _randomVolumeRange:
-    _min: 1
-    _max: 1
+  clips: []
+  changeVolumeEachLoop: 0
+  uniformVolume: 1
+  useRandomVolume: 0
+  randomVolumeRange:
+    min: 1
+    max: 1
 --- !u!114 &114870417198310266
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -579,32 +578,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d167c7d70ccec34481b86b1564156d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _groupType: 0
-  _standardChannel: {fileID: 114698804750411258}
-  _bassChannel: {fileID: 114308948538841062}
-  _midChannel: {fileID: 114875805744032648}
-  _trebleChannel: {fileID: 114676307120109866}
-  _elementParent: {fileID: 4353981544637028}
-  _elementChannels: []
-  _loop: 0
-  _playOnAwake: 0
-  _spatialBlend: 1
-  _minDistance: 1
-  _maxDistance: 50
-  _changePitchEachLoop: 0
-  _useVolumeEnvelope: 0
-  _volumeEnvelope:
+  groupType: 0
+  standardChannel: {fileID: 0}
+  bassChannel: {fileID: 0}
+  midChannel: {fileID: 0}
+  trebleChannel: {fileID: 0}
+  elementChannels: []
+  loop: 0
+  playOnAwake: 0
+  spatialBlend: 0
+  maxDistance: 500
+  changePitchEachLoop: 0
+  useVolumeEnvelope: 0
+  volumeEnvelope:
     serializedVersion: 2
     m_Curve: []
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _randomPitch: 1
-  _pitch: 1
-  _pitchRange:
-    _min: 0.95
-    _max: 1.05
-  _elementChannelIndex: 0
+  randomPitch: 0
+  pitch: 1
+  pitchRange:
+    min: 1
+    max: 1
+  elementChannelIndex: 0
+  elementParent: {fileID: 0}
 --- !u!114 &114875805744032648
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -616,10 +614,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e594d69e58e793c47b9d13e384085fc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _clips: []
-  _changeVolumeEachLoop: 0
-  _uniformVolume: 1
-  _useRandomVolume: 0
-  _randomVolumeRange:
-    _min: 1
-    _max: 1
+  clips: []
+  changeVolumeEachLoop: 0
+  uniformVolume: 1
+  useRandomVolume: 0
+  randomVolumeRange:
+    min: 1
+    max: 1

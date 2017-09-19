@@ -1,104 +1,218 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Events;
+﻿// MusicGroup.cs
+// Author: Aaron
+
 using ModMan;
 
-namespace Turing.Audio {
+using System.Collections.Generic;
 
+using UnityEngine;
+using UnityEngine.Events;
+
+namespace Turing.Audio
+{
+    /// <summary>
+    /// Class to emulate FMOD-style music playback
+    /// </summary>
     [ExecuteInEditMode]
-    public class MusicGroup : MonoBehaviour {
+    public sealed class MusicGroup : MonoBehaviour
+    {
+        #region Public Fields
 
-        const string _INSTRUMENTS_PARENT_NAME = "INSTRUMENTS";
-        const HideFlags _CHANNEL_HIDE_FLAGS = HideFlags.None;//HideFlags.HideInHierarchy;
-
-        [SerializeField] float _bpm;
-        float _beatTimer;
-
-        [SerializeField] bool _playOnAwake = false;
-
-        float _playbackTime;
-
-        [SerializeField] Transform _instrumentParent;
-
-        [SerializeField] List<MusicChannel> _instrumentChannels = new List<MusicChannel>();
-
-        [SerializeField]
-        int _instrumentChannelIndex = 0;
-
-        [SerializeField]
+        /// <summary>
+        /// Invoked on a music beat.
+        /// </summary>
+        [HideInInspector]
         public UnityEvent onBeat = new UnityEvent();
 
-        bool _playing = false;
+        #endregion
+        #region Serialized Unity Inspector Fields
 
-        float _volumeScale = 1f;
+        /// <summary>
+        /// Beats per minute in this song.
+        /// </summary>
+        [Tooltip("Beats per minute in this song.")]
+        [SerializeField] float bpm;
 
-        public bool IsPlaying { get { return _playing; } }
+        /// <summary>
+        /// Should this MusicGroup play on awake?
+        /// </summary>
+        [Tooltip("Should this MusicGroup play on awake?")]
+        [SerializeField] bool playOnAwake = false;
 
-        public float VolumeScale { get { return _volumeScale; } }
+        /// <summary>
+        /// Transform to which to parent child MusicChannels.
+        /// </summary>
+        [Tooltip("Transform to which to parent child MusicChannels.")]
+        [SerializeField] Transform instrumentParent;
 
-        private void OnEnable() {
-            if (!Application.isPlaying) {
+        /// <summary>
+        /// List of all child MusicChannels.
+        /// </summary>
+        [Tooltip("List of all child MusicChannels.")]
+        [SerializeField] List<MusicChannel> instrumentChannels = 
+            new List<MusicChannel>();
+
+        #endregion
+        #region Private Fields
+
+        const string _INSTRUMENTS_PARENT_NAME = "INSTRUMENTS";
+        const HideFlags _CHANNEL_HIDE_FLAGS = HideFlags.None;
+
+        /// <summary>
+        /// Time until next beat (seconds).
+        /// </summary>
+        float beatTimer;
+
+        /// <summary>
+        /// Current playback time (seconds).
+        /// </summary>
+        float playbackTime;
+
+        /// <summary>
+        /// Current instrument channel index (for naming).
+        /// </summary>
+        int instrumentChannelIndex = 0;
+
+        /// <summary>
+        /// Is this MusicGroup currently playing?
+        /// </summary>
+        bool playing = false;
+
+        /// <summary>
+        /// Current volume scale of this MusicGroup.
+        /// </summary>
+        float volumeScale = 1f;
+
+        #endregion
+        #region Unity Lifecycle
+
+        private void OnEnable()
+        {
+            if (!Application.isPlaying)
+            {
                 var instruments = GetComponentsInChildren<MusicChannel>();
-                if (instruments == null || InvalidAudioChannels()) {
+                if (instruments == null || InvalidMusicChannels())
+                {
                     GenerateMusicChannels();
                 }
-            } else {
-                
             }
         }
 
-        private void Awake() {
-            if (Application.isPlaying && _playOnAwake) Play();
+        private void Awake()
+        {
+            if (Application.isPlaying && playOnAwake) Play();
         }
 
-        private void FixedUpdate() {
-            if (_playing) {
-                _playbackTime += Time.fixedDeltaTime;
-                if (_beatTimer <= 0f) {
+        private void FixedUpdate()
+        {
+            if (playing)
+            {
+                playbackTime += Time.fixedDeltaTime;
+                if (beatTimer <= 0f)
+                {
                     onBeat.Invoke();
-                    _beatTimer = 60f / _bpm;
-                } else _beatTimer -= Time.fixedDeltaTime;
+                    beatTimer = 60f / bpm;
+                } 
+                
+                else beatTimer -= Time.fixedDeltaTime;
             }
         }
 
-        public void Play() {
-            _playing = true;
-            _playbackTime = 0f;
+        #endregion
+        #region Public Methods
 
-            foreach (var instrument in _instrumentChannels) {
-                instrument.SetBPM (_bpm);
+        /// <summary>
+        /// Returns true if this MusicGroup is playing (read-only).
+        /// </summary>
+        public bool IsPlaying { get { return playing; } }
+
+        /// <summary>
+        /// Returns the current voluem scale (read-only).
+        /// </summary>
+        public float VolumeScale { get { return volumeScale; } }
+
+        /// <summary>
+        /// Plays this MusicGroup.
+        /// </summary>
+        public void Play()
+        {
+            playing = true;
+            playbackTime = 0f;
+
+            foreach (var instrument in instrumentChannels)
+            {
+                instrument.SetBPM (bpm);
                 instrument.PlayTrack(false);
             }
 
-            _beatTimer = 60f / _bpm - Time.fixedDeltaTime;
+            beatTimer = 60f / bpm - Time.fixedDeltaTime;
         }
 
-        public void Stop() {
-            _playing = false;
+        /// <summary>
+        /// Stops playback.
+        /// </summary>
+        public void Stop()
+        {
+            playing = false;
 
-            foreach (var instrument in _instrumentChannels)
+            foreach (var instrument in instrumentChannels)
                 instrument.Stop();
         }
 
-        protected void SetVolumeScale(float volumeScale) {
-            foreach (var instrument in _instrumentChannels)
+        /// <summary>
+        /// Sets the volume scale of this MusicGroup.
+        /// </summary>
+        public void SetVolumeScale(float volumeScale)
+        {
+            foreach (var instrument in instrumentChannels)
                 instrument.VolumeScale = volumeScale;
         }
 
-        void GenerateMusicChannels () {
-            if (_instrumentParent == null) {
-                _instrumentParent = new GameObject (_INSTRUMENTS_PARENT_NAME).transform;
-                _instrumentParent.hideFlags = _CHANNEL_HIDE_FLAGS;
-                _instrumentParent.SetParent(transform);
-                _instrumentParent.Reset();
+        /// <summary>
+        /// Adds a new MusicChannel to this MusicGroup.
+        /// </summary>
+        public void AddInstrumentChannel ()
+        {
+            var channel = GenerateMusicChannel (_INSTRUMENTS_PARENT_NAME + 
+                instrumentChannelIndex++, instrumentParent.transform);
+            instrumentChannels.Add (channel);
+        }
+
+        /// <summary>
+        /// Removes the MusicChannel at the given index.
+        /// </summary>
+        /// <param name="index"></param>
+        public void RemoveInstrumentChannel (int index)
+        {
+            instrumentChannels.RemoveAt (index);
+        }
+
+        #endregion
+        #region Private Methods
+
+        /// <summary>
+        /// Generates blank MusicChannels for this MusicGroup.
+        /// </summary>
+        void GenerateMusicChannels ()
+        {
+            if (instrumentParent == null)
+            {
+                instrumentParent = new GameObject (_INSTRUMENTS_PARENT_NAME).transform;
+                instrumentParent.hideFlags = _CHANNEL_HIDE_FLAGS;
+                instrumentParent.SetParent(transform);
+                instrumentParent.Reset();
             }
         }
 
-        MusicChannel GenerateMusicChannel (string channelName, Transform parent) {
+        /// <summary>
+        /// Generates an empty MusicGhannel.
+        /// </summary>
+        MusicChannel GenerateMusicChannel (string channelName, Transform parent)
+        {
             var channelObj = gameObject.FindInChildren (channelName);
             MusicChannel channel;
-            if (channelObj == null) {
+            if (channelObj == null)
+            {
                 channelObj = new GameObject (
                     channelName,
                     typeof(AudioSource),
@@ -108,27 +222,25 @@ namespace Turing.Audio {
                 channelObj.transform.SetParent(parent);
                 channelObj.transform.Reset();
                 channel = channelObj.GetComponent<MusicChannel>();
-            } else {
+            } 
+            
+            else
+            {
                 channel = channelObj.GetComponent<MusicChannel>();
                 if (channel == null) channel = channelObj.AddComponent<MusicChannel>();
             }
-            //channel.SetParent (this);
             return channel;
         }
 
-        public void AddInstrumentChannel () {
-            var channel = GenerateMusicChannel (_INSTRUMENTS_PARENT_NAME + _instrumentChannelIndex++, _instrumentParent.transform);
-            //channel.SetParent (this);
-            _instrumentChannels.Add (channel);
+        /// <summary>
+        /// Returns true if anything is wrong with the MusicChannels.
+        /// </summary>
+        /// <returns></returns>
+        bool InvalidMusicChannels()
+        {
+            return instrumentParent == null;
         }
 
-        public void RemoveInstrumentChannel (int index) {
-            _instrumentChannels.RemoveAt (index);
-        }
-
-        protected bool InvalidAudioChannels() {
-            return _instrumentParent == null;
-        }
-
+        #endregion
     }
 }

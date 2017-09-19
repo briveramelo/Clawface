@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using MovementEffects;
 using System;
+using Turing.VFX;
 
 public abstract class Mod : MonoBehaviour {
 

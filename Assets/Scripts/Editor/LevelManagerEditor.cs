@@ -1,28 +1,32 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿// LevelManagerEditor.cs
+// Author: Aaron
+
+using Turing.LevelEditor;
+
 using UnityEditor;
 
 /// <summary>
 /// Custom editor for LevelManager.
 /// </summary>
 [CustomEditor(typeof(LevelManager))]
-public class LevelManagerEditor : Editor {
-
-    #region Vars
+public sealed class LevelManagerEditor : Editor
+{
+    #region Private Fields
 
     /// <summary>
     /// Target LevelManager.
     /// </summary>
-    LevelManager _target;
+    LevelManager LMTarget;
 
     #endregion
-    #region Overrides
+    #region Unity Lifecycle
 
-    public override void OnInspectorGUI() {
-        _target = target as LevelManager;
+    public override void OnInspectorGUI()
+    {
+        LMTarget = target as LevelManager;
 
-        EditorGUILayout.LabelField ("Level loaded: " + _target.LevelLoaded.ToString());
+        EditorGUILayout.LabelField("Level loaded: " +
+            LMTarget.LevelLoaded.ToString());
 
         base.OnInspectorGUI();
     }

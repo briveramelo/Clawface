@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Turing.VFX;
 using ModMan;
 
 public class DashState : IPlayerState {
@@ -19,7 +20,7 @@ public class DashState : IPlayerState {
     [SerializeField]
     private float dashVelocity;
     [SerializeField]
-    private VFXDashPuff dashPuff;
+    private VFXOneOff dashPuff;
     [SerializeField]
     private GameObject dashTrail;
     [SerializeField] private Collider playerCollider;
@@ -27,7 +28,7 @@ public class DashState : IPlayerState {
     protected int[] highlightPoses;
     [SerializeField]
     protected int totalAttackPoses;
-    [SerializeField] private HealthBar healthBar;
+    [SerializeField] private OnScreenScoreUI healthBar;
     [SerializeField] private float skinRadius;
     #endregion
 
