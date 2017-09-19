@@ -34,7 +34,7 @@ public class MallCopFleeState : MallCopState {
     IEnumerator<float> RunFleeTimer() {
         isFinishedFleeing = false;
         yield return Timing.WaitForSeconds(1.0f);
-        navAgent.SetDestination(velBody.transform.position);
+        //navAgent.SetDestination(velBody.transform.position);
         isFinishedFleeing = true;
     }
 
