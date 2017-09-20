@@ -45,7 +45,7 @@ public class ObjectPoolEditor : Editor {
             SerializedProperty element = list.serializedProperty.GetArrayElementAtIndex(index);
             poolsList[index].name = poolsList[index].poolObjectType.ToString();
             poolFoldouts.AddUntil(index);
-            poolFoldouts[index] = EditorGUI.Foldout(standardRect, poolFoldouts[index], poolsList[index].name);
+            poolFoldouts[index] = EditorGUI.Foldout(standardRect, poolFoldouts[index], poolsList[index].name, true);
             if (poolFoldouts[index]) {
                 EditorGUI.indentLevel++;
                 SerializedProperty prefabsProp = element.FindPropertyRelative("prefabs");
