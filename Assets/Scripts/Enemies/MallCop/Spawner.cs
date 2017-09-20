@@ -39,7 +39,7 @@ public class Spawner : MonoBehaviour
                 case SpawnType.Grappler:
                     return PoolObjectType.GrapplingBot;
             }
-            return PoolObjectType.MallCopSwinger;
+            return PoolObjectType.MallCopBlaster;
         }
     }
 
