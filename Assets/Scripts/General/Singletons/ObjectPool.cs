@@ -40,10 +40,10 @@ public class ObjectPool : Singleton<ObjectPool> {
 [System.Serializable]
 public class Pool
 {
-    [SerializeField, HideInInspector] string name;
+    [HideInInspector] public string name;
+    public PoolObjectType poolObjectType;
     public List<GameObject> prefabs;
     public int size;
-    public PoolObjectType poolObjectType;
     [HideInInspector] public List<GameObject> objects;
 
     public Pool(ref List<GameObject> prefabs, PoolObjectType poolObjectType, int size) {
