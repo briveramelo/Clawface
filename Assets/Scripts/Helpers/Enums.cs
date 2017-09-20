@@ -20,13 +20,9 @@ public enum CodexType {
 
 public enum SFXType {
     BloodExplosion,
-    BlasterCharge,
     BlasterProjectileImpact,
     BlasterShoot,
     GrapplingGun_Shoot,
-    StunBatonCharge,
-    StunBatonImpact,
-    StunBatonSwing,
     TankTreads_Attack,
     TankTreads_Swing, 
     Dash,
@@ -54,16 +50,13 @@ public enum MusicType
 public enum DamagerType {
     SegwayPush=0,
     BlasterBullet=1,
-    StunSwing=2,
     TankTreads=3,
     GrapplingHook=4,
     Boomerang=5,
     Geyser=6,
-    StunMine=7,
     FireTrap=8,
     GrapplingBotExplosion=9,
     Dice=10,
-    StunStomp = 11,
     SpreadGun = 12,
 }
 
@@ -109,32 +102,24 @@ public enum Layers {
 }
 
 public enum PoolObjectType {
-    Mine=0,
-    MineExplosionEffect=1,//
     BlasterBullet=2,
-    BlasterImpactEffect=3,
-    MallCopSwinger=4,//
-    TargetExplosionEffect=5,//
-    BloodDecal=6,
-    BloodEmitter=7,
+    VFXBlasterImpactEffect=3,
+    VFXBloodDecal=6,
+    VFXBloodEmitter=7,
     MallCopBlaster=8,
     VFXSegwayBlaster=9,
-    MallCopExplosion=10,
+    VFXMallCopExplosion=10,
     GrapplingBot=11,
     GeyserProjectile = 12,
     DiceBlock=13,
-    BlasterBulletCharged=14,//
-    VFXSegwayBlasterCharged = 15,//
-    BlasterImpactEffectCharged = 16,
     VFXBlasterShoot=17,
-    VFXBlasterShootCharged=18,
 	GeyserShield = 19,
     BoomerangProjectile = 20,
     GeyserGushLine = 21,
-    DiceBlockExplosion=22,
+    VFXDiceBlockExplosion=22,
     GeyserBase = 23,
-    SkinningEffect = 24,
-    HealthGain = 25,
+    VFXSkinningEffect = 24,
+    VFXHealthGain = 25,
     WorldScoreCanvas = 26,
     GrapplingHook = 27,
     TurretBullet = 28,
