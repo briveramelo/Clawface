@@ -64,6 +64,7 @@ public enum DamagerType {
     GrapplingBotExplosion=9,
     Dice=10,
     StunStomp = 11,
+    SpreadGun = 12,
 }
 
 public enum DamagedType {
@@ -136,7 +137,9 @@ public enum PoolObjectType {
     HealthGain = 25,
     WorldScoreCanvas = 26,
     GrapplingHook = 27,
-    TurretBullet = 28
+    TurretBullet = 28,
+    GeyserFissure = 29,	
+    SpreadGunBullet = 30
 }
 
 public enum MovementMode
