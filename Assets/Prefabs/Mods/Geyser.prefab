@@ -312,14 +312,14 @@ MonoBehaviour:
   modCanvas: {fileID: 1301330211412350}
   energySettings:
     standardArmAttackSettings:
-      timeToCoolDown: 0.5
+      timeToCoolDown: 1
       timeToAttack: 0
       attack: 5
     isCoolingDown: 0
     isActive: 0
-  shortRangeDistance: 3
-  minScaleMultiplier: 0.3
-  geyserTarget: {fileID: 1453224934583048}
+  geyserStartDistanceOffset: 0
+  fissureSpeed: 40
+  shootSFX: 15
 --- !u!114 &114876056122338820
 MonoBehaviour:
   m_ObjectHideFlags: 1

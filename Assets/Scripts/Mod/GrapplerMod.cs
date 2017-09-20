@@ -85,9 +85,6 @@ public class GrapplerMod : Mod {
     public void SetHitTargetThisShot(bool hitTarget) { hitTargetThisShot = hitTarget;}
     #endregion
 
-    #region Private Methods
-    #endregion
-
     #region Public structures
     [Serializable]
     public class HookProperties
@@ -121,10 +118,6 @@ public class GrapplerMod : Mod {
             maxDistancePerSubChain = other.maxDistancePerSubChain;
         }
     }
-    #endregion
-
-    #region Private Structures
-
     #endregion
 
 }
