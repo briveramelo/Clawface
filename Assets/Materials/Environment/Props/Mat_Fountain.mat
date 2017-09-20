@@ -6,7 +6,7 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Mat_Wall_Plain_1x1
+  m_Name: Mat_Fountain
   m_Shader: {fileID: 4800000, guid: 362c7f1e21e108a4388a1ef4e5d910ad, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -19,7 +19,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _Albedo:
-        m_Texture: {fileID: 2800000, guid: 3c5563908c13f5c44a0b806f287b9358, type: 3}
+        m_Texture: {fileID: 2800000, guid: b7bd7cbc041e5b64a9e5bd5316c3db6c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -43,7 +43,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: b43c749bddad88648ad6f4f9f43e7394, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -55,7 +55,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Normal:
-        m_Texture: {fileID: 2800000, guid: 5ae7d62cc05028741879727f05c2ed14, type: 3}
+        m_Texture: {fileID: 2800000, guid: b16409ff68143854db4e5c0d08ec8ad4, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -67,7 +67,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _ASEOutlineWidth: 0.1
+    - _ASEOutlineWidth: 0.008
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
@@ -83,7 +83,7 @@ Material:
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
-    - _TextureTiling: 1
+    - _TextureTiling: 3
     - _UVSec: 0
     - _ZWrite: 1
     - __dirty: 1
