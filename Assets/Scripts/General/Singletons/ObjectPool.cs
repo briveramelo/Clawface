@@ -8,7 +8,7 @@ public class ObjectPool : Singleton<ObjectPool> {
     protected ObjectPool() { }
 
     #region Unity Inspector Fields
-    [SerializeField] private List<Pool> pools;
+    [SerializeField] public List<Pool> pools;
     //Add new pools here
     #endregion
 
@@ -34,64 +34,75 @@ public class ObjectPool : Singleton<ObjectPool> {
     }
     #endregion
 
-    #region Internal Structures
-    [System.Serializable]
-    private class Pool
-    {
-        public List<GameObject> prefabs;
-        public int size;
-        public PoolObjectType poolObjectType;
-        [HideInInspector] public List<GameObject> objects;
+}
 
-        public Pool(ref List<GameObject> prefabs, PoolObjectType poolObjectType, int size) {
-            this.objects = new List<GameObject>();
-            this.prefabs = prefabs;
-            this.size = size;
-            this.poolObjectType = poolObjectType;
-        }
+#region Internal Structures
+[System.Serializable]
+public class Pool
+{
+    [HideInInspector] public string name;
+    public PoolObjectType poolObjectType;
+    public List<GameObject> prefabs;
+    public int size;
+    [HideInInspector] public List<GameObject> objects;
 
-        public void Initialize(Transform greatGrandParent) {
-            GameObject grandParent = prefabs.Count > 1 ? new GameObject(prefabs[0].name + "s") : greatGrandParent.gameObject;
-            grandParent.transform.SetParent(greatGrandParent);
+    public Pool(ref List<GameObject> prefabs, PoolObjectType poolObjectType, int size) {
+        this.objects = new List<GameObject>();
+        this.prefabs = prefabs;
+        this.size = size;
+        this.poolObjectType = poolObjectType;
+        this.name = poolObjectType.ToString();
+    }
+    public Pool() {
+        this.objects = new List<GameObject>();
+        this.prefabs = new List<GameObject>();
+        this.size = 1;
+        this.poolObjectType = PoolObjectType.BlasterBullet;
+        this.name = "";
+    }
 
-            int cummulativeObjectsSpawned = 0;
-            for (int prefabListIndex = 0; prefabListIndex < prefabs.Count; prefabListIndex++) {
+    public void Initialize(Transform greatGrandParent) {
+        this.name = poolObjectType.ToString();
+        GameObject grandParent = prefabs.Count > 1 ? new GameObject(prefabs[0].name + "s") : greatGrandParent.gameObject;
+        grandParent.transform.SetParent(greatGrandParent);
 
-                GameObject parent = new GameObject(prefabs[prefabListIndex].name);
-                parent.transform.SetParent(grandParent.transform);
-                int numToSpawn = size / prefabs.Count;
-                if ((prefabListIndex == prefabs.Count - 1) && (size - cummulativeObjectsSpawned>0)) {
-                    numToSpawn = size - cummulativeObjectsSpawned;
-                }
+        int cummulativeObjectsSpawned = 0;
+        for (int prefabListIndex = 0; prefabListIndex < prefabs.Count; prefabListIndex++) {
 
-                for (int i = 0; i < numToSpawn; i++) {
-                    GameObject item = Instantiate(prefabs[prefabListIndex], parent.transform) as GameObject;
-                    item.SetActive(false);
-                    objects.Add(item);
-                    cummulativeObjectsSpawned++;
-                }
+            GameObject parent = new GameObject(prefabs[prefabListIndex].name);
+            parent.transform.SetParent(grandParent.transform);
+            int numToSpawn = size / prefabs.Count;
+            if ((prefabListIndex == prefabs.Count - 1) && (size - cummulativeObjectsSpawned>0)) {
+                numToSpawn = size - cummulativeObjectsSpawned;
             }
-        }
 
-        public GameObject GetObject()
-        {
-            GameObject objToReturn = objects.GetRandom(obj => !obj.activeSelf);
-            if (objToReturn==null) {
-                string debugMessage = "No more " + poolObjectType.ToString() + " objects found! Make your pool bigger than " + size;
-                Debug.LogFormat("<color=#ffff00>" + debugMessage + "</color>");
+            for (int i = 0; i < numToSpawn; i++) {
+                GameObject item = MonoBehaviour.Instantiate(prefabs[prefabListIndex], parent.transform) as GameObject;
+                item.SetActive(false);
+                objects.Add(item);
+                cummulativeObjectsSpawned++;
             }
-            else{
-                objToReturn.SetActive(true);
-            }
-            return objToReturn;
-        }
-
-        public void Reset()
-        {
-            objects.ForEach(obj => {
-                obj.SetActive(false);
-            });
         }
     }
-    #endregion
+
+    public GameObject GetObject()
+    {
+        GameObject objToReturn = objects.GetRandom(obj => !obj.activeSelf);
+        if (objToReturn==null) {
+            string debugMessage = "No more " + poolObjectType.ToString() + " objects found! Make your pool bigger than " + size;
+            Debug.LogFormat("<color=#ffff00>" + debugMessage + "</color>");
+        }
+        else{
+            objToReturn.SetActive(true);
+        }
+        return objToReturn;
+    }
+
+    public void Reset()
+    {
+        objects.ForEach(obj => {
+            obj.SetActive(false);
+        });
+    }
 }
+#endregion
