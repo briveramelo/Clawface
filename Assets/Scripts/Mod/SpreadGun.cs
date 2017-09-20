@@ -19,9 +19,9 @@ public class SpreadGun : Mod {
     protected override void Awake()
     {
         setModType(ModType.ForceSegway);
-        if(gunProperties.numberOfBulletsInEachShot != 0)
+        if(gunProperties.numberOfBulletsInEachShot - 1 != 0)
         {
-            incrementAngle = gunProperties.spreadAngle / (float)gunProperties.numberOfBulletsInEachShot;
+            incrementAngle = gunProperties.spreadAngle / (gunProperties.numberOfBulletsInEachShot - 1);
         }
         base.Awake();       
     }
@@ -71,12 +71,13 @@ public class SpreadGun : Mod {
             GameObject bullet = ObjectPool.Instance.GetObject(PoolObjectType.SpreadGunBullet);
             if (bullet)
             {
+                bullet.transform.SetParent(null);
                 bullet.transform.position = bulletSpawnTransform.position;
                 bullet.transform.forward = CalculateForward(i);
                 SpreadGunBullet spreadBullet = bullet.GetComponent<SpreadGunBullet>();
                 if (spreadBullet)
                 {
-                    spreadBullet.Init(gunProperties.bulletSpeed, gunProperties.bulletMaxLifeTime, gunProperties.bulletMaxDistance, gunProperties.bulletDamage);
+                    spreadBullet.Init(gunProperties.bulletSpeed, gunProperties.bulletMaxDistance, gunProperties.bulletDamage);
                 }
             }
         }
@@ -84,8 +85,8 @@ public class SpreadGun : Mod {
 
     private Vector3 CalculateForward(int count)
     {
-        float rotationAngle = -gunProperties.spreadAngle / 2.0f + (incrementAngle * count);
         Vector3 forwardVector2D = new Vector3(transform.forward.x, 0f, transform.forward.z);
+        float rotationAngle = -gunProperties.spreadAngle / 2.0f + (incrementAngle * count);        
         return Quaternion.Euler(0f, rotationAngle, 0f) * forwardVector2D;
     }
     #endregion
@@ -101,8 +102,6 @@ public class SpreadGun : Mod {
         public int numberOfBulletsInEachShot;
         [Tooltip("How fast you want the bois to travel?")]
         public float bulletSpeed;
-        [Tooltip("How long you want the bois to live?")]
-        public float bulletMaxLifeTime;
         [Tooltip("How far you want the bois to go?")]
         public float bulletMaxDistance;
         [Tooltip("How much the bois gon rek?")]

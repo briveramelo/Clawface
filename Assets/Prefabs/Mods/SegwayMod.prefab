@@ -193,15 +193,14 @@ MonoBehaviour:
   energySettings:
     standardArmAttackSettings:
       timeToCoolDown: 0.4
-      timeToAttack: 0.2
-      attack: 2
+      timeToAttack: 0
+      attack: 0
     isCoolingDown: 0
     isActive: 0
   gunProperties:
-    spreadAngle: 90
-    numberOfBulletsInEachShot: 5
-    bulletSpeed: 0.1
-    bulletMaxLifeTime: 1
+    spreadAngle: 60
+    numberOfBulletsInEachShot: 8
+    bulletSpeed: 0.5
     bulletMaxDistance: 5
     bulletDamage: 5
   bulletSpawnTransform: {fileID: 4923580559650126}
