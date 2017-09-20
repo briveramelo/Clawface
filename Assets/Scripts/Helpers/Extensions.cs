@@ -4,6 +4,14 @@ using MovementEffects;
 
 namespace ModMan {
 
+    public static class Rectstensions {
+        public static Rect AddPosition(this Rect rect, Vector2 pos) {
+            rect.x += pos.x;
+            rect.y += pos.y;
+            return rect;
+        }
+    }
+
     public static class ColorExtensions
     {
         public static bool IsAboutEqual(this Color color, Color color2, float tolerance = 0.02f)
@@ -25,7 +33,11 @@ namespace ModMan {
         }
     }
     public static class ListExtensions {
-
+        public static void AddUntil<T>(this List<T> list, int index) {
+            while (list.Count <= index) {
+                list.Add(default(T));
+            }
+        }        
 
         public static T PopFront<T>(this List<T> list){
             T result = list[0];

@@ -266,7 +266,7 @@ public class DiceBlock : MonoBehaviour, IMovable {
         this.gameObject.SetActive(false);
         StopAndReset();
 
-        assignedExplosionEffect = ObjectPool.Instance.GetObject(PoolObjectType.DiceBlockExplosion).transform;
+        assignedExplosionEffect = ObjectPool.Instance.GetObject(PoolObjectType.VFXDiceBlockExplosion).transform;
         assignedExplosionEffect.position = this.transform.position;
         assignedExplosionEffect.localScale = new Vector3(1f, 1f, 1f) * GetMultiplierFromDiceSide();
     }

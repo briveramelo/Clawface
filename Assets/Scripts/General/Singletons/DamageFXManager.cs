@@ -15,32 +15,32 @@ public class DamageFXManager : Singleton<DamageFXManager> {
                 new Dictionary<DamagerType, System.Action<DamagePack>>() {
                     {DamagerType.SegwayPush, EmitBlood },
                     {DamagerType.BlasterBullet, EmitBlood },
-                    {DamagerType.StunSwing, EmitBlood },
+                    //{DamagerType.StunSwing, EmitBlood },
                     {DamagerType.TankTreads, EmitBlood },
                     {DamagerType.GrapplingHook, EmitBlood },
                     {DamagerType.Boomerang, EmitBlood },
                     {DamagerType.Geyser, EmitGeyser },
-                    {DamagerType.StunMine, EmitGeyser },
+                    //{DamagerType.StunMine, EmitGeyser },
                     {DamagerType.FireTrap, EmitBlood },
                     {DamagerType.GrapplingBotExplosion, EmitBlood },
                     {DamagerType.Dice, EmitGeyser },
-                    {DamagerType.StunStomp, EmitGeyser}
+                    //{DamagerType.StunStomp, EmitGeyser}
                 }
             },
             {DamagedType.Milo,
                 new Dictionary<DamagerType, System.Action<DamagePack>>() {
                     {DamagerType.SegwayPush, EmitBlood },
                     {DamagerType.BlasterBullet, EmitBlood },
-                    {DamagerType.StunSwing, EmitBlood },
+                    //{DamagerType.StunSwing, EmitBlood },
                     {DamagerType.TankTreads, EmitBlood },
                     {DamagerType.GrapplingHook, EmitBlood },
                     {DamagerType.Boomerang, EmitBlood },
                     {DamagerType.Geyser, EmitGeyser },
-                    {DamagerType.StunMine, EmitGeyser },
+                    //{DamagerType.StunMine, EmitGeyser },
                     {DamagerType.FireTrap, EmitBlood },
                     {DamagerType.GrapplingBotExplosion, EmitBlood },
                     {DamagerType.Dice, EmitGeyser },
-                    {DamagerType.StunStomp, EmitGeyser}
+                    //{DamagerType.StunStomp, EmitGeyser}
                 }
             },            
         };
@@ -81,12 +81,12 @@ public class DamageFXManager : Singleton<DamageFXManager> {
     
     #region Private Helper Functions
     private void EmitBloodBilaterally(Damaged damaged) {
-        SetupBlood(ObjectPool.Instance.GetObject(PoolObjectType.BloodEmitter), damaged, true);
-        SetupBlood(ObjectPool.Instance.GetObject(PoolObjectType.BloodEmitter), damaged, false);
+        SetupBlood(ObjectPool.Instance.GetObject(PoolObjectType.VFXBloodEmitter), damaged, true);
+        SetupBlood(ObjectPool.Instance.GetObject(PoolObjectType.VFXBloodEmitter), damaged, false);
     }
 
-    private void SetupBlood(GameObject emitter, Damaged damaged, bool facingFront){
-        if (emitter != null){
+    private void SetupBlood(GameObject emitter, Damaged damaged, bool facingFront){        
+        if (emitter != null){ // && damaged.owner!=null
             emitter.transform.position = damaged.owner.position;
             Vector3 bulletAngs = damaged.owner.rotation.eulerAngles + (facingFront ? Vector3.zero : Vector3.up * 180f);
             Vector3 projectileAngs = emitter.transform.rotation.eulerAngles;
@@ -95,7 +95,7 @@ public class DamageFXManager : Singleton<DamageFXManager> {
     }
 
     private void EmitBloodInDirection(Vector3 emissionDirection, Vector3 spawnPoint) {
-        GameObject bloodEmitter = ObjectPool.Instance.GetObject(PoolObjectType.BloodEmitter);
+        GameObject bloodEmitter = ObjectPool.Instance.GetObject(PoolObjectType.VFXBloodEmitter);
         if (bloodEmitter) {
             bloodEmitter.transform.ResetRotation(3f);
             bloodEmitter.transform.position = spawnPoint;

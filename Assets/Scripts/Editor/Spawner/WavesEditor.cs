@@ -8,10 +8,12 @@ public class WavesEditor : Editor
     SerializedProperty useIntensityCurve;
     SerializedProperty manualEdits;
     SerializedProperty intensityCurve;
+    SerializedProperty timingCurve;
     SerializedProperty waves;
 
     SerializedProperty currentWaveNumber;
     SerializedProperty currentNumEnemies;
+    SerializedProperty TimeToNextWave;
 
     List<Wave> wavesList;
     GUIStyle intensityTipLabelStyle;    
@@ -19,13 +21,16 @@ public class WavesEditor : Editor
     void OnEnable()
     {
 
-        currentWaveNumber = serializedObject.FindProperty("currentWaveNumber");
-        currentNumEnemies = serializedObject.FindProperty("currentNumEnemies");
-
+        currentWaveNumber   = serializedObject.FindProperty("currentWaveNumber");
+        currentNumEnemies   = serializedObject.FindProperty("currentNumEnemies");
+        TimeToNextWave = serializedObject.FindProperty("TimeToNextWave");
 
         useIntensityCurve = serializedObject.FindProperty("useIntensityCurve");
         manualEdits = serializedObject.FindProperty("manualEdits");
+
         intensityCurve = serializedObject.FindProperty("intensityCurve");
+        timingCurve    = serializedObject.FindProperty("timingCurve");
+
         waves = serializedObject.FindProperty("waves");
         wavesList = (target as Spawner).waves;
         intensityTipLabelStyle = new GUIStyle();
@@ -40,7 +45,7 @@ public class WavesEditor : Editor
 
         EditorGUILayout.PropertyField(currentWaveNumber);
         EditorGUILayout.PropertyField(currentNumEnemies);
-            
+        EditorGUILayout.PropertyField(TimeToNextWave);
 
         EditorGUILayout.PropertyField(useIntensityCurve, new GUIContent("Use Intensity Curve"));
         bool useIntensity = useIntensityCurve.boolValue;
@@ -51,6 +56,10 @@ public class WavesEditor : Editor
             GUILayout.Space(10);
             GUILayout.Label("The intensity curve auto-adjusts each wave's intensity and properties", intensityTipLabelStyle);
             EditorGUILayout.PropertyField(intensityCurve);
+
+            GUILayout.Space(10);
+            GUILayout.Label("The timing curve auto-adjusts each wave's time to next wave", intensityTipLabelStyle);
+            EditorGUILayout.PropertyField(timingCurve);
         }
         else
         {
@@ -62,6 +71,8 @@ public class WavesEditor : Editor
             }
         }
         AdjustWaveIntensity(useIntensity, useManualEdits);
+        AdjustWaveTime(useIntensity, useManualEdits);
+
  //       EditorGUI.BeginDisabledGroup(useIntensity);
         EditorGUILayout.PropertyField(waves, true);
  //       EditorGUI.EndDisabledGroup();        
@@ -82,4 +93,21 @@ public class WavesEditor : Editor
             }
         }
     }
+
+
+    void AdjustWaveTime(bool useCurve, bool useManualEdits)
+    {
+        for (int i = 0; i < wavesList.Count; i++)
+        {
+            float normalizedTime = (float)i / (wavesList.Count - 1);
+            float time = useCurve ? timingCurve.animationCurveValue.Evaluate(normalizedTime) : wavesList[i].Time;
+
+            if (!useManualEdits)
+            {
+                wavesList[i].Time = time;
+            }
+        }
+    }
+
+
 }

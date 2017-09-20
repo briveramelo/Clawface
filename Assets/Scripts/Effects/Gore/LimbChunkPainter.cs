@@ -50,7 +50,7 @@ public class LimbChunkPainter : MonoBehaviour {
         modifiedHitPoint.y += .05f;
 
         //get an object from pool
-        GameObject bloodObject = ObjectPool.Instance.GetObject(PoolObjectType.BloodDecal);
+        GameObject bloodObject = ObjectPool.Instance.GetObject(PoolObjectType.VFXBloodDecal);
         if (bloodObject)
         {
             bloodObject.transform.position = modifiedHitPoint;

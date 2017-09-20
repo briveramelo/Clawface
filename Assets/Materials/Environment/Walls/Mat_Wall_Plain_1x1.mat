@@ -8,8 +8,13 @@ Material:
   m_PrefabInternal: {fileID: 0}
   m_Name: Mat_Wall_Plain_1x1
   m_Shader: {fileID: 4800000, guid: 362c7f1e21e108a4388a1ef4e5d910ad, type: 3}
+<<<<<<< HEAD
   m_ShaderKeywords: 
   m_LightmapFlags: 4
+=======
+  m_ShaderKeywords: _EMISSION
+  m_LightmapFlags: 1
+>>>>>>> origin/master
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -18,6 +23,13 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+<<<<<<< HEAD
+=======
+    - _AO:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+>>>>>>> origin/master
     - _Albedo:
         m_Texture: {fileID: 2800000, guid: 3c5563908c13f5c44a0b806f287b9358, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -38,12 +50,23 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+<<<<<<< HEAD
+=======
+    - _Emission:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+>>>>>>> origin/master
     - _EmissionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
+<<<<<<< HEAD
         m_Texture: {fileID: 2800000, guid: b43c749bddad88648ad6f4f9f43e7394, type: 3}
+=======
+        m_Texture: {fileID: 2800000, guid: 3c5563908c13f5c44a0b806f287b9358, type: 3}
+>>>>>>> origin/master
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -54,6 +77,13 @@ Material:
         m_Texture: {fileID: 2800000, guid: 69a69d52fd3f692478f7e000de0bbe11, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+<<<<<<< HEAD
+=======
+    - _MetallicTexture:
+        m_Texture: {fileID: 2800000, guid: 7aa2d8d198df0e342a3321a2204c2de2, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+>>>>>>> origin/master
     - _Normal:
         m_Texture: {fileID: 2800000, guid: 5ae7d62cc05028741879727f05c2ed14, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -66,12 +96,20 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+<<<<<<< HEAD
+=======
+    - _SmoothnessTexture:
+        m_Texture: {fileID: 2800000, guid: b92953940e5191044beb9ad270bd0bfd, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+>>>>>>> origin/master
     m_Floats:
     - _ASEOutlineWidth: 0.1
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
+<<<<<<< HEAD
     - _EmissiveStrength: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5
@@ -80,6 +118,19 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
+=======
+    - _EmissionStrength: 0
+    - _EmissiveStrength: 0
+    - _GlossMapScale: 1
+    - _Glossiness: 0.461
+    - _GlossyReflections: 1
+    - _Metallic: 0
+    - _MetallicStrength: 0
+    - _Mode: 0
+    - _OcclusionStrength: 1
+    - _Parallax: 0.02
+    - _SmoothnessStrength: 0
+>>>>>>> origin/master
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
@@ -89,6 +140,10 @@ Material:
     - __dirty: 1
     m_Colors:
     - _ASEOutlineColor: {r: 0, g: 0, b: 0, a: 0}
+<<<<<<< HEAD
+=======
+    - _AlbedoColor: {r: 1, g: 1, b: 1, a: 0}
+>>>>>>> origin/master
     - _AlbedoTint: {r: 1, g: 1, b: 1, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
