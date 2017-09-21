@@ -1,8 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿// IntRange.cs
+// Author: Lai, Brandon, Aaron
+
 using UnityEngine;
 
-public class IntRangeAttribute : PropertyAttribute {
+public class IntRangeAttribute : PropertyAttribute
+{
 
     public int min;
     public int max;
@@ -14,7 +16,8 @@ public class IntRangeAttribute : PropertyAttribute {
 }
 
 [System.Serializable]
-public class IntRange {
+public class IntRange
+{
 
     [SerializeField] int min = 0;
     [SerializeField] int max = 10;
@@ -24,6 +27,7 @@ public class IntRange {
         this.max = max;
     }
     
+    public int Diff { get { return Max - Min; } }
     public int Min { get { return min; } set { min = value; } }
     public int Max { get { return max; } set { max = value; } }
     
