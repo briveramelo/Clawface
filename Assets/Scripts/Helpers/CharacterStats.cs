@@ -11,11 +11,10 @@ public class CharacterStats : MonoBehaviour, IModifiable {
     public float Health { get { return stats.radarGraph.health.RawValue; } set { stats.radarGraph.health.RawValue = value; } }
     public float MoveSpeed { get { return stats.radarGraph.moveSpeed.RawValue; } set { stats.radarGraph.moveSpeed.RawValue = value; } }
     public float Exp { get { return stats.radarGraph.exp.RawValue; } set { stats.radarGraph.exp.RawValue = value; } }
-    public float Attack { get { return stats.radarGraph.attack.RawValue; } set { stats.radarGraph.attack.RawValue = value; } }
 
     public float MaxHealth { get { return OG_Stats.radarGraph.health.Value; } }
     
-    public float SkinnableHealth { get { return stats.skinnableHealth; } set { stats.radarGraph.attack.RawValue = value; } }
+    public float SkinnableHealth { get { return stats.skinnableHealth; } }
 
     void Awake() {
         ResetForRebirth();        

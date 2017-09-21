@@ -52,11 +52,9 @@ public class CharacterStatsGraph : RadarGraph<CharacterStatsNode> {
 
     [SerializeField, HideInInspector] List<CharacterStatsNode> nodes = new List<CharacterStatsNode>();
 
-    public CharacterStatsNode health = new CharacterStatsNode(CharacterStatType.Health);
-    public CharacterStatsNode attack = new CharacterStatsNode(CharacterStatType.Attack);
-    public CharacterStatsNode moveSpeed = new CharacterStatsNode(CharacterStatType.MoveSpeed);
     public CharacterStatsNode exp = new CharacterStatsNode(CharacterStatType.EXP);
-    //public CharacterStatsNode maxHealth = new CharacterStatsNode(CharacterStatType.MaxHealth);    
+    public CharacterStatsNode health = new CharacterStatsNode(CharacterStatType.Health);
+    public CharacterStatsNode moveSpeed = new CharacterStatsNode(CharacterStatType.MoveSpeed);
 
     public override List<CharacterStatsNode> CustomNodes {
         get {
@@ -68,7 +66,6 @@ public class CharacterStatsGraph : RadarGraph<CharacterStatsNode> {
         set { nodes = value; }
     }
     public override bool ShouldReset() {
-        if (attack.value != CustomNodes.Find(node => node.statType == CharacterStatType.Attack).value) return true;        
         if (exp.value != CustomNodes.Find(node => node.statType == CharacterStatType.EXP).value) return true;
         if (health.value != CustomNodes.Find(node => node.statType == CharacterStatType.Health).value) return true;
         if (moveSpeed.value != CustomNodes.Find(node => node.statType == CharacterStatType.MoveSpeed).value) return true;        
@@ -76,7 +73,6 @@ public class CharacterStatsGraph : RadarGraph<CharacterStatsNode> {
     }
     public override void ResetNodes() {
         nodes.Clear();
-        nodes.Add(attack);        
         nodes.Add(exp);
         nodes.Add(health);        
         nodes.Add(moveSpeed);        
