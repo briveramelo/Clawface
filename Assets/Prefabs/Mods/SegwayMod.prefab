@@ -192,17 +192,17 @@ MonoBehaviour:
   modCanvas: {fileID: 1780465521823646}
   energySettings:
     standardArmAttackSettings:
-      timeToCoolDown: 0.4
+      timeToCoolDown: 0.15
       timeToAttack: 0
       attack: 0
     isCoolingDown: 0
     isActive: 0
   gunProperties:
-    spreadAngle: 60
-    numberOfBulletsInEachShot: 8
+    spreadAngle: 120
+    numberOfBulletsInEachShot: 10
     bulletSpeed: 0.5
-    bulletMaxDistance: 5
-    bulletDamage: 5
+    bulletMaxDistance: 20
+    bulletDamage: 1
   bulletSpawnTransform: {fileID: 4923580559650126}
 --- !u!114 &114242993152467452
 MonoBehaviour:

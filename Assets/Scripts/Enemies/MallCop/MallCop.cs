@@ -6,6 +6,7 @@ using UnityEngine;
 using System.Linq;
 using ModMan;
 using UnityEngine.AI;
+using MovementEffects;
 
 public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpawnable
 {
@@ -43,7 +44,9 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
         if (will.willHasBeenWritten) {
             ResetForRebirth();
         }
-        navAgent.enabled = true;
+
+        Timing.RunCoroutine(ActivateNavMesh());
+        
     }
     
     void Awake ()
@@ -190,6 +193,14 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
         navAgent.enabled = false;
         gameObject.SetActive(false);
     }
+
+    IEnumerator<float> ActivateNavMesh()
+    {
+
+        yield return Timing.WaitForSeconds(2.0f);
+        navAgent.enabled = true;
+    }
+
 
     #endregion
 

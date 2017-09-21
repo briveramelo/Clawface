@@ -816,7 +816,7 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1065727145238364}
   serializedVersion: 2
-  m_Mass: 5
+  m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.01
   m_UseGravity: 1
@@ -831,7 +831,7 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1047001565766698}
   serializedVersion: 2
-  m_Mass: 3
+  m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.01
   m_UseGravity: 1
@@ -861,7 +861,7 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1841455178830622}
   serializedVersion: 2
-  m_Mass: 3
+  m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.01
   m_UseGravity: 1
@@ -876,7 +876,7 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1358980875172798}
   serializedVersion: 2
-  m_Mass: 5
+  m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.01
   m_UseGravity: 1
@@ -931,10 +931,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07e4c386136be21428530929053c943f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _lifetime: 3
-  _fadeTime: 1
-  _bloodPaintDist: 0.5
-  _doSmear: 0
+  lifetime: 5
+  fadeTime: 2
+  bloodPaintDist: 1
+  doSmear: 0
 --- !u!114 &114332905042657474
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -974,10 +974,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07e4c386136be21428530929053c943f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _lifetime: 3
-  _fadeTime: 1
-  _bloodPaintDist: 0.5
-  _doSmear: 0
+  lifetime: 5
+  fadeTime: 2
+  bloodPaintDist: 1
+  doSmear: 0
 --- !u!114 &114476110827325240
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -989,10 +989,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07e4c386136be21428530929053c943f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _lifetime: 3
-  _fadeTime: 1
-  _bloodPaintDist: 0.5
-  _doSmear: 0
+  lifetime: 5
+  fadeTime: 2
+  bloodPaintDist: 1
+  doSmear: 0
 --- !u!114 &114524118254747062
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1038,10 +1038,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07e4c386136be21428530929053c943f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _lifetime: 3
-  _fadeTime: 1
-  _bloodPaintDist: 0.5
-  _doSmear: 0
+  lifetime: 5
+  fadeTime: 2
+  bloodPaintDist: 1
+  doSmear: 0
 --- !u!114 &114639530488892160
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1098,10 +1098,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07e4c386136be21428530929053c943f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _lifetime: 3
-  _fadeTime: 1
-  _bloodPaintDist: 0.5
-  _doSmear: 0
+  lifetime: 5
+  fadeTime: 2
+  bloodPaintDist: 1
+  doSmear: 0
 --- !u!120 &120266679658961096
 LineRenderer:
   m_ObjectHideFlags: 1
@@ -1600,7 +1600,7 @@ CapsuleCollider:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1841455178830622}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: ed96a79ffc4eaf04aab5218684c971a1, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.08
@@ -1613,7 +1613,7 @@ CapsuleCollider:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1065727145238364}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: ed96a79ffc4eaf04aab5218684c971a1, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.08
@@ -1626,7 +1626,7 @@ CapsuleCollider:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1358980875172798}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: ed96a79ffc4eaf04aab5218684c971a1, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.08
@@ -1639,7 +1639,7 @@ CapsuleCollider:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1047001565766698}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: ed96a79ffc4eaf04aab5218684c971a1, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.08
