@@ -28,7 +28,7 @@ public class MallCopFleeState : MallCopState {
     }
 
     private void MoveAway() {
-        navAgent.SetDestination(newDestination);
+        navAgent.Move(moveAwayDirection);
     }
 
     IEnumerator<float> RunFleeTimer() {

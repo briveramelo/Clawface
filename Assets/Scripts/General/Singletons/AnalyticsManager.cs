@@ -149,10 +149,12 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
                 
         UpdateButtonPresses();        
 
+        /*
         if (Input.GetKeyDown(KeyCode.P))
         {
             WriteOutToTextFile();
         }
+        */
 }
     //#endif
 
@@ -428,9 +430,9 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
                 buttonPressesDictionary["dodge"] = (float)buttonPressesDictionary["dodge"] + 1f;
             }
 
-            if (InputManager.Instance.QueryAction(Strings.Input.Actions.SKIN, ButtonMode.DOWN)) {
-                buttonPressesDictionary["skin"] = (float)buttonPressesDictionary["skin"] + 1f;
-            }
+            //if (InputManager.Instance.QueryAction(Strings.Input.Actions.SKIN, ButtonMode.DOWN)) {
+            //    buttonPressesDictionary["skin"] = (float)buttonPressesDictionary["skin"] + 1f;
+            //}
         }
     }
 
