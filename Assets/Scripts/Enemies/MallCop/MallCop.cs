@@ -71,7 +71,7 @@ public class MallCop : RoutineRunner, IStunnable, IDamageable, ISkinnable, ISpaw
             damaged.Set(DamagedType.MallCop, bloodEmissionLocation);
             DamageFXManager.Instance.EmitDamageEffect(damagePack);
             if (myStats.health <= myStats.skinnableHealth && !glowObject.isGlowing){
-                glowObject.SetToGlow();
+                //glowObject.SetToGlow();
                 copUICanvas.gameObject.SetActive(true);
                 copUICanvas.ShowAction(ActionType.Skin);
             }
@@ -196,8 +196,8 @@ public class MallCop : RoutineRunner, IStunnable, IDamageable, ISkinnable, ISpaw
     IEnumerator<float> ActivateNavMesh()
     {
 
-        //yield return Timing.WaitForSeconds(2.0f);
-        yield return 0f;
+        yield return Timing.WaitForSeconds(2.0f);
+        //yield return 0f;
         navAgent.enabled = true;
     }
 

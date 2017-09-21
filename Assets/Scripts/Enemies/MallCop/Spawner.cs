@@ -100,7 +100,7 @@ public class Spawner : MonoBehaviour
         CheckToSpawnEnemyCluster();
     }
 
-
+    static int waveCount;
     private void CheckToSpawnEnemyCluster()
     { 
         if (Application.isPlaying)
@@ -148,7 +148,7 @@ public class Spawner : MonoBehaviour
 
     public bool IsLastWave()
     {
-        return currentWave >= waves.Count ? true : false;
+        return currentWave >= waves.Count-1 ? true : false;
     }
 
     public bool IsAllEnemyClear()
