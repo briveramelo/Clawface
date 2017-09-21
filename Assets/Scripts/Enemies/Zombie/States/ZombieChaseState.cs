@@ -27,6 +27,7 @@ public class ZombieChaseState : ZombieState {
             velBody.transform.LookAt(lookAtPosition);
             velBody.transform.rotation = Quaternion.Euler(0f, velBody.transform.rotation.eulerAngles.y, 0f);
         }
+        if (navAgent.enabled && navAgent.isOnNavMesh)
         navAgent.SetDestination(controller.AttackTarget.position);
     }
 

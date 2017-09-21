@@ -91,7 +91,7 @@ public class MoveState : IPlayerState
 
     #region Private Methods
     private void MovePrecise() {
-        stateVariables.velBody.velocity = moveDirection * stateVariables.statsManager.GetStat(StatType.MoveSpeed) * Time.fixedDeltaTime;
+        stateVariables.velBody.velocity = moveDirection * stateVariables.statsManager.GetStat(CharacterStatType.MoveSpeed) * Time.fixedDeltaTime;
         if (moveDirection.magnitude > stateVariables.axisThreshold)
         {   
             if (stateVariables.animator.GetInteger(Strings.ANIMATIONSTATE) != (int)PlayerAnimationStates.Running)
@@ -120,16 +120,16 @@ public class MoveState : IPlayerState
         Vector3 flatMovement = new Vector3(stateVariables.velBody.velocity.x, 0f, stateVariables.velBody.velocity.z);
         currentSpeed = flatMovement.magnitude;
 
-        if (currentSpeed < stateVariables.statsManager.GetStat(StatType.MoveSpeed)){ 
+        if (currentSpeed < stateVariables.statsManager.GetStat(CharacterStatType.MoveSpeed)){ 
             stateVariables.velBody.AddDecayingForce(moveDirection * stateVariables.acceleration * Time.fixedDeltaTime);
         }
 
-        if (currentSpeed > stateVariables.statsManager.GetStat(StatType.MoveSpeed))
+        if (currentSpeed > stateVariables.statsManager.GetStat(CharacterStatType.MoveSpeed))
         {
             Vector3 currentFlatVelocity = flatMovement;
             currentFlatVelocity = -currentFlatVelocity;
             currentFlatVelocity.Normalize();
-            currentFlatVelocity *= (currentSpeed - stateVariables.statsManager.GetStat(StatType.MoveSpeed));
+            currentFlatVelocity *= (currentSpeed - stateVariables.statsManager.GetStat(CharacterStatType.MoveSpeed));
             currentFlatVelocity *= stateVariables.manualDrag;
             stateVariables.velBody.AddDecayingForce(currentFlatVelocity);
         }

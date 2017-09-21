@@ -4,12 +4,10 @@
     ArmR = 1
 }
 
-public enum StatType {
-    Attack=0,
-    Defense = 1,
+public enum CharacterStatType {
+    Attack=0,    
     MoveSpeed = 2,
     Health = 3,
-    RangedAccuracy= 4,
     MaxHealth = 5,
     EXP = 6
 }
@@ -64,6 +62,7 @@ public enum DamagedType {
     MallCop=0,
     Milo=1,
     Zombie=2,
+    Bouncer=3,
 }
 
 public enum ModType {
@@ -186,6 +185,15 @@ public enum EZombieState
     Patrol = 0,
     Chase = 1,
     Attack = 3,
+    Fall = 4,
+    Twitch = 5
+}
+
+public enum EBouncerState
+{
+    Patrol = 0,
+    Chase = 1,
+    Fire = 3,
     Fall = 4,
     Twitch = 5
 }
