@@ -34,7 +34,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1192868006484574}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -12.087719, y: 1.4, z: 6.676951}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -51,6 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e31470d6b2fa14344abf1563fa6787ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shouldRegister: 1
   sfxManager: {fileID: 1451638012112422, guid: ffce0840c9828884bb46fb0dc866ed46, type: 2}
   objectPool: {fileID: 1025026249056420, guid: 6a1c0949d9ce284499cf975c5703f9f0, type: 2}
   inputManager: {fileID: 1857722010819956, guid: 229dbe61f8ac7c647bfe444cabc005fa,
@@ -70,4 +71,6 @@ MonoBehaviour:
   musicManager: {fileID: 1420497715768026, guid: 0efc6297b76f149428a57a9f9b95faf6,
     type: 2}
   scoreManager: {fileID: 1594148730900646, guid: d213c3d2b3ec3bc44a63e8b12f6f8e15,
+    type: 2}
+  respawnPoint: {fileID: 1061741418929486, guid: 6c8b0ed61a8d99a47869ed6c678935cd,
     type: 2}

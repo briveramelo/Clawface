@@ -149,10 +149,12 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
                 
         UpdateButtonPresses();        
 
+        /*
         if (Input.GetKeyDown(KeyCode.P))
         {
             WriteOutToTextFile();
         }
+        */
 }
     //#endif
 
@@ -262,7 +264,7 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         }
 #endif
 
-        playerHealthTotal = playerStats.GetStat(StatType.Health);
+        playerHealthTotal = playerStats.GetStat(CharacterStatType.Health);
         playerHealthTicks = 1;
 
     }
@@ -294,7 +296,7 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         if (stats != null)
         {
             playerStats = stats;
-            playerHealthTotal = stats.GetStat(StatType.Health);
+            playerHealthTotal = stats.GetStat(CharacterStatType.Health);
             playerHealthTicks = 1;
         }
     }
@@ -312,7 +314,7 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
 
             FormatPlayerModsInDictionary(ref quitGameDictionary);
             quitGameDictionary["averageHP"] = (int)(playerHealthTotal / playerHealthTicks);
-            quitGameDictionary["currentHP"] = (int)playerStats.GetStat(StatType.Health);
+            quitGameDictionary["currentHP"] = (int)playerStats.GetStat(CharacterStatType.Health);
             quitGameDictionary["swaps"] = (float)quitGameDictionary["swaps"];
             quitGameDictionary["drops"] = (float)quitGameDictionary["drops"];
             quitGameDictionary["deaths"] = deaths;
@@ -397,7 +399,7 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
     private void UpdatePlayerHealthTotal()
     {
         if (playerStats!=null) {
-            playerHealthTotal += playerStats.GetStat(StatType.Health);
+            playerHealthTotal += playerStats.GetStat(CharacterStatType.Health);
         }
     }
 
@@ -428,9 +430,9 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
                 buttonPressesDictionary["dodge"] = (float)buttonPressesDictionary["dodge"] + 1f;
             }
 
-            if (InputManager.Instance.QueryAction(Strings.Input.Actions.SKIN, ButtonMode.DOWN)) {
-                buttonPressesDictionary["skin"] = (float)buttonPressesDictionary["skin"] + 1f;
-            }
+            //if (InputManager.Instance.QueryAction(Strings.Input.Actions.SKIN, ButtonMode.DOWN)) {
+            //    buttonPressesDictionary["skin"] = (float)buttonPressesDictionary["skin"] + 1f;
+            //}
         }
     }
 

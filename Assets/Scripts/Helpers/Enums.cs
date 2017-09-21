@@ -4,12 +4,10 @@
     ArmR = 1
 }
 
-public enum StatType {
-    Attack=0,
-    Defense = 1,
+public enum CharacterStatType {
+    Attack=0,    
     MoveSpeed = 2,
     Health = 3,
-    RangedAccuracy= 4,
     MaxHealth = 5,
     EXP = 6
 }

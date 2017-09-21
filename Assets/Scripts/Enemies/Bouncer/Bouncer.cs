@@ -42,7 +42,7 @@ public class Bouncer : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
         {
             ResetForRebirth();
         }
-        //navAgent.enabled = false;
+
     }
 
     void Awake()
