@@ -9,21 +9,13 @@ public class SFXManager : Singleton<SFXManager>
 
     #region SFX Object
     [SerializeField]
-    private GameObject BloodExplosion;
-    [SerializeField]
-    private GameObject BlasterCharge;
+    private GameObject BloodExplosion;    
     [SerializeField]
     private GameObject BlasterProjectile_Impact;
     [SerializeField]
     private GameObject BlasterShoot;
     [SerializeField]
     private GameObject GrapplingGun_Shoot;
-    [SerializeField]
-    private GameObject StunBatonCharge;
-    [SerializeField]
-    private GameObject StunBatonImpact;
-    [SerializeField]
-    private GameObject StunBatonSwing;
     [SerializeField]
     private GameObject TankTreads_Attack;
     [SerializeField]
@@ -65,13 +57,9 @@ public class SFXManager : Singleton<SFXManager>
         sfxDictionary = new Dictionary<SFXType, List<SoundEffect>>()
         {
             {SFXType.BloodExplosion,            InitList(BloodExplosion) },
-            {SFXType.BlasterCharge,             InitList(BlasterCharge) },
             {SFXType.BlasterProjectileImpact,   InitList(BlasterProjectile_Impact) },
             {SFXType.BlasterShoot,              InitList(BlasterShoot) },
             {SFXType.GrapplingGun_Shoot,        InitList(GrapplingGun_Shoot) },
-            {SFXType.StunBatonCharge,           InitList(StunBatonCharge) },
-            {SFXType.StunBatonImpact,           InitList(StunBatonImpact) },
-            {SFXType.StunBatonSwing,            InitList(StunBatonSwing) },
             {SFXType.TankTreads_Attack,         InitList(TankTreads_Attack) },
             {SFXType.TankTreads_Swing,          InitList(TankTreads_Swing) },
             {SFXType.Dash,                      InitList(Dash) },
