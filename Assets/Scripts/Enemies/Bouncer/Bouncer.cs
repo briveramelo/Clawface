@@ -24,7 +24,7 @@ public class Bouncer : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
 
     #region 3. Private fields
 
-
+    
     private int stunCount;
     private Will will = new Will();
     private Damaged damaged = new Damaged();
@@ -42,14 +42,13 @@ public class Bouncer : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
         {
             ResetForRebirth();
         }
-        navAgent.enabled = true;
+        //navAgent.enabled = false;
     }
 
     void Awake()
     {
         controller.Initialize(properties, velBody, animator, myStats, navAgent);
         ResetForRebirth();
-        navAgent.enabled = false;
     }
 
     #endregion
