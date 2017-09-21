@@ -53,7 +53,7 @@ public class GorePainter : MonoBehaviour {
         modifiedHitPoint += (Random.Range(.01f,0.1f)) *  i_hit.normal;
 
         //get decal from pool
-        GameObject decal = ObjectPool.Instance.GetObject(PoolObjectType.BloodDecal);
+        GameObject decal = ObjectPool.Instance.GetObject(PoolObjectType.VFXBloodDecal);
 
         //if we have a decal to draw from the pool
         if (decal)

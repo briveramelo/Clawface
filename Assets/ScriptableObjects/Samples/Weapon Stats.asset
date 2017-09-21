@@ -1,0 +1,225 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a36bdc191bda2f4469dfd33b071ef018, type: 3}
+  m_Name: Weapon Stats
+  m_EditorClassIdentifier: 
+  color: {r: 1, g: 0, b: 0, a: 1}
+  radarGraph:
+    nodes:
+    - name: BaseAttack
+      valueRange:
+        min: 0
+        max: 1
+      isRangeReversed: 0
+      value: 0.5
+      rawValue: 0
+      maxPosition: {x: 410.5, y: 315, z: 0}
+      center: {x: 410.5, y: 445, z: 0}
+      direction: {x: -0.0000056824806, y: -130, z: 0}
+      statType: 0
+    - name: BaseAttackExtra
+      valueRange:
+        min: 0
+        max: 1
+      isRangeReversed: 0
+      value: 0.5
+      rawValue: 0
+      maxPosition: {x: 494.06238, y: 345.4142, z: 0}
+      center: {x: 410.5, y: 445, z: 0}
+      direction: {x: 83.56239, y: -99.58578, z: 0}
+      statType: 1
+    - name: BaseAttackExtraLikelihood
+      valueRange:
+        min: 0
+        max: 1
+      isRangeReversed: 0
+      value: 0.5
+      rawValue: 0
+      maxPosition: {x: 538.525, y: 422.42575, z: 0}
+      center: {x: 410.5, y: 445, z: 0}
+      direction: {x: 128.02501, y: -22.574263, z: 0}
+      statType: 2
+    - name: SpellAttack
+      valueRange:
+        min: 0
+        max: 1
+      isRangeReversed: 0
+      value: 0.5
+      rawValue: 0
+      maxPosition: {x: 523.0833, y: 510, z: 0}
+      center: {x: 410.5, y: 445, z: 0}
+      direction: {x: 112.5833, y: 65, z: 0}
+      statType: 3
+    - name: SpellAttackExtra
+      valueRange:
+        min: 0
+        max: 1
+      isRangeReversed: 0
+      value: 0.5
+      rawValue: 0
+      maxPosition: {x: 454.96262, y: 567.16003, z: 0}
+      center: {x: 410.5, y: 445, z: 0}
+      direction: {x: 44.46262, y: 122.16004, z: 0}
+      statType: 4
+    - name: SpellAttackExtraLikelihood
+      valueRange:
+        min: 0
+        max: 1
+      isRangeReversed: 0
+      value: 0.5
+      rawValue: 0
+      maxPosition: {x: 366.03738, y: 567.16003, z: 0}
+      center: {x: 410.5, y: 445, z: 0}
+      direction: {x: -44.462616, y: 122.16004, z: 0}
+      statType: 5
+    - name: SpellDuration
+      valueRange:
+        min: 0
+        max: 1
+      isRangeReversed: 0
+      value: 0.5
+      rawValue: 0
+      maxPosition: {x: 297.9167, y: 510, z: 0}
+      center: {x: 410.5, y: 445, z: 0}
+      direction: {x: -112.5833, y: 65.00001, z: 0}
+      statType: 6
+    - name: SpellInterval
+      valueRange:
+        min: 0
+        max: 1
+      isRangeReversed: 0
+      value: 0.5
+      rawValue: 0
+      maxPosition: {x: 282.47498, y: 422.42572, z: 0}
+      center: {x: 410.5, y: 445, z: 0}
+      direction: {x: -128.02501, y: -22.574268, z: 0}
+      statType: 7
+    - name: SpellCooldown
+      valueRange:
+        min: 0
+        max: 1
+      isRangeReversed: 0
+      value: 0.5
+      rawValue: 0
+      maxPosition: {x: 326.93762, y: 345.4142, z: 0}
+      center: {x: 410.5, y: 445, z: 0}
+      direction: {x: -83.56238, y: -99.58579, z: 0}
+      statType: 8
+    baseAttack:
+      name: BaseAttack
+      valueRange:
+        min: 0
+        max: 1
+      isRangeReversed: 0
+      value: 0.5
+      rawValue: 0
+      maxPosition: {x: 410.5, y: 315, z: 0}
+      center: {x: 410.5, y: 445, z: 0}
+      direction: {x: -0.0000056824806, y: -130, z: 0}
+      statType: 0
+    baseAttackExtra:
+      name: BaseAttackExtra
+      valueRange:
+        min: 0
+        max: 1
+      isRangeReversed: 0
+      value: 0.5
+      rawValue: 0
+      maxPosition: {x: 494.06238, y: 345.4142, z: 0}
+      center: {x: 410.5, y: 445, z: 0}
+      direction: {x: 83.56239, y: -99.58578, z: 0}
+      statType: 1
+    baseAttackExtraLikelihood:
+      name: BaseAttackExtraLikelihood
+      valueRange:
+        min: 0
+        max: 1
+      isRangeReversed: 0
+      value: 0.5
+      rawValue: 0
+      maxPosition: {x: 538.525, y: 422.42575, z: 0}
+      center: {x: 410.5, y: 445, z: 0}
+      direction: {x: 128.02501, y: -22.574263, z: 0}
+      statType: 2
+    spellAttack:
+      name: SpellAttack
+      valueRange:
+        min: 0
+        max: 1
+      isRangeReversed: 0
+      value: 0.5
+      rawValue: 0
+      maxPosition: {x: 523.0833, y: 510, z: 0}
+      center: {x: 410.5, y: 445, z: 0}
+      direction: {x: 112.5833, y: 65, z: 0}
+      statType: 3
+    spellAttackExtra:
+      name: SpellAttackExtra
+      valueRange:
+        min: 0
+        max: 1
+      isRangeReversed: 0
+      value: 0.5
+      rawValue: 0
+      maxPosition: {x: 454.96262, y: 567.16003, z: 0}
+      center: {x: 410.5, y: 445, z: 0}
+      direction: {x: 44.46262, y: 122.16004, z: 0}
+      statType: 4
+    spellAttackExtraLikelihood:
+      name: SpellAttackExtraLikelihood
+      valueRange:
+        min: 0
+        max: 1
+      isRangeReversed: 0
+      value: 0.5
+      rawValue: 0
+      maxPosition: {x: 366.03738, y: 567.16003, z: 0}
+      center: {x: 410.5, y: 445, z: 0}
+      direction: {x: -44.462616, y: 122.16004, z: 0}
+      statType: 5
+    spellDuration:
+      name: SpellDuration
+      valueRange:
+        min: 0
+        max: 1
+      isRangeReversed: 0
+      value: 0.5
+      rawValue: 0
+      maxPosition: {x: 297.9167, y: 510, z: 0}
+      center: {x: 410.5, y: 445, z: 0}
+      direction: {x: -112.5833, y: 65.00001, z: 0}
+      statType: 6
+    spellInterval:
+      name: SpellInterval
+      valueRange:
+        min: 0
+        max: 1
+      isRangeReversed: 0
+      value: 0.5
+      rawValue: 0
+      maxPosition: {x: 282.47498, y: 422.42572, z: 0}
+      center: {x: 410.5, y: 445, z: 0}
+      direction: {x: -128.02501, y: -22.574268, z: 0}
+      statType: 7
+    spellCooldown:
+      name: SpellCooldown
+      valueRange:
+        min: 0
+        max: 1
+      isRangeReversed: 0
+      value: 0.5
+      rawValue: 0
+      maxPosition: {x: 326.93762, y: 345.4142, z: 0}
+      center: {x: 410.5, y: 445, z: 0}
+      direction: {x: -83.56238, y: -99.58579, z: 0}
+      statType: 8
+  attackCost: 0
+  spellCost: 0

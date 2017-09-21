@@ -62,7 +62,7 @@ public class VFXStunBatonImpact : MonoBehaviour {
         modifiedHitPoint.y += .5f;
 
         //get an object from pool
-        GameObject bloodObject = ObjectPool.Instance.GetObject(PoolObjectType.BloodDecal);
+        GameObject bloodObject = ObjectPool.Instance.GetObject(PoolObjectType.VFXBloodDecal);
         if (bloodObject)
         {
             bloodObject.transform.position = modifiedHitPoint;
