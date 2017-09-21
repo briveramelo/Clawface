@@ -8,13 +8,14 @@ using MovementEffects;
 public class BouncerPatrolState : BouncerState {
 
     private Vector3 walkTarget;
-    private float walkTargetDistance = 20f;
+    private float walkTargetDistance = 2.0f;
     private bool moving = false;
-    private float firingAngle;
-    private float gravity = 9.8f;
+    private float firingAngle = 45.0f;
+    private float gravity = 1.0f;
 
     public override void OnEnter()
     {
+        navAgent.enabled = false;
     }
     public override void Update()
     {
@@ -29,19 +30,20 @@ public class BouncerPatrolState : BouncerState {
     private void Patrol()
     {
 
-        if (controller.timeInLastState > properties.walkTime)
+        if (controller.timeInLastState >= properties.walkTime)
         {
             GetNewPatrolTarget();
         }
 
-        Vector3 movementDirection = (walkTarget - velBody.transform.position).normalized;
+        Vector3 movementDirection = (walkTarget - controller.transform.position).normalized;
+
+        if (!moving)
+        Timing.RunCoroutine(Move());
 
         if (IsHittingWall(movementDirection, 2f))
         {
             GetNewPatrolTarget();
         }
-
-        Timing.RunCoroutine(Move());
     }
 
     private bool IsHittingWall(Vector3 movementDirection, float checkDistance)
@@ -75,7 +77,7 @@ public class BouncerPatrolState : BouncerState {
 
                 moveDirection = moveDirection.normalized;
                 moveDirection.y = .1f;
-                walkTarget = velBody.foot.position + moveDirection * walkTargetDistance;
+                walkTarget = controller.transform.position + moveDirection * walkTargetDistance;
                 controller.RestartStateTimer();
                 break;
             }
@@ -83,14 +85,14 @@ public class BouncerPatrolState : BouncerState {
 
     }
 
-    IEnumerator<float> Move()
+    private IEnumerator<float> Move()
     {
-        yield return Timing.WaitForSeconds(0.0f);
+        moving = true;
 
-        Vector3 initialPosition = velBody.transform.position;
-        Vector3 targetPosition = new Vector3 (walkTarget.x, 0.0f,walkTarget.z);
+        Vector3 initialPosition = controller.transform.position;
+        Vector3 targetPosition = walkTarget;
 
-        float target_Distance = Vector3.Distance(velBody.transform.position, targetPosition);
+        float target_Distance = Vector3.Distance(controller.transform.position, targetPosition);
 
         float movementVelocity = target_Distance / (Mathf.Sin(2 * firingAngle * Mathf.Deg2Rad));
 
@@ -99,16 +101,19 @@ public class BouncerPatrolState : BouncerState {
 
         float flightTime = target_Distance / Vx;
 
-        float elapsedTime = 0;
+        float elapsedTime = 0.0f;
 
         while (elapsedTime < flightTime)
         {
 
-            velBody.transform.Translate(0, (Vy - (gravity * elapsedTime)) * Time.deltaTime, Vx * Time.deltaTime);
+            controller.transform.Translate(0.0f, (Vy - (gravity * elapsedTime)) * Time.deltaTime, Vx * Time.deltaTime);
+
             elapsedTime += Time.deltaTime;
 
-            yield return Timing.WaitForSeconds(0.0f);
+            yield return 0.0f;
         }
 
+        elapsedTime = flightTime;
+        moving = false;
     }
 }
