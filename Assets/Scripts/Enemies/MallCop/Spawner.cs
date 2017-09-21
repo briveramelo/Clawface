@@ -8,13 +8,13 @@ public class Spawner : MonoBehaviour
 {
     public bool useIntensityCurve, manualEdits;
     public AnimationCurve intensityCurve;
-    public AnimationCurve timingCurve;
+//    public AnimationCurve timingCurve;
 
     public List<Wave> waves = new List<Wave>();
 
     public int currentWaveNumber = 0;
     public int currentNumEnemies = 0;
-    public float TimeToNextWave = 0.0f;
+//    public float TimeToNextWave = 0.0f;
 
     #region Serialized Unity Fields
     [SerializeField] SpawnType spawnType;
@@ -48,7 +48,7 @@ public class Spawner : MonoBehaviour
     #region Unity LifeCycle
     void Start()
     {
-        if(waves.Count > 0) TimeToNextWave = waves[0].Time;
+//        if(waves.Count > 0) TimeToNextWave = waves[0].Time;
 
         foreach (Transform child_point in transform)
         {
@@ -61,6 +61,7 @@ public class Spawner : MonoBehaviour
     private void Update()
     {
 
+        /*
         TimeToNextWave -= Time.deltaTime;
 
         if(TimeToNextWave < 0.0f)
@@ -75,6 +76,7 @@ public class Spawner : MonoBehaviour
                 TimeToNextWave = 0.0f;
             }
         }
+        */
     }
 
 
