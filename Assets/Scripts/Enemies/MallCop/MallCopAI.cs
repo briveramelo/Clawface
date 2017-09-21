@@ -89,7 +89,7 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, ISkinnable
     void Update()
     {
         isGrounded = IsGrounded();
-        if (myStats.GetStat(StatType.Health) > 0)
+        if (myStats.GetStat(CharacterStatType.Health) > 0)
         {
             switch (currentState)
             {
@@ -138,7 +138,7 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, ISkinnable
 
     public void GetUp()
     {
-        if (myStats.GetStat(StatType.Health) > 0)
+        if (myStats.GetStat(CharacterStatType.Health) > 0)
         {
             animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.GettingUp);
         }
@@ -188,7 +188,7 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, ISkinnable
 
     bool ISkinnable.IsSkinnable()
     {
-        return myStats.GetStat(StatType.Health) <= 5;
+        return myStats.GetStat(CharacterStatType.Health) <= 5;
     }
 
     GameObject ISkinnable.DeSkin()
@@ -280,7 +280,7 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, ISkinnable
         transform.Rotate(rotationMultiplier * rotationSpeed * Vector3.up * Time.deltaTime);
 
         Vector3 movementDirection = transform.forward;
-        rigbod.velocity = movementDirection * myStats.GetStat(StatType.MoveSpeed) * Time.fixedDeltaTime + GetExternalForceSum();
+        rigbod.velocity = movementDirection * myStats.GetStat(CharacterStatType.MoveSpeed) * Time.fixedDeltaTime + GetExternalForceSum();
     }
 
     private void Attack()
@@ -313,7 +313,7 @@ public class MallCopAI : MonoBehaviour, ICollectable, IStunnable, ISkinnable
                 }
                 Vector3 movementDirection = attackTarget.transform.position - transform.position;
                 Vector3 movementDirectionXZ = new Vector3(movementDirection.x, 0, movementDirection.z);
-                rigbod.velocity = movementDirectionXZ.normalized * myStats.GetStat(StatType.MoveSpeed) * runMultiplier * Time.fixedDeltaTime + GetExternalForceSum();
+                rigbod.velocity = movementDirectionXZ.normalized * myStats.GetStat(CharacterStatType.MoveSpeed) * runMultiplier * Time.fixedDeltaTime + GetExternalForceSum();
             }
         }
     }

@@ -31,7 +31,7 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     void Start()
     {
         stats.SetMaxHealth(UpgradeManager.Instance.GetHealthLevel());
-        startHealth = stats.GetStat(StatType.MaxHealth);
+        startHealth = stats.GetStat(CharacterStatType.MaxHealth);
         AnalyticsManager.Instance.SetPlayerStats(this.stats);
         UpgradeManager.Instance.SetPlayerStats(this.stats);
         UpgradeManager.Instance.SetPlayerStatsManager(this);
@@ -62,7 +62,7 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
                 skinObject.SetActive(false);
             }
 
-            if (stats.GetStat(StatType.Health) <= 0)
+            if (stats.GetStat(CharacterStatType.Health) <= 0)
             {
                 Revive();
             }
@@ -76,18 +76,18 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     }
 
     public void TakeSkin(int skinHealth) {
-        stats.Add(StatType.Health, skinHealth);
+        stats.Add(CharacterStatType.Health, skinHealth);
         healthAtLastSkin = stats.health;
         lastSkinHealthBoost=skinHealth;
         skinObject.SetActive(true);
     }
 
-    public float GetStat(StatType type)
+    public float GetStat(CharacterStatType type)
     {
         return stats.GetStat(type);
     }
 
-    public bool ModifyStat(StatType type, float multiplier)
+    public bool ModifyStat(CharacterStatType type, float multiplier)
     {
         stats.Multiply(type, multiplier);
         return true;
@@ -95,7 +95,7 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
 
     public float GetHealth()
     {
-        return stats.GetStat(StatType.Health);
+        return stats.GetStat(CharacterStatType.Health);
     }
     #endregion
 
@@ -103,8 +103,8 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     private void Revive() {
         SFXManager.Instance.Play(SFXType.PlayerDeath, transform.position);
         transform.position = GameObject.Find("RespawnPoint").transform.position;
-        stats.Add(StatType.Health, (int)startHealth);
-        startHealth = stats.GetStat(StatType.MaxHealth);
+        stats.Add(CharacterStatType.Health, (int)startHealth);
+        startHealth = stats.GetStat(CharacterStatType.MaxHealth);
         healthBar.SetHealth(stats.GetHealthFraction());
         AnalyticsManager.Instance.PlayerDeath();
     }
