@@ -6,8 +6,9 @@ using UnityEngine;
 using System.Linq;
 using ModMan;
 using UnityEngine.AI;
+using MovementEffects;
 
-public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpawnable
+public class MallCop : RoutineRunner, IStunnable, IDamageable, ISkinnable, ISpawnable
 {
 
     #region 2. Serialized Unity Inspector Fields
@@ -43,7 +44,9 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
         if (will.willHasBeenWritten) {
             ResetForRebirth();
         }
-        navAgent.enabled = true;
+
+        navAgent.enabled = false;
+        Timing.RunCoroutine(ActivateNavMesh(), coroutineName);        
     }
     
     void Awake ()
@@ -53,7 +56,6 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
         mod.setModSpot(ModSpot.ArmR);
         mod.AttachAffect(ref myStats, velBody);
         ResetForRebirth();
-        navAgent.enabled = false;
     }    
 
     #endregion
@@ -69,7 +71,7 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
             damaged.Set(DamagedType.MallCop, bloodEmissionLocation);
             DamageFXManager.Instance.EmitDamageEffect(damagePack);
             if (myStats.health <= myStats.skinnableHealth && !glowObject.isGlowing){
-                glowObject.SetToGlow();
+                //glowObject.SetToGlow();
                 copUICanvas.gameObject.SetActive(true);
                 copUICanvas.ShowAction(ActionType.Skin);
             }
@@ -190,6 +192,15 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
         navAgent.enabled = false;
         gameObject.SetActive(false);
     }
+
+    IEnumerator<float> ActivateNavMesh()
+    {
+
+        yield return Timing.WaitForSeconds(2.0f);
+        //yield return 0f;
+        navAgent.enabled = true;
+    }
+
 
     #endregion
 

@@ -19,7 +19,7 @@ public class WavesEditor : Editor
 
     SerializedProperty currentWaveNumber;
     SerializedProperty currentNumEnemies;
-    SerializedProperty TimeToNextWave;
+//    SerializedProperty TimeToNextWave;
 
     List<Wave> wavesList;
     ReorderableList reordList;
@@ -31,7 +31,7 @@ public class WavesEditor : Editor
 
         currentWaveNumber = serializedObject.FindProperty("currentWaveNumber");
         currentNumEnemies = serializedObject.FindProperty("currentNumEnemies");
-        TimeToNextWave = serializedObject.FindProperty("TimeToNextWave");
+//        TimeToNextWave = serializedObject.FindProperty("TimeToNextWave");
 
         useIntensityCurve = serializedObject.FindProperty("useIntensityCurve");
         manualEdits = serializedObject.FindProperty("manualEdits");
@@ -61,7 +61,7 @@ public class WavesEditor : Editor
         EditorGUILayout.LabelField("Runtime Status", EditorStyles.boldLabel);
         EditorGUILayout.LabelField(string.Format("Current Wave Number: {0}", currentWaveNumber.intValue));
         EditorGUILayout.LabelField(string.Format("Current Number of Enemies: {0}", currentNumEnemies.intValue));
-        EditorGUILayout.LabelField(string.Format("Time to Next Wave: {0}", TimeToNextWave.floatValue));
+//        EditorGUILayout.LabelField(string.Format("Time to Next Wave: {0}", TimeToNextWave.floatValue));
         EditorGUILayout.EndVertical();
 
         EditorGUI.EndDisabledGroup();
@@ -80,10 +80,11 @@ public class WavesEditor : Editor
             GUILayout.Label("The intensity curve auto-adjusts each wave's intensity and properties", intensityTipLabelStyle);
             EditorGUILayout.PropertyField(intensityCurve);
 
-            GUILayout.Space(10);
-            GUILayout.Label("The timing curve auto-adjusts each wave's time to next wave", intensityTipLabelStyle);
-            EditorGUILayout.PropertyField(timingCurve);
-        } else
+//          GUILayout.Space(10);
+//          GUILayout.Label("The timing curve auto-adjusts each wave's time to next wave", intensityTipLabelStyle);
+//          EditorGUILayout.PropertyField(timingCurve);
+        }
+        else
         {
             EditorGUILayout.PropertyField(manualEdits);
             if (useManualEdits)
@@ -92,8 +93,9 @@ public class WavesEditor : Editor
                 GUILayout.Label("Disables influence from 'intensity'", intensityTipLabelStyle);
             }
         }
+
         AdjustWaveIntensity(useIntensity, useManualEdits);
-        AdjustWaveTime(useIntensity, useManualEdits);
+ //       AdjustWaveTime(useIntensity, useManualEdits);
 
         EditorGUILayout.EndVertical();
 
@@ -144,11 +146,13 @@ public class WavesEditor : Editor
             element.FindPropertyRelative("intensity"));
         EditorGUI.EndDisabledGroup();
 
+        /*
         // Time to next wave
         EditorGUI.BeginDisabledGroup (useIntensityCurve.boolValue);
         EditorGUI.PropertyField(new Rect(rect.x, rect.y += 2 + EditorGUIUtility.singleLineHeight, rect.width, EditorGUIUtility.singleLineHeight),
             element.FindPropertyRelative("TimeToNextWave"));
         EditorGUI.EndDisabledGroup();
+        */
 
         EditorGUI.BeginDisabledGroup(!manualEdits.boolValue);
 
@@ -181,6 +185,7 @@ public class WavesEditor : Editor
     }
 
 
+    /*
     void AdjustWaveTime(bool useCurve, bool useManualEdits)
     {
         for (int i = 0; i < wavesList.Count; i++)
@@ -194,6 +199,6 @@ public class WavesEditor : Editor
             }
         }
     }
-
+    */
 
 }

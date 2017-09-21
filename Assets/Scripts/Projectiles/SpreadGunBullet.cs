@@ -47,6 +47,10 @@ public class SpreadGunBullet : MonoBehaviour {
             }
             ResetBullet();
         }
+        else if (other.transform.CompareTag(Strings.Tags.WALL))
+        {
+            ResetBullet();
+        }
     }
     #endregion
 

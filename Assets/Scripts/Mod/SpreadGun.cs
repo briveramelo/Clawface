@@ -5,6 +5,7 @@ using UnityEngine;
 public class SpreadGun : Mod {
 
     #region Serialized fields
+
     [SerializeField] private SpreadGunProperties gunProperties;
     [SerializeField] private Transform bulletSpawnTransform;
     #endregion

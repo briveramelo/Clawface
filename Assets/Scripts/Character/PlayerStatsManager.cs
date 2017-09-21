@@ -17,6 +17,7 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     [SerializeField] private CameraLock cameraLock;
     [SerializeField] private GameObject skinObject;
     [SerializeField] private OnScreenScoreUI healthBar;
+    [SerializeField] private bool shake;
     #endregion
 
     #region Private Fields
@@ -55,7 +56,9 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
             healthBar.SetHealth(healthFraction);
             cameraLock.Shake(.4f);
             float shakeIntensity = 1f - healthFraction;
-            InputManager.Instance.Vibrate(VibrationTargets.BOTH, shakeIntensity);
+            if (shake) {
+                InputManager.Instance.Vibrate(VibrationTargets.BOTH, shakeIntensity);
+            }
             SFXManager.Instance.Play(SFXType.PlayerTakeDamage, transform.position);
 
             if (stats.health < healthAtLastSkin-lastSkinHealthBoost) {
