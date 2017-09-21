@@ -8,7 +8,7 @@ using ModMan;
 using UnityEngine.AI;
 using MovementEffects;
 
-public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpawnable
+public class MallCop : RoutineRunner, IStunnable, IDamageable, ISkinnable, ISpawnable
 {
 
     #region 2. Serialized Unity Inspector Fields
@@ -45,8 +45,8 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
             ResetForRebirth();
         }
 
-        Timing.RunCoroutine(ActivateNavMesh());
-        
+        navAgent.enabled = false;
+        Timing.RunCoroutine(ActivateNavMesh(), coroutineName);        
     }
     
     void Awake ()
@@ -56,7 +56,6 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
         mod.setModSpot(ModSpot.ArmR);
         mod.AttachAffect(ref myStats, velBody);
         ResetForRebirth();
-        navAgent.enabled = false;
     }    
 
     #endregion
@@ -197,7 +196,8 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
     IEnumerator<float> ActivateNavMesh()
     {
 
-        yield return Timing.WaitForSeconds(2.0f);
+        //yield return Timing.WaitForSeconds(2.0f);
+        yield return 0f;
         navAgent.enabled = true;
     }
 

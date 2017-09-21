@@ -20,7 +20,7 @@ public class MallCopChaseState : MallCopState {
     private void Chase() {
 
         //Orient cop towards player 
-        if(navAgent.enabled)
+        if(navAgent.enabled && navAgent.isOnNavMesh)
         navAgent.SetDestination(controller.AttackTarget.position);
     }
 }

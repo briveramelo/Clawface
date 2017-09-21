@@ -8,10 +8,10 @@ public class RespawnPoint : Singleton<RespawnPoint> {
 
     void Start() {
         if (GameObject.Find("RespawnPoint")) {
-            Destroy(gameObject);
         }
         else {
-            name = "RespawnPoint";
+            Debug.LogError("Put a GameObject named 'RespawnPoint' in your scene!!!");
         }
+        Destroy(gameObject);
     }
 }
