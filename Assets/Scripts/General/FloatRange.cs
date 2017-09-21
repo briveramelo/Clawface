@@ -11,6 +11,12 @@ using UnityEngine;
 [Serializable]
 public class FloatRange
 {
+    public FloatRange(float min, float max) {
+        this.min = min;
+        this.max = max;
+    }
+    public FloatRange() { }
+
     #region Serialized Unity Inspector Fields
 
     /// <summary>
@@ -28,6 +34,11 @@ public class FloatRange
 
     #endregion
     #region Public Methods
+
+    public bool Contains(float val) {
+        return val >= min && val <= max;
+    }
+    public float Diff { get { return Max - Min; } }
 
     /// <summary>
     /// Gets/sets the minumum boundary of this FloatRange.

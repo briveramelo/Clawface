@@ -159,7 +159,7 @@ public class VelocityBody : MonoBehaviour, IMovable{
     private bool CheckIsGrounded() {
         groundColliders = Physics.OverlapSphere(foot.transform.position, footSphereRadius, groundMask);
         for (int i = 0; i < groundColliders.Length; i++) {
-            if (groundColliders[i].gameObject.layer == (int)Layers.Ground || groundColliders[i].gameObject.layer == (int)Layers.Enemy || groundColliders[i].gameObject.layer == (int)Layers.DiceBlocks) {
+            if (groundColliders[i].gameObject.layer == (int)Layers.Ground || groundColliders[i].gameObject.layer == (int)Layers.DiceBlocks) { //|| groundColliders[i].gameObject.layer == (int)Layers.Enemy
                 return true;
             }
         }        

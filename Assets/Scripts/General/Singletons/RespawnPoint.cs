@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class RespawnPoint : Singleton<RespawnPoint> {
 
@@ -8,10 +9,10 @@ public class RespawnPoint : Singleton<RespawnPoint> {
 
     void Start() {
         if (GameObject.Find("RespawnPoint")) {
-            Destroy(gameObject);
         }
         else {
-            name = "RespawnPoint";
+            Debug.LogWarning("Put a GameObject named 'RespawnPoint' in your scene!!!");
         }
+        Destroy(gameObject);
     }
 }
