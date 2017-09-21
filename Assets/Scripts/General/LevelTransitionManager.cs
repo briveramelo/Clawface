@@ -38,7 +38,6 @@ public class LevelTransitionManager : MonoBehaviour {
         if (isDone)
         {
             CancelInvoke();
-            Debug.Log("Level done");
             
             MenuManager.Instance.DoTransition(Strings.MenuStrings.STAGE_OVER,
                 Menu.Transition.SHOW, new Menu.Effect[] { Menu.Effect.EXCLUSIVE });
