@@ -93,6 +93,8 @@ namespace Turing.VFX
 
         void Awake ()
         {
+            SetEmotion (emotion);
+
             // Start main face coroutine.
             StartCoroutine (FaceCoroutine());
         }
