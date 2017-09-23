@@ -93,6 +93,8 @@ namespace Turing.VFX
 
         void Awake ()
         {
+            SetEmotion (emotion);
+
             // Start main face coroutine.
             StartCoroutine (FaceCoroutine());
         }
@@ -167,12 +169,25 @@ namespace Turing.VFX
             SetFacialExpression (idleExpression);
         }
 
+        IEnumerator DoTemporaryEmotion (float time)
+        {
+            yield return new WaitForSeconds (time);
+            SetEmotion (Emotion.Idle);
+        }
+
         /// <summary>
         /// Sets the current facial expression of the character.
         /// </summary>
         void SetFacialExpression (Texture2D face)
         {
             playerMaterial.SetTexture ("_FaceTexture", face);
+        }
+
+        public void SetTemporaryEmotion (Emotion emotion, float time)
+        {
+            Debug.Log (emotion);
+            SetEmotion (emotion);
+            StartCoroutine (DoTemporaryEmotion(time));
         }
 
         /// <summary>
