@@ -16,3 +16,17 @@ public class RoutineRunner : MonoBehaviour {
         action();
     }
 }
+
+public class RoutineRunnerNonMono {
+
+    protected string coroutineName { get { return GetHashCode().ToString(); } }
+    protected virtual void OnDisable() {
+        Timing.KillCoroutines(coroutineName);
+    }
+
+    protected IEnumerator<float> DelayAction(Action action, float seconds = 0f) {
+        yield return 0f;
+        yield return Timing.WaitForSeconds(seconds);
+        action();
+    }
+}
