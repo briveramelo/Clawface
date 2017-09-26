@@ -12,7 +12,7 @@ Material:
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 4000
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -101,6 +101,7 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
+    - _MaskClipValue: 0.5
     - _Metallic: 0
     - _MetallicStrength: 0.11
     - _Mode: 0
@@ -118,7 +119,7 @@ Material:
     m_Colors:
     - _ASEOutlineColor: {r: 0, g: 0, b: 0, a: 0}
     - _AlbedoColor: {r: 1, g: 1, b: 1, a: 0}
-    - _AlbedoTint: {r: 1, g: 1, b: 1, a: 0}
+    - _AlbedoTint: {r: 0.875, g: 0.875, b: 0.875, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 0}
     - _EmissiveColor: {r: 1, g: 1, b: 1, a: 0}

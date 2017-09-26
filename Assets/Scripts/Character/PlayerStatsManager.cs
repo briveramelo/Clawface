@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Turing.VFX;
 
 public class PlayerStatsManager : MonoBehaviour, IDamageable
 {
@@ -17,6 +18,7 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     [SerializeField] private CameraLock cameraLock;
     [SerializeField] private GameObject skinObject;
     [SerializeField] private OnScreenScoreUI healthBar;
+    [SerializeField] private PlayerFaceController faceController;
     [SerializeField] private bool shake;
     #endregion
 
@@ -64,6 +66,8 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
             if (stats.health < healthAtLastSkin-lastSkinHealthBoost) {
                 skinObject.SetActive(false);
             }
+
+            faceController.SetTemporaryEmotion (PlayerFaceController.Emotion.Angry, 0.5f);
 
             if (stats.GetStat(CharacterStatType.Health) <= 0)
             {

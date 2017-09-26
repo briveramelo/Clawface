@@ -138,7 +138,7 @@ Shader "PBR Outline Fade"
 }
 /*ASEBEGIN
 Version=11001
-1929;113;1767;988;2304.764;1264.458;2.359998;True;True
+2015;45;1767;988;2304.764;1264.458;2.359998;True;True
 Node;AmplifyShaderEditor.RangedFloatNode;12;-1277.9,-468.5;Float;False;Property;_TextureTiling;Texture Tiling;6;0;0;0;0;0;1;FLOAT
 Node;AmplifyShaderEditor.TextureCoordinatesNode;11;-1026.7,-500.3002;Float;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;FLOAT;FLOAT;FLOAT;FLOAT
 Node;AmplifyShaderEditor.SamplerNode;54;-766.9285,-182.4014;Float;True;Property;_MetallicSmoothnessEmissiveAO;MetallicSmoothnessEmissiveAO;3;0;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;6;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;1.0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1.0;False;5;FLOAT4;FLOAT;FLOAT;FLOAT;FLOAT
@@ -172,4 +172,4 @@ WireConnection;0;4;55;1
 WireConnection;0;5;55;3
 WireConnection;0;9;56;0
 ASEEND*/
-//CHKSM=2B25D41D9D5D23090CCFF47384758F0EA453A1C4
+//CHKSM=A0419DD464AF5D5CC7B568DFED8BFE66191B00B0
