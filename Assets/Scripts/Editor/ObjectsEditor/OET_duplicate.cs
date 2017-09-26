@@ -14,7 +14,7 @@ namespace OET_duplicate
 		public static bool countYenabled = false;
 		public static bool countZenabled = false;
 		public static float spacing = 0;
-		public static Vector3 v3_;
+		public static Vector3 handle_v3;
 		public static GameObject sceneActiveSelection;
 
 		public static Vector3[] clones;
@@ -25,8 +25,8 @@ namespace OET_duplicate
             {
 				Vector3 Vsize = OET_lib.ToolLib.getAllBounds (sceneActiveSelection).size;
 				float size = Vsize.x > Vsize.y ? (Vsize.x > Vsize.z ? Vsize.x : Vsize.z) : (Vsize.y > Vsize.z ? Vsize.y : Vsize.z);
-				v3_ = Handles.PositionHandle(v3_, Quaternion.identity);
-				float d = Vector3.Distance(v3_,sceneActiveSelection.transform.position);
+				handle_v3 = Handles.PositionHandle(handle_v3, Quaternion.identity);
+				float d = Vector3.Distance(handle_v3,sceneActiveSelection.transform.position);
 
 				d = d + spacing * d;
 
@@ -36,19 +36,19 @@ namespace OET_duplicate
 
 				for (float ptrX = 0f; ptrX < count; ptrX++)
                 {
-					Vector3 e = Vector3.Lerp (sceneActiveSelection.transform.position, v3_, ptrX / count);
-					clones[(int)ptrX] = v3_ - e;
-                    OET_lib.ToolLib.draft (sceneActiveSelection, v3_ - e, Color.yellow);
+					Vector3 e = Vector3.Lerp (sceneActiveSelection.transform.position, handle_v3, ptrX / count);
+					clones[(int)ptrX] = handle_v3 - e;
+                    OET_lib.ToolLib.draft (sceneActiveSelection, handle_v3 - e, Color.yellow);
 				}
 
 				Handles.color = Color.green;
-				Handles.DrawDottedLine (v3_, sceneActiveSelection.transform.position, 5);
+				Handles.DrawDottedLine (handle_v3, sceneActiveSelection.transform.position, 5);
 			}
 		}
 
 		public static void renderGUI(int vpos, GameObject[] get_sceneSelection, GameObject get_sceneActiveSelection)
 		{
-			if(get_sceneActiveSelection && sceneActiveSelection != get_sceneActiveSelection) v3_ = get_sceneActiveSelection.transform.position + new Vector3(10,0,0);
+			if(get_sceneActiveSelection && sceneActiveSelection != get_sceneActiveSelection) handle_v3 = get_sceneActiveSelection.transform.position + new Vector3(10,0,0);
 			sceneSelection = get_sceneSelection;
 
 			int width = Screen.width;
