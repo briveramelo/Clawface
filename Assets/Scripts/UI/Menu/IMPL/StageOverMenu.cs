@@ -1,7 +1,4 @@
-﻿
-
-using System;
-/**
+﻿/**
 *  @author Cornelia Schultz
 */
 using UnityEngine;
@@ -10,13 +7,6 @@ using UnityEngine.UI;
 public class StageOverMenu : Menu
 {
     #region Public Fields
-    public override bool Displayed
-    {
-        get
-        {
-            return displayed;
-        }
-    }
 
     public override Button InitialSelection
     {
@@ -40,37 +30,8 @@ public class StageOverMenu : Menu
 
     #endregion
 
-    #region Private Fields
-
-    private bool displayed;
-
-    #endregion
-
     #region Public Interface
     public StageOverMenu() : base(Strings.MenuStrings.STAGE_OVER) { }
-
-    public override void DoTransition(Transition transition, Effect[] effects)
-    {
-        switch (transition) {
-            case Transition.SHOW:
-                UpdateScores();
-                MenuManager.Instance.DoTransitionOthers(this, Transition.HIDE,
-                    new Effect[] { Effect.FADE });
-                OnTransitionStarted(transition, effects);
-                StartCoroutine(MenuTransitionsCommon.FadeCoroutine(0.0F, 1.0F, 1.0F,
-                    canvasGroup, () => { ShowComplete(); OnTransitionEnded(transition, effects); }));
-                break;
-            case Transition.HIDE:
-                if (!displayed) return;
-                OnTransitionStarted(transition, effects);
-                StartCoroutine(MenuTransitionsCommon.FadeCoroutine(1.0F, 0.0F, 1.0F,
-                    canvasGroup, () => { HideComplete(); OnTransitionEnded(transition, effects); }));
-                break;
-            case Transition.TOGGLE:
-                DoTransition(Displayed ? Transition.HIDE : Transition.SHOW, effects);
-                return;
-        }
-    }
 
     public void QuitAction()
     {
@@ -82,22 +43,40 @@ public class StageOverMenu : Menu
     }
     #endregion
 
+    #region Protected Interface
+
+    protected override void DefaultShow(Transition transition, Effect[] effects)
+    {
+        Fade(transition, effects);
+    }
+    protected override void DefaultHide(Transition transition, Effect[] effects)
+    {
+        Fade(transition, effects);
+    }
+
+    protected override void ShowStarted()
+    {
+        UpdateScores();
+    }
+
+    protected override void ShowComplete()
+    {
+        base.ShowComplete();
+    }
+
+    protected override void HideComplete()
+    {
+        base.HideComplete();
+    }
+
+    #endregion
+
     #region Private Interface
 
     private void UpdateScores()
     {
         score.text = ScoreManager.Instance.GetScore().ToString();
         combo.text = ScoreManager.Instance.GetHighestCombo().ToString();
-    }
-
-    private void ShowComplete()
-    {
-        displayed = true;
-    }
-
-    private void HideComplete()
-    {
-        displayed = false;
     }
 
     #endregion
