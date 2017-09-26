@@ -9,9 +9,15 @@ public class BlasterBullet : MonoBehaviour {
     private Damager damager = new Damager();
     private bool shooter;
 
+    [SerializeField]
+    private float killAfterSeconds;
+
+    private float killTimer;
+
     void OnEnable()
-    {        
-        Timing.RunCoroutine(DestroyAfter());
+    {
+        killTimer = killAfterSeconds;
+        
     }
 
     private IEnumerator<float> DestroyAfter() {
@@ -23,6 +29,17 @@ public class BlasterBullet : MonoBehaviour {
     }
 
     void Update () {
+        killTimer -= Time.deltaTime;
+
+        if (killTimer <= 0f)
+        {
+            if (gameObject.activeSelf)
+            {
+                EmitBulletCollision();
+                gameObject.SetActive(false);
+            }
+        }
+
         transform.Translate(Vector3.forward * shooterProperties.speed * Time.deltaTime);
 	}
 
@@ -31,11 +48,10 @@ public class BlasterBullet : MonoBehaviour {
         if (other.gameObject.GetInstanceID()!=shooterProperties.shooterInstanceID){
             bool isEnemy = other.gameObject.CompareTag(Strings.Tags.ENEMY);
             bool isPlayer = other.gameObject.CompareTag(Strings.Tags.PLAYER);
-            if (isEnemy || isPlayer){                
+
+            if ((shooter && isPlayer) || (!shooter && isEnemy) || other.gameObject.layer == (int) Layers.Ground) {                
                 Damage(other.gameObject.GetComponent<IDamageable>());
-                Push(other.gameObject.GetComponent<IMovable>());                
-            }
-            if (isEnemy || isPlayer || other.gameObject.layer==(int)Layers.Ground) {
+                Push(other.gameObject.GetComponent<IMovable>());
                 SFXManager.Instance.Play(SFXType.BlasterProjectileImpact, transform.position);
                 EmitBulletCollision();
                 gameObject.SetActive(false);
@@ -82,7 +98,7 @@ public class BlasterBullet : MonoBehaviour {
         }
     }
     private void EmitBulletCollision() {
-        GameObject effect = ObjectPool.Instance.GetObject(PoolObjectType.BlasterImpactEffect);
+        GameObject effect = ObjectPool.Instance.GetObject(PoolObjectType.VFXBlasterImpactEffect);
         if (effect) {
             effect.transform.position = transform.position;
         }    

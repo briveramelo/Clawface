@@ -2,20 +2,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Turing.VFX;
 
 public class PlayerStatsManager : MonoBehaviour, IDamageable
 {
 
 
     #region Public fields
-    [HideInInspector] public float damageModifier = 1.0F;
+    //[HideInInspector]
+    public float damageModifier = 1.0F;
     #endregion
 
     #region Serialized Unity Inspector fields
     [SerializeField] private DamageUI damageUI;
     [SerializeField] private CameraLock cameraLock;
     [SerializeField] private GameObject skinObject;
-    [SerializeField] private HealthBar healthBar;
+    [SerializeField] private OnScreenScoreUI healthBar;
+    [SerializeField] private PlayerFaceController faceController;
+    [SerializeField] private bool shake;
     #endregion
 
     #region Private Fields
@@ -30,7 +34,7 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     void Start()
     {
         stats.SetMaxHealth(UpgradeManager.Instance.GetHealthLevel());
-        startHealth = stats.GetStat(StatType.MaxHealth);
+        startHealth = stats.GetStat(CharacterStatType.MaxHealth);
         AnalyticsManager.Instance.SetPlayerStats(this.stats);
         UpgradeManager.Instance.SetPlayerStats(this.stats);
         UpgradeManager.Instance.SetPlayerStatsManager(this);
@@ -54,14 +58,18 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
             healthBar.SetHealth(healthFraction);
             cameraLock.Shake(.4f);
             float shakeIntensity = 1f - healthFraction;
-            InputManager.Instance.Vibrate(VibrationTargets.BOTH, shakeIntensity);
+            if (shake) {
+                InputManager.Instance.Vibrate(VibrationTargets.BOTH, shakeIntensity);
+            }
             SFXManager.Instance.Play(SFXType.PlayerTakeDamage, transform.position);
 
             if (stats.health < healthAtLastSkin-lastSkinHealthBoost) {
                 skinObject.SetActive(false);
             }
 
-            if (stats.GetStat(StatType.Health) <= 0)
+            faceController.SetTemporaryEmotion (PlayerFaceController.Emotion.Angry, 0.5f);
+
+            if (stats.GetStat(CharacterStatType.Health) <= 0)
             {
                 Revive();
             }
@@ -75,18 +83,18 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     }
 
     public void TakeSkin(int skinHealth) {
-        stats.Add(StatType.Health, skinHealth);
+        stats.Add(CharacterStatType.Health, skinHealth);
         healthAtLastSkin = stats.health;
         lastSkinHealthBoost=skinHealth;
         skinObject.SetActive(true);
     }
 
-    public float GetStat(StatType type)
+    public float GetStat(CharacterStatType type)
     {
         return stats.GetStat(type);
     }
 
-    public bool ModifyStat(StatType type, float multiplier)
+    public bool ModifyStat(CharacterStatType type, float multiplier)
     {
         stats.Multiply(type, multiplier);
         return true;
@@ -94,7 +102,7 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
 
     public float GetHealth()
     {
-        return stats.GetStat(StatType.Health);
+        return stats.GetStat(CharacterStatType.Health);
     }
     #endregion
 
@@ -102,8 +110,8 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     private void Revive() {
         SFXManager.Instance.Play(SFXType.PlayerDeath, transform.position);
         transform.position = GameObject.Find("RespawnPoint").transform.position;
-        stats.Add(StatType.Health, (int)startHealth);
-        startHealth = stats.GetStat(StatType.MaxHealth);
+        stats.Add(CharacterStatType.Health, (int)startHealth);
+        startHealth = stats.GetStat(CharacterStatType.MaxHealth);
         healthBar.SetHealth(stats.GetHealthFraction());
         AnalyticsManager.Instance.PlayerDeath();
     }

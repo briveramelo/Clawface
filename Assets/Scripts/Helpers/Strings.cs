@@ -23,6 +23,8 @@
     public static class Layers
     {
         public static string GROUND = "Ground";
+
+        public static string ENEMY = "Enemy";
     }
 
     public static class MenuStrings
@@ -35,6 +37,7 @@
         public static string FADE = "FadeMenu";
         public static string TUTORIAL = "TutorialMenu";
         public static string STAGE_OVER = "StageOverMenu";
+        public static string SETTINGS = "Settings";
     }
 
     public static class Input

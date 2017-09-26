@@ -5,8 +5,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using ModMan;
+using UnityEngine.AI;
+using MovementEffects;
 
-public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpawnable
+public class MallCop : RoutineRunner, IStunnable, IDamageable, ISkinnable, ISpawnable
 {
 
     #region 2. Serialized Unity Inspector Fields
@@ -16,6 +18,7 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
     [SerializeField] private GlowObject glowObject;
     [SerializeField] private Animator animator;
     [SerializeField] private Stats myStats;
+    [SerializeField] private NavMeshAgent navAgent;
     [SerializeField] private GameObject mySkin;
     [SerializeField] private CopUI copUICanvas;
     [SerializeField] private Mod mod;
@@ -40,17 +43,19 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
     private void OnEnable() {
         if (will.willHasBeenWritten) {
             ResetForRebirth();
-        }       
+        }
+
+        navAgent.enabled = false;
+        Timing.RunCoroutine(ActivateNavMesh(), coroutineName);        
     }
     
     void Awake ()
     {
-        controller.Initialize(properties, mod, velBody, animator, myStats);
-        damaged.Set(DamagedType.MallCop, bloodEmissionLocation);
+        controller.Initialize(properties, mod, velBody, animator, myStats, navAgent);
+        
         mod.setModSpot(ModSpot.ArmR);
         mod.AttachAffect(ref myStats, velBody);
         ResetForRebirth();
-        lastChance = false;
     }    
 
     #endregion
@@ -63,9 +68,10 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
             myStats.TakeDamage(damager.damage);            
             damagePack.Set(damager, damaged);
             SFXManager.Instance.Play(SFXType.MallCopHurt, transform.position);
+            damaged.Set(DamagedType.MallCop, bloodEmissionLocation);
             DamageFXManager.Instance.EmitDamageEffect(damagePack);
             if (myStats.health <= myStats.skinnableHealth && !glowObject.isGlowing){
-                glowObject.SetToGlow();
+                //glowObject.SetToGlow();
                 copUICanvas.gameObject.SetActive(true);
                 copUICanvas.ShowAction(ActionType.Skin);
             }
@@ -139,7 +145,7 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
 
             UpgradeManager.Instance.AddEXP(Mathf.FloorToInt(myStats.exp));
 
-            GameObject mallCopParts = ObjectPool.Instance.GetObject(PoolObjectType.MallCopExplosion);
+            GameObject mallCopParts = ObjectPool.Instance.GetObject(PoolObjectType.VFXMallCopExplosion);
             if (mallCopParts) {
                 SFXManager.Instance.Play(SFXType.BloodExplosion, transform.position);
                 mallCopParts.transform.position = transform.position + Vector3.up*3f;
@@ -177,13 +183,24 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
         glowObject.ResetForRebirth();
         will.Reset();
         //TODO check for missing mod and create a new one and attach it
-        mod.setModSpot(ModSpot.ArmR);        
+        mod.setModSpot(ModSpot.ArmR);
+        lastChance = false;
     }       
 
     private void Death()
     {
+        navAgent.enabled = false;
         gameObject.SetActive(false);
     }
+
+    IEnumerator<float> ActivateNavMesh()
+    {
+
+        yield return Timing.WaitForSeconds(2.0f);
+        //yield return 0f;
+        navAgent.enabled = true;
+    }
+
 
     #endregion
 

@@ -93,7 +93,7 @@ Transform:
   m_GameObject: {fileID: 1703088497185594}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 11.89, y: 1.55, z: -4.09}
-  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224306234755421492}
   - {fileID: 4637971869864312}
@@ -126,7 +126,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 4b0e2d6277bda2d478b5968840caaf30, type: 2}
+  - {fileID: 2100000, guid: ed4d0a009ee227d42b55d5c5bdbbc092, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -183,7 +183,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1703088497185594}
-  m_Mesh: {fileID: 4300000, guid: b03c6f0df36052b4abe73e340bdc1e60, type: 3}
+  m_Mesh: {fileID: 4300002, guid: 9f7b04083f344824ca3913543f97ad73, type: 3}
 --- !u!33 &33588639034171046
 MeshFilter:
   m_ObjectHideFlags: 1
@@ -308,49 +308,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hasState: 0
-  vfxModChargePrefab: {fileID: 1868770362516384, guid: 75076dc3f3739ff4bb01ae67a336ecc5,
-    type: 2}
-  vfxModCooldownPrefab: {fileID: 1020022290495414, guid: 28c736c9f78d4cc4b8ea1d4a2875356d,
-    type: 2}
   pickupCollider: {fileID: 65003413662208174}
   modCanvas: {fileID: 1301330211412350}
   energySettings:
-    timeToChargeArm: 3
-    timeToChargeLeg: 1
     standardArmAttackSettings:
-      timeToCoolDown: 0.5
-      timeToAttack: 0.5
+      timeToCoolDown: 1
+      timeToAttack: 0
       attack: 5
-      timeToHitStop: 0
-    chargedArmAttackSettings:
-      timeToCoolDown: 0.5
-      timeToAttack: 0.5
-      attack: 10
-      timeToHitStop: 0
-    standardLegAttackSettings:
-      timeToCoolDown: 0.4
-      timeToAttack: 0
-      attack: 0
-      timeToHitStop: 0
-    chargedLegAttackSettings:
-      timeToCoolDown: 0.8
-      timeToAttack: 0
-      attack: 0
-      timeToHitStop: 0
-    timeCharged: 0
     isCoolingDown: 0
     isActive: 0
-    hasStartedCharging: 0
-  shortRangeDistance: 3
-  longRangeDistance: 8
-  maxScaleMultiplier: 0.8
-  minScaleMultiplier: 0.3
-  geyserTarget: {fileID: 1453224934583048}
-  numberOfSquirts: 3
-  squirtDistanceOffset: 3
-  timeBetweenSquirts: 0.2
-  timeForEachSquirt: 5
-  megaSquirtWaitTime: 0.6
+  geyserStartDistanceOffset: 0
+  fissureSpeed: 40
+  shootSFX: 15
 --- !u!114 &114876056122338820
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -401,7 +370,7 @@ RectTransform:
   m_GameObject: {fileID: 1301330211412350}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.1998, y: 0.1998, z: 0.1998}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224850836811223514}
   m_Father: {fileID: 4033930865496060}

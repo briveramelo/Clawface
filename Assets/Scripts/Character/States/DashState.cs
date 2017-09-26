@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Turing.VFX;
 using ModMan;
 
 public class DashState : IPlayerState {
@@ -19,7 +20,7 @@ public class DashState : IPlayerState {
     [SerializeField]
     private float dashVelocity;
     [SerializeField]
-    private VFXDashPuff dashPuff;
+    private VFXOneOff dashPuff;
     [SerializeField]
     private GameObject dashTrail;
     [SerializeField] private Collider playerCollider;
@@ -27,7 +28,7 @@ public class DashState : IPlayerState {
     protected int[] highlightPoses;
     [SerializeField]
     protected int totalAttackPoses;
-    [SerializeField] private HealthBar healthBar;
+    [SerializeField] private OnScreenScoreUI healthBar;
     [SerializeField] private float skinRadius;
     #endregion
 
@@ -75,10 +76,11 @@ public class DashState : IPlayerState {
 
     #region Private Methods
     protected override void ResetState()
-    {
+    {        
         currentFrame = 0;
         currentPose = 0;
         stateVariables.statsManager.damageModifier = 1.0f;
+        playerCollider.enabled = true;
         if (stateVariables.velBody.GetMovementMode()==MovementMode.ICE) {
             stateVariables.velBody.velocity = stateVariables.velBody.GetForward() * dashVelocity/10f;
         }
@@ -105,9 +107,7 @@ public class DashState : IPlayerState {
         {
             stateVariables.statsManager.damageModifier = 0.0f;
             playerCollider.enabled=false;
-                        
-        }
-        if (currentFrame == iFrameEnd)
+        }else if (currentFrame == iFrameEnd)
         {
             stateVariables.statsManager.damageModifier = 1.0f;
             playerCollider.enabled=true;
@@ -131,10 +131,10 @@ public class DashState : IPlayerState {
             stateVariables.statsManager.TakeSkin(skinStats.GetSkinHealth());
             Stats stats = GetComponent<Stats>();
             healthBar.SetHealth(stats.GetHealthFraction());
-            GameObject skinningEffect = ObjectPool.Instance.GetObject(PoolObjectType.SkinningEffect);
+            GameObject skinningEffect = ObjectPool.Instance.GetObject(PoolObjectType.VFXSkinningEffect);
             skinningEffect.transform.position = transform.position;
 
-            GameObject healthJuice = ObjectPool.Instance.GetObject(PoolObjectType.HealthGain);
+            GameObject healthJuice = ObjectPool.Instance.GetObject(PoolObjectType.VFXHealthGain);
             if (healthJuice)
             {
                 healthJuice.FollowAndDeActivate(3f, transform, Vector3.up * 3.2f);

@@ -17,10 +17,11 @@ public class MallCopPatrolState : MallCopState {
         Patrol();
     }
     public override void OnExit() {
-
+        velBody.velocity = Vector3.zero;
     }
 
-    private void Patrol() {        
+    private void Patrol() {
+       
         if (controller.timeInLastState > properties.walkTime) {
             GetNewPatrolTarget();
         }
@@ -30,12 +31,14 @@ public class MallCopPatrolState : MallCopState {
         Vector3 movementDirection = (walkTarget - velBody.transform.position).normalized;
         velBody.velocity = movementDirection * myStats.moveSpeed * Time.deltaTime;
 
+
         if (IsHittingWall(movementDirection, 2f)) {
             GetNewPatrolTarget();
         }
     }
 
     private bool IsHittingWall(Vector3 movementDirection, float checkDistance) {
+
         Ray raycast = new Ray(velBody.foot.position, movementDirection);
         List<RaycastHit> rayCastHits = new List<RaycastHit>(Physics.RaycastAll(raycast, checkDistance));
         if (rayCastHits.Any(hit => (

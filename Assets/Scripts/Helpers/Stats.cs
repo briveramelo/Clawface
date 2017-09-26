@@ -22,65 +22,49 @@ public class Stats : MonoBehaviour, IModifiable {
     #endregion
 
     #region Public Methods
-    public void Multiply(StatType statType, float statMultiplier) {
+    public void Multiply(CharacterStatType statType, float statMultiplier) {
         switch (statType) {
-            case StatType.Attack:
+            case CharacterStatType.Attack:
                 attack*=statMultiplier;
-                break;
-            case StatType.Defense:
-                defense *= statMultiplier;
-                break;
-            case StatType.Health:
+                break;            
+            case CharacterStatType.Health:
                 health *= statMultiplier;
                 break;
-            case StatType.MoveSpeed:
+            case CharacterStatType.MoveSpeed:
                 moveSpeed *= statMultiplier;
-                break;
-            case StatType.RangedAccuracy:
-                rangedAccuracy *= statMultiplier;
-                break;
+                break;            
         }
     }
 
     
-    public void Add(StatType statType, int statAddend) {
+    public void Add(CharacterStatType statType, int statAddend) {
         switch (statType) {
-            case StatType.Attack:
+            case CharacterStatType.Attack:
                 attack += statAddend;
-                break;
-            case StatType.Defense:
-                defense += statAddend;
-                break;
-            case StatType.Health:
+                break;            
+            case CharacterStatType.Health:
                 health += statAddend;
                 if (health>originalStats.health){
                     health=originalStats.health;
                 }
                 break;
-            case StatType.MoveSpeed:
+            case CharacterStatType.MoveSpeed:
                 moveSpeed += statAddend;
-                break;
-            case StatType.RangedAccuracy:
-                rangedAccuracy += statAddend;
-                break;
+                break;            
         }
     }
 
-    public float GetStat(StatType statType) {
+    public float GetStat(CharacterStatType statType) {
         switch (statType) {
-            case StatType.Attack:
-                return attack;
-            case StatType.Defense:
-                return defense;
-            case StatType.Health:
+            case CharacterStatType.Attack:
+                return attack;            
+            case CharacterStatType.Health:
                 return health;
-            case StatType.MaxHealth:
+            case CharacterStatType.MaxHealth:
                 return maxHealth;
-            case StatType.MoveSpeed:
-                return moveSpeed;
-            case StatType.RangedAccuracy:
-                return rangedAccuracy;
-            case StatType.EXP:
+            case CharacterStatType.MoveSpeed:
+                return moveSpeed;            
+            case CharacterStatType.EXP:
                 return exp;
         }
         return -1;

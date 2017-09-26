@@ -26,8 +26,8 @@ public interface IDamageable
 
 public interface IModifiable
 {
-    void Multiply(StatType statType, float statMultiplier);
-    void Add(StatType statType, int statAddend);
+    void Multiply(CharacterStatType statType, float statMultiplier);
+    void Add(CharacterStatType statType, int statAddend);
 }
 
 public interface ITriggerable
@@ -47,10 +47,6 @@ public interface ISkinnable
 {
     bool IsSkinnable();
     GameObject DeSkin();
-}
-
-public interface ICodexLoggable {
-    CodexType GetCodexType();
 }
 
 public interface ISpawnable {
