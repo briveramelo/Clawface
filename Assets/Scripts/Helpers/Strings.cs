@@ -23,6 +23,8 @@
     public static class Layers
     {
         public static string GROUND = "Ground";
+
+        public static string ENEMY = "Enemy";
     }
 
     public static class MenuStrings
