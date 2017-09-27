@@ -5,10 +5,8 @@ using UnityEngine;
 using Turing.VFX;
 using ModMan;
 
+[RequireComponent(typeof(SkinningState))]
 public class DashState : IPlayerState {
-
-    #region Public fields
-    #endregion
 
     #region Serialized Unity Inspector fields
     [SerializeField]
@@ -30,38 +28,53 @@ public class DashState : IPlayerState {
     protected int totalAttackPoses;
     [SerializeField] private OnScreenScoreUI healthBar;
     [SerializeField] private float skinRadius;
+    [SerializeField] private SkinningState skinningState;
     #endregion
 
     #region Private Fields
     private int currentFrame;
-    private int currentPose;
+    private int currentPose;    
+    private bool startSkinning;
     #endregion
 
-    #region Unity Lifecycle
+    #region Unity Lifecycle  
+
     // Use this for initialization
     public override void Init(ref PlayerStateManager.StateVariables stateVariables)
     {
         this.stateVariables = stateVariables;
+        skinningState.Init(ref stateVariables);
         currentFrame = 0;
-        currentPose = 0;        
+        currentPose = 0;
     }
 
     public override void StateFixedUpdate()
     {
-        if (currentFrame == 0)
+        if (!startSkinning)
         {
-            SFXManager.Instance.Play(SFXType.Dash, transform.position);
-            dashPuff.Play();
-            dashTrail.GetComponent<TrailRenderer>().enabled = true;
+            if (currentFrame == 0)
+            {
+                SFXManager.Instance.Play(SFXType.Dash, transform.position);
+                dashPuff.Play();
+                dashTrail.GetComponent<TrailRenderer>().enabled = true;
+            }
+            currentFrame++;
+            PlayAnimation();
+            CheckForIFrames();
+            MovePlayer();
+            SkinEnemies();
+            if (currentFrame == totalDashFrames)
+            {
+                ResetState();
+            }
         }
-        currentFrame++;
-        PlayAnimation();
-        CheckForIFrames();
-        MovePlayer();
-        SkinEnemies();
-        if (currentFrame == totalDashFrames)
+        else
         {
-            ResetState();
+            skinningState.StateFixedUpdate();
+            if (stateVariables.stateFinished)
+            {
+                ResetState();
+            }
         }
     }
 
@@ -71,14 +84,12 @@ public class DashState : IPlayerState {
     }
     #endregion
 
-    #region Public Methods
-    #endregion
-
     #region Private Methods
     protected override void ResetState()
     {        
         currentFrame = 0;
         currentPose = 0;
+        startSkinning = false;
         stateVariables.statsManager.damageModifier = 1.0f;
         playerCollider.enabled = true;
         if (stateVariables.velBody.GetMovementMode()==MovementMode.ICE) {

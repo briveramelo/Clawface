@@ -16,8 +16,6 @@ public class PlayerStateManager : MonoBehaviour {
     [SerializeField]
     private PlayerStatsManager playerStatsManager;
     [SerializeField]
-    private PlayerModAnimationManager modAnimationManager;
-    [SerializeField]
     private float holdAttackSlowDown;
     [SerializeField]
     private DashState dashState;
@@ -122,6 +120,7 @@ public class PlayerStateManager : MonoBehaviour {
         public VelocityBody velBody;        
         public PlayerStatsManager statsManager;
         public Animator animator;
+        public Animator clawAnimator;
         [HideInInspector]
         public Transform playerTransform;
         [HideInInspector]
