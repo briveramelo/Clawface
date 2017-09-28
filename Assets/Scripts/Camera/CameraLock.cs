@@ -25,6 +25,9 @@ public class CameraLock : MonoBehaviour {
     [SerializeField] private Vector3 angle;
     [SerializeField] private bool isLocked;
     [SerializeField] private float smoothTime;
+    [SerializeField] private float shakeFactor = 0.25f;
+    [SerializeField] private float shakeTime = 0.4f;
+
     private CameraState camState=CameraState.SmoothDamping;
     // Use this for initialization
     void Start () {
@@ -49,10 +52,10 @@ public class CameraLock : MonoBehaviour {
         }
 	}
 
-    public void Shake(float shakeTime, float maxShakeMagnitude=0.15f) {
+    public void Shake() {
         string shakeString = "CameraLock";
         Timing.KillCoroutines(shakeString);
-        Timing.RunCoroutine(ShakeCam(shakeTime,maxShakeMagnitude), Segment.LateUpdate, shakeString);
+        Timing.RunCoroutine(ShakeCam(shakeTime,shakeFactor), Segment.LateUpdate, shakeString);
     }
 
     private IEnumerator<float> ShakeCam(float shakeTime, float maxShakeMagnitude) {
