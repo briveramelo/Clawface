@@ -15287,6 +15287,48 @@ Transform:
   m_PrefabParentObject: {fileID: 4497519745509320, guid: 309570f72253b2b4bbf473d43cf0a53c,
     type: 2}
   m_PrefabInternal: {fileID: 1090738756}
+--- !u!1001 &1092986646
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4607114904653912, guid: 7f3bd5b4144688a4f9c9cab6e3160139, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 14.406
+      objectReference: {fileID: 0}
+    - target: {fileID: 4607114904653912, guid: 7f3bd5b4144688a4f9c9cab6e3160139, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4607114904653912, guid: 7f3bd5b4144688a4f9c9cab6e3160139, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 78.994
+      objectReference: {fileID: 0}
+    - target: {fileID: 4607114904653912, guid: 7f3bd5b4144688a4f9c9cab6e3160139, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4607114904653912, guid: 7f3bd5b4144688a4f9c9cab6e3160139, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4607114904653912, guid: 7f3bd5b4144688a4f9c9cab6e3160139, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4607114904653912, guid: 7f3bd5b4144688a4f9c9cab6e3160139, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4607114904653912, guid: 7f3bd5b4144688a4f9c9cab6e3160139, type: 2}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 7f3bd5b4144688a4f9c9cab6e3160139, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1001 &1097445337
 Prefab:
   m_ObjectHideFlags: 0
@@ -19337,16 +19379,13 @@ MonoBehaviour:
   useIntensityCurve: 1
   manualEdits: 0
   intensityCurve:
-    serializedVersion: 2
     m_Curve:
-    - serializedVersion: 2
-      time: 0.016460175
+    - time: 0.016460175
       value: -0.12572998
       inSlope: 0
       outSlope: 0
       tangentMode: 0
-    - serializedVersion: 2
-      time: 1
+    - time: 1
       value: 0.1429537
       inSlope: 0
       outSlope: 0
@@ -19388,6 +19427,8 @@ MonoBehaviour:
   currentWaveNumber: 0
   currentNumEnemies: 0
   spawnType: 0
+  currentWave: 0
+  spawnPoints: []
 --- !u!1001 &1408705567
 Prefab:
   m_ObjectHideFlags: 0

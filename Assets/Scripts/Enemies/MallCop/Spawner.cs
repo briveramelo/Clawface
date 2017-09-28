@@ -4,20 +4,20 @@ using UnityEngine;
 using ModMan;
 using MovementEffects;
 using System.Linq;
-public class Spawner : MonoBehaviour
-{
+public class Spawner : MonoBehaviour {
     public bool useIntensityCurve, manualEdits;
     public AnimationCurve intensityCurve;
-//    public AnimationCurve timingCurve;
+    //    public AnimationCurve timingCurve;
 
     public List<Wave> waves = new List<Wave>();
 
     public int currentWaveNumber = 0;
     public int currentNumEnemies = 0;
-//    public float TimeToNextWave = 0.0f;
+    //    public float TimeToNextWave = 0.0f;
 
     #region Serialized Unity Fields
-    [SerializeField] SpawnType spawnType;
+    [SerializeField]
+    SpawnType spawnType;
     #endregion
 
 
@@ -28,12 +28,9 @@ public class Spawner : MonoBehaviour
     List<Transform> spawnPoints = new List<Transform>();
 
 
-    private PoolObjectType objectToSpawn
-    {
-        get
-        {
-            switch (spawnType)
-            {
+    private PoolObjectType objectToSpawn {
+        get {
+            switch (spawnType) {
                 case SpawnType.Blaster:
                     return PoolObjectType.MallCopBlaster;
                 case SpawnType.Grappler:
@@ -46,20 +43,17 @@ public class Spawner : MonoBehaviour
     #endregion
 
     #region Unity LifeCycle
-    void Start()
-    {
-//        if(waves.Count > 0) TimeToNextWave = waves[0].Time;
+    void Start() {
+        //        if(waves.Count > 0) TimeToNextWave = waves[0].Time;
 
-        foreach (Transform child_point in transform)
-        {
+        foreach (Transform child_point in transform) {
             spawnPoints.Add(child_point);
         }
 
         CheckToSpawnEnemyCluster();
     }
 
-    private void Update()
-    {
+    private void Update() {
 
         /*
         TimeToNextWave -= Time.deltaTime;
@@ -83,76 +77,62 @@ public class Spawner : MonoBehaviour
     #endregion
 
     #region Private Methods
-    private void ReportDeath()
-    {
+    private void ReportDeath() {
         currentNumEnemies--;
 
-        if (currentWave < waves.Count && currentNumEnemies <= waves[currentWave].totalNumSpawns.Min * spawnPoints.Count)
-        {
+        if (currentWave < waves.Count && currentNumEnemies <= waves[currentWave].totalNumSpawns.Min * spawnPoints.Count) {
             GoToNextWave();
         }
     }
 
-    private void GoToNextWave()
-    {
+    private void GoToNextWave() {
         currentWave++;
         currentWaveNumber = currentWave;
         CheckToSpawnEnemyCluster();
     }
 
     static int waveCount;
-    private void CheckToSpawnEnemyCluster()
-    { 
-        if (Application.isPlaying)
-        {
-            if (currentWave < waves.Count)
-            {
+    private void CheckToSpawnEnemyCluster() {
+        if (Application.isPlaying) {
+            if (currentWave < waves.Count) {
                 Timing.RunCoroutine(SpawnEnemyCluster());
             }
         }
     }
 
-    private IEnumerator<float> SpawnEnemyCluster()
-    {
+    private IEnumerator<float> SpawnEnemyCluster() {
         int enemiesToSpawn = waves[currentWave].totalNumSpawns.Max;
 
-        for (int i = 0;  i < enemiesToSpawn; i++)
-        {
+        for (int i = 0; i < enemiesToSpawn; i++) {
             yield return Timing.WaitForSeconds(Random.Range(waves[currentWave].SpawningTime.Min, waves[currentWave].SpawningTime.Max));
 
-            foreach (Transform point in spawnPoints)
-            {
+            foreach (Transform point in spawnPoints) {
                 GameObject spawnedObject = ObjectPool.Instance.GetObject(objectToSpawn);
 
-                if (spawnedObject)
-                {
+                if (spawnedObject) {
                     ISpawnable spawnable = spawnedObject.GetComponentInChildren<ISpawnable>();
 
-                    if (!spawnable.HasWillBeenWritten())
-                    {
+                    if (!spawnable.HasWillBeenWritten()) {
                         spawnable.RegisterDeathEvent(ReportDeath);
                     }
 
                     spawnedObject.transform.position = point.position;
                     currentNumEnemies++;
                 }
-                else
-                {
+                else {
                     Debug.LogFormat("<color=#ffff00>" + "NOT ENOUGH SPAWN-OBJECT" + "</color>");
                 }
             }
         }
     }
 
-#endregion
+    #endregion
 
-    public bool IsLastWave()
-    {
-        return currentWave >= waves.Count-1 ? true : false;
+    public bool IsLastWave() {
+        return currentWave >= waves.Count - 1 ? true : false;
     }
 
-    public bool IsAllEnemyClear()
-    {
+    public bool IsAllEnemyClear() {
         return currentNumEnemies == 0 ? true : false;
     }
 }
@@ -160,8 +140,7 @@ public class Spawner : MonoBehaviour
 
 
 [System.Serializable]
-public class Wave
-{
+public class Wave {
 
     #region const parameters
 
@@ -179,15 +158,16 @@ public class Wave
 
     public List<int> spawnedHashCodes = new List<int>();
 
-    [HideInInspector] public int remainingSpawns;
-    [SerializeField, Range(0, 1)] float intensity;
-    [SerializeField, Range(0, TimeToNextWave_Max)] float TimeToNextWave;
+    [HideInInspector]
+    public int remainingSpawns;
+    [SerializeField, Range(0, 1)]
+    float intensity;
+    [SerializeField, Range(0, TimeToNextWave_Max)]
+    float TimeToNextWave;
 
-    public float Intensity
-    {
+    public float Intensity {
         get { return intensity; }
-        set
-        {
+        set {
             value = value < 0 ? 0 : value;
             value = value > 1 ? 1 : value;
             intensity = value;
@@ -195,11 +175,9 @@ public class Wave
         }
     }
 
-    public float Time
-    {
+    public float Time {
         get { return TimeToNextWave; }
-        set
-        {
+        set {
             value = value < 0 ? 0 : value;
             value = value > 1 ? 1 : value;
 
@@ -208,57 +186,49 @@ public class Wave
     }
 
 
-    public void ApplyIntensityValue()
-    {
+    public void ApplyIntensityValue() {
         SetTotalSpawns(intensity);
         SetTimeBetweenSpawns(intensity);
     }
 
-    [IntRange(spawnMin, spawnMax)] public IntRange totalNumSpawns;
-    [FloatRange(timeBetweenMin, timeBetweenMax)] public FloatRange SpawningTime;
+    [IntRange(spawnMin, spawnMax)]
+    public IntRange totalNumSpawns;
+    [FloatRange(timeBetweenMin, timeBetweenMax)]
+    public FloatRange SpawningTime;
 
-    void SetTotalSpawns(float intensity)
-    {
+    void SetTotalSpawns(float intensity) {
         float spawnBase = intensity * spawnMax;
         totalNumSpawns.Min = Mathf.RoundToInt(Mathf.Clamp(spawnBase - spawnOffset, spawnMin, spawnMax));
         totalNumSpawns.Max = Mathf.RoundToInt(Mathf.Clamp(spawnBase + spawnOffset, spawnMin, spawnMax));
     }
-    void SetTimeBetweenSpawns(float intensity)
-    {
+    void SetTimeBetweenSpawns(float intensity) {
         float timeBase = Mathf.Clamp(timeBetweenMax * (1 - intensity), timeBetweenMin, timeBetweenMax);
         SpawningTime.Min = Mathf.Clamp(timeBase - spawnTimeOffset, timeBetweenMin, timeBetweenMax);
         SpawningTime.Max = Mathf.Clamp(timeBase + spawnTimeOffset, timeBetweenMin, timeBetweenMax);
     }
 
-    public void Reset()
-    {
+    public void Reset() {
         remainingSpawns = totalNumSpawns.GetRandomValue();
         spawnedHashCodes.Clear();
     }
 
-    public bool ContainsHash(int itemHash)
-    {
+    public bool ContainsHash(int itemHash) {
         return spawnedHashCodes.Contains(itemHash);
     }
 
-    public void RemoveItemHash(int itemHash)
-    {
+    public void RemoveItemHash(int itemHash) {
         spawnedHashCodes.Remove(itemHash);
     }
 
-    public IEnumerator<float> IERunSpawnSequence(System.Func<int> onSpawn)
-    {
+    public IEnumerator<float> IERunSpawnSequence(System.Func<int> onSpawn) {
         Reset();
-        while (true)
-        {
+        while (true) {
             spawnedHashCodes.Add(onSpawn());
             remainingSpawns--;
-            if (remainingSpawns <= 0)
-            {
+            if (remainingSpawns <= 0) {
                 break;
             }
             yield return Timing.WaitForSeconds(SpawningTime.GetRandomValue());
         }
     }
 }
-

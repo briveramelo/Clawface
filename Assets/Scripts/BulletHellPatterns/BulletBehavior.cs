@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using MovementEffects;
-using ModMan;
+
 public class BulletBehavior : MonoBehaviour {
 
     Vector3 movementVector;
@@ -12,20 +12,22 @@ public class BulletBehavior : MonoBehaviour {
     private Damager damager = new Damager();
     private bool shooter;
 
-    string coroutineName { get { return GetHashCode().ToString(); } }
-    private void OnDisable()
-    {
-        Timing.KillCoroutines(coroutineName);
-    }
-
     private void Start()
     {
         shooterProperties.Initialize(0, 5, 6, 2);
         SetShooterProperties(shooterProperties);
-        gameObject.DeActivate(3f);
+        Timing.RunCoroutine(DestroyAfter());
     }
 
-    
+    private IEnumerator<float> DestroyAfter()
+    {
+        yield return Timing.WaitForSeconds(3f);
+        if (gameObject)
+        {
+            EmitBulletCollision();
+            Destroy(gameObject);
+        }
+    }
 
 
 
@@ -54,8 +56,8 @@ public class BulletBehavior : MonoBehaviour {
             {
                 SFXManager.Instance.Play(SFXType.BlasterProjectileImpact, transform.position);
                 EmitBulletCollision();
-                gameObject.DeActivate(0f);
-        }
+                Destroy(gameObject);
+            }
     }
 
     public void SetShooterProperties(ShooterProperties shooterProperties)
@@ -98,7 +100,7 @@ public class BulletBehavior : MonoBehaviour {
     }
     private void EmitBulletCollision()
     {
-        GameObject effect = ObjectPool.Instance.GetObject(PoolObjectType.VFXBlasterImpactEffect);
+        GameObject effect = ObjectPool.Instance.GetObject(PoolObjectType.BlasterImpactEffect);
         if (effect)
         {
             effect.transform.position = transform.position;

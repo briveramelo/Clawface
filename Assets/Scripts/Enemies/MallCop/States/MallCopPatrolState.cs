@@ -17,7 +17,7 @@ public class MallCopPatrolState : MallCopState {
         Patrol();
     }
     public override void OnExit() {
-        velBody.velocity = Vector3.zero;
+
     }
 
     private void Patrol() {
@@ -30,7 +30,6 @@ public class MallCopPatrolState : MallCopState {
         velBody.transform.rotation = Quaternion.Euler(0f, velBody.transform.rotation.eulerAngles.y, 0f);
         Vector3 movementDirection = (walkTarget - velBody.transform.position).normalized;
         velBody.velocity = movementDirection * myStats.moveSpeed * Time.deltaTime;
-
 
         if (IsHittingWall(movementDirection, 2f)) {
             GetNewPatrolTarget();
