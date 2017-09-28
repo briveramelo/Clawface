@@ -6,8 +6,9 @@ using UnityEngine;
 using System.Linq;
 using ModMan;
 using UnityEngine.AI;
+using MovementEffects;
 
-public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpawnable
+public class MallCop : RoutineRunner, IStunnable, IDamageable, ISkinnable, ISpawnable
 {
 
     #region 2. Serialized Unity Inspector Fields
@@ -39,7 +40,8 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
     private void OnEnable() {
         if (will.willHasBeenWritten) {
             ResetForRebirth();
-        }       
+        }
+        Timing.RunCoroutine(DelayAction(()=>navAgent.enabled = true, .2f), coroutineName);
     }
     
     void Awake ()
