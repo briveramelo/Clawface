@@ -13988,26 +13988,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1399772326}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01085d456568fcf40ad84a5c94e08f22, type: 3}
+  m_Script: {fileID: 11500000, guid: bdce7029b13d37940afce8409d4837bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  useIntensityCurve: 1
+  useIntensityCurve: 0
   manualEdits: 0
   intensityCurve:
-    m_Curve:
-    - time: 0.016460175
-      value: -0.12572998
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    - time: 1
-      value: 0.1429537
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
+    serializedVersion: 2
+    m_Curve: []
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 0
+    m_RotationOrder: 4
   waves:
   - spawnedHashCodes: 
     remainingSpawns: 0
@@ -14019,31 +14010,9 @@ MonoBehaviour:
     SpawningTime:
       min: 1.7
       max: 2
-  - spawnedHashCodes: 
-    remainingSpawns: 0
-    intensity: 0.00523974
-    TimeToNextWave: 0
-    totalNumSpawns:
-      min: 1
-      max: 1
-    SpawningTime:
-      min: 1.6895206
-      max: 2
-  - spawnedHashCodes: 
-    remainingSpawns: 0
-    intensity: 0.1429537
-    TimeToNextWave: 0
-    totalNumSpawns:
-      min: 1
-      max: 3
-    SpawningTime:
-      min: 1.4140925
-      max: 2
   currentWaveNumber: 0
   currentNumEnemies: 0
   spawnType: 0
-  currentWave: 0
-  spawnPoints: []
 --- !u!1001 &1408705567
 Prefab:
   m_ObjectHideFlags: 0
