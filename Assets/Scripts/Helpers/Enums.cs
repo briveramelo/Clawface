@@ -184,11 +184,10 @@ public enum EMallCopState {
 
 public enum EZombieState
 {
-    Patrol = 0,
-    Chase = 1,
-    Attack = 3,
-    Fall = 4,
-    Twitch = 5
+    Chase = 0,
+    Attack = 1,
+    Fall = 3,
+    Twitch = 4
 }
 
 public enum EBouncerState

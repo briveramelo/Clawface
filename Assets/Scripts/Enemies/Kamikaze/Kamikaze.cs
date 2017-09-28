@@ -71,16 +71,8 @@ public class Kamikaze : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpa
             }
             if (myStats.health <= 0)
             {
-                if (lastChance)
-                {
                     controller.UpdateState(EKamikazeState.SelfDestruct);
                     OnDeath();
-                }
-                else
-                {
-                    myStats.health = 1;
-                    lastChance = true;
-                }
             }
             else
             {

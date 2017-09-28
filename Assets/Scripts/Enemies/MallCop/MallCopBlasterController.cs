@@ -28,10 +28,9 @@ public class MallCopBlasterController : MallCopController {
     void Awake() {
         checksToUpdateState = new List<Func<bool>>() {
             CheckToFire,
-            CheckToPatrol,
             CheckFinishTwitching,
             CheckToFinishFiring,
-            CheckToFlee,
+            //CheckToFlee,
         };
     }
 
@@ -41,7 +40,7 @@ public class MallCopBlasterController : MallCopController {
     }
 
     private void OnTriggerStay(Collider other) {
-        if (other.CompareTag(Strings.Tags.PLAYER) && CurrentState != states.chase && CurrentState != states.flee && CurrentState != states.fire) {
+        if (other.CompareTag(Strings.Tags.PLAYER)) {
 
             AttackTarget = other.transform;
             UpdateState(EMallCopState.Chase);
@@ -51,22 +50,10 @@ public class MallCopBlasterController : MallCopController {
         
 
     bool CheckToFire() {
-        if ((CurrentState == states.flee && states.flee.IsFinished()) ||
-            (CurrentState == states.chase && distanceFromTarget < closeEnoughToFireDistance)) {                
+        if ((CurrentState == states.chase && distanceFromTarget < closeEnoughToFireDistance)) {                
             UpdateState(EMallCopState.Fire);
             return true;
         }
-        return false;
-    }
-
-    bool CheckToPatrol() {
-        if (CurrentState == states.chase &&
-            timeInLastState > properties.maxChaseTime &&
-            AttackTarget != null) {
-
-            UpdateState(EMallCopState.Patrol);
-            return true;
-        }        
         return false;
     }
 

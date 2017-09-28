@@ -316,11 +316,11 @@ GameObject:
   - component: {fileID: 95336391681727560}
   - component: {fileID: 54902092078257302}
   - component: {fileID: 136665024391862300}
-  - component: {fileID: 114441467852527416}
+  - component: {fileID: 114865393807199374}
+  - component: {fileID: 114361046742016866}
   - component: {fileID: 114562163281978664}
   - component: {fileID: 114253570924100316}
   - component: {fileID: 114928895147777496}
-  - component: {fileID: 114105641788173152}
   - component: {fileID: 195488204217186714}
   m_Layer: 9
   m_Name: BlasterCop
@@ -906,7 +906,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1385345176205422}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 145.63522, y: 0.05, z: 11.036366}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 4.5, y: 4.5, z: 4.5}
   m_Children:
   - {fileID: 4454646408904882}
@@ -1138,25 +1138,6 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114105641788173152
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1385345176205422}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6560e3756643e2041b753148fc7d8d29, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DEBUG_CURRENTSTATE: 
-  timeInLastState: 0
-  stateTimerIsRunning: 0
-  modPrefab: {fileID: 1145115233867226, guid: 2f619f5e2ccdab34c8932a9bb87e4d67, type: 2}
-  playerDetectorSphereCollider: {fileID: 135652806102363036}
-  fleeForce: 40
-  closeEnoughToFireDistance: 15
-  fleeRadius: 6
 --- !u!114 &114232377073380234
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1221,7 +1202,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
---- !u!114 &114441467852527416
+--- !u!114 &114361046742016866
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -1229,26 +1210,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1385345176205422}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b2f4d5999add7964caaca967e30d2f48, type: 3}
+  m_Script: {fileID: 11500000, guid: a39729930441a794d8f662d1973df4ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 114105641788173152}
-  properties:
-    runMultiplier: 1.8
-    maxChaseTime: 7
-    walkTime: 5
-    numShocksToStun: 1
-    twitchRange: 0.17
-    twitchTime: 1
-  velBody: {fileID: 114928895147777496}
-  glowObject: {fileID: 114253570924100316}
-  animator: {fileID: 95336391681727560}
-  myStats: {fileID: 114562163281978664}
-  navAgent: {fileID: 195488204217186714}
-  mySkin: {fileID: 1754484396476528, guid: cc3475efaf656c240a9632ee2547b108, type: 2}
-  copUICanvas: {fileID: 114680551256405116}
-  mod: {fileID: 114969724012723138}
-  bloodEmissionLocation: {fileID: 4152619606481072}
+  DEBUG_CURRENTSTATE: 
+  timeInLastState: 0
+  stateTimerIsRunning: 0
+  modPrefab: {fileID: 1103152397555426}
+  playerDetectorSphereCollider: {fileID: 135652806102363036}
+  fleeForce: 0
+  closeEnoughToFireDistance: 7.97
+  fleeRadius: 0
 --- !u!114 &114562163281978664
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1310,6 +1282,34 @@ MonoBehaviour:
   forward: {x: 0, y: 0, z: 1}
   up: {x: 0, y: 1, z: 0}
   updatePeriod: 0
+--- !u!114 &114865393807199374
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1385345176205422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b1444ffcf52e334da0cde9fbf9459dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: {fileID: 114361046742016866}
+  properties:
+    runMultiplier: 2.5
+    maxChaseTime: 0
+    walkTime: 0
+    numShocksToStun: 0
+    twitchRange: 0
+    twitchTime: 0
+  velBody: {fileID: 114928895147777496}
+  glowObject: {fileID: 114253570924100316}
+  animator: {fileID: 95336391681727560}
+  myStats: {fileID: 114562163281978664}
+  navAgent: {fileID: 195488204217186714}
+  mySkin: {fileID: 1754484396476528, guid: cc3475efaf656c240a9632ee2547b108, type: 2}
+  copUICanvas: {fileID: 114680551256405116}
+  mod: {fileID: 114969724012723138}
+  bloodEmissionLocation: {fileID: 4313216080101678}
 --- !u!114 &114925724431600594
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1343,7 +1343,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1385345176205422}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c8baf5dc5eb76d149b8ecb529cbc7c96, type: 3}
   m_Name: 
@@ -1364,43 +1364,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hasState: 0
-  vfxModChargePrefab: {fileID: 1868770362516384, guid: 75076dc3f3739ff4bb01ae67a336ecc5,
-    type: 2}
-  vfxModCooldownPrefab: {fileID: 1020022290495414, guid: 28c736c9f78d4cc4b8ea1d4a2875356d,
-    type: 2}
   pickupCollider: {fileID: 65505833295624902}
   modCanvas: {fileID: 0}
   energySettings:
-    timeToChargeArm: 1
-    timeToChargeLeg: 1
     standardArmAttackSettings:
       timeToCoolDown: 0.2
       timeToAttack: 0
       attack: 1
-      timeToHitStop: 0
-    chargedArmAttackSettings:
-      timeToCoolDown: 1
-      timeToAttack: 0
-      attack: 4
-      timeToHitStop: 0
-    standardLegAttackSettings:
-      timeToCoolDown: 0.1
-      timeToAttack: 0
-      attack: 1
-      timeToHitStop: 0
-    chargedLegAttackSettings:
-      timeToCoolDown: 2
-      timeToAttack: 0
-      attack: 3
-      timeToHitStop: 0
-    timeCharged: 0
     isCoolingDown: 0
     isActive: 0
-    hasStartedCharging: 0
   bulletSpawnPoint: {fileID: 4959142172828002}
-  kickbackForce: 5
-  kickbackForceCharged: 20
-  kickbackForceFeetMultiplier: 3
 --- !u!135 &135652806102363036
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -7797,7 +7770,7 @@ ParticleSystemRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 2100000, guid: 8093ab957cd52fb42bf158be2e38f5a2, type: 2}
+  - {fileID: 0}
   - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -7849,7 +7822,7 @@ ParticleSystemRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 2100000, guid: 4bdc62e67384df04aa3a117eded9c1f1, type: 2}
+  - {fileID: 0}
   - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0

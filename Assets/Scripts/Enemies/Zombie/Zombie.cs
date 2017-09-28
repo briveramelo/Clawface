@@ -89,10 +89,7 @@ public class Zombie : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpawn
             }
             else
             {
-                if (controller.ECurrentState == EZombieState.Patrol)
-                {
                     controller.UpdateState(EZombieState.Chase);
-                }
             }
         }
     }
