@@ -13,14 +13,12 @@ namespace OET_grid
 
         static public void sceneGUI()
         {
-            Debug.Log("Grid");
-
-            for (float x = pos.x - 1200.0f; x < pos.x + 1200.0f; x += width)
+            for (float x = pos.x - 100.0f; x < pos.x + 100.0f; x += width)
             {
                 Debug.DrawLine(new Vector3(-100.0f, 0.0f, Mathf.Floor(x / width) * width), new Vector3(100.0f, 0.0f, Mathf.Floor(x / width) * width),  Color.red);
             }
 
-            for (float z = pos.z - 800.0f; z < pos.z + 800.0f; z += height)
+            for (float z = pos.z - 100.0f; z < pos.z + 100.0f; z += height)
             {
                 Debug.DrawLine(new Vector3(Mathf.Floor(z / height) * height, 0.0f, -100.0f), new Vector3(Mathf.Floor(z / height) * height, 0.0f, 100.0f), Color.red);
             }

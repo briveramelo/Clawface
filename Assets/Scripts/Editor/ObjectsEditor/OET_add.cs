@@ -99,10 +99,13 @@ namespace OET_add
 					if (Physics.Raycast(ray, out hit, 1000.0f)) 
 					{
                         mousePositionInScene = hit.point;
-						previewDraw = true;
+
+ //                       ConvertToGrid(mousePositionInScene);
+                  
+                        previewDraw = true;
 						if (Event.current.type == EventType.MouseDown && Event.current.button == 0)
 						{
-							GameObject newAsset = Instantiate((GameObject)projectActiveSelection, mousePositionInScene, Quaternion.identity) as GameObject;
+							GameObject newAsset = Instantiate((GameObject)projectActiveSelection, ConvertToGrid(mousePositionInScene), Quaternion.identity) as GameObject;
 							newAsset.name = projectActiveSelection.name;
 							newAsset.transform.rotation = projectActiveSelection.transform.rotation;
 							Undo.RegisterCreatedObjectUndo(newAsset, "Add object to scene");
@@ -113,6 +116,19 @@ namespace OET_add
 			}
 			return clickToAddEnabled;
 		}
+
+
+        public static Vector3 ConvertToGrid(Vector3 mousePositionInScene)
+        {
+            float width  = 5.0f;
+            float height = 5.0f;
+
+            float Grid_x = Mathf.Floor(mousePositionInScene.x / width) * width + width / 2;
+
+            float Grid_z = Mathf.Floor(mousePositionInScene.z / height) * height + height / 2;
+
+            return new Vector3(Grid_x, mousePositionInScene.y, Grid_z);
+        }
 	}
 }
 
