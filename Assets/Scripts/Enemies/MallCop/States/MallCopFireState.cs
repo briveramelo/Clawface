@@ -7,15 +7,16 @@ using MovementEffects;
 
 public class MallCopFireState : MallCopState {
 
-    public override void OnEnter() {    
-        animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Fire);
+    public override void OnEnter() {
         Timing.RunCoroutine(RunStartupTimer());        
+        animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Fire);
     }
     public override void Update() {
         velBody.LookAt(controller.AttackTarget);
-
+        velBody.velocity = Vector3.zero;              
     }
     public override void OnExit() {
+        
     }
 
     IEnumerator<float> RunStartupTimer() {

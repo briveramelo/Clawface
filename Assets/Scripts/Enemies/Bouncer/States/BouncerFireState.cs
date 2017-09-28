@@ -5,15 +5,19 @@ using MovementEffects;
 
 public class BouncerFireState : BouncerState {
 
+    private bool doneFiring = false;
+
+
     public override void OnEnter()
     {
         animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Fire);
+        doneFiring = false;
         Timing.RunCoroutine(RunStartupTimer());
     }
     public override void Update()
     {
-        velBody.LookAt(controller.AttackTarget);
-        navAgent.velocity = Vector3.zero;
+        controller.transform.LookAt(controller.AttackTarget);
+        controller.transform.rotation = Quaternion.Euler(0.0f, controller.transform.rotation.y, controller.transform.rotation.z);
     }
     public override void OnExit()
     {
@@ -22,14 +26,15 @@ public class BouncerFireState : BouncerState {
 
     IEnumerator<float> RunStartupTimer()
     {
-        isPastStartup = false;
-        yield return Timing.WaitForSeconds(.2f);
-        isPastStartup = true;
+        bulletHellPattern.enabled = true;
+        yield return Timing.WaitForSeconds(2.0f);
+        bulletHellPattern.enabled = false;
+        doneFiring = true;
     }
-    bool isPastStartup;
 
-    public bool CanRestart()
+    public bool DoneFiring()
     {
-        return animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.99f && isPastStartup;
+        return doneFiring;
     }
+
 }

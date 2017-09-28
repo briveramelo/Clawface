@@ -6,9 +6,8 @@ using UnityEngine;
 using System.Linq;
 using ModMan;
 using UnityEngine.AI;
-using MovementEffects;
 
-public class MallCop : RoutineRunner, IStunnable, IDamageable, ISkinnable, ISpawnable
+public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpawnable
 {
 
     #region 2. Serialized Unity Inspector Fields
@@ -23,8 +22,6 @@ public class MallCop : RoutineRunner, IStunnable, IDamageable, ISkinnable, ISpaw
     [SerializeField] private CopUI copUICanvas;
     [SerializeField] private Mod mod;
     [SerializeField] private Transform bloodEmissionLocation;
-    [SerializeField] private int scorePopupDelay = 2;
-    [SerializeField] private int scoreValue = 200;
     #endregion
 
     #region 3. Private fields
@@ -34,7 +31,6 @@ public class MallCop : RoutineRunner, IStunnable, IDamageable, ISkinnable, ISpaw
     private Will will=new Will();
     private Damaged damaged = new Damaged();
     private DamagePack damagePack=new DamagePack();
-    private bool lastChance;
 
     #endregion
 
@@ -43,16 +39,13 @@ public class MallCop : RoutineRunner, IStunnable, IDamageable, ISkinnable, ISpaw
     private void OnEnable() {
         if (will.willHasBeenWritten) {
             ResetForRebirth();
-        }
-
-        navAgent.enabled = false;
-        Timing.RunCoroutine(ActivateNavMesh(), coroutineName);        
+        }       
     }
     
     void Awake ()
     {
         controller.Initialize(properties, mod, velBody, animator, myStats, navAgent);
-        
+        damaged.Set(DamagedType.MallCop, bloodEmissionLocation);
         mod.setModSpot(ModSpot.ArmR);
         mod.AttachAffect(ref myStats, velBody);
         ResetForRebirth();
@@ -68,25 +61,17 @@ public class MallCop : RoutineRunner, IStunnable, IDamageable, ISkinnable, ISpaw
             myStats.TakeDamage(damager.damage);            
             damagePack.Set(damager, damaged);
             SFXManager.Instance.Play(SFXType.MallCopHurt, transform.position);
-            damaged.Set(DamagedType.MallCop, bloodEmissionLocation);
             DamageFXManager.Instance.EmitDamageEffect(damagePack);
             if (myStats.health <= myStats.skinnableHealth && !glowObject.isGlowing){
-                //glowObject.SetToGlow();
+                glowObject.SetToGlow();
                 copUICanvas.gameObject.SetActive(true);
                 copUICanvas.ShowAction(ActionType.Skin);
             }
             if (myStats.health <= 0) {
-                if (lastChance)
-                {
-                    controller.UpdateState(EMallCopState.Fall);
-                    //mod.DetachAffect();
-                    OnDeath();
-                }
-                else
-                {
-                    myStats.health = 1;
-                    lastChance = true;
-                }
+                controller.UpdateState(EMallCopState.Fall);
+
+                //mod.DetachAffect();
+                OnDeath();
             }
             else {
                 //TODO: update state to hit reaction state, THEN to chase (too abrupt right now)
@@ -145,30 +130,15 @@ public class MallCop : RoutineRunner, IStunnable, IDamageable, ISkinnable, ISpaw
 
             UpgradeManager.Instance.AddEXP(Mathf.FloorToInt(myStats.exp));
 
-            GameObject mallCopParts = ObjectPool.Instance.GetObject(PoolObjectType.VFXMallCopExplosion);
+            GameObject mallCopParts = ObjectPool.Instance.GetObject(PoolObjectType.MallCopExplosion);
             if (mallCopParts) {
                 SFXManager.Instance.Play(SFXType.BloodExplosion, transform.position);
                 mallCopParts.transform.position = transform.position + Vector3.up*3f;
                 mallCopParts.transform.rotation = transform.rotation;
                 mallCopParts.DeActivate(5f);                
             }
-            mod.KillCoroutines();
-
-            //grab score ui from pool to display
-            GameObject worldScoreObject = ObjectPool.Instance.GetObject(PoolObjectType.WorldScoreCanvas);
-            if (worldScoreObject)
-            {
-                worldScoreObject.GetComponent<Canvas>().GetComponent<RectTransform>().SetPositionAndRotation(transform.position, transform.rotation);                //worldScoreObject.transform.position = transform.position /*+ Vector3.up * 3f*/;
-                WorldScoreUI popUpScore = worldScoreObject.GetComponent<WorldScoreUI>();
-
-                int scoreBonus = scoreValue * ScoreManager.Instance.GetCurrentMultiplier();
-                popUpScore.DisplayScoreAndHide(scoreBonus, scorePopupDelay);
-                ScoreManager.Instance.AddToScoreAndCombo(scoreBonus);
-            }
-
-
-            //KILL SELF
-            Death();
+            mod.KillCoroutines();            
+            gameObject.SetActive(false);
         }
     }
 
@@ -183,24 +153,8 @@ public class MallCop : RoutineRunner, IStunnable, IDamageable, ISkinnable, ISpaw
         glowObject.ResetForRebirth();
         will.Reset();
         //TODO check for missing mod and create a new one and attach it
-        mod.setModSpot(ModSpot.ArmR);
-        lastChance = false;
+        mod.setModSpot(ModSpot.ArmR);        
     }       
-
-    private void Death()
-    {
-        navAgent.enabled = false;
-        gameObject.SetActive(false);
-    }
-
-    IEnumerator<float> ActivateNavMesh()
-    {
-
-        yield return Timing.WaitForSeconds(2.0f);
-        //yield return 0f;
-        navAgent.enabled = true;
-    }
-
 
     #endregion
 
