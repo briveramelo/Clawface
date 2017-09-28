@@ -8,7 +8,7 @@ using System.IO;
 using OET_lib;
 using OET_add;
 using OET_duplicate;
-
+using OET_grid;
 
 public class ObjectsTools : EditorWindow
 {
@@ -32,9 +32,20 @@ public class ObjectsTools : EditorWindow
 		window.minSize = new Vector2 (600f, 120f);
 	}
 
-	void OnInspectorUpdate() { Repaint(); }
-	void OnEnable() { SceneView.onSceneGUIDelegate += SceneGUI; }
-	void OnDisable() { SceneView.onSceneGUIDelegate -= SceneGUI; }
+	void OnInspectorUpdate()
+    {
+        Repaint();
+    }
+
+	void OnEnable()
+    {
+        SceneView.onSceneGUIDelegate += SceneGUI;
+    }
+
+	void OnDisable()
+    {
+        SceneView.onSceneGUIDelegate -= SceneGUI;
+    }
 
 	// Detect mouse events in the scene
 	private void SceneGUI( SceneView sceneview )
@@ -51,6 +62,7 @@ public class ObjectsTools : EditorWindow
 				HandleUtility.AddDefaultControl (GUIUtility.GetControlID (GetHashCode (), FocusType.Passive));
 			}
             OET_add.lib.sceneGUI ();
+            OET_grid.lib.sceneGUI();
 		}
 
         // Clone
