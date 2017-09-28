@@ -30,7 +30,7 @@ namespace Turing.Effects
             {
                 transform.position = new Vector3(
                     camera.position.x,
-                    -camera.position.y,
+                    camera.position.y,
                     camera.position.z);
             }
         }

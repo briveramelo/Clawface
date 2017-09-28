@@ -241,6 +241,7 @@ public class ModManager : MonoBehaviour
         mod.transform.SetParent(modSocketDictionary[spot].socket);
         mod.transform.localPosition = Vector3.zero;
         mod.transform.localRotation = Quaternion.identity;
+        mod.transform.localScale = Vector3.one;
         modSocketDictionary[spot].mod = mod;        
         mod.AttachAffect(ref playerStats, velBody);        
         mod.DeactivateModCanvas();

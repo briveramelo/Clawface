@@ -1,18 +1,9 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class CreditsMenu : Menu
 {
     #region Public Fields
-
-    public override bool Displayed
-    {
-        get
-        {
-            return displayed;
-        }
-    }
 
     public override Button InitialSelection
     {
@@ -31,37 +22,9 @@ public class CreditsMenu : Menu
 
     #endregion
 
-    #region Private Fields
-
-    private bool displayed = false;
-
-    #endregion
-
     #region Public Interface
 
     public CreditsMenu() : base(Strings.MenuStrings.CREDITS) {}
-
-    public override void DoTransition(Transition transition, Effect[] effects)
-    {
-        switch (transition)
-        {
-            case Transition.HIDE:
-                if (!displayed) return;
-                OnTransitionStarted(transition, effects);
-                StartCoroutine(MenuTransitionsCommon.FadeCoroutine(1.0F, 0.0F, 1.0F,
-                    canvasGroup, () => { HideComplete(); OnTransitionEnded(transition, effects); }));
-                break;
-            case Transition.SHOW:
-                if (displayed) return;
-                OnTransitionStarted(transition, effects);
-                StartCoroutine(MenuTransitionsCommon.FadeCoroutine(0.0F, 1.0F, 1.0F,
-                    canvasGroup, () => { ShowComplete(); OnTransitionEnded(transition, effects); }));
-                break;
-            case Transition.TOGGLE:
-                DoTransition(displayed ? Transition.HIDE : Transition.SHOW, effects);
-                return;
-        }
-    }
 
     public void BackAction()
     {
@@ -71,16 +34,16 @@ public class CreditsMenu : Menu
 
     #endregion
 
-    #region Private Interface
+    #region Protected Interface
 
-    private void HideComplete()
+    protected override void DefaultShow(Transition transition, Effect[] effects)
     {
-        displayed = false;
+        Fade(transition, effects);
     }
 
-    private void ShowComplete()
+    protected override void DefaultHide(Transition transition, Effect[] effects)
     {
-        displayed = true;
+        Fade(transition, effects);
     }
 
     #endregion

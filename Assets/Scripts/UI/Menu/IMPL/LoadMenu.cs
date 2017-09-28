@@ -37,14 +37,6 @@ public class LoadMenu : Menu {
         }
     }
 
-    public override bool Displayed
-    {
-        get
-        {
-            return displayed;
-        }
-    }
-
     public override Button InitialSelection
     {
         get
@@ -63,7 +55,6 @@ public class LoadMenu : Menu {
     #endregion
 
     #region Private Fields
-    private bool displayed = false;
     private bool loaded = false;
     private bool fast = false;
     private string target = "";
@@ -84,45 +75,35 @@ public class LoadMenu : Menu {
 
     #region Public Interface
     public LoadMenu() : base(Strings.MenuStrings.LOAD) {}
-
-    public override void DoTransition(Transition transition, Effect[] effects)
-    {
-        switch (transition)
-        {
-            case Transition.SHOW:
-                if (displayed) return;
-                MenuManager.Instance.DoTransitionOthers(this, Transition.HIDE,
-                    new Effect[] { Effect.FADE });
-                OnTransitionStarted(transition, effects);
-                StartCoroutine(MenuTransitionsCommon.FadeCoroutine(0.0F, 1.0F, 1.0F,
-                    canvasGroup, () => { ShowComplete(); OnTransitionEnded(transition, effects); }));
-                break;
-            case Transition.HIDE:
-                if (!displayed) return;
-                OnTransitionStarted(transition, effects);
-                StartCoroutine(MenuTransitionsCommon.FadeCoroutine(1.0F, 0.0F, 1.0F,
-                    canvasGroup, () => { HideComplete(); OnTransitionEnded(transition, effects); }));
-                break;
-            case Transition.TOGGLE:
-                DoTransition(displayed ? Transition.HIDE : Transition.SHOW, effects);
-                return;
-        }
-    }
     #endregion
 
-    #region Private Interface
-    // Callbacks
-    private void ShowComplete()
+    #region Protected Interface
+
+    protected override void DefaultShow(Transition transition, Effect[] effects)
     {
-        displayed = true;
+        Fade(transition, effects);
+    }
+
+    protected override void DefaultHide(Transition transition, Effect[] effects)
+    {
+        Fade(transition, effects);
+    }
+
+    protected override void ShowComplete()
+    {
+        base.ShowComplete();
         StartCoroutine(LoadingCoroutine());
     }
-    private void HideComplete()
+    protected override void HideComplete()
     {
-        displayed = false;
+        base.HideComplete();
         loadingBar.size = 0.0F;
         loadingText.text = "Loading";
     }
+
+    #endregion
+
+    #region Private Interface
 
     private IEnumerator LoadingCoroutine()
     {
