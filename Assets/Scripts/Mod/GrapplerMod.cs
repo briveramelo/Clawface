@@ -54,7 +54,7 @@ public class GrapplerMod : Mod {
         if (currentHook)
         {
             currentHook.transform.SetParent(null);
-            currentHook.ResetToDefaults();
+            //currentHook.ResetToDefaults();
         }
         //Get Projectile
         GameObject hookObject = ObjectPool.Instance.GetObject(PoolObjectType.GrapplingHook);        
@@ -64,7 +64,7 @@ public class GrapplerMod : Mod {
             currentHook = hookObject.GetComponent<Hook>();
             currentHook.transform.SetParent(hookTransform);
             HookProperties newProperties = new HookProperties(hookProperties);            
-            currentHook.Init(hookProperties, hookTransform);
+            //currentHook.Init(hookProperties, hookTransform);
         }
     }    
 
