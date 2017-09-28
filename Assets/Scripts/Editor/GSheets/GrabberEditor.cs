@@ -24,6 +24,7 @@ public abstract class GrabberEditor<T, U, V> : Editor where T: Grabber<U,V> wher
         GUILayout.Space(10);
         if (clickedGetData) {
             grabberTarget.RequestData();
+            //grabberTarget.
         }
         serializedObject.ApplyModifiedProperties();
     }
