@@ -71,9 +71,6 @@ public class PlayerStateManager : MonoBehaviour {
     }
     #endregion
 
-    #region Public Methods    
-    #endregion
-
     #region Private Methods
     private void SwitchState(IPlayerState newState)
     {
@@ -91,7 +88,7 @@ public class PlayerStateManager : MonoBehaviour {
 
     private void ResetState()
     {
-        stateVariables.animator.Play(PlayerAnimationStates.Idle.ToString());
+        stateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Idle);
         playerStates.Clear();
         playerStates.Add(defaultState);
         stateChanged = false;
@@ -108,7 +105,7 @@ public class PlayerStateManager : MonoBehaviour {
     }
     #endregion
 
-    #region Private Structures
+    #region Public Structures
     [System.Serializable]
     public class StateVariables
     {
@@ -125,6 +122,8 @@ public class PlayerStateManager : MonoBehaviour {
         public Transform playerTransform;
         [HideInInspector]
         public IPlayerState defaultState;
+        [HideInInspector]
+        public GameObject skinTargetEnemy;
     }
     #endregion
 

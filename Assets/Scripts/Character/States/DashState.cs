@@ -25,8 +25,7 @@ public class DashState : IPlayerState {
     [SerializeField]
     protected int[] highlightPoses;
     [SerializeField]
-    protected int totalAttackPoses;
-    [SerializeField] private OnScreenScoreUI healthBar;
+    protected int totalAttackPoses;    
     [SerializeField] private float skinRadius;
     [SerializeField] private SkinningState skinningState;
     #endregion
@@ -62,7 +61,7 @@ public class DashState : IPlayerState {
             PlayAnimation();
             CheckForIFrames();
             MovePlayer();
-            SkinEnemies();
+            CheckForSkinnableEnemy();
             if (currentFrame == totalDashFrames)
             {
                 ResetState();
@@ -70,6 +69,7 @@ public class DashState : IPlayerState {
         }
         else
         {
+            stateVariables.velBody.velocity = Vector3.zero;
             skinningState.StateFixedUpdate();
             if (stateVariables.stateFinished)
             {
@@ -132,28 +132,21 @@ public class DashState : IPlayerState {
         stateVariables.velBody.velocity = direction * dashVelocity;
     }
     
-    private void SkinEnemies()
+    private void CheckForSkinnableEnemy()
     {
-        ISkinnable skinnable = GetClosestEnemy();
-        if (skinnable != null && skinnable.IsSkinnable())
+        GameObject potentialSkinnableEnemy = GetClosestEnemy();
+        if (potentialSkinnableEnemy)
         {
-            GameObject skin = skinnable.DeSkin();
-            SkinStats skinStats = skin.GetComponent<SkinStats>();
-            stateVariables.statsManager.TakeSkin(skinStats.GetSkinHealth());
-            Stats stats = GetComponent<Stats>();
-            healthBar.SetHealth(stats.GetHealthFraction());
-            GameObject skinningEffect = ObjectPool.Instance.GetObject(PoolObjectType.VFXSkinningEffect);
-            skinningEffect.transform.position = transform.position;
-
-            GameObject healthJuice = ObjectPool.Instance.GetObject(PoolObjectType.VFXHealthGain);
-            if (healthJuice)
+            ISkinnable skinnable = potentialSkinnableEnemy.GetComponent<ISkinnable>();
+            if (skinnable != null && skinnable.IsSkinnable())
             {
-                healthJuice.FollowAndDeActivate(3f, transform, Vector3.up * 3.2f);
+                stateVariables.skinTargetEnemy = potentialSkinnableEnemy;
+                startSkinning = true;
             }
         }
     }
 
-    private ISkinnable GetClosestEnemy()
+    private GameObject GetClosestEnemy()
     {
         Collider[] enemies = Physics.OverlapSphere(transform.position, skinRadius, LayerMask.GetMask(Strings.Tags.ENEMY));
         if (enemies != null)
@@ -171,14 +164,11 @@ public class DashState : IPlayerState {
             }
             if (closestEnemy != null)
             {
-                return closestEnemy.gameObject.GetComponent<ISkinnable>();
+                return closestEnemy.gameObject;
             }
         }
         return null;
     }
-    #endregion
-
-    #region Private Structures
     #endregion
 
 }
