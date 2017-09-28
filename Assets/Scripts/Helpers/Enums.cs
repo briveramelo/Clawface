@@ -56,6 +56,7 @@ public enum DamagerType {
     GrapplingBotExplosion=9,
     Dice=10,
     SpreadGun = 12,
+    Kamikaze = 13, 
 }
 
 public enum DamagedType {
@@ -123,7 +124,8 @@ public enum PoolObjectType {
     GrapplingHook = 27,
     TurretBullet = 28,
     GeyserFissure = 29,	
-    SpreadGunBullet = 30
+    SpreadGunBullet = 30,
+    BlasterImpactEffect = 31
 }
 
 public enum MovementMode
@@ -196,6 +198,12 @@ public enum EBouncerState
     Fire = 3,
     Fall = 4,
     Twitch = 5
+}
+
+public enum EKamikazeState
+{
+    Chase = 0,
+    SelfDestruct = 1
 }
 
 

@@ -51,7 +51,7 @@ public class MallCopBlasterController : MallCopController {
         
 
     bool CheckToFire() {
-        if ((CurrentState == states.flee && states.flee.IsFinished() && distanceFromTarget < closeEnoughToFireDistance) ||
+        if ((CurrentState == states.flee && states.flee.IsFinished()) ||
             (CurrentState == states.chase && distanceFromTarget < closeEnoughToFireDistance)) {                
             UpdateState(EMallCopState.Fire);
             return true;
@@ -60,13 +60,13 @@ public class MallCopBlasterController : MallCopController {
     }
 
     bool CheckToPatrol() {
-        //if (CurrentState == states.chase &&
-        //    timeInLastState > properties.maxChaseTime &&
-        //    AttackTarget != null) {
+        if (CurrentState == states.chase &&
+            timeInLastState > properties.maxChaseTime &&
+            AttackTarget != null) {
 
-        //    UpdateState(EMallCopState.Patrol);
-        //    return true;
-        //}        
+            UpdateState(EMallCopState.Patrol);
+            return true;
+        }        
         return false;
     }
 
@@ -98,11 +98,6 @@ public class MallCopBlasterController : MallCopController {
     }
 
     bool CheckToFlee() {
-        if ((CurrentState == states.flee && distanceFromTarget > closeEnoughToFireDistance))
-        {
-            UpdateState(EMallCopState.Chase);
-        }
-
         playerColliderList = Physics.OverlapSphere(transform.position, fleeRadius, LayerMasker.GetLayerMask(Layers.ModMan));
         foreach (Collider col in playerColliderList) {
             if (col != null && col.CompareTag(Strings.Tags.PLAYER) &&
