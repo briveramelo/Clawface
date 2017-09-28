@@ -22,10 +22,10 @@ GameObject:
   - component: {fileID: 33277397867104368}
   - component: {fileID: 135348060205714682}
   - component: {fileID: 23645673908027618}
-  - component: {fileID: 114818424910129428}
-  - component: {fileID: 54227155222452776}
+  - component: {fileID: 114030816439921976}
+  - component: {fileID: 54836819915561892}
   m_Layer: 0
-  m_Name: SpreadGunBullet
+  m_Name: EnemyBulletSmall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -57,7 +57,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: abee1861a89ae0e42846be1d0d0ec8c2, type: 2}
+  - {fileID: 2100000, guid: e1613194e19d2b847b29d3084c538f31, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -83,7 +83,7 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1165670768895760}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!54 &54227155222452776
+--- !u!54 &54836819915561892
 Rigidbody:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -98,7 +98,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &114818424910129428
+--- !u!114 &114030816439921976
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -106,9 +106,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1165670768895760}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6da9d67393f0314781df47fc2a5bb16, type: 3}
+  m_Script: {fileID: 11500000, guid: 9aba7aa4c71bf6641b131b68d391ad80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  killAfterSeconds: 5
 --- !u!135 &135348060205714682
 SphereCollider:
   m_ObjectHideFlags: 1

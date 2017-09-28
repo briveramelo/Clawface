@@ -921,7 +921,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1385345176205422}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 84.6}
+  m_LocalPosition: {x: 13.860718, y: 0, z: 85.02892}
   m_LocalScale: {x: 4.5, y: 4.5, z: 4.5}
   m_Children:
   - {fileID: 4454646408904882}
@@ -1181,7 +1181,7 @@ MonoBehaviour:
   DEBUG_CURRENTSTATE: 
   timeInLastState: 0
   stateTimerIsRunning: 0
-  modPrefab: {fileID: 1145115233867226, guid: 2f619f5e2ccdab34c8932a9bb87e4d67, type: 2}
+  modPrefab: {fileID: 1525582934001584}
   playerDetectorSphereCollider: {fileID: 135652806102363036}
   fleeForce: 40
   closeEnoughToFireDistance: 9.97
@@ -1404,6 +1404,7 @@ MonoBehaviour:
     isCoolingDown: 0
     isActive: 0
   bulletSpawnPoint: {fileID: 4959142172828002}
+  projectileBullet: 31
 --- !u!135 &135652806102363036
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -1575,7 +1576,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: -505543561
+  randomSeed: 748532372
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -4710,7 +4711,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: -1753061878
+  randomSeed: -449677574
   InitialModule:
     serializedVersion: 3
     enabled: 1
