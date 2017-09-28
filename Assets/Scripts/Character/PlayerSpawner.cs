@@ -1,6 +1,8 @@
 ﻿// PlayerSpawner.cs
 // ©2017 Aaron Desin
 
+using ModMan;
+
 using System;
 using System.IO;
 
@@ -9,6 +11,7 @@ using UnityEngine;
 /// <summary>
 /// Automatically gets and spawns the newest player prefab.
 /// </summary>
+[ExecuteInEditMode]
 public class PlayerSpawner : MonoBehaviour
 {
     #region Private Fields
@@ -21,12 +24,37 @@ public class PlayerSpawner : MonoBehaviour
     // Comes from the player prefab
     static Vector3 SPAWN_OFFSET = new Vector3 (-14f, 20f, -7f);
 
+    GameObject player;
+
     #endregion
     #region Unity Lifecycle
 
-    void Awake ()
+    void OnEnable ()
     {
+        if (player != null)
+        {
+            Helpers.DestroyProper (player);
+            if (Application.isPlaying)
+                Debug.Log ("Cleaned up player (player)");
+            else Debug.Log ("Cleaned up player (editor)");
+        }
+
+        transform.DestroyAllChildren();
+
         SpawnPlayer();
+    }
+
+    void OnDisable ()
+    {
+        if (player != null)
+        {
+            Helpers.DestroyProper (player);
+            if (Application.isPlaying)
+                Debug.Log ("Cleaned up player (player)");
+            else Debug.Log ("Cleaned up player (editor)");
+        }
+
+        transform.DestroyAllChildren();
     }
 
     #endregion
@@ -37,6 +65,11 @@ public class PlayerSpawner : MonoBehaviour
     /// </summary>
     void SpawnPlayer ()
     {
+        if (player != null)
+            Helpers.DestroyProper (player);
+
+        transform.DestroyAllChildren();
+
         // Get the path of the newest prefab
         string playerPrefabPath = GetNewestPrefabPath();
 
@@ -48,7 +81,21 @@ public class PlayerSpawner : MonoBehaviour
                 playerPrefabPath));
 
         // Instantiate the prefab and bring it to spawner location
-        GameObject player = Instantiate (playerPrefab);
+        if (Application.isPlaying)
+        {
+            player = Instantiate (playerPrefab);
+            Debug.Log ("Spawned player (player)");
+        }
+
+        #if UNITY_EDITOR
+        else if (Application.isEditor)
+        {
+            player = (GameObject)UnityEditor.PrefabUtility.InstantiatePrefab(playerPrefab);
+            Debug.Log ("Spawned player (editor)");
+        }
+        #endif
+
+        player.transform.SetParent (transform);
         player.transform.position = transform.position + SPAWN_OFFSET;
     }
 
