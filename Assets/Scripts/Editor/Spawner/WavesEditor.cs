@@ -15,7 +15,7 @@ public class WavesEditor : Editor
     SerializedProperty manualEdits;
     SerializedProperty intensityCurve;
     SerializedProperty timingCurve;
-    SerializedProperty waves;
+    SerializedProperty waves, spawnType;
 
     SerializedProperty currentWaveNumber;
     SerializedProperty currentNumEnemies;
@@ -38,6 +38,7 @@ public class WavesEditor : Editor
 
         intensityCurve = serializedObject.FindProperty("intensityCurve");
         timingCurve = serializedObject.FindProperty("timingCurve");
+        spawnType = serializedObject.FindProperty("spawnType");
 
         waves = serializedObject.FindProperty("waves");
         reordList = new ReorderableList(serializedObject, waves, true, false, true, true);
@@ -60,7 +61,7 @@ public class WavesEditor : Editor
         EditorGUILayout.BeginVertical(EditorStyles.helpBox);
         EditorGUILayout.LabelField("Runtime Status", EditorStyles.boldLabel);
         EditorGUILayout.LabelField(string.Format("Current Wave Number: {0}", currentWaveNumber.intValue));
-        EditorGUILayout.LabelField(string.Format("Current Number of Enemies: {0}", currentNumEnemies.intValue));
+        EditorGUILayout.LabelField(string.Format("Current Number of Enemies: {0}", currentNumEnemies.intValue));        
 //        EditorGUILayout.LabelField(string.Format("Time to Next Wave: {0}", TimeToNextWave.floatValue));
         EditorGUILayout.EndVertical();
 
@@ -124,7 +125,7 @@ public class WavesEditor : Editor
                 "Intensity slider is disabled (manual edits on).", 
                 EditorStyles.helpBox);
         }
-
+        EditorGUILayout.PropertyField(spawnType);
         reordList.DoLayoutList();
         EditorGUILayout.EndVertical(); 
 
