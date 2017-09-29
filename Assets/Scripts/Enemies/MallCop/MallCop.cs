@@ -15,7 +15,6 @@ public class MallCop : RoutineRunner, IStunnable, IDamageable, ISkinnable, ISpaw
     [SerializeField] private MallCopController controller;
     [SerializeField] private MallCopProperties properties;
     [SerializeField] private VelocityBody velBody;
-    [SerializeField] private GlowObject glowObject;
     [SerializeField] private Animator animator;
     [SerializeField] private Stats myStats;
     [SerializeField] private NavMeshAgent navAgent;
@@ -64,8 +63,7 @@ public class MallCop : RoutineRunner, IStunnable, IDamageable, ISkinnable, ISpaw
             damagePack.Set(damager, damaged);
             SFXManager.Instance.Play(SFXType.MallCopHurt, transform.position);
             DamageFXManager.Instance.EmitDamageEffect(damagePack);
-            if (myStats.health <= myStats.skinnableHealth && !glowObject.isGlowing){
-                glowObject.SetToGlow();
+            if (myStats.health <= myStats.skinnableHealth){
                 copUICanvas.gameObject.SetActive(true);
                 copUICanvas.ShowAction(ActionType.Skin);
             }
@@ -155,7 +153,6 @@ public class MallCop : RoutineRunner, IStunnable, IDamageable, ISkinnable, ISpaw
         myStats.ResetForRebirth();
         controller.ResetForRebirth();
         velBody.ResetForRebirth();
-        glowObject.ResetForRebirth();
         will.Reset();
         //TODO check for missing mod and create a new one and attach it
         mod.setModSpot(ModSpot.ArmR);        

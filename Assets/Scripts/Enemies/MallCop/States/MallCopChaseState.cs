@@ -10,7 +10,6 @@ public class MallCopChaseState : MallCopState {
     public override void OnEnter() {
         animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Run);
         controller.AttackTarget = controller.FindPlayer();
-        Debug.Log("made it to chase begin");
     }
     public override void Update() {
         Chase();        

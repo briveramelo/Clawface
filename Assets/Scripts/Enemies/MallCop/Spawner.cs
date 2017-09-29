@@ -18,8 +18,7 @@ public class Spawner : MonoBehaviour
     //    public float TimeToNextWave = 0.0f;
 
     #region Serialized Unity Fields
-    [SerializeField]
-    SpawnType spawnType;
+    [SerializeField] SpawnType spawnType;
     #endregion
 
 
