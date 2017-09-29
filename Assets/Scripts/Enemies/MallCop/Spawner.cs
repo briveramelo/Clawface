@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using ModMan;
 using MovementEffects;
 using System.Linq;
@@ -36,8 +37,12 @@ public class Spawner : MonoBehaviour
             {
                 case SpawnType.Blaster:
                     return PoolObjectType.MallCopBlaster;
-                case SpawnType.Grappler:
-                    return PoolObjectType.GrapplingBot;
+                case SpawnType.Zombie:
+                    return PoolObjectType.Zombie;
+                case SpawnType.Bouncer:
+                    return PoolObjectType.Bouncer;
+                case SpawnType.Kamikaze:
+                    return PoolObjectType.Kamikaze;
             }
             return PoolObjectType.MallCopBlaster;
         }
@@ -134,6 +139,8 @@ public class Spawner : MonoBehaviour
                     }
 
                     spawnedObject.transform.position = point.position;
+                    spawnable.WarpToNavMesh(point.position);
+                    
                     currentNumEnemies++;
                 }
                 else

@@ -94,6 +94,11 @@ public class Bouncer : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
         return myStats.health;
     }
 
+    void ISpawnable.WarpToNavMesh(Vector3 position)
+    {
+        navAgent.Warp(position);
+    }
+
     bool ISkinnable.IsSkinnable()
     {
         return myStats.health <= myStats.skinnableHealth;
