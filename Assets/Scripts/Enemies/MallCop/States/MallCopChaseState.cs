@@ -8,7 +8,9 @@ using UnityEngine;
 public class MallCopChaseState : MallCopState {    
 
     public override void OnEnter() {
-        animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Run);        
+        animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Run);
+        controller.AttackTarget = controller.FindPlayer();
+        Debug.Log("made it to chase begin");
     }
     public override void Update() {
         Chase();        
@@ -26,16 +28,9 @@ public class MallCopChaseState : MallCopState {
             velBody.transform.LookAt(lookAtPosition);
             velBody.transform.rotation = Quaternion.Euler(0f, velBody.transform.rotation.eulerAngles.y, 0f);
         }
-        velBody.velocity = Vector3.zero;
+        velBody.velocity = Vector3.zero;    
 
-
-        //float targetSpeed = myStats.moveSpeed * properties.runMultiplier;
-        //velBody.velocity = controller.directionToTarget * targetSpeed * Time.deltaTime;        
-
+        if(navAgent.enabled && navAgent.isOnNavMesh)
         navAgent.SetDestination(controller.AttackTarget.position);
-     
-
-       
-
     }
 }
