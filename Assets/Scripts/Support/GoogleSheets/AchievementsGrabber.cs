@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using SimpleJSON;
 
-public class AchievementsGrabber : Grabber<Achievement, AchievementParser> {
+public class AchievementsGrabber : Grabber<Achievement, AchievementScriptable, AchievementParser> {
 
 	
 }
@@ -24,4 +24,9 @@ public class AchievementParser : GSheetsJSONParser<Achievement> {
     public override Achievement ParseValueElement(JSONArray array) {
         return new Achievement(array[0].Value, array[1].Value, array[2].AsInt);
     }
+}
+
+[System.Serializable]
+public class AchievementScriptable : GSheetScriptable<Achievement> {
+    
 }
