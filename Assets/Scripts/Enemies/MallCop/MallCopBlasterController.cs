@@ -46,7 +46,6 @@ public class MallCopBlasterController : MallCopController {
 
     bool CheckToFire() {
         if ((CurrentState == states.chase && distanceFromTarget < closeEnoughToFireDistance)) {
-            Debug.Log("Checked for fire");
             UpdateState(EMallCopState.Fire);
             return true;
         }

@@ -302,7 +302,6 @@ GameObject:
   - component: {fileID: 114865393807199374}
   - component: {fileID: 114361046742016866}
   - component: {fileID: 114562163281978664}
-  - component: {fileID: 114253570924100316}
   - component: {fileID: 114928895147777496}
   - component: {fileID: 195488204217186714}
   m_Layer: 9
@@ -1120,20 +1119,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &114253570924100316
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1385345176205422}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f8ec0fb3ff2a5454e8863609a58514d0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isGlowing: 0
-  glowColor: {r: 0.024221476, g: 0.7904545, b: 0.8235294, a: 0}
-  lerpFactor: 0.052
 --- !u!114 &114342564459455200
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1255,7 +1240,6 @@ MonoBehaviour:
     twitchRange: 0
     twitchTime: 0
   velBody: {fileID: 114928895147777496}
-  glowObject: {fileID: 114253570924100316}
   animator: {fileID: 95336391681727560}
   myStats: {fileID: 114562163281978664}
   navAgent: {fileID: 195488204217186714}
