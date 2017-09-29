@@ -38,10 +38,10 @@ public class MallCop : RoutineRunner, IStunnable, IDamageable, ISkinnable, ISpaw
     #region 4. Unity Lifecycle
 
     private void OnEnable() {
+
         if (will.willHasBeenWritten) {
             ResetForRebirth();
         }
-        Timing.RunCoroutine(DelayAction(()=>navAgent.enabled = true, .2f), coroutineName);
     }
     
     void Awake ()
@@ -76,11 +76,8 @@ public class MallCop : RoutineRunner, IStunnable, IDamageable, ISkinnable, ISpaw
                 OnDeath();
             }
             else {
-                //TODO: update state to hit reaction state, THEN to chase (too abrupt right now)
-                //TODO: Create hit reaction state
-                if (controller.ECurrentState == EMallCopState.Patrol) {
                     controller.UpdateState(EMallCopState.Chase);
-                }
+                
             }
         }
     }
@@ -89,6 +86,12 @@ public class MallCop : RoutineRunner, IStunnable, IDamageable, ISkinnable, ISpaw
     {
         return myStats.health;
     }
+
+    void ISpawnable.WarpToNavMesh(Vector3 position)
+    {
+        navAgent.Warp(position);
+    }
+
 
     bool ISkinnable.IsSkinnable(){
         return myStats.health <= myStats.skinnableHealth;
@@ -148,7 +151,7 @@ public class MallCop : RoutineRunner, IStunnable, IDamageable, ISkinnable, ISpaw
         GetComponent<CapsuleCollider>().enabled = true;
         copUICanvas.gameObject.SetActive(false);
         mod.DeactivateModCanvas();
-
+        
         myStats.ResetForRebirth();
         controller.ResetForRebirth();
         velBody.ResetForRebirth();

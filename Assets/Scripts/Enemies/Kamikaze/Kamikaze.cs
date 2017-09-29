@@ -86,6 +86,11 @@ public class Kamikaze : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpa
         return myStats.health;
     }
 
+    void ISpawnable.WarpToNavMesh(Vector3 position)
+    {
+        navAgent.Warp(position);
+    }
+
     bool ISkinnable.IsSkinnable()
     {
         return myStats.health <= myStats.skinnableHealth;
