@@ -6,97 +6,102 @@ using ModMan;
 
 public class SkinningState : IPlayerState
 {
-    
-    #region Public fields
-    #endregion
 
     #region Serialized Unity Inspector fields
-    [SerializeField] private Transform skinSlot;
-    [SerializeField] private List<CapsuleCollider> clothColliders;
-    [SerializeField] private GameObject skinObject;
-    [SerializeField] private PlayerStatsManager playerStatsManager;
     [SerializeField] private OnScreenScoreUI healthBar;
-    [SerializeField] private float skinRadius;
     #endregion
 
     #region Private Fields
+    private bool isAnimating;
     #endregion
 
-    #region Unity Lifecycle
+    #region Unity Lifecycle 
+    private void Awake()
+    {
+        PlayerAnimationEventsListener.FaceOpenEvent.AddListener(DoArmExtension);
+        ClawAnimationEventsListener.ClawArmExtendedEvent.AddListener(DoSkinning);
+    }
 
     public override void Init(ref PlayerStateManager.StateVariables stateVariables)
     {
         this.stateVariables = stateVariables;
-    }
-
-    public void RemoveSkin() {
-        skinObject.SetActive(false);
+        isAnimating = false;
     }
 
     public override void StateFixedUpdate()
     {
-
+        if (!isAnimating)
+        {
+            Debug.Log("Entering Skinning state");
+            if (stateVariables.skinTargetEnemy.activeSelf) {
+                Vector3 enemyPosition = stateVariables.skinTargetEnemy.transform.position;
+                stateVariables.playerTransform.LookAt(new Vector3(enemyPosition.x, 0f, enemyPosition.z));
+                stateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.RetractVisor);
+            }
+            else
+            {
+                ResetState();
+            }
+        }
+        else
+        {
+            if(stateVariables.clawAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.99f)
+            {
+                ResetState();
+            }
+        }
     }
 
     public override void StateUpdate()
     {
-        ISkinnable skinnable = GetClosestEnemy();        
-        if (skinnable!=null && skinnable.IsSkinnable())
+        
+    }
+
+    private void OnDestroy()
+    {
+        PlayerAnimationEventsListener.FaceOpenEvent.RemoveListener(DoArmExtension);
+        ClawAnimationEventsListener.ClawArmExtendedEvent.RemoveListener(DoSkinning);
+    }
+    #endregion
+
+    #region Private Methods
+    protected override void ResetState()
+    {
+        Debug.Log("Exiting Skinning state");
+        stateVariables.clawAnimator.SetBool(Strings.ANIMATIONSTATE, false);
+        stateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Idle);
+        isAnimating = false;
+        stateVariables.stateFinished = true;
+    }
+
+
+    private void DoArmExtension()
+    {
+        Debug.Log("Extending!");
+        stateVariables.clawAnimator.SetBool(Strings.ANIMATIONSTATE, true);
+    }
+
+    private void DoSkinning()
+    {
+        //Check if enemy is still alive
+        if (stateVariables.skinTargetEnemy.activeSelf)
         {
+            ISkinnable skinnable = stateVariables.skinTargetEnemy.GetComponent<ISkinnable>();
             GameObject skin = skinnable.DeSkin();
-            skinObject.SetActive(true);
             SkinStats skinStats = skin.GetComponent<SkinStats>();
-            playerStatsManager.TakeSkin(skinStats.GetSkinHealth());
+            stateVariables.statsManager.TakeSkin(skinStats.GetSkinHealth());
             Stats stats = GetComponent<Stats>();
             healthBar.SetHealth(stats.GetHealthFraction());
             GameObject skinningEffect = ObjectPool.Instance.GetObject(PoolObjectType.VFXSkinningEffect);
             skinningEffect.transform.position = transform.position;
 
             GameObject healthJuice = ObjectPool.Instance.GetObject(PoolObjectType.VFXHealthGain);
-            if (healthJuice) {                                
+            if (healthJuice)
+            {
                 healthJuice.FollowAndDeActivate(3f, transform, Vector3.up * 3.2f);
             }
-        }        
-        stateVariables.stateFinished = true;
-        stateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Idle);
-    }
-    
-    #endregion
-
-    #region Public Methods
-    #endregion
-
-    #region Private Methods
-    private ISkinnable GetClosestEnemy()
-    {
-        Collider[] enemies = Physics.OverlapSphere(transform.position, skinRadius, LayerMask.GetMask(Strings.Tags.ENEMY));        
-        if (enemies != null)
-        {
-            Collider closestEnemy = null;
-            float closestDistance = Mathf.Infinity;
-            foreach (Collider enemy in enemies)
-            {
-                float distance = Vector3.Distance(enemy.ClosestPoint(transform.position), transform.position);
-                if(closestDistance > distance)
-                {
-                    closestDistance = distance;
-                    closestEnemy = enemy;
-                }
-            }
-            if(closestEnemy != null)
-            {
-                return closestEnemy.gameObject.GetComponent<ISkinnable>();
-            }
         }
-        return null;
     }
-
-    protected override void ResetState()
-    {
-    }
-    #endregion
-
-    #region Private Structures
     #endregion
 
 }
