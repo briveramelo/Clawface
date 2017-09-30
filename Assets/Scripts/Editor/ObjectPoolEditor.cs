@@ -26,7 +26,9 @@ public class ObjectPoolEditor : Editor {
 
     public override void OnInspectorGUI() {
         serializedObject.Update();
+        EditorGUILayout.Space();
         list.DoLayoutList();
+        EditorGUILayout.Space();
         serializedObject.ApplyModifiedProperties();
     }
 
