@@ -56,7 +56,7 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
             stats.TakeDamage(damageModifier * damager.damage);
             float healthFraction = stats.GetHealthFraction();
             healthBar.SetHealth(healthFraction);
-            cameraLock.Shake(.4f);
+            cameraLock.Shake();
             float shakeIntensity = 1f - healthFraction;
             if (shake) {
                 InputManager.Instance.Vibrate(VibrationTargets.BOTH, shakeIntensity);

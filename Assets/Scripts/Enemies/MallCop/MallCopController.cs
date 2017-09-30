@@ -51,7 +51,7 @@ public abstract class MallCopController : AIController {
         states = new States();
         states.Initialize(properties, this, velBody, animator, stats, navAgent);
         modMemento.Initialize(mod.transform);
-        CurrentState = states.patrol;
+        CurrentState = states.chase;
     }    
 
     public void UpdateState(EMallCopState state) {
@@ -59,7 +59,7 @@ public abstract class MallCopController : AIController {
     }
 
     public override void ResetForRebirth() {
-        CurrentState = states.patrol;
+        CurrentState = states.chase;
         //if (mod==null || mod.GetWielderInstanceID()!=gameObject.GetInstanceID()) {
         //    Debug.Log(mod.GetWielderInstanceID() + " " + gameObject.GetInstanceID());
         //    GameObject newMod = Instantiate(modPrefab);
@@ -82,7 +82,6 @@ public abstract class MallCopController : AIController {
 
 
     protected class States {
-        public MallCopPatrolState patrol = new MallCopPatrolState();
         public MallCopChaseState chase= new MallCopChaseState();
         public MallCopSwingState swing = new MallCopSwingState();
         public MallCopTwitchState twitch = new MallCopTwitchState();
@@ -102,7 +101,6 @@ public abstract class MallCopController : AIController {
             NavMeshAgent navAgent) {
 
             chase.Initialize(properties, controller, velBody, animator, stats, navAgent);
-            patrol.Initialize(properties, controller, velBody, animator, stats, navAgent);
             swing.Initialize(properties, controller, velBody, animator, stats, navAgent);
             twitch.Initialize(properties, controller, velBody, animator, stats, navAgent);
             fall.Initialize(properties, controller, velBody, animator, stats, navAgent);
@@ -112,7 +110,6 @@ public abstract class MallCopController : AIController {
             mallCopStates = new Dictionary<EMallCopState, MallCopState>() {
                 {EMallCopState.Swing, swing },
                 {EMallCopState.Fall, fall },
-                {EMallCopState.Patrol, patrol },
                 {EMallCopState.Chase, chase },
                 {EMallCopState.Twitch, twitch },
                 {EMallCopState.Fire, fire },

@@ -153,7 +153,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1169520305889718}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 18.49, y: 9.46, z: 141.44}
+  m_LocalPosition: {x: -4.69, y: -2.13, z: 2.82}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4374166954605012}
@@ -224,21 +224,31 @@ MonoBehaviour:
   m_GameObject: {fileID: 1169520305889718}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01085d456568fcf40ad84a5c94e08f22, type: 3}
+  m_Script: {fileID: 11500000, guid: bdce7029b13d37940afce8409d4837bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mallCop: {fileID: 1118372282550480, guid: b0927e1a44bf75241b97accd5b98cf23, type: 2}
-  spawnPoints:
-  - {fileID: 4374166954605012}
-  - {fileID: 4976863814320032}
-  - {fileID: 4155620905407260}
-  - {fileID: 4540580074151746}
-  - {fileID: 4028500639869872}
-  mallCopWaves:
-  - maxMallCops: 3
-    minMallCops: 3
+  useIntensityCurve: 0
+  manualEdits: 0
+  intensityCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  waves:
+  - spawnedHashCodes: 
+    remainingSpawns: 0
+    intensity: 0
+    TimeToNextWave: 0
+    totalNumSpawns:
+      min: 1
+      max: 1
+    SpawningTime:
+      min: 1.7
+      max: 2
   currentWaveNumber: 0
-  numMallCops: 0
+  currentNumEnemies: 0
+  spawnType: 0
 --- !u!114 &114405466690772424
 MonoBehaviour:
   m_ObjectHideFlags: 1

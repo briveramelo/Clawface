@@ -11,6 +11,7 @@ public abstract class BouncerState : State {
     public Animator animator;
     public Stats myStats;
     public NavMeshAgent navAgent;
+    public BulletHellPatternController bulletHellPattern;
 
     public void Initialize(
         BouncerProperties properties,
@@ -18,7 +19,9 @@ public abstract class BouncerState : State {
         VelocityBody velBody,
         Animator animator,
         Stats myStats,
-        NavMeshAgent navAgent)
+        NavMeshAgent navAgent,
+        BulletHellPatternController bulletHellPattern
+        )
     {
 
         this.properties = properties;
@@ -27,5 +30,6 @@ public abstract class BouncerState : State {
         this.animator = animator;
         this.myStats = myStats;
         this.navAgent = navAgent;
+        this.bulletHellPattern = bulletHellPattern;
     }
 }
