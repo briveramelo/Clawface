@@ -10,7 +10,6 @@ public class Zombie : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpawn
     [SerializeField] private ZombieController controller;
     [SerializeField] private ZombieProperties properties;
     [SerializeField] private VelocityBody velBody;
-    [SerializeField] private GlowObject glowObject;
     [SerializeField] private Animator animator;
     [SerializeField] private Stats myStats;
     [SerializeField] private NavMeshAgent navAgent;
@@ -68,9 +67,8 @@ public class Zombie : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpawn
             SFXManager.Instance.Play(SFXType.MallCopHurt, transform.position);
             damaged.Set(DamagedType.Zombie, bloodEmissionLocation);
             DamageFXManager.Instance.EmitDamageEffect(damagePack);
-            if (myStats.health <= myStats.skinnableHealth && !glowObject.isGlowing)
+            if (myStats.health <= myStats.skinnableHealth)
             {
-                glowObject.SetToGlow();
                 copUICanvas.gameObject.SetActive(true);
                 copUICanvas.ShowAction(ActionType.Skin);
             }
@@ -97,6 +95,11 @@ public class Zombie : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpawn
     float IDamageable.GetHealth()
     {
         return myStats.health;
+    }
+
+    void ISpawnable.WarpToNavMesh(Vector3 position)
+    {
+        navAgent.Warp(position);
     }
 
     bool ISkinnable.IsSkinnable()
@@ -186,7 +189,6 @@ public class Zombie : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpawn
         myStats.ResetForRebirth();
         controller.ResetForRebirth();
         velBody.ResetForRebirth();
-        glowObject.ResetForRebirth();
         will.Reset();
         //TODO check for missing mod and create a new one and attach it
         //mod.setModSpot(ModSpot.ArmR);

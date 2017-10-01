@@ -425,7 +425,6 @@ GameObject:
   - component: {fileID: 114339691171653046}
   - component: {fileID: 114060070106575226}
   - component: {fileID: 114694166038940668}
-  - component: {fileID: 114954419965204916}
   - component: {fileID: 114585084290289136}
   - component: {fileID: 195467075105033086}
   m_Layer: 9
@@ -1043,7 +1042,7 @@ MonoBehaviour:
     twitchRange: 0
     twitchTime: 0
   velBody: {fileID: 114694166038940668}
-  glowObject: {fileID: 114954419965204916}
+  glowObject: {fileID: 0}
   animator: {fileID: 95044474475882324}
   myStats: {fileID: 114585084290289136}
   navAgent: {fileID: 195467075105033086}
@@ -1118,20 +1117,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &114954419965204916
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1902439104558274}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f8ec0fb3ff2a5454e8863609a58514d0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isGlowing: 0
-  glowColor: {r: 0, g: 0, b: 0, a: 0}
-  lerpFactor: 0
 --- !u!135 &135680941902252672
 SphereCollider:
   m_ObjectHideFlags: 1

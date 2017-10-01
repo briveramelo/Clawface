@@ -252,7 +252,6 @@ GameObject:
   - component: {fileID: 114072913232068868}
   - component: {fileID: 114828832105594344}
   - component: {fileID: 114732265360839062}
-  - component: {fileID: 114469838318384142}
   - component: {fileID: 114857703702930746}
   - component: {fileID: 195516232639174252}
   m_Layer: 9
@@ -983,7 +982,7 @@ MonoBehaviour:
     twitchRange: 0
     twitchTime: 0
   velBody: {fileID: 114732265360839062}
-  glowObject: {fileID: 114469838318384142}
+  glowObject: {fileID: 0}
   animator: {fileID: 95144425409533956}
   myStats: {fileID: 114857703702930746}
   navAgent: {fileID: 195516232639174252}
@@ -1092,20 +1091,6 @@ MonoBehaviour:
   separationAngleBetweenStrands: 30
   rotationDirection: 0
   rotationSpeed: 0
---- !u!114 &114469838318384142
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1351927175794106}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f8ec0fb3ff2a5454e8863609a58514d0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isGlowing: 0
-  glowColor: {r: 0, g: 0, b: 0, a: 0}
-  lerpFactor: 0
 --- !u!114 &114732265360839062
 MonoBehaviour:
   m_ObjectHideFlags: 1

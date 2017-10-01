@@ -16,7 +16,8 @@ public class VelocityBody : MonoBehaviour, IMovable{
     private Vector3 moveDirection;
     
     private const float footSphereRadius= 0.2f;
-    private List<Vector3> externalForces= new List<Vector3>();
+    private const int externalForceBlockSize = 1000;
+    private List<Vector3> externalForces= new List<Vector3>(externalForceBlockSize);
     private Collider[] groundColliders = new Collider[10];
     private int groundMask {
         get {
@@ -66,7 +67,7 @@ public class VelocityBody : MonoBehaviour, IMovable{
     }
 
     void Start() {        
-        InitializeExternalForces();
+        AddExternalForceBlock();
     }
 
     protected virtual void Update() {
@@ -76,12 +77,6 @@ public class VelocityBody : MonoBehaviour, IMovable{
                 Timing.RunCoroutine(ApplyGravity(), Segment.FixedUpdate, GetInstanceID().ToString());
             }
         }
-        //if (movementMode==MovementMode.ICE) {            
-        //    float x = Mathf.Clamp(rigbod.velocity.x, -20f, 20f);
-        //    float y = Mathf.Clamp(rigbod.velocity.y, -20f, 20f);
-        //    float z = Mathf.Clamp(rigbod.velocity.z, -20f, 20f);
-        //    rigbod.velocity = new Vector3(x, y, z);
-        //}
     }
 
     public void StopVerticalMovement() {
@@ -93,8 +88,8 @@ public class VelocityBody : MonoBehaviour, IMovable{
         rigbod.velocity = vel;
     }
 
-    public void InitializeExternalForces() {
-        for (int i = 0; i < 100; i++) {
+    public void AddExternalForceBlock() {
+        for (int i = 0; i < externalForceBlockSize; i++) {
             externalForces.Add(Vector3.zero);
         }
     }
@@ -145,13 +140,18 @@ public class VelocityBody : MonoBehaviour, IMovable{
     }
 
     private IEnumerator<float> IEAddDecayingForce(Vector3 forceVector, float decay) {
-        int currentIndex = externalForces.FindIndex(vec => vec == Vector3.zero);
+        int currentIndex = 0;
+        System.Predicate<Vector3> isZero = vec => vec == Vector3.zero;
+        if (!externalForces.Exists(isZero)) {
+            AddExternalForceBlock();
+        }
+        currentIndex = externalForces.FindIndex(isZero);
 
         externalForces[currentIndex] = forceVector;
 
         while (externalForces[currentIndex].magnitude > .2f) {
             externalForces[currentIndex] = Vector3.Lerp(externalForces[currentIndex], Vector3.zero, decay);
-            yield return Timing.WaitForOneFrame;
+            yield return 0f;
         }
         externalForces[currentIndex] = Vector3.zero;
     }

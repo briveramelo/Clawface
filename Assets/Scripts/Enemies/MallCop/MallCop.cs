@@ -6,15 +6,15 @@ using UnityEngine;
 using System.Linq;
 using ModMan;
 using UnityEngine.AI;
+using MovementEffects;
 
-public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpawnable
+public class MallCop : RoutineRunner, IStunnable, IDamageable, ISkinnable, ISpawnable
 {
 
     #region 2. Serialized Unity Inspector Fields
     [SerializeField] private MallCopController controller;
     [SerializeField] private MallCopProperties properties;
     [SerializeField] private VelocityBody velBody;
-    [SerializeField] private GlowObject glowObject;
     [SerializeField] private Animator animator;
     [SerializeField] private Stats myStats;
     [SerializeField] private NavMeshAgent navAgent;
@@ -22,6 +22,8 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
     [SerializeField] private CopUI copUICanvas;
     [SerializeField] private Mod mod;
     [SerializeField] private Transform bloodEmissionLocation;
+    [SerializeField] private int scorePopupDelay = 2;
+    [SerializeField] private int scoreValue = 200;
     #endregion
 
     #region 3. Private fields
@@ -37,9 +39,10 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
     #region 4. Unity Lifecycle
 
     private void OnEnable() {
+
         if (will.willHasBeenWritten) {
             ResetForRebirth();
-        }       
+        }
     }
     
     void Awake ()
@@ -62,8 +65,7 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
             damagePack.Set(damager, damaged);
             SFXManager.Instance.Play(SFXType.MallCopHurt, transform.position);
             DamageFXManager.Instance.EmitDamageEffect(damagePack);
-            if (myStats.health <= myStats.skinnableHealth && !glowObject.isGlowing){
-                glowObject.SetToGlow();
+            if (myStats.health <= myStats.skinnableHealth){
                 copUICanvas.gameObject.SetActive(true);
                 copUICanvas.ShowAction(ActionType.Skin);
             }
@@ -74,11 +76,8 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
                 OnDeath();
             }
             else {
-                //TODO: update state to hit reaction state, THEN to chase (too abrupt right now)
-                //TODO: Create hit reaction state
-                if (controller.ECurrentState == EMallCopState.Patrol) {
                     controller.UpdateState(EMallCopState.Chase);
-                }
+                
             }
         }
     }
@@ -87,6 +86,12 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
     {
         return myStats.health;
     }
+
+    void ISpawnable.WarpToNavMesh(Vector3 position)
+    {
+        navAgent.Warp(position);
+    }
+
 
     bool ISkinnable.IsSkinnable(){
         return myStats.health <= myStats.skinnableHealth;
@@ -137,6 +142,17 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
                 mallCopParts.transform.rotation = transform.rotation;
                 mallCopParts.DeActivate(5f);                
             }
+
+            GameObject worldScoreObject = ObjectPool.Instance.GetObject(PoolObjectType.WorldScoreCanvas);
+            if (worldScoreObject) {
+                worldScoreObject.GetComponent<Canvas>().GetComponent<RectTransform>().SetPositionAndRotation(transform.position, transform.rotation);                //worldScoreObject.transform.position = transform.position /*+ Vector3.up * 3f*/;
+                WorldScoreUI popUpScore = worldScoreObject.GetComponent<WorldScoreUI>();
+
+                int scoreBonus = scoreValue * ScoreManager.Instance.GetCurrentMultiplier();
+                popUpScore.DisplayScoreAndHide(scoreBonus, scorePopupDelay);
+                ScoreManager.Instance.AddToScoreAndCombo(scoreBonus);
+            }
+
             mod.KillCoroutines();            
             gameObject.SetActive(false);
         }
@@ -146,11 +162,10 @@ public class MallCop : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
         GetComponent<CapsuleCollider>().enabled = true;
         copUICanvas.gameObject.SetActive(false);
         mod.DeactivateModCanvas();
-
+        
         myStats.ResetForRebirth();
         controller.ResetForRebirth();
         velBody.ResetForRebirth();
-        glowObject.ResetForRebirth();
         will.Reset();
         //TODO check for missing mod and create a new one and attach it
         mod.setModSpot(ModSpot.ArmR);        
