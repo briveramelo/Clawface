@@ -5,11 +5,8 @@ using MovementEffects;
 
 public class KamikazeSelfDestructState : KamikazeState {
 
-    bool isPastStartup;
     private ShooterProperties shooterProperties = new ShooterProperties();
     private Damager damager = new Damager();
-    float timeSinceLastHit;
-    float hitRate = 0.25f;
 
 
     public override void OnEnter()
@@ -23,11 +20,12 @@ public class KamikazeSelfDestructState : KamikazeState {
        controller.transform.LookAt(controller.AttackTarget);
        navAgent.velocity = Vector3.zero;
 
+       //Set Damage to self(Kamikaze)
+       DamageSelf(controller.gameObject.GetComponent<IDamageable>());
+
        //Set Damage to the player
        Damage(controller.AttackTarget.gameObject.GetComponent<IDamageable>());
 
-       //Set Damage to self(Kamikaze)
-       DamageSelf(controller.gameObject.GetComponent<IDamageable>());
 
     }
     public override void OnExit()
@@ -46,7 +44,7 @@ public class KamikazeSelfDestructState : KamikazeState {
     {
         if (damageable != null)
         {
-            damager.Set(shooterProperties.damage, DamagerType.BlasterBullet, navAgent.transform.forward);
+            damager.Set(shooterProperties.damage, DamagerType.Kamikaze, navAgent.transform.forward);
             damageable.TakeDamage(damager);
         }
     }
@@ -55,7 +53,7 @@ public class KamikazeSelfDestructState : KamikazeState {
     {
         if (damageable != null)
         {
-            damager.Set(myStats.health, DamagerType.Kamikaze, navAgent.transform.forward);
+            damager.Set(myStats.health, DamagerType.BlasterBullet, navAgent.transform.forward);
             damageable.TakeDamage(damager);
         }
     }

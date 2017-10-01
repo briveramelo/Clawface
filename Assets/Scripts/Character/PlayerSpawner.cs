@@ -13,8 +13,8 @@ public class PlayerSpawner : MonoBehaviour
 {
     #region Private Fields
 
+    const string PLAYER_PREFAB_PATH = "/Prefabs/Player/";
     const string RESOURCES_FOLDER_PATH = "/Resources/";
-    const string PLAYER_PREFAB_PATH = "Prefabs/Player/";
     const string PLAYER_GROUP_NAME = "Keira_GroupV";
     const string PREFAB_EXT = ".prefab";
 
@@ -39,9 +39,9 @@ public class PlayerSpawner : MonoBehaviour
     {
         // Get the path of the newest prefab
         string playerPrefabPath = GetNewestPrefabPath();
-
+        
         // Load the prefab
-        GameObject playerPrefab = Resources.Load<GameObject>(playerPrefabPath);
+        GameObject playerPrefab = Resources.Load<GameObject>(playerPrefabPath);        
         if (playerPrefab == null)
             throw new NullReferenceException (
                 string.Format ("Failed to load prefab at \"{0}\"!", 
@@ -60,9 +60,10 @@ public class PlayerSpawner : MonoBehaviour
     {
         // Get absolute path
         string absolutePath = string.Format ("{0}{1}{2}", 
-            Application.dataPath, 
-            RESOURCES_FOLDER_PATH, 
-            PLAYER_PREFAB_PATH);
+            Application.dataPath,
+            PLAYER_PREFAB_PATH,
+            RESOURCES_FOLDER_PATH
+            );
 
         // List all files in directory
         string[] allPrefabFiles = Directory.GetFiles(absolutePath);
@@ -107,8 +108,8 @@ public class PlayerSpawner : MonoBehaviour
         }
 
         // Change path to be relative to Resources folder
-        string stringToRemove = string.Format ("{0}{1}", 
-            Application.dataPath, RESOURCES_FOLDER_PATH);
+        string stringToRemove = string.Format ("{0}{1}{2}", 
+            Application.dataPath, PLAYER_PREFAB_PATH, RESOURCES_FOLDER_PATH);
         highestVersionPath = highestVersionPath.Remove (0, 
             stringToRemove.Length);
 

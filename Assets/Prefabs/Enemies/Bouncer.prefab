@@ -249,15 +249,14 @@ GameObject:
   - component: {fileID: 95144425409533956}
   - component: {fileID: 54648673597919436}
   - component: {fileID: 136510394350428718}
-  - component: {fileID: 114070262728461192}
-  - component: {fileID: 114925078036101408}
+  - component: {fileID: 114072913232068868}
+  - component: {fileID: 114828832105594344}
   - component: {fileID: 114732265360839062}
-  - component: {fileID: 114469838318384142}
   - component: {fileID: 114857703702930746}
   - component: {fileID: 195516232639174252}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Bouncer
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -963,7 +962,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114070262728461192
+--- !u!114 &114072913232068868
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -971,23 +970,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 1351927175794106}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cec6ff13a004d524da87d464e86d1729, type: 3}
+  m_Script: {fileID: 11500000, guid: 2764d00c6ce222a47b02be88a099bf5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 114925078036101408}
+  controller: {fileID: 114828832105594344}
   properties:
     runMultiplier: 0
     maxChaseTime: 0
-    walkTime: 5
+    walkTime: 0
     numShocksToStun: 0
     twitchRange: 0
     twitchTime: 0
   velBody: {fileID: 114732265360839062}
-  glowObject: {fileID: 114469838318384142}
+  glowObject: {fileID: 0}
   animator: {fileID: 95144425409533956}
   myStats: {fileID: 114857703702930746}
   navAgent: {fileID: 195516232639174252}
-  mySkin: {fileID: 1159073468258504, guid: baaf63957515b434e833bb36655a258e, type: 2}
+  mySkin: {fileID: 1754484396476528, guid: cc3475efaf656c240a9632ee2547b108, type: 2}
   copUICanvas: {fileID: 114928371529580568}
   bulletPatternController: {fileID: 114428446350129332}
   bloodEmissionLocation: {fileID: 4059519650337944}
@@ -1085,26 +1084,13 @@ MonoBehaviour:
   separationFromForwardVector: 0
   bulletSpeed: 8.6
   rateOfFire: 0.52
+  bulletOffsetFromOrigin: 1.5
   bulletPrefab: {fileID: 1780053103215904, guid: 584c741a425a10b4790a0f89c6f2863f,
     type: 2}
   bulletStrands: 12
   separationAngleBetweenStrands: 30
   rotationDirection: 0
   rotationSpeed: 0
---- !u!114 &114469838318384142
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1351927175794106}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f8ec0fb3ff2a5454e8863609a58514d0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isGlowing: 0
-  glowColor: {r: 0, g: 0, b: 0, a: 0}
-  lerpFactor: 0
 --- !u!114 &114732265360839062
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1120,6 +1106,22 @@ MonoBehaviour:
   rigbod: {fileID: 54648673597919436}
   iceForceMultiplier: 15
   movementMode: 0
+--- !u!114 &114828832105594344
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1351927175794106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a33cf3670442f2499c10396a543922d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DEBUG_CURRENTSTATE: 
+  timeInLastState: 0
+  stateTimerIsRunning: 0
+  playerDetectorSphereCollider: {fileID: 135604980899573220}
+  closeEnoughToAttackDistance: 0
 --- !u!114 &114857703702930746
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1141,22 +1143,6 @@ MonoBehaviour:
   shotPushForce: 0
   skinnableHealth: 10
   exp: 2
---- !u!114 &114925078036101408
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1351927175794106}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca651c1cc790bb54cab2d959b7db8c75, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DEBUG_CURRENTSTATE: 
-  timeInLastState: 0
-  stateTimerIsRunning: 0
-  playerDetectorSphereCollider: {fileID: 135604980899573220}
-  closeEnoughToAttackDistance: 2.16
 --- !u!114 &114928371529580568
 MonoBehaviour:
   m_ObjectHideFlags: 1
