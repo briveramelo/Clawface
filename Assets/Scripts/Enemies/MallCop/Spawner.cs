@@ -8,16 +8,17 @@ public class Spawner : MonoBehaviour
 {
     public bool useIntensityCurve, manualEdits;
     public AnimationCurve intensityCurve;
-//    public AnimationCurve timingCurve;
+    //    public AnimationCurve timingCurve;
 
     public List<Wave> waves = new List<Wave>();
 
     public int currentWaveNumber = 0;
     public int currentNumEnemies = 0;
-//    public float TimeToNextWave = 0.0f;
+    //    public float TimeToNextWave = 0.0f;
 
     #region Serialized Unity Fields
-    [SerializeField] SpawnType spawnType;
+    [SerializeField]
+    SpawnType spawnType;
     #endregion
 
 
@@ -48,7 +49,7 @@ public class Spawner : MonoBehaviour
     #region Unity LifeCycle
     void Start()
     {
-//        if(waves.Count > 0) TimeToNextWave = waves[0].Time;
+        //        if(waves.Count > 0) TimeToNextWave = waves[0].Time;
 
         foreach (Transform child_point in transform)
         {
@@ -102,7 +103,7 @@ public class Spawner : MonoBehaviour
 
     static int waveCount;
     private void CheckToSpawnEnemyCluster()
-    { 
+    {
         if (Application.isPlaying)
         {
             if (currentWave < waves.Count)
@@ -116,7 +117,7 @@ public class Spawner : MonoBehaviour
     {
         int enemiesToSpawn = waves[currentWave].totalNumSpawns.Max;
 
-        for (int i = 0;  i < enemiesToSpawn; i++)
+        for (int i = 0; i < enemiesToSpawn; i++)
         {
             yield return Timing.WaitForSeconds(Random.Range(waves[currentWave].SpawningTime.Min, waves[currentWave].SpawningTime.Max));
 
@@ -144,11 +145,11 @@ public class Spawner : MonoBehaviour
         }
     }
 
-#endregion
+    #endregion
 
     public bool IsLastWave()
     {
-        return currentWave >= waves.Count-1 ? true : false;
+        return currentWave >= waves.Count - 1 ? true : false;
     }
 
     public bool IsAllEnemyClear()
@@ -179,9 +180,12 @@ public class Wave
 
     public List<int> spawnedHashCodes = new List<int>();
 
-    [HideInInspector] public int remainingSpawns;
-    [SerializeField, Range(0, 1)] float intensity;
-    [SerializeField, Range(0, TimeToNextWave_Max)] float TimeToNextWave;
+    [HideInInspector]
+    public int remainingSpawns;
+    [SerializeField, Range(0, 1)]
+    float intensity;
+    [SerializeField, Range(0, TimeToNextWave_Max)]
+    float TimeToNextWave;
 
     public float Intensity
     {
@@ -214,8 +218,10 @@ public class Wave
         SetTimeBetweenSpawns(intensity);
     }
 
-    [IntRange(spawnMin, spawnMax)] public IntRange totalNumSpawns;
-    [FloatRange(timeBetweenMin, timeBetweenMax)] public FloatRange SpawningTime;
+    [IntRange(spawnMin, spawnMax)]
+    public IntRange totalNumSpawns;
+    [FloatRange(timeBetweenMin, timeBetweenMax)]
+    public FloatRange SpawningTime;
 
     void SetTotalSpawns(float intensity)
     {
@@ -261,4 +267,3 @@ public class Wave
         }
     }
 }
-

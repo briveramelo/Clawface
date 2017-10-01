@@ -67,8 +67,8 @@ GameObject:
   - component: {fileID: 95288471257021928}
   - component: {fileID: 54403287773231164}
   - component: {fileID: 136606014131895122}
-  - component: {fileID: 114094758021682424}
-  - component: {fileID: 114580712805054004}
+  - component: {fileID: 114134826779430030}
+  - component: {fileID: 114896169034279386}
   - component: {fileID: 114104150765472954}
   - component: {fileID: 114316290365865458}
   - component: {fileID: 114986116108717462}
@@ -585,7 +585,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1098843943671628}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 22.64}
+  m_LocalPosition: {x: -12.405719, y: 0, z: 2.2134933}
   m_LocalScale: {x: 4.5, y: 4.5, z: 4.5}
   m_Children:
   - {fileID: 4292803260986014}
@@ -933,35 +933,6 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114094758021682424
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1098843943671628}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a1ad5fcd6d8fd349bb93094971109ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controller: {fileID: 114580712805054004}
-  properties:
-    runMultiplier: 2.5
-    maxChaseTime: 7
-    walkTime: 5
-    numShocksToStun: 1
-    twitchRange: 0.17
-    twitchTime: 1
-  velBody: {fileID: 114104150765472954}
-  glowObject: {fileID: 114316290365865458}
-  animator: {fileID: 95288471257021928}
-  myStats: {fileID: 114986116108717462}
-  navAgent: {fileID: 195474830920782340}
-  mySkin: {fileID: 1754484396476528, guid: cc3475efaf656c240a9632ee2547b108, type: 2}
-  copUICanvas: {fileID: 114645622318777180}
-  bloodEmissionLocation: {fileID: 4298567646641054}
-  scorePopupDelay: 2
-  scoreValue: 200
 --- !u!114 &114104150765472954
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -977,6 +948,35 @@ MonoBehaviour:
   rigbod: {fileID: 54403287773231164}
   iceForceMultiplier: 15
   movementMode: 0
+--- !u!114 &114134826779430030
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1098843943671628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e3398260c9595142bc90888bc176a20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: {fileID: 114896169034279386}
+  properties:
+    runMultiplier: 2.5
+    maxChaseTime: 0
+    walkTime: 0
+    numShocksToStun: 0
+    twitchRange: 0
+    twitchTime: 0
+  velBody: {fileID: 114104150765472954}
+  glowObject: {fileID: 114316290365865458}
+  animator: {fileID: 95288471257021928}
+  myStats: {fileID: 114986116108717462}
+  navAgent: {fileID: 195474830920782340}
+  mySkin: {fileID: 1754484396476528, guid: cc3475efaf656c240a9632ee2547b108, type: 2}
+  copUICanvas: {fileID: 114645622318777180}
+  bloodEmissionLocation: {fileID: 4298567646641054}
+  scorePopupDelay: 2
+  scoreValue: 200
 --- !u!114 &114242160988255750
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1012,22 +1012,6 @@ MonoBehaviour:
   isGlowing: 0
   glowColor: {r: 0, g: 0, b: 0, a: 0}
   lerpFactor: 0
---- !u!114 &114580712805054004
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1098843943671628}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cac1349ec2882fb40b69c75784efb4da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DEBUG_CURRENTSTATE: 
-  timeInLastState: 0
-  stateTimerIsRunning: 0
-  playerDetectorSphereCollider: {fileID: 135179014217334188}
-  closeEnoughToAttackDistance: 2.23
 --- !u!114 &114645622318777180
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1071,6 +1055,22 @@ MonoBehaviour:
   forward: {x: 0, y: 0, z: 1}
   up: {x: 0, y: 1, z: 0}
   updatePeriod: 0
+--- !u!114 &114896169034279386
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1098843943671628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f241d200dcb962468c94d9796a9aca4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DEBUG_CURRENTSTATE: 
+  timeInLastState: 0
+  stateTimerIsRunning: 0
+  playerDetectorSphereCollider: {fileID: 135179014217334188}
+  closeEnoughToAttackDistance: 2.58
 --- !u!114 &114986116108717462
 MonoBehaviour:
   m_ObjectHideFlags: 1

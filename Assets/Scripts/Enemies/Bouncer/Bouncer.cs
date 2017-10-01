@@ -16,7 +16,7 @@ public class Bouncer : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
     [SerializeField] private NavMeshAgent navAgent;
     [SerializeField] private GameObject mySkin;
     [SerializeField] private CopUI copUICanvas;
-    //[SerializeField] private Mod mod;
+    [SerializeField] private BulletHellPatternController bulletPatternController;
     [SerializeField] private Transform bloodEmissionLocation;
     [SerializeField] private int scorePopupDelay = 2;
     [SerializeField] private int scoreValue = 200;
@@ -24,15 +24,15 @@ public class Bouncer : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
 
     #region 3. Private fields
 
-    
+
     private int stunCount;
     private Will will = new Will();
     private Damaged damaged = new Damaged();
     private DamagePack damagePack = new DamagePack();
     private bool lastChance;
+    
 
     #endregion
-
 
     #region 4. Unity Lifecycle
 
@@ -42,12 +42,11 @@ public class Bouncer : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
         {
             ResetForRebirth();
         }
-
     }
 
     void Awake()
     {
-        controller.Initialize(properties, velBody, animator, myStats, navAgent);
+        controller.Initialize(properties, velBody, animator, myStats, navAgent, bulletPatternController);
         ResetForRebirth();
     }
 
@@ -85,10 +84,7 @@ public class Bouncer : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
             }
             else
             {
-                if (controller.ECurrentState == EBouncerState.Patrol)
-                {
                     controller.UpdateState(EBouncerState.Chase);
-                }
             }
         }
     }
