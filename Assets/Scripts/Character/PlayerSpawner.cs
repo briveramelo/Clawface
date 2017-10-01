@@ -11,13 +11,12 @@ using UnityEngine;
 /// <summary>
 /// Automatically gets and spawns the newest player prefab.
 /// </summary>
-[ExecuteInEditMode]
 public class PlayerSpawner : MonoBehaviour
 {
     #region Private Fields
 
     const string RESOURCES_FOLDER_PATH = "/Resources/";
-    const string PLAYER_PREFAB_PATH = "Prefabs/Player/";
+    const string PLAYER_PREFAB_PATH = "/Prefabs/Player/";
     const string PLAYER_GROUP_NAME = "Keira_GroupV";
     const string PREFAB_EXT = ".prefab";
 
@@ -26,35 +25,17 @@ public class PlayerSpawner : MonoBehaviour
 
     GameObject player;
 
+    new Camera camera;
+
     #endregion
     #region Unity Lifecycle
 
-    void OnEnable ()
+    void Awake()
     {
-        if (player != null)
-        {
-            Helpers.DestroyProper (player);
-            if (Application.isPlaying)
-                Debug.Log ("Cleaned up player (player)");
-            else Debug.Log ("Cleaned up player (editor)");
-        }
-
-        transform.DestroyAllChildren();
+        camera = GetComponentInChildren<Camera>();
+        camera.enabled = false;
 
         SpawnPlayer();
-    }
-
-    void OnDisable ()
-    {
-        if (player != null)
-        {
-            Helpers.DestroyProper (player);
-            if (Application.isPlaying)
-                Debug.Log ("Cleaned up player (player)");
-            else Debug.Log ("Cleaned up player (editor)");
-        }
-
-        transform.DestroyAllChildren();
     }
 
     #endregion
@@ -65,11 +46,6 @@ public class PlayerSpawner : MonoBehaviour
     /// </summary>
     void SpawnPlayer ()
     {
-        if (player != null)
-            Helpers.DestroyProper (player);
-
-        transform.DestroyAllChildren();
-
         // Get the path of the newest prefab
         string playerPrefabPath = GetNewestPrefabPath();
 
@@ -108,8 +84,8 @@ public class PlayerSpawner : MonoBehaviour
         // Get absolute path
         string absolutePath = string.Format ("{0}{1}{2}", 
             Application.dataPath, 
-            RESOURCES_FOLDER_PATH, 
-            PLAYER_PREFAB_PATH);
+            PLAYER_PREFAB_PATH,
+            RESOURCES_FOLDER_PATH);
 
         // List all files in directory
         string[] allPrefabFiles = Directory.GetFiles(absolutePath);
@@ -153,9 +129,15 @@ public class PlayerSpawner : MonoBehaviour
             }
         }
 
+        if (highestVersionPath == default(string))
+        {
+            Debug.LogError ("Failed to get newest player prefab!");
+            return null;
+        }
+
         // Change path to be relative to Resources folder
-        string stringToRemove = string.Format ("{0}{1}", 
-            Application.dataPath, RESOURCES_FOLDER_PATH);
+        string stringToRemove = string.Format ("{0}{1}{2}", 
+            Application.dataPath, PLAYER_PREFAB_PATH, RESOURCES_FOLDER_PATH);
         highestVersionPath = highestVersionPath.Remove (0, 
             stringToRemove.Length);
 
