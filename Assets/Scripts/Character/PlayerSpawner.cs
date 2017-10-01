@@ -36,6 +36,8 @@ public class PlayerSpawner : MonoBehaviour
         camera.enabled = false;
 
         SpawnPlayer();
+
+        gameObject.SetActive (false);
     }
 
     #endregion
@@ -71,7 +73,7 @@ public class PlayerSpawner : MonoBehaviour
         }
         #endif
 
-        player.transform.SetParent (transform);
+        //player.transform.SetParent (transform);
         player.transform.position = transform.position + SPAWN_OFFSET;
     }
 
