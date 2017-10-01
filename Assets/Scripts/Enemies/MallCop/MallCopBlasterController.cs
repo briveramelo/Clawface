@@ -40,17 +40,12 @@ public class MallCopBlasterController : MallCopController {
     }
 
     private void OnTriggerStay(Collider other) {
-        if (other.CompareTag(Strings.Tags.PLAYER)) {
-
-            AttackTarget = other.transform;
-            UpdateState(EMallCopState.Chase);
-        }
     }
 
         
 
     bool CheckToFire() {
-        if ((CurrentState == states.chase && distanceFromTarget < closeEnoughToFireDistance)) {                
+        if ((CurrentState == states.chase && distanceFromTarget < closeEnoughToFireDistance)) {
             UpdateState(EMallCopState.Fire);
             return true;
         }

@@ -97,7 +97,6 @@ public class MoveState : IPlayerState
             if (stateVariables.animator.GetInteger(Strings.ANIMATIONSTATE) != (int)PlayerAnimationStates.Running)
             {
                 stateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Running);
-                stateVariables.animator.speed = 1.0f;
             }
         }
         else

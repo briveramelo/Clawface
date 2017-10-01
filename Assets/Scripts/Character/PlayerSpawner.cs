@@ -15,8 +15,8 @@ public class PlayerSpawner : MonoBehaviour
 {
     #region Private Fields
 
-    const string RESOURCES_FOLDER_PATH = "/Resources/";
     const string PLAYER_PREFAB_PATH = "/Prefabs/Player/";
+    const string RESOURCES_FOLDER_PATH = "/Resources/";
     const string PLAYER_GROUP_NAME = "Keira_GroupV";
     const string PREFAB_EXT = ".prefab";
 
@@ -48,9 +48,9 @@ public class PlayerSpawner : MonoBehaviour
     {
         // Get the path of the newest prefab
         string playerPrefabPath = GetNewestPrefabPath();
-
+        
         // Load the prefab
-        GameObject playerPrefab = Resources.Load<GameObject>(playerPrefabPath);
+        GameObject playerPrefab = Resources.Load<GameObject>(playerPrefabPath);        
         if (playerPrefab == null)
             throw new NullReferenceException (
                 string.Format ("Failed to load prefab at \"{0}\"!", 
