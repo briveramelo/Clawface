@@ -10,7 +10,6 @@ public class Kamikaze : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpa
     [SerializeField] private KamikazeController controller;
     [SerializeField] private KamikazeProperties properties;
     [SerializeField] private VelocityBody velBody;
-    [SerializeField] private GlowObject glowObject;
     [SerializeField] private Animator animator;
     [SerializeField] private Stats myStats;
     [SerializeField] private NavMeshAgent navAgent;
@@ -63,24 +62,15 @@ public class Kamikaze : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpa
             SFXManager.Instance.Play(SFXType.MallCopHurt, transform.position);
             damaged.Set(DamagedType.Bouncer, bloodEmissionLocation);
             DamageFXManager.Instance.EmitDamageEffect(damagePack);
-            if (myStats.health <= myStats.skinnableHealth && !glowObject.isGlowing)
+            if (myStats.health <= myStats.skinnableHealth)
             {
-                //glowObject.SetToGlow();
                 copUICanvas.gameObject.SetActive(true);
                 copUICanvas.ShowAction(ActionType.Skin);
             }
             if (myStats.health <= 0)
             {
-                if (lastChance)
-                {
                     controller.UpdateState(EKamikazeState.SelfDestruct);
                     OnDeath();
-                }
-                else
-                {
-                    myStats.health = 1;
-                    lastChance = true;
-                }
             }
             else
             {
@@ -92,6 +82,11 @@ public class Kamikaze : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpa
     float IDamageable.GetHealth()
     {
         return myStats.health;
+    }
+
+    void ISpawnable.WarpToNavMesh(Vector3 position)
+    {
+        navAgent.Warp(position);
     }
 
     bool ISkinnable.IsSkinnable()
@@ -181,7 +176,6 @@ public class Kamikaze : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpa
         myStats.ResetForRebirth();
         controller.ResetForRebirth();
         velBody.ResetForRebirth();
-        glowObject.ResetForRebirth();
         will.Reset();
         //TODO check for missing mod and create a new one and attach it
         //mod.setModSpot(ModSpot.ArmR);

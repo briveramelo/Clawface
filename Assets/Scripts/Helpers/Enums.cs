@@ -102,30 +102,42 @@ public enum Layers {
 }
 
 public enum PoolObjectType {
-    BlasterBullet=2,
-    VFXBlasterImpactEffect=3,
-    VFXBloodDecal=6,
-    VFXBloodEmitter=7,
-    MallCopBlaster=8,
-    VFXSegwayBlaster=9,
-    VFXMallCopExplosion=10,
-    GrapplingBot=11,
-    GeyserProjectile = 12,
-    DiceBlock=13,
-    VFXBlasterShoot=17,
+    
+    //Misc
 	GeyserShield = 19,
-    BoomerangProjectile = 20,
     GeyserGushLine = 21,
-    VFXDiceBlockExplosion=22,
     GeyserBase = 23,
+    WorldScoreCanvas = 26,
+    GeyserFissure = 29,	
+    BlasterImpactEffect = 31,
+
+    //VFX
+    VFXBlasterImpactEffect = 3,
+    VFXBloodDecal = 6,
+    VFXBloodEmitter = 7,
+    VFXSegwayBlaster = 9,
+    VFXMallCopExplosion = 10,
+    VFXBlasterShoot = 17,
+    VFXDiceBlockExplosion=22,
     VFXSkinningEffect = 24,
     VFXHealthGain = 25,
-    WorldScoreCanvas = 26,
-    GrapplingHook = 27,
+
+    //BulletTypes
     TurretBullet = 28,
-    GeyserFissure = 29,	
     SpreadGunBullet = 30,
-    BlasterImpactEffect = 31
+    BoomerangProjectile = 20,
+    DiceBlock=13,
+    GeyserProjectile = 12,
+    BlasterBullet=2,
+    GrapplingHook = 27,
+
+    //Enemy Types
+    GrapplingBot=11,
+    MallCopBlaster=8,
+    Zombie = 32,
+    Bouncer = 33,
+    Kamikaze = 34,
+
 }
 
 public enum MovementMode
@@ -137,11 +149,9 @@ public enum MovementMode
 public enum PlayerAnimationStates
 {
     Idle = 0,
-    Running = 1,    
-    StunBaton = 2,
-    Boomerang = 3,
-    Dash = 4,
-    TankTreads = 5
+    Running = 1,
+    Dash = 2,
+    RetractVisor = 3
 }
 
 public enum ButtonMode
@@ -184,11 +194,10 @@ public enum EMallCopState {
 
 public enum EZombieState
 {
-    Patrol = 0,
-    Chase = 1,
-    Attack = 3,
-    Fall = 4,
-    Twitch = 5
+    Chase = 0,
+    Attack = 1,
+    Fall = 3,
+    Twitch = 4
 }
 
 public enum EBouncerState
@@ -217,7 +226,9 @@ public enum EGrapplingBotState {
 
 public enum SpawnType {
     Blaster = 0,
-    Grappler = 1,
+    Zombie = 1,
+    Bouncer = 2,
+    Kamikaze = 3,
 }
 
 public enum ActionType
