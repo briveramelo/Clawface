@@ -62,14 +62,14 @@ public class PlayerSpawner : MonoBehaviour
         if (Application.isPlaying)
         {
             player = Instantiate (playerPrefab);
-            Debug.Log ("Spawned player (player)");
+            //Debug.Log ("Spawned player (player)");
         }
 
         #if UNITY_EDITOR
         else if (Application.isEditor)
         {
             player = (GameObject)UnityEditor.PrefabUtility.InstantiatePrefab(playerPrefab);
-            Debug.Log ("Spawned player (editor)");
+            //Debug.Log ("Spawned player (editor)");
         }
         #endif
 
