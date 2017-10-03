@@ -25,7 +25,7 @@ public class BulletBehavior : MonoBehaviour {
         if (gameObject)
         {
             EmitBulletCollision();
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
 
@@ -45,24 +45,32 @@ public class BulletBehavior : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.gameObject.GetInstanceID() != shooterProperties.shooterInstanceID)
+        {
             bool isEnemy = other.gameObject.CompareTag(Strings.Tags.ENEMY);
             bool isPlayer = other.gameObject.CompareTag(Strings.Tags.PLAYER);
             if (isEnemy || isPlayer)
             {
                 Damage(other.gameObject.GetComponent<IDamageable>());
-                Push(other.gameObject.GetComponent<IMovable>());
+                //Push(other.gameObject.GetComponent<IMovable>());
             }
             if (isEnemy || isPlayer || other.gameObject.layer == (int)Layers.Ground)
             {
                 SFXManager.Instance.Play(SFXType.BlasterProjectileImpact, transform.position);
                 EmitBulletCollision();
-                Destroy(gameObject);
+                gameObject.SetActive(false);
             }
+        }
     }
 
     public void SetShooterProperties(ShooterProperties shooterProperties)
     {
         this.shooterProperties = shooterProperties;
+    }
+
+    public ShooterProperties GetShooterProperties()
+    {
+        return this.shooterProperties;
     }
 
 
@@ -85,7 +93,7 @@ public class BulletBehavior : MonoBehaviour {
             {
                 AnalyticsManager.Instance.AddEnemyModDamage(ModType.ArmBlaster, shooterProperties.damage);
             }
-            damager.Set(shooterProperties.damage, DamagerType.BlasterBullet, transform.forward);
+            damager.Set(shooterProperties.damage, DamagerType.BlasterBullet, Vector3.zero);
             damageable.TakeDamage(damager);
         }
     }
@@ -110,6 +118,7 @@ public class BulletBehavior : MonoBehaviour {
     public void SetWielderInstanceID(int id)
     {
         shooterProperties.shooterInstanceID = id;
+        SetShooterProperties(shooterProperties);
     }
 
 

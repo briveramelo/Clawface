@@ -8,6 +8,7 @@ public class BulletHellPatternController : MonoBehaviour {
     [SerializeField][Range(-360.0f, 360.0f)]private float separationFromForwardVector;
     [SerializeField][Range(0.0f, 100.0f)]   private float bulletSpeed;
     [SerializeField][Range(0.0f, 10.0f)]    private float rateOfFire;
+    [SerializeField] [Range(0.0f, 10.0f)]   private float bulletOffsetFromOrigin;
     [SerializeField]                        private GameObject bulletPrefab;
     [SerializeField][Range(0.0f, 30.0f)]    private int bulletStrands;
     [SerializeField][Range(0.0f, 360.0f)]   private float separationAngleBetweenStrands;
@@ -66,8 +67,11 @@ public class BulletHellPatternController : MonoBehaviour {
         for (int i = 0; i < bulletHellStrandList.Count; i++)
         {
             SFXManager.Instance.Play(SFXType.BlasterShoot, transform.position);
-            GameObject newBullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity) as GameObject;
-            newBullet.AddComponent<BulletBehavior>().AssignBulletValues(bulletHellStrandList[i].movementDirection, bulletSpeed);
+            GameObject newBullet = ObjectPool.Instance.GetObject(PoolObjectType.TurretBullet); ;
+            newBullet.transform.position = transform.position + (bulletHellStrandList[i].movementDirection * bulletOffsetFromOrigin);
+            newBullet.GetComponent<BulletBehavior>().AssignBulletValues(bulletHellStrandList[i].movementDirection, bulletSpeed);
+            newBullet.GetComponent<BulletBehavior>().SetWielderInstanceID(transform.parent.GetInstanceID());
+
         }
     }
     private void RotateBulletHellController()
