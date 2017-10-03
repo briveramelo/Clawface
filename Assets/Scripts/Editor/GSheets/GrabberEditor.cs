@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using System;
 
 
-public abstract class GrabberEditor<X, T, V, U> : Editor where X: Grabber<T, V, U> where T : GSheetData where V: GSheetScriptable<T> where U : GSheetsJSONParser<T>, new() {
+public abstract class DataGrabberEditor<X, T, V, U> : Editor where X: DataGrabber<T, V, U> where T : GSheetData where V: GSheetScriptable<T> where U : GSheetsJSONParser<T>, new() {
 
-    Grabber<T, V, U> grabberTarget;
+    DataGrabber<T, V, U> grabberTarget;
     GSheetsMiner gSheetsMinerTarget;
     bool clickedGetData;
     private void OnEnable() {
-        grabberTarget = target as Grabber<T, V, U>;
+        grabberTarget = target as DataGrabber<T, V, U>;
         gSheetsMinerTarget = grabberTarget.GetComponent<GSheetsMiner>();
     }
 

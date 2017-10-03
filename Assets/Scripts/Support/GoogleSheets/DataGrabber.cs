@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEngine;
 
 [ExecuteInEditMode, RequireComponent(typeof(GSheetsDeliveryBoy),typeof(GSheetsMiner))]
-public abstract class Grabber<T, V, U> : MonoBehaviour where T: GSheetData where V: GSheetScriptable<T> where U : GSheetsJSONParser<T>, new() {
+public abstract class DataGrabber<T, V, U> : MonoBehaviour where T: GSheetData where V: GSheetScriptable<T> where U : GSheetsJSONParser<T>, new() {
 
     [SerializeField] GSheetsDeliveryBoy deliveryBoy;
     public List<T> myDataList;

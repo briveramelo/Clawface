@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEditor;
 
 [CustomEditor(typeof(AchievementsGrabber)), CanEditMultipleObjects]
-public class AchievementsGrabberEditor : GrabberEditor<AchievementsGrabber, Achievement, AchievementScriptable, AchievementParser> {
+public class AchievementsGrabberEditor : DataGrabberEditor<AchievementsGrabber, Achievement, AchievementScriptable, AchievementParser> {
 
 	
 }

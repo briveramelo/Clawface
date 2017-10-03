@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using SimpleJSON;
 
-public class AchievementsGrabber : Grabber<Achievement, AchievementScriptable, AchievementParser> {
+public class AchievementsGrabber : DataGrabber<Achievement, AchievementScriptable, AchievementParser> {
 
 	
 }
