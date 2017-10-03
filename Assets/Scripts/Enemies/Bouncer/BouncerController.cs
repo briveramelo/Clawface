@@ -34,7 +34,8 @@ public abstract class BouncerController : AIController {
        VelocityBody velBody,
        Animator animator,
        Stats stats,
-       NavMeshAgent navAgent)
+       NavMeshAgent navAgent,
+       BulletHellPatternController bulletHellPattern)
     {
 
         this.properties = properties;
@@ -43,8 +44,8 @@ public abstract class BouncerController : AIController {
         this.navAgent = navAgent;
 
         states = new States();
-        states.Initialize(properties, this, velBody, animator, stats, navAgent);
-        CurrentState = states.patrol;
+        states.Initialize(properties, this, velBody, animator, stats, navAgent, bulletHellPattern);
+        CurrentState = states.chase;
     }
 
     public void UpdateState(EBouncerState state)
@@ -54,8 +55,13 @@ public abstract class BouncerController : AIController {
 
     public override void ResetForRebirth()
     {
-        CurrentState = states.patrol;
+        CurrentState = states.chase;
         base.ResetForRebirth();
+    }
+
+    public void ActivateMod()
+    {
+
     }
 
     public void AttackAnimationDone()
@@ -66,7 +72,6 @@ public abstract class BouncerController : AIController {
 
     protected class States
     {
-        public BouncerPatrolState patrol = new BouncerPatrolState();
         public BouncerChaseState chase = new BouncerChaseState();
         public BouncerFireState fire = new BouncerFireState();
         public BouncerTwitchState twitch = new BouncerTwitchState();
@@ -80,17 +85,16 @@ public abstract class BouncerController : AIController {
             VelocityBody velBody,
             Animator animator,
             Stats stats,
-            NavMeshAgent navAgent)
+            NavMeshAgent navAgent,
+            BulletHellPatternController bulletHellPattern)
         {
 
-            patrol.Initialize(properties, controller, velBody, animator, stats, navAgent);
-            chase.Initialize(properties, controller, velBody, animator, stats, navAgent);
-            fire.Initialize(properties, controller, velBody, animator, stats, navAgent);
-            twitch.Initialize(properties, controller, velBody, animator, stats, navAgent);
-            fall.Initialize(properties, controller, velBody, animator, stats, navAgent);
+            chase.Initialize(properties, controller, velBody, animator, stats, navAgent, bulletHellPattern);
+            fire.Initialize(properties, controller, velBody, animator, stats, navAgent, bulletHellPattern);
+            twitch.Initialize(properties, controller, velBody, animator, stats, navAgent, bulletHellPattern);
+            fall.Initialize(properties, controller, velBody, animator, stats, navAgent, bulletHellPattern);
 
             bouncerStates = new Dictionary<EBouncerState, BouncerState>() {
-                {EBouncerState.Patrol, patrol },
                 {EBouncerState.Chase, chase },
                 {EBouncerState.Fire, fire },
                 {EBouncerState.Twitch, twitch },

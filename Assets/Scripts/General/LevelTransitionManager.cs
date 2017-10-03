@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
-public class LevelTransitionManager : MonoBehaviour {
+public class LevelTransitionManager : MonoBehaviour
+{
 
     #region Serialized Unity Inspector fields
     [SerializeField]
@@ -13,8 +14,9 @@ public class LevelTransitionManager : MonoBehaviour {
 
     #region Unity Lifecycle
     // Use this for initialization
-    void Start () {
-        spawners = FindObjectsOfType<Spawner>();        
+    void Start()
+    {
+        spawners = FindObjectsOfType<Spawner>();
         InvokeRepeating("CheckForLevelCompletion", checkFrequency, checkFrequency);
     }
     #endregion
@@ -23,7 +25,7 @@ public class LevelTransitionManager : MonoBehaviour {
     private void CheckForLevelCompletion()
     {
         bool isDone = true;
-        foreach(Spawner spawner in spawners)
+        foreach (Spawner spawner in spawners)
         {
             if (spawner.IsLastWave() && spawner.IsAllEnemyClear())
             {
@@ -38,7 +40,7 @@ public class LevelTransitionManager : MonoBehaviour {
         if (isDone)
         {
             CancelInvoke();
-            
+
             MenuManager.Instance.DoTransition(Strings.MenuStrings.STAGE_OVER,
                 Menu.Transition.SHOW, new Menu.Effect[] { Menu.Effect.EXCLUSIVE });
         }

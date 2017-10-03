@@ -49,7 +49,12 @@ public class GrapplingBot : MonoBehaviour, IStunnable, IDamageable, ISpawnable {
             }
         }
     }
-    
+
+    void ISpawnable.WarpToNavMesh(Vector3 position)
+    {
+       
+    }
+
     float IDamageable.GetHealth()
     {
         return myStats.health;

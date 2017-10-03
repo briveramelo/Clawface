@@ -24,7 +24,6 @@ public class ZombieStateController : ZombieController {
     {
         checksToUpdateState = new List<Func<bool>>() {
             CheckToAttack,
-            CheckToPatrol,
             CheckToFinishAttacking
         };
     }
@@ -36,7 +35,7 @@ public class ZombieStateController : ZombieController {
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag(Strings.Tags.PLAYER) && CurrentState != states.chase && CurrentState != states.attack)
+        if (other.CompareTag(Strings.Tags.PLAYER))
         {
 
             AttackTarget = other.transform;
@@ -56,31 +55,13 @@ public class ZombieStateController : ZombieController {
         return false;
     }
 
-    bool CheckToPatrol()
-    {
-       if (AttackTarget == null) {
-
-            UpdateState(EZombieState.Patrol);
-            return true;
-       }        
-        return false;
-    }
-
     bool CheckToFinishAttacking()
     {
         if (CurrentState == states.attack)
         {
 
             bool shouldChase = distanceFromTarget > maxDistanceBeforeChasing;
-
-            if (shouldChase)
-            {
                 UpdateState(EZombieState.Chase);
-            }
-            else
-            {
-                UpdateState(EZombieState.Attack);
-            }
             return true;
         }
         return false;
