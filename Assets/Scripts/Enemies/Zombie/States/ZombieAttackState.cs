@@ -10,13 +10,12 @@ public class ZombieAttackState : ZombieState
     private ShooterProperties shooterProperties = new ShooterProperties();
     private Damager damager = new Damager();
     float timeSinceLastHit;
-    float hitRate = 0.25f;
+    float hitRate = 1.0f;
 
 
     public override void OnEnter()
     {
         animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Fire);
-        Timing.RunCoroutine(RunStartupTimer());
         shooterProperties.Initialize(2, 5, 6, 0);
         SetShooterProperties(shooterProperties);
     }
@@ -36,18 +35,6 @@ public class ZombieAttackState : ZombieState
     public override void OnExit()
     {
 
-    }
-
-    IEnumerator<float> RunStartupTimer()
-    {
-        isPastStartup = false;
-        yield return Timing.WaitForSeconds(0.5f);
-        isPastStartup = true;
-    }
-
-    public bool CanRestart()
-    {
-        return animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.99f && isPastStartup;
     }
 
 

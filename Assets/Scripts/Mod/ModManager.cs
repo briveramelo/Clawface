@@ -17,12 +17,12 @@ public class ModManager : MonoBehaviour
 
     #region Serialized Unity Inspector fields
     [SerializeField]
-    private Transform headSocket, leftArmSocket, rightArmSocket, legsSocket;
+    private Transform leftArmSocket, rightArmSocket;
     [SerializeField]
     private Stats playerStats;
     [SerializeField] private VelocityBody velBody;
     [SerializeField] private ModInventory modInventory;
-    [SerializeField] private ModUIManager modUIManager;
+    //[SerializeField] private ModUIManager modUIManager;
     [SerializeField] private float modPickupRadius;
     [SerializeField] private ModType[] modPool;
     #endregion
@@ -222,7 +222,7 @@ public class ModManager : MonoBehaviour
     private void SetAllModUIToIdle(){
         foreach (ModSpot modSpot in Enum.GetValues(typeof(ModSpot))){
             if (modSpot != ModSpot.Default){
-                modUIManager.SetUIState(modSpot, ModUIState.IDLE);
+                //modUIManager.SetUIState(modSpot, ModUIState.IDLE);
             }
         }
         modToSwap = ModSpot.Default;
@@ -235,7 +235,7 @@ public class ModManager : MonoBehaviour
         }
 
         if (!isSwapping){
-            modUIManager.AttachMod(spot, mod.getModType());
+            //modUIManager.AttachMod(spot, mod.getModType());
         }
         mod.setModSpot(spot);
         mod.transform.SetParent(modSocketDictionary[spot].socket);
@@ -250,7 +250,7 @@ public class ModManager : MonoBehaviour
     private void Detach(ModSpot spot, bool isSwapping = false){
         if (modSocketDictionary[spot].mod != null){
             if (!isSwapping){
-                modUIManager.DetachMod(spot);
+                //modUIManager.DetachMod(spot);
                 AnalyticsManager.Instance.DropMod();
             }
             modSocketDictionary[spot].mod.transform.SetParent(modInventory.GetModParent(modSocketDictionary[spot].mod.getModType()));

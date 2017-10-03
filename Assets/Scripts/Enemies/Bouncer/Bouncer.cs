@@ -10,13 +10,12 @@ public class Bouncer : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
     [SerializeField] private BouncerController controller;
     [SerializeField] private BouncerProperties properties;
     [SerializeField] private VelocityBody velBody;
-    [SerializeField] private GlowObject glowObject;
     [SerializeField] private Animator animator;
     [SerializeField] private Stats myStats;
     [SerializeField] private NavMeshAgent navAgent;
     [SerializeField] private GameObject mySkin;
     [SerializeField] private CopUI copUICanvas;
-    //[SerializeField] private Mod mod;
+    [SerializeField] private BulletHellPatternController bulletPatternController;
     [SerializeField] private Transform bloodEmissionLocation;
     [SerializeField] private int scorePopupDelay = 2;
     [SerializeField] private int scoreValue = 200;
@@ -24,15 +23,15 @@ public class Bouncer : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
 
     #region 3. Private fields
 
-    
+
     private int stunCount;
     private Will will = new Will();
     private Damaged damaged = new Damaged();
     private DamagePack damagePack = new DamagePack();
     private bool lastChance;
+    
 
     #endregion
-
 
     #region 4. Unity Lifecycle
 
@@ -42,12 +41,11 @@ public class Bouncer : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
         {
             ResetForRebirth();
         }
-
     }
 
     void Awake()
     {
-        controller.Initialize(properties, velBody, animator, myStats, navAgent);
+        controller.Initialize(properties, velBody, animator, myStats, navAgent, bulletPatternController);
         ResetForRebirth();
     }
 
@@ -64,9 +62,8 @@ public class Bouncer : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
             SFXManager.Instance.Play(SFXType.MallCopHurt, transform.position);
             damaged.Set(DamagedType.Bouncer, bloodEmissionLocation);
             DamageFXManager.Instance.EmitDamageEffect(damagePack);
-            if (myStats.health <= myStats.skinnableHealth && !glowObject.isGlowing)
+            if (myStats.health <= myStats.skinnableHealth)
             {
-                glowObject.SetToGlow();
                 copUICanvas.gameObject.SetActive(true);
                 copUICanvas.ShowAction(ActionType.Skin);
             }
@@ -85,10 +82,7 @@ public class Bouncer : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
             }
             else
             {
-                if (controller.ECurrentState == EBouncerState.Patrol)
-                {
                     controller.UpdateState(EBouncerState.Chase);
-                }
             }
         }
     }
@@ -96,6 +90,11 @@ public class Bouncer : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
     float IDamageable.GetHealth()
     {
         return myStats.health;
+    }
+
+    void ISpawnable.WarpToNavMesh(Vector3 position)
+    {
+        navAgent.Warp(position);
     }
 
     bool ISkinnable.IsSkinnable()
@@ -185,7 +184,6 @@ public class Bouncer : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
         myStats.ResetForRebirth();
         controller.ResetForRebirth();
         velBody.ResetForRebirth();
-        glowObject.ResetForRebirth();
         will.Reset();
         //TODO check for missing mod and create a new one and attach it
         //mod.setModSpot(ModSpot.ArmR);
