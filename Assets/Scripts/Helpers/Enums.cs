@@ -149,11 +149,9 @@ public enum MovementMode
 public enum PlayerAnimationStates
 {
     Idle = 0,
-    Running = 1,    
-    StunBaton = 2,
-    Boomerang = 3,
-    Dash = 4,
-    TankTreads = 5
+    Running = 1,
+    Dash = 2,
+    RetractVisor = 3
 }
 
 public enum ButtonMode

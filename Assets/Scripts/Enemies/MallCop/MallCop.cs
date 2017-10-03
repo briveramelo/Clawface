@@ -22,6 +22,8 @@ public class MallCop : RoutineRunner, IStunnable, IDamageable, ISkinnable, ISpaw
     [SerializeField] private CopUI copUICanvas;
     [SerializeField] private Mod mod;
     [SerializeField] private Transform bloodEmissionLocation;
+    [SerializeField] private int scorePopupDelay = 2;
+    [SerializeField] private int scoreValue = 200;
     #endregion
 
     #region 3. Private fields
@@ -140,6 +142,17 @@ public class MallCop : RoutineRunner, IStunnable, IDamageable, ISkinnable, ISpaw
                 mallCopParts.transform.rotation = transform.rotation;
                 mallCopParts.DeActivate(5f);                
             }
+
+            GameObject worldScoreObject = ObjectPool.Instance.GetObject(PoolObjectType.WorldScoreCanvas);
+            if (worldScoreObject) {
+                worldScoreObject.GetComponent<Canvas>().GetComponent<RectTransform>().SetPositionAndRotation(transform.position, transform.rotation);                //worldScoreObject.transform.position = transform.position /*+ Vector3.up * 3f*/;
+                WorldScoreUI popUpScore = worldScoreObject.GetComponent<WorldScoreUI>();
+
+                int scoreBonus = scoreValue * ScoreManager.Instance.GetCurrentMultiplier();
+                popUpScore.DisplayScoreAndHide(scoreBonus, scorePopupDelay);
+                ScoreManager.Instance.AddToScoreAndCombo(scoreBonus);
+            }
+
             mod.KillCoroutines();            
             gameObject.SetActive(false);
         }

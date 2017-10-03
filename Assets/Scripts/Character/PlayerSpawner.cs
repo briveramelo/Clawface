@@ -1,6 +1,8 @@
 ﻿// PlayerSpawner.cs
 // ©2017 Aaron Desin
 
+using ModMan;
+
 using System;
 using System.IO;
 
@@ -21,12 +23,21 @@ public class PlayerSpawner : MonoBehaviour
     // Comes from the player prefab
     static Vector3 SPAWN_OFFSET = new Vector3 (-14f, 20f, -7f);
 
+    GameObject player;
+
+    new Camera camera;
+
     #endregion
     #region Unity Lifecycle
 
-    void Awake ()
+    void Awake()
     {
+        camera = GetComponentInChildren<Camera>();
+        camera.enabled = false;
+
         SpawnPlayer();
+
+        gameObject.SetActive (false);
     }
 
     #endregion
@@ -48,7 +59,21 @@ public class PlayerSpawner : MonoBehaviour
                 playerPrefabPath));
 
         // Instantiate the prefab and bring it to spawner location
-        GameObject player = Instantiate (playerPrefab);
+        if (Application.isPlaying)
+        {
+            player = Instantiate (playerPrefab);
+            //Debug.Log ("Spawned player (player)");
+        }
+
+        #if UNITY_EDITOR
+        else if (Application.isEditor)
+        {
+            player = (GameObject)UnityEditor.PrefabUtility.InstantiatePrefab(playerPrefab);
+            //Debug.Log ("Spawned player (editor)");
+        }
+        #endif
+
+        //player.transform.SetParent (transform);
         player.transform.position = transform.position + SPAWN_OFFSET;
     }
 
@@ -60,10 +85,9 @@ public class PlayerSpawner : MonoBehaviour
     {
         // Get absolute path
         string absolutePath = string.Format ("{0}{1}{2}", 
-            Application.dataPath,
+            Application.dataPath, 
             PLAYER_PREFAB_PATH,
-            RESOURCES_FOLDER_PATH
-            );
+            RESOURCES_FOLDER_PATH);
 
         // List all files in directory
         string[] allPrefabFiles = Directory.GetFiles(absolutePath);
@@ -105,6 +129,12 @@ public class PlayerSpawner : MonoBehaviour
                     "Failed to parse version number at {0}!", filePath));
                 continue;
             }
+        }
+
+        if (highestVersionPath == default(string))
+        {
+            Debug.LogError ("Failed to get newest player prefab!");
+            return null;
         }
 
         // Change path to be relative to Resources folder
