@@ -17,12 +17,9 @@ public class SkinningState : IPlayerState
 
     #region Unity Lifecycle 
     private void Start()
-    {
-        //PlayerAnimationEventsListener.FaceOpenEvent.AddListener(DoArmExtension);
-        EventSystem.Instance.RegisterEvent("FaceOpen", TestFunction);
-        EventSystem.Instance.RegisterEvent("FaceOpen", DoArmExtension);
-        EventSystem.Instance.UnRegisterEvent("FaceOpen", TestFunction);
-        ClawAnimationEventsListener.ClawArmExtendedEvent.AddListener(DoSkinning);
+    {        
+        EventSystem.Instance.RegisterEvent(Strings.Events.FACE_OPEN, DoArmExtension);
+        EventSystem.Instance.RegisterEvent(Strings.Events.ARM_EXTENDED, DoSkinning);
     }
 
     public override void Init(ref PlayerStateManager.StateVariables stateVariables)
@@ -63,8 +60,8 @@ public class SkinningState : IPlayerState
     private void OnDisable()
     {
         //PlayerAnimationEventsListener.FaceOpenEvent.RemoveListener(DoArmExtension);
-        EventSystem.Instance.UnRegisterEvent("FaceOpen", DoArmExtension);
-        ClawAnimationEventsListener.ClawArmExtendedEvent.RemoveListener(DoSkinning);
+        EventSystem.Instance.UnRegisterEvent(Strings.Events.FACE_OPEN, DoArmExtension);
+        EventSystem.Instance.UnRegisterEvent(Strings.Events.ARM_EXTENDED, DoSkinning);
     }
     #endregion
 
@@ -84,12 +81,7 @@ public class SkinningState : IPlayerState
         stateVariables.clawAnimator.SetBool(Strings.ANIMATIONSTATE, true);
     }
 
-    private void TestFunction(object[] parameters)
-    {
-        
-    }
-
-    private void DoSkinning()
+    private void DoSkinning(object[] parameters)
     {
         //Check if enemy is still alive
         if (stateVariables.skinTargetEnemy.activeSelf)
