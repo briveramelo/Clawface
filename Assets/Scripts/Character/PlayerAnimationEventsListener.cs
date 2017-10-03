@@ -8,9 +8,8 @@ public class PlayerAnimationEventsListener : MonoBehaviour {
 
     #region Public functions
     public void FaceOpen()
-    {        
-        object[] parameters = {};
-        Assert.IsTrue(EventSystem.Instance.TriggerEvent(Strings.Events.FACE_OPEN, parameters));
+    {
+        Assert.IsTrue(EventSystem.Instance.TriggerEvent(Strings.Events.FACE_OPEN));
     }
     #endregion
 }

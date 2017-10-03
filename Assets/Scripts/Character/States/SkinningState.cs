@@ -20,6 +20,7 @@ public class SkinningState : IPlayerState
     {        
         EventSystem.Instance.RegisterEvent(Strings.Events.FACE_OPEN, DoArmExtension);
         EventSystem.Instance.RegisterEvent(Strings.Events.ARM_EXTENDED, DoSkinning);
+
     }
 
     public override void Init(ref PlayerStateManager.StateVariables stateVariables)
@@ -59,7 +60,6 @@ public class SkinningState : IPlayerState
 
     private void OnDisable()
     {
-        //PlayerAnimationEventsListener.FaceOpenEvent.RemoveListener(DoArmExtension);
         EventSystem.Instance.UnRegisterEvent(Strings.Events.FACE_OPEN, DoArmExtension);
         EventSystem.Instance.UnRegisterEvent(Strings.Events.ARM_EXTENDED, DoSkinning);
     }
@@ -76,12 +76,12 @@ public class SkinningState : IPlayerState
     }
 
 
-    private void DoArmExtension(object[] parameters)
+    private void DoArmExtension(params object[] parameters)
     {
         stateVariables.clawAnimator.SetBool(Strings.ANIMATIONSTATE, true);
     }
 
-    private void DoSkinning(object[] parameters)
+    private void DoSkinning(params object[] parameters)
     {
         //Check if enemy is still alive
         if (stateVariables.skinTargetEnemy.activeSelf)

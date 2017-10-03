@@ -6,7 +6,7 @@ using UnityEngine;
 public class EventSystem : Singleton<EventSystem> {
 
     #region Private variables
-    public delegate void FunctionPrototype(object[] parameters);
+    public delegate void FunctionPrototype(params object[] parameters);
     private Dictionary<string, FunctionPrototype> eventMap = new Dictionary<string, FunctionPrototype>();
     #endregion
 
@@ -54,7 +54,7 @@ public class EventSystem : Singleton<EventSystem> {
         return true;
     }
 
-    public bool TriggerEvent(string key, object[] parameters)
+    public bool TriggerEvent(string key, params object[] parameters)
     {
         FunctionPrototype functionPrototype;
         if (eventMap.TryGetValue(key, out functionPrototype))
