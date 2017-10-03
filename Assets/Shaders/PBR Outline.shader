@@ -13,7 +13,7 @@ Shader "PBR Outline"
 		_MetallicSmoothnessEmissiveAO("MetallicSmoothnessEmissiveAO", 2D) = "white" {}
 		_EmissiveColor("Emissive Color", Color) = (1,1,1,0)
 		_EmissiveStrength("Emissive Strength", Range( 0 , 5)) = 0
-		_TextureTiling("Texture Tiling", Float) = 0
+		_TextureTiling("Texture Tiling", Float) = 1
 	}
 
 	SubShader

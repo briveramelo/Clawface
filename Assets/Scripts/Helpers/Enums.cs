@@ -130,6 +130,9 @@ public enum PoolObjectType {
     GeyserProjectile = 12,
     BlasterBullet=2,
     GrapplingHook = 27,
+    EnemyBulletSmall = 35,
+    EnemyBulletMedium = 36,
+    EnemyBulletLarge = 37,
 
     //Enemy Types
     GrapplingBot=11,

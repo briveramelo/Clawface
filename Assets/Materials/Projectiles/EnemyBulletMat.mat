@@ -6,10 +6,10 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Mat_Player
-  m_Shader: {fileID: 4800000, guid: 2a4c9a389a3d34d47a5ad691ca859895, type: 3}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 4
+  m_Name: EnemyBulletMat
+  m_Shader: {fileID: 4800000, guid: 362c7f1e21e108a4388a1ef4e5d910ad, type: 3}
+  m_ShaderKeywords: _EMISSION _METALLICGLOSSMAP _NORMALMAP
+  m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -19,11 +19,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _Albedo:
-        m_Texture: {fileID: 2800000, guid: 8613e0d78763613458670709a4fe6b1c, type: 3}
+        m_Texture: {fileID: 2800000, guid: 6d51418ba425a4345b2a15503a4a9729, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: c6013a5497e1e5f44a9baba38dbb7468, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -39,27 +39,23 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _FaceTexture:
-        m_Texture: {fileID: 2800000, guid: 04448cb6ee122a1489140bc530afa13d, type: 3}
+        m_Texture: {fileID: 2800000, guid: 09d0e25f6c1c4fa4c93dd0b8b2d10ec8, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: e656ab60240588849b718d30bbc43b81, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 7fdd6462ad7afd043924c496fdbb108f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicSmoothnessEmissiveAO:
-        m_Texture: {fileID: 2800000, guid: 2fa1928f8bd40b84b9ab0960150c68d3, type: 3}
+        m_Texture: {fileID: 2800000, guid: 2925ad1000fb9d241a960b2150c82b52, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Normal:
-        m_Texture: {fileID: 2800000, guid: 406b6416d905fd148b3172a6bee72add, type: 3}
+        m_Texture: {fileID: 2800000, guid: 9a03d57df136b5d4c810217a773773ec, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -70,22 +66,17 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _texcoord2:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _ASEOutlineWidth: 0.04
+    - _ASEOutlineWidth: 0.1
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _EmissiveStrength: 0.96
-    - _FaceEmissiveStrength: 1.54
+    - _EmissiveStrength: 1
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _Metallic: 0
+    - _Metallic: 0.5
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
@@ -97,9 +88,8 @@ Material:
     - _ZWrite: 1
     - __dirty: 1
     m_Colors:
-    - _ASEOutlineColor: {r: 0.33595324, g: 0, b: 0.9191176, a: 0}
-    - _AlbedoTint: {r: 1, g: 1, b: 1, a: 0}
+    - _ASEOutlineColor: {r: 1, g: 0.5955882, b: 0.6876268, a: 0}
+    - _AlbedoTint: {r: 1, g: 0.029411793, b: 0.16997953, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _EmissiveColor: {r: 1, g: 1, b: 1, a: 0}
-    - _FaceColor: {r: 0.49803922, g: 0.49803922, b: 1, a: 0}
