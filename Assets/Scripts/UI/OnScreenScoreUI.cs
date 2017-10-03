@@ -29,10 +29,11 @@ public class OnScreenScoreUI : MonoBehaviour {
     // Configuration Variables
     [SerializeField] private float glitchSeconds = 1.0F;
     [SerializeField] private int glitchesPerSecond = 5;
+    [SerializeField, HideInInspector] private Image overlay;
     #endregion
 
     #region Private Fields
-    private Image overlay = null;
+
     private ScoreManager sm;
     private System.Random rng = new System.Random();
     private bool glitchInProgress = false;
@@ -47,6 +48,7 @@ public class OnScreenScoreUI : MonoBehaviour {
     private void Start()
     {
         sm = ScoreManager.Instance;
+
     }
 
     private void LateUpdate()
@@ -61,7 +63,7 @@ public class OnScreenScoreUI : MonoBehaviour {
     #region Public Methods
     public void DoDamageEffect()
     {
-
+        StartCoroutine(GlitchEffect());
     }
     public void SetHealth(float i_val)
     {
