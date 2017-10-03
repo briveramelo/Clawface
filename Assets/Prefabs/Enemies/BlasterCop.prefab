@@ -1247,6 +1247,8 @@ MonoBehaviour:
   copUICanvas: {fileID: 114680551256405116}
   mod: {fileID: 114969724012723138}
   bloodEmissionLocation: {fileID: 4313216080101678}
+  scorePopupDelay: 2
+  scoreValue: 200
 --- !u!114 &114925724431600594
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1311,6 +1313,7 @@ MonoBehaviour:
     isCoolingDown: 0
     isActive: 0
   bulletSpawnPoint: {fileID: 4959142172828002}
+  projectileBullet: 35
 --- !u!135 &135652806102363036
 SphereCollider:
   m_ObjectHideFlags: 1
