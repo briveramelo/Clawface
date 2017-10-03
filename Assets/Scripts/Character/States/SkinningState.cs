@@ -16,9 +16,12 @@ public class SkinningState : IPlayerState
     #endregion
 
     #region Unity Lifecycle 
-    private void Awake()
+    private void Start()
     {
-        PlayerAnimationEventsListener.FaceOpenEvent.AddListener(DoArmExtension);
+        //PlayerAnimationEventsListener.FaceOpenEvent.AddListener(DoArmExtension);
+        EventSystem.Instance.RegisterEvent("FaceOpen", TestFunction);
+        EventSystem.Instance.RegisterEvent("FaceOpen", DoArmExtension);
+        EventSystem.Instance.UnRegisterEvent("FaceOpen", TestFunction);
         ClawAnimationEventsListener.ClawArmExtendedEvent.AddListener(DoSkinning);
     }
 
@@ -57,9 +60,10 @@ public class SkinningState : IPlayerState
         
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
-        PlayerAnimationEventsListener.FaceOpenEvent.RemoveListener(DoArmExtension);
+        //PlayerAnimationEventsListener.FaceOpenEvent.RemoveListener(DoArmExtension);
+        EventSystem.Instance.UnRegisterEvent("FaceOpen", DoArmExtension);
         ClawAnimationEventsListener.ClawArmExtendedEvent.RemoveListener(DoSkinning);
     }
     #endregion
@@ -75,10 +79,14 @@ public class SkinningState : IPlayerState
     }
 
 
-    private void DoArmExtension()
+    private void DoArmExtension(object[] parameters)
     {
-        //Debug.Log("Extending!");
         stateVariables.clawAnimator.SetBool(Strings.ANIMATIONSTATE, true);
+    }
+
+    private void TestFunction(object[] parameters)
+    {
+        
     }
 
     private void DoSkinning()
