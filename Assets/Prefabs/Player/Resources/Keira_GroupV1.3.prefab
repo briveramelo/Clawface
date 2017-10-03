@@ -917,8 +917,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4689046971265718}
   - component: {fileID: 114156367050319540}
-  - component: {fileID: 114977157487692870}
-  - component: {fileID: 114896560538737846}
   m_Layer: 0
   m_Name: Keira_GroupV1.3
   m_TagString: Untagged
@@ -2261,7 +2259,7 @@ MonoBehaviour:
   damageModifier: 1
   damageUI: {fileID: 114187028798929138}
   cameraLock: {fileID: 114336235781998026}
-  healthBar: {fileID: 114896560538737846}
+  healthBar: {fileID: 0}
   faceController: {fileID: 114429413940206736}
   shake: 0
   stats: {fileID: 114240836146616974}
@@ -2589,7 +2587,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isBlockingState: 0
-  healthBar: {fileID: 114896560538737846}
+  healthBar: {fileID: 0}
 --- !u!114 &114429413940206736
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2916,23 +2914,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114896560538737846
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1854597380818638}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42132327f77d0cb4aaef0117c7ed8edf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  onScreenCombo: {fileID: 114820915236281688}
-  comboOnScreenTime: 2
-  comboTimer: {fileID: 114162026944248490}
-  onScreenScore: {fileID: 114478868996220400}
-  healthMask: {fileID: 224050267331261740}
-  healthBar: {fileID: 224589910693206296}
 --- !u!114 &114970321640880786
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2945,18 +2926,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playOnAwake: 1
---- !u!114 &114977157487692870
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1854597380818638}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b2728607e3a4c2347be96d93a18d9caf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetFrameRate: 60
 --- !u!124 &124210920918408362
 Behaviour:
   m_ObjectHideFlags: 1
