@@ -65,6 +65,19 @@ namespace ModMan {
 
     }
 
+    public static class ArrayExtensions
+    {
+        public static int IndexOf<T> (this T[] array, T obj)
+        {
+            for (int i = 0; i < array.Length; i++)
+            {
+                if (array[i].Equals (obj)) return i;
+            }
+
+            return -1;
+        }
+    }
+
     public static class VectorExtensions {
         //Clamps at 0, 360
         public static Vector3 ToVector3(this float inputAngle)
@@ -85,6 +98,11 @@ namespace ModMan {
         public static float As360Angle(this Vector3 inputVector) {
             float start = Mathf.Atan2(inputVector.z, inputVector.x);
             return (start > 0 ? start : (2 * Mathf.PI + start)) * 360 / (2 * Mathf.PI);
+        }
+
+        public static Float3 ToFloat3 (this Vector3 v)
+        {
+            return new Float3 (v.x, v.y, v.z);
         }
     }
 
