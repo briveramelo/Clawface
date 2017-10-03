@@ -16,10 +16,11 @@ public class SkinningState : IPlayerState
     #endregion
 
     #region Unity Lifecycle 
-    private void Awake()
-    {
-        PlayerAnimationEventsListener.FaceOpenEvent.AddListener(DoArmExtension);
-        ClawAnimationEventsListener.ClawArmExtendedEvent.AddListener(DoSkinning);
+    private void Start()
+    {        
+        EventSystem.Instance.RegisterEvent(Strings.Events.FACE_OPEN, DoArmExtension);
+        EventSystem.Instance.RegisterEvent(Strings.Events.ARM_EXTENDED, DoSkinning);
+
     }
 
     public override void Init(ref PlayerStateManager.StateVariables stateVariables)
@@ -57,10 +58,10 @@ public class SkinningState : IPlayerState
         
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
-        PlayerAnimationEventsListener.FaceOpenEvent.RemoveListener(DoArmExtension);
-        ClawAnimationEventsListener.ClawArmExtendedEvent.RemoveListener(DoSkinning);
+        EventSystem.Instance.UnRegisterEvent(Strings.Events.FACE_OPEN, DoArmExtension);
+        EventSystem.Instance.UnRegisterEvent(Strings.Events.ARM_EXTENDED, DoSkinning);
     }
     #endregion
 
@@ -75,13 +76,12 @@ public class SkinningState : IPlayerState
     }
 
 
-    private void DoArmExtension()
+    private void DoArmExtension(params object[] parameters)
     {
-        //Debug.Log("Extending!");
         stateVariables.clawAnimator.SetBool(Strings.ANIMATIONSTATE, true);
     }
 
-    private void DoSkinning()
+    private void DoSkinning(params object[] parameters)
     {
         //Check if enemy is still alive
         if (stateVariables.skinTargetEnemy.activeSelf)

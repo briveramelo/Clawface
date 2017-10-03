@@ -57,4 +57,10 @@
             public const string DODGE = "Dodge";
         }
     }
+
+    public static class Events
+    {
+        public const string FACE_OPEN = "FaceOpen";
+        public const string ARM_EXTENDED = "ArmExtended";
+    }
 }
