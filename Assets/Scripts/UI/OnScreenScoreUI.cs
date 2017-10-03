@@ -22,22 +22,31 @@ public class OnScreenScoreUI : MonoBehaviour {
     [Header("HealthBar")]
     [SerializeField] private Transform healthMask;
     [SerializeField] private Transform healthBar;
+
+    [Header("GlitchDamageEffect")]
+    [SerializeField] private Sprite[] glitchSprites;
+
+    // Configuration Variables
+    [SerializeField] private float glitchSeconds = 1.0F;
+    [SerializeField] private int glitchesPerSecond = 5;
     #endregion
 
     #region Private Fields
+    private Image overlay = null;
     private ScoreManager sm;
-    //private bool comboDisplayed = false;
+    private System.Random rng = new System.Random();
+    private bool glitchInProgress = false;
     #endregion
 
     #region Unity Lifecycle
     void Awake()
     {
-        
+
+        comboTimer.fillAmount = 0f;
     }
     private void Start()
     {
         sm = ScoreManager.Instance;
-        comboTimer.fillAmount = 0f;
     }
 
     private void LateUpdate()
@@ -50,16 +59,52 @@ public class OnScreenScoreUI : MonoBehaviour {
     #endregion
 
     #region Public Methods
-    #endregion
+    public void DoDamageEffect()
+    {
 
-    #region Private Methods
+    }
     public void SetHealth(float i_val)
     {
         Assert.IsTrue(i_val >= 0.0F && i_val <= 1.0F);
         healthMask.localScale = new Vector3(i_val, 1.0F, 1.0F);
         healthBar.localScale = new Vector3(i_val == 0 ? 0 : 1 / i_val, 1.0F, 1.0F);
     }
-    void UpdateComboTimer()
+    #endregion
+
+    #region Private Methods
+    private IEnumerator GlitchEffect()
+    {
+        if (glitchInProgress)
+            yield break;
+        else
+            glitchInProgress = true;
+
+        overlay.color = new Color(1.0F, 1.0F, 1.0F, 1.0F);
+
+        float elapsedTime = 0.0F;
+        float totalTime = 0.0F;
+        while (totalTime < glitchSeconds)
+        {
+            if (elapsedTime == 0.0F)
+            {
+                overlay.sprite = GetRandomSprite();
+            }
+            yield return new WaitForFixedUpdate();
+            elapsedTime += Time.fixedDeltaTime;
+            totalTime += Time.fixedDeltaTime;
+
+            if (elapsedTime >= 1.0F / glitchesPerSecond)
+            {
+                elapsedTime = 0.0F;
+            }
+        }
+
+        overlay.sprite = null;
+        overlay.color = new Color(1.0F, 1.0F, 1.0F, 0.0F);
+        glitchInProgress = false;
+    }
+
+    private void UpdateComboTimer()
     {
         if (sm && !Mathf.Equals(sm.GetMaxTimeRemaining(), 0f) && sm.GetCurrentTimeRemaining() > 0f)
         {
@@ -71,7 +116,11 @@ public class OnScreenScoreUI : MonoBehaviour {
         }
     }
 
-    //TODO: Hmmm........There's a better way of doing this - G
+    private Sprite GetRandomSprite()
+    {
+        return glitchSprites[rng.Next(glitchSprites.Length)];
+    }
+
     void SetTimerValue(float i_timeRem, float i_timeMax)
     {
         if (sm)
