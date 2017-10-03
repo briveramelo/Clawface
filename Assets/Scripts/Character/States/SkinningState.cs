@@ -32,7 +32,7 @@ public class SkinningState : IPlayerState
     {
         if (!isAnimating)
         {
-            Debug.Log("Entering Skinning state");
+            //Debug.Log("Entering Skinning state");
             if (stateVariables.skinTargetEnemy.activeSelf) {
                 Vector3 enemyPosition = stateVariables.skinTargetEnemy.transform.position;
                 stateVariables.playerTransform.LookAt(new Vector3(enemyPosition.x, 0f, enemyPosition.z));
@@ -67,7 +67,7 @@ public class SkinningState : IPlayerState
     #region Private Methods
     protected override void ResetState()
     {
-        Debug.Log("Exiting Skinning state");
+        //Debug.Log("Exiting Skinning state");
         stateVariables.clawAnimator.SetBool(Strings.ANIMATIONSTATE, false);
         stateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Idle);
         isAnimating = false;
@@ -77,7 +77,7 @@ public class SkinningState : IPlayerState
 
     private void DoArmExtension()
     {
-        Debug.Log("Extending!");
+        //Debug.Log("Extending!");
         stateVariables.clawAnimator.SetBool(Strings.ANIMATIONSTATE, true);
     }
 
