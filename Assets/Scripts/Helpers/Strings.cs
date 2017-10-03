@@ -15,14 +15,15 @@
     }
 
     public static class Scenes {
-        public static string Level1 = "Scenes/EAE_Level1.1";// TODO - Is this even used anymore?
-        public static string MainMenu = "Scenes/MainMenu";
-        public static string Arena = "Scenes/Gucci_V1.2";
+        public static string MainMenu = "Scenes/Build Scenes/MainMenu";
+        public static string Arena = "Scenes/Build Scenes/Gucci_V1.2";
     }
 
     public static class Layers
     {
         public static string GROUND = "Ground";
+
+        public static string ENEMY = "Enemy";
     }
 
     public static class MenuStrings

@@ -185,7 +185,7 @@ namespace Turing.VFX
 
         public void SetTemporaryEmotion (Emotion emotion, float time)
         {
-            Debug.Log (emotion);
+            //Debug.Log (emotion);
             SetEmotion (emotion);
             StartCoroutine (DoTemporaryEmotion(time));
         }

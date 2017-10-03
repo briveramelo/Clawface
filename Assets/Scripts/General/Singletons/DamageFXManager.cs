@@ -15,7 +15,7 @@ public class DamageFXManager : Singleton<DamageFXManager> {
                 new Dictionary<DamagerType, System.Action<DamagePack>>() {
                     {DamagerType.SegwayPush, EmitBlood },
                     {DamagerType.BlasterBullet, EmitBlood },
-                    //{DamagerType.StunSwing, EmitBlood },
+                    {DamagerType.SpreadGun, EmitBlood },
                     {DamagerType.TankTreads, EmitBlood },
                     {DamagerType.GrapplingHook, EmitBlood },
                     {DamagerType.Boomerang, EmitBlood },
@@ -31,7 +31,7 @@ public class DamageFXManager : Singleton<DamageFXManager> {
                 new Dictionary<DamagerType, System.Action<DamagePack>>() {
                     {DamagerType.SegwayPush, EmitBlood },
                     {DamagerType.BlasterBullet, EmitBlood },
-                    //{DamagerType.StunSwing, EmitBlood },
+                    {DamagerType.SpreadGun, EmitBlood },
                     {DamagerType.TankTreads, EmitBlood },
                     {DamagerType.GrapplingHook, EmitBlood },
                     {DamagerType.Boomerang, EmitBlood },
