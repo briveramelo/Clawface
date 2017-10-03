@@ -16,7 +16,6 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     #region Serialized Unity Inspector fields
     [SerializeField] private DamageUI damageUI;
     [SerializeField] private CameraLock cameraLock;
-    [SerializeField] private GameObject skinObject;
     [SerializeField] private OnScreenScoreUI healthBar;
     [SerializeField] private PlayerFaceController faceController;
     [SerializeField] private bool shake;
@@ -56,16 +55,12 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
             stats.TakeDamage(damageModifier * damager.damage);
             float healthFraction = stats.GetHealthFraction();
             healthBar.SetHealth(healthFraction);
-            cameraLock.Shake(.4f);
+            cameraLock.Shake();
             float shakeIntensity = 1f - healthFraction;
             if (shake) {
                 InputManager.Instance.Vibrate(VibrationTargets.BOTH, shakeIntensity);
             }
             SFXManager.Instance.Play(SFXType.PlayerTakeDamage, transform.position);
-
-            if (stats.health < healthAtLastSkin-lastSkinHealthBoost) {
-                skinObject.SetActive(false);
-            }
 
             faceController.SetTemporaryEmotion (PlayerFaceController.Emotion.Angry, 0.5f);
 
@@ -86,7 +81,6 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
         stats.Add(CharacterStatType.Health, skinHealth);
         healthAtLastSkin = stats.health;
         lastSkinHealthBoost=skinHealth;
-        skinObject.SetActive(true);
     }
 
     public float GetStat(CharacterStatType type)

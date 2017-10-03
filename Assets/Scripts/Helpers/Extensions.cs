@@ -210,7 +210,16 @@ namespace ModMan {
             yield return Timing.WaitForSeconds(timeToDelay);
             transformToRestore.rotation = startRotation;
         }
-    
+
+        public static void DestroyAllChildren (this Transform transform)
+        {
+            //Debug.Log ("child count " + transform.childCount.ToString());
+            //Debug.Log ("shit");
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                Helpers.DestroyProper(transform.GetChild(i).gameObject);
+            }
+        }
     }
 
     public static class Vector2Extensions {
@@ -235,6 +244,20 @@ namespace ModMan {
             foreach(KeyValuePair<T, U> kvpElement in thisDictionary) {
                 action(kvpElement.Key, kvpElement.Value);
             }
+        }
+    }
+
+    public static class Helpers
+    {
+        public static void DestroyProper (GameObject gameObject)
+        {
+            #if UNITY_EDITOR
+            GameObject.DestroyImmediate (gameObject);
+            return;
+            #endif
+
+            if (Application.isPlaying) GameObject.Destroy (gameObject);
+            else GameObject.DestroyImmediate (gameObject);
         }
     }
 }
