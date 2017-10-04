@@ -19,11 +19,13 @@ public class WavesEditor : Editor
 
     SerializedProperty currentWaveNumber;
     SerializedProperty currentNumEnemies;
-//    SerializedProperty TimeToNextWave;
+
+    //    SerializedProperty TimeToNextWave;
 
     List<Wave> wavesList;
-    ReorderableList reordList;
 
+    ReorderableList reordList;
+    
     GUIStyle intensityTipLabelStyle;
 
     void OnEnable()
@@ -41,15 +43,25 @@ public class WavesEditor : Editor
         spawnType = serializedObject.FindProperty("spawnType");
 
         waves = serializedObject.FindProperty("waves");
+
+
         reordList = new ReorderableList(serializedObject, waves, true, false, true, true);
         reordList.drawElementCallback = DrawWaveProperty;
-        reordList.elementHeight = 12 + EditorGUIUtility.singleLineHeight * 6 + LIST_PADDING;
+        reordList.elementHeight = 12 + EditorGUIUtility.singleLineHeight * 16 + LIST_PADDING;
+
+
         wavesList = (target as Spawner).waves;
+
         intensityTipLabelStyle = new GUIStyle();
         intensityTipLabelStyle.wordWrap = true;
         intensityTipLabelStyle.fontStyle = FontStyle.Italic;
         intensityTipLabelStyle.fixedHeight = 30;
     }
+
+
+
+    ReorderableList test;
+
 
     public override void OnInspectorGUI()
     {
@@ -96,6 +108,8 @@ public class WavesEditor : Editor
         }
 
         AdjustWaveIntensity(useIntensity, useManualEdits);
+
+
  //       AdjustWaveTime(useIntensity, useManualEdits);
 
         EditorGUILayout.EndVertical();
@@ -167,15 +181,34 @@ public class WavesEditor : Editor
 
         EditorGUI.EndDisabledGroup();
 
+        SerializedProperty monsterListProp = element.FindPropertyRelative("monsterList");
+        ReorderableList monsterList = new ReorderableList(serializedObject, monsterListProp, true, false, true, true);
+        test = monsterList;
+        monsterList.drawElementCallback = DrawMonsterListProperty;
+        monsterList.DoList(new Rect(rect.x, rect.y += 4 + EditorGUIUtility.singleLineHeight * 3, rect.width, 8 * EditorGUIUtility.singleLineHeight));
+
         EditorGUI.EndChangeCheck();
         EditorGUI.EndProperty();
     }
+
+
+
+
+
+    void DrawMonsterListProperty (Rect rect, int index, bool isActive, bool isFocused)
+    {
+        var element = test.serializedProperty.GetArrayElementAtIndex(index);
+        EditorGUI.PropertyField(new Rect(rect.x, rect.y, 60, EditorGUIUtility.singleLineHeight), element.FindPropertyRelative("type"), GUIContent.none);
+        EditorGUI.PropertyField(new Rect(rect.x + rect.width - 30, rect.y, 30, EditorGUIUtility.singleLineHeight), element.FindPropertyRelative("Count"), GUIContent.none);
+    }
+
 
     void AdjustWaveIntensity(bool useCurve, bool useManualEdits)
     {
         for (int i = 0; i < wavesList.Count; i++)
         {
-            float normalizedTime = (float)i / (wavesList.Count - 1);
+            float normalizedTime = i > 1 ? (float)i / (wavesList.Count - 1) : 0.5f;
+
             float intensity = useCurve ? intensityCurve.animationCurveValue.Evaluate(normalizedTime) : wavesList[i].Intensity;
 
             if (!useManualEdits)

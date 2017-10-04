@@ -5,6 +5,8 @@ using UnityEngine.AI;
 using ModMan;
 using MovementEffects;
 using System.Linq;
+using UnityEditorInternal;
+
 public class Spawner : MonoBehaviour
 {
     public bool useIntensityCurve, manualEdits;
@@ -167,9 +169,15 @@ public class Spawner : MonoBehaviour
 
 
 [System.Serializable]
+public class WaveType
+{
+    public SpawnType type;
+    public int Count;
+}
+
+[System.Serializable]
 public class Wave
 {
-
     #region const parameters
 
     const int spawnMin = 1;
@@ -185,6 +193,10 @@ public class Wave
     #endregion
 
     public List<int> spawnedHashCodes = new List<int>();
+
+
+    public List<WaveType> monsterList;
+
 
     [HideInInspector]
     public int remainingSpawns;
