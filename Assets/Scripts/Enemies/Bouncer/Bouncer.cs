@@ -10,7 +10,6 @@ public class Bouncer : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
     [SerializeField] private BouncerController controller;
     [SerializeField] private BouncerProperties properties;
     [SerializeField] private VelocityBody velBody;
-    [SerializeField] private GlowObject glowObject;
     [SerializeField] private Animator animator;
     [SerializeField] private Stats myStats;
     [SerializeField] private NavMeshAgent navAgent;
@@ -63,9 +62,8 @@ public class Bouncer : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
             SFXManager.Instance.Play(SFXType.MallCopHurt, transform.position);
             damaged.Set(DamagedType.Bouncer, bloodEmissionLocation);
             DamageFXManager.Instance.EmitDamageEffect(damagePack);
-            if (myStats.health <= myStats.skinnableHealth && !glowObject.isGlowing)
+            if (myStats.health <= myStats.skinnableHealth)
             {
-                glowObject.SetToGlow();
                 copUICanvas.gameObject.SetActive(true);
                 copUICanvas.ShowAction(ActionType.Skin);
             }
@@ -82,16 +80,17 @@ public class Bouncer : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
                     lastChance = true;
                 }
             }
-            else
-            {
-                    controller.UpdateState(EBouncerState.Chase);
-            }
         }
     }
 
     float IDamageable.GetHealth()
     {
         return myStats.health;
+    }
+
+    void ISpawnable.WarpToNavMesh(Vector3 position)
+    {
+        navAgent.Warp(position);
     }
 
     bool ISkinnable.IsSkinnable()
@@ -176,15 +175,11 @@ public class Bouncer : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
     {
         GetComponent<CapsuleCollider>().enabled = true;
         copUICanvas.gameObject.SetActive(false);
-        //mod.DeactivateModCanvas();
 
         myStats.ResetForRebirth();
         controller.ResetForRebirth();
         velBody.ResetForRebirth();
-        glowObject.ResetForRebirth();
         will.Reset();
-        //TODO check for missing mod and create a new one and attach it
-        //mod.setModSpot(ModSpot.ArmR);
         lastChance = false;
     }
 
@@ -202,10 +197,6 @@ public class Bouncer : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
 [System.Serializable]
 public class BouncerProperties
 {
-    public float runMultiplier;
-    [Range(5f, 15f)] public float maxChaseTime;
-    [Range(5f, 15f)] public float walkTime;
-    [Range(1, 6)] public int numShocksToStun;
-    [Range(.1f, 1)] public float twitchRange;
-    [Range(.1f, 1f)] public float twitchTime;
+    [Range(1, 10)] public int bounces;
+    [Range(5f, 15f)] public float waitShotTime;
 }

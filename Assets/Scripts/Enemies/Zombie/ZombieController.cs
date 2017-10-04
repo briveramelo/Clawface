@@ -3,8 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEngine.AI;
+using MovementEffects;
 
 public abstract class ZombieController : AIController {
+
+    private void OnDisable()
+    {
+        foreach (KeyValuePair<EZombieState, ZombieState> zomState in states.zombieStates)
+        {
+            Timing.KillCoroutines(zomState.Value.coroutineName);
+        }
+    }
 
     public EZombieState ECurrentState
     {
@@ -50,7 +59,7 @@ public abstract class ZombieController : AIController {
         states = new States();
         states.Initialize(properties, this, velBody, animator, stats, navAgent);
         //modMemento.Initialize(mod.transform);
-        CurrentState = states.patrol;
+        CurrentState = states.chase;
     }
 
     public void UpdateState(EZombieState state)
@@ -60,7 +69,7 @@ public abstract class ZombieController : AIController {
 
     public override void ResetForRebirth()
     {
-        CurrentState = states.patrol;
+        CurrentState = states.chase;
         base.ResetForRebirth();
     }
 
@@ -78,12 +87,11 @@ public abstract class ZombieController : AIController {
 
     protected class States
     {
-        public ZombiePatrolState patrol = new ZombiePatrolState();
         public ZombieChaseState chase = new ZombieChaseState();
         public ZombieAttackState attack = new ZombieAttackState();
         public ZombieFallState fall = new ZombieFallState();
 
-        private Dictionary<EZombieState, ZombieState> zombieStates;
+        public Dictionary<EZombieState, ZombieState> zombieStates;
 
         public void Initialize(
             ZombieProperties properties,
@@ -93,14 +101,11 @@ public abstract class ZombieController : AIController {
             Stats stats,
             NavMeshAgent navAgent)
         {
-
-            patrol.Initialize(properties, controller, velBody, animator, stats, navAgent);
             chase.Initialize(properties, controller, velBody, animator, stats, navAgent);
             attack.Initialize(properties, controller, velBody, animator, stats, navAgent);
             fall.Initialize(properties, controller, velBody, animator, stats, navAgent);
 
             zombieStates = new Dictionary<EZombieState, ZombieState>() {
-                {EZombieState.Patrol, patrol },
                 {EZombieState.Chase, chase },
                 {EZombieState.Attack, attack },
                 {EZombieState.Fall, fall },

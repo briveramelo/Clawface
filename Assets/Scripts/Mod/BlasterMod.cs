@@ -7,6 +7,7 @@ using MovementEffects;
 public class BlasterMod : Mod {
     
     [SerializeField] private Transform bulletSpawnPoint;
+    [SerializeField] private PoolObjectType projectileBullet;
 
     private ShooterProperties shooterProperties= new ShooterProperties();
 
@@ -62,14 +63,16 @@ public class BlasterMod : Mod {
 
     private BlasterBullet SpawnBullet()
     {
-        PoolObjectType poolObjType = PoolObjectType.BlasterBullet;
+        PoolObjectType poolObjType = projectileBullet;
         BlasterBullet blasterBullet = ObjectPool.Instance.GetObject(poolObjType).GetComponent<BlasterBullet>();
+
+
         if (blasterBullet){
             blasterBullet.transform.position = bulletSpawnPoint.position;
             blasterBullet.transform.forward = transform.forward;
             blasterBullet.transform.rotation = Quaternion.Euler(0f, blasterBullet.transform.rotation.eulerAngles.y, 0f);
 
-            shooterProperties.Initialize(GetWielderInstanceID(),Attack, wielderStats.shotSpeed, wielderStats.shotPushForce);
+            shooterProperties.Initialize(GetWielderInstanceID(), Attack, wielderStats.shotSpeed, wielderStats.shotPushForce);
             blasterBullet.SetShooterProperties(shooterProperties);
 
             if (wielderStats.gameObject.CompareTag(Strings.Tags.PLAYER))
@@ -80,6 +83,10 @@ public class BlasterMod : Mod {
             {
                 blasterBullet.SetShooterType(true);
             }
+        }
+        else
+        {
+            Debug.LogWarning("Blaster mod " + transform.name + " is trying to spawn a bullet that does not have a BlasterBullet component on it.");
         }
         return blasterBullet;
     }

@@ -52,5 +52,9 @@ public interface ISkinnable
 public interface ISpawnable {
     bool HasWillBeenWritten();
     void RegisterDeathEvent(OnDeath onDeath);
+    void WarpToNavMesh(Vector3  position);
 }
+
+
+
 public delegate void OnDeath();

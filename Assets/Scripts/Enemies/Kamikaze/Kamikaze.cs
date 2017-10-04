@@ -10,7 +10,6 @@ public class Kamikaze : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpa
     [SerializeField] private KamikazeController controller;
     [SerializeField] private KamikazeProperties properties;
     [SerializeField] private VelocityBody velBody;
-    [SerializeField] private GlowObject glowObject;
     [SerializeField] private Animator animator;
     [SerializeField] private Stats myStats;
     [SerializeField] private NavMeshAgent navAgent;
@@ -61,37 +60,29 @@ public class Kamikaze : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpa
             myStats.TakeDamage(damager.damage);
             damagePack.Set(damager, damaged);
             SFXManager.Instance.Play(SFXType.MallCopHurt, transform.position);
-            damaged.Set(DamagedType.Bouncer, bloodEmissionLocation);
+            damaged.Set(DamagedType.Kamikaze, bloodEmissionLocation);
             DamageFXManager.Instance.EmitDamageEffect(damagePack);
-            if (myStats.health <= myStats.skinnableHealth && !glowObject.isGlowing)
+            if (myStats.health <= myStats.skinnableHealth)
             {
-                //glowObject.SetToGlow();
                 copUICanvas.gameObject.SetActive(true);
                 copUICanvas.ShowAction(ActionType.Skin);
             }
             if (myStats.health <= 0)
             {
-                if (lastChance)
-                {
-                    controller.UpdateState(EKamikazeState.SelfDestruct);
                     OnDeath();
-                }
-                else
-                {
-                    myStats.health = 1;
-                    lastChance = true;
-                }
             }
-            else
-            {
-                controller.UpdateState(EKamikazeState.Chase);
-            }
+            
         }
     }
 
     float IDamageable.GetHealth()
     {
         return myStats.health;
+    }
+
+    void ISpawnable.WarpToNavMesh(Vector3 position)
+    {
+        navAgent.Warp(position);
     }
 
     bool ISkinnable.IsSkinnable()
@@ -181,7 +172,6 @@ public class Kamikaze : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpa
         myStats.ResetForRebirth();
         controller.ResetForRebirth();
         velBody.ResetForRebirth();
-        glowObject.ResetForRebirth();
         will.Reset();
         //TODO check for missing mod and create a new one and attach it
         //mod.setModSpot(ModSpot.ArmR);
@@ -203,9 +193,6 @@ public class Kamikaze : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpa
 public class KamikazeProperties
 {
     public float runMultiplier;
-    [Range(5f, 15f)] public float maxChaseTime;
-    [Range(5f, 15f)] public float walkTime;
-    [Range(1, 6)] public int numShocksToStun;
-    [Range(.1f, 1)] public float twitchRange;
-    [Range(.1f, 1f)] public float twitchTime;
+    [Range(1f, 5f)] public float selfDestructTime;
+    [Range(1f, 100f)] public float blastRadius;
 }

@@ -5,10 +5,8 @@ using UnityEngine;
 using Turing.VFX;
 using ModMan;
 
+[RequireComponent(typeof(SkinningState))]
 public class DashState : IPlayerState {
-
-    #region Public fields
-    #endregion
 
     #region Serialized Unity Inspector fields
     [SerializeField]
@@ -23,45 +21,60 @@ public class DashState : IPlayerState {
     private VFXOneOff dashPuff;
     [SerializeField]
     private GameObject dashTrail;
-    [SerializeField] private Collider playerCollider;
+    //[SerializeField] private Collider playerCollider;
     [SerializeField]
     protected int[] highlightPoses;
     [SerializeField]
-    protected int totalAttackPoses;
-    [SerializeField] private OnScreenScoreUI healthBar;
+    protected int totalAttackPoses;    
     [SerializeField] private float skinRadius;
+    [SerializeField] private SkinningState skinningState;
     #endregion
 
     #region Private Fields
     private int currentFrame;
-    private int currentPose;
+    private int currentPose;    
+    private bool startSkinning;
     #endregion
 
-    #region Unity Lifecycle
+    #region Unity Lifecycle  
+
     // Use this for initialization
     public override void Init(ref PlayerStateManager.StateVariables stateVariables)
     {
         this.stateVariables = stateVariables;
+        skinningState.Init(ref stateVariables);
         currentFrame = 0;
-        currentPose = 0;        
+        currentPose = 0;
     }
 
     public override void StateFixedUpdate()
     {
-        if (currentFrame == 0)
+        if (!startSkinning)
         {
-            SFXManager.Instance.Play(SFXType.Dash, transform.position);
-            dashPuff.Play();
-            dashTrail.GetComponent<TrailRenderer>().enabled = true;
+            if (currentFrame == 0)
+            {
+                SFXManager.Instance.Play(SFXType.Dash, transform.position);
+                dashPuff.Play();
+                dashTrail.GetComponent<TrailRenderer>().enabled = true;
+            }
+            currentFrame++;
+            PlayAnimation();
+            CheckForIFrames();
+            MovePlayer();
+            CheckForSkinnableEnemy();
+            if (currentFrame == totalDashFrames)
+            {
+                ResetState();
+            }
         }
-        currentFrame++;
-        PlayAnimation();
-        CheckForIFrames();
-        MovePlayer();
-        SkinEnemies();
-        if (currentFrame == totalDashFrames)
+        else
         {
-            ResetState();
+            stateVariables.velBody.velocity = Vector3.zero;
+            skinningState.StateFixedUpdate();
+            if (stateVariables.stateFinished)
+            {
+                ResetState();
+            }
         }
     }
 
@@ -71,16 +84,13 @@ public class DashState : IPlayerState {
     }
     #endregion
 
-    #region Public Methods
-    #endregion
-
     #region Private Methods
     protected override void ResetState()
     {        
         currentFrame = 0;
         currentPose = 0;
+        startSkinning = false;
         stateVariables.statsManager.damageModifier = 1.0f;
-        playerCollider.enabled = true;
         if (stateVariables.velBody.GetMovementMode()==MovementMode.ICE) {
             stateVariables.velBody.velocity = stateVariables.velBody.GetForward() * dashVelocity/10f;
         }
@@ -106,11 +116,9 @@ public class DashState : IPlayerState {
         if(currentFrame == iFrameStart)
         {
             stateVariables.statsManager.damageModifier = 0.0f;
-            playerCollider.enabled=false;
         }else if (currentFrame == iFrameEnd)
         {
             stateVariables.statsManager.damageModifier = 1.0f;
-            playerCollider.enabled=true;
         }
     }
 
@@ -121,28 +129,21 @@ public class DashState : IPlayerState {
         stateVariables.velBody.velocity = direction * dashVelocity;
     }
     
-    private void SkinEnemies()
+    private void CheckForSkinnableEnemy()
     {
-        ISkinnable skinnable = GetClosestEnemy();
-        if (skinnable != null && skinnable.IsSkinnable())
+        GameObject potentialSkinnableEnemy = GetClosestEnemy();
+        if (potentialSkinnableEnemy)
         {
-            GameObject skin = skinnable.DeSkin();
-            SkinStats skinStats = skin.GetComponent<SkinStats>();
-            stateVariables.statsManager.TakeSkin(skinStats.GetSkinHealth());
-            Stats stats = GetComponent<Stats>();
-            healthBar.SetHealth(stats.GetHealthFraction());
-            GameObject skinningEffect = ObjectPool.Instance.GetObject(PoolObjectType.VFXSkinningEffect);
-            skinningEffect.transform.position = transform.position;
-
-            GameObject healthJuice = ObjectPool.Instance.GetObject(PoolObjectType.VFXHealthGain);
-            if (healthJuice)
+            ISkinnable skinnable = potentialSkinnableEnemy.GetComponent<ISkinnable>();
+            if (skinnable != null && skinnable.IsSkinnable())
             {
-                healthJuice.FollowAndDeActivate(3f, transform, Vector3.up * 3.2f);
+                stateVariables.skinTargetEnemy = potentialSkinnableEnemy;
+                startSkinning = true;
             }
         }
     }
 
-    private ISkinnable GetClosestEnemy()
+    private GameObject GetClosestEnemy()
     {
         Collider[] enemies = Physics.OverlapSphere(transform.position, skinRadius, LayerMask.GetMask(Strings.Tags.ENEMY));
         if (enemies != null)
@@ -160,14 +161,11 @@ public class DashState : IPlayerState {
             }
             if (closestEnemy != null)
             {
-                return closestEnemy.gameObject.GetComponent<ISkinnable>();
+                return closestEnemy.gameObject;
             }
         }
         return null;
     }
-    #endregion
-
-    #region Private Structures
     #endregion
 
 }
