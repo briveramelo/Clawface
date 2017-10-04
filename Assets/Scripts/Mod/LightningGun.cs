@@ -50,7 +50,6 @@ public class LightningGun : Mod {
         {
             //Initialize
             LightningProjectile currentHook = hookObject.GetComponent<LightningProjectile>();
-            currentHook.transform.SetParent(muzzleTransform);
             ProjectileProperties newProperties = new ProjectileProperties(projectileProperties);            
             currentHook.Init(projectileProperties, muzzleTransform);
         }

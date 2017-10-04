@@ -10,7 +10,6 @@ public class LightningProjectile : MonoBehaviour {
     private LightningGun.ProjectileProperties projectileProperties;    
     private Transform target;
     private int enemyCount;
-    private LightningProjectile nextHook;
     private List<Transform> ignoreTargets;
     private Damager damager;
     private Vector3 startingPosition;
@@ -58,7 +57,6 @@ public class LightningProjectile : MonoBehaviour {
             }
             //Move forward
             transform.position = transform.position + (transform.forward * projectileProperties.projectileSpeed);
-            
         }
     }
     #endregion
@@ -72,11 +70,6 @@ public class LightningProjectile : MonoBehaviour {
     public void ClearTarget()
     {
         target = null;
-    }
-
-    public void ClearNextHook()
-    {
-        nextHook = null;
     }
 
     public void Init(LightningGun.ProjectileProperties properties, Transform startingTransform, int enemyCount = 0, List<Transform> ignoreEnemies = null)
@@ -100,23 +93,12 @@ public class LightningProjectile : MonoBehaviour {
         startingPosition = Vector3.zero;
         target = null;
         enemyCount = 0;
-        ResetNextHook();
         ignoreTargets = new List<Transform>();
         gameObject.SetActive(false);
     }
     #endregion
 
     #region Private Methods
-    private void ResetNextHook()
-    {
-        if (nextHook)
-        {
-            nextHook.transform.SetParent(null);
-            nextHook.ResetToDefaults();
-            nextHook = null;
-        }
-    }
-
     private float CalculateChainLength()
     {
        return Vector3.Distance(startingPosition, transform.position);
@@ -131,14 +113,14 @@ public class LightningProjectile : MonoBehaviour {
         if (nextHookObject)
         {
             //Initialize
-            nextHook = nextHookObject.GetComponent<LightningProjectile>();
+            LightningProjectile nextProjectile = nextHookObject.GetComponent<LightningProjectile>();
             ignoreTargets.Add(target);
-            nextHook.Init(newProperties, transform, enemyCount, ignoreTargets);
+            nextProjectile.Init(newProperties, transform, enemyCount, ignoreTargets);
         }
     }
 
-    private void OnTargetHit(Collider other)
-    {
+    private void OnTriggerEnter(Collider other)
+    {     
         // Is the collided object an enemy if not already attached
         if (other.tag == Strings.Tags.ENEMY && !ignoreTargets.Contains(other.transform))
         {

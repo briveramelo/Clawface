@@ -252,13 +252,13 @@ MonoBehaviour:
     isActive: 0
   muzzleTransform: {fileID: 4564136626918456}
   projectileProperties:
-    projectileSpeed: 1
+    projectileSpeed: 0.3
     projectileHitDamage: 5
-    homingAngle: 60
-    homingRadius: 5
+    homingAngle: 360
+    homingRadius: 10
     maxChainableEnemies: 5
-    maxDistance: 10
-    maxDistancePerSubChain: 5
+    maxDistance: 20
+    maxDistancePerSubChain: 20
 --- !u!114 &114399477563612414
 MonoBehaviour:
   m_ObjectHideFlags: 1
