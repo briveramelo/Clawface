@@ -433,7 +433,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvasGroup: {fileID: 225421541887426728}
-  faderDuration: 1
   returnButton: {fileID: 114699470675864288}
 --- !u!222 &222167865560547030
 CanvasRenderer:
@@ -606,6 +605,6 @@ CanvasGroup:
   m_GameObject: {fileID: 1455054256658072}
   m_Enabled: 1
   m_Alpha: 0
-  m_Interactable: 0
+  m_Interactable: 1
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0

@@ -7,7 +7,6 @@ public class ZombieChaseState : ZombieState {
     public override void OnEnter()
     {
         animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Run);
-        controller.AttackTarget = controller.FindPlayer();
         navAgent.speed = myStats.moveSpeed * properties.runMultiplier;
     }
     public override void Update()

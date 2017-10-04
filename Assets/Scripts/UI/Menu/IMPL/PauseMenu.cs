@@ -38,7 +38,7 @@ public class PauseMenu : Menu {
 
     #region Private Fields
     private bool paused = false;
-    private bool canPause = true; // used to indicate the game is in a level and "can pause"
+    private bool canPause = false; // used to indicate the game is in a level and "can pause"
     #endregion
 
     #region Unity Lifecycle Methods

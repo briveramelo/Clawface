@@ -19,7 +19,7 @@ public class RoutineRunner : MonoBehaviour {
 
 public class RoutineRunnerNonMono {
 
-    public string coroutineName { get { return GetHashCode().ToString(); } }
+    protected string coroutineName { get { return GetHashCode().ToString(); } }
     protected virtual void OnDisable() {
         Timing.KillCoroutines(coroutineName);
     }

@@ -42,55 +42,7 @@ public class DamageFXManager : Singleton<DamageFXManager> {
                     {DamagerType.Dice, EmitGeyser },
                     //{DamagerType.StunStomp, EmitGeyser}
                 }
-            },
-            {DamagedType.Zombie,
-                new Dictionary<DamagerType, System.Action<DamagePack>>() {
-                    {DamagerType.SegwayPush, EmitBlood },
-                    {DamagerType.BlasterBullet, EmitBlood },
-                    {DamagerType.SpreadGun, EmitBlood },
-                    {DamagerType.TankTreads, EmitBlood },
-                    {DamagerType.GrapplingHook, EmitBlood },
-                    {DamagerType.Boomerang, EmitBlood },
-                    {DamagerType.Geyser, EmitGeyser },
-                    //{DamagerType.StunMine, EmitGeyser },
-                    {DamagerType.FireTrap, EmitBlood },
-                    {DamagerType.GrapplingBotExplosion, EmitBlood },
-                    {DamagerType.Dice, EmitGeyser },
-                    //{DamagerType.StunStomp, EmitGeyser}
-                }
-            },
-            {DamagedType.Bouncer,
-                new Dictionary<DamagerType, System.Action<DamagePack>>() {
-                    {DamagerType.SegwayPush, EmitBlood },
-                    {DamagerType.BlasterBullet, EmitBlood },
-                    {DamagerType.SpreadGun, EmitBlood },
-                    {DamagerType.TankTreads, EmitBlood },
-                    {DamagerType.GrapplingHook, EmitBlood },
-                    {DamagerType.Boomerang, EmitBlood },
-                    {DamagerType.Geyser, EmitGeyser },
-                    //{DamagerType.StunMine, EmitGeyser },
-                    {DamagerType.FireTrap, EmitBlood },
-                    {DamagerType.GrapplingBotExplosion, EmitBlood },
-                    {DamagerType.Dice, EmitGeyser },
-                    //{DamagerType.StunStomp, EmitGeyser}
-                }
-            },
-            {DamagedType.Kamikaze,
-                new Dictionary<DamagerType, System.Action<DamagePack>>() {
-                    {DamagerType.SegwayPush, EmitBlood },
-                    {DamagerType.BlasterBullet, EmitBlood },
-                    {DamagerType.SpreadGun, EmitBlood },
-                    {DamagerType.TankTreads, EmitBlood },
-                    {DamagerType.GrapplingHook, EmitBlood },
-                    {DamagerType.Boomerang, EmitBlood },
-                    {DamagerType.Geyser, EmitGeyser },
-                    //{DamagerType.StunMine, EmitGeyser },
-                    {DamagerType.FireTrap, EmitBlood },
-                    {DamagerType.GrapplingBotExplosion, EmitBlood },
-                    {DamagerType.Dice, EmitGeyser },
-                    //{DamagerType.StunStomp, EmitGeyser}
-                }
-            },
+            },            
         };
     }
 
