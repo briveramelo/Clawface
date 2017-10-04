@@ -3,8 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEngine.AI;
+using MovementEffects;
 
 public abstract class BouncerController : AIController {
+
+    private void OnDisable()
+    {
+        foreach (KeyValuePair<EBouncerState, BouncerState> bounState in states.bouncerStates)
+        {
+            Timing.KillCoroutines(bounState.Value.coroutineName);
+        }
+    }
 
     public EBouncerState ECurrentState
     {
@@ -77,7 +86,7 @@ public abstract class BouncerController : AIController {
         public BouncerTwitchState twitch = new BouncerTwitchState();
         public BouncerFallState fall = new BouncerFallState();
 
-        private Dictionary<EBouncerState, BouncerState> bouncerStates;
+        public Dictionary<EBouncerState, BouncerState> bouncerStates;
 
         public void Initialize(
             BouncerProperties properties,
