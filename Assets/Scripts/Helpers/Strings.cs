@@ -62,5 +62,6 @@
     {
         public const string FACE_OPEN = "FaceOpen";
         public const string ARM_EXTENDED = "ArmExtended";
+        public const string UPDATE_HEALTH = "UpdateHealth";
     }
 }
