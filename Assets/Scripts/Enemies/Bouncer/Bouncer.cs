@@ -80,10 +80,6 @@ public class Bouncer : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
                     lastChance = true;
                 }
             }
-            else
-            {
-                    controller.UpdateState(EBouncerState.Chase);
-            }
         }
     }
 
@@ -179,14 +175,11 @@ public class Bouncer : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
     {
         GetComponent<CapsuleCollider>().enabled = true;
         copUICanvas.gameObject.SetActive(false);
-        //mod.DeactivateModCanvas();
 
         myStats.ResetForRebirth();
         controller.ResetForRebirth();
         velBody.ResetForRebirth();
         will.Reset();
-        //TODO check for missing mod and create a new one and attach it
-        //mod.setModSpot(ModSpot.ArmR);
         lastChance = false;
     }
 
@@ -204,10 +197,6 @@ public class Bouncer : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpaw
 [System.Serializable]
 public class BouncerProperties
 {
-    public float runMultiplier;
-    [Range(5f, 15f)] public float maxChaseTime;
-    [Range(5f, 15f)] public float walkTime;
-    [Range(1, 6)] public int numShocksToStun;
-    [Range(.1f, 1)] public float twitchRange;
-    [Range(.1f, 1f)] public float twitchTime;
+    [Range(1, 10)] public int bounces;
+    [Range(5f, 15f)] public float waitShotTime;
 }

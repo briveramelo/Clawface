@@ -64,6 +64,7 @@ public enum DamagedType {
     Milo=1,
     Zombie=2,
     Bouncer=3,
+    Kamikaze = 4,
 }
 
 public enum ModType {
