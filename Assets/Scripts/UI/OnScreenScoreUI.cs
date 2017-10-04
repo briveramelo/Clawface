@@ -14,7 +14,7 @@ public class OnScreenScoreUI : MonoBehaviour {
     [Header("OnScreenCombo")]
     [SerializeField] private Text onScreenCombo;
     [SerializeField] private float comboOnScreenTime = 2.0f;
-    [SerializeField] private Slider comboTimer;
+    [SerializeField] private Image comboTimer;
 
     [Header("Score")]
     [SerializeField] private Text onScreenScore;
@@ -41,8 +41,7 @@ public class OnScreenScoreUI : MonoBehaviour {
     #region Unity Lifecycle
     void Awake()
     {
-
-        comboTimer.value = 0f;
+        comboTimer.fillAmount = 0f;
     }
     private void Start()
     {
@@ -128,7 +127,7 @@ public class OnScreenScoreUI : MonoBehaviour {
         {
             float percRemain = i_timeRem / i_timeMax;
             float result = Mathf.Ceil(percRemain * 6.0f) * (1.0f / 6.0f);
-            comboTimer.value = result;
+            comboTimer.fillAmount = result;
         }
     }
     
@@ -136,7 +135,7 @@ public class OnScreenScoreUI : MonoBehaviour {
     {
         if(sm)
         {
-            comboTimer.value = 0f;
+            comboTimer.fillAmount = 0f;
         }
     }
 
