@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 65209099370088602}
   - component: {fileID: 114176279886086948}
   m_Layer: 0
-  m_Name: GrapplerMod
+  m_Name: LightningGun
   m_TagString: Mod
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 114429951854598012}
   - component: {fileID: 114570313973920392}
   m_Layer: 0
-  m_Name: GrapplerModCanvas
+  m_Name: LightningGunCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -61,7 +61,7 @@ GameObject:
   - component: {fileID: 23098096954476194}
   - component: {fileID: 54030489420536162}
   m_Layer: 0
-  m_Name: Hook
+  m_Name: Muzzle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -241,7 +241,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 205d2f24998c3ca4195927aa09b17b01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hasState: 0
   pickupCollider: {fileID: 65209099370088602}
   modCanvas: {fileID: 1431774864512322}
   energySettings:
@@ -251,15 +250,14 @@ MonoBehaviour:
       attack: 4
     isCoolingDown: 0
     isActive: 0
-  hookTransform: {fileID: 4564136626918456}
-  hookProperties:
-    projectileSpeed: 0.5
-    projectileHitDamage: 10
-    homingAngle: 90
-    homingRadius: 10
-    projectileDamagePerSecond: 5
-    maxChainableEnemies: 3
-    maxDistance: 20
+  muzzleTransform: {fileID: 4564136626918456}
+  projectileProperties:
+    projectileSpeed: 1
+    projectileHitDamage: 5
+    homingAngle: 60
+    homingRadius: 5
+    maxChainableEnemies: 5
+    maxDistance: 10
     maxDistancePerSubChain: 5
 --- !u!114 &114399477563612414
 MonoBehaviour:
