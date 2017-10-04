@@ -3,8 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEngine.AI;
+using MovementEffects;
 
 public abstract class KamikazeController : AIController {
+
+
+    private void OnDisable()
+    {
+        foreach (KeyValuePair<EKamikazeState, KamikazeState> kamState in states.kamikazeStates) {
+            Timing.KillCoroutines(kamState.Value.coroutineName);
+        }
+    }
 
     public EKamikazeState ECurrentState
     {
@@ -75,7 +84,7 @@ public abstract class KamikazeController : AIController {
         public KamikazeChaseState chase = new KamikazeChaseState();
         public KamikazeSelfDestructState selfDestruct = new KamikazeSelfDestructState();
 
-        private Dictionary<EKamikazeState, KamikazeState> kamikazeStates;
+        public Dictionary<EKamikazeState, KamikazeState> kamikazeStates;
 
         public void Initialize(
             KamikazeProperties properties,

@@ -144,6 +144,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvasGroup: {fileID: 225777717085089894}
+  faderDuration: 1
   loadingBar: {fileID: 114506131717339034}
   loadingText: {fileID: 114534170786470390}
 --- !u!114 &114421711328974382
@@ -560,6 +561,6 @@ CanvasGroup:
   m_GameObject: {fileID: 1364298826775566}
   m_Enabled: 1
   m_Alpha: 0
-  m_Interactable: 1
+  m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0

@@ -6,13 +6,14 @@ using MovementEffects;
 public class BouncerFireState : BouncerState {
 
     private bool doneFiring = false;
-
+    private float firingWaitTime;
 
     public override void OnEnter()
     {
         animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Fire);
         doneFiring = false;
-        Timing.RunCoroutine(RunStartupTimer());
+        firingWaitTime = properties.waitShotTime;
+        Timing.RunCoroutine(RunStartupTimer(),coroutineName);
     }
     public override void Update()
     {
@@ -27,7 +28,7 @@ public class BouncerFireState : BouncerState {
     IEnumerator<float> RunStartupTimer()
     {
         bulletHellPattern.enabled = true;
-        yield return Timing.WaitForSeconds(2.0f);
+        yield return Timing.WaitForSeconds(firingWaitTime);
         bulletHellPattern.enabled = false;
         doneFiring = true;
     }
