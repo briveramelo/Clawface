@@ -245,17 +245,17 @@ MonoBehaviour:
   modCanvas: {fileID: 1431774864512322}
   energySettings:
     standardArmAttackSettings:
-      timeToCoolDown: 0.6
+      timeToCoolDown: 0.4
       timeToAttack: 0
-      attack: 4
+      attack: 2
     isCoolingDown: 0
     isActive: 0
   muzzleTransform: {fileID: 4564136626918456}
   projectileProperties:
-    projectileSpeed: 0.3
-    projectileHitDamage: 5
+    projectileSpeed: 0.6
+    projectileHitDamage: 2
     homingAngle: 360
-    homingRadius: 10
+    homingRadius: 7
     maxChainableEnemies: 5
     maxDistance: 20
     maxDistancePerSubChain: 20
