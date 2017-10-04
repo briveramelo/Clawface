@@ -14,7 +14,7 @@ public class OnScreenScoreUI : MonoBehaviour {
     [Header("OnScreenCombo")]
     [SerializeField] private Text onScreenCombo;
     [SerializeField] private float comboOnScreenTime = 2.0f;
-    [SerializeField] private Image comboTimer;
+    [SerializeField] private Slider comboTimer;
 
     [Header("Score")]
     [SerializeField] private Text onScreenScore;
@@ -25,11 +25,10 @@ public class OnScreenScoreUI : MonoBehaviour {
 
     [Header("GlitchDamageEffect")]
     [SerializeField] private Sprite[] glitchSprites;
-
-    // Configuration Variables
+    
     [SerializeField] private float glitchSeconds = 1.0F;
     [SerializeField] private int glitchesPerSecond = 5;
-    [SerializeField, HideInInspector] private Image overlay;
+    [SerializeField] private Image overlay;
     #endregion
 
     #region Private Fields
@@ -43,7 +42,7 @@ public class OnScreenScoreUI : MonoBehaviour {
     void Awake()
     {
 
-        comboTimer.fillAmount = 0f;
+        comboTimer.value = 0f;
     }
     private void Start()
     {
@@ -129,7 +128,7 @@ public class OnScreenScoreUI : MonoBehaviour {
         {
             float percRemain = i_timeRem / i_timeMax;
             float result = Mathf.Ceil(percRemain * 6.0f) * (1.0f / 6.0f);
-            comboTimer.fillAmount = result;
+            comboTimer.value = result;
         }
     }
     
@@ -137,7 +136,7 @@ public class OnScreenScoreUI : MonoBehaviour {
     {
         if(sm)
         {
-            comboTimer.fillAmount = 0f;
+            comboTimer.value = 0f;
         }
     }
 
