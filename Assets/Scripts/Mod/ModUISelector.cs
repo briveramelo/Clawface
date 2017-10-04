@@ -33,7 +33,7 @@ public class ModUISelector : MonoBehaviour {
             new ModUIElement(ModType.Dice, diceIcon),
             new ModUIElement(ModType.ForceSegway, segwayIcon),
             new ModUIElement(ModType.Geyser, geyserIcon),
-            new ModUIElement(ModType.LightningGun, grapplerIcon),
+            new ModUIElement(ModType.Grappler, grapplerIcon),
         };
     }
 

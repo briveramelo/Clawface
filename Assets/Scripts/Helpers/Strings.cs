@@ -62,19 +62,5 @@
     {
         public const string FACE_OPEN = "FaceOpen";
         public const string ARM_EXTENDED = "ArmExtended";
-        public const string UPDATE_HEALTH = "UpdateHealth";
-
-        public const string KILL_ENEMY = "KillEnemy";
-        public const string BEAT_LEVEL1 = "BeatLevel1";
-        public const string SKIN_ENEMY = "SkinEnemy";
-
-        public const string EARN_ACHIEVEMENT = "EarnAchievement";
-        public const string PROGRESS_ACHIEVEMENT = "ProgressAchievement";
-    }
-
-    public class AchievementNames {
-        public const string Kill100 = "Blood Bath";
-        public const string BeatLevel1 = "Conquest";
-        public const string Skin20Enemies = "Skinner";        
     }
 }

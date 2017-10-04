@@ -7,9 +7,9 @@ public class BulletHellPatternController : MonoBehaviour {
     #region 1. Serialized Unity Inspector Fields
     [SerializeField][Range(-360.0f, 360.0f)]private float separationFromForwardVector;
     [SerializeField][Range(0.0f, 100.0f)]   private float bulletSpeed;
-    [SerializeField] [Range(0.0f, 100.0f)]  private float bulletDamage;
     [SerializeField][Range(0.0f, 10.0f)]    private float rateOfFire;
     [SerializeField] [Range(0.0f, 10.0f)]   private float bulletOffsetFromOrigin;
+    [SerializeField]                        private GameObject bulletPrefab;
     [SerializeField][Range(0.0f, 30.0f)]    private int bulletStrands;
     [SerializeField][Range(0.0f, 360.0f)]   private float separationAngleBetweenStrands;
     [SerializeField]                        private RotateDirection rotationDirection;
@@ -30,12 +30,11 @@ public class BulletHellPatternController : MonoBehaviour {
     private int currentNumberOfStrands = 0;
     private int oldNumberOfStrands = 0;
     private bool createStrandList = true;
-    private ShooterProperties shooterProperties = new ShooterProperties();
     #endregion
 
     #region 3. Unity Lifecycle
     //Used for Initialization
-    private void Awake()
+    private void Start()
     {
         bulletHellStrandList = new List<BulletHellStrand>();
     }
@@ -68,13 +67,11 @@ public class BulletHellPatternController : MonoBehaviour {
         for (int i = 0; i < bulletHellStrandList.Count; i++)
         {
             SFXManager.Instance.Play(SFXType.BlasterShoot, transform.position);
-            GameObject newBullet = ObjectPool.Instance.GetObject(PoolObjectType.EnemyBulletSmall);
+            GameObject newBullet = ObjectPool.Instance.GetObject(PoolObjectType.TurretBullet); ;
             newBullet.transform.position = transform.position + (bulletHellStrandList[i].movementDirection * bulletOffsetFromOrigin);
-            newBullet.GetComponent<BlasterBullet>().transform.forward = bulletHellStrandList[i].movementDirection;
-            shooterProperties.Initialize(transform.parent.GetInstanceID(), bulletDamage, bulletSpeed, 0.0f);
-            newBullet.GetComponent<BlasterBullet>().SetShooterProperties(shooterProperties);
-            newBullet.GetComponent<BlasterBullet>().SetWielderInstanceID(transform.parent.GetInstanceID());
-            newBullet.GetComponent<BlasterBullet>().SetShooterType(true);
+            newBullet.GetComponent<BulletBehavior>().AssignBulletValues(bulletHellStrandList[i].movementDirection, bulletSpeed);
+            newBullet.GetComponent<BulletBehavior>().SetWielderInstanceID(transform.parent.GetInstanceID());
+
         }
     }
     private void RotateBulletHellController()

@@ -272,7 +272,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1285507587647556
 GameObject:
   m_ObjectHideFlags: 1
@@ -400,6 +400,7 @@ GameObject:
   - component: {fileID: 223891070385713936}
   - component: {fileID: 114497314095117250}
   - component: {fileID: 114643361063588306}
+  - component: {fileID: 114930648853989070}
   m_Layer: 8
   m_Name: DamageUI Canvas
   m_TagString: Untagged
@@ -961,7 +962,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1827879654366770
 GameObject:
   m_ObjectHideFlags: 1
@@ -1050,6 +1051,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4675713635539100}
   - component: {fileID: 114783986648947754}
+  - component: {fileID: 114522226735047108}
   - component: {fileID: 114534455114095378}
   m_Layer: 0
   m_Name: Keira_GroupV1.2
@@ -2416,6 +2418,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isBlockingState: 0
   healthBar: {fileID: 114534455114095378}
+--- !u!114 &114522226735047108
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1923951785318670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2728607e3a4c2347be96d93a18d9caf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetFrameRate: 60
 --- !u!114 &114534455114095378
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2433,20 +2447,6 @@ MonoBehaviour:
   onScreenScore: {fileID: 114604459193349358}
   healthMask: {fileID: 224231677731544092}
   healthBar: {fileID: 224615093040287526}
-  glitchSprites:
-  - {fileID: 21300000, guid: 6976012e251b3de469f13e9fdf49fbc2, type: 3}
-  - {fileID: 21300000, guid: 54661afd82df8484496b8fd083e58522, type: 3}
-  - {fileID: 21300000, guid: 890f9c81f88f0064ab381008267661bc, type: 3}
-  - {fileID: 21300000, guid: 75d64d63f5e94914691e5e49dea57a97, type: 3}
-  - {fileID: 21300000, guid: 2aa12b4df5bbcaa4ca81ab8f4a13e6e8, type: 3}
-  - {fileID: 21300000, guid: 89ad62d81eea9104898cab3aeb97615f, type: 3}
-  - {fileID: 21300000, guid: 5ea06e348f91f3d48899e5a4ce4ab78d, type: 3}
-  - {fileID: 21300000, guid: f0ed21fd22552f04e88b53bfdb25b2bf, type: 3}
-  - {fileID: 21300000, guid: 210bd33f80f446642a8cfd9caeab1c55, type: 3}
-  - {fileID: 21300000, guid: 3e4b4cae591e438448d127c45885600f, type: 3}
-  glitchSeconds: 1
-  glitchesPerSecond: 5
-  overlay: {fileID: 114697775941681768}
 --- !u!114 &114548831061319154
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2836,11 +2836,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageModifier: 1
-  playerUI: {fileID: 114534455114095378}
+  damageUI: {fileID: 114930648853989070}
   cameraLock: {fileID: 114965254633405318}
+  healthBar: {fileID: 114534455114095378}
   faceController: {fileID: 114690905854978804}
-  isShaking: 0
+  shake: 0
   stats: {fileID: 114974132309694646}
+--- !u!114 &114930648853989070
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1389088729148354}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d6f9dc1f22d6074a976308115b84aec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  overlay: {fileID: 114697775941681768}
+  glitchSprites:
+  - {fileID: 21300000, guid: 3e4b4cae591e438448d127c45885600f, type: 3}
+  - {fileID: 21300000, guid: 210bd33f80f446642a8cfd9caeab1c55, type: 3}
+  - {fileID: 21300000, guid: f0ed21fd22552f04e88b53bfdb25b2bf, type: 3}
+  - {fileID: 21300000, guid: 5ea06e348f91f3d48899e5a4ce4ab78d, type: 3}
+  - {fileID: 21300000, guid: 89ad62d81eea9104898cab3aeb97615f, type: 3}
+  - {fileID: 21300000, guid: 2aa12b4df5bbcaa4ca81ab8f4a13e6e8, type: 3}
+  - {fileID: 21300000, guid: 75d64d63f5e94914691e5e49dea57a97, type: 3}
+  - {fileID: 21300000, guid: 890f9c81f88f0064ab381008267661bc, type: 3}
+  - {fileID: 21300000, guid: 54661afd82df8484496b8fd083e58522, type: 3}
+  - {fileID: 21300000, guid: 6976012e251b3de469f13e9fdf49fbc2, type: 3}
+  glitchSeconds: 0.5
+  glitchesPerSecond: 25
 --- !u!114 &114965254633405318
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9555,7 +9581,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0.666, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -9686,8 +9712,8 @@ RectTransform:
   m_Father: {fileID: 224634791319512086}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.666, y: 0}
+  m_AnchorMax: {x: 0.666, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}

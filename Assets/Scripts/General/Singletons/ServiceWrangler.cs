@@ -10,7 +10,7 @@ public class ServiceWrangler : Singleton<ServiceWrangler> {
 
     [SerializeField]
     private GameObject sfxManager, objectPool, inputManager, hitstopManager, playerTeleporter,
-         analyticsManager, damageFXManager, upgradeManager, menuManager, musicManager, scoreManager, respawnPoint, eventSystem, achievementManager;
+         analyticsManager, damageFXManager, upgradeManager, menuManager, musicManager, scoreManager, respawnPoint, eventSystem;
     private static Dictionary<string, PrefabBool> singletonPrefabRegistry;
 
     protected override void Awake() {
@@ -31,7 +31,6 @@ public class ServiceWrangler : Singleton<ServiceWrangler> {
             { typeof(ScoreManager).ToString(),       new PrefabBool(ref scoreManager) },
             { typeof(RespawnPoint).ToString(),       new PrefabBool(ref respawnPoint) },
             { typeof(EventSystem).ToString(),       new PrefabBool(ref eventSystem) },
-            { typeof(AchievementManager).ToString(),       new PrefabBool(ref achievementManager) },
         };
         base.Awake();
     }

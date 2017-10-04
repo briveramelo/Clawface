@@ -3,17 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEngine.AI;
-using MovementEffects;
 
 public abstract class ZombieController : AIController {
-
-    private void OnDisable()
-    {
-        foreach (KeyValuePair<EZombieState, ZombieState> zomState in states.zombieStates)
-        {
-            Timing.KillCoroutines(zomState.Value.coroutineName);
-        }
-    }
 
     public EZombieState ECurrentState
     {
@@ -91,7 +82,7 @@ public abstract class ZombieController : AIController {
         public ZombieAttackState attack = new ZombieAttackState();
         public ZombieFallState fall = new ZombieFallState();
 
-        public Dictionary<EZombieState, ZombieState> zombieStates;
+        private Dictionary<EZombieState, ZombieState> zombieStates;
 
         public void Initialize(
             ZombieProperties properties,

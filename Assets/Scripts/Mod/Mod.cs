@@ -8,6 +8,7 @@ using Turing.VFX;
 public abstract class Mod : MonoBehaviour {
 
     #region Public fields
+    public bool hasState;
     public int GetWielderInstanceID() {
         if (wielderStats != null) {
             return wielderStats.gameObject.GetInstanceID();
