@@ -13,12 +13,11 @@ public class BouncerChaseState : BouncerState {
     private float height = 8.0f;
     private float tolerance = 0.35f;
     private int jumpCount = 0;
-    private int maxJumpCount;
+    private int maxJumpCount = 3;
 
     public override void OnEnter()
     {
         jumpCount = 0;
-        maxJumpCount = properties.bounces;
         moving = false;
     }
     public override void Update()
@@ -78,7 +77,7 @@ public class BouncerChaseState : BouncerState {
         }
 
         if (gotChasePoint)
-            Timing.RunCoroutine(Move(),coroutineName);
+            Timing.RunCoroutine(Move());
     }
 
     IEnumerator<float> Move()
@@ -109,7 +108,6 @@ public class BouncerChaseState : BouncerState {
 
             yield return 0.0f;
         }
-        controller.transform.position = midpoint;
 
         interpolation = 0.0f;
 
@@ -129,17 +127,16 @@ public class BouncerChaseState : BouncerState {
 
             yield return 0.0f;
         }
-        controller.transform.position = targetPosition;
-
         interpolation = 1.0f;
 
         moving = false;
+
         jumpCount++;
     }
 
     public bool OverMaxJumpCount()
     {
-        if (jumpCount >= maxJumpCount)
+        if (jumpCount > maxJumpCount)
         {
             return true;
         }

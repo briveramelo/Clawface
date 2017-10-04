@@ -34,13 +34,6 @@ public class MenuManager : Singleton<MenuManager> {
         {
             GameObject obj = Instantiate(prefab, gameObject.transform, false);
             Menu menu = obj.GetComponent<Menu>();
-
-            // Make sure incoming menus don't interfere with each other and
-            // are hjidden 
-            menu.CanvasGroup.alpha = 0.0F;
-            menu.CanvasGroup.blocksRaycasts = false;
-            menu.CanvasGroup.interactable = false;
-
             menus.Add(menu);
         }
     }

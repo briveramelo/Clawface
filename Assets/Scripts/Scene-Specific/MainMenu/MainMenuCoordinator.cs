@@ -41,11 +41,6 @@ public class MainMenuCoordinator : MonoBehaviour {
         Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.MAIN);
         MainMenu mainMenu = menu as MainMenu;
         mainMenu.ObjectToTrack = Camera.main.gameObject;
-
-        // Disable Pausing
-        menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.PAUSE);
-        PauseMenu pauseMenu = menu as PauseMenu;
-        pauseMenu.CanPause = false;
     }
 
     private void Update()

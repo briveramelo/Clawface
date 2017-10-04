@@ -125,10 +125,10 @@ MonoBehaviour:
     - {fileID: 1541391354729010, guid: 9ec26f13e1bf7314996faec7bbd0bcfb, type: 2}
     size: 10
     objects: []
-  - name: LightningProjectile
+  - name: GrapplingHook
     poolObjectType: 27
     prefabs:
-    - {fileID: 1710971362640574, guid: 866233a7d4824d743a9e92808db275df, type: 2}
+    - {fileID: 1209526036473628, guid: 512e80148ad4746408748a35bf65c78f, type: 2}
     size: 25
     objects: []
   - name: VFXBloodEmitter
@@ -193,23 +193,5 @@ MonoBehaviour:
     poolObjectType: 31
     prefabs:
     - {fileID: 1165670768895760, guid: e33d1ef0d565310408a8238e047dee9d, type: 2}
-    size: 150
-    objects: []
-  - name: Kamikaze
-    poolObjectType: 34
-    prefabs:
-    - {fileID: 1902439104558274, guid: 24856042d5677fe4280b63467f0a6415, type: 2}
-    size: 150
-    objects: []
-  - name: Bouncer
-    poolObjectType: 33
-    prefabs:
-    - {fileID: 1351927175794106, guid: a46037a549fda754d9d283528ffc1c39, type: 2}
-    size: 150
-    objects: []
-  - name: Zombie
-    poolObjectType: 32
-    prefabs:
-    - {fileID: 1098843943671628, guid: 366d0d3c617cc5643935e05090e0640c, type: 2}
     size: 150
     objects: []

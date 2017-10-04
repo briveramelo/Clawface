@@ -26,7 +26,7 @@ public class SettingsMenu : Menu
 
     public void DoneEditingControls()
     {
-        MenuManager.Instance.DoTransition(Strings.MenuStrings.MAIN, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE } );
+        MenuManager.Instance.PopMenu(true);
     }
     #endregion
 

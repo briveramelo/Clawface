@@ -21,7 +21,7 @@ public class DashState : IPlayerState {
     private VFXOneOff dashPuff;
     [SerializeField]
     private GameObject dashTrail;
-    //[SerializeField] private Collider playerCollider;
+    [SerializeField] private Collider playerCollider;
     [SerializeField]
     protected int[] highlightPoses;
     [SerializeField]
@@ -91,6 +91,7 @@ public class DashState : IPlayerState {
         currentPose = 0;
         startSkinning = false;
         stateVariables.statsManager.damageModifier = 1.0f;
+        playerCollider.enabled = true;
         if (stateVariables.velBody.GetMovementMode()==MovementMode.ICE) {
             stateVariables.velBody.velocity = stateVariables.velBody.GetForward() * dashVelocity/10f;
         }
@@ -116,9 +117,11 @@ public class DashState : IPlayerState {
         if(currentFrame == iFrameStart)
         {
             stateVariables.statsManager.damageModifier = 0.0f;
+            playerCollider.enabled=false;
         }else if (currentFrame == iFrameEnd)
         {
             stateVariables.statsManager.damageModifier = 1.0f;
+            playerCollider.enabled=true;
         }
     }
 
