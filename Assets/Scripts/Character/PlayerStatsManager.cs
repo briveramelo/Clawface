@@ -54,7 +54,7 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
             damageUI.DoDamageEffect();
             stats.TakeDamage(damageModifier * damager.damage);
             float healthFraction = stats.GetHealthFraction();
-            healthBar.SetHealth(healthFraction);
+            //healthBar.SetHealth(healthFraction);
             cameraLock.Shake();
             float shakeIntensity = 1f - healthFraction;
             if (shake) {
@@ -74,7 +74,7 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     public void UpdateMaxHealth()
     {
         float healthFraction = stats.GetHealthFraction();
-        healthBar.SetHealth(healthFraction);
+        //healthBar.SetHealth(healthFraction);
     }
 
     public void TakeSkin(int skinHealth) {
@@ -106,7 +106,7 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
         transform.position = GameObject.Find("RespawnPoint").transform.position;
         stats.Add(CharacterStatType.Health, (int)startHealth);
         startHealth = stats.GetStat(CharacterStatType.MaxHealth);
-        healthBar.SetHealth(stats.GetHealthFraction());
+        //healthBar.SetHealth(stats.GetHealthFraction());
         AnalyticsManager.Instance.PlayerDeath();
     }
     #endregion
