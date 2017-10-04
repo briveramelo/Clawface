@@ -15,7 +15,6 @@ public class Zombie : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpawn
     [SerializeField] private NavMeshAgent navAgent;
     [SerializeField] private GameObject mySkin;
     [SerializeField] private CopUI copUICanvas;
-    //[SerializeField] private Mod mod;
     [SerializeField] private Transform bloodEmissionLocation;
     [SerializeField] private int scorePopupDelay = 2;
     [SerializeField] private int scoreValue = 200;
@@ -47,9 +46,6 @@ public class Zombie : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpawn
     void Awake()
     {
         controller.Initialize(properties, velBody, animator, myStats, navAgent);
-
-        //mod.setModSpot(ModSpot.ArmR);
-        //mod.AttachAffect(ref myStats, velBody);
         ResetForRebirth();
         navAgent.enabled = false;
     }
@@ -184,14 +180,11 @@ public class Zombie : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpawn
     {
         GetComponent<CapsuleCollider>().enabled = true;
         copUICanvas.gameObject.SetActive(false);
-        //mod.DeactivateModCanvas();
 
         myStats.ResetForRebirth();
         controller.ResetForRebirth();
         velBody.ResetForRebirth();
         will.Reset();
-        //TODO check for missing mod and create a new one and attach it
-        //mod.setModSpot(ModSpot.ArmR);
         lastChance = false;
     }
 
@@ -210,9 +203,5 @@ public class Zombie : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpawn
 public class ZombieProperties
 {
     public float runMultiplier;
-    [Range(5f, 15f)] public float maxChaseTime;
-    [Range(5f, 15f)] public float walkTime;
-    [Range(1, 6)] public int numShocksToStun;
-    [Range(.1f, 1)] public float twitchRange;
-    [Range(.1f, 1f)] public float twitchTime;
+    [Range(0f, 10f)] public float hitRate;
 }

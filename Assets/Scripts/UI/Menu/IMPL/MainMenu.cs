@@ -93,7 +93,7 @@ public class MainMenu : Menu
     public void SettingsAction()
     {
         MenuManager.Instance.DoTransition(Strings.MenuStrings.SETTINGS,
-            Transition.SHOW, new Effect[] { Effect.FADE });
+            Transition.SHOW, new Effect[] { Effect.EXCLUSIVE, Effect.FADE });
     }
 
     #endregion

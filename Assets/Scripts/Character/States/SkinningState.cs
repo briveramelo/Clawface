@@ -8,7 +8,7 @@ public class SkinningState : IPlayerState
 {
 
     #region Serialized Unity Inspector fields
-    [SerializeField] private OnScreenScoreUI healthBar;
+    [SerializeField] private OnScreenScoreUI playerUI;
     #endregion
 
     #region Private Fields
@@ -91,7 +91,7 @@ public class SkinningState : IPlayerState
             SkinStats skinStats = skin.GetComponent<SkinStats>();
             stateVariables.statsManager.TakeSkin(skinStats.GetSkinHealth());
             Stats stats = GetComponent<Stats>();
-            healthBar.SetHealth(stats.GetHealthFraction());
+            playerUI.SetHealth(stats.GetHealthFraction());
             GameObject skinningEffect = ObjectPool.Instance.GetObject(PoolObjectType.VFXSkinningEffect);
             skinningEffect.transform.position = transform.position;
 
