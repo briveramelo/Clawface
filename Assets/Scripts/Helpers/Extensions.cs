@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using MovementEffects;
+using System.Reflection;
+using System;
 
 namespace ModMan {
 
@@ -46,7 +48,7 @@ namespace ModMan {
         }
 
         public static T GetRandom<T>(this List<T> thisList) {
-            int rand = Random.Range(0, thisList.Count);
+            int rand = UnityEngine.Random.Range(0, thisList.Count);
             return thisList[rand];
         }
 
@@ -58,7 +60,7 @@ namespace ModMan {
             {
                 return item;
             }
-            int rand = Random.Range(0, sublist.Count);
+            int rand = UnityEngine.Random.Range(0, sublist.Count);
             item = sublist[rand];
             return item;
         }    
@@ -276,6 +278,44 @@ namespace ModMan {
 
             if (Application.isPlaying) GameObject.Destroy (gameObject);
             else GameObject.DestroyImmediate (gameObject);
+        }
+
+        public static List<FieldInfo> GetConstants(Type type) {
+            List<FieldInfo> constants = new List<FieldInfo>();
+
+            FieldInfo[] fieldInfos = type.GetFields(
+                // Gets all public and static fields
+
+                BindingFlags.Public | BindingFlags.Static |
+                // This tells it to get the fields from all base types as well
+
+                BindingFlags.FlattenHierarchy);
+
+            // Go through the list and only pick out the constants
+            foreach (FieldInfo fi in fieldInfos)
+                // IsLiteral determines if its value is written at 
+                //   compile time and not changeable
+                // IsInitOnly determine if the field can be set 
+                //   in the body of the constructor
+                // for C# a field which is readonly keyword would have both true 
+                //   but a const field would have only IsLiteral equal to true
+                if (fi.IsLiteral && !fi.IsInitOnly)
+                    constants.Add(fi);
+
+            // Return an array of FieldInfos
+            return constants;//.ToArray(typeof(FieldInfo));
+        }
+
+        public static List<U> GetConstantsOfType<T, U>() {
+            List<FieldInfo> fis = GetConstants(typeof(T));
+            List<U> items = new List<U>();
+            fis.ForEach(fi => {
+                if (fi.IsLiteral && !fi.IsInitOnly) {
+                    U item = (U)fi.GetRawConstantValue();
+                    items.Add(item);
+                }
+            });
+            return items;
         }
     }
 }
