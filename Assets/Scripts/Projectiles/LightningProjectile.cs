@@ -129,14 +129,7 @@ public class LightningProjectile : MonoBehaviour {
             {
                 target = other.transform;
             }
-            //Do damage
-            IDamageable damageable = target.GetComponent<IDamageable>();
-            if (damageable != null)
-            {
-                damager.impactDirection = transform.forward;
-                damager.damage = projectileProperties.projectileHitDamage;
-                damageable.TakeDamage(damager);
-            }
+            
             //Increment enemy count
             enemyCount++;
             //Check for max enemies
@@ -145,6 +138,17 @@ public class LightningProjectile : MonoBehaviour {
                 //Spawn next chain
                 SpawnNextProjectile();
             }
+
+            //Do damage
+            IDamageable damageable = target.GetComponent<IDamageable>();
+            if (damageable != null)
+            {
+                damager.impactDirection = transform.forward;
+                damager.damage = projectileProperties.projectileHitDamage;
+                damageable.TakeDamage(damager);
+            }
+
+            this.gameObject.SetActive(false);
         }
     }
 
