@@ -124,7 +124,7 @@ public class WavesEditor : Editor
         {
             if (!manualEdits.boolValue)
             EditorGUILayout.LabelField (
-                "Wave properties are being controlled by intensity values.", 
+                "Wave properties are being controlled by intensity sliders.", 
                 EditorStyles.helpBox);
 
             else
@@ -177,7 +177,7 @@ public class WavesEditor : Editor
             EditorGUI.EndDisabledGroup();
             */
 
-            EditorGUI.BeginDisabledGroup(!manualEdits.boolValue);
+            EditorGUI.BeginDisabledGroup(useIntensityCurve.boolValue || !manualEdits.boolValue);
 
             // Total num spawns
             EditorGUI.PropertyField(standardRect.AddPosition(0, (startHeightMult + 2.25f)*LineHeight).AddSize(0, LineHeight), element.FindPropertyRelative("totalNumSpawns"));
@@ -266,7 +266,7 @@ public class WavesEditor : Editor
                 //spawnSubQuantitiesFoldouts[index].AddUntil(numEnemies);
                 //height += spawnSubQuantitiesFoldouts[index].FindAll(item => true).Count * LineHeight;
             }
-            if (useIntensityCurve.boolValue || manualEdits.boolValue) {
+            if (manualEdits.boolValue) {
                 height -= LineHeight;
             }
         }

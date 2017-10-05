@@ -40,9 +40,9 @@ public class IntRangeDrawer : PropertyDrawer
         EditorGUI.LabelField(new Rect(position.x, position.y, xDiv, yDiv), label);
 
         EditorGUI.indentLevel++;
-            EditorGUI.LabelField(new Rect(position.x, position.y + yDiv, position.width, yDiv), min.intValue.ToString("0"));
+            EditorGUI.LabelField(new Rect(position.x, position.y + yDiv, position.width, yDiv), attribMin.ToString("0"));
             EditorGUI.MinMaxSlider(new Rect(position.x + 24f, position.y + yDiv, position.width - 56f, yDiv), ref minValue, ref maxValue, attribMin, attribMax);
-            EditorGUI.LabelField(new Rect(position.x + position.width - 60f, position.y + yDiv, position.width, yDiv), max.intValue.ToString("0"));
+            EditorGUI.LabelField(new Rect(position.x + position.width - 60f, position.y + yDiv, position.width, yDiv), attribMax.ToString("0"));
         EditorGUI.indentLevel--;
 
 
