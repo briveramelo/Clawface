@@ -140,7 +140,7 @@ public class ModManager : MonoBehaviour
                 return Instantiate(modInventory.segway);
             case ModType.Geyser:
                 return Instantiate(modInventory.geyser);
-            case ModType.Grappler:
+            case ModType.LightningGun:
                 return Instantiate(modInventory.grappler);
             default:
                 return null;
@@ -186,15 +186,10 @@ public class ModManager : MonoBehaviour
             //CheckForModInput((ModSpot spot)=> { modSocketDictionary[spot].mod.BeginCharging();}, ButtonMode.DOWN);
             //CheckForModInput((ModSpot spot)=> { modSocketDictionary[spot].mod.RunCharging();}, ButtonMode.HELD);
             CheckForModInput((ModSpot spot)=> {
-                if (!modSocketDictionary[spot].mod.hasState) {
-                    modSocketDictionary[spot].mod.Activate();               
-                }
+                modSocketDictionary[spot].mod.Activate();               
             }, ButtonMode.DOWN);
-            CheckForModInput((ModSpot spot) => {
-                if (!modSocketDictionary[spot].mod.hasState)
-                {
-                    modSocketDictionary[spot].mod.Activate();
-                }
+            CheckForModInput((ModSpot spot) => {                
+                modSocketDictionary[spot].mod.Activate();
             }, ButtonMode.HELD);
         }
     }

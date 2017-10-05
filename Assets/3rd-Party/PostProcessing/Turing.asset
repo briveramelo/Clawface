@@ -50,7 +50,7 @@ MonoBehaviour:
       ambientOnly: 0
       highPrecision: 0
   screenSpaceReflection:
-    m_Enabled: 1
+    m_Enabled: 0
     m_Settings:
       reflection:
         blendType: 0
@@ -100,16 +100,16 @@ MonoBehaviour:
     m_Enabled: 1
     m_Settings:
       bloom:
-        intensity: 1.4
-        threshold: 1.44
+        intensity: 0.75
+        threshold: 0.9
         softKnee: 0.251
-        radius: 1
+        radius: 1.21
         antiFlicker: 1
       lensDirt:
         texture: {fileID: 0}
         intensity: 3.5
   colorGrading:
-    m_Enabled: 1
+    m_Enabled: 0
     m_Settings:
       tonemapping:
         tonemapper: 2
@@ -124,7 +124,7 @@ MonoBehaviour:
         temperature: -4
         tint: 0
         hueShift: 0
-        saturation: 1
+        saturation: 0.83
         contrast: 1
       channelMixer:
         red: {x: 1, y: 0, z: 0}

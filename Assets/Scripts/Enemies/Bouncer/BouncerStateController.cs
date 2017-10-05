@@ -7,7 +7,6 @@ using ModMan;
 public class BouncerStateController : BouncerController
 {
 
-    [SerializeField] SphereCollider playerDetectorSphereCollider;
     [SerializeField] float closeEnoughToAttackDistance;
     private Collider[] playerColliderList = new Collider[10];
     float maxDistanceBeforeChasing = 2.0f;
@@ -16,8 +15,6 @@ public class BouncerStateController : BouncerController
     {
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, closeEnoughToAttackDistance);
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(playerDetectorSphereCollider.transform.position, maxDistanceBeforeChasing);
     }
 
 
