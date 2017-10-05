@@ -56,6 +56,15 @@ public class BlasterBullet : MonoBehaviour {
                 EmitBulletCollision();
                 gameObject.SetActive(false);
             }
+
+            
+        }
+
+        if (other.transform.CompareTag(Strings.Tags.WALL))
+        {
+            // SFXManager.Instance.Play(SFXType.BlasterProjectileImpact, transform.position);
+            EmitBulletCollision();
+            gameObject.SetActive(false);
         }
     }
 
