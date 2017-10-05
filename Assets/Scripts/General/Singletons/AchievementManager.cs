@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(AchievementLocalizer))]
 public class AchievementManager : Singleton<AchievementManager> {
 
     protected AchievementManager() { }
