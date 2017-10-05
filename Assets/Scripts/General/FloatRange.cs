@@ -11,6 +11,8 @@ using UnityEngine;
 [Serializable]
 public class FloatRange
 {
+    [HideInInspector] public float minLimit, maxLimit;
+
     public FloatRange(float min, float max) {
         this.min = min;
         this.max = max;
@@ -39,7 +41,7 @@ public class FloatRange
         return val >= min && val <= max;
     }
     public float Diff { get { return Max - Min; } }
-
+    public float Range { get { return maxLimit - minLimit; } }
     /// <summary>
     /// Gets/sets the minumum boundary of this FloatRange.
     /// </summary>

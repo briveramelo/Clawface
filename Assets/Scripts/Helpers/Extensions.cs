@@ -39,7 +39,12 @@ namespace ModMan {
             while (list.Count <= index) {
                 list.Add(default(T));
             }
-        }        
+        }
+        public static void AddNewUntil<T> (this List<T> list, int index) where T : new () {
+            while (list.Count <= index) {
+                list.Add(new T());
+            }
+        }
 
         public static T PopFront<T>(this List<T> list){
             T result = list[0];
