@@ -2474,16 +2474,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerMaterial: {fileID: 2100000, guid: 74f4f482051380e4eb096d09801c0686, type: 2}
   idleExpression: {fileID: 2800000, guid: b304d9d1355731e49bb82a259ca2b4ac, type: 3}
-  idleColor: {r: 0.49803922, g: 0.49803922, b: 1, a: 0}
+  idleColor: {r: 1, g: 1, b: 1, a: 0}
   blinkFrequency:
+    minLimit: 0
+    maxLimit: 0
     min: 0.5
     max: 1
   blinkDuration: 0.2
   blinkExpression: {fileID: 2800000, guid: 04448cb6ee122a1489140bc530afa13d, type: 3}
   happyExpression: {fileID: 2800000, guid: c8f1b120b7693cb46a7bd15440d05afb, type: 3}
-  happyColor: {r: 0, g: 1, b: 0, a: 0}
+  happyColor: {r: 1, g: 1, b: 1, a: 0}
   angryExpression: {fileID: 2800000, guid: e2987098f2e176f4681654c12fef1b9d, type: 3}
-  angryColor: {r: 1, g: 0, b: 0, a: 0}
+  angryColor: {r: 1, g: 0.11764706, b: 0, a: 0}
 --- !u!114 &114462647418381272
 MonoBehaviour:
   m_ObjectHideFlags: 1
