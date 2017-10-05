@@ -10,11 +10,12 @@ public class ZombieAttackState : ZombieState
     private ShooterProperties shooterProperties = new ShooterProperties();
     private Damager damager = new Damager();
     float timeSinceLastHit;
-    float hitRate = 1.0f;
+    float hitRate;
 
 
     public override void OnEnter()
     {
+        hitRate = properties.hitRate;
         animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Fire);
         shooterProperties.Initialize(2, 5, 6, 0);
         SetShooterProperties(shooterProperties);

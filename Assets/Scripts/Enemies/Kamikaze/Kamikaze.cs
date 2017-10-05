@@ -60,7 +60,7 @@ public class Kamikaze : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpa
             myStats.TakeDamage(damager.damage);
             damagePack.Set(damager, damaged);
             SFXManager.Instance.Play(SFXType.MallCopHurt, transform.position);
-            damaged.Set(DamagedType.Bouncer, bloodEmissionLocation);
+            damaged.Set(DamagedType.Kamikaze, bloodEmissionLocation);
             DamageFXManager.Instance.EmitDamageEffect(damagePack);
             if (myStats.health <= myStats.skinnableHealth)
             {
@@ -69,13 +69,9 @@ public class Kamikaze : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpa
             }
             if (myStats.health <= 0)
             {
-                    controller.UpdateState(EKamikazeState.SelfDestruct);
                     OnDeath();
             }
-            else
-            {
-                controller.UpdateState(EKamikazeState.Chase);
-            }
+            
         }
     }
 
@@ -197,9 +193,6 @@ public class Kamikaze : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpa
 public class KamikazeProperties
 {
     public float runMultiplier;
-    [Range(5f, 15f)] public float maxChaseTime;
-    [Range(5f, 15f)] public float walkTime;
-    [Range(1, 6)] public int numShocksToStun;
-    [Range(.1f, 1)] public float twitchRange;
-    [Range(.1f, 1f)] public float twitchTime;
+    [Range(1f, 5f)] public float selfDestructTime;
+    [Range(1f, 100f)] public float blastRadius;
 }
