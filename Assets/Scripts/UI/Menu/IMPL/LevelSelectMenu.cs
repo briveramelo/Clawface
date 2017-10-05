@@ -60,7 +60,10 @@ public class LevelSelectMenu : Menu
     private Button weaponSelectButton;
 
     [SerializeField]
-    private Animator themeController;
+    private Animator themeShieldController;
+
+    [SerializeField]
+    private Animator levelShieldController;
 
     [SerializeField]
     private ThemeBundle[] themes;
@@ -82,7 +85,7 @@ public class LevelSelectMenu : Menu
 
     #endregion
 
-    #region Interface (Unity Serialization)
+    #region Interface (Unity Lifecycle)
 
     private void Update()
     {
@@ -90,6 +93,7 @@ public class LevelSelectMenu : Menu
         if (chooseLevel && InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN))
         {
             chooseLevel = false;
+            selectedLevel = null;
             SwitchMenus(true);
             UpdateDisplay();
         }
@@ -129,6 +133,15 @@ public class LevelSelectMenu : Menu
 
     public void BackAction()
     {
+        if (chooseLevel)
+        {
+            chooseLevel = false;
+            selectedLevel = null;
+            SwitchMenus(true);
+            UpdateDisplay();
+            return;
+        }
+
         // Currently, these menus are displayed in the same scene
         // as the main menu.  As such, we merely have to display the main menu.
         MenuManager.Instance.DoTransition(Strings.MenuStrings.MAIN, Transition.SHOW,
@@ -148,11 +161,31 @@ public class LevelSelectMenu : Menu
         UpdateDisplay();
     }
 
+    //// These annoying callbacks are needed for the EventTrigger...
+    //// For some reason it can't handle static enum arguments.. :/
+    public void ThemeSelector(int val)
+    {
+        ThemeSelector((Theme)val);
+    }
+
     public void ThemeAction(Theme theme)
     {
+        // Check that there is buttons available
+        foreach (ThemeBundle bundle in themes)
+        {
+            if (bundle.theme == theme && bundle.levels.buttons.Length == 0) {
+                return; // can't do anything
+            }
+        }
+
         chooseLevel = true;
         SwitchMenus(false);
         UpdateDisplay();
+    }
+
+    public void ThemeAction(int val)
+    {
+        ThemeAction((Theme)val);
     }
 
     public void LevelAction(string scene)
@@ -195,14 +228,19 @@ public class LevelSelectMenu : Menu
     private void AlterVisible()
     {
         // Only display the theme selector if we're not choosing a level
-        themeController.SetBool("Visible", !chooseLevel);
+        themeShieldController.SetBool("Visible", !chooseLevel);
+        levelShieldController.SetBool("Visible", chooseLevel);
 
         // Iterate through themes to alter visibilities
         foreach (ThemeBundle themeBundle in themes)
         {
             bool levelsVisible = themeBundle.theme == selectedTheme;
-            themeBundle.levels.controller.SetBool("Visible", levelsVisible);
-            themeBundle.levels.controller.SetBool("Interactable", levelsVisible && chooseLevel);
+            themeBundle.levels.levelObject.SetActive(levelsVisible);
+
+            foreach (Button button in themeBundle.levels.buttons)
+            {
+                button.interactable = levelsVisible && chooseLevel;
+            }
         }
     }
 
@@ -249,12 +287,12 @@ public class LevelSelectMenu : Menu
 
     #region Types (Public)
 
-    public enum Theme
+    public enum Theme: int
     {
-        COMMON_AREA,
-        GREENHOUSE,
-        LABORATORY,
-        ENGINEERING
+        COMMON_AREA = 0,
+        GREENHOUSE = 1,
+        LABORATORY = 2,
+        ENGINEERING = 3
     }
 
     [Serializable]
@@ -268,7 +306,7 @@ public class LevelSelectMenu : Menu
     [Serializable]
     public class LevelBundle
     {
-        public Animator controller;
+        public GameObject levelObject;
         public Button[] buttons;
     }
 
