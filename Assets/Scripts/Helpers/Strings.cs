@@ -70,6 +70,7 @@
 
         public const string EARN_ACHIEVEMENT = "EarnAchievement";
         public const string PROGRESS_ACHIEVEMENT = "ProgressAchievement";
+        public const string UPDATE_ACHIEVEMENTS = "UpdateAchievements";
     }
 
     public class AchievementNames {
