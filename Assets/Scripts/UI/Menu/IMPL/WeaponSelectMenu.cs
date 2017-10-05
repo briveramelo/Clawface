@@ -1,6 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class WeaponSelectMenu : Menu
@@ -106,7 +105,7 @@ public class WeaponSelectMenu : Menu
             return;
 
         // Iterate through and identify selected "button"
-        GameObject selected = EventSystem.current.currentSelectedGameObject;
+        GameObject selected = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject;
         foreach (ButtonBundle bundle in weapons)
         {
             // Check to see if this weapon is selected
