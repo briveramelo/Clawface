@@ -52,7 +52,7 @@ namespace Turing.Audio
         /// Range of values to use for volume.
         /// </summary>
         [SerializeField]
-        [FloatRange(0f, 1f)]
+        [FixedFloatRange(0f, 1f)]
         [Tooltip("Range of values to use for volume.")]
         FloatRange randomVolumeRange = new FloatRange();
 
