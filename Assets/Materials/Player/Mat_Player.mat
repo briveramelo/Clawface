@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Mat_Player
-  m_Shader: {fileID: 4800000, guid: 2ff3d9290eb8e2442afb53785ef0b5db, type: 3}
+  m_Shader: {fileID: 4800000, guid: 69f0de1eb9b6d494aa0c92db5965959a, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -43,7 +43,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _FaceTexture:
-        m_Texture: {fileID: 2800000, guid: e2987098f2e176f4681654c12fef1b9d, type: 3}
+        m_Texture: {fileID: 2800000, guid: b304d9d1355731e49bb82a259ca2b4ac, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
@@ -70,8 +70,12 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _TextureSample1:
+        m_Texture: {fileID: 2800000, guid: 0cac03c4375c67a45a0f73b3bdfe3d5f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _XrayNoise:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 0cac03c4375c67a45a0f73b3bdfe3d5f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _texcoord2:
@@ -89,10 +93,12 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
+    - _LineSize: 0.5
+    - _LineSpeed: 0.17
     - _Metallic: 0
     - _Mode: 0
-    - _NoiseSize: 0.2
-    - _NoiseSpeed: 1.55
+    - _NoiseSize: 0.22
+    - _NoiseSpeed: 0.44
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _SmoothnessTextureChannel: 0
@@ -100,14 +106,17 @@ Material:
     - _SrcBlend: 1
     - _TextureTiling: 1
     - _UVSec: 0
+    - _XrayColorStrength: 5
     - _ZWrite: 1
     - __dirty: 1
     m_Colors:
     - _ASEOutlineColor: {r: 0.33595324, g: 0, b: 0.9191176, a: 0}
     - _AlbedoTint: {r: 1, g: 1, b: 1, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Color1: {r: 0.5, g: 0.54482746, b: 1, a: 0}
-    - _Color2: {r: 0.022058845, g: 0.43346828, b: 1, a: 0}
+    - _Color1: {r: 0.6838235, g: 0.7121703, b: 1, a: 0}
+    - _Color2: {r: 0.42171282, g: 0.6464323, b: 0.9558824, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _EmissiveColor: {r: 1, g: 1, b: 1, a: 0}
-    - _FaceColor: {r: 1, g: 0.11764706, b: 0, a: 0}
+    - _FaceColor: {r: 1, g: 1, b: 1, a: 0}
+    - _LineColor: {r: 0, g: 0, b: 0, a: 0}
+    - _XrayColor: {r: 0, g: 0.12733261, b: 0.5955882, a: 0}
