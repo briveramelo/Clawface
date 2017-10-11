@@ -117,7 +117,7 @@ namespace Turing.Audio
         /// <summary>
         /// Range of pitches to use.
         /// </summary>
-        [SerializeField][FloatRange(0f, 3f)]
+        [SerializeField][FixedFloatRange(0f, 3f)]
         [Tooltip("Range of pitches to use.")]
         FloatRange pitchRange = new FloatRange();
 

@@ -7,11 +7,10 @@ using MovementEffects;
 using System.Linq;
 using UnityEditorInternal;
 
-public class Spawner : MonoBehaviour
+public class Spawner : RoutineRunner
 {
     public bool useIntensityCurve, manualEdits;
     public AnimationCurve intensityCurve;
-    //    public AnimationCurve timingCurve;
 
     public List<Wave> waves = new List<Wave>();
 
@@ -49,6 +48,7 @@ public class Spawner : MonoBehaviour
             return PoolObjectType.MallCopBlaster;
         }
     }
+
 
     #endregion
 
@@ -94,7 +94,7 @@ public class Spawner : MonoBehaviour
     {
         currentNumEnemies--;
 
-        if (currentWave < waves.Count && currentNumEnemies <= waves[currentWave].totalNumSpawns.Min * spawnPoints.Count)
+        if (currentWave < waves.Count-1 && currentNumEnemies <= waves[currentWave].totalNumSpawn.Min * spawnPoints.Count)
         {
             GoToNextWave();
         }
@@ -114,14 +114,14 @@ public class Spawner : MonoBehaviour
         {
             if (currentWave < waves.Count)
             {
-                Timing.RunCoroutine(SpawnEnemyCluster());
+                Timing.RunCoroutine(SpawnEnemyCluster(), coroutineName);
             }
         }
     }
 
     private IEnumerator<float> SpawnEnemyCluster()
     {
-        int enemiesToSpawn = waves[currentWave].totalNumSpawns.Max;
+        int enemiesToSpawn = waves[currentWave].totalNumSpawn.Max;
 
         for (int i = 0; i < enemiesToSpawn; i++)
         {
@@ -142,7 +142,7 @@ public class Spawner : MonoBehaviour
 
                     spawnedObject.transform.position = point.position;
                     spawnable.WarpToNavMesh(point.position);
-                    
+
                     currentNumEnemies++;
                 }
                 else
@@ -153,9 +153,10 @@ public class Spawner : MonoBehaviour
         }
     }
 
-    #endregion
 
-    public bool IsLastWave()
+        #endregion
+
+        public bool IsLastWave()
     {
         return currentWave >= waves.Count - 1 ? true : false;
     }
@@ -185,9 +186,6 @@ public class Wave
     const float timeBetweenMin = 0.25f;
     const float timeBetweenMax = 2.0f;
 
-    const int spawnOffset = 1;
-    const float spawnTimeOffset = 0.3f;
-
     const float TimeToNextWave_Max = 60.0f;
 
     #endregion
@@ -198,21 +196,24 @@ public class Wave
     public List<WaveType> monsterList;
 
 
-    [HideInInspector]
-    public int remainingSpawns;
-    [SerializeField, Range(0, 1)]
-    float intensity;
+    [HideInInspector] public int remainingSpawns;
+    [SerializeField, Range(0, 1)] public float intensity;
     [SerializeField, Range(0, TimeToNextWave_Max)]
     float TimeToNextWave;
+
+
+//    [EditableIntRange] public IntRange totalNumSpawns;
+//    [EditableFloatRange] public FloatRange spawningTime;
+
+    public int spawnOffset;
+    public float spawnTimeOffset;
 
     public float Intensity
     {
         get { return intensity; }
         set
-        {
-            value = value < 0 ? 0 : value;
-            value = value > 1 ? 1 : value;
-            intensity = value;
+        {            
+            intensity = Mathf.Clamp01(value);
             ApplyIntensityValue();
         }
     }
@@ -236,16 +237,16 @@ public class Wave
         SetTimeBetweenSpawns(intensity);
     }
 
-    [IntRange(spawnMin, spawnMax)]
-    public IntRange totalNumSpawns;
-    [FloatRange(timeBetweenMin, timeBetweenMax)]
+    
+    public IntRange totalNumSpawn;
     public FloatRange SpawningTime;
+    
 
     void SetTotalSpawns(float intensity)
     {
         float spawnBase = intensity * spawnMax;
-        totalNumSpawns.Min = Mathf.RoundToInt(Mathf.Clamp(spawnBase - spawnOffset, spawnMin, spawnMax));
-        totalNumSpawns.Max = Mathf.RoundToInt(Mathf.Clamp(spawnBase + spawnOffset, spawnMin, spawnMax));
+        totalNumSpawn.Min = Mathf.RoundToInt(Mathf.Clamp(spawnBase - spawnOffset, spawnMin, spawnMax));
+        totalNumSpawn.Max = Mathf.RoundToInt(Mathf.Clamp(spawnBase + spawnOffset, spawnMin, spawnMax));
     }
     void SetTimeBetweenSpawns(float intensity)
     {
@@ -256,7 +257,7 @@ public class Wave
 
     public void Reset()
     {
-        remainingSpawns = totalNumSpawns.GetRandomValue();
+        remainingSpawns = totalNumSpawn.GetRandomValue();
         spawnedHashCodes.Clear();
     }
 
@@ -284,4 +285,5 @@ public class Wave
             yield return Timing.WaitForSeconds(SpawningTime.GetRandomValue());
         }
     }
+
 }
