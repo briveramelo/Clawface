@@ -24,7 +24,7 @@ public class LevelUnit : MonoBehaviour {
 
     #region serialized fields
     [HideInInspector]
-    private float speed = 0.01f;
+    private float speed = 0.05f;
     #endregion
 
     #region public variables
@@ -33,10 +33,10 @@ public class LevelUnit : MonoBehaviour {
     #region unity lifecycle
     private void Awake()
     {
-        MeshFilter meshfilter = GetComponent<MeshFilter>();
-        if (meshfilter)
+        MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
+        if (meshRenderer)
         {
-            meshHeight = meshfilter.mesh.bounds.size.y;
+            meshHeight = meshRenderer.bounds.size.y;
         }
         CalculateStatePositions();
     }    
