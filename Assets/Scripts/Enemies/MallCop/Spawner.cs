@@ -16,12 +16,6 @@ public class Spawner : RoutineRunner
 
     public int currentWaveNumber = 0;
     public int currentNumEnemies = 0;
-    //    public float TimeToNextWave = 0.0f;
-
-    #region Serialized Unity Fields
-    [SerializeField] SpawnType spawnType;
-    #endregion
-
 
     #region private variables
 
@@ -30,23 +24,20 @@ public class Spawner : RoutineRunner
     List<Transform> spawnPoints = new List<Transform>();
 
 
-    private PoolObjectType objectToSpawn
+    private PoolObjectType GetPoolObject(SpawnType spawnType)
     {
-        get
+        switch (spawnType)
         {
-            switch (spawnType)
-            {
-                case SpawnType.Blaster:
-                    return PoolObjectType.MallCopBlaster;
-                case SpawnType.Zombie:
-                    return PoolObjectType.Zombie;
-                case SpawnType.Bouncer:
-                    return PoolObjectType.Bouncer;
-                case SpawnType.Kamikaze:
-                    return PoolObjectType.Kamikaze;
-            }
-            return PoolObjectType.MallCopBlaster;
+            case SpawnType.Blaster:
+                return PoolObjectType.MallCopBlaster;
+            case SpawnType.Zombie:
+                return PoolObjectType.Zombie;
+            case SpawnType.Bouncer:
+                return PoolObjectType.Bouncer;
+            case SpawnType.Kamikaze:
+                return PoolObjectType.Kamikaze;
         }
+        return PoolObjectType.MallCopBlaster;
     }
 
 
@@ -55,8 +46,6 @@ public class Spawner : RoutineRunner
     #region Unity LifeCycle
     void Start()
     {
-        //        if(waves.Count > 0) TimeToNextWave = waves[0].Time;
-
         foreach (Transform child_point in transform)
         {
             spawnPoints.Add(child_point);
@@ -94,7 +83,7 @@ public class Spawner : RoutineRunner
     {
         currentNumEnemies--;
 
-        if (currentWave < waves.Count-1 && currentNumEnemies <= waves[currentWave].totalNumSpawn.Min * spawnPoints.Count)
+        if (currentWave < waves.Count - 1 && currentNumEnemies <= 1 * spawnPoints.Count)
         {
             GoToNextWave();
         }
@@ -121,15 +110,45 @@ public class Spawner : RoutineRunner
 
     private IEnumerator<float> SpawnEnemyCluster()
     {
-        int enemiesToSpawn = waves[currentWave].totalNumSpawn.Max;
+        yield return Timing.WaitForSeconds(0.0f);
 
+        for(int i = 0; i < waves[currentWave].monsterList.Count; i++)
+        {
+            for(int j = 0; j < waves[currentWave].monsterList[i].Count; j++)
+            {
+                GameObject spawnedObject = ObjectPool.Instance.GetObject(GetPoolObject(waves[currentWave].monsterList[i].Type));
+
+                if (spawnedObject)
+                {
+                    ISpawnable spawnable = spawnedObject.GetComponentInChildren<ISpawnable>();
+
+                    if (!spawnable.HasWillBeenWritten())
+                    {
+                        spawnable.RegisterDeathEvent(ReportDeath);
+                    }
+
+                    Vector3 spawnPosition = spawnPoints.GetRandom().position;
+                    spawnedObject.transform.position = spawnPosition;
+                    spawnable.WarpToNavMesh(spawnPosition);
+
+                    currentNumEnemies++;
+                }
+                else
+                {
+                    Debug.LogFormat("<color=#ffff00>" + "NOT ENOUGH SPAWN-OBJECT" + "</color>");
+                }
+            }
+        }
+
+
+        /*
         for (int i = 0; i < enemiesToSpawn; i++)
         {
             yield return Timing.WaitForSeconds(Random.Range(waves[currentWave].SpawningTime.Min, waves[currentWave].SpawningTime.Max));
 
             foreach (Transform point in spawnPoints)
             {
-                GameObject spawnedObject = ObjectPool.Instance.GetObject(objectToSpawn);
+                GameObject spawnedObject = ObjectPool.Instance.GetObject(GetPoolObject(spawnType));
 
                 if (spawnedObject)
                 {
@@ -151,12 +170,15 @@ public class Spawner : RoutineRunner
                 }
             }
         }
+        */
+
+
     }
 
 
-        #endregion
+    #endregion
 
-        public bool IsLastWave()
+    public bool IsLastWave()
     {
         return currentWave >= waves.Count - 1 ? true : false;
     }
@@ -172,7 +194,7 @@ public class Spawner : RoutineRunner
 [System.Serializable]
 public class WaveType
 {
-    public SpawnType type;
+    public SpawnType Type;
     public int Count;
 }
 
@@ -182,7 +204,7 @@ public class Wave
     #region const parameters
 
     const int spawnMin = 1;
-    const int spawnMax = 15;
+
     const float timeBetweenMin = 0.25f;
     const float timeBetweenMax = 2.0f;
 
@@ -192,18 +214,13 @@ public class Wave
 
     public List<int> spawnedHashCodes = new List<int>();
 
-
     public List<WaveType> monsterList;
-
 
     [HideInInspector] public int remainingSpawns;
     [SerializeField, Range(0, 1)] public float intensity;
-    [SerializeField, Range(0, TimeToNextWave_Max)]
-    float TimeToNextWave;
+    [SerializeField, Range(0, 10)] public int NumToNextWave;
 
-
-//    [EditableIntRange] public IntRange totalNumSpawns;
-//    [EditableFloatRange] public FloatRange spawningTime;
+    [SerializeField, Range(0, TimeToNextWave_Max)] float TimeToNextWave;
 
     public int spawnOffset;
     public float spawnTimeOffset;
@@ -233,21 +250,11 @@ public class Wave
 
     public void ApplyIntensityValue()
     {
-        SetTotalSpawns(intensity);
         SetTimeBetweenSpawns(intensity);
     }
 
-    
-    public IntRange totalNumSpawn;
     public FloatRange SpawningTime;
     
-
-    void SetTotalSpawns(float intensity)
-    {
-        float spawnBase = intensity * spawnMax;
-        totalNumSpawn.Min = Mathf.RoundToInt(Mathf.Clamp(spawnBase - spawnOffset, spawnMin, spawnMax));
-        totalNumSpawn.Max = Mathf.RoundToInt(Mathf.Clamp(spawnBase + spawnOffset, spawnMin, spawnMax));
-    }
     void SetTimeBetweenSpawns(float intensity)
     {
         float timeBase = Mathf.Clamp(timeBetweenMax * (1 - intensity), timeBetweenMin, timeBetweenMax);
@@ -257,7 +264,6 @@ public class Wave
 
     public void Reset()
     {
-        remainingSpawns = totalNumSpawn.GetRandomValue();
         spawnedHashCodes.Clear();
     }
 

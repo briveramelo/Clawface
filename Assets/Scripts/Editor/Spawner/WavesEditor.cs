@@ -16,7 +16,7 @@ public class WavesEditor : Editor
     SerializedProperty manualEdits;
     SerializedProperty intensityCurve;
     SerializedProperty timingCurve;
-    SerializedProperty waves, spawnType;
+    SerializedProperty waves;
 
     SerializedProperty currentWaveNumber;
     SerializedProperty currentNumEnemies;
@@ -40,7 +40,6 @@ public class WavesEditor : Editor
 
         intensityCurve = serializedObject.FindProperty("intensityCurve");
         timingCurve = serializedObject.FindProperty("timingCurve");
-        spawnType = serializedObject.FindProperty("spawnType");
 
         waves = serializedObject.FindProperty("waves");
 
@@ -130,7 +129,7 @@ public class WavesEditor : Editor
                 "Intensity slider is disabled (manual edits on).",
                 EditorStyles.helpBox);
         }
-        EditorGUILayout.PropertyField(spawnType);
+
         reordList.DoLayoutList();
         EditorGUILayout.EndVertical();
 
@@ -149,12 +148,14 @@ public class WavesEditor : Editor
 
         // Intensity
         EditorGUI.BeginDisabledGroup(manualEdits.boolValue || useIntensityCurve.boolValue);
-        EditorGUI.PropertyField(new Rect(rect.x, rect.y += 2, rect.width, EditorGUIUtility.singleLineHeight),
-            element.FindPropertyRelative("intensity"));
+        EditorGUI.PropertyField(new Rect(rect.x, rect.y += 2, rect.width, EditorGUIUtility.singleLineHeight), element.FindPropertyRelative("intensity"));
         EditorGUI.EndDisabledGroup();
+
+        EditorGUI.PropertyField(new Rect(rect.x, rect.y += 2 + EditorGUIUtility.singleLineHeight, rect.width, EditorGUIUtility.singleLineHeight), element.FindPropertyRelative("NumToNextWave"));
 
         EditorGUI.BeginDisabledGroup(!manualEdits.boolValue);
 
+   
         /*
         // Total num spawns
         EditorGUI.PropertyField(new Rect(rect.x, rect.y += 2 + EditorGUIUtility.singleLineHeight, rect.width, 2 * EditorGUIUtility.singleLineHeight + 2),
@@ -174,7 +175,7 @@ public class WavesEditor : Editor
         monsterList.drawElementCallback = (Rect i_Rect, int i_index, bool i_isActive, bool i_isFocused) =>
         {
             var i_element = monsterList.serializedProperty.GetArrayElementAtIndex(i_index);
-            EditorGUI.PropertyField(new Rect(i_Rect.x, i_Rect.y, 60, EditorGUIUtility.singleLineHeight), i_element.FindPropertyRelative("type"), GUIContent.none);
+            EditorGUI.PropertyField(new Rect(i_Rect.x, i_Rect.y, 60, EditorGUIUtility.singleLineHeight), i_element.FindPropertyRelative("Type"), GUIContent.none);
             EditorGUI.PropertyField(new Rect(i_Rect.x + i_Rect.width - 30, i_Rect.y, 30, EditorGUIUtility.singleLineHeight), i_element.FindPropertyRelative("Count"), GUIContent.none);
         };
 
@@ -190,9 +191,10 @@ public class WavesEditor : Editor
                 var i_index = i_List.serializedProperty.arraySize;
                 i_List.serializedProperty.arraySize++;
                 i_List.index = i_index;
+
                 var i_element = i_List.serializedProperty.GetArrayElementAtIndex(index);
                 i_element.FindPropertyRelative("type").enumValueIndex = 0;
-                i_element.FindPropertyRelative("Count").intValue = 5;
+                i_element.FindPropertyRelative("Count").intValue = 1;
             }
         };
 
@@ -206,19 +208,25 @@ public class WavesEditor : Editor
 
     void AdjustWaveIntensity(bool useCurve, bool useManualEdits)
     {
+        float normalizedTime = (float)1 / (wavesList.Count + 1);
+
         for (int i = 0; i < wavesList.Count; i++)
         {
-            float normalizedTime = i > 1 ? (float)i / (wavesList.Count - 1) : 0.5f;
 
             float intensity = useCurve ? intensityCurve.animationCurveValue.Evaluate(normalizedTime) : wavesList[i].Intensity;
 
             if (!useManualEdits)
             {
                 wavesList[i].Intensity = intensity;
+
+                for(int j = 0; j < wavesList[i].monsterList.Count; j++)
+                {
+                    int number = useCurve ? (int)(intensityCurve.animationCurveValue.Evaluate(normalizedTime) * 10.0f) : wavesList[i].monsterList[j].Count;
+                    wavesList[i].monsterList[j].Count = number;
+                }
             }
+
+            normalizedTime += normalizedTime;
         }
     }
-
-
-
 }
