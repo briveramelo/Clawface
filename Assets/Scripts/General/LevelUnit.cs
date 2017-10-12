@@ -20,14 +20,19 @@ public class LevelUnit : MonoBehaviour {
     private float floorYPosition;
     private LevelUnitStates currentState = LevelUnitStates.floor;
     private LevelUnitStates nextState;
-    #endregion
-
-    #region serialized fields
-    [HideInInspector]
     private float speed = 0.05f;
     #endregion
 
-    #region public variables
+    #region serialized fields    
+    [SerializeField]
+    private List<string> coverStateEvents;
+    [SerializeField]
+    private List<string> floorStateEvents;
+    [SerializeField]
+    private List<string> pitStateEvents;
+    #endregion
+
+    #region public variables    
     #endregion
 
     #region unity lifecycle
@@ -38,8 +43,18 @@ public class LevelUnit : MonoBehaviour {
         {
             meshHeight = meshRenderer.bounds.size.y;
         }
-        CalculateStatePositions();
-    }    
+        CalculateStatePositions();        
+    }
+
+    private void Start()
+    {
+        RegisterToEvents();
+    }
+
+    private void OnDisable()
+    {
+        DeRegisterFromEvents();
+    }
 
     void LateUpdate () {
         if (isTransitioning)
@@ -51,6 +66,60 @@ public class LevelUnit : MonoBehaviour {
     #endregion
 
     #region private functions
+    private void RegisterToEvents()
+    {
+        if (coverStateEvents != null)
+        {
+            foreach (string eventName in coverStateEvents)
+            {
+                EventSystem.Instance.RegisterEvent(eventName, TransitionToCoverState);
+            }
+        }
+
+        if (floorStateEvents != null)
+        {
+            foreach (string eventName in floorStateEvents)
+            {
+                EventSystem.Instance.RegisterEvent(eventName, TransitionToFloorState);
+            }
+        }
+
+        if (pitStateEvents != null)
+        {
+            foreach (string eventName in pitStateEvents)
+            {
+                EventSystem.Instance.RegisterEvent(eventName, TransitionToPitState);
+            }
+        }
+    }
+    
+    private void DeRegisterFromEvents()
+    {
+        if (coverStateEvents != null)
+        {
+            foreach (string eventName in coverStateEvents)
+            {
+                EventSystem.Instance.UnRegisterEvent(eventName, TransitionToCoverState);
+            }
+        }
+
+        if (floorStateEvents != null)
+        {
+            foreach (string eventName in floorStateEvents)
+            {
+                EventSystem.Instance.UnRegisterEvent(eventName, TransitionToFloorState);
+            }
+        }
+
+        if (pitStateEvents != null)
+        {
+            foreach (string eventName in pitStateEvents)
+            {
+                EventSystem.Instance.UnRegisterEvent(eventName, TransitionToPitState);
+            }
+        }
+    }
+
     private void CalculateStatePositions()
     {
         if(currentState == LevelUnitStates.cover)
@@ -124,6 +193,18 @@ public class LevelUnit : MonoBehaviour {
             }
         }
     }
+
+    private void AddEvent(List<string> eventNames, string eventName)
+    {
+        if(eventNames == null)
+        {
+            eventNames = new List<string>();
+        }
+        if (!eventNames.Contains(eventName))
+        {
+            eventNames.Add(eventName);
+        }
+    }
     #endregion
 
     #region public functions
@@ -132,5 +213,64 @@ public class LevelUnit : MonoBehaviour {
         currentState = newState;
         CalculateStatePositions();
     }
+
+    public void ClearEvents()
+    {
+        if (coverStateEvents != null)
+        {
+            coverStateEvents.Clear();
+        }
+        if (floorStateEvents != null)
+        {
+            floorStateEvents.Clear();
+        }
+        if (pitStateEvents != null)
+        {
+            pitStateEvents.Clear();
+        }
+    }
+
+    public void AddCoverStateEvent(string eventName)
+    {
+        AddEvent(coverStateEvents, eventName);
+    }
+
+    public void AddFloorStateEvent(string eventName)
+    {
+        AddEvent(floorStateEvents, eventName);
+    }
+
+    public void AddPitStateEvent(string eventName)
+    {
+        AddEvent(pitStateEvents, eventName);
+    }
+
+    public bool CheckForEvent(string eventName, LevelUnitStates state)
+    {
+        bool result = false;
+        switch (state)
+        {
+            case LevelUnitStates.cover:
+                if (coverStateEvents != null)
+                {
+                    result = coverStateEvents.Contains(eventName);
+                }
+                break;
+            case LevelUnitStates.floor:
+                if (floorStateEvents != null)
+                {
+                    result = floorStateEvents.Contains(eventName);
+                }
+                break;
+            case LevelUnitStates.pit:
+                if (pitStateEvents != null)
+                {
+                    result = pitStateEvents.Contains(eventName);
+                }
+                break;
+        }
+        return result;
+    }
     #endregion
+
 }
