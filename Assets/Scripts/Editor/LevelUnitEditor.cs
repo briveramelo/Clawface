@@ -9,6 +9,9 @@ public class LevelUnitEditor : Editor {
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
+
+        //Uncomment this code only for debugging
+
         //LevelUnit levelUnit = (LevelUnit)target;
         //if (GUILayout.Button("cover"))
         //{
