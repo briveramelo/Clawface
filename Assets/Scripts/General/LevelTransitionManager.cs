@@ -16,34 +16,15 @@ public class LevelTransitionManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        spawners = FindObjectsOfType<Spawner>();
-        InvokeRepeating("CheckForLevelCompletion", checkFrequency, checkFrequency);
+        EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_COMPLETED, LevelComplete);
     }
     #endregion
 
     #region Private Methods
-    private void CheckForLevelCompletion()
-    {
-        bool isDone = true;
-        foreach (Spawner spawner in spawners)
-        {
-            if (spawner.IsLastWave() && spawner.IsAllEnemyClear())
-            {
-                isDone = true;
-            }
-            else
-            {
-                isDone = false;
-                break;
-            }
-        }
-        if (isDone)
-        {
-            CancelInvoke();
-
-            MenuManager.Instance.DoTransition(Strings.MenuStrings.STAGE_OVER,
-                Menu.Transition.SHOW, new Menu.Effect[] { Menu.Effect.EXCLUSIVE });
-        }
+    private void LevelComplete(params object[] parameter)
+    {       
+        MenuManager.Instance.DoTransition(Strings.MenuStrings.STAGE_OVER,
+            Menu.Transition.SHOW, new Menu.Effect[] { Menu.Effect.EXCLUSIVE });
     }
     #endregion
 
