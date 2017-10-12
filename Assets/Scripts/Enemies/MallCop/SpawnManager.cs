@@ -18,6 +18,12 @@ public class SpawnManager : MonoBehaviour
 
     private void Update()
     {
+        if (spawners.Count == 0)
+        {
+            Debug.Log("SpawnManager is Empty");
+            return;
+        }
+
         if(spawnClear)
         {
             if(currentSpawner < spawners.Count)
