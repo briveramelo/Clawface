@@ -7,6 +7,7 @@ using MovementEffects;
 using System.Linq;
 using UnityEditorInternal;
 
+[System.Serializable]
 public class Spawner : RoutineRunner
 {
     public bool useIntensityCurve, manualEdits;
@@ -46,6 +47,17 @@ public class Spawner : RoutineRunner
     #region Unity LifeCycle
     void Start()
     {
+
+    }
+
+    private void Update()
+    {
+
+    }
+    #endregion
+
+    public void Activate()
+    {
         foreach (Transform child_point in transform)
         {
             spawnPoints.Add(child_point);
@@ -54,29 +66,6 @@ public class Spawner : RoutineRunner
         CheckToSpawnEnemyCluster();
     }
 
-    private void Update()
-    {
-
-        /*
-        TimeToNextWave -= Time.deltaTime;
-
-        if(TimeToNextWave < 0.0f)
-        {
-            if(currentWave < waves.Count)
-            {
-                GoToNextWave();
-                TimeToNextWave = waves[currentWave].Time;
-            }
-            else
-            {
-                TimeToNextWave = 0.0f;
-            }
-        }
-        */
-    }
-
-
-    #endregion
 
     #region Private Methods
     private void ReportDeath()
@@ -96,7 +85,6 @@ public class Spawner : RoutineRunner
         CheckToSpawnEnemyCluster();
     }
 
-    static int waveCount;
     private void CheckToSpawnEnemyCluster()
     {
         if (Application.isPlaying)

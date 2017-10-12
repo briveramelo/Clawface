@@ -10765,18 +10765,20 @@ MonoBehaviour:
     m_RotationOrder: 4
   waves:
   - spawnedHashCodes: 
+    monsterList: []
     remainingSpawns: 0
     intensity: 0
+    NumToNextWave: 0
     TimeToNextWave: 0
-    totalNumSpawns:
-      min: 1
-      max: 1
+    spawnOffset: 0
+    spawnTimeOffset: 0
     SpawningTime:
-      min: 1.7
+      minLimit: 0
+      maxLimit: 0
+      min: 2
       max: 2
   currentWaveNumber: 0
   currentNumEnemies: 0
-  spawnType: 0
 --- !u!1001 &1136955945
 Prefab:
   m_ObjectHideFlags: 0
@@ -12727,6 +12729,47 @@ Transform:
   m_PrefabParentObject: {fileID: 4497519745509320, guid: 309570f72253b2b4bbf473d43cf0a53c,
     type: 2}
   m_PrefabInternal: {fileID: 1319570116}
+--- !u!1 &1325812003
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1325812005}
+  - component: {fileID: 1325812004}
+  m_Layer: 0
+  m_Name: SpawnManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1325812004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1325812003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dcb19ecf5026024e947d60af4dcaa75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Waves: []
+--- !u!4 &1325812005
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1325812003}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.8830414, y: 0.1328125, z: 89.421326}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1326894990
 Prefab:
   m_ObjectHideFlags: 0

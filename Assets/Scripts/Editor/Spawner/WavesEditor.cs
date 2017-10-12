@@ -193,7 +193,7 @@ public class WavesEditor : Editor
                 i_List.index = i_index;
 
                 var i_element = i_List.serializedProperty.GetArrayElementAtIndex(index);
-                i_element.FindPropertyRelative("type").enumValueIndex = 0;
+                i_element.FindPropertyRelative("Type").enumValueIndex = 0;
                 i_element.FindPropertyRelative("Count").intValue = 1;
             }
         };
