@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,7 +12,6 @@ public class SpawnManager : MonoBehaviour
     bool LevelClear = false;
 
     private Spawner spawner;
-
 
     public List<SpawnerUnit> spawners = new List<SpawnerUnit>();
 
