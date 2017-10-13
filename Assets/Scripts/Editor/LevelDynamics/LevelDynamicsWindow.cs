@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System;
+using UnityEditor.SceneManagement;
 
 public class LevelDynamicsWindow : EditorWindow {
 
@@ -129,6 +130,7 @@ public class LevelDynamicsWindow : EditorWindow {
                 }
             }
         }
+        EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
     }
 
     private void ClearAllEvents()
