@@ -17,6 +17,8 @@ public class Spawner : RoutineRunner
 
     public int currentWaveNumber = 0;
     public int currentNumEnemies = 0;
+    public int totalNumEnemies = 0;
+
 
     #region private variables
 
@@ -47,7 +49,13 @@ public class Spawner : RoutineRunner
     #region Unity LifeCycle
     void Start()
     {
-
+        foreach(Wave w in waves)
+        {
+            foreach(WaveType type in w.monsterList)
+            {
+                totalNumEnemies += type.Count;
+            }
+        }
     }
 
     private void Update()
@@ -71,15 +79,22 @@ public class Spawner : RoutineRunner
     private void ReportDeath()
     {
         currentNumEnemies--;
+        totalNumEnemies--;
 
-        if (currentWave < waves.Count - 1 && currentNumEnemies <= 1 * spawnPoints.Count)
+        if (currentWave < waves.Count - 1 && currentNumEnemies <= waves[currentWave].NumToNextWave)
         {
             GoToNextWave();
+        }
+
+        if(totalNumEnemies == 0)
+        {
+            EventSystem.Instance.TriggerEvent(Strings.Events.CALL_NEXTWAVEENEMIES);
         }
     }
 
     private void GoToNextWave()
     {
+        waves[currentWave].FirePostEvents();
         currentWave++;
         currentWaveNumber = currentWave;
         CheckToSpawnEnemyCluster();
@@ -91,6 +106,7 @@ public class Spawner : RoutineRunner
         {
             if (currentWave < waves.Count)
             {
+                waves[currentWave].FirePreEvents();
                 Timing.RunCoroutine(SpawnEnemyCluster(), coroutineName);
             }
         }
@@ -173,7 +189,7 @@ public class Spawner : RoutineRunner
 
     public bool IsAllEnemyClear()
     {
-        return currentNumEnemies == 0 ? true : false;
+        return totalNumEnemies == 0 ? true : false;
     }
 }
 
@@ -193,11 +209,6 @@ public class Wave
 
     const int spawnMin = 1;
 
-    const float timeBetweenMin = 0.25f;
-    const float timeBetweenMax = 2.0f;
-
-    const float TimeToNextWave_Max = 60.0f;
-
     #endregion
 
     public List<int> spawnedHashCodes = new List<int>();
@@ -208,7 +219,13 @@ public class Wave
     [SerializeField, Range(0, 1)] public float intensity;
     [SerializeField, Range(0, 10)] public int NumToNextWave;
 
-    [SerializeField, Range(0, TimeToNextWave_Max)] float TimeToNextWave;
+
+
+    [SerializeField]
+    private List<string> preEventNames;
+    [SerializeField]
+    private List<string> postEventNames;
+
 
     public int spawnOffset;
     public float spawnTimeOffset;
@@ -219,36 +236,11 @@ public class Wave
         set
         {            
             intensity = Mathf.Clamp01(value);
-            ApplyIntensityValue();
         }
-    }
-
-    public float Time
-    {
-        get { return TimeToNextWave; }
-        set
-        {
-            value = value < 0 ? 0 : value;
-            value = value > 1 ? 1 : value;
-
-            TimeToNextWave = TimeToNextWave_Max * value;
-        }
-    }
-
-
-    public void ApplyIntensityValue()
-    {
-        SetTimeBetweenSpawns(intensity);
     }
 
     public FloatRange SpawningTime;
     
-    void SetTimeBetweenSpawns(float intensity)
-    {
-        float timeBase = Mathf.Clamp(timeBetweenMax * (1 - intensity), timeBetweenMin, timeBetweenMax);
-        SpawningTime.Min = Mathf.Clamp(timeBase - spawnTimeOffset, timeBetweenMin, timeBetweenMax);
-        SpawningTime.Max = Mathf.Clamp(timeBase + spawnTimeOffset, timeBetweenMin, timeBetweenMax);
-    }
 
     public void Reset()
     {
@@ -279,5 +271,62 @@ public class Wave
             yield return Timing.WaitForSeconds(SpawningTime.GetRandomValue());
         }
     }
+
+    public void AddPreEvent(string eventName)
+    {
+        AddEvent(preEventNames, eventName);
+    }
+
+    public void AddPostEvent(string eventName)
+    {
+        AddEvent(postEventNames, eventName);
+    }
+
+    private void AddEvent(List<string> eventNames, string eventName)
+    {
+        if (eventNames == null)
+        {
+            eventNames = new List<string>();
+        }
+        if (!eventNames.Contains(eventName))
+        {
+            eventNames.Add(eventName);
+        }
+    }
+
+    public void ClearEvents()
+    {
+        if (postEventNames != null)
+        {
+            postEventNames.Clear();
+        }
+
+        if (preEventNames != null)
+        {
+            preEventNames.Clear();
+        }
+    }
+
+    public void FirePreEvents()
+    {
+        FireEvents(preEventNames);
+    }
+
+    public void FirePostEvents()
+    {
+        FireEvents(postEventNames);
+    }
+
+    private void FireEvents(List<string> eventNames)
+    {
+        if (eventNames != null)
+        {
+            for (int i = 0; i < eventNames.Count; i++)
+            {
+                EventSystem.Instance.TriggerEvent(eventNames[i]);
+            }
+        }
+    }
+
 
 }
