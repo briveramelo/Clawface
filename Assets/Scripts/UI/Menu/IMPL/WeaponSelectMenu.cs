@@ -79,6 +79,11 @@ public class WeaponSelectMenu : Menu
 		LevelSelectMenu levelMenu = (LevelSelectMenu)menu;
 		string level = levelMenu.SelectedLevel;
 
+		// Acquire Pause Menu
+		menu = MenuManager.Instance.GetMenuByName (Strings.MenuStrings.PAUSE);
+		PauseMenu pauseMenu = (PauseMenu)menu;
+		pauseMenu.CanPause = true;
+
 		// Acquire LoadMenu and set target.
 		menu = MenuManager.Instance.GetMenuByName (Strings.MenuStrings.LOAD);
 		LoadMenu loadMenu = (LoadMenu)menu;
