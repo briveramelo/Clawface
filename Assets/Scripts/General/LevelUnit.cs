@@ -18,12 +18,12 @@ public class LevelUnit : MonoBehaviour {
     private float pitYPosition;
     private float coverYPosition;
     private float floorYPosition;
-    private LevelUnitStates currentState = LevelUnitStates.floor;
+    private LevelUnitStates currentState;
     private LevelUnitStates nextState;
     private float speed = 0.05f;
     #endregion
 
-    #region serialized fields    
+    #region serialized fields
     [SerializeField]
     private List<string> coverStateEvents;
     [SerializeField]
@@ -32,7 +32,8 @@ public class LevelUnit : MonoBehaviour {
     private List<string> pitStateEvents;
     #endregion
 
-    #region public variables    
+    #region public variables
+    public LevelUnitStates defaultState;
     #endregion
 
     #region unity lifecycle
@@ -43,24 +44,27 @@ public class LevelUnit : MonoBehaviour {
         {
             meshHeight = meshRenderer.bounds.size.y;
         }
+        currentState = defaultState;
         CalculateStatePositions();        
     }
 
     private void Start()
-    {
+    {        
         RegisterToEvents();
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
-        DeRegisterFromEvents();
+        if (EventSystem.Instance)
+        {
+            DeRegisterFromEvents();
+        }
     }
 
     void LateUpdate () {
         if (isTransitioning)
         {
             MoveToNewPosition();
-
         }
     }
     #endregion
