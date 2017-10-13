@@ -214,7 +214,7 @@ public class LevelDynamicsWindow : EditorWindow {
     private void GenerateLevelLayout()
     {
         float xOffset = position.width * 0.4f;
-        float yOffset = position.height * 0.4f;
+        float yOffset = position.height * 0.8f;
         if (levelObjects == null)
         {
             GetLevelObjects();
@@ -232,7 +232,7 @@ public class LevelDynamicsWindow : EditorWindow {
                     float meshZ = renderer.bounds.size.z;
                     Rect rect = new Rect();
                     rect.x = (levelUnitStruct.levelUnit.transform.localPosition.x / meshX) * unitWidth + xOffset - unitWidth / 2f;
-                    rect.y = (levelUnitStruct.levelUnit.transform.localPosition.z / meshZ) * unitHeight + yOffset - unitHeight / 2f;
+                    rect.y = (-levelUnitStruct.levelUnit.transform.localPosition.z / meshZ) * unitHeight + yOffset - unitHeight / 2f;
                     rect.width = unitWidth;
                     rect.height = unitHeight;                    
                     Color defaultColor = GUI.color;
