@@ -150,6 +150,7 @@ public class LevelUnit : MonoBehaviour {
         {
             nextState = LevelUnitStates.cover;
             isTransitioning = true;
+            Debug.Log(name + " transitioning to " + LevelUnitStates.cover.ToString());
         }
     }
 
@@ -159,6 +160,7 @@ public class LevelUnit : MonoBehaviour {
         {
             nextState = LevelUnitStates.floor;
             isTransitioning = true;
+            Debug.Log(name + " transitioning to " + LevelUnitStates.floor.ToString());
         }
     }
 
@@ -168,6 +170,7 @@ public class LevelUnit : MonoBehaviour {
         {
             nextState = LevelUnitStates.pit;
             isTransitioning = true;
+            Debug.Log(name + " transitioning to " + LevelUnitStates.pit.ToString());
         }
     }
 

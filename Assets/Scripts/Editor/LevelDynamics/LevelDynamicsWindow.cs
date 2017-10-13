@@ -38,6 +38,11 @@ public class LevelDynamicsWindow : EditorWindow {
         Init();
     }
 
+    private void OnFocus()
+    {
+        Init();
+    }
+
     private void Init()
     {
         ReadWaveData();
