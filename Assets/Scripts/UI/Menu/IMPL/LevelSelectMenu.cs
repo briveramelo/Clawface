@@ -79,6 +79,11 @@ public class LevelSelectMenu : Menu
 
 	#region Interface (Unity Lifecycle)
 
+	private void Start ()
+	{
+		RewireNavigation ();
+	}
+
 	private void Update ()
 	{
 		// check to see  if the cancel button was pushed
@@ -180,6 +185,7 @@ public class LevelSelectMenu : Menu
 	{
 		selectedLevel = scene;
 		EnableWeaponSelect (true);
+		RewireNavigation ();
 	}
 
 	#endregion
@@ -252,6 +258,7 @@ public class LevelSelectMenu : Menu
 		Navigation backNav = backButton.navigation;
 		Navigation selectNav = weaponSelectButton.navigation;
 		backNav.selectOnUp = button;
+		backNav.selectOnRight = selectedLevel != null ? weaponSelectButton : null;
 		selectNav.selectOnUp = button;
 		backButton.navigation = backNav;
 		weaponSelectButton.navigation = selectNav;
