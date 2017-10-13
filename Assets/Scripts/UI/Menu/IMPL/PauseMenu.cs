@@ -5,115 +5,119 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class PauseMenu : Menu {
+public class PauseMenu : Menu
+{
 
-    #region Public Fields
+	#region Public Fields
 
-    public override Button InitialSelection
-    {
-        get
-        {
-            return restartButton;
-        }
-    }
+	public override Button InitialSelection {
+		get {
+			return restartButton;
+		}
+	}
 
-    public bool CanPause
-    {
-        get
-        {
-            return canPause;
-        }
-        set
-        {
-            canPause = value;
-        }
-    }
+	public bool CanPause {
+		get {
+			return canPause;
+		}
+		set {
+			canPause = value;
+		}
+	}
 
-    #endregion
+	#endregion
 
-    #region Serialized Unity Fields
-    [SerializeField]
-    private Button restartButton;
-    #endregion
+	#region Serialized Unity Fields
 
-    #region Private Fields
-    private bool paused = false;
-    private bool canPause = true; // used to indicate the game is in a level and "can pause"
-    #endregion
+	[SerializeField]
+	private Button restartButton;
 
-    #region Unity Lifecycle Methods
-    void Update()
-    {
-        if (canPause && InputManager.Instance.QueryAction(Strings.Input.Actions.PAUSE,
-            ButtonMode.DOWN))
-        {
-            if (!paused && !Displayed)
-            {
-                MenuManager.Instance.DoTransition(this, Transition.TOGGLE, new Effect[] { });
-            }
-            else if (Displayed)
-            {
-                MenuManager.Instance.ClearMenus();
-            }
-        }
-    }
-    #endregion
+	#endregion
 
-    #region Public Interface
-    public PauseMenu() : base(Strings.MenuStrings.PAUSE) {}
+	#region Private Fields
 
-    public void restartAction()
-    {
-        Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
-        LoadMenu loadMenu = (LoadMenu)menu;
-        Scene scene = SceneManager.GetActiveScene();
-        loadMenu.TargetScene = scene.name;
-        MenuManager.Instance.DoTransition(loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
-    }
+	private bool paused = false;
+	private bool canPause = true;
+	// used to indicate the game is in a level and "can pause"
 
-    public void quitAction()
-    {
-        canPause = false;
-        Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
-        LoadMenu loadMenu = (LoadMenu)menu;
-        loadMenu.TargetScene = Strings.Scenes.MainMenu;
-        loadMenu.Fast = true;
-        MenuManager.Instance.DoTransition(loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
-    }
+	#endregion
 
-    #endregion
+	#region Unity Lifecycle Methods
 
-    #region Protected Interface
+	void Update ()
+	{
+		if (canPause && InputManager.Instance.QueryAction (Strings.Input.Actions.PAUSE,
+			          ButtonMode.DOWN)) {
+			if (!paused && !Displayed) {
+				MenuManager.Instance.DoTransition (this, Transition.TOGGLE, new Effect[] { });
+			} else if (Displayed) {
+				MenuManager.Instance.ClearMenus ();
+			}
+		}
+	}
 
-    protected override void DefaultShow(Transition transition, Effect[] effects)
-    {
-        Fade(transition, effects);
-    }
+	#endregion
 
-    protected override void DefaultHide(Transition transition, Effect[] effects)
-    {
-        Fade(transition, effects);
-    }
+	#region Public Interface
 
-    protected override void ShowStarted()
-    {
-        SetPaused(true);
-    }
-    protected override void HideComplete()
-    {
-        base.HideComplete();
-        SetPaused(false);
-    }
+	public PauseMenu () : base (Strings.MenuStrings.PAUSE)
+	{
+	}
 
-    #endregion
+	public void restartAction ()
+	{
+		Menu menu = MenuManager.Instance.GetMenuByName (Strings.MenuStrings.LOAD);
+		LoadMenu loadMenu = (LoadMenu)menu;
+		Scene scene = SceneManager.GetActiveScene ();
+		loadMenu.TargetScene = scene.name;
+		MenuManager.Instance.DoTransition (loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+	}
 
-    #region Private Interface
+	public void quitAction ()
+	{
+		canPause = false;
+		Menu menu = MenuManager.Instance.GetMenuByName (Strings.MenuStrings.LOAD);
+		LoadMenu loadMenu = (LoadMenu)menu;
+		loadMenu.TargetScene = Strings.Scenes.MainMenu;
+		loadMenu.Fast = true;
+		MenuManager.Instance.DoTransition (loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+	}
 
-    private void SetPaused(bool paused)
-    {
-        this.paused = paused;
-        Time.timeScale = paused ? 0 : 1;
-    }
+	#endregion
 
-    #endregion
+	#region Protected Interface
+
+	protected override void DefaultShow (Transition transition, Effect[] effects)
+	{
+		Fade (transition, effects);
+	}
+
+	protected override void DefaultHide (Transition transition, Effect[] effects)
+	{
+		Fade (transition, effects);
+	}
+
+	protected override void ShowStarted ()
+	{
+		base.ShowStarted ();
+		SetPaused (true);
+	}
+
+	protected override void HideComplete ()
+	{
+		base.HideComplete ();
+		SetPaused (false);
+	}
+
+	#endregion
+
+	#region Private Interface
+
+	private void SetPaused (bool paused)
+	{
+		this.paused = paused;
+		Time.timeScale = paused ? 0 : 1;
+	}
+
+	#endregion
 }
