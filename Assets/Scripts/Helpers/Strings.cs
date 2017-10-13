@@ -73,6 +73,7 @@
         public const string PROGRESS_ACHIEVEMENT = "ProgressAchievement";
         public const string UPDATE_ACHIEVEMENTS = "UpdateAchievements";
         public const string LEVEL_COMPLETED = "LevelCompleted";
+        public const string CALL_NEXTWAVEENEMIES = "CallNextWaveEnemies";
     }
 
     public class AchievementNames {

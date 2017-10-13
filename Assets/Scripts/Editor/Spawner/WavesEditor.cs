@@ -20,7 +20,7 @@ public class WavesEditor : Editor
 
     SerializedProperty currentWaveNumber;
     SerializedProperty currentNumEnemies;
-
+    SerializedProperty totalNumEnemies;
 
     List<Wave> wavesList;
     ReorderableList reordList;
@@ -33,7 +33,7 @@ public class WavesEditor : Editor
 
         currentWaveNumber = serializedObject.FindProperty("currentWaveNumber");
         currentNumEnemies = serializedObject.FindProperty("currentNumEnemies");
-
+        totalNumEnemies = serializedObject.FindProperty("totalNumEnemies");
 
         useIntensityCurve = serializedObject.FindProperty("useIntensityCurve");
         manualEdits = serializedObject.FindProperty("manualEdits");
@@ -68,7 +68,8 @@ public class WavesEditor : Editor
         EditorGUILayout.LabelField("Runtime Status", EditorStyles.boldLabel);
         EditorGUILayout.LabelField(string.Format("Current Wave Number: {0}", currentWaveNumber.intValue));
         EditorGUILayout.LabelField(string.Format("Current Number of Enemies: {0}", currentNumEnemies.intValue));
-        //        EditorGUILayout.LabelField(string.Format("Time to Next Wave: {0}", TimeToNextWave.floatValue));
+        EditorGUILayout.LabelField(string.Format("Total Number of Enemies: {0}", totalNumEnemies.intValue));
+
         EditorGUILayout.EndVertical();
 
         EditorGUI.EndDisabledGroup();

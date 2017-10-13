@@ -15,38 +15,44 @@ public class SpawnManager : MonoBehaviour
 
     public List<SpawnerUnit> spawners = new List<SpawnerUnit>();
 
-
-    private void Update()
+    void Start()
     {
+        EventSystem.Instance.RegisterEvent(Strings.Events.CALL_NEXTWAVEENEMIES, CallNextSpawner);
+        EventSystem.Instance.TriggerEvent(Strings.Events.CALL_NEXTWAVEENEMIES);
+
         if (spawners.Count == 0)
         {
             Debug.Log("SpawnManager is Empty");
-            return;
         }
-
-        if(spawnClear)
-        {
-            if(currentSpawner < spawners.Count)
-            {
-                StartCoroutine(WaitAndSpawn(time));
-            }
-            else if (currentSpawner == spawners.Count && LevelClear == false)
-            {
-                LevelClear = true;
-                EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_COMPLETED);
-            }
-        }
-
-        spawnClear = spawner.IsAllEnemyClear() && spawner.IsLastWave();
     }
 
+    private void Update()
+    {
+        if(currentSpawner == spawners.Count && LevelClear == true)
+        {
+            LevelClear = false;
+            EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_COMPLETED);
+        }
+    }
+
+    private void CallNextSpawner(params object[] parameter)
+    {
+        StartCoroutine(WaitAndSpawn(time));
+    }
 
     IEnumerator WaitAndSpawn(float waitTime)
     {
-        time = spawners[currentSpawner].Time;
-        spawner = spawners[currentSpawner++].Prefab.GetComponent<Spawner>();
-        yield return new WaitForSeconds(waitTime);
-        spawner.Activate();
+        if(currentSpawner < spawners.Count)
+        {
+            time = spawners[currentSpawner].Time;
+            spawner = spawners[currentSpawner++].Prefab.GetComponent<Spawner>();
+            yield return new WaitForSeconds(waitTime);
+            spawner.Activate();
+        }
+        else
+        {
+            LevelClear = true;
+        }
     }
 }
 
