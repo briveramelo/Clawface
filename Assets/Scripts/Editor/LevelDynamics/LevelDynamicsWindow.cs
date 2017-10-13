@@ -60,9 +60,16 @@ public class LevelDynamicsWindow : EditorWindow {
         GenerateLevelLayout();
 
         //Apply Button
-        if (GUI.Button(new Rect(position.width * 0.8f, position.height * 0.9f, position.width * 0.1f, 30), "Bake Data"))
+        if (GUI.Button(new Rect(position.width * 0.8f, position.height * 0.85f, position.width * 0.1f, 30), "Bake Data"))
         {
             BakeData();
+        }
+
+        //Clear Button
+        if (GUI.Button(new Rect(position.width * 0.8f, position.height * 0.9f, position.width * 0.1f, 30), "Clear Data"))
+        {
+            ClearAllEvents();
+            Init();
         }
     }
     #endregion
@@ -86,11 +93,11 @@ public class LevelDynamicsWindow : EditorWindow {
                             string localEventName = eventName.Replace(spawnerNumberString, (i + 1).ToString()).Replace(waveNumberString, (j + 1).ToString());
                             if (waveObject.triggerStart)
                             {
-                                spawner.waves[j].AddPreEvent(eventName);
+                                spawner.waves[j].AddPreEvent(localEventName);
                             }
                             else
                             {
-                                spawner.waves[j].AddPostEvent(eventName);
+                                spawner.waves[j].AddPostEvent(localEventName);
                             }
                             for (int k = 0; k < waveObject.levelUnitsList.Count; k++)
                             {
@@ -128,11 +135,12 @@ public class LevelDynamicsWindow : EditorWindow {
                 for (int i = 0; i < spawnerObjects.Count; i++)
                 {
                     Spawner spawner = spawnManager.spawners[i].Prefab.GetComponent<Spawner>();
-                    for (int j = 0; j < spawnerObjects[i].waveObjects.Count; j++)
+                    SpawnerObject spawnerObject = spawnerObjects[i];
+                    for (int j = 0; j < spawnerObject.waveObjects.Count; j++)
                     {
                         Wave wave = spawner.waves[j];
                         wave.ClearEvents();
-                        WaveObject waveObject = spawnerObjects[i].waveObjects[i];
+                        WaveObject waveObject = spawnerObject.waveObjects[j];
                         for (int k = 0; k < waveObject.levelUnitsList.Count; k++)
                         {
                             
@@ -273,43 +281,32 @@ public class LevelDynamicsWindow : EditorWindow {
             {
                 WaveObject waveObject = spawnerObject.waveObjects[j];
                 waveObject.levelUnitsList = new List<WaveObject.LevelObjectData>(levelObjects.Count);
-                string eventName = "Spawner "+ (i + 1) +" Wave " + (j + 1);
+                string localEventName = eventName.Replace(spawnerNumberString, (i + 1).ToString()).Replace(waveNumberString, (j + 1).ToString());
                 foreach (GameObject levelObject in levelObjects)
                 {
                     LevelUnit levelUnit = levelObject.GetComponent<LevelUnit>();
                     WaveObject.LevelObjectData levelUnitStruct = new WaveObject.LevelObjectData();
                     levelUnitStruct.levelUnit = levelUnit;
                     bool eventExists = false;
-                    if (levelUnit.CheckForEvent(eventName, LevelUnitStates.floor))
+                    if (levelUnit.CheckForEvent(localEventName, LevelUnitStates.floor))
                     {
                         levelUnitStruct.state = LevelUnitStates.floor;
                         eventExists = true;
                     }
-                    else if (levelUnit.CheckForEvent(eventName, LevelUnitStates.cover))
+                    else if (levelUnit.CheckForEvent(localEventName, LevelUnitStates.cover))
                     {
                         levelUnitStruct.state = LevelUnitStates.cover;
                         eventExists = true;
                     }
-                    else if (levelUnit.CheckForEvent(eventName, LevelUnitStates.pit))
+                    else if (levelUnit.CheckForEvent(localEventName, LevelUnitStates.pit))
                     {
                         levelUnitStruct.state = LevelUnitStates.pit;
                         eventExists = true;
                     }
 
                     if (!eventExists)
-                    {
-                        if (levelObject.transform.localPosition.y == 0f)
-                        {
-                            levelUnitStruct.state = LevelUnitStates.floor;
-                        }
-                        else if (levelObject.transform.localPosition.y > 0f)
-                        {
-                            levelUnitStruct.state = LevelUnitStates.cover;
-                        }
-                        else
-                        {
-                            levelUnitStruct.state = LevelUnitStates.pit;
-                        }
+                    {                       
+                        levelUnitStruct.state = levelUnit.defaultState;
                     }
                     waveObject.levelUnitsList.Add(levelUnitStruct);
                 }
