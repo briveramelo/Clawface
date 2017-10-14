@@ -65,6 +65,12 @@ public class LevelDynamicsWindow : EditorWindow {
         ShowWaveTriggerOptions();
         GenerateLevelLayout();
 
+        //Copy Button
+        if (GUI.Button(new Rect(position.width * 0.8f, position.height * 0.6f, position.width * 0.11f, 30), "Copy Last State"))
+        {
+            CopyLastState();
+        }
+
         //Apply Button
         if (GUI.Button(new Rect(position.width * 0.8f, position.height * 0.85f, position.width * 0.1f, 30), "Bake Data"))
         {
@@ -81,6 +87,35 @@ public class LevelDynamicsWindow : EditorWindow {
     #endregion
 
     #region private functions
+    private void CopyLastState()
+    {
+        if(selectedWave > 0)
+        {
+            int previousWave = selectedWave - 1;
+            WaveObject previousWaveObject = spawnerObjects[selectedSpawner].waveObjects[previousWave];
+            WaveObject selectedWaveObject = spawnerObjects[selectedSpawner].waveObjects[selectedWave];
+            for(int i=0;i< selectedWaveObject.levelUnitsList.Count; i++)
+            {
+                WaveObject.LevelObjectData levelObjectData = selectedWaveObject.levelUnitsList[i];
+                levelObjectData.state = previousWaveObject.levelUnitsList[i].state;
+                selectedWaveObject.levelUnitsList[i] = levelObjectData;
+            }
+        }
+        else if(selectedSpawner > 0)
+        {
+            int previousSpawner = selectedSpawner - 1;
+            int previousWave = spawnerObjects[previousSpawner].waveObjects.Count - 1;
+            WaveObject previousWaveObject = spawnerObjects[previousSpawner].waveObjects[previousWave];
+            WaveObject selectedWaveObject = spawnerObjects[selectedSpawner].waveObjects[selectedWave];
+            for (int i = 0; i < selectedWaveObject.levelUnitsList.Count; i++)
+            {
+                WaveObject.LevelObjectData levelObjectData = selectedWaveObject.levelUnitsList[i];
+                levelObjectData.state = previousWaveObject.levelUnitsList[i].state;
+                selectedWaveObject.levelUnitsList[i] = levelObjectData;
+            }
+        }
+    }
+
     private void BakeData()
     {
         ClearAllEvents();
