@@ -180,7 +180,7 @@ namespace Turing.VFX
         /// </summary>
         void SetFacialExpression (Texture2D face)
         {
-            playerMaterial.SetTexture ("_FaceTexture", face);
+ 
         }
 
         public void SetTemporaryEmotion (Emotion emotion, float time)
