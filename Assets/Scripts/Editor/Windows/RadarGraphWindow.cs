@@ -382,9 +382,19 @@ public static class Ext {
         rect.y += position.y;
         return rect;
     }
+    public static Rect AddPosition(this Rect rect, float x, float y) {
+        rect.x += x;
+        rect.y += y;
+        return rect;
+    }
     public static Rect AddSize(this Rect rect, Vector2 size) {
         rect.width += size.x;
         rect.height += size.y;
+        return rect;
+    }
+    public static Rect AddSize(this Rect rect, float width, float height) {
+        rect.width += width;
+        rect.height += height;
         return rect;
     }
     public static Rect AddPosition(this Rect rect, Rect position) {

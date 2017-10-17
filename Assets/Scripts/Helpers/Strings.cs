@@ -17,7 +17,8 @@
     public static class Scenes {
         //public static string Level1 = "Scenes/EAE_Level1.1";//Gucci_V1.2";
         public static string MainMenu = "Scenes/Build Scenes/MainMenu";
-        public static string Arena = "Scenes/Build Scenes/Gucci_V1.2";
+        //public static string Arena = "Scenes/Build Scenes/Gucci_V1.2";
+        public static string Arena = "Scenes/Build Scenes/Arena 1";
     }
 
     public static class Layers
@@ -56,5 +57,28 @@
             public const string SKIN = "Skin";
             public const string DODGE = "Dodge";
         }
+    }
+
+    public static class Events
+    {
+        public const string FACE_OPEN = "FaceOpen";
+        public const string ARM_EXTENDED = "ArmExtended";
+        public const string UPDATE_HEALTH = "UpdateHealth";
+
+        public const string KILL_ENEMY = "KillEnemy";
+        public const string BEAT_LEVEL1 = "BeatLevel1";
+        public const string SKIN_ENEMY = "SkinEnemy";
+
+        public const string EARN_ACHIEVEMENT = "EarnAchievement";
+        public const string PROGRESS_ACHIEVEMENT = "ProgressAchievement";
+        public const string UPDATE_ACHIEVEMENTS = "UpdateAchievements";
+        public const string LEVEL_COMPLETED = "LevelCompleted";
+        public const string CALL_NEXTWAVEENEMIES = "CallNextWaveEnemies";
+    }
+
+    public class AchievementNames {
+        public const string Kill100 = "Blood Bath";
+        public const string BeatLevel1 = "Conquest";
+        public const string Skin20Enemies = "Skinner";        
     }
 }

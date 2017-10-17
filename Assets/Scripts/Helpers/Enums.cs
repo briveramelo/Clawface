@@ -70,7 +70,7 @@ public enum DamagedType {
 public enum ModType {
     ForceSegway = 0,
     ArmBlaster = 1,
-    Grappler = 2,
+    LightningGun = 2,
     Boomerang = 3,
     Geyser = 4,
     Dice = 5,
@@ -130,7 +130,7 @@ public enum PoolObjectType {
     DiceBlock=13,
     GeyserProjectile = 12,
     BlasterBullet=2,
-    GrapplingHook = 27,
+    LightningProjectile = 27,
     EnemyBulletSmall = 35,
     EnemyBulletMedium = 36,
     EnemyBulletLarge = 37,
