@@ -5,7 +5,6 @@ using UnityEngine.AI;
 using ModMan;
 using MovementEffects;
 using System.Linq;
-using UnityEditorInternal;
 
 [System.Serializable]
 public class Spawner : RoutineRunner
