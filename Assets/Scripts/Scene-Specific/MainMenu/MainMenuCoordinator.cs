@@ -46,6 +46,9 @@ public class MainMenuCoordinator : MonoBehaviour {
         menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.PAUSE);
         PauseMenu pauseMenu = menu as PauseMenu;
         pauseMenu.CanPause = false;
+
+        // Disable ModManager assign from pool
+        ModManager.assignFromPool = false;
     }
 
     private void Update()

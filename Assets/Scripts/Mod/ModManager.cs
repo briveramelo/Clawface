@@ -21,6 +21,7 @@ public class ModManager : MonoBehaviour
     // TODO - add "GameManager" singleton that coordinates important things like mods and level
     public static ModType leftArmOnLoad = ModType.None;
     public static ModType rightArmOnLoad = ModType.None;
+    public static bool assignFromPool = true;
 
     #endregion
 
@@ -33,7 +34,6 @@ public class ModManager : MonoBehaviour
     [SerializeField] private ModInventory modInventory;
     //[SerializeField] private ModUIManager modUIManager;
     [SerializeField] private float modPickupRadius;
-    [SerializeField] private bool assignFromPool = false;
     [SerializeField] private ModType[] modPool;
     #endregion
 
