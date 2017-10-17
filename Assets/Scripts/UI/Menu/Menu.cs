@@ -27,6 +27,14 @@ public abstract class Menu : MonoBehaviour {
         }
     }
 
+    public GameObject Canvas
+    {
+        get
+        {
+            return canvas;
+        }
+    }
+
     public CanvasGroup CanvasGroup
     {
         get
@@ -37,6 +45,9 @@ public abstract class Menu : MonoBehaviour {
     #endregion
 
     #region Serialized Unity Fields
+    [SerializeField]
+    private GameObject canvas;
+
     [SerializeField]
     private CanvasGroup canvasGroup;
 
@@ -154,7 +165,10 @@ public abstract class Menu : MonoBehaviour {
     }
 
     // "Events" Used Internally by implementations
-    protected virtual void ShowStarted() { }
+    protected virtual void ShowStarted()
+    {
+        canvas.SetActive(true);
+    }
     protected virtual void ShowComplete()
     {
         displayed = true;
@@ -162,6 +176,7 @@ public abstract class Menu : MonoBehaviour {
     protected virtual void HideStarted() { }
     protected virtual void HideComplete()
     {
+        canvas.SetActive(false);
         displayed = false;
     }
     protected virtual void SpecialStarted() { }
