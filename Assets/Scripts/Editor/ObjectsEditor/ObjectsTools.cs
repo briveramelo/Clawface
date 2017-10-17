@@ -9,13 +9,14 @@ using OET_lib;
 using OET_add;
 using OET_duplicate;
 using OET_grid;
+using OET_save;
 
 public class ObjectsTools : EditorWindow
 {
 	int activeToolbar = 0;
 	int lastActiveToolbar = 0;
 
-    string[] toolbarStrings = new string[] {"Add", "Duplicate", "Replace"};
+    string[] toolbarStrings = new string[] {"Add", "Duplicate", "Replace", "Save"};
 
     GameObject projectActiveSelection;
 	GameObject sceneActiveSelection;
@@ -117,5 +118,6 @@ public class ObjectsTools : EditorWindow
         if (activeToolbar == 0) OET_add.lib.renderGUI(vpos, projectActiveSelection);
         if (activeToolbar == 1) OET_duplicate.lib.renderGUI(vpos, sceneSelection, sceneActiveSelection);
         if (activeToolbar == 2) OET_replace.lib.renderGUI(vpos, sceneSelection, projectActiveSelection);
+        if (activeToolbar == 3) OET_save.lib.renderGUI(vpos);
     }
 }
