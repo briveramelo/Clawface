@@ -8,18 +8,27 @@ using UnityEngine;
 public class MallCopChaseState : MallCopState {    
 
     public override void OnEnter() {
-        animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Run);        
+        animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Run);
+        controller.AttackTarget = controller.FindPlayer();
     }
     public override void Update() {
         Chase();        
     }
     public override void OnExit() {
-        
+
     }
 
-    private void Chase() {
+    void Chase() {
 
-        //Orient cop towards player 
+        //Orient cop towards player
+        if (Vector3.Distance(controller.AttackTarget.position, velBody.transform.position) > 100.0f)
+        {
+            Vector3 lookAtPosition = new Vector3(controller.AttackTarget.position.x, 0, controller.AttackTarget.position.z);
+            velBody.transform.LookAt(lookAtPosition);
+            velBody.transform.rotation = Quaternion.Euler(0f, velBody.transform.rotation.eulerAngles.y, 0f);
+        }
+        velBody.velocity = Vector3.zero;    
+
         if(navAgent.enabled && navAgent.isOnNavMesh)
         navAgent.SetDestination(controller.AttackTarget.position);
     }

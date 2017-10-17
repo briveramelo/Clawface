@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.UI;
 using Rewired.Integration.UnityUI;
 
 public class MenuManager : Singleton<MenuManager> {
@@ -15,12 +16,14 @@ public class MenuManager : Singleton<MenuManager> {
     private List<GameObject> menuPrefabs;
     [SerializeField]
     private RewiredStandaloneInputModule input;
+    [SerializeField]
+    private Button deadNavButton;
     #endregion
 
     #region Private Fields
     private List<Menu> menus = new List<Menu>();
     private Queue<TransitionBundle> transitionQueue = new Queue<TransitionBundle>();
-    private Stack<Menu> menuStack = new Stack<Menu>();
+    private List<Menu> menuStack = new List<Menu>();
     #endregion
 
     #region Unity Lifecycle Functions
@@ -31,6 +34,14 @@ public class MenuManager : Singleton<MenuManager> {
         {
             GameObject obj = Instantiate(prefab, gameObject.transform, false);
             Menu menu = obj.GetComponent<Menu>();
+
+            // Make sure incoming menus don't interfere with each other and
+            // are hidden 
+            menu.Canvas.SetActive(false);
+            menu.CanvasGroup.alpha = 0.0F;
+            menu.CanvasGroup.blocksRaycasts = false;
+            menu.CanvasGroup.interactable = false;
+
             menus.Add(menu);
         }
     }
@@ -100,28 +111,28 @@ public class MenuManager : Singleton<MenuManager> {
                 }
                 break;
         }
-        DoTransition(menuStack.Pop(), Menu.Transition.HIDE, new Menu.Effect[] { });
+        Menu menu = menuStack[0];
+        DoTransition(menu, Menu.Transition.HIDE, new Menu.Effect[] { });
+        menuStack.RemoveAt(0);
 
         // Reassign Selection
-        if (menuStack.Count>0) {
-            Menu menu = menuStack.Peek();
-            if (menu != null)
+        if (menuStack.Count != 0)
+        {
+            if (menuStack[0].InitialSelection != null)
             {
-                if (menu.InitialSelection != null)
-                {
-                    menu.InitialSelection.Select();
-                }
+                menuStack[0].InitialSelection.Select();
             }
+        } else
+        {
+            deadNavButton.gameObject.SetActive(true);
+            deadNavButton.Select();
         }
 
         return true;
     }
     public void ClearMenus()
     {
-        while (menuStack.Count > 0)
-        {
-            DoTransition(menuStack.Pop(), Menu.Transition.HIDE, new Menu.Effect[] { });
-        }
+        while (PopMenu(true)) { } // clear stack
     }
 
     public Menu GetMenuByName(string menuName)
@@ -137,31 +148,26 @@ public class MenuManager : Singleton<MenuManager> {
     {
         if (bundle.effects.Contains(Menu.Effect.EXCLUSIVE))
         {
-            while (PopMenu(true)) { }; // we're clearing the stack
+            ClearMenus();
         }
         switch (bundle.transition)
         {
-            case Menu.Transition.NONE:
             case Menu.Transition.HIDE:
-                bundle.menu.canvasGroup.blocksRaycasts = false;
-                bundle.menu.canvasGroup.interactable = false;
+                bundle.menu.CanvasGroup.blocksRaycasts = false;
+                bundle.menu.CanvasGroup.interactable = false;
+                menuStack.RemoveAll((cmp) => { return cmp.MenuName == bundle.menu.MenuName; });
                 break;
             case Menu.Transition.SHOW:
-                bundle.menu.canvasGroup.blocksRaycasts = true;
-                bundle.menu.canvasGroup.interactable = true;
-                menuStack.Push(bundle.menu);
+                deadNavButton.gameObject.SetActive(false);
+                bundle.menu.CanvasGroup.blocksRaycasts = true;
+                bundle.menu.CanvasGroup.interactable = true;
+                menuStack.Add(bundle.menu);
                 break;
             case Menu.Transition.TOGGLE:
-                if (!bundle.menu.Displayed)
-                {
-                    bundle.menu.canvasGroup.blocksRaycasts = true;
-                    bundle.menu.canvasGroup.interactable = true;
-                    menuStack.Push(bundle.menu);
-                } else
-                {
-                    bundle.menu.canvasGroup.blocksRaycasts = false;
-                    bundle.menu.canvasGroup.interactable = false;
-                }
+                // Do nothing, a SHOW or HIDE will come through soon.
+                break;
+            case Menu.Transition.SPECIAL:
+                // There's nothing to do.. we don't know if a show is coming or not..
                 break;
         }
     }

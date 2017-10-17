@@ -1,10 +1,8 @@
-﻿// IntRange.cs
-// Author: Lai, Brandon, Aaron
-
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class IntRangeAttribute : PropertyAttribute
-{
+public abstract class IntRangeAttribute : PropertyAttribute {
 
     public int min;
     public int max;
@@ -13,12 +11,24 @@ public class IntRangeAttribute : PropertyAttribute
         this.min = min;
         this.max = max;
     }
+    public IntRangeAttribute() { }
 }
 
-[System.Serializable]
-public class IntRange
-{
+public class FixedIntRangeAttribute : IntRangeAttribute {
 
+    public FixedIntRangeAttribute(int min, int max) : base(min, max) { }
+}
+
+public class EditableIntRangeAttribute : FloatRangeAttribute {
+
+    public EditableIntRangeAttribute() { }
+}
+
+
+[System.Serializable]
+public class IntRange {
+
+    [HideInInspector] public int minLimit, maxLimit;
     [SerializeField] int min = 0;
     [SerializeField] int max = 10;
 
@@ -26,12 +36,13 @@ public class IntRange
         this.min = min;
         this.max = max;
     }
-    
-    public int Diff { get { return Max - Min; } }
+
+    public int Diff { get { return max - min; } }
+    public int Range { get { return maxLimit - minLimit; } }
     public int Min { get { return min; } set { min = value; } }
     public int Max { get { return max; } set { max = value; } }
-    
+
     public int GetRandomValue() {
         return Random.Range(min, max);
-    }    
+    }
 }

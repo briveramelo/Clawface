@@ -1,24 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using ModMan;
 using MovementEffects;
 using System.Linq;
-public class Spawner : MonoBehaviour
+
+[System.Serializable]
+public class Spawner : RoutineRunner
 {
     public bool useIntensityCurve, manualEdits;
     public AnimationCurve intensityCurve;
-//    public AnimationCurve timingCurve;
 
     public List<Wave> waves = new List<Wave>();
 
     public int currentWaveNumber = 0;
     public int currentNumEnemies = 0;
-//    public float TimeToNextWave = 0.0f;
-
-    #region Serialized Unity Fields
-    [SerializeField] SpawnType spawnType;
-    #endregion
+    public int totalNumEnemies = 0;
 
 
     #region private variables
@@ -28,28 +26,45 @@ public class Spawner : MonoBehaviour
     List<Transform> spawnPoints = new List<Transform>();
 
 
-    private PoolObjectType objectToSpawn
+    private PoolObjectType GetPoolObject(SpawnType spawnType)
     {
-        get
+        switch (spawnType)
         {
-            switch (spawnType)
-            {
-                case SpawnType.Blaster:
-                    return PoolObjectType.MallCopBlaster;
-                case SpawnType.Grappler:
-                    return PoolObjectType.GrapplingBot;
-            }
-            return PoolObjectType.MallCopBlaster;
+            case SpawnType.Blaster:
+                return PoolObjectType.MallCopBlaster;
+            case SpawnType.Zombie:
+                return PoolObjectType.Zombie;
+            case SpawnType.Bouncer:
+                return PoolObjectType.Bouncer;
+            case SpawnType.Kamikaze:
+                return PoolObjectType.Kamikaze;
         }
+        return PoolObjectType.MallCopBlaster;
     }
+
 
     #endregion
 
     #region Unity LifeCycle
     void Start()
     {
-//        if(waves.Count > 0) TimeToNextWave = waves[0].Time;
+        foreach(Wave w in waves)
+        {
+            foreach(WaveType type in w.monsterList)
+            {
+                totalNumEnemies += type.Count;
+            }
+        }
+    }
 
+    private void Update()
+    {
+
+    }
+    #endregion
+
+    public void Activate()
+    {
         foreach (Transform child_point in transform)
         {
             spawnPoints.Add(child_point);
@@ -58,71 +73,85 @@ public class Spawner : MonoBehaviour
         CheckToSpawnEnemyCluster();
     }
 
-    private void Update()
-    {
-
-        /*
-        TimeToNextWave -= Time.deltaTime;
-
-        if(TimeToNextWave < 0.0f)
-        {
-            if(currentWave < waves.Count)
-            {
-                GoToNextWave();
-                TimeToNextWave = waves[currentWave].Time;
-            }
-            else
-            {
-                TimeToNextWave = 0.0f;
-            }
-        }
-        */
-    }
-
-
-    #endregion
 
     #region Private Methods
     private void ReportDeath()
     {
         currentNumEnemies--;
+        totalNumEnemies--;
 
-        if (currentWave < waves.Count && currentNumEnemies <= waves[currentWave].totalNumSpawns.Min * spawnPoints.Count)
+        if (currentWave < waves.Count - 1 && currentNumEnemies <= waves[currentWave].NumToNextWave)
         {
             GoToNextWave();
+        }
+
+        if(totalNumEnemies == 0)
+        {
+            EventSystem.Instance.TriggerEvent(Strings.Events.CALL_NEXTWAVEENEMIES);
         }
     }
 
     private void GoToNextWave()
     {
+        waves[currentWave].FirePostEvents();
         currentWave++;
         currentWaveNumber = currentWave;
         CheckToSpawnEnemyCluster();
     }
 
-    static int waveCount;
     private void CheckToSpawnEnemyCluster()
-    { 
+    {
         if (Application.isPlaying)
         {
             if (currentWave < waves.Count)
             {
-                Timing.RunCoroutine(SpawnEnemyCluster());
+                waves[currentWave].FirePreEvents();
+                Timing.RunCoroutine(SpawnEnemyCluster(), coroutineName);
             }
         }
     }
 
     private IEnumerator<float> SpawnEnemyCluster()
     {
-        int enemiesToSpawn = waves[currentWave].totalNumSpawns.Max;
+        yield return Timing.WaitForSeconds(0.0f);
 
-        for (int i = 0;  i < enemiesToSpawn; i++)
+        for(int i = 0; i < waves[currentWave].monsterList.Count; i++)
+        {
+            for(int j = 0; j < waves[currentWave].monsterList[i].Count; j++)
+            {
+                GameObject spawnedObject = ObjectPool.Instance.GetObject(GetPoolObject(waves[currentWave].monsterList[i].Type));
+
+                if (spawnedObject)
+                {
+                    ISpawnable spawnable = spawnedObject.GetComponentInChildren<ISpawnable>();
+
+                    if (!spawnable.HasWillBeenWritten())
+                    {
+                        spawnable.RegisterDeathEvent(ReportDeath);
+                    }
+
+                    Vector3 spawnPosition = spawnPoints.GetRandom().position;
+                    spawnedObject.transform.position = spawnPosition;
+                    spawnable.WarpToNavMesh(spawnPosition);
+
+                    currentNumEnemies++;
+                }
+                else
+                {
+                    Debug.LogFormat("<color=#ffff00>" + "NOT ENOUGH SPAWN-OBJECT" + "</color>");
+                }
+            }
+        }
+
+
+        /*
+        for (int i = 0; i < enemiesToSpawn; i++)
         {
             yield return Timing.WaitForSeconds(Random.Range(waves[currentWave].SpawningTime.Min, waves[currentWave].SpawningTime.Max));
 
             foreach (Transform point in spawnPoints)
             {
-                GameObject spawnedObject = ObjectPool.Instance.GetObject(objectToSpawn);
+                GameObject spawnedObject = ObjectPool.Instance.GetObject(GetPoolObject(spawnType));
 
                 if (spawnedObject)
                 {
@@ -134,6 +163,8 @@ public class Spawner : MonoBehaviour
                     }
 
                     spawnedObject.transform.position = point.position;
+                    spawnable.WarpToNavMesh(point.position);
+
                     currentNumEnemies++;
                 }
                 else
@@ -142,97 +173,76 @@ public class Spawner : MonoBehaviour
                 }
             }
         }
+        */
+
+
     }
 
-#endregion
+
+    #endregion
 
     public bool IsLastWave()
     {
-        return currentWave >= waves.Count-1 ? true : false;
+        return currentWave >= waves.Count - 1 ? true : false;
     }
 
     public bool IsAllEnemyClear()
     {
-        return currentNumEnemies == 0 ? true : false;
+        return totalNumEnemies == 0 ? true : false;
     }
 }
 
 
 
 [System.Serializable]
+public class WaveType
+{
+    public SpawnType Type;
+    public int Count;
+}
+
+[System.Serializable]
 public class Wave
 {
-
     #region const parameters
 
     const int spawnMin = 1;
-    const int spawnMax = 15;
-    const float timeBetweenMin = 0.25f;
-    const float timeBetweenMax = 2.0f;
-
-    const int spawnOffset = 1;
-    const float spawnTimeOffset = 0.3f;
-
-    const float TimeToNextWave_Max = 60.0f;
 
     #endregion
 
     public List<int> spawnedHashCodes = new List<int>();
 
+    public List<WaveType> monsterList;
+
     [HideInInspector] public int remainingSpawns;
-    [SerializeField, Range(0, 1)] float intensity;
-    [SerializeField, Range(0, TimeToNextWave_Max)] float TimeToNextWave;
+    [SerializeField, Range(0, 1)] public float intensity;
+    [SerializeField, Range(0, 10)] public int NumToNextWave;
+
+
+
+    [SerializeField]
+    private List<string> preEventNames;
+    [SerializeField]
+    private List<string> postEventNames;
+
+
+    public int spawnOffset;
+    public float spawnTimeOffset;
 
     public float Intensity
     {
         get { return intensity; }
         set
-        {
-            value = value < 0 ? 0 : value;
-            value = value > 1 ? 1 : value;
-            intensity = value;
-            ApplyIntensityValue();
+        {            
+            intensity = Mathf.Clamp01(value);
         }
     }
 
-    public float Time
-    {
-        get { return TimeToNextWave; }
-        set
-        {
-            value = value < 0 ? 0 : value;
-            value = value > 1 ? 1 : value;
-
-            TimeToNextWave = TimeToNextWave_Max * value;
-        }
-    }
-
-
-    public void ApplyIntensityValue()
-    {
-        SetTotalSpawns(intensity);
-        SetTimeBetweenSpawns(intensity);
-    }
-
-    [IntRange(spawnMin, spawnMax)] public IntRange totalNumSpawns;
-    [FloatRange(timeBetweenMin, timeBetweenMax)] public FloatRange SpawningTime;
-
-    void SetTotalSpawns(float intensity)
-    {
-        float spawnBase = intensity * spawnMax;
-        totalNumSpawns.Min = Mathf.RoundToInt(Mathf.Clamp(spawnBase - spawnOffset, spawnMin, spawnMax));
-        totalNumSpawns.Max = Mathf.RoundToInt(Mathf.Clamp(spawnBase + spawnOffset, spawnMin, spawnMax));
-    }
-    void SetTimeBetweenSpawns(float intensity)
-    {
-        float timeBase = Mathf.Clamp(timeBetweenMax * (1 - intensity), timeBetweenMin, timeBetweenMax);
-        SpawningTime.Min = Mathf.Clamp(timeBase - spawnTimeOffset, timeBetweenMin, timeBetweenMax);
-        SpawningTime.Max = Mathf.Clamp(timeBase + spawnTimeOffset, timeBetweenMin, timeBetweenMax);
-    }
+    public FloatRange SpawningTime;
+    
 
     public void Reset()
     {
-        remainingSpawns = totalNumSpawns.GetRandomValue();
         spawnedHashCodes.Clear();
     }
 
@@ -260,5 +270,62 @@ public class Wave
             yield return Timing.WaitForSeconds(SpawningTime.GetRandomValue());
         }
     }
-}
 
+    public void AddPreEvent(string eventName)
+    {
+        AddEvent(preEventNames, eventName);
+    }
+
+    public void AddPostEvent(string eventName)
+    {
+        AddEvent(postEventNames, eventName);
+    }
+
+    private void AddEvent(List<string> eventNames, string eventName)
+    {
+        if (eventNames == null)
+        {
+            eventNames = new List<string>();
+        }
+        if (!eventNames.Contains(eventName))
+        {
+            eventNames.Add(eventName);
+        }
+    }
+
+    public void ClearEvents()
+    {
+        if (postEventNames != null)
+        {
+            postEventNames.Clear();
+        }
+
+        if (preEventNames != null)
+        {
+            preEventNames.Clear();
+        }
+    }
+
+    public void FirePreEvents()
+    {
+        FireEvents(preEventNames);
+    }
+
+    public void FirePostEvents()
+    {
+        FireEvents(postEventNames);
+    }
+
+    private void FireEvents(List<string> eventNames)
+    {
+        if (eventNames != null)
+        {
+            for (int i = 0; i < eventNames.Count; i++)
+            {
+                EventSystem.Instance.TriggerEvent(eventNames[i]);
+            }
+        }
+    }
+
+
+}

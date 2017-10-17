@@ -12,18 +12,28 @@ using MovementEffects;
 public class ModManager : MonoBehaviour
 {
 
-    #region Public fields
+    #region Public Statics
+
+    // Probably not the best way to hook this up..
+    // but seems to be the best way for how we have
+    // the mod manager and player hooked up.
+    // Maybe....
+    // TODO - add "GameManager" singleton that coordinates important things like mods and level
+    public static ModType leftArmOnLoad = ModType.None;
+    public static ModType rightArmOnLoad = ModType.None;
+
     #endregion
 
     #region Serialized Unity Inspector fields
     [SerializeField]
-    private Transform headSocket, leftArmSocket, rightArmSocket, legsSocket;
+    private Transform leftArmSocket, rightArmSocket;
     [SerializeField]
     private Stats playerStats;
     [SerializeField] private VelocityBody velBody;
     [SerializeField] private ModInventory modInventory;
-    [SerializeField] private ModUIManager modUIManager;
+    //[SerializeField] private ModUIManager modUIManager;
     [SerializeField] private float modPickupRadius;
+    [SerializeField] private bool assignFromPool = false;
     [SerializeField] private ModType[] modPool;
     #endregion
 
@@ -58,8 +68,12 @@ public class ModManager : MonoBehaviour
 
         modInventory = GetComponent<ModInventory>();
         Debug.Assert(modInventory);
-        AttachRandomMods();
 
+        if (assignFromPool) {
+            AttachRandomMods();
+        } else {
+            AttachMods(leftArmOnLoad, rightArmOnLoad);
+        }
     }
 
     private void Update()
@@ -98,11 +112,18 @@ public class ModManager : MonoBehaviour
         {
             ModType rightHandModType = modPool[UnityEngine.Random.Range(0, modPool.Length)];
             ModType leftHandModType = modPool[UnityEngine.Random.Range(0, modPool.Length)];
-            GameObject rightHandMod = InstantiateMod(rightHandModType);
-            GameObject leftHandMod = InstantiateMod(leftHandModType);
-            InitializeAndAttachMod(rightHandMod);
-            InitializeAndAttachMod(leftHandMod);
+            AttachMods(leftHandModType, rightHandModType);
+        } else { // fallback to defaults
+            AttachMods(leftArmOnLoad, rightArmOnLoad);
         }
+    }
+
+    private void AttachMods(ModType left, ModType right)
+    {
+        GameObject rightHandMod = InstantiateMod(right);
+        GameObject leftHandMod = InstantiateMod(left);
+        InitializeAndAttachMod(rightHandMod);
+        InitializeAndAttachMod(leftHandMod);
     }
 
     private GameObject InstantiateMod(ModType modType)
@@ -119,7 +140,7 @@ public class ModManager : MonoBehaviour
                 return Instantiate(modInventory.segway);
             case ModType.Geyser:
                 return Instantiate(modInventory.geyser);
-            case ModType.Grappler:
+            case ModType.LightningGun:
                 return Instantiate(modInventory.grappler);
             default:
                 return null;
@@ -165,15 +186,10 @@ public class ModManager : MonoBehaviour
             //CheckForModInput((ModSpot spot)=> { modSocketDictionary[spot].mod.BeginCharging();}, ButtonMode.DOWN);
             //CheckForModInput((ModSpot spot)=> { modSocketDictionary[spot].mod.RunCharging();}, ButtonMode.HELD);
             CheckForModInput((ModSpot spot)=> {
-                if (!modSocketDictionary[spot].mod.hasState) {
-                    modSocketDictionary[spot].mod.Activate();               
-                }
+                modSocketDictionary[spot].mod.Activate();               
             }, ButtonMode.DOWN);
-            CheckForModInput((ModSpot spot) => {
-                if (!modSocketDictionary[spot].mod.hasState)
-                {
-                    modSocketDictionary[spot].mod.Activate();
-                }
+            CheckForModInput((ModSpot spot) => {                
+                modSocketDictionary[spot].mod.Activate();
             }, ButtonMode.HELD);
         }
     }
@@ -222,7 +238,7 @@ public class ModManager : MonoBehaviour
     private void SetAllModUIToIdle(){
         foreach (ModSpot modSpot in Enum.GetValues(typeof(ModSpot))){
             if (modSpot != ModSpot.Default){
-                modUIManager.SetUIState(modSpot, ModUIState.IDLE);
+                //modUIManager.SetUIState(modSpot, ModUIState.IDLE);
             }
         }
         modToSwap = ModSpot.Default;
@@ -235,7 +251,7 @@ public class ModManager : MonoBehaviour
         }
 
         if (!isSwapping){
-            modUIManager.AttachMod(spot, mod.getModType());
+            //modUIManager.AttachMod(spot, mod.getModType());
         }
         mod.setModSpot(spot);
         mod.transform.SetParent(modSocketDictionary[spot].socket);
@@ -250,7 +266,7 @@ public class ModManager : MonoBehaviour
     private void Detach(ModSpot spot, bool isSwapping = false){
         if (modSocketDictionary[spot].mod != null){
             if (!isSwapping){
-                modUIManager.DetachMod(spot);
+                //modUIManager.DetachMod(spot);
                 AnalyticsManager.Instance.DropMod();
             }
             modSocketDictionary[spot].mod.transform.SetParent(modInventory.GetModParent(modSocketDictionary[spot].mod.getModType()));

@@ -7,14 +7,6 @@ public class MainMenu : Menu
 {
     #region Public Fields
 
-    public override bool Displayed
-    {
-        get
-        {
-            return displayed;
-        }
-    }
-
     public override Button InitialSelection
     {
         get
@@ -41,18 +33,12 @@ public class MainMenu : Menu
     #endregion
 
     #region Private Fields
-
-    private bool displayed = false;
+    
     private GameObject objectToTrack = null;
 
     #endregion
 
     #region Unity Lifecycle Methods
-
-    protected override void Start()
-    {
-        base.Start();
-    }
 
     private void Update()
     {
@@ -81,31 +67,10 @@ public class MainMenu : Menu
 
     public MainMenu() : base(Strings.MenuStrings.MAIN) {}
 
-    public override void DoTransition(Transition transition, Effect[] effects)
-    {
-        switch (transition)
-        {
-            case Transition.SHOW:
-                if (displayed) return;
-                OnTransitionStarted(transition, effects);
-                StartCoroutine(MenuTransitionsCommon.FadeCoroutine(0.0F, 1.0F, 1.0F,
-                    canvasGroup, () => { ShowComplete(); OnTransitionEnded(transition, effects); }));
-                break;
-            case Transition.HIDE:
-                if (!displayed) return;
-                OnTransitionStarted(transition, effects);
-                StartCoroutine(MenuTransitionsCommon.FadeCoroutine(1.0F, 0.0F, 1.0F,
-                    canvasGroup, () => { HideComplete(); OnTransitionEnded(transition, effects); }));
-                break;
-            case Transition.TOGGLE:
-                DoTransition(displayed ? Transition.HIDE : Transition.SHOW, effects);
-                return;
-        }
-    }
-
     //// Actions used by Buttons on this Menu
     public void StartAction()
     {
+        /*
         MusicManager.Instance.Stop(MusicType.MainMenu_Track);
 
         Menu pMenu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.PAUSE);
@@ -118,6 +83,10 @@ public class MainMenu : Menu
 
         MenuManager.Instance.DoTransition(loadMenu, Transition.SHOW,
             new Effect[] { Effect.EXCLUSIVE });
+       */
+
+        MenuManager.Instance.DoTransition(Strings.MenuStrings.LEVEL_SELECT, Transition.SHOW,
+            new Effect[] { Effect.EXCLUSIVE });
     }
 
     public void CreditsAction()
@@ -129,21 +98,21 @@ public class MainMenu : Menu
     public void SettingsAction()
     {
         MenuManager.Instance.DoTransition(Strings.MenuStrings.SETTINGS,
-            Transition.SHOW, new Effect[] { Effect.FADE });
+            Transition.SHOW, new Effect[] { Effect.EXCLUSIVE, Effect.FADE });
     }
 
     #endregion
 
-    #region Private Fields
+    #region Protected Interface
 
-    private void ShowComplete()
+    protected override void DefaultShow(Transition transition, Effect[] effects)
     {
-        displayed = true;
+        Fade(transition, effects);
     }
 
-    private void HideComplete()
+    protected override void DefaultHide(Transition transition, Effect[] effects)
     {
-        displayed = false;
+        Fade(transition, effects);
     }
 
     #endregion

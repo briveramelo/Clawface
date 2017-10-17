@@ -10,13 +10,11 @@ public class Zombie : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpawn
     [SerializeField] private ZombieController controller;
     [SerializeField] private ZombieProperties properties;
     [SerializeField] private VelocityBody velBody;
-    [SerializeField] private GlowObject glowObject;
     [SerializeField] private Animator animator;
     [SerializeField] private Stats myStats;
     [SerializeField] private NavMeshAgent navAgent;
     [SerializeField] private GameObject mySkin;
     [SerializeField] private CopUI copUICanvas;
-    //[SerializeField] private Mod mod;
     [SerializeField] private Transform bloodEmissionLocation;
     [SerializeField] private int scorePopupDelay = 2;
     [SerializeField] private int scoreValue = 200;
@@ -48,9 +46,6 @@ public class Zombie : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpawn
     void Awake()
     {
         controller.Initialize(properties, velBody, animator, myStats, navAgent);
-
-        //mod.setModSpot(ModSpot.ArmR);
-        //mod.AttachAffect(ref myStats, velBody);
         ResetForRebirth();
         navAgent.enabled = false;
     }
@@ -68,9 +63,8 @@ public class Zombie : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpawn
             SFXManager.Instance.Play(SFXType.MallCopHurt, transform.position);
             damaged.Set(DamagedType.Zombie, bloodEmissionLocation);
             DamageFXManager.Instance.EmitDamageEffect(damagePack);
-            if (myStats.health <= myStats.skinnableHealth && !glowObject.isGlowing)
+            if (myStats.health <= myStats.skinnableHealth)
             {
-                glowObject.SetToGlow();
                 copUICanvas.gameObject.SetActive(true);
                 copUICanvas.ShowAction(ActionType.Skin);
             }
@@ -89,10 +83,7 @@ public class Zombie : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpawn
             }
             else
             {
-                if (controller.ECurrentState == EZombieState.Patrol)
-                {
                     controller.UpdateState(EZombieState.Chase);
-                }
             }
         }
     }
@@ -100,6 +91,11 @@ public class Zombie : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpawn
     float IDamageable.GetHealth()
     {
         return myStats.health;
+    }
+
+    void ISpawnable.WarpToNavMesh(Vector3 position)
+    {
+        navAgent.Warp(position);
     }
 
     bool ISkinnable.IsSkinnable()
@@ -184,15 +180,11 @@ public class Zombie : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpawn
     {
         GetComponent<CapsuleCollider>().enabled = true;
         copUICanvas.gameObject.SetActive(false);
-        //mod.DeactivateModCanvas();
 
         myStats.ResetForRebirth();
         controller.ResetForRebirth();
         velBody.ResetForRebirth();
-        glowObject.ResetForRebirth();
         will.Reset();
-        //TODO check for missing mod and create a new one and attach it
-        //mod.setModSpot(ModSpot.ArmR);
         lastChance = false;
     }
 
@@ -211,9 +203,5 @@ public class Zombie : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpawn
 public class ZombieProperties
 {
     public float runMultiplier;
-    [Range(5f, 15f)] public float maxChaseTime;
-    [Range(5f, 15f)] public float walkTime;
-    [Range(1, 6)] public int numShocksToStun;
-    [Range(.1f, 1)] public float twitchRange;
-    [Range(.1f, 1f)] public float twitchTime;
+    [Range(0f, 10f)] public float hitRate;
 }

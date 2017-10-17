@@ -34,7 +34,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1192868006484574}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -12.087719, y: 1.4, z: 6.676951}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -73,4 +73,10 @@ MonoBehaviour:
   scoreManager: {fileID: 1594148730900646, guid: d213c3d2b3ec3bc44a63e8b12f6f8e15,
     type: 2}
   respawnPoint: {fileID: 1061741418929486, guid: 6c8b0ed61a8d99a47869ed6c678935cd,
+    type: 2}
+  eventSystem: {fileID: 1356477786311918, guid: 7a272c7286f95a04a91442b4e05a9008,
+    type: 2}
+  achievementManager: {fileID: 1380734105772706, guid: 88a032f4941867446886dd908d777e0a,
+    type: 2}
+  platformManager: {fileID: 1615307272083970, guid: 5974cb0777c455e48ba7587e35dd4dc4,
     type: 2}
