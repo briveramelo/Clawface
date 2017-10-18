@@ -219,6 +219,14 @@ public enum EKamikazeState
     SelfDestruct = 1
 }
 
+public enum EAIState
+{
+    Chase = 0,
+    Attack = 1,
+    Fire = 3,
+    Death = 4
+}
+
 
 public enum EGrapplingBotState {
     Patrol = 0,

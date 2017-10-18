@@ -8,11 +8,22 @@ using ModMan;
 using UnityEngine.AI;
 using MovementEffects;
 
+[System.Serializable]
+public class MallCopProperties : AIProperties
+{
+    public float runMultiplier;
+    [Range(5f, 15f)] public float maxChaseTime;
+    [Range(5f, 15f)] public float walkTime;
+    [Range(1, 6)] public int numShocksToStun;
+    [Range(.1f, 1)] public float twitchRange;
+    [Range(.1f, 1f)] public float twitchTime;
+}
+
 public class MallCop : RoutineRunner, IStunnable, IDamageable, ISkinnable, ISpawnable
 {
 
     #region 2. Serialized Unity Inspector Fields
-    [SerializeField] private MallCopController controller;
+    [SerializeField] private AIController controller;
     [SerializeField] private MallCopProperties properties;
     [SerializeField] private VelocityBody velBody;
     [SerializeField] private Animator animator;
@@ -70,14 +81,10 @@ public class MallCop : RoutineRunner, IStunnable, IDamageable, ISkinnable, ISpaw
                 copUICanvas.ShowAction(ActionType.Skin);
             }
             if (myStats.health <= 0) {
-                controller.UpdateState(EMallCopState.Fall);
+                //controller.UpdateState(EAIState.Fall);
 
                 //mod.DetachAffect();
                 OnDeath();
-            }
-            else {
-                    controller.UpdateState(EMallCopState.Chase);
-                
             }
         }
     }
@@ -103,14 +110,14 @@ public class MallCop : RoutineRunner, IStunnable, IDamageable, ISkinnable, ISpaw
     }
 
     void IStunnable.Stun(){
-        stunCount++;
-        if (stunCount >= properties.numShocksToStun)
-        {
-            stunCount = 0;
-            if (myStats.health > 0 ) {
-                controller.UpdateState(EMallCopState.Twitch);
-            }
-        }
+        //stunCount++;
+        //if (stunCount >= properties.numShocksToStun)
+        //{
+        //    stunCount = 0;
+        //    if (myStats.health > 0 ) {
+        //        controller.UpdateState(EAIState.Twitch);
+        //    }
+        //}
     }    
 
     public bool HasWillBeenWritten() { return will.willHasBeenWritten; }
@@ -178,12 +185,3 @@ public class MallCop : RoutineRunner, IStunnable, IDamageable, ISkinnable, ISpaw
 
 }
 
-[System.Serializable]
-public class MallCopProperties {
-    public float runMultiplier;
-    [Range(5f, 15f)] public float maxChaseTime;
-    [Range(5f, 15f)] public float walkTime;
-    [Range(1, 6)] public int numShocksToStun;
-    [Range(.1f, 1)] public float twitchRange;
-    [Range(.1f, 1f)] public float twitchTime;    
-}

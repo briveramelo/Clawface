@@ -6,7 +6,7 @@ using UnityEngine;
 using System;
 using ModMan;
 
-public class MallCopBlasterController : MallCopController {
+public class MallCopBlasterController : AIController {
 
     [SerializeField] SphereCollider playerDetectorSphereCollider;
     [SerializeField] public float fleeForce;
@@ -28,9 +28,7 @@ public class MallCopBlasterController : MallCopController {
     void Awake() {
         checksToUpdateState = new List<Func<bool>>() {
             CheckToFire,
-            CheckFinishTwitching,
             CheckToFinishFiring,
-            //CheckToFlee,
         };
     }
 
@@ -46,22 +44,22 @@ public class MallCopBlasterController : MallCopController {
 
     bool CheckToFire() {
         if ((CurrentState == states.chase && distanceFromTarget < closeEnoughToFireDistance)) {
-            UpdateState(EMallCopState.Fire);
+            UpdateState(EAIState.Fire);
             return true;
         }
         return false;
     }
 
 
-    bool CheckFinishTwitching() {
-        if (CurrentState == states.twitch && !states.twitch.IsMidTwitch()) {
-            if (stats.health > 0) {
-                UpdateState(EMallCopState.Chase);
-                return true;
-            }
-        }
-        return false;        
-    }
+    //bool CheckFinishTwitching() {
+    //    if (CurrentState == states.twitch && !states.twitch.IsMidTwitch()) {
+    //        if (stats.health > 0) {
+    //            UpdateState(EAIState.Chase);
+    //            return true;
+    //        }
+    //    }
+    //    return false;        
+    //}
 
     bool CheckToFinishFiring() {
         if (CurrentState == states.fire && states.fire.CanRestart()) {
@@ -69,28 +67,28 @@ public class MallCopBlasterController : MallCopController {
             bool shouldChase = distanceFromTarget > maxDistanceBeforeChasing;
 
             if (shouldChase) {
-                UpdateState(EMallCopState.Chase);
+                UpdateState(EAIState.Chase);
             }
             else {
-                UpdateState(EMallCopState.Fire);
+                UpdateState(EAIState.Fire);
             }
             return true;
         }        
         return false;
     }
 
-    bool CheckToFlee() {
-        playerColliderList = Physics.OverlapSphere(transform.position, fleeRadius, LayerMasker.GetLayerMask(Layers.ModMan));
-        foreach (Collider col in playerColliderList) {
-            if (col != null && col.CompareTag(Strings.Tags.PLAYER) &&
-                CurrentState != states.flee) {
+    //bool CheckToFlee() {
+    //    playerColliderList = Physics.OverlapSphere(transform.position, fleeRadius, LayerMasker.GetLayerMask(Layers.ModMan));
+    //    foreach (Collider col in playerColliderList) {
+    //        if (col != null && col.CompareTag(Strings.Tags.PLAYER) &&
+    //            CurrentState != states.flee) {
 
-                AttackTarget = col.transform;
-                //UpdateState(EMallCopState.Flee);
-                return true;
-            }
-        }
-        return false;
-    }
+    //            AttackTarget = col.transform;
+    //            //UpdateState(EMallCopState.Flee);
+    //            return true;
+    //        }
+    //    }
+    //    return false;
+    //}
 
 }
