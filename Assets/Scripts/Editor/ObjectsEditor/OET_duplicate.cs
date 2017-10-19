@@ -26,14 +26,19 @@ namespace OET_duplicate
 
         public static void sceneGUI ()
         {
-			if (sceneActiveSelection != null && sceneSelection.Length == 1)
+            handle_v3 = Handles.PositionHandle(handle_v3, Quaternion.identity);
+
+            if (sceneSelection != null)
             {
-				handle_v3 = Handles.PositionHandle(handle_v3, Quaternion.identity);
-
-                DrawBox();
-
-                Handles.color = Color.green;
-				Handles.DrawDottedLine (handle_v3, sceneActiveSelection.transform.position, 5);
+                foreach(GameObject _obj in sceneSelection)
+                {
+                    if(_obj != null)
+                    {
+                        DrawBox(_obj);
+                        Handles.color = Color.green;
+                        Handles.DrawDottedLine(handle_v3, _obj.transform.position, 5);
+                    }
+                }
 			}
 		}
 
@@ -50,44 +55,44 @@ namespace OET_duplicate
 			int width = Screen.width;
 			sceneActiveSelection = get_sceneActiveSelection;
 
-			if (get_sceneActiveSelection != null)
+			if (sceneSelection != null)
             {
-				if(sceneSelection.Length != 1)
-                {
-                    OET_lib.ToolLib.alertBox ("Duplicate", "Select one single object in the hierarchy to enable this tool. Multiple objects are currently selected.");
-				}
-                else
                 {
 					vpos += OET_lib.ToolLib.header ("<b>Duplicate</b>\nDuplicate the selected object in the scene.", vpos, false);
 
 					float btWidth = width < 160 ? width - 20 : 160;
+
 					if (GUI.Button (new Rect (width / 2 - btWidth / 2, vpos, btWidth, 25), "Duplicate"))
                     {
+                        var newSelection = new List<GameObject>();
 
-						GameObject newClone = null;
-						GameObject p = PrefabUtility.GetPrefabParent(sceneActiveSelection) as GameObject;
-						var newSelection = new List<GameObject> ();
-
-						foreach(Vector3 thisClone in clones)
+                        foreach (GameObject _obj in sceneSelection)
                         {
-							if(p != null)
+                            GameObject newClone = null;
+                            GameObject p = PrefabUtility.GetPrefabParent(_obj) as GameObject;
+
+                            foreach (Vector3 thisClone in clones)
                             {
-								newClone = PrefabUtility.InstantiatePrefab(p) as GameObject;
-								newClone.transform.position = thisClone + sceneActiveSelection.transform.position;
-								newClone.transform.rotation = sceneActiveSelection.transform.rotation;
-							}
-                            else
-                            {
-								newClone = Instantiate(sceneActiveSelection.gameObject, thisClone + sceneActiveSelection.transform.position, sceneActiveSelection.transform.rotation) as GameObject;
-								newClone.transform.localScale = sceneActiveSelection.transform.localScale;
-							}
-							newClone.transform.parent = sceneActiveSelection.transform.parent;
-							newClone.transform.localScale = sceneActiveSelection.transform.localScale;
-							Undo.RegisterCreatedObjectUndo (newClone, "Duplicate");
-							newSelection.Add (newClone);
-						}
-						Selection.objects = newSelection.ToArray ();
-					}
+                                if (p != null)
+                                {
+                                    newClone = PrefabUtility.InstantiatePrefab(p) as GameObject;
+                                    newClone.transform.position = thisClone + _obj.transform.position;
+                                    newClone.transform.rotation = _obj.transform.rotation;
+                                }
+                                else
+                                {
+                                    newClone = Instantiate(_obj.gameObject, thisClone + _obj.transform.position, _obj.transform.rotation) as GameObject;
+                                    newClone.transform.localScale = _obj.transform.localScale;
+                                }
+                                newClone.transform.parent = _obj.transform.parent;
+                                newClone.transform.localScale = _obj.transform.localScale;
+                                Undo.RegisterCreatedObjectUndo(newClone, "Duplicate");
+                                newSelection.Add(newClone);
+                            }
+                        }
+
+                        Selection.objects = newSelection.ToArray();
+                    }
 				}
 			}
             else
@@ -126,29 +131,29 @@ namespace OET_duplicate
 
             vpos += 40;
         }
-            
-        static void DrawBox()
+
+        static void DrawBox(GameObject _obj)
         {
             if(_x_selected)
             {
-                handle_v3.y = sceneActiveSelection.transform.position.y;
-                handle_v3.z = sceneActiveSelection.transform.position.z;
+                handle_v3.y = _obj.transform.position.y;
+                handle_v3.z = _obj.transform.position.z;
             }
 
             if (_y_selected)
             {
-                handle_v3.x = sceneActiveSelection.transform.position.x;
-                handle_v3.z = sceneActiveSelection.transform.position.z;
+                handle_v3.x = _obj.transform.position.x;
+                handle_v3.z = _obj.transform.position.z;
             }
 
             if (_z_selected)
             {
-                handle_v3.x = sceneActiveSelection.transform.position.x;
-                handle_v3.y = sceneActiveSelection.transform.position.y;
+                handle_v3.x = _obj.transform.position.x;
+                handle_v3.y = _obj.transform.position.y;
             }
 
 
-            Vector3 d = handle_v3 - sceneActiveSelection.transform.position;
+            Vector3 d = handle_v3 - _obj.transform.position;
 
             float distance = _x_selected ? d.x : _y_selected ? d.y : d.z;
 
@@ -170,7 +175,8 @@ namespace OET_duplicate
                 }
 
                  clones[i - 1] = new_position;
-                OET_lib.ToolLib.draft(sceneActiveSelection, new_position, Color.yellow);
+
+                OET_lib.ToolLib.draft(_obj, new_position, Color.yellow);
             }
         }
 
