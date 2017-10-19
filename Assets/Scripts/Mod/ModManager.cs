@@ -12,7 +12,17 @@ using MovementEffects;
 public class ModManager : MonoBehaviour
 {
 
-    #region Public fields
+    #region Public Statics
+
+    // Probably not the best way to hook this up..
+    // but seems to be the best way for how we have
+    // the mod manager and player hooked up.
+    // Maybe....
+    // TODO - add "GameManager" singleton that coordinates important things like mods and level
+    public static ModType leftArmOnLoad = ModType.None;
+    public static ModType rightArmOnLoad = ModType.None;
+    public static bool assignFromPool = true;
+
     #endregion
 
     #region Serialized Unity Inspector fields
@@ -58,8 +68,12 @@ public class ModManager : MonoBehaviour
 
         modInventory = GetComponent<ModInventory>();
         Debug.Assert(modInventory);
-        AttachRandomMods();
 
+        if (assignFromPool) {
+            AttachRandomMods();
+        } else {
+            AttachMods(leftArmOnLoad, rightArmOnLoad);
+        }
     }
 
     private void Update()
@@ -98,11 +112,18 @@ public class ModManager : MonoBehaviour
         {
             ModType rightHandModType = modPool[UnityEngine.Random.Range(0, modPool.Length)];
             ModType leftHandModType = modPool[UnityEngine.Random.Range(0, modPool.Length)];
-            GameObject rightHandMod = InstantiateMod(rightHandModType);
-            GameObject leftHandMod = InstantiateMod(leftHandModType);
-            InitializeAndAttachMod(rightHandMod);
-            InitializeAndAttachMod(leftHandMod);
+            AttachMods(leftHandModType, rightHandModType);
+        } else { // fallback to defaults
+            AttachMods(leftArmOnLoad, rightArmOnLoad);
         }
+    }
+
+    private void AttachMods(ModType left, ModType right)
+    {
+        GameObject rightHandMod = InstantiateMod(right);
+        GameObject leftHandMod = InstantiateMod(left);
+        InitializeAndAttachMod(rightHandMod);
+        InitializeAndAttachMod(leftHandMod);
     }
 
     private GameObject InstantiateMod(ModType modType)

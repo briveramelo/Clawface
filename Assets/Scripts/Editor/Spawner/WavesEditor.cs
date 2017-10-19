@@ -16,22 +16,15 @@ public class WavesEditor : Editor
     SerializedProperty manualEdits;
     SerializedProperty intensityCurve;
     SerializedProperty timingCurve;
-    SerializedProperty waves, spawnType;
+    SerializedProperty waves;
 
     SerializedProperty currentWaveNumber;
     SerializedProperty currentNumEnemies;
-    SerializedProperty spawnRange, spawnTimeRange;
-
-    //    SerializedProperty TimeToNextWave;
+    SerializedProperty totalNumEnemies;
 
     List<Wave> wavesList;
     ReorderableList reordList;
-
-    List<bool> waveFoldouts = new List<bool>();
-    List<bool> spawnQuantitiesFoldouts = new List<bool>();
-    //List<List<bool>> spawnSubQuantitiesFoldouts = new List<List<bool>>();
-    const int numEnemies=4;
-    float LineHeight { get { return EditorGUIUtility.singleLineHeight+2; } }
+    ReorderableList test;
 
     GUIStyle intensityTipLabelStyle;
 
@@ -40,24 +33,24 @@ public class WavesEditor : Editor
 
         currentWaveNumber = serializedObject.FindProperty("currentWaveNumber");
         currentNumEnemies = serializedObject.FindProperty("currentNumEnemies");
-
-        spawnRange = serializedObject.FindProperty("spawnRange");
-        spawnTimeRange = serializedObject.FindProperty("spawnTimeRange");
-
+        totalNumEnemies = serializedObject.FindProperty("totalNumEnemies");
 
         useIntensityCurve = serializedObject.FindProperty("useIntensityCurve");
         manualEdits = serializedObject.FindProperty("manualEdits");
 
         intensityCurve = serializedObject.FindProperty("intensityCurve");
         timingCurve = serializedObject.FindProperty("timingCurve");
-        spawnType = serializedObject.FindProperty("spawnType");
 
         waves = serializedObject.FindProperty("waves");
+
+
         reordList = new ReorderableList(serializedObject, waves, true, false, true, true);
         reordList.drawElementCallback = DrawWaveProperty;
-        reordList.elementHeightCallback = HeightCallback;
-        reordList.elementHeight = 12 + LineHeight * 6 + LIST_PADDING;
+
+        reordList.elementHeight = 12 + EditorGUIUtility.singleLineHeight * 16 + LIST_PADDING;
+
         wavesList = (target as Spawner).waves;
+
         intensityTipLabelStyle = new GUIStyle();
         intensityTipLabelStyle.wordWrap = true;
         intensityTipLabelStyle.fontStyle = FontStyle.Italic;
@@ -73,234 +66,168 @@ public class WavesEditor : Editor
 
         EditorGUILayout.BeginVertical(EditorStyles.helpBox);
         EditorGUILayout.LabelField("Runtime Status", EditorStyles.boldLabel);
-        EditorGUI.indentLevel++;
-            EditorGUILayout.LabelField(string.Format("Current Wave Number: {0}", currentWaveNumber.intValue));
-            EditorGUILayout.LabelField(string.Format("Current Number of Enemies: {0}", currentNumEnemies.intValue));
-        EditorGUI.indentLevel--;
+        EditorGUILayout.LabelField(string.Format("Current Wave Number: {0}", currentWaveNumber.intValue));
+        EditorGUILayout.LabelField(string.Format("Current Number of Enemies: {0}", currentNumEnemies.intValue));
+        EditorGUILayout.LabelField(string.Format("Total Number of Enemies: {0}", totalNumEnemies.intValue));
+
         EditorGUILayout.EndVertical();
 
         EditorGUI.EndDisabledGroup();
 
-        GUILayout.Space (LineHeight / 2);
+        GUILayout.Space(EditorGUIUtility.singleLineHeight / 2);
 
         EditorGUILayout.BeginVertical(EditorStyles.helpBox);
         EditorGUILayout.LabelField("Intensity Settings", EditorStyles.boldLabel);
-        EditorGUI.indentLevel++;
-            EditorGUILayout.PropertyField(useIntensityCurve, new GUIContent("Use Intensity Curve"));
-            bool useIntensity = useIntensityCurve.boolValue;
-            bool useManualEdits = !useIntensity && manualEdits.boolValue;
+        EditorGUILayout.PropertyField(useIntensityCurve, new GUIContent("Use Intensity Curve"));
+        bool useIntensity = useIntensityCurve.boolValue;
+        bool useManualEdits = !useIntensity && manualEdits.boolValue;
 
-            if (useIntensity)
+        if (useIntensity)
+        {
+            GUILayout.Space(10);
+            GUILayout.Label("The intensity curve auto-adjusts each wave's intensity and properties", intensityTipLabelStyle);
+            EditorGUILayout.PropertyField(intensityCurve);
+        }
+        else
+        {
+            EditorGUILayout.PropertyField(manualEdits);
+            if (useManualEdits)
             {
                 GUILayout.Space(10);
-                GUILayout.Label("The intensity curve auto-adjusts each wave's intensity and properties", intensityTipLabelStyle);
-                EditorGUILayout.PropertyField(intensityCurve);
+                GUILayout.Label("Disables influence from 'intensity'", intensityTipLabelStyle);
             }
-            else
-            {
-                EditorGUILayout.PropertyField(manualEdits);                
-            }
+        }
 
-            AdjustWaveRangeProperties();
-            AdjustWaveIntensity(useIntensity, useManualEdits);
+        AdjustWaveIntensity(useIntensity, useManualEdits);
 
-        EditorGUI.indentLevel--;
+
+        //       AdjustWaveTime(useIntensity, useManualEdits);
+
         EditorGUILayout.EndVertical();
 
+        GUILayout.Space(EditorGUIUtility.singleLineHeight / 2);
 
-
-        GUILayout.Space (LineHeight / 2);       
+        //       EditorGUI.BeginDisabledGroup(useIntensity);
 
         EditorGUILayout.BeginVertical(EditorStyles.helpBox);
 
         EditorGUILayout.LabelField("Waves", EditorStyles.boldLabel);
 
         if (useIntensityCurve.boolValue)
-            EditorGUILayout.LabelField (
-                "Wave properties are being controlled by the intensity curve.", 
+            EditorGUILayout.LabelField(
+                "Wave properties are being controlled by the intensity curve.",
                 EditorStyles.helpBox);
 
         else
         {
             if (!manualEdits.boolValue)
-            EditorGUILayout.LabelField (
-                "Wave properties are being controlled by intensity sliders.", 
-                EditorStyles.helpBox);
+                EditorGUILayout.LabelField(
+                    "Wave properties are being controlled by intensity values.",
+                    EditorStyles.helpBox);
 
             else
-                EditorGUILayout.LabelField (
-                "Intensity slider is disabled (manual edits on).", 
+                EditorGUILayout.LabelField(
+                "Intensity slider is disabled (manual edits on).",
                 EditorStyles.helpBox);
         }
-        GUILayout.Space(3);
-        EditorGUI.indentLevel++;
-            EditorGUILayout.PropertyField(spawnRange, true);
-            EditorGUILayout.PropertyField(spawnTimeRange, true);
-        EditorGUI.indentLevel--;
-        GUILayout.Space(5);
-        reordList.DoLayoutList();
-        EditorGUILayout.EndVertical(); 
 
-        GUILayout.Space (LineHeight);
+        reordList.DoLayoutList();
+        EditorGUILayout.EndVertical();
+
+        GUILayout.Space(EditorGUIUtility.singleLineHeight);
 
         serializedObject.ApplyModifiedProperties();
+
     }
 
     void DrawWaveProperty(Rect rect, int index, bool isActive, bool isFocused)
-    {        
-        Rect standardRect = new Rect(rect.position, new Vector2(rect.width, LineHeight)).AddPosition(10, 2.5f);                
+    {
         var element = reordList.serializedProperty.GetArrayElementAtIndex(index);
-        float startHeightMult = 1;
-        waveFoldouts.AddUntil(index);
-        waveFoldouts[index] = EditorGUI.Foldout(standardRect, waveFoldouts[index], string.Format("Wave {0}", index), true);
-        if (waveFoldouts[index]) {
-            EditorGUI.indentLevel++;
-            EditorGUI.BeginProperty(rect, GUIContent.none, element);
-            EditorGUI.BeginChangeCheck();
 
-            // Intensity            
-            EditorGUI.BeginDisabledGroup(useIntensityCurve.boolValue || manualEdits.boolValue);
-            if (!manualEdits.boolValue) {
-                EditorGUI.PropertyField(standardRect.AddPosition(0, 1 * LineHeight), element.FindPropertyRelative("intensity"));
-                startHeightMult = 0;
+        EditorGUI.BeginProperty(rect, GUIContent.none, element);
+        EditorGUI.BeginChangeCheck();
+
+        // Intensity
+        EditorGUI.BeginDisabledGroup(manualEdits.boolValue || useIntensityCurve.boolValue);
+        EditorGUI.PropertyField(new Rect(rect.x, rect.y += 2, rect.width, EditorGUIUtility.singleLineHeight), element.FindPropertyRelative("intensity"));
+        EditorGUI.EndDisabledGroup();
+
+        EditorGUI.PropertyField(new Rect(rect.x, rect.y += 2 + EditorGUIUtility.singleLineHeight, rect.width, EditorGUIUtility.singleLineHeight), element.FindPropertyRelative("NumToNextWave"));
+
+        EditorGUI.BeginDisabledGroup(!manualEdits.boolValue);
+
+   
+        /*
+        // Total num spawns
+        EditorGUI.PropertyField(new Rect(rect.x, rect.y += 2 + EditorGUIUtility.singleLineHeight, rect.width, 2 * EditorGUIUtility.singleLineHeight + 2),
+            element.FindPropertyRelative("totalNumSpawn"));
+ 
+        // Spawning time
+        EditorGUI.PropertyField(new Rect(rect.x, rect.y += 4 + EditorGUIUtility.singleLineHeight * 2, rect.width, 2 * EditorGUIUtility.singleLineHeight + 2),
+            element.FindPropertyRelative("SpawningTime"));
+        */
+
+        EditorGUI.EndDisabledGroup();
+
+        SerializedProperty monsterListProp = element.FindPropertyRelative("monsterList");
+        ReorderableList monsterList = new ReorderableList(serializedObject, monsterListProp, true, false, true, true);
+
+
+        monsterList.drawElementCallback = (Rect i_Rect, int i_index, bool i_isActive, bool i_isFocused) =>
+        {
+            var i_element = monsterList.serializedProperty.GetArrayElementAtIndex(i_index);
+            EditorGUI.PropertyField(new Rect(i_Rect.x, i_Rect.y, 60, EditorGUIUtility.singleLineHeight), i_element.FindPropertyRelative("Type"), GUIContent.none);
+            EditorGUI.PropertyField(new Rect(i_Rect.x + i_Rect.width - 30, i_Rect.y, 30, EditorGUIUtility.singleLineHeight), i_element.FindPropertyRelative("Count"), GUIContent.none);
+        };
+
+
+        monsterList.onAddCallback = (ReorderableList i_List) =>
+        {
+            if(i_List.count >= 4)
+            {
+                EditorUtility.DisplayDialog("Warning!", "You can't add more types", "OK");
             }
-            else {
-                startHeightMult = -1.25f;
+            else
+            {
+                var i_index = i_List.serializedProperty.arraySize;
+                i_List.serializedProperty.arraySize++;
+                i_List.index = i_index;
+
+                var i_element = i_List.serializedProperty.GetArrayElementAtIndex(index);
+                i_element.FindPropertyRelative("Type").enumValueIndex = 0;
+                i_element.FindPropertyRelative("Count").intValue = 1;
             }
-            EditorGUI.EndDisabledGroup();
+        };
 
-            /*
-            // Time to next wave
-            EditorGUI.BeginDisabledGroup (useIntensityCurve.boolValue);
-            EditorGUI.PropertyField(new Rect(rect.x, rect.y += 2 + LineHeight, rect.width, LineHeight),
-                element.FindPropertyRelative("TimeToNextWave"));
-            EditorGUI.EndDisabledGroup();
-            */
 
-            EditorGUI.BeginDisabledGroup(useIntensityCurve.boolValue || !manualEdits.boolValue);
+        monsterList.DoList(new Rect(rect.x, rect.y += 4 + EditorGUIUtility.singleLineHeight * 3, rect.width, 8 * EditorGUIUtility.singleLineHeight));
 
-            // Total num spawns
-            EditorGUI.PropertyField(standardRect.AddPosition(0, (startHeightMult + 2.25f)*LineHeight).AddSize(0, LineHeight), element.FindPropertyRelative("totalNumSpawns"));
-
-            // Spawning time
-            EditorGUI.PropertyField(standardRect.AddPosition(0, (startHeightMult + 4.25f) * LineHeight).AddSize(0, LineHeight), element.FindPropertyRelative("spawningTime"));
-
-            // spawn options
-            spawnQuantitiesFoldouts.AddUntil(index);
-            spawnQuantitiesFoldouts[index] = EditorGUI.Foldout(standardRect.AddPosition(0, (startHeightMult + 6.25f) * LineHeight), spawnQuantitiesFoldouts[index], "Enemy Spawn Quantities", true);
-            if (spawnQuantitiesFoldouts[index]) {
-                EditorGUI.indentLevel++;
-                
-                DrawSubQuantities(element.FindPropertyRelative("enemySpawnQuantities"), standardRect.AddPosition(0, (startHeightMult + 7.25f) * LineHeight), index);
-
-                
-                EditorGUI.indentLevel--;
-            }
-
-            EditorGUI.EndDisabledGroup();
-
-            EditorGUI.EndChangeCheck();
-            EditorGUI.EndProperty();
-            EditorGUI.indentLevel--;
-        }        
+        EditorGUI.EndChangeCheck();
+        EditorGUI.EndProperty();
     }
 
-    void DrawSubQuantities(SerializedProperty quantities, Rect rect, int index) {
-        //Vector2 closedExtra = new Vector2(0, LineHeight * 1);
-        //Vector2 openExtra = new Vector2(0, LineHeight * 3);
-        //System.Func<int, Vector2> GetHeight = (subIndex) => {
-        //    int previousOpened = 0;
-        //    int previousClosed = 0;
-        //    for (int i=0; i< spawnSubQuantitiesFoldouts[index].Count; i++) {
-        //        if (subIndex > i) {
-        //            if (spawnSubQuantitiesFoldouts[index][i]) {
-        //                previousOpened++;
-        //            }
-        //            else{
-        //                previousClosed++;
-        //            }
-        //        }
-        //    }
-        //    Vector2 totalHeights = closedExtra * previousClosed + openExtra * previousOpened;
-        //    return totalHeights;
-        //};
-
-        //spawnSubQuantitiesFoldouts.AddNewUntil(index);
-        //spawnSubQuantitiesFoldouts[index].AddUntil(numEnemies);
-        DrawSubQuantity(quantities, "blaster", rect.AddPosition(0, 0 * LineHeight), index, 0);
-        DrawSubQuantity(quantities, "bouncer", rect.AddPosition(0, 1 * LineHeight), index, 1);
-        DrawSubQuantity(quantities, "kamikaze", rect.AddPosition(0, 2 * LineHeight), index, 2);
-        DrawSubQuantity(quantities, "zombie", rect.AddPosition(0, 3 * LineHeight), index, 3);
-    }
-
-    void DrawSubQuantity(SerializedProperty quantities, string propertyRelative, Rect rect, int index, int subIndex) {
-        SerializedProperty subQuant = quantities.FindPropertyRelative(propertyRelative);
-        SerializedProperty type = subQuant.FindPropertyRelative("spawnType");
-        SerializedProperty spawnCount = subQuant.FindPropertyRelative("spawnCount");
-        string name = ((SpawnType)type.enumValueIndex).ToString();
-
-        spawnCount.intValue = EditorGUI.IntField(rect, name, spawnCount.intValue);
-
-        //spawnSubQuantitiesFoldouts[index][subIndex] = EditorGUI.Foldout(rect, spawnSubQuantitiesFoldouts[index][subIndex], name, true);
-        //if (spawnSubQuantitiesFoldouts[index][subIndex]) {
-        //    EditorGUI.indentLevel++;
-        //    //EditorGUI.PropertyField(rect.AddPosition(0, LineHeight), type);
-        //    EditorGUI.PropertyField(rect.AddPosition(0, LineHeight), spawnCount);
-        //    EditorGUI.indentLevel--;
-        //}
-    }
-
-    float HeightCallback(int index) {
-        
-        Repaint();
-        float height = LineHeight + 5;
-        waveFoldouts.AddUntil(index);
-        spawnQuantitiesFoldouts.AddUntil(index);
-        if (waveFoldouts[index]) {
-            int lineCount = 6;
-            height += lineCount * LineHeight;
-            if (spawnQuantitiesFoldouts[index]) {
-                int itemCount = numEnemies;
-                height += itemCount * LineHeight;
-                //spawnSubQuantitiesFoldouts.AddNewUntil(index);
-                //spawnSubQuantitiesFoldouts[index].AddUntil(numEnemies);
-                //height += spawnSubQuantitiesFoldouts[index].FindAll(item => true).Count * LineHeight;
-            }
-            if (manualEdits.boolValue) {
-                height -= LineHeight;
-            }
-        }
-
-
-        return height;
-        
-    }
 
     void AdjustWaveIntensity(bool useCurve, bool useManualEdits)
     {
+        float normalizedTime = (float)1 / (wavesList.Count + 1);
+
         for (int i = 0; i < wavesList.Count; i++)
         {
 
-            float normalizedTime = (float)i / (wavesList.Count - 1);
             float intensity = useCurve ? intensityCurve.animationCurveValue.Evaluate(normalizedTime) : wavesList[i].Intensity;
 
             if (!useManualEdits)
             {
-                wavesList[i].Intensity = intensity;                
+                wavesList[i].Intensity = intensity;
+
+                for(int j = 0; j < wavesList[i].monsterList.Count; j++)
+                {
+                    int number = useCurve ? (int)(intensityCurve.animationCurveValue.Evaluate(normalizedTime) * 10.0f) : wavesList[i].monsterList[j].Count;
+                    wavesList[i].monsterList[j].Count = number;
+                }
             }
+
+            normalizedTime += normalizedTime;
         }
     }
-
-    void AdjustWaveRangeProperties() {
-        for (int i = 0; i < wavesList.Count; i++) {
-            wavesList[i].totalNumSpawns.minLimit = spawnRange.FindPropertyRelative("min").intValue;
-            wavesList[i].totalNumSpawns.maxLimit = spawnRange.FindPropertyRelative("max").intValue;
-            wavesList[i].spawnOffset = Mathf.RoundToInt(spawnRange.FindPropertyRelative("rangeSize").intValue/2);
-
-            wavesList[i].spawningTime.minLimit = spawnTimeRange.FindPropertyRelative("min").floatValue;
-            wavesList[i].spawningTime.maxLimit = spawnTimeRange.FindPropertyRelative("max").floatValue;
-            wavesList[i].spawnTimeOffset = spawnTimeRange.FindPropertyRelative("rangeSize").floatValue/2;
-        }
-    }
-   
 }
