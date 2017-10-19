@@ -77,11 +77,25 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
 
 
     #region Unity Lifecycle
+    private void OnEnable()
+    {
+        
+    }
+
+    private void OnDisable()
+    {
+        if (EventSystem.Instance)
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_STARTED, OnLevelStarted);
+    }
 
 
     // Use this for initialization
     void Start()
     {
+        EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_STARTED, OnLevelStarted);
+
+
+
         quitGameDictionary = new Dictionary<string, object>();
         quitGameDictionary.Add("armL", "null");
         quitGameDictionary.Add("armR", "null");
@@ -99,7 +113,7 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         playerDeathDictionary.Add("legs", "null");
         playerDeathDictionary.Add("averageHP", 0);
 
-        
+
         modTimeDictionary = new Dictionary<string, object>();
         modRatioDictionary = new Dictionary<string, object>();
         modDamageDictionary = new Dictionary<string, object>();
@@ -130,10 +144,11 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         buttonPressesDictionary.Add("skin", 0f);
     }
 
-//#if !UNITY_EDITOR
+    //#if !UNITY_EDITOR
     // Update is called once per frame
     void Update()
     {
+        /*
         timer += Time.deltaTime;
         totalTime += Time.deltaTime;
 
@@ -142,12 +157,13 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
             playerHealthTicks++;
             timer = 0;
 
-            UpdatePlayerHealthTotal();            
+            UpdatePlayerHealthTotal();
             UpdateModTimes();
-            
+
         }
-                
-        UpdateButtonPresses();        
+
+        UpdateButtonPresses();
+        */
 
         /*
         if (Input.GetKeyDown(KeyCode.P))
@@ -155,14 +171,15 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
             WriteOutToTextFile();
         }
         */
-}
+    }
     //#endif
 
     private void OnApplicationQuit()
     {
 
-        FormatDictionaries();
+        // FormatDictionaries();
 
+        /*
 #if !UNITY_EDITOR
         if (sendData)
         {
@@ -179,11 +196,23 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
             Analytics.CustomEvent("modKills", modKillsDictionary);
         }
 #endif
+*/
 
     }
-#endregion
+    #endregion
 
-#region Public Methods
+    #region Public Methods
+    public void StartLevel(string level, string leftArm, string rightArm)
+    {
+        Dictionary<string, object> startLevelDictionary = new Dictionary<string, object>();
+        startLevelDictionary.Add("level", level);
+        startLevelDictionary.Add("leftArm", leftArm);
+        startLevelDictionary.Add("rightArm", rightArm);
+
+        Analytics.CustomEvent(Strings.Events.LEVEL_STARTED, startLevelDictionary);
+    }
+
+
     public void FormatPlayerModsInDictionary(ref Dictionary<string, object> dict)
     {
         if (manager != null)
@@ -214,14 +243,14 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
             //}
             //else
             //{
-                dict["legs"] = "null";
+            dict["legs"] = "null";
             //}
         }
     }
 
     public void SwapMods()
     {
-        quitGameDictionary["swaps"] = (float) quitGameDictionary["swaps"] + 1f;
+        quitGameDictionary["swaps"] = (float)quitGameDictionary["swaps"] + 1f;
     }
 
     public void DropMod()
@@ -278,7 +307,7 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
 
     public void AddModDamage(ModType modType, float damage)
     {
-        modDamageDictionary[modType.ToString()] = (float) modDamageDictionary[modType.ToString()] + damage;
+        modDamageDictionary[modType.ToString()] = (float)modDamageDictionary[modType.ToString()] + damage;
     }
 
     public void AddEnemyModDamage(ModType modType, float damage)
@@ -304,6 +333,10 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
     #endregion
 
     #region Private Methods
+    private void OnLevelStarted(params object[] parameters)
+    {
+        StartLevel(parameters[0] as string, parameters[1] as string, parameters[2] as string);
+    }
 
     private void FormatDictionaries()
     {
@@ -398,35 +431,42 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
 
     private void UpdatePlayerHealthTotal()
     {
-        if (playerStats!=null) {
+        if (playerStats != null)
+        {
             playerHealthTotal += playerStats.GetStat(CharacterStatType.Health);
         }
     }
 
     private void UpdateButtonPresses()
     {
-        if (manager != null) {
+        if (manager != null)
+        {
             Dictionary<ModSpot, ModManager.ModSocket> modSocketDictionary = manager.GetModSpotDictionary();
 
-            if (InputManager.Instance.QueryAction(Strings.Input.Actions.FIRE_LEFT, ButtonMode.DOWN)) {
+            if (InputManager.Instance.QueryAction(Strings.Input.Actions.FIRE_LEFT, ButtonMode.DOWN))
+            {
                 buttonPressesDictionary["armL"] = (float)buttonPressesDictionary["armL"] + 1f;
 
-                if (modSocketDictionary[ModSpot.ArmL].mod != null) {
+                if (modSocketDictionary[ModSpot.ArmL].mod != null)
+                {
                     string modTypeToString = modSocketDictionary[ModSpot.ArmL].mod.getModType().ToString();
                     modArmLPressesDictionary[modTypeToString] = (float)modArmLPressesDictionary[modTypeToString] + 1f;
                 }
             }
 
-            if (InputManager.Instance.QueryAction(Strings.Input.Actions.FIRE_RIGHT, ButtonMode.DOWN)) {
+            if (InputManager.Instance.QueryAction(Strings.Input.Actions.FIRE_RIGHT, ButtonMode.DOWN))
+            {
                 buttonPressesDictionary["armR"] = (float)buttonPressesDictionary["armR"] + 1f;
 
-                if (modSocketDictionary[ModSpot.ArmR].mod != null) {
+                if (modSocketDictionary[ModSpot.ArmR].mod != null)
+                {
                     string modTypeToString = modSocketDictionary[ModSpot.ArmR].mod.getModType().ToString();
                     modArmRPressesDictionary[modTypeToString] = (float)modArmRPressesDictionary[modTypeToString] + 1f;
                 }
             }
 
-            if (InputManager.Instance.QueryAction(Strings.Input.Actions.DODGE, ButtonMode.DOWN)) {
+            if (InputManager.Instance.QueryAction(Strings.Input.Actions.DODGE, ButtonMode.DOWN))
+            {
                 buttonPressesDictionary["dodge"] = (float)buttonPressesDictionary["dodge"] + 1f;
             }
 
@@ -438,7 +478,8 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
 
     private void UpdateModTimes()
     {
-        if (manager!=null) {
+        if (manager != null)
+        {
             Dictionary<ModSpot, ModManager.ModSocket> modSpotDictionary = manager.GetModSpotDictionary();
             List<ModType> equippedMods = new List<ModType>();
 
@@ -465,13 +506,13 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
 
             foreach (ModType m in equippedMods)
             {
-                modTimeDictionary[m.ToString()] = (float) modTimeDictionary[m.ToString()] + timeBetweenTicks;
+                modTimeDictionary[m.ToString()] = (float)modTimeDictionary[m.ToString()] + timeBetweenTicks;
             }
         }
     }
-#endregion
+    #endregion
 
-#region Private Structures
-#endregion
+    #region Private Structures
+    #endregion
 
 }
