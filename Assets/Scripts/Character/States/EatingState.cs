@@ -15,7 +15,7 @@ public class EatingState : IPlayerState
     private void Start()
     {        
         EventSystem.Instance.RegisterEvent(Strings.Events.FACE_OPEN, DoArmExtension);
-        EventSystem.Instance.RegisterEvent(Strings.Events.ARM_EXTENDED, DoSkinning);
+        EventSystem.Instance.RegisterEvent(Strings.Events.ARM_EXTENDED, CaptureEnemy);
         EventSystem.Instance.RegisterEvent(Strings.Events.ARM_ANIMATION_COMPLETE, EndState);
     }
 
@@ -60,7 +60,7 @@ public class EatingState : IPlayerState
     {
         if (EventSystem.Instance) {
             EventSystem.Instance.UnRegisterEvent(Strings.Events.FACE_OPEN, DoArmExtension);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.ARM_EXTENDED, DoSkinning);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.ARM_EXTENDED, CaptureEnemy);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.ARM_ANIMATION_COMPLETE, EndState);
         }
     }
@@ -78,12 +78,21 @@ public class EatingState : IPlayerState
 
 
     private void DoArmExtension(params object[] parameters)
-    {
-        //stateVariables.animator.SetLayerWeight((int)PlayerAnimationLayers.SkinningLayer, 0);
+    {        
         stateVariables.clawAnimator.SetBool(Strings.ANIMATIONSTATE, true);
     }
 
-    private void DoSkinning(params object[] parameters)
+    private void CaptureEnemy(params object[] parameters)
+    {
+        if (stateVariables.skinTargetEnemy.activeSelf)
+        {
+            Transform clawTransform = parameters[0] as Transform;
+            stateVariables.skinTargetEnemy.transform.SetParent(clawTransform);
+            stateVariables.skinTargetEnemy.transform.localPosition = Vector3.zero;
+        }
+    }
+
+    private void DoSkinning()
     {
         //Check if enemy is still alive
         if (stateVariables.skinTargetEnemy.activeSelf)
@@ -107,6 +116,7 @@ public class EatingState : IPlayerState
 
     private void EndState(params object[] parameters)
     {
+        DoSkinning();
         ResetState();
     }
     #endregion
