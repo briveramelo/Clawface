@@ -25,15 +25,12 @@ public class DashState : IPlayerState {
     [SerializeField]
     protected int[] highlightPoses;
     [SerializeField]
-    protected int totalAttackPoses;    
-    [SerializeField] private float skinRadius;
-    [SerializeField] private SkinningState skinningState;
+    protected int totalAttackPoses;
     #endregion
 
     #region Private Fields
     private int currentFrame;
-    private int currentPose;    
-    private bool startSkinning;
+    private int currentPose;
     #endregion
 
     #region Unity Lifecycle  
@@ -41,40 +38,26 @@ public class DashState : IPlayerState {
     // Use this for initialization
     public override void Init(ref PlayerStateManager.StateVariables stateVariables)
     {
-        this.stateVariables = stateVariables;
-        skinningState.Init(ref stateVariables);
+        this.stateVariables = stateVariables;        
         currentFrame = 0;
         currentPose = 0;
     }
 
     public override void StateFixedUpdate()
     {
-        if (!startSkinning)
+        if (currentFrame == 0)
         {
-            if (currentFrame == 0)
-            {
-                SFXManager.Instance.Play(SFXType.Dash, transform.position);
-                dashPuff.Play();
-                dashTrail.GetComponent<TrailRenderer>().enabled = true;
-            }
-            currentFrame++;
-            PlayAnimation();
-            CheckForIFrames();
-            MovePlayer();
-            CheckForSkinnableEnemy();
-            if (currentFrame == totalDashFrames)
-            {
-                ResetState();
-            }
+            SFXManager.Instance.Play(SFXType.Dash, transform.position);
+            dashPuff.Play();
+            dashTrail.GetComponent<TrailRenderer>().enabled = true;
         }
-        else
+        currentFrame++;
+        PlayAnimation();
+        CheckForIFrames();
+        MovePlayer();
+        if (currentFrame == totalDashFrames)
         {
-            stateVariables.velBody.velocity = Vector3.zero;
-            skinningState.StateFixedUpdate();
-            if (stateVariables.stateFinished)
-            {
-                ResetState();
-            }
+            ResetState();
         }
     }
 
@@ -89,7 +72,6 @@ public class DashState : IPlayerState {
     {        
         currentFrame = 0;
         currentPose = 0;
-        startSkinning = false;
         stateVariables.statsManager.damageModifier = 1.0f;
         if (stateVariables.velBody.GetMovementMode()==MovementMode.ICE) {
             stateVariables.velBody.velocity = stateVariables.velBody.GetForward() * dashVelocity/10f;
@@ -127,44 +109,6 @@ public class DashState : IPlayerState {
         Vector3 direction = stateVariables.velBody.MoveDirection;
         direction.y = 0f;
         stateVariables.velBody.velocity = direction * dashVelocity;
-    }
-    
-    private void CheckForSkinnableEnemy()
-    {
-        GameObject potentialSkinnableEnemy = GetClosestEnemy();
-        if (potentialSkinnableEnemy)
-        {
-            ISkinnable skinnable = potentialSkinnableEnemy.GetComponent<ISkinnable>();
-            if (skinnable != null && skinnable.IsSkinnable())
-            {
-                stateVariables.skinTargetEnemy = potentialSkinnableEnemy;
-                startSkinning = true;
-            }
-        }
-    }
-
-    private GameObject GetClosestEnemy()
-    {
-        Collider[] enemies = Physics.OverlapSphere(transform.position, skinRadius, LayerMask.GetMask(Strings.Tags.ENEMY));
-        if (enemies != null)
-        {
-            Collider closestEnemy = null;
-            float closestDistance = Mathf.Infinity;
-            foreach (Collider enemy in enemies)
-            {
-                float distance = Vector3.Distance(enemy.ClosestPoint(transform.position), transform.position);
-                if (closestDistance > distance)
-                {
-                    closestDistance = distance;
-                    closestEnemy = enemy;
-                }
-            }
-            if (closestEnemy != null)
-            {
-                return closestEnemy.gameObject;
-            }
-        }
-        return null;
     }
     #endregion
 

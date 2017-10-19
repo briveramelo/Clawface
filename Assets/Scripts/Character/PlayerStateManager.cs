@@ -21,6 +21,9 @@ public class PlayerStateManager : MonoBehaviour {
     private DashState dashState;
     [SerializeField]
     private float dashCoolDown;
+
+    [SerializeField] private SkinningState skinningState;
+    [SerializeField] private float skinRadius;
     #endregion
 
     #region Private Fields
@@ -40,6 +43,7 @@ public class PlayerStateManager : MonoBehaviour {
         stateVariables.defaultState = defaultState;
         defaultState.Init(ref stateVariables);
         dashState.Init(ref stateVariables);
+        skinningState.Init(ref stateVariables);
         movementState = defaultState;
         playerStates = new List<IPlayerState>(){ defaultState};
     }
@@ -60,6 +64,12 @@ public class PlayerStateManager : MonoBehaviour {
             SwitchState(dashState);
             canDash = false;
             StartCoroutine(WaitForDashCoolDown());
+        }else if(InputManager.Instance.QueryAction(Strings.Input.Actions.EAT, ButtonMode.DOWN))
+        {
+            if (CheckForSkinnableEnemy())
+            {
+                SwitchState(skinningState);
+            }
         }
         playerStates.ForEach(state=>state.StateFixedUpdate());
     }
@@ -102,6 +112,45 @@ public class PlayerStateManager : MonoBehaviour {
         }
         yield return new WaitForSeconds(dashCoolDown);
         canDash = true;        
+    }
+
+    private bool CheckForSkinnableEnemy()
+    {
+        GameObject potentialSkinnableEnemy = GetClosestEnemy();
+        if (potentialSkinnableEnemy)
+        {
+            ISkinnable skinnable = potentialSkinnableEnemy.GetComponent<ISkinnable>();
+            if (skinnable != null && skinnable.IsSkinnable())
+            {
+                stateVariables.skinTargetEnemy = potentialSkinnableEnemy;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private GameObject GetClosestEnemy()
+    {
+        Collider[] enemies = Physics.OverlapSphere(transform.position, skinRadius, LayerMask.GetMask(Strings.Tags.ENEMY));
+        if (enemies != null)
+        {
+            Collider closestEnemy = null;
+            float closestDistance = Mathf.Infinity;
+            foreach (Collider enemy in enemies)
+            {
+                float distance = Vector3.Distance(enemy.ClosestPoint(transform.position), transform.position);
+                if (closestDistance > distance)
+                {
+                    closestDistance = distance;
+                    closestEnemy = enemy;
+                }
+            }
+            if (closestEnemy != null)
+            {
+                return closestEnemy.gameObject;
+            }
+        }
+        return null;
     }
     #endregion
 
