@@ -5,7 +5,7 @@ using UnityEngine;
 using Turing.VFX;
 using ModMan;
 
-[RequireComponent(typeof(SkinningState))]
+[RequireComponent(typeof(EatingState))]
 public class DashState : IPlayerState {
 
     #region Serialized Unity Inspector fields
@@ -62,6 +62,11 @@ public class DashState : IPlayerState {
     }
 
     public override void StateUpdate()
+    {
+
+    }
+
+    public override void StateLateUpdate()
     {
         
     }

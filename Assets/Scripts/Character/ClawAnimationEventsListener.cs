@@ -12,5 +12,10 @@ public class ClawAnimationEventsListener : MonoBehaviour {
     {
         Assert.IsTrue(EventSystem.Instance.TriggerEvent(Strings.Events.ARM_EXTENDED));
     }
+
+    public void AnimationCompleted()
+    {
+        Assert.IsTrue(EventSystem.Instance.TriggerEvent(Strings.Events.ARM_ANIMATION_COMPLETE));
+    }
     #endregion
 }
