@@ -16,7 +16,7 @@ public class ObjectsTools : EditorWindow
 	int activeToolbar = 0;
 	int lastActiveToolbar = 0;
 
-    string[] toolbarStrings = new string[] {"Add", "Duplicate", "Replace", "Save"};
+    string[] toolbarStrings = new string[] {"Add", "Duplicate", "Replace", "Init"};
 
     GameObject projectActiveSelection;
 	GameObject sceneActiveSelection;
@@ -63,7 +63,7 @@ public class ObjectsTools : EditorWindow
 				HandleUtility.AddDefaultControl (GUIUtility.GetControlID (GetHashCode (), FocusType.Passive));
 			}
             OET_add.lib.sceneGUI ();
-            OET_grid.lib.sceneGUI();
+//            OET_grid.lib.sceneGUI();
 		}
 
         // Clone
