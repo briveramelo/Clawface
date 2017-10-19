@@ -8,58 +8,43 @@ namespace OET_duplicate
 {
 	public class lib : MonoBehaviour
     {
-		public static GameObject[] sceneSelection;
+        public static lib _instance;
+
+        public static GameObject[] sceneSelection;
 		public static Vector2 scrollPosition = Vector2.zero;
 
 		public static Vector3 handle_v3;
 		public static GameObject sceneActiveSelection;
 
-        public static bool _x = true;
-        public static bool _z = true;
+        public static bool _x_selected = true;
+        public static bool _y_selected = true;
+        public static bool _z_selected = true;
+
+        public static bool needUpdateHandle = false;
 
         public static Vector3[] clones;
 
-		public static void sceneGUI ()
+        public static void sceneGUI ()
         {
 			if (sceneActiveSelection != null && sceneSelection.Length == 1)
             {
 				handle_v3 = Handles.PositionHandle(handle_v3, Quaternion.identity);
 
-                handle_v3.y = sceneActiveSelection.transform.position.y;
-                handle_v3.z = sceneActiveSelection.transform.position.z;
-      
-				Vector3 d = handle_v3 - sceneActiveSelection.transform.position;
+                DrawBox();
 
-				int count = (int)(d.x / 5.0f);
-                clones = new Vector3[Mathf.Abs((int)count)];
-
-                if (count > 0)
-                {
-                    for (int i = 1; i < count; i++)
-                    {
-                        Vector3 tmp = new Vector3(5 * i, 0, 0);
-                        clones[i] = tmp;
-                        OET_lib.ToolLib.draft(sceneActiveSelection, tmp, Color.yellow);
-                    }
-                }
-                else
-                {
-                    for (int i = count; i < 0; i++)
-                    {
-                        Vector3 tmp = new Vector3(5 * i, 0, 0);
-                        clones[Mathf.Abs(i) - 1] = tmp;
-                        OET_lib.ToolLib.draft(sceneActiveSelection, tmp, Color.yellow);
-                    }
-                }
-
-				Handles.color = Color.green;
+                Handles.color = Color.green;
 				Handles.DrawDottedLine (handle_v3, sceneActiveSelection.transform.position, 5);
 			}
 		}
 
 		public static void renderGUI(int vpos, GameObject[] get_sceneSelection, GameObject get_sceneActiveSelection)
 		{
-			if(get_sceneActiveSelection && sceneActiveSelection != get_sceneActiveSelection) handle_v3 = get_sceneActiveSelection.transform.position + new Vector3(10,0,0);
+
+            if (get_sceneActiveSelection && sceneActiveSelection != get_sceneActiveSelection)
+            {
+                handle_v3 = get_sceneActiveSelection.transform.position + new Vector3(10, 0, 0);
+            }
+
 			sceneSelection = get_sceneSelection;
 
 			int width = Screen.width;
@@ -110,29 +95,91 @@ namespace OET_duplicate
                 OET_lib.ToolLib.alertBox ("Duplicate", "Select an object in the hierarchy to enable this tool.");
 			}
 
-            GUI.Label(new Rect(10, vpos, 150, 20), "x");
-            _x = GUI.Toggle(new Rect(160, vpos, 50, 20), _x, "");
-            vpos += 20;
 
-            GUI.Label(new Rect(10, vpos, 150, 20), "z");
-            _z = GUI.Toggle(new Rect(160, vpos, 50, 20), _z, "");
-            vpos += 20;
+            if (GUI.Button(new Rect(15, vpos, 100, 25), "X-axis"))
+            {
+                _x_selected = true;
+                _y_selected = false;
+                _z_selected = false;
+                UpdateHandle();
+            }
 
-            _UI();
+            vpos += 40;
+
+            if (GUI.Button(new Rect(15, vpos, 100, 25), "Y-axis"))
+            {
+                _x_selected = false;
+                _y_selected = true;
+                _z_selected = false;
+                UpdateHandle();
+            }
+
+            vpos += 40;
+
+            if (GUI.Button(new Rect(15, vpos, 100, 25), "Z-axis"))
+            {
+                _x_selected = false;
+                _y_selected = false;
+                _z_selected = true;
+                UpdateHandle();
+            }
+
+            vpos += 40;
         }
-
-
-        static void _UI()
+            
+        static void DrawBox()
         {
-            if(_x)
+            if(_x_selected)
             {
-                _z = false;
+                handle_v3.y = sceneActiveSelection.transform.position.y;
+                handle_v3.z = sceneActiveSelection.transform.position.z;
             }
-            else if(_z)
+
+            if (_y_selected)
             {
-                _x = false;
+                handle_v3.x = sceneActiveSelection.transform.position.x;
+                handle_v3.z = sceneActiveSelection.transform.position.z;
+            }
+
+            if (_z_selected)
+            {
+                handle_v3.x = sceneActiveSelection.transform.position.x;
+                handle_v3.y = sceneActiveSelection.transform.position.y;
+            }
+
+
+            Vector3 d = handle_v3 - sceneActiveSelection.transform.position;
+
+            float distance = _x_selected ? d.x : _y_selected ? d.y : d.z;
+
+            int count = Mathf.Abs((int)(distance / 5.0f));
+
+            clones = new Vector3[count];
+
+            for (int i = 1; i <= count; i++)
+            {
+                Vector3 new_position;
+
+                if(distance > 0)
+                {
+                    new_position = _x_selected ? new Vector3(5 * i, 0, 0) : _y_selected ? new Vector3(0, 5 * i, 0) : new Vector3(0, 0, 5 * i);
+                }
+                else
+                {
+                    new_position = _x_selected ? new Vector3(-5 * i, 0, 0) : _y_selected ? new Vector3(0, -5 * i, 0) : new Vector3(0, 0, -5 * i);
+                }
+
+                 clones[i - 1] = new_position;
+                OET_lib.ToolLib.draft(sceneActiveSelection, new_position, Color.yellow);
             }
         }
+
+        static void UpdateHandle()
+        {
+            Vector3 d = _x_selected ? new Vector3(10, 0, 0) : _y_selected ? new Vector3(0, 10, 0) : new Vector3(0, 0, 10);
+            handle_v3 = sceneActiveSelection.transform.position + d;
+        }
+
 	}
 }
 

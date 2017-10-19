@@ -31,7 +31,7 @@ public class ObjectsTools : EditorWindow
 		window.titleContent = new GUIContent("Objects Tools");
 		window.Show();
 		window.minSize = new Vector2 (600f, 120f);
-	}
+    }
 
 	void OnInspectorUpdate()
     {
