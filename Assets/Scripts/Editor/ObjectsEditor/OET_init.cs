@@ -5,7 +5,7 @@ using UnityEngine;
 using OET_grid;
 
 
-namespace OET_save
+namespace OET_init
 {
     public class lib : MonoBehaviour
     {

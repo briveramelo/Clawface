@@ -125,6 +125,13 @@ namespace OET_add
             float Grid_x = Mathf.Floor((mousePositionInScene.x + width  / 2) / width)  * width;
             float Grid_z = Mathf.Floor((mousePositionInScene.z + height / 2) / height) * height;
 
+            RaycastHit hit;
+
+            if (Physics.Raycast(new Vector3(Grid_x, 1000.0f, Grid_z), Vector3.down, out hit))
+            {
+                return new Vector3(Grid_x, hit.point.y, Grid_z);
+            }
+
             return new Vector3(Grid_x, mousePositionInScene.y, Grid_z);
         }
 	}
