@@ -20,6 +20,12 @@ namespace Turing.VFX
         [Tooltip("Reference to the player's material instance.")]
         [SerializeField] Material playerMaterial;
 
+        /// <summary>
+        /// Reference to the player's mesh renderer.
+        /// </summary>
+        [Tooltip("Reference to the player's mesh renderer.")]
+        [SerializeField] SkinnedMeshRenderer playerRenderer;
+
         [Header("Idle State Settings")]
 
         /// <summary>
@@ -84,6 +90,11 @@ namespace Turing.VFX
         #region Private Fields
 
         /// <summary>
+        /// Instantiated material (so that template material isn't changed).
+        /// </summary>
+        Material material;
+
+        /// <summary>
         /// Current emotional state of the player.
         /// </summary>
         Emotion emotion = Emotion.Idle;
@@ -93,9 +104,15 @@ namespace Turing.VFX
 
         void Awake ()
         {
+            // Instantiate material
+            material = Instantiate (playerMaterial) as Material;
+            material.CopyPropertiesFromMaterial (playerMaterial);
+            playerRenderer.material = material;
+
+            // Set initial emotion
             SetEmotion (emotion);
 
-            // Start main face coroutine.
+            // Start main face coroutine
             StartCoroutine (FaceCoroutine());
         }
 
@@ -105,7 +122,6 @@ namespace Turing.VFX
         /// <summary>
         /// Sets the emotional state of the character.
         /// </summary>
-        /// <param name="emotion"></param>
         public void SetEmotion (Emotion emotion)
         {
             // Interrupt all face coroutines
@@ -180,12 +196,11 @@ namespace Turing.VFX
         /// </summary>
         void SetFacialExpression (Texture2D face)
         {
- 
+            material.SetTexture ("_FaceTexture", face);
         }
 
         public void SetTemporaryEmotion (Emotion emotion, float time)
         {
-            //Debug.Log (emotion);
             SetEmotion (emotion);
             StartCoroutine (DoTemporaryEmotion(time));
         }
@@ -195,7 +210,7 @@ namespace Turing.VFX
         /// </summary>
         void SetFacialColor (Color color)
         {
-            playerMaterial.SetColor ("_FaceColor", color);
+            material.SetColor ("_FaceColor", color);
         }
 
         #endregion
