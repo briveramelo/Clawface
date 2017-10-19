@@ -15,7 +15,6 @@
     }
 
     public static class Scenes {
-        //public static string Level1 = "Scenes/EAE_Level1.1";//Gucci_V1.2";
         public static string MainMenu = "Scenes/Build Scenes/MainMenu";
         //public static string Arena = "Scenes/Build Scenes/Gucci_V1.2";
         public static string Arena = "Scenes/Build Scenes/Arena 1";
@@ -33,12 +32,12 @@
         public static string MAIN = "MainMenu";
         public static string CREDITS = "CreditsMenu";
         public static string LOAD = "LoadMenu";
-        public static string LOGO = "LogoMenu";
         public static string PAUSE = "PauseMenu";
-        public static string FADE = "FadeMenu";
         public static string TUTORIAL = "TutorialMenu";
         public static string STAGE_OVER = "StageOverMenu";
         public static string SETTINGS = "Settings";
+        public static string LEVEL_SELECT = "LevelSelect";
+        public static string WEAPON_SELECT = "WeaponSelect";
     }
 
     public static class Input
@@ -56,6 +55,14 @@
             public const string PAUSE = "Pause";
             public const string SKIN = "Skin";
             public const string DODGE = "Dodge";
+        }
+
+        public static class UI
+        {
+            public const string HORIZONTAL = "UIHorizontal";
+            public const string VERTICAL = "UIVertical";
+            public const string SUBMIT = "UISubmit";
+            public const string CANCEL = "UICancel";
         }
     }
 
