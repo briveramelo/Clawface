@@ -102,9 +102,9 @@ namespace OET_duplicate
             int count_y = Mathf.Abs((int)(dy / 5.0f));
             int count_z = Mathf.Abs((int)(dz / 5.0f));
 
-            int factor_x = dx > 0 ? 1 : -1;
-            int factor_y = dy > 0 ? 1 : -1;
-            int factor_z = dz > 0 ? 1 : -1;
+            float factor_x = dx > 0 ? OET_grid.lib.size_x : -OET_grid.lib.size_x;
+            float factor_y = dy > 0 ? OET_grid.lib.size_y : -OET_grid.lib.size_y;
+            float factor_z = dz > 0 ? OET_grid.lib.size_z : -OET_grid.lib.size_z;
 
 
             for (int i = 0; i <= count_x; i++)
@@ -117,9 +117,7 @@ namespace OET_duplicate
 
                         Vector3 new_position;
 
-                        new_position = new Vector3(factor_x * i * OET_grid.lib.size_x,
-                                                   factor_y * j * OET_grid.lib.size_y,
-                                                   factor_z * k * OET_grid.lib.size_z);
+                        new_position = new Vector3(factor_x * i, factor_y * j, factor_z * k);
 
                         positions.Add(new_position);
 
