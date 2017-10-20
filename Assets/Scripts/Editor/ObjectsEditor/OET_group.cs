@@ -18,42 +18,49 @@ namespace OET_group
 
             if (sceneSelection != null)
             {
-                vpos += OET_lib.ToolLib.header("<b>Group Objects</b>\nGroup selected objects under a newly created game object.", vpos, true);
-
-                if (width < 300)
+                if (sceneSelection.Length != 1)
                 {
-                    GUI.Label(new Rect(10, vpos, width - 20, 20), "Group name");
-                    vpos += 15;
-                    groupName = GUI.TextField(new Rect(10, vpos, width - 20, 20), groupName, 25);
+                    OET_lib.ToolLib.alertBox("Duplicate", "Select one single object in the hierarchy to enable this tool. Multiple objects are currently selected.");
                 }
                 else
                 {
-                    GUI.Label(new Rect(10, vpos, width / 3, 20), "Group name");
-                    groupName = GUI.TextField(new Rect(width / 3 + 10, vpos, width - width / 3 - 20, 20), groupName, 25);
-                }
+                    vpos += OET_lib.ToolLib.header("<b>Group Objects</b>\nGroup selected objects under a newly created game object.", vpos, true);
 
-                vpos += 30;//height - vpos - 65 > 0 ? 40 : height - vpos - 65;
-
-                // GROUP
-                int btWidth = width < 160 ? width - 20 : 160;
-                if (GUI.Button(new Rect(width / 2 - btWidth / 2, vpos, btWidth, 25), "Group"))
-                {
-                    GameObject goGroup = new GameObject(groupName);
-                    goGroup.transform.parent = Selection.activeGameObject.transform.parent;
-                    Undo.RegisterCreatedObjectUndo(goGroup, "Group objects");
-
-                    foreach (GameObject _obj in Selection.gameObjects)
+                    if (width < 300)
                     {
-                        // Only direct children to preserve hierarchy
-                        if (_obj.transform.parent == goGroup.transform.parent)
-                        {
-                            Undo.SetTransformParent(_obj.transform, goGroup.transform, "Group objects");
-                        }
+                        GUI.Label(new Rect(10, vpos, width - 20, 20), "Group name");
+                        vpos += 15;
+                        groupName = GUI.TextField(new Rect(10, vpos, width - 20, 20), groupName, 25);
+                    }
+                    else
+                    {
+                        GUI.Label(new Rect(10, vpos, width / 3, 20), "Group name");
+                        groupName = GUI.TextField(new Rect(width / 3 + 10, vpos, width - width / 3 - 20, 20), groupName, 25);
                     }
 
-                    var theParent = new List<GameObject>(1);
-                    theParent.Add(goGroup);
-                    Selection.objects = theParent.ToArray();
+                    vpos += 30;//height - vpos - 65 > 0 ? 40 : height - vpos - 65;
+
+                    // GROUP
+                    int btWidth = width < 160 ? width - 20 : 160;
+                    if (GUI.Button(new Rect(width / 2 - btWidth / 2, vpos, btWidth, 25), "Group"))
+                    {
+                        GameObject goGroup = new GameObject(groupName);
+                        goGroup.transform.parent = Selection.activeGameObject.transform.parent;
+                        Undo.RegisterCreatedObjectUndo(goGroup, "Group objects");
+
+                        foreach (GameObject _obj in Selection.gameObjects)
+                        {
+                            // Only direct children to preserve hierarchy
+                            if (_obj.transform.parent == goGroup.transform.parent)
+                            {
+                                Undo.SetTransformParent(_obj.transform, goGroup.transform, "Group objects");
+                            }
+                        }
+
+                        var theParent = new List<GameObject>(1);
+                        theParent.Add(goGroup);
+                        Selection.objects = theParent.ToArray();
+                    }
                 }
             }
             else

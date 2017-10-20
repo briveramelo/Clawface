@@ -37,7 +37,7 @@ namespace OET_init
                 {
                     for(int j = -Num_z; j <= Num_z; j++)
                     {
-                        GameObject _instance = Instantiate(_prefab, new Vector3(i * OET_grid.lib.size_X, 0, j * OET_grid.lib.size_Z), Quaternion.identity);
+                        GameObject _instance = Instantiate(_prefab, new Vector3(i * OET_grid.lib.size_x, 0, j * OET_grid.lib.size_z), Quaternion.identity);
          
                         _instance.transform.SetParent(_platform.transform);
                     }

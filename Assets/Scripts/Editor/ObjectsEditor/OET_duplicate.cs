@@ -3,44 +3,29 @@ using UnityEditor;
 using System.Collections;
 using System.Collections.Generic;
 using OET_lib;
+using OET_grid;
 
 namespace OET_duplicate
 {
 	public class lib : MonoBehaviour
     {
-        public static lib _instance;
-
-        public static GameObject[] sceneSelection;
-		public static Vector2 scrollPosition = Vector2.zero;
-
-		public static Vector3 handle_v3;
-		public static GameObject sceneActiveSelection;
-
-        public static bool _x_selected = true;
-        public static bool _y_selected = true;
-        public static bool _z_selected = true;
-
-        public static bool needUpdateHandle = false;
+        public static GameObject[]  sceneSelection;
+        public static GameObject    sceneActiveSelection;
 
         public static Vector3[] clones;
+        public static Vector3   handle_v3;
 
         public static void sceneGUI ()
         {
             handle_v3 = Handles.PositionHandle(handle_v3, Quaternion.identity);
 
-            if (sceneSelection != null)
+            if (sceneActiveSelection != null && sceneSelection.Length == 1)
             {
-                foreach(GameObject _obj in sceneSelection)
-                {
-                    if(_obj != null)
-                    {
-                        DrawBox(_obj);
-                        Handles.color = Color.green;
-                        Handles.DrawDottedLine(handle_v3, _obj.transform.position, 5);
-                    }
-                }
-			}
-		}
+                DrawBox();
+                Handles.color = Color.green;
+                Handles.DrawDottedLine(handle_v3, sceneActiveSelection.transform.position, 5);
+            }
+        }
 
 		public static void renderGUI(int vpos, GameObject[] get_sceneSelection, GameObject get_sceneActiveSelection)
 		{
@@ -55,135 +40,96 @@ namespace OET_duplicate
 			int width = Screen.width;
 			sceneActiveSelection = get_sceneActiveSelection;
 
-			if (sceneSelection != null)
+			if (get_sceneActiveSelection != null)
             {
-
-                vpos += OET_lib.ToolLib.header("<b>Duplicate</b>\nDuplicate the selected object in the scene.", vpos, false);
-
-                float btWidth = width < 160 ? width - 20 : 160;
-
-                if (GUI.Button(new Rect(width / 2 - btWidth / 2, vpos, btWidth, 25), "Duplicate"))
+                if (sceneSelection.Length != 1)
                 {
-                    var newSelection = new List<GameObject>();
+                    OET_lib.ToolLib.alertBox("Duplicate", "Select one single object in the hierarchy to enable this tool. Multiple objects are currently selected.");
+                }
+                else
+                {
+                    vpos += OET_lib.ToolLib.header("<b>Duplicate</b>\nDuplicate the selected object in the scene.", vpos, false);
 
-                    foreach (GameObject _obj in sceneSelection)
+                    float btWidth = width < 160 ? width - 20 : 160;
+
+                    if (GUI.Button(new Rect(width / 2 - btWidth / 2, vpos, btWidth, 25), "Duplicate"))
                     {
+                        var newSelection = new List<GameObject>();
+
                         GameObject newClone = null;
-                        GameObject p = PrefabUtility.GetPrefabParent(_obj) as GameObject;
+                        GameObject p = PrefabUtility.GetPrefabParent(sceneActiveSelection) as GameObject;
 
                         foreach (Vector3 thisClone in clones)
                         {
                             if (p != null)
                             {
                                 newClone = PrefabUtility.InstantiatePrefab(p) as GameObject;
-                                newClone.transform.position = thisClone + _obj.transform.position;
-                                newClone.transform.rotation = _obj.transform.rotation;
+                                newClone.transform.position = thisClone + sceneActiveSelection.transform.position;
+                                newClone.transform.rotation = sceneActiveSelection.transform.rotation;
                             }
                             else
                             {
-                                newClone = Instantiate(_obj.gameObject, thisClone + _obj.transform.position, _obj.transform.rotation) as GameObject;
-                                newClone.transform.localScale = _obj.transform.localScale;
+                                newClone = Instantiate(sceneActiveSelection.gameObject, thisClone + sceneActiveSelection.transform.position, sceneActiveSelection.transform.rotation) as GameObject;
+                                newClone.transform.localScale = sceneActiveSelection.transform.localScale;
                             }
-                            newClone.transform.parent = _obj.transform.parent;
-                            newClone.transform.localScale = _obj.transform.localScale;
+                            newClone.transform.parent = sceneActiveSelection.transform.parent;
+                            newClone.transform.localScale = sceneActiveSelection.transform.localScale;
                             Undo.RegisterCreatedObjectUndo(newClone, "Duplicate");
                             newSelection.Add(newClone);
                         }
+
+                        Selection.objects = newSelection.ToArray();
                     }
-                    Selection.objects = newSelection.ToArray();
                 }
             }
             else
             {
                 OET_lib.ToolLib.alertBox ("Duplicate", "Select an object in the hierarchy to enable this tool.");
 			}
-
-
-            if (GUI.Button(new Rect(15, vpos, 100, 25), "X-axis"))
-            {
-                _x_selected = true;
-                _y_selected = false;
-                _z_selected = false;
-                UpdateHandle();
-            }
-
-            vpos += 40;
-
-            if (GUI.Button(new Rect(15, vpos, 100, 25), "Y-axis"))
-            {
-                _x_selected = false;
-                _y_selected = true;
-                _z_selected = false;
-                UpdateHandle();
-            }
-
-            vpos += 40;
-
-            if (GUI.Button(new Rect(15, vpos, 100, 25), "Z-axis"))
-            {
-                _x_selected = false;
-                _y_selected = false;
-                _z_selected = true;
-                UpdateHandle();
-            }
-
-            vpos += 40;
         }
 
-        static void DrawBox(GameObject _obj)
+        static void DrawBox()
         {
-            if(_x_selected)
+            Vector3 distance = handle_v3 - sceneActiveSelection.transform.position;
+
+            List<Vector3> positions = new List<Vector3>();
+
+            float dx = distance.x;
+            float dy = distance.y;
+            float dz = distance.z;
+
+            int count_x = Mathf.Abs((int)(dx / 5.0f));
+            int count_y = Mathf.Abs((int)(dy / 5.0f));
+            int count_z = Mathf.Abs((int)(dz / 5.0f));
+
+            for (int i = 0; i <= count_x; i++)
             {
-                handle_v3.y = _obj.transform.position.y;
-                handle_v3.z = _obj.transform.position.z;
-            }
-
-            if (_y_selected)
-            {
-                handle_v3.x = _obj.transform.position.x;
-                handle_v3.z = _obj.transform.position.z;
-            }
-
-            if (_z_selected)
-            {
-                handle_v3.x = _obj.transform.position.x;
-                handle_v3.y = _obj.transform.position.y;
-            }
-
-
-            Vector3 d = handle_v3 - _obj.transform.position;
-
-            float distance = _x_selected ? d.x : _y_selected ? d.y : d.z;
-
-            int count = Mathf.Abs((int)(distance / 5.0f));
-
-            clones = new Vector3[count];
-
-            for (int i = 1; i <= count; i++)
-            {
-                Vector3 new_position;
-
-                if(distance > 0)
+                for (int j = 0; j <= count_y; j++)
                 {
-                    new_position = _x_selected ? new Vector3(5 * i, 0, 0) : _y_selected ? new Vector3(0, 5 * i, 0) : new Vector3(0, 0, 5 * i);
-                }
-                else
-                {
-                    new_position = _x_selected ? new Vector3(-5 * i, 0, 0) : _y_selected ? new Vector3(0, -5 * i, 0) : new Vector3(0, 0, -5 * i);
-                }
+                    for (int k = 0; k <= count_z; k++)
+                    {
+                        if (i == 0 && j == 0 && k == 0) continue;
 
-                 clones[i - 1] = new_position;
+                        Vector3 new_position;
 
-                OET_lib.ToolLib.draft(_obj, new_position, Color.yellow);
+                        int factor_x = dx > 0 ? 1 : -1;
+                        int factor_y = dy > 0 ? 1 : -1;
+                        int factor_z = dz > 0 ? 1 : -1;
+
+             
+                        new_position = new Vector3(factor_x * i * OET_grid.lib.size_x,
+                                                   factor_y * j * OET_grid.lib.size_y,
+                                                   factor_z * k * OET_grid.lib.size_z);
+
+                        positions.Add(new_position);
+
+                        OET_lib.ToolLib.draft(sceneActiveSelection, new_position, Color.yellow);
+                    }
+                }
             }
-        }
 
-        static void UpdateHandle()
-        {
-            Vector3 d = _x_selected ? new Vector3(10, 0, 0) : _y_selected ? new Vector3(0, 10, 0) : new Vector3(0, 0, 10);
-            handle_v3 = sceneActiveSelection.transform.position + d;
+            clones = positions.ToArray();   
         }
-
 	}
 }
 
