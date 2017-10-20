@@ -57,44 +57,42 @@ namespace OET_duplicate
 
 			if (sceneSelection != null)
             {
+
+                vpos += OET_lib.ToolLib.header("<b>Duplicate</b>\nDuplicate the selected object in the scene.", vpos, false);
+
+                float btWidth = width < 160 ? width - 20 : 160;
+
+                if (GUI.Button(new Rect(width / 2 - btWidth / 2, vpos, btWidth, 25), "Duplicate"))
                 {
-					vpos += OET_lib.ToolLib.header ("<b>Duplicate</b>\nDuplicate the selected object in the scene.", vpos, false);
+                    var newSelection = new List<GameObject>();
 
-					float btWidth = width < 160 ? width - 20 : 160;
-
-					if (GUI.Button (new Rect (width / 2 - btWidth / 2, vpos, btWidth, 25), "Duplicate"))
+                    foreach (GameObject _obj in sceneSelection)
                     {
-                        var newSelection = new List<GameObject>();
+                        GameObject newClone = null;
+                        GameObject p = PrefabUtility.GetPrefabParent(_obj) as GameObject;
 
-                        foreach (GameObject _obj in sceneSelection)
+                        foreach (Vector3 thisClone in clones)
                         {
-                            GameObject newClone = null;
-                            GameObject p = PrefabUtility.GetPrefabParent(_obj) as GameObject;
-
-                            foreach (Vector3 thisClone in clones)
+                            if (p != null)
                             {
-                                if (p != null)
-                                {
-                                    newClone = PrefabUtility.InstantiatePrefab(p) as GameObject;
-                                    newClone.transform.position = thisClone + _obj.transform.position;
-                                    newClone.transform.rotation = _obj.transform.rotation;
-                                }
-                                else
-                                {
-                                    newClone = Instantiate(_obj.gameObject, thisClone + _obj.transform.position, _obj.transform.rotation) as GameObject;
-                                    newClone.transform.localScale = _obj.transform.localScale;
-                                }
-                                newClone.transform.parent = _obj.transform.parent;
-                                newClone.transform.localScale = _obj.transform.localScale;
-                                Undo.RegisterCreatedObjectUndo(newClone, "Duplicate");
-                                newSelection.Add(newClone);
+                                newClone = PrefabUtility.InstantiatePrefab(p) as GameObject;
+                                newClone.transform.position = thisClone + _obj.transform.position;
+                                newClone.transform.rotation = _obj.transform.rotation;
                             }
+                            else
+                            {
+                                newClone = Instantiate(_obj.gameObject, thisClone + _obj.transform.position, _obj.transform.rotation) as GameObject;
+                                newClone.transform.localScale = _obj.transform.localScale;
+                            }
+                            newClone.transform.parent = _obj.transform.parent;
+                            newClone.transform.localScale = _obj.transform.localScale;
+                            Undo.RegisterCreatedObjectUndo(newClone, "Duplicate");
+                            newSelection.Add(newClone);
                         }
-
-                        Selection.objects = newSelection.ToArray();
                     }
-				}
-			}
+                    Selection.objects = newSelection.ToArray();
+                }
+            }
             else
             {
                 OET_lib.ToolLib.alertBox ("Duplicate", "Select an object in the hierarchy to enable this tool.");
