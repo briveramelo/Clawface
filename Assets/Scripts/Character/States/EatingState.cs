@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using ModMan;
 
-public class SkinningState : IPlayerState
+public class EatingState : IPlayerState
 {
 
     #region Private Fields
@@ -15,8 +15,8 @@ public class SkinningState : IPlayerState
     private void Start()
     {        
         EventSystem.Instance.RegisterEvent(Strings.Events.FACE_OPEN, DoArmExtension);
-        EventSystem.Instance.RegisterEvent(Strings.Events.ARM_EXTENDED, DoSkinning);
-
+        EventSystem.Instance.RegisterEvent(Strings.Events.ARM_EXTENDED, CaptureEnemy);
+        EventSystem.Instance.RegisterEvent(Strings.Events.ARM_ANIMATION_COMPLETE, EndState);
     }
 
     public override void Init(ref PlayerStateManager.StateVariables stateVariables)
@@ -25,24 +25,21 @@ public class SkinningState : IPlayerState
         isAnimating = false;
     }
 
+    private void LookAtEnemy()
+    {
+        Vector3 enemyPosition = stateVariables.skinTargetEnemy.transform.position;
+        stateVariables.modelHead.transform.LookAt(new Vector3(enemyPosition.x, 0f, enemyPosition.z));
+    }
+
     public override void StateFixedUpdate()
     {
         if (!isAnimating)
         {
-            //Debug.Log("Entering Skinning state");
             if (stateVariables.skinTargetEnemy.activeSelf) {
-                Vector3 enemyPosition = stateVariables.skinTargetEnemy.transform.position;
-                stateVariables.playerTransform.LookAt(new Vector3(enemyPosition.x, 0f, enemyPosition.z));
                 stateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.RetractVisor);
+                isAnimating = true;
             }
             else
-            {
-                ResetState();
-            }
-        }
-        else
-        {
-            if(stateVariables.clawAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.99f)
             {
                 ResetState();
             }
@@ -53,12 +50,18 @@ public class SkinningState : IPlayerState
     {
         
     }
+    
+    public override void StateLateUpdate()
+    {
+        LookAtEnemy();
+    }
 
     private void OnDisable()
     {
         if (EventSystem.Instance) {
             EventSystem.Instance.UnRegisterEvent(Strings.Events.FACE_OPEN, DoArmExtension);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.ARM_EXTENDED, DoSkinning);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.ARM_EXTENDED, CaptureEnemy);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.ARM_ANIMATION_COMPLETE, EndState);
         }
     }
     #endregion
@@ -66,20 +69,30 @@ public class SkinningState : IPlayerState
     #region Private Methods
     protected override void ResetState()
     {
-        //Debug.Log("Exiting Skinning state");
         stateVariables.clawAnimator.SetBool(Strings.ANIMATIONSTATE, false);
         stateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Idle);
+        stateVariables.modelHead.transform.LookAt(stateVariables.playerTransform.forward);
         isAnimating = false;
         stateVariables.stateFinished = true;
     }
 
 
     private void DoArmExtension(params object[] parameters)
-    {
+    {        
         stateVariables.clawAnimator.SetBool(Strings.ANIMATIONSTATE, true);
     }
 
-    private void DoSkinning(params object[] parameters)
+    private void CaptureEnemy(params object[] parameters)
+    {
+        if (stateVariables.skinTargetEnemy.activeSelf)
+        {
+            Transform clawTransform = parameters[0] as Transform;
+            stateVariables.skinTargetEnemy.transform.SetParent(clawTransform);
+            stateVariables.skinTargetEnemy.transform.localPosition = Vector3.zero;
+        }
+    }
+
+    private void DoSkinning()
     {
         //Check if enemy is still alive
         if (stateVariables.skinTargetEnemy.activeSelf)
@@ -99,6 +112,12 @@ public class SkinningState : IPlayerState
                 healthJuice.FollowAndDeActivate(3f, transform, Vector3.up * 3.2f);
             }
         }
+    }
+
+    private void EndState(params object[] parameters)
+    {
+        DoSkinning();
+        ResetState();
     }
     #endregion
 
