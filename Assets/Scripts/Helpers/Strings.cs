@@ -54,7 +54,7 @@
             public const string FIRE_RIGHT = "Fire Right";
             public const string FIRE_LEFT = "Fire Left";
             public const string PAUSE = "Pause";
-            public const string SKIN = "Skin";
+            public const string EAT = "Eat";
             public const string DODGE = "Dodge";
         }
 
@@ -71,6 +71,7 @@
     {
         public const string FACE_OPEN = "FaceOpen";
         public const string ARM_EXTENDED = "ArmExtended";
+        public const string ARM_ANIMATION_COMPLETE = "ArmAnimationComplete";
         public const string UPDATE_HEALTH = "UpdateHealth";
 
         public const string KILL_ENEMY = "KillEnemy";

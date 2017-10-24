@@ -4,6 +4,7 @@
 using ModMan;
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 using UnityEngine;
@@ -16,7 +17,7 @@ public class PlayerSpawner : MonoBehaviour
     #region Private Fields
 
     const string PLAYER_PREFAB_PATH = "/Prefabs/Player/";
-    const string RESOURCES_FOLDER_PATH = "/Resources/";
+    const string RESOURCES_FOLDER_PATH = "/Resources/Player/";
     const string PLAYER_GROUP_NAME = "Keira_GroupV";
     const string PREFAB_EXT = ".prefab";
 
@@ -83,33 +84,16 @@ public class PlayerSpawner : MonoBehaviour
     /// </summary>
     string GetNewestPrefabPath ()
     {
-        // Get absolute path
-        string absolutePath = string.Format ("{0}{1}{2}", 
-            Application.dataPath, 
-            PLAYER_PREFAB_PATH,
-            RESOURCES_FOLDER_PATH);
+        VersionedPlayerPrefab[] allPrefabs = 
+            Resources.LoadAll<VersionedPlayerPrefab>("Player/");
+        List<GameObject> results = new List<GameObject>();
 
-        // List all files in directory
-        string[] allPrefabFiles = Directory.GetFiles(absolutePath);
-
-        // Search for highest versioned
         float highestVersion = Mathf.NegativeInfinity;
-        string highestVersionPath = default(string);
-        foreach (string filePath in allPrefabFiles)
+        string highestVersionName = "";
+        foreach (VersionedPlayerPrefab prefab in allPrefabs)
         {
-            // Check if file is a .prefab file
-            string ext = Path.GetExtension (filePath);
-            if (ext != PREFAB_EXT) continue;
-
-            // Get file name
-            string fileName = Path.GetFileNameWithoutExtension (filePath);
-
-            // Check if file name has the correct naming convention
-            int nameIndex = fileName.IndexOf (PLAYER_GROUP_NAME);
-            if (nameIndex < 0) continue;
-
-            // Isolate the version number
-            string versionText = fileName.Remove(nameIndex, 
+            string name = prefab.gameObject.name;
+            string versionText = name.Remove(0, 
                 PLAYER_GROUP_NAME.Length);
 
             try
@@ -118,37 +102,20 @@ public class PlayerSpawner : MonoBehaviour
                 float version = float.Parse (versionText);
                 if (version > highestVersion)
                 {
-                    version = highestVersion;
-                    highestVersionPath = filePath;
+                    highestVersion = version;
+                    highestVersionName = name;
                 }
             } 
             
             catch (FormatException)
             {
                 Debug.LogError (string.Format (
-                    "Failed to parse version number at {0}!", filePath));
+                    "Failed to parse version number at {0}!", name));
                 continue;
             }
         }
 
-        if (highestVersionPath == default(string))
-        {
-            Debug.LogError ("Failed to get newest player prefab!");
-            return null;
-        }
-
-        // Change path to be relative to Resources folder
-        string stringToRemove = string.Format ("{0}{1}{2}", 
-            Application.dataPath, PLAYER_PREFAB_PATH, RESOURCES_FOLDER_PATH);
-        highestVersionPath = highestVersionPath.Remove (0, 
-            stringToRemove.Length);
-
-        // Trim file extension
-        highestVersionPath = highestVersionPath.Remove (
-            highestVersionPath.Length - PREFAB_EXT.Length, 
-            PREFAB_EXT.Length);
-
-        return highestVersionPath;
+        return string.Format("{0}{1}", "Player/", highestVersionName);
     }
 
     #endregion

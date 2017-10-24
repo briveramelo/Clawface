@@ -158,6 +158,12 @@ public enum PlayerAnimationStates
     RetractVisor = 3
 }
 
+public enum PlayerAnimationLayers
+{
+    BaseLayer = 0,
+    SkinningLayer = 1
+}
+
 public enum ButtonMode
 {
     UP = 0, // just went up

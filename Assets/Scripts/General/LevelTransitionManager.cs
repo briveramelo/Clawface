@@ -3,15 +3,6 @@
 public class LevelTransitionManager : MonoBehaviour
 {
 
-    #region Serialized Unity Inspector fields
-    [SerializeField]
-    private float checkFrequency = 10.0f;
-    #endregion
-
-    #region Private Fields
-    private Spawner[] spawners;
-    #endregion
-
     #region Unity Lifecycle
     // Use this for initialization
     void Start()

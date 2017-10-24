@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public enum LevelUnitStates
 {    
@@ -13,7 +14,9 @@ public enum LevelUnitStates
 public class LevelUnit : MonoBehaviour {
 
     #region private variables
-    private float meshHeight;
+    private float meshSizeY;
+    private float meshSizeZ;
+    private float meshSizeX;
     private bool isTransitioning;
     private float pitYPosition;
     private float coverYPosition;
@@ -21,6 +24,7 @@ public class LevelUnit : MonoBehaviour {
     private LevelUnitStates currentState;
     private LevelUnitStates nextState;
     private float speed = 0.05f;
+    private GameObject blockingObject;
     #endregion
 
     #region serialized fields
@@ -42,10 +46,13 @@ public class LevelUnit : MonoBehaviour {
         MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
         if (meshRenderer)
         {
-            meshHeight = meshRenderer.bounds.size.y;
+            meshSizeY = meshRenderer.bounds.size.y;
+            meshSizeZ = meshRenderer.bounds.size.z;
+            meshSizeX = meshRenderer.bounds.size.x;
         }
         currentState = defaultState;
-        CalculateStatePositions();        
+        CalculateStatePositions();
+        //CreateBlockingObject();
     }
 
     private void Start()
@@ -129,50 +136,20 @@ public class LevelUnit : MonoBehaviour {
         if(currentState == LevelUnitStates.cover)
         {
             coverYPosition = transform.position.y;
-            floorYPosition = coverYPosition - meshHeight;
-            pitYPosition = floorYPosition - meshHeight;
+            floorYPosition = coverYPosition - meshSizeY;
+            pitYPosition = floorYPosition - meshSizeY;
         }else if(currentState == LevelUnitStates.floor)
         {
             floorYPosition = transform.position.y;
-            coverYPosition = floorYPosition + meshHeight;
-            pitYPosition = floorYPosition - meshHeight;
+            coverYPosition = floorYPosition + meshSizeY;
+            pitYPosition = floorYPosition - meshSizeY;
         }else if(currentState == LevelUnitStates.pit)
         {
             pitYPosition = transform.position.y;
-            floorYPosition = pitYPosition + meshHeight;
-            coverYPosition = floorYPosition + meshHeight;
+            floorYPosition = pitYPosition + meshSizeY;
+            coverYPosition = floorYPosition + meshSizeY;
         }
-    }
-
-    public void TransitionToCoverState(params object[] inputs)
-    {
-        if (currentState != LevelUnitStates.cover)
-        {
-            nextState = LevelUnitStates.cover;
-            isTransitioning = true;
-            //Debug.Log(name + " transitioning to " + LevelUnitStates.cover.ToString());
-        }
-    }
-
-    public void TransitionToFloorState(params object[] inputs)
-    {
-        if(currentState != LevelUnitStates.floor)
-        {
-            nextState = LevelUnitStates.floor;
-            isTransitioning = true;
-            //Debug.Log(name + " transitioning to " + LevelUnitStates.floor.ToString());
-        }
-    }
-
-    public void TransitionToPitState(params object[] inputs)
-    {
-        if (currentState != LevelUnitStates.pit)
-        {
-            nextState = LevelUnitStates.pit;
-            isTransitioning = true;
-            //Debug.Log(name + " transitioning to " + LevelUnitStates.pit.ToString());
-        }
-    }
+    }    
 
     private void MoveToNewPosition()
     {
@@ -191,7 +168,7 @@ public class LevelUnit : MonoBehaviour {
         }
         if (newPosition != transform.position)
         {
-            transform.position = Vector3.MoveTowards(transform.position, newPosition, speed);
+            transform.position = Vector3.MoveTowards(transform.position, newPosition, speed * meshSizeY);
             if (Vector3.Distance(transform.position, newPosition) < 0.01f)
             {
                 transform.position = newPosition;
@@ -211,6 +188,26 @@ public class LevelUnit : MonoBehaviour {
         {
             eventNames.Add(eventName);
         }
+    }
+
+    private void CreateBlockingObject()
+    {        
+        blockingObject = new GameObject("Blocking Object");
+        blockingObject.SetActive(false);        
+        blockingObject.transform.SetParent(transform.parent);
+        blockingObject.transform.position = new Vector3(transform.position.x, coverYPosition, transform.position.z);
+        blockingObject.transform.localScale = new Vector3(meshSizeX, meshSizeY, meshSizeZ);
+        blockingObject.AddComponent<BoxCollider>();
+        blockingObject.AddComponent<NavMeshObstacle>();
+    }
+
+    private void ShowBlockingObject()
+    {
+        if (!blockingObject)
+        {
+            CreateBlockingObject();
+        }
+        blockingObject.SetActive(true);
     }
     #endregion
 
@@ -277,6 +274,39 @@ public class LevelUnit : MonoBehaviour {
                 break;
         }
         return result;
+    }
+
+    public void TransitionToCoverState(params object[] inputs)
+    {
+        if (currentState != LevelUnitStates.cover)
+        {
+            nextState = LevelUnitStates.cover;
+            isTransitioning = true;
+            ShowBlockingObject();
+        }
+    }
+
+    public void TransitionToFloorState(params object[] inputs)
+    {
+        if (currentState != LevelUnitStates.floor)
+        {
+            nextState = LevelUnitStates.floor;
+            isTransitioning = true;
+            if (blockingObject)
+            {
+                blockingObject.SetActive(false);
+            }
+        }
+    }
+
+    public void TransitionToPitState(params object[] inputs)
+    {
+        if (currentState != LevelUnitStates.pit)
+        {
+            nextState = LevelUnitStates.pit;
+            isTransitioning = true;
+            ShowBlockingObject();
+        }
     }
     #endregion
 
