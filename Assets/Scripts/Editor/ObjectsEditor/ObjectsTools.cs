@@ -23,12 +23,12 @@ public class ObjectsTools : EditorWindow
 	GameObject[] projectSelection;
 	GameObject[] sceneSelection;
 			
-	[MenuItem ("Window/Objects Tools")]
+	[MenuItem ("Window/Level Editor Tools")]
 
 	public static void init ()
 	{
 		ObjectsTools window = (ObjectsTools)EditorWindow.GetWindow(typeof(ObjectsTools));
-		window.titleContent = new GUIContent("Objects Tools");
+		window.titleContent = new GUIContent("Level Tools");
 		window.Show();
 		window.minSize = new Vector2 (600f, 120f);
     }

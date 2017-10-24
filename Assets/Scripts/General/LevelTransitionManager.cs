@@ -5,9 +5,15 @@ public class LevelTransitionManager : MonoBehaviour
 
     #region Unity Lifecycle
     // Use this for initialization
-    void Start()
+    void OnEnable()
     {
         EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_COMPLETED, LevelComplete);
+    }
+
+    void OnDisable() {
+        if (EventSystem.Instance) {
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_COMPLETED, LevelComplete);
+        }
     }
     #endregion
 
