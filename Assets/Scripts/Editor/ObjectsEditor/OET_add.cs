@@ -19,9 +19,10 @@ namespace OET_add
             {
 				if(previewDraw)
                 {
+ //                   Debug.Log(projectActiveSelection);
                     OET_lib.ToolLib.draft (projectActiveSelection, mousePositionInScene - projectActiveSelection.transform.position, Color.green);
-				}
-			}
+                }
+            }
 		}
 
 		public static void renderGUI(int vpos, GameObject get_projectActiveSelection)

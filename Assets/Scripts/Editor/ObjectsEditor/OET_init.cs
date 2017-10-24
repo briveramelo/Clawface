@@ -16,7 +16,7 @@ namespace OET_init
         public static void renderGUI(int vpos)
         {
 
-            vpos += OET_lib.ToolLib.header("<b>Sace / Load</b>\nSave or Load the Scene with JSON.", vpos, false);
+            vpos += OET_lib.ToolLib.header("<b>Init / Save / Load</b>\nSave or Load the Scene with JSON.", vpos, false);
 
             int width = Screen.width;
             float btWidth = width < 160 ? width - 20 : 160;
@@ -29,6 +29,8 @@ namespace OET_init
 
             if (GUI.Button(new Rect(width / 2 - btWidth / 2, vpos + 100, btWidth, 25), "Init") && initialized == false)
             {
+                _CreateSingleton();
+
                 GameObject _platform = new GameObject("Platform");
 
                 GameObject _prefab = AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Old/Environment/Hallway/Hallway_Floor.prefab", typeof(GameObject)) as GameObject;
@@ -38,7 +40,13 @@ namespace OET_init
                     for(int j = -Num_z; j <= Num_z; j++)
                     {
                         GameObject _instance = Instantiate(_prefab, new Vector3(i * OET_grid.lib.size_x, 0, j * OET_grid.lib.size_z), Quaternion.identity);
-         
+
+                        if (_instance.GetComponent<LevelUnit>() == null)
+                        {
+                            LevelUnit LU = _instance.AddComponent<LevelUnit>() as LevelUnit;
+                            LU.defaultState = LevelUnitStates.floor;
+                        }
+ 
                         _instance.transform.SetParent(_platform.transform);
                     }
                 }
@@ -55,5 +63,19 @@ namespace OET_init
                 Debug.Log("Put you loading code in here, my baby.");
             }
         }
+
+
+
+        static void _CreateSingleton()
+        {
+            GameObject _prefab;
+
+            _prefab = AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Player/PlayerSpawner.prefab", typeof(GameObject)) as GameObject;
+            Instantiate(_prefab, new Vector3(0, 0, 0), Quaternion.identity);
+
+            _prefab = AssetDatabase.LoadAssetAtPath("Assets/Prefabs/General/ServiceWrangler.prefab", typeof(GameObject)) as GameObject;
+            Instantiate(_prefab, new Vector3(0, 0, 0), Quaternion.identity);
+        }
+
     }
 }

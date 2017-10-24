@@ -98,9 +98,9 @@ namespace OET_duplicate
             float dy = distance.y;
             float dz = distance.z;
 
-            int count_x = Mathf.Abs((int)(dx / 5.0f));
-            int count_y = Mathf.Abs((int)(dy / 5.0f));
-            int count_z = Mathf.Abs((int)(dz / 5.0f));
+            int count_x = Mathf.Abs((int)(dx / OET_grid.lib.size_x));
+            int count_y = Mathf.Abs((int)(dy / OET_grid.lib.size_y));
+            int count_z = Mathf.Abs((int)(dz / OET_grid.lib.size_z));
 
             float factor_x = dx > 0 ? OET_grid.lib.size_x : -OET_grid.lib.size_x;
             float factor_y = dy > 0 ? OET_grid.lib.size_y : -OET_grid.lib.size_y;

@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
+using OET_init;
 
 namespace OET_grid
 {
@@ -10,18 +12,21 @@ namespace OET_grid
         public static float size_y = 5.0f;
         public static float size_z = 5.0f;
 
-        static Vector3 pos = new Vector3(0, 0, 0);
+        static GameObject _prefab = AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Old/Environment/Hallway/Hallway_Floor.prefab", typeof(GameObject)) as GameObject;
+
 
         static public void sceneGUI()
         {
-            for (float x = pos.x - 100.0f; x < pos.x + 100.0f; x += size_x)
-            {
-                Debug.DrawLine(new Vector3(-100.0f, 0.0f, Mathf.Floor(x / size_x) * size_x + size_x / 2), new Vector3(100.0f, 0.0f, Mathf.Floor(x / size_x) * size_x + size_x / 2),  Color.red);
-            }
+            _prefab.transform.localPosition = new Vector3(0, 0, 0);
 
-            for (float z = pos.z - 100.0f; z < pos.z + 100.0f; z += size_z)
+            for (int i = -OET_init.lib.Num_x; i <= OET_init.lib.Num_x; i++)
             {
-                Debug.DrawLine(new Vector3(Mathf.Floor(z / size_z) * size_z + size_z / 2, 0.0f, -100.0f), new Vector3(Mathf.Floor(z / size_z) * size_z + size_z / 2, 0.0f, 100.0f), Color.red);
+                for(int j = -OET_init.lib.Num_z; j <= OET_init.lib.Num_z; j++)
+                {
+                    Vector3 new_position = new Vector3(size_x * i, 0, size_z * j);
+
+                    OET_lib.ToolLib.draft(_prefab, new_position, Color.yellow);
+                }
             }
         }
     }

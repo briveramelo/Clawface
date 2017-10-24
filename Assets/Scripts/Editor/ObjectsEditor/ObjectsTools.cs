@@ -54,6 +54,13 @@ public class ObjectsTools : EditorWindow
         //bool cancelEvent = false;
         Event e = Event.current;
 
+
+
+        if(activeToolbar == 0)
+        {
+            OET_grid.lib.sceneGUI();
+        }
+
         // Add
         if (activeToolbar == 1)
         { 
@@ -63,7 +70,6 @@ public class ObjectsTools : EditorWindow
 				HandleUtility.AddDefaultControl (GUIUtility.GetControlID (GetHashCode (), FocusType.Passive));
 			}
             OET_add.lib.sceneGUI ();
-//            OET_grid.lib.sceneGUI();
 		}
 
         // Clone
