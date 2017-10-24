@@ -21,6 +21,9 @@ public class PlayerStateManager : MonoBehaviour {
     private DashState dashState;
     [SerializeField]
     private float dashCoolDown;
+
+    [SerializeField] private EatingState eatingState;
+    [SerializeField] private float eatRadius;
     #endregion
 
     #region Private Fields
@@ -40,6 +43,7 @@ public class PlayerStateManager : MonoBehaviour {
         stateVariables.defaultState = defaultState;
         defaultState.Init(ref stateVariables);
         dashState.Init(ref stateVariables);
+        eatingState.Init(ref stateVariables);
         movementState = defaultState;
         playerStates = new List<IPlayerState>(){ defaultState};
     }
@@ -60,8 +64,19 @@ public class PlayerStateManager : MonoBehaviour {
             SwitchState(dashState);
             canDash = false;
             StartCoroutine(WaitForDashCoolDown());
+        }else if(InputManager.Instance.QueryAction(Strings.Input.Actions.EAT, ButtonMode.DOWN))
+        {
+            if (CheckForSkinnableEnemy())
+            {                
+                SwitchState(eatingState);
+            }
         }
         playerStates.ForEach(state=>state.StateFixedUpdate());
+    }
+
+    private void LateUpdate()
+    {
+        playerStates.ForEach(state => state.StateLateUpdate());
     }
 
     private void OnCollisionEnter(Collision collision) {
@@ -74,7 +89,7 @@ public class PlayerStateManager : MonoBehaviour {
     #region Private Methods
     private void SwitchState(IPlayerState newState)
     {
-        if(playerStates[0] == defaultState) {
+        if(!playerStates.Contains(newState) && playerStates[0] == defaultState) {
             if (newState.IsBlockingState())
             {
                 stateVariables.velBody.velocity = Vector3.zero;
@@ -103,6 +118,45 @@ public class PlayerStateManager : MonoBehaviour {
         yield return new WaitForSeconds(dashCoolDown);
         canDash = true;        
     }
+
+    private bool CheckForSkinnableEnemy()
+    {
+        GameObject potentialSkinnableEnemy = GetClosestEnemy();
+        if (potentialSkinnableEnemy)
+        {
+            ISkinnable skinnable = potentialSkinnableEnemy.GetComponent<ISkinnable>();
+            if (skinnable != null && skinnable.IsSkinnable())
+            {
+                stateVariables.skinTargetEnemy = potentialSkinnableEnemy;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private GameObject GetClosestEnemy()
+    {
+        Collider[] enemies = Physics.OverlapSphere(transform.position, eatRadius, LayerMask.GetMask(Strings.Tags.ENEMY));
+        if (enemies != null)
+        {
+            Collider closestEnemy = null;
+            float closestDistance = Mathf.Infinity;
+            foreach (Collider enemy in enemies)
+            {
+                float distance = Vector3.Distance(enemy.ClosestPoint(transform.position), transform.position);
+                if (closestDistance > distance)
+                {
+                    closestDistance = distance;
+                    closestEnemy = enemy;
+                }
+            }
+            if (closestEnemy != null)
+            {
+                return closestEnemy.gameObject;
+            }
+        }
+        return null;
+    }
     #endregion
 
     #region Public Structures
@@ -123,7 +177,8 @@ public class PlayerStateManager : MonoBehaviour {
         [HideInInspector]
         public IPlayerState defaultState;
         [HideInInspector]
-        public GameObject skinTargetEnemy;
+        public GameObject skinTargetEnemy;        
+        public GameObject modelHead;
     }
     #endregion
 
