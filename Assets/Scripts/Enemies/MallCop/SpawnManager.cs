@@ -2,11 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SpawnManager : MonoBehaviour
 {
     int currentSpawner = 0;
     float time = 0.0f;
+
+    private float levelTime;
 
     bool spawnClear = true;
     bool LevelClear = false;
@@ -18,6 +21,7 @@ public class SpawnManager : MonoBehaviour
     void Start()
     {
         EventSystem.Instance.RegisterEvent(Strings.Events.CALL_NEXTWAVEENEMIES, CallNextSpawner);
+
 
         EventSystem.Instance.TriggerEvent(Strings.Events.CALL_NEXTWAVEENEMIES);
 
@@ -37,10 +41,13 @@ public class SpawnManager : MonoBehaviour
 
     private void Update()
     {
+        levelTime += Time.deltaTime;
+
         if(currentSpawner == spawners.Count && LevelClear == true)
         {
             LevelClear = false;
-            EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_COMPLETED);
+            EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_COMPLETED, 
+                SceneManager.GetActiveScene().name, levelTime, ScoreManager.Instance.GetScore(), ModManager.leftArmOnLoad.ToString(), ModManager.rightArmOnLoad.ToString() );
         }
     }
 
@@ -48,7 +55,6 @@ public class SpawnManager : MonoBehaviour
     {
         StartCoroutine(WaitAndSpawn(time));
     }
-
 
     IEnumerator WaitAndSpawn(float waitTime)
     {
@@ -63,6 +69,7 @@ public class SpawnManager : MonoBehaviour
         else
         {
             LevelClear = true;
+            AnalyticsManager.Instance.SetCurrentLevelTime(levelTime);
         }
     }
 }

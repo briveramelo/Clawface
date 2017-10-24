@@ -24,6 +24,9 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
 
     [SerializeField]
     private int currentWave;
+
+    [SerializeField]
+    private float currentLevelTime;
     #endregion
 
 
@@ -91,7 +94,7 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         {
             EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_STARTED, OnLevelStarted);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_KILLED, OnPlayerKilled);
-
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_COMPLETED, OnLevelCompleted);
         }
     }
 
@@ -101,7 +104,7 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
     {
         EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_STARTED, OnLevelStarted);
         EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_KILLED, OnPlayerKilled);
-
+        EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_COMPLETED, OnLevelCompleted);
 
 
         quitGameDictionary = new Dictionary<string, object>();
@@ -212,12 +215,7 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
     #region Public Methods
     public void StartLevel(string level, string leftArm, string rightArm)
     {
-        Dictionary<string, object> startLevelDictionary = new Dictionary<string, object>();
-        startLevelDictionary.Add("level", level);
-        startLevelDictionary.Add("leftArm", leftArm);
-        startLevelDictionary.Add("rightArm", rightArm);
-
-        Analytics.CustomEvent(Strings.Events.LEVEL_STARTED, startLevelDictionary);
+        
     }
 
     
@@ -293,20 +291,6 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         }
     }
 
-    public void PlayerDeath(string level, int wave, string leftArm, string rightArm)
-    {
-        Dictionary<string, object> playerEventDeath = new Dictionary<string, object>();
-        playerEventDeath.Add("level", level);
-        playerEventDeath.Add("wave", wave.ToString());
-        playerEventDeath.Add("leftArm", leftArm);
-        playerEventDeath.Add("rightArm", rightArm);
-
-#if UNITY_EDITOR
-        Debug.Log(String.Format("Player death event fired: {0}, {1}, {2}, {3}", level, wave.ToString(), leftArm, rightArm));
-#endif
-
-        Analytics.CustomEvent(Strings.Events.PLAYER_KILLED, playerEventDeath);
-    }
 
     public void SetModManager(ModManager manager)
     {
@@ -345,17 +329,66 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         currentWave = wave;
     }
 
+    public void SetCurrentLevelTime(float time)
+    {
+        currentLevelTime = time;
+    }
+
     #endregion
 
     #region Private Methods
     private void OnLevelStarted(params object[] parameters)
     {
-        StartLevel(parameters[0] as string, parameters[1] as string, parameters[2] as string);
+        string level = parameters[0] as string;
+        string leftArm = parameters[1] as string;
+        string rightArm = parameters[2] as string;
+
+
+        Dictionary<string, object> startLevelDictionary = new Dictionary<string, object>();
+        startLevelDictionary.Add("level", level);
+        startLevelDictionary.Add("leftArm", leftArm);
+        startLevelDictionary.Add("rightArm", rightArm);
+
+        Analytics.CustomEvent(Strings.Events.LEVEL_STARTED, startLevelDictionary);
+
     }
 
     private void OnPlayerKilled(params object[] parameters)
     {
-        PlayerDeath(parameters[0] as string, (int) parameters[1], parameters[2] as string, parameters[3] as string);
+        Dictionary<string, object> playerEventDeath = new Dictionary<string, object>();
+
+        string level = parameters[0] as string;
+        int wave = (int)parameters[1];
+        string leftArm = parameters[2] as string;
+        string rightArm = parameters[3] as string;
+
+        playerEventDeath.Add("level", level);
+        playerEventDeath.Add("wave", wave.ToString());
+        playerEventDeath.Add("leftArm", leftArm);
+        playerEventDeath.Add("rightArm", rightArm);
+
+#if UNITY_EDITOR
+        Debug.Log(String.Format("Player death event fired: {0}, {1}, {2}, {3}", level, wave.ToString(), leftArm, rightArm));
+#endif
+
+        Analytics.CustomEvent(Strings.Events.PLAYER_KILLED, playerEventDeath);
+    }
+
+    private void OnLevelCompleted(params object[] parameters)
+    {
+        Dictionary<string, object> levelCompletedDictionary = new Dictionary<string, object>();
+
+        string level = parameters[0] as string;
+        float time = (float)parameters[1];
+        int score = (int)parameters[2];
+        string leftArm = parameters[3] as string;
+        string rightArm = parameters[4] as string;
+
+#if UNITY_EDITOR
+        Debug.Log(String.Format("Level completed event fired: {0}, {1}, {2}, {3}, {4}", level, time.ToString(), score.ToString(), leftArm, rightArm));
+#endif
+
+        Analytics.CustomEvent(Strings.Events.LEVEL_COMPLETED, levelCompletedDictionary);
     }
 
     private void FormatDictionaries()
