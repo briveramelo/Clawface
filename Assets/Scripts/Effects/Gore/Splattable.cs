@@ -6,34 +6,27 @@ using UnityEngine.Rendering;
 
 public class Splattable : MonoBehaviour {
 
-    #region Public Fields
-
-    public RenderTexture SplatMap
-    {
-        get
-        {
-            return textures[1];
-        }
-    }
-
-
-    #endregion
-
     #region Unity Serialization
-
+    
+    [Header ("Splat Stuffs")]
     [SerializeField] private Texture2D[] splats; //set via the inspector
     [SerializeField] private Shader renderSplat; //get render splat shader via the inspector
+
+    [Header ("Render Texture Configuration")]
+    [SerializeField] private int renderTextureWidth = 512;
+    [SerializeField] private int renderTextureHeight = 512;
 
     #endregion
 
     #region Private fields
 
     private RenderTexture[] textures;
-    private Material splatMaterial;
+    private Material renderMaterial;
     private Renderer myRenderer;
+    private MaterialPropertyBlock propBlock;
     private CommandBuffer myCommandBuffer;
     private Camera renderCam;
-    
+
     #endregion
 
     #region Unity Lifecycle
@@ -42,8 +35,12 @@ public class Splattable : MonoBehaviour {
         Assert.IsNotNull(renderSplat);
         Assert.IsTrue(splats.Length > 0);
 
-        textures = new RenderTexture[2];
-        splatMaterial = new Material(renderSplat);
+        textures = new RenderTexture[] {
+                new RenderTexture(renderTextureWidth, renderTextureHeight, 0),
+                new RenderTexture(renderTextureWidth, renderTextureHeight, 0)
+            };
+        renderMaterial = new Material(renderSplat);
+        propBlock = new MaterialPropertyBlock();
 
         renderCam = gameObject.AddComponent<Camera>();
         renderCam.clearFlags = CameraClearFlags.SolidColor;
@@ -70,19 +67,25 @@ public class Splattable : MonoBehaviour {
         Texture2D randomlySelected = splats[Random.Range(0, splats.Length - 1)];
 
         //set shader variables
-        splatMaterial.SetTexture("_Previous", textures[1]);
-        splatMaterial.SetVector("_SplatLocation", worldPos);
-        splatMaterial.SetVector("_OriginalNormal", normal);
-        splatMaterial.SetTexture("_Decal", randomlySelected);
+        renderMaterial.SetTexture("_Previous", textures[1]);
+        renderMaterial.SetVector("_SplatLocation", worldPos);
+        renderMaterial.SetVector("_OriginalNormal", normal);
+        renderMaterial.SetTexture("_Decal", randomlySelected);
 
         //set up command buffer
         myCommandBuffer.SetRenderTarget(textures[0]);
         myCommandBuffer.ClearRenderTarget(true, true, new Color(0, 0, 0, 0));
-        myCommandBuffer.DrawRenderer(myRenderer, splatMaterial);
+        myCommandBuffer.DrawRenderer(myRenderer, renderMaterial);
 
         //render splat
         renderCam.Render();
-        SwapBuffers();  
+        SwapBuffers();
+        myRenderer.GetPropertyBlock(propBlock);
+        if (propBlock != null)
+        {
+            propBlock.SetTexture("_SplatMap", textures[1]);
+            myRenderer.SetPropertyBlock(propBlock);
+        }
     }
 
     #endregion
