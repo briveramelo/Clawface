@@ -14,7 +14,7 @@ public class BlasterMod : Mod {
     // Use this for initialization
     protected override void Awake () {
         base.Awake();
-        type = ModType.ArmBlaster;
+        type = ModType.Blaster;
         category = ModCategory.Ranged;             
     }
 
