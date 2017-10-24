@@ -4,36 +4,38 @@ using UnityEngine;
 
 //world position
 //normal at world position
-//previous splat texture (via splattable)
+//decal using to draw the blood (single sprite from the black and white sheet)
+//previous rendertexture
 
 public class GoreManager : Singleton<GoreManager> {
-    
+
+    private int mask;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        mask = 1 << 11; //GROUND LAYER
+    }
+
     public void SpawnSplat(Vector3 worldPos) {
 
-        RaycastHit hit;
-
-        if (Physics.SphereCast(worldPos, 1f, transform.forward, out hit, 1f))
+        RaycastHit h;
+        
+        if (Physics.SphereCast(worldPos, 1f, transform.forward, out h, 1f, mask))
         {
-            GameObject hitObject = hit.transform.gameObject;
-            if (hitObject.tag == Strings.Tags.FLOOR || hitObject.tag == Strings.Tags.WALL)
-            {
-                //Splattable s = hitObject.GetComponent<Splattable>();
-                Splattable splattable = null;
-                
-                GameObject hitSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-                hitSphere.transform.position = worldPos;
-                GameObject decal = ObjectPool.Instance.GetObject(PoolObjectType.VFXBloodDecal);
-                Material bloodMat = decal.GetComponent<MeshRenderer>().material;
-
-                if (bloodMat)
-                {
-                    Texture bloodMask = bloodMat.GetTexture("_BloodMask");
+            GameObject hitObject = h.transform.gameObject;
 
 #if UNITY_EDITOR
-                    Debug.Log(hitObject.name + " W:" + bloodMask.width + " H:" + bloodMask.height);
+            GameObject hitSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            hitSphere.transform.position = worldPos;
 #endif
-                }
+            Splattable canSplat = hitObject.GetComponent<Splattable>();
+
+            if (canSplat)
+            {
+                canSplat.DrawSplat(h.point,h.normal);
             }
+            
         }
     }
     
