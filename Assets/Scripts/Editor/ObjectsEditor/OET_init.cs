@@ -71,7 +71,7 @@ namespace OET_init
             GameObject _prefab;
 
             _prefab = AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Player/PlayerSpawner.prefab", typeof(GameObject)) as GameObject;
-            Instantiate(_prefab, new Vector3(0, 0, 0), Quaternion.identity);
+            Instantiate(_prefab, new Vector3(0, 2.5f, 0), Quaternion.identity);
 
             _prefab = AssetDatabase.LoadAssetAtPath("Assets/Prefabs/General/ServiceWrangler.prefab", typeof(GameObject)) as GameObject;
             Instantiate(_prefab, new Vector3(0, 0, 0), Quaternion.identity);
