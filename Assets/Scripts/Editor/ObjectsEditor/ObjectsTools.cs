@@ -9,13 +9,14 @@ using OET_lib;
 using OET_add;
 using OET_duplicate;
 using OET_grid;
+using OET_init;
 
 public class ObjectsTools : EditorWindow
 {
 	int activeToolbar = 0;
 	int lastActiveToolbar = 0;
 
-    string[] toolbarStrings = new string[] {"Add", "Duplicate", "Replace"};
+    string[] toolbarStrings = new string[] {"Init", "Add", "Group", "Duplicate", "Replace"};
 
     GameObject projectActiveSelection;
 	GameObject sceneActiveSelection;
@@ -30,7 +31,7 @@ public class ObjectsTools : EditorWindow
 		window.titleContent = new GUIContent("Objects Tools");
 		window.Show();
 		window.minSize = new Vector2 (600f, 120f);
-	}
+    }
 
 	void OnInspectorUpdate()
     {
@@ -53,8 +54,15 @@ public class ObjectsTools : EditorWindow
         //bool cancelEvent = false;
         Event e = Event.current;
 
+
+
+        if(activeToolbar == 0)
+        {
+            OET_grid.lib.sceneGUI();
+        }
+
         // Add
-        if (activeToolbar == 0)
+        if (activeToolbar == 1)
         { 
 			if(OET_add.lib.editorMouseEvent (e, projectActiveSelection))
             {
@@ -62,11 +70,10 @@ public class ObjectsTools : EditorWindow
 				HandleUtility.AddDefaultControl (GUIUtility.GetControlID (GetHashCode (), FocusType.Passive));
 			}
             OET_add.lib.sceneGUI ();
-            OET_grid.lib.sceneGUI();
 		}
 
         // Clone
-        if (activeToolbar == 1)
+        if (activeToolbar == 3)
         { 
             OET_duplicate.lib.sceneGUI ();
 		}
@@ -109,13 +116,15 @@ public class ObjectsTools : EditorWindow
 		GUIStyle styleInfoText = new GUIStyle(GUI.skin.label);
 		styleInfoText.wordWrap = true;
 
-		float barWidth = 7 * 35;
+		float barWidth = 5 * 70;
 		if(barWidth > width - 15) barWidth = width - 15;
 		activeToolbar = GUI.Toolbar(new Rect(width / 2 - barWidth / 2, vpos, barWidth, 24), activeToolbar, toolbarStrings);
 		vpos += 40;
 
-        if (activeToolbar == 0) OET_add.lib.renderGUI(vpos, projectActiveSelection);
-        if (activeToolbar == 1) OET_duplicate.lib.renderGUI(vpos, sceneSelection, sceneActiveSelection);
-        if (activeToolbar == 2) OET_replace.lib.renderGUI(vpos, sceneSelection, projectActiveSelection);
+        if (activeToolbar == 0) OET_init.lib.renderGUI(vpos);
+        if (activeToolbar == 1) OET_add.lib.renderGUI(vpos, projectActiveSelection);
+        if (activeToolbar == 2) OET_group.lib.renderGUI(vpos, sceneSelection);
+        if (activeToolbar == 3) OET_duplicate.lib.renderGUI(vpos, sceneSelection, sceneActiveSelection);
+        if (activeToolbar == 4) OET_replace.lib.renderGUI(vpos, sceneSelection, projectActiveSelection);
     }
 }
