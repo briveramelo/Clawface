@@ -18,11 +18,20 @@ public class SpawnManager : MonoBehaviour
     void Start()
     {
         EventSystem.Instance.RegisterEvent(Strings.Events.CALL_NEXTWAVEENEMIES, CallNextSpawner);
+
         EventSystem.Instance.TriggerEvent(Strings.Events.CALL_NEXTWAVEENEMIES);
 
         if (spawners.Count == 0)
         {
             Debug.Log("SpawnManager is Empty");
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (EventSystem.Instance)
+        {
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.CALL_NEXTWAVEENEMIES, CallNextSpawner);
         }
     }
 
@@ -40,12 +49,14 @@ public class SpawnManager : MonoBehaviour
         StartCoroutine(WaitAndSpawn(time));
     }
 
+
     IEnumerator WaitAndSpawn(float waitTime)
     {
         if(currentSpawner < spawners.Count)
         {
             time = spawners[currentSpawner].Time;
             spawner = spawners[currentSpawner++].Prefab.GetComponent<Spawner>();
+            AnalyticsManager.Instance.SetCurrentWave(currentSpawner);
             yield return new WaitForSeconds(waitTime);
             spawner.Activate();
         }

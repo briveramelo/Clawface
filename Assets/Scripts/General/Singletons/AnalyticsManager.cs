@@ -10,7 +10,7 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
 {
 
     #region Public fields
-
+    
 
     #endregion
 
@@ -21,6 +21,9 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
 
     [SerializeField]
     private float timeBetweenTicks;
+
+    [SerializeField]
+    private int currentWave;
     #endregion
 
 
@@ -85,7 +88,11 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
     private void OnDisable()
     {
         if (EventSystem.Instance)
+        {
             EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_STARTED, OnLevelStarted);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_KILLED, OnPlayerKilled);
+
+        }
     }
 
 
@@ -93,6 +100,7 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
     void Start()
     {
         EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_STARTED, OnLevelStarted);
+        EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_KILLED, OnPlayerKilled);
 
 
 
@@ -212,6 +220,8 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         Analytics.CustomEvent(Strings.Events.LEVEL_STARTED, startLevelDictionary);
     }
 
+    
+
 
     public void FormatPlayerModsInDictionary(ref Dictionary<string, object> dict)
     {
@@ -248,6 +258,10 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         }
     }
 
+    public int GetCurrentWave() {
+        return currentWave;
+    }
+
     public void SwapMods()
     {
         quitGameDictionary["swaps"] = (float)quitGameDictionary["swaps"] + 1f;
@@ -279,23 +293,19 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         }
     }
 
-    public void PlayerDeath()
+    public void PlayerDeath(string level, int wave, string leftArm, string rightArm)
     {
+        Dictionary<string, object> playerEventDeath = new Dictionary<string, object>();
+        playerEventDeath.Add("level", level);
+        playerEventDeath.Add("wave", wave.ToString());
+        playerEventDeath.Add("leftArm", leftArm);
+        playerEventDeath.Add("rightArm", rightArm);
 
-        deaths++;
-        playerDeathDictionary["averageHP"] = (int)(playerHealthTotal / playerHealthTicks);
-        FormatPlayerModsInDictionary(ref playerDeathDictionary);
-
-#if !UNITY_EDITOR
-        if (sendData)
-        {
-            Analytics.CustomEvent("playerDeath", playerDeathDictionary);
-        }
+#if UNITY_EDITOR
+        Debug.Log(String.Format("Player death event fired: {0}, {1}, {2}, {3}", level, wave.ToString(), leftArm, rightArm));
 #endif
 
-        playerHealthTotal = playerStats.GetStat(CharacterStatType.Health);
-        playerHealthTicks = 1;
-
+        Analytics.CustomEvent(Strings.Events.PLAYER_KILLED, playerEventDeath);
     }
 
     public void SetModManager(ModManager manager)
@@ -330,12 +340,22 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         }
     }
 
+    public void SetCurrentWave(int wave)
+    {
+        currentWave = wave;
+    }
+
     #endregion
 
     #region Private Methods
     private void OnLevelStarted(params object[] parameters)
     {
         StartLevel(parameters[0] as string, parameters[1] as string, parameters[2] as string);
+    }
+
+    private void OnPlayerKilled(params object[] parameters)
+    {
+        PlayerDeath(parameters[0] as string, (int) parameters[1], parameters[2] as string, parameters[3] as string);
     }
 
     private void FormatDictionaries()
