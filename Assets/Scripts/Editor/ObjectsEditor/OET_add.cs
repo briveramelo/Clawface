@@ -19,9 +19,10 @@ namespace OET_add
             {
 				if(previewDraw)
                 {
+ //                   Debug.Log(projectActiveSelection);
                     OET_lib.ToolLib.draft (projectActiveSelection, mousePositionInScene - projectActiveSelection.transform.position, Color.green);
-				}
-			}
+                }
+            }
 		}
 
 		public static void renderGUI(int vpos, GameObject get_projectActiveSelection)
@@ -99,9 +100,8 @@ namespace OET_add
 					if (Physics.Raycast(ray, out hit, 1000.0f)) 
 					{
                         mousePositionInScene = hit.point;
+                        //                       ConvertToGrid(mousePositionInScene);
 
- //                       ConvertToGrid(mousePositionInScene);
-                  
                         previewDraw = true;
 						if (Event.current.type == EventType.MouseDown && Event.current.button == 0)
 						{
@@ -123,9 +123,15 @@ namespace OET_add
             float width  = 5.0f;
             float height = 5.0f;
 
-            float Grid_x = Mathf.Floor(mousePositionInScene.x / width) * width + width / 2;
+            float Grid_x = Mathf.Floor((mousePositionInScene.x + width  / 2) / width)  * width;
+            float Grid_z = Mathf.Floor((mousePositionInScene.z + height / 2) / height) * height;
 
-            float Grid_z = Mathf.Floor(mousePositionInScene.z / height) * height + height / 2;
+            RaycastHit hit;
+
+            if (Physics.Raycast(new Vector3(Grid_x, 1000.0f, Grid_z), Vector3.down, out hit))
+            {
+                return new Vector3(Grid_x, hit.point.y, Grid_z);
+            }
 
             return new Vector3(Grid_x, mousePositionInScene.y, Grid_z);
         }
