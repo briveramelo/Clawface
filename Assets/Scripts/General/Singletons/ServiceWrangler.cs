@@ -40,7 +40,7 @@ public class ServiceWrangler : Singleton<ServiceWrangler> {
     }
 
     private void OnEnable () {
-        foreach (KeyValuePair<string, PrefabBool> singletonRegistered in singletonPrefabRegistry) {
+        foreach (KeyValuePair<string, PrefabBool> singletonRegistered in SingletonPrefabRegistry) {
             if (!singletonRegistered.Value.isRegistered) {
                 GameObject singletonGameObject = Instantiate(singletonRegistered.Value.prefab, gameObject.transform, true) as GameObject;
                 singletonGameObject.transform.position = Vector3.zero;
@@ -57,8 +57,8 @@ public class ServiceWrangler : Singleton<ServiceWrangler> {
     {
         string typeString = typeof(T).ToString();
 
-        if (singletonPrefabRegistry.ContainsKey(typeString) && !singletonPrefabRegistry[typeString].isRegistered){
-            singletonPrefabRegistry[typeString].isRegistered = true;
+        if (SingletonPrefabRegistry.ContainsKey(typeString) && !SingletonPrefabRegistry[typeString].isRegistered){
+            SingletonPrefabRegistry[typeString].isRegistered = true;
         }
         else if (typeString != (typeof(ServiceWrangler)).ToString()) {            
             string debugMessage = typeString + " attempting duplicate or unprepared service registry. Add this singleton to the singletonPrefabRegistry";
