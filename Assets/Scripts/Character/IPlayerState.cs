@@ -21,6 +21,7 @@ public abstract class IPlayerState:MonoBehaviour {
     public abstract void Init(ref PlayerStateManager.StateVariables stateVariables);
     public abstract void StateUpdate();
     public abstract void StateFixedUpdate();
+    public abstract void StateLateUpdate();
     #endregion
 
     #region Public Methods

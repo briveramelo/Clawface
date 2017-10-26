@@ -15,7 +15,6 @@
     }
 
     public static class Scenes {
-        //public static string Level1 = "Scenes/EAE_Level1.1";//Gucci_V1.2";
         public static string MainMenu = "Scenes/Build Scenes/MainMenu";
         //public static string Arena = "Scenes/Build Scenes/Gucci_V1.2";
         public static string Arena = "Scenes/Build Scenes/Arena 1";
@@ -33,12 +32,12 @@
         public static string MAIN = "MainMenu";
         public static string CREDITS = "CreditsMenu";
         public static string LOAD = "LoadMenu";
-        public static string LOGO = "LogoMenu";
         public static string PAUSE = "PauseMenu";
-        public static string FADE = "FadeMenu";
         public static string TUTORIAL = "TutorialMenu";
         public static string STAGE_OVER = "StageOverMenu";
         public static string SETTINGS = "Settings";
+        public static string LEVEL_SELECT = "LevelSelect";
+        public static string WEAPON_SELECT = "WeaponSelect";
     }
 
     public static class Input
@@ -54,8 +53,16 @@
             public const string FIRE_RIGHT = "Fire Right";
             public const string FIRE_LEFT = "Fire Left";
             public const string PAUSE = "Pause";
-            public const string SKIN = "Skin";
+            public const string EAT = "Eat";
             public const string DODGE = "Dodge";
+        }
+
+        public static class UI
+        {
+            public const string HORIZONTAL = "UIHorizontal";
+            public const string VERTICAL = "UIVertical";
+            public const string SUBMIT = "UISubmit";
+            public const string CANCEL = "UICancel";
         }
     }
 
@@ -63,6 +70,7 @@
     {
         public const string FACE_OPEN = "FaceOpen";
         public const string ARM_EXTENDED = "ArmExtended";
+        public const string ARM_ANIMATION_COMPLETE = "ArmAnimationComplete";
         public const string UPDATE_HEALTH = "UpdateHealth";
 
         public const string KILL_ENEMY = "KillEnemy";
@@ -72,13 +80,45 @@
         public const string EARN_ACHIEVEMENT = "EarnAchievement";
         public const string PROGRESS_ACHIEVEMENT = "ProgressAchievement";
         public const string UPDATE_ACHIEVEMENTS = "UpdateAchievements";
-        public const string LEVEL_COMPLETED = "LevelCompleted";
+        
         public const string CALL_NEXTWAVEENEMIES = "CallNextWaveEnemies";
+		
+        public const string UNLOCK_WEAPON = "UnlockWeapon";
+        public const string UNLOCK_NEXT_LEVEL = "UnlockNextLevel";
+
+        // NOTE: this event passes a string that's the displayed level's name
+        public const string LEVEL_DISPLAYED = "LevelDisplayed";
+
+        public const string SCORE_UPDATED = "ScoreUpdated";
+        public const string COMBO_UPDATED = "ComboUpdated";
+        public const string COMBO_TIMER_UPDATED = "ComboTimerUpdated";
+        public const string PLAYER_HEALTH_MODIFIED = "PlayerHealthModified";
+
+
+        public const string LEVEL_STARTED = "LevelStarted";
+        public const string LEVEL_FAILED = "LevelFailed";
+        public const string LEVEL_QUIT = "LevelQuit";
+        public const string LEVEL_COMPLETED = "LevelCompleted";
+        public const string EXIT_GAME = "ExitGame";
+
+        public const string PLAYER_DAMAGED = "PlayerDamaged";
+        public const string PLAYER_KILLED = "PlayerKilled";
     }
 
     public class AchievementNames {
         public const string Kill100 = "Blood Bath";
         public const string BeatLevel1 = "Conquest";
         public const string Skin20Enemies = "Skinner";        
+    }
+
+    public class PlayerPrefStrings
+    {
+        public const string BLASTER_ENABLED = "BlasterEnabled";
+        public const string LIGHTNING_GUN_ENABLED = "LightningGunEnabled";
+        public const string SPREAD_GUN_ENABLED = "SpreadGunEnabled";
+        public const string GEYSER_GUN_ENABLED = "GeyserGunEnabled";
+        public const string DICE_GUN_ENABLED = "DiceGunEnabled";
+        public const string BOOMERANG_ENABLED = "BoomerangEnabled";
+        public const string LATEST_UNLOCKED_LEVEL = "LatestUnlockedLevel";
     }
 }

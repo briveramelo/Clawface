@@ -68,8 +68,8 @@ public enum DamagedType {
 }
 
 public enum ModType {
-    ForceSegway = 0,
-    ArmBlaster = 1,
+    SpreadGun = 0,
+    Blaster = 1,
     LightningGun = 2,
     Boomerang = 3,
     Geyser = 4,
@@ -156,6 +156,12 @@ public enum PlayerAnimationStates
     Running = 1,
     Dash = 2,
     RetractVisor = 3
+}
+
+public enum PlayerAnimationLayers
+{
+    BaseLayer = 0,
+    SkinningLayer = 1
 }
 
 public enum ButtonMode
