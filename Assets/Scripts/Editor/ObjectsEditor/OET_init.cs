@@ -32,6 +32,7 @@ namespace OET_init
                 _CreateSingleton();
 
                 GameObject _platform = new GameObject("Platform");
+                Undo.RegisterCreatedObjectUndo(_platform, "Init the level");
 
                 GameObject _prefab = AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Old/Environment/Hallway/Hallway_Floor.prefab", typeof(GameObject)) as GameObject;
 
@@ -48,6 +49,7 @@ namespace OET_init
                         }
  
                         _instance.transform.SetParent(_platform.transform);
+                        Undo.RegisterCreatedObjectUndo(_instance, "Init the level");
                     }
                 }
                
@@ -69,12 +71,29 @@ namespace OET_init
         static void _CreateSingleton()
         {
             GameObject _prefab;
+            GameObject _instance;
 
             _prefab = AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Player/PlayerSpawner.prefab", typeof(GameObject)) as GameObject;
-            Instantiate(_prefab, new Vector3(0, 2.5f, 0), Quaternion.identity);
+
+            if (_prefab == null)
+                Debug.Log("PlayerSpawner PATH error!!!");
+            else
+            {
+                _instance = Instantiate(_prefab, new Vector3(0, 2.5f, 0), Quaternion.identity);
+                Undo.RegisterCreatedObjectUndo(_instance, "Init the level");
+            };
 
             _prefab = AssetDatabase.LoadAssetAtPath("Assets/Prefabs/General/ServiceWrangler.prefab", typeof(GameObject)) as GameObject;
-            Instantiate(_prefab, new Vector3(0, 0, 0), Quaternion.identity);
+
+            if(_prefab == null)
+            {
+                Debug.Log("ServiceWrangler PATH error!!!");
+            }
+            else
+            {
+                _instance = Instantiate(_prefab, new Vector3(0, 0, 0), Quaternion.identity);
+                Undo.RegisterCreatedObjectUndo(_instance, "Init the level");
+            }
         }
 
     }
