@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using MovementEffects;
 
-public class ZombieAttackState : ZombieState
+public class ZombieAttackState : AIState
 {
 
     bool isPastStartup;
@@ -15,8 +15,10 @@ public class ZombieAttackState : ZombieState
 
     public override void OnEnter()
     {
+        navAgent.enabled = false;
+        navObstacle.enabled = true;
         hitRate = properties.hitRate;
-        animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Fire);
+        animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Idle);
         shooterProperties.Initialize(2, 5, 6, 0);
         SetShooterProperties(shooterProperties);
     }
@@ -35,7 +37,8 @@ public class ZombieAttackState : ZombieState
     }
     public override void OnExit()
     {
-
+        navAgent.enabled = true;
+        navObstacle.enabled = false;
     }
 
 

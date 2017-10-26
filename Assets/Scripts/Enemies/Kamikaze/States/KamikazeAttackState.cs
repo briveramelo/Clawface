@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using MovementEffects;
 
-public class KamikazeSelfDestructState : KamikazeState {
+public class KamikazeAttackState : AIState {
 
     private ShooterProperties shooterProperties = new ShooterProperties();
     private Damager damager = new Damager();
@@ -13,7 +13,10 @@ public class KamikazeSelfDestructState : KamikazeState {
 
     public override void OnEnter()
     {
-        animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Fire);
+        navAgent.enabled = false;
+        navObstacle.enabled = true;
+
+        animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Idle);
         shooterProperties.Initialize(2, 5, 6, 0);
         SetShooterProperties(shooterProperties);
         waitTimeToDestruct = properties.selfDestructTime;

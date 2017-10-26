@@ -186,24 +186,6 @@ public enum MallCopAnimationStates {
     Fire = 8
 }
 
-public enum EMallCopState {
-    Patrol = 0,
-    Swing = 1,
-    Fall = 3,
-    Chase = 4,
-    Twitch = 5,
-    Fire = 6,
-    Flee = 7
-}
-
-public enum EZombieState
-{
-    Chase = 0,
-    Attack = 1,
-    Fall = 3,
-    Twitch = 4
-}
-
 public enum EBouncerState
 {
     Patrol = 0,
@@ -224,7 +206,8 @@ public enum EAIState
     Chase = 0,
     Attack = 1,
     Fire = 3,
-    Death = 4
+    Death = 4,
+    Stun = 5
 }
 
 

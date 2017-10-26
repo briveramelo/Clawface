@@ -11,10 +11,34 @@ using ModMan;
 
 public abstract class AIController : MonoBehaviour {
 
+    #region 2. Serialized Unity Inspector Fields
     [SerializeField] protected string DEBUG_CURRENTSTATE;
+    [SerializeField] protected GameObject modPrefab;
+    #endregion
 
+    #region 3. Hidden Unity Inspector Fields
     [HideInInspector] public float timeInLastState = 0;
-    [HideInInspector] public bool stateTimerIsRunning = false;    
+    [HideInInspector] public bool stateTimerIsRunning = false;
+    #endregion
+
+    #region 4. Private fields
+    private Transform attackTarget;
+    #endregion
+
+    #region 5. Protected fields
+    protected AIProperties properties;
+    protected Stats stats;
+    protected Mod mod;
+    protected States states;
+    protected Animator animator;
+    protected TransformMemento modMemento = new TransformMemento();
+    protected NavMeshAgent navAgent;
+    protected NavMeshObstacle navObstacle;
+    protected BulletHellPatternController bulletPatternController;
+    protected State currentState;
+    #endregion
+
+
     public Transform AttackTarget {
         get {
             if (attackTarget==null) {
@@ -25,24 +49,17 @@ public abstract class AIController : MonoBehaviour {
         set { attackTarget = value; }
     }
     public Vector3 AttackTargetPosition { get { return AttackTarget.position - transform.forward * .1f; } }
-    private Transform attackTarget;
 
-    [SerializeField] protected GameObject modPrefab;
-    protected AIProperties properties;
-    protected Stats stats;
-    protected Mod mod;
-    protected States states;
-    protected Animator animator;
-    protected TransformMemento modMemento = new TransformMemento();
-    protected NavMeshAgent navAgent;
 
-    protected float distanceFromTarget {get{ return Vector3.Distance(transform.position, AttackTarget.position); }}
+
+    private bool deActivateAI = false;
+    public float distanceFromTarget {get{ return Vector3.Distance(transform.position, AttackTarget.position); }}
     public Vector3 directionToTarget {
         get {
             return (AttackTargetPosition - transform.position).NormalizedNoY();            
         }
     }
-    protected State currentState;
+    
     public virtual State CurrentState {
         get { return currentState; }
         set {
@@ -55,17 +72,37 @@ public abstract class AIController : MonoBehaviour {
             Timing.RunCoroutine(IERestartStateTimer());
         }
     }
-    protected List<Func<bool>> checksToUpdateState = new List<Func<bool>>();
+    public List<Func<bool>> checksToUpdateState = new List<Func<bool>>();
 
-    protected virtual void Update() {
-        bool hasUpdated = false;
-        checksToUpdateState.ForEach(check => {
-            if (!hasUpdated && check()) {
-                hasUpdated = true;
+    private void OnDisable()
+    {
+        foreach (KeyValuePair<EAIState, AIState> state in states.aiStates)
+        {
+                Timing.KillCoroutines(state.Value.coroutineName);
+        }
+    }
+
+   public void DeActivateAI()
+    {
+        deActivateAI = true;
+    }
+
+
+    public void Update() {
+
+        if (!deActivateAI)
+        {
+            bool hasUpdated = false;
+            checksToUpdateState.ForEach(check => {
+                if (!hasUpdated && check())
+                {
+                    hasUpdated = true;
+                }
+            });
+            if (currentState != null)
+            {
+                currentState.Update();
             }
-        });
-        if (currentState!=null) {
-            currentState.Update();
         }
     }
 
@@ -74,8 +111,13 @@ public abstract class AIController : MonoBehaviour {
         timeInLastState = 0f;
 
         CurrentState = states.chase;
-        mod.transform.Reset(modMemento);
-        mod.DeactivateModCanvas();
+
+        if (mod != null)
+        {
+            mod.transform.Reset(modMemento);
+            mod.DeactivateModCanvas();
+
+        }
     }
 
     public void RestartStateTimer() {
@@ -108,11 +150,38 @@ public abstract class AIController : MonoBehaviour {
 
     public void Initialize(
         AIProperties properties,
+        VelocityBody velBody,
+        Animator animator,
+        Stats stats,
+        NavMeshAgent navAgent,
+        NavMeshObstacle navObstacle,
+        List<AIState> aiStates)
+    {
+
+        this.properties = properties;
+        this.stats = stats;
+        this.animator = animator;
+        this.navAgent = navAgent;
+        this.navObstacle = navObstacle;
+
+        states = new States();
+        states.Initialize(properties, this, velBody, animator, stats, navAgent, navObstacle, aiStates);
+
+        if (mod != null)
+            modMemento.Initialize(mod.transform);
+
+        CurrentState = states.chase;
+    }
+
+    public void Initialize(
+        AIProperties properties,
         Mod mod,
         VelocityBody velBody,
         Animator animator,
         Stats stats,
-        NavMeshAgent navAgent)
+        NavMeshAgent navAgent,
+        NavMeshObstacle navObstacle,
+        List<AIState> aiStates )
     {
 
         this.properties = properties;
@@ -120,10 +189,40 @@ public abstract class AIController : MonoBehaviour {
         this.stats = stats;
         this.animator = animator;
         this.navAgent = navAgent;
+        this.navObstacle = navObstacle;
 
         states = new States();
-        states.Initialize(properties, this, velBody, animator, stats, navAgent);
+        states.Initialize(properties, this, velBody, animator, stats, navAgent, navObstacle,aiStates);
+
+        if(mod != null)
         modMemento.Initialize(mod.transform);
+
+        CurrentState = states.chase;
+    }
+
+    public void Initialize(
+        AIProperties properties,
+        VelocityBody velBody,
+        Animator animator,
+        Stats stats,
+        NavMeshAgent navAgent,
+        NavMeshObstacle navObstacle,
+        BulletHellPatternController bulletPatternController,
+        List<AIState> aiStates)
+    {
+
+        this.properties = properties;
+        this.stats = stats;
+        this.animator = animator;
+        this.navAgent = navAgent;
+        this.navObstacle = navObstacle;
+
+        states = new States();
+        states.Initialize(properties, this, velBody, animator, stats, navAgent, navObstacle, bulletPatternController,aiStates);
+
+        if (mod != null)
+            modMemento.Initialize(mod.transform);
+
         CurrentState = states.chase;
     }
 
@@ -135,6 +234,7 @@ public abstract class AIController : MonoBehaviour {
     #region Animation Events
     public void ActivateMod()
     {
+        if(mod != null)
         mod.Activate();
     }
 
@@ -148,12 +248,13 @@ public abstract class AIController : MonoBehaviour {
 
     protected class States
     {
-        public AIChaseState chase;
-        public AIAttackState attack;
-        public AIFireState fire;
-        public AIDeathState death;
+        public AIState chase;
+        public AIState attack;
+        public AIState fire;
+        public AIState death;
+        public AIState stun;
 
-        private Dictionary<EAIState, AIState> aiStates;
+        public Dictionary<EAIState, AIState> aiStates;
 
         public void Initialize(
             AIProperties properties,
@@ -161,20 +262,98 @@ public abstract class AIController : MonoBehaviour {
             VelocityBody velBody,
             Animator animator,
             Stats stats,
-            NavMeshAgent navAgent)
+            NavMeshAgent navAgent,
+            NavMeshObstacle navObstacle,
+            List<AIState> aiStatesElements)
         {
 
-            chase.Initialize(properties, controller, velBody, animator, stats, navAgent);
-            attack.Initialize(properties, controller, velBody, animator, stats, navAgent);
-            fire.Initialize(properties, controller, velBody, animator, stats, navAgent);
-            death.Initialize(properties, controller, velBody, animator, stats, navAgent);
+            aiStates = new Dictionary<EAIState, AIState>();
 
-            aiStates = new Dictionary<EAIState, AIState>() {
-                {EAIState.Chase, chase },
-                {EAIState.Attack, attack },
-                {EAIState.Fire, fire },
-                {EAIState.Death, death },
-            };
+            foreach (AIState state in aiStatesElements)
+            {
+
+                state.Initialize(properties, controller, velBody, animator, stats, navAgent, navObstacle);
+
+                if (state.stateName.Equals("chase"))
+                {
+                    chase = state;
+                    aiStates.Add(EAIState.Chase, chase);
+                }
+                else if (state.stateName.Equals("attack"))
+                {
+                    attack = state;
+                    aiStates.Add(EAIState.Attack, attack);
+                }
+
+                else if (state.stateName.Equals("fire"))
+                {
+                    fire = state;
+                    aiStates.Add(EAIState.Fire, fire);
+                }
+
+                else if (state.stateName.Equals("death"))
+                {
+                    death = state;
+                    aiStates.Add(EAIState.Death, death);
+                }
+                else if (state.stateName.Equals("stun"))
+                {
+                    stun = state;
+                    aiStates.Add(EAIState.Stun, stun);
+                }
+            }
+
+        }
+
+        public void Initialize(
+            AIProperties properties,
+            AIController controller,
+            VelocityBody velBody,
+            Animator animator,
+            Stats stats,
+            NavMeshAgent navAgent,
+            NavMeshObstacle navObstacle,
+            BulletHellPatternController bulletPatternController,
+            List<AIState> aiStatesElements)
+        {
+
+            aiStates = new Dictionary<EAIState, AIState>();
+
+            foreach (AIState state in aiStatesElements)
+            {
+
+                state.Initialize(properties, controller, velBody, animator, stats, navAgent, navObstacle, bulletPatternController);
+
+                if (state.stateName.Equals("chase"))
+                {
+                    chase = state;
+                    aiStates.Add(EAIState.Chase, chase);
+                }
+                else if (state.stateName.Equals("attack"))
+                {
+                    attack = state;
+                    aiStates.Add(EAIState.Attack, attack);
+                }
+
+                else if (state.stateName.Equals("fire"))
+                {
+                    fire = state;
+                    aiStates.Add(EAIState.Fire, fire);
+                }
+
+                else if (state.stateName.Equals("death"))
+                {
+                    death = state;
+                    aiStates.Add(EAIState.Death, death);
+                }
+                else if (state.stateName.Equals("stun"))
+                {
+                    stun = state;
+                    aiStates.Add(EAIState.Stun, stun);
+                }
+
+            }
+
         }
 
         public AIState GetState(EAIState state)
