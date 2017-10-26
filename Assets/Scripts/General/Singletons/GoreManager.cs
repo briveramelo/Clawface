@@ -9,6 +9,13 @@ using UnityEngine;
 
 public class GoreManager : Singleton<GoreManager> {
 
+    #region Unity Serialization
+
+    [SerializeField]
+    private Camera uvSpaceCamera;
+
+    #endregion
+
     private int mask;
 
     protected override void Awake()
@@ -36,7 +43,7 @@ public class GoreManager : Singleton<GoreManager> {
             Splattable canSplat = obj.GetComponent<Splattable>();
             if (canSplat)
             {
-                canSplat.DrawSplat(worldPos, new Vector3(1, 0, 0)); // we're not actually using the normal yet
+                canSplat.DrawSplat(worldPos, new Vector3(1, 0, 0), uvSpaceCamera); // we're not actually using the normal yet
             }
         }
     }

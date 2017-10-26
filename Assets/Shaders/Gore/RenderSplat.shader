@@ -75,7 +75,7 @@
 				v2f o;
 				// Map vertices to their positions in "UV space" so we can "render"
 				// into a texture that has the same positions as the appropriate UV
-				o.vertex = float4(v.uv, 0, 1);
+				o.vertex = mul( UNITY_MATRIX_VP, float4(v.uv * 2.0 - 1, 0.5, 1));
 				o.uv = v.uv;
 				o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
 

@@ -24,8 +24,6 @@ public class Splattable : MonoBehaviour {
     private Material renderMaterial;
     private Renderer myRenderer;
     private MaterialPropertyBlock propBlock;
-    private CommandBuffer myCommandBuffer;
-    private Camera renderCam;
 
     #endregion
 
@@ -42,26 +40,13 @@ public class Splattable : MonoBehaviour {
         renderMaterial = new Material(renderSplat);
         propBlock = new MaterialPropertyBlock();
 
-        renderCam = gameObject.AddComponent<Camera>();
-        renderCam.clearFlags = CameraClearFlags.SolidColor;
-        renderCam.backgroundColor = new Color(0.0f, 0.0f, 0.0f, 0.0f);
-        renderCam.orthographic = true;
-        renderCam.nearClipPlane = 0.0f;
-        renderCam.farClipPlane = 1.0f;
-        renderCam.orthographicSize = 1.0f;
-        renderCam.aspect = 1.0f;
-        renderCam.useOcclusionCulling = false;
-        renderCam.enabled = false;
-
         myRenderer = GetComponent<Renderer>();
-        myCommandBuffer = new CommandBuffer();
-        renderCam.AddCommandBuffer(CameraEvent.AfterEverything, myCommandBuffer);
     }
 
     #endregion
 
     #region Public Interface
-    public void DrawSplat(Vector3 worldPos, Vector3 normal)
+    public void DrawSplat(Vector3 worldPos, Vector3 normal, Camera renderCam)
     {
         //grab random decal
         Texture2D randomlySelected = splats[Random.Range(0, splats.Length - 1)];
@@ -73,9 +58,11 @@ public class Splattable : MonoBehaviour {
         renderMaterial.SetTexture("_Decal", randomlySelected);
 
         //set up command buffer
+        CommandBuffer myCommandBuffer = new CommandBuffer();
         myCommandBuffer.SetRenderTarget(textures[0]);
         myCommandBuffer.ClearRenderTarget(true, true, new Color(0, 0, 0, 0));
         myCommandBuffer.DrawRenderer(myRenderer, renderMaterial);
+        renderCam.AddCommandBuffer(CameraEvent.AfterEverything, myCommandBuffer);
 
         //render splat
         renderCam.Render();
