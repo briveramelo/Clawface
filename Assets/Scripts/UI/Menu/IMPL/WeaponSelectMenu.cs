@@ -90,6 +90,9 @@ public class WeaponSelectMenu : Menu
 		LoadMenu loadMenu = (LoadMenu)menu;
 		loadMenu.TargetScene = level;
 
+        // Trigger level started event
+        EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_STARTED, loadMenu.TargetScene, ModManager.leftArmOnLoad.ToString(), ModManager.rightArmOnLoad.ToString());
+
 		// Make it happen.
 		MenuManager.Instance.DoTransition (loadMenu, Transition.SHOW,
 			new Effect[] { Effect.EXCLUSIVE });

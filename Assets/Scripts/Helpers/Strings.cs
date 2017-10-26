@@ -80,11 +80,20 @@
         public const string EARN_ACHIEVEMENT = "EarnAchievement";
         public const string PROGRESS_ACHIEVEMENT = "ProgressAchievement";
         public const string UPDATE_ACHIEVEMENTS = "UpdateAchievements";
-        public const string LEVEL_COMPLETED = "LevelCompleted";
+        
         public const string CALL_NEXTWAVEENEMIES = "CallNextWaveEnemies";
-
+		
         public const string UNLOCK_WEAPON = "UnlockWeapon";
         public const string UNLOCK_NEXT_LEVEL = "UnlockNextLevel";
+
+        public const string LEVEL_STARTED = "LevelStarted";
+        public const string LEVEL_FAILED = "LevelFailed";
+        public const string LEVEL_QUIT = "LevelQuit";
+        public const string LEVEL_COMPLETED = "LevelCompleted";
+        public const string EXIT_GAME = "ExitGame";
+
+        public const string PLAYER_DAMAGED = "PlayerDamaged";
+        public const string PLAYER_KILLED = "PlayerKilled";
     }
 
     public class AchievementNames {

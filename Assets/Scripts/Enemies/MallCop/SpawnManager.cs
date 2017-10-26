@@ -2,11 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SpawnManager : MonoBehaviour
 {
     int currentSpawner = 0;
     float time = 0.0f;
+
+    private float levelTime;
 
     bool spawnClear = true;
     bool LevelClear = false;
@@ -15,8 +18,10 @@ public class SpawnManager : MonoBehaviour
 
     public List<SpawnerUnit> spawners = new List<SpawnerUnit>();
 
-    void OnEnable() {
-        EventSystem.Instance.RegisterEvent(Strings.Events.CALL_NEXTWAVEENEMIES, CallNextSpawner);
+    void OnEnable()
+    {
+        if(EventSystem.Instance)
+            EventSystem.Instance.RegisterEvent(Strings.Events.CALL_NEXTWAVEENEMIES, CallNextSpawner);
     }
     void OnDisable() {
         if (EventSystem.Instance) {
@@ -24,9 +29,14 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
+    public void Trigger()
+    {
+        OnEnable();
+        Start();
+    }
+
     void Start()
     {
-        
         EventSystem.Instance.TriggerEvent(Strings.Events.CALL_NEXTWAVEENEMIES);
 
         if (spawners.Count == 0)
@@ -37,10 +47,13 @@ public class SpawnManager : MonoBehaviour
 
     private void Update()
     {
+        levelTime += Time.deltaTime;
+
         if(currentSpawner == spawners.Count && LevelClear == true)
         {
             LevelClear = false;
-            EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_COMPLETED);
+            EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_COMPLETED, 
+                SceneManager.GetActiveScene().name, levelTime, ScoreManager.Instance.GetScore(), ModManager.leftArmOnLoad.ToString(), ModManager.rightArmOnLoad.ToString() );
         }
     }
 
@@ -55,12 +68,14 @@ public class SpawnManager : MonoBehaviour
         {
             time = spawners[currentSpawner].Time;
             spawner = spawners[currentSpawner++].Prefab.GetComponent<Spawner>();
+            AnalyticsManager.Instance.SetCurrentWave(currentSpawner);
             yield return new WaitForSeconds(waitTime);
             spawner.Activate();
         }
         else
         {
             LevelClear = true;
+            AnalyticsManager.Instance.SetCurrentLevelTime(levelTime);
         }
     }
 }

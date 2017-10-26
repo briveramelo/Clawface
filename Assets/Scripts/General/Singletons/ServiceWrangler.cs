@@ -7,7 +7,6 @@ public class ServiceWrangler : Singleton<ServiceWrangler> {
 
     protected ServiceWrangler() { }
 
-
     [SerializeField]
     private GameObject sfxManager, objectPool, inputManager, hitstopManager, playerTeleporter,
          analyticsManager, damageFXManager, upgradeManager, menuManager, musicManager, scoreManager, 
@@ -37,9 +36,10 @@ public class ServiceWrangler : Singleton<ServiceWrangler> {
             { typeof(SaveState).ToString(),       new PrefabBool(ref saveState) },
         };
         base.Awake();
+
     }
 
-    private void Start() {
+    private void OnEnable () {
         foreach (KeyValuePair<string, PrefabBool> singletonRegistered in singletonPrefabRegistry) {
             if (!singletonRegistered.Value.isRegistered) {
                 GameObject singletonGameObject = Instantiate(singletonRegistered.Value.prefab, gameObject.transform, true) as GameObject;
@@ -57,8 +57,7 @@ public class ServiceWrangler : Singleton<ServiceWrangler> {
     {
         string typeString = typeof(T).ToString();
 
-        if (singletonPrefabRegistry.ContainsKey(typeString) && !singletonPrefabRegistry[typeString].isRegistered)
-        {
+        if (singletonPrefabRegistry.ContainsKey(typeString) && !singletonPrefabRegistry[typeString].isRegistered){
             singletonPrefabRegistry[typeString].isRegistered = true;
         }
         else if (typeString != (typeof(ServiceWrangler)).ToString()) {            

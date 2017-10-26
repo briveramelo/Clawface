@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Turing.VFX;
 
 public class PlayerStatsManager : MonoBehaviour, IDamageable
@@ -65,6 +66,7 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
 
             if (stats.GetStat(CharacterStatType.Health) <= 0)
             {
+                EventSystem.Instance.TriggerEvent(Strings.Events.PLAYER_KILLED, SceneManager.GetActiveScene().name, AnalyticsManager.Instance.GetCurrentWave(), ModManager.leftArmOnLoad.ToString(), ModManager.rightArmOnLoad.ToString());
                 Revive();
             }
         }
@@ -106,7 +108,7 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
         stats.Add(CharacterStatType.Health, (int)startHealth);
         startHealth = stats.GetStat(CharacterStatType.MaxHealth);
         playerUI.SetHealth(stats.GetHealthFraction());
-        AnalyticsManager.Instance.PlayerDeath();
+        // AnalyticsManager.Instance.PlayerDeath();
     }
     #endregion
 
