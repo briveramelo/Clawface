@@ -110,5 +110,6 @@
         public const string GEYSER_GUN_ENABLED = "GeyserGunEnabled";
         public const string DICE_GUN_ENABLED = "DiceGunEnabled";
         public const string BOOMERANG_ENABLED = "BoomerangEnabled";
+        public const string LATEST_UNLOCKED_LEVEL = "LatestUnlockedLevel";
     }
 }

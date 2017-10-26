@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SaveState : Singleton<SaveState> {
 
+    private static int MAX_NUMBER_OF_LEVELS = 12;
+
     #region Unity  lifecycle
     private void Start()
     {
@@ -121,7 +123,13 @@ public class SaveState : Singleton<SaveState> {
 
     private void UnlockNextLevel(params object[] parameters)
     {
-        
+        int latestLevel = GetInt(Strings.PlayerPrefStrings.LATEST_UNLOCKED_LEVEL, 1);
+        latestLevel++;
+        if(latestLevel > MAX_NUMBER_OF_LEVELS)
+        {
+            latestLevel = MAX_NUMBER_OF_LEVELS;
+        }
+        SetInt(Strings.PlayerPrefStrings.LATEST_UNLOCKED_LEVEL, latestLevel);
     }
     #endregion
 }
