@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.AI;
 using ModMan;
 using MovementEffects;
 
-public class BouncerChaseState : BouncerState {
+public class BouncerChaseState : AIState {
 
     private Vector3 jumpTarget;
     private float jumpTargetDistance = 12f;
@@ -14,6 +15,8 @@ public class BouncerChaseState : BouncerState {
     private float tolerance = 0.35f;
     private int jumpCount = 0;
     private int maxJumpCount;
+    private NavMeshHit hit;
+    private Vector3 finalPosition;
 
     public override void OnEnter()
     {
@@ -67,13 +70,15 @@ public class BouncerChaseState : BouncerState {
         {
             float angle = randStart + clockwise * i * (360f / numRayChecks);
             Vector3 moveDirection = angle.ToVector3();
-            if (!IsHittingWall(moveDirection, jumpTargetDistance))
+            moveDirection = moveDirection.normalized;
+            moveDirection.y = .1f;
+            jumpTarget = controller.transform.position + moveDirection * jumpTargetDistance;
+
+            if (NavMesh.SamplePosition(jumpTarget, out hit, jumpTargetDistance, 1))
             {
-                moveDirection = moveDirection.normalized;
-                moveDirection.y = .1f;
-                jumpTarget = controller.transform.position + moveDirection * jumpTargetDistance;
-                gotChasePoint = true;
-                break;
+                  finalPosition = hit.position;
+                  gotChasePoint = true;
+                  break;
             }
         }
 
@@ -87,7 +92,7 @@ public class BouncerChaseState : BouncerState {
        
 
         Vector3 initialPosition = controller.transform.position;
-        Vector3 targetPosition = new Vector3(jumpTarget.x, 0.2f, jumpTarget.z);
+        Vector3 targetPosition = new Vector3(finalPosition.x, 0.2f, finalPosition.z);
 
         Vector3 midpoint = (initialPosition + targetPosition) * 0.5f;
         midpoint.y += height;

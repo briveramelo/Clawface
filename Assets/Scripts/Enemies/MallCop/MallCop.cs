@@ -4,186 +4,153 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System;
 using ModMan;
-using UnityEngine.AI;
 using MovementEffects;
 
-public class MallCop : RoutineRunner, IStunnable, IDamageable, ISkinnable, ISpawnable
+[System.Serializable]
+public class MallCopProperties : AIProperties
+{
+}
+
+public class MallCop : EnemyBase
 {
 
-    #region 2. Serialized Unity Inspector Fields
-    [SerializeField] private MallCopController controller;
+    #region 1. Serialized Unity Inspector Fields
+    [SerializeField] SphereCollider playerDetectorSphereCollider;
+    [SerializeField] float closeEnoughToFireDistance;
     [SerializeField] private MallCopProperties properties;
-    [SerializeField] private VelocityBody velBody;
-    [SerializeField] private Animator animator;
-    [SerializeField] private Stats myStats;
-    [SerializeField] private NavMeshAgent navAgent;
-    [SerializeField] private GameObject mySkin;
-    [SerializeField] private CopUI copUICanvas;
     [SerializeField] private Mod mod;
-    [SerializeField] private Transform bloodEmissionLocation;
-    [SerializeField] private int scorePopupDelay = 2;
-    [SerializeField] private int scoreValue = 200;
-    #endregion
-
-    #region 3. Private fields
-
-
-    private int stunCount;
-    private Will will=new Will();
-    private Damaged damaged = new Damaged();
-    private DamagePack damagePack=new DamagePack();
 
     #endregion
 
-    #region 4. Unity Lifecycle
+    #region 2. Private fields
+    //The AI States of the Mall Cop
+    private MallCopChaseState chase;
+    private MallCopFireState fire;
+    private MallCopStunState stun;
+    #endregion
 
-    private void OnEnable() {
+    #region 3. Unity Lifecycle
 
-        if (will.willHasBeenWritten) {
-            ResetForRebirth();
-        }
-    }
-    
-    void Awake ()
+    public override void Awake()
     {
-        controller.Initialize(properties, mod, velBody, animator, myStats, navAgent);
-        damaged.Set(DamagedType.MallCop, bloodEmissionLocation);
+        InitilizeStates();
+        controller.Initialize(properties, mod, velBody, animator, myStats, navAgent, navObstacle, aiStates);
         mod.setModSpot(ModSpot.ArmR);
         mod.AttachAffect(ref myStats, velBody);
-        ResetForRebirth();
-    }    
+        damaged.Set(DamagedType.MallCop, bloodEmissionLocation);
+
+        controller.checksToUpdateState = new List<Func<bool>>() {
+            CheckToFire,
+            CheckToFinishFiring,
+            CheckIfStunned
+        };
+
+        base.Awake();
+    }
 
     #endregion
 
-    #region 5. Public Methods   
+    #region 4. Public Methods   
 
-    void IDamageable.TakeDamage(Damager damager)
-    {        
-        if (myStats.health > 0){                        
-            myStats.TakeDamage(damager.damage);            
-            damagePack.Set(damager, damaged);
-            SFXManager.Instance.Play(SFXType.MallCopHurt, transform.position);
-            DamageFXManager.Instance.EmitDamageEffect(damagePack);
-            if (myStats.health <= myStats.skinnableHealth){
-                copUICanvas.gameObject.SetActive(true);
-                copUICanvas.ShowAction(ActionType.Skin);
-            }
-            if (myStats.health <= 0) {
-                controller.UpdateState(EMallCopState.Fall);
-
-                //mod.DetachAffect();
-                OnDeath();
-            }
-            else {
-                    controller.UpdateState(EMallCopState.Chase);
-                
-            }
-        }
-    }
-
-    float IDamageable.GetHealth()
+    //State conditions
+    bool CheckToFire()
     {
-        return myStats.health;
-    }
-
-    void ISpawnable.WarpToNavMesh(Vector3 position)
-    {
-        navAgent.Warp(position);
-    }
-
-
-    bool ISkinnable.IsSkinnable(){
-        return myStats.health <= myStats.skinnableHealth;
-    }
-
-    GameObject ISkinnable.DeSkin(){
-        Invoke("OnDeath", 0.1f);
-        return Instantiate(mySkin, null, false);
-    }
-
-    void IStunnable.Stun(){
-        stunCount++;
-        if (stunCount >= properties.numShocksToStun)
+        if ((controller.CurrentState == chase && controller.distanceFromTarget < closeEnoughToFireDistance))
         {
-            stunCount = 0;
-            if (myStats.health > 0 ) {
-                controller.UpdateState(EMallCopState.Twitch);
-            }
+            controller.UpdateState(EAIState.Fire);
+            return true;
         }
-    }    
-
-    public bool HasWillBeenWritten() { return will.willHasBeenWritten; }
-
-    public void RegisterDeathEvent(OnDeath onDeath)
+        return false;
+    }
+    bool CheckToFinishFiring()
     {
-        will.willHasBeenWritten = true;
-        will.onDeath = onDeath;
-    }
+        if (controller.CurrentState == fire && fire.CanRestart())
+        {
 
-    #endregion
+            bool shouldChase = controller.distanceFromTarget > maxDistanceBeforeChasing;
 
-    #region 6. Private Methods    
-
-    private void OnDeath() {
-        if (!will.isDead) {
-            will.isDead=true;
-            if (will.willHasBeenWritten)
+            if (shouldChase)
             {
-                will.onDeath();
+                controller.UpdateState(EAIState.Chase);
             }
-
-            UpgradeManager.Instance.AddEXP(Mathf.FloorToInt(myStats.exp));
-
-            GameObject mallCopParts = ObjectPool.Instance.GetObject(PoolObjectType.VFXMallCopExplosion);
-            if (mallCopParts) {
-                SFXManager.Instance.Play(SFXType.BloodExplosion, transform.position);
-                mallCopParts.transform.position = transform.position + Vector3.up*3f;
-                mallCopParts.transform.rotation = transform.rotation;
-                mallCopParts.DeActivate(5f);                
+            else
+            {
+                controller.UpdateState(EAIState.Fire);
             }
-
-            GameObject worldScoreObject = ObjectPool.Instance.GetObject(PoolObjectType.WorldScoreCanvas);
-            if (worldScoreObject) {
-                worldScoreObject.GetComponent<Canvas>().GetComponent<RectTransform>().SetPositionAndRotation(transform.position, transform.rotation);                //worldScoreObject.transform.position = transform.position /*+ Vector3.up * 3f*/;
-                WorldScoreUI popUpScore = worldScoreObject.GetComponent<WorldScoreUI>();
-
-                int scoreBonus = scoreValue * ScoreManager.Instance.GetCurrentMultiplier();
-                popUpScore.DisplayScoreAndHide(scoreBonus, scorePopupDelay);
-                ScoreManager.Instance.AddToScoreAndCombo(scoreBonus);
-            }
-
-            mod.KillCoroutines();            
-            gameObject.SetActive(false);
+            return true;
         }
+        return false;
+    }
+    bool CheckIfStunned()
+    {
+        if (myStats.health <= myStats.skinnableHealth)
+        {
+            controller.CurrentState = stun;
+            controller.UpdateState(EAIState.Stun);
+            controller.DeActivateAI();
+            return true;
+        }
+        return false;
+
+    }
+   
+    float maxDistanceBeforeChasing { get { return playerDetectorSphereCollider.radius * playerDetectorSphereCollider.transform.localScale.x * transform.localScale.x; } } //assumes parenting scheme...
+
+
+    public override void OnDeath()
+    {
+        if (!will.isDead)
+        {
+            GameObject mallCopParts = ObjectPool.Instance.GetObject(PoolObjectType.VFXMallCopExplosion);
+            if (mallCopParts)
+            {
+                SFXManager.Instance.Play(SFXType.BloodExplosion, transform.position);
+                mallCopParts.transform.position = transform.position + Vector3.up * 3f;
+                mallCopParts.transform.rotation = transform.rotation;
+                mallCopParts.DeActivate(5f);
+            }
+            mod.KillCoroutines();
+        }
+        base.OnDeath();
     }
 
-    private void ResetForRebirth() {
-        GetComponent<CapsuleCollider>().enabled = true;
+    public override void ResetForRebirth()
+    {
         copUICanvas.gameObject.SetActive(false);
         mod.DeactivateModCanvas();
-        
-        myStats.ResetForRebirth();
-        controller.ResetForRebirth();
-        velBody.ResetForRebirth();
-        will.Reset();
-        //TODO check for missing mod and create a new one and attach it
-        mod.setModSpot(ModSpot.ArmR);        
-    }       
+        mod.setModSpot(ModSpot.ArmR);
+        base.ResetForRebirth();
+    }
 
     #endregion
 
-    #region 7. Internal Structures            
+    #region 5. Private Methods    
+
+    private void InitilizeStates()
+    {
+        aiStates = new List<AIState>();
+        chase = new MallCopChaseState();
+        chase.stateName = "chase";
+        fire = new MallCopFireState();
+        fire.stateName = "fire";
+        stun = new MallCopStunState();
+        stun.stateName = "stun";
+        aiStates.Add(chase);
+        aiStates.Add(fire);
+        aiStates.Add(stun);
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, closeEnoughToFireDistance);
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(playerDetectorSphereCollider.transform.position, maxDistanceBeforeChasing);
+    }
+
     #endregion
 
 }
 
-[System.Serializable]
-public class MallCopProperties {
-    public float runMultiplier;
-    [Range(5f, 15f)] public float maxChaseTime;
-    [Range(5f, 15f)] public float walkTime;
-    [Range(1, 6)] public int numShocksToStun;
-    [Range(.1f, 1)] public float twitchRange;
-    [Range(.1f, 1f)] public float twitchTime;    
-}

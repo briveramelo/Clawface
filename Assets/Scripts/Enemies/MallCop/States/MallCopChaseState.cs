@@ -5,11 +5,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class MallCopChaseState : MallCopState {    
+public class MallCopChaseState : AIState {
 
     public override void OnEnter() {
         animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Run);
         controller.AttackTarget = controller.FindPlayer();
+        navAgent.speed = myStats.moveSpeed;
     }
     public override void Update() {
         Chase();        
@@ -21,13 +22,12 @@ public class MallCopChaseState : MallCopState {
     void Chase() {
 
         //Orient cop towards player
-        if (Vector3.Distance(controller.AttackTarget.position, velBody.transform.position) > 100.0f)
+        if (Vector3.Distance(controller.AttackTarget.position, controller.transform.position) > 100.0f)
         {
             Vector3 lookAtPosition = new Vector3(controller.AttackTarget.position.x, 0, controller.AttackTarget.position.z);
-            velBody.transform.LookAt(lookAtPosition);
-            velBody.transform.rotation = Quaternion.Euler(0f, velBody.transform.rotation.eulerAngles.y, 0f);
-        }
-        velBody.velocity = Vector3.zero;    
+            controller.transform.LookAt(lookAtPosition);
+            controller.transform.rotation = Quaternion.Euler(0f, controller.transform.rotation.eulerAngles.y, 0f);
+        } 
 
         if(navAgent.enabled && navAgent.isOnNavMesh)
         navAgent.SetDestination(controller.AttackTarget.position);
