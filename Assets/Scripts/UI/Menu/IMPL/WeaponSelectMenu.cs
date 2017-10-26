@@ -33,12 +33,12 @@ public class WeaponSelectMenu : Menu
 	{
 	}
 
-	#endregion
+    #endregion
 
-	#region Interface (Unity Lifecycle)
-
-	private void Update ()
-	{
+    #region Interface (Unity Lifecycle)
+    
+    private void Update ()
+	{        
 		PollWeaponSelect ();
 	}
 
@@ -59,7 +59,8 @@ public class WeaponSelectMenu : Menu
 	protected override void ShowStarted ()
 	{
 		base.ShowStarted ();
-		UpdateDisplay ();
+        UpdateWeaponsStatus();
+        UpdateDisplay ();
 	}
 
 	#endregion
@@ -97,11 +98,33 @@ public class WeaponSelectMenu : Menu
 			new Effect[] { Effect.EXCLUSIVE });
 	}
 
-	#endregion
+    #endregion
 
-	#region Interface (Private)
+    #region Interface (Private)
 
-	private void PollWeaponSelect ()
+    private void UpdateWeaponsStatus()
+    {
+        SetWeaponStatus(ModType.Blaster, SaveState.Instance.GetBool(Strings.PlayerPrefStrings.BLASTER_ENABLED, true));
+        SetWeaponStatus(ModType.Boomerang, SaveState.Instance.GetBool(Strings.PlayerPrefStrings.BOOMERANG_ENABLED, false));
+        SetWeaponStatus(ModType.Dice, SaveState.Instance.GetBool(Strings.PlayerPrefStrings.DICE_GUN_ENABLED, false));
+        SetWeaponStatus(ModType.Geyser, SaveState.Instance.GetBool(Strings.PlayerPrefStrings.GEYSER_GUN_ENABLED, false));
+        SetWeaponStatus(ModType.LightningGun, SaveState.Instance.GetBool(Strings.PlayerPrefStrings.LIGHTNING_GUN_ENABLED, false));
+        SetWeaponStatus(ModType.SpreadGun, SaveState.Instance.GetBool(Strings.PlayerPrefStrings.SPREAD_GUN_ENABLED, false));
+    }
+
+    private void SetWeaponStatus(ModType modType, bool enabled)
+    {
+        foreach(ButtonBundle weapon in weapons)
+        {
+            if(weapon.type == modType)
+            {
+                weapon.button.interactable = enabled;
+                break;
+            }
+        }
+    }
+
+    private void PollWeaponSelect ()
 	{
 		ButtonMode leftMode = InputManager.Instance.QueryAction (Strings.Input.Actions.FIRE_LEFT);
 		ButtonMode rightMode = InputManager.Instance.QueryAction (Strings.Input.Actions.FIRE_RIGHT);
