@@ -109,7 +109,6 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
         startHealth = stats.GetStat(CharacterStatType.MaxHealth);
 
         EventSystem.Instance.TriggerEvent(Strings.Events.PLAYER_HEALTH_MODIFIED, stats.GetHealthFraction());
-        AnalyticsManager.Instance.PlayerDeath();
 
     }
     #endregion
