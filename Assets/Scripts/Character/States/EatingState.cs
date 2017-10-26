@@ -12,11 +12,18 @@ public class EatingState : IPlayerState
     #endregion
 
     #region Unity Lifecycle 
-    private void Start()
+    private void OnEnable()
     {        
         EventSystem.Instance.RegisterEvent(Strings.Events.FACE_OPEN, DoArmExtension);
         EventSystem.Instance.RegisterEvent(Strings.Events.ARM_EXTENDED, CaptureEnemy);
         EventSystem.Instance.RegisterEvent(Strings.Events.ARM_ANIMATION_COMPLETE, EndState);
+    }
+    private void OnDisable() {
+        if (EventSystem.Instance) {
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.FACE_OPEN, DoArmExtension);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.ARM_EXTENDED, CaptureEnemy);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.ARM_ANIMATION_COMPLETE, EndState);
+        }
     }
 
     public override void Init(ref PlayerStateManager.StateVariables stateVariables)
@@ -54,16 +61,7 @@ public class EatingState : IPlayerState
     public override void StateLateUpdate()
     {
         LookAtEnemy();
-    }
-
-    private void OnDisable()
-    {
-        if (EventSystem.Instance) {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.FACE_OPEN, DoArmExtension);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.ARM_EXTENDED, CaptureEnemy);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.ARM_ANIMATION_COMPLETE, EndState);
-        }
-    }
+    }    
     #endregion
 
     #region Private Methods
