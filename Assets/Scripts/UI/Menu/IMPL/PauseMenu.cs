@@ -38,13 +38,13 @@ public class PauseMenu : Menu
 
 	private bool paused = false;
 	private bool canPause = true;
-	// used to indicate the game is in a level and "can pause"
+    // used to indicate the game is in a level and "can pause"
 
-	#endregion
+    #endregion
 
-	#region Unity Lifecycle Methods
+    #region Unity Lifecycle Methods
 
-	void Update ()
+    void Update ()
 	{
 		if (canPause && InputManager.Instance.QueryAction (Strings.Input.Actions.PAUSE,
 			          ButtonMode.DOWN)) {
@@ -66,11 +66,16 @@ public class PauseMenu : Menu
 
 	public void restartAction ()
 	{
+        
 		Menu menu = MenuManager.Instance.GetMenuByName (Strings.MenuStrings.LOAD);
 		LoadMenu loadMenu = (LoadMenu)menu;
 		Scene scene = SceneManager.GetActiveScene ();
 		loadMenu.TargetScene = scene.name;
-		MenuManager.Instance.DoTransition (loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+
+        // EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_RESTARTED, scene.name, AnalyticsManager.Instance.GetCurrentWave(), )
+
+
+        MenuManager.Instance.DoTransition (loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
 	}
 
 	public void quitAction ()

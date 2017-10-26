@@ -88,6 +88,7 @@
         public const string LEVEL_FAILED = "LevelFailed";
         public const string LEVEL_QUIT = "LevelQuit";
         public const string LEVEL_COMPLETED = "LevelCompleted";
+        public const string LEVEL_RESTARTED = "LevelRestarted";
         public const string EXIT_GAME = "ExitGame";
 
         public const string PLAYER_DAMAGED = "PlayerDamaged";
