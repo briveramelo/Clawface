@@ -68,8 +68,8 @@ public enum DamagedType {
 }
 
 public enum ModType {
-    ForceSegway = 0,
-    ArmBlaster = 1,
+    SpreadGun = 0,
+    Blaster = 1,
     LightningGun = 2,
     Boomerang = 3,
     Geyser = 4,
