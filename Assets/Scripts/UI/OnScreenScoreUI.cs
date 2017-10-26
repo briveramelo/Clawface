@@ -32,8 +32,7 @@ public class OnScreenScoreUI : MonoBehaviour {
     #endregion
 
     #region Private Fields
-
-    private ScoreManager sm;
+    
     private System.Random rng = new System.Random();
     private bool glitchInProgress = false;
     #endregion
@@ -42,32 +41,44 @@ public class OnScreenScoreUI : MonoBehaviour {
     void Awake()
     {
         comboTimer.fillAmount = 0f;
+        
     }
     private void Start()
     {
-        sm = ScoreManager.Instance;
+        //register events
+        EventSystem.Instance.RegisterEvent(Strings.Events.SCORE_UPDATED, UpdateScore);
+        EventSystem.Instance.RegisterEvent(Strings.Events.COMBO_UPDATED, UpdateCombo);
+        EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_DAMAGED, DoDamageEffect);
+        EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_HEALTH_MODIFIED, SetHealth);
+        EventSystem.Instance.RegisterEvent(Strings.Events.COMBO_TIMER_UPDATED, UpdateComboQuadrant);
 
+        onScreenCombo.text = "";
     }
-
-    private void LateUpdate()
+    private void OnDestroy()
     {
-        UpdateScore();
-        UpdateCombo();
-        UpdateComboTimer();
-
+        //deregister events
+        if (EventSystem.Instance)
+        {
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.SCORE_UPDATED, UpdateScore);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.COMBO_UPDATED, UpdateCombo);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_DAMAGED, DoDamageEffect);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_HEALTH_MODIFIED, SetHealth);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.COMBO_TIMER_UPDATED, UpdateComboQuadrant);
+        }
     }
     #endregion
 
     #region Public Methods
-    public void DoDamageEffect()
+    public void DoDamageEffect(params object[] items)
     {
         StartCoroutine(GlitchEffect());
     }
-    public void SetHealth(float i_val)
+
+    public void SetHealth(params object[] i_healthVal)
     {
-        Assert.IsTrue(i_val >= 0.0F && i_val <= 1.0F);
-        healthMask.localScale = new Vector3(i_val, 1.0F, 1.0F);
-        healthBar.localScale = new Vector3(i_val == 0 ? 0 : 1 / i_val, 1.0F, 1.0F);
+        Assert.IsTrue((float)i_healthVal[0] >= 0.0F && (float)i_healthVal[0] <= 1.0F);
+        healthMask.localScale = new Vector3((float)i_healthVal[0], 1.0F, 1.0F);
+        healthBar.localScale = new Vector3((float)i_healthVal[0] == 0 ? 0 : 1 / (float)i_healthVal[0], 1.0F, 1.0F);
     }
     #endregion
 
@@ -104,16 +115,27 @@ public class OnScreenScoreUI : MonoBehaviour {
         glitchInProgress = false;
     }
 
-    private void UpdateComboTimer()
+    private void UpdateComboQuadrant(params object[] currentQuadrant)
     {
-        if (sm && !Mathf.Equals(sm.GetMaxTimeRemaining(), 0f) && sm.GetCurrentTimeRemaining() > 0f)
+        float finalVal = 0f;
+
+        if(currentQuadrant[0].GetType() != typeof(float))
         {
-            SetTimerValue(sm.GetCurrentTimeRemaining(), sm.GetMaxTimeRemaining());
+            finalVal = (float)currentQuadrant[0];
         }
-        else if (sm.GetCurrentTimeRemaining() < 0f)
+        else
         {
-            ResetTimerValue();
+            finalVal = System.Convert.ToSingle(currentQuadrant[0]);
         }
+
+        comboTimer.fillAmount = finalVal;
+
+        if (finalVal == 0f)
+        {
+            SetAlphaOfText(onScreenCombo, 0.0f);
+        }
+
+
     }
 
     private Sprite GetRandomSprite()
@@ -121,66 +143,40 @@ public class OnScreenScoreUI : MonoBehaviour {
         return glitchSprites[rng.Next(glitchSprites.Length)];
     }
 
-    void SetTimerValue(float i_timeRem, float i_timeMax)
+    private void SetTimerValue(float i_timeRem, float i_timeMax)
     {
-        if (sm)
-        {
-            float percRemain = i_timeRem / i_timeMax;
-            float result = Mathf.Ceil(percRemain * 6.0f) * (1.0f / 6.0f);
-            comboTimer.fillAmount = result;
-        }
-    }
-    
-    void ResetTimerValue()
-    {
-        if(sm)
-        {
-            comboTimer.fillAmount = 0f;
-        }
+        float percRemain = i_timeRem / i_timeMax;
+        float result = Mathf.Ceil(percRemain * 6.0f) * (1.0f / 6.0f);
+
+        comboTimer.fillAmount = result;
     }
 
-    void UpdateScore()
+    private void UpdateScore(params object[] score)
     {
-        if (sm.GetScore() > 0f)
-        {
-            onScreenScore.text = sm.GetScore().ToString();
-        }
+        onScreenScore.text = score[0].ToString();
     }
 
-    void UpdateCombo()
+    private void UpdateCombo(params object[] currentCombo)
     {
-        if (sm)
+        SetAlphaOfText(onScreenCombo, 1.0f);
+        if ((int)currentCombo[0] > 0)
         {
-            if (sm.GetCombo() > 0)
+            onScreenCombo.text = currentCombo[0].ToString();
+        }
+        else
+        {
+            if (onScreenCombo.color.a != 0f)
             {
-                onScreenCombo.text = sm.GetCombo().ToString();
-                StartCoroutine(ShowThenHideCombo());
-            }
-            else
-            {
-                if (onScreenCombo.color.a != 0f)
-                {
-                    SetAlphaOfText(onScreenCombo, 0.0f);
-                }
+                SetAlphaOfText(onScreenCombo, 0.0f);
             }
         }
-
     }
 
-    void SetAlphaOfText(Text i_toMod, float i_newAlpha)
+    private void SetAlphaOfText(Text i_toMod, float i_newAlpha)
     {
         Color c = i_toMod.color;
         c.a = i_newAlpha;
         i_toMod.color = c;
-    }
-    #endregion
-
-    #region Private Structures
-    private IEnumerator ShowThenHideCombo()
-    {
-        SetAlphaOfText(onScreenCombo, 1.0f);
-        yield return new WaitForSeconds(comboOnScreenTime);
-        SetAlphaOfText(onScreenCombo, 0.0f);
     }
     #endregion
 }

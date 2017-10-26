@@ -15,7 +15,6 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     #endregion
 
     #region Serialized Unity Inspector fields
-    [SerializeField] private OnScreenScoreUI playerUI;
     [SerializeField] private CameraLock cameraLock;
     [SerializeField] private PlayerFaceController faceController;
     [SerializeField] private bool shake;
@@ -51,10 +50,10 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     {
         if (damageModifier > 0.0f)
         {
-            playerUI.DoDamageEffect();
+            EventSystem.Instance.TriggerEvent(Strings.Events.PLAYER_DAMAGED);
             stats.TakeDamage(damageModifier * damager.damage);
             float healthFraction = stats.GetHealthFraction();
-            playerUI.SetHealth(healthFraction);
+            EventSystem.Instance.TriggerEvent(Strings.Events.PLAYER_HEALTH_MODIFIED,healthFraction);
             cameraLock.Shake();
             float shakeIntensity = 1f - healthFraction;
             if (shake) {
@@ -75,7 +74,8 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     public void UpdateMaxHealth()
     {
         float healthFraction = stats.GetHealthFraction();
-        playerUI.SetHealth(healthFraction);
+
+        EventSystem.Instance.TriggerEvent(Strings.Events.PLAYER_HEALTH_MODIFIED, healthFraction);
     }
 
     public void TakeSkin(int skinHealth) {
@@ -107,8 +107,10 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
         transform.position = GameObject.Find("RespawnPoint").transform.position;
         stats.Add(CharacterStatType.Health, (int)startHealth);
         startHealth = stats.GetStat(CharacterStatType.MaxHealth);
-        playerUI.SetHealth(stats.GetHealthFraction());
-        // AnalyticsManager.Instance.PlayerDeath();
+
+        EventSystem.Instance.TriggerEvent(Strings.Events.PLAYER_HEALTH_MODIFIED, stats.GetHealthFraction());
+        AnalyticsManager.Instance.PlayerDeath();
+
     }
     #endregion
 

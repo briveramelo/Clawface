@@ -86,6 +86,15 @@
         public const string UNLOCK_WEAPON = "UnlockWeapon";
         public const string UNLOCK_NEXT_LEVEL = "UnlockNextLevel";
 
+        // NOTE: this event passes a string that's the displayed level's name
+        public const string LEVEL_DISPLAYED = "LevelDisplayed";
+
+        public const string SCORE_UPDATED = "ScoreUpdated";
+        public const string COMBO_UPDATED = "ComboUpdated";
+        public const string COMBO_TIMER_UPDATED = "ComboTimerUpdated";
+        public const string PLAYER_HEALTH_MODIFIED = "PlayerHealthModified";
+
+
         public const string LEVEL_STARTED = "LevelStarted";
         public const string LEVEL_FAILED = "LevelFailed";
         public const string LEVEL_QUIT = "LevelQuit";
