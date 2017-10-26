@@ -13,7 +13,7 @@ namespace OET_add
         public static GameObject projectActiveSelection;
 		public static Vector3 mousePositionInScene;
 
-        static Vector2 scrollPos;
+        static Vector2 scrollPos = Vector2.zero;
 
         public static void sceneGUI ()
         {
@@ -40,12 +40,6 @@ namespace OET_add
 			styleInfoText.alignment = TextAnchor.MiddleLeft;
 
 
-            scrollPos = EditorGUILayout.BeginScrollView(scrollPos, GUILayout.Width(100), GUILayout.Height(70));
-            GUILayout.Label("This is a test");
-            GUILayout.Label("This is a test");
-            GUILayout.Label("This is a test");
-            GUILayout.Label("This is a test");
-            EditorGUILayout.EndScrollView();
 
             if (projectActiveSelection == null)
             {
@@ -97,7 +91,30 @@ namespace OET_add
 				}
 			}
 
+            scrollPos = GUI.BeginScrollView(new Rect(0, vpos + 150, 200, 200), scrollPos, new Rect(0, 0, 500, 500));
 
+
+            Texture2D Preview = AssetPreview.GetAssetPreview(projectActiveSelection);
+
+            int localhpos = 0;
+            int localvpos = 0;
+
+            for (int i = 0; i < 5; i++)
+            {
+                for(int j = 0; j < 5; j++)
+                {
+                    if (Preview != null)
+                    {
+                        GUI.Box(new Rect(localhpos, localvpos, 64, 64), Preview);
+                    }
+                    localhpos += 96;
+                }
+
+                localhpos = 0;
+                localvpos += 96;
+            }
+
+            GUI.EndScrollView();
         }
 
 		public static bool editorMouseEvent(Event e, GameObject projectActiveSelection)
