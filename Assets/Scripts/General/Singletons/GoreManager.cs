@@ -19,23 +19,25 @@ public class GoreManager : Singleton<GoreManager> {
 
     public void SpawnSplat(Vector3 worldPos) {
 
-        RaycastHit h;
-        
-        if (Physics.SphereCast(worldPos, 1f, transform.forward, out h, 1f, mask))
-        {
-            GameObject hitObject = h.transform.gameObject;
+        Collider[] collided = Physics.OverlapSphere(worldPos, 1F, mask);
 
-#if UNITY_EDITOR
+        #if UNITY_EDITOR
+        if (collided.Length != 0)
+        {
             GameObject hitSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             hitSphere.transform.position = worldPos;
-#endif
-            Splattable canSplat = hitObject.GetComponent<Splattable>();
+            hitSphere.GetComponent<Collider>().enabled = false;
+        }
+        #endif
 
+        foreach (Collider collider in collided)
+        {
+            GameObject obj = collider.gameObject;
+            Splattable canSplat = obj.GetComponent<Splattable>();
             if (canSplat)
             {
-                canSplat.DrawSplat(h.point,h.normal);
+                canSplat.DrawSplat(worldPos, new Vector3(1, 0, 0)); // we're not actually using the normal yet
             }
-            
         }
     }
     
