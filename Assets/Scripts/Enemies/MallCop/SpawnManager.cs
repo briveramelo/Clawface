@@ -15,9 +15,18 @@ public class SpawnManager : MonoBehaviour
 
     public List<SpawnerUnit> spawners = new List<SpawnerUnit>();
 
+    void OnEnable() {
+        EventSystem.Instance.RegisterEvent(Strings.Events.CALL_NEXTWAVEENEMIES, CallNextSpawner);
+    }
+    void OnDisable() {
+        if (EventSystem.Instance) {
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.CALL_NEXTWAVEENEMIES, CallNextSpawner);
+        }
+    }
+
     void Start()
     {
-        EventSystem.Instance.RegisterEvent(Strings.Events.CALL_NEXTWAVEENEMIES, CallNextSpawner);
+        
         EventSystem.Instance.TriggerEvent(Strings.Events.CALL_NEXTWAVEENEMIES);
 
         if (spawners.Count == 0)
