@@ -12,16 +12,19 @@ namespace OET_add
 
         public static GameObject projectActiveSelection;
 		public static Vector3 mousePositionInScene;
-	
-		public static void sceneGUI ()
+
+        static Vector2 scrollPos;
+
+        public static void sceneGUI ()
         {
 			if (clickToAddEnabled && projectActiveSelection != null)
             {
 				if(previewDraw)
                 {
+ //                   Debug.Log(projectActiveSelection);
                     OET_lib.ToolLib.draft (projectActiveSelection, mousePositionInScene - projectActiveSelection.transform.position, Color.green);
-				}
-			}
+                }
+            }
 		}
 
 		public static void renderGUI(int vpos, GameObject get_projectActiveSelection)
@@ -36,7 +39,15 @@ namespace OET_add
 			styleInfoText.normal.textColor = GUI.skin.label.normal.textColor;
 			styleInfoText.alignment = TextAnchor.MiddleLeft;
 
-			if (projectActiveSelection == null)
+
+            scrollPos = EditorGUILayout.BeginScrollView(scrollPos, GUILayout.Width(100), GUILayout.Height(70));
+            GUILayout.Label("This is a test");
+            GUILayout.Label("This is a test");
+            GUILayout.Label("This is a test");
+            GUILayout.Label("This is a test");
+            EditorGUILayout.EndScrollView();
+
+            if (projectActiveSelection == null)
             {
                 OET_lib.ToolLib.alertBox ("Prefab Placement", "Select a prefab in the project window to enable this tool.");
 			}
@@ -85,7 +96,9 @@ namespace OET_add
 					}
 				}
 			}
-		}
+
+
+        }
 
 		public static bool editorMouseEvent(Event e, GameObject projectActiveSelection)
         {
@@ -99,9 +112,8 @@ namespace OET_add
 					if (Physics.Raycast(ray, out hit, 1000.0f)) 
 					{
                         mousePositionInScene = hit.point;
+                        //                       ConvertToGrid(mousePositionInScene);
 
- //                       ConvertToGrid(mousePositionInScene);
-                  
                         previewDraw = true;
 						if (Event.current.type == EventType.MouseDown && Event.current.button == 0)
 						{
@@ -123,9 +135,15 @@ namespace OET_add
             float width  = 5.0f;
             float height = 5.0f;
 
-            float Grid_x = Mathf.Floor(mousePositionInScene.x / width) * width + width / 2;
+            float Grid_x = Mathf.Floor((mousePositionInScene.x + width  / 2) / width)  * width;
+            float Grid_z = Mathf.Floor((mousePositionInScene.z + height / 2) / height) * height;
 
-            float Grid_z = Mathf.Floor(mousePositionInScene.z / height) * height + height / 2;
+            RaycastHit hit;
+
+            if (Physics.Raycast(new Vector3(Grid_x, 1000.0f, Grid_z), Vector3.down, out hit))
+            {
+                return new Vector3(Grid_x, hit.point.y, Grid_z);
+            }
 
             return new Vector3(Grid_x, mousePositionInScene.y, Grid_z);
         }

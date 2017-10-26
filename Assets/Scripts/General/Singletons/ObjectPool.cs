@@ -101,7 +101,12 @@ public class Pool
     public void Reset()
     {
         objects.ForEach(obj => {
-            obj.SetActive(false);
+            if (obj) {
+                obj.SetActive(false);
+            }
+            else {
+                objects.Remove(obj);
+            }
         });
     }
 }

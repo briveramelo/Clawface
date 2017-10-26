@@ -83,10 +83,13 @@ public class MoveState : IPlayerState
                 MoveIce();
                 break;            
         }
-        HandleRotation();            
+        HandleRotation();
     }
 
-
+    public override void StateLateUpdate()
+    {
+        
+    }
     #endregion
 
     #region Private Methods
