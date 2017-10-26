@@ -11,32 +11,32 @@ public class ServiceWrangler : Singleton<ServiceWrangler> {
     private GameObject sfxManager, objectPool, inputManager, hitstopManager, playerTeleporter,
          analyticsManager, damageFXManager, upgradeManager, menuManager, musicManager, scoreManager, 
         respawnPoint, eventSystem, achievementManager, platformManager, saveState;
-    private static Dictionary<string, PrefabBool> singletonPrefabRegistry;
 
-    protected override void Awake() {
-        Application.targetFrameRate = 60;
-        
-        singletonPrefabRegistry = new Dictionary<string, PrefabBool>()
-        {
-            { typeof(SFXManager).ToString(),          new PrefabBool(ref sfxManager) },
-            { typeof(ObjectPool).ToString(),            new PrefabBool(ref objectPool) },
-            { typeof(InputManager).ToString(),          new PrefabBool(ref inputManager) },
-            { typeof(HitstopManager).ToString(),        new PrefabBool(ref hitstopManager) },
-            { typeof(DEBUG_PlayerTeleporter).ToString(),new PrefabBool(ref playerTeleporter) },
-            { typeof(MenuManager).ToString(),                new PrefabBool(ref menuManager) },
-            { typeof(AnalyticsManager).ToString(),      new PrefabBool(ref analyticsManager) },
-            { typeof(DamageFXManager).ToString(),      new PrefabBool(ref damageFXManager) },
-            { typeof(UpgradeManager).ToString(),       new PrefabBool(ref upgradeManager) },
-            { typeof(MusicManager).ToString(),       new PrefabBool(ref musicManager) },
-            { typeof(ScoreManager).ToString(),       new PrefabBool(ref scoreManager) },
-            { typeof(RespawnPoint).ToString(),       new PrefabBool(ref respawnPoint) },
-            { typeof(EventSystem).ToString(),       new PrefabBool(ref eventSystem) },
-            { typeof(AchievementManager).ToString(),       new PrefabBool(ref achievementManager) },
-            { typeof(PlatformManager).ToString(),       new PrefabBool(ref platformManager) },
-            { typeof(SaveState).ToString(),       new PrefabBool(ref saveState) },
-        };
-        base.Awake();
-
+    private Dictionary<string, PrefabBool> singletonPrefabRegistry;
+    private Dictionary<string, PrefabBool> SingletonPrefabRegistry {
+        get {
+            if (singletonPrefabRegistry==null) {
+                singletonPrefabRegistry = new Dictionary<string, PrefabBool>(){
+                    { typeof(SFXManager).ToString(),          new PrefabBool(ref sfxManager) },
+                    { typeof(ObjectPool).ToString(),            new PrefabBool(ref objectPool) },
+                    { typeof(InputManager).ToString(),          new PrefabBool(ref inputManager) },
+                    { typeof(HitstopManager).ToString(),        new PrefabBool(ref hitstopManager) },
+                    { typeof(DEBUG_PlayerTeleporter).ToString(),new PrefabBool(ref playerTeleporter) },
+                    { typeof(MenuManager).ToString(),                new PrefabBool(ref menuManager) },
+                    { typeof(AnalyticsManager).ToString(),      new PrefabBool(ref analyticsManager) },
+                    { typeof(DamageFXManager).ToString(),      new PrefabBool(ref damageFXManager) },
+                    { typeof(UpgradeManager).ToString(),       new PrefabBool(ref upgradeManager) },
+                    { typeof(MusicManager).ToString(),       new PrefabBool(ref musicManager) },
+                    { typeof(ScoreManager).ToString(),       new PrefabBool(ref scoreManager) },
+                    { typeof(RespawnPoint).ToString(),       new PrefabBool(ref respawnPoint) },
+                    { typeof(EventSystem).ToString(),       new PrefabBool(ref eventSystem) },
+                    { typeof(AchievementManager).ToString(),       new PrefabBool(ref achievementManager) },
+                    { typeof(PlatformManager).ToString(),       new PrefabBool(ref platformManager) },
+                    { typeof(SaveState).ToString(),       new PrefabBool(ref saveState) },
+                };
+            }
+            return singletonPrefabRegistry;
+        }
     }
 
     private void OnEnable () {
