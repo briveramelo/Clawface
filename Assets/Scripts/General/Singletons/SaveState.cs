@@ -4,6 +4,23 @@ using UnityEngine;
 
 public class SaveState : Singleton<SaveState> {
 
+    #region Unity  lifecycle
+    private void Start()
+    {
+        Load();
+        EventSystem.Instance.RegisterEvent(Strings.Events.UNLOCK_WEAPON, UnlockWeapon);
+        EventSystem.Instance.RegisterEvent(Strings.Events.UNLOCK_NEXT_LEVEL, UnlockNextLevel);
+    }
+
+    private new void OnDestroy()
+    {        
+        EventSystem.Instance.UnRegisterEvent(Strings.Events.UNLOCK_WEAPON, UnlockWeapon);
+        EventSystem.Instance.UnRegisterEvent(Strings.Events.UNLOCK_NEXT_LEVEL, UnlockNextLevel);
+        base.OnDestroy();
+    }
+    #endregion
+
+    #region public functions
     public void Load()
     {
 
@@ -70,4 +87,41 @@ public class SaveState : Singleton<SaveState> {
     {
         PlayerPrefs.Save();
     }
+    #endregion
+
+    #region private functions
+    private void UnlockWeapon(params object[] parameters)
+    {
+        if(parameters != null && parameters.Length > 0)
+        {
+            ModType weapon = (ModType)parameters[0];
+            switch (weapon)
+            {
+                case ModType.Blaster:
+                    SetBool(Strings.PlayerPrefStrings.BLASTER_ENABLED, true);
+                    break;
+                case ModType.Boomerang:
+                    SetBool(Strings.PlayerPrefStrings.BOOMERANG_ENABLED, true);
+                    break;
+                case ModType.Dice:
+                    SetBool(Strings.PlayerPrefStrings.DICE_GUN_ENABLED, true);
+                    break;
+                case ModType.Geyser:
+                    SetBool(Strings.PlayerPrefStrings.GEYSER_GUN_ENABLED, true);
+                    break;
+                case ModType.LightningGun:
+                    SetBool(Strings.PlayerPrefStrings.LIGHTNING_GUN_ENABLED, true);
+                    break;
+                case ModType.SpreadGun:
+                    SetBool(Strings.PlayerPrefStrings.SPREAD_GUN_ENABLED, true);
+                    break;
+            }
+        }
+    }
+
+    private void UnlockNextLevel(params object[] parameters)
+    {
+        
+    }
+    #endregion
 }

@@ -82,6 +82,9 @@
         public const string UPDATE_ACHIEVEMENTS = "UpdateAchievements";
         public const string LEVEL_COMPLETED = "LevelCompleted";
         public const string CALL_NEXTWAVEENEMIES = "CallNextWaveEnemies";
+
+        public const string UNLOCK_WEAPON = "UnlockWeapon";
+        public const string UNLOCK_NEXT_LEVEL = "UnlockNextLevel";
     }
 
     public class AchievementNames {
