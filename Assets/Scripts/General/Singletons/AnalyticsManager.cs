@@ -83,12 +83,8 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
 
 
     #region Unity Lifecycle
-    private void OnEnable()
-    {
-        
-    }
-
-    private void OnDisable()
+    
+    private new void OnDestroy()
     {
         if (EventSystem.Instance)
         {
@@ -96,6 +92,8 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
             EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_KILLED, OnPlayerKilled);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_COMPLETED, OnLevelCompleted);
         }
+
+        base.OnDestroy();   
     }
 
 
@@ -349,6 +347,10 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         startLevelDictionary.Add("leftArm", leftArm);
         startLevelDictionary.Add("rightArm", rightArm);
 
+#if UNITY_EDITOR
+        Debug.Log(String.Format("Started level event fired: {0}, {1}, {2}", level, leftArm, rightArm));
+#endif
+
         Analytics.CustomEvent(Strings.Events.LEVEL_STARTED, startLevelDictionary);
 
     }
@@ -383,6 +385,12 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         int score = (int)parameters[2];
         string leftArm = parameters[3] as string;
         string rightArm = parameters[4] as string;
+
+        levelCompletedDictionary.Add("level", level);
+        levelCompletedDictionary.Add("time", time);
+        levelCompletedDictionary.Add("score", score);
+        levelCompletedDictionary.Add("leftArm", leftArm);
+        levelCompletedDictionary.Add("rightArm", rightArm);
 
 #if UNITY_EDITOR
         Debug.Log(String.Format("Level completed event fired: {0}, {1}, {2}, {3}, {4}", level, time.ToString(), score.ToString(), leftArm, rightArm));
