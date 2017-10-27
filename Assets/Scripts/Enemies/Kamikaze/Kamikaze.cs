@@ -52,7 +52,7 @@ public class Kamikaze : EnemyBase
     //State conditions
     bool CheckToSelfDestruct()
     {
-        if (controller.CurrentState == chase && controller.distanceFromTarget < closeEnoughToAttackDistance)
+        if (controller.CurrentState == chase && controller.DistanceFromTarget < closeEnoughToAttackDistance)
         {
             controller.UpdateState(EAIState.Attack);
             return true;

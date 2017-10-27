@@ -13,6 +13,7 @@ public abstract class AIController : MonoBehaviour {
 
     #region 2. Serialized Unity Inspector Fields
     [SerializeField] protected string DEBUG_CURRENTSTATE;
+    [SerializeField] protected string DEBUG_ATTACKTARGET;
     [SerializeField] protected GameObject modPrefab;
     #endregion
 
@@ -46,15 +47,19 @@ public abstract class AIController : MonoBehaviour {
             }
             return attackTarget;
         }
-        set { attackTarget = value; }
+        set {
+            attackTarget = value;
+            DEBUG_ATTACKTARGET = attackTarget.name;
+        }
     }
     public Vector3 AttackTargetPosition { get { return AttackTarget.position - transform.forward * .1f; } }
 
 
 
     private bool deActivateAI = false;
-    public float distanceFromTarget {get{ return Vector3.Distance(transform.position, AttackTarget.position); }}
-    public Vector3 directionToTarget {
+    public float distanceFromTarget;
+    public float DistanceFromTarget {get{ distanceFromTarget = Vector3.Distance(transform.position, AttackTarget.position); return distanceFromTarget; }}
+    public Vector3 DirectionToTarget {
         get {
             return (AttackTargetPosition - transform.position).NormalizedNoY();            
         }
@@ -109,7 +114,7 @@ public abstract class AIController : MonoBehaviour {
     public virtual void ResetForRebirth() {
         stateTimerIsRunning = false;
         timeInLastState = 0f;
-
+        deActivateAI = false;
         CurrentState = states.chase;
 
         if (mod != null)

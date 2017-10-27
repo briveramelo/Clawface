@@ -37,8 +37,8 @@ public class ZombieAttackState : AIState
     }
     public override void OnExit()
     {
-        navAgent.enabled = true;
         navObstacle.enabled = false;
+        navAgent.enabled = true;
     }
 
 

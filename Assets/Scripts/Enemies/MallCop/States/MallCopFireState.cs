@@ -8,6 +8,7 @@ using MovementEffects;
 public class MallCopFireState : AIState {
 
     public override void OnEnter() {
+        Debug.Log("entered fire");
         navAgent.enabled = false;
         navObstacle.enabled = true;
         Timing.RunCoroutine(RunStartupTimer());        
@@ -18,8 +19,8 @@ public class MallCopFireState : AIState {
         navAgent.velocity = Vector3.zero;
     }
     public override void OnExit() {
-        navAgent.enabled = true;
         navObstacle.enabled = false;
+        navAgent.enabled = true;
     }
 
     IEnumerator<float> RunStartupTimer() {

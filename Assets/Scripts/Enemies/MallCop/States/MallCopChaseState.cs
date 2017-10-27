@@ -3,10 +3,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
+
 
 
 public class MallCopChaseState : AIState {
-
     public override void OnEnter() {
         animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Run);
         controller.AttackTarget = controller.FindPlayer();
@@ -27,9 +28,7 @@ public class MallCopChaseState : AIState {
             Vector3 lookAtPosition = new Vector3(controller.AttackTarget.position.x, 0, controller.AttackTarget.position.z);
             controller.transform.LookAt(lookAtPosition);
             controller.transform.rotation = Quaternion.Euler(0f, controller.transform.rotation.eulerAngles.y, 0f);
-        } 
-
-        if(navAgent.enabled && navAgent.isOnNavMesh)
+        }
         navAgent.SetDestination(controller.AttackTarget.position);
     }
 }
