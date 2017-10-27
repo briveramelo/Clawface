@@ -30,7 +30,8 @@ public class KamikazeAttackState : AIState {
     }
     public override void OnExit()
     {
-
+        navObstacle.enabled = false;
+        navAgent.enabled = true;
     }
 
     IEnumerator<float> RunStartupTimer()

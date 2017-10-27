@@ -130,8 +130,7 @@ public class Spawner : RoutineRunner
                         spawnable.RegisterDeathEvent(ReportDeath);
                     }
 
-                    Vector3 spawnPosition = spawnPoints.GetRandom().position;
-                    spawnedObject.transform.position = spawnPosition;
+                    Vector3 spawnPosition = spawnPoints.GetRandom().position;                    
                     spawnable.WarpToNavMesh(spawnPosition);
 
                     currentNumEnemies++;

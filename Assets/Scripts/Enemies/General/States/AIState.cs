@@ -5,7 +5,6 @@ using UnityEngine.AI;
 
 public abstract class AIState : State
 {
-    public string stateName;
     public AIProperties properties;
     public AIController controller;
     public VelocityBody velBody;

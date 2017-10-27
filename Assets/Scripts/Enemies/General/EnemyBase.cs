@@ -30,6 +30,8 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, ISkinn
     protected DamagePack damagePack = new DamagePack();
     protected Will will = new Will();
     protected List<AIState> aiStates;
+    protected TransformMemento transformMemento=new TransformMemento();
+    protected Transform poolParent;
     #endregion
 
     #region 4. Unity Lifecycle
@@ -41,13 +43,13 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, ISkinn
         {
             ResetForRebirth();
         }
-        navAgent.enabled = true;
     }
 
     public virtual void Awake()
     {
+        poolParent = transform.parent;
+        transformMemento.Initialize(transform);
         ResetForRebirth();
-        navAgent.speed = myStats.moveSpeed;
     }
 
     private void Update()
@@ -107,7 +109,12 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, ISkinn
 
     void ISpawnable.WarpToNavMesh(Vector3 position)
     {
-        navAgent.Warp(position);
+        transform.position = position;
+        bool sucessfulWarp = navAgent.Warp(position);
+        if (!sucessfulWarp) {
+            Debug.LogWarning("Failed to warp!");
+        }
+        navAgent.enabled = true;
     }
 
 
@@ -161,8 +168,8 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, ISkinn
                 popUpScore.DisplayScoreAndHide(scoreBonus, scorePopupDelay);
                 ScoreManager.Instance.AddToScoreAndCombo(scoreBonus);
             }
-
-
+            navAgent.speed = 0;
+            navAgent.enabled = false;
             gameObject.SetActive(false);
         }
     }
@@ -170,10 +177,13 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, ISkinn
     public virtual void ResetForRebirth()
     {
         GetComponent<CapsuleCollider>().enabled = true;
+        
         myStats.ResetForRebirth();
         controller.ResetForRebirth();
         velBody.ResetForRebirth();
         will.Reset();
+        transform.SetParent(poolParent);
+        transform.localScale = transformMemento.startScale;
         lastChance = false;
         alreadyStunned = false;
     }

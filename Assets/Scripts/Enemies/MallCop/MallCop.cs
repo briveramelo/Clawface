@@ -57,7 +57,7 @@ public class MallCop : EnemyBase
     //State conditions
     bool CheckToFire()
     {
-        if ((controller.CurrentState == chase && controller.distanceFromTarget < closeEnoughToFireDistance))
+        if ((controller.CurrentState== chase && controller.DistanceFromTarget < closeEnoughToFireDistance))
         {
             controller.UpdateState(EAIState.Fire);
             return true;
@@ -69,7 +69,7 @@ public class MallCop : EnemyBase
         if (controller.CurrentState == fire && fire.CanRestart())
         {
 
-            bool shouldChase = controller.distanceFromTarget > maxDistanceBeforeChasing;
+            bool shouldChase = controller.DistanceFromTarget > maxDistanceBeforeChasing;
 
             if (shouldChase)
             {

@@ -58,7 +58,7 @@ public class Zombie : EnemyBase
     //State conditions
     bool CheckToAttack()
     {
-        if (controller.CurrentState == chase && controller.distanceFromTarget < closeEnoughToAttackDistance)
+        if (controller.CurrentState == chase && controller.DistanceFromTarget < closeEnoughToAttackDistance)
         {
             controller.UpdateState(EAIState.Attack);
             return true;
@@ -70,7 +70,7 @@ public class Zombie : EnemyBase
         if (controller.CurrentState == attack)
         {
 
-            bool shouldChase = controller.distanceFromTarget > maxDistanceBeforeChasing;
+            bool shouldChase = controller.DistanceFromTarget > maxDistanceBeforeChasing;
             controller.UpdateState(EAIState.Chase);
             return true;
         }
