@@ -130,13 +130,13 @@ public class ModManager : MonoBehaviour
     {
         switch (modType)
         {
-            case ModType.ArmBlaster:
+            case ModType.Blaster:
                 return Instantiate(modInventory.blaster);
             case ModType.Boomerang:
                 return Instantiate(modInventory.boomerang);
             case ModType.Dice:
                 return Instantiate(modInventory.dice);
-            case ModType.ForceSegway:
+            case ModType.SpreadGun:
                 return Instantiate(modInventory.segway);
             case ModType.Geyser:
                 return Instantiate(modInventory.geyser);

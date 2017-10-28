@@ -19,7 +19,7 @@ public class ScoreManager : Singleton<ScoreManager> {
 
     #region Privates
     private float comboTimer;
-
+    private float currentQuadrant;
     #endregion
 
     #region Unity Lifecycle
@@ -27,6 +27,7 @@ public class ScoreManager : Singleton<ScoreManager> {
     void Start () {
         currentCombo = 0;
         highestCombo = 0;
+        currentQuadrant = 0;
 	}
 	
 	// Update is called once per frame
@@ -47,6 +48,7 @@ public class ScoreManager : Singleton<ScoreManager> {
                 ResetCombo();
             }
 
+            CalculateTimerQuadrant();
         }
 	}
     #endregion
@@ -55,6 +57,7 @@ public class ScoreManager : Singleton<ScoreManager> {
     public void ResetCombo()
     {
         currentCombo = 0;
+        EventSystem.Instance.TriggerEvent(Strings.Events.COMBO_TIMER_UPDATED, 0.0f);
     }
 
     public void AddToCombo()
@@ -76,6 +79,9 @@ public class ScoreManager : Singleton<ScoreManager> {
         }
 
         comboTimer = maxTimeRemaining;
+
+        EventSystem.Instance.TriggerEvent(Strings.Events.COMBO_UPDATED, currentCombo);
+        CalculateTimerQuadrant();
     }
 
     public int GetScore()
@@ -103,6 +109,8 @@ public class ScoreManager : Singleton<ScoreManager> {
         {
             score += (points * scoreMultiplierPerCombo[scoreMultiplierPerCombo.Count - 1]);
         }
+
+        EventSystem.Instance.TriggerEvent(Strings.Events.SCORE_UPDATED,score);
     }
 
     public int GetCurrentMultiplier()
@@ -127,4 +135,20 @@ public class ScoreManager : Singleton<ScoreManager> {
     }
 
     #endregion
+
+    private void CalculateTimerQuadrant()
+    {
+        float nextQuadrant = 0f;
+        if (!Mathf.Equals(maxTimeRemaining, 0f) && comboTimer > 0f)
+        {
+            float percRemain = comboTimer / maxTimeRemaining;
+            nextQuadrant = Mathf.Ceil(percRemain * 6.0f) * (1.0f / 6.0f);
+
+        }
+
+        if (nextQuadrant != currentQuadrant)
+        {
+            EventSystem.Instance.TriggerEvent(Strings.Events.COMBO_TIMER_UPDATED, nextQuadrant);
+        }
+    }
 }

@@ -68,8 +68,8 @@ public enum DamagedType {
 }
 
 public enum ModType {
-    ForceSegway = 0,
-    ArmBlaster = 1,
+    SpreadGun = 0,
+    Blaster = 1,
     LightningGun = 2,
     Boomerang = 3,
     Geyser = 4,
@@ -158,6 +158,12 @@ public enum PlayerAnimationStates
     RetractVisor = 3
 }
 
+public enum PlayerAnimationLayers
+{
+    BaseLayer = 0,
+    SkinningLayer = 1
+}
+
 public enum ButtonMode
 {
     UP = 0, // just went up
@@ -186,24 +192,6 @@ public enum MallCopAnimationStates {
     Fire = 8
 }
 
-public enum EMallCopState {
-    Patrol = 0,
-    Swing = 1,
-    Fall = 3,
-    Chase = 4,
-    Twitch = 5,
-    Fire = 6,
-    Flee = 7
-}
-
-public enum EZombieState
-{
-    Chase = 0,
-    Attack = 1,
-    Fall = 3,
-    Twitch = 4
-}
-
 public enum EBouncerState
 {
     Patrol = 0,
@@ -217,6 +205,15 @@ public enum EKamikazeState
 {
     Chase = 0,
     SelfDestruct = 1
+}
+
+public enum EAIState
+{
+    Chase = 0,
+    Attack = 1,
+    Fire = 3,
+    Death = 4,
+    Stun = 5
 }
 
 

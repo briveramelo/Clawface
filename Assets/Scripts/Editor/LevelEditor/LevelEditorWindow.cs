@@ -175,7 +175,7 @@ namespace Turing.LevelEditor
         /// <summary>
         /// Gets and shows the instance of the editor window.
         /// </summary>
-        [MenuItem("Level Editor/Editor Window")]
+        //[MenuItem("Level Editor/Editor Window")]
         public static void ShowWindow() 
         {
             Instance = GetWindow(typeof(LevelEditorWindow))
