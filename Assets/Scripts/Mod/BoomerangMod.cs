@@ -58,7 +58,7 @@ public class BoomerangMod : Mod {
         base.DetachAffect();
     }   
 
-    protected override void ActivateStandardArms()
+    protected override void DoWeaponActions()
     {
         Shoot();
     }
