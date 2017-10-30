@@ -28,10 +28,10 @@ public class ModUISelector : MonoBehaviour {
 
     private void Awake() {
         modUIElements=new List<ModUIElement>() {
-            new ModUIElement(ModType.ArmBlaster, blasterIcon),
+            new ModUIElement(ModType.Blaster, blasterIcon),
             new ModUIElement(ModType.Boomerang, boomerangeIcon),
             new ModUIElement(ModType.Dice, diceIcon),
-            new ModUIElement(ModType.ForceSegway, segwayIcon),
+            new ModUIElement(ModType.SpreadGun, segwayIcon),
             new ModUIElement(ModType.Geyser, geyserIcon),
             new ModUIElement(ModType.LightningGun, grapplerIcon),
         };

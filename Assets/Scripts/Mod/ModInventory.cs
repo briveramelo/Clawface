@@ -16,10 +16,10 @@ public class ModInventory : MonoBehaviour {
     // Use this for initialization
     void Awake () {
 		modInventory = new Dictionary<ModType, ModInventoryPack>() {
-            {ModType.ArmBlaster, new ModInventoryPack(transform, blaster) },
+            {ModType.Blaster, new ModInventoryPack(transform, blaster) },
             {ModType.Boomerang, new ModInventoryPack(transform, boomerang) },
             {ModType.Dice, new ModInventoryPack(transform, dice) },
-            {ModType.ForceSegway, new ModInventoryPack(transform, segway) },
+            {ModType.SpreadGun, new ModInventoryPack(transform, segway) },
             {ModType.Geyser, new ModInventoryPack(transform, geyser) },
             {ModType.LightningGun, new ModInventoryPack(transform, grappler) },          
         };

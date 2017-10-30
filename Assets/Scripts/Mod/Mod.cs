@@ -70,7 +70,7 @@ public abstract class Mod : MonoBehaviour {
         if (!energySettings.isInUse && !energySettings.isCoolingDown)
         {
             Timing.RunCoroutine(RunCooldown(onCompleteCoolDown), Segment.FixedUpdate);
-            useAction();
+            DoWeaponActions();
             if (onActivate != null)
             {
                 onActivate();
@@ -78,7 +78,7 @@ public abstract class Mod : MonoBehaviour {
         }
     }
 
-    protected abstract void ActivateStandardArms();
+    protected abstract void DoWeaponActions();
 
     public abstract void DeActivate();
 
@@ -90,22 +90,11 @@ public abstract class Mod : MonoBehaviour {
     }
 
     public virtual void DetachAffect() {
-        //Debug.Log("detached");
         isAttached = false;
         wielderMovable = null;
         wielderStats = null;
         recentlyHitObjects.Clear();
-        //pickupCollider.enabled = true;
         setModSpot(ModSpot.Default);
-    }
-
-        
-    public virtual void ActivateModCanvas()
-    {
-        if (modCanvas && !isAttached)
-        {
-            modCanvas.SetActive(true);
-        }
     }
 
     public virtual void DeactivateModCanvas()
@@ -143,13 +132,7 @@ public abstract class Mod : MonoBehaviour {
     public DamagerType getDamageType() {return damageType; }        
     #endregion
 
-    #region Private Methods
-
-    private Action useAction {
-        get {            
-            return ActivateStandardArms;
-        }
-    }
+    #region Private Methods     
 
     protected IEnumerator<float> RunCooldown(Action onComplete)
     {        

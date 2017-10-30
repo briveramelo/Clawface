@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ZombieChaseState : ZombieState {
+public class ZombieChaseState : AIState {
 
     public override void OnEnter()
     {

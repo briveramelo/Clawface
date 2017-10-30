@@ -361,7 +361,7 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         startLevelDictionary.Add("rightArm", rightArm);
 
 #if UNITY_EDITOR
-        Debug.Log(String.Format("Started level event fired: {0}, {1}, {2}", level, leftArm, rightArm));
+        // Debug.Log(String.Format("Started level event fired: {0}, {1}, {2}", level, leftArm, rightArm));
 #endif
 
         Analytics.CustomEvent(Strings.Events.LEVEL_STARTED, startLevelDictionary);
@@ -383,7 +383,7 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         playerEventDeath.Add("rightArm", rightArm);
 
 #if UNITY_EDITOR
-        Debug.Log(String.Format("Player death event fired: {0}, {1}, {2}, {3}", level, wave.ToString(), leftArm, rightArm));
+        // Debug.Log(String.Format("Player death event fired: {0}, {1}, {2}, {3}", level, wave.ToString(), leftArm, rightArm));
 #endif
 
         Analytics.CustomEvent(Strings.Events.PLAYER_KILLED, playerEventDeath);
@@ -467,7 +467,8 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         levelCompletedDictionary.Add("rightArm", rightArm);
 
 #if UNITY_EDITOR
-        Debug.Log(String.Format("Level completed event fired: {0}, {1}, {2}, {3}, {4}, {5}", level, runtime.ToString(), totalLevelTime.ToString(), score.ToString(), leftArm, rightArm));
+
+        // Debug.Log(String.Format("Level completed event fired: {0}, {1}, {2}, {3}, {4}", level, time.ToString(), score.ToString(), leftArm, rightArm));
 #endif
 
         Analytics.CustomEvent(Strings.Events.LEVEL_COMPLETED, levelCompletedDictionary);

@@ -31,7 +31,7 @@ public class PlayerSpawner : MonoBehaviour
     #endregion
     #region Unity Lifecycle
 
-    void Awake()
+    void Start()
     {
         camera = GetComponentInChildren<Camera>();
         camera.enabled = false;

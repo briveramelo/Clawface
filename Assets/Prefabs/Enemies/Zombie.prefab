@@ -68,10 +68,11 @@ GameObject:
   - component: {fileID: 54403287773231164}
   - component: {fileID: 136606014131895122}
   - component: {fileID: 114134826779430030}
-  - component: {fileID: 114896169034279386}
+  - component: {fileID: 114506469756399814}
   - component: {fileID: 114104150765472954}
   - component: {fileID: 114986116108717462}
   - component: {fileID: 195474830920782340}
+  - component: {fileID: 208769255177978756}
   m_Layer: 9
   m_Name: Zombie
   m_TagString: Enemy
@@ -913,7 +914,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 126
   m_CollisionDetection: 0
 --- !u!95 &95288471257021928
 Animator:
@@ -958,19 +959,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e3398260c9595142bc90888bc176a20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 114896169034279386}
-  properties:
-    runMultiplier: 2.5
-    hitRate: 0.25
+  controller: {fileID: 114506469756399814}
   velBody: {fileID: 114104150765472954}
   animator: {fileID: 95288471257021928}
   myStats: {fileID: 114986116108717462}
   navAgent: {fileID: 195474830920782340}
-  mySkin: {fileID: 1754484396476528, guid: cc3475efaf656c240a9632ee2547b108, type: 2}
+  navObstacle: {fileID: 208769255177978756}
+  skinHealth: 5
   copUICanvas: {fileID: 114645622318777180}
   bloodEmissionLocation: {fileID: 4298567646641054}
   scorePopupDelay: 2
   scoreValue: 200
+  closeEnoughToAttackDistance: 5
+  maxDistanceBeforeChasing: 2
+  properties:
+    runMultiplier: 2.5
+    hitRate: 0.25
+    selfDestructTime: 0
+    blastRadius: 0
+    bounces: 0
+    waitShotTime: 0
+    zombieHitRate: 0.3
 --- !u!114 &114242160988255750
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -992,6 +1001,23 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+--- !u!114 &114506469756399814
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1098843943671628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb3ae9a5f9a1ce24bb60a56ca9da3041, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DEBUG_CURRENTSTATE: 
+  DEBUG_ATTACKTARGET: 
+  modPrefab: {fileID: 0}
+  timeInLastState: 0
+  stateTimerIsRunning: 0
+  distanceFromTarget: 0
 --- !u!114 &114645622318777180
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1035,21 +1061,6 @@ MonoBehaviour:
   forward: {x: 0, y: 0, z: 1}
   up: {x: 0, y: 1, z: 0}
   updatePeriod: 0
---- !u!114 &114896169034279386
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1098843943671628}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f241d200dcb962468c94d9796a9aca4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DEBUG_CURRENTSTATE: 
-  timeInLastState: 0
-  stateTimerIsRunning: 0
-  closeEnoughToAttackDistance: 3
 --- !u!114 &114986116108717462
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1065,7 +1076,7 @@ MonoBehaviour:
   defense: 5
   health: 25
   maxHealth: 0
-  moveSpeed: 2.5
+  moveSpeed: 8
   rangedAccuracy: 1
   shotSpeed: 0
   shotPushForce: 0
@@ -1201,6 +1212,21 @@ NavMeshAgent:
   m_BaseOffset: 0.05
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 0
+--- !u!208 &208769255177978756
+NavMeshObstacle:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1098843943671628}
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 0
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!222 &222202947676704522
 CanvasRenderer:
   m_ObjectHideFlags: 1

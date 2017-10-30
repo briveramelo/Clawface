@@ -96,9 +96,8 @@ public class EatingState : IPlayerState
         if (stateVariables.skinTargetEnemy.activeSelf)
         {
             ISkinnable skinnable = stateVariables.skinTargetEnemy.GetComponent<ISkinnable>();
-            GameObject skin = skinnable.DeSkin();
-            SkinStats skinStats = skin.GetComponent<SkinStats>();
-            stateVariables.statsManager.TakeSkin(skinStats.GetSkinHealth());
+            int skinHealth = skinnable.DeSkin();
+            stateVariables.statsManager.TakeSkin(skinHealth);
             Stats stats = GetComponent<Stats>();
             EventSystem.Instance.TriggerEvent(Strings.Events.UPDATE_HEALTH, stats.GetHealthFraction());
             GameObject skinningEffect = ObjectPool.Instance.GetObject(PoolObjectType.VFXSkinningEffect);
