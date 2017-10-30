@@ -47,7 +47,7 @@ public class SpreadGun : Mod {
         base.Activate(onCompleteCoolDown, onActivate);   
     }
 
-    protected override void ActivateStandardArms()
+    protected override void DoWeaponActions()
     {
         Shoot();
     }
