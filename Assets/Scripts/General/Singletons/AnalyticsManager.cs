@@ -30,6 +30,15 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
 
     [SerializeField]
     private float totalCurrentLevelTime;
+
+    [SerializeField]
+    private string leftArmOnLoad;
+
+    [SerializeField]
+    private string rightArmOnLoad;
+
+    [SerializeField]
+    private int currentLevelDeaths;
     #endregion
 
 
@@ -354,6 +363,10 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         string leftArm = parameters[1] as string;
         string rightArm = parameters[2] as string;
 
+        leftArmOnLoad = leftArm;
+        rightArmOnLoad = rightArm;
+
+        currentLevelDeaths = 0;
 
         Dictionary<string, object> startLevelDictionary = new Dictionary<string, object>();
         startLevelDictionary.Add("level", level);
@@ -382,6 +395,8 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         playerEventDeath.Add("leftArm", leftArm);
         playerEventDeath.Add("rightArm", rightArm);
 
+        currentLevelDeaths++;
+
 #if UNITY_EDITOR
         // Debug.Log(String.Format("Player death event fired: {0}, {1}, {2}, {3}", level, wave.ToString(), leftArm, rightArm));
 #endif
@@ -398,8 +413,8 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         float runtime = currentLevelTime;
         float totalLevelTime = totalCurrentLevelTime;
         int score = (int)parameters[2];
-        string leftArm = parameters[3] as string;
-        string rightArm = parameters[4] as string;
+        string leftArm = leftArmOnLoad;
+        string rightArm = rightArmOnLoad;
 
         levelRestartDictionary.Add("level", level);
         levelRestartDictionary.Add("wave", wave);
@@ -408,9 +423,10 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         levelRestartDictionary.Add("score", score);
         levelRestartDictionary.Add("leftArm", leftArm);
         levelRestartDictionary.Add("rightArm", rightArm);
+        levelRestartDictionary.Add("deaths", currentLevelDeaths);
 
 #if UNITY_EDITOR
-        Debug.Log(String.Format("Level restarted event fired: {0}, {1}, {2}, {3}, {4}, {5}, {6}", level, wave, runtime.ToString(), totalLevelTime.ToString(), score.ToString(), leftArm, rightArm));
+        // Debug.Log(String.Format("Level restarted event fired: {0}, {1}, {2}, {3}, {4}, {5}, {6}", level, wave, runtime.ToString(), totalLevelTime.ToString(), score.ToString(), leftArm, rightArm));
 #endif
 
         Analytics.CustomEvent(Strings.Events.LEVEL_RESTARTED, levelRestartDictionary);
@@ -427,8 +443,8 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         float runtime = currentLevelTime;
         float totalLevelTime = totalCurrentLevelTime;
         int score = (int)parameters[2];
-        string leftArm = parameters[3] as string;
-        string rightArm = parameters[4] as string;
+        string leftArm = leftArmOnLoad;
+        string rightArm = rightArmOnLoad;
 
         levelQuitDictionary.Add("level", level);
         levelQuitDictionary.Add("wave", wave);
@@ -437,15 +453,17 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         levelQuitDictionary.Add("score", score);
         levelQuitDictionary.Add("leftArm", leftArm);
         levelQuitDictionary.Add("rightArm", rightArm);
+        levelQuitDictionary.Add("deaths", currentLevelDeaths);
 
 #if UNITY_EDITOR
-        Debug.Log(String.Format("Level quit event fired: {0}, {1}, {2}, {3}, {4}, {5}, {6}", level, wave, runtime.ToString(), totalLevelTime.ToString(), score.ToString(), leftArm, rightArm));
+        // Debug.Log(String.Format("Level quit event fired: {0}, {1}, {2}, {3}, {4}, {5}, {6}", level, wave, runtime.ToString(), totalLevelTime.ToString(), score.ToString(), leftArm, rightArm));
 #endif
 
         Analytics.CustomEvent(Strings.Events.LEVEL_QUIT, levelQuitDictionary);
 
         currentLevelTime = 0f;
         totalCurrentLevelTime = 0f;
+        currentLevelDeaths = 0;
     }
 
     private void OnLevelCompleted(params object[] parameters)
@@ -456,8 +474,8 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         float runtime = currentLevelTime;
         float totalLevelTime = totalCurrentLevelTime;
         int score = (int)parameters[1];
-        string leftArm = parameters[2] as string;
-        string rightArm = parameters[3] as string;
+        string leftArm = leftArmOnLoad;
+        string rightArm = rightArmOnLoad;
 
         levelCompletedDictionary.Add("level", level);
         levelCompletedDictionary.Add("runTime", runtime);
@@ -465,6 +483,7 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         levelCompletedDictionary.Add("score", score);
         levelCompletedDictionary.Add("leftArm", leftArm);
         levelCompletedDictionary.Add("rightArm", rightArm);
+        levelCompletedDictionary.Add("deaths", currentLevelDeaths);
 
 #if UNITY_EDITOR
 
@@ -475,6 +494,7 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
 
         currentLevelTime = 0f;
         totalCurrentLevelTime = 0f;
+        currentLevelDeaths = 0;
     }
 
     private void FormatDictionaries()
