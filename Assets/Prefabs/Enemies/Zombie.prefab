@@ -336,7 +336,7 @@ GameObject:
   - component: {fileID: 4292803260986014}
   - component: {fileID: 137940646399889010}
   m_Layer: 0
-  m_Name: Guard_Mesh2
+  m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -586,7 +586,7 @@ Transform:
   m_GameObject: {fileID: 1098843943671628}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -12.405719, y: 0, z: 2.2134933}
-  m_LocalScale: {x: 4.5, y: 4.5, z: 4.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4292803260986014}
   - {fileID: 4849748473374628}
@@ -1143,10 +1143,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.18
-  m_Height: 0.99
+  m_Radius: 1
+  m_Height: 5
   m_Direction: 1
-  m_Center: {x: 0, y: 0.52, z: 0}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!137 &137940646399889010
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
@@ -1160,7 +1160,7 @@ SkinnedMeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: fafada1e40324d74a9d56daa871b72fc, type: 2}
+  - {fileID: 2100000, guid: fe69408c4d79187409b871118fd46a26, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1183,7 +1183,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: 4300000, guid: f1c6aba691011a24088a7b355a92434e, type: 3}
+  m_Mesh: {fileID: 4300000, guid: b3f18f476e1a0df48b44d8a4bc9725c9, type: 3}
   m_Bones: []
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 4849748473374628}
@@ -1261,7 +1261,7 @@ RectTransform:
   m_GameObject: {fileID: 1202408063566974}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.20000002, y: 0.20000002, z: 0.20000002}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224851409524209934}
   m_Father: {fileID: 4178710344318278}
