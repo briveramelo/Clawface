@@ -46,7 +46,7 @@ public interface ICollectable{
 public interface ISkinnable
 {
     bool IsSkinnable();
-    GameObject DeSkin();
+    int DeSkin();
 }
 
 public interface ISpawnable {

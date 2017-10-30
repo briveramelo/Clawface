@@ -59,13 +59,16 @@ public class SpawnManagerEditor : Editor
                 ReorderableList.defaultBehaviours.DoRemoveButton(l);
             }
         };
-
-
     }
 
 
     public override void OnInspectorGUI()
     {
+        if(GUILayout.Button("Test"))
+        {
+            manager.Trigger();
+        }
+
         serializedObject.Update();
         list.DoLayoutList();
         serializedObject.ApplyModifiedProperties();

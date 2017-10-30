@@ -19,7 +19,7 @@ public class SpreadGun : Mod {
     // Use this for initialization
     protected override void Awake()
     {
-        setModType(ModType.ForceSegway);
+        setModType(ModType.SpreadGun);
         if(gunProperties.numberOfBulletsInEachShot - 1 != 0)
         {
             incrementAngle = gunProperties.spreadAngle / (gunProperties.numberOfBulletsInEachShot - 1);
@@ -47,7 +47,7 @@ public class SpreadGun : Mod {
         base.Activate(onCompleteCoolDown, onActivate);   
     }
 
-    protected override void ActivateStandardArms()
+    protected override void DoWeaponActions()
     {
         Shoot();
     }
