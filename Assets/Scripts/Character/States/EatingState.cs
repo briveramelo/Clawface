@@ -94,24 +94,23 @@ public class EatingState : IPlayerState
         if (stateVariables.skinTargetEnemy.activeSelf)
         {
             Transform clawTransform = parameters[0] as Transform;
-            stateVariables.skinTargetEnemy.transform.SetParent(clawTransform);
-            stateVariables.skinTargetEnemy.transform.localPosition = Vector3.zero;
-            ISkinnable skinnable = stateVariables.skinTargetEnemy.GetComponent<ISkinnable>();
-            if (skinnable != null)
+            IEatable eatable = stateVariables.skinTargetEnemy.GetComponent<IEatable>();
+            if (eatable != null)
             {
-                skinnable.DisableCollider();
+                eatable.DisableCollider();
+                eatable.EnableRagdoll();
             }
         }
     }
 
-    private void DoSkinning()
+    private void DoEating()
     {
         //Check if enemy is still alive
         if (stateVariables.skinTargetEnemy.activeSelf)
         {
-            ISkinnable skinnable = stateVariables.skinTargetEnemy.GetComponent<ISkinnable>();
-            int skinHealth = skinnable.DeSkin();
-            stateVariables.statsManager.TakeSkin(skinHealth);
+            IEatable eatable = stateVariables.skinTargetEnemy.GetComponent<IEatable>();
+            int health = eatable.Eat();
+            stateVariables.statsManager.TakeHealth(health);
             Stats stats = GetComponent<Stats>();
             EventSystem.Instance.TriggerEvent(Strings.Events.UPDATE_HEALTH, stats.GetHealthFraction());
             GameObject skinningEffect = ObjectPool.Instance.GetObject(PoolObjectType.VFXSkinningEffect);
@@ -127,7 +126,7 @@ public class EatingState : IPlayerState
 
     private void EndState(params object[] parameters)
     {
-        DoSkinning();
+        DoEating();
         ResetState();
     }
     #endregion

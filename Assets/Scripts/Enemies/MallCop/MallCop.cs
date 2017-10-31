@@ -34,7 +34,7 @@ public class MallCop : EnemyBase
     #region 3. Unity Lifecycle
 
     public override void Awake()
-    {
+    {        
         InitilizeStates();
         controller.Initialize(properties, mod, velBody, animator, myStats, navAgent, navObstacle, aiStates);
         mod.setModSpot(ModSpot.ArmR);
@@ -46,7 +46,6 @@ public class MallCop : EnemyBase
             CheckToFinishFiring,
             CheckIfStunned
         };
-
         base.Awake();
     }
 

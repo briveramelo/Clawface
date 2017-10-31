@@ -123,7 +123,7 @@ public class PlayerStateManager : MonoBehaviour {
         GameObject potentialSkinnableEnemy = GetClosestEnemy();
         if (potentialSkinnableEnemy)
         {
-            ISkinnable skinnable = potentialSkinnableEnemy.GetComponent<ISkinnable>();
+            IEatable skinnable = potentialSkinnableEnemy.GetComponent<IEatable>();
             if (skinnable != null && skinnable.IsSkinnable())
             {
                 stateVariables.skinTargetEnemy = potentialSkinnableEnemy;
