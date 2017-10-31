@@ -2373,7 +2373,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isBlockingState: 0
-  isAnimating: 0
 --- !u!114 &114327907193159704
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2412,8 +2411,9 @@ MonoBehaviour:
     clawAnimator: {fileID: 95643678999931090}
     playerTransform: {fileID: 0}
     defaultState: {fileID: 0}
-    skinTargetEnemy: {fileID: 0}
+    eatTargetEnemy: {fileID: 0}
     modelHead: {fileID: 1865138005623536}
+    clawAnimationHandler: {fileID: 114348467945357608}
   defaultState: {fileID: 114776189445566068}
   playerStatsManager: {fileID: 114430878911601216}
   holdAttackSlowDown: 3
