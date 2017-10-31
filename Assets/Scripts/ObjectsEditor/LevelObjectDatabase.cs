@@ -18,6 +18,7 @@ namespace Turing.LevelEditor
         List<LevelEditorObject>[] objects;
 
         string[] categoryNames;
+        string[] fancyCategoryNames;
 
         #endregion
         #region Constructors
@@ -35,6 +36,8 @@ namespace Turing.LevelEditor
 
         public string[] GetCategories { get { return categoryNames; } }
 
+        public string[] GetFancyCategories { get { return fancyCategoryNames; } }
+
         public List<LevelEditorObject> GetObjects (int category)
         {
             return objects[category];
@@ -48,6 +51,7 @@ namespace Turing.LevelEditor
 
             // Get all category names, which are just subfolders
             categoryNames = Directory.GetDirectories(absolutePath);
+            fancyCategoryNames = new string[categoryNames.Length];
 
             // Init array of categories (lists of objects)
             objects = new List<LevelEditorObject>[categoryNames.Length];
@@ -59,6 +63,7 @@ namespace Turing.LevelEditor
                 string folderPath = categoryNames[i];
                 string folderName = new DirectoryInfo(folderPath).Name;
                 categoryNames[i] = folderName;
+                fancyCategoryNames[i] = StringExtension.AddSpacesBetweenUpperCase(folderName);
 
                 //Debug.Log(string.Format("Folder Name: {0}", folderName));
 

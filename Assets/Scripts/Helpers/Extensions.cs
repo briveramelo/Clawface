@@ -6,6 +6,25 @@ using System;
 
 namespace ModMan {
 
+    public static class StringExtension
+    {
+        public static string AddSpacesBetweenUpperCase (string str)
+        {
+            string result = str;
+            for (int i = 1; i < str.Length; i++)
+            {
+                char c = str[i];
+                if (char.IsUpper (c))
+                {
+                    result = result.Insert(i, " ");
+                    i++;
+                }
+            }
+
+            return result;
+        }
+    }
+
     public static class Rectstensions {
         public static Rect AddPosition(this Rect rect, Vector2 pos) {
             rect.x += pos.x;

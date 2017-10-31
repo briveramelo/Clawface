@@ -165,7 +165,7 @@ namespace OET_add
             vpos += 150;
 
             Rect toolbarPos = new Rect (width / 4, vpos, width / 2, 2 * EditorGUIUtility.singleLineHeight);
-            selectedCategory = GUI.Toolbar (toolbarPos, selectedCategory, prefabDatabase.GetCategories);
+            selectedCategory = GUI.Toolbar (toolbarPos, selectedCategory, prefabDatabase.GetFancyCategories);
             selectedObjects = prefabDatabase.GetObjects(selectedCategory);
 
             GUI.Label (new Rect (0f, vpos, width / 4 - 8, toolbarPos.height), "Categories");
