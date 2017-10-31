@@ -15,13 +15,16 @@ namespace OET_add
 
         static Vector2 scrollPos = Vector2.zero;
 
+        static bool usingDB = false;
+        static GameObject[] DBprefabs;
+
+
         public static void sceneGUI ()
         {
 			if (clickToAddEnabled && projectActiveSelection != null)
             {
 				if(previewDraw)
                 {
- //                   Debug.Log(projectActiveSelection);
                     OET_lib.ToolLib.draft (projectActiveSelection, mousePositionInScene - projectActiveSelection.transform.position, Color.green);
                 }
             }
@@ -29,7 +32,9 @@ namespace OET_add
 
 		public static void renderGUI(int vpos, GameObject get_projectActiveSelection)
 		{
-			projectActiveSelection = get_projectActiveSelection;
+
+            if(!usingDB) projectActiveSelection = get_projectActiveSelection;
+
 			int width = Screen.width;
 			int height = Screen.height;
 			int btWidth = width < 160 ? width - 20 : 160;
@@ -39,12 +44,14 @@ namespace OET_add
 			styleInfoText.normal.textColor = GUI.skin.label.normal.textColor;
 			styleInfoText.alignment = TextAnchor.MiddleLeft;
 
+            usingDB = GUI.Toggle(new Rect(10, vpos + 50, btWidth, 40), usingDB, "");
+            GUI.Label(new Rect(30, vpos + 50, btWidth, 40), "Using Prefabs DataBase");
 
 
             if (projectActiveSelection == null)
             {
                 OET_lib.ToolLib.alertBox ("Prefab Placement", "Select a prefab in the project window to enable this tool.");
-			}
+            }
             else
             {
 				if (projectActiveSelection != null)
@@ -59,7 +66,8 @@ namespace OET_add
 					}
 				}
 
-				Texture2D projectPreview = AssetPreview.GetAssetPreview (projectActiveSelection);
+
+                Texture2D projectPreview = AssetPreview.GetAssetPreview (projectActiveSelection);
 				if(height > 310)
                 {
 					Color saveBg = GUI.backgroundColor;
@@ -69,7 +77,7 @@ namespace OET_add
 						GUI.backgroundColor = new Color(.5f, 0f, 0f, 1);
 					}
 
-					clickToAddEnabled = GUI.Toggle (new Rect (width / 2 - btWidth / 2, vpos, btWidth, 40), clickToAddEnabled, "Add to Scene", "button");
+                    clickToAddEnabled = GUI.Toggle (new Rect (width / 2 - btWidth / 2, vpos, btWidth, 40), clickToAddEnabled, "Add to Scene", "button");
 					if(clickToAddEnabled) GUI.backgroundColor = saveBg;
 					vpos += 50;
 
@@ -91,33 +99,12 @@ namespace OET_add
 				}
 			}
 
-            scrollPos = GUI.BeginScrollView(new Rect(0, vpos + 150, 200, 200), scrollPos, new Rect(0, 0, 500, 500));
 
-
-            Texture2D Preview = AssetPreview.GetAssetPreview(projectActiveSelection);
-
-            int localhpos = 0;
-            int localvpos = 0;
-
-            for (int i = 0; i < 5; i++)
-            {
-                for(int j = 0; j < 5; j++)
-                {
-                    if (Preview != null)
-                    {
-                        GUI.Box(new Rect(localhpos, localvpos, 64, 64), Preview);
-                    }
-                    localhpos += 96;
-                }
-
-                localhpos = 0;
-                localvpos += 96;
-            }
-
-            GUI.EndScrollView();
+            if (usingDB)
+                RenderDB(vpos);
         }
 
-		public static bool editorMouseEvent(Event e, GameObject projectActiveSelection)
+		public static bool editorMouseEvent(Event e)
         {
 			previewDraw = false;
 			if (clickToAddEnabled && projectActiveSelection != null)
@@ -163,6 +150,52 @@ namespace OET_add
             }
 
             return new Vector3(Grid_x, mousePositionInScene.y, Grid_z);
+        }
+
+
+        public static void RenderDB(int vpos)
+        {
+
+            DBprefabs = Resources.LoadAll<GameObject>("Old/Prefabs");
+
+
+            int width = Screen.width;
+            int height = Screen.height;
+
+            int Num = DBprefabs.Length;
+            int IconSize = 64;
+            int IconSpace = 100;
+            int count_x = width / 100;
+            int count_y = Num % count_x == 0 ? Num / count_x : Num / count_x + 1;
+
+            scrollPos = GUI.BeginScrollView(new Rect(0, vpos + 150, width, height - vpos - 150), scrollPos, new Rect(0, 0, width, count_y * IconSpace));
+
+
+            int localvpos = 0;
+            int localhpos = (IconSpace - IconSize) / 2;
+
+            for(int i = 0; i < Num; i++)
+            {
+                Texture2D Preview = AssetPreview.GetAssetPreview(DBprefabs[i]);
+
+                if (Preview != null)
+                {
+                    if(GUI.Button(new Rect(localhpos, localvpos, IconSize, IconSize), Preview))
+                    {
+                        projectActiveSelection = DBprefabs[i];
+                    }
+
+                    localhpos += IconSpace;
+
+                    if(localhpos + IconSpace >= width)
+                    {
+                        localhpos = (IconSpace - IconSize) / 2;
+                        localvpos += IconSpace;
+                    }
+                }
+            }
+
+            GUI.EndScrollView();
         }
 	}
 }
