@@ -141,11 +141,6 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, ISkinn
         will.onDeath = onDeath;
     }
 
-    #endregion
-
-
-    #region 6. Private Methods   
-
     public virtual void OnDeath()
     {
         if (!will.isDead)
@@ -177,7 +172,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, ISkinn
     public virtual void ResetForRebirth()
     {
         GetComponent<CapsuleCollider>().enabled = true;
-        
+
         myStats.ResetForRebirth();
         controller.ResetForRebirth();
         velBody.ResetForRebirth();
@@ -187,5 +182,14 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, ISkinn
         lastChance = false;
         alreadyStunned = false;
     }
+
+    public void DisableCollider()
+    {
+        GetComponent<CapsuleCollider>().enabled = false;
+    }
+    #endregion
+
+
+    #region 6. Private Methods
     #endregion
 }
