@@ -47,6 +47,7 @@ public interface ISkinnable
 {
     bool IsSkinnable();
     int DeSkin();
+    void DisableCollider();
 }
 
 public interface ISpawnable {
@@ -54,7 +55,5 @@ public interface ISpawnable {
     void RegisterDeathEvent(OnDeath onDeath);
     void WarpToNavMesh(Vector3  position);
 }
-
-
 
 public delegate void OnDeath();

@@ -87,6 +87,11 @@ public class EatingState : IPlayerState
             Transform clawTransform = parameters[0] as Transform;
             stateVariables.skinTargetEnemy.transform.SetParent(clawTransform);
             stateVariables.skinTargetEnemy.transform.localPosition = Vector3.zero;
+            ISkinnable skinnable = stateVariables.skinTargetEnemy.GetComponent<ISkinnable>();
+            if (skinnable != null)
+            {
+                skinnable.DisableCollider();
+            }
         }
     }
 
