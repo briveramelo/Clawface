@@ -30,7 +30,7 @@ public class ObjectsTools : EditorWindow
 		ObjectsTools window = (ObjectsTools)EditorWindow.GetWindow(typeof(ObjectsTools));
 		window.titleContent = new GUIContent("Level Tools");
 		window.Show();
-		window.minSize = new Vector2 (600f, 120f);
+		window.minSize = new Vector2 (600.0f, 400.0f);
     }
 
 	void OnInspectorUpdate()
@@ -64,7 +64,7 @@ public class ObjectsTools : EditorWindow
         // Add
         if (activeToolbar == 1)
         { 
-			if(OET_add.lib.editorMouseEvent (e, projectActiveSelection))
+			if(OET_add.lib.editorMouseEvent (e))
             {
 				//cancelEvent = true;
 				HandleUtility.AddDefaultControl (GUIUtility.GetControlID (GetHashCode (), FocusType.Passive));
