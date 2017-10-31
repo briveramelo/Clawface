@@ -14,7 +14,6 @@ namespace OET_grid
 
         static GameObject _prefab = AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Old/Environment/Hallway/Hallway_Floor.prefab", typeof(GameObject)) as GameObject;
 
-
         static public void sceneGUI()
         {
             _prefab.transform.localPosition = new Vector3(0, 0, 0);
