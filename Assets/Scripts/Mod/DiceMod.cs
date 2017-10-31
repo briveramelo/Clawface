@@ -54,7 +54,7 @@ public class DiceMod : Mod {
     }
 
 
-    protected override void ActivateStandardArms()
+    protected override void DoWeaponActions()
     {
         blasterEffect.Play();
         DiceBlock diceBlock = SpawnDiceAndRoll(bulletSpawnPoint.forward);

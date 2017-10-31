@@ -2373,6 +2373,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isBlockingState: 0
+  isAnimating: 0
 --- !u!114 &114327907193159704
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2420,6 +2421,7 @@ MonoBehaviour:
   dashCoolDown: 0.1
   eatingState: {fileID: 114325496831137656}
   eatRadius: 5
+  playerStates: []
 --- !u!114 &114348467945357608
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2515,7 +2517,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageModifier: 1
-  playerUI: {fileID: 114978248570040950}
   cameraLock: {fileID: 114666002651435752}
   faceController: {fileID: 114120624255160290}
   shake: 0
@@ -2579,7 +2580,7 @@ MonoBehaviour:
   defense: 5
   health: 50
   maxHealth: 0
-  moveSpeed: 700
+  moveSpeed: 2000
   rangedAccuracy: 1
   shotSpeed: 21
   shotPushForce: 8
@@ -2846,9 +2847,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.46
-  m_Height: 3.24
+  m_Height: 4
   m_Direction: 1
-  m_Center: {x: 0, y: 1.57, z: 0}
+  m_Center: {x: 0, y: 2, z: 0}
 --- !u!137 &137239411414129772
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

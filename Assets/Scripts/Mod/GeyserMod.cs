@@ -64,7 +64,7 @@ public class GeyserMod : Mod {
 
 
     #region Private Methods    
-    protected override void ActivateStandardArms() { Erupt(); }
+    protected override void DoWeaponActions() { Erupt(); }
 
     private void Erupt()
     {

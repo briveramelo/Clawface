@@ -46,7 +46,8 @@ public interface ICollectable{
 public interface ISkinnable
 {
     bool IsSkinnable();
-    GameObject DeSkin();
+    int DeSkin();
+    void DisableCollider();
 }
 
 public interface ISpawnable {
@@ -54,7 +55,5 @@ public interface ISpawnable {
     void RegisterDeathEvent(OnDeath onDeath);
     void WarpToNavMesh(Vector3  position);
 }
-
-
 
 public delegate void OnDeath();
