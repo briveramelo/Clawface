@@ -60,7 +60,7 @@ public class PlayerStateManager : MonoBehaviour {
             StartCoroutine(WaitForDashCoolDown());
         }
         else if (InputManager.Instance.QueryAction(Strings.Input.Actions.EAT, ButtonMode.DOWN) && !playerStates.Contains(dashState) && !playerStates.Contains(eatingState)) {
-            if (CheckForSkinnableEnemy()) {
+            if (CheckForEatableEnemy()) {
                 SwitchState(eatingState);
             }
         }
@@ -118,15 +118,15 @@ public class PlayerStateManager : MonoBehaviour {
         canDash = true;        
     }
 
-    private bool CheckForSkinnableEnemy()
+    private bool CheckForEatableEnemy()
     {
-        GameObject potentialSkinnableEnemy = GetClosestEnemy();
-        if (potentialSkinnableEnemy)
+        GameObject potentialEatableEnemy = GetClosestEnemy();
+        if (potentialEatableEnemy)
         {
-            IEatable skinnable = potentialSkinnableEnemy.GetComponent<IEatable>();
-            if (skinnable != null && skinnable.IsSkinnable())
+            IEatable skinnable = potentialEatableEnemy.GetComponent<IEatable>();
+            if (skinnable != null && skinnable.IsEatable())
             {
-                stateVariables.skinTargetEnemy = potentialSkinnableEnemy;
+                stateVariables.eatTargetEnemy = potentialEatableEnemy;
                 return true;
             }
         }
@@ -142,11 +142,15 @@ public class PlayerStateManager : MonoBehaviour {
             float closestDistance = Mathf.Infinity;
             foreach (Collider enemy in enemies)
             {
-                float distance = Vector3.Distance(enemy.ClosestPoint(transform.position), transform.position);
-                if (closestDistance > distance)
+                IEatable eatable = enemy.GetComponent<IEatable>();
+                if (eatable != null && eatable.IsEatable())
                 {
-                    closestDistance = distance;
-                    closestEnemy = enemy;
+                    float distance = Vector3.Distance(enemy.ClosestPoint(transform.position), transform.position);
+                    if (closestDistance > distance)
+                    {
+                        closestDistance = distance;
+                        closestEnemy = enemy;
+                    }
                 }
             }
             if (closestEnemy != null)
@@ -176,8 +180,9 @@ public class PlayerStateManager : MonoBehaviour {
         [HideInInspector]
         public IPlayerState defaultState;
         [HideInInspector]
-        public GameObject skinTargetEnemy;        
+        public GameObject eatTargetEnemy;        
         public GameObject modelHead;
+        public ClawAnimationHandler clawAnimationHandler;
     }
     #endregion
 

@@ -45,7 +45,7 @@ public interface ICollectable{
 
 public interface IEatable
 {
-    bool IsSkinnable();
+    bool IsEatable();
     int Eat();
     void DisableCollider();
     void EnableRagdoll();

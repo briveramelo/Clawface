@@ -120,7 +120,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     }
 
 
-    bool IEatable.IsSkinnable()
+    bool IEatable.IsEatable()
     {
         return myStats.health <= myStats.skinnableHealth;
     }
@@ -218,7 +218,6 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         animator.enabled = true;
     }
     #endregion
-
 
     #region 6. Private Methods
     #endregion
