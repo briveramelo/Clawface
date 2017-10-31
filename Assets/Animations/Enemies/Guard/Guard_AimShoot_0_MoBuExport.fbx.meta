@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: c38bda6ad79195341b11b02092a7b773
-timeCreated: 1509415188
+guid: 2dfdd0ea21a3e9048acef292484088c0
+timeCreated: 1509477702
 licenseType: Free
 ModelImporter:
   serializedVersion: 21
@@ -309,7 +309,7 @@ ModelImporter:
     400298: //RootNode
     400300: Tummy_1
     400302: Tummy_base
-    7400000: Guard_Run_1
+    7400000: Guard_AimShoot_0
     9500000: //RootNode
   materials:
     importMaterials: 1
@@ -336,18 +336,18 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Guard_Run_1
+      name: Guard_AimShoot_0
       takeName: Take 001
-      firstFrame: 1239412
-      lastFrame: 1239437
+      firstFrame: 1
+      lastFrame: 98
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 1
-      loopBlend: 1
+      loopTime: 0
+      loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
       loopBlendPositionXZ: 0
@@ -390,7 +390,7 @@ ModelImporter:
     tangentImportMode: 3
     normalCalculationMode: 4
   importAnimation: 1
-  copyAvatar: 0
+  copyAvatar: 1
   humanDescription:
     serializedVersion: 2
     human: []
@@ -402,12 +402,13 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    rootMotionBoneName: 
+    rootMotionBoneName: Enemy_1_Reference
     rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1
-  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: dd129b01e33bd0c46b563d2d1958b8db,
+    type: 3}
   animationType: 2
   humanoidOversampling: 1
   additionalBone: 0
