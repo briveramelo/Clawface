@@ -47,9 +47,15 @@ public class EatingState : IPlayerState
 
     public override void StateFixedUpdate()
     {
+        
+    }
+
+    public override void StateUpdate()
+    {
         if (!isAnimating)
         {
-            if (stateVariables.skinTargetEnemy && stateVariables.skinTargetEnemy.activeSelf) {
+            if (stateVariables.skinTargetEnemy && stateVariables.skinTargetEnemy.activeSelf)
+            {
                 stateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.RetractVisor);
                 isAnimating = true;
             }
@@ -58,11 +64,6 @@ public class EatingState : IPlayerState
                 ResetState();
             }
         }
-    }
-
-    public override void StateUpdate()
-    {
-        
     }
     
     public override void StateLateUpdate()

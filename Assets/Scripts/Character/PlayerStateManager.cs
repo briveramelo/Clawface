@@ -59,7 +59,7 @@ public class PlayerStateManager : MonoBehaviour {
             canDash = false;
             StartCoroutine(WaitForDashCoolDown());
         }
-        else if (InputManager.Instance.QueryAction(Strings.Input.Actions.EAT, ButtonMode.DOWN)) {
+        else if (InputManager.Instance.QueryAction(Strings.Input.Actions.EAT, ButtonMode.DOWN) && !playerStates.Contains(dashState) && !playerStates.Contains(eatingState)) {
             if (CheckForSkinnableEnemy()) {
                 SwitchState(eatingState);
             }
@@ -120,17 +120,14 @@ public class PlayerStateManager : MonoBehaviour {
 
     private bool CheckForSkinnableEnemy()
     {
-        if (!stateVariables.skinTargetEnemy)
+        GameObject potentialSkinnableEnemy = GetClosestEnemy();
+        if (potentialSkinnableEnemy)
         {
-            GameObject potentialSkinnableEnemy = GetClosestEnemy();
-            if (potentialSkinnableEnemy)
+            ISkinnable skinnable = potentialSkinnableEnemy.GetComponent<ISkinnable>();
+            if (skinnable != null && skinnable.IsSkinnable())
             {
-                ISkinnable skinnable = potentialSkinnableEnemy.GetComponent<ISkinnable>();
-                if (skinnable != null && skinnable.IsSkinnable())
-                {
-                    stateVariables.skinTargetEnemy = potentialSkinnableEnemy;
-                    return true;
-                }
+                stateVariables.skinTargetEnemy = potentialSkinnableEnemy;
+                return true;
             }
         }
         return false;
