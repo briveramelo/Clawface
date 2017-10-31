@@ -2373,6 +2373,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isBlockingState: 0
+  isAnimating: 0
 --- !u!114 &114327907193159704
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2420,6 +2421,7 @@ MonoBehaviour:
   dashCoolDown: 0.1
   eatingState: {fileID: 114325496831137656}
   eatRadius: 5
+  playerStates: []
 --- !u!114 &114348467945357608
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2578,7 +2580,7 @@ MonoBehaviour:
   defense: 5
   health: 50
   maxHealth: 0
-  moveSpeed: 700
+  moveSpeed: 2000
   rangedAccuracy: 1
   shotSpeed: 21
   shotPushForce: 8

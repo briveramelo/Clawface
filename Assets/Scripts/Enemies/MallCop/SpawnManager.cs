@@ -53,7 +53,7 @@ public class SpawnManager : MonoBehaviour
         {
             LevelClear = false;
             EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_COMPLETED, 
-                SceneManager.GetActiveScene().name, levelTime, ScoreManager.Instance.GetScore(), ModManager.leftArmOnLoad.ToString(), ModManager.rightArmOnLoad.ToString() );
+                SceneManager.GetActiveScene().name, ScoreManager.Instance.GetScore(), ModManager.leftArmOnLoad.ToString(), ModManager.rightArmOnLoad.ToString() );
         }
     }
 

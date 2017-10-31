@@ -234,14 +234,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b46b2a14cefa1b4498b8ad99597bbe5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hasState: 0
   pickupCollider: {fileID: 65286971079796370}
   modCanvas: {fileID: 1631652510854260}
   energySettings:
-    standardArmAttackSettings:
-      timeToCoolDown: 0.1
+    weaponAttackSettings:
+      timeToCoolDown: 0.2
       timeToAttack: 0
-      attack: 1
+      attack: 0
     isCoolingDown: 0
     isActive: 0
   bulletSpawnPoint: {fileID: 4303765111120432}

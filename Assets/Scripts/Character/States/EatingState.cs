@@ -8,7 +8,7 @@ public class EatingState : IPlayerState
 {
 
     #region Private Fields
-    private bool isAnimating;
+    public bool isAnimating;
     #endregion
 
     #region Unity Lifecycle 
@@ -34,15 +34,28 @@ public class EatingState : IPlayerState
 
     private void LookAtEnemy()
     {
-        Vector3 enemyPosition = stateVariables.skinTargetEnemy.transform.position;
-        stateVariables.modelHead.transform.LookAt(new Vector3(enemyPosition.x, 0f, enemyPosition.z));
+        if (stateVariables.skinTargetEnemy)
+        {
+            Vector3 enemyPosition = stateVariables.skinTargetEnemy.transform.position;
+            stateVariables.modelHead.transform.LookAt(new Vector3(enemyPosition.x, 0f, enemyPosition.z));
+        }
+        else
+        {
+            ResetState();
+        }
     }
 
     public override void StateFixedUpdate()
     {
+        
+    }
+
+    public override void StateUpdate()
+    {
         if (!isAnimating)
         {
-            if (stateVariables.skinTargetEnemy.activeSelf) {
+            if (stateVariables.skinTargetEnemy && stateVariables.skinTargetEnemy.activeSelf)
+            {
                 stateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.RetractVisor);
                 isAnimating = true;
             }
@@ -51,11 +64,6 @@ public class EatingState : IPlayerState
                 ResetState();
             }
         }
-    }
-
-    public override void StateUpdate()
-    {
-        
     }
     
     public override void StateLateUpdate()
@@ -70,6 +78,7 @@ public class EatingState : IPlayerState
         stateVariables.clawAnimator.SetBool(Strings.ANIMATIONSTATE, false);
         stateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Idle);
         stateVariables.modelHead.transform.LookAt(stateVariables.playerTransform.forward);
+        stateVariables.skinTargetEnemy = null;
         isAnimating = false;
         stateVariables.stateFinished = true;
     }
@@ -87,6 +96,11 @@ public class EatingState : IPlayerState
             Transform clawTransform = parameters[0] as Transform;
             stateVariables.skinTargetEnemy.transform.SetParent(clawTransform);
             stateVariables.skinTargetEnemy.transform.localPosition = Vector3.zero;
+            ISkinnable skinnable = stateVariables.skinTargetEnemy.GetComponent<ISkinnable>();
+            if (skinnable != null)
+            {
+                skinnable.DisableCollider();
+            }
         }
     }
 
