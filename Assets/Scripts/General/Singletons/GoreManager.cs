@@ -14,6 +14,9 @@ public class GoreManager : Singleton<GoreManager> {
     [SerializeField]
     private Camera uvSpaceCamera;
 
+    [SerializeField]
+    private float sphereRadius = 1F;
+
     #endregion
 
     private int mask;
@@ -22,14 +25,15 @@ public class GoreManager : Singleton<GoreManager> {
     {
         base.Awake();
         mask = 1 << 11; //GROUND LAYER
+        uvSpaceCamera.aspect = 1;
     }
 
     public void SpawnSplat(Vector3 worldPos) {
 
-        Collider[] collided = Physics.OverlapSphere(worldPos, 1F, mask);
+        Collider[] collided = Physics.OverlapSphere(worldPos, sphereRadius, mask);
 
         #if UNITY_EDITOR
-        if (collided.Length != 0)
+        if (false && collided.Length != 0)
         {
             GameObject hitSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             hitSphere.transform.position = worldPos;

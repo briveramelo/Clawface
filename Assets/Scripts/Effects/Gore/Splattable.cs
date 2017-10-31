@@ -66,6 +66,7 @@ public class Splattable : MonoBehaviour {
 
         //render splat
         renderCam.Render();
+        renderCam.RemoveAllCommandBuffers();
         SwapBuffers();
         myRenderer.GetPropertyBlock(propBlock);
         if (propBlock != null)

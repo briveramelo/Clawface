@@ -6,6 +6,7 @@
 		_Glossiness ("Smoothness", Range(0,1)) = 0.5
 		_Metallic ("Metallic", Range(0,1)) = 0.0
 
+		// THIS IS NEEDED FOR SPLATTING THINGS!!!!
 		[Header (The Splat Stuffs)]
 		[PerRendererData] _SplatMap ("Splat Map", 2D) = "black" {}
 	}
@@ -29,6 +30,7 @@
 
 		void surf (Input IN, inout SurfaceOutputStandard o) {
 			// Albedo comes from a texture tinted by color
+			// THIS IS HOW YOU WOULD MERGE THE TWO
 			fixed4 c = tex2D (_MainTex, IN.uv_MainTex) * _Color;
 			fixed4 splat = tex2D(_SplatMap, IN.uv_MainTex);
 			if (splat.a != 0) c.rgb = splat.rgb;
