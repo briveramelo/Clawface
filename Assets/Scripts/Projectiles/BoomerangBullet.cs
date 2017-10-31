@@ -8,6 +8,7 @@ public class BoomerangBullet : MonoBehaviour {
     private ShooterProperties shooterProperties=new ShooterProperties();
     private Damager damager = new Damager();
     private bool shooter;
+    private TrailRenderer trail;
 
     [SerializeField] private float timeUntilDestroyed;
     [SerializeField] private float rayDistanceMultiplier;
@@ -16,12 +17,14 @@ public class BoomerangBullet : MonoBehaviour {
     void OnEnable()
     {        
         Timing.RunCoroutine(DestroyAfter());
+        trail = GetComponent<TrailRenderer>();
     }
 
     private IEnumerator<float> DestroyAfter() {
         yield return Timing.WaitForSeconds(timeUntilDestroyed);
         if (gameObject.activeSelf){
             EmitBulletCollision();
+            trail.Clear();
             gameObject.SetActive(false);
         }
     }
