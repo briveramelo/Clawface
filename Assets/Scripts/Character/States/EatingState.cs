@@ -34,23 +34,27 @@ public class EatingState : IPlayerState
 
     private void LookAtEnemy()
     {
-        Vector3 enemyPosition = stateVariables.skinTargetEnemy.transform.position;
-        stateVariables.modelHead.transform.LookAt(new Vector3(enemyPosition.x, 0f, enemyPosition.z));
+        if (stateVariables.skinTargetEnemy)
+        {
+            Vector3 enemyPosition = stateVariables.skinTargetEnemy.transform.position;
+            stateVariables.modelHead.transform.LookAt(new Vector3(enemyPosition.x, 0f, enemyPosition.z));
+        }
+        else
+        {
+            ResetState();
+        }
     }
 
     public override void StateFixedUpdate()
     {
         if (!isAnimating)
         {
-            print("not animating");
-            if (stateVariables.skinTargetEnemy.activeSelf) {
-                print("eat target available");
+            if (stateVariables.skinTargetEnemy && stateVariables.skinTargetEnemy.activeSelf) {
                 stateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.RetractVisor);
                 isAnimating = true;
             }
             else
             {
-                print("eat target NOOOOT available");
                 ResetState();
             }
         }
@@ -73,6 +77,7 @@ public class EatingState : IPlayerState
         stateVariables.clawAnimator.SetBool(Strings.ANIMATIONSTATE, false);
         stateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Idle);
         stateVariables.modelHead.transform.LookAt(stateVariables.playerTransform.forward);
+        stateVariables.skinTargetEnemy = null;
         isAnimating = false;
         stateVariables.stateFinished = true;
     }

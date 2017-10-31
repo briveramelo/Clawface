@@ -120,14 +120,17 @@ public class PlayerStateManager : MonoBehaviour {
 
     private bool CheckForSkinnableEnemy()
     {
-        GameObject potentialSkinnableEnemy = GetClosestEnemy();
-        if (potentialSkinnableEnemy)
+        if (!stateVariables.skinTargetEnemy)
         {
-            ISkinnable skinnable = potentialSkinnableEnemy.GetComponent<ISkinnable>();
-            if (skinnable != null && skinnable.IsSkinnable())
+            GameObject potentialSkinnableEnemy = GetClosestEnemy();
+            if (potentialSkinnableEnemy)
             {
-                stateVariables.skinTargetEnemy = potentialSkinnableEnemy;
-                return true;
+                ISkinnable skinnable = potentialSkinnableEnemy.GetComponent<ISkinnable>();
+                if (skinnable != null && skinnable.IsSkinnable())
+                {
+                    stateVariables.skinTargetEnemy = potentialSkinnableEnemy;
+                    return true;
+                }
             }
         }
         return false;
