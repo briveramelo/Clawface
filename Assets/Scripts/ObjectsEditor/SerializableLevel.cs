@@ -36,7 +36,7 @@ namespace Turing.LevelEditor
             return instance;
         }
 
-        public static SerializableLevel SerializeLevel (string name, GameObject[] objects)
+        public SerializableLevel SerializeLevel (string name, GameObject[] objects)
         {
             SerializableLevel level = new SerializableLevel();
             level.name = name;

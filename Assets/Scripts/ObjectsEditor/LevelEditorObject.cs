@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 using System.IO;
 
 namespace Turing.LevelEditor
@@ -18,7 +19,25 @@ namespace Turing.LevelEditor
 
         public string Name { get { return name; } }
 
-        public GameObject Prefab { get { return prefab; } }
+        public string Path
+        {
+            get
+            {
+                //string path = 
+                return name;
+            }
+        }
+
+
+        public GameObject Prefab
+        {
+            get
+            {
+                if (prefab == null)
+                    Debug.LogError ("No prefab for this LevelEditorObject!", this);
+                return prefab;
+            }
+        }
 
         public int Limit { get { return limit; } }
 

@@ -33,6 +33,13 @@ namespace Turing.LevelEditor
         #endregion
         #region Public Methods
 
+        public string[] GetCategories { get { return categoryNames; } }
+
+        public List<LevelEditorObject> GetObjects (int category)
+        {
+            return objects[category];
+        }
+
         public void LoadLevelObjects()
         {
             // Get absolute path of level objects (for IO functions)
@@ -88,7 +95,7 @@ namespace Turing.LevelEditor
         public LevelEditorObject GetObject (string path)
         {
             string[] split = path.Split ('/');
-            return GetObject (split[0], split[1]);
+            return GetObject (split[0], split[2]);
         }
 
         public LevelEditorObject GetObject (int categoryIndex, string name)
@@ -109,22 +116,6 @@ namespace Turing.LevelEditor
         public LevelEditorObject GetObject (int categoryIndex, int objectIndex)
         {
             return objects[categoryIndex][objectIndex];
-        }
-
-        public string GetObjectPath (LevelEditorObject obj)
-        {
-            for (int categoryIndex = 0; categoryIndex < objects.Length; categoryIndex++)
-            {
-                List<LevelEditorObject> category = objects[categoryIndex];
-                for (int objectIndex = 0; objectIndex < category.Count; objectIndex++)
-                {
-                    LevelEditorObject element = category[objectIndex];
-                    if (obj == element)
-                        return string.Format("{0}/{1}", categoryNames[categoryIndex], element.Name);
-                }
-            }
-
-            return default(string);
         }
 
         #endregion

@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using UnityEditor;
-using System.Collections;
+using System.Collections.Generic;
 using OET_lib;
+using Turing.LevelEditor;
 
 namespace OET_add
 {
@@ -16,8 +17,9 @@ namespace OET_add
         static Vector2 scrollPos = Vector2.zero;
 
         static bool usingDB = false;
-        static GameObject[] DBprefabs;
-
+        static LevelObjectDatabase prefabDatabase;
+        static int selectedCategory = 0;
+        static List<LevelEditorObject> selectedObjects;
 
         public static void sceneGUI ()
         {
@@ -47,7 +49,6 @@ namespace OET_add
             usingDB = GUI.Toggle(new Rect(10, vpos + 50, btWidth, 40), usingDB, "");
             GUI.Label(new Rect(30, vpos + 50, btWidth, 40), "Using Prefabs DataBase");
 
-
             if (projectActiveSelection == null)
             {
                 OET_lib.ToolLib.alertBox ("Prefab Placement", "Select a prefab in the project window to enable this tool.");
@@ -67,7 +68,7 @@ namespace OET_add
 				}
 
 
-                Texture2D projectPreview = AssetPreview.GetAssetPreview (projectActiveSelection);
+                Texture2D projectPreview = UnityEditor.AssetPreview.GetAssetPreview (projectActiveSelection);
 				if(height > 310)
                 {
 					Color saveBg = GUI.backgroundColor;
@@ -155,20 +156,35 @@ namespace OET_add
 
         public static void RenderDB(int vpos)
         {
-
-            DBprefabs = Resources.LoadAll<GameObject>("Old/Prefabs");
-
+            if (prefabDatabase == null)
+                prefabDatabase = new LevelObjectDatabase();
 
             int width = Screen.width;
             int height = Screen.height;
 
-            int Num = DBprefabs.Length;
+            vpos += 150;
+
+            Rect toolbarPos = new Rect (width / 4, vpos, width / 2, 2 * EditorGUIUtility.singleLineHeight);
+            selectedCategory = GUI.Toolbar (toolbarPos, selectedCategory, prefabDatabase.GetCategories);
+            selectedObjects = prefabDatabase.GetObjects(selectedCategory);
+
+            GUI.Label (new Rect (0f, vpos, width / 4 - 8, toolbarPos.height), "Categories");
+
+            if (GUI.Button (new Rect(toolbarPos.x + toolbarPos.width + 8, vpos, 128, toolbarPos.height), "Refresh"))
+                prefabDatabase.LoadLevelObjects();
+
+            vpos += Mathf.CeilToInt(toolbarPos.height) + (int)EditorGUIUtility.singleLineHeight;
+
+            if (selectedObjects == null) 
+                Debug.LogError ("Failed to get selected objects!");
+
+            int Num = selectedObjects.Count;
             int IconSize = 64;
             int IconSpace = 100;
             int count_x = width / 100;
             int count_y = Num % count_x == 0 ? Num / count_x : Num / count_x + 1;
 
-            scrollPos = GUI.BeginScrollView(new Rect(0, vpos + 150, width, height - vpos - 150), scrollPos, new Rect(0, 0, width, count_y * IconSpace));
+            scrollPos = GUI.BeginScrollView(new Rect(0, vpos, width, height - vpos), scrollPos, new Rect(0, 0, width, count_y * IconSpace));
 
 
             int localvpos = 0;
@@ -176,13 +192,13 @@ namespace OET_add
 
             for(int i = 0; i < Num; i++)
             {
-                Texture2D Preview = AssetPreview.GetAssetPreview(DBprefabs[i]);
+                Texture2D Preview = UnityEditor.AssetPreview.GetAssetPreview(selectedObjects[i].Prefab);
 
                 if (Preview != null)
                 {
                     if(GUI.Button(new Rect(localhpos, localvpos, IconSize, IconSize), Preview))
                     {
-                        projectActiveSelection = DBprefabs[i];
+                        projectActiveSelection = selectedObjects[i].Prefab;
                     }
 
                     localhpos += IconSpace;
