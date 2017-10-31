@@ -28,7 +28,7 @@ public class PlayerStateManager : MonoBehaviour {
 
     #region Private Fields
     private IPlayerState movementState;
-    private List<IPlayerState> playerStates;
+    public List<IPlayerState> playerStates;
     private bool canDash = true;
     private bool stateChanged;
     #endregion
@@ -49,14 +49,8 @@ public class PlayerStateManager : MonoBehaviour {
     }
 	
 	// Update is called once per frame
-	void Update () {              
-        playerStates.ForEach(state=>state.StateUpdate());
-    }    
-
-    void FixedUpdate()
-    {
-        if (stateChanged && stateVariables.stateFinished)
-        {
+	void Update () {
+        if (stateChanged && stateVariables.stateFinished) {
             ResetState();
         }
         if (InputManager.Instance.QueryAction(Strings.Input.Actions.DODGE, ButtonMode.DOWN) && canDash) // do dodge / dash
@@ -64,13 +58,18 @@ public class PlayerStateManager : MonoBehaviour {
             SwitchState(dashState);
             canDash = false;
             StartCoroutine(WaitForDashCoolDown());
-        }else if(InputManager.Instance.QueryAction(Strings.Input.Actions.EAT, ButtonMode.DOWN))
-        {
-            if (CheckForSkinnableEnemy())
-            {                
+        }
+        else if (InputManager.Instance.QueryAction(Strings.Input.Actions.EAT, ButtonMode.DOWN)) {
+            if (CheckForSkinnableEnemy()) {
                 SwitchState(eatingState);
             }
         }
+
+        playerStates.ForEach(state=>state.StateUpdate());
+    }    
+
+    void FixedUpdate()
+    {
         playerStates.ForEach(state=>state.StateFixedUpdate());
     }
 

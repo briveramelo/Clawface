@@ -8,7 +8,7 @@ public class EatingState : IPlayerState
 {
 
     #region Private Fields
-    private bool isAnimating;
+    public bool isAnimating;
     #endregion
 
     #region Unity Lifecycle 
@@ -42,12 +42,15 @@ public class EatingState : IPlayerState
     {
         if (!isAnimating)
         {
+            print("not animating");
             if (stateVariables.skinTargetEnemy.activeSelf) {
+                print("eat target available");
                 stateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.RetractVisor);
                 isAnimating = true;
             }
             else
             {
+                print("eat target NOOOOT available");
                 ResetState();
             }
         }
