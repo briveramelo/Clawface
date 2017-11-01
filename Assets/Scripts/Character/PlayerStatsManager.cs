@@ -78,10 +78,10 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
         EventSystem.Instance.TriggerEvent(Strings.Events.PLAYER_HEALTH_MODIFIED, healthFraction);
     }
 
-    public void TakeSkin(int skinHealth) {
-        stats.Add(CharacterStatType.Health, skinHealth);
+    public void TakeHealth(int health) {
+        stats.Add(CharacterStatType.Health, health);
         healthAtLastSkin = stats.health;
-        lastSkinHealthBoost=skinHealth;
+        lastSkinHealthBoost=health;
     }
 
     public float GetStat(CharacterStatType type)
