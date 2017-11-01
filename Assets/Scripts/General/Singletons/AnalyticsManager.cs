@@ -374,10 +374,12 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         startLevelDictionary.Add("rightArm", rightArm);
 
 #if UNITY_EDITOR
-        // Debug.Log(String.Format("Started level event fired: {0}, {1}, {2}", level, leftArm, rightArm));
+// Debug.Log(String.Format("Started level event fired: {0}, {1}, {2}", level, leftArm, rightArm));
 #endif
 
+#if !UNITY_EDITOR
         Analytics.CustomEvent(Strings.Events.LEVEL_STARTED, startLevelDictionary);
+#endif
 
     }
 
@@ -398,10 +400,12 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         currentLevelDeaths++;
 
 #if UNITY_EDITOR
-        // Debug.Log(String.Format("Player death event fired: {0}, {1}, {2}, {3}", level, wave.ToString(), leftArm, rightArm));
+// Debug.Log(String.Format("Player death event fired: {0}, {1}, {2}, {3}", level, wave.ToString(), leftArm, rightArm));
 #endif
 
+#if !UNITY_EDITOR
         Analytics.CustomEvent(Strings.Events.PLAYER_KILLED, playerEventDeath);
+#endif
     }
 
     private void OnLevelRestart(params object[] parameters)
@@ -426,10 +430,12 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         levelRestartDictionary.Add("deaths", currentLevelDeaths);
 
 #if UNITY_EDITOR
-        // Debug.Log(String.Format("Level restarted event fired: {0}, {1}, {2}, {3}, {4}, {5}, {6}", level, wave, runtime.ToString(), totalLevelTime.ToString(), score.ToString(), leftArm, rightArm));
+// Debug.Log(String.Format("Level restarted event fired: {0}, {1}, {2}, {3}, {4}, {5}, {6}", level, wave, runtime.ToString(), totalLevelTime.ToString(), score.ToString(), leftArm, rightArm));
 #endif
 
+#if !UNITY_EDITOR
         Analytics.CustomEvent(Strings.Events.LEVEL_RESTARTED, levelRestartDictionary);
+#endif
 
         currentLevelTime = 0f;
     }
@@ -456,10 +462,12 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         levelQuitDictionary.Add("deaths", currentLevelDeaths);
 
 #if UNITY_EDITOR
-        // Debug.Log(String.Format("Level quit event fired: {0}, {1}, {2}, {3}, {4}, {5}, {6}", level, wave, runtime.ToString(), totalLevelTime.ToString(), score.ToString(), leftArm, rightArm));
+// Debug.Log(String.Format("Level quit event fired: {0}, {1}, {2}, {3}, {4}, {5}, {6}", level, wave, runtime.ToString(), totalLevelTime.ToString(), score.ToString(), leftArm, rightArm));
 #endif
 
+#if !UNITY_EDITOR
         Analytics.CustomEvent(Strings.Events.LEVEL_QUIT, levelQuitDictionary);
+#endif
 
         currentLevelTime = 0f;
         totalCurrentLevelTime = 0f;
@@ -487,10 +495,12 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
 
 #if UNITY_EDITOR
 
-        // Debug.Log(String.Format("Level completed event fired: {0}, {1}, {2}, {3}, {4}", level, time.ToString(), score.ToString(), leftArm, rightArm));
+// Debug.Log(String.Format("Level completed event fired: {0}, {1}, {2}, {3}, {4}", level, time.ToString(), score.ToString(), leftArm, rightArm));
 #endif
 
+#if !UNITY_EDITOR
         Analytics.CustomEvent(Strings.Events.LEVEL_COMPLETED, levelCompletedDictionary);
+#endif
 
         currentLevelTime = 0f;
         totalCurrentLevelTime = 0f;
@@ -669,9 +679,9 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
             }
         }
     }
-    #endregion
+#endregion
 
-    #region Private Structures
-    #endregion
+#region Private Structures
+#endregion
 
 }

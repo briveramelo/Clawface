@@ -39,7 +39,7 @@ public class CameraLock : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void LateUpdate () {
         if (isLocked && objectToLockTo != null){
             Vector3 maxSpeed = Vector3.zero;
             if (camState==CameraState.SmoothDamping) {

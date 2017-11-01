@@ -96,7 +96,7 @@ public class MoveState : IPlayerState
 
     #region Private Methods
     private void MovePrecise() {
-        stateVariables.velBody.velocity = moveDirection * stateVariables.statsManager.GetStat(CharacterStatType.MoveSpeed) * Time.deltaTime;
+        stateVariables.velBody.velocity = moveDirection * stateVariables.statsManager.GetStat(CharacterStatType.MoveSpeed);
         if (moveDirection.magnitude > stateVariables.axisThreshold)
         {   
             if (stateVariables.animator.GetInteger(Strings.ANIMATIONSTATE) != (int)PlayerAnimationStates.Running)
