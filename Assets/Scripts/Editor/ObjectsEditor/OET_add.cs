@@ -168,7 +168,7 @@ namespace OET_add
             selectedCategory = GUI.Toolbar (toolbarPos, selectedCategory, prefabDatabase.GetFancyCategories);
             selectedObjects = prefabDatabase.GetObjects(selectedCategory);
 
-            GUI.Label (new Rect (0f, vpos, width / 4 - 8, toolbarPos.height), "Categories");
+            GUI.Label (new Rect (30, vpos, width / 4 - 8, toolbarPos.height), "Categories");
 
             if (GUI.Button (new Rect(toolbarPos.x + toolbarPos.width + 8, vpos, 128, toolbarPos.height), "Refresh"))
                 prefabDatabase.LoadLevelObjects();
