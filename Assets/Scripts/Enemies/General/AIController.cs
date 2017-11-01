@@ -131,7 +131,15 @@ public abstract class AIController : MonoBehaviour {
 
     public Transform FindPlayer()
     {
-        return GameObject.FindGameObjectWithTag(Strings.Tags.PLAYER).transform;
+        GameObject player = GameObject.FindGameObjectWithTag(Strings.Tags.PLAYER);
+        if (player)
+        {
+            return player.transform;
+        }
+        else
+        {
+            return null;
+        }
     }
 
     protected IEnumerator<float> IERestartStateTimer() {
