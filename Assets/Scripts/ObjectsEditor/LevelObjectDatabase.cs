@@ -15,7 +15,7 @@ namespace Turing.LevelEditor
         #endregion
         #region Private Fields
 
-        List<LevelEditorObject>[] objects;
+        List<KeyValuePair<string, LevelEditorObject>>[] objects;
 
         string[] categoryNames;
         string[] fancyCategoryNames;
@@ -38,7 +38,7 @@ namespace Turing.LevelEditor
 
         public string[] GetFancyCategories { get { return fancyCategoryNames; } }
 
-        public List<LevelEditorObject> GetObjects (int category)
+        public List<KeyValuePair<string, LevelEditorObject>> GetObjects (int category)
         {
             return objects[category];
         }
@@ -54,7 +54,7 @@ namespace Turing.LevelEditor
             fancyCategoryNames = new string[categoryNames.Length];
 
             // Init array of categories (lists of objects)
-            objects = new List<LevelEditorObject>[categoryNames.Length];
+            objects = new List<KeyValuePair<string, LevelEditorObject>>[categoryNames.Length];
 
             // For each category
             for (int i = 0; i < categoryNames.Length; i++)
@@ -86,11 +86,12 @@ namespace Turing.LevelEditor
                 foreach (string assetPath in files)
                 {
                     LevelEditorObject asset = LoadAssetPath(assetPath, relFolderPath);
+                    string assetName = Path.GetFileNameWithoutExtension (assetPath);
 
                     if (objects[i] == null)
-                        objects[i] = new List<LevelEditorObject>();
+                        objects[i] = new List<KeyValuePair<string, LevelEditorObject>>();
 
-                    objects[i].Add(asset);
+                    objects[i].Add(new KeyValuePair<string, LevelEditorObject>(assetName, asset));
                 }
             }
 
@@ -100,15 +101,22 @@ namespace Turing.LevelEditor
         public LevelEditorObject GetObject (string path)
         {
             string[] split = path.Split ('/');
-            return GetObject (split[0], split[2]);
+            if (split.Length < 2)
+            {
+                Debug.LogError (string.Format("Failed to get object at {0}!", path));
+                return null;
+            }
+            return GetObject (split[0], split[1]);
         }
 
         public LevelEditorObject GetObject (int categoryIndex, string name)
         {
-            foreach (LevelEditorObject obj in objects[categoryIndex])
+            foreach (KeyValuePair<string, LevelEditorObject> obj in objects[categoryIndex])
             {
-                if (obj.Name == name) return obj;
+                if (obj.Key == name) return obj.Value;
             }
+
+            Debug.LogError (string.Format("Failed to get object {0} in category {1}!", name, categoryIndex));
 
             return null;
         }
@@ -120,7 +128,7 @@ namespace Turing.LevelEditor
 
         public LevelEditorObject GetObject (int categoryIndex, int objectIndex)
         {
-            return objects[categoryIndex][objectIndex];
+            return objects[categoryIndex][objectIndex].Value;
         }
 
         #endregion
@@ -130,6 +138,7 @@ namespace Turing.LevelEditor
         {
             string assetName = Path.GetFileName(assetPath);
             string relAssetPath = default(string);
+            string trimmedPath = default(string);
 
             LevelEditorObject asset = default(LevelEditorObject);
 
@@ -140,6 +149,7 @@ namespace Turing.LevelEditor
                 relAssetPath = string.Format ("{0}{1}", relFolderPath, assetName);
                 //Debug.Log (relAssetPath);
                 asset = Resources.Load<LevelEditorObject> (relAssetPath);
+                //asset.SetPath(relAssetPath);
             }
 
             #if UNITY_EDITOR
@@ -148,6 +158,8 @@ namespace Turing.LevelEditor
                 relAssetPath = string.Format("Assets{0}{1}", relFolderPath, assetName);
                 asset = UnityEditor.AssetDatabase.
                     LoadAssetAtPath<LevelEditorObject>(relAssetPath);
+                trimmedPath = relAssetPath.Remove(0, string.Format("Assets{0}", LEVELOBJECT_PATH).Length);
+                trimmedPath = trimmedPath.Remove (trimmedPath.IndexOf (".asset"), ".asset".Length);
             }
             #endif
 
@@ -156,6 +168,8 @@ namespace Turing.LevelEditor
                 Debug.LogError(string.Format("Failed to load asset at {0}!", assetPath));
                 return null;
             }
+
+            asset.SetPath(trimmedPath);
 
              //Debug.Log(string.Format("Loaded asset at {0}.", assetPath));
 

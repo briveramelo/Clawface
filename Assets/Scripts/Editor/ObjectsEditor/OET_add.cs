@@ -19,7 +19,7 @@ namespace OET_add
         static bool usingDB = false;
         static LevelObjectDatabase prefabDatabase;
         static int selectedCategory = 0;
-        static List<LevelEditorObject> selectedObjects;
+        static List<KeyValuePair<string, LevelEditorObject>> selectedObjects;
 
         public static void sceneGUI ()
         {
@@ -127,6 +127,7 @@ namespace OET_add
 							newAsset.transform.rotation = projectActiveSelection.transform.rotation;
 							Undo.RegisterCreatedObjectUndo(newAsset, "Add object to scene");
 							Selection.activeObject = newAsset;
+                            OET_io.lib.ActiveGameObjects.Add (newAsset);
 						}
 					}
 				}
@@ -192,13 +193,13 @@ namespace OET_add
 
             for(int i = 0; i < Num; i++)
             {
-                Texture2D Preview = UnityEditor.AssetPreview.GetAssetPreview(selectedObjects[i].Prefab);
+                Texture2D Preview = UnityEditor.AssetPreview.GetAssetPreview(selectedObjects[i].Value.Prefab);
 
                 if (Preview != null)
                 {
                     if(GUI.Button(new Rect(localhpos, localvpos, IconSize, IconSize), Preview))
                     {
-                        projectActiveSelection = selectedObjects[i].Prefab;
+                        projectActiveSelection = selectedObjects[i].Value.Prefab;
                     }
 
                     localhpos += IconSpace;

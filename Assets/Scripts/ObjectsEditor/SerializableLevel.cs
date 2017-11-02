@@ -10,16 +10,19 @@ namespace Turing.LevelEditor
     [Serializable]
     public class SerializableLevel
     {
-        [SerializeField] string name;
         [SerializeField] ObjectData[] objects;
 
-        public GameObject[] ReconstructLevel (LevelObjectDatabase database)
+        public List<GameObject> ReconstructLevel (LevelObjectDatabase database)
         {
-            GameObject[] result = new GameObject[objects.Length];
+            List<GameObject> result = new List<GameObject>();
+
+            GameObject parent = new GameObject("LOADED LEVEL");
 
             for (int i = 0; i < objects.Length; i++)
             {
-                result[i] = ReconstructObject (database, objects[i]);
+                GameObject obj = ReconstructObject (database, objects[i]);
+                obj.transform.SetParent (parent.transform);
+                result.Add(obj);
             }
 
             return result;
@@ -27,6 +30,12 @@ namespace Turing.LevelEditor
 
         public GameObject ReconstructObject (LevelObjectDatabase database, ObjectData obj)
         {
+            if (obj.Equals(default(ObjectData)))
+            {
+                Debug.LogError ("Failed to deserialize object");
+                return null;
+            }
+
             LevelEditorObject objData = database.GetObject (obj.path);
             GameObject instance = MonoBehaviour.Instantiate(objData.Prefab);
             instance.name = obj.path;
@@ -36,13 +45,12 @@ namespace Turing.LevelEditor
             return instance;
         }
 
-        public SerializableLevel SerializeLevel (string name, GameObject[] objects)
+        public static SerializableLevel MakeSerializableLevel (List<GameObject> objects)
         {
             SerializableLevel level = new SerializableLevel();
-            level.name = name;
-            level.objects = new ObjectData[objects.Length];
+            level.objects = new ObjectData[objects.Count];
 
-            for (int i = 0; i < objects.Length; i++)
+            for (int i = 0; i < objects.Count; i++)
             {
                 GameObject obj = objects[i];
                 ObjectData data = new ObjectData();

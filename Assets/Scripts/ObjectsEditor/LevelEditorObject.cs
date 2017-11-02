@@ -17,17 +17,12 @@ namespace Turing.LevelEditor
         [SerializeField] int limit = -1;
         [SerializeField] SnapMode snapMode;
 
+        [SerializeField][HideInInspector]
+        string path;
+
         public string Name { get { return name; } }
 
-        public string Path
-        {
-            get
-            {
-                //string path = 
-                return name;
-            }
-        }
-
+        public string Path { get { return path; } }
 
         public GameObject Prefab
         {
@@ -46,6 +41,8 @@ namespace Turing.LevelEditor
         public int Width { get { return width; } }
 
         public int Length { get { return length; } }
+
+        public void SetPath (string path) { this.path = path; }
 
         public enum SnapMode
         {
