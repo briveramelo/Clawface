@@ -85,6 +85,7 @@
 		
         public const string UNLOCK_WEAPON = "UnlockWeapon";
         public const string UNLOCK_NEXT_LEVEL = "UnlockNextLevel";
+        public const string SET_LEVEL_SCORE = "SetLevelScore";
 
         // NOTE: this event passes a string that's the displayed level's name
         public const string LEVEL_DISPLAYED = "LevelDisplayed";

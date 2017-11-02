@@ -28,6 +28,7 @@ public class SaveState : Singleton<SaveState> {
         Load();
         EventSystem.Instance.RegisterEvent(Strings.Events.UNLOCK_WEAPON, UnlockWeapon);
         EventSystem.Instance.RegisterEvent(Strings.Events.UNLOCK_NEXT_LEVEL, UnlockNextLevel);
+        EventSystem.Instance.RegisterEvent(Strings.Events.SET_LEVEL_SCORE, SetScoreForLevel);
     }
 
     private new void OnDestroy()
@@ -36,6 +37,7 @@ public class SaveState : Singleton<SaveState> {
         {
             EventSystem.Instance.UnRegisterEvent(Strings.Events.UNLOCK_WEAPON, UnlockWeapon);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.UNLOCK_NEXT_LEVEL, UnlockNextLevel);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.SET_LEVEL_SCORE, SetScoreForLevel);
         }
         base.OnDestroy();
     }
@@ -120,6 +122,12 @@ public class SaveState : Singleton<SaveState> {
     {
         PlayerPrefs.Save();
     }
+
+    public int GetScoreForLevel(string levelName)
+    {
+        levelName = levelName + "_SCORE";
+        return GetInt(levelName, 0);
+    }
     #endregion
 
     #region private functions
@@ -161,6 +169,20 @@ public class SaveState : Singleton<SaveState> {
             latestLevel = maxNumberOfLevels;
         }
         SetInt(Strings.PlayerPrefStrings.LATEST_UNLOCKED_LEVEL, latestLevel);
+    }
+
+    private void SetScoreForLevel(params object[] parameters)
+    {
+        if(parameters != null && parameters.Length == 2)
+        {
+            string levelName = parameters[0] as string;
+            if (levelName != null)
+            {
+                levelName = levelName + "_SCORE";
+                int score = (int) parameters[1];
+                SetInt(levelName, score);
+            }
+        }
     }
     #endregion
 }
