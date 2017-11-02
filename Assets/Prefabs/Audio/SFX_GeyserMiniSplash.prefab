@@ -558,6 +558,8 @@ MonoBehaviour:
   uniformVolume: 1
   useRandomVolume: 0
   randomVolumeRange:
+    minLimit: 0
+    maxLimit: 0
     min: 1
     max: 1
 --- !u!114 &114550710514275428
@@ -576,6 +578,8 @@ MonoBehaviour:
   uniformVolume: 1
   useRandomVolume: 0
   randomVolumeRange:
+    minLimit: 0
+    maxLimit: 0
     min: 1
     max: 1
 --- !u!114 &114576215279004452
@@ -610,6 +614,8 @@ MonoBehaviour:
   randomPitch: 0
   pitch: 1
   pitchRange:
+    minLimit: 0
+    maxLimit: 0
     min: 1
     max: 1
   elementChannelIndex: 0
@@ -628,9 +634,11 @@ MonoBehaviour:
   clips:
   - {fileID: 8300000, guid: 32d5b20859006184fb6c75d24e4e8f19, type: 3}
   changeVolumeEachLoop: 0
-  uniformVolume: 1
+  uniformVolume: 0.5
   useRandomVolume: 0
   randomVolumeRange:
+    minLimit: 0
+    maxLimit: 0
     min: 1
     max: 1
 --- !u!114 &114832845975883140
@@ -649,5 +657,7 @@ MonoBehaviour:
   uniformVolume: 1
   useRandomVolume: 0
   randomVolumeRange:
+    minLimit: 0
+    maxLimit: 0
     min: 1
     max: 1

@@ -9,12 +9,13 @@ public class SpawnManagerEditor : Editor
 {
     SpawnManager manager;
     GameObject managerObject;
-
+    bool hasBeenPressed;
 
     private ReorderableList list;
 
     private void OnEnable()
     {
+        hasBeenPressed = false;
         manager = (SpawnManager)target;
         managerObject = manager.gameObject;
 
@@ -64,9 +65,15 @@ public class SpawnManagerEditor : Editor
 
     public override void OnInspectorGUI()
     {
-        if(GUILayout.Button("Test"))
+        //if (GUILayout.Button("Test"))
+        //{
+        //    manager.Trigger();
+        //}
+        
+        if (Application.isPlaying && !hasBeenPressed && GUILayout.Button("Spawn First Wave"))
         {
-            manager.Trigger();
+            manager.CallNextSpawner();
+            hasBeenPressed = true;
         }
 
         serializedObject.Update();

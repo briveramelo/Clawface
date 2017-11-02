@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, ISkinnable, ISpawnable
+public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatable, ISpawnable
 {
 
     [SerializeField] protected AIController controller;
@@ -12,7 +12,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, ISkinn
     [SerializeField] protected Stats myStats;
     [SerializeField] protected NavMeshAgent navAgent;
     [SerializeField] protected NavMeshObstacle navObstacle;
-    [SerializeField] protected int skinHealth;
+    [SerializeField] protected int eatHealth;
     [SerializeField] protected CopUI copUICanvas;
     [SerializeField] protected Transform bloodEmissionLocation;
     [SerializeField] protected int scorePopupDelay = 2;
@@ -23,6 +23,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, ISkinn
     private bool lastChance = false;
     private bool alreadyStunned = false;
     private Collider[] playerColliderList = new Collider[10];
+    private Rigidbody[] jointRigidBodies;
     #endregion
 
     #region 0. Protected fields
@@ -43,12 +44,13 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, ISkinn
         {
             ResetForRebirth();
         }
-    }
+    }    
 
     public virtual void Awake()
     {
         poolParent = transform.parent;
         transformMemento.Initialize(transform);
+        jointRigidBodies = GetComponentsInChildren<Rigidbody>();        
         ResetForRebirth();
     }
 
@@ -118,15 +120,15 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, ISkinn
     }
 
 
-    bool ISkinnable.IsSkinnable()
+    bool IEatable.IsEatable()
     {
         return myStats.health <= myStats.skinnableHealth;
     }
 
-    int ISkinnable.DeSkin()
+    int IEatable.Eat()
     {
         Invoke("OnDeath", 0.1f);
-        return skinHealth;
+        return eatHealth;
     }
 
     void IStunnable.Stun()
@@ -140,11 +142,6 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, ISkinn
         will.willHasBeenWritten = true;
         will.onDeath = onDeath;
     }
-
-    #endregion
-
-
-    #region 6. Private Methods   
 
     public virtual void OnDeath()
     {
@@ -176,8 +173,8 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, ISkinn
 
     public virtual void ResetForRebirth()
     {
+        DisableRagdoll();
         GetComponent<CapsuleCollider>().enabled = true;
-        
         myStats.ResetForRebirth();
         controller.ResetForRebirth();
         velBody.ResetForRebirth();
@@ -185,7 +182,43 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, ISkinn
         transform.SetParent(poolParent);
         transform.localScale = transformMemento.startScale;
         lastChance = false;
-        alreadyStunned = false;
+        alreadyStunned = false;        
     }
+
+    public void DisableCollider()
+    {
+        GetComponent<CapsuleCollider>().enabled = false;
+    }
+
+    public void EnableRagdoll()
+    {
+        if (jointRigidBodies != null)
+        {
+            //Ignore the first entry (its the self rigidbody)
+            for (int i = 1; i < jointRigidBodies.Length; i++)
+            {
+                jointRigidBodies[i].useGravity = true;
+                jointRigidBodies[i].isKinematic = false;
+            }
+        }
+        animator.enabled = false;
+    }
+
+    public void DisableRagdoll()
+    {
+        if (jointRigidBodies != null)
+        {
+            //Ignore the first entry (its the self rigidbody)
+            for (int i = 1; i < jointRigidBodies.Length; i++)
+            {
+                jointRigidBodies[i].useGravity = false;
+                jointRigidBodies[i].isKinematic = true;
+            }
+        }
+        animator.enabled = true;
+    }
+    #endregion
+
+    #region 6. Private Methods
     #endregion
 }

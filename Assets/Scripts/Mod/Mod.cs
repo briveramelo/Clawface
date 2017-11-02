@@ -69,8 +69,9 @@ public abstract class Mod : MonoBehaviour {
     public virtual void Activate(Action onCompleteCoolDown=null, Action onActivate=null) {
         if (!energySettings.isInUse && !energySettings.isCoolingDown)
         {
+            energySettings.isCoolingDown = true;
             Timing.RunCoroutine(RunCooldown(onCompleteCoolDown), Segment.FixedUpdate);
-            useAction();
+            DoWeaponActions();
             if (onActivate != null)
             {
                 onActivate();
@@ -78,7 +79,7 @@ public abstract class Mod : MonoBehaviour {
         }
     }
 
-    protected abstract void ActivateStandardArms();
+    protected abstract void DoWeaponActions();
 
     public abstract void DeActivate();
 
@@ -90,22 +91,11 @@ public abstract class Mod : MonoBehaviour {
     }
 
     public virtual void DetachAffect() {
-        //Debug.Log("detached");
         isAttached = false;
         wielderMovable = null;
         wielderStats = null;
         recentlyHitObjects.Clear();
-        //pickupCollider.enabled = true;
         setModSpot(ModSpot.Default);
-    }
-
-        
-    public virtual void ActivateModCanvas()
-    {
-        if (modCanvas && !isAttached)
-        {
-            modCanvas.SetActive(true);
-        }
     }
 
     public virtual void DeactivateModCanvas()
@@ -143,13 +133,7 @@ public abstract class Mod : MonoBehaviour {
     public DamagerType getDamageType() {return damageType; }        
     #endregion
 
-    #region Private Methods
-
-    private Action useAction {
-        get {            
-            return ActivateStandardArms;
-        }
-    }
+    #region Private Methods     
 
     protected IEnumerator<float> RunCooldown(Action onComplete)
     {        
@@ -169,7 +153,7 @@ public abstract class Mod : MonoBehaviour {
 
         
         
-        public AttackSettings standardArmAttackSettings;        
+        public AttackSettings weaponAttackSettings;        
         
 
         
@@ -181,17 +165,11 @@ public abstract class Mod : MonoBehaviour {
 
         public bool isInUse { get { return isCoolingDown || isActive;} }
 
-        public float coolDownTime { get { return attackSettings.timeToCoolDown; } }
-        public float attack { get { return attackSettings.attack; } }
+        public float coolDownTime { get { return weaponAttackSettings.timeToCoolDown; } }
+        public float attack { get { return weaponAttackSettings.attack; } }
         
-        public float timeToAttack { get { return attackSettings.timeToAttack; } }
-        
-        public AttackSettings attackSettings {
-            get {
-                return standardArmAttackSettings;
-            }
-        }
-
+        public float timeToAttack { get { return weaponAttackSettings.timeToAttack; } }
+                
         public IEnumerator<float> BeginCoolDown() {            
             isCoolingDown = true;
             yield return Timing.WaitForSeconds(coolDownTime);
