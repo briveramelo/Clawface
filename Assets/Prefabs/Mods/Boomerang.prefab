@@ -353,13 +353,15 @@ MonoBehaviour:
   pickupCollider: {fileID: 65371520106775296}
   modCanvas: {fileID: 1736212784191878}
   energySettings:
-    standardArmAttackSettings:
-      timeToCoolDown: 0.2
+    weaponAttackSettings:
+      timeToCoolDown: 0.4
       timeToAttack: 0
-      attack: 3
+      attack: 0
     isCoolingDown: 0
     isActive: 0
   bulletSpawnPoint: {fileID: 4558666104998600}
+  launcherAnimator: {fileID: 95171977695994700}
+  projectileAnimator: {fileID: 95390575169144606}
 --- !u!114 &114696090971045056
 MonoBehaviour:
   m_ObjectHideFlags: 1

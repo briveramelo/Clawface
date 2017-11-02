@@ -9,6 +9,7 @@ public class EatingState : IPlayerState
 
     #region Private Fields
     private bool isAnimating;
+    private Transform clawTransform;
     #endregion
 
     #region Unity Lifecycle 
@@ -34,15 +35,28 @@ public class EatingState : IPlayerState
 
     private void LookAtEnemy()
     {
-        Vector3 enemyPosition = stateVariables.skinTargetEnemy.transform.position;
-        stateVariables.modelHead.transform.LookAt(new Vector3(enemyPosition.x, 0f, enemyPosition.z));
+        if (stateVariables.eatTargetEnemy)
+        {
+            Vector3 enemyPosition = stateVariables.eatTargetEnemy.transform.position;
+            stateVariables.modelHead.transform.LookAt(new Vector3(enemyPosition.x, 0f, enemyPosition.z));
+        }
+        else
+        {
+            ResetState();
+        }
     }
 
     public override void StateFixedUpdate()
     {
+        
+    }
+
+    public override void StateUpdate()
+    {
         if (!isAnimating)
         {
-            if (stateVariables.skinTargetEnemy.activeSelf) {
+            if (stateVariables.eatTargetEnemy && stateVariables.eatTargetEnemy.activeSelf)
+            {
                 stateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.RetractVisor);
                 isAnimating = true;
             }
@@ -51,11 +65,10 @@ public class EatingState : IPlayerState
                 ResetState();
             }
         }
-    }
-
-    public override void StateUpdate()
-    {
-        
+        else if(clawTransform)
+        {
+            stateVariables.eatTargetEnemy.transform.position = clawTransform.position;
+        }
     }
     
     public override void StateLateUpdate()
@@ -70,6 +83,8 @@ public class EatingState : IPlayerState
         stateVariables.clawAnimator.SetBool(Strings.ANIMATIONSTATE, false);
         stateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Idle);
         stateVariables.modelHead.transform.LookAt(stateVariables.playerTransform.forward);
+        stateVariables.eatTargetEnemy = null;
+        clawTransform = null;
         isAnimating = false;
         stateVariables.stateFinished = true;
     }
@@ -77,28 +92,31 @@ public class EatingState : IPlayerState
 
     private void DoArmExtension(params object[] parameters)
     {        
-        stateVariables.clawAnimator.SetBool(Strings.ANIMATIONSTATE, true);
+        stateVariables.clawAnimator.SetBool(Strings.ANIMATIONSTATE, true);        
     }
 
     private void CaptureEnemy(params object[] parameters)
     {
-        if (stateVariables.skinTargetEnemy.activeSelf)
+        if (stateVariables.eatTargetEnemy.activeSelf)
         {
-            Transform clawTransform = parameters[0] as Transform;
-            stateVariables.skinTargetEnemy.transform.SetParent(clawTransform);
-            stateVariables.skinTargetEnemy.transform.localPosition = Vector3.zero;
+            clawTransform = parameters[0] as Transform;
+            IEatable eatable = stateVariables.eatTargetEnemy.GetComponent<IEatable>();
+            if (eatable != null)
+            {
+                eatable.DisableCollider();
+                eatable.EnableRagdoll();
+            }
         }
     }
 
-    private void DoSkinning()
+    private void DoEating()
     {
         //Check if enemy is still alive
-        if (stateVariables.skinTargetEnemy.activeSelf)
+        if (stateVariables.eatTargetEnemy.activeSelf)
         {
-            ISkinnable skinnable = stateVariables.skinTargetEnemy.GetComponent<ISkinnable>();
-            GameObject skin = skinnable.DeSkin();
-            SkinStats skinStats = skin.GetComponent<SkinStats>();
-            stateVariables.statsManager.TakeSkin(skinStats.GetSkinHealth());
+            IEatable eatable = stateVariables.eatTargetEnemy.GetComponent<IEatable>();
+            int health = eatable.Eat();
+            stateVariables.statsManager.TakeHealth(health);
             Stats stats = GetComponent<Stats>();
             EventSystem.Instance.TriggerEvent(Strings.Events.UPDATE_HEALTH, stats.GetHealthFraction());
             GameObject skinningEffect = ObjectPool.Instance.GetObject(PoolObjectType.VFXSkinningEffect);
@@ -114,7 +132,7 @@ public class EatingState : IPlayerState
 
     private void EndState(params object[] parameters)
     {
-        DoSkinning();
+        DoEating();
         ResetState();
     }
     #endregion

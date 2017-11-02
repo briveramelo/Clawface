@@ -52,6 +52,7 @@ public class Will {
         willHasBeenWritten=false;
         deathDocumented=false;
         isDead=false;
+        onDeath = null;
     }
 }
 

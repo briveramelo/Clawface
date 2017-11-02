@@ -64,6 +64,7 @@ public class SaveState : Singleton<SaveState> {
     {
         int intValue = value ? 1 : 0;
         PlayerPrefs.SetInt(key, intValue);
+        Save();
     }
 
     public string GetString(string key, string defaultValue)
@@ -74,6 +75,7 @@ public class SaveState : Singleton<SaveState> {
     public void SetString(string key, string value)
     {
         PlayerPrefs.SetString(key, value);
+        Save();
     }
 
     public float GetFloat(string key, float defaultValue)
@@ -84,6 +86,7 @@ public class SaveState : Singleton<SaveState> {
     public void SetFloat(string key, float value)
     {
         PlayerPrefs.SetFloat(key, value);
+        Save();
     }
 
     public int GetInt(string key, int defaultValue)
@@ -94,6 +97,7 @@ public class SaveState : Singleton<SaveState> {
     public void SetInt(string key, int value)
     {
         PlayerPrefs.SetInt(key, value);
+        Save();
     }
 
     public bool HasKey(string key)
@@ -104,6 +108,7 @@ public class SaveState : Singleton<SaveState> {
     public void DeleteKey(string key)
     {
         PlayerPrefs.DeleteKey(key);
+        Save();
     }
 
     public void DeleteAll()

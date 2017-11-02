@@ -8,6 +8,8 @@ public class BoomerangMod : Mod {
 
     #region Serialized
     [SerializeField] private Transform bulletSpawnPoint;
+    [SerializeField] private Animator launcherAnimator;
+    [SerializeField] private Animator projectileAnimator;
     #endregion
 
     #region Privates
@@ -58,7 +60,7 @@ public class BoomerangMod : Mod {
         base.DetachAffect();
     }   
 
-    protected override void ActivateStandardArms()
+    protected override void DoWeaponActions()
     {
         Shoot();
     }
@@ -73,6 +75,8 @@ public class BoomerangMod : Mod {
         vfx.transform.position = bulletSpawnPoint.position;
         vfx.transform.rotation = transform.rotation;
         BoomerangBullet bullet = SpawnBullet();
+        launcherAnimator.SetTrigger("Fire");
+        projectileAnimator.SetTrigger("Fire");
         return bullet;
     }
 

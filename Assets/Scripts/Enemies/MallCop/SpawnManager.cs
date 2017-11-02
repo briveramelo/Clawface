@@ -37,7 +37,7 @@ public class SpawnManager : MonoBehaviour
 
     void Start()
     {
-        EventSystem.Instance.TriggerEvent(Strings.Events.CALL_NEXTWAVEENEMIES);
+        //EventSystem.Instance.TriggerEvent(Strings.Events.CALL_NEXTWAVEENEMIES);
 
         if (spawners.Count == 0)
         {
@@ -53,11 +53,11 @@ public class SpawnManager : MonoBehaviour
         {
             LevelClear = false;
             EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_COMPLETED, 
-                SceneManager.GetActiveScene().name, levelTime, ScoreManager.Instance.GetScore(), ModManager.leftArmOnLoad.ToString(), ModManager.rightArmOnLoad.ToString() );
+                SceneManager.GetActiveScene().name, ScoreManager.Instance.GetScore(), ModManager.leftArmOnLoad.ToString(), ModManager.rightArmOnLoad.ToString() );
         }
     }
 
-    private void CallNextSpawner(params object[] parameter)
+    public void CallNextSpawner(params object[] parameter)
     {
         StartCoroutine(WaitAndSpawn(time));
     }
