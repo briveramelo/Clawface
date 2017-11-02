@@ -42,12 +42,7 @@ public class CameraLock : MonoBehaviour {
 	void LateUpdate () {
         if (isLocked && objectToLockTo != null){
             Vector3 maxSpeed = Vector3.zero;
-            if (camState==CameraState.SmoothDamping) {
-                transform.position = Vector3.SmoothDamp(transform.position, objectToLockTo.position - distance, ref maxSpeed, smoothTime);
-            }
-            else if(camState==CameraState.Shaking) {
-                transform.position = objectToLockTo.position - distance;
-            }
+            transform.position = Vector3.SmoothDamp(transform.position, objectToLockTo.position - distance, ref maxSpeed, smoothTime);
             transform.rotation = Quaternion.Euler(angle);
         }
 	}
