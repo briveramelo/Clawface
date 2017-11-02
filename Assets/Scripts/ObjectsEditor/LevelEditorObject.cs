@@ -30,6 +30,7 @@ namespace Turing.LevelEditor
             {
                 if (prefab == null)
                     Debug.LogError ("No prefab for this LevelEditorObject!", this);
+
                 return prefab;
             }
         }

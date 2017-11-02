@@ -11,7 +11,8 @@ namespace OET_add
 		public static bool clickToAddEnabled = false;
         public static bool previewDraw = false;
 
-        public static GameObject projectActiveSelection;
+        //public static GameObject projectActiveSelection;
+        public static LevelEditorObject projectActiveSelection;
 		public static Vector3 mousePositionInScene;
 
         static Vector2 scrollPos = Vector2.zero;
@@ -27,12 +28,13 @@ namespace OET_add
             {
 				if(previewDraw)
                 {
-                    OET_lib.ToolLib.draft (projectActiveSelection, mousePositionInScene - projectActiveSelection.transform.position, Color.green);
+                    OET_lib.ToolLib.draft (projectActiveSelection.Prefab, mousePositionInScene - projectActiveSelection.Prefab.transform.position, Color.green);
                 }
             }
 		}
 
-		public static void renderGUI(int vpos, GameObject get_projectActiveSelection)
+		//public static void renderGUI(int vpos, GameObject get_projectActiveSelection)
+        public static void renderGUI (int vpos, LevelEditorObject get_projectActiveSelection)
 		{
 
             if(!usingDB) projectActiveSelection = get_projectActiveSelection;
@@ -68,7 +70,7 @@ namespace OET_add
 				}
 
 
-                Texture2D projectPreview = UnityEditor.AssetPreview.GetAssetPreview (projectActiveSelection);
+                Texture2D projectPreview = UnityEditor.AssetPreview.GetAssetPreview (projectActiveSelection.Prefab);
 				if(height > 310)
                 {
 					Color saveBg = GUI.backgroundColor;
@@ -122,12 +124,14 @@ namespace OET_add
                         previewDraw = true;
 						if (Event.current.type == EventType.MouseDown && Event.current.button == 0)
 						{
-							GameObject newAsset = Instantiate((GameObject)projectActiveSelection, ConvertToGrid(mousePositionInScene), Quaternion.identity) as GameObject;
-							newAsset.name = projectActiveSelection.name;
-							newAsset.transform.rotation = projectActiveSelection.transform.rotation;
+							GameObject newAsset = Instantiate((GameObject)projectActiveSelection.Prefab, ConvertToGrid(mousePositionInScene), Quaternion.identity) as GameObject;
+							newAsset.name = projectActiveSelection.Path;
+							newAsset.transform.rotation = projectActiveSelection.Prefab.transform.rotation;
 							Undo.RegisterCreatedObjectUndo(newAsset, "Add object to scene");
 							Selection.activeObject = newAsset;
+                            newAsset.transform.SetParent (OET_io.lib.LoadedLevelObject.transform);
                             OET_io.lib.ActiveGameObjects.Add (newAsset);
+                            OET_io.lib.SetDirty (true);
 						}
 					}
 				}
@@ -199,7 +203,7 @@ namespace OET_add
                 {
                     if(GUI.Button(new Rect(localhpos, localvpos, IconSize, IconSize), Preview))
                     {
-                        projectActiveSelection = selectedObjects[i].Value.Prefab;
+                        projectActiveSelection = selectedObjects[i].Value;
                     }
 
                     localhpos += IconSpace;

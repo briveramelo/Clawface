@@ -11,6 +11,8 @@ using OET_duplicate;
 using OET_grid;
 using OET_init;
 
+using Turing.LevelEditor;
+
 public class ObjectsTools : EditorWindow
 {
 	int activeToolbar = 0;
@@ -18,7 +20,8 @@ public class ObjectsTools : EditorWindow
 
     string[] toolbarStrings = new string[] {"Init", "Add", "Group", "Duplicate", "Replace"};
 
-    GameObject projectActiveSelection;
+    //GameObject projectActiveSelection;
+    LevelEditorObject projectActiveSelection;
 	GameObject sceneActiveSelection;
 	GameObject[] projectSelection;
 	GameObject[] sceneSelection;
@@ -99,7 +102,7 @@ public class ObjectsTools : EditorWindow
 			if (AssetDatabase.Contains (Selection.activeGameObject))
             {
 				projectSelection = Selection.gameObjects;
-				projectActiveSelection = Selection.activeGameObject;
+				//projectActiveSelection = Selection.activeGameObject;;
 			}
             else
             {

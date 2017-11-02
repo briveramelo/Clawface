@@ -106,7 +106,7 @@ namespace Turing.LevelEditor
                 Debug.LogError (string.Format("Failed to get object at {0}!", path));
                 return null;
             }
-            return GetObject (split[0], split[1]);
+            return GetObject (split[0], split[1].Replace(" ", ""));
         }
 
         public LevelEditorObject GetObject (int categoryIndex, string name)

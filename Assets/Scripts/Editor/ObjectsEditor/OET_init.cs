@@ -27,11 +27,11 @@ namespace OET_init
             GUI.Label(new Rect(10, vpos + 50, 150, 20), "+z");
             Num_z = EditorGUI.IntSlider(new Rect(90, vpos + 50, width - 100, 20), Num_z, 1, 20);
 
-            tileObject = EditorGUI.ObjectField (
-                new Rect (width / 2 + btWidth / 2 + 8, vpos + 100, btWidth, 25), 
-                tileObject,
-                typeof(LevelEditorObject)) as LevelEditorObject;
+            GUI.enabled = !OET_io.lib.LevelIsLoaded;
 
+            
+
+            // Init button
             if (GUI.Button(new Rect(width / 2 - btWidth / 2, vpos + 100, btWidth, 25), "Init") && initialized == false)
             {
                 // This will force a database reload
@@ -41,7 +41,6 @@ namespace OET_init
 
                 _CreateSingleton();
 
-                
                 Undo.RegisterCreatedObjectUndo(_platform, "Init the level");
 
                 //GameObject _prefab = AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Old/Environment/Hallway/Hallway_Floor.prefab", typeof(GameObject)) as GameObject;
@@ -65,17 +64,88 @@ namespace OET_init
                     }
                 }
                
+                OET_io.lib.SetDirty (true);
             }
 
+            tileObject = EditorGUI.ObjectField (
+                new Rect (width / 2 + btWidth / 2 + 8, vpos + 100, btWidth, 25), 
+                tileObject,
+                typeof(LevelEditorObject)) as LevelEditorObject;
+
+            GUI.enabled = OET_io.lib.LevelIsLoaded;
+
+            // Save button
             if (GUI.Button(new Rect(width / 2 - btWidth / 2, vpos + 150, btWidth, 25), "Save"))
+            {
+                OET_io.lib.SaveCurrentLevel();
+            }
+
+            // Save As button
+            if (GUI.Button(new Rect(width / 2 - btWidth / 2, vpos + 200, btWidth, 25), "Save As"))
             {
                 string savePath = EditorUtility.SaveFilePanel("Save Level", Application.dataPath, "New Level.level", "level");
                 if (savePath == "" || savePath == default(string)) return;
                 OET_io.lib.SaveCurrentLevel (savePath);
             }
 
-            if (GUI.Button(new Rect(width / 2 - btWidth / 2, vpos + 200, btWidth, 25), "Load"))
+            // Close button
+            if (GUI.Button (new Rect (width / 2 - btWidth / 2, vpos + 250, btWidth, 25), "Close"))
             {
+                if (OET_io.lib.IsDirty)
+                {
+                    switch (EditorUtility.DisplayDialogComplex(
+                        "Save Level", "Do you want to save your level?", 
+                        "Save", "Don't Save", "Cancel"))
+                    {
+                        case 0: // Save
+                            string savePath = EditorUtility.SaveFilePanel("Save Level", Application.dataPath, "New Level.level", "level");
+                            if (savePath == "" || savePath == default(string)) return;
+                            OET_io.lib.SaveCurrentLevel (savePath);
+                            OET_io.lib.CloseLevel ();
+                            break;
+
+                        case 1: // Don't Save
+                            OET_io.lib.CloseLevel ();
+                            break;
+
+                        case 2: // Cancel
+                            break;
+                    }
+                }
+
+                else
+                {
+                    OET_io.lib.CloseLevel();
+                }
+            }
+
+            GUI.enabled = true;
+
+            // Load button
+            if (GUI.Button(new Rect(width / 2 - btWidth / 2, vpos + 300, btWidth, 25), "Load"))
+            {
+                if (OET_io.lib.LevelIsLoaded && OET_io.lib.IsDirty)
+                {
+                    switch (EditorUtility.DisplayDialogComplex(
+                            "Save Level", "Do you want to save your level?", 
+                            "Save", "Don't Save", "Cancel"))
+                        {
+                            case 0: // Save
+                                string savePath = EditorUtility.SaveFilePanel("Save Level", Application.dataPath, "New Level.level", "level");
+                                if (savePath == "" || savePath == default(string)) return;
+                                OET_io.lib.SaveCurrentLevel (savePath);
+                                OET_io.lib.CloseLevel ();
+                                break;
+
+                            case 1: // Don't Save
+                                OET_io.lib.CloseLevel ();
+                                break;
+
+                            case 2: // Cancel
+                                break;
+                        }
+                }
+
                 string openPath = EditorUtility.OpenFilePanel ("Open Level", Application.dataPath, "level");
                 if (openPath == "" || openPath == default(string)) return;
                 OET_io.lib.OpenLevel (openPath);
@@ -107,16 +177,20 @@ namespace OET_init
                 Undo.RegisterCreatedObjectUndo(_instance, "Init the level");
             };
 
-            _prefab = AssetDatabase.LoadAssetAtPath("Assets/Prefabs/General/ServiceWrangler.prefab", typeof(GameObject)) as GameObject;
+            if (GameObject.Find ("ServiceWrangler") == null)
+            {
+                _prefab = AssetDatabase.LoadAssetAtPath("Assets/Prefabs/General/ServiceWrangler.prefab", typeof(GameObject)) as GameObject;
 
-            if(_prefab == null)
-            {
-                Debug.Log("ServiceWrangler PATH error!!!");
-            }
-            else
-            {
-                _instance = Instantiate(_prefab, new Vector3(0, 0, 0), Quaternion.identity);
-                Undo.RegisterCreatedObjectUndo(_instance, "Init the level");
+                if(_prefab == null)
+                {
+                    Debug.Log("ServiceWrangler PATH error!!!");
+                }
+                else
+                {
+                    _instance = Instantiate(_prefab, new Vector3(0, 0, 0), Quaternion.identity);
+                    _instance.name = "ServiceWrangler";
+                    Undo.RegisterCreatedObjectUndo(_instance, "Init the level");
+                }
             }
         }
 

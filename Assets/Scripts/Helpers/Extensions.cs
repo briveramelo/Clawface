@@ -173,6 +173,19 @@ namespace ModMan {
             return null;
         }
 
+        public static GameObject FindWithSubstring (string substring)
+        {
+            GameObject[] allObjects = GameObject.FindObjectsOfType<GameObject>();
+            for (int i = 0; i < allObjects.Length; i++)
+            {
+                GameObject obj = allObjects[i];
+                if (obj.name.Contains (substring))
+                    return obj;
+            }
+
+            return null;
+        }
+
         /// <summary>
         /// Finds the given component type in ancestors (parents, grandparents, etc.)
         /// </summary>
