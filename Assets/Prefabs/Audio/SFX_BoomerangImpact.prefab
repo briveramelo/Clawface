@@ -1003,9 +1003,11 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 53854ca78955ac049a73ab03d4643d33, type: 3}
   - {fileID: 8300000, guid: e7835066a3ffa9345b6a6655ba27782d, type: 3}
   changeVolumeEachLoop: 0
-  uniformVolume: 1
+  uniformVolume: 0.5
   useRandomVolume: 0
   randomVolumeRange:
+    minLimit: 0
+    maxLimit: 0
     min: 1
     max: 1
 --- !u!114 &114137691476011626
@@ -1024,6 +1026,8 @@ MonoBehaviour:
   uniformVolume: 1
   useRandomVolume: 0
   randomVolumeRange:
+    minLimit: 0
+    maxLimit: 0
     min: 1
     max: 1
 --- !u!114 &114313027488506510
@@ -1042,6 +1046,8 @@ MonoBehaviour:
   uniformVolume: 1
   useRandomVolume: 0
   randomVolumeRange:
+    minLimit: 0
+    maxLimit: 0
     min: 1
     max: 1
 --- !u!114 &114437181370413804
@@ -1059,9 +1065,11 @@ MonoBehaviour:
   - {fileID: 8300000, guid: f5e0b84630e4c4346869c228db1c4238, type: 3}
   - {fileID: 8300000, guid: aa363156ff3edee4e9fad8a4f07f0b0d, type: 3}
   changeVolumeEachLoop: 0
-  uniformVolume: 1
+  uniformVolume: 0.5
   useRandomVolume: 0
   randomVolumeRange:
+    minLimit: 0
+    maxLimit: 0
     min: 1
     max: 1
 --- !u!114 &114535564015217164
@@ -1080,6 +1088,8 @@ MonoBehaviour:
   uniformVolume: 1
   useRandomVolume: 0
   randomVolumeRange:
+    minLimit: 0
+    maxLimit: 0
     min: 1
     max: 1
 --- !u!114 &114546725891700238
@@ -1099,9 +1109,11 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 9a7802791b6139f4f81c895961bdf7f1, type: 3}
   - {fileID: 8300000, guid: 9a7802791b6139f4f81c895961bdf7f1, type: 3}
   changeVolumeEachLoop: 0
-  uniformVolume: 1
+  uniformVolume: 0.5
   useRandomVolume: 0
   randomVolumeRange:
+    minLimit: 0
+    maxLimit: 0
     min: 1
     max: 1
 --- !u!114 &114650501512570996
@@ -1120,6 +1132,8 @@ MonoBehaviour:
   uniformVolume: 1
   useRandomVolume: 0
   randomVolumeRange:
+    minLimit: 0
+    maxLimit: 0
     min: 1
     max: 1
 --- !u!114 &114690998010393604
@@ -1138,6 +1152,8 @@ MonoBehaviour:
   uniformVolume: 1
   useRandomVolume: 0
   randomVolumeRange:
+    minLimit: 0
+    maxLimit: 0
     min: 1
     max: 1
 --- !u!114 &114827844941722204
@@ -1175,6 +1191,8 @@ MonoBehaviour:
   randomPitch: 0
   pitch: 1
   pitchRange:
+    minLimit: 0
+    maxLimit: 0
     min: 1
     max: 1
   elementChannelIndex: 4

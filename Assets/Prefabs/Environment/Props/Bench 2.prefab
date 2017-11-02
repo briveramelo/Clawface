@@ -21,7 +21,6 @@ GameObject:
   - component: {fileID: 4580075285087456}
   - component: {fileID: 33642929414313782}
   - component: {fileID: 23257770395915634}
-  - component: {fileID: 95462465518214362}
   - component: {fileID: 65972574447839556}
   m_Layer: 0
   m_Name: Bench 2
@@ -94,20 +93,3 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 4.950285, y: 1.8615977, z: 1.5673045}
   m_Center: {x: -0.046868693, y: 0.88312393, z: 0.2230539}
---- !u!95 &95462465518214362
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1483837039648612}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: f3a068ea593319e46be6a6246da6b934, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1

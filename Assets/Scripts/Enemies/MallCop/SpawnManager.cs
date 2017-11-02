@@ -37,7 +37,7 @@ public class SpawnManager : MonoBehaviour
 
     void Start()
     {
-        EventSystem.Instance.TriggerEvent(Strings.Events.CALL_NEXTWAVEENEMIES);
+        //EventSystem.Instance.TriggerEvent(Strings.Events.CALL_NEXTWAVEENEMIES);
 
         if (spawners.Count == 0)
         {
@@ -57,7 +57,7 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
-    private void CallNextSpawner(params object[] parameter)
+    public void CallNextSpawner(params object[] parameter)
     {
         StartCoroutine(WaitAndSpawn(time));
     }
