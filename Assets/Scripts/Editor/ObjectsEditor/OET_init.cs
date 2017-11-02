@@ -113,10 +113,7 @@ namespace OET_init
                     }
                 }
 
-                else
-                {
-                    OET_io.lib.CloseLevel();
-                }
+                OET_io.lib.CloseLevel();
             }
 
             GUI.enabled = true;
