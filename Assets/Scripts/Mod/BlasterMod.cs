@@ -59,7 +59,7 @@ public class BlasterMod : Mod {
         GameObject vfx = ObjectPool.Instance.GetObject(poolObjType);
         vfx.transform.position = bulletSpawnPoint.position;
         vfx.transform.rotation = transform.rotation;
-        animator.SetTrigger("Shoot");
+        if (animator != null) animator.SetTrigger("Shoot");
         BlasterBullet bullet = SpawnBullet();        
         return bullet;
     }
