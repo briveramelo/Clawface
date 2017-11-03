@@ -54,7 +54,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         poolParent = transform.parent;
         transformMemento.Initialize(transform);
         jointRigidBodies = GetComponentsInChildren<Rigidbody>();
-        if (grabObject)
+        if (grabObject != null)
         {
             grabStartPosition = grabObject.transform.localPosition;
         }
@@ -225,6 +225,11 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
             {
                 jointRigidBodies[i].useGravity = false;
                 jointRigidBodies[i].isKinematic = true;
+                RagdollHandler ragdollHandler = jointRigidBodies[i].GetComponent<RagdollHandler>();
+                if (ragdollHandler)
+                {
+                    ragdollHandler.ResetBone();
+                }
             }
         }
         animator.enabled = true;
