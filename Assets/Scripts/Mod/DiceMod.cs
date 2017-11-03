@@ -19,12 +19,14 @@ public class DiceMod : Mod {
     #endregion
 
     private ShooterProperties shooterProperties = new ShooterProperties();
+    private Animator animator;
 
     #region Unity Lifetime
     // Use this for initialization
     protected override void Awake () {
         type = ModType.Dice;
         category = ModCategory.Ranged;
+        animator = GetComponentInChildren<Animator>();
         base.Awake();
 	}
 
@@ -84,6 +86,7 @@ public class DiceMod : Mod {
                 diceBlock.SetShooterType(false);
             }
         }
+        animator.SetTrigger("Shoot");
         return diceBlock;
     }
     #endregion
