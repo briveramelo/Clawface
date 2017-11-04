@@ -122,6 +122,8 @@ public enum PoolObjectType {
     VFXDiceBlockExplosion=22,
     VFXSkinningEffect = 24,
     VFXHealthGain = 25,
+    VFXBoomerangShoot = 38,
+    VFXBoomerangImpact = 39,
 
     //BulletTypes
     TurretBullet = 28,

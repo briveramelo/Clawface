@@ -21,6 +21,7 @@ public class GeyserMod : Mod {
 
     #region Private Fields
     private ShooterProperties shooterProperties = new ShooterProperties();
+    private Animator animator;
     #endregion
 
     #region Unity Lifecycle
@@ -28,6 +29,7 @@ public class GeyserMod : Mod {
     protected override void Awake() {
         type = ModType.Geyser;
         category = ModCategory.Ranged;
+        animator = GetComponentInChildren<Animator>();
         base.Awake();
     }
 
@@ -90,6 +92,8 @@ public class GeyserMod : Mod {
             projectile.GetComponent<GeyserFissure>().SetShooterProperties(shooterProperties);
 
         }
+
+        animator.SetTrigger("Shoot");
         return projectile;
     }
 
