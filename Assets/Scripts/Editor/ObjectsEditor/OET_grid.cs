@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEditor;
 using OET_init;
 
+
 namespace OET_grid
 {
     public class lib : MonoBehaviour
@@ -12,10 +13,14 @@ namespace OET_grid
         public static float size_y = 5.0f;
         public static float size_z = 5.0f;
 
-        static GameObject _prefab = AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Old/Environment/Hallway/Hallway_Floor.prefab", typeof(GameObject)) as GameObject;
+        //static GameObject _prefab = AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Old/Environment/Hallway/Hallway_Floor.prefab", typeof(GameObject)) as GameObject;
+        static GameObject _prefab;
 
         static public void sceneGUI()
         {
+            if (_prefab == null)
+                _prefab = OET_init.lib.tileObject.Prefab;
+
             _prefab.transform.localPosition = new Vector3(0, 0, 0);
 
             for (int i = -OET_init.lib.Num_x; i <= OET_init.lib.Num_x; i++)
