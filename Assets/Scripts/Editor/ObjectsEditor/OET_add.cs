@@ -48,8 +48,8 @@ namespace OET_add
 			styleInfoText.normal.textColor = GUI.skin.label.normal.textColor;
 			styleInfoText.alignment = TextAnchor.MiddleLeft;
 
-            usingDB = GUI.Toggle(new Rect(10, vpos + 50, btWidth, 40), usingDB, "");
-            GUI.Label(new Rect(30, vpos + 50, btWidth, 40), "Using Prefabs DataBase");
+            usingDB = GUI.Toggle(new Rect(10, vpos + 100, btWidth, 40), usingDB, "");
+            GUI.Label(new Rect(30, vpos + 100, btWidth, 40), "Using Prefabs DataBase");
 
             if (projectActiveSelection == null)
             {

@@ -186,6 +186,7 @@ namespace OET_init
                 {
                     _instance = Instantiate(_prefab, new Vector3(0, 0, 0), Quaternion.identity);
                     _instance.name = "ServiceWrangler";
+                    _instance.transform.SetParent(parent.transform);
                     Undo.RegisterCreatedObjectUndo(_instance, "Init the level");
                 }
             }
