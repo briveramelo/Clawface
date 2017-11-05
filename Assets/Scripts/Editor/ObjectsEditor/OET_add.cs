@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using UnityEditor;
-using System.Collections;
+using System.Collections.Generic;
 using OET_lib;
+using Turing.LevelEditor;
 
 namespace OET_add
 {
@@ -10,14 +11,16 @@ namespace OET_add
 		public static bool clickToAddEnabled = false;
         public static bool previewDraw = false;
 
-        public static GameObject projectActiveSelection;
+        //public static GameObject projectActiveSelection;
+        public static LevelEditorObject projectActiveSelection;
 		public static Vector3 mousePositionInScene;
 
         static Vector2 scrollPos = Vector2.zero;
 
         static bool usingDB = false;
-        static GameObject[] DBprefabs;
-
+        static LevelObjectDatabase prefabDatabase;
+        static int selectedCategory = 0;
+        static List<KeyValuePair<string, LevelEditorObject>> selectedObjects;
 
         public static void sceneGUI ()
         {
@@ -25,12 +28,13 @@ namespace OET_add
             {
 				if(previewDraw)
                 {
-                    OET_lib.ToolLib.draft (projectActiveSelection, mousePositionInScene - projectActiveSelection.transform.position, Color.green);
+                    OET_lib.ToolLib.draft (projectActiveSelection.Prefab, mousePositionInScene - projectActiveSelection.Prefab.transform.position, Color.green);
                 }
             }
 		}
 
-		public static void renderGUI(int vpos, GameObject get_projectActiveSelection)
+		//public static void renderGUI(int vpos, GameObject get_projectActiveSelection)
+        public static void renderGUI (int vpos, LevelEditorObject get_projectActiveSelection)
 		{
 
             if(!usingDB) projectActiveSelection = get_projectActiveSelection;
@@ -44,9 +48,8 @@ namespace OET_add
 			styleInfoText.normal.textColor = GUI.skin.label.normal.textColor;
 			styleInfoText.alignment = TextAnchor.MiddleLeft;
 
-            usingDB = GUI.Toggle(new Rect(10, vpos + 50, btWidth, 40), usingDB, "");
-            GUI.Label(new Rect(30, vpos + 50, btWidth, 40), "Using Prefabs DataBase");
-
+            usingDB = GUI.Toggle(new Rect(10, vpos + 100, btWidth, 40), usingDB, "");
+            GUI.Label(new Rect(30, vpos + 100, btWidth, 40), "Using Prefabs DataBase");
 
             if (projectActiveSelection == null)
             {
@@ -67,7 +70,7 @@ namespace OET_add
 				}
 
 
-                Texture2D projectPreview = AssetPreview.GetAssetPreview (projectActiveSelection);
+                Texture2D projectPreview = UnityEditor.AssetPreview.GetAssetPreview (projectActiveSelection.Prefab);
 				if(height > 310)
                 {
 					Color saveBg = GUI.backgroundColor;
@@ -121,11 +124,14 @@ namespace OET_add
                         previewDraw = true;
 						if (Event.current.type == EventType.MouseDown && Event.current.button == 0)
 						{
-							GameObject newAsset = Instantiate((GameObject)projectActiveSelection, ConvertToGrid(mousePositionInScene), Quaternion.identity) as GameObject;
-							newAsset.name = projectActiveSelection.name;
-							newAsset.transform.rotation = projectActiveSelection.transform.rotation;
+							GameObject newAsset = Instantiate((GameObject)projectActiveSelection.Prefab, ConvertToGrid(mousePositionInScene), Quaternion.identity) as GameObject;
+							newAsset.name = projectActiveSelection.Path;
+							newAsset.transform.rotation = projectActiveSelection.Prefab.transform.rotation;
 							Undo.RegisterCreatedObjectUndo(newAsset, "Add object to scene");
 							Selection.activeObject = newAsset;
+                            newAsset.transform.SetParent (OET_io.lib.LoadedLevelObject.transform);
+                            OET_io.lib.ActiveGameObjects.Add (newAsset);
+                            OET_io.lib.SetDirty (true);
 						}
 					}
 				}
@@ -155,20 +161,35 @@ namespace OET_add
 
         public static void RenderDB(int vpos)
         {
-
-            DBprefabs = Resources.LoadAll<GameObject>("Old/Prefabs");
-
+            if (prefabDatabase == null)
+                prefabDatabase = new LevelObjectDatabase();
 
             int width = Screen.width;
             int height = Screen.height;
 
-            int Num = DBprefabs.Length;
+            vpos += 150;
+
+            Rect toolbarPos = new Rect (width / 4, vpos, width / 2, 2 * EditorGUIUtility.singleLineHeight);
+            selectedCategory = GUI.Toolbar (toolbarPos, selectedCategory, prefabDatabase.GetFancyCategories);
+            selectedObjects = prefabDatabase.GetObjects(selectedCategory);
+
+            GUI.Label (new Rect (30, vpos, width / 4 - 8, toolbarPos.height), "Categories");
+
+            if (GUI.Button (new Rect(toolbarPos.x + toolbarPos.width + 8, vpos, 128, toolbarPos.height), "Refresh"))
+                prefabDatabase.LoadLevelObjects();
+
+            vpos += Mathf.CeilToInt(toolbarPos.height) + (int)EditorGUIUtility.singleLineHeight;
+
+            if (selectedObjects == null) 
+                Debug.LogError ("Failed to get selected objects!");
+
+            int Num = selectedObjects.Count;
             int IconSize = 64;
             int IconSpace = 100;
             int count_x = width / 100;
             int count_y = Num % count_x == 0 ? Num / count_x : Num / count_x + 1;
 
-            scrollPos = GUI.BeginScrollView(new Rect(0, vpos + 150, width, height - vpos - 150), scrollPos, new Rect(0, 0, width, count_y * IconSpace));
+            scrollPos = GUI.BeginScrollView(new Rect(0, vpos, width, height - vpos), scrollPos, new Rect(0, 0, width, count_y * IconSpace));
 
 
             int localvpos = 0;
@@ -176,13 +197,13 @@ namespace OET_add
 
             for(int i = 0; i < Num; i++)
             {
-                Texture2D Preview = AssetPreview.GetAssetPreview(DBprefabs[i]);
+                Texture2D Preview = UnityEditor.AssetPreview.GetAssetPreview(selectedObjects[i].Value.Prefab);
 
                 if (Preview != null)
                 {
                     if(GUI.Button(new Rect(localhpos, localvpos, IconSize, IconSize), Preview))
                     {
-                        projectActiveSelection = DBprefabs[i];
+                        projectActiveSelection = selectedObjects[i].Value;
                     }
 
                     localhpos += IconSpace;
