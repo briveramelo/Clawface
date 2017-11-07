@@ -26,12 +26,12 @@ public class ClawAnimationHandler : MonoBehaviour {
     #region Public functions
     public void ArmExtended()
     {
-        Assert.IsTrue(EventSystem.Instance.TriggerEvent(Strings.Events.ARM_EXTENDED, clawPalm));
+        EventSystem.Instance.TriggerEvent(Strings.Events.ARM_EXTENDED, clawPalm);
     }
 
     public void AnimationCompleted()
     {
-        Assert.IsTrue(EventSystem.Instance.TriggerEvent(Strings.Events.ARM_ANIMATION_COMPLETE));
+        EventSystem.Instance.TriggerEvent(Strings.Events.ARM_ANIMATION_COMPLETE);
     }
     #endregion
 
