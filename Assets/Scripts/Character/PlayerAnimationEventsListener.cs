@@ -9,7 +9,6 @@ public class PlayerAnimationEventsListener : MonoBehaviour {
     #region Public functions
     public void FaceOpen()
     {
-        Debug.Log("Face opened");
         EventSystem.Instance.TriggerEvent(Strings.Events.FACE_OPEN);
     }
     #endregion
