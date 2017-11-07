@@ -7,7 +7,7 @@ public class SaveState : Singleton<SaveState> {
     [SerializeField]
     private int maxNumberOfLevels = 12;
 
-#if UNITY_EDITOR
+//#if UNITY_EDITOR
     [SerializeField]
     private bool blasterEnabled;
     [SerializeField]
@@ -20,7 +20,7 @@ public class SaveState : Singleton<SaveState> {
     private bool lightningGunEnabled;
     [SerializeField]
     private bool spreadGunEnabled;
-#endif
+//#endif
 
     #region Unity  lifecycle
     private void Start()
@@ -46,14 +46,14 @@ public class SaveState : Singleton<SaveState> {
     #region public functions
     public void Load()
     {
-#if UNITY_EDITOR
+//#if UNITY_EDITOR
         SetBool(Strings.PlayerPrefStrings.BLASTER_ENABLED, blasterEnabled);
         SetBool(Strings.PlayerPrefStrings.BOOMERANG_ENABLED, boomerangEnabled);
         SetBool(Strings.PlayerPrefStrings.DICE_GUN_ENABLED, diceEnabled);
         SetBool(Strings.PlayerPrefStrings.GEYSER_GUN_ENABLED, geyserEnabled);
         SetBool(Strings.PlayerPrefStrings.LIGHTNING_GUN_ENABLED, lightningGunEnabled);
         SetBool(Strings.PlayerPrefStrings.SPREAD_GUN_ENABLED, spreadGunEnabled);
-#endif
+//#endif
     }
 
     public bool GetBool(string key, bool defaultValue)
