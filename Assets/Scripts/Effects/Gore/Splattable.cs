@@ -9,7 +9,6 @@ public class Splattable : MonoBehaviour {
     #region Unity Serialization
     
     [Header ("Splat Stuffs")]
-    [SerializeField] private Texture2D[] splats; //set via the inspector
     [SerializeField] private Shader renderSplat; //get render splat shader via the inspector
 
     [Header ("Render Texture Configuration")]
@@ -31,7 +30,6 @@ public class Splattable : MonoBehaviour {
     private void Awake()
     {
         Assert.IsNotNull(renderSplat);
-        Assert.IsTrue(splats.Length > 0);
 
         textures = new RenderTexture[] {
                 new RenderTexture(renderTextureWidth, renderTextureHeight, 0),
@@ -46,16 +44,13 @@ public class Splattable : MonoBehaviour {
     #endregion
 
     #region Public Interface
-    public void DrawSplat(Vector3 worldPos, Vector3 normal, Camera renderCam)
+    public void DrawSplat(Texture2D splat, Vector3 worldPos, Vector3 normal, Camera renderCam)
     {
-        //grab random decal
-        Texture2D randomlySelected = splats[Random.Range(0, splats.Length - 1)];
-
         //set shader variables
         renderMaterial.SetTexture("_Previous", textures[1]);
         renderMaterial.SetVector("_SplatLocation", worldPos);
         renderMaterial.SetVector("_OriginalNormal", normal);
-        renderMaterial.SetTexture("_Decal", randomlySelected);
+        renderMaterial.SetTexture("_Decal", splat);
 
         //set up command buffer
         CommandBuffer myCommandBuffer = new CommandBuffer();

@@ -1,19 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-//world position
-//normal at world position
-//decal using to draw the blood (single sprite from the black and white sheet)
-//previous rendertexture
+﻿using UnityEngine;
+using UnityEngine.Assertions;
 
 public class GoreManager : Singleton<GoreManager> {
 
     #region Unity Serialization
 
+    [Header ("Custom Cameras")]
     [SerializeField]
     private Camera uvSpaceCamera;
 
+    [Header ("Splat Stuffs")]
+    [SerializeField]
+    private Texture2D[] splats;
     [SerializeField]
     private float sphereRadius = 1F;
 
@@ -27,20 +25,17 @@ public class GoreManager : Singleton<GoreManager> {
     #endregion
 
     #region Fields (Private)
-
-    private int mask;
     #if UNITY_EDITOR
 
-    GameObject debugSpheres;
+    private GameObject debugSpheres;
 
     #endif
-
     #endregion
 
     protected override void Awake()
     {
         base.Awake();
-        mask = 1 << 11; //GROUND LAYER
+        Assert.IsTrue(splats.Length > 0);
         uvSpaceCamera.aspect = 1;
 
         #if UNITY_EDITOR
@@ -62,26 +57,31 @@ public class GoreManager : Singleton<GoreManager> {
 
     public void SpawnSplat(Vector3 worldPos) {
 
-        Collider[] collided = Physics.OverlapSphere(worldPos, sphereRadius, mask);
-
-        #if UNITY_EDITOR
-        if (debugSplats && collided.Length != 0)
+        Collider[] collided = Physics.OverlapSphere(worldPos, sphereRadius);
+        
+        if (collided.Length != 0)
         {
-            GameObject hitSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            hitSphere.transform.SetParent(debugSpheres.transform);
-            hitSphere.transform.position = worldPos;
-            hitSphere.transform.localScale = new Vector3(sphereRadius, sphereRadius, sphereRadius);
-            hitSphere.GetComponent<Collider>().enabled = false;
-        }
-        #endif
-
-        foreach (Collider collider in collided)
-        {
-            GameObject obj = collider.gameObject;
-            Splattable canSplat = obj.GetComponent<Splattable>();
-            if (canSplat)
+            #if UNITY_EDITOR
+            if (debugSplats)
             {
-                canSplat.DrawSplat(worldPos, new Vector3(1, 0, 0), uvSpaceCamera); // we're not actually using the normal yet
+                GameObject hitSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                hitSphere.transform.SetParent(debugSpheres.transform);
+                hitSphere.transform.position = worldPos;
+                hitSphere.transform.localScale = new Vector3(sphereRadius, sphereRadius, sphereRadius);
+                hitSphere.GetComponent<Collider>().enabled = false;
+            }
+            #endif
+
+            Texture2D randomSplat = splats[Random.Range(0, splats.Length - 1)];
+            foreach (Collider collider in collided)
+            {
+                GameObject obj = collider.gameObject;
+                Splattable canSplat = obj.GetComponent<Splattable>();
+                if (canSplat)
+                {
+                    // we're not using the normal yet
+                    canSplat.DrawSplat(randomSplat, worldPos, new Vector3(1, 0, 0), uvSpaceCamera);
+                }
             }
         }
     }
