@@ -33,7 +33,6 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     {
         stats.SetMaxHealth(UpgradeManager.Instance.GetHealthLevel());
         startHealth = stats.GetStat(CharacterStatType.MaxHealth);
-        AnalyticsManager.Instance.SetPlayerStats(this.stats);
         UpgradeManager.Instance.SetPlayerStats(this.stats);
         UpgradeManager.Instance.SetPlayerStatsManager(this);
 

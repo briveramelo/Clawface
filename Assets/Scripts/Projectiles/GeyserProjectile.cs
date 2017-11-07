@@ -64,10 +64,7 @@ public class GeyserProjectile : MonoBehaviour {
                         	AnalyticsManager.Instance.AddModKill(ModType.Geyser);
                     	}
                 	}
-                	else
-                	{
-                    	AnalyticsManager.Instance.AddEnemyModDamage(ModType.Geyser, damager.damage);
-                	}
+
                     
                     damageable.TakeDamage(damager);
                 }

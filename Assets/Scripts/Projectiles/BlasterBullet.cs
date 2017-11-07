@@ -91,10 +91,7 @@ public class BlasterBullet : MonoBehaviour {
                     AnalyticsManager.Instance.AddModKill(ModType.Blaster);
                 }
             }
-            else
-            {
-                AnalyticsManager.Instance.AddEnemyModDamage(ModType.Blaster, shooterProperties.damage);
-            }
+
             damager.Set(shooterProperties.damage, DamagerType.BlasterBullet, transform.forward);
             damageable.TakeDamage(damager);
         }
