@@ -1113,6 +1113,8 @@ MonoBehaviour:
   uniformVolume: 1
   useRandomVolume: 0
   randomVolumeRange:
+    minLimit: 0
+    maxLimit: 0
     min: 1
     max: 1
 --- !u!114 &114062798255236888
@@ -1129,9 +1131,11 @@ MonoBehaviour:
   clips:
   - {fileID: 8300000, guid: ad3cafd6e3f4ade4981e39fcebba4013, type: 3}
   changeVolumeEachLoop: 0
-  uniformVolume: 1
+  uniformVolume: 0.5
   useRandomVolume: 0
   randomVolumeRange:
+    minLimit: 0
+    maxLimit: 0
     min: 1
     max: 1
 --- !u!114 &114139354720224430
@@ -1152,9 +1156,11 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 0f876f64cec07314caa92bea3224cb7f, type: 3}
   - {fileID: 8300000, guid: 5054326521df69d43a8561ff4f16a150, type: 3}
   changeVolumeEachLoop: 0
-  uniformVolume: 1
+  uniformVolume: 0.5
   useRandomVolume: 0
   randomVolumeRange:
+    minLimit: 0
+    maxLimit: 0
     min: 1
     max: 1
 --- !u!114 &114529514462419958
@@ -1173,9 +1179,11 @@ MonoBehaviour:
   - {fileID: 8300000, guid: e57b00b457a2c274f883891b71e7b05c, type: 3}
   - {fileID: 8300000, guid: 245a4fc97e9eea7439b96e5fb19ca702, type: 3}
   changeVolumeEachLoop: 0
-  uniformVolume: 1
+  uniformVolume: 0.5
   useRandomVolume: 0
   randomVolumeRange:
+    minLimit: 0
+    maxLimit: 0
     min: 1
     max: 1
 --- !u!114 &114573719788915862
@@ -1194,6 +1202,8 @@ MonoBehaviour:
   uniformVolume: 1
   useRandomVolume: 0
   randomVolumeRange:
+    minLimit: 0
+    maxLimit: 0
     min: 1
     max: 1
 --- !u!114 &114582655610657834
@@ -1213,9 +1223,11 @@ MonoBehaviour:
   - {fileID: 8300000, guid: e358f57adc111a64399beee4e27736a4, type: 3}
   - {fileID: 8300000, guid: 09f49e33bbed245438c96f7fbb941be1, type: 3}
   changeVolumeEachLoop: 0
-  uniformVolume: 1
+  uniformVolume: 0.5
   useRandomVolume: 0
   randomVolumeRange:
+    minLimit: 0
+    maxLimit: 0
     min: 1
     max: 1
 --- !u!114 &114686703360019270
@@ -1234,6 +1246,8 @@ MonoBehaviour:
   uniformVolume: 1
   useRandomVolume: 0
   randomVolumeRange:
+    minLimit: 0
+    maxLimit: 0
     min: 1
     max: 1
 --- !u!114 &114716241481475550
@@ -1273,6 +1287,8 @@ MonoBehaviour:
   randomPitch: 0
   pitch: 1
   pitchRange:
+    minLimit: 0
+    maxLimit: 0
     min: 1
     max: 1
   elementChannelIndex: 5
@@ -1293,6 +1309,8 @@ MonoBehaviour:
   uniformVolume: 1
   useRandomVolume: 0
   randomVolumeRange:
+    minLimit: 0
+    maxLimit: 0
     min: 1
     max: 1
 --- !u!114 &114936639923804550
@@ -1311,8 +1329,10 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 0d02e3480048f0b42bcc23ce7bf77d18, type: 3}
   - {fileID: 8300000, guid: b3b8eab2be1b2464a878ac3aebf03a42, type: 3}
   changeVolumeEachLoop: 0
-  uniformVolume: 1
+  uniformVolume: 0.5
   useRandomVolume: 0
   randomVolumeRange:
+    minLimit: 0
+    maxLimit: 0
     min: 1
     max: 1

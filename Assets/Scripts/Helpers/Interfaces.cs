@@ -43,10 +43,14 @@ public interface ICollectable{
     GameObject Collect();
 }
 
-public interface ISkinnable
+public interface IEatable
 {
-    bool IsSkinnable();
-    GameObject DeSkin();
+    bool IsEatable();
+    int Eat();
+    void DisableCollider();
+    void EnableRagdoll();
+    void DisableRagdoll();
+    GameObject GetGrabObject();
 }
 
 public interface ISpawnable {
@@ -54,7 +58,5 @@ public interface ISpawnable {
     void RegisterDeathEvent(OnDeath onDeath);
     void WarpToNavMesh(Vector3  position);
 }
-
-
 
 public delegate void OnDeath();

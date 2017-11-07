@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ZombieChaseState : ZombieState {
+public class ZombieChaseState : AIState {
 
     public override void OnEnter()
     {
-        animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Run);
+        animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.Walk);
         controller.AttackTarget = controller.FindPlayer();
-        navAgent.speed = myStats.moveSpeed * properties.runMultiplier;
+        navAgent.speed = myStats.moveSpeed;
     }
     public override void Update()
     {
@@ -21,7 +21,6 @@ public class ZombieChaseState : ZombieState {
 
     private void Chase()
     {
-        if (navAgent.enabled && navAgent.isOnNavMesh)
         navAgent.SetDestination(controller.AttackTarget.position);
     }
 

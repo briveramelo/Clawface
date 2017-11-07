@@ -10,12 +10,14 @@ public class BlasterMod : Mod {
     [SerializeField] private PoolObjectType projectileBullet;
 
     private ShooterProperties shooterProperties= new ShooterProperties();
+    private Animator animator;
 
     // Use this for initialization
     protected override void Awake () {
         base.Awake();
-        type = ModType.ArmBlaster;
-        category = ModCategory.Ranged;             
+        type = ModType.Blaster;
+        category = ModCategory.Ranged;   
+        animator = GetComponentInChildren<Animator>();
     }
 
     
@@ -47,7 +49,7 @@ public class BlasterMod : Mod {
         base.DetachAffect();
     }
     
-    protected override void ActivateStandardArms(){
+    protected override void DoWeaponActions(){
         Shoot();
     }    
 
@@ -57,6 +59,7 @@ public class BlasterMod : Mod {
         GameObject vfx = ObjectPool.Instance.GetObject(poolObjType);
         vfx.transform.position = bulletSpawnPoint.position;
         vfx.transform.rotation = transform.rotation;
+        if (animator != null) animator.SetTrigger("Shoot");
         BlasterBullet bullet = SpawnBullet();        
         return bullet;
     }

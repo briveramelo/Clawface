@@ -9,12 +9,13 @@ public class SpawnManagerEditor : Editor
 {
     SpawnManager manager;
     GameObject managerObject;
-
+    bool hasBeenPressed;
 
     private ReorderableList list;
 
     private void OnEnable()
     {
+        hasBeenPressed = false;
         manager = (SpawnManager)target;
         managerObject = manager.gameObject;
 
@@ -59,13 +60,22 @@ public class SpawnManagerEditor : Editor
                 ReorderableList.defaultBehaviours.DoRemoveButton(l);
             }
         };
-
-
     }
 
 
     public override void OnInspectorGUI()
     {
+        //if (GUILayout.Button("Test"))
+        //{
+        //    manager.Trigger();
+        //}
+        
+        if (Application.isPlaying && !hasBeenPressed && GUILayout.Button("Spawn First Wave"))
+        {
+            manager.CallNextSpawner();
+            hasBeenPressed = true;
+        }
+
         serializedObject.Update();
         list.DoLayoutList();
         serializedObject.ApplyModifiedProperties();

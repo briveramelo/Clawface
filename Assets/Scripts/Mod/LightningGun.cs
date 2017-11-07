@@ -15,11 +15,14 @@ public class LightningGun : Mod {
     [SerializeField] private ProjectileProperties projectileProperties;
     #endregion
 
+    private Animator animator;
+
     #region Unity Lifecycle
     // Use this for initialization
     protected override void Awake() {
         type = ModType.LightningGun;
         category = ModCategory.Ranged;
+        animator = GetComponentInChildren<Animator>();
         base.Awake();
     }
 
@@ -43,7 +46,7 @@ public class LightningGun : Mod {
         base.Activate(onCompleteCoolDown, onActivate);
     }
     
-    protected override void ActivateStandardArms(){        
+    protected override void DoWeaponActions(){        
         //Get Projectile
         GameObject hookObject = ObjectPool.Instance.GetObject(PoolObjectType.LightningProjectile);        
         if (hookObject)
@@ -52,6 +55,7 @@ public class LightningGun : Mod {
             LightningProjectile currentHook = hookObject.GetComponent<LightningProjectile>();
             ProjectileProperties newProperties = new ProjectileProperties(projectileProperties);            
             currentHook.Init(projectileProperties, muzzleTransform);
+            animator.SetTrigger("Shoot");
         }
     }    
 

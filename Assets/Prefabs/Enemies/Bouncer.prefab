@@ -234,10 +234,11 @@ GameObject:
   - component: {fileID: 54648673597919436}
   - component: {fileID: 136510394350428718}
   - component: {fileID: 114072913232068868}
-  - component: {fileID: 114828832105594344}
+  - component: {fileID: 114984547541172986}
   - component: {fileID: 114732265360839062}
   - component: {fileID: 114857703702930746}
   - component: {fileID: 195516232639174252}
+  - component: {fileID: 208811840099296770}
   m_Layer: 9
   m_Name: Bouncer
   m_TagString: Enemy
@@ -913,7 +914,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 126
   m_CollisionDetection: 0
 --- !u!95 &95144425409533956
 Animator:
@@ -943,20 +944,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2764d00c6ce222a47b02be88a099bf5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 114828832105594344}
-  properties:
-    bounces: 2
-    waitShotTime: 5
+  controller: {fileID: 114984547541172986}
   velBody: {fileID: 114732265360839062}
   animator: {fileID: 95144425409533956}
   myStats: {fileID: 114857703702930746}
   navAgent: {fileID: 195516232639174252}
-  mySkin: {fileID: 1754484396476528, guid: cc3475efaf656c240a9632ee2547b108, type: 2}
+  navObstacle: {fileID: 208811840099296770}
+  eatHealth: 100
   copUICanvas: {fileID: 114928371529580568}
-  bulletPatternController: {fileID: 114428446350129332}
   bloodEmissionLocation: {fileID: 4059519650337944}
   scorePopupDelay: 2
   scoreValue: 200
+  closeEnoughToAttackDistance: 0
+  properties:
+    runMultiplier: 0
+    hitRate: 0
+    selfDestructTime: 0
+    blastRadius: 0
+    bounces: 2
+    waitShotTime: 5
+    bouncerBounces: 3
+    bouncerWaitShotTime: 1.3
+  bulletPatternController: {fileID: 114428446350129332}
 --- !u!114 &114140393944466040
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1070,21 +1079,6 @@ MonoBehaviour:
   rigbod: {fileID: 54648673597919436}
   iceForceMultiplier: 15
   movementMode: 0
---- !u!114 &114828832105594344
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1351927175794106}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a33cf3670442f2499c10396a543922d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DEBUG_CURRENTSTATE: 
-  timeInLastState: 0
-  stateTimerIsRunning: 0
-  closeEnoughToAttackDistance: 0
 --- !u!114 &114857703702930746
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1100,7 +1094,7 @@ MonoBehaviour:
   defense: 5
   health: 50
   maxHealth: 0
-  moveSpeed: 3.5
+  moveSpeed: 2
   rangedAccuracy: 1
   shotSpeed: 20
   shotPushForce: 0
@@ -1132,6 +1126,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 0.34
   color: {r: 1, g: 0, b: 0, a: 1}
+--- !u!114 &114984547541172986
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1351927175794106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8206247399ee044da6eb8776bd75fa2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DEBUG_CURRENTSTATE: 
+  DEBUG_ATTACKTARGET: 
+  modPrefab: {fileID: 0}
+  timeInLastState: 0
+  stateTimerIsRunning: 0
+  distanceFromTarget: 0
 --- !u!136 &136510394350428718
 CapsuleCollider:
   m_ObjectHideFlags: 1
@@ -1195,7 +1206,7 @@ NavMeshAgent:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1351927175794106}
-  m_Enabled: 0
+  m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.36
   m_Speed: 2
@@ -1210,6 +1221,21 @@ NavMeshAgent:
   m_BaseOffset: 0.05
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 0
+--- !u!208 &208811840099296770
+NavMeshObstacle:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1351927175794106}
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 0
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!222 &222908544256195060
 CanvasRenderer:
   m_ObjectHideFlags: 1

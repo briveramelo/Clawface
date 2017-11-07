@@ -5,18 +5,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using MovementEffects;
 
-public class MallCopFireState : MallCopState {
+public class MallCopFireState : AIState {
 
     public override void OnEnter() {
+        navAgent.enabled = false;
+        navObstacle.enabled = true;
         Timing.RunCoroutine(RunStartupTimer());        
-        animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Fire);
+        animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.Fire1);
     }
     public override void Update() {
         controller.transform.LookAt(controller.AttackTarget);
-        navAgent.velocity = Vector3.zero;              
+        navAgent.velocity = Vector3.zero;
     }
     public override void OnExit() {
-        
+        navObstacle.enabled = false;
+        navAgent.enabled = true;
     }
 
     IEnumerator<float> RunStartupTimer() {

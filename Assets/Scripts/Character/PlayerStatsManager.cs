@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Turing.VFX;
 
 public class PlayerStatsManager : MonoBehaviour, IDamageable
@@ -14,7 +15,6 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     #endregion
 
     #region Serialized Unity Inspector fields
-    [SerializeField] private OnScreenScoreUI playerUI;
     [SerializeField] private CameraLock cameraLock;
     [SerializeField] private PlayerFaceController faceController;
     [SerializeField] private bool shake;
@@ -50,10 +50,10 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     {
         if (damageModifier > 0.0f)
         {
-            playerUI.DoDamageEffect();
+            EventSystem.Instance.TriggerEvent(Strings.Events.PLAYER_DAMAGED);
             stats.TakeDamage(damageModifier * damager.damage);
             float healthFraction = stats.GetHealthFraction();
-            playerUI.SetHealth(healthFraction);
+            EventSystem.Instance.TriggerEvent(Strings.Events.PLAYER_HEALTH_MODIFIED,healthFraction);
             cameraLock.Shake();
             float shakeIntensity = 1f - healthFraction;
             if (shake) {
@@ -65,6 +65,7 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
 
             if (stats.GetStat(CharacterStatType.Health) <= 0)
             {
+                EventSystem.Instance.TriggerEvent(Strings.Events.PLAYER_KILLED, SceneManager.GetActiveScene().name, AnalyticsManager.Instance.GetCurrentWave(), ModManager.leftArmOnLoad.ToString(), ModManager.rightArmOnLoad.ToString());
                 Revive();
             }
         }
@@ -73,13 +74,14 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     public void UpdateMaxHealth()
     {
         float healthFraction = stats.GetHealthFraction();
-        playerUI.SetHealth(healthFraction);
+
+        EventSystem.Instance.TriggerEvent(Strings.Events.PLAYER_HEALTH_MODIFIED, healthFraction);
     }
 
-    public void TakeSkin(int skinHealth) {
-        stats.Add(CharacterStatType.Health, skinHealth);
+    public void TakeHealth(int health) {
+        stats.Add(CharacterStatType.Health, health);
         healthAtLastSkin = stats.health;
-        lastSkinHealthBoost=skinHealth;
+        lastSkinHealthBoost=health;
     }
 
     public float GetStat(CharacterStatType type)
@@ -105,8 +107,9 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
         transform.position = GameObject.Find("RespawnPoint").transform.position;
         stats.Add(CharacterStatType.Health, (int)startHealth);
         startHealth = stats.GetStat(CharacterStatType.MaxHealth);
-        playerUI.SetHealth(stats.GetHealthFraction());
-        AnalyticsManager.Instance.PlayerDeath();
+
+        EventSystem.Instance.TriggerEvent(Strings.Events.PLAYER_HEALTH_MODIFIED, stats.GetHealthFraction());
+
     }
     #endregion
 

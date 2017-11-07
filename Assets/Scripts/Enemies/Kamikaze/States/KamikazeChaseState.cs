@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class KamikazeChaseState : KamikazeState {
+public class KamikazeChaseState : AIState {
 
     public override void OnEnter()
     {
-        animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Run);
+        animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.Walk);
         controller.AttackTarget = controller.FindPlayer();
         navAgent.speed = myStats.moveSpeed * properties.runMultiplier;
     }

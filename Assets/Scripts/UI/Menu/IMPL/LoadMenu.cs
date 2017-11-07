@@ -69,6 +69,8 @@ public class LoadMenu : Menu {
             loaded = false;
             loadingText.text = "Starting...";
             MenuManager.Instance.DoTransition(this, Transition.HIDE, new Effect[] { });
+            EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_DISPLAYED, target);
+            EventSystem.Instance.TriggerEvent(Strings.Events.CALL_NEXTWAVEENEMIES);
         }
     }
     #endregion

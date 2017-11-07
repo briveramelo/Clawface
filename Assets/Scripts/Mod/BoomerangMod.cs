@@ -8,6 +8,8 @@ public class BoomerangMod : Mod {
 
     #region Serialized
     [SerializeField] private Transform bulletSpawnPoint;
+    [SerializeField] private Animator launcherAnimator;
+    [SerializeField] private Animator projectileAnimator;
     #endregion
 
     #region Privates
@@ -38,7 +40,7 @@ public class BoomerangMod : Mod {
     #region Inherited
     public override void Activate(Action onCompleteCoolDown = null, Action onActivate = null)
     {
-        onActivate = () => { SFXManager.Instance.Play(SFXType.BlasterShoot, transform.position); };
+        onActivate = () => { SFXManager.Instance.Play(SFXType.GrapplingGun_Shoot, transform.position); };
         base.Activate(onCompleteCoolDown, onActivate);
         //SFXManager.Instance.Stop(SFXType.BlasterCharge);
     }
@@ -58,7 +60,7 @@ public class BoomerangMod : Mod {
         base.DetachAffect();
     }   
 
-    protected override void ActivateStandardArms()
+    protected override void DoWeaponActions()
     {
         Shoot();
     }
@@ -67,12 +69,14 @@ public class BoomerangMod : Mod {
 
     private BoomerangBullet Shoot()
     {
-        SFXManager.Instance.Play(SFXType.BlasterShoot, transform.position);
-        PoolObjectType poolObjType = PoolObjectType.VFXBlasterShoot;
+        SFXManager.Instance.Play(SFXType.GrapplingGun_Shoot, transform.position);
+        PoolObjectType poolObjType = PoolObjectType.VFXBoomerangShoot;
         GameObject vfx = ObjectPool.Instance.GetObject(poolObjType);
         vfx.transform.position = bulletSpawnPoint.position;
         vfx.transform.rotation = transform.rotation;
         BoomerangBullet bullet = SpawnBullet();
+        launcherAnimator.SetTrigger("Fire");
+        projectileAnimator.SetTrigger("Fire");
         return bullet;
     }
 
