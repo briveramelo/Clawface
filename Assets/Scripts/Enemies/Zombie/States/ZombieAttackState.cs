@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using MovementEffects;
 
+[System.Serializable]
 public class ZombieAttackState : AIState
 {
     private ShooterProperties shooterProperties = new ShooterProperties();
@@ -19,6 +20,10 @@ public class ZombieAttackState : AIState
         hitRate = properties.hitRate;
         attacks.Add((int)AnimationStates.Attack1);
         attacks.Add((int)AnimationStates.Attack2);
+        attacks.Add((int)AnimationStates.Attack3);
+        attacks.Add((int)AnimationStates.Attack4);
+        attacks.Add((int)AnimationStates.Attack5);
+        attacks.Add((int)AnimationStates.Attack6);
         int animationAttackValue = attacks[Random.Range(0, attacks.Count)];
         animator.SetInteger(Strings.ANIMATIONSTATE, animationAttackValue);
         shooterProperties.Initialize(2, 5, 6, 0);
