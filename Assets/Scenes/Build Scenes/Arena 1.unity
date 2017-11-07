@@ -769,7 +769,8 @@ Prefab:
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (32)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114874055981982420, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
 --- !u!4 &41355971 stripped
@@ -1007,7 +1008,8 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114874055981982420, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &76769894
@@ -1625,11 +1627,24 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 4537118974517010, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (5)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 4537118974517010, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4537118974517010, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 114874055981982420, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &138628608
@@ -2143,7 +2158,8 @@ Prefab:
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (27)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114874055981982420, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
 --- !u!4 &210810945 stripped
@@ -2206,7 +2222,8 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114874055981982420, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &214585865
@@ -2466,6 +2483,18 @@ Prefab:
     - target: {fileID: 1320268416645314, guid: 686dfe22027ce6a4d8c27dc1b8ac2afe, type: 2}
       propertyPath: m_Name
       value: floor_tile_white_pattern_1 (99)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4445311747217878, guid: 686dfe22027ce6a4d8c27dc1b8ac2afe, type: 2}
+      propertyPath: m_LocalScale.x
+      value: 0.08333344
+      objectReference: {fileID: 0}
+    - target: {fileID: 4445311747217878, guid: 686dfe22027ce6a4d8c27dc1b8ac2afe, type: 2}
+      propertyPath: m_LocalScale.y
+      value: 0.083333336
+      objectReference: {fileID: 0}
+    - target: {fileID: 4445311747217878, guid: 686dfe22027ce6a4d8c27dc1b8ac2afe, type: 2}
+      propertyPath: m_LocalScale.z
+      value: 0.08333344
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 686dfe22027ce6a4d8c27dc1b8ac2afe, type: 2}
@@ -2735,7 +2764,8 @@ Prefab:
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (52)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114874055981982420, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &276222674
@@ -6528,7 +6558,8 @@ Prefab:
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (45)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114874055981982420, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
 --- !u!4 &358673229 stripped
@@ -6651,7 +6682,8 @@ Prefab:
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (51)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114874055981982420, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &392777043
@@ -7046,7 +7078,8 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114874055981982420, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
 --- !u!4 &469698733 stripped
@@ -7380,7 +7413,8 @@ Prefab:
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (34)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114874055981982420, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &535579779
@@ -7438,7 +7472,8 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114874055981982420, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &537619227
@@ -8618,7 +8653,8 @@ Prefab:
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (50)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114874055981982420, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &687015879
@@ -8824,7 +8860,8 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114874055981982420, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &708396572
@@ -9082,7 +9119,8 @@ Prefab:
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (48)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114874055981982420, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &729057917
@@ -9191,7 +9229,8 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114874055981982420, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &738905032
@@ -9596,7 +9635,8 @@ Prefab:
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (40)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114874055981982420, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &817943582
@@ -10315,7 +10355,8 @@ Prefab:
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (37)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114874055981982420, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &887845141
@@ -11224,7 +11265,8 @@ Prefab:
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (43)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114874055981982420, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
 --- !u!4 &990719739 stripped
@@ -11375,7 +11417,8 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114874055981982420, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &1019035008
@@ -11471,7 +11514,8 @@ Prefab:
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (31)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114874055981982420, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
 --- !u!4 &1028389029 stripped
@@ -12466,7 +12510,8 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114874055981982420, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &1150088523
@@ -12833,7 +12878,8 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114874055981982420, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &1197204341
@@ -13255,7 +13301,8 @@ Prefab:
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (29)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114874055981982420, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
 --- !u!4 &1230612278 stripped
@@ -13695,7 +13742,8 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114874055981982420, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
 --- !u!4 &1265906075 stripped
@@ -14002,7 +14050,8 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114874055981982420, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &1289772486
@@ -14126,7 +14175,8 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114874055981982420, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &1307445038
@@ -15096,7 +15146,8 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114874055981982420, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
 --- !u!4 &1474643164 stripped
@@ -15334,7 +15385,8 @@ Prefab:
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (38)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114874055981982420, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &1499203508
@@ -15681,7 +15733,8 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114874055981982420, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
 --- !u!4 &1539855663 stripped
@@ -15925,7 +15978,8 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114874055981982420, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &1573372298
@@ -16031,7 +16085,8 @@ Prefab:
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (44)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114874055981982420, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &1577117908
@@ -16081,7 +16136,8 @@ Prefab:
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (46)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114874055981982420, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &1582329769
@@ -16426,7 +16482,8 @@ Prefab:
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (33)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114874055981982420, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &1609777401
@@ -16894,7 +16951,8 @@ Prefab:
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (42)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114874055981982420, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &1667337799
@@ -16952,7 +17010,8 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114874055981982420, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &1667578753
@@ -17002,7 +17061,8 @@ Prefab:
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (49)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114874055981982420, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &1669364070
@@ -17463,11 +17523,24 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4537118974517010, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (1)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 4537118974517010, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4537118974517010, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 114874055981982420, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
 --- !u!4 &1732210584 stripped
@@ -17710,7 +17783,8 @@ Prefab:
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (47)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114874055981982420, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &1758042090
@@ -18694,7 +18768,8 @@ Prefab:
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (41)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114874055981982420, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &1823164245
@@ -19086,7 +19161,8 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114874055981982420, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &1869717910
@@ -19321,6 +19397,14 @@ Prefab:
     - target: {fileID: 4278870486839504, guid: 04632849259f14d41843af8c02d58fd9, type: 2}
       propertyPath: m_RootOrder
       value: 56
+      objectReference: {fileID: 0}
+    - target: {fileID: 4278870486839504, guid: 04632849259f14d41843af8c02d58fd9, type: 2}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4278870486839504, guid: 04632849259f14d41843af8c02d58fd9, type: 2}
+      propertyPath: m_LocalScale.z
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 04632849259f14d41843af8c02d58fd9, type: 2}
@@ -20224,7 +20308,8 @@ Prefab:
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (36)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114874055981982420, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &1978553769
@@ -20274,7 +20359,8 @@ Prefab:
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (30)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114874055981982420, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &1982607633
@@ -20571,7 +20657,8 @@ Prefab:
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (39)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114874055981982420, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
 --- !u!4 &2029598098 stripped
@@ -20618,11 +20705,16 @@ Prefab:
       propertyPath: m_RootOrder
       value: 30
       objectReference: {fileID: 0}
+    - target: {fileID: 4537118974517010, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
     - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (35)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114874055981982420, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &2056123159
@@ -20730,7 +20822,8 @@ Prefab:
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (28)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114874055981982420, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &2067017380
@@ -20953,7 +21046,8 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114874055981982420, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
 --- !u!4 &2082632636 stripped
@@ -21483,7 +21577,8 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114874055981982420, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
 --- !u!4 &2119681166 stripped
@@ -21600,7 +21695,8 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114874055981982420, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
 --- !u!4 &2131673631 stripped
