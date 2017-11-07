@@ -181,6 +181,8 @@ public class PlayerStateManager : MonoBehaviour {
         [HideInInspector]
         public GameObject eatTargetEnemy;        
         public GameObject modelHead;
+        public float clawExtensionTime;
+        public float clawRetractionTime;
     }
     #endregion
 

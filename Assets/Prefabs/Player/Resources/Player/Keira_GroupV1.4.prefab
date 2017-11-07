@@ -2451,6 +2451,8 @@ MonoBehaviour:
     defaultState: {fileID: 0}
     eatTargetEnemy: {fileID: 0}
     modelHead: {fileID: 1865138005623536}
+    clawExtensionTime: 0.01
+    clawRetractionTime: 0.5
   defaultState: {fileID: 114776189445566068}
   playerStatsManager: {fileID: 114430878911601216}
   holdAttackSlowDown: 3
@@ -2594,8 +2596,6 @@ MonoBehaviour:
   arm: {fileID: 1938680876793012}
   end: {fileID: 4012192241652674}
   clawAnimationHandler: {fileID: 114920273078981180}
-  extendSpeed: 0.1
-  retractSpeed: 0.01
 --- !u!114 &114477630319090134
 MonoBehaviour:
   m_ObjectHideFlags: 1

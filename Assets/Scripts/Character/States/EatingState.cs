@@ -108,7 +108,7 @@ public class EatingState : IPlayerState
     {
         IEatable eatable = stateVariables.eatTargetEnemy.GetComponent<IEatable>();
         Assert.IsNotNull(eatable);
-        clawArmController.StartExtension(eatable.GetGrabObject());
+        clawArmController.StartExtension(eatable.GetGrabObject(), stateVariables.clawExtensionTime);
     }
 
     private void CaptureEnemy(params object[] parameters)
@@ -133,7 +133,7 @@ public class EatingState : IPlayerState
                 eatable.EnableRagdoll();
             }
         }
-        clawArmController.StartRetraction();
+        clawArmController.StartRetraction(stateVariables.clawRetractionTime);
     }
 
     private void DoEating()

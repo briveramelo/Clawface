@@ -13,11 +13,7 @@ public class ClawArmController : MonoBehaviour {
     [SerializeField]
     private Transform end;
     [SerializeField]
-    private ClawAnimationHandler clawAnimationHandler;
-    [SerializeField]
-    private float extendSpeed;
-    [SerializeField]
-    private float retractSpeed;
+    private ClawAnimationHandler clawAnimationHandler;    
     #endregion
 
     #region private fields
@@ -25,7 +21,8 @@ public class ClawArmController : MonoBehaviour {
     private GameObject target;
     private bool extending;
     private bool retracting;
-    private float speed = 0.05f;
+    private float extendIncrement;
+    private float retractIncrement;
     #endregion
 
     #region unity lifecycle
@@ -40,7 +37,7 @@ public class ClawArmController : MonoBehaviour {
     }
 	
 	// Update is called once per frame
-	void Update ()
+	void FixedUpdate ()
     {
         Assert.IsFalse(extending && retracting);
 
@@ -59,18 +56,20 @@ public class ClawArmController : MonoBehaviour {
     #endregion
 
     #region Public functions
-    public void StartExtension(GameObject target)
+    public void StartExtension(GameObject target, float clawExtensionTime)
     {        
         this.target = target;
         extending = true;
         clawAnimationHandler.gameObject.SetActive(true);
         clawAnimationHandler.StartAnimation();
+        extendIncrement = 1 / (clawExtensionTime / Time.fixedDeltaTime);
     }
 
-    public void StartRetraction()
+    public void StartRetraction(float clawRetractionTime)
     {
         extending = false;
         retracting = true;
+        retractIncrement = 1 / (clawRetractionTime / Time.fixedDeltaTime);
     }
 
     public void ResetClawArm()
@@ -100,8 +99,8 @@ public class ClawArmController : MonoBehaviour {
             clawAnimationHandler.FinishAnimation();
         }
         else
-        {
-            end.position = Vector3.Lerp(end.position, target.transform.position, extendSpeed);
+        {            
+            end.position = Vector3.Lerp(end.position, target.transform.position, extendIncrement);
         }
     }
 
@@ -114,7 +113,7 @@ public class ClawArmController : MonoBehaviour {
         }
         else
         {
-            end.position = Vector3.Lerp(end.position, start.position, retractSpeed);
+            end.position = Vector3.Lerp(end.position, start.position, retractIncrement);
         }
     }
     #endregion
