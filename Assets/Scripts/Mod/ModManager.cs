@@ -252,9 +252,7 @@ public class ModManager : MonoBehaviour
 
     private void Detach(ModSpot spot, bool isSwapping = false){
         if (modSocketDictionary[spot].mod != null){
-            if (!isSwapping){
-                AnalyticsManager.Instance.DropMod();
-            }
+            
             modSocketDictionary[spot].mod.transform.SetParent(modInventory.GetModParent(modSocketDictionary[spot].mod.getModType()));
             modSocketDictionary[spot].mod.gameObject.SetActive(false);
             modSocketDictionary[spot].mod.DetachAffect();
