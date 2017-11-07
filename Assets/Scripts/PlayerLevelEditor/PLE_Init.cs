@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class PLE_Init : PLE_IFunction
 {
@@ -12,21 +14,30 @@ public class PLE_Init : PLE_IFunction
     Button Btn_Save;
     Button Btn_Load;
 
+    UnityAction ACT_Init;
+    UnityAction ACT_Save;
+    UnityAction ACT_Load;
+
+
     Slider Sld_X;
     Slider Sld_Z;
 
     int Num_x = 0;
     int Num_z = 0;
 
+    bool Initialized;
+
     public PLE_Init(PLE_FunctionController Controller) : base(Controller)
 	{
-
+        
     }
 
 
     public override void Init()
     {
         base.Init();
+
+        Initialized = false;
 
         _prefab = Resources.Load("LevelEditorObjects/CommonArea/test") as GameObject;
         _prefab.transform.localPosition = new Vector3(0, 0, 0);
@@ -42,6 +53,14 @@ public class PLE_Init : PLE_IFunction
 
         #endregion
 
+        #region Action
+
+        ACT_Init = () => EnableInit(Btn_Init);
+        ACT_Save = () => EnableSave(Btn_Save);
+        ACT_Load = () => EnableLoad(Btn_Load);
+
+        #endregion
+
         #region Button
 
         Btn_Init = PLE_ToolKit.UITool.GetUIComponent<Button>("Button_Init");
@@ -49,7 +68,7 @@ public class PLE_Init : PLE_IFunction
         if (Btn_Init == null)
             Debug.Log("Btn_Init is null");
 
-        Btn_Init.onClick.AddListener(() => EnableInit(Btn_Init));
+        Btn_Init.onClick.AddListener(ACT_Init);
 
 
         Btn_Save = PLE_ToolKit.UITool.GetUIComponent<Button>("Button_Save");
@@ -57,7 +76,7 @@ public class PLE_Init : PLE_IFunction
         if (Btn_Save == null)
             Debug.Log("Btn_Init is null");
 
-        Btn_Save.onClick.AddListener(() => EnableSave(Btn_Save));
+        Btn_Save.onClick.AddListener(ACT_Save);
 
 
         Btn_Load = PLE_ToolKit.UITool.GetUIComponent<Button>("Button_Load");
@@ -65,7 +84,7 @@ public class PLE_Init : PLE_IFunction
         if (Btn_Load == null)
             Debug.Log("Btn_Load is null");
 
-        Btn_Load.onClick.AddListener(() => EnableLoad(Btn_Load));
+        Btn_Load.onClick.AddListener(ACT_Load);
 
         #endregion
 
@@ -102,13 +121,21 @@ public class PLE_Init : PLE_IFunction
     {
         base.Release();
         UIObject.SetActive(false);
+
+        Btn_Init.onClick.RemoveListener(ACT_Init);
+        Btn_Save.onClick.RemoveListener(ACT_Save);
+        Btn_Load.onClick.RemoveListener(ACT_Load);
     }
 
 
     public void EnableInit(Button thisBtn)
     {
-        GameObject _platform = new GameObject("LOADED LEVEL");
 
+        if (Initialized == true) return;
+
+        Initialized = true;
+
+        GameObject _platform = new GameObject("LOADED LEVEL");
 
         for (int i = -Num_x; i <= Num_x; i++)
         {

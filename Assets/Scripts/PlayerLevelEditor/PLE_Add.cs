@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 using PLE_ToolKit;
 
 public class PLE_Add : PLE_IFunction
@@ -9,7 +10,9 @@ public class PLE_Add : PLE_IFunction
     GameObject UIObject;
     GameObject _prefab;
 
-    Button Btn_Add;
+    Button      Btn_Add;
+    UnityAction ACT_Add;
+
 
     public Vector3 mousePositionInScene;
 
@@ -32,13 +35,16 @@ public class PLE_Add : PLE_IFunction
 
         UIObject.SetActive(true);
 
+
+        ACT_Add = () => EnableAdd(Btn_Add);
+
         Btn_Add = PLE_ToolKit.UITool.GetUIComponent<Button>("Button_Add");
 
         if (Btn_Add == null)
             Debug.Log("Btn_Add is null");
 
-        Btn_Add.onClick.AddListener(() => EnableAdd(Btn_Add));
-
+        Btn_Add.onClick.AddListener(ACT_Add);
+        Btn_Add.image.color = Color.white;
 
 
         _prefab = Resources.Load("LevelEditorObjects/CommonArea/test") as GameObject;
@@ -72,6 +78,8 @@ public class PLE_Add : PLE_IFunction
     {
         base.Release();
         UIObject.SetActive(false);
+
+        Btn_Add.onClick.RemoveListener(ACT_Add);
     }
 
 
