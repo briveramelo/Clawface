@@ -1,14 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 [RequireComponent(typeof(Camera))]
 
 public class PLE_Camera : MonoBehaviour
 {
     private Material lineMaterial;
+
     private Camera cam;
-    public GameObject pivot;
-    public GameObject[] vertices;
+    private Color lineColor = Color.red;
+
+    public List<Vector3> vertices = new List<Vector3>();
 
     void Awake()
     {
@@ -32,35 +35,44 @@ public class PLE_Camera : MonoBehaviour
     void Update()
     {
 
-        if(Input.GetKey(KeyCode.UpArrow))
+        if (Input.GetKey(KeyCode.UpArrow))
         {
             gameObject.transform.position += new Vector3(0, 0.5f, 0);
         }
 
         if (Input.GetKey(KeyCode.DownArrow))
         {
-            gameObject.transform.position += new Vector3(0, -0.5f, 0);
+            gameObject.transform.position -= new Vector3(0, 0.5f, 0);
+        }
+
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            gameObject.transform.position += new Vector3(0.5f, 0, 0);
+        }
+
+        if (Input.GetKey(KeyCode.RightArrow))
+        {
+            gameObject.transform.position -= new Vector3(0.5f, 0, 0);
         }
     }
 
     void OnPostRender()
     {
         GL.Begin(GL.LINES);
-        GL.Color(Color.red);
+        GL.Color(lineColor);
+
         lineMaterial.SetPass(0);
         {
-            GL.Vertex(new Vector3(0, 0, 0));
-            GL.Vertex(new Vector3(5, 3, 2));
-
-            GL.Vertex(new Vector3(0, 0, 0));
-            GL.Vertex(new Vector3(5, 0, 0));
-
-            GL.Vertex(new Vector3(0, 0, 0));
-
-            GL.Vertex(pivot.transform.position);
+            for(int i = 0; i < vertices.Count; i++)
+            {
+                GL.Vertex(vertices[i]);
+            }
         }
 
         GL.End();
+
+
+        vertices.Clear();
     }
 
     void OnApplicationQuit()
@@ -68,4 +80,21 @@ public class PLE_Camera : MonoBehaviour
         DestroyImmediate(lineMaterial);
     }
 
+    public void DrawLine(Vector3 p1, Vector3 p2)
+    {
+        if(p1 == null || p2 == null)
+        {
+            Debug.Log("p1 or p2 is null");
+            return;
+        }
+
+        vertices.Add(p1);
+        vertices.Add(p2);
+    }
+
+
+    public void SetLineColor(Color color)
+    {
+        lineColor = color;
+    }
 }

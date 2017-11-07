@@ -29,7 +29,6 @@ namespace OET_init
 
             GUI.enabled = !OET_io.lib.LevelIsLoaded;
 
-            
 
             // Init button
             if (GUI.Button(new Rect(width / 2 - btWidth / 2, vpos + 100, btWidth, 25), "Init") && initialized == false)
