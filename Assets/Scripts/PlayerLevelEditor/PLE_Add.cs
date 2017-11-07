@@ -32,17 +32,16 @@ public class PLE_Add : PLE_IFunction
 
         UIObject.SetActive(true);
 
-        _prefab = Resources.Load("LevelEditorObjects/CommonArea/test") as GameObject;
-
-
-
-
         Btn_Add = PLE_ToolKit.UITool.GetUIComponent<Button>("Button_Add");
 
         if (Btn_Add == null)
             Debug.Log("Btn_Add is null");
 
         Btn_Add.onClick.AddListener(() => EnableAdd(Btn_Add));
+
+
+
+        _prefab = Resources.Load("LevelEditorObjects/CommonArea/test") as GameObject;
     }
 
 

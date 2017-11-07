@@ -11,7 +11,7 @@ public class PLE_Camera : MonoBehaviour
     private Camera cam;
     private Color lineColor = Color.red;
 
-    public List<Vector3> vertices = new List<Vector3>();
+    private List<Vector3> vertices = new List<Vector3>();
 
     void Awake()
     {
@@ -34,26 +34,29 @@ public class PLE_Camera : MonoBehaviour
 
     void Update()
     {
+        float v = 0.5f;
 
-        if (Input.GetKey(KeyCode.UpArrow))
+
+        if (Input.GetKey(KeyCode.W))
         {
-            gameObject.transform.position += new Vector3(0, 0.5f, 0);
+            gameObject.transform.position += new Vector3(0, 0, v);
         }
 
-        if (Input.GetKey(KeyCode.DownArrow))
+        if (Input.GetKey(KeyCode.S))
         {
-            gameObject.transform.position -= new Vector3(0, 0.5f, 0);
+            gameObject.transform.position -= new Vector3(0, 0, v);
         }
 
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetKey(KeyCode.D))
         {
-            gameObject.transform.position += new Vector3(0.5f, 0, 0);
+            gameObject.transform.position += new Vector3(v, 0, 0);
         }
 
-        if (Input.GetKey(KeyCode.RightArrow))
+        if (Input.GetKey(KeyCode.A))
         {
-            gameObject.transform.position -= new Vector3(0.5f, 0, 0);
+            gameObject.transform.position -= new Vector3(v, 0, 0);
         }
+        
     }
 
     void OnPostRender()
@@ -62,15 +65,14 @@ public class PLE_Camera : MonoBehaviour
         GL.Color(lineColor);
 
         lineMaterial.SetPass(0);
+
+        for (int i = 0; i < vertices.Count; i++)
         {
-            for(int i = 0; i < vertices.Count; i++)
-            {
-                GL.Vertex(vertices[i]);
-            }
+            GL.Vertex(vertices[i]);
         }
 
-        GL.End();
 
+        GL.End();
 
         vertices.Clear();
     }
