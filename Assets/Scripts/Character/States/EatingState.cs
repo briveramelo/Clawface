@@ -10,6 +10,7 @@ public class EatingState : IPlayerState
     #region Private Fields
     private bool isAnimating;
     private Transform clawTransform;
+    private GameObject grabObject;
     #endregion
 
     #region Unity Lifecycle 
@@ -67,7 +68,7 @@ public class EatingState : IPlayerState
         }
         else if(clawTransform)
         {
-            stateVariables.eatTargetEnemy.transform.position = clawTransform.position;
+            grabObject.transform.position = clawTransform.position;
         }
     }
     
@@ -85,6 +86,7 @@ public class EatingState : IPlayerState
         stateVariables.modelHead.transform.LookAt(stateVariables.playerTransform.forward);
         stateVariables.eatTargetEnemy = null;
         clawTransform = null;
+        grabObject = null;
         isAnimating = false;
         stateVariables.stateFinished = true;
     }
@@ -103,6 +105,16 @@ public class EatingState : IPlayerState
             IEatable eatable = stateVariables.eatTargetEnemy.GetComponent<IEatable>();
             if (eatable != null)
             {
+                stateVariables.eatTargetEnemy.transform.position = clawTransform.position;
+                grabObject = eatable.GetGrabObject();
+                if (grabObject)
+                {
+                    grabObject.transform.position = clawTransform.position;
+                }
+                else
+                {
+                    clawTransform = null;
+                }
                 eatable.DisableCollider();
                 eatable.EnableRagdoll();
             }

@@ -50,7 +50,6 @@ public class BoomerangBullet : MonoBehaviour {
             {
                 Vector3 incomingVec = hit.point - this.transform.position;
                 Vector3 reflectVec = Vector3.Reflect(incomingVec, hit.normal);
-
                 transform.forward = reflectVec;
                 EmitBulletCollision();
                 SFXManager.Instance.Play(SFXType.BlasterProjectileImpact, transform.position);
@@ -108,7 +107,7 @@ public class BoomerangBullet : MonoBehaviour {
         }
     }
     private void EmitBulletCollision() {
-        GameObject effect = ObjectPool.Instance.GetObject(PoolObjectType.VFXBlasterImpactEffect);
+        GameObject effect = ObjectPool.Instance.GetObject(PoolObjectType.VFXBoomerangImpact);
         if (effect) {
             effect.transform.position = transform.position;
         }    

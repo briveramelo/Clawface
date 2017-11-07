@@ -19,8 +19,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4344521581134584}
-  - component: {fileID: 33710970516400692}
-  - component: {fileID: 23354553971588046}
   - component: {fileID: 65209099370088602}
   - component: {fileID: 114176279886086948}
   m_Layer: 0
@@ -43,6 +41,24 @@ GameObject:
   - component: {fileID: 114570313973920392}
   m_Layer: 0
   m_Name: LightningGunCanvas
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1447267890684706
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4161115239559826}
+  - component: {fileID: 33398895632569256}
+  - component: {fileID: 23492181812527232}
+  - component: {fileID: 95102445772888330}
+  m_Layer: 0
+  m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -85,6 +101,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!4 &4161115239559826
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1447267890684706}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4344521581134584}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4344521581134584
 Transform:
   m_ObjectHideFlags: 1
@@ -97,6 +126,7 @@ Transform:
   m_Children:
   - {fileID: 4564136626918456}
   - {fileID: 224167046383277494}
+  - {fileID: 4161115239559826}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
@@ -145,12 +175,12 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!23 &23354553971588046
+--- !u!23 &23492181812527232
 MeshRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1145115233867226}
+  m_GameObject: {fileID: 1447267890684706}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -184,12 +214,12 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1808191123820236}
   m_Mesh: {fileID: 4300000, guid: a0f45ad18f1d1c54799b7dd03bff3bf1, type: 3}
---- !u!33 &33710970516400692
+--- !u!33 &33398895632569256
 MeshFilter:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1145115233867226}
+  m_GameObject: {fileID: 1447267890684706}
   m_Mesh: {fileID: 4300000, guid: deb1facd6909e0a46ae1bdc8ca3412ec, type: 3}
 --- !u!54 &54030489420536162
 Rigidbody:
@@ -230,6 +260,23 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.1, y: 0.1, z: 0.1}
   m_Center: {x: 0, y: 0, z: 0.97}
+--- !u!95 &95102445772888330
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1447267890684706}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d5fb2b6cca94bbe42978047416a16f56, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114176279886086948
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -245,15 +292,15 @@ MonoBehaviour:
   modCanvas: {fileID: 1431774864512322}
   energySettings:
     weaponAttackSettings:
-      timeToCoolDown: 0.4
+      timeToCoolDown: 0.55
       timeToAttack: 0
       attack: 0
     isCoolingDown: 0
     isActive: 0
   muzzleTransform: {fileID: 4564136626918456}
   projectileProperties:
-    projectileSpeed: 0.6
-    projectileHitDamage: 2
+    projectileSpeed: 0.3
+    projectileHitDamage: 1.5
     homingAngle: 360
     homingRadius: 7
     maxChainableEnemies: 5

@@ -12,6 +12,7 @@ public class SpreadGun : Mod {
 
 #region Private fields
     private float incrementAngle;
+    private Animator animator;
 #endregion
 
     #region Unity lifecycle
@@ -19,6 +20,7 @@ public class SpreadGun : Mod {
     // Use this for initialization
     protected override void Awake()
     {
+        animator = GetComponentInChildren<Animator>();
         setModType(ModType.SpreadGun);
         if(gunProperties.numberOfBulletsInEachShot - 1 != 0)
         {
@@ -82,6 +84,7 @@ public class SpreadGun : Mod {
                 }
             }
         }
+        animator.SetTrigger("Shoot");
     }
 
     private Vector3 CalculateForward(int count)

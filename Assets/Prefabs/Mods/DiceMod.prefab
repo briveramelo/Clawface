@@ -75,6 +75,7 @@ GameObject:
   - component: {fileID: 4735947026327300}
   - component: {fileID: 33567673621613998}
   - component: {fileID: 23466572410736016}
+  - component: {fileID: 95184826018011064}
   m_Layer: 0
   m_Name: Mesh
   m_TagString: Untagged
@@ -254,6 +255,23 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.9341063, y: 2.6685495, z: 2.015236}
   m_Center: {x: -0.030838728, y: -0.01980257, z: 0.035572052}
+--- !u!95 &95184826018011064
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1850952778261168}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d5fb2b6cca94bbe42978047416a16f56, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114047618133116616
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -361,12 +379,12 @@ MonoBehaviour:
     weaponAttackSettings:
       timeToCoolDown: 0.4
       timeToAttack: 0
-      attack: 0
+      attack: 5
     isCoolingDown: 0
     isActive: 0
   blasterEffect: {fileID: 114759411832738320}
   bulletSpawnPoint: {fileID: 4250488396338662}
-  armTimeTilExplosion: 0.8
+  armTimeTilExplosion: 0.05
 --- !u!198 &198117800488203860
 ParticleSystem:
   m_ObjectHideFlags: 1
