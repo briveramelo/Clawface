@@ -8,7 +8,7 @@ public class BouncerStunState : AIState {
     {
         navAgent.enabled = false;
         navObstacle.enabled = true;
-        animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Stunned);
+        animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.Stunned);
     }
     public override void Update()
     {
