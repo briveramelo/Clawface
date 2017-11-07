@@ -189,6 +189,9 @@ public enum AnimationStates {
     Attack1 = 2,
     Attack2 = 21,
     Attack3 = 22,
+    Attack4 = 33,
+    Attack5 = 34,
+    Attack6 = 35,
 
     Fire1 = 3,
     Fire2 = 31,

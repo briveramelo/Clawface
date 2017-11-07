@@ -2030,8 +2030,6 @@ MonoBehaviour:
   grabObject: {fileID: 1913178773273056}
   closeEnoughToAttackDistance: 5
   maxDistanceBeforeChasing: 2
-  closeEnoughToAttackDistance: 3
-  maxDistanceBeforeChasing: 5
   properties:
     runMultiplier: 2.5
     hitRate: 0.25
@@ -2236,13 +2234,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attack: 5
   defense: 5
-  health: 25
+  health: 15
   maxHealth: 0
   moveSpeed: 6
   rangedAccuracy: 1
   shotSpeed: 0
   shotPushForce: 0
-  skinnableHealth: 7
+  skinnableHealth: 3.5
   exp: 2
 --- !u!114 &114986335862680568
 MonoBehaviour:
