@@ -57,8 +57,6 @@ public class ObjectsTools : EditorWindow
         //bool cancelEvent = false;
         Event e = Event.current;
 
-
-
         if(activeToolbar == 0)
         {
             OET_grid.lib.sceneGUI();
