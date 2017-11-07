@@ -10,6 +10,7 @@ public class PlayerAnimationEventsListener : MonoBehaviour {
     public void FaceOpen()
     {
         EventSystem.Instance.TriggerEvent(Strings.Events.FACE_OPEN);
+        
     }
     #endregion
 }

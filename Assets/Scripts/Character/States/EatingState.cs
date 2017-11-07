@@ -3,9 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using ModMan;
+using UnityEngine.Assertions;
 
 public class EatingState : IPlayerState
 {
+
+    #region Serialized field
+    [SerializeField]
+    private ClawArmController clawArmController;
+    #endregion
 
     #region Private Fields
     private bool isAnimating;
@@ -13,7 +19,13 @@ public class EatingState : IPlayerState
     private GameObject grabObject;
     #endregion
 
-    #region Unity Lifecycle 
+    #region Unity Lifecycle
+
+    private void Start()
+    {
+        Assert.IsNotNull(clawArmController);
+    }
+
     private void OnEnable()
     {        
         EventSystem.Instance.RegisterEvent(Strings.Events.FACE_OPEN, DoArmExtension);
@@ -68,7 +80,7 @@ public class EatingState : IPlayerState
         }
         else if(clawTransform)
         {
-            grabObject.transform.position = clawTransform.position;
+            grabObject.transform.localPosition = Vector3.zero;
         }
     }
     
@@ -81,7 +93,7 @@ public class EatingState : IPlayerState
     #region Private Methods
     protected override void ResetState()
     {
-        stateVariables.clawAnimator.SetBool(Strings.ANIMATIONSTATE, false);
+        clawArmController.ResetClawArm();
         stateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Idle);
         stateVariables.modelHead.transform.LookAt(stateVariables.playerTransform.forward);
         stateVariables.eatTargetEnemy = null;
@@ -93,8 +105,10 @@ public class EatingState : IPlayerState
 
 
     private void DoArmExtension(params object[] parameters)
-    {        
-        stateVariables.clawAnimator.SetBool(Strings.ANIMATIONSTATE, true);        
+    {
+        IEatable eatable = stateVariables.eatTargetEnemy.GetComponent<IEatable>();
+        Assert.IsNotNull(eatable);
+        clawArmController.StartExtension(eatable.GetGrabObject());
     }
 
     private void CaptureEnemy(params object[] parameters)
@@ -109,7 +123,7 @@ public class EatingState : IPlayerState
                 grabObject = eatable.GetGrabObject();
                 if (grabObject)
                 {
-                    grabObject.transform.position = clawTransform.position;
+                    grabObject.transform.SetParent(clawTransform);
                 }
                 else
                 {
@@ -119,6 +133,7 @@ public class EatingState : IPlayerState
                 eatable.EnableRagdoll();
             }
         }
+        clawArmController.StartRetraction();
     }
 
     private void DoEating()

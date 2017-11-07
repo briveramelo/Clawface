@@ -174,7 +174,6 @@ public class PlayerStateManager : MonoBehaviour {
         public VelocityBody velBody;        
         public PlayerStatsManager statsManager;
         public Animator animator;
-        public Animator clawAnimator;
         [HideInInspector]
         public Transform playerTransform;
         [HideInInspector]
@@ -182,7 +181,6 @@ public class PlayerStateManager : MonoBehaviour {
         [HideInInspector]
         public GameObject eatTargetEnemy;        
         public GameObject modelHead;
-        public ClawAnimationHandler clawAnimationHandler;
     }
     #endregion
 
