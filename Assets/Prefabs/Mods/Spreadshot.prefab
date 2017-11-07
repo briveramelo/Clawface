@@ -41,7 +41,7 @@ GameObject:
   - component: {fileID: 114115179002809138}
   - component: {fileID: 65808996196913348}
   m_Layer: 0
-  m_Name: SegwayMod
+  m_Name: Spreadshot
   m_TagString: Mod
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -275,11 +275,11 @@ MonoBehaviour:
     isCoolingDown: 0
     isActive: 0
   gunProperties:
-    spreadAngle: 120
-    numberOfBulletsInEachShot: 6
-    bulletSpeed: 0.4
-    bulletMaxDistance: 20
-    bulletDamage: 1
+    spreadAngle: 80
+    numberOfBulletsInEachShot: 5
+    bulletSpeed: 0.2
+    bulletMaxDistance: 10
+    bulletDamage: 2
   bulletSpawnTransform: {fileID: 4923580559650126}
 --- !u!114 &114242993152467452
 MonoBehaviour:

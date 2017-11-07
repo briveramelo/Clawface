@@ -23,12 +23,13 @@ GameObject:
   - component: {fileID: 23821410484322944}
   - component: {fileID: 95793844916259788}
   - component: {fileID: 65656867932491824}
+  - component: {fileID: 114874055981982420}
   m_Layer: 11
   m_Name: floor_tile_white_emissive_edge
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &4537118974517010
 Transform:
@@ -36,13 +37,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1495954175908774}
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: -5}
+  m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 10, y: 0, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &23821410484322944
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -111,3 +112,32 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114874055981982420
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1495954175908774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  splats:
+  - {fileID: 2800000, guid: 6c1317626b608534a8b326e77af1f827, type: 3}
+  - {fileID: 2800000, guid: 964fca77e7f1cf6479f9fe86172c1290, type: 3}
+  - {fileID: 2800000, guid: bd0b887c8a52a924e975dfba34f73940, type: 3}
+  - {fileID: 2800000, guid: 306cf3e14dfc6634697ca7b0c5e86852, type: 3}
+  - {fileID: 2800000, guid: 4050e0bbc0a620f4b87e2c8ddcff6b48, type: 3}
+  - {fileID: 2800000, guid: caa792af625cf424aacb92b29e4e9363, type: 3}
+  - {fileID: 2800000, guid: 9c004397218daef4497098763698c26e, type: 3}
+  - {fileID: 2800000, guid: 5b7a6f4f99b203a43a0d3c35768531cc, type: 3}
+  - {fileID: 2800000, guid: 94bb7ebef9790184cb6f64745932491b, type: 3}
+  - {fileID: 2800000, guid: 759eefd9dfd0809499b6b33fd6f2d907, type: 3}
+  - {fileID: 2800000, guid: 2d72b24948e58454a9be382647467cd2, type: 3}
+  - {fileID: 2800000, guid: f5aa2032317ebc245a5cc9019a7669e9, type: 3}
+  - {fileID: 2800000, guid: 93acf597980f8c743bd8b498e466a8b1, type: 3}
+  - {fileID: 2800000, guid: bf05822b81459264db98e4a96e9dd76d, type: 3}
+  - {fileID: 2800000, guid: c2cf458ebf271604b91bfb20c216fca5, type: 3}
+  - {fileID: 2800000, guid: d4f933f1d0e22fd4786aea7bda38c727, type: 3}
+  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}

@@ -12,6 +12,7 @@
         public static string PLAYERDETECTOR = "PlayerDetector";
         public static string PROJECTILE = "Projectile";
         public static string WALL = "Wall";
+        public static string FLOOR = "Floor";
     }
 
     public static class Scenes {
