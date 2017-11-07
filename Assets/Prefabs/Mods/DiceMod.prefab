@@ -379,12 +379,12 @@ MonoBehaviour:
     weaponAttackSettings:
       timeToCoolDown: 0.4
       timeToAttack: 0
-      attack: 0
+      attack: 5
     isCoolingDown: 0
     isActive: 0
   blasterEffect: {fileID: 114759411832738320}
   bulletSpawnPoint: {fileID: 4250488396338662}
-  armTimeTilExplosion: 0.8
+  armTimeTilExplosion: 0.05
 --- !u!198 &198117800488203860
 ParticleSystem:
   m_ObjectHideFlags: 1
