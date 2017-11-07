@@ -91,10 +91,7 @@ public class BoomerangBullet : MonoBehaviour {
                     AnalyticsManager.Instance.AddModKill(ModType.Boomerang);
                 }
             }
-            else
-            {
-                AnalyticsManager.Instance.AddEnemyModDamage(ModType.Boomerang, shooterProperties.damage);
-            }
+
             damager.Set(shooterProperties.damage, DamagerType.Boomerang, transform.forward);
             damageable.TakeDamage(damager);
         }
