@@ -307,21 +307,17 @@ public class DiceBlock : MonoBehaviour, IMovable {
                 damager.Set(shooterProperties.damage * GetMultiplierFromDiceSide(), DamagerType.Dice, Vector3.down);
 
                 // Shooter is player
-                if (isPlayer)
-                {
-                    AnalyticsManager.Instance.AddModDamage(ModType.Dice, damager.damage);
 
-                    if (damageable.GetHealth() - damager.damage <= 0.01f)
-                    {
-                        AnalyticsManager.Instance.AddModKill(ModType.Dice);
-                    }
-                }
-                else
+                AnalyticsManager.Instance.AddModDamage(ModType.Dice, damager.damage);
+
+                if (damageable.GetHealth() - damager.damage <= 0.01f)
                 {
-                    AnalyticsManager.Instance.AddEnemyModDamage(ModType.Dice, damager.damage);
+                    AnalyticsManager.Instance.AddModKill(ModType.Dice);
                 }
 
-                
+
+
+
                 damageable.TakeDamage(damager);
             }
         }
