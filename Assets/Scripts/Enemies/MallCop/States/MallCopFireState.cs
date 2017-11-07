@@ -11,7 +11,7 @@ public class MallCopFireState : AIState {
         navAgent.enabled = false;
         navObstacle.enabled = true;
         Timing.RunCoroutine(RunStartupTimer());        
-        animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Fire);
+        animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.Fire1);
     }
     public override void Update() {
         controller.transform.LookAt(controller.AttackTarget);
