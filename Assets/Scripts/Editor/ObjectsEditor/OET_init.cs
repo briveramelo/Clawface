@@ -51,7 +51,15 @@ namespace OET_init
                         GameObject _instance = Instantiate(tileObject.Prefab, new Vector3(i * OET_grid.lib.size_x, 0, j * OET_grid.lib.size_z), Quaternion.identity);
                         _instance.name = tileObject.Path;
 
-                        if (_instance.GetComponent<LevelUnit>() == null)
+
+                        if(i == -Num_x || i == Num_x || j == -Num_z || j == Num_z)
+                        {
+                            GameObject _wall = Instantiate(tileObject.Prefab, new Vector3(i * OET_grid.lib.size_x, OET_grid.lib.size_y, j * OET_grid.lib.size_z), Quaternion.identity);
+                            _wall.transform.SetParent(_platform.transform);
+                            Undo.RegisterCreatedObjectUndo(_wall, "Init the level");
+                            OET_io.lib.ActiveGameObjects.Add(_wall);
+                        }
+                        else if (_instance.GetComponent<LevelUnit>() == null)
                         {
                             LevelUnit LU = _instance.AddComponent<LevelUnit>() as LevelUnit;
                             LU.defaultState = LevelUnitStates.floor;
@@ -189,6 +197,24 @@ namespace OET_init
                     Undo.RegisterCreatedObjectUndo(_instance, "Init the level");
                 }
             }
+
+            if(GameObject.Find("SpawnManager") == null)
+            {
+                _prefab = AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Enemies/SpawnManager.prefab", typeof(GameObject)) as GameObject;
+
+                if (_prefab == null)
+                {
+                    Debug.Log("SpawnManager PATH error!!!");
+                }
+                else
+                {
+                    _instance = Instantiate(_prefab, new Vector3(0, 0, 0), Quaternion.identity);
+                    _instance.name = "SpawnManager";
+                    _instance.transform.SetParent(parent.transform);
+                    Undo.RegisterCreatedObjectUndo(_instance, "Init the level");
+                }
+            }
+
         }
 
     }
