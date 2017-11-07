@@ -6,11 +6,14 @@ using UnityEngine.SceneManagement;
 
 public class SpawnManager : MonoBehaviour
 {
+    internal static bool spawnersLocked = false;
+    
     int currentSpawner = 0;
     float time = 0.0f;
 
     private float levelTime;
 
+    private bool started = false;
     bool spawnClear = true;
     bool LevelClear = false;
 
@@ -37,8 +40,6 @@ public class SpawnManager : MonoBehaviour
 
     void Start()
     {
-        //EventSystem.Instance.TriggerEvent(Strings.Events.CALL_NEXTWAVEENEMIES);
-
         if (spawners.Count == 0)
         {
             Debug.Log("SpawnManager is Empty");
@@ -47,6 +48,12 @@ public class SpawnManager : MonoBehaviour
 
     private void Update()
     {
+        if (!started && !spawnersLocked)
+        {
+            StartCoroutine(WaitAndSpawn(time));
+            started = true;
+        }
+
         levelTime += Time.deltaTime;
 
         if(currentSpawner == spawners.Count && LevelClear == true)
@@ -57,10 +64,10 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
-    public void CallNextSpawner(params object[] parameter)
+    public void CallNextSpawner(params object[] parameters)
     {
         StartCoroutine(WaitAndSpawn(time));
-    }
+    } 
 
     IEnumerator WaitAndSpawn(float waitTime)
     {

@@ -69,8 +69,7 @@ public class LoadMenu : Menu {
             loaded = false;
             loadingText.text = "Starting...";
             MenuManager.Instance.DoTransition(this, Transition.HIDE, new Effect[] { });
-            EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_DISPLAYED, target);
-            EventSystem.Instance.TriggerEvent(Strings.Events.CALL_NEXTWAVEENEMIES);
+            SpawnManager.spawnersLocked = false;
         }
     }
     #endregion
@@ -109,6 +108,7 @@ public class LoadMenu : Menu {
 
     private IEnumerator LoadingCoroutine()
     {
+        SpawnManager.spawnersLocked = true;
         MovementEffects.Timing.KillCoroutines();
         ObjectPool.Instance.ResetPools();
         loadingBar.size = 0.0F;
