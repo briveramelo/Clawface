@@ -6,78 +6,83 @@ using UnityEngine.UI;
 
 public class StageOverMenu : Menu
 {
-    #region Public Fields
+	#region Public Fields
 
-    public override Button InitialSelection
-    {
-        get
-        {
-            return quitButton;
-        }
-    }
-    #endregion
+	public override Button InitialSelection {
+		get {
+			return quitButton;
+		}
+	}
 
-    #region Serialized Unity Fields
+	#endregion
 
-    [SerializeField]
-    private Button quitButton;
+	#region Serialized Unity Fields
 
-    [SerializeField]
-    private Text score;
+	[SerializeField]
+	private Button quitButton;
 
-    [SerializeField]
-    private Text combo;
+	[SerializeField]
+	private Text score;
 
-    #endregion
+	[SerializeField]
+	private Text combo;
 
-    #region Public Interface
-    public StageOverMenu() : base(Strings.MenuStrings.STAGE_OVER) { }
+	#endregion
 
-    public void QuitAction()
-    {
-        Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
-        LoadMenu loadMenu = (LoadMenu)menu;
-        loadMenu.TargetScene = Strings.Scenes.MainMenu;
-        loadMenu.Fast = true;
-        MenuManager.Instance.DoTransition(loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
-    }
-    #endregion
+	#region Public Interface
 
-    #region Protected Interface
+	public StageOverMenu () : base (Strings.MenuStrings.STAGE_OVER)
+	{
+	}
 
-    protected override void DefaultShow(Transition transition, Effect[] effects)
-    {
-        Fade(transition, effects);
-    }
-    protected override void DefaultHide(Transition transition, Effect[] effects)
-    {
-        Fade(transition, effects);
-    }
+	public void QuitAction ()
+	{
+		Menu menu = MenuManager.Instance.GetMenuByName (Strings.MenuStrings.LOAD);
+		LoadMenu loadMenu = (LoadMenu)menu;
+		loadMenu.TargetScene = Strings.Scenes.MainMenu;
+		loadMenu.Fast = true;
+		MenuManager.Instance.DoTransition (loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+	}
 
-    protected override void ShowStarted()
-    {
-        UpdateScores();
-    }
+	#endregion
 
-    protected override void ShowComplete()
-    {
-        base.ShowComplete();
-    }
+	#region Protected Interface
 
-    protected override void HideComplete()
-    {
-        base.HideComplete();
-    }
+	protected override void DefaultShow (Transition transition, Effect[] effects)
+	{
+		Fade (transition, effects);
+	}
 
-    #endregion
+	protected override void DefaultHide (Transition transition, Effect[] effects)
+	{
+		Fade (transition, effects);
+	}
 
-    #region Private Interface
+	protected override void ShowStarted ()
+	{
+		base.ShowStarted ();
+		UpdateScores ();
+	}
 
-    private void UpdateScores()
-    {
-        score.text = ScoreManager.Instance.GetScore().ToString();
-        combo.text = ScoreManager.Instance.GetHighestCombo().ToString();
-    }
+	protected override void ShowComplete ()
+	{
+		base.ShowComplete ();
+	}
 
-    #endregion
+	protected override void HideComplete ()
+	{
+		base.HideComplete ();
+	}
+
+	#endregion
+
+	#region Private Interface
+
+	private void UpdateScores ()
+	{
+		score.text = ScoreManager.Instance.GetScore ().ToString ();
+		combo.text = ScoreManager.Instance.GetHighestCombo ().ToString ();
+	}
+
+	#endregion
 }

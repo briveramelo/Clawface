@@ -21,11 +21,14 @@ public class PlayerStateManager : MonoBehaviour {
     private DashState dashState;
     [SerializeField]
     private float dashCoolDown;
+
+    [SerializeField] private EatingState eatingState;
+    [SerializeField] private float eatRadius;
     #endregion
 
     #region Private Fields
     private IPlayerState movementState;
-    private List<IPlayerState> playerStates;
+    public List<IPlayerState> playerStates;
     private bool canDash = true;
     private bool stateChanged;
     #endregion
@@ -40,19 +43,14 @@ public class PlayerStateManager : MonoBehaviour {
         stateVariables.defaultState = defaultState;
         defaultState.Init(ref stateVariables);
         dashState.Init(ref stateVariables);
+        eatingState.Init(ref stateVariables);
         movementState = defaultState;
         playerStates = new List<IPlayerState>(){ defaultState};
     }
 	
 	// Update is called once per frame
-	void Update () {              
-        playerStates.ForEach(state=>state.StateUpdate());
-    }    
-
-    void FixedUpdate()
-    {
-        if (stateChanged && stateVariables.stateFinished)
-        {
+	void Update () {
+        if (stateChanged && stateVariables.stateFinished) {
             ResetState();
         }
         if (InputManager.Instance.QueryAction(Strings.Input.Actions.DODGE, ButtonMode.DOWN) && canDash) // do dodge / dash
@@ -61,7 +59,23 @@ public class PlayerStateManager : MonoBehaviour {
             canDash = false;
             StartCoroutine(WaitForDashCoolDown());
         }
+        else if (InputManager.Instance.QueryAction(Strings.Input.Actions.EAT, ButtonMode.DOWN) && !playerStates.Contains(dashState) && !playerStates.Contains(eatingState)) {
+            if (CheckForEatableEnemy()) {
+                SwitchState(eatingState);
+            }
+        }
+
+        playerStates.ForEach(state=>state.StateUpdate());
+    }    
+
+    void FixedUpdate()
+    {
         playerStates.ForEach(state=>state.StateFixedUpdate());
+    }
+
+    private void LateUpdate()
+    {
+        playerStates.ForEach(state => state.StateLateUpdate());
     }
 
     private void OnCollisionEnter(Collision collision) {
@@ -74,7 +88,7 @@ public class PlayerStateManager : MonoBehaviour {
     #region Private Methods
     private void SwitchState(IPlayerState newState)
     {
-        if(playerStates[0] == defaultState) {
+        if(!playerStates.Contains(newState) && playerStates[0] == defaultState) {
             if (newState.IsBlockingState())
             {
                 stateVariables.velBody.velocity = Vector3.zero;
@@ -103,6 +117,49 @@ public class PlayerStateManager : MonoBehaviour {
         yield return new WaitForSeconds(dashCoolDown);
         canDash = true;        
     }
+
+    private bool CheckForEatableEnemy()
+    {
+        GameObject potentialEatableEnemy = GetClosestEnemy();
+        if (potentialEatableEnemy)
+        {
+            IEatable skinnable = potentialEatableEnemy.GetComponent<IEatable>();
+            if (skinnable != null && skinnable.IsEatable())
+            {
+                stateVariables.eatTargetEnemy = potentialEatableEnemy;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private GameObject GetClosestEnemy()
+    {
+        Collider[] enemies = Physics.OverlapSphere(transform.position, eatRadius, LayerMask.GetMask(Strings.Tags.ENEMY));
+        if (enemies != null)
+        {
+            Collider closestEnemy = null;
+            float closestDistance = Mathf.Infinity;
+            foreach (Collider enemy in enemies)
+            {
+                IEatable eatable = enemy.GetComponent<IEatable>();
+                if (eatable != null && eatable.IsEatable())
+                {
+                    float distance = Vector3.Distance(enemy.ClosestPoint(transform.position), transform.position);
+                    if (closestDistance > distance)
+                    {
+                        closestDistance = distance;
+                        closestEnemy = enemy;
+                    }
+                }
+            }
+            if (closestEnemy != null)
+            {
+                return closestEnemy.gameObject;
+            }
+        }
+        return null;
+    }
     #endregion
 
     #region Public Structures
@@ -123,7 +180,9 @@ public class PlayerStateManager : MonoBehaviour {
         [HideInInspector]
         public IPlayerState defaultState;
         [HideInInspector]
-        public GameObject skinTargetEnemy;
+        public GameObject eatTargetEnemy;        
+        public GameObject modelHead;
+        public ClawAnimationHandler clawAnimationHandler;
     }
     #endregion
 

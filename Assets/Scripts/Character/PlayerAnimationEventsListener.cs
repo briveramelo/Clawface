@@ -9,7 +9,7 @@ public class PlayerAnimationEventsListener : MonoBehaviour {
     #region Public functions
     public void FaceOpen()
     {
-        Assert.IsTrue(EventSystem.Instance.TriggerEvent(Strings.Events.FACE_OPEN));
+        EventSystem.Instance.TriggerEvent(Strings.Events.FACE_OPEN);
     }
     #endregion
 }

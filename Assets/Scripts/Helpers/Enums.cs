@@ -68,8 +68,8 @@ public enum DamagedType {
 }
 
 public enum ModType {
-    ForceSegway = 0,
-    ArmBlaster = 1,
+    SpreadGun = 0,
+    Blaster = 1,
     LightningGun = 2,
     Boomerang = 3,
     Geyser = 4,
@@ -122,6 +122,8 @@ public enum PoolObjectType {
     VFXDiceBlockExplosion=22,
     VFXSkinningEffect = 24,
     VFXHealthGain = 25,
+    VFXBoomerangShoot = 38,
+    VFXBoomerangImpact = 39,
 
     //BulletTypes
     TurretBullet = 28,
@@ -158,6 +160,12 @@ public enum PlayerAnimationStates
     RetractVisor = 3
 }
 
+public enum PlayerAnimationLayers
+{
+    BaseLayer = 0,
+    SkinningLayer = 1
+}
+
 public enum ButtonMode
 {
     UP = 0, // just went up
@@ -174,49 +182,33 @@ public enum VibrationTargets
     BOTH = 2
 }
 
-public enum MallCopAnimationStates {
+public enum AnimationStates {
     Idle = 0,
     Walk = 1,
-    Swing = 2,
-    HitReaction = 3,
+
+    Attack1 = 2,
+    Attack2 = 21,
+    Attack3 = 22,
+    Attack4 = 33,
+    Attack5 = 34,
+    Attack6 = 35,
+
+    Fire1 = 3,
+    Fire2 = 31,
+    Fire3 = 32,
+
     Stunned = 4,
-    GettingUp = 5,
-    DrawGun = 6,
-    Run = 7,
-    Fire = 8
+    
+    
 }
 
-public enum EMallCopState {
-    Patrol = 0,
-    Swing = 1,
-    Fall = 3,
-    Chase = 4,
-    Twitch = 5,
-    Fire = 6,
-    Flee = 7
-}
-
-public enum EZombieState
+public enum EAIState
 {
     Chase = 0,
     Attack = 1,
-    Fall = 3,
-    Twitch = 4
-}
-
-public enum EBouncerState
-{
-    Patrol = 0,
-    Chase = 1,
     Fire = 3,
-    Fall = 4,
-    Twitch = 5
-}
-
-public enum EKamikazeState
-{
-    Chase = 0,
-    SelfDestruct = 1
+    Death = 4,
+    Stun = 5
 }
 
 

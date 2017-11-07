@@ -2,206 +2,151 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using System;
 
-public class Zombie : MonoBehaviour, IStunnable, IDamageable, ISkinnable, ISpawnable
+
+[System.Serializable]
+public class ZombieProperties : AIProperties
 {
+    [HideInInspector] public float zombieHitRate;
 
-    #region 2. Serialized Unity Inspector Fields
-    [SerializeField] private ZombieController controller;
+    public void InitializeProperties()
+    {
+        hitRate = zombieHitRate;
+    }
+}
+
+public class Zombie : EnemyBase
+{
+    #region 1. Serialized Unity Inspector Fields
+
+    [SerializeField] float closeEnoughToAttackDistance;
+    [SerializeField] float maxDistanceBeforeChasing = 2.0f;
     [SerializeField] private ZombieProperties properties;
-    [SerializeField] private VelocityBody velBody;
-    [SerializeField] private Animator animator;
-    [SerializeField] private Stats myStats;
-    [SerializeField] private NavMeshAgent navAgent;
-    [SerializeField] private GameObject mySkin;
-    [SerializeField] private CopUI copUICanvas;
-    [SerializeField] private Transform bloodEmissionLocation;
-    [SerializeField] private int scorePopupDelay = 2;
-    [SerializeField] private int scoreValue = 200;
+    [SerializeField] private TentacleTrigger tentacle;
     #endregion
 
-    #region 3. Private fields
+    #region 2. Private fields
 
-
-    private int stunCount;
-    private Will will = new Will();
-    private Damaged damaged = new Damaged();
-    private DamagePack damagePack = new DamagePack();
-    private bool lastChance;
+    //The AI States of the Zombie
+    private ZombieChaseState chase;
+    private ZombieAttackState attack;
+    private ZombieStunState stun;
 
     #endregion
 
 
-    #region 4. Unity Lifecycle
+    #region 3. Unity Lifecycle
 
-    private void OnEnable()
+    public override void Awake()
     {
-        if (will.willHasBeenWritten)
+        InitilizeStates();
+        properties.InitializeProperties();
+        controller.Initialize(properties,velBody, animator, myStats, navAgent, navObstacle,aiStates);
+        damaged.Set(DamagedType.MallCop, bloodEmissionLocation);
+        controller.checksToUpdateState = new List<Func<bool>>() {
+            CheckToAttack,
+            CheckToFinishAttacking,
+            CheckIfStunned
+        };
+        base.Awake();
+    }
+
+    #endregion
+
+    #region 4. Public Methods   
+
+    //State conditions
+    bool CheckToAttack()
+    {
+        if (controller.CurrentState == chase && controller.DistanceFromTarget < closeEnoughToAttackDistance)
         {
-            ResetForRebirth();
+            controller.UpdateState(EAIState.Attack);
+            return true;
         }
-        navAgent.enabled = true;
+        return false;
     }
-
-    void Awake()
+    bool CheckToFinishAttacking()
     {
-        controller.Initialize(properties, velBody, animator, myStats, navAgent);
-        ResetForRebirth();
-        navAgent.enabled = false;
-    }
-
-    #endregion
-
-    #region 5. Public Methods   
-
-    void IDamageable.TakeDamage(Damager damager)
-    {
-        if (myStats.health > 0)
+        if (controller.CurrentState == attack && attack.CanRestart())
         {
-            myStats.TakeDamage(damager.damage);
-            damagePack.Set(damager, damaged);
-            SFXManager.Instance.Play(SFXType.MallCopHurt, transform.position);
-            damaged.Set(DamagedType.Zombie, bloodEmissionLocation);
-            DamageFXManager.Instance.EmitDamageEffect(damagePack);
-            if (myStats.health <= myStats.skinnableHealth)
+            bool shouldChase = controller.DistanceFromTarget > maxDistanceBeforeChasing;
+
+            if (shouldChase)
             {
-                copUICanvas.gameObject.SetActive(true);
-                copUICanvas.ShowAction(ActionType.Skin);
-            }
-            if (myStats.health <= 0)
-            {
-                if (lastChance)
-                {
-                    controller.UpdateState(EZombieState.Fall);
-                    OnDeath();
-                }
-                else
-                {
-                    myStats.health = 1;
-                    lastChance = true;
-                }
+                controller.UpdateState(EAIState.Chase);
             }
             else
             {
-                    controller.UpdateState(EZombieState.Chase);
+                controller.UpdateState(EAIState.Attack);
             }
+            return true;
         }
+        return false;
     }
-
-    float IDamageable.GetHealth()
+    bool CheckIfStunned()
     {
-        return myStats.health;
-    }
-
-    void ISpawnable.WarpToNavMesh(Vector3 position)
-    {
-        navAgent.Warp(position);
-    }
-
-    bool ISkinnable.IsSkinnable()
-    {
-        return myStats.health <= myStats.skinnableHealth;
-    }
-
-    GameObject ISkinnable.DeSkin()
-    {
-        Invoke("OnDeath", 0.1f);
-        return Instantiate(mySkin, null, false);
-    }
-
-    void IStunnable.Stun()
-    {
-        //stunCount++;
-        //if (stunCount >= properties.numShocksToStun)
-        //{
-        //    stunCount = 0;
-        //    if (myStats.health > 0)
-        //    {
-        //        controller.UpdateState(EMallCopState.Twitch);
-        //    }
-        //}
-    }
-
-    public bool HasWillBeenWritten() { return will.willHasBeenWritten; }
-
-    public void RegisterDeathEvent(OnDeath onDeath)
-    {
-        will.willHasBeenWritten = true;
-        will.onDeath = onDeath;
-    }
-
-    #endregion
-
-    #region 6. Private Methods    
-
-    private void OnDeath()
-    {
-        if (!will.isDead)
+        if (myStats.health <= myStats.skinnableHealth)
         {
-            will.isDead = true;
-            if (will.willHasBeenWritten)
-            {
-                will.onDeath();
-            }
-
-            UpgradeManager.Instance.AddEXP(Mathf.FloorToInt(myStats.exp));
-
-            //Create a particle effect to show zombie died
-
-            //GameObject zombieParts = ObjectPool.Instance.GetObject(PoolObjectType.MallCopExplosion);
-            //if (zombieParts)
-            //{
-            //    SFXManager.Instance.Play(SFXType.BloodExplosion, transform.position);
-            //    zombieParts.transform.position = transform.position + Vector3.up * 3f;
-            //    zombieParts.transform.rotation = transform.rotation;
-            //    zombieParts.DeActivate(5f);
-            //}
-            //mod.KillCoroutines();
-
-            //grab score ui from pool to display
-            GameObject worldScoreObject = ObjectPool.Instance.GetObject(PoolObjectType.WorldScoreCanvas);
-            if (worldScoreObject)
-            {
-                worldScoreObject.GetComponent<Canvas>().GetComponent<RectTransform>().SetPositionAndRotation(transform.position, transform.rotation);                //worldScoreObject.transform.position = transform.position /*+ Vector3.up * 3f*/;
-                WorldScoreUI popUpScore = worldScoreObject.GetComponent<WorldScoreUI>();
-
-                int scoreBonus = scoreValue * ScoreManager.Instance.GetCurrentMultiplier();
-                popUpScore.DisplayScoreAndHide(scoreBonus, scorePopupDelay);
-                ScoreManager.Instance.AddToScoreAndCombo(scoreBonus);
-            }
-
-
-            //KILL SELF
-            Death();
+            controller.CurrentState = stun;
+            controller.UpdateState(EAIState.Stun);
+            controller.DeActivateAI();
+            return true;
         }
+        return false;
     }
 
-    private void ResetForRebirth()
+    public void ActivateTentacleTrigger()
     {
-        GetComponent<CapsuleCollider>().enabled = true;
+        tentacle.ActivateTriggerDamage();
+    }
+
+    public void DeactivateTentacleTrigger()
+    {
+        tentacle.DeactivateTriggerDamage();
+    }
+
+    public void DamageAttackTarget()
+    {
+        attack.Damage(controller.AttackTarget.gameObject.GetComponent<IDamageable>());
+    }
+
+    public override void OnDeath()
+    {
+        base.OnDeath();
+    }
+
+    public override void ResetForRebirth()
+    {
         copUICanvas.gameObject.SetActive(false);
-
-        myStats.ResetForRebirth();
-        controller.ResetForRebirth();
-        velBody.ResetForRebirth();
-        will.Reset();
-        lastChance = false;
+        base.ResetForRebirth();
     }
 
-    private void Death()
+    #endregion
+
+    #region 5. Private Methods    
+
+    private void InitilizeStates()
     {
-        navAgent.enabled = false;
-        gameObject.SetActive(false);
+        aiStates = new List<AIState>();
+        chase = new ZombieChaseState();
+        chase.stateName = "chase";
+        attack = new ZombieAttackState();
+        attack.stateName = "attack";
+        stun = new ZombieStunState();
+        stun.stateName = "stun";
+        aiStates.Add(chase);
+        aiStates.Add(attack);
+        aiStates.Add(stun);
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, closeEnoughToAttackDistance);
     }
 
     #endregion
 
 
-}
-
-[System.Serializable]
-public class ZombieProperties
-{
-    public float runMultiplier;
-    [Range(0f, 10f)] public float hitRate;
 }

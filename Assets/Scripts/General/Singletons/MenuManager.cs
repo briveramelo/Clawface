@@ -36,7 +36,8 @@ public class MenuManager : Singleton<MenuManager> {
             Menu menu = obj.GetComponent<Menu>();
 
             // Make sure incoming menus don't interfere with each other and
-            // are hjidden 
+            // are hidden 
+            menu.Canvas.SetActive(false);
             menu.CanvasGroup.alpha = 0.0F;
             menu.CanvasGroup.blocksRaycasts = false;
             menu.CanvasGroup.interactable = false;

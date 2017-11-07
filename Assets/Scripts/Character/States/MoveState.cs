@@ -70,10 +70,7 @@ public class MoveState : IPlayerState
             lastMoveDirection = lastLookDirection;
         }
         stateVariables.velBody.MoveDirection = lastMoveDirection;
-    }
 
-    public override void StateFixedUpdate()
-    {
         switch (stateVariables.velBody.GetMovementMode())
         {
             case MovementMode.PRECISE:
@@ -81,17 +78,25 @@ public class MoveState : IPlayerState
                 break;
             case MovementMode.ICE:
                 MoveIce();
-                break;            
+                break;
         }
-        HandleRotation();            
+        HandleRotation();
     }
 
+    public override void StateFixedUpdate()
+    {
+        
+    }
 
+    public override void StateLateUpdate()
+    {
+        
+    }
     #endregion
 
     #region Private Methods
     private void MovePrecise() {
-        stateVariables.velBody.velocity = moveDirection * stateVariables.statsManager.GetStat(CharacterStatType.MoveSpeed) * Time.fixedDeltaTime;
+        stateVariables.velBody.velocity = moveDirection * stateVariables.statsManager.GetStat(CharacterStatType.MoveSpeed);
         if (moveDirection.magnitude > stateVariables.axisThreshold)
         {   
             if (stateVariables.animator.GetInteger(Strings.ANIMATIONSTATE) != (int)PlayerAnimationStates.Running)
@@ -120,7 +125,7 @@ public class MoveState : IPlayerState
         currentSpeed = flatMovement.magnitude;
 
         if (currentSpeed < stateVariables.statsManager.GetStat(CharacterStatType.MoveSpeed)){ 
-            stateVariables.velBody.AddDecayingForce(moveDirection * stateVariables.acceleration * Time.fixedDeltaTime);
+            stateVariables.velBody.AddDecayingForce(moveDirection * stateVariables.acceleration * Time.deltaTime);
         }
 
         if (currentSpeed > stateVariables.statsManager.GetStat(CharacterStatType.MoveSpeed))

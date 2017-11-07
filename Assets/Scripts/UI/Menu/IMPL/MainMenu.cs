@@ -70,6 +70,7 @@ public class MainMenu : Menu
     //// Actions used by Buttons on this Menu
     public void StartAction()
     {
+        /*
         MusicManager.Instance.Stop(MusicType.MainMenu_Track);
 
         Menu pMenu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.PAUSE);
@@ -81,6 +82,10 @@ public class MainMenu : Menu
         loadMenu.TargetScene = Strings.Scenes.Arena;
 
         MenuManager.Instance.DoTransition(loadMenu, Transition.SHOW,
+            new Effect[] { Effect.EXCLUSIVE });
+       */
+
+        MenuManager.Instance.DoTransition(Strings.MenuStrings.LEVEL_SELECT, Transition.SHOW,
             new Effect[] { Effect.EXCLUSIVE });
     }
 

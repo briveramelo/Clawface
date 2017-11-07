@@ -82,17 +82,14 @@ public class BulletBehavior : MonoBehaviour {
             // Shooter is player
             if (!shooter)
             {
-                AnalyticsManager.Instance.AddModDamage(ModType.ArmBlaster, shooterProperties.damage);
+                AnalyticsManager.Instance.AddModDamage(ModType.Blaster, shooterProperties.damage);
 
                 if (damageable.GetHealth() - shooterProperties.damage <= 0.01f)
                 {
-                    AnalyticsManager.Instance.AddModKill(ModType.ArmBlaster);
+                    AnalyticsManager.Instance.AddModKill(ModType.Blaster);
                 }
             }
-            else
-            {
-                AnalyticsManager.Instance.AddEnemyModDamage(ModType.ArmBlaster, shooterProperties.damage);
-            }
+
             damager.Set(shooterProperties.damage, DamagerType.BlasterBullet, Vector3.zero);
             damageable.TakeDamage(damager);
         }

@@ -3,6 +3,7 @@ using UnityEditor;
 using System.Collections;
 using System.Collections.Generic;
 using OET_lib;
+using Turing.LevelEditor;
 
 namespace OET_replace
 {
@@ -11,7 +12,8 @@ namespace OET_replace
 		public static bool preserveOrientation = true;
 		public static bool preserveScale = false;
 
-		public static void renderGUI(int vpos, GameObject[] sceneSelection, GameObject projectActiveSelection)
+		//public static void renderGUI(int vpos, GameObject[] sceneSelection, GameObject projectActiveSelection)
+        public static void renderGUI(int vpos, GameObject[] sceneSelection, LevelEditorObject projectActiveSelection)
 		{
 			int width = Screen.width;
 			int height = Screen.height;
@@ -31,7 +33,7 @@ namespace OET_replace
                     {
 						vpos += OET_lib.ToolLib.header ("<b>Replacement</b>\nReplace the current selection in the scene with the latest selected prefab in the project window (previewed below).", vpos, false);
 					}
-					Texture2D projectPreview = AssetPreview.GetAssetPreview (projectActiveSelection);
+					Texture2D projectPreview = UnityEditor.AssetPreview.GetAssetPreview (projectActiveSelection.Prefab);
 					if (projectPreview != null)
                     {
 						if(colMode)
