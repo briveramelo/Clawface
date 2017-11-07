@@ -111,6 +111,7 @@ public abstract class AIController : MonoBehaviour {
         }
     }
 
+
     public virtual void ResetForRebirth() {
         stateTimerIsRunning = false;
         timeInLastState = 0f;

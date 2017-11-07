@@ -7,16 +7,27 @@ using MovementEffects;
 
 public class MallCopFireState : AIState {
 
+    private float oldRotationY;
+    private float newRotationY;
+
+
     public override void OnEnter() {
         navAgent.enabled = false;
         navObstacle.enabled = true;
-        Timing.RunCoroutine(RunStartupTimer());        
+        Timing.RunCoroutine(RunStartupTimer());
+        oldRotationY = controller.transform.rotation.y;
         animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.Fire1);
     }
     public override void Update() {
         controller.transform.LookAt(controller.AttackTarget);
+        newRotationY = controller.transform.rotation.y;
+        CheckRotationDifference();
+        oldRotationY = controller.transform.rotation.y;
         navAgent.velocity = Vector3.zero;
     }
+
+    
+
     public override void OnExit() {
         navObstacle.enabled = false;
         navAgent.enabled = true;
@@ -32,5 +43,24 @@ public class MallCopFireState : AIState {
     public bool CanRestart() {
         return animator.GetCurrentAnimatorStateInfo(0).normalizedTime >0.99f && isPastStartup;
     }
+
+    private void CheckRotationDifference()
+    {
+        if (newRotationY > oldRotationY)
+        {
+            animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.TurnRight);
+        }
+
+        if (newRotationY < oldRotationY)
+        {
+            animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.TurnLeft);
+        }
+
+        if (newRotationY == oldRotationY)
+        {
+            animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.Fire1);
+        }
+    }
+
 
 }
