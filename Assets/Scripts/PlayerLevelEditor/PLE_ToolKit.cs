@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEditor;
 
 namespace PLE_ToolKit
 {
@@ -219,7 +218,6 @@ namespace PLE_ToolKit
 
         public static void drawDraft(GameObject g_o, Mesh mesh, Vector3 decal3, Color color)
         {
-            Handles.color = color;
 
             Vector3 v3_FrontTopLeft;
             Vector3 v3_FrontTopRight;

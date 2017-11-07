@@ -1,7 +1,5 @@
-﻿using UnityEngine;
-using UnityEngine.TestTools;
+﻿#if UNITY_EDITOR
 using NUnit.Framework;
-using System.Collections;
 using Turing.LevelEditor;
 
 public class LevelObjectDatabaseTest_PlayMode {
@@ -23,3 +21,4 @@ public class LevelObjectDatabaseTest_PlayMode {
 		yield return null;
 	}*/
 }
+#endif

@@ -50,6 +50,7 @@ public interface IEatable
     void DisableCollider();
     void EnableRagdoll();
     void DisableRagdoll();
+    GameObject GetGrabObject();
 }
 
 public interface ISpawnable {
