@@ -12,7 +12,7 @@ public class BouncerFireState : AIState {
     {
         navAgent.enabled = false;
         navObstacle.enabled = true;
-        animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Idle);
+        animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.Idle);
         doneFiring = false;
         firingWaitTime = properties.waitShotTime;
         Timing.RunCoroutine(RunStartupTimer(), coroutineName);

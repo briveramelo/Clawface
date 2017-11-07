@@ -182,31 +182,24 @@ public enum VibrationTargets
     BOTH = 2
 }
 
-public enum MallCopAnimationStates {
+public enum AnimationStates {
     Idle = 0,
     Walk = 1,
-    Swing = 2,
-    HitReaction = 3,
+
+    Attack1 = 2,
+    Attack2 = 21,
+    Attack3 = 22,
+    Attack4 = 33,
+    Attack5 = 34,
+    Attack6 = 35,
+
+    Fire1 = 3,
+    Fire2 = 31,
+    Fire3 = 32,
+
     Stunned = 4,
-    GettingUp = 5,
-    DrawGun = 6,
-    Run = 7,
-    Fire = 8
-}
-
-public enum EBouncerState
-{
-    Patrol = 0,
-    Chase = 1,
-    Fire = 3,
-    Fall = 4,
-    Twitch = 5
-}
-
-public enum EKamikazeState
-{
-    Chase = 0,
-    SelfDestruct = 1
+    
+    
 }
 
 public enum EAIState

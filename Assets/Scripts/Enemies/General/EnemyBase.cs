@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatable, ISpawnable
 {
-
+    #region serialized fields
     [SerializeField] protected AIController controller;
     [SerializeField] protected VelocityBody velBody;
     [SerializeField] protected Animator animator;
@@ -17,6 +17,8 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     [SerializeField] protected Transform bloodEmissionLocation;
     [SerializeField] protected int scorePopupDelay = 2;
     [SerializeField] protected int scoreValue = 200;
+    [SerializeField] private GameObject grabObject;
+    #endregion
 
     #region 3. Private fields
     private int stunCount;
@@ -24,6 +26,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     private bool alreadyStunned = false;
     private Collider[] playerColliderList = new Collider[10];
     private Rigidbody[] jointRigidBodies;
+    private Vector3 grabStartPosition;
     #endregion
 
     #region 0. Protected fields
@@ -50,7 +53,11 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     {
         poolParent = transform.parent;
         transformMemento.Initialize(transform);
-        jointRigidBodies = GetComponentsInChildren<Rigidbody>();        
+        jointRigidBodies = GetComponentsInChildren<Rigidbody>();
+        if (grabObject != null)
+        {
+            grabStartPosition = grabObject.transform.localPosition;
+        }
         ResetForRebirth();
     }
 
@@ -174,6 +181,11 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     public virtual void ResetForRebirth()
     {
         DisableRagdoll();
+        if (grabObject)
+        {
+            grabObject.transform.parent = transform;
+            grabObject.transform.localPosition = grabStartPosition;
+        }
         GetComponent<CapsuleCollider>().enabled = true;
         myStats.ResetForRebirth();
         controller.ResetForRebirth();
@@ -213,9 +225,19 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
             {
                 jointRigidBodies[i].useGravity = false;
                 jointRigidBodies[i].isKinematic = true;
+                RagdollHandler ragdollHandler = jointRigidBodies[i].GetComponent<RagdollHandler>();
+                if (ragdollHandler)
+                {
+                    ragdollHandler.ResetBone();
+                }
             }
         }
         animator.enabled = true;
+    }
+
+    public GameObject GetGrabObject()
+    {
+        return grabObject;
     }
     #endregion
 
