@@ -61,7 +61,7 @@ public class ClawArmController : MonoBehaviour {
         this.target = target;
         extending = true;
         clawAnimationHandler.gameObject.SetActive(true);
-        clawAnimationHandler.StartAnimation();
+        //clawAnimationHandler.StartAnimation();
         extendIncrement = 1 / (clawExtensionTime / Time.fixedDeltaTime);
     }
 
@@ -96,7 +96,7 @@ public class ClawArmController : MonoBehaviour {
         {
             end.position = target.transform.position;
             EventSystem.Instance.TriggerEvent(Strings.Events.ARM_EXTENDED, end);
-            clawAnimationHandler.FinishAnimation();
+            //clawAnimationHandler.FinishAnimation();
         }
         else
         {            
