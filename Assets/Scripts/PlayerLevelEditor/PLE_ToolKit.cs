@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 namespace PLE_ToolKit
 {
-
     public static class UnityTool
     {
         public static void Attach(GameObject ParentObj, GameObject ChildObj, Vector3 Pos)
@@ -192,6 +191,8 @@ namespace PLE_ToolKit
     {
         public static void draft(GameObject i_Object, Vector3 decal3, Color color)
         {
+            Camera.main.GetComponent<PLE_Camera>().SetLineColor(color);
+
             MeshFilter objectMeshFilter = i_Object.GetComponent<MeshFilter>();
             if (objectMeshFilter != null)
             {
@@ -209,7 +210,6 @@ namespace PLE_ToolKit
                 }
                 if (child.transform.childCount > 0)
                 {
-
                     draft(child.gameObject, decal3, color);
                 }
             }
@@ -261,26 +261,43 @@ namespace PLE_ToolKit
             v3_BackBottomRight = new Vector3(v3_BackBottomRight.x + decal3.x, v3_BackBottomRight.y + decal3.y, v3_BackBottomRight.z + decal3.z);
 
 
-            GL.Begin(GL.LINES);
-            GL.Color(new Color(1, 0, 0));
-            GL.Vertex3(v3_FrontTopLeft.x, v3_FrontTopLeft.y, v3_FrontTopLeft.z);
-            GL.Vertex3(v3_FrontTopRight.x, v3_FrontTopRight.y, v3_FrontTopRight.z);
-            GL.End();
+            PLE_Camera _camera = Camera.main.GetComponent<PLE_Camera>();
 
-            /*
-            Handles.DrawDottedLine(v3_FrontTopLeft, v3_FrontTopRight, 5);
-            Handles.DrawDottedLine(v3_FrontTopRight, v3_FrontBottomRight, 5);
-            Handles.DrawDottedLine(v3_FrontBottomRight, v3_FrontBottomLeft, 5);
-            Handles.DrawDottedLine(v3_FrontBottomLeft, v3_FrontTopLeft, 5);
-            Handles.DrawDottedLine(v3_BackTopLeft, v3_BackTopRight, 5);
-            Handles.DrawDottedLine(v3_BackTopRight, v3_BackBottomRight, 5);
-            Handles.DrawDottedLine(v3_BackBottomRight, v3_BackBottomLeft, 5);
-            Handles.DrawDottedLine(v3_BackBottomLeft, v3_BackTopLeft, 5);
-            Handles.DrawDottedLine(v3_FrontTopLeft, v3_BackTopLeft, 5);
-            Handles.DrawDottedLine(v3_FrontTopRight, v3_BackTopRight, 5);
-            Handles.DrawDottedLine(v3_FrontBottomRight, v3_BackBottomRight, 5);
-            Handles.DrawDottedLine(v3_FrontBottomLeft, v3_BackBottomLeft, 5);
-            */
+            _camera.DrawLine(v3_FrontTopLeft    , v3_FrontTopRight);
+            _camera.DrawLine(v3_FrontTopRight   , v3_FrontBottomRight);
+            _camera.DrawLine(v3_FrontBottomRight, v3_FrontBottomLeft);
+            _camera.DrawLine(v3_FrontBottomLeft , v3_FrontTopLeft);
+            _camera.DrawLine(v3_BackTopLeft     , v3_BackTopRight);
+            _camera.DrawLine(v3_BackTopRight    , v3_BackBottomRight);
+            _camera.DrawLine(v3_BackBottomRight , v3_BackBottomLeft);
+            _camera.DrawLine(v3_BackBottomLeft  , v3_BackTopLeft);
+            _camera.DrawLine(v3_FrontTopLeft    , v3_BackTopLeft);
+            _camera.DrawLine(v3_FrontTopRight   , v3_BackTopRight);
+            _camera.DrawLine(v3_FrontBottomRight, v3_BackBottomRight);
+            _camera.DrawLine(v3_FrontBottomLeft , v3_BackBottomLeft);          
+        }
+
+
+        public static Vector3 ConvertToGrid(Vector3 position)
+        {
+            if (position == null)
+                Debug.Log("position is null");
+
+
+            float width = 5.0f;
+            float height = 5.0f;
+
+            float Grid_x = Mathf.Floor((position.x + width / 2) / width) * width;
+            float Grid_z = Mathf.Floor((position.z + height / 2) / height) * height;
+
+            RaycastHit hit;
+
+            if (Physics.Raycast(new Vector3(Grid_x, 1000.0f, Grid_z), Vector3.down, out hit))
+            {
+                return new Vector3(Grid_x, hit.point.y, Grid_z);
+            }
+
+            return new Vector3(Grid_x, position.y, Grid_z);
         }
     }
 }

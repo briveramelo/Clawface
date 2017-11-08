@@ -7990,8 +7990,8 @@ InputManager:
     axis: 0
     joyNum: 0
   - serializedVersion: 3
-    m_Name: MouseButton6
-    descriptiveName: Mouse Button 6
+    m_Name: Mouse ScrollWheel
+    descriptiveName: Mouse ScrollWheel
     descriptiveNegativeName: 
     negativeButton: 
     positiveButton: mouse 6
@@ -8001,9 +8001,9 @@ InputManager:
     dead: 0
     sensitivity: 1000
     snap: 0
-    invert: 0
-    type: 0
-    axis: 0
+    invert: 1
+    type: 1
+    axis: 2
     joyNum: 0
   - serializedVersion: 3
     m_Name: Submit
@@ -8039,10 +8039,26 @@ InputManager:
     joyNum: 0
   - serializedVersion: 3
     m_Name: Horizontal
-    descriptiveName: Mouse Button 6
+    descriptiveName: 
     descriptiveNegativeName: 
-    negativeButton: 
-    positiveButton: mouse 6
+    negativeButton: left
+    positiveButton: right
+    altNegativeButton: 
+    altPositiveButton: 
+    gravity: 0
+    dead: 0
+    sensitivity: 1000
+    snap: 1
+    invert: 0
+    type: 1
+    axis: 0
+    joyNum: 0
+  - serializedVersion: 3
+    m_Name: Mouse X
+    descriptiveName: 
+    descriptiveNegativeName: 
+    negativeButton: left
+    positiveButton: right
     altNegativeButton: 
     altPositiveButton: 
     gravity: 0
@@ -8055,11 +8071,27 @@ InputManager:
     joyNum: 0
   - serializedVersion: 3
     m_Name: Vertical
-    descriptiveName: Mouse Button 6
+    descriptiveName: 
     descriptiveNegativeName: 
     negativeButton: 
-    positiveButton: mouse 6
-    altNegativeButton: 
+    positiveButton: up
+    altNegativeButton: down
+    altPositiveButton: 
+    gravity: 0
+    dead: 0
+    sensitivity: 1000
+    snap: 1
+    invert: 0
+    type: 1
+    axis: 1
+    joyNum: 0
+  - serializedVersion: 3
+    m_Name: Mouse Y
+    descriptiveName: 
+    descriptiveNegativeName: 
+    negativeButton: 
+    positiveButton: up
+    altNegativeButton: down
     altPositiveButton: 
     gravity: 0
     dead: 0
