@@ -61,7 +61,7 @@ public class EatingState : IPlayerState
 
     public override void StateFixedUpdate()
     {
-        
+
     }
 
     public override void StateUpdate()
