@@ -185,6 +185,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         {
             grabObject.transform.parent = transform;
             grabObject.transform.localPosition = grabStartPosition;
+            grabObject.transform.localScale = Vector3.one;
         }
         GetComponent<CapsuleCollider>().enabled = true;
         myStats.ResetForRebirth();

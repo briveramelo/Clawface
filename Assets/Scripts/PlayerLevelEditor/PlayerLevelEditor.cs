@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class PlayerLevelEditor : MonoBehaviour
 {
+    public static float unitsize_x = 5.0f;
+    public static float unitsize_y = 5.0f;
+    public static float unitsize_z = 5.0f;
 
     PLE_FunctionController controller = new PLE_FunctionController();
 
@@ -16,13 +19,12 @@ public class PlayerLevelEditor : MonoBehaviour
     {
         controller.SetFunction(new PLE_Init(controller));
 
-        Btn_Init = PLE_ToolKit.UITool.GetUIComponent<Button>("Button_Init");
+        Btn_Init = PLE_ToolKit.UITool.GetUIComponent<Button>("Function_Init");
         if(Btn_Init != null) Btn_Init.onClick.AddListener(() => UseInitFunc(Btn_Init));
-        Btn_Init.onClick.RemoveListener(() => UseInitFunc(Btn_Init));
 
-        Btn_Add  = PLE_ToolKit.UITool.GetUIComponent<Button>("Button_Add");
+
+        Btn_Add  = PLE_ToolKit.UITool.GetUIComponent<Button>("Function_Add");
         if (Btn_Add != null) Btn_Add.onClick.AddListener(() => UsingAddFunc(Btn_Add));
-        Btn_Add.onClick.RemoveListener(() => UsingAddFunc(Btn_Add));
     }
 	
 	// Update is called once per frame
