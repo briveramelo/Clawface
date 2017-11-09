@@ -858,7 +858,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4501248728500308}
   - component: {fileID: 54981467726587826}
-  - component: {fileID: 145694120497973224}
+  - component: {fileID: 138785721722355142}
   m_Layer: 9
   m_Name: GrabObject
   m_TagString: Untagged
@@ -1422,7 +1422,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1913178773273056}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 4, z: 0}
+  m_LocalPosition: {x: 0.806, y: 3.066, z: 0.34}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4178710344318278}
@@ -2520,6 +2520,19 @@ SkinnedMeshRenderer:
     m_Center: {x: 1.8033097, y: 0.10520625, z: 0.53305775}
     m_Extent: {x: 3.467323, y: 2.1466317, z: 1.0334132}
   m_DirtyAABB: 0
+--- !u!138 &138785721722355142
+FixedJoint:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1913178773273056}
+  m_ConnectedBody: {fileID: 54065820255722074}
+  m_BreakForce: Infinity
+  m_BreakTorque: Infinity
+  m_EnableCollision: 0
+  m_EnablePreprocessing: 0
+  m_MassScale: 1
+  m_ConnectedMassScale: 1
 --- !u!144 &144136248447817522
 CharacterJoint:
   m_ObjectHideFlags: 1
@@ -2954,28 +2967,6 @@ CharacterJoint:
   m_EnableProjection: 1
   m_ProjectionDistance: 0.1
   m_ProjectionAngle: 180
-  m_BreakForce: Infinity
-  m_BreakTorque: Infinity
-  m_EnableCollision: 0
-  m_EnablePreprocessing: 0
-  m_MassScale: 1
-  m_ConnectedMassScale: 1
---- !u!145 &145694120497973224
-SpringJoint:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1913178773273056}
-  m_ConnectedBody: {fileID: 54065820255722074}
-  m_Anchor: {x: 0, y: 1, z: 0}
-  m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0, y: 0, z: 0}
-  serializedVersion: 2
-  m_Spring: 10000
-  m_Damper: 0.2
-  m_MinDistance: 0
-  m_MaxDistance: 0
-  m_Tolerance: 0.025
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_EnableCollision: 0

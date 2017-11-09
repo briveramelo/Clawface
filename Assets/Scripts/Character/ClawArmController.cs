@@ -140,6 +140,7 @@ public class ClawArmController : MonoBehaviour {
         {
             Vector3 direction = (start.position - end.position).normalized;
             end.position += direction * retractSpeed * Time.deltaTime;
+            target.transform.position = end.position;
             retractTime -= Time.deltaTime;
             direction = (start.position - end.position).normalized;
             if (Vector3.Dot(direction, end.forward) >= 0 || retractTime <= 0)
