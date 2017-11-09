@@ -10,10 +10,10 @@ public class BoomerangMod : Mod {
     [SerializeField] private Transform bulletSpawnPoint;
     [SerializeField] private Animator launcherAnimator;
     [SerializeField] private Animator projectileAnimator;
-    #endregion
-
-    #region Privates
-    private ShooterProperties shooterProperties = new ShooterProperties();
+    [SerializeField] private float timeUntilBoomerangDestroyed;
+    [SerializeField] private float rayDistanceMultiplier;
+    [SerializeField] private LayerMask raycastLayermask;
+    [SerializeField] private float boomerangSpeed;
     #endregion
 
     #region Unity Lifecycle
@@ -65,8 +65,7 @@ public class BoomerangMod : Mod {
         Shoot();
     }
     #endregion
-
-
+    
     private BoomerangBullet Shoot()
     {
         SFXManager.Instance.Play(SFXType.GrapplingGun_Shoot, transform.position);
@@ -87,10 +86,9 @@ public class BoomerangMod : Mod {
         if (boomerangBullet)
         {
             boomerangBullet.transform.position = bulletSpawnPoint.position;
-            boomerangBullet.transform.forward = this.transform.forward;
+            boomerangBullet.transform.forward = transform.forward;
             boomerangBullet.transform.rotation = Quaternion.Euler(0f, boomerangBullet.transform.rotation.eulerAngles.y, 0f);
-            shooterProperties.Initialize(GetWielderInstanceID(), Attack, wielderStats.shotSpeed, wielderStats.shotPushForce);
-            boomerangBullet.SetShooterProperties(shooterProperties);
+            boomerangBullet.Initialize(boomerangSpeed, damage, timeUntilBoomerangDestroyed, rayDistanceMultiplier, raycastLayermask);
 
             if (wielderStats.gameObject.CompareTag(Strings.Tags.PLAYER))
             {

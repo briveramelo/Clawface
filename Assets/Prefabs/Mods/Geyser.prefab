@@ -592,18 +592,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92244819fcb501b44967c14280bb78fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage: 5
   pickupCollider: {fileID: 65003413662208174}
   modCanvas: {fileID: 1301330211412350}
   energySettings:
-    weaponAttackSettings:
-      timeToCoolDown: 0.65
-      timeToAttack: 0
-      attack: 8.5
+    timeToCoolDown: 0.4
     isCoolingDown: 0
     isActive: 0
-  geyserStartDistanceOffset: 0
+  geyserStartDistanceOffset: 5
   fissureSpeed: 40
   shootSFX: 15
+  fissureLiveTime: 8
 --- !u!114 &114876056122338820
 MonoBehaviour:
   m_ObjectHideFlags: 1
