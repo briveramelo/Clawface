@@ -60,19 +60,15 @@ public class GeyserLine : MonoBehaviour {
                     damager.Set(projectileProperties.damage * damageMultiplier, DamagerType.Geyser, Vector3.down);
 
                     // Shooter is player
-                    if (isPlayer)
-                    {
-                        AnalyticsManager.Instance.AddModDamage(ModType.Geyser, damager.damage);
 
-                        if (damageable.GetHealth() - damager.damage <= 0.01f)
-                        {
-                            AnalyticsManager.Instance.AddModKill(ModType.Geyser);
-                        }
-                    }
-                    else
+                    AnalyticsManager.Instance.AddModDamage(ModType.Geyser, damager.damage);
+
+                    if (damageable.GetHealth() - damager.damage <= 0.01f)
                     {
-                        AnalyticsManager.Instance.AddEnemyModDamage(ModType.Geyser, damager.damage);
+                        AnalyticsManager.Instance.AddModKill(ModType.Geyser);
                     }
+
+
 
                     damageable.TakeDamage(damager);
                 }

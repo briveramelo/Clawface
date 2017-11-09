@@ -6,35 +6,34 @@ using UnityEngine.Events;
 
 public class ClawAnimationHandler : MonoBehaviour {
 
-    #region Serialized fields
-    [SerializeField]
-    private Transform clawPalm;
-    #endregion
-
     #region private fields
     private Animator animator;
-    private GameObject target;
+    private float animatorSpeed;
     #endregion
 
     #region Unity lifecycle
-    private void Start()
+    private void Awake()
     {
         animator = GetComponent<Animator>();
+        Assert.IsNotNull(animator);
+        animatorSpeed = animator.speed;
     }
     #endregion
 
     #region Public functions
-    public void ArmExtended()
+    public void StartAnimation()
     {
-        EventSystem.Instance.TriggerEvent(Strings.Events.ARM_EXTENDED, clawPalm);
+        animator.SetBool(Strings.ANIMATIONSTATE, true);
     }
 
-    public void AnimationCompleted()
+    public void PauseAnimation()
     {
-        EventSystem.Instance.TriggerEvent(Strings.Events.ARM_ANIMATION_COMPLETE);
+        animator.speed = 0;
     }
-    #endregion
 
-    #region private functions    
+    public void FinishAnimation()
+    {
+        animator.speed = animatorSpeed;
+    }
     #endregion
 }
