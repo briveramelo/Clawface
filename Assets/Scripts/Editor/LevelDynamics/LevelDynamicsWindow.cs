@@ -64,6 +64,7 @@ public class LevelDynamicsWindow : EditorWindow {
         ShowWaveButtons();
         ShowWaveTriggerOptions();
         GenerateLevelLayout();
+        ShowMusicTrackSlot();
 
         //Copy Button
         if (GUI.Button(new Rect(position.width * 0.8f, position.height * 0.6f, position.width * 0.11f, 30), "Copy Last State"))
@@ -87,6 +88,14 @@ public class LevelDynamicsWindow : EditorWindow {
     #endregion
 
     #region private functions
+    private void ShowMusicTrackSlot()
+    {        
+        AudioClip selectedClip = spawnerObjects[selectedSpawner].waveObjects[selectedWave].audioClip;
+        GUI.Label(new Rect(0.8f * position.width, 110 - 16f, position.width * 0.15f, 16f), "Music Track");
+        selectedClip = (AudioClip)EditorGUI.ObjectField(new Rect(0.8f * position.width, 110, position.width * 0.15f, 16f), selectedClip, typeof(AudioClip), true);
+        spawnerObjects[selectedSpawner].waveObjects[selectedWave].audioClip = selectedClip;
+    }
+
     private void CopyLastState()
     {
         if(selectedWave > 0)
@@ -100,6 +109,7 @@ public class LevelDynamicsWindow : EditorWindow {
                 levelObjectData.state = previousWaveObject.levelUnitsList[i].state;
                 selectedWaveObject.levelUnitsList[i] = levelObjectData;
             }
+            selectedWaveObject.audioClip = previousWaveObject.audioClip;
         }
         else if(selectedSpawner > 0)
         {
@@ -369,6 +379,7 @@ public class LevelDynamicsWindow : EditorWindow {
 
         public bool triggerStart = true;
         public List<LevelObjectData> levelUnitsList;
+        public AudioClip audioClip;
     }
 
     private class SpawnerObject
