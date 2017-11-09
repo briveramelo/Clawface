@@ -45,7 +45,7 @@ public class Splattable : MonoBehaviour {
     #endregion
 
     #region Public Interface
-    public void DrawSplat(Texture2D splat, Vector3 worldPos, Vector3 normal, Camera renderCam)
+    public CommandBuffer QueueSplat(Texture2D splat, Vector3 worldPos, Vector3 normal)
     {
         //set shader variables
         renderMaterial.SetTexture("_Previous", splatMap);
@@ -54,16 +54,12 @@ public class Splattable : MonoBehaviour {
         renderMaterial.SetTexture("_Decal", splat);
 
         //set up command buffer
-        CommandBuffer myCommandBuffer = new CommandBuffer();
-        myCommandBuffer.GetTemporaryRT(Shader.PropertyToID("_TEMPORARY"), renderTextureWidth, renderTextureHeight);
-        myCommandBuffer.SetRenderTarget(Shader.PropertyToID("_TEMPORARY"));
-        myCommandBuffer.DrawRenderer(myRenderer, renderMaterial);
-        myCommandBuffer.Blit(Shader.PropertyToID("_TEMPORARY"), splatMap);
-        renderCam.AddCommandBuffer(CameraEvent.AfterEverything, myCommandBuffer);
-
-        //render splat
-        renderCam.Render();
-        renderCam.RemoveAllCommandBuffers();
+        CommandBuffer splatBuffer = new CommandBuffer();
+        splatBuffer.GetTemporaryRT(Shader.PropertyToID("_TEMPORARY"), renderTextureWidth, renderTextureHeight);
+        splatBuffer.SetRenderTarget(Shader.PropertyToID("_TEMPORARY"));
+        splatBuffer.DrawRenderer(myRenderer, renderMaterial);
+        splatBuffer.Blit(Shader.PropertyToID("_TEMPORARY"), splatMap);
+        return splatBuffer;
     }
 
     #endregion
