@@ -39,6 +39,9 @@
         public static string SETTINGS = "Settings";
         public static string LEVEL_SELECT = "LevelSelect";
         public static string WEAPON_SELECT = "WeaponSelect";
+
+        public static string GAME_OVER_TEXT = "Game Over";
+        public static string STAGE_OVER_TEXT = "Stage Over";
     }
 
     public static class Input
