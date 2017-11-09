@@ -61,6 +61,7 @@ public class Zombie : EnemyBase
     {
         if (controller.CurrentState == chase && controller.DistanceFromTarget < closeEnoughToAttackDistance)
         {
+            animator.SetTrigger("Attack");
             controller.UpdateState(EAIState.Attack);
             return true;
         }
