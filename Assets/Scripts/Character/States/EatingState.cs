@@ -119,16 +119,7 @@ public class EatingState : IPlayerState
             IEatable eatable = stateVariables.eatTargetEnemy.GetComponent<IEatable>();
             if (eatable != null)
             {
-                stateVariables.eatTargetEnemy.transform.position = clawTransform.position;
-                /*grabObject = eatable.GetGrabObject();
-                if (grabObject)
-                {
-                    grabObject.transform.position = clawTransform.position;
-                }
-                else
-                {
-                    clawTransform = null;
-                }*/
+                stateVariables.eatTargetEnemy.transform.position = clawTransform.position;                
                 eatable.DisableCollider();
                 eatable.EnableRagdoll();
             }

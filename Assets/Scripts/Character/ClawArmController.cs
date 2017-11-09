@@ -41,17 +41,21 @@ public class ClawArmController : MonoBehaviour {
 
     #region unity lifecycle    
     // Use this for initialization
-    void Start () {
+    void Awake () {
         Assert.IsNotNull(start);
         Assert.IsNotNull(arm);
         Assert.IsNotNull(end);
         Assert.IsNotNull(clawAnimationHandler);
         meshSizeZ = arm.GetComponent<MeshRenderer>().bounds.size.z;
+    }
+
+    private void Start()
+    {
         clawAnimationHandler.gameObject.SetActive(false);
     }
-	
-	// Update is called once per frame
-	void Update ()
+
+    // Update is called once per frame
+    void Update ()
     {
         Assert.IsFalse(extending && retracting);
 
