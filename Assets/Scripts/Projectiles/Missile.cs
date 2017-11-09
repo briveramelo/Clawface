@@ -18,7 +18,6 @@ public class Missile : MonoBehaviour {
 
     private float deathTimer;
 
-    [SerializeField]
     private float timeTilDeath;
     #endregion
 
@@ -56,13 +55,14 @@ public class Missile : MonoBehaviour {
     #endregion
 
     #region Public functions
-    public void Init(float speed, float closeRadius, float farRadius, float closeDamage, float farDamage)
+    public void Init(float speed, float closeRadius, float farRadius, float closeDamage, float farDamage, float timeTilDeath)
     {
         this.speed = speed;
         this.highDamageRadius = closeRadius;
         this.lowDamageRadius = farRadius;
         this.closeDamage = closeDamage;
         this.farDamage = farDamage;
+        this.timeTilDeath = timeTilDeath;
         isReady = true;
         initPosition = transform.position;
         deathTimer = 0f;

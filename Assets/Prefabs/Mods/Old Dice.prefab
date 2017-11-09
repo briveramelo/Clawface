@@ -91,10 +91,10 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4108714286435872}
+  - component: {fileID: 114885437093737794}
   - component: {fileID: 65427258851758646}
-  - component: {fileID: 114154415669238134}
   m_Layer: 0
-  m_Name: DiceMod
+  m_Name: Old Dice
   m_TagString: Mod
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -286,31 +286,6 @@ MonoBehaviour:
   forward: {x: 0, y: 0, z: 1}
   up: {x: 0, y: 1, z: 0}
   updatePeriod: 0
---- !u!114 &114154415669238134
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1891895839945968}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c4d07771c3423914aa9cb51bfea66b32, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 0
-  pickupCollider: {fileID: 65427258851758646}
-  modCanvas: {fileID: 1086148575322010}
-  energySettings:
-    timeToCoolDown: 0.5
-    isCoolingDown: 0
-    isActive: 0
-  missileSpeed: 0.7
-  closeDamage: 8
-  farDamage: 2
-  closeRadius: 3
-  farRadius: 8
-  projectileLifetime: 8
-  shootSFX: 10
 --- !u!114 &114267958456126526
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -387,6 +362,27 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+--- !u!114 &114885437093737794
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1891895839945968}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fc3f92155f11464e97dbf3b64656df9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 5
+  pickupCollider: {fileID: 65427258851758646}
+  modCanvas: {fileID: 1086148575322010}
+  energySettings:
+    timeToCoolDown: 0.4
+    isCoolingDown: 0
+    isActive: 0
+  blasterEffect: {fileID: 114759411832738320}
+  bulletSpawnPoint: {fileID: 4250488396338662}
+  armTimeTilExplosion: 0.05
 --- !u!198 &198117800488203860
 ParticleSystem:
   m_ObjectHideFlags: 1
