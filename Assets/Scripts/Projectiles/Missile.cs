@@ -15,6 +15,11 @@ public class Missile : MonoBehaviour {
     private float highDamageRadius;
     private float lowDamageRadius;
     private Vector3 initPosition;
+
+    private float deathTimer;
+
+    [SerializeField]
+    private float timeTilDeath;
     #endregion
 
     #region Unity lifecycle
@@ -29,7 +34,14 @@ public class Missile : MonoBehaviour {
     {
         if (isReady)
         {
+            deathTimer += Time.deltaTime;
             transform.position += transform.forward * speed;
+
+            if (deathTimer > timeTilDeath)
+            {
+                Explode();
+                ResetBullet();
+            }
         }
     }
 
@@ -53,6 +65,7 @@ public class Missile : MonoBehaviour {
         this.farDamage = farDamage;
         isReady = true;
         initPosition = transform.position;
+        deathTimer = 0f;
     }
     #endregion
 
@@ -62,13 +75,13 @@ public class Missile : MonoBehaviour {
         Collider[] allHitObjects = Physics.OverlapSphere(transform.position, lowDamageRadius);
         Collider[] closeHitObjects = Physics.OverlapSphere(transform.position, highDamageRadius);
 
-        List<Collider> allhitEnemies = new List<Collider>();
+        List<Collider> farHitEnemies = new List<Collider>();
         List<Collider> closeHitEnemies = new List<Collider>();
 
         foreach (Collider c in allHitObjects)
         { 
             if (c.gameObject.CompareTag(Strings.Tags.ENEMY)) {
-                allhitEnemies.Add(c);
+                farHitEnemies.Add(c);
             }
         }
 
@@ -79,9 +92,9 @@ public class Missile : MonoBehaviour {
                 closeHitEnemies.Add(c);
             }
 
-            if (allhitEnemies.Contains(c))
+            if (farHitEnemies.Contains(c))
             {
-                allhitEnemies.Remove(c);
+                farHitEnemies.Remove(c);
             }
         }
 
@@ -90,7 +103,7 @@ public class Missile : MonoBehaviour {
         damage.impactDirection = Vector3.zero;
         damage.damage = farDamage;
 
-        foreach (Collider c in allhitEnemies)
+        foreach (Collider c in farHitEnemies)
         {
             IDamageable damageable = c.GetComponent<IDamageable>();
             if (damageable != null)
@@ -113,6 +126,7 @@ public class Missile : MonoBehaviour {
     private void ResetBullet()
     {
         isReady = false;
+        deathTimer = 0f;
         gameObject.SetActive(false);
         transform.SetParent(ObjectPool.Instance.transform);
     }
