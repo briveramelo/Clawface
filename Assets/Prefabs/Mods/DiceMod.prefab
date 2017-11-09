@@ -373,13 +373,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fc3f92155f11464e97dbf3b64656df9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage: 5
   pickupCollider: {fileID: 65427258851758646}
   modCanvas: {fileID: 1086148575322010}
   energySettings:
-    weaponAttackSettings:
-      timeToCoolDown: 0.4
-      timeToAttack: 0
-      attack: 5
+    timeToCoolDown: 0.4
     isCoolingDown: 0
     isActive: 0
   blasterEffect: {fileID: 114759411832738320}

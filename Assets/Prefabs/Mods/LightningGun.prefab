@@ -288,19 +288,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 205d2f24998c3ca4195927aa09b17b01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage: 5
   pickupCollider: {fileID: 65209099370088602}
   modCanvas: {fileID: 1431774864512322}
   energySettings:
-    weaponAttackSettings:
-      timeToCoolDown: 0.55
-      timeToAttack: 0
-      attack: 0
+    timeToCoolDown: 0.4
     isCoolingDown: 0
     isActive: 0
   muzzleTransform: {fileID: 4564136626918456}
   projectileProperties:
     projectileSpeed: 0.3
-    projectileHitDamage: 1.5
+    projectileHitDamage: 0.75
     homingAngle: 360
     homingRadius: 7
     maxChainableEnemies: 5

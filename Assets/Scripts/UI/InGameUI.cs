@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class OnScreenScoreUI : MonoBehaviour {
+public class InGameUI : MonoBehaviour {
 
     #region Public Fields
     #endregion
@@ -45,19 +45,23 @@ public class OnScreenScoreUI : MonoBehaviour {
     }
     private void Start()
     {
-        //register events
-        EventSystem.Instance.RegisterEvent(Strings.Events.SCORE_UPDATED, UpdateScore);
-        EventSystem.Instance.RegisterEvent(Strings.Events.COMBO_UPDATED, UpdateCombo);
-        EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_DAMAGED, DoDamageEffect);
-        EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_HEALTH_MODIFIED, SetHealth);
-        EventSystem.Instance.RegisterEvent(Strings.Events.COMBO_TIMER_UPDATED, UpdateComboQuadrant);
-
+        if (EventSystem.Instance)
+        {
+            //register events
+            EventSystem.Instance.RegisterEvent(Strings.Events.SCORE_UPDATED, UpdateScore);
+            EventSystem.Instance.RegisterEvent(Strings.Events.COMBO_UPDATED, UpdateCombo);
+            EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_DAMAGED, DoDamageEffect);
+            EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_HEALTH_MODIFIED, SetHealth);
+            EventSystem.Instance.RegisterEvent(Strings.Events.COMBO_TIMER_UPDATED, UpdateComboQuadrant);
+        }
         onScreenCombo.text = "";
     }
     private void OnDestroy()
     {
-        //deregister events
-        if (EventSystem.Instance)
+
+        EventSystem instance = EventSystem.Instance;
+
+        if (instance)
         {
             EventSystem.Instance.UnRegisterEvent(Strings.Events.SCORE_UPDATED, UpdateScore);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.COMBO_UPDATED, UpdateCombo);

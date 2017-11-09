@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GeyserFissure : MonoBehaviour {
-
-    private ShooterProperties shooterProperties = new ShooterProperties();
+       
     private Damager damager = new Damager();
+    private float killAfterSeconds;
+    private float speed;
+    private float damage;
 
-    [SerializeField] private float killAfterSeconds;
     [SerializeField] private PoolObjectType enemyImpactEffect;
     [SerializeField] private PoolObjectType wallImpactEffect;
 
@@ -39,12 +40,11 @@ public class GeyserFissure : MonoBehaviour {
             }
         }
 
-        transform.Translate(Vector3.forward * shooterProperties.speed * Time.deltaTime);
+        transform.Translate(Vector3.forward * speed * Time.deltaTime);
     }
 
     private void OnTriggerEnter(Collider other)
-    {
- 
+    { 
         if (other.CompareTag(Strings.Tags.ENEMY))
         {
 
@@ -64,28 +64,18 @@ public class GeyserFissure : MonoBehaviour {
         }
     }
 
-    public void SetShooterProperties(ShooterProperties shooterProperties)
-    {
-        this.shooterProperties = shooterProperties;
-    }
-
-    public void SetWielderInstanceID(int id)
-    {
-        shooterProperties.shooterInstanceID = id;
-    }
-
 
     private void Damage(IDamageable damageable)
     {
 
-        AnalyticsManager.Instance.AddModDamage(ModType.Geyser, shooterProperties.damage);
+        AnalyticsManager.Instance.AddModDamage(ModType.Geyser, damage);
 
-        if (damageable.GetHealth() - shooterProperties.damage <= 0.01f)
+        if (damageable.GetHealth() - damage <= 0.01f)
         {
             AnalyticsManager.Instance.AddModKill(ModType.Geyser);
         }
 
-        damager.Set(shooterProperties.damage, DamagerType.Geyser, transform.forward);
+        damager.Set(damage, DamagerType.Geyser, transform.forward);
         damageable.TakeDamage(damager);
     }
 
@@ -99,5 +89,11 @@ public class GeyserFissure : MonoBehaviour {
         }
     }
     
+    public void Initialize(float speed, float damage, float killAfterSeconds)
+    {
+        this.speed = speed;
+        this.damage = damage;
+        this.killAfterSeconds = killAfterSeconds;
+    }
     
 }

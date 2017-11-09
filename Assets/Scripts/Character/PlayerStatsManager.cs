@@ -33,7 +33,6 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     {
         stats.SetMaxHealth(UpgradeManager.Instance.GetHealthLevel());
         startHealth = stats.GetStat(CharacterStatType.MaxHealth);
-        AnalyticsManager.Instance.SetPlayerStats(this.stats);
         UpgradeManager.Instance.SetPlayerStats(this.stats);
         UpgradeManager.Instance.SetPlayerStatsManager(this);
 
@@ -50,24 +49,31 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     {
         if (damageModifier > 0.0f)
         {
-            EventSystem.Instance.TriggerEvent(Strings.Events.PLAYER_DAMAGED);
-            stats.TakeDamage(damageModifier * damager.damage);
-            float healthFraction = stats.GetHealthFraction();
-            EventSystem.Instance.TriggerEvent(Strings.Events.PLAYER_HEALTH_MODIFIED,healthFraction);
-            cameraLock.Shake();
-            float shakeIntensity = 1f - healthFraction;
-            if (shake) {
-                InputManager.Instance.Vibrate(VibrationTargets.BOTH, shakeIntensity);
-            }
-            SFXManager.Instance.Play(SFXType.PlayerTakeDamage, transform.position);
-
-            faceController.SetTemporaryEmotion (PlayerFaceController.Emotion.Angry, 0.5f);
-
-            if (stats.GetStat(CharacterStatType.Health) <= 0)
+            if (stats.GetStat(CharacterStatType.Health) > 0)
             {
-                EventSystem.Instance.TriggerEvent(Strings.Events.PLAYER_KILLED, SceneManager.GetActiveScene().name, AnalyticsManager.Instance.GetCurrentWave(), ModManager.leftArmOnLoad.ToString(), ModManager.rightArmOnLoad.ToString());
-                Revive();
+
+                EventSystem.Instance.TriggerEvent(Strings.Events.PLAYER_DAMAGED);
+                stats.TakeDamage(damageModifier * damager.damage);
+                float healthFraction = stats.GetHealthFraction();
+                EventSystem.Instance.TriggerEvent(Strings.Events.PLAYER_HEALTH_MODIFIED, healthFraction);
+                cameraLock.Shake();
+                float shakeIntensity = 1f - healthFraction;
+                if (shake)
+                {
+                    InputManager.Instance.Vibrate(VibrationTargets.BOTH, shakeIntensity);
+                }
+                SFXManager.Instance.Play(SFXType.PlayerTakeDamage, transform.position);
+
+                faceController.SetTemporaryEmotion(PlayerFaceController.Emotion.Angry, 0.5f);
+
+                if (stats.GetStat(CharacterStatType.Health) <= 0)
+                {
+                    EventSystem.Instance.TriggerEvent(Strings.Events.PLAYER_KILLED, SceneManager.GetActiveScene().name, AnalyticsManager.Instance.GetCurrentWave(), ModManager.leftArmOnLoad.ToString(), ModManager.rightArmOnLoad.ToString());
+                    //Revive(); //removed because of the inclusion of the game over menu
+                    
+                }
             }
+          
         }
     }
 
