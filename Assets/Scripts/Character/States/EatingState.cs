@@ -61,7 +61,7 @@ public class EatingState : IPlayerState
 
     public override void StateFixedUpdate()
     {
-        
+
     }
 
     public override void StateUpdate()
@@ -78,10 +78,10 @@ public class EatingState : IPlayerState
                 ResetState();
             }
         }
-        else if(clawTransform)
+        /*else if(clawTransform)
         {
             grabObject.transform.localPosition = Vector3.zero;
-        }
+        }*/
     }
     
     public override void StateLateUpdate()
@@ -119,16 +119,7 @@ public class EatingState : IPlayerState
             IEatable eatable = stateVariables.eatTargetEnemy.GetComponent<IEatable>();
             if (eatable != null)
             {
-                stateVariables.eatTargetEnemy.transform.position = clawTransform.position;
-                grabObject = eatable.GetGrabObject();
-                if (grabObject)
-                {
-                    grabObject.transform.SetParent(clawTransform);
-                }
-                else
-                {
-                    clawTransform = null;
-                }
+                stateVariables.eatTargetEnemy.transform.position = clawTransform.position;                
                 eatable.DisableCollider();
                 eatable.EnableRagdoll();
             }
