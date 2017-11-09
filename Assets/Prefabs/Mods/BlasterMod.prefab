@@ -88,7 +88,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4110280413669516}
   - component: {fileID: 212145272129255058}
-  - component: {fileID: 114446350623837798}
+  - component: {fileID: 114738283578694258}
   m_Layer: 0
   m_Name: Sprite (1)
   m_TagString: Untagged
@@ -386,28 +386,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b46b2a14cefa1b4498b8ad99597bbe5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage: 5
   pickupCollider: {fileID: 65286971079796370}
   modCanvas: {fileID: 1631652510854260}
   energySettings:
-    weaponAttackSettings:
-      timeToCoolDown: 0.2
-      timeToAttack: 0
-      attack: 1.25
+    timeToCoolDown: 0.4
     isCoolingDown: 0
     isActive: 0
   bulletSpawnPoint: {fileID: 4303765111120432}
-  projectileBullet: 2
---- !u!114 &114446350623837798
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1432514518550928}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29041dc9633bafc43a494096d85f1c5e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  bulletLiveTime: 2
+  bulletSpeed: 30
 --- !u!114 &114446361273923502
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -430,6 +418,17 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1923536718964522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29041dc9633bafc43a494096d85f1c5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114738283578694258
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1432514518550928}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 29041dc9633bafc43a494096d85f1c5e, type: 3}

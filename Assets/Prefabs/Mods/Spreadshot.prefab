@@ -265,13 +265,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 030b9b1e63597f64288d07d6a83978ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage: 5
   pickupCollider: {fileID: 65808996196913348}
   modCanvas: {fileID: 1780465521823646}
   energySettings:
-    weaponAttackSettings:
-      timeToCoolDown: 0.4
-      timeToAttack: 0
-      attack: 0
+    timeToCoolDown: 0.4
     isCoolingDown: 0
     isActive: 0
   gunProperties:
@@ -279,7 +277,6 @@ MonoBehaviour:
     numberOfBulletsInEachShot: 5
     bulletSpeed: 0.2
     bulletMaxDistance: 10
-    bulletDamage: 2
   bulletSpawnTransform: {fileID: 4923580559650126}
 --- !u!114 &114242993152467452
 MonoBehaviour:
