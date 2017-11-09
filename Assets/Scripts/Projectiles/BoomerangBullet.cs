@@ -5,14 +5,15 @@ using MovementEffects;
 
 public class BoomerangBullet : MonoBehaviour {
 
-    private ShooterProperties shooterProperties=new ShooterProperties();
     private Damager damager = new Damager();
     private bool shooter;
     private TrailRenderer trail;
-
-    [SerializeField] private float timeUntilDestroyed;
-    [SerializeField] private float rayDistanceMultiplier;
-    [SerializeField] private LayerMask raycastLayermask;
+    private float speed;
+    private float damage;
+    private float timeUntilDestroyed;
+    private float rayDistanceMultiplier;
+    private LayerMask raycastLayermask;
+    
 
     void OnEnable()
     {        
@@ -30,9 +31,7 @@ public class BoomerangBullet : MonoBehaviour {
     }
 
     void Update () {
-        transform.Translate(Vector3.forward * shooterProperties.speed * Time.deltaTime);
-
-        
+        transform.Translate(Vector3.forward * speed * Time.deltaTime);
 	}
 
     private void LateUpdate()
@@ -40,7 +39,7 @@ public class BoomerangBullet : MonoBehaviour {
         RaycastHit hit;
         Ray ray = new Ray(this.transform.position, transform.forward);
 
-        float rayDistance = shooterProperties.speed * Time.deltaTime * rayDistanceMultiplier;
+        float rayDistance = speed * Time.deltaTime * rayDistanceMultiplier;
 
         Debug.DrawLine(this.transform.position, this.transform.position + (this.transform.forward * rayDistance));
 
@@ -59,17 +58,19 @@ public class BoomerangBullet : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.GetInstanceID()!=shooterProperties.shooterInstanceID){
-            bool isEnemy = other.gameObject.CompareTag(Strings.Tags.ENEMY);
-            if (isEnemy){                
-                Damage(other.gameObject.GetComponent<IDamageable>());
-                
-            }
+        if (other.tag == Strings.Tags.ENEMY)
+        {
+            Damage(other.gameObject.GetComponent<IDamageable>());               
         }
     }
 
-    public void SetShooterProperties(ShooterProperties shooterProperties) {
-        this.shooterProperties = shooterProperties;
+    public void Initialize(float speed, float damage, float timeUntilDestroyed, float rayDistanceMultiplier, LayerMask raycastLayermask)
+    {
+        this.speed = speed;
+        this.damage = damage;
+        this.timeUntilDestroyed = timeUntilDestroyed;
+        this.rayDistanceMultiplier = rayDistanceMultiplier;
+        this.rayDistanceMultiplier = rayDistanceMultiplier;
     }
 
     // 0 = Player, Enemy = 1
@@ -84,35 +85,24 @@ public class BoomerangBullet : MonoBehaviour {
             // Shooter is player
             if (!shooter)
             {
-                AnalyticsManager.Instance.AddModDamage(ModType.Boomerang, shooterProperties.damage);
+                AnalyticsManager.Instance.AddModDamage(ModType.Boomerang, damage);
 
-                if (damageable.GetHealth() - shooterProperties.damage <= 0.01f)
+                if (damageable.GetHealth() - damage <= 0.01f)
                 {
                     AnalyticsManager.Instance.AddModKill(ModType.Boomerang);
                 }
             }
 
-            damager.Set(shooterProperties.damage, DamagerType.Boomerang, transform.forward);
+            damager.Set(damage, DamagerType.Boomerang, transform.forward);
             damageable.TakeDamage(damager);
         }
     }
 
-    private void Push(IMovable movable) {
-        Vector3 forceDirection = transform.forward;        
-        if (movable != null) {
-            movable.AddDecayingForce(forceDirection.normalized * shooterProperties.pushForce);
-        }
-    }
     private void EmitBulletCollision() {
         GameObject effect = ObjectPool.Instance.GetObject(PoolObjectType.VFXBoomerangImpact);
         if (effect) {
             effect.transform.position = transform.position;
         }    
-    }
-
-    public void SetWielderInstanceID(int id)
-    {
-        shooterProperties.shooterInstanceID = id;
     }
 
 }
