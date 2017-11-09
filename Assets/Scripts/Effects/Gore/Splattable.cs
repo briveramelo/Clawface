@@ -18,8 +18,8 @@ public class Splattable : MonoBehaviour {
     #endregion
 
     #region Private fields
-
-    private RenderTexture[] textures;
+    
+    private RenderTexture splatMap;
     private Material renderMaterial;
     private Renderer myRenderer;
     private MaterialPropertyBlock propBlock;
@@ -31,14 +31,15 @@ public class Splattable : MonoBehaviour {
     {
         Assert.IsNotNull(renderSplat);
 
-        textures = new RenderTexture[] {
-                new RenderTexture(renderTextureWidth, renderTextureHeight, 0),
-                new RenderTexture(renderTextureWidth, renderTextureHeight, 0)
-            };
+        splatMap = new RenderTexture(renderTextureWidth, renderTextureHeight, 0);
         renderMaterial = new Material(renderSplat);
-        propBlock = new MaterialPropertyBlock();
 
+        propBlock = new MaterialPropertyBlock();
         myRenderer = GetComponent<Renderer>();
+
+        myRenderer.GetPropertyBlock(propBlock);
+        propBlock.SetTexture("_SplatMap", splatMap);
+        myRenderer.SetPropertyBlock(propBlock);
     }
 
     #endregion
@@ -47,39 +48,22 @@ public class Splattable : MonoBehaviour {
     public void DrawSplat(Texture2D splat, Vector3 worldPos, Vector3 normal, Camera renderCam)
     {
         //set shader variables
-        renderMaterial.SetTexture("_Previous", textures[1]);
+        renderMaterial.SetTexture("_Previous", splatMap);
         renderMaterial.SetVector("_SplatLocation", worldPos);
         renderMaterial.SetVector("_OriginalNormal", normal);
         renderMaterial.SetTexture("_Decal", splat);
 
         //set up command buffer
         CommandBuffer myCommandBuffer = new CommandBuffer();
-        myCommandBuffer.SetRenderTarget(textures[0]);
-        myCommandBuffer.ClearRenderTarget(true, true, new Color(0, 0, 0, 0));
+        myCommandBuffer.GetTemporaryRT(Shader.PropertyToID("_TEMPORARY"), renderTextureWidth, renderTextureHeight);
+        myCommandBuffer.SetRenderTarget(Shader.PropertyToID("_TEMPORARY"));
         myCommandBuffer.DrawRenderer(myRenderer, renderMaterial);
+        myCommandBuffer.Blit(Shader.PropertyToID("_TEMPORARY"), splatMap);
         renderCam.AddCommandBuffer(CameraEvent.AfterEverything, myCommandBuffer);
 
         //render splat
         renderCam.Render();
         renderCam.RemoveAllCommandBuffers();
-        SwapBuffers();
-        myRenderer.GetPropertyBlock(propBlock);
-        if (propBlock != null)
-        {
-            propBlock.SetTexture("_SplatMap", textures[1]);
-            myRenderer.SetPropertyBlock(propBlock);
-        }
-    }
-
-    #endregion
-
-    #region Private Interface
-
-    private void SwapBuffers()
-    {
-        RenderTexture temp = textures[0];
-        textures[0] = textures[1];
-        textures[1] = temp;
     }
 
     #endregion
