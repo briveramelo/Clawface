@@ -17,7 +17,20 @@ public class BlasterBullet : MonoBehaviour {
     void OnEnable()
     {
         killTimer = killAfterSeconds;
-        
+    }
+
+
+    private void AdjustToPlayerHeight()
+    {
+        float threshold = 1.7f;
+
+        //The shooter is the enemy
+        if (shooter == true)
+        {
+            if(transform.position.y >= threshold)
+            transform.position = new Vector3(transform.position.x, transform.position.y - 0.025f, transform.position.z);
+        }
+
     }
 
     private IEnumerator<float> DestroyAfter() {
@@ -29,6 +42,10 @@ public class BlasterBullet : MonoBehaviour {
     }
 
     void Update () {
+
+        AdjustToPlayerHeight();
+
+
         killTimer -= Time.deltaTime;
 
         if (killTimer <= 0f)
