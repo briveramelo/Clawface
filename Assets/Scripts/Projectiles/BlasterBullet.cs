@@ -5,29 +5,15 @@ using MovementEffects;
 
 public class BlasterBullet : MonoBehaviour {
 
-    private ShooterProperties shooterProperties=new ShooterProperties();
+    #region private fields
     private Damager damager = new Damager();
     private bool shooter;
-
-    [SerializeField]
-    private float killAfterSeconds;
-
     private float killTimer;
+    private float speed;
+    private float damage;
+    #endregion    
 
-    void OnEnable()
-    {
-        killTimer = killAfterSeconds;
-        
-    }
-
-    private IEnumerator<float> DestroyAfter() {
-        yield return Timing.WaitForSeconds(3f);
-        if (gameObject.activeSelf){
-            EmitBulletCollision();
-            gameObject.SetActive(false);
-        }
-    }
-
+    #region unity lifecycle
     void Update () {
         killTimer -= Time.deltaTime;
 
@@ -40,42 +26,52 @@ public class BlasterBullet : MonoBehaviour {
             }
         }
 
-        transform.Translate(Vector3.forward * shooterProperties.speed * Time.deltaTime);
+        transform.Translate(Vector3.forward * speed * Time.deltaTime);
 	}
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.GetInstanceID()!=shooterProperties.shooterInstanceID){
-            bool isEnemy = other.gameObject.CompareTag(Strings.Tags.ENEMY);
-            bool isPlayer = other.gameObject.CompareTag(Strings.Tags.PLAYER);
+        bool isEnemy = other.gameObject.CompareTag(Strings.Tags.ENEMY);
+        bool isPlayer = other.gameObject.CompareTag(Strings.Tags.PLAYER);
 
-            if ((shooter && isPlayer) || (!shooter && isEnemy) || other.gameObject.layer == (int) Layers.Ground) {                
-                Damage(other.gameObject.GetComponent<IDamageable>());
-                Push(other.gameObject.GetComponent<IMovable>());
-                SFXManager.Instance.Play(SFXType.BlasterProjectileImpact, transform.position);
-                EmitBulletCollision();
-                gameObject.SetActive(false);
-            }
-
-            
-        }
+        if ((shooter && isPlayer) || (!shooter && isEnemy) || other.gameObject.layer == (int) Layers.Ground) {                
+            Damage(other.gameObject.GetComponent<IDamageable>());                
+            SFXManager.Instance.Play(SFXType.BlasterProjectileImpact, transform.position);
+            EmitBulletCollision();
+            gameObject.SetActive(false);
+        }            
 
         if (other.transform.CompareTag(Strings.Tags.WALL))
         {
-            // SFXManager.Instance.Play(SFXType.BlasterProjectileImpact, transform.position);
             EmitBulletCollision();
             gameObject.SetActive(false);
         }
     }
+    #endregion
 
-    public void SetShooterProperties(ShooterProperties shooterProperties) {
-        this.shooterProperties = shooterProperties;
+    #region public functions
+    public void Initialize(float liveTime, float speed, float damage)
+    {
+        killTimer = liveTime;
+        this.speed = speed;
+        this.damage = damage;
     }
 
-    // 0 = Player, Enemy = 1
     public void SetShooterType(bool playerOrEnemy)
     {
         shooter = playerOrEnemy;
+    }
+    #endregion
+
+    #region private function
+    private IEnumerator<float> DestroyAfter()
+    {
+        yield return Timing.WaitForSeconds(3f);
+        if (gameObject.activeSelf)
+        {
+            EmitBulletCollision();
+            gameObject.SetActive(false);
+        }
     }
 
     private void Damage(IDamageable damageable) {        
@@ -84,35 +80,25 @@ public class BlasterBullet : MonoBehaviour {
             // Shooter is player
             if (!shooter)
             {
-                AnalyticsManager.Instance.AddModDamage(ModType.Blaster, shooterProperties.damage);
+                AnalyticsManager.Instance.AddModDamage(ModType.Blaster, damage);
 
-                if (damageable.GetHealth() - shooterProperties.damage <= 0.01f)
+                if (damageable.GetHealth() - damage <= 0.01f)
                 {
                     AnalyticsManager.Instance.AddModKill(ModType.Blaster);
                 }
             }
 
-            damager.Set(shooterProperties.damage, DamagerType.BlasterBullet, transform.forward);
+            damager.Set(damage, DamagerType.BlasterBullet, transform.forward);
             damageable.TakeDamage(damager);
         }
     }
 
-    private void Push(IMovable movable) {
-        Vector3 forceDirection = transform.forward;        
-        if (movable != null) {
-            movable.AddDecayingForce(forceDirection.normalized * shooterProperties.pushForce);
-        }
-    }
     private void EmitBulletCollision() {
         GameObject effect = ObjectPool.Instance.GetObject(PoolObjectType.VFXBlasterImpactEffect);
         if (effect) {
             effect.transform.position = transform.position;
         }    
     }
-
-    public void SetWielderInstanceID(int id)
-    {
-        shooterProperties.shooterInstanceID = id;
-    }
+    #endregion
 
 }
