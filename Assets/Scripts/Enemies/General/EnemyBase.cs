@@ -61,11 +61,6 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         ResetForRebirth();
     }
 
-    private void Update()
-    {
-        controller.Update();
-    }
-
     #endregion
 
     #region 5. Public Methods   
