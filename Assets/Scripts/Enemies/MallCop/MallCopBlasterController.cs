@@ -7,4 +7,7 @@ using System;
 using ModMan;
 
 public class MallCopBlasterController : AIController {
+    //public DiffAnim feetLayerAnimator;
+    //public DiffAnim feetLayerAnimatorReverse;
+
 }

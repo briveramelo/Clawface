@@ -105,7 +105,10 @@ public class ClawArmController : MonoBehaviour {
         arm.transform.position = (start.position + end.position) / 2f;
         float zScale = Vector3.Distance(start.position, end.position) / meshSizeZ;
         arm.transform.localScale = new Vector3(1.0f, 1.0f, zScale);
-        arm.transform.forward = (end.position - start.position).normalized;
+        if (end.position != start.position)
+        {
+            arm.transform.forward = (end.position - start.position).normalized;
+        }
     }
 
     private void ExtendArm()
