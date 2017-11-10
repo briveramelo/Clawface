@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
+using UnityEngine.AI;
 using UnityEngine;
 using OET_grid;
 using Turing.LevelEditor;
@@ -12,6 +13,7 @@ namespace OET_init
         public static bool initialized = false;
         public static int Num_x = 0;
         public static int Num_z = 0;
+
         public static LevelEditorObject tileObject = Resources.Load<LevelEditorObject>("LevelEditorObjects/CommonArea/Floor_Hallway");
 
         public static void renderGUI(int vpos)
@@ -51,18 +53,23 @@ namespace OET_init
                         GameObject _instance = Instantiate(tileObject.Prefab, new Vector3(i * OET_grid.lib.size_x, 0, j * OET_grid.lib.size_z), Quaternion.identity);
                         _instance.name = tileObject.Path;
 
-
+                        //Edge + Wall
                         if(i == -Num_x || i == Num_x || j == -Num_z || j == Num_z)
                         {
+                            _AddNavMeshModifier(_instance, OET_lib.NavMeshAreas.NotWalkable);
+
                             GameObject _wall = Instantiate(tileObject.Prefab, new Vector3(i * OET_grid.lib.size_x, OET_grid.lib.size_y, j * OET_grid.lib.size_z), Quaternion.identity);
                             _wall.transform.SetParent(_platform.transform);
                             Undo.RegisterCreatedObjectUndo(_wall, "Init the level");
                             OET_io.lib.ActiveGameObjects.Add(_wall);
+                            _AddNavMeshModifier(_wall, OET_lib.NavMeshAreas.NotWalkable);
+
                         }
                         else if (_instance.GetComponent<LevelUnit>() == null)
                         {
                             LevelUnit LU = _instance.AddComponent<LevelUnit>() as LevelUnit;
                             LU.defaultState = LevelUnitStates.floor;
+                            _AddNavMeshModifier(_instance, OET_lib.NavMeshAreas.Walkable);
                         }
  
                         _instance.transform.SetParent(_platform.transform);
@@ -70,7 +77,14 @@ namespace OET_init
                         OET_io.lib.ActiveGameObjects.Add (_instance);
                     }
                 }
-               
+
+
+                GameObject NavSurface = GameObject.Find("NavMeshSurface");
+
+                if(NavSurface)
+                    NavSurface.GetComponent<NavMeshSurface>().BuildNavMesh();
+
+
                 OET_io.lib.SetDirty (true);
             }
 
@@ -156,8 +170,6 @@ namespace OET_init
             }
         }
 
-
-
         static void _CreateSingleton()
         {
             GameObject _prefab;
@@ -215,6 +227,33 @@ namespace OET_init
                 }
             }
 
+
+            if (GameObject.Find("NavMeshSurface") == null)
+            {
+                _prefab = AssetDatabase.LoadAssetAtPath("Assets/Prefabs/LevelEditor/Floor Tiles/NavMeshSurface.prefab", typeof(GameObject)) as GameObject;
+
+                if (_prefab == null)
+                {
+                    Debug.Log("NavMeshSurface PATH error!!!");
+                }
+                else
+                {
+                    _instance = Instantiate(_prefab, new Vector3(0, 0, 0), Quaternion.identity);
+                    _instance.name = "NavMeshSurface";
+                    _instance.transform.SetParent(parent.transform);
+
+                    Undo.RegisterCreatedObjectUndo(_instance, "Init the level");
+                }
+            }
+        }
+
+
+
+        static void _AddNavMeshModifier(GameObject _object, int _state)
+        {
+            NavMeshModifier _mod = _object.AddComponent<NavMeshModifier>() as NavMeshModifier;
+            _mod.overrideArea = true;
+            _mod.area = _state;
         }
 
     }
