@@ -30,7 +30,7 @@ public class MallCopFireState : AIState {
         currentAngleToTarget = CheckAngle();
         controller.transform.LookAt(controller.AttackTarget);
         //Adjust the gun nozzle to the player
-        controller.transform.RotateAround(controller.transform.position, controller.transform.up, -3.0f);
+        //controller.transform.RotateAround(controller.transform.position, controller.transform.up, -3.0f);
 
         CheckRotationDifference();
         navAgent.velocity = Vector3.zero;
