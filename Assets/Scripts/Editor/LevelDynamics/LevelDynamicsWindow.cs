@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEditor;
 using System;
 using UnityEditor.SceneManagement;
+using UnityEngine.Assertions;
 
 public class LevelDynamicsWindow : EditorWindow {
 
@@ -19,6 +20,7 @@ public class LevelDynamicsWindow : EditorWindow {
     private List<string> spawnerButtonNames;
     private List<GameObject> levelObjects = null;
     private SpawnManager spawnManager;
+    private MusicIntensityManager musicIntensityManager;
     private static string spawnerNumberString = "#spawnerNumber";
     private static string waveNumberString = "#waveNumber";
     private static string eventName = "Spawner "+ spawnerNumberString + " Wave " + waveNumberString;
@@ -36,11 +38,6 @@ public class LevelDynamicsWindow : EditorWindow {
         titleContent = new GUIContent("Level Dynamics");
         selectedSpawner = 0;
         selectedWave = 0;
-        Init();
-    }
-
-    private void OnFocus()
-    {
         Init();
     }
 
@@ -109,7 +106,7 @@ public class LevelDynamicsWindow : EditorWindow {
                 levelObjectData.state = previousWaveObject.levelUnitsList[i].state;
                 selectedWaveObject.levelUnitsList[i] = levelObjectData;
             }
-            selectedWaveObject.audioClip = previousWaveObject.audioClip;
+            //selectedWaveObject.audioClip = previousWaveObject.audioClip;
         }
         else if(selectedSpawner > 0)
         {
@@ -140,6 +137,7 @@ public class LevelDynamicsWindow : EditorWindow {
                         Spawner spawner = spawnManager.spawners[i].Prefab.GetComponent<Spawner>();
                         for (int j=0;j< spawnerObjects[i].waveObjects.Count; j++)
                         {
+                            // Set level unit triggers
                             WaveObject waveObject = spawnerObjects[i].waveObjects[j];                            
                             string localEventName = eventName.Replace(spawnerNumberString, (i + 1).ToString()).Replace(waveNumberString, (j + 1).ToString());
                             if (waveObject.triggerStart)
@@ -169,6 +167,20 @@ public class LevelDynamicsWindow : EditorWindow {
                                             break;
                                     }                                    
                                 }
+                            }
+
+                            // Set music triggers
+                            if (waveObject.audioClip != null) {                                
+                                string musicEventName = "Music_" + localEventName;
+                                if (waveObject.triggerStart)
+                                {
+                                    spawner.waves[j].AddPreEvent(musicEventName);
+                                }
+                                else
+                                {
+                                    spawner.waves[j].AddPostEvent(musicEventName);
+                                }                                
+                                musicIntensityManager.AddMusicTransitionEvent(musicEventName, waveObject.audioClip);
                             }
                         }
                     }                    
@@ -207,6 +219,7 @@ public class LevelDynamicsWindow : EditorWindow {
                 }
             }
         }
+        musicIntensityManager.ClearAll();
     }
 
     private void ShowWaveButtons()
@@ -223,6 +236,9 @@ public class LevelDynamicsWindow : EditorWindow {
     private void ReadWaveData()
     {
         spawnManager = FindObjectOfType<SpawnManager>();
+        Assert.IsNotNull(spawnManager);
+        musicIntensityManager = FindObjectOfType<MusicIntensityManager>();
+        Assert.IsNotNull(musicIntensityManager);
         spawnerButtonNames = new List<string>(spawnManager.spawners.Count);
         spawnerObjects = new List<SpawnerObject>(spawnManager.spawners.Count);
         for(int i = 0; i < spawnManager.spawners.Count; i++)
@@ -237,8 +253,10 @@ public class LevelDynamicsWindow : EditorWindow {
                 {
                     Wave wave = spawner.waves[j];
                     spawnerObject.waveButtonNames.Add("Wave " + (j + 1));
-                    spawnerObject.waveObjects.Add(new WaveObject());
-                    
+                    WaveObject waveObject = new WaveObject();                    
+                    string musicEventName = "Music_" + eventName.Replace(spawnerNumberString, (i + 1).ToString()).Replace(waveNumberString, (j + 1).ToString());
+                    waveObject.audioClip = musicIntensityManager.GetAudioClipByEventName(musicEventName);
+                    spawnerObject.waveObjects.Add(waveObject);
                 }
                 spawnerObjects.Add(spawnerObject);
             }
