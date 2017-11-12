@@ -903,7 +903,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4689046971265718}
-  - component: {fileID: 114156367050319540}
   - component: {fileID: 114353940128880884}
   m_Layer: 0
   m_Name: Keira_GroupV1.3
@@ -2258,7 +2257,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageModifier: 1
-  playerUI: {fileID: 114864544700411058}
   cameraLock: {fileID: 114336235781998026}
   faceController: {fileID: 114429413940206736}
   shake: 0
@@ -2301,17 +2299,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a8d6d491c430e2d4ea283009ec2f2794, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114156367050319540
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1854597380818638}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0d925bda82cf414caf991e7a79ce4a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &114209364485474966
@@ -2472,6 +2459,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isBlockingState: 0
+  clawArmController: {fileID: 0}
 --- !u!114 &114429413940206736
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2560,7 +2548,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bda4e47401e9d94d900e06718fe2c1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clawPalm: {fileID: 0}
 --- !u!114 &114582785068406930
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2614,11 +2601,12 @@ MonoBehaviour:
     velBody: {fileID: 114147946369772072}
     statsManager: {fileID: 114110235030302184}
     animator: {fileID: 95679477689036818}
-    clawAnimator: {fileID: 95653146999260504}
     playerTransform: {fileID: 0}
     defaultState: {fileID: 0}
-    skinTargetEnemy: {fileID: 0}
+    eatTargetEnemy: {fileID: 0}
     modelHead: {fileID: 0}
+    clawExtensionTime: 0
+    clawRetractionTime: 0
   defaultState: {fileID: 114688343700543768}
   playerStatsManager: {fileID: 114110235030302184}
   holdAttackSlowDown: 3
@@ -2626,6 +2614,7 @@ MonoBehaviour:
   dashCoolDown: 0.1
   eatingState: {fileID: 0}
   eatRadius: 0
+  playerStates: []
 --- !u!114 &114688343700543768
 MonoBehaviour:
   m_ObjectHideFlags: 1

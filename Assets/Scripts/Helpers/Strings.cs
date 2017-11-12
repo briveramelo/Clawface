@@ -1,6 +1,7 @@
 ﻿public class Strings  {
 
     public static string ANIMATIONSTATE = "AnimationState";
+    public static string FEETSTATE = "FeetState";
 
     public static class Tags {
         public static string MOD = "Mod";

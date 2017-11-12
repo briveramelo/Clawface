@@ -93,7 +93,7 @@ public abstract class AIController : MonoBehaviour {
     }
 
 
-    public void Update() {
+    protected void Update() {
 
         if (!deActivateAI)
         {
@@ -110,6 +110,7 @@ public abstract class AIController : MonoBehaviour {
             }
         }
     }
+
 
     public virtual void ResetForRebirth() {
         stateTimerIsRunning = false;
