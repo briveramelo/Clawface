@@ -21,23 +21,17 @@ public class GeyserFissure : MonoBehaviour {
         hitEnemies = new List<Transform>();
     }
 
-    void OnEnable()
-    {
-        killTimer = killAfterSeconds;
-        hitEnemies.Clear();
-    }
-
     void Update()
     {
-        killTimer -= Time.deltaTime;
+        killTimer += Time.deltaTime;
 
-        if (killTimer <= 0f)
+        if (killTimer >= killAfterSeconds)
         {
-            if (gameObject.activeSelf)
-            {
-                SpawnPoolObjectAtCurrentPosition(wallImpactEffect);
-                gameObject.SetActive(false);
-            }
+
+            SpawnPoolObjectAtCurrentPosition(wallImpactEffect);
+            gameObject.SetActive(false);
+            return;
+
         }
 
         transform.Translate(Vector3.forward * speed * Time.deltaTime);
@@ -67,14 +61,6 @@ public class GeyserFissure : MonoBehaviour {
 
     private void Damage(IDamageable damageable)
     {
-
-        AnalyticsManager.Instance.AddModDamage(ModType.Geyser, damage);
-
-        if (damageable.GetHealth() - damage <= 0.01f)
-        {
-            AnalyticsManager.Instance.AddModKill(ModType.Geyser);
-        }
-
         damager.Set(damage, DamagerType.Geyser, transform.forward);
         damageable.TakeDamage(damager);
     }
@@ -94,6 +80,8 @@ public class GeyserFissure : MonoBehaviour {
         this.speed = speed;
         this.damage = damage;
         this.killAfterSeconds = killAfterSeconds;
+        this.killTimer = 0f;
+        hitEnemies.Clear();
     }
     
 }
