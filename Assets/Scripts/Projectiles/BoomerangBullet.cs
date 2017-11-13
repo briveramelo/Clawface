@@ -93,17 +93,6 @@ public class BoomerangBullet : MonoBehaviour {
     private void Damage(IDamageable damageable) {        
         if (damageable != null) {
 
-            // Shooter is player
-            if (!shooter)
-            {
-                AnalyticsManager.Instance.AddModDamage(ModType.Boomerang, damage);
-
-                if (damageable.GetHealth() - damage <= 0.01f)
-                {
-                    AnalyticsManager.Instance.AddModKill(ModType.Boomerang);
-                }
-            }
-
             damager.Set(damage, DamagerType.Boomerang, transform.forward);
             damageable.TakeDamage(damager);
         }
