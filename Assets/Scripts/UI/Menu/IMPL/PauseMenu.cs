@@ -89,6 +89,11 @@ public class PauseMenu : Menu
 		MenuManager.Instance.DoTransition (loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
 	}
 
+    public void ResumeAction()
+    {
+        MenuManager.Instance.ClearMenus();
+    }
+
 	#endregion
 
 	#region Protected Interface
