@@ -15,6 +15,9 @@ public class BlasterBullet : MonoBehaviour {
 
     #region unity lifecycle
     void Update () {
+
+        AdjustToPlayerHeight();
+
         killTimer -= Time.deltaTime;
 
         if (killTimer <= 0f)
@@ -61,7 +64,11 @@ public class BlasterBullet : MonoBehaviour {
     {
         shooter = playerOrEnemy;
     }
+
+
     #endregion
+
+
 
     #region private function
     private IEnumerator<float> DestroyAfter()
@@ -98,6 +105,19 @@ public class BlasterBullet : MonoBehaviour {
         if (effect) {
             effect.transform.position = transform.position;
         }    
+    }
+
+    private void AdjustToPlayerHeight()
+    {
+        float threshold = 1.7f;
+
+        //The shooter is the enemy
+        if (shooter == true)
+        {
+            if (transform.position.y >= threshold)
+                transform.position = new Vector3(transform.position.x, transform.position.y - 0.025f, transform.position.z);
+        }
+
     }
     #endregion
 

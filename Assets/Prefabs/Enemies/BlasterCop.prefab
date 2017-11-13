@@ -1786,15 +1786,15 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1196166492728184}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: -0, z: 0}
+  m_LocalRotation: {x: 0.10933577, y: 0.9478653, z: -0.11662876, w: 0.27567178}
+  m_LocalPosition: {x: 0.142, y: -0.02, z: -0.026}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4414846584117420}
   - {fileID: 4270409775528600}
   m_Father: {fileID: 4731568678452990}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 16.342001, y: 148.8, z: 8.568001}
 --- !u!4 &4362586786533530
 Transform:
   m_ObjectHideFlags: 1
@@ -1861,7 +1861,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1878008645403074}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.378}
+  m_LocalPosition: {x: -0.008, y: 0.119, z: 1.431}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4348981203548906}
@@ -2924,17 +2924,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b46b2a14cefa1b4498b8ad99597bbe5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage: 1
   pickupCollider: {fileID: 65764154792012712}
   modCanvas: {fileID: 0}
   energySettings:
-    weaponAttackSettings:
-      timeToCoolDown: 0
-      timeToAttack: 0
-      attack: 0
+    timeToCoolDown: 0
     isCoolingDown: 0
     isActive: 0
   bulletSpawnPoint: {fileID: 4414846584117420}
-  projectileBullet: 35
+  bulletLiveTime: 5
+  bulletSpeed: 30
+  bulletType: 35
 --- !u!114 &114562163281978664
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3832,7 +3832,7 @@ ConfigurableJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0, y: 0, z: 0}
+  m_ConnectedAnchor: {x: -0.08590945, y: 0.11915633, z: 0.42889422}
   serializedVersion: 2
   m_SecondaryAxis: {x: 0, y: 1, z: 0}
   m_XMotion: 0
@@ -3936,7 +3936,7 @@ NavMeshAgent:
   m_Height: 0.81
   m_BaseOffset: -0
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 1
+  m_ObstacleAvoidanceType: 3
 --- !u!208 &208751853675774266
 NavMeshObstacle:
   m_ObjectHideFlags: 1
@@ -3949,7 +3949,7 @@ NavMeshObstacle:
   m_Extents: {x: 0.5, y: 1, z: 0.5}
   m_MoveThreshold: 0.1
   m_Carve: 1
-  m_CarveOnlyStationary: 0
+  m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
 --- !u!222 &222802545492161964
