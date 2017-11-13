@@ -40,7 +40,7 @@ public class BoomerangMod : Mod {
     #region Inherited
     public override void Activate(Action onCompleteCoolDown = null, Action onActivate = null)
     {
-        onActivate = () => { SFXManager.Instance.Play(SFXType.GrapplingGun_Shoot, transform.position); };
+        onActivate = () => { SFXManager.Instance.Play(SFXType.Boomerang_Throw, transform.position); };
         base.Activate(onCompleteCoolDown, onActivate);
         //SFXManager.Instance.Stop(SFXType.BlasterCharge);
     }
