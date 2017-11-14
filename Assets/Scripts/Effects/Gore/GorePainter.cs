@@ -40,8 +40,9 @@ public class GorePainter : MonoBehaviour {
         
         if(Physics.Raycast(i_location , dir, out hit, splashRange, ground) && 
             Physics.OverlapSphereNonAlloc(hit.point, .1f, dummyColliders, blood)<maxOverlappingDecals){
-                        
-            PlaceDecal(hit);
+
+            //PlaceDecal(hit);
+            GoreManager.Instance.SpawnSplat(hit.point);
         }
     }
 

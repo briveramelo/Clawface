@@ -13,6 +13,18 @@ public class PLE_Camera : MonoBehaviour
 
     private List<Vector3> vertices = new List<Vector3>();
 
+
+    public int cameraCurrentZoom = 8;
+    public int cameraZoomMax = 20;
+    public int cameraZoomMin = 5;
+
+    public float speedH = 0.002f;
+    public float speedV = 0.002f;
+
+    private float yaw = 0.0f;
+    private float pitch = 0.0f;
+
+
     void Awake()
     {
         Shader shader = Shader.Find("Hidden/Internal-Colored");
@@ -56,7 +68,52 @@ public class PLE_Camera : MonoBehaviour
         {
             gameObject.transform.position -= new Vector3(v, 0, 0);
         }
-        
+
+        if (Input.GetKey(KeyCode.UpArrow))
+        {
+            gameObject.transform.position += new Vector3(0, v, 0);
+        }
+
+        if (Input.GetKey(KeyCode.DownArrow))
+        {
+            gameObject.transform.position -= new Vector3(0, v, 0);
+        }
+
+
+
+        if (Input.GetAxis("Mouse ScrollWheel") < 0) // back
+        {
+            if (cameraCurrentZoom < cameraZoomMax)
+            {
+                cameraCurrentZoom += 1;
+
+                Camera.main.transform.Translate(Vector3.forward * 5);
+            }
+        }
+
+        if (Input.GetAxis("Mouse ScrollWheel") > 0) // forward
+        {
+            if (cameraCurrentZoom > cameraZoomMin)
+            {
+                cameraCurrentZoom -= 1;
+                Camera.main.transform.Translate(Vector3.back * 5);
+            }
+        }
+
+
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            pitch = transform.eulerAngles.x;
+            yaw   = transform.eulerAngles.y;
+        }
+        if (Input.GetMouseButton(1))
+        {
+            yaw += speedH * Input.GetAxis("Mouse X");
+            pitch -= speedV * Input.GetAxis("Mouse Y");
+            transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
+        }
+
     }
 
     void OnPostRender()

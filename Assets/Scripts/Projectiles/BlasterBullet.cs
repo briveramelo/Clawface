@@ -11,7 +11,15 @@ public class BlasterBullet : MonoBehaviour {
     private float killTimer;
     private float speed;
     private float damage;
+
+
+    private TrailRenderer trail;
     #endregion    
+
+    private void Awake()
+    {
+        trail = GetComponent<TrailRenderer>();
+    }
 
     #region unity lifecycle
     void Update () {
@@ -58,6 +66,8 @@ public class BlasterBullet : MonoBehaviour {
         killTimer = liveTime;
         this.speed = speed;
         this.damage = damage;
+
+        if (trail) trail.Clear();
     }
 
     public void SetShooterType(bool playerOrEnemy)
@@ -83,17 +93,6 @@ public class BlasterBullet : MonoBehaviour {
 
     private void Damage(IDamageable damageable) {        
         if (damageable != null) {
-
-            // Shooter is player
-            if (!shooter)
-            {
-                AnalyticsManager.Instance.AddModDamage(ModType.Blaster, damage);
-
-                if (damageable.GetHealth() - damage <= 0.01f)
-                {
-                    AnalyticsManager.Instance.AddModKill(ModType.Blaster);
-                }
-            }
 
             damager.Set(damage, DamagerType.BlasterBullet, transform.forward);
             damageable.TakeDamage(damager);

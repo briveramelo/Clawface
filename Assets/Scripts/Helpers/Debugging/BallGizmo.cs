@@ -11,5 +11,6 @@ public class BallGizmo : MonoBehaviour {
     {
         Gizmos.color = color;
         Gizmos.DrawSphere(transform.position, radius);
+        //its lit fam
     }
 }

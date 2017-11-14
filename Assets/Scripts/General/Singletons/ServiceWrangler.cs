@@ -10,7 +10,7 @@ public class ServiceWrangler : Singleton<ServiceWrangler> {
     [SerializeField]
     private GameObject sfxManager, objectPool, inputManager, hitstopManager, playerTeleporter,
          analyticsManager, damageFXManager, upgradeManager, menuManager, musicManager, scoreManager, 
-        respawnPoint, eventSystem, achievementManager, platformManager, saveState;
+        respawnPoint, eventSystem, achievementManager, platformManager, goreManager, saveState;
 
     private Dictionary<string, PrefabBool> singletonPrefabRegistry;
     private Dictionary<string, PrefabBool> SingletonPrefabRegistry {
@@ -32,6 +32,7 @@ public class ServiceWrangler : Singleton<ServiceWrangler> {
                     { typeof(EventSystem).ToString(),       new PrefabBool(ref eventSystem) },
                     { typeof(AchievementManager).ToString(),       new PrefabBool(ref achievementManager) },
                     { typeof(PlatformManager).ToString(),       new PrefabBool(ref platformManager) },
+                    { typeof(GoreManager).ToString(),       new PrefabBool(ref goreManager)},
                     { typeof(SaveState).ToString(),       new PrefabBool(ref saveState) },
                 };
             }
@@ -47,7 +48,7 @@ public class ServiceWrangler : Singleton<ServiceWrangler> {
                 singletonGameObject.transform.rotation = Quaternion.identity;
 
                 string debugMessage = singletonRegistered.Key + " required Loading. Place this prefab in your scene";
-                Debug.LogFormat("<color=#ffff00>" + debugMessage + "</color>");
+                //Debug.LogFormat("<color=#ffff00>" + debugMessage + "</color>");
             }
         }
     }

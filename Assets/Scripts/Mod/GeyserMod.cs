@@ -9,12 +9,12 @@ public class GeyserMod : Mod {
 
     #region Serialized Unity Inspector fields
     [SerializeField] private float geyserStartDistanceOffset;
-    [SerializeField] private float fissureSpeed;
-    [SerializeField] private SFXType shootSFX;
+    [SerializeField] private float fissureSpeed;    
     [SerializeField] private float fissureLiveTime;
     #endregion
 
     #region Private Fields
+    const float SHOOT_OFFSET = 0.0f;
     private Animator animator;
     #endregion
 
@@ -68,7 +68,6 @@ public class GeyserMod : Mod {
         if (GetGeyser())
         {
             SFXManager.Instance.Play(shootSFX, transform.position);
-            // FinishFiring();
         }
     }
 
@@ -77,7 +76,7 @@ public class GeyserMod : Mod {
         GameObject projectile = ObjectPool.Instance.GetObject(PoolObjectType.GeyserFissure);
         if (projectile)
         {
-            projectile.transform.position = transform.position;
+            projectile.transform.position = transform.position + transform.forward * SHOOT_OFFSET;
             projectile.transform.forward = transform.forward;
             projectile.transform.rotation = Quaternion.Euler(0f, projectile.transform.rotation.eulerAngles.y, 0f);
             projectile.GetComponent<GeyserFissure>().Initialize(fissureSpeed, damage, fissureLiveTime);
