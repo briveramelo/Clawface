@@ -221,6 +221,10 @@ public class PlayerStateManager : MonoBehaviour {
         public GameObject modelHead;
         public float clawExtensionTime;
         public float clawRetractionTime;
+
+        public SFXType ArmExtensionSFX;
+        public SFXType ArmEnemyCaptureSFX;
+        public SFXType EatSFX;
     }
     #endregion
 

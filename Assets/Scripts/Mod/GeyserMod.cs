@@ -9,8 +9,7 @@ public class GeyserMod : Mod {
 
     #region Serialized Unity Inspector fields
     [SerializeField] private float geyserStartDistanceOffset;
-    [SerializeField] private float fissureSpeed;
-    [SerializeField] private SFXType shootSFX;
+    [SerializeField] private float fissureSpeed;    
     [SerializeField] private float fissureLiveTime;
     #endregion
 
@@ -69,7 +68,6 @@ public class GeyserMod : Mod {
         if (GetGeyser())
         {
             SFXManager.Instance.Play(shootSFX, transform.position);
-            // FinishFiring();
         }
     }
 

@@ -36,6 +36,7 @@ public abstract class Mod : MonoBehaviour {
     [SerializeField] protected Collider pickupCollider;
     [SerializeField] protected GameObject modCanvas;
     [SerializeField] protected EnergySettings energySettings;
+    [SerializeField] protected SFXType shootSFX;
     #endregion
 
     #region Private Fields
