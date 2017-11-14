@@ -13,12 +13,17 @@ public class GeyserFissure : MonoBehaviour {
     [SerializeField] private PoolObjectType wallImpactEffect;
 
     private List<Transform> hitEnemies;
+    TrailRenderer[] trails;
+
+    Transform effect;
 
     private float killTimer;
 
     private void Awake()
     {
         hitEnemies = new List<Transform>();
+        trails = GetComponentsInChildren<TrailRenderer>();
+        effect = transform.GetChild(0);
     }
 
     void Update()
@@ -29,6 +34,9 @@ public class GeyserFissure : MonoBehaviour {
         {
 
             SpawnPoolObjectAtCurrentPosition(wallImpactEffect);
+            foreach (TrailRenderer trail in trails)
+                trail.Clear();
+            StopAllCoroutines();
             gameObject.SetActive(false);
             return;
 
@@ -54,7 +62,27 @@ public class GeyserFissure : MonoBehaviour {
         else if (other.CompareTag(Strings.Tags.WALL))
         {
             SpawnPoolObjectAtCurrentPosition(wallImpactEffect);
+            StopAllCoroutines();
+            foreach (TrailRenderer trail in trails)
+                trail.Clear();
             gameObject.SetActive(false);
+        }
+    }
+
+    IEnumerator ScaleUp ()
+    {
+        Vector3 originalScale = Vector3.one;
+        Vector3 scale = Vector3.zero;
+        effect.localScale = scale;
+
+        Vector3 dScale = originalScale / 30.0f;
+        for (int i = 0; i < 30; i++)
+        {
+            scale += dScale;
+            effect.localScale = scale;
+            Debug.Log (scale);
+
+            yield return null;
         }
     }
 
@@ -82,6 +110,7 @@ public class GeyserFissure : MonoBehaviour {
         this.killAfterSeconds = killAfterSeconds;
         this.killTimer = 0f;
         hitEnemies.Clear();
+        StartCoroutine (ScaleUp());
     }
     
 }
