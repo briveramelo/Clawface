@@ -86,14 +86,12 @@
         public const string PROGRESS_ACHIEVEMENT = "ProgressAchievement";
         public const string UPDATE_ACHIEVEMENTS = "UpdateAchievements";
         
+        public const string LOCK_SPAWNERS = "LockSpawners";
         public const string CALL_NEXTWAVEENEMIES = "CallNextWaveEnemies";
 		
         public const string UNLOCK_WEAPON = "UnlockWeapon";
         public const string UNLOCK_NEXT_LEVEL = "UnlockNextLevel";
         public const string SET_LEVEL_SCORE = "SetLevelScore";
-
-        // NOTE: this event passes a string that's the displayed level's name
-        public const string LEVEL_DISPLAYED = "LevelDisplayed";
 
         public const string SCORE_UPDATED = "ScoreUpdated";
         public const string COMBO_UPDATED = "ComboUpdated";
