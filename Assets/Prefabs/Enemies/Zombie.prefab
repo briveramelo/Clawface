@@ -905,6 +905,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4944336291598404}
   - component: {fileID: 137787144625814954}
+  - component: {fileID: 114613179833723446}
   m_Layer: 0
   m_Name: Enemy_2_mesh
   m_TagString: Untagged
@@ -2134,6 +2135,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 348b0120920885b4195bf71cb50e01dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114613179833723446
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1941366561553430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0123960e979242643bb00da688f4b22c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114641020106880882
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2970,7 +2982,7 @@ ConfigurableJoint:
   m_Anchor: {x: 0, y: 0.5, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0, y: 0, z: 0}
+  m_ConnectedAnchor: {x: 0.8059997, y: -0.11616735, z: 0.33894163}
   serializedVersion: 2
   m_SecondaryAxis: {x: 0, y: 1, z: 0}
   m_XMotion: 0
