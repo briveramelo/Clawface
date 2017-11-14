@@ -23,19 +23,16 @@ namespace Turing.Audio
         AudioGroup AGTarget;
 
         SerializedObject serializedTarget;
-        SerializedProperty groupTypeProp;
+        SerializedProperty channelsProp;
         SerializedProperty loopProp;
-        SerializedProperty playOnAwakeProp;
+        SerializedProperty playOnStartProp;
         SerializedProperty spatialBlendProp;
         SerializedProperty maxDistanceProp;
+        SerializedProperty changeVolumeEachLoopProp;
+        SerializedProperty uniformVolumeProp;
+        SerializedProperty useRandomVolumeProp;
+        SerializedProperty randomVolumeRangeProp;
         SerializedProperty changePitchEachLoopProp;
-        SerializedProperty bassChannelProp;
-        SerializedProperty midChannelProp;
-        SerializedProperty trebleChannelProp;
-        SerializedProperty standardChannelProp;
-        SerializedProperty elementChannelsProp;
-        SerializedProperty useVolumeEnvelopeProp;
-        SerializedProperty volumeEnvelopeProp;
         SerializedProperty randomPitchProp;
         SerializedProperty pitchProp;
         SerializedProperty pitchRangeProp;
@@ -47,19 +44,16 @@ namespace Turing.Audio
         {
             AGTarget = target as AudioGroup;
             serializedTarget = new SerializedObject(AGTarget);
-            groupTypeProp = serializedTarget.FindProperty("groupType");
+            channelsProp = serializedTarget.FindProperty("channels");
             loopProp = serializedTarget.FindProperty("loop");
-            playOnAwakeProp = serializedTarget.FindProperty("playOnAwake");
+            playOnStartProp = serializedTarget.FindProperty("playOnStart");
             spatialBlendProp = serializedTarget.FindProperty("spatialBlend");
             maxDistanceProp = serializedTarget.FindProperty ("maxDistance");
+            changeVolumeEachLoopProp = serializedTarget.FindProperty("changeVolumeEachLoop");
+            uniformVolumeProp = serializedTarget.FindProperty("uniformVolume");
+            useRandomVolumeProp = serializedTarget.FindProperty("useRandomVolume");
+            randomVolumeRangeProp = serializedTarget.FindProperty("randomVolumeRange");
             changePitchEachLoopProp = serializedTarget.FindProperty("changePitchEachLoop");
-            bassChannelProp = serializedTarget.FindProperty("bassChannel");
-            midChannelProp = serializedTarget.FindProperty("midChannel");
-            trebleChannelProp = serializedTarget.FindProperty("trebleChannel");
-            standardChannelProp = serializedTarget.FindProperty("standardChannel");
-            elementChannelsProp = serializedTarget.FindProperty("elementChannels");
-            useVolumeEnvelopeProp = serializedTarget.FindProperty("useVolumeEnvelope");
-            volumeEnvelopeProp = serializedTarget.FindProperty("volumeEnvelope");
             randomPitchProp = serializedTarget.FindProperty("randomPitch");
             pitchProp = serializedTarget.FindProperty("pitch");
             pitchRangeProp = serializedTarget.FindProperty("pitchRange");
@@ -102,37 +96,47 @@ namespace Turing.Audio
             
             else
             {
-                // Group type enum
-                EditorGUILayout.PropertyField(groupTypeProp);
 
                 // Looped toggle
                 EditorGUILayout.PropertyField(loopProp);
 
                 // Play on awake toggle
-                EditorGUILayout.PropertyField(playOnAwakeProp);
+                EditorGUILayout.PropertyField(playOnStartProp);
 
+                // Spatial blend slider
                 EditorGUILayout.PropertyField(spatialBlendProp);
 
+                // Max distance value
                 EditorGUILayout.PropertyField(maxDistanceProp);
 
-                // Use volume envelope toggle
-                EditorGUILayout.PropertyField(useVolumeEnvelopeProp);
-
-                // Volume envelope
-                EditorGUI.BeginDisabledGroup(!useVolumeEnvelopeProp.boolValue);
-                EditorGUILayout.PropertyField(volumeEnvelopeProp);
-                EditorGUI.EndDisabledGroup();
-                EditorGUILayout.TextArea("Looping and volume envelope functionality are not available in the editor. Test them in play mode.", EditorStyles.helpBox);
+                // Edit mode warning
+                EditorGUILayout.TextArea(@"Looping functionality are not 
+                    available in the editor. Test them in play mode.", 
+                    EditorStyles.helpBox);
             }
             EditorGUILayout.Space();
 
+            // Volume settings
+            EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+            EditorGUILayout.LabelField ("Volume Settings");
+            EditorGUI.indentLevel++;
+
+            if (useRandomVolumeProp.boolValue)
+                EditorGUILayout.PropertyField (randomVolumeRangeProp, 
+                    new GUIContent("Random Volume"));
+            else EditorGUILayout.PropertyField (uniformVolumeProp);
+            EditorGUI.indentLevel--;
+            EditorGUILayout.PropertyField (useRandomVolumeProp);
+            EditorGUILayout.EndVertical();
+
             // Pitch settings
             EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+            EditorGUILayout.LabelField ("Pitch Settings");
             EditorGUI.indentLevel++;
             if (randomPitchProp.boolValue)
-                EditorGUILayout.PropertyField(pitchRangeProp, new GUIContent("Random Pitch"));
-            else
-                EditorGUILayout.PropertyField(pitchProp);
+                EditorGUILayout.PropertyField(pitchRangeProp, 
+                    new GUIContent("Random Pitch"));
+            else EditorGUILayout.PropertyField(pitchProp);
             EditorGUI.indentLevel--;
 
             EditorGUILayout.PropertyField(randomPitchProp);
@@ -148,53 +152,41 @@ namespace Turing.Audio
             EditorGUILayout.BeginVertical(EditorStyles.helpBox);
             EditorGUILayout.LabelField("Channels", EditorStyles.boldLabel);
             EditorGUI.indentLevel++;
-            switch ((AudioGroup.GroupType)groupTypeProp.enumValueIndex)
+
+            int channelCount = channelsProp.arraySize;
+            for (int i = 0; i < channelCount; i++)
             {
-                case AudioGroup.GroupType.Standard:
-                    EditorGUILayout.PropertyField(standardChannelProp);
+                // Check if elements have been added
+                if (channelsProp.arraySize != channelCount)
                     break;
 
-                case AudioGroup.GroupType.Layered:
-                    EditorGUILayout.PropertyField(bassChannelProp);
-                    EditorGUILayout.PropertyField(midChannelProp);
-                    EditorGUILayout.PropertyField(trebleChannelProp);
-                    break;
-
-                case AudioGroup.GroupType.Elements:
-                    int channelCount = elementChannelsProp.arraySize;
-                    for (int i = 0; i < channelCount; i++)
+                // Draw remove channel button
+                var element = channelsProp.GetArrayElementAtIndex(i);
+                EditorGUILayout.PropertyField(element);
+                var lastRect = GUILayoutUtility.GetLastRect();
+                lastRect.x = lastRect.x + lastRect.width - _REMOVE_CHANNEL_BUTTON_WIDTH;
+                lastRect.width = _REMOVE_CHANNEL_BUTTON_WIDTH;
+                lastRect.height = _REMOVE_CHANNEL_BUTTON_WIDTH;
+                if (GUI.Button(lastRect, "x", EditorStyles.toolbarButton))
+                {
+                    // KEEP BOTH OF THESE FUNCTIONS
+                    // First one: sets array element to null
+                    // Second one: actually removes it
+                    if (element.objectReferenceValue != null)
                     {
-                        // Check if elements have been added
-                        if (elementChannelsProp.arraySize != channelCount)
-                            break;
-
-                        // Draw remove channel button
-                        var element = elementChannelsProp.GetArrayElementAtIndex(i);
-                        EditorGUILayout.PropertyField(element);
-                        var lastRect = GUILayoutUtility.GetLastRect();
-                        lastRect.x = lastRect.x + lastRect.width - _REMOVE_CHANNEL_BUTTON_WIDTH;
-                        lastRect.width = _REMOVE_CHANNEL_BUTTON_WIDTH;
-                        lastRect.height = _REMOVE_CHANNEL_BUTTON_WIDTH;
-                        if (GUI.Button(lastRect, "x", EditorStyles.toolbarButton)) {
-
-                            // KEEP BOTH OF THESE FUNCTIONS
-                            // First one: sets array element to null
-                            // Second one: actually removes it
-                            if (element.objectReferenceValue != null)
-                                elementChannelsProp.DeleteArrayElementAtIndex(i);
-                            elementChannelsProp.DeleteArrayElementAtIndex(i);
-                            break;
-                        }
+                        //channelsProp.DeleteArrayElementAtIndex(i);
+                        //channelsProp.DeleteArrayElementAtIndex(i);
+                        AGTarget.RemoveChannel(i);
+                        break;
                     }
+                }
+            }
 
-                    // Draw add new element channel button
-                    if (GUILayout.Button("Add new element channel"))
-                    {
-                        AGTarget.AddElementChannel();
-                        serializedTarget.Update();
-                    }
-                    break;
-
+            // Draw add new element channel button
+            if (GUILayout.Button("Add new element channel"))
+            {
+                AGTarget.AddChannel();
+                serializedTarget.Update();
             }
 
             EditorGUI.indentLevel--;

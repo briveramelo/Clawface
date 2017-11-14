@@ -198,6 +198,9 @@ public enum AnimationStates {
     Fire3 = 32,
 
     Stunned = 4,
+
+    TurnLeft = 6,
+    TurnRight = 61,
     
     
 }
