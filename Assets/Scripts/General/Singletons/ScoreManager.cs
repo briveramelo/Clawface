@@ -15,6 +15,7 @@ public class ScoreManager : Singleton<ScoreManager> {
 
     [SerializeField] private float maxTimeRemaining;
 
+    [SerializeField] private Dictionary<string, int> highScores;
     #endregion
 
     #region Privates
@@ -28,6 +29,8 @@ public class ScoreManager : Singleton<ScoreManager> {
         currentCombo = 0;
         highestCombo = 0;
         currentQuadrant = 0;
+
+        highScores = new Dictionary<string, int>();
 	}
 	
 	// Update is called once per frame
@@ -134,6 +137,39 @@ public class ScoreManager : Singleton<ScoreManager> {
         return maxTimeRemaining;
     }
 
+
+    public void UpdateHighScore(string level, int scoreToCheck)
+    {
+        if (!highScores.ContainsKey(level))
+        {
+            highScores.Add(level, scoreToCheck);
+            return;
+        }
+        else
+        {
+            if (highScores[level] < scoreToCheck)
+            {
+                highScores[level] = scoreToCheck;
+            }
+        }
+    }
+
+    public int GetHighScore(string level)
+    {
+        if (highScores.ContainsKey(level))
+        {
+            return highScores[level];
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
+    public Dictionary<string, int> GetAllHighScores()
+    {
+        return highScores;
+    }
     #endregion
 
     private void CalculateTimerQuadrant()
