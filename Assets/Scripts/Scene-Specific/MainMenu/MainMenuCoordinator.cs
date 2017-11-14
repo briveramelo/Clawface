@@ -55,7 +55,7 @@ public class MainMenuCoordinator : MonoBehaviour {
     {
         if (!mayhemRevealed && InputManager.Instance.AnyKey())
         {
-            Blink(ShowMenu);
+            Blink(ShowMenu, 0.15F);
         }
     }
 
@@ -87,18 +87,18 @@ public class MainMenuCoordinator : MonoBehaviour {
 
     #region Private Interface
 
-    private void Blink(Callback callback)
+    private void Blink(Callback callback, float duration = 1.0F)
     {
         mayhemRevealed = true;
-        fadeCanvas.DoShow(1.0F, () =>
+        fadeCanvas.DoShow(duration, () =>
         {
+            track.JumpToPosition(4);
+            RevealMayhem();
             if (callback != null)
             {
                 callback();
             }
-            track.JumpToPosition(4);
-            RevealMayhem();
-            fadeCanvas.DoHide(1.0F, null);
+            fadeCanvas.DoHide(duration, null);
         });
     }
 
