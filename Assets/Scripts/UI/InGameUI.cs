@@ -80,9 +80,10 @@ public class InGameUI : MonoBehaviour {
 
     public void SetHealth(params object[] i_healthVal)
     {
-        Assert.IsTrue((float)i_healthVal[0] >= 0.0F && (float)i_healthVal[0] <= 1.0F);
-        healthMask.localScale = new Vector3((float)i_healthVal[0], 1.0F, 1.0F);
-        healthBar.localScale = new Vector3((float)i_healthVal[0] == 0 ? 0 : 1 / (float)i_healthVal[0], 1.0F, 1.0F);
+        float health = (float)i_healthVal[0];
+        Assert.IsTrue(health >= 0.0F && health <= 1.0F);
+        healthMask.localScale = new Vector3(health, 1.0F, 1.0F);
+        healthBar.localScale = new Vector3(health == 0 ? 0 : 1 / health, 1.0F, 1.0F);
     }
     #endregion
 
