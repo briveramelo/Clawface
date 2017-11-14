@@ -228,6 +228,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4908782552150708}
   - component: {fileID: 137239411414129772}
+  - component: {fileID: 114642400225495116}
   m_Layer: 0
   m_Name: Keira_mesh
   m_TagString: Untagged
@@ -2681,6 +2682,17 @@ MonoBehaviour:
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: SCORE
+--- !u!114 &114642400225495116
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1243215715886892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0123960e979242643bb00da688f4b22c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114666002651435752
 MonoBehaviour:
   m_ObjectHideFlags: 1
