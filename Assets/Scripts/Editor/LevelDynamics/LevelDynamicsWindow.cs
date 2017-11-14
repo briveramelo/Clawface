@@ -182,7 +182,9 @@ public class LevelDynamicsWindow : EditorWindow {
                                 }                                
                                 musicIntensityManager.AddMusicTransitionEvent(musicEventName, waveObject.audioClip);
                             }
+                            EditorUtility.SetDirty(musicIntensityManager);
                         }
+                        EditorUtility.SetDirty(spawner);
                     }                    
                 }
             }

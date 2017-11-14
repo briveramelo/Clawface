@@ -41,7 +41,7 @@ public class LightningGun : Mod {
     public override void Activate(Action onCompleteCoolDown=null, Action onActivate=null)
     {  
         onActivate = () => {            
-            SFXManager.Instance.Play(SFXType.GrapplingGun_Shoot, transform.position);
+            SFXManager.Instance.Play(shootSFX, transform.position);
         };   
         base.Activate(onCompleteCoolDown, onActivate);
     }

@@ -83,6 +83,7 @@ public class SpreadGun : Mod {
                 }
             }
         }
+        SFXManager.Instance.Play(shootSFX, transform.position);
         animator.SetTrigger("Shoot");
     }
 
