@@ -61,6 +61,14 @@ public class LoadMenu : Menu {
     #endregion
 
     #region Unity Lifecycle Methods
+
+    protected override void Start()
+    {
+        base.Start();
+
+        target = SceneManager.GetActiveScene().name;
+
+    }
     void Update()
     {
         if (loaded && (InputManager.Instance.AnyKey() || fast))
