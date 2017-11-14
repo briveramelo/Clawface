@@ -7,7 +7,6 @@ using PLE_ToolKit;
 
 public class PLE_Add : PLE_IFunction
 {
-    GameObject UIObject;
     GameObject _prefab;
 
     Button  Btn_Add;
@@ -31,13 +30,7 @@ public class PLE_Add : PLE_IFunction
     {
         base.Init();
 
-        UIObject = PLE_ToolKit.UITool.FindUIGameObject("UI_Add");
-
-        if (UIObject == null)
-            Debug.Log("UI_Add is not in Canvas");
-
-        UIObject.SetActive(true);
-
+        SetUIObject("UI_Add");
 
         ACT_Add = () => EnableAdd(Btn_Add);
         Btn_Add = PLE_ToolKit.UITool.GetUIComponent<Button>("Button_Add");
@@ -53,7 +46,6 @@ public class PLE_Add : PLE_IFunction
 
         Btn_Delete.onClick.AddListener(ACT_Delete);
         Btn_Delete.image.color = Color.white;
-
 
 
         _prefab = Resources.Load("LevelEditorObjects/CommonArea/test") as GameObject;
@@ -93,8 +85,6 @@ public class PLE_Add : PLE_IFunction
     public override void Release()
     {
         base.Release();
-        UIObject.SetActive(false);
-
         Btn_Add.onClick.RemoveListener(ACT_Add);
     }
 
