@@ -143,7 +143,6 @@ public class ScoreManager : Singleton<ScoreManager> {
         if (!highScores.ContainsKey(level))
         {
             highScores.Add(level, scoreToCheck);
-            return;
         }
         else
         {
@@ -152,6 +151,8 @@ public class ScoreManager : Singleton<ScoreManager> {
                 highScores[level] = scoreToCheck;
             }
         }
+
+        EventSystem.Instance.TriggerEvent(Strings.Events.SET_LEVEL_SCORE, level, highScores[level]);
     }
 
     public int GetHighScore(string level)
