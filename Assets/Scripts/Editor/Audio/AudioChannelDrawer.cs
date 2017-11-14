@@ -31,7 +31,7 @@ public sealed class AudioChannelDrawer : PropertyDrawer
     /// </summary>
     SerializedObject serializedChannel;
 
-    SerializedProperty volumeProp;
+    SerializedProperty uniformVolumeProp;
     SerializedProperty randomVolumeProp;
     SerializedProperty volumeRangeProp;
     SerializedProperty changeVolumeEachLoopProp;
@@ -63,7 +63,7 @@ public sealed class AudioChannelDrawer : PropertyDrawer
         serializedChannel.Update();
 
         // Get serialized properties
-        volumeProp = serializedChannel.FindProperty("uniformVolume");
+        uniformVolumeProp = serializedChannel.FindProperty("uniformVolume");
         randomVolumeProp = serializedChannel.FindProperty("useRandomVolume");
         volumeRangeProp = serializedChannel.FindProperty("randomVolumeRange");
         changeVolumeEachLoopProp = 
@@ -100,7 +100,7 @@ public sealed class AudioChannelDrawer : PropertyDrawer
             if (targetChannel.UseRandomVolume)
                 EditorGUILayout.PropertyField(volumeRangeProp);
             else
-                EditorGUILayout.PropertyField(volumeProp);
+                EditorGUILayout.PropertyField(uniformVolumeProp);
 
             EditorGUI.BeginDisabledGroup(!targetChannel.Parent.Loop ||
                 !randomVolumeProp.boolValue);
@@ -108,7 +108,11 @@ public sealed class AudioChannelDrawer : PropertyDrawer
             EditorGUI.EndDisabledGroup();
         }
 
-        if (GUILayout.Button ("Preview")) targetChannel.PlaySound(1f, false);
+        if (GUILayout.Button ("Preview"))
+        {
+            float nope;
+            targetChannel.Parent.PlayChannel(targetChannel, out nope);
+        }
         EditorGUILayout.EndVertical();
 
         serializedChannel.ApplyModifiedProperties();

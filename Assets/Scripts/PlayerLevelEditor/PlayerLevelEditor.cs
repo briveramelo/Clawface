@@ -13,6 +13,7 @@ public class PlayerLevelEditor : MonoBehaviour
 
     Button Btn_Init;
     Button Btn_Add;
+    Button Btn_Duplicate;
 
     // Use this for initialization
     void Start ()
@@ -25,6 +26,11 @@ public class PlayerLevelEditor : MonoBehaviour
 
         Btn_Add  = PLE_ToolKit.UITool.GetUIComponent<Button>("Function_Add");
         if (Btn_Add != null) Btn_Add.onClick.AddListener(() => UsingAddFunc(Btn_Add));
+
+
+        Btn_Duplicate = PLE_ToolKit.UITool.GetUIComponent<Button>("Function_Duplicate");
+
+        if (Btn_Duplicate != null) Btn_Duplicate.onClick.AddListener(() => UsingDuplicateFunc(Btn_Duplicate));
     }
 	
 	// Update is called once per frame
@@ -43,5 +49,12 @@ public class PlayerLevelEditor : MonoBehaviour
     {
         controller.SetFunction(new PLE_Add(controller));
     }
+
+
+    public void UsingDuplicateFunc(Button thisBtn)
+    {
+        controller.SetFunction(new PLE_Duplicate(controller));
+    }
+
 
 }

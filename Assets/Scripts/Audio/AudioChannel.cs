@@ -27,18 +27,17 @@ namespace Turing.Audio
         List<AudioClip> clips = new List<AudioClip>();
 
         /// <summary>
-        /// Change volume each loop (when using randomized volume)?
+        /// Randomize volume on each playback?
         /// </summary>
         [SerializeField]
-        [Tooltip("Randomize volume on each loop?")]
+        [Tooltip("Randomize volume on each playback?")]
         bool changeVolumeEachLoop = false;
 
         /// <summary>
         /// Uniform volume to use with this channel.
         /// </summary>
-        [SerializeField]
-        [Range(0f, 1f)]
         [Tooltip("Uniform volume to use with this channel.")]
+        [SerializeField][Range(0f, 1f)]
         float uniformVolume = 1f;
 
         /// <summary>
@@ -51,8 +50,7 @@ namespace Turing.Audio
         /// <summary>
         /// Range of values to use for volume.
         /// </summary>
-        [SerializeField]
-        [FixedFloatRange(0f, 1f)]
+        [SerializeField][FixedFloatRange(0f, 1.0f)]
         [Tooltip("Range of values to use for volume.")]
         FloatRange randomVolumeRange = new FloatRange();
 
@@ -60,24 +58,9 @@ namespace Turing.Audio
         #region Private Fields
 
         /// <summary>
-        /// AudioSource to play from (should be attached to gameObject).
-        /// </summary>
-        AudioSource audioSource;
-
-        /// <summary>
-        /// AudioElement that uses this AudioElementChannel.
+        /// Parent AudioGroup;
         /// </summary>
         AudioGroup parent;
-
-        /// <summary>
-        /// Will this AudioChannel loop?
-        /// </summary>
-        bool loop = false;
-
-        /// <summary>
-        /// Is this AudioChannel playing?
-        /// </summary>
-        bool playing = false;
 
         /// <summary>
         /// The length of the current audio clip.
@@ -85,60 +68,25 @@ namespace Turing.Audio
         float clipLength;
 
         /// <summary>
-        /// Volume scale (from parent AudioGroup).
-        /// </summary>
-        float volumeScale = 1f;
-
-        /// <summary>
-        /// Currently chosen randomized volume.
-        /// </summary>
-        float randomizedVolume = 1f;
-
-        /// <summary>
         /// Timer for playback looping.
         /// </summary>
         float loopTimer;
 
         #endregion
-        #region Unity Lifecycle
-
-        void Awake()
-        {
-            audioSource = GetComponentInParent<AudioSource>();
-
-            if (parent == null)
-                parent = GetComponentInParent<AudioGroup>();
-            if (parent == null)
-                Debug.LogError("Failed to find parent AudioGroup!", gameObject);
-        }
-
-        void Update()
-        {
-            if (Application.isPlaying)
-            {
-                if (playing)
-                {
-                    if (loop)
-                    {
-                        loopTimer -= Time.deltaTime;
-                        if (loopTimer <= 0f)
-                            LoopSound();
-                    }
-                }
-
-                audioSource.volume =
-                    (useRandomVolume ? randomizedVolume : uniformVolume) *
-                    parent.VolumeScale;
-            }
-        }
-
-        #endregion
         #region Public Methods
 
         /// <summary>
-        /// Returns this AudioChannel's parent AudioGroup (read-only).
+        /// Returns the parent AudioGroup of this AudioChannel.
         /// </summary>
-        public AudioGroup Parent { get { return parent; } }
+        public AudioGroup Parent
+        {
+            get
+            {
+                if (!parent)
+                    parent = GetComponent<AudioGroup>();
+                return parent;
+            }
+        }
 
         /// <summary>
         /// Returns all AudioClips used in this AudioChannel (read-only).
@@ -149,15 +97,6 @@ namespace Turing.Audio
         /// Returns the length in seconds of the current clip (read-only).
         /// </summary>
         public float ClipLength { get { return clipLength; } }
-
-        /// <summary>
-        /// Gets/sets the volume scale value of this channel.
-        /// </summary>
-        public float VolumeScale
-        {
-            get { return volumeScale; }
-            set { volumeScale = value; }
-        }
 
         /// <summary>
         /// Gets/sets the uniform volume to use.
@@ -196,79 +135,32 @@ namespace Turing.Audio
         }
 
         /// <summary>
-        /// Sets the parent AudioGroup of this AudioChannel.
+        /// Returns a volume value to use for this channel.
         /// </summary>
-        /// <param name="parent"></param>
-        public void SetParent(AudioGroup parent)
+        public float GetVolume ()
         {
-            this.parent = parent;
+            if (useRandomVolume) return randomVolumeRange.GetRandomValue();
+            else return uniformVolume;
         }
 
         /// <summary>
-        /// Plays a sound from this channel.
+        /// Returns a random AudioClip from this channel.
         /// </summary>
-        public void PlaySound(float pitch, bool loop = false)
+        public AudioClip GetRandomClip ()
         {
-            // If no clips to play, return
-            if (clips.Count <= 0) return;
-
-            // If parent is null, attempt to find
-            if (parent == null)
-                parent = GetComponentInParent<AudioGroup>();
-
-            volumeScale = parent.VolumeScale;
-
-            this.loop = loop;
-
-            if (useRandomVolume) randomizedVolume = randomVolumeRange.GetRandomValue();
-
-            float twoDVolume = (useRandomVolume ? randomizedVolume : uniformVolume) * volumeScale;
-
-            audioSource.volume = twoDVolume * volumeScale;
-            audioSource.pitch = pitch;
-
-            var clip = clips.GetRandom();
-            if (clip)
+            if (clips.Count == 0)
             {
-                clipLength = clip.length;
-                audioSource.clip = clip;
-                audioSource.Play();
-
-                playing = true;
-
-                if (loop) loopTimer = clip.length;
+                Debug.LogWarning ("No clips specified for this AudioChannel!",
+                    gameObject);
+                return null;
             }
-        }
-
-        /// <summary>
-        /// Stops this AudioChannel's playback.
-        /// </summary>
-        public void Stop()
-        {
-            audioSource.Stop();
-            playing = false;
+            return clips.GetRandom();
         }
 
         /// <summary>
         /// Adds an AudioClip to this channel.
         /// </summary>
-        public void AddClip(AudioClip clip)
-        {
-            clips.Add(clip);
-        }
-
-        #endregion
-        #region Private Methods
-
-        /// <summary>
-        /// Loops the sound.
-        /// </summary>
-        void LoopSound()
-        {
-            var clip = clips.GetRandom();
-            audioSource.PlayOneShot(clip);
-            loopTimer = clip.length;
-        }
+        public void AddClip(AudioClip clip) { clips.Add(clip); }
 
         #endregion
     }
