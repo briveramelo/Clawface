@@ -1,6 +1,6 @@
 // Made with Amplify Shader Editor
 // Available at the Unity Asset Store - http://u3d.as/y3X 
-Shader "PBR Outline Xray"
+Shader "PBR Outline X-Ray/Flash (Instanced)"
 {
 	Properties
 	{
@@ -63,6 +63,7 @@ Shader "PBR Outline Xray"
 		CGPROGRAM
 		#pragma target 3.0
 		#pragma surface surf Standard keepalpha addshadow fullforwardshadows 
+		#include "UnityCG.cginc"
 		struct Input
 		{
 			float2 uv2_texcoord2;
@@ -70,15 +71,23 @@ Shader "PBR Outline Xray"
 
 		uniform float4 _XrayColor;
 		uniform float _XrayColorStrength;
-		uniform float4 _HitColor;
-		uniform float _HitColorStrength;
+		
+		//uniform float4 _HitColor;
+		//uniform float _HitColorStrength;
 		uniform sampler2D _FaceTexture;
 		uniform float4 _FaceTexture_ST;
 		uniform float4 _FaceColor;
 
+		UNITY_INSTANCING_CBUFFER_START(Props)
+			UNITY_DEFINE_INSTANCED_PROP(fixed4, _HitColor)
+			UNITY_DEFINE_INSTANCED_PROP(fixed, _HitColorStrength)
+		UNITY_INSTANCING_CBUFFER_END
+
 		void surf( Input i , inout SurfaceOutputStandard o )
 		{
-			float4 lerpResult77 = lerp( ( ( _XrayColor * _XrayColorStrength ) + float4( 0,0,0,0 ) ) , _HitColor , _HitColorStrength);
+			float4 hitColor = UNITY_ACCESS_INSTANCED_PROP(_HitColor);
+			float hitColorStrength = UNITY_ACCESS_INSTANCED_PROP(_HitColorStrength);
+			float4 lerpResult77 = lerp( ( ( _XrayColor * _XrayColorStrength ) + float4( 0,0,0,0 ) ) , hitColor, hitColorStrength);
 			float2 uv2_FaceTexture = i.uv2_texcoord2 * _FaceTexture_ST.xy + _FaceTexture_ST.zw;
 			o.Albedo = ( lerpResult77 + ( tex2D( _FaceTexture, uv2_FaceTexture ) * _FaceColor ) ).rgb;
 			o.Alpha = 1;
