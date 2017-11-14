@@ -13,11 +13,12 @@ public class BoomerangBullet : MonoBehaviour {
     private float timeUntilDestroyed;
     private float rayDistanceMultiplier;
     private LayerMask raycastLayermask;
-    
+
+    private float deathTimer;
 
     void OnEnable()
     {        
-        Timing.RunCoroutine(DestroyAfter());
+        // Timing.RunCoroutine(DestroyAfter());
         trail = GetComponent<TrailRenderer>();
     }
 
@@ -31,6 +32,15 @@ public class BoomerangBullet : MonoBehaviour {
     }
 
     void Update () {
+        deathTimer += Time.deltaTime;
+
+        if (deathTimer > timeUntilDestroyed)
+        {
+            EmitBulletCollision();
+            trail.Clear();
+            gameObject.SetActive(false);
+        }
+
         transform.Translate(Vector3.forward * speed * Time.deltaTime);
 	}
 
@@ -43,7 +53,7 @@ public class BoomerangBullet : MonoBehaviour {
 
         Debug.DrawLine(this.transform.position, this.transform.position + (this.transform.forward * rayDistance));
 
-        if (Physics.Raycast(ray, out hit, rayDistance, raycastLayermask))
+        if (Physics.Raycast(ray, out hit, rayDistance))
         {
             if (hit.collider.CompareTag(Strings.Tags.WALL))
             {
@@ -71,6 +81,7 @@ public class BoomerangBullet : MonoBehaviour {
         this.timeUntilDestroyed = timeUntilDestroyed;
         this.rayDistanceMultiplier = rayDistanceMultiplier;
         this.rayDistanceMultiplier = rayDistanceMultiplier;
+        deathTimer = 0f;
     }
 
     // 0 = Player, Enemy = 1
@@ -81,17 +92,6 @@ public class BoomerangBullet : MonoBehaviour {
 
     private void Damage(IDamageable damageable) {        
         if (damageable != null) {
-
-            // Shooter is player
-            if (!shooter)
-            {
-                AnalyticsManager.Instance.AddModDamage(ModType.Boomerang, damage);
-
-                if (damageable.GetHealth() - damage <= 0.01f)
-                {
-                    AnalyticsManager.Instance.AddModKill(ModType.Boomerang);
-                }
-            }
 
             damager.Set(damage, DamagerType.Boomerang, transform.forward);
             damageable.TakeDamage(damager);

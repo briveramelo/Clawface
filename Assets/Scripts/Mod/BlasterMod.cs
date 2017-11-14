@@ -10,6 +10,7 @@ public class BlasterMod : Mod {
     [SerializeField] private Transform bulletSpawnPoint;
     [SerializeField] private float bulletLiveTime;
     [SerializeField] private float bulletSpeed;
+    [SerializeField] private PoolObjectType bulletType;
     #endregion
 
     #region private fields
@@ -28,7 +29,8 @@ public class BlasterMod : Mod {
     
     // Update is called once per frame
     protected override void Update () {
-        if (wielderMovable != null){
+        if (wielderMovable != null && wielderStats.gameObject.CompareTag(Strings.Tags.PLAYER))
+        {
             transform.forward = wielderMovable.GetForward();
         }
         base.Update();
@@ -74,7 +76,7 @@ public class BlasterMod : Mod {
 
     private BlasterBullet SpawnBullet()
     {
-        BlasterBullet blasterBullet = ObjectPool.Instance.GetObject(PoolObjectType.BlasterBullet).GetComponent<BlasterBullet>();
+        BlasterBullet blasterBullet = ObjectPool.Instance.GetObject(bulletType).GetComponent<BlasterBullet>();
         if (blasterBullet){
             blasterBullet.transform.position = bulletSpawnPoint.position;
             blasterBullet.transform.forward = transform.forward;

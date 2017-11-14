@@ -9,9 +9,9 @@ using UnityEngine.AI;
 
 public class MallCopChaseState : AIState {
     public override void OnEnter() {
-        animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.Walk);
         controller.AttackTarget = controller.FindPlayer();
         navAgent.speed = myStats.moveSpeed;
+        animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.Walk);
     }
     public override void Update() {
         Chase();        

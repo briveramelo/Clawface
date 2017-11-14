@@ -21,8 +21,8 @@ GameObject:
   - component: {fileID: 4445311747217878}
   - component: {fileID: 33425794409151210}
   - component: {fileID: 23355126825154118}
-  - component: {fileID: 95716845736326530}
   - component: {fileID: 65922818038423402}
+  - component: {fileID: 114619712919237146}
   m_Layer: 11
   m_Name: floor_tile_white_pattern_1
   m_TagString: Untagged
@@ -94,20 +94,17 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 5, y: 1.110223e-15, z: 5}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!95 &95716845736326530
-Animator:
-  serializedVersion: 3
+--- !u!114 &114619712919237146
+MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1320268416645314}
   m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 5ae216178f0c80248b183908995d9997, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  renderTextureWidth: 512
+  renderTextureHeight: 512

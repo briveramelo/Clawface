@@ -74,7 +74,8 @@ public enum ModType {
     Boomerang = 3,
     Geyser = 4,
     Dice = 5,
-    None = 6
+    None = 6,
+    Missile = 7
 }
 
 public enum ModCategory
@@ -136,6 +137,7 @@ public enum PoolObjectType {
     EnemyBulletSmall = 35,
     EnemyBulletMedium = 36,
     EnemyBulletLarge = 37,
+    MissileProjectile = 40,
 
     //Enemy Types
     GrapplingBot=11,
@@ -198,6 +200,9 @@ public enum AnimationStates {
     Fire3 = 32,
 
     Stunned = 4,
+
+    TurnLeft = 6,
+    TurnRight = 61,
     
     
 }
