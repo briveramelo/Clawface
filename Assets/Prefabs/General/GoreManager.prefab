@@ -36,9 +36,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4130573914124538}
   - component: {fileID: 20322175509047656}
-  - component: {fileID: 124846369313624376}
-  - component: {fileID: 92175795172001726}
-  - component: {fileID: 81954285501741108}
   m_Layer: 0
   m_Name: UV Camera
   m_TagString: Untagged
@@ -97,7 +94,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 0
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -109,20 +106,6 @@ Camera:
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
   m_StereoMirrorMode: 0
---- !u!81 &81954285501741108
-AudioListener:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1624136124183456}
-  m_Enabled: 1
---- !u!92 &92175795172001726
-Behaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1624136124183456}
-  m_Enabled: 1
 --- !u!114 &114582053846857032
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -155,10 +138,3 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 6c1317626b608534a8b326e77af1f827, type: 3}
   sphereRadius: 5
   debugSplats: 0
---- !u!124 &124846369313624376
-Behaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1624136124183456}
-  m_Enabled: 1

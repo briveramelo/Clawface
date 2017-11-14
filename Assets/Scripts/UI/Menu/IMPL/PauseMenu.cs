@@ -12,7 +12,7 @@ public class PauseMenu : Menu
 
 	public override Button InitialSelection {
 		get {
-			return restartButton;
+			return initiallySelected;
 		}
 	}
 
@@ -30,7 +30,7 @@ public class PauseMenu : Menu
 	#region Serialized Unity Fields
 
 	[SerializeField]
-	private Button restartButton;
+	private Button initiallySelected;
 
 	#endregion
 

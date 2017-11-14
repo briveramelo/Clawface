@@ -13,10 +13,6 @@ public class MissileMod : Mod {
     [SerializeField] private float farRadius;
 
     [SerializeField] private float projectileLifetime;
-    [SerializeField] private SFXType shootSFX;
-
-    
-
 
     public override void DeActivate()
     {

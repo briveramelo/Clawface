@@ -184,6 +184,7 @@ public class LevelDynamicsWindow : EditorWindow {
                             }
                             EditorUtility.SetDirty(musicIntensityManager);
                         }
+                        EditorUtility.SetDirty(spawner);
                     }                    
                 }
             }
