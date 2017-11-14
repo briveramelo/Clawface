@@ -122,7 +122,7 @@ public class LightningProjectile : MonoBehaviour {
     private void OnTriggerEnter(Collider other)
     {     
         // Is the collided object an enemy if not already attached
-        if (other.tag == Strings.Tags.ENEMY && !ignoreTargets.Contains(other.transform))
+        if (other.CompareTag(Strings.Tags.ENEMY) && !ignoreTargets.Contains(other.transform))
         {
             //If a target is set
             if (other.transform != target)
@@ -148,6 +148,10 @@ public class LightningProjectile : MonoBehaviour {
                 damageable.TakeDamage(damager);
             }
 
+            this.gameObject.SetActive(false);
+        }
+        else if (other.CompareTag(Strings.Tags.WALL))
+        {
             this.gameObject.SetActive(false);
         }
     }

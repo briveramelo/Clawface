@@ -1061,10 +1061,11 @@ MonoBehaviour:
   bulletDamage: 20.2
   rateOfFire: 0.88
   bulletOffsetFromOrigin: 1.5
-  bulletStrands: 12
-  separationAngleBetweenStrands: 30
+  bulletStrands: 8
+  separationAngleBetweenStrands: 45
   rotationDirection: 0
   rotationSpeed: 0
+  bulletLiveTime: 1
 --- !u!114 &114732265360839062
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1093,7 +1094,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attack: 7
   defense: 5
-  health: 28
+  health: 21
   maxHealth: 0
   moveSpeed: 2
   rangedAccuracy: 1

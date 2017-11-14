@@ -64,7 +64,7 @@ public class BlasterMod : Mod {
 
     #region private functions
     private BlasterBullet Shoot(){
-        SFXManager.Instance.Play(SFXType.BlasterShoot, transform.position);
+        SFXManager.Instance.Play(shootSFX, transform.position);
         PoolObjectType poolObjType = PoolObjectType.VFXBlasterShoot;
         GameObject vfx = ObjectPool.Instance.GetObject(poolObjType);
         vfx.transform.position = bulletSpawnPoint.position;
