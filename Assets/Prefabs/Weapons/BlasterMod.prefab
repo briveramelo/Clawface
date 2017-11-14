@@ -386,13 +386,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b46b2a14cefa1b4498b8ad99597bbe5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 1.5
+  damage: 0.75
   pickupCollider: {fileID: 65286971079796370}
   modCanvas: {fileID: 1631652510854260}
   energySettings:
-    timeToCoolDown: 0.4
+    timeToCoolDown: 0.2
     isCoolingDown: 0
     isActive: 0
+  shootSFX: 0
   bulletSpawnPoint: {fileID: 4303765111120432}
   bulletLiveTime: 2
   bulletSpeed: 25
