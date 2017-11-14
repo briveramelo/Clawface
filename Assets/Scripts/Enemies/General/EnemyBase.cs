@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Turing.VFX;
 
 public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatable, ISpawnable
 {
@@ -27,6 +28,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     private Collider[] playerColliderList = new Collider[10];
     private Rigidbody[] jointRigidBodies;
     private Vector3 grabStartPosition;
+    private HitFlasher hitFlasher;
     #endregion
 
     #region 0. Protected fields
@@ -54,6 +56,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         poolParent = transform.parent;
         transformMemento.Initialize(transform);
         jointRigidBodies = GetComponentsInChildren<Rigidbody>();
+        hitFlasher = GetComponentInChildren<HitFlasher>();
         if (grabObject != null)
         {
             grabStartPosition = grabObject.transform.localPosition;
@@ -73,6 +76,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
             damagePack.Set(damager, damaged);
             SFXManager.Instance.Play(SFXType.MallCopHurt, transform.position);
             DamageFXManager.Instance.EmitDamageEffect(damagePack);
+            hitFlasher.Flash (1.0f, 0.15f);
 
             if (myStats.health <= 0)
             {

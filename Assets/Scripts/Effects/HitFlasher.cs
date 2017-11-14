@@ -14,6 +14,9 @@ namespace Turing.VFX
     {
         #region Private Fields
 
+        /// <summary>
+        /// All SkinnedMeshRenderers attached to this object.
+        /// </summary>
         SkinnedMeshRenderer[] meshRenderers;
 
         #endregion
