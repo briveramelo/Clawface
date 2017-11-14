@@ -51,9 +51,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ed3db6f7d2031745b1ed4f10888b26a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shouldRegister: 1
   BloodExplosion: {fileID: 1837314519996326, guid: 1f6b0ed073d701a4aad574ae2632b8e2,
-    type: 2}
-  BlasterCharge: {fileID: 1761550517562176, guid: d720bda1a9c93dd40999eab2ffba23b6,
     type: 2}
   BlasterProjectile_Impact: {fileID: 1217056616446900, guid: b576d1b0682367945a6c7bb1cfe68856,
     type: 2}
@@ -61,20 +60,14 @@ MonoBehaviour:
     type: 2}
   GrapplingGun_Shoot: {fileID: 1778022221532068, guid: 578c88e7554946a41b249421fef646ca,
     type: 2}
-  StunBatonCharge: {fileID: 1883752545520946, guid: 02c191fcd03eda044804de4312921d0c,
+  TankTreads_Attack: {fileID: 1579506943045628, guid: 38b0214657c8bdb43bd1c5cd0fa2b7b1,
     type: 2}
-  StunBatonImpact: {fileID: 1983893654634856, guid: f4b95877a3bf72143abacafe4f3afb4e,
-    type: 2}
-  StunBatonSwing: {fileID: 1527780403247456, guid: 76946743511e5cd41b767c7bf4fe2669,
-    type: 2}
-  TankTreads_Attack: {fileID: 1516425594234386, guid: 562a5bf5fcccd214a813ca154fce9cc2,
-    type: 2}
-  TankTreads_Swing: {fileID: 1019276142555734, guid: 41014e63bd8f06546acaa8963aae1f39,
+  TankTreads_Swing: {fileID: 1579506943045628, guid: 38b0214657c8bdb43bd1c5cd0fa2b7b1,
     type: 2}
   Dash: {fileID: 1613444645928584, guid: 307129c6df02d3842803c569d60b6f82, type: 2}
-  SegwayBlast_Standard: {fileID: 1881127224112104, guid: 0c81bf290c28ae94f97cb35ba88ae4ed,
+  SegwayBlast_Standard: {fileID: 1579506943045628, guid: 38b0214657c8bdb43bd1c5cd0fa2b7b1,
     type: 2}
-  SegwayHover: {fileID: 1177741115229482, guid: 913c29e7875b84044a5a66edf3e794f8,
+  SegwayHover: {fileID: 1579506943045628, guid: 38b0214657c8bdb43bd1c5cd0fa2b7b1,
     type: 2}
   Boomerang_Throw: {fileID: 1670425139498140, guid: dc75e1644a336394ea06b7f728da09aa,
     type: 2}
