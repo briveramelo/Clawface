@@ -78,10 +78,6 @@ public class EatingState : IPlayerState
                 ResetState();
             }
         }
-        /*else if(clawTransform)
-        {
-            grabObject.transform.localPosition = Vector3.zero;
-        }*/
     }
     
     public override void StateLateUpdate()
@@ -109,6 +105,7 @@ public class EatingState : IPlayerState
         IEatable eatable = stateVariables.eatTargetEnemy.GetComponent<IEatable>();
         Assert.IsNotNull(eatable);
         clawArmController.StartExtension(eatable.GetGrabObject(), stateVariables.clawExtensionTime);
+        SFXManager.Instance.Play(stateVariables.ArmExtensionSFX, transform.position);
     }
 
     private void CaptureEnemy(params object[] parameters)
@@ -125,6 +122,7 @@ public class EatingState : IPlayerState
             }
         }
         clawArmController.StartRetraction(stateVariables.clawRetractionTime);
+        SFXManager.Instance.Play(stateVariables.ArmEnemyCaptureSFX, transform.position);
     }
 
     private void DoEating()
@@ -145,6 +143,7 @@ public class EatingState : IPlayerState
             {
                 healthJuice.FollowAndDeActivate(3f, transform, Vector3.up * 3.2f);
             }
+            SFXManager.Instance.Play(stateVariables.EatSFX, transform.position);
         }
     }
 
