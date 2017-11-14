@@ -1,6 +1,6 @@
 // Made with Amplify Shader Editor
 // Available at the Unity Asset Store - http://u3d.as/y3X 
-Shader "PBR Outline X-Ray/Flash (Instanced)"
+Shader "PBR Outline X-Ray Flash (Instanced)"
 {
 	Properties
 	{
@@ -72,8 +72,6 @@ Shader "PBR Outline X-Ray/Flash (Instanced)"
 		uniform float4 _XrayColor;
 		uniform float _XrayColorStrength;
 		
-		//uniform float4 _HitColor;
-		//uniform float _HitColorStrength;
 		uniform sampler2D _FaceTexture;
 		uniform float4 _FaceTexture_ST;
 		uniform float4 _FaceColor;
@@ -113,8 +111,7 @@ Shader "PBR Outline X-Ray/Flash (Instanced)"
 		uniform float _TextureTiling;
 		uniform sampler2D _Albedo;
 		uniform float4 _AlbedoTint;
-		uniform float4 _HitColor;
-		uniform float _HitColorStrength;
+		
 		uniform sampler2D _FaceTexture;
 		uniform float4 _FaceTexture_ST;
 		uniform float4 _FaceColor;
@@ -122,6 +119,11 @@ Shader "PBR Outline X-Ray/Flash (Instanced)"
 		uniform sampler2D _MetallicSmoothnessEmissiveAO;
 		uniform float4 _EmissiveColor;
 		uniform float _EmissiveStrength;
+
+		UNITY_INSTANCING_CBUFFER_START(Props)
+			UNITY_DEFINE_INSTANCED_PROP(fixed4, _HitColor)
+			UNITY_DEFINE_INSTANCED_PROP(fixed, _HitColorStrength)
+		UNITY_INSTANCING_CBUFFER_END
 
 		void vertexDataFunc( inout appdata_full v, out Input o )
 		{
@@ -132,8 +134,10 @@ Shader "PBR Outline X-Ray/Flash (Instanced)"
 
 		void surf( Input i , inout SurfaceOutputStandard o )
 		{
+			float4 hitColor = UNITY_ACCESS_INSTANCED_PROP(_HitColor);
+			float hitColorStrength = UNITY_ACCESS_INSTANCED_PROP(_HitColorStrength);
 			o.Normal = UnpackNormal( tex2D( _Normal, i.texcoord_0 ) );
-			float4 lerpResult73 = lerp( ( tex2D( _Albedo, i.texcoord_0 ) * _AlbedoTint ) , _HitColor , _HitColorStrength);
+			float4 lerpResult73 = lerp( ( tex2D( _Albedo, i.texcoord_0 ) * _AlbedoTint ) , hitColor, hitColorStrength);
 			o.Albedo = lerpResult73.rgb;
 			float2 uv2_FaceTexture = i.uv2_texcoord2 * _FaceTexture_ST.xy + _FaceTexture_ST.zw;
 			o.Emission = ( ( ( tex2D( _FaceTexture, uv2_FaceTexture ) * _FaceColor ) * _FaceEmissiveStrength ) + ( ( tex2D( _MetallicSmoothnessEmissiveAO, i.texcoord_0 ).b * _EmissiveColor ) * _EmissiveStrength ) ).rgb;

@@ -16,11 +16,14 @@ public sealed class HitFlasherEditor : Editor
 
         HitFlasher hitFlasher = target as HitFlasher;
 
-        EditorGUILayout.Space();
-
-        if (GUILayout.Button ("Flash"))
+        if (Application.isPlaying)
         {
-            hitFlasher.Flash (2.0f, 0.15f);
+            EditorGUILayout.Space();
+
+            if (GUILayout.Button ("Flash"))
+            {
+                hitFlasher.Flash (1.0f, 0.15f);
+            }
         }
     }
 }
