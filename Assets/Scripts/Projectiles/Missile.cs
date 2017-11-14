@@ -4,6 +4,17 @@ using UnityEngine;
 
 public class Missile : MonoBehaviour {
 
+
+    #region Serialized
+    [Tooltip("This is just for testing purposes, the actual variable that controls this in the MissileMod script!")]
+    [SerializeField] private float testCloseDamageRadius;
+
+    [Tooltip("This is just for testing purposes, the actual variable that controls this in the MissileMod script!")]
+    [SerializeField] private float testFarDamageRadius;
+
+
+    #endregion
+
     #region Private variables
     private float speed;
     
@@ -31,6 +42,7 @@ public class Missile : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+
         if (isReady)
         {
             deathTimer += Time.deltaTime;
@@ -132,4 +144,14 @@ public class Missile : MonoBehaviour {
     }
     #endregion
 
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, testCloseDamageRadius);
+
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawWireSphere(transform.position, testFarDamageRadius);
+
+    }
 }
