@@ -80,7 +80,7 @@ public class GeyserFissure : MonoBehaviour {
         {
             scale += dScale;
             effect.localScale = scale;
-            Debug.Log (scale);
+            //Debug.Log (scale);
 
             yield return null;
         }
