@@ -10,7 +10,7 @@ public class MallCopFireState : AIState {
     private float currentAngleToTarget;
     private float lastAngleToTarget;
     private float currentWeight;
-    MallCopBlasterController blasterController;
+    //MallCopBlasterController blasterController;
 
     int counter;
     bool doneFiring;
@@ -22,7 +22,7 @@ public class MallCopFireState : AIState {
         animator.SetInteger(Strings.FEETSTATE, (int)AnimationStates.TurnLeft);
         Timing.RunCoroutine(RunStartupTimer(), coroutineName);
         doneFiring = false;
-        blasterController = (MallCopBlasterController)controller;
+        //blasterController = (MallCopBlasterController)controller;
        
     }
     public override void Update() {

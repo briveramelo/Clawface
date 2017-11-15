@@ -119,20 +119,9 @@ public class MallCop : EnemyBase
 
 
     public override void OnDeath()
-    {
-        if (!will.isDead)
-        {
-            GameObject mallCopParts = ObjectPool.Instance.GetObject(PoolObjectType.VFXMallCopExplosion);
-            if (mallCopParts)
-            {
-                SFXManager.Instance.Play(SFXType.BloodExplosion, transform.position);
-                mallCopParts.transform.position = transform.position + Vector3.up * 3f;
-                mallCopParts.transform.rotation = transform.rotation;
-                mallCopParts.DeActivate(5f);
-            }
-            mod.KillCoroutines();
-        }
+    { 
         base.OnDeath();
+        mod.KillCoroutines();
     }
 
     public override void ResetForRebirth()
