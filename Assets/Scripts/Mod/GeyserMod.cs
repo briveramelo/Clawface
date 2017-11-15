@@ -14,7 +14,6 @@ public class GeyserMod : Mod {
     #endregion
 
     #region Private Fields
-    const float SHOOT_OFFSET = 0.0f;
     private Animator animator;
     #endregion
 
@@ -76,7 +75,7 @@ public class GeyserMod : Mod {
         GameObject projectile = ObjectPool.Instance.GetObject(PoolObjectType.GeyserFissure);
         if (projectile)
         {
-            projectile.transform.position = transform.position + transform.forward * SHOOT_OFFSET;
+            projectile.transform.position = transform.position + transform.forward * geyserStartDistanceOffset;
             projectile.transform.forward = transform.forward;
             projectile.transform.rotation = Quaternion.Euler(0f, projectile.transform.rotation.eulerAngles.y, 0f);
             projectile.GetComponent<GeyserFissure>().Initialize(fissureSpeed, damage, fissureLiveTime);
