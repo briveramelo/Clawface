@@ -3,6 +3,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using System.Linq;
 using System;
 using ModMan;
@@ -56,9 +57,16 @@ public class MallCop : EnemyBase
     //State conditions
     bool CheckToFire()
     {
+        Vector3 fwd = controller.DirectionToTarget;
+        RaycastHit hit;
+
         if ((controller.CurrentState== chase && controller.DistanceFromTarget < closeEnoughToFireDistance))
         {
-            controller.UpdateState(EAIState.Fire);
+            if (Physics.Raycast(controller.transform.position, fwd, out hit, 50, ~LayerMask.GetMask(Strings.Layers.ENEMY)))
+            {
+                if(hit.transform.tag == Strings.Tags.PLAYER)
+                controller.UpdateState(EAIState.Fire);
+            }
             return true;
         }
         return false;
@@ -76,7 +84,19 @@ public class MallCop : EnemyBase
             }
             else
             {
-                controller.UpdateState(EAIState.Fire);
+                Vector3 fwd = controller.DirectionToTarget;
+                RaycastHit hit;
+
+                if (Physics.Raycast(controller.transform.position, fwd, out hit, 50, ~LayerMask.GetMask(Strings.Layers.ENEMY)))
+                {
+                    if (hit.transform.tag == Strings.Tags.PLAYER)
+                        controller.UpdateState(EAIState.Fire);
+                }
+                else
+                {
+                    controller.UpdateState(EAIState.Chase);
+
+                }
             }
             return true;
         }
