@@ -11,6 +11,7 @@ public class GeyserMod : Mod {
     [SerializeField] private float geyserStartDistanceOffset;
     [SerializeField] private float fissureSpeed;    
     [SerializeField] private float fissureLiveTime;
+    [SerializeField] private Transform muzzle;
     #endregion
 
     #region Private Fields
@@ -67,6 +68,12 @@ public class GeyserMod : Mod {
         if (GetGeyser())
         {
             SFXManager.Instance.Play(shootSFX, transform.position);
+            GameObject shootEffect = ObjectPool.Instance.GetObject (PoolObjectType.VFXGeyserShoot);
+            if (shootEffect)
+            {
+                shootEffect.transform.position = muzzle.position;
+                shootEffect.transform.rotation = muzzle.rotation;
+            }
         }
     }
 

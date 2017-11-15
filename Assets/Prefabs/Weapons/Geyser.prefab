@@ -42,6 +42,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1124445073547616
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4829776361292650}
+  m_Layer: 0
+  m_Name: Muzzle
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1184993773264196
 GameObject:
   m_ObjectHideFlags: 1
@@ -241,6 +256,7 @@ Transform:
   - {fileID: 4686043701604406}
   - {fileID: 4082354771094970}
   - {fileID: 4274844429923220}
+  - {fileID: 4829776361292650}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -379,6 +395,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4033930865496060}
   m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4829776361292650
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1124445073547616}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.684}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4033930865496060}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &23184386832820794
 MeshRenderer:
@@ -603,6 +632,7 @@ MonoBehaviour:
   geyserStartDistanceOffset: 2
   fissureSpeed: 40
   fissureLiveTime: 8
+  muzzle: {fileID: 4829776361292650}
 --- !u!114 &114876056122338820
 MonoBehaviour:
   m_ObjectHideFlags: 1
