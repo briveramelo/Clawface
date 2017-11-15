@@ -25,7 +25,7 @@
     public static class Layers
     {
         public static string GROUND = "Ground";
-
+        public static string MODMAN = "ModMan";
         public static string ENEMY = "Enemy";
     }
 
