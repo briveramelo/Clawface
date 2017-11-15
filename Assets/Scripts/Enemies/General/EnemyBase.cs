@@ -19,6 +19,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     [SerializeField] protected int scorePopupDelay = 2;
     [SerializeField] protected int scoreValue = 200;
     [SerializeField] private GameObject grabObject;
+    [SerializeField] protected HitFlasher hitFlasher;
     #endregion
 
     #region 3. Private fields
@@ -28,7 +29,6 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     private Collider[] playerColliderList = new Collider[10];
     private Rigidbody[] jointRigidBodies;
     private Vector3 grabStartPosition;
-    private HitFlasher hitFlasher;
     #endregion
 
     #region 0. Protected fields
@@ -56,7 +56,6 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         poolParent = transform.parent;
         transformMemento.Initialize(transform);
         jointRigidBodies = GetComponentsInChildren<Rigidbody>();
-        hitFlasher = GetComponentInChildren<HitFlasher>();
         if (grabObject != null)
         {
             grabStartPosition = grabObject.transform.localPosition;
