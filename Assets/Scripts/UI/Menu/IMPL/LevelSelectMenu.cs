@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LevelSelectMenu : Menu
@@ -63,7 +64,7 @@ public class LevelSelectMenu : Menu
 	#region Fields (Private)
 
 	private string selectedLevel = null;
-	private bool resetLevel = false;
+	private bool resetLevel = true;
 	private Theme selectedTheme = Theme.COMMON_AREA;
 	private bool chooseLevel = false;
 
@@ -79,9 +80,11 @@ public class LevelSelectMenu : Menu
 
 	#region Interface (Unity Lifecycle)
 
-	private void Start ()
+	protected override void Start ()
 	{
+        base.Start();
 		RewireNavigation ();
+        selectedLevel = SceneManager.GetActiveScene().name;
 	}
 
 	private void Update ()

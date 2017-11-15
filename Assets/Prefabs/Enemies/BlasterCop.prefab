@@ -1237,6 +1237,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4342439602971446}
   - component: {fileID: 137161068071271554}
+  - component: {fileID: 114702588984713274}
   m_Layer: 0
   m_Name: Enemy_1_mesh
   m_TagString: Untagged
@@ -3005,6 +3006,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 348b0120920885b4195bf71cb50e01dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114702588984713274
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1887600873005720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0123960e979242643bb00da688f4b22c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114704564857973956
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3075,6 +3087,9 @@ MonoBehaviour:
   scorePopupDelay: 2
   scoreValue: 200
   grabObject: {fileID: 1775636957589736}
+  hitFlasher: {fileID: 114702588984713274}
+  hitSFX: 17
+  deathSFX: 0
   playerDetectorSphereCollider: {fileID: 135652806102363036}
   closeEnoughToFireDistance: 10
   properties:

@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 23257770395915634}
   - component: {fileID: 65972574447839556}
   - component: {fileID: 114731245196899798}
+  - component: {fileID: 114474513720911666}
   m_Layer: 0
   m_Name: Bench 2
   m_TagString: Untagged
@@ -94,6 +95,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 4.950285, y: 1.8615977, z: 1.5673045}
   m_Center: {x: -0.046868693, y: 0.88312393, z: 0.2230539}
+--- !u!114 &114474513720911666
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1483837039648612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  renderTextureWidth: 512
+  renderTextureHeight: 512
 --- !u!114 &114731245196899798
 MonoBehaviour:
   m_ObjectHideFlags: 1
