@@ -19,6 +19,8 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     [SerializeField] protected int scorePopupDelay = 2;
     [SerializeField] protected int scoreValue = 200;
     [SerializeField] private GameObject grabObject;
+    [SerializeField] private SFXType hitSFX;
+    [SerializeField] private SFXType deathSFX;
     #endregion
 
     #region 3. Private fields
@@ -74,7 +76,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         {
             myStats.TakeDamage(damager.damage);
             damagePack.Set(damager, damaged);
-            SFXManager.Instance.Play(SFXType.MallCopHurt, transform.position);
+            SFXManager.Instance.Play(hitSFX, transform.position);
             DamageFXManager.Instance.EmitDamageEffect(damagePack);
             hitFlasher.Flash (1.0f, 0.15f);
 
@@ -174,6 +176,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
             navAgent.speed = 0;
             navAgent.enabled = false;
             gameObject.SetActive(false);
+            SFXManager.Instance.Play(deathSFX, transform.position);
         }
     }
 
