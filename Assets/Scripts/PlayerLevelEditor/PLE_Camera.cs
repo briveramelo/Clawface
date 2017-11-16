@@ -51,35 +51,23 @@ public class PLE_Camera : MonoBehaviour
 
         if (Input.GetKey(KeyCode.W))
         {
-            gameObject.transform.position += new Vector3(0, 0, v);
+            gameObject.transform.Translate(v * Vector3.forward);
         }
 
         if (Input.GetKey(KeyCode.S))
         {
-            gameObject.transform.position -= new Vector3(0, 0, v);
+            gameObject.transform.Translate(v * Vector3.back);
         }
 
         if (Input.GetKey(KeyCode.D))
         {
-            gameObject.transform.position += new Vector3(v, 0, 0);
+            gameObject.transform.Translate(v * Vector3.right);
         }
 
         if (Input.GetKey(KeyCode.A))
         {
-            gameObject.transform.position -= new Vector3(v, 0, 0);
+            gameObject.transform.Translate(v * Vector3.left);
         }
-
-        if (Input.GetKey(KeyCode.UpArrow))
-        {
-            gameObject.transform.position += new Vector3(0, v, 0);
-        }
-
-        if (Input.GetKey(KeyCode.DownArrow))
-        {
-            gameObject.transform.position -= new Vector3(0, v, 0);
-        }
-
-
 
         if (Input.GetAxis("Mouse ScrollWheel") < 0) // back
         {
@@ -99,7 +87,6 @@ public class PLE_Camera : MonoBehaviour
                 Camera.main.transform.Translate(Vector3.back * 5);
             }
         }
-
 
 
         if (Input.GetMouseButtonDown(1))
