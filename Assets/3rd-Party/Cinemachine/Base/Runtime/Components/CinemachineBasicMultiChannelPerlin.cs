@@ -17,7 +17,7 @@ namespace Cinemachine
     [AddComponentMenu("")] // Don't display in add component menu
     [RequireComponent(typeof(CinemachinePipeline))]
     [SaveDuringPlay]
-    public class CinemachineBasicMultiChannelPerlin : MonoBehaviour, ICinemachineComponent
+    public class CinemachineBasicMultiChannelPerlin : CinemachineComponentBase
     {
         /// <summary>
         /// Serialized property for referencing a NoiseSettings asset
@@ -40,33 +40,28 @@ namespace Cinemachine
         public float m_FrequencyGain = 1f;
 
         /// <summary>True if the component is valid, i.e. it has a noise definition and is enabled.</summary>
-        public bool IsValid
-        { get { return enabled && m_NoiseProfile != null; } }
-
-        /// <summary>Get the Cinemachine Virtual Camera affected by this component</summary>
-        public ICinemachineCamera VirtualCamera
-        { get { return gameObject.transform.parent.gameObject.GetComponent<ICinemachineCamera>(); } }
+        public override bool IsValid { get { return enabled && m_NoiseProfile != null; } }
 
         /// <summary>Get the Cinemachine Pipeline stage that this component implements.
         /// Always returns the Noise stage</summary>
-        public CinemachineCore.Stage Stage { get { return CinemachineCore.Stage.Noise; } }
+        public override CinemachineCore.Stage Stage { get { return CinemachineCore.Stage.Noise; } }
 
         /// <summary>Applies noise to the Correction channel of the CameraState if the
         /// delta time is greater than 0.  Otherwise, does nothing.</summary>
         /// <param name="curState">The current camera state</param>
         /// <param name="deltaTime">How much to advance the perlin noise generator.
-        /// Noise is only applied if this value is greater than 0</param>
-        public void MutateCameraState(ref CameraState curState, float deltaTime)
+        /// Noise is only applied if this value is greater than or equal to 0</param>
+        public override void MutateCameraState(ref CameraState curState, float deltaTime)
         {
-            if (!IsValid || deltaTime <= 0)
+            if (!IsValid || deltaTime < 0)
                 return;
 
             //UnityEngine.Profiling.Profiler.BeginSample("CinemachineBasicMultiChannelPerlin.MutateCameraState");
             if (!mInitialized)
                 Initialize();
 
-            ++mNoiseTime;
-            float time = mNoiseTime * deltaTime * m_FrequencyGain;
+            mNoiseTime += deltaTime;
+            float time = mNoiseTime * m_FrequencyGain;
             curState.PositionCorrection += curState.CorrectedOrientation * GetCombinedFilterResults(
                     m_NoiseProfile.PositionNoise, time, mNoiseOffsets) * m_AmplitudeGain;
             Quaternion rotNoise = Quaternion.Euler(GetCombinedFilterResults(
@@ -76,7 +71,7 @@ namespace Cinemachine
         }
 
         private bool mInitialized = false;
-        private int mNoiseTime = 0;
+        private float mNoiseTime = 0;
         private Vector3 mNoiseOffsets = Vector3.zero;
 
         void Initialize()

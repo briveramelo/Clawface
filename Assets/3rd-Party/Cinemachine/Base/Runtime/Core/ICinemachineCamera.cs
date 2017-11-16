@@ -35,12 +35,6 @@ namespace Cinemachine
         CameraState State { get; }
 
         /// <summary>
-        /// Set by the core if the target is being moved in both Fixed and regular Update.
-        /// This can be a source of camera jitter.
-        /// </summary>
-        bool InconsistentTargetAnimation { get; set; }
-
-        /// <summary>
         /// Gets the virtual camera game attached to this class.
         /// </summary>
         GameObject VirtualCameraGameObject { get; }
@@ -60,6 +54,16 @@ namespace Cinemachine
         bool IsLiveChild(ICinemachineCamera vcam);
 
         /// <summary>
+        /// This is called prior to the updating of the vcam's child cameras, 
+        /// in order to allow the parent to prepare its children.
+        /// If the children are updating on FixedUpdate, then this will not necessarily be called
+        /// prior to every FixedUpdate, but it might be called on LateUpdate instead.
+        /// </summary>
+        /// <param name="worldUp">Default world Up, set by the CinemachineBrain</param>
+        /// <param name="deltaTime">Delta time for time-based effects (ignore if less than 0)</param>
+        void PreUpdateChildCameras(Vector3 worldUp, float deltaTime);
+
+        /// <summary>
         /// Updates this Cinemachine Camera. For an active camera this should be
         /// called once and only once each frame.  To guarantee this, you should never
         /// call this method directly.  Always use
@@ -67,7 +71,7 @@ namespace Cinemachine
         /// has protection against multiple calls per frame.
         /// </summary>
         /// <param name="worldUp">Default world Up, set by the CinemachineBrain</param>
-        /// <param name="deltaTime">Delta time for time-based effects (ignore if less than or equal to 0)</param>
+        /// <param name="deltaTime">Delta time for time-based effects (ignore if less than 0)</param>
         void UpdateCameraState(Vector3 worldUp, float deltaTime);
 
         /// <summary>

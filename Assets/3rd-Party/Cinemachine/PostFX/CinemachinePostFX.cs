@@ -2,16 +2,17 @@
 
 // NOTE: If you are getting errors of the sort that say something like:
 //     "The type or namespace name `PostProcessing' does not exist in the namespace"
-// it is because you are missing the PostProcessing v1 module.
+// it is because the PostProcessing v1 module has been removed from your project.
 //
 // To make the errors go away, you can either:
-//   1 - Download PostProcessing V1 and install it into your project, and take advantage of its features,
+//   1 - Download PostProcessing V1 and install it into your project
 // or
-//   2 - Delete or comment out this file.
+//   2 - Go into PlayerSettings/OtherSettings and remove the Scripting Define for UNITY_POST_PROCESSING_STACK_V1
 //
 
 namespace Cinemachine.PostFX
 {
+#if UNITY_POST_PROCESSING_STACK_V1 && !UNITY_POST_PROCESSING_STACK_V2
     /// <summary>
     /// This behaviour is a liaison between Cinemachine with the Post-Processing v1 module.  You must 
     /// have the Post-Processing V1 stack asset store package installed in order to use this behaviour.
@@ -37,61 +38,6 @@ namespace Cinemachine.PostFX
     [SaveDuringPlay]
     public class CinemachinePostFX : MonoBehaviour
     {
-        [RuntimeInitializeOnLoadMethod]
-        static void InitializeModule()
-        {
-            if (sModuleInitialized)
-                return;
-
-            // Add the static global PostFX hook
-            CinemachineBrain.sPostProcessingHandler.AddListener((CinemachineBrain brain) => 
-                {
-                    CinemachinePostFX postFX = brain.PostProcessingComponent as CinemachinePostFX;
-                    if (postFX == null)
-                        brain.PostProcessingComponent = null;   // object deleted
-                    else
-                        postFX.PostFXHandler(brain);
-                });
-
-            // Add the per-brain hooks
-            CinemachineBrain.sPostProcessingOnEnableHook.AddListener((CinemachineBrain brain) => 
-                {
-                    brain.PostProcessingComponent = brain.GetComponent<CinemachinePostFX>();
-                });
-            int numBrains = CinemachineCore.Instance.BrainCount;
-            for (int i = 0; i < numBrains; ++i)
-            {
-                CinemachineBrain brain = CinemachineCore.Instance.GetActiveBrain(i);
-                brain.PostProcessingComponent = brain.GetComponent<CinemachinePostFX>();
-            }
-
-            // Add the per-vcam hooks
-            CinemachineVirtualCameraBase.sPostProcessingOnEnableHook.AddListener(
-                (ICinemachineCamera vcam) => 
-                {
-                    CinemachineVirtualCameraBase vcamBase = vcam as CinemachineVirtualCameraBase;
-                    if (vcamBase != null)
-                        vcamBase.PostProcessingComponent = vcamBase.GetComponent<CinemachinePostFX>();
-                });
-
-            // If any cameras happened to be enabled before this init was called, take care of them now
-            int numCameras = CinemachineCore.Instance.VirtualCameraCount;
-            for (int i = 0; i < numCameras; ++i)
-            {
-                CinemachineVirtualCameraBase vcam 
-                    = CinemachineCore.Instance.GetVirtualCamera(i) as CinemachineVirtualCameraBase;
-                if (vcam != null)
-                    vcam.PostProcessingComponent = vcam.GetComponent<CinemachinePostFX>();
-            }
-            sModuleInitialized = true;
-        }
-        static bool sModuleInitialized = false;
-
-#if UNITY_EDITOR
-        [UnityEditor.InitializeOnLoad]
-        class EditorInitialize { static EditorInitialize() { InitializeModule(); } }
-#endif
-
         // Just for the Enabled checkbox
         void Update() {}
 
@@ -108,14 +54,16 @@ namespace Cinemachine.PostFX
         CinemachineBrain mBrain;
         UnityEngine.PostProcessing.PostProcessingBehaviour mPostProcessingBehaviour;
 
-        void Awake()
+        void ConnectToBrain()
         {
             // If I am a component on the Unity camera, connect to its brain
             // and to its post-processing behaviour
             mBrain = GetComponent<CinemachineBrain>();
             if (mBrain != null)
+            {
+                mBrain.m_CameraCutEvent.RemoveListener(OnCameraCut);
                 mBrain.m_CameraCutEvent.AddListener(OnCameraCut);
-
+            }
             // Must have one of these if connected to a brain
             mPostProcessingBehaviour = GetComponent<UnityEngine.PostProcessing.PostProcessingBehaviour>();
             if (mPostProcessingBehaviour == null && mBrain != null)
@@ -129,8 +77,9 @@ namespace Cinemachine.PostFX
         }
 
         // CinemachineBrain callback used when this behaviour is on the Unity Camera
-        void PostFXHandler(CinemachineBrain brain)
+        internal void PostFXHandler(CinemachineBrain brain)
         {
+            //UnityEngine.Profiling.Profiler.BeginSample("CinemachinePostFX.PostFXHandler");
             ICinemachineCamera vcam = brain.ActiveVirtualCamera;
             if (enabled && mBrain != null && mPostProcessingBehaviour != null)
             {
@@ -156,6 +105,7 @@ namespace Cinemachine.PostFX
                     mPostProcessingBehaviour.ResetTemporalEffects();
                 }
             }
+            //UnityEngine.Profiling.Profiler.EndSample();
         }
 
         CinemachinePostFX GetEffectivePostFX(ICinemachineCamera vcam)
@@ -167,7 +117,7 @@ namespace Cinemachine.PostFX
             {
                 CinemachineVirtualCameraBase vcamBase = vcam as CinemachineVirtualCameraBase;
                 if (vcamBase != null)
-                    postFX = vcamBase.PostProcessingComponent as CinemachinePostFX;
+                    postFX = vcamBase.GetComponent<CinemachinePostFX>();
                 if (postFX != null && !postFX.enabled)
                     postFX = null;
                 vcam = vcam.ParentCamera;
@@ -177,9 +127,35 @@ namespace Cinemachine.PostFX
 
         void OnCameraCut(CinemachineBrain brain)
         {
-            //Debug.Log("CinemachinePostFX.OnCameraCut()");
             if (mPostProcessingBehaviour != null)
+            {
+                //Debug.Log("CinemachinePostFX.OnCameraCut()");
                 mPostProcessingBehaviour.ResetTemporalEffects();
+            }
+        }
+
+        static void StaticPostFXHandler(CinemachineBrain brain)
+        {
+            CinemachinePostFX postFX = brain.PostProcessingComponent as CinemachinePostFX;
+            if (postFX == null)
+            {
+                brain.PostProcessingComponent = brain.GetComponent<CinemachinePostFX>();
+                postFX = brain.PostProcessingComponent as CinemachinePostFX;
+                if (postFX != null)
+                    postFX.ConnectToBrain();
+            }
+            if (postFX != null)
+                postFX.PostFXHandler(brain);
+        }
+
+        /// <summary>Internal method called by editor module</summary>
+        [RuntimeInitializeOnLoadMethod]
+        public static void InitializeModule()
+        {
+            // When the brain pushes the state to the camera, hook in to the PostFX
+            CinemachineBrain.sPostProcessingHandler.RemoveListener(StaticPostFXHandler);
+            CinemachineBrain.sPostProcessingHandler.AddListener(StaticPostFXHandler);
         }
     }
+#endif
 }
