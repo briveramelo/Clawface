@@ -1719,7 +1719,7 @@ Camera:
   far clip plane: 100
   field of view: 28
   orthographic: 1
-  orthographic size: 9
+  orthographic size: 8
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -2374,8 +2374,8 @@ MonoBehaviour:
     defaultState: {fileID: 0}
     eatTargetEnemy: {fileID: 0}
     modelHead: {fileID: 1865138005623536}
-    clawExtensionTime: 0.5
-    clawRetractionTime: 1
+    clawExtensionTime: 0.35
+    clawRetractionTime: 0.35
     ArmExtensionSFX: 0
     ArmEnemyCaptureSFX: 0
     EatSFX: 0
