@@ -12,7 +12,7 @@ public class MenuTransitionsCommon {
     public static IEnumerator FadeCoroutine(float startAlpha, float endAlpha, float duration,
             CanvasGroup canvas, TransitionComplete callback)
     {
-        Assert.IsTrue(duration > 0.0F);
+        Assert.IsTrue(duration >= 0.0F);
         float elapsedTime = 0.0F;
         while (elapsedTime < duration)
         {
@@ -22,6 +22,8 @@ public class MenuTransitionsCommon {
         }
      
         canvas.alpha = endAlpha;
+
+        yield return new WaitForEndOfFrame();
 
         if (callback != null)
         {
