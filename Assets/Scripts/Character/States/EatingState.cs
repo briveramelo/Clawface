@@ -8,10 +8,11 @@ using UnityEngine.Assertions;
 public class EatingState : IPlayerState
 {
 
-    #region Serialized field
+    #region Serialized Fields
     [SerializeField]
     private ClawArmController clawArmController;
     #endregion
+
 
     #region Private Fields
     private bool isAnimating;
@@ -44,20 +45,7 @@ public class EatingState : IPlayerState
     {
         this.stateVariables = stateVariables;
         isAnimating = false;
-    }
-
-    private void LookAtEnemy()
-    {
-        if (stateVariables.eatTargetEnemy)
-        {
-            Vector3 enemyPosition = stateVariables.eatTargetEnemy.transform.position;
-            stateVariables.modelHead.transform.LookAt(new Vector3(enemyPosition.x, 0f, enemyPosition.z));
-        }
-        else
-        {
-            ResetState();
-        }
-    }
+    }   
 
     public override void StateFixedUpdate()
     {
@@ -83,10 +71,23 @@ public class EatingState : IPlayerState
     public override void StateLateUpdate()
     {
         LookAtEnemy();
-    }    
+    }
     #endregion
 
     #region Private Methods
+    private void LookAtEnemy()
+    {
+        if (stateVariables.eatTargetEnemy)
+        {
+            Vector3 enemyPosition = stateVariables.eatTargetEnemy.transform.position;
+            stateVariables.modelHead.transform.LookAt(new Vector3(enemyPosition.x, 0f, enemyPosition.z));
+        }
+        else
+        {
+            ResetState();
+        }
+    }
+
     protected override void ResetState()
     {
         clawArmController.ResetClawArm();
@@ -137,6 +138,7 @@ public class EatingState : IPlayerState
             EventSystem.Instance.TriggerEvent(Strings.Events.UPDATE_HEALTH, stats.GetHealthFraction());
             GameObject skinningEffect = ObjectPool.Instance.GetObject(PoolObjectType.VFXSkinningEffect);
             skinningEffect.transform.position = transform.position;
+
 
             GameObject healthJuice = ObjectPool.Instance.GetObject(PoolObjectType.VFXHealthGain);
             if (healthJuice)

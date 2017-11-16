@@ -27,6 +27,11 @@ namespace Turing.VFX
             meshRenderers = GetComponentsInChildren<SkinnedMeshRenderer>();
         }
 
+        void OnEnable()
+        {
+            SetFlashStrength(0.0f);
+        }
+
         #endregion
         #region Public Methods
 
@@ -42,19 +47,29 @@ namespace Turing.VFX
         #endregion
         #region Private Methods
 
+        /// <summary>
+        /// Sets the strength of the flash.
+        /// </summary>
+        void SetFlashStrength (float strength)
+        {
+            MaterialPropertyBlock props = new MaterialPropertyBlock();
+            props.SetFloat ("_HitColorStrength", strength);
+            foreach (SkinnedMeshRenderer meshRenderer in meshRenderers)
+                meshRenderer.SetPropertyBlock (props);
+        }
+
         IEnumerator DoFlash (float intensity, float duration)
         {
             float t = 0f;
             while (t <= duration)
             {
-                MaterialPropertyBlock props = new MaterialPropertyBlock();
-                props.SetFloat ("_HitColorStrength", intensity * (1f - t / duration));
-                foreach (SkinnedMeshRenderer meshRenderer in meshRenderers)
-                    meshRenderer.SetPropertyBlock (props);
+                SetFlashStrength (intensity * (1f - t / duration));
 
                 t += Time.deltaTime;
                 yield return null;
             }
+
+            SetFlashStrength (0.0f);
         }
 
         #endregion

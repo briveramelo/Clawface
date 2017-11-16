@@ -24,7 +24,7 @@ public class SpreadGunBullet : MonoBehaviour {
         if (isReady)
         {
             //Move and shit
-            transform.position += transform.forward * speed;
+            transform.position += transform.forward * speed * Time.deltaTime;
             float distanceTravelled = Vector3.Distance(initPosition, transform.position);
             if(distanceTravelled > maxDistance)
             {

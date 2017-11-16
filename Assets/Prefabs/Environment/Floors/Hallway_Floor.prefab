@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 33334461254161006}
   - component: {fileID: 23187734423373550}
   - component: {fileID: 65334912515786070}
+  - component: {fileID: 114515109445638682}
   m_Layer: 11
   m_Name: Hallway_Floor
   m_TagString: Untagged
@@ -93,3 +94,17 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0.00000014901161}
+--- !u!114 &114515109445638682
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1221831762204170}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  renderTextureWidth: 512
+  renderTextureHeight: 512

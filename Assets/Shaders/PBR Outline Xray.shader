@@ -1,6 +1,6 @@
 // Made with Amplify Shader Editor
 // Available at the Unity Asset Store - http://u3d.as/y3X 
-Shader "PBR Outline X-Ray Flash (Instanced)"
+Shader "PBR Outline Xray"
 {
 	Properties
 	{
@@ -22,7 +22,7 @@ Shader "PBR Outline X-Ray Flash (Instanced)"
 		_TextureTiling("Texture Tiling", Float) = 1
 		[HideInInspector] _texcoord2( "", 2D ) = "white" {}
 
-		[Header Hit Feedback]
+		[Header (Hit Feedback)]
 		_HitColor("Hit Color", Color) = (0,0,0,0)
 		_HitColorStrength("Hit Color Strength", Range( 0 , 1)) = 0
 
@@ -41,19 +41,22 @@ Shader "PBR Outline X-Ray Flash (Instanced)"
 		CGPROGRAM
 		#pragma target 3.0
 		#pragma surface outlineSurf Outline keepalpha noshadow noambient novertexlights nolightmap nodynlightmap nodirlightmap nofog nometa noforwardadd vertex:outlineVertexDataFunc
+		#pragma multi_compile_instancing
 		struct Input
 		{
 			fixed filler;
 		};
-		uniform fixed4 _ASEOutlineColor;
-		uniform fixed _ASEOutlineWidth;
+		UNITY_INSTANCING_CBUFFER_START(PBROutlinePlayer)
+			UNITY_DEFINE_INSTANCED_PROP( fixed4, _ASEOutlineColor )
+			UNITY_DEFINE_INSTANCED_PROP(fixed, _ASEOutlineWidth)
+		UNITY_INSTANCING_CBUFFER_END
 		void outlineVertexDataFunc( inout appdata_full v, out Input o )
 		{
 			UNITY_INITIALIZE_OUTPUT( Input, o );
-			v.vertex.xyz += ( v.normal * _ASEOutlineWidth );
+			v.vertex.xyz += ( v.normal * UNITY_ACCESS_INSTANCED_PROP( _ASEOutlineWidth ) );
 		}
 		inline fixed4 LightingOutline( SurfaceOutput s, half3 lightDir, half atten ) { return fixed4 ( 0,0,0, s.Alpha); }
-		void outlineSurf( Input i, inout SurfaceOutput o ) { o.Emission = _ASEOutlineColor.rgb; o.Alpha = 1; }
+		void outlineSurf( Input i, inout SurfaceOutput o ) { o.Emission = UNITY_ACCESS_INSTANCED_PROP( _ASEOutlineColor ).rgb; o.Alpha = 1; }
 		ENDCG
 
 		// XRay
@@ -62,8 +65,8 @@ Shader "PBR Outline X-Ray Flash (Instanced)"
 		ZTest Greater
 		CGPROGRAM
 		#pragma target 3.0
+		#pragma multi_compile_instancing
 		#pragma surface surf Standard keepalpha addshadow fullforwardshadows 
-		#include "UnityCG.cginc"
 		struct Input
 		{
 			float2 uv2_texcoord2;
@@ -71,21 +74,20 @@ Shader "PBR Outline X-Ray Flash (Instanced)"
 
 		uniform float4 _XrayColor;
 		uniform float _XrayColorStrength;
-		
 		uniform sampler2D _FaceTexture;
 		uniform float4 _FaceTexture_ST;
 		uniform float4 _FaceColor;
 
-		UNITY_INSTANCING_CBUFFER_START(Props)
-			UNITY_DEFINE_INSTANCED_PROP(fixed4, _HitColor)
-			UNITY_DEFINE_INSTANCED_PROP(fixed, _HitColorStrength)
+		UNITY_INSTANCING_CBUFFER_START(PBROutlinePlayer1stPassv2)
+			UNITY_DEFINE_INSTANCED_PROP(float4, _HitColor)
+			UNITY_DEFINE_INSTANCED_PROP(float, _HitColorStrength)
 		UNITY_INSTANCING_CBUFFER_END
 
 		void surf( Input i , inout SurfaceOutputStandard o )
 		{
-			float4 hitColor = UNITY_ACCESS_INSTANCED_PROP(_HitColor);
-			float hitColorStrength = UNITY_ACCESS_INSTANCED_PROP(_HitColorStrength);
-			float4 lerpResult77 = lerp( ( ( _XrayColor * _XrayColorStrength ) + float4( 0,0,0,0 ) ) , hitColor, hitColorStrength);
+			float4 _HitColor_Instance = UNITY_ACCESS_INSTANCED_PROP(_HitColor);
+			float _HitColorStrength_Instance = UNITY_ACCESS_INSTANCED_PROP(_HitColorStrength);
+			float4 lerpResult77 = lerp( ( ( _XrayColor * _XrayColorStrength ) + float4( 0,0,0,0 ) ) , _HitColor_Instance , _HitColorStrength_Instance);
 			float2 uv2_FaceTexture = i.uv2_texcoord2 * _FaceTexture_ST.xy + _FaceTexture_ST.zw;
 			o.Albedo = ( lerpResult77 + ( tex2D( _FaceTexture, uv2_FaceTexture ) * _FaceColor ) ).rgb;
 			o.Alpha = 1;
@@ -100,8 +102,9 @@ Shader "PBR Outline X-Ray Flash (Instanced)"
 		ZTest Less
 		CGPROGRAM
 		#pragma target 3.0
+		#pragma multi_compile_instancing
 		#pragma surface surf Standard keepalpha addshadow fullforwardshadows vertex:vertexDataFunc 
-				struct Input
+		struct Input
 		{
 			float2 texcoord_0;
 			float2 uv2_texcoord2;
@@ -111,7 +114,6 @@ Shader "PBR Outline X-Ray Flash (Instanced)"
 		uniform float _TextureTiling;
 		uniform sampler2D _Albedo;
 		uniform float4 _AlbedoTint;
-		
 		uniform sampler2D _FaceTexture;
 		uniform float4 _FaceTexture_ST;
 		uniform float4 _FaceColor;
@@ -120,9 +122,9 @@ Shader "PBR Outline X-Ray Flash (Instanced)"
 		uniform float4 _EmissiveColor;
 		uniform float _EmissiveStrength;
 
-		UNITY_INSTANCING_CBUFFER_START(Props)
-			UNITY_DEFINE_INSTANCED_PROP(fixed4, _HitColor)
-			UNITY_DEFINE_INSTANCED_PROP(fixed, _HitColorStrength)
+		UNITY_INSTANCING_CBUFFER_START(PBROutlinePlayer)
+			UNITY_DEFINE_INSTANCED_PROP(float4, _HitColor)
+			UNITY_DEFINE_INSTANCED_PROP(float, _HitColorStrength)
 		UNITY_INSTANCING_CBUFFER_END
 
 		void vertexDataFunc( inout appdata_full v, out Input o )
@@ -134,10 +136,10 @@ Shader "PBR Outline X-Ray Flash (Instanced)"
 
 		void surf( Input i , inout SurfaceOutputStandard o )
 		{
-			float4 hitColor = UNITY_ACCESS_INSTANCED_PROP(_HitColor);
-			float hitColorStrength = UNITY_ACCESS_INSTANCED_PROP(_HitColorStrength);
 			o.Normal = UnpackNormal( tex2D( _Normal, i.texcoord_0 ) );
-			float4 lerpResult73 = lerp( ( tex2D( _Albedo, i.texcoord_0 ) * _AlbedoTint ) , hitColor, hitColorStrength);
+			float4 _HitColor_Instance = UNITY_ACCESS_INSTANCED_PROP(_HitColor);
+			float _HitColorStrength_Instance = UNITY_ACCESS_INSTANCED_PROP(_HitColorStrength);
+			float4 lerpResult73 = lerp( ( tex2D( _Albedo, i.texcoord_0 ) * _AlbedoTint ) , _HitColor_Instance , _HitColorStrength_Instance);
 			o.Albedo = lerpResult73.rgb;
 			float2 uv2_FaceTexture = i.uv2_texcoord2 * _FaceTexture_ST.xy + _FaceTexture_ST.zw;
 			o.Emission = ( ( ( tex2D( _FaceTexture, uv2_FaceTexture ) * _FaceColor ) * _FaceEmissiveStrength ) + ( ( tex2D( _MetallicSmoothnessEmissiveAO, i.texcoord_0 ).b * _EmissiveColor ) * _EmissiveStrength ) ).rgb;
