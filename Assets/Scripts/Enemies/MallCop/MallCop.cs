@@ -89,7 +89,10 @@ public class MallCop : EnemyBase
 
                 if (Physics.Raycast(controller.transform.position, fwd, out hit, 50, ~LayerMask.GetMask(Strings.Layers.ENEMY)))
                 {
-                    if (hit.transform.tag == Strings.Tags.PLAYER)
+                    if (hit.transform.tag != Strings.Tags.PLAYER)
+                        controller.UpdateState(EAIState.Chase);
+
+                    else if (hit.transform.tag == Strings.Tags.PLAYER)
                         controller.UpdateState(EAIState.Fire);
                 }
                 else
