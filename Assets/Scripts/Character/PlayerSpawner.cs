@@ -50,7 +50,7 @@ public class PlayerSpawner : MonoBehaviour
     void SpawnPlayer ()
     {
         // Get the path of the newest prefab
-        string playerPrefabPath = GetNewestPrefabPath();
+        string playerPrefabPath = GetNewestPlayerPrefabPath();
         
         // Load the prefab
         GameObject playerPrefab = Resources.Load<GameObject>(playerPrefabPath);        
@@ -78,11 +78,18 @@ public class PlayerSpawner : MonoBehaviour
         player.transform.position = transform.position + SPAWN_OFFSET;
     }
 
+    string GetNewestPlayerUIPrefabPath()
+    {
+        VersionedPlayerPrefab
+
+        return "";
+    }
+
     /// <summary>
     /// Returns the path of the newest prefab version (relative to the 
     /// resources folder).
     /// </summary>
-    string GetNewestPrefabPath ()
+    string GetNewestPlayerPrefabPath ()
     {
         VersionedPlayerPrefab[] allPrefabs = 
             Resources.LoadAll<VersionedPlayerPrefab>("Player/");
