@@ -48,7 +48,7 @@ public class ServiceWrangler : Singleton<ServiceWrangler> {
                 singletonGameObject.transform.rotation = Quaternion.identity;
 
                 string debugMessage = singletonRegistered.Key + " required Loading. Place this prefab in your scene";
-                Debug.LogFormat("<color=#ffff00>" + debugMessage + "</color>");
+                //Debug.LogFormat("<color=#ffff00>" + debugMessage + "</color>");
             }
         }
     }

@@ -86,6 +86,7 @@ namespace Turing.LevelEditor
                 foreach (string assetPath in files)
                 {
                     LevelEditorObject asset = LoadAssetPath(assetPath, relFolderPath);
+                    if (asset == null) continue;
                     string assetName = Path.GetFileNameWithoutExtension (assetPath);
 
                     if (objects[i] == null)
@@ -171,7 +172,27 @@ namespace Turing.LevelEditor
 
             asset.SetPath(trimmedPath);
 
-             //Debug.Log(string.Format("Loaded asset at {0}.", assetPath));
+            // Check prefab
+            GameObject prefab = asset.Prefab;
+            if (prefab == null)
+            {
+                Debug.LogWarning (string.Format("Asset {0} does not have a prefab!", asset));
+                return null;
+            }
+
+            // Check splattable
+            if (asset.NeedsSplattable)
+            {
+                Splattable splattable = asset.Prefab.
+                    GetComponentInChildren<Splattable>();
+                if (splattable == null)
+                {
+                    Debug.LogWarning (string.Format(@"Asset {0} does not have 
+                        a Splattable! If it doesn't need one, you can disable
+                        this check in the LevelEditorObject asset.", 
+                        asset.Prefab.name), asset);
+                }
+            }
 
             return asset;
         }

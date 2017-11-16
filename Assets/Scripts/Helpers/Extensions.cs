@@ -135,10 +135,10 @@ namespace ModMan {
     public static class GameObjectExtensions {
 
         public static void DeActivate(this GameObject obj, float timeToDeactivate) {
-            Timing.RunCoroutine(IEDeActivate(obj, timeToDeactivate), Segment.FixedUpdate);
+            Timing.RunCoroutine(IEDeActivate(obj, timeToDeactivate));
         }
         public static void FollowAndDeActivate(this GameObject obj, float timeToDeactivate, Transform objToFollow, Vector3 offset) {
-            Timing.RunCoroutine(IEDeActivate(obj, timeToDeactivate, objToFollow, offset), Segment.FixedUpdate);
+            Timing.RunCoroutine(IEDeActivate(obj, timeToDeactivate, objToFollow, offset));
         }
         static IEnumerator<float> IEDeActivate(GameObject obj, float timeToDeactivate) {
             yield return Timing.WaitForSeconds(timeToDeactivate);

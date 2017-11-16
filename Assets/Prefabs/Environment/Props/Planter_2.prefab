@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 33956267836078752}
   - component: {fileID: 23610091486317432}
   - component: {fileID: 65293414616126312}
+  - component: {fileID: 114869154726932852}
   m_Layer: 0
   m_Name: Planter_2
   m_TagString: PlayerDetector
@@ -55,8 +56,8 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 9ef17e04565f0f541b12fe82cd910386, type: 2}
+  - {fileID: 2100000, guid: 08d254e335e6e564d8d30fe85633981d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -94,3 +95,17 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 3.7547994, y: 1.875, z: 7.33095}
   m_Center: {x: 0.000000059604645, y: 0.93781686, z: 0.00000035762787}
+--- !u!114 &114869154726932852
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1761385793245378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  renderTextureWidth: 512
+  renderTextureHeight: 512
