@@ -137,6 +137,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     {
         EventSystem.Instance.TriggerEvent(Strings.Events.ATE_ENEMY);
         Invoke("OnDeath", 0.1f);
+        EventSystem.Instance.TriggerEvent(Strings.Events.EAT_ENEMY);
         return eatHealth;
     }
 
@@ -154,6 +155,9 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
 
     public virtual void OnDeath()
     {
+
+        EventSystem.Instance.TriggerEvent(Strings.Events.DEATH_ENEMY);
+
         if (!will.isDead)
         {
             will.isDead = true;
