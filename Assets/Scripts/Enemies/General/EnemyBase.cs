@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using Turing.VFX;
+using ModMan;
 
 public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatable, ISpawnable
 {
@@ -159,6 +160,15 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
             {
                 will.onDeath();
             }
+                GameObject mallCopParts = ObjectPool.Instance.GetObject(PoolObjectType.VFXMallCopExplosion);
+                if (mallCopParts)
+                {
+                    SFXManager.Instance.Play(SFXType.BloodExplosion, transform.position);
+                    mallCopParts.transform.position = transform.position + Vector3.up * 3f;
+                    mallCopParts.transform.rotation = transform.rotation;
+                    mallCopParts.DeActivate(5f);
+                }
+
 
             UpgradeManager.Instance.AddEXP(Mathf.FloorToInt(myStats.exp));
 

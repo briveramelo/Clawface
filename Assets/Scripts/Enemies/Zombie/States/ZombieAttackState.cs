@@ -31,11 +31,12 @@ public class ZombieAttackState : AIState
     }
     public override void Update()
     {
-      
+        controller.transform.LookAt(controller.AttackTarget);
+        controller.transform.RotateAround(controller.transform.position, controller.transform.up,-25.0f);
     }
     public override void OnExit()
     {
-        navObstacle.enabled = false;
+        navObstacle.enabled = false; 
         navAgent.enabled = true;
         attacks.Clear();
     }
