@@ -128,11 +128,14 @@ namespace Cinemachine.Editor
             string title, string defaultName, string extension, string message)
         {
             EditorGUI.BeginChangeCheck();
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.PropertyField(property);
-            if (GUILayout.Button(m_CreateButtonGUIContent,
-                    GUILayout.ExpandWidth(false),
-                    GUILayout.MaxHeight(EditorGUIUtility.singleLineHeight)))
+
+            float hSpace = 5;
+            float buttonWidth = GUI.skin.button.CalcSize(m_CreateButtonGUIContent).x;
+            Rect r = EditorGUILayout.GetControlRect(true);
+            r.width -= buttonWidth + hSpace;
+            EditorGUI.PropertyField(r, property);
+            r.x += r.width + hSpace; r.width = buttonWidth;
+            if (GUI.Button(r, m_CreateButtonGUIContent))
             {
                 string newAssetPath = EditorUtility.SaveFilePanelInProject(
                         title, defaultName, extension, message);
@@ -143,7 +146,6 @@ namespace Cinemachine.Editor
                     m_Owner.serializedObject.ApplyModifiedProperties();
                 }
             }
-            EditorGUILayout.EndHorizontal();
             if (EditorGUI.EndChangeCheck())
             {
                 m_Owner.serializedObject.ApplyModifiedProperties();
