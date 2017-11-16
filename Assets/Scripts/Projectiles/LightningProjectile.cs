@@ -56,7 +56,7 @@ public class LightningProjectile : MonoBehaviour {
                 return;
             }
             //Move forward
-            transform.position = transform.position + (transform.forward * projectileProperties.projectileSpeed);
+            transform.position = transform.position + (transform.forward * projectileProperties.projectileSpeed * Time.deltaTime);
         }
     }
     #endregion
