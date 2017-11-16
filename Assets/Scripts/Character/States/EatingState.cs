@@ -138,6 +138,7 @@ public class EatingState : IPlayerState
             GameObject skinningEffect = ObjectPool.Instance.GetObject(PoolObjectType.VFXSkinningEffect);
             skinningEffect.transform.position = transform.position;
 
+
             GameObject healthJuice = ObjectPool.Instance.GetObject(PoolObjectType.VFXHealthGain);
             if (healthJuice)
             {
