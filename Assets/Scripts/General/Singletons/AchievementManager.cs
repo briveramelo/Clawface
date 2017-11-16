@@ -21,14 +21,14 @@ public class AchievementManager : Singleton<AchievementManager> {
     public List<Achievement> AchievementsList { get { return Achievements.dataList; } }
 
     private void OnEnable() {
-        EventSystem.Instance.RegisterEvent(Strings.Events.KILL_ENEMY, KillEnemy);
-        EventSystem.Instance.RegisterEvent(Strings.Events.SKIN_ENEMY, SkinEnemy);
+        EventSystem.Instance.RegisterEvent(Strings.Events.KILLED_ENEMY, KillEnemy);
+        EventSystem.Instance.RegisterEvent(Strings.Events.ATE_ENEMY, SkinEnemy);
     }
 
     private void OnDisable() {
         if (EventSystem.Instance) {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.KILL_ENEMY, KillEnemy);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.SKIN_ENEMY, SkinEnemy);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.KILLED_ENEMY, KillEnemy);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.ATE_ENEMY, SkinEnemy);
         }
     }
 
@@ -51,7 +51,7 @@ public class AchievementManager : Singleton<AchievementManager> {
 
     void TryEarnAchievement(string achievementName) {
         Achievement chieve = Achievements.Find(achievementName);
-        if (!chieve.IsEarned) {
+        if (chieve != null && !chieve.IsEarned) {
             chieve.count++;
             if (!chieve.IsEarned) {
                 EventSystem.Instance.TriggerEvent(Strings.Events.PROGRESS_ACHIEVEMENT, chieve);

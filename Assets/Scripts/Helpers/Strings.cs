@@ -78,9 +78,9 @@
         public const string ARM_ANIMATION_COMPLETE = "ArmAnimationComplete";
         public const string UPDATE_HEALTH = "UpdateHealth";
 
-        public const string KILL_ENEMY = "KillEnemy";
+        public const string KILLED_ENEMY = "KilledEnemy";
         public const string BEAT_LEVEL1 = "BeatLevel1";
-        public const string SKIN_ENEMY = "SkinEnemy";
+        public const string ATE_ENEMY = "AteEnemy";
 
         public const string EARN_ACHIEVEMENT = "EarnAchievement";
         public const string PROGRESS_ACHIEVEMENT = "ProgressAchievement";
