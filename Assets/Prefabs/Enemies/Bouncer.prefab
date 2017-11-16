@@ -350,6 +350,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4779312488148686}
   - component: {fileID: 137766420300652490}
+  - component: {fileID: 114321320355554346}
   m_Layer: 0
   m_Name: Guard_Mesh2
   m_TagString: Untagged
@@ -956,6 +957,9 @@ MonoBehaviour:
   scorePopupDelay: 2
   scoreValue: 200
   grabObject: {fileID: 0}
+  hitFlasher: {fileID: 114321320355554346}
+  hitSFX: 0
+  deathSFX: 0
   closeEnoughToAttackDistance: 0
   properties:
     runMultiplier: 0
@@ -997,6 +1001,17 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &114321320355554346
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1581179539087696}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0123960e979242643bb00da688f4b22c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114351724034100968
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1065,7 +1080,7 @@ MonoBehaviour:
   separationAngleBetweenStrands: 45
   rotationDirection: 0
   rotationSpeed: 0
-  bulletLiveTime: 1
+  bulletLiveTime: 5
 --- !u!114 &114732265360839062
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1171,7 +1186,7 @@ SkinnedMeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 5d549990f3c5dc343a5939eb1dbbdd68, type: 2}
+  - {fileID: 2100000, guid: af762d71ec66c954eb9bb3286dd4b95a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

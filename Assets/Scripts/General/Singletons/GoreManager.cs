@@ -27,11 +27,10 @@ public class GoreManager : Singleton<GoreManager> {
 
     #region Fields (Private)
     #if UNITY_EDITOR
-
     private GameObject debugSpheres;
-    private bool shouldRenderSplats = false;
-
     #endif
+
+    private bool shouldRenderSplats = false;
     #endregion
 
     protected override void Awake()

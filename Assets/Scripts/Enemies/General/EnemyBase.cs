@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using Turing.VFX;
+using ModMan;
 
 public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatable, ISpawnable
 {
@@ -19,6 +20,9 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     [SerializeField] protected int scorePopupDelay = 2;
     [SerializeField] protected int scoreValue = 200;
     [SerializeField] private GameObject grabObject;
+    [SerializeField] protected HitFlasher hitFlasher;
+    [SerializeField] private SFXType hitSFX;
+    [SerializeField] private SFXType deathSFX;
     #endregion
 
     #region 3. Private fields
@@ -28,7 +32,6 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     private Collider[] playerColliderList = new Collider[10];
     private Rigidbody[] jointRigidBodies;
     private Vector3 grabStartPosition;
-    private HitFlasher hitFlasher;
     #endregion
 
     #region 0. Protected fields
@@ -56,7 +59,6 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         poolParent = transform.parent;
         transformMemento.Initialize(transform);
         jointRigidBodies = GetComponentsInChildren<Rigidbody>();
-        hitFlasher = GetComponentInChildren<HitFlasher>();
         if (grabObject != null)
         {
             grabStartPosition = grabObject.transform.localPosition;
@@ -74,7 +76,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         {
             myStats.TakeDamage(damager.damage);
             damagePack.Set(damager, damaged);
-            SFXManager.Instance.Play(SFXType.MallCopHurt, transform.position);
+            SFXManager.Instance.Play(hitSFX, transform.position);
             DamageFXManager.Instance.EmitDamageEffect(damagePack);
             hitFlasher.Flash (1.0f, 0.15f);
 
@@ -133,6 +135,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
 
     int IEatable.Eat()
     {
+        EventSystem.Instance.TriggerEvent(Strings.Events.EAT_ENEMY);
         Invoke("OnDeath", 0.1f);
         return eatHealth;
     }
@@ -151,6 +154,9 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
 
     public virtual void OnDeath()
     {
+
+        EventSystem.Instance.TriggerEvent(Strings.Events.DEATH_ENEMY, scoreValue);
+
         if (!will.isDead)
         {
             will.isDead = true;
@@ -158,6 +164,15 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
             {
                 will.onDeath();
             }
+                GameObject mallCopParts = ObjectPool.Instance.GetObject(PoolObjectType.VFXMallCopExplosion);
+                if (mallCopParts)
+                {
+                    SFXManager.Instance.Play(SFXType.BloodExplosion, transform.position);
+                    mallCopParts.transform.position = transform.position + Vector3.up * 3f;
+                    mallCopParts.transform.rotation = transform.rotation;
+                    mallCopParts.DeActivate(5f);
+                }
+
 
             UpgradeManager.Instance.AddEXP(Mathf.FloorToInt(myStats.exp));
 
@@ -169,11 +184,12 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
 
                 int scoreBonus = scoreValue * ScoreManager.Instance.GetCurrentMultiplier();
                 popUpScore.DisplayScoreAndHide(scoreBonus, scorePopupDelay);
-                ScoreManager.Instance.AddToScoreAndCombo(scoreBonus);
+                // ScoreManager.Instance.AddToScoreAndCombo(scoreBonus);
             }
             navAgent.speed = 0;
             navAgent.enabled = false;
             gameObject.SetActive(false);
+            SFXManager.Instance.Play(deathSFX, transform.position);
         }
     }
 

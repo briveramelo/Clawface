@@ -26,6 +26,8 @@ public class Kamikaze : EnemyBase
     #endregion
 
     #region 3. Private fields
+
+
     //The AI States of the Kamikaze
     private KamikazeChaseState chase;
     private KamikazeAttackState attack;
@@ -41,7 +43,8 @@ public class Kamikaze : EnemyBase
         damaged.Set(DamagedType.MallCop, bloodEmissionLocation);
         controller.checksToUpdateState = new List<Func<bool>>() {
             CheckToSelfDestruct,
-            CheckIfStunned
+            CheckIfStunned,
+            DeleteKamikaze
         };
         base.Awake();
     }
@@ -70,10 +73,31 @@ public class Kamikaze : EnemyBase
         }
         return false;
     }
+    bool DeleteKamikaze()
+    {
+        if (controller.CurrentState == attack && attack.DoneAttacking() )
+        {
+            if (attack.setToSelfDestruct)
+            {
+                OnDeath();
+                return true;
+            }
+            else
+            {
+                controller.UpdateState(EAIState.Attack);
+                return true;
+            }
+
+            
+        }
+        return false;
+    }
+
 
     public override void ResetForRebirth()
     {
         copUICanvas.gameObject.SetActive(false);
+        attack.setToSelfDestruct = false;
         base.ResetForRebirth();
     }
     #endregion
