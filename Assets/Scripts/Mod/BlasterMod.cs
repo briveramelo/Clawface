@@ -5,13 +5,19 @@ using UnityEngine;
 using MovementEffects;
 
 public class BlasterMod : Mod {
-    
+
+    #region serialized fields
     [SerializeField] private Transform bulletSpawnPoint;
-    [SerializeField] private PoolObjectType projectileBullet;
+    [SerializeField] private float bulletLiveTime;
+    [SerializeField] private float bulletSpeed;
+    [SerializeField] private PoolObjectType bulletType;
+    #endregion
 
-    private ShooterProperties shooterProperties= new ShooterProperties();
+    #region private fields
     private Animator animator;
+    #endregion
 
+    #region unity lifecycle
     // Use this for initialization
     protected override void Awake () {
         base.Awake();
@@ -23,16 +29,18 @@ public class BlasterMod : Mod {
     
     // Update is called once per frame
     protected override void Update () {
-        if (wielderMovable != null){
+        if (wielderMovable != null && wielderStats.gameObject.CompareTag(Strings.Tags.PLAYER))
+        {
             transform.forward = wielderMovable.GetForward();
         }
         base.Update();
     }
+    #endregion
 
+    #region public functions
     public override void Activate(Action onCompleteCoolDown=null, Action onActivate=null){
         onActivate = ()=> { SFXManager.Instance.Play(SFXType.BlasterShoot, transform.position);};
         base.Activate(onCompleteCoolDown, onActivate);
-        //SFXManager.Instance.Stop(SFXType.BlasterCharge);
     }
 
     public override void AttachAffect(ref Stats wielderStats, IMovable wielderMovable){
@@ -51,10 +59,12 @@ public class BlasterMod : Mod {
     
     protected override void DoWeaponActions(){
         Shoot();
-    }    
+    }
+    #endregion
 
+    #region private functions
     private BlasterBullet Shoot(){
-        SFXManager.Instance.Play(SFXType.BlasterShoot, transform.position);
+        SFXManager.Instance.Play(shootSFX, transform.position);
         PoolObjectType poolObjType = PoolObjectType.VFXBlasterShoot;
         GameObject vfx = ObjectPool.Instance.GetObject(poolObjType);
         vfx.transform.position = bulletSpawnPoint.position;
@@ -66,17 +76,13 @@ public class BlasterMod : Mod {
 
     private BlasterBullet SpawnBullet()
     {
-        PoolObjectType poolObjType = projectileBullet;
-        BlasterBullet blasterBullet = ObjectPool.Instance.GetObject(poolObjType).GetComponent<BlasterBullet>();
-
-
+        BlasterBullet blasterBullet = ObjectPool.Instance.GetObject(bulletType).GetComponent<BlasterBullet>();
         if (blasterBullet){
             blasterBullet.transform.position = bulletSpawnPoint.position;
             blasterBullet.transform.forward = transform.forward;
             blasterBullet.transform.rotation = Quaternion.Euler(0f, blasterBullet.transform.rotation.eulerAngles.y, 0f);
-
-            shooterProperties.Initialize(GetWielderInstanceID(), Attack, wielderStats.shotSpeed, wielderStats.shotPushForce);
-            blasterBullet.SetShooterProperties(shooterProperties);
+            
+            blasterBullet.Initialize(bulletLiveTime, bulletSpeed, damage);
 
             if (wielderStats.gameObject.CompareTag(Strings.Tags.PLAYER))
             {
@@ -93,4 +99,5 @@ public class BlasterMod : Mod {
         }
         return blasterBullet;
     }
+    #endregion
 }

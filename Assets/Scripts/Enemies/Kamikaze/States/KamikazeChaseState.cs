@@ -8,7 +8,7 @@ public class KamikazeChaseState : AIState {
     {
         animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.Walk);
         controller.AttackTarget = controller.FindPlayer();
-        navAgent.speed = myStats.moveSpeed * properties.runMultiplier;
+        navAgent.speed = myStats.moveSpeed;
     }
     public override void Update()
     {

@@ -3,48 +3,50 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GeyserFissure : MonoBehaviour {
-
-    private ShooterProperties shooterProperties = new ShooterProperties();
+       
     private Damager damager = new Damager();
+    private float killAfterSeconds;
+    private float speed;
+    private float damage;
 
-    [SerializeField] private float killAfterSeconds;
     [SerializeField] private PoolObjectType enemyImpactEffect;
     [SerializeField] private PoolObjectType wallImpactEffect;
 
     private List<Transform> hitEnemies;
+    TrailRenderer[] trails;
+
+    Transform effect;
 
     private float killTimer;
 
     private void Awake()
     {
         hitEnemies = new List<Transform>();
-    }
-
-    void OnEnable()
-    {
-        killTimer = killAfterSeconds;
-        hitEnemies.Clear();
+        trails = GetComponentsInChildren<TrailRenderer>();
+        effect = transform.GetChild(0);
     }
 
     void Update()
     {
-        killTimer -= Time.deltaTime;
+        killTimer += Time.deltaTime;
 
-        if (killTimer <= 0f)
+        if (killTimer >= killAfterSeconds)
         {
-            if (gameObject.activeSelf)
-            {
-                SpawnPoolObjectAtCurrentPosition(wallImpactEffect);
-                gameObject.SetActive(false);
-            }
+
+            SpawnPoolObjectAtCurrentPosition(wallImpactEffect);
+            foreach (TrailRenderer trail in trails)
+                trail.Clear();
+            StopAllCoroutines();
+            gameObject.SetActive(false);
+            return;
+
         }
 
-        transform.Translate(Vector3.forward * shooterProperties.speed * Time.deltaTime);
+        transform.Translate(Vector3.forward * speed * Time.deltaTime);
     }
 
     private void OnTriggerEnter(Collider other)
-    {
- 
+    { 
         if (other.CompareTag(Strings.Tags.ENEMY))
         {
 
@@ -60,32 +62,34 @@ public class GeyserFissure : MonoBehaviour {
         else if (other.CompareTag(Strings.Tags.WALL))
         {
             SpawnPoolObjectAtCurrentPosition(wallImpactEffect);
+            StopAllCoroutines();
+            foreach (TrailRenderer trail in trails)
+                trail.Clear();
             gameObject.SetActive(false);
         }
     }
 
-    public void SetShooterProperties(ShooterProperties shooterProperties)
+    IEnumerator ScaleUp ()
     {
-        this.shooterProperties = shooterProperties;
-    }
+        Vector3 originalScale = Vector3.one;
+        Vector3 scale = Vector3.zero;
+        effect.localScale = scale;
 
-    public void SetWielderInstanceID(int id)
-    {
-        shooterProperties.shooterInstanceID = id;
+        Vector3 dScale = originalScale / 30.0f;
+        for (int i = 0; i < 30; i++)
+        {
+            scale += dScale;
+            effect.localScale = scale;
+            //Debug.Log (scale);
+
+            yield return null;
+        }
     }
 
 
     private void Damage(IDamageable damageable)
     {
-
-        AnalyticsManager.Instance.AddModDamage(ModType.Geyser, shooterProperties.damage);
-
-        if (damageable.GetHealth() - shooterProperties.damage <= 0.01f)
-        {
-            AnalyticsManager.Instance.AddModKill(ModType.Geyser);
-        }
-
-        damager.Set(shooterProperties.damage, DamagerType.Geyser, transform.forward);
+        damager.Set(damage, DamagerType.Geyser, transform.forward);
         damageable.TakeDamage(damager);
     }
 
@@ -99,5 +103,14 @@ public class GeyserFissure : MonoBehaviour {
         }
     }
     
+    public void Initialize(float speed, float damage, float killAfterSeconds)
+    {
+        this.speed = speed;
+        this.damage = damage;
+        this.killAfterSeconds = killAfterSeconds;
+        this.killTimer = 0f;
+        hitEnemies.Clear();
+        StartCoroutine (ScaleUp());
+    }
     
 }

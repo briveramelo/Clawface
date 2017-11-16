@@ -198,10 +198,11 @@ namespace OET_add
             for(int i = 0; i < Num; i++)
             {
                 Texture2D Preview = UnityEditor.AssetPreview.GetAssetPreview(selectedObjects[i].Value.Prefab);
+                GUIContent content = new GUIContent (Preview, selectedObjects[i].Value.Name);
 
                 if (Preview != null)
                 {
-                    if(GUI.Button(new Rect(localhpos, localvpos, IconSize, IconSize), Preview))
+                    if(GUI.Button(new Rect(localhpos, localvpos, IconSize, IconSize), content))
                     {
                         projectActiveSelection = selectedObjects[i].Value;
                     }

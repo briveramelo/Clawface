@@ -31,6 +31,7 @@ public class PlayerStateManager : MonoBehaviour {
     public List<IPlayerState> playerStates;
     private bool canDash = true;
     private bool stateChanged;
+    private bool playerCanMove = true;
     #endregion
 
     #region Unity Lifecycle
@@ -46,36 +47,52 @@ public class PlayerStateManager : MonoBehaviour {
         eatingState.Init(ref stateVariables);
         movementState = defaultState;
         playerStates = new List<IPlayerState>(){ defaultState};
+
+        //for input blocking 
+        EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_COMPLETED, BlockInput);
+        EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_KILLED, BlockInput);
     }
 	
 	// Update is called once per frame
 	void Update () {
-        if (stateChanged && stateVariables.stateFinished) {
-            ResetState();
-        }
-        if (InputManager.Instance.QueryAction(Strings.Input.Actions.DODGE, ButtonMode.DOWN) && canDash) // do dodge / dash
+        if (playerCanMove)
         {
-            SwitchState(dashState);
-            canDash = false;
-            StartCoroutine(WaitForDashCoolDown());
-        }
-        else if (InputManager.Instance.QueryAction(Strings.Input.Actions.EAT, ButtonMode.DOWN) && !playerStates.Contains(dashState) && !playerStates.Contains(eatingState)) {
-            if (CheckForEatableEnemy()) {
-                SwitchState(eatingState);
+            if (stateChanged && stateVariables.stateFinished)
+            {
+                ResetState();
             }
-        }
+            if (InputManager.Instance.QueryAction(Strings.Input.Actions.DODGE, ButtonMode.DOWN) && canDash) // do dodge / dash
+            {
+                SwitchState(dashState);
+                canDash = false;
+                StartCoroutine(WaitForDashCoolDown());
+            }
+            else if (InputManager.Instance.QueryAction(Strings.Input.Actions.EAT, ButtonMode.DOWN) && !playerStates.Contains(dashState) && !playerStates.Contains(eatingState))
+            {
+                if (CheckForEatableEnemy())
+                {
+                    SwitchState(eatingState);
+                }
+            }
 
-        playerStates.ForEach(state=>state.StateUpdate());
-    }    
+            playerStates.ForEach(state => state.StateUpdate());
+        }
+    }
 
     void FixedUpdate()
     {
-        playerStates.ForEach(state=>state.StateFixedUpdate());
+        if (playerCanMove)
+        {
+            playerStates.ForEach(state => state.StateFixedUpdate());
+        }
     }
 
     private void LateUpdate()
     {
-        playerStates.ForEach(state => state.StateLateUpdate());
+        if (playerCanMove)
+        {
+            playerStates.ForEach(state => state.StateLateUpdate());
+        }
     }
 
     private void OnCollisionEnter(Collision collision) {
@@ -83,9 +100,30 @@ public class PlayerStateManager : MonoBehaviour {
             stateVariables.velBody.velocity = Vector3.zero;
         }
     }
+
+    private void OnDestroy()
+    {
+        EventSystem instance = EventSystem.Instance;
+
+        if(instance)
+        {
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_COMPLETED, BlockInput);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_KILLED, BlockInput);
+        }
+        
+    }
     #endregion
 
     #region Private Methods
+
+    private void BlockInput(params object[] parameter)
+    {
+        playerCanMove = !playerCanMove;
+        if(!playerCanMove)
+        {
+            ResetState();
+        }
+    }
     private void SwitchState(IPlayerState newState)
     {
         if(!playerStates.Contains(newState) && playerStates[0] == defaultState) {
@@ -183,6 +221,10 @@ public class PlayerStateManager : MonoBehaviour {
         public GameObject modelHead;
         public float clawExtensionTime;
         public float clawRetractionTime;
+
+        public SFXType ArmExtensionSFX;
+        public SFXType ArmEnemyCaptureSFX;
+        public SFXType EatSFX;
     }
     #endregion
 

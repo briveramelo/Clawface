@@ -17,6 +17,7 @@ public abstract class Mod : MonoBehaviour {
     public EnergySettings modEnergySettings {
         get { return energySettings; }
     }
+    public float damage;
     #endregion
 
     #region Protected Fields
@@ -28,21 +29,14 @@ public abstract class Mod : MonoBehaviour {
     protected List<GameObject> recentlyHitObjects = new List<GameObject>();
     protected bool isAttached;
     protected Damager damager=new Damager();
-    protected string coroutineString { get { return GetInstanceID().ToString(); } }
-    public float Attack {
-        get {
-            if (wielderStats != null) {
-                return wielderStats.attack + energySettings.attack;
-            }
-            return energySettings.attack;
-        }
-    }
+    protected string coroutineString { get { return GetInstanceID().ToString(); } }    
     #endregion
     
     #region Serialized Unity Inspector fields    
     [SerializeField] protected Collider pickupCollider;
     [SerializeField] protected GameObject modCanvas;
     [SerializeField] protected EnergySettings energySettings;
+    [SerializeField] protected SFXType shootSFX;
     #endregion
 
     #region Private Fields
@@ -53,7 +47,6 @@ public abstract class Mod : MonoBehaviour {
     protected virtual void Awake(){
         DeactivateModCanvas();
         Mod mod = this;
-        energySettings.Initialize(ref mod);        
     }
 
     protected virtual void Update()
@@ -130,11 +123,11 @@ public abstract class Mod : MonoBehaviour {
     {
         return spot;
     }
+
     public DamagerType getDamageType() {return damageType; }        
     #endregion
 
-    #region Private Methods     
-
+    #region Private Methods
     protected IEnumerator<float> RunCooldown(Action onComplete)
     {        
         recentlyHitObjects.Clear();
@@ -144,47 +137,27 @@ public abstract class Mod : MonoBehaviour {
             onComplete();
         }
     }
-
     #endregion
 
     #region Private Structures
-    [System.Serializable]
+    [Serializable]
     public class EnergySettings {
 
-        
-        
-        public AttackSettings weaponAttackSettings;        
-        
+        public float timeToCoolDown;
 
-        
         [HideInInspector] public bool isCoolingDown;
         [HideInInspector] public bool isActive;
-        
-
-        private Mod mod;
 
         public bool isInUse { get { return isCoolingDown || isActive;} }
 
-        public float coolDownTime { get { return weaponAttackSettings.timeToCoolDown; } }
-        public float attack { get { return weaponAttackSettings.attack; } }
-        
-        public float timeToAttack { get { return weaponAttackSettings.timeToAttack; } }
+        public float coolDownTime { get { return timeToCoolDown; } }
+        public float attack { get { return attack; } }
                 
         public IEnumerator<float> BeginCoolDown() {            
             isCoolingDown = true;
             yield return Timing.WaitForSeconds(coolDownTime);
             isCoolingDown = false;
         }
-        public void Initialize(ref Mod mod) {
-            this.mod = mod;
-        }
-    }
-
-    [System.Serializable]
-    public class AttackSettings {
-        public float timeToCoolDown;
-        public float timeToAttack;
-        public float attack;
     }
     #endregion
 

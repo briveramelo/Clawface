@@ -57,7 +57,7 @@ GameObject:
   - component: {fileID: 96203169744975990}
   m_Layer: 0
   m_Name: BoomerangBullet
-  m_TagString: Projectile
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -213,7 +213,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
@@ -336,11 +336,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a799fc64b530244a8c14f6a718a589d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeUntilDestroyed: 5
-  rayDistanceMultiplier: 3
-  raycastLayermask:
-    serializedVersion: 2
-    m_Bits: 4294963199
 --- !u!114 &114966247104797054
 MonoBehaviour:
   m_ObjectHideFlags: 1

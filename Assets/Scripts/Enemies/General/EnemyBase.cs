@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Turing.VFX;
+using ModMan;
 
 public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatable, ISpawnable
 {
@@ -18,6 +20,9 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     [SerializeField] protected int scorePopupDelay = 2;
     [SerializeField] protected int scoreValue = 200;
     [SerializeField] private GameObject grabObject;
+    [SerializeField] protected HitFlasher hitFlasher;
+    [SerializeField] private SFXType hitSFX;
+    [SerializeField] private SFXType deathSFX;
     #endregion
 
     #region 3. Private fields
@@ -61,11 +66,6 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         ResetForRebirth();
     }
 
-    private void Update()
-    {
-        controller.Update();
-    }
-
     #endregion
 
     #region 5. Public Methods   
@@ -76,8 +76,9 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         {
             myStats.TakeDamage(damager.damage);
             damagePack.Set(damager, damaged);
-            SFXManager.Instance.Play(SFXType.MallCopHurt, transform.position);
+            SFXManager.Instance.Play(hitSFX, transform.position);
             DamageFXManager.Instance.EmitDamageEffect(damagePack);
+            hitFlasher.Flash (1.0f, 0.15f);
 
             if (myStats.health <= 0)
             {
@@ -159,6 +160,15 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
             {
                 will.onDeath();
             }
+                GameObject mallCopParts = ObjectPool.Instance.GetObject(PoolObjectType.VFXMallCopExplosion);
+                if (mallCopParts)
+                {
+                    SFXManager.Instance.Play(SFXType.BloodExplosion, transform.position);
+                    mallCopParts.transform.position = transform.position + Vector3.up * 3f;
+                    mallCopParts.transform.rotation = transform.rotation;
+                    mallCopParts.DeActivate(5f);
+                }
+
 
             UpgradeManager.Instance.AddEXP(Mathf.FloorToInt(myStats.exp));
 
@@ -175,6 +185,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
             navAgent.speed = 0;
             navAgent.enabled = false;
             gameObject.SetActive(false);
+            SFXManager.Instance.Play(deathSFX, transform.position);
         }
     }
 

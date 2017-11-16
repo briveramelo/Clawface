@@ -31,6 +31,9 @@ public class StageOverMenu : Menu
     [SerializeField]
     private Text title;
 
+    [SerializeField]
+    private Button nextLevelButton;
+
     #endregion
 
     #region Unity Lifecycle
@@ -40,6 +43,7 @@ public class StageOverMenu : Menu
         base.Start();
         EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_COMPLETED, DoLevelComplete);
         EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_KILLED, DoPlayerDeath);
+        nextLevelButton.gameObject.SetActive(false);
     }
 
     private void OnDestroy()
@@ -72,7 +76,45 @@ public class StageOverMenu : Menu
         Scene scene = SceneManager.GetActiveScene();
         loadMenu.TargetScene = scene.name;
 
+        PauseMenu p = (PauseMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.PAUSE);
+        p.CanPause = true;
+
         EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_RESTARTED, scene.name, AnalyticsManager.Instance.GetCurrentWave(), ScoreManager.Instance.GetScore());
+
+
+        MenuManager.Instance.DoTransition(loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+    }
+
+    public void WeaponSelectAction()
+    {
+        //Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.WEAPON_SELECT);
+        //LoadMenu loadMenu = (LoadMenu)menu;
+        //Scene scene = SceneManager.GetActiveScene();
+        //loadMenu.TargetScene = scene.name;
+
+        ////EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_RESTARTED, scene.name, AnalyticsManager.Instance.GetCurrentWave(), ScoreManager.Instance.GetScore());
+
+
+        //MenuManager.Instance.DoTransition(loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+        
+
+        MenuManager.Instance.DoTransition(Strings.MenuStrings.WEAPON_SELECT, Transition.SHOW,
+       new Effect[] { Effect.EXCLUSIVE });
+
+    }
+
+    public void NextLevelAction()
+    {
+        Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
+        LoadMenu loadMenu = (LoadMenu)menu;
+        Scene scene = SceneManager.GetActiveScene();
+        loadMenu.TargetScene = scene.name;
+
+        PauseMenu p = (PauseMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.PAUSE);
+        p.CanPause = true;
+        //TODO: What is the "next" level, the next one in the build index? 
+
+        //EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_RESTARTED, scene.name, AnalyticsManager.Instance.GetCurrentWave(), ScoreManager.Instance.GetScore());
 
 
         MenuManager.Instance.DoTransition(loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
@@ -120,6 +162,9 @@ public class StageOverMenu : Menu
 
     private void DoLevelComplete(params object[] parameter)
     {
+        PauseMenu m = (PauseMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.PAUSE);
+        m.CanPause = false;
+        nextLevelButton.gameObject.SetActive(true);
         title.text = Strings.MenuStrings.STAGE_OVER_TEXT;
         MenuManager.Instance.DoTransition(Strings.MenuStrings.STAGE_OVER,
     Menu.Transition.SHOW, new Menu.Effect[] { Menu.Effect.EXCLUSIVE });
@@ -127,6 +172,8 @@ public class StageOverMenu : Menu
 
     private void DoPlayerDeath(params object[] parameter)
     {
+        PauseMenu m = (PauseMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.PAUSE);
+        m.CanPause = false;
         title.text = Strings.MenuStrings.GAME_OVER_TEXT;
         MenuManager.Instance.DoTransition(Strings.MenuStrings.STAGE_OVER,
 Menu.Transition.SHOW, new Menu.Effect[] { Menu.Effect.EXCLUSIVE });

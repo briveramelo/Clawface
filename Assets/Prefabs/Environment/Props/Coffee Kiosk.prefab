@@ -42,6 +42,8 @@ GameObject:
   - component: {fileID: 65184066357780158}
   - component: {fileID: 65647988909620550}
   - component: {fileID: 208989393057243180}
+  - component: {fileID: 114842366974738448}
+  - component: {fileID: 114723022726497300}
   m_Layer: 0
   m_Name: Coffee Kiosk
   m_TagString: Wall
@@ -62,6 +64,7 @@ GameObject:
   - component: {fileID: 54691794254669694}
   - component: {fileID: 64535263945039914}
   - component: {fileID: 114431259967998298}
+  - component: {fileID: 114938412182928750}
   m_Layer: 11
   m_Name: Chair_B (1)
   m_TagString: Untagged
@@ -96,7 +99,6 @@ GameObject:
   - component: {fileID: 4018833049176020}
   - component: {fileID: 33552299621235544}
   - component: {fileID: 23159196895062108}
-  - component: {fileID: 95115259874377682}
   m_Layer: 0
   m_Name: Coffee Logo
   m_TagString: Untagged
@@ -462,23 +464,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 5.0000043, y: 9.696648, z: 1.29}
   m_Center: {x: -0.0000011920929, y: 4.875227, z: 1.85}
---- !u!95 &95115259874377682
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1675099999248984}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: b79c8c4cd67e3234a8508bef259b0cc8, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114431259967998298
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -494,6 +479,48 @@ MonoBehaviour:
   rigbod: {fileID: 54691794254669694}
   iceForceMultiplier: 3
   movementMode: 1
+--- !u!114 &114723022726497300
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1159817217382010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  renderTextureWidth: 512
+  renderTextureHeight: 512
+--- !u!114 &114842366974738448
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1159817217382010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  renderTextureWidth: 512
+  renderTextureHeight: 512
+--- !u!114 &114938412182928750
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1243319959838922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  renderTextureWidth: 512
+  renderTextureHeight: 512
 --- !u!208 &208989393057243180
 NavMeshObstacle:
   m_ObjectHideFlags: 1

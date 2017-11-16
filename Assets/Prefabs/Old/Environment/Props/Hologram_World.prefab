@@ -201,7 +201,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 16
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1615188981634456
 GameObject:
   m_ObjectHideFlags: 1
@@ -289,6 +289,7 @@ GameObject:
   - component: {fileID: 33244599548807494}
   - component: {fileID: 23010816237246904}
   - component: {fileID: 65121934970728260}
+  - component: {fileID: 114720926224089116}
   m_Layer: 15
   m_Name: Hologram_World
   m_TagString: Wall
@@ -408,7 +409,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1427743645645860}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0.6385391, z: -0, w: -0.7695894}
   m_LocalPosition: {x: 0.09, y: 0.03999996, z: 0.059999943}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -462,8 +463,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1766940075710458}
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -0.18131638, y: -0.060000002, z: -0.2755103}
-  m_LocalScale: {x: 7.820321, y: 7.820303, z: 7.82031}
+  m_LocalPosition: {x: 9.61, y: 0.02, z: -0.4}
+  m_LocalScale: {x: 15, y: 15, z: 15}
   m_Children:
   - {fileID: 4959344595026534}
   - {fileID: 4200702498585130}
@@ -897,7 +898,7 @@ Light:
   serializedVersion: 8
   m_Type: 2
   m_Color: {r: 0.4339995, g: 0.37640572, b: 0.86764705, a: 1}
-  m_Intensity: 4.6
+  m_Intensity: 1.13
   m_Range: 15
   m_SpotAngle: 30
   m_CookieSize: 10
@@ -973,6 +974,20 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!114 &114720926224089116
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1766940075710458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  renderTextureWidth: 512
+  renderTextureHeight: 512
 --- !u!123 &123370435143643542
 LensFlare:
   m_ObjectHideFlags: 1

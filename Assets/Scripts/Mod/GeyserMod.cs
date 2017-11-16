@@ -7,20 +7,14 @@ using MovementEffects;
 
 public class GeyserMod : Mod {
 
-    #region Public fields
-    #endregion
-
     #region Serialized Unity Inspector fields
     [SerializeField] private float geyserStartDistanceOffset;
-
-    [SerializeField] private float fissureSpeed;
-
-    [SerializeField] private SFXType shootSFX;
-
+    [SerializeField] private float fissureSpeed;    
+    [SerializeField] private float fissureLiveTime;
+    [SerializeField] private Transform muzzle;
     #endregion
 
     #region Private Fields
-    private ShooterProperties shooterProperties = new ShooterProperties();
     private Animator animator;
     #endregion
 
@@ -74,7 +68,12 @@ public class GeyserMod : Mod {
         if (GetGeyser())
         {
             SFXManager.Instance.Play(shootSFX, transform.position);
-            // FinishFiring();
+            GameObject shootEffect = ObjectPool.Instance.GetObject (PoolObjectType.VFXGeyserShoot);
+            if (shootEffect)
+            {
+                shootEffect.transform.position = muzzle.position;
+                shootEffect.transform.rotation = muzzle.rotation;
+            }
         }
     }
 
@@ -83,14 +82,10 @@ public class GeyserMod : Mod {
         GameObject projectile = ObjectPool.Instance.GetObject(PoolObjectType.GeyserFissure);
         if (projectile)
         {
-            shooterProperties.Initialize(GetWielderInstanceID(), Attack, fissureSpeed, 0f);
-
-            projectile.transform.position = transform.position;
+            projectile.transform.position = transform.position + transform.forward * geyserStartDistanceOffset;
             projectile.transform.forward = transform.forward;
             projectile.transform.rotation = Quaternion.Euler(0f, projectile.transform.rotation.eulerAngles.y, 0f);
-
-            projectile.GetComponent<GeyserFissure>().SetShooterProperties(shooterProperties);
-
+            projectile.GetComponent<GeyserFissure>().Initialize(fissureSpeed, damage, fissureLiveTime);
         }
 
         animator.SetTrigger("Shoot");

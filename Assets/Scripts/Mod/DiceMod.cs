@@ -18,7 +18,6 @@ public class DiceMod : Mod {
     private float armTimeTilExplosion;
     #endregion
 
-    private ShooterProperties shooterProperties = new ShooterProperties();
     private Animator animator;
 
     #region Unity Lifetime
@@ -42,7 +41,7 @@ public class DiceMod : Mod {
     #region Public Methods
     public override void Activate(Action onCompleteCoolDown=null, Action onActivate=null)
     {
-        onActivate = ()=> { SFXManager.Instance.Play(SFXType.DiceLauncher_Shoot, transform.position);};
+        onActivate = ()=> { SFXManager.Instance.Play(shootSFX, transform.position);};
         base.Activate(onCompleteCoolDown, onActivate);
     }
 
@@ -73,8 +72,6 @@ public class DiceMod : Mod {
         {
             diceBlock.transform.position = bulletSpawnPoint.position;
             diceBlock.transform.rotation = transform.rotation;
-            shooterProperties.Initialize(GetWielderInstanceID(), Attack, wielderStats.shotSpeed, wielderStats.shotPushForce);
-            diceBlock.SetShooterProperties(shooterProperties);
             diceBlock.Roll(direction);
 
             if (wielderStats.gameObject.CompareTag(Strings.Tags.PLAYER))
