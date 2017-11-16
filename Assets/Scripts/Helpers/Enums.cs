@@ -161,7 +161,8 @@ public enum PlayerAnimationStates
     Idle = 0,
     Running = 1,
     Dash = 2,
-    RetractVisor = 3
+    OpenFace = 3,
+    CloseFace = 4
 }
 
 public enum PlayerAnimationLayers
