@@ -249,7 +249,7 @@ namespace Turing.Audio
                     audioSource = gameObject.AddComponent<AudioSource>();
             }
             audioSource.PlayOneShot (clip, 
-                channel.GetVolume());
+                channel.GetVolume() * uniformVolume);
         }
 
         /// <summary>

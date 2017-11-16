@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Rendering;
 
 public class GoreManager : Singleton<GoreManager> {
 
@@ -26,10 +27,10 @@ public class GoreManager : Singleton<GoreManager> {
 
     #region Fields (Private)
     #if UNITY_EDITOR
-
     private GameObject debugSpheres;
-
     #endif
+
+    private bool shouldRenderSplats = false;
     #endregion
 
     protected override void Awake()
@@ -46,7 +47,18 @@ public class GoreManager : Singleton<GoreManager> {
         #endif
     }
 
-    #if UNITY_EDITOR
+    private void LateUpdate()
+    {
+        // Render Splats
+        if (shouldRenderSplats)
+        {
+            uvSpaceCamera.Render();
+            uvSpaceCamera.RemoveAllCommandBuffers();
+            shouldRenderSplats = false;
+        }
+    }
+
+#if UNITY_EDITOR
     private void OnLevelWasLoaded(int level)
     {
         Destroy(debugSpheres);
@@ -55,7 +67,7 @@ public class GoreManager : Singleton<GoreManager> {
     }
     #endif
 
-    public void SpawnSplat(Vector3 worldPos) {
+    public void QueueSplat(Vector3 worldPos) {
 
         Collider[] collided = Physics.OverlapSphere(worldPos, sphereRadius);
         
@@ -72,6 +84,7 @@ public class GoreManager : Singleton<GoreManager> {
             }
             #endif
 
+            shouldRenderSplats = true;
             Texture2D randomSplat = splats[Random.Range(0, splats.Length - 1)];
             foreach (Collider collider in collided)
             {
@@ -80,7 +93,8 @@ public class GoreManager : Singleton<GoreManager> {
                 if (canSplat)
                 {
                     // we're not using the normal yet
-                    canSplat.DrawSplat(randomSplat, worldPos, new Vector3(1, 0, 0), uvSpaceCamera);
+                    var buffer = canSplat.QueueSplat(randomSplat, worldPos, new Vector3(1, 0, 0));
+                    uvSpaceCamera.AddCommandBuffer(CameraEvent.AfterEverything, buffer);
                 }
             }
         }

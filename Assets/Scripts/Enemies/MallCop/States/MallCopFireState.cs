@@ -9,11 +9,11 @@ public class MallCopFireState : AIState {
     
     private float currentAngleToTarget;
     private float lastAngleToTarget;
-    MallCopBlasterController blasterController;
+    private float currentWeight;
+    //MallCopBlasterController blasterController;
 
     int counter;
     bool doneFiring;
-
 
     public override void OnEnter() {
         navAgent.enabled = false;
@@ -22,20 +22,16 @@ public class MallCopFireState : AIState {
         animator.SetInteger(Strings.FEETSTATE, (int)AnimationStates.TurnLeft);
         Timing.RunCoroutine(RunStartupTimer(), coroutineName);
         doneFiring = false;
-        blasterController = (MallCopBlasterController)controller;
+        //blasterController = (MallCopBlasterController)controller;
        
     }
     public override void Update() {
-
+        currentWeight = animator.GetLayerWeight(1);
         currentAngleToTarget = CheckAngle();
         controller.transform.LookAt(controller.AttackTarget);
-        //Adjust the gun nozzle to the player
-        //controller.transform.RotateAround(controller.transform.position, controller.transform.up, -3.0f);
-
-        CheckRotationDifference();
         navAgent.velocity = Vector3.zero;
-
         lastAngleToTarget = CheckAngle();
+        CheckRotationDifference();
     }
 
     public override void OnExit() {
@@ -80,7 +76,8 @@ public class MallCopFireState : AIState {
             //blasterController.feetLayerAnimator.startValue = animator.GetLayerWeight(1);
             //blasterController.feetLayerAnimator.diff = 1f-animator.GetLayerWeight(1);
             //blasterController.feetLayerAnimator.OnUpdate = (val) => {
-                animator.SetLayerWeight(1, 1.0f);
+            currentWeight = Mathf.Lerp(currentWeight, 1.0f, Time.deltaTime);
+            animator.SetLayerWeight(1, currentWeight);
             //};
             //blasterController.feetLayerAnimator.Animate(coroutineName);
         }
@@ -92,7 +89,8 @@ public class MallCopFireState : AIState {
             //blasterController.feetLayerAnimatorReverse.diff = 0f-animator.GetLayerWeight(1);
             //blasterController.feetLayerAnimatorReverse.OnUpdate = (val) =>
             //{
-                animator.SetLayerWeight(1, 0.0f);
+            currentWeight = Mathf.Lerp(currentWeight, 0.0f, Time.deltaTime * 0.5f);
+            animator.SetLayerWeight(1, currentWeight);
             //};
             //blasterController.feetLayerAnimatorReverse.Animate(coroutineName);
         }

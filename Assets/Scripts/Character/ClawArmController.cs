@@ -132,6 +132,7 @@ public class ClawArmController : MonoBehaviour {
             if (Vector3.Dot(direction, end.forward) <= 0 || extendTime <= 0)
             {
                 end.position = target.transform.position;
+                EventSystem.Instance.TriggerEvent(Strings.Events.ARM_EXTENDED, end);
             }
         }
     }
@@ -153,6 +154,7 @@ public class ClawArmController : MonoBehaviour {
             if (Vector3.Dot(direction, end.forward) >= 0 || retractTime <= 0)
             {
                 end.position = start.position;
+                EventSystem.Instance.TriggerEvent(Strings.Events.ARM_ANIMATION_COMPLETE);
             }
         }
     }

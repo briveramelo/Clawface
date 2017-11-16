@@ -7,6 +7,10 @@ using UnityEngine;
 public class ScoreManager : Singleton<ScoreManager> {
 
     #region Serialized
+
+    [SerializeField]
+    private bool useAlternateScoreMode;
+
     [SerializeField] private int score;
     [SerializeField] private int currentCombo;
     [SerializeField] private int highestCombo;
@@ -31,27 +35,40 @@ public class ScoreManager : Singleton<ScoreManager> {
         currentQuadrant = 0;
 
         highScores = new Dictionary<string, int>();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-#if (UNITY_EDITOR)
-        if (Input.GetKeyDown(KeyCode.K))
+
+        EventSystem.Instance.RegisterEvent(Strings.Events.DEATH_ENEMY, OnPlayerKilledEnemy);
+        EventSystem.Instance.RegisterEvent(Strings.Events.EAT_ENEMY, OnPlayerAte);
+        EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_DAMAGED, OnPlayerDamaged);
+    }
+
+    private new void OnDestroy()
+    {
+        if (EventSystem.Instance)
         {
-            AddToScoreAndCombo(100);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.DEATH_ENEMY, OnPlayerKilledEnemy);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.EAT_ENEMY, OnPlayerAte);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_DAMAGED, OnPlayerDamaged);
         }
-#endif
 
-        if (currentCombo != 0)
+        base.OnDestroy();
+    }
+
+    // Update is called once per frame
+    void Update() {
+
+        if (!useAlternateScoreMode)
         {
-            comboTimer -= Time.deltaTime;
-
-            if (comboTimer <= 0f)
+            if (currentCombo != 0)
             {
-                ResetCombo();
-            }
+                comboTimer -= Time.deltaTime;
 
-            CalculateTimerQuadrant();
+                if (comboTimer <= 0f)
+                {
+                    ResetCombo();
+                }
+
+                CalculateTimerQuadrant();
+            }
         }
 	}
     #endregion
@@ -61,6 +78,41 @@ public class ScoreManager : Singleton<ScoreManager> {
     {
         currentCombo = 0;
         EventSystem.Instance.TriggerEvent(Strings.Events.COMBO_TIMER_UPDATED, 0.0f);
+    }
+
+    private void OnPlayerAte(params object[] parameters)
+    {
+        if (useAlternateScoreMode)
+        {
+            currentCombo++;
+            EventSystem.Instance.TriggerEvent(Strings.Events.COMBO_UPDATED, currentCombo);
+            CalculateTimerQuadrant();
+        }
+    }
+
+    private void OnPlayerKilledEnemy(params object[] parameters)
+    {
+        if (useAlternateScoreMode)
+        {
+            if (parameters != null && parameters[0] != null)
+            {
+                AddToScore((int)parameters[0]);
+            }
+        }
+        else
+        {
+            AddToScoreAndCombo((int)parameters[0]);
+        }
+    }
+
+    private void OnPlayerDamaged(params object[] parameters)
+    {
+        if (useAlternateScoreMode)
+        {
+            currentCombo = 0;
+            EventSystem.Instance.TriggerEvent(Strings.Events.COMBO_UPDATED, currentCombo);
+            CalculateTimerQuadrant();
+        }
     }
 
     public void AddToCombo()
@@ -143,7 +195,6 @@ public class ScoreManager : Singleton<ScoreManager> {
         if (!highScores.ContainsKey(level))
         {
             highScores.Add(level, scoreToCheck);
-            return;
         }
         else
         {
@@ -152,6 +203,8 @@ public class ScoreManager : Singleton<ScoreManager> {
                 highScores[level] = scoreToCheck;
             }
         }
+
+        EventSystem.Instance.TriggerEvent(Strings.Events.SET_LEVEL_SCORE, level, highScores[level]);
     }
 
     public int GetHighScore(string level)

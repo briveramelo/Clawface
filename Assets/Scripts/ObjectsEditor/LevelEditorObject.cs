@@ -12,6 +12,7 @@ namespace Turing.LevelEditor
 
         [SerializeField] new string name;
         [SerializeField] GameObject prefab;
+        [SerializeField] bool needsSplattable = true;
         [SerializeField] int width = 1;
         [SerializeField] int length = 1;
         [SerializeField] int limit = -1;
@@ -24,16 +25,9 @@ namespace Turing.LevelEditor
 
         public string Path { get { return path; } }
 
-        public GameObject Prefab
-        {
-            get
-            {
-                if (prefab == null)
-                    Debug.LogError ("No prefab for this LevelEditorObject!", this);
+        public GameObject Prefab { get { return prefab; } }
 
-                return prefab;
-            }
-        }
+        public bool NeedsSplattable { get { return needsSplattable; } }
 
         public int Limit { get { return limit; } }
 
