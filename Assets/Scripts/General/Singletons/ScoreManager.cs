@@ -36,8 +36,8 @@ public class ScoreManager : Singleton<ScoreManager> {
 
         highScores = new Dictionary<string, int>();
 
-        EventSystem.Instance.RegisterEvent(Strings.Events.KILLED_ENEMY, OnPlayerKilledEnemy);
-        EventSystem.Instance.RegisterEvent(Strings.Events.ATE_ENEMY, OnPlayerAte);
+        EventSystem.Instance.RegisterEvent(Strings.Events.DEATH_ENEMY, OnPlayerKilledEnemy);
+        EventSystem.Instance.RegisterEvent(Strings.Events.EAT_ENEMY, OnPlayerAte);
         EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_DAMAGED, OnPlayerDamaged);
     }
 
@@ -45,8 +45,8 @@ public class ScoreManager : Singleton<ScoreManager> {
     {
         if (EventSystem.Instance)
         {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.KILLED_ENEMY, OnPlayerKilledEnemy);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.ATE_ENEMY, OnPlayerAte);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.DEATH_ENEMY, OnPlayerKilledEnemy);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.EAT_ENEMY, OnPlayerAte);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_DAMAGED, OnPlayerDamaged);
         }
 

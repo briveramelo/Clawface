@@ -135,9 +135,8 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
 
     int IEatable.Eat()
     {
-        EventSystem.Instance.TriggerEvent(Strings.Events.ATE_ENEMY);
-        Invoke("OnDeath", 0.1f);
         EventSystem.Instance.TriggerEvent(Strings.Events.EAT_ENEMY);
+        Invoke("OnDeath", 0.1f);
         return eatHealth;
     }
 
@@ -156,7 +155,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     public virtual void OnDeath()
     {
 
-        EventSystem.Instance.TriggerEvent(Strings.Events.DEATH_ENEMY);
+        EventSystem.Instance.TriggerEvent(Strings.Events.DEATH_ENEMY, scoreValue);
 
         if (!will.isDead)
         {
@@ -190,7 +189,6 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
             navAgent.speed = 0;
             navAgent.enabled = false;
             gameObject.SetActive(false);
-            EventSystem.Instance.TriggerEvent(Strings.Events.KILLED_ENEMY, scoreValue);
             SFXManager.Instance.Play(deathSFX, transform.position);
         }
     }

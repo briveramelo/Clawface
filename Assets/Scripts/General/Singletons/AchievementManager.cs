@@ -21,14 +21,14 @@ public class AchievementManager : Singleton<AchievementManager> {
     public List<Achievement> AchievementsList { get { return Achievements.dataList; } }
 
     private void OnEnable() {
-        EventSystem.Instance.RegisterEvent(Strings.Events.KILLED_ENEMY, KillEnemy);
-        EventSystem.Instance.RegisterEvent(Strings.Events.ATE_ENEMY, SkinEnemy);
+        EventSystem.Instance.RegisterEvent(Strings.Events.DEATH_ENEMY, KillEnemy);
+        EventSystem.Instance.RegisterEvent(Strings.Events.EAT_ENEMY, SkinEnemy);
     }
 
     private void OnDisable() {
         if (EventSystem.Instance) {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.KILLED_ENEMY, KillEnemy);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.ATE_ENEMY, SkinEnemy);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.DEATH_ENEMY, KillEnemy);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.EAT_ENEMY, SkinEnemy);
         }
     }
 
