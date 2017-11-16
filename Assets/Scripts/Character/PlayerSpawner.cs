@@ -80,7 +80,7 @@ public class PlayerSpawner : MonoBehaviour
 
     string GetNewestPlayerUIPrefabPath()
     {
-        VersionedPlayerPrefab
+        //VersionedPlayerPrefab
 
         return "";
     }
