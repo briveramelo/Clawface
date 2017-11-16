@@ -59,6 +59,7 @@ public class SpawnManager : MonoBehaviour
         if(currentSpawner == spawners.Count && LevelClear == true)
         {
             LevelClear = false;
+            ScoreManager.Instance.UpdateHighScore(SceneManager.GetActiveScene().name, ScoreManager.Instance.GetScore());
             EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_COMPLETED, 
                 SceneManager.GetActiveScene().name, ScoreManager.Instance.GetScore(), ModManager.leftArmOnLoad.ToString(), ModManager.rightArmOnLoad.ToString() );
         }

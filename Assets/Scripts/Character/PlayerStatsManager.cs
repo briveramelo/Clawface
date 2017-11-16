@@ -25,6 +25,7 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     float startHealth;
     float healthAtLastSkin;
     float lastSkinHealthBoost;
+    HitFlasher hitFlasher;
     #endregion
 
     #region Unity Lifecycle
@@ -35,7 +36,7 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
         startHealth = stats.GetStat(CharacterStatType.MaxHealth);
         UpgradeManager.Instance.SetPlayerStats(this.stats);
         UpgradeManager.Instance.SetPlayerStatsManager(this);
-
+        hitFlasher = GetComponentInChildren<HitFlasher>();
     }
 	
 	// Update is called once per frame
@@ -65,6 +66,8 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
                 SFXManager.Instance.Play(SFXType.PlayerTakeDamage, transform.position);
 
                 faceController.SetTemporaryEmotion(PlayerFaceController.Emotion.Angry, 0.5f);
+
+                hitFlasher.Flash (1.0f, 0.2f);
 
                 if (stats.GetStat(CharacterStatType.Health) <= 0)
                 {

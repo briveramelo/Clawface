@@ -147,7 +147,10 @@ public class DamageFXManager : Singleton<DamageFXManager> {
         if (bloodEmitter) {
             bloodEmitter.transform.ResetRotation(3f);
             bloodEmitter.transform.position = spawnPoint;
-            bloodEmitter.transform.rotation = Quaternion.LookRotation(emissionDirection);
+            if (emissionDirection != Vector3.zero)
+            {
+                bloodEmitter.transform.rotation = Quaternion.LookRotation(emissionDirection);
+            }
         }        
     }
 
