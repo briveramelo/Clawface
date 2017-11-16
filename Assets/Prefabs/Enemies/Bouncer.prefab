@@ -958,6 +958,8 @@ MonoBehaviour:
   scoreValue: 200
   grabObject: {fileID: 0}
   hitFlasher: {fileID: 114321320355554346}
+  hitSFX: 0
+  deathSFX: 0
   closeEnoughToAttackDistance: 0
   properties:
     runMultiplier: 0
@@ -1078,7 +1080,7 @@ MonoBehaviour:
   separationAngleBetweenStrands: 45
   rotationDirection: 0
   rotationSpeed: 0
-  bulletLiveTime: 1
+  bulletLiveTime: 5
 --- !u!114 &114732265360839062
 MonoBehaviour:
   m_ObjectHideFlags: 1
