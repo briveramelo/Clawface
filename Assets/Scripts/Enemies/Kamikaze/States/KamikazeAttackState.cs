@@ -46,6 +46,10 @@ public class KamikazeAttackState : AIState {
             Damage(controller.AttackTarget.gameObject.GetComponent<IDamageable>());
             attackDone = true;
         }
+        else
+        {
+            attackDone = true;
+        }
     }
 
 
