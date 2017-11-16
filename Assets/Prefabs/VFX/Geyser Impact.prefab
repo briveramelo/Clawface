@@ -55,6 +55,7 @@ GameObject:
   - component: {fileID: 4796423783275616}
   - component: {fileID: 198085428303200744}
   - component: {fileID: 199073968987305216}
+  - component: {fileID: 114931896332819728}
   m_Layer: 0
   m_Name: Geyser Impact
   m_TagString: Untagged
@@ -134,6 +135,18 @@ Transform:
   m_Father: {fileID: 4796423783275616}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: -95.377, y: 149.176, z: -139.34}
+--- !u!114 &114931896332819728
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1130061683809566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9023d66b43fac1d41949fc19fd5f6d0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeToDeactivate: 5.5
 --- !u!198 &198085428303200744
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -193,7 +206,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 115529728
+  randomSeed: -1973820443
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -3455,7 +3468,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 812207573
+  randomSeed: -184734991
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -6722,7 +6735,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -1220108516
+  randomSeed: -1555330126
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -9989,7 +10002,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 953123891
+  randomSeed: 946065761
   InitialModule:
     serializedVersion: 3
     enabled: 1

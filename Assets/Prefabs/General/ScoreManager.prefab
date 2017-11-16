@@ -51,19 +51,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe6f788371556e34ab3ad4f35e008250, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shouldRegister: 1
+  useAlternateScoreMode: 0
   score: 0
   currentCombo: 0
   highestCombo: 0
   maxTimeRemainingPerCombo:
   - -1
+  - 6
+  - 6
+  - 6
+  - 5
+  - 4.5
+  - 4
+  - 3.5
   - 3
-  - 3
-  - 3
+  - 2.5
+  - 2.25
   - 2
-  - 2
-  - 2
-  - 1
-  - 1
-  - 1
+  - 1.75
+  - 1.5
   scoreMultiplierPerCombo: 01000000010000000200000002000000020000000200000003000000030000000300000004000000
   maxTimeRemaining: 0

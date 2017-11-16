@@ -135,6 +135,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
 
     int IEatable.Eat()
     {
+        EventSystem.Instance.TriggerEvent(Strings.Events.EAT_ENEMY);
         Invoke("OnDeath", 0.1f);
         return eatHealth;
     }
@@ -153,6 +154,9 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
 
     public virtual void OnDeath()
     {
+
+        EventSystem.Instance.TriggerEvent(Strings.Events.DEATH_ENEMY, scoreValue);
+
         if (!will.isDead)
         {
             will.isDead = true;
@@ -180,7 +184,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
 
                 int scoreBonus = scoreValue * ScoreManager.Instance.GetCurrentMultiplier();
                 popUpScore.DisplayScoreAndHide(scoreBonus, scorePopupDelay);
-                ScoreManager.Instance.AddToScoreAndCombo(scoreBonus);
+                // ScoreManager.Instance.AddToScoreAndCombo(scoreBonus);
             }
             navAgent.speed = 0;
             navAgent.enabled = false;
