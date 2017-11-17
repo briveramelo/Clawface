@@ -1,16 +1,17 @@
 fileFormatVersion: 2
-guid: 6ad853753e72c5b4083d754682e26134
-timeCreated: 1487706813
+guid: 00d1d8272a53fe04eb324fd4d981cfae
+timeCreated: 1510955310
 licenseType: Free
 ModelImporter:
   serializedVersion: 21
   fileIDToRecycleName:
-    100000: //RootNode
-    400000: //RootNode
-    2300000: //RootNode
-    3300000: //RootNode
-    4300000: pCube1
-    4300002: Mesh_Table2
+    100000: Mesh_Gib_Guard_LeftArm
+    100002: //RootNode
+    400000: Mesh_Gib_Guard_LeftArm
+    400002: //RootNode
+    2300000: Mesh_Gib_Guard_LeftArm
+    3300000: Mesh_Gib_Guard_LeftArm
+    4300000: Mesh_Gib_Guard_LeftArm
     9500000: //RootNode
   materials:
     importMaterials: 1
@@ -42,10 +43,10 @@ ModelImporter:
     globalScale: 1
     meshCompression: 0
     addColliders: 0
-    importVisibility: 0
+    importVisibility: 1
     importBlendShapes: 1
-    importCameras: 0
-    importLights: 0
+    importCameras: 1
+    importLights: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
@@ -61,7 +62,7 @@ ModelImporter:
     normalSmoothAngle: 60
     normalImportMode: 0
     tangentImportMode: 3
-    normalCalculationMode: 0
+    normalCalculationMode: 4
   importAnimation: 1
   copyAvatar: 0
   humanDescription:
