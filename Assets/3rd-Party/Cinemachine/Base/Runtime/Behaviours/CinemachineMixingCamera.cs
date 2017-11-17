@@ -226,7 +226,7 @@ namespace Cinemachine
         /// so the vcam can position itself and track its targets.  This implementation
         /// computes and caches the weighted blend of the tracked cameras.</summary>
         /// <param name="worldUp">Default world Up, set by the CinemachineBrain</param>
-        /// <param name="deltaTime">Delta time for time-based effects (ignore if less than or equal to 0)</param>
+        /// <param name="deltaTime">Delta time for time-based effects (ignore if less than 0)</param>
         public override void UpdateCameraState(Vector3 worldUp, float deltaTime)
         {
             //UnityEngine.Profiling.Profiler.BeginSample("CinemachineMixingCamera.UpdateCameraState");
@@ -239,7 +239,6 @@ namespace Cinemachine
                 CinemachineVirtualCameraBase vcam = children[i];
                 if (vcam.isActiveAndEnabled)
                 {
-                    CinemachineCore.Instance.UpdateVirtualCamera(vcam, worldUp, deltaTime);
                     float weight = Mathf.Max(0, GetWeight(i));
                     if (weight > UnityVectorExtensions.Epsilon)
                     {
