@@ -45,12 +45,12 @@ public class MallCopFireState : AIState {
     }
 
 
+    bool isPastStartup;
     IEnumerator<float> RunStartupTimer() {
         isPastStartup = false;
         yield return Timing.WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
         isPastStartup = true;
     }
-    bool isPastStartup;
 
     public bool CanRestart() {
 

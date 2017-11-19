@@ -58,7 +58,7 @@ public class EatingState : IPlayerState
         {
             if (stateVariables.eatTargetEnemy && stateVariables.eatTargetEnemy.activeSelf)
             {
-                stateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.RetractVisor);
+                stateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.OpenFace);
                 isAnimating = true;
             }
             else
@@ -91,7 +91,7 @@ public class EatingState : IPlayerState
     protected override void ResetState()
     {
         clawArmController.ResetClawArm();
-        stateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Idle);
+        stateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.CloseFace);
         stateVariables.modelHead.transform.LookAt(stateVariables.playerTransform.forward);
         stateVariables.eatTargetEnemy = null;
         clawTransform = null;

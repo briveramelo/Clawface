@@ -96,7 +96,7 @@ namespace Cinemachine
         public void UpdateCameraState(Vector3 worldUp, float deltaTime)
         {
             // Make sure both cameras have been updated (they are not necessarily
-            // enabled, and only enabled top-level cameras get updated automatically
+            // enabled, and only enabled cameras get updated automatically
             // every frame)
             CinemachineCore.Instance.UpdateVirtualCamera(CamA, worldUp, deltaTime);
             CinemachineCore.Instance.UpdateVirtualCamera(CamB, worldUp, deltaTime);
