@@ -1105,7 +1105,7 @@ Transform:
   - {fileID: 4752607940046620}
   m_Father: {fileID: 4473927532276438}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: -2.4429641e-15, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -70.357666, y: 0, z: 0}
 --- !u!4 &4205455921291560
 Transform:
   m_ObjectHideFlags: 1
@@ -1288,7 +1288,7 @@ Transform:
   - {fileID: 4473927532276438}
   m_Father: {fileID: 4666671178574522}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -89.788475}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -89.78846}
 --- !u!4 &4451592088632406
 Transform:
   m_ObjectHideFlags: 1
@@ -1333,7 +1333,7 @@ Transform:
   - {fileID: 4239241665167590}
   m_Father: {fileID: 4448181766691862}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0.027329294, y: 7.42367, z: 89.79025}
+  m_LocalEulerAnglesHint: {x: 0.02733282, y: 7.4236627, z: 89.79023}
 --- !u!4 &4477264601288926
 Transform:
   m_ObjectHideFlags: 1
@@ -1540,7 +1540,7 @@ Transform:
   - {fileID: 4329000540172862}
   m_Father: {fileID: 4473927532276438}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -0.000000030465337, y: 6.605471e-10, z: 88.757904}
+  m_LocalEulerAnglesHint: {x: -30.277222, y: 0.72580355, z: 88.561035}
 --- !u!4 &4750620186328244
 Transform:
   m_ObjectHideFlags: 1
@@ -1647,7 +1647,7 @@ Transform:
   - {fileID: 4690882815792610}
   m_Father: {fileID: 4666671178574522}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: -7.016709e-15, y: 180, z: 180}
+  m_LocalEulerAnglesHint: {x: -8.857828e-15, y: 180, z: -180}
 --- !u!4 &4965323590131422
 Transform:
   m_ObjectHideFlags: 1
@@ -1661,7 +1661,7 @@ Transform:
   - {fileID: 4046107054434608}
   m_Father: {fileID: 4473927532276438}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0.000000030465337, y: 180, z: -91.24208}
+  m_LocalEulerAnglesHint: {x: 30.277218, y: 179.27417, z: -91.43896}
 --- !u!4 &4977647695545266
 Transform:
   m_ObjectHideFlags: 1
@@ -1719,7 +1719,7 @@ Camera:
   far clip plane: 100
   field of view: 28
   orthographic: 1
-  orthographic size: 9
+  orthographic size: 8
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -2374,8 +2374,8 @@ MonoBehaviour:
     defaultState: {fileID: 0}
     eatTargetEnemy: {fileID: 0}
     modelHead: {fileID: 1865138005623536}
-    clawExtensionTime: 0.5
-    clawRetractionTime: 1
+    clawExtensionTime: 0.35
+    clawRetractionTime: 0.35
     ArmExtensionSFX: 0
     ArmEnemyCaptureSFX: 0
     EatSFX: 0
