@@ -30,13 +30,13 @@ public class EatingState : IPlayerState
     private void OnEnable()
     {        
         EventSystem.Instance.RegisterEvent(Strings.Events.FACE_OPEN, DoArmExtension);
-        EventSystem.Instance.RegisterEvent(Strings.Events.ARM_EXTENDED, CaptureEnemy);
+        EventSystem.Instance.RegisterEvent(Strings.Events.CAPTURE_ENEMY, CaptureEnemy);
         EventSystem.Instance.RegisterEvent(Strings.Events.ARM_ANIMATION_COMPLETE, EndState);
     }
     private void OnDisable() {
         if (EventSystem.Instance) {
             EventSystem.Instance.UnRegisterEvent(Strings.Events.FACE_OPEN, DoArmExtension);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.ARM_EXTENDED, CaptureEnemy);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.CAPTURE_ENEMY, CaptureEnemy);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.ARM_ANIMATION_COMPLETE, EndState);
         }
     }
@@ -105,7 +105,7 @@ public class EatingState : IPlayerState
     {
         IEatable eatable = stateVariables.eatTargetEnemy.GetComponent<IEatable>();
         Assert.IsNotNull(eatable);
-        clawArmController.StartExtension(eatable.GetGrabObject(), stateVariables.clawExtensionTime);
+        clawArmController.StartExtension(eatable.GetGrabObject(), stateVariables.clawExtensionTime, stateVariables.clawRetractionTime);
         SFXManager.Instance.Play(stateVariables.ArmExtensionSFX, transform.position);
     }
 
@@ -122,7 +122,7 @@ public class EatingState : IPlayerState
                 eatable.EnableRagdoll();
             }
         }
-        clawArmController.StartRetraction(stateVariables.clawRetractionTime);
+        //clawArmController.StartRetraction(stateVariables.clawRetractionTime);
         SFXManager.Instance.Play(stateVariables.ArmEnemyCaptureSFX, transform.position);
     }
 

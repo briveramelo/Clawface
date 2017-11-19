@@ -23,12 +23,11 @@ public class PlayerStateManager : MonoBehaviour {
     private float dashCoolDown;
 
     [SerializeField] private EatingState eatingState;
-    [SerializeField] private float eatRadius;
     #endregion
 
     #region Private Fields
     private IPlayerState movementState;
-    public List<IPlayerState> playerStates;
+    private List<IPlayerState> playerStates;
     private bool canDash = true;
     private bool stateChanged;
     private bool playerCanMove = true;
@@ -173,7 +172,7 @@ public class PlayerStateManager : MonoBehaviour {
 
     private GameObject GetClosestEnemy()
     {
-        Collider[] enemies = Physics.OverlapSphere(transform.position, eatRadius, LayerMask.GetMask(Strings.Tags.ENEMY));
+        Collider[] enemies = Physics.OverlapSphere(transform.position, stateVariables.eatRadius, LayerMask.GetMask(Strings.Tags.ENEMY));
         if (enemies != null)
         {
             Collider closestEnemy = null;
@@ -221,6 +220,7 @@ public class PlayerStateManager : MonoBehaviour {
         public GameObject modelHead;
         public float clawExtensionTime;
         public float clawRetractionTime;
+        public float eatRadius;
 
         public SFXType ArmExtensionSFX;
         public SFXType ArmEnemyCaptureSFX;
