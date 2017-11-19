@@ -2376,6 +2376,7 @@ MonoBehaviour:
     modelHead: {fileID: 1865138005623536}
     clawExtensionTime: 0.35
     clawRetractionTime: 0.35
+    eatRadius: 10
     ArmExtensionSFX: 0
     ArmEnemyCaptureSFX: 0
     EatSFX: 0
@@ -2385,8 +2386,6 @@ MonoBehaviour:
   dashState: {fileID: 114132200228300390}
   dashCoolDown: 0.1
   eatingState: {fileID: 114325496831137656}
-  eatRadius: 5
-  playerStates: []
 --- !u!114 &114350739781861520
 MonoBehaviour:
   m_ObjectHideFlags: 1
