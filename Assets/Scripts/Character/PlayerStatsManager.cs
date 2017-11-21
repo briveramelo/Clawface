@@ -67,7 +67,7 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
 
                 faceController.SetTemporaryEmotion(PlayerFaceController.Emotion.Angry, 0.5f);
 
-                hitFlasher.Flash (1.0f, 0.2f);
+                hitFlasher.HitFlash ();
 
                 if (stats.GetStat(CharacterStatType.Health) <= 0)
                 {

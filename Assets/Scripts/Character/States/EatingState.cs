@@ -136,8 +136,8 @@ public class EatingState : IPlayerState
             stateVariables.statsManager.TakeHealth(health);
             Stats stats = GetComponent<Stats>();
             EventSystem.Instance.TriggerEvent(Strings.Events.UPDATE_HEALTH, stats.GetHealthFraction());
-            GameObject skinningEffect = ObjectPool.Instance.GetObject(PoolObjectType.VFXSkinningEffect);
-            skinningEffect.transform.position = transform.position;
+            GameObject skinningEffect = ObjectPool.Instance.GetObject(PoolObjectType.VFXMallCopExplosion);
+            skinningEffect.transform.position = clawTransform.position;
 
 
             GameObject healthJuice = ObjectPool.Instance.GetObject(PoolObjectType.VFXHealthGain);

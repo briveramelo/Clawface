@@ -24,6 +24,7 @@ public class LevelDynamicsWindow : EditorWindow {
     private static string spawnerNumberString = "#spawnerNumber";
     private static string waveNumberString = "#waveNumber";
     private static string eventName = "Spawner "+ spawnerNumberString + " Wave " + waveNumberString;
+    private bool isReady;
     #endregion
 
     #region editor lifecycle
@@ -43,43 +44,49 @@ public class LevelDynamicsWindow : EditorWindow {
 
     private void Init()
     {
-        ReadWaveData();
-        GetLevelObjects();
+        isReady = ReadWaveData();
+        if (isReady)
+        {
+            GetLevelObjects();
+        }
     }
 
     private void OnGUI()
-    {   
-        //Context Menu
-        if(Event.current.type == EventType.ContextClick)
+    {
+        if (isReady)
         {
-            Event.current.Use();
-            GenericMenu menu = new GenericMenu();
-            menu.AddItem(new GUIContent("Refresh"), false, Init);
-            menu.ShowAsContext();
-        }
+            //Context Menu
+            if (Event.current.type == EventType.ContextClick)
+            {
+                Event.current.Use();
+                GenericMenu menu = new GenericMenu();
+                menu.AddItem(new GUIContent("Refresh"), false, Init);
+                menu.ShowAsContext();
+            }
 
-        ShowWaveButtons();
-        ShowWaveTriggerOptions();
-        GenerateLevelLayout();
-        ShowMusicTrackSlot();
+            ShowWaveButtons();
+            ShowWaveTriggerOptions();
+            GenerateLevelLayout();
+            ShowMusicTrackSlot();
 
-        //Copy Button
-        if (GUI.Button(new Rect(position.width * 0.8f, position.height * 0.6f, position.width * 0.11f, 30), "Copy Last State"))
-        {
-            CopyLastState();
-        }
+            //Copy Button
+            if (GUI.Button(new Rect(position.width * 0.8f, position.height * 0.6f, position.width * 0.11f, 30), "Copy Last State"))
+            {
+                CopyLastState();
+            }
 
-        //Apply Button
-        if (GUI.Button(new Rect(position.width * 0.8f, position.height * 0.85f, position.width * 0.1f, 30), "Bake Data"))
-        {
-            BakeData();
-        }
+            //Apply Button
+            if (GUI.Button(new Rect(position.width * 0.8f, position.height * 0.85f, position.width * 0.1f, 30), "Bake Data"))
+            {
+                BakeData();
+            }
 
-        //Clear Button
-        if (GUI.Button(new Rect(position.width * 0.8f, position.height * 0.9f, position.width * 0.1f, 30), "Clear Data"))
-        {
-            ClearAllEvents();
-            Init();
+            //Clear Button
+            if (GUI.Button(new Rect(position.width * 0.8f, position.height * 0.9f, position.width * 0.1f, 30), "Clear Data"))
+            {
+                ClearAllEvents();
+                Init();
+            }
         }
     }
     #endregion
@@ -235,34 +242,41 @@ public class LevelDynamicsWindow : EditorWindow {
         selectedWave = GUI.SelectionGrid(new Rect(position.width * 0.2f, 50, position.width * 0.6f, 20), selectedWave, spawnerObjects[selectedSpawner].waveButtonNames.ToArray(), spawnerObjects[selectedSpawner].waveButtonNames.Count);
     }
 
-    private void ReadWaveData()
+    private bool ReadWaveData()
     {
-        spawnManager = FindObjectOfType<SpawnManager>();
-        Assert.IsNotNull(spawnManager);
+        spawnManager = FindObjectOfType<SpawnManager>();        
         musicIntensityManager = FindObjectOfType<MusicIntensityManager>();
-        Assert.IsNotNull(musicIntensityManager);
-        spawnerButtonNames = new List<string>(spawnManager.spawners.Count);
-        spawnerObjects = new List<SpawnerObject>(spawnManager.spawners.Count);
-        for(int i = 0; i < spawnManager.spawners.Count; i++)
+        if (spawnManager && musicIntensityManager)
         {
-            Spawner spawner = spawnManager.spawners[i].Prefab.GetComponent<Spawner>();
-            if (spawner) {                
-                spawnerButtonNames.Add("Spawner " + (i + 1));
-                SpawnerObject spawnerObject = new SpawnerObject();
-                spawnerObject.waveButtonNames = new List<string>(spawner.waves.Count);
-                spawnerObject.waveObjects = new List<WaveObject>(spawner.waves.Count);
-                for(int j = 0; j < spawner.waves.Count; j++)
+            spawnerButtonNames = new List<string>(spawnManager.spawners.Count);
+            spawnerObjects = new List<SpawnerObject>(spawnManager.spawners.Count);
+            for (int i = 0; i < spawnManager.spawners.Count; i++)
+            {
+                Spawner spawner = spawnManager.spawners[i].Prefab.GetComponent<Spawner>();
+                if (spawner)
                 {
-                    Wave wave = spawner.waves[j];
-                    spawnerObject.waveButtonNames.Add("Wave " + (j + 1));
-                    WaveObject waveObject = new WaveObject();                    
-                    string musicEventName = "Music_" + eventName.Replace(spawnerNumberString, (i + 1).ToString()).Replace(waveNumberString, (j + 1).ToString());
-                    waveObject.audioClip = musicIntensityManager.GetAudioClipByEventName(musicEventName);
-                    spawnerObject.waveObjects.Add(waveObject);
+                    spawnerButtonNames.Add("Spawner " + (i + 1));
+                    SpawnerObject spawnerObject = new SpawnerObject();
+                    spawnerObject.waveButtonNames = new List<string>(spawner.waves.Count);
+                    spawnerObject.waveObjects = new List<WaveObject>(spawner.waves.Count);
+                    for (int j = 0; j < spawner.waves.Count; j++)
+                    {
+                        Wave wave = spawner.waves[j];
+                        spawnerObject.waveButtonNames.Add("Wave " + (j + 1));
+                        WaveObject waveObject = new WaveObject();
+                        string musicEventName = "Music_" + eventName.Replace(spawnerNumberString, (i + 1).ToString()).Replace(waveNumberString, (j + 1).ToString());
+                        waveObject.audioClip = musicIntensityManager.GetAudioClipByEventName(musicEventName);
+                        spawnerObject.waveObjects.Add(waveObject);
+                    }
+                    spawnerObjects.Add(spawnerObject);
                 }
-                spawnerObjects.Add(spawnerObject);
             }
-        }        
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     private void ShowWaveTriggerOptions()

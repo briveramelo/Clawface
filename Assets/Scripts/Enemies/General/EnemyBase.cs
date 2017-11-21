@@ -77,7 +77,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
             damagePack.Set(damager, damaged);
             SFXManager.Instance.Play(hitSFX, transform.position);
             DamageFXManager.Instance.EmitDamageEffect(damagePack);
-            hitFlasher.Flash (1.0f, 0.15f);
+            hitFlasher.HitFlash ();
 
             if (myStats.health <= 0)
             {
@@ -98,6 +98,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
 
             if (myStats.health <= myStats.skinnableHealth)
             {
+                hitFlasher.SetStunnedState();
                 if (!alreadyStunned)
                 {
                     myStats.health = 1;
