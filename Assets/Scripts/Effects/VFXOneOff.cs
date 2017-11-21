@@ -115,7 +115,6 @@ namespace Turing.VFX
                         max = duration;
                 }
 
-                Debug.Log (string.Format("{0}: {1}", gameObject.name, max));
                 return max;
             }
         }
