@@ -9,14 +9,15 @@ public class KamikazeAttackState : AIState {
     private Damager damager = new Damager();
     private float waitTimeToDestruct;
     private float blastRadius;
-
+    public bool setToSelfDestruct = false;
+    private bool attackDone = false;
 
     public override void OnEnter()
     {
         navAgent.enabled = false;
         navObstacle.enabled = true;
 
-        animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Idle);
+        animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.Idle);
         shooterProperties.Initialize(2, 5, 6, 0);
         SetShooterProperties(shooterProperties);
         waitTimeToDestruct = properties.selfDestructTime;
@@ -32,6 +33,7 @@ public class KamikazeAttackState : AIState {
     {
         navObstacle.enabled = false;
         navAgent.enabled = true;
+        setToSelfDestruct = true;
     }
 
     IEnumerator<float> RunStartupTimer()
@@ -42,9 +44,12 @@ public class KamikazeAttackState : AIState {
         {
             //Set Damage to the player
             Damage(controller.AttackTarget.gameObject.GetComponent<IDamageable>());
+            attackDone = true;
         }
-        //Set Damage to self(Kamikaze)
-        DamageSelf(controller.gameObject.GetComponent<IDamageable>());
+        else
+        {
+            attackDone = true;
+        }
     }
 
 
@@ -63,13 +68,10 @@ public class KamikazeAttackState : AIState {
         }
     }
 
-    private void DamageSelf(IDamageable damageable)
+    public bool DoneAttacking()
     {
-        if (damageable != null)
-        {
-            damager.Set(myStats.health, DamagerType.BlasterBullet, navAgent.transform.forward);
-            damageable.TakeDamage(damager);
-        }
+        return attackDone;
     }
+
 
 }

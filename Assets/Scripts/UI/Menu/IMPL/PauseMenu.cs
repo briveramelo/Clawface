@@ -12,7 +12,7 @@ public class PauseMenu : Menu
 
 	public override Button InitialSelection {
 		get {
-			return restartButton;
+			return initiallySelected;
 		}
 	}
 
@@ -30,7 +30,7 @@ public class PauseMenu : Menu
 	#region Serialized Unity Fields
 
 	[SerializeField]
-	private Button restartButton;
+	private Button initiallySelected;
 
 	#endregion
 
@@ -38,13 +38,13 @@ public class PauseMenu : Menu
 
 	private bool paused = false;
 	private bool canPause = true;
-	// used to indicate the game is in a level and "can pause"
+    // used to indicate the game is in a level and "can pause"
 
-	#endregion
+    #endregion
 
-	#region Unity Lifecycle Methods
+    #region Unity Lifecycle Methods
 
-	void Update ()
+    void Update ()
 	{
 		if (canPause && InputManager.Instance.QueryAction (Strings.Input.Actions.PAUSE,
 			          ButtonMode.DOWN)) {
@@ -66,22 +66,33 @@ public class PauseMenu : Menu
 
 	public void restartAction ()
 	{
+        
 		Menu menu = MenuManager.Instance.GetMenuByName (Strings.MenuStrings.LOAD);
 		LoadMenu loadMenu = (LoadMenu)menu;
 		Scene scene = SceneManager.GetActiveScene ();
 		loadMenu.TargetScene = scene.name;
-		MenuManager.Instance.DoTransition (loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+
+        EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_RESTARTED, scene.name, AnalyticsManager.Instance.GetCurrentWave(), ScoreManager.Instance.GetScore());
+
+
+        MenuManager.Instance.DoTransition (loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
 	}
 
 	public void quitAction ()
 	{
 		canPause = false;
 		Menu menu = MenuManager.Instance.GetMenuByName (Strings.MenuStrings.LOAD);
-		LoadMenu loadMenu = (LoadMenu)menu;
+        EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_QUIT, SceneManager.GetActiveScene().name, AnalyticsManager.Instance.GetCurrentWave(), ScoreManager.Instance.GetScore());
+        LoadMenu loadMenu = (LoadMenu)menu;
 		loadMenu.TargetScene = Strings.Scenes.MainMenu;
 		loadMenu.Fast = true;
 		MenuManager.Instance.DoTransition (loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
 	}
+
+    public void ResumeAction()
+    {
+        MenuManager.Instance.ClearMenus();
+    }
 
 	#endregion
 

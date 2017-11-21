@@ -3,25 +3,40 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using ModMan;
+using UnityEngine.Assertions;
 
 public class EatingState : IPlayerState
 {
 
-    #region Private Fields
-    private bool isAnimating;
+    #region Serialized Fields
+    [SerializeField]
+    private ClawArmController clawArmController;
     #endregion
 
-    #region Unity Lifecycle 
+
+    #region Private Fields
+    private bool isAnimating;
+    private Transform clawTransform;
+    private GameObject grabObject;
+    #endregion
+
+    #region Unity Lifecycle
+
+    private void Start()
+    {
+        Assert.IsNotNull(clawArmController);
+    }
+
     private void OnEnable()
     {        
         EventSystem.Instance.RegisterEvent(Strings.Events.FACE_OPEN, DoArmExtension);
-        EventSystem.Instance.RegisterEvent(Strings.Events.ARM_EXTENDED, CaptureEnemy);
+        EventSystem.Instance.RegisterEvent(Strings.Events.CAPTURE_ENEMY, CaptureEnemy);
         EventSystem.Instance.RegisterEvent(Strings.Events.ARM_ANIMATION_COMPLETE, EndState);
     }
     private void OnDisable() {
         if (EventSystem.Instance) {
             EventSystem.Instance.UnRegisterEvent(Strings.Events.FACE_OPEN, DoArmExtension);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.ARM_EXTENDED, CaptureEnemy);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.CAPTURE_ENEMY, CaptureEnemy);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.ARM_ANIMATION_COMPLETE, EndState);
         }
     }
@@ -30,20 +45,20 @@ public class EatingState : IPlayerState
     {
         this.stateVariables = stateVariables;
         isAnimating = false;
-    }
-
-    private void LookAtEnemy()
-    {
-        Vector3 enemyPosition = stateVariables.skinTargetEnemy.transform.position;
-        stateVariables.modelHead.transform.LookAt(new Vector3(enemyPosition.x, 0f, enemyPosition.z));
-    }
+    }   
 
     public override void StateFixedUpdate()
     {
+
+    }
+
+    public override void StateUpdate()
+    {
         if (!isAnimating)
         {
-            if (stateVariables.skinTargetEnemy.activeSelf) {
-                stateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.RetractVisor);
+            if (stateVariables.eatTargetEnemy && stateVariables.eatTargetEnemy.activeSelf)
+            {
+                stateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.OpenFace);
                 isAnimating = true;
             }
             else
@@ -52,68 +67,91 @@ public class EatingState : IPlayerState
             }
         }
     }
-
-    public override void StateUpdate()
-    {
-        
-    }
     
     public override void StateLateUpdate()
     {
         LookAtEnemy();
-    }    
+    }
     #endregion
 
     #region Private Methods
+    private void LookAtEnemy()
+    {
+        if (stateVariables.eatTargetEnemy)
+        {
+            Vector3 enemyPosition = stateVariables.eatTargetEnemy.transform.position;
+            stateVariables.modelHead.transform.LookAt(new Vector3(enemyPosition.x, 0f, enemyPosition.z));
+        }
+        else
+        {
+            ResetState();
+        }
+    }
+
     protected override void ResetState()
     {
-        stateVariables.clawAnimator.SetBool(Strings.ANIMATIONSTATE, false);
-        stateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Idle);
+        clawArmController.ResetClawArm();
+        stateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.CloseFace);
         stateVariables.modelHead.transform.LookAt(stateVariables.playerTransform.forward);
+        stateVariables.eatTargetEnemy = null;
+        clawTransform = null;
+        grabObject = null;
         isAnimating = false;
         stateVariables.stateFinished = true;
     }
 
 
     private void DoArmExtension(params object[] parameters)
-    {        
-        stateVariables.clawAnimator.SetBool(Strings.ANIMATIONSTATE, true);
+    {
+        IEatable eatable = stateVariables.eatTargetEnemy.GetComponent<IEatable>();
+        Assert.IsNotNull(eatable);
+        clawArmController.StartExtension(eatable.GetGrabObject(), stateVariables.clawExtensionTime, stateVariables.clawRetractionTime);
+        SFXManager.Instance.Play(stateVariables.ArmExtensionSFX, transform.position);
     }
 
     private void CaptureEnemy(params object[] parameters)
     {
-        if (stateVariables.skinTargetEnemy.activeSelf)
+        if (stateVariables.eatTargetEnemy.activeSelf)
         {
-            Transform clawTransform = parameters[0] as Transform;
-            stateVariables.skinTargetEnemy.transform.SetParent(clawTransform);
-            stateVariables.skinTargetEnemy.transform.localPosition = Vector3.zero;
+            clawTransform = parameters[0] as Transform;
+            IEatable eatable = stateVariables.eatTargetEnemy.GetComponent<IEatable>();
+            if (eatable != null)
+            {
+                stateVariables.eatTargetEnemy.transform.position = clawTransform.position;                
+                eatable.DisableCollider();
+                eatable.EnableRagdoll();
+            }
         }
+        //clawArmController.StartRetraction(stateVariables.clawRetractionTime);
+        SFXManager.Instance.Play(stateVariables.ArmEnemyCaptureSFX, transform.position);
     }
 
-    private void DoSkinning()
+    private void DoEating()
     {
         //Check if enemy is still alive
-        if (stateVariables.skinTargetEnemy.activeSelf)
+        if (stateVariables.eatTargetEnemy.activeSelf)
         {
-            ISkinnable skinnable = stateVariables.skinTargetEnemy.GetComponent<ISkinnable>();
-            int skinHealth = skinnable.DeSkin();
-            stateVariables.statsManager.TakeSkin(skinHealth);
+            IEatable eatable = stateVariables.eatTargetEnemy.GetComponent<IEatable>();
+            int health = eatable.Eat();
+            stateVariables.statsManager.TakeHealth(health);
             Stats stats = GetComponent<Stats>();
             EventSystem.Instance.TriggerEvent(Strings.Events.UPDATE_HEALTH, stats.GetHealthFraction());
             GameObject skinningEffect = ObjectPool.Instance.GetObject(PoolObjectType.VFXSkinningEffect);
             skinningEffect.transform.position = transform.position;
+
 
             GameObject healthJuice = ObjectPool.Instance.GetObject(PoolObjectType.VFXHealthGain);
             if (healthJuice)
             {
                 healthJuice.FollowAndDeActivate(3f, transform, Vector3.up * 3.2f);
             }
+            SFXManager.Instance.Play(stateVariables.EatSFX, transform.position);
         }
     }
 
     private void EndState(params object[] parameters)
     {
-        DoSkinning();
+        DoEating();
         ResetState();
     }
     #endregion

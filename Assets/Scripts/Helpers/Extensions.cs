@@ -6,6 +6,25 @@ using System;
 
 namespace ModMan {
 
+    public static class StringExtension
+    {
+        public static string AddSpacesBetweenUpperCase (string str)
+        {
+            string result = str;
+            for (int i = 1; i < str.Length; i++)
+            {
+                char c = str[i];
+                if (char.IsUpper (c))
+                {
+                    result = result.Insert(i, " ");
+                    i++;
+                }
+            }
+
+            return result;
+        }
+    }
+
     public static class Rectstensions {
         public static Rect AddPosition(this Rect rect, Vector2 pos) {
             rect.x += pos.x;
@@ -116,10 +135,10 @@ namespace ModMan {
     public static class GameObjectExtensions {
 
         public static void DeActivate(this GameObject obj, float timeToDeactivate) {
-            Timing.RunCoroutine(IEDeActivate(obj, timeToDeactivate), Segment.FixedUpdate);
+            Timing.RunCoroutine(IEDeActivate(obj, timeToDeactivate));
         }
         public static void FollowAndDeActivate(this GameObject obj, float timeToDeactivate, Transform objToFollow, Vector3 offset) {
-            Timing.RunCoroutine(IEDeActivate(obj, timeToDeactivate, objToFollow, offset), Segment.FixedUpdate);
+            Timing.RunCoroutine(IEDeActivate(obj, timeToDeactivate, objToFollow, offset));
         }
         static IEnumerator<float> IEDeActivate(GameObject obj, float timeToDeactivate) {
             yield return Timing.WaitForSeconds(timeToDeactivate);
@@ -149,6 +168,19 @@ namespace ModMan {
             foreach (var childTr in childTransforms) {
                 var childObj = childTr.gameObject;
                 if (childObj.name == name) return childObj;
+            }
+
+            return null;
+        }
+
+        public static GameObject FindWithSubstring (string substring)
+        {
+            GameObject[] allObjects = GameObject.FindObjectsOfType<GameObject>();
+            for (int i = 0; i < allObjects.Length; i++)
+            {
+                GameObject obj = allObjects[i];
+                if (obj.name.Contains (substring))
+                    return obj;
             }
 
             return null;

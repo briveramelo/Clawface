@@ -3,6 +3,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using System.Linq;
 using System;
 using ModMan;
@@ -34,7 +35,7 @@ public class MallCop : EnemyBase
     #region 3. Unity Lifecycle
 
     public override void Awake()
-    {
+    {        
         InitilizeStates();
         controller.Initialize(properties, mod, velBody, animator, myStats, navAgent, navObstacle, aiStates);
         mod.setModSpot(ModSpot.ArmR);
@@ -46,7 +47,6 @@ public class MallCop : EnemyBase
             CheckToFinishFiring,
             CheckIfStunned
         };
-
         base.Awake();
     }
 
@@ -57,9 +57,16 @@ public class MallCop : EnemyBase
     //State conditions
     bool CheckToFire()
     {
+        Vector3 fwd = controller.DirectionToTarget;
+        RaycastHit hit;
+
         if ((controller.CurrentState== chase && controller.DistanceFromTarget < closeEnoughToFireDistance))
         {
-            controller.UpdateState(EAIState.Fire);
+            if (Physics.Raycast(controller.transform.position, fwd, out hit, 50, ~LayerMask.GetMask(Strings.Layers.ENEMY)))
+            {
+                if(hit.transform.tag == Strings.Tags.PLAYER)
+                controller.UpdateState(EAIState.Fire);
+            }
             return true;
         }
         return false;
@@ -77,7 +84,22 @@ public class MallCop : EnemyBase
             }
             else
             {
-                controller.UpdateState(EAIState.Fire);
+                Vector3 fwd = controller.DirectionToTarget;
+                RaycastHit hit;
+
+                if (Physics.Raycast(controller.transform.position, fwd, out hit, 50, ~LayerMask.GetMask(Strings.Layers.ENEMY)))
+                {
+                    if (hit.transform.tag != Strings.Tags.PLAYER)
+                        controller.UpdateState(EAIState.Chase);
+
+                    else if (hit.transform.tag == Strings.Tags.PLAYER)
+                        controller.UpdateState(EAIState.Fire);
+                }
+                else
+                {
+                    controller.UpdateState(EAIState.Chase);
+
+                }
             }
             return true;
         }
@@ -100,25 +122,13 @@ public class MallCop : EnemyBase
 
 
     public override void OnDeath()
-    {
-        if (!will.isDead)
-        {
-            GameObject mallCopParts = ObjectPool.Instance.GetObject(PoolObjectType.VFXMallCopExplosion);
-            if (mallCopParts)
-            {
-                SFXManager.Instance.Play(SFXType.BloodExplosion, transform.position);
-                mallCopParts.transform.position = transform.position + Vector3.up * 3f;
-                mallCopParts.transform.rotation = transform.rotation;
-                mallCopParts.DeActivate(5f);
-            }
-            mod.KillCoroutines();
-        }
+    { 
         base.OnDeath();
+        mod.KillCoroutines();
     }
 
     public override void ResetForRebirth()
     {
-        copUICanvas.gameObject.SetActive(false);
         mod.DeactivateModCanvas();
         mod.setModSpot(ModSpot.ArmR);
         base.ResetForRebirth();

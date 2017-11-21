@@ -1,6 +1,7 @@
 ﻿public class Strings  {
 
     public static string ANIMATIONSTATE = "AnimationState";
+    public static string FEETSTATE = "FeetState";
 
     public static class Tags {
         public static string MOD = "Mod";
@@ -12,6 +13,7 @@
         public static string PLAYERDETECTOR = "PlayerDetector";
         public static string PROJECTILE = "Projectile";
         public static string WALL = "Wall";
+        public static string FLOOR = "Floor";
     }
 
     public static class Scenes {
@@ -23,7 +25,7 @@
     public static class Layers
     {
         public static string GROUND = "Ground";
-
+        public static string MODMAN = "ModMan";
         public static string ENEMY = "Enemy";
     }
 
@@ -38,6 +40,9 @@
         public static string SETTINGS = "Settings";
         public static string LEVEL_SELECT = "LevelSelect";
         public static string WEAPON_SELECT = "WeaponSelect";
+
+        public static string GAME_OVER_TEXT = "Game Over";
+        public static string STAGE_OVER_TEXT = "Stage Over";
     }
 
     public static class Input
@@ -69,25 +74,26 @@
     public static class Events
     {
         public const string FACE_OPEN = "FaceOpen";
-        public const string ARM_EXTENDED = "ArmExtended";
+        public const string CAPTURE_ENEMY = "CaptureEnemy";
         public const string ARM_ANIMATION_COMPLETE = "ArmAnimationComplete";
         public const string UPDATE_HEALTH = "UpdateHealth";
 
         public const string KILL_ENEMY = "KillEnemy";
         public const string BEAT_LEVEL1 = "BeatLevel1";
         public const string SKIN_ENEMY = "SkinEnemy";
+        public const string DEATH_ENEMY = "DeathEnemy";
+        public const string EAT_ENEMY = "EatEnemy";
 
         public const string EARN_ACHIEVEMENT = "EarnAchievement";
         public const string PROGRESS_ACHIEVEMENT = "ProgressAchievement";
         public const string UPDATE_ACHIEVEMENTS = "UpdateAchievements";
         
+        public const string LOCK_SPAWNERS = "LockSpawners";
         public const string CALL_NEXTWAVEENEMIES = "CallNextWaveEnemies";
 		
         public const string UNLOCK_WEAPON = "UnlockWeapon";
         public const string UNLOCK_NEXT_LEVEL = "UnlockNextLevel";
-
-        // NOTE: this event passes a string that's the displayed level's name
-        public const string LEVEL_DISPLAYED = "LevelDisplayed";
+        public const string SET_LEVEL_SCORE = "SetLevelScore";
 
         public const string SCORE_UPDATED = "ScoreUpdated";
         public const string COMBO_UPDATED = "ComboUpdated";
@@ -99,6 +105,7 @@
         public const string LEVEL_FAILED = "LevelFailed";
         public const string LEVEL_QUIT = "LevelQuit";
         public const string LEVEL_COMPLETED = "LevelCompleted";
+        public const string LEVEL_RESTARTED = "LevelRestarted";
         public const string EXIT_GAME = "ExitGame";
 
         public const string PLAYER_DAMAGED = "PlayerDamaged";

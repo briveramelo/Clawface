@@ -79,6 +79,22 @@ public class ModManager : MonoBehaviour
     {
         CheckToCollectMod();
         CheckToChargeAndFireMods();
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            Mod rightMod = rightArmSocket.GetComponentInChildren<Mod>();
+            Mod leftMod = leftArmSocket.GetComponentInChildren<Mod>();
+            if (rightMod)
+            {
+                rightMod.gameObject.SetActive(false);
+            }
+            if (leftMod)
+            {
+                leftMod.gameObject.SetActive(false);
+            }
+            modSocketDictionary[ModSpot.ArmL].mod = null;
+            modSocketDictionary[ModSpot.ArmR].mod = null;
+            AttachRandomMods();
+        }
     }
     #endregion
 
@@ -181,9 +197,6 @@ public class ModManager : MonoBehaviour
 
     private void CheckToChargeAndFireMods(){        
         if (canActivate){
-            //CheckForModInput((ModSpot spot)=> {
-            //    modSocketDictionary[spot].mod.Activate();               
-            //}, ButtonMode.DOWN);
             CheckForModInput((ModSpot spot) =>
             {
                 modSocketDictionary[spot].mod.Activate();
@@ -252,9 +265,7 @@ public class ModManager : MonoBehaviour
 
     private void Detach(ModSpot spot, bool isSwapping = false){
         if (modSocketDictionary[spot].mod != null){
-            if (!isSwapping){
-                AnalyticsManager.Instance.DropMod();
-            }
+            
             modSocketDictionary[spot].mod.transform.SetParent(modInventory.GetModParent(modSocketDictionary[spot].mod.getModType()));
             modSocketDictionary[spot].mod.gameObject.SetActive(false);
             modSocketDictionary[spot].mod.DetachAffect();

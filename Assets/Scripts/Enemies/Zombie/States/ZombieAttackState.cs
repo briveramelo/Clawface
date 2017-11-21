@@ -3,42 +3,48 @@ using System.Collections.Generic;
 using UnityEngine;
 using MovementEffects;
 
+[System.Serializable]
 public class ZombieAttackState : AIState
 {
-
-    bool isPastStartup;
     private ShooterProperties shooterProperties = new ShooterProperties();
     private Damager damager = new Damager();
-    float timeSinceLastHit;
-    float hitRate;
-
+    List<int> attacks;
+    public bool moveTowardsPlayer;
+    public bool doneAttacking;
 
     public override void OnEnter()
     {
+        doneAttacking = false;
+        attacks = new List<int>();
         navAgent.enabled = false;
         navObstacle.enabled = true;
-        hitRate = properties.hitRate;
-        animator.SetInteger(Strings.ANIMATIONSTATE, (int)MallCopAnimationStates.Idle);
+        attacks.Add((int)AnimationStates.Attack1);
+        attacks.Add((int)AnimationStates.Attack2);
+        attacks.Add((int)AnimationStates.Attack3);
+        attacks.Add((int)AnimationStates.Attack4);
+        attacks.Add((int)AnimationStates.Attack5);
+        attacks.Add((int)AnimationStates.Attack6);
+        int animationAttackValue = attacks[Random.Range(0, attacks.Count)];
+        moveTowardsPlayer = false;
+        animator.SetInteger(Strings.ANIMATIONSTATE, animationAttackValue);
         shooterProperties.Initialize(2, 5, 6, 0);
         SetShooterProperties(shooterProperties);
     }
     public override void Update()
     {
-        velBody.LookAt(controller.AttackTarget);
-        navAgent.velocity = Vector3.zero;
+        WaitToMove();
+        navAgent.SetDestination(controller.AttackTarget.position);
 
-        timeSinceLastHit += Time.deltaTime;
-
-        if(timeSinceLastHit > hitRate)
-        {
-            Damage(controller.AttackTarget.gameObject.GetComponent<IDamageable>());
-            timeSinceLastHit = 0.0f;
-        }
+        Vector3 lookPos = new Vector3(controller.AttackTarget.transform.position.x,0.0f, controller.AttackTarget.transform.position.z);
+        controller.transform.LookAt(lookPos);
+        //controller.transform.RotateAround(controller.transform.position, controller.transform.up,-25.0f);
     }
     public override void OnExit()
     {
+        navAgent.speed = myStats.moveSpeed;
         navObstacle.enabled = false;
         navAgent.enabled = true;
+        attacks.Clear();
     }
 
 
@@ -47,8 +53,7 @@ public class ZombieAttackState : AIState
         this.shooterProperties = shooterProperties;
     }
 
-
-    private void Damage(IDamageable damageable)
+    public void Damage(IDamageable damageable)
     {
         if (damageable != null)
         {
@@ -56,5 +61,23 @@ public class ZombieAttackState : AIState
             damageable.TakeDamage(damager);
         }
     }
+
+    public bool CanRestart()
+    {
+        return doneAttacking;
+    }
+
+    private bool WaitToMove()
+    {
+        if (moveTowardsPlayer)
+        {
+            navObstacle.enabled = false;
+            navAgent.enabled = true;
+            navAgent.speed = navAgent.speed * 1.25f;
+            return true;
+        }
+        return false;
+    }
+
 
 }

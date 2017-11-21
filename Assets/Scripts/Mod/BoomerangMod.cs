@@ -8,10 +8,12 @@ public class BoomerangMod : Mod {
 
     #region Serialized
     [SerializeField] private Transform bulletSpawnPoint;
-    #endregion
-
-    #region Privates
-    private ShooterProperties shooterProperties = new ShooterProperties();
+    [SerializeField] private Animator launcherAnimator;
+    [SerializeField] private Animator projectileAnimator;
+    [SerializeField] private float timeUntilBoomerangDestroyed;
+    [SerializeField] private float rayDistanceMultiplier;
+    [SerializeField] private LayerMask raycastLayermask;
+    [SerializeField] private float boomerangSpeed;
     #endregion
 
     #region Unity Lifecycle
@@ -38,7 +40,7 @@ public class BoomerangMod : Mod {
     #region Inherited
     public override void Activate(Action onCompleteCoolDown = null, Action onActivate = null)
     {
-        onActivate = () => { SFXManager.Instance.Play(SFXType.BlasterShoot, transform.position); };
+        onActivate = () => { SFXManager.Instance.Play(SFXType.Boomerang_Throw, transform.position); };
         base.Activate(onCompleteCoolDown, onActivate);
         //SFXManager.Instance.Stop(SFXType.BlasterCharge);
     }
@@ -63,16 +65,17 @@ public class BoomerangMod : Mod {
         Shoot();
     }
     #endregion
-
-
+    
     private BoomerangBullet Shoot()
     {
-        SFXManager.Instance.Play(SFXType.BlasterShoot, transform.position);
-        PoolObjectType poolObjType = PoolObjectType.VFXBlasterShoot;
+        SFXManager.Instance.Play(shootSFX, transform.position);
+        PoolObjectType poolObjType = PoolObjectType.VFXBoomerangShoot;
         GameObject vfx = ObjectPool.Instance.GetObject(poolObjType);
         vfx.transform.position = bulletSpawnPoint.position;
         vfx.transform.rotation = transform.rotation;
         BoomerangBullet bullet = SpawnBullet();
+        launcherAnimator.SetTrigger("Fire");
+        projectileAnimator.SetTrigger("Fire");
         return bullet;
     }
 
@@ -83,10 +86,9 @@ public class BoomerangMod : Mod {
         if (boomerangBullet)
         {
             boomerangBullet.transform.position = bulletSpawnPoint.position;
-            boomerangBullet.transform.forward = this.transform.forward;
+            boomerangBullet.transform.forward = transform.forward;
             boomerangBullet.transform.rotation = Quaternion.Euler(0f, boomerangBullet.transform.rotation.eulerAngles.y, 0f);
-            shooterProperties.Initialize(GetWielderInstanceID(), Attack, wielderStats.shotSpeed, wielderStats.shotPushForce);
-            boomerangBullet.SetShooterProperties(shooterProperties);
+            boomerangBullet.Initialize(boomerangSpeed, damage, timeUntilBoomerangDestroyed, rayDistanceMultiplier, raycastLayermask);
 
             if (wielderStats.gameObject.CompareTag(Strings.Tags.PLAYER))
             {

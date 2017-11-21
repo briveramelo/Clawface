@@ -101,7 +101,7 @@ public class ModInventory : MonoBehaviour {
         }
 
         public Mod GetMod(ModSpot modSpot) {            
-            if (!modContainers[modSpot].isEquipped) {
+            if (!modContainers[modSpot].isEquipped && modContainers[modSpot].modObject) {
                 modContainers[modSpot].modObject.SetActive(true);
                 return modContainers[modSpot].mod;
             }
@@ -116,7 +116,18 @@ public class ModInventory : MonoBehaviour {
     private class ModContainer {
         public GameObject modObject;
         public Mod mod;
-        public bool isEquipped { get{ return modObject.activeSelf;} }
+        public bool isEquipped {
+            get {
+                if (modObject)
+                {
+                    return modObject.activeSelf;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
 
         public ModContainer(GameObject modObject) {
             this.modObject=modObject;

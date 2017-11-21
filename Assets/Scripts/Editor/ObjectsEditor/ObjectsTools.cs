@@ -11,6 +11,8 @@ using OET_duplicate;
 using OET_grid;
 using OET_init;
 
+using Turing.LevelEditor;
+
 public class ObjectsTools : EditorWindow
 {
 	int activeToolbar = 0;
@@ -18,7 +20,8 @@ public class ObjectsTools : EditorWindow
 
     string[] toolbarStrings = new string[] {"Init", "Add", "Group", "Duplicate", "Replace"};
 
-    GameObject projectActiveSelection;
+    //GameObject projectActiveSelection;
+    LevelEditorObject projectActiveSelection;
 	GameObject sceneActiveSelection;
 	GameObject[] projectSelection;
 	GameObject[] sceneSelection;
@@ -30,7 +33,7 @@ public class ObjectsTools : EditorWindow
 		ObjectsTools window = (ObjectsTools)EditorWindow.GetWindow(typeof(ObjectsTools));
 		window.titleContent = new GUIContent("Level Tools");
 		window.Show();
-		window.minSize = new Vector2 (600f, 120f);
+		window.minSize = new Vector2 (600.0f, 400.0f);
     }
 
 	void OnInspectorUpdate()
@@ -54,8 +57,6 @@ public class ObjectsTools : EditorWindow
         //bool cancelEvent = false;
         Event e = Event.current;
 
-
-
         if(activeToolbar == 0)
         {
             OET_grid.lib.sceneGUI();
@@ -64,7 +65,7 @@ public class ObjectsTools : EditorWindow
         // Add
         if (activeToolbar == 1)
         { 
-			if(OET_add.lib.editorMouseEvent (e, projectActiveSelection))
+			if(OET_add.lib.editorMouseEvent (e))
             {
 				//cancelEvent = true;
 				HandleUtility.AddDefaultControl (GUIUtility.GetControlID (GetHashCode (), FocusType.Passive));
@@ -99,7 +100,7 @@ public class ObjectsTools : EditorWindow
 			if (AssetDatabase.Contains (Selection.activeGameObject))
             {
 				projectSelection = Selection.gameObjects;
-				projectActiveSelection = Selection.activeGameObject;
+				//projectActiveSelection = Selection.activeGameObject;;
 			}
             else
             {

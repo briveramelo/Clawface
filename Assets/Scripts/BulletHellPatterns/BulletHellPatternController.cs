@@ -14,8 +14,8 @@ public class BulletHellPatternController : MonoBehaviour {
     [SerializeField][Range(0.0f, 360.0f)]   private float separationAngleBetweenStrands;
     [SerializeField]                        private RotateDirection rotationDirection;
     [SerializeField][Range(0.0f, 10.0f)]    private float rotationSpeed;
+    [SerializeField] private float bulletLiveTime = 1.0f;
     #endregion
-
 
     #region 2. Private fields
     private Vector3 referenceVector;
@@ -30,7 +30,6 @@ public class BulletHellPatternController : MonoBehaviour {
     private int currentNumberOfStrands = 0;
     private int oldNumberOfStrands = 0;
     private bool createStrandList = true;
-    private ShooterProperties shooterProperties = new ShooterProperties();
     #endregion
 
     #region 3. Unity Lifecycle
@@ -71,9 +70,7 @@ public class BulletHellPatternController : MonoBehaviour {
             GameObject newBullet = ObjectPool.Instance.GetObject(PoolObjectType.EnemyBulletSmall);
             newBullet.transform.position = transform.position + (bulletHellStrandList[i].movementDirection * bulletOffsetFromOrigin);
             newBullet.GetComponent<BlasterBullet>().transform.forward = bulletHellStrandList[i].movementDirection;
-            shooterProperties.Initialize(transform.parent.GetInstanceID(), bulletDamage, bulletSpeed, 0.0f);
-            newBullet.GetComponent<BlasterBullet>().SetShooterProperties(shooterProperties);
-            newBullet.GetComponent<BlasterBullet>().SetWielderInstanceID(transform.parent.GetInstanceID());
+            newBullet.GetComponent<BlasterBullet>().Initialize(bulletLiveTime, bulletSpeed,bulletDamage);
             newBullet.GetComponent<BlasterBullet>().SetShooterType(true);
         }
     }

@@ -260,7 +260,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "Joshua Beedle\r\nAaron Desin\r\nBolun Gao\r\nBharat Gudihal\r\nAdam Kay\r\n"
+  m_Text: "Joshua Beedle\r\nAaron Desin\r\nBolun Gao\r\nBharat Gudihal\r\nAdam Kay\r\nChuan-Chin
+    Lai\r"
 --- !u!114 &114621721058074294
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -293,7 +294,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "Chuan-Chin Lai\r\nJosh Levenson\r\nI-Shun Lo\r\nCherlin Mao\r\nLauren Mee\r\n"
+  m_Text: "Josh Levenson\r\nI-Shun Lo\r\nCherlin Mao\r\nLauren Mee\r\nTri Nguyen\r\nJean-Paul
+    Peschard"
 --- !u!114 &114677177117686730
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -401,8 +403,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "Tri Nguyen\r\nGarin Richards\r\nBrandon Rivera-Melo\r\nCornelia Schultz\r\nJaxon
-    Whittaker"
+  m_Text: "\nGarin Richards\r\nBrandon Rivera-Melo\r\nNathan Rivera-Melo\nAbhinandan
+    Sain\nCornelia Schultz\r\nJaxon Whittaker"
 --- !u!114 &114731061441916208
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -443,7 +445,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvas: {fileID: 1704033396173828}
   canvasGroup: {fileID: 225203839441662634}
-  faderDuration: 1
+  faderDuration: 0.25
   returnButton: {fileID: 114699470675864288}
 --- !u!114 &114798313029994640
 MonoBehaviour:
@@ -578,7 +580,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1463870346303078}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.000015163108}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
   m_LocalScale: {x: 0.42665693, y: 0.42665693, z: 0.42665693}
   m_Children: []
   m_Father: {fileID: 224304676936178690}
@@ -586,7 +588,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 200, y: -4}
+  m_AnchoredPosition: {x: 200, y: 16}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224186389975872216
@@ -637,7 +639,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1157634178216896}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.00003350637}
+  m_LocalPosition: {x: 0, y: 0, z: 0.9999901}
   m_LocalScale: {x: 0.4266534, y: 0.42665333, z: 0.42665333}
   m_Children: []
   m_Father: {fileID: 224304676936178690}
@@ -645,7 +647,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -200, y: -18}
+  m_AnchoredPosition: {x: -200, y: 1.9999847}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224601396628369816
@@ -692,7 +694,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1696191277422144}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.00003350637}
+  m_LocalPosition: {x: 0, y: 0, z: 0.9999901}
   m_LocalScale: {x: 0.42665693, y: 0.42665693, z: 0.42665693}
   m_Children: []
   m_Father: {fileID: 224304676936178690}
@@ -700,7 +702,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -18}
+  m_AnchoredPosition: {x: 0, y: 1.9999847}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &225203839441662634
@@ -710,7 +712,7 @@ CanvasGroup:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1704033396173828}
   m_Enabled: 1
-  m_Alpha: 0
+  m_Alpha: 1
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0

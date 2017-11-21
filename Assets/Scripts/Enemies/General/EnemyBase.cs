@@ -2,27 +2,35 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Turing.VFX;
+using ModMan;
 
-public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, ISkinnable, ISpawnable
+public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatable, ISpawnable
 {
-
+    #region serialized fields
     [SerializeField] protected AIController controller;
     [SerializeField] protected VelocityBody velBody;
     [SerializeField] protected Animator animator;
     [SerializeField] protected Stats myStats;
     [SerializeField] protected NavMeshAgent navAgent;
     [SerializeField] protected NavMeshObstacle navObstacle;
-    [SerializeField] protected int skinHealth;
-    [SerializeField] protected CopUI copUICanvas;
+    [SerializeField] protected int eatHealth;
     [SerializeField] protected Transform bloodEmissionLocation;
     [SerializeField] protected int scorePopupDelay = 2;
     [SerializeField] protected int scoreValue = 200;
+    [SerializeField] private GameObject grabObject;
+    [SerializeField] protected HitFlasher hitFlasher;
+    [SerializeField] private SFXType hitSFX;
+    [SerializeField] private SFXType deathSFX;
+    #endregion
 
     #region 3. Private fields
     private int stunCount;
     private bool lastChance = false;
     private bool alreadyStunned = false;
     private Collider[] playerColliderList = new Collider[10];
+    private Rigidbody[] jointRigidBodies;
+    private Vector3 grabStartPosition;
     #endregion
 
     #region 0. Protected fields
@@ -43,18 +51,18 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, ISkinn
         {
             ResetForRebirth();
         }
-    }
+    }    
 
     public virtual void Awake()
     {
         poolParent = transform.parent;
         transformMemento.Initialize(transform);
+        jointRigidBodies = GetComponentsInChildren<Rigidbody>();
+        if (grabObject != null)
+        {
+            grabStartPosition = grabObject.transform.localPosition;
+        }
         ResetForRebirth();
-    }
-
-    private void Update()
-    {
-        controller.Update();
     }
 
     #endregion
@@ -67,8 +75,9 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, ISkinn
         {
             myStats.TakeDamage(damager.damage);
             damagePack.Set(damager, damaged);
-            SFXManager.Instance.Play(SFXType.MallCopHurt, transform.position);
+            SFXManager.Instance.Play(hitSFX, transform.position);
             DamageFXManager.Instance.EmitDamageEffect(damagePack);
+            hitFlasher.Flash (1.0f, 0.15f);
 
             if (myStats.health <= 0)
             {
@@ -89,8 +98,6 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, ISkinn
 
             if (myStats.health <= myStats.skinnableHealth)
             {
-                copUICanvas.gameObject.SetActive(true);
-                copUICanvas.ShowAction(ActionType.Skin);
                 if (!alreadyStunned)
                 {
                     myStats.health = 1;
@@ -118,15 +125,16 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, ISkinn
     }
 
 
-    bool ISkinnable.IsSkinnable()
+    bool IEatable.IsEatable()
     {
         return myStats.health <= myStats.skinnableHealth;
     }
 
-    int ISkinnable.DeSkin()
+    int IEatable.Eat()
     {
+        EventSystem.Instance.TriggerEvent(Strings.Events.EAT_ENEMY);
         Invoke("OnDeath", 0.1f);
-        return skinHealth;
+        return eatHealth;
     }
 
     void IStunnable.Stun()
@@ -141,13 +149,11 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, ISkinn
         will.onDeath = onDeath;
     }
 
-    #endregion
-
-
-    #region 6. Private Methods   
-
     public virtual void OnDeath()
     {
+
+        EventSystem.Instance.TriggerEvent(Strings.Events.DEATH_ENEMY, scoreValue);
+
         if (!will.isDead)
         {
             will.isDead = true;
@@ -155,6 +161,15 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, ISkinn
             {
                 will.onDeath();
             }
+                GameObject mallCopParts = ObjectPool.Instance.GetObject(PoolObjectType.VFXMallCopExplosion);
+                if (mallCopParts)
+                {
+                    SFXManager.Instance.Play(SFXType.BloodExplosion, transform.position);
+                    mallCopParts.transform.position = transform.position + Vector3.up * 3f;
+                    mallCopParts.transform.rotation = transform.rotation;
+                    mallCopParts.DeActivate(5f);
+                }
+
 
             UpgradeManager.Instance.AddEXP(Mathf.FloorToInt(myStats.exp));
 
@@ -166,18 +181,25 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, ISkinn
 
                 int scoreBonus = scoreValue * ScoreManager.Instance.GetCurrentMultiplier();
                 popUpScore.DisplayScoreAndHide(scoreBonus, scorePopupDelay);
-                ScoreManager.Instance.AddToScoreAndCombo(scoreBonus);
+                // ScoreManager.Instance.AddToScoreAndCombo(scoreBonus);
             }
             navAgent.speed = 0;
             navAgent.enabled = false;
             gameObject.SetActive(false);
+            SFXManager.Instance.Play(deathSFX, transform.position);
         }
     }
 
     public virtual void ResetForRebirth()
     {
+        DisableRagdoll();
+        if (grabObject)
+        {
+            grabObject.transform.parent = transform;
+            grabObject.transform.localPosition = grabStartPosition;
+            grabObject.transform.localScale = Vector3.one;
+        }
         GetComponent<CapsuleCollider>().enabled = true;
-        
         myStats.ResetForRebirth();
         controller.ResetForRebirth();
         velBody.ResetForRebirth();
@@ -185,7 +207,53 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, ISkinn
         transform.SetParent(poolParent);
         transform.localScale = transformMemento.startScale;
         lastChance = false;
-        alreadyStunned = false;
+        alreadyStunned = false;        
     }
+
+    public void DisableCollider()
+    {
+        GetComponent<CapsuleCollider>().enabled = false;
+    }
+
+    public void EnableRagdoll()
+    {
+        if (jointRigidBodies != null)
+        {
+            //Ignore the first entry (its the self rigidbody)
+            for (int i = 1; i < jointRigidBodies.Length; i++)
+            {
+                jointRigidBodies[i].useGravity = true;
+                jointRigidBodies[i].isKinematic = false;
+            }
+        }
+        animator.enabled = false;
+    }
+
+    public void DisableRagdoll()
+    {
+        if (jointRigidBodies != null)
+        {
+            //Ignore the first entry (its the self rigidbody)
+            for (int i = 1; i < jointRigidBodies.Length; i++)
+            {
+                jointRigidBodies[i].useGravity = false;
+                jointRigidBodies[i].isKinematic = true;
+                RagdollHandler ragdollHandler = jointRigidBodies[i].GetComponent<RagdollHandler>();
+                if (ragdollHandler)
+                {
+                    ragdollHandler.ResetBone();
+                }
+            }
+        }
+        animator.enabled = true;
+    }
+
+    public GameObject GetGrabObject()
+    {
+        return grabObject;
+    }
+    #endregion
+
+    #region 6. Private Methods
     #endregion
 }

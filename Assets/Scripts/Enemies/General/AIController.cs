@@ -49,7 +49,7 @@ public abstract class AIController : MonoBehaviour {
         }
         set {
             attackTarget = value;
-            DEBUG_ATTACKTARGET = attackTarget.name;
+            //DEBUG_ATTACKTARGET = attackTarget.name;
         }
     }
     public Vector3 AttackTargetPosition { get { return AttackTarget.position - transform.forward * .1f; } }
@@ -93,7 +93,7 @@ public abstract class AIController : MonoBehaviour {
     }
 
 
-    public void Update() {
+    protected void Update() {
 
         if (!deActivateAI)
         {
@@ -110,6 +110,7 @@ public abstract class AIController : MonoBehaviour {
             }
         }
     }
+
 
     public virtual void ResetForRebirth() {
         stateTimerIsRunning = false;
@@ -131,7 +132,15 @@ public abstract class AIController : MonoBehaviour {
 
     public Transform FindPlayer()
     {
-        return GameObject.FindGameObjectWithTag(Strings.Tags.PLAYER).transform;
+        GameObject player = GameObject.FindGameObjectWithTag(Strings.Tags.PLAYER);
+        if (player)
+        {
+            return player.transform;
+        }
+        else
+        {
+            return null;
+        }
     }
 
     protected IEnumerator<float> IERestartStateTimer() {

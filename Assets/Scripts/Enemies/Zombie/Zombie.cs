@@ -8,7 +8,7 @@ using System;
 [System.Serializable]
 public class ZombieProperties : AIProperties
 {
-    [Range(0f, 5f)] public float zombieHitRate;
+    [HideInInspector] public float zombieHitRate;
 
     public void InitializeProperties()
     {
@@ -23,6 +23,7 @@ public class Zombie : EnemyBase
     [SerializeField] float closeEnoughToAttackDistance;
     [SerializeField] float maxDistanceBeforeChasing = 2.0f;
     [SerializeField] private ZombieProperties properties;
+    [SerializeField] private TentacleTrigger tentacle;
     #endregion
 
     #region 2. Private fields
@@ -33,7 +34,6 @@ public class Zombie : EnemyBase
     private ZombieStunState stun;
 
     #endregion
-
 
     #region 3. Unity Lifecycle
 
@@ -60,6 +60,7 @@ public class Zombie : EnemyBase
     {
         if (controller.CurrentState == chase && controller.DistanceFromTarget < closeEnoughToAttackDistance)
         {
+            animator.SetTrigger("Attack");
             controller.UpdateState(EAIState.Attack);
             return true;
         }
@@ -67,11 +68,19 @@ public class Zombie : EnemyBase
     }
     bool CheckToFinishAttacking()
     {
-        if (controller.CurrentState == attack)
+        if (controller.CurrentState == attack && attack.CanRestart())
         {
+            bool shouldChase = controller.DistanceFromTarget > closeEnoughToAttackDistance;
 
-            bool shouldChase = controller.DistanceFromTarget > maxDistanceBeforeChasing;
-            controller.UpdateState(EAIState.Chase);
+            if (shouldChase)
+            {
+                controller.UpdateState(EAIState.Chase);
+            }
+            else
+            {
+                animator.SetTrigger("Attack");
+                controller.UpdateState(EAIState.Attack);
+            }
             return true;
         }
         return false;
@@ -88,6 +97,32 @@ public class Zombie : EnemyBase
         return false;
     }
 
+    public void ActivateTentacleTrigger()
+    {
+        tentacle.ActivateTriggerDamage();
+    }
+
+    public void DeactivateTentacleTrigger()
+    {
+        tentacle.DeactivateTriggerDamage();
+    }
+
+    public void MoveTowardsPlayerInAttack()
+    {
+        attack.moveTowardsPlayer = true;
+    }
+
+    public void FinishedAttack()
+    {
+        attack.doneAttacking = true;
+    }
+
+
+    public void DamageAttackTarget()
+    {
+        attack.Damage(controller.AttackTarget.gameObject.GetComponent<IDamageable>());
+    }
+
     public override void OnDeath()
     {
         base.OnDeath();
@@ -95,7 +130,6 @@ public class Zombie : EnemyBase
 
     public override void ResetForRebirth()
     {
-        copUICanvas.gameObject.SetActive(false);
         base.ResetForRebirth();
     }
 

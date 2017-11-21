@@ -18,13 +18,14 @@ public class DiceMod : Mod {
     private float armTimeTilExplosion;
     #endregion
 
-    private ShooterProperties shooterProperties = new ShooterProperties();
+    private Animator animator;
 
     #region Unity Lifetime
     // Use this for initialization
     protected override void Awake () {
         type = ModType.Dice;
         category = ModCategory.Ranged;
+        animator = GetComponentInChildren<Animator>();
         base.Awake();
 	}
 
@@ -40,7 +41,7 @@ public class DiceMod : Mod {
     #region Public Methods
     public override void Activate(Action onCompleteCoolDown=null, Action onActivate=null)
     {
-        onActivate = ()=> { SFXManager.Instance.Play(SFXType.DiceLauncher_Shoot, transform.position);};
+        onActivate = ()=> { SFXManager.Instance.Play(shootSFX, transform.position);};
         base.Activate(onCompleteCoolDown, onActivate);
     }
 
@@ -71,8 +72,6 @@ public class DiceMod : Mod {
         {
             diceBlock.transform.position = bulletSpawnPoint.position;
             diceBlock.transform.rotation = transform.rotation;
-            shooterProperties.Initialize(GetWielderInstanceID(), Attack, wielderStats.shotSpeed, wielderStats.shotPushForce);
-            diceBlock.SetShooterProperties(shooterProperties);
             diceBlock.Roll(direction);
 
             if (wielderStats.gameObject.CompareTag(Strings.Tags.PLAYER))
@@ -84,6 +83,7 @@ public class DiceMod : Mod {
                 diceBlock.SetShooterType(false);
             }
         }
+        animator.SetTrigger("Shoot");
         return diceBlock;
     }
     #endregion

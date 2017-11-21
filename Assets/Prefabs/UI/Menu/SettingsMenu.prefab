@@ -620,9 +620,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4357168420301828}
+  - component: {fileID: 114774022588103372}
   - component: {fileID: 114409680909044800}
   - component: {fileID: 114138952813985300}
-  - component: {fileID: 114774022588103372}
   m_Layer: 5
   m_Name: SettingsMenu
   m_TagString: Untagged
@@ -3377,7 +3377,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvas: {fileID: 1499575512859382}
   canvasGroup: {fileID: 225083643250025398}
-  faderDuration: 1
+  faderDuration: 0.25
   doneButton: {fileID: 114083603803342896}
 --- !u!114 &114784426478871186
 MonoBehaviour:

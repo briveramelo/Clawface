@@ -4,7 +4,14 @@ using UnityEditor;
 
 namespace OET_lib
 {
-	public class ToolLib : ScriptableObject
+    class NavMeshAreas
+    {
+        public const int Walkable = 0;
+        public const int NotWalkable = 1;
+        public const int Jump = 2;
+    }
+
+    public class ToolLib : ScriptableObject
     {
 		public static int header(string stringText, int vpos, bool autoHide)
 		{

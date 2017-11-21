@@ -87,6 +87,7 @@ GameObject:
   - component: {fileID: 54654742084443072}
   - component: {fileID: 64028347371915562}
   - component: {fileID: 114560739332361928}
+  - component: {fileID: 114079482274938134}
   m_Layer: 11
   m_Name: Chair_B (1)
   m_TagString: Untagged
@@ -121,11 +122,11 @@ GameObject:
   - component: {fileID: 4465238921313556}
   - component: {fileID: 33192023131934886}
   - component: {fileID: 23810911590604178}
-  - component: {fileID: 95662826810776708}
   - component: {fileID: 65536995349271608}
   - component: {fileID: 65958129626844862}
   - component: {fileID: 65628152861054026}
   - component: {fileID: 208046270561163244}
+  - component: {fileID: 114382640361768818}
   m_Layer: 0
   m_Name: Kiosk
   m_TagString: Wall
@@ -538,23 +539,34 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!95 &95662826810776708
-Animator:
-  serializedVersion: 3
+--- !u!114 &114079482274938134
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1665489068997584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  renderTextureWidth: 512
+  renderTextureHeight: 512
+--- !u!114 &114382640361768818
+MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1964421055344778}
   m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: cf40914a1f824964faf4a37924e70a8e, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  renderTextureWidth: 512
+  renderTextureHeight: 512
 --- !u!114 &114560739332361928
 MonoBehaviour:
   m_ObjectHideFlags: 1

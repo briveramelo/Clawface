@@ -5,20 +5,21 @@ using UnityEngine;
 public class SpreadGun : Mod {
 
     #region Serialized fields
-
     [SerializeField] private SpreadGunProperties gunProperties;
     [SerializeField] private Transform bulletSpawnTransform;
     #endregion
 
-#region Private fields
+    #region Private fields
     private float incrementAngle;
-#endregion
+    private Animator animator;
+    #endregion
 
     #region Unity lifecycle
 
     // Use this for initialization
     protected override void Awake()
     {
+        animator = GetComponentInChildren<Animator>();
         setModType(ModType.SpreadGun);
         if(gunProperties.numberOfBulletsInEachShot - 1 != 0)
         {
@@ -63,7 +64,7 @@ public class SpreadGun : Mod {
     }
     #endregion
 
-#region Private functions
+    #region Private functions
     private void Shoot()
     {
         for (int i = 0; i < gunProperties.numberOfBulletsInEachShot; i++)
@@ -78,10 +79,12 @@ public class SpreadGun : Mod {
                 SpreadGunBullet spreadBullet = bullet.GetComponent<SpreadGunBullet>();
                 if (spreadBullet)
                 {
-                    spreadBullet.Init(gunProperties.bulletSpeed, gunProperties.bulletMaxDistance, gunProperties.bulletDamage);
+                    spreadBullet.Init(gunProperties.bulletSpeed, gunProperties.bulletMaxDistance, damage);
                 }
             }
         }
+        SFXManager.Instance.Play(shootSFX, transform.position);
+        animator.SetTrigger("Shoot");
     }
 
     private Vector3 CalculateForward(int count)
@@ -105,8 +108,6 @@ public class SpreadGun : Mod {
         public float bulletSpeed;
         [Tooltip("How far you want the bois to go?")]
         public float bulletMaxDistance;
-        [Tooltip("How much the bois gon rek?")]
-        public float bulletDamage;
     }
 #endregion
 
