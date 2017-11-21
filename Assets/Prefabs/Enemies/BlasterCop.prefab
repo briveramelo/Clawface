@@ -2879,7 +2879,7 @@ MonoBehaviour:
   maxHealth: 0
   moveSpeed: 7
   rangedAccuracy: 1
-  shotSpeed: 20
+  shotSpeed: 21
   shotPushForce: 3
   skinnableHealth: 3.5
   exp: 2
@@ -2932,7 +2932,7 @@ MonoBehaviour:
   hitFlashColor: {r: 1, g: 1, b: 1, a: 1}
   hitFlashStrength: 1
   hitFlashTime: 0.25
-  stunnedFlashColor: {r: 1, g: 1, b: 1, a: 1}
+  stunnedFlashColor: {r: 1, g: 0.02745098, b: 0.22745098, a: 1}
   stunnedFlashInterval: 0.5
   stunnedFlashStrength: 1
   stunnedFlashPower: 1
@@ -2941,7 +2941,7 @@ MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1169284740923970}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 264c2f3fd0f25814eb16648a3a9e5ca6, type: 3}
@@ -3002,7 +3002,6 @@ MonoBehaviour:
   navObstacle: {fileID: 208751853675774266}
   eatHealth: 100
   bloodEmissionLocation: {fileID: 4313216080101678}
-  scorePopupDelay: 2
   scoreValue: 200
   grabObject: {fileID: 1775636957589736}
   hitFlasher: {fileID: 114702588984713274}
