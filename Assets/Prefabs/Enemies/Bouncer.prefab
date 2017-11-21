@@ -684,29 +684,14 @@ GameObject:
   m_IsActive: 1
 --- !u!1 &1493106201512044
 GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 4295362156710862}
-  - component: {fileID: 114202747563348924}
-  - component: {fileID: 114140393944466040}
-  m_Layer: 9
-  m_Name: MallCopCanvas
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!1 &1500178930233706
-GameObject:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4951377030397086}
+  - component: {fileID: 114140393944466040}
+  - component: {fileID: 114202747563348924}
   m_Layer: 0
   m_Name: Right_back_start
   m_TagString: Untagged
@@ -1797,19 +1782,6 @@ Transform:
   m_Father: {fileID: 4461361910115022}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4295362156710862
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1493106201512044}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4339602330252090
 Transform:
   m_ObjectHideFlags: 1
@@ -2830,7 +2802,7 @@ Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1500178930233706}
+  m_GameObject: {fileID: 1493106201512044}
   m_LocalRotation: {x: -0.17064816, y: 0.8071512, z: 0.14613926, w: 0.5459207}
   m_LocalPosition: {x: 0.1934149, y: 0.21000284, z: 0.34998354}
   m_LocalScale: {x: 1, y: 1, z: 1}
