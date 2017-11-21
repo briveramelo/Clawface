@@ -15,7 +15,6 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     [SerializeField] protected NavMeshAgent navAgent;
     [SerializeField] protected NavMeshObstacle navObstacle;
     [SerializeField] protected int eatHealth;
-    [SerializeField] protected CopUI copUICanvas;
     [SerializeField] protected Transform bloodEmissionLocation;
     [SerializeField] protected int scorePopupDelay = 2;
     [SerializeField] protected int scoreValue = 200;
@@ -99,8 +98,6 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
 
             if (myStats.health <= myStats.skinnableHealth)
             {
-                copUICanvas.gameObject.SetActive(true);
-                copUICanvas.ShowAction(ActionType.Skin);
                 if (!alreadyStunned)
                 {
                     myStats.health = 1;

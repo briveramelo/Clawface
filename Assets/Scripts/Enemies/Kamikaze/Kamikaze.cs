@@ -96,7 +96,6 @@ public class Kamikaze : EnemyBase
 
     public override void ResetForRebirth()
     {
-        copUICanvas.gameObject.SetActive(false);
         attack.setToSelfDestruct = false;
         base.ResetForRebirth();
     }
