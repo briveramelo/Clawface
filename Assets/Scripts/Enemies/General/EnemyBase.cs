@@ -15,9 +15,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     [SerializeField] protected NavMeshAgent navAgent;
     [SerializeField] protected NavMeshObstacle navObstacle;
     [SerializeField] protected int eatHealth;
-    [SerializeField] protected CopUI copUICanvas;
     [SerializeField] protected Transform bloodEmissionLocation;
-    [SerializeField] protected int scorePopupDelay = 2;
     [SerializeField] protected int scoreValue = 200;
     [SerializeField] private GameObject grabObject;
     [SerializeField] protected HitFlasher hitFlasher;
@@ -99,8 +97,6 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
 
             if (myStats.health <= myStats.skinnableHealth)
             {
-                copUICanvas.gameObject.SetActive(true);
-                copUICanvas.ShowAction(ActionType.Skin);
                 if (!alreadyStunned)
                 {
                     myStats.health = 1;
@@ -175,17 +171,6 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
 
 
             UpgradeManager.Instance.AddEXP(Mathf.FloorToInt(myStats.exp));
-
-            GameObject worldScoreObject = ObjectPool.Instance.GetObject(PoolObjectType.WorldScoreCanvas);
-            if (worldScoreObject)
-            {
-                worldScoreObject.GetComponent<Canvas>().GetComponent<RectTransform>().SetPositionAndRotation(transform.position, transform.rotation);                //worldScoreObject.transform.position = transform.position /*+ Vector3.up * 3f*/;
-                WorldScoreUI popUpScore = worldScoreObject.GetComponent<WorldScoreUI>();
-
-                int scoreBonus = scoreValue * ScoreManager.Instance.GetCurrentMultiplier();
-                popUpScore.DisplayScoreAndHide(scoreBonus, scorePopupDelay);
-                // ScoreManager.Instance.AddToScoreAndCombo(scoreBonus);
-            }
             navAgent.speed = 0;
             navAgent.enabled = false;
             gameObject.SetActive(false);
