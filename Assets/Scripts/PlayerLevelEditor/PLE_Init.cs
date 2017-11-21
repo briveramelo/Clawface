@@ -7,7 +7,6 @@ using UnityEngine.Events;
 
 public class PLE_Init : PLE_IFunction
 {
-    GameObject UIObject;
     GameObject _prefab;
 
     Button Btn_Init;
@@ -44,12 +43,7 @@ public class PLE_Init : PLE_IFunction
 
         #region UI Objcet
 
-        UIObject = PLE_ToolKit.UITool.FindUIGameObject("UI_Init");
-
-        if (UIObject == null)
-            Debug.Log("UI_Init is not in Canvas");
-
-        UIObject.SetActive(true);
+        SetUIObject("UI_Init");
 
         #endregion
 
@@ -120,7 +114,6 @@ public class PLE_Init : PLE_IFunction
     public override void Release()
     {
         base.Release();
-        UIObject.SetActive(false);
 
         Btn_Init.onClick.RemoveListener(ACT_Init);
         Btn_Save.onClick.RemoveListener(ACT_Save);

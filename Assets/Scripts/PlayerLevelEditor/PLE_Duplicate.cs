@@ -1,21 +1,24 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class PLE_Duplicate : PLE_IFunction
 {
+    GameObject _prefab;
+    GameObject  Handle;
+    GameObject  sceneActiveSelection;
 
-    GameObject Handle;
-    GameObject sceneActiveSelection;
-    Vector3[] clones;
+    Vector3[]   clones;
+    Camera      mainCamera; 
 
     private Vector3 mousePosition;
-
-    float distance = 10.0f;
-
-
+    private float distance = 10.0f;
     private bool movable = false;
+
+    Button Btn_Duplicate;
+    UnityAction ACT_Duplicate;
 
 
     public PLE_Duplicate(PLE_FunctionController Controller) : base(Controller)
@@ -28,18 +31,30 @@ public class PLE_Duplicate : PLE_IFunction
     {
         base.Init();
 
+        SetUIObject("UI_Duplicate");
+
+        mainCamera = Camera.main;
+
         Handle = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         Handle.transform.position   = new Vector3(0, 10, 0);
         Handle.transform.localScale = new Vector3(3, 3, 3);
         Handle.GetComponent<Renderer>().material.color = Color.red;
 
+
+        ACT_Duplicate = () => EnableDuplicate(Btn_Duplicate);
+        Btn_Duplicate = PLE_ToolKit.UITool.GetUIComponent<Button>("Button_Duplicate");
+        if (Btn_Duplicate == null) Debug.Log("Button_Duplicate is null");
+
+        Btn_Duplicate.onClick.AddListener(ACT_Duplicate);
+
+        _prefab = Resources.Load("LevelEditorObjects/CommonArea/test") as GameObject;
     }
 
     public override void Update()
     {
         base.Update();
 
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
 
         RaycastHit hit;
 
@@ -47,24 +62,24 @@ public class PLE_Duplicate : PLE_IFunction
         {
             if (Input.GetMouseButton(0))
             {
-     
+
                 if (hit.collider.gameObject == Handle)
                 {
-                    Vector3 screenPoint = Camera.main.WorldToScreenPoint(Handle.transform.position);
+                    Vector3 screenPoint = mainCamera.WorldToScreenPoint(Handle.transform.position);
                     mousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
-                    Handle.transform.position = Camera.main.ScreenToWorldPoint(mousePosition);
+                    Handle.transform.position = mainCamera.ScreenToWorldPoint(mousePosition);
                 }
                 else
                 {
                     sceneActiveSelection = hit.collider.gameObject;
+                    Handle.transform.position = sceneActiveSelection.transform.position + new Vector3(0, 2 * PlayerLevelEditor.unitsize_y, 0);
                 }
             }
         }
 
-
         if(sceneActiveSelection)
         {
-            PLE_Camera _camera = Camera.main.GetComponent<PLE_Camera>();
+            PLE_Camera _camera = mainCamera.GetComponent<PLE_Camera>();
             _camera.DrawLine(Handle.transform.position, sceneActiveSelection.transform.position);
             DrawBox();
         }
@@ -77,6 +92,8 @@ public class PLE_Duplicate : PLE_IFunction
         base.Release();
 
         GameObject.DestroyImmediate(Handle);
+
+        Btn_Duplicate.onClick.RemoveListener(ACT_Duplicate);
     }
 
 
@@ -90,7 +107,7 @@ public class PLE_Duplicate : PLE_IFunction
         float dy = distance.y;
         float dz = distance.z;
 
-        int count_x = Mathf.Abs((int)(dx / PlayerLevelEditor.unitsize_x ));
+        int count_x = Mathf.Abs((int)(dx / PlayerLevelEditor.unitsize_x));
         int count_y = Mathf.Abs((int)(dy / PlayerLevelEditor.unitsize_y));
         int count_z = Mathf.Abs((int)(dz / PlayerLevelEditor.unitsize_z));
 
@@ -121,4 +138,19 @@ public class PLE_Duplicate : PLE_IFunction
         clones = positions.ToArray();
     }
 
+
+
+    void EnableDuplicate(Button thisBtn)
+    {
+        GameObject newClone = null;
+
+        foreach (Vector3 thisClone in clones)
+        {
+            newClone = GameObject.Instantiate(sceneActiveSelection.gameObject, thisClone + sceneActiveSelection.transform.position, sceneActiveSelection.transform.rotation) as GameObject;
+            newClone.transform.localScale = sceneActiveSelection.transform.localScale;
+
+            newClone.transform.parent = sceneActiveSelection.transform.parent;
+            newClone.transform.localScale = sceneActiveSelection.transform.localScale;
+        }
+    }
 }

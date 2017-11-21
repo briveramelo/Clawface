@@ -74,7 +74,7 @@
     public static class Events
     {
         public const string FACE_OPEN = "FaceOpen";
-        public const string ARM_EXTENDED = "ArmExtended";
+        public const string CAPTURE_ENEMY = "CaptureEnemy";
         public const string ARM_ANIMATION_COMPLETE = "ArmAnimationComplete";
         public const string UPDATE_HEALTH = "UpdateHealth";
 

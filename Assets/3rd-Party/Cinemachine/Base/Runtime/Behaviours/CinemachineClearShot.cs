@@ -41,9 +41,8 @@ namespace Cinemachine
         [NoSaveDuringPlay]
         public bool m_ShowDebugText = false;
 
-        // This is just for the inspector editor.
-        // Probably it can be implemented without this serialized property
-        [HideInInspector, NoSaveDuringPlay]
+        /// <summary>Internal API for the editor.  Do not use this filed.</summary>
+        [SerializeField, HideInInspector, NoSaveDuringPlay]
         public CinemachineVirtualCameraBase[] m_ChildCameras = null;
 
         /// <summary>Wait this many seconds before activating a new child camera</summary>
@@ -92,12 +91,7 @@ namespace Cinemachine
         override public Transform LookAt
         {
             get { return ResolveLookAt(m_LookAt); }
-            set
-            {
-                if (m_LookAt != value)
-                    PreviousStateIsValid = false;
-                m_LookAt = value;
-            }
+            set { m_LookAt = value; }
         }
 
         /// <summary>Get the current Follow target.  Returns parent's Follow if parent
@@ -105,12 +99,7 @@ namespace Cinemachine
         override public Transform Follow
         {
             get { return ResolveFollow(m_Follow); }
-            set
-            {
-                if (m_Follow != value)
-                    PreviousStateIsValid = false;
-                m_Follow = value;
-            }
+            set { m_Follow = value; }
         }
 
         /// <summary>Remove a Pipeline stage hook callback.
@@ -128,13 +117,12 @@ namespace Cinemachine
         /// so the vcam can position itself and track its targets.  This implementation
         /// updates all the children, chooses the best one, and implements any required blending.</summary>
         /// <param name="worldUp">Default world Up, set by the CinemachineBrain</param>
-        /// <param name="deltaTime">Delta time for time-based effects (ignore if less than or equal to 0)</param>
+        /// <param name="deltaTime">Delta time for time-based effects (ignore if less than 0)</param>
         public override void UpdateCameraState(Vector3 worldUp, float deltaTime)
         {
             //UnityEngine.Profiling.Profiler.BeginSample("CinemachineClearShot.UpdateCameraState");
             if (!PreviousStateIsValid)
                 deltaTime = -1;
-            PreviousStateIsValid = true;
 
             // Choose the best camera
             UpdateListOfChildren();
@@ -165,7 +153,7 @@ namespace Cinemachine
             // Advance the current blend (if any)
             if (mActiveBlend != null)
             {
-                mActiveBlend.TimeInBlend += (deltaTime > 0)
+                mActiveBlend.TimeInBlend += (deltaTime >= 0)
                     ? deltaTime : mActiveBlend.Duration;
                 if (mActiveBlend.IsComplete)
                     mActiveBlend = null;
@@ -185,6 +173,7 @@ namespace Cinemachine
             if (Follow != null)
                 transform.position = State.RawPosition;
 
+            PreviousStateIsValid = true;
             //UnityEngine.Profiling.Profiler.EndSample();
         }
 
@@ -302,10 +291,7 @@ namespace Cinemachine
                 CinemachineVirtualCameraBase vcam = childCameras[i];
                 if (vcam != null && vcam.VirtualCameraGameObject.activeInHierarchy)
                 {
-                    vcam.AddPostPipelineStageHook(OnPostPipelineStage);
-
                     // Choose the first in the list that is better than the current
-                    CinemachineCore.Instance.UpdateVirtualCamera(vcam, worldUp, deltaTime);
                     if (best == null || vcam.State.ShotQuality > best.State.ShotQuality
                         || (vcam.State.ShotQuality == best.State.ShotQuality && vcam.Priority > best.Priority)
                         || (m_RandomizeChoice && mRandomizeNow && (ICinemachineCamera)vcam != LiveChild 
@@ -331,7 +317,7 @@ namespace Cinemachine
                 }
 
                 // Is it pending?
-                if (deltaTime > 0)
+                if (deltaTime >= 0)
                 {
                     if (mPendingActivationTime != 0 && mPendingCamera == best)
                     {
@@ -357,7 +343,7 @@ namespace Cinemachine
             mPendingCamera = null;
 
             // Can we activate it now?
-            if (deltaTime > 0 && mActivationTime > 0)
+            if (deltaTime >= 0 && mActivationTime > 0)
             {
                 if (m_ActivateAfter > 0
                     || ((now - mActivationTime) < m_MinDuration

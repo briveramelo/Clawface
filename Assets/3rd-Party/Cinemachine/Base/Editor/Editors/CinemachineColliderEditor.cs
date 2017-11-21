@@ -5,45 +5,36 @@ using System.Collections.Generic;
 namespace Cinemachine.Editor
 {
     [CustomEditor(typeof(CinemachineCollider))]
-    public sealed class CinemachineColliderEditor : UnityEditor.Editor
+    public sealed class CinemachineColliderEditor : BaseEditor<CinemachineCollider>
     {
-        private CinemachineCollider Target { get { return target as CinemachineCollider; } }
-        private static readonly string[] m_excludeFields = new string[] { "m_Script" };
-
-        public override void OnInspectorGUI()
+        protected override List<string> GetExcludedPropertiesInInspector()
         {
-            serializedObject.Update();
-            string[] excluded = m_excludeFields;
-            if (!Target.m_PreserveLineOfSight)
+            List<string> excluded = base.GetExcludedPropertiesInInspector();
+            if (!Target.m_AvoidObstacles)
             {
-                excluded = new string[] 
-                {
-                    "m_Script",
-                    SerializedPropertyHelper.PropertyName(() => Target.m_DistanceLimit),
-                    SerializedPropertyHelper.PropertyName(() => Target.m_CameraRadius),
-                    SerializedPropertyHelper.PropertyName(() => Target.m_Strategy),
-                    SerializedPropertyHelper.PropertyName(() => Target.m_MaximumEffort),
-                    SerializedPropertyHelper.PropertyName(() => Target.m_Damping)
-                };
+                excluded.Add(FieldPath(x => x.m_DistanceLimit));
+                excluded.Add(FieldPath(x => x.m_CameraRadius));
+                excluded.Add(FieldPath(x => x.m_Strategy));
+                excluded.Add(FieldPath(x => x.m_MaximumEffort));
+                excluded.Add(FieldPath(x => x.m_Damping));
             }
             else if (Target.m_Strategy == CinemachineCollider.ResolutionStrategy.PullCameraForward)
             {
-                excluded = new string[] 
-                {
-                    "m_Script",
-                    SerializedPropertyHelper.PropertyName(() => Target.m_MaximumEffort),
-                };
+                excluded.Add(FieldPath(x => x.m_MaximumEffort));
             }
-            EditorGUI.BeginChangeCheck();
+            return excluded;
+        }
 
-            if (Target.m_PreserveLineOfSight && !Target.VirtualCamera.State.HasLookAt)
+        public override void OnInspectorGUI()
+        {
+            BeginInspector();
+
+            if (Target.m_AvoidObstacles && !Target.VirtualCamera.State.HasLookAt)
                 EditorGUILayout.HelpBox(
                     "Preserve Line Of Sight requires a LookAt target.", 
-                    MessageType.Error);
+                    MessageType.Warning);
 
-            DrawPropertiesExcluding(serializedObject, excluded);
-            if (EditorGUI.EndChangeCheck())
-                serializedObject.ApplyModifiedProperties();
+            DrawRemainingPropertiesInInspector();
         }
 
         [DrawGizmo(GizmoType.Active | GizmoType.Selected, typeof(CinemachineCollider))]
@@ -54,7 +45,7 @@ namespace Cinemachine.Editor
             {
                 Color oldColor = Gizmos.color;
                 Vector3 pos = vcam.State.FinalPosition;
-                if (collider.m_PreserveLineOfSight && vcam.State.HasLookAt)
+                if (collider.m_AvoidObstacles && vcam.State.HasLookAt)
                 {
                     Gizmos.color = CinemachineColliderPrefs.FeelerColor;
                     if (collider.m_CameraRadius > 0)
