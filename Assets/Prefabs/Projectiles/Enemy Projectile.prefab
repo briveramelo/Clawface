@@ -144,8 +144,8 @@ MeshRenderer:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1978138685487906}
   m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -202,7 +202,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9aba7aa4c71bf6641b131b68d391ad80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  killAfterSeconds: 5
 --- !u!135 &135987087306171216
 SphereCollider:
   m_ObjectHideFlags: 1
