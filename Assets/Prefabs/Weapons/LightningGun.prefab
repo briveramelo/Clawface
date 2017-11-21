@@ -254,7 +254,7 @@ MonoBehaviour:
     timeToCoolDown: 0.5
     isCoolingDown: 0
     isActive: 0
-  shootSFX: 0
+  shootSFX: 2
   muzzleTransform: {fileID: 4564136626918456}
   projectileProperties:
     projectileSpeed: 40
@@ -264,6 +264,7 @@ MonoBehaviour:
     maxChainableEnemies: 5
     maxDistance: 20
     maxDistancePerSubChain: 20
+    lightningSFX: 2
 --- !u!114 &114399477563612414
 MonoBehaviour:
   m_ObjectHideFlags: 1
