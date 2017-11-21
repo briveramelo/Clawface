@@ -139,8 +139,9 @@ public class PlayerSpawner : MonoBehaviour
         foreach (VersionedPlayerPrefab prefab in allPrefabs)
         {
             string name = prefab.gameObject.name;
+            int DELETEME = Strings.Paths.PLAYER_PREFAB_NAME.Length;
             string versionText = name.Remove(0, 
-                Strings.Paths.PLAYER_UI_PREFAB_NAME.Length);
+                Strings.Paths.PLAYER_PREFAB_NAME.Length);
 
             try
             {
