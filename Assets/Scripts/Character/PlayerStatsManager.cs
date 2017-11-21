@@ -91,6 +91,7 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
         stats.Add(CharacterStatType.Health, health);
         healthAtLastSkin = stats.health;
         lastSkinHealthBoost=health;
+        EventSystem.Instance.TriggerEvent(Strings.Events.PLAYER_HEALTH_MODIFIED, stats.GetHealthFraction());
     }
 
     public float GetStat(CharacterStatType type)

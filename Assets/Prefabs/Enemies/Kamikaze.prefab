@@ -1165,7 +1165,6 @@ MonoBehaviour:
   navObstacle: {fileID: 208370818041086144}
   eatHealth: 100
   bloodEmissionLocation: {fileID: 4953175451998414}
-  scorePopupDelay: 2
   scoreValue: 200
   grabObject: {fileID: 1613971381554584}
   hitFlasher: {fileID: 114419598569920118}
@@ -1195,7 +1194,7 @@ MonoBehaviour:
   hitFlashColor: {r: 1, g: 1, b: 1, a: 1}
   hitFlashStrength: 1
   hitFlashTime: 0.25
-  stunnedFlashColor: {r: 1, g: 1, b: 1, a: 1}
+  stunnedFlashColor: {r: 1, g: 0.02745098, b: 0.22745098, a: 1}
   stunnedFlashInterval: 0.5
   stunnedFlashStrength: 1
   stunnedFlashPower: 1
@@ -1212,13 +1211,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attack: 7
   defense: 5
-  health: 50
+  health: 10
   maxHealth: 0
   moveSpeed: 5
   rangedAccuracy: 1
   shotSpeed: 20
   shotPushForce: 0
-  skinnableHealth: 10
+  skinnableHealth: 3
   exp: 2
 --- !u!114 &114694166038940668
 MonoBehaviour:
