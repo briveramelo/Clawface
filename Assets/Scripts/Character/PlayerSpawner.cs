@@ -1,5 +1,7 @@
 ﻿// PlayerSpawner.cs
-// ©2017 Aaron Desin
+// ©2017 Aaron Desin, Garin Richards
+
+// 11/21: Paths have been moved to the Strings class.
 
 using ModMan;
 
@@ -16,21 +18,13 @@ public class PlayerSpawner : MonoBehaviour
 {
     #region Private Fields
 
-    private const string PLAYER_PREFAB_PATH = "/Prefabs/Player/";
-    private const string PLAYER_RESOURCES_FOLDER_PATH = "/Resources/Player/";
-    private const string PLAYER_GROUP_NAME = "Keira_GroupV";
-    private const string PREFAB_EXT = ".prefab";
-
-    private const string PLAYER_UI_PREFAB_PATH = "/Prefabs/UI/";
-    private const string PLAYER_UI_RESOUCES_FOLDER_PATH = "Resources/PlayerUI/";
-    private const string PLAYER_UI_NAME = "PlayerHUDV";
-
-
     // Comes from the player prefab
     private static Vector3 SPAWN_OFFSET = new Vector3 (-14f, 20f, -7f);
 
-    private GameObject player;
+    private GameObject playerPrefabGO;
+    private GameObject playerUIGO;
 
+    //cause i want "camera" dammit
     new Camera camera;
 
     #endregion
@@ -41,7 +35,7 @@ public class PlayerSpawner : MonoBehaviour
         camera = GetComponentInChildren<Camera>();
         camera.enabled = false;
 
-        SpawnPlayer();
+        SpawnPlayerPrefab();
 
         gameObject.SetActive (false);
     }
@@ -52,7 +46,7 @@ public class PlayerSpawner : MonoBehaviour
     /// <summary>
     /// Spawns the player prefab at the position of this spawner.
     /// </summary>
-    void SpawnPlayer ()
+    void SpawnPlayerPrefab ()
     {
         // Get the path of the newest prefab
         string playerPrefabPath = GetNewestPlayerPrefabPath();
@@ -77,26 +71,26 @@ public class PlayerSpawner : MonoBehaviour
         // Instantiate the prefab and bring it to spawner location
         if (Application.isPlaying)
         {
-            player = Instantiate (playerPrefab);
-            //Debug.Log ("Spawned player (player)");
+            playerPrefabGO = Instantiate (playerPrefab);
+            playerUIGO = Instantiate(playerUIPrefab, playerPrefabGO.transform);
         }
 
         #if UNITY_EDITOR
         else if (Application.isEditor)
         {
-            player = (GameObject)UnityEditor.PrefabUtility.InstantiatePrefab(playerPrefab);
-            //Debug.Log ("Spawned player (editor)");
+            playerPrefabGO = (GameObject)UnityEditor.PrefabUtility.InstantiatePrefab(playerPrefab);
+            playerUIGO = (GameObject) UnityEditor.PrefabUtility.InstantiatePrefab(playerUIPrefab);
+            playerUIGO.transform.SetParent(playerPrefabGO.transform);
         }
         #endif
 
-        //player.transform.SetParent (transform);
-        player.transform.position = transform.position + SPAWN_OFFSET;
+        playerPrefabGO.transform.position = transform.position + SPAWN_OFFSET;
     }
 
     string GetNewestPlayerUIPrefabPath()
     {
         VersionedPlayerUIPrefab[] allPrefabs =
-            Resources.LoadAll<VersionedPlayerUIPrefab>("PlayerUI/");
+            Resources.LoadAll<VersionedPlayerUIPrefab>(Strings.Paths.PLAYER_UI_PREFAB_RESOURCES_PATH);
         List<GameObject> results = new List<GameObject>();
 
         float highestVersion = Mathf.NegativeInfinity;
@@ -105,7 +99,7 @@ public class PlayerSpawner : MonoBehaviour
         {
             string name = prefab.gameObject.name;
             string versionText = name.Remove(0,
-                PLAYER_GROUP_NAME.Length);
+                Strings.Paths.PLAYER_UI_PREFAB_NAME.Length);
 
             try
             {
@@ -126,7 +120,7 @@ public class PlayerSpawner : MonoBehaviour
             }
         }
 
-        return string.Format("{0}{1}", "Player/", highestVersionName);
+        return string.Format("{0}{1}", Strings.Paths.PLAYER_UI_PREFAB_RESOURCES_PATH, highestVersionName);
         
     }
 
@@ -137,7 +131,7 @@ public class PlayerSpawner : MonoBehaviour
     string GetNewestPlayerPrefabPath ()
     {
         VersionedPlayerPrefab[] allPrefabs = 
-            Resources.LoadAll<VersionedPlayerPrefab>("Player/");
+            Resources.LoadAll<VersionedPlayerPrefab>(Strings.Paths.PLAYER_PREFAB_RESOURCES_PATH);
         List<GameObject> results = new List<GameObject>();
 
         float highestVersion = Mathf.NegativeInfinity;
@@ -146,7 +140,7 @@ public class PlayerSpawner : MonoBehaviour
         {
             string name = prefab.gameObject.name;
             string versionText = name.Remove(0, 
-                PLAYER_GROUP_NAME.Length);
+                Strings.Paths.PLAYER_UI_PREFAB_NAME.Length);
 
             try
             {
@@ -167,7 +161,7 @@ public class PlayerSpawner : MonoBehaviour
             }
         }
 
-        return string.Format("{0}{1}", "Player/", highestVersionName);
+        return string.Format("{0}{1}", Strings.Paths.PLAYER_PREFAB_RESOURCES_PATH, highestVersionName);
     }
 
     #endregion
