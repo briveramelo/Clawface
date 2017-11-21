@@ -104,9 +104,7 @@
 					float u = (tangent + _Width / 2) / _Width;
 					float v = (bitangent + _Height / 2) / _Height;
 					float4 decalSample = tex2D(_Decal, float2(u, v));
-					if (decalSample.a != 0) {
-						color = _Color;
-					}
+					color.a = max(color.a, decalSample.a);
 				}
 
 				return color;
