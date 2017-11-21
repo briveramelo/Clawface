@@ -1,5 +1,4 @@
 using UnityEngine;
-
 using System;
 
 namespace Cinemachine
@@ -67,24 +66,31 @@ namespace Cinemachine
         /// </summary>
         /// <param name="fromCamera">The Camera from which the FoV, near 
         /// and far clip planes will be copied.</param>
-	    public LensSettings(Camera fromCamera) : this()
+	    public static LensSettings FromCamera(Camera fromCamera)
         {
-            FieldOfView = fromCamera.fieldOfView;
-            OrthographicSize = fromCamera.orthographicSize;
-            NearClipPlane = fromCamera.nearClipPlane;
-            FarClipPlane = fromCamera.farClipPlane;
-            Dutch = 0;
-            Orthographic = fromCamera.orthographic;
-            Aspect = fromCamera.aspect;
+            LensSettings lens = Default;
+            if (fromCamera != null)
+            {
+                lens.FieldOfView = fromCamera.fieldOfView;
+                lens.OrthographicSize = fromCamera.orthographicSize;
+                lens.NearClipPlane = fromCamera.nearClipPlane;
+                lens.FarClipPlane = fromCamera.farClipPlane;
+                lens.Orthographic = fromCamera.orthographic;
+                lens.Aspect = fromCamera.aspect;
+            }
+            return lens;
         }
 
         /// <summary>
         /// Explicit constructor for this LensSettings
         /// </summary>
         /// <param name="fov">The Vertical field of view</param>
+        /// <param name="orthographicSize">If orthographic, this is the half-height of the screen</param>
         /// <param name="nearClip">The near clip plane</param>
         /// <param name="farClip">The far clip plane</param>
         /// <param name="dutch">Camera roll, in degrees.  This is applied at the end 
+        /// <param name="ortho">Whether the lens is orthographic</param>
+        /// <param name="aspect">The aspect ratio of the lens  Width/height</param>
         /// after shot composition.</param>
         public LensSettings(
             float fov, float orthographicSize,
@@ -119,6 +125,13 @@ namespace Cinemachine
             blendedLens.Aspect = Mathf.Lerp(lensA.Aspect, lensB.Aspect, t);
             blendedLens.Orthographic = lensA.Orthographic && lensB.Orthographic;
             return blendedLens;
+        }
+
+        /// <summary>Make sure lens settings are sane.  Call this from OnValidate().</summary>
+        public void Validate()
+        {
+            NearClipPlane = Mathf.Max(NearClipPlane, 0.01f);
+            FarClipPlane = Mathf.Max(FarClipPlane, NearClipPlane + 0.01f);
         }
     }
 }
