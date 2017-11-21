@@ -1631,7 +1631,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 3c3948da4b9e977439492cb9d13e1619, type: 2}
+  - {fileID: 2100000, guid: ca7e90d24c998cc46a152f5436775970, type: 2}
   - {fileID: 2100000, guid: 3c3948da4b9e977439492cb9d13e1619, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -2216,6 +2216,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0123960e979242643bb00da688f4b22c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitFlashColor: {r: 1, g: 1, b: 1, a: 1}
+  hitFlashStrength: 1
+  hitFlashTime: 0.25
+  stunnedFlashColor: {r: 1, g: 1, b: 1, a: 1}
+  stunnedFlashInterval: 0.5
+  stunnedFlashStrength: 1
+  stunnedFlashPower: 1
 --- !u!114 &114666002651435752
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2327,6 +2334,7 @@ SkinnedMeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
+  - {fileID: 2100000, guid: ca7e90d24c998cc46a152f5436775970, type: 2}
   - {fileID: 2100000, guid: 3c3948da4b9e977439492cb9d13e1619, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
