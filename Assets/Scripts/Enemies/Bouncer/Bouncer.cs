@@ -101,7 +101,6 @@ public class Bouncer : EnemyBase
 
     public override void ResetForRebirth()
     {
-        copUICanvas.gameObject.SetActive(false);
         base.ResetForRebirth();
     }
 

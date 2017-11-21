@@ -49,7 +49,7 @@ public abstract class AIController : MonoBehaviour {
         }
         set {
             attackTarget = value;
-            DEBUG_ATTACKTARGET = attackTarget.name;
+            //DEBUG_ATTACKTARGET = attackTarget.name;
         }
     }
     public Vector3 AttackTargetPosition { get { return AttackTarget.position - transform.forward * .1f; } }
