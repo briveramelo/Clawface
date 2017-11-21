@@ -172,7 +172,6 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
                     SFXManager.Instance.Play(SFXType.BloodExplosion, transform.position);
                     mallCopParts.transform.position = transform.position + Vector3.up * 3f;
                     mallCopParts.transform.rotation = transform.rotation;
-                    mallCopParts.DeActivate(5f);
                 }
             }
             UpgradeManager.Instance.AddEXP(Mathf.FloorToInt(myStats.exp));
