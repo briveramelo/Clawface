@@ -106,8 +106,12 @@ namespace Turing.VFX
 
                 // Check particle systems
                 foreach (var particleSystem in particleSystems)
-                    if (particleSystem.main.duration > max)
+                {
+                    float duration = particleSystem.main.duration + 
+                        particleSystem.main.startLifetime.constantMax;
+                    if (duration > max)
                         max = particleSystem.main.duration;
+                }
 
                 return max;
             }

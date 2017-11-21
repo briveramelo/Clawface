@@ -123,7 +123,8 @@ namespace Turing.VFX
         public void SetStunnedState ()
         {
             StopAllCoroutines();
-            StartCoroutine(DoStunnedState());
+            if (gameObject.activeInHierarchy)
+                StartCoroutine(DoStunnedState());
         }
 
         IEnumerator DoStunnedState ()
