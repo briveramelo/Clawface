@@ -47,6 +47,9 @@ public class MallCop : EnemyBase
             CheckToFinishFiring,
             CheckIfStunned
         };
+
+        mod.damage = myStats.attack;
+
         base.Awake();
     }
 
