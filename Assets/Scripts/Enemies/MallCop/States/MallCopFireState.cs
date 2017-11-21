@@ -11,9 +11,7 @@ public class MallCopFireState : AIState {
     private float lastAngleToTarget;
     private float currentWeight;
     private Vector3 initialPosition;
-
-    int counter;
-    bool doneFiring;
+    public bool doneFiring;
 
     public override void OnEnter() {
         initialPosition = controller.transform.position;
@@ -21,7 +19,6 @@ public class MallCopFireState : AIState {
         navObstacle.enabled = true;
         animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.Fire1);
         animator.SetInteger(Strings.FEETSTATE, (int)AnimationStates.TurnLeft);
-        Timing.RunCoroutine(RunStartupTimer(), coroutineName);
         doneFiring = false;
         animator.SetLayerWeight(1, 0.0f);
 
@@ -39,29 +36,11 @@ public class MallCopFireState : AIState {
     public override void OnExit() {
         navObstacle.enabled = false;
         navAgent.enabled = true;
-        animator.SetLayerWeight(1, 0.0f);
-        
+        animator.SetLayerWeight(1, 0.0f);    
     }
 
-
-    bool isPastStartup;
-    IEnumerator<float> RunStartupTimer() {
-        isPastStartup = false;
-        yield return Timing.WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
-        isPastStartup = true;
-    }
-
-    public bool CanRestart() {
-
-        if (isPastStartup)
-        {
-            doneFiring = true;
-        }
-        else
-        {
-            doneFiring = false;
-        }
-
+    public bool CanRestart()
+    {
         return doneFiring;
     }
 
