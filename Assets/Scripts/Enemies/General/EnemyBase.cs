@@ -27,6 +27,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     private int stunCount;
     private bool lastChance = false;
     private bool alreadyStunned = false;
+    private bool aboutTobeEaten = false;
     private Collider[] playerColliderList = new Collider[10];
     private Rigidbody[] jointRigidBodies;
     private Vector3 grabStartPosition;
@@ -132,6 +133,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     int IEatable.Eat()
     {
         EventSystem.Instance.TriggerEvent(Strings.Events.EAT_ENEMY);
+        aboutTobeEaten = true;
         Invoke("OnDeath", 0.1f);
         return eatHealth;
     }
@@ -160,6 +162,9 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
             {
                 will.onDeath();
             }
+
+            if (!aboutTobeEaten)
+            {
                 GameObject mallCopParts = ObjectPool.Instance.GetObject(PoolObjectType.VFXMallCopExplosion);
                 if (mallCopParts)
                 {
@@ -168,12 +173,12 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
                     mallCopParts.transform.rotation = transform.rotation;
                     mallCopParts.DeActivate(5f);
                 }
-
-
+            }
             UpgradeManager.Instance.AddEXP(Mathf.FloorToInt(myStats.exp));
             navAgent.speed = 0;
             navAgent.enabled = false;
             gameObject.SetActive(false);
+            aboutTobeEaten = false;
             SFXManager.Instance.Play(deathSFX, transform.position);
         }
     }
