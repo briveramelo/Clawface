@@ -12,7 +12,7 @@ public class LightningGun : Mod {
 
     #region Serialized Unity Inspector fields
     [SerializeField] private Transform muzzleTransform;    
-    [SerializeField] private ProjectileProperties projectileProperties;
+    [SerializeField] private ProjectileProperties projectileProperties;    
     #endregion
 
     private Animator animator;
@@ -91,6 +91,8 @@ public class LightningGun : Mod {
         public float maxDistance;
         [Tooltip("Max distance the chain homies can travel")]
         public float maxDistancePerSubChain;
+        [Tooltip("Pew! Pew! Pew!")]
+        public SFXType lightningSFX;
 
         public ProjectileProperties(ProjectileProperties other)
         {

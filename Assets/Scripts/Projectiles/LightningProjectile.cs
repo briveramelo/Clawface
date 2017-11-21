@@ -116,6 +116,7 @@ public class LightningProjectile : MonoBehaviour {
             LightningProjectile nextProjectile = nextHookObject.GetComponent<LightningProjectile>();
             ignoreTargets.Add(target);
             nextProjectile.Init(newProperties, transform, enemyCount, ignoreTargets);
+            SFXManager.Instance.Play(projectileProperties.lightningSFX, transform.position);
         }
     }
 
