@@ -130,7 +130,6 @@ public class Zombie : EnemyBase
 
     public override void ResetForRebirth()
     {
-        copUICanvas.gameObject.SetActive(false);
         base.ResetForRebirth();
     }
 

@@ -45,9 +45,8 @@ public class SpreadGunBullet : MonoBehaviour {
                 damager.damagerType = DamagerType.SpreadGun;
                 damageable.TakeDamage(damager);
             }
-            ResetBullet();
         }
-        else if (other.transform.CompareTag(Strings.Tags.WALL))
+        else if (other.tag == Strings.Tags.WALL)
         {
             ResetBullet();
         }
