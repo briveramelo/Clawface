@@ -132,6 +132,7 @@ public class Spawner : RoutineRunner
 
                     Vector3 spawnPosition = spawnPoints.GetRandom().position;                    
                     spawnable.WarpToNavMesh(spawnPosition);
+                    EventSystem.Instance.TriggerEvent(Strings.Events.ENEMY_SPAWNED, spawnedObject);
 
                     currentNumEnemies++;
                 }

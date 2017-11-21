@@ -90,6 +90,7 @@
         
         public const string LOCK_SPAWNERS = "LockSpawners";
         public const string CALL_NEXTWAVEENEMIES = "CallNextWaveEnemies";
+        public const string ENEMY_SPAWNED = "EnemySpawned";
 		
         public const string UNLOCK_WEAPON = "UnlockWeapon";
         public const string UNLOCK_NEXT_LEVEL = "UnlockNextLevel";
