@@ -44,6 +44,8 @@ public class KamikazeAttackState : AIState {
         {
             //Set Damage to the player
             Damage(controller.AttackTarget.gameObject.GetComponent<IDamageable>());
+            GameObject effect = ObjectPool.Instance.GetObject (PoolObjectType.VFXKamikazeExplosion);
+            effect.transform.position = controller.transform.position;
             attackDone = true;
         }
         else
