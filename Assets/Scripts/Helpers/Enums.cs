@@ -127,6 +127,7 @@ public enum PoolObjectType {
     VFXBoomerangImpact = 39,
     VFXGeyserShoot = 41,
     VFXGeyserImpact = 42,
+    VFXKamikazeExplosion = 43,
 
     //BulletTypes
     TurretBullet = 28,
