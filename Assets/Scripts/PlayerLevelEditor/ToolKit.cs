@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace PLE_ToolKit
+namespace PlayerLevelEditor
 {
     public static class UnityTool
     {
@@ -191,7 +191,7 @@ namespace PLE_ToolKit
     {
         public static void draft(GameObject i_Object, Vector3 decal3, Color color)
         {
-            Camera.main.GetComponent<PLE_Camera>().SetLineColor(color);
+            UnityEngine.Camera.main.GetComponent<PlayerLevelEditor.Camera>().SetLineColor(color);
 
             MeshFilter objectMeshFilter = i_Object.GetComponent<MeshFilter>();
             if (objectMeshFilter != null)
@@ -261,7 +261,7 @@ namespace PLE_ToolKit
             v3_BackBottomRight = new Vector3(v3_BackBottomRight.x + decal3.x, v3_BackBottomRight.y + decal3.y, v3_BackBottomRight.z + decal3.z);
 
 
-            PLE_Camera _camera = Camera.main.GetComponent<PLE_Camera>();
+            PlayerLevelEditor.Camera _camera = UnityEngine.Camera.main.GetComponent<PlayerLevelEditor.Camera>();
 
             _camera.DrawLine(v3_FrontTopLeft    , v3_FrontTopRight);
             _camera.DrawLine(v3_FrontTopRight   , v3_FrontBottomRight);
