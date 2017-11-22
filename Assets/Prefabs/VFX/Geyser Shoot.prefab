@@ -55,7 +55,7 @@ GameObject:
   - component: {fileID: 4262054533217512}
   - component: {fileID: 198405750759198694}
   - component: {fileID: 199774915872827124}
-  - component: {fileID: 114182704469476354}
+  - component: {fileID: 114901885834540992}
   m_Layer: 0
   m_Name: Geyser Shoot
   m_TagString: Untagged
@@ -135,7 +135,7 @@ Transform:
   m_Father: {fileID: 4262054533217512}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114182704469476354
+--- !u!114 &114901885834540992
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -143,10 +143,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1786319602605962}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9023d66b43fac1d41949fc19fd5f6d0d, type: 3}
+  m_Script: {fileID: 11500000, guid: 1c04c1e44b827c143ae1f433e9d82d3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeToDeactivate: 2.5
+  playOnAwake: 1
 --- !u!198 &198221340846967564
 ParticleSystem:
   m_ObjectHideFlags: 1
