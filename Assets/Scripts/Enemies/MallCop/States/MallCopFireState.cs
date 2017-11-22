@@ -24,7 +24,7 @@ public class MallCopFireState : AIState {
         Timing.RunCoroutine(RunStartupTimer(), coroutineName);
         doneFiring = false;
         animator.SetLayerWeight(1, 0.0f);
-
+        
     }
     public override void Update() {
         currentWeight = animator.GetLayerWeight(1);

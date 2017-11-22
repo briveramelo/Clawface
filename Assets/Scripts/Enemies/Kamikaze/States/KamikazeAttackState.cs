@@ -65,7 +65,7 @@ public class KamikazeAttackState : AIState {
     {
         if (damageable != null)
         {
-            damager.Set(shooterProperties.damage, DamagerType.Kamikaze, navAgent.transform.forward);
+            damager.Set(myStats.attack, DamagerType.Kamikaze, navAgent.transform.forward);
             damageable.TakeDamage(damager);
         }
     }
