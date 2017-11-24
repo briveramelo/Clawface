@@ -21,7 +21,7 @@ public class MallCopFireState : AIState {
         animator.SetInteger(Strings.FEETSTATE, (int)AnimationStates.TurnLeft);
         doneFiring = false;
         animator.SetLayerWeight(1, 0.0f);
-
+        
     }
     public override void Update() {
         currentWeight = animator.GetLayerWeight(1);

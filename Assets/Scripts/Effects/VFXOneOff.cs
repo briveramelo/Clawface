@@ -1,6 +1,8 @@
 ﻿// VFXOneOff.cs
 // Author: Aaron
 
+using ModMan;
+
 using System.Collections;
 
 using UnityEngine;
@@ -108,9 +110,9 @@ namespace Turing.VFX
                 foreach (var particleSystem in particleSystems)
                 {
                     float duration = particleSystem.main.duration + 
-                        particleSystem.main.startLifetime.constantMax;
+                        particleSystem.main.startLifetime.Max();
                     if (duration > max)
-                        max = particleSystem.main.duration;
+                        max = duration;
                 }
 
                 return max;

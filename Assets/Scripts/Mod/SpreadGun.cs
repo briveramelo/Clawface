@@ -72,7 +72,7 @@ public class SpreadGun : Mod {
             SpreadGunBullet spreadBullet = bullet.GetComponent<SpreadGunBullet>();
             if (spreadBullet)
             {
-                spreadBullet.Init(gunProperties.bulletSpeed, gunProperties.bulletMaxDistance, damage);
+                spreadBullet.Init(gunProperties);
             }
         }
         SFXManager.Instance.Play(shootSFX, transform.position);
@@ -84,10 +84,13 @@ public class SpreadGun : Mod {
     [Serializable]
     public class SpreadGunProperties
     {
-        [Tooltip("How fast you want the bois to travel?")]
         public float bulletSpeed;
-        [Tooltip("How far you want the bois to go?")]
         public float bulletMaxDistance;
+        public float bulletMinScale;
+        public float bulletMaxScale;
+        public float bulletMinDamage;
+        public float bulletMaxDamage;
+        public float bulletMinAlpha;
     }
 #endregion
 

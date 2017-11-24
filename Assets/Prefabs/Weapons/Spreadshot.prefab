@@ -436,10 +436,12 @@ MonoBehaviour:
     isActive: 0
   shootSFX: 0
   gunProperties:
-    spreadAngle: 70
-    numberOfBulletsInEachShot: 5
     bulletSpeed: 25
     bulletMaxDistance: 10
+    bulletMinScale: 0.5
+    bulletMaxScale: 1
+    bulletMinDamage: 1
+    bulletMaxDamage: 5
   bulletSpawnTransform: {fileID: 4923580559650126}
 --- !u!114 &114242993152467452
 MonoBehaviour:
