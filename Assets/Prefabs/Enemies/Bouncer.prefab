@@ -2861,8 +2861,8 @@ Animator:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1351927175794106}
   m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 60c990cb5bc74a04db1dfde3c7f10bb6, type: 3}
-  m_Controller: {fileID: 9100000, guid: a31fa993e3c7df34388227f5a137b100, type: 2}
+  m_Avatar: {fileID: 9000000, guid: 36fdd4f6bb7fc334b827f4962cb1a0d1, type: 3}
+  m_Controller: {fileID: 9100000, guid: 84829b4412263e84cb5730e689fd1ed4, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -2985,9 +2985,9 @@ MonoBehaviour:
   bulletSpeed: 8.6
   bulletDamage: 20.2
   rateOfFire: 0.88
-  bulletOffsetFromOrigin: 1.5
-  bulletStrands: 8
-  separationAngleBetweenStrands: 45
+  bulletOffsetFromOrigin: 2.5
+  bulletStrands: 6
+  separationAngleBetweenStrands: 60
   rotationDirection: 0
   rotationSpeed: 0
   bulletLiveTime: 5
@@ -3191,7 +3191,7 @@ NavMeshAgent:
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 1.06
-  m_BaseOffset: 0.05
+  m_BaseOffset: -0.01
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 0
 --- !u!208 &208811840099296770
@@ -3202,8 +3202,8 @@ NavMeshObstacle:
   m_GameObject: {fileID: 1351927175794106}
   m_Enabled: 0
   serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_Shape: 0
+  m_Extents: {x: 0.5, y: 1, z: 0.5}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 0
