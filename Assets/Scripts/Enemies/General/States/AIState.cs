@@ -63,4 +63,5 @@ public abstract class AIProperties
     [HideInInspector] public float blastRadius;
     [HideInInspector] public int bounces;
     [HideInInspector] public float waitShotTime;
+    [HideInInspector] public bool rotate;
 }
