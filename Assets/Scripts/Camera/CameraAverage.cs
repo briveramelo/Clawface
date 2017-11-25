@@ -20,7 +20,11 @@ public class CameraAverage : MonoBehaviour {
     [SerializeField]
     private float playerBaseWeight;
 
-    
+    [SerializeField]
+    private float enemyRadius = 1;
+
+    [SerializeField]
+    private float enemyBaseWeight = 1;
 
     // Use this for initialization
     void Start () {
@@ -87,8 +91,8 @@ public class CameraAverage : MonoBehaviour {
         for (int i = 0; i < activeEnemies.Count; i++)
         {
             targetGroup.m_Targets[i + 1].target = activeEnemies[i].transform;
-            targetGroup.m_Targets[i + 1].radius = 1;
-            targetGroup.m_Targets[i + 1].weight = 1;
+            targetGroup.m_Targets[i + 1].radius = enemyRadius;
+            targetGroup.m_Targets[i + 1].weight = enemyBaseWeight;
         }
     }
 
