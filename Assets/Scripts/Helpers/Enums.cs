@@ -195,6 +195,10 @@ public enum AnimationStates {
 
     Stunned = 4,
 
+    StartingJump = 5,
+    Jumping = 51,
+    EndJump = 52,
+
     TurnLeft = 6,
     TurnRight = 61,
     
