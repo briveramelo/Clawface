@@ -74,21 +74,14 @@ public class ClawArmController : MonoBehaviour {
     #endregion
 
     #region Public functions
-    public void StartExtension(GameObject target, float clawExtensionTime)
+    public void StartExtension(GameObject target, float clawExtensionTime, float clawRetractionTime)
     {        
         this.target = target;
         extending = true;
         clawAnimationHandler.gameObject.SetActive(true);
-        //clawAnimationHandler.StartAnimation();
         extendTime = clawExtensionTime;
-    }
-
-    public void StartRetraction(float clawRetractionTime)
-    {
-        extending = false;
-        retracting = true;
-        retractTime = clawRetractionTime;
-    }
+        retractTime = clawRetractionTime;        
+    }    
 
     public void ResetClawArm()
     {
@@ -100,6 +93,12 @@ public class ClawArmController : MonoBehaviour {
     #endregion
 
     #region Private functions
+    private void StartRetraction()
+    {
+        extending = false;
+        retracting = true;
+    }
+
     private void ResizeArm()
     {
         arm.transform.position = (start.position + end.position) / 2f;
@@ -115,47 +114,40 @@ public class ClawArmController : MonoBehaviour {
     {
         if (!target.activeSelf)
         {
-            EventSystem.Instance.TriggerEvent(Strings.Events.ARM_EXTENDED, end);
-        }
-        else if(Vector3.Distance(end.position, target.transform.position) <= 0.1f)
-        {
-            end.position = target.transform.position;
-            EventSystem.Instance.TriggerEvent(Strings.Events.ARM_EXTENDED, end);
-            //clawAnimationHandler.FinishAnimation();
+            EventSystem.Instance.TriggerEvent(Strings.Events.CAPTURE_ENEMY, end);
         }
         else
         {
+
+            end.LookAt(target.transform.position);
             Vector3 direction = (target.transform.position - end.position).normalized;
+            float distanceToTarget = Vector3.Distance(start.position, target.transform.position);
             end.position += direction * extendSpeed * Time.deltaTime;
+            end.forward = direction;
+
             extendTime -= Time.deltaTime;
             direction = (target.transform.position - end.position).normalized;
+
             if (Vector3.Dot(direction, end.forward) <= 0 || extendTime <= 0)
             {
                 end.position = target.transform.position;
-                EventSystem.Instance.TriggerEvent(Strings.Events.ARM_EXTENDED, end);
+                EventSystem.Instance.TriggerEvent(Strings.Events.CAPTURE_ENEMY, end);
+                StartRetraction();
             }
         }
     }
 
     private void RetractArm()
-    {        
-        if(Vector3.Distance(end.position, start.position) <= 0.1f)
+    {   
+        Vector3 direction = (start.position - end.position).normalized;
+        end.position += direction * retractSpeed * Time.deltaTime;
+        target.transform.position = end.position;
+        retractTime -= Time.deltaTime;
+        direction = (start.position - end.position).normalized;
+        if (Vector3.Dot(direction, end.forward) >= 0 || retractTime <= 0)
         {
             end.position = start.position;
             EventSystem.Instance.TriggerEvent(Strings.Events.ARM_ANIMATION_COMPLETE);
-        }
-        else
-        {
-            Vector3 direction = (start.position - end.position).normalized;
-            end.position += direction * retractSpeed * Time.deltaTime;
-            target.transform.position = end.position;
-            retractTime -= Time.deltaTime;
-            direction = (start.position - end.position).normalized;
-            if (Vector3.Dot(direction, end.forward) >= 0 || retractTime <= 0)
-            {
-                end.position = start.position;
-                EventSystem.Instance.TriggerEvent(Strings.Events.ARM_ANIMATION_COMPLETE);
-            }
         }
     }
     #endregion

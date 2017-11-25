@@ -47,6 +47,9 @@ public class MallCop : EnemyBase
             CheckToFinishFiring,
             CheckIfStunned
         };
+
+        mod.damage = myStats.attack;
+
         base.Awake();
     }
 
@@ -74,8 +77,7 @@ public class MallCop : EnemyBase
     bool CheckToFinishFiring()
     {
         if (controller.CurrentState == fire && fire.CanRestart())
-        {
-
+        {   
             bool shouldChase = controller.DistanceFromTarget > maxDistanceBeforeChasing;
 
             if (shouldChase)
@@ -129,10 +131,14 @@ public class MallCop : EnemyBase
 
     public override void ResetForRebirth()
     {
-        copUICanvas.gameObject.SetActive(false);
         mod.DeactivateModCanvas();
         mod.setModSpot(ModSpot.ArmR);
         base.ResetForRebirth();
+    }
+
+    public void FinishedFiring()
+    {
+        fire.doneFiring = true;
     }
 
     #endregion

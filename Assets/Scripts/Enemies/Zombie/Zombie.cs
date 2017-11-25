@@ -35,7 +35,6 @@ public class Zombie : EnemyBase
 
     #endregion
 
-
     #region 3. Unity Lifecycle
 
     public override void Awake()
@@ -71,7 +70,7 @@ public class Zombie : EnemyBase
     {
         if (controller.CurrentState == attack && attack.CanRestart())
         {
-            bool shouldChase = controller.DistanceFromTarget > maxDistanceBeforeChasing;
+            bool shouldChase = controller.DistanceFromTarget > closeEnoughToAttackDistance;
 
             if (shouldChase)
             {
@@ -79,6 +78,7 @@ public class Zombie : EnemyBase
             }
             else
             {
+                animator.SetTrigger("Attack");
                 controller.UpdateState(EAIState.Attack);
             }
             return true;
@@ -107,6 +107,17 @@ public class Zombie : EnemyBase
         tentacle.DeactivateTriggerDamage();
     }
 
+    public void MoveTowardsPlayerInAttack()
+    {
+        attack.moveTowardsPlayer = true;
+    }
+
+    public void FinishedAttack()
+    {
+        attack.doneAttacking = true;
+    }
+
+
     public void DamageAttackTarget()
     {
         attack.Damage(controller.AttackTarget.gameObject.GetComponent<IDamageable>());
@@ -119,7 +130,6 @@ public class Zombie : EnemyBase
 
     public override void ResetForRebirth()
     {
-        copUICanvas.gameObject.SetActive(false);
         base.ResetForRebirth();
     }
 
