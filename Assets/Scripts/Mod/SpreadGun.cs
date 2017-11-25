@@ -10,7 +10,6 @@ public class SpreadGun : Mod {
     #endregion
 
     #region Private fields
-    private float incrementAngle;
     private Animator animator;
     #endregion
 
@@ -21,10 +20,6 @@ public class SpreadGun : Mod {
     {
         animator = GetComponentInChildren<Animator>();
         setModType(ModType.SpreadGun);
-        if(gunProperties.numberOfBulletsInEachShot - 1 != 0)
-        {
-            incrementAngle = gunProperties.spreadAngle / (gunProperties.numberOfBulletsInEachShot - 1);
-        }
         base.Awake();       
     }
 
@@ -67,31 +62,21 @@ public class SpreadGun : Mod {
     #region Private functions
     private void Shoot()
     {
-        for (int i = 0; i < gunProperties.numberOfBulletsInEachShot; i++)
+        //Get bullet and initialize
+        GameObject bullet = ObjectPool.Instance.GetObject(PoolObjectType.SpreadGunBullet);
+        if (bullet)
         {
-            //Get bullet and initialize
-            GameObject bullet = ObjectPool.Instance.GetObject(PoolObjectType.SpreadGunBullet);
-            if (bullet)
+            bullet.transform.SetParent(null);
+            bullet.transform.position = bulletSpawnTransform.position;
+            bullet.transform.forward = transform.forward;
+            SpreadGunBullet spreadBullet = bullet.GetComponent<SpreadGunBullet>();
+            if (spreadBullet)
             {
-                bullet.transform.SetParent(null);
-                bullet.transform.position = bulletSpawnTransform.position;
-                bullet.transform.forward = CalculateForward(i);
-                SpreadGunBullet spreadBullet = bullet.GetComponent<SpreadGunBullet>();
-                if (spreadBullet)
-                {
-                    spreadBullet.Init(gunProperties.bulletSpeed, gunProperties.bulletMaxDistance, damage);
-                }
+                spreadBullet.Init(gunProperties);
             }
         }
         SFXManager.Instance.Play(shootSFX, transform.position);
         animator.SetTrigger("Shoot");
-    }
-
-    private Vector3 CalculateForward(int count)
-    {
-        Vector3 forwardVector2D = new Vector3(transform.forward.x, 0f, transform.forward.z);
-        float rotationAngle = -gunProperties.spreadAngle / 2.0f + (incrementAngle * count);        
-        return Quaternion.Euler(0f, rotationAngle, 0f) * forwardVector2D;
     }
     #endregion
 
@@ -99,15 +84,13 @@ public class SpreadGun : Mod {
     [Serializable]
     public class SpreadGunProperties
     {
-        [Range(0, 180)]
-        [Tooltip("How much you want this baby to spread?")]        
-        public float spreadAngle;
-        [Tooltip("The name is quite descriptive")]
-        public int numberOfBulletsInEachShot;
-        [Tooltip("How fast you want the bois to travel?")]
         public float bulletSpeed;
-        [Tooltip("How far you want the bois to go?")]
         public float bulletMaxDistance;
+        public float bulletMinScale;
+        public float bulletMaxScale;
+        public float bulletMinDamage;
+        public float bulletMaxDamage;
+        public float bulletMinAlpha;
     }
 #endregion
 

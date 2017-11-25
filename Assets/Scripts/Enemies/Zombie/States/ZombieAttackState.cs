@@ -11,16 +11,16 @@ public class ZombieAttackState : AIState
     List<int> attacks;
     public bool moveTowardsPlayer;
     public bool doneAttacking;
+    private Vector3 initialPosition;
 
     public override void OnEnter()
     {
+        initialPosition = controller.transform.position;
         doneAttacking = false;
         attacks = new List<int>();
-        navAgent.enabled = false;
-        navObstacle.enabled = true;
-        attacks.Add((int)AnimationStates.Attack1);
-        attacks.Add((int)AnimationStates.Attack2);
-        attacks.Add((int)AnimationStates.Attack3);
+        //attacks.Add((int)AnimationStates.Attack1);
+        //attacks.Add((int)AnimationStates.Attack2);
+        //attacks.Add((int)AnimationStates.Attack3);
         attacks.Add((int)AnimationStates.Attack4);
         attacks.Add((int)AnimationStates.Attack5);
         attacks.Add((int)AnimationStates.Attack6);
@@ -33,11 +33,12 @@ public class ZombieAttackState : AIState
     public override void Update()
     {
         WaitToMove();
-        navAgent.SetDestination(controller.AttackTarget.position);
+
+        if(navAgent.isActiveAndEnabled)
+            navAgent.SetDestination(controller.AttackTarget.position);
 
         Vector3 lookPos = new Vector3(controller.AttackTarget.transform.position.x,0.0f, controller.AttackTarget.transform.position.z);
         controller.transform.LookAt(lookPos);
-        //controller.transform.RotateAround(controller.transform.position, controller.transform.up,-25.0f);
     }
     public override void OnExit()
     {
@@ -57,7 +58,7 @@ public class ZombieAttackState : AIState
     {
         if (damageable != null)
         {
-            damager.Set(shooterProperties.damage, DamagerType.BlasterBullet, navAgent.transform.forward);
+            damager.Set(myStats.attack, DamagerType.BlasterBullet, navAgent.transform.forward);
             damageable.TakeDamage(damager);
         }
     }
@@ -71,13 +72,24 @@ public class ZombieAttackState : AIState
     {
         if (moveTowardsPlayer)
         {
-            navObstacle.enabled = false;
-            navAgent.enabled = true;
-            navAgent.speed = navAgent.speed * 1.25f;
+            navAgent.speed = navAgent.speed * 1.0f;
             return true;
         }
+        else
+        {
+            FreezePosition();
+        }
+
+
         return false;
     }
+
+    private void FreezePosition()
+    {
+        controller.transform.position = initialPosition;
+    }
+
+
 
 
 }

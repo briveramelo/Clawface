@@ -3,6 +3,15 @@
     public static string ANIMATIONSTATE = "AnimationState";
     public static string FEETSTATE = "FeetState";
 
+    public static class Paths
+    {
+        public static string PLAYER_PREFAB_NAME = "Keira_GroupV";
+        public static string PLAYER_PREFAB_RESOURCES_PATH = "Player/";
+
+        public static string PLAYER_UI_PREFAB_NAME = "PlayerHUDV";
+        public static string PLAYER_UI_PREFAB_RESOURCES_PATH = "PlayerUI/";
+    }
+
     public static class Tags {
         public static string MOD = "Mod";
         public static string ENEMY = "Enemy";

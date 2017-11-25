@@ -86,7 +86,7 @@ MonoBehaviour:
   - name: SpreadGunBullet
     poolObjectType: 30
     prefabs:
-    - {fileID: 1165670768895760, guid: 12a1b440821ac2b4da39952dd04a8ac6, type: 2}
+    - {fileID: 1096217226211920, guid: c54c6791ead85c74c87b0452fda1ea5d, type: 2}
     size: 400
     objects: []
   - name: MallCopBlaster
@@ -224,4 +224,10 @@ MonoBehaviour:
     prefabs:
     - {fileID: 1130061683809566, guid: 9a5bd367854db024caba00447b4bc385, type: 2}
     size: 15
+    objects: []
+  - name: VFXKamikazeExplosion
+    poolObjectType: 43
+    prefabs:
+    - {fileID: 1388094577342938, guid: 166a6ecae1c17cf4e837df239228827c, type: 2}
+    size: 5
     objects: []

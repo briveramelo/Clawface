@@ -26,11 +26,13 @@ public class GoreManager : Singleton<GoreManager> {
     #endregion
 
     #region Fields (Private)
+
     #if UNITY_EDITOR
     private GameObject debugSpheres;
     #endif
 
     private bool shouldRenderSplats = false;
+
     #endregion
 
     protected override void Awake()
@@ -58,7 +60,7 @@ public class GoreManager : Singleton<GoreManager> {
         }
     }
 
-#if UNITY_EDITOR
+    #if UNITY_EDITOR
     private void OnLevelWasLoaded(int level)
     {
         Destroy(debugSpheres);

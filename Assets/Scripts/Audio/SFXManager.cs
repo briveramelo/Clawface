@@ -9,75 +9,16 @@ public class SFXManager : Singleton<SFXManager>
 
     #region SFX Object
     [SerializeField]
-    private GameObject BloodExplosion;    
-    [SerializeField]
-    private GameObject BlasterProjectile_Impact;
-    [SerializeField]
-    private GameObject BlasterShoot;
-    [SerializeField]
-    private GameObject GrapplingGun_Shoot;
-    [SerializeField]
-    private GameObject TankTreads_Attack;
-    [SerializeField]
-    private GameObject TankTreads_Swing;
-    [SerializeField]
-    private GameObject Dash;
-    [SerializeField]
-    private GameObject SegwayBlast_Standard;
-    [SerializeField]
-    private GameObject SegwayHover;
-    [SerializeField]
-    private GameObject Boomerang_Throw;
-    [SerializeField]
-    private GameObject DiceLauncher_Shoot;
-    [SerializeField]
-    private GameObject GeyserMod_Splash;
-    [SerializeField]
-    private GameObject GeyserMod_MiniSplash;
-    [SerializeField]
-    private GameObject Boomerang_Impact;
-    [SerializeField]
-    private GameObject PlayerTakeDamage;
-    [SerializeField]
-    private GameObject PlayerDeath;
-    [SerializeField]
-    private GameObject ModCooldown;
-    [SerializeField]
-    private GameObject MallCopHurt;
-    [SerializeField]
-    private GameObject UI_Click;
-    [SerializeField]
-    private GameObject UI_Hover;
-    [SerializeField]
-    private GameObject UI_Back;
+    private List<SFXUnit> SFXList;
     #endregion
 
     private void Start()
     {
-        sfxDictionary = new Dictionary<SFXType, List<SoundEffect>>()
+        sfxDictionary = new Dictionary<SFXType, List<SoundEffect>>();
+        foreach (SFXUnit unit in SFXList)
         {
-            {SFXType.BloodExplosion,            InitList(BloodExplosion) },
-            {SFXType.BlasterProjectileImpact,   InitList(BlasterProjectile_Impact) },
-            {SFXType.BlasterShoot,              InitList(BlasterShoot) },
-            {SFXType.GrapplingGun_Shoot,        InitList(GrapplingGun_Shoot) },
-            {SFXType.TankTreads_Attack,         InitList(TankTreads_Attack) },
-            {SFXType.TankTreads_Swing,          InitList(TankTreads_Swing) },
-            {SFXType.Dash,                      InitList(Dash) },
-            {SFXType.SegwayBlast_Standard,      InitList(SegwayBlast_Standard) },
-            {SFXType.SegwayBlast,         InitList(SegwayHover) },
-            {SFXType.Boomerang_Throw,           InitList(Boomerang_Throw) },
-            {SFXType.DiceLauncher_Shoot,        InitList(DiceLauncher_Shoot) },
-            {SFXType.GeyserMod_Splash,          InitList(GeyserMod_Splash) },
-            {SFXType.GeyserMod_MiniSplash,      InitList(GeyserMod_MiniSplash) },
-            {SFXType.Boomerang_Impact,          InitList(Boomerang_Impact) },
-            {SFXType.PlayerTakeDamage,          InitList(PlayerTakeDamage) },
-            {SFXType.PlayerDeath,               InitList(PlayerDeath) },
-            {SFXType.ModCooldown,               InitList(ModCooldown) },
-            {SFXType.MallCopHurt,               InitList(MallCopHurt) },
-            {SFXType.UI_Click,                  InitList(UI_Click)},
-            {SFXType.UI_Hover,                  InitList(UI_Hover)},
-            {SFXType.UI_Back,                   InitList(UI_Back)}
-        };
+            sfxDictionary.Add(unit.type, InitList(unit.audioClipObject));
+        }
     }
 
     public void Play(SFXType i_Type, Vector3 position)
@@ -100,7 +41,7 @@ public class SFXManager : Singleton<SFXManager>
             return;
         }
 
-        string message="No SFX Found for " + i_Type + ". Please add.";
+        string message="No SFX Found for " + i_Type.ToString() + ". Please add.";
         Debug.LogFormat("<color=#0000FF>" + message + "</color>");
     }
 
@@ -184,5 +125,12 @@ public class SFXManager : Singleton<SFXManager>
 
         i_SFX.Available = true;
         i_SFX.SetParent(transform);
+    }
+
+    [System.Serializable]
+    public class SFXUnit
+    {
+        public SFXType type;
+        public GameObject audioClipObject;
     }
 }
