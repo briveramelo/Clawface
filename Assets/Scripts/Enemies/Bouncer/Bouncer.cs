@@ -8,13 +8,13 @@ using System;
 public class BouncerProperties : AIProperties
 {
     [Range(1, 10)] public int bouncerBounces;
-    [Range(1f, 100f)] public float bouncerWaitShotTime;
+    [Range(1, 10)] public int bouncerShots;
     public bool bouncerRotate;
 
     public void InitializeProperties()
     {
         bounces = bouncerBounces;
-        waitShotTime = bouncerWaitShotTime;
+        numberOfShots = bouncerShots;
         rotate = bouncerRotate;
     }
 
@@ -113,6 +113,20 @@ public class Bouncer : EnemyBase
         base.ResetForRebirth();
     }
 
+    public void FireBullet()
+    {
+        if (fire.shotCount >= properties.numberOfShots)
+        {
+            fire.doneFiring = true;
+        }
+        else
+        {
+            fire.FireBullet();
+            fire.shotCount++;
+        }
+    }
+
+
     #endregion
 
     #region 6. Private Methods    
@@ -130,9 +144,6 @@ public class Bouncer : EnemyBase
         aiStates.Add(fire);
         aiStates.Add(stun);
     }
-
-   
-   
 
     private void OnDrawGizmosSelected()
     {

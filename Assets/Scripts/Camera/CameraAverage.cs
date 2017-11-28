@@ -60,7 +60,7 @@ public class CameraAverage : MonoBehaviour {
 
         activeEnemies.Add(enemy);
 
-        // SetCinemachineTargetGroup();
+        SetCinemachineTargetGroup();
     }
 
     void OnEnemyKilled(params object[] objects)
@@ -78,7 +78,7 @@ public class CameraAverage : MonoBehaviour {
 
         activeEnemies.Remove(enemy);
 
-        // SetCinemachineTargetGroup();
+        SetCinemachineTargetGroup();
     }
 
     private void SetCinemachineTargetGroup()
