@@ -31,6 +31,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     private Collider[] playerColliderList = new Collider[10];
     private Rigidbody[] jointRigidBodies;
     private Vector3 grabStartPosition;
+    private bool isIndestructable;
     #endregion
 
     #region 0. Protected fields
@@ -71,7 +72,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
 
     void IDamageable.TakeDamage(Damager damager)
     {
-        if (myStats.health > 0)
+        if (myStats.health > 0 && !isIndestructable)
         {
             myStats.TakeDamage(damager.damage);
             damagePack.Set(damager, damaged);
@@ -200,7 +201,8 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         transform.SetParent(poolParent);
         transform.localScale = transformMemento.startScale;
         lastChance = false;
-        alreadyStunned = false;        
+        alreadyStunned = false;
+        isIndestructable = false;
     }
 
     public void DisableCollider()
@@ -244,6 +246,11 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     public GameObject GetGrabObject()
     {
         return grabObject;
+    }
+
+    public void MakeIndestructable()
+    {
+        isIndestructable = true;
     }
     #endregion
 
