@@ -3008,14 +3008,15 @@ MonoBehaviour:
   hitSFX: 17
   deathSFX: 0
   playerDetectorSphereCollider: {fileID: 135652806102363036}
-  closeEnoughToFireDistance: 10
+  closeEnoughToFireDistance: 13
   properties:
     runMultiplier: 2.5
     hitRate: 0
     selfDestructTime: 0
     blastRadius: 0
     bounces: 0
-    waitShotTime: 0
+    numberOfShots: 0
+    rotate: 0
   mod: {fileID: 114348748851308058}
 --- !u!114 &114875676311210122
 MonoBehaviour:
