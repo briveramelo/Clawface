@@ -159,7 +159,7 @@ ModelImporter:
     400148: Front_tntcl_base1
     400150: Tummy_1
     400152: Tummy_base
-    7400000: ReadyFire
+    7400000: Guard_Aim
     9500000: //RootNode
   materials:
     importMaterials: 1
@@ -186,7 +186,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: ReadyFire
+      name: Guard_Aim
       takeName: Take 001
       firstFrame: 1
       lastFrame: 33
@@ -248,7 +248,7 @@ ModelImporter:
     tangentImportMode: 3
     normalCalculationMode: 4
   importAnimation: 1
-  copyAvatar: 0
+  copyAvatar: 1
   humanDescription:
     serializedVersion: 2
     human: []
@@ -260,12 +260,13 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    rootMotionBoneName: 
+    rootMotionBoneName: Enemy_1_Reference
     rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1
-  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: dd129b01e33bd0c46b563d2d1958b8db,
+    type: 3}
   animationType: 2
   humanoidOversampling: 1
   additionalBone: 0
