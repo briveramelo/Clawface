@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 80ee320dcee805e418201a4b759c78e4
-timeCreated: 1511564301
+guid: 6b666375ce69ca74eaf1048c0065e8ec
+timeCreated: 1511564455
 licenseType: Free
 ModelImporter:
   serializedVersion: 21
@@ -189,7 +189,7 @@ ModelImporter:
     400178: Tentacle_90_underTheEye
     400180: Top_start
     400182: Top_tip
-    7400000: Land
+    7400000: Bouncer_Jump
     9500000: //RootNode
   materials:
     importMaterials: 1
@@ -216,10 +216,10 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Land
+      name: Bouncer_Jump
       takeName: Take 001
-      firstFrame: 25
-      lastFrame: 31
+      firstFrame: 7
+      lastFrame: 25
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -238,15 +238,7 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events:
-      - time: 0.9846492
-        functionName: DoneJumpLanding
-        data: 
-        objectReferenceParameter: {fileID: 11500000, guid: 2764d00c6ce222a47b02be88a099bf5d,
-          type: 3}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
+      events: []
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
@@ -278,7 +270,7 @@ ModelImporter:
     tangentImportMode: 3
     normalCalculationMode: 4
   importAnimation: 1
-  copyAvatar: 0
+  copyAvatar: 1
   humanDescription:
     serializedVersion: 2
     human: []
@@ -290,12 +282,13 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    rootMotionBoneName: 
+    rootMotionBoneName: Mesh_root
     rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1
-  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: 36fdd4f6bb7fc334b827f4962cb1a0d1,
+    type: 3}
   animationType: 2
   humanoidOversampling: 1
   additionalBone: 0
