@@ -189,6 +189,7 @@ public class LevelSelectMenu : Menu
 		selectedLevel = scene;
 		EnableWeaponSelect (true);
 		RewireNavigation ();
+        weaponSelectButton.Select();
 	}
 
 	#endregion
