@@ -35,6 +35,7 @@
     {
         public static string GROUND = "Ground";
         public static string MODMAN = "ModMan";
+        public static string OBSTACLE = "Obstacle";
         public static string ENEMY = "Enemy";
     }
 
