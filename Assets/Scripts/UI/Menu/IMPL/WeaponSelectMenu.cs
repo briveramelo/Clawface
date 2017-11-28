@@ -17,19 +17,31 @@ public class WeaponSelectMenu : Menu
 	#region Fields (Unity Serialization)
 
 	[SerializeField]
-	private Button initialButton;
+	private Button initialButton = null;
 
 	[SerializeField]
-	private Button startButton;
+	private Button startButton = null;
 
 	[SerializeField]
-	private ButtonBundle[] weapons;
+	private ButtonBundle[] weapons = null;
 
-	#endregion
+    #endregion
 
-	#region Constructors (Public)
+    #region Fields (Internal)
 
-	public WeaponSelectMenu () : base (Strings.MenuStrings.WEAPON_SELECT)
+    internal string menuTarget = null;
+
+    #endregion
+
+    #region Fields (Private)
+
+    ModType[] types = new ModType[2];
+
+    #endregion
+
+    #region Constructors (Public)
+
+    public WeaponSelectMenu () : base (Strings.MenuStrings.WEAPON_SELECT)
 	{
 	}
 
@@ -40,6 +52,12 @@ public class WeaponSelectMenu : Menu
     private void Update ()
 	{        
 		PollWeaponSelect ();
+
+        if (CanvasGroup.gameObject.activeInHierarchy &&
+            InputManager.Instance.QueryAction (Strings.Input.UI.CANCEL, ButtonMode.DOWN))
+        {
+            BackButtonBehaviour();
+        }
 	}
 
 	#endregion
@@ -59,6 +77,8 @@ public class WeaponSelectMenu : Menu
 	protected override void ShowStarted ()
 	{
 		base.ShowStarted ();
+        types[0] = ModManager.leftArmOnLoad;
+        types[1] = ModManager.rightArmOnLoad;
         UpdateWeaponsStatus();
         UpdateDisplay ();
 	}
@@ -69,12 +89,16 @@ public class WeaponSelectMenu : Menu
 
 	public void BackAction ()
 	{
-		MenuManager.Instance.DoTransition (Strings.MenuStrings.LEVEL_SELECT,
-			Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+		MenuManager.Instance.DoTransition (menuTarget, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+
 	}
 
 	public void StartAction ()
 	{
+        // Set Mod Types
+        ModManager.leftArmOnLoad = types[0];
+        ModManager.rightArmOnLoad = types[1];
+
 		// Acquire target level.
 		Menu menu = MenuManager.Instance.GetMenuByName (Strings.MenuStrings.LEVEL_SELECT);
 		LevelSelectMenu levelMenu = (LevelSelectMenu)menu;
@@ -97,6 +121,24 @@ public class WeaponSelectMenu : Menu
 		MenuManager.Instance.DoTransition (loadMenu, Transition.SHOW,
 			new Effect[] { Effect.EXCLUSIVE });
 	}
+
+    public void ActionSelectWeapon ()
+    {
+        bool leftSelected = types[0] != ModType.None;
+        bool rightSelected = types[1] != ModType.None;
+        if (!leftSelected)
+        {
+            IterateWeapons(true);
+            if (rightSelected)
+            {
+                startButton.Select();
+            }
+        } else if (!rightSelected)
+        {
+            IterateWeapons(false);
+            startButton.Select();
+        }
+    }
 
     #endregion
 
@@ -133,37 +175,64 @@ public class WeaponSelectMenu : Menu
 		if (!(leftMode == ButtonMode.DOWN || rightMode == ButtonMode.DOWN))
 			return;
 
-		// Iterate through and identify selected "button"
-		GameObject selected = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject;
-		foreach (ButtonBundle bundle in weapons) {
-			// Check to see if this weapon is selected
-			if (bundle.button.gameObject == selected) {
-				SetSelectedWeapon (bundle.type, leftMode == ButtonMode.DOWN);
-				UpdateDisplay ();
-			}
-		}
+        IterateWeapons(leftMode == ButtonMode.DOWN);
 	}
+
+    private void IterateWeapons (bool isLeftArm)
+    {
+        // Iterate through and identify selected "button"
+        GameObject selected = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject;
+        foreach (ButtonBundle bundle in weapons)
+        {
+            // Check to see if this weapon is selected
+            if (bundle.button.gameObject == selected)
+            {
+                SetSelectedWeapon(bundle.type, isLeftArm);
+                UpdateDisplay();
+            }
+        }
+    }
 
 	private void SetSelectedWeapon (ModType type, bool isLeftArm)
 	{
 		if (isLeftArm) {
-			ModManager.leftArmOnLoad = type;
+			types[0] = type;
 		} else {
-			ModManager.rightArmOnLoad = type;
+			types[1] = type;
 		}
 	}
 
 	private void UpdateDisplay ()
 	{
 		foreach (ButtonBundle bundle in weapons) {
-			bundle.leftHand.SetActive (bundle.type == ModManager.leftArmOnLoad);
-			bundle.rightHand.SetActive (bundle.type == ModManager.rightArmOnLoad);
+			bundle.leftHand.SetActive (bundle.type == types[0]);
+			bundle.rightHand.SetActive (bundle.type == types[1]);
 		}
 
-		bool canStart = (ModManager.leftArmOnLoad != ModType.None &&
-		                ModManager.rightArmOnLoad != ModType.None);
+		bool canStart = (types[0] != ModType.None &&
+		                types[1] != ModType.None);
 		startButton.interactable = canStart;
 	}
+
+    private void BackButtonBehaviour ()
+    {
+        if (types[1] != ModType.None)
+        {
+            types[1] = ModType.None;
+        } else if (types[0] != ModType.None)
+        {
+            types[0] = ModType.None;
+        } else
+        {
+            BackAction();
+        }
+        
+        if (UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject == startButton.gameObject)
+        {
+            initialButton.Select();
+        }
+        UpdateDisplay();
+    }
 
 	#endregion
 

@@ -90,7 +90,8 @@ public class LevelSelectMenu : Menu
 	private void Update ()
 	{
 		// check to see  if the cancel button was pushed
-		if (chooseLevel && InputManager.Instance.QueryAction (Strings.Input.UI.CANCEL, ButtonMode.DOWN)) {
+		if (CanvasGroup.gameObject.activeInHierarchy && chooseLevel &&
+            InputManager.Instance.QueryAction (Strings.Input.UI.CANCEL, ButtonMode.DOWN)) {
 			chooseLevel = false;
 			selectedLevel = null;
 			SwitchMenus (true);
@@ -147,8 +148,12 @@ public class LevelSelectMenu : Menu
 
 	public void WeaponSelectAction ()
 	{
-		// Transition to Weapon Select.
-		MenuManager.Instance.DoTransition (Strings.MenuStrings.WEAPON_SELECT, Transition.SHOW,
+        // Transition to Weapon Select.
+        Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.WEAPON_SELECT);
+        WeaponSelectMenu weaponMenu = menu as WeaponSelectMenu;
+        weaponMenu.menuTarget = Strings.MenuStrings.LEVEL_SELECT;
+
+		MenuManager.Instance.DoTransition (menu, Transition.SHOW,
 			new Effect[] { Effect.EXCLUSIVE });
 	}
 

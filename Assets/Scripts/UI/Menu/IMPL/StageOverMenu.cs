@@ -88,20 +88,13 @@ public class StageOverMenu : Menu
 
     public void WeaponSelectAction()
     {
-        //Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.WEAPON_SELECT);
-        //LoadMenu loadMenu = (LoadMenu)menu;
-        //Scene scene = SceneManager.GetActiveScene();
-        //loadMenu.TargetScene = scene.name;
+        // Transition to Weapon Select.
+        Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.WEAPON_SELECT);
+        WeaponSelectMenu weaponMenu = menu as WeaponSelectMenu;
+        weaponMenu.menuTarget = Strings.MenuStrings.STAGE_OVER;
 
-        ////EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_RESTARTED, scene.name, AnalyticsManager.Instance.GetCurrentWave(), ScoreManager.Instance.GetScore());
-
-
-        //MenuManager.Instance.DoTransition(loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
-
-
-        MenuManager.Instance.DoTransition(Strings.MenuStrings.WEAPON_SELECT, Transition.SHOW,
-       new Effect[] { Effect.EXCLUSIVE });
-
+        MenuManager.Instance.DoTransition(menu, Transition.SHOW,
+            new Effect[] { Effect.EXCLUSIVE });
     }
 
     public void NextLevelAction()
@@ -167,7 +160,7 @@ public class StageOverMenu : Menu
         PauseMenu m = (PauseMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.PAUSE);
         m.CanPause = false;
         nextLevelButton.gameObject.SetActive(true);
-        title.text = Strings.MenuStrings.STAGE_OVER_TEXT;
+        title.text = Strings.TextStrings.STAGE_OVER_TEXT;
         MenuManager.Instance.DoTransition(Strings.MenuStrings.STAGE_OVER,
     Menu.Transition.SHOW, new Menu.Effect[] { Menu.Effect.EXCLUSIVE });
     }
@@ -183,7 +176,7 @@ public class StageOverMenu : Menu
 
         PauseMenu m = (PauseMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.PAUSE);
         m.CanPause = false;
-        title.text = Strings.MenuStrings.GAME_OVER_TEXT;
+        title.text = Strings.TextStrings.GAME_OVER_TEXT;
         MenuManager.Instance.DoTransition(Strings.MenuStrings.STAGE_OVER,
 Menu.Transition.SHOW, new Menu.Effect[] { Menu.Effect.EXCLUSIVE });
     }

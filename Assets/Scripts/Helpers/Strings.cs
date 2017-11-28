@@ -1,48 +1,51 @@
 ﻿public class Strings  {
 
-    public static string ANIMATIONSTATE = "AnimationState";
-    public static string FEETSTATE = "FeetState";
+    public const string ANIMATIONSTATE = "AnimationState";
+    public const string FEETSTATE = "FeetState";
 
     public static class Tags {
-        public static string MOD = "Mod";
-        public static string ENEMY = "Enemy";
-        public static string PLAYER = "Player";
-        public static string CODEXENTRY = "CodexEntry";
-        public static string UNLOCKABLE = "Unlockable";
-        public static string UNTAGGED = "Untagged";
-        public static string PLAYERDETECTOR = "PlayerDetector";
-        public static string PROJECTILE = "Projectile";
-        public static string WALL = "Wall";
-        public static string FLOOR = "Floor";
+        public const string MOD = "Mod";
+        public const string ENEMY = "Enemy";
+        public const string PLAYER = "Player";
+        public const string CODEXENTRY = "CodexEntry";
+        public const string UNLOCKABLE = "Unlockable";
+        public const string UNTAGGED = "Untagged";
+        public const string PLAYERDETECTOR = "PlayerDetector";
+        public const string PROJECTILE = "Projectile";
+        public const string WALL = "Wall";
+        public const string FLOOR = "Floor";
     }
 
     public static class Scenes {
-        public static string MainMenu = "Scenes/Build Scenes/MainMenu";
-        //public static string Arena = "Scenes/Build Scenes/Gucci_V1.2";
-        public static string Arena = "Scenes/Build Scenes/Arena 1";
+        public const string MainMenu = "Scenes/Build Scenes/MainMenu";
+        //public const string Arena = "Scenes/Build Scenes/Gucci_V1.2";
+        public const string Arena = "Scenes/Build Scenes/Arena 1";
     }
 
     public static class Layers
     {
-        public static string GROUND = "Ground";
-        public static string MODMAN = "ModMan";
-        public static string ENEMY = "Enemy";
+        public const string GROUND = "Ground";
+        public const string MODMAN = "ModMan";
+        public const string ENEMY = "Enemy";
+    }
+
+    public static class TextStrings
+    {
+        public const string GAME_OVER_TEXT = "Game Over";
+        public const string STAGE_OVER_TEXT = "Stage Over";
     }
 
     public static class MenuStrings
     {
-        public static string MAIN = "MainMenu";
-        public static string CREDITS = "CreditsMenu";
-        public static string LOAD = "LoadMenu";
-        public static string PAUSE = "PauseMenu";
-        public static string TUTORIAL = "TutorialMenu";
-        public static string STAGE_OVER = "StageOverMenu";
-        public static string SETTINGS = "Settings";
-        public static string LEVEL_SELECT = "LevelSelect";
-        public static string WEAPON_SELECT = "WeaponSelect";
-
-        public static string GAME_OVER_TEXT = "Game Over";
-        public static string STAGE_OVER_TEXT = "Stage Over";
+        public const string MAIN = "MainMenu";
+        public const string CREDITS = "CreditsMenu";
+        public const string LOAD = "LoadMenu";
+        public const string PAUSE = "PauseMenu";
+        public const string TUTORIAL = "TutorialMenu";
+        public const string STAGE_OVER = "StageOverMenu";
+        public const string SETTINGS = "Settings";
+        public const string LEVEL_SELECT = "LevelSelect";
+        public const string WEAPON_SELECT = "WeaponSelect";
     }
 
     public static class Input
