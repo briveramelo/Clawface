@@ -164,6 +164,7 @@ public class PlayerStateManager : MonoBehaviour {
             if (skinnable != null && skinnable.IsEatable())
             {
                 stateVariables.eatTargetEnemy = potentialEatableEnemy;
+                stateVariables.eatTargetEnemy.GetComponent<EnemyBase>().MakeIndestructable();
                 return true;
             }
         }
