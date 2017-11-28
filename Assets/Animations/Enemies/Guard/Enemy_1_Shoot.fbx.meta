@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 3d6195c8f640bd0429f170a54b689436
-timeCreated: 1511844295
+guid: ee58deef023ba5e4993a24792d05217b
+timeCreated: 1511885298
 licenseType: Free
 ModelImporter:
   serializedVersion: 21
@@ -159,7 +159,7 @@ ModelImporter:
     400148: Front_tntcl_base1
     400150: Tummy_1
     400152: Tummy_base
-    7400000: Take 001
+    7400000: Shoot
     9500000: //RootNode
   materials:
     importMaterials: 1
@@ -184,7 +184,43 @@ ModelImporter:
     animationWrapMode: 0
     extraExposedTransformPaths: []
     extraUserProperties: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Shoot
+      takeName: Take 001
+      firstFrame: 33
+      lastFrame: 70
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events:
+      - time: 0.22807014
+        functionName: ActivateMod
+        data: 
+        objectReferenceParameter: {fileID: 1385345176205422, guid: 853a9c96bc025954896d8b6c0a793ef2,
+          type: 2}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     isReadable: 1
   meshes:
     lODScreenPercentages: []
