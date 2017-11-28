@@ -36,6 +36,7 @@ public class WeaponSelectMenu : Menu
     #region Fields (Private)
 
     ModType[] types = new ModType[2];
+    bool inputGuard = false;
 
     #endregion
 
@@ -53,8 +54,7 @@ public class WeaponSelectMenu : Menu
 	{        
 		PollWeaponSelect ();
 
-        if (CanvasGroup.gameObject.activeInHierarchy &&
-            InputManager.Instance.QueryAction (Strings.Input.UI.CANCEL, ButtonMode.DOWN))
+        if (inputGuard && InputManager.Instance.QueryAction (Strings.Input.UI.CANCEL, ButtonMode.DOWN))
         {
             BackButtonBehaviour();
         }
@@ -83,11 +83,23 @@ public class WeaponSelectMenu : Menu
         UpdateDisplay ();
 	}
 
-	#endregion
+    protected override void ShowComplete()
+    {
+        base.ShowComplete();
+        inputGuard = true;
+    }
 
-	#region Interface (Public)
+    protected override void HideStarted()
+    {
+        base.HideStarted();
+        inputGuard = false;
+    }
 
-	public void BackAction ()
+    #endregion
+
+    #region Interface (Public)
+
+    public void BackAction ()
 	{
 		MenuManager.Instance.DoTransition (menuTarget, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
 

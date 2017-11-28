@@ -67,6 +67,7 @@ public class LevelSelectMenu : Menu
 	private bool resetLevel = true;
 	private Theme selectedTheme = Theme.COMMON_AREA;
 	private bool chooseLevel = false;
+    private bool inputGuard = false;
 
 	#endregion
 
@@ -90,12 +91,18 @@ public class LevelSelectMenu : Menu
 	private void Update ()
 	{
 		// check to see  if the cancel button was pushed
-		if (CanvasGroup.gameObject.activeInHierarchy && chooseLevel &&
-            InputManager.Instance.QueryAction (Strings.Input.UI.CANCEL, ButtonMode.DOWN)) {
-			chooseLevel = false;
-			selectedLevel = null;
-			SwitchMenus (true);
-			UpdateDisplay ();
+		if (inputGuard && InputManager.Instance.QueryAction (Strings.Input.UI.CANCEL, ButtonMode.DOWN)) {
+            if (chooseLevel)
+            {
+                chooseLevel = false;
+                selectedLevel = null;
+                SwitchMenus(true);
+                UpdateDisplay();
+            } else
+            {
+                MenuManager.Instance.DoTransition(Strings.MenuStrings.MAIN,
+                    Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+            }
 		}
 	}
 
@@ -124,13 +131,25 @@ public class LevelSelectMenu : Menu
 			selectedLevel = null;
 		}
 		UpdateDisplay ();
-	}
+    }
 
-	#endregion
+    protected override void ShowComplete()
+    {
+        base.ShowComplete();
+        inputGuard = true;
+    }
 
-	#region Interface (Public)
+    protected override void HideStarted()
+    {
+        base.HideStarted();
+        inputGuard = false;
+    }
 
-	public void BackAction ()
+    #endregion
+
+    #region Interface (Public)
+
+    public void BackAction ()
 	{
 		if (chooseLevel) {
 			chooseLevel = false;
