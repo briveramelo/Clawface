@@ -9,11 +9,13 @@ public class BouncerProperties : AIProperties
 {
     [Range(1, 10)] public int bouncerBounces;
     [Range(1f, 100f)] public float bouncerWaitShotTime;
+    public bool bouncerRotate;
 
     public void InitializeProperties()
     {
         bounces = bouncerBounces;
         waitShotTime = bouncerWaitShotTime;
+        rotate = bouncerRotate;
     }
 
 }
@@ -77,12 +79,8 @@ public class Bouncer : EnemyBase
             if (fire.DoneFiring())
             {
                 controller.UpdateState(EAIState.Chase);
-                return true;
             }
-            else
-            {
-                return false;
-            }
+            return true;
         }
         return false;
     }
@@ -98,6 +96,17 @@ public class Bouncer : EnemyBase
         return false;
 
     }
+
+    public void DoneJumpStart()
+    {
+        chase.doneStartingJump = true;
+    }
+
+    public void DoneJumpLanding()
+    {
+        chase.doneLandingJump = true;
+    }
+
 
     public override void ResetForRebirth()
     {
@@ -123,11 +132,13 @@ public class Bouncer : EnemyBase
     }
 
    
-    #endregion
+   
 
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, closeEnoughToAttackDistance);
     }
+
+    #endregion
 }
