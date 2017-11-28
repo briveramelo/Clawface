@@ -9,7 +9,7 @@ using MovementEffects;
 public class BouncerChaseState : AIState {
 
     private Vector3 jumpTarget;
-    private float jumpTargetDistance = 20f;
+    private float jumpTargetDistance = 10f;
     private bool moving = false;
     private float height = 12.0f;
     private float tolerance = 0.35f;
@@ -52,7 +52,6 @@ public class BouncerChaseState : AIState {
 
         else
         {
-            controller.transform.LookAt(new Vector3(jumpTarget.x, 0.0f, jumpTarget.z));
             controller.transform.eulerAngles = new Vector3(0.0f, controller.transform.eulerAngles.y, controller.transform.eulerAngles.z);
         }
     }
@@ -75,31 +74,20 @@ public class BouncerChaseState : AIState {
 
     private void GetNewChaseTarget()
     {
-        bool gotChasePoint = false;
-
-        int numRayChecks = 8;
-        float randStart = Random.Range(0, 360f);
-        int clockwise = Random.value > 0.5f ? 1 : -1;
-        for (int i = 0; i < numRayChecks; i++)
-        {
-            float angle = randStart + clockwise * i * (360f / numRayChecks);
-            Vector3 moveDirection = angle.ToVector3();
-            moveDirection = moveDirection.normalized;
-            moveDirection.y = .1f;
-            jumpTarget = controller.transform.position + moveDirection * jumpTargetDistance;
-
-            if (NavMesh.SamplePosition(jumpTarget, out hit, jumpTargetDistance, 1))
+            bool gotChasePoint = false;
+            Vector3 moveDirection = controller.DirectionToTarget;
+            jumpTarget = controller.transform.position + (moveDirection.normalized * jumpTargetDistance);
+            
+            if (navAgent.SetDestination(jumpTarget))
             {
-                  finalPosition = hit.position;
-                  gotChasePoint = true;
-                  break;
+                finalPosition = jumpTarget;
+                gotChasePoint = true;
             }
-        }
 
-        if (gotChasePoint)
-        {
+            if (gotChasePoint)
+            {
             moving = true;
-            Timing.RunCoroutine(Move(),coroutineName);
+            Timing.RunCoroutine(Move(), coroutineName);
         }
     }
 
