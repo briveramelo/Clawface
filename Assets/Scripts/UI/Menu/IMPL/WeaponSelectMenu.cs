@@ -141,14 +141,17 @@ public class WeaponSelectMenu : Menu
         if (!leftSelected)
         {
             IterateWeapons(true);
-            if (rightSelected)
+            if (!MenuManager.Instance.MouseMode && rightSelected)
             {
                 startButton.Select();
             }
         } else if (!rightSelected)
         {
             IterateWeapons(false);
-            startButton.Select();
+            if (!MenuManager.Instance.MouseMode)
+            {
+                startButton.Select();
+            }
         }
     }
 
@@ -239,7 +242,8 @@ public class WeaponSelectMenu : Menu
             BackAction();
         }
         
-        if (UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject == startButton.gameObject)
+        if (!MenuManager.Instance.MouseMode && 
+            UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject == startButton.gameObject)
         {
             initialButton.Select();
         }

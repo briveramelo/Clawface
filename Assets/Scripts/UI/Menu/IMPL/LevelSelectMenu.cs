@@ -213,7 +213,11 @@ public class LevelSelectMenu : Menu
 		selectedLevel = scene;
 		EnableWeaponSelect (true);
 		RewireNavigation ();
-        weaponSelectButton.Select();
+
+        if (!MenuManager.Instance.MouseMode)
+        {
+            weaponSelectButton.Select();
+        }
 	}
 
 	#endregion
@@ -222,6 +226,9 @@ public class LevelSelectMenu : Menu
 
 	private void SwitchMenus (bool isTheme)
 	{
+        if (MenuManager.Instance.MouseMode)
+            return;
+
 		// Iterate through bundles.
 		foreach (ThemeBundle bundle in themes) {
 			// Find the one for the current theme
