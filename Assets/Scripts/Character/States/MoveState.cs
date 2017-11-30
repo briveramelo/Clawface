@@ -13,6 +13,22 @@ public class MoveState : IPlayerState
     private Vector3 lastMoveDirection;
     private float currentSpeed;
     private Vector3 lastLookDirection;
+    private bool playerDead;
+    #endregion
+
+    #region Unity lifecycle
+    private void OnEnable()
+    {
+        EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_KILLED, PlayerDead);
+    }
+
+    private void OnDisable()
+    {
+        if (EventSystem.Instance)
+        {
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_KILLED, PlayerDead);
+        }
+    }
     #endregion
 
     #region Public Methods    
@@ -25,62 +41,68 @@ public class MoveState : IPlayerState
     }
 
     public override void StateUpdate()
-    {                
-        Vector2 controllerMoveDir = InputManager.Instance.QueryAxes(Strings.Input.Axes.MOVEMENT);
-        Vector2 lookDir = InputManager.Instance.QueryAxes(Strings.Input.Axes.LOOK);
-        bool isAnyAxisInput = controllerMoveDir.magnitude > stateVariables.axisThreshold;
-        if (!isAnyAxisInput) {
-            controllerMoveDir = Vector2.zero;
+    {
+        if (!playerDead)
+        {
+            Vector2 controllerMoveDir = InputManager.Instance.QueryAxes(Strings.Input.Axes.MOVEMENT);
+            Vector2 lookDir = InputManager.Instance.QueryAxes(Strings.Input.Axes.LOOK);
+            bool isAnyAxisInput = controllerMoveDir.magnitude > stateVariables.axisThreshold;
+            if (!isAnyAxisInput)
+            {
+                controllerMoveDir = Vector2.zero;
+            }
+            if (lookDir.magnitude > stateVariables.axisThreshold)
+            {
+                lastLookDirection = new Vector3(lookDir.x, 0, lookDir.y);
+            }
+            else
+            {
+                lastLookDirection = Vector3.zero;
+            }
+            Vector2 moveModified = new Vector2(controllerMoveDir.x, controllerMoveDir.y);
+
+            if (isSidescrolling)
+            {
+                moveModified.y = 0F;
+            }
+
+            moveDirection = new Vector3(moveModified.x, 0.0F, moveModified.y);
+
+            if (!canMove)
+            {
+                moveDirection = Vector3.zero;
+                lastMoveDirection = Vector3.zero;
+            }
+
+            moveDirection = Camera.main.transform.TransformDirection(moveDirection);
+            moveDirection.y = 0f;
+            moveDirection.Normalize();
+
+            lastLookDirection = Camera.main.transform.TransformDirection(lastLookDirection);
+            lastLookDirection.y = 0f;
+            lastLookDirection.Normalize();
+
+            if (moveDirection != Vector3.zero)
+            {
+                lastMoveDirection = moveDirection;
+            }
+            else if (lastLookDirection != Vector3.zero)
+            {
+                lastMoveDirection = lastLookDirection;
+            }
+            stateVariables.velBody.MoveDirection = lastMoveDirection;
+
+            switch (stateVariables.velBody.GetMovementMode())
+            {
+                case MovementMode.PRECISE:
+                    MovePrecise();
+                    break;
+                case MovementMode.ICE:
+                    MoveIce();
+                    break;
+            }
+            HandleRotation();
         }
-        if(lookDir.magnitude > stateVariables.axisThreshold)
-        {
-            lastLookDirection = new Vector3(lookDir.x, 0, lookDir.y);
-        }else
-        {
-            lastLookDirection = Vector3.zero;
-        }
-        Vector2 moveModified = new Vector2(controllerMoveDir.x, controllerMoveDir.y);
-
-        if (isSidescrolling)
-        {
-            moveModified.y = 0F;
-        }
-
-        moveDirection = new Vector3(moveModified.x, 0.0F, moveModified.y);
-
-        if (!canMove)
-        {
-            moveDirection = Vector3.zero;
-            lastMoveDirection = Vector3.zero;
-        }
-
-        moveDirection = Camera.main.transform.TransformDirection(moveDirection);
-        moveDirection.y = 0f;
-        moveDirection.Normalize();
-
-        lastLookDirection = Camera.main.transform.TransformDirection(lastLookDirection);
-        lastLookDirection.y = 0f;
-        lastLookDirection.Normalize();
-
-        if (moveDirection != Vector3.zero)
-        {
-            lastMoveDirection = moveDirection;
-        } else if (lastLookDirection != Vector3.zero)
-        {
-            lastMoveDirection = lastLookDirection;
-        }
-        stateVariables.velBody.MoveDirection = lastMoveDirection;
-
-        switch (stateVariables.velBody.GetMovementMode())
-        {
-            case MovementMode.PRECISE:
-                MovePrecise();
-                break;
-            case MovementMode.ICE:
-                MoveIce();
-                break;
-        }
-        HandleRotation();
     }
 
     public override void StateFixedUpdate()
@@ -147,6 +169,12 @@ public class MoveState : IPlayerState
 
     protected override void ResetState()
     {
+    }
+
+    private void PlayerDead(params object[] parameters)
+    {
+        playerDead = true;
+        stateVariables.velBody.velocity = Vector3.zero;
     }
     #endregion
 

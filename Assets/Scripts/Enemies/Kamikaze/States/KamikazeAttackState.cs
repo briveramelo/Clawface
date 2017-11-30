@@ -40,7 +40,16 @@ public class KamikazeAttackState : AIState {
     {
         yield return Timing.WaitForSeconds(waitTimeToDestruct);
 
-        if (Vector3.Distance(controller.transform.position, controller.AttackTarget.transform.position) <= blastRadius)
+        //Make sure the kamikaze is not stunned
+        if (myStats.health <= myStats.skinnableHealth)
+        {
+            controller.UpdateState(EAIState.Stun);
+            controller.DeActivateAI();
+        }
+
+
+
+        else if (Vector3.Distance(controller.transform.position, controller.AttackTarget.transform.position) <= blastRadius)
         {
             //Set Damage to the player
             Damage(controller.AttackTarget.gameObject.GetComponent<IDamageable>());
