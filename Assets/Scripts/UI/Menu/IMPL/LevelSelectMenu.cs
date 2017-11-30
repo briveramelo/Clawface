@@ -67,6 +67,7 @@ public class LevelSelectMenu : Menu
 	private bool resetLevel = true;
 	private Theme selectedTheme = Theme.COMMON_AREA;
 	private bool chooseLevel = false;
+    private bool inputGuard = false;
 
 	#endregion
 
@@ -90,11 +91,18 @@ public class LevelSelectMenu : Menu
 	private void Update ()
 	{
 		// check to see  if the cancel button was pushed
-		if (chooseLevel && InputManager.Instance.QueryAction (Strings.Input.UI.CANCEL, ButtonMode.DOWN)) {
-			chooseLevel = false;
-			selectedLevel = null;
-			SwitchMenus (true);
-			UpdateDisplay ();
+		if (inputGuard && InputManager.Instance.QueryAction (Strings.Input.UI.CANCEL, ButtonMode.DOWN)) {
+            if (chooseLevel)
+            {
+                chooseLevel = false;
+                selectedLevel = null;
+                SwitchMenus(true);
+                UpdateDisplay();
+            } else
+            {
+                MenuManager.Instance.DoTransition(Strings.MenuStrings.MAIN,
+                    Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+            }
 		}
 	}
 
@@ -123,13 +131,25 @@ public class LevelSelectMenu : Menu
 			selectedLevel = null;
 		}
 		UpdateDisplay ();
-	}
+    }
 
-	#endregion
+    protected override void ShowComplete()
+    {
+        base.ShowComplete();
+        inputGuard = true;
+    }
 
-	#region Interface (Public)
+    protected override void HideStarted()
+    {
+        base.HideStarted();
+        inputGuard = false;
+    }
 
-	public void BackAction ()
+    #endregion
+
+    #region Interface (Public)
+
+    public void BackAction ()
 	{
 		if (chooseLevel) {
 			chooseLevel = false;
@@ -147,8 +167,12 @@ public class LevelSelectMenu : Menu
 
 	public void WeaponSelectAction ()
 	{
-		// Transition to Weapon Select.
-		MenuManager.Instance.DoTransition (Strings.MenuStrings.WEAPON_SELECT, Transition.SHOW,
+        // Transition to Weapon Select.
+        Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.WEAPON_SELECT);
+        WeaponSelectMenu weaponMenu = menu as WeaponSelectMenu;
+        weaponMenu.menuTarget = Strings.MenuStrings.LEVEL_SELECT;
+
+		MenuManager.Instance.DoTransition (menu, Transition.SHOW,
 			new Effect[] { Effect.EXCLUSIVE });
 	}
 
@@ -189,6 +213,11 @@ public class LevelSelectMenu : Menu
 		selectedLevel = scene;
 		EnableWeaponSelect (true);
 		RewireNavigation ();
+
+        if (!MenuManager.Instance.MouseMode)
+        {
+            weaponSelectButton.Select();
+        }
 	}
 
 	#endregion
@@ -197,6 +226,9 @@ public class LevelSelectMenu : Menu
 
 	private void SwitchMenus (bool isTheme)
 	{
+        if (MenuManager.Instance.MouseMode)
+            return;
+
 		// Iterate through bundles.
 		foreach (ThemeBundle bundle in themes) {
 			// Find the one for the current theme
