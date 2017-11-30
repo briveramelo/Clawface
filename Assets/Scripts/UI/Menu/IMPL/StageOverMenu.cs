@@ -55,8 +55,10 @@ public class StageOverMenu : Menu
 
     private void OnDestroy()
     {
-        EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_COMPLETED, LevelCompleteStart);
-        EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_KILLED, PlayerDeathStart);
+        if (EventSystem.Instance) {
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_COMPLETED, LevelCompleteStart);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_KILLED, PlayerDeathStart);
+        }
     }
 
     #endregion  

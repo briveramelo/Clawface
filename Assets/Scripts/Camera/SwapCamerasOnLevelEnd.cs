@@ -14,7 +14,9 @@ public class SwapCamerasOnLevelEnd : MonoBehaviour {
 
     private void OnDestroy()
     {
-        EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_COMPLETED, SwitchCameras);
+        if (EventSystem.Instance) {
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_COMPLETED, SwitchCameras);
+        }
     }
 
 
