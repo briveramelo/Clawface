@@ -3675,15 +3675,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c7112b3692977d4987101d9add4e51f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attack: 9
+  attack: 12
   defense: 5
-  health: 22
+  health: 20
   maxHealth: 0
   moveSpeed: 2
   rangedAccuracy: 1
   shotSpeed: 20
   shotPushForce: 0
-  skinnableHealth: 10
+  skinnableHealth: 2
   exp: 2
 --- !u!114 &114948172669487280
 MonoBehaviour:
@@ -5106,7 +5106,7 @@ NavMeshAgent:
   m_Radius: 0.36
   m_Speed: 2
   m_Acceleration: 15
-  avoidancePriority: 50
+  avoidancePriority: 10
   m_AngularSpeed: 360
   m_StoppingDistance: 1
   m_AutoTraverseOffMeshLink: 1
@@ -5115,7 +5115,7 @@ NavMeshAgent:
   m_Height: 1.06
   m_BaseOffset: -0.01
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 0
+  m_ObstacleAvoidanceType: 3
 --- !u!208 &208811840099296770
 NavMeshObstacle:
   m_ObjectHideFlags: 1
