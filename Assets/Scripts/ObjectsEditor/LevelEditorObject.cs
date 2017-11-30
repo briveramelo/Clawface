@@ -17,6 +17,7 @@ namespace Turing.LevelEditor
         [SerializeField] int length = 1;
         [SerializeField] int limit = -1;
         [SerializeField] SnapMode snapMode;
+        [SerializeField] Texture2D thumbnail;
 
         [SerializeField][HideInInspector]
         string path;
@@ -38,6 +39,10 @@ namespace Turing.LevelEditor
         public int Length { get { return length; } }
 
         public void SetPath (string path) { this.path = path; }
+
+        public void SetThumbnail (Texture2D thumbnail) { this.thumbnail = thumbnail; }
+
+        public Texture2D Thumbnail { get { return thumbnail; } }
 
         public enum SnapMode
         {

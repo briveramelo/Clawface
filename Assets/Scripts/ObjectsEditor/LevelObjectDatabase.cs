@@ -12,6 +12,10 @@ namespace Turing.LevelEditor
 
         public const string LEVELOBJECT_PATH = "/Resources/LevelEditorObjects/";
 
+        const string THUMBNAILS_FOLDER_NAME = "Thumbnails";
+        const int THUMBNAIL_WIDTH = 1024;
+        const int THUMBNAIL_HEIGHT = 1024;
+
         #endregion
         #region Private Fields
 
@@ -95,6 +99,8 @@ namespace Turing.LevelEditor
                     objects[i].Add(new KeyValuePair<string, LevelEditorObject>(assetName, asset));
                 }
             }
+
+            GenerateThumbnails();
 
             //Debug.Log("Finished loading assets.");
         }
@@ -195,6 +201,54 @@ namespace Turing.LevelEditor
             }
 
             return asset;
+        }
+
+        void GenerateThumbnails ()
+        {
+            RenderTexture renderTexture = new RenderTexture(THUMBNAIL_WIDTH, THUMBNAIL_HEIGHT, 
+                0, RenderTextureFormat.Default, RenderTextureReadWrite.Default);
+            Camera renderCamera = new GameObject("~RenderCamera").AddComponent<Camera>();
+            renderCamera.targetTexture = renderTexture;
+            renderCamera.clearFlags = CameraClearFlags.SolidColor;
+            renderCamera.backgroundColor = Color.clear;
+
+            for (int categoryIndex = 0; categoryIndex < objects.Length; categoryIndex++)
+            {
+                List<KeyValuePair<string, LevelEditorObject>> category = objects[categoryIndex];
+                for (int objectPairIndex = 0; objectPairIndex < category.Count; objectPairIndex++)
+                {
+                    KeyValuePair<string, LevelEditorObject> objectPair = category[objectPairIndex];
+                    LevelEditorObject leObject = objectPair.Value;
+                    GenerateThumbnail(renderCamera, leObject);
+                }
+            }
+
+            renderCamera.targetTexture = null;
+            MonoBehaviour.DestroyImmediate (renderTexture);
+            MonoBehaviour.DestroyImmediate (renderCamera.gameObject);
+        }
+
+        void GenerateThumbnail (Camera camera, LevelEditorObject leObject)
+        {
+            GameObject instance = InstantiateObjectHelper.InstantiateObject (leObject.Prefab);
+            instance.transform.position = camera.transform.position + camera.transform.forward * 5.0f;
+            camera.Render();
+
+            RenderTexture.active = camera.targetTexture;
+            Texture2D thumbmail = new Texture2D (THUMBNAIL_WIDTH, THUMBNAIL_HEIGHT);
+            thumbmail.ReadPixels(new Rect (0, 0, THUMBNAIL_WIDTH, THUMBNAIL_HEIGHT), 0, 0);
+            RenderTexture.active = null;
+
+            leObject.SetThumbnail (thumbmail);
+
+            byte[] encodedThumbnail = thumbmail.EncodeToPNG();
+            string folderPath = string.Format("{0}/{1}", Application.dataPath, THUMBNAILS_FOLDER_NAME);
+            if (!System.IO.Directory.Exists (folderPath))
+                System.IO.Directory.CreateDirectory (folderPath);
+            string path = string.Format("{0}/{1}.png", folderPath, leObject.Name);
+            System.IO.File.WriteAllBytes (path, encodedThumbnail);
+
+            MonoBehaviour.DestroyImmediate (instance);
         }
 
         #endregion
