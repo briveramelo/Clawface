@@ -134,8 +134,6 @@ namespace PlayerLevelEditor
 
             GameObject _platform = new GameObject("LOADED LEVEL");
 
-            CreateSingleton();
-
             for (int i = -Num_x; i <= Num_x; i++)
             {
                 for (int j = -Num_z; j <= Num_z; j++)
@@ -168,53 +166,7 @@ namespace PlayerLevelEditor
                 }
             }
 
-
-            //Bake AI;
-            {
-                GameObject NavSurface = GameObject.Find("NavMeshSurface");
-
-                if (NavSurface)
-                    NavSurface.GetComponent<UnityEngine.AI.NavMeshSurface>().BuildNavMesh();
-            }
-
         }
-
-        void CreateSingleton()
-        {
-            CreateSingleton("PlayerSpawner", new Vector3(0, 2.5f, 0));
-            CreateSingleton("ServiceWrangler", new Vector3(0, 0, 0));
-            CreateSingleton("SpawnManager", new Vector3(0, 0, 0));
-            CreateSingleton("NavMeshSurface", new Vector3(0, 0, 0));
-        }
-
-
-        void CreateSingleton(string objectName, Vector3 position)
-        {
-            GameObject _prefab;
-            GameObject _instance;
-            GameObject parent = UnityTool.FindGameObject("LOADED LEVEL");
-
-
-            if (UnityTool.FindGameObject(objectName) == null)
-            {
-                string path = "PlayerLevelEditorObjects/" + objectName;
-
-                _prefab = Resources.Load(path) as GameObject;
-
-                if (_prefab == null)
-                {
-                    Debug.Log(objectName + ": PATH ERROR!!!");
-                }
-                else
-                {
-                    _instance = GameObject.Instantiate(_prefab, position, Quaternion.identity);
-                    _instance.name = objectName;
-                    _instance.transform.SetParent(parent.transform);
-                };
-            }
-        }
-
-
 
 
         void _AddNavMeshModifier(GameObject _object, int _state)
