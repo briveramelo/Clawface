@@ -18,9 +18,9 @@ public class ZombieAttackState : AIState
         initialPosition = controller.transform.position;
         doneAttacking = false;
         attacks = new List<int>();
-        attacks.Add((int)AnimationStates.Attack1);
-        attacks.Add((int)AnimationStates.Attack2);
-        attacks.Add((int)AnimationStates.Attack3);
+        //attacks.Add((int)AnimationStates.Attack1);
+        //attacks.Add((int)AnimationStates.Attack2);
+        //attacks.Add((int)AnimationStates.Attack3);
         attacks.Add((int)AnimationStates.Attack4);
         attacks.Add((int)AnimationStates.Attack5);
         attacks.Add((int)AnimationStates.Attack6);
@@ -58,7 +58,7 @@ public class ZombieAttackState : AIState
     {
         if (damageable != null)
         {
-            damager.Set(shooterProperties.damage, DamagerType.BlasterBullet, navAgent.transform.forward);
+            damager.Set(myStats.attack, DamagerType.BlasterBullet, navAgent.transform.forward);
             damageable.TakeDamage(damager);
         }
     }

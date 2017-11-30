@@ -304,6 +304,41 @@ namespace ModMan {
         }
     }
 
+    public static class AnimationCurveExtensions
+    {
+        public static float MaxValue (this AnimationCurve curve)
+        {
+            float max = float.NegativeInfinity;
+            for (int i = 0; i < curve.length; i++)
+            {
+                Keyframe key = curve.keys[i];
+                if (key.value > max) max = key.value;
+            }
+
+            return max;
+        }
+    }
+
+    public static class MinMaxCurveExtensions
+    {
+        public static float Max (this ParticleSystem.MinMaxCurve curve)
+        {
+            switch (curve.mode)
+            {
+                case ParticleSystemCurveMode.Constant:
+                    return curve.constant;
+                case ParticleSystemCurveMode.Curve:
+                    return curve.curve.MaxValue();
+                case ParticleSystemCurveMode.TwoConstants:
+                    return Mathf.Max (curve.constantMin, curve.constantMax);
+                case ParticleSystemCurveMode.TwoCurves:
+                    return Mathf.Max (curve.curveMin.MaxValue(), curve.curveMax.MaxValue());
+                default:
+                    return float.NaN;
+            }
+        }
+    }
+
     public static class Helpers
     {
         public static void DestroyProper (GameObject gameObject)
