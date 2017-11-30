@@ -17,7 +17,7 @@ public class KamikazeAttackState : AIState {
         navAgent.enabled = false;
         navObstacle.enabled = true;
 
-        animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.Idle);
+        animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.Attack1);
         shooterProperties.Initialize(2, 5, 6, 0);
         SetShooterProperties(shooterProperties);
         waitTimeToDestruct = properties.selfDestructTime;
