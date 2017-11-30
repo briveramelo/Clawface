@@ -65,6 +65,8 @@ public class StageOverMenu : Menu
     {
         Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
         LoadMenu loadMenu = (LoadMenu)menu;
+        EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_QUIT, 
+            SceneManager.GetActiveScene().name, AnalyticsManager.Instance.GetCurrentWave(), ScoreManager.Instance.GetScore());
         loadMenu.TargetScene = Strings.Scenes.MainMenu;
         loadMenu.Fast = true;
         MenuManager.Instance.DoTransition(loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
