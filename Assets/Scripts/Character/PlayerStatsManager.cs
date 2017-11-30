@@ -109,6 +109,11 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     {
         return stats.GetStat(CharacterStatType.Health);
     }
+
+    public void MakeHappy()
+    {
+        faceController.SetTemporaryEmotion(PlayerFaceController.Emotion.Happy, 1.0f);
+    }
     #endregion
 
     #region Private Methods
