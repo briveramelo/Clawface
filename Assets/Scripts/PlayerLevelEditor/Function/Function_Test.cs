@@ -13,9 +13,9 @@ namespace PlayerLevelEditor
         static GameObject _player;
         static GameObject _enemyPool;
 
+        List<GameObject> _enemies;
 
-
-        float waveTime = 3.0f;
+        float waveTime = 5.0f;
         float currentTime = 0.0f;
 
         public Test(FunctionController Controller) : base(Controller)
@@ -28,6 +28,9 @@ namespace PlayerLevelEditor
             base.Init();
 
             currentTime = waveTime;
+
+            _enemies = new List<GameObject>();
+
 
             CreateSingleton();
             BakeAI();
@@ -52,6 +55,16 @@ namespace PlayerLevelEditor
             _player.SetActive(false);
 
             DeleteSingleton();
+
+
+            foreach(GameObject _object in _enemies)
+            {
+                if(_object.activeSelf == true)
+                {
+                    _object.SetActive(false);
+                }
+            }
+
         }
 
 
@@ -172,13 +185,16 @@ namespace PlayerLevelEditor
             currentTime = waveTime;
 
 
-            int NumEnemy = 2;
+            int NumEnemy = 1;
 
             foreach(Transform enemy in _enemyPool.transform)
             {
                 if(enemy.gameObject.activeSelf == false)
                 {
                     enemy.gameObject.SetActive(true);
+
+                    _enemies.Add(enemy.gameObject);
+
                     NumEnemy--;
                 }
 
