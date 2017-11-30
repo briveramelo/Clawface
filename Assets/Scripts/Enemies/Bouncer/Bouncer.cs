@@ -75,6 +75,12 @@ public class Bouncer : EnemyBase
     {
         if (controller.CurrentState == fire)
         {
+            if (myStats.health <= myStats.skinnableHealth)
+            {
+                controller.CurrentState = stun;
+                controller.UpdateState(EAIState.Stun);
+                controller.DeActivateAI();
+            }
 
             if (fire.DoneFiring())
             {
