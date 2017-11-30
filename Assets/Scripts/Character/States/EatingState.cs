@@ -30,13 +30,13 @@ public class EatingState : IPlayerState
     private void OnEnable()
     {        
         EventSystem.Instance.RegisterEvent(Strings.Events.FACE_OPEN, DoArmExtension);
-        EventSystem.Instance.RegisterEvent(Strings.Events.ARM_EXTENDED, CaptureEnemy);
+        EventSystem.Instance.RegisterEvent(Strings.Events.CAPTURE_ENEMY, CaptureEnemy);
         EventSystem.Instance.RegisterEvent(Strings.Events.ARM_ANIMATION_COMPLETE, EndState);
     }
     private void OnDisable() {
         if (EventSystem.Instance) {
             EventSystem.Instance.UnRegisterEvent(Strings.Events.FACE_OPEN, DoArmExtension);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.ARM_EXTENDED, CaptureEnemy);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.CAPTURE_ENEMY, CaptureEnemy);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.ARM_ANIMATION_COMPLETE, EndState);
         }
     }
@@ -58,7 +58,7 @@ public class EatingState : IPlayerState
         {
             if (stateVariables.eatTargetEnemy && stateVariables.eatTargetEnemy.activeSelf)
             {
-                stateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.RetractVisor);
+                stateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.OpenFace);
                 isAnimating = true;
             }
             else
@@ -91,7 +91,7 @@ public class EatingState : IPlayerState
     protected override void ResetState()
     {
         clawArmController.ResetClawArm();
-        stateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Idle);
+        stateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.CloseFace);
         stateVariables.modelHead.transform.LookAt(stateVariables.playerTransform.forward);
         stateVariables.eatTargetEnemy = null;
         clawTransform = null;
@@ -103,9 +103,10 @@ public class EatingState : IPlayerState
 
     private void DoArmExtension(params object[] parameters)
     {
+        stateVariables.statsManager.MakeHappy();
         IEatable eatable = stateVariables.eatTargetEnemy.GetComponent<IEatable>();
         Assert.IsNotNull(eatable);
-        clawArmController.StartExtension(eatable.GetGrabObject(), stateVariables.clawExtensionTime);
+        clawArmController.StartExtension(eatable.GetGrabObject(), stateVariables.clawExtensionTime, stateVariables.clawRetractionTime);
         SFXManager.Instance.Play(stateVariables.ArmExtensionSFX, transform.position);
     }
 
@@ -122,7 +123,7 @@ public class EatingState : IPlayerState
                 eatable.EnableRagdoll();
             }
         }
-        clawArmController.StartRetraction(stateVariables.clawRetractionTime);
+        //clawArmController.StartRetraction(stateVariables.clawRetractionTime);
         SFXManager.Instance.Play(stateVariables.ArmEnemyCaptureSFX, transform.position);
     }
 
@@ -136,8 +137,8 @@ public class EatingState : IPlayerState
             stateVariables.statsManager.TakeHealth(health);
             Stats stats = GetComponent<Stats>();
             EventSystem.Instance.TriggerEvent(Strings.Events.UPDATE_HEALTH, stats.GetHealthFraction());
-            GameObject skinningEffect = ObjectPool.Instance.GetObject(PoolObjectType.VFXSkinningEffect);
-            skinningEffect.transform.position = transform.position;
+            GameObject skinningEffect = ObjectPool.Instance.GetObject(PoolObjectType.VFXMallCopExplosion);
+            skinningEffect.transform.position = clawTransform.position;
 
 
             GameObject healthJuice = ObjectPool.Instance.GetObject(PoolObjectType.VFXHealthGain);

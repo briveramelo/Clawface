@@ -196,7 +196,7 @@ ModelImporter:
     7400000: Zombie_SideAttack_3
     9500000: //RootNode
   materials:
-    importMaterials: 1
+    importMaterials: 0
     materialName: 0
     materialSearch: 1
   animations:
@@ -253,6 +253,22 @@ ModelImporter:
         messageOptions: 0
       - time: 0.7636364
         functionName: DeactivateTentacleTrigger
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 6e3398260c9595142bc90888bc176a20,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.5899123
+        functionName: MoveTowardsPlayerInAttack
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 6e3398260c9595142bc90888bc176a20,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.98903507
+        functionName: FinishedAttack
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 6e3398260c9595142bc90888bc176a20,
           type: 3}

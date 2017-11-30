@@ -22,8 +22,11 @@ public sealed class HitFlasherEditor : Editor
 
             if (GUILayout.Button ("Flash"))
             {
-                hitFlasher.Flash (1.0f, 0.15f);
+                hitFlasher.HitFlash ();
             }
+
+            if (GUILayout.Button("Test Stun Flashing"))
+                hitFlasher.SetStunnedState();
         }
     }
 }

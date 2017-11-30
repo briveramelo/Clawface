@@ -2,12 +2,9 @@
  * Author Brandon Rivera-Melo
  */
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-using ModMan;
-using MovementEffects;
 
 public class ModManager : MonoBehaviour
 {
@@ -43,6 +40,7 @@ public class ModManager : MonoBehaviour
     private bool isOkToSwapMods = true;
     List<Mod> overlapMods = new List<Mod>();
     private bool canActivate=true;
+    private bool isDead;
     #endregion
 
     #region Unity Lifecycle
@@ -72,6 +70,20 @@ public class ModManager : MonoBehaviour
             AttachRandomMods();
         } else {
             AttachMods(leftArmOnLoad, rightArmOnLoad);
+        }
+        isDead = false;
+    }
+
+    private void OnEnable()
+    {
+        EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_KILLED, PlayerDead);
+    }
+
+    private void OnDisable()
+    {
+        if (EventSystem.Instance)
+        {
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_KILLED, PlayerDead);
         }
     }
 
@@ -196,7 +208,8 @@ public class ModManager : MonoBehaviour
     }
 
     private void CheckToChargeAndFireMods(){        
-        if (canActivate){
+        if (canActivate && !isDead)
+        {
             CheckForModInput((ModSpot spot) =>
             {
                 modSocketDictionary[spot].mod.Activate();
@@ -215,6 +228,10 @@ public class ModManager : MonoBehaviour
         }
     }    
 
+    private void PlayerDead(params object[] parameters)
+    {
+        isDead = true;
+    }
     
     private ModSpot GetCommandedModSpot(ButtonMode mode){        
         if (InputManager.Instance.QueryAction(Strings.Input.Actions.FIRE_LEFT, mode))

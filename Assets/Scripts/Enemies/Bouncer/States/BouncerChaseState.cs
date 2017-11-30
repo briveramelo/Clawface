@@ -9,20 +9,29 @@ using MovementEffects;
 public class BouncerChaseState : AIState {
 
     private Vector3 jumpTarget;
-    private float jumpTargetDistance = 12f;
+    private float jumpTargetDistance = 10f;
     private bool moving = false;
-    private float height = 8.0f;
+    private float height = 12.0f;
     private float tolerance = 0.35f;
     private int jumpCount = 0;
     private int maxJumpCount;
     private NavMeshHit hit;
     private Vector3 finalPosition;
 
+
+    public bool doneStartingJump;
+    public bool doneLandingJump;
+
+
     public override void OnEnter()
     {
+
+        controller.AttackTarget = controller.FindPlayer();
         jumpCount = 0;
         maxJumpCount = properties.bounces;
         moving = false;
+        doneStartingJump = false;
+        doneLandingJump = false;
     }
     public override void Update()
     {
@@ -39,7 +48,11 @@ public class BouncerChaseState : AIState {
         if (!moving)
         {
             GetNewChaseTarget();
-            controller.transform.LookAt(new Vector3(jumpTarget.x, 0.0f, jumpTarget.z));
+        }
+
+        else
+        {
+            controller.transform.eulerAngles = new Vector3(0.0f, controller.transform.eulerAngles.y, controller.transform.eulerAngles.z);
         }
     }
 
@@ -61,35 +74,33 @@ public class BouncerChaseState : AIState {
 
     private void GetNewChaseTarget()
     {
-        bool gotChasePoint = false;
-
-        int numRayChecks = 8;
-        float randStart = Random.Range(0, 360f);
-        int clockwise = Random.value > 0.5f ? 1 : -1;
-        for (int i = 0; i < numRayChecks; i++)
-        {
-            float angle = randStart + clockwise * i * (360f / numRayChecks);
-            Vector3 moveDirection = angle.ToVector3();
-            moveDirection = moveDirection.normalized;
-            moveDirection.y = .1f;
-            jumpTarget = controller.transform.position + moveDirection * jumpTargetDistance;
-
-            if (NavMesh.SamplePosition(jumpTarget, out hit, jumpTargetDistance, 1))
+            bool gotChasePoint = false;
+            Vector3 moveDirection = controller.DirectionToTarget;
+            jumpTarget = controller.transform.position + (moveDirection.normalized * jumpTargetDistance);
+            
+            if (navAgent.SetDestination(jumpTarget))
             {
-                  finalPosition = hit.position;
-                  gotChasePoint = true;
-                  break;
+                finalPosition = jumpTarget;
+                gotChasePoint = true;
             }
-        }
 
-        if (gotChasePoint)
-            Timing.RunCoroutine(Move(),coroutineName);
+            if (gotChasePoint)
+            {
+            moving = true;
+            Timing.RunCoroutine(Move(), coroutineName);
+        }
     }
+
 
     IEnumerator<float> Move()
     {
-        moving = true;
-       
+
+        animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.StartingJump);
+
+        while (!doneStartingJump)
+        {
+            yield return 0.0f;
+        }
 
         Vector3 initialPosition = controller.transform.position;
         Vector3 targetPosition = new Vector3(finalPosition.x, 0.2f, finalPosition.z);
@@ -102,6 +113,9 @@ public class BouncerChaseState : AIState {
 
         while (interpolation < 1.0f)
         {
+
+            animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.Jumping);
+
             interpolation += Time.deltaTime * myStats.moveSpeed;
 
             controller.transform.position = Vector3.Lerp(initialPosition, midpoint, interpolation);
@@ -120,6 +134,7 @@ public class BouncerChaseState : AIState {
 
         while (interpolation < 1.0f)
         {
+
             interpolation += Time.deltaTime * myStats.moveSpeed;
 
             controller.transform.position = Vector3.Lerp(midpoint, targetPosition, interpolation);
@@ -134,12 +149,26 @@ public class BouncerChaseState : AIState {
 
             yield return 0.0f;
         }
-        controller.transform.position = targetPosition;
 
+        controller.transform.position = targetPosition;
         interpolation = 1.0f;
 
-        moving = false;
+        animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.EndJump);
+
+        while (!doneLandingJump)
+        {
+            yield return 0.0f;
+        }
+
+
+        doneStartingJump = false;
+        doneLandingJump = false;
         jumpCount++;
+
+        moving = false;
+
+
+
     }
 
     public bool OverMaxJumpCount()

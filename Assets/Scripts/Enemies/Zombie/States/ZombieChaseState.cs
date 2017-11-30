@@ -21,6 +21,12 @@ public class ZombieChaseState : AIState {
 
     private void Chase()
     {
+        if (Vector3.Distance(controller.transform.position, controller.AttackTarget.transform.position) < 10.0f)
+        {
+        Vector3 lookAtTarget = new Vector3(controller.AttackTarget.transform.position.x, 0.0f, controller.AttackTarget.transform.position.z);
+        controller.transform.LookAt(lookAtTarget);
+        }
+
         navAgent.SetDestination(controller.AttackTarget.position);
     }
 

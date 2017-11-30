@@ -20,10 +20,14 @@ namespace Cinemachine
         [DocumentationSorting(19.1f, DocumentationSortingAttribute.Level.UserRef)]
         [Serializable] public struct Target
         {
+            /// <summary>The target objects.  This object's position and orientation will contribute to the 
+            /// group's average position and orientation, in accordance with its weight</summary>
             [Tooltip("The target objects.  This object's position and orientation will contribute to the group's average position and orientation, in accordance with its weight")]
             public Transform target;
+            /// <summary>How much weight to give the target when averaging.  Cannot be negative</summary>
             [Tooltip("How much weight to give the target when averaging.  Cannot be negative")]
             public float weight;
+            /// <summary>The radius of the target, used for calculating the bounding box.  Cannot be negative</summary>
             [Tooltip("The radius of the target, used for calculating the bounding box.  Cannot be negative")]
             public float radius;
         }

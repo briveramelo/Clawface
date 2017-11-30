@@ -67,7 +67,7 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
 
                 faceController.SetTemporaryEmotion(PlayerFaceController.Emotion.Angry, 0.5f);
 
-                hitFlasher.Flash (1.0f, 0.2f);
+                hitFlasher.HitFlash ();
 
                 if (stats.GetStat(CharacterStatType.Health) <= 0)
                 {
@@ -91,6 +91,7 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
         stats.Add(CharacterStatType.Health, health);
         healthAtLastSkin = stats.health;
         lastSkinHealthBoost=health;
+        EventSystem.Instance.TriggerEvent(Strings.Events.PLAYER_HEALTH_MODIFIED, stats.GetHealthFraction());
     }
 
     public float GetStat(CharacterStatType type)
@@ -107,6 +108,11 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     public float GetHealth()
     {
         return stats.GetStat(CharacterStatType.Health);
+    }
+
+    public void MakeHappy()
+    {
+        faceController.SetTemporaryEmotion(PlayerFaceController.Emotion.Happy, 1.0f);
     }
     #endregion
 

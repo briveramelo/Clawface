@@ -15,9 +15,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     [SerializeField] protected NavMeshAgent navAgent;
     [SerializeField] protected NavMeshObstacle navObstacle;
     [SerializeField] protected int eatHealth;
-    [SerializeField] protected CopUI copUICanvas;
     [SerializeField] protected Transform bloodEmissionLocation;
-    [SerializeField] protected int scorePopupDelay = 2;
     [SerializeField] protected int scoreValue = 200;
     [SerializeField] private GameObject grabObject;
     [SerializeField] protected HitFlasher hitFlasher;
@@ -29,9 +27,11 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     private int stunCount;
     private bool lastChance = false;
     private bool alreadyStunned = false;
+    private bool aboutTobeEaten = false;
     private Collider[] playerColliderList = new Collider[10];
     private Rigidbody[] jointRigidBodies;
     private Vector3 grabStartPosition;
+    private bool isIndestructable;
     #endregion
 
     #region 0. Protected fields
@@ -72,13 +72,13 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
 
     void IDamageable.TakeDamage(Damager damager)
     {
-        if (myStats.health > 0)
+        if (myStats.health > 0 && !isIndestructable)
         {
             myStats.TakeDamage(damager.damage);
             damagePack.Set(damager, damaged);
             SFXManager.Instance.Play(hitSFX, transform.position);
             DamageFXManager.Instance.EmitDamageEffect(damagePack);
-            hitFlasher.Flash (1.0f, 0.15f);
+            hitFlasher.HitFlash ();
 
             if (myStats.health <= 0)
             {
@@ -99,8 +99,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
 
             if (myStats.health <= myStats.skinnableHealth)
             {
-                copUICanvas.gameObject.SetActive(true);
-                copUICanvas.ShowAction(ActionType.Skin);
+                hitFlasher.SetStunnedState();
                 if (!alreadyStunned)
                 {
                     myStats.health = 1;
@@ -136,6 +135,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     int IEatable.Eat()
     {
         EventSystem.Instance.TriggerEvent(Strings.Events.EAT_ENEMY);
+        aboutTobeEaten = true;
         Invoke("OnDeath", 0.1f);
         return eatHealth;
     }
@@ -155,7 +155,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     public virtual void OnDeath()
     {
 
-        EventSystem.Instance.TriggerEvent(Strings.Events.DEATH_ENEMY, scoreValue);
+        EventSystem.Instance.TriggerEvent(Strings.Events.DEATH_ENEMY, gameObject, scoreValue);
 
         if (!will.isDead)
         {
@@ -164,31 +164,22 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
             {
                 will.onDeath();
             }
+
+            if (!aboutTobeEaten)
+            {
                 GameObject mallCopParts = ObjectPool.Instance.GetObject(PoolObjectType.VFXMallCopExplosion);
                 if (mallCopParts)
                 {
                     SFXManager.Instance.Play(SFXType.BloodExplosion, transform.position);
                     mallCopParts.transform.position = transform.position + Vector3.up * 3f;
                     mallCopParts.transform.rotation = transform.rotation;
-                    mallCopParts.DeActivate(5f);
                 }
-
-
-            UpgradeManager.Instance.AddEXP(Mathf.FloorToInt(myStats.exp));
-
-            GameObject worldScoreObject = ObjectPool.Instance.GetObject(PoolObjectType.WorldScoreCanvas);
-            if (worldScoreObject)
-            {
-                worldScoreObject.GetComponent<Canvas>().GetComponent<RectTransform>().SetPositionAndRotation(transform.position, transform.rotation);                //worldScoreObject.transform.position = transform.position /*+ Vector3.up * 3f*/;
-                WorldScoreUI popUpScore = worldScoreObject.GetComponent<WorldScoreUI>();
-
-                int scoreBonus = scoreValue * ScoreManager.Instance.GetCurrentMultiplier();
-                popUpScore.DisplayScoreAndHide(scoreBonus, scorePopupDelay);
-                // ScoreManager.Instance.AddToScoreAndCombo(scoreBonus);
             }
+            UpgradeManager.Instance.AddEXP(Mathf.FloorToInt(myStats.exp));
             navAgent.speed = 0;
             navAgent.enabled = false;
             gameObject.SetActive(false);
+            aboutTobeEaten = false;
             SFXManager.Instance.Play(deathSFX, transform.position);
         }
     }
@@ -210,7 +201,8 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         transform.SetParent(poolParent);
         transform.localScale = transformMemento.startScale;
         lastChance = false;
-        alreadyStunned = false;        
+        alreadyStunned = false;
+        isIndestructable = false;
     }
 
     public void DisableCollider()
@@ -254,6 +246,23 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     public GameObject GetGrabObject()
     {
         return grabObject;
+    }
+
+    public void MakeIndestructable()
+    {
+        isIndestructable = true;
+    }
+
+    public void CloserToEat(bool isClose)
+    {
+        if (isClose)
+        {
+            hitFlasher.SetCloseToEatState();
+        }
+        else
+        {
+            hitFlasher.SetStunnedState();
+        }
     }
     #endregion
 

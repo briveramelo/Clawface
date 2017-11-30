@@ -91,6 +91,7 @@ public class BlasterMod : Mod {
             else
             {
                 blasterBullet.SetShooterType(true);
+
             }
         }
         else

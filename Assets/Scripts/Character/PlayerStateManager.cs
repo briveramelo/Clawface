@@ -23,12 +23,12 @@ public class PlayerStateManager : MonoBehaviour {
     private float dashCoolDown;
 
     [SerializeField] private EatingState eatingState;
-    [SerializeField] private float eatRadius;
+    [SerializeField] private SphereCollider eatCollider;
     #endregion
 
     #region Private Fields
     private IPlayerState movementState;
-    public List<IPlayerState> playerStates;
+    private List<IPlayerState> playerStates;
     private bool canDash = true;
     private bool stateChanged;
     private bool playerCanMove = true;
@@ -47,6 +47,7 @@ public class PlayerStateManager : MonoBehaviour {
         eatingState.Init(ref stateVariables);
         movementState = defaultState;
         playerStates = new List<IPlayerState>(){ defaultState};
+        eatCollider.radius = stateVariables.eatRadius;
 
         //for input blocking 
         EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_COMPLETED, BlockInput);
@@ -101,6 +102,16 @@ public class PlayerStateManager : MonoBehaviour {
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        SetEnemyCloseToEat(other, true);
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        SetEnemyCloseToEat(other, false);
+    }
+
     private void OnDestroy()
     {
         EventSystem instance = EventSystem.Instance;
@@ -115,6 +126,22 @@ public class PlayerStateManager : MonoBehaviour {
     #endregion
 
     #region Private Methods
+
+    private void SetEnemyCloseToEat(Collider other, bool state)
+    {
+        if (other.tag.Equals(Strings.Tags.ENEMY))
+        {
+            IEatable skinnable = other.GetComponent<IEatable>();
+            if (skinnable != null && skinnable.IsEatable())
+            {
+                EnemyBase enemyBase = other.GetComponent<EnemyBase>();
+                if (enemyBase)
+                {
+                    enemyBase.CloserToEat(state);
+                }
+            }
+        }
+    }
 
     private void BlockInput(params object[] parameter)
     {
@@ -165,6 +192,7 @@ public class PlayerStateManager : MonoBehaviour {
             if (skinnable != null && skinnable.IsEatable())
             {
                 stateVariables.eatTargetEnemy = potentialEatableEnemy;
+                stateVariables.eatTargetEnemy.GetComponent<EnemyBase>().MakeIndestructable();
                 return true;
             }
         }
@@ -173,7 +201,7 @@ public class PlayerStateManager : MonoBehaviour {
 
     private GameObject GetClosestEnemy()
     {
-        Collider[] enemies = Physics.OverlapSphere(transform.position, eatRadius, LayerMask.GetMask(Strings.Tags.ENEMY));
+        Collider[] enemies = Physics.OverlapSphere(transform.position, stateVariables.eatRadius, LayerMask.GetMask(Strings.Tags.ENEMY));
         if (enemies != null)
         {
             Collider closestEnemy = null;
@@ -221,6 +249,7 @@ public class PlayerStateManager : MonoBehaviour {
         public GameObject modelHead;
         public float clawExtensionTime;
         public float clawRetractionTime;
+        public float eatRadius;
 
         public SFXType ArmExtensionSFX;
         public SFXType ArmEnemyCaptureSFX;

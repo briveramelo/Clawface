@@ -221,11 +221,13 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         playerEventDeath.Add("wave", wave.ToString());
         playerEventDeath.Add("leftArm", leftArm);
         playerEventDeath.Add("rightArm", rightArm);
+        playerEventDeath.Add("runTime", currentLevelTime);
+
 
         currentLevelDeaths++;
 
 #if UNITY_EDITOR
-// Debug.Log(String.Format("Player death event fired: {0}, {1}, {2}, {3}", level, wave.ToString(), leftArm, rightArm));
+        // Debug.Log(String.Format("Player death event fired: {0}, {1}, {2}, {3}", level, wave.ToString(), leftArm, rightArm));
 #endif
 
 #if !UNITY_EDITOR

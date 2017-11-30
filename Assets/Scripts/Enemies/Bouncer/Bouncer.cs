@@ -8,12 +8,14 @@ using System;
 public class BouncerProperties : AIProperties
 {
     [Range(1, 10)] public int bouncerBounces;
-    [Range(1f, 100f)] public float bouncerWaitShotTime;
+    [Range(1, 10)] public int bouncerShots;
+    public bool bouncerRotate;
 
     public void InitializeProperties()
     {
         bounces = bouncerBounces;
-        waitShotTime = bouncerWaitShotTime;
+        numberOfShots = bouncerShots;
+        rotate = bouncerRotate;
     }
 
 }
@@ -73,16 +75,18 @@ public class Bouncer : EnemyBase
     {
         if (controller.CurrentState == fire)
         {
+            if (myStats.health <= myStats.skinnableHealth)
+            {
+                controller.CurrentState = stun;
+                controller.UpdateState(EAIState.Stun);
+                controller.DeActivateAI();
+            }
 
             if (fire.DoneFiring())
             {
                 controller.UpdateState(EAIState.Chase);
-                return true;
             }
-            else
-            {
-                return false;
-            }
+            return true;
         }
         return false;
     }
@@ -99,11 +103,35 @@ public class Bouncer : EnemyBase
 
     }
 
+    public void DoneJumpStart()
+    {
+        chase.doneStartingJump = true;
+    }
+
+    public void DoneJumpLanding()
+    {
+        chase.doneLandingJump = true;
+    }
+
+
     public override void ResetForRebirth()
     {
-        copUICanvas.gameObject.SetActive(false);
         base.ResetForRebirth();
     }
+
+    public void FireBullet()
+    {
+        if (fire.shotCount >= properties.numberOfShots)
+        {
+            fire.doneFiring = true;
+        }
+        else
+        {
+            fire.FireBullet();
+            fire.shotCount++;
+        }
+    }
+
 
     #endregion
 
@@ -123,12 +151,11 @@ public class Bouncer : EnemyBase
         aiStates.Add(stun);
     }
 
-   
-    #endregion
-
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, closeEnoughToAttackDistance);
     }
+
+    #endregion
 }

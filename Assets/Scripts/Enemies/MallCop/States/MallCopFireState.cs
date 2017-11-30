@@ -6,24 +6,23 @@ using UnityEngine;
 using MovementEffects;
 
 public class MallCopFireState : AIState {
-    
+
     private float currentAngleToTarget;
     private float lastAngleToTarget;
     private float currentWeight;
-    //MallCopBlasterController blasterController;
+    private Vector3 initialPosition;
 
-    int counter;
-    bool doneFiring;
+    public bool endFireDone;
 
     public override void OnEnter() {
+        initialPosition = controller.transform.position;
         navAgent.enabled = false;
         navObstacle.enabled = true;
-        animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.Fire1);
+        animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.ReadyFire);
         animator.SetInteger(Strings.FEETSTATE, (int)AnimationStates.TurnLeft);
-        Timing.RunCoroutine(RunStartupTimer(), coroutineName);
-        doneFiring = false;
-        //blasterController = (MallCopBlasterController)controller;
-       
+        endFireDone = false;
+        animator.SetLayerWeight(1, 0.0f);
+
     }
     public override void Update() {
         currentWeight = animator.GetLayerWeight(1);
@@ -32,80 +31,56 @@ public class MallCopFireState : AIState {
         navAgent.velocity = Vector3.zero;
         lastAngleToTarget = CheckAngle();
         CheckRotationDifference();
+        FreezePosition();
     }
 
     public override void OnExit() {
         navObstacle.enabled = false;
         navAgent.enabled = true;
-
-        //blasterController.feetLayerAnimator.Stop(coroutineName);
-        //blasterController.feetLayerAnimatorReverse.Stop(coroutineName);
+        endFireDone = false;
         animator.SetLayerWeight(1, 0.0f);
-        
-    }
-
-
-    IEnumerator<float> RunStartupTimer() {
-        isPastStartup = false;
-        yield return Timing.WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
-        isPastStartup = true;
-    }
-    bool isPastStartup;
-
-    public bool CanRestart() {
-
-        if (isPastStartup)
-        {
-            doneFiring = true;
-        }
-        else
-        {
-            doneFiring = false;
-        }
-
-        return doneFiring;
     }
 
     private void CheckRotationDifference()
     {
         float difference = Mathf.Abs(currentAngleToTarget - lastAngleToTarget);
 
-        if (difference >= 0.01f)// && !blasterController.feetLayerAnimator.IsAnimating)
+        if (difference >= 0.01f)
         {
-            //blasterController.feetLayerAnimatorReverse.Stop(coroutineName);
-            //blasterController.feetLayerAnimator.startValue = animator.GetLayerWeight(1);
-            //blasterController.feetLayerAnimator.diff = 1f-animator.GetLayerWeight(1);
-            //blasterController.feetLayerAnimator.OnUpdate = (val) => {
             currentWeight = Mathf.Lerp(currentWeight, 1.0f, Time.deltaTime);
             animator.SetLayerWeight(1, currentWeight);
-            //};
-            //blasterController.feetLayerAnimator.Animate(coroutineName);
         }
-        else if (difference < 0.01f )//&& !blasterController.feetLayerAnimatorReverse.IsAnimating)
+        else if (difference < 0.01f)
         {
-            //blasterController.feetLayerAnimator.Stop(coroutineName);
-
-            //blasterController.feetLayerAnimatorReverse.startValue = animator.GetLayerWeight(1);
-            //blasterController.feetLayerAnimatorReverse.diff = 0f-animator.GetLayerWeight(1);
-            //blasterController.feetLayerAnimatorReverse.OnUpdate = (val) =>
-            //{
             currentWeight = Mathf.Lerp(currentWeight, 0.0f, Time.deltaTime * 0.5f);
             animator.SetLayerWeight(1, currentWeight);
-            //};
-            //blasterController.feetLayerAnimatorReverse.Animate(coroutineName);
         }
-
-       //Debug.Log(animator.GetLayerWeight(1));
-
-
     }
 
     private float CheckAngle()
-    {        
+    {
         float angleToTarget = Vector3.Angle(controller.transform.forward, controller.DirectionToTarget);
         return angleToTarget;
     }
 
+    private void FreezePosition()
+    {
+        controller.transform.position = initialPosition;
+    }
 
+    public void ReadyToFireDone()
+    {
+        animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.Fire1);
+    }
+
+    public void StartEndFire()
+    {
+        animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.EndFire);
+    }
+
+    public void EndFireDone()
+    {
+        controller.UpdateState(EAIState.Chase);
+    }
 
 }

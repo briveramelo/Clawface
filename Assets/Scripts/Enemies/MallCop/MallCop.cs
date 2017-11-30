@@ -47,6 +47,9 @@ public class MallCop : EnemyBase
             CheckToFinishFiring,
             CheckIfStunned
         };
+
+        mod.damage = myStats.attack;
+
         base.Awake();
     }
 
@@ -60,9 +63,9 @@ public class MallCop : EnemyBase
         Vector3 fwd = controller.DirectionToTarget;
         RaycastHit hit;
 
-        if ((controller.CurrentState== chase && controller.DistanceFromTarget < closeEnoughToFireDistance))
+        if ((controller.CurrentState== chase && controller.DistanceFromTarget <= closeEnoughToFireDistance))
         {
-            if (Physics.Raycast(controller.transform.position, fwd, out hit, 50, ~LayerMask.GetMask(Strings.Layers.ENEMY)))
+            if (Physics.Raycast(controller.transform.position, fwd, out hit, 50, LayerMask.GetMask(Strings.Layers.MODMAN, Strings.Layers.OBSTACLE)))
             {
                 if(hit.transform.tag == Strings.Tags.PLAYER)
                 controller.UpdateState(EAIState.Fire);
@@ -73,33 +76,26 @@ public class MallCop : EnemyBase
     }
     bool CheckToFinishFiring()
     {
-        if (controller.CurrentState == fire && fire.CanRestart())
+        if (controller.CurrentState == fire)
         {
 
-            bool shouldChase = controller.DistanceFromTarget > maxDistanceBeforeChasing;
-
-            if (shouldChase)
+            if (controller.DistanceFromTarget > closeEnoughToFireDistance)
             {
-                controller.UpdateState(EAIState.Chase);
+                fire.StartEndFire();
             }
             else
             {
                 Vector3 fwd = controller.DirectionToTarget;
                 RaycastHit hit;
 
-                if (Physics.Raycast(controller.transform.position, fwd, out hit, 50, ~LayerMask.GetMask(Strings.Layers.ENEMY)))
+                if (Physics.Raycast(controller.transform.position, fwd, out hit, 50, LayerMask.GetMask(Strings.Layers.MODMAN,Strings.Layers.OBSTACLE)))
                 {
                     if (hit.transform.tag != Strings.Tags.PLAYER)
-                        controller.UpdateState(EAIState.Chase);
-
-                    else if (hit.transform.tag == Strings.Tags.PLAYER)
-                        controller.UpdateState(EAIState.Fire);
+                    {
+                        fire.StartEndFire();
+                    }
                 }
-                else
-                {
-                    controller.UpdateState(EAIState.Chase);
-
-                }
+               
             }
             return true;
         }
@@ -129,11 +125,31 @@ public class MallCop : EnemyBase
 
     public override void ResetForRebirth()
     {
-        copUICanvas.gameObject.SetActive(false);
         mod.DeactivateModCanvas();
         mod.setModSpot(ModSpot.ArmR);
         base.ResetForRebirth();
     }
+
+    public void ReadyToFire()
+    {
+        fire.ReadyToFireDone();
+    }
+
+    public void EndFireDone()
+    {
+        fire.EndFireDone();
+    }
+
+    public void StartAiming ()
+    {
+        animator.SetLayerWeight (2, 1.0f);
+    }
+
+    public void StopAiming ()
+    {
+        animator.SetLayerWeight (2, 0.0f);
+    }
+
 
     #endregion
 
@@ -157,8 +173,8 @@ public class MallCop : EnemyBase
     {
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, closeEnoughToFireDistance);
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(playerDetectorSphereCollider.transform.position, maxDistanceBeforeChasing);
+        //Gizmos.color = Color.green;
+        //Gizmos.DrawWireSphere(playerDetectorSphereCollider.transform.position, maxDistanceBeforeChasing);
     }
 
     #endregion

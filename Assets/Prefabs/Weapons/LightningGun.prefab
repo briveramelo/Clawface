@@ -251,19 +251,20 @@ MonoBehaviour:
   pickupCollider: {fileID: 65209099370088602}
   modCanvas: {fileID: 1431774864512322}
   energySettings:
-    timeToCoolDown: 0.5
+    timeToCoolDown: 0.45
     isCoolingDown: 0
     isActive: 0
-  shootSFX: 0
+  shootSFX: 2
   muzzleTransform: {fileID: 4564136626918456}
   projectileProperties:
     projectileSpeed: 40
     projectileHitDamage: 0.75
-    homingAngle: 360
-    homingRadius: 7
+    homingAngle: 60
+    homingRadius: 6
     maxChainableEnemies: 5
     maxDistance: 20
     maxDistancePerSubChain: 20
+    lightningSFX: 2
 --- !u!114 &114399477563612414
 MonoBehaviour:
   m_ObjectHideFlags: 1
