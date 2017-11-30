@@ -94,14 +94,14 @@ public class ScoreManager : Singleton<ScoreManager> {
     {
         if (useAlternateScoreMode)
         {
-            if (parameters != null && parameters[0] != null)
+            if (parameters != null && parameters[1] != null)
             {
-                AddToScore((int)parameters[0]);
+                AddToScore((int)parameters[1]);
             }
         }
         else
         {
-            AddToScoreAndCombo((int)parameters[0]);
+            AddToScoreAndCombo((int)parameters[1]);
         }
     }
 

@@ -704,7 +704,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1697594495471972}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.4, z: 0}
   m_LocalScale: {x: 1.25, y: 1.25, z: 1.25}
   m_Children:
   - {fileID: 4906929496195208}
@@ -1163,10 +1163,9 @@ MonoBehaviour:
   myStats: {fileID: 114585084290289136}
   navAgent: {fileID: 195467075105033086}
   navObstacle: {fileID: 208370818041086144}
-  eatHealth: 100
+  eatHealth: 10
   bloodEmissionLocation: {fileID: 4953175451998414}
-  scorePopupDelay: 2
-  scoreValue: 200
+  scoreValue: 150
   grabObject: {fileID: 1613971381554584}
   hitFlasher: {fileID: 114419598569920118}
   hitSFX: 0
@@ -1192,6 +1191,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0123960e979242643bb00da688f4b22c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitFlashColor: {r: 1, g: 1, b: 1, a: 1}
+  hitFlashStrength: 1
+  hitFlashTime: 0.25
+  stunnedFlashColor: {r: 1, g: 0.02745098, b: 0.22745098, a: 1}
+  stunnedFlashInterval: 0.5
+  stunnedFlashStrength: 1
+  stunnedFlashPower: 1
 --- !u!114 &114585084290289136
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1203,15 +1209,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c7112b3692977d4987101d9add4e51f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attack: 7
+  attack: 15
   defense: 5
-  health: 50
+  health: 10
   maxHealth: 0
   moveSpeed: 5
   rangedAccuracy: 1
   shotSpeed: 20
   shotPushForce: 0
-  skinnableHealth: 10
+  skinnableHealth: 3
   exp: 2
 --- !u!114 &114694166038940668
 MonoBehaviour:

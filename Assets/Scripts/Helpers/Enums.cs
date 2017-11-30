@@ -20,21 +20,11 @@ public enum SFXType {
     BloodExplosion,
     BlasterProjectileImpact,
     BlasterShoot,
-    GrapplingGun_Shoot,
-    TankTreads_Attack,
-    TankTreads_Swing, 
     Dash,
-    SegwayBlast_Standard,
-    SegwayBlast,
-    Boomerang_Throw, 
-    DiceLauncher_Shoot,
-    GeyserMod_Splash,
-    GeyserMod_MiniSplash,
+    Boomerang_Throw,
     Boomerang_Impact,
     PlayerTakeDamage,
     PlayerDeath,
-    ModCooldown,
-    MallCopHurt,
     UI_Click,
     UI_Hover,
     UI_Back
@@ -127,6 +117,7 @@ public enum PoolObjectType {
     VFXBoomerangImpact = 39,
     VFXGeyserShoot = 41,
     VFXGeyserImpact = 42,
+    VFXKamikazeExplosion = 43,
 
     //BulletTypes
     TurretBullet = 28,
@@ -202,7 +193,14 @@ public enum AnimationStates {
     Fire2 = 31,
     Fire3 = 32,
 
+    ReadyFire = 301,
+    EndFire = 302,
+
     Stunned = 4,
+
+    StartingJump = 5,
+    Jumping = 51,
+    EndJump = 52,
 
     TurnLeft = 6,
     TurnRight = 61,

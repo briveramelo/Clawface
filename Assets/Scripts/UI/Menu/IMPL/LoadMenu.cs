@@ -129,6 +129,9 @@ public class LoadMenu : Menu {
             yield return new WaitForEndOfFrame();
         }
 
+        // Prewarm shaders to prevent lag during level.
+        Shader.WarmupAllShaders();
+
         loadingBar.size = 1.0F;
         loadingText.text = "Press any key to continue...";
         loaded = true;

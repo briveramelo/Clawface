@@ -18,7 +18,7 @@ public class GorePainter : MonoBehaviour {
     }
 
     void OnEnable() {        
-        gameObject.DeActivate(4f);
+        //gameObject.DeActivate(4f);
     }
 
 
