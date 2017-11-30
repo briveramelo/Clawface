@@ -23,6 +23,7 @@ public class PlayerStateManager : MonoBehaviour {
     private float dashCoolDown;
 
     [SerializeField] private EatingState eatingState;
+    [SerializeField] private SphereCollider eatCollider;
     #endregion
 
     #region Private Fields
@@ -46,6 +47,7 @@ public class PlayerStateManager : MonoBehaviour {
         eatingState.Init(ref stateVariables);
         movementState = defaultState;
         playerStates = new List<IPlayerState>(){ defaultState};
+        eatCollider.radius = stateVariables.eatRadius;
 
         //for input blocking 
         EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_COMPLETED, BlockInput);
@@ -100,6 +102,16 @@ public class PlayerStateManager : MonoBehaviour {
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        SetEnemyCloseToEat(other, true);
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        SetEnemyCloseToEat(other, false);
+    }
+
     private void OnDestroy()
     {
         EventSystem instance = EventSystem.Instance;
@@ -114,6 +126,22 @@ public class PlayerStateManager : MonoBehaviour {
     #endregion
 
     #region Private Methods
+
+    private void SetEnemyCloseToEat(Collider other, bool state)
+    {
+        if (other.tag.Equals(Strings.Tags.ENEMY))
+        {
+            IEatable skinnable = other.GetComponent<IEatable>();
+            if (skinnable != null && skinnable.IsEatable())
+            {
+                EnemyBase enemyBase = other.GetComponent<EnemyBase>();
+                if (enemyBase)
+                {
+                    enemyBase.CloserToEat(state);
+                }
+            }
+        }
+    }
 
     private void BlockInput(params object[] parameter)
     {
