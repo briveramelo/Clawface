@@ -5,41 +5,57 @@ using MovementEffects;
 
 public class BouncerFireState : AIState {
 
-    private bool doneFiring = false;
-    private float firingWaitTime;
+    public bool doneFiring = false;
+    public int shotCount = 0;
+    private Vector3 initialPosition;
+
+    private float rotation;
+    private float rotationSpeed = 50.0f;
+
 
     public override void OnEnter()
     {
-        navAgent.enabled = false;
-        navObstacle.enabled = true;
-        animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.Idle);
+        shotCount = 0;
+        initialPosition = controller.transform.position;
+        rotation = controller.transform.eulerAngles.y;
+        animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.Fire1);
         doneFiring = false;
-        firingWaitTime = properties.waitShotTime;
-        Timing.RunCoroutine(RunStartupTimer(), coroutineName);
     }
     public override void Update()
     {
-        controller.transform.LookAt(controller.AttackTarget);
-        controller.transform.rotation = Quaternion.Euler(0.0f, controller.transform.rotation.y, controller.transform.rotation.z);
+        if (properties.rotate)
+        {
+            DoRotationPattern();
+        }
+
+        FreezePosition();
     }
     public override void OnExit()
-    { 
-        navObstacle.enabled = false;
-        navAgent.enabled = true;
-    }
-
-
-    IEnumerator<float> RunStartupTimer()
     {
-        bulletPatternController.enabled = true;
-        yield return Timing.WaitForSeconds(firingWaitTime);
-        bulletPatternController.enabled = false;
-        doneFiring = true;
+        animator.speed = 1.0f;
+        shotCount = 0;
     }
 
     public bool DoneFiring()
     {
         return doneFiring;
+    }
+
+    private void FreezePosition()
+    {
+        controller.transform.position = initialPosition;
+    }
+
+    void DoRotationPattern()
+    {
+        rotation += Time.deltaTime * rotationSpeed;
+        controller.transform.eulerAngles = new Vector3(0.0f,rotation,0.0f);
+       
+    }
+
+    public void FireBullet()
+    {
+        bulletPatternController.FireBullet();
     }
 
 }

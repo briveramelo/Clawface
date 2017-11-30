@@ -6,25 +6,23 @@ using UnityEngine;
 using MovementEffects;
 
 public class MallCopFireState : AIState {
-    
+
     private float currentAngleToTarget;
     private float lastAngleToTarget;
     private float currentWeight;
     private Vector3 initialPosition;
 
-    int counter;
-    bool doneFiring;
+    public bool endFireDone;
 
     public override void OnEnter() {
         initialPosition = controller.transform.position;
         navAgent.enabled = false;
         navObstacle.enabled = true;
-        animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.Fire1);
+        animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.ReadyFire);
         animator.SetInteger(Strings.FEETSTATE, (int)AnimationStates.TurnLeft);
-        Timing.RunCoroutine(RunStartupTimer(), coroutineName);
-        doneFiring = false;
+        endFireDone = false;
         animator.SetLayerWeight(1, 0.0f);
-        
+
     }
     public override void Update() {
         currentWeight = animator.GetLayerWeight(1);
@@ -39,30 +37,8 @@ public class MallCopFireState : AIState {
     public override void OnExit() {
         navObstacle.enabled = false;
         navAgent.enabled = true;
+        endFireDone = false;
         animator.SetLayerWeight(1, 0.0f);
-        
-    }
-
-
-    bool isPastStartup;
-    IEnumerator<float> RunStartupTimer() {
-        isPastStartup = false;
-        yield return Timing.WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
-        isPastStartup = true;
-    }
-
-    public bool CanRestart() {
-
-        if (isPastStartup)
-        {
-            doneFiring = true;
-        }
-        else
-        {
-            doneFiring = false;
-        }
-
-        return doneFiring;
     }
 
     private void CheckRotationDifference()
@@ -74,7 +50,7 @@ public class MallCopFireState : AIState {
             currentWeight = Mathf.Lerp(currentWeight, 1.0f, Time.deltaTime);
             animator.SetLayerWeight(1, currentWeight);
         }
-        else if (difference < 0.01f )
+        else if (difference < 0.01f)
         {
             currentWeight = Mathf.Lerp(currentWeight, 0.0f, Time.deltaTime * 0.5f);
             animator.SetLayerWeight(1, currentWeight);
@@ -82,7 +58,7 @@ public class MallCopFireState : AIState {
     }
 
     private float CheckAngle()
-    {        
+    {
         float angleToTarget = Vector3.Angle(controller.transform.forward, controller.DirectionToTarget);
         return angleToTarget;
     }
@@ -92,5 +68,19 @@ public class MallCopFireState : AIState {
         controller.transform.position = initialPosition;
     }
 
+    public void ReadyToFireDone()
+    {
+        animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.Fire1);
+    }
+
+    public void StartEndFire()
+    {
+        animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.EndFire);
+    }
+
+    public void EndFireDone()
+    {
+        controller.UpdateState(EAIState.Chase);
+    }
 
 }

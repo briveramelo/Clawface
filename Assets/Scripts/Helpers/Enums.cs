@@ -193,7 +193,14 @@ public enum AnimationStates {
     Fire2 = 31,
     Fire3 = 32,
 
+    ReadyFire = 301,
+    EndFire = 302,
+
     Stunned = 4,
+
+    StartingJump = 5,
+    Jumping = 51,
+    EndJump = 52,
 
     TurnLeft = 6,
     TurnRight = 61,
