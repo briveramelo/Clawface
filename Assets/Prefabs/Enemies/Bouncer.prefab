@@ -3396,11 +3396,16 @@ MonoBehaviour:
     hitRate: 0
     selfDestructTime: 0
     blastRadius: 0
-    bounces: 2
+    minBounces: 0
+    maxBounces: 0
+    minShots: 0
+    maxShots: 0
     numberOfShots: 0
     rotate: 0
-    bouncerBounces: 2
-    bouncerShots: 5
+    maxBouncerBounces: 5
+    minBouncerBounces: 2
+    maxBouncerShots: 8
+    minBouncerShots: 4
     bouncerRotate: 0
   bulletPatternController: {fileID: 114428446350129332}
 --- !u!114 &114140393944466040
@@ -5103,7 +5108,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 1351927175794106}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.36
+  m_Radius: 0.83
   m_Speed: 2
   m_Acceleration: 15
   avoidancePriority: 10
