@@ -37,6 +37,7 @@ public class MallCop : EnemyBase
     public override void Awake()
     {        
         InitilizeStates();
+        fire.fireRange = closeEnoughToFireDistance;
         controller.Initialize(properties, mod, velBody, animator, myStats, navAgent, navObstacle, aiStates);
         mod.setModSpot(ModSpot.ArmR);
         mod.AttachAffect(ref myStats, velBody);
@@ -67,8 +68,11 @@ public class MallCop : EnemyBase
         {
             if (Physics.Raycast(controller.transform.position, fwd, out hit, 50, LayerMask.GetMask(Strings.Layers.MODMAN, Strings.Layers.OBSTACLE)))
             {
-                if(hit.transform.tag == Strings.Tags.PLAYER)
-                controller.UpdateState(EAIState.Fire);
+                if (hit.transform.tag == Strings.Tags.PLAYER)
+                {
+                    fire.firstDetection = true;
+                    controller.UpdateState(EAIState.Fire);
+                }
             }
             return true;
         }
@@ -76,10 +80,15 @@ public class MallCop : EnemyBase
     }
     bool CheckToFinishFiring()
     {
-        if (controller.CurrentState == fire)
+        if (controller.CurrentState == fire && fire.DoneFiring())
         {
-
-            if (controller.DistanceFromTarget > closeEnoughToFireDistance)
+            if (myStats.health <= myStats.skinnableHealth)
+            {
+                controller.CurrentState = stun;
+                controller.UpdateState(EAIState.Stun);
+                controller.DeActivateAI();
+            }
+            else if (controller.DistanceFromTarget > closeEnoughToFireDistance)
             {
                 fire.StartEndFire();
             }
@@ -147,6 +156,7 @@ public class MallCop : EnemyBase
 
     public void StopAiming ()
     {
+        fire.StopAiming();
         animator.SetLayerWeight (2, 0.0f);
     }
 
