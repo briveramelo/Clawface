@@ -12,11 +12,15 @@ public class BouncerChaseState : AIState {
     private float jumpTargetDistance = 10f;
     private bool moving = false;
     private float height = 12.0f;
-    private float tolerance = 0.35f;
+    private float tolerance = 0.1f;
     private int jumpCount = 0;
     private int maxJumpCount;
     private NavMeshHit hit;
     private Vector3 finalPosition;
+
+    //Smooth Lerping
+    float lerpTime = 1.0f;
+    float currentLerpTime;
 
 
     public bool doneStartingJump;
@@ -28,13 +32,14 @@ public class BouncerChaseState : AIState {
 
         controller.AttackTarget = controller.FindPlayer();
         jumpCount = 0;
-        maxJumpCount = properties.bounces;
+        maxJumpCount = Random.Range(properties.minBounces, properties.maxBounces);
         moving = false;
         doneStartingJump = false;
         doneLandingJump = false;
     }
     public override void Update()
     {
+       
         Chase();
     }
 
@@ -77,7 +82,7 @@ public class BouncerChaseState : AIState {
             bool gotChasePoint = false;
             Vector3 moveDirection = controller.DirectionToTarget;
             jumpTarget = controller.transform.position + (moveDirection.normalized * jumpTargetDistance);
-            
+
             if (navAgent.SetDestination(jumpTarget))
             {
                 finalPosition = jumpTarget;
@@ -88,7 +93,7 @@ public class BouncerChaseState : AIState {
             {
             moving = true;
             Timing.RunCoroutine(Move(), coroutineName);
-        }
+            }
     }
 
 
@@ -105,53 +110,19 @@ public class BouncerChaseState : AIState {
         Vector3 initialPosition = controller.transform.position;
         Vector3 targetPosition = new Vector3(finalPosition.x, 0.2f, finalPosition.z);
 
-        Vector3 midpoint = (initialPosition + targetPosition) * 0.5f;
+        Vector3 smoothMidpoint1 = initialPosition + ((targetPosition - initialPosition) * 0.2f);
+        Vector3 midpoint = initialPosition + ((targetPosition - initialPosition) * 0.5f);
+        Vector3 smoothMidpoint2 = initialPosition + ((targetPosition - initialPosition) * 0.8f);
+
         midpoint.y += height;
+        smoothMidpoint1.y += height * 0.7f;
+        smoothMidpoint2.y += height * 0.7f;
 
+        yield return Timing.WaitUntilDone(Timing.RunCoroutine(LerpToNextPosition(initialPosition, smoothMidpoint1, myStats.moveSpeed*2.5f), coroutineName));
+        yield return Timing.WaitUntilDone(Timing.RunCoroutine(LerpToNextPosition(smoothMidpoint1, midpoint, myStats.moveSpeed * 2.0f), coroutineName));
+        yield return Timing.WaitUntilDone(Timing.RunCoroutine(LerpToNextPosition(midpoint, smoothMidpoint2, myStats.moveSpeed * 2.5f), coroutineName));
+        yield return Timing.WaitUntilDone(Timing.RunCoroutine(LerpToNextPosition(smoothMidpoint2, targetPosition, myStats.moveSpeed * 3.0f), coroutineName));
 
-        float interpolation = 0.0f;
-
-        while (interpolation < 1.0f)
-        {
-
-            animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.Jumping);
-
-            interpolation += Time.deltaTime * myStats.moveSpeed;
-
-            controller.transform.position = Vector3.Lerp(initialPosition, midpoint, interpolation);
-
-            if (Vector3.Distance(controller.transform.position, midpoint) < tolerance)
-            {
-                controller.transform.position = midpoint;
-                break;
-            }
-
-            yield return 0.0f;
-        }
-        controller.transform.position = midpoint;
-
-        interpolation = 0.0f;
-
-        while (interpolation < 1.0f)
-        {
-
-            interpolation += Time.deltaTime * myStats.moveSpeed;
-
-            controller.transform.position = Vector3.Lerp(midpoint, targetPosition, interpolation);
-
-            if (Vector3.Distance(controller.transform.position, targetPosition) < tolerance)
-            {
-                controller.transform.position = targetPosition;
-                
-                break;
-            }
-               
-
-            yield return 0.0f;
-        }
-
-        controller.transform.position = targetPosition;
-        interpolation = 1.0f;
 
         animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.EndJump);
 
@@ -159,17 +130,44 @@ public class BouncerChaseState : AIState {
         {
             yield return 0.0f;
         }
-
-
         doneStartingJump = false;
         doneLandingJump = false;
         jumpCount++;
 
         moving = false;
-
-
-
     }
+
+
+    private IEnumerator<float> LerpToNextPosition(Vector3 initialPosition, Vector3 targetPosition, float lerpSpeed)
+    {
+        float interpolation = 0.0f;
+        currentLerpTime = 0.0f;
+
+        while (interpolation< 1.0f)
+        {
+            currentLerpTime += Time.deltaTime * lerpSpeed;
+            if (currentLerpTime > lerpTime)
+            {
+                currentLerpTime = lerpTime;
+            }
+            interpolation = currentLerpTime / lerpTime;
+
+            animator.SetInteger(Strings.ANIMATIONSTATE, (int) AnimationStates.Jumping);
+
+            controller.transform.position = Vector3.Lerp(initialPosition, targetPosition, interpolation);
+
+            if (Vector3.Distance(controller.transform.position, targetPosition) < tolerance)
+            {
+                controller.transform.position = targetPosition;
+                break;
+            }
+
+            yield return 0.0f;
+        }
+        controller.transform.position = targetPosition;
+        interpolation = 1.0f;
+    }
+
 
     public bool OverMaxJumpCount()
     {
