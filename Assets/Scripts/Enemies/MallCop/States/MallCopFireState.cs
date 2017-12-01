@@ -11,18 +11,24 @@ public class MallCopFireState : AIState {
     private float lastAngleToTarget;
     private float currentWeight;
     private Vector3 initialPosition;
+    private bool doneFiring;
 
-    public bool endFireDone;
+    public float fireRange;
+    public bool firstDetection;
 
     public override void OnEnter() {
         initialPosition = controller.transform.position;
         navAgent.enabled = false;
         navObstacle.enabled = true;
-        animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.ReadyFire);
-        animator.SetInteger(Strings.FEETSTATE, (int)AnimationStates.TurnLeft);
-        endFireDone = false;
-        animator.SetLayerWeight(1, 0.0f);
+        doneFiring = false;
+        if (controller.DistanceFromTarget <= fireRange && !firstDetection)
+            animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.Fire1);
+        else
+            animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.ReadyFire);
 
+        animator.SetInteger(Strings.FEETSTATE, (int)AnimationStates.TurnLeft);
+        animator.SetLayerWeight(1, 0.0f);
+        firstDetection = false;
     }
     public override void Update() {
         currentWeight = animator.GetLayerWeight(1);
@@ -37,7 +43,7 @@ public class MallCopFireState : AIState {
     public override void OnExit() {
         navObstacle.enabled = false;
         navAgent.enabled = true;
-        endFireDone = false;
+        doneFiring = false;
         animator.SetLayerWeight(1, 0.0f);
     }
 
@@ -73,6 +79,11 @@ public class MallCopFireState : AIState {
         animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.Fire1);
     }
 
+    public void StopAiming()
+    {
+        doneFiring = true;
+    }
+
     public void StartEndFire()
     {
         animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.EndFire);
@@ -83,4 +94,8 @@ public class MallCopFireState : AIState {
         controller.UpdateState(EAIState.Chase);
     }
 
+    public bool DoneFiring()
+    {
+        return doneFiring;
+    }
 }
