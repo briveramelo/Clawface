@@ -11,12 +11,12 @@ namespace PlayerLevelEditor
         GameObject _movement;
 
         static GameObject _player;
-        static GameObject _enemyPool;
-
-        List<GameObject> _enemies;
 
         float waveTime = 5.0f;
         float currentTime = 0.0f;
+
+
+        List<GameObject> enemies = new List<GameObject>();
 
         public Test(FunctionController Controller) : base(Controller)
         {
@@ -29,9 +29,6 @@ namespace PlayerLevelEditor
 
             currentTime = waveTime;
 
-            _enemies = new List<GameObject>();
-
-
             CreateSingleton();
             BakeAI();
         }
@@ -41,10 +38,8 @@ namespace PlayerLevelEditor
         {
             base.Update();
 
-            InitObject();
-
-            CreateMonster();
-
+            UpdatePlayer();
+            UpdateMonster();
         }
 
 
@@ -54,17 +49,14 @@ namespace PlayerLevelEditor
 
             _player.SetActive(false);
 
-            DeleteSingleton();
-
-
-            foreach(GameObject _object in _enemies)
+            foreach (GameObject _obj in enemies)
             {
-                if(_object.activeSelf == true)
-                {
-                    _object.SetActive(false);
-                }
+                if (_obj.activeSelf)
+                    _obj.GetComponent<MallCop>().OnDeath();
             }
 
+
+            DeleteSingleton();
         }
 
 
@@ -99,10 +91,10 @@ namespace PlayerLevelEditor
         }
 
 
-        void CreateSingleton(string objectName, GameObject _singletonObject, Vector3 position)
+        GameObject CreateSingleton(string objectName, GameObject _singletonObject, Vector3 position)
         {
             GameObject _prefab;
-            GameObject _instance;
+            GameObject _instance = null;
 
             if (UnityTool.FindGameObject(objectName) == null)
             {
@@ -119,8 +111,11 @@ namespace PlayerLevelEditor
                     _instance = GameObject.Instantiate(_prefab, position, Quaternion.identity);
                     _instance.name = objectName;
                     _instance.transform.SetParent(_singletonObject.transform);
+
                 };
             }
+
+            return _instance;
         }
 
 
@@ -150,18 +145,19 @@ namespace PlayerLevelEditor
         }
 
 
-        void InitObject()
+        void UpdatePlayer()
         {
 
             if (_player == null)
             {
                 _player = UnityTool.FindGameObject("Keira_GroupV1.5(Clone)");
             }
-
-            if(_enemyPool == null)
+            else
             {
-                _enemyPool = UnityTool.FindGameObject("BlasterCop");
+                Stats status = _player.GetComponentInChildren<Stats>();
+                status.health = status.maxHealth;
             }
+
 
             if (_movement == null)
             {
@@ -176,34 +172,43 @@ namespace PlayerLevelEditor
         }
 
 
-        void CreateMonster()
+        void UpdateMonster()
         {
             currentTime -= Time.deltaTime;
 
-            if (currentTime > 0.0f || _enemyPool == null) return;
+            if (currentTime > 0.0f) return;
 
             currentTime = waveTime;
 
-
-            int NumEnemy = 1;
-
-            foreach(Transform enemy in _enemyPool.transform)
+            for (int i = 0; i < 1; i++)
             {
-                if(enemy.gameObject.activeSelf == false)
+                GameObject spawnedObject = ObjectPool.Instance.GetObject(PoolObjectType.MallCopBlaster);
+
+                if (spawnedObject)
                 {
-                    enemy.gameObject.SetActive(true);
+                    enemies.Add(spawnedObject);
 
-                    _enemies.Add(enemy.gameObject);
+                    ISpawnable spawnable = spawnedObject.GetComponentInChildren<ISpawnable>();
 
-                    NumEnemy--;
+                    if (!spawnable.HasWillBeenWritten())
+                    {
+                        spawnable.RegisterDeathEvent(ReportDeath);
+                    }
+
+                    Vector3 spawnPosition = new Vector3(0, 5, 0);
+
+                    spawnable.WarpToNavMesh(spawnPosition);
+                    EventSystem.Instance.TriggerEvent(Strings.Events.ENEMY_SPAWNED, spawnedObject);
                 }
-
-
-                if (NumEnemy == 0) return;
             }
+
         }
 
 
+        private void ReportDeath()
+        {
+
+        }
     }
 
 }

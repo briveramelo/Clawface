@@ -28,7 +28,7 @@ namespace PlayerLevelEditor
         int Num_x = 0;
         int Num_z = 0;
 
-        bool Initialized;
+        static bool Initialized = false;
 
         public Initialize(FunctionController Controller) : base(Controller)
         {
@@ -39,8 +39,6 @@ namespace PlayerLevelEditor
         public override void Init()
         {
             base.Init();
-
-            Initialized = false;
 
             _prefab = Resources.Load("PlayerLevelEditorObjects/Env/test") as GameObject;
             _prefab.transform.localPosition = new Vector3(0, 0, 0);
@@ -165,7 +163,6 @@ namespace PlayerLevelEditor
                     _instance.transform.SetParent(_platform.transform);
                 }
             }
-
         }
 
 
