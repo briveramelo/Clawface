@@ -18,6 +18,7 @@ public class InGameUI : MonoBehaviour {
 
     [Header("Score")]
     [SerializeField] private Text onScreenScore;
+    [SerializeField] private Text onScreenScoreDelta;
 
     [Header("HealthBar")]
     [SerializeField] private Transform healthMask;
@@ -55,6 +56,8 @@ public class InGameUI : MonoBehaviour {
             EventSystem.Instance.RegisterEvent(Strings.Events.COMBO_TIMER_UPDATED, UpdateComboQuadrant);
         }
         onScreenCombo.text = "";
+        onScreenScoreDelta.text = "";
+        onScreenScore.text = "";
     }
     private void OnDestroy()
     {
@@ -83,7 +86,16 @@ public class InGameUI : MonoBehaviour {
         float health = (float)i_healthVal[0];
         Assert.IsTrue(health >= 0.0F && health <= 1.0F);
         healthMask.localScale = new Vector3(health, 1.0F, 1.0F);
-        healthBar.localScale = new Vector3(health == 0 ? 0 : 1 / health, 1.0F, 1.0F);
+        float healthBarScale;
+        if (health == 0) //acounts for NaN cases...
+        {
+            healthBarScale = 0;
+        }
+        else
+        {
+            healthBarScale = 1 / health;
+        }
+        healthBar.localScale = new Vector3(healthBarScale, 1.0F, 1.0F);
     }
     #endregion
 
@@ -118,6 +130,26 @@ public class InGameUI : MonoBehaviour {
         overlay.sprite = null;
         overlay.color = new Color(1.0F, 1.0F, 1.0F, 0.0F);
         glitchInProgress = false;
+    }
+
+    private IEnumerator ShowScoreDelta(GameObject newDeltaGO)
+    {
+
+        Vector3 scale = newDeltaGO.transform.localScale;
+        while (scale.x > 0f)
+        {
+            scale = newDeltaGO.transform.localScale;
+            scale.x -= Time.fixedDeltaTime;
+            scale.y -= Time.fixedDeltaTime;
+            scale.z -= Time.fixedDeltaTime;
+            newDeltaGO.transform.localScale = scale;
+            yield return new WaitForEndOfFrame();            
+        }
+
+        newDeltaGO.transform.localScale = Vector3.zero;
+
+        //Destroy(newDeltaGO);
+        //yield return new WaitForEndOfFrame();
     }
 
     private void UpdateComboQuadrant(params object[] currentQuadrant)
@@ -158,7 +190,16 @@ public class InGameUI : MonoBehaviour {
 
     private void UpdateScore(params object[] score)
     {
+        //[0] new total [1] delta
         onScreenScore.text = score[0].ToString();
+        onScreenScoreDelta.text = "+" + score[1].ToString();
+        onScreenScoreDelta.transform.localScale = Vector3.one;
+        //GameObject newGO = Instantiate(onScreenScoreDelta.gameObject);
+        //onScreenScoreDelta.text = "";
+        //newGO.transform.SetParent(onScreenScoreDelta.transform);
+        //newGO.transform.localPosition = Vector3.zero;
+
+        StartCoroutine(ShowScoreDelta(onScreenScoreDelta.gameObject));
     }
 
     private void UpdateCombo(params object[] currentCombo)
