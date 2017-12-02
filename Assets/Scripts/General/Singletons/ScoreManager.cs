@@ -156,16 +156,19 @@ public class ScoreManager : Singleton<ScoreManager> {
 
     public void AddToScore(int points)
     {
+        int delta = 0;
         if (currentCombo < scoreMultiplierPerCombo.Count)
         {
-            score += (points * scoreMultiplierPerCombo[currentCombo]);
+            delta = points * scoreMultiplierPerCombo[currentCombo];
+            score += delta;
         }
         else
         {
-            score += (points * scoreMultiplierPerCombo[scoreMultiplierPerCombo.Count - 1]);
+            delta = points * scoreMultiplierPerCombo[scoreMultiplierPerCombo.Count - 1];
+            score += delta;
         }
 
-        EventSystem.Instance.TriggerEvent(Strings.Events.SCORE_UPDATED,score);
+        EventSystem.Instance.TriggerEvent(Strings.Events.SCORE_UPDATED,score,delta);
     }
 
     public int GetCurrentMultiplier()
