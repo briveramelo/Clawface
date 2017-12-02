@@ -7,14 +7,18 @@ using System;
 [System.Serializable]
 public class BouncerProperties : AIProperties
 {
-    [Range(1, 10)] public int bouncerBounces;
-    [Range(1, 10)] public int bouncerShots;
+    [Range(1, 10)] public int maxBouncerBounces;
+    [Range(1, 10)] public int minBouncerBounces;
+    [Range(1, 10)] public int maxBouncerShots;
+    [Range(1, 10)] public int minBouncerShots;
     public bool bouncerRotate;
 
     public void InitializeProperties()
     {
-        bounces = bouncerBounces;
-        numberOfShots = bouncerShots;
+        maxBounces = maxBouncerBounces;
+        minBounces = minBouncerBounces;
+        maxShots = maxBouncerShots;
+        minShots = minBouncerShots;
         rotate = bouncerRotate;
     }
 
@@ -121,7 +125,7 @@ public class Bouncer : EnemyBase
 
     public void FireBullet()
     {
-        if (fire.shotCount >= properties.numberOfShots)
+        if (fire.shotCount >= fire.maxShots)
         {
             fire.doneFiring = true;
         }

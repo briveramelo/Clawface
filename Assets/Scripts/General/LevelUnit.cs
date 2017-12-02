@@ -25,6 +25,7 @@ public class LevelUnit : MonoBehaviour {
     private LevelUnitStates nextState;
     private float speed = 0.05f;
     private GameObject blockingObject;
+    private int overlappingObjects;
     #endregion
 
     #region serialized fields
@@ -52,7 +53,6 @@ public class LevelUnit : MonoBehaviour {
         }
         currentState = defaultState;
         CalculateStatePositions();
-        //CreateBlockingObject();
     }
 
     private void Start()
@@ -69,9 +69,32 @@ public class LevelUnit : MonoBehaviour {
     }
 
     void LateUpdate () {
-        if (isTransitioning)
+        if (isTransitioning && overlappingObjects == 0)
         {
             MoveToNewPosition();
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.tag.Equals(Strings.Tags.PLAYER) || collision.gameObject.tag.Equals(Strings.Tags.ENEMY))
+        {
+            if (collision.transform.position.y >= transform.position.y)
+            {
+                overlappingObjects++;
+            }
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.tag.Equals(Strings.Tags.PLAYER) || collision.gameObject.tag.Equals(Strings.Tags.ENEMY))
+        {
+            overlappingObjects--;
+            if(overlappingObjects < 0)
+            {
+                overlappingObjects = 0;
+            }
         }
     }
     #endregion

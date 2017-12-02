@@ -8,6 +8,7 @@ public class BouncerFireState : AIState {
     public bool doneFiring = false;
     public int shotCount = 0;
     private Vector3 initialPosition;
+    public int maxShots;
 
     private float rotation;
     private float rotationSpeed = 50.0f;
@@ -16,6 +17,7 @@ public class BouncerFireState : AIState {
     public override void OnEnter()
     {
         shotCount = 0;
+        maxShots = Random.Range(properties.minShots, properties.maxShots);
         initialPosition = controller.transform.position;
         rotation = controller.transform.eulerAngles.y;
         animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.Fire1);
