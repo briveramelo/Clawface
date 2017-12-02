@@ -32,6 +32,8 @@ public class PlayerStateManager : MonoBehaviour {
     private bool canDash = true;
     private bool stateChanged;
     private bool playerCanMove = true;
+    private bool isTutorialDone;
+    private bool isInTutorial;
     #endregion
 
     #region Unity Lifecycle
@@ -53,10 +55,11 @@ public class PlayerStateManager : MonoBehaviour {
         EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_COMPLETED, BlockInput);
         EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_KILLED, BlockInput);
     }
-	
-	// Update is called once per frame
-	void Update () {
-        if (playerCanMove)
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (playerCanMove && !isInTutorial)
         {
             if (stateChanged && stateVariables.stateFinished)
             {
@@ -77,8 +80,18 @@ public class PlayerStateManager : MonoBehaviour {
             }
 
             playerStates.ForEach(state => state.StateUpdate());
+        }else if (isInTutorial)
+        {
+            if (InputManager.Instance.QueryAction(Strings.Input.Actions.EAT, ButtonMode.DOWN)){
+                if (CheckForEatableEnemy())
+                {
+                    SwitchState(eatingState);
+                }
+                FinishTutorial();
+            }
         }
     }
+
 
     void FixedUpdate()
     {
@@ -105,6 +118,14 @@ public class PlayerStateManager : MonoBehaviour {
     private void OnTriggerEnter(Collider other)
     {
         SetEnemyCloseToEat(other, true);
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if(!isTutorialDone && !isInTutorial)
+        {
+            SetEnemyCloseToEat(other, true);
+        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -138,9 +159,31 @@ public class PlayerStateManager : MonoBehaviour {
                 if (enemyBase)
                 {
                     enemyBase.CloserToEat(state);
+                    if (state)
+                    {
+                        StartTutorial();
+                    }
                 }
             }
         }
+    }
+
+    private void StartTutorial()
+    {
+        if (!isTutorialDone && !isInTutorial)
+        {
+            isInTutorial = true;
+            Time.timeScale = 0f;
+            EventSystem.Instance.TriggerEvent(Strings.Events.SHOW_TUTORIAL_TEXT);
+        }
+    }
+
+    private void FinishTutorial()
+    {
+        isInTutorial = false;
+        isTutorialDone = true;
+        Time.timeScale = 1f;
+        EventSystem.Instance.TriggerEvent(Strings.Events.HIDE_TUTORIAL_TEXT);
     }
 
     private void BlockInput(params object[] parameter)
