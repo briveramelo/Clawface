@@ -89,6 +89,12 @@ namespace ModMan {
             return item;
         }    
 
+        public static T Tail<T> (this List<T> list)
+        {
+            if (list.Count == 0) return default(T);
+
+            return list[list.Count-1];
+        }
     }
 
     public static class ArrayExtensions
