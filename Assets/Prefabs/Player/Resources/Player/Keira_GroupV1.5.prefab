@@ -3308,6 +3308,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa7155796051b734daa718462081dc5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitFlashColor: {r: 1, g: 1, b: 1, a: 1}
+  hitFlashStrength: 1
+  hitFlashTime: 0.25
+  stunnedFlashColor: {r: 1, g: 1, b: 1, a: 1}
+  stunnedFlashInterval: 0.5
+  stunnedFlashStrength: 1
+  stunnedFlashPower: 1
   m_BindingMode: 4
   m_FollowOffset: {x: -16.1, y: 18.3, z: -7.89}
   m_XDamping: 0
