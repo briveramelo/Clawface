@@ -3496,7 +3496,7 @@ MonoBehaviour:
   hitFlashColor: {r: 1, g: 1, b: 1, a: 1}
   hitFlashStrength: 1
   hitFlashTime: 0.25
-  stunnedFlashColor: {r: 1, g: 1, b: 1, a: 1}
+  stunnedFlashColor: {r: 0.741, g: 1, b: 1, a: 1}
   stunnedFlashInterval: 0.5
   stunnedFlashStrength: 1
   stunnedFlashPower: 1
@@ -3680,15 +3680,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c7112b3692977d4987101d9add4e51f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attack: 9
+  attack: 12
   defense: 5
-  health: 22
+  health: 20
   maxHealth: 0
   moveSpeed: 2
   rangedAccuracy: 1
   shotSpeed: 20
   shotPushForce: 0
-  skinnableHealth: 10
+  skinnableHealth: 2
   exp: 2
 --- !u!114 &114948172669487280
 MonoBehaviour:

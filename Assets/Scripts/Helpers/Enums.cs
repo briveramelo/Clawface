@@ -27,7 +27,9 @@ public enum SFXType {
     PlayerDeath,
     UI_Click,
     UI_Hover,
-    UI_Back
+    UI_Back,
+    SpreadshotShoot,
+    LightningGunShoot
 }
 
 public enum MusicType

@@ -103,6 +103,7 @@ public class EatingState : IPlayerState
 
     private void DoArmExtension(params object[] parameters)
     {
+        stateVariables.statsManager.MakeHappy();
         IEatable eatable = stateVariables.eatTargetEnemy.GetComponent<IEatable>();
         Assert.IsNotNull(eatable);
         clawArmController.StartExtension(eatable.GetGrabObject(), stateVariables.clawExtensionTime, stateVariables.clawRetractionTime);
