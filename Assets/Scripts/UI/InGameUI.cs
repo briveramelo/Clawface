@@ -207,7 +207,7 @@ public class InGameUI : MonoBehaviour {
         SetAlphaOfText(onScreenCombo, 1.0f);
         if ((int)currentCombo[0] > 0)
         {
-            onScreenCombo.text = currentCombo[0].ToString();
+            onScreenCombo.text = "x " + currentCombo[0].ToString();
         }
         else
         {
