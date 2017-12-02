@@ -24,7 +24,6 @@ namespace PlayerLevelEditor
         {
             if (UIObject == null)
             {
-                Debug.Log("UIObject is not in Canvas");
                 return;
             }
 

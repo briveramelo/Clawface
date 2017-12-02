@@ -140,6 +140,16 @@ public class MallCop : EnemyBase
         fire.EndFireDone();
     }
 
+    public void StartAiming ()
+    {
+        animator.SetLayerWeight (2, 1.0f);
+    }
+
+    public void StopAiming ()
+    {
+        animator.SetLayerWeight (2, 0.0f);
+    }
+
 
     #endregion
 
