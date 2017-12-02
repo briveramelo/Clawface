@@ -4,6 +4,7 @@ using UnityEngine.Assertions;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class InGameUI : MonoBehaviour {
 
@@ -23,6 +24,9 @@ public class InGameUI : MonoBehaviour {
     [Header("HealthBar")]
     [SerializeField] private Transform healthMask;
     [SerializeField] private Transform healthBar;
+
+    [Header("Tutorial")]
+    [SerializeField] private Text onScreenTutorialText;
 
     [Header("GlitchDamageEffect")]
     [SerializeField] private Sprite[] glitchSprites;
@@ -54,11 +58,18 @@ public class InGameUI : MonoBehaviour {
             EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_DAMAGED, DoDamageEffect);
             EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_HEALTH_MODIFIED, SetHealth);
             EventSystem.Instance.RegisterEvent(Strings.Events.COMBO_TIMER_UPDATED, UpdateComboQuadrant);
+            EventSystem.Instance.RegisterEvent(Strings.Events.SHOW_TUTORIAL_TEXT, ShowTutorialText);
+            EventSystem.Instance.RegisterEvent(Strings.Events.HIDE_TUTORIAL_TEXT, HideTutorialText);
+
         }
         onScreenCombo.text = "";
         onScreenScoreDelta.text = "";
         onScreenScore.text = "";
+        HideTutorialText(null);
     }
+
+  
+
     private void OnDestroy()
     {
 
@@ -71,6 +82,8 @@ public class InGameUI : MonoBehaviour {
             EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_DAMAGED, DoDamageEffect);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_HEALTH_MODIFIED, SetHealth);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.COMBO_TIMER_UPDATED, UpdateComboQuadrant);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.SHOW_TUTORIAL_TEXT, ShowTutorialText);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.HIDE_TUTORIAL_TEXT, HideTutorialText);
         }
     }
     #endregion
@@ -187,6 +200,7 @@ public class InGameUI : MonoBehaviour {
 
         comboTimer.fillAmount = result;
     }
+    
 
     private void UpdateScore(params object[] score)
     {
@@ -223,6 +237,19 @@ public class InGameUI : MonoBehaviour {
         Color c = i_toMod.color;
         c.a = i_newAlpha;
         i_toMod.color = c;
+    }
+
+    private void HideTutorialText(object[] parameters)
+    {
+        //hide dat shit bitch
+        onScreenTutorialText.enabled = false;
+    }
+
+    private void ShowTutorialText(object[] parameters)
+    {
+        //params[0]
+        //"Press LB TO EAT BITCH"
+        onScreenTutorialText.enabled = true;
     }
     #endregion
 }
