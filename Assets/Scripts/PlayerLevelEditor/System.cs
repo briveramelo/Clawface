@@ -17,6 +17,7 @@ namespace PlayerLevelEditor
         Button Btn_Init;
         Button Btn_Add;
         Button Btn_Duplicate;
+        Button Btn_Dynamic;
         Button Btn_Test;
 
         // Use this for initialization
@@ -36,6 +37,11 @@ namespace PlayerLevelEditor
 
             Btn_Duplicate = PlayerLevelEditor.UITool.GetUIComponent<Button>("Function_Duplicate");
             if (Btn_Duplicate != null) Btn_Duplicate.onClick.AddListener(() => UsingDuplicateFunc(Btn_Duplicate));
+
+
+            Btn_Dynamic = PlayerLevelEditor.UITool.GetUIComponent<Button>("Function_Dynamic");
+            if (Btn_Dynamic != null) Btn_Dynamic.onClick.AddListener(() => UsingDynamicFunc(Btn_Dynamic));
+
 
             Btn_Test = PlayerLevelEditor.UITool.GetUIComponent<Button>("Function_Test");
             if (Btn_Test != null) Btn_Test.onClick.AddListener(() => UsingTestFunc(Btn_Test));
@@ -61,6 +67,11 @@ namespace PlayerLevelEditor
         public void UsingDuplicateFunc(Button thisBtn)
         {
             controller.SetFunction(new Duplicate(controller));
+        }
+
+        public void UsingDynamicFunc(Button thisBtn)
+        {
+            controller.SetFunction(new DynamicLevel(controller));
         }
 
         public void UsingTestFunc(Button thisBtn)

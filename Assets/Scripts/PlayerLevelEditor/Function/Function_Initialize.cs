@@ -130,15 +130,15 @@ namespace PlayerLevelEditor
 
             Initialized = true;
 
-            GameObject _platform = new GameObject("LOADED LEVEL");
+            GameObject _platform = new GameObject("LEVEL");
 
             for (int i = -Num_x; i <= Num_x; i++)
             {
                 for (int j = -Num_z; j <= Num_z; j++)
                 {
                     GameObject _instance = GameObject.Instantiate(_prefab, new Vector3(i * PlayerLevelEditor.System.unitsize_x, 0, j * PlayerLevelEditor.System.unitsize_z), Quaternion.identity);
-                    _instance.name = "testBlock";
-
+                    _instance.name = "TestBlock";
+                    _instance.AddComponent<OnClickObject>();
 
                     //Edge + Wall
                     if (i == -Num_x || i == Num_x || j == -Num_z || j == Num_z)
@@ -148,6 +148,7 @@ namespace PlayerLevelEditor
                         GameObject _wall = GameObject.Instantiate(_prefab, new Vector3(i * PlayerLevelEditor.System.unitsize_x, 
                                                                                            PlayerLevelEditor.System.unitsize_y, 
                                                                                        j * PlayerLevelEditor.System.unitsize_z), Quaternion.identity);
+
 
                         _wall.transform.SetParent(_platform.transform);
                         _AddNavMeshModifier(_wall, PlayerLevelEditor.NavMeshAreas.NotWalkable);
