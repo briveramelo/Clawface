@@ -252,6 +252,18 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     {
         isIndestructable = true;
     }
+
+    public void CloserToEat(bool isClose)
+    {
+        if (isClose)
+        {
+            hitFlasher.SetCloseToEatState();
+        }
+        else
+        {
+            hitFlasher.SetStunnedState();
+        }
+    }
     #endregion
 
     #region 6. Private Methods

@@ -33,13 +33,23 @@ namespace PlayerLevelEditor
 
 #if UNITY_EDITOR
                 Texture2D _texture = UnityEditor.AssetPreview.GetAssetPreview(_object);
+
+                if (_texture == null)
+                {
+                    Debug.LogWarning("No Texture for ResourceObj: " + _object);
+                }
+
+
 #else
                 Debug.LogWarning("Need to get a proper thumbnail for level editor prop assets!");
                 Texture2D _texture = Texture2D.whiteTexture;
 #endif
 
-                Sprite _sprite = Sprite.Create(_texture, new Rect(0, 0, _texture.width, _texture.height), new Vector2(0.5f, 0.5f));
-                _item.GetComponentInChildren<UnityEngine.UI.Image>().sprite = _sprite;
+                if(_texture)
+                {
+                    Sprite _sprite = Sprite.Create(_texture, new Rect(0, 0, _texture.width, _texture.height), new Vector2(0.5f, 0.5f));
+                    _item.GetComponentInChildren<UnityEngine.UI.Image>().sprite = _sprite;
+                }
 
                 _item.transform.SetParent(DB_List.transform);
             }

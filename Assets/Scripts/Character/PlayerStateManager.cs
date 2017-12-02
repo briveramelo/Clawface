@@ -23,6 +23,7 @@ public class PlayerStateManager : MonoBehaviour {
     private float dashCoolDown;
 
     [SerializeField] private EatingState eatingState;
+    [SerializeField] private SphereCollider eatCollider;
     #endregion
 
     #region Private Fields
@@ -31,6 +32,8 @@ public class PlayerStateManager : MonoBehaviour {
     private bool canDash = true;
     private bool stateChanged;
     private bool playerCanMove = true;
+    private bool isTutorialDone;
+    private bool isInTutorial;
     #endregion
 
     #region Unity Lifecycle
@@ -46,15 +49,17 @@ public class PlayerStateManager : MonoBehaviour {
         eatingState.Init(ref stateVariables);
         movementState = defaultState;
         playerStates = new List<IPlayerState>(){ defaultState};
+        eatCollider.radius = stateVariables.eatRadius;
 
         //for input blocking 
         EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_COMPLETED, BlockInput);
         EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_KILLED, BlockInput);
     }
-	
-	// Update is called once per frame
-	void Update () {
-        if (playerCanMove)
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (playerCanMove && !isInTutorial)
         {
             if (stateChanged && stateVariables.stateFinished)
             {
@@ -75,8 +80,18 @@ public class PlayerStateManager : MonoBehaviour {
             }
 
             playerStates.ForEach(state => state.StateUpdate());
+        }else if (isInTutorial)
+        {
+            if (InputManager.Instance.QueryAction(Strings.Input.Actions.EAT, ButtonMode.DOWN)){
+                if (CheckForEatableEnemy())
+                {
+                    SwitchState(eatingState);
+                }
+                FinishTutorial();
+            }
         }
     }
+
 
     void FixedUpdate()
     {
@@ -100,6 +115,24 @@ public class PlayerStateManager : MonoBehaviour {
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        SetEnemyCloseToEat(other, true);
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if(!isTutorialDone && !isInTutorial)
+        {
+            SetEnemyCloseToEat(other, true);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        SetEnemyCloseToEat(other, false);
+    }
+
     private void OnDestroy()
     {
         EventSystem instance = EventSystem.Instance;
@@ -114,6 +147,44 @@ public class PlayerStateManager : MonoBehaviour {
     #endregion
 
     #region Private Methods
+
+    private void SetEnemyCloseToEat(Collider other, bool state)
+    {
+        if (other.tag.Equals(Strings.Tags.ENEMY))
+        {
+            IEatable skinnable = other.GetComponent<IEatable>();
+            if (skinnable != null && skinnable.IsEatable())
+            {
+                EnemyBase enemyBase = other.GetComponent<EnemyBase>();
+                if (enemyBase)
+                {
+                    enemyBase.CloserToEat(state);
+                    if (state)
+                    {
+                        StartTutorial();
+                    }
+                }
+            }
+        }
+    }
+
+    private void StartTutorial()
+    {
+        if (!isTutorialDone && !isInTutorial)
+        {
+            isInTutorial = true;
+            Time.timeScale = 0f;
+            EventSystem.Instance.TriggerEvent(Strings.Events.SHOW_TUTORIAL_TEXT);
+        }
+    }
+
+    private void FinishTutorial()
+    {
+        isInTutorial = false;
+        isTutorialDone = true;
+        Time.timeScale = 1f;
+        EventSystem.Instance.TriggerEvent(Strings.Events.HIDE_TUTORIAL_TEXT);
+    }
 
     private void BlockInput(params object[] parameter)
     {

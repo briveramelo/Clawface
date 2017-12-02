@@ -17,7 +17,7 @@ namespace PlayerLevelEditor
         Button Btn_Init;
         Button Btn_Add;
         Button Btn_Duplicate;
-
+        Button Btn_Test;
 
         // Use this for initialization
         void Start()
@@ -35,8 +35,10 @@ namespace PlayerLevelEditor
 
 
             Btn_Duplicate = PlayerLevelEditor.UITool.GetUIComponent<Button>("Function_Duplicate");
-
             if (Btn_Duplicate != null) Btn_Duplicate.onClick.AddListener(() => UsingDuplicateFunc(Btn_Duplicate));
+
+            Btn_Test = PlayerLevelEditor.UITool.GetUIComponent<Button>("Function_Test");
+            if (Btn_Test != null) Btn_Test.onClick.AddListener(() => UsingTestFunc(Btn_Test));
         }
 
         // Update is called once per frame
@@ -59,6 +61,11 @@ namespace PlayerLevelEditor
         public void UsingDuplicateFunc(Button thisBtn)
         {
             controller.SetFunction(new Duplicate(controller));
+        }
+
+        public void UsingTestFunc(Button thisBtn)
+        {
+            controller.SetFunction(new Test(controller));
         }
     }
 

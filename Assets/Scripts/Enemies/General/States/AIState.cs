@@ -61,7 +61,10 @@ public abstract class AIProperties
     [HideInInspector] public float hitRate;
     [HideInInspector] public float selfDestructTime;
     [HideInInspector] public float blastRadius;
-    [HideInInspector] public int bounces;
+    [HideInInspector] public int minBounces;
+    [HideInInspector] public int maxBounces;
+    [HideInInspector] public int minShots;
+    [HideInInspector] public int maxShots;
     [HideInInspector] public int numberOfShots;
     [HideInInspector] public bool rotate;
 }
