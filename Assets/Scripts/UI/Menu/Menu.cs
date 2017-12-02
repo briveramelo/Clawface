@@ -102,6 +102,18 @@ public abstract class Menu : MonoBehaviour {
     }
     #endregion
 
+    #region Internal Interface 
+
+    internal void SelectInitialButton ()
+    {
+        if (InitialSelection != null && Displayed)
+        {
+            InitialSelection.Select();
+        }
+    }
+
+    #endregion
+
     #region Protected Interface
     protected virtual void OnTransitionStarted(Transition transition, Effect[] effects)
     {
@@ -113,9 +125,9 @@ public abstract class Menu : MonoBehaviour {
         if (TransitionEnded != null)
             TransitionEnded(transition, effects);
 
-        if (InitialSelection != null && Displayed) // menu is now visible (it wasn't before)
+        if (!MenuManager.Instance.MouseMode)
         {
-            InitialSelection.Select();
+            SelectInitialButton();
         }
     }
 

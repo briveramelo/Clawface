@@ -44,6 +44,9 @@ namespace Turing.VFX
         [Range(0.01f, 10.0f)]
         [SerializeField] float stunnedFlashInterval = 0.5f;
 
+        [Range(0.01f, 10.0f)]
+        [SerializeField]float proximityFlashInterval = 0.2f;
+
         [Range(0.0f, 1.0f)]
         [SerializeField] float stunnedFlashStrength = 1.0f;
 
@@ -53,6 +56,11 @@ namespace Turing.VFX
         float flashStrength;
 
         #endregion
+
+        #region Private fields
+        private float flashInterval;
+        #endregion
+
         #region Unity Lifecycle
 
         void Awake()
@@ -122,6 +130,7 @@ namespace Turing.VFX
         /// </summary>
         public void SetStunnedState ()
         {
+            flashInterval = stunnedFlashInterval;
             StopAllCoroutines();
             if (gameObject.activeInHierarchy)
                 StartCoroutine(DoStunnedState());
@@ -133,18 +142,25 @@ namespace Turing.VFX
 
             while (true)
             {
-                float percent = Mathf.Clamp01(t / stunnedFlashInterval);
+                float percent = Mathf.Clamp01(t / flashInterval);
 
 
                 float flashStrength = Mathf.Clamp01(Mathf.Pow(stunnedFlashStrength * (0.5f + Mathf.Sin(2f * Mathf.PI * percent) + 0.5f), stunnedFlashPower));
                 SetFlashStrength(flashStrength, stunnedFlashColor);
 
-                t = (t + Time.deltaTime) % (stunnedFlashInterval);
+                t = (t + Time.deltaTime) % (flashInterval);
 
                 yield return null;
             }
         }
 
+        public void SetCloseToEatState()
+        {
+            flashInterval = proximityFlashInterval;
+            StopAllCoroutines();
+            if (gameObject.activeInHierarchy)
+                StartCoroutine(DoStunnedState());
+        }
         #endregion
     }
 }

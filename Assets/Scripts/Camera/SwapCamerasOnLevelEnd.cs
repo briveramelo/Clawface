@@ -7,6 +7,15 @@ public class SwapCamerasOnLevelEnd : MonoBehaviour {
     [SerializeField]
     private Transform endCamera;
 
+    [SerializeField]
+    private Transform keiraMesh;
+
+    [SerializeField]
+    private MoveState moveState;
+
+    [SerializeField]
+    private Rigidbody playerRigidbody;
+
 	// Use this for initialization
 	void Start () {
         EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_COMPLETED, SwitchCameras); 
@@ -14,7 +23,9 @@ public class SwapCamerasOnLevelEnd : MonoBehaviour {
 
     private void OnDestroy()
     {
-        EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_COMPLETED, SwitchCameras);
+        if (EventSystem.Instance) {
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_COMPLETED, SwitchCameras);
+        }
     }
 
 
@@ -22,5 +33,9 @@ public class SwapCamerasOnLevelEnd : MonoBehaviour {
     void SwitchCameras(params object[] parameters)
     {
         endCamera.gameObject.SetActive(true);
+        keiraMesh.LookAt(endCamera);
+        moveState.enabled = false;
+        playerRigidbody.velocity = Vector3.zero;
+        // keiraMesh.localRotation = Quaternion.Euler(0f, keiraMesh.transform.rotation.y, 0f);
     }
 }

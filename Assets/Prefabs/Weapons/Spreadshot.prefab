@@ -431,10 +431,10 @@ MonoBehaviour:
   pickupCollider: {fileID: 65808996196913348}
   modCanvas: {fileID: 1780465521823646}
   energySettings:
-    timeToCoolDown: 0.6
+    timeToCoolDown: 0.55
     isCoolingDown: 0
     isActive: 0
-  shootSFX: 0
+  shootSFX: 11
   gunProperties:
     bulletSpeed: 25
     bulletMaxDistance: 10
@@ -442,6 +442,7 @@ MonoBehaviour:
     bulletMaxScale: 1
     bulletMinDamage: 1
     bulletMaxDamage: 5
+    bulletMinAlpha: 0
   bulletSpawnTransform: {fileID: 4923580559650126}
 --- !u!114 &114242993152467452
 MonoBehaviour:
