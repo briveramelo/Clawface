@@ -1409,7 +1409,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1399819457901250}
-  m_LocalRotation: {x: -0.14075713, y: 0.60093296, z: -0.41663864, w: 0.66744244}
+  m_LocalRotation: {x: -0.17749286, y: 0.47575325, z: -0.3417574, w: 0.7907952}
   m_LocalPosition: {x: -5.06, y: 0.89, z: 23.34}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2642,7 +2642,7 @@ MonoBehaviour:
   velBody: {fileID: 114489776356330050}
   modInventory: {fileID: 114486392158001602}
   modPickupRadius: 1
-  modPool: 000000000100000002000000040000000300000005000000
+  modPool: 04000000
 --- !u!114 &114071297937733786
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2658,6 +2658,7 @@ MonoBehaviour:
   keiraMesh: {fileID: 4806380322644202}
   moveState: {fileID: 114776189445566068}
   playerRigidbody: {fileID: 54953484378717752}
+  playerFace: {fileID: 114929162397462484}
 --- !u!114 &114132200228300390
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2872,13 +2873,13 @@ MonoBehaviour:
   m_LookaheadTime: 0
   m_HorizontalDamping: 0.5
   m_VerticalDamping: 0.5
-  m_ScreenX: 0.5
+  m_ScreenX: 0.81
   m_ScreenY: 0.467
   m_DeadZoneWidth: 0.1
   m_DeadZoneHeight: 0.20491523
   m_SoftZoneWidth: 0.8
   m_SoftZoneHeight: 0.8
-  m_BiasX: 0
+  m_BiasX: -0.000000085149495
   m_BiasY: 0
 --- !u!114 &114317983808851006
 MonoBehaviour:

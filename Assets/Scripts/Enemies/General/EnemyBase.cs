@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using Turing.VFX;
 using ModMan;
+using MovementEffects;
 
 public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatable, ISpawnable
 {
@@ -136,7 +137,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     {
         EventSystem.Instance.TriggerEvent(Strings.Events.EAT_ENEMY);
         aboutTobeEaten = true;
-        Invoke("OnDeath", 0.1f);
+        Timing.RunCoroutine(DelayAction(OnDeath), coroutineName);
         return eatHealth;
     }
 
@@ -154,7 +155,6 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
 
     public virtual void OnDeath()
     {
-
         EventSystem.Instance.TriggerEvent(Strings.Events.DEATH_ENEMY, gameObject, scoreValue);
 
         if (!will.isDead)
