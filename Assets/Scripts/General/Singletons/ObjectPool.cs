@@ -32,6 +32,9 @@ public class ObjectPool : Singleton<ObjectPool> {
     {
         pools.ForEach(pool => { pool.Reset(); });
     }
+    void OnDisable() {
+        //pools.ForEach(pool => print(pool.poolObjectType + " uses: " + pool.mostUsed + " stored: " + pool.size));
+    }
     #endregion
 
 }
@@ -44,6 +47,7 @@ public class Pool
     public PoolObjectType poolObjectType;
     public List<GameObject> prefabs;
     public int size;
+    public int mostUsed;
     [HideInInspector] public List<GameObject> objects;
 
     public Pool(ref List<GameObject> prefabs, PoolObjectType poolObjectType, int size) {
@@ -93,6 +97,10 @@ public class Pool
             Debug.LogFormat("<color=#ffff00>" + debugMessage + "</color>");
         }
         else{
+            int currentIndex = objects.FindIndex(obj => obj == objToReturn);
+            if (currentIndex>mostUsed) {
+                mostUsed = currentIndex+1;
+            }
             objToReturn.SetActive(true);
         }
         return objToReturn;
