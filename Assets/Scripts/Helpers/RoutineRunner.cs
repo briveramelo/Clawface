@@ -15,6 +15,13 @@ public class RoutineRunner : MonoBehaviour {
         yield return Timing.WaitForSeconds(seconds);
         action();
     }
+    protected IEnumerator<float> DelayAction(Action action, int frames)
+    {
+        for (int i = 0; i < frames; i++) {
+            yield return 0f;
+        }
+        action();
+    }
 }
 
 public class RoutineRunnerNonMono {
