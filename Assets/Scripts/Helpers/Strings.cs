@@ -54,7 +54,7 @@
         public const string PAUSE = "PauseMenu";
         public const string TUTORIAL = "TutorialMenu";
         public const string STAGE_OVER = "StageOverMenu";
-        public const string SETTINGS = "Settings";
+        public const string CONTROLS = "Settings";
         public const string LEVEL_SELECT = "LevelSelect";
         public const string WEAPON_SELECT = "WeaponSelect";
     }
