@@ -36,6 +36,10 @@ public class Spawner : RoutineRunner
                 return PoolObjectType.Zombie;
             case SpawnType.Bouncer:
                 return PoolObjectType.Bouncer;
+            case SpawnType.RedBouncer:
+                return PoolObjectType.RedBouncer;
+            case SpawnType.GreenBouncer:
+                return PoolObjectType.GreenBouncer;
             case SpawnType.Kamikaze:
                 return PoolObjectType.Kamikaze;
         }
