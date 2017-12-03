@@ -138,7 +138,8 @@ namespace PlayerLevelEditor
                 {
                     GameObject _instance = GameObject.Instantiate(_prefab, new Vector3(i * PlayerLevelEditor.System.unitsize_x, 0, j * PlayerLevelEditor.System.unitsize_z), Quaternion.identity);
                     _instance.name = "TestBlock";
-                    _instance.AddComponent<OnClickObject>();
+
+                    _instance.AddComponent<ClickableObject>();
 
                     //Edge + Wall
                     if (i == -Num_x || i == Num_x || j == -Num_z || j == Num_z)
@@ -149,10 +150,10 @@ namespace PlayerLevelEditor
                                                                                            PlayerLevelEditor.System.unitsize_y, 
                                                                                        j * PlayerLevelEditor.System.unitsize_z), Quaternion.identity);
 
-
+                        _wall.name = "WallBlock";
                         _wall.transform.SetParent(_platform.transform);
+                        _wall.AddComponent<ClickableObject>();
                         _AddNavMeshModifier(_wall, PlayerLevelEditor.NavMeshAreas.NotWalkable);
-
                     }
                     else if (_instance.GetComponent<LevelUnit>() == null)
                     {
