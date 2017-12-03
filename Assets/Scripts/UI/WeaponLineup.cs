@@ -19,17 +19,17 @@ public class WeaponLineup : MonoBehaviour
 	
 	// Update is called once per frame
 	void Update () {
-	    if (Input.GetKeyUp(KeyCode.Space))
-	    {
-	        MoveLeft();
-	    }
-	    if (Input.GetKeyUp(KeyCode.Backspace))
-	    {
-	        MoveRight();
-	    }
+	    //if (Input.GetKeyUp(KeyCode.Space))
+	    //{
+	    //    MoveLeft();
+	    //}
+	    //if (Input.GetKeyUp(KeyCode.Backspace))
+	    //{
+	    //    MoveRight();
+	    //}
 	}
 
-    void MoveRight()
+    public void MoveRight()
     {
         for (int i = 0; i < weapons.Length; i++)
         {
@@ -66,7 +66,7 @@ public class WeaponLineup : MonoBehaviour
         this.weapons = weaponsCopy;
 
     }
-    void MoveLeft()
+    public void MoveLeft()
     {
         for (int i = 0; i < weapons.Length; i++)
         {
