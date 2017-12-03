@@ -57,6 +57,8 @@ public enum DamagedType {
     Zombie=2,
     Bouncer=3,
     Kamikaze = 4,
+    RedBouncer = 5,
+    GreenBouncer = 6,
 }
 
 public enum ModType {
@@ -140,6 +142,8 @@ public enum PoolObjectType {
     Zombie = 32,
     Bouncer = 33,
     Kamikaze = 34,
+    RedBouncer = 44,
+    GreenBouncer = 45,
 
 }
 
@@ -233,6 +237,8 @@ public enum SpawnType {
     Zombie = 1,
     Bouncer = 2,
     Kamikaze = 3,
+    RedBouncer = 4,
+    GreenBouncer = 5,
 }
 
 public enum ActionType

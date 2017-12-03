@@ -37,7 +37,6 @@ public class BouncerChaseState : AIState {
     }
     public override void Update()
     {
-       
         Chase();
     }
 
