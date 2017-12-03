@@ -34,6 +34,7 @@ public class InGameUI : MonoBehaviour {
     [SerializeField] private float glitchSeconds = 1.0F;
     [SerializeField] private int glitchesPerSecond = 5;
     [SerializeField] private Image overlay;
+    [SerializeField] private CanvasGroup hudCG;
     #endregion
 
     #region Private Fields
@@ -60,15 +61,18 @@ public class InGameUI : MonoBehaviour {
             EventSystem.Instance.RegisterEvent(Strings.Events.COMBO_TIMER_UPDATED, UpdateComboQuadrant);
             EventSystem.Instance.RegisterEvent(Strings.Events.SHOW_TUTORIAL_TEXT, ShowTutorialText);
             EventSystem.Instance.RegisterEvent(Strings.Events.HIDE_TUTORIAL_TEXT, HideTutorialText);
+            EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_COMPLETED, HideHUD);
+            EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_FAILED, HideHUD);
 
         }
         onScreenCombo.text = "";
         onScreenScoreDelta.text = "";
         onScreenScore.text = "";
         HideTutorialText(null);
+        ShowHUD(null);
     }
 
-  
+
 
     private void OnDestroy()
     {
@@ -84,6 +88,8 @@ public class InGameUI : MonoBehaviour {
             EventSystem.Instance.UnRegisterEvent(Strings.Events.COMBO_TIMER_UPDATED, UpdateComboQuadrant);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.SHOW_TUTORIAL_TEXT, ShowTutorialText);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.HIDE_TUTORIAL_TEXT, HideTutorialText);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_COMPLETED, HideHUD);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_FAILED, HideHUD);
         }
     }
     #endregion
@@ -204,14 +210,9 @@ public class InGameUI : MonoBehaviour {
 
     private void UpdateScore(params object[] score)
     {
-        //[0] new total [1] delta
         onScreenScore.text = score[0].ToString();
         onScreenScoreDelta.text = "+" + score[1].ToString();
         onScreenScoreDelta.transform.localScale = Vector3.one;
-        //GameObject newGO = Instantiate(onScreenScoreDelta.gameObject);
-        //onScreenScoreDelta.text = "";
-        //newGO.transform.SetParent(onScreenScoreDelta.transform);
-        //newGO.transform.localPosition = Vector3.zero;
 
         StartCoroutine(ShowScoreDelta(onScreenScoreDelta.gameObject));
     }
@@ -241,15 +242,21 @@ public class InGameUI : MonoBehaviour {
 
     private void HideTutorialText(object[] parameters)
     {
-        //hide dat shit bitch
         onScreenTutorialText.enabled = false;
     }
 
     private void ShowTutorialText(object[] parameters)
     {
-        //params[0]
-        //"Press LB TO EAT BITCH"
         onScreenTutorialText.enabled = true;
     }
+
+    private void HideHUD(object[] parameters) {
+        hudCG.alpha = 0f;
+    }
+
+    private void ShowHUD(object[] parameters) {
+        hudCG.alpha = 1f;
+    }
+
     #endregion
 }

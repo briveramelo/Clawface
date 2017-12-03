@@ -120,8 +120,7 @@ public abstract class AIController : MonoBehaviour {
 
         if (mod != null)
         {
-            mod.transform.Reset(modMemento);
-            mod.DeactivateModCanvas();
+            mod.transform.Reset(modMemento);            
 
         }
     }

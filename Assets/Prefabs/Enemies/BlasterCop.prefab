@@ -590,7 +590,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1393030806783384
 GameObject:
   m_ObjectHideFlags: 1
@@ -3014,7 +3014,10 @@ MonoBehaviour:
     hitRate: 0
     selfDestructTime: 0
     blastRadius: 0
-    bounces: 0
+    minBounces: 0
+    maxBounces: 0
+    minShots: 0
+    maxShots: 0
     numberOfShots: 0
     rotate: 0
   mod: {fileID: 114348748851308058}
