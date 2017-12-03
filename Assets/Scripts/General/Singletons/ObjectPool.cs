@@ -33,7 +33,7 @@ public class ObjectPool : Singleton<ObjectPool> {
         pools.ForEach(pool => { pool.Reset(); });
     }
     void OnDisable() {
-        pools.ForEach(pool => print(pool.poolObjectType + " uses: " + pool.mostUsed + " stored: " + pool.size));
+        //pools.ForEach(pool => print(pool.poolObjectType + " uses: " + pool.mostUsed + " stored: " + pool.size));
     }
     #endregion
 
