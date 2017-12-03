@@ -160,8 +160,11 @@ public class LightningProjectile : MonoBehaviour {
                 damager.damage = projectileProperties.projectileHitDamage;
                 damageable.TakeDamage(damager);
                 GameObject vfx = ObjectPool.Instance.GetObject (PoolObjectType.VFXLightningGunImpact);
-                vfx.transform.SetParent (target);
-                vfx.transform.position = transform.position;
+                if (vfx)
+                {
+                    vfx.transform.SetParent (target);
+                    vfx.transform.position = transform.position;
+                }
             }
 
             this.gameObject.SetActive(false);
