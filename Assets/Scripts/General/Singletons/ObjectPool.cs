@@ -99,7 +99,7 @@ public class Pool
         else{
             int currentIndex = objects.FindIndex(obj => obj == objToReturn);
             if (currentIndex>mostUsed) {
-                mostUsed = currentIndex;
+                mostUsed = currentIndex+1;
             }
             objToReturn.SetActive(true);
         }
