@@ -22,7 +22,7 @@ public class SettingsMenu : Menu
     #endregion
 
     #region Public Interface
-    public SettingsMenu() : base(Strings.MenuStrings.SETTINGS) {}
+    public SettingsMenu() : base(Strings.MenuStrings.CONTROLS) {}
 
     public void DoneEditingControls()
     {
