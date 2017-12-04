@@ -48,8 +48,11 @@ public class StageOverMenu : Menu
     protected override void Start()
     {
         base.Start();
-        EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_COMPLETED, LevelCompleteStart);
-        EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_KILLED, PlayerDeathStart);
+        if (EventSystem.Instance)
+        {
+            EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_COMPLETED, LevelCompleteStart);
+            EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_KILLED, PlayerDeathStart);
+        }
         nextLevelButton.gameObject.SetActive(false);
     }
 
