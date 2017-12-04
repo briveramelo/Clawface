@@ -79,8 +79,6 @@ namespace PlayerLevelEditor
 
         public ItemButton(UnityEngine.UI.Button i_Button, GameObject i_Object)
         {
-            Debug.Log("CREATE");
-
             Action = () => OnClick(Button);
 
             Button = i_Button;
@@ -91,7 +89,6 @@ namespace PlayerLevelEditor
 
         ~ItemButton()
         {
-            Debug.Log("DELETE");
             Button.onClick.RemoveListener(Action);
         }
 
