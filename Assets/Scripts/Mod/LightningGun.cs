@@ -42,6 +42,12 @@ public class LightningGun : Mod {
     {  
         onActivate = () => {            
             SFXManager.Instance.Play(shootSFX, transform.position);
+            GameObject vfx = ObjectPool.Instance.GetObject (PoolObjectType.VFXLightningGunShoot);
+            if (vfx)
+            {
+                vfx.transform.position = muzzleTransform.position;
+                vfx.transform.rotation = muzzleTransform.rotation;
+            }
         };   
         base.Activate(onCompleteCoolDown, onActivate);
     }

@@ -54,7 +54,7 @@
         public const string PAUSE = "PauseMenu";
         public const string TUTORIAL = "TutorialMenu";
         public const string STAGE_OVER = "StageOverMenu";
-        public const string SETTINGS = "Settings";
+        public const string CONTROLS = "Settings";
         public const string LEVEL_SELECT = "LevelSelect";
         public const string WEAPON_SELECT = "WeaponSelect";
     }
@@ -125,6 +125,9 @@
 
         public const string PLAYER_DAMAGED = "PlayerDamaged";
         public const string PLAYER_KILLED = "PlayerKilled";
+
+        public const string SHOW_TUTORIAL_TEXT = "ShowTutorialText";
+        public const string HIDE_TUTORIAL_TEXT = "HideTutorialText";
     }
 
     public class AchievementNames {
@@ -139,7 +142,7 @@
         public const string LIGHTNING_GUN_ENABLED = "LightningGunEnabled";
         public const string SPREAD_GUN_ENABLED = "SpreadGunEnabled";
         public const string GEYSER_GUN_ENABLED = "GeyserGunEnabled";
-        public const string DICE_GUN_ENABLED = "DiceGunEnabled";
+        public const string MISSILE_GUN_ENABLED = "MissileGunEnabled";
         public const string BOOMERANG_ENABLED = "BoomerangEnabled";
         public const string LATEST_UNLOCKED_LEVEL = "LatestUnlockedLevel";
     }

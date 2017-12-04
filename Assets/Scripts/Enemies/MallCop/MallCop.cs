@@ -124,8 +124,7 @@ public class MallCop : EnemyBase
     }
 
     public override void ResetForRebirth()
-    {
-        mod.DeactivateModCanvas();
+    {        
         mod.setModSpot(ModSpot.ArmR);
         base.ResetForRebirth();
     }

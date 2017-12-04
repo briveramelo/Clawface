@@ -102,7 +102,6 @@ public class WeaponSelectMenu : Menu
     public void BackAction ()
 	{
 		MenuManager.Instance.DoTransition (menuTarget, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
-
 	}
 
 	public void StartAction ()
@@ -113,8 +112,8 @@ public class WeaponSelectMenu : Menu
 
 		// Acquire target level.
 		Menu menu = MenuManager.Instance.GetMenuByName (Strings.MenuStrings.LEVEL_SELECT);
-		LevelSelectMenu levelMenu = (LevelSelectMenu)menu;
-		string level = levelMenu.SelectedLevel;
+        string level = "Arena 1";
+        Debug.LogWarning("Target level is currently hardcoded.  Fix later when adding LevelSelectMenu back.");
 
 		// Acquire Pause Menu
 		menu = MenuManager.Instance.GetMenuByName (Strings.MenuStrings.PAUSE);
@@ -163,7 +162,7 @@ public class WeaponSelectMenu : Menu
     {
         SetWeaponStatus(ModType.Blaster, SaveState.Instance.GetBool(Strings.PlayerPrefStrings.BLASTER_ENABLED, true));
         SetWeaponStatus(ModType.Boomerang, SaveState.Instance.GetBool(Strings.PlayerPrefStrings.BOOMERANG_ENABLED, false));
-        SetWeaponStatus(ModType.Dice, SaveState.Instance.GetBool(Strings.PlayerPrefStrings.DICE_GUN_ENABLED, false));
+        SetWeaponStatus(ModType.Missile, SaveState.Instance.GetBool(Strings.PlayerPrefStrings.MISSILE_GUN_ENABLED, false));
         SetWeaponStatus(ModType.Geyser, SaveState.Instance.GetBool(Strings.PlayerPrefStrings.GEYSER_GUN_ENABLED, false));
         SetWeaponStatus(ModType.LightningGun, SaveState.Instance.GetBool(Strings.PlayerPrefStrings.LIGHTNING_GUN_ENABLED, false));
         SetWeaponStatus(ModType.SpreadGun, SaveState.Instance.GetBool(Strings.PlayerPrefStrings.SPREAD_GUN_ENABLED, false));

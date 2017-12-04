@@ -9,8 +9,9 @@ public class BouncerProperties : AIProperties
 {
     [Range(1, 10)] public int maxBouncerBounces;
     [Range(1, 10)] public int minBouncerBounces;
-    [Range(1, 10)] public int maxBouncerShots;
-    [Range(1, 10)] public int minBouncerShots;
+    [Range(1, 100)] public int maxBouncerShots;
+    [Range(1, 100)] public int minBouncerShots;
+    [Range(1f, 100f)] public float bouncerRotationSpeed;
     public bool bouncerRotate;
 
     public void InitializeProperties()
@@ -19,6 +20,7 @@ public class BouncerProperties : AIProperties
         minBounces = minBouncerBounces;
         maxShots = maxBouncerShots;
         minShots = minBouncerShots;
+        rotationSpeed = bouncerRotationSpeed;
         rotate = bouncerRotate;
     }
 

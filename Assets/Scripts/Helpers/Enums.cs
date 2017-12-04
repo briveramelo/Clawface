@@ -27,7 +27,9 @@ public enum SFXType {
     PlayerDeath,
     UI_Click,
     UI_Hover,
-    UI_Back
+    UI_Back,
+    SpreadshotShoot,
+    LightningGunShoot
 }
 
 public enum MusicType
@@ -55,6 +57,8 @@ public enum DamagedType {
     Zombie=2,
     Bouncer=3,
     Kamikaze = 4,
+    RedBouncer = 5,
+    GreenBouncer = 6,
 }
 
 public enum ModType {
@@ -63,9 +67,8 @@ public enum ModType {
     LightningGun = 2,
     Boomerang = 3,
     Geyser = 4,
-    Dice = 5,
-    None = 6,
-    Missile = 7
+    Missile = 5,
+    None = 6
 }
 
 public enum ModCategory
@@ -118,6 +121,8 @@ public enum PoolObjectType {
     VFXGeyserShoot = 41,
     VFXGeyserImpact = 42,
     VFXKamikazeExplosion = 43,
+    VFXLightningGunImpact = 44,
+    VFXLightningGunShoot = 45,
 
     //BulletTypes
     TurretBullet = 28,
@@ -138,6 +143,8 @@ public enum PoolObjectType {
     Zombie = 32,
     Bouncer = 33,
     Kamikaze = 34,
+    RedBouncer = 44,
+    GreenBouncer = 45,
 
 }
 
@@ -231,6 +238,8 @@ public enum SpawnType {
     Zombie = 1,
     Bouncer = 2,
     Kamikaze = 3,
+    RedBouncer = 4,
+    GreenBouncer = 5,
 }
 
 public enum ActionType
