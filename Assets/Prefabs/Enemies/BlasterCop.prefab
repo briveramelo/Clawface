@@ -590,7 +590,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1393030806783384
 GameObject:
   m_ObjectHideFlags: 1
@@ -2852,7 +2852,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 1
   pickupCollider: {fileID: 65764154792012712}
-  modCanvas: {fileID: 0}
   energySettings:
     timeToCoolDown: 0
     isCoolingDown: 0
@@ -3015,6 +3014,7 @@ MonoBehaviour:
     hitRate: 0
     selfDestructTime: 0
     blastRadius: 0
+    rotationSpeed: 0
     minBounces: 0
     maxBounces: 0
     minShots: 0
