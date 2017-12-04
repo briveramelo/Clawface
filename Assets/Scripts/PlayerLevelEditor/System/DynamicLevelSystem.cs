@@ -7,7 +7,6 @@ namespace PlayerLevelEditor
 {
     public class DynamicLevelSystem : ISystem
     {
-        int NumStage = 3;
         Dropdown Stage;
         List<Dictionary<int, LevelUnitStates>> map;
 
@@ -23,7 +22,7 @@ namespace PlayerLevelEditor
 
             Stage = UITool.FindUIGameObject("StageList").GetComponent<Dropdown>();
 
-            map = new List<Dictionary<int, LevelUnitStates>>(NumStage);
+            map = new List<Dictionary<int, LevelUnitStates>>(Stage.options.Count);
 
             map.Add(new Dictionary<int, LevelUnitStates>());
             map.Add(new Dictionary<int, LevelUnitStates>());
@@ -31,12 +30,12 @@ namespace PlayerLevelEditor
         }
 
 
-        public void UpdateObject(GameObject i_GameObject, LevelUnitStates i_State)
+        public void SaveObjectState(GameObject i_GameObject, LevelUnitStates i_State)
         {
             map[Stage.value][i_GameObject.GetInstanceID()] = i_State;
         }
 
-        public void UpdateObject(List<GameObject> i_GameObjects)
+        public void UpdateObjectState(List<GameObject> i_GameObjects)
         {
             foreach (GameObject _Object in i_GameObjects)
             {
@@ -59,8 +58,6 @@ namespace PlayerLevelEditor
                 _Object.GetComponent<ClickableObject>().UpdateThisObject();
             }
         }
-
-
     }
 }
 

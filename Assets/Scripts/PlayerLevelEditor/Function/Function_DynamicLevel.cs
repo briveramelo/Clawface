@@ -12,10 +12,8 @@ namespace PlayerLevelEditor
         Dropdown Stage;
         Dropdown DynamicType;
 
-        static List<Dictionary<int, LevelUnitStates>> map;
-
-        List<KeyValuePair<GameObject, Color>> Objects;
-
+        List<KeyValuePair<GameObject, Color>> ObjectColors;
+        List<GameObject> m_GameObjects;
 
         public DynamicLevel(FunctionController Controller) : base(Controller)
         {
@@ -30,7 +28,7 @@ namespace PlayerLevelEditor
             DynamicType = SetUIObject("DynamicType").GetComponent<Dropdown>();
 
             Stage = SetUIObject("StageList").GetComponent<Dropdown>();
-            Stage.onValueChanged.AddListener(delegate { UpdateMapObjects(Stage); });
+            Stage.onValueChanged.AddListener(delegate { UpdateObject(Stage); });
 
             LevelObject = UnityTool.FindGameObject("LEVEL");
 
@@ -39,15 +37,16 @@ namespace PlayerLevelEditor
                 Debug.LogWarning("LevelObject NULL");
             }
 
-            Objects = new List<KeyValuePair<GameObject, Color>>();
+            m_GameObjects = new List<GameObject>();
+            ObjectColors = new List<KeyValuePair<GameObject, Color>>();
 
             foreach (Transform child in LevelObject.transform)
-            {          
-                Objects.Add(new KeyValuePair<GameObject, Color>(child.gameObject, child.gameObject.GetComponent<Renderer>().material.color));
+            {
+                m_GameObjects.Add(child.gameObject);
+                ObjectColors.Add(new KeyValuePair<GameObject, Color>(child.gameObject, child.gameObject.GetComponent<Renderer>().material.color));
             }
 
-
-            InitMapObjects();
+            LevelEditor.m_DynamicLevelSystem.UpdateObjectState(m_GameObjects);
         }
 
         public override void Update()
@@ -65,7 +64,7 @@ namespace PlayerLevelEditor
                 if (CampClickScript != null)
                 {
                     CampClickScript.OnClick();
-                    map[Stage.value][hit.transform.gameObject.GetInstanceID()] = (LevelUnitStates)DynamicType.value;
+                    LevelEditor.m_DynamicLevelSystem.SaveObjectState(hit.transform.gameObject, (LevelUnitStates)DynamicType.value);
                     return;
                 }
             }
@@ -77,52 +76,17 @@ namespace PlayerLevelEditor
 
             Stage.onValueChanged.RemoveAllListeners();
 
-            ReleaseMapObjects();
+            ReleaseObjects();
         }
 
-        public void InitMapObjects()
+        public void UpdateObject(Dropdown stage)
         {
-            if(map == null)
-            {
-                map = new List<Dictionary<int, LevelUnitStates>>();
-
-                map.Add(new Dictionary<int, LevelUnitStates>());
-                map.Add(new Dictionary<int, LevelUnitStates>());
-                map.Add(new Dictionary<int, LevelUnitStates>());
-            }
-
-            UpdateMapObjects(Stage);
+            LevelEditor.m_DynamicLevelSystem.UpdateObjectState(m_GameObjects);
         }
 
-        public void UpdateMapObjects(Dropdown stage)
+        public void ReleaseObjects()
         {
-            Debug.Log("Update");
-
-            foreach (Transform child in LevelObject.transform)
-            {
-                if (child.gameObject.GetComponent<LevelUnit>() == null)
-                    continue;
-
-                if (map[stage.value].ContainsKey(child.gameObject.GetInstanceID()) == false)
-                {
-                    int key = child.gameObject.GetInstanceID();
-                    map[stage.value].Add(key, LevelUnitStates.floor);
-
-                    child.gameObject.GetComponent<ClickableObject>().ObjectType = new DynamicObject(child.gameObject);
-                }
-                else
-                {
-                    child.gameObject.GetComponent<LevelUnit>().defaultState = map[stage.value][child.gameObject.GetInstanceID()];
-                }
-
-
-                child.gameObject.GetComponent<ClickableObject>().UpdateThisObject();
-            }
-
-        }
-        public void ReleaseMapObjects()
-        {
-            foreach (var _obj in Objects)
+            foreach (var _obj in ObjectColors)
             {
                 _obj.Key.GetComponent<Renderer>().material.color = _obj.Value;
             }
