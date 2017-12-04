@@ -142,7 +142,7 @@
         public const string LIGHTNING_GUN_ENABLED = "LightningGunEnabled";
         public const string SPREAD_GUN_ENABLED = "SpreadGunEnabled";
         public const string GEYSER_GUN_ENABLED = "GeyserGunEnabled";
-        public const string DICE_GUN_ENABLED = "DiceGunEnabled";
+        public const string MISSILE_GUN_ENABLED = "MissileGunEnabled";
         public const string BOOMERANG_ENABLED = "BoomerangEnabled";
         public const string LATEST_UNLOCKED_LEVEL = "LatestUnlockedLevel";
     }

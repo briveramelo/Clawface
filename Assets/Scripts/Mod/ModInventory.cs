@@ -8,7 +8,7 @@ using System.Linq;
 
 public class ModInventory : MonoBehaviour {
 
-    public GameObject blaster, boomerang, dice, geyser, grappler, segway; 
+    public GameObject blaster, boomerang, missile, geyser, grappler, segway; 
     private Dictionary<ModType, ModInventoryPack> modInventory;
     private List<ModType> availableMods = new List<ModType>();
 
@@ -18,7 +18,7 @@ public class ModInventory : MonoBehaviour {
 		modInventory = new Dictionary<ModType, ModInventoryPack>() {
             {ModType.Blaster, new ModInventoryPack(transform, blaster) },
             {ModType.Boomerang, new ModInventoryPack(transform, boomerang) },
-            {ModType.Dice, new ModInventoryPack(transform, dice) },
+            {ModType.Missile, new ModInventoryPack(transform, missile) },
             {ModType.SpreadGun, new ModInventoryPack(transform, segway) },
             {ModType.Geyser, new ModInventoryPack(transform, geyser) },
             {ModType.LightningGun, new ModInventoryPack(transform, grappler) },          

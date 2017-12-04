@@ -162,7 +162,7 @@ public class WeaponSelectMenu : Menu
     {
         SetWeaponStatus(ModType.Blaster, SaveState.Instance.GetBool(Strings.PlayerPrefStrings.BLASTER_ENABLED, true));
         SetWeaponStatus(ModType.Boomerang, SaveState.Instance.GetBool(Strings.PlayerPrefStrings.BOOMERANG_ENABLED, false));
-        SetWeaponStatus(ModType.Dice, SaveState.Instance.GetBool(Strings.PlayerPrefStrings.DICE_GUN_ENABLED, false));
+        SetWeaponStatus(ModType.Missile, SaveState.Instance.GetBool(Strings.PlayerPrefStrings.MISSILE_GUN_ENABLED, false));
         SetWeaponStatus(ModType.Geyser, SaveState.Instance.GetBool(Strings.PlayerPrefStrings.GEYSER_GUN_ENABLED, false));
         SetWeaponStatus(ModType.LightningGun, SaveState.Instance.GetBool(Strings.PlayerPrefStrings.LIGHTNING_GUN_ENABLED, false));
         SetWeaponStatus(ModType.SpreadGun, SaveState.Instance.GetBool(Strings.PlayerPrefStrings.SPREAD_GUN_ENABLED, false));
