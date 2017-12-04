@@ -302,7 +302,7 @@ namespace PlayerLevelEditor
 
         public static Vector3 ConvertToWorld(Triple triple)
         {
-            return new Vector3(triple.x * System.unitsize_x, triple.y * System.unitsize_y, triple.z * System.unitsize_z);
+            return new Vector3(triple.x * ParameterSystem.unit_size, triple.y * ParameterSystem.unit_size, triple.z * ParameterSystem.unit_size);
         }
     }
 }

@@ -14,6 +14,7 @@ namespace PlayerLevelEditor
     {
         public static GameObject _prefab;
 
+        GameObject _LevelObject;
         Button Btn_Add;
         Button Btn_Delete;
 
@@ -34,6 +35,8 @@ namespace PlayerLevelEditor
         public override void Init()
         {
             base.Init();
+
+            _LevelObject = UnityTool.FindGameObject("LEVEL");
 
             SetUIObject("UI_Add");
 
@@ -72,9 +75,18 @@ namespace PlayerLevelEditor
 
                 if (Input.GetMouseButtonDown(0) && clickToAddEnabled)
                 {
-                    Vector3 _pos = PlayerLevelEditor.ToolLib.ConvertToGrid(mousePositionInScene);
 
-                    GameObject.Instantiate(_prefab, _pos, Quaternion.identity);
+                    LevelUnit LU = hit.transform.gameObject.GetComponent<LevelUnit>();
+
+                    if (LU != null)
+                    {
+                        GameObject.DestroyImmediate(LU);
+                    }
+          
+                    Vector3 _pos = PlayerLevelEditor.ToolLib.ConvertToGrid(mousePositionInScene);
+                    GameObject _instance = GameObject.Instantiate(_prefab, _pos, Quaternion.identity);
+
+                    _instance.transform.SetParent(_LevelObject.transform);
                 }
 
                 //Right Click

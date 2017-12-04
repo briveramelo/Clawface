@@ -11,8 +11,6 @@ namespace PlayerLevelEditor
 
         public abstract void Update();
 
-        public abstract void Release();
-
         public abstract void OnClick();
 
     }

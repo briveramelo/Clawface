@@ -14,6 +14,8 @@ namespace PlayerLevelEditor
 
         static List<Dictionary<int, LevelUnitStates>> map;
 
+        List<KeyValuePair<GameObject, Color>> Objects;
+
 
         public DynamicLevel(FunctionController Controller) : base(Controller)
         {
@@ -29,17 +31,19 @@ namespace PlayerLevelEditor
 
             Stage = SetUIObject("StageList").GetComponent<Dropdown>();
             Stage.onValueChanged.AddListener(delegate { UpdateMapObjects(Stage); });
-            if(Stage == null)
-            {
-                Debug.LogWarning("Stage NULL");
-            }
-
 
             LevelObject = UnityTool.FindGameObject("LEVEL");
 
             if(LevelObject == null)
             {
                 Debug.LogWarning("LevelObject NULL");
+            }
+
+            Objects = new List<KeyValuePair<GameObject, Color>>();
+
+            foreach (Transform child in LevelObject.transform)
+            {          
+                Objects.Add(new KeyValuePair<GameObject, Color>(child.gameObject, child.gameObject.GetComponent<Renderer>().material.color));
             }
 
 
@@ -54,18 +58,6 @@ namespace PlayerLevelEditor
 
             RaycastHit hit;
 
-
-            if(Input.GetKeyDown(KeyCode.Return))
-            {
-                Debug.Log(map[Stage.value].Count);
-
-                foreach (var v in map[Stage.value])
-                {
-                    Debug.Log(v.Value);
-                }
-            }
-
-
             if (Physics.Raycast(ray, out hit, 1000.0f) && Input.GetMouseButtonUp(0))
             {
                 ClickableObject CampClickScript = hit.transform.gameObject.GetComponent<ClickableObject>();
@@ -76,16 +68,14 @@ namespace PlayerLevelEditor
                     map[Stage.value][hit.transform.gameObject.GetInstanceID()] = (LevelUnitStates)DynamicType.value;
                     return;
                 }
-                else
-                {
-                    Debug.Log("NULL");
-                }
             }
         }
 
         public override void Release()
         {
             base.Release();
+
+            Stage.onValueChanged.RemoveAllListeners();
 
             ReleaseMapObjects();
         }
@@ -104,27 +94,25 @@ namespace PlayerLevelEditor
             UpdateMapObjects(Stage);
         }
 
-        public void UpdateMapObjects(Dropdown dd)
+        public void UpdateMapObjects(Dropdown stage)
         {
+            Debug.Log("Update");
+
             foreach (Transform child in LevelObject.transform)
             {
-                if (map[dd.value].ContainsKey(child.gameObject.GetInstanceID()) == false)
+                if (child.gameObject.GetComponent<LevelUnit>() == null)
+                    continue;
+
+                if (map[stage.value].ContainsKey(child.gameObject.GetInstanceID()) == false)
                 {
-
-                    if (child.gameObject.GetComponent<LevelUnit>() == null)
-                        continue;
-
                     int key = child.gameObject.GetInstanceID();
-                    map[dd.value].Add(key, LevelUnitStates.floor);
+                    map[stage.value].Add(key, LevelUnitStates.floor);
 
                     child.gameObject.GetComponent<ClickableObject>().ObjectType = new DynamicObject(child.gameObject);
                 }
                 else
                 {
-                    if (child.gameObject.GetComponent<LevelUnit>())
-                    {
-                        child.gameObject.GetComponent<LevelUnit>().defaultState = map[dd.value][child.gameObject.GetInstanceID()];
-                    }
+                    child.gameObject.GetComponent<LevelUnit>().defaultState = map[stage.value][child.gameObject.GetInstanceID()];
                 }
 
 
@@ -134,9 +122,9 @@ namespace PlayerLevelEditor
         }
         public void ReleaseMapObjects()
         {
-            foreach (Transform child in LevelObject.transform)
+            foreach (var _obj in Objects)
             {
-                child.gameObject.GetComponent<ClickableObject>().Release();
+                _obj.Key.GetComponent<Renderer>().material.color = _obj.Value;
             }
         }
     }

@@ -32,12 +32,6 @@ namespace PlayerLevelEditor
             if(ObjectType != null)
                ObjectType.OnClick();
         }
-
-        public void Release()
-        {
-            if (ObjectType != null)
-                ObjectType.Release();
-        }
     }
 }
 

@@ -8,32 +8,23 @@ namespace PlayerLevelEditor
 {
     public class DynamicObject : IMapObject
     {
-        public Color OriginColor;
-        public Color currentColor;
-
-
         Dropdown    DynamicTypeObject;
-        Material    material;
-        LevelUnit   LU;
+        Material    m_Material;
+        LevelUnit   m_LevelUnit;
 
 
         public DynamicObject(GameObject i_GameObject)
         {
-            gameObject = i_GameObject;
+            gameObject  = i_GameObject;
+            m_Material  = gameObject.GetComponent<Renderer>().material;
+            m_LevelUnit = gameObject.GetComponent<LevelUnit>();
 
-            material = gameObject.GetComponent<Renderer>().material;
-
-            OriginColor = material.color;
-
-            LU = gameObject.GetComponent<LevelUnit>();
-
-            if(LU != null)
+            if(m_LevelUnit != null)
             {
-                material.color = Color.red;
-                LU.defaultState = LevelUnitStates.floor;
+                m_Material.color = Color.red;
+                m_LevelUnit.defaultState = LevelUnitStates.floor;
             }
         }
-
 
         public override void OnClick()
         {
@@ -42,42 +33,26 @@ namespace PlayerLevelEditor
                 DynamicTypeObject = UITool.FindUIGameObject("DynamicType").GetComponent<Dropdown>();
             }
 
+            if (m_LevelUnit == null) return;
+
             switch (DynamicTypeObject.value)
             {
-                case 1:
-
-                    if(LU != null)
-                    {
-                        LU.defaultState = LevelUnitStates.floor;
-                        gameObject.GetComponent<Renderer>().material.color = Color.red;
-                        currentColor = Color.red;
-                    }
-
-                    return;
-                case 2:
-
-                    if (LU != null)
-                    {
-                        gameObject.GetComponent<Renderer>().material.color = Color.blue;
-                        LU.defaultState = LevelUnitStates.pit;
-                        currentColor = Color.blue;
-                    }
-
-                    return;
                 case 0:
+                    m_LevelUnit.defaultState = LevelUnitStates.cover;
+                    m_Material.color = Color.green;
+                    return;
 
+                case 1:
+                    m_LevelUnit.defaultState = LevelUnitStates.floor;
+                    m_Material.color = Color.red;
+                    return;
 
-                    if (LU != null)
-                    {
-                        gameObject.GetComponent<Renderer>().material.color = Color.green;
-                        LU.defaultState = LevelUnitStates.cover;
-                        currentColor = Color.green;
-                    }
-
+                case 2:
+                    m_LevelUnit.defaultState = LevelUnitStates.pit;
+                    m_Material.color = Color.blue;
                     return;
 
                 default:
-                    Debug.Log("No Option");
                     return;
             }
         }
@@ -90,28 +65,22 @@ namespace PlayerLevelEditor
                 DynamicTypeObject = UITool.FindUIGameObject("DynamicType").GetComponent<Dropdown>();
             }
 
-            if (LU == null) return;
+            if (m_LevelUnit == null) return;
 
-            switch(LU.defaultState)
+            switch(m_LevelUnit.defaultState)
             {
                 case LevelUnitStates.floor:
-                    gameObject.GetComponent<Renderer>().material.color = Color.red;
+                    m_Material.color = Color.red;
                     return;
 
                 case LevelUnitStates.pit:
-                    gameObject.GetComponent<Renderer>().material.color = Color.blue;
+                    m_Material.color = Color.blue;
                     return;
-                case LevelUnitStates.cover:
 
-                    gameObject.GetComponent<Renderer>().material.color = Color.green;
+                case LevelUnitStates.cover:
+                    m_Material.color = Color.green;
                     return;
             }
-        }
-
-        public override void Release()
-        {
-            Debug.Log("Release");
-            material.color = OriginColor;
         }
     }
 

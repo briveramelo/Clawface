@@ -74,7 +74,7 @@ namespace PlayerLevelEditor
                     else
                     {
                         sceneActiveSelection = hit.collider.gameObject;
-                        Handle.transform.position = sceneActiveSelection.transform.position + new Vector3(0, 2 * PlayerLevelEditor.System.unitsize_y, 0);
+                        Handle.transform.position = sceneActiveSelection.transform.position + new Vector3(0, 2 * ParameterSystem.unit_size, 0);
                     }
                 }
             }
@@ -109,13 +109,13 @@ namespace PlayerLevelEditor
             float dy = distance.y;
             float dz = distance.z;
 
-            int count_x = Mathf.Abs((int)(dx / PlayerLevelEditor.System.unitsize_x));
-            int count_y = Mathf.Abs((int)(dy / PlayerLevelEditor.System.unitsize_y));
-            int count_z = Mathf.Abs((int)(dz / PlayerLevelEditor.System.unitsize_z));
+            int count_x = Mathf.Abs((int)(dx / ParameterSystem.unit_size));
+            int count_y = Mathf.Abs((int)(dy / ParameterSystem.unit_size));
+            int count_z = Mathf.Abs((int)(dz / ParameterSystem.unit_size));
 
-            float factor_x = dx > 0 ? PlayerLevelEditor.System.unitsize_x : -PlayerLevelEditor.System.unitsize_x;
-            float factor_y = dy > 0 ? PlayerLevelEditor.System.unitsize_y : -PlayerLevelEditor.System.unitsize_y;
-            float factor_z = dz > 0 ? PlayerLevelEditor.System.unitsize_z : -PlayerLevelEditor.System.unitsize_z;
+            float factor_x = dx > 0 ? ParameterSystem.unit_size : -ParameterSystem.unit_size;
+            float factor_y = dy > 0 ? ParameterSystem.unit_size : -ParameterSystem.unit_size;
+            float factor_z = dz > 0 ? ParameterSystem.unit_size : -ParameterSystem.unit_size;
 
 
             for (int i = 0; i <= count_x; i++)

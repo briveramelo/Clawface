@@ -106,7 +106,7 @@ namespace PlayerLevelEditor
             {
                 for (int j = -Num_z; j <= Num_z; j++)
                 {
-                    Vector3 new_position = new Vector3(i * PlayerLevelEditor.System.unitsize_x, 0, j * PlayerLevelEditor.System.unitsize_z);
+                    Vector3 new_position = new Vector3(i * ParameterSystem.unit_size, 0.0f, j * ParameterSystem.unit_size);
                     PlayerLevelEditor.ToolLib.draft(_prefab, new_position, Color.yellow);
                 }
             }
@@ -131,12 +131,16 @@ namespace PlayerLevelEditor
             Initialized = true;
 
             GameObject _platform = new GameObject("LEVEL");
+            GameObject _wall     = new GameObject("WALL");
 
             for (int i = -Num_x; i <= Num_x; i++)
             {
                 for (int j = -Num_z; j <= Num_z; j++)
                 {
-                    GameObject _instance = GameObject.Instantiate(_prefab, new Vector3(i * PlayerLevelEditor.System.unitsize_x, 0, j * PlayerLevelEditor.System.unitsize_z), Quaternion.identity);
+                    GameObject _instance = GameObject.Instantiate(_prefab, new Vector3(i * ParameterSystem.unit_size, 
+                                                                                       0                            , 
+                                                                                       j * ParameterSystem.unit_size), Quaternion.identity);
+
                     _instance.name = "TestBlock";
 
                     _instance.AddComponent<ClickableObject>();
@@ -146,14 +150,14 @@ namespace PlayerLevelEditor
                     {
                         _AddNavMeshModifier(_instance, PlayerLevelEditor.NavMeshAreas.NotWalkable);
 
-                        GameObject _wall = GameObject.Instantiate(_prefab, new Vector3(i * PlayerLevelEditor.System.unitsize_x, 
-                                                                                           PlayerLevelEditor.System.unitsize_y, 
-                                                                                       j * PlayerLevelEditor.System.unitsize_z), Quaternion.identity);
+                        GameObject _instance_Wall = GameObject.Instantiate(_prefab, new Vector3(i * ParameterSystem.unit_size,
+                                                                                                1 * ParameterSystem.unit_size, 
+                                                                                                j * ParameterSystem.unit_size), Quaternion.identity);
 
-                        _wall.name = "WallBlock";
-                        _wall.transform.SetParent(_platform.transform);
-                        _wall.AddComponent<ClickableObject>();
-                        _AddNavMeshModifier(_wall, PlayerLevelEditor.NavMeshAreas.NotWalkable);
+                        _instance_Wall.name = "WallBlock";
+                        _instance_Wall.transform.SetParent(_wall.transform);
+                        _instance_Wall.AddComponent<ClickableObject>();
+                        _AddNavMeshModifier(_instance_Wall, PlayerLevelEditor.NavMeshAreas.NotWalkable);
                     }
                     else if (_instance.GetComponent<LevelUnit>() == null)
                     {

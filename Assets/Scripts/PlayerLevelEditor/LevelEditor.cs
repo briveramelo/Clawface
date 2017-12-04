@@ -5,11 +5,10 @@ using UnityEngine.UI;
 
 namespace PlayerLevelEditor
 {
-    public class System : MonoBehaviour
+    public class LevelEditor : MonoBehaviour
     {
-        public static float unitsize_x = 5.0f;
-        public static float unitsize_y = 5.0f;
-        public static float unitsize_z = 5.0f;
+        static public DynamicLevelSystem m_DynamicLevelSystem;
+
 
         Database ObjectDB;
         FunctionController controller = new FunctionController();
@@ -20,14 +19,10 @@ namespace PlayerLevelEditor
         Button Btn_Dynamic;
         Button Btn_Test;
 
-
- //       public static Dictionary<Triple, GameObject> map;
-
-
         // Use this for initialization
         void Start()
         {
- //           map = new Dictionary<Triple, GameObject>();
+            m_DynamicLevelSystem = new DynamicLevelSystem();
 
             ObjectDB = new Database();
 
