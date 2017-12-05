@@ -55,7 +55,7 @@ public class DashState : IPlayerState {
         PlayAnimation();
         CheckForIFrames();
         MovePlayer();
-        if (currentFrame == totalDashFrames)
+        if (currentFrame >= totalDashFrames)
         {
             ResetState();
         }

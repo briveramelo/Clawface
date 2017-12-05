@@ -46,7 +46,10 @@ public class SpreadGunBullet : MonoBehaviour {
                 float sampleRatio = distanceTravelled / properties.bulletMaxDistance;
                 float currentScale = Mathf.Lerp(properties.bulletMinScale, properties.bulletMaxScale, sampleRatio);
                 transform.localScale = new Vector3(currentScale, transform.localScale.y, -currentScale);
-                currentDamage = Mathf.Lerp(properties.bulletMaxDamage, properties.bulletMinDamage, sampleRatio);
+
+                currentDamage = properties.bulletMinDamage + (properties.bulletMaxDamage - properties.bulletMinDamage) * (1 - sampleRatio);
+
+                //currentDamage = Mathf.Lerp(properties.bulletMaxDamage, properties.bulletMinDamage, sampleRatio);
                 float currentAlpha = Mathf.Lerp(maxAlpha, properties.bulletMinAlpha, sampleRatio);                
                 Color newColor = new Color(oldColor.r, oldColor.g, oldColor.b, currentAlpha);
                 material.SetColor("_TintColor", newColor);
