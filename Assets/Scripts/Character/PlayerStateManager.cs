@@ -24,6 +24,9 @@ public class PlayerStateManager : MonoBehaviour {
 
     [SerializeField] private EatingState eatingState;
     [SerializeField] private SphereCollider eatCollider;
+
+    [SerializeField] private float tutorialSlowDownRate = 0.05f;
+    [SerializeField] private float tutorialSpeedUpRate = 0.05f;
     #endregion
 
     #region Private Fields
@@ -173,16 +176,43 @@ public class PlayerStateManager : MonoBehaviour {
         if (!isTutorialDone && !isInTutorial)
         {
             isInTutorial = true;
-            Time.timeScale = 0f;
-            EventSystem.Instance.TriggerEvent(Strings.Events.SHOW_TUTORIAL_TEXT);
+            StartCoroutine(StartTutorialSlowDown());            
         }
+    }
+
+    private IEnumerator StartTutorialSlowDown()
+    {
+        Debug.Log("Slowing Down");
+        while (Time.timeScale > 0.1f)
+        {
+            Time.timeScale = Mathf.Lerp(Time.timeScale, 0.0f, tutorialSlowDownRate);
+            yield return null;
+        }
+        Debug.Log("Stopped");
+        Time.timeScale = 0.0f;
+        EventSystem.Instance.TriggerEvent(Strings.Events.SHOW_TUTORIAL_TEXT);
     }
 
     private void FinishTutorial()
     {
+        if (!isTutorialDone)
+        {
+            isTutorialDone = true;
+            StartCoroutine(StartTutorialSpeedUp());
+        }
+    }
+
+    private IEnumerator StartTutorialSpeedUp()
+    {
+        Debug.Log("Speeding up");
+        while (Time.timeScale < 0.9f)
+        {
+            Time.timeScale = Mathf.Lerp(Time.timeScale, 1.0f, tutorialSpeedUpRate);
+            yield return null;
+        }
+        Debug.Log("Started");
         isInTutorial = false;
-        isTutorialDone = true;
-        Time.timeScale = 1f;
+        Time.timeScale = 1.0f;
         EventSystem.Instance.TriggerEvent(Strings.Events.HIDE_TUTORIAL_TEXT);
     }
 

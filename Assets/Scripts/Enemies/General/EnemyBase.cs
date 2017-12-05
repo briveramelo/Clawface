@@ -138,7 +138,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     }
 
 
-    bool IEatable.IsEatable()
+    public bool IsEatable()
     {
         return myStats.health <= myStats.skinnableHealth;
     }
