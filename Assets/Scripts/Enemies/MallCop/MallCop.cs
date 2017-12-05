@@ -22,7 +22,7 @@ public class MallCop : EnemyBase
     [SerializeField] float closeEnoughToFireDistance;
     [SerializeField] private MallCopProperties properties;
     [SerializeField] private Mod mod;
-
+    [SerializeField] private float maxToleranceTime;
     #endregion
 
     #region 2. Private fields
@@ -30,12 +30,15 @@ public class MallCop : EnemyBase
     private MallCopChaseState chase;
     private MallCopFireState fire;
     private MallCopStunState stun;
+    private MallCopCelebrateState celebrate;
+    private float currentToleranceTime;
+
     #endregion
 
     #region 3. Unity Lifecycle
 
     public override void Awake()
-    {        
+    {
         InitilizeStates();
         controller.Initialize(properties, mod, velBody, animator, myStats, navAgent, navObstacle, aiStates);
         mod.setModSpot(ModSpot.ArmR);
@@ -49,7 +52,7 @@ public class MallCop : EnemyBase
         };
 
         mod.damage = myStats.attack;
-
+        currentToleranceTime = 0.0f;
         base.Awake();
     }
 
@@ -63,12 +66,12 @@ public class MallCop : EnemyBase
         Vector3 fwd = controller.DirectionToTarget;
         RaycastHit hit;
 
-        if ((controller.CurrentState== chase && controller.DistanceFromTarget <= closeEnoughToFireDistance))
+        if ((controller.CurrentState == chase && controller.DistanceFromTarget <= closeEnoughToFireDistance))
         {
             if (Physics.Raycast(controller.transform.position, fwd, out hit, 50, LayerMask.GetMask(Strings.Layers.MODMAN, Strings.Layers.OBSTACLE)))
             {
-                if(hit.transform.tag == Strings.Tags.PLAYER)
-                controller.UpdateState(EAIState.Fire);
+                if (hit.transform.tag == Strings.Tags.PLAYER)
+                    controller.UpdateState(EAIState.Fire);
             }
             return true;
         }
@@ -76,26 +79,33 @@ public class MallCop : EnemyBase
     }
     bool CheckToFinishFiring()
     {
-        if (controller.CurrentState == fire)
+
+
+        if (controller.CurrentState == fire && fire.DoneFiring())
         {
 
             if (controller.DistanceFromTarget > closeEnoughToFireDistance)
             {
-                fire.StartEndFire();
+                ToleranceTimeToExit();
+            }
+            else if (controller.DistanceFromTarget < closeEnoughToFireDistance)
+            {
+                ToleranceTimeToExit();
+                currentToleranceTime = 0.0f;
             }
             else
             {
                 Vector3 fwd = controller.DirectionToTarget;
                 RaycastHit hit;
 
-                if (Physics.Raycast(controller.transform.position, fwd, out hit, 50, LayerMask.GetMask(Strings.Layers.MODMAN,Strings.Layers.OBSTACLE)))
+                if (Physics.Raycast(controller.transform.position, fwd, out hit, 50, LayerMask.GetMask(Strings.Layers.MODMAN, Strings.Layers.OBSTACLE)))
                 {
                     if (hit.transform.tag != Strings.Tags.PLAYER)
                     {
                         fire.StartEndFire();
                     }
                 }
-               
+
             }
             return true;
         }
@@ -113,18 +123,18 @@ public class MallCop : EnemyBase
         return false;
 
     }
-   
+
     float maxDistanceBeforeChasing { get { return playerDetectorSphereCollider.radius * playerDetectorSphereCollider.transform.localScale.x * transform.localScale.x; } } //assumes parenting scheme...
 
 
     public override void OnDeath()
-    { 
+    {
         base.OnDeath();
         mod.KillCoroutines();
     }
 
     public override void ResetForRebirth()
-    {        
+    {
         mod.setModSpot(ModSpot.ArmR);
         base.ResetForRebirth();
     }
@@ -139,17 +149,23 @@ public class MallCop : EnemyBase
         fire.EndFireDone();
     }
 
-    public void StartAiming ()
+    public void StartAiming()
     {
-        animator.SetLayerWeight (2, 1.0f);
+        animator.SetLayerWeight(2, 1.0f);
     }
 
-    public void StopAiming ()
+    public void StopAiming()
     {
-        animator.SetLayerWeight (2, 0.0f);
+        fire.StopAiming();
+        animator.SetLayerWeight(2, 0.0f);
     }
 
-
+    public override void DoPlayerKilledState(object[] parameters)
+    {
+        animator.SetTrigger("DoVictoryDance");
+        controller.CurrentState = celebrate;
+        controller.UpdateState(EAIState.Celebrate);
+    }
     #endregion
 
     #region 5. Private Methods    
@@ -163,9 +179,12 @@ public class MallCop : EnemyBase
         fire.stateName = "fire";
         stun = new MallCopStunState();
         stun.stateName = "stun";
+        celebrate = new MallCopCelebrateState();
+        celebrate.stateName = "celebrate";
         aiStates.Add(chase);
         aiStates.Add(fire);
         aiStates.Add(stun);
+        aiStates.Add(celebrate);
     }
 
     private void OnDrawGizmosSelected()
@@ -175,6 +194,26 @@ public class MallCop : EnemyBase
         //Gizmos.color = Color.green;
         //Gizmos.DrawWireSphere(playerDetectorSphereCollider.transform.position, maxDistanceBeforeChasing);
     }
+
+    private void ToleranceTimeToExit()
+    {
+        currentToleranceTime += Time.deltaTime;
+
+        if (currentToleranceTime >= maxToleranceTime)
+        {
+            if (controller.DistanceFromTarget < closeEnoughToFireDistance)
+            {
+                currentToleranceTime = 0.0f;
+            }
+            else
+            {
+                fire.StartEndFire();
+            }
+        }
+
+    }
+
+
 
     #endregion
 

@@ -308,11 +308,11 @@ public class DiceBlock : MonoBehaviour, IMovable {
 
                 // Shooter is player
 
-                AnalyticsManager.Instance.AddModDamage(ModType.Dice, damager.damage);
+                AnalyticsManager.Instance.AddModDamage(ModType.Missile, damager.damage);
 
                 if (damageable.GetHealth() - damager.damage <= 0.01f)
                 {
-                    AnalyticsManager.Instance.AddModKill(ModType.Dice);
+                    AnalyticsManager.Instance.AddModKill(ModType.Missile);
                 }
 
 

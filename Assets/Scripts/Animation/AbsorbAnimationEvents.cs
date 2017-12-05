@@ -18,4 +18,8 @@ public sealed class AbsorbAnimationEvents : MonoBehaviour
     public void MoveTowardsPlayerInAttack () { }
 
     public void FinishedAttack () { }
+
+    public void StartAiming() { }
+
+    public void StopAiming() { }
 }

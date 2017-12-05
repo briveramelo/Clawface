@@ -9,8 +9,9 @@ public class BouncerProperties : AIProperties
 {
     [Range(1, 10)] public int maxBouncerBounces;
     [Range(1, 10)] public int minBouncerBounces;
-    [Range(1, 10)] public int maxBouncerShots;
-    [Range(1, 10)] public int minBouncerShots;
+    [Range(1, 100)] public int maxBouncerShots;
+    [Range(1, 100)] public int minBouncerShots;
+    [Range(1f, 100f)] public float bouncerRotationSpeed;
     public bool bouncerRotate;
 
     public void InitializeProperties()
@@ -19,6 +20,7 @@ public class BouncerProperties : AIProperties
         minBounces = minBouncerBounces;
         maxShots = maxBouncerShots;
         minShots = minBouncerShots;
+        rotationSpeed = bouncerRotationSpeed;
         rotate = bouncerRotate;
     }
 
@@ -39,6 +41,7 @@ public class Bouncer : EnemyBase
     private BouncerChaseState chase;
     private BouncerFireState fire;
     private BouncerStunState stun;
+    private BouncerCelebrateState celebrate;
 
 
     #endregion
@@ -137,6 +140,13 @@ public class Bouncer : EnemyBase
     }
 
 
+    public override void DoPlayerKilledState(object[] parameters)
+    {
+        animator.SetTrigger("DoVictoryDance");
+        controller.CurrentState = celebrate;
+        controller.UpdateState(EAIState.Celebrate);
+    }
+
     #endregion
 
     #region 6. Private Methods    
@@ -150,9 +160,12 @@ public class Bouncer : EnemyBase
         fire.stateName = "fire";
         stun = new BouncerStunState();
         stun.stateName = "stun";
+        celebrate = new BouncerCelebrateState();
+        celebrate.stateName = "celebrate";
         aiStates.Add(chase);
         aiStates.Add(fire);
         aiStates.Add(stun);
+        aiStates.Add(celebrate);
     }
 
     private void OnDrawGizmosSelected()
@@ -160,6 +173,7 @@ public class Bouncer : EnemyBase
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, closeEnoughToAttackDistance);
     }
+
 
     #endregion
 }

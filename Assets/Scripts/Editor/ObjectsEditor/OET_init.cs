@@ -193,60 +193,32 @@ namespace OET_init
                 Undo.RegisterCreatedObjectUndo(_instance, "Init the level");
             };
 
-            if (GameObject.Find ("ServiceWrangler") == null)
-            {
-                _prefab = AssetDatabase.LoadAssetAtPath("Assets/Prefabs/General/ServiceWrangler.prefab", typeof(GameObject)) as GameObject;
 
-                if(_prefab == null)
-                {
-                    Debug.Log("ServiceWrangler PATH error!!!");
-                }
-                else
-                {
-                    _instance = Instantiate(_prefab, new Vector3(0, 0, 0), Quaternion.identity);
-                    _instance.name = "ServiceWrangler";
-                    _instance.transform.SetParent(parent.transform);
-                    Undo.RegisterCreatedObjectUndo(_instance, "Init the level");
-                }
-            }
+            _CreateSingleton("Music Intensity Manager", parent, "Assets/Prefabs/General/Music Intensity Manager.prefab");
+            _CreateSingleton("ServiceWrangler", parent, "Assets/Prefabs/General/ServiceWrangler.prefab");
+            _CreateSingleton("SpawnManager", parent, "Assets/Prefabs/Enemies/SpawnManager.prefab");
+            _CreateSingleton("NavMeshSurface", parent, "Assets/Prefabs/LevelEditor/Floor Tiles/NavMeshSurface.prefab");
+        }
 
-            if(GameObject.Find("SpawnManager") == null)
+        static void _CreateSingleton(string name, GameObject parent, string PATH)
+        {
+            if (GameObject.Find(name) == null)
             {
-                _prefab = AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Enemies/SpawnManager.prefab", typeof(GameObject)) as GameObject;
+                GameObject _prefab = AssetDatabase.LoadAssetAtPath(PATH, typeof(GameObject)) as GameObject;
 
                 if (_prefab == null)
                 {
-                    Debug.Log("SpawnManager PATH error!!!");
+                    Debug.Log(name + " PATH error");
                 }
                 else
                 {
-                    _instance = Instantiate(_prefab, new Vector3(0, 0, 0), Quaternion.identity);
-                    _instance.name = "SpawnManager";
+                    GameObject _instance = Instantiate(_prefab, new Vector3(0, 0, 0), Quaternion.identity);
+                    _instance.name = name;
                     _instance.transform.SetParent(parent.transform);
-                    Undo.RegisterCreatedObjectUndo(_instance, "Init the level");
-                }
-            }
-
-
-            if (GameObject.Find("NavMeshSurface") == null)
-            {
-                _prefab = AssetDatabase.LoadAssetAtPath("Assets/Prefabs/LevelEditor/Floor Tiles/NavMeshSurface.prefab", typeof(GameObject)) as GameObject;
-
-                if (_prefab == null)
-                {
-                    Debug.Log("NavMeshSurface PATH error!!!");
-                }
-                else
-                {
-                    _instance = Instantiate(_prefab, new Vector3(0, 0, 0), Quaternion.identity);
-                    _instance.name = "NavMeshSurface";
-                    _instance.transform.SetParent(parent.transform);
-
                     Undo.RegisterCreatedObjectUndo(_instance, "Init the level");
                 }
             }
         }
-
 
 
         static void _AddNavMeshModifier(GameObject _object, int _state)
