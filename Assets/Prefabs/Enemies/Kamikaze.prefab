@@ -467,6 +467,7 @@ GameObject:
   - component: {fileID: 114585084290289136}
   - component: {fileID: 195467075105033086}
   - component: {fileID: 208370818041086144}
+  - component: {fileID: 114410684263093800}
   m_Layer: 9
   m_Name: Kamikaze
   m_TagString: Enemy
@@ -1185,6 +1186,20 @@ MonoBehaviour:
     rotate: 0
     kamikazeSelfDestructTime: 1.34
     kamikazeBlastRadius: 10.7
+--- !u!114 &114410684263093800
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1902439104558274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d60ab8059fd01054f9142bc8ecad8232, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  margin: 0.1
+  timeTilCull: 5
+  enemyBase: {fileID: 114339691171653046}
 --- !u!114 &114419598569920118
 MonoBehaviour:
   m_ObjectHideFlags: 1

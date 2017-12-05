@@ -584,6 +584,7 @@ GameObject:
   - component: {fileID: 114562163281978664}
   - component: {fileID: 195488204217186714}
   - component: {fileID: 208751853675774266}
+  - component: {fileID: 114465414391305930}
   m_Layer: 9
   m_Name: BlasterCop
   m_TagString: Enemy
@@ -2861,6 +2862,20 @@ MonoBehaviour:
   bulletLiveTime: 5
   bulletSpeed: 30
   bulletType: 35
+--- !u!114 &114465414391305930
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1385345176205422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d60ab8059fd01054f9142bc8ecad8232, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  margin: 0.1
+  timeTilCull: 5
+  enemyBase: {fileID: 114865393807199374}
 --- !u!114 &114562163281978664
 MonoBehaviour:
   m_ObjectHideFlags: 1

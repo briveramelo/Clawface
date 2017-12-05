@@ -548,6 +548,7 @@ GameObject:
   - component: {fileID: 114857703702930746}
   - component: {fileID: 195516232639174252}
   - component: {fileID: 208811840099296770}
+  - component: {fileID: 114057306201283490}
   m_Layer: 9
   m_Name: Bouncer
   m_TagString: Enemy
@@ -3366,6 +3367,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 348b0120920885b4195bf71cb50e01dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114057306201283490
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1351927175794106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d60ab8059fd01054f9142bc8ecad8232, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  margin: 0.1
+  timeTilCull: 5
+  enemyBase: {fileID: 114072913232068868}
 --- !u!114 &114072913232068868
 MonoBehaviour:
   m_ObjectHideFlags: 1
