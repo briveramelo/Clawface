@@ -22,7 +22,7 @@ public class MallCop : EnemyBase
     [SerializeField] float closeEnoughToFireDistance;
     [SerializeField] private MallCopProperties properties;
     [SerializeField] private Mod mod;
-
+    [SerializeField] private float maxToleranceTime;
     #endregion
 
     #region 2. Private fields
@@ -30,6 +30,8 @@ public class MallCop : EnemyBase
     private MallCopChaseState chase;
     private MallCopFireState fire;
     private MallCopStunState stun;
+    private float currentToleranceTime;
+    
     #endregion
 
     #region 3. Unity Lifecycle
@@ -49,7 +51,7 @@ public class MallCop : EnemyBase
         };
 
         mod.damage = myStats.attack;
-
+        currentToleranceTime = 0.0f;
         base.Awake();
     }
 
@@ -76,12 +78,19 @@ public class MallCop : EnemyBase
     }
     bool CheckToFinishFiring()
     {
-        if (controller.CurrentState == fire)
+        
+
+        if (controller.CurrentState == fire && fire.DoneFiring())
         {
 
             if (controller.DistanceFromTarget > closeEnoughToFireDistance)
             {
-                fire.StartEndFire();
+                ToleranceTimeToExit();
+            }
+            else if (controller.DistanceFromTarget < closeEnoughToFireDistance)
+            {
+                ToleranceTimeToExit();
+                currentToleranceTime = 0.0f;
             }
             else
             {
@@ -146,10 +155,9 @@ public class MallCop : EnemyBase
 
     public void StopAiming ()
     {
+        fire.StopAiming();
         animator.SetLayerWeight (2, 0.0f);
     }
-
-
     #endregion
 
     #region 5. Private Methods    
@@ -174,6 +182,24 @@ public class MallCop : EnemyBase
         Gizmos.DrawWireSphere(transform.position, closeEnoughToFireDistance);
         //Gizmos.color = Color.green;
         //Gizmos.DrawWireSphere(playerDetectorSphereCollider.transform.position, maxDistanceBeforeChasing);
+    }
+
+    private void ToleranceTimeToExit()
+    {
+        currentToleranceTime += Time.deltaTime;
+
+        if (currentToleranceTime >= maxToleranceTime)
+        {
+            if (controller.DistanceFromTarget < closeEnoughToFireDistance)
+            {
+                currentToleranceTime = 0.0f;
+            }
+            else
+            {
+                fire.StartEndFire();
+            }
+        }
+
     }
 
     #endregion
