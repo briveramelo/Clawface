@@ -24,6 +24,9 @@ public class PlayerStateManager : MonoBehaviour {
 
     [SerializeField] private EatingState eatingState;
     [SerializeField] private SphereCollider eatCollider;
+
+    [SerializeField] private float tutorialSlowDownRate = 0.05f;
+    [SerializeField] private float tutorialSpeedUpRate = 0.05f;
     #endregion
 
     #region Private Fields
@@ -182,7 +185,7 @@ public class PlayerStateManager : MonoBehaviour {
         Debug.Log("Slowing Down");
         while (Time.timeScale > 0.1f)
         {
-            Time.timeScale = Mathf.Lerp(Time.timeScale, 0.0f, 0.05f);
+            Time.timeScale = Mathf.Lerp(Time.timeScale, 0.0f, tutorialSlowDownRate);
             yield return null;
         }
         Debug.Log("Stopped");
@@ -204,7 +207,7 @@ public class PlayerStateManager : MonoBehaviour {
         Debug.Log("Speeding up");
         while (Time.timeScale < 0.9f)
         {
-            Time.timeScale = Mathf.Lerp(Time.timeScale, 1.0f, 0.05f);
+            Time.timeScale = Mathf.Lerp(Time.timeScale, 1.0f, tutorialSpeedUpRate);
             yield return null;
         }
         Debug.Log("Started");
