@@ -256,10 +256,31 @@ MonoBehaviour:
     size: 15
     mostUsed: 0
     objects: []
-  - name: VFXBloodDecal
-    poolObjectType: 6
+  - name: RedBouncer
+    poolObjectType: 46
     prefabs:
-    - {fileID: 1722844976735306, guid: cc236c34450b0044e98ba328d9117933, type: 2}
-    size: 150
+    - {fileID: 1962243579016920, guid: 7774d8fe7a775a74992d51fe5fd1172c, type: 2}
+    size: 20
+    mostUsed: 0
+    objects: []
+  - name: GreenBouncer
+    poolObjectType: 47
+    prefabs:
+    - {fileID: 1962243579016920, guid: 40d6624267ce529499744af0a4133053, type: 2}
+    size: 20
+    mostUsed: 0
+    objects: []
+  - name: KamikazeExplosionSphere
+    poolObjectType: 48
+    prefabs:
+    - {fileID: 1068219717431796, guid: 93160c7bd6e70b2499295fdd6ae973f2, type: 2}
+    size: 20
+    mostUsed: 0
+    objects: []
+  - name: VFXPlayerDeath
+    poolObjectType: 49
+    prefabs:
+    - {fileID: 1753920303409546, guid: 315da6711ab9d8f45854be81ca9e1804, type: 2}
+    size: 1
     mostUsed: 0
     objects: []

@@ -15,7 +15,6 @@ public class BouncerChaseState : AIState {
     private float tolerance = 0.1f;
     private int jumpCount = 0;
     private int maxJumpCount;
-    private NavMeshHit hit;
     private Vector3 finalPosition;
 
     //Smooth Lerping
@@ -29,7 +28,6 @@ public class BouncerChaseState : AIState {
 
     public override void OnEnter()
     {
-
         controller.AttackTarget = controller.FindPlayer();
         jumpCount = 0;
         maxJumpCount = Random.Range(properties.minBounces, properties.maxBounces);
@@ -39,7 +37,6 @@ public class BouncerChaseState : AIState {
     }
     public override void Update()
     {
-       
         Chase();
     }
 
@@ -61,46 +58,98 @@ public class BouncerChaseState : AIState {
         }
     }
 
-    private bool IsHittingWall(Vector3 movementDirection, float checkDistance)
-    {
-        Vector3 rayOrigin = new Vector3(controller.transform.position.x, controller.transform.position.y + 0.5f, controller.transform.position.z);
-        Ray raycast = new Ray(rayOrigin, movementDirection);
-        List<RaycastHit> rayCastHits = new List<RaycastHit>(Physics.RaycastAll(raycast, checkDistance));
-        if (rayCastHits.Any(hit => (
-            hit.collider.tag == Strings.Tags.UNTAGGED ||
-            hit.collider.tag == Strings.Tags.ENEMY ||
-            hit.transform.gameObject.layer == (int)Layers.Ground)))
-        {
-            return true;
-        }
-        return false;
-    }
-
-
     private void GetNewChaseTarget()
     {
-            bool gotChasePoint = false;
-            Vector3 moveDirection = controller.DirectionToTarget;
-            jumpTarget = controller.transform.position + (moveDirection.normalized * jumpTargetDistance);
+        Vector3 moveDirection = controller.DirectionToTarget;
+        jumpTarget = controller.transform.position + (moveDirection.normalized * jumpTargetDistance);
 
-            if (navAgent.SetDestination(jumpTarget))
+        Vector3 fwd = controller.DirectionToTarget;
+        RaycastHit hit;
+
+        //Do a ray cast to check there is no obstruction
+        if (Physics.Raycast(controller.transform.position, fwd, out hit, Mathf.Infinity, LayerMask.GetMask(Strings.Layers.MODMAN, Strings.Layers.OBSTACLE)))
+        {
+            if (hit.transform.tag == Strings.Tags.PLAYER)
             {
-                finalPosition = jumpTarget;
-                gotChasePoint = true;
+                //Special case when a wall is behind the player
+                if (Physics.Raycast(controller.AttackTargetPosition, fwd, out hit, 5, LayerMask.GetMask(Strings.Layers.GROUND)))
+                {
+                    if (hit.transform.tag == Strings.Tags.WALL)
+                    {
+                        if (Vector3.Distance(controller.transform.position, controller.AttackTargetPosition) < jumpTargetDistance)
+                        {
+                            if (navAgent.SetDestination(controller.AttackTargetPosition + (-controller.DirectionToTarget.normalized) * 2.0f))
+                            {
+                                finalPosition = controller.AttackTargetPosition + (-controller.DirectionToTarget.normalized) * 2.0f;
+                            }
+                        }
+                        else
+                        {
+                            if (navAgent.SetDestination(jumpTarget))
+                            {
+                                finalPosition = jumpTarget;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    if (navAgent.SetDestination(jumpTarget))
+                    {
+                        finalPosition = jumpTarget;
+                    }
+                }
+                
             }
 
-            if (gotChasePoint)
+            //Hit obstacle
+            else
             {
-            moving = true;
-            Timing.RunCoroutine(Move(), coroutineName);
+
+                if (Vector3.Distance(controller.transform.position, controller.AttackTargetPosition) < jumpTargetDistance)
+                {
+                    if (navAgent.SetDestination(controller.AttackTargetPosition))
+                    {
+                        finalPosition = controller.AttackTargetPosition;
+                    }
+                }
+                else
+                {
+                    Vector3 bouncerPos = new Vector3(controller.transform.position.x, 0.0f, controller.transform.position.z);
+                    Vector3 closestPoint = hit.collider.ClosestPointOnBounds(bouncerPos);
+                    float newDistance = Vector3.Distance(closestPoint, bouncerPos);
+
+                    if (newDistance < jumpTargetDistance)
+                    {
+                        jumpTarget = controller.transform.position + (moveDirection.normalized * (jumpTargetDistance + hit.collider.bounds.extents.magnitude * 1.2f));
+
+                        if (navAgent.SetDestination(jumpTarget))
+                        {
+                            finalPosition = jumpTarget;
+                        }
+                    }
+
+                    else
+                    {
+                        if (navAgent.SetDestination(jumpTarget))
+                        {
+                            finalPosition = jumpTarget;
+                        }
+                    }
+                }
+                
             }
+        }
+
+        moving = true;
+        Timing.RunCoroutine(Move(), coroutineName);
     }
 
 
     IEnumerator<float> Move()
     {
 
-        animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.StartingJump);
+        animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.Jumping);
 
         while (!doneStartingJump)
         {
@@ -152,7 +201,7 @@ public class BouncerChaseState : AIState {
             }
             interpolation = currentLerpTime / lerpTime;
 
-            animator.SetInteger(Strings.ANIMATIONSTATE, (int) AnimationStates.Jumping);
+            
 
             controller.transform.position = Vector3.Lerp(initialPosition, targetPosition, interpolation);
 

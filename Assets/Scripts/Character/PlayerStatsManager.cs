@@ -18,6 +18,10 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     [SerializeField] private CameraLock cameraLock;
     [SerializeField] private PlayerFaceController faceController;
     [SerializeField] private bool shake;
+    [SerializeField] private GameObject playerMesh;
+    [SerializeField] private GameObject modSockets;
+    [SerializeField] private PoolObjectType deathVFX;
+    [SerializeField] private SFXType deathSFX;
     #endregion
 
     #region Private Fields
@@ -73,7 +77,20 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
                 {
                     EventSystem.Instance.TriggerEvent(Strings.Events.PLAYER_KILLED, SceneManager.GetActiveScene().name, AnalyticsManager.Instance.GetCurrentWave(), ModManager.leftArmOnLoad.ToString(), ModManager.rightArmOnLoad.ToString());
                     //Revive(); //removed because of the inclusion of the game over menu
-                    
+                    if (playerMesh && modSockets)
+                    {                        
+                        GameObject vfx = ObjectPool.Instance.GetObject(deathVFX);
+                        vfx.transform.position = playerMesh.transform.position;
+                        vfx.SetActive(true);
+                        CapsuleCollider collider = GetComponent<CapsuleCollider>();
+                        if (collider)
+                        {
+                            collider.enabled = false;
+                        }
+                        playerMesh.SetActive(false);
+                        modSockets.SetActive(false);
+                        SFXManager.Instance.Play(deathSFX, playerMesh.transform.position);
+                    }
                 }
             }
           

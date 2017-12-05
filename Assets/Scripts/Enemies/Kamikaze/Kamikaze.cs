@@ -32,6 +32,7 @@ public class Kamikaze : EnemyBase
     private KamikazeChaseState chase;
     private KamikazeAttackState attack;
     private KamikazeStunState stun;
+    private KamikazeCelebrateState celebrate;
     #endregion
 
     #region 4. Unity Lifecycle
@@ -93,12 +94,19 @@ public class Kamikaze : EnemyBase
         return false;
     }
 
-
     public override void ResetForRebirth()
     {
         attack.setToSelfDestruct = false;
         base.ResetForRebirth();
     }
+
+    public override void DoPlayerKilledState(object[] parameters)
+    {
+        //animator.SetTrigger("DoVictoryDance");
+        //controller.CurrentState = celebrate;
+        //controller.UpdateState(EAIState.Celebrate);
+    }
+
     #endregion
 
     #region 6. Private Methods    
@@ -112,9 +120,12 @@ public class Kamikaze : EnemyBase
         attack.stateName = "attack";
         stun = new KamikazeStunState();
         stun.stateName = "stun";
+        celebrate = new KamikazeCelebrateState();
+        celebrate.stateName = "celebrate";
         aiStates.Add(chase);
         aiStates.Add(attack);
         aiStates.Add(stun);
+        aiStates.Add(celebrate);
     }
 
     private void OnDrawGizmosSelected()

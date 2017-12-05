@@ -160,8 +160,8 @@ public class ModManager : MonoBehaviour
                 return Instantiate(modInventory.blaster);
             case ModType.Boomerang:
                 return Instantiate(modInventory.boomerang);
-            case ModType.Dice:
-                return Instantiate(modInventory.dice);
+            case ModType.Missile:
+                return Instantiate(modInventory.missile);
             case ModType.SpreadGun:
                 return Instantiate(modInventory.segway);
             case ModType.Geyser:

@@ -5,6 +5,7 @@ using UnityEngine.AI;
 using Turing.VFX;
 using ModMan;
 using MovementEffects;
+using System;
 
 public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatable, ISpawnable
 {
@@ -48,12 +49,14 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
 
     private void OnEnable()
     {
-
+        EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_KILLED, DoPlayerKilledState);
         if (will.willHasBeenWritten)
         {
             ResetForRebirth();
         }
-    }    
+    }
+
+    public abstract void DoPlayerKilledState(object[] parameters);
 
     public virtual void Awake()
     {
@@ -67,6 +70,12 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         ResetForRebirth();
     }
 
+    private new void OnDisable()
+    {
+        EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_KILLED, DoPlayerKilledState);
+        base.OnDisable();
+    }
+
     #endregion
 
     #region 5. Public Methods   
@@ -75,6 +84,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     {
         if (myStats.health > 0 && !isIndestructable)
         {
+            DoHitReaction(damager);
             myStats.TakeDamage(damager.damage);
             damagePack.Set(damager, damaged);
             SFXManager.Instance.Play(hitSFX, transform.position);
@@ -128,7 +138,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     }
 
 
-    bool IEatable.IsEatable()
+    public bool IsEatable()
     {
         return myStats.health <= myStats.skinnableHealth;
     }
@@ -152,6 +162,11 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         will.willHasBeenWritten = true;
         will.onDeath = onDeath;
     }
+
+    public virtual void DoHitReaction(Damager damager)
+    {
+    }
+
 
     public virtual void OnDeath()
     {

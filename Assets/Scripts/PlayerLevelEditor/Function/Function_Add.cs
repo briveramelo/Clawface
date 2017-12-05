@@ -14,6 +14,7 @@ namespace PlayerLevelEditor
     {
         public static GameObject _prefab;
 
+        GameObject _LevelObject;
         Button Btn_Add;
         Button Btn_Delete;
 
@@ -24,7 +25,6 @@ namespace PlayerLevelEditor
         public Vector3 mousePositionInScene;
 
         private bool clickToAddEnabled = false;
-        private bool clickToDeleteEnabled = false;
 
         public Add(FunctionController Controller) : base(Controller)
         {
@@ -34,6 +34,8 @@ namespace PlayerLevelEditor
         public override void Init()
         {
             base.Init();
+
+            _LevelObject = UnityTool.FindGameObject("LEVEL");
 
             SetUIObject("UI_Add");
 
@@ -54,7 +56,7 @@ namespace PlayerLevelEditor
 
             _prefab = Resources.Load("PlayerLevelEditorObjects/Env/test") as GameObject;
 
-            Database.Enable();
+ //           Database.Enable();
         }
 
 
@@ -72,15 +74,18 @@ namespace PlayerLevelEditor
 
                 if (Input.GetMouseButtonDown(0) && clickToAddEnabled)
                 {
+
+                    LevelUnit LU = hit.transform.gameObject.GetComponent<LevelUnit>();
+
+                    if (LU != null)
+                    {
+                        GameObject.DestroyImmediate(LU);
+                    }
+          
                     Vector3 _pos = PlayerLevelEditor.ToolLib.ConvertToGrid(mousePositionInScene);
+                    GameObject _instance = GameObject.Instantiate(_prefab, _pos, Quaternion.identity);
 
-                    GameObject.Instantiate(_prefab, _pos, Quaternion.identity);
-                }
-
-                //Right Click
-                if (Input.GetMouseButtonDown(1) && clickToDeleteEnabled)
-                {
-                    GameObject.DestroyImmediate(hit.collider.gameObject);
+                    _instance.transform.SetParent(_LevelObject.transform);
                 }
 
             }
@@ -93,7 +98,7 @@ namespace PlayerLevelEditor
             base.Release();
             Btn_Add.onClick.RemoveListener(ACT_Add);
 
-            Database.Disable();
+//            Database.Disable();
         }
 
 
@@ -107,8 +112,17 @@ namespace PlayerLevelEditor
 
         void EnableDelete(Button thisBtn)
         {
-            clickToDeleteEnabled = !clickToDeleteEnabled;
-            thisBtn.image.color = clickToDeleteEnabled ? Color.red : Color.white;
+            GameObject LEVEL = UnityTool.FindGameObject("LEVEL");
+            if(LEVEL) GameObject.DestroyImmediate(LEVEL);
+
+            GameObject WALL = UnityTool.FindGameObject("WALL");
+            if (WALL) GameObject.DestroyImmediate(WALL);
+
+
+            GameObject _player = UnityTool.FindGameObject("Keira_GroupV1.5(Clone)");
+            if (_player) GameObject.DestroyImmediate(_player);
+
+            Initialize.Reset();
         }
 
     }

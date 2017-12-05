@@ -29,7 +29,9 @@ public enum SFXType {
     UI_Hover,
     UI_Back,
     SpreadshotShoot,
-    LightningGunShoot
+    LightningGunShoot,
+    GeyserShoot,
+    PlayerEat
 }
 
 public enum MusicType
@@ -57,6 +59,8 @@ public enum DamagedType {
     Zombie=2,
     Bouncer=3,
     Kamikaze = 4,
+    RedBouncer = 5,
+    GreenBouncer = 6,
 }
 
 public enum ModType {
@@ -65,9 +69,8 @@ public enum ModType {
     LightningGun = 2,
     Boomerang = 3,
     Geyser = 4,
-    Dice = 5,
-    None = 6,
-    Missile = 7
+    Missile = 5,
+    None = 6
 }
 
 public enum ModCategory
@@ -104,6 +107,7 @@ public enum PoolObjectType {
     WorldScoreCanvas = 26,
     GeyserFissure = 29,	
     BlasterImpactEffect = 31,
+    KamikazeExplosionSphere = 48,
 
     //VFX
     VFXBlasterImpactEffect = 3,
@@ -121,7 +125,8 @@ public enum PoolObjectType {
     VFXGeyserImpact = 42,
     VFXKamikazeExplosion = 43,
     VFXLightningGunImpact = 44,
-    VFXLightningGunShoot = 45,    
+    VFXLightningGunShoot = 45,
+    VFXPlayerDeath = 49,
 
     //BulletTypes
     TurretBullet = 28,
@@ -142,6 +147,8 @@ public enum PoolObjectType {
     Zombie = 32,
     Bouncer = 33,
     Kamikaze = 34,
+    RedBouncer = 46,
+    GreenBouncer = 47,
 
 }
 
@@ -209,7 +216,16 @@ public enum AnimationStates {
     TurnLeft = 6,
     TurnRight = 61,
     
-    
+    Celebrate1 = 7,
+    Celebrate2 = 71,
+    Celebrate3 = 72,
+    Celebrate4 = 73,
+    Celebrate5 = 74,
+
+    HitReaction1 = 8,
+    HitReaction2 = 81,
+    HitReaction3 = 82
+
 }
 
 public enum EAIState
@@ -218,7 +234,8 @@ public enum EAIState
     Attack = 1,
     Fire = 3,
     Death = 4,
-    Stun = 5
+    Stun = 5,
+    Celebrate = 6,
 }
 
 
@@ -235,6 +252,8 @@ public enum SpawnType {
     Zombie = 1,
     Bouncer = 2,
     Kamikaze = 3,
+    RedBouncer = 4,
+    GreenBouncer = 5,
 }
 
 public enum ActionType

@@ -322,7 +322,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &24302417
 Transform:
@@ -623,7 +623,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &32014266
 MonoBehaviour:
@@ -737,6 +737,10 @@ Prefab:
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (32)
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -758,7 +762,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &38460058
 MonoBehaviour:
@@ -889,7 +893,39 @@ Prefab:
       propertyPath: m_LocalScale.y
       value: 1.35
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 65770086025428756, guid: 2d9ec57c2d01d3647934da4806d6efa5,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 65770086025428756, guid: 2d9ec57c2d01d3647934da4806d6efa5,
+        type: 2}
+      propertyPath: m_Size.y
+      value: 5.038972
+      objectReference: {fileID: 0}
+    - target: {fileID: 65770086025428756, guid: 2d9ec57c2d01d3647934da4806d6efa5,
+        type: 2}
+      propertyPath: m_Size.z
+      value: 4.978812
+      objectReference: {fileID: 0}
+    - target: {fileID: 65770086025428756, guid: 2d9ec57c2d01d3647934da4806d6efa5,
+        type: 2}
+      propertyPath: m_Center.x
+      value: -0.0000012362444
+      objectReference: {fileID: 0}
+    - target: {fileID: 65770086025428756, guid: 2d9ec57c2d01d3647934da4806d6efa5,
+        type: 2}
+      propertyPath: m_Center.z
+      value: 0.00559171
+      objectReference: {fileID: 0}
+    - target: {fileID: 65770086025428756, guid: 2d9ec57c2d01d3647934da4806d6efa5,
+        type: 2}
+      propertyPath: m_Center.y
+      value: 2.5463896
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 65184066357780158, guid: 2d9ec57c2d01d3647934da4806d6efa5, type: 2}
+    - {fileID: 65647988909620550, guid: 2d9ec57c2d01d3647934da4806d6efa5, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 2d9ec57c2d01d3647934da4806d6efa5, type: 2}
   m_IsPrefabParent: 0
 --- !u!4 &42148989 stripped
@@ -1092,6 +1128,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 0.99999976
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -1222,8 +1262,8 @@ MonoBehaviour:
   waves:
   - spawnedHashCodes: 
     monsterList:
-    - Type: 0
-      Count: 1
+    - Type: 1
+      Count: 2
     - Type: 3
       Count: 2
     remainingSpawns: 0
@@ -1387,7 +1427,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &75776038
 Transform:
@@ -1527,6 +1567,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -1643,6 +1687,10 @@ Prefab:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -0.032
       objectReference: {fileID: 0}
+    - target: {fileID: 1337892898563446, guid: 7a60a47709e78d646b7f14dd3b28fc1d, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7a60a47709e78d646b7f14dd3b28fc1d, type: 2}
   m_IsPrefabParent: 0
@@ -1664,7 +1712,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &90126680
 MonoBehaviour:
@@ -1928,7 +1976,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &109279109 stripped
 Transform:
@@ -2142,6 +2190,10 @@ Prefab:
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (51)
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -2163,7 +2215,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &135224394
 Transform:
@@ -2303,6 +2355,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -2411,6 +2467,10 @@ Prefab:
     - target: {fileID: 4537118974517010, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
       propertyPath: m_LocalScale.z
       value: 0.99999976
+      objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
@@ -2584,7 +2644,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &159465819
 MonoBehaviour:
@@ -2720,6 +2780,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 0.99999976
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -2825,6 +2889,10 @@ Prefab:
     - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (35)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
@@ -2933,6 +3001,10 @@ Prefab:
     - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (49)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
@@ -3098,6 +3170,10 @@ Prefab:
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (27)
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -3259,6 +3335,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -3330,6 +3410,10 @@ Prefab:
     - target: {fileID: 4537118974517010, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
       propertyPath: m_LocalScale.z
       value: 0.99999976
+      objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
@@ -3510,6 +3594,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 0.99999976
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -3531,7 +3619,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &247597387
 Transform:
@@ -3634,7 +3722,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &248187316
 MonoBehaviour:
@@ -3748,6 +3836,10 @@ Prefab:
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (50)
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -3820,7 +3912,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &255648879
 MonoBehaviour:
@@ -4075,7 +4167,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &266802626
 Transform:
@@ -4215,6 +4307,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 0.99999976
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -4269,6 +4365,10 @@ Prefab:
     - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (52)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
@@ -4363,7 +4463,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &284273301
 Transform:
@@ -7894,6 +7994,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 0.99999976
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -7956,6 +8060,10 @@ Prefab:
     - target: {fileID: 4537118974517010, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
       propertyPath: m_LocalScale.z
       value: 0.99999976
+      objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
@@ -8225,7 +8333,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &318497227
 Transform:
@@ -8414,7 +8522,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &323815330
 Transform:
@@ -8612,6 +8720,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1804662174328988, guid: 04632849259f14d41843af8c02d58fd9, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 04632849259f14d41843af8c02d58fd9, type: 2}
   m_IsPrefabParent: 0
@@ -8633,7 +8745,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &337609081
 Transform:
@@ -8741,7 +8853,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &348903573
 MonoBehaviour:
@@ -8864,6 +8976,10 @@ Prefab:
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (45)
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -8904,7 +9020,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &364372695
 Transform:
@@ -9035,6 +9151,10 @@ Prefab:
     - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (38)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
@@ -9195,6 +9315,10 @@ Prefab:
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (51)
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -9216,7 +9340,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &386975426
 MonoBehaviour:
@@ -9444,6 +9568,101 @@ Transform:
   m_Father: {fileID: 1903757272}
   m_RootOrder: 23
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!1 &411622688
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 1954358050930550, guid: 7f3bd5b4144688a4f9c9cab6e3160139,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 411622693}
+  - component: {fileID: 411622692}
+  - component: {fileID: 411622691}
+  - component: {fileID: 411622690}
+  - component: {fileID: 411622689}
+  m_Layer: 0
+  m_Name: Camera
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!81 &411622689
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 81152622009920058, guid: 7f3bd5b4144688a4f9c9cab6e3160139,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 411622688}
+  m_Enabled: 1
+--- !u!92 &411622690
+Behaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 92208776180958648, guid: 7f3bd5b4144688a4f9c9cab6e3160139,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 411622688}
+  m_Enabled: 1
+--- !u!124 &411622691
+Behaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 124272753862074608, guid: 7f3bd5b4144688a4f9c9cab6e3160139,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 411622688}
+  m_Enabled: 1
+--- !u!20 &411622692
+Camera:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 20057895079627602, guid: 7f3bd5b4144688a4f9c9cab6e3160139,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 411622688}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.3
+  far clip plane: 1000
+  field of view: 60
+  orthographic: 1
+  orthographic size: 8
+  m_Depth: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 1
+  m_AllowMSAA: 1
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
+  m_StereoMirrorMode: 0
+--- !u!4 &411622693
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 4983223085816466, guid: 7f3bd5b4144688a4f9c9cab6e3160139,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 411622688}
+  m_LocalRotation: {x: 0.36188334, y: 0.4698932, z: -0.16906492, w: 0.7871835}
+  m_LocalPosition: {x: -21.54, y: 20.78, z: -7.78}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &411717209
 GameObject:
   m_ObjectHideFlags: 0
@@ -9570,7 +9789,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &412895906
 MonoBehaviour:
@@ -9683,6 +9902,10 @@ Prefab:
     - target: {fileID: 1804662174328988, guid: 04632849259f14d41843af8c02d58fd9, type: 2}
       propertyPath: m_Name
       value: floor_tile_white_emissive_corner (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1804662174328988, guid: 04632849259f14d41843af8c02d58fd9, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 04632849259f14d41843af8c02d58fd9, type: 2}
@@ -9945,7 +10168,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &448960141
 MonoBehaviour:
@@ -10048,7 +10271,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &458344661
 MonoBehaviour:
@@ -10221,6 +10444,10 @@ Prefab:
       propertyPath: m_Name
       value: floor_tile_white_emissive_t (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 1337892898563446, guid: 7a60a47709e78d646b7f14dd3b28fc1d, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7a60a47709e78d646b7f14dd3b28fc1d, type: 2}
   m_IsPrefabParent: 0
@@ -10236,7 +10463,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1903757272}
-  m_RootOrder: 44
+  m_RootOrder: 43
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1 &477920792
 GameObject:
@@ -10256,7 +10483,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &477920793
 Transform:
@@ -10359,7 +10586,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &510708753
 MonoBehaviour:
@@ -10448,7 +10675,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &511269511
 MonoBehaviour:
@@ -10629,6 +10856,10 @@ Prefab:
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (34)
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -10686,6 +10917,10 @@ Prefab:
     - target: {fileID: 4537118974517010, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
       propertyPath: m_LocalScale.z
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
@@ -10884,6 +11119,10 @@ Prefab:
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (48)
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -10905,7 +11144,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &541287213
 MonoBehaviour:
@@ -11030,6 +11269,10 @@ Prefab:
     - target: {fileID: 4537118974517010, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
       propertyPath: m_LocalScale.z
       value: 0.99999976
+      objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
@@ -11284,6 +11527,10 @@ Prefab:
       propertyPath: m_Name
       value: floor_tile_white_emissive_t (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 1337892898563446, guid: 7a60a47709e78d646b7f14dd3b28fc1d, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7a60a47709e78d646b7f14dd3b28fc1d, type: 2}
   m_IsPrefabParent: 0
@@ -11356,7 +11603,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &566669266
 Transform:
@@ -11459,7 +11706,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &570292943
 Transform:
@@ -11590,6 +11837,10 @@ Prefab:
     - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (52)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
@@ -11782,7 +12033,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &585668535
 MonoBehaviour:
@@ -11916,7 +12167,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!4 &597238802 stripped
 Transform:
@@ -11974,7 +12225,39 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 1.35
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 65958129626844862, guid: f21d0c57a5dfb4940a2e49fad53a7211,
+        type: 2}
+      propertyPath: m_Size.y
+      value: 5.3496747
+      objectReference: {fileID: 0}
+    - target: {fileID: 65958129626844862, guid: f21d0c57a5dfb4940a2e49fad53a7211,
+        type: 2}
+      propertyPath: m_Center.x
+      value: -0.0000012362444
+      objectReference: {fileID: 0}
+    - target: {fileID: 65958129626844862, guid: f21d0c57a5dfb4940a2e49fad53a7211,
+        type: 2}
+      propertyPath: m_Center.y
+      value: 2.324838
+      objectReference: {fileID: 0}
+    - target: {fileID: 65958129626844862, guid: f21d0c57a5dfb4940a2e49fad53a7211,
+        type: 2}
+      propertyPath: m_Center.z
+      value: -0.0061084605
+      objectReference: {fileID: 0}
+    - target: {fileID: 65628152861054026, guid: f21d0c57a5dfb4940a2e49fad53a7211,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 208046270561163244, guid: f21d0c57a5dfb4940a2e49fad53a7211,
+        type: 2}
+      propertyPath: m_Center.y
+      value: 2.46
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 65536995349271608, guid: f21d0c57a5dfb4940a2e49fad53a7211, type: 2}
+    - {fileID: 65628152861054026, guid: f21d0c57a5dfb4940a2e49fad53a7211, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: f21d0c57a5dfb4940a2e49fad53a7211, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &603251735
@@ -12244,7 +12527,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &632768174
 MonoBehaviour:
@@ -12425,6 +12708,10 @@ Prefab:
       propertyPath: m_LocalEulerAnglesHint.y
       value: -90
       objectReference: {fileID: 0}
+    - target: {fileID: 1804662174328988, guid: 04632849259f14d41843af8c02d58fd9, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 04632849259f14d41843af8c02d58fd9, type: 2}
   m_IsPrefabParent: 0
@@ -12555,7 +12842,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &653173601
 Transform:
@@ -12760,6 +13047,10 @@ Prefab:
     - target: {fileID: 4537118974517010, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
       propertyPath: m_LocalScale.z
       value: 0.99999976
+      objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
@@ -13005,6 +13296,10 @@ Prefab:
       propertyPath: m_LocalEulerAnglesHint.y
       value: -90
       objectReference: {fileID: 0}
+    - target: {fileID: 1804662174328988, guid: 04632849259f14d41843af8c02d58fd9, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 04632849259f14d41843af8c02d58fd9, type: 2}
   m_IsPrefabParent: 0
@@ -13117,6 +13412,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 0.99999976
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -13162,6 +13461,10 @@ Prefab:
     - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (50)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
@@ -13220,6 +13523,10 @@ Prefab:
     - target: {fileID: 4537118974517010, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
       propertyPath: m_LocalScale.z
       value: 0.99999976
+      objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
@@ -13289,6 +13596,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 0.99999976
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -13310,7 +13621,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &703804909
 Transform:
@@ -13442,7 +13753,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1903757272}
-  m_RootOrder: 42
+  m_RootOrder: 41
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1001 &707705192
 Prefab:
@@ -13499,6 +13810,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -13520,7 +13835,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &715682128
 Transform:
@@ -13808,6 +14123,10 @@ Prefab:
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (48)
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -13829,7 +14148,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &725483340
 Transform:
@@ -13932,7 +14251,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &726141531
 Transform:
@@ -14123,6 +14442,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -14154,7 +14477,7 @@ Transform:
   - {fileID: 1444436229}
   - {fileID: 1034551065}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &743561528
 GameObject:
@@ -14174,7 +14497,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &743561529
 MonoBehaviour:
@@ -14389,6 +14712,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 0.99999976
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -14451,6 +14778,10 @@ Prefab:
     - target: {fileID: 4699745027015192, guid: 7a60a47709e78d646b7f14dd3b28fc1d, type: 2}
       propertyPath: m_LocalScale.z
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1337892898563446, guid: 7a60a47709e78d646b7f14dd3b28fc1d, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7a60a47709e78d646b7f14dd3b28fc1d, type: 2}
@@ -14654,6 +14985,10 @@ Prefab:
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (37)
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -14703,6 +15038,10 @@ Prefab:
     - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (40)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
@@ -14955,6 +15294,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 0.99999976
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -14976,7 +15319,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &831885698
 MonoBehaviour:
@@ -15100,6 +15443,10 @@ Prefab:
       propertyPath: m_Name
       value: floor_tile_white_emissive_corner (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 1804662174328988, guid: 04632849259f14d41843af8c02d58fd9, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 04632849259f14d41843af8c02d58fd9, type: 2}
   m_IsPrefabParent: 0
@@ -15135,7 +15482,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &872416526
 Transform:
@@ -15381,6 +15728,10 @@ Prefab:
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (47)
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -15506,6 +15857,10 @@ Prefab:
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (37)
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -15527,7 +15882,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &891965766
 MonoBehaviour:
@@ -15679,7 +16034,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &898587459
 MonoBehaviour:
@@ -15768,7 +16123,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &902866458
 Transform:
@@ -15871,7 +16226,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &903108453
 MonoBehaviour:
@@ -15960,7 +16315,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &911637531
 Transform:
@@ -16151,6 +16506,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 0.99999976
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -16213,6 +16572,10 @@ Prefab:
     - target: {fileID: 4537118974517010, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
       propertyPath: m_LocalScale.z
       value: 0.99999976
+      objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
@@ -16768,7 +17131,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &984179635
 MonoBehaviour:
@@ -16857,7 +17220,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &984572033
 Transform:
@@ -17069,6 +17432,10 @@ Prefab:
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (43)
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -17117,7 +17484,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1903757272}
-  m_RootOrder: 41
+  m_RootOrder: 40
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!4 &1002391649 stripped
 Transform:
@@ -17200,7 +17567,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &1005798727
 MonoBehaviour:
@@ -17344,6 +17711,10 @@ Prefab:
     - target: {fileID: 4537118974517010, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
       propertyPath: m_LocalScale.z
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
@@ -17544,6 +17915,10 @@ Prefab:
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (31)
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -17565,7 +17940,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &1028703623
 MonoBehaviour:
@@ -17735,6 +18110,10 @@ Prefab:
       propertyPath: m_Name
       value: floor_tile_white_emissive_t (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 1337892898563446, guid: 7a60a47709e78d646b7f14dd3b28fc1d, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7a60a47709e78d646b7f14dd3b28fc1d, type: 2}
   m_IsPrefabParent: 0
@@ -17832,7 +18211,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1043209700
 Transform:
@@ -17972,6 +18351,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 0.99999976
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -17993,7 +18376,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1049790182
 Transform:
@@ -18096,7 +18479,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1050079306
 Transform:
@@ -18241,6 +18624,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 0.99999976
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -18262,7 +18649,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1058831716
 Transform:
@@ -18437,7 +18824,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &1072502730
 MonoBehaviour:
@@ -18904,7 +19291,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1129833534
 Transform:
@@ -19066,7 +19453,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &1132725475
 MonoBehaviour:
@@ -19155,7 +19542,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &1137695868
 MonoBehaviour:
@@ -19281,6 +19668,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -19302,7 +19693,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1141676561
 Transform:
@@ -19405,7 +19796,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &1141970592
 MonoBehaviour:
@@ -19565,7 +19956,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &1172839196
 MonoBehaviour:
@@ -19654,7 +20045,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1176500945
 Transform:
@@ -19921,6 +20312,10 @@ Prefab:
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (46)
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -19979,6 +20374,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -20000,7 +20399,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &1194004893
 MonoBehaviour:
@@ -20145,7 +20544,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1217792649
 Transform:
@@ -20340,6 +20739,10 @@ Prefab:
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (29)
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -20360,7 +20763,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1903757272}
-  m_RootOrder: 43
+  m_RootOrder: 42
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1001 &1234288902
 Prefab:
@@ -20443,7 +20846,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1236991697
 Transform:
@@ -20583,6 +20986,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 0.99999976
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -20604,7 +21011,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1241129604
 Transform:
@@ -21151,6 +21558,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -21214,6 +21625,10 @@ Prefab:
     - target: {fileID: 1337892898563446, guid: 7a60a47709e78d646b7f14dd3b28fc1d, type: 2}
       propertyPath: m_Name
       value: floor_tile_white_emissive_t (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1337892898563446, guid: 7a60a47709e78d646b7f14dd3b28fc1d, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7a60a47709e78d646b7f14dd3b28fc1d, type: 2}
@@ -21331,6 +21746,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -21418,7 +21837,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &1292069022
 MonoBehaviour:
@@ -21531,6 +21950,10 @@ Prefab:
     - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
@@ -21733,6 +22156,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 0.99999976
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -21876,7 +22303,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1323714121
 Transform:
@@ -22143,6 +22570,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 0.99999976
       objectReference: {fileID: 0}
+    - target: {fileID: 1804662174328988, guid: 04632849259f14d41843af8c02d58fd9, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 04632849259f14d41843af8c02d58fd9, type: 2}
   m_IsPrefabParent: 0
@@ -22211,6 +22642,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 0.99999976
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -22237,7 +22672,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &1368613282
 MonoBehaviour:
@@ -22426,6 +22861,10 @@ Prefab:
       propertyPath: m_Name
       value: floor_tile_white_emissive_corner (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 1804662174328988, guid: 04632849259f14d41843af8c02d58fd9, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 04632849259f14d41843af8c02d58fd9, type: 2}
   m_IsPrefabParent: 0
@@ -22491,6 +22930,10 @@ Prefab:
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (34)
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -22548,6 +22991,10 @@ Prefab:
     - target: {fileID: 4699745027015192, guid: 7a60a47709e78d646b7f14dd3b28fc1d, type: 2}
       propertyPath: m_LocalScale.z
       value: 0.99999976
+      objectReference: {fileID: 0}
+    - target: {fileID: 1337892898563446, guid: 7a60a47709e78d646b7f14dd3b28fc1d, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7a60a47709e78d646b7f14dd3b28fc1d, type: 2}
@@ -22863,7 +23310,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1472017665
 Transform:
@@ -23061,6 +23508,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -23087,7 +23538,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1479568965
 Transform:
@@ -23257,7 +23708,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &1481450439
 MonoBehaviour:
@@ -23383,6 +23834,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 0.99999976
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -23499,6 +23954,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 0.99999976
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -23548,6 +24007,10 @@ Prefab:
     - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (38)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
@@ -23772,6 +24235,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 0.99999976
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -23940,7 +24407,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &1531257446
 MonoBehaviour:
@@ -24066,6 +24533,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 0.99999976
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -24124,6 +24595,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -24155,7 +24630,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1545491154
 Transform:
@@ -24263,7 +24738,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &1555335941
 MonoBehaviour:
@@ -24352,7 +24827,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &1568201496
 MonoBehaviour:
@@ -24532,6 +25007,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -24596,6 +25075,10 @@ Prefab:
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (44)
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -24646,6 +25129,10 @@ Prefab:
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (46)
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -24667,7 +25154,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &1581842689
 MonoBehaviour:
@@ -24756,7 +25243,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &1581991851
 MonoBehaviour:
@@ -24903,7 +25390,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1586416728
 Transform:
@@ -25106,6 +25593,10 @@ Prefab:
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (33)
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -25274,6 +25765,10 @@ Prefab:
       propertyPath: m_Name
       value: floor_tile_white_emissive_corner (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 1804662174328988, guid: 04632849259f14d41843af8c02d58fd9, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 04632849259f14d41843af8c02d58fd9, type: 2}
   m_IsPrefabParent: 0
@@ -25424,7 +25919,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &1665502226
 MonoBehaviour:
@@ -25542,6 +26037,10 @@ Prefab:
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (42)
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -25600,6 +26099,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -25649,6 +26152,10 @@ Prefab:
     - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (49)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
@@ -25719,6 +26226,10 @@ Prefab:
     - target: {fileID: 4699745027015192, guid: 7a60a47709e78d646b7f14dd3b28fc1d, type: 2}
       propertyPath: m_LocalScale.z
       value: 1.0000008
+      objectReference: {fileID: 0}
+    - target: {fileID: 1337892898563446, guid: 7a60a47709e78d646b7f14dd3b28fc1d, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7a60a47709e78d646b7f14dd3b28fc1d, type: 2}
@@ -25799,7 +26310,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1672166979
 Transform:
@@ -26200,7 +26711,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1697895789
 Transform:
@@ -26424,7 +26935,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4295544198236946, guid: 64080762b6d961b4d843baf5c9cfc972, type: 2}
       propertyPath: m_RootOrder
-      value: 42
+      value: 48
+      objectReference: {fileID: 0}
+    - target: {fileID: 1737814353814214, guid: 64080762b6d961b4d843baf5c9cfc972, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 64080762b6d961b4d843baf5c9cfc972, type: 2}
@@ -26447,7 +26962,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &1709113778
 MonoBehaviour:
@@ -26614,6 +27129,10 @@ Prefab:
     - target: {fileID: 4537118974517010, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
       propertyPath: m_LocalScale.z
       value: 0.99999976
+      objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
@@ -26982,7 +27501,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &1742794774
 MonoBehaviour:
@@ -27217,6 +27736,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 0.99999976
       objectReference: {fileID: 0}
+    - target: {fileID: 1804662174328988, guid: 04632849259f14d41843af8c02d58fd9, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 04632849259f14d41843af8c02d58fd9, type: 2}
   m_IsPrefabParent: 0
@@ -27266,6 +27789,10 @@ Prefab:
     - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (47)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
@@ -27331,7 +27858,7 @@ Transform:
   - {fileID: 70634243}
   - {fileID: 1260307935}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1763648046
 GameObject:
@@ -27351,7 +27878,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1763648047
 Transform:
@@ -27517,7 +28044,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1777369947
 Transform:
@@ -27657,6 +28184,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 1.0000012
       objectReference: {fileID: 0}
+    - target: {fileID: 1804662174328988, guid: 04632849259f14d41843af8c02d58fd9, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 04632849259f14d41843af8c02d58fd9, type: 2}
   m_IsPrefabParent: 0
@@ -27678,7 +28209,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1781964790
 Transform:
@@ -27936,6 +28467,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 0.99999976
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -28102,6 +28637,10 @@ Prefab:
       propertyPath: m_LocalEulerAnglesHint.y
       value: -90
       objectReference: {fileID: 0}
+    - target: {fileID: 1804662174328988, guid: 04632849259f14d41843af8c02d58fd9, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 04632849259f14d41843af8c02d58fd9, type: 2}
   m_IsPrefabParent: 0
@@ -28210,6 +28749,10 @@ Prefab:
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (41)
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -28231,7 +28774,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1821643160
 Transform:
@@ -28434,6 +28977,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 0.99999976
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -28455,7 +29002,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &1831030721
 MonoBehaviour:
@@ -28658,7 +29205,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &1836225554
 MonoBehaviour:
@@ -28855,7 +29402,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1842308827
 Transform:
@@ -29053,6 +29600,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 0.99999976
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -29161,7 +29712,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4996217589287838, guid: f7f0788457a83ae4ab3f8d9af40231a5, type: 2}
       propertyPath: m_RootOrder
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 114774333468769098, guid: f7f0788457a83ae4ab3f8d9af40231a5,
         type: 2}
@@ -29267,6 +29818,10 @@ Prefab:
     - target: {fileID: 4278870486839504, guid: 04632849259f14d41843af8c02d58fd9, type: 2}
       propertyPath: m_LocalScale.z
       value: 0.99999976
+      objectReference: {fileID: 0}
+    - target: {fileID: 1804662174328988, guid: 04632849259f14d41843af8c02d58fd9, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 04632849259f14d41843af8c02d58fd9, type: 2}
@@ -29391,6 +29946,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 0.99999976
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -29449,6 +30008,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 1.0000012
       objectReference: {fileID: 0}
+    - target: {fileID: 1804662174328988, guid: 04632849259f14d41843af8c02d58fd9, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 04632849259f14d41843af8c02d58fd9, type: 2}
   m_IsPrefabParent: 0
@@ -29470,7 +30033,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1867081439
 Transform:
@@ -29610,6 +30173,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -29659,6 +30226,10 @@ Prefab:
     - target: {fileID: 4278870486839504, guid: 04632849259f14d41843af8c02d58fd9, type: 2}
       propertyPath: m_LocalScale.z
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1804662174328988, guid: 04632849259f14d41843af8c02d58fd9, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 04632849259f14d41843af8c02d58fd9, type: 2}
@@ -29836,11 +30407,11 @@ Transform:
   - {fileID: 1658124391}
   - {fileID: 1006065502}
   - {fileID: 1857762977}
-  - {fileID: 14481972}
   - {fileID: 999994907}
   - {fileID: 707685016}
   - {fileID: 1232309600}
   - {fileID: 476656555}
+  - {fileID: 14481972}
   - {fileID: 868506677}
   - {fileID: 943419559}
   - {fileID: 215691931}
@@ -29968,6 +30539,10 @@ Prefab:
       propertyPath: m_LocalEulerAnglesHint.y
       value: -90
       objectReference: {fileID: 0}
+    - target: {fileID: 1804662174328988, guid: 04632849259f14d41843af8c02d58fd9, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 04632849259f14d41843af8c02d58fd9, type: 2}
   m_IsPrefabParent: 0
@@ -30083,6 +30658,10 @@ Prefab:
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (40)
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -30140,6 +30719,10 @@ Prefab:
     - target: {fileID: 4278870486839504, guid: 04632849259f14d41843af8c02d58fd9, type: 2}
       propertyPath: m_LocalScale.z
       value: 1.0000012
+      objectReference: {fileID: 0}
+    - target: {fileID: 1804662174328988, guid: 04632849259f14d41843af8c02d58fd9, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 04632849259f14d41843af8c02d58fd9, type: 2}
@@ -30498,7 +31081,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1946499321
 Transform:
@@ -30917,6 +31500,10 @@ Prefab:
       propertyPath: m_Name
       value: floor_tile_white_emissive_t (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 1337892898563446, guid: 7a60a47709e78d646b7f14dd3b28fc1d, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7a60a47709e78d646b7f14dd3b28fc1d, type: 2}
   m_IsPrefabParent: 0
@@ -30997,6 +31584,10 @@ Prefab:
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (36)
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -31046,6 +31637,10 @@ Prefab:
     - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (30)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
@@ -31215,7 +31810,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &1984518573
 MonoBehaviour:
@@ -31494,7 +32089,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &2017702282
 MonoBehaviour:
@@ -31612,6 +32207,10 @@ Prefab:
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (39)
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -31633,7 +32232,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &2024742386
 Transform:
@@ -31764,6 +32363,10 @@ Prefab:
     - target: {fileID: 1337892898563446, guid: 7a60a47709e78d646b7f14dd3b28fc1d, type: 2}
       propertyPath: m_Name
       value: floor_tile_white_emissive_t (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1337892898563446, guid: 7a60a47709e78d646b7f14dd3b28fc1d, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7a60a47709e78d646b7f14dd3b28fc1d, type: 2}
@@ -31922,6 +32525,10 @@ Prefab:
     - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (35)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
@@ -32105,7 +32712,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &2056384988
 Transform:
@@ -32237,9 +32844,88 @@ Prefab:
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (28)
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &2067017380
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 2067017382}
+  - component: {fileID: 2067017381}
+  - component: {fileID: 2067017383}
+  m_Layer: 0
+  m_Name: Reflection Probe
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!215 &2067017381
+ReflectionProbe:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2067017380}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Type: 0
+  m_Mode: 1
+  m_RefreshMode: 1
+  m_TimeSlicingMode: 2
+  m_Resolution: 1024
+  m_UpdateFrequency: 0
+  m_BoxSize: {x: 80, y: 80, z: 80}
+  m_BoxOffset: {x: 0, y: 0, z: 0}
+  m_NearClip: 0.3
+  m_FarClip: 1000
+  m_ShadowDistance: 100
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IntensityMultiplier: 1
+  m_BlendDistance: 1
+  m_HDR: 1
+  m_BoxProjection: 1
+  m_RenderDynamicObjects: 1
+  m_UseOcclusionCulling: 1
+  m_Importance: 1
+  m_CustomBakedTexture: {fileID: 8900000, guid: a260869ac7183e0468a32b45c5c0b132,
+    type: 3}
+--- !u!4 &2067017382
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2067017380}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2067017383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2067017380}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0acb4ab7810cdcd4085170a777ac4890, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  camera: {fileID: 0}
 --- !u!1001 &2068229556
 Prefab:
   m_ObjectHideFlags: 0
@@ -32294,6 +32980,10 @@ Prefab:
     - target: {fileID: 4537118974517010, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
       propertyPath: m_LocalScale.z
       value: 0.99999976
+      objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
@@ -32362,6 +33052,10 @@ Prefab:
     - target: {fileID: 4537118974517010, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
       propertyPath: m_LocalScale.z
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
@@ -32461,7 +33155,7 @@ GameObject:
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &2089439354
 Transform:
@@ -32600,6 +33294,10 @@ Prefab:
     - target: {fileID: 4537118974517010, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
       propertyPath: m_LocalScale.z
       value: 0.99999976
+      objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
@@ -32908,7 +33606,7 @@ Transform:
   - {fileID: 1234288903}
   - {fileID: 1923833570}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2117102549
 Prefab:
@@ -32964,6 +33662,10 @@ Prefab:
     - target: {fileID: 4537118974517010, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
       propertyPath: m_LocalScale.z
       value: 0.99999976
+      objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
@@ -33029,6 +33731,10 @@ Prefab:
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (33)
       objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
   m_IsPrefabParent: 0
@@ -33078,6 +33784,10 @@ Prefab:
     - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
       propertyPath: m_Name
       value: floor_tile_white_emissive_edge (36)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
@@ -33132,6 +33842,10 @@ Prefab:
     - target: {fileID: 4699745027015192, guid: 7a60a47709e78d646b7f14dd3b28fc1d, type: 2}
       propertyPath: m_LocalScale.z
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1337892898563446, guid: 7a60a47709e78d646b7f14dd3b28fc1d, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7a60a47709e78d646b7f14dd3b28fc1d, type: 2}
@@ -33190,6 +33904,10 @@ Prefab:
     - target: {fileID: 4537118974517010, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
       propertyPath: m_LocalScale.z
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
@@ -33437,7 +34155,34 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 65647988909620550, guid: 2d9ec57c2d01d3647934da4806d6efa5,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 65647988909620550, guid: 2d9ec57c2d01d3647934da4806d6efa5,
+        type: 2}
+      propertyPath: m_Size.y
+      value: 5.0690966
+      objectReference: {fileID: 0}
+    - target: {fileID: 65647988909620550, guid: 2d9ec57c2d01d3647934da4806d6efa5,
+        type: 2}
+      propertyPath: m_Center.x
+      value: -0.0000012362444
+      objectReference: {fileID: 0}
+    - target: {fileID: 65647988909620550, guid: 2d9ec57c2d01d3647934da4806d6efa5,
+        type: 2}
+      propertyPath: m_Center.y
+      value: 2.54699
+      objectReference: {fileID: 0}
+    - target: {fileID: 65647988909620550, guid: 2d9ec57c2d01d3647934da4806d6efa5,
+        type: 2}
+      propertyPath: m_Center.z
+      value: -0.0061084605
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 65184066357780158, guid: 2d9ec57c2d01d3647934da4806d6efa5, type: 2}
+    - {fileID: 65770086025428756, guid: 2d9ec57c2d01d3647934da4806d6efa5, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 2d9ec57c2d01d3647934da4806d6efa5, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &2141824379
@@ -33597,6 +34342,10 @@ Prefab:
     - target: {fileID: 4537118974517010, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
       propertyPath: m_LocalScale.z
       value: 0.99999976
+      objectReference: {fileID: 0}
+    - target: {fileID: 1495954175908774, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2bfd62ac677812a489e85b9242d3e6e4, type: 2}

@@ -13,7 +13,7 @@ public class SaveState : Singleton<SaveState> {
     [SerializeField]
     private bool boomerangEnabled;
     [SerializeField]
-    private bool diceEnabled;
+    private bool missileEnabled;
     [SerializeField]
     private bool geyserEnabled;
     [SerializeField]
@@ -49,7 +49,7 @@ public class SaveState : Singleton<SaveState> {
 //#if UNITY_EDITOR
         SetBool(Strings.PlayerPrefStrings.BLASTER_ENABLED, blasterEnabled);
         SetBool(Strings.PlayerPrefStrings.BOOMERANG_ENABLED, boomerangEnabled);
-        SetBool(Strings.PlayerPrefStrings.DICE_GUN_ENABLED, diceEnabled);
+        SetBool(Strings.PlayerPrefStrings.MISSILE_GUN_ENABLED, missileEnabled);
         SetBool(Strings.PlayerPrefStrings.GEYSER_GUN_ENABLED, geyserEnabled);
         SetBool(Strings.PlayerPrefStrings.LIGHTNING_GUN_ENABLED, lightningGunEnabled);
         SetBool(Strings.PlayerPrefStrings.SPREAD_GUN_ENABLED, spreadGunEnabled);
@@ -144,8 +144,8 @@ public class SaveState : Singleton<SaveState> {
                 case ModType.Boomerang:
                     SetBool(Strings.PlayerPrefStrings.BOOMERANG_ENABLED, true);
                     break;
-                case ModType.Dice:
-                    SetBool(Strings.PlayerPrefStrings.DICE_GUN_ENABLED, true);
+                case ModType.Missile:
+                    SetBool(Strings.PlayerPrefStrings.MISSILE_GUN_ENABLED, true);
                     break;
                 case ModType.Geyser:
                     SetBool(Strings.PlayerPrefStrings.GEYSER_GUN_ENABLED, true);
