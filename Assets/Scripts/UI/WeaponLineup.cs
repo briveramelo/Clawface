@@ -40,6 +40,7 @@ public class WeaponLineup : MonoBehaviour
         LeanTween.scale(weapons[1], Vector3.one, weaponSwapTime);
         LeanTween.scale(weapons[2], new Vector3(0.5f, 0.5f, 0.5f), weaponSwapTime);
         LeanTween.scale(weapons[3], Vector3.zero, weaponSwapTime);
+        LeanTween.scale(weapons[4], Vector3.zero, weaponSwapTime);
 
         selectedWeapon = weapons[1].GetComponent<WeaponTypeComponent>().typeOfMod;
 

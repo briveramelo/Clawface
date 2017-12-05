@@ -203,8 +203,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 701566929}
   m_LocalRotation: {x: -0.5241489, y: -0, z: -0, w: 0.8516267}
-  m_LocalPosition: {x: 0, y: 42, z: 52}
-  m_LocalScale: {x: 100, y: 1, z: 50}
+  m_LocalPosition: {x: -20, y: 38, z: 50}
+  m_LocalScale: {x: 22.158857, y: 0.22158903, z: 11.079452}
   m_Children: []
   m_Father: {fileID: 805328267}
   m_RootOrder: 0
@@ -222,7 +222,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: f8e6172f093529441a60298c94602a5a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -385,7 +385,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89f60c4196cdba9418afd934866d4338, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerMaterial: {fileID: 2100000, guid: 74f4f482051380e4eb096d09801c0686, type: 2}
+  playerMaterial: {fileID: 2100000, guid: 7a0ce14de716e8b4296fd5ea1e306312, type: 2}
   playerRenderer: {fileID: 2026893162}
   idleExpression: {fileID: 2800000, guid: b304d9d1355731e49bb82a259ca2b4ac, type: 3}
   idleColor: {r: 1, g: 1, b: 1, a: 0}
@@ -815,7 +815,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1615694560}
   m_LocalRotation: {x: 0.13052616, y: 0, z: 0, w: 0.9914449}
-  m_LocalPosition: {x: -23.864723, y: 235.1, z: -688.9}
+  m_LocalPosition: {x: -23.929008, y: 235.1, z: -688.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -892,7 +892,7 @@ CanvasGroup:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1995458207}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
