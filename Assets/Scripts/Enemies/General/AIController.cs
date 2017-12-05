@@ -266,6 +266,7 @@ public abstract class AIController : MonoBehaviour {
         public AIState fire;
         public AIState death;
         public AIState stun;
+        public AIState celebrate;
 
         public Dictionary<EAIState, AIState> aiStates;
 
@@ -313,6 +314,11 @@ public abstract class AIController : MonoBehaviour {
                 {
                     stun = state;
                     aiStates.Add(EAIState.Stun, stun);
+                }
+                else if (state.stateName.Equals("celebrate"))
+                {
+                    celebrate = state;
+                    aiStates.Add(EAIState.Celebrate, celebrate);
                 }
             }
 
@@ -364,7 +370,11 @@ public abstract class AIController : MonoBehaviour {
                     stun = state;
                     aiStates.Add(EAIState.Stun, stun);
                 }
-
+                else if (state.stateName.Equals("celebrate"))
+                {
+                    celebrate = state;
+                    aiStates.Add(EAIState.Celebrate, celebrate);
+                }
             }
 
         }
