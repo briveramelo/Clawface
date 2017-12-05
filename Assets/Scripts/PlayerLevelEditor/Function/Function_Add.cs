@@ -56,7 +56,7 @@ namespace PlayerLevelEditor
 
             _prefab = Resources.Load("PlayerLevelEditorObjects/Env/test") as GameObject;
 
-            Database.Enable();
+ //           Database.Enable();
         }
 
 
@@ -98,7 +98,7 @@ namespace PlayerLevelEditor
             base.Release();
             Btn_Add.onClick.RemoveListener(ACT_Add);
 
-            Database.Disable();
+//            Database.Disable();
         }
 
 
