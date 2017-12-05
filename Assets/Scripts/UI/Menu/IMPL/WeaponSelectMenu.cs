@@ -133,6 +133,7 @@ public class WeaponSelectMenu : Menu
 
 	public void StartAction ()
 	{
+	    ModManager.assignFromPool = false;
         // Set Mod Types
 	    ModManager.leftArmOnLoad = leftArm.SelectedWeapon;
 	    ModManager.rightArmOnLoad = rightArm.SelectedWeapon;

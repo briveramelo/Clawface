@@ -1314,7 +1314,6 @@ GameObject:
   - component: {fileID: 20256538908822052}
   - component: {fileID: 124492440372019492}
   - component: {fileID: 92716428392275736}
-  - component: {fileID: 81542770689195436}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -4819,13 +4818,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.6486312, y: 0.86634934, z: 1.3127475}
   m_Center: {x: 0, y: 0.19315398, z: 0.50539875}
---- !u!81 &81542770689195436
-AudioListener:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1561498922087320}
-  m_Enabled: 1
 --- !u!92 &92716428392275736
 Behaviour:
   m_ObjectHideFlags: 1
@@ -5218,7 +5210,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 114958186342356902}
-        m_MethodName: MoveLeft
+        m_MethodName: MoveRight
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5271,7 +5263,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 114536811467650330}
-        m_MethodName: MoveRight
+        m_MethodName: MoveLeft
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5442,7 +5434,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 114536811467650330}
-        m_MethodName: MoveLeft
+        m_MethodName: MoveRight
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5650,7 +5642,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 114958186342356902}
-        m_MethodName: MoveRight
+        m_MethodName: MoveLeft
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5696,7 +5688,7 @@ MonoBehaviour:
   - {fileID: 1806724351806748}
   - {fileID: 1640847430298010}
   - {fileID: 1122775334729024}
-  selectedWeapon: 0
+  selectedWeapon: 4
   weaponSwapTime: 0.25
 --- !u!114 &114546597121157418
 MonoBehaviour:
@@ -6019,7 +6011,7 @@ MonoBehaviour:
   - {fileID: 1136793577799628}
   - {fileID: 1002427816278986}
   - {fileID: 1157346259242776}
-  selectedWeapon: 0
+  selectedWeapon: 4
   weaponSwapTime: 0.25
 --- !u!114 &114978267961607626
 MonoBehaviour:

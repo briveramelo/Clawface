@@ -17,26 +17,9 @@ public class WeaponLineup : MonoBehaviour
 
     [SerializeField] private GameObject[] slots;
     [SerializeField] private GameObject[] weapons;
-    [SerializeField] private ModType selectedWeapon;
+    [SerializeField] private ModType selectedWeapon = ModType.Geyser;
     [SerializeField] private float weaponSwapTime = 0.25f;
 
-
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	    //if (Input.GetKeyUp(KeyCode.Space))
-	    //{
-	    //    MoveLeft();
-	    //}
-	    //if (Input.GetKeyUp(KeyCode.Backspace))
-	    //{
-	    //    MoveRight();
-	    //}
-	}
 
     public void MoveRight()
     {
@@ -73,7 +56,7 @@ public class WeaponLineup : MonoBehaviour
 
 
         this.weapons = weaponsCopy;
-
+        
     }
     public void MoveLeft()
     {
