@@ -6,6 +6,15 @@ using UnityEngine;
 public class WeaponLineup : MonoBehaviour
 {
 
+    #region Accessors (Public)
+
+    public ModType SelectedWeapon
+    {
+        get { return selectedWeapon; }
+    }
+
+    #endregion
+
     [SerializeField] private GameObject[] slots;
     [SerializeField] private GameObject[] weapons;
     [SerializeField] private ModType selectedWeapon;
