@@ -254,6 +254,8 @@ MonoBehaviour:
     prefabs:
     - {fileID: 1903846122697570, guid: d7d53e517e4e10e4fb9db8d8ebd8ae64, type: 2}
     size: 15
+    mostUsed: 0
+    objects: []
   - name: RedBouncer
     poolObjectType: 46
     prefabs:
@@ -265,6 +267,13 @@ MonoBehaviour:
     poolObjectType: 47
     prefabs:
     - {fileID: 1962243579016920, guid: 40d6624267ce529499744af0a4133053, type: 2}
+    size: 20
+    mostUsed: 0
+    objects: []
+  - name: KamikazeExplosionSphere
+    poolObjectType: 48
+    prefabs:
+    - {fileID: 1068219717431796, guid: 93160c7bd6e70b2499295fdd6ae973f2, type: 2}
     size: 20
     mostUsed: 0
     objects: []
