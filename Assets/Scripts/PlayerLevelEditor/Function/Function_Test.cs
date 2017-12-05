@@ -10,6 +10,8 @@ namespace PlayerLevelEditor
         GameObject _singletonObject;
         GameObject _movement;
 
+        GameObject EditorCamera;
+
         static GameObject _player;
 
         float waveTime = 3.0f;
@@ -31,15 +33,35 @@ namespace PlayerLevelEditor
         {
             base.Init();
 
+            EditorCamera = UnityEngine.Camera.main.gameObject;
+            EditorCamera.SetActive(false);
+
+
             currentTime = waveTime;
             CreateSingleton();
             BakeAI();
 
+
+            SetUIObject("Function_Init");
+            SetUIObject("Function_Add");
+            SetUIObject("Function_Duplicate");
+            SetUIObject("Function_Dynamic");
+
+
+            foreach(GameObject UIObject in UIObjects)
+            {
+                UIObject.SetActive(false);
+            }
+
+            UITool.FindUIGameObject("Function_EndTest").SetActive(true);
+
             LevelEditor.m_DynamicLevelSystem.RegisterEvent();
 
             if (EventSystem.Instance)
+            {
                 EventSystem.Instance.RegisterEvent(Strings.Events.CALL_NEXTWAVEENEMIES, CallNextWave);
-
+                EventSystem.Instance.TriggerEvent(Strings.Events.PLE_TEST_WAVE_0);
+            }
         }
 
 
@@ -55,8 +77,17 @@ namespace PlayerLevelEditor
         public override void Release()
         {
             base.Release();
+            EditorCamera.SetActive(true);
+            EditorCamera.tag = "MainCamera";
 
-            if(_player)
+            foreach (GameObject _obj in enemies)
+            {
+                if (_obj.activeSelf)
+                    _obj.GetComponent<MallCop>().OnDeath();
+            }
+
+
+            if (_player)
             {
                 RaycastHit hit;
 
@@ -68,19 +99,19 @@ namespace PlayerLevelEditor
             }
 
 
-            foreach (GameObject _obj in enemies)
-            {
-                if (_obj.activeSelf)
-                    _obj.GetComponent<MallCop>().OnDeath();
-            }
-
-
             DeleteSingleton();
 
             LevelEditor.m_DynamicLevelSystem.DeRegisterEvent();
 
             if(EventSystem.Instance)
                 EventSystem.Instance.UnRegisterEvent(Strings.Events.CALL_NEXTWAVEENEMIES, CallNextWave);
+
+            foreach (GameObject UIObject in UIObjects)
+            {
+                UIObject.SetActive(true);
+            }
+
+            UITool.FindUIGameObject("Function_EndTest").SetActive(false);
         }
 
 
@@ -123,8 +154,6 @@ namespace PlayerLevelEditor
                 }
 
                 UnityTool.FindGameObject("PlayerSpawner").SetActive(false);
-
-
                 return;
             }
         }
