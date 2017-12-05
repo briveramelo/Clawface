@@ -128,6 +128,10 @@
 
         public const string SHOW_TUTORIAL_TEXT = "ShowTutorialText";
         public const string HIDE_TUTORIAL_TEXT = "HideTutorialText";
+
+        public const string PLE_TEST_WAVE_0 = "PLE_TEST_WAVE_0";
+        public const string PLE_TEST_WAVE_1 = "PLE_TEST_WAVE_1";
+        public const string PLE_TEST_WAVE_2 = "PLE_TEST_WAVE_2";
     }
 
     public class AchievementNames {

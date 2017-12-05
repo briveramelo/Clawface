@@ -8,7 +8,10 @@ namespace PlayerLevelEditor
     public class DynamicLevelSystem : ISystem
     {
         Dropdown Stage;
+
         List<Dictionary<int, LevelUnitStates>> map;
+
+        List<GameObject> m_GameObjects;
 
         public DynamicLevelSystem()
         {
@@ -22,11 +25,33 @@ namespace PlayerLevelEditor
 
             Stage = UITool.FindUIGameObject("StageList").GetComponent<Dropdown>();
 
+            m_GameObjects = new List<GameObject>();
+
             map = new List<Dictionary<int, LevelUnitStates>>(Stage.options.Count);
 
             map.Add(new Dictionary<int, LevelUnitStates>());
             map.Add(new Dictionary<int, LevelUnitStates>());
             map.Add(new Dictionary<int, LevelUnitStates>());
+        }
+
+
+        public void IniteObjectState(List<GameObject> i_GameObjects)
+        {
+            foreach (GameObject _Object in i_GameObjects)
+            {
+                if (_Object.GetComponent<LevelUnit>() == null)
+                    continue;
+
+                _Object.GetComponent<ClickableObject>().ObjectType = new DynamicObject(_Object);
+
+                for (int i = 0; i < Stage.options.Count; i++)
+                {
+                    if (map[i].ContainsKey(_Object.GetInstanceID()) == false)
+                    {
+                        map[i].Add(_Object.GetInstanceID(), LevelUnitStates.floor);
+                    }
+                }
+            }
         }
 
 
@@ -37,6 +62,8 @@ namespace PlayerLevelEditor
 
         public void UpdateObjectState(List<GameObject> i_GameObjects)
         {
+            m_GameObjects.Clear();
+
             foreach (GameObject _Object in i_GameObjects)
             {
                 if (_Object.GetComponent<LevelUnit>() == null)
@@ -54,10 +81,73 @@ namespace PlayerLevelEditor
                     _Object.GetComponent<LevelUnit>().defaultState = map[Stage.value][_Object.GetInstanceID()];
                 }
 
-            
+                m_GameObjects.Add(_Object);
+
                 _Object.GetComponent<ClickableObject>().UpdateThisObject();
             }
         }
+
+
+        public void RegisterEvent()
+        {
+            for (int j = 0; j < m_GameObjects.Count; j++)
+            {
+                LevelUnit LU = m_GameObjects[j].GetComponent<LevelUnit>();
+                LU.DeRegisterFromEvents();
+            }
+
+            for (int j = 0; j < m_GameObjects.Count; j++)
+            {
+                LevelUnit LU = m_GameObjects[j].GetComponent<LevelUnit>();
+
+                for (int i = 0; i < Stage.options.Count; i++)
+                {
+                    string event_name = "PLE_TEST_WAVE_" + i.ToString();
+
+                    LevelUnitStates state = map[i][m_GameObjects[j].GetInstanceID()];
+
+                    switch (state)
+                    {
+                        case LevelUnitStates.cover:
+                            LU.AddCoverStateEvent(event_name);
+                            break;
+
+                        case LevelUnitStates.floor:
+                            LU.AddFloorStateEvent(event_name);
+                            break;
+
+                        case LevelUnitStates.pit:
+                            LU.AddPitStateEvent(event_name);
+                            break;
+                    }
+                }
+
+                LU.RegisterToEvents();
+            }
+        }
+
+
+        public void DeRegisterEvent()
+        {
+            for (int j = 0; j < m_GameObjects.Count; j++)
+            {
+                LevelUnit LU = m_GameObjects[j].GetComponent<LevelUnit>();
+                LU.DeRegisterFromEvents();
+            }
+
+            Release();
+        }
+
+
+        public override void Release()
+        {
+            for (int j = 0; j < m_GameObjects.Count; j++)
+            {
+                LevelUnit LU = m_GameObjects[j].GetComponent<LevelUnit>();
+                LU.DisableBlockingObject();
+            }
+        }
+
     }
 }
 

@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace PlayerLevelEditor
 {
-    public class IFunction
+    public abstract class IFunction
     {
         protected FunctionController m_Controller = null;
 

@@ -77,6 +77,9 @@ namespace PlayerLevelEditor
 
         public void UsingTestFunc(Button thisBtn)
         {
+            if (Initialize.IsDone() == false)
+                return;
+
             controller.SetFunction(new Test(controller));
         }
     }
@@ -87,51 +90,4 @@ namespace PlayerLevelEditor
         public const int NotWalkable = 1;
         public const int Jump = 2;
     }
-
-    public class Triple
-    {
-        public Triple()
-        {
-            x = 0;
-            y = 0;
-            z = 0;
-        }
-
-        public Triple(Triple t)
-        {
-            x = t.x;
-            y = t.y;
-            z = t.z;
-        }
-
-        public Triple(int x, int y, int z)
-        {
-            this.x = x;
-            this.y = y;
-            this.z = z;
-        }
-
-        public override bool Equals(object obj)
-        {
-            return obj is Triple && this == (Triple)obj;
-        }
-
-        public override int GetHashCode()
-        {
-            return x.GetHashCode() ^ y.GetHashCode() ^ z.GetHashCode();
-        }
-
-        public static bool operator ==(Triple L, Triple R)
-        {
-            return L.x == R.x && L.y == R.y && L.z == R.z;
-        }
-
-        public static bool operator !=(Triple L, Triple R)
-        {
-            return !(L == R);
-        }
-
-        public int x, y, z;
-    }
-
 }
