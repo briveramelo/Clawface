@@ -41,6 +41,7 @@ public class Bouncer : EnemyBase
     private BouncerChaseState chase;
     private BouncerFireState fire;
     private BouncerStunState stun;
+    private BouncerCelebrateState celebrate;
 
 
     #endregion
@@ -139,6 +140,13 @@ public class Bouncer : EnemyBase
     }
 
 
+    public override void DoPlayerKilledState(object[] parameters)
+    {
+        animator.SetTrigger("DoVictoryDance");
+        controller.CurrentState = celebrate;
+        controller.UpdateState(EAIState.Celebrate);
+    }
+
     #endregion
 
     #region 6. Private Methods    
@@ -152,9 +160,12 @@ public class Bouncer : EnemyBase
         fire.stateName = "fire";
         stun = new BouncerStunState();
         stun.stateName = "stun";
+        celebrate = new BouncerCelebrateState();
+        celebrate.stateName = "celebrate";
         aiStates.Add(chase);
         aiStates.Add(fire);
         aiStates.Add(stun);
+        aiStates.Add(celebrate);
     }
 
     private void OnDrawGizmosSelected()
@@ -162,6 +173,7 @@ public class Bouncer : EnemyBase
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, closeEnoughToAttackDistance);
     }
+
 
     #endregion
 }

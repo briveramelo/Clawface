@@ -5,6 +5,7 @@ using UnityEngine.AI;
 using Turing.VFX;
 using ModMan;
 using MovementEffects;
+using System;
 
 public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatable, ISpawnable
 {
@@ -48,12 +49,14 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
 
     private void OnEnable()
     {
-
+        EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_KILLED, DoPlayerKilledState);
         if (will.willHasBeenWritten)
         {
             ResetForRebirth();
         }
-    }    
+    }
+
+    public abstract void DoPlayerKilledState(object[] parameters);
 
     public virtual void Awake()
     {
@@ -65,6 +68,12 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
             grabStartPosition = grabObject.transform.localPosition;
         }
         ResetForRebirth();
+    }
+
+    private new void OnDisable()
+    {
+        EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_KILLED, DoPlayerKilledState);
+        base.OnDisable();
     }
 
     #endregion
