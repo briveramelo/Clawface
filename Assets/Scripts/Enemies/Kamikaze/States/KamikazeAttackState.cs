@@ -16,7 +16,7 @@ public class KamikazeAttackState : AIState {
     {
         navAgent.enabled = false;
         navObstacle.enabled = true;
-
+        attackDone = false;
         animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.Attack1);
         shooterProperties.Initialize(2, 5, 6, 0);
         SetShooterProperties(shooterProperties);
@@ -31,6 +31,7 @@ public class KamikazeAttackState : AIState {
     }
     public override void OnExit()
     {
+        attackDone = false;
         navObstacle.enabled = false;
         navAgent.enabled = true;
         setToSelfDestruct = true;
@@ -38,6 +39,10 @@ public class KamikazeAttackState : AIState {
 
     IEnumerator<float> RunStartupTimer()
     {
+        GameObject explosionSphere = ObjectPool.Instance.GetObject(PoolObjectType.KamikazeExplosionSphere);
+        explosionSphere.transform.position = controller.transform.position;
+        explosionSphere.GetComponent<ExplosionTrigger>().Initialize(blastRadius);
+
         yield return Timing.WaitForSeconds(waitTimeToDestruct);
 
         //Make sure the kamikaze is not stunned
@@ -46,20 +51,19 @@ public class KamikazeAttackState : AIState {
             controller.UpdateState(EAIState.Stun);
             controller.DeActivateAI();
         }
-
-
-
-        else if (Vector3.Distance(controller.transform.position, controller.AttackTarget.transform.position) <= blastRadius)
+        else if (Vector3.Distance(controller.transform.position, controller.AttackTarget.transform.position) < blastRadius * 0.5f)
         {
             //Set Damage to the player
             Damage(controller.AttackTarget.gameObject.GetComponent<IDamageable>());
-            GameObject effect = ObjectPool.Instance.GetObject (PoolObjectType.VFXKamikazeExplosion);
+            GameObject effect = ObjectPool.Instance.GetObject(PoolObjectType.VFXKamikazeExplosion);
             effect.transform.position = controller.transform.position;
             attackDone = true;
+            setToSelfDestruct = true;
         }
         else
         {
             attackDone = true;
+            setToSelfDestruct = true;
         }
     }
 

@@ -32,6 +32,7 @@ public class Zombie : EnemyBase
     private ZombieChaseState chase;
     private ZombieAttackState attack;
     private ZombieStunState stun;
+    private ZombieCelebrateState celebrate;
 
     #endregion
 
@@ -133,6 +134,13 @@ public class Zombie : EnemyBase
         base.ResetForRebirth();
     }
 
+    public override void DoPlayerKilledState(object[] parameters)
+    {
+        animator.SetTrigger("DoVictoryDance");
+        controller.CurrentState = celebrate;
+        controller.UpdateState(EAIState.Celebrate);
+    }
+
     #endregion
 
     #region 5. Private Methods    
@@ -146,9 +154,12 @@ public class Zombie : EnemyBase
         attack.stateName = "attack";
         stun = new ZombieStunState();
         stun.stateName = "stun";
+        celebrate = new ZombieCelebrateState();
+        celebrate.stateName = "celebrate";
         aiStates.Add(chase);
         aiStates.Add(attack);
         aiStates.Add(stun);
+        aiStates.Add(celebrate);
     }
 
     private void OnDrawGizmosSelected()

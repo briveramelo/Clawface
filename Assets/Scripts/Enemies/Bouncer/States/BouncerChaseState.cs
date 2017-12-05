@@ -149,7 +149,7 @@ public class BouncerChaseState : AIState {
     IEnumerator<float> Move()
     {
 
-        animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.StartingJump);
+        animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.Jumping);
 
         while (!doneStartingJump)
         {
@@ -201,7 +201,7 @@ public class BouncerChaseState : AIState {
             }
             interpolation = currentLerpTime / lerpTime;
 
-            animator.SetInteger(Strings.ANIMATIONSTATE, (int) AnimationStates.Jumping);
+            
 
             controller.transform.position = Vector3.Lerp(initialPosition, targetPosition, interpolation);
 

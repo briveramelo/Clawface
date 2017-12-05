@@ -105,6 +105,7 @@ public enum PoolObjectType {
     WorldScoreCanvas = 26,
     GeyserFissure = 29,	
     BlasterImpactEffect = 31,
+    KamikazeExplosionSphere = 48,
 
     //VFX
     VFXBlasterImpactEffect = 3,
@@ -212,6 +213,7 @@ public enum AnimationStates {
     TurnLeft = 6,
     TurnRight = 61,
     
+    Celebrate = 7,
     
 }
 
@@ -221,7 +223,8 @@ public enum EAIState
     Attack = 1,
     Fire = 3,
     Death = 4,
-    Stun = 5
+    Stun = 5,
+    Celebrate = 6,
 }
 
 
