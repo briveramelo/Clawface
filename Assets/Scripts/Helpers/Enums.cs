@@ -216,8 +216,16 @@ public enum AnimationStates {
     TurnLeft = 6,
     TurnRight = 61,
     
-    Celebrate = 7,
-    
+    Celebrate1 = 7,
+    Celebrate2 = 71,
+    Celebrate3 = 72,
+    Celebrate4 = 73,
+    Celebrate5 = 74,
+
+    HitReaction1 = 8,
+    HitReaction2 = 81,
+    HitReaction3 = 82
+
 }
 
 public enum EAIState
