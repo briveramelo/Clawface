@@ -123,6 +123,17 @@ namespace PlayerLevelEditor
         }
 
 
+        public static bool IsDone()
+        {
+            return Initialized;
+        }
+
+        public static void Reset()
+        {
+            Initialized = false;
+        }
+
+
         void EnableInit(Button thisBtn)
         {
 
@@ -178,7 +189,6 @@ namespace PlayerLevelEditor
             _mod.overrideArea = true;
             _mod.area = _state;
         }
-
 
         void EnableSave(Button thisBtn)
         {

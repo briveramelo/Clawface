@@ -25,7 +25,6 @@ namespace PlayerLevelEditor
         public Vector3 mousePositionInScene;
 
         private bool clickToAddEnabled = false;
-        private bool clickToDeleteEnabled = false;
 
         public Add(FunctionController Controller) : base(Controller)
         {
@@ -89,12 +88,6 @@ namespace PlayerLevelEditor
                     _instance.transform.SetParent(_LevelObject.transform);
                 }
 
-                //Right Click
-                if (Input.GetMouseButtonDown(1) && clickToDeleteEnabled)
-                {
-                    GameObject.DestroyImmediate(hit.collider.gameObject);
-                }
-
             }
 
             PlayerLevelEditor.ToolLib.draft(_prefab, PlayerLevelEditor.ToolLib.ConvertToGrid(mousePositionInScene - _prefab.transform.position), Color.green);
@@ -119,8 +112,17 @@ namespace PlayerLevelEditor
 
         void EnableDelete(Button thisBtn)
         {
-            clickToDeleteEnabled = !clickToDeleteEnabled;
-            thisBtn.image.color = clickToDeleteEnabled ? Color.red : Color.white;
+            GameObject LEVEL = UnityTool.FindGameObject("LEVEL");
+            if(LEVEL) GameObject.DestroyImmediate(LEVEL);
+
+            GameObject WALL = UnityTool.FindGameObject("WALL");
+            if (WALL) GameObject.DestroyImmediate(WALL);
+
+
+            GameObject _player = UnityTool.FindGameObject("Keira_GroupV1.5(Clone)");
+            if (_player) GameObject.DestroyImmediate(_player);
+
+            Initialize.Reset();
         }
 
     }
