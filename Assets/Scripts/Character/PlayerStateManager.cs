@@ -213,12 +213,12 @@ public class PlayerStateManager : RoutineRunner {
 
     private IEnumerator<float> StartTutorialSpeedUp()
     {        
+        isInTutorial = false;
         while (Time.timeScale < 0.9f)
         {
             Time.timeScale = Mathf.Lerp(Time.timeScale, 1.0f, tutorialSpeedUpRate);
             yield return 0f;
         }        
-        isInTutorial = false;
         Time.timeScale = 1.0f;
         EventSystem.Instance.TriggerEvent(Strings.Events.HIDE_TUTORIAL_TEXT);
     }
