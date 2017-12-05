@@ -2,27 +2,34 @@
 using System.Collections.Generic;
 using UnityEngine;
 using MovementEffects;
-
+using ModMan;
 public class VFXBloodSplatAnimator : RoutineRunner {
 
-    public bool loopAnimation;
-    public bool playOnEnable=true;
-    public int totalFrames;
+    [SerializeField] MeshRenderer meshRenderer;
+    [SerializeField] List<Material> splatMaterials;
+    [SerializeField] bool loopAnimation;
+    [SerializeField] bool playOnEnable=true;
+    [SerializeField] int totalFrames;
+    [SerializeField] int framesPerSecond;    
+    [SerializeField] AbsAnim opacityAnim;
+    [SerializeField] AbsAnim clipAnim;
 
+    private Material material;
     private Material MyMaterial {
         get {
-            if (material==null) {                
-                material = GetComponent<Renderer>().material;
+            if (material==null) {
+                Material randomMaterial = splatMaterials.GetRandom();
+                meshRenderer.material = randomMaterial;
+                material = randomMaterial;
             }
             return material;
         }
+        set {
+            meshRenderer.material = value;
+        }
     }
-    private Material material;
-    public int framesPerSecond;    
     private float FrameLength { get { return (1f / framesPerSecond); } }
-    public AbsAnim opacityAnim;
-    public AbsAnim clipAnim;
-    float StartMaskClipVal {
+    private float StartMaskClipVal {
         get {
             if (startMaskClipVal==0f) {
                 startMaskClipVal = MyMaterial.GetFloat("_Cutoff");
@@ -30,7 +37,7 @@ public class VFXBloodSplatAnimator : RoutineRunner {
             return startMaskClipVal;
         }
     }
-    float startMaskClipVal;
+    private float startMaskClipVal;
 
 
     private void OnEnable()
@@ -42,6 +49,7 @@ public class VFXBloodSplatAnimator : RoutineRunner {
 
     public void Play()
     {
+        MyMaterial = splatMaterials.GetRandom();
         opacityAnim.OnUpdate = FadeOpacity;
         clipAnim.OnUpdate = FadeCutoff;
 
