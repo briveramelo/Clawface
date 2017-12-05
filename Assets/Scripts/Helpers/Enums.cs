@@ -105,6 +105,7 @@ public enum PoolObjectType {
     WorldScoreCanvas = 26,
     GeyserFissure = 29,	
     BlasterImpactEffect = 31,
+    KamikazeExplosionSphere = 48,
 
     //VFX
     VFXBlasterImpactEffect = 3,

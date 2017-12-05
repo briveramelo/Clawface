@@ -93,7 +93,6 @@ public class Kamikaze : EnemyBase
         return false;
     }
 
-
     public override void ResetForRebirth()
     {
         attack.setToSelfDestruct = false;
