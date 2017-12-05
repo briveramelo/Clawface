@@ -12,7 +12,7 @@ namespace PlayerLevelEditor
         Dropdown Stage;
         Dropdown DynamicType;
 
-        List<KeyValuePair<GameObject, Color>> ObjectColors;
+        List<KeyValuePair<GameObject, Color>>   m_Colors;
         List<GameObject> m_GameObjects;
 
         public DynamicLevel(FunctionController Controller) : base(Controller)
@@ -29,23 +29,29 @@ namespace PlayerLevelEditor
 
             Stage = SetUIObject("StageList").GetComponent<Dropdown>();
             Stage.onValueChanged.AddListener(delegate { UpdateObject(Stage); });
+            m_GameObjects = new List<GameObject>();
+
+            m_Colors    = new List<KeyValuePair<GameObject, Color>>();
+
 
             LevelObject = UnityTool.FindGameObject("LEVEL");
 
             if(LevelObject == null)
             {
                 Debug.LogWarning("LevelObject NULL");
+                return;
             }
-
-            m_GameObjects = new List<GameObject>();
-            ObjectColors = new List<KeyValuePair<GameObject, Color>>();
 
             foreach (Transform child in LevelObject.transform)
             {
-                m_GameObjects.Add(child.gameObject);
-                ObjectColors.Add(new KeyValuePair<GameObject, Color>(child.gameObject, child.gameObject.GetComponent<Renderer>().material.color));
+                if(child.gameObject.activeSelf == true)
+                {
+                    m_GameObjects.Add(child.gameObject);
+                    m_Colors.Add(new KeyValuePair<GameObject, Color>(child.gameObject, child.gameObject.GetComponent<Renderer>().material.color));
+                }
             }
 
+            LevelEditor.m_DynamicLevelSystem.IniteObjectState(m_GameObjects);
             LevelEditor.m_DynamicLevelSystem.UpdateObjectState(m_GameObjects);
         }
 
@@ -86,7 +92,7 @@ namespace PlayerLevelEditor
 
         public void ReleaseObjects()
         {
-            foreach (var _obj in ObjectColors)
+            foreach (var _obj in m_Colors)
             {
                 _obj.Key.GetComponent<Renderer>().material.color = _obj.Value;
             }

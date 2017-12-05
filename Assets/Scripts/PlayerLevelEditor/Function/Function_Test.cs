@@ -12,9 +12,13 @@ namespace PlayerLevelEditor
 
         static GameObject _player;
 
-        float waveTime = 5.0f;
+        float waveTime = 3.0f;
         float currentTime = 0.0f;
 
+        int currentWave = 0;
+
+        int NumEnemy_Max = 5;
+        int NumEnemy = 0;
 
         List<GameObject> enemies = new List<GameObject>();
 
@@ -28,9 +32,14 @@ namespace PlayerLevelEditor
             base.Init();
 
             currentTime = waveTime;
-
             CreateSingleton();
             BakeAI();
+
+            LevelEditor.m_DynamicLevelSystem.RegisterEvent();
+
+            if (EventSystem.Instance)
+                EventSystem.Instance.RegisterEvent(Strings.Events.CALL_NEXTWAVEENEMIES, CallNextWave);
+
         }
 
 
@@ -47,7 +56,8 @@ namespace PlayerLevelEditor
         {
             base.Release();
 
-            _player.SetActive(false);
+            if(_player)
+               _player.SetActive(false);
 
             foreach (GameObject _obj in enemies)
             {
@@ -57,6 +67,11 @@ namespace PlayerLevelEditor
 
 
             DeleteSingleton();
+
+            LevelEditor.m_DynamicLevelSystem.DeRegisterEvent();
+
+            if(EventSystem.Instance)
+                EventSystem.Instance.UnRegisterEvent(Strings.Events.CALL_NEXTWAVEENEMIES, CallNextWave);
         }
 
 
@@ -76,7 +91,8 @@ namespace PlayerLevelEditor
             else
             {
 
-                _player.SetActive(true);
+                if(_player)
+                    _player.SetActive(true);
 
                 foreach(Transform child in _singletonObject.transform)
                 {
@@ -180,28 +196,60 @@ namespace PlayerLevelEditor
 
             currentTime = waveTime;
 
-            for (int i = 0; i < 1; i++)
+            EventSystem.Instance.TriggerEvent(Strings.Events.CALL_NEXTWAVEENEMIES);
+            return;
+
+
+            GameObject spawnedObject = ObjectPool.Instance.GetObject(PoolObjectType.MallCopBlaster);
+
+            if (spawnedObject)
             {
-                GameObject spawnedObject = ObjectPool.Instance.GetObject(PoolObjectType.MallCopBlaster);
+                enemies.Add(spawnedObject);
 
-                if (spawnedObject)
+                ISpawnable spawnable = spawnedObject.GetComponentInChildren<ISpawnable>();
+
+                if (!spawnable.HasWillBeenWritten())
                 {
-                    enemies.Add(spawnedObject);
-
-                    ISpawnable spawnable = spawnedObject.GetComponentInChildren<ISpawnable>();
-
-                    if (!spawnable.HasWillBeenWritten())
-                    {
-                        spawnable.RegisterDeathEvent(ReportDeath);
-                    }
-
-                    Vector3 spawnPosition = new Vector3(0, 5, 0);
-
-                    spawnable.WarpToNavMesh(spawnPosition);
-                    EventSystem.Instance.TriggerEvent(Strings.Events.ENEMY_SPAWNED, spawnedObject);
+                    spawnable.RegisterDeathEvent(ReportDeath);
                 }
+
+                Vector3 spawnPosition = new Vector3(0, 5, 0);
+
+                spawnable.WarpToNavMesh(spawnPosition);
+                EventSystem.Instance.TriggerEvent(Strings.Events.ENEMY_SPAWNED, spawnedObject);
             }
 
+            if (NumEnemy < NumEnemy_Max)
+                NumEnemy++;
+            else
+            {
+                NumEnemy = 0;
+                EventSystem.Instance.TriggerEvent(Strings.Events.CALL_NEXTWAVEENEMIES);
+            }
+        }
+
+        public void CallNextWave(params object[] parameters)
+        {
+            switch (currentWave)
+            {
+                case 0:
+                    currentWave = 1;
+                    Debug.Log("W1");
+                    EventSystem.Instance.TriggerEvent(Strings.Events.PLE_TEST_WAVE_1);
+                    return;
+                case 1:
+                    currentWave = 2;
+                    Debug.Log("W2");
+                    EventSystem.Instance.TriggerEvent(Strings.Events.PLE_TEST_WAVE_2);
+
+                    return;
+                case 2:
+                    currentWave = 0;
+                    Debug.Log("W0");
+                    EventSystem.Instance.TriggerEvent(Strings.Events.PLE_TEST_WAVE_0);
+
+                    return;
+            }
         }
 
 
@@ -209,6 +257,7 @@ namespace PlayerLevelEditor
         {
 
         }
+
     }
 
 }
