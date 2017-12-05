@@ -24,7 +24,7 @@ public class BlasterBullet : MonoBehaviour {
     #region unity lifecycle
     void Update () {
 
-        AdjustToPlayerHeight();
+        //AdjustToPlayerHeight();
 
         killTimer -= Time.deltaTime;
 

@@ -84,6 +84,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     {
         if (myStats.health > 0 && !isIndestructable)
         {
+            DoHitReaction(damager);
             myStats.TakeDamage(damager.damage);
             damagePack.Set(damager, damaged);
             SFXManager.Instance.Play(hitSFX, transform.position);
@@ -161,6 +162,11 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         will.willHasBeenWritten = true;
         will.onDeath = onDeath;
     }
+
+    public virtual void DoHitReaction(Damager damager)
+    {
+    }
+
 
     public virtual void OnDeath()
     {

@@ -6,10 +6,9 @@ public class MallCopCelebrateState : AIState
 {
 
     public override void OnEnter()
-    {
+    { 
         navAgent.enabled = false;
         navObstacle.enabled = true;
-        animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.Celebrate);
     }
     public override void Update()
     {

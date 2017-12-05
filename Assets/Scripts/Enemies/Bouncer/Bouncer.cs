@@ -142,9 +142,9 @@ public class Bouncer : EnemyBase
 
     public override void DoPlayerKilledState(object[] parameters)
     {
-        animator.SetTrigger("DoVictoryDance");
-        controller.CurrentState = celebrate;
-        controller.UpdateState(EAIState.Celebrate);
+        //animator.SetTrigger("DoVictoryDance");
+        //controller.CurrentState = celebrate;
+        //controller.UpdateState(EAIState.Celebrate);
     }
 
     #endregion
