@@ -173,16 +173,43 @@ public class PlayerStateManager : MonoBehaviour {
         if (!isTutorialDone && !isInTutorial)
         {
             isInTutorial = true;
-            Time.timeScale = 0f;
-            EventSystem.Instance.TriggerEvent(Strings.Events.SHOW_TUTORIAL_TEXT);
+            StartCoroutine(StartTutorialSlowDown());            
         }
+    }
+
+    private IEnumerator StartTutorialSlowDown()
+    {
+        Debug.Log("Slowing Down");
+        while (Time.timeScale > 0.1f)
+        {
+            Time.timeScale = Mathf.Lerp(Time.timeScale, 0.0f, 0.05f);
+            yield return null;
+        }
+        Debug.Log("Stopped");
+        Time.timeScale = 0.0f;
+        EventSystem.Instance.TriggerEvent(Strings.Events.SHOW_TUTORIAL_TEXT);
     }
 
     private void FinishTutorial()
     {
+        if (!isTutorialDone)
+        {
+            isTutorialDone = true;
+            StartCoroutine(StartTutorialSpeedUp());
+        }
+    }
+
+    private IEnumerator StartTutorialSpeedUp()
+    {
+        Debug.Log("Speeding up");
+        while (Time.timeScale < 0.9f)
+        {
+            Time.timeScale = Mathf.Lerp(Time.timeScale, 1.0f, 0.05f);
+            yield return null;
+        }
+        Debug.Log("Started");
         isInTutorial = false;
-        isTutorialDone = true;
-        Time.timeScale = 1f;
+        Time.timeScale = 1.0f;
         EventSystem.Instance.TriggerEvent(Strings.Events.HIDE_TUTORIAL_TEXT);
     }
 
