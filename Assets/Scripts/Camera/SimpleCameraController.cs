@@ -23,6 +23,7 @@ public sealed class SimpleCameraController : MonoBehaviour
     private void Awake()
     {
         Cursor.lockState = CursorLockMode.Locked;
+        rotation = transform.rotation.eulerAngles;
     }
 
     void Update ()
