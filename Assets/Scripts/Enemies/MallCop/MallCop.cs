@@ -173,6 +173,7 @@ public class MallCop : EnemyBase
             animator.SetTrigger("DoVictoryDance");
             controller.CurrentState = celebrate;
             controller.UpdateState(EAIState.Celebrate);
+            animator.SetInteger("AnimationState", -1);
         }
     }
 
