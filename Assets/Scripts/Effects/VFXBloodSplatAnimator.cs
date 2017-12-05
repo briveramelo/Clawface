@@ -2,35 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 using MovementEffects;
-
+using ModMan;
 public class VFXBloodSplatAnimator : RoutineRunner {
 
-    public bool loopAnimation;
-    public bool playOnEnable=true;
-    public int totalFrames;
-
+    [SerializeField] MeshRenderer meshRenderer;
+    [SerializeField] List<Material> splatMaterials;
+    [SerializeField] bool loopAnimation;
+    [SerializeField] bool playOnEnable=true;
+    [SerializeField] int totalFrames;
+    [SerializeField] int framesPerSecond;    
+    [SerializeField] AbsAnim opacityAnim;
+    [SerializeField] AbsAnim clipAnim;
+    [SerializeField] private float startMaskClipVal;
+    
     private Material MyMaterial {
         get {
-            if (material==null) {                
-                material = GetComponent<Renderer>().material;
-            }
-            return material;
+            return meshRenderer.material;
+        }
+        set {
+            meshRenderer.material = value;
         }
     }
-    private Material material;
-    public int framesPerSecond;    
     private float FrameLength { get { return (1f / framesPerSecond); } }
-    public AbsAnim opacityAnim;
-    public AbsAnim clipAnim;
-    float StartMaskClipVal {
-        get {
-            if (startMaskClipVal==0f) {
-                startMaskClipVal = MyMaterial.GetFloat("_Cutoff");
-            }
-            return startMaskClipVal;
-        }
-    }
-    float startMaskClipVal;
 
 
     private void OnEnable()
@@ -42,9 +35,18 @@ public class VFXBloodSplatAnimator : RoutineRunner {
 
     public void Play()
     {
+        MyMaterial = splatMaterials.GetRandom();
         opacityAnim.OnUpdate = FadeOpacity;
         clipAnim.OnUpdate = FadeCutoff;
-        MyMaterial.SetFloat("_Cutoff", StartMaskClipVal);
+
+        if (loopAnimation) {
+            opacityAnim.onComplete = Play;
+        }
+        else {
+            opacityAnim.onComplete = DeActivate;
+        }        
+
+        MyMaterial.SetFloat("_Cutoff", startMaskClipVal);
         MyMaterial.SetFloat("_Opacity", 1f);
 
         Timing.RunCoroutine(PlayAnimation(), coroutineName);
@@ -53,20 +55,14 @@ public class VFXBloodSplatAnimator : RoutineRunner {
     IEnumerator<float> PlayAnimation() {
         for (int i=0; i< totalFrames; i++) {
             MyMaterial.SetFloat("_fbcurrenttileindex6", i);
-            yield return Timing.WaitForSeconds(FrameLength);
+            yield return Timing.WaitForSeconds(FrameLength);            
         }
         opacityAnim.Animate(coroutineName);
         clipAnim.Animate(coroutineName);
-        if (loopAnimation) {
-            opacityAnim.onComplete = Play;
-        }
-        else {
-            opacityAnim.onComplete = DeActivate;
-        }
     }
 
     void DeActivate() {
-        gameObject.SetActive(false);
+        Timing.RunCoroutine(DelayAction(()=> gameObject.SetActive(false)), coroutineName);
     }
 
     void FadeOpacity(float val) {

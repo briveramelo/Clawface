@@ -123,63 +123,36 @@ public class Spawner : RoutineRunner
         {
             for(int j = 0; j < waves[currentWave].monsterList[i].Count; j++)
             {
-                GameObject spawnedObject = ObjectPool.Instance.GetObject(GetPoolObject(waves[currentWave].monsterList[i].Type));
-
-                if (spawnedObject)
-                {
-                    ISpawnable spawnable = spawnedObject.GetComponentInChildren<ISpawnable>();
-
-                    if (!spawnable.HasWillBeenWritten())
-                    {
-                        spawnable.RegisterDeathEvent(ReportDeath);
-                    }
-
-                    Vector3 spawnPosition = spawnPoints.GetRandom().position;                    
-                    spawnable.WarpToNavMesh(spawnPosition);
-                    EventSystem.Instance.TriggerEvent(Strings.Events.ENEMY_SPAWNED, spawnedObject);
-
-                    currentNumEnemies++;
+                GameObject spawnEffect = ObjectPool.Instance.GetObject(PoolObjectType.VFXBloodDecal);
+                Vector3 spawnPosition = spawnPoints.GetRandom().position;
+                if (spawnEffect) {
+                    spawnEffect.transform.position = spawnPosition;
                 }
-                else
-                {
-                    Debug.LogFormat("<color=#ffff00>" + "NOT ENOUGH SPAWN-OBJECT" + "</color>");
-                }
+                PoolObjectType enemy = GetPoolObject(waves[currentWave].monsterList[i].Type);
+                Timing.RunCoroutine(DelayAction(() => SpawnEnemy(spawnPosition, enemy), waves[currentWave].spawnEffectTime), coroutineName);
             }
-        }
+        }        
 
+    }
 
-        /*
-        for (int i = 0; i < enemiesToSpawn; i++)
-        {
-            yield return Timing.WaitForSeconds(Random.Range(waves[currentWave].SpawningTime.Min, waves[currentWave].SpawningTime.Max));
+    void SpawnEnemy(Vector3 spawnPosition, PoolObjectType enemy) {
+        GameObject spawnedObject = ObjectPool.Instance.GetObject(enemy);
 
-            foreach (Transform point in spawnPoints)
-            {
-                GameObject spawnedObject = ObjectPool.Instance.GetObject(GetPoolObject(spawnType));
+        if (spawnedObject) {
+            ISpawnable spawnable = spawnedObject.GetComponentInChildren<ISpawnable>();
 
-                if (spawnedObject)
-                {
-                    ISpawnable spawnable = spawnedObject.GetComponentInChildren<ISpawnable>();
-
-                    if (!spawnable.HasWillBeenWritten())
-                    {
-                        spawnable.RegisterDeathEvent(ReportDeath);
-                    }
-
-                    spawnedObject.transform.position = point.position;
-                    spawnable.WarpToNavMesh(point.position);
-
-                    currentNumEnemies++;
-                }
-                else
-                {
-                    Debug.LogFormat("<color=#ffff00>" + "NOT ENOUGH SPAWN-OBJECT" + "</color>");
-                }
+            if (!spawnable.HasWillBeenWritten()) {
+                spawnable.RegisterDeathEvent(ReportDeath);
             }
+
+            spawnable.WarpToNavMesh(spawnPosition);
+            EventSystem.Instance.TriggerEvent(Strings.Events.ENEMY_SPAWNED, spawnedObject);
+
+            currentNumEnemies++;
         }
-        */
-
-
+        else {
+            Debug.LogFormat("<color=#ffff00>" + "NOT ENOUGH SPAWN-OBJECT" + "</color>");
+        }
     }
 
 
@@ -219,6 +192,7 @@ public class Wave
     public List<WaveType> monsterList;
 
     [HideInInspector] public int remainingSpawns;
+    public float spawnEffectTime=1.5f;
     [SerializeField, Range(0, 1)] public float intensity;
     [SerializeField, Range(0, 10)] public int NumToNextWave;
 
