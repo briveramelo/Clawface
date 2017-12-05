@@ -143,8 +143,8 @@ public enum PoolObjectType {
     Zombie = 32,
     Bouncer = 33,
     Kamikaze = 34,
-    RedBouncer = 44,
-    GreenBouncer = 45,
+    RedBouncer = 46,
+    GreenBouncer = 47,
 
 }
 
