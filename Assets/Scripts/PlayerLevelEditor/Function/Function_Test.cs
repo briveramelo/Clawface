@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.Events;
+using UnityEngine.UI;
 
 namespace PlayerLevelEditor
 {
@@ -9,8 +10,8 @@ namespace PlayerLevelEditor
     {
         GameObject _singletonObject;
         GameObject _movement;
-
         GameObject EditorCamera;
+        GameObject CameraUI;
 
         static GameObject _player;
 
@@ -24,6 +25,9 @@ namespace PlayerLevelEditor
 
         List<GameObject> enemies = new List<GameObject>();
 
+        Button Btn_Camera;
+        UnityAction ACT_Camera;
+
         public Test(FunctionController Controller) : base(Controller)
         {
 
@@ -33,9 +37,10 @@ namespace PlayerLevelEditor
         {
             base.Init();
 
-            EditorCamera = UnityEngine.Camera.main.gameObject;
-            EditorCamera.SetActive(false);
+            EditorCamera = UnityTool.FindGameObject("Camera");
 
+            if(EditorCamera)
+                EditorCamera.SetActive(false);
 
             currentTime = waveTime;
             CreateSingleton();
@@ -46,12 +51,16 @@ namespace PlayerLevelEditor
             SetUIObject("Function_Add");
             SetUIObject("Function_Duplicate");
             SetUIObject("Function_Dynamic");
+            SetUIObject("UI_Camera");
 
-
-            foreach(GameObject UIObject in UIObjects)
+            foreach (GameObject UIObject in UIObjects)
             {
+                if (UIObject.name == "UI_Camera") continue;
+
                 UIObject.SetActive(false);
             }
+
+           
 
             UITool.FindUIGameObject("Function_EndTest").SetActive(true);
 
@@ -62,6 +71,14 @@ namespace PlayerLevelEditor
                 EventSystem.Instance.RegisterEvent(Strings.Events.CALL_NEXTWAVEENEMIES, CallNextWave);
                 EventSystem.Instance.TriggerEvent(Strings.Events.PLE_TEST_WAVE_0);
             }
+
+
+            ACT_Camera = () => EnableCamera(Btn_Camera);
+            Btn_Camera = PlayerLevelEditor.UITool.GetUIComponent<Button>("Button_Camera");
+            if (Btn_Camera == null) Debug.Log("Btn_Add is null");
+
+            Btn_Camera.onClick.AddListener(ACT_Camera);
+
         }
 
 
@@ -106,12 +123,16 @@ namespace PlayerLevelEditor
             if(EventSystem.Instance)
                 EventSystem.Instance.UnRegisterEvent(Strings.Events.CALL_NEXTWAVEENEMIES, CallNextWave);
 
+
             foreach (GameObject UIObject in UIObjects)
             {
+                if (UIObject.name == "UI_Camera") continue;
                 UIObject.SetActive(true);
             }
 
             UITool.FindUIGameObject("Function_EndTest").SetActive(false);
+
+            Btn_Camera.onClick.RemoveListener(ACT_Camera);
         }
 
 
@@ -319,6 +340,14 @@ namespace PlayerLevelEditor
         private void ReportDeath()
         {
 
+        }
+
+
+        void EnableCamera(Button thisBtn)
+        {
+            bool state = EditorCamera.activeSelf;
+            Debug.Log(state);
+            EditorCamera.SetActive(!state);
         }
 
     }

@@ -15,8 +15,8 @@ namespace PlayerLevelEditor
         public static GameObject _prefab;
 
         GameObject _LevelObject;
-        Button Btn_Add;
 
+        Button Btn_Add;
         UnityAction ACT_Add;
 
 

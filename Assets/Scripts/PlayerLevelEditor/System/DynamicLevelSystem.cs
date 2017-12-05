@@ -93,7 +93,9 @@ namespace PlayerLevelEditor
             for (int j = 0; j < m_GameObjects.Count; j++)
             {
                 LevelUnit LU = m_GameObjects[j].GetComponent<LevelUnit>();
-                LU.DeRegisterFromEvents();
+
+                if(LU)
+                    LU.DeRegisterFromEvents();
             }
 
             for (int j = 0; j < m_GameObjects.Count; j++)
