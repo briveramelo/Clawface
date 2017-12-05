@@ -2942,6 +2942,8 @@ MonoBehaviour:
   dashCoolDown: 0.1
   eatingState: {fileID: 114325496831137656}
   eatCollider: {fileID: 135888620666243734}
+  tutorialSlowDownRate: 0.05
+  tutorialSpeedUpRate: 0.05
 --- !u!114 &114346970600587694
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3165,7 +3167,7 @@ MonoBehaviour:
   defense: 5
   health: 50
   maxHealth: 0
-  moveSpeed: 14
+  moveSpeed: 18
   rangedAccuracy: 1
   shotSpeed: 21
   shotPushForce: 8
