@@ -56,7 +56,7 @@ public class LevelUnit : MonoBehaviour {
     }
 
     private void Start()
-    {        
+    {
         RegisterToEvents();
     }
 
@@ -100,7 +100,7 @@ public class LevelUnit : MonoBehaviour {
     #endregion
 
     #region private functions
-    private void RegisterToEvents()
+    public void RegisterToEvents()
     {
         if (coverStateEvents != null)
         {
@@ -126,8 +126,8 @@ public class LevelUnit : MonoBehaviour {
             }
         }
     }
-    
-    private void DeRegisterFromEvents()
+
+    public void DeRegisterFromEvents()
     {
         if (coverStateEvents != null)
         {
@@ -201,7 +201,7 @@ public class LevelUnit : MonoBehaviour {
         }
     }
 
-    private void AddEvent(List<string> eventNames, string eventName)
+    private void AddEvent(ref List<string> eventNames, string eventName)
     {
         if(eventNames == null)
         {
@@ -259,17 +259,17 @@ public class LevelUnit : MonoBehaviour {
 
     public void AddCoverStateEvent(string eventName)
     {
-        AddEvent(coverStateEvents, eventName);
+        AddEvent(ref coverStateEvents, eventName);
     }
 
     public void AddFloorStateEvent(string eventName)
     {
-        AddEvent(floorStateEvents, eventName);
+        AddEvent(ref floorStateEvents, eventName);
     }
 
     public void AddPitStateEvent(string eventName)
     {
-        AddEvent(pitStateEvents, eventName);
+        AddEvent(ref pitStateEvents, eventName);
     }
 
     public bool CheckForEvent(string eventName, LevelUnitStates state)
@@ -331,6 +331,14 @@ public class LevelUnit : MonoBehaviour {
             ShowBlockingObject();
         }
     }
-    #endregion
 
+    public void DisableBlockingObject()
+    {
+        if (blockingObject != null)
+        {
+            blockingObject.SetActive(false);
+        }
+    }
+
+    #endregion
 }
