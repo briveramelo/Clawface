@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class ZombieCelebrateState : AIState {
 
+
     public override void OnEnter()
     {
+
         navAgent.enabled = false;
         navObstacle.enabled = true;
-        animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.Celebrate);
     }
     public override void Update()
     {

@@ -27,7 +27,12 @@ public class MainMenuController : MonoBehaviour {
         MenuManager.Instance.DoTransition(Strings.MenuStrings.MAIN, Menu.Transition.SHOW,
             new Menu.Effect[] { Menu.Effect.INSTANT, Menu.Effect.EXCLUSIVE });
         HideFader();
-	}
+
+        // Disable pausing in the main menu
+        Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.PAUSE);
+        PauseMenu pauseMenu = menu as PauseMenu;
+        pauseMenu.CanPause = false;
+    }
 
     #endregion
 

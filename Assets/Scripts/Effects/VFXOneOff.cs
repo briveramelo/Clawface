@@ -47,6 +47,7 @@ namespace Turing.VFX
 
         void OnEnable ()
         {
+            
             if (playOnAwake) Play();
         }
 
@@ -60,6 +61,7 @@ namespace Turing.VFX
         {
             yield return new WaitForSeconds (EffectDuration);
 
+            Stop();
             gameObject.SetActive(false);
         }
 
