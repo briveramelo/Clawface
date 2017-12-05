@@ -222,7 +222,7 @@ public class LevelUnit : MonoBehaviour {
         blockingObject.transform.localScale = new Vector3(meshSizeX, meshSizeY, meshSizeZ);
         blockingObject.AddComponent<BoxCollider>();
         blockingObject.AddComponent<NavMeshObstacle>();
-        blockingObject.layer = LayerMask.GetMask(Strings.Layers.OBSTACLE);
+        blockingObject.layer = LayerMask.NameToLayer(Strings.Layers.OBSTACLE);
     }
 
     private void ShowBlockingObject()
