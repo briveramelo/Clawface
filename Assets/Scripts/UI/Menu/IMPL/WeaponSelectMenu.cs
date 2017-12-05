@@ -46,6 +46,7 @@ public class WeaponSelectMenu : Menu
     #region Fields (Private)
 
     bool inputGuard = false;
+    private GameObject previousGameObject;
     private Camera previousCamera;
 
     #endregion
@@ -96,6 +97,7 @@ public class WeaponSelectMenu : Menu
         base.ShowComplete();
         inputGuard = true;
         previousCamera = Camera.main;
+        previousGameObject = previousCamera.gameObject;
         previousCamera.enabled = false;
         menuCamera.enabled = true;
         fader.DoHide(fadeDuration, null);
@@ -111,7 +113,7 @@ public class WeaponSelectMenu : Menu
     {
         base.HideComplete();
         menuCamera.enabled = false;
-        if (!previousCamera.gameObject.IsDestroyed())
+        if (!previousGameObject.IsDestroyed())
         {
             previousCamera.enabled = true;
         }
