@@ -67,9 +67,8 @@ public enum ModType {
     LightningGun = 2,
     Boomerang = 3,
     Geyser = 4,
-    Dice = 5,
-    None = 6,
-    Missile = 7
+    Missile = 5,
+    None = 6
 }
 
 public enum ModCategory
@@ -122,6 +121,8 @@ public enum PoolObjectType {
     VFXGeyserShoot = 41,
     VFXGeyserImpact = 42,
     VFXKamikazeExplosion = 43,
+    VFXLightningGunImpact = 44,
+    VFXLightningGunShoot = 45,
 
     //BulletTypes
     TurretBullet = 28,

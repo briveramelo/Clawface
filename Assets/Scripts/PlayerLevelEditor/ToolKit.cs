@@ -299,5 +299,10 @@ namespace PlayerLevelEditor
 
             return new Vector3(Grid_x, position.y, Grid_z);
         }
+
+        public static Vector3 ConvertToWorld(Triple triple)
+        {
+            return new Vector3(triple.x * ParameterSystem.unit_size, triple.y * ParameterSystem.unit_size, triple.z * ParameterSystem.unit_size);
+        }
     }
 }

@@ -23,7 +23,7 @@ public class DiceMod : Mod {
     #region Unity Lifetime
     // Use this for initialization
     protected override void Awake () {
-        type = ModType.Dice;
+        type = ModType.Missile;
         category = ModCategory.Ranged;
         animator = GetComponentInChildren<Animator>();
         base.Awake();

@@ -590,7 +590,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1393030806783384
 GameObject:
   m_ObjectHideFlags: 1
@@ -2852,7 +2852,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 1
   pickupCollider: {fileID: 65764154792012712}
-  modCanvas: {fileID: 0}
   energySettings:
     timeToCoolDown: 0
     isCoolingDown: 0
@@ -2873,7 +2872,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c7112b3692977d4987101d9add4e51f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attack: 9
+  attack: 7
   defense: 5
   health: 16
   maxHealth: 0
@@ -2934,6 +2933,7 @@ MonoBehaviour:
   hitFlashTime: 0.25
   stunnedFlashColor: {r: 0.741, g: 1, b: 1, a: 1}
   stunnedFlashInterval: 0.5
+  proximityFlashInterval: 0.2
   stunnedFlashStrength: 1
   stunnedFlashPower: 1
 --- !u!114 &114704564857973956
@@ -3014,6 +3014,7 @@ MonoBehaviour:
     hitRate: 0
     selfDestructTime: 0
     blastRadius: 0
+    rotationSpeed: 0
     minBounces: 0
     maxBounces: 0
     minShots: 0

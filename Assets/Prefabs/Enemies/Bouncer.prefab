@@ -3396,6 +3396,7 @@ MonoBehaviour:
     hitRate: 0
     selfDestructTime: 0
     blastRadius: 0
+    rotationSpeed: 0
     minBounces: 0
     maxBounces: 0
     minShots: 0
@@ -3406,6 +3407,7 @@ MonoBehaviour:
     minBouncerBounces: 2
     maxBouncerShots: 8
     minBouncerShots: 4
+    bouncerRotationSpeed: 0
     bouncerRotate: 0
   bulletPatternController: {fileID: 114428446350129332}
 --- !u!114 &114140393944466040
@@ -3681,7 +3683,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c7112b3692977d4987101d9add4e51f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attack: 12
+  attack: 8
   defense: 5
   health: 20
   maxHealth: 0

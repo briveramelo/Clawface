@@ -10,7 +10,7 @@ using System.Linq;
 public class ModUISelector : MonoBehaviour {
 
     [SerializeField] private GameObject modEquipCanvas;//, selectionHighlighter;
-    [SerializeField] private GameObject blasterIcon, boomerangeIcon, diceIcon, segwayIcon, geyserIcon, grapplerIcon, stunbatonIcon;
+    [SerializeField] private GameObject blasterIcon, boomerangeIcon, missileIcon, segwayIcon, geyserIcon, grapplerIcon, stunbatonIcon;
     [SerializeField] private ModInventory modInventory;
     [SerializeField] private ModUIManager modUIManager;
     [SerializeField] private ModManager modManager;
@@ -30,7 +30,7 @@ public class ModUISelector : MonoBehaviour {
         modUIElements=new List<ModUIElement>() {
             new ModUIElement(ModType.Blaster, blasterIcon),
             new ModUIElement(ModType.Boomerang, boomerangeIcon),
-            new ModUIElement(ModType.Dice, diceIcon),
+            new ModUIElement(ModType.Missile, missileIcon),
             new ModUIElement(ModType.SpreadGun, segwayIcon),
             new ModUIElement(ModType.Geyser, geyserIcon),
             new ModUIElement(ModType.LightningGun, grapplerIcon),

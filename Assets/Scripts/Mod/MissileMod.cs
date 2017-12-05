@@ -20,7 +20,7 @@ public class MissileMod : Mod {
 
     protected override void Awake()
     {
-        type = ModType.Dice;
+        type = ModType.Missile;
         category = ModCategory.Ranged;
         base.Awake();
     }
@@ -40,11 +40,6 @@ public class MissileMod : Mod {
         base.AttachAffect(ref wielderStats, wielderMovable);
 
     }
-
-    // Use this for initialization
-    void Start () {
-		
-	}
 	
 	// Update is called once per frame
 	protected override void Update () {

@@ -3,9 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using MovementEffects;
 using System;
+using Turing.VFX;
+using ModMan;
 
 public class LightningProjectile : MonoBehaviour {
-    
+
+    #region Serialized Unity Inspector Fields
+
+    [SerializeField] LightningChain chainEffect;
+
+    #endregion
     #region Private Fields
     private LightningGun.ProjectileProperties projectileProperties;    
     private Transform target;
@@ -28,6 +35,7 @@ public class LightningProjectile : MonoBehaviour {
 
     private void OnDisable()
     {
+        chainEffect.Reset();
         ResetToDefaults();
     }
 
@@ -81,14 +89,18 @@ public class LightningProjectile : MonoBehaviour {
         this.enemyCount = enemyCount;
         if (ignoreEnemies != null)
         {
+            chainEffect.SetOrigin(ignoreEnemies.Tail());
             ignoreTargets = ignoreEnemies;
         }
         damager = new Damager();
         damager.damagerType = DamagerType.GrapplingHook;
+        
+        chainEffect.SetTarget (transform);
     }
 
     public void ResetToDefaults()
     {
+        chainEffect.Reset();
         projectileProperties = null;
         startingPosition = Vector3.zero;
         target = null;
@@ -147,6 +159,12 @@ public class LightningProjectile : MonoBehaviour {
                 damager.impactDirection = transform.forward;
                 damager.damage = projectileProperties.projectileHitDamage;
                 damageable.TakeDamage(damager);
+                GameObject vfx = ObjectPool.Instance.GetObject (PoolObjectType.VFXLightningGunImpact);
+                if (vfx)
+                {
+                    vfx.transform.SetParent (target);
+                    vfx.transform.position = transform.position;
+                }
             }
 
             this.gameObject.SetActive(false);
