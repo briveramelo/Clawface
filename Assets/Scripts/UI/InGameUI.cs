@@ -63,6 +63,8 @@ public class InGameUI : MonoBehaviour {
             EventSystem.Instance.RegisterEvent(Strings.Events.HIDE_TUTORIAL_TEXT, HideTutorialText);
             EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_COMPLETED, HideHUD);
             EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_FAILED, HideHUD);
+            EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_KILLED, HideHUD);
+
 
         }
         onScreenCombo.text = "";
@@ -90,6 +92,7 @@ public class InGameUI : MonoBehaviour {
             EventSystem.Instance.UnRegisterEvent(Strings.Events.HIDE_TUTORIAL_TEXT, HideTutorialText);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_COMPLETED, HideHUD);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_FAILED, HideHUD);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_KILLED, HideHUD);
         }
     }
     #endregion
@@ -251,11 +254,16 @@ public class InGameUI : MonoBehaviour {
     }
 
     private void HideHUD(object[] parameters) {
-        hudCG.alpha = 0f;
+        StartCoroutine(MenuTransitionsCommon.FadeCoroutine(1.0f, 0.0f, 2.0f, hudCG, null));
+        //MenuTransitionsCommon.FadeCoroutine(1.0f, 0.0f, 1.0f, hudCG, null);
+        //hudCG.alpha = 0f;
     }
 
-    private void ShowHUD(object[] parameters) {
-        hudCG.alpha = 1f;
+    private void ShowHUD(object[] parameters)
+    {
+        StartCoroutine(MenuTransitionsCommon.FadeCoroutine(0.0f, 1.0f, 2.0f, hudCG, null));
+        
+        //hudCG.alpha = 1f;
     }
 
     #endregion
