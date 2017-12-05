@@ -21,6 +21,7 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     [SerializeField] private GameObject playerMesh;
     [SerializeField] private GameObject modSockets;
     [SerializeField] private PoolObjectType deathVFX;
+    [SerializeField] private SFXType deathSFX;
     #endregion
 
     #region Private Fields
@@ -88,6 +89,7 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
                         }
                         playerMesh.SetActive(false);
                         modSockets.SetActive(false);
+                        SFXManager.Instance.Play(deathSFX, playerMesh.transform.position);
                     }
                 }
             }
