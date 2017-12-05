@@ -181,14 +181,12 @@ public class PlayerStateManager : MonoBehaviour {
     }
 
     private IEnumerator StartTutorialSlowDown()
-    {
-        Debug.Log("Slowing Down");
+    {        
         while (Time.timeScale > 0.1f)
         {
             Time.timeScale = Mathf.Lerp(Time.timeScale, 0.0f, tutorialSlowDownRate);
             yield return null;
-        }
-        Debug.Log("Stopped");
+        }        
         Time.timeScale = 0.0f;
         EventSystem.Instance.TriggerEvent(Strings.Events.SHOW_TUTORIAL_TEXT);
     }
@@ -203,14 +201,12 @@ public class PlayerStateManager : MonoBehaviour {
     }
 
     private IEnumerator StartTutorialSpeedUp()
-    {
-        Debug.Log("Speeding up");
+    {        
         while (Time.timeScale < 0.9f)
         {
             Time.timeScale = Mathf.Lerp(Time.timeScale, 1.0f, tutorialSpeedUpRate);
             yield return null;
-        }
-        Debug.Log("Started");
+        }        
         isInTutorial = false;
         Time.timeScale = 1.0f;
         EventSystem.Instance.TriggerEvent(Strings.Events.HIDE_TUTORIAL_TEXT);
