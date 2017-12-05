@@ -5,9 +5,13 @@ using MovementEffects;
 
 public class BoomerangBullet : MonoBehaviour {
 
+    [SerializeField]
+    private TrailRenderer trail;
+
+
     private Damager damager = new Damager();
     private bool shooter;
-    private TrailRenderer trail;
+    
     private float speed;
     private float damage;
     private float timeUntilDestroyed;
@@ -15,12 +19,6 @@ public class BoomerangBullet : MonoBehaviour {
     private LayerMask raycastLayermask;
 
     private float deathTimer;
-
-    void OnEnable()
-    {        
-        // Timing.RunCoroutine(DestroyAfter());
-        trail = GetComponent<TrailRenderer>();
-    }
 
     private IEnumerator<float> DestroyAfter() {
         yield return Timing.WaitForSeconds(timeUntilDestroyed);
@@ -68,11 +66,12 @@ public class BoomerangBullet : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == Strings.Tags.ENEMY)
+        if (other.transform.CompareTag(Strings.Tags.ENEMY))
         {
-            Damage(other.gameObject.GetComponent<IDamageable>());               
+            Damage(other.gameObject.GetComponent<IDamageable>());
         }
     }
+
 
     public void Initialize(float speed, float damage, float timeUntilDestroyed, float rayDistanceMultiplier, LayerMask raycastLayermask)
     {

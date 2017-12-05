@@ -11,7 +11,6 @@ public class BouncerFireState : AIState {
     public int maxShots;
 
     private float rotation;
-    private float rotationSpeed = 50.0f;
 
 
     public override void OnEnter()
@@ -50,7 +49,7 @@ public class BouncerFireState : AIState {
 
     void DoRotationPattern()
     {
-        rotation += Time.deltaTime * rotationSpeed;
+        rotation += Time.deltaTime * properties.rotationSpeed;
         controller.transform.eulerAngles = new Vector3(0.0f,rotation,0.0f);
        
     }

@@ -1999,7 +1999,11 @@ MonoBehaviour:
     hitRate: 0.25
     selfDestructTime: 0
     blastRadius: 0
-    bounces: 0
+    rotationSpeed: 0
+    minBounces: 0
+    maxBounces: 0
+    minShots: 0
+    maxShots: 0
     numberOfShots: 0
     rotate: 0
     zombieHitRate: 2
@@ -2094,6 +2098,7 @@ MonoBehaviour:
   hitFlashTime: 0.25
   stunnedFlashColor: {r: 0.741, g: 1, b: 1, a: 1}
   stunnedFlashInterval: 0.5
+  proximityFlashInterval: 0.2
   stunnedFlashStrength: 1
   stunnedFlashPower: 1
 --- !u!114 &114641020106880882
@@ -2151,7 +2156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c7112b3692977d4987101d9add4e51f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attack: 10
+  attack: 8
   defense: 5
   health: 12
   maxHealth: 0

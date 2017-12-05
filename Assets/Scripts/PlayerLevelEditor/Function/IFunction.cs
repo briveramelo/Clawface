@@ -8,7 +8,8 @@ namespace PlayerLevelEditor
     public class IFunction
     {
         protected FunctionController m_Controller = null;
-        protected GameObject UIObject;
+
+        protected List<GameObject> UIObjects;
 
         public IFunction(FunctionController i_Controller)
         {
@@ -17,17 +18,20 @@ namespace PlayerLevelEditor
 
         public virtual void Init()
         {
-
+            UIObjects = new List<GameObject>();
         }
 
         public virtual void Release()
         {
-            if (UIObject == null)
+            if (UIObjects == null)
             {
                 return;
             }
 
-            UIObject.SetActive(false);
+            foreach(GameObject _obj in UIObjects)
+            {
+                _obj.SetActive(false);
+            }
         }
 
 
@@ -37,17 +41,20 @@ namespace PlayerLevelEditor
         }
 
 
-        protected void SetUIObject(string UIName)
+        protected GameObject SetUIObject(string UIName)
         {
-            UIObject = PlayerLevelEditor.UITool.FindUIGameObject(UIName);
+            GameObject UIObject = PlayerLevelEditor.UITool.FindUIGameObject(UIName);
 
             if (UIObject == null)
             {
                 Debug.Log(UIName + "is not in Canvas");
-                return;
+                return null;
             }
 
             UIObject.SetActive(true);
+            UIObjects.Add(UIObject);
+
+            return UIObject;
         }
 
     }
