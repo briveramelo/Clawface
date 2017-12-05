@@ -3,8 +3,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using MovementEffects;
 
-public class PlayerStateManager : MonoBehaviour {
+public class PlayerStateManager : RoutineRunner {
 
     #region Public fields
     public StateVariables stateVariables;
@@ -37,9 +38,18 @@ public class PlayerStateManager : MonoBehaviour {
     private bool playerCanMove = true;
     private bool isTutorialDone;
     private bool isInTutorial;
+
+    const string SlowTime = "SlowTime";
+    const string SpeedTime = "SpeedTime";
     #endregion
 
     #region Unity Lifecycle
+    protected override void OnDisable() {
+        Timing.KillCoroutines(SlowTime);
+        Timing.KillCoroutines(SpeedTime);
+        base.OnDisable();
+    }
+
     // Use this for initialization
     void Start () {
         stateChanged = false;
@@ -176,16 +186,16 @@ public class PlayerStateManager : MonoBehaviour {
         if (!isTutorialDone && !isInTutorial)
         {
             isInTutorial = true;
-            StartCoroutine(StartTutorialSlowDown());            
+            Timing.RunCoroutine(StartTutorialSlowDown(), SlowTime);
         }
     }
 
-    private IEnumerator StartTutorialSlowDown()
+    private IEnumerator<float> StartTutorialSlowDown()
     {        
         while (Time.timeScale > 0.1f)
         {
             Time.timeScale = Mathf.Lerp(Time.timeScale, 0.0f, tutorialSlowDownRate);
-            yield return null;
+            yield return 0f;
         }        
         Time.timeScale = 0.0f;
         EventSystem.Instance.TriggerEvent(Strings.Events.SHOW_TUTORIAL_TEXT);
@@ -196,16 +206,17 @@ public class PlayerStateManager : MonoBehaviour {
         if (!isTutorialDone)
         {
             isTutorialDone = true;
-            StartCoroutine(StartTutorialSpeedUp());
+            Timing.KillCoroutines(SlowTime);
+            Timing.RunCoroutine(StartTutorialSpeedUp(), SpeedTime);
         }
     }
 
-    private IEnumerator StartTutorialSpeedUp()
+    private IEnumerator<float> StartTutorialSpeedUp()
     {        
         while (Time.timeScale < 0.9f)
         {
             Time.timeScale = Mathf.Lerp(Time.timeScale, 1.0f, tutorialSpeedUpRate);
-            yield return null;
+            yield return 0f;
         }        
         isInTutorial = false;
         Time.timeScale = 1.0f;
