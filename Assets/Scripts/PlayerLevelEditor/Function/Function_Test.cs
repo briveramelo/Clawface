@@ -57,7 +57,16 @@ namespace PlayerLevelEditor
             base.Release();
 
             if(_player)
-               _player.SetActive(false);
+            {
+                RaycastHit hit;
+
+                if (Physics.Raycast(new Vector3(0.0f, 1000.0f, 0.0f), Vector3.down, out hit))
+                {
+                    _player.transform.position = new Vector3(0, hit.point.y + 2.5f, 0);
+                }
+                _player.SetActive(false);
+            }
+
 
             foreach (GameObject _obj in enemies)
             {
@@ -85,14 +94,28 @@ namespace PlayerLevelEditor
 
                 CreateSingleton("PlayerSpawner", _singletonObject, new Vector3(0, 2.5f, 0));
                 CreateSingleton("ServiceWrangler", _singletonObject, new Vector3(0, 0, 0));
- //               CreateSingleton("SpawnManager", _singletonObject, new Vector3(0, 0, 0));
+                //               CreateSingleton("SpawnManager", _singletonObject, new Vector3(0, 0, 0));
                 CreateSingleton("NavMeshSurface", _singletonObject, new Vector3(0, 0, 0));
             }
             else
             {
 
-                if(_player)
+                if (_player)
+                {
                     _player.SetActive(true);
+
+                    RaycastHit hit;
+
+                    if (Physics.Raycast(new Vector3(0.0f, 1000.0f, 0.0f), Vector3.down, out hit))
+                    {
+                        Debug.Log(new Vector3(0, hit.point.y, 0));
+
+                        GameObject _PC = UnityTool.FindChildGameObject(_player, "Player_Combat");
+
+                        _PC.transform.position = new Vector3(0, hit.point.y + 2.5f, 0);
+                    }
+                }
+
 
                 foreach(Transform child in _singletonObject.transform)
                 {
@@ -196,8 +219,8 @@ namespace PlayerLevelEditor
 
             currentTime = waveTime;
 
-            EventSystem.Instance.TriggerEvent(Strings.Events.CALL_NEXTWAVEENEMIES);
-            return;
+ //           EventSystem.Instance.TriggerEvent(Strings.Events.CALL_NEXTWAVEENEMIES);
+ //           return;
 
 
             GameObject spawnedObject = ObjectPool.Instance.GetObject(PoolObjectType.MallCopBlaster);
@@ -213,7 +236,17 @@ namespace PlayerLevelEditor
                     spawnable.RegisterDeathEvent(ReportDeath);
                 }
 
+
+
+
+                RaycastHit hit;
+
                 Vector3 spawnPosition = new Vector3(0, 5, 0);
+
+                if (Physics.Raycast(new Vector3(0.0f, 1000.0f, 0.0f), Vector3.down, out hit))
+                {
+                    spawnPosition = new Vector3(0, hit.point.y, 0);
+                }
 
                 spawnable.WarpToNavMesh(spawnPosition);
                 EventSystem.Instance.TriggerEvent(Strings.Events.ENEMY_SPAWNED, spawnedObject);
@@ -236,18 +269,19 @@ namespace PlayerLevelEditor
                     currentWave = 1;
                     Debug.Log("W1");
                     EventSystem.Instance.TriggerEvent(Strings.Events.PLE_TEST_WAVE_1);
+                    BakeAI();
                     return;
                 case 1:
                     currentWave = 2;
                     Debug.Log("W2");
                     EventSystem.Instance.TriggerEvent(Strings.Events.PLE_TEST_WAVE_2);
-
+                    BakeAI();
                     return;
                 case 2:
                     currentWave = 0;
                     Debug.Log("W0");
                     EventSystem.Instance.TriggerEvent(Strings.Events.PLE_TEST_WAVE_0);
-
+                    BakeAI();
                     return;
             }
         }
