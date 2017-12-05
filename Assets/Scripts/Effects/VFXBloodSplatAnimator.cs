@@ -13,31 +13,17 @@ public class VFXBloodSplatAnimator : RoutineRunner {
     [SerializeField] int framesPerSecond;    
     [SerializeField] AbsAnim opacityAnim;
     [SerializeField] AbsAnim clipAnim;
-
-    private Material material;
+    [SerializeField] private float startMaskClipVal;
+    
     private Material MyMaterial {
         get {
-            if (material==null) {
-                Material randomMaterial = splatMaterials.GetRandom();
-                meshRenderer.material = randomMaterial;
-                material = randomMaterial;
-            }
-            return material;
+            return meshRenderer.material;
         }
         set {
             meshRenderer.material = value;
         }
     }
     private float FrameLength { get { return (1f / framesPerSecond); } }
-    private float StartMaskClipVal {
-        get {
-            if (startMaskClipVal==0f) {
-                startMaskClipVal = MyMaterial.GetFloat("_Cutoff");
-            }
-            return startMaskClipVal;
-        }
-    }
-    private float startMaskClipVal;
 
 
     private void OnEnable()
@@ -60,7 +46,7 @@ public class VFXBloodSplatAnimator : RoutineRunner {
             opacityAnim.onComplete = DeActivate;
         }        
 
-        MyMaterial.SetFloat("_Cutoff", StartMaskClipVal);
+        MyMaterial.SetFloat("_Cutoff", startMaskClipVal);
         MyMaterial.SetFloat("_Opacity", 1f);
 
         Timing.RunCoroutine(PlayAnimation(), coroutineName);
@@ -69,7 +55,7 @@ public class VFXBloodSplatAnimator : RoutineRunner {
     IEnumerator<float> PlayAnimation() {
         for (int i=0; i< totalFrames; i++) {
             MyMaterial.SetFloat("_fbcurrenttileindex6", i);
-            yield return Timing.WaitForSeconds(FrameLength);
+            yield return Timing.WaitForSeconds(FrameLength);            
         }
         opacityAnim.Animate(coroutineName);
         clipAnim.Animate(coroutineName);
