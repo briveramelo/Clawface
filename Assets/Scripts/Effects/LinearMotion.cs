@@ -6,6 +6,7 @@ public class LinearMotion : MonoBehaviour {
 
 	[SerializeField] float amplitude = 5.0f;
     [SerializeField] float speedMultiplier = 1.0f;
+    [SerializeField] Vector3 moveDirection = Vector3.right;
 
     Vector3 originalPosition;
 
@@ -18,9 +19,7 @@ public class LinearMotion : MonoBehaviour {
 
     private void Update()
     {
-        transform.position = originalPosition + new Vector3 (
-            Mathf.Sin (t), 0f, 0f
-            ) * amplitude;
+        transform.position = originalPosition + Mathf.Sin(t) * moveDirection;
 
         t = (t + Time.deltaTime * speedMultiplier) % (2.0f * Mathf.PI);
     }

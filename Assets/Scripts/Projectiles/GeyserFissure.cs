@@ -57,6 +57,11 @@ public class GeyserFissure : MonoBehaviour {
                 Damage(damageable);
                 SpawnPoolObjectAtCurrentPosition(enemyImpactEffect);
                 hitEnemies.Add(other.transform);
+                foreach (TrailRenderer trail in trails)
+                {
+                    trail.Clear();
+                    trail.enabled = false;
+                }
             }
         }
         else if (other.CompareTag(Strings.Tags.WALL))
@@ -64,7 +69,10 @@ public class GeyserFissure : MonoBehaviour {
             SpawnPoolObjectAtCurrentPosition(wallImpactEffect);
             StopAllCoroutines();
             foreach (TrailRenderer trail in trails)
+            {
                 trail.Clear();
+                trail.enabled = false;
+            }
             gameObject.SetActive(false);
         }
     }
@@ -111,6 +119,11 @@ public class GeyserFissure : MonoBehaviour {
         this.killTimer = 0f;
         hitEnemies.Clear();
         StartCoroutine (ScaleUp());
+        foreach (TrailRenderer trail in trails)
+        {
+            trail.enabled = true;
+            trail.Clear();
+        }
     }
     
 }

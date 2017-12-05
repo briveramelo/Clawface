@@ -29,7 +29,9 @@ public enum SFXType {
     UI_Hover,
     UI_Back,
     SpreadshotShoot,
-    LightningGunShoot
+    LightningGunShoot,
+    GeyserShoot,
+    PlayerEat
 }
 
 public enum MusicType
@@ -124,6 +126,7 @@ public enum PoolObjectType {
     VFXKamikazeExplosion = 43,
     VFXLightningGunImpact = 44,
     VFXLightningGunShoot = 45,
+    VFXPlayerDeath = 49,
 
     //BulletTypes
     TurretBullet = 28,
