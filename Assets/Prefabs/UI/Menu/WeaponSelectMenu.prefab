@@ -5280,7 +5280,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1798654801573802}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
@@ -5333,7 +5333,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1278148297558916}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
@@ -5472,6 +5472,8 @@ MonoBehaviour:
   menuCamera: {fileID: 20256538908822052}
   fader: {fileID: 114658553887307438}
   fadeDuration: 0.25
+  selectedButtonSprite: {fileID: 21300000, guid: 2c1bb792bed3ff24789c4f5fa9d189d4,
+    type: 3}
 --- !u!114 &114201674317650024
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5564,7 +5566,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1139898610639760}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
@@ -5772,7 +5774,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1688257888943854}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
@@ -5855,6 +5857,15 @@ MonoBehaviour:
   - {fileID: 1122775334729024}
   selectedWeapon: 4
   weaponSwapTime: 0.25
+  selectedRightSprite: {fileID: 21300000, guid: 989db98680980024f9a3ca92a8eaa2c0,
+    type: 3}
+  selectedLeftSprite: {fileID: 21300000, guid: a5486af4d7790694589ff5c1ce6790ed, type: 3}
+  unselectedRightSprite: {fileID: 21300000, guid: 33ce98f92cb2da242baa07443fac43a5,
+    type: 3}
+  unselectedLeftSprite: {fileID: 21300000, guid: 0a335602a91f27d42bac610c77749c21,
+    type: 3}
+  moveLeftButton: {fileID: 114271799307692296}
+  moveRightButton: {fileID: 114128116686635702}
 --- !u!114 &114546597121157418
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6297,6 +6308,15 @@ MonoBehaviour:
   - {fileID: 1157346259242776}
   selectedWeapon: 4
   weaponSwapTime: 0.25
+  selectedRightSprite: {fileID: 21300000, guid: 989db98680980024f9a3ca92a8eaa2c0,
+    type: 3}
+  selectedLeftSprite: {fileID: 21300000, guid: a5486af4d7790694589ff5c1ce6790ed, type: 3}
+  unselectedRightSprite: {fileID: 21300000, guid: 33ce98f92cb2da242baa07443fac43a5,
+    type: 3}
+  unselectedLeftSprite: {fileID: 21300000, guid: 0a335602a91f27d42bac610c77749c21,
+    type: 3}
+  moveLeftButton: {fileID: 114127857788288646}
+  moveRightButton: {fileID: 114511596057394768}
 --- !u!114 &114978267961607626
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -27338,7 +27358,7 @@ CanvasGroup:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1772264137226952}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 0
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0

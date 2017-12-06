@@ -1,28 +1,45 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class WeaponLineup : MonoBehaviour
 {
 
-    #region Accessors (Public)
-
-    public ModType SelectedWeapon
-    {
-        get { return selectedWeapon; }
-    }
-
-    #endregion
+    #region Serialized Unity Fields
 
     [SerializeField] private GameObject[] slots;
     [SerializeField] private GameObject[] weapons;
     [SerializeField] private ModType selectedWeapon = ModType.Geyser;
     [SerializeField] private float weaponSwapTime = 0.25f;
+    [SerializeField] private Sprite selectedRightSprite, selectedLeftSprite;
+    [SerializeField] private Sprite unselectedRightSprite, unselectedLeftSprite;
+    [SerializeField] private Button moveLeftButton, moveRightButton;
+    [SerializeField] private Color selectedColor = Color.yellow;
+
+    #endregion
+
+    #region Private References
+    
+    #endregion
+
+    public ModType GetSelection()
+    {
+        moveRightButton.image.sprite = selectedRightSprite;
+        moveLeftButton.image.sprite = selectedLeftSprite;
+        moveRightButton.image.color = selectedColor;
+        moveLeftButton.image.color = selectedColor;
+        return selectedWeapon;
+    }
 
 
     public void MoveRight()
     {
+
+        //make associated arrow "Blink" to show movement
+        moveRightButton.image.sprite = selectedRightSprite;
+        moveLeftButton.image.sprite = unselectedLeftSprite;
+
         for (int i = 0; i < weapons.Length; i++)
         {
             if (i != weapons.Length-1)
@@ -61,6 +78,11 @@ public class WeaponLineup : MonoBehaviour
     }
     public void MoveLeft()
     {
+
+        //make associated arrow "Blink" to show movement
+        moveRightButton.image.sprite = unselectedRightSprite;
+        moveLeftButton.image.sprite = selectedLeftSprite;
+
         for (int i = 0; i < weapons.Length; i++)
         {
             if (i != 0)

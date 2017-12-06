@@ -35,6 +35,18 @@ public class WeaponSelectMenu : Menu
     [SerializeField]
     private float fadeDuration = 0.25F;
 
+    //[SerializeField] private Button[] rightWeaponButtons = new Button[2];
+    //[SerializeField] private Button[] leftWeaponButtons = new Button[2];
+    [SerializeField] private Sprite selectedButtonSprite;
+    
+
+    private bool selectingPlayerRight = false;
+    private bool selectingPlayerLeft = false;
+
+    private float queryActionEverySeconds = 1.0f;
+    private float queryActionTimer = 0.0f;
+
+
     #endregion
 
     #region Fields (Internal)
@@ -63,15 +75,23 @@ public class WeaponSelectMenu : Menu
     
     private void Update ()
 	{
-        if (inputGuard && InputManager.Instance.QueryAction (Strings.Input.UI.CANCEL, ButtonMode.DOWN))
-        {
-            BackButtonBehaviour();
-        }
+	    if (inputGuard)
+	    {
+	        if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN))
+	        {
+	            BackButtonBehaviour();
+            }
+
+            HandleSelectionFlow();
+	    }
+
 	}
 
-	#endregion
 
-	#region Interface (Menu)
+
+    #endregion
+
+    #region Interface (Menu)
 
     protected override void Fade(Transition transition, Effect[] effects)
     {
@@ -101,6 +121,18 @@ public class WeaponSelectMenu : Menu
         previousCamera.enabled = false;
         menuCamera.enabled = true;
         fader.DoHide(fadeDuration, null);
+
+        selectingPlayerLeft = false;
+        selectingPlayerRight = true;
+        initialButton.enabled = false;
+        queryActionTimer = queryActionEverySeconds;
+
+
+        //disable " player left" buttons and only work on the screen left carousel / player right buttons
+        //foreach (Button b in leftWeaponButtons)
+        //{
+        //    b.enabled = false;
+        //}
     }
 
     protected override void HideStarted()
@@ -134,9 +166,6 @@ public class WeaponSelectMenu : Menu
 	public void StartAction ()
 	{
 	    ModManager.assignFromPool = false;
-        // Set Mod Types
-	    ModManager.leftArmOnLoad = leftArm.SelectedWeapon;
-	    ModManager.rightArmOnLoad = rightArm.SelectedWeapon;
 
 		// Acquire target level.
 		Menu menu = MenuManager.Instance.GetMenuByName (Strings.MenuStrings.LEVEL_SELECT);
@@ -169,5 +198,83 @@ public class WeaponSelectMenu : Menu
         BackAction();
     }
 
-	#endregion
+    private void LockInRightAction()
+    {
+
+        ModManager.rightArmOnLoad = rightArm.GetSelection();
+        selectingPlayerRight = false;
+        selectingPlayerLeft = true;
+    }
+
+    private void LockInLeftAction()
+    {
+        //lock in right selection
+        ModManager.leftArmOnLoad = leftArm.GetSelection();
+        selectingPlayerLeft = false;
+    }
+
+    private void HandleSelectionFlow()
+    {
+        if (selectingPlayerRight)
+        {
+            queryActionTimer -= Time.fixedDeltaTime;
+            if (queryActionTimer < 0)
+            {
+                Vector2 axesState = InputManager.Instance.QueryAxes(Strings.Input.Axes.MOVEMENT);
+
+                if (axesState.x == -1)
+                {
+                    //go left
+                    rightArm.MoveLeft();
+
+                }
+                else if (axesState.x == 1)
+                {
+                    rightArm.MoveRight();
+                }
+
+                queryActionTimer = queryActionEverySeconds;
+            }
+            if (InputManager.Instance.QueryAction(Strings.Input.UI.SUBMIT, ButtonMode.DOWN))
+            {
+                LockInRightAction();
+            }
+        }
+        else if (selectingPlayerLeft)
+        {
+            queryActionTimer -= Time.fixedDeltaTime;
+            if (queryActionTimer < 0)
+            {
+                Vector2 axesState = InputManager.Instance.QueryAxes(Strings.Input.Axes.MOVEMENT);
+
+                if (axesState.x == -1)
+                {
+                    //go left
+                    leftArm.MoveLeft();
+
+                }
+                else if (axesState.x == 1)
+                {
+                    leftArm.MoveRight();
+                }
+
+                queryActionTimer = queryActionEverySeconds;
+            }
+            if (InputManager.Instance.QueryAction(Strings.Input.UI.SUBMIT, ButtonMode.DOWN))
+            {
+                LockInLeftAction();
+            }
+        }
+        else if (!selectingPlayerRight && !selectingPlayerLeft)
+        {
+            //check to see if confirm
+            if (InputManager.Instance.QueryAction(Strings.Input.UI.SUBMIT, ButtonMode.DOWN))
+            {
+                InitialSelection.image.sprite = selectedButtonSprite;
+                StartAction();
+            }
+        }
+    }
+
+    #endregion
 }
