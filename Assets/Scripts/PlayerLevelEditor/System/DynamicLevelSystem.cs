@@ -102,6 +102,8 @@ namespace PlayerLevelEditor
             {
                 LevelUnit LU = m_GameObjects[j].GetComponent<LevelUnit>();
 
+                if (LU == null) continue;
+
                 for (int i = 0; i < Stage.options.Count; i++)
                 {
                     string event_name = "PLE_TEST_WAVE_" + i.ToString();

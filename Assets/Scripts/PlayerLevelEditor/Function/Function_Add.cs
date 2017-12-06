@@ -65,7 +65,6 @@ namespace PlayerLevelEditor
 
                 if (Input.GetMouseButtonDown(0) && clickToAddEnabled)
                 {
-
                     LevelUnit LU = hit.transform.gameObject.GetComponent<LevelUnit>();
 
                     if (LU != null)
@@ -74,6 +73,14 @@ namespace PlayerLevelEditor
                     }
           
                     Vector3 _pos = PlayerLevelEditor.ToolLib.ConvertToGrid(mousePositionInScene);
+
+                    if (_pos.x == 0.0f && _pos.z == 0.0f)
+                    {
+                        Debug.Log("DDD");
+                        return;
+                    }
+
+
                     GameObject _instance = GameObject.Instantiate(_prefab, _pos, Quaternion.identity);
 
                     _instance.transform.SetParent(_LevelObject.transform);

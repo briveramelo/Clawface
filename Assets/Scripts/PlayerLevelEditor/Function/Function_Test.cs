@@ -106,12 +106,6 @@ namespace PlayerLevelEditor
 
             if (_player)
             {
-                RaycastHit hit;
-
-                if (Physics.Raycast(new Vector3(0.0f, 1000.0f, 0.0f), Vector3.down, out hit))
-                {
-                    _player.transform.position = new Vector3(0, hit.point.y + 2.5f, 0);
-                }
                 _player.SetActive(false);
             }
 
@@ -156,16 +150,10 @@ namespace PlayerLevelEditor
                 {
                     _player.SetActive(true);
 
-                    RaycastHit hit;
+                    GameObject _PC = UnityTool.FindChildGameObject(_player, "Player_Combat");
 
-                    if (Physics.Raycast(new Vector3(0.0f, 1000.0f, 0.0f), Vector3.down, out hit))
-                    {
-                        Debug.Log(new Vector3(0, hit.point.y, 0));
-
-                        GameObject _PC = UnityTool.FindChildGameObject(_player, "Player_Combat");
-
-                        _PC.transform.position = new Vector3(0, hit.point.y + 2.5f, 0);
-                    }
+                    if(_PC)
+                        _PC.transform.localPosition = new Vector3(0, _PC.transform.localPosition.y, 0);
                 }
 
 
@@ -269,10 +257,6 @@ namespace PlayerLevelEditor
 
             currentTime = waveTime;
 
- //           EventSystem.Instance.TriggerEvent(Strings.Events.CALL_NEXTWAVEENEMIES);
- //           return;
-
-
             GameObject spawnedObject = ObjectPool.Instance.GetObject(PoolObjectType.MallCopBlaster);
 
             if (spawnedObject)
@@ -286,12 +270,9 @@ namespace PlayerLevelEditor
                     spawnable.RegisterDeathEvent(ReportDeath);
                 }
 
-
-
-
                 RaycastHit hit;
 
-                Vector3 spawnPosition = new Vector3(0, 5, 0);
+                Vector3 spawnPosition = new Vector3(0, 5.0f, 0);
 
                 if (Physics.Raycast(new Vector3(0.0f, 1000.0f, 0.0f), Vector3.down, out hit))
                 {

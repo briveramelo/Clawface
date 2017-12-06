@@ -184,6 +184,11 @@ namespace PlayerLevelEditor
                         LevelUnit LU = _instance.AddComponent<LevelUnit>() as LevelUnit;
                         LU.defaultState = LevelUnitStates.floor;
                         _AddNavMeshModifier(_instance, PlayerLevelEditor.NavMeshAreas.Walkable);
+
+                        if(i == 0 && j == 0)
+                        {
+                            GameObject.DestroyImmediate(LU);
+                        }
                     }
 
                     _instance.transform.SetParent(_platform.transform);
