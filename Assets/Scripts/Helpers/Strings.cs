@@ -122,6 +122,7 @@
         public const string LEVEL_COMPLETED = "LevelCompleted";
         public const string LEVEL_RESTARTED = "LevelRestarted";
         public const string EXIT_GAME = "ExitGame";
+        public const string WEAPONSSELECT_FROM_STAGEOVER = "WEAPONSSELECT_FROM_STAGEOVER";
 
         public const string PLAYER_DAMAGED = "PlayerDamaged";
         public const string PLAYER_KILLED = "PlayerKilled";

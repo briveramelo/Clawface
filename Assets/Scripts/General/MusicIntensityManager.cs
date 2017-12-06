@@ -30,6 +30,7 @@ public class MusicIntensityManager : RoutineRunner {
 		for (int i=0;i< musicEventsList.Count; i++)
         {
             EventSystem.Instance.RegisterEvent(musicEventsList[i], ChangeTrack);
+            EventSystem.Instance.RegisterEvent(Strings.Events.WEAPONSSELECT_FROM_STAGEOVER, Stop);            
         }
         currentTrack = -1;
         isSource2Active = false;
@@ -41,13 +42,24 @@ public class MusicIntensityManager : RoutineRunner {
         {
             for (int i = 0; i < musicEventsList.Count; i++)
             {
-                EventSystem.Instance.UnRegisterEvent(musicEventsList[i], ChangeTrack);
+                EventSystem.Instance.UnRegisterEvent(musicEventsList[i], ChangeTrack);                
+                EventSystem.Instance.UnRegisterEvent(Strings.Events.WEAPONSSELECT_FROM_STAGEOVER, Stop);
             }
         }
     }
     #endregion
 
     #region public functions
+    public void Stop(params object[] items) {
+        source1.Stop();
+        source2.Stop();
+    }
+
+    public void Play(params object[] items) {
+        source1.Play();
+        source2.Play();
+    }
+
     public void AddMusicTransitionEvent(string eventName, AudioClip clip)
     {
         musicEventsList.Add(eventName);
