@@ -45,7 +45,8 @@ public class WeaponSelectMenu : Menu
 
     private float queryActionEverySeconds = 1.0f;
     private float queryActionTimer = 0.0f;
-
+    private bool wasLeft;
+    private bool wasRight;
 
     #endregion
 
@@ -117,6 +118,7 @@ public class WeaponSelectMenu : Menu
         menuCamera.enabled = true;
         fader.DoHide(fadeDuration, null);
 
+        //for dealing with the custom menu selection flow
         selectingPlayerLeft = false;
         selectingPlayerRight = true;
         initialButton.enabled = false;
@@ -188,44 +190,19 @@ public class WeaponSelectMenu : Menu
 
     private void BackButtonBehaviour () {
         BackAction();
-    }
-
-    private void LockInRightAction()
-    {
-        ModManager.rightArmOnLoad = rightArm.GetSelection();
-        selectingPlayerRight = false;
-        selectingPlayerLeft = true;
-    }
-
-    private void LockInLeftAction()
-    {
-        initialButton.image.sprite = selectedButtonSprite;
-        ModManager.leftArmOnLoad = leftArm.GetSelection();
-        selectingPlayerLeft = false;
-    }
+    }    
 
     private void HandleSelectionFlow()
     {
+        Vector2 axesState = InputManager.Instance.QueryAxes(Strings.Input.Axes.MOVEMENT);
+        Vector2 horizontal = InputManager.Instance.QueryAxes(Strings.Input.UI.HORIZONTAL);
+        bool isLeft = axesState.x.AboutEqual(-1);
+        bool isRight= axesState.x.AboutEqual(1);
+        
+
         if (selectingPlayerRight)
         {
-            queryActionTimer -= Time.fixedDeltaTime;
-            if (queryActionTimer < 0)
-            {
-                Vector2 axesState = InputManager.Instance.QueryAxes(Strings.Input.Axes.MOVEMENT);
-
-                if (axesState.x == -1)
-                {
-                    //go left
-                    rightArm.MoveLeft();
-
-                }
-                else if (axesState.x == 1)
-                {
-                    rightArm.MoveRight();
-                }
-
-                queryActionTimer = queryActionEverySeconds;
-            }
+            HandleMovement(rightArm, isLeft, isRight);
             if (InputManager.Instance.QueryAction(Strings.Input.UI.SUBMIT, ButtonMode.DOWN))
             {
                 LockInRightAction();
@@ -238,31 +215,13 @@ public class WeaponSelectMenu : Menu
         }
         else if (selectingPlayerLeft)
         {
-            queryActionTimer -= Time.fixedDeltaTime;
-            if (queryActionTimer < 0)
-            {
-                Vector2 axesState = InputManager.Instance.QueryAxes(Strings.Input.Axes.MOVEMENT);
-
-                if (axesState.x == -1)
-                {
-                    //go left
-                    leftArm.MoveLeft();
-
-                }
-                else if (axesState.x == 1)
-                {
-                    leftArm.MoveRight();
-                }
-
-                queryActionTimer = queryActionEverySeconds;
-            }
+            HandleMovement(leftArm, isLeft, isRight);
             if (InputManager.Instance.QueryAction(Strings.Input.UI.SUBMIT, ButtonMode.DOWN))
             {
                 LockInLeftAction();
             }
             else if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN))
-            {
-                
+            {                
                 selectingPlayerRight = true;
                 selectingPlayerLeft = false;
                 leftArm.GlowControl.SetUnselected();
@@ -289,6 +248,60 @@ public class WeaponSelectMenu : Menu
                 leftArm.ResetArrows();
             }
         }
+
+        wasLeft = isLeft;
+        wasRight = isRight;
+    }
+
+    void HandleMovement(WeaponLineup lineup, bool isLeft, bool isRight)
+    {
+        bool moved = false;
+        if ((isLeft || isRight) && !(wasRight || wasLeft))
+        {
+            moved = MoveLineup(lineup, isLeft, isRight);
+            if (moved)
+            {
+                queryActionTimer = queryActionEverySeconds;
+            }
+        }
+
+        queryActionTimer -= Time.fixedDeltaTime;
+        if (queryActionTimer < 0)
+        {
+            
+            MoveLineup(lineup, isLeft, isRight);
+            queryActionTimer = queryActionEverySeconds;
+        }
+    }
+
+    bool MoveLineup(WeaponLineup lineup, bool isLeft, bool isRight)
+    {
+        if (isLeft)
+        {
+            //go left
+            lineup.MoveLeft();
+            return true;
+        }
+        else if (isRight)
+        {
+            lineup.MoveRight();
+            return true;
+        }
+        return false;
+    }
+
+    private void LockInRightAction()
+    {
+        ModManager.rightArmOnLoad = rightArm.GetSelection();
+        selectingPlayerRight = false;
+        selectingPlayerLeft = true;
+    }
+
+    private void LockInLeftAction()
+    {
+        initialButton.image.sprite = selectedButtonSprite;
+        ModManager.leftArmOnLoad = leftArm.GetSelection();
+        selectingPlayerLeft = false;
     }
 
     #endregion
