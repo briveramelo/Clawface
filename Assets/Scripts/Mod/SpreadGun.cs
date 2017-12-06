@@ -7,6 +7,7 @@ public class SpreadGun : Mod {
     #region Serialized fields
     [SerializeField] private SpreadGunProperties gunProperties;
     [SerializeField] private Transform bulletSpawnTransform;
+    [SerializeField] private PoolObjectType shootVFX = PoolObjectType.VFXSpreadshotShoot;
     #endregion
 
     #region Private fields
@@ -77,6 +78,9 @@ public class SpreadGun : Mod {
         }
         SFXManager.Instance.Play(shootSFX, transform.position);
         animator.SetTrigger("Shoot");
+        GameObject vfx = ObjectPool.Instance.GetObject(shootVFX);
+        vfx.transform.position = bulletSpawnTransform.position;
+        vfx.transform.rotation = bulletSpawnTransform.rotation;
     }
     #endregion
 

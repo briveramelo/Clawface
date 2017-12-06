@@ -6,6 +6,11 @@ using UnityEngine.Assertions;
 
 public class SpreadGunBullet : MonoBehaviour {
 
+    #region Serialized Unity Inspector Fields
+
+    [SerializeField] PoolObjectType impactVFX = PoolObjectType.VFXSpreadshotImpact;
+
+    #endregion
     #region Private variables
     private SpreadGun.SpreadGunProperties properties;
     private bool isReady;
@@ -69,6 +74,8 @@ public class SpreadGunBullet : MonoBehaviour {
                 damager.damagerType = DamagerType.SpreadGun;
                 damageable.TakeDamage(damager);
             }
+            GameObject vfx = ObjectPool.Instance.GetObject(impactVFX);
+            vfx.transform.position = other.transform.position;
         }
     }
     #endregion
