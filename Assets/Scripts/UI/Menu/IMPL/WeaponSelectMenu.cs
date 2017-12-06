@@ -9,7 +9,7 @@ public class WeaponSelectMenu : Menu
 
 	public override Button InitialSelection {
 		get {
-			return initialButton;
+			return null;
 		}
 	}
 
@@ -18,7 +18,7 @@ public class WeaponSelectMenu : Menu
 	#region Fields (Unity Serialization)
 
 	[SerializeField]
-	private Button initialButton = null;
+	private Button startButton = null;
 
     [SerializeField]
     private WeaponLineup leftArm;
@@ -121,7 +121,7 @@ public class WeaponSelectMenu : Menu
         //for dealing with the custom menu selection flow
         selectingPlayerLeft = false;
         selectingPlayerRight = true;
-        initialButton.enabled = false;
+        //initialButton.enabled = false;
         queryActionTimer = queryActionEverySeconds;
         leftArm.GlowControl.SetUnselected();
         rightArm.GlowControl.Reset();
@@ -195,7 +195,7 @@ public class WeaponSelectMenu : Menu
     private void HandleSelectionFlow()
     {
         Vector2 axesState = InputManager.Instance.QueryAxes(Strings.Input.Axes.MOVEMENT);
-        Vector2 horizontal = InputManager.Instance.QueryAxes(Strings.Input.UI.HORIZONTAL);
+        //Vector2 horizontal = InputManager.Instance.QueryAxes(Strings.Input.UI.HORIZONTAL);
         bool isLeft = axesState.x.AboutEqual(-1);
         bool isRight= axesState.x.AboutEqual(1);
         
@@ -234,7 +234,7 @@ public class WeaponSelectMenu : Menu
             //check to see if confirm
             if (InputManager.Instance.QueryAction(Strings.Input.UI.SUBMIT, ButtonMode.DOWN))
             {
-                InitialSelection.image.sprite = pressedButtonSprite;
+                startButton.image.sprite = pressedButtonSprite;
                 StartAction();
             }
 
@@ -242,7 +242,7 @@ public class WeaponSelectMenu : Menu
 
             else if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN))
             {
-                InitialSelection.image.sprite = unselectedButtonSprite;
+                startButton.image.sprite = unselectedButtonSprite;
                 selectingPlayerLeft = true;
                 leftArm.GlowControl.Reset();
                 leftArm.ResetArrows();
@@ -299,7 +299,7 @@ public class WeaponSelectMenu : Menu
 
     private void LockInLeftAction()
     {
-        initialButton.image.sprite = selectedButtonSprite;
+        startButton.image.sprite = selectedButtonSprite;
         ModManager.leftArmOnLoad = leftArm.GetSelection();
         selectingPlayerLeft = false;
     }
