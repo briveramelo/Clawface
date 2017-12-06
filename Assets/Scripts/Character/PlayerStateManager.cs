@@ -186,6 +186,7 @@ public class PlayerStateManager : RoutineRunner {
         if (!isTutorialDone && !isInTutorial)
         {
             isInTutorial = true;
+            EventSystem.Instance.TriggerEvent(Strings.Events.ENEMY_INVINCIBLE, true);
             Timing.RunCoroutine(StartTutorialSlowDown(), SlowTime);
         }
     }
@@ -199,6 +200,7 @@ public class PlayerStateManager : RoutineRunner {
         }        
         Time.timeScale = 0.0f;
         EventSystem.Instance.TriggerEvent(Strings.Events.SHOW_TUTORIAL_TEXT);
+        EventSystem.Instance.TriggerEvent(Strings.Events.ENEMY_INVINCIBLE, false);
     }
 
     private void FinishTutorial()

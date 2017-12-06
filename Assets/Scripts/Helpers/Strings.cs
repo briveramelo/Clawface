@@ -133,6 +133,8 @@
         public const string PLE_TEST_WAVE_0 = "PLE_TEST_WAVE_0";
         public const string PLE_TEST_WAVE_1 = "PLE_TEST_WAVE_1";
         public const string PLE_TEST_WAVE_2 = "PLE_TEST_WAVE_2";
+
+        public const string ENEMY_INVINCIBLE = "EnemyInvincible";
     }
 
     public class AchievementNames {

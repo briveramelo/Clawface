@@ -50,6 +50,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     private void OnEnable()
     {
         EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_KILLED, DoPlayerKilledState);
+        EventSystem.Instance.RegisterEvent(Strings.Events.ENEMY_INVINCIBLE, SetInvincible);
         if (will.willHasBeenWritten)
         {
             ResetForRebirth();
@@ -73,8 +74,9 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     private new void OnDisable()
     {
         EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_KILLED, DoPlayerKilledState);
+        EventSystem.Instance.UnRegisterEvent(Strings.Events.ENEMY_INVINCIBLE, SetInvincible);
         base.OnDisable();
-    }
+    }   
 
     #endregion
 
@@ -282,5 +284,9 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     #endregion
 
     #region 6. Private Methods
+    private void SetInvincible(object[] parameters)
+    {
+        isIndestructable = (bool)parameters[0];
+    }
     #endregion
 }
