@@ -585,6 +585,7 @@ GameObject:
   - component: {fileID: 4746270682943718}
   - component: {fileID: 33913197402948660}
   - component: {fileID: 23878252830809180}
+  - component: {fileID: 114503597539437800}
   m_Layer: 0
   m_Name: WeaponSelect_Platform_Glow
   m_TagString: Untagged
@@ -842,6 +843,7 @@ GameObject:
   - component: {fileID: 4480564397065604}
   - component: {fileID: 33195467655894248}
   - component: {fileID: 23818040490018988}
+  - component: {fileID: 114591998403634324}
   m_Layer: 0
   m_Name: WeaponSelect_Platform_Glow (1)
   m_TagString: Untagged
@@ -5766,6 +5768,21 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114503597539437800
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1189212273719528}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 217e1f899bff5d949a42248c18b8e581, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  confirmedColor: {r: 1, g: 1, b: 1, a: 0}
+  normalColor: {r: 1, g: 0.9724138, b: 0, a: 0}
+  fadeTime: 0.5
+  renderer: {fileID: 23878252830809180}
 --- !u!114 &114511596057394768
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5899,6 +5916,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86da96463bf04f24d81b7eefba4f7c32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114591998403634324
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1326689569862200}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 217e1f899bff5d949a42248c18b8e581, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  confirmedColor: {r: 1, g: 1, b: 1, a: 0}
+  normalColor: {r: 1, g: 0.9724138, b: 0, a: 0}
+  fadeTime: 0.5
+  renderer: {fileID: 23818040490018988}
 --- !u!114 &114609714365154244
 MonoBehaviour:
   m_ObjectHideFlags: 1
