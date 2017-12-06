@@ -5,6 +5,7 @@ using UnityEngine.AI;
 using ModMan;
 using MovementEffects;
 using System.Linq;
+using Turing.VFX;
 
 [System.Serializable]
 public class Spawner : RoutineRunner
@@ -123,13 +124,15 @@ public class Spawner : RoutineRunner
         {
             for(int j = 0; j < waves[currentWave].monsterList[i].Count; j++)
             {
-                GameObject spawnEffect = ObjectPool.Instance.GetObject(PoolObjectType.VFXBloodDecal);
+                float spawnDelay = waves[currentWave].spawnEffectTime;
+                GameObject spawnEffect = ObjectPool.Instance.GetObject(PoolObjectType.VFXEnemySpawn);
                 Vector3 spawnPosition = spawnPoints.GetRandom().position;
                 if (spawnEffect) {
+                    spawnEffect.GetComponent<VFXOneOff>().Play(spawnDelay);
                     spawnEffect.transform.position = spawnPosition;
                 }
                 PoolObjectType enemy = GetPoolObject(waves[currentWave].monsterList[i].Type);
-                Timing.RunCoroutine(DelayAction(() => SpawnEnemy(spawnPosition, enemy), waves[currentWave].spawnEffectTime), coroutineName);
+                Timing.RunCoroutine(DelayAction(() => SpawnEnemy(spawnPosition, enemy), spawnDelay), coroutineName);
             }
         }        
 

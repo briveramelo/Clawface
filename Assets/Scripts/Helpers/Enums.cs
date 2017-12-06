@@ -127,6 +127,7 @@ public enum PoolObjectType {
     VFXLightningGunImpact = 44,
     VFXLightningGunShoot = 45,
     VFXPlayerDeath = 49,
+    VFXEnemySpawn=50,
 
     //BulletTypes
     TurretBullet = 28,
