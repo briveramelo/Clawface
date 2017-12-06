@@ -22,7 +22,7 @@ public class LoadMenu : Menu {
         }
         set
         {
-            target = value;
+            target = value;            
         }
     }
     public bool Fast
@@ -66,7 +66,7 @@ public class LoadMenu : Menu {
     {
         base.Start();
 
-        target = SceneManager.GetActiveScene().name;
+        target = SceneManager.GetActiveScene().name;        
 
     }
     void Update()
@@ -120,8 +120,7 @@ public class LoadMenu : Menu {
         MovementEffects.Timing.KillCoroutines();
         ObjectPool.Instance.ResetPools();
         loadingBar.size = 0.0F;
-        loaded = false;
-
+        loaded = false;        
         AsyncOperation async = SceneManager.LoadSceneAsync(target);
         while (!async.isDone)
         {

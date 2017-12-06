@@ -163,8 +163,8 @@ public class WeaponSelectMenu : Menu
 
 		// Acquire target level.
 		Menu menu = MenuManager.Instance.GetMenuByName (Strings.MenuStrings.LEVEL_SELECT);
-        string level = "Arena 1";
-        Debug.LogWarning("Target level is currently hardcoded.  Fix later when adding LevelSelectMenu back.");
+        string level = Strings.Scenes.Arena;
+        Debug.LogWarning("Target level is currently using String.Scenes constant.  Fix later when adding LevelSelectMenu back.");
 
 		// Acquire Pause Menu
 		menu = MenuManager.Instance.GetMenuByName (Strings.MenuStrings.PAUSE);

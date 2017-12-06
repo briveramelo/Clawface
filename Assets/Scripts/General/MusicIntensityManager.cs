@@ -22,6 +22,7 @@ public class MusicIntensityManager : RoutineRunner {
     private List<string> musicEventsList;
     [SerializeField]
     private float blendSpeed = 0.1f;
+    bool stopped;
     #endregion
 
     #region unity lifecycle
@@ -51,6 +52,7 @@ public class MusicIntensityManager : RoutineRunner {
 
     #region public functions
     public void Stop(params object[] items) {
+        stopped = true;
         source1.Stop();
         source2.Stop();
     }
@@ -90,36 +92,34 @@ public class MusicIntensityManager : RoutineRunner {
     #region private functions
     private void ChangeTrack(params object[] parameters)
     {
-        isChangingTrack = true;
-        Timing.KillCoroutines(coroutineName);
-        Timing.RunCoroutine(ChangeTrack(), coroutineName);        
+        if (!stopped) {
+            isChangingTrack = true;
+            Timing.KillCoroutines(coroutineName);
+            Timing.RunCoroutine(ChangeTrack(), coroutineName);        
+        }
     }
 
     private IEnumerator<float> ChangeTrack()
     {
-        currentTrack++;
-        if (clips.Count > currentTrack)
-        {
-            AudioClip newClip = clips[currentTrack];
-            if (isSource2Active)
-            {
-                PlayNew(source1, newClip);
-            }
-            else
-            {
-                PlayNew(source2, newClip);
-            }
-            while (isChangingTrack)
-            {
-                if (isSource2Active)
-                {
-                    BlendSources(source2, source1);                    
+        if (!stopped) {
+            currentTrack++;
+            if (clips.Count > currentTrack) {
+                AudioClip newClip = clips[currentTrack];
+                if (isSource2Active) {
+                    PlayNew(source1, newClip);
                 }
-                else
-                {
-                    BlendSources(source1, source2);
+                else {
+                    PlayNew(source2, newClip);
                 }
-                yield return 0f;
+                while (isChangingTrack) {
+                    if (isSource2Active) {
+                        BlendSources(source2, source1);
+                    }
+                    else {
+                        BlendSources(source1, source2);
+                    }
+                    yield return 0f;
+                }
             }
         }
     }
