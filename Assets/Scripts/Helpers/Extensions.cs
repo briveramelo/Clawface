@@ -97,6 +97,14 @@ namespace ModMan {
         }
     }
 
+    public static class FloatExtensions
+    {
+        public static bool AboutEqual(this float flo, float other, float tolerance = 0.1f)
+        {
+            return Mathf.Abs(flo-other)<tolerance;
+        }
+    }
+
     public static class ArrayExtensions
     {
         public static int IndexOf<T> (this T[] array, T obj)

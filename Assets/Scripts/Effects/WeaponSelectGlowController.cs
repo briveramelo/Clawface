@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class WeaponSelectGlowController : MonoBehaviour {
 
-	[SerializeField] Color confirmedColor;
-    [SerializeField] Color normalColor;
-    [SerializeField] float fadeTime = 0.5f;
+	[SerializeField] private Color confirmedColor;
+    [SerializeField] private Color normalColor;
+    [SerializeField] private Color halfColor;
+    [SerializeField] private float fadeTime = 0.5f;
     [SerializeField] new MeshRenderer renderer;
-    Color color;
-    MaterialPropertyBlock propBlock;
+    private Color color;
+    private MaterialPropertyBlock propBlock;
 
     private void Awake()
     {
@@ -38,6 +39,18 @@ public class WeaponSelectGlowController : MonoBehaviour {
     void SetColorInstant (Color color)
     {
         SetColor (color);
+    }
+
+    public void SetUnselected(bool instant = false)
+    {
+        if (instant)
+        {
+            SetColorInstant(halfColor);
+        }
+        else
+        {
+            StartCoroutine(SetColorFade(halfColor));
+        }
     }
 
     IEnumerator SetColorFade (Color color)
