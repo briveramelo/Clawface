@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using MovementEffects;
 
-public class MusicIntensityManager : MonoBehaviour {
+public class MusicIntensityManager : RoutineRunner {
 
     #region private fields
     private int currentTrack;
@@ -78,10 +79,11 @@ public class MusicIntensityManager : MonoBehaviour {
     private void ChangeTrack(params object[] parameters)
     {
         isChangingTrack = true;
-        StartCoroutine(ChangeTrack());
+        Timing.KillCoroutines(coroutineName);
+        Timing.RunCoroutine(ChangeTrack(), coroutineName);        
     }
 
-    private IEnumerator ChangeTrack()
+    private IEnumerator<float> ChangeTrack()
     {
         currentTrack++;
         if (clips.Count > currentTrack)
@@ -89,44 +91,41 @@ public class MusicIntensityManager : MonoBehaviour {
             AudioClip newClip = clips[currentTrack];
             if (isSource2Active)
             {
-                source1.clip = newClip;
-                source1.Play();
+                PlayNew(source1, newClip);
             }
             else
             {
-                source2.clip = newClip;
-                source2.Play();
+                PlayNew(source2, newClip);
             }
             while (isChangingTrack)
             {
                 if (isSource2Active)
                 {
-                    float volume = source2.volume;
-                    volume -= blendSpeed;
-                    volume = Mathf.Clamp(volume, 0.0f, 1.0f);
-                    source2.volume = volume;
-                    source1.volume = 1.0f - volume;
-                    if (volume == 0.0f)
-                    {
-                        source2.Stop();
-                        isChangingTrack = false;
-                    }
+                    BlendSources(source2, source1);                    
                 }
                 else
                 {
-                    float volume = source1.volume;
-                    volume -= blendSpeed;
-                    volume = Mathf.Clamp(volume, 0.0f, 1.0f);
-                    source1.volume = volume;
-                    source2.volume = 1.0f - volume;
-                    if (volume == 0.0f)
-                    {
-                        source1.Stop();
-                        isChangingTrack = false;
-                    }
+                    BlendSources(source1, source2);
                 }
-                yield return null;
+                yield return 0f;
             }
+        }
+    }
+
+    void PlayNew(AudioSource source, AudioClip newClip) {
+        source.clip = newClip;
+        source.Play();
+    }
+
+    void BlendSources(AudioSource firstSource, AudioSource secondSource) {
+        float volume = firstSource.volume;
+        volume -= blendSpeed;
+        volume = Mathf.Clamp01(volume);
+        firstSource.volume = volume;
+        secondSource.volume = 1.0f - volume;
+        if (volume == 0.0f) {
+            firstSource.Stop();
+            isChangingTrack = false;
         }
     }
     #endregion
