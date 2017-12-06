@@ -34,7 +34,8 @@ public class WeaponSelectMenu : Menu
 
     [SerializeField]
     private float fadeDuration = 0.25F;
-    
+
+    [SerializeField] private Sprite unselectedButtonSprite;
     [SerializeField] private Sprite selectedButtonSprite;
     [SerializeField] private Sprite pressedButtonSprite;
     
@@ -75,12 +76,7 @@ public class WeaponSelectMenu : Menu
     private void Update ()
 	{
 	    if (inputGuard)
-	    {
-	        if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN))
-	        {
-	            BackButtonBehaviour();
-            }
-
+        {
             HandleSelectionFlow();
 	    }
 
@@ -196,7 +192,6 @@ public class WeaponSelectMenu : Menu
 
     private void LockInRightAction()
     {
-
         ModManager.rightArmOnLoad = rightArm.GetSelection();
         selectingPlayerRight = false;
         selectingPlayerLeft = true;
@@ -204,7 +199,6 @@ public class WeaponSelectMenu : Menu
 
     private void LockInLeftAction()
     {
-        //lock in right selection
         initialButton.image.sprite = selectedButtonSprite;
         ModManager.leftArmOnLoad = leftArm.GetSelection();
         selectingPlayerLeft = false;
@@ -237,6 +231,10 @@ public class WeaponSelectMenu : Menu
                 LockInRightAction();
                 leftArm.GlowControl.Reset();
             }
+            else if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN))
+            {
+                BackButtonBehaviour();
+            }
         }
         else if (selectingPlayerLeft)
         {
@@ -262,6 +260,15 @@ public class WeaponSelectMenu : Menu
             {
                 LockInLeftAction();
             }
+            else if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN))
+            {
+                
+                selectingPlayerRight = true;
+                selectingPlayerLeft = false;
+                leftArm.GlowControl.SetUnselected();
+                rightArm.GlowControl.Reset();
+                leftArm.ResetArrows();
+            }
         }
         else if (!selectingPlayerRight && !selectingPlayerLeft)
         {
@@ -270,6 +277,16 @@ public class WeaponSelectMenu : Menu
             {
                 InitialSelection.image.sprite = pressedButtonSprite;
                 StartAction();
+            }
+
+            //if you want to "back" out to the second arm selection
+
+            else if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN))
+            {
+                InitialSelection.image.sprite = unselectedButtonSprite;
+                selectingPlayerLeft = true;
+                leftArm.GlowControl.Reset();
+                leftArm.ResetArrows();
             }
         }
     }
