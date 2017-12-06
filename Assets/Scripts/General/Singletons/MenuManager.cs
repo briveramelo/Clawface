@@ -36,7 +36,7 @@ public class MenuManager : Singleton<MenuManager> {
     private List<Menu> menus = new List<Menu>();
     private Queue<TransitionBundle> transitionQueue = new Queue<TransitionBundle>();
     private List<Menu> menuStack = new List<Menu>();
-    bool mouseMode = true;
+    bool mouseMode = false;
     #endregion
 
     #region Unity Lifecycle Functions

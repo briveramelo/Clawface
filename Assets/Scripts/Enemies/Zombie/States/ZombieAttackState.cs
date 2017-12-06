@@ -34,8 +34,8 @@ public class ZombieAttackState : AIState
     {
         WaitToMove();
 
-        if(navAgent.isActiveAndEnabled)
-            navAgent.SetDestination(controller.AttackTarget.position);
+        //if(navAgent.isActiveAndEnabled)
+        //    navAgent.SetDestination(controller.AttackTarget.position);
 
         Vector3 lookPos = new Vector3(controller.AttackTarget.transform.position.x,0.0f, controller.AttackTarget.transform.position.z);
         controller.transform.LookAt(lookPos);
@@ -70,15 +70,15 @@ public class ZombieAttackState : AIState
 
     private bool WaitToMove()
     {
-        if (moveTowardsPlayer)
-        {
-            navAgent.speed = navAgent.speed * 1.0f;
-            return true;
-        }
-        else
-        {
+        //if (moveTowardsPlayer)
+        //{
+        //    //navAgent.speed = navAgent.speed * 1.0f;
+        //    return true;
+        //}
+        //else
+        //{
             FreezePosition();
-        }
+        //}
 
 
         return false;
