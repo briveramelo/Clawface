@@ -19,7 +19,7 @@ public class SpawnManager : MonoBehaviour
 
     private Spawner spawner;
 
-    public List<SpawnerUnit> spawners = new List<SpawnerUnit>();
+    public List<SpawnerUnit> spawners = new List<SpawnerUnit>();    
 
     void OnEnable()
     {

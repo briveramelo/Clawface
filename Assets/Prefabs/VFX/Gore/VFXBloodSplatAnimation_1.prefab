@@ -20,11 +20,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4183220070024992}
   - component: {fileID: 33227344294993298}
-  - component: {fileID: 64194046175355922}
   - component: {fileID: 23969573562121508}
   - component: {fileID: 114154997358997290}
   m_Layer: 0
-  m_Name: VFXBloodSplatAnimation
+  m_Name: VFXBloodSplatAnimation_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37,8 +36,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1722844976735306}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 3.8, y: 0.38, z: -0.04}
-  m_LocalScale: {x: 2.1534774, y: 2.1534765, z: 2.1534765}
+  m_LocalPosition: {x: -0.33829227, y: 0.6900001, z: 3.3952246}
+  m_LocalScale: {x: 4, y: 4, z: 4}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -56,7 +55,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 52f9139fdfac98b41a34a736258fcb2a, type: 2}
+  - {fileID: 2100000, guid: 4476881b4a72dd040b53eecca1c96501, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -82,20 +81,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1722844976735306}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
---- !u!64 &64194046175355922
-MeshCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1722844976735306}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Convex: 0
-  m_InflateMesh: 0
-  m_SkinWidth: 0.01
-  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!114 &114154997358997290
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -107,6 +92,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce95252ef6acc55438e8090511030ba6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  meshRenderer: {fileID: 23969573562121508}
+  splatMaterials:
+  - {fileID: 2100000, guid: 4476881b4a72dd040b53eecca1c96501, type: 2}
+  - {fileID: 2100000, guid: 9db09b90f9391244a86292f95971e455, type: 2}
   loopAnimation: 0
   playOnEnable: 1
   totalFrames: 16
@@ -159,3 +148,4 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1.01
+  startMaskClipVal: 0.5

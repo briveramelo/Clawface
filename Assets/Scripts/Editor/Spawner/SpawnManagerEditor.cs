@@ -75,7 +75,7 @@ public class SpawnManagerEditor : Editor
             manager.CallNextSpawner();
             hasBeenPressed = true;
         }
-
+        
         serializedObject.Update();
         list.DoLayoutList();
         serializedObject.ApplyModifiedProperties();
