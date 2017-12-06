@@ -30,15 +30,12 @@ public class ScoreManager : Singleton<ScoreManager> {
     #region Unity Lifecycle
     // Use this for initialization
     void Start () {
-        currentCombo = 0;
-        highestCombo = 0;
-        currentQuadrant = 0;
-
-        highScores = new Dictionary<string, int>();
+        OnLevelStart();
 
         EventSystem.Instance.RegisterEvent(Strings.Events.DEATH_ENEMY, OnPlayerKilledEnemy);
         EventSystem.Instance.RegisterEvent(Strings.Events.EAT_ENEMY, OnPlayerAte);
         EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_DAMAGED, OnPlayerDamaged);
+        EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_STARTED, OnLevelStart);
     }
 
     private new void OnDestroy()
@@ -48,6 +45,7 @@ public class ScoreManager : Singleton<ScoreManager> {
             EventSystem.Instance.UnRegisterEvent(Strings.Events.DEATH_ENEMY, OnPlayerKilledEnemy);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.EAT_ENEMY, OnPlayerAte);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_DAMAGED, OnPlayerDamaged);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_STARTED, OnLevelStart);
         }
 
         base.OnDestroy();
@@ -113,6 +111,14 @@ public class ScoreManager : Singleton<ScoreManager> {
             EventSystem.Instance.TriggerEvent(Strings.Events.COMBO_UPDATED, currentCombo);
             CalculateTimerQuadrant();
         }
+    }
+
+    private void OnLevelStart(params object[] parameters) {
+        currentCombo = 0;
+        highestCombo = 0;
+        currentQuadrant = 0;
+
+        highScores = new Dictionary<string, int>();
     }
 
     public void AddToCombo()

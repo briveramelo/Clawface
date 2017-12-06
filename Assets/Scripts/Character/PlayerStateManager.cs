@@ -3,8 +3,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using MovementEffects;
 
-public class PlayerStateManager : MonoBehaviour {
+public class PlayerStateManager : RoutineRunner {
 
     #region Public fields
     public StateVariables stateVariables;
@@ -24,6 +25,9 @@ public class PlayerStateManager : MonoBehaviour {
 
     [SerializeField] private EatingState eatingState;
     [SerializeField] private SphereCollider eatCollider;
+
+    [SerializeField] private float tutorialSlowDownRate = 0.05f;
+    [SerializeField] private float tutorialSpeedUpRate = 0.05f;
     #endregion
 
     #region Private Fields
@@ -34,9 +38,18 @@ public class PlayerStateManager : MonoBehaviour {
     private bool playerCanMove = true;
     private bool isTutorialDone;
     private bool isInTutorial;
+
+    const string SlowTime = "SlowTime";
+    const string SpeedTime = "SpeedTime";
     #endregion
 
     #region Unity Lifecycle
+    protected override void OnDisable() {
+        Timing.KillCoroutines(SlowTime);
+        Timing.KillCoroutines(SpeedTime);
+        base.OnDisable();
+    }
+
     // Use this for initialization
     void Start () {
         stateChanged = false;
@@ -173,21 +186,21 @@ public class PlayerStateManager : MonoBehaviour {
         if (!isTutorialDone && !isInTutorial)
         {
             isInTutorial = true;
-            StartCoroutine(StartTutorialSlowDown());            
+            EventSystem.Instance.TriggerEvent(Strings.Events.ENEMY_INVINCIBLE, true);
+            Timing.RunCoroutine(StartTutorialSlowDown(), SlowTime);
         }
     }
 
-    private IEnumerator StartTutorialSlowDown()
-    {
-        Debug.Log("Slowing Down");
+    private IEnumerator<float> StartTutorialSlowDown()
+    {        
         while (Time.timeScale > 0.1f)
         {
-            Time.timeScale = Mathf.Lerp(Time.timeScale, 0.0f, 0.05f);
-            yield return null;
-        }
-        Debug.Log("Stopped");
+            Time.timeScale = Mathf.Lerp(Time.timeScale, 0.0f, tutorialSlowDownRate);
+            yield return 0f;
+        }        
         Time.timeScale = 0.0f;
         EventSystem.Instance.TriggerEvent(Strings.Events.SHOW_TUTORIAL_TEXT);
+        EventSystem.Instance.TriggerEvent(Strings.Events.ENEMY_INVINCIBLE, false);
     }
 
     private void FinishTutorial()
@@ -195,20 +208,19 @@ public class PlayerStateManager : MonoBehaviour {
         if (!isTutorialDone)
         {
             isTutorialDone = true;
-            StartCoroutine(StartTutorialSpeedUp());
+            Timing.KillCoroutines(SlowTime);
+            Timing.RunCoroutine(StartTutorialSpeedUp(), SpeedTime);
         }
     }
 
-    private IEnumerator StartTutorialSpeedUp()
-    {
-        Debug.Log("Speeding up");
+    private IEnumerator<float> StartTutorialSpeedUp()
+    {        
+        isInTutorial = false;
         while (Time.timeScale < 0.9f)
         {
-            Time.timeScale = Mathf.Lerp(Time.timeScale, 1.0f, 0.05f);
-            yield return null;
-        }
-        Debug.Log("Started");
-        isInTutorial = false;
+            Time.timeScale = Mathf.Lerp(Time.timeScale, 1.0f, tutorialSpeedUpRate);
+            yield return 0f;
+        }        
         Time.timeScale = 1.0f;
         EventSystem.Instance.TriggerEvent(Strings.Events.HIDE_TUTORIAL_TEXT);
     }

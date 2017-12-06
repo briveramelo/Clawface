@@ -1,28 +1,64 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class WeaponLineup : MonoBehaviour
 {
+    #region Public Fields (Accessors)
 
-    #region Accessors (Public)
-
-    public ModType SelectedWeapon
+    public WeaponSelectGlowController GlowControl
     {
-        get { return selectedWeapon; }
+        get { return glowControl; }
     }
 
-    #endregion
+    #endregion  
+
+    #region Serialized Unity Fields
 
     [SerializeField] private GameObject[] slots;
     [SerializeField] private GameObject[] weapons;
     [SerializeField] private ModType selectedWeapon = ModType.Geyser;
     [SerializeField] private float weaponSwapTime = 0.25f;
+    [SerializeField] private Sprite selectedRightSprite, selectedLeftSprite;
+    [SerializeField] private Sprite unselectedRightSprite, unselectedLeftSprite;
+    [SerializeField] private Button moveLeftButton, moveRightButton;
+    [SerializeField] private Color selectedColor = Color.yellow;
+    [SerializeField] private Color initialColor = Color.blue;
+    [SerializeField] private WeaponSelectGlowController glowControl;
+    [SerializeField] private ButtonSFXEffects buttonFX;
 
+    #endregion
 
+    #region Private References
+    
+    #endregion
+
+    public ModType GetSelection()
+    {
+        moveRightButton.image.sprite = selectedRightSprite;
+        moveLeftButton.image.sprite = selectedLeftSprite;
+        moveRightButton.image.color = selectedColor;
+        moveLeftButton.image.color = selectedColor;
+        glowControl.SetConfirmed(true);
+        buttonFX.PlayButtonConfirm();
+        return selectedWeapon;
+    }
+
+    public void ResetArrows()
+    {
+        moveRightButton.image.sprite = unselectedRightSprite;
+        moveLeftButton.image.sprite = unselectedLeftSprite;
+        moveRightButton.image.color = initialColor;
+        moveLeftButton.image.color = initialColor;
+    }
     public void MoveRight()
     {
+
+        //make associated arrow "Blink" to show movement
+        moveRightButton.image.sprite = selectedRightSprite;
+        moveLeftButton.image.sprite = unselectedLeftSprite;
+
         for (int i = 0; i < weapons.Length; i++)
         {
             if (i != weapons.Length-1)
@@ -40,6 +76,7 @@ public class WeaponLineup : MonoBehaviour
         LeanTween.scale(weapons[1], Vector3.one, weaponSwapTime);
         LeanTween.scale(weapons[2], new Vector3(0.5f, 0.5f, 0.5f), weaponSwapTime);
         LeanTween.scale(weapons[3], Vector3.zero, weaponSwapTime);
+        LeanTween.scale(weapons[4], Vector3.zero, weaponSwapTime);
 
         selectedWeapon = weapons[1].GetComponent<WeaponTypeComponent>().typeOfMod;
 
@@ -60,6 +97,11 @@ public class WeaponLineup : MonoBehaviour
     }
     public void MoveLeft()
     {
+
+        //make associated arrow "Blink" to show movement
+        moveRightButton.image.sprite = unselectedRightSprite;
+        moveLeftButton.image.sprite = selectedLeftSprite;
+
         for (int i = 0; i < weapons.Length; i++)
         {
             if (i != 0)

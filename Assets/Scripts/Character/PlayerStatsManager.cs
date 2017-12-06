@@ -21,6 +21,9 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     [SerializeField] private GameObject playerMesh;
     [SerializeField] private GameObject modSockets;
     [SerializeField] private PoolObjectType deathVFX;
+    [SerializeField] private SFXType deathSFX;
+
+    [SerializeField] private List<HealthRatio> damageScaling = new List<HealthRatio>();
     #endregion
 
     #region Private Fields
@@ -57,8 +60,19 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
             {
 
                 EventSystem.Instance.TriggerEvent(Strings.Events.PLAYER_DAMAGED);
-                stats.TakeDamage(damageModifier * damager.damage);
                 float healthFraction = stats.GetHealthFraction();
+
+                for (int i = 0; i < damageScaling.Count; i++)
+                {
+                    if (healthFraction >= damageScaling[i].healthPercentage)
+                    {
+                        damageModifier = damageScaling[i].damageRatio;
+                        break;
+                    }
+                }
+
+                stats.TakeDamage(damageModifier * damager.damage);
+                healthFraction = stats.GetHealthFraction();
                 EventSystem.Instance.TriggerEvent(Strings.Events.PLAYER_HEALTH_MODIFIED, healthFraction);
                 cameraLock.Shake();
                 float shakeIntensity = 1f - healthFraction;
@@ -88,6 +102,7 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
                         }
                         playerMesh.SetActive(false);
                         modSockets.SetActive(false);
+                        SFXManager.Instance.Play(deathSFX, playerMesh.transform.position);
                     }
                 }
             }
@@ -144,6 +159,13 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     #endregion
 
     #region Private Structures
+
+    [System.Serializable]
+    public struct HealthRatio
+    {
+        public float healthPercentage;
+        public float damageRatio;
+    }
     #endregion
 
 }

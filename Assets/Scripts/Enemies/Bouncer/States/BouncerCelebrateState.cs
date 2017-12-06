@@ -8,7 +8,7 @@ public class BouncerCelebrateState : AIState {
     {
         navAgent.enabled = false;
         navObstacle.enabled = true;
-        animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.Celebrate);
+        //animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.Celebrate);
     }
     public override void Update()
     {

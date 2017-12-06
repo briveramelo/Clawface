@@ -32,7 +32,8 @@ public class MallCop : EnemyBase
     private MallCopStunState stun;
     private MallCopCelebrateState celebrate;
     private float currentToleranceTime;
-
+    private float currentHitReactionLayerWeight;
+    private float hitReactionLayerDecrementSpeed = 1.5f;
     #endregion
 
     #region 3. Unity Lifecycle
@@ -79,20 +80,25 @@ public class MallCop : EnemyBase
     }
     bool CheckToFinishFiring()
     {
-
-
-        if (controller.CurrentState == fire && fire.DoneFiring())
+        if (myStats.health <= myStats.skinnableHealth)
         {
+            controller.CurrentState = stun;
+            controller.UpdateState(EAIState.Stun);
+            controller.DeActivateAI();
+        }
 
-            if (controller.DistanceFromTarget > closeEnoughToFireDistance)
+            if (controller.CurrentState == fire && fire.DoneFiring())
             {
-                ToleranceTimeToExit();
-            }
-            else if (controller.DistanceFromTarget < closeEnoughToFireDistance)
-            {
-                ToleranceTimeToExit();
-                currentToleranceTime = 0.0f;
-            }
+
+                if (controller.DistanceFromTarget > closeEnoughToFireDistance)
+                {
+                    ToleranceTimeToExit();
+                }
+                else if (controller.DistanceFromTarget < closeEnoughToFireDistance)
+                {
+                    ToleranceTimeToExit();
+                    currentToleranceTime = 0.0f;
+                }
             else
             {
                 Vector3 fwd = controller.DirectionToTarget;
@@ -162,9 +168,39 @@ public class MallCop : EnemyBase
 
     public override void DoPlayerKilledState(object[] parameters)
     {
-        animator.SetTrigger("DoVictoryDance");
-        controller.CurrentState = celebrate;
-        controller.UpdateState(EAIState.Celebrate);
+        if (myStats.health > myStats.skinnableHealth)
+        {
+            animator.SetTrigger("DoVictoryDance");
+            controller.CurrentState = celebrate;
+            controller.UpdateState(EAIState.Celebrate);
+            animator.SetInteger("AnimationState", -1);
+        }
+    }
+
+    public override void DoHitReaction(Damager damager)
+    {
+        if (myStats.health > myStats.skinnableHealth)
+        {
+            float hitAngle = Vector3.Angle(controller.transform.forward, damager.impactDirection);
+
+            if (hitAngle < 45.0f || hitAngle > 315.0f)
+            {
+                animator.SetTrigger("HitFront");
+            }
+            else if(hitAngle > 45.0f && hitAngle < 135.0f)
+            {
+                animator.SetTrigger("HitRight");
+            }
+            else if (hitAngle > 225.0f && hitAngle < 315.0f)
+            {
+                animator.SetTrigger("HitLeft");
+            }
+
+            currentHitReactionLayerWeight = 1.0f;
+            animator.SetLayerWeight(3, currentHitReactionLayerWeight);
+            Timing.RunCoroutine(HitReactionLerp(), coroutineName);
+        }
+        base.DoHitReaction(damager);
     }
     #endregion
 
@@ -213,6 +249,18 @@ public class MallCop : EnemyBase
 
     }
 
+    private IEnumerator<float> HitReactionLerp()
+    {
+        while (currentHitReactionLayerWeight > 0.0f)
+        {
+            currentHitReactionLayerWeight -= Time.deltaTime * hitReactionLayerDecrementSpeed;
+
+            animator.SetLayerWeight(3, currentHitReactionLayerWeight);
+            yield return 0.0f;
+        }
+        currentHitReactionLayerWeight = 0.0f;
+        animator.SetLayerWeight(3, currentHitReactionLayerWeight);
+    }
 
 
     #endregion

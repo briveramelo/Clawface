@@ -26,7 +26,8 @@ public class InGameUI : MonoBehaviour {
     [SerializeField] private Transform healthBar;
 
     [Header("Tutorial")]
-    [SerializeField] private Text onScreenTutorialText;
+    [SerializeField] private Image onScreenTutorialElement;
+    [SerializeField] private Image FullScreenFadeElement;
 
     [Header("GlitchDamageEffect")]
     [SerializeField] private Sprite[] glitchSprites;
@@ -245,12 +246,14 @@ public class InGameUI : MonoBehaviour {
 
     private void HideTutorialText(object[] parameters)
     {
-        onScreenTutorialText.enabled = false;
+        onScreenTutorialElement.enabled = false;
+        FullScreenFadeElement.enabled = false;
     }
 
     private void ShowTutorialText(object[] parameters)
     {
-        onScreenTutorialText.enabled = true;
+        onScreenTutorialElement.enabled = true;
+        FullScreenFadeElement.enabled = true;
     }
 
     private void HideHUD(object[] parameters) {
