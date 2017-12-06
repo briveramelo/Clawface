@@ -121,7 +121,7 @@ public class WeaponSelectMenu : Menu
         //for dealing with the custom menu selection flow
         selectingPlayerLeft = false;
         selectingPlayerRight = true;
-        //initialButton.enabled = false;
+        startButton.image.sprite = unselectedButtonSprite;
         queryActionTimer = queryActionEverySeconds;
         leftArm.GlowControl.SetUnselected();
         rightArm.GlowControl.Reset();
