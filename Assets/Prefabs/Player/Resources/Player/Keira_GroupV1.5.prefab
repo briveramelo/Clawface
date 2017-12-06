@@ -3061,6 +3061,15 @@ MonoBehaviour:
   modSockets: {fileID: 1832329809735294}
   deathVFX: 49
   deathSFX: 7
+  damageScaling:
+  - healthPercentage: 0.7
+    damageRatio: 1
+  - healthPercentage: 0.5
+    damageRatio: 0.9
+  - healthPercentage: 0.3
+    damageRatio: 0.75
+  - healthPercentage: 0
+    damageRatio: 0.6
   stats: {fileID: 114482720515291186}
 --- !u!114 &114440139089632224
 MonoBehaviour:
