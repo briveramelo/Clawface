@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class WeaponSelectGlowController : MonoBehaviour {
+using MovementEffects;
+public class WeaponSelectGlowController : RoutineRunner {
 
 	[SerializeField] private Color confirmedColor;
     [SerializeField] private Color normalColor;
@@ -20,20 +20,26 @@ public class WeaponSelectGlowController : MonoBehaviour {
 
     public void SetConfirmed (bool instant=false)
     {
+        Timing.KillCoroutines(coroutineName);
         if (instant) SetColorInstant(confirmedColor);
-        else StartCoroutine(SetColorFade (confirmedColor));
+        else {
+            Timing.RunCoroutine(SetColorFade (confirmedColor), coroutineName);
+        }
     }
 
     public void Reset(bool instant=false)
     {
+        Timing.KillCoroutines(coroutineName);
         if (instant) SetColorInstant(normalColor);
-        else StartCoroutine(SetColorFade (normalColor));
+        else {
+            Timing.RunCoroutine(SetColorFade (normalColor), coroutineName);
+        }
     }
 
     void SetColor (Color color)
     {
         propBlock.SetColor ("_Tint", color);
-        renderer.SetPropertyBlock(propBlock);
+        renderer.SetPropertyBlock(propBlock);        
     }
 
     void SetColorInstant (Color color)
@@ -43,17 +49,18 @@ public class WeaponSelectGlowController : MonoBehaviour {
 
     public void SetUnselected(bool instant = false)
     {
+        Timing.KillCoroutines(coroutineName);
         if (instant)
         {
             SetColorInstant(halfColor);
         }
         else
         {
-            StartCoroutine(SetColorFade(halfColor));
+            Timing.RunCoroutine(SetColorFade(halfColor), coroutineName);
         }
     }
 
-    IEnumerator SetColorFade (Color color)
+    IEnumerator<float> SetColorFade (Color color)
     {
         Color startColor = this.color;
         float t = 0.0f;
@@ -62,7 +69,7 @@ public class WeaponSelectGlowController : MonoBehaviour {
             SetColor (Color.Lerp(startColor, color, t / fadeTime));
 
             t += Time.deltaTime;
-            yield return null;
+            yield return 0f;
         }
 
         this.color = color;

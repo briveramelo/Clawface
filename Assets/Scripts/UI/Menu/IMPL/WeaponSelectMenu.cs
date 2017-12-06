@@ -38,12 +38,12 @@ public class WeaponSelectMenu : Menu
     [SerializeField] private Sprite unselectedButtonSprite;
     [SerializeField] private Sprite selectedButtonSprite;
     [SerializeField] private Sprite pressedButtonSprite;
+    [SerializeField] float queryActionEverySeconds = .75f;
     
 
     private bool selectingPlayerRight = false;
     private bool selectingPlayerLeft = false;
 
-    private float queryActionEverySeconds = 1.0f;
     private float queryActionTimer = 0.0f;
     private bool wasLeft;
     private bool wasRight;
@@ -265,7 +265,7 @@ public class WeaponSelectMenu : Menu
             }
         }
 
-        queryActionTimer -= Time.fixedDeltaTime;
+        queryActionTimer -= Time.deltaTime;
         if (queryActionTimer < 0)
         {
             
