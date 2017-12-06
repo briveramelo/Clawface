@@ -30,12 +30,12 @@ public class SwapCamerasOnLevelEnd : MonoBehaviour {
 
     private void Update()
     {
-        /*
+		/*
         if (Input.GetKeyDown(KeyCode.C))
         {
             SwitchCameras();
         }
-        */
+		*/
     }
 
     private void OnDestroy()
@@ -51,7 +51,6 @@ public class SwapCamerasOnLevelEnd : MonoBehaviour {
     void SwitchCameras(params object[] parameters)
     {
         endCamera.gameObject.SetActive(true);
-        keiraMesh.LookAt(endCamera);
         moveState.enabled = false;
         playerRigidbody.velocity = Vector3.zero;
         playerFace.SetEmotion(PlayerFaceController.Emotion.Happy);
