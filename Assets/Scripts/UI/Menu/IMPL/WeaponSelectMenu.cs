@@ -34,10 +34,9 @@ public class WeaponSelectMenu : Menu
 
     [SerializeField]
     private float fadeDuration = 0.25F;
-
-    //[SerializeField] private Button[] rightWeaponButtons = new Button[2];
-    //[SerializeField] private Button[] leftWeaponButtons = new Button[2];
+    
     [SerializeField] private Sprite selectedButtonSprite;
+    [SerializeField] private Sprite pressedButtonSprite;
     
 
     private bool selectingPlayerRight = false;
@@ -126,13 +125,10 @@ public class WeaponSelectMenu : Menu
         selectingPlayerRight = true;
         initialButton.enabled = false;
         queryActionTimer = queryActionEverySeconds;
-
-
-        //disable " player left" buttons and only work on the screen left carousel / player right buttons
-        //foreach (Button b in leftWeaponButtons)
-        //{
-        //    b.enabled = false;
-        //}
+        leftArm.GlowControl.SetUnselected();
+        rightArm.GlowControl.Reset();
+        leftArm.ResetArrows();
+        rightArm.ResetArrows();
     }
 
     protected override void HideStarted()
@@ -209,6 +205,7 @@ public class WeaponSelectMenu : Menu
     private void LockInLeftAction()
     {
         //lock in right selection
+        initialButton.image.sprite = selectedButtonSprite;
         ModManager.leftArmOnLoad = leftArm.GetSelection();
         selectingPlayerLeft = false;
     }
@@ -238,6 +235,7 @@ public class WeaponSelectMenu : Menu
             if (InputManager.Instance.QueryAction(Strings.Input.UI.SUBMIT, ButtonMode.DOWN))
             {
                 LockInRightAction();
+                leftArm.GlowControl.Reset();
             }
         }
         else if (selectingPlayerLeft)
@@ -270,7 +268,7 @@ public class WeaponSelectMenu : Menu
             //check to see if confirm
             if (InputManager.Instance.QueryAction(Strings.Input.UI.SUBMIT, ButtonMode.DOWN))
             {
-                InitialSelection.image.sprite = selectedButtonSprite;
+                InitialSelection.image.sprite = pressedButtonSprite;
                 StartAction();
             }
         }

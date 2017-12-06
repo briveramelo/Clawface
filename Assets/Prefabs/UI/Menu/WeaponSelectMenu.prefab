@@ -36,6 +36,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4364697661692088}
   - component: {fileID: 114536811467650330}
+  - component: {fileID: 114232894571167186}
   m_Layer: 0
   m_Name: WeaponLineUp2
   m_TagString: Untagged
@@ -1527,6 +1528,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4917133021947526}
   - component: {fileID: 114958186342356902}
+  - component: {fileID: 114474216301503762}
   m_Layer: 0
   m_Name: WeaponLineUp1
   m_TagString: Untagged
@@ -5476,6 +5478,8 @@ MonoBehaviour:
   fadeDuration: 0.25
   selectedButtonSprite: {fileID: 21300000, guid: 2c1bb792bed3ff24789c4f5fa9d189d4,
     type: 3}
+  pressedButtonSprite: {fileID: 21300000, guid: b64560a15c83ea545a7a6f3368e09c55,
+    type: 3}
 --- !u!114 &114201674317650024
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5562,6 +5566,17 @@ MonoBehaviour:
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: Start
+--- !u!114 &114232894571167186
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1003741333394994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c2c8a88c24564a45899428cde8821c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114271799307692296
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5770,6 +5785,17 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114474216301503762
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1628259287170040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c2c8a88c24564a45899428cde8821c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114503597539437800
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5781,8 +5807,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 217e1f899bff5d949a42248c18b8e581, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  confirmedColor: {r: 1, g: 1, b: 1, a: 0}
-  normalColor: {r: 1, g: 0.9724138, b: 0, a: 0}
+  confirmedColor: {r: 1, g: 0.9724138, b: 0, a: 1}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  halfColor: {r: 1, g: 1, b: 1, a: 0.172}
   fadeTime: 0.5
   renderer: {fileID: 23878252830809180}
 --- !u!114 &114511596057394768
@@ -5883,6 +5910,10 @@ MonoBehaviour:
     type: 3}
   moveLeftButton: {fileID: 114271799307692296}
   moveRightButton: {fileID: 114128116686635702}
+  selectedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  initialColor: {r: 0.73333335, g: 0.7411765, b: 0.8313726, a: 1}
+  glowControl: {fileID: 114591998403634324}
+  buttonFX: {fileID: 114232894571167186}
 --- !u!114 &114546597121157418
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5938,8 +5969,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 217e1f899bff5d949a42248c18b8e581, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  confirmedColor: {r: 1, g: 1, b: 1, a: 0}
-  normalColor: {r: 1, g: 0.9724138, b: 0, a: 0}
+  confirmedColor: {r: 1, g: 0.9724138, b: 0, a: 1}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  halfColor: {r: 1, g: 1, b: 1, a: 0.172}
   fadeTime: 0.5
   renderer: {fileID: 23818040490018988}
 --- !u!114 &114609714365154244
@@ -6349,6 +6381,10 @@ MonoBehaviour:
     type: 3}
   moveLeftButton: {fileID: 114127857788288646}
   moveRightButton: {fileID: 114511596057394768}
+  selectedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  initialColor: {r: 0.73333335, g: 0.7411765, b: 0.8313726, a: 1}
+  glowControl: {fileID: 114503597539437800}
+  buttonFX: {fileID: 114474216301503762}
 --- !u!114 &114978267961607626
 MonoBehaviour:
   m_ObjectHideFlags: 1

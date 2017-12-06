@@ -5,6 +5,14 @@ using UnityEngine.UI;
 
 public class WeaponLineup : MonoBehaviour
 {
+    #region Public Fields (Accessors)
+
+    public WeaponSelectGlowController GlowControl
+    {
+        get { return glowControl; }
+    }
+
+    #endregion  
 
     #region Serialized Unity Fields
 
@@ -16,6 +24,9 @@ public class WeaponLineup : MonoBehaviour
     [SerializeField] private Sprite unselectedRightSprite, unselectedLeftSprite;
     [SerializeField] private Button moveLeftButton, moveRightButton;
     [SerializeField] private Color selectedColor = Color.yellow;
+    [SerializeField] private Color initialColor = Color.blue;
+    [SerializeField] private WeaponSelectGlowController glowControl;
+    [SerializeField] private ButtonSFXEffects buttonFX;
 
     #endregion
 
@@ -29,10 +40,18 @@ public class WeaponLineup : MonoBehaviour
         moveLeftButton.image.sprite = selectedLeftSprite;
         moveRightButton.image.color = selectedColor;
         moveLeftButton.image.color = selectedColor;
+        glowControl.SetConfirmed(true);
+        buttonFX.PlayButtonConfirm();
         return selectedWeapon;
     }
 
-
+    public void ResetArrows()
+    {
+        moveRightButton.image.sprite = unselectedRightSprite;
+        moveLeftButton.image.sprite = unselectedLeftSprite;
+        moveRightButton.image.color = initialColor;
+        moveLeftButton.image.color = initialColor;
+    }
     public void MoveRight()
     {
 
