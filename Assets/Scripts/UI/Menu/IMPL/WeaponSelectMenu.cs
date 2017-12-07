@@ -228,6 +228,7 @@ public class WeaponSelectMenu : Menu
                 selectingPlayerLeft = false;
                 leftArm.GlowControl.SetUnselected();
                 rightArm.GlowControl.Reset();
+                rightArm.ResetArrows();
                 leftArm.ResetArrows();
             }
         }

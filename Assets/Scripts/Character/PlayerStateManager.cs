@@ -41,6 +41,7 @@ public class PlayerStateManager : RoutineRunner {
 
     const string SlowTime = "SlowTime";
     const string SpeedTime = "SpeedTime";
+    const float TutorialRadiusMultiplier = 3f;
     #endregion
 
     #region Unity Lifecycle
@@ -187,6 +188,8 @@ public class PlayerStateManager : RoutineRunner {
         {
             isInTutorial = true;
             EventSystem.Instance.TriggerEvent(Strings.Events.ENEMY_INVINCIBLE, true);
+            eatCollider.radius *= TutorialRadiusMultiplier;
+            stateVariables.eatRadius *= TutorialRadiusMultiplier;
             Timing.RunCoroutine(StartTutorialSlowDown(), SlowTime);
         }
     }
@@ -208,6 +211,8 @@ public class PlayerStateManager : RoutineRunner {
         if (!isTutorialDone)
         {
             isTutorialDone = true;
+            eatCollider.radius /= TutorialRadiusMultiplier;
+            stateVariables.eatRadius /= TutorialRadiusMultiplier;
             Timing.KillCoroutines(SlowTime);
             Timing.RunCoroutine(StartTutorialSpeedUp(), SpeedTime);
         }
