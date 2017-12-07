@@ -11,6 +11,7 @@ public class SpreadGunBullet : MonoBehaviour {
     [SerializeField] PoolObjectType impactVFX = PoolObjectType.VFXSpreadshotImpact;
 
     #endregion
+
     #region Private variables
     private SpreadGun.SpreadGunProperties properties;
     private bool isReady;
@@ -76,6 +77,11 @@ public class SpreadGunBullet : MonoBehaviour {
             }
             GameObject vfx = ObjectPool.Instance.GetObject(impactVFX);
             vfx.transform.position = other.transform.position;
+        }else if(other.tag == Strings.Tags.WALL)
+        {
+            GameObject vfx = ObjectPool.Instance.GetObject(impactVFX);
+            vfx.transform.position = other.transform.position;
+            gameObject.SetActive(false);
         }
     }
     #endregion
