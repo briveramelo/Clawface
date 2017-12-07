@@ -20,7 +20,7 @@ namespace PlayerLevelEditor
 
         int currentWave = 0;
 
-        int NumEnemy_Max = 5;
+        int NumEnemy_Max = 3;
         int NumEnemy = 0;
 
         List<GameObject> enemies = new List<GameObject>();
@@ -150,10 +150,10 @@ namespace PlayerLevelEditor
                 {
                     _player.SetActive(true);
 
-                    GameObject _PC = UnityTool.FindChildGameObject(_player, "Player_Combat");
+                    //GameObject _PC = UnityTool.FindChildGameObject(_player, "Player_Combat");
 
-                    if(_PC)
-                        _PC.transform.localPosition = new Vector3(0, _PC.transform.localPosition.y, 0);
+                    //if(_PC)
+                    //    _PC.transform.localPosition = new Vector3(0, _PC.transform.localPosition.y, 0);
                 }
 
 
