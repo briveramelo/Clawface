@@ -78,8 +78,7 @@
 
         public class UI
         {
-            public const string HORIZONTAL = "UIHorizontal";
-            public const string VERTICAL = "UIVertical";
+            public const string NAVIGATION = "UINavigation";
             public const string SUBMIT = "UISubmit";
             public const string CANCEL = "UICancel";
         }
