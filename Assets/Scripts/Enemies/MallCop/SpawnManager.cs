@@ -80,6 +80,8 @@ public class SpawnManager : RoutineRunner
     {
         if(currentSpawner < spawners.Count)
         {
+            //wave complete
+            EventSystem.Instance.TriggerEvent(Strings.Events.WAVE_COMPLETE, currentSpawner);
             time = spawners[currentSpawner].Time;
             spawner = spawners[currentSpawner++].Prefab.GetComponent<Spawner>();
             AnalyticsManager.Instance.SetCurrentWave(currentSpawner);
