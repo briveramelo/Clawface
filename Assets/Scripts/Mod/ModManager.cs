@@ -31,7 +31,8 @@ public class ModManager : MonoBehaviour
     [SerializeField] private ModInventory modInventory;
     [SerializeField] private float modPickupRadius;
     [SerializeField] private ModType[] modPool;
-    #endregion
+    [SerializeField] private ModPositions modPositions;
+    #endregion    
 
     #region Private Fields
     private Dictionary<ModSpot, ModSocket> modSocketDictionary;
@@ -268,12 +269,16 @@ public class ModManager : MonoBehaviour
             Detach(spot);
         }
 
-        if (!isSwapping){
-            //modUIManager.AttachMod(spot, mod.getModType());
-        }
+        
         mod.setModSpot(spot);
         mod.transform.SetParent(modSocketDictionary[spot].socket);
-        mod.transform.localPosition = Vector3.zero;
+        Vector3 localPos = modPositions[mod.getModType()].localPos;
+        localPos.x *= Mathf.Sign(modSocketDictionary[spot].socket.localPosition.x);
+
+        if (mod.getModType()==ModType.Geyser) {
+            print(localPos);
+        }
+        mod.transform.localPosition = localPos;
         mod.transform.localRotation = Quaternion.identity;
         mod.transform.localScale = Vector3.one;
         modSocketDictionary[spot].mod = mod;        
@@ -320,6 +325,17 @@ public class ModManager : MonoBehaviour
             }
         }
         return false;        
+    }
+
+    [System.Serializable]
+    public class ModPosition {
+        public ModType type;
+        public Vector3 localPos;
+    }
+    [System.Serializable]
+    public class ModPositions {
+        public List<ModPosition> modPositions;
+        public ModPosition this[ModType type] { get { return modPositions.Find(modPos=>modPos.type==type); } }
     }
     #endregion
 
