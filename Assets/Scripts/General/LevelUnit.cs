@@ -308,8 +308,8 @@ public class LevelUnit : MonoBehaviour {
         {
             nextState = LevelUnitStates.cover;
             isTransitioning = true;
-            ShowBlockingObject();
         }
+        ShowBlockingObject();
     }
 
     public void TransitionToFloorState(params object[] inputs)
@@ -320,21 +320,20 @@ public class LevelUnit : MonoBehaviour {
         {
             nextState = LevelUnitStates.floor;
             isTransitioning = true;
-            if (blockingObject)
-            {
-                blockingObject.SetActive(false);
-            }
         }
+        DisableBlockingObject();
     }
 
     public void TransitionToPitState(params object[] inputs)
     {
+        gameObject.tag = Strings.Tags.FLOOR;
+        gameObject.layer = (int)Layers.Ground;
         if (currentState != LevelUnitStates.pit)
         {
             nextState = LevelUnitStates.pit;
             isTransitioning = true;
-            ShowBlockingObject();
         }
+        ShowBlockingObject();
     }
 
     public void DisableBlockingObject()

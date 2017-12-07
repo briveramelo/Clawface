@@ -109,15 +109,18 @@ public class PlayerStateManager : RoutineRunner {
 
     void FixedUpdate()
     {
-        if (playerCanMove)
+        if (playerCanMove && !isInTutorial)
         {
+            if (stateChanged && stateVariables.stateFinished) {
+                ResetState();
+            }
             playerStates.ForEach(state => state.StateFixedUpdate());
         }
     }
 
     private void LateUpdate()
     {
-        if (playerCanMove)
+        if (playerCanMove && !isInTutorial)
         {
             playerStates.ForEach(state => state.StateLateUpdate());
         }
@@ -252,9 +255,16 @@ public class PlayerStateManager : RoutineRunner {
         }
     }
 
+    //void OnSuspectDashing() {
+    //    if (playerStates.Contains(dashState)) {
+    //        dashState.ResetDash();
+    //    }
+    //}
+
     private void ResetState()
     {
         stateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Idle);
+        //OnSuspectDashing();
         playerStates.Clear();
         playerStates.Add(defaultState);
         stateChanged = false;

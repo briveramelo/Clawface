@@ -40,6 +40,9 @@ public class EatingState : IPlayerState
             EventSystem.Instance.UnRegisterEvent(Strings.Events.ARM_ANIMATION_COMPLETE, EndState);
         }
     }
+    #endregion
+
+    #region Public Methods
 
     public override void Init(ref PlayerStateManager.StateVariables stateVariables)
     {
