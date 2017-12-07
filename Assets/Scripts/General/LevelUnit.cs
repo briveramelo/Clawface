@@ -17,12 +17,12 @@ public class LevelUnit : MonoBehaviour {
     private float meshSizeY;
     private float meshSizeZ;
     private float meshSizeX;
-    private bool isTransitioning;
+    public bool isTransitioning;
     private float pitYPosition;
     private float coverYPosition;
     private float floorYPosition;
-    private LevelUnitStates currentState;
-    private LevelUnitStates nextState;
+    public LevelUnitStates currentState;
+    public LevelUnitStates nextState;
     private GameObject blockingObject;
     public int overlappingObjects;
     #endregion
@@ -75,28 +75,37 @@ public class LevelUnit : MonoBehaviour {
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if(collision.gameObject.tag.Equals(Strings.Tags.PLAYER) || collision.gameObject.tag.Equals(Strings.Tags.ENEMY))
-        {
-            if (collision.transform.position.y >= transform.position.y)
-            {
-                overlappingObjects++;
-            }
+    private void OnTriggerStay(Collider other) {
+        if (other.gameObject.tag.Equals(Strings.Tags.PLAYER) || other.gameObject.tag.Equals(Strings.Tags.ENEMY)) {
+            overlappingObjects = 1;
+        }
+        else {
+            overlappingObjects = 0;
         }
     }
 
-    private void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject.tag.Equals(Strings.Tags.PLAYER) || collision.gameObject.tag.Equals(Strings.Tags.ENEMY))
-        {
-            overlappingObjects--;
-            if(overlappingObjects < 0)
-            {
-                overlappingObjects = 0;
-            }
-        }
-    }
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    if(collision.gameObject.tag.Equals(Strings.Tags.PLAYER) || collision.gameObject.tag.Equals(Strings.Tags.ENEMY))
+    //    {
+    //        if (collision.transform.position.y >= transform.position.y)
+    //        {
+    //            overlappingObjects++;
+    //        }
+    //    }
+    //}
+
+    //private void OnCollisionExit(Collision collision)
+    //{
+    //    if (collision.gameObject.tag.Equals(Strings.Tags.PLAYER) || collision.gameObject.tag.Equals(Strings.Tags.ENEMY))
+    //    {
+    //        overlappingObjects--;
+    //        if(overlappingObjects < 0)
+    //        {
+    //            overlappingObjects = 0;
+    //        }
+    //    }
+    //}
     #endregion
 
     #region private functions
