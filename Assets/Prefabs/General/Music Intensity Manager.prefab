@@ -55,12 +55,12 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 256
-  DopplerLevel: 1
+  DopplerLevel: 0
   MinDistance: 1
   MaxDistance: 500
   Pan2D: 0
@@ -135,12 +135,12 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
-  DopplerLevel: 1
+  DopplerLevel: 0
   MinDistance: 1
   MaxDistance: 500
   Pan2D: 0
@@ -189,7 +189,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -215,6 +215,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   source1: {fileID: 82861820245292524}
   source2: {fileID: 82865288951003610}
-  clips: []
-  musicEventsList: []
+  clips:
+  - {fileID: 8300000, guid: 8b90cf0c9dc550445bc2ae118c5a4658, type: 3}
+  - {fileID: 8300000, guid: 18d42d4449b442344976c780436d8756, type: 3}
+  - {fileID: 8300000, guid: 44de88c8b5066f14e8ed99bf1bfdba4c, type: 3}
+  musicEventsList:
+  - Music_Spawner 1 Wave 1
+  - Music_Spawner 2 Wave 3
+  - Music_Spawner 2 Wave 5
   blendSpeed: 0.1

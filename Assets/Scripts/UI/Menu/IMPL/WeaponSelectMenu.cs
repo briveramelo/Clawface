@@ -1,5 +1,4 @@
-﻿using System;
-using ModMan;
+﻿using ModMan;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -39,14 +38,6 @@ public class WeaponSelectMenu : Menu
     [SerializeField] private Sprite selectedButtonSprite;
     [SerializeField] private Sprite pressedButtonSprite;
     [SerializeField] float queryActionEverySeconds = .75f;
-    
-
-    private bool selectingPlayerRight = false;
-    private bool selectingPlayerLeft = false;
-
-    private float queryActionTimer = 0.0f;
-    private bool wasLeft;
-    private bool wasRight;
 
     #endregion
 
@@ -61,6 +52,13 @@ public class WeaponSelectMenu : Menu
     bool inputGuard = false;
     private GameObject previousGameObject;
     private Camera previousCamera;
+    
+    private bool selectingPlayerRight = false;
+    private bool selectingPlayerLeft = false;
+
+    private float queryActionTimer = 0.0f;
+    private bool wasLeft;
+    private bool wasRight;
 
     #endregion
 
@@ -82,8 +80,6 @@ public class WeaponSelectMenu : Menu
 	    }
 
 	}
-
-
 
     #endregion
 
@@ -108,15 +104,8 @@ public class WeaponSelectMenu : Menu
 		Fade (transition, effects);
 	}
 
-    protected override void ShowComplete()
-    {
-        base.ShowComplete();
-        inputGuard = true;
-        previousCamera = Camera.main;
-        previousGameObject = previousCamera.gameObject;
-        previousCamera.enabled = false;
-        menuCamera.enabled = true;
-        fader.DoHide(fadeDuration, null);
+    protected override void ShowStarted() {
+        base.ShowStarted();
 
         //for dealing with the custom menu selection flow
         selectingPlayerLeft = false;
@@ -127,6 +116,17 @@ public class WeaponSelectMenu : Menu
         rightArm.GlowControl.Reset();
         leftArm.ResetArrows();
         rightArm.ResetArrows();
+    }
+
+    protected override void ShowComplete()
+    {
+        base.ShowComplete();
+        inputGuard = true;
+        previousCamera = Camera.main;
+        previousGameObject = previousCamera.gameObject;
+        previousCamera.enabled = false;
+        menuCamera.enabled = true;
+        fader.DoHide(fadeDuration, null);
     }
 
     protected override void HideStarted()
@@ -196,12 +196,9 @@ public class WeaponSelectMenu : Menu
 
     private void HandleSelectionFlow()
     {
-        Vector2 axesState = InputManager.Instance.QueryAxes(Strings.Input.Axes.MOVEMENT);
-        //Vector2 horizontal = 100*InputManager.Instance.QueryAxes(Strings.Input.UI.HORIZONTAL);
-        //print(horizontal);
-        bool isLeft = axesState.x.AboutEqual(-1);
-        bool isRight= axesState.x.AboutEqual(1);
-        
+        Vector2 navigation = InputManager.Instance.QueryAxes(Strings.Input.UI.NAVIGATION);
+        bool isLeft = navigation.x.AboutEqual(-1);
+        bool isRight = navigation.x.AboutEqual(1);
 
         if (selectingPlayerRight)
         {
@@ -257,7 +254,7 @@ public class WeaponSelectMenu : Menu
         wasRight = isRight;
     }
 
-    void HandleMovement(WeaponLineup lineup, bool isLeft, bool isRight)
+    private void HandleMovement(WeaponLineup lineup, bool isLeft, bool isRight)
     {
         bool moved = false;
         if ((isLeft || isRight) && !(wasRight || wasLeft))
@@ -269,16 +266,20 @@ public class WeaponSelectMenu : Menu
             }
         }
 
-        queryActionTimer -= Time.deltaTime;
+        if (isLeft || isRight) {
+            queryActionTimer -= Time.deltaTime;
+        }
+        else {
+            queryActionTimer = queryActionEverySeconds;
+        }
         if (queryActionTimer < 0)
         {
-            
             MoveLineup(lineup, isLeft, isRight);
             queryActionTimer = queryActionEverySeconds;
         }
     }
 
-    bool MoveLineup(WeaponLineup lineup, bool isLeft, bool isRight)
+    private bool MoveLineup(WeaponLineup lineup, bool isLeft, bool isRight)
     {
         if (isLeft)
         {
