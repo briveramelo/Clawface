@@ -41,10 +41,7 @@ public class ServiceWrangler : Singleton<ServiceWrangler> {
 
     private void OnEnable () {
         foreach (KeyValuePair<string, PrefabBool> singletonRegistered in SingletonPrefabRegistry) {
-            if (!singletonRegistered.Value.isRegistered) {
-                if (singletonRegistered.Key== typeof(MenuMusicManager).ToString()) {
-                    print("made it!");
-                }
+            if (!singletonRegistered.Value.isRegistered) {                
                 GameObject singletonGameObject = Instantiate(singletonRegistered.Value.prefab, gameObject.transform, true) as GameObject;
                 singletonGameObject.transform.position = Vector3.zero;
                 singletonGameObject.transform.rotation = Quaternion.identity;
