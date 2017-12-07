@@ -177,6 +177,8 @@ public class WeaponSelectMenu : Menu
 		loadMenu.TargetScene = level;
 
         // Trigger level started event
+        ModManager.rightArmOnLoad = rightArm.GetSelection();
+        ModManager.leftArmOnLoad = leftArm.GetSelection();
         EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_STARTED, loadMenu.TargetScene, ModManager.leftArmOnLoad.ToString(), ModManager.rightArmOnLoad.ToString());
 
 		// Make it happen.
@@ -195,7 +197,8 @@ public class WeaponSelectMenu : Menu
     private void HandleSelectionFlow()
     {
         Vector2 axesState = InputManager.Instance.QueryAxes(Strings.Input.Axes.MOVEMENT);
-        //Vector2 horizontal = InputManager.Instance.QueryAxes(Strings.Input.UI.HORIZONTAL);
+        //Vector2 horizontal = 100*InputManager.Instance.QueryAxes(Strings.Input.UI.HORIZONTAL);
+        //print(horizontal);
         bool isLeft = axesState.x.AboutEqual(-1);
         bool isRight= axesState.x.AboutEqual(1);
         
@@ -226,6 +229,7 @@ public class WeaponSelectMenu : Menu
                 selectingPlayerLeft = false;
                 leftArm.GlowControl.SetUnselected();
                 rightArm.GlowControl.Reset();
+                rightArm.ResetArrows();
                 leftArm.ResetArrows();
             }
         }
