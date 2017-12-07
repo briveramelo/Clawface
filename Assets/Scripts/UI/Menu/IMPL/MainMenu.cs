@@ -32,7 +32,7 @@ public class MainMenu : Menu
         // Target Level is hard coded right now.
         Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
         LoadMenu loadMenu = menu as LoadMenu;
-        loadMenu.TargetScene = "Arena 1";
+        loadMenu.TargetScene = Strings.Scenes.Arena;        
 
         // Transition to weapon select
         // TODO - When adding level editor + more levels will need new and improved level select.

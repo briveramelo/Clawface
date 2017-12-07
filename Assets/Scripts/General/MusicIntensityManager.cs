@@ -22,6 +22,7 @@ public class MusicIntensityManager : RoutineRunner {
     private List<string> musicEventsList;
     [SerializeField]
     private float blendSpeed = 0.1f;
+    bool stopped;
     #endregion
 
     #region unity lifecycle
@@ -30,6 +31,7 @@ public class MusicIntensityManager : RoutineRunner {
 		for (int i=0;i< musicEventsList.Count; i++)
         {
             EventSystem.Instance.RegisterEvent(musicEventsList[i], ChangeTrack);
+            EventSystem.Instance.RegisterEvent(Strings.Events.WEAPONSSELECT_FROM_STAGEOVER, Stop);            
         }
         currentTrack = -1;
         isSource2Active = false;
@@ -41,13 +43,25 @@ public class MusicIntensityManager : RoutineRunner {
         {
             for (int i = 0; i < musicEventsList.Count; i++)
             {
-                EventSystem.Instance.UnRegisterEvent(musicEventsList[i], ChangeTrack);
+                EventSystem.Instance.UnRegisterEvent(musicEventsList[i], ChangeTrack);                
+                EventSystem.Instance.UnRegisterEvent(Strings.Events.WEAPONSSELECT_FROM_STAGEOVER, Stop);
             }
         }
     }
     #endregion
 
     #region public functions
+    public void Stop(params object[] items) {
+        stopped = true;
+        source1.Stop();
+        source2.Stop();
+    }
+
+    public void Play(params object[] items) {
+        source1.Play();
+        source2.Play();
+    }
+
     public void AddMusicTransitionEvent(string eventName, AudioClip clip)
     {
         musicEventsList.Add(eventName);
@@ -78,36 +92,34 @@ public class MusicIntensityManager : RoutineRunner {
     #region private functions
     private void ChangeTrack(params object[] parameters)
     {
-        isChangingTrack = true;
-        Timing.KillCoroutines(coroutineName);
-        Timing.RunCoroutine(ChangeTrack(), coroutineName);        
+        if (!stopped) {
+            isChangingTrack = true;
+            Timing.KillCoroutines(coroutineName);
+            Timing.RunCoroutine(ChangeTrack(), coroutineName);        
+        }
     }
 
     private IEnumerator<float> ChangeTrack()
     {
-        currentTrack++;
-        if (clips.Count > currentTrack)
-        {
-            AudioClip newClip = clips[currentTrack];
-            if (isSource2Active)
-            {
-                PlayNew(source1, newClip);
-            }
-            else
-            {
-                PlayNew(source2, newClip);
-            }
-            while (isChangingTrack)
-            {
-                if (isSource2Active)
-                {
-                    BlendSources(source2, source1);                    
+        if (!stopped) {
+            currentTrack++;
+            if (clips.Count > currentTrack) {
+                AudioClip newClip = clips[currentTrack];
+                if (isSource2Active) {
+                    PlayNew(source1, newClip);
                 }
-                else
-                {
-                    BlendSources(source1, source2);
+                else {
+                    PlayNew(source2, newClip);
                 }
-                yield return 0f;
+                while (isChangingTrack) {
+                    if (isSource2Active) {
+                        BlendSources(source2, source1);
+                    }
+                    else {
+                        BlendSources(source1, source2);
+                    }
+                    yield return 0f;
+                }
             }
         }
     }

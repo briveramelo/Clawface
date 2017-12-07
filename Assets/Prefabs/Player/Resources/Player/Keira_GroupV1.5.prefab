@@ -1680,7 +1680,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1184167833156226}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1, y: 0, z: 0}
+  m_LocalPosition: {x: 1, y: -0.25, z: 0}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_Children: []
   m_Father: {fileID: 4918049822366214}
@@ -1750,7 +1750,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1267631641503882}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1, y: -0, z: 0}
+  m_LocalPosition: {x: -1, y: -0.25, z: 0}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_Children: []
   m_Father: {fileID: 4918049822366214}
@@ -2644,6 +2644,20 @@ MonoBehaviour:
   modInventory: {fileID: 114486392158001602}
   modPickupRadius: 1
   modPool: 000000000100000002000000030000000400000005000000
+  modPositions:
+    modPositions:
+    - type: 0
+      localPos: {x: 0.25, y: 0, z: 0}
+    - type: 1
+      localPos: {x: -0.05, y: 0, z: 0}
+    - type: 2
+      localPos: {x: 0.13, y: 0, z: 0}
+    - type: 3
+      localPos: {x: -0.05, y: 0, z: 0}
+    - type: 4
+      localPos: {x: 0.105, y: 0, z: 0}
+    - type: 5
+      localPos: {x: 0.05, y: 0, z: 0}
 --- !u!114 &114071297937733786
 MonoBehaviour:
   m_ObjectHideFlags: 1

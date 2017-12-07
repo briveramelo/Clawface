@@ -36,7 +36,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1722844976735306}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -0.33829227, y: 0.6900001, z: 3.3952246}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 4, y: 4, z: 4}
   m_Children: []
   m_Father: {fileID: 0}
@@ -96,6 +96,11 @@ MonoBehaviour:
   splatMaterials:
   - {fileID: 2100000, guid: 4476881b4a72dd040b53eecca1c96501, type: 2}
   - {fileID: 2100000, guid: 9db09b90f9391244a86292f95971e455, type: 2}
+  - {fileID: 2100000, guid: 657af647f29d38246954d0dd3d723397, type: 2}
+  - {fileID: 2100000, guid: 42090578243e2004096b6442e4db8d35, type: 2}
+  - {fileID: 2100000, guid: 44f5948acf5da284394ba3df83a6dc14, type: 2}
+  - {fileID: 2100000, guid: ad277ec3804b7254490b04dc3afdcef0, type: 2}
+  - {fileID: 2100000, guid: bf63232390eec1c41a33fc21e48c87d3, type: 2}
   loopAnimation: 0
   playOnEnable: 1
   totalFrames: 16
@@ -130,7 +135,7 @@ MonoBehaviour:
       m_Curve:
       - serializedVersion: 2
         time: 0
-        value: 0.5
+        value: 0.7
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -148,4 +153,4 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1.01
-  startMaskClipVal: 0.5
+  startMaskClipVal: 0.7

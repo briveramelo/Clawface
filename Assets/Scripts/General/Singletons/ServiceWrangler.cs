@@ -32,7 +32,7 @@ public class ServiceWrangler : Singleton<ServiceWrangler> {
                     { typeof(AchievementManager).ToString(),       new PrefabBool(ref achievementManager) },
                     { typeof(PlatformManager).ToString(),       new PrefabBool(ref platformManager) },
                     { typeof(GoreManager).ToString(),       new PrefabBool(ref goreManager)},
-                    { typeof(SaveState).ToString(),       new PrefabBool(ref saveState) },
+                    { typeof(SaveState).ToString(),       new PrefabBool(ref saveState) }                    
                 };
             }
             return singletonPrefabRegistry;
@@ -41,7 +41,7 @@ public class ServiceWrangler : Singleton<ServiceWrangler> {
 
     private void OnEnable () {
         foreach (KeyValuePair<string, PrefabBool> singletonRegistered in SingletonPrefabRegistry) {
-            if (!singletonRegistered.Value.isRegistered) {
+            if (!singletonRegistered.Value.isRegistered) {                
                 GameObject singletonGameObject = Instantiate(singletonRegistered.Value.prefab, gameObject.transform, true) as GameObject;
                 singletonGameObject.transform.position = Vector3.zero;
                 singletonGameObject.transform.rotation = Quaternion.identity;
@@ -50,6 +50,7 @@ public class ServiceWrangler : Singleton<ServiceWrangler> {
                 //Debug.LogFormat("<color=#ffff00>" + debugMessage + "</color>");
             }
         }
+        Application.targetFrameRate = 60;
     }
 
 

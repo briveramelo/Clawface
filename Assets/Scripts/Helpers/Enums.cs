@@ -95,7 +95,8 @@ public enum Layers {
     Hologram=13,
     Globe_Text=14,
     PlayerDetector=15,
-    DiceBlocks=17        
+    DiceBlocks=17,
+    Obstacle=19
 }
 
 public enum PoolObjectType {
