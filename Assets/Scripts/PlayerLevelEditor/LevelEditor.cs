@@ -18,6 +18,8 @@ namespace PlayerLevelEditor
         Button Btn_Duplicate;
         Button Btn_Dynamic;
         Button Btn_Test;
+        Button Btn_EndTest;
+
 
         // Use this for initialization
         void Start()
@@ -46,11 +48,25 @@ namespace PlayerLevelEditor
 
             Btn_Test = PlayerLevelEditor.UITool.GetUIComponent<Button>("Function_Test");
             if (Btn_Test != null) Btn_Test.onClick.AddListener(() => UsingTestFunc(Btn_Test));
+
+            Btn_EndTest = PlayerLevelEditor.UITool.GetUIComponent<Button>("Function_EndTest");
+
+            if (Btn_EndTest != null)
+            {
+                UITool.FindUIGameObject("Function_EndTest").SetActive(false);
+                Btn_EndTest.onClick.AddListener(() => UseInitFunc(Btn_EndTest));
+            }
         }
 
         // Update is called once per frame
         void Update()
         {
+            if(Input.GetKeyDown(KeyCode.Escape))
+            {
+                Application.Quit();
+            }
+
+
             controller.Update();
         }
 

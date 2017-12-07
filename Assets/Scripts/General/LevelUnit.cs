@@ -38,7 +38,7 @@ public class LevelUnit : MonoBehaviour {
     #endregion
 
     #region public variables
-    public LevelUnitStates defaultState;
+    public LevelUnitStates defaultState = LevelUnitStates.floor;
     #endregion
 
     #region unity lifecycle
