@@ -273,11 +273,7 @@ public class ModManager : MonoBehaviour
         mod.setModSpot(spot);
         mod.transform.SetParent(modSocketDictionary[spot].socket);
         Vector3 localPos = modPositions[mod.getModType()].localPos;
-        localPos.x *= Mathf.Sign(modSocketDictionary[spot].socket.localPosition.x);
-
-        if (mod.getModType()==ModType.Geyser) {
-            print(localPos);
-        }
+        localPos.x *= Mathf.Sign(modSocketDictionary[spot].socket.localPosition.x);        
         mod.transform.localPosition = localPos;
         mod.transform.localRotation = Quaternion.identity;
         mod.transform.localScale = Vector3.one;
