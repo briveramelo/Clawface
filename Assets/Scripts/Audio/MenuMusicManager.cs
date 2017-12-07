@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using MovementEffects;
 using System.Linq;
+using ModMan;
 public class MenuMusicManager : RoutineRunner {
 
     [SerializeField] AudioSource intro, looping;
@@ -44,7 +45,7 @@ public class MenuMusicManager : RoutineRunner {
 
     IEnumerator GoToLoop() {        
         intro.Play();
-        while (intro.isPlaying || intro.time < intro.clip.length-.1f) {
+        while (!(intro.time - intro.clip.length).AboutEqual(0f, 0.01f)) {
             yield return null;
         }
         looping.Play();

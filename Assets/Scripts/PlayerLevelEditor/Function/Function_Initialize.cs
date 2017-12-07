@@ -16,10 +16,13 @@ namespace PlayerLevelEditor
         Button Btn_Init;
         Button Btn_Save;
         Button Btn_Load;
+        Button Btn_Delete;
+
 
         UnityAction ACT_Init;
         UnityAction ACT_Save;
         UnityAction ACT_Load;
+        UnityAction ACT_Delete;
 
 
         Slider Sld_X;
@@ -54,6 +57,8 @@ namespace PlayerLevelEditor
             ACT_Init = () => EnableInit(Btn_Init);
             ACT_Save = () => EnableSave(Btn_Save);
             ACT_Load = () => EnableLoad(Btn_Load);
+            ACT_Delete = () => EnableDelete(Btn_Delete);
+
 
             #endregion
 
@@ -81,6 +86,14 @@ namespace PlayerLevelEditor
                 Debug.Log("Btn_Load is null");
 
             Btn_Load.onClick.AddListener(ACT_Load);
+
+
+            Btn_Delete = PlayerLevelEditor.UITool.GetUIComponent<Button>("Button_Delete");
+
+            if (Btn_Delete == null)
+                Debug.Log("Btn_Delete is null");
+
+            Btn_Delete.onClick.AddListener(ACT_Delete);
 
             #endregion
 
@@ -128,12 +141,6 @@ namespace PlayerLevelEditor
             return Initialized;
         }
 
-        public static void Reset()
-        {
-            Initialized = false;
-        }
-
-
         void EnableInit(Button thisBtn)
         {
 
@@ -155,6 +162,7 @@ namespace PlayerLevelEditor
                     _instance.name = "TestBlock";
 
                     _instance.AddComponent<ClickableObject>();
+//                    _instance.AddComponent<Splattable>();
 
                     //Edge + Wall
                     if (i == -Num_x || i == Num_x || j == -Num_z || j == Num_z)
@@ -166,6 +174,7 @@ namespace PlayerLevelEditor
                                                                                                 j * ParameterSystem.unit_size), Quaternion.identity);
 
                         _instance_Wall.name = "WallBlock";
+                        _instance_Wall.tag = "Wall";
                         _instance_Wall.transform.SetParent(_wall.transform);
                         _instance_Wall.AddComponent<ClickableObject>();
                         _AddNavMeshModifier(_instance_Wall, PlayerLevelEditor.NavMeshAreas.NotWalkable);
@@ -175,6 +184,11 @@ namespace PlayerLevelEditor
                         LevelUnit LU = _instance.AddComponent<LevelUnit>() as LevelUnit;
                         LU.defaultState = LevelUnitStates.floor;
                         _AddNavMeshModifier(_instance, PlayerLevelEditor.NavMeshAreas.Walkable);
+
+                        if(i == 0 && j == 0)
+                        {
+                            GameObject.DestroyImmediate(LU);
+                        }
                     }
 
                     _instance.transform.SetParent(_platform.transform);
@@ -198,6 +212,21 @@ namespace PlayerLevelEditor
         void EnableLoad(Button thisBtn)
         {
             Debug.Log("Put Load Code in here, my baby");
+        }
+
+        void EnableDelete(Button thisBtn)
+        {
+            GameObject LEVEL = UnityTool.FindGameObject("LEVEL");
+            if (LEVEL) GameObject.DestroyImmediate(LEVEL);
+
+            GameObject WALL = UnityTool.FindGameObject("WALL");
+            if (WALL) GameObject.DestroyImmediate(WALL);
+
+
+            GameObject _player = UnityTool.FindGameObject("Keira_GroupV1.5(Clone)");
+            if (_player) GameObject.DestroyImmediate(_player);
+
+            Initialized = false;
         }
 
     }
