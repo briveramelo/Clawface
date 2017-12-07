@@ -1140,6 +1140,7 @@ GameObject:
   - component: {fileID: 4389288433435948}
   - component: {fileID: 114829490739945402}
   - component: {fileID: 114684453126703280}
+  - component: {fileID: 114315496419209986}
   m_Layer: 0
   m_Name: cm
   m_TagString: Untagged
@@ -1692,7 +1693,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1534432689421460}
-  m_LocalRotation: {x: -0.010544777, y: -0.001835853, z: -0.016279891, w: 0.9998102}
+  m_LocalRotation: {x: -0.010544628, y: -0.0018358827, z: -0.016280025, w: 0.9998102}
   m_LocalPosition: {x: 0.08275204, y: -0.7688624, z: -1.6282973}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -1911,7 +1912,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1985927888073948}
-  m_LocalRotation: {x: -0.010474265, y: -0.0022027493, z: -0.051162824, w: 0.99863297}
+  m_LocalRotation: {x: -0.010474116, y: -0.002202779, z: -0.051162973, w: 0.99863297}
   m_LocalPosition: {x: 0.08275204, y: -0.7688624, z: -1.6282973}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2873,6 +2874,17 @@ MonoBehaviour:
   startUV: 1
   endUV: 1
   effectSpeed: 1
+--- !u!114 &114315496419209986
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1993311255171988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e8b78ac948f05a46a6d8339a503172b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114317983808851006
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2924,9 +2936,9 @@ MonoBehaviour:
     clawExtensionTime: 0.35
     clawRetractionTime: 0.35
     eatRadius: 10
-    ArmExtensionSFX: 0
-    ArmEnemyCaptureSFX: 0
-    EatSFX: 0
+    ArmExtensionSFX: 14
+    ArmEnemyCaptureSFX: 15
+    EatSFX: 16
   defaultState: {fileID: 114776189445566068}
   playerStatsManager: {fileID: 114430878911601216}
   holdAttackSlowDown: 3

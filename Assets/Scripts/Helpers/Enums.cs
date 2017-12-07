@@ -31,7 +31,9 @@ public enum SFXType {
     SpreadshotShoot,
     LightningGunShoot,
     GeyserShoot,
-    PlayerEat
+    ClawExtend,
+    ClawGrab,
+    PlayerEat,
 }
 
 public enum MusicType
