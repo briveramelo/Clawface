@@ -46,7 +46,7 @@ namespace Turing.VFX
         }
 
         void OnEnable ()
-        {
+        {            
             if (playOnAwake) Play();
         }
 
@@ -56,22 +56,34 @@ namespace Turing.VFX
         /// <summary>
         /// Timer for self-disabling.
         /// </summary>
-        IEnumerator DisableTimer()
+        IEnumerator DisableTimer(float duration)
         {
-            yield return new WaitForSeconds (EffectDuration);
+            yield return new WaitForSeconds (duration);
 
+            Stop();
             gameObject.SetActive(false);
         }
 
         #endregion
         #region Public Methods
+        public void Play(float duration) {
+            gameObject.SetActive(true);
+            PlayInternal();
+            StartCoroutine(DisableTimer(duration));
+        }
+
 
         /// <summary>
         /// Plays this effect.
         /// </summary>
         public void Play()
         {
-            gameObject.SetActive (true);
+            PlayInternal();
+            StartCoroutine(DisableTimer(EffectDuration));
+        }
+
+        void PlayInternal() {
+            gameObject.SetActive(true);
 
             foreach (var particleSystem in particleSystems)
                 particleSystem.Play();
@@ -79,8 +91,6 @@ namespace Turing.VFX
             foreach (var lensFlare in lensFlares) lensFlare.enabled = true;
             foreach (var lightFlicker in lightFlickers) lightFlicker.Play();
             foreach (var lensFlareFlicker in lensFlareFlickers) lensFlareFlicker.Play();
-
-            StartCoroutine(DisableTimer());
         }
 
         /// <summary>

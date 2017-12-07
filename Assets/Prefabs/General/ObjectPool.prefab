@@ -169,7 +169,7 @@ MonoBehaviour:
     poolObjectType: 3
     prefabs:
     - {fileID: 1721231149954134, guid: 1a3cf2d121479104994c7791f4b5ae81, type: 2}
-    size: 100
+    size: 400
     mostUsed: 0
     objects: []
   - name: BlasterImpactEffect
@@ -246,14 +246,14 @@ MonoBehaviour:
     poolObjectType: 44
     prefabs:
     - {fileID: 1702552771833574, guid: d462baa9f85e6dd4db5c6145af8b2565, type: 2}
-    size: 15
+    size: 50
     mostUsed: 0
     objects: []
   - name: VFXLightningGunShoot
     poolObjectType: 45
     prefabs:
     - {fileID: 1903846122697570, guid: d7d53e517e4e10e4fb9db8d8ebd8ae64, type: 2}
-    size: 15
+    size: 30
     mostUsed: 0
     objects: []
   - name: RedBouncer
@@ -289,5 +289,26 @@ MonoBehaviour:
     prefabs:
     - {fileID: 1722844976735306, guid: cc236c34450b0044e98ba328d9117933, type: 2}
     size: 100
+    mostUsed: 0
+    objects: []
+  - name: VFXEnemySpawn
+    poolObjectType: 50
+    prefabs:
+    - {fileID: 1447763142075664, guid: bf1267d8533a5c74a95d552e3e21c901, type: 2}
+    size: 50
+    mostUsed: 0
+    objects: []
+  - name: VFXSpreadshotShoot
+    poolObjectType: 51
+    prefabs:
+    - {fileID: 1471123018117130, guid: 9b6c4171554c1854d800e6caac1ae84b, type: 2}
+    size: 15
+    mostUsed: 0
+    objects: []
+  - name: VFXSpreadshotImpact
+    poolObjectType: 52
+    prefabs:
+    - {fileID: 1967879715010352, guid: 1b5fdd16e1ac0f24d960cba8088ed417, type: 2}
+    size: 50
     mostUsed: 0
     objects: []

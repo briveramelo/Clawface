@@ -16,8 +16,8 @@ public class ModManager : MonoBehaviour
     // the mod manager and player hooked up.
     // Maybe....
     // TODO - add "GameManager" singleton that coordinates important things like mods and level
-    public static ModType leftArmOnLoad = ModType.None;
-    public static ModType rightArmOnLoad = ModType.None;
+    public static ModType leftArmOnLoad = ModType.Geyser;
+    public static ModType rightArmOnLoad = ModType.Geyser;
     public static bool assignFromPool = true;
 
     #endregion
