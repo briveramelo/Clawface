@@ -177,6 +177,8 @@ public class WeaponSelectMenu : Menu
 		loadMenu.TargetScene = level;
 
         // Trigger level started event
+        ModManager.rightArmOnLoad = rightArm.GetSelection();
+        ModManager.leftArmOnLoad = leftArm.GetSelection();
         EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_STARTED, loadMenu.TargetScene, ModManager.leftArmOnLoad.ToString(), ModManager.rightArmOnLoad.ToString());
 
 		// Make it happen.
