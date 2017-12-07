@@ -23,7 +23,6 @@ public class LevelUnit : MonoBehaviour {
     private float floorYPosition;
     private LevelUnitStates currentState;
     private LevelUnitStates nextState;
-    private float speed = 0.05f;
     private GameObject blockingObject;
     private int overlappingObjects;
     #endregion
@@ -35,6 +34,7 @@ public class LevelUnit : MonoBehaviour {
     private List<string> floorStateEvents;
     [SerializeField]
     private List<string> pitStateEvents;
+    [SerializeField] float yMoveSpeed = 0.03f;
     #endregion
 
     #region public variables
@@ -50,7 +50,7 @@ public class LevelUnit : MonoBehaviour {
             meshSizeY = meshRenderer.bounds.size.y;
             meshSizeZ = meshRenderer.bounds.size.z;
             meshSizeX = meshRenderer.bounds.size.x;
-        }
+        }        
         currentState = defaultState;
         CalculateStatePositions();
     }
@@ -191,7 +191,7 @@ public class LevelUnit : MonoBehaviour {
         }
         if (newPosition != transform.position)
         {
-            transform.position = Vector3.MoveTowards(transform.position, newPosition, speed * meshSizeY);
+            transform.position = Vector3.MoveTowards(transform.position, newPosition, yMoveSpeed * meshSizeY);
             if (Vector3.Distance(transform.position, newPosition) < 0.01f)
             {
                 transform.position = newPosition;
@@ -302,6 +302,8 @@ public class LevelUnit : MonoBehaviour {
 
     public void TransitionToCoverState(params object[] inputs)
     {
+        gameObject.tag = Strings.Tags.WALL;            
+        gameObject.layer = (int)Layers.Obstacle;
         if (currentState != LevelUnitStates.cover)
         {
             nextState = LevelUnitStates.cover;
@@ -312,6 +314,8 @@ public class LevelUnit : MonoBehaviour {
 
     public void TransitionToFloorState(params object[] inputs)
     {
+        gameObject.tag = Strings.Tags.FLOOR;
+        gameObject.layer = (int)Layers.Ground;
         if (currentState != LevelUnitStates.floor)
         {
             nextState = LevelUnitStates.floor;

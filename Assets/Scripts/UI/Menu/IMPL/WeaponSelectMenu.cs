@@ -197,7 +197,8 @@ public class WeaponSelectMenu : Menu
     private void HandleSelectionFlow()
     {
         Vector2 axesState = InputManager.Instance.QueryAxes(Strings.Input.Axes.MOVEMENT);
-        //Vector2 horizontal = InputManager.Instance.QueryAxes(Strings.Input.UI.HORIZONTAL);
+        //Vector2 horizontal = 100*InputManager.Instance.QueryAxes(Strings.Input.UI.HORIZONTAL);
+        //print(horizontal);
         bool isLeft = axesState.x.AboutEqual(-1);
         bool isRight= axesState.x.AboutEqual(1);
         
