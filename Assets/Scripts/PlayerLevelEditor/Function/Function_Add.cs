@@ -15,11 +15,10 @@ namespace PlayerLevelEditor
         public static GameObject _prefab;
 
         GameObject _LevelObject;
-        Button Btn_Add;
-        Button Btn_Delete;
 
+        Button Btn_Add;
         UnityAction ACT_Add;
-        UnityAction ACT_Delete;
+
 
 
         public Vector3 mousePositionInScene;
@@ -46,17 +45,9 @@ namespace PlayerLevelEditor
             Btn_Add.onClick.AddListener(ACT_Add);
             Btn_Add.image.color = Color.white;
 
-
-            ACT_Delete = () => EnableDelete(Btn_Delete);
-            Btn_Delete = PlayerLevelEditor.UITool.GetUIComponent<Button>("Button_Delete");
-            if (Btn_Delete == null) Debug.Log("Btn_Delete is null");
-
-            Btn_Delete.onClick.AddListener(ACT_Delete);
-            Btn_Delete.image.color = Color.white;
-
             _prefab = Resources.Load("PlayerLevelEditorObjects/Env/test") as GameObject;
 
- //           Database.Enable();
+//            Database.Enable();
         }
 
 
@@ -74,7 +65,6 @@ namespace PlayerLevelEditor
 
                 if (Input.GetMouseButtonDown(0) && clickToAddEnabled)
                 {
-
                     LevelUnit LU = hit.transform.gameObject.GetComponent<LevelUnit>();
 
                     if (LU != null)
@@ -83,6 +73,14 @@ namespace PlayerLevelEditor
                     }
           
                     Vector3 _pos = PlayerLevelEditor.ToolLib.ConvertToGrid(mousePositionInScene);
+
+                    if (_pos.x == 0.0f && _pos.z == 0.0f)
+                    {
+                        Debug.Log("DDD");
+                        return;
+                    }
+
+
                     GameObject _instance = GameObject.Instantiate(_prefab, _pos, Quaternion.identity);
 
                     _instance.transform.SetParent(_LevelObject.transform);
@@ -107,22 +105,6 @@ namespace PlayerLevelEditor
         {
             clickToAddEnabled = !clickToAddEnabled;
             thisBtn.image.color = clickToAddEnabled ? Color.red : Color.white;
-        }
-
-
-        void EnableDelete(Button thisBtn)
-        {
-            GameObject LEVEL = UnityTool.FindGameObject("LEVEL");
-            if(LEVEL) GameObject.DestroyImmediate(LEVEL);
-
-            GameObject WALL = UnityTool.FindGameObject("WALL");
-            if (WALL) GameObject.DestroyImmediate(WALL);
-
-
-            GameObject _player = UnityTool.FindGameObject("Keira_GroupV1.5(Clone)");
-            if (_player) GameObject.DestroyImmediate(_player);
-
-            Initialize.Reset();
         }
 
     }
