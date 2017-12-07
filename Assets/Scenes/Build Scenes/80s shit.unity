@@ -123,6 +123,7 @@ GameObject:
   - component: {fileID: 12694596}
   - component: {fileID: 12694595}
   - component: {fileID: 12694600}
+  - component: {fileID: 12694601}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -169,6 +170,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -252,6 +257,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &12694601
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 12694593}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1 &13168800
 GameObject:
   m_ObjectHideFlags: 0
@@ -266,6 +283,7 @@ GameObject:
   - component: {fileID: 13168803}
   - component: {fileID: 13168802}
   - component: {fileID: 13168807}
+  - component: {fileID: 13168808}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -312,6 +330,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -395,6 +417,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &13168808
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 13168800}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1 &16545577
 GameObject:
   m_ObjectHideFlags: 0
@@ -409,6 +443,7 @@ GameObject:
   - component: {fileID: 16545580}
   - component: {fileID: 16545579}
   - component: {fileID: 16545584}
+  - component: {fileID: 16545585}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -455,6 +490,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -538,6 +577,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &16545585
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 16545577}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0.00000023841858}
 --- !u!1001 &19190815
 Prefab:
   m_ObjectHideFlags: 0
@@ -626,6 +677,7 @@ GameObject:
   - component: {fileID: 24137139}
   - component: {fileID: 24137138}
   - component: {fileID: 24137143}
+  - component: {fileID: 24137144}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -672,6 +724,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -755,6 +811,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &24137144
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 24137136}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0.00000047683716}
 --- !u!1 &34009627
 GameObject:
   m_ObjectHideFlags: 0
@@ -769,6 +837,7 @@ GameObject:
   - component: {fileID: 34009630}
   - component: {fileID: 34009629}
   - component: {fileID: 34009634}
+  - component: {fileID: 34009635}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -815,6 +884,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -898,6 +971,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &34009635
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 34009627}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0.00000047683716}
 --- !u!1 &53343825
 GameObject:
   m_ObjectHideFlags: 0
@@ -1027,6 +1112,7 @@ GameObject:
   - component: {fileID: 62972554}
   - component: {fileID: 62972553}
   - component: {fileID: 62972558}
+  - component: {fileID: 62972559}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -1073,6 +1159,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 3
@@ -1156,6 +1246,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &62972559
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 62972551}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1 &64149855
 GameObject:
   m_ObjectHideFlags: 0
@@ -1170,6 +1272,7 @@ GameObject:
   - component: {fileID: 64149858}
   - component: {fileID: 64149857}
   - component: {fileID: 64149862}
+  - component: {fileID: 64149863}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -1216,6 +1319,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 3
@@ -1299,6 +1406,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &64149863
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 64149855}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0.00000047683716}
 --- !u!1 &70634241
 GameObject:
   m_ObjectHideFlags: 0
@@ -1902,6 +2021,7 @@ GameObject:
   - component: {fileID: 95774083}
   - component: {fileID: 95774082}
   - component: {fileID: 95774087}
+  - component: {fileID: 95774088}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -1948,6 +2068,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -2031,6 +2155,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &95774088
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 95774080}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1 &96150375
 GameObject:
   m_ObjectHideFlags: 0
@@ -2120,6 +2256,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -2766,6 +2906,7 @@ GameObject:
   - component: {fileID: 133601957}
   - component: {fileID: 133601956}
   - component: {fileID: 133601961}
+  - component: {fileID: 133601962}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -2812,6 +2953,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -2895,6 +3040,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &133601962
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 133601954}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0.00000047683716}
 --- !u!1 &135926249
 GameObject:
   m_ObjectHideFlags: 0
@@ -2909,6 +3066,7 @@ GameObject:
   - component: {fileID: 135926252}
   - component: {fileID: 135926251}
   - component: {fileID: 135926256}
+  - component: {fileID: 135926257}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -2955,6 +3113,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -3038,6 +3200,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &135926257
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 135926249}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0.00000023841858}
 --- !u!1 &139475974
 GameObject:
   m_ObjectHideFlags: 0
@@ -3204,6 +3378,7 @@ GameObject:
   - component: {fileID: 147080988}
   - component: {fileID: 147080987}
   - component: {fileID: 147080992}
+  - component: {fileID: 147080993}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -3250,6 +3425,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -3333,6 +3512,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &147080993
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 147080985}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1 &147521010
 GameObject:
   m_ObjectHideFlags: 0
@@ -3347,6 +3538,7 @@ GameObject:
   - component: {fileID: 147521013}
   - component: {fileID: 147521012}
   - component: {fileID: 147521017}
+  - component: {fileID: 147521018}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -3393,6 +3585,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -3476,6 +3672,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &147521018
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 147521010}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1 &148604997
 GameObject:
   m_ObjectHideFlags: 0
@@ -3782,6 +3990,7 @@ GameObject:
   - component: {fileID: 160303287}
   - component: {fileID: 160303286}
   - component: {fileID: 160303291}
+  - component: {fileID: 160303292}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -3828,6 +4037,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -3911,6 +4124,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &160303292
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 160303284}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0.00000047683716}
 --- !u!1 &167063398
 GameObject:
   m_ObjectHideFlags: 0
@@ -4085,6 +4310,7 @@ GameObject:
   - component: {fileID: 176578154}
   - component: {fileID: 176578153}
   - component: {fileID: 176578158}
+  - component: {fileID: 176578159}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -4131,6 +4357,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -4214,6 +4444,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &176578159
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 176578151}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0.00000047683716}
 --- !u!1001 &196805365
 Prefab:
   m_ObjectHideFlags: 0
@@ -4350,6 +4592,7 @@ GameObject:
   - component: {fileID: 204845402}
   - component: {fileID: 204845401}
   - component: {fileID: 204845406}
+  - component: {fileID: 204845407}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -4396,6 +4639,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -4479,6 +4726,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &204845407
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 204845399}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0.00000047683716}
 --- !u!1 &208851787
 GameObject:
   m_ObjectHideFlags: 0
@@ -4558,6 +4817,7 @@ GameObject:
   - component: {fileID: 212034735}
   - component: {fileID: 212034734}
   - component: {fileID: 212034739}
+  - component: {fileID: 212034740}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -4604,6 +4864,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 3
@@ -4687,6 +4951,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &212034740
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 212034732}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0.00000011920929}
 --- !u!1 &213551574
 GameObject:
   m_ObjectHideFlags: 0
@@ -4701,6 +4977,7 @@ GameObject:
   - component: {fileID: 213551577}
   - component: {fileID: 213551576}
   - component: {fileID: 213551581}
+  - component: {fileID: 213551582}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -4747,6 +5024,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -4830,6 +5111,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &213551582
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 213551574}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1 &218412370
 GameObject:
   m_ObjectHideFlags: 0
@@ -4943,6 +5236,7 @@ GameObject:
   - component: {fileID: 234777221}
   - component: {fileID: 234777220}
   - component: {fileID: 234777225}
+  - component: {fileID: 234777226}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -4989,6 +5283,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 3
@@ -5072,6 +5370,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &234777226
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 234777218}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1 &239624717
 GameObject:
   m_ObjectHideFlags: 0
@@ -5086,6 +5396,7 @@ GameObject:
   - component: {fileID: 239624720}
   - component: {fileID: 239624719}
   - component: {fileID: 239624724}
+  - component: {fileID: 239624725}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -5132,6 +5443,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents:
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
@@ -5215,6 +5530,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &239624725
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 239624717}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0.00000023841858}
 --- !u!1001 &245610645
 Prefab:
   m_ObjectHideFlags: 0
@@ -5303,6 +5630,7 @@ GameObject:
   - component: {fileID: 250161698}
   - component: {fileID: 250161697}
   - component: {fileID: 250161702}
+  - component: {fileID: 250161703}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -5349,6 +5677,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -5432,6 +5764,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &250161703
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 250161695}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1 &258131671 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 5d9223fd338d51c44a10b29684719367, type: 3}
@@ -5560,6 +5904,7 @@ GameObject:
   - component: {fileID: 272894625}
   - component: {fileID: 272894624}
   - component: {fileID: 272894629}
+  - component: {fileID: 272894630}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -5606,6 +5951,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -5689,6 +6038,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &272894630
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 272894622}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: -0.0000019073486, y: 0.15, z: 0}
 --- !u!1 &273084106
 GameObject:
   m_ObjectHideFlags: 0
@@ -5941,6 +6302,7 @@ GameObject:
   - component: {fileID: 287696265}
   - component: {fileID: 287696264}
   - component: {fileID: 287696269}
+  - component: {fileID: 287696270}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -5987,6 +6349,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -6070,6 +6436,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &287696270
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 287696262}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: -0.0000019073486, y: 0.15, z: 0.00000047683716}
 --- !u!1 &289360583
 GameObject:
   m_ObjectHideFlags: 0
@@ -6084,6 +6462,7 @@ GameObject:
   - component: {fileID: 289360586}
   - component: {fileID: 289360585}
   - component: {fileID: 289360590}
+  - component: {fileID: 289360591}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -6130,6 +6509,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -6213,6 +6596,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &289360591
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 289360583}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1001 &292943302
 Prefab:
   m_ObjectHideFlags: 0
@@ -6400,6 +6795,7 @@ GameObject:
   - component: {fileID: 298603698}
   - component: {fileID: 298603697}
   - component: {fileID: 298603702}
+  - component: {fileID: 298603703}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -6446,6 +6842,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents:
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
@@ -6529,6 +6929,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &298603703
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 298603695}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: -0.0000019073486, y: 0.15, z: 0}
 --- !u!1001 &299263530
 Prefab:
   m_ObjectHideFlags: 0
@@ -6617,6 +7029,7 @@ GameObject:
   - component: {fileID: 315309321}
   - component: {fileID: 315309320}
   - component: {fileID: 315309325}
+  - component: {fileID: 315309326}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -6663,6 +7076,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -6746,6 +7163,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &315309326
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 315309318}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: -0.0000019073486, y: 0.15, z: 0}
 --- !u!1001 &317575629
 Prefab:
   m_ObjectHideFlags: 0
@@ -6987,6 +7416,7 @@ GameObject:
   - component: {fileID: 325650546}
   - component: {fileID: 325650545}
   - component: {fileID: 325650550}
+  - component: {fileID: 325650551}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -7033,6 +7463,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 3
@@ -7116,6 +7550,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &325650551
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 325650543}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0.00000047683716}
 --- !u!1 &332549581
 GameObject:
   m_ObjectHideFlags: 0
@@ -7311,6 +7757,7 @@ GameObject:
   - component: {fileID: 339548189}
   - component: {fileID: 339548188}
   - component: {fileID: 339548193}
+  - component: {fileID: 339548194}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -7357,6 +7804,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -7440,6 +7891,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &339548194
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 339548186}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1 &345096541
 GameObject:
   m_ObjectHideFlags: 0
@@ -7454,6 +7917,7 @@ GameObject:
   - component: {fileID: 345096544}
   - component: {fileID: 345096543}
   - component: {fileID: 345096548}
+  - component: {fileID: 345096549}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -7500,6 +7964,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -7583,6 +8051,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &345096549
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 345096541}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0.00000023841858}
 --- !u!1001 &346809680
 Prefab:
   m_ObjectHideFlags: 0
@@ -7844,6 +8324,7 @@ GameObject:
   - component: {fileID: 363617221}
   - component: {fileID: 363617220}
   - component: {fileID: 363617225}
+  - component: {fileID: 363617226}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -7890,6 +8371,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 3
@@ -7973,6 +8458,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &363617226
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 363617218}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1 &365859605
 GameObject:
   m_ObjectHideFlags: 0
@@ -7987,6 +8484,7 @@ GameObject:
   - component: {fileID: 365859608}
   - component: {fileID: 365859607}
   - component: {fileID: 365859612}
+  - component: {fileID: 365859613}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -8033,6 +8531,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -8116,6 +8618,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &365859613
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 365859605}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: -0.00000023841858}
 --- !u!1 &367058602
 GameObject:
   m_ObjectHideFlags: 0
@@ -8130,6 +8644,7 @@ GameObject:
   - component: {fileID: 367058605}
   - component: {fileID: 367058604}
   - component: {fileID: 367058609}
+  - component: {fileID: 367058610}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -8176,6 +8691,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -8259,6 +8778,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &367058610
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 367058602}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0.00000047683716}
 --- !u!1 &382180033
 GameObject:
   m_ObjectHideFlags: 0
@@ -8273,6 +8804,7 @@ GameObject:
   - component: {fileID: 382180036}
   - component: {fileID: 382180035}
   - component: {fileID: 382180040}
+  - component: {fileID: 382180041}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -8319,6 +8851,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -8402,6 +8938,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &382180041
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 382180033}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0.00000047683716}
 --- !u!1 &382425716
 GameObject:
   m_ObjectHideFlags: 0
@@ -8458,6 +9006,7 @@ GameObject:
   - component: {fileID: 385141686}
   - component: {fileID: 385141685}
   - component: {fileID: 385141690}
+  - component: {fileID: 385141691}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -8504,6 +9053,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -8587,6 +9140,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &385141691
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 385141683}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0.00000047683716}
 --- !u!1 &398690071
 GameObject:
   m_ObjectHideFlags: 0
@@ -8601,6 +9166,7 @@ GameObject:
   - component: {fileID: 398690074}
   - component: {fileID: 398690073}
   - component: {fileID: 398690078}
+  - component: {fileID: 398690079}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -8647,6 +9213,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -8730,6 +9300,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &398690079
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 398690071}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1 &406793699
 GameObject:
   m_ObjectHideFlags: 0
@@ -8883,6 +9465,7 @@ GameObject:
   - component: {fileID: 424013187}
   - component: {fileID: 424013186}
   - component: {fileID: 424013191}
+  - component: {fileID: 424013192}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -8929,6 +9512,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -9012,6 +9599,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &424013192
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 424013184}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: -0.0000019073486, y: 0.15, z: 0}
 --- !u!1001 &424753749
 Prefab:
   m_ObjectHideFlags: 0
@@ -9174,6 +9773,7 @@ GameObject:
   - component: {fileID: 435960290}
   - component: {fileID: 435960289}
   - component: {fileID: 435960294}
+  - component: {fileID: 435960295}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -9220,6 +9820,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -9303,6 +9907,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &435960295
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 435960287}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0.00000023841858}
 --- !u!1 &440177342
 GameObject:
   m_ObjectHideFlags: 0
@@ -9317,6 +9933,7 @@ GameObject:
   - component: {fileID: 440177345}
   - component: {fileID: 440177344}
   - component: {fileID: 440177349}
+  - component: {fileID: 440177350}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -9363,6 +9980,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -9446,6 +10067,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &440177350
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 440177342}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: -0.0000019073486, y: 0.15, z: 0}
 --- !u!1 &445370083 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 5d9223fd338d51c44a10b29684719367, type: 3}
@@ -9480,6 +10113,7 @@ GameObject:
   - component: {fileID: 450571945}
   - component: {fileID: 450571944}
   - component: {fileID: 450571949}
+  - component: {fileID: 450571950}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -9526,6 +10160,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -9609,6 +10247,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &450571950
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 450571942}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0.00000047683716}
 --- !u!1 &451549289
 GameObject:
   m_ObjectHideFlags: 0
@@ -9722,6 +10372,7 @@ GameObject:
   - component: {fileID: 462031823}
   - component: {fileID: 462031822}
   - component: {fileID: 462031827}
+  - component: {fileID: 462031828}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -9768,6 +10419,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -9851,6 +10506,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &462031828
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 462031820}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: -0.0000019073486, y: 0.15, z: 0}
 --- !u!1 &462340294
 GameObject:
   m_ObjectHideFlags: 0
@@ -9865,6 +10532,7 @@ GameObject:
   - component: {fileID: 462340297}
   - component: {fileID: 462340296}
   - component: {fileID: 462340301}
+  - component: {fileID: 462340302}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -9911,6 +10579,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 3
@@ -9994,6 +10666,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &462340302
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 462340294}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: -0.0000019073486, y: 0.15, z: 0}
 --- !u!1001 &465249193
 Prefab:
   m_ObjectHideFlags: 0
@@ -10273,6 +10957,7 @@ GameObject:
   - component: {fileID: 506173523}
   - component: {fileID: 506173522}
   - component: {fileID: 506173527}
+  - component: {fileID: 506173528}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -10319,6 +11004,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -10402,6 +11091,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &506173528
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 506173520}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: -0.0000019073486, y: 0.15, z: 0}
 --- !u!1 &511708401 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 5d9223fd338d51c44a10b29684719367, type: 3}
@@ -10436,6 +11137,7 @@ GameObject:
   - component: {fileID: 524994055}
   - component: {fileID: 524994054}
   - component: {fileID: 524994059}
+  - component: {fileID: 524994060}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -10482,6 +11184,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -10565,6 +11271,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &524994060
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 524994052}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1 &534102452 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 5d9223fd338d51c44a10b29684719367, type: 3}
@@ -10698,6 +11416,7 @@ GameObject:
   - component: {fileID: 539217214}
   - component: {fileID: 539217213}
   - component: {fileID: 539217218}
+  - component: {fileID: 539217219}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -10744,6 +11463,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -10827,6 +11550,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &539217219
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 539217211}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0.00000023841858}
 --- !u!1001 &540017950
 Prefab:
   m_ObjectHideFlags: 0
@@ -11154,6 +11889,7 @@ GameObject:
   - component: {fileID: 564827520}
   - component: {fileID: 564827519}
   - component: {fileID: 564827524}
+  - component: {fileID: 564827525}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -11200,6 +11936,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -11283,6 +12023,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &564827525
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 564827517}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: -0.0000019073486, y: 0.15, z: 0}
 --- !u!1 &569574186
 GameObject:
   m_ObjectHideFlags: 0
@@ -11326,6 +12078,7 @@ GameObject:
   - component: {fileID: 573898539}
   - component: {fileID: 573898538}
   - component: {fileID: 573898543}
+  - component: {fileID: 573898544}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -11372,6 +12125,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -11455,6 +12212,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &573898544
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 573898536}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0.00000047683716}
 --- !u!1 &576170973
 GameObject:
   m_ObjectHideFlags: 0
@@ -11469,6 +12238,7 @@ GameObject:
   - component: {fileID: 576170976}
   - component: {fileID: 576170975}
   - component: {fileID: 576170980}
+  - component: {fileID: 576170981}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -11515,6 +12285,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -11598,6 +12372,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &576170981
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 576170973}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0.00000047683716}
 --- !u!1 &594267869 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 5d9223fd338d51c44a10b29684719367, type: 3}
@@ -11894,6 +12680,7 @@ GameObject:
   - component: {fileID: 628541615}
   - component: {fileID: 628541614}
   - component: {fileID: 628541619}
+  - component: {fileID: 628541620}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -11940,6 +12727,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -12023,6 +12814,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &628541620
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 628541612}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0.00000047683716}
 --- !u!1 &631466241
 GameObject:
   m_ObjectHideFlags: 0
@@ -12037,6 +12840,7 @@ GameObject:
   - component: {fileID: 631466244}
   - component: {fileID: 631466243}
   - component: {fileID: 631466248}
+  - component: {fileID: 631466249}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -12083,6 +12887,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 3
@@ -12166,6 +12974,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &631466249
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 631466241}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0.00000047683716}
 --- !u!1 &634625495 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 5d9223fd338d51c44a10b29684719367, type: 3}
@@ -12319,6 +13139,7 @@ GameObject:
   - component: {fileID: 654501370}
   - component: {fileID: 654501369}
   - component: {fileID: 654501374}
+  - component: {fileID: 654501375}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -12365,6 +13186,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 3
@@ -12448,6 +13273,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &654501375
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 654501367}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: -0.0000019073486, y: 0.15, z: 0.00000047683716}
 --- !u!1 &658721732
 GameObject:
   m_ObjectHideFlags: 0
@@ -12668,6 +13505,7 @@ GameObject:
   - component: {fileID: 682523746}
   - component: {fileID: 682523745}
   - component: {fileID: 682523750}
+  - component: {fileID: 682523751}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -12714,6 +13552,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -12797,6 +13639,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &682523751
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 682523743}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1 &687778933
 GameObject:
   m_ObjectHideFlags: 0
@@ -12842,6 +13696,7 @@ GameObject:
   - component: {fileID: 700059605}
   - component: {fileID: 700059604}
   - component: {fileID: 700059609}
+  - component: {fileID: 700059610}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -12888,6 +13743,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -12971,6 +13830,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &700059610
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 700059602}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1 &707743340
 GameObject:
   m_ObjectHideFlags: 0
@@ -12985,6 +13856,7 @@ GameObject:
   - component: {fileID: 707743343}
   - component: {fileID: 707743342}
   - component: {fileID: 707743347}
+  - component: {fileID: 707743348}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -13031,6 +13903,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 3
@@ -13114,6 +13990,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &707743348
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 707743340}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0.00000047683716}
 --- !u!1 &716914986
 GameObject:
   m_ObjectHideFlags: 0
@@ -13428,6 +14316,7 @@ GameObject:
   - component: {fileID: 733378287}
   - component: {fileID: 733378286}
   - component: {fileID: 733378291}
+  - component: {fileID: 733378292}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -13474,6 +14363,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -13557,6 +14450,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &733378292
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 733378284}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: -0.0000019073486, y: 0.15, z: 0.00000023841858}
 --- !u!1 &738622688 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 5d9223fd338d51c44a10b29684719367, type: 3}
@@ -14007,6 +14912,7 @@ GameObject:
   - component: {fileID: 777937627}
   - component: {fileID: 777937626}
   - component: {fileID: 777937631}
+  - component: {fileID: 777937632}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -14053,6 +14959,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 3
@@ -14136,6 +15046,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &777937632
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 777937624}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: -0.0000019073486, y: 0.15, z: 0.00000047683716}
 --- !u!1 &778235458
 GameObject:
   m_ObjectHideFlags: 0
@@ -14348,6 +15270,7 @@ GameObject:
   - component: {fileID: 785586098}
   - component: {fileID: 785586097}
   - component: {fileID: 785586102}
+  - component: {fileID: 785586103}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -14394,6 +15317,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -14477,6 +15404,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &785586103
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 785586095}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1 &797050453
 GameObject:
   m_ObjectHideFlags: 0
@@ -14491,6 +15430,7 @@ GameObject:
   - component: {fileID: 797050456}
   - component: {fileID: 797050455}
   - component: {fileID: 797050460}
+  - component: {fileID: 797050461}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -14537,6 +15477,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -14620,6 +15564,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &797050461
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 797050453}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: -0.0000019073486, y: 0.15, z: 0.00000011920929}
 --- !u!1 &801781338
 GameObject:
   m_ObjectHideFlags: 0
@@ -14733,6 +15689,7 @@ GameObject:
   - component: {fileID: 807231955}
   - component: {fileID: 807231954}
   - component: {fileID: 807231959}
+  - component: {fileID: 807231960}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -14779,6 +15736,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -14862,6 +15823,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &807231960
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 807231952}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1 &813602760
 GameObject:
   m_ObjectHideFlags: 0
@@ -14876,6 +15849,7 @@ GameObject:
   - component: {fileID: 813602763}
   - component: {fileID: 813602762}
   - component: {fileID: 813602767}
+  - component: {fileID: 813602768}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -14922,6 +15896,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -15005,6 +15983,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &813602768
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 813602760}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1 &816222219
 GameObject:
   m_ObjectHideFlags: 0
@@ -15158,6 +16148,7 @@ GameObject:
   - component: {fileID: 817353998}
   - component: {fileID: 817353997}
   - component: {fileID: 817354002}
+  - component: {fileID: 817354003}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -15204,6 +16195,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 3
@@ -15287,6 +16282,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &817354003
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 817353995}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1 &823821898
 GameObject:
   m_ObjectHideFlags: 0
@@ -15376,6 +16383,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -15725,6 +16736,7 @@ GameObject:
   - component: {fileID: 840093216}
   - component: {fileID: 840093215}
   - component: {fileID: 840093220}
+  - component: {fileID: 840093221}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -15771,6 +16783,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -15854,6 +16870,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &840093221
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 840093213}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1 &841119597
 GameObject:
   m_ObjectHideFlags: 0
@@ -15868,6 +16896,7 @@ GameObject:
   - component: {fileID: 841119600}
   - component: {fileID: 841119599}
   - component: {fileID: 841119604}
+  - component: {fileID: 841119605}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -15914,6 +16943,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -15997,6 +17030,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &841119605
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 841119597}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: -0.0000019073486, y: 0.15, z: 0.00000047683716}
 --- !u!1 &849157213
 GameObject:
   m_ObjectHideFlags: 0
@@ -16011,6 +17056,7 @@ GameObject:
   - component: {fileID: 849157216}
   - component: {fileID: 849157215}
   - component: {fileID: 849157220}
+  - component: {fileID: 849157221}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -16057,6 +17103,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -16140,6 +17190,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &849157221
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 849157213}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1 &851969300
 GameObject:
   m_ObjectHideFlags: 0
@@ -16202,6 +17264,7 @@ GameObject:
   - component: {fileID: 854525422}
   - component: {fileID: 854525421}
   - component: {fileID: 854525426}
+  - component: {fileID: 854525427}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -16248,6 +17311,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -16331,6 +17398,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &854525427
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 854525419}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0.00000047683716}
 --- !u!1 &859396984
 GameObject:
   m_ObjectHideFlags: 0
@@ -16444,6 +17523,7 @@ GameObject:
   - component: {fileID: 860246869}
   - component: {fileID: 860246868}
   - component: {fileID: 860246873}
+  - component: {fileID: 860246874}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -16490,6 +17570,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -16573,6 +17657,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &860246874
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 860246866}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0.00000011920929}
 --- !u!1 &873638541 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 5d9223fd338d51c44a10b29684719367, type: 3}
@@ -16607,6 +17703,7 @@ GameObject:
   - component: {fileID: 880090712}
   - component: {fileID: 880090711}
   - component: {fileID: 880090716}
+  - component: {fileID: 880090717}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -16653,6 +17750,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 3
@@ -16736,6 +17837,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &880090717
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 880090709}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: -0.0000019073486, y: 0.15, z: 0.00000047683716}
 --- !u!1 &896681588
 GameObject:
   m_ObjectHideFlags: 0
@@ -16750,6 +17863,7 @@ GameObject:
   - component: {fileID: 896681591}
   - component: {fileID: 896681590}
   - component: {fileID: 896681595}
+  - component: {fileID: 896681596}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -16796,6 +17910,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -16879,6 +17997,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &896681596
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 896681588}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1 &909910257
 GameObject:
   m_ObjectHideFlags: 0
@@ -17009,6 +18139,7 @@ GameObject:
   - component: {fileID: 929175083}
   - component: {fileID: 929175082}
   - component: {fileID: 929175087}
+  - component: {fileID: 929175088}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -17055,6 +18186,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -17138,6 +18273,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &929175088
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 929175080}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0.00000023841858}
 --- !u!1 &929449483
 GameObject:
   m_ObjectHideFlags: 0
@@ -17251,6 +18398,7 @@ GameObject:
   - component: {fileID: 934920723}
   - component: {fileID: 934920722}
   - component: {fileID: 934920727}
+  - component: {fileID: 934920728}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -17297,6 +18445,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -17380,6 +18532,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &934920728
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 934920720}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0.00000047683716}
 --- !u!1 &942288882
 GameObject:
   m_ObjectHideFlags: 0
@@ -17394,6 +18558,7 @@ GameObject:
   - component: {fileID: 942288885}
   - component: {fileID: 942288884}
   - component: {fileID: 942288889}
+  - component: {fileID: 942288890}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -17440,6 +18605,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -17523,6 +18692,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &942288890
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 942288882}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: -0.00000023841858}
 --- !u!1 &945582499
 GameObject:
   m_ObjectHideFlags: 0
@@ -17537,6 +18718,7 @@ GameObject:
   - component: {fileID: 945582502}
   - component: {fileID: 945582501}
   - component: {fileID: 945582506}
+  - component: {fileID: 945582507}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -17583,6 +18765,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 3
@@ -17666,6 +18852,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &945582507
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 945582499}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0.0000038146973, y: 0.15, z: 0.00000047683716}
 --- !u!1 &952256103
 GameObject:
   m_ObjectHideFlags: 0
@@ -17680,6 +18878,7 @@ GameObject:
   - component: {fileID: 952256106}
   - component: {fileID: 952256105}
   - component: {fileID: 952256110}
+  - component: {fileID: 952256111}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -17726,6 +18925,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -17809,6 +19012,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &952256111
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 952256103}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: -0.00000023841858}
 --- !u!1 &953201605
 GameObject:
   m_ObjectHideFlags: 0
@@ -17823,6 +19038,7 @@ GameObject:
   - component: {fileID: 953201608}
   - component: {fileID: 953201607}
   - component: {fileID: 953201612}
+  - component: {fileID: 953201613}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -17869,6 +19085,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -17952,6 +19172,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &953201613
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 953201605}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0.00000011920929}
 --- !u!1 &953673823 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 5d9223fd338d51c44a10b29684719367, type: 3}
@@ -17986,6 +19218,7 @@ GameObject:
   - component: {fileID: 954167728}
   - component: {fileID: 954167727}
   - component: {fileID: 954167732}
+  - component: {fileID: 954167733}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -18032,6 +19265,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -18115,6 +19352,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &954167733
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 954167725}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1 &957749798
 GameObject:
   m_ObjectHideFlags: 0
@@ -18228,6 +19477,7 @@ GameObject:
   - component: {fileID: 958755787}
   - component: {fileID: 958755786}
   - component: {fileID: 958755791}
+  - component: {fileID: 958755792}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -18274,6 +19524,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 3
@@ -18357,6 +19611,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &958755792
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 958755784}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: -0.0000019073486, y: 0.15, z: 0.00000047683716}
 --- !u!1 &969749597
 GameObject:
   m_ObjectHideFlags: 0
@@ -18402,6 +19668,7 @@ GameObject:
   - component: {fileID: 977854364}
   - component: {fileID: 977854363}
   - component: {fileID: 977854368}
+  - component: {fileID: 977854369}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -18448,6 +19715,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -18531,6 +19802,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &977854369
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 977854361}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1 &996748860
 GameObject:
   m_ObjectHideFlags: 0
@@ -18545,6 +19828,7 @@ GameObject:
   - component: {fileID: 996748863}
   - component: {fileID: 996748862}
   - component: {fileID: 996748867}
+  - component: {fileID: 996748868}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -18591,6 +19875,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents:
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
@@ -18674,6 +19962,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &996748868
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 996748860}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: -0.00000011920929}
 --- !u!1001 &1006267525
 Prefab:
   m_ObjectHideFlags: 0
@@ -18869,6 +20169,7 @@ GameObject:
   - component: {fileID: 1014650572}
   - component: {fileID: 1014650571}
   - component: {fileID: 1014650576}
+  - component: {fileID: 1014650577}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -18915,6 +20216,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -18998,6 +20303,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1014650577
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1014650569}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: -0.0000019073486, y: 0.15, z: 0.00000047683716}
 --- !u!1 &1027375448 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 5d9223fd338d51c44a10b29684719367, type: 3}
@@ -19170,6 +20487,7 @@ GameObject:
   - component: {fileID: 1037392169}
   - component: {fileID: 1037392168}
   - component: {fileID: 1037392173}
+  - component: {fileID: 1037392174}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -19216,6 +20534,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -19299,6 +20621,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1037392174
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1037392166}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1 &1039749053
 GameObject:
   m_ObjectHideFlags: 0
@@ -19675,6 +21009,7 @@ GameObject:
   - component: {fileID: 1060870496}
   - component: {fileID: 1060870495}
   - component: {fileID: 1060870500}
+  - component: {fileID: 1060870501}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -19721,6 +21056,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -19804,6 +21143,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1060870501
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1060870493}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0.00000047683716}
 --- !u!1 &1071340034
 GameObject:
   m_ObjectHideFlags: 0
@@ -19818,6 +21169,7 @@ GameObject:
   - component: {fileID: 1071340037}
   - component: {fileID: 1071340036}
   - component: {fileID: 1071340041}
+  - component: {fileID: 1071340042}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -19864,6 +21216,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -19947,6 +21303,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1071340042
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1071340034}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: -0.0000019073486, y: 0.15, z: 0.00000047683716}
 --- !u!1 &1076517655
 GameObject:
   m_ObjectHideFlags: 0
@@ -19961,6 +21329,7 @@ GameObject:
   - component: {fileID: 1076517658}
   - component: {fileID: 1076517657}
   - component: {fileID: 1076517662}
+  - component: {fileID: 1076517663}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -20007,6 +21376,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -20090,6 +21463,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1076517663
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1076517655}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1 &1077028123
 GameObject:
   m_ObjectHideFlags: 0
@@ -20104,6 +21489,7 @@ GameObject:
   - component: {fileID: 1077028126}
   - component: {fileID: 1077028125}
   - component: {fileID: 1077028130}
+  - component: {fileID: 1077028131}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -20150,6 +21536,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -20233,6 +21623,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1077028131
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1077028123}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1 &1079819524 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 5d9223fd338d51c44a10b29684719367, type: 3}
@@ -20267,6 +21669,7 @@ GameObject:
   - component: {fileID: 1084087047}
   - component: {fileID: 1084087046}
   - component: {fileID: 1084087051}
+  - component: {fileID: 1084087052}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -20313,6 +21716,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -20396,6 +21803,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1084087052
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1084087044}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: -0.0000019073486, y: 0.15, z: 0.00000023841858}
 --- !u!1 &1084868275 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 5d9223fd338d51c44a10b29684719367, type: 3}
@@ -20546,6 +21965,7 @@ GameObject:
   - component: {fileID: 1105452174}
   - component: {fileID: 1105452173}
   - component: {fileID: 1105452178}
+  - component: {fileID: 1105452179}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -20592,6 +22012,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -20675,6 +22099,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1105452179
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1105452171}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1 &1111442432
 GameObject:
   m_ObjectHideFlags: 0
@@ -20837,6 +22273,7 @@ GameObject:
   - component: {fileID: 1118716992}
   - component: {fileID: 1118716991}
   - component: {fileID: 1118716996}
+  - component: {fileID: 1118716997}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -20883,6 +22320,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents:
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
@@ -20966,6 +22407,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1118716997
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1118716989}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1 &1123132407
 GameObject:
   m_ObjectHideFlags: 0
@@ -20980,6 +22433,7 @@ GameObject:
   - component: {fileID: 1123132410}
   - component: {fileID: 1123132409}
   - component: {fileID: 1123132414}
+  - component: {fileID: 1123132415}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -21026,6 +22480,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 3
@@ -21109,6 +22567,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1123132415
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1123132407}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1 &1125767469
 GameObject:
   m_ObjectHideFlags: 0
@@ -21264,6 +22734,7 @@ GameObject:
   - component: {fileID: 1126301442}
   - component: {fileID: 1126301441}
   - component: {fileID: 1126301446}
+  - component: {fileID: 1126301447}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -21310,6 +22781,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -21393,6 +22868,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1126301447
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1126301439}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: -0.0000019073486, y: 0.15, z: 0.00000047683716}
 --- !u!1001 &1134989817
 Prefab:
   m_ObjectHideFlags: 0
@@ -21481,6 +22968,7 @@ GameObject:
   - component: {fileID: 1140165805}
   - component: {fileID: 1140165804}
   - component: {fileID: 1140165809}
+  - component: {fileID: 1140165810}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -21527,6 +23015,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -21610,6 +23102,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1140165810
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1140165802}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: -0.0000019073486, y: 0.15, z: 0}
 --- !u!1 &1144947149
 GameObject:
   m_ObjectHideFlags: 0
@@ -21624,6 +23128,7 @@ GameObject:
   - component: {fileID: 1144947152}
   - component: {fileID: 1144947151}
   - component: {fileID: 1144947156}
+  - component: {fileID: 1144947157}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -21670,6 +23175,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 3
@@ -21753,6 +23262,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1144947157
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1144947149}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1 &1147649681
 GameObject:
   m_ObjectHideFlags: 0
@@ -21767,6 +23288,7 @@ GameObject:
   - component: {fileID: 1147649684}
   - component: {fileID: 1147649683}
   - component: {fileID: 1147649688}
+  - component: {fileID: 1147649689}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -21813,6 +23335,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -21896,6 +23422,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1147649689
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1147649681}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1001 &1157476597
 Prefab:
   m_ObjectHideFlags: 0
@@ -22148,6 +23686,7 @@ GameObject:
   - component: {fileID: 1165319145}
   - component: {fileID: 1165319144}
   - component: {fileID: 1165319149}
+  - component: {fileID: 1165319150}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -22194,6 +23733,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -22277,6 +23820,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1165319150
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1165319142}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1 &1167016685
 GameObject:
   m_ObjectHideFlags: 0
@@ -22291,6 +23846,7 @@ GameObject:
   - component: {fileID: 1167016688}
   - component: {fileID: 1167016687}
   - component: {fileID: 1167016692}
+  - component: {fileID: 1167016693}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -22337,6 +23893,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -22420,6 +23980,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1167016693
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1167016685}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0.00000023841858}
 --- !u!1 &1171524188 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 5d9223fd338d51c44a10b29684719367, type: 3}
@@ -22548,6 +24120,7 @@ GameObject:
   - component: {fileID: 1186931769}
   - component: {fileID: 1186931768}
   - component: {fileID: 1186931773}
+  - component: {fileID: 1186931774}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -22594,6 +24167,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -22677,6 +24254,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1186931774
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1186931766}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0.00000047683716}
 --- !u!1 &1187470303
 GameObject:
   m_ObjectHideFlags: 0
@@ -22691,6 +24280,7 @@ GameObject:
   - component: {fileID: 1187470306}
   - component: {fileID: 1187470305}
   - component: {fileID: 1187470310}
+  - component: {fileID: 1187470311}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -22737,6 +24327,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -22820,6 +24414,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1187470311
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1187470303}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: -0.0000019073486, y: 0.15, z: 0.00000011920929}
 --- !u!1 &1199710084
 GameObject:
   m_ObjectHideFlags: 0
@@ -22834,6 +24440,7 @@ GameObject:
   - component: {fileID: 1199710087}
   - component: {fileID: 1199710086}
   - component: {fileID: 1199710091}
+  - component: {fileID: 1199710092}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -22880,6 +24487,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -22963,6 +24574,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1199710092
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1199710084}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1 &1203057762
 GameObject:
   m_ObjectHideFlags: 0
@@ -23038,6 +24661,7 @@ GameObject:
   - component: {fileID: 1211835467}
   - component: {fileID: 1211835466}
   - component: {fileID: 1211835471}
+  - component: {fileID: 1211835472}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -23084,6 +24708,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -23167,6 +24795,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1211835472
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1211835464}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0.00000011920929}
 --- !u!1 &1212905014
 GameObject:
   m_ObjectHideFlags: 0
@@ -23341,6 +24981,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -23557,6 +25201,7 @@ GameObject:
   - component: {fileID: 1228785514}
   - component: {fileID: 1228785513}
   - component: {fileID: 1228785518}
+  - component: {fileID: 1228785519}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -23603,6 +25248,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -23686,6 +25335,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1228785519
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1228785511}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: -0.0000019073486, y: 0.15, z: 0.00000047683716}
 --- !u!1 &1231403686 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 5d9223fd338d51c44a10b29684719367, type: 3}
@@ -23720,6 +25381,7 @@ GameObject:
   - component: {fileID: 1244174224}
   - component: {fileID: 1244174223}
   - component: {fileID: 1244174228}
+  - component: {fileID: 1244174229}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -23766,6 +25428,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents:
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
@@ -23849,6 +25515,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1244174229
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1244174221}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: -0.0000019073486, y: 0.15, z: -0.00000011920929}
 --- !u!1 &1257558419
 GameObject:
   m_ObjectHideFlags: 0
@@ -23863,6 +25541,7 @@ GameObject:
   - component: {fileID: 1257558422}
   - component: {fileID: 1257558421}
   - component: {fileID: 1257558426}
+  - component: {fileID: 1257558427}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -23909,6 +25588,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -23992,6 +25675,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1257558427
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1257558419}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1 &1260307933
 GameObject:
   m_ObjectHideFlags: 0
@@ -24172,6 +25867,7 @@ GameObject:
   - component: {fileID: 1262756101}
   - component: {fileID: 1262756100}
   - component: {fileID: 1262756105}
+  - component: {fileID: 1262756106}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -24218,6 +25914,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 3
@@ -24301,6 +26001,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1262756106
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1262756098}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0.00000047683716}
 --- !u!1 &1275616762
 GameObject:
   m_ObjectHideFlags: 0
@@ -24364,6 +26076,7 @@ GameObject:
   - component: {fileID: 1275750776}
   - component: {fileID: 1275750775}
   - component: {fileID: 1275750780}
+  - component: {fileID: 1275750781}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -24410,6 +26123,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -24493,6 +26210,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1275750781
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1275750773}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0.00000047683716}
 --- !u!1 &1294383209
 GameObject:
   m_ObjectHideFlags: 0
@@ -24572,6 +26301,7 @@ GameObject:
   - component: {fileID: 1306882863}
   - component: {fileID: 1306882862}
   - component: {fileID: 1306882867}
+  - component: {fileID: 1306882868}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -24618,6 +26348,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -24701,6 +26435,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1306882868
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1306882860}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: -0.00000011920929}
 --- !u!1001 &1307072437
 Prefab:
   m_ObjectHideFlags: 0
@@ -25220,6 +26966,7 @@ GameObject:
   - component: {fileID: 1351713877}
   - component: {fileID: 1351713876}
   - component: {fileID: 1351713881}
+  - component: {fileID: 1351713882}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -25266,6 +27013,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -25349,6 +27100,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1351713882
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1351713874}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0.00000047683716}
 --- !u!1 &1354418665
 GameObject:
   m_ObjectHideFlags: 0
@@ -25448,6 +27211,7 @@ GameObject:
   - component: {fileID: 1364644704}
   - component: {fileID: 1364644703}
   - component: {fileID: 1364644708}
+  - component: {fileID: 1364644709}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -25494,6 +27258,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -25577,6 +27345,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1364644709
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1364644701}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: -0.0000019073486, y: 0.15, z: 0}
 --- !u!1 &1366354427
 GameObject:
   m_ObjectHideFlags: 0
@@ -25591,6 +27371,7 @@ GameObject:
   - component: {fileID: 1366354430}
   - component: {fileID: 1366354429}
   - component: {fileID: 1366354434}
+  - component: {fileID: 1366354435}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -25637,6 +27418,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -25720,6 +27505,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1366354435
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1366354427}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: -0.0000019073486, y: 0.15, z: -0.00000023841858}
 --- !u!1 &1367846355 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 5d9223fd338d51c44a10b29684719367, type: 3}
@@ -25774,6 +27571,7 @@ GameObject:
   - component: {fileID: 1388768183}
   - component: {fileID: 1388768182}
   - component: {fileID: 1388768187}
+  - component: {fileID: 1388768188}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -25820,6 +27618,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -25903,6 +27705,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1388768188
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1388768180}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: -0.0000019073486, y: 0.15, z: 0.00000047683716}
 --- !u!1 &1394354568
 GameObject:
   m_ObjectHideFlags: 0
@@ -25917,6 +27731,7 @@ GameObject:
   - component: {fileID: 1394354571}
   - component: {fileID: 1394354570}
   - component: {fileID: 1394354575}
+  - component: {fileID: 1394354576}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -25963,6 +27778,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -26046,6 +27865,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1394354576
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1394354568}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0.00000047683716}
 --- !u!1001 &1412180883
 Prefab:
   m_ObjectHideFlags: 0
@@ -26134,6 +27965,7 @@ GameObject:
   - component: {fileID: 1413211906}
   - component: {fileID: 1413211905}
   - component: {fileID: 1413211910}
+  - component: {fileID: 1413211911}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -26180,6 +28012,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 3
@@ -26263,6 +28099,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1413211911
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1413211903}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1 &1419345214
 GameObject:
   m_ObjectHideFlags: 0
@@ -26277,6 +28125,7 @@ GameObject:
   - component: {fileID: 1419345217}
   - component: {fileID: 1419345216}
   - component: {fileID: 1419345221}
+  - component: {fileID: 1419345222}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -26323,6 +28172,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -26406,6 +28259,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1419345222
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1419345214}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: -0.0000019073486, y: 0.15, z: 0.00000047683716}
 --- !u!1 &1424689776
 GameObject:
   m_ObjectHideFlags: 0
@@ -26546,6 +28411,7 @@ GameObject:
   - component: {fileID: 1429489071}
   - component: {fileID: 1429489070}
   - component: {fileID: 1429489075}
+  - component: {fileID: 1429489076}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -26592,6 +28458,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -26675,6 +28545,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1429489076
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1429489068}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1 &1435292446
 GameObject:
   m_ObjectHideFlags: 0
@@ -26689,6 +28571,7 @@ GameObject:
   - component: {fileID: 1435292449}
   - component: {fileID: 1435292448}
   - component: {fileID: 1435292453}
+  - component: {fileID: 1435292454}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -26735,6 +28618,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -26818,6 +28705,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1435292454
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1435292446}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1 &1436338951
 GameObject:
   m_ObjectHideFlags: 0
@@ -26832,6 +28731,7 @@ GameObject:
   - component: {fileID: 1436338954}
   - component: {fileID: 1436338953}
   - component: {fileID: 1436338958}
+  - component: {fileID: 1436338959}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -26878,6 +28778,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -26961,6 +28865,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1436338959
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1436338951}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1 &1453249462
 GameObject:
   m_ObjectHideFlags: 0
@@ -26975,6 +28891,7 @@ GameObject:
   - component: {fileID: 1453249465}
   - component: {fileID: 1453249464}
   - component: {fileID: 1453249469}
+  - component: {fileID: 1453249470}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -27021,6 +28938,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -27104,6 +29025,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1453249470
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1453249462}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1 &1465172493
 GameObject:
   m_ObjectHideFlags: 0
@@ -27257,6 +29190,7 @@ GameObject:
   - component: {fileID: 1466696722}
   - component: {fileID: 1466696721}
   - component: {fileID: 1466696726}
+  - component: {fileID: 1466696727}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -27303,6 +29237,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 3
@@ -27386,6 +29324,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1466696727
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1466696719}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0.00000047683716}
 --- !u!1 &1468090310
 GameObject:
   m_ObjectHideFlags: 0
@@ -27400,6 +29350,7 @@ GameObject:
   - component: {fileID: 1468090313}
   - component: {fileID: 1468090312}
   - component: {fileID: 1468090317}
+  - component: {fileID: 1468090318}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -27446,6 +29397,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -27529,6 +29484,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1468090318
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1468090310}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: -0.00000023841858}
 --- !u!1 &1468957563
 GameObject:
   m_ObjectHideFlags: 0
@@ -27543,6 +29510,7 @@ GameObject:
   - component: {fileID: 1468957566}
   - component: {fileID: 1468957565}
   - component: {fileID: 1468957570}
+  - component: {fileID: 1468957571}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -27589,6 +29557,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -27672,6 +29644,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1468957571
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1468957563}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: -0.0000019073486, y: 0.15, z: 0.00000047683716}
 --- !u!1 &1480688920
 GameObject:
   m_ObjectHideFlags: 0
@@ -27686,6 +29670,7 @@ GameObject:
   - component: {fileID: 1480688923}
   - component: {fileID: 1480688922}
   - component: {fileID: 1480688927}
+  - component: {fileID: 1480688928}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -27732,6 +29717,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -27815,6 +29804,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1480688928
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1480688920}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: -0.00000011920929}
 --- !u!1 &1492172657
 GameObject:
   m_ObjectHideFlags: 0
@@ -27829,6 +29830,7 @@ GameObject:
   - component: {fileID: 1492172660}
   - component: {fileID: 1492172659}
   - component: {fileID: 1492172664}
+  - component: {fileID: 1492172665}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -27875,6 +29877,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -27958,6 +29964,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1492172665
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1492172657}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1 &1492783456
 GameObject:
   m_ObjectHideFlags: 0
@@ -28091,6 +30109,7 @@ GameObject:
   - component: {fileID: 1517256119}
   - component: {fileID: 1517256118}
   - component: {fileID: 1517256123}
+  - component: {fileID: 1517256124}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -28137,6 +30156,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 3
@@ -28220,6 +30243,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1517256124
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1517256116}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: -0.00000023841858}
 --- !u!1 &1520368028
 GameObject:
   m_ObjectHideFlags: 0
@@ -28350,6 +30385,7 @@ GameObject:
   - component: {fileID: 1529754747}
   - component: {fileID: 1529754746}
   - component: {fileID: 1529754751}
+  - component: {fileID: 1529754752}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -28396,6 +30432,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -28479,6 +30519,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1529754752
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1529754744}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: -0.00000011920929}
 --- !u!1 &1531299672
 GameObject:
   m_ObjectHideFlags: 0
@@ -28493,6 +30545,7 @@ GameObject:
   - component: {fileID: 1531299675}
   - component: {fileID: 1531299674}
   - component: {fileID: 1531299679}
+  - component: {fileID: 1531299680}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -28539,6 +30592,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -28622,6 +30679,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1531299680
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1531299672}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1 &1533271998
 GameObject:
   m_ObjectHideFlags: 0
@@ -28636,6 +30705,7 @@ GameObject:
   - component: {fileID: 1533272001}
   - component: {fileID: 1533272000}
   - component: {fileID: 1533272005}
+  - component: {fileID: 1533272006}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -28682,6 +30752,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 3
@@ -28765,6 +30839,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1533272006
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1533271998}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0.00000047683716}
 --- !u!1 &1536767639
 GameObject:
   m_ObjectHideFlags: 0
@@ -28779,6 +30865,7 @@ GameObject:
   - component: {fileID: 1536767642}
   - component: {fileID: 1536767641}
   - component: {fileID: 1536767646}
+  - component: {fileID: 1536767647}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -28825,6 +30912,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -28908,6 +30999,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1536767647
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1536767639}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0.00000047683716}
 --- !u!1 &1537034987
 GameObject:
   m_ObjectHideFlags: 0
@@ -28922,6 +31025,7 @@ GameObject:
   - component: {fileID: 1537034990}
   - component: {fileID: 1537034989}
   - component: {fileID: 1537034994}
+  - component: {fileID: 1537034995}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -28968,6 +31072,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -29051,6 +31159,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1537034995
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1537034987}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: -0.0000019073486, y: 0.15, z: 0}
 --- !u!1001 &1537643489
 Prefab:
   m_ObjectHideFlags: 0
@@ -29139,6 +31259,7 @@ GameObject:
   - component: {fileID: 1538536109}
   - component: {fileID: 1538536108}
   - component: {fileID: 1538536113}
+  - component: {fileID: 1538536114}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -29185,6 +31306,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -29268,6 +31393,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1538536114
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1538536106}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: -0.00000023841858}
 --- !u!1 &1552143721 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 5d9223fd338d51c44a10b29684719367, type: 3}
@@ -29376,6 +31513,7 @@ GameObject:
   - component: {fileID: 1559005180}
   - component: {fileID: 1559005179}
   - component: {fileID: 1559005184}
+  - component: {fileID: 1559005185}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -29422,6 +31560,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -29505,6 +31647,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1559005185
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1559005177}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1 &1560642734
 GameObject:
   m_ObjectHideFlags: 0
@@ -29618,6 +31772,7 @@ GameObject:
   - component: {fileID: 1562269162}
   - component: {fileID: 1562269161}
   - component: {fileID: 1562269166}
+  - component: {fileID: 1562269167}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -29664,6 +31819,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 3
@@ -29747,6 +31906,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1562269167
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1562269159}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0.00000047683716}
 --- !u!1 &1563831465
 GameObject:
   m_ObjectHideFlags: 0
@@ -29761,6 +31932,7 @@ GameObject:
   - component: {fileID: 1563831468}
   - component: {fileID: 1563831467}
   - component: {fileID: 1563831472}
+  - component: {fileID: 1563831473}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -29807,6 +31979,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -29890,6 +32066,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1563831473
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1563831465}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: -0.0000019073486, y: 0.15, z: 0}
 --- !u!1 &1566647461
 GameObject:
   m_ObjectHideFlags: 0
@@ -29904,6 +32092,7 @@ GameObject:
   - component: {fileID: 1566647464}
   - component: {fileID: 1566647463}
   - component: {fileID: 1566647468}
+  - component: {fileID: 1566647469}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -29950,6 +32139,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -30033,6 +32226,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1566647469
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1566647461}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1001 &1571879074
 Prefab:
   m_ObjectHideFlags: 0
@@ -30121,6 +32326,7 @@ GameObject:
   - component: {fileID: 1571956707}
   - component: {fileID: 1571956706}
   - component: {fileID: 1571956711}
+  - component: {fileID: 1571956712}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -30167,6 +32373,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -30250,6 +32460,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1571956712
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1571956704}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0.0000038146973, y: 0.15, z: 0}
 --- !u!1 &1584231661
 GameObject:
   m_ObjectHideFlags: 0
@@ -30350,6 +32572,7 @@ GameObject:
   - component: {fileID: 1598902114}
   - component: {fileID: 1598902113}
   - component: {fileID: 1598902118}
+  - component: {fileID: 1598902119}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -30396,6 +32619,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -30479,6 +32706,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1598902119
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1598902111}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: -0.0000019073486, y: 0.15, z: 0}
 --- !u!1 &1602838484
 GameObject:
   m_ObjectHideFlags: 0
@@ -30592,6 +32831,7 @@ GameObject:
   - component: {fileID: 1607166038}
   - component: {fileID: 1607166037}
   - component: {fileID: 1607166042}
+  - component: {fileID: 1607166043}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -30638,6 +32878,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -30721,6 +32965,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1607166043
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1607166035}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0.00000047683716}
 --- !u!1001 &1626285942
 Prefab:
   m_ObjectHideFlags: 0
@@ -30908,6 +33164,7 @@ GameObject:
   - component: {fileID: 1640018025}
   - component: {fileID: 1640018024}
   - component: {fileID: 1640018029}
+  - component: {fileID: 1640018030}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -30954,6 +33211,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -31037,6 +33298,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1640018030
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1640018022}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1001 &1647480174
 Prefab:
   m_ObjectHideFlags: 0
@@ -31145,6 +33418,7 @@ GameObject:
   - component: {fileID: 1654001977}
   - component: {fileID: 1654001976}
   - component: {fileID: 1654001981}
+  - component: {fileID: 1654001982}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -31191,6 +33465,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -31274,6 +33552,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1654001982
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1654001974}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: -0.0000019073486, y: 0.15, z: 0.00000047683716}
 --- !u!1 &1657008478 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 5d9223fd338d51c44a10b29684719367, type: 3}
@@ -31967,6 +34257,7 @@ GameObject:
   - component: {fileID: 1707666429}
   - component: {fileID: 1707666428}
   - component: {fileID: 1707666433}
+  - component: {fileID: 1707666434}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -32013,6 +34304,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -32096,6 +34391,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1707666434
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1707666426}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1 &1711806660
 GameObject:
   m_ObjectHideFlags: 0
@@ -32226,6 +34533,7 @@ GameObject:
   - component: {fileID: 1721464010}
   - component: {fileID: 1721464009}
   - component: {fileID: 1721464014}
+  - component: {fileID: 1721464015}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -32272,6 +34580,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -32355,6 +34667,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1721464015
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1721464007}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: -0.0000019073486, y: 0.15, z: 0.00000047683716}
 --- !u!1 &1723210094
 GameObject:
   m_ObjectHideFlags: 0
@@ -32369,6 +34693,7 @@ GameObject:
   - component: {fileID: 1723210097}
   - component: {fileID: 1723210096}
   - component: {fileID: 1723210101}
+  - component: {fileID: 1723210102}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -32415,6 +34740,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -32498,6 +34827,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1723210102
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1723210094}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0.00000011920929}
 --- !u!1 &1724796943
 GameObject:
   m_ObjectHideFlags: 0
@@ -32794,6 +35135,7 @@ GameObject:
   - component: {fileID: 1754455812}
   - component: {fileID: 1754455811}
   - component: {fileID: 1754455816}
+  - component: {fileID: 1754455817}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -32840,6 +35182,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -32923,6 +35269,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1754455817
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1754455809}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: -0.0000019073486, y: 0.15, z: 0.00000047683716}
 --- !u!1 &1760477449
 GameObject:
   m_ObjectHideFlags: 0
@@ -32989,6 +35347,7 @@ GameObject:
   - component: {fileID: 1764667935}
   - component: {fileID: 1764667934}
   - component: {fileID: 1764667939}
+  - component: {fileID: 1764667940}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -33035,6 +35394,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -33118,6 +35481,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1764667940
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1764667932}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: -0.0000019073486, y: 0.15, z: 0}
 --- !u!1 &1770084039 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 5d9223fd338d51c44a10b29684719367, type: 3}
@@ -33152,6 +35527,7 @@ GameObject:
   - component: {fileID: 1776473973}
   - component: {fileID: 1776473972}
   - component: {fileID: 1776473977}
+  - component: {fileID: 1776473978}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -33198,6 +35574,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 3
@@ -33281,6 +35661,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1776473978
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1776473970}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0.00000047683716}
 --- !u!1001 &1779312336
 Prefab:
   m_ObjectHideFlags: 0
@@ -33369,6 +35761,7 @@ GameObject:
   - component: {fileID: 1789614390}
   - component: {fileID: 1789614389}
   - component: {fileID: 1789614394}
+  - component: {fileID: 1789614395}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -33415,6 +35808,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -33498,6 +35895,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1789614395
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1789614387}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1 &1799120536
 GameObject:
   m_ObjectHideFlags: 0
@@ -33512,6 +35921,7 @@ GameObject:
   - component: {fileID: 1799120539}
   - component: {fileID: 1799120538}
   - component: {fileID: 1799120543}
+  - component: {fileID: 1799120544}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -33558,6 +35968,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -33641,6 +36055,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1799120544
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1799120536}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1 &1799536557
 GameObject:
   m_ObjectHideFlags: 0
@@ -33655,6 +36081,7 @@ GameObject:
   - component: {fileID: 1799536560}
   - component: {fileID: 1799536559}
   - component: {fileID: 1799536564}
+  - component: {fileID: 1799536565}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -33701,6 +36128,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents:
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
@@ -33784,6 +36215,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1799536565
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1799536557}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1 &1804774520
 GameObject:
   m_ObjectHideFlags: 0
@@ -33840,6 +36283,7 @@ GameObject:
   - component: {fileID: 1813325831}
   - component: {fileID: 1813325830}
   - component: {fileID: 1813325835}
+  - component: {fileID: 1813325836}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -33886,6 +36330,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -33969,6 +36417,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1813325836
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1813325828}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0.00000047683716}
 --- !u!1 &1814620115 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 5d9223fd338d51c44a10b29684719367, type: 3}
@@ -34044,6 +36504,7 @@ GameObject:
   - component: {fileID: 1822545437}
   - component: {fileID: 1822545436}
   - component: {fileID: 1822545441}
+  - component: {fileID: 1822545442}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -34090,6 +36551,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 3
@@ -34173,6 +36638,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1822545442
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1822545434}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1 &1824586870
 GameObject:
   m_ObjectHideFlags: 0
@@ -34187,6 +36664,7 @@ GameObject:
   - component: {fileID: 1824586873}
   - component: {fileID: 1824586872}
   - component: {fileID: 1824586877}
+  - component: {fileID: 1824586878}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -34233,6 +36711,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -34316,6 +36798,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1824586878
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1824586870}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1 &1828140583
 GameObject:
   m_ObjectHideFlags: 0
@@ -34577,6 +37071,7 @@ GameObject:
   - component: {fileID: 1846939593}
   - component: {fileID: 1846939592}
   - component: {fileID: 1846939597}
+  - component: {fileID: 1846939598}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -34623,6 +37118,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -34706,6 +37205,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1846939598
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1846939590}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0.00000047683716}
 --- !u!1 &1862551978
 GameObject:
   m_ObjectHideFlags: 0
@@ -34720,6 +37231,7 @@ GameObject:
   - component: {fileID: 1862551981}
   - component: {fileID: 1862551980}
   - component: {fileID: 1862551985}
+  - component: {fileID: 1862551986}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -34766,6 +37278,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 3
@@ -34849,6 +37365,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1862551986
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1862551978}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: -0.0000019073486, y: 0.15, z: 0.00000047683716}
 --- !u!1 &1863135540
 GameObject:
   m_ObjectHideFlags: 0
@@ -34863,6 +37391,7 @@ GameObject:
   - component: {fileID: 1863135543}
   - component: {fileID: 1863135542}
   - component: {fileID: 1863135547}
+  - component: {fileID: 1863135548}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -34909,6 +37438,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -34992,6 +37525,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1863135548
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1863135540}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: -0.00000023841858}
 --- !u!1001 &1873399586
 Prefab:
   m_ObjectHideFlags: 0
@@ -35080,6 +37625,7 @@ GameObject:
   - component: {fileID: 1875741573}
   - component: {fileID: 1875741572}
   - component: {fileID: 1875741577}
+  - component: {fileID: 1875741578}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -35126,6 +37672,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -35209,6 +37759,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1875741578
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1875741570}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: -0.0000019073486, y: 0.15, z: 0}
 --- !u!1 &1876074313
 GameObject:
   m_ObjectHideFlags: 0
@@ -35223,6 +37785,7 @@ GameObject:
   - component: {fileID: 1876074316}
   - component: {fileID: 1876074315}
   - component: {fileID: 1876074320}
+  - component: {fileID: 1876074321}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -35269,6 +37832,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -35352,6 +37919,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1876074321
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1876074313}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0.00000047683716}
 --- !u!1 &1876168603
 GameObject:
   m_ObjectHideFlags: 0
@@ -35366,6 +37945,7 @@ GameObject:
   - component: {fileID: 1876168606}
   - component: {fileID: 1876168605}
   - component: {fileID: 1876168610}
+  - component: {fileID: 1876168611}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -35412,6 +37992,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -35495,6 +38079,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1876168611
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1876168603}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: -0.00000023841858}
 --- !u!1 &1882217866
 GameObject:
   m_ObjectHideFlags: 0
@@ -35802,6 +38398,7 @@ GameObject:
   - component: {fileID: 1918361062}
   - component: {fileID: 1918361061}
   - component: {fileID: 1918361066}
+  - component: {fileID: 1918361067}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -35848,6 +38445,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -35931,6 +38532,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1918361067
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1918361059}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1 &1925162973
 GameObject:
   m_ObjectHideFlags: 0
@@ -35945,6 +38558,7 @@ GameObject:
   - component: {fileID: 1925162976}
   - component: {fileID: 1925162975}
   - component: {fileID: 1925162980}
+  - component: {fileID: 1925162981}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -35991,6 +38605,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 3
@@ -36074,6 +38692,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1925162981
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1925162973}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1001 &1931169006
 Prefab:
   m_ObjectHideFlags: 0
@@ -36162,6 +38792,7 @@ GameObject:
   - component: {fileID: 1931948351}
   - component: {fileID: 1931948350}
   - component: {fileID: 1931948355}
+  - component: {fileID: 1931948356}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -36208,6 +38839,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -36291,6 +38926,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1931948356
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1931948348}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: -0.0000019073486, y: 0.15, z: -0.00000023841858}
 --- !u!1 &1938982962 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 5d9223fd338d51c44a10b29684719367, type: 3}
@@ -36325,6 +38972,7 @@ GameObject:
   - component: {fileID: 1939637879}
   - component: {fileID: 1939637878}
   - component: {fileID: 1939637883}
+  - component: {fileID: 1939637884}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -36371,6 +39019,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -36454,6 +39106,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1939637884
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1939637876}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0.00000047683716}
 --- !u!1 &1945871395
 GameObject:
   m_ObjectHideFlags: 0
@@ -36468,6 +39132,7 @@ GameObject:
   - component: {fileID: 1945871398}
   - component: {fileID: 1945871397}
   - component: {fileID: 1945871402}
+  - component: {fileID: 1945871403}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -36514,6 +39179,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents:
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
@@ -36597,6 +39266,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1945871403
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1945871395}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: -0.0000019073486, y: 0.15, z: 0}
 --- !u!1 &1953108680
 GameObject:
   m_ObjectHideFlags: 0
@@ -36784,6 +39465,7 @@ GameObject:
   - component: {fileID: 1989739924}
   - component: {fileID: 1989739923}
   - component: {fileID: 1989739928}
+  - component: {fileID: 1989739929}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -36830,6 +39512,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -36913,6 +39599,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &1989739929
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1989739921}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: -0.0000019073486, y: 0.15, z: 0}
 --- !u!1001 &1994507901
 Prefab:
   m_ObjectHideFlags: 0
@@ -37075,6 +39773,7 @@ GameObject:
   - component: {fileID: 2007312354}
   - component: {fileID: 2007312353}
   - component: {fileID: 2007312358}
+  - component: {fileID: 2007312359}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -37121,6 +39820,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -37204,6 +39907,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &2007312359
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2007312351}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: -0.00000011920929}
 --- !u!1 &2008298565
 GameObject:
   m_ObjectHideFlags: 0
@@ -37218,6 +39933,7 @@ GameObject:
   - component: {fileID: 2008298568}
   - component: {fileID: 2008298567}
   - component: {fileID: 2008298572}
+  - component: {fileID: 2008298573}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -37264,6 +39980,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -37347,6 +40067,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &2008298573
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2008298565}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1 &2012362236
 GameObject:
   m_ObjectHideFlags: 0
@@ -37392,6 +40124,7 @@ GameObject:
   - component: {fileID: 2018203601}
   - component: {fileID: 2018203600}
   - component: {fileID: 2018203605}
+  - component: {fileID: 2018203606}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -37438,6 +40171,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -37521,6 +40258,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &2018203606
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2018203598}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: -0.00000023841858}
 --- !u!1 &2023066196
 GameObject:
   m_ObjectHideFlags: 0
@@ -37760,6 +40509,7 @@ GameObject:
   - component: {fileID: 2041126250}
   - component: {fileID: 2041126249}
   - component: {fileID: 2041126254}
+  - component: {fileID: 2041126255}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -37806,6 +40556,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 3
@@ -37889,6 +40643,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &2041126255
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2041126247}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1 &2046108677
 GameObject:
   m_ObjectHideFlags: 0
@@ -37903,6 +40669,7 @@ GameObject:
   - component: {fileID: 2046108680}
   - component: {fileID: 2046108679}
   - component: {fileID: 2046108684}
+  - component: {fileID: 2046108685}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -37949,6 +40716,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -38032,6 +40803,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &2046108685
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2046108677}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1 &2049794314
 GameObject:
   m_ObjectHideFlags: 0
@@ -38046,6 +40829,7 @@ GameObject:
   - component: {fileID: 2049794317}
   - component: {fileID: 2049794316}
   - component: {fileID: 2049794321}
+  - component: {fileID: 2049794322}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -38092,6 +40876,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -38175,6 +40963,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &2049794322
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2049794314}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: -0.0000019073486, y: 0.15, z: 0.00000047683716}
 --- !u!1 &2052831310
 GameObject:
   m_ObjectHideFlags: 0
@@ -38902,6 +41702,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -38985,6 +41789,7 @@ GameObject:
   - component: {fileID: 2071659893}
   - component: {fileID: 2071659892}
   - component: {fileID: 2071659897}
+  - component: {fileID: 2071659898}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -39031,6 +41836,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -39114,6 +41923,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &2071659898
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2071659890}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: -0.0000019073486, y: 0.15, z: 0.00000023841858}
 --- !u!1001 &2076844628
 Prefab:
   m_ObjectHideFlags: 0
@@ -39202,6 +42023,7 @@ GameObject:
   - component: {fileID: 2079839509}
   - component: {fileID: 2079839508}
   - component: {fileID: 2079839513}
+  - component: {fileID: 2079839514}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -39248,6 +42070,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents:
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
@@ -39331,6 +42157,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &2079839514
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2079839506}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: -0.0000019073486, y: 0.15, z: -0.00000023841858}
 --- !u!1 &2080439353
 GameObject:
   m_ObjectHideFlags: 0
@@ -39345,6 +42183,7 @@ GameObject:
   - component: {fileID: 2080439356}
   - component: {fileID: 2080439355}
   - component: {fileID: 2080439360}
+  - component: {fileID: 2080439361}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -39391,6 +42230,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -39474,6 +42317,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &2080439361
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2080439353}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: -0.0000019073486, y: 0.15, z: 0.00000047683716}
 --- !u!1 &2090364004
 GameObject:
   m_ObjectHideFlags: 0
@@ -39603,6 +42458,7 @@ GameObject:
   - component: {fileID: 2095179889}
   - component: {fileID: 2095179888}
   - component: {fileID: 2095179893}
+  - component: {fileID: 2095179894}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -39649,6 +42505,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -39732,6 +42592,18 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &2095179894
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2095179886}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1001 &2101236557
 Prefab:
   m_ObjectHideFlags: 0
@@ -40126,6 +42998,7 @@ GameObject:
   - component: {fileID: 2146424139}
   - component: {fileID: 2146424138}
   - component: {fileID: 2146424143}
+  - component: {fileID: 2146424144}
   m_Layer: 11
   m_Name: EAE Day/Cherlin Floor Tile
   m_TagString: Floor
@@ -40172,6 +43045,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTransitioning: 0
+  currentState: 0
+  nextState: 0
+  overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
@@ -40255,3 +43132,15 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+--- !u!65 &2146424144
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2146424136}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Center: {x: -0.0000019073486, y: 0.15, z: -0.00000011920929}
