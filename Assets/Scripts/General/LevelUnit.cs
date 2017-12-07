@@ -24,7 +24,7 @@ public class LevelUnit : MonoBehaviour {
     private LevelUnitStates currentState;
     private LevelUnitStates nextState;
     private GameObject blockingObject;
-    private int overlappingObjects;
+    public int overlappingObjects;
     #endregion
 
     #region serialized fields
@@ -197,6 +197,21 @@ public class LevelUnit : MonoBehaviour {
                 transform.position = newPosition;
                 currentState = nextState;
                 isTransitioning = false;
+                if(currentState == LevelUnitStates.floor)
+                {
+                    HideBlockingObject();
+                }
+            }
+            switch (nextState)
+            {
+                case LevelUnitStates.cover:
+                    ShowBlockingObject();
+                    break;
+                case LevelUnitStates.pit:
+                    ShowBlockingObject();
+                    break;
+                default:
+                    break;
             }
         }
     }
@@ -309,7 +324,7 @@ public class LevelUnit : MonoBehaviour {
             nextState = LevelUnitStates.cover;
             isTransitioning = true;
         }
-        ShowBlockingObject();
+        //ShowBlockingObject();
     }
 
     public void TransitionToFloorState(params object[] inputs)
@@ -321,7 +336,7 @@ public class LevelUnit : MonoBehaviour {
             nextState = LevelUnitStates.floor;
             isTransitioning = true;
         }
-        DisableBlockingObject();
+        //HideBlockingObject();
     }
 
     public void TransitionToPitState(params object[] inputs)
@@ -333,10 +348,10 @@ public class LevelUnit : MonoBehaviour {
             nextState = LevelUnitStates.pit;
             isTransitioning = true;
         }
-        ShowBlockingObject();
+        //ShowBlockingObject();
     }
 
-    public void DisableBlockingObject()
+    public void HideBlockingObject()
     {
         if (blockingObject != null)
         {
