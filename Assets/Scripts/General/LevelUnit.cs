@@ -3,7 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-
+using System.Linq;
+using MovementEffects;
 public enum LevelUnitStates
 {    
     cover,
@@ -11,7 +12,7 @@ public enum LevelUnitStates
     pit
 }
 
-public class LevelUnit : MonoBehaviour {
+public class LevelUnit : RoutineRunner {
 
     #region private variables
     private float meshSizeY;
@@ -24,6 +25,8 @@ public class LevelUnit : MonoBehaviour {
     public LevelUnitStates currentState;
     public LevelUnitStates nextState;
     private GameObject blockingObject;
+    List<Collider> overlappingColliders=new List<Collider>(10);
+    Vector3 halfExtents;
     public int overlappingObjects;
     #endregion
 
@@ -43,8 +46,8 @@ public class LevelUnit : MonoBehaviour {
 
     #region unity lifecycle
     private void Awake()
-    {
-        MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
+    {        
+        MeshRenderer meshRenderer = GetComponent<MeshRenderer>();        
         if (meshRenderer)
         {
             meshSizeY = meshRenderer.bounds.size.y;
@@ -68,22 +71,39 @@ public class LevelUnit : MonoBehaviour {
         }
     }
 
-    void LateUpdate () {
-        if (isTransitioning && overlappingObjects == 0)
+    void FixedUpdate () {
+        if (isTransitioning)
         {
-            MoveToNewPosition();
+            if (overlappingObjects == 0) {
+                MoveToNewPosition();
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.L)) {
+            FindObjectsOfType<EnemyBase>().ToList().ForEach(enemy => { enemy.OnDeath(); });
         }
     }
 
     private void OnTriggerStay(Collider other) {
         if (isTransitioning) {
             if (other.gameObject.tag.Equals(Strings.Tags.PLAYER) || other.gameObject.tag.Equals(Strings.Tags.ENEMY)) {
-                overlappingObjects = 1;
-            }
-            else {
-                overlappingObjects = 0;
+                //overlappingObjects = 1;
+                if (!overlappingColliders.Contains(other)) {                    
+                    overlappingObjects++;
+                    overlappingColliders.Add(other);
+                    Timing.RunCoroutine(WaitToRemove(other), Segment.FixedUpdate, coroutineName);
+                }
             }
         }
+        //else {
+        //    overlappingObjects = 0;
+        //}
+    }
+
+    IEnumerator<float> WaitToRemove(Collider other) {
+        yield return Timing.WaitForSeconds(.25f);
+        overlappingColliders.Remove(other);        
+        yield return 0f;
+        overlappingObjects--;
     }
 
     //private void OnCollisionEnter(Collision collision)
@@ -210,20 +230,25 @@ public class LevelUnit : MonoBehaviour {
                 isTransitioning = false;
                 if(currentState == LevelUnitStates.floor)
                 {
+                    gameObject.tag = Strings.Tags.FLOOR;
+                    gameObject.layer = (int)Layers.Ground;
                     HideBlockingObject();
                 }
-            }
-            switch (nextState)
-            {
-                case LevelUnitStates.cover:
-                    ShowBlockingObject();
-                    break;
-                case LevelUnitStates.pit:
-                    ShowBlockingObject();
-                    break;
-                default:
-                    break;
-            }
+                switch (nextState) {
+                    case LevelUnitStates.cover:
+                        gameObject.tag = Strings.Tags.WALL;
+                        gameObject.layer = (int)Layers.Obstacle;
+                        ShowBlockingObject();
+                        break;
+                    case LevelUnitStates.pit:
+                        gameObject.tag = Strings.Tags.FLOOR;
+                        gameObject.layer = (int)Layers.Ground;
+                        ShowBlockingObject();
+                        break;
+                    default:
+                        break;
+                }
+            }            
         }
     }
 
@@ -247,7 +272,7 @@ public class LevelUnit : MonoBehaviour {
         blockingObject.transform.position = new Vector3(transform.position.x, coverYPosition, transform.position.z);
         blockingObject.transform.localScale = new Vector3(meshSizeX, meshSizeY, meshSizeZ);
         blockingObject.AddComponent<BoxCollider>();
-        blockingObject.AddComponent<NavMeshObstacle>();
+        blockingObject.AddComponent<NavMeshObstacle>().carving = true;
         blockingObject.layer = LayerMask.NameToLayer(Strings.Layers.OBSTACLE);
     }
 
@@ -328,8 +353,7 @@ public class LevelUnit : MonoBehaviour {
 
     public void TransitionToCoverState(params object[] inputs)
     {
-        gameObject.tag = Strings.Tags.WALL;            
-        gameObject.layer = (int)Layers.Obstacle;
+        
         if (currentState != LevelUnitStates.cover)
         {
             nextState = LevelUnitStates.cover;
@@ -340,8 +364,7 @@ public class LevelUnit : MonoBehaviour {
 
     public void TransitionToFloorState(params object[] inputs)
     {
-        gameObject.tag = Strings.Tags.FLOOR;
-        gameObject.layer = (int)Layers.Ground;
+        
         if (currentState != LevelUnitStates.floor)
         {
             nextState = LevelUnitStates.floor;
@@ -352,8 +375,7 @@ public class LevelUnit : MonoBehaviour {
 
     public void TransitionToPitState(params object[] inputs)
     {
-        gameObject.tag = Strings.Tags.FLOOR;
-        gameObject.layer = (int)Layers.Ground;
+        
         if (currentState != LevelUnitStates.pit)
         {
             nextState = LevelUnitStates.pit;
