@@ -186,9 +186,10 @@ MonoBehaviour:
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
   - Spawner 3 Wave 1
+  - Spawner 3 Wave 4
+  pitStateEvents:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
-  pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &12694597
@@ -346,9 +347,10 @@ MonoBehaviour:
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
   - Spawner 3 Wave 1
+  - Spawner 3 Wave 4
+  pitStateEvents:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
-  pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &13168804
@@ -508,6 +510,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -742,6 +745,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -902,6 +906,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -1173,11 +1178,12 @@ MonoBehaviour:
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
   - Spawner 3 Wave 1
-  - Spawner 3 Wave 2
-  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &62972555
@@ -1335,6 +1341,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -1461,11 +1468,11 @@ MonoBehaviour:
     - Type: 0
       Count: 1
     - Type: 1
-      Count: 1
+      Count: 0
     remainingSpawns: 0
     spawnEffectTime: 1.5
     intensity: 0
-    NumToNextWave: 1
+    NumToNextWave: 0
     preEventNames:
     - Spawner 1 Wave 1
     - Music_Spawner 1 Wave 1
@@ -1484,11 +1491,11 @@ MonoBehaviour:
     - Type: 0
       Count: 1
     - Type: 3
-      Count: 3
+      Count: 2
     remainingSpawns: 0
     spawnEffectTime: 1.5
     intensity: 0
-    NumToNextWave: 1
+    NumToNextWave: 0
     preEventNames:
     - Spawner 1 Wave 2
     postEventNames: []
@@ -1504,7 +1511,7 @@ MonoBehaviour:
     - Type: 2
       Count: 1
     - Type: 1
-      Count: 3
+      Count: 2
     - Type: 3
       Count: 1
     - Type: 0
@@ -1512,7 +1519,7 @@ MonoBehaviour:
     remainingSpawns: 0
     spawnEffectTime: 1.5
     intensity: 0
-    NumToNextWave: 2
+    NumToNextWave: 1
     preEventNames:
     - Spawner 1 Wave 3
     postEventNames: []
@@ -1526,7 +1533,7 @@ MonoBehaviour:
   - spawnedHashCodes: 
     monsterList:
     - Type: 1
-      Count: 4
+      Count: 3
     - Type: 0
       Count: 3
     - Type: 2
@@ -2086,6 +2093,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -2274,6 +2282,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -2971,6 +2980,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -3129,9 +3139,10 @@ MonoBehaviour:
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
   - Spawner 3 Wave 1
+  - Spawner 3 Wave 4
+  pitStateEvents:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
-  pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &135926253
@@ -3443,6 +3454,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -3603,6 +3615,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -4055,6 +4068,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -4375,6 +4389,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -4456,6 +4471,48 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.1, y: 1.2, z: 1.1}
   m_Center: {x: 0, y: 0, z: 0.00000047683716}
+--- !u!1 &184025019
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 184025020}
+  - component: {fileID: 184025021}
+  m_Layer: 0
+  m_Name: SpawnPoint (3)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &184025020
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 184025019}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 27.9, y: 2.3, z: 20.1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2067283720}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &184025021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 184025019}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4459bc4938fbdce4dab448c115726a99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 0.77
+  color: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1001 &196805365
 Prefab:
   m_ObjectHideFlags: 0
@@ -4657,6 +4714,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -4878,11 +4936,12 @@ MonoBehaviour:
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
   - Spawner 3 Wave 1
-  - Spawner 3 Wave 2
-  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &212034736
@@ -5042,6 +5101,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -5297,11 +5357,12 @@ MonoBehaviour:
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
   - Spawner 3 Wave 1
-  - Spawner 3 Wave 2
-  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &234777222
@@ -5461,6 +5522,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -5695,6 +5757,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -5969,6 +6032,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -6367,6 +6431,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -6527,6 +6592,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -6846,11 +6912,11 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents:
-  - Spawner 1 Wave 3
+  coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
+  - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
@@ -6860,6 +6926,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -7094,6 +7161,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -7479,6 +7547,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -7822,6 +7891,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -7982,6 +8052,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -8385,11 +8456,12 @@ MonoBehaviour:
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
   - Spawner 3 Wave 1
-  - Spawner 3 Wave 2
-  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &363617222
@@ -8549,6 +8621,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -8709,6 +8782,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -8869,6 +8943,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -9029,6 +9104,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -9189,6 +9265,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -9488,6 +9565,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -9796,6 +9874,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -9956,6 +10035,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -10136,6 +10216,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -10395,6 +10476,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -10553,6 +10635,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -10978,9 +11061,10 @@ MonoBehaviour:
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
   - Spawner 3 Wave 1
+  - Spawner 3 Wave 4
+  pitStateEvents:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
-  pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &506173524
@@ -11160,6 +11244,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -11241,6 +11326,48 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.1, y: 1.2, z: 1.1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &531545392
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 531545393}
+  - component: {fileID: 531545394}
+  m_Layer: 0
+  m_Name: SpawnPoint (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &531545393
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 531545392}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -9.4, y: 2.3, z: -19.3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2067283720}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &531545394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 531545392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4459bc4938fbdce4dab448c115726a99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 0.77
+  color: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &534102452 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 5d9223fd338d51c44a10b29684719367, type: 3}
@@ -11439,6 +11566,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -11912,6 +12040,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -12101,6 +12230,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -12261,6 +12391,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -12624,6 +12755,48 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 625543212}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &626288275
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 626288276}
+  - component: {fileID: 626288277}
+  m_Layer: 0
+  m_Name: SpawnPoint (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &626288276
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 626288275}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -15.5, y: 2.3, z: 16.4}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2067283720}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &626288277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 626288275}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4459bc4938fbdce4dab448c115726a99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 0.77
+  color: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &628541612
 GameObject:
   m_ObjectHideFlags: 0
@@ -12703,6 +12876,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -12861,6 +13035,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -13160,6 +13335,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -13528,6 +13704,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -13719,6 +13896,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -13877,6 +14055,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -14339,6 +14518,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -14933,6 +15113,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -15291,9 +15472,10 @@ MonoBehaviour:
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
   - Spawner 3 Wave 1
+  - Spawner 3 Wave 4
+  pitStateEvents:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
-  pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &785586099
@@ -15453,6 +15635,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -15712,6 +15895,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -15872,6 +16056,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -16167,11 +16352,12 @@ MonoBehaviour:
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
   - Spawner 3 Wave 1
-  - Spawner 3 Wave 2
-  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &817353999
@@ -16359,6 +16545,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -16759,6 +16946,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -16919,6 +17107,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -17079,6 +17268,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -17287,6 +17477,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -17546,6 +17737,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -17724,6 +17916,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -17886,6 +18079,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -18120,6 +18314,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -18377,9 +18572,10 @@ MonoBehaviour:
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
+  - Spawner 3 Wave 4
+  pitStateEvents:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
-  pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &934920724
@@ -18539,6 +18735,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -18697,6 +18894,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -18859,6 +19057,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -19019,6 +19218,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -19199,6 +19399,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -19456,6 +19657,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -19570,6 +19772,48 @@ Transform:
   m_Father: {fileID: 498256630}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!1 &971652400
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 971652401}
+  - component: {fileID: 971652402}
+  m_Layer: 0
+  m_Name: SpawnPoint (4)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &971652401
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 971652400}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 27.9, y: 2.3, z: -15.8}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2067283720}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &971652402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 971652400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4459bc4938fbdce4dab448c115726a99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 0.77
+  color: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &977854361
 GameObject:
   m_ObjectHideFlags: 0
@@ -19649,6 +19893,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -19795,11 +20040,11 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents:
-  - Spawner 1 Wave 3
+  coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
+  - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
@@ -19809,6 +20054,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -20150,6 +20396,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -20468,6 +20715,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -20990,6 +21238,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -21150,6 +21399,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -21310,6 +21560,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -21470,6 +21721,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -21650,6 +21902,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -21946,6 +22199,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -22254,6 +22508,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -22412,6 +22667,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -22673,6 +22929,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -22907,6 +23164,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -23063,11 +23321,12 @@ MonoBehaviour:
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
   - Spawner 3 Wave 1
-  - Spawner 3 Wave 2
-  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &1144947153
@@ -23227,6 +23486,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -23625,6 +23885,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -23785,6 +24046,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -24059,6 +24321,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -24219,6 +24482,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -24379,6 +24643,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -24600,6 +24865,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -24873,6 +25139,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -25140,6 +25407,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -25306,11 +25574,11 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents:
-  - Spawner 1 Wave 3
+  coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
+  - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
@@ -25320,6 +25588,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -25478,9 +25747,10 @@ MonoBehaviour:
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
   - Spawner 3 Wave 1
+  - Spawner 3 Wave 4
+  pitStateEvents:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
-  pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &1257558423
@@ -25602,7 +25872,9 @@ MonoBehaviour:
     - Type: 0
       Count: 3
     - Type: 1
-      Count: 4
+      Count: 3
+    - Type: 3
+      Count: 2
     remainingSpawns: 0
     spawnEffectTime: 1.5
     intensity: 0
@@ -25621,15 +25893,15 @@ MonoBehaviour:
   - spawnedHashCodes: 
     monsterList:
     - Type: 0
-      Count: 3
+      Count: 2
     - Type: 1
-      Count: 4
-    - Type: 0
+      Count: 3
+    - Type: 2
       Count: 1
     remainingSpawns: 0
     spawnEffectTime: 1.5
     intensity: 0
-    NumToNextWave: 3
+    NumToNextWave: 2
     preEventNames:
     - Spawner 2 Wave 2
     postEventNames: []
@@ -25645,7 +25917,7 @@ MonoBehaviour:
     - Type: 0
       Count: 0
     - Type: 1
-      Count: 6
+      Count: 5
     - Type: 0
       Count: 0
     remainingSpawns: 0
@@ -25664,12 +25936,12 @@ MonoBehaviour:
       max: 2
   - spawnedHashCodes: 
     monsterList:
-    - Type: 0
-      Count: 3
+    - Type: 4
+      Count: 1
     - Type: 1
-      Count: 6
-    - Type: 0
-      Count: 3
+      Count: 4
+    - Type: 3
+      Count: 0
     remainingSpawns: 0
     spawnEffectTime: 1.5
     intensity: 0
@@ -25686,11 +25958,13 @@ MonoBehaviour:
       max: 2
   - spawnedHashCodes: 
     monsterList:
+    - Type: 4
+      Count: 1
     - Type: 2
       Count: 1
-    - Type: 1
+    - Type: 3
       Count: 0
-    - Type: 0
+    - Type: 1
       Count: 0
     remainingSpawns: 0
     spawnEffectTime: 1.5
@@ -25803,6 +26077,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -26014,6 +26289,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -26239,6 +26515,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -26904,6 +27181,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -27149,6 +27427,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -27309,6 +27588,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -27509,6 +27789,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -27667,9 +27948,10 @@ MonoBehaviour:
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
+  - Spawner 3 Wave 4
+  pitStateEvents:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
-  pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &1394354572
@@ -27901,6 +28183,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -28063,6 +28346,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -28307,6 +28591,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -28467,6 +28752,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -28627,6 +28913,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -28787,6 +29074,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -29084,6 +29372,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -29246,6 +29535,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -29406,6 +29696,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -29566,6 +29857,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -29726,6 +30018,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -30003,6 +30296,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -30281,6 +30575,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -30441,6 +30736,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -30599,6 +30895,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -30761,6 +31058,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -30921,6 +31219,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -31155,6 +31454,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -31409,6 +31709,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -31666,6 +31967,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -31828,6 +32130,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -31986,9 +32289,10 @@ MonoBehaviour:
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
+  - Spawner 3 Wave 4
+  pitStateEvents:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
-  pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &1566647465
@@ -32222,6 +32526,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -32468,6 +32773,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -32727,6 +33033,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -33058,9 +33365,10 @@ MonoBehaviour:
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
+  - Spawner 3 Wave 4
+  pitStateEvents:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
-  pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &1640018026
@@ -33314,6 +33622,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -34036,6 +34345,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -34312,6 +34622,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -34472,6 +34783,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -34914,6 +35226,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -35028,6 +35341,8 @@ MonoBehaviour:
     Time: 5
   - Prefab: {fileID: 1260307933}
     Time: 5
+  - Prefab: {fileID: 2067283718}
+    Time: 5
 --- !u!4 &1760477451
 Transform:
   m_ObjectHideFlags: 0
@@ -35041,6 +35356,7 @@ Transform:
   m_Children:
   - {fileID: 70634243}
   - {fileID: 1260307935}
+  - {fileID: 2067283720}
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -35121,9 +35437,10 @@ MonoBehaviour:
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
   - Spawner 3 Wave 1
+  - Spawner 3 Wave 4
+  pitStateEvents:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
-  pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &1764667936
@@ -35301,6 +35618,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -35537,6 +35855,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -35697,6 +36016,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -35843,11 +36163,11 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents:
-  - Spawner 1 Wave 3
+  coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
+  - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
@@ -35857,6 +36177,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -36059,6 +36380,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -36278,6 +36600,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -36440,6 +36763,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -36847,6 +37171,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -37005,6 +37330,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -37167,6 +37493,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -37401,6 +37728,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -37561,6 +37889,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -37721,6 +38050,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -38174,6 +38504,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -38330,11 +38661,12 @@ MonoBehaviour:
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
   - Spawner 3 Wave 1
-  - Spawner 3 Wave 2
-  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &1925162977
@@ -38568,6 +38900,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -38748,6 +39081,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -38908,6 +39242,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -39241,6 +39576,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -39547,9 +39883,10 @@ MonoBehaviour:
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
   - Spawner 3 Wave 1
+  - Spawner 3 Wave 4
+  pitStateEvents:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
-  pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &2007312355
@@ -39709,6 +40046,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -39900,6 +40238,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -40281,11 +40620,12 @@ MonoBehaviour:
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
   - Spawner 3 Wave 1
-  - Spawner 3 Wave 2
-  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &2041126251
@@ -40445,6 +40785,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -40605,6 +40946,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -41126,6 +41468,175 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camera: {fileID: 0}
+--- !u!1 &2067283718
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 2067283720}
+  - component: {fileID: 2067283719}
+  m_Layer: 0
+  m_Name: MallCopSpawner(Clone)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2067283719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2067283718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdce7029b13d37940afce8409d4837bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useIntensityCurve: 0
+  manualEdits: 1
+  intensityCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  waves:
+  - spawnedHashCodes: 
+    monsterList:
+    - Type: 2
+      Count: 1
+    - Type: 0
+      Count: 1
+    - Type: 3
+      Count: 1
+    - Type: 1
+      Count: 4
+    remainingSpawns: 0
+    spawnEffectTime: 1.5
+    intensity: 0
+    NumToNextWave: 1
+    preEventNames:
+    - Spawner 3 Wave 1
+    - Music_Spawner 3 Wave 1
+    postEventNames: []
+    spawnOffset: 0
+    spawnTimeOffset: 0
+    SpawningTime:
+      minLimit: 0
+      maxLimit: 0
+      min: 1
+      max: 1
+  - spawnedHashCodes: 
+    monsterList:
+    - Type: 1
+      Count: 2
+    - Type: 3
+      Count: 6
+    - Type: 0
+      Count: 3
+    - Type: 2
+      Count: 1
+    remainingSpawns: 0
+    spawnEffectTime: 1.5
+    intensity: 0
+    NumToNextWave: 2
+    preEventNames:
+    - Spawner 3 Wave 2
+    postEventNames: []
+    spawnOffset: 0
+    spawnTimeOffset: 0
+    SpawningTime:
+      minLimit: 0
+      maxLimit: 0
+      min: 1
+      max: 1
+  - spawnedHashCodes: 
+    monsterList:
+    - Type: 4
+      Count: 1
+    - Type: 1
+      Count: 3
+    - Type: 3
+      Count: 1
+    remainingSpawns: 0
+    spawnEffectTime: 1.5
+    intensity: 0
+    NumToNextWave: 0
+    preEventNames:
+    - Spawner 3 Wave 3
+    postEventNames: []
+    spawnOffset: 0
+    spawnTimeOffset: 0
+    SpawningTime:
+      minLimit: 0
+      maxLimit: 0
+      min: 1
+      max: 1
+  - spawnedHashCodes: 
+    monsterList:
+    - Type: 5
+      Count: 1
+    - Type: 1
+      Count: 4
+    remainingSpawns: 0
+    spawnEffectTime: 1.5
+    intensity: 0
+    NumToNextWave: 0
+    preEventNames:
+    - Spawner 3 Wave 4
+    postEventNames: []
+    spawnOffset: 0
+    spawnTimeOffset: 0
+    SpawningTime:
+      minLimit: 0
+      maxLimit: 0
+      min: 1
+      max: 1
+  - spawnedHashCodes: 
+    monsterList:
+    - Type: 2
+      Count: 1
+    - Type: 4
+      Count: 1
+    - Type: 5
+      Count: 1
+    remainingSpawns: 0
+    spawnEffectTime: 1.5
+    intensity: 0
+    NumToNextWave: 0
+    preEventNames:
+    - Spawner 3 Wave 4
+    postEventNames: []
+    spawnOffset: 0
+    spawnTimeOffset: 0
+    SpawningTime:
+      minLimit: 0
+      maxLimit: 0
+      min: 1
+      max: 1
+  currentWaveNumber: 0
+  currentNumEnemies: 0
+  totalNumEnemies: 7
+--- !u!4 &2067283720
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2067283718}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 531545393}
+  - {fileID: 626288276}
+  - {fileID: 184025020}
+  - {fileID: 971652401}
+  m_Father: {fileID: 1760477451}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2068467332
 GameObject:
   m_ObjectHideFlags: 0
@@ -41431,6 +41942,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -41565,6 +42077,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -41799,6 +42312,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -41959,6 +42473,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -42234,6 +42749,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -42774,6 +43290,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
