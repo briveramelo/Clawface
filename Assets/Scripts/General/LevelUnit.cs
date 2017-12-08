@@ -76,11 +76,13 @@ public class LevelUnit : MonoBehaviour {
     }
 
     private void OnTriggerStay(Collider other) {
-        if (other.gameObject.tag.Equals(Strings.Tags.PLAYER) || other.gameObject.tag.Equals(Strings.Tags.ENEMY)) {
-            overlappingObjects = 1;
-        }
-        else {
-            overlappingObjects = 0;
+        if (isTransitioning) {
+            if (other.gameObject.tag.Equals(Strings.Tags.PLAYER) || other.gameObject.tag.Equals(Strings.Tags.ENEMY)) {
+                overlappingObjects = 1;
+            }
+            else {
+                overlappingObjects = 0;
+            }
         }
     }
 
