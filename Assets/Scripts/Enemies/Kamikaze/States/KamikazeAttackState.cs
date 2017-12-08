@@ -40,8 +40,10 @@ public class KamikazeAttackState : AIState {
     IEnumerator<float> RunStartupTimer()
     {
         GameObject explosionSphere = ObjectPool.Instance.GetObject(PoolObjectType.KamikazeExplosionSphere);
-        explosionSphere.transform.position = controller.transform.position;
-        explosionSphere.GetComponent<ExplosionTrigger>().Initialize(blastRadius);
+        if (explosionSphere) {
+            explosionSphere.transform.position = controller.transform.position;
+            explosionSphere.GetComponent<ExplosionTrigger>().Initialize(blastRadius);
+        }
 
         yield return Timing.WaitForSeconds(waitTimeToDestruct);
 
@@ -56,7 +58,9 @@ public class KamikazeAttackState : AIState {
             //Set Damage to the player
             Damage(controller.AttackTarget.gameObject.GetComponent<IDamageable>());
             GameObject effect = ObjectPool.Instance.GetObject(PoolObjectType.VFXKamikazeExplosion);
-            effect.transform.position = controller.transform.position;
+            if (effect) {
+                effect.transform.position = controller.transform.position;
+            }
             attackDone = true;
             setToSelfDestruct = true;
         }

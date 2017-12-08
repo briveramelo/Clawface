@@ -93,8 +93,10 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
                     if (playerMesh && modSockets)
                     {                        
                         GameObject vfx = ObjectPool.Instance.GetObject(deathVFX);
-                        vfx.transform.position = playerMesh.transform.position;
-                        vfx.SetActive(true);
+                        if (vfx) {
+                            vfx.transform.position = playerMesh.transform.position;
+                            vfx.SetActive(true);
+                        }
                         CapsuleCollider collider = GetComponent<CapsuleCollider>();
                         if (collider)
                         {
