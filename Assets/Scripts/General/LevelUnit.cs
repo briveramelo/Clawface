@@ -18,16 +18,15 @@ public class LevelUnit : RoutineRunner {
     private float meshSizeY;
     private float meshSizeZ;
     private float meshSizeX;
-    public bool isTransitioning;
+    private bool isTransitioning;
     private float pitYPosition;
     private float coverYPosition;
     private float floorYPosition;
-    public LevelUnitStates currentState;
-    public LevelUnitStates nextState;
+    private LevelUnitStates currentState;
+    private LevelUnitStates nextState;
     private GameObject blockingObject;
     List<Collider> overlappingColliders=new List<Collider>(10);
-    Vector3 halfExtents;
-    public int overlappingObjects;
+    private int overlappingObjects;
     #endregion
 
     #region serialized fields
@@ -77,26 +76,19 @@ public class LevelUnit : RoutineRunner {
             if (overlappingObjects == 0) {
                 MoveToNewPosition();
             }
-        }
-        if (Input.GetKeyDown(KeyCode.L)) {
-            FindObjectsOfType<EnemyBase>().ToList().ForEach(enemy => { enemy.OnDeath(); });
-        }
+        }        
     }
 
     private void OnTriggerStay(Collider other) {
         if (isTransitioning) {
-            if (other.gameObject.tag.Equals(Strings.Tags.PLAYER) || other.gameObject.tag.Equals(Strings.Tags.ENEMY)) {
-                //overlappingObjects = 1;
+            if (other.gameObject.tag.Equals(Strings.Tags.PLAYER) || other.gameObject.tag.Equals(Strings.Tags.ENEMY)) {                
                 if (!overlappingColliders.Contains(other)) {                    
                     overlappingObjects++;
                     overlappingColliders.Add(other);
                     Timing.RunCoroutine(WaitToRemove(other), Segment.FixedUpdate, coroutineName);
                 }
             }
-        }
-        //else {
-        //    overlappingObjects = 0;
-        //}
+        }        
     }
 
     IEnumerator<float> WaitToRemove(Collider other) {
@@ -105,29 +97,6 @@ public class LevelUnit : RoutineRunner {
         yield return 0f;
         overlappingObjects--;
     }
-
-    //private void OnCollisionEnter(Collision collision)
-    //{
-    //    if(collision.gameObject.tag.Equals(Strings.Tags.PLAYER) || collision.gameObject.tag.Equals(Strings.Tags.ENEMY))
-    //    {
-    //        if (collision.transform.position.y >= transform.position.y)
-    //        {
-    //            overlappingObjects++;
-    //        }
-    //    }
-    //}
-
-    //private void OnCollisionExit(Collision collision)
-    //{
-    //    if (collision.gameObject.tag.Equals(Strings.Tags.PLAYER) || collision.gameObject.tag.Equals(Strings.Tags.ENEMY))
-    //    {
-    //        overlappingObjects--;
-    //        if(overlappingObjects < 0)
-    //        {
-    //            overlappingObjects = 0;
-    //        }
-    //    }
-    //}
     #endregion
 
     #region private functions
@@ -358,8 +327,7 @@ public class LevelUnit : RoutineRunner {
         {
             nextState = LevelUnitStates.cover;
             isTransitioning = true;
-        }
-        //ShowBlockingObject();
+        }        
     }
 
     public void TransitionToFloorState(params object[] inputs)
@@ -369,8 +337,7 @@ public class LevelUnit : RoutineRunner {
         {
             nextState = LevelUnitStates.floor;
             isTransitioning = true;
-        }
-        //HideBlockingObject();
+        }        
     }
 
     public void TransitionToPitState(params object[] inputs)
@@ -380,8 +347,7 @@ public class LevelUnit : RoutineRunner {
         {
             nextState = LevelUnitStates.pit;
             isTransitioning = true;
-        }
-        //ShowBlockingObject();
+        }        
     }
 
     public void HideBlockingObject()

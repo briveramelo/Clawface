@@ -94,20 +94,22 @@ public class ModManager : MonoBehaviour
         CheckToChargeAndFireMods();
         if (Input.GetKeyDown(KeyCode.M))
         {
-            Mod rightMod = rightArmSocket.GetComponentInChildren<Mod>();
-            Mod leftMod = leftArmSocket.GetComponentInChildren<Mod>();
-            if (rightMod)
-            {
-                rightMod.gameObject.SetActive(false);
-            }
-            if (leftMod)
-            {
-                leftMod.gameObject.SetActive(false);
-            }
-            modSocketDictionary[ModSpot.ArmL].mod = null;
-            modSocketDictionary[ModSpot.ArmR].mod = null;
-            AttachRandomMods();
+            //AcquireRandomMods();
         }
+    }
+
+    private void AcquireRandomMods() {
+        Mod rightMod = rightArmSocket.GetComponentInChildren<Mod>();
+        Mod leftMod = leftArmSocket.GetComponentInChildren<Mod>();
+        if (rightMod) {
+            rightMod.gameObject.SetActive(false);
+        }
+        if (leftMod) {
+            leftMod.gameObject.SetActive(false);
+        }
+        modSocketDictionary[ModSpot.ArmL].mod = null;
+        modSocketDictionary[ModSpot.ArmR].mod = null;
+        AttachRandomMods();
     }
     #endregion
 
