@@ -174,19 +174,22 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents:
-  - Spawner 1 Wave 4
+  coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
   - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
-  pitStateEvents: []
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 4
+  pitStateEvents:
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &12694597
@@ -265,8 +268,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &13168800
 GameObject:
   m_ObjectHideFlags: 0
@@ -343,8 +346,11 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
-  pitStateEvents: []
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 4
+  pitStateEvents:
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &13168804
@@ -423,8 +429,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &16545577
 GameObject:
   m_ObjectHideFlags: 0
@@ -501,7 +507,10 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -581,8 +590,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0.00000023841858}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0.00000023841858}
 --- !u!1001 &19190815
 Prefab:
   m_ObjectHideFlags: 0
@@ -727,14 +736,17 @@ MonoBehaviour:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
   - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
-  pitStateEvents:
-  - Spawner 1 Wave 4
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
+  pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &24137140
@@ -813,8 +825,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0.00000047683716}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0.00000047683716}
 --- !u!1 &34009627
 GameObject:
   m_ObjectHideFlags: 0
@@ -880,7 +892,10 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 2 Wave 3
+  - Spawner 2 Wave 4
+  - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -888,10 +903,10 @@ MonoBehaviour:
   - Spawner 1 Wave 4
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
-  - Spawner 2 Wave 3
-  - Spawner 2 Wave 4
-  - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -971,8 +986,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0.00000047683716}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0.00000047683716}
 --- !u!1 &53343825
 GameObject:
   m_ObjectHideFlags: 0
@@ -1155,8 +1170,6 @@ MonoBehaviour:
   overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 2 Wave 1
@@ -1164,8 +1177,13 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
-  pitStateEvents: []
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 4
+  pitStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &62972555
@@ -1244,8 +1262,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &64149855
 GameObject:
   m_ObjectHideFlags: 0
@@ -1311,19 +1329,22 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
-  floorStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
-  - Spawner 1 Wave 3
-  - Spawner 1 Wave 4
+  coverStateEvents:
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
-  pitStateEvents: []
+  floorStateEvents:
+  - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
+  pitStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &64149859
@@ -1402,8 +1423,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0.00000047683716}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0.00000047683716}
 --- !u!1 &70634241
 GameObject:
   m_ObjectHideFlags: 0
@@ -1442,9 +1463,11 @@ MonoBehaviour:
   waves:
   - spawnedHashCodes: 
     monsterList:
-    - Type: 2
+    - Type: 1
+      Count: 2
+    - Type: 0
       Count: 1
-    - Type: 3
+    - Type: 1
       Count: 0
     remainingSpawns: 0
     spawnEffectTime: 1.5
@@ -1463,10 +1486,12 @@ MonoBehaviour:
       max: 1
   - spawnedHashCodes: 
     monsterList:
-    - Type: 4
+    - Type: 1
       Count: 1
     - Type: 0
-      Count: 0
+      Count: 1
+    - Type: 3
+      Count: 2
     remainingSpawns: 0
     spawnEffectTime: 1.5
     intensity: 0
@@ -1483,14 +1508,18 @@ MonoBehaviour:
       max: 1
   - spawnedHashCodes: 
     monsterList:
-    - Type: 5
+    - Type: 2
+      Count: 1
+    - Type: 1
+      Count: 2
+    - Type: 3
       Count: 1
     - Type: 0
-      Count: 0
+      Count: 2
     remainingSpawns: 0
     spawnEffectTime: 1.5
     intensity: 0
-    NumToNextWave: 0
+    NumToNextWave: 1
     preEventNames:
     - Spawner 1 Wave 3
     postEventNames: []
@@ -1504,8 +1533,12 @@ MonoBehaviour:
   - spawnedHashCodes: 
     monsterList:
     - Type: 1
-      Count: 2
+      Count: 3
     - Type: 0
+      Count: 3
+    - Type: 2
+      Count: 1
+    - Type: 3
       Count: 2
     remainingSpawns: 0
     spawnEffectTime: 1.5
@@ -2046,18 +2079,21 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
-  floorStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
-  - Spawner 1 Wave 3
-  - Spawner 1 Wave 4
+  coverStateEvents:
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  floorStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
+  - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -2137,8 +2173,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &96150375
 GameObject:
   m_ObjectHideFlags: 0
@@ -2243,7 +2279,10 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -2634,7 +2673,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 125315666}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -10.5, y: 2.3, z: -19.3}
+  m_LocalPosition: {x: 6.7, y: 2.3, z: -22.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 70634243}
@@ -2927,7 +2966,8 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -2937,8 +2977,10 @@ MonoBehaviour:
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
-  - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -3018,8 +3060,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0.00000047683716}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0.00000047683716}
 --- !u!1 &135926249
 GameObject:
   m_ObjectHideFlags: 0
@@ -3085,19 +3127,22 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents:
-  - Spawner 1 Wave 4
+  coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
   - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
-  pitStateEvents: []
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 4
+  pitStateEvents:
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &135926253
@@ -3176,8 +3221,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0.00000023841858}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0.00000023841858}
 --- !u!1 &139475974
 GameObject:
   m_ObjectHideFlags: 0
@@ -3395,18 +3440,21 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 2 Wave 2
+  - Spawner 2 Wave 3
+  - Spawner 2 Wave 4
+  - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 2 Wave 1
-  - Spawner 2 Wave 2
-  - Spawner 2 Wave 3
-  - Spawner 2 Wave 4
-  - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -3486,8 +3534,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &147521010
 GameObject:
   m_ObjectHideFlags: 0
@@ -3564,7 +3612,10 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -3644,8 +3695,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &148604997
 GameObject:
   m_ObjectHideFlags: 0
@@ -4003,18 +4054,21 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
-  floorStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
-  - Spawner 1 Wave 3
-  - Spawner 1 Wave 4
+  coverStateEvents:
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  floorStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
+  - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -4094,8 +4148,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0.00000047683716}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0.00000047683716}
 --- !u!1 &167063398
 GameObject:
   m_ObjectHideFlags: 0
@@ -4321,7 +4375,8 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -4331,8 +4386,10 @@ MonoBehaviour:
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
-  - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -4412,8 +4469,50 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0.00000047683716}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0.00000047683716}
+--- !u!1 &184025019
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 184025020}
+  - component: {fileID: 184025021}
+  m_Layer: 0
+  m_Name: SpawnPoint (3)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &184025020
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 184025019}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 27.9, y: 2.3, z: 20.1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2067283720}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &184025021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 184025019}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4459bc4938fbdce4dab448c115726a99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 0.77
+  color: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1001 &196805365
 Prefab:
   m_ObjectHideFlags: 0
@@ -4486,12 +4585,12 @@ Prefab:
     - target: {fileID: 114774333468769098, guid: f7f0788457a83ae4ab3f8d9af40231a5,
         type: 2}
       propertyPath: musicEventsList.Array.data[1]
-      value: Music_Spawner 2 Wave 3
+      value: Music_Spawner 2 Wave 1
       objectReference: {fileID: 0}
     - target: {fileID: 114774333468769098, guid: f7f0788457a83ae4ab3f8d9af40231a5,
         type: 2}
       propertyPath: musicEventsList.Array.data[2]
-      value: Music_Spawner 2 Wave 5
+      value: Music_Spawner 3 Wave 1
       objectReference: {fileID: 0}
     - target: {fileID: 82861820245292524, guid: f7f0788457a83ae4ab3f8d9af40231a5,
         type: 2}
@@ -4502,6 +4601,16 @@ Prefab:
         type: 2}
       propertyPath: Loop
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114774333468769098, guid: f7f0788457a83ae4ab3f8d9af40231a5,
+        type: 2}
+      propertyPath: clips.Array.data[3]
+      value: 
+      objectReference: {fileID: 8300000, guid: 44de88c8b5066f14e8ed99bf1bfdba4c, type: 3}
+    - target: {fileID: 114774333468769098, guid: f7f0788457a83ae4ab3f8d9af40231a5,
+        type: 2}
+      propertyPath: musicEventsList.Array.data[3]
+      value: Music_Spawner 3 Wave 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f7f0788457a83ae4ab3f8d9af40231a5, type: 2}
@@ -4591,7 +4700,10 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 2 Wave 3
+  - Spawner 2 Wave 4
+  - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -4599,10 +4711,10 @@ MonoBehaviour:
   - Spawner 1 Wave 4
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
-  - Spawner 2 Wave 3
-  - Spawner 2 Wave 4
-  - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -4682,8 +4794,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0.00000047683716}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0.00000047683716}
 --- !u!1 &208851787
 GameObject:
   m_ObjectHideFlags: 0
@@ -4816,17 +4928,20 @@ MonoBehaviour:
   overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 4
   pitStateEvents:
-  - Spawner 1 Wave 4
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &212034736
@@ -4905,8 +5020,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0.00000011920929}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0.00000011920929}
 --- !u!1 &213551574
 GameObject:
   m_ObjectHideFlags: 0
@@ -4972,7 +5087,10 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 2 Wave 3
+  - Spawner 2 Wave 4
+  - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -4980,10 +5098,10 @@ MonoBehaviour:
   - Spawner 1 Wave 4
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
-  - Spawner 2 Wave 3
-  - Spawner 2 Wave 4
-  - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -5063,8 +5181,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &218412370
 GameObject:
   m_ObjectHideFlags: 0
@@ -5231,8 +5349,6 @@ MonoBehaviour:
   overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 2 Wave 1
@@ -5240,8 +5356,13 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
-  pitStateEvents: []
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 4
+  pitStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &234777222
@@ -5320,8 +5441,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &239624717
 GameObject:
   m_ObjectHideFlags: 0
@@ -5387,19 +5508,22 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
-  - Spawner 1 Wave 4
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
-  pitStateEvents:
-  - Spawner 1 Wave 3
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
+  pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &239624721
@@ -5478,8 +5602,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0.00000023841858}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0.00000023841858}
 --- !u!1001 &245610645
 Prefab:
   m_ObjectHideFlags: 0
@@ -5630,7 +5754,10 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -5710,8 +5837,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &258131671 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 5d9223fd338d51c44a10b29684719367, type: 3}
@@ -5902,7 +6029,10 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -5982,8 +6112,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: -0.0000019073486, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: -0.0000019073486, y: 0, z: 0}
 --- !u!1 &273084106
 GameObject:
   m_ObjectHideFlags: 0
@@ -6287,18 +6417,21 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
-  floorStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
-  - Spawner 1 Wave 3
-  - Spawner 1 Wave 4
+  coverStateEvents:
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  floorStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
+  - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -6378,8 +6511,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: -0.0000019073486, y: 0.05, z: 0.00000047683716}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: -0.0000019073486, y: 0, z: 0.00000047683716}
 --- !u!1 &289360583
 GameObject:
   m_ObjectHideFlags: 0
@@ -6456,7 +6589,10 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -6536,8 +6672,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &292943302
 Prefab:
   m_ObjectHideFlags: 0
@@ -6776,19 +6912,22 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents:
-  - Spawner 1 Wave 2
+  coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
-  pitStateEvents:
-  - Spawner 1 Wave 4
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
+  pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &298603699
@@ -6867,8 +7006,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: -0.0000019073486, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: -0.0000019073486, y: 0, z: 0}
 --- !u!1001 &299263530
 Prefab:
   m_ObjectHideFlags: 0
@@ -7019,7 +7158,10 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -7099,8 +7241,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: -0.0000019073486, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: -0.0000019073486, y: 0, z: 0}
 --- !u!1001 &317575629
 Prefab:
   m_ObjectHideFlags: 0
@@ -7393,19 +7535,22 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
-  floorStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
-  - Spawner 1 Wave 3
-  - Spawner 1 Wave 4
+  coverStateEvents:
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
-  pitStateEvents: []
+  floorStateEvents:
+  - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
+  pitStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &325650547
@@ -7484,8 +7629,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0.00000047683716}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0.00000047683716}
 --- !u!1 &332549581
 GameObject:
   m_ObjectHideFlags: 0
@@ -7732,18 +7877,21 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 2 Wave 2
+  - Spawner 2 Wave 3
+  - Spawner 2 Wave 4
+  - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 2 Wave 1
-  - Spawner 2 Wave 2
-  - Spawner 2 Wave 3
-  - Spawner 2 Wave 4
-  - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -7823,8 +7971,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &345096541
 GameObject:
   m_ObjectHideFlags: 0
@@ -7890,7 +8038,9 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 2 Wave 4
+  - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -7899,9 +8049,10 @@ MonoBehaviour:
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
-  - Spawner 2 Wave 4
-  - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -7981,8 +8132,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0.00000023841858}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0.00000023841858}
 --- !u!1001 &346809680
 Prefab:
   m_ObjectHideFlags: 0
@@ -8297,8 +8448,6 @@ MonoBehaviour:
   overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 2 Wave 1
@@ -8306,8 +8455,13 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
-  pitStateEvents: []
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 4
+  pitStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &363617222
@@ -8386,8 +8540,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &365859605
 GameObject:
   m_ObjectHideFlags: 0
@@ -8453,18 +8607,21 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 2 Wave 2
+  - Spawner 2 Wave 3
+  - Spawner 2 Wave 4
+  - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 2 Wave 1
-  - Spawner 2 Wave 2
-  - Spawner 2 Wave 3
-  - Spawner 2 Wave 4
-  - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -8544,8 +8701,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: -0.00000023841858}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: -0.00000023841858}
 --- !u!1 &367058602
 GameObject:
   m_ObjectHideFlags: 0
@@ -8611,18 +8768,21 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
-  floorStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
-  - Spawner 1 Wave 3
-  - Spawner 1 Wave 4
+  coverStateEvents:
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  floorStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
+  - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -8702,8 +8862,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0.00000047683716}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0.00000047683716}
 --- !u!1 &382180033
 GameObject:
   m_ObjectHideFlags: 0
@@ -8769,18 +8929,21 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
-  floorStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
-  - Spawner 1 Wave 3
-  - Spawner 1 Wave 4
+  coverStateEvents:
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  floorStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
+  - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -8860,8 +9023,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0.00000047683716}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0.00000047683716}
 --- !u!1 &385141683
 GameObject:
   m_ObjectHideFlags: 0
@@ -8927,18 +9090,21 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents:
-  - Spawner 1 Wave 2
-  - Spawner 1 Wave 3
+  coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
+  - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -9018,8 +9184,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0.00000047683716}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0.00000047683716}
 --- !u!1 &398690071
 GameObject:
   m_ObjectHideFlags: 0
@@ -9096,7 +9262,10 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -9176,8 +9345,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &406793699
 GameObject:
   m_ObjectHideFlags: 0
@@ -9393,7 +9562,10 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -9473,8 +9645,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: -0.0000019073486, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: -0.0000019073486, y: 0, z: 0}
 --- !u!1001 &424753749
 Prefab:
   m_ObjectHideFlags: 0
@@ -9699,7 +9871,10 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -9779,8 +9954,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0.00000023841858}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0.00000023841858}
 --- !u!1 &440177342
 GameObject:
   m_ObjectHideFlags: 0
@@ -9857,7 +10032,10 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -9937,8 +10115,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: -0.0000019073486, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: -0.0000019073486, y: 0, z: 0}
 --- !u!1 &445370083 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 5d9223fd338d51c44a10b29684719367, type: 3}
@@ -10035,7 +10213,10 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -10115,8 +10296,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0.00000047683716}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0.00000047683716}
 --- !u!1 &451549289
 GameObject:
   m_ObjectHideFlags: 0
@@ -10281,19 +10462,22 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
-  floorStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
-  - Spawner 1 Wave 3
-  - Spawner 2 Wave 1
+  coverStateEvents:
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
-  pitStateEvents:
+  floorStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
+  - Spawner 1 Wave 3
   - Spawner 1 Wave 4
+  - Spawner 2 Wave 1
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
+  pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &462031824
@@ -10372,8 +10556,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: -0.0000019073486, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: -0.0000019073486, y: 0, z: 0}
 --- !u!1 &462340294
 GameObject:
   m_ObjectHideFlags: 0
@@ -10439,19 +10623,22 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
-  floorStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
-  - Spawner 1 Wave 3
-  - Spawner 1 Wave 4
+  coverStateEvents:
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
-  pitStateEvents: []
+  floorStateEvents:
+  - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
+  pitStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &462340298
@@ -10530,8 +10717,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: -0.0000019073486, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: -0.0000019073486, y: 0, z: 0}
 --- !u!1001 &465249193
 Prefab:
   m_ObjectHideFlags: 0
@@ -10873,8 +11060,11 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
-  pitStateEvents: []
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 4
+  pitStateEvents:
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &506173524
@@ -10953,8 +11143,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: -0.0000019073486, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: -0.0000019073486, y: 0, z: 0}
 --- !u!1 &511708401 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 5d9223fd338d51c44a10b29684719367, type: 3}
@@ -11040,19 +11230,22 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 2 Wave 4
+  - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
+  - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
-  - Spawner 2 Wave 4
-  - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
-  pitStateEvents:
-  - Spawner 1 Wave 3
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
+  pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &524994056
@@ -11131,8 +11324,50 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &531545392
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 531545393}
+  - component: {fileID: 531545394}
+  m_Layer: 0
+  m_Name: SpawnPoint (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &531545393
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 531545392}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -9.4, y: 2.3, z: -19.3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2067283720}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &531545394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 531545392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4459bc4938fbdce4dab448c115726a99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 0.77
+  color: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &534102452 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 5d9223fd338d51c44a10b29684719367, type: 3}
@@ -11328,7 +11563,10 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -11408,8 +11646,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0.00000023841858}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0.00000023841858}
 --- !u!1001 &540017950
 Prefab:
   m_ObjectHideFlags: 0
@@ -11792,15 +12030,18 @@ MonoBehaviour:
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
+  - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
-  pitStateEvents:
-  - Spawner 1 Wave 3
-  - Spawner 1 Wave 4
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
+  pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &564827521
@@ -11879,8 +12120,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: -0.0000019073486, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: -0.0000019073486, y: 0, z: 0}
 --- !u!1 &569574186
 GameObject:
   m_ObjectHideFlags: 0
@@ -11975,18 +12216,21 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
-  floorStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
-  - Spawner 1 Wave 3
-  - Spawner 1 Wave 4
+  coverStateEvents:
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  floorStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
+  - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -12066,8 +12310,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0.00000047683716}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0.00000047683716}
 --- !u!1 &576170973
 GameObject:
   m_ObjectHideFlags: 0
@@ -12133,18 +12377,21 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
-  floorStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
-  - Spawner 1 Wave 3
-  - Spawner 1 Wave 4
+  coverStateEvents:
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  floorStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
+  - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -12224,8 +12471,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0.00000047683716}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0.00000047683716}
 --- !u!1 &594267869 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 5d9223fd338d51c44a10b29684719367, type: 3}
@@ -12508,6 +12755,48 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 625543212}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &626288275
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 626288276}
+  - component: {fileID: 626288277}
+  m_Layer: 0
+  m_Name: SpawnPoint (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &626288276
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 626288275}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -15.5, y: 2.3, z: 16.4}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2067283720}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &626288277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 626288275}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4459bc4938fbdce4dab448c115726a99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 0.77
+  color: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &628541612
 GameObject:
   m_ObjectHideFlags: 0
@@ -12573,7 +12862,9 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 2 Wave 4
+  - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -12582,9 +12873,10 @@ MonoBehaviour:
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
-  - Spawner 2 Wave 4
-  - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -12664,8 +12956,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0.00000047683716}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0.00000047683716}
 --- !u!1 &631466241
 GameObject:
   m_ObjectHideFlags: 0
@@ -12731,19 +13023,22 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
-  floorStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
-  - Spawner 1 Wave 3
-  - Spawner 1 Wave 4
+  coverStateEvents:
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
-  pitStateEvents: []
+  floorStateEvents:
+  - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
+  pitStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &631466245
@@ -12822,8 +13117,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0.00000047683716}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0.00000047683716}
 --- !u!1 &634625495 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 5d9223fd338d51c44a10b29684719367, type: 3}
@@ -13028,19 +13323,22 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
-  floorStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
-  - Spawner 1 Wave 3
-  - Spawner 1 Wave 4
+  coverStateEvents:
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
-  pitStateEvents: []
+  floorStateEvents:
+  - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
+  pitStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &654501371
@@ -13119,8 +13417,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: -0.0000019073486, y: 0.05, z: 0.00000047683716}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: -0.0000019073486, y: 0, z: 0.00000047683716}
 --- !u!1 &658721732
 GameObject:
   m_ObjectHideFlags: 0
@@ -13392,18 +13690,21 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
-  floorStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
-  - Spawner 1 Wave 3
-  - Spawner 1 Wave 4
+  coverStateEvents:
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  floorStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
+  - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -13483,8 +13784,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &687778933
 GameObject:
   m_ObjectHideFlags: 0
@@ -13592,7 +13893,10 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -13672,8 +13976,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &707743340
 GameObject:
   m_ObjectHideFlags: 0
@@ -13739,19 +14043,22 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 2 Wave 4
+  - Spawner 2 Wave 5
   floorStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
-  - Spawner 2 Wave 4
-  - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
-  pitStateEvents: []
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
+  pitStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &707743344
@@ -13830,8 +14137,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0.00000047683716}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0.00000047683716}
 --- !u!1 &716914986
 GameObject:
   m_ObjectHideFlags: 0
@@ -13954,7 +14261,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 717551483}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 28.1, y: 2.3, z: -19.1}
+  m_LocalPosition: {x: 28.1, y: 2.3, z: 2.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 70634243}
@@ -14202,14 +14509,17 @@ MonoBehaviour:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
   - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
-  pitStateEvents:
-  - Spawner 1 Wave 4
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
+  pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &733378288
@@ -14288,8 +14598,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: -0.0000019073486, y: 0.05, z: 0.00000023841858}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: -0.0000019073486, y: 0, z: 0.00000023841858}
 --- !u!1 &738622688 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 5d9223fd338d51c44a10b29684719367, type: 3}
@@ -14791,19 +15101,22 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
-  floorStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
-  - Spawner 1 Wave 3
-  - Spawner 1 Wave 4
+  coverStateEvents:
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
-  pitStateEvents: []
+  floorStateEvents:
+  - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
+  pitStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &777937628
@@ -14882,8 +15195,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: -0.0000019073486, y: 0.05, z: 0.00000047683716}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: -0.0000019073486, y: 0, z: 0.00000047683716}
 --- !u!1 &778235458
 GameObject:
   m_ObjectHideFlags: 0
@@ -15158,8 +15471,11 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
-  pitStateEvents: []
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 4
+  pitStateEvents:
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &785586099
@@ -15238,8 +15554,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &797050453
 GameObject:
   m_ObjectHideFlags: 0
@@ -15316,7 +15632,10 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -15396,8 +15715,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: -0.0000019073486, y: 0.05, z: 0.00000011920929}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: -0.0000019073486, y: 0, z: 0.00000011920929}
 --- !u!1 &801781338
 GameObject:
   m_ObjectHideFlags: 0
@@ -15562,18 +15881,21 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
-  floorStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
-  - Spawner 1 Wave 3
-  - Spawner 1 Wave 4
+  coverStateEvents:
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  floorStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
+  - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -15653,8 +15975,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &813602760
 GameObject:
   m_ObjectHideFlags: 0
@@ -15731,7 +16053,10 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -15811,8 +16136,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &816222219
 GameObject:
   m_ObjectHideFlags: 0
@@ -16019,8 +16344,6 @@ MonoBehaviour:
   overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 2 Wave 1
@@ -16028,8 +16351,13 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
-  pitStateEvents: []
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 4
+  pitStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &817353999
@@ -16108,8 +16436,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &823821898
 GameObject:
   m_ObjectHideFlags: 0
@@ -16214,7 +16542,10 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -16612,7 +16943,10 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -16692,8 +17026,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &841119597
 GameObject:
   m_ObjectHideFlags: 0
@@ -16770,7 +17104,10 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -16850,8 +17187,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: -0.0000019073486, y: 0.05, z: 0.00000047683716}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: -0.0000019073486, y: 0, z: 0.00000047683716}
 --- !u!1 &849157213
 GameObject:
   m_ObjectHideFlags: 0
@@ -16917,19 +17254,22 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 2 Wave 4
+  - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
   - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
-  - Spawner 2 Wave 4
-  - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
-  pitStateEvents:
-  - Spawner 1 Wave 4
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
+  pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &849157217
@@ -17008,8 +17348,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &851969300
 GameObject:
   m_ObjectHideFlags: 0
@@ -17123,7 +17463,10 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 2 Wave 3
+  - Spawner 2 Wave 4
+  - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -17131,10 +17474,10 @@ MonoBehaviour:
   - Spawner 1 Wave 4
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
-  - Spawner 2 Wave 3
-  - Spawner 2 Wave 4
-  - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -17214,8 +17557,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0.00000047683716}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0.00000047683716}
 --- !u!1 &859396984
 GameObject:
   m_ObjectHideFlags: 0
@@ -17391,7 +17734,10 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -17471,8 +17817,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0.00000011920929}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0.00000011920929}
 --- !u!1 &873638541 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 5d9223fd338d51c44a10b29684719367, type: 3}
@@ -17558,19 +17904,22 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
-  floorStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
-  - Spawner 1 Wave 3
-  - Spawner 1 Wave 4
-  - Spawner 2 Wave 1
+  coverStateEvents:
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
-  pitStateEvents: []
+  floorStateEvents:
+  - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
+  - Spawner 2 Wave 1
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
+  pitStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &880090713
@@ -17649,8 +17998,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: -0.0000019073486, y: 0.05, z: 0.00000047683716}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: -0.0000019073486, y: 0, z: 0.00000047683716}
 --- !u!1 &896681588
 GameObject:
   m_ObjectHideFlags: 0
@@ -17716,18 +18065,21 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
-  floorStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
-  - Spawner 1 Wave 3
-  - Spawner 1 Wave 4
+  coverStateEvents:
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  floorStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
+  - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -17807,8 +18159,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &915463631
 Prefab:
   m_ObjectHideFlags: 0
@@ -17948,18 +18300,21 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
-  floorStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
-  - Spawner 1 Wave 3
-  - Spawner 1 Wave 4
+  coverStateEvents:
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  floorStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
+  - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -18039,8 +18394,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0.00000023841858}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0.00000023841858}
 --- !u!1 &929449483
 GameObject:
   m_ObjectHideFlags: 0
@@ -18205,19 +18560,22 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
-  floorStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
-  - Spawner 1 Wave 3
-  - Spawner 1 Wave 4
+  coverStateEvents:
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
-  pitStateEvents: []
+  floorStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
+  - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 4
+  pitStateEvents:
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &934920724
@@ -18296,8 +18654,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0.00000047683716}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0.00000047683716}
 --- !u!1 &942288882
 GameObject:
   m_ObjectHideFlags: 0
@@ -18363,18 +18721,21 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents:
-  - Spawner 1 Wave 3
+  coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
+  - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -18454,8 +18815,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: -0.00000023841858}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: -0.00000023841858}
 --- !u!1 &945582499
 GameObject:
   m_ObjectHideFlags: 0
@@ -18521,19 +18882,22 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
-  floorStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
-  - Spawner 1 Wave 3
-  - Spawner 1 Wave 4
+  coverStateEvents:
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
-  pitStateEvents: []
+  floorStateEvents:
+  - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
+  pitStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &945582503
@@ -18612,8 +18976,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0.0000038146973, y: 0.05, z: 0.00000047683716}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0.0000038146973, y: 0, z: 0.00000047683716}
 --- !u!1 &952256103
 GameObject:
   m_ObjectHideFlags: 0
@@ -18690,7 +19054,10 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -18770,8 +19137,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: -0.00000023841858}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: -0.00000023841858}
 --- !u!1 &953201605
 GameObject:
   m_ObjectHideFlags: 0
@@ -18837,18 +19204,21 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
-  floorStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
-  - Spawner 1 Wave 3
-  - Spawner 1 Wave 4
+  coverStateEvents:
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  floorStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
+  - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -18928,8 +19298,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0.00000011920929}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0.00000011920929}
 --- !u!1 &953673823 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 5d9223fd338d51c44a10b29684719367, type: 3}
@@ -19015,18 +19385,21 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents:
-  - Spawner 1 Wave 4
+  coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
   - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -19106,8 +19479,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &957749798
 GameObject:
   m_ObjectHideFlags: 0
@@ -19272,19 +19645,22 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
-  floorStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
-  - Spawner 1 Wave 3
-  - Spawner 1 Wave 4
+  coverStateEvents:
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
-  pitStateEvents: []
+  floorStateEvents:
+  - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
+  pitStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &958755788
@@ -19363,8 +19739,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: -0.0000019073486, y: 0.05, z: 0.00000047683716}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: -0.0000019073486, y: 0, z: 0.00000047683716}
 --- !u!1 &969749597
 GameObject:
   m_ObjectHideFlags: 0
@@ -19396,6 +19772,48 @@ Transform:
   m_Father: {fileID: 498256630}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!1 &971652400
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 971652401}
+  - component: {fileID: 971652402}
+  m_Layer: 0
+  m_Name: SpawnPoint (4)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &971652401
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 971652400}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 27.9, y: 2.3, z: -15.8}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2067283720}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &971652402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 971652400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4459bc4938fbdce4dab448c115726a99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 0.77
+  color: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &977854361
 GameObject:
   m_ObjectHideFlags: 0
@@ -19461,7 +19879,9 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 2 Wave 4
+  - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -19470,9 +19890,10 @@ MonoBehaviour:
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
-  - Spawner 2 Wave 4
-  - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -19552,8 +19973,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &996748860
 GameObject:
   m_ObjectHideFlags: 0
@@ -19630,7 +20051,10 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -19710,8 +20134,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: -0.00000011920929}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: -0.00000011920929}
 --- !u!1001 &1006267525
 Prefab:
   m_ObjectHideFlags: 0
@@ -19958,18 +20382,21 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 2 Wave 2
+  - Spawner 2 Wave 3
+  - Spawner 2 Wave 4
+  - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 2 Wave 1
-  - Spawner 2 Wave 2
-  - Spawner 2 Wave 3
-  - Spawner 2 Wave 4
-  - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -20049,8 +20476,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: -0.0000019073486, y: 0.05, z: 0.00000047683716}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: -0.0000019073486, y: 0, z: 0.00000047683716}
 --- !u!1 &1027375448 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 5d9223fd338d51c44a10b29684719367, type: 3}
@@ -20285,7 +20712,10 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -20365,8 +20795,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1039749053
 GameObject:
   m_ObjectHideFlags: 0
@@ -20794,7 +21224,8 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -20804,8 +21235,10 @@ MonoBehaviour:
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
-  - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -20885,8 +21318,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0.00000047683716}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0.00000047683716}
 --- !u!1 &1071340034
 GameObject:
   m_ObjectHideFlags: 0
@@ -20952,18 +21385,21 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
-  floorStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
-  - Spawner 1 Wave 3
-  - Spawner 1 Wave 4
+  coverStateEvents:
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  floorStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
+  - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -21043,8 +21479,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: -0.0000019073486, y: 0.05, z: 0.00000047683716}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: -0.0000019073486, y: 0, z: 0.00000047683716}
 --- !u!1 &1076517655
 GameObject:
   m_ObjectHideFlags: 0
@@ -21110,10 +21546,10 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents:
-  - Spawner 1 Wave 2
+  coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 2 Wave 1
@@ -21121,7 +21557,10 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -21201,8 +21640,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1077028123
 GameObject:
   m_ObjectHideFlags: 0
@@ -21279,7 +21718,10 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -21359,8 +21801,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1079819524 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 5d9223fd338d51c44a10b29684719367, type: 3}
@@ -21446,18 +21888,21 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
-  floorStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
-  - Spawner 1 Wave 3
-  - Spawner 1 Wave 4
+  coverStateEvents:
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  floorStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
+  - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -21537,8 +21982,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: -0.0000019073486, y: 0.05, z: 0.00000023841858}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: -0.0000019073486, y: 0, z: 0.00000023841858}
 --- !u!1 &1084868275 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 5d9223fd338d51c44a10b29684719367, type: 3}
@@ -21582,7 +22027,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1096097736}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -15.5, y: 2.3, z: 16.4}
+  m_LocalPosition: {x: -15.5, y: 2.3, z: -0.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 70634243}
@@ -21740,18 +22185,21 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 2 Wave 2
+  - Spawner 2 Wave 3
+  - Spawner 2 Wave 4
+  - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 2 Wave 1
-  - Spawner 2 Wave 2
-  - Spawner 2 Wave 3
-  - Spawner 2 Wave 4
-  - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -21831,8 +22279,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1111442432
 GameObject:
   m_ObjectHideFlags: 0
@@ -22046,18 +22494,21 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
-  - Spawner 1 Wave 3
-  - Spawner 1 Wave 4
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -22137,8 +22588,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1123132407
 GameObject:
   m_ObjectHideFlags: 0
@@ -22204,19 +22655,22 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
-  floorStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
-  - Spawner 1 Wave 3
-  - Spawner 1 Wave 4
+  coverStateEvents:
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
-  pitStateEvents: []
+  floorStateEvents:
+  - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
+  pitStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &1123132411
@@ -22295,8 +22749,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1125767469
 GameObject:
   m_ObjectHideFlags: 0
@@ -22461,7 +22915,10 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 2 Wave 3
+  - Spawner 2 Wave 4
+  - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -22469,10 +22926,10 @@ MonoBehaviour:
   - Spawner 1 Wave 4
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
-  - Spawner 2 Wave 3
-  - Spawner 2 Wave 4
-  - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -22552,8 +23009,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: -0.0000019073486, y: 0.05, z: 0.00000047683716}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: -0.0000019073486, y: 0, z: 0.00000047683716}
 --- !u!1001 &1134989817
 Prefab:
   m_ObjectHideFlags: 0
@@ -22704,7 +23161,10 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -22784,8 +23244,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: -0.0000019073486, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: -0.0000019073486, y: 0, z: 0}
 --- !u!1 &1144947149
 GameObject:
   m_ObjectHideFlags: 0
@@ -22851,19 +23311,22 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents:
-  - Spawner 1 Wave 2
+  coverStateEvents: []
   floorStateEvents:
-  - Spawner 1 Wave 1
+  - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 4
   pitStateEvents:
-  - Spawner 1 Wave 3
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &1144947153
@@ -22942,8 +23405,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1147649681
 GameObject:
   m_ObjectHideFlags: 0
@@ -23020,7 +23483,10 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -23100,8 +23566,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &1157476597
 Prefab:
   m_ObjectHideFlags: 0
@@ -23416,7 +23882,10 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -23496,8 +23965,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1167016685
 GameObject:
   m_ObjectHideFlags: 0
@@ -23568,14 +24037,17 @@ MonoBehaviour:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
   - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
-  pitStateEvents:
-  - Spawner 1 Wave 4
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
+  pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &1167016689
@@ -23654,8 +24126,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0.00000023841858}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0.00000023841858}
 --- !u!1 &1171524188 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 5d9223fd338d51c44a10b29684719367, type: 3}
@@ -23835,7 +24307,10 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 2 Wave 3
+  - Spawner 2 Wave 4
+  - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -23843,10 +24318,10 @@ MonoBehaviour:
   - Spawner 1 Wave 4
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
-  - Spawner 2 Wave 3
-  - Spawner 2 Wave 4
-  - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -23926,8 +24401,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0.00000047683716}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0.00000047683716}
 --- !u!1 &1187470303
 GameObject:
   m_ObjectHideFlags: 0
@@ -23993,18 +24468,21 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents:
-  - Spawner 1 Wave 4
+  coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
   - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -24084,8 +24562,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: -0.0000019073486, y: 0.05, z: 0.00000011920929}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: -0.0000019073486, y: 0, z: 0.00000011920929}
 --- !u!1 &1199710084
 GameObject:
   m_ObjectHideFlags: 0
@@ -24151,7 +24629,8 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -24161,8 +24640,10 @@ MonoBehaviour:
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
-  - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -24242,8 +24723,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1203057762
 GameObject:
   m_ObjectHideFlags: 0
@@ -24370,18 +24851,21 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
-  floorStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
-  - Spawner 1 Wave 3
-  - Spawner 1 Wave 4
+  coverStateEvents:
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  floorStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
+  - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -24461,8 +24945,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0.00000011920929}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0.00000011920929}
 --- !u!1 &1212905014
 GameObject:
   m_ObjectHideFlags: 0
@@ -24652,7 +25136,10 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -24906,7 +25393,8 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -24916,8 +25404,10 @@ MonoBehaviour:
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
-  - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -24997,8 +25487,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: -0.0000019073486, y: 0.05, z: 0.00000047683716}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: -0.0000019073486, y: 0, z: 0.00000047683716}
 --- !u!1 &1231403686 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 5d9223fd338d51c44a10b29684719367, type: 3}
@@ -25084,10 +25574,10 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents:
-  - Spawner 1 Wave 2
+  coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 2 Wave 1
@@ -25095,7 +25585,10 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -25175,8 +25668,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: -0.0000019073486, y: 0.05, z: -0.00000011920929}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: -0.0000019073486, y: 0, z: -0.00000011920929}
 --- !u!1 &1257558419
 GameObject:
   m_ObjectHideFlags: 0
@@ -25253,8 +25746,11 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
-  pitStateEvents: []
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 4
+  pitStateEvents:
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &1257558423
@@ -25333,8 +25829,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1260307933
 GameObject:
   m_ObjectHideFlags: 0
@@ -25376,13 +25872,16 @@ MonoBehaviour:
     - Type: 0
       Count: 3
     - Type: 1
-      Count: 4
+      Count: 3
+    - Type: 3
+      Count: 2
     remainingSpawns: 0
     spawnEffectTime: 1.5
     intensity: 0
     NumToNextWave: 2
     preEventNames:
     - Spawner 2 Wave 1
+    - Music_Spawner 2 Wave 1
     postEventNames: []
     spawnOffset: 0
     spawnTimeOffset: 0
@@ -25394,15 +25893,15 @@ MonoBehaviour:
   - spawnedHashCodes: 
     monsterList:
     - Type: 0
-      Count: 3
+      Count: 2
     - Type: 1
-      Count: 4
-    - Type: 0
+      Count: 3
+    - Type: 2
       Count: 1
     remainingSpawns: 0
     spawnEffectTime: 1.5
     intensity: 0
-    NumToNextWave: 3
+    NumToNextWave: 2
     preEventNames:
     - Spawner 2 Wave 2
     postEventNames: []
@@ -25418,7 +25917,7 @@ MonoBehaviour:
     - Type: 0
       Count: 0
     - Type: 1
-      Count: 6
+      Count: 5
     - Type: 0
       Count: 0
     remainingSpawns: 0
@@ -25427,7 +25926,6 @@ MonoBehaviour:
     NumToNextWave: 3
     preEventNames:
     - Spawner 2 Wave 3
-    - Music_Spawner 2 Wave 3
     postEventNames: []
     spawnOffset: 0
     spawnTimeOffset: 0
@@ -25438,12 +25936,12 @@ MonoBehaviour:
       max: 2
   - spawnedHashCodes: 
     monsterList:
-    - Type: 0
-      Count: 3
+    - Type: 4
+      Count: 1
     - Type: 1
-      Count: 6
-    - Type: 0
-      Count: 3
+      Count: 4
+    - Type: 3
+      Count: 0
     remainingSpawns: 0
     spawnEffectTime: 1.5
     intensity: 0
@@ -25460,11 +25958,13 @@ MonoBehaviour:
       max: 2
   - spawnedHashCodes: 
     monsterList:
+    - Type: 4
+      Count: 1
     - Type: 2
       Count: 1
-    - Type: 1
+    - Type: 3
       Count: 0
-    - Type: 0
+    - Type: 1
       Count: 0
     remainingSpawns: 0
     spawnEffectTime: 1.5
@@ -25472,29 +25972,6 @@ MonoBehaviour:
     NumToNextWave: 0
     preEventNames:
     - Spawner 2 Wave 5
-    - Music_Spawner 2 Wave 5
-    postEventNames: []
-    spawnOffset: 0
-    spawnTimeOffset: 0
-    SpawningTime:
-      minLimit: 0
-      maxLimit: 0
-      min: 1.7
-      max: 2
-  - spawnedHashCodes: 
-    monsterList:
-    - Type: 2
-      Count: 1
-    - Type: 1
-      Count: 4
-    - Type: 0
-      Count: 3
-    remainingSpawns: 0
-    spawnEffectTime: 1.5
-    intensity: 0
-    NumToNextWave: 0
-    preEventNames:
-    - Spawner 2 Wave 6
     postEventNames: []
     spawnOffset: 0
     spawnTimeOffset: 0
@@ -25588,19 +26065,22 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
-  floorStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
-  - Spawner 1 Wave 3
-  - Spawner 1 Wave 4
+  coverStateEvents:
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
-  pitStateEvents: []
+  floorStateEvents:
+  - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
+  pitStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &1262756102
@@ -25679,8 +26159,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0.00000047683716}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0.00000047683716}
 --- !u!1 &1275616762
 GameObject:
   m_ObjectHideFlags: 0
@@ -25795,18 +26275,21 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
-  floorStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
-  - Spawner 1 Wave 3
-  - Spawner 1 Wave 4
+  coverStateEvents:
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  floorStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
+  - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -25886,8 +26369,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0.00000047683716}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0.00000047683716}
 --- !u!1 &1294383209
 GameObject:
   m_ObjectHideFlags: 0
@@ -26029,7 +26512,10 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -26109,8 +26595,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: -0.00000011920929}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: -0.00000011920929}
 --- !u!1001 &1307072437
 Prefab:
   m_ObjectHideFlags: 0
@@ -26681,7 +27167,8 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -26691,8 +27178,10 @@ MonoBehaviour:
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
-  - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -26772,8 +27261,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0.00000047683716}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0.00000047683716}
 --- !u!1 &1354418665
 GameObject:
   m_ObjectHideFlags: 0
@@ -26935,7 +27424,10 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -27015,8 +27507,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: -0.0000019073486, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: -0.0000019073486, y: 0, z: 0}
 --- !u!1 &1366354427
 GameObject:
   m_ObjectHideFlags: 0
@@ -27093,7 +27585,10 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -27173,8 +27668,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: -0.0000019073486, y: 0.05, z: -0.00000023841858}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: -0.0000019073486, y: 0, z: -0.00000023841858}
 --- !u!1 &1367846355 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 5d9223fd338d51c44a10b29684719367, type: 3}
@@ -27280,18 +27775,21 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
-  floorStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
-  - Spawner 1 Wave 3
-  - Spawner 1 Wave 4
+  coverStateEvents:
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  floorStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
+  - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -27371,8 +27869,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: -0.0000019073486, y: 0.05, z: 0.00000047683716}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: -0.0000019073486, y: 0, z: 0.00000047683716}
 --- !u!1 &1394354568
 GameObject:
   m_ObjectHideFlags: 0
@@ -27438,19 +27936,22 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
-  floorStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
-  - Spawner 1 Wave 3
-  - Spawner 1 Wave 4
+  coverStateEvents:
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
-  pitStateEvents: []
+  floorStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
+  - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 4
+  pitStateEvents:
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &1394354572
@@ -27529,8 +28030,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0.00000047683716}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0.00000047683716}
 --- !u!1001 &1412180883
 Prefab:
   m_ObjectHideFlags: 0
@@ -27670,19 +28171,22 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
-  floorStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
-  - Spawner 1 Wave 3
-  - Spawner 1 Wave 4
+  coverStateEvents:
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
-  pitStateEvents: []
+  floorStateEvents:
+  - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
+  pitStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &1413211907
@@ -27761,8 +28265,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1419345214
 GameObject:
   m_ObjectHideFlags: 0
@@ -27828,7 +28332,10 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 2 Wave 3
+  - Spawner 2 Wave 4
+  - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -27836,10 +28343,10 @@ MonoBehaviour:
   - Spawner 1 Wave 4
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
-  - Spawner 2 Wave 3
-  - Spawner 2 Wave 4
-  - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -27919,8 +28426,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: -0.0000019073486, y: 0.05, z: 0.00000047683716}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: -0.0000019073486, y: 0, z: 0.00000047683716}
 --- !u!1 &1424689776
 GameObject:
   m_ObjectHideFlags: 0
@@ -27999,7 +28506,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1424689776}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.9, y: -2.41, z: -136.1}
+  m_LocalPosition: {x: 3.9, y: -2.96, z: -136.1}
   m_LocalScale: {x: 14.52489, y: 14.5249, z: 14.5249}
   m_Children: []
   m_Father: {fileID: 0}
@@ -28071,17 +28578,20 @@ MonoBehaviour:
   nextState: 0
   overlappingObjects: 0
   coverStateEvents:
-  - Spawner 1 Wave 3
+  - Spawner 2 Wave 4
+  - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
+  - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
-  - Spawner 2 Wave 4
-  - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -28161,8 +28671,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1435292446
 GameObject:
   m_ObjectHideFlags: 0
@@ -28228,7 +28738,9 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 2 Wave 4
+  - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -28237,9 +28749,10 @@ MonoBehaviour:
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
-  - Spawner 2 Wave 4
-  - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -28319,8 +28832,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1436338951
 GameObject:
   m_ObjectHideFlags: 0
@@ -28386,18 +28899,21 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents:
-  - Spawner 1 Wave 4
+  coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
   - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -28477,8 +28993,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1453249462
 GameObject:
   m_ObjectHideFlags: 0
@@ -28544,18 +29060,21 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
-  floorStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
-  - Spawner 1 Wave 3
-  - Spawner 1 Wave 4
+  coverStateEvents:
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  floorStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
+  - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -28635,8 +29154,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1465172493
 GameObject:
   m_ObjectHideFlags: 0
@@ -28841,19 +29360,22 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
-  floorStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
-  - Spawner 1 Wave 3
-  - Spawner 1 Wave 4
+  coverStateEvents:
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
-  pitStateEvents: []
+  floorStateEvents:
+  - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
+  pitStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &1466696723
@@ -28932,8 +29454,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0.00000047683716}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0.00000047683716}
 --- !u!1 &1468090310
 GameObject:
   m_ObjectHideFlags: 0
@@ -28999,18 +29521,21 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 2 Wave 2
+  - Spawner 2 Wave 3
+  - Spawner 2 Wave 4
+  - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 2 Wave 1
-  - Spawner 2 Wave 2
-  - Spawner 2 Wave 3
-  - Spawner 2 Wave 4
-  - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -29090,8 +29615,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: -0.00000023841858}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: -0.00000023841858}
 --- !u!1 &1468957563
 GameObject:
   m_ObjectHideFlags: 0
@@ -29157,18 +29682,21 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
-  floorStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
-  - Spawner 1 Wave 3
-  - Spawner 1 Wave 4
+  coverStateEvents:
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  floorStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
+  - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -29248,8 +29776,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: -0.0000019073486, y: 0.05, z: 0.00000047683716}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: -0.0000019073486, y: 0, z: 0.00000047683716}
 --- !u!1 &1480688920
 GameObject:
   m_ObjectHideFlags: 0
@@ -29315,18 +29843,21 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
-  floorStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
-  - Spawner 1 Wave 3
-  - Spawner 1 Wave 4
+  coverStateEvents:
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  floorStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
+  - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -29406,8 +29937,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: -0.00000011920929}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: -0.00000011920929}
 --- !u!1 &1492172657
 GameObject:
   m_ObjectHideFlags: 0
@@ -29473,18 +30004,21 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
-  floorStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
-  - Spawner 1 Wave 3
-  - Spawner 1 Wave 4
+  coverStateEvents:
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  floorStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
+  - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -29564,8 +30098,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1492783456
 GameObject:
   m_ObjectHideFlags: 0
@@ -29750,19 +30284,22 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
-  floorStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
-  - Spawner 1 Wave 3
-  - Spawner 1 Wave 4
+  coverStateEvents:
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
-  pitStateEvents: []
+  floorStateEvents:
+  - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
+  pitStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &1517256120
@@ -29841,8 +30378,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: -0.00000023841858}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: -0.00000023841858}
 --- !u!1 &1520368028
 GameObject:
   m_ObjectHideFlags: 0
@@ -30024,18 +30561,21 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
-  floorStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
-  - Spawner 1 Wave 3
-  - Spawner 1 Wave 4
+  coverStateEvents:
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  floorStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
+  - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -30115,8 +30655,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: -0.00000011920929}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: -0.00000011920929}
 --- !u!1 &1531299672
 GameObject:
   m_ObjectHideFlags: 0
@@ -30193,7 +30733,10 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -30273,8 +30816,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1533271998
 GameObject:
   m_ObjectHideFlags: 0
@@ -30340,19 +30883,22 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
-  floorStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
-  - Spawner 1 Wave 3
-  - Spawner 1 Wave 4
+  coverStateEvents:
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
-  pitStateEvents: []
+  floorStateEvents:
+  - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
+  pitStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &1533272002
@@ -30431,8 +30977,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0.00000047683716}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0.00000047683716}
 --- !u!1 &1536767639
 GameObject:
   m_ObjectHideFlags: 0
@@ -30498,7 +31044,8 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -30508,8 +31055,10 @@ MonoBehaviour:
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
-  - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -30589,8 +31138,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0.00000047683716}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0.00000047683716}
 --- !u!1 &1537034987
 GameObject:
   m_ObjectHideFlags: 0
@@ -30667,7 +31216,10 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -30747,8 +31299,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: -0.0000019073486, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: -0.0000019073486, y: 0, z: 0}
 --- !u!1001 &1537643489
 Prefab:
   m_ObjectHideFlags: 0
@@ -30888,7 +31440,9 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 2 Wave 4
+  - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -30897,9 +31451,10 @@ MonoBehaviour:
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
-  - Spawner 2 Wave 4
-  - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -30979,8 +31534,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: -0.00000023841858}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: -0.00000023841858}
 --- !u!1 &1552143721 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 5d9223fd338d51c44a10b29684719367, type: 3}
@@ -31151,7 +31706,10 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -31231,8 +31789,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1560642734
 GameObject:
   m_ObjectHideFlags: 0
@@ -31397,19 +31955,22 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 2 Wave 3
+  - Spawner 2 Wave 4
+  - Spawner 2 Wave 5
   floorStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
-  - Spawner 2 Wave 3
-  - Spawner 2 Wave 4
-  - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
-  pitStateEvents: []
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
+  pitStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &1562269163
@@ -31488,8 +32049,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0.00000047683716}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0.00000047683716}
 --- !u!1 &1563831465
 GameObject:
   m_ObjectHideFlags: 0
@@ -31566,7 +32127,10 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -31646,8 +32210,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: -0.0000019073486, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: -0.0000019073486, y: 0, z: 0}
 --- !u!1 &1566647461
 GameObject:
   m_ObjectHideFlags: 0
@@ -31713,19 +32277,22 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
-  floorStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
-  - Spawner 1 Wave 3
-  - Spawner 1 Wave 4
+  coverStateEvents:
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
-  pitStateEvents: []
+  floorStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
+  - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 4
+  pitStateEvents:
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &1566647465
@@ -31804,8 +32371,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &1571879074
 Prefab:
   m_ObjectHideFlags: 0
@@ -31956,7 +32523,10 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -32036,8 +32606,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0.0000038146973, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0.0000038146973, y: 0, z: 0}
 --- !u!1 &1584231661
 GameObject:
   m_ObjectHideFlags: 0
@@ -32200,7 +32770,10 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -32280,8 +32853,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: -0.0000019073486, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: -0.0000019073486, y: 0, z: 0}
 --- !u!1 &1602838484
 GameObject:
   m_ObjectHideFlags: 0
@@ -32457,7 +33030,10 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -32537,8 +33113,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0.00000047683716}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0.00000047683716}
 --- !u!1001 &1626285942
 Prefab:
   m_ObjectHideFlags: 0
@@ -32777,19 +33353,22 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
-  floorStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
-  - Spawner 1 Wave 3
-  - Spawner 1 Wave 4
+  coverStateEvents:
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
-  pitStateEvents: []
+  floorStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
+  - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 4
+  pitStateEvents:
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &1640018026
@@ -32868,8 +33447,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &1647480174
 Prefab:
   m_ObjectHideFlags: 0
@@ -33040,7 +33619,10 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -33120,8 +33702,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: -0.0000019073486, y: 0.05, z: 0.00000047683716}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: -0.0000019073486, y: 0, z: 0.00000047683716}
 --- !u!1 &1657008478 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 5d9223fd338d51c44a10b29684719367, type: 3}
@@ -33760,7 +34342,10 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -33840,8 +34425,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1711806660
 GameObject:
   m_ObjectHideFlags: 0
@@ -34023,19 +34608,22 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents:
-  - Spawner 1 Wave 2
+  coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
+  - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
-  pitStateEvents:
-  - Spawner 1 Wave 3
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
+  pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &1721464011
@@ -34114,8 +34702,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: -0.0000019073486, y: 0.05, z: 0.00000047683716}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: -0.0000019073486, y: 0, z: 0.00000047683716}
 --- !u!1 &1723210094
 GameObject:
   m_ObjectHideFlags: 0
@@ -34192,7 +34780,10 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -34272,8 +34863,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0.00000011920929}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0.00000011920929}
 --- !u!1 &1724796943
 GameObject:
   m_ObjectHideFlags: 0
@@ -34621,7 +35212,8 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -34631,8 +35223,10 @@ MonoBehaviour:
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
-  - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -34712,8 +35306,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: -0.0000019073486, y: 0.05, z: 0.00000047683716}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: -0.0000019073486, y: 0, z: 0.00000047683716}
 --- !u!1 &1760477449
 GameObject:
   m_ObjectHideFlags: 0
@@ -34747,6 +35341,8 @@ MonoBehaviour:
     Time: 5
   - Prefab: {fileID: 1260307933}
     Time: 5
+  - Prefab: {fileID: 2067283718}
+    Time: 5
 --- !u!4 &1760477451
 Transform:
   m_ObjectHideFlags: 0
@@ -34760,6 +35356,7 @@ Transform:
   m_Children:
   - {fileID: 70634243}
   - {fileID: 1260307935}
+  - {fileID: 2067283720}
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -34839,8 +35436,11 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
-  pitStateEvents: []
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 4
+  pitStateEvents:
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &1764667936
@@ -34919,8 +35519,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: -0.0000019073486, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: -0.0000019073486, y: 0, z: 0}
 --- !u!1 &1770084039 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 5d9223fd338d51c44a10b29684719367, type: 3}
@@ -35006,19 +35606,22 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
-  floorStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
-  - Spawner 1 Wave 3
-  - Spawner 1 Wave 4
-  - Spawner 2 Wave 1
+  coverStateEvents:
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
-  pitStateEvents: []
+  floorStateEvents:
+  - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
+  - Spawner 2 Wave 1
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
+  pitStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &1776473974
@@ -35097,8 +35700,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0.00000047683716}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0.00000047683716}
 --- !u!1001 &1779312336
 Prefab:
   m_ObjectHideFlags: 0
@@ -35249,7 +35852,10 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -35329,8 +35935,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1799120536
 GameObject:
   m_ObjectHideFlags: 0
@@ -35407,7 +36013,10 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -35487,8 +36096,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1799536557
 GameObject:
   m_ObjectHideFlags: 0
@@ -35565,7 +36174,10 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -35645,8 +36257,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1804774520
 GameObject:
   m_ObjectHideFlags: 0
@@ -35670,7 +36282,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1804774520}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 29.7, y: 2.3, z: 15.2}
+  m_LocalPosition: {x: 4.6, y: 2.3, z: 22.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 70634243}
@@ -35765,7 +36377,10 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -35845,8 +36460,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0.00000047683716}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0.00000047683716}
 --- !u!1 &1814620115 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 5d9223fd338d51c44a10b29684719367, type: 3}
@@ -35973,19 +36588,22 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
-  floorStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
-  - Spawner 1 Wave 3
-  - Spawner 1 Wave 4
+  coverStateEvents:
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
-  pitStateEvents: []
+  floorStateEvents:
+  - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
+  pitStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &1822545438
@@ -36064,8 +36682,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1824586870
 GameObject:
   m_ObjectHideFlags: 0
@@ -36131,18 +36749,21 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 2 Wave 2
+  - Spawner 2 Wave 3
+  - Spawner 2 Wave 4
+  - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 2 Wave 1
-  - Spawner 2 Wave 2
-  - Spawner 2 Wave 3
-  - Spawner 2 Wave 4
-  - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -36222,8 +36843,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1828140583
 GameObject:
   m_ObjectHideFlags: 0
@@ -36547,7 +37168,10 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -36627,8 +37251,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0.00000047683716}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0.00000047683716}
 --- !u!1 &1862551978
 GameObject:
   m_ObjectHideFlags: 0
@@ -36694,19 +37318,22 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
-  floorStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
-  - Spawner 1 Wave 3
-  - Spawner 1 Wave 4
+  coverStateEvents:
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
-  pitStateEvents: []
+  floorStateEvents:
+  - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
+  pitStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &1862551982
@@ -36785,8 +37412,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: -0.0000019073486, y: 0.05, z: 0.00000047683716}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: -0.0000019073486, y: 0, z: 0.00000047683716}
 --- !u!1 &1863135540
 GameObject:
   m_ObjectHideFlags: 0
@@ -36863,7 +37490,10 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -36943,8 +37573,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: -0.00000023841858}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: -0.00000023841858}
 --- !u!1001 &1873399586
 Prefab:
   m_ObjectHideFlags: 0
@@ -37095,7 +37725,10 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -37175,8 +37808,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: -0.0000019073486, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: -0.0000019073486, y: 0, z: 0}
 --- !u!1 &1876074313
 GameObject:
   m_ObjectHideFlags: 0
@@ -37253,7 +37886,10 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -37333,8 +37969,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0.00000047683716}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0.00000047683716}
 --- !u!1 &1876168603
 GameObject:
   m_ObjectHideFlags: 0
@@ -37411,7 +38047,10 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -37491,8 +38130,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: -0.00000023841858}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: -0.00000023841858}
 --- !u!1 &1882217866
 GameObject:
   m_ObjectHideFlags: 0
@@ -37851,18 +38490,21 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 2 Wave 2
+  - Spawner 2 Wave 3
+  - Spawner 2 Wave 4
+  - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 2 Wave 1
-  - Spawner 2 Wave 2
-  - Spawner 2 Wave 3
-  - Spawner 2 Wave 4
-  - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -37942,8 +38584,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1925162973
 GameObject:
   m_ObjectHideFlags: 0
@@ -38011,8 +38653,6 @@ MonoBehaviour:
   overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 2 Wave 1
@@ -38020,8 +38660,13 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
-  pitStateEvents: []
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 4
+  pitStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &1925162977
@@ -38100,8 +38745,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &1931169006
 Prefab:
   m_ObjectHideFlags: 0
@@ -38252,7 +38897,10 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -38332,8 +38980,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: -0.0000019073486, y: 0.05, z: -0.00000023841858}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: -0.0000019073486, y: 0, z: -0.00000023841858}
 --- !u!1 &1938982962 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 5d9223fd338d51c44a10b29684719367, type: 3}
@@ -38419,7 +39067,10 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 2 Wave 3
+  - Spawner 2 Wave 4
+  - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -38427,10 +39078,10 @@ MonoBehaviour:
   - Spawner 1 Wave 4
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
-  - Spawner 2 Wave 3
-  - Spawner 2 Wave 4
-  - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -38510,8 +39161,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0.00000047683716}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0.00000047683716}
 --- !u!1 &1945871395
 GameObject:
   m_ObjectHideFlags: 0
@@ -38577,18 +39228,21 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
-  - Spawner 1 Wave 3
-  - Spawner 1 Wave 4
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -38668,8 +39322,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: -0.0000019073486, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: -0.0000019073486, y: 0, z: 0}
 --- !u!1 &1953108680
 GameObject:
   m_ObjectHideFlags: 0
@@ -38919,7 +39573,10 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -38999,8 +39656,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: -0.0000019073486, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: -0.0000019073486, y: 0, z: 0}
 --- !u!1001 &1994507901
 Prefab:
   m_ObjectHideFlags: 0
@@ -39225,8 +39882,11 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
-  pitStateEvents: []
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 4
+  pitStateEvents:
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &2007312355
@@ -39305,8 +39965,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: -0.00000011920929}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: -0.00000011920929}
 --- !u!1 &2008298565
 GameObject:
   m_ObjectHideFlags: 0
@@ -39372,7 +40032,9 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 2 Wave 4
+  - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -39381,9 +40043,10 @@ MonoBehaviour:
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
-  - Spawner 2 Wave 4
-  - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -39463,8 +40126,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2012362236
 GameObject:
   m_ObjectHideFlags: 0
@@ -39572,7 +40235,10 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -39652,8 +40318,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: -0.00000023841858}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: -0.00000023841858}
 --- !u!1 &2023066196
 GameObject:
   m_ObjectHideFlags: 0
@@ -39946,8 +40612,6 @@ MonoBehaviour:
   overlappingObjects: 0
   coverStateEvents: []
   floorStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 2 Wave 1
@@ -39955,8 +40619,13 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
-  pitStateEvents: []
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 4
+  pitStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
   yMoveSpeed: 0.03
   defaultState: 1
 --- !u!65 &2041126251
@@ -40035,8 +40704,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2046108677
 GameObject:
   m_ObjectHideFlags: 0
@@ -40102,18 +40771,21 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
-  floorStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
-  - Spawner 1 Wave 3
-  - Spawner 1 Wave 4
+  coverStateEvents:
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  floorStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
+  - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -40193,8 +40865,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2049794314
 GameObject:
   m_ObjectHideFlags: 0
@@ -40260,7 +40932,8 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -40270,8 +40943,10 @@ MonoBehaviour:
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
-  - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -40351,8 +41026,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: -0.0000019073486, y: 0.05, z: 0.00000047683716}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: -0.0000019073486, y: 0, z: 0.00000047683716}
 --- !u!1 &2052831310
 GameObject:
   m_ObjectHideFlags: 0
@@ -40793,6 +41468,175 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camera: {fileID: 0}
+--- !u!1 &2067283718
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 2067283720}
+  - component: {fileID: 2067283719}
+  m_Layer: 0
+  m_Name: MallCopSpawner(Clone)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2067283719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2067283718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdce7029b13d37940afce8409d4837bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useIntensityCurve: 0
+  manualEdits: 1
+  intensityCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  waves:
+  - spawnedHashCodes: 
+    monsterList:
+    - Type: 2
+      Count: 1
+    - Type: 0
+      Count: 1
+    - Type: 3
+      Count: 1
+    - Type: 1
+      Count: 4
+    remainingSpawns: 0
+    spawnEffectTime: 1.5
+    intensity: 0
+    NumToNextWave: 1
+    preEventNames:
+    - Spawner 3 Wave 1
+    - Music_Spawner 3 Wave 1
+    postEventNames: []
+    spawnOffset: 0
+    spawnTimeOffset: 0
+    SpawningTime:
+      minLimit: 0
+      maxLimit: 0
+      min: 1
+      max: 1
+  - spawnedHashCodes: 
+    monsterList:
+    - Type: 1
+      Count: 2
+    - Type: 3
+      Count: 6
+    - Type: 0
+      Count: 3
+    - Type: 2
+      Count: 1
+    remainingSpawns: 0
+    spawnEffectTime: 1.5
+    intensity: 0
+    NumToNextWave: 2
+    preEventNames:
+    - Spawner 3 Wave 2
+    postEventNames: []
+    spawnOffset: 0
+    spawnTimeOffset: 0
+    SpawningTime:
+      minLimit: 0
+      maxLimit: 0
+      min: 1
+      max: 1
+  - spawnedHashCodes: 
+    monsterList:
+    - Type: 4
+      Count: 1
+    - Type: 1
+      Count: 3
+    - Type: 3
+      Count: 1
+    remainingSpawns: 0
+    spawnEffectTime: 1.5
+    intensity: 0
+    NumToNextWave: 0
+    preEventNames:
+    - Spawner 3 Wave 3
+    postEventNames: []
+    spawnOffset: 0
+    spawnTimeOffset: 0
+    SpawningTime:
+      minLimit: 0
+      maxLimit: 0
+      min: 1
+      max: 1
+  - spawnedHashCodes: 
+    monsterList:
+    - Type: 5
+      Count: 1
+    - Type: 1
+      Count: 4
+    remainingSpawns: 0
+    spawnEffectTime: 1.5
+    intensity: 0
+    NumToNextWave: 0
+    preEventNames:
+    - Spawner 3 Wave 4
+    postEventNames: []
+    spawnOffset: 0
+    spawnTimeOffset: 0
+    SpawningTime:
+      minLimit: 0
+      maxLimit: 0
+      min: 1
+      max: 1
+  - spawnedHashCodes: 
+    monsterList:
+    - Type: 2
+      Count: 1
+    - Type: 4
+      Count: 1
+    - Type: 5
+      Count: 1
+    remainingSpawns: 0
+    spawnEffectTime: 1.5
+    intensity: 0
+    NumToNextWave: 0
+    preEventNames:
+    - Spawner 3 Wave 4
+    postEventNames: []
+    spawnOffset: 0
+    spawnTimeOffset: 0
+    SpawningTime:
+      minLimit: 0
+      maxLimit: 0
+      min: 1
+      max: 1
+  currentWaveNumber: 0
+  currentNumEnemies: 0
+  totalNumEnemies: 7
+--- !u!4 &2067283720
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2067283718}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 531545393}
+  - {fileID: 626288276}
+  - {fileID: 184025020}
+  - {fileID: 971652401}
+  m_Father: {fileID: 1760477451}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2068467332
 GameObject:
   m_ObjectHideFlags: 0
@@ -41095,7 +41939,10 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -41216,18 +42063,21 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents:
-  - Spawner 1 Wave 3
+  coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
+  - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -41307,8 +42157,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: -0.0000019073486, y: 0.05, z: 0.00000023841858}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: -0.0000019073486, y: 0, z: 0.00000023841858}
 --- !u!1001 &2076844628
 Prefab:
   m_ObjectHideFlags: 0
@@ -41448,18 +42298,21 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
-  - Spawner 1 Wave 3
-  - Spawner 1 Wave 4
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -41539,8 +42392,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: -0.0000019073486, y: 0.05, z: -0.00000023841858}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: -0.0000019073486, y: 0, z: -0.00000023841858}
 --- !u!1 &2080439353
 GameObject:
   m_ObjectHideFlags: 0
@@ -41606,7 +42459,10 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 2 Wave 3
+  - Spawner 2 Wave 4
+  - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -41614,10 +42470,10 @@ MonoBehaviour:
   - Spawner 1 Wave 4
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
-  - Spawner 2 Wave 3
-  - Spawner 2 Wave 4
-  - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -41697,8 +42553,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: -0.0000019073486, y: 0.05, z: 0.00000047683716}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: -0.0000019073486, y: 0, z: 0.00000047683716}
 --- !u!1 &2090364004
 GameObject:
   m_ObjectHideFlags: 0
@@ -41879,18 +42735,21 @@ MonoBehaviour:
   currentState: 0
   nextState: 0
   overlappingObjects: 0
-  coverStateEvents: []
-  floorStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
-  - Spawner 1 Wave 3
-  - Spawner 1 Wave 4
+  coverStateEvents:
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  floorStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
+  - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -41970,8 +42829,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.05, z: 0}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &2101236557
 Prefab:
   m_ObjectHideFlags: 0
@@ -42428,7 +43287,10 @@ MonoBehaviour:
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
-  - Spawner 2 Wave 6
+  - Spawner 3 Wave 1
+  - Spawner 3 Wave 2
+  - Spawner 3 Wave 3
+  - Spawner 3 Wave 4
   pitStateEvents: []
   yMoveSpeed: 0.03
   defaultState: 1
@@ -42508,5 +43370,5 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Center: {x: -0.0000019073486, y: 0.05, z: -0.00000011920929}
+  m_Size: {x: 1.1, y: 1.2, z: 1.1}
+  m_Center: {x: -0.0000019073486, y: 0, z: -0.00000011920929}

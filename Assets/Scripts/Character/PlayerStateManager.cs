@@ -38,6 +38,7 @@ public class PlayerStateManager : RoutineRunner {
     private bool playerCanMove = true;
     private bool isTutorialDone;
     private bool isInTutorial;
+    private bool isSlowDownFinished;
 
     const string SlowTime = "SlowTime";
     const string SpeedTime = "SpeedTime";
@@ -207,16 +208,16 @@ public class PlayerStateManager : RoutineRunner {
         Time.timeScale = 0.0f;
         EventSystem.Instance.TriggerEvent(Strings.Events.SHOW_TUTORIAL_TEXT);
         EventSystem.Instance.TriggerEvent(Strings.Events.ENEMY_INVINCIBLE, false);
+        isSlowDownFinished = true;
     }
 
     private void FinishTutorial()
     {
-        if (!isTutorialDone)
+        if (!isTutorialDone && isSlowDownFinished)
         {
             isTutorialDone = true;
             eatCollider.radius /= TutorialRadiusMultiplier;
-            stateVariables.eatRadius /= TutorialRadiusMultiplier;
-            Timing.KillCoroutines(SlowTime);
+            stateVariables.eatRadius /= TutorialRadiusMultiplier;            
             Timing.RunCoroutine(StartTutorialSpeedUp(), SpeedTime);
         }
     }
