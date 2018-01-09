@@ -67,8 +67,11 @@ public class BlasterMod : Mod {
         SFXManager.Instance.Play(shootSFX, transform.position);
         PoolObjectType poolObjType = PoolObjectType.VFXBlasterShoot;
         GameObject vfx = ObjectPool.Instance.GetObject(poolObjType);
-        vfx.transform.position = bulletSpawnPoint.position;
-        vfx.transform.rotation = transform.rotation;
+        if (vfx != null)
+        {
+            vfx.transform.position = bulletSpawnPoint.position;
+            vfx.transform.rotation = transform.rotation;
+        }
         if (animator != null) animator.SetTrigger("Shoot");
         BlasterBullet bullet = SpawnBullet();        
         return bullet;
@@ -76,27 +79,31 @@ public class BlasterMod : Mod {
 
     private BlasterBullet SpawnBullet()
     {
-        BlasterBullet blasterBullet = ObjectPool.Instance.GetObject(bulletType).GetComponent<BlasterBullet>();
-        if (blasterBullet){
-            blasterBullet.transform.position = bulletSpawnPoint.position;
-            blasterBullet.transform.forward = transform.forward;
-            blasterBullet.transform.rotation = Quaternion.Euler(0f, blasterBullet.transform.rotation.eulerAngles.y, 0f);
+        BlasterBullet blasterBullet = null;
+        GameObject go = ObjectPool.Instance.GetObject(bulletType);
+        if (go) {
+            blasterBullet = go.GetComponent<BlasterBullet>();
+            if (blasterBullet){
+                blasterBullet.transform.position = bulletSpawnPoint.position;
+                blasterBullet.transform.forward = transform.forward;
+                blasterBullet.transform.rotation = Quaternion.Euler(0f, blasterBullet.transform.rotation.eulerAngles.y, 0f);
             
-            blasterBullet.Initialize(bulletLiveTime, bulletSpeed, damage);
+                blasterBullet.Initialize(bulletLiveTime, bulletSpeed, damage);
 
-            if (wielderStats.gameObject.CompareTag(Strings.Tags.PLAYER))
-            {
-                blasterBullet.SetShooterType(false);
+                if (wielderStats.gameObject.CompareTag(Strings.Tags.PLAYER))
+                {
+                    blasterBullet.SetShooterType(false);
+                }
+                else
+                {
+                    blasterBullet.SetShooterType(true);
+
+                }
             }
             else
             {
-                blasterBullet.SetShooterType(true);
-
+                Debug.LogWarning("Blaster mod " + transform.name + " is trying to spawn a bullet that does not have a BlasterBullet component on it.");
             }
-        }
-        else
-        {
-            Debug.LogWarning("Blaster mod " + transform.name + " is trying to spawn a bullet that does not have a BlasterBullet component on it.");
         }
         return blasterBullet;
     }

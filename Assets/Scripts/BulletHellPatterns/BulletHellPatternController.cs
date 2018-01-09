@@ -69,10 +69,12 @@ public class BulletHellPatternController : MonoBehaviour {
         {
             SFXManager.Instance.Play(SFXType.BlasterShoot, transform.position);
             GameObject newBullet = ObjectPool.Instance.GetObject(PoolObjectType.EnemyBulletSmall);
-            newBullet.transform.position = transform.position + (bulletHellStrandList[i].movementDirection * bulletOffsetFromOrigin);
-            newBullet.GetComponent<BlasterBullet>().transform.forward = bulletHellStrandList[i].movementDirection;
-            newBullet.GetComponent<BlasterBullet>().Initialize(bulletLiveTime, bulletSpeed,bulletDamage);
-            newBullet.GetComponent<BlasterBullet>().SetShooterType(true);
+            if (newBullet) {
+                newBullet.transform.position = transform.position + (bulletHellStrandList[i].movementDirection * bulletOffsetFromOrigin);
+                newBullet.GetComponent<BlasterBullet>().transform.forward = bulletHellStrandList[i].movementDirection;
+                newBullet.GetComponent<BlasterBullet>().Initialize(bulletLiveTime, bulletSpeed,bulletDamage);
+                newBullet.GetComponent<BlasterBullet>().SetShooterType(true);
+            }
         }
     }
     private void RotateBulletHellController()

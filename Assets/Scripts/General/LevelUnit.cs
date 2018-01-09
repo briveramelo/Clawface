@@ -3,7 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-
+using System.Linq;
+using MovementEffects;
 public enum LevelUnitStates
 {    
     cover,
@@ -11,7 +12,7 @@ public enum LevelUnitStates
     pit
 }
 
-public class LevelUnit : MonoBehaviour {
+public class LevelUnit : RoutineRunner {
 
     #region private variables
     private float meshSizeY;
@@ -23,8 +24,8 @@ public class LevelUnit : MonoBehaviour {
     private float floorYPosition;
     private LevelUnitStates currentState;
     private LevelUnitStates nextState;
-    private float speed = 0.05f;
     private GameObject blockingObject;
+    List<Collider> overlappingColliders=new List<Collider>(10);
     private int overlappingObjects;
     #endregion
 
@@ -35,22 +36,23 @@ public class LevelUnit : MonoBehaviour {
     private List<string> floorStateEvents;
     [SerializeField]
     private List<string> pitStateEvents;
+    [SerializeField] float yMoveSpeed = 0.03f;
     #endregion
 
     #region public variables
-    public LevelUnitStates defaultState;
+    public LevelUnitStates defaultState = LevelUnitStates.floor;
     #endregion
 
     #region unity lifecycle
     private void Awake()
-    {
-        MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
+    {        
+        MeshRenderer meshRenderer = GetComponent<MeshRenderer>();        
         if (meshRenderer)
         {
             meshSizeY = meshRenderer.bounds.size.y;
             meshSizeZ = meshRenderer.bounds.size.z;
             meshSizeX = meshRenderer.bounds.size.x;
-        }
+        }        
         currentState = defaultState;
         CalculateStatePositions();
     }
@@ -68,34 +70,32 @@ public class LevelUnit : MonoBehaviour {
         }
     }
 
-    void LateUpdate () {
-        if (isTransitioning && overlappingObjects == 0)
+    void FixedUpdate () {
+        if (isTransitioning)
         {
-            MoveToNewPosition();
-        }
+            if (overlappingObjects == 0) {
+                MoveToNewPosition();
+            }
+        }        
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if(collision.gameObject.tag.Equals(Strings.Tags.PLAYER) || collision.gameObject.tag.Equals(Strings.Tags.ENEMY))
-        {
-            if (collision.transform.position.y >= transform.position.y)
-            {
-                overlappingObjects++;
+    private void OnTriggerStay(Collider other) {
+        if (isTransitioning) {
+            if (other.gameObject.tag.Equals(Strings.Tags.PLAYER) || other.gameObject.tag.Equals(Strings.Tags.ENEMY)) {                
+                if (!overlappingColliders.Contains(other)) {                    
+                    overlappingObjects++;
+                    overlappingColliders.Add(other);
+                    Timing.RunCoroutine(WaitToRemove(other), Segment.FixedUpdate, coroutineName);
+                }
             }
-        }
+        }        
     }
 
-    private void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject.tag.Equals(Strings.Tags.PLAYER) || collision.gameObject.tag.Equals(Strings.Tags.ENEMY))
-        {
-            overlappingObjects--;
-            if(overlappingObjects < 0)
-            {
-                overlappingObjects = 0;
-            }
-        }
+    IEnumerator<float> WaitToRemove(Collider other) {
+        yield return Timing.WaitForSeconds(.25f);
+        overlappingColliders.Remove(other);        
+        yield return 0f;
+        overlappingObjects--;
     }
     #endregion
 
@@ -191,13 +191,33 @@ public class LevelUnit : MonoBehaviour {
         }
         if (newPosition != transform.position)
         {
-            transform.position = Vector3.MoveTowards(transform.position, newPosition, speed * meshSizeY);
+            transform.position = Vector3.MoveTowards(transform.position, newPosition, yMoveSpeed * meshSizeY);
             if (Vector3.Distance(transform.position, newPosition) < 0.01f)
             {
                 transform.position = newPosition;
                 currentState = nextState;
                 isTransitioning = false;
-            }
+                if(currentState == LevelUnitStates.floor)
+                {
+                    gameObject.tag = Strings.Tags.FLOOR;
+                    gameObject.layer = (int)Layers.Ground;
+                    HideBlockingObject();
+                }
+                switch (nextState) {
+                    case LevelUnitStates.cover:
+                        gameObject.tag = Strings.Tags.WALL;
+                        gameObject.layer = (int)Layers.Obstacle;
+                        ShowBlockingObject();
+                        break;
+                    case LevelUnitStates.pit:
+                        gameObject.tag = Strings.Tags.FLOOR;
+                        gameObject.layer = (int)Layers.Ground;
+                        ShowBlockingObject();
+                        break;
+                    default:
+                        break;
+                }
+            }            
         }
     }
 
@@ -221,7 +241,7 @@ public class LevelUnit : MonoBehaviour {
         blockingObject.transform.position = new Vector3(transform.position.x, coverYPosition, transform.position.z);
         blockingObject.transform.localScale = new Vector3(meshSizeX, meshSizeY, meshSizeZ);
         blockingObject.AddComponent<BoxCollider>();
-        blockingObject.AddComponent<NavMeshObstacle>();
+        blockingObject.AddComponent<NavMeshObstacle>().carving = true;
         blockingObject.layer = LayerMask.NameToLayer(Strings.Layers.OBSTACLE);
     }
 
@@ -302,38 +322,35 @@ public class LevelUnit : MonoBehaviour {
 
     public void TransitionToCoverState(params object[] inputs)
     {
+        
         if (currentState != LevelUnitStates.cover)
         {
             nextState = LevelUnitStates.cover;
             isTransitioning = true;
-            ShowBlockingObject();
-        }
+        }        
     }
 
     public void TransitionToFloorState(params object[] inputs)
     {
+        
         if (currentState != LevelUnitStates.floor)
         {
             nextState = LevelUnitStates.floor;
             isTransitioning = true;
-            if (blockingObject)
-            {
-                blockingObject.SetActive(false);
-            }
-        }
+        }        
     }
 
     public void TransitionToPitState(params object[] inputs)
     {
+        
         if (currentState != LevelUnitStates.pit)
         {
             nextState = LevelUnitStates.pit;
             isTransitioning = true;
-            ShowBlockingObject();
-        }
+        }        
     }
 
-    public void DisableBlockingObject()
+    public void HideBlockingObject()
     {
         if (blockingObject != null)
         {

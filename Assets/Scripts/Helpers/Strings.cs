@@ -1,9 +1,10 @@
-﻿public class Strings  {
+﻿public class Strings
+{
 
     public const string ANIMATIONSTATE = "AnimationState";
     public const string FEETSTATE = "FeetState";
 
-    public static class Paths
+    public class Paths
     {
         public static string PLAYER_PREFAB_NAME = "Keira_GroupV";
         public static string PLAYER_PREFAB_RESOURCES_PATH = "Player/";
@@ -12,7 +13,8 @@
         public static string PLAYER_UI_PREFAB_RESOURCES_PATH = "PlayerUI/";
     }
 
-    public static class Tags {
+    public class Tags
+    {
         public const string MOD = "Mod";
         public const string ENEMY = "Enemy";
         public const string PLAYER = "Player";
@@ -25,28 +27,52 @@
         public const string FLOOR = "Floor";
     }
 
-    public static class Scenes {
-        public const string MainMenu = "Scenes/Build Scenes/MainMenu";
-        //public const string Arena = "Scenes/Build Scenes/Gucci_V1.2";
-        public const string Arena = "Scenes/Build Scenes/Arena 1";
-    }
-
-    public static class Layers
+    public class Scenes
     {
-        public static string GROUND = "Ground";
-        public static string MODMAN = "ModMan";
-        public static string OBSTACLE = "Obstacle";
-        public static string ENEMY = "Enemy";
+        public const string MainMenu = "Scenes/Build Scenes/MainMenu";
+
+        //public const string Arena = "Scenes/Build Scenes/Gucci_V1.2";
+        public const string Arena = "Scenes/Build Scenes/80s shit";
+    }
+
+    public class Layers
+    {
+        public const string GROUND = "Ground";
+        public const string MODMAN = "ModMan";
+        public const string OBSTACLE = "Obstacle";
+        public const string ENEMY = "Enemy";
 
     }
 
-    public static class TextStrings
+    public class TextStrings
     {
         public const string GAME_OVER_TEXT = "Game Over";
         public const string STAGE_OVER_TEXT = "Stage Over";
+
+        public static readonly string[] FLAVOR_TEXT = 
+        {
+            "EAT. EVERYTHING.",
+            "KILL. EVERYTHING.",
+            "EXECUTE",
+            "GET READY TO DESTROY",
+            "KILL THEM ALL",
+            "SEEK AND DESTROY",
+            "OH HECK NO",
+            "NO MERCY",
+            "DEATH HAS ARRIVED",
+            "PREPARE FOR KILLING",
+            "ACTIVATE DESTROY.EXE",
+            "END ALL LIFE",
+            "EAT THEM ALIVE",
+            "ACTIVATE CLAWFACE.EXE",
+            "RELEASE THE RAGE",
+            "RELEASE CLAWFACE",
+
+
+        };
     }
 
-    public static class MenuStrings
+    public class MenuStrings
     {
         public const string MAIN = "MainMenu";
         public const string CREDITS = "CreditsMenu";
@@ -59,15 +85,15 @@
         public const string WEAPON_SELECT = "WeaponSelect";
     }
 
-    public static class Input
+    public class Input
     {
-        public static class Axes
+        public class Axes
         {
             public const string MOVEMENT = "Move";
             public const string LOOK = "Look";
         }
 
-        public static class Actions
+        public class Actions
         {
             public const string FIRE_RIGHT = "Fire Right";
             public const string FIRE_LEFT = "Fire Left";
@@ -76,16 +102,15 @@
             public const string DODGE = "Dodge";
         }
 
-        public static class UI
+        public class UI
         {
-            public const string HORIZONTAL = "UIHorizontal";
-            public const string VERTICAL = "UIVertical";
+            public const string NAVIGATION = "UINavigation";
             public const string SUBMIT = "UISubmit";
             public const string CANCEL = "UICancel";
         }
     }
 
-    public static class Events
+    public class Events
     {
         public const string FACE_OPEN = "FaceOpen";
         public const string CAPTURE_ENEMY = "CaptureEnemy";
@@ -101,11 +126,12 @@
         public const string EARN_ACHIEVEMENT = "EarnAchievement";
         public const string PROGRESS_ACHIEVEMENT = "ProgressAchievement";
         public const string UPDATE_ACHIEVEMENTS = "UpdateAchievements";
-        
+
         public const string LOCK_SPAWNERS = "LockSpawners";
         public const string CALL_NEXTWAVEENEMIES = "CallNextWaveEnemies";
         public const string ENEMY_SPAWNED = "EnemySpawned";
-		
+        public const string WAVE_COMPLETE = "WaveComplete";
+
         public const string UNLOCK_WEAPON = "UnlockWeapon";
         public const string UNLOCK_NEXT_LEVEL = "UnlockNextLevel";
         public const string SET_LEVEL_SCORE = "SetLevelScore";
@@ -122,6 +148,7 @@
         public const string LEVEL_COMPLETED = "LevelCompleted";
         public const string LEVEL_RESTARTED = "LevelRestarted";
         public const string EXIT_GAME = "ExitGame";
+        public const string WEAPONSSELECT_FROM_STAGEOVER = "WEAPONSSELECT_FROM_STAGEOVER";
 
         public const string PLAYER_DAMAGED = "PlayerDamaged";
         public const string PLAYER_KILLED = "PlayerKilled";
@@ -132,9 +159,13 @@
         public const string PLE_TEST_WAVE_0 = "PLE_TEST_WAVE_0";
         public const string PLE_TEST_WAVE_1 = "PLE_TEST_WAVE_1";
         public const string PLE_TEST_WAVE_2 = "PLE_TEST_WAVE_2";
+
+        public const string ENEMY_INVINCIBLE = "EnemyInvincible";
     }
 
-    public class AchievementNames {
+    
+
+public class AchievementNames {
         public const string Kill100 = "Blood Bath";
         public const string BeatLevel1 = "Conquest";
         public const string Skin20Enemies = "Skinner";        

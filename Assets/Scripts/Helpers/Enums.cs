@@ -31,7 +31,9 @@ public enum SFXType {
     SpreadshotShoot,
     LightningGunShoot,
     GeyserShoot,
-    PlayerEat
+    ClawExtend,
+    ClawGrab,
+    PlayerEat,
 }
 
 public enum MusicType
@@ -95,7 +97,8 @@ public enum Layers {
     Hologram=13,
     Globe_Text=14,
     PlayerDetector=15,
-    DiceBlocks=17        
+    DiceBlocks=17,
+    Obstacle=19
 }
 
 public enum PoolObjectType {
@@ -127,6 +130,9 @@ public enum PoolObjectType {
     VFXLightningGunImpact = 44,
     VFXLightningGunShoot = 45,
     VFXPlayerDeath = 49,
+    VFXEnemySpawn=50,
+    VFXSpreadshotShoot=51,
+    VFXSpreadshotImpact=52,
 
     //BulletTypes
     TurretBullet = 28,

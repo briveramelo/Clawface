@@ -45,8 +45,7 @@ public class DashState : IPlayerState {
 
     public override void StateFixedUpdate()
     {
-        if (currentFrame == 0)
-        {
+        if (currentFrame == 0) {
             SFXManager.Instance.Play(SFXType.Dash, transform.position);
             dashPuff.Play();
             dashTrail.GetComponent<TrailRenderer>().enabled = true;
@@ -55,21 +54,20 @@ public class DashState : IPlayerState {
         PlayAnimation();
         CheckForIFrames();
         MovePlayer();
-        if (currentFrame >= totalDashFrames)
-        {
+        if (currentFrame >= totalDashFrames) {
             ResetState();
         }
     }
 
     public override void StateUpdate()
     {
-
+        
     }
 
     public override void StateLateUpdate()
     {
         
-    }
+    }    
     #endregion
 
     #region Private Methods

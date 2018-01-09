@@ -87,19 +87,23 @@ public class GoreManager : Singleton<GoreManager> {
             #endif
 
             shouldRenderSplats = true;
+            
             Texture2D randomSplat = splats[Random.Range(0, splats.Length - 1)];
-            foreach (Collider collider in collided)
-            {
-                GameObject obj = collider.gameObject;
-                Splattable canSplat = obj.GetComponent<Splattable>();
-                if (canSplat)
-                {
-                    // we're not using the normal yet
-                    var buffer = canSplat.QueueSplat(randomSplat, worldPos, new Vector3(1, 0, 0));
-                    uvSpaceCamera.AddCommandBuffer(CameraEvent.AfterEverything, buffer);
+            GameObject decal = ObjectPool.Instance.GetObject(PoolObjectType.VFXBloodDecal);
+            if (decal) {
+                decal.transform.position = worldPos + Vector3.up * .0001f * ++num;
+                //VFXBloodSplatAnimator splatAnimator = decal.GetComponent<VFXBloodSplatAnimator>();                
+                foreach (Collider collider in collided) {
+                    GameObject obj = collider.gameObject;
+                    Splattable canSplat = obj.GetComponent<Splattable>();
+                    if (canSplat) {
+                        var buffer = canSplat.QueueSplat(randomSplat, worldPos, new Vector3(1, 0, 0));
+                        uvSpaceCamera.AddCommandBuffer(CameraEvent.AfterEverything, buffer);
+                    }
                 }
             }
         }
     }
     
+    static int num;
 }

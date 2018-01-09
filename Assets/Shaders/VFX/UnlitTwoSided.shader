@@ -3,7 +3,7 @@
 	Properties
 	{
 		_MainTex ("Texture", 2D) = "white" {}
-		_Tint ("Tint", Color) = (1.0, 1.0, 1.0, 1.0)
+		[PerRendererData]_Tint ("Tint", Color) = (1.0, 1.0, 1.0, 1.0)
 	}
 	SubShader
 	{

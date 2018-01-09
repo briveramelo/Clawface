@@ -43,9 +43,7 @@ namespace Turing.VFX
                 if (ignoreList.Contains(light)) continue;
 
                 intensities.Add(light, light.intensity);
-            }
-
-            Application.targetFrameRate = 60;
+            }            
         }
 
         private void Update()

@@ -3,6 +3,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ScoreManager : Singleton<ScoreManager> {
 
@@ -30,15 +31,15 @@ public class ScoreManager : Singleton<ScoreManager> {
     #region Unity Lifecycle
     // Use this for initialization
     void Start () {
-        currentCombo = 0;
-        highestCombo = 0;
-        currentQuadrant = 0;
-
         highScores = new Dictionary<string, int>();
+        OnLevelStart();
 
         EventSystem.Instance.RegisterEvent(Strings.Events.DEATH_ENEMY, OnPlayerKilledEnemy);
         EventSystem.Instance.RegisterEvent(Strings.Events.EAT_ENEMY, OnPlayerAte);
         EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_DAMAGED, OnPlayerDamaged);
+        EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_STARTED, OnLevelStart);
+        EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_RESTARTED, OnLevelRestart);
+        EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_QUIT, OnLevelQuit);
     }
 
     private new void OnDestroy()
@@ -48,6 +49,9 @@ public class ScoreManager : Singleton<ScoreManager> {
             EventSystem.Instance.UnRegisterEvent(Strings.Events.DEATH_ENEMY, OnPlayerKilledEnemy);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.EAT_ENEMY, OnPlayerAte);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_DAMAGED, OnPlayerDamaged);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_STARTED, OnLevelStart);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_RESTARTED, OnLevelRestart);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_QUIT, OnLevelQuit);
         }
 
         base.OnDestroy();
@@ -80,40 +84,18 @@ public class ScoreManager : Singleton<ScoreManager> {
         EventSystem.Instance.TriggerEvent(Strings.Events.COMBO_TIMER_UPDATED, 0.0f);
     }
 
-    private void OnPlayerAte(params object[] parameters)
+    public void ResetScore()
     {
-        if (useAlternateScoreMode)
-        {
-            currentCombo++;
-            EventSystem.Instance.TriggerEvent(Strings.Events.COMBO_UPDATED, currentCombo);
-            CalculateTimerQuadrant();
-        }
+        score = 0;
     }
 
-    private void OnPlayerKilledEnemy(params object[] parameters)
+    public void ResetScoreAndCombo()
     {
-        if (useAlternateScoreMode)
-        {
-            if (parameters != null && parameters[1] != null)
-            {
-                AddToScore((int)parameters[1]);
-            }
-        }
-        else
-        {
-            AddToScoreAndCombo((int)parameters[1]);
-        }
+        ResetScore();
+        ResetCombo();
     }
 
-    private void OnPlayerDamaged(params object[] parameters)
-    {
-        if (useAlternateScoreMode)
-        {
-            currentCombo = 0;
-            EventSystem.Instance.TriggerEvent(Strings.Events.COMBO_UPDATED, currentCombo);
-            CalculateTimerQuadrant();
-        }
-    }
+    
 
     public void AddToCombo()
     {
@@ -228,6 +210,7 @@ public class ScoreManager : Singleton<ScoreManager> {
     }
     #endregion
 
+    #region Private Methods
     private void CalculateTimerQuadrant()
     {
         float nextQuadrant = 0f;
@@ -243,4 +226,62 @@ public class ScoreManager : Singleton<ScoreManager> {
             EventSystem.Instance.TriggerEvent(Strings.Events.COMBO_TIMER_UPDATED, nextQuadrant);
         }
     }
+
+    private void OnPlayerAte(params object[] parameters)
+    {
+        if (useAlternateScoreMode)
+        {
+            currentCombo++;
+            EventSystem.Instance.TriggerEvent(Strings.Events.COMBO_UPDATED, currentCombo);
+            CalculateTimerQuadrant();
+        }
+    }
+
+    private void OnPlayerKilledEnemy(params object[] parameters)
+    {
+        if (useAlternateScoreMode)
+        {
+            if (parameters != null && parameters[1] != null)
+            {
+                AddToScore((int)parameters[1]);
+            }
+        }
+        else
+        {
+            AddToScoreAndCombo((int)parameters[1]);
+        }
+    }
+
+    private void OnPlayerDamaged(params object[] parameters)
+    {
+        if (useAlternateScoreMode)
+        {
+            currentCombo = 0;
+            EventSystem.Instance.TriggerEvent(Strings.Events.COMBO_UPDATED, currentCombo);
+            CalculateTimerQuadrant();
+        }
+    }
+
+    private void OnLevelStart(params object[] parameters)
+    {
+        score = 0;
+        currentCombo = 0;
+        highestCombo = 0;
+        currentQuadrant = 0;
+
+        CalculateTimerQuadrant();
+    }
+
+    private void OnLevelRestart(params object[] parameters)
+    {
+        OnLevelStart();
+    }
+
+    private void OnLevelQuit(params object[] parameters)
+    {
+        OnLevelStart();
+    }
+
+    #endregion
+
 }

@@ -60,7 +60,7 @@ AudioSource:
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
-  DopplerLevel: 1
+  DopplerLevel: 0
   MinDistance: 1
   MaxDistance: 500
   Pan2D: 0
@@ -97,7 +97,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   spreadCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -121,7 +121,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
 --- !u!114 &114483563934736122
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -134,7 +134,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clips:
-  - {fileID: 8300000, guid: 4ff380751d43b7145ba015b92e63e643, type: 3}
+  - {fileID: 8300000, guid: 1cf72b7ee4389394ba7338c3ca5b4fde, type: 3}
   changeVolumeEachLoop: 0
   uniformVolume: 1
   useRandomVolume: 0
@@ -161,7 +161,7 @@ MonoBehaviour:
   spatialBlend: 0
   maxDistance: 500
   changeVolumeEachLoop: 0
-  uniformVolume: 0.2
+  uniformVolume: 0.12
   useRandomVolume: 0
   randomVolumeRange:
     minLimit: 0

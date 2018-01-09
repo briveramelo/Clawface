@@ -21,13 +21,14 @@ GameObject:
   - component: {fileID: 4386343407035508}
   - component: {fileID: 198127892725415818}
   - component: {fileID: 199881035957087060}
+  - component: {fileID: 114149517592171610}
   m_Layer: 0
   m_Name: VFXEnemySpwan
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4386343407035508
 Transform:
   m_ObjectHideFlags: 1
@@ -41,6 +42,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114149517592171610
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1447763142075664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c04c1e44b827c143ae1f433e9d82d3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playOnAwake: 0
 --- !u!198 &198127892725415818
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -100,7 +113,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 1940423394
+  randomSeed: -59366619
   InitialModule:
     serializedVersion: 3
     enabled: 1

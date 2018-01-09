@@ -16,8 +16,8 @@ public class ModManager : MonoBehaviour
     // the mod manager and player hooked up.
     // Maybe....
     // TODO - add "GameManager" singleton that coordinates important things like mods and level
-    public static ModType leftArmOnLoad = ModType.None;
-    public static ModType rightArmOnLoad = ModType.None;
+    public static ModType leftArmOnLoad = ModType.Geyser;
+    public static ModType rightArmOnLoad = ModType.Geyser;
     public static bool assignFromPool = true;
 
     #endregion
@@ -31,7 +31,8 @@ public class ModManager : MonoBehaviour
     [SerializeField] private ModInventory modInventory;
     [SerializeField] private float modPickupRadius;
     [SerializeField] private ModType[] modPool;
-    #endregion
+    [SerializeField] private ModPositions modPositions;
+    #endregion    
 
     #region Private Fields
     private Dictionary<ModSpot, ModSocket> modSocketDictionary;
@@ -93,20 +94,22 @@ public class ModManager : MonoBehaviour
         CheckToChargeAndFireMods();
         if (Input.GetKeyDown(KeyCode.M))
         {
-            Mod rightMod = rightArmSocket.GetComponentInChildren<Mod>();
-            Mod leftMod = leftArmSocket.GetComponentInChildren<Mod>();
-            if (rightMod)
-            {
-                rightMod.gameObject.SetActive(false);
-            }
-            if (leftMod)
-            {
-                leftMod.gameObject.SetActive(false);
-            }
-            modSocketDictionary[ModSpot.ArmL].mod = null;
-            modSocketDictionary[ModSpot.ArmR].mod = null;
-            AttachRandomMods();
+            //AcquireRandomMods();
         }
+    }
+
+    private void AcquireRandomMods() {
+        Mod rightMod = rightArmSocket.GetComponentInChildren<Mod>();
+        Mod leftMod = leftArmSocket.GetComponentInChildren<Mod>();
+        if (rightMod) {
+            rightMod.gameObject.SetActive(false);
+        }
+        if (leftMod) {
+            leftMod.gameObject.SetActive(false);
+        }
+        modSocketDictionary[ModSpot.ArmL].mod = null;
+        modSocketDictionary[ModSpot.ArmR].mod = null;
+        AttachRandomMods();
     }
     #endregion
 
@@ -268,12 +271,12 @@ public class ModManager : MonoBehaviour
             Detach(spot);
         }
 
-        if (!isSwapping){
-            //modUIManager.AttachMod(spot, mod.getModType());
-        }
+        
         mod.setModSpot(spot);
         mod.transform.SetParent(modSocketDictionary[spot].socket);
-        mod.transform.localPosition = Vector3.zero;
+        Vector3 localPos = modPositions[mod.getModType()].localPos;
+        localPos.x *= Mathf.Sign(modSocketDictionary[spot].socket.localPosition.x);        
+        mod.transform.localPosition = localPos;
         mod.transform.localRotation = Quaternion.identity;
         mod.transform.localScale = Vector3.one;
         modSocketDictionary[spot].mod = mod;        
@@ -320,6 +323,17 @@ public class ModManager : MonoBehaviour
             }
         }
         return false;        
+    }
+
+    [System.Serializable]
+    public class ModPosition {
+        public ModType type;
+        public Vector3 localPos;
+    }
+    [System.Serializable]
+    public class ModPositions {
+        public List<ModPosition> modPositions;
+        public ModPosition this[ModType type] { get { return modPositions.Find(modPos=>modPos.type==type); } }
     }
     #endregion
 
