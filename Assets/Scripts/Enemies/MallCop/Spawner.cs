@@ -53,7 +53,8 @@ public class Spawner : RoutineRunner
     #region Unity LifeCycle
     void Start()
     {
-        foreach(Wave w in waves)
+        totalNumEnemies = 0;
+        foreach (Wave w in waves)
         {
             foreach(WaveType type in w.monsterList)
             {

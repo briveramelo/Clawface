@@ -1,4 +1,5 @@
-﻿public class Strings  {
+﻿public class Strings
+{
 
     public const string ANIMATIONSTATE = "AnimationState";
     public const string FEETSTATE = "FeetState";
@@ -12,7 +13,8 @@
         public static string PLAYER_UI_PREFAB_RESOURCES_PATH = "PlayerUI/";
     }
 
-    public class Tags {
+    public class Tags
+    {
         public const string MOD = "Mod";
         public const string ENEMY = "Enemy";
         public const string PLAYER = "Player";
@@ -25,8 +27,10 @@
         public const string FLOOR = "Floor";
     }
 
-    public class Scenes {
+    public class Scenes
+    {
         public const string MainMenu = "Scenes/Build Scenes/MainMenu";
+
         //public const string Arena = "Scenes/Build Scenes/Gucci_V1.2";
         public const string Arena = "Scenes/Build Scenes/80s shit";
     }
@@ -44,6 +48,28 @@
     {
         public const string GAME_OVER_TEXT = "Game Over";
         public const string STAGE_OVER_TEXT = "Stage Over";
+
+        public static readonly string[] FLAVOR_TEXT = 
+        {
+            "EAT. EVERYTHING.",
+            "KILL. EVERYTHING.",
+            "EXECUTE",
+            "GET READY TO DESTROY",
+            "KILL THEM ALL",
+            "SEEK AND DESTROY",
+            "OH HECK NO",
+            "NO MERCY",
+            "DEATH HAS ARRIVED",
+            "PREPARE FOR KILLING",
+            "ACTIVATE DESTROY.EXE",
+            "END ALL LIFE",
+            "EAT THEM ALIVE",
+            "ACTIVATE CLAWFACE.EXE",
+            "RELEASE THE RAGE",
+            "RELEASE CLAWFACE",
+
+
+        };
     }
 
     public class MenuStrings
@@ -100,11 +126,12 @@
         public const string EARN_ACHIEVEMENT = "EarnAchievement";
         public const string PROGRESS_ACHIEVEMENT = "ProgressAchievement";
         public const string UPDATE_ACHIEVEMENTS = "UpdateAchievements";
-        
+
         public const string LOCK_SPAWNERS = "LockSpawners";
         public const string CALL_NEXTWAVEENEMIES = "CallNextWaveEnemies";
         public const string ENEMY_SPAWNED = "EnemySpawned";
-		
+        public const string WAVE_COMPLETE = "WaveComplete";
+
         public const string UNLOCK_WEAPON = "UnlockWeapon";
         public const string UNLOCK_NEXT_LEVEL = "UnlockNextLevel";
         public const string SET_LEVEL_SCORE = "SetLevelScore";
@@ -136,7 +163,9 @@
         public const string ENEMY_INVINCIBLE = "EnemyInvincible";
     }
 
-    public class AchievementNames {
+    
+
+public class AchievementNames {
         public const string Kill100 = "Blood Bath";
         public const string BeatLevel1 = "Conquest";
         public const string Skin20Enemies = "Skinner";        

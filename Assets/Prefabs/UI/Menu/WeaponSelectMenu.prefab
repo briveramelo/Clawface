@@ -4060,7 +4060,7 @@ Camera:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1561498922087320}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
   m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
@@ -4937,7 +4937,7 @@ AudioSource:
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
-  DopplerLevel: 1
+  DopplerLevel: 0
   MinDistance: 1
   MaxDistance: 500
   Pan2D: 0
@@ -5017,7 +5017,7 @@ AudioSource:
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
-  DopplerLevel: 1
+  DopplerLevel: 0
   MinDistance: 1
   MaxDistance: 500
   Pan2D: 0
@@ -5066,7 +5066,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -5645,7 +5645,7 @@ MonoBehaviour:
     type: 3}
   pressedButtonSprite: {fileID: 21300000, guid: b64560a15c83ea545a7a6f3368e09c55,
     type: 3}
-  queryActionEverySeconds: 0.25
+  queryActionEverySeconds: 0.3
 --- !u!114 &114201674317650024
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5973,7 +5973,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 217e1f899bff5d949a42248c18b8e581, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  confirmedColor: {r: 1, g: 0.9724138, b: 0, a: 1}
+  confirmedColor: {r: 1, g: 0, b: 0.8896551, a: 1}
   normalColor: {r: 0.43529415, g: 0.8078432, b: 0.7686275, a: 0.834}
   halfColor: {r: 1, g: 1, b: 1, a: 0.172}
   fadeTime: 0.5
@@ -6076,7 +6076,7 @@ MonoBehaviour:
     type: 3}
   moveLeftButton: {fileID: 114271799307692296}
   moveRightButton: {fileID: 114128116686635702}
-  selectedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  selectedColor: {r: 1, g: 0, b: 0.8896551, a: 1}
   initialColor: {r: 0.73333335, g: 0.7411765, b: 0.8313726, a: 1}
   glowControl: {fileID: 114591998403634324}
   buttonFX: {fileID: 114232894571167186}
@@ -6135,7 +6135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 217e1f899bff5d949a42248c18b8e581, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  confirmedColor: {r: 1, g: 0.9724138, b: 0, a: 1}
+  confirmedColor: {r: 1, g: 0, b: 0.8896551, a: 1}
   normalColor: {r: 0.43529415, g: 0.8078432, b: 0.7686275, a: 0.834}
   halfColor: {r: 1, g: 1, b: 1, a: 0.172}
   fadeTime: 0.5
@@ -6561,7 +6561,7 @@ MonoBehaviour:
     type: 3}
   moveLeftButton: {fileID: 114127857788288646}
   moveRightButton: {fileID: 114511596057394768}
-  selectedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  selectedColor: {r: 1, g: 0, b: 0.8896551, a: 1}
   initialColor: {r: 0.73333335, g: 0.7411765, b: 0.8313726, a: 1}
   glowControl: {fileID: 114503597539437800}
   buttonFX: {fileID: 114474216301503762}
