@@ -41,7 +41,7 @@
         public const string MODMAN = "ModMan";
         public const string OBSTACLE = "Obstacle";
         public const string ENEMY = "Enemy";
-
+        public const string ENEMY_BODY = "EnemyBody";
     }
 
     public class TextStrings

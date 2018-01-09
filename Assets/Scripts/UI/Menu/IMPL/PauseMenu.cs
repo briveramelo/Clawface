@@ -148,7 +148,6 @@ public class PauseMenu : Menu
     {
         if (parameters.Length > 0) {            
             canPause = (bool) parameters[0];
-            print("Can pause " + canPause);
         }
     }
 
