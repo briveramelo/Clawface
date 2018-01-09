@@ -3344,7 +3344,7 @@ MonoBehaviour:
   myStats: {fileID: 114364463769965070}
   navAgent: {fileID: 195766205114620572}
   navObstacle: {fileID: 208624299414764454}
-  eatHealth: 25
+  eatHealth: 40
   bloodEmissionLocation: {fileID: 4214480777451854}
   scoreValue: 300
   grabObject: {fileID: 1317736211364578}
@@ -3472,15 +3472,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c7112b3692977d4987101d9add4e51f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attack: 3
+  attack: 1
   defense: 5
-  health: 20
+  health: 50
   maxHealth: 0
   moveSpeed: 2
   rangedAccuracy: 1
   shotSpeed: 20
   shotPushForce: 0
-  skinnableHealth: 2
+  skinnableHealth: 15
   exp: 2
 --- !u!114 &114365536310289604
 MonoBehaviour:

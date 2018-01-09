@@ -4,63 +4,68 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Rendering;
 
-public class Splattable : MonoBehaviour {
+public class Splattable : MonoBehaviour
+{
 
-    #region Unity Serialization
-    
-    [Header ("Splat Stuffs")]
-    [SerializeField] private Shader renderSplat; //get render splat shader via the inspector
+	#region Unity Serialization
 
-    [Header ("Render Texture Configuration")]
-    [SerializeField] private int renderTextureWidth = 512;
-    [SerializeField] private int renderTextureHeight = 512;
+	[Header ("Splat Stuffs")]
+	[SerializeField] private Shader renderSplat;
+	//get render splat shader via the inspector
 
-    #endregion
+	[Header ("Render Texture Configuration")]
+	[SerializeField] private int renderTextureWidth = 512;
+	[SerializeField] private int renderTextureHeight = 512;
 
-    #region Private fields
-    
-    private RenderTexture splatMap;
-    private Material renderMaterial;
-    private Renderer myRenderer;
-    private MaterialPropertyBlock propBlock;
+	#endregion
 
-    #endregion
+	#region Private fields
 
-    #region Unity Lifecycle
-    private void Awake()
-    {
-        Assert.IsNotNull(renderSplat);
+	private RenderTexture splatMap;
+	private Material renderMaterial;
+	private Renderer myRenderer;
+	private MaterialPropertyBlock propBlock;
 
-        splatMap = new RenderTexture(renderTextureWidth, renderTextureHeight, 0);
-        renderMaterial = new Material(renderSplat);
+	#endregion
 
-        propBlock = new MaterialPropertyBlock();
-        myRenderer = GetComponent<Renderer>();
+	#region Unity Lifecycle
 
-        myRenderer.GetPropertyBlock(propBlock);
-        propBlock.SetTexture("_SplatMap", splatMap);
-        myRenderer.SetPropertyBlock(propBlock);
-    }
+	private void Awake ()
+	{
+		Assert.IsNotNull (renderSplat);
 
-    #endregion
+		splatMap = new RenderTexture (renderTextureWidth, renderTextureHeight, 0, RenderTextureFormat.ARGB32);
+		splatMap.Create ();
+		renderMaterial = new Material (renderSplat);
 
-    #region Public Interface
-    public CommandBuffer QueueSplat(Texture2D splat, Vector3 worldPos, Vector3 normal)
-    {
-        //set shader variables
-        renderMaterial.SetTexture("_Previous", splatMap);
-        renderMaterial.SetVector("_SplatLocation", worldPos);
-        renderMaterial.SetVector("_OriginalNormal", normal);
-        renderMaterial.SetTexture("_Decal", splat);
+		propBlock = new MaterialPropertyBlock ();
+		myRenderer = GetComponent<Renderer> ();
 
-        //set up command buffer
-        CommandBuffer splatBuffer = new CommandBuffer();
-        splatBuffer.GetTemporaryRT(Shader.PropertyToID("_TEMPORARY"), renderTextureWidth, renderTextureHeight);
-        splatBuffer.SetRenderTarget(Shader.PropertyToID("_TEMPORARY"));
-        splatBuffer.DrawRenderer(myRenderer, renderMaterial);
-        splatBuffer.Blit(Shader.PropertyToID("_TEMPORARY"), splatMap);
-        return splatBuffer;
-    }
+		myRenderer.GetPropertyBlock (propBlock);
+		propBlock.SetTexture ("_SplatMap", splatMap);
+		myRenderer.SetPropertyBlock (propBlock);
+	}
 
-    #endregion
+	#endregion
+
+	#region Public Interface
+
+	public CommandBuffer QueueSplat (Texture2D splat, Vector3 worldPos, Vector3 normal)
+	{
+		//set shader variables
+		renderMaterial.SetTexture ("_Previous", splatMap);
+		renderMaterial.SetVector ("_SplatLocation", worldPos);
+		renderMaterial.SetVector ("_OriginalNormal", normal);
+		renderMaterial.SetTexture ("_Decal", splat);
+
+		//set up command buffer
+		CommandBuffer splatBuffer = new CommandBuffer ();
+		splatBuffer.GetTemporaryRT (Shader.PropertyToID ("_TEMPORARY"), renderTextureWidth, renderTextureHeight);
+		splatBuffer.SetRenderTarget (Shader.PropertyToID ("_TEMPORARY"));
+		splatBuffer.DrawRenderer (myRenderer, renderMaterial);
+		splatBuffer.Blit (Shader.PropertyToID ("_TEMPORARY"), splatMap);
+		return splatBuffer;
+	}
+
+	#endregion
 }

@@ -60,7 +60,7 @@ AudioSource:
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
-  DopplerLevel: 1
+  DopplerLevel: 0
   MinDistance: 1
   MaxDistance: 500
   Pan2D: 0
@@ -140,7 +140,7 @@ AudioSource:
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
-  DopplerLevel: 1
+  DopplerLevel: 0
   MinDistance: 1
   MaxDistance: 500
   Pan2D: 0
@@ -213,7 +213,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea715aeeada136748beec5283138811f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shouldRegister: 1
   intro: {fileID: 82024633714197576}
   looping: {fileID: 82277193205382126}
   playOnStart: 1
