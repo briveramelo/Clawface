@@ -1,6 +1,7 @@
 ﻿/**
 *  @author Cornelia Schultz
 */
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -43,6 +44,19 @@ public class PauseMenu : Menu
     #endregion
 
     #region Unity Lifecycle Methods
+    private new void Start()
+    {
+        base.Start();
+        EventSystem.Instance.RegisterEvent(Strings.Events.GAME_CAN_PAUSE, GameCanPause);
+    }
+
+    private void OnDestroy()
+    {
+        if (EventSystem.Instance)
+        {
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.GAME_CAN_PAUSE, GameCanPause);
+        }
+    }
 
     void Update ()
 	{
@@ -130,5 +144,13 @@ public class PauseMenu : Menu
 		Time.timeScale = paused ? 0 : 1;
 	}
 
-	#endregion
+    private void GameCanPause(object[] parameters)
+    {
+        if (parameters.Length > 0) {            
+            canPause = (bool) parameters[0];
+            print("Can pause " + canPause);
+        }
+    }
+
+    #endregion
 }

@@ -43,6 +43,7 @@ public class PlayerStateManager : RoutineRunner {
     const string SlowTime = "SlowTime";
     const string SpeedTime = "SpeedTime";
     const float TutorialRadiusMultiplier = 3f;
+    private float tutorialTimeScale = 1.0f;
     #endregion
 
     #region Unity Lifecycle
@@ -192,6 +193,7 @@ public class PlayerStateManager : RoutineRunner {
         {
             isInTutorial = true;
             EventSystem.Instance.TriggerEvent(Strings.Events.ENEMY_INVINCIBLE, true);
+            EventSystem.Instance.TriggerEvent(Strings.Events.GAME_CAN_PAUSE, false);
             eatCollider.radius *= TutorialRadiusMultiplier;
             stateVariables.eatRadius *= TutorialRadiusMultiplier;
             Timing.RunCoroutine(StartTutorialSlowDown(), SlowTime);
@@ -200,12 +202,14 @@ public class PlayerStateManager : RoutineRunner {
 
     private IEnumerator<float> StartTutorialSlowDown()
     {        
-        while (Time.timeScale > 0.1f)
+        while (tutorialTimeScale > 0.1f)
         {
-            Time.timeScale = Mathf.Lerp(Time.timeScale, 0.0f, tutorialSlowDownRate);
+            tutorialTimeScale = Mathf.Lerp(tutorialTimeScale, 0.0f, tutorialSlowDownRate);
+            Time.timeScale = tutorialTimeScale;
             yield return 0f;
-        }        
-        Time.timeScale = 0.0f;
+        }
+        tutorialTimeScale = 0.0f;
+        Time.timeScale = tutorialTimeScale;
         EventSystem.Instance.TriggerEvent(Strings.Events.SHOW_TUTORIAL_TEXT);
         EventSystem.Instance.TriggerEvent(Strings.Events.ENEMY_INVINCIBLE, false);
         isSlowDownFinished = true;
@@ -216,6 +220,7 @@ public class PlayerStateManager : RoutineRunner {
         if (!isTutorialDone && isSlowDownFinished)
         {
             isTutorialDone = true;
+            EventSystem.Instance.TriggerEvent(Strings.Events.GAME_CAN_PAUSE, true);
             eatCollider.radius /= TutorialRadiusMultiplier;
             stateVariables.eatRadius /= TutorialRadiusMultiplier;            
             Timing.RunCoroutine(StartTutorialSpeedUp(), SpeedTime);
@@ -225,12 +230,14 @@ public class PlayerStateManager : RoutineRunner {
     private IEnumerator<float> StartTutorialSpeedUp()
     {        
         isInTutorial = false;
-        while (Time.timeScale < 0.9f)
+        while (tutorialTimeScale < 0.9f)
         {
-            Time.timeScale = Mathf.Lerp(Time.timeScale, 1.0f, tutorialSpeedUpRate);
+            tutorialTimeScale = Mathf.Lerp(tutorialTimeScale, 1.0f, tutorialSpeedUpRate);
+            Time.timeScale = tutorialTimeScale;
             yield return 0f;
-        }        
-        Time.timeScale = 1.0f;
+        }
+        tutorialTimeScale = 1.0f;
+        Time.timeScale = tutorialTimeScale;
         EventSystem.Instance.TriggerEvent(Strings.Events.HIDE_TUTORIAL_TEXT);
     }
 
@@ -256,16 +263,9 @@ public class PlayerStateManager : RoutineRunner {
         }
     }
 
-    //void OnSuspectDashing() {
-    //    if (playerStates.Contains(dashState)) {
-    //        dashState.ResetDash();
-    //    }
-    //}
-
     private void ResetState()
     {
         stateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Idle);
-        //OnSuspectDashing();
         playerStates.Clear();
         playerStates.Add(defaultState);
         stateChanged = false;
