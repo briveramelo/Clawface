@@ -170,11 +170,11 @@
 
     public class Editor
     {
-
+        public const string RESOURCE_PATH = "PlayerLevelEditorObjects/";
+        public const string PLAYER_NAME = "Keira_GroupV1.5(Clone)";
     }
 
     
-
 public class AchievementNames {
         public const string Kill100 = "Blood Bath";
         public const string BeatLevel1 = "Conquest";
