@@ -37,7 +37,7 @@ public class BouncerChaseState : AIState {
     }
     public override void Update()
     {
-        Chase();
+        Chase();        
     }
 
     public override void OnExit()
@@ -46,7 +46,7 @@ public class BouncerChaseState : AIState {
     }
 
     private void Chase()
-    {
+    {        
         if (!moving)
         {
             GetNewChaseTarget();
@@ -65,35 +65,35 @@ public class BouncerChaseState : AIState {
 
         Vector3 fwd = controller.DirectionToTarget;
         RaycastHit hit;
-
+        //finalPosition = controller.AttackTargetPosition;
         //Do a ray cast to check there is no obstruction
         if (Physics.Raycast(controller.transform.position, fwd, out hit, Mathf.Infinity, LayerMask.GetMask(Strings.Layers.MODMAN, Strings.Layers.OBSTACLE)))
-        {
+        {            
             if (hit.transform.tag == Strings.Tags.PLAYER)
-            {
+            {                
                 //Special case when a wall is behind the player
                 if (Physics.Raycast(controller.AttackTargetPosition, fwd, out hit, 5, LayerMask.GetMask(Strings.Layers.GROUND)))
-                {
-                    if (hit.transform.tag == Strings.Tags.WALL)
-                    {
-                        if (Vector3.Distance(controller.transform.position, controller.AttackTargetPosition) < jumpTargetDistance)
-                        {
-                            if (navAgent.SetDestination(controller.AttackTargetPosition + (-controller.DirectionToTarget.normalized) * 2.0f))
-                            {
+                {                    
+                    if (hit.transform.tag == Strings.Tags.WALL) {                        
+                        if (Vector3.Distance(controller.transform.position, controller.AttackTargetPosition) < jumpTargetDistance) {                            
+                            if (navAgent.SetDestination(controller.AttackTargetPosition + (-controller.DirectionToTarget.normalized) * 2.0f)) {
                                 finalPosition = controller.AttackTargetPosition + (-controller.DirectionToTarget.normalized) * 2.0f;
                             }
                         }
-                        else
-                        {
-                            if (navAgent.SetDestination(jumpTarget))
-                            {
+                        else {                            
+                            if (navAgent.SetDestination(jumpTarget)) {
                                 finalPosition = jumpTarget;
                             }
                         }
                     }
+                    else {                        
+                        if (navAgent.SetDestination(controller.AttackTargetPosition)) {
+                            finalPosition = controller.AttackTargetPosition;
+                        }
+                    }
                 }
                 else
-                {
+                {                    
                     if (navAgent.SetDestination(jumpTarget))
                     {
                         finalPosition = jumpTarget;
@@ -105,22 +105,22 @@ public class BouncerChaseState : AIState {
             //Hit obstacle
             else
             {
-
+                
                 if (Vector3.Distance(controller.transform.position, controller.AttackTargetPosition) < jumpTargetDistance)
-                {
+                {                    
                     if (navAgent.SetDestination(controller.AttackTargetPosition))
                     {
                         finalPosition = controller.AttackTargetPosition;
                     }
                 }
                 else
-                {
+                {                    
                     Vector3 bouncerPos = new Vector3(controller.transform.position.x, 0.0f, controller.transform.position.z);
                     Vector3 closestPoint = hit.collider.ClosestPointOnBounds(bouncerPos);
                     float newDistance = Vector3.Distance(closestPoint, bouncerPos);
 
                     if (newDistance < jumpTargetDistance)
-                    {
+                    {                        
                         jumpTarget = controller.transform.position + (moveDirection.normalized * (jumpTargetDistance + hit.collider.bounds.extents.magnitude * 1.2f));
 
                         if (navAgent.SetDestination(jumpTarget))
@@ -130,7 +130,7 @@ public class BouncerChaseState : AIState {
                     }
 
                     else
-                    {
+                    {                        
                         if (navAgent.SetDestination(jumpTarget))
                         {
                             finalPosition = jumpTarget;

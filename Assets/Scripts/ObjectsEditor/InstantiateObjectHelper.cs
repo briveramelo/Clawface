@@ -11,7 +11,7 @@ public static class InstantiateObjectHelper
 {
     public static GameObject InstantiateObject (GameObject prefab)
     {
-        GameObject instance=null;
+        GameObject instance = null;
 
         #if UNITY_EDITOR
 

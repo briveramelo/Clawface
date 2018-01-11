@@ -59,7 +59,9 @@ public class DiceMod : Mod {
     {
         blasterEffect.Play();
         DiceBlock diceBlock = SpawnDiceAndRoll(bulletSpawnPoint.forward);
-        diceBlock.PrimeExplosion(armTimeTilExplosion);
+        if (diceBlock) {
+            diceBlock.PrimeExplosion(armTimeTilExplosion);
+        }
     }
 
     #endregion
@@ -67,20 +69,24 @@ public class DiceMod : Mod {
     #region Private Methods
     private DiceBlock SpawnDiceAndRoll(Vector3 direction)
     {
-        DiceBlock diceBlock = ObjectPool.Instance.GetObject(PoolObjectType.DiceBlock).GetComponent<DiceBlock>();
-        if (diceBlock)
-        {
-            diceBlock.transform.position = bulletSpawnPoint.position;
-            diceBlock.transform.rotation = transform.rotation;
-            diceBlock.Roll(direction);
+        GameObject go = ObjectPool.Instance.GetObject(PoolObjectType.DiceBlock);
+        DiceBlock diceBlock = null;
+        if (go) {
+            diceBlock = go.GetComponent<DiceBlock>();
+            if (diceBlock)
+            {
+                diceBlock.transform.position = bulletSpawnPoint.position;
+                diceBlock.transform.rotation = transform.rotation;
+                diceBlock.Roll(direction);
 
-            if (wielderStats.gameObject.CompareTag(Strings.Tags.PLAYER))
-            {
-                diceBlock.SetShooterType(true);
-            }
-            else
-            {
-                diceBlock.SetShooterType(false);
+                if (wielderStats.gameObject.CompareTag(Strings.Tags.PLAYER))
+                {
+                    diceBlock.SetShooterType(true);
+                }
+                else
+                {
+                    diceBlock.SetShooterType(false);
+                }
             }
         }
         animator.SetTrigger("Shoot");

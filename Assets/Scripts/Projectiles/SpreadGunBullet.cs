@@ -76,11 +76,15 @@ public class SpreadGunBullet : MonoBehaviour {
                 damageable.TakeDamage(damager);
             }
             GameObject vfx = ObjectPool.Instance.GetObject(impactVFX);
-            vfx.transform.position = other.transform.position;
+            if (vfx) {
+                vfx.transform.position = other.transform.position;
+            }
         }else if(other.tag == Strings.Tags.WALL)
         {
             GameObject vfx = ObjectPool.Instance.GetObject(impactVFX);
-            vfx.transform.position = other.transform.position;
+            if (vfx) {
+                vfx.transform.position = other.transform.position;
+            }
             gameObject.SetActive(false);
         }
     }
