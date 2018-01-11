@@ -33,7 +33,8 @@ public class MallCopFireState : AIState {
     public override void Update() {
         currentWeight = animator.GetLayerWeight(1);
         currentAngleToTarget = CheckAngle();
-        controller.transform.LookAt(controller.AttackTarget);
+        Vector3 lookAtPosition = new Vector3(controller.AttackTarget.position.x, controller.transform.position.y, controller.AttackTarget.position.z);
+        controller.transform.LookAt(lookAtPosition);
         navAgent.velocity = Vector3.zero;
         lastAngleToTarget = CheckAngle();
         CheckRotationDifference();

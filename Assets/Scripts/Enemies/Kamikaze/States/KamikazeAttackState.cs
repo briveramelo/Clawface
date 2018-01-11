@@ -9,6 +9,7 @@ public class KamikazeAttackState : AIState {
     private Damager damager = new Damager();
     private float waitTimeToDestruct;
     private float blastRadius;
+    private float scaleRate;
     public bool setToSelfDestruct = false;
     private bool attackDone = false;
 
@@ -22,12 +23,14 @@ public class KamikazeAttackState : AIState {
         SetShooterProperties(shooterProperties);
         waitTimeToDestruct = properties.selfDestructTime;
         blastRadius = properties.blastRadius;
+        scaleRate = properties.selfDestructTime;
         Timing.RunCoroutine(RunStartupTimer(),coroutineName);
     }
     public override void Update()
     {
-       controller.transform.LookAt(controller.AttackTarget);
-       navAgent.velocity = Vector3.zero;
+        Vector3 lookAtPosition = new Vector3(controller.AttackTarget.position.x, controller.transform.position.y, controller.AttackTarget.position.z);
+        controller.transform.LookAt(lookAtPosition);
+        navAgent.velocity = Vector3.zero;
     }
     public override void OnExit()
     {
@@ -42,7 +45,7 @@ public class KamikazeAttackState : AIState {
         GameObject explosionSphere = ObjectPool.Instance.GetObject(PoolObjectType.KamikazeExplosionSphere);
         if (explosionSphere) {
             explosionSphere.transform.position = controller.transform.position;
-            explosionSphere.GetComponent<ExplosionTrigger>().Initialize(blastRadius);
+            explosionSphere.GetComponent<ExplosionTrigger>().Initialize(blastRadius,scaleRate);
         }
 
         yield return Timing.WaitForSeconds(waitTimeToDestruct);

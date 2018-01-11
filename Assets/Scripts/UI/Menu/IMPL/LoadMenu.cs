@@ -78,6 +78,11 @@ public class LoadMenu : Menu {
             loadingText.text = "Starting...";
             MenuManager.Instance.DoTransition(this, Transition.HIDE, new Effect[] { });
             SpawnManager.spawnersLocked = false;
+
+            if (target == Strings.Scenes.Editor)
+            {
+                EventSystem.Instance.TriggerEvent(Strings.Events.INIT_EDITOR, null);
+            }
         }
     }
     #endregion
@@ -134,6 +139,8 @@ public class LoadMenu : Menu {
         loadingBar.size = 1.0F;
         loadingText.text = "Press any key to continue...";
         loaded = true;
+        
+
     }
 
     #endregion

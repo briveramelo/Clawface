@@ -25,9 +25,9 @@ public class MallCopChaseState : AIState {
         //Orient cop towards player
         if (Vector3.Distance(controller.AttackTarget.position, controller.transform.position) > 100.0f)
         {
-            Vector3 lookAtPosition = new Vector3(controller.AttackTarget.position.x, 0, controller.AttackTarget.position.z);
+            Vector3 lookAtPosition = new Vector3(controller.AttackTarget.position.x, controller.transform.position.y, controller.AttackTarget.position.z);
             controller.transform.LookAt(lookAtPosition);
-            controller.transform.rotation = Quaternion.Euler(0f, controller.transform.rotation.eulerAngles.y, 0f);
+            //controller.transform.rotation = Quaternion.Euler(0f, controller.transform.rotation.eulerAngles.y, 0f);
         }
         navAgent.SetDestination(controller.AttackTarget.position);
     }
