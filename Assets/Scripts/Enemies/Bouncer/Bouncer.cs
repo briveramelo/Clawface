@@ -7,13 +7,21 @@ using System;
 [System.Serializable]
 public class BouncerProperties : AIProperties
 {
-    [Range(1, 10)] public int bouncerBounces;
-    [Range(1f, 100f)] public float bouncerWaitShotTime;
+    [Range(1, 10)] public int maxBouncerBounces;
+    [Range(1, 10)] public int minBouncerBounces;
+    [Range(1, 100)] public int maxBouncerShots;
+    [Range(1, 100)] public int minBouncerShots;
+    [Range(1f, 100f)] public float bouncerRotationSpeed;
+    public bool bouncerRotate;
 
     public void InitializeProperties()
     {
-        bounces = bouncerBounces;
-        waitShotTime = bouncerWaitShotTime;
+        maxBounces = maxBouncerBounces;
+        minBounces = minBouncerBounces;
+        maxShots = maxBouncerShots;
+        minShots = minBouncerShots;
+        rotationSpeed = bouncerRotationSpeed;
+        rotate = bouncerRotate;
     }
 
 }
@@ -33,6 +41,7 @@ public class Bouncer : EnemyBase
     private BouncerChaseState chase;
     private BouncerFireState fire;
     private BouncerStunState stun;
+    private BouncerCelebrateState celebrate;
 
 
     #endregion
@@ -73,16 +82,18 @@ public class Bouncer : EnemyBase
     {
         if (controller.CurrentState == fire)
         {
+            if (myStats.health <= myStats.skinnableHealth)
+            {
+                controller.CurrentState = stun;
+                controller.UpdateState(EAIState.Stun);
+                controller.DeActivateAI();
+            }
 
             if (fire.DoneFiring())
             {
                 controller.UpdateState(EAIState.Chase);
-                return true;
             }
-            else
-            {
-                return false;
-            }
+            return true;
         }
         return false;
     }
@@ -99,10 +110,41 @@ public class Bouncer : EnemyBase
 
     }
 
+    public void DoneJumpStart()
+    {
+        chase.doneStartingJump = true;
+    }
+
+    public void DoneJumpLanding()
+    {
+        chase.doneLandingJump = true;
+    }
+
+
     public override void ResetForRebirth()
     {
-        copUICanvas.gameObject.SetActive(false);
         base.ResetForRebirth();
+    }
+
+    public void FireBullet()
+    {
+        if (fire.shotCount >= fire.maxShots)
+        {
+            fire.doneFiring = true;
+        }
+        else
+        {
+            fire.FireBullet();
+            fire.shotCount++;
+        }
+    }
+
+
+    public override void DoPlayerKilledState(object[] parameters)
+    {
+        //animator.SetTrigger("DoVictoryDance");
+        //controller.CurrentState = celebrate;
+        //controller.UpdateState(EAIState.Celebrate);
     }
 
     #endregion
@@ -118,17 +160,20 @@ public class Bouncer : EnemyBase
         fire.stateName = "fire";
         stun = new BouncerStunState();
         stun.stateName = "stun";
+        celebrate = new BouncerCelebrateState();
+        celebrate.stateName = "celebrate";
         aiStates.Add(chase);
         aiStates.Add(fire);
         aiStates.Add(stun);
+        aiStates.Add(celebrate);
     }
-
-   
-    #endregion
 
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, closeEnoughToAttackDistance);
     }
+
+
+    #endregion
 }

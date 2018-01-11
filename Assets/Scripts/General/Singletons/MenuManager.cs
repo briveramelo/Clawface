@@ -11,6 +11,18 @@ using Rewired.Integration.UnityUI;
 
 public class MenuManager : Singleton<MenuManager> {
 
+    #region Accessors (Internal)
+
+    internal bool MouseMode
+    {
+        get
+        {
+            return mouseMode;
+        }
+    }
+
+    #endregion
+
     #region Unity Serialization Fields
     [SerializeField]
     private List<GameObject> menuPrefabs;
@@ -24,6 +36,7 @@ public class MenuManager : Singleton<MenuManager> {
     private List<Menu> menus = new List<Menu>();
     private Queue<TransitionBundle> transitionQueue = new Queue<TransitionBundle>();
     private List<Menu> menuStack = new List<Menu>();
+    bool mouseMode = false;
     #endregion
 
     #region Unity Lifecycle Functions
@@ -57,6 +70,20 @@ public class MenuManager : Singleton<MenuManager> {
                 bundle.menu.DoTransition(bundle.transition, bundle.effects);
             }
             EnableEventSystem(true);
+        }
+
+        // Check if we should switch between mouse mode or not
+        if (!mouseMode && Input.GetMouseButtonDown (0))
+        {
+            mouseMode = true;
+        } else if (mouseMode && InputManager.Instance.Player.GetAnyButtonDown())
+        {
+            mouseMode = false;
+            if (menuStack.Count > 0)
+            {
+                Menu active = menuStack[menuStack.Count - 1];
+                active.SelectInitialButton();
+            }
         }
     }
     #endregion

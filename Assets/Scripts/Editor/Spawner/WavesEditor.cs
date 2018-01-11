@@ -153,6 +153,7 @@ public class WavesEditor : Editor
         EditorGUI.EndDisabledGroup();
 
         EditorGUI.PropertyField(new Rect(rect.x, rect.y += 2 + EditorGUIUtility.singleLineHeight, rect.width, EditorGUIUtility.singleLineHeight), element.FindPropertyRelative("NumToNextWave"));
+        EditorGUI.PropertyField(new Rect(rect.x, rect.y += 2 + EditorGUIUtility.singleLineHeight, rect.width, EditorGUIUtility.singleLineHeight), element.FindPropertyRelative("spawnEffectTime"));
 
         EditorGUI.BeginDisabledGroup(!manualEdits.boolValue);
 

@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4381874900374146}
   - component: {fileID: 33320159620204094}
   - component: {fileID: 23497248643559934}
-  m_Layer: 0
+  m_Layer: 19
   m_Name: Low-Poly Plant_.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,7 +43,8 @@ GameObject:
   - component: {fileID: 65647988909620550}
   - component: {fileID: 208989393057243180}
   - component: {fileID: 114842366974738448}
-  m_Layer: 0
+  - component: {fileID: 114723022726497300}
+  m_Layer: 19
   m_Name: Coffee Kiosk
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -64,7 +65,7 @@ GameObject:
   - component: {fileID: 64535263945039914}
   - component: {fileID: 114431259967998298}
   - component: {fileID: 114938412182928750}
-  m_Layer: 11
+  m_Layer: 19
   m_Name: Chair_B (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -81,7 +82,7 @@ GameObject:
   - component: {fileID: 4420941081633006}
   - component: {fileID: 33134674153498758}
   - component: {fileID: 23585443152131516}
-  m_Layer: 0
+  m_Layer: 19
   m_Name: Low-Poly Plant_
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -98,7 +99,7 @@ GameObject:
   - component: {fileID: 4018833049176020}
   - component: {fileID: 33552299621235544}
   - component: {fileID: 23159196895062108}
-  m_Layer: 0
+  m_Layer: 19
   m_Name: Coffee Logo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -113,7 +114,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4634986431318720}
-  m_Layer: 0
+  m_Layer: 19
   m_Name: plant1 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -194,8 +195,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1159817217382010}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 19.94, y: 0, z: 0}
+  m_LocalScale: {x: 1.35, y: 1.35, z: 1.35}
   m_Children:
   - {fileID: 4018833049176020}
   - {fileID: 4634986431318720}
@@ -478,6 +479,20 @@ MonoBehaviour:
   rigbod: {fileID: 54691794254669694}
   iceForceMultiplier: 3
   movementMode: 1
+--- !u!114 &114723022726497300
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1159817217382010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  renderTextureWidth: 512
+  renderTextureHeight: 512
 --- !u!114 &114842366974738448
 MonoBehaviour:
   m_ObjectHideFlags: 1

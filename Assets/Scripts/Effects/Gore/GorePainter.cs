@@ -18,7 +18,7 @@ public class GorePainter : MonoBehaviour {
     }
 
     void OnEnable() {        
-        gameObject.DeActivate(4f);
+        //gameObject.DeActivate(4f);
     }
 
 
@@ -42,7 +42,7 @@ public class GorePainter : MonoBehaviour {
             Physics.OverlapSphereNonAlloc(hit.point, .1f, dummyColliders, blood)<maxOverlappingDecals){
 
             //PlaceDecal(hit);
-            GoreManager.Instance.SpawnSplat(hit.point);
+            GoreManager.Instance.QueueSplat(hit.point);
         }
     }
 

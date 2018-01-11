@@ -9,24 +9,35 @@ using MovementEffects;
 public class BouncerChaseState : AIState {
 
     private Vector3 jumpTarget;
-    private float jumpTargetDistance = 12f;
+    private float jumpTargetDistance = 10f;
     private bool moving = false;
-    private float height = 8.0f;
-    private float tolerance = 0.35f;
+    private float height = 12.0f;
+    private float tolerance = 0.1f;
     private int jumpCount = 0;
     private int maxJumpCount;
-    private NavMeshHit hit;
     private Vector3 finalPosition;
+
+    //Smooth Lerping
+    float lerpTime = 1.0f;
+    float currentLerpTime;
+
+
+    public bool doneStartingJump;
+    public bool doneLandingJump;
+
 
     public override void OnEnter()
     {
+        controller.AttackTarget = controller.FindPlayer();
         jumpCount = 0;
-        maxJumpCount = properties.bounces;
+        maxJumpCount = Random.Range(properties.minBounces, properties.maxBounces);
         moving = false;
+        doneStartingJump = false;
+        doneLandingJump = false;
     }
     public override void Update()
     {
-        Chase();
+        Chase();        
     }
 
     public override void OnExit()
@@ -35,112 +46,177 @@ public class BouncerChaseState : AIState {
     }
 
     private void Chase()
-    {
+    {        
         if (!moving)
         {
             GetNewChaseTarget();
-            controller.transform.LookAt(new Vector3(jumpTarget.x, 0.0f, jumpTarget.z));
         }
-    }
 
-    private bool IsHittingWall(Vector3 movementDirection, float checkDistance)
-    {
-        Vector3 rayOrigin = new Vector3(controller.transform.position.x, controller.transform.position.y + 0.5f, controller.transform.position.z);
-        Ray raycast = new Ray(rayOrigin, movementDirection);
-        List<RaycastHit> rayCastHits = new List<RaycastHit>(Physics.RaycastAll(raycast, checkDistance));
-        if (rayCastHits.Any(hit => (
-            hit.collider.tag == Strings.Tags.UNTAGGED ||
-            hit.collider.tag == Strings.Tags.ENEMY ||
-            hit.transform.gameObject.layer == (int)Layers.Ground)))
+        else
         {
-            return true;
+            controller.transform.eulerAngles = new Vector3(0.0f, controller.transform.eulerAngles.y, controller.transform.eulerAngles.z);
         }
-        return false;
     }
-
 
     private void GetNewChaseTarget()
     {
-        bool gotChasePoint = false;
+        Vector3 moveDirection = controller.DirectionToTarget;
+        jumpTarget = controller.transform.position + (moveDirection.normalized * jumpTargetDistance);
 
-        int numRayChecks = 8;
-        float randStart = Random.Range(0, 360f);
-        int clockwise = Random.value > 0.5f ? 1 : -1;
-        for (int i = 0; i < numRayChecks; i++)
-        {
-            float angle = randStart + clockwise * i * (360f / numRayChecks);
-            Vector3 moveDirection = angle.ToVector3();
-            moveDirection = moveDirection.normalized;
-            moveDirection.y = .1f;
-            jumpTarget = controller.transform.position + moveDirection * jumpTargetDistance;
+        Vector3 fwd = controller.DirectionToTarget;
+        RaycastHit hit;
+        //finalPosition = controller.AttackTargetPosition;
+        //Do a ray cast to check there is no obstruction
+        if (Physics.Raycast(controller.transform.position, fwd, out hit, Mathf.Infinity, LayerMask.GetMask(Strings.Layers.MODMAN, Strings.Layers.OBSTACLE)))
+        {            
+            if (hit.transform.tag == Strings.Tags.PLAYER)
+            {                
+                //Special case when a wall is behind the player
+                if (Physics.Raycast(controller.AttackTargetPosition, fwd, out hit, 5, LayerMask.GetMask(Strings.Layers.GROUND)))
+                {                    
+                    if (hit.transform.tag == Strings.Tags.WALL) {                        
+                        if (Vector3.Distance(controller.transform.position, controller.AttackTargetPosition) < jumpTargetDistance) {                            
+                            if (navAgent.SetDestination(controller.AttackTargetPosition + (-controller.DirectionToTarget.normalized) * 2.0f)) {
+                                finalPosition = controller.AttackTargetPosition + (-controller.DirectionToTarget.normalized) * 2.0f;
+                            }
+                        }
+                        else {                            
+                            if (navAgent.SetDestination(jumpTarget)) {
+                                finalPosition = jumpTarget;
+                            }
+                        }
+                    }
+                    else {                        
+                        if (navAgent.SetDestination(controller.AttackTargetPosition)) {
+                            finalPosition = controller.AttackTargetPosition;
+                        }
+                    }
+                }
+                else
+                {                    
+                    if (navAgent.SetDestination(jumpTarget))
+                    {
+                        finalPosition = jumpTarget;
+                    }
+                }
+                
+            }
 
-            if (NavMesh.SamplePosition(jumpTarget, out hit, jumpTargetDistance, 1))
+            //Hit obstacle
+            else
             {
-                  finalPosition = hit.position;
-                  gotChasePoint = true;
-                  break;
+                
+                if (Vector3.Distance(controller.transform.position, controller.AttackTargetPosition) < jumpTargetDistance)
+                {                    
+                    if (navAgent.SetDestination(controller.AttackTargetPosition))
+                    {
+                        finalPosition = controller.AttackTargetPosition;
+                    }
+                }
+                else
+                {                    
+                    Vector3 bouncerPos = new Vector3(controller.transform.position.x, 0.0f, controller.transform.position.z);
+                    Vector3 closestPoint = hit.collider.ClosestPointOnBounds(bouncerPos);
+                    float newDistance = Vector3.Distance(closestPoint, bouncerPos);
+
+                    if (newDistance < jumpTargetDistance)
+                    {                        
+                        jumpTarget = controller.transform.position + (moveDirection.normalized * (jumpTargetDistance + hit.collider.bounds.extents.magnitude * 1.2f));
+
+                        if (navAgent.SetDestination(jumpTarget))
+                        {
+                            finalPosition = jumpTarget;
+                        }
+                    }
+
+                    else
+                    {                        
+                        if (navAgent.SetDestination(jumpTarget))
+                        {
+                            finalPosition = jumpTarget;
+                        }
+                    }
+                }
+                
             }
         }
 
-        if (gotChasePoint)
-            Timing.RunCoroutine(Move(),coroutineName);
+        moving = true;
+        Timing.RunCoroutine(Move(), coroutineName);
     }
+
 
     IEnumerator<float> Move()
     {
-        moving = true;
-       
+
+        animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.Jumping);
+
+        while (!doneStartingJump)
+        {
+            yield return 0.0f;
+        }
 
         Vector3 initialPosition = controller.transform.position;
         Vector3 targetPosition = new Vector3(finalPosition.x, 0.2f, finalPosition.z);
 
-        Vector3 midpoint = (initialPosition + targetPosition) * 0.5f;
+        Vector3 smoothMidpoint1 = initialPosition + ((targetPosition - initialPosition) * 0.2f);
+        Vector3 midpoint = initialPosition + ((targetPosition - initialPosition) * 0.5f);
+        Vector3 smoothMidpoint2 = initialPosition + ((targetPosition - initialPosition) * 0.8f);
+
         midpoint.y += height;
+        smoothMidpoint1.y += height * 0.7f;
+        smoothMidpoint2.y += height * 0.7f;
+
+        yield return Timing.WaitUntilDone(Timing.RunCoroutine(LerpToNextPosition(initialPosition, smoothMidpoint1, myStats.moveSpeed*2.5f), coroutineName));
+        yield return Timing.WaitUntilDone(Timing.RunCoroutine(LerpToNextPosition(smoothMidpoint1, midpoint, myStats.moveSpeed * 2.0f), coroutineName));
+        yield return Timing.WaitUntilDone(Timing.RunCoroutine(LerpToNextPosition(midpoint, smoothMidpoint2, myStats.moveSpeed * 2.5f), coroutineName));
+        yield return Timing.WaitUntilDone(Timing.RunCoroutine(LerpToNextPosition(smoothMidpoint2, targetPosition, myStats.moveSpeed * 3.0f), coroutineName));
 
 
-        float interpolation = 0.0f;
+        animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.EndJump);
 
-        while (interpolation < 1.0f)
+        while (!doneLandingJump)
         {
-            interpolation += Time.deltaTime * myStats.moveSpeed;
-
-            controller.transform.position = Vector3.Lerp(initialPosition, midpoint, interpolation);
-
-            if (Vector3.Distance(controller.transform.position, midpoint) < tolerance)
-            {
-                controller.transform.position = midpoint;
-                break;
-            }
-
             yield return 0.0f;
         }
-        controller.transform.position = midpoint;
+        doneStartingJump = false;
+        doneLandingJump = false;
+        jumpCount++;
 
-        interpolation = 0.0f;
+        moving = false;
+    }
 
-        while (interpolation < 1.0f)
+
+    private IEnumerator<float> LerpToNextPosition(Vector3 initialPosition, Vector3 targetPosition, float lerpSpeed)
+    {
+        float interpolation = 0.0f;
+        currentLerpTime = 0.0f;
+
+        while (interpolation< 1.0f)
         {
-            interpolation += Time.deltaTime * myStats.moveSpeed;
+            currentLerpTime += Time.deltaTime * lerpSpeed;
+            if (currentLerpTime > lerpTime)
+            {
+                currentLerpTime = lerpTime;
+            }
+            interpolation = currentLerpTime / lerpTime;
 
-            controller.transform.position = Vector3.Lerp(midpoint, targetPosition, interpolation);
+            
+
+            controller.transform.position = Vector3.Lerp(initialPosition, targetPosition, interpolation);
 
             if (Vector3.Distance(controller.transform.position, targetPosition) < tolerance)
             {
                 controller.transform.position = targetPosition;
-                
                 break;
             }
-               
 
             yield return 0.0f;
         }
         controller.transform.position = targetPosition;
-
         interpolation = 1.0f;
-
-        moving = false;
-        jumpCount++;
     }
+
 
     public bool OverMaxJumpCount()
     {

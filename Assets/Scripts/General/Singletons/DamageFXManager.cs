@@ -19,11 +19,11 @@ public class DamageFXManager : Singleton<DamageFXManager> {
                     {DamagerType.TankTreads, EmitBlood },
                     {DamagerType.GrapplingHook, EmitBlood },
                     {DamagerType.Boomerang, EmitBlood },
-                    {DamagerType.Geyser, EmitGeyser },
+                    {DamagerType.Geyser, EmitBlood },
                     //{DamagerType.StunMine, EmitGeyser },
                     {DamagerType.FireTrap, EmitBlood },
                     {DamagerType.GrapplingBotExplosion, EmitBlood },
-                    {DamagerType.Dice, EmitGeyser },
+                    {DamagerType.Dice, EmitBlood },
                     //{DamagerType.StunStomp, EmitGeyser}
                 }
             },
@@ -35,11 +35,11 @@ public class DamageFXManager : Singleton<DamageFXManager> {
                     {DamagerType.TankTreads, EmitBlood },
                     {DamagerType.GrapplingHook, EmitBlood },
                     {DamagerType.Boomerang, EmitBlood },
-                    {DamagerType.Geyser, EmitGeyser },
+                    {DamagerType.Geyser, EmitBlood },
                     //{DamagerType.StunMine, EmitGeyser },
                     {DamagerType.FireTrap, EmitBlood },
                     {DamagerType.GrapplingBotExplosion, EmitBlood },
-                    {DamagerType.Dice, EmitGeyser },
+                    {DamagerType.Dice, EmitBlood },
                     //{DamagerType.StunStomp, EmitGeyser}
                 }
             },
@@ -147,7 +147,10 @@ public class DamageFXManager : Singleton<DamageFXManager> {
         if (bloodEmitter) {
             bloodEmitter.transform.ResetRotation(3f);
             bloodEmitter.transform.position = spawnPoint;
-            bloodEmitter.transform.rotation = Quaternion.LookRotation(emissionDirection);
+            if (emissionDirection != Vector3.zero)
+            {
+                bloodEmitter.transform.rotation = Quaternion.LookRotation(emissionDirection);
+            }
         }        
     }
 

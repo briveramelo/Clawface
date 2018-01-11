@@ -26,10 +26,13 @@ public class Kamikaze : EnemyBase
     #endregion
 
     #region 3. Private fields
+
+
     //The AI States of the Kamikaze
     private KamikazeChaseState chase;
     private KamikazeAttackState attack;
     private KamikazeStunState stun;
+    private KamikazeCelebrateState celebrate;
     #endregion
 
     #region 4. Unity Lifecycle
@@ -41,7 +44,8 @@ public class Kamikaze : EnemyBase
         damaged.Set(DamagedType.MallCop, bloodEmissionLocation);
         controller.checksToUpdateState = new List<Func<bool>>() {
             CheckToSelfDestruct,
-            CheckIfStunned
+            CheckIfStunned,
+            DeleteKamikaze
         };
         base.Awake();
     }
@@ -70,12 +74,39 @@ public class Kamikaze : EnemyBase
         }
         return false;
     }
+    bool DeleteKamikaze()
+    {
+        if (controller.CurrentState == attack && attack.DoneAttacking() )
+        {
+            if (attack.setToSelfDestruct)
+            {
+                OnDeath();
+                return true;
+            }
+            else
+            {
+                controller.UpdateState(EAIState.Attack);
+                return true;
+            }
+
+            
+        }
+        return false;
+    }
 
     public override void ResetForRebirth()
     {
-        copUICanvas.gameObject.SetActive(false);
+        attack.setToSelfDestruct = false;
         base.ResetForRebirth();
     }
+
+    public override void DoPlayerKilledState(object[] parameters)
+    {
+        //animator.SetTrigger("DoVictoryDance");
+        //controller.CurrentState = celebrate;
+        //controller.UpdateState(EAIState.Celebrate);
+    }
+
     #endregion
 
     #region 6. Private Methods    
@@ -89,9 +120,12 @@ public class Kamikaze : EnemyBase
         attack.stateName = "attack";
         stun = new KamikazeStunState();
         stun.stateName = "stun";
+        celebrate = new KamikazeCelebrateState();
+        celebrate.stateName = "celebrate";
         aiStates.Add(chase);
         aiStates.Add(attack);
         aiStates.Add(stun);
+        aiStates.Add(celebrate);
     }
 
     private void OnDrawGizmosSelected()

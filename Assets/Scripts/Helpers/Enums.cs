@@ -20,24 +20,20 @@ public enum SFXType {
     BloodExplosion,
     BlasterProjectileImpact,
     BlasterShoot,
-    GrapplingGun_Shoot,
-    TankTreads_Attack,
-    TankTreads_Swing, 
     Dash,
-    SegwayBlast_Standard,
-    SegwayBlast,
-    Boomerang_Throw, 
-    DiceLauncher_Shoot,
-    GeyserMod_Splash,
-    GeyserMod_MiniSplash,
+    Boomerang_Throw,
     Boomerang_Impact,
     PlayerTakeDamage,
     PlayerDeath,
-    ModCooldown,
-    MallCopHurt,
     UI_Click,
     UI_Hover,
-    UI_Back
+    UI_Back,
+    SpreadshotShoot,
+    LightningGunShoot,
+    GeyserShoot,
+    ClawExtend,
+    ClawGrab,
+    PlayerEat,
 }
 
 public enum MusicType
@@ -65,6 +61,8 @@ public enum DamagedType {
     Zombie=2,
     Bouncer=3,
     Kamikaze = 4,
+    RedBouncer = 5,
+    GreenBouncer = 6,
 }
 
 public enum ModType {
@@ -73,9 +71,8 @@ public enum ModType {
     LightningGun = 2,
     Boomerang = 3,
     Geyser = 4,
-    Dice = 5,
-    None = 6,
-    Missile = 7
+    Missile = 5,
+    None = 6
 }
 
 public enum ModCategory
@@ -100,7 +97,8 @@ public enum Layers {
     Hologram=13,
     Globe_Text=14,
     PlayerDetector=15,
-    DiceBlocks=17        
+    DiceBlocks=17,
+    Obstacle=19
 }
 
 public enum PoolObjectType {
@@ -112,6 +110,7 @@ public enum PoolObjectType {
     WorldScoreCanvas = 26,
     GeyserFissure = 29,	
     BlasterImpactEffect = 31,
+    KamikazeExplosionSphere = 48,
 
     //VFX
     VFXBlasterImpactEffect = 3,
@@ -125,6 +124,15 @@ public enum PoolObjectType {
     VFXHealthGain = 25,
     VFXBoomerangShoot = 38,
     VFXBoomerangImpact = 39,
+    VFXGeyserShoot = 41,
+    VFXGeyserImpact = 42,
+    VFXKamikazeExplosion = 43,
+    VFXLightningGunImpact = 44,
+    VFXLightningGunShoot = 45,
+    VFXPlayerDeath = 49,
+    VFXEnemySpawn=50,
+    VFXSpreadshotShoot=51,
+    VFXSpreadshotImpact=52,
 
     //BulletTypes
     TurretBullet = 28,
@@ -145,6 +153,8 @@ public enum PoolObjectType {
     Zombie = 32,
     Bouncer = 33,
     Kamikaze = 34,
+    RedBouncer = 46,
+    GreenBouncer = 47,
 
 }
 
@@ -159,7 +169,8 @@ public enum PlayerAnimationStates
     Idle = 0,
     Running = 1,
     Dash = 2,
-    RetractVisor = 3
+    OpenFace = 3,
+    CloseFace = 4
 }
 
 public enum PlayerAnimationLayers
@@ -199,12 +210,28 @@ public enum AnimationStates {
     Fire2 = 31,
     Fire3 = 32,
 
+    ReadyFire = 301,
+    EndFire = 302,
+
     Stunned = 4,
+
+    StartingJump = 5,
+    Jumping = 51,
+    EndJump = 52,
 
     TurnLeft = 6,
     TurnRight = 61,
     
-    
+    Celebrate1 = 7,
+    Celebrate2 = 71,
+    Celebrate3 = 72,
+    Celebrate4 = 73,
+    Celebrate5 = 74,
+
+    HitReaction1 = 8,
+    HitReaction2 = 81,
+    HitReaction3 = 82
+
 }
 
 public enum EAIState
@@ -213,7 +240,8 @@ public enum EAIState
     Attack = 1,
     Fire = 3,
     Death = 4,
-    Stun = 5
+    Stun = 5,
+    Celebrate = 6,
 }
 
 
@@ -230,6 +258,8 @@ public enum SpawnType {
     Zombie = 1,
     Bouncer = 2,
     Kamikaze = 3,
+    RedBouncer = 4,
+    GreenBouncer = 5,
 }
 
 public enum ActionType

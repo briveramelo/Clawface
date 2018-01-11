@@ -18,6 +18,12 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     [SerializeField] private CameraLock cameraLock;
     [SerializeField] private PlayerFaceController faceController;
     [SerializeField] private bool shake;
+    [SerializeField] private GameObject playerMesh;
+    [SerializeField] private GameObject modSockets;
+    [SerializeField] private PoolObjectType deathVFX;
+    [SerializeField] private SFXType deathSFX;
+
+    [SerializeField] private List<HealthRatio> damageScaling = new List<HealthRatio>();
     #endregion
 
     #region Private Fields
@@ -25,6 +31,7 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     float startHealth;
     float healthAtLastSkin;
     float lastSkinHealthBoost;
+    HitFlasher hitFlasher;
     #endregion
 
     #region Unity Lifecycle
@@ -35,7 +42,7 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
         startHealth = stats.GetStat(CharacterStatType.MaxHealth);
         UpgradeManager.Instance.SetPlayerStats(this.stats);
         UpgradeManager.Instance.SetPlayerStatsManager(this);
-
+        hitFlasher = GetComponentInChildren<HitFlasher>();
     }
 	
 	// Update is called once per frame
@@ -53,8 +60,19 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
             {
 
                 EventSystem.Instance.TriggerEvent(Strings.Events.PLAYER_DAMAGED);
-                stats.TakeDamage(damageModifier * damager.damage);
                 float healthFraction = stats.GetHealthFraction();
+
+                for (int i = 0; i < damageScaling.Count; i++)
+                {
+                    if (healthFraction >= damageScaling[i].healthPercentage)
+                    {
+                        damageModifier = damageScaling[i].damageRatio;
+                        break;
+                    }
+                }
+
+                stats.TakeDamage(damageModifier * damager.damage);
+                healthFraction = stats.GetHealthFraction();
                 EventSystem.Instance.TriggerEvent(Strings.Events.PLAYER_HEALTH_MODIFIED, healthFraction);
                 cameraLock.Shake();
                 float shakeIntensity = 1f - healthFraction;
@@ -66,11 +84,28 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
 
                 faceController.SetTemporaryEmotion(PlayerFaceController.Emotion.Angry, 0.5f);
 
+                hitFlasher.HitFlash ();
+
                 if (stats.GetStat(CharacterStatType.Health) <= 0)
                 {
                     EventSystem.Instance.TriggerEvent(Strings.Events.PLAYER_KILLED, SceneManager.GetActiveScene().name, AnalyticsManager.Instance.GetCurrentWave(), ModManager.leftArmOnLoad.ToString(), ModManager.rightArmOnLoad.ToString());
                     //Revive(); //removed because of the inclusion of the game over menu
-                    
+                    if (playerMesh && modSockets)
+                    {                        
+                        GameObject vfx = ObjectPool.Instance.GetObject(deathVFX);
+                        if (vfx) {
+                            vfx.transform.position = playerMesh.transform.position;
+                            vfx.SetActive(true);
+                        }
+                        CapsuleCollider collider = GetComponent<CapsuleCollider>();
+                        if (collider)
+                        {
+                            collider.enabled = false;
+                        }
+                        playerMesh.SetActive(false);
+                        modSockets.SetActive(false);
+                        SFXManager.Instance.Play(deathSFX, playerMesh.transform.position);
+                    }
                 }
             }
           
@@ -88,6 +123,7 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
         stats.Add(CharacterStatType.Health, health);
         healthAtLastSkin = stats.health;
         lastSkinHealthBoost=health;
+        EventSystem.Instance.TriggerEvent(Strings.Events.PLAYER_HEALTH_MODIFIED, stats.GetHealthFraction());
     }
 
     public float GetStat(CharacterStatType type)
@@ -105,6 +141,11 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     {
         return stats.GetStat(CharacterStatType.Health);
     }
+
+    public void MakeHappy()
+    {
+        faceController.SetTemporaryEmotion(PlayerFaceController.Emotion.Happy, 1.0f);
+    }
     #endregion
 
     #region Private Methods
@@ -120,6 +161,13 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     #endregion
 
     #region Private Structures
+
+    [System.Serializable]
+    public struct HealthRatio
+    {
+        public float healthPercentage;
+        public float damageRatio;
+    }
     #endregion
 
 }

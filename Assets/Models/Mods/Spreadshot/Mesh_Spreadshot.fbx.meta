@@ -6,12 +6,31 @@ ModelImporter:
   serializedVersion: 21
   fileIDToRecycleName:
     100000: //RootNode
+    100002: ArmLeft
+    100004: ArmRight
+    100006: Bottom
+    100008: Mesh_Spreadshot
+    100010: Rig_Ref
+    100012: Root
+    100014: BottomEnd
+    100016: BottomStart
     400000: //RootNode
+    400002: ArmLeft
+    400004: ArmRight
+    400006: Bottom
+    400008: Mesh_Spreadshot
+    400010: Rig_Ref
+    400012: Root
+    400014: BottomEnd
+    400016: BottomStart
     2300000: //RootNode
+    2300002: Mesh_Spreadshot
     3300000: //RootNode
+    3300002: Mesh_Spreadshot
     4300000: Mesh_Spreadshot
     4300002: Mesh_Spreadshot1
     9500000: //RootNode
+    13700000: Mesh_Spreadshot
   materials:
     importMaterials: 0
     materialName: 0
@@ -62,7 +81,7 @@ ModelImporter:
     normalImportMode: 0
     tangentImportMode: 3
     normalCalculationMode: 4
-  importAnimation: 1
+  importAnimation: 0
   copyAvatar: 0
   humanDescription:
     serializedVersion: 2
@@ -75,7 +94,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    rootMotionBoneName: 
+    rootMotionBoneName: Root
     rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
     hasExtraRoot: 0

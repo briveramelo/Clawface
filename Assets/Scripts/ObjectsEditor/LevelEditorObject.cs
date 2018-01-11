@@ -12,10 +12,12 @@ namespace Turing.LevelEditor
 
         [SerializeField] new string name;
         [SerializeField] GameObject prefab;
+        [SerializeField] bool needsSplattable = true;
         [SerializeField] int width = 1;
         [SerializeField] int length = 1;
         [SerializeField] int limit = -1;
         [SerializeField] SnapMode snapMode;
+        [SerializeField] Texture2D thumbnail;
 
         [SerializeField][HideInInspector]
         string path;
@@ -24,16 +26,9 @@ namespace Turing.LevelEditor
 
         public string Path { get { return path; } }
 
-        public GameObject Prefab
-        {
-            get
-            {
-                if (prefab == null)
-                    Debug.LogError ("No prefab for this LevelEditorObject!", this);
+        public GameObject Prefab { get { return prefab; } }
 
-                return prefab;
-            }
-        }
+        public bool NeedsSplattable { get { return needsSplattable; } }
 
         public int Limit { get { return limit; } }
 
@@ -44,6 +39,10 @@ namespace Turing.LevelEditor
         public int Length { get { return length; } }
 
         public void SetPath (string path) { this.path = path; }
+
+        public void SetThumbnail (Texture2D thumbnail) { this.thumbnail = thumbnail; }
+
+        public Texture2D Thumbnail { get { return thumbnail; } }
 
         public enum SnapMode
         {

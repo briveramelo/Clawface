@@ -33,9 +33,9 @@ public abstract class Mod : MonoBehaviour {
     #endregion
     
     #region Serialized Unity Inspector fields    
-    [SerializeField] protected Collider pickupCollider;
-    [SerializeField] protected GameObject modCanvas;
+    [SerializeField] protected Collider pickupCollider;    
     [SerializeField] protected EnergySettings energySettings;
+    [SerializeField] protected SFXType shootSFX;
     #endregion
 
     #region Private Fields
@@ -43,8 +43,7 @@ public abstract class Mod : MonoBehaviour {
     #endregion
 
     #region Unity Lifecycle
-    protected virtual void Awake(){
-        DeactivateModCanvas();
+    protected virtual void Awake(){        
         Mod mod = this;
     }
 
@@ -88,14 +87,6 @@ public abstract class Mod : MonoBehaviour {
         wielderStats = null;
         recentlyHitObjects.Clear();
         setModSpot(ModSpot.Default);
-    }
-
-    public virtual void DeactivateModCanvas()
-    {
-        if (modCanvas)
-        {
-            modCanvas.SetActive(false);
-        }
     }
 
     public void setModType(ModType modType)

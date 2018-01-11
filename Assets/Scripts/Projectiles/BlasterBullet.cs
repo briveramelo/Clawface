@@ -14,17 +14,17 @@ public class BlasterBullet : MonoBehaviour {
 
 
     private TrailRenderer trail;
-    #endregion    
-
+    #endregion
+    
+    #region unity lifecycle
     private void Awake()
     {
         trail = GetComponent<TrailRenderer>();
     }
 
-    #region unity lifecycle
     void Update () {
 
-        AdjustToPlayerHeight();
+        //AdjustToPlayerHeight();
 
         killTimer -= Time.deltaTime;
 
@@ -77,8 +77,6 @@ public class BlasterBullet : MonoBehaviour {
 
 
     #endregion
-
-
 
     #region private function
     private IEnumerator<float> DestroyAfter()

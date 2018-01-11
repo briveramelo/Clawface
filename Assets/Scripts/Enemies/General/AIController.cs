@@ -49,7 +49,7 @@ public abstract class AIController : MonoBehaviour {
         }
         set {
             attackTarget = value;
-            DEBUG_ATTACKTARGET = attackTarget.name;
+            //DEBUG_ATTACKTARGET = attackTarget.name;
         }
     }
     public Vector3 AttackTargetPosition { get { return AttackTarget.position - transform.forward * .1f; } }
@@ -120,8 +120,7 @@ public abstract class AIController : MonoBehaviour {
 
         if (mod != null)
         {
-            mod.transform.Reset(modMemento);
-            mod.DeactivateModCanvas();
+            mod.transform.Reset(modMemento);            
 
         }
     }
@@ -267,6 +266,7 @@ public abstract class AIController : MonoBehaviour {
         public AIState fire;
         public AIState death;
         public AIState stun;
+        public AIState celebrate;
 
         public Dictionary<EAIState, AIState> aiStates;
 
@@ -314,6 +314,11 @@ public abstract class AIController : MonoBehaviour {
                 {
                     stun = state;
                     aiStates.Add(EAIState.Stun, stun);
+                }
+                else if (state.stateName.Equals("celebrate"))
+                {
+                    celebrate = state;
+                    aiStates.Add(EAIState.Celebrate, celebrate);
                 }
             }
 
@@ -365,7 +370,11 @@ public abstract class AIController : MonoBehaviour {
                     stun = state;
                     aiStates.Add(EAIState.Stun, stun);
                 }
-
+                else if (state.stateName.Equals("celebrate"))
+                {
+                    celebrate = state;
+                    aiStates.Add(EAIState.Celebrate, celebrate);
+                }
             }
 
         }

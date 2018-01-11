@@ -8,7 +8,7 @@ public class ServiceWrangler : Singleton<ServiceWrangler> {
     protected ServiceWrangler() { }
 
     [SerializeField]
-    private GameObject sfxManager, objectPool, inputManager, hitstopManager, playerTeleporter,
+    private GameObject sfxManager, objectPool, inputManager, hitstopManager,
          analyticsManager, damageFXManager, upgradeManager, menuManager, musicManager, scoreManager, 
         respawnPoint, eventSystem, achievementManager, platformManager, goreManager, saveState;
 
@@ -21,7 +21,6 @@ public class ServiceWrangler : Singleton<ServiceWrangler> {
                     { typeof(ObjectPool).ToString(),            new PrefabBool(ref objectPool) },
                     { typeof(InputManager).ToString(),          new PrefabBool(ref inputManager) },
                     { typeof(HitstopManager).ToString(),        new PrefabBool(ref hitstopManager) },
-                    { typeof(DEBUG_PlayerTeleporter).ToString(),new PrefabBool(ref playerTeleporter) },
                     { typeof(MenuManager).ToString(),                new PrefabBool(ref menuManager) },
                     { typeof(AnalyticsManager).ToString(),      new PrefabBool(ref analyticsManager) },
                     { typeof(DamageFXManager).ToString(),      new PrefabBool(ref damageFXManager) },
@@ -33,7 +32,7 @@ public class ServiceWrangler : Singleton<ServiceWrangler> {
                     { typeof(AchievementManager).ToString(),       new PrefabBool(ref achievementManager) },
                     { typeof(PlatformManager).ToString(),       new PrefabBool(ref platformManager) },
                     { typeof(GoreManager).ToString(),       new PrefabBool(ref goreManager)},
-                    { typeof(SaveState).ToString(),       new PrefabBool(ref saveState) },
+                    { typeof(SaveState).ToString(),       new PrefabBool(ref saveState) }                    
                 };
             }
             return singletonPrefabRegistry;
@@ -42,15 +41,16 @@ public class ServiceWrangler : Singleton<ServiceWrangler> {
 
     private void OnEnable () {
         foreach (KeyValuePair<string, PrefabBool> singletonRegistered in SingletonPrefabRegistry) {
-            if (!singletonRegistered.Value.isRegistered) {
+            if (!singletonRegistered.Value.isRegistered) {                
                 GameObject singletonGameObject = Instantiate(singletonRegistered.Value.prefab, gameObject.transform, true) as GameObject;
                 singletonGameObject.transform.position = Vector3.zero;
                 singletonGameObject.transform.rotation = Quaternion.identity;
 
                 string debugMessage = singletonRegistered.Key + " required Loading. Place this prefab in your scene";
-                Debug.LogFormat("<color=#ffff00>" + debugMessage + "</color>");
+                //Debug.LogFormat("<color=#ffff00>" + debugMessage + "</color>");
             }
         }
+        Application.targetFrameRate = 60;
     }
 
 

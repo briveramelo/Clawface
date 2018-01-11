@@ -3,8 +3,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using MovementEffects;
 
-public class PlayerStateManager : MonoBehaviour {
+public class PlayerStateManager : RoutineRunner {
 
     #region Public fields
     public StateVariables stateVariables;
@@ -23,18 +24,34 @@ public class PlayerStateManager : MonoBehaviour {
     private float dashCoolDown;
 
     [SerializeField] private EatingState eatingState;
-    [SerializeField] private float eatRadius;
+    [SerializeField] private SphereCollider eatCollider;
+
+    [SerializeField] private float tutorialSlowDownRate = 0.05f;
+    [SerializeField] private float tutorialSpeedUpRate = 0.05f;
     #endregion
 
     #region Private Fields
     private IPlayerState movementState;
-    public List<IPlayerState> playerStates;
+    private List<IPlayerState> playerStates;
     private bool canDash = true;
     private bool stateChanged;
     private bool playerCanMove = true;
+    private bool isTutorialDone;
+    private bool isInTutorial;
+    private bool isSlowDownFinished;
+
+    const string SlowTime = "SlowTime";
+    const string SpeedTime = "SpeedTime";
+    const float TutorialRadiusMultiplier = 3f;
     #endregion
 
     #region Unity Lifecycle
+    protected override void OnDisable() {
+        Timing.KillCoroutines(SlowTime);
+        Timing.KillCoroutines(SpeedTime);
+        base.OnDisable();
+    }
+
     // Use this for initialization
     void Start () {
         stateChanged = false;
@@ -47,15 +64,17 @@ public class PlayerStateManager : MonoBehaviour {
         eatingState.Init(ref stateVariables);
         movementState = defaultState;
         playerStates = new List<IPlayerState>(){ defaultState};
+        eatCollider.radius = stateVariables.eatRadius;
 
         //for input blocking 
         EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_COMPLETED, BlockInput);
         EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_KILLED, BlockInput);
     }
-	
-	// Update is called once per frame
-	void Update () {
-        if (playerCanMove)
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (playerCanMove && !isInTutorial)
         {
             if (stateChanged && stateVariables.stateFinished)
             {
@@ -76,20 +95,33 @@ public class PlayerStateManager : MonoBehaviour {
             }
 
             playerStates.ForEach(state => state.StateUpdate());
+        }else if (isInTutorial)
+        {
+            if (InputManager.Instance.QueryAction(Strings.Input.Actions.EAT, ButtonMode.DOWN)){
+                if (CheckForEatableEnemy())
+                {
+                    SwitchState(eatingState);
+                }
+                FinishTutorial();
+            }
         }
     }
 
+
     void FixedUpdate()
     {
-        if (playerCanMove)
+        if (playerCanMove && !isInTutorial)
         {
+            if (stateChanged && stateVariables.stateFinished) {
+                ResetState();
+            }
             playerStates.ForEach(state => state.StateFixedUpdate());
         }
     }
 
     private void LateUpdate()
     {
-        if (playerCanMove)
+        if (playerCanMove && !isInTutorial)
         {
             playerStates.ForEach(state => state.StateLateUpdate());
         }
@@ -99,6 +131,24 @@ public class PlayerStateManager : MonoBehaviour {
         if (collision.transform.gameObject.CompareTag(Strings.Tags.WALL)) {
             stateVariables.velBody.velocity = Vector3.zero;
         }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        SetEnemyCloseToEat(other, true);
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if(!isTutorialDone && !isInTutorial)
+        {
+            SetEnemyCloseToEat(other, true);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        SetEnemyCloseToEat(other, false);
     }
 
     private void OnDestroy()
@@ -115,6 +165,74 @@ public class PlayerStateManager : MonoBehaviour {
     #endregion
 
     #region Private Methods
+
+    private void SetEnemyCloseToEat(Collider other, bool state)
+    {
+        if (other.tag.Equals(Strings.Tags.ENEMY))
+        {
+            IEatable skinnable = other.GetComponent<IEatable>();
+            if (skinnable != null && skinnable.IsEatable())
+            {
+                EnemyBase enemyBase = other.GetComponent<EnemyBase>();
+                if (enemyBase)
+                {
+                    enemyBase.CloserToEat(state);
+                    if (state)
+                    {
+                        StartTutorial();
+                    }
+                }
+            }
+        }
+    }
+
+    private void StartTutorial()
+    {
+        if (!isTutorialDone && !isInTutorial)
+        {
+            isInTutorial = true;
+            EventSystem.Instance.TriggerEvent(Strings.Events.ENEMY_INVINCIBLE, true);
+            eatCollider.radius *= TutorialRadiusMultiplier;
+            stateVariables.eatRadius *= TutorialRadiusMultiplier;
+            Timing.RunCoroutine(StartTutorialSlowDown(), SlowTime);
+        }
+    }
+
+    private IEnumerator<float> StartTutorialSlowDown()
+    {        
+        while (Time.timeScale > 0.1f)
+        {
+            Time.timeScale = Mathf.Lerp(Time.timeScale, 0.0f, tutorialSlowDownRate);
+            yield return 0f;
+        }        
+        Time.timeScale = 0.0f;
+        EventSystem.Instance.TriggerEvent(Strings.Events.SHOW_TUTORIAL_TEXT);
+        EventSystem.Instance.TriggerEvent(Strings.Events.ENEMY_INVINCIBLE, false);
+        isSlowDownFinished = true;
+    }
+
+    private void FinishTutorial()
+    {
+        if (!isTutorialDone && isSlowDownFinished)
+        {
+            isTutorialDone = true;
+            eatCollider.radius /= TutorialRadiusMultiplier;
+            stateVariables.eatRadius /= TutorialRadiusMultiplier;            
+            Timing.RunCoroutine(StartTutorialSpeedUp(), SpeedTime);
+        }
+    }
+
+    private IEnumerator<float> StartTutorialSpeedUp()
+    {        
+        isInTutorial = false;
+        while (Time.timeScale < 0.9f)
+        {
+            Time.timeScale = Mathf.Lerp(Time.timeScale, 1.0f, tutorialSpeedUpRate);
+            yield return 0f;
+        }        
+        Time.timeScale = 1.0f;
+        EventSystem.Instance.TriggerEvent(Strings.Events.HIDE_TUTORIAL_TEXT);
+    }
 
     private void BlockInput(params object[] parameter)
     {
@@ -138,9 +256,16 @@ public class PlayerStateManager : MonoBehaviour {
         }
     }
 
+    //void OnSuspectDashing() {
+    //    if (playerStates.Contains(dashState)) {
+    //        dashState.ResetDash();
+    //    }
+    //}
+
     private void ResetState()
     {
         stateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Idle);
+        //OnSuspectDashing();
         playerStates.Clear();
         playerStates.Add(defaultState);
         stateChanged = false;
@@ -165,6 +290,7 @@ public class PlayerStateManager : MonoBehaviour {
             if (skinnable != null && skinnable.IsEatable())
             {
                 stateVariables.eatTargetEnemy = potentialEatableEnemy;
+                stateVariables.eatTargetEnemy.GetComponent<EnemyBase>().MakeIndestructable();
                 return true;
             }
         }
@@ -173,7 +299,7 @@ public class PlayerStateManager : MonoBehaviour {
 
     private GameObject GetClosestEnemy()
     {
-        Collider[] enemies = Physics.OverlapSphere(transform.position, eatRadius, LayerMask.GetMask(Strings.Tags.ENEMY));
+        Collider[] enemies = Physics.OverlapSphere(transform.position, stateVariables.eatRadius, LayerMask.GetMask(Strings.Tags.ENEMY));
         if (enemies != null)
         {
             Collider closestEnemy = null;
@@ -221,6 +347,11 @@ public class PlayerStateManager : MonoBehaviour {
         public GameObject modelHead;
         public float clawExtensionTime;
         public float clawRetractionTime;
+        public float eatRadius;
+
+        public SFXType ArmExtensionSFX;
+        public SFXType ArmEnemyCaptureSFX;
+        public SFXType EatSFX;
     }
     #endregion
 

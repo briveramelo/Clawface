@@ -46,7 +46,7 @@ public class Missile : MonoBehaviour {
         if (isReady)
         {
             deathTimer += Time.deltaTime;
-            transform.position += transform.forward * speed;
+            transform.position += (transform.forward * speed * Time.deltaTime);
 
             if (deathTimer > timeTilDeath)
             {

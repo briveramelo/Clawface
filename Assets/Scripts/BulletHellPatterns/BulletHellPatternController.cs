@@ -15,6 +15,7 @@ public class BulletHellPatternController : MonoBehaviour {
     [SerializeField]                        private RotateDirection rotationDirection;
     [SerializeField][Range(0.0f, 10.0f)]    private float rotationSpeed;
     [SerializeField] private float bulletLiveTime = 1.0f;
+    [SerializeField] private bool animationDriven;
     #endregion
 
     #region 2. Private fields
@@ -46,14 +47,11 @@ public class BulletHellPatternController : MonoBehaviour {
 
         currentTime += Time.deltaTime;
 
-        if (currentTime > rateOfFire)
+        if (currentTime > rateOfFire && !animationDriven)
         {
-            UpdateStrands(bulletStrands);
-            OrganizeBulletStrands(bulletStrands, separationAngleBetweenStrands);
             FireBullet();
             currentTime = 0.0f;
         }
-
         RotateBulletHellController();
 	}
 
@@ -61,17 +59,22 @@ public class BulletHellPatternController : MonoBehaviour {
     #endregion
 
     #region 4. Private Methods  
-    private void FireBullet()
+    public void FireBullet()
     {
+        UpdateStrands(bulletStrands);
+        OrganizeBulletStrands(bulletStrands, separationAngleBetweenStrands);
+
         //For each stand 
         for (int i = 0; i < bulletHellStrandList.Count; i++)
         {
             SFXManager.Instance.Play(SFXType.BlasterShoot, transform.position);
             GameObject newBullet = ObjectPool.Instance.GetObject(PoolObjectType.EnemyBulletSmall);
-            newBullet.transform.position = transform.position + (bulletHellStrandList[i].movementDirection * bulletOffsetFromOrigin);
-            newBullet.GetComponent<BlasterBullet>().transform.forward = bulletHellStrandList[i].movementDirection;
-            newBullet.GetComponent<BlasterBullet>().Initialize(bulletLiveTime, bulletSpeed,bulletDamage);
-            newBullet.GetComponent<BlasterBullet>().SetShooterType(true);
+            if (newBullet) {
+                newBullet.transform.position = transform.position + (bulletHellStrandList[i].movementDirection * bulletOffsetFromOrigin);
+                newBullet.GetComponent<BlasterBullet>().transform.forward = bulletHellStrandList[i].movementDirection;
+                newBullet.GetComponent<BlasterBullet>().Initialize(bulletLiveTime, bulletSpeed,bulletDamage);
+                newBullet.GetComponent<BlasterBullet>().SetShooterType(true);
+            }
         }
     }
     private void RotateBulletHellController()
@@ -141,6 +144,14 @@ public class BulletHellPatternController : MonoBehaviour {
 
     }
     #endregion
+
+    #region 5. Public Methods  
+    public float GetFireRate()
+    {
+        return rateOfFire;
+    }
+    #endregion
+
 }
 
 public class BulletHellStrand

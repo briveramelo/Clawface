@@ -52,41 +52,55 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shouldRegister: 1
-  BloodExplosion: {fileID: 1837314519996326, guid: 1f6b0ed073d701a4aad574ae2632b8e2,
-    type: 2}
-  BlasterProjectile_Impact: {fileID: 1217056616446900, guid: b576d1b0682367945a6c7bb1cfe68856,
-    type: 2}
-  BlasterShoot: {fileID: 1579506943045628, guid: 38b0214657c8bdb43bd1c5cd0fa2b7b1,
-    type: 2}
-  GrapplingGun_Shoot: {fileID: 1778022221532068, guid: 578c88e7554946a41b249421fef646ca,
-    type: 2}
-  TankTreads_Attack: {fileID: 1579506943045628, guid: 38b0214657c8bdb43bd1c5cd0fa2b7b1,
-    type: 2}
-  TankTreads_Swing: {fileID: 1579506943045628, guid: 38b0214657c8bdb43bd1c5cd0fa2b7b1,
-    type: 2}
-  Dash: {fileID: 1613444645928584, guid: 307129c6df02d3842803c569d60b6f82, type: 2}
-  SegwayBlast_Standard: {fileID: 1579506943045628, guid: 38b0214657c8bdb43bd1c5cd0fa2b7b1,
-    type: 2}
-  SegwayHover: {fileID: 1579506943045628, guid: 38b0214657c8bdb43bd1c5cd0fa2b7b1,
-    type: 2}
-  Boomerang_Throw: {fileID: 1670425139498140, guid: dc75e1644a336394ea06b7f728da09aa,
-    type: 2}
-  DiceLauncher_Shoot: {fileID: 1204382096079016, guid: 09d972d4c898b18438e15002a5dd7eb9,
-    type: 2}
-  GeyserMod_Splash: {fileID: 1976970383135798, guid: c70b829dba90b044790537b212361f1b,
-    type: 2}
-  GeyserMod_MiniSplash: {fileID: 1406241316049122, guid: efc01001a58c8a14395c2f95331979dd,
-    type: 2}
-  Boomerang_Impact: {fileID: 1148081934887572, guid: 6987db7ca876bae4f9ba9a5ebe78a396,
-    type: 2}
-  PlayerTakeDamage: {fileID: 1940307074282692, guid: 510d6d45f5a455d4fae5af162bd5871b,
-    type: 2}
-  PlayerDeath: {fileID: 1312500128291128, guid: 4d9972094715f3e48b783f6016f8d930,
-    type: 2}
-  ModCooldown: {fileID: 1152392839611050, guid: d80faa3a1643001418c83851b933c53a,
-    type: 2}
-  MallCopHurt: {fileID: 1161547442764330, guid: 406a6e996d2d8df4394b33e7433e24e3,
-    type: 2}
-  UI_Click: {fileID: 1930543454955458, guid: 8555ade2e80a4824dab59c8801049055, type: 2}
-  UI_Hover: {fileID: 1030182249277204, guid: f512e5335ae47654fb1f4ea0a9d549b3, type: 2}
-  UI_Back: {fileID: 1970718853534828, guid: 1c694bec04d87ab468cb62ff91878a32, type: 2}
+  SFXList:
+  - type: 0
+    audioClipObject: {fileID: 1837314519996326, guid: 1f6b0ed073d701a4aad574ae2632b8e2,
+      type: 2}
+  - type: 1
+    audioClipObject: {fileID: 1217056616446900, guid: b576d1b0682367945a6c7bb1cfe68856,
+      type: 2}
+  - type: 2
+    audioClipObject: {fileID: 1579506943045628, guid: 38b0214657c8bdb43bd1c5cd0fa2b7b1,
+      type: 2}
+  - type: 3
+    audioClipObject: {fileID: 1613444645928584, guid: 307129c6df02d3842803c569d60b6f82,
+      type: 2}
+  - type: 4
+    audioClipObject: {fileID: 1670425139498140, guid: dc75e1644a336394ea06b7f728da09aa,
+      type: 2}
+  - type: 5
+    audioClipObject: {fileID: 1148081934887572, guid: 6987db7ca876bae4f9ba9a5ebe78a396,
+      type: 2}
+  - type: 6
+    audioClipObject: {fileID: 1940307074282692, guid: 510d6d45f5a455d4fae5af162bd5871b,
+      type: 2}
+  - type: 7
+    audioClipObject: {fileID: 1312500128291128, guid: 4d9972094715f3e48b783f6016f8d930,
+      type: 2}
+  - type: 8
+    audioClipObject: {fileID: 1930543454955458, guid: 8555ade2e80a4824dab59c8801049055,
+      type: 2}
+  - type: 9
+    audioClipObject: {fileID: 1030182249277204, guid: f512e5335ae47654fb1f4ea0a9d549b3,
+      type: 2}
+  - type: 10
+    audioClipObject: {fileID: 1970718853534828, guid: 1c694bec04d87ab468cb62ff91878a32,
+      type: 2}
+  - type: 11
+    audioClipObject: {fileID: 1087963565565290, guid: 6fb4cda43e80e104caddffe20b1476b5,
+      type: 2}
+  - type: 12
+    audioClipObject: {fileID: 1170875137002706, guid: 7958c4729a89d344dbb76135feaf80f7,
+      type: 2}
+  - type: 13
+    audioClipObject: {fileID: 1976970383135798, guid: c70b829dba90b044790537b212361f1b,
+      type: 2}
+  - type: 14
+    audioClipObject: {fileID: 1418342098482014, guid: 4208d043aa760ed45bda1a9c905288c0,
+      type: 2}
+  - type: 15
+    audioClipObject: {fileID: 1321609121875476, guid: d108a98c5be9fa24b89c9eb160ec10f4,
+      type: 2}
+  - type: 16
+    audioClipObject: {fileID: 1629326788155226, guid: 582995219b88b82429c05c2fa4b9b69e,
+      type: 2}

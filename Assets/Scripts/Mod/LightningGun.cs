@@ -12,7 +12,7 @@ public class LightningGun : Mod {
 
     #region Serialized Unity Inspector fields
     [SerializeField] private Transform muzzleTransform;    
-    [SerializeField] private ProjectileProperties projectileProperties;
+    [SerializeField] private ProjectileProperties projectileProperties;    
     #endregion
 
     private Animator animator;
@@ -41,7 +41,13 @@ public class LightningGun : Mod {
     public override void Activate(Action onCompleteCoolDown=null, Action onActivate=null)
     {  
         onActivate = () => {            
-            SFXManager.Instance.Play(SFXType.GrapplingGun_Shoot, transform.position);
+            SFXManager.Instance.Play(shootSFX, transform.position);
+            GameObject vfx = ObjectPool.Instance.GetObject (PoolObjectType.VFXLightningGunShoot);
+            if (vfx)
+            {
+                vfx.transform.position = muzzleTransform.position;
+                vfx.transform.rotation = muzzleTransform.rotation;
+            }
         };   
         base.Activate(onCompleteCoolDown, onActivate);
     }
@@ -91,6 +97,8 @@ public class LightningGun : Mod {
         public float maxDistance;
         [Tooltip("Max distance the chain homies can travel")]
         public float maxDistancePerSubChain;
+        [Tooltip("Pew! Pew! Pew!")]
+        public SFXType lightningSFX;
 
         public ProjectileProperties(ProjectileProperties other)
         {

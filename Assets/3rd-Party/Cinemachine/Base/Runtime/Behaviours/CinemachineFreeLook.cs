@@ -1,6 +1,5 @@
 using UnityEngine;
 using Cinemachine.Utility;
-using System.Collections.Generic;
 using UnityEngine.Serialization;
 using System;
 
@@ -30,47 +29,63 @@ namespace Cinemachine
         public Transform m_Follow = null;
 
         /// <summary>If enabled, this lens setting will apply to all three child rigs, otherwise the child rig lens settings will be used</summary>
-        [Space]
         [Tooltip("If enabled, this lens setting will apply to all three child rigs, otherwise the child rig lens settings will be used")]
-        public bool m_UseCommonLensSetting = true;
+        [FormerlySerializedAs("m_UseCommonLensSetting")]
+        public bool m_CommonLens = true;
 
-        /// <summary>Specifies the lens properties of this Virtual Camera</summary>
+        /// <summary>Specifies the lens properties of this Virtual Camera.  
+        /// This generally mirrors the Unity Camera's lens settings, and will be used to drive 
+        /// the Unity camera when the vcam is active</summary>
         [FormerlySerializedAs("m_LensAttributes")]
         [Tooltip("Specifies the lens properties of this Virtual Camera.  This generally mirrors the Unity Camera's lens settings, and will be used to drive the Unity camera when the vcam is active")]
         [LensSettingsProperty]
         public LensSettings m_Lens = LensSettings.Default;
 
+        /// <summary>The Vertical axis.  Value is 0..1.  Chooses how to blend the child rigs</summary>
         [Header("Axis Control")]
         [Tooltip("The Vertical axis.  Value is 0..1.  Chooses how to blend the child rigs")]
         public AxisState m_YAxis = new AxisState(2f, 0.2f, 0.1f, 0.5f, "Mouse Y", false);
 
+        /// <summary>The Horizontal axis.  Value is 0..359.  This is passed on to the rigs' OrbitalTransposer component</summary>
         [Tooltip("The Horizontal axis.  Value is 0..359.  This is passed on to the rigs' OrbitalTransposer component")]
         public AxisState m_XAxis = new AxisState(300f, 0.1f, 0.1f, 0f, "Mouse X", true);
 
+        /// <summary>The definition of Forward.  Camera will follow behind</summary>
         [Tooltip("The definition of Forward.  Camera will follow behind.")]
-        public CinemachineOrbitalTransposer.Heading m_Heading = new CinemachineOrbitalTransposer.Heading();
+        public CinemachineOrbitalTransposer.Heading m_Heading 
+            = new CinemachineOrbitalTransposer.Heading(
+                CinemachineOrbitalTransposer.Heading.HeadingDefinition.TargetForward, 4, 0);
 
+        /// <summary>Controls how automatic recentering of the X axis is accomplished</summary>
         [Tooltip("Controls how automatic recentering of the X axis is accomplished")]
         public CinemachineOrbitalTransposer.Recentering m_RecenterToTargetHeading
             = new CinemachineOrbitalTransposer.Recentering(false, 1, 2);
 
-        [Header("Orbits")]
         /// <summary>The coordinate space to use when interpreting the offset from the target</summary>
+        [Header("Orbits")]
         [Tooltip("The coordinate space to use when interpreting the offset from the target.  This is also used to set the camera's Up vector, which will be maintained when aiming the camera.")]
         public CinemachineOrbitalTransposer.BindingMode m_BindingMode 
-            = CinemachineOrbitalTransposer.BindingMode.WorldSpace;
+            = CinemachineOrbitalTransposer.BindingMode.SimpleFollowWithWorldUp;
 
+        /// <summary></summary>
         [Tooltip("Controls how taut is the line that connects the rigs' orbits, which determines final placement on the Y axis")]
         [Range(0f, 1f)]
-        public float m_SplineTension = 1f;
+        [FormerlySerializedAs("m_SplineTension")]
+        public float m_SplineCurvature = 0.2f;
 
+        /// <summary>Defines the height and radius of the Rig orbit</summary>
         [Serializable]
         public struct Orbit 
         { 
+            /// <summary>Height relative to target</summary>
             public float m_Height; 
+            /// <summary>Radius of orbit</summary>
             public float m_Radius; 
+            /// <summary>Constructor with specific values</summary>
             public Orbit(float h, float r) { m_Height = h; m_Radius = r; }
         }
+
+        /// <summary>The radius and height of the three orbiting rigs</summary>
         [Tooltip("The radius and height of the three orbiting rigs.")]
         public Orbit[] m_Orbits = new Orbit[3] 
         { 
@@ -89,8 +104,6 @@ namespace Cinemachine
         protected override void OnValidate()
         {
             base.OnValidate();
-            m_Lens.NearClipPlane = Mathf.Max(m_Lens.NearClipPlane, 0.01f);
-            m_Lens.FarClipPlane = Mathf.Max(m_Lens.FarClipPlane, m_Lens.NearClipPlane + 0.01f);
 
             // Upgrade after a legacy deserialize
             if (m_LegacyHeadingBias != float.MaxValue)
@@ -103,6 +116,8 @@ namespace Cinemachine
             }
             m_YAxis.Validate();
             m_XAxis.Validate();
+            m_RecenterToTargetHeading.Validate();
+            m_Lens.Validate();
 
             InvalidateRigCache();
         }
@@ -162,12 +177,7 @@ namespace Cinemachine
         override public Transform LookAt
         {
             get { return ResolveLookAt(m_LookAt); }
-            set
-            {
-                if (m_LookAt != value)
-                    PreviousStateIsValid = false;
-                m_LookAt = value;
-            }
+            set { m_LookAt = value; }
         }
 
         /// <summary>Get the current Follow target.  Returns parent's Follow if parent
@@ -175,12 +185,7 @@ namespace Cinemachine
         override public Transform Follow
         {
             get { return ResolveFollow(m_Follow); }
-            set
-            {
-                if (m_Follow != value)
-                    PreviousStateIsValid = false;
-                m_Follow = value;
-            }
+            set { m_Follow = value; }
         }
 
         /// <summary>Returns the rig with the greatest weight</summary>
@@ -211,7 +216,7 @@ namespace Cinemachine
 
             if (m_YAxis.Value < 0.33f)
                 return vcam == (ICinemachineCamera)m_Rigs[2];
-            if (m_YAxis.Value < 0.66f)
+            if (m_YAxis.Value > 0.66f)
                 return vcam == (ICinemachineCamera)m_Rigs[0];
             return vcam == (ICinemachineCamera)m_Rigs[1]; 
         }
@@ -228,22 +233,24 @@ namespace Cinemachine
                     vcam.RemovePostPipelineStageHook(d);
         }
 
-        /// <summary>Called by CinemachineCore at designated update time
-        /// so the vcam can position itself and track its targets.  All 3 child rigs are updated,
-        /// and a blend calculated, depending on the value of the Y axis.</summary>
+        /// <summary>
+        /// This is called prior to the updating of the vcam's child cameras, 
+        /// in order to allow the parent to prepare its children.
+        /// If the children are updating on FixedUpdate, then this will not necessarily be called
+        /// prior to every FixedUpdate, but might be called on LateUpdate.
+        /// This implementation pushes the axis values to the rigs.
+        /// </summary>
         /// <param name="worldUp">Default world Up, set by the CinemachineBrain</param>
-        /// <param name="deltaTime">Delta time for time-based effects (ignore if less than or equal to 0)</param>
-        override public void UpdateCameraState(Vector3 worldUp, float deltaTime)
+        /// <param name="deltaTime">Delta time for time-based effects (ignore if less than 0)</param>
+        override public void PreUpdateChildCameras(Vector3 worldUp, float deltaTime)
         {
-            //UnityEngine.Profiling.Profiler.BeginSample("CinemachineFreeLook.UpdateCameraState");
             if (!PreviousStateIsValid)
                 deltaTime = -1;
-            PreviousStateIsValid = true;
 
             UpdateRigCache();
 
             // Read the Height
-            bool activeCam = (deltaTime > 0) || CinemachineCore.Instance.IsLive(this);
+            bool activeCam = (deltaTime >= 0) || CinemachineCore.Instance.IsLive(this);
             if (activeCam)
                 m_YAxis.Update(deltaTime);
 
@@ -251,14 +258,23 @@ namespace Cinemachine
             PushSettingsToRigs();
             if (activeCam)
                 UpdateHeading(deltaTime, m_State.ReferenceUp);
+        }
 
-            // Drive the rigs
-            for (int i = 0; i < m_Rigs.Length; ++i)
-                if (m_Rigs[i] != null)
-                    CinemachineCore.Instance.UpdateVirtualCamera(m_Rigs[i], worldUp, deltaTime);
+        /// <summary>Called by CinemachineCore at designated update time
+        /// so the vcam can position itself and track its targets.  All 3 child rigs are updated,
+        /// and a blend calculated, depending on the value of the Y axis.</summary>
+        /// <param name="worldUp">Default world Up, set by the CinemachineBrain</param>
+        /// <param name="deltaTime">Delta time for time-based effects (ignore if less than 0)</param>
+        override public void UpdateCameraState(Vector3 worldUp, float deltaTime)
+        {
+            //UnityEngine.Profiling.Profiler.BeginSample("CinemachineFreeLook.UpdateCameraState");
+            if (!PreviousStateIsValid)
+                deltaTime = -1;
+
+            UpdateRigCache();
 
             // Reset the base camera state, in case the game object got moved in the editor
-            if (deltaTime <= 0)
+            if (deltaTime < 0)
                 m_State = PullStateFromVirtualCamera(worldUp); // Not in gameplay
 
             // Update the current state by invoking the component pipeline
@@ -269,6 +285,8 @@ namespace Cinemachine
             // screws up camera dragging when there is a LookAt behaviour.
             if (Follow != null)
                 transform.position = State.RawPosition;
+
+            PreviousStateIsValid = true;
             //UnityEngine.Profiling.Profiler.EndSample();
         }
 
@@ -276,6 +294,7 @@ namespace Cinemachine
         /// <param name="fromCam">The camera being deactivated.  May be null.</param>
         override public void OnTransitionFromCamera(ICinemachineCamera fromCam)
         {
+            base.OnTransitionFromCamera(fromCam);
             if ((fromCam != null) && (fromCam is CinemachineFreeLook))
             {
                 CinemachineFreeLook freeLookFrom = fromCam as CinemachineFreeLook;
@@ -394,7 +413,7 @@ namespace Cinemachine
                         composer.m_HorizontalDamping = composer.m_VerticalDamping = 0;
                         composer.m_ScreenX = 0.5f;
                         composer.m_ScreenY = softCenterDefaultsV[i];
-                        composer.m_DeadZoneWidth = composer.m_DeadZoneHeight = 0;
+                        composer.m_DeadZoneWidth = composer.m_DeadZoneHeight = 0.1f;
                         composer.m_SoftZoneWidth = composer.m_SoftZoneHeight = 0.8f;
                         composer.m_BiasX = composer.m_BiasY = 0;
                     }
@@ -432,14 +451,10 @@ namespace Cinemachine
             foreach (var rig in m_Rigs)
             {
                 // Configure the UI
-                rig.m_HideHeaderInInspector = true;
-                rig.m_ExcludedPropertiesInInspector = m_UseCommonLensSetting 
-                    ? new string[] { "m_Script", "m_Priority", "m_Follow", "m_Lens" }
-                    : new string[] { "m_Script", "m_Priority", "m_Follow" };
+                rig.m_ExcludedPropertiesInInspector = m_CommonLens 
+                    ? new string[] { "m_Script", "Header", "Extensions", "m_Priority", "m_Follow", "m_Lens" }
+                    : new string[] { "m_Script", "Header", "Extensions", "m_Priority", "m_Follow" };
                 rig.m_LockStageInInspector = new CinemachineCore.Stage[] { CinemachineCore.Stage.Body };
-
-                // Chain into the pipeline callback
-                rig.AddPostPipelineStageHook(PostPipelineStageCallback);
             }
 
             // Create the blend objects
@@ -486,14 +501,6 @@ namespace Cinemachine
             return rigsFound;
         }
 
-        void PostPipelineStageCallback(
-            CinemachineVirtualCameraBase vcam, CinemachineCore.Stage stage,
-            ref CameraState newState, float deltaTime)
-        {
-            if (OnPostPipelineStage != null)
-                OnPostPipelineStage(vcam, stage, ref newState, deltaTime);
-        }
-
         void PushSettingsToRigs()
         {
             UpdateRigCache();
@@ -501,7 +508,7 @@ namespace Cinemachine
             {
                 if (m_Rigs[i] == null)
                     continue;
-                if (m_UseCommonLensSetting)
+                if (m_CommonLens)
                     m_Rigs[i].m_Lens = m_Lens;
 
                 // If we just deserialized from a legacy version, 
@@ -524,7 +531,7 @@ namespace Cinemachine
                     m_Rigs[i].gameObject.hideFlags
                         |= (HideFlags.HideInHierarchy | HideFlags.HideInInspector);
 
-                mOrbitals[i].m_FollowOffset = new Vector3(0, m_Orbits[i].m_Height, -m_Orbits[i].m_Radius);
+                mOrbitals[i].m_FollowOffset = GetLocalPositionForCameraFromInput(m_YAxis.Value);
                 mOrbitals[i].m_BindingMode = m_BindingMode;
                 mOrbitals[i].m_Heading = m_Heading;
                 mOrbitals[i].m_HeadingIsSlave = true;
@@ -532,8 +539,6 @@ namespace Cinemachine
                 mOrbitals[i].m_RecenterToTargetHeading = m_RecenterToTargetHeading;
                 if (i > 0)
                     mOrbitals[i].m_RecenterToTargetHeading.m_enabled = false;
-                mOrbitals[i].UseOffsetOverride = true;
-                mOrbitals[i].OffsetOverride = GetLocalPositionForCameraFromInput(m_YAxis.Value);
             }
         }
 
@@ -576,6 +581,9 @@ namespace Cinemachine
             for (int i = 1; i < mOrbitals.Length; ++i)
                 if (mOrbitals[i] != null)
                     mOrbitals[i].m_XAxis = m_XAxis;
+
+            if (m_BindingMode == CinemachineTransposer.BindingMode.SimpleFollowWithWorldUp)
+                m_XAxis.Value = 0;
         }
 
         private CameraState PullStateFromVirtualCamera(Vector3 worldUp)
@@ -607,30 +615,46 @@ namespace Cinemachine
             if (mOrbitals == null)
                 return Vector3.zero;
 
-            Vector3 topPos = Vector3.up * m_Orbits[0].m_Height + Vector3.back * m_Orbits[0].m_Radius;
-            Vector3 middlePos = Vector3.up * m_Orbits[1].m_Height + Vector3.back * m_Orbits[1].m_Radius;
-            Vector3 bottomPos = Vector3.up * m_Orbits[2].m_Height + Vector3.back * m_Orbits[2].m_Radius;
-
-            float hTop = topPos.y - middlePos.y;
-            float hBot = middlePos.y - bottomPos.y;
-            Vector3 ctrl = middlePos;
-
+            UpdateCachedSpline();
+            int n = 1;
             if (t > 0.5f)
             {
-                ctrl.y += (Mathf.Abs(hTop) < Mathf.Abs(hBot)) ? hTop : hBot;
-                ctrl = Vector3.Lerp(Vector3.Lerp(middlePos, topPos, 0.5f), ctrl, m_SplineTension);
-                return SplinePoint(middlePos, ctrl, topPos, (t - 0.5f) * 2f);
+                t -= 0.5f;
+                n = 2;
             }
-            ctrl.y -= (Mathf.Abs(hTop) < Mathf.Abs(hBot)) ? hTop : hBot;
-            ctrl = Vector3.Lerp(Vector3.Lerp(bottomPos, middlePos, 0.5f), ctrl, m_SplineTension);
-            return SplinePoint(bottomPos, ctrl, middlePos, t * 2f);
+            return SplineHelpers.Bezier3(
+                t * 2f, m_CachedKnots[n], m_CachedCtrl1[n], m_CachedCtrl2[n], m_CachedKnots[n+1]);
         }
-
-        static Vector3 SplinePoint(Vector3 p1, Vector3 c, Vector3 p2, float t)
+                
+        Orbit[] m_CachedOrbits;
+        float m_CachedTension;
+        Vector4[] m_CachedKnots;
+        Vector4[] m_CachedCtrl1;
+        Vector4[] m_CachedCtrl2;
+        void UpdateCachedSpline()
         {
-            Vector3 pA = Vector3.Lerp(p1, c, t);
-            Vector3 pB = Vector3.Lerp(c, p2, t);
-            return Vector3.Lerp(pA, pB, t);
+            bool cacheIsValid = (m_CachedOrbits != null && m_CachedTension == m_SplineCurvature);
+            for (int i = 0; i < 3 && cacheIsValid; ++i)
+                if (!m_CachedOrbits[i].Equals(m_Orbits[i]))
+                    cacheIsValid = false;
+            if (!cacheIsValid)
+            {
+                float t = m_SplineCurvature;
+                m_CachedKnots = new Vector4[5];
+                m_CachedCtrl1 = new Vector4[5];
+                m_CachedCtrl2 = new Vector4[5];
+                m_CachedKnots[1] = new Vector4(0, m_Orbits[2].m_Height, -m_Orbits[2].m_Radius, 0);
+                m_CachedKnots[2] = new Vector4(0, m_Orbits[1].m_Height, -m_Orbits[1].m_Radius, 0);
+                m_CachedKnots[3] = new Vector4(0, m_Orbits[0].m_Height, -m_Orbits[0].m_Radius, 0);
+                m_CachedKnots[0] = Vector4.Lerp(m_CachedKnots[1], Vector4.zero, t);
+                m_CachedKnots[4] = Vector4.Lerp(m_CachedKnots[3], Vector4.zero, t);
+                SplineHelpers.ComputeSmoothControlPoints(
+                    ref m_CachedKnots, ref m_CachedCtrl1, ref m_CachedCtrl2);
+                m_CachedOrbits = new Orbit[3];
+                for (int i = 0; i < 3; ++i)
+                    m_CachedOrbits[i] = m_Orbits[i];
+                m_CachedTension = m_SplineCurvature;
+            }
         }
     }
 }

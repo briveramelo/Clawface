@@ -68,7 +68,7 @@ public class BoomerangMod : Mod {
     
     private BoomerangBullet Shoot()
     {
-        SFXManager.Instance.Play(SFXType.GrapplingGun_Shoot, transform.position);
+        SFXManager.Instance.Play(shootSFX, transform.position);
         PoolObjectType poolObjType = PoolObjectType.VFXBoomerangShoot;
         GameObject vfx = ObjectPool.Instance.GetObject(poolObjType);
         vfx.transform.position = bulletSpawnPoint.position;

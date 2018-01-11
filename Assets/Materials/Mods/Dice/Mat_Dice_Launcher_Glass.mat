@@ -12,7 +12,7 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 3000
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -63,11 +63,13 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.899
     - _GlossyReflections: 1
+    - _InnerOuterColorStrength: 2.726571
     - _InnerOutterStrength: 0.168
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
+    - _Refaction: 1.470094
     - _Refraction: 0.385
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -80,4 +82,5 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _WaterInner: {r: 0.8014706, g: 0.8014706, b: 0.8014706, a: 1}
+    - _WaterOuter: {r: 0, g: 0.2980392, b: 0.6980392, a: 1}
     - _WaterOutter: {r: 0.33088237, g: 0.33088237, b: 0.33088237, a: 1}

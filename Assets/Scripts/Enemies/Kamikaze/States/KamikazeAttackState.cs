@@ -9,14 +9,15 @@ public class KamikazeAttackState : AIState {
     private Damager damager = new Damager();
     private float waitTimeToDestruct;
     private float blastRadius;
-
+    public bool setToSelfDestruct = false;
+    private bool attackDone = false;
 
     public override void OnEnter()
     {
         navAgent.enabled = false;
         navObstacle.enabled = true;
-
-        animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.Idle);
+        attackDone = false;
+        animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.Attack1);
         shooterProperties.Initialize(2, 5, 6, 0);
         SetShooterProperties(shooterProperties);
         waitTimeToDestruct = properties.selfDestructTime;
@@ -30,21 +31,44 @@ public class KamikazeAttackState : AIState {
     }
     public override void OnExit()
     {
+        attackDone = false;
         navObstacle.enabled = false;
         navAgent.enabled = true;
+        setToSelfDestruct = true;
     }
 
     IEnumerator<float> RunStartupTimer()
     {
+        GameObject explosionSphere = ObjectPool.Instance.GetObject(PoolObjectType.KamikazeExplosionSphere);
+        if (explosionSphere) {
+            explosionSphere.transform.position = controller.transform.position;
+            explosionSphere.GetComponent<ExplosionTrigger>().Initialize(blastRadius);
+        }
+
         yield return Timing.WaitForSeconds(waitTimeToDestruct);
 
-        if (Vector3.Distance(controller.transform.position, controller.AttackTarget.transform.position) <= blastRadius)
+        //Make sure the kamikaze is not stunned
+        if (myStats.health <= myStats.skinnableHealth)
+        {
+            controller.UpdateState(EAIState.Stun);
+            controller.DeActivateAI();
+        }
+        else if (Vector3.Distance(controller.transform.position, controller.AttackTarget.transform.position) < blastRadius * 0.5f)
         {
             //Set Damage to the player
             Damage(controller.AttackTarget.gameObject.GetComponent<IDamageable>());
+            GameObject effect = ObjectPool.Instance.GetObject(PoolObjectType.VFXKamikazeExplosion);
+            if (effect) {
+                effect.transform.position = controller.transform.position;
+            }
+            attackDone = true;
+            setToSelfDestruct = true;
         }
-        //Set Damage to self(Kamikaze)
-        DamageSelf(controller.gameObject.GetComponent<IDamageable>());
+        else
+        {
+            attackDone = true;
+            setToSelfDestruct = true;
+        }
     }
 
 
@@ -58,18 +82,15 @@ public class KamikazeAttackState : AIState {
     {
         if (damageable != null)
         {
-            damager.Set(shooterProperties.damage, DamagerType.Kamikaze, navAgent.transform.forward);
+            damager.Set(myStats.attack, DamagerType.Kamikaze, navAgent.transform.forward);
             damageable.TakeDamage(damager);
         }
     }
 
-    private void DamageSelf(IDamageable damageable)
+    public bool DoneAttacking()
     {
-        if (damageable != null)
-        {
-            damager.Set(myStats.health, DamagerType.BlasterBullet, navAgent.transform.forward);
-            damageable.TakeDamage(damager);
-        }
+        return attackDone;
     }
+
 
 }

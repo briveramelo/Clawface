@@ -12,8 +12,8 @@
 		_Color ("Blood Color", Color) = (1,0,0,1)
 
 		[Header (Decal Reference Dimensions)]
-		_Width ("Decal Reference Width", Float) = 3
-		_Height ("Decal Reference Height", Float) = 3
+		_Width ("Decal Reference Width", Float) = 4
+		_Height ("Decal Reference Height", Float) = 4
 	}
 	SubShader
 	{
@@ -104,9 +104,7 @@
 					float u = (tangent + _Width / 2) / _Width;
 					float v = (bitangent + _Height / 2) / _Height;
 					float4 decalSample = tex2D(_Decal, float2(u, v));
-					if (decalSample.a != 0) {
-						color = _Color;
-					}
+					color.a = max(color.a, decalSample.a);
 				}
 
 				return color;

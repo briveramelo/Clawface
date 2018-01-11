@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using System;
-
+using MovementEffects;
 
 [System.Serializable]
 public class ZombieProperties : AIProperties
@@ -32,9 +32,11 @@ public class Zombie : EnemyBase
     private ZombieChaseState chase;
     private ZombieAttackState attack;
     private ZombieStunState stun;
+    private ZombieCelebrateState celebrate;
+    private float currentHitReactionLayerWeight;
+    private float hitReactionLayerDecrementSpeed = 1.5f;
 
     #endregion
-
 
     #region 3. Unity Lifecycle
 
@@ -71,7 +73,7 @@ public class Zombie : EnemyBase
     {
         if (controller.CurrentState == attack && attack.CanRestart())
         {
-            bool shouldChase = controller.DistanceFromTarget > maxDistanceBeforeChasing;
+            bool shouldChase = controller.DistanceFromTarget > closeEnoughToAttackDistance;
 
             if (shouldChase)
             {
@@ -79,6 +81,7 @@ public class Zombie : EnemyBase
             }
             else
             {
+                animator.SetTrigger("Attack");
                 controller.UpdateState(EAIState.Attack);
             }
             return true;
@@ -107,6 +110,17 @@ public class Zombie : EnemyBase
         tentacle.DeactivateTriggerDamage();
     }
 
+    public void MoveTowardsPlayerInAttack()
+    {
+        attack.moveTowardsPlayer = true;
+    }
+
+    public void FinishedAttack()
+    {
+        attack.doneAttacking = true;
+    }
+
+
     public void DamageAttackTarget()
     {
         attack.Damage(controller.AttackTarget.gameObject.GetComponent<IDamageable>());
@@ -119,8 +133,42 @@ public class Zombie : EnemyBase
 
     public override void ResetForRebirth()
     {
-        copUICanvas.gameObject.SetActive(false);
         base.ResetForRebirth();
+    }
+
+    public override void DoPlayerKilledState(object[] parameters)
+    {
+        if (myStats.health > myStats.skinnableHealth)
+        {
+            animator.SetTrigger("DoVictoryDance");
+            controller.CurrentState = celebrate;
+            controller.UpdateState(EAIState.Celebrate);
+        }
+    }
+
+    public override void DoHitReaction(Damager damager)
+    {
+        if (myStats.health > myStats.skinnableHealth)
+        {
+            float hitAngle = Vector3.Angle(controller.transform.forward, damager.impactDirection);
+
+            if (hitAngle < 45.0f || hitAngle > 315.0f)
+            {
+                animator.SetTrigger("HitFront");
+            }
+            else if (hitAngle > 45.0f && hitAngle < 135.0f)
+            {
+                animator.SetTrigger("HitRight");
+            }
+            else if (hitAngle > 225.0f && hitAngle < 315.0f)
+            {
+                animator.SetTrigger("HitLeft");
+            }
+            currentHitReactionLayerWeight = 1.0f;
+            animator.SetLayerWeight(1, currentHitReactionLayerWeight);
+            Timing.RunCoroutine(HitReactionLerp(), coroutineName);
+        }
+        base.DoHitReaction(damager);
     }
 
     #endregion
@@ -136,9 +184,12 @@ public class Zombie : EnemyBase
         attack.stateName = "attack";
         stun = new ZombieStunState();
         stun.stateName = "stun";
+        celebrate = new ZombieCelebrateState();
+        celebrate.stateName = "celebrate";
         aiStates.Add(chase);
         aiStates.Add(attack);
         aiStates.Add(stun);
+        aiStates.Add(celebrate);
     }
 
     private void OnDrawGizmosSelected()
@@ -146,6 +197,20 @@ public class Zombie : EnemyBase
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, closeEnoughToAttackDistance);
     }
+
+    private IEnumerator<float> HitReactionLerp()
+    {
+        while (currentHitReactionLayerWeight > 0.0f)
+        {
+            currentHitReactionLayerWeight -= Time.deltaTime * hitReactionLayerDecrementSpeed;
+
+            animator.SetLayerWeight(1, currentHitReactionLayerWeight);
+            yield return 0.0f;
+        }
+        currentHitReactionLayerWeight = 0.0f;
+        animator.SetLayerWeight(1, currentHitReactionLayerWeight);
+    }
+
 
     #endregion
 

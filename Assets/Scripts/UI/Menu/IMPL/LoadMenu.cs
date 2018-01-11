@@ -22,7 +22,7 @@ public class LoadMenu : Menu {
         }
         set
         {
-            target = value;
+            target = value;            
         }
     }
     public bool Fast
@@ -61,6 +61,14 @@ public class LoadMenu : Menu {
     #endregion
 
     #region Unity Lifecycle Methods
+
+    protected override void Start()
+    {
+        base.Start();
+
+        target = SceneManager.GetActiveScene().name;        
+
+    }
     void Update()
     {
         if (loaded && (InputManager.Instance.AnyKey() || fast))
@@ -69,8 +77,7 @@ public class LoadMenu : Menu {
             loaded = false;
             loadingText.text = "Starting...";
             MenuManager.Instance.DoTransition(this, Transition.HIDE, new Effect[] { });
-            EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_DISPLAYED, target);
-            EventSystem.Instance.TriggerEvent(Strings.Events.CALL_NEXTWAVEENEMIES);
+            SpawnManager.spawnersLocked = false;
         }
     }
     #endregion
@@ -109,17 +116,20 @@ public class LoadMenu : Menu {
 
     private IEnumerator LoadingCoroutine()
     {
+        SpawnManager.spawnersLocked = true;
         MovementEffects.Timing.KillCoroutines();
         ObjectPool.Instance.ResetPools();
         loadingBar.size = 0.0F;
-        loaded = false;
-
+        loaded = false;        
         AsyncOperation async = SceneManager.LoadSceneAsync(target);
         while (!async.isDone)
         {
             loadingBar.size = Mathf.Lerp(0.0F, 1.0F, async.progress);
             yield return new WaitForEndOfFrame();
         }
+
+        // Prewarm shaders to prevent lag during level.
+        Shader.WarmupAllShaders();
 
         loadingBar.size = 1.0F;
         loadingText.text = "Press any key to continue...";

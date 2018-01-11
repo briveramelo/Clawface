@@ -1,0 +1,318 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!200 &20000000
+ShaderVariantCollection:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: Arena1-gameplay
+  m_Shaders:
+    data:
+      first: {fileID: 66, guid: 0000000000000000f000000000000000, type: 0}
+      second:
+        variants:
+        - keywords: 
+          passType: 0
+    data:
+      first: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+      second:
+        variants:
+        - keywords: DIRECTIONAL
+          passType: 4
+        - keywords: DIRECTIONAL _ALPHAPREMULTIPLY_ON
+          passType: 4
+        - keywords: DIRECTIONAL _ALPHAPREMULTIPLY_ON _METALLICGLOSSMAP _NORMALMAP
+          passType: 4
+        - keywords: DIRECTIONAL _ALPHAPREMULTIPLY_ON _EMISSION _GLOSSYREFLECTIONS_OFF
+            _SPECULARHIGHLIGHTS_OFF
+          passType: 4
+        - keywords: DIRECTIONAL
+          passType: 5
+        - keywords: DIRECTIONAL _ALPHAPREMULTIPLY_ON
+          passType: 5
+        - keywords: DIRECTIONAL _ALPHAPREMULTIPLY_ON _METALLICGLOSSMAP _NORMALMAP
+          passType: 5
+        - keywords: SHADOWS_DEPTH
+          passType: 8
+        - keywords: SHADOWS_DEPTH _ALPHAPREMULTIPLY_ON
+          passType: 8
+        - keywords: SHADOWS_DEPTH _ALPHAPREMULTIPLY_ON _METALLICGLOSSMAP
+          passType: 8
+    data:
+      first: {fileID: 64, guid: 0000000000000000f000000000000000, type: 0}
+      second:
+        variants:
+        - keywords: SHADOWS_SPLIT_SPHERES
+          passType: 0
+        - keywords: SHADOWS_SINGLE_CASCADE SHADOWS_SPLIT_SPHERES
+          passType: 0
+    data:
+      first: {fileID: 62, guid: 0000000000000000f000000000000000, type: 0}
+      second:
+        variants:
+        - keywords: 
+          passType: 0
+    data:
+      first: {fileID: 30, guid: 0000000000000000f000000000000000, type: 0}
+      second:
+        variants:
+        - keywords: DIRECTIONAL
+          passType: 4
+        - keywords: POINT
+          passType: 5
+    data:
+      first: {fileID: 32, guid: 0000000000000000f000000000000000, type: 0}
+      second:
+        variants:
+        - keywords: DIRECTIONAL
+          passType: 4
+    data:
+      first: {fileID: 106, guid: 0000000000000000f000000000000000, type: 0}
+      second:
+        variants:
+        - keywords: _SUNDISK_SIMPLE
+          passType: 0
+    data:
+      first: {fileID: 200, guid: 0000000000000000f000000000000000, type: 0}
+      second:
+        variants:
+        - keywords: 
+          passType: 0
+        - keywords: SOFTPARTICLES_ON
+          passType: 0
+    data:
+      first: {fileID: 202, guid: 0000000000000000f000000000000000, type: 0}
+      second:
+        variants:
+        - keywords: 
+          passType: 0
+        - keywords: SOFTPARTICLES_ON
+          passType: 0
+    data:
+      first: {fileID: 9000, guid: 0000000000000000f000000000000000, type: 0}
+      second:
+        variants:
+        - keywords: 
+          passType: 0
+    data:
+      first: {fileID: 9001, guid: 0000000000000000f000000000000000, type: 0}
+      second:
+        variants:
+        - keywords: 
+          passType: 0
+    data:
+      first: {fileID: 9002, guid: 0000000000000000f000000000000000, type: 0}
+      second:
+        variants:
+        - keywords: 
+          passType: 0
+    data:
+      first: {fileID: 10753, guid: 0000000000000000f000000000000000, type: 0}
+      second:
+        variants:
+        - keywords: 
+          passType: 0
+    data:
+      first: {fileID: 10770, guid: 0000000000000000f000000000000000, type: 0}
+      second:
+        variants:
+        - keywords: 
+          passType: 0
+        - keywords: UNITY_UI_ALPHACLIP
+          passType: 0
+    data:
+      first: {fileID: 4800000, guid: 8ef4d5815d2bdca4ebddfd2ea1415ef8, type: 3}
+      second:
+        variants:
+        - keywords: 
+          passType: 0
+    data:
+      first: {fileID: 4800000, guid: 4ab0dd1a1f482f0498ff996f3f799473, type: 3}
+      second:
+        variants:
+        - keywords: DIRECTIONAL
+          passType: 4
+    data:
+      first: {fileID: 4800000, guid: 3bdf4005f9439c44a9fbfff31a431be5, type: 3}
+      second:
+        variants:
+        - keywords: DIRECTIONAL
+          passType: 4
+        - keywords: DIRECTIONAL
+          passType: 5
+        - keywords: 
+          passType: 8
+    data:
+      first: {fileID: 4800000, guid: 552331e24ab8a90449a467702193e292, type: 3}
+      second:
+        variants:
+        - keywords: DIRECTIONAL
+          passType: 4
+    data:
+      first: {fileID: 4800000, guid: 5caace7e38cb62c43ba2a4032ec758ae, type: 3}
+      second:
+        variants:
+        - keywords: DIRECTIONAL
+          passType: 4
+    data:
+      first: {fileID: 4800000, guid: f628f9530b3ec5949867f83a462fb821, type: 3}
+      second:
+        variants:
+        - keywords: DIRECTIONAL
+          passType: 4
+        - keywords: DIRECTIONAL
+          passType: 5
+    data:
+      first: {fileID: 4800000, guid: 11852d1b1b034654bb03e7c8fda28fbf, type: 3}
+      second:
+        variants:
+        - keywords: 
+          passType: 0
+    data:
+      first: {fileID: 4800000, guid: 291f0d5b6045f4646847c59b4ce13ac5, type: 3}
+      second:
+        variants:
+        - keywords: GRAIN
+          passType: 0
+    data:
+      first: {fileID: 4800000, guid: 4ceb73bc148699b469361531d6062548, type: 3}
+      second:
+        variants:
+        - keywords: 
+          passType: 0
+        - keywords: ANTI_FLICKER
+          passType: 0
+    data:
+      first: {fileID: 4800000, guid: 7d89469544dfa214eabdbf37fca76f40, type: 3}
+      second:
+        variants:
+        - keywords: 
+          passType: 0
+    data:
+      first: {fileID: 4800000, guid: 8ce0a6f4c8cae334d8a5617f302b6769, type: 3}
+      second:
+        variants:
+        - keywords: BLOOM CHROMATIC_ABERRATION
+          passType: 0
+    data:
+      first: {fileID: 4800000, guid: e881ae5627d1cc84395303acfbca6fb2, type: 3}
+      second:
+        variants:
+        - keywords: 
+          passType: 0
+        - keywords: FOG_OFF
+          passType: 0
+    data:
+      first: {fileID: 4800000, guid: 362c7f1e21e108a4388a1ef4e5d910ad, type: 3}
+      second:
+        variants:
+        - keywords: DIRECTIONAL
+          passType: 4
+        - keywords: DIRECTIONAL SHADOWS_SCREEN
+          passType: 4
+        - keywords: DIRECTIONAL
+          passType: 5
+        - keywords: POINT
+          passType: 5
+        - keywords: SHADOWS_DEPTH
+          passType: 8
+    data:
+      first: {fileID: 4800000, guid: d88761c619bbcb8428f212070ab9d959, type: 3}
+      second:
+        variants:
+        - keywords: DIRECTIONAL _ALPHAPREMULTIPLY_ON
+          passType: 4
+        - keywords: DIRECTIONAL _ALPHAPREMULTIPLY_ON
+          passType: 5
+    data:
+      first: {fileID: 4800000, guid: 69f0de1eb9b6d494aa0c92db5965959a, type: 3}
+      second:
+        variants:
+        - keywords: DIRECTIONAL
+          passType: 4
+        - keywords: DIRECTIONAL
+          passType: 5
+        - keywords: POINT
+          passType: 5
+        - keywords: SHADOWS_DEPTH
+          passType: 8
+    data:
+      first: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+      second:
+        variants:
+        - keywords: 
+          passType: 0
+    data:
+      first: {fileID: 4800000, guid: 4158333fb54acf3409b90b838bf10ee6, type: 3}
+      second:
+        variants:
+        - keywords: 
+          passType: 0
+    data:
+      first: {fileID: 4800000, guid: 5519de94250328b40bbcc7ddf44c7335, type: 3}
+      second:
+        variants:
+        - keywords: DIRECTIONAL
+          passType: 4
+        - keywords: DIRECTIONAL DIRLIGHTMAP_COMBINED LIGHTMAP_ON
+          passType: 4
+        - keywords: DIRECTIONAL INSTANCING_ON
+          passType: 4
+        - keywords: DIRECTIONAL
+          passType: 5
+        - keywords: POINT
+          passType: 5
+        - keywords: SHADOWS_DEPTH
+          passType: 8
+        - keywords: 
+          passType: 11
+    data:
+      first: {fileID: 4800000, guid: 5ecbd5bd893927e46b4bb9f58f9be6dc, type: 3}
+      second:
+        variants:
+        - keywords: DIRECTIONAL _ALPHAPREMULTIPLY_ON
+          passType: 4
+        - keywords: DIRECTIONAL _ALPHAPREMULTIPLY_ON
+          passType: 5
+    data:
+      first: {fileID: 4800000, guid: 820cabafa7f9a8d4ba7850e417c1348a, type: 3}
+      second:
+        variants:
+        - keywords: DIRECTIONAL
+          passType: 4
+        - keywords: DIRECTIONAL
+          passType: 5
+        - keywords: SHADOWS_DEPTH UNITY_PASS_SHADOWCASTER
+          passType: 8
+    data:
+      first: {fileID: 4800000, guid: 90e875139871e324280050b9dde66503, type: 3}
+      second:
+        variants:
+        - keywords: DIRECTIONAL
+          passType: 4
+        - keywords: DIRECTIONAL INSTANCING_ON
+          passType: 4
+        - keywords: DIRECTIONAL
+          passType: 5
+        - keywords: POINT
+          passType: 5
+        - keywords: SHADOWS_DEPTH
+          passType: 8
+        - keywords: INSTANCING_ON SHADOWS_DEPTH
+          passType: 8
+    data:
+      first: {fileID: 4800000, guid: d20bae182fa94a947a93f099f40fb2ae, type: 3}
+      second:
+        variants:
+        - keywords: DIRECTIONAL
+          passType: 4
+        - keywords: DIRECTIONAL
+          passType: 5
+        - keywords: SHADOWS_DEPTH UNITY_PASS_SHADOWCASTER
+          passType: 8
+    data:
+      first: {fileID: 4800000, guid: fb2cde9290894184493c6e7d9a059818, type: 3}
+      second:
+        variants:
+        - keywords: 
+          passType: 4

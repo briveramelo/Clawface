@@ -13,7 +13,7 @@ namespace Cinemachine
     [Serializable]
     public struct AxisState
     {
-        /// <summary>The current position on the axis/summary>
+        /// <summary>The current value of the axis</summary>
         [NoSaveDuringPlay]
         [Tooltip("The current value of the axis.")]
         public float Value;
@@ -76,9 +76,7 @@ namespace Cinemachine
             mWrapAround = false;
         }
 
-        /// <summary>
-        /// Call from OnValidate: Make sure the fields are sensible
-        /// </summary>
+        /// <summary>Call from OnValidate: Make sure the fields are sensible</summary>
         public void Validate()
         {
             m_MaxSpeed = Mathf.Max(0, m_MaxSpeed);
@@ -91,9 +89,9 @@ namespace Cinemachine
         /// </summary>
         /// <param name="minValue">The lowest value this axis can achieve</param>
         /// <param name="maxValue">The highest value this axis can achieve</param>
-        /// <param name="wrapAround">If <b>TRUE</b>, values commanded greater
+        /// <param name="wrapAround">If <b>true</b>, values commanded greater
         /// than mMaxValue or less than mMinValue will wrap around.
-        /// If <b>FALSE</b>, the value will be clamped within the range.</param>
+        /// If <b>false</b>, the value will be clamped within the range.</param>
         public void SetThresholds(float minValue, float maxValue, bool wrapAround)
         {
             mMinValue = minValue;
@@ -101,17 +99,16 @@ namespace Cinemachine
             mWrapAround = wrapAround;
         }
 
-        const float kDampingScale = 0.1f;
         const float Epsilon = UnityVectorExtensions.Epsilon;
 
         /// <summary>
         /// Updates the state of this axis based on the axis defined
         /// by AxisState.m_AxisName
         /// </summary>
-        /// <param name="dt">Delta time in seconds</param>
-        /// <return>Returns <b>TRUE</b> if this axis' input was non-zero this Update,
-        /// <b>FALSE</b> otherwise</return>
-        public bool Update(float dt)
+        /// <param name="deltaTime">Delta time in seconds</param>
+        /// <returns>Returns <b>true</b> if this axis' input was non-zero this Update,
+        /// <b>flase</b> otherwise</returns>
+        public bool Update(float deltaTime)
         {
             if (!string.IsNullOrEmpty(m_InputAxisName))
             {
@@ -132,22 +129,25 @@ namespace Cinemachine
             if (m_MaxSpeed > Epsilon)
             {
                 float targetSpeed = input * m_MaxSpeed;
-                if (Mathf.Abs(mCurrentSpeed) > Epsilon
-                    && (Mathf.Sign(targetSpeed) != Mathf.Sign(mCurrentSpeed)
-                        || Mathf.Abs(targetSpeed) < Mathf.Abs(mCurrentSpeed)))
+                if (Mathf.Abs(targetSpeed) < Epsilon
+                    || (Mathf.Sign(mCurrentSpeed) == Mathf.Sign(targetSpeed)
+                        && Mathf.Abs(targetSpeed) <  Mathf.Abs(mCurrentSpeed)))
                 {
                     // Need to decelerate
-                    float a = m_MaxSpeed / Mathf.Max(Epsilon, m_DecelTime);
-                    float delta = Mathf.Min(a * dt, Mathf.Abs(mCurrentSpeed));
+                    float a = Mathf.Abs(targetSpeed - mCurrentSpeed) / Mathf.Max(Epsilon, m_DecelTime);
+                    float delta = Mathf.Min(a * deltaTime, Mathf.Abs(mCurrentSpeed));
                     mCurrentSpeed -= Mathf.Sign(mCurrentSpeed) * delta;
                 }
                 else 
                 {
                     // Accelerate to the target speed
-                    float a = m_MaxSpeed / Mathf.Max(Epsilon, m_AccelTime);
-                    mCurrentSpeed += Mathf.Sign(targetSpeed) * a * dt;
-                    if (Mathf.Abs(mCurrentSpeed) > Mathf.Abs(targetSpeed))
+                    float a = Mathf.Abs(targetSpeed - mCurrentSpeed) / Mathf.Max(Epsilon, m_AccelTime);
+                    mCurrentSpeed += Mathf.Sign(targetSpeed) * a * deltaTime;
+                    if (Mathf.Sign(mCurrentSpeed) == Mathf.Sign(targetSpeed) 
+                        && Mathf.Abs(mCurrentSpeed) > Mathf.Abs(targetSpeed))
+                    {
                         mCurrentSpeed = targetSpeed;
+                    }
                 }
             }
 
@@ -155,7 +155,7 @@ namespace Cinemachine
             float maxSpeed = GetMaxSpeed();
             mCurrentSpeed = Mathf.Clamp(mCurrentSpeed, -maxSpeed, maxSpeed);
 
-            Value += mCurrentSpeed * dt;
+            Value += mCurrentSpeed * deltaTime;
             bool isOutOfRange = (Value > mMaxValue) || (Value < mMinValue);
             if (isOutOfRange)
             {

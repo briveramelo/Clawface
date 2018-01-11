@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-using ModMan; // WAT...
-
 public class MainMenu : Menu
 {
     #region Public Fields
@@ -15,51 +13,12 @@ public class MainMenu : Menu
         }
     }
 
-    public GameObject ObjectToTrack
-    {
-        set
-        {
-            objectToTrack = value;
-        }
-    }
-
     #endregion
 
     #region Serialized Unity Fields
 
     [SerializeField]
     private Button mainButton;
-
-    #endregion
-
-    #region Private Fields
-    
-    private GameObject objectToTrack = null;
-
-    #endregion
-
-    #region Unity Lifecycle Methods
-
-    private void Update()
-    {
-        if (objectToTrack != null)
-        {
-            if (objectToTrack.IsDestroyed())
-            {
-                objectToTrack = null;
-                return;
-            }
-
-            Transform self = gameObject.transform;
-            Transform track = objectToTrack.transform;
-
-            self.position = track.position;
-            self.rotation = track.rotation;
-
-            // this might be funny...
-            self.localScale = track.lossyScale;
-        }
-    }
 
     #endregion
 
@@ -70,23 +29,24 @@ public class MainMenu : Menu
     //// Actions used by Buttons on this Menu
     public void StartAction()
     {
-        /*
-        MusicManager.Instance.Stop(MusicType.MainMenu_Track);
+        // Target Level is hard coded right now.
+        Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
+        LoadMenu loadMenu = menu as LoadMenu;
+        loadMenu.TargetScene = Strings.Scenes.Arena;        
 
-        Menu pMenu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.PAUSE);
-        PauseMenu pauseMenu = pMenu as PauseMenu;
-        pauseMenu.CanPause = true;
-
-        Menu lMenu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
-        LoadMenu loadMenu = lMenu as LoadMenu;
-        loadMenu.TargetScene = Strings.Scenes.Arena;
-
-        MenuManager.Instance.DoTransition(loadMenu, Transition.SHOW,
+        // Transition to weapon select
+        // TODO - When adding level editor + more levels will need new and improved level select.
+        menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.WEAPON_SELECT);
+        WeaponSelectMenu weaponMenu = menu as WeaponSelectMenu;
+        weaponMenu.menuTarget = Strings.MenuStrings.MAIN;
+        MenuManager.Instance.DoTransition(weaponMenu, Transition.SHOW,
             new Effect[] { Effect.EXCLUSIVE });
-       */
+    }
 
-        MenuManager.Instance.DoTransition(Strings.MenuStrings.LEVEL_SELECT, Transition.SHOW,
-            new Effect[] { Effect.EXCLUSIVE });
+    public void ControlsAction()
+    {
+        MenuManager.Instance.DoTransition(Strings.MenuStrings.CONTROLS,
+            Transition.SHOW, new Effect[] { Effect.EXCLUSIVE, Effect.FADE });
     }
 
     public void CreditsAction()
@@ -95,10 +55,9 @@ public class MainMenu : Menu
             Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
     }
 
-    public void SettingsAction()
+    public void QuitAction()
     {
-        MenuManager.Instance.DoTransition(Strings.MenuStrings.SETTINGS,
-            Transition.SHOW, new Effect[] { Effect.EXCLUSIVE, Effect.FADE });
+        Application.Quit();
     }
 
     #endregion

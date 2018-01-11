@@ -12,7 +12,7 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 2999
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -43,6 +43,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _FaceTexture:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -78,6 +82,14 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _XrayNoise:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord2:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
     - _ASEOutlineWidth: 0.025
     - _BumpScale: 1
@@ -85,12 +97,16 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _EmissiveStrength: 5
+    - _FaceEmissiveStrength: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
+    - _HitColorStrength: 0
     - _MaskClipValue: 0.5
     - _Metallic: 0
     - _Mode: 0
+    - _NoiseSize: 0
+    - _NoiseSpeed: 0.3393778
     - _OcclusionStrength: 1
     - _Outline: 0
     - _Parallax: 0.02
@@ -99,13 +115,19 @@ Material:
     - _SrcBlend: 1
     - _TextureTiling: 1
     - _UVSec: 0
+    - _XrayColorStrength: 1
     - _ZWrite: 1
     - __dirty: 1
     m_Colors:
     - _ASEOutlineColor: {r: 0.53676474, g: 0.53676474, b: 0, a: 0}
     - _AlbedoTint: {r: 1, g: 1, b: 1, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color1: {r: 0.375, g: 0.375, b: 0, a: 0}
+    - _Color2: {r: 0.77205884, g: 0.77205884, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 0}
     - _EmissiveColor: {r: 1, g: 1, b: 0, a: 0}
+    - _FaceColor: {r: 0, g: 0, b: 0, a: 0}
+    - _HitColor: {r: 0, g: 0, b: 0, a: 0}
     - _OutlineColor: {r: 1, g: 1, b: 1, a: 1}
     - _Tint: {r: 1, g: 1, b: 1, a: 1}
+    - _XrayColor: {r: 0.77205884, g: 0.77205884, b: 0, a: 0}

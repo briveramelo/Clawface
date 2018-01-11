@@ -3,10 +3,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ScoreManager : Singleton<ScoreManager> {
 
     #region Serialized
+
+    [SerializeField]
+    private bool useAlternateScoreMode;
+
     [SerializeField] private int score;
     [SerializeField] private int currentCombo;
     [SerializeField] private int highestCombo;
@@ -26,32 +31,48 @@ public class ScoreManager : Singleton<ScoreManager> {
     #region Unity Lifecycle
     // Use this for initialization
     void Start () {
-        currentCombo = 0;
-        highestCombo = 0;
-        currentQuadrant = 0;
-
         highScores = new Dictionary<string, int>();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-#if (UNITY_EDITOR)
-        if (Input.GetKeyDown(KeyCode.K))
+        OnLevelStart();
+
+        EventSystem.Instance.RegisterEvent(Strings.Events.DEATH_ENEMY, OnPlayerKilledEnemy);
+        EventSystem.Instance.RegisterEvent(Strings.Events.EAT_ENEMY, OnPlayerAte);
+        EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_DAMAGED, OnPlayerDamaged);
+        EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_STARTED, OnLevelStart);
+        EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_RESTARTED, OnLevelRestart);
+        EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_QUIT, OnLevelQuit);
+    }
+
+    private new void OnDestroy()
+    {
+        if (EventSystem.Instance)
         {
-            AddToScoreAndCombo(100);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.DEATH_ENEMY, OnPlayerKilledEnemy);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.EAT_ENEMY, OnPlayerAte);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_DAMAGED, OnPlayerDamaged);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_STARTED, OnLevelStart);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_RESTARTED, OnLevelRestart);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_QUIT, OnLevelQuit);
         }
-#endif
 
-        if (currentCombo != 0)
+        base.OnDestroy();
+    }
+
+    // Update is called once per frame
+    void Update() {
+
+        if (!useAlternateScoreMode)
         {
-            comboTimer -= Time.deltaTime;
-
-            if (comboTimer <= 0f)
+            if (currentCombo != 0)
             {
-                ResetCombo();
-            }
+                comboTimer -= Time.deltaTime;
 
-            CalculateTimerQuadrant();
+                if (comboTimer <= 0f)
+                {
+                    ResetCombo();
+                }
+
+                CalculateTimerQuadrant();
+            }
         }
 	}
     #endregion
@@ -62,6 +83,19 @@ public class ScoreManager : Singleton<ScoreManager> {
         currentCombo = 0;
         EventSystem.Instance.TriggerEvent(Strings.Events.COMBO_TIMER_UPDATED, 0.0f);
     }
+
+    public void ResetScore()
+    {
+        score = 0;
+    }
+
+    public void ResetScoreAndCombo()
+    {
+        ResetScore();
+        ResetCombo();
+    }
+
+    
 
     public void AddToCombo()
     {
@@ -104,16 +138,19 @@ public class ScoreManager : Singleton<ScoreManager> {
 
     public void AddToScore(int points)
     {
+        int delta = 0;
         if (currentCombo < scoreMultiplierPerCombo.Count)
         {
-            score += (points * scoreMultiplierPerCombo[currentCombo]);
+            delta = points * scoreMultiplierPerCombo[currentCombo];
+            score += delta;
         }
         else
         {
-            score += (points * scoreMultiplierPerCombo[scoreMultiplierPerCombo.Count - 1]);
+            delta = points * scoreMultiplierPerCombo[scoreMultiplierPerCombo.Count - 1];
+            score += delta;
         }
 
-        EventSystem.Instance.TriggerEvent(Strings.Events.SCORE_UPDATED,score);
+        EventSystem.Instance.TriggerEvent(Strings.Events.SCORE_UPDATED,score,delta);
     }
 
     public int GetCurrentMultiplier()
@@ -143,7 +180,6 @@ public class ScoreManager : Singleton<ScoreManager> {
         if (!highScores.ContainsKey(level))
         {
             highScores.Add(level, scoreToCheck);
-            return;
         }
         else
         {
@@ -152,6 +188,8 @@ public class ScoreManager : Singleton<ScoreManager> {
                 highScores[level] = scoreToCheck;
             }
         }
+
+        EventSystem.Instance.TriggerEvent(Strings.Events.SET_LEVEL_SCORE, level, highScores[level]);
     }
 
     public int GetHighScore(string level)
@@ -172,6 +210,7 @@ public class ScoreManager : Singleton<ScoreManager> {
     }
     #endregion
 
+    #region Private Methods
     private void CalculateTimerQuadrant()
     {
         float nextQuadrant = 0f;
@@ -187,4 +226,62 @@ public class ScoreManager : Singleton<ScoreManager> {
             EventSystem.Instance.TriggerEvent(Strings.Events.COMBO_TIMER_UPDATED, nextQuadrant);
         }
     }
+
+    private void OnPlayerAte(params object[] parameters)
+    {
+        if (useAlternateScoreMode)
+        {
+            currentCombo++;
+            EventSystem.Instance.TriggerEvent(Strings.Events.COMBO_UPDATED, currentCombo);
+            CalculateTimerQuadrant();
+        }
+    }
+
+    private void OnPlayerKilledEnemy(params object[] parameters)
+    {
+        if (useAlternateScoreMode)
+        {
+            if (parameters != null && parameters[1] != null)
+            {
+                AddToScore((int)parameters[1]);
+            }
+        }
+        else
+        {
+            AddToScoreAndCombo((int)parameters[1]);
+        }
+    }
+
+    private void OnPlayerDamaged(params object[] parameters)
+    {
+        if (useAlternateScoreMode)
+        {
+            currentCombo = 0;
+            EventSystem.Instance.TriggerEvent(Strings.Events.COMBO_UPDATED, currentCombo);
+            CalculateTimerQuadrant();
+        }
+    }
+
+    private void OnLevelStart(params object[] parameters)
+    {
+        score = 0;
+        currentCombo = 0;
+        highestCombo = 0;
+        currentQuadrant = 0;
+
+        CalculateTimerQuadrant();
+    }
+
+    private void OnLevelRestart(params object[] parameters)
+    {
+        OnLevelStart();
+    }
+
+    private void OnLevelQuit(params object[] parameters)
+    {
+        OnLevelStart();
+    }
+
+    #endregion
+
 }

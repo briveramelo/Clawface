@@ -265,10 +265,12 @@ public class DiceBlock : MonoBehaviour, IMovable {
     {
         this.gameObject.SetActive(false);
         StopAndReset();
-
-        assignedExplosionEffect = ObjectPool.Instance.GetObject(PoolObjectType.VFXDiceBlockExplosion).transform;
-        assignedExplosionEffect.position = this.transform.position;
-        assignedExplosionEffect.localScale = new Vector3(1f, 1f, 1f) * GetMultiplierFromDiceSide();
+        GameObject go = ObjectPool.Instance.GetObject(PoolObjectType.VFXDiceBlockExplosion);
+        if (go) {
+            assignedExplosionEffect = go.transform;
+            assignedExplosionEffect.position = this.transform.position;
+            assignedExplosionEffect.localScale = new Vector3(1f, 1f, 1f) * GetMultiplierFromDiceSide();
+        }
     }
 
     private bool CheckGroundedSide(Transform side)
@@ -308,11 +310,11 @@ public class DiceBlock : MonoBehaviour, IMovable {
 
                 // Shooter is player
 
-                AnalyticsManager.Instance.AddModDamage(ModType.Dice, damager.damage);
+                AnalyticsManager.Instance.AddModDamage(ModType.Missile, damager.damage);
 
                 if (damageable.GetHealth() - damager.damage <= 0.01f)
                 {
-                    AnalyticsManager.Instance.AddModKill(ModType.Dice);
+                    AnalyticsManager.Instance.AddModKill(ModType.Missile);
                 }
 
 

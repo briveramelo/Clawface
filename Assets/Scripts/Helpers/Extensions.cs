@@ -89,6 +89,20 @@ namespace ModMan {
             return item;
         }    
 
+        public static T Tail<T> (this List<T> list)
+        {
+            if (list.Count == 0) return default(T);
+
+            return list[list.Count-1];
+        }
+    }
+
+    public static class FloatExtensions
+    {
+        public static bool AboutEqual(this float flo, float other, float tolerance = 0.1f)
+        {
+            return Mathf.Abs(flo-other)<tolerance;
+        }
     }
 
     public static class ArrayExtensions
@@ -135,10 +149,10 @@ namespace ModMan {
     public static class GameObjectExtensions {
 
         public static void DeActivate(this GameObject obj, float timeToDeactivate) {
-            Timing.RunCoroutine(IEDeActivate(obj, timeToDeactivate), Segment.FixedUpdate);
+            Timing.RunCoroutine(IEDeActivate(obj, timeToDeactivate));
         }
         public static void FollowAndDeActivate(this GameObject obj, float timeToDeactivate, Transform objToFollow, Vector3 offset) {
-            Timing.RunCoroutine(IEDeActivate(obj, timeToDeactivate, objToFollow, offset), Segment.FixedUpdate);
+            Timing.RunCoroutine(IEDeActivate(obj, timeToDeactivate, objToFollow, offset));
         }
         static IEnumerator<float> IEDeActivate(GameObject obj, float timeToDeactivate) {
             yield return Timing.WaitForSeconds(timeToDeactivate);
@@ -300,6 +314,41 @@ namespace ModMan {
         public static void ForEach<T, U>(this Dictionary<T,U> thisDictionary, System.Action<T,U> action) {
             foreach(KeyValuePair<T, U> kvpElement in thisDictionary) {
                 action(kvpElement.Key, kvpElement.Value);
+            }
+        }
+    }
+
+    public static class AnimationCurveExtensions
+    {
+        public static float MaxValue (this AnimationCurve curve)
+        {
+            float max = float.NegativeInfinity;
+            for (int i = 0; i < curve.length; i++)
+            {
+                Keyframe key = curve.keys[i];
+                if (key.value > max) max = key.value;
+            }
+
+            return max;
+        }
+    }
+
+    public static class MinMaxCurveExtensions
+    {
+        public static float Max (this ParticleSystem.MinMaxCurve curve)
+        {
+            switch (curve.mode)
+            {
+                case ParticleSystemCurveMode.Constant:
+                    return curve.constant;
+                case ParticleSystemCurveMode.Curve:
+                    return curve.curve.MaxValue();
+                case ParticleSystemCurveMode.TwoConstants:
+                    return Mathf.Max (curve.constantMin, curve.constantMax);
+                case ParticleSystemCurveMode.TwoCurves:
+                    return Mathf.Max (curve.curveMin.MaxValue(), curve.curveMax.MaxValue());
+                default:
+                    return float.NaN;
             }
         }
     }

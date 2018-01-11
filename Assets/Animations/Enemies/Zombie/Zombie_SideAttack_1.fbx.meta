@@ -243,7 +243,7 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.6181818
+      - time: 0.56393653
         functionName: ActivateTentacleTrigger
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 6e3398260c9595142bc90888bc176a20,
@@ -253,6 +253,22 @@ ModelImporter:
         messageOptions: 0
       - time: 0.8181818
         functionName: DeactivateTentacleTrigger
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 6e3398260c9595142bc90888bc176a20,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.6030702
+        functionName: MoveTowardsPlayerInAttack
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 6e3398260c9595142bc90888bc176a20,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.99122804
+        functionName: FinishedAttack
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 6e3398260c9595142bc90888bc176a20,
           type: 3}

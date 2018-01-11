@@ -39,6 +39,12 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
 
     [SerializeField]
     private int currentLevelDeaths;
+
+    [SerializeField]
+    private int levelEatPresses;
+
+    [SerializeField]
+    private int levelDodgePresses;
     #endregion
 
 
@@ -86,6 +92,16 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
     {
         currentLevelTime += Time.deltaTime;
         totalCurrentLevelTime += Time.deltaTime;
+
+        if (InputManager.Instance.QueryAction(Strings.Input.Actions.EAT) == ButtonMode.DOWN)
+        {
+            levelEatPresses++;
+        }
+
+        if (InputManager.Instance.QueryAction(Strings.Input.Actions.DODGE) == ButtonMode.DOWN)
+        {
+            levelDodgePresses++;
+        }
     }
 
     private void OnApplicationQuit()
@@ -183,6 +199,8 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
     {
         currentLevelTime = 0f;
         totalCurrentLevelTime = 0f;
+        levelEatPresses = 0;
+        levelDodgePresses = 0;
 
         string level = parameters[0] as string;
         string leftArm = parameters[1] as string;
@@ -221,11 +239,14 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         playerEventDeath.Add("wave", wave.ToString());
         playerEventDeath.Add("leftArm", leftArm);
         playerEventDeath.Add("rightArm", rightArm);
+        playerEventDeath.Add("runTime", currentLevelTime);
+        playerEventDeath.Add("eats", levelEatPresses);
+        playerEventDeath.Add("dodges", levelDodgePresses);
 
         currentLevelDeaths++;
 
 #if UNITY_EDITOR
-// Debug.Log(String.Format("Player death event fired: {0}, {1}, {2}, {3}", level, wave.ToString(), leftArm, rightArm));
+        // Debug.Log(String.Format("Player death event fired: {0}, {1}, {2}, {3}, {4}, {5}", level, wave.ToString(), leftArm, rightArm, levelEatPresses, levelDodgePresses));
 #endif
 
 #if !UNITY_EDITOR
@@ -253,6 +274,8 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         levelRestartDictionary.Add("leftArm", leftArm);
         levelRestartDictionary.Add("rightArm", rightArm);
         levelRestartDictionary.Add("deaths", currentLevelDeaths);
+        levelRestartDictionary.Add("eats", levelEatPresses);
+        levelRestartDictionary.Add("dodges", levelDodgePresses);
 
 #if UNITY_EDITOR
 // Debug.Log(String.Format("Level restarted event fired: {0}, {1}, {2}, {3}, {4}, {5}, {6}", level, wave, runtime.ToString(), totalLevelTime.ToString(), score.ToString(), leftArm, rightArm));
@@ -263,6 +286,8 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
 #endif
 
         currentLevelTime = 0f;
+        levelEatPresses = 0;
+        levelDodgePresses = 0;
     }
 
     private void OnLevelQuit(params object[] parameters)
@@ -285,6 +310,8 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         levelQuitDictionary.Add("leftArm", leftArm);
         levelQuitDictionary.Add("rightArm", rightArm);
         levelQuitDictionary.Add("deaths", currentLevelDeaths);
+        levelQuitDictionary.Add("eats", levelEatPresses);
+        levelQuitDictionary.Add("dodges", levelDodgePresses);
 
 #if UNITY_EDITOR
 // Debug.Log(String.Format("Level quit event fired: {0}, {1}, {2}, {3}, {4}, {5}, {6}", level, wave, runtime.ToString(), totalLevelTime.ToString(), score.ToString(), leftArm, rightArm));
@@ -297,6 +324,8 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         currentLevelTime = 0f;
         totalCurrentLevelTime = 0f;
         currentLevelDeaths = 0;
+        levelEatPresses = 0;
+        levelDodgePresses = 0;
     }
 
     private void OnLevelCompleted(params object[] parameters)
@@ -317,6 +346,8 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         levelCompletedDictionary.Add("leftArm", leftArm);
         levelCompletedDictionary.Add("rightArm", rightArm);
         levelCompletedDictionary.Add("deaths", currentLevelDeaths);
+        levelCompletedDictionary.Add("eats", levelEatPresses);
+        levelCompletedDictionary.Add("dodges", levelDodgePresses);
 
 #if UNITY_EDITOR
 
@@ -330,6 +361,8 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         currentLevelTime = 0f;
         totalCurrentLevelTime = 0f;
         currentLevelDeaths = 0;
+        levelEatPresses = 0;
+        levelDodgePresses = 0;
     }
 
     /*

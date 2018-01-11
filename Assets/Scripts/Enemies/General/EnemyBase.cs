@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Turing.VFX;
+using ModMan;
+using MovementEffects;
+using System;
 
 public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatable, ISpawnable
 {
@@ -13,20 +17,23 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     [SerializeField] protected NavMeshAgent navAgent;
     [SerializeField] protected NavMeshObstacle navObstacle;
     [SerializeField] protected int eatHealth;
-    [SerializeField] protected CopUI copUICanvas;
     [SerializeField] protected Transform bloodEmissionLocation;
-    [SerializeField] protected int scorePopupDelay = 2;
     [SerializeField] protected int scoreValue = 200;
     [SerializeField] private GameObject grabObject;
+    [SerializeField] protected HitFlasher hitFlasher;
+    [SerializeField] private SFXType hitSFX;
+    [SerializeField] private SFXType deathSFX;
     #endregion
 
     #region 3. Private fields
     private int stunCount;
     private bool lastChance = false;
     private bool alreadyStunned = false;
+    private bool aboutTobeEaten = false;
     private Collider[] playerColliderList = new Collider[10];
     private Rigidbody[] jointRigidBodies;
     private Vector3 grabStartPosition;
+    private bool isIndestructable;
     #endregion
 
     #region 0. Protected fields
@@ -42,12 +49,15 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
 
     private void OnEnable()
     {
-
+        EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_KILLED, DoPlayerKilledState);
+        EventSystem.Instance.RegisterEvent(Strings.Events.ENEMY_INVINCIBLE, SetInvincible);
         if (will.willHasBeenWritten)
         {
             ResetForRebirth();
         }
-    }    
+    }
+
+    public abstract void DoPlayerKilledState(object[] parameters);
 
     public virtual void Awake()
     {
@@ -61,18 +71,27 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         ResetForRebirth();
     }
 
+    private new void OnDisable()
+    {
+        EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_KILLED, DoPlayerKilledState);
+        EventSystem.Instance.UnRegisterEvent(Strings.Events.ENEMY_INVINCIBLE, SetInvincible);
+        base.OnDisable();
+    }   
+
     #endregion
 
     #region 5. Public Methods   
 
     void IDamageable.TakeDamage(Damager damager)
     {
-        if (myStats.health > 0)
+        if (myStats.health > 0 && !isIndestructable)
         {
+            DoHitReaction(damager);
             myStats.TakeDamage(damager.damage);
             damagePack.Set(damager, damaged);
-            SFXManager.Instance.Play(SFXType.MallCopHurt, transform.position);
+            SFXManager.Instance.Play(hitSFX, transform.position);
             DamageFXManager.Instance.EmitDamageEffect(damagePack);
+            hitFlasher.HitFlash ();
 
             if (myStats.health <= 0)
             {
@@ -93,8 +112,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
 
             if (myStats.health <= myStats.skinnableHealth)
             {
-                copUICanvas.gameObject.SetActive(true);
-                copUICanvas.ShowAction(ActionType.Skin);
+                hitFlasher.SetStunnedState();
                 if (!alreadyStunned)
                 {
                     myStats.health = 1;
@@ -122,14 +140,16 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     }
 
 
-    bool IEatable.IsEatable()
+    public bool IsEatable()
     {
         return myStats.health <= myStats.skinnableHealth;
     }
 
     int IEatable.Eat()
     {
-        Invoke("OnDeath", 0.1f);
+        EventSystem.Instance.TriggerEvent(Strings.Events.EAT_ENEMY);
+        aboutTobeEaten = true;
+        Timing.RunCoroutine(DelayAction(OnDeath), coroutineName);
         return eatHealth;
     }
 
@@ -145,8 +165,15 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         will.onDeath = onDeath;
     }
 
+    public virtual void DoHitReaction(Damager damager)
+    {
+    }
+
+
     public virtual void OnDeath()
     {
+        EventSystem.Instance.TriggerEvent(Strings.Events.DEATH_ENEMY, gameObject, scoreValue);
+
         if (!will.isDead)
         {
             will.isDead = true;
@@ -155,21 +182,22 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
                 will.onDeath();
             }
 
-            UpgradeManager.Instance.AddEXP(Mathf.FloorToInt(myStats.exp));
-
-            GameObject worldScoreObject = ObjectPool.Instance.GetObject(PoolObjectType.WorldScoreCanvas);
-            if (worldScoreObject)
+            if (!aboutTobeEaten)
             {
-                worldScoreObject.GetComponent<Canvas>().GetComponent<RectTransform>().SetPositionAndRotation(transform.position, transform.rotation);                //worldScoreObject.transform.position = transform.position /*+ Vector3.up * 3f*/;
-                WorldScoreUI popUpScore = worldScoreObject.GetComponent<WorldScoreUI>();
-
-                int scoreBonus = scoreValue * ScoreManager.Instance.GetCurrentMultiplier();
-                popUpScore.DisplayScoreAndHide(scoreBonus, scorePopupDelay);
-                ScoreManager.Instance.AddToScoreAndCombo(scoreBonus);
+                GameObject mallCopParts = ObjectPool.Instance.GetObject(PoolObjectType.VFXMallCopExplosion);
+                if (mallCopParts)
+                {
+                    SFXManager.Instance.Play(SFXType.BloodExplosion, transform.position);
+                    mallCopParts.transform.position = transform.position + Vector3.up * 3f;
+                    mallCopParts.transform.rotation = transform.rotation;
+                }
             }
+            UpgradeManager.Instance.AddEXP(Mathf.FloorToInt(myStats.exp));
             navAgent.speed = 0;
             navAgent.enabled = false;
             gameObject.SetActive(false);
+            aboutTobeEaten = false;
+            SFXManager.Instance.Play(deathSFX, transform.position);
         }
     }
 
@@ -190,7 +218,8 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         transform.SetParent(poolParent);
         transform.localScale = transformMemento.startScale;
         lastChance = false;
-        alreadyStunned = false;        
+        alreadyStunned = false;
+        isIndestructable = false;
     }
 
     public void DisableCollider()
@@ -235,8 +264,29 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     {
         return grabObject;
     }
+
+    public void MakeIndestructable()
+    {
+        isIndestructable = true;
+    }
+
+    public void CloserToEat(bool isClose)
+    {
+        if (isClose)
+        {
+            hitFlasher.SetCloseToEatState();
+        }
+        else
+        {
+            hitFlasher.SetStunnedState();
+        }
+    }
     #endregion
 
     #region 6. Private Methods
+    private void SetInvincible(object[] parameters)
+    {
+        isIndestructable = (bool)parameters[0];
+    }
     #endregion
 }

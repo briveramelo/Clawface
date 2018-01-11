@@ -193,7 +193,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1673312795691100}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 12.202086, y: 0, z: 82.41055}
+  m_LocalPosition: {x: 16.4, y: 2.6, z: 0.44}
   m_LocalScale: {x: 0.36106482, y: 3.9185069, z: 3.5533051}
   m_Children:
   - {fileID: 4441443607297562}
@@ -349,8 +349,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0.25, z: 0}
+  m_Size: {x: 1, y: 1, z: 0.52}
+  m_Center: {x: 0, y: 0.25, z: 0.24}
 --- !u!96 &96249331238331630
 TrailRenderer:
   serializedVersion: 2
@@ -635,8 +635,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a39aaa6f595adae40aeb1d024172423b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyImpactEffect: 3
-  wallImpactEffect: 3
+  enemyImpactEffect: 42
+  wallImpactEffect: 42
 --- !u!198 &198467706419688284
 ParticleSystem:
   m_ObjectHideFlags: 1
