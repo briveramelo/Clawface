@@ -19,6 +19,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     [SerializeField] protected int eatHealth;
     [SerializeField] protected Transform bloodEmissionLocation;
     [SerializeField] protected int scoreValue = 200;
+    [SerializeField] protected int bufferHealth = 3;
     [SerializeField] private GameObject grabObject;
     [SerializeField] protected HitFlasher hitFlasher;
     [SerializeField] private SFXType hitSFX;
@@ -26,9 +27,8 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     #endregion
 
     #region 3. Private fields
-    private int stunCount;
+    private bool isStunFlashing = false; 
     private bool lastChance = false;
-    private bool alreadyStunned = false;
     private bool aboutTobeEaten = false;
     private Collider[] playerColliderList = new Collider[10];
     private Rigidbody[] jointRigidBodies;
@@ -37,6 +37,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     #endregion
 
     #region 0. Protected fields
+    protected bool alreadyStunned = false;
     protected Damaged damaged = new Damaged();
     protected DamagePack damagePack = new DamagePack();
     protected Will will = new Will();
@@ -51,10 +52,10 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     {
         EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_KILLED, DoPlayerKilledState);
         EventSystem.Instance.RegisterEvent(Strings.Events.ENEMY_INVINCIBLE, SetInvincible);
-        if (will.willHasBeenWritten)
-        {
+        //if (will.willHasBeenWritten)
+        //{
             ResetForRebirth();
-        }
+        //}
     }
 
     public abstract void DoPlayerKilledState(object[] parameters);
@@ -91,10 +92,11 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
             damagePack.Set(damager, damaged);
             SFXManager.Instance.Play(hitSFX, transform.position);
             DamageFXManager.Instance.EmitDamageEffect(damagePack);
-            hitFlasher.HitFlash ();
+            
 
             if (myStats.health <= 0)
             {
+
                 if (alreadyStunned)
                     lastChance = true;
 
@@ -104,24 +106,42 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
                 }
                 else
                 {
-                    myStats.health = 1;
+                    myStats.health = bufferHealth;
                     lastChance = true;
+                    alreadyStunned = true;
                 }
             }
 
 
             if (myStats.health <= myStats.skinnableHealth)
             {
-                hitFlasher.SetStunnedState();
                 if (!alreadyStunned)
                 {
-                    myStats.health = 1;
+                    
+                    myStats.health = bufferHealth;
                     alreadyStunned = true;
                 }
             }
-
-
         }
+
+        if (alreadyStunned)
+        {
+            if (!isStunFlashing)
+            {
+                hitFlasher.SetStunnedState();
+                isStunFlashing = true;
+            }
+        }
+        else
+        {
+            if (!isStunFlashing)
+            {
+                hitFlasher.HitFlash();
+            }
+        }
+
+        
+
     }
 
     float IDamageable.GetHealth()
@@ -142,7 +162,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
 
     public bool IsEatable()
     {
-        return myStats.health <= myStats.skinnableHealth;
+        return alreadyStunned;
     }
 
     int IEatable.Eat()
@@ -218,6 +238,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         transform.SetParent(poolParent);
         transform.localScale = transformMemento.startScale;
         lastChance = false;
+        isStunFlashing = false;
         alreadyStunned = false;
         isIndestructable = false;
     }

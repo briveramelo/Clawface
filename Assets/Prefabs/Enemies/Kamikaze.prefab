@@ -1167,11 +1167,12 @@ MonoBehaviour:
   eatHealth: 15
   bloodEmissionLocation: {fileID: 4953175451998414}
   scoreValue: 150
+  bufferHealth: 3
   grabObject: {fileID: 1613971381554584}
   hitFlasher: {fileID: 114419598569920118}
   hitSFX: 0
   deathSFX: 0
-  closeEnoughToAttackDistance: 5
+  closeEnoughToAttackDistance: 2.5
   properties:
     runMultiplier: 2.5
     hitRate: 0
@@ -1184,8 +1185,8 @@ MonoBehaviour:
     maxShots: 0
     numberOfShots: 0
     rotate: 0
-    kamikazeSelfDestructTime: 1.34
-    kamikazeBlastRadius: 10.7
+    kamikazeSelfDestructTime: 0.25
+    kamikazeBlastRadius: 14
 --- !u!114 &114410684263093800
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2003,9 +2004,9 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 2.02
   m_Speed: 6
-  m_Acceleration: 15
+  m_Acceleration: 50
   avoidancePriority: 50
-  m_AngularSpeed: 360
+  m_AngularSpeed: 1000
   m_StoppingDistance: 1
   m_AutoTraverseOffMeshLink: 0
   m_AutoBraking: 1

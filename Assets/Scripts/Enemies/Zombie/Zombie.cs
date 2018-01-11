@@ -90,11 +90,12 @@ public class Zombie : EnemyBase
     }
     bool CheckIfStunned()
     {
-        if (myStats.health <= myStats.skinnableHealth)
+        if (myStats.health <= myStats.skinnableHealth || alreadyStunned)
         {
             controller.CurrentState = stun;
             controller.UpdateState(EAIState.Stun);
             controller.DeActivateAI();
+            
             return true;
         }
         return false;
