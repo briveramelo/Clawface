@@ -41,7 +41,7 @@
         public const string MODMAN = "ModMan";
         public const string OBSTACLE = "Obstacle";
         public const string ENEMY = "Enemy";
-
+        public const string ENEMY_BODY = "EnemyBody";
     }
 
     public class TextStrings
@@ -160,7 +160,8 @@
         public const string PLE_TEST_WAVE_1 = "PLE_TEST_WAVE_1";
         public const string PLE_TEST_WAVE_2 = "PLE_TEST_WAVE_2";
 
-        public const string ENEMY_INVINCIBLE = "EnemyInvincible";
+        public const string ENEMY_INVINCIBLE = "ENEMY_INVINCIBLE";
+        public const string GAME_CAN_PAUSE = "GAME_CAN_PAUSE";
     }
 
     
