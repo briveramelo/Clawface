@@ -72,7 +72,9 @@ public class DashState : IPlayerState {
 
     #region Private Methods
     protected override void ResetState()
-    {        
+    {
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer(Strings.Layers.ENEMY), LayerMask.NameToLayer(Strings.Layers.MODMAN), false);
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer(Strings.Layers.ENEMY_BODY), LayerMask.NameToLayer(Strings.Layers.MODMAN), false);
         currentFrame = 0;
         currentPose = 0;
         stateVariables.statsManager.damageModifier = 1.0f;

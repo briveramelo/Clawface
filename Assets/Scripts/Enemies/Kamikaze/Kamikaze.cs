@@ -7,7 +7,7 @@ using System;
 [System.Serializable]
 public class KamikazeProperties : AIProperties
 {
-    [Range(1f, 5f)] public float kamikazeSelfDestructTime;
+    [Range(0.1f, 5f)] public float kamikazeSelfDestructTime;
     [Range(1f, 100f)] public float kamikazeBlastRadius;
 
     public void InitializeProperties()
@@ -65,7 +65,7 @@ public class Kamikaze : EnemyBase
     }
     bool CheckIfStunned()
     {
-        if (myStats.health <= myStats.skinnableHealth)
+        if (myStats.health <= myStats.skinnableHealth || alreadyStunned)
         {
             controller.CurrentState = stun;
             controller.UpdateState(EAIState.Stun);

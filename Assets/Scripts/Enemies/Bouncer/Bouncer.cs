@@ -99,7 +99,7 @@ public class Bouncer : EnemyBase
     }
     bool CheckIfStunned()
     {
-        if (myStats.health <= myStats.skinnableHealth)
+        if (myStats.health <= myStats.skinnableHealth || alreadyStunned)
         {
             controller.CurrentState = stun;
             controller.UpdateState(EAIState.Stun);

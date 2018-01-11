@@ -37,7 +37,7 @@ public class ZombieAttackState : AIState
         //if(navAgent.isActiveAndEnabled)
         //    navAgent.SetDestination(controller.AttackTarget.position);
 
-        Vector3 lookPos = new Vector3(controller.AttackTarget.transform.position.x,0.0f, controller.AttackTarget.transform.position.z);
+        Vector3 lookPos = new Vector3(controller.AttackTarget.transform.position.x, controller.transform.position.y, controller.AttackTarget.transform.position.z);
         controller.transform.LookAt(lookPos);
     }
     public override void OnExit()
