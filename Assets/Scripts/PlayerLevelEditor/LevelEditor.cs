@@ -65,8 +65,10 @@ namespace PlayerLevelEditor
             Btn_Test = PlayerLevelEditor.UITool.GetUIComponent<Button>("Function_Test");
             if (Btn_Test != null) Btn_Test.onClick.AddListener(() => UsingTestFunc(Btn_Test));
 
+
             Btn_Quit = PlayerLevelEditor.UITool.GetUIComponent<Button>("Function_Quit");
             if(Btn_Quit != null) Btn_Quit.onClick.AddListener(() => UsingQuitFunction(Btn_Quit));
+
 
             Btn_EndTest = PlayerLevelEditor.UITool.GetUIComponent<Button>("Function_EndTest");
 
