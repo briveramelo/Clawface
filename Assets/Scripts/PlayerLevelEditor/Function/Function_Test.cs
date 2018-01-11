@@ -227,7 +227,7 @@ namespace PlayerLevelEditor
 
             if (_player == null)
             {
-                _player = UnityTool.FindGameObject("Keira_GroupV1.5(Clone)");
+                _player = UnityTool.FindGameObject(Strings.Editor.PLAYER_NAME);
             }
             else
             {
@@ -298,19 +298,16 @@ namespace PlayerLevelEditor
             {
                 case 0:
                     currentWave = 1;
-                    Debug.Log("W1");
                     EventSystem.Instance.TriggerEvent(Strings.Events.PLE_TEST_WAVE_1);
                     BakeAI();
                     return;
                 case 1:
                     currentWave = 2;
-                    Debug.Log("W2");
                     EventSystem.Instance.TriggerEvent(Strings.Events.PLE_TEST_WAVE_2);
                     BakeAI();
                     return;
                 case 2:
                     currentWave = 0;
-                    Debug.Log("W0");
                     EventSystem.Instance.TriggerEvent(Strings.Events.PLE_TEST_WAVE_0);
                     BakeAI();
                     return;
