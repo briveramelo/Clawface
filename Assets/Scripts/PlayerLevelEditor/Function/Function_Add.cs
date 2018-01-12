@@ -45,7 +45,7 @@ namespace PlayerLevelEditor
             Btn_Add.onClick.AddListener(ACT_Add);
             Btn_Add.image.color = Color.white;
 
-            _prefab = Resources.Load("PlayerLevelEditorObjects/Env/test") as GameObject;
+            _prefab = Resources.Load(Strings.Editor.RESOURCE_PATH + "Env/test") as GameObject;
 
 //            Database.Enable();
         }
@@ -76,10 +76,8 @@ namespace PlayerLevelEditor
 
                     if (_pos.x == 0.0f && _pos.z == 0.0f)
                     {
-                        Debug.Log("DDD");
                         return;
                     }
-
 
                     GameObject _instance = GameObject.Instantiate(_prefab, _pos, Quaternion.identity);
 
