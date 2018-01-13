@@ -289,7 +289,8 @@ public class PlayerStateManager : RoutineRunner {
         {
             yield return null;
         }
-        yield return new WaitForSeconds(dashCoolDown);
+        //yield return new WaitForSeconds(dashCoolDown);
+        yield return new WaitForSeconds(stateVariables.headSpinCoolDown);
         canDash = true;        
     }
 
@@ -366,6 +367,7 @@ public class PlayerStateManager : RoutineRunner {
         public float headSpinClawRadius = 5.0f;
         public float headSpinSpeed = 1.0f;
         public float headSpinDuration = 5.0f;
+        public float headSpinCoolDown = 3.0f;
     }
     #endregion
 
