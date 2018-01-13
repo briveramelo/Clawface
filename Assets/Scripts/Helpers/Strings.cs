@@ -44,6 +44,7 @@
         public const string OBSTACLE = "Obstacle";
         public const string ENEMY = "Enemy";
         public const string ENEMY_BODY = "EnemyBody";
+        public const string ENEMY_PROJECTILE = "EnemyProjectile";
     }
 
     public class TextStrings
