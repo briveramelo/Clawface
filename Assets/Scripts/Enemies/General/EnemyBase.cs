@@ -34,6 +34,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     private Rigidbody[] jointRigidBodies;
     private Vector3 grabStartPosition;
     private bool isIndestructable;
+    private int id;
     #endregion
 
     #region 0. Protected fields
@@ -48,17 +49,18 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
 
     #region 4. Unity Lifecycle
 
-    private void OnEnable()
+    public void OnEnable()
     {
         EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_KILLED, DoPlayerKilledState);
         EventSystem.Instance.RegisterEvent(Strings.Events.ENEMY_INVINCIBLE, SetInvincible);
+        id = GetInstanceID();
         //if (will.willHasBeenWritten)
         //{
             ResetForRebirth();
         //}
     }
 
-    public abstract void DoPlayerKilledState(object[] parameters);
+    
 
     public virtual void Awake()
     {
@@ -77,11 +79,15 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_KILLED, DoPlayerKilledState);
         EventSystem.Instance.UnRegisterEvent(Strings.Events.ENEMY_INVINCIBLE, SetInvincible);
         base.OnDisable();
-    }   
+    }
 
     #endregion
 
     #region 5. Public Methods   
+
+    public abstract void DoPlayerKilledState(object[] parameters);
+
+    public abstract Vector3 ReCalculateTargetPosition();
 
     void IDamageable.TakeDamage(Damager damager)
     {
@@ -190,6 +196,8 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     }
 
 
+
+
     public virtual void OnDeath()
     {
         EventSystem.Instance.TriggerEvent(Strings.Events.DEATH_ENEMY, gameObject, scoreValue);
@@ -218,6 +226,11 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
             gameObject.SetActive(false);
             aboutTobeEaten = false;
             SFXManager.Instance.Play(deathSFX, transform.position);
+            AIEnemyData testData = new AIEnemyData(controller.GetInstanceID());
+            if (AIManager.Instance != null)
+            {
+                AIManager.Instance.Remove(testData);
+            }
         }
     }
 
@@ -241,6 +254,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         isStunFlashing = false;
         alreadyStunned = false;
         isIndestructable = false;
+        
     }
 
     public void DisableCollider()

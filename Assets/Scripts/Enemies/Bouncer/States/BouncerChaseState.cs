@@ -9,7 +9,6 @@ using MovementEffects;
 public class BouncerChaseState : AIState {
 
     private Damager damager = new Damager();
-    private Vector3 jumpTarget;
     private float jumpTargetDistance = 10f;
     private bool moving = false;
     private float height = 12.0f;
@@ -23,6 +22,7 @@ public class BouncerChaseState : AIState {
     float currentLerpTime;
 
 
+    public Vector3 jumpTarget;
     public bool doneStartingJump;
     public bool doneLandingJump;
     public bool gotStunned;
@@ -146,8 +146,34 @@ public class BouncerChaseState : AIState {
             }
         }
 
-        moving = true;
-        Timing.RunCoroutine(Move(), coroutineName);
+
+        AIEnemyData testData = new AIEnemyData(controller.GetInstanceID(), finalPosition);
+        if (AIManager.Instance != null)
+        {
+
+            if (AIManager.Instance.AssignPosition(testData))
+            {
+                Debug.Log("Normal");
+                moving = true;
+                Timing.RunCoroutine(Move(), coroutineName);
+            }
+
+            else
+            {
+                Debug.Log("Readjusted");
+                finalPosition = controller.transform.position + Random.insideUnitSphere * jumpTargetDistance/2;
+                moving = true;
+                Timing.RunCoroutine(Move(), coroutineName);
+            }
+        }
+
+        else
+        {
+            Debug.Log("Readjusted");
+            finalPosition = controller.transform.position + Random.insideUnitSphere * jumpTargetDistance/2;
+            moving = true;
+            Timing.RunCoroutine(Move(), coroutineName);
+        }
     }
 
 

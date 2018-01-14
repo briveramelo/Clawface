@@ -107,6 +107,11 @@ public class Kamikaze : EnemyBase
         //controller.UpdateState(EAIState.Celebrate);
     }
 
+    public override Vector3 ReCalculateTargetPosition()
+    {
+        return Vector3.zero;
+    }
+
     #endregion
 
     #region 6. Private Methods    

@@ -11,7 +11,6 @@ public class HitTrigger : MonoBehaviour {
     {
         if (other.gameObject.CompareTag(Strings.Tags.PLAYER) && triggerDamage)
         {
-            Debug.Log("Hit player!!");
             bouncerParent.DamageAttackTarget();
         }
     }
