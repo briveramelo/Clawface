@@ -49,6 +49,7 @@ public class Bouncer : EnemyBase
 
     #region 4. Unity Lifecycle
 
+
     public override void Awake()
     {
         InitilizeStates();
@@ -161,6 +162,11 @@ public class Bouncer : EnemyBase
         //animator.SetTrigger("DoVictoryDance");
         //controller.CurrentState = celebrate;
         //controller.UpdateState(EAIState.Celebrate);
+    }
+
+    public override Vector3 ReCalculateTargetPosition()
+    {
+        return Vector3.zero;
     }
 
     #endregion

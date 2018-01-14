@@ -148,6 +148,11 @@ public class Zombie : EnemyBase
         }
     }
 
+    public override Vector3 ReCalculateTargetPosition()
+    {
+        return Vector3.zero;
+    }
+
     public override void DoHitReaction(Damager damager)
     {
         if (myStats.health > myStats.skinnableHealth)
