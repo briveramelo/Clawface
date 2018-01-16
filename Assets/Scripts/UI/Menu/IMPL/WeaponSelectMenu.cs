@@ -1,4 +1,6 @@
-﻿using ModMan;
+﻿//Garin
+
+using ModMan;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,8 +8,10 @@ public class WeaponSelectMenu : Menu
 {
 	#region Accessors (Menu)
 
-	public override Button InitialSelection {
-		get {
+	public override Button InitialSelection
+    {
+		get
+        {
 			return null;
 		}
 	}
@@ -34,10 +38,17 @@ public class WeaponSelectMenu : Menu
     [SerializeField]
     private float fadeDuration = 0.25F;
 
-    [SerializeField] private Sprite unselectedButtonSprite;
-    [SerializeField] private Sprite selectedButtonSprite;
-    [SerializeField] private Sprite pressedButtonSprite;
-    [SerializeField] float queryActionEverySeconds = .75f;
+    [SerializeField]
+    private Sprite unselectedButtonSprite;
+
+    [SerializeField]
+    private Sprite selectedButtonSprite;
+
+    [SerializeField]
+    private Sprite pressedButtonSprite;
+
+    [SerializeField]
+    private float queryActionEverySeconds = .75f;
 
     #endregion
 
@@ -49,7 +60,7 @@ public class WeaponSelectMenu : Menu
 
     #region Fields (Private)
 
-    bool inputGuard = false;
+    private bool inputGuard = false;
     private GameObject previousGameObject;
     private Camera previousCamera;
     
@@ -65,8 +76,7 @@ public class WeaponSelectMenu : Menu
     #region Constructors (Public)
 
     public WeaponSelectMenu () : base (Strings.MenuStrings.WEAPON_SELECT)
-	{
-	}
+	{}
 
     #endregion
 
@@ -107,15 +117,8 @@ public class WeaponSelectMenu : Menu
     protected override void ShowStarted() {
         base.ShowStarted();
 
-        //for dealing with the custom menu selection flow
-        selectingPlayerLeft = false;
-        selectingPlayerRight = true;
-        startButton.image.sprite = unselectedButtonSprite;
-        queryActionTimer = queryActionEverySeconds;
-        leftArm.GlowControl.SetUnselected();
-        rightArm.GlowControl.Reset();
-        leftArm.ResetArrows();
-        rightArm.ResetArrows();
+        ResetMenu();
+
     }
 
     protected override void ShowComplete()
@@ -190,7 +193,23 @@ public class WeaponSelectMenu : Menu
 
     #region Interface (Private)
 
-    private void BackButtonBehaviour () {
+    private void ResetMenu()
+    {
+        selectingPlayerLeft = false;
+        selectingPlayerRight = true;
+
+        startButton.image.sprite = unselectedButtonSprite;
+        queryActionTimer = queryActionEverySeconds;
+
+        leftArm.GlowControl.SetUnselected();
+        rightArm.GlowControl.Reset();
+
+        leftArm.ResetArrows();
+        rightArm.ResetArrows();
+    }
+
+    private void BackButtonBehaviour ()
+    {
         BackAction();
     }    
 
@@ -221,13 +240,8 @@ public class WeaponSelectMenu : Menu
                 LockInLeftAction();
             }
             else if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN))
-            {                
-                selectingPlayerRight = true;
-                selectingPlayerLeft = false;
-                leftArm.GlowControl.SetUnselected();
-                rightArm.GlowControl.Reset();
-                rightArm.ResetArrows();
-                leftArm.ResetArrows();
+            {
+                ResetMenu();
             }
         }
         else if (!selectingPlayerRight && !selectingPlayerLeft)
@@ -240,7 +254,6 @@ public class WeaponSelectMenu : Menu
             }
 
             //if you want to "back" out to the second arm selection
-
             else if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN))
             {
                 startButton.image.sprite = unselectedButtonSprite;
@@ -283,7 +296,6 @@ public class WeaponSelectMenu : Menu
     {
         if (isLeft)
         {
-            //go left
             lineup.MoveLeft();
             return true;
         }
