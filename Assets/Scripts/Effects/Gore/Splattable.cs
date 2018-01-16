@@ -1,17 +1,27 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Rendering;
 
 public class Splattable : MonoBehaviour
 {
+    #region Accessors
 
-	#region Unity Serialization
+    public Texture2D PaintMask
+    {
+        set
+        {
+            paintMask = value;
+        }
+    }
 
-	[Header ("Splat Stuffs")]
+    #endregion
+
+    #region Unity Serialization
+
+    [Header ("Splat Stuffs")]
 	[SerializeField] private Shader renderSplat;
-	//get render splat shader via the inspector
+    [SerializeField] private Texture2D paintMask;
+    [SerializeField] private Texture2D renderMask;
 
 	[Header ("Render Texture Configuration")]
 	[SerializeField] private int renderTextureWidth = 512;
@@ -43,6 +53,7 @@ public class Splattable : MonoBehaviour
 
 		myRenderer.GetPropertyBlock (propBlock);
 		propBlock.SetTexture ("_SplatMap", splatMap);
+        propBlock.SetTexture ("_RenderMask", renderMask);
 		myRenderer.SetPropertyBlock (propBlock);
 	}
 
