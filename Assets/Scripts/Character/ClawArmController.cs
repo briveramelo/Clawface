@@ -89,6 +89,14 @@ public class ClawArmController : MonoBehaviour {
         target = null;
         extending = false;
         retracting = false;
+        end.position = start.position;
+        end.forward = start.forward;
+    }
+
+    public void ExtendClawToRadius(float radius)
+    {
+        clawAnimationHandler.gameObject.SetActive(true);
+        end.position = start.position + start.forward * radius;
     }
     #endregion
 
