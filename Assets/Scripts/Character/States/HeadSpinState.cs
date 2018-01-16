@@ -69,6 +69,8 @@ public class HeadSpinState : IPlayerState
         isClawExtended = false;
         localTime = 0.0f;
         currentRotation = 0.0f;
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer(Strings.Layers.ENEMY), LayerMask.NameToLayer(Strings.Layers.MODMAN), false);
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer(Strings.Layers.ENEMY_BODY), LayerMask.NameToLayer(Strings.Layers.MODMAN), false);
         stateVariables.stateFinished = true;
     }
 

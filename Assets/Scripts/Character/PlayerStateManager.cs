@@ -22,6 +22,8 @@ public class PlayerStateManager : RoutineRunner {
     private DashState dashState;
     [SerializeField]
     private float dashCoolDown;
+    [SerializeField]
+    private bool useHeadSpin;
 
     [SerializeField] private EatingState eatingState;
     [SerializeField] private SphereCollider eatCollider;
@@ -84,8 +86,14 @@ public class PlayerStateManager : RoutineRunner {
             }
             if (InputManager.Instance.QueryAction(Strings.Input.Actions.DODGE, ButtonMode.DOWN) && canDash) // do dodge / dash
             {
-                //SwitchState(dashState);
-                SwitchState(headSpinState);
+                if (useHeadSpin)
+                {
+                    SwitchState(headSpinState);
+                }
+                else
+                {
+                    SwitchState(dashState);
+                }                
                 Physics.IgnoreLayerCollision(LayerMask.NameToLayer(Strings.Layers.ENEMY), LayerMask.NameToLayer(Strings.Layers.MODMAN), true);
                 Physics.IgnoreLayerCollision(LayerMask.NameToLayer(Strings.Layers.ENEMY_BODY), LayerMask.NameToLayer(Strings.Layers.MODMAN), true);
                 canDash = false;
@@ -289,8 +297,14 @@ public class PlayerStateManager : RoutineRunner {
         {
             yield return null;
         }
-        //yield return new WaitForSeconds(dashCoolDown);
-        yield return new WaitForSeconds(stateVariables.headSpinCoolDown);
+        if (useHeadSpin)
+        {
+            yield return new WaitForSeconds(stateVariables.headSpinCoolDown);
+        }
+        else
+        {
+            yield return new WaitForSeconds(dashCoolDown);
+        }        
         canDash = true;        
     }
 
