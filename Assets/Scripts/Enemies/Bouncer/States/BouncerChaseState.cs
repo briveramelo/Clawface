@@ -8,7 +8,7 @@ using MovementEffects;
 
 public class BouncerChaseState : AIState {
 
-    private Vector3 jumpTarget;
+    private Damager damager = new Damager();
     private float jumpTargetDistance = 10f;
     private bool moving = false;
     private float height = 12.0f;
@@ -22,9 +22,10 @@ public class BouncerChaseState : AIState {
     float currentLerpTime;
 
 
+    public Vector3 jumpTarget;
     public bool doneStartingJump;
     public bool doneLandingJump;
-
+    public bool gotStunned;
 
     public override void OnEnter()
     {
@@ -34,10 +35,12 @@ public class BouncerChaseState : AIState {
         moving = false;
         doneStartingJump = false;
         doneLandingJump = false;
+        gotStunned = false;
     }
     public override void Update()
     {
-        Chase();        
+        Chase();
+        
     }
 
     public override void OnExit()
@@ -60,6 +63,8 @@ public class BouncerChaseState : AIState {
 
     private void GetNewChaseTarget()
     {
+
+
         Vector3 moveDirection = controller.DirectionToTarget;
         jumpTarget = controller.transform.position + (moveDirection.normalized * jumpTargetDistance);
 
@@ -76,8 +81,8 @@ public class BouncerChaseState : AIState {
                 {                    
                     if (hit.transform.tag == Strings.Tags.WALL) {                        
                         if (Vector3.Distance(controller.transform.position, controller.AttackTargetPosition) < jumpTargetDistance) {                            
-                            if (navAgent.SetDestination(controller.AttackTargetPosition + (-controller.DirectionToTarget.normalized) * 2.0f)) {
-                                finalPosition = controller.AttackTargetPosition + (-controller.DirectionToTarget.normalized) * 2.0f;
+                            if (navAgent.SetDestination(controller.AttackTargetPosition + (-controller.DirectionToTarget.normalized) * 1.5f)) {
+                                finalPosition = controller.AttackTargetPosition + (-controller.DirectionToTarget.normalized) * 1.5f;
                             }
                         }
                         else {                            
@@ -141,8 +146,34 @@ public class BouncerChaseState : AIState {
             }
         }
 
-        moving = true;
-        Timing.RunCoroutine(Move(), coroutineName);
+
+        AIEnemyData testData = new AIEnemyData(controller.GetInstanceID(), finalPosition);
+        if (AIManager.Instance != null)
+        {
+
+            if (AIManager.Instance.AssignPosition(testData))
+            {
+                Debug.Log("Normal");
+                moving = true;
+                Timing.RunCoroutine(Move(), coroutineName);
+            }
+
+            else
+            {
+                Debug.Log("Readjusted");
+                finalPosition = controller.transform.position + Random.insideUnitSphere * jumpTargetDistance/2;
+                moving = true;
+                Timing.RunCoroutine(Move(), coroutineName);
+            }
+        }
+
+        else
+        {
+            Debug.Log("Readjusted");
+            finalPosition = controller.transform.position + Random.insideUnitSphere * jumpTargetDistance/2;
+            moving = true;
+            Timing.RunCoroutine(Move(), coroutineName);
+        }
     }
 
 
@@ -172,8 +203,12 @@ public class BouncerChaseState : AIState {
         yield return Timing.WaitUntilDone(Timing.RunCoroutine(LerpToNextPosition(midpoint, smoothMidpoint2, myStats.moveSpeed * 2.5f), coroutineName));
         yield return Timing.WaitUntilDone(Timing.RunCoroutine(LerpToNextPosition(smoothMidpoint2, targetPosition, myStats.moveSpeed * 3.0f), coroutineName));
 
+        if(gotStunned)
+            animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.Stunned);
+        else
+            animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.EndJump);
 
-        animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.EndJump);
+
 
         while (!doneLandingJump)
         {
@@ -229,4 +264,14 @@ public class BouncerChaseState : AIState {
             return false;
         }
     }
+
+    public void Damage(IDamageable damageable)
+    {
+        if (damageable != null)
+        {
+            damager.Set(myStats.attack, DamagerType.BlasterBullet, navAgent.transform.forward);
+            damageable.TakeDamage(damager);
+        }
+    }
+
 }
