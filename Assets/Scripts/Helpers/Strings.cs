@@ -88,6 +88,7 @@
 
         //levelEditor
         public const string ADD_ENV_PLE = "AddEnvironmentMenu";
+        public const string ADD_ENEMY_PLE = "AddEnemyMenu";
     }
 
     public class Input
