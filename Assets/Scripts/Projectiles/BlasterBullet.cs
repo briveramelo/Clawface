@@ -5,6 +5,12 @@ using MovementEffects;
 
 public class BlasterBullet : MonoBehaviour {
 
+    #region serialized fields
+
+    [SerializeField] private PoolObjectType impactVFXType = PoolObjectType.VFXBlasterImpactEffect;
+
+    #endregion
+
     #region private fields
     private Damager damager = new Damager();
     private bool shooter;
@@ -100,7 +106,7 @@ public class BlasterBullet : MonoBehaviour {
     }
 
     private void EmitBulletCollision() {
-        GameObject effect = ObjectPool.Instance.GetObject(PoolObjectType.VFXBlasterImpactEffect);
+        GameObject effect = ObjectPool.Instance.GetObject(impactVFXType);
         if (effect) {
             effect.transform.position = transform.position;
         }    
