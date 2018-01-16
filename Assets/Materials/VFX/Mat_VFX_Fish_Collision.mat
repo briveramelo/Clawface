@@ -6,10 +6,10 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Mat_Water_Projectile_GroundTrailCenter
-  m_Shader: {fileID: 4800000, guid: 820cabafa7f9a8d4ba7850e417c1348a, type: 3}
+  m_Name: Mat_VFX_Fish_Collision
+  m_Shader: {fileID: 4800000, guid: 4243a144e84f9f74b89f6cc83c0a4333, type: 3}
   m_ShaderKeywords: 
-  m_LightmapFlags: 0
+  m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -22,16 +22,12 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _ColorMask:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailMask:
-        m_Texture: {fileID: 2800000, guid: 78158b8718f84434c83e5729f584c797, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailNormalMap:
@@ -42,15 +38,19 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 83fe12f5ffa3ee540ba93068e56bb0eb, type: 3}
-        m_Scale: {x: -1, y: 1}
+    - _Fish_Albedo:
+        m_Texture: {fileID: 2800000, guid: 387560df362ae85469f0d0c732c46587, type: 3}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _MetallicGlossMap:
+    - _Fish_Smoothness:
+        m_Texture: {fileID: 2800000, guid: b7487db8806d4cb45b8af2356d6a41bb, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _Normal2:
+    - _MetallicGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -58,24 +58,16 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _OpacityMask:
-        m_Texture: {fileID: 2800000, guid: be545d43ec23a3b45afb9ea9470823bd, type: 3}
-        m_Scale: {x: 0, y: 0}
-        m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _SimpleFoam:
-        m_Texture: {fileID: 2800000, guid: 1c74d445691381d488b27ef1b981c425, type: 3}
+    - _TextureSample0:
+        m_Texture: {fileID: 2800000, guid: 81f3ef4f355497c4d964c3bc1866d908, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _WaterNormal:
+    - _TextureSample1:
         m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _WaveTessellation:
-        m_Texture: {fileID: 2800000, guid: 9789d23040cb1fb45ad60392430c3c15, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _texcoord:
@@ -85,44 +77,28 @@ Material:
     m_Floats:
     - _BumpScale: 1
     - _Cutoff: 0.5
-    - _DetailMovementDirection: -1
     - _DetailNormalMapScale: 1
-    - _DetailSpeed: 0.37
-    - _DetailTiling: 1
     - _DstBlend: 0
-    - _FoamSmoothness: 0
-    - _FoamSpecular: 0
-    - _FrontGlowStrength: 1
+    - _Float1: 1.416
+    - _Float3: 1
+    - _FloppingDistance: 0.76
+    - _FloppingRate: 2
+    - _FloppingSpeed: 5
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _InvFade: 1.23
     - _Metallic: 0
     - _Mode: 0
-    - _NormalScale: 0
     - _OcclusionStrength: 1
+    - _OffsetStrength: 0
     - _Parallax: 0.02
-    - _RearGlowStrength: 1
-    - _RotationSpeed: 0.5
-    - _ScrollSpeed: 0.64
+    - _Smoothness: 1.156
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
-    - _WaterSmoothness: 0
-    - _WaterSpecular: 0
-    - _WaveHeight: 0
-    - _WaveSpeed: 0
     - _ZWrite: 1
     - __dirty: 0
-    - _contrasttest: 1
     m_Colors:
-    - _BaseColor: {r: 0.8112024, g: 0.8644412, b: 0.9117647, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Color1: {r: 1, g: 1, b: 1, a: 0}
-    - _Color2: {r: 0.6764706, g: 0.78580123, b: 1, a: 0}
-    - _ColorFront: {r: 1, g: 0.7655172, b: 0, a: 0}
-    - _ColorRear: {r: 1, g: 0, b: 0, a: 0}
-    - _DetailColor: {r: 0.6445178, g: 0.76541066, b: 0.9632353, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _TintColor: {r: 0.9191176, g: 0.9191176, b: 0.9191176, a: 0.5}
