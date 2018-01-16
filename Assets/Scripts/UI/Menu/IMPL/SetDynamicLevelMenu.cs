@@ -1,7 +1,7 @@
 ﻿using UnityEngine.UI;
 using UnityEngine;
 
-public class AddEnemyMenu : Menu {
+public class SetDynamicLevelMenu : Menu {
 
     #region Public Fields
 
@@ -23,17 +23,11 @@ public class AddEnemyMenu : Menu {
 
     #region Public Interface
 
-    public AddEnemyMenu() : base(Strings.MenuStrings.ADD_ENEMY_PLE)
+    public SetDynamicLevelMenu() : base(Strings.MenuStrings.SET_DYNLEVEL_PLE)
     { }
 
     #endregion
 
-    #region Private Interface 
-
-    private bool addingEnabled;
-
-    #endregion
-    
     #region Protected Interface
 
     protected override void DefaultShow(Transition transition, Effect[] effects)
@@ -47,20 +41,4 @@ public class AddEnemyMenu : Menu {
     }
 
     #endregion
-
-    #region Private Interface
-
-    public void AddAction()
-    {
-        //TODO: Set Button to activated state via Sprite change
-#if UNITY_EDITOR
-        Debug.Log("Adding enemies ooooh");
-#endif
-
-        addingEnabled = !addingEnabled;
-
-    }
-
-    #endregion
-
 }

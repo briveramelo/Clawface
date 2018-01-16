@@ -1,7 +1,7 @@
 ﻿using UnityEngine.UI;
 using UnityEngine;
 
-public class AddEnemyMenu : Menu {
+public class SetPlayerPosMenu : Menu {
 
     #region Public Fields
 
@@ -21,16 +21,16 @@ public class AddEnemyMenu : Menu {
 
     #endregion
 
-    #region Public Interface
+    #region Private Interface 
 
-    public AddEnemyMenu() : base(Strings.MenuStrings.ADD_ENEMY_PLE)
-    { }
+    private bool settingEnabled;
 
     #endregion
 
-    #region Private Interface 
+    #region Public Interface
 
-    private bool addingEnabled;
+    public SetPlayerPosMenu() : base(Strings.MenuStrings.SET_PLAYER_POS_PLE)
+    { }
 
     #endregion
     
@@ -49,18 +49,16 @@ public class AddEnemyMenu : Menu {
     #endregion
 
     #region Private Interface
-
-    public void AddAction()
+    
+    public void SetAction()
     {
-        //TODO: Set Button to activated state via Sprite change
-#if UNITY_EDITOR
-        Debug.Log("Adding enemies ooooh");
-#endif
 
-        addingEnabled = !addingEnabled;
+#if UNITY_EDITOR
+        Debug.Log("Setting player position ooooh");
+#endif
+        settingEnabled = !settingEnabled;
 
     }
 
     #endregion
-
 }
