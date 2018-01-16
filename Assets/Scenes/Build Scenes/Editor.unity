@@ -4377,6 +4377,7 @@ GameObject:
   - component: {fileID: 1508837999}
   - component: {fileID: 1508837998}
   - component: {fileID: 1508837997}
+  - component: {fileID: 1508838001}
   m_Layer: 5
   m_Name: EditorCanvas
   m_TagString: Untagged
@@ -4467,6 +4468,17 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!225 &1508838001
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1508837996}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1545479545
 GameObject:
   m_ObjectHideFlags: 0
@@ -6432,6 +6444,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 427bc9278a1f9d740b26d02e2811db31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  editorCG: {fileID: 1508838001}
 --- !u!4 &2108763659
 Transform:
   m_ObjectHideFlags: 0
