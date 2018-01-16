@@ -2,7 +2,6 @@
 
 using System;
 using UnityEngine;
-using UnityEngine.Assertions;
 
 #endregion
 
@@ -69,24 +68,6 @@ public class SplatSO : ScriptableObject {
     /// </summary>
     [SerializeField]
     private Vector2 rotation = new Vector2(0F, 0F);
-
-    #endregion
-
-    #region Inteface (Unity Lifecycle)
-
-    /// <summary>
-    /// Awakes this instance.
-    /// </summary>
-    private void Awake()
-    {
-        // Asserts
-        Assert.IsNotNull(frames);
-        Assert.IsTrue(frames.Length >= 1);
-        Assert.IsTrue(rotation.sqrMagnitude > 0);
-
-        // Quick Fixes
-        rotation.Normalize();
-    }
 
     #endregion
 
