@@ -21,6 +21,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     [SerializeField] protected int scoreValue = 200;
     [SerializeField] protected int bufferHealth = 3;
     [SerializeField] private GameObject grabObject;
+    [SerializeField] private GameObject affectObject;
     [SerializeField] protected HitFlasher hitFlasher;
     [SerializeField] private SFXType hitSFX;
     [SerializeField] private SFXType deathSFX;
@@ -195,7 +196,10 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     {
     }
 
-
+    public GameObject GetAffectObject()
+    {
+        return affectObject;
+    }
 
 
     public virtual void OnDeath()
