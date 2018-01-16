@@ -153,14 +153,14 @@ public class BouncerChaseState : AIState {
 
             if (AIManager.Instance.AssignPosition(testData))
             {
-                Debug.Log("Normal");
+                //Debug.Log("Normal");
                 moving = true;
                 Timing.RunCoroutine(Move(), coroutineName);
             }
 
             else
             {
-                Debug.Log("Readjusted");
+                //Debug.Log("Readjusted");
                 finalPosition = controller.transform.position + Random.insideUnitSphere * jumpTargetDistance/2;
                 moving = true;
                 Timing.RunCoroutine(Move(), coroutineName);
@@ -169,7 +169,7 @@ public class BouncerChaseState : AIState {
 
         else
         {
-            Debug.Log("Readjusted");
+            //Debug.Log("Readjusted");
             finalPosition = controller.transform.position + Random.insideUnitSphere * jumpTargetDistance/2;
             moving = true;
             Timing.RunCoroutine(Move(), coroutineName);
