@@ -109,6 +109,7 @@ public class BlasterBullet : MonoBehaviour {
         GameObject effect = ObjectPool.Instance.GetObject(impactVFXType);
         if (effect) {
             effect.transform.position = transform.position;
+            effect.transform.rotation = Quaternion.AngleAxis(180f, Vector3.up) * transform.rotation;
         }    
     }
 
