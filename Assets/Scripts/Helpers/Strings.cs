@@ -85,6 +85,9 @@
         public const string CONTROLS = "Settings";
         public const string LEVEL_SELECT = "LevelSelect";
         public const string WEAPON_SELECT = "WeaponSelect";
+
+        //levelEditor
+        public const string ADD_ENV_PLE = "AddEnvironmentMenu";
     }
 
     public class Input
