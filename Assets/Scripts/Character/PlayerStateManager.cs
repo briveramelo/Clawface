@@ -382,6 +382,7 @@ public class PlayerStateManager : RoutineRunner {
         public float headSpinSpeed = 1.0f;
         public float headSpinDuration = 5.0f;
         public float headSpinCoolDown = 3.0f;
+        public float headSpinDamage = 0.05f;
     }
     #endregion
 

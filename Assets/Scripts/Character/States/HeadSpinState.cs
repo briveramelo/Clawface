@@ -52,7 +52,7 @@ public class HeadSpinState : IPlayerState
             clawArmController.ExtendClawToRadius(stateVariables.headSpinClawRadius);
             isClawExtended = true;
         }
-        ClearProjectiles();
+        ClearProjectilesAndDamageEnemies();
         localTime += Time.deltaTime;
         if (localTime > stateVariables.headSpinDuration)
         {
@@ -74,16 +74,26 @@ public class HeadSpinState : IPlayerState
         stateVariables.stateFinished = true;
     }
 
-    private void ClearProjectiles()
+    private void ClearProjectilesAndDamageEnemies()
     {
-
-        Collider[] colliders = Physics.OverlapSphere(stateVariables.playerTransform.position, stateVariables.headSpinClawRadius, LayerMask.GetMask(Strings.Layers.ENEMY_PROJECTILE));
+        string[] layers = { Strings.Layers.ENEMY_PROJECTILE, Strings.Layers.ENEMY };
+        Collider[] colliders = Physics.OverlapSphere(stateVariables.playerTransform.position, stateVariables.headSpinClawRadius, LayerMask.GetMask(layers));
         foreach(Collider collider in colliders)
         {
             BlasterBullet bullet = collider.GetComponent<BlasterBullet>();
             if (bullet)
             {
                 bullet.DestroyBullet();
+            }
+            else
+            {
+                IDamageable damageable = collider.GetComponent<IDamageable>();
+                if (damageable != null)
+                {
+                    Damager damager = new Damager();
+                    damager.damage = stateVariables.headSpinDamage;
+                    damageable.TakeDamage(damager);
+                }
             }
         }
     }
