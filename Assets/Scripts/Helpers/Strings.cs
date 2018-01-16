@@ -89,8 +89,8 @@
         //levelEditor
         public const string ADD_ENV_PLE = "AddEnvironmentMenu";
         public const string ADD_ENEMY_PLE = "AddEnemyMenu";
-        public const string SET_PLAYER_POS_PLE = "SetPlayerPosMenu";
         public const string SET_DYNLEVEL_PLE = "SetDynamicLevelMenu";
+        public const string MAIN_PLE_MENU = "MainPLEMenu";
 
     }
 
