@@ -144,7 +144,13 @@ public class Zombie : EnemyBase
             animator.SetTrigger("DoVictoryDance");
             controller.CurrentState = celebrate;
             controller.UpdateState(EAIState.Celebrate);
+            animator.SetInteger("AnimationState", -1);
         }
+    }
+
+    public override Vector3 ReCalculateTargetPosition()
+    {
+        return Vector3.zero;
     }
 
     public override void DoHitReaction(Damager damager)

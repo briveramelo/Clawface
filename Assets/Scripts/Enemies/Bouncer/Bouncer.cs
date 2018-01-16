@@ -33,6 +33,7 @@ public class Bouncer : EnemyBase
     [SerializeField] float closeEnoughToAttackDistance;
     [SerializeField] private BouncerProperties properties;
     [SerializeField] private BulletHellPatternController bulletPatternController;
+    [SerializeField] private HitTrigger hitTrigger;
     #endregion
 
     #region 3. Private fields
@@ -47,6 +48,7 @@ public class Bouncer : EnemyBase
     #endregion
 
     #region 4. Unity Lifecycle
+
 
     public override void Awake()
     {
@@ -101,6 +103,7 @@ public class Bouncer : EnemyBase
     {
         if (myStats.health <= myStats.skinnableHealth || alreadyStunned)
         {
+            chase.gotStunned = true;
             controller.CurrentState = stun;
             controller.UpdateState(EAIState.Stun);
             controller.DeActivateAI();
@@ -120,6 +123,20 @@ public class Bouncer : EnemyBase
         chase.doneLandingJump = true;
     }
 
+    public void ActivateHitTrigger()
+    {
+        hitTrigger.ActivateTriggerDamage();
+    }
+
+    public void DeactivateHitTrigger()
+    {
+        hitTrigger.DeactivateTriggerDamage();
+    }
+
+    public void DamageAttackTarget()
+    {
+        chase.Damage(controller.AttackTarget.gameObject.GetComponent<IDamageable>());
+    }
 
     public override void ResetForRebirth()
     {
@@ -145,6 +162,11 @@ public class Bouncer : EnemyBase
         //animator.SetTrigger("DoVictoryDance");
         //controller.CurrentState = celebrate;
         //controller.UpdateState(EAIState.Celebrate);
+    }
+
+    public override Vector3 ReCalculateTargetPosition()
+    {
+        return Vector3.zero;
     }
 
     #endregion
