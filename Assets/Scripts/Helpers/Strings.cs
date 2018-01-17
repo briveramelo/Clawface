@@ -92,6 +92,7 @@
         public const string ADD_ENEMY_PLE = "AddEnemyMenu";
         public const string SET_DYNLEVEL_PLE = "SetDynamicLevelMenu";
         public const string MAIN_PLE_MENU = "MainPLEMenu";
+        public const string INIT_PLE_MENU = "InitPLEMenu";
 
     }
 

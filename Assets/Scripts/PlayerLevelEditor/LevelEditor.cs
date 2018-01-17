@@ -51,6 +51,8 @@ namespace PlayerLevelEditor
 
             controller.SetFunction(new Initialize(controller));
 
+            MenuManager.Instance.DoTransition(Strings.MenuStrings.INIT_PLE_MENU, Menu.Transition.SHOW, new Menu.Effect[] { });
+
             //Btn_Init = PlayerLevelEditor.UITool.GetUIComponent<Button>("Function_Init");
             //if (Btn_Init != null) Btn_Init.onClick.AddListener(() => UseInitFunc(Btn_Init));
 
