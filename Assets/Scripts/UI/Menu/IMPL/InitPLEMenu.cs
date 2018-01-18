@@ -27,15 +27,14 @@ public class InitPLEMenu : Menu {
 
     int levelX = 0;
     int levelZ = 0;
-
+    
     GameObject levelBlock;
 
     #endregion
 
     #region Public Interface
 
-    public InitPLEMenu() : base(Strings.MenuStrings.INIT_PLE_MENU)
-    { }
+
 
     #endregion
 
@@ -47,6 +46,11 @@ public class InitPLEMenu : Menu {
 
         levelBlock = Resources.Load(Strings.Editor.RESOURCE_PATH + "Env/test") as GameObject;
         levelBlock.transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
+    }
+
+    private void Update()
+    {
+        UpdateBlockPreview();
     }
 
     #endregion  
@@ -67,18 +71,73 @@ public class InitPLEMenu : Menu {
 
     #region Public Interface
 
+    public InitPLEMenu() : base(Strings.MenuStrings.INIT_PLE_MENU)
+    { }
+
     public void ConfirmAction()
     {
-#if UNITY_EDITOR
-        Debug.Log("Confirming level size");
-#endif
+
+        GameObject _platform = new GameObject("LEVEL");
+        GameObject _wall = new GameObject("WALL");
+
+        for (int i = -levelX; i <= levelX; i++)
+        {
+            for (int j = -levelZ; j <= levelZ; j++)
+            {
+                GameObject _instance = GameObject.Instantiate(levelBlock, new Vector3(i * PlayerLevelEditor.ParameterSystem.unit_size,
+                                                                                   0,
+                                                                                   j * PlayerLevelEditor.ParameterSystem.unit_size), Quaternion.identity);
+
+                _instance.name = "TestBlock";
+
+                _instance.AddComponent<PlayerLevelEditor.ClickableObject>();
+                //                    _instance.AddComponent<Splattable>();
+
+                //Edge + Wall
+                if (i == -levelX || i == levelX || j == -levelZ || j == levelZ)
+                {
+                    AddNavMeshModifier(_instance, PlayerLevelEditor.NavMeshAreas.NotWalkable);
+
+                    GameObject _instance_Wall = GameObject.Instantiate(levelBlock, new Vector3(i * PlayerLevelEditor.ParameterSystem.unit_size,
+                                                                                            1 * PlayerLevelEditor.ParameterSystem.unit_size,
+                                                                                            j * PlayerLevelEditor.ParameterSystem.unit_size), Quaternion.identity);
+
+                    _instance_Wall.name = "WallBlock";
+                    _instance_Wall.tag = "Wall";
+                    _instance_Wall.transform.SetParent(_wall.transform);
+                    _instance_Wall.AddComponent<PlayerLevelEditor.ClickableObject>();
+                    AddNavMeshModifier(_instance_Wall, PlayerLevelEditor.NavMeshAreas.NotWalkable);
+                }
+                else if (_instance.GetComponent<LevelUnit>() == null)
+                {
+                    LevelUnit LU = _instance.AddComponent<LevelUnit>() as LevelUnit;
+                    LU.defaultState = LevelUnitStates.floor;
+                    AddNavMeshModifier(_instance, PlayerLevelEditor.NavMeshAreas.Walkable);
+
+                    if (i == 0 && j == 0)
+                    {
+                        GameObject.DestroyImmediate(LU);
+                    }
+                }
+
+                _instance.transform.SetParent(_platform.transform);
+            }
+        }
+
     }
 
-    public void UpdateBlockPreview()
+    public void UpdateLevelSizeAction()
     {
         levelX = (int)xSlide.value;
         levelZ = (int)zSlide.value;
+    }
 
+    #endregion
+
+    #region Private Interface
+
+    private void UpdateBlockPreview()
+    {
         for (int i = -levelX; i <= levelX; i++)
         {
             for (int j = -levelZ; j <= levelZ; j++)
@@ -88,5 +147,13 @@ public class InitPLEMenu : Menu {
             }
         }
     }
+
+    private void AddNavMeshModifier(GameObject i_object, int i_state)
+    {
+        UnityEngine.AI.NavMeshModifier mod = i_object.AddComponent<UnityEngine.AI.NavMeshModifier>() as UnityEngine.AI.NavMeshModifier;
+        mod.overrideArea = true;
+        mod.area = i_state;
+    }
+
     #endregion
 }
