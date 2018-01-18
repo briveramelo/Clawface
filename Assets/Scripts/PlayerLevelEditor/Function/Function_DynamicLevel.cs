@@ -34,7 +34,7 @@ namespace PlayerLevelEditor
             m_Colors    = new List<KeyValuePair<GameObject, Color>>();
 
 
-            LevelObject = UnityTool.FindGameObject("LEVEL");
+            LevelObject = EditorToolKit.FindGameObject("LEVEL");
 
             if(LevelObject == null)
             {

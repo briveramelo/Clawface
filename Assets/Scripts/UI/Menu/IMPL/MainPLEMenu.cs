@@ -1,5 +1,6 @@
 ﻿using UnityEngine.UI;
 using UnityEngine;
+using PlayerLevelEditor;
 
 public class MainPLEMenu : Menu {
 
@@ -18,6 +19,7 @@ public class MainPLEMenu : Menu {
     #region Serialized Unity Fields
 
     [SerializeField] private Button initiallySelected;
+    [SerializeField] private LevelEditor editorInstance;
 
     #endregion
 
@@ -52,13 +54,45 @@ public class MainPLEMenu : Menu {
 
     public void OpenPropsAction()
     {
-        //TODO: Set Button to activated state via Sprite change
-#if UNITY_EDITOR
-        Debug.Log(" ooooh");
-#endif
+        AddPropsMenu menu = editorInstance.GetMenu(PLEMenu.PROPS) as AddPropsMenu;
+        MenuManager.Instance.DoTransition(menu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+
 
         addingEnabled = !addingEnabled;
 
+    }
+
+    public void OpenSpawnsAction()
+    {
+        AddSpawnsMenu menu = editorInstance.GetMenu(PLEMenu.SPAWN) as AddSpawnsMenu;
+        MenuManager.Instance.DoTransition(menu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+
+    }
+
+    public void OpenFloorSystemAction()
+    {
+        SetDynamicLevelMenu menu = editorInstance.GetMenu(PLEMenu.DYNAMIC) as SetDynamicLevelMenu;
+        MenuManager.Instance.DoTransition(menu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+
+    }
+
+    public void TestLevelAction()
+    {
+
+    }
+
+    public void DuplicateToolAction()
+    {
+
+    }
+
+    public void QuitAction()
+    {
+        Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
+        LoadMenu loadMenu = menu as LoadMenu;
+        loadMenu.TargetScene = Strings.Scenes.MainMenu;
+
+        MenuManager.Instance.DoTransition(loadMenu, Menu.Transition.SHOW, new Menu.Effect[] { Menu.Effect.EXCLUSIVE });
     }
 
     #endregion

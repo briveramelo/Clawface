@@ -1,5 +1,6 @@
 ﻿using UnityEngine.UI;
 using UnityEngine;
+using PlayerLevelEditor;
 
 public class SetDynamicLevelMenu : Menu {
 
@@ -18,6 +19,7 @@ public class SetDynamicLevelMenu : Menu {
     #region Serialized Unity Fields
 
     [SerializeField] private Button initiallySelected;
+    [SerializeField] private LevelEditor editorInstance;
 
     #endregion
 

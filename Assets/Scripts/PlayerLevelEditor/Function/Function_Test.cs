@@ -37,7 +37,7 @@ namespace PlayerLevelEditor
         {
             base.Init();
 
-            EditorCamera = UnityTool.FindGameObject("Camera");
+            EditorCamera = EditorToolKit.FindGameObject("Camera");
 
             if(EditorCamera)
                 EditorCamera.SetActive(false);
@@ -132,7 +132,7 @@ namespace PlayerLevelEditor
 
         void CreateSingleton()
         {
-            _singletonObject = UnityTool.FindGameObject("SingletonObject");
+            _singletonObject = EditorToolKit.FindGameObject("SingletonObject");
 
             if (_singletonObject == null)
             {
@@ -162,7 +162,7 @@ namespace PlayerLevelEditor
                     child.gameObject.SetActive(true);
                 }
 
-                UnityTool.FindGameObject("PlayerSpawner").SetActive(false);
+                EditorToolKit.FindGameObject("PlayerSpawner").SetActive(false);
                 return;
             }
         }
@@ -173,7 +173,7 @@ namespace PlayerLevelEditor
             GameObject _prefab;
             GameObject _instance = null;
 
-            if (UnityTool.FindGameObject(objectName) == null)
+            if (EditorToolKit.FindGameObject(objectName) == null)
             {
                 string path = "PlayerLevelEditorObjects/" + objectName;
 
@@ -227,7 +227,7 @@ namespace PlayerLevelEditor
 
             if (_player == null)
             {
-                _player = UnityTool.FindGameObject(Strings.Editor.PLAYER_NAME);
+                _player = EditorToolKit.FindGameObject(Strings.Editor.PLAYER_NAME);
             }
             else
             {
@@ -238,7 +238,7 @@ namespace PlayerLevelEditor
 
             if (_movement == null)
             {
-                _movement = UnityTool.FindGameObject("Movement Effects");
+                _movement = EditorToolKit.FindGameObject("Movement Effects");
 
                 if (_movement != null)
                 {

@@ -7,8 +7,11 @@ namespace PlayerLevelEditor
 {
     public class LevelEditor : MonoBehaviour
     {
+        #region Public Fields
+
         static public DynamicLevelSystem m_DynamicLevelSystem;
 
+        #endregion
 
         Database ObjectDB;
         FunctionController controller = new FunctionController();
@@ -21,13 +24,36 @@ namespace PlayerLevelEditor
         Button Btn_EndTest;
         Button Btn_Quit;
 
+        #region Serialized Unity Fields
+
+        [SerializeField] private CanvasGroup editorCG;
+        [SerializeField] private MainPLEMenu mainEditorMenu;
+        [SerializeField] private InitPLEMenu initEditorMenu;
+        [SerializeField] private AddPropsMenu propsEditorMenu;
+        [SerializeField] private AddSpawnsMenu spawnsEditorMenu;
+        [SerializeField] private SetDynamicLevelMenu dynLevelEditorMenu;
+       
+        #endregion  
+
         private void Start()
         {
+            editorCG.alpha = 0f;
+            editorCG.interactable = false;
+            
             if(EventSystem.Instance)
             {
                 EventSystem.Instance.RegisterEvent(Strings.Events.INIT_EDITOR, EditorInitialize);
             }
         }
+
+        void Update()
+        {
+            if (controller != null)
+            {
+                controller.Update();
+            }
+        }
+
 
         private void OnDestroy()
         {
@@ -37,57 +63,69 @@ namespace PlayerLevelEditor
             }
         }
 
+        #region Private Interface
+
         // Use this for initialization
         public void EditorInitialize(params object[] par)
         {
             m_DynamicLevelSystem = new DynamicLevelSystem();
 
-            ObjectDB = new Database();
+            //ObjectDB = new Database();
 
-            controller.SetFunction(new Initialize(controller));
+            //controller.SetFunction(new Initialize(controller));
 
-            Btn_Init = PlayerLevelEditor.UITool.GetUIComponent<Button>("Function_Init");
-            if (Btn_Init != null) Btn_Init.onClick.AddListener(() => UseInitFunc(Btn_Init));
+            MenuSetup();
 
-
-            Btn_Add = PlayerLevelEditor.UITool.GetUIComponent<Button>("Function_Add");
-            if (Btn_Add != null) Btn_Add.onClick.AddListener(() => UsingAddFunc(Btn_Add));
+            //Btn_Init = PlayerLevelEditor.UITool.GetUIComponent<Button>("Function_Init");
+            //if (Btn_Init != null) Btn_Init.onClick.AddListener(() => UseInitFunc(Btn_Init));
 
 
-            Btn_Duplicate = PlayerLevelEditor.UITool.GetUIComponent<Button>("Function_Duplicate");
-            if (Btn_Duplicate != null) Btn_Duplicate.onClick.AddListener(() => UsingDuplicateFunc(Btn_Duplicate));
+            //Btn_Add = PlayerLevelEditor.UITool.GetUIComponent<Button>("Function_Add");
+            //if (Btn_Add != null) Btn_Add.onClick.AddListener(() => UsingAddFunc(Btn_Add));
 
 
-            Btn_Dynamic = PlayerLevelEditor.UITool.GetUIComponent<Button>("Function_Dynamic");
-            if (Btn_Dynamic != null) Btn_Dynamic.onClick.AddListener(() => UsingDynamicFunc(Btn_Dynamic));
+            //Btn_Duplicate = PlayerLevelEditor.UITool.GetUIComponent<Button>("Function_Duplicate");
+            //if (Btn_Duplicate != null) Btn_Duplicate.onClick.AddListener(() => UsingDuplicateFunc(Btn_Duplicate));
 
 
-            Btn_Test = PlayerLevelEditor.UITool.GetUIComponent<Button>("Function_Test");
-            if (Btn_Test != null) Btn_Test.onClick.AddListener(() => UsingTestFunc(Btn_Test));
+            //Btn_Dynamic = PlayerLevelEditor.UITool.GetUIComponent<Button>("Function_Dynamic");
+            //if (Btn_Dynamic != null) Btn_Dynamic.onClick.AddListener(() => UsingDynamicFunc(Btn_Dynamic));
 
 
-            Btn_Quit = PlayerLevelEditor.UITool.GetUIComponent<Button>("Function_Quit");
-            if(Btn_Quit != null) Btn_Quit.onClick.AddListener(() => UsingQuitFunction(Btn_Quit));
+            //Btn_Test = PlayerLevelEditor.UITool.GetUIComponent<Button>("Function_Test");
+            //if (Btn_Test != null) Btn_Test.onClick.AddListener(() => UsingTestFunc(Btn_Test));
 
 
-            Btn_EndTest = PlayerLevelEditor.UITool.GetUIComponent<Button>("Function_EndTest");
+            //Btn_Quit = PlayerLevelEditor.UITool.GetUIComponent<Button>("Function_Quit");
+            //if(Btn_Quit != null) Btn_Quit.onClick.AddListener(() => UsingQuitFunction(Btn_Quit));
 
-            if (Btn_EndTest != null)
-            {
-                UITool.FindUIGameObject("Function_EndTest").SetActive(false);
-                Btn_EndTest.onClick.AddListener(() => UseInitFunc(Btn_EndTest));
-            }
+
+            //Btn_EndTest = PlayerLevelEditor.UITool.GetUIComponent<Button>("Function_EndTest");
+
+            //if (Btn_EndTest != null)
+            //{
+            //    UITool.FindUIGameObject("Function_EndTest").SetActive(false);
+            //    Btn_EndTest.onClick.AddListener(() => UseInitFunc(Btn_EndTest));
+            //}
         }
 
-        // Update is called once per frame
-        void Update()
+        private void MenuSetup()
         {
-            if(controller != null)
-            {
-                controller.Update();
-            }
+            //Hide menus that aren't need to be shown yet
+            MenuManager.Instance.DoTransition(mainEditorMenu, Menu.Transition.HIDE, new Menu.Effect[] { });
+            MenuManager.Instance.DoTransition(propsEditorMenu, Menu.Transition.HIDE, new Menu.Effect[] { });
+            MenuManager.Instance.DoTransition(spawnsEditorMenu, Menu.Transition.HIDE, new Menu.Effect[] { });
+            MenuManager.Instance.DoTransition(dynLevelEditorMenu, Menu.Transition.HIDE, new Menu.Effect[] { });
+
+            //show the init menu
+            MenuManager.Instance.DoTransition(initEditorMenu, Menu.Transition.SHOW, new Menu.Effect[] { Menu.Effect.EXCLUSIVE});
+
         }
 
+        #endregion
+
+
+        #region Public Interface  
 
         public void UseInitFunc(Button thisBtn)
         {
@@ -125,6 +163,37 @@ namespace PlayerLevelEditor
 
             MenuManager.Instance.DoTransition(loadMenu,Menu.Transition.SHOW, new Menu.Effect[] { Menu.Effect.EXCLUSIVE });
         }
+
+        public Menu GetMenu(PLEMenu i_menu)
+        {
+            switch (i_menu)
+            {
+                case PLEMenu.INIT:
+                    return initEditorMenu;
+                case PLEMenu.MAIN:
+                    return mainEditorMenu;
+                case PLEMenu.PROPS:
+                    return propsEditorMenu;
+                case PLEMenu.SPAWN:
+                    return spawnsEditorMenu;
+                case PLEMenu.DYNAMIC:
+                    return dynLevelEditorMenu;
+                default:
+                    return null;
+            }
+        }
+
+        public Menu GetMainEditorMenu()
+        {
+            return mainEditorMenu;
+        }
+
+        public Menu GetInitPLEMenu()
+        {
+            return initEditorMenu;
+        }
+
+        #endregion  
     }
 
     class NavMeshAreas
@@ -132,5 +201,14 @@ namespace PlayerLevelEditor
         public const int Walkable = 0;
         public const int NotWalkable = 1;
         public const int Jump = 2;
+    }
+
+    public enum PLEMenu
+    {
+        INIT,
+        MAIN,
+        PROPS,
+        DYNAMIC,
+        SPAWN
     }
 }

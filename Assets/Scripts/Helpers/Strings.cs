@@ -11,6 +11,8 @@
 
         public static string PLAYER_UI_PREFAB_NAME = "PlayerHUDV";
         public static string PLAYER_UI_PREFAB_RESOURCES_PATH = "PlayerUI/";
+
+        //plaer editor
     }
 
     public class Tags
@@ -88,10 +90,11 @@
         public const string WEAPON_SELECT = "WeaponSelect";
 
         //levelEditor
-        public const string ADD_ENV_PLE = "AddEnvironmentMenu";
-        public const string ADD_ENEMY_PLE = "AddEnemyMenu";
+        public const string ADD_PROPS_PLE = "AddPropsMenu";
+        public const string ADD_SPAWNS_PLE = "AddSpawnsMenu";
         public const string SET_DYNLEVEL_PLE = "SetDynamicLevelMenu";
         public const string MAIN_PLE_MENU = "MainPLEMenu";
+        public const string INIT_PLE_MENU = "InitPLEMenu";
 
     }
 
@@ -178,8 +181,15 @@
 
     public class Editor
     {
+        //folders
         public const string RESOURCE_PATH = "PlayerLevelEditorObjects/";
         public const string PLAYER_NAME = "Keira_GroupV1.5(Clone)";
+
+        //others
+        public const string LEVEL_OBJECT = "LEVEL";
+
+        //objects
+        public const string BASIC_LVL_BLOCK = "Env/Block1";
     }
 
     
