@@ -14,6 +14,9 @@ public class MissileMod : Mod {
 
     [SerializeField] private float projectileLifetime;
 
+    [SerializeField] private float verticalImpulse;
+    [SerializeField] private float bulletGravity;
+
     public override void DeActivate()
     {
     }
@@ -67,7 +70,7 @@ public class MissileMod : Mod {
             projectile.transform.position = transform.position;
             projectile.transform.forward = transform.forward;
             projectile.transform.rotation = Quaternion.Euler(0f, projectile.transform.rotation.eulerAngles.y, 0f);
-            projectile.GetComponent<Missile>().Init(missileSpeed, closeRadius, farRadius, closeDamage, farDamage, projectileLifetime);
+            projectile.GetComponent<Missile>().Init(missileSpeed, closeRadius, farRadius, closeDamage, farDamage, projectileLifetime, verticalImpulse, bulletGravity);
         }
 
         return projectile;

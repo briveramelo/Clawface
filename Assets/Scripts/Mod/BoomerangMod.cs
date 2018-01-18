@@ -4,7 +4,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BoomerangMod : Mod {
+public class BoomerangMod : Mod
+{
 
     #region Serialized
     [SerializeField] private Transform bulletSpawnPoint;
@@ -14,6 +15,9 @@ public class BoomerangMod : Mod {
     [SerializeField] private float rayDistanceMultiplier;
     [SerializeField] private LayerMask raycastLayermask;
     [SerializeField] private float boomerangSpeed;
+
+    [SerializeField] private float maxDistance;
+    [SerializeField] private int maxBounces;
     #endregion
 
     #region Unity Lifecycle
@@ -58,14 +62,15 @@ public class BoomerangMod : Mod {
     public override void DetachAffect()
     {
         base.DetachAffect();
-    }   
+    }
 
     protected override void DoWeaponActions()
     {
         Shoot();
     }
     #endregion
-    
+
+    #region Privates
     private BoomerangBullet Shoot()
     {
         SFXManager.Instance.Play(shootSFX, transform.position);
@@ -81,24 +86,33 @@ public class BoomerangMod : Mod {
 
     private BoomerangBullet SpawnBullet()
     {
+        BoomerangBullet boomerangBullet = null;
         PoolObjectType poolObjType = PoolObjectType.BoomerangProjectile;
-        BoomerangBullet boomerangBullet = ObjectPool.Instance.GetObject(poolObjType).GetComponent<BoomerangBullet>();
-        if (boomerangBullet)
-        {
-            boomerangBullet.transform.position = bulletSpawnPoint.position;
-            boomerangBullet.transform.forward = transform.forward;
-            boomerangBullet.transform.rotation = Quaternion.Euler(0f, boomerangBullet.transform.rotation.eulerAngles.y, 0f);
-            boomerangBullet.Initialize(boomerangSpeed, damage, timeUntilBoomerangDestroyed, rayDistanceMultiplier, raycastLayermask);
+        GameObject boomerangObject = ObjectPool.Instance.GetObject(poolObjType);
 
-            if (wielderStats.gameObject.CompareTag(Strings.Tags.PLAYER))
+        if (boomerangObject)
+        {
+            boomerangBullet = ObjectPool.Instance.GetObject(poolObjType).GetComponent<BoomerangBullet>();
+            if (boomerangBullet)
             {
-                boomerangBullet.SetShooterType(false);
-            }
-            else
-            {
-                boomerangBullet.SetShooterType(true);
+                boomerangBullet.transform.position = bulletSpawnPoint.position;
+                boomerangBullet.transform.forward = transform.forward;
+                boomerangBullet.transform.rotation = Quaternion.Euler(0f, boomerangBullet.transform.rotation.eulerAngles.y, 0f);
+                boomerangBullet.Initialize(boomerangSpeed, damage, timeUntilBoomerangDestroyed, rayDistanceMultiplier, raycastLayermask, maxDistance, maxBounces);
+
+                if (wielderStats.gameObject.CompareTag(Strings.Tags.PLAYER))
+                {
+                    boomerangBullet.SetShooterType(false);
+                }
+                else
+                {
+                    boomerangBullet.SetShooterType(true);
+                }
             }
         }
         return boomerangBullet;
     }
+
+    #endregion
+
 }

@@ -253,12 +253,14 @@ MonoBehaviour:
     isCoolingDown: 0
     isActive: 0
   shootSFX: 2
-  missileSpeed: 30
+  missileSpeed: 26
   closeDamage: 2.5
   farDamage: 0.5
-  closeRadius: 2.5
-  farRadius: 8
+  closeRadius: 3.5
+  farRadius: 10
   projectileLifetime: 8
+  verticalImpulse: 80
+  bulletGravity: 6
 --- !u!114 &114759411832738320
 MonoBehaviour:
   m_ObjectHideFlags: 1
