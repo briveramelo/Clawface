@@ -57,7 +57,6 @@ public class OverheadToSidescroll : MonoBehaviour {
             LeanTween.rotate(Camera.main.gameObject, sideScrollCameraPosition.eulerAngles, timeToTween);
             tweenTimer = 0f;
             cameraLock.UnlockCamera();
-            joystickMovement.SetSidescrolling(true);
             cameraLock.SetDistance(sidescrollArea.transform.position - sideScrollCameraPosition.position);
             cameraLock.SetAngle(sideScrollCameraPosition.eulerAngles);
             CameraLock.cameraMode = CameraMode.SIDESCROLL;
@@ -83,7 +82,6 @@ public class OverheadToSidescroll : MonoBehaviour {
             LeanTween.rotate(Camera.main.gameObject, overheadCameraPosition.eulerAngles, timeToTween);
             tweenTimer = 0f;
             cameraLock.UnlockCamera();
-            joystickMovement.SetSidescrolling(false);
             cameraLock.SetDistance(joystickMovement.GetStateVariables().playerTransform.position - overheadCameraPosition.position);
             cameraLock.SetAngle(overheadCameraPosition.eulerAngles);
             CameraLock.cameraMode = CameraMode.OVERHEAD;
