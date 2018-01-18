@@ -42,8 +42,6 @@ namespace PlayerLevelEditor
             if(EventSystem.Instance)
             {
                 EventSystem.Instance.RegisterEvent(Strings.Events.INIT_EDITOR, EditorInitialize);
-                EventSystem.Instance.RegisterEvent(Strings.Events.INIT_EDITOR, m_DynamicLevelSystem.Init);
-                EventSystem.Instance.RegisterEvent(Strings.Events.INIT_EDITOR, ObjectDB.Init);
             }
         }
 
@@ -61,8 +59,6 @@ namespace PlayerLevelEditor
             if(EventSystem.Instance)
             {
                 EventSystem.Instance.UnRegisterEvent(Strings.Events.INIT_EDITOR, EditorInitialize);
-                EventSystem.Instance.UnRegisterEvent(Strings.Events.INIT_EDITOR, m_DynamicLevelSystem.Init);
-                EventSystem.Instance.UnRegisterEvent(Strings.Events.INIT_EDITOR, ObjectDB.Init);
             }
         }
 
