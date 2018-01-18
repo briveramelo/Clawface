@@ -23,14 +23,15 @@ GameObject:
   - component: {fileID: 23943197456656306}
   - component: {fileID: 95995241630031022}
   - component: {fileID: 54706247602614496}
-  - component: {fileID: 136397614195018870}
+  - component: {fileID: 114431154191596744}
+  - component: {fileID: 64585504416302876}
   m_Layer: 19
   m_Name: VFXFishCollison
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4964670466504242
 Transform:
   m_ObjectHideFlags: 1
@@ -38,8 +39,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1250428240314920}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.0531735, y: 3.228, z: 8.69}
-  m_LocalScale: {x: 0.35640207, y: 0.31522062, z: 0.35640207}
+  m_LocalPosition: {x: -3.0531735, y: 5.428, z: 3.01}
+  m_LocalScale: {x: 0.35640207, y: 0.31522062, z: 0.8955943}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -57,7 +58,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 2d4e74374920e9b44ac306de03398f90, type: 2}
+  - {fileID: 2100000, guid: 4d5d78bd53182e5448578a861ac94bfd, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -98,6 +99,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!64 &64585504416302876
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1250428240314920}
+  m_Material: {fileID: 13400000, guid: ed96a79ffc4eaf04aab5218684c971a1, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Convex: 1
+  m_InflateMesh: 1
+  m_SkinWidth: 0.06
+  m_Mesh: {fileID: 4300000, guid: fa59405b76e998545a322c87d409f075, type: 3}
 --- !u!95 &95995241630031022
 Animator:
   serializedVersion: 3
@@ -115,16 +130,14 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!136 &136397614195018870
-CapsuleCollider:
+--- !u!114 &114431154191596744
+MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1250428240314920}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.52
-  m_Height: 1.83
-  m_Direction: 0
-  m_Center: {x: 0, y: 0, z: 0}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5041a3931d8c2f40ae1f48c4dc045a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

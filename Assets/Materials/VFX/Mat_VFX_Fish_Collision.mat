@@ -10,7 +10,7 @@ Material:
   m_Shader: {fileID: 4800000, guid: 4243a144e84f9f74b89f6cc83c0a4333, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
+  m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
@@ -81,9 +81,9 @@ Material:
     - _DstBlend: 0
     - _Float1: 1.416
     - _Float3: 1
-    - _FloppingDistance: 0.76
-    - _FloppingRate: 2
-    - _FloppingSpeed: 5
+    - _FloppingDistance: 0.05
+    - _FloppingRate: 4.67
+    - _FloppingSpeed: 20
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
