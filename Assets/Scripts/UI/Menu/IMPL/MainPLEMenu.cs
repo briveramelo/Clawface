@@ -112,7 +112,11 @@ public class MainPLEMenu : Menu {
 
     }
 
-    public void QuitAction()
+    #endregion
+
+    #region Private Interface
+
+    private void QuitAction()
     {
         Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
         LoadMenu loadMenu = menu as LoadMenu;
@@ -122,7 +126,6 @@ public class MainPLEMenu : Menu {
     }
 
     #endregion
-
 
 
 }
