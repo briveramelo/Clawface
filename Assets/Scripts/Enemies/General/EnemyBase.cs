@@ -235,6 +235,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
             {
                 AIManager.Instance.Remove(testData);
             }
+            ClearAffecters();
         }
     }
 
@@ -327,5 +328,16 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     {
         isIndestructable = (bool)parameters[0];
     }
+
+    private void ClearAffecters()
+    {
+        foreach (Transform child in affectObject.transform)
+        {
+            if(child.name.Contains("VFX"))
+            child.parent = null;
+        }
+    }
+
+
     #endregion
 }
