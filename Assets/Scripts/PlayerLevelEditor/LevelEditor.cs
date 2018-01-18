@@ -29,6 +29,9 @@ namespace PlayerLevelEditor
         [SerializeField] private CanvasGroup editorCG;
         [SerializeField] private MainPLEMenu mainEditorMenu;
         [SerializeField] private InitPLEMenu initEditorMenu;
+        [SerializeField] private AddPropsMenu propsEditorMenu;
+        [SerializeField] private AddSpawnsMenu spawnsEditorMenu;
+        [SerializeField] private SetDynamicLevelMenu dynLevelEditorMenu;
         #endregion  
 
         private void Start()
@@ -39,6 +42,8 @@ namespace PlayerLevelEditor
             if(EventSystem.Instance)
             {
                 EventSystem.Instance.RegisterEvent(Strings.Events.INIT_EDITOR, EditorInitialize);
+                EventSystem.Instance.RegisterEvent(Strings.Events.INIT_EDITOR, m_DynamicLevelSystem.Init);
+                EventSystem.Instance.RegisterEvent(Strings.Events.INIT_EDITOR, ObjectDB.Init);
             }
         }
 
@@ -56,13 +61,15 @@ namespace PlayerLevelEditor
             if(EventSystem.Instance)
             {
                 EventSystem.Instance.UnRegisterEvent(Strings.Events.INIT_EDITOR, EditorInitialize);
+                EventSystem.Instance.UnRegisterEvent(Strings.Events.INIT_EDITOR, m_DynamicLevelSystem.Init);
+                EventSystem.Instance.UnRegisterEvent(Strings.Events.INIT_EDITOR, ObjectDB.Init);
             }
         }
 
         #region Private Interface
 
         // Use this for initialization
-        private void EditorInitialize(params object[] par)
+        public void EditorInitialize(params object[] par)
         {
             m_DynamicLevelSystem = new DynamicLevelSystem();
 
@@ -109,9 +116,12 @@ namespace PlayerLevelEditor
         {
             //Hide menus that aren't need to be shown yet
             MenuManager.Instance.DoTransition(mainEditorMenu, Menu.Transition.HIDE, new Menu.Effect[] { });
+            MenuManager.Instance.DoTransition(propsEditorMenu, Menu.Transition.HIDE, new Menu.Effect[] { });
+            MenuManager.Instance.DoTransition(spawnsEditorMenu, Menu.Transition.HIDE, new Menu.Effect[] { });
+            MenuManager.Instance.DoTransition(dynLevelEditorMenu, Menu.Transition.HIDE, new Menu.Effect[] { });
 
             //show the init menu
-            MenuManager.Instance.DoTransition(initEditorMenu, Menu.Transition.SHOW, new Menu.Effect[] { });
+            MenuManager.Instance.DoTransition(initEditorMenu, Menu.Transition.SHOW, new Menu.Effect[] { Menu.Effect.EXCLUSIVE});
 
         }
 
@@ -157,6 +167,25 @@ namespace PlayerLevelEditor
             MenuManager.Instance.DoTransition(loadMenu,Menu.Transition.SHOW, new Menu.Effect[] { Menu.Effect.EXCLUSIVE });
         }
 
+        public Menu GetMenu(PLEMenu i_menu)
+        {
+            switch (i_menu)
+            {
+                case PLEMenu.INIT:
+                    return initEditorMenu;
+                case PLEMenu.MAIN:
+                    return mainEditorMenu;
+                case PLEMenu.PROPS:
+                    return propsEditorMenu;
+                case PLEMenu.SPAWN:
+                    return spawnsEditorMenu;
+                case PLEMenu.DYNAMIC:
+                    return dynLevelEditorMenu;
+                default:
+                    return null;
+            }
+        }
+
         public Menu GetMainEditorMenu()
         {
             return mainEditorMenu;
@@ -175,5 +204,14 @@ namespace PlayerLevelEditor
         public const int Walkable = 0;
         public const int NotWalkable = 1;
         public const int Jump = 2;
+    }
+
+    public enum PLEMenu
+    {
+        INIT,
+        MAIN,
+        PROPS,
+        DYNAMIC,
+        SPAWN
     }
 }

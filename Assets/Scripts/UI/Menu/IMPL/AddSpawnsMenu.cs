@@ -1,7 +1,8 @@
 ﻿using UnityEngine.UI;
 using UnityEngine;
+using PlayerLevelEditor;
 
-public class AddEnemyMenu : Menu {
+public class AddSpawnsMenu : Menu {
 
     #region Public Fields
 
@@ -18,12 +19,13 @@ public class AddEnemyMenu : Menu {
     #region Serialized Unity Fields
 
     [SerializeField] private Button initiallySelected;
+    [SerializeField] private LevelEditor editorInstance;
 
     #endregion
 
     #region Public Interface
 
-    public AddEnemyMenu() : base(Strings.MenuStrings.ADD_ENEMY_PLE)
+    public AddSpawnsMenu() : base(Strings.MenuStrings.ADD_SPAWNS_PLE)
     { }
 
     #endregion
