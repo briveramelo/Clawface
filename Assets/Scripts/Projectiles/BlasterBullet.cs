@@ -5,6 +5,12 @@ using MovementEffects;
 
 public class BlasterBullet : MonoBehaviour {
 
+    #region serialized fields
+
+    [SerializeField] private PoolObjectType impactVFXType = PoolObjectType.VFXBlasterImpactEffect;
+
+    #endregion
+
     #region private fields
     private Damager damager = new Damager();
     private bool shooter;
@@ -48,14 +54,12 @@ public class BlasterBullet : MonoBehaviour {
         if ((shooter && isPlayer) || (!shooter && isEnemy) || other.gameObject.layer == (int) Layers.Ground) {                
             Damage(other.gameObject.GetComponent<IDamageable>());                
             SFXManager.Instance.Play(SFXType.BlasterProjectileImpact, transform.position);
-            EmitBulletCollision();
-            gameObject.SetActive(false);
+            DestroyBullet();
         }            
 
         if (other.transform.CompareTag(Strings.Tags.WALL))
         {
-            EmitBulletCollision();
-            gameObject.SetActive(false);
+            DestroyBullet();
         }
     }
     #endregion
@@ -75,7 +79,11 @@ public class BlasterBullet : MonoBehaviour {
         shooter = playerOrEnemy;
     }
 
-
+    public void DestroyBullet()
+    {
+        EmitBulletCollision();
+        gameObject.SetActive(false);
+    }
     #endregion
 
     #region private function
@@ -98,7 +106,7 @@ public class BlasterBullet : MonoBehaviour {
     }
 
     private void EmitBulletCollision() {
-        GameObject effect = ObjectPool.Instance.GetObject(PoolObjectType.VFXBlasterImpactEffect);
+        GameObject effect = ObjectPool.Instance.GetObject(impactVFXType);
         if (effect) {
             effect.transform.position = transform.position;
         }    
