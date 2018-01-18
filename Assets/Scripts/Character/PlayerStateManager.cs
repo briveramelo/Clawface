@@ -22,12 +22,16 @@ public class PlayerStateManager : RoutineRunner {
     private DashState dashState;
     [SerializeField]
     private float dashCoolDown;
+    [SerializeField]
+    private bool useHeadSpin;
 
     [SerializeField] private EatingState eatingState;
     [SerializeField] private SphereCollider eatCollider;
 
     [SerializeField] private float tutorialSlowDownRate = 0.05f;
     [SerializeField] private float tutorialSpeedUpRate = 0.05f;
+
+    [SerializeField] private HeadSpinState headSpinState;
     #endregion
 
     #region Private Fields
@@ -60,9 +64,8 @@ public class PlayerStateManager : RoutineRunner {
         stateVariables.playerTransform = transform;
         stateVariables.statsManager = playerStatsManager;
         stateVariables.defaultState = defaultState;
-        defaultState.Init(ref stateVariables);
-        dashState.Init(ref stateVariables);
-        eatingState.Init(ref stateVariables);
+        InitializeStates();
+
         movementState = defaultState;
         playerStates = new List<IPlayerState>(){ defaultState};
         eatCollider.radius = stateVariables.eatRadius;
@@ -83,13 +86,20 @@ public class PlayerStateManager : RoutineRunner {
             }
             if (InputManager.Instance.QueryAction(Strings.Input.Actions.DODGE, ButtonMode.DOWN) && canDash) // do dodge / dash
             {
-                SwitchState(dashState);
+                if (useHeadSpin)
+                {
+                    SwitchState(headSpinState);
+                }
+                else
+                {
+                    SwitchState(dashState);
+                }                
                 Physics.IgnoreLayerCollision(LayerMask.NameToLayer(Strings.Layers.ENEMY), LayerMask.NameToLayer(Strings.Layers.MODMAN), true);
                 Physics.IgnoreLayerCollision(LayerMask.NameToLayer(Strings.Layers.ENEMY_BODY), LayerMask.NameToLayer(Strings.Layers.MODMAN), true);
                 canDash = false;
                 StartCoroutine(WaitForDashCoolDown());
             }
-            else if (InputManager.Instance.QueryAction(Strings.Input.Actions.EAT, ButtonMode.DOWN) && !playerStates.Contains(dashState) && !playerStates.Contains(eatingState))
+            else if (InputManager.Instance.QueryAction(Strings.Input.Actions.EAT, ButtonMode.DOWN) && !playerStates.Contains(dashState) && !playerStates.Contains(eatingState) && !playerStates.Contains(headSpinState))
             {
                 if (CheckForEatableEnemy())
                 {
@@ -189,6 +199,14 @@ public class PlayerStateManager : RoutineRunner {
         }
     }
 
+    private void InitializeStates()
+    {
+        defaultState.Init(ref stateVariables);
+        dashState.Init(ref stateVariables);
+        eatingState.Init(ref stateVariables);
+        headSpinState.Init(ref stateVariables);
+    }
+
     private void StartTutorial()
     {
         if (!isTutorialDone && !isInTutorial)
@@ -279,7 +297,14 @@ public class PlayerStateManager : RoutineRunner {
         {
             yield return null;
         }
-        yield return new WaitForSeconds(dashCoolDown);
+        if (useHeadSpin)
+        {
+            yield return new WaitForSeconds(stateVariables.headSpinCoolDown);
+        }
+        else
+        {
+            yield return new WaitForSeconds(dashCoolDown);
+        }        
         canDash = true;        
     }
 
@@ -329,7 +354,7 @@ public class PlayerStateManager : RoutineRunner {
     #endregion
 
     #region Public Structures
-    [System.Serializable]
+    [Serializable]
     public class StateVariables
     {
         [HideInInspector]
@@ -350,10 +375,14 @@ public class PlayerStateManager : RoutineRunner {
         public float clawExtensionTime;
         public float clawRetractionTime;
         public float eatRadius;
-
         public SFXType ArmExtensionSFX;
         public SFXType ArmEnemyCaptureSFX;
         public SFXType EatSFX;
+        public float headSpinClawRadius = 5.0f;
+        public float headSpinSpeed = 1.0f;
+        public float headSpinDuration = 5.0f;
+        public float headSpinCoolDown = 3.0f;
+        public float headSpinDamage = 0.05f;
     }
     #endregion
 
