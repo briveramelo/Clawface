@@ -80,7 +80,7 @@ public class MallCop : EnemyBase
     }
     bool CheckToFinishFiring()
     {
-        if (myStats.health <= myStats.skinnableHealth)
+        if (myStats.health <= myStats.skinnableHealth || alreadyStunned)
         {
             controller.CurrentState = stun;
             controller.UpdateState(EAIState.Stun);
@@ -119,7 +119,7 @@ public class MallCop : EnemyBase
     }
     bool CheckIfStunned()
     {
-        if (myStats.health <= myStats.skinnableHealth)
+        if (myStats.health <= myStats.skinnableHealth || alreadyStunned)
         {
             controller.CurrentState = stun;
             controller.UpdateState(EAIState.Stun);
@@ -176,6 +176,12 @@ public class MallCop : EnemyBase
             animator.SetInteger("AnimationState", -1);
         }
     }
+
+    public override Vector3 ReCalculateTargetPosition()
+    {
+        return Vector3.zero;
+    }
+
 
     public override void DoHitReaction(Damager damager)
     {

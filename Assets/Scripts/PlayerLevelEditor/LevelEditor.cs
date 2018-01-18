@@ -19,10 +19,26 @@ namespace PlayerLevelEditor
         Button Btn_Dynamic;
         Button Btn_Test;
         Button Btn_EndTest;
+        Button Btn_Quit;
 
+        private void Start()
+        {
+            if(EventSystem.Instance)
+            {
+                EventSystem.Instance.RegisterEvent(Strings.Events.INIT_EDITOR, EditorInitialize);
+            }
+        }
+
+        private void OnDestroy()
+        {
+            if(EventSystem.Instance)
+            {
+                EventSystem.Instance.UnRegisterEvent(Strings.Events.INIT_EDITOR, EditorInitialize);
+            }
+        }
 
         // Use this for initialization
-        void Start()
+        public void EditorInitialize(params object[] par)
         {
             m_DynamicLevelSystem = new DynamicLevelSystem();
 
@@ -49,6 +65,11 @@ namespace PlayerLevelEditor
             Btn_Test = PlayerLevelEditor.UITool.GetUIComponent<Button>("Function_Test");
             if (Btn_Test != null) Btn_Test.onClick.AddListener(() => UsingTestFunc(Btn_Test));
 
+
+            Btn_Quit = PlayerLevelEditor.UITool.GetUIComponent<Button>("Function_Quit");
+            if(Btn_Quit != null) Btn_Quit.onClick.AddListener(() => UsingQuitFunction(Btn_Quit));
+
+
             Btn_EndTest = PlayerLevelEditor.UITool.GetUIComponent<Button>("Function_EndTest");
 
             if (Btn_EndTest != null)
@@ -61,13 +82,10 @@ namespace PlayerLevelEditor
         // Update is called once per frame
         void Update()
         {
-            if(Input.GetKeyDown(KeyCode.Escape))
+            if(controller != null)
             {
-                Application.Quit();
+                controller.Update();
             }
-
-
-            controller.Update();
         }
 
 
@@ -97,6 +115,15 @@ namespace PlayerLevelEditor
                 return;
 
             controller.SetFunction(new Test(controller));
+        }
+
+        public void UsingQuitFunction(Button thisBtn)
+        {
+            Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
+            LoadMenu loadMenu = menu as LoadMenu;
+            loadMenu.TargetScene = Strings.Scenes.MainMenu;
+
+            MenuManager.Instance.DoTransition(loadMenu,Menu.Transition.SHOW, new Menu.Effect[] { Menu.Effect.EXCLUSIVE });
         }
     }
 
