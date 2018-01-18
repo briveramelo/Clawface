@@ -27,8 +27,8 @@ namespace PlayerLevelEditor
         #region Serialized Unity Fields
 
         [SerializeField] private CanvasGroup editorCG;
-        [SerializeField] private Menu mainEditorMenu;
-
+        [SerializeField] private MainPLEMenu mainEditorMenu;
+        [SerializeField] private InitPLEMenu initEditorMenu;
         #endregion  
 
         private void Start()
@@ -42,6 +42,15 @@ namespace PlayerLevelEditor
             }
         }
 
+        void Update()
+        {
+            if (controller != null)
+            {
+                controller.Update();
+            }
+        }
+
+
         private void OnDestroy()
         {
             if(EventSystem.Instance)
@@ -50,29 +59,18 @@ namespace PlayerLevelEditor
             }
         }
 
+        #region Private Interface
+
         // Use this for initialization
-        public void EditorInitialize(params object[] par)
+        private void EditorInitialize(params object[] par)
         {
             m_DynamicLevelSystem = new DynamicLevelSystem();
 
             ObjectDB = new Database();
 
             controller.SetFunction(new Initialize(controller));
-            
-            //TODO: Future Garin, why don't you just take the init menu out of the menu system and let it live in the scene
-            //instead of doing this dumb shit. JUST LAUNCH AN EVENT FROM THE LEVEL EDITOR INITIALIZE TO START THE MENU TRANSITIONS
-            //DUMBASS 
-            //Love, past Garin.
 
-            MenuManager.Instance.DoTransition(mainEditorMenu, Menu.Transition.HIDE, new Menu.Effect[] { });
-
-            MenuManager.Instance.DoTransition(Strings.MenuStrings.INIT_PLE_MENU, Menu.Transition.SHOW, new Menu.Effect[] { });
-
-            InitPLEMenu initMenu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.INIT_PLE_MENU) as InitPLEMenu;
-            if (initMenu)
-            {
-                initMenu.SetMainEditorMenu(mainEditorMenu);
-            }
+            MenuSetup();
 
             //Btn_Init = PlayerLevelEditor.UITool.GetUIComponent<Button>("Function_Init");
             //if (Btn_Init != null) Btn_Init.onClick.AddListener(() => UseInitFunc(Btn_Init));
@@ -107,15 +105,20 @@ namespace PlayerLevelEditor
             //}
         }
 
-        // Update is called once per frame
-        void Update()
+        private void MenuSetup()
         {
-            if(controller != null)
-            {
-                controller.Update();
-            }
+            //Hide menus that aren't need to be shown yet
+            MenuManager.Instance.DoTransition(mainEditorMenu, Menu.Transition.HIDE, new Menu.Effect[] { });
+
+            //show the init menu
+            MenuManager.Instance.DoTransition(initEditorMenu, Menu.Transition.SHOW, new Menu.Effect[] { });
+
         }
 
+        #endregion
+
+
+        #region Public Interface  
 
         public void UseInitFunc(Button thisBtn)
         {
@@ -158,6 +161,13 @@ namespace PlayerLevelEditor
         {
             return mainEditorMenu;
         }
+
+        public Menu GetInitPLEMenu()
+        {
+            return initEditorMenu;
+        }
+
+        #endregion  
     }
 
     class NavMeshAreas

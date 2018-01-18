@@ -1,5 +1,6 @@
 ﻿using UnityEngine.UI;
 using UnityEngine;
+using PlayerLevelEditor;
 
 public class InitPLEMenu : Menu {
 
@@ -20,7 +21,7 @@ public class InitPLEMenu : Menu {
     [SerializeField] private Button confirmButton;
     [SerializeField] private Slider xSlide;
     [SerializeField] private Slider zSlide;
-
+    [SerializeField] private LevelEditor editorInstance;
     #endregion
 
     #region Private Fields
@@ -33,13 +34,7 @@ public class InitPLEMenu : Menu {
     private Menu mainEditorMenu = null;
 
     #endregion
-
-    #region Public Interface
-
-
-
-    #endregion
-
+   
     #region Unity Lifecycle
 
     protected override void Start()
@@ -133,17 +128,7 @@ public class InitPLEMenu : Menu {
         }
 
         //hide and show the main ple menu
-        MenuManager.Instance.DoTransition(Strings.MenuStrings.INIT_PLE_MENU, Transition.HIDE, new Effect[] { });
-        
-        if(mainEditorMenu)
-        {
-            MenuManager.Instance.DoTransition(mainEditorMenu, Transition.SHOW, new Effect[] { });
-        }
-        else
-        {
-            MainPLEMenu pleMenu = GameObject.Find("MainPLEMenu").GetComponent<MainPLEMenu>();
-            MenuManager.Instance.DoTransition(pleMenu, Transition.SHOW, new Effect[] { });
-        }
+        MenuManager.Instance.DoTransition(editorInstance.GetMainEditorMenu(), Transition.SHOW, new Menu.Effect[] { Menu.Effect.EXCLUSIVE });
 
     }
 
