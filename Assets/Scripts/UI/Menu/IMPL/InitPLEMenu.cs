@@ -30,6 +30,8 @@ public class InitPLEMenu : Menu {
     
     GameObject levelBlock;
 
+    private Menu mainEditorMenu = null;
+
     #endregion
 
     #region Public Interface
@@ -70,6 +72,12 @@ public class InitPLEMenu : Menu {
     #endregion
 
     #region Public Interface
+
+    public void SetMainEditorMenu(Menu i_menu)
+    {
+        mainEditorMenu = i_menu;
+    }
+
 
     public InitPLEMenu() : base(Strings.MenuStrings.INIT_PLE_MENU)
     { }
@@ -122,6 +130,19 @@ public class InitPLEMenu : Menu {
 
                 _instance.transform.SetParent(_platform.transform);
             }
+        }
+
+        //hide and show the main ple menu
+        MenuManager.Instance.DoTransition(Strings.MenuStrings.INIT_PLE_MENU, Transition.HIDE, new Effect[] { });
+        
+        if(mainEditorMenu)
+        {
+            MenuManager.Instance.DoTransition(mainEditorMenu, Transition.SHOW, new Effect[] { });
+        }
+        else
+        {
+            MainPLEMenu pleMenu = GameObject.Find("MainPLEMenu").GetComponent<MainPLEMenu>();
+            MenuManager.Instance.DoTransition(pleMenu, Transition.SHOW, new Effect[] { });
         }
 
     }

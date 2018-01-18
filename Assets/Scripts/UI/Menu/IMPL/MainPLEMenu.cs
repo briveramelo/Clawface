@@ -61,6 +61,15 @@ public class MainPLEMenu : Menu {
 
     }
 
+    public void QuitAction()
+    {
+        Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
+        LoadMenu loadMenu = menu as LoadMenu;
+        loadMenu.TargetScene = Strings.Scenes.MainMenu;
+
+        MenuManager.Instance.DoTransition(loadMenu, Menu.Transition.SHOW, new Menu.Effect[] { Menu.Effect.EXCLUSIVE });
+    }
+
     #endregion
 
 }

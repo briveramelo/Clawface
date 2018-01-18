@@ -7,8 +7,11 @@ namespace PlayerLevelEditor
 {
     public class LevelEditor : MonoBehaviour
     {
+        #region Public Fields
+
         static public DynamicLevelSystem m_DynamicLevelSystem;
 
+        #endregion
 
         Database ObjectDB;
         FunctionController controller = new FunctionController();
@@ -21,7 +24,12 @@ namespace PlayerLevelEditor
         Button Btn_EndTest;
         Button Btn_Quit;
 
+        #region Serialized Unity Fields
+
         [SerializeField] private CanvasGroup editorCG;
+        [SerializeField] private Menu mainEditorMenu;
+
+        #endregion  
 
         private void Start()
         {
@@ -50,8 +58,21 @@ namespace PlayerLevelEditor
             ObjectDB = new Database();
 
             controller.SetFunction(new Initialize(controller));
+            
+            //TODO: Future Garin, why don't you just take the init menu out of the menu system and let it live in the scene
+            //instead of doing this dumb shit. JUST LAUNCH AN EVENT FROM THE LEVEL EDITOR INITIALIZE TO START THE MENU TRANSITIONS
+            //DUMBASS 
+            //Love, past Garin.
+
+            MenuManager.Instance.DoTransition(mainEditorMenu, Menu.Transition.HIDE, new Menu.Effect[] { });
 
             MenuManager.Instance.DoTransition(Strings.MenuStrings.INIT_PLE_MENU, Menu.Transition.SHOW, new Menu.Effect[] { });
+
+            InitPLEMenu initMenu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.INIT_PLE_MENU) as InitPLEMenu;
+            if (initMenu)
+            {
+                initMenu.SetMainEditorMenu(mainEditorMenu);
+            }
 
             //Btn_Init = PlayerLevelEditor.UITool.GetUIComponent<Button>("Function_Init");
             //if (Btn_Init != null) Btn_Init.onClick.AddListener(() => UseInitFunc(Btn_Init));
@@ -131,6 +152,11 @@ namespace PlayerLevelEditor
             loadMenu.TargetScene = Strings.Scenes.MainMenu;
 
             MenuManager.Instance.DoTransition(loadMenu,Menu.Transition.SHOW, new Menu.Effect[] { Menu.Effect.EXCLUSIVE });
+        }
+
+        public Menu GetMainEditorMenu()
+        {
+            return mainEditorMenu;
         }
     }
 
