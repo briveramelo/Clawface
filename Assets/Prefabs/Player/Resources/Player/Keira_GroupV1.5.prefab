@@ -2957,6 +2957,7 @@ MonoBehaviour:
     headSpinSpeed: 1000
     headSpinDuration: 2.5
     headSpinCoolDown: 3
+    headSpinDamage: 0.05
   defaultState: {fileID: 114776189445566068}
   playerStatsManager: {fileID: 114430878911601216}
   holdAttackSlowDown: 3
@@ -3131,8 +3132,8 @@ MonoBehaviour:
   cam: {fileID: 114537611951469978}
   minEnemyDistanceForMinCamSize: 10
   camSizeGoesUpBy1ForEveryXUnits: 2.5
-  minCameraSize: 7.8
-  maxCameraSize: 8.5
+  minCameraSize: 8.5
+  maxCameraSize: 10
   lerpMultiplier: 3
   player: {fileID: 1737478168596758}
   activeEnemies: []
