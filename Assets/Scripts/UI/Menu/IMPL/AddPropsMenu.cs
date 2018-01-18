@@ -16,7 +16,7 @@ public class AddPropsMenu : Menu {
     }
 
 
-    public bool adding = false;
+    
 
     #endregion
 
@@ -43,7 +43,9 @@ public class AddPropsMenu : Menu {
     private bool initialized = false;
 
     private Vector3 newItemPos = Vector3.zero;
-    #endregion  
+
+    private bool inputGuard = false;
+    #endregion
 
 
     #region Unity Lifecycle
@@ -51,7 +53,7 @@ public class AddPropsMenu : Menu {
     // Update is called once per frame
     private void Update()
     {
-        if(adding)
+        if(inputGuard)
         {
             if (initialized)
             {
@@ -65,9 +67,7 @@ public class AddPropsMenu : Menu {
 
             if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN))
             {
-                adding = false;
-                initialized = false;
-                MenuManager.Instance.DoTransition(editorInstance.GetMenu(PLEMenu.MAIN), Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+                BackAction();
             }
 
         }
@@ -101,13 +101,26 @@ public class AddPropsMenu : Menu {
 
     public void BackAction()
     {
-
+        MenuManager.Instance.DoTransition(editorInstance.GetMenu(PLEMenu.MAIN), Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
     }
 
     #endregion
 
 
     #region Protected Interface
+
+    protected override void ShowComplete()
+    {
+        base.ShowComplete();
+        inputGuard = true;
+    }
+
+    protected override void HideStarted()
+    {
+        base.HideStarted();
+        inputGuard = false;
+        initialized = false;
+    }
 
     protected override void DefaultShow(Transition transition, Effect[] effects)
     {
