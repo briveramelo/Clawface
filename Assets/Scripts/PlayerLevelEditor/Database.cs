@@ -35,7 +35,7 @@ namespace PlayerLevelEditor
                 _item.name = "Item";
                 _item.GetComponentInChildren<UnityEngine.UI.Text>().text = _object.name;
 
-                ItemButton _BT = new ItemButton(PlayerLevelEditor.UnityTool.FindChildGameObject(_item, "Button").GetComponent<UnityEngine.UI.Button>(), _object);
+                ItemButton _BT = new ItemButton(PlayerLevelEditor.EditorToolKit.FindChildGameObject(_item, "Button").GetComponent<UnityEngine.UI.Button>(), _object);
 
 #if UNITY_EDITOR
                 Texture2D _texture = UnityEditor.AssetPreview.GetAssetPreview(_object);

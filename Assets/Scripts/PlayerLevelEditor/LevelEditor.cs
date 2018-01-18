@@ -32,6 +32,7 @@ namespace PlayerLevelEditor
         [SerializeField] private AddPropsMenu propsEditorMenu;
         [SerializeField] private AddSpawnsMenu spawnsEditorMenu;
         [SerializeField] private SetDynamicLevelMenu dynLevelEditorMenu;
+       
         #endregion  
 
         private void Start()
@@ -69,9 +70,9 @@ namespace PlayerLevelEditor
         {
             m_DynamicLevelSystem = new DynamicLevelSystem();
 
-            ObjectDB = new Database();
+            //ObjectDB = new Database();
 
-            controller.SetFunction(new Initialize(controller));
+            //controller.SetFunction(new Initialize(controller));
 
             MenuSetup();
 

@@ -16,7 +16,7 @@ namespace PlayerLevelEditor
 
         public DynamicLevelSystem()
         {
-            Init();
+            //Init();
         }
 
 

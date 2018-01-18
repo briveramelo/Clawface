@@ -51,7 +51,7 @@ public class AddPropsMenu : Menu {
         }
 
         //TODO: Get rid of "test"
-        levelBlock = Resources.Load(Strings.Editor.RESOURCE_PATH + "Env/test") as GameObject;
+        levelBlock = Resources.Load(Strings.Editor.RESOURCE_PATH + Strings.Editor.BASIC_LVL_BLOCK) as GameObject;
 
     }
 
@@ -112,7 +112,7 @@ public class AddPropsMenu : Menu {
 
     public void Initialize(params object[] par)
     {
-        levelObject = UnityTool.FindGameObject("LEVEL");
+        levelObject = EditorToolKit.FindGameObject("LEVEL");
     }
 
     #endregion

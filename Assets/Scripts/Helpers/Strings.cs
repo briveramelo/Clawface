@@ -11,6 +11,8 @@
 
         public static string PLAYER_UI_PREFAB_NAME = "PlayerHUDV";
         public static string PLAYER_UI_PREFAB_RESOURCES_PATH = "PlayerUI/";
+
+        //plaer editor
     }
 
     public class Tags
@@ -179,8 +181,15 @@
 
     public class Editor
     {
+        //folders
         public const string RESOURCE_PATH = "PlayerLevelEditorObjects/";
         public const string PLAYER_NAME = "Keira_GroupV1.5(Clone)";
+
+        //others
+        public const string LEVEL_OBJECT = "LEVEL";
+
+        //objects
+        public const string BASIC_LVL_BLOCK = "Env/Block1";
     }
 
     

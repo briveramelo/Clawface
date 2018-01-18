@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace PlayerLevelEditor
 {
-    public static class UnityTool
+    public static class EditorToolKit
     {
         public static void Attach(GameObject ParentObj, GameObject ChildObj, Vector3 Pos)
         {
@@ -116,19 +116,19 @@ namespace PlayerLevelEditor
         public static GameObject FindUIGameObject(string UIName)
         {
             if (m_CanvasObj == null)
-                m_CanvasObj = UnityTool.FindGameObject("EditorCanvas");
+                m_CanvasObj = EditorToolKit.FindGameObject("EditorCanvas");
 
             if (m_CanvasObj == null)
                 return null;
 
-            return UnityTool.FindChildGameObject(m_CanvasObj, UIName);
+            return EditorToolKit.FindChildGameObject(m_CanvasObj, UIName);
         }
 
 
         public static T GetUIComponent<T>(GameObject Container, string UIName) where T : UnityEngine.Component
         {
 
-            GameObject ChildGameObject = UnityTool.FindChildGameObject(Container, UIName);
+            GameObject ChildGameObject = EditorToolKit.FindChildGameObject(Container, UIName);
 
             if (ChildGameObject == null)
                 return null;
