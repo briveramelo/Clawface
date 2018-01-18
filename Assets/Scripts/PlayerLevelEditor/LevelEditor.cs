@@ -69,6 +69,8 @@ namespace PlayerLevelEditor
         public void EditorInitialize(params object[] par)
         {
             m_DynamicLevelSystem = new DynamicLevelSystem();
+            initEditorMenu.Init();
+            propsEditorMenu.Initialize();
 
             //ObjectDB = new Database();
 
@@ -182,16 +184,7 @@ namespace PlayerLevelEditor
                     return null;
             }
         }
-
-        public Menu GetMainEditorMenu()
-        {
-            return mainEditorMenu;
-        }
-
-        public Menu GetInitPLEMenu()
-        {
-            return initEditorMenu;
-        }
+        
 
         #endregion  
     }

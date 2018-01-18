@@ -15,6 +15,9 @@ public class AddPropsMenu : Menu {
         }
     }
 
+
+    public bool adding = false;
+
     #endregion
 
     #region Serialized Unity Fields
@@ -36,72 +39,41 @@ public class AddPropsMenu : Menu {
     private float raycastDistance = 1000.0f;
 
     private Vector3 sceneMousePos;
+    
+    private bool initialized = false;
 
-    private bool addingEnabled;
+    private Vector3 newItemPos = Vector3.zero;
     #endregion  
 
 
     #region Unity Lifecycle
 
-    private void Start()
-    {
-        if (EventSystem.Instance)
-        {
-            EventSystem.Instance.RegisterEvent(Strings.Events.INIT_EDITOR, Initialize);
-        }
-
-        //TODO: Get rid of "test"
-        levelBlock = Resources.Load(Strings.Editor.RESOURCE_PATH + Strings.Editor.BASIC_LVL_BLOCK) as GameObject;
-
-    }
-
-    private void OnDestroy()
-    {
-        if (EventSystem.Instance)
-        {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.INIT_EDITOR, Initialize);
-        }
-    }
-
     // Update is called once per frame
     private void Update()
     {
-        //TODO: This needs to go in a better place
-        if (levelObject)
+        if(adding)
         {
-
-            Ray r = UnityEngine.Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit h;
-
-            if (Physics.Raycast(r, out h, raycastDistance))
+            if (initialized)
             {
-                sceneMousePos = h.point;
-
-                if (Input.GetMouseButtonDown(0) && addingEnabled)
-                {
-                    LevelUnit LU = h.transform.gameObject.GetComponent<LevelUnit>();
-
-                    if (LU != null)
-                    {
-                        GameObject.DestroyImmediate(LU);
-                    }
-
-                    Vector3 _pos = PlayerLevelEditor.ToolLib.ConvertToGrid(sceneMousePos);
-
-                    if (_pos.x == 0.0f && _pos.z == 0.0f)
-                    {
-                        return;
-                    }
-
-                    GameObject _instance = GameObject.Instantiate(levelBlock, _pos, Quaternion.identity);
-
-                    _instance.transform.SetParent(levelObject.transform);
-                }
+                UpdateObjectPreview();
             }
 
-            ToolLib.draft(levelBlock, ToolLib.ConvertToGrid(sceneMousePos - levelBlock.transform.position), Color.green);
+            if (!newItemPos.Equals(Vector3.zero))
+            {
+                DrawSelectedItemPlacement();
+            }
+
+            if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN))
+            {
+                adding = false;
+                initialized = false;
+                MenuManager.Instance.DoTransition(editorInstance.GetMenu(PLEMenu.MAIN), Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+            }
+
         }
     }
+
+
 
     #endregion
 
@@ -113,6 +85,23 @@ public class AddPropsMenu : Menu {
     public void Initialize(params object[] par)
     {
         levelObject = EditorToolKit.FindGameObject("LEVEL");
+        levelBlock = Resources.Load(Strings.Editor.RESOURCE_PATH + Strings.Editor.BASIC_LVL_BLOCK) as GameObject;
+
+        initialized = true;
+    }
+
+    public void AddAction()
+    {
+        GameObject _instance = GameObject.Instantiate(levelBlock, newItemPos, Quaternion.identity);
+
+        _instance.transform.SetParent(levelObject.transform);
+
+        newItemPos = Vector3.zero;
+    }
+
+    public void BackAction()
+    {
+
     }
 
     #endregion
@@ -134,16 +123,43 @@ public class AddPropsMenu : Menu {
 
     #region Private Interface
 
-    public void AddAction()
+    private void DrawSelectedItemPlacement()
     {
-        //TODO: Set Button to activated state via Sprite change
-#if UNITY_EDITOR
-        Debug.Log("Adding shit ooooh");
-#endif
-
-        addingEnabled = !addingEnabled;
-
+        ToolLib.draft(levelBlock, newItemPos, Color.blue);
     }
+
+    private void UpdateObjectPreview()
+    {
+
+        Ray r = UnityEngine.Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit h;
+
+        if (Physics.Raycast(r, out h, raycastDistance))
+        {
+            sceneMousePos = h.point;
+
+            if(Input.GetMouseButtonDown(0))
+            {
+                Vector3 objectPos = PlayerLevelEditor.ToolLib.ConvertToGrid(sceneMousePos);
+
+                //Consider when placing on top of spawnpoints
+                //IsLegalPlacement();
+
+                if (objectPos != null)
+                {
+                    newItemPos = objectPos;
+                }
+ 
+            }
+
+        }
+
+        //draw preview block at location
+        ToolLib.draft(levelBlock, ToolLib.ConvertToGrid(sceneMousePos - levelBlock.transform.position), Color.green);
+        
+    }
+
+
 
     #endregion
 

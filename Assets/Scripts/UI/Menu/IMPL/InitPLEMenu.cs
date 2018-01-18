@@ -14,6 +14,7 @@ public class InitPLEMenu : Menu {
         }
     }
 
+
     #endregion
 
     #region Serialized Unity Fields
@@ -24,6 +25,8 @@ public class InitPLEMenu : Menu {
     [SerializeField] private LevelEditor editorInstance;
     #endregion
 
+
+
     #region Private Fields
 
     int levelX = 0;
@@ -33,21 +36,24 @@ public class InitPLEMenu : Menu {
 
     private Menu mainEditorMenu = null;
 
+    private bool initialized = false;
+    
     #endregion
    
     #region Unity Lifecycle
-
-    protected override void Start()
-    {
-        base.Start();
-
-        levelBlock = Resources.Load(Strings.Editor.RESOURCE_PATH + "Env/test") as GameObject;
-        levelBlock.transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
-    }
-
+    
     private void Update()
     {
-        UpdateBlockPreview();
+        if(initialized)
+        {
+            UpdateBlockPreview();
+        }
+        
+    }
+
+    private void OnDisable()
+    {
+        initialized = false;
     }
 
     #endregion  
@@ -67,6 +73,15 @@ public class InitPLEMenu : Menu {
     #endregion
 
     #region Public Interface
+
+    public void Init()
+    {
+        levelBlock = Resources.Load(Strings.Editor.RESOURCE_PATH + Strings.Editor.BASIC_LVL_BLOCK) as GameObject;
+        levelBlock.transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
+
+        initialized = true;
+
+    }
 
     public void SetMainEditorMenu(Menu i_menu)
     {
@@ -128,7 +143,7 @@ public class InitPLEMenu : Menu {
         }
 
         //hide and show the main ple menu
-        MenuManager.Instance.DoTransition(editorInstance.GetMainEditorMenu(), Transition.SHOW, new Menu.Effect[] { Menu.Effect.EXCLUSIVE });
+        MenuManager.Instance.DoTransition(editorInstance.GetMenu(PLEMenu.MAIN), Transition.SHOW, new Menu.Effect[] { Menu.Effect.EXCLUSIVE });
 
     }
 

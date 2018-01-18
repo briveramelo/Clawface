@@ -12,6 +12,7 @@ namespace PlayerLevelEditor
     public class Initialize : IFunction
     {
         GameObject _prefab;
+        GameObject WallPrefab;
 
         Button Btn_Init;
         Button Btn_Save;
@@ -43,8 +44,12 @@ namespace PlayerLevelEditor
         {
             base.Init();
 
-            _prefab = Resources.Load(Strings.Editor.RESOURCE_PATH + "Env/test") as GameObject;
+            _prefab = Resources.Load(Strings.Editor.RESOURCE_PATH + "Env/Cherlin Floor Tile") as GameObject;
             _prefab.transform.localPosition = new Vector3(0, 0, 0);
+
+            WallPrefab = Resources.Load(Strings.Editor.RESOURCE_PATH + "Env/Wall_Glow") as GameObject;
+            WallPrefab.transform.localPosition = new Vector3(0, 0, 0);
+
 
             #region UI Objcet
 
@@ -169,9 +174,16 @@ namespace PlayerLevelEditor
                     {
                         _AddNavMeshModifier(_instance, PlayerLevelEditor.NavMeshAreas.NotWalkable);
 
-                        GameObject _instance_Wall = GameObject.Instantiate(_prefab, new Vector3(i * ParameterSystem.unit_size,
-                                                                                                1 * ParameterSystem.unit_size, 
+                        GameObject _instance_Wall = GameObject.Instantiate(WallPrefab, new Vector3(i * ParameterSystem.unit_size,
+                                                                                                   1 * ParameterSystem.unit_size, 
                                                                                                 j * ParameterSystem.unit_size), Quaternion.identity);
+
+
+
+                        if(i == -Num_x || i == Num_x)
+                        {
+                            _instance_Wall.transform.eulerAngles = new Vector3(0, 90, 0);
+                        }
 
                         _instance_Wall.name = "WallBlock";
                         _instance_Wall.tag = "Wall";

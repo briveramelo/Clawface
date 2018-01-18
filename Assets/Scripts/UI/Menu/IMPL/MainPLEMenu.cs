@@ -29,13 +29,7 @@ public class MainPLEMenu : Menu {
     { }
 
     #endregion
-
-    #region Private Interface 
-
-    private bool addingEnabled;
-
-    #endregion
-    
+        
     #region Protected Interface
 
     protected override void DefaultShow(Transition transition, Effect[] effects)
@@ -55,10 +49,9 @@ public class MainPLEMenu : Menu {
     public void OpenPropsAction()
     {
         AddPropsMenu menu = editorInstance.GetMenu(PLEMenu.PROPS) as AddPropsMenu;
+        menu.adding = true;
         MenuManager.Instance.DoTransition(menu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
-
-
-        addingEnabled = !addingEnabled;
+        
 
     }
 

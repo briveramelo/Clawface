@@ -95,7 +95,6 @@ namespace PlayerLevelEditor
 
         public void OnClick(UnityEngine.UI.Button thisBtn)
         {
-            Debug.Log("CLICK");
             Add._prefab = DBObject;
         }
     }
