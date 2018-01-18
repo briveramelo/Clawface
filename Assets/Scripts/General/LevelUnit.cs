@@ -202,22 +202,23 @@ public class LevelUnit : RoutineRunner {
                     gameObject.tag = Strings.Tags.FLOOR;
                     gameObject.layer = (int)Layers.Ground;
                     HideBlockingObject();
-                }
-                switch (nextState) {
-                    case LevelUnitStates.cover:
-                        gameObject.tag = Strings.Tags.WALL;
-                        gameObject.layer = (int)Layers.Obstacle;
-                        ShowBlockingObject();
-                        break;
-                    case LevelUnitStates.pit:
-                        gameObject.tag = Strings.Tags.FLOOR;
-                        gameObject.layer = (int)Layers.Ground;
-                        ShowBlockingObject();
-                        break;
-                    default:
-                        break;
-                }
-            }            
+                }                
+            }
+            switch (nextState)
+            {
+                case LevelUnitStates.cover:
+                    gameObject.tag = Strings.Tags.WALL;
+                    gameObject.layer = (int)Layers.Obstacle;
+                    ShowBlockingObject();
+                    break;
+                case LevelUnitStates.pit:
+                    gameObject.tag = Strings.Tags.FLOOR;
+                    gameObject.layer = (int)Layers.Ground;
+                    ShowBlockingObject();
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
@@ -251,7 +252,11 @@ public class LevelUnit : RoutineRunner {
         {
             CreateBlockingObject();
         }
-        blockingObject.SetActive(true);
+
+        if (!blockingObject.activeSelf)
+        {
+            blockingObject.SetActive(true);
+        }
     }
     #endregion
 

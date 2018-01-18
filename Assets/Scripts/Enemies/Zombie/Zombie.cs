@@ -90,11 +90,12 @@ public class Zombie : EnemyBase
     }
     bool CheckIfStunned()
     {
-        if (myStats.health <= myStats.skinnableHealth)
+        if (myStats.health <= myStats.skinnableHealth || alreadyStunned)
         {
             controller.CurrentState = stun;
             controller.UpdateState(EAIState.Stun);
             controller.DeActivateAI();
+            
             return true;
         }
         return false;
@@ -143,7 +144,13 @@ public class Zombie : EnemyBase
             animator.SetTrigger("DoVictoryDance");
             controller.CurrentState = celebrate;
             controller.UpdateState(EAIState.Celebrate);
+            animator.SetInteger("AnimationState", -1);
         }
+    }
+
+    public override Vector3 ReCalculateTargetPosition()
+    {
+        return Vector3.zero;
     }
 
     public override void DoHitReaction(Damager damager)

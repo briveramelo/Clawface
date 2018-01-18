@@ -48,14 +48,12 @@ public class BlasterBullet : MonoBehaviour {
         if ((shooter && isPlayer) || (!shooter && isEnemy) || other.gameObject.layer == (int) Layers.Ground) {                
             Damage(other.gameObject.GetComponent<IDamageable>());                
             SFXManager.Instance.Play(SFXType.BlasterProjectileImpact, transform.position);
-            EmitBulletCollision();
-            gameObject.SetActive(false);
+            DestroyBullet();
         }            
 
         if (other.transform.CompareTag(Strings.Tags.WALL))
         {
-            EmitBulletCollision();
-            gameObject.SetActive(false);
+            DestroyBullet();
         }
     }
     #endregion
@@ -75,7 +73,11 @@ public class BlasterBullet : MonoBehaviour {
         shooter = playerOrEnemy;
     }
 
-
+    public void DestroyBullet()
+    {
+        EmitBulletCollision();
+        gameObject.SetActive(false);
+    }
     #endregion
 
     #region private function

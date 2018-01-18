@@ -13,7 +13,6 @@ public class EatingState : IPlayerState
     private ClawArmController clawArmController;
     #endregion
 
-
     #region Private Fields
     private bool isAnimating;
     private Transform clawTransform;
@@ -106,11 +105,14 @@ public class EatingState : IPlayerState
 
     private void DoArmExtension(params object[] parameters)
     {
-        stateVariables.statsManager.MakeHappy();
-        IEatable eatable = stateVariables.eatTargetEnemy.GetComponent<IEatable>();
-        Assert.IsNotNull(eatable);
-        clawArmController.StartExtension(eatable.GetGrabObject(), stateVariables.clawExtensionTime, stateVariables.clawRetractionTime);
-        SFXManager.Instance.Play(stateVariables.ArmExtensionSFX, transform.position);
+        if (isAnimating)
+        {
+            stateVariables.statsManager.MakeHappy();
+            IEatable eatable = stateVariables.eatTargetEnemy.GetComponent<IEatable>();
+            Assert.IsNotNull(eatable);
+            clawArmController.StartExtension(eatable.GetGrabObject(), stateVariables.clawExtensionTime, stateVariables.clawRetractionTime);
+            SFXManager.Instance.Play(stateVariables.ArmExtensionSFX, transform.position);
+        }
     }
 
     private void CaptureEnemy(params object[] parameters)

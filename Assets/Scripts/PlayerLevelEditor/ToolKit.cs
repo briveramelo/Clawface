@@ -116,7 +116,7 @@ namespace PlayerLevelEditor
         public static GameObject FindUIGameObject(string UIName)
         {
             if (m_CanvasObj == null)
-                m_CanvasObj = UnityTool.FindGameObject("Canvas");
+                m_CanvasObj = UnityTool.FindGameObject("EditorCanvas");
 
             if (m_CanvasObj == null)
                 return null;
@@ -147,7 +147,7 @@ namespace PlayerLevelEditor
         public static Button GetButton(string BtnName)
         {
 
-            GameObject UIRoot = GameObject.Find("Canvas");
+            GameObject UIRoot = GameObject.Find("EditorCanvas");
             if (UIRoot == null)
             {
                 Debug.LogWarning("No UI Canvas");
@@ -174,7 +174,7 @@ namespace PlayerLevelEditor
 
         public static T GetUIComponent<T>(string UIName) where T : UnityEngine.Component
         {
-            GameObject UIRoot = GameObject.Find("Canvas");
+            GameObject UIRoot = GameObject.Find("EditorCanvas");
 
             if (UIRoot == null)
             {

@@ -19,8 +19,6 @@ namespace PlayerLevelEditor
         Button Btn_Add;
         UnityAction ACT_Add;
 
-
-
         public Vector3 mousePositionInScene;
 
         private bool clickToAddEnabled = false;
@@ -45,9 +43,9 @@ namespace PlayerLevelEditor
             Btn_Add.onClick.AddListener(ACT_Add);
             Btn_Add.image.color = Color.white;
 
-            _prefab = Resources.Load("PlayerLevelEditorObjects/Env/test") as GameObject;
+            _prefab = Resources.Load(Strings.Editor.RESOURCE_PATH + "Env/test") as GameObject;
 
-//            Database.Enable();
+            Database.Enable();
         }
 
 
@@ -76,10 +74,8 @@ namespace PlayerLevelEditor
 
                     if (_pos.x == 0.0f && _pos.z == 0.0f)
                     {
-                        Debug.Log("DDD");
                         return;
                     }
-
 
                     GameObject _instance = GameObject.Instantiate(_prefab, _pos, Quaternion.identity);
 
@@ -96,7 +92,7 @@ namespace PlayerLevelEditor
             base.Release();
             Btn_Add.onClick.RemoveListener(ACT_Add);
 
-//            Database.Disable();
+            Database.Disable();
         }
 
 

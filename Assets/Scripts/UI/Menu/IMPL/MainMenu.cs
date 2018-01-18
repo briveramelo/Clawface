@@ -43,6 +43,15 @@ public class MainMenu : Menu
             new Effect[] { Effect.EXCLUSIVE });
     }
 
+    public void EditorAction()
+    {
+        Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
+        LoadMenu loadMenu = menu as LoadMenu;
+        loadMenu.TargetScene = Strings.Scenes.Editor;
+
+        MenuManager.Instance.DoTransition(loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+    }
+
     public void ControlsAction()
     {
         MenuManager.Instance.DoTransition(Strings.MenuStrings.CONTROLS,

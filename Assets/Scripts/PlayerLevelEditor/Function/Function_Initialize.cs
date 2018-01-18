@@ -43,7 +43,7 @@ namespace PlayerLevelEditor
         {
             base.Init();
 
-            _prefab = Resources.Load("PlayerLevelEditorObjects/Env/test") as GameObject;
+            _prefab = Resources.Load(Strings.Editor.RESOURCE_PATH + "Env/test") as GameObject;
             _prefab.transform.localPosition = new Vector3(0, 0, 0);
 
             #region UI Objcet
@@ -223,7 +223,7 @@ namespace PlayerLevelEditor
             if (WALL) GameObject.DestroyImmediate(WALL);
 
 
-            GameObject _player = UnityTool.FindGameObject("Keira_GroupV1.5(Clone)");
+            GameObject _player = UnityTool.FindGameObject(Strings.Editor.PLAYER_NAME);
             if (_player) GameObject.DestroyImmediate(_player);
 
             Initialized = false;

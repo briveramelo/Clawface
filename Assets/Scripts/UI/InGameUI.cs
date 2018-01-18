@@ -81,10 +81,8 @@ public class InGameUI : MonoBehaviour {
 
     private void OnDestroy()
     {
-
-        EventSystem instance = EventSystem.Instance;
-
-        if (instance)
+        
+        if (EventSystem.Instance)
         {
             EventSystem.Instance.UnRegisterEvent(Strings.Events.SCORE_UPDATED, UpdateScore);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.COMBO_UPDATED, UpdateCombo);

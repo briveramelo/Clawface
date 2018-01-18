@@ -94,7 +94,7 @@ public class ModManager : MonoBehaviour
         CheckToChargeAndFireMods();
         if (Input.GetKeyDown(KeyCode.M))
         {
-            //AcquireRandomMods();
+            AcquireRandomMods();
         }
     }
 
