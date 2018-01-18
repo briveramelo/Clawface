@@ -956,7 +956,7 @@ GameObject:
   - component: {fileID: 4871603912816636}
   - component: {fileID: 114564202051418958}
   - component: {fileID: 135496518068926920}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: HitTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3434,6 +3434,7 @@ MonoBehaviour:
   scoreValue: 300
   bufferHealth: 3
   grabObject: {fileID: 1857666137023048}
+  affectObject: {fileID: 1191435301809762}
   hitFlasher: {fileID: 114282653234116914}
   hitSFX: 0
   deathSFX: 0
@@ -3651,7 +3652,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bouncerParent: {fileID: 114072913232068868}
-  childCollider: {fileID: 135496518068926920}
 --- !u!114 &114630324391469878
 MonoBehaviour:
   m_ObjectHideFlags: 1

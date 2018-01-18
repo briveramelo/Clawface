@@ -5,10 +5,13 @@ using UnityEngine;
 
 public class MoveState : IPlayerState
 {
+    [Tooltip("Whether the left joystick handles both movement or rotation or just movement")]
+    [SerializeField]
+    private bool simpleMoveAndRotate = false;
+
     #region Private Fields
     private float sphereRadius = 0.1f;
     private Vector3 moveDirection;
-    private bool isSidescrolling;
     private bool canMove;
     private Vector3 lastMoveDirection;
     private float currentSpeed;
@@ -36,7 +39,6 @@ public class MoveState : IPlayerState
     {
         stateVariables = moveStateVariables;
         canMove = true;
-        isSidescrolling = false;
         lastMoveDirection = moveStateVariables.playerTransform.forward;
     }
 
@@ -60,11 +62,6 @@ public class MoveState : IPlayerState
                 lastLookDirection = Vector3.zero;
             }
             Vector2 moveModified = new Vector2(controllerMoveDir.x, controllerMoveDir.y);
-
-            if (isSidescrolling)
-            {
-                moveModified.y = 0F;
-            }
 
             moveDirection = new Vector3(moveModified.x, 0.0F, moveModified.y);
 
@@ -162,8 +159,23 @@ public class MoveState : IPlayerState
     }
 
     private void HandleRotation(){
-        if (lastLookDirection != Vector3.zero) {
-            stateVariables.playerTransform.forward = lastLookDirection;
+        if (simpleMoveAndRotate)
+        {
+            if (lastLookDirection != Vector3.zero)
+            {
+                stateVariables.playerTransform.forward = lastLookDirection;
+            }
+            else if (moveDirection != Vector3.zero)
+            {
+                stateVariables.playerTransform.forward = moveDirection;
+            }
+        }
+        else
+        {
+            if (lastLookDirection != Vector3.zero)
+            {
+                stateVariables.playerTransform.forward = lastLookDirection;
+            }
         }
     }
 
@@ -179,10 +191,6 @@ public class MoveState : IPlayerState
     #endregion
 
     #region Public Methods
-    public void SetSidescrolling(bool mode)
-    {
-        isSidescrolling = mode;
-    }
 
     public PlayerStateManager.StateVariables GetStateVariables()
     {

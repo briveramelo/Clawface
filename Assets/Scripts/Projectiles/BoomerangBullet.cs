@@ -5,10 +5,13 @@ using MovementEffects;
 
 public class BoomerangBullet : MonoBehaviour {
 
+    #region Serialized
     [SerializeField]
     private TrailRenderer trail;
 
+    #endregion
 
+    #region Private Variables
     private Damager damager = new Damager();
     private bool shooter;
     
@@ -18,28 +21,31 @@ public class BoomerangBullet : MonoBehaviour {
     private float rayDistanceMultiplier;
     private LayerMask raycastLayermask;
 
+    private float maxDistance;
+    private int maxBounces;
+
     private float deathTimer;
 
-    private IEnumerator<float> DestroyAfter() {
-        yield return Timing.WaitForSeconds(timeUntilDestroyed);
-        if (gameObject.activeSelf){
-            EmitBulletCollision();
-            trail.Clear();
-            gameObject.SetActive(false);
-        }
-    }
+    private int currentBounces = 0;
+    private float currentDistanceTraveled = 0f;
+    #endregion
 
+    
+
+    #region Unity Lifecycle
     void Update () {
         deathTimer += Time.deltaTime;
 
-        if (deathTimer > timeUntilDestroyed)
+        if (deathTimer > timeUntilDestroyed || currentDistanceTraveled >= maxDistance || currentBounces > maxBounces)
         {
             EmitBulletCollision();
-            trail.Clear();
-            gameObject.SetActive(false);
+            ResetBullet();
+            return;
         }
 
-        transform.Translate(Vector3.forward * speed * Time.deltaTime);
+        Vector3 distanceVector = Vector3.forward * speed * Time.deltaTime;
+        currentDistanceTraveled += distanceVector.magnitude;
+        transform.Translate(distanceVector);
 	}
 
     private void LateUpdate()
@@ -60,6 +66,7 @@ public class BoomerangBullet : MonoBehaviour {
                 transform.forward = reflectVec;
                 EmitBulletCollision();
                 SFXManager.Instance.Play(SFXType.BlasterProjectileImpact, transform.position);
+                currentBounces++;
             }
         }
     }
@@ -72,14 +79,22 @@ public class BoomerangBullet : MonoBehaviour {
         }
     }
 
+    #endregion
 
-    public void Initialize(float speed, float damage, float timeUntilDestroyed, float rayDistanceMultiplier, LayerMask raycastLayermask)
+    #region Publics
+    public void Initialize(float speed, float damage, float timeUntilDestroyed, float rayDistanceMultiplier, LayerMask raycastLayermask, float maxDistance, int maxBounces)
     {
         this.speed = speed;
         this.damage = damage;
         this.timeUntilDestroyed = timeUntilDestroyed;
         this.rayDistanceMultiplier = rayDistanceMultiplier;
         this.rayDistanceMultiplier = rayDistanceMultiplier;
+        this.currentBounces = 0;
+        this.currentDistanceTraveled = 0f;
+
+        this.maxDistance = maxDistance;
+        this.maxBounces = maxBounces;
+
         deathTimer = 0f;
     }
 
@@ -89,6 +104,15 @@ public class BoomerangBullet : MonoBehaviour {
         shooter = playerOrEnemy;
     }
 
+    public void ResetBullet()
+    {
+        trail.Clear();
+        gameObject.SetActive(false);
+    }
+
+    #endregion
+
+    #region Privates
     private void Damage(IDamageable damageable) {        
         if (damageable != null) {
 
@@ -104,4 +128,16 @@ public class BoomerangBullet : MonoBehaviour {
         }    
     }
 
+    private IEnumerator<float> DestroyAfter()
+    {
+        yield return Timing.WaitForSeconds(timeUntilDestroyed);
+        if (gameObject.activeSelf)
+        {
+            EmitBulletCollision();
+            trail.Clear();
+            gameObject.SetActive(false);
+        }
+    }
+
+    #endregion
 }
