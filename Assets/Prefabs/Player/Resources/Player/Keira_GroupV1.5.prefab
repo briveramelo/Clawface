@@ -3192,8 +3192,8 @@ MonoBehaviour:
   cam: {fileID: 114537611951469978}
   minEnemyDistanceForMinCamSize: 10
   camSizeGoesUpBy1ForEveryXUnits: 2.5
-  minCameraSize: 7.8
-  maxCameraSize: 8.5
+  minCameraSize: 8.5
+  maxCameraSize: 10
   lerpMultiplier: 3
   player: {fileID: 1737478168596758}
   activeEnemies: []
@@ -3607,6 +3607,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isBlockingState: 0
+  simpleMoveAndRotate: 0
 --- !u!114 &114796988419787074
 MonoBehaviour:
   m_ObjectHideFlags: 1
