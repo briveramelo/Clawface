@@ -280,6 +280,11 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
             }
         }
         animator.enabled = false;
+        AIController aiController = GetComponent<AIController>();
+        if (aiController)
+        {
+            aiController.DeActivateAI();
+        }
         ragdollOn = true;
     }
 
@@ -300,6 +305,11 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
             }
         }
         animator.enabled = true;
+        AIController aiController = GetComponent<AIController>();
+        if (aiController)
+        {
+            aiController.ActivateAI();
+        }
         ragdollOn = false;
     }
 
@@ -335,7 +345,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
             {
                 rigidbody.AddExplosionForce(pushForce, pushPosition, pushRadius);
             }
-            DelayAction(DisableRagdoll, 2f);
+            Timing.CallDelayed(5.0f, DisableRagdoll);
         }
     }
 
