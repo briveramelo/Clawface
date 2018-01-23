@@ -36,6 +36,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     private Vector3 grabStartPosition;
     private bool isIndestructable;
     private int id;
+    private bool ragdollOn;
     #endregion
 
     #region 0. Protected fields
@@ -279,6 +280,12 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
             }
         }
         animator.enabled = false;
+        AIController aiController = GetComponent<AIController>();
+        if (aiController)
+        {
+            aiController.DeActivateAI();
+        }
+        ragdollOn = true;
     }
 
     public void DisableRagdoll()
@@ -298,6 +305,12 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
             }
         }
         animator.enabled = true;
+        AIController aiController = GetComponent<AIController>();
+        if (aiController)
+        {
+            aiController.ActivateAI();
+        }
+        ragdollOn = false;
     }
 
     public GameObject GetGrabObject()
@@ -321,6 +334,22 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
             hitFlasher.SetStunnedState();
         }
     }
+
+    public void Push(float pushForce, Vector3 pushPosition, float pushRadius)
+    {
+        if (!ragdollOn)
+        {
+            EnableRagdoll();
+            Rigidbody rigidbody = GetComponent<Rigidbody>();
+            if (rigidbody)
+            {
+                rigidbody.AddExplosionForce(pushForce, pushPosition, pushRadius);
+            }
+            Timing.CallDelayed(5.0f, DisableRagdoll);
+        }
+    }
+
+
     #endregion
 
     #region 6. Private Methods
@@ -337,7 +366,5 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
             child.parent = null;
         }
     }
-
-
     #endregion
 }

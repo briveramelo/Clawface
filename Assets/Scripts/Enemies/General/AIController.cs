@@ -92,6 +92,10 @@ public abstract class AIController : MonoBehaviour {
         deActivateAI = true;
     }
 
+    public void ActivateAI()
+    {
+        deActivateAI = false;
+    }
 
     protected void Update() {
 

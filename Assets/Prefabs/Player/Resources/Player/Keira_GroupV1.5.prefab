@@ -1694,8 +1694,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1534432689421460}
-  m_LocalRotation: {x: -0.010544567, y: -0.0018358228, z: -0.016280068, w: 0.99981016}
-  m_LocalPosition: {x: 0.08275383, y: -0.7688623, z: -1.6282973}
+  m_LocalRotation: {x: -0.010544567, y: -0.0018358526, z: -0.016280053, w: 0.99981016}
+  m_LocalPosition: {x: 0.08275389, y: -0.76886165, z: -1.628298}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4554965905632336}
@@ -1805,7 +1805,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1999032260291118}
   m_LocalRotation: {x: 0.36188334, y: 0.4698932, z: -0.16906492, w: 0.7871835}
-  m_LocalPosition: {x: 5.7084694, y: 2.5000007, z: -163.83731}
+  m_LocalPosition: {x: -18.170975, y: 2.5000007, z: -136.54243}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4806380322644202}
@@ -1913,8 +1913,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1985927888073948}
-  m_LocalRotation: {x: -0.010474086, y: -0.0022026598, z: -0.051163018, w: 0.99863297}
-  m_LocalPosition: {x: 0.08275383, y: -0.7688623, z: -1.6282973}
+  m_LocalRotation: {x: -0.010474056, y: -0.0022026896, z: -0.051163018, w: 0.998633}
+  m_LocalPosition: {x: 0.08275389, y: -0.76886165, z: -1.628298}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4389288433435948}
@@ -2696,6 +2696,8 @@ MonoBehaviour:
   dashTrail: {fileID: 1658227218610060}
   highlightPoses: 01000000
   totalAttackPoses: 10
+  clawArmController: {fileID: 114675049875242238}
+  useClawPunch: 0
 --- !u!114 &114136393911348448
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2958,12 +2960,15 @@ MonoBehaviour:
     headSpinDuration: 2.5
     headSpinCoolDown: 3
     headSpinDamage: 0.05
+    clawPunchDistance: 5
+    dashBlastRadius: 5
+    dashBlastForce: 5
   defaultState: {fileID: 114776189445566068}
   playerStatsManager: {fileID: 114430878911601216}
   holdAttackSlowDown: 3
   dashState: {fileID: 114132200228300390}
   dashCoolDown: 0.1
-  useHeadSpin: 1
+  useHeadSpin: 0
   eatingState: {fileID: 114325496831137656}
   eatCollider: {fileID: 135888620666243734}
   tutorialSlowDownRate: 0.05
