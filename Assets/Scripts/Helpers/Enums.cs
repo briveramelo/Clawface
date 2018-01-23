@@ -133,6 +133,7 @@ public enum PoolObjectType {
     VFXEnemySpawn=50,
     VFXSpreadshotShoot=51,
     VFXSpreadshotImpact=52,
+    VFXEnemyProjectileImpact=53,
 
     //BulletTypes
     TurretBullet = 28,
