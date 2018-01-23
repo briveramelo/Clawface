@@ -37,6 +37,8 @@ public class GoreManager : Singleton<GoreManager> {
 
     #endregion
 
+    #region Interface (Unity Lifecycle)
+
     protected override void Awake()
     {
         base.Awake();
@@ -71,7 +73,44 @@ public class GoreManager : Singleton<GoreManager> {
     }
     #endif
 
-    public void QueueSplat(Vector3 worldPos, Vector2 projectileDir) {
+    #endregion
+
+    #region Interface (Public)
+
+    public void AddBloodBuffer(CommandBuffer buffer)
+    {
+        uvSpaceCamera.AddCommandBuffer(CameraEvent.AfterEverything, buffer);
+    }
+
+    public void EmitDirectionalBlood(DamagePack pack)
+    {
+        // Determine Position to emit blood from:
+        Vector3 position = pack.damaged.owner.position;
+        RaycastHit hit;
+        if (Physics.Raycast(position, Vector3.down, out hit, 5F,
+            LayerMasker.GetLayerMask(Layers.Ground)))
+        {
+            position = hit.point;
+        }
+        else
+        {
+            // We'll set the 'y' to zero which should be near the floor...
+            position.y = 0;
+        }
+
+        // Obtain lateral impact direction
+        Vector3 impactDir = pack.damager.impactDirection;
+        Vector2 projectileDir = new Vector2(impactDir.x, impactDir.z);
+
+        // Queue Up Directional Splat
+        QueueDirectionalSplat(position, projectileDir);
+    }
+
+    #endregion
+
+    #region Interface (Private)
+
+    private void QueueDirectionalSplat(Vector3 worldPos, Vector2 projectileDir) {
         
         Vector3 raycastDir = new Vector3(projectileDir.x, 0, projectileDir.y);
         RaycastHit[] collided = Physics.SphereCastAll(worldPos, sphereRadius, raycastDir, castDistance);
@@ -85,8 +124,8 @@ public class GoreManager : Singleton<GoreManager> {
                 hitSphere.transform.SetParent(debugMarkers.transform);
                 hitSphere.transform.up = -raycastDir;
                 hitSphere.transform.position = worldPos + raycastDir / 2F;
-                hitSphere.transform.localScale = new Vector3(sphereRadius, sphereRadius * 2 + castDistance,
-                    sphereRadius);
+                hitSphere.transform.localScale = new Vector3(sphereRadius,
+                    sphereRadius * 2 + castDistance, sphereRadius);
                 hitSphere.GetComponent<Collider>().enabled = false;
             }
             #endif
@@ -105,8 +144,5 @@ public class GoreManager : Singleton<GoreManager> {
         }
     }
 
-    public void RenderSplats(CommandBuffer buffer)
-    {
-        uvSpaceCamera.AddCommandBuffer(CameraEvent.AfterEverything, buffer);
-    }
+    #endregion
 }

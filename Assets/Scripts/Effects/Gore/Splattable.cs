@@ -92,7 +92,7 @@ public class Splattable : MonoBehaviour
         if (splatsToRender.Count > 0)
         {
             CommandBuffer buffer = CreateCommandBuffer();
-            GoreManager.Instance.RenderSplats(buffer);
+            GoreManager.Instance.AddBloodBuffer(buffer);
         }
     } 
 

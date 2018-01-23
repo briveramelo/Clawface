@@ -1,4 +1,4 @@
-﻿Shader "Custom/Gore/RenderSplat"
+﻿Shader "Custom/Gore/RenderSplat (Old)"
 {
 	Properties
 	{
