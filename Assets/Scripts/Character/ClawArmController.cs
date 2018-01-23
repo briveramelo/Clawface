@@ -93,7 +93,7 @@ public class ClawArmController : MonoBehaviour {
         end.forward = start.forward;
     }
 
-    public void ExtendClawToRadius(float radius)
+    public void ExtendClawToDistance(float radius)
     {
         clawAnimationHandler.gameObject.SetActive(true);
         end.position = start.position + start.forward * radius;
