@@ -29,6 +29,8 @@ public class DashState : IPlayerState {
     private ClawArmController clawArmController;
     [SerializeField]
     private bool useClawPunch;
+    [SerializeField]
+    private bool dashInLookDirection;
     #endregion
 
     #region Private Fields
@@ -133,7 +135,15 @@ public class DashState : IPlayerState {
 
     private void MovePlayer()
     {
-        Vector3 direction = stateVariables.velBody.MoveDirection;
+        Vector3 direction;
+        if (dashInLookDirection)
+        {
+            direction = stateVariables.velBody.GetForward();
+        }
+        else
+        {
+            direction = stateVariables.velBody.MoveDirection;
+        }        
         direction.y = 0f;
         stateVariables.velBody.velocity = direction * dashVelocity;
     }
