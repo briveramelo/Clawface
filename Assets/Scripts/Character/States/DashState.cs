@@ -27,6 +27,8 @@ public class DashState : IPlayerState {
     protected int totalAttackPoses;
     [SerializeField]
     private ClawArmController clawArmController;
+    [SerializeField]
+    private bool useClawPunch;
     #endregion
 
     #region Private Fields
@@ -55,7 +57,7 @@ public class DashState : IPlayerState {
             SFXManager.Instance.Play(SFXType.Dash, transform.position);
             dashPuff.Play();
             dashTrail.GetComponent<TrailRenderer>().enabled = true;
-            if (!isClawOut)
+            if (!isClawOut && useClawPunch)
             {
                 isClawOut = true;
                 clawArmController.ExtendClawToDistance(stateVariables.clawPunchDistance);
@@ -65,7 +67,10 @@ public class DashState : IPlayerState {
         PlayAnimation();
         CheckForIFrames();
         MovePlayer();
-        BlastEm();
+        if (useClawPunch)
+        {
+            BlastEm();
+        }
         if (currentFrame >= totalDashFrames) {
             ResetState();
         }
@@ -78,7 +83,10 @@ public class DashState : IPlayerState {
 
     public override void StateLateUpdate()
     {
-        stateVariables.modelHead.transform.forward = stateVariables.velBody.MoveDirection;
+        if (useClawPunch)
+        {
+            stateVariables.modelHead.transform.forward = stateVariables.velBody.MoveDirection;
+        }
     }
     #endregion
 
