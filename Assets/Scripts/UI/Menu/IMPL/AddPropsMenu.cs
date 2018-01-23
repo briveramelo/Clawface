@@ -16,7 +16,7 @@ public class AddPropsMenu : Menu {
     }
 
 
-    public bool adding = false;
+    
 
     #endregion
 
@@ -33,17 +33,14 @@ public class AddPropsMenu : Menu {
     //TODO: Only uses the level block prefab, need to hook in new method
     //to select other items
     private static GameObject levelBlock;
-
-    private GameObject levelObject;
-
+    private GameObject mainLevelObject;
     private float raycastDistance = 1000.0f;
-
     private Vector3 sceneMousePos;
-    
     private bool initialized = false;
-
     private Vector3 newItemPos = Vector3.zero;
-    #endregion  
+
+    private bool inputGuard = false;
+    #endregion
 
 
     #region Unity Lifecycle
@@ -51,7 +48,7 @@ public class AddPropsMenu : Menu {
     // Update is called once per frame
     private void Update()
     {
-        if(adding)
+        if(inputGuard)
         {
             if (initialized)
             {
@@ -65,9 +62,7 @@ public class AddPropsMenu : Menu {
 
             if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN))
             {
-                adding = false;
-                initialized = false;
-                MenuManager.Instance.DoTransition(editorInstance.GetMenu(PLEMenu.MAIN), Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+                BackAction();
             }
 
         }
@@ -84,7 +79,7 @@ public class AddPropsMenu : Menu {
 
     public void Initialize(params object[] par)
     {
-        levelObject = EditorToolKit.FindGameObject("LEVEL");
+        mainLevelObject = EditorToolKit.FindGameObject("LEVEL");
         levelBlock = Resources.Load(Strings.Editor.RESOURCE_PATH + Strings.Editor.BASIC_LVL_BLOCK) as GameObject;
 
         initialized = true;
@@ -92,22 +87,38 @@ public class AddPropsMenu : Menu {
 
     public void AddAction()
     {
+        if (mainLevelObject == null)
+        {
+            Initialize();
+        }
+
         GameObject _instance = GameObject.Instantiate(levelBlock, newItemPos, Quaternion.identity);
 
-        _instance.transform.SetParent(levelObject.transform);
+        _instance.transform.SetParent(mainLevelObject.transform);
 
         newItemPos = Vector3.zero;
-    }
-
-    public void BackAction()
-    {
 
     }
+
+
 
     #endregion
 
 
     #region Protected Interface
+
+    protected override void ShowComplete()
+    {
+        base.ShowComplete();
+        inputGuard = true;
+    }
+
+    protected override void HideStarted()
+    {
+        base.HideStarted();
+        inputGuard = false;
+        initialized = false;
+    }
 
     protected override void DefaultShow(Transition transition, Effect[] effects)
     {
@@ -159,7 +170,12 @@ public class AddPropsMenu : Menu {
         
     }
 
+    private void BackAction()
+    {
+        MainPLEMenu menu = editorInstance.GetMenu(PLEMenu.MAIN) as MainPLEMenu;
 
+        MenuManager.Instance.DoTransition(menu, Menu.Transition.SHOW, new Menu.Effect[] { Menu.Effect.EXCLUSIVE });
+    }
 
     #endregion
 
