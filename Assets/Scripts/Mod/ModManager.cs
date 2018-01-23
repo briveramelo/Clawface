@@ -32,6 +32,9 @@ public class ModManager : MonoBehaviour
     [SerializeField] private float modPickupRadius;
     [SerializeField] private ModType[] modPool;
     [SerializeField] private ModPositions modPositions;
+
+    [SerializeField] private bool rightStickFire = true;
+    [SerializeField] private float minJoystickFireMagnitude = 0.7f;
     #endregion    
 
     #region Private Fields
@@ -236,7 +239,7 @@ public class ModManager : MonoBehaviour
         isDead = true;
     }
     
-    private ModSpot GetCommandedModSpot(ButtonMode mode){        
+    private ModSpot GetCommandedModSpot(ButtonMode mode){
         if (InputManager.Instance.QueryAction(Strings.Input.Actions.FIRE_LEFT, mode))
         {
             return ModSpot.ArmL;
@@ -249,7 +252,20 @@ public class ModManager : MonoBehaviour
     }
 
     private List<ModSpot> GetCommandedModSpots(ButtonMode mode) {
-        List<ModSpot> modSpots = new List<ModSpot>();        
+        List<ModSpot> modSpots = new List<ModSpot>();
+
+        if (rightStickFire)
+        {
+            bool joystickInput = InputManager.Instance.QueryAxes(Strings.Input.Axes.LOOK).magnitude >= minJoystickFireMagnitude ? true : false;
+
+            if (joystickInput)
+            {
+                modSpots.Add(ModSpot.ArmL);
+                modSpots.Add(ModSpot.ArmR);
+                return modSpots;
+            }
+        }
+
         if (InputManager.Instance.QueryAction(Strings.Input.Actions.FIRE_LEFT, mode))
         {
             modSpots.Add(ModSpot.ArmL);

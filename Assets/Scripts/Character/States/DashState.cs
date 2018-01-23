@@ -21,19 +21,29 @@ public class DashState : IPlayerState {
     private VFXOneOff dashPuff;
     [SerializeField]
     private GameObject dashTrail;
-    //[SerializeField] private Collider playerCollider;
     [SerializeField]
     protected int[] highlightPoses;
     [SerializeField]
     protected int totalAttackPoses;
+    [SerializeField]
+    private ClawArmController clawArmController;
+    [SerializeField]
+    private bool useClawPunch;
+    [SerializeField]
+    private bool dashInLookDirection;
     #endregion
 
     #region Private Fields
     private int currentFrame;
     private int currentPose;
+    private bool isClawOut;
     #endregion
 
-    #region Unity Lifecycle  
+    #region Unity Lifecycle
+    private void Start()
+    {
+        isClawOut = false;
+    }
 
     // Use this for initialization
     public override void Init(ref PlayerStateManager.StateVariables stateVariables)
@@ -49,11 +59,20 @@ public class DashState : IPlayerState {
             SFXManager.Instance.Play(SFXType.Dash, transform.position);
             dashPuff.Play();
             dashTrail.GetComponent<TrailRenderer>().enabled = true;
+            if (!isClawOut && useClawPunch)
+            {
+                isClawOut = true;
+                clawArmController.ExtendClawToDistance(stateVariables.clawPunchDistance);
+            }
         }
         currentFrame++;
         PlayAnimation();
         CheckForIFrames();
         MovePlayer();
+        if (useClawPunch)
+        {
+            BlastEm();
+        }
         if (currentFrame >= totalDashFrames) {
             ResetState();
         }
@@ -66,8 +85,11 @@ public class DashState : IPlayerState {
 
     public override void StateLateUpdate()
     {
-        
-    }    
+        if (useClawPunch)
+        {
+            stateVariables.modelHead.transform.forward = stateVariables.velBody.MoveDirection;
+        }
+    }
     #endregion
 
     #region Private Methods
@@ -82,6 +104,8 @@ public class DashState : IPlayerState {
             stateVariables.velBody.velocity = stateVariables.velBody.GetForward() * dashVelocity/10f;
         }
         dashTrail.GetComponent<TrailRenderer>().enabled = false;
+        clawArmController.ResetClawArm();
+        isClawOut = false;
         stateVariables.stateFinished = true;
     }
 
@@ -111,9 +135,30 @@ public class DashState : IPlayerState {
 
     private void MovePlayer()
     {
-        Vector3 direction = stateVariables.velBody.MoveDirection;
+        Vector3 direction;
+        if (dashInLookDirection)
+        {
+            direction = stateVariables.velBody.GetForward();
+        }
+        else
+        {
+            direction = stateVariables.velBody.MoveDirection;
+        }        
         direction.y = 0f;
         stateVariables.velBody.velocity = direction * dashVelocity;
+    }
+
+    private void BlastEm()
+    {
+        Collider[] enemies = Physics.OverlapSphere(transform.position, stateVariables.dashBlastRadius, LayerMask.GetMask(Strings.Layers.ENEMY));
+        foreach(Collider enemy in enemies)
+        {
+            EnemyBase enemyBase = enemy.GetComponent<EnemyBase>();
+            if (enemyBase)
+            {
+                enemyBase.Push(stateVariables.dashBlastForce, transform.position, stateVariables.dashBlastRadius);
+            }
+        }
     }
     #endregion
 

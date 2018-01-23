@@ -49,7 +49,7 @@ public class HeadSpinState : IPlayerState
         if (!isClawExtended)
         {
             stateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.OpenFace);
-            clawArmController.ExtendClawToRadius(stateVariables.headSpinClawRadius);
+            clawArmController.ExtendClawToDistance(stateVariables.headSpinClawRadius);
             isClawExtended = true;
         }
         ClearProjectilesAndDamageEnemies();
