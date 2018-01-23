@@ -30,6 +30,9 @@ public class Missile : MonoBehaviour {
     private float deathTimer;
 
     private float timeTilDeath;
+
+    private float gravity;
+    private float yImpulse;
     #endregion
 
     #region Unity lifecycle
@@ -47,6 +50,8 @@ public class Missile : MonoBehaviour {
         {
             deathTimer += Time.deltaTime;
             transform.position += (transform.forward * speed * Time.deltaTime);
+            transform.position += (transform.up * yImpulse * Time.deltaTime);
+            yImpulse -= gravity;
 
             if (deathTimer > timeTilDeath)
             {
@@ -58,7 +63,7 @@ public class Missile : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag(Strings.Tags.ENEMY) || other.CompareTag(Strings.Tags.WALL))
+        if (other.CompareTag(Strings.Tags.ENEMY) || other.CompareTag(Strings.Tags.WALL) || other.CompareTag(Strings.Tags.FLOOR))
         {
             Explode();
             ResetBullet();
@@ -67,7 +72,7 @@ public class Missile : MonoBehaviour {
     #endregion
 
     #region Public functions
-    public void Init(float speed, float closeRadius, float farRadius, float closeDamage, float farDamage, float timeTilDeath)
+    public void Init(float speed, float closeRadius, float farRadius, float closeDamage, float farDamage, float timeTilDeath, float verticalImpulse, float gravity)
     {
         this.speed = speed;
         this.highDamageRadius = closeRadius;
@@ -75,9 +80,12 @@ public class Missile : MonoBehaviour {
         this.closeDamage = closeDamage;
         this.farDamage = farDamage;
         this.timeTilDeath = timeTilDeath;
+        this.yImpulse = verticalImpulse;
+        this.gravity = gravity;
         isReady = true;
         initPosition = transform.position;
         deathTimer = 0f;
+        gravity = 0f;
     }
     #endregion
 
@@ -140,7 +148,6 @@ public class Missile : MonoBehaviour {
         isReady = false;
         deathTimer = 0f;
         gameObject.SetActive(false);
-        transform.SetParent(ObjectPool.Instance.transform);
     }
     #endregion
 
