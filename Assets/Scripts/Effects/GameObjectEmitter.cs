@@ -59,13 +59,13 @@ public class GameObjectEmitter : MonoBehaviour {
 
         Rigidbody instanceRB = instance.GetComponent<Rigidbody>();
         Vector3 force = Random.insideUnitSphere * Random.Range(forceMin, forceMax);
-        instanceRB.AddForce(force, ForceMode.VelocityChange);
+        
+        instanceRB.velocity = force;
         Vector3 torque = Random.insideUnitSphere * Random.Range(rotationalVelocityMin, rotationalVelocityMax);
         instanceRB.AddTorque(torque, ForceMode.VelocityChange);
 
         instance.gameObject.SetActive(true);
 
-        print("force added");
         return instance;
     }
 }
