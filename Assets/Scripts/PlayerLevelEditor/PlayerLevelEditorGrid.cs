@@ -4,20 +4,47 @@ using UnityEngine;
 
 public class PlayerLevelEditorGrid : MonoBehaviour
 {
+    [SerializeField]
+    GameObject MockLevel;
+
+    [SerializeField]
+    GameObject RealLevel;
+
+    Dictionary<Vector3, GameObject> MockLevelDict = new Dictionary<Vector3, GameObject>();
+    Dictionary<Vector3, GameObject> RealLevelDict = new Dictionary<Vector3, GameObject>();
 
     GameObject OnClickObject = null;
 
 	// Use this for initialization
 	void Start ()
     {
-        var hits = Physics.BoxCastAll(Vector3.zero, new Vector3(1, 1, 1), Vector3.right, Quaternion.identity, 10000);
-        Debug.Log("Hits length: " + hits.Length);
-
-        foreach (var item in hits)
+        if(MockLevel == null)
         {
-            Debug.Log(item.transform.name);
-            Debug.Log(item.transform.position);
+            Debug.LogError("MockLevel is null");
         }
+
+        foreach (Transform child in MockLevel.transform)
+        {
+            MockLevelDict.Add(child.transform.position, child.gameObject);      
+        }
+
+        if (MockLevel == null)
+        {
+            Debug.LogError("MockLevel is null");
+        }
+
+
+        Debug.Log(MockLevelDict[new Vector3(0, 0, 0)]);
+
+        //var hits = Physics.BoxCastAll(Vector3.zero, new Vector3(1, 1, 1), Vector3.right, Quaternion.identity, 10000);
+        //Debug.Log("Hits length: " + hits.Length);
+
+        //foreach (var item in hits)
+        //{
+        //    Debug.Log(item.transform.name);
+        //    Debug.Log(item.transform.position);
+        //}
+
 
     }
 	
@@ -38,7 +65,6 @@ public class PlayerLevelEditorGrid : MonoBehaviour
                 OnClickObject = hit.transform.gameObject;
             }
 
-
             if (Input.GetMouseButtonUp(0))
             {
                 Debug.Log("Release: ");
@@ -53,20 +79,19 @@ public class PlayerLevelEditorGrid : MonoBehaviour
 
                 var HitsInX = Physics.BoxCastAll(new Vector3(xMin, 0, zMin), new Vector3(1, 1, 1), Vector3.right, Quaternion.identity, xMax - xMin);
 
+                foreach (var itemX in HitsInX)
                 {
-                    foreach (var itemX in HitsInX)
+                    Debug.Log(itemX.transform.position);
+                    itemX.transform.gameObject.GetComponent<Renderer>().material.color = Color.green;
+
+                    var HitsInZ = Physics.BoxCastAll(itemX.transform.position, new Vector3(1, 1, 1), Vector3.forward, Quaternion.identity, zMax - zMin);
+
+                    foreach (var itemZ in HitsInZ)
                     {
-                        Debug.Log(itemX.transform.position);
-                        itemX.transform.gameObject.GetComponent<Renderer>().material.color = Color.green;
-
-                        var HitsInZ = Physics.BoxCastAll(itemX.transform.position, new Vector3(1, 1, 1), Vector3.forward, Quaternion.identity, zMax - zMin);
-
-                        foreach (var itemZ in HitsInZ)
-                        {
-                            itemZ.transform.gameObject.GetComponent<Renderer>().material.color = Color.green;
-                        }
+                        itemZ.transform.gameObject.GetComponent<Renderer>().material.color = Color.green;
                     }
                 }
+
 
             }
         }
