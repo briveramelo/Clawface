@@ -28,7 +28,6 @@ namespace PlayerLevelEditor
 
         [SerializeField] private CanvasGroup editorCG;
         [SerializeField] private MainPLEMenu mainEditorMenu;
-        [SerializeField] private InitPLEMenu initEditorMenu;
         [SerializeField] private AddPropsMenu propsEditorMenu;
         [SerializeField] private AddSpawnsMenu spawnsEditorMenu;
         [SerializeField] private SetDynamicLevelMenu dynLevelEditorMenu;
@@ -52,6 +51,7 @@ namespace PlayerLevelEditor
             {
                 controller.Update();
             }
+            
         }
 
 
@@ -69,7 +69,6 @@ namespace PlayerLevelEditor
         public void EditorInitialize(params object[] par)
         {
             m_DynamicLevelSystem = new DynamicLevelSystem();
-            initEditorMenu.Init();
             propsEditorMenu.Initialize();
 
             //ObjectDB = new Database();
@@ -83,13 +82,12 @@ namespace PlayerLevelEditor
         private void MenuSetup()
         {
             //Hide menus that aren't need to be shown yet
-            MenuManager.Instance.DoTransition(mainEditorMenu, Menu.Transition.HIDE, new Menu.Effect[] { });
             MenuManager.Instance.DoTransition(propsEditorMenu, Menu.Transition.HIDE, new Menu.Effect[] { });
             MenuManager.Instance.DoTransition(spawnsEditorMenu, Menu.Transition.HIDE, new Menu.Effect[] { });
             MenuManager.Instance.DoTransition(dynLevelEditorMenu, Menu.Transition.HIDE, new Menu.Effect[] { });
 
             //show the init menu
-            MenuManager.Instance.DoTransition(initEditorMenu, Menu.Transition.SHOW, new Menu.Effect[] { Menu.Effect.EXCLUSIVE});
+            MenuManager.Instance.DoTransition(mainEditorMenu, Menu.Transition.SHOW, new Menu.Effect[] { Menu.Effect.EXCLUSIVE });
 
         }
 
@@ -139,8 +137,8 @@ namespace PlayerLevelEditor
         {
             switch (i_menu)
             {
-                case PLEMenu.INIT:
-                    return initEditorMenu;
+                //case PLEMenu.INIT:
+                //    return initEditorMenu;
                 case PLEMenu.MAIN:
                     return mainEditorMenu;
                 case PLEMenu.PROPS:

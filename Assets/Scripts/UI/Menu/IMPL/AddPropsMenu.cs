@@ -25,7 +25,6 @@ public class AddPropsMenu : Menu {
     [SerializeField] private Button initiallySelected;
     [SerializeField] private LevelEditor editorInstance;
 
-
     #endregion
 
     #region Private Fields
