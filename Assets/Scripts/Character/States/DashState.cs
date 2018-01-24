@@ -62,7 +62,7 @@ public class DashState : IPlayerState {
             if (!isClawOut && useClawPunch)
             {
                 isClawOut = true;
-                clawArmController.ExtendClawToDistance(stateVariables.clawPunchDistance);
+                clawArmController.ExtendClawToDistance(stateVariables.clawPunchDistance, true);
             }
         }
         currentFrame++;
@@ -150,13 +150,13 @@ public class DashState : IPlayerState {
 
     private void BlastEm()
     {
-        Collider[] enemies = Physics.OverlapSphere(transform.position, stateVariables.dashBlastRadius, LayerMask.GetMask(Strings.Layers.ENEMY));
+        Collider[] enemies = Physics.OverlapSphere(clawArmController.GetEndPosition(), stateVariables.dashEnemyCheckRadius, LayerMask.GetMask(Strings.Layers.ENEMY));
         foreach(Collider enemy in enemies)
         {
             EnemyBase enemyBase = enemy.GetComponent<EnemyBase>();
             if (enemyBase)
             {
-                enemyBase.Push(stateVariables.dashBlastForce, transform.position, stateVariables.dashBlastRadius);
+                enemyBase.Push();
             }
         }
     }
