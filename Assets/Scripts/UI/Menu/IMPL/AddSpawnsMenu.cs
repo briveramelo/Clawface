@@ -2,7 +2,7 @@
 using UnityEngine;
 using PlayerLevelEditor;
 
-public class SetDynamicLevelMenu : Menu {
+public class AddSpawnsMenu : Menu {
 
     #region Public Fields
 
@@ -38,16 +38,16 @@ public class SetDynamicLevelMenu : Menu {
 
     #endregion  
 
-    #region Private Fields
-
-    private bool inputGuard = false;
-
-    #endregion  
-
     #region Public Interface
 
-    public SetDynamicLevelMenu() : base(Strings.MenuStrings.SET_DYNLEVEL_PLE)
+    public AddSpawnsMenu() : base(Strings.MenuStrings.ADD_SPAWNS_PLE)
     { }
+
+    #endregion
+
+    #region Private Fields 
+
+    private bool inputGuard = false;
 
     #endregion
 
@@ -68,6 +68,7 @@ public class SetDynamicLevelMenu : Menu {
     protected override void DefaultShow(Transition transition, Effect[] effects)
     {
         Fade(transition, effects);
+
     }
 
     protected override void DefaultHide(Transition transition, Effect[] effects)
@@ -79,10 +80,24 @@ public class SetDynamicLevelMenu : Menu {
 
     #region Private Interface
 
-    public void BackAction()
+    private void AddAction()
     {
-        MenuManager.Instance.DoTransition(editorInstance.GetMenu(PLEMenu.MAIN), Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+        //TODO: Set Button to activated state via Sprite change
+#if UNITY_EDITOR
+        Debug.Log("Adding enemies ooooh");
+#endif
+        
+    }
+
+    private void BackAction()
+    {
+
+        MainPLEMenu menu = editorInstance.GetMenu(PLEMenu.MAIN) as MainPLEMenu;
+
+        MenuManager.Instance.DoTransition(menu, Menu.Transition.SHOW, new Menu.Effect[] { Menu.Effect.EXCLUSIVE });
+
     }
 
     #endregion
+
 }

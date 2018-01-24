@@ -6,7 +6,7 @@ using System.Collections.Generic;
 namespace PlayerLevelEditor
 {
     [RequireComponent(typeof(Camera))]
-    public class Camera : MonoBehaviour
+    public class PLECameraController : MonoBehaviour
     {
         private Material lineMaterial;
         private Color lineColor = Color.red;
