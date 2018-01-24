@@ -335,17 +335,13 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         }
     }
 
-    public void Push(float pushForce, Vector3 pushPosition, float pushRadius)
+    public void Push()
     {
         if (!ragdollOn)
         {
             EnableRagdoll();
-            Rigidbody rigidbody = GetComponent<Rigidbody>();
-            if (rigidbody)
-            {
-                rigidbody.AddExplosionForce(pushForce, pushPosition, pushRadius);
-            }
-            Timing.CallDelayed(5.0f, DisableRagdoll);
+            DisableCollider();
+            Timing.CallDelayed(5.0f, GetUp);
         }
     }
 
@@ -353,6 +349,17 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     #endregion
 
     #region 6. Private Methods
+    private void EnableCollider()
+    {
+        GetComponent<CapsuleCollider>().enabled = true;
+    }
+
+    private void GetUp()
+    {
+        EnableCollider();
+        DisableRagdoll();
+    }
+
     private void SetInvincible(object[] parameters)
     {
         isIndestructable = (bool)parameters[0];

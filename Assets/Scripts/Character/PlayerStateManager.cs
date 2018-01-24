@@ -384,8 +384,7 @@ public class PlayerStateManager : RoutineRunner {
         public float headSpinCoolDown = 3.0f;
         public float headSpinDamage = 0.05f;
         public float clawPunchDistance = 5.0f;
-        public float dashBlastRadius = 5.0f;
-        public float dashBlastForce = 20.0f;
+        public float dashEnemyCheckRadius = 0.5f;
     }
     #endregion
 
