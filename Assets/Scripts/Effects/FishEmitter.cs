@@ -31,7 +31,6 @@ public class FishEmitter : GameObjectEmitter {
             popOriginOffsetMax, popRotationalForceMin, popRotationalForceMax,
             flopDist, flopRate, flopSpeed);
 
-        print("emitted");
         return instance;
     }
 }

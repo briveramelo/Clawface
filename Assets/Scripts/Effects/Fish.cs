@@ -76,6 +76,5 @@ public class Fish : EmittedGameObject {
 
         Vector3 torque = Random.insideUnitSphere * Random.Range(popRotationalForceMin, popRotationalForceMax);
         rb.AddTorque(torque, ForceMode.Acceleration);
-        print("popping");
     }
 }
