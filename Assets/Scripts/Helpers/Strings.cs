@@ -189,6 +189,7 @@
         public const string LEVEL_OBJECT = "LEVEL";
 
         //objects
+        public const string BASIC_LE_BLOCK = "Env/LECube";
         public const string BASIC_LVL_BLOCK = "Env/MockBlock";
     }
 
