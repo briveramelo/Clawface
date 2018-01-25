@@ -67,7 +67,7 @@ public class SplatSO : ScriptableObject {
     /// Serialized rotation value.  See Accessors.
     /// </summary>
     [SerializeField]
-    private Vector2 rotation = new Vector2(0F, 0F);
+    private Vector2 rotation = new Vector2(1F, 0F);
 
     #endregion
 
@@ -91,7 +91,10 @@ public class SplatSO : ScriptableObject {
     /// <returns>The "rotation" of the splat to render frames with.</returns>
     public Vector2 CalculateRotation(Vector2 rotation)
     {
-        return (this.rotation + rotation).normalized;
+        float rotOriginal = Mathf.Atan2(this.rotation.y, this.rotation.x);
+        float rotNew = Mathf.Atan2(rotation.y, rotation.x);
+        float rotCombined = rotOriginal + rotNew;
+        return new Vector2(Mathf.Cos(rotCombined), Mathf.Sin(rotCombined)).normalized;
     }
 
     #endregion

@@ -80,6 +80,7 @@ public class GoreManager : Singleton<GoreManager> {
     public void AddBloodBuffer(CommandBuffer buffer)
     {
         uvSpaceCamera.AddCommandBuffer(CameraEvent.AfterEverything, buffer);
+        shouldRenderSplats = true;
     }
 
     public void EmitDirectionalBlood(DamagePack pack)
@@ -120,17 +121,15 @@ public class GoreManager : Singleton<GoreManager> {
             #if UNITY_EDITOR
             if (debugSplats)
             {
-                GameObject hitSphere = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+                GameObject hitSphere = GameObject.CreatePrimitive(PrimitiveType.Capsule);
                 hitSphere.transform.SetParent(debugMarkers.transform);
                 hitSphere.transform.up = -raycastDir;
                 hitSphere.transform.position = worldPos + raycastDir / 2F;
                 hitSphere.transform.localScale = new Vector3(sphereRadius,
-                    sphereRadius * 2 + castDistance, sphereRadius);
+                    castDistance, sphereRadius);
                 hitSphere.GetComponent<Collider>().enabled = false;
             }
             #endif
-
-            shouldRenderSplats = true;
             
             SplatSO randomSplat = splats[Random.Range(0, splats.Length - 1)];             
             foreach (RaycastHit hit in collided) {

@@ -29,8 +29,8 @@ public class Splattable : MonoBehaviour
     #region Unity Serialization
 
     [Header ("Splat Stuffs")]
-    [SerializeField] private Texture2D paintMask = Texture2D.whiteTexture;
-    [SerializeField] private Texture2D renderMask = Texture2D.whiteTexture;
+    [SerializeField] private Texture2D paintMask = null;
+    [SerializeField] private Texture2D renderMask = null;
 
 	[Header ("Render Texture Configuration")]
 	[SerializeField] private int renderTextureWidth = 512;
@@ -66,6 +66,8 @@ public class Splattable : MonoBehaviour
 	{
         // Assertions
 		Assert.IsNotNull (renderSplat);
+        paintMask = paintMask != null ? paintMask : Texture2D.whiteTexture;
+        renderMask = renderMask != null ? renderMask : Texture2D.whiteTexture;
 
         // Set Up Render Data
 		splatMap = new RenderTexture (renderTextureWidth, renderTextureHeight, 0, RenderTextureFormat.ARGB32);
@@ -185,7 +187,7 @@ public class Splattable : MonoBehaviour
     private Texture2DArray CreateTextureArray(List<Texture2D> textures)
     {
         Texture2DArray array = new Texture2DArray( Mathf.FloorToInt(frameDim.x), Mathf.FloorToInt(frameDim.y),
-            textures.Count, TextureFormat.ARGB32, false);
+            textures.Count, textures[0].format, true);
         for (int index = 0; index < textures.Count; index++)
         {
             Graphics.CopyTexture(textures[index], 0, array, index);

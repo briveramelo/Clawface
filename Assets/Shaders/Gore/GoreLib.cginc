@@ -89,13 +89,15 @@ inline float2 ConvertToUV(float3 vec, float3 tangent, float3 bitangent)
 		{ x-component of j' ,  y-component of j' }
 	This formula was extracted from:
 		http://www.continuummechanics.org/coordxforms.html (Transformation Matrix Formulation)
+	This is no longer 100% accurate.  We make some changes to the above to make it work...
+	Something isn't quite right in the system. :P
 */
 inline float2 RotateByJUnitVector(float2 uv, float2 rotation)
 {
-	float2 normalized = normalize(rotation);
+	float2 normalized = -normalize(rotation);
 	float2x2 transform = {
-		normalized.y, -normalized.x,
-		normalized.x, normalized.y
+		normalized.x, normalized.y,
+		-normalized.y, normalized.x
 	};
 	return mul(transform, uv);
 }
