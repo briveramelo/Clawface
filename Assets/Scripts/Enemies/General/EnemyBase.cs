@@ -7,6 +7,12 @@ using ModMan;
 using MovementEffects;
 using System;
 
+public enum PushDirection{
+    BACK,
+    DOWN,
+    BACK_DOWN
+}
+
 public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatable, ISpawnable
 {
     #region serialized fields
@@ -25,6 +31,8 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     [SerializeField] protected HitFlasher hitFlasher;
     [SerializeField] private SFXType hitSFX;
     [SerializeField] private SFXType deathSFX;
+    [SerializeField] Rigidbody pushRoot;
+    [SerializeField] PushDirection pushDirection;
     #endregion
 
     #region 3. Private fields
@@ -346,19 +354,28 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         {
             DisableCollider();
             EnableRagdoll();
-            AddForce(force * -transform.forward);
+            switch (pushDirection)
+            {
+                case PushDirection.BACK:
+                    AddForce(force * -velBody.GetForward());
+                    break;
+
+                case PushDirection.DOWN:
+                    AddForce(force * Vector3.down);
+                    break;
+                case PushDirection.BACK_DOWN:
+                    AddForce(force * (-velBody.GetForward() + Vector3.down).normalized);
+                    break;
+            }
             Timing.CallDelayed(5.0f, GetUp);
         }
     }
 
     private void AddForce(Vector3 force)
     {
-        foreach(Rigidbody rb in jointRigidBodies)
+        if (pushRoot)
         {
-            if (rb.name.Contains("Hips"))
-            {
-                rb.AddForce(force, ForceMode.Impulse);
-            }
+            pushRoot.AddForce(force, ForceMode.Impulse);
         }
     }
 
