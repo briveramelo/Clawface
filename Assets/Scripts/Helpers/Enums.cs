@@ -111,6 +111,7 @@ public enum PoolObjectType {
     GeyserFissure = 29,	
     BlasterImpactEffect = 31,
     KamikazeExplosionSphere = 48,
+    KamikazePulseGenerator = 54,
 
     //VFX
     VFXBlasterImpactEffect = 3,
@@ -156,7 +157,8 @@ public enum PoolObjectType {
     Kamikaze = 34,
     RedBouncer = 46,
     GreenBouncer = 47,
-
+    KamikazePulser = 55,
+    KamikazeMommy = 56,
 }
 
 public enum MovementMode
@@ -261,6 +263,8 @@ public enum SpawnType {
     Kamikaze = 3,
     RedBouncer = 4,
     GreenBouncer = 5,
+    KamikazePulser = 6,
+    KamikazeMommy = 7,
 }
 
 public enum ActionType

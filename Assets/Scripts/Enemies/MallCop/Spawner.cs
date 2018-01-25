@@ -43,6 +43,10 @@ public class Spawner : RoutineRunner
                 return PoolObjectType.GreenBouncer;
             case SpawnType.Kamikaze:
                 return PoolObjectType.Kamikaze;
+            case SpawnType.KamikazePulser:
+                return PoolObjectType.KamikazePulser;
+            case SpawnType.KamikazeMommy:
+                return PoolObjectType.KamikazeMommy;
         }
         return PoolObjectType.MallCopBlaster;
     }
