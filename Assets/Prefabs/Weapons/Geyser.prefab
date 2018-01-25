@@ -157,6 +157,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1851470066788010
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4467312934303212}
+  - component: {fileID: 114636888699788508}
+  m_Layer: 0
+  m_Name: FishEmitter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1857759340330046
 GameObject:
   m_ObjectHideFlags: 0
@@ -227,7 +243,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1703088497185594}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.667, y: 1.55, z: 1.941}
+  m_LocalPosition: {x: 8.699839, y: 0.2965929, z: 8.387684}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4057349192131808}
@@ -236,6 +252,7 @@ Transform:
   - {fileID: 4082354771094970}
   - {fileID: 4274844429923220}
   - {fileID: 4829776361292650}
+  - {fileID: 4467312934303212}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -305,6 +322,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4274844429923220}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4467312934303212
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1851470066788010}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.885}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4033930865496060}
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4621070526077932
 Transform:
@@ -558,10 +588,88 @@ MonoBehaviour:
     isCoolingDown: 0
     isActive: 0
   shootSFX: 13
+  fishEmitter: {fileID: 114636888699788508}
   geyserStartDistanceOffset: 0
   fissureSpeed: 30
+  fishLaunchSpeed:
+    minLimit: 0
+    maxLimit: 0
+    min: 3
+    max: 6
   fissureLiveTime: 8
   muzzle: {fileID: 4829776361292650}
+--- !u!114 &114636888699788508
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1851470066788010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ca009e672552344cb3e5b37926d5198, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playOnAwake: 0
+  emitWithInterval: 0
+  playOnEnable: 0
+  burstOnPlay: 1
+  burstOnPlayCount:
+    minLimit: 0
+    maxLimit: 0
+    min: 1
+    max: 2
+  spawnPrefab: {fileID: 1250428240314920, guid: 28a9bd31163bbff42b85d0e1f011ea14,
+    type: 2}
+  spawnInterval: 1000000
+  forceMin: 4
+  forceMax: 6
+  emissionSphereRadius: 0.23
+  rotationalVelocityMin: -180
+  rotationalVelocityMax: 180
+  duration: 2
+  scaleCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.05
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.95
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  shaderFlopDistanceMin: 0.05
+  shaderFlopDistanceMax: 0.05
+  shaderFlopRateMin: 4
+  shaderFlopRateMax: 4.6
+  shaderFlopSpeedMin: 15
+  shaderFlopSpeedMax: 20
+  popIntervalMin: 0.5
+  popIntervalMax: 1
+  popForceMin: 3
+  popForceMax: 6
+  popRotationalForceMin: 30
+  popRotationalForceMax: 60
+  popOriginOffsetMax: 2
 --- !u!137 &137971724543146820
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
