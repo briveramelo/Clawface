@@ -293,6 +293,34 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 27708848}
+--- !u!1 &40200495
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 40200496}
+  m_Layer: 0
+  m_Name: RealLevel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &40200496
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 40200495}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 270.54218, y: 52.493725, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &62927680
 GameObject:
   m_ObjectHideFlags: 0
@@ -2017,7 +2045,7 @@ Prefab:
     - target: {fileID: 224067242929056090, guid: 595c17daa3c5bc948af47b8cf23a2f91,
         type: 2}
       propertyPath: m_AnchorMax.x
-      value: 0.839715
+      value: 0.83971494
       objectReference: {fileID: 0}
     - target: {fileID: 224067242929056090, guid: 595c17daa3c5bc948af47b8cf23a2f91,
         type: 2}
@@ -4075,6 +4103,34 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1314120538}
+--- !u!1 &1319605150
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1319605151}
+  m_Layer: 0
+  m_Name: EditorGrid
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1319605151
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1319605150}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 270.54218, y: 52.493725, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1337375801
 GameObject:
   m_ObjectHideFlags: 0
@@ -6022,7 +6078,7 @@ Prefab:
     - target: {fileID: 224203359098590320, guid: 276672d4c27918744a57ba9484a193ce,
         type: 2}
       propertyPath: m_AnchorMax.x
-      value: 0.839715
+      value: 0.8397148
       objectReference: {fileID: 0}
     - target: {fileID: 224203359098590320, guid: 276672d4c27918744a57ba9484a193ce,
         type: 2}
@@ -6043,6 +6099,11 @@ Prefab:
         type: 2}
       propertyPath: m_SizeDelta.x
       value: 180.00021
+      objectReference: {fileID: 0}
+    - target: {fileID: 224270339521548678, guid: 276672d4c27918744a57ba9484a193ce,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 276672d4c27918744a57ba9484a193ce, type: 2}
@@ -6811,6 +6872,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2108763659}
   - component: {fileID: 2108763658}
+  - component: {fileID: 2108763660}
   m_Layer: 0
   m_Name: PlayerLevelEditor
   m_TagString: Untagged
@@ -6829,6 +6891,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 427bc9278a1f9d740b26d02e2811db31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gridController: {fileID: 2108763660}
   editorCG: {fileID: 1508838001}
   mainEditorMenu: {fileID: 1496410351}
   propsEditorMenu: {fileID: 1658322388}
@@ -6847,6 +6910,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2108763660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2108763657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1d639908595252468bf81da3877e24b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectGrid: {fileID: 1319605150}
+  realLevel: {fileID: 40200495}
+  levelSize: 20
+  displaying: 0
 --- !u!1 &2118389424
 GameObject:
   m_ObjectHideFlags: 0

@@ -29,6 +29,9 @@ public class AddSpawnsMenu : Menu {
     {
         if(inputGuard)
         {
+
+
+
             if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN))
             {
                 BackAction();
