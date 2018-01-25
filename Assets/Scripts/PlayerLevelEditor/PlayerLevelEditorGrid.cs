@@ -20,6 +20,8 @@ public class PlayerLevelEditorGrid : MonoBehaviour
     private GameObject currentHoveredObject = null;
     private GameObject lastHoveredObject = null;
 
+    private GameObject currentlySelectedObject = null;
+
     #endregion
 
     #region Unity Serialized Fields
@@ -28,6 +30,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour
     [SerializeField] GameObject realLevel;
     [SerializeField] private int levelSize = 20;
     [SerializeField] private Color hoverColor = Color.blue;
+    [SerializeField] private Color selectedColor = Color.red;
 
     #endregion
 
@@ -67,8 +70,18 @@ public class PlayerLevelEditorGrid : MonoBehaviour
     {
         if (displaying)
         {
-            DrawPreviewBlock();
+            Ray ray = UnityEngine.Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            RaycastHit hit;
+
+            if (Physics.Raycast(ray, out hit, 1000.0f))
+            {
+
+                DrawPreviewBlock(hit);
+                CreateBlock(hit);
+            }
         }
+
     }
 
     #endregion
@@ -81,40 +94,63 @@ public class PlayerLevelEditorGrid : MonoBehaviour
 
         previewBlock = Resources.Load(Strings.Editor.RESOURCE_PATH + Strings.Editor.BASIC_LE_BLOCK) as GameObject;
         spawnedBlock = Resources.Load(Strings.Editor.RESOURCE_PATH + Strings.Editor.BASIC_LVL_BLOCK) as GameObject;
-        lastHoveredObject = new GameObject();
+        //lastHoveredObject = new GameObject();
         InitBlocks();
 
     }
 
-    private void DrawPreviewBlock()
+    private void CreateBlock(RaycastHit hit)
     {
-        Ray ray = UnityEngine.Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit, 1000.0f))
+        if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
         {
-            currentHoveredObject = hit.transform.gameObject;
-
-            PreviewCubeController currentPCC = currentHoveredObject.GetComponent<PreviewCubeController>();
-
-            if(currentHoveredObject != lastHoveredObject)
-            {
-                PreviewCubeController lastPcc = lastHoveredObject.GetComponent<PreviewCubeController>();
-                if (lastPcc)
-                {
-                    lastPcc.ResetColor();
-                }
-            }
-
-            if (currentPCC)
-            {
-                currentPCC.SetColor(hoverColor);
-            }
-
-            lastHoveredObject = currentHoveredObject;
-            
+            OnClickObject = hit.transform.gameObject;
         }
+
+        if (Input.GetKey(KeyCode.LeftShift) && Input.GetMouseButtonUp(0))
+        {
+            SelectBlocks(hit);
+        }
+        else if (Input.GetMouseButtonUp(0))
+        {
+            DuplicateBlocks(hit);
+        }
+
+
+        if (Input.GetMouseButtonUp(1))
+        {
+            DeleteBlocks(hit);
+        }
+    }
+
+    private void DrawPreviewBlock(RaycastHit hit)
+    {
+
+        currentHoveredObject = hit.transform.gameObject;
+
+        PreviewCubeController currentPCC = currentHoveredObject.GetComponent<PreviewCubeController>();
+        PreviewCubeController lastPcc = null;
+        if (lastHoveredObject != null)
+        {
+            lastPcc = lastHoveredObject.GetComponent<PreviewCubeController>();
+        }
+
+        if (currentHoveredObject != lastHoveredObject)
+        {
+
+            if (lastPcc != null && lastPcc.selected == false)
+            {
+                lastPcc.ResetColor();
+            }
+        }
+
+        if (currentPCC)
+        {
+            currentPCC.SetColor(hoverColor);
+        }
+
+        lastHoveredObject = currentHoveredObject;
+              
     }
 
     void InitBlocks()

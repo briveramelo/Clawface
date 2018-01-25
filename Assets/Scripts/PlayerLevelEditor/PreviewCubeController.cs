@@ -10,6 +10,12 @@ public class PreviewCubeController : MonoBehaviour {
 
     #endregion
 
+    #region Public Fields
+
+    public bool selected = false;
+
+    #endregion
+
     #region Unity Lifecycle
 
     private void Awake()
