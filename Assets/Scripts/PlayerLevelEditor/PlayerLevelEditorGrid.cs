@@ -14,6 +14,8 @@ public class PlayerLevelEditorGrid : MonoBehaviour
     Dictionary<Vector3, GameObject> RealLevelDict = new Dictionary<Vector3, GameObject>();
 
     GameObject Prefab = null;
+    GameObject GreenBlock = null;
+
     GameObject OnClickObject = null;
 
     List<GameObject> SelectedObjects = new List<GameObject>();
@@ -21,7 +23,8 @@ public class PlayerLevelEditorGrid : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        Prefab = Resources.Load(Strings.Editor.RESOURCE_PATH + Strings.Editor.BASIC_LVL_BLOCK) as GameObject;
+        Prefab = Resources.Load(Strings.Editor.RESOURCE_PATH + Strings.Editor.BASIC_LE_BLOCK) as GameObject;
+        GreenBlock = Resources.Load(Strings.Editor.RESOURCE_PATH + Strings.Editor.BASIC_LVL_BLOCK) as GameObject;
 
         if (MockLevel == null)
         {
@@ -49,20 +52,26 @@ public class PlayerLevelEditorGrid : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, 1000.0f))
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
             {
                 OnClickObject = hit.transform.gameObject;
             }
 
-            if (Input.GetKey(KeyCode.LeftShift) && Input.GetMouseButtonDown(0))
+            if (Input.GetKey(KeyCode.LeftShift) && Input.GetMouseButtonUp(0))
             {
                 SelectBlocks(hit);
             }     
-
-            if (Input.GetMouseButtonUp(0))
+            else if (Input.GetMouseButtonUp(0))
             {
                 DuplicateBlocks(hit);
             }
+
+
+            if (Input.GetMouseButtonUp(1))
+            {
+                DeleteBlocks(hit);
+            }
+
         }
     }
 
@@ -81,93 +90,108 @@ public class PlayerLevelEditorGrid : MonoBehaviour
 
     void DuplicateBlocks(RaycastHit hit)
     {
-        float xMax = Mathf.Max(OnClickObject.transform.position.x, hit.transform.position.x);
-        float xMin = Mathf.Min(OnClickObject.transform.position.x, hit.transform.position.x);
+        List<GameObject> Objects = SelectObjectsAlgorithm(hit);
 
-        float zMax = Mathf.Max(OnClickObject.transform.position.z, hit.transform.position.z);
-        float zMin = Mathf.Min(OnClickObject.transform.position.z, hit.transform.position.z);
-
-        var HitsInX = Physics.BoxCastAll(new Vector3(xMin, 0, zMin), new Vector3(1, 1, 1), Vector3.right, Quaternion.identity, xMax - xMin);
-
-        foreach (var itemX in HitsInX)
+        foreach (GameObject Object in Objects)
         {
-            if (!RealLevelDict.ContainsKey(itemX.transform.position))
+            if (!RealLevelDict.ContainsKey(Object.transform.position))
             {
-                GameObject RealObject = GameObject.Instantiate(Prefab, itemX.transform.position, Quaternion.identity);
+                GameObject RealObject = GameObject.Instantiate(GreenBlock, Object.transform.position, Quaternion.identity);
                 RealObject.transform.SetParent(RealLevel.transform);
                 RealObject.transform.gameObject.GetComponent<Renderer>().material.color = Color.green;
-                RealLevelDict.Add(itemX.transform.position, RealObject);
+                RealLevelDict.Add(RealObject.transform.position, RealObject);
             }
 
-            var HitsInZ = Physics.BoxCastAll(itemX.transform.position, new Vector3(1, 1, 1), Vector3.forward, Quaternion.identity, zMax - zMin);
-
-            foreach (var itemZ in HitsInZ)
+            if (MockLevelDict.ContainsKey(Object.transform.position))
             {
-                if (!RealLevelDict.ContainsKey(itemZ.transform.position))
-                {
-                    GameObject RealObject = GameObject.Instantiate(Prefab, itemZ.transform.position, Quaternion.identity);
-                    RealObject.transform.SetParent(RealLevel.transform);
-                    RealObject.transform.gameObject.GetComponent<Renderer>().material.color = Color.green;
-                    RealLevelDict.Add(itemZ.transform.position, RealObject);
+                MockLevelDict.Remove(Object.transform.position);
+                GameObject.DestroyImmediate(Object);
+            }
+        }
+    }
 
-                    if (MockLevelDict.ContainsKey(itemZ.transform.position))
-                    {
-                        MockLevelDict.Remove(itemZ.transform.position);
-                        GameObject.DestroyImmediate(itemZ.transform.gameObject);
-                    }
+    void DeleteBlocks(RaycastHit hit)
+    {
+        List<GameObject> Objects = SelectObjectsAlgorithm(hit);
 
-                }
+        foreach (GameObject Object in Objects)
+        {
+            if (!MockLevelDict.ContainsKey(Object.transform.position))
+            {
+                GameObject MockObject = GameObject.Instantiate(Prefab, Object.transform.position, Quaternion.identity);
+                MockObject.transform.SetParent(MockLevel.transform);
+                MockLevelDict.Add(Object.transform.position, MockObject);
             }
 
-            if (MockLevelDict.ContainsKey(itemX.transform.position))
+            if (RealLevelDict.ContainsKey(Object.transform.position))
             {
-                MockLevelDict.Remove(itemX.transform.position);
-                GameObject.DestroyImmediate(itemX.transform.gameObject);
+                RealLevelDict.Remove(Object.transform.position);
+                GameObject.DestroyImmediate(Object);
             }
 
         }
     }
 
+
     void SelectBlocks(RaycastHit hit)
     {
+        List<GameObject> Objects = SelectObjectsAlgorithm(hit);
+
+        foreach(GameObject Object in Objects)
+        {
+            if (RealLevelDict.ContainsKey(Object.transform.position) && !SelectedObjects.Contains(Object.transform.gameObject))
+            {
+                RealLevelDict[Object.transform.position].GetComponent<Renderer>().material.color = Color.red;
+                SelectedObjects.Add(RealLevelDict[Object.transform.position]);
+            }
+        }
+    }
+
+    List<GameObject> SelectObjectsAlgorithm(RaycastHit hit)
+    {
+        List<GameObject> Objects = new List<GameObject>();
+
+        if (OnClickObject == null)
+            return Objects;
+
+
         float xMax = Mathf.Max(OnClickObject.transform.position.x, hit.transform.position.x);
         float xMin = Mathf.Min(OnClickObject.transform.position.x, hit.transform.position.x);
 
         float zMax = Mathf.Max(OnClickObject.transform.position.z, hit.transform.position.z);
         float zMin = Mathf.Min(OnClickObject.transform.position.z, hit.transform.position.z);
 
+
         var HitsInX = Physics.BoxCastAll(new Vector3(xMin, 0, zMin), new Vector3(1, 1, 1), Vector3.right, Quaternion.identity, xMax - xMin);
 
         foreach (var itemX in HitsInX)
         {
-            if (RealLevelDict.ContainsKey(itemX.transform.position) && !SelectedObjects.Contains(itemX.transform.gameObject))
-            {
-                RealLevelDict[itemX.transform.position].GetComponent<Renderer>().material.color = Color.red;
-                SelectedObjects.Add(RealLevelDict[itemX.transform.position]);
-            }
+            if(!Objects.Contains(itemX.transform.gameObject))
+                Objects.Add(itemX.transform.gameObject);
 
             var HitsInZ = Physics.BoxCastAll(itemX.transform.position, new Vector3(1, 1, 1), Vector3.forward, Quaternion.identity, zMax - zMin);
 
             foreach (var itemZ in HitsInZ)
             {
-                if (RealLevelDict.ContainsKey(itemZ.transform.position) && !SelectedObjects.Contains(itemZ.transform.gameObject))
-                {
-                    RealLevelDict[itemZ.transform.position].GetComponent<Renderer>().material.color = Color.red;
-                    SelectedObjects.Add(RealLevelDict[itemZ.transform.position]);
-                }
+                if (!Objects.Contains(itemZ.transform.gameObject))
+                    Objects.Add(itemZ.transform.gameObject);
             }
         }
+
+        return Objects;
     }
 
     public void DoSomeShitForSelectedObjects()
     {
         foreach(GameObject obj in SelectedObjects)
         {
+            if (obj == null)
+                continue;
+
             Debug.Log("Doing Action for Object: " + obj + " at " + obj.transform.position);
             obj.GetComponent<Renderer>().material.color = Color.green;
         }
 
         SelectedObjects.Clear();
     }
-
 }
