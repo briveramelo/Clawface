@@ -1,53 +1,24 @@
 fileFormatVersion: 2
-guid: e89c11ddadc6ba94ca27b75089ddcf13
-timeCreated: 1516227579
+guid: 5d3a1348964f8fb40b9f022ee6abf4ed
+timeCreated: 1516907108
 licenseType: Free
 ModelImporter:
   serializedVersion: 21
   fileIDToRecycleName:
-    100000: Barrel
-    100002: Launcher1
-    100004: //RootNode
-    100006: Shells
-    100008: Barrel_End
-    100010: Mesh_MortarLauncher
-    100012: Rig_Root
-    100014: Root
-    100016: Shells_End
-    100018: Shells_Origin
-    400000: Barrel
-    400002: Launcher1
-    400004: //RootNode
-    400006: Shells
-    400008: Barrel_End
-    400010: Mesh_MortarLauncher
-    400012: Rig_Root
-    400014: Root
-    400016: Shells_End
-    400018: Shells_Origin
-    2300000: Barrel
-    2300002: Launcher1
-    2300004: Shells
-    2300006: //RootNode
-    3300000: Barrel
-    3300002: Launcher1
-    3300004: Shells
-    3300006: //RootNode
-    4300000: Barrel
-    4300002: Shells
-    4300004: Launcher1
-    4300006: Mesh_MortarLauncher
-    7400000: MortarLauncher_Shoot
+    100000: //RootNode
+    400000: //RootNode
+    2300000: //RootNode
+    3300000: //RootNode
+    4300000: Mesh_MortarShell
     9500000: //RootNode
-    13700000: Mesh_MortarLauncher
   materials:
-    importMaterials: 0
+    importMaterials: 1
     materialName: 0
     materialSearch: 1
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
-    resampleCurves: 0
+    resampleCurves: 1
     optimizeGameObjects: 0
     motionNodeName: 
     rigImportErrors: 
@@ -56,42 +27,14 @@ ModelImporter:
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
-    animationCompression: 0
+    animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
     extraUserProperties: []
-    clipAnimations:
-    - serializedVersion: 16
-      name: MortarLauncher_Shoot
-      takeName: Take 001
-      firstFrame: 1
-      lastFrame: 29
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 1
-      loopBlend: 1
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 1
+    clipAnimations: []
     isReadable: 1
   meshes:
     lODScreenPercentages: []
@@ -131,7 +74,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    rootMotionBoneName: Root
+    rootMotionBoneName: 
     rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
     hasExtraRoot: 0
