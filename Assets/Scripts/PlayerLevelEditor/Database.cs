@@ -21,35 +21,35 @@ namespace PlayerLevelEditor
             GameObject[] _DBObject;
             _DBObject = Resources.LoadAll<GameObject>("PlayerLevelEditorObjects/Env/") as GameObject[];
 
-            foreach (GameObject _object in _DBObject)
+#if !UNITY_EDITOR
+            Texture2D[] _DBObjectTextures;
+            _DBObjectTextures = Resources.LoadAll<Texture2D>("PlayerLevelEditorObjects/png/") as Texture2D[];
+#endif
+
+            for (int index = 0; index < _DBObject.Length; index++)
             {
+                GameObject _object = _DBObject[index];
                 GameObject _item = GameObject.Instantiate(_ItemExample);
 
                 _item.SetActive(true);
                 _item.name = "Item";
                 _item.GetComponentInChildren<UnityEngine.UI.Text>().text = _object.name;
 
-                ItemButton _BT = new ItemButton(PlayerLevelEditor.UnityTool.FindChildGameObject(_item, "Button").GetComponent<UnityEngine.UI.Button>(), _object);
+                ItemButton _BT = new ItemButton(PlayerLevelEditor.EditorToolKit.FindChildGameObject(_item, "Button").GetComponent<UnityEngine.UI.Button>(), _object);
 
 #if UNITY_EDITOR
                 Texture2D _texture = UnityEditor.AssetPreview.GetAssetPreview(_object);
-
-                if (_texture == null)
-                {
-                    Debug.LogWarning("No Texture for ResourceObj: " + _object);
-                }
-
-
 #else
-                Debug.LogWarning("Need to get a proper thumbnail for level editor prop assets!");
-                Texture2D _texture = Texture2D.whiteTexture;
+                Texture2D _texture = _DBObjectTextures[index];
 #endif
 
-                if(_texture)
+                if (!_texture)
                 {
-                    Sprite _sprite = Sprite.Create(_texture, new Rect(0, 0, _texture.width, _texture.height), new Vector2(0.5f, 0.5f));
-                    _item.GetComponentInChildren<UnityEngine.UI.Image>().sprite = _sprite;
+                    Debug.LogWarning("No Texture for ResourceObj: " + _object);
+                    _texture = Texture2D.whiteTexture;
                 }
+                Sprite _sprite = Sprite.Create(_texture, new Rect(0, 0, _texture.width, _texture.height), new Vector2(0.5f, 0.5f));
+                _item.GetComponentInChildren<UnityEngine.UI.Image>().sprite = _sprite;
 
                 _item.transform.SetParent(DB_List.transform);
             }
@@ -95,7 +95,6 @@ namespace PlayerLevelEditor
 
         public void OnClick(UnityEngine.UI.Button thisBtn)
         {
-            Debug.Log("CLICK");
             Add._prefab = DBObject;
         }
     }

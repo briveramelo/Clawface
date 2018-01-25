@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace PlayerLevelEditor
 {
-    public static class UnityTool
+    public static class EditorToolKit
     {
         public static void Attach(GameObject ParentObj, GameObject ChildObj, Vector3 Pos)
         {
@@ -116,19 +116,19 @@ namespace PlayerLevelEditor
         public static GameObject FindUIGameObject(string UIName)
         {
             if (m_CanvasObj == null)
-                m_CanvasObj = UnityTool.FindGameObject("Canvas");
+                m_CanvasObj = EditorToolKit.FindGameObject("EditorCanvas");
 
             if (m_CanvasObj == null)
                 return null;
 
-            return UnityTool.FindChildGameObject(m_CanvasObj, UIName);
+            return EditorToolKit.FindChildGameObject(m_CanvasObj, UIName);
         }
 
 
         public static T GetUIComponent<T>(GameObject Container, string UIName) where T : UnityEngine.Component
         {
 
-            GameObject ChildGameObject = UnityTool.FindChildGameObject(Container, UIName);
+            GameObject ChildGameObject = EditorToolKit.FindChildGameObject(Container, UIName);
 
             if (ChildGameObject == null)
                 return null;
@@ -147,7 +147,7 @@ namespace PlayerLevelEditor
         public static Button GetButton(string BtnName)
         {
 
-            GameObject UIRoot = GameObject.Find("Canvas");
+            GameObject UIRoot = GameObject.Find("EditorCanvas");
             if (UIRoot == null)
             {
                 Debug.LogWarning("No UI Canvas");
@@ -174,7 +174,7 @@ namespace PlayerLevelEditor
 
         public static T GetUIComponent<T>(string UIName) where T : UnityEngine.Component
         {
-            GameObject UIRoot = GameObject.Find("Canvas");
+            GameObject UIRoot = GameObject.Find("EditorCanvas");
 
             if (UIRoot == null)
             {
@@ -191,28 +191,33 @@ namespace PlayerLevelEditor
     {
         public static void draft(GameObject i_Object, Vector3 decal3, Color color)
         {
-            UnityEngine.Camera.main.GetComponent<PlayerLevelEditor.Camera>().SetLineColor(color);
-
-            MeshFilter objectMeshFilter = i_Object.GetComponent<MeshFilter>();
-            if (objectMeshFilter != null)
+            PLECameraController camControl = UnityEngine.Camera.main.GetComponent<PlayerLevelEditor.PLECameraController>();
+            if(camControl)
             {
-                Mesh mesh = objectMeshFilter.sharedMesh;
-                drawDraft(i_Object, mesh, decal3, color);
+                camControl.SetLineColor(color);
+
+                MeshFilter objectMeshFilter = i_Object.GetComponent<MeshFilter>();
+                if (objectMeshFilter != null)
+                {
+                    Mesh mesh = objectMeshFilter.sharedMesh;
+                    drawDraft(i_Object, mesh, decal3, color);
+                }
+
+                foreach (Transform child in i_Object.transform)
+                {
+                    MeshFilter SobjectMeshFilter = child.GetComponent<MeshFilter>();
+                    if (SobjectMeshFilter != null)
+                    {
+                        Mesh Smesh = SobjectMeshFilter.sharedMesh;
+                        drawDraft(child.gameObject, Smesh, decal3, color);
+                    }
+                    if (child.transform.childCount > 0)
+                    {
+                        draft(child.gameObject, decal3, color);
+                    }
+                }
             }
 
-            foreach (Transform child in i_Object.transform)
-            {
-                MeshFilter SobjectMeshFilter = child.GetComponent<MeshFilter>();
-                if (SobjectMeshFilter != null)
-                {
-                    Mesh Smesh = SobjectMeshFilter.sharedMesh;
-                    drawDraft(child.gameObject, Smesh, decal3, color);
-                }
-                if (child.transform.childCount > 0)
-                {
-                    draft(child.gameObject, decal3, color);
-                }
-            }
         }
 
 
@@ -261,20 +266,23 @@ namespace PlayerLevelEditor
             v3_BackBottomRight = new Vector3(v3_BackBottomRight.x + decal3.x, v3_BackBottomRight.y + decal3.y, v3_BackBottomRight.z + decal3.z);
 
 
-            PlayerLevelEditor.Camera _camera = UnityEngine.Camera.main.GetComponent<PlayerLevelEditor.Camera>();
+            PLECameraController camControl = UnityEngine.Camera.main.GetComponent<PlayerLevelEditor.PLECameraController>();
+            if (camControl)
+            {
 
-            _camera.DrawLine(v3_FrontTopLeft    , v3_FrontTopRight);
-            _camera.DrawLine(v3_FrontTopRight   , v3_FrontBottomRight);
-            _camera.DrawLine(v3_FrontBottomRight, v3_FrontBottomLeft);
-            _camera.DrawLine(v3_FrontBottomLeft , v3_FrontTopLeft);
-            _camera.DrawLine(v3_BackTopLeft     , v3_BackTopRight);
-            _camera.DrawLine(v3_BackTopRight    , v3_BackBottomRight);
-            _camera.DrawLine(v3_BackBottomRight , v3_BackBottomLeft);
-            _camera.DrawLine(v3_BackBottomLeft  , v3_BackTopLeft);
-            _camera.DrawLine(v3_FrontTopLeft    , v3_BackTopLeft);
-            _camera.DrawLine(v3_FrontTopRight   , v3_BackTopRight);
-            _camera.DrawLine(v3_FrontBottomRight, v3_BackBottomRight);
-            _camera.DrawLine(v3_FrontBottomLeft , v3_BackBottomLeft);          
+                camControl.DrawLine(v3_FrontTopLeft, v3_FrontTopRight);
+                camControl.DrawLine(v3_FrontTopRight, v3_FrontBottomRight);
+                camControl.DrawLine(v3_FrontBottomRight, v3_FrontBottomLeft);
+                camControl.DrawLine(v3_FrontBottomLeft, v3_FrontTopLeft);
+                camControl.DrawLine(v3_BackTopLeft, v3_BackTopRight);
+                camControl.DrawLine(v3_BackTopRight, v3_BackBottomRight);
+                camControl.DrawLine(v3_BackBottomRight, v3_BackBottomLeft);
+                camControl.DrawLine(v3_BackBottomLeft, v3_BackTopLeft);
+                camControl.DrawLine(v3_FrontTopLeft, v3_BackTopLeft);
+                camControl.DrawLine(v3_FrontTopRight, v3_BackTopRight);
+                camControl.DrawLine(v3_FrontBottomRight, v3_BackBottomRight);
+                camControl.DrawLine(v3_FrontBottomLeft, v3_BackBottomLeft);
+            }
         }
 
 

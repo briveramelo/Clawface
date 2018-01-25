@@ -13,7 +13,6 @@ public class EatingState : IPlayerState
     private ClawArmController clawArmController;
     #endregion
 
-
     #region Private Fields
     private bool isAnimating;
     private Transform clawTransform;
@@ -40,6 +39,9 @@ public class EatingState : IPlayerState
             EventSystem.Instance.UnRegisterEvent(Strings.Events.ARM_ANIMATION_COMPLETE, EndState);
         }
     }
+    #endregion
+
+    #region Public Methods
 
     public override void Init(ref PlayerStateManager.StateVariables stateVariables)
     {
@@ -103,11 +105,14 @@ public class EatingState : IPlayerState
 
     private void DoArmExtension(params object[] parameters)
     {
-        stateVariables.statsManager.MakeHappy();
-        IEatable eatable = stateVariables.eatTargetEnemy.GetComponent<IEatable>();
-        Assert.IsNotNull(eatable);
-        clawArmController.StartExtension(eatable.GetGrabObject(), stateVariables.clawExtensionTime, stateVariables.clawRetractionTime);
-        SFXManager.Instance.Play(stateVariables.ArmExtensionSFX, transform.position);
+        if (isAnimating)
+        {
+            stateVariables.statsManager.MakeHappy();
+            IEatable eatable = stateVariables.eatTargetEnemy.GetComponent<IEatable>();
+            Assert.IsNotNull(eatable);
+            clawArmController.StartExtension(eatable.GetGrabObject(), stateVariables.clawExtensionTime, stateVariables.clawRetractionTime);
+            SFXManager.Instance.Play(stateVariables.ArmExtensionSFX, transform.position);
+        }
     }
 
     private void CaptureEnemy(params object[] parameters)
@@ -138,7 +143,9 @@ public class EatingState : IPlayerState
             Stats stats = GetComponent<Stats>();
             EventSystem.Instance.TriggerEvent(Strings.Events.UPDATE_HEALTH, stats.GetHealthFraction());
             GameObject skinningEffect = ObjectPool.Instance.GetObject(PoolObjectType.VFXMallCopExplosion);
-            skinningEffect.transform.position = clawTransform.position;
+            if (skinningEffect) {
+                skinningEffect.transform.position = clawTransform.position;
+            }
 
 
             GameObject healthJuice = ObjectPool.Instance.GetObject(PoolObjectType.VFXHealthGain);

@@ -91,8 +91,8 @@ public class GoreManager : Singleton<GoreManager> {
             Texture2D randomSplat = splats[Random.Range(0, splats.Length - 1)];
             GameObject decal = ObjectPool.Instance.GetObject(PoolObjectType.VFXBloodDecal);
             if (decal) {
-                decal.transform.position = worldPos + Vector3.up * .0001f * num++;
-                VFXBloodSplatAnimator splatAnimator = decal.GetComponent<VFXBloodSplatAnimator>();                
+                decal.transform.position = worldPos + Vector3.up * .0001f * ++num;
+                //VFXBloodSplatAnimator splatAnimator = decal.GetComponent<VFXBloodSplatAnimator>();                
                 foreach (Collider collider in collided) {
                     GameObject obj = collider.gameObject;
                     Splattable canSplat = obj.GetComponent<Splattable>();

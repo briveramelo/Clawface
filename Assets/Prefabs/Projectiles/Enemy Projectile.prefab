@@ -58,7 +58,7 @@ GameObject:
   - component: {fileID: 135987087306171216}
   - component: {fileID: 114414891832088866}
   - component: {fileID: 54003965989821728}
-  m_Layer: 0
+  m_Layer: 21
   m_Name: Enemy Projectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -202,6 +202,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9aba7aa4c71bf6641b131b68d391ad80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  impactVFXType: 53
 --- !u!135 &135987087306171216
 SphereCollider:
   m_ObjectHideFlags: 1

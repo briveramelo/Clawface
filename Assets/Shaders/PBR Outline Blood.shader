@@ -14,10 +14,10 @@ Shader "PBR Outline Blood"
 		_EmissiveStrength("Emissive Strength", Range( 0 , 5)) = 0
 		_TextureTiling("Texture Tiling", Float) = 2
 		[PerRendererData]_SplatMap("Splat Map", 2D) = "black" {}
-		[HideInInspector] _Blood2("Blood 2", Color) = (0.6,0.0,0.0,1.0)
-		[HideInInspector] _Blood1("Blood 1", Color) = (0.75,0,0.03,1.0)
+		[HideInInspector] _Blood2("Blood 2", Color) = (1.00, 0.00, 0.04, 1.00)
+		[HideInInspector] _Blood1("Blood 1", Color) = (0.51, 0.00, 0.00, 1.00)
 		[HideInInspector] _BloodColorationMask("Blood Coloration Mask", 2D) = "white" {}
-		[HideInInspector] _BloodColorationScale("Blood Coloration Scale", Range( 0 , 10)) = 0
+		[HideInInspector] _BloodColorationScale("Blood Coloration Scale", Range( 0 , 10)) = 2
 		[HideInInspector] _texcoord( "", 2D ) = "white" {}
 		[HideInInspector] __dirty( "", Int ) = 1
 	}

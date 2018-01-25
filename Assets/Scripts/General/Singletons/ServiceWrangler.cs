@@ -10,7 +10,7 @@ public class ServiceWrangler : Singleton<ServiceWrangler> {
     [SerializeField]
     private GameObject sfxManager, objectPool, inputManager, hitstopManager,
          analyticsManager, damageFXManager, upgradeManager, menuManager, musicManager, scoreManager, 
-        respawnPoint, eventSystem, achievementManager, platformManager, goreManager, saveState;
+        respawnPoint, eventSystem, achievementManager, platformManager, goreManager, saveState, aiManager;
 
     private Dictionary<string, PrefabBool> singletonPrefabRegistry;
     private Dictionary<string, PrefabBool> SingletonPrefabRegistry {
@@ -33,6 +33,8 @@ public class ServiceWrangler : Singleton<ServiceWrangler> {
                     { typeof(PlatformManager).ToString(),       new PrefabBool(ref platformManager) },
                     { typeof(GoreManager).ToString(),       new PrefabBool(ref goreManager)},
                     { typeof(SaveState).ToString(),       new PrefabBool(ref saveState) },
+                    { typeof(AIManager).ToString(),       new PrefabBool(ref aiManager) }
+
                 };
             }
             return singletonPrefabRegistry;
@@ -41,7 +43,7 @@ public class ServiceWrangler : Singleton<ServiceWrangler> {
 
     private void OnEnable () {
         foreach (KeyValuePair<string, PrefabBool> singletonRegistered in SingletonPrefabRegistry) {
-            if (!singletonRegistered.Value.isRegistered) {
+            if (!singletonRegistered.Value.isRegistered) {                
                 GameObject singletonGameObject = Instantiate(singletonRegistered.Value.prefab, gameObject.transform, true) as GameObject;
                 singletonGameObject.transform.position = Vector3.zero;
                 singletonGameObject.transform.rotation = Quaternion.identity;
@@ -50,6 +52,7 @@ public class ServiceWrangler : Singleton<ServiceWrangler> {
                 //Debug.LogFormat("<color=#ffff00>" + debugMessage + "</color>");
             }
         }
+        Application.targetFrameRate = 60;
     }
 
 

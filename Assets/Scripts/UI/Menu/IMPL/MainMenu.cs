@@ -32,7 +32,7 @@ public class MainMenu : Menu
         // Target Level is hard coded right now.
         Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
         LoadMenu loadMenu = menu as LoadMenu;
-        loadMenu.TargetScene = "Arena 1";
+        loadMenu.TargetScene = Strings.Scenes.Arena;        
 
         // Transition to weapon select
         // TODO - When adding level editor + more levels will need new and improved level select.
@@ -41,6 +41,16 @@ public class MainMenu : Menu
         weaponMenu.menuTarget = Strings.MenuStrings.MAIN;
         MenuManager.Instance.DoTransition(weaponMenu, Transition.SHOW,
             new Effect[] { Effect.EXCLUSIVE });
+    }
+
+    public void EditorAction()
+    {
+        Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
+        LoadMenu loadMenu = menu as LoadMenu;
+        loadMenu.TargetScene = Strings.Scenes.Editor;
+        loadMenu.Fast = true;
+
+        MenuManager.Instance.DoTransition(loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
     }
 
     public void ControlsAction()

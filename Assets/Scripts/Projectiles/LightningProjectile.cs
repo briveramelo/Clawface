@@ -13,6 +13,7 @@ public class LightningProjectile : MonoBehaviour {
     [SerializeField] LightningChain chainEffect;
 
     #endregion
+
     #region Private Fields
     private LightningGun.ProjectileProperties projectileProperties;    
     private Transform target;
@@ -55,7 +56,7 @@ public class LightningProjectile : MonoBehaviour {
                 // Look at target
                 transform.LookAt(target);
                 // Ensure the forward vector is in 2D
-                transform.forward = new Vector3(transform.forward.x, 0f, transform.forward.z);                
+                transform.forward = new Vector3(transform.forward.x, transform.forward.y, transform.forward.z);                
             }
             //Check for max distance
             if (CalculateChainLength() >= projectileProperties.maxDistance)
@@ -87,9 +88,15 @@ public class LightningProjectile : MonoBehaviour {
         startingPosition = transform.position;
         transform.forward = startingTransform.forward;
         this.enemyCount = enemyCount;
+
+        
         if (ignoreEnemies != null)
         {
-            chainEffect.SetOrigin(ignoreEnemies.Tail());
+            GameObject affectTarget = ignoreEnemies.Tail().GetComponent<EnemyBase>().GetAffectObject();
+            if (affectTarget)
+            {
+                chainEffect.SetOrigin(affectTarget.transform);
+            }
             ignoreTargets = ignoreEnemies;
         }
         damager = new Damager();
@@ -154,24 +161,30 @@ public class LightningProjectile : MonoBehaviour {
 
             //Do damage
             IDamageable damageable = target.GetComponent<IDamageable>();
+            EnemyBase enemyBase = target.GetComponent<EnemyBase>();
+            GameObject affectTarget = null;
+            if (enemyBase)
+            {
+                affectTarget = target.GetComponent<EnemyBase>().GetAffectObject();
+            }
             if (damageable != null)
             {
                 damager.impactDirection = transform.forward;
                 damager.damage = projectileProperties.projectileHitDamage;
                 damageable.TakeDamage(damager);
                 GameObject vfx = ObjectPool.Instance.GetObject (PoolObjectType.VFXLightningGunImpact);
-                if (vfx)
+                if (vfx && affectTarget)
                 {
-                    vfx.transform.SetParent (target);
+                    vfx.transform.SetParent (affectTarget.transform);
                     vfx.transform.position = transform.position;
                 }
             }
 
-            this.gameObject.SetActive(false);
+            gameObject.SetActive(false);
         }
         else if (other.CompareTag(Strings.Tags.WALL))
         {
-            this.gameObject.SetActive(false);
+            gameObject.SetActive(false);
         }
     }
 

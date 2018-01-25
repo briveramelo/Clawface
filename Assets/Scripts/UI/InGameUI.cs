@@ -1,10 +1,8 @@
 ﻿//Garin
 using System.Collections;
 using UnityEngine.Assertions;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System;
 
 public class InGameUI : MonoBehaviour {
 
@@ -31,11 +29,13 @@ public class InGameUI : MonoBehaviour {
 
     [Header("GlitchDamageEffect")]
     [SerializeField] private Sprite[] glitchSprites;
-    
     [SerializeField] private float glitchSeconds = 1.0F;
     [SerializeField] private int glitchesPerSecond = 5;
     [SerializeField] private Image overlay;
     [SerializeField] private CanvasGroup hudCG;
+
+    [Header("Wave Based Elements")]
+    [SerializeField] private Text waveCompleteText;
     #endregion
 
     #region Private Fields
@@ -65,12 +65,14 @@ public class InGameUI : MonoBehaviour {
             EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_COMPLETED, HideHUD);
             EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_FAILED, HideHUD);
             EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_KILLED, HideHUD);
+            EventSystem.Instance.RegisterEvent(Strings.Events.WAVE_COMPLETE, ShowWaveText);
 
 
         }
         onScreenCombo.text = "";
         onScreenScoreDelta.text = "";
         onScreenScore.text = "";
+        waveCompleteText.text = "";
         HideTutorialText(null);
         ShowHUD(null);
     }
@@ -79,10 +81,8 @@ public class InGameUI : MonoBehaviour {
 
     private void OnDestroy()
     {
-
-        EventSystem instance = EventSystem.Instance;
-
-        if (instance)
+        
+        if (EventSystem.Instance)
         {
             EventSystem.Instance.UnRegisterEvent(Strings.Events.SCORE_UPDATED, UpdateScore);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.COMBO_UPDATED, UpdateCombo);
@@ -94,6 +94,7 @@ public class InGameUI : MonoBehaviour {
             EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_COMPLETED, HideHUD);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_FAILED, HideHUD);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_KILLED, HideHUD);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.WAVE_COMPLETE, ShowWaveText);
         }
     }
     #endregion
@@ -155,24 +156,22 @@ public class InGameUI : MonoBehaviour {
         glitchInProgress = false;
     }
 
-    private IEnumerator ShowScoreDelta(GameObject newDeltaGO)
+    private IEnumerator PopTextAndHide(GameObject newDeltaGO, float modifier)
     {
 
         Vector3 scale = newDeltaGO.transform.localScale;
         while (scale.x > 0f)
         {
             scale = newDeltaGO.transform.localScale;
-            scale.x -= Time.fixedDeltaTime;
-            scale.y -= Time.fixedDeltaTime;
-            scale.z -= Time.fixedDeltaTime;
+            scale.x -= Time.fixedDeltaTime / modifier;
+            scale.y -= Time.fixedDeltaTime / modifier;
+            scale.z -= Time.fixedDeltaTime / modifier;
             newDeltaGO.transform.localScale = scale;
             yield return new WaitForEndOfFrame();            
         }
 
         newDeltaGO.transform.localScale = Vector3.zero;
-
-        //Destroy(newDeltaGO);
-        //yield return new WaitForEndOfFrame();
+        
     }
 
     private void UpdateComboQuadrant(params object[] currentQuadrant)
@@ -218,7 +217,7 @@ public class InGameUI : MonoBehaviour {
         onScreenScoreDelta.text = "+" + score[1].ToString();
         onScreenScoreDelta.transform.localScale = Vector3.one;
 
-        StartCoroutine(ShowScoreDelta(onScreenScoreDelta.gameObject));
+        StartCoroutine(PopTextAndHide(onScreenScoreDelta.gameObject,1.0f));
     }
 
     private void UpdateCombo(params object[] currentCombo)
@@ -235,6 +234,25 @@ public class InGameUI : MonoBehaviour {
                 SetAlphaOfText(onScreenCombo, 0.0f);
             }
         }
+    }
+
+    private void ShowWaveText(params object[] currentWave)
+    {
+        float mod = 0f;
+        if (currentWave[0].ToString() == "0")
+        {
+            waveCompleteText.text =
+                Strings.TextStrings.FLAVOR_TEXT[Random.Range(0, Strings.TextStrings.FLAVOR_TEXT.Length-1)];
+            mod = 4f;
+        }
+        else
+        {
+            waveCompleteText.text = "WAVE " + currentWave[0].ToString() + " COMPLETE";
+            mod = 2f;
+        }
+        
+        waveCompleteText.transform.localScale = Vector3.one;
+        StartCoroutine(PopTextAndHide(waveCompleteText.gameObject,mod));
     }
 
     private void SetAlphaOfText(Text i_toMod, float i_newAlpha)
@@ -258,15 +276,12 @@ public class InGameUI : MonoBehaviour {
 
     private void HideHUD(object[] parameters) {
         StartCoroutine(MenuTransitionsCommon.FadeCoroutine(1.0f, 0.0f, 2.0f, hudCG, null));
-        //MenuTransitionsCommon.FadeCoroutine(1.0f, 0.0f, 1.0f, hudCG, null);
-        //hudCG.alpha = 0f;
     }
 
     private void ShowHUD(object[] parameters)
     {
         StartCoroutine(MenuTransitionsCommon.FadeCoroutine(0.0f, 1.0f, 2.0f, hudCG, null));
         
-        //hudCG.alpha = 1f;
     }
 
     #endregion

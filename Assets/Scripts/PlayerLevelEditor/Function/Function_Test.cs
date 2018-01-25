@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.Events;
+using UnityEngine.UI;
 
 namespace PlayerLevelEditor
 {
@@ -9,6 +10,8 @@ namespace PlayerLevelEditor
     {
         GameObject _singletonObject;
         GameObject _movement;
+        GameObject EditorCamera;
+        GameObject CameraUI;
 
         static GameObject _player;
 
@@ -17,10 +20,13 @@ namespace PlayerLevelEditor
 
         int currentWave = 0;
 
-        int NumEnemy_Max = 5;
+        int NumEnemy_Max = 3;
         int NumEnemy = 0;
 
         List<GameObject> enemies = new List<GameObject>();
+
+        Button Btn_Camera;
+        UnityAction ACT_Camera;
 
         public Test(FunctionController Controller) : base(Controller)
         {
@@ -31,14 +37,47 @@ namespace PlayerLevelEditor
         {
             base.Init();
 
+            EditorCamera = EditorToolKit.FindGameObject("Camera");
+
+            if(EditorCamera)
+                EditorCamera.SetActive(false);
+
             currentTime = waveTime;
             CreateSingleton();
             BakeAI();
 
+
+            SetUIObject("Function_Init");
+            SetUIObject("Function_Add");
+            SetUIObject("Function_Duplicate");
+            SetUIObject("Function_Dynamic");
+            SetUIObject("UI_Camera");
+
+            foreach (GameObject UIObject in UIObjects)
+            {
+                if (UIObject.name == "UI_Camera") continue;
+
+                UIObject.SetActive(false);
+            }
+
+           
+
+            UITool.FindUIGameObject("Function_EndTest").SetActive(true);
+
             LevelEditor.m_DynamicLevelSystem.RegisterEvent();
 
             if (EventSystem.Instance)
+            {
                 EventSystem.Instance.RegisterEvent(Strings.Events.CALL_NEXTWAVEENEMIES, CallNextWave);
+                EventSystem.Instance.TriggerEvent(Strings.Events.PLE_TEST_WAVE_0);
+            }
+
+
+            ACT_Camera = () => EnableCamera(Btn_Camera);
+            Btn_Camera = PlayerLevelEditor.UITool.GetUIComponent<Button>("Button_Camera");
+            if (Btn_Camera == null) Debug.Log("Btn_Add is null");
+
+            Btn_Camera.onClick.AddListener(ACT_Camera);
 
         }
 
@@ -55,23 +94,19 @@ namespace PlayerLevelEditor
         public override void Release()
         {
             base.Release();
-
-            if(_player)
-            {
-                RaycastHit hit;
-
-                if (Physics.Raycast(new Vector3(0.0f, 1000.0f, 0.0f), Vector3.down, out hit))
-                {
-                    _player.transform.position = new Vector3(0, hit.point.y + 2.5f, 0);
-                }
-                _player.SetActive(false);
-            }
-
+            EditorCamera.SetActive(true);
+            EditorCamera.tag = "MainCamera";
 
             foreach (GameObject _obj in enemies)
             {
                 if (_obj.activeSelf)
                     _obj.GetComponent<MallCop>().OnDeath();
+            }
+
+
+            if (_player)
+            {
+                _player.SetActive(false);
             }
 
 
@@ -81,12 +116,23 @@ namespace PlayerLevelEditor
 
             if(EventSystem.Instance)
                 EventSystem.Instance.UnRegisterEvent(Strings.Events.CALL_NEXTWAVEENEMIES, CallNextWave);
+
+
+            foreach (GameObject UIObject in UIObjects)
+            {
+                if (UIObject.name == "UI_Camera") continue;
+                UIObject.SetActive(true);
+            }
+
+            UITool.FindUIGameObject("Function_EndTest").SetActive(false);
+
+            Btn_Camera.onClick.RemoveListener(ACT_Camera);
         }
 
 
         void CreateSingleton()
         {
-            _singletonObject = UnityTool.FindGameObject("SingletonObject");
+            _singletonObject = EditorToolKit.FindGameObject("SingletonObject");
 
             if (_singletonObject == null)
             {
@@ -104,16 +150,10 @@ namespace PlayerLevelEditor
                 {
                     _player.SetActive(true);
 
-                    RaycastHit hit;
+                    //GameObject _PC = UnityTool.FindChildGameObject(_player, "Player_Combat");
 
-                    if (Physics.Raycast(new Vector3(0.0f, 1000.0f, 0.0f), Vector3.down, out hit))
-                    {
-                        Debug.Log(new Vector3(0, hit.point.y, 0));
-
-                        GameObject _PC = UnityTool.FindChildGameObject(_player, "Player_Combat");
-
-                        _PC.transform.position = new Vector3(0, hit.point.y + 2.5f, 0);
-                    }
+                    //if(_PC)
+                    //    _PC.transform.localPosition = new Vector3(0, _PC.transform.localPosition.y, 0);
                 }
 
 
@@ -122,9 +162,7 @@ namespace PlayerLevelEditor
                     child.gameObject.SetActive(true);
                 }
 
-                UnityTool.FindGameObject("PlayerSpawner").SetActive(false);
-
-
+                EditorToolKit.FindGameObject("PlayerSpawner").SetActive(false);
                 return;
             }
         }
@@ -135,7 +173,7 @@ namespace PlayerLevelEditor
             GameObject _prefab;
             GameObject _instance = null;
 
-            if (UnityTool.FindGameObject(objectName) == null)
+            if (EditorToolKit.FindGameObject(objectName) == null)
             {
                 string path = "PlayerLevelEditorObjects/" + objectName;
 
@@ -189,7 +227,7 @@ namespace PlayerLevelEditor
 
             if (_player == null)
             {
-                _player = UnityTool.FindGameObject("Keira_GroupV1.5(Clone)");
+                _player = EditorToolKit.FindGameObject(Strings.Editor.PLAYER_NAME);
             }
             else
             {
@@ -200,7 +238,7 @@ namespace PlayerLevelEditor
 
             if (_movement == null)
             {
-                _movement = UnityTool.FindGameObject("Movement Effects");
+                _movement = EditorToolKit.FindGameObject("Movement Effects");
 
                 if (_movement != null)
                 {
@@ -219,10 +257,6 @@ namespace PlayerLevelEditor
 
             currentTime = waveTime;
 
- //           EventSystem.Instance.TriggerEvent(Strings.Events.CALL_NEXTWAVEENEMIES);
- //           return;
-
-
             GameObject spawnedObject = ObjectPool.Instance.GetObject(PoolObjectType.MallCopBlaster);
 
             if (spawnedObject)
@@ -236,12 +270,9 @@ namespace PlayerLevelEditor
                     spawnable.RegisterDeathEvent(ReportDeath);
                 }
 
-
-
-
                 RaycastHit hit;
 
-                Vector3 spawnPosition = new Vector3(0, 5, 0);
+                Vector3 spawnPosition = new Vector3(0, 5.0f, 0);
 
                 if (Physics.Raycast(new Vector3(0.0f, 1000.0f, 0.0f), Vector3.down, out hit))
                 {
@@ -267,19 +298,16 @@ namespace PlayerLevelEditor
             {
                 case 0:
                     currentWave = 1;
-                    Debug.Log("W1");
                     EventSystem.Instance.TriggerEvent(Strings.Events.PLE_TEST_WAVE_1);
                     BakeAI();
                     return;
                 case 1:
                     currentWave = 2;
-                    Debug.Log("W2");
                     EventSystem.Instance.TriggerEvent(Strings.Events.PLE_TEST_WAVE_2);
                     BakeAI();
                     return;
                 case 2:
                     currentWave = 0;
-                    Debug.Log("W0");
                     EventSystem.Instance.TriggerEvent(Strings.Events.PLE_TEST_WAVE_0);
                     BakeAI();
                     return;
@@ -290,6 +318,14 @@ namespace PlayerLevelEditor
         private void ReportDeath()
         {
 
+        }
+
+
+        void EnableCamera(Button thisBtn)
+        {
+            bool state = EditorCamera.activeSelf;
+            Debug.Log(state);
+            EditorCamera.SetActive(!state);
         }
 
     }

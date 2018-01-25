@@ -56,7 +56,7 @@ MonoBehaviour:
   - name: BlasterBullet
     poolObjectType: 2
     prefabs:
-    - {fileID: 1719855240616946, guid: 636364673f9463240aef3607a378cf11, type: 2}
+    - {fileID: 1921089154119268, guid: 5a352cd94d5c0fe418820a4021897983, type: 2}
     size: 25
     mostUsed: 0
     objects: []
@@ -64,7 +64,7 @@ MonoBehaviour:
     poolObjectType: 35
     prefabs:
     - {fileID: 1978138685487906, guid: 4ad44b538c1936544bf417b23087ca79, type: 2}
-    size: 150
+    size: 500
     mostUsed: 0
     objects: []
   - name: TurretBullet
@@ -93,20 +93,6 @@ MonoBehaviour:
     prefabs:
     - {fileID: 1385345176205422, guid: 853a9c96bc025954896d8b6c0a793ef2, type: 2}
     size: 20
-    mostUsed: 0
-    objects: []
-  - name: GeyserFissure
-    poolObjectType: 29
-    prefabs:
-    - {fileID: 1673312795691100, guid: c55fe1d517ac92f49b4cdb9963c0a8ec, type: 2}
-    size: 15
-    mostUsed: 0
-    objects: []
-  - name: GeyserGushLine
-    poolObjectType: 21
-    prefabs:
-    - {fileID: 1347774222512426, guid: f0910c716b4337d47a4548344f0b0348, type: 2}
-    size: 10
     mostUsed: 0
     objects: []
   - name: LightningProjectile
@@ -140,7 +126,7 @@ MonoBehaviour:
   - name: VFXBlasterShoot
     poolObjectType: 17
     prefabs:
-    - {fileID: 1304047419736928, guid: 24fe3d045dd9b7342a2df29cb1dc6e78, type: 2}
+    - {fileID: 1952365906086912, guid: febfb920ee68a2b4fb35aa033a25e538, type: 2}
     size: 20
     mostUsed: 0
     objects: []
@@ -168,8 +154,8 @@ MonoBehaviour:
   - name: VFXBlasterImpactEffect
     poolObjectType: 3
     prefabs:
-    - {fileID: 1721231149954134, guid: 1a3cf2d121479104994c7791f4b5ae81, type: 2}
-    size: 100
+    - {fileID: 1280264375826500, guid: 70231cd42fdf37a4da9bb8c36f424e5e, type: 2}
+    size: 400
     mostUsed: 0
     objects: []
   - name: BlasterImpactEffect
@@ -228,6 +214,20 @@ MonoBehaviour:
     size: 30
     mostUsed: 0
     objects: []
+  - name: GeyserFissure
+    poolObjectType: 29
+    prefabs:
+    - {fileID: 1668112699848010, guid: bf03fbd19defd9b4face9ed9e057e5d9, type: 2}
+    size: 15
+    mostUsed: 0
+    objects: []
+  - name: GeyserGushLine
+    poolObjectType: 21
+    prefabs:
+    - {fileID: 1347774222512426, guid: f0910c716b4337d47a4548344f0b0348, type: 2}
+    size: 10
+    mostUsed: 0
+    objects: []
   - name: VFXGeyserImpact
     poolObjectType: 42
     prefabs:
@@ -246,14 +246,14 @@ MonoBehaviour:
     poolObjectType: 44
     prefabs:
     - {fileID: 1702552771833574, guid: d462baa9f85e6dd4db5c6145af8b2565, type: 2}
-    size: 15
+    size: 200
     mostUsed: 0
     objects: []
   - name: VFXLightningGunShoot
     poolObjectType: 45
     prefabs:
     - {fileID: 1903846122697570, guid: d7d53e517e4e10e4fb9db8d8ebd8ae64, type: 2}
-    size: 15
+    size: 30
     mostUsed: 0
     objects: []
   - name: RedBouncer
@@ -295,6 +295,27 @@ MonoBehaviour:
     poolObjectType: 50
     prefabs:
     - {fileID: 1447763142075664, guid: bf1267d8533a5c74a95d552e3e21c901, type: 2}
+    size: 50
+    mostUsed: 0
+    objects: []
+  - name: VFXSpreadshotShoot
+    poolObjectType: 51
+    prefabs:
+    - {fileID: 1471123018117130, guid: 9b6c4171554c1854d800e6caac1ae84b, type: 2}
+    size: 15
+    mostUsed: 0
+    objects: []
+  - name: VFXSpreadshotImpact
+    poolObjectType: 52
+    prefabs:
+    - {fileID: 1967879715010352, guid: 1b5fdd16e1ac0f24d960cba8088ed417, type: 2}
+    size: 50
+    mostUsed: 0
+    objects: []
+  - name: VFXEnemyProjectileImpact
+    poolObjectType: 53
+    prefabs:
+    - {fileID: 1662525513871814, guid: 3787ea307b274cb4fadd1e4aaf860c2b, type: 2}
     size: 50
     mostUsed: 0
     objects: []

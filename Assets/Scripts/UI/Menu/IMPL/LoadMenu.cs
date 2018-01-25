@@ -22,7 +22,7 @@ public class LoadMenu : Menu {
         }
         set
         {
-            target = value;
+            target = value;            
         }
     }
     public bool Fast
@@ -66,7 +66,7 @@ public class LoadMenu : Menu {
     {
         base.Start();
 
-        target = SceneManager.GetActiveScene().name;
+        target = SceneManager.GetActiveScene().name;        
 
     }
     void Update()
@@ -78,6 +78,11 @@ public class LoadMenu : Menu {
             loadingText.text = "Starting...";
             MenuManager.Instance.DoTransition(this, Transition.HIDE, new Effect[] { });
             SpawnManager.spawnersLocked = false;
+
+            if (target == Strings.Scenes.Editor)
+            {
+                EventSystem.Instance.TriggerEvent(Strings.Events.INIT_EDITOR, null);
+            }
         }
     }
     #endregion
@@ -120,8 +125,7 @@ public class LoadMenu : Menu {
         MovementEffects.Timing.KillCoroutines();
         ObjectPool.Instance.ResetPools();
         loadingBar.size = 0.0F;
-        loaded = false;
-
+        loaded = false;        
         AsyncOperation async = SceneManager.LoadSceneAsync(target);
         while (!async.isDone)
         {
@@ -135,6 +139,8 @@ public class LoadMenu : Menu {
         loadingBar.size = 1.0F;
         loadingText.text = "Press any key to continue...";
         loaded = true;
+        
+
     }
 
     #endregion

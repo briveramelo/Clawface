@@ -13,9 +13,10 @@ namespace PlayerLevelEditor
 
         List<GameObject> m_GameObjects;
 
+
         public DynamicLevelSystem()
         {
-            Init();
+            //Init();
         }
 
 
@@ -93,12 +94,16 @@ namespace PlayerLevelEditor
             for (int j = 0; j < m_GameObjects.Count; j++)
             {
                 LevelUnit LU = m_GameObjects[j].GetComponent<LevelUnit>();
-                LU.DeRegisterFromEvents();
+
+                if(LU)
+                    LU.DeRegisterFromEvents();
             }
 
             for (int j = 0; j < m_GameObjects.Count; j++)
             {
                 LevelUnit LU = m_GameObjects[j].GetComponent<LevelUnit>();
+
+                if (LU == null) continue;
 
                 for (int i = 0; i < Stage.options.Count; i++)
                 {
@@ -132,7 +137,9 @@ namespace PlayerLevelEditor
             for (int j = 0; j < m_GameObjects.Count; j++)
             {
                 LevelUnit LU = m_GameObjects[j].GetComponent<LevelUnit>();
-                LU.DeRegisterFromEvents();
+
+                if(LU)
+                   LU.DeRegisterFromEvents();
             }
 
             Release();
@@ -144,7 +151,7 @@ namespace PlayerLevelEditor
             for (int j = 0; j < m_GameObjects.Count; j++)
             {
                 LevelUnit LU = m_GameObjects[j].GetComponent<LevelUnit>();
-                LU.DisableBlockingObject();
+                LU.HideBlockingObject();
             }
         }
 

@@ -5,12 +5,13 @@ using MovementEffects;
 
 public class ExplosionTrigger : RoutineRunner {
 
-    [SerializeField] private float scaleRate;
+    private float scaleRate;
     private float blastRadius;
 
-    public void Initialize(float p_blastRadius)
+    public void Initialize(float p_blastRadius, float p_scaleRate)
     {
         blastRadius = p_blastRadius;
+        scaleRate = p_scaleRate;
     }
 
     public void OnEnable()
@@ -22,7 +23,7 @@ public class ExplosionTrigger : RoutineRunner {
     {
         while (gameObject.transform.localScale.x < blastRadius)
         {
-            gameObject.transform.localScale += new Vector3(1f, 0.0f, 1f) * Time.deltaTime * scaleRate;
+            gameObject.transform.localScale += new Vector3(1f, 0.0f, 1f) * Time.deltaTime * (blastRadius/scaleRate);
             yield return 0.0f;
         }
 
