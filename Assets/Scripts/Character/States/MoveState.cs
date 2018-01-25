@@ -118,9 +118,20 @@ public class MoveState : IPlayerState
         stateVariables.velBody.velocity = moveDirection * stateVariables.statsManager.GetStat(CharacterStatType.MoveSpeed);
         if (moveDirection.magnitude > stateVariables.axisThreshold)
         {   
-            if (stateVariables.animator.GetInteger(Strings.ANIMATIONSTATE) != (int)PlayerAnimationStates.Running)
+            PlayerAnimationStates movementAnimState = PlayerAnimationStates.RunningForward;
+            float moveLookDot = Vector3.Dot (moveDirection, stateVariables.velBody.GetForward());
+            if (moveLookDot > 0.5f) movementAnimState = PlayerAnimationStates.RunningForward;
+            else if (moveLookDot > -0.5f)
             {
-                stateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Running);
+                if (Vector3.Cross (moveDirection, stateVariables.velBody.GetForward()).y > 0f)
+                    movementAnimState = PlayerAnimationStates.SideStrafeRight;
+                else movementAnimState = PlayerAnimationStates.SideStrafeLeft;
+            }
+            else movementAnimState = PlayerAnimationStates.RunningBackward;
+
+            if (stateVariables.animator.GetInteger(Strings.ANIMATIONSTATE) != (int)movementAnimState)
+            {
+                stateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)movementAnimState);
             }
         }
         else

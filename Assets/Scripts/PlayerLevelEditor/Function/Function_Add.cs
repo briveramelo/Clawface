@@ -32,7 +32,7 @@ namespace PlayerLevelEditor
         {
             base.Init();
 
-            _LevelObject = UnityTool.FindGameObject("LEVEL");
+            _LevelObject = EditorToolKit.FindGameObject("LEVEL");
 
             SetUIObject("UI_Add");
 
