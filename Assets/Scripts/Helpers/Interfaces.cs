@@ -48,7 +48,7 @@ public interface IEatable
     bool IsEatable();
     int Eat();
     void DisableCollider();
-    void EnableRagdoll();
+    void EnableRagdoll(float weight = 1.0f);
     void DisableRagdoll();
     GameObject GetGrabObject();
 }

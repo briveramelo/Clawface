@@ -37,12 +37,14 @@ public class DashState : IPlayerState {
     private int currentFrame;
     private int currentPose;
     private bool isClawOut;
+    private float currentRotation;
     #endregion
 
     #region Unity Lifecycle
     private void Start()
     {
         isClawOut = false;
+        currentRotation = 0.0f;
     }
 
     // Use this for initialization
@@ -62,7 +64,7 @@ public class DashState : IPlayerState {
             if (!isClawOut && useClawPunch)
             {
                 isClawOut = true;
-                clawArmController.ExtendClawToDistance(stateVariables.clawPunchDistance, true);
+                clawArmController.ExtendClawToDistance(stateVariables.clawPunchDistance);
             }
         }
         currentFrame++;
@@ -71,7 +73,8 @@ public class DashState : IPlayerState {
         MovePlayer();
         if (useClawPunch)
         {
-            BlastEm();
+            ClearProjectilesAndDamageEnemies();
+            //BlastEm();
         }
         if (currentFrame >= totalDashFrames) {
             ResetState();
@@ -87,7 +90,8 @@ public class DashState : IPlayerState {
     {
         if (useClawPunch)
         {
-            stateVariables.modelHead.transform.forward = stateVariables.velBody.MoveDirection;
+            currentRotation += Time.deltaTime * stateVariables.headSpinSpeed;
+            stateVariables.modelHead.transform.rotation = Quaternion.AngleAxis(currentRotation, Vector3.up);
         }
     }
     #endregion
@@ -106,6 +110,7 @@ public class DashState : IPlayerState {
         dashTrail.GetComponent<TrailRenderer>().enabled = false;
         clawArmController.ResetClawArm();
         isClawOut = false;
+        currentRotation = 0.0f;
         stateVariables.stateFinished = true;
     }
 
@@ -156,7 +161,31 @@ public class DashState : IPlayerState {
             EnemyBase enemyBase = enemy.GetComponent<EnemyBase>();
             if (enemyBase)
             {
-                enemyBase.Push();
+                enemyBase.Push(stateVariables.dashEnemyPushForce);
+            }
+        }
+    }
+
+    private void ClearProjectilesAndDamageEnemies()
+    {
+        string[] layers = { Strings.Layers.ENEMY_PROJECTILE, Strings.Layers.ENEMY };
+        Collider[] colliders = Physics.OverlapSphere(transform.position, stateVariables.clawPunchDistance, LayerMask.GetMask(layers));
+        foreach (Collider collider in colliders)
+        {
+            BlasterBullet bullet = collider.GetComponent<BlasterBullet>();
+            if (bullet)
+            {
+                bullet.DestroyBullet();
+            }
+            else
+            {
+                EnemyBase enemyBase = collider.GetComponent<EnemyBase>();
+                if (enemyBase)
+                {
+                    Vector3 direction = clawArmController.transform.forward;
+                    direction.y = 0f;
+                    enemyBase.Push(stateVariables.dashEnemyPushForce);
+                }
             }
         }
     }

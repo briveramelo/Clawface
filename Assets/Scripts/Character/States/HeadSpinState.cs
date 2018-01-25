@@ -49,7 +49,7 @@ public class HeadSpinState : IPlayerState
         if (!isClawExtended)
         {
             stateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.OpenFace);
-            clawArmController.ExtendClawToDistance(stateVariables.headSpinClawRadius);
+            clawArmController.ExtendClawToDistance(stateVariables.headSpinClawRadius, true);
             isClawExtended = true;
         }
         ClearProjectilesAndDamageEnemies();
@@ -87,12 +87,18 @@ public class HeadSpinState : IPlayerState
             }
             else
             {
-                IDamageable damageable = collider.GetComponent<IDamageable>();
+                /*IDamageable damageable = collider.GetComponent<IDamageable>();
                 if (damageable != null)
                 {
                     Damager damager = new Damager();
                     damager.damage = stateVariables.headSpinDamage;
                     damageable.TakeDamage(damager);
+                }*/
+                EnemyBase enemyBase = collider.GetComponent<EnemyBase>();
+                if (enemyBase)
+                {
+                    Vector3 direction = clawArmController.transform.forward;
+                    enemyBase.Push(stateVariables.dashEnemyPushForce);
                 }
             }
         }
