@@ -17,10 +17,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour
 
     private bool inputGuard = false;
 
-    private GameObject currentHoveredObject = null;
-    private GameObject lastHoveredObject = null;
-
-    private GameObject currentlySelectedObject = null;
+    private List<GameObject> lastHoveredObjects = new List<GameObject>();
 
     #endregion
 
@@ -49,8 +46,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour
     {
         if (EventSystem.Instance)
         {
-            EventSystem.Instance.RegisterEvent(Strings.Events.INIT_EDITOR, Initilaize);
-            
+            EventSystem.Instance.RegisterEvent(Strings.Events.INIT_EDITOR, Initilaize);      
         }     
     }
 
@@ -66,39 +62,35 @@ public class PlayerLevelEditorGrid : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (displaying)
+        if (!displaying)
+            return;
+
+        Ray ray = UnityEngine.Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, 1000.0f))
         {
-            Ray ray = UnityEngine.Camera.main.ScreenPointToRay(Input.mousePosition);
-
-            RaycastHit hit;
-
-            if (Physics.Raycast(ray, out hit, 1000.0f))
+            if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
             {
-                if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
-                {
-                    OnClickObject = hit.transform.gameObject;
-                }
-
-                DrawPreviewBlock(hit);
-
-                CreateBlock(hit);
+                OnClickObject = hit.transform.gameObject;
             }
-        }
 
+            DrawPreviewBlock(hit);
+
+            CreateBlock(hit);
+        }
     }
 
     #endregion
-
 
     #region Private Interface
 
     private void Initilaize(params object[] par)
     {
-
         previewBlock = Resources.Load(Strings.Editor.RESOURCE_PATH + Strings.Editor.BASIC_LE_BLOCK) as GameObject;
         spawnedBlock = Resources.Load(Strings.Editor.RESOURCE_PATH + Strings.Editor.BASIC_LVL_BLOCK) as GameObject;
         InitBlocks();
-
     }
 
     private void CreateBlock(RaycastHit hit)
@@ -120,28 +112,38 @@ public class PlayerLevelEditorGrid : MonoBehaviour
 
     private void DrawPreviewBlock(RaycastHit hit)
     {
-        currentHoveredObject = hit.transform.gameObject;
+        #region clean up lastHoveredObjects
 
-        if (lastHoveredObject == null)
-            lastHoveredObject = currentHoveredObject;
-
-        PreviewCubeController currentPCC = currentHoveredObject.GetComponent<PreviewCubeController>();
-
-        if (currentPCC)
-            currentPCC.SetColor(hoverColor);
-
-        if (currentHoveredObject != lastHoveredObject)
+        foreach (GameObject GO in lastHoveredObjects)
         {
-            PreviewCubeController lastPCC = lastHoveredObject.GetComponent<PreviewCubeController>();
+            if (GO == null)
+                continue;
+
+            PreviewCubeController lastPCC = GO.GetComponent<PreviewCubeController>();
 
             if (lastPCC)
                 lastPCC.ResetColor();
         }
 
-        lastHoveredObject = currentHoveredObject;
+        lastHoveredObjects.Clear();
 
+        #endregion
 
-        if(Input.GetMouseButton(0))
+        #region update currentHoveredObject
+
+        GameObject currentHoveredObject = hit.transform.gameObject;
+        PreviewCubeController currentPCC = currentHoveredObject.GetComponent<PreviewCubeController>();
+
+        if (currentPCC)
+            currentPCC.SetColor(hoverColor);
+
+        lastHoveredObjects.Add(currentHoveredObject);
+
+        #endregion
+
+        #region update lastHoveredObjects
+
+        if (Input.GetMouseButton(0))
         {
             List<GameObject> Objects = SelectObjectsAlgorithm(hit);
 
@@ -150,9 +152,15 @@ public class PlayerLevelEditorGrid : MonoBehaviour
                 PreviewCubeController ObjectPCC = Object.GetComponent<PreviewCubeController>();
 
                 if (ObjectPCC)
+                {
+                    lastHoveredObjects.Add(Object);
                     ObjectPCC.SetColor(hoverColor);
+                }
             }
         }
+
+        #endregion
+
     }
 
     void InitBlocks()
