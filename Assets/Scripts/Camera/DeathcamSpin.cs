@@ -3,23 +3,39 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 
-public class DeathcamSpin : MonoBehaviour {
+public class DeathcamSpin : MonoBehaviour
+{
 
     #region Serialized
-    [SerializeField] private float spinSpeed;
-    [SerializeField] private CinemachineVirtualCamera cam;
+    [SerializeField] private Transform deathCamera;
     #endregion
-
 
     #region Unity Lifecycle
     // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    void Start()
+    {
+        EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_KILLED, OnDeath);
+    }
 
-	}
-#endregion
+    private void OnDestroy()
+    {
+        if (EventSystem.Instance)
+        {
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_KILLED, OnDeath);
+        }
+    }
+    #endregion
+
+
+    #region Public
+
+
+    #endregion
+
+    #region Private
+    public void OnDeath(params object[] items)
+    {
+        deathCamera.gameObject.SetActive(true);
+    }
+    #endregion
 }
