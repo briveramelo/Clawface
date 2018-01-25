@@ -38,6 +38,8 @@ public class AddPropsMenu : Menu {
     private bool initialized = false;
     private Vector3 newItemPos = Vector3.zero;
 
+    
+
     private bool inputGuard = false;
     #endregion
 
@@ -110,6 +112,11 @@ public class AddPropsMenu : Menu {
     {
         base.ShowComplete();
         inputGuard = true;
+
+        //draw the grid
+        editorInstance.gridController.displaying = true;
+        editorInstance.gridController.SetGridVisiblity(true);
+
     }
 
     protected override void HideStarted()
@@ -117,6 +124,8 @@ public class AddPropsMenu : Menu {
         base.HideStarted();
         inputGuard = false;
         initialized = false;
+        editorInstance.gridController.displaying = false;
+        editorInstance.gridController.SetGridVisiblity(false);
     }
 
     protected override void DefaultShow(Transition transition, Effect[] effects)

@@ -47,23 +47,23 @@ namespace PlayerLevelEditor
             CameraMovement();
         }
 
-        void OnPostRender()
-        {
-            GL.Begin(GL.LINES);
-            GL.Color(lineColor);
+        //void OnPostRender()
+        //{
+        //    GL.Begin(GL.LINES);
+        //    GL.Color(lineColor);
 
-            lineMaterial.SetPass(0);
+        //    lineMaterial.SetPass(0);
 
-            for (int i = 0; i < vertices.Count; i++)
-            {
-                GL.Vertex(vertices[i]);
-            }
+        //    for (int i = 0; i < vertices.Count; i++)
+        //    {
+        //        GL.Vertex(vertices[i]);
+        //    }
 
 
-            GL.End();
+        //    GL.End();
 
-            vertices.Clear();
-        }
+        //    vertices.Clear();
+        //}
 
         void OnApplicationQuit()
         {
