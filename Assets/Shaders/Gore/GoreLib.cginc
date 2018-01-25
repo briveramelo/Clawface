@@ -130,3 +130,10 @@ inline float3 MergeNormals(float3 a, float3 b)
 {
 	return normalize(a + b);
 }
+
+/*
+	IsWhite: Makes sure the value of the mask is white.
+*/
+inline bool IsWhite(float3 maskValue) {
+	return maskValue.r == 1 && maskValue.g == 1 && maskValue.b == 1;
+}

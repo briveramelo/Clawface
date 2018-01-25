@@ -55,31 +55,35 @@
 				// Use previous color
 				float4 color = tex2D(_Previous, i.uv);
 
-				// Iterate through splats and override color as appropriate
-				for (int index = 0; index < _Count; index++) {
-					// Project and acquire an unadjusted "uv" value for sampling splat textures
-					float3 projected = PlanarProjection(i.worldPos, i.normal, _Positions[index].xyz);
-					float3 offset = i.worldPos - projected;
-					float2 uv = ConvertToUV(offset, i.tangent, i.bitangent);
+				// Only render new blood if paint mask is white.
+				if (IsWhite(tex2D(_PaintMask, i.uv).rgb)) {
 
-					// Transform our uv into the splat uv (that is, do translation and rotation to account)
-					// for orientation of our rotated splat
-					uv = RotateByJUnitVector(uv, _Rotations[index].xy);
-					uv += _Anchors[index].xy;
-					uv = AdjustUVByScale(uv, _Width, _Height);
+					// Iterate through splats and override color as appropriate
+					for (int index = 0; index < _Count; index++) {
+						// Project and acquire an unadjusted "uv" value for sampling splat textures
+						float3 projected = PlanarProjection(i.worldPos, i.normal, _Positions[index].xyz);
+						float3 offset = i.worldPos - projected;
+						float2 uv = ConvertToUV(offset, i.tangent, i.bitangent);
 
-					// Finally, We can check if we can splat with this (and if so, where to sample)
-					if (IsValidUV(uv)) {
-						float3 compoundUV = float3(uv.x, uv.y, index);
-						float4 maskSample = UNITY_SAMPLE_TEX2DARRAY(_Masks, compoundUV);
-						float4 normalSample = UNITY_SAMPLE_TEX2DARRAY(_Normals, compoundUV);
+						// Transform our uv into the splat uv (that is, do translation and rotation to account)
+						// for orientation of our rotated splat
+						uv = RotateByJUnitVector(uv, _Rotations[index].xy);
+						uv += _Anchors[index].xy;
+						uv = AdjustUVByScale(uv, _Width, _Height);
 
-						// Apply alpha for BLOOD, keep highest value
-						color.a = max(color.a, maskSample.a);
+						// Finally, We can check if we can splat with this (and if so, where to sample)
+						if (IsValidUV(uv)) {
+							float3 compoundUV = float3(uv.x, uv.y, index);
+							float4 maskSample = UNITY_SAMPLE_TEX2DARRAY(_Masks, compoundUV);
+							float4 normalSample = UNITY_SAMPLE_TEX2DARRAY(_Normals, compoundUV);
 
-						// Merge normals
-						float3 unpacked = UnpackNormal(normalSample);
-						color.rgb = MergeNormals(color.rgb, unpacked);
+							// Apply alpha for BLOOD, keep highest value
+							color.a = max(color.a, maskSample.a);
+
+							// Merge normals
+							float3 unpacked = UnpackNormal(normalSample);
+							color.rgb = MergeNormals(color.rgb, unpacked);
+						}
 					}
 				}
 

@@ -27,6 +27,7 @@ public class LevelUnit : RoutineRunner {
     private GameObject blockingObject;
     List<Collider> overlappingColliders=new List<Collider>(10);
     private int overlappingObjects;
+    private Splattable splattable;
     #endregion
 
     #region serialized fields
@@ -45,8 +46,9 @@ public class LevelUnit : RoutineRunner {
 
     #region unity lifecycle
     private void Awake()
-    {        
-        MeshRenderer meshRenderer = GetComponent<MeshRenderer>();        
+    {
+        splattable = GetComponent<Splattable>();
+        MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
         if (meshRenderer)
         {
             meshSizeY = meshRenderer.bounds.size.y;
@@ -325,6 +327,7 @@ public class LevelUnit : RoutineRunner {
         
         if (currentState != LevelUnitStates.cover)
         {
+            splattable.PaintMask = Texture2D.blackTexture;
             nextState = LevelUnitStates.cover;
             isTransitioning = true;
         }        
@@ -335,6 +338,7 @@ public class LevelUnit : RoutineRunner {
         
         if (currentState != LevelUnitStates.floor)
         {
+            splattable.PaintMask = Texture2D.whiteTexture;
             nextState = LevelUnitStates.floor;
             isTransitioning = true;
         }        
@@ -345,6 +349,7 @@ public class LevelUnit : RoutineRunner {
         
         if (currentState != LevelUnitStates.pit)
         {
+            splattable.PaintMask = Texture2D.blackTexture;
             nextState = LevelUnitStates.pit;
             isTransitioning = true;
         }        
