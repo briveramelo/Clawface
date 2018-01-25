@@ -48,6 +48,7 @@ public class MainMenu : Menu
         Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
         LoadMenu loadMenu = menu as LoadMenu;
         loadMenu.TargetScene = Strings.Scenes.Editor;
+        loadMenu.Fast = true;
 
         MenuManager.Instance.DoTransition(loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
     }
