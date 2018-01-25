@@ -19,7 +19,7 @@ namespace PlayerLevelEditor
             GameObject _ItemExample = PlayerLevelEditor.UITool.FindUIGameObject("ItemExample");
 
             GameObject[] _DBObject;
-            _DBObject = Resources.LoadAll<GameObject>("PlayerLevelEditorObjects/Env/") as GameObject[];
+            _DBObject = Resources.LoadAll<GameObject>(Strings.Editor.ENV_OBJECTS_PATH) as GameObject[];
 
 #if !UNITY_EDITOR
             Texture2D[] _DBObjectTextures;
@@ -48,6 +48,8 @@ namespace PlayerLevelEditor
                     Debug.LogWarning("No Texture for ResourceObj: " + _object);
                     _texture = Texture2D.whiteTexture;
                 }
+
+
                 Sprite _sprite = Sprite.Create(_texture, new Rect(0, 0, _texture.width, _texture.height), new Vector2(0.5f, 0.5f));
                 _item.GetComponentInChildren<UnityEngine.UI.Image>().sprite = _sprite;
 

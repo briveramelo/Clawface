@@ -189,7 +189,12 @@
         public const string LEVEL_OBJECT = "LEVEL";
 
         //objects
-        public const string BASIC_LVL_BLOCK = "Env/MockBlock";
+        public const string BASIC_LE_BLOCK = "LECube";
+        public const string BASIC_LVL_BLOCK = "EnvProps/MockBlock";
+        public const string ENV_OBJECTS_PATH = "PlayerLevelEditorObjects/EnvProps/";
+        public const string SPAWN_OBJECTS_PATH = "PlayerLevelEditorObjects/SpawnProps/";
+
+        public const string IMAGE_PREVIEW_PATH = "PlayerLevelEditorObjects/png/";
     }
 
     
