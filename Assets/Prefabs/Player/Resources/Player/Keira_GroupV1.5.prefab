@@ -866,7 +866,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4324873112029060}
   - component: {fileID: 114675049875242238}
-  - component: {fileID: 65038323082215666}
   m_Layer: 22
   m_Name: ClawArm
   m_TagString: Untagged
@@ -1805,8 +1804,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1534432689421460}
-  m_LocalRotation: {x: -0.010544597, y: -0.0018358228, z: -0.016280053, w: 0.99981016}
-  m_LocalPosition: {x: 0.082752936, y: -0.7688628, z: -1.6282992}
+  m_LocalRotation: {x: -0.010544567, y: -0.0018358526, z: -0.016280053, w: 0.99981016}
+  m_LocalPosition: {x: 0.08275389, y: -0.76886165, z: -1.628298}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4554965905632336}
@@ -2038,8 +2037,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1985927888073948}
-  m_LocalRotation: {x: -0.010474086, y: -0.0022026598, z: -0.051163018, w: 0.998633}
-  m_LocalPosition: {x: 0.082752936, y: -0.7688628, z: -1.6282992}
+  m_LocalRotation: {x: -0.010474056, y: -0.0022026896, z: -0.051163018, w: 0.998633}
+  m_LocalPosition: {x: 0.08275389, y: -0.76886165, z: -1.628298}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4389288433435948}
@@ -2566,18 +2565,6 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 116
   m_CollisionDetection: 1
---- !u!65 &65038323082215666
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1703451787772948}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!81 &81036380159180034
 AudioListener:
   m_ObjectHideFlags: 1
@@ -2860,7 +2847,7 @@ MonoBehaviour:
   totalAttackPoses: 10
   clawArmController: {fileID: 114675049875242238}
   useClawPunch: 1
-  dashInLookDirection: 1
+  dashInLookDirection: 0
 --- !u!114 &114136393911348448
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3199,6 +3186,7 @@ MonoBehaviour:
     headSpinDamage: 0.05
     clawPunchDistance: 5
     dashEnemyCheckRadius: 1
+    dashEnemyPushForce: 10
   defaultState: {fileID: 114776189445566068}
   playerStatsManager: {fileID: 114430878911601216}
   holdAttackSlowDown: 3
