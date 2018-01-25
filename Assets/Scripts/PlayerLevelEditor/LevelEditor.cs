@@ -57,7 +57,7 @@ namespace PlayerLevelEditor
 
         private void OnDestroy()
         {
-            if(EventSystem.Instance)
+            if (EventSystem.Instance)
             {
                 EventSystem.Instance.UnRegisterEvent(Strings.Events.INIT_EDITOR, EditorInitialize);
             }
