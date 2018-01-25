@@ -17,6 +17,8 @@ public class PlayerLevelEditorGrid : MonoBehaviour
 
     private bool inputGuard = false;
 
+    private GameObject currentHoveredObject = null;
+    private GameObject lastHoveredObject = null;
 
     #endregion
 
@@ -25,6 +27,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour
     [SerializeField] GameObject objectGrid;
     [SerializeField] GameObject realLevel;
     [SerializeField] private int levelSize = 20;
+    [SerializeField] private Color hoverColor = Color.blue;
 
     #endregion
 
@@ -44,6 +47,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour
         if (EventSystem.Instance)
         {
             EventSystem.Instance.RegisterEvent(Strings.Events.INIT_EDITOR, Initilaize);
+            
         }
 
         
@@ -77,7 +81,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour
 
         previewBlock = Resources.Load(Strings.Editor.RESOURCE_PATH + Strings.Editor.BASIC_LE_BLOCK) as GameObject;
         spawnedBlock = Resources.Load(Strings.Editor.RESOURCE_PATH + Strings.Editor.BASIC_LVL_BLOCK) as GameObject;
-
+        lastHoveredObject = new GameObject();
         InitBlocks();
 
     }
@@ -90,15 +94,25 @@ public class PlayerLevelEditorGrid : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, 1000.0f))
         {
-                PreviewCubeController pcc = hit.transform.gameObject.GetComponent<PreviewCubeController>();
+            currentHoveredObject = hit.transform.gameObject;
 
-                if (pcc)
+            PreviewCubeController currentPCC = currentHoveredObject.GetComponent<PreviewCubeController>();
+
+            if(currentHoveredObject != lastHoveredObject)
+            {
+                PreviewCubeController lastPcc = lastHoveredObject.GetComponent<PreviewCubeController>();
+                if (lastPcc)
                 {
-                    pcc.SetColor(Color.red);
-
-                    Debug.Log("OH SHIT");
+                    lastPcc.ResetColor();
                 }
+            }
 
+            if (currentPCC)
+            {
+                currentPCC.SetColor(hoverColor);
+            }
+
+            lastHoveredObject = currentHoveredObject;
             
         }
     }

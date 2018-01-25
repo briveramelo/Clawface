@@ -15,7 +15,6 @@ public class PreviewCubeController : MonoBehaviour {
     private void Awake()
     {
         cloneMat = new Material(GetComponent<MeshRenderer>().material);
-
         cloneMat.CopyPropertiesFromMaterial(GetComponent<MeshRenderer>().material);
         GetComponent<MeshRenderer>().material = cloneMat;
     }
@@ -28,7 +27,12 @@ public class PreviewCubeController : MonoBehaviour {
     {
 
         cloneMat.SetColor("_TintColor",i_Color);
-        //GetComponent<MeshRenderer>().material.color = new Color(1.0f,0.0f,0.0f);
+
+    }
+
+    public void ResetColor()
+    {
+        cloneMat.SetColor("_TintColor", Color.white);
     }
 
     #endregion
