@@ -10,6 +10,7 @@ namespace PlayerLevelEditor
         #region Public Fields
 
         static public DynamicLevelSystem m_DynamicLevelSystem;
+        public PlayerLevelEditorGrid gridController;
 
         #endregion
 
@@ -31,6 +32,7 @@ namespace PlayerLevelEditor
         [SerializeField] private AddPropsMenu propsEditorMenu;
         [SerializeField] private AddSpawnsMenu spawnsEditorMenu;
         [SerializeField] private SetDynamicLevelMenu dynLevelEditorMenu;
+        
        
         #endregion  
 
