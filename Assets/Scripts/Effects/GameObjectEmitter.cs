@@ -43,7 +43,6 @@ public class GameObjectEmitter : MonoBehaviour {
         playing = true;
         if (burstOnPlay) {
             int randomNum = burstOnPlayCount.GetRandomValue();
-            print(randomNum);
             for (int i = 0; i < randomNum; i++)
             {
                 Emit();
