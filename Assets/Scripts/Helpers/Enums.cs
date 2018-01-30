@@ -133,6 +133,7 @@ public enum PoolObjectType {
     VFXEnemySpawn=50,
     VFXSpreadshotShoot=51,
     VFXSpreadshotImpact=52,
+    VFXEnemyProjectileImpact=53,
 
     //BulletTypes
     TurretBullet = 28,
@@ -167,10 +168,13 @@ public enum MovementMode
 public enum PlayerAnimationStates
 {
     Idle = 0,
-    Running = 1,
+    RunningForward = 1,
     Dash = 2,
     OpenFace = 3,
-    CloseFace = 4
+    CloseFace = 4,
+    SideStrafeRight = 5,
+    SideStrafeLeft = 6,
+    RunningBackward = 7
 }
 
 public enum PlayerAnimationLayers

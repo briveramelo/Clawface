@@ -13,6 +13,7 @@ public class LightningProjectile : MonoBehaviour {
     [SerializeField] LightningChain chainEffect;
 
     #endregion
+
     #region Private Fields
     private LightningGun.ProjectileProperties projectileProperties;    
     private Transform target;
@@ -92,7 +93,10 @@ public class LightningProjectile : MonoBehaviour {
         if (ignoreEnemies != null)
         {
             GameObject affectTarget = ignoreEnemies.Tail().GetComponent<EnemyBase>().GetAffectObject();
-            chainEffect.SetOrigin(affectTarget.transform);
+            if (affectTarget)
+            {
+                chainEffect.SetOrigin(affectTarget.transform);
+            }
             ignoreTargets = ignoreEnemies;
         }
         damager = new Damager();
@@ -157,25 +161,30 @@ public class LightningProjectile : MonoBehaviour {
 
             //Do damage
             IDamageable damageable = target.GetComponent<IDamageable>();
-            GameObject affectTarget = target.GetComponent<EnemyBase>().GetAffectObject();
+            EnemyBase enemyBase = target.GetComponent<EnemyBase>();
+            GameObject affectTarget = null;
+            if (enemyBase)
+            {
+                affectTarget = target.GetComponent<EnemyBase>().GetAffectObject();
+            }
             if (damageable != null)
             {
                 damager.impactDirection = transform.forward;
                 damager.damage = projectileProperties.projectileHitDamage;
                 damageable.TakeDamage(damager);
                 GameObject vfx = ObjectPool.Instance.GetObject (PoolObjectType.VFXLightningGunImpact);
-                if (vfx)
+                if (vfx && affectTarget)
                 {
                     vfx.transform.SetParent (affectTarget.transform);
                     vfx.transform.position = transform.position;
                 }
             }
 
-            this.gameObject.SetActive(false);
+            gameObject.SetActive(false);
         }
         else if (other.CompareTag(Strings.Tags.WALL))
         {
-            this.gameObject.SetActive(false);
+            gameObject.SetActive(false);
         }
     }
 

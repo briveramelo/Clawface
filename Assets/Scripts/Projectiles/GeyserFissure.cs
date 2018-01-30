@@ -9,6 +9,7 @@ public class GeyserFissure : MonoBehaviour {
     private float speed;
     private float damage;
 
+    [SerializeField] FishEmitter fishEmitter;
     [SerializeField] private PoolObjectType enemyImpactEffect;
     [SerializeField] private PoolObjectType wallImpactEffect;
 
@@ -114,6 +115,7 @@ public class GeyserFissure : MonoBehaviour {
     public void Initialize(float speed, float damage, float killAfterSeconds)
     {
         this.speed = speed;
+        fishEmitter.SetBaseEmissionSpeed(speed*.4f);
         this.damage = damage;
         this.killAfterSeconds = killAfterSeconds;
         this.killTimer = 0f;

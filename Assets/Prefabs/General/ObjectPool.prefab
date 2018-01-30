@@ -56,7 +56,7 @@ MonoBehaviour:
   - name: BlasterBullet
     poolObjectType: 2
     prefabs:
-    - {fileID: 1719855240616946, guid: 636364673f9463240aef3607a378cf11, type: 2}
+    - {fileID: 1921089154119268, guid: 5a352cd94d5c0fe418820a4021897983, type: 2}
     size: 25
     mostUsed: 0
     objects: []
@@ -93,20 +93,6 @@ MonoBehaviour:
     prefabs:
     - {fileID: 1385345176205422, guid: 853a9c96bc025954896d8b6c0a793ef2, type: 2}
     size: 20
-    mostUsed: 0
-    objects: []
-  - name: GeyserFissure
-    poolObjectType: 29
-    prefabs:
-    - {fileID: 1673312795691100, guid: c55fe1d517ac92f49b4cdb9963c0a8ec, type: 2}
-    size: 15
-    mostUsed: 0
-    objects: []
-  - name: GeyserGushLine
-    poolObjectType: 21
-    prefabs:
-    - {fileID: 1347774222512426, guid: f0910c716b4337d47a4548344f0b0348, type: 2}
-    size: 10
     mostUsed: 0
     objects: []
   - name: LightningProjectile
@@ -228,6 +214,20 @@ MonoBehaviour:
     size: 30
     mostUsed: 0
     objects: []
+  - name: GeyserFissure
+    poolObjectType: 29
+    prefabs:
+    - {fileID: 1668112699848010, guid: bf03fbd19defd9b4face9ed9e057e5d9, type: 2}
+    size: 15
+    mostUsed: 0
+    objects: []
+  - name: GeyserGushLine
+    poolObjectType: 21
+    prefabs:
+    - {fileID: 1347774222512426, guid: f0910c716b4337d47a4548344f0b0348, type: 2}
+    size: 10
+    mostUsed: 0
+    objects: []
   - name: VFXGeyserImpact
     poolObjectType: 42
     prefabs:
@@ -309,6 +309,13 @@ MonoBehaviour:
     poolObjectType: 52
     prefabs:
     - {fileID: 1967879715010352, guid: 1b5fdd16e1ac0f24d960cba8088ed417, type: 2}
+    size: 50
+    mostUsed: 0
+    objects: []
+  - name: VFXEnemyProjectileImpact
+    poolObjectType: 53
+    prefabs:
+    - {fileID: 1662525513871814, guid: 3787ea307b274cb4fadd1e4aaf860c2b, type: 2}
     size: 50
     mostUsed: 0
     objects: []
