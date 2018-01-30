@@ -93,6 +93,7 @@ public class SetDynamicLevelMenu : Menu {
         base.HideStarted();
         inputGuard = false;
         initialized = false;
+        editorInstance.gridController.ClearSelectedBlocks();
         editorInstance.gridController.SetGridVisiblity(false);
         editorInstance.gridController.currentEditorMenu = EditorMenu.FLOOR_MENU;
     }

@@ -11,9 +11,9 @@ public class PlayerLevelEditorGrid : MonoBehaviour
 
     private GameObject previewBlock = null;
     private GameObject spawnedBlock = null;
+    private Color spawnddBlockDefaultColor;
 
     private GameObject OnClickObject = null;
-
     private List<GameObject> selectedObjects = new List<GameObject>();
 
     private bool inputGuard = false;
@@ -101,6 +101,9 @@ public class PlayerLevelEditorGrid : MonoBehaviour
     {
         previewBlock = Resources.Load(Strings.Editor.RESOURCE_PATH + Strings.Editor.BASIC_LE_BLOCK) as GameObject;
         spawnedBlock = Resources.Load(Strings.Editor.RESOURCE_PATH + Strings.Editor.BASIC_LVL_BLOCK) as GameObject;
+
+        spawnddBlockDefaultColor = spawnedBlock.GetComponent<Renderer>().sharedMaterial.color;
+
         InitBlocks();
     }
 
@@ -115,7 +118,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour
             DuplicateBlocks(hit);
         }
 
-        if (Input.GetMouseButtonUp(1))
+        if (Input.GetKey(KeyCode.LeftControl) && Input.GetMouseButtonUp(1))
         {
             DeleteBlocks(hit);
         }
@@ -198,7 +201,6 @@ public class PlayerLevelEditorGrid : MonoBehaviour
             {
                 GameObject RealObject = GameObject.Instantiate(spawnedBlock, Object.transform.position, Quaternion.identity);
                 RealObject.transform.SetParent(realLevel.transform);
-                //RealObject.transform.gameObject.GetComponent<Renderer>().material.color = Color.green;
                 realLevelDict.Add(RealObject.transform.position, RealObject);
             }
 
@@ -226,9 +228,9 @@ public class PlayerLevelEditorGrid : MonoBehaviour
             if (realLevelDict.ContainsKey(Object.transform.position))
             {
                 realLevelDict.Remove(Object.transform.position);
+                selectedObjects.Remove(Object);
                 GameObject.DestroyImmediate(Object);
             }
-
         }
     }
 
@@ -237,12 +239,23 @@ public class PlayerLevelEditorGrid : MonoBehaviour
     {
         List<GameObject> Objects = SelectObjectsAlgorithm(hit);
 
+        if (Objects.Count > 1)
+            ClearSelectedBlocks();
+
         foreach(GameObject Object in Objects)
         {
-            if (realLevelDict.ContainsKey(Object.transform.position) && !selectedObjects.Contains(Object.transform.gameObject))
+            if (realLevelDict.ContainsKey(Object.transform.position))
             {
-                realLevelDict[Object.transform.position].GetComponent<Renderer>().material.color = Color.red;
-                selectedObjects.Add(realLevelDict[Object.transform.position]);
+                if(selectedObjects.Contains(Object))
+                {
+                    Object.GetComponent<Renderer>().material.color = spawnddBlockDefaultColor;
+                    selectedObjects.Remove(Object);
+                }
+                else
+                {
+                    Object.GetComponent<Renderer>().material.color = Color.red;
+                    selectedObjects.Add(Object);
+                }
             }
         }
     }
@@ -287,10 +300,13 @@ public class PlayerLevelEditorGrid : MonoBehaviour
 
     public void ClearSelectedBlocks()
     {
-        foreach(GameObject go in selectedObjects)
+        foreach(GameObject Go in selectedObjects)
         {
-
+            if(Go != null)
+               Go.GetComponent<Renderer>().material.color = spawnddBlockDefaultColor;
         }
+
+        selectedObjects.Clear();
     }
 
     public void DoSomeShitForSelectedObjects()
@@ -312,7 +328,8 @@ public class PlayerLevelEditorGrid : MonoBehaviour
         displaying = i_set;
         foreach(KeyValuePair<Vector3,GameObject> go in mockLevelDict)
         {
-            go.Value.SetActive(i_set);
+            if(go.Value != null)
+                go.Value.SetActive(i_set);
         }
     }
 
