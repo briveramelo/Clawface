@@ -35,6 +35,10 @@ public class ModManager : MonoBehaviour
 
     [SerializeField] private bool rightStickFire = true;
     [SerializeField] private float minJoystickFireMagnitude = 0.7f;
+
+    [SerializeField] private bool leftHandOnlyFire = false;
+
+    [SerializeField] private bool useAutofire = false;
     #endregion    
 
     #region Private Fields
@@ -216,6 +220,7 @@ public class ModManager : MonoBehaviour
     private void CheckToChargeAndFireMods(){        
         if (canActivate && !isDead)
         {
+
             CheckForModInput((ModSpot spot) =>
             {
                 modSocketDictionary[spot].mod.Activate();
@@ -254,6 +259,13 @@ public class ModManager : MonoBehaviour
     private List<ModSpot> GetCommandedModSpots(ButtonMode mode) {
         List<ModSpot> modSpots = new List<ModSpot>();
 
+        if (useAutofire)
+        {
+            modSpots.Add(ModSpot.ArmL);
+            modSpots.Add(ModSpot.ArmR);
+            return modSpots;
+        }
+
         if (rightStickFire)
         {
             bool joystickInput = InputManager.Instance.QueryAxes(Strings.Input.Axes.LOOK).magnitude >= minJoystickFireMagnitude ? true : false;
@@ -269,6 +281,12 @@ public class ModManager : MonoBehaviour
         if (InputManager.Instance.QueryAction(Strings.Input.Actions.FIRE_LEFT, mode))
         {
             modSpots.Add(ModSpot.ArmL);
+
+            if (leftHandOnlyFire)
+            {
+                modSpots.Add(ModSpot.ArmR);
+                return modSpots;
+            }
         }
         if (InputManager.Instance.QueryAction(Strings.Input.Actions.FIRE_RIGHT, mode))
         {
