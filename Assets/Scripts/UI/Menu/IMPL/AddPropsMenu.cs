@@ -1,7 +1,11 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+
+using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 using PlayerLevelEditor;
+using System.Collections.Generic;
 
 public class AddPropsMenu : Menu {
 
@@ -38,7 +42,10 @@ public class AddPropsMenu : Menu {
     private bool initialized = false;
     private Vector3 newItemPos = Vector3.zero;
 
+    private GameObject selectedProp = null;
+    private GameObject newWorldProp = null;
     
+    PointerEventData pointerData;
 
     private bool inputGuard = false;
     #endregion
@@ -51,20 +58,47 @@ public class AddPropsMenu : Menu {
     {
         if(inputGuard)
         {
-            if (initialized)
+            if (Input.GetMouseButtonDown(MouseButtons.LEFT))
             {
-                UpdateObjectPreview();
+                selectedProp = RaycastToUI();
+
+                if (selectedProp)
+                {
+                    newWorldProp = GameObject.Instantiate(selectedProp, sceneMousePos, Quaternion.identity, transform);
+                }
             }
 
-            if (!newItemPos.Equals(Vector3.zero))
+            else if (newWorldProp && Input.GetMouseButton(MouseButtons.LEFT))
             {
-                DrawSelectedItemPlacement();
+                Ray r = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+                if(Physics.Raycast(r,out hit, 1000.0f))
+                {
+                    GameObject spawnPoint = EditorToolKit.FindChildGameObject(hit.transform.gameObject, "SpawnPoint");
+                    
+                    if (spawnPoint)
+                    {
+                        SpawnPointManager pointManager = spawnPoint.GetComponent<SpawnPointManager>();
+
+                        if (pointManager && !pointManager.GetOccupied())
+                        {
+                            newWorldProp.transform.position = pointManager.spawnPos.position;
+                            pointManager.SetOccupation(true);
+                        }
+                    }
+                }
+                
             }
 
-            if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN))
-            {
-                BackAction();
-            }
+            //if (!newItemPos.Equals(Vector3.zero))
+            //{
+            //    DrawSelectedItemPlacement();
+            //}
+
+            //if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN))
+            //{
+            //    BackAction();
+            //}
 
         }
     }
@@ -100,9 +134,7 @@ public class AddPropsMenu : Menu {
         newItemPos = Vector3.zero;
 
     }
-
-
-
+    
     #endregion
 
 
@@ -141,6 +173,36 @@ public class AddPropsMenu : Menu {
 
     #region Private Interface
 
+    private GameObject RaycastToUI()
+    {
+        GameObject selectedProp = null;
+        UnityEngine.EventSystems.EventSystem mine = UnityEngine.EventSystems.EventSystem.current;
+
+        pointerData = new PointerEventData(UnityEngine.EventSystems.EventSystem.current);
+
+        pointerData.position = Input.mousePosition;
+
+        List<RaycastResult> results = new List<RaycastResult>();
+
+        mine.RaycastAll(pointerData, results);
+
+        if(results.Count > 0)
+        {
+            foreach(RaycastResult r in results)
+            {
+                PLEProp currentProp = r.gameObject.GetComponent<PLEProp>();
+                if(currentProp)
+                {
+                    selectedProp = currentProp.registeredProp;
+                }
+            }
+        }
+        
+
+
+        return selectedProp;
+    }
+
     private void DrawSelectedItemPlacement()
     {
         ToolLib.draft(levelBlock, newItemPos, Color.blue);
@@ -149,32 +211,37 @@ public class AddPropsMenu : Menu {
     private void UpdateObjectPreview()
     {
 
-        Ray r = UnityEngine.Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit h;
+        Vector3 mousePos = Input.mousePosition;
 
-        if (Physics.Raycast(r, out h, raycastDistance))
-        {
-            sceneMousePos = h.point;
+        Vector3 sceneMousePos = Camera.main.ScreenToWorldPoint(mousePos);
 
-            if(Input.GetMouseButtonDown(0))
-            {
-                Vector3 objectPos = PlayerLevelEditor.ToolLib.ConvertToGrid(sceneMousePos);
-
-                //Consider when placing on top of spawnpoints
-                //IsLegalPlacement();
-
-                if (objectPos != null)
-                {
-                    newItemPos = objectPos;
-                }
- 
-            }
-
-        }
-
-        //draw preview block at location
-        ToolLib.draft(levelBlock, ToolLib.ConvertToGrid(sceneMousePos - levelBlock.transform.position), Color.green);
         
+        //Ray r = UnityEngine.Camera.main.ScreenPointToRay(Input.mousePosition);
+        //RaycastHit h;
+
+        //if (Physics.Raycast(r, out h, raycastDistance))
+        //{
+        //    sceneMousePos = h.point;
+
+        //    if(Input.GetMouseButtonDown(MouseButtons.LEFT))
+        //    {
+        //        Vector3 objectPos = PlayerLevelEditor.ToolLib.ConvertToGrid(sceneMousePos);
+
+        //        //Consider when placing on top of spawnpoints
+        //        //IsLegalPlacement();
+
+        //        if (objectPos != null)
+        //        {
+        //            newItemPos = objectPos;
+        //        }
+
+        //    }
+
+        //}
+
+        ////draw preview block at location
+        //ToolLib.draft(levelBlock, ToolLib.ConvertToGrid(sceneMousePos - levelBlock.transform.position), Color.green);
+
     }
 
     private void BackAction()

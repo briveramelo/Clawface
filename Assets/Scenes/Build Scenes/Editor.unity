@@ -2045,7 +2045,7 @@ Prefab:
     - target: {fileID: 224067242929056090, guid: 595c17daa3c5bc948af47b8cf23a2f91,
         type: 2}
       propertyPath: m_AnchorMax.x
-      value: 0.83971494
+      value: 0.839715
       objectReference: {fileID: 0}
     - target: {fileID: 224067242929056090, guid: 595c17daa3c5bc948af47b8cf23a2f91,
         type: 2}
@@ -2099,6 +2099,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1358243600333066, guid: 595c17daa3c5bc948af47b8cf23a2f91, type: 2}
       propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114986609073309614, guid: 595c17daa3c5bc948af47b8cf23a2f91,
+        type: 2}
+      propertyPath: faderDuration
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -3147,6 +3152,11 @@ Prefab:
       propertyPath: editorInstance
       value: 
       objectReference: {fileID: 2108763658}
+    - target: {fileID: 114661496561445140, guid: 255bad79e4654c643a4f151152117dab,
+        type: 2}
+      propertyPath: faderDuration
+      value: 0.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 255bad79e4654c643a4f151152117dab, type: 2}
   m_IsPrefabParent: 0
@@ -6078,7 +6088,7 @@ Prefab:
     - target: {fileID: 224203359098590320, guid: 276672d4c27918744a57ba9484a193ce,
         type: 2}
       propertyPath: m_AnchorMax.x
-      value: 0.8397148
+      value: 0.839715
       objectReference: {fileID: 0}
     - target: {fileID: 224203359098590320, guid: 276672d4c27918744a57ba9484a193ce,
         type: 2}
@@ -6104,6 +6114,11 @@ Prefab:
         type: 2}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114444987615557282, guid: 276672d4c27918744a57ba9484a193ce,
+        type: 2}
+      propertyPath: faderDuration
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 276672d4c27918744a57ba9484a193ce, type: 2}
@@ -6924,7 +6939,11 @@ MonoBehaviour:
   objectGrid: {fileID: 1319605150}
   realLevel: {fileID: 40200495}
   levelSize: 20
+  hoverColor: {r: 0, g: 0, b: 1, a: 1}
+  selectedColor: {r: 1, g: 0, b: 0, a: 1}
+  editorInstance: {fileID: 0}
   displaying: 0
+  currentEditorMenu: 0
 --- !u!1 &2118389424
 GameObject:
   m_ObjectHideFlags: 0
