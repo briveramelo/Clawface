@@ -1,39 +1,44 @@
 fileFormatVersion: 2
-guid: 5c402c6f0a69c9a449edf9276271a07e
-timeCreated: 1516840745
+guid: b4c048b7631f1444bae22b91ea317c51
+timeCreated: 1516733483
 licenseType: Free
 ModelImporter:
   serializedVersion: 21
   fileIDToRecycleName:
     100000: //RootNode
-    100002: Barrel_Bone
-    100004: Barrels_End
-    100006: Barrels_Start
-    100008: Mesh_MortarLauncher_4Barrel
-    100010: Rig_Root1
-    100012: Root
-    100014: Shells_End
-    100016: Shells_Origin
+    100002: Chest
+    100004: Ear_left
+    100006: Ear_right
+    100008: Ear_tip_left
+    100010: Ear_tip_right
+    100012: Foot_left
+    100014: Foot_right
+    100016: Head
+    100018: Leg_left
+    100020: Leg_right
+    100022: Root
+    100024: Torso
+    100026: Visor
+    100028: Visor_tip
     400000: //RootNode
-    400002: Barrel_Bone
-    400004: Barrels_End
-    400006: Barrels_Start
-    400008: Mesh_MortarLauncher_4Barrel
-    400010: Rig_Root1
-    400012: Root
-    400014: Shells_End
-    400016: Shells_Origin
-    2300000: //RootNode
-    2300002: Mesh_MortarLauncher_4Barrel
-    3300000: //RootNode
-    3300002: Mesh_MortarLauncher_4Barrel
-    4300000: Mesh_MortarLauncher
-    4300002: Mesh_MortarLauncher_4Barrel
-    7400000: MortarLauncher_Shoot
+    400002: Chest
+    400004: Ear_left
+    400006: Ear_right
+    400008: Ear_tip_left
+    400010: Ear_tip_right
+    400012: Foot_left
+    400014: Foot_right
+    400016: Head
+    400018: Leg_left
+    400020: Leg_right
+    400022: Root
+    400024: Torso
+    400026: Visor
+    400028: Visor_tip
+    7400000: Player_Walk_Backwards
     9500000: //RootNode
-    13700000: Mesh_MortarLauncher_4Barrel
   materials:
-    importMaterials: 0
+    importMaterials: 1
     materialName: 0
     materialSearch: 1
   animations:
@@ -57,10 +62,10 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: MortarLauncher_Shoot
+      name: Player_Walk_Backwards
       takeName: Take 001
-      firstFrame: 1
-      lastFrame: 22
+      firstFrame: 50
+      lastFrame: 80
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -68,7 +73,7 @@ ModelImporter:
       loop: 0
       hasAdditiveReferencePose: 0
       loopTime: 1
-      loopBlend: 0
+      loopBlend: 1
       loopBlendOrientation: 0
       loopBlendPositionY: 0
       loopBlendPositionXZ: 0
@@ -111,7 +116,7 @@ ModelImporter:
     tangentImportMode: 3
     normalCalculationMode: 4
   importAnimation: 1
-  copyAvatar: 0
+  copyAvatar: 1
   humanDescription:
     serializedVersion: 2
     human: []
@@ -126,9 +131,10 @@ ModelImporter:
     rootMotionBoneName: Root
     rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
-    hasExtraRoot: 0
+    hasExtraRoot: 1
     skeletonHasParents: 1
-  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: 6deee6136a1c40e41af0d45dc46d3262,
+    type: 3}
   animationType: 2
   humanoidOversampling: 1
   additionalBone: 0

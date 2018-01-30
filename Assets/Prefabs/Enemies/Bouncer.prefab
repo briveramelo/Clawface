@@ -2641,7 +2641,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1351927175794106}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 10.29, y: 0, z: 0.25}
   m_LocalScale: {x: 4.5, y: 4.5, z: 4.5}
   m_Children:
   - {fileID: 4531905776893132}
@@ -3438,6 +3438,8 @@ MonoBehaviour:
   hitFlasher: {fileID: 114282653234116914}
   hitSFX: 0
   deathSFX: 0
+  pushRoot: {fileID: 0}
+  pushDirection: 0
   closeEnoughToAttackDistance: 0
   properties:
     runMultiplier: 0
