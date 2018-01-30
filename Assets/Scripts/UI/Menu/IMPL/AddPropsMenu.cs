@@ -7,7 +7,8 @@ using UnityEngine.EventSystems;
 using PlayerLevelEditor;
 using System.Collections.Generic;
 
-public class AddPropsMenu : Menu {
+public class AddPropsMenu : Menu
+{
 
     #region Public Fields
 
@@ -20,7 +21,7 @@ public class AddPropsMenu : Menu {
     }
 
 
-    
+
 
     #endregion
 
@@ -44,7 +45,7 @@ public class AddPropsMenu : Menu {
 
     private GameObject selectedProp = null;
     private GameObject newWorldProp = null;
-    
+
     PointerEventData pointerData;
 
     private bool inputGuard = false;
@@ -56,7 +57,7 @@ public class AddPropsMenu : Menu {
     // Update is called once per frame
     private void Update()
     {
-        if(inputGuard)
+        if (inputGuard)
         {
             if (Input.GetMouseButtonDown(MouseButtons.LEFT))
             {
@@ -72,10 +73,10 @@ public class AddPropsMenu : Menu {
             {
                 Ray r = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
-                if(Physics.Raycast(r,out hit, 1000.0f))
+                if (Physics.Raycast(r, out hit, 1000.0f))
                 {
                     GameObject spawnPoint = EditorToolKit.FindChildGameObject(hit.transform.gameObject, "SpawnPoint");
-                    
+
                     if (spawnPoint)
                     {
                         SpawnPointManager pointManager = spawnPoint.GetComponent<SpawnPointManager>();
@@ -87,7 +88,7 @@ public class AddPropsMenu : Menu {
                         }
                     }
                 }
-                
+
             }
 
             //if (!newItemPos.Equals(Vector3.zero))
@@ -95,10 +96,10 @@ public class AddPropsMenu : Menu {
             //    DrawSelectedItemPlacement();
             //}
 
-            //if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN))
-            //{
-            //    BackAction();
-            //}
+            if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN))
+            {
+                BackAction();
+            }
 
         }
     }
@@ -134,7 +135,7 @@ public class AddPropsMenu : Menu {
         newItemPos = Vector3.zero;
 
     }
-    
+
     #endregion
 
 
@@ -186,18 +187,18 @@ public class AddPropsMenu : Menu {
 
         mine.RaycastAll(pointerData, results);
 
-        if(results.Count > 0)
+        if (results.Count > 0)
         {
-            foreach(RaycastResult r in results)
+            foreach (RaycastResult r in results)
             {
                 PLEProp currentProp = r.gameObject.GetComponent<PLEProp>();
-                if(currentProp)
+                if (currentProp)
                 {
                     selectedProp = currentProp.registeredProp;
                 }
             }
         }
-        
+
 
 
         return selectedProp;
@@ -215,7 +216,7 @@ public class AddPropsMenu : Menu {
 
         Vector3 sceneMousePos = Camera.main.ScreenToWorldPoint(mousePos);
 
-        
+
         //Ray r = UnityEngine.Camera.main.ScreenPointToRay(Input.mousePosition);
         //RaycastHit h;
 
