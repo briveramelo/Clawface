@@ -84,6 +84,7 @@ public class MainPLEMenu : Menu {
     public void OpenPropsAction()
     {
         AddPropsMenu menu = editorInstance.GetMenu(PLEMenu.PROPS) as AddPropsMenu;
+        
         MenuManager.Instance.DoTransition(menu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
         
 

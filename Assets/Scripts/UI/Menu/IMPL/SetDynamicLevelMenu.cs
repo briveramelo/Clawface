@@ -95,7 +95,6 @@ public class SetDynamicLevelMenu : Menu {
         initialized = false;
         editorInstance.gridController.ClearSelectedBlocks();
         editorInstance.gridController.SetGridVisiblity(false);
-        editorInstance.gridController.currentEditorMenu = EditorMenu.FLOOR_MENU;
     }
 
     protected override void DefaultShow(Transition transition, Effect[] effects)
@@ -121,7 +120,7 @@ public class SetDynamicLevelMenu : Menu {
         {
             sceneMousePos = h.point;
 
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(MouseButtons.LEFT))
             {
                 Vector3 objectPos = PlayerLevelEditor.ToolLib.ConvertToGrid(sceneMousePos);
 
