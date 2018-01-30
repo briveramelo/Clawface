@@ -51,9 +51,10 @@ public class Spawner : RoutineRunner
     #endregion
 
     #region Unity LifeCycle
-    void Start()
+    void Init()
     {
         totalNumEnemies = 0;
+        currentWave = 0;
         foreach (Wave w in waves)
         {
             foreach(WaveType type in w.monsterList)
@@ -75,7 +76,7 @@ public class Spawner : RoutineRunner
         {
             spawnPoints.Add(child_point);
         }
-
+        Init();
         CheckToSpawnEnemyCluster();
     }
 
@@ -93,7 +94,7 @@ public class Spawner : RoutineRunner
 
         if(totalNumEnemies == 0)
         {
-            EventSystem.Instance.TriggerEvent(Strings.Events.CALL_NEXTWAVEENEMIES);
+            EventSystem.Instance.TriggerEvent(Strings.Events.CALL_NEXT_WAVE);
         }
     }
 
