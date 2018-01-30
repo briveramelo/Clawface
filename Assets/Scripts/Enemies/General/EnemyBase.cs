@@ -7,6 +7,12 @@ using ModMan;
 using MovementEffects;
 using System;
 
+public enum PushDirection{
+    BACK,
+    DOWN,
+    BACK_DOWN
+}
+
 public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatable, ISpawnable
 {
     #region serialized fields
@@ -25,6 +31,8 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     [SerializeField] protected HitFlasher hitFlasher;
     [SerializeField] private SFXType hitSFX;
     [SerializeField] private SFXType deathSFX;
+    [SerializeField] Rigidbody pushRoot;
+    [SerializeField] PushDirection pushDirection;
     #endregion
 
     #region 3. Private fields
@@ -33,9 +41,11 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     private bool aboutTobeEaten = false;
     private Collider[] playerColliderList = new Collider[10];
     private Rigidbody[] jointRigidBodies;
+    private List<float> rigidBodyMasses;
     private Vector3 grabStartPosition;
     private bool isIndestructable;
     private int id;
+    private bool ragdollOn;
     #endregion
 
     #region 0. Protected fields
@@ -66,13 +76,13 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     public virtual void Awake()
     {
         poolParent = transform.parent;
-        transformMemento.Initialize(transform);
-        jointRigidBodies = GetComponentsInChildren<Rigidbody>();
+        transformMemento.Initialize(transform);        
+        InitRagdoll();        
         if (grabObject != null)
         {
             grabStartPosition = grabObject.transform.localPosition;
-        }
-        ResetForRebirth();
+        }        
+        ResetForRebirth();        
     }
 
     private new void OnDisable()
@@ -81,7 +91,6 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         EventSystem.Instance.UnRegisterEvent(Strings.Events.ENEMY_INVINCIBLE, SetInvincible);
         base.OnDisable();
     }
-
     #endregion
 
     #region 5. Public Methods   
@@ -267,18 +276,25 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         GetComponent<CapsuleCollider>().enabled = false;
     }
 
-    public void EnableRagdoll()
-    {
+    public void EnableRagdoll(float weight = 1.0f)
+    {        
         if (jointRigidBodies != null)
         {
             //Ignore the first entry (its the self rigidbody)
             for (int i = 1; i < jointRigidBodies.Length; i++)
             {
+                jointRigidBodies[i].mass *= weight;
                 jointRigidBodies[i].useGravity = true;
-                jointRigidBodies[i].isKinematic = false;
+                jointRigidBodies[i].isKinematic = false;                
             }
         }
         animator.enabled = false;
+        AIController aiController = GetComponent<AIController>();
+        if (aiController)
+        {
+            aiController.DeActivateAI();
+        }
+        ragdollOn = true;
     }
 
     public void DisableRagdoll()
@@ -290,6 +306,10 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
             {
                 jointRigidBodies[i].useGravity = false;
                 jointRigidBodies[i].isKinematic = true;
+                if (rigidBodyMasses != null)
+                {
+                    jointRigidBodies[i].mass = rigidBodyMasses[i];
+                }
                 RagdollHandler ragdollHandler = jointRigidBodies[i].GetComponent<RagdollHandler>();
                 if (ragdollHandler)
                 {
@@ -298,6 +318,12 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
             }
         }
         animator.enabled = true;
+        AIController aiController = GetComponent<AIController>();
+        if (aiController)
+        {
+            aiController.ActivateAI();
+        }
+        ragdollOn = false;
     }
 
     public GameObject GetGrabObject()
@@ -321,9 +347,53 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
             hitFlasher.SetStunnedState();
         }
     }
+
+    public void Push(float force)
+    {
+        if (!ragdollOn)
+        {
+            DisableCollider();
+            EnableRagdoll();
+            switch (pushDirection)
+            {
+                case PushDirection.BACK:
+                    AddForce(force * -velBody.GetForward());
+                    break;
+
+                case PushDirection.DOWN:
+                    AddForce(force * Vector3.down);
+                    break;
+                case PushDirection.BACK_DOWN:
+                    AddForce(force * (-velBody.GetForward() + Vector3.down).normalized);
+                    break;
+            }
+            Timing.CallDelayed(5.0f, GetUp);
+        }
+    }
+
+    private void AddForce(Vector3 force)
+    {
+        if (pushRoot)
+        {
+            pushRoot.AddForce(force, ForceMode.Impulse);
+        }
+    }
+
+
     #endregion
 
     #region 6. Private Methods
+    private void EnableCollider()
+    {
+        GetComponent<CapsuleCollider>().enabled = true;
+    }
+
+    private void GetUp()
+    {
+        EnableCollider();
+        DisableRagdoll();
+    }
+
     private void SetInvincible(object[] parameters)
     {
         isIndestructable = (bool)parameters[0];
@@ -338,6 +408,22 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         }
     }
 
+    private void ExtractRbWeights()
+    {
+        if(rigidBodyMasses == null)
+        {
+            rigidBodyMasses = new List<float>(jointRigidBodies.Length);
+        }
+        foreach(Rigidbody rb in jointRigidBodies)
+        {
+            rigidBodyMasses.Add(rb.mass);
+        }
+    }
 
+    private void InitRagdoll()
+    {
+        jointRigidBodies = GetComponentsInChildren<Rigidbody>();       
+        ExtractRbWeights();
+    }
     #endregion
 }

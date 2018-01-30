@@ -8,8 +8,10 @@ using MovementEffects;
 public class GeyserMod : Mod {
 
     #region Serialized Unity Inspector fields
+    [SerializeField] FishEmitter fishEmitter;
     [SerializeField] private float geyserStartDistanceOffset;
-    [SerializeField] private float fissureSpeed;    
+    [SerializeField] private float fissureSpeed;
+    [SerializeField] private FloatRange fishLaunchSpeed;
     [SerializeField] private float fissureLiveTime;
     [SerializeField] private Transform muzzle;
     #endregion
@@ -86,6 +88,8 @@ public class GeyserMod : Mod {
             projectile.transform.forward = transform.forward;
             projectile.transform.rotation = Quaternion.Euler(0f, projectile.transform.rotation.eulerAngles.y, 0f);
             projectile.GetComponent<GeyserFissure>().Initialize(fissureSpeed, damage, fissureLiveTime);
+            fishEmitter.SetBaseEmissionSpeed(fishLaunchSpeed.GetRandomValue());
+            fishEmitter.Play();
         }
 
         animator.SetTrigger("Shoot");

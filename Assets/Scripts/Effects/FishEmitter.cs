@@ -16,7 +16,7 @@ public class FishEmitter : GameObjectEmitter {
     [SerializeField] float popForceMax = 2.0f;
     [SerializeField] float popRotationalForceMin = 30.0f;
     [SerializeField] float popRotationalForceMax = 60.0f;
-    [SerializeField] float popOriginOffsetMax = 2.0f;
+    [SerializeField] float popOriginOffsetMax = 2.0f;    
 
     protected override GameObject Emit()
     {
@@ -30,8 +30,7 @@ public class FishEmitter : GameObjectEmitter {
             popIntervalMin, popIntervalMax, popForceMin, popForceMax, 
             popOriginOffsetMax, popRotationalForceMin, popRotationalForceMax,
             flopDist, flopRate, flopSpeed);
-
-        print("emitted");
+        
         return instance;
-    }
+    }    
 }

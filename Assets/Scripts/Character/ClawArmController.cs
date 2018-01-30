@@ -51,7 +51,7 @@ public class ClawArmController : MonoBehaviour {
 
     private void Start()
     {
-        clawAnimationHandler.gameObject.SetActive(false);
+        clawAnimationHandler.gameObject.SetActive(false);        
     }
 
     // Update is called once per frame
@@ -90,13 +90,18 @@ public class ClawArmController : MonoBehaviour {
         extending = false;
         retracting = false;
         end.position = start.position;
-        end.forward = start.forward;
+        end.forward = start.forward;        
     }
 
-    public void ExtendClawToRadius(float radius)
+    public void ExtendClawToDistance(float radius, bool enableCollider = false)
     {
         clawAnimationHandler.gameObject.SetActive(true);
         end.position = start.position + start.forward * radius;
+    }
+
+    public Vector3 GetEndPosition()
+    {
+        return end.position;
     }
     #endregion
 

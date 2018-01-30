@@ -228,14 +228,14 @@ namespace PlayerLevelEditor
 
         void EnableDelete(Button thisBtn)
         {
-            GameObject LEVEL = UnityTool.FindGameObject("LEVEL");
+            GameObject LEVEL = EditorToolKit.FindGameObject("LEVEL");
             if (LEVEL) GameObject.DestroyImmediate(LEVEL);
 
-            GameObject WALL = UnityTool.FindGameObject("WALL");
+            GameObject WALL = EditorToolKit.FindGameObject("WALL");
             if (WALL) GameObject.DestroyImmediate(WALL);
 
 
-            GameObject _player = UnityTool.FindGameObject(Strings.Editor.PLAYER_NAME);
+            GameObject _player = EditorToolKit.FindGameObject(Strings.Editor.PLAYER_NAME);
             if (_player) GameObject.DestroyImmediate(_player);
 
             Initialized = false;

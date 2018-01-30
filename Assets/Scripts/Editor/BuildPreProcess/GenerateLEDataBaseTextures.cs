@@ -18,8 +18,10 @@ public class GenerateLEDataBaseTextures : IPreprocessBuild {
     public void OnPreprocessBuild(BuildTarget target, string path)
     {
         ClearOldData();
-        Output[] data = GetOutputData();
-        OutputNewData(data);
+        Output[] envData = GetOutputData(Strings.Editor.ENV_OBJECTS_PATH);
+        Output[] spawnData = GetOutputData(Strings.Editor.SPAWN_OBJECTS_PATH);
+        OutputNewData(envData);
+        OutputNewData(spawnData);
     }
 
     #endregion
@@ -37,10 +39,10 @@ public class GenerateLEDataBaseTextures : IPreprocessBuild {
         AssetDatabase.SaveAssets();
     }
 
-    private Output[] GetOutputData()
+    private Output[] GetOutputData(string i_path)
     {
         GameObject[] databaseObjects =
-            Resources.LoadAll<GameObject>("PlayerLevelEditorObjects/Env/") as GameObject[];
+            Resources.LoadAll<GameObject>(i_path) as GameObject[];
         Output[] data = new Output[databaseObjects.Length];
 
         for (int index = 0; index < databaseObjects.Length; index++)

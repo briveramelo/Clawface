@@ -81,7 +81,7 @@ namespace PlayerLevelEditor
 
             if (sceneActiveSelection)
             {
-                PlayerLevelEditor.Camera _camera = mainCamera.GetComponent<PlayerLevelEditor.Camera>();
+                PlayerLevelEditor.PLECameraController _camera = mainCamera.GetComponent<PlayerLevelEditor.PLECameraController>();
                 _camera.DrawLine(Handle.transform.position, sceneActiveSelection.transform.position);
                 DrawBox();
             }
