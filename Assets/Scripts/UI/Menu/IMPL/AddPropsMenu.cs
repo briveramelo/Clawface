@@ -114,8 +114,8 @@ public class AddPropsMenu : Menu {
         inputGuard = true;
 
         //draw the grid
-        editorInstance.gridController.displaying = true;
-        editorInstance.gridController.SetGridVisiblity(true);
+        //editorInstance.gridController.SetGridVisiblity(true);
+        editorInstance.gridController.currentEditorMenu = EditorMenu.PROPS_MENU;
 
     }
 
@@ -124,8 +124,7 @@ public class AddPropsMenu : Menu {
         base.HideStarted();
         inputGuard = false;
         initialized = false;
-        editorInstance.gridController.displaying = false;
-        editorInstance.gridController.SetGridVisiblity(false);
+        //editorInstance.gridController.SetGridVisiblity(false);
     }
 
     protected override void DefaultShow(Transition transition, Effect[] effects)
