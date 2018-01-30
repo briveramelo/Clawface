@@ -67,19 +67,6 @@ namespace PlayerLevelEditor
 
         #region Private Interface
 
-        // Use this for initialization
-        public void EditorInitialize(params object[] par)
-        {
-            m_DynamicLevelSystem = new DynamicLevelSystem();
-            propsEditorMenu.Initialize();
-
-            //ObjectDB = new Database();
-
-            //controller.SetFunction(new Initialize(controller));
-
-            MenuSetup();
-
-        }
 
         private void MenuSetup()
         {
@@ -97,6 +84,20 @@ namespace PlayerLevelEditor
 
 
         #region Public Interface  
+        // Use this for initialization
+        public void EditorInitialize(params object[] par)
+        {
+            m_DynamicLevelSystem = new DynamicLevelSystem();
+            propsEditorMenu.Initialize();
+            dynLevelEditorMenu.Initialize();
+            //ObjectDB = new Database();
+
+            //controller.SetFunction(new Initialize(controller));
+
+            MenuSetup();
+
+        }
+
 
         public void UseInitFunc(Button thisBtn)
         {

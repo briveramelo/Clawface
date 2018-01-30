@@ -58,6 +58,7 @@ public class MainPLEMenu : Menu {
     {
         base.ShowComplete();
         inputGuard = true;
+        editorInstance.gridController.currentEditorMenu = EditorMenu.MAIN_EDITOR_MENU;
     }
 
     protected override void HideStarted()

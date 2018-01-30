@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using PlayerLevelEditor;
 
 public class PlayerLevelEditorGrid : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour
 
     private GameObject OnClickObject = null;
 
-    private List<GameObject> SelectedObjects = new List<GameObject>();
+    private List<GameObject> selectedObjects = new List<GameObject>();
 
     private bool inputGuard = false;
 
@@ -28,12 +29,14 @@ public class PlayerLevelEditorGrid : MonoBehaviour
     [SerializeField] private int levelSize = 20;
     [SerializeField] private Color hoverColor = Color.blue;
     [SerializeField] private Color selectedColor = Color.red;
+    [SerializeField] private LevelEditor editorInstance;
 
     #endregion
 
     #region Public Fields
 
     [HideInInspector] public bool displaying = false;
+    [HideInInspector] public EditorMenu currentEditorMenu = EditorMenu.MAIN_EDITOR_MENU;
 
     #endregion
 
@@ -76,9 +79,17 @@ public class PlayerLevelEditorGrid : MonoBehaviour
                 OnClickObject = hit.transform.gameObject;
             }
 
-            DrawPreviewBlock(hit);
+            if(currentEditorMenu == EditorMenu.PROPS_MENU)
+            {
+//                DrawPreviewBlock(hit);
+            }
+            else if(currentEditorMenu == EditorMenu.FLOOR_MENU)
+            {
+                DrawPreviewBlock(hit);
+                CreateBlock(hit);
+            }
 
-            CreateBlock(hit);
+          
         }
     }
 
@@ -187,7 +198,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour
             {
                 GameObject RealObject = GameObject.Instantiate(spawnedBlock, Object.transform.position, Quaternion.identity);
                 RealObject.transform.SetParent(realLevel.transform);
-                RealObject.transform.gameObject.GetComponent<Renderer>().material.color = Color.green;
+                //RealObject.transform.gameObject.GetComponent<Renderer>().material.color = Color.green;
                 realLevelDict.Add(RealObject.transform.position, RealObject);
             }
 
@@ -228,10 +239,10 @@ public class PlayerLevelEditorGrid : MonoBehaviour
 
         foreach(GameObject Object in Objects)
         {
-            if (realLevelDict.ContainsKey(Object.transform.position) && !SelectedObjects.Contains(Object.transform.gameObject))
+            if (realLevelDict.ContainsKey(Object.transform.position) && !selectedObjects.Contains(Object.transform.gameObject))
             {
                 realLevelDict[Object.transform.position].GetComponent<Renderer>().material.color = Color.red;
-                SelectedObjects.Add(realLevelDict[Object.transform.position]);
+                selectedObjects.Add(realLevelDict[Object.transform.position]);
             }
         }
     }
@@ -274,9 +285,17 @@ public class PlayerLevelEditorGrid : MonoBehaviour
 
     #region Public Interface
 
+    public void ClearSelectedBlocks()
+    {
+        foreach(GameObject go in selectedObjects)
+        {
+
+        }
+    }
+
     public void DoSomeShitForSelectedObjects()
     {
-        foreach(GameObject obj in SelectedObjects)
+        foreach(GameObject obj in selectedObjects)
         {
             if (obj == null)
                 continue;
@@ -285,11 +304,12 @@ public class PlayerLevelEditorGrid : MonoBehaviour
             obj.GetComponent<Renderer>().material.color = Color.green;
         }
 
-        SelectedObjects.Clear();
+        selectedObjects.Clear();
     }
 
     public void SetGridVisiblity(bool i_set)
     {
+        displaying = i_set;
         foreach(KeyValuePair<Vector3,GameObject> go in mockLevelDict)
         {
             go.Value.SetActive(i_set);
