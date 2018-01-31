@@ -714,7 +714,7 @@ namespace Turing.LevelEditor
             // No idea why this works, but this allows 
             // MouseUp events to be processed for left mouse button.
             // It also disables default handles.
-            if (e.rawType == EventType.layout) 
+            if (e.rawType == EventType.Layout) 
             {
                 HandleUtility.AddDefaultControl(
                     GUIUtility.GetControlID(GetHashCode(),
@@ -801,7 +801,7 @@ namespace Turing.LevelEditor
 
                     HandleMouseMove(sc, e);
 
-                    if (e.rawType == EventType.layout)
+                    if (e.rawType == EventType.Layout)
                         HandleUtility.AddDefaultControl(
                             GUIUtility.GetControlID(GetHashCode(), 
                             FocusType.Passive));
