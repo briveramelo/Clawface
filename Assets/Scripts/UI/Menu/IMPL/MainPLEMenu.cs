@@ -83,7 +83,7 @@ public class MainPLEMenu : Menu {
 
     public void OpenPropsAction()
     {
-        AddPropsMenu menu = editorInstance.GetMenu(PLEMenu.PROPS) as AddPropsMenu;
+        PropsMenu menu = editorInstance.GetMenu(PLEMenu.PROPS) as PropsMenu;
         
         MenuManager.Instance.DoTransition(menu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
         
@@ -92,14 +92,14 @@ public class MainPLEMenu : Menu {
 
     public void OpenSpawnsAction()
     {
-        AddSpawnsMenu menu = editorInstance.GetMenu(PLEMenu.SPAWN) as AddSpawnsMenu;
+        SpawnMenu menu = editorInstance.GetMenu(PLEMenu.SPAWN) as SpawnMenu;
         MenuManager.Instance.DoTransition(menu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
 
     }
 
     public void OpenFloorSystemAction()
     {
-        SetDynamicLevelMenu menu = editorInstance.GetMenu(PLEMenu.DYNAMIC) as SetDynamicLevelMenu;
+        FloorMenu menu = editorInstance.GetMenu(PLEMenu.DYNAMIC) as FloorMenu;
         MenuManager.Instance.DoTransition(menu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
 
     }

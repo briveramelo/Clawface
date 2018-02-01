@@ -2,7 +2,7 @@
 using UnityEngine;
 using PlayerLevelEditor;
 
-public class SetDynamicLevelMenu : Menu {
+public class FloorMenu : Menu {
 
     #region Public Fields
 
@@ -58,7 +58,7 @@ public class SetDynamicLevelMenu : Menu {
 
     #region Public Interface
 
-    public SetDynamicLevelMenu() : base(Strings.MenuStrings.SET_DYNLEVEL_PLE)
+    public FloorMenu() : base(Strings.MenuStrings.SET_DYNLEVEL_PLE)
     { }
 
     public void Initialize(params object[] par)

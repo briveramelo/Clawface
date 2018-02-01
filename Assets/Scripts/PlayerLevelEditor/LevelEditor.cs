@@ -29,9 +29,9 @@ namespace PlayerLevelEditor
 
         [SerializeField] private CanvasGroup editorCG;
         [SerializeField] private MainPLEMenu mainEditorMenu;
-        [SerializeField] private AddPropsMenu propsEditorMenu;
-        [SerializeField] private AddSpawnsMenu spawnsEditorMenu;
-        [SerializeField] private SetDynamicLevelMenu dynLevelEditorMenu;
+        [SerializeField] private PropsMenu propsEditorMenu;
+        [SerializeField] private SpawnMenu spawnsEditorMenu;
+        [SerializeField] private FloorMenu dynLevelEditorMenu;
         
        
         #endregion  
