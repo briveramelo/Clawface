@@ -69,6 +69,20 @@ public class FloorMenu : Menu {
         initialized = true;
     }
 
+    public void DropFloorAction()
+    {
+
+    }
+
+    public void FlatFloorAction()
+    {
+
+    }
+
+    public void RiseFloorAction()
+    {
+
+    }
 
     public void BackAction()
     {
