@@ -18,6 +18,7 @@ public class MissileMod : Mod {
     [SerializeField] private float bulletGravity;
 
     [SerializeField] private Animator animator;
+    [SerializeField] private GameObjectEmitter shellEmitter;
 
     public override void DeActivate()
     {
@@ -62,6 +63,7 @@ public class MissileMod : Mod {
 
             SFXManager.Instance.Play(shootSFX, transform.position);
             animator.SetTrigger("Shoot");
+            shellEmitter.Emit();
             // FinishFiring();
         }
     }

@@ -16,6 +16,7 @@ public class EmittedGameObject : MonoBehaviour {
 
     public void Init (float duration, AnimationCurve scaleCurve)
     {
+        originalScale = transform.localScale;
         this.duration = duration;
         this.scaleCurve = scaleCurve;
     }
