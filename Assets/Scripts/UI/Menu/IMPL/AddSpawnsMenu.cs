@@ -29,7 +29,7 @@ public class AddSpawnsMenu : Menu {
     {
         if(inputGuard)
         {
-
+            //if(Initialize)
 
 
             if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN))
@@ -60,6 +60,7 @@ public class AddSpawnsMenu : Menu {
     {
         base.ShowComplete();
         inputGuard = true;
+        editorInstance.gridController.currentEditorMenu = EditorMenu.SPAWN_MENU;
     }
 
     protected override void HideStarted()

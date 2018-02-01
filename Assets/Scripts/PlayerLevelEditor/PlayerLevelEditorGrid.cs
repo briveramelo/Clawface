@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using PlayerLevelEditor;
 
 public class PlayerLevelEditorGrid : MonoBehaviour
 {
@@ -10,17 +11,14 @@ public class PlayerLevelEditorGrid : MonoBehaviour
 
     private GameObject previewBlock = null;
     private GameObject spawnedBlock = null;
+    private Color spawnddBlockDefaultColor;
 
     private GameObject OnClickObject = null;
-
-    private List<GameObject> SelectedObjects = new List<GameObject>();
+    private List<GameObject> selectedObjects = new List<GameObject>();
 
     private bool inputGuard = false;
 
-    private GameObject currentHoveredObject = null;
-    private GameObject lastHoveredObject = null;
-
-    private GameObject currentlySelectedObject = null;
+    private List<GameObject> lastHoveredObjects = new List<GameObject>();
 
     #endregion
 
@@ -31,12 +29,14 @@ public class PlayerLevelEditorGrid : MonoBehaviour
     [SerializeField] private int levelSize = 20;
     [SerializeField] private Color hoverColor = Color.blue;
     [SerializeField] private Color selectedColor = Color.red;
+    [SerializeField] private LevelEditor editorInstance;
 
     #endregion
 
     #region Public Fields
 
     [HideInInspector] public bool displaying = false;
+    [HideInInspector] public EditorMenu currentEditorMenu = EditorMenu.MAIN_EDITOR_MENU;
 
     #endregion
 
@@ -49,11 +49,8 @@ public class PlayerLevelEditorGrid : MonoBehaviour
     {
         if (EventSystem.Instance)
         {
-            EventSystem.Instance.RegisterEvent(Strings.Events.INIT_EDITOR, Initilaize);
-            
-        }
-
-        
+            EventSystem.Instance.RegisterEvent(Strings.Events.INIT_EDITOR, Initilaize);      
+        }     
     }
 
     private void OnDestroy()
@@ -68,45 +65,50 @@ public class PlayerLevelEditorGrid : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (displaying)
+        if (!displaying)
+            return;
+
+        Ray ray = UnityEngine.Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, 1000.0f))
         {
-            Ray ray = UnityEngine.Camera.main.ScreenPointToRay(Input.mousePosition);
-
-            RaycastHit hit;
-
-            if (Physics.Raycast(ray, out hit, 1000.0f))
+            if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
             {
+                OnClickObject = hit.transform.gameObject;
+            }
 
+            if(currentEditorMenu == EditorMenu.PROPS_MENU)
+            {
+//                DrawPreviewBlock(hit);
+            }
+            else if(currentEditorMenu == EditorMenu.FLOOR_MENU)
+            {
                 DrawPreviewBlock(hit);
                 CreateBlock(hit);
             }
-        }
 
+          
+        }
     }
 
     #endregion
-
 
     #region Private Interface
 
     private void Initilaize(params object[] par)
     {
-
         previewBlock = Resources.Load(Strings.Editor.RESOURCE_PATH + Strings.Editor.BASIC_LE_BLOCK) as GameObject;
         spawnedBlock = Resources.Load(Strings.Editor.RESOURCE_PATH + Strings.Editor.BASIC_LVL_BLOCK) as GameObject;
-        //lastHoveredObject = new GameObject();
-        InitBlocks();
 
+        spawnddBlockDefaultColor = spawnedBlock.GetComponent<Renderer>().sharedMaterial.color;
+
+        InitBlocks();
     }
 
     private void CreateBlock(RaycastHit hit)
     {
-
-        if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
-        {
-            OnClickObject = hit.transform.gameObject;
-        }
-
         if (Input.GetKey(KeyCode.LeftShift) && Input.GetMouseButtonUp(0))
         {
             SelectBlocks(hit);
@@ -116,8 +118,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour
             DuplicateBlocks(hit);
         }
 
-
-        if (Input.GetMouseButtonUp(1))
+        if (Input.GetKey(KeyCode.LeftControl) && Input.GetMouseButtonUp(1))
         {
             DeleteBlocks(hit);
         }
@@ -125,32 +126,55 @@ public class PlayerLevelEditorGrid : MonoBehaviour
 
     private void DrawPreviewBlock(RaycastHit hit)
     {
+        #region clean up lastHoveredObjects
 
-        currentHoveredObject = hit.transform.gameObject;
-
-        PreviewCubeController currentPCC = currentHoveredObject.GetComponent<PreviewCubeController>();
-        PreviewCubeController lastPcc = null;
-        if (lastHoveredObject != null)
+        foreach (GameObject GO in lastHoveredObjects)
         {
-            lastPcc = lastHoveredObject.GetComponent<PreviewCubeController>();
+            if (GO == null)
+                continue;
+
+            PreviewCubeController lastPCC = GO.GetComponent<PreviewCubeController>();
+
+            if (lastPCC)
+                lastPCC.ResetColor();
         }
 
-        if (currentHoveredObject != lastHoveredObject)
-        {
+        lastHoveredObjects.Clear();
 
-            if (lastPcc != null && lastPcc.selected == false)
+        #endregion
+
+        #region update currentHoveredObject
+
+        GameObject currentHoveredObject = hit.transform.gameObject;
+        PreviewCubeController currentPCC = currentHoveredObject.GetComponent<PreviewCubeController>();
+
+        if (currentPCC)
+            currentPCC.SetColor(hoverColor);
+
+        lastHoveredObjects.Add(currentHoveredObject);
+
+        #endregion
+
+        #region update lastHoveredObjects
+
+        if (Input.GetMouseButton(0))
+        {
+            List<GameObject> Objects = SelectObjectsAlgorithm(hit);
+
+            foreach (GameObject Object in Objects)
             {
-                lastPcc.ResetColor();
+                PreviewCubeController ObjectPCC = Object.GetComponent<PreviewCubeController>();
+
+                if (ObjectPCC)
+                {
+                    lastHoveredObjects.Add(Object);
+                    ObjectPCC.SetColor(hoverColor);
+                }
             }
         }
 
-        if (currentPCC)
-        {
-            currentPCC.SetColor(hoverColor);
-        }
+        #endregion
 
-        lastHoveredObject = currentHoveredObject;
-              
     }
 
     void InitBlocks()
@@ -177,7 +201,6 @@ public class PlayerLevelEditorGrid : MonoBehaviour
             {
                 GameObject RealObject = GameObject.Instantiate(spawnedBlock, Object.transform.position, Quaternion.identity);
                 RealObject.transform.SetParent(realLevel.transform);
-                RealObject.transform.gameObject.GetComponent<Renderer>().material.color = Color.green;
                 realLevelDict.Add(RealObject.transform.position, RealObject);
             }
 
@@ -205,9 +228,9 @@ public class PlayerLevelEditorGrid : MonoBehaviour
             if (realLevelDict.ContainsKey(Object.transform.position))
             {
                 realLevelDict.Remove(Object.transform.position);
+                selectedObjects.Remove(Object);
                 GameObject.DestroyImmediate(Object);
             }
-
         }
     }
 
@@ -216,12 +239,23 @@ public class PlayerLevelEditorGrid : MonoBehaviour
     {
         List<GameObject> Objects = SelectObjectsAlgorithm(hit);
 
+        if (Objects.Count > 1)
+            ClearSelectedBlocks();
+
         foreach(GameObject Object in Objects)
         {
-            if (realLevelDict.ContainsKey(Object.transform.position) && !SelectedObjects.Contains(Object.transform.gameObject))
+            if (realLevelDict.ContainsKey(Object.transform.position))
             {
-                realLevelDict[Object.transform.position].GetComponent<Renderer>().material.color = Color.red;
-                SelectedObjects.Add(realLevelDict[Object.transform.position]);
+                if(selectedObjects.Contains(Object))
+                {
+                    Object.GetComponent<Renderer>().material.color = spawnddBlockDefaultColor;
+                    selectedObjects.Remove(Object);
+                }
+                else
+                {
+                    Object.GetComponent<Renderer>().material.color = Color.red;
+                    selectedObjects.Add(Object);
+                }
             }
         }
     }
@@ -264,9 +298,20 @@ public class PlayerLevelEditorGrid : MonoBehaviour
 
     #region Public Interface
 
+    public void ClearSelectedBlocks()
+    {
+        foreach(GameObject Go in selectedObjects)
+        {
+            if(Go != null)
+               Go.GetComponent<Renderer>().material.color = spawnddBlockDefaultColor;
+        }
+
+        selectedObjects.Clear();
+    }
+
     public void DoSomeShitForSelectedObjects()
     {
-        foreach(GameObject obj in SelectedObjects)
+        foreach(GameObject obj in selectedObjects)
         {
             if (obj == null)
                 continue;
@@ -275,14 +320,16 @@ public class PlayerLevelEditorGrid : MonoBehaviour
             obj.GetComponent<Renderer>().material.color = Color.green;
         }
 
-        SelectedObjects.Clear();
+        selectedObjects.Clear();
     }
 
     public void SetGridVisiblity(bool i_set)
     {
+        displaying = i_set;
         foreach(KeyValuePair<Vector3,GameObject> go in mockLevelDict)
         {
-            go.Value.SetActive(i_set);
+            if(go.Value != null)
+                go.Value.SetActive(i_set);
         }
     }
 
