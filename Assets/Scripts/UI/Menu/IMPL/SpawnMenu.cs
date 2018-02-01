@@ -2,7 +2,7 @@
 using UnityEngine;
 using PlayerLevelEditor;
 
-public class AddSpawnsMenu : Menu {
+public class SpawnMenu : Menu {
 
     #region Public Fields
 
@@ -43,7 +43,7 @@ public class AddSpawnsMenu : Menu {
 
     #region Public Interface
 
-    public AddSpawnsMenu() : base(Strings.MenuStrings.ADD_SPAWNS_PLE)
+    public SpawnMenu() : base(Strings.MenuStrings.ADD_SPAWNS_PLE)
     { }
 
     #endregion

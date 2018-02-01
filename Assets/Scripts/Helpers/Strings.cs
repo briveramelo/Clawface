@@ -90,9 +90,9 @@
         public const string WEAPON_SELECT = "WeaponSelect";
 
         //levelEditor
-        public const string ADD_PROPS_PLE = "AddPropsMenu";
-        public const string ADD_SPAWNS_PLE = "AddSpawnsMenu";
-        public const string SET_DYNLEVEL_PLE = "SetDynamicLevelMenu";
+        public const string ADD_PROPS_PLE = "PropsMenu";
+        public const string ADD_SPAWNS_PLE = "SpawnMenu";
+        public const string SET_DYNLEVEL_PLE = "FloorMenu";
         public const string MAIN_PLE_MENU = "MainPLEMenu";
         public const string INIT_PLE_MENU = "InitPLEMenu";
 

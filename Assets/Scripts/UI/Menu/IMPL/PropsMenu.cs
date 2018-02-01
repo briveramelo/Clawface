@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 using PlayerLevelEditor;
 using System.Collections.Generic;
 
-public class AddPropsMenu : Menu
+public class PropsMenu : Menu
 {
 
     #region Public Fields
@@ -110,7 +110,7 @@ public class AddPropsMenu : Menu
 
     #region Public Interface
 
-    public AddPropsMenu() : base(Strings.MenuStrings.ADD_PROPS_PLE)
+    public PropsMenu() : base(Strings.MenuStrings.ADD_PROPS_PLE)
     { }
 
     public void Initialize(params object[] par)
