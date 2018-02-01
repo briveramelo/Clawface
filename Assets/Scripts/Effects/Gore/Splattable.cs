@@ -41,7 +41,6 @@ public class Splattable : MonoBehaviour
     [SerializeField] private Shader renderSplat = null;
     [SerializeField] private int numSplatsToRender = 10;
     [SerializeField] private Vector2 frameDim = new Vector2(256, 256);
-    [SerializeField] private int FPS = 12;
 
     #endregion
 
@@ -202,7 +201,7 @@ public class Splattable : MonoBehaviour
     /// <returns>A Coroutine enumerator.</returns>
     private IEnumerator DelayFrame(QueuedSplat toQueue)
     {
-        yield return new WaitForSeconds(1F / FPS);
+        yield return new WaitForSeconds(1F / toQueue.splatData.FPS);
         splatsToRender.Enqueue(toQueue);
     }
 

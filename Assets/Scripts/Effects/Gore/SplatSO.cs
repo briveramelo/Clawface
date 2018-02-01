@@ -47,6 +47,17 @@ public class SplatSO : ScriptableObject {
         }
     }
 
+    /// <summary>
+    /// Gets the FPS of this animation.
+    /// </summary>
+    public int FPS
+    {
+        get
+        {
+            return fps;
+        }
+    }
+
     #endregion
 
     #region Fields (Unity Serialization)
@@ -68,6 +79,13 @@ public class SplatSO : ScriptableObject {
     /// </summary>
     [SerializeField]
     private Vector2 rotation = new Vector2(1F, 0F);
+
+    /// <summary>
+    /// The frame rate to play this Splat at.
+    /// </summary>
+    [SerializeField]
+    [Range (1, 60)]
+    private int fps = 15;
 
     #endregion
 

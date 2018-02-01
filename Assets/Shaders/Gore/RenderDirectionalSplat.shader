@@ -78,10 +78,10 @@
 							float4 normalSample = UNITY_SAMPLE_TEX2DARRAY(_Normals, compoundUV);
 
 							// Apply alpha for BLOOD, keep highest value
-							color.a = max(color.a, maskSample.a);
+							color.a = max(color.a, maskSample.r);
 
 							// Merge normals
-							float3 unpacked = UnpackNormal(normalSample);
+							float3 unpacked = (normalSample * 2) - 1;
 							color.rgb = MergeNormals(color.rgb, unpacked);
 						}
 					}
