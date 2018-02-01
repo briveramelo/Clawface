@@ -79,11 +79,11 @@ public class PropsMenu : Menu
 
                     if (spawnPoint)
                     {
-                        SpawnPointManager pointManager = spawnPoint.GetComponent<SpawnPointManager>();
+                        PLEBlockUnit pointManager = spawnPoint.GetComponent<PLEBlockUnit>();
 
-                        if (pointManager && !pointManager.GetOccupied())
+                        if (pointManager && !pointManager.GetOccupation())
                         {
-                            newWorldProp.transform.position = pointManager.spawnPos.position;
+                            newWorldProp.transform.position = pointManager.GetSpawnPosition();
                             pointManager.SetOccupation(true);
                         }
                     }
