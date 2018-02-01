@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4746596208703264}
   - component: {fileID: 199410235349328818}
+  - component: {fileID: 198126824582008936}
   m_Layer: 0
   m_Name: front
   m_TagString: Untagged
@@ -175,7 +176,7 @@ SphereCollider:
   m_Center: {x: 0, y: 0, z: 2.36}
 --- !u!198 &198126824582008936
 ParticleSystem:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1166408970337442}
