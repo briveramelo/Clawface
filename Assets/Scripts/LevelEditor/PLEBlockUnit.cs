@@ -2,25 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpawnPointManager : MonoBehaviour {
+public class PLEBlockUnit : MonoBehaviour {
 
     #region Public Fields
 
-    [HideInInspector] public Transform spawnPos;
+    
 
     #endregion
 
     #region Private Fields
 
     private bool occupied;
-
+    [SerializeField] private int blockID = 0;
+    [SerializeField] public Transform spawnPos;
     #endregion
 
     #region Unity Lifecycle
 
     private void Awake()
     {
-        spawnPos = transform;
         occupied = false;
     }
 
@@ -33,12 +33,25 @@ public class SpawnPointManager : MonoBehaviour {
         occupied = i_state;
     }
 
-
-    public bool GetOccupied()
+    public bool GetOccupation()
     {
         return occupied;
     }
 
+    public void SetBlockID(int i_id)
+    {
+        blockID = i_id;
+    }
+
+    public int GetBlockID()
+    {
+        return blockID;
+    }
+
+    public Vector3 GetSpawnPosition()
+    {
+        return spawnPos.position;
+    }
     #endregion
 
 }
