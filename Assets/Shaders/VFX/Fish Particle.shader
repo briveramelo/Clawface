@@ -35,25 +35,21 @@ Shader "Fish Particle"
 		uniform sampler2D _Fish_Smoothness;
 		uniform float4 _Fish_Smoothness_ST;
 
-		UNITY_INSTANCING_BUFFER_START(FishParticle)
+		UNITY_INSTANCING_CBUFFER_START(FishParticle)
 			UNITY_DEFINE_INSTANCED_PROP(float, _Smoothness)
-#define _Smoothness_arr FishParticle
 			UNITY_DEFINE_INSTANCED_PROP(float, _FloppingSpeed)
-#define _FloppingSpeed_arr FishParticle
 			UNITY_DEFINE_INSTANCED_PROP(float, _FloppingRate)
-#define _FloppingRate_arr FishParticle
 			UNITY_DEFINE_INSTANCED_PROP(float, _FloppingDistance)
-#define _FloppingDistance_arr FishParticle
-		UNITY_INSTANCING_BUFFER_END(FishParticle)
+		UNITY_INSTANCING_CBUFFER_END
 
 		void vertexDataFunc( inout appdata_full v, out Input o )
 		{
 			UNITY_INITIALIZE_OUTPUT( Input, o );
-			float _FloppingSpeed_Instance = UNITY_ACCESS_INSTANCED_PROP(_FloppingSpeed_arr, _FloppingSpeed);
+			float _FloppingSpeed_Instance = UNITY_ACCESS_INSTANCED_PROP(_FloppingSpeed);
 			float3 ase_vertex3Pos = v.vertex.xyz;
-			float _FloppingRate_Instance = UNITY_ACCESS_INSTANCED_PROP(_FloppingRate_arr, _FloppingRate);
+			float _FloppingRate_Instance = UNITY_ACCESS_INSTANCED_PROP(_FloppingRate);
 			float4 appendResult20 = (float4(0.0 , 0.0 , sin( ( ( _Time.y * _FloppingSpeed_Instance ) + ( ase_vertex3Pos.x * _FloppingRate_Instance ) ) ) , 0.0));
-			float _FloppingDistance_Instance = UNITY_ACCESS_INSTANCED_PROP(_FloppingDistance_arr, _FloppingDistance);
+			float _FloppingDistance_Instance = UNITY_ACCESS_INSTANCED_PROP(_FloppingDistance);
 			float3 ase_objectScale = float3( length( unity_ObjectToWorld[ 0 ].xyz ), length( unity_ObjectToWorld[ 1 ].xyz ), length( unity_ObjectToWorld[ 2 ].xyz ) );
 			v.vertex.xyz += ( appendResult20 * _FloppingDistance_Instance * float4( ase_objectScale , 0.0 ) ).xyz;
 		}
@@ -63,7 +59,7 @@ Shader "Fish Particle"
 			float2 uv_Fish_Albedo = i.uv_texcoord * _Fish_Albedo_ST.xy + _Fish_Albedo_ST.zw;
 			o.Albedo = tex2D( _Fish_Albedo, uv_Fish_Albedo ).rgb;
 			float2 uv_Fish_Smoothness = i.uv_texcoord * _Fish_Smoothness_ST.xy + _Fish_Smoothness_ST.zw;
-			float _Smoothness_Instance = UNITY_ACCESS_INSTANCED_PROP(_Smoothness_arr, _Smoothness);
+			float _Smoothness_Instance = UNITY_ACCESS_INSTANCED_PROP(_Smoothness);
 			o.Smoothness = ( tex2D( _Fish_Smoothness, uv_Fish_Smoothness ) * _Smoothness_Instance ).r;
 			o.Alpha = 1;
 		}
