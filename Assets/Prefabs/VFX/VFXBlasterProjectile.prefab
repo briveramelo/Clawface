@@ -19,7 +19,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4746596208703264}
-  - component: {fileID: 198286329837640492}
   - component: {fileID: 199410235349328818}
   m_Layer: 0
   m_Name: front
@@ -172,9 +171,9 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.2
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!198 &198286329837640492
+  m_Radius: 0.45
+  m_Center: {x: 0, y: 0, z: 2.36}
+--- !u!198 &198126824582008936
 ParticleSystem:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -233,7 +232,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 773191050
+  randomSeed: 1954359926
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -3495,7 +3494,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -829090933
+  randomSeed: -1415495012
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -6757,7 +6756,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 1664002787
+  randomSeed: 54405318
   InitialModule:
     serializedVersion: 3
     enabled: 1
