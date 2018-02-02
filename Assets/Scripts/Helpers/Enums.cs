@@ -112,6 +112,7 @@ public enum PoolObjectType {
     BlasterImpactEffect = 31,
     KamikazeExplosionSphere = 48,
     KamikazePulseGenerator = 54,
+    AcidTrigger = 59,
 
     //VFX
     VFXBlasterImpactEffect = 3,
@@ -159,6 +160,9 @@ public enum PoolObjectType {
     GreenBouncer = 47,
     KamikazePulser = 55,
     KamikazeMommy = 56,
+    ZombieBeserker = 57,
+    ZombieAcider = 58,
+    BlasterShotgun = 60
 }
 
 public enum MovementMode
@@ -268,6 +272,9 @@ public enum SpawnType {
     GreenBouncer = 5,
     KamikazePulser = 6,
     KamikazeMommy = 7,
+    ZombieBeserker = 8,
+    ZombieAcider = 9,
+    BlasterShotgun = 10,
 }
 
 public enum ActionType
