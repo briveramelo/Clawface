@@ -275,7 +275,6 @@ public class LevelUnit : RoutineRunner {
         Color newColor = startColor + (targetColor - startColor) * progress;
         materialPropertyBlock.SetColor(AlbedoTint, newColor);
         meshRenderer.SetPropertyBlock(materialPropertyBlock);
-        print("changing color");
     }
     #endregion
 
