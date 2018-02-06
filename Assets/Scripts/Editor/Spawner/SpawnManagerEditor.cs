@@ -12,6 +12,7 @@ public class SpawnManagerEditor : Editor
     bool hasBeenPressed;
 
     private ReorderableList list;
+    private SerializedProperty lastWave;
 
     private void OnEnable()
     {
@@ -20,6 +21,8 @@ public class SpawnManagerEditor : Editor
         managerObject = manager.gameObject;
 
         list = new ReorderableList(serializedObject, serializedObject.FindProperty("spawners"), true, false, true, true);
+
+        lastWave = serializedObject.FindProperty("lastWave");
 
         list.drawElementCallback = (Rect rect, int index, bool isActive, bool isFocused) =>
         {
@@ -78,6 +81,8 @@ public class SpawnManagerEditor : Editor
         
         serializedObject.Update();
         list.DoLayoutList();
+        EditorGUILayout.PropertyField(lastWave);
+        EditorGUILayout.LabelField("Total number of waves:", list.serializedProperty.arraySize.ToString());
         serializedObject.ApplyModifiedProperties();
     }
 

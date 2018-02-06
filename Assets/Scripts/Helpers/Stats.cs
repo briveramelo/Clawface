@@ -6,11 +6,12 @@ using UnityEngine;
 
 public class Stats : MonoBehaviour, IModifiable {
     #region Serialized Unity Inspector Fields
-    public float attack, defense, health, maxHealth, moveSpeed, rangedAccuracy, shotSpeed, shotPushForce, skinnableHealth, exp;
+    public float attack, defense, health, maxHealth, moveSpeed, rangedAccuracy, shotSpeed, shotPushForce, skinnableHealth, exp, invincibilityCoolDownTime;
     #endregion
 
     #region Private Fields
     private StatsMemento originalStats;
+    private bool isInvincible = false;
     #endregion
 
     #region Unity LifeCycle
@@ -82,12 +83,21 @@ public class Stats : MonoBehaviour, IModifiable {
 
 
     public float TakeDamage(float damage) {
-        health-= damage;
-        if (health < 0) {
-            health = 0;
-        }        
+        if (!isInvincible)
+        {
+            health -= damage;
+            if (health < 0)
+            {
+                health = 0;
+            }            
+            if (invincibilityCoolDownTime > 0)
+            {
+                isInvincible = true;
+                StartCoroutine(InvincibilityCoolDown());
+            }
+        }
         return health;
-    }
+    }    
 
     public void ResetForRebirth() {
         attack = originalStats.attack;
@@ -95,6 +105,14 @@ public class Stats : MonoBehaviour, IModifiable {
         health = originalStats.health;
         moveSpeed = originalStats.moveSpeed;
         rangedAccuracy = originalStats.rangedAccuracy;
+    }
+    #endregion
+
+    #region Private functions
+    private IEnumerator InvincibilityCoolDown()
+    {
+        yield return new WaitForSeconds(invincibilityCoolDownTime);
+        isInvincible = false;
     }
     #endregion
 

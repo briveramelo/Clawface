@@ -58,6 +58,7 @@ public class MainPLEMenu : Menu {
     {
         base.ShowComplete();
         inputGuard = true;
+        editorInstance.gridController.currentEditorMenu = EditorMenu.MAIN_EDITOR_MENU;
     }
 
     protected override void HideStarted()
@@ -83,6 +84,7 @@ public class MainPLEMenu : Menu {
     public void OpenPropsAction()
     {
         AddPropsMenu menu = editorInstance.GetMenu(PLEMenu.PROPS) as AddPropsMenu;
+        
         MenuManager.Instance.DoTransition(menu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
         
 
