@@ -180,6 +180,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1976411487396438
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4777938335120138}
+  - component: {fileID: 114559412259662952}
+  m_Layer: 0
+  m_Name: ShellEmitter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!4 &4108714286435872
 Transform:
   m_ObjectHideFlags: 1
@@ -192,6 +208,7 @@ Transform:
   m_Children:
   - {fileID: 4250488396338662}
   - {fileID: 4936571316134404}
+  - {fileID: 4777938335120138}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -227,13 +244,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1893880887262064}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.677, z: 0.701}
+  m_LocalRotation: {x: -0.382683, y: -0, z: -0, w: 0.92387974}
+  m_LocalPosition: {x: 0, y: 0.477, z: 0.501}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children: []
   m_Father: {fileID: 4108714286435872}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -45.000004, y: 0, z: 0}
 --- !u!4 &4263132805849620
 Transform:
   m_ObjectHideFlags: 1
@@ -289,6 +306,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4936571316134404}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4777938335120138
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1976411487396438}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4108714286435872}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4834989303206910
 Transform:
@@ -389,6 +419,55 @@ MonoBehaviour:
   verticalImpulse: 80
   bulletGravity: 6
   animator: {fileID: 95674492031489362}
+  shellEmitter: {fileID: 114559412259662952}
+  bulletSpawnPoint: {fileID: 4250488396338662}
+  shootVFX: 64
+--- !u!114 &114559412259662952
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1976411487396438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c051a790f27aa4c4c9277f836dbc2d19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playOnAwake: 0
+  emitWithInterval: 0
+  playOnEnable: 0
+  burstOnPlay: 0
+  burstOnPlayCount:
+    minLimit: 0
+    maxLimit: 0
+    min: 0
+    max: 0
+  spawnObjectType: 63
+  spawnInterval: 0.5
+  forceMin: 5
+  forceMax: 10
+  emissionSphereRadius: 0.1
+  rotationalVelocityMin: 1
+  rotationalVelocityMax: 2
+  duration: 3
+  scaleCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!137 &137341900579142454
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

@@ -12,6 +12,12 @@ public class Missile : MonoBehaviour {
     [Tooltip("This is just for testing purposes, the actual variable that controls this in the MissileMod script!")]
     [SerializeField] private float testFarDamageRadius;
 
+    [SerializeField] private MeshRenderer mesh;
+    [SerializeField] private TrailRenderer trail;
+
+    [SerializeField] private PoolObjectType explosionEffect = PoolObjectType.VFXKamikazeExplosion;
+    [SerializeField] LayerMask floorLayerMask;
+
 
     #endregion
 
@@ -51,6 +57,7 @@ public class Missile : MonoBehaviour {
             deathTimer += Time.deltaTime;
             transform.position += (transform.forward * speed * Time.deltaTime);
             transform.position += (transform.up * yImpulse * Time.deltaTime);
+            mesh.transform.LookAt (transform.position + transform.forward * speed + transform.up * yImpulse);
             yImpulse -= gravity;
 
             if (deathTimer > timeTilDeath)
@@ -86,6 +93,7 @@ public class Missile : MonoBehaviour {
         initPosition = transform.position;
         deathTimer = 0f;
         gravity = 0f;
+        trail.Clear();
     }
     #endregion
 
@@ -141,6 +149,15 @@ public class Missile : MonoBehaviour {
                 damageable.TakeDamage(damage);
             }
         }
+
+        GameObject explodeVFX = ObjectPool.Instance.GetObject(explosionEffect);
+        RaycastHit hit;
+        Vector3 position = transform.position;
+        if (Physics.Raycast (new Ray(transform.position + new Vector3(0.0f, 50.0f, 0.0f), Vector3.down), out hit, Mathf.Infinity, floorLayerMask))
+        {
+            position.y = hit.point.y;
+        }
+        explodeVFX.transform.position = position;
     }
 
     private void ResetBullet()
