@@ -12,6 +12,8 @@ public class Missile : MonoBehaviour {
     [Tooltip("This is just for testing purposes, the actual variable that controls this in the MissileMod script!")]
     [SerializeField] private float testFarDamageRadius;
 
+    [SerializeField] private MeshRenderer mesh;
+
 
     #endregion
 
@@ -51,6 +53,7 @@ public class Missile : MonoBehaviour {
             deathTimer += Time.deltaTime;
             transform.position += (transform.forward * speed * Time.deltaTime);
             transform.position += (transform.up * yImpulse * Time.deltaTime);
+            mesh.transform.LookAt (transform.position + transform.forward * speed + transform.up * yImpulse);
             yImpulse -= gravity;
 
             if (deathTimer > timeTilDeath)

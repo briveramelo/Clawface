@@ -64,7 +64,7 @@ public class GameObjectEmitter : MonoBehaviour {
         }
 	}
 
-    protected virtual GameObject Emit ()
+    public virtual GameObject Emit ()
     {
         GameObject instance = Instantiate(spawnPrefab);
         instance.transform.position = transform.position + Random.insideUnitSphere * emissionSphereRadius;
