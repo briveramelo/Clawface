@@ -10,18 +10,18 @@ using ModMan;
 using MovementEffects;
 
 [System.Serializable]
-public class MallCopProperties : AIProperties
+public class MallCopShotgunProperties : AIProperties
 {
 }
 
-public class MallCop : EnemyBase
+public class MallCopShotgun : EnemyBase
 {
 
     #region 1. Serialized Unity Inspector Fields
     [SerializeField] SphereCollider playerDetectorSphereCollider;
     [SerializeField] float closeEnoughToFireDistance;
     [SerializeField] private MallCopProperties properties;
-    [SerializeField] private Mod mod;
+    [SerializeField] private BulletHellPatternController bulletHellController;
     [SerializeField] private float maxToleranceTime;
     #endregion
 
@@ -42,9 +42,7 @@ public class MallCop : EnemyBase
     public override void Awake()
     {
         InitilizeStates();
-        controller.Initialize(properties, mod, velBody, animator, myStats, navAgent, navObstacle, aiStates);
-        mod.setModSpot(ModSpot.ArmR);
-        mod.AttachAffect(ref myStats, velBody);
+        controller.Initialize(properties, velBody, animator, myStats, navAgent, navObstacle, bulletHellController, aiStates);
         damaged.Set(DamagedType.MallCop, bloodEmissionLocation);
 
         controller.checksToUpdateState = new List<Func<bool>>() {
@@ -52,8 +50,6 @@ public class MallCop : EnemyBase
             CheckToFinishFiring,
             CheckIfStunned
         };
-
-        mod.damage = myStats.attack;
         currentToleranceTime = 0.0f;
         base.Awake();
     }
@@ -82,6 +78,8 @@ public class MallCop : EnemyBase
     }
     bool CheckToFinishFiring()
     {
+        rayCastPosition = new Vector3(controller.transform.position.x, controller.transform.position.y + 1f, controller.transform.position.z);
+
         if (myStats.health <= myStats.skinnableHealth || alreadyStunned)
         {
             controller.CurrentState = stun;
@@ -104,7 +102,6 @@ public class MallCop : EnemyBase
             else
             {
                 Vector3 fwd = controller.DirectionToTarget;
-                rayCastPosition = new Vector3(controller.transform.position.x, controller.transform.position.y + 1f, controller.transform.position.z);
                 RaycastHit hit;
 
                 if (Physics.Raycast(rayCastPosition, fwd, out hit, 50, LayerMask.GetMask(Strings.Layers.MODMAN, Strings.Layers.OBSTACLE)))
@@ -139,13 +136,16 @@ public class MallCop : EnemyBase
     public override void OnDeath()
     {
         base.OnDeath();
-        mod.KillCoroutines();
     }
 
     public override void ResetForRebirth()
     {
-        mod.setModSpot(ModSpot.ArmR);
         base.ResetForRebirth();
+    }
+
+    public void Fire()
+    {
+        bulletHellController.FireBullet();
     }
 
     public void ReadyToFire()
