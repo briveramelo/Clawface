@@ -41,7 +41,7 @@ public class LevelUnit : RoutineRunner {
     [SerializeField] float yMoveSpeed = 0.03f;
 
     [SerializeField] AbsAnim colorShiftAnim;
-    [SerializeField] Color riseColor, fallColor;
+    [SerializeField] Color riseColor, flatColor, fallColor;
     #endregion
 
     #region public variables
@@ -388,8 +388,12 @@ public class LevelUnit : RoutineRunner {
 
     void TriggerColorShift(LevelUnitStates newState) {
         Timing.KillCoroutines(tintCoroutineName);
-        startColor = meshRenderer.material.GetColor(AlbedoTint);
-        targetColor = newState == LevelUnitStates.cover ? riseColor : fallColor;
+        startColor = meshRenderer.material.GetColor(AlbedoTint);        
+        switch (newState) {
+            case LevelUnitStates.cover: targetColor = riseColor; break;
+            case LevelUnitStates.floor: targetColor = flatColor; break;
+            case LevelUnitStates.pit: targetColor = fallColor; break;
+        }        
         colorShiftAnim.Animate(tintCoroutineName);
     }
 
