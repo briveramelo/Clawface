@@ -68,4 +68,6 @@ public abstract class AIProperties
     [HideInInspector] public int maxShots;
     [HideInInspector] public int numberOfShots;
     [HideInInspector] public bool rotate;
+    [HideInInspector] public float kamikazeProbability;
+    [HideInInspector] public float kamikazePulserProbability;
 }
