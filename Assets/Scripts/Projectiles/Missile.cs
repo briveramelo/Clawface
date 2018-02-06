@@ -13,6 +13,10 @@ public class Missile : MonoBehaviour {
     [SerializeField] private float testFarDamageRadius;
 
     [SerializeField] private MeshRenderer mesh;
+    [SerializeField] private TrailRenderer trail;
+
+    [SerializeField] private PoolObjectType explosionEffect = PoolObjectType.VFXKamikazeExplosion;
+    [SerializeField] LayerMask floorLayerMask;
 
 
     #endregion
@@ -89,6 +93,7 @@ public class Missile : MonoBehaviour {
         initPosition = transform.position;
         deathTimer = 0f;
         gravity = 0f;
+        trail.Clear();
     }
     #endregion
 
@@ -144,6 +149,15 @@ public class Missile : MonoBehaviour {
                 damageable.TakeDamage(damage);
             }
         }
+
+        GameObject explodeVFX = ObjectPool.Instance.GetObject(explosionEffect);
+        RaycastHit hit;
+        Vector3 position = transform.position;
+        if (Physics.Raycast (new Ray(transform.position + new Vector3(0.0f, 50.0f, 0.0f), Vector3.down), out hit, Mathf.Infinity, floorLayerMask))
+        {
+            position.y = hit.point.y;
+        }
+        explodeVFX.transform.position = position;
     }
 
     private void ResetBullet()
