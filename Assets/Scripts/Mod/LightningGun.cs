@@ -17,6 +17,7 @@ public class LightningGun : Mod {
     [SerializeField] private float arcLightningRange;
     [SerializeField] private float arcLightningAngleDotProduct;
     [SerializeField] private float arcLightningMaxDPS;
+    [SerializeField] private LayerMask arcLightningLayer;
     #endregion
 
     private Animator animator;
@@ -49,7 +50,7 @@ public class LightningGun : Mod {
     public override void Activate(Action onCompleteCoolDown=null, Action onActivate=null)
     {
         // Winston arc part
-        Collider[] hitObjects = Physics.OverlapSphere(this.transform.position, arcLightningRange);
+        Collider[] hitObjects = Physics.OverlapSphere(this.transform.position, arcLightningRange, arcLightningLayer);
 
         foreach (Collider hit in hitObjects)
         {
