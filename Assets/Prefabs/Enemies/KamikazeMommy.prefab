@@ -2050,7 +2050,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1467839615703836}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.421, z: 0}
+  m_LocalPosition: {x: 0, y: -0.551, z: 0}
   m_LocalScale: {x: 4.5000005, y: 4.5000005, z: 4.5000005}
   m_Children: []
   m_Father: {fileID: 4961611304916062}
@@ -4532,6 +4532,8 @@ MonoBehaviour:
   hitFlasher: {fileID: 114713538721361626}
   hitSFX: 0
   deathSFX: 0
+  pushRoot: {fileID: 0}
+  pushDirection: 0
   closeEnoughToAttackDistance: 5
   properties:
     runMultiplier: 0
@@ -4568,6 +4570,7 @@ MonoBehaviour:
   shotPushForce: 0
   skinnableHealth: 4
   exp: 2
+  invincibilityCoolDownTime: 0
 --- !u!114 &114216203385676770
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4710,6 +4713,8 @@ MonoBehaviour:
   hitFlasher: {fileID: 114887041864130664}
   hitSFX: 0
   deathSFX: 0
+  pushRoot: {fileID: 0}
+  pushDirection: 0
   closeEnoughToAttackDistance: 2.5
   properties:
     runMultiplier: 2.5
@@ -4795,6 +4800,7 @@ MonoBehaviour:
   shotPushForce: 0
   skinnableHealth: 4
   exp: 2
+  invincibilityCoolDownTime: 0
 --- !u!114 &114712431038223068
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4821,6 +4827,8 @@ MonoBehaviour:
   hitFlasher: {fileID: 114840881731794340}
   hitSFX: 0
   deathSFX: 0
+  pushRoot: {fileID: 0}
+  pushDirection: 0
   closeEnoughToAttackDistance: 10
   properties:
     runMultiplier: 0
@@ -4878,6 +4886,7 @@ MonoBehaviour:
   shotPushForce: 0
   skinnableHealth: 4
   exp: 2
+  invincibilityCoolDownTime: 0
 --- !u!114 &114784018446228518
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4899,6 +4908,7 @@ MonoBehaviour:
   shotPushForce: 0
   skinnableHealth: 4
   exp: 2
+  invincibilityCoolDownTime: 0
 --- !u!114 &114840881731794340
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4961,6 +4971,8 @@ MonoBehaviour:
   hitFlasher: {fileID: 114545711364390116}
   hitSFX: 0
   deathSFX: 0
+  pushRoot: {fileID: 0}
+  pushDirection: 0
   closeEnoughToAttackDistance: 2.5
   properties:
     runMultiplier: 2.5
@@ -5275,7 +5287,7 @@ CapsuleCollider:
   m_Radius: 0.68055296
   m_Height: 1.98
   m_Direction: 1
-  m_Center: {x: 0, y: 0.5, z: 0}
+  m_Center: {x: 0, y: 0.44, z: 0}
 --- !u!136 &136342654761885052
 CapsuleCollider:
   m_ObjectHideFlags: 1

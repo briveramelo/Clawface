@@ -103,9 +103,13 @@ public class KamikazePulser : EnemyBase
 
     public override void DoPlayerKilledState(object[] parameters)
     {
-        //animator.SetTrigger("DoVictoryDance");
-        //controller.CurrentState = celebrate;
-        //controller.UpdateState(EAIState.Celebrate);
+        if (myStats.health > myStats.skinnableHealth)
+        {
+            animator.SetTrigger("DoVictoryDance");
+            controller.CurrentState = celebrate;
+            controller.UpdateState(EAIState.Celebrate);
+            animator.SetInteger("AnimationState", -1);
+        }
     }
 
     public override Vector3 ReCalculateTargetPosition()
