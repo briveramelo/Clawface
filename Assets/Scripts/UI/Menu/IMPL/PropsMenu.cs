@@ -29,6 +29,7 @@ public class PropsMenu : Menu
 
     [SerializeField] private Button initiallySelected;
     [SerializeField] private LevelEditor editorInstance;
+    [SerializeField] private GameObject realLevelParent;
 
     #endregion
 
@@ -65,11 +66,12 @@ public class PropsMenu : Menu
 
                 if (selectedProp)
                 {
-                    newWorldProp = GameObject.Instantiate(selectedProp, sceneMousePos, Quaternion.identity, transform);
+                    newWorldProp = GameObject.Instantiate(selectedProp, sceneMousePos, Quaternion.identity);
+                    newWorldProp.transform.SetParent(realLevelParent.transform);
                 }
             }
 
-            else if (newWorldProp && Input.GetMouseButton(MouseButtons.LEFT))
+            else if (newWorldProp && Input.GetMouseButtonDown(MouseButtons.LEFT))
             {
                 Ray r = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
@@ -79,22 +81,28 @@ public class PropsMenu : Menu
 
                     if (spawnPoint)
                     {
+                        Debug.Log("Found spawnpoint at " + Time.time.ToString());
                         PLEBlockUnit pointManager = spawnPoint.GetComponent<PLEBlockUnit>();
 
-                        if (pointManager && !pointManager.GetOccupation())
+                        if (pointManager)
                         {
-                            newWorldProp.transform.position = pointManager.GetSpawnPosition();
-                            pointManager.SetOccupation(true);
+                            newItemPos = pointManager.GetSpawnPosition();
+                            //DrawPreviewItemInWorld(newItemPos,newWorldProp);
                         }
+                        //if (pointManager && !pointManager.GetOccupation())
+                        //{
+                        //    newWorldProp.transform.position = pointManager.GetSpawnPosition();
+                        //    pointManager.SetOccupation(true);
+                        //}
                     }
                 }
 
             }
 
-            //if (!newItemPos.Equals(Vector3.zero))
-            //{
-            //    DrawSelectedItemPlacement();
-            //}
+            if (!newItemPos.Equals(Vector3.zero))
+            {
+                DrawPreviewItemInWorld(newItemPos,newWorldProp);
+            }
 
             if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN))
             {
@@ -204,9 +212,10 @@ public class PropsMenu : Menu
         return selectedProp;
     }
 
-    private void DrawSelectedItemPlacement()
+    private void DrawPreviewItemInWorld(Vector3 i_Pos, GameObject i_obj)
     {
-        ToolLib.draft(levelBlock, newItemPos, Color.blue);
+        i_obj.transform.position = i_Pos;
+        Debug.Log(i_Pos);
     }
 
     private void UpdateObjectPreview()

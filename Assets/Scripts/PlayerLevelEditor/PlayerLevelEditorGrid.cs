@@ -115,7 +115,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour
         }
         else if (Input.GetMouseButtonUp(0))
         {
-            DuplicateBlocks(hit);
+            CreateLevelBlocks(hit);
         }
 
         if (Input.GetKey(KeyCode.LeftControl) && Input.GetMouseButtonUp(1))
@@ -191,7 +191,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour
         }
     }
 
-    void DuplicateBlocks(RaycastHit hit)
+    void CreateLevelBlocks(RaycastHit hit)
     {
         List<GameObject> Objects = SelectObjectsAlgorithm(hit);
 
@@ -199,9 +199,15 @@ public class PlayerLevelEditorGrid : MonoBehaviour
         {
             if (!realLevelDict.ContainsKey(Object.transform.position))
             {
-                GameObject RealObject = GameObject.Instantiate(spawnedBlock, Object.transform.position, Quaternion.identity);
-                RealObject.transform.SetParent(realLevel.transform);
-                realLevelDict.Add(RealObject.transform.position, RealObject);
+                GameObject realObject = GameObject.Instantiate(spawnedBlock, Object.transform.position, Quaternion.identity);
+                realObject.transform.SetParent(realLevel.transform);
+                realLevelDict.Add(realObject.transform.position, realObject);
+
+                PLEBlockUnit ple = realObject.GetComponent<PLEBlockUnit>();
+                if(ple)
+                {
+                    ple.SetBlockID(realLevelDict.Count);
+                }
             }
 
             if (mockLevelDict.ContainsKey(Object.transform.position))
