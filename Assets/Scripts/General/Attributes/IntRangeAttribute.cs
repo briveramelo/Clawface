@@ -43,6 +43,6 @@ public class IntRange {
     public int Max { get { return max; } set { max = value; } }
 
     public int GetRandomValue() {
-        return Random.Range(min, max);
+        return Random.Range(min, max+1);
     }
 }

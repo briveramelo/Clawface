@@ -3024,6 +3024,8 @@ MonoBehaviour:
   hitFlasher: {fileID: 114702588984713274}
   hitSFX: 0
   deathSFX: 0
+  pushRoot: {fileID: 54527247813940898}
+  pushDirection: 0
   playerDetectorSphereCollider: {fileID: 135652806102363036}
   closeEnoughToFireDistance: 13
   properties:
@@ -3038,6 +3040,8 @@ MonoBehaviour:
     maxShots: 0
     numberOfShots: 0
     rotate: 0
+    kamikazeProbability: 0
+    kamikazePulserProbability: 0
   mod: {fileID: 114348748851308058}
   maxToleranceTime: 4
 --- !u!114 &114875676311210122

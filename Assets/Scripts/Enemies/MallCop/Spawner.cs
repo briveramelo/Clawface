@@ -43,6 +43,17 @@ public class Spawner : RoutineRunner
                 return PoolObjectType.GreenBouncer;
             case SpawnType.Kamikaze:
                 return PoolObjectType.Kamikaze;
+            case SpawnType.KamikazePulser:
+                return PoolObjectType.KamikazePulser;
+            case SpawnType.KamikazeMommy:
+                return PoolObjectType.KamikazeMommy;
+            case SpawnType.ZombieBeserker:
+                return PoolObjectType.ZombieBeserker;
+            case SpawnType.ZombieAcider:
+                return PoolObjectType.ZombieAcider;
+            case SpawnType.BlasterShotgun:
+                return PoolObjectType.BlasterShotgun;
+
         }
         return PoolObjectType.MallCopBlaster;
     }
@@ -51,9 +62,10 @@ public class Spawner : RoutineRunner
     #endregion
 
     #region Unity LifeCycle
-    void Start()
+    void Init()
     {
         totalNumEnemies = 0;
+        currentWave = 0;
         foreach (Wave w in waves)
         {
             foreach(WaveType type in w.monsterList)
@@ -75,7 +87,7 @@ public class Spawner : RoutineRunner
         {
             spawnPoints.Add(child_point);
         }
-
+        Init();
         CheckToSpawnEnemyCluster();
     }
 
@@ -93,7 +105,7 @@ public class Spawner : RoutineRunner
 
         if(totalNumEnemies == 0)
         {
-            EventSystem.Instance.TriggerEvent(Strings.Events.CALL_NEXTWAVEENEMIES);
+            EventSystem.Instance.TriggerEvent(Strings.Events.CALL_NEXT_WAVE);
         }
     }
 

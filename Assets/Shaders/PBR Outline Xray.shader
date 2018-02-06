@@ -1,6 +1,3 @@
-// Upgrade NOTE: upgraded instancing buffer 'PBROutlinePlayer' to new syntax.
-// Upgrade NOTE: upgraded instancing buffer 'PBROutlinePlayer1stPassv2' to new syntax.
-
 // Made with Amplify Shader Editor
 // Available at the Unity Asset Store - http://u3d.as/y3X 
 Shader "PBR Outline Xray"
@@ -50,19 +47,17 @@ Shader "PBR Outline Xray"
 		{
 			fixed filler;
 		};
-		UNITY_INSTANCING_BUFFER_START(PBROutlinePlayer)
+		UNITY_INSTANCING_CBUFFER_START(PBROutlinePlayer)
 			UNITY_DEFINE_INSTANCED_PROP( fixed4, _ASEOutlineColor )
-#define _ASEOutlineColor_arr PBROutlinePlayer
 			UNITY_DEFINE_INSTANCED_PROP(fixed, _ASEOutlineWidth)
-#define _ASEOutlineWidth_arr PBROutlinePlayer
-		UNITY_INSTANCING_BUFFER_END(PBROutlinePlayer)
+		UNITY_INSTANCING_CBUFFER_END
 		void outlineVertexDataFunc( inout appdata_full v, out Input o )
 		{
 			UNITY_INITIALIZE_OUTPUT( Input, o );
-			v.vertex.xyz += ( v.normal * UNITY_ACCESS_INSTANCED_PROP( _ASEOutlineWidth_arr, _ASEOutlineWidth ) );
+			v.vertex.xyz += ( v.normal * UNITY_ACCESS_INSTANCED_PROP( _ASEOutlineWidth ) );
 		}
 		inline fixed4 LightingOutline( SurfaceOutput s, half3 lightDir, half atten ) { return fixed4 ( 0,0,0, s.Alpha); }
-		void outlineSurf( Input i, inout SurfaceOutput o ) { o.Emission = UNITY_ACCESS_INSTANCED_PROP( _ASEOutlineColor_arr, _ASEOutlineColor ).rgb; o.Alpha = 1; }
+		void outlineSurf( Input i, inout SurfaceOutput o ) { o.Emission = UNITY_ACCESS_INSTANCED_PROP( _ASEOutlineColor ).rgb; o.Alpha = 1; }
 		ENDCG
 
 		// XRay
@@ -84,17 +79,15 @@ Shader "PBR Outline Xray"
 		uniform float4 _FaceTexture_ST;
 		uniform float4 _FaceColor;
 
-		UNITY_INSTANCING_BUFFER_START(PBROutlinePlayer1stPassv2)
+		UNITY_INSTANCING_CBUFFER_START(PBROutlinePlayer1stPassv2)
 			UNITY_DEFINE_INSTANCED_PROP(float4, _HitColor)
-#define _HitColor_arr PBROutlinePlayer1stPassv2
 			UNITY_DEFINE_INSTANCED_PROP(float, _HitColorStrength)
-#define _HitColorStrength_arr PBROutlinePlayer1stPassv2
-		UNITY_INSTANCING_BUFFER_END(PBROutlinePlayer1stPassv2)
+		UNITY_INSTANCING_CBUFFER_END
 
 		void surf( Input i , inout SurfaceOutputStandard o )
 		{
-			float4 _HitColor_Instance = UNITY_ACCESS_INSTANCED_PROP(_HitColor_arr, _HitColor);
-			float _HitColorStrength_Instance = UNITY_ACCESS_INSTANCED_PROP(_HitColorStrength_arr, _HitColorStrength);
+			float4 _HitColor_Instance = UNITY_ACCESS_INSTANCED_PROP(_HitColor);
+			float _HitColorStrength_Instance = UNITY_ACCESS_INSTANCED_PROP(_HitColorStrength);
 			float4 lerpResult77 = lerp( ( ( _XrayColor * _XrayColorStrength ) + float4( 0,0,0,0 ) ) , _HitColor_Instance , _HitColorStrength_Instance);
 			float2 uv2_FaceTexture = i.uv2_texcoord2 * _FaceTexture_ST.xy + _FaceTexture_ST.zw;
 			o.Albedo = ( lerpResult77 + ( tex2D( _FaceTexture, uv2_FaceTexture ) * _FaceColor ) ).rgb;
@@ -131,12 +124,10 @@ Shader "PBR Outline Xray"
 		uniform float4 _EmissiveColor;
 		uniform float _EmissiveStrength;
 
-		UNITY_INSTANCING_BUFFER_START(PBROutlinePlayer)
+		UNITY_INSTANCING_CBUFFER_START(PBROutlinePlayer)
 			UNITY_DEFINE_INSTANCED_PROP(float4, _HitColor)
-#define _HitColor_arr PBROutlinePlayer
 			UNITY_DEFINE_INSTANCED_PROP(float, _HitColorStrength)
-#define _HitColorStrength_arr PBROutlinePlayer
-		UNITY_INSTANCING_BUFFER_END(PBROutlinePlayer)
+		UNITY_INSTANCING_CBUFFER_END
 
 		void vertexDataFunc( inout appdata_full v, out Input o )
 		{
@@ -148,8 +139,8 @@ Shader "PBR Outline Xray"
 		void surf( Input i , inout SurfaceOutputStandard o )
 		{
 			o.Normal = UnpackNormal( tex2D( _Normal, i.texcoord_0 ) );
-			float4 _HitColor_Instance = UNITY_ACCESS_INSTANCED_PROP(_HitColor_arr, _HitColor);
-			float _HitColorStrength_Instance = UNITY_ACCESS_INSTANCED_PROP(_HitColorStrength_arr, _HitColorStrength);
+			float4 _HitColor_Instance = UNITY_ACCESS_INSTANCED_PROP(_HitColor);
+			float _HitColorStrength_Instance = UNITY_ACCESS_INSTANCED_PROP(_HitColorStrength);
 			float4 lerpResult73 = lerp( ( tex2D( _Albedo, i.texcoord_0 ) * _AlbedoTint ) , _HitColor_Instance , _HitColorStrength_Instance);
 			o.Albedo = lerpResult73.rgb;
 			float2 uv2_FaceTexture = i.uv2_texcoord2 * _FaceTexture_ST.xy + _FaceTexture_ST.zw;

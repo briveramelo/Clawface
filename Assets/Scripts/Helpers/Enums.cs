@@ -111,6 +111,8 @@ public enum PoolObjectType {
     GeyserFissure = 29,	
     BlasterImpactEffect = 31,
     KamikazeExplosionSphere = 48,
+    KamikazePulseGenerator = 54,
+    AcidTrigger = 59,
 
     //VFX
     VFXBlasterImpactEffect = 3,
@@ -156,7 +158,11 @@ public enum PoolObjectType {
     Kamikaze = 34,
     RedBouncer = 46,
     GreenBouncer = 47,
-
+    KamikazePulser = 55,
+    KamikazeMommy = 56,
+    ZombieBeserker = 57,
+    ZombieAcider = 58,
+    BlasterShotgun = 60
 }
 
 public enum MovementMode
@@ -168,10 +174,13 @@ public enum MovementMode
 public enum PlayerAnimationStates
 {
     Idle = 0,
-    Running = 1,
+    RunningForward = 1,
     Dash = 2,
     OpenFace = 3,
-    CloseFace = 4
+    CloseFace = 4,
+    SideStrafeRight = 5,
+    SideStrafeLeft = 6,
+    RunningBackward = 7
 }
 
 public enum PlayerAnimationLayers
@@ -261,6 +270,11 @@ public enum SpawnType {
     Kamikaze = 3,
     RedBouncer = 4,
     GreenBouncer = 5,
+    KamikazePulser = 6,
+    KamikazeMommy = 7,
+    ZombieBeserker = 8,
+    ZombieAcider = 9,
+    BlasterShotgun = 10,
 }
 
 public enum ActionType

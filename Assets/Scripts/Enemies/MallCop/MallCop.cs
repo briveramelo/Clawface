@@ -34,6 +34,7 @@ public class MallCop : EnemyBase
     private float currentToleranceTime;
     private float currentHitReactionLayerWeight;
     private float hitReactionLayerDecrementSpeed = 1.5f;
+    private Vector3 rayCastPosition;
     #endregion
 
     #region 3. Unity Lifecycle
@@ -65,11 +66,12 @@ public class MallCop : EnemyBase
     bool CheckToFire()
     {
         Vector3 fwd = controller.DirectionToTarget;
+        rayCastPosition = new Vector3(controller.transform.position.x, controller.transform.position.y + 1f, controller.transform.position.z);
         RaycastHit hit;
 
         if ((controller.CurrentState == chase && controller.DistanceFromTarget <= closeEnoughToFireDistance))
         {
-            if (Physics.Raycast(controller.transform.position, fwd, out hit, 50, LayerMask.GetMask(Strings.Layers.MODMAN, Strings.Layers.OBSTACLE)))
+            if (Physics.Raycast(rayCastPosition, fwd, out hit, 50, LayerMask.GetMask(Strings.Layers.MODMAN, Strings.Layers.OBSTACLE)))
             {
                 if (hit.transform.tag == Strings.Tags.PLAYER)
                     controller.UpdateState(EAIState.Fire);
@@ -102,9 +104,10 @@ public class MallCop : EnemyBase
             else
             {
                 Vector3 fwd = controller.DirectionToTarget;
+                rayCastPosition = new Vector3(controller.transform.position.x, controller.transform.position.y + 1f, controller.transform.position.z);
                 RaycastHit hit;
 
-                if (Physics.Raycast(controller.transform.position, fwd, out hit, 50, LayerMask.GetMask(Strings.Layers.MODMAN, Strings.Layers.OBSTACLE)))
+                if (Physics.Raycast(rayCastPosition, fwd, out hit, 50, LayerMask.GetMask(Strings.Layers.MODMAN, Strings.Layers.OBSTACLE)))
                 {
                     if (hit.transform.tag != Strings.Tags.PLAYER)
                     {

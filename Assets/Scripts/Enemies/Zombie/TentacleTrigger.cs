@@ -5,16 +5,29 @@ using UnityEngine;
 public class TentacleTrigger : MonoBehaviour {
 
     [SerializeField] private Zombie zombieParent;
+    [SerializeField] private ZombieBeserker zombieBeserkerParent;
     [SerializeField] private Collider childCollider;
     private bool triggerDamage = false;
 
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag(Strings.Tags.PLAYER) && triggerDamage)
+
+        if (zombieParent)
         {
-            zombieParent.DamageAttackTarget();
+            if (other.gameObject.CompareTag(Strings.Tags.PLAYER) && triggerDamage)
+            {
+                zombieParent.DamageAttackTarget();
+            }
         }
+        else if (zombieBeserkerParent)
+        {
+            if (other.gameObject.CompareTag(Strings.Tags.PLAYER) && triggerDamage)
+            {
+                zombieBeserkerParent.DamageAttackTarget();
+            }
+        }
+       
     }
 
     public void ActivateTriggerDamage()

@@ -5,7 +5,11 @@ using UnityEngine;
 public class GameObjectEmitter : MonoBehaviour {
 
     [SerializeField] protected bool playOnAwake = true;
-    [SerializeField] protected GameObject spawnPrefab;
+    [SerializeField] protected bool emitWithInterval = true;
+    [SerializeField] protected bool playOnEnable = true;
+    [SerializeField] protected bool burstOnPlay = true;
+    [SerializeField] protected IntRange burstOnPlayCount;
+    [SerializeField] protected GameObject spawnPrefab;    
     [SerializeField] protected float spawnInterval = 0.5f;
     [SerializeField] protected float forceMin = 1.0f;
     [SerializeField] protected float forceMax = 2.0f;
@@ -17,11 +21,16 @@ public class GameObjectEmitter : MonoBehaviour {
 
     bool playing = false;
     float timer = 0.0f;
-
+    float emissionbaseSpeed=1f;
     protected void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, emissionSphereRadius);
+    }
+
+    private void OnEnable()
+    {
+        if (playOnEnable) Play();
     }
 
     protected void Awake()
@@ -29,15 +38,22 @@ public class GameObjectEmitter : MonoBehaviour {
         if (playOnAwake) Play();
     }
 
-    protected void Play ()
+    public void Play ()
     {
         playing = true;
+        if (burstOnPlay) {
+            int randomNum = burstOnPlayCount.GetRandomValue();
+            for (int i = 0; i < randomNum; i++)
+            {
+                Emit();
+            }
+        }
         timer = spawnInterval;
     }
 
     protected void Update ()
     {
-        if (playing)
+        if (emitWithInterval && playing)
         {
             timer -= Time.deltaTime;
             if (timer <= 0.0f)
@@ -56,16 +72,20 @@ public class GameObjectEmitter : MonoBehaviour {
 
         EmittedGameObject emitted = instance.GetComponent<EmittedGameObject>();
         emitted.Init(duration, scaleCurve);
-
-        Rigidbody instanceRB = instance.GetComponent<Rigidbody>();
-        Vector3 force = Random.insideUnitSphere * Random.Range(forceMin, forceMax);
         
-        instanceRB.velocity = force;
+        Vector3 force = Random.insideUnitSphere * Random.Range(forceMin, forceMax)  + Vector3.forward*emissionbaseSpeed;
+        Rigidbody rigbod = instance.GetComponent<Rigidbody>();
+        rigbod.velocity = force;
         Vector3 torque = Random.insideUnitSphere * Random.Range(rotationalVelocityMin, rotationalVelocityMax);
-        instanceRB.AddTorque(torque, ForceMode.VelocityChange);
+        rigbod.AddTorque(torque, ForceMode.VelocityChange);
 
         instance.gameObject.SetActive(true);
 
         return instance;
+    }
+
+    public void SetBaseEmissionSpeed(float baseSpeed)
+    {
+        emissionbaseSpeed = baseSpeed;
     }
 }
