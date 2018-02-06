@@ -3379,11 +3379,14 @@ MonoBehaviour:
   bloodEmissionLocation: {fileID: 4214480777451854}
   scoreValue: 300
   bufferHealth: 3
+  stunnedTime: 7
   grabObject: {fileID: 1317736211364578}
   affectObject: {fileID: 1763953241071966}
   hitFlasher: {fileID: 114066271410328546}
   hitSFX: 0
   deathSFX: 0
+  pushRoot: {fileID: 0}
+  pushDirection: 0
   closeEnoughToAttackDistance: 0
   properties:
     runMultiplier: 0
@@ -3397,6 +3400,8 @@ MonoBehaviour:
     maxShots: 0
     numberOfShots: 0
     rotate: 0
+    kamikazeProbability: 0
+    kamikazePulserProbability: 0
     maxBouncerBounces: 7
     minBouncerBounces: 4
     maxBouncerShots: 45
@@ -3516,6 +3521,7 @@ MonoBehaviour:
   shotPushForce: 0
   skinnableHealth: 10
   exp: 2
+  invincibilityCoolDownTime: 0
 --- !u!114 &114365536310289604
 MonoBehaviour:
   m_ObjectHideFlags: 1
