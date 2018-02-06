@@ -848,7 +848,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1783855380962358}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.4, z: 0}
   m_LocalScale: {x: 4.5000005, y: 4.5000005, z: 4.5000005}
   m_Children: []
   m_Father: {fileID: 4921156897759504}
@@ -1169,6 +1169,7 @@ MonoBehaviour:
   shotPushForce: 0
   skinnableHealth: 4
   exp: 2
+  invincibilityCoolDownTime: 0
 --- !u!114 &114205413184880752
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1203,11 +1204,14 @@ MonoBehaviour:
   bloodEmissionLocation: {fileID: 4875520078057472}
   scoreValue: 200
   bufferHealth: 3
+  stunnedTime: 7
   grabObject: {fileID: 1197038070162478}
   affectObject: {fileID: 1360290682085754}
   hitFlasher: {fileID: 114753824678365428}
   hitSFX: 0
   deathSFX: 0
+  pushRoot: {fileID: 0}
+  pushDirection: 0
   closeEnoughToAttackDistance: 5
   properties:
     runMultiplier: 0
@@ -1221,8 +1225,8 @@ MonoBehaviour:
     maxShots: 0
     numberOfShots: 0
     rotate: 0
-    kamikazeSelfDestructTime: 0
-    kamikazeBlastRadius: 0
+    kamikazeProbability: 0
+    kamikazePulserProbability: 0
 --- !u!114 &114753824678365428
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1363,7 +1367,7 @@ CapsuleCollider:
   m_Radius: 0.68055296
   m_Height: 4.0705585
   m_Direction: 1
-  m_Center: {x: -0.03, y: 2.0602794, z: 0.22}
+  m_Center: {x: -0.03, y: 1.5, z: 0.22}
 --- !u!136 &136970960791745374
 CapsuleCollider:
   m_ObjectHideFlags: 1

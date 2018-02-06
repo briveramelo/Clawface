@@ -2050,6 +2050,7 @@ MonoBehaviour:
   bloodEmissionLocation: {fileID: 4298567646641054}
   scoreValue: 100
   bufferHealth: 3
+  stunnedTime: 7
   grabObject: {fileID: 1913178773273056}
   affectObject: {fileID: 1941366561553430}
   hitFlasher: {fileID: 114613179833723446}
@@ -2087,6 +2088,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   zombieParent: {fileID: 114134826779430030}
+  zombieBeserkerParent: {fileID: 0}
   childCollider: {fileID: 136756569584354552}
 --- !u!114 &114323345782975540
 MonoBehaviour:

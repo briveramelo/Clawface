@@ -12,7 +12,12 @@ public class LightningGun : Mod {
 
     #region Serialized Unity Inspector fields
     [SerializeField] private Transform muzzleTransform;    
-    [SerializeField] private ProjectileProperties projectileProperties;    
+    [SerializeField] private ProjectileProperties projectileProperties;
+
+    [SerializeField] private float arcLightningRange;
+    [SerializeField] private float arcLightningAngleDotProduct;
+    [SerializeField] private float arcLightningMaxDPS;
+    [SerializeField] private LayerMask arcLightningLayer;
     #endregion
 
     private Animator animator;
@@ -28,18 +33,45 @@ public class LightningGun : Mod {
 
     // Update is called once per frame
     protected override void Update () {
+        /* Why was this code here again? It was needed at one point...
         if (wielderMovable != null)
         {
             Vector3 forward = wielderMovable.GetForward().normalized;
             forward.y = 0f;
             transform.forward = forward;
-        }        
+        } 
+        */
+
+        
 	}
     #endregion
 
     #region Public Methods
     public override void Activate(Action onCompleteCoolDown=null, Action onActivate=null)
-    {  
+    {
+        // Winston arc part
+        Collider[] hitObjects = Physics.OverlapSphere(this.transform.position, arcLightningRange, arcLightningLayer);
+
+        foreach (Collider hit in hitObjects)
+        {
+            Vector3 vectorToCollider = (hit.transform.position - transform.position).normalized;
+            if (Vector3.Dot(vectorToCollider, transform.forward) > arcLightningAngleDotProduct) {
+
+                IDamageable enemy = hit.GetComponent<IDamageable>();
+
+                if (enemy != null)
+                {
+                    Damager damage = new Damager();
+                    damage.damage = Vector3.Distance(this.transform.position, hit.transform.position) / arcLightningRange * arcLightningMaxDPS * Time.deltaTime;
+                    damage.damagerType = DamagerType.GrapplingHook;
+                    damage.impactDirection = vectorToCollider;
+
+                    enemy.TakeDamage(damage);
+                }
+            }
+        }
+
+        // Lightning Ball part
         onActivate = () => {            
             SFXManager.Instance.Play(shootSFX, transform.position);
             GameObject vfx = ObjectPool.Instance.GetObject (PoolObjectType.VFXLightningGunShoot);

@@ -36,7 +36,7 @@ public class ModManager : MonoBehaviour
     [SerializeField] private bool rightStickFire = true;
     [SerializeField] private float minJoystickFireMagnitude = 0.7f;
 
-    [SerializeField] private bool leftHandOnlyFire = false;
+    [SerializeField] private bool oneButtonFiresBoth = false;
 
     [SerializeField] private bool useAutofire = false;
     #endregion    
@@ -282,7 +282,7 @@ public class ModManager : MonoBehaviour
         {
             modSpots.Add(ModSpot.ArmL);
 
-            if (leftHandOnlyFire)
+            if (oneButtonFiresBoth)
             {
                 modSpots.Add(ModSpot.ArmR);
                 return modSpots;
@@ -291,6 +291,12 @@ public class ModManager : MonoBehaviour
         if (InputManager.Instance.QueryAction(Strings.Input.Actions.FIRE_RIGHT, mode))
         {
             modSpots.Add(ModSpot.ArmR);
+
+            if (oneButtonFiresBoth)
+            {
+                modSpots.Add(ModSpot.ArmL);
+                return modSpots;
+            }
         }
 
         if (modSpots.Count==0) {
