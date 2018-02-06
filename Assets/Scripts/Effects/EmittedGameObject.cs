@@ -26,7 +26,7 @@ public class EmittedGameObject : MonoBehaviour {
         lifeTimer += Time.deltaTime;
         if (lifeTimer >= duration)
         {
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
 
         else
