@@ -309,6 +309,11 @@ public class PlayerLevelEditorGrid : MonoBehaviour
         selectedObjects.Clear();
     }
 
+    public List<GameObject> GetSelectedBlocks()
+    {
+        return selectedObjects;
+    }
+
     public void DoSomeShitForSelectedObjects()
     {
         foreach(GameObject obj in selectedObjects)

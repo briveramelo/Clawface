@@ -1,4 +1,6 @@
-﻿using UnityEngine.UI;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 using PlayerLevelEditor;
 
@@ -71,17 +73,59 @@ public class FloorMenu : Menu {
 
     public void DropFloorAction()
     {
+        List<GameObject> selectedObjects = editorInstance.gridController.GetSelectedBlocks();
 
+        foreach(GameObject GO in selectedObjects)
+        {
+            if(GO != null)
+            {
+                LevelUnit LU = GO.GetComponent<LevelUnit>();
+
+                if (LU) LU.SetCurrentState(LevelUnitStates.pit);
+            }
+            else
+            {
+                selectedObjects.Remove(GO);
+            }
+        }
     }
 
     public void FlatFloorAction()
     {
+        List<GameObject> selectedObjects = editorInstance.gridController.GetSelectedBlocks();
 
+        foreach (GameObject GO in selectedObjects)
+        {
+            if (GO != null)
+            {
+                LevelUnit LU = GO.GetComponent<LevelUnit>();
+
+                if (LU) LU.SetCurrentState(LevelUnitStates.floor);
+            }
+            else
+            {
+                selectedObjects.Remove(GO);
+            }
+        }
     }
 
     public void RiseFloorAction()
     {
+        List<GameObject> selectedObjects = editorInstance.gridController.GetSelectedBlocks();
 
+        foreach (GameObject GO in selectedObjects)
+        {
+            if (GO != null)
+            {
+                LevelUnit LU = GO.GetComponent<LevelUnit>();
+
+                if (LU) LU.SetCurrentState(LevelUnitStates.cover);
+            }
+            else
+            {
+                selectedObjects.Remove(GO);
+            }
+        }
     }
 
     public void BackAction()

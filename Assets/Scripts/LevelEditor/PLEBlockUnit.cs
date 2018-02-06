@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PLEBlockUnit : MonoBehaviour {
-
+public class PLEBlockUnit : MonoBehaviour
+{
     #region Public Fields
-
-    
 
     #endregion
 
@@ -15,6 +13,9 @@ public class PLEBlockUnit : MonoBehaviour {
     private bool occupied;
     [SerializeField] private int blockID = 0;
     [SerializeField] public Transform spawnPos;
+
+    List<LevelUnitStates> LevelStates = new List<LevelUnitStates>();
+
     #endregion
 
     #region Unity Lifecycle
@@ -22,6 +23,28 @@ public class PLEBlockUnit : MonoBehaviour {
     private void Awake()
     {
         occupied = false;
+    }
+
+    public void Start()
+    {
+        LevelStates.Add(LevelUnitStates.floor);
+        LevelStates.Add(LevelUnitStates.floor);
+        LevelStates.Add(LevelUnitStates.floor);
+
+        if (EventSystem.Instance)
+        {
+            EventSystem.Instance.RegisterEvent(Strings.Events.PLE_ADD_WAVE, AddWave);
+            EventSystem.Instance.RegisterEvent(Strings.Events.PLE_UPDATE_LEVELSTATE, UpdateDynamicLevelState);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (EventSystem.Instance)
+        {
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_ADD_WAVE, AddWave);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_UPDATE_LEVELSTATE, UpdateDynamicLevelState);
+        }
     }
 
     #endregion
@@ -52,6 +75,22 @@ public class PLEBlockUnit : MonoBehaviour {
     {
         return spawnPos.position;
     }
-    #endregion
 
+
+
+    public void AddWave(params object[] parameters)
+    {
+        Debug.Log("Add Wave");
+        //       LevelStates.Add(LevelUnitStates.floor);
+    }
+
+    public void UpdateDynamicLevelState(params object[] parameters)
+    {
+        Debug.Log("Update Wave");
+
+        LevelUnit LU = GetComponent<LevelUnit>();
+        LU.SetCurrentState(LevelStates[WaveSystem.currentWave]);
+    }
+
+    #endregion
 }

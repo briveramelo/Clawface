@@ -172,6 +172,8 @@
         public const string PLE_TEST_WAVE_0 = "PLE_TEST_WAVE_0";
         public const string PLE_TEST_WAVE_1 = "PLE_TEST_WAVE_1";
         public const string PLE_TEST_WAVE_2 = "PLE_TEST_WAVE_2";
+        public const string PLE_ADD_WAVE    = "PLE_ADD_WAVE";
+        public const string PLE_UPDATE_LEVELSTATE = "PLE_UPDATE_LEVELSTATE";
 
         public const string ENEMY_INVINCIBLE = "ENEMY_INVINCIBLE";
         public const string GAME_CAN_PAUSE = "GAME_CAN_PAUSE";
