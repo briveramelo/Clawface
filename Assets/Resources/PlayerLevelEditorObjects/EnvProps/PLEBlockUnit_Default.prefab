@@ -23,8 +23,9 @@ GameObject:
   - component: {fileID: 23187734423373550}
   - component: {fileID: 65334912515786070}
   - component: {fileID: 114664520121305100}
+  - component: {fileID: 114563025464454724}
   m_Layer: 11
-  m_Name: MockBlock
+  m_Name: PLEBlockUnit_Default
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -81,6 +82,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 2
@@ -96,6 +98,7 @@ MeshRenderer:
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 1
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 2
   m_AutoUVMaxDistance: 0.5
@@ -123,6 +126,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0.00000014901161}
+--- !u!114 &114563025464454724
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1221831762204170}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  coverStateEvents: []
+  floorStateEvents: []
+  pitStateEvents: []
+  yMoveSpeed: 0.03
+  defaultState: 1
 --- !u!114 &114664520121305100
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -134,5 +153,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b649a64d54bb51409ae83343682f85b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnPos: {fileID: 4073452186645112}
   blockID: 0
+  spawnPos: {fileID: 4073452186645112}
