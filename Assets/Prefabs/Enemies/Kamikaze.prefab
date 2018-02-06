@@ -939,7 +939,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1438812799693770}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.568, z: 0}
   m_LocalScale: {x: 4.5000005, y: 4.5000005, z: 4.5000005}
   m_Children: []
   m_Father: {fileID: 4017609899823342}
@@ -1248,6 +1248,8 @@ MonoBehaviour:
     maxShots: 0
     numberOfShots: 0
     rotate: 0
+    kamikazeProbability: 0
+    kamikazePulserProbability: 0
     kamikazeSelfDestructTime: 0.25
     kamikazeBlastRadius: 14
 --- !u!114 &114374748567998220
@@ -1478,7 +1480,7 @@ CapsuleCollider:
   m_Radius: 0.68055296
   m_Height: 4.0705585
   m_Direction: 1
-  m_Center: {x: -0.03, y: 2.0602794, z: 0.22}
+  m_Center: {x: -0.03, y: 1.34, z: 0.22}
 --- !u!137 &137302994564322014
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
