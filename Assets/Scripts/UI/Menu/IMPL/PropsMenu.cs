@@ -58,57 +58,47 @@ public class PropsMenu : Menu
     // Update is called once per frame
     private void Update()
     {
-        if (inputGuard)
+        if(inputGuard)
         {
-            if (Input.GetMouseButtonDown(MouseButtons.LEFT))
+            if(Input.GetMouseButtonDown(MouseButtons.LEFT))
             {
-                selectedProp = RaycastToUI();
-
-                if (selectedProp)
+                if(selectedProp == null)
                 {
-                    newWorldProp = GameObject.Instantiate(selectedProp, sceneMousePos, Quaternion.identity);
-                    newWorldProp.transform.SetParent(realLevelParent.transform);
-                }
-            }
+                    selectedProp = RaycastToUI();
 
-            else if (newWorldProp && Input.GetMouseButtonDown(MouseButtons.LEFT))
-            {
-                Ray r = Camera.main.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-                if (Physics.Raycast(r, out hit, 1000.0f))
-                {
-                    GameObject spawnPoint = EditorToolKit.FindChildGameObject(hit.transform.gameObject, "SpawnPoint");
-
-                    if (spawnPoint)
+                    if(selectedProp)
                     {
-                        Debug.Log("Found spawnpoint at " + Time.time.ToString());
-                        PLEBlockUnit pointManager = spawnPoint.GetComponent<PLEBlockUnit>();
-
-                        if (pointManager)
-                        {
-                            newItemPos = pointManager.GetSpawnPosition();
-                            //DrawPreviewItemInWorld(newItemPos,newWorldProp);
-                        }
-                        //if (pointManager && !pointManager.GetOccupation())
-                        //{
-                        //    newWorldProp.transform.position = pointManager.GetSpawnPosition();
-                        //    pointManager.SetOccupation(true);
-                        //}
+                        newWorldProp = GameObject.Instantiate(selectedProp, transform.position, Quaternion.identity, realLevelParent.transform);
                     }
                 }
-
             }
 
-            if (!newItemPos.Equals(Vector3.zero))
+            if(Input.GetMouseButtonDown(MouseButtons.LEFT) && selectedProp)
             {
-                DrawPreviewItemInWorld(newItemPos,newWorldProp);
+                Ray r = UnityEngine.Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+
+                if(Physics.Raycast(r, out hit, 1000.0f))
+                {
+
+                    GameObject spawnPos = hit.transform.gameObject;
+
+                    if(spawnPos)
+                    {
+                        PLEBlockUnit pointManager = spawnPos.GetComponent<PLEBlockUnit>();
+
+                        if(pointManager)
+                        {
+                            Debug.Log(pointManager.GetSpawnPosition());
+                        }
+                    }
+                }
             }
 
-            if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN))
+            if(Input.GetMouseButtonUp(MouseButtons.LEFT))
             {
-                BackAction();
+                selectedProp = null;
             }
-
         }
     }
 
