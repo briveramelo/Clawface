@@ -9,7 +9,9 @@ public class ObjectPoolItem : MonoBehaviour {
         myParent = newParent;
     }
 
-    void OnDisable() {
-        transform.SetParent(myParent);
-    }
+    private void OnEnable() {
+        if (myParent!=null) {
+            transform.SetParent(myParent);
+        }
+    }    
 }
