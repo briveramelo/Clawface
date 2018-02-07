@@ -27,6 +27,8 @@ public class LevelUnit : RoutineRunner {
     private GameObject blockingObject;
     List<Collider> overlappingColliders=new List<Collider>(10);
     private int overlappingObjects;
+    MeshRenderer meshRenderer;
+    MaterialPropertyBlock materialPropertyBlock;
     #endregion
 
     #region serialized fields
@@ -37,6 +39,9 @@ public class LevelUnit : RoutineRunner {
     [SerializeField]
     private List<string> pitStateEvents;
     [SerializeField] float yMoveSpeed = 0.03f;
+
+    [SerializeField] AbsAnim colorShiftAnim;
+    [SerializeField] Color riseColor, flatColor, fallColor;
     #endregion
 
     #region public variables
@@ -46,13 +51,16 @@ public class LevelUnit : RoutineRunner {
     #region unity lifecycle
     private void Awake()
     {        
-        MeshRenderer meshRenderer = GetComponent<MeshRenderer>();        
+        meshRenderer = GetComponent<MeshRenderer>();        
         if (meshRenderer)
         {
             meshSizeY = meshRenderer.bounds.size.y;
             meshSizeZ = meshRenderer.bounds.size.z;
             meshSizeX = meshRenderer.bounds.size.x;
-        }        
+            materialPropertyBlock = new MaterialPropertyBlock();
+            meshRenderer.GetPropertyBlock(materialPropertyBlock);
+        }
+        colorShiftAnim.OnUpdate = OnColorChange;
         currentState = defaultState;
         CalculateStatePositions();
     }
@@ -258,11 +266,23 @@ public class LevelUnit : RoutineRunner {
             blockingObject.SetActive(true);
         }
     }
+
+    const string AlbedoTint = "_AlbedoTint";
+    string tintCoroutineName { get { return coroutineName + AlbedoTint; } }
+    Color startColor, targetColor;
+
+    void OnColorChange(float progress) {
+        Color newColor = startColor + (targetColor - startColor) * progress;
+        materialPropertyBlock.SetColor(AlbedoTint, newColor);
+        meshRenderer.SetPropertyBlock(materialPropertyBlock);
+    }
     #endregion
 
     #region public functions
     public void SetCurrentState(LevelUnitStates newState)
     {
+        
+
         currentState = newState;
         CalculateStatePositions();
     }
@@ -331,6 +351,7 @@ public class LevelUnit : RoutineRunner {
         if (currentState != LevelUnitStates.cover)
         {
             nextState = LevelUnitStates.cover;
+            TriggerColorShift(nextState);
             isTransitioning = true;
         }        
     }
@@ -341,6 +362,7 @@ public class LevelUnit : RoutineRunner {
         if (currentState != LevelUnitStates.floor)
         {
             nextState = LevelUnitStates.floor;
+            TriggerColorShift(nextState);
             isTransitioning = true;
         }        
     }
@@ -351,6 +373,7 @@ public class LevelUnit : RoutineRunner {
         if (currentState != LevelUnitStates.pit)
         {
             nextState = LevelUnitStates.pit;
+            TriggerColorShift(nextState);
             isTransitioning = true;
         }        
     }
@@ -361,6 +384,17 @@ public class LevelUnit : RoutineRunner {
         {
             blockingObject.SetActive(false);
         }
+    }
+
+    void TriggerColorShift(LevelUnitStates newState) {
+        Timing.KillCoroutines(tintCoroutineName);
+        startColor = meshRenderer.material.GetColor(AlbedoTint);        
+        switch (newState) {
+            case LevelUnitStates.cover: targetColor = riseColor; break;
+            case LevelUnitStates.floor: targetColor = flatColor; break;
+            case LevelUnitStates.pit: targetColor = fallColor; break;
+        }        
+        colorShiftAnim.Animate(tintCoroutineName);
     }
 
     #endregion
