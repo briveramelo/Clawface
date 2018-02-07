@@ -6,20 +6,20 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Mat_Guard
+  m_Name: Mat_Kamikaze_Momma
   m_Shader: {fileID: 4800000, guid: 90e875139871e324280050b9dde66503, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
+  m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 2990
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
     - _Albedo:
-        m_Texture: {fileID: 2800000, guid: 06142d23f2eead644b6bf689ed9b586c, type: 3}
+        m_Texture: {fileID: 2800000, guid: 8f0fbe8011efda64ba59177e9877b3b6, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -47,7 +47,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 06142d23f2eead644b6bf689ed9b586c, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -55,11 +55,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicSmoothnessEmissiveAO:
-        m_Texture: {fileID: 2800000, guid: 9552db7571da18840a202626b8cd59cd, type: 3}
+        m_Texture: {fileID: 2800000, guid: 14acca5496bf38744b3b63ab295b31f9, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Normal:
-        m_Texture: {fileID: 2800000, guid: e91c1adcaf5f6b3459bf0670e929a3ec, type: 3}
+        m_Texture: {fileID: 2800000, guid: b7c6f211a78f05e4fbbe9a1656a5e2b3, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -75,19 +75,19 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _ASEOutlineWidth: 0.05
+    - _ASEOutlineWidth: 0.025
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _EmissiveStrength: 0.5
+    - _EmissiveStrength: 1
     - _FaceEmissiveStrength: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _HitColorStrength: 0
     - _Metallic: 0
-    - _MetallicScale: 0
+    - _MetallicScale: 1
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
@@ -104,7 +104,7 @@ Material:
     - _AlbedoTint: {r: 1, g: 1, b: 1, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _EmissiveColor: {r: 0.52205884, g: 0.78245443, b: 1, a: 0}
+    - _EmissiveColor: {r: 1, g: 0.04411763, b: 0.89452326, a: 0}
     - _FaceColor: {r: 0, g: 0, b: 0, a: 0}
-    - _HitColor: {r: 1, g: 1, b: 0.7352941, a: 0}
+    - _HitColor: {r: 1, g: 1, b: 1, a: 0}
     - _XrayColor: {r: 1, g: 0.5568628, b: 0, a: 1}
