@@ -18,7 +18,7 @@ public class FishEmitter : GameObjectEmitter {
     [SerializeField] float popRotationalForceMax = 60.0f;
     [SerializeField] float popOriginOffsetMax = 2.0f;    
 
-    protected override GameObject Emit()
+    public override GameObject Emit()
     {
         GameObject instance = base.Emit();
 

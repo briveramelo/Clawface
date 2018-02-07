@@ -26,6 +26,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     [SerializeField] protected Transform bloodEmissionLocation;
     [SerializeField] protected int scoreValue = 200;
     [SerializeField] protected int bufferHealth = 3;
+    [SerializeField] [Range(1.0f,10.0f)]protected float stunnedTime;
     [SerializeField] private GameObject grabObject;
     [SerializeField] private GameObject affectObject;
     [SerializeField] protected HitFlasher hitFlasher;
@@ -47,6 +48,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     private bool isIndestructable;
     private int id;
     private bool ragdollOn;
+    private float currentStunTime = 0.0f;
     #endregion
 
     #region 0. Protected fields
@@ -72,7 +74,19 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         //}
     }
 
-    
+    public void Update()
+    {
+        if (alreadyStunned)
+        {
+            currentStunTime += Time.deltaTime;
+
+            if (currentStunTime > stunnedTime)
+            {
+                OnDeath();
+            }
+
+        }
+    }
 
     public virtual void Awake()
     {
@@ -85,6 +99,9 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         }        
         ResetForRebirth();        
     }
+
+
+
 
     private new void OnDisable()
     {
@@ -113,31 +130,14 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
 
             if (myStats.health <= 0)
             {
-
-                if (alreadyStunned)
-                    lastChance = true;
-
-                if (lastChance && alreadyStunned)
-                {
-                    OnDeath();
-                }
-                else
-                {
-                    myStats.health = bufferHealth;
-                    lastChance = true;
-                    alreadyStunned = true;
-                }
+                myStats.health = bufferHealth;
             }
 
 
             if (myStats.health <= myStats.skinnableHealth)
             {
-                if (!alreadyStunned)
-                {
-                    
                     myStats.health = bufferHealth;
                     alreadyStunned = true;
-                }
             }
         }
 
@@ -156,9 +156,6 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
                 hitFlasher.HitFlash();
             }
         }
-
-        
-
     }
 
     float IDamageable.GetHealth()
@@ -241,6 +238,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
             aboutTobeEaten = false;
             SFXManager.Instance.Play(deathSFX, transform.position);
             AIEnemyData testData = new AIEnemyData(controller.GetInstanceID());
+            currentStunTime = 0.0f;
             if (AIManager.Instance != null)
             {
                 AIManager.Instance.Remove(testData);

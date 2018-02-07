@@ -2279,7 +2279,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1962243579016920}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -12.337241, y: 2.5000007, z: -154.92389}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 4.5, y: 4.5, z: 4.5}
   m_Children:
   - {fileID: 4999309650377712}
@@ -3379,14 +3379,14 @@ MonoBehaviour:
   bloodEmissionLocation: {fileID: 4214480777451854}
   scoreValue: 300
   bufferHealth: 3
+  stunnedTime: 7
   grabObject: {fileID: 1317736211364578}
   affectObject: {fileID: 1763953241071966}
   hitFlasher: {fileID: 114066271410328546}
   hitSFX: 0
   deathSFX: 0
-  pushRoot: {fileID: 54047774202245338}
+  pushRoot: {fileID: 0}
   pushDirection: 0
-  hips: {fileID: 1295386267937724}
   closeEnoughToAttackDistance: 0
   properties:
     runMultiplier: 0
