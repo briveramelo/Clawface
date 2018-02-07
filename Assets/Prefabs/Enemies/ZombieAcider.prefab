@@ -1450,7 +1450,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1699860022658964}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -11.591127, y: 2.5000007, z: -155.50317}
   m_LocalScale: {x: 1.1, y: 1.1, z: 1.1}
   m_Children:
   - {fileID: 4813247643713906}
@@ -2101,6 +2101,7 @@ MonoBehaviour:
   deathSFX: 0
   pushRoot: {fileID: 54097149452122382}
   pushDirection: 2
+  hips: {fileID: 1875175217849158}
   closeEnoughToAttackDistance: 3
   maxDistanceBeforeChasing: 2
   properties:
@@ -2334,6 +2335,7 @@ MonoBehaviour:
   shotPushForce: 0
   skinnableHealth: 5
   exp: 2
+  invincibilityCoolDownTime: 0
 --- !u!135 &135031132874176212
 SphereCollider:
   m_ObjectHideFlags: 1

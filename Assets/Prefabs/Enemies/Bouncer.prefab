@@ -2641,7 +2641,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1351927175794106}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -10.916473, y: 2.5000007, z: -148.89783}
   m_LocalScale: {x: 4.5, y: 4.5, z: 4.5}
   m_Children:
   - {fileID: 4531905776893132}
@@ -3438,6 +3438,9 @@ MonoBehaviour:
   hitFlasher: {fileID: 114282653234116914}
   hitSFX: 0
   deathSFX: 0
+  pushRoot: {fileID: 54840024417299628}
+  pushDirection: 0
+  hips: {fileID: 1270112567933996}
   closeEnoughToAttackDistance: 0
   properties:
     runMultiplier: 0
@@ -3451,6 +3454,8 @@ MonoBehaviour:
     maxShots: 0
     numberOfShots: 0
     rotate: 0
+    kamikazeProbability: 0
+    kamikazePulserProbability: 0
     maxBouncerBounces: 5
     minBouncerBounces: 2
     maxBouncerShots: 8
@@ -3754,6 +3759,7 @@ MonoBehaviour:
   shotPushForce: 0
   skinnableHealth: 7
   exp: 2
+  invincibilityCoolDownTime: 0
 --- !u!114 &114948172669487280
 MonoBehaviour:
   m_ObjectHideFlags: 1

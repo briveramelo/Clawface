@@ -3496,7 +3496,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1886750509036516}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -14.069449, y: 2.5000007, z: -159.42467}
   m_LocalScale: {x: 4, y: 4, z: 4}
   m_Children:
   - {fileID: 4348778369334166}
@@ -4532,6 +4532,9 @@ MonoBehaviour:
   hitFlasher: {fileID: 114713538721361626}
   hitSFX: 0
   deathSFX: 0
+  pushRoot: {fileID: 0}
+  pushDirection: 0
+  hips: {fileID: 0}
   closeEnoughToAttackDistance: 5
   properties:
     runMultiplier: 0
@@ -4568,6 +4571,7 @@ MonoBehaviour:
   shotPushForce: 0
   skinnableHealth: 4
   exp: 2
+  invincibilityCoolDownTime: 0
 --- !u!114 &114216203385676770
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4710,6 +4714,9 @@ MonoBehaviour:
   hitFlasher: {fileID: 114887041864130664}
   hitSFX: 0
   deathSFX: 0
+  pushRoot: {fileID: 0}
+  pushDirection: 0
+  hips: {fileID: 0}
   closeEnoughToAttackDistance: 2.5
   properties:
     runMultiplier: 2.5
@@ -4795,6 +4802,7 @@ MonoBehaviour:
   shotPushForce: 0
   skinnableHealth: 4
   exp: 2
+  invincibilityCoolDownTime: 0
 --- !u!114 &114712431038223068
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4821,6 +4829,9 @@ MonoBehaviour:
   hitFlasher: {fileID: 114840881731794340}
   hitSFX: 0
   deathSFX: 0
+  pushRoot: {fileID: 54695897751593998}
+  pushDirection: 0
+  hips: {fileID: 1512644328276836}
   closeEnoughToAttackDistance: 10
   properties:
     runMultiplier: 0
@@ -4878,6 +4889,7 @@ MonoBehaviour:
   shotPushForce: 0
   skinnableHealth: 4
   exp: 2
+  invincibilityCoolDownTime: 0
 --- !u!114 &114784018446228518
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4899,6 +4911,7 @@ MonoBehaviour:
   shotPushForce: 0
   skinnableHealth: 4
   exp: 2
+  invincibilityCoolDownTime: 0
 --- !u!114 &114840881731794340
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4961,6 +4974,9 @@ MonoBehaviour:
   hitFlasher: {fileID: 114545711364390116}
   hitSFX: 0
   deathSFX: 0
+  pushRoot: {fileID: 0}
+  pushDirection: 0
+  hips: {fileID: 0}
   closeEnoughToAttackDistance: 2.5
   properties:
     runMultiplier: 2.5
