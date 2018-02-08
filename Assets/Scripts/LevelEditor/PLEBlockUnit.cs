@@ -94,13 +94,12 @@ public class PLEBlockUnit : MonoBehaviour
         LevelUnit LU = GetComponent<LevelUnit>();
 
         if (LU == null) return;
-
-        //LU.SetCurrentState(LevelStates[WaveSystem.currentWave]);
-
-       
+   
         for (int i = 0; i < LevelStates.Count; i++)
         {
             string event_name = Strings.Events.PLE_TEST_WAVE_ + i.ToString();
+
+            Debug.Log(event_name);
 
             LU.DeRegisterEvent(event_name);
 

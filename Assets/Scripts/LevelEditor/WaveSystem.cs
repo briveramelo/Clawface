@@ -16,23 +16,24 @@ public class WaveSystem : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Return))
         {
-            currentWave++;
-
-            if (currentWave >= 3)
-                currentWave = 0;
-
             switch (currentWave)
             {
                 case 0:
                     EventSystem.Instance.TriggerEvent(Strings.Events.PLE_TEST_WAVE_0);
-                    return;
+                    break;
                 case 1:
                     EventSystem.Instance.TriggerEvent(Strings.Events.PLE_TEST_WAVE_1);
-                    return;
+                    break;
                 case 2:
                     EventSystem.Instance.TriggerEvent(Strings.Events.PLE_TEST_WAVE_2);
-                    return;
+                    break;
             }
+
+
+            currentWave++;
+
+            if (currentWave >= 3)
+                currentWave = 0;
         }
     }
 
