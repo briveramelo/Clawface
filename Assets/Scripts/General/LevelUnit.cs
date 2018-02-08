@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using System.Linq;
 using MovementEffects;
+using ModMan;
 public enum LevelUnitStates {
     cover,
     floor,
@@ -62,6 +63,12 @@ public class LevelUnit : RoutineRunner {
             meshSizeX = meshRenderer.bounds.size.x;
             materialPropertyBlock = new MaterialPropertyBlock();
             meshRenderer.GetPropertyBlock(materialPropertyBlock);
+            Color emptyColor = new Color(0f, 0f, 0f, 0f);
+            if (riseColor.IsAboutEqual(emptyColor) ) {
+                riseColor = Color.cyan.ChangeAlpha(.3f);
+                flatColor = Color.black.ChangeAlpha(.8f);
+                fallColor = Color.red.ChangeAlpha(.3f);
+            }
         }
         colorShiftAnim.OnUpdate = OnColorChange;
         currentState = defaultState;
