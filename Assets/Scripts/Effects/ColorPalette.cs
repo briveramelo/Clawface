@@ -2,15 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ColorPalette : ScriptableObject {
+[CreateAssetMenu(fileName="New Color Palette", menuName="Color Palette")]
+public class ColorPalette : ScriptableObject
+{
+    [SerializeField] Color colorPrimary;
+    [SerializeField] Color colorSecondary;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public Color PrimaryColor { get { return colorPrimary; } }
+    public Color SecondaryColor { get { return colorSecondary; } }
+
+    public enum ColorType
+    {
+        Primary,
+        Secondary
+    }
 }

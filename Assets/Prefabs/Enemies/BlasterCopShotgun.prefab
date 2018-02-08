@@ -521,6 +521,7 @@ GameObject:
   - component: {fileID: 4814744933635962}
   - component: {fileID: 137210681803731460}
   - component: {fileID: 114137239192721096}
+  - component: {fileID: 114706480701859658}
   m_Layer: 0
   m_Name: Enemy_1_mesh
   m_TagString: Untagged
@@ -1210,6 +1211,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4384738614558744}
   - component: {fileID: 212895136111614878}
+  - component: {fileID: 114424739582509424}
   m_Layer: 9
   m_Name: Outline
   m_TagString: Untagged
@@ -2980,6 +2982,20 @@ MonoBehaviour:
   rotationSpeed: 0
   bulletLiveTime: 0.25
   animationDriven: 1
+--- !u!114 &114424739582509424
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1897454113889702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d20957195496ebf4692b64d1b4f3476b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  palette: {fileID: 11400000, guid: b75be58f903358146b59385003d16afc, type: 2}
+  type: 0
+  updateTime: 0
 --- !u!114 &114429759807998388
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3131,6 +3147,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 348b0120920885b4195bf71cb50e01dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114706480701859658
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1336133641742842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc7084e61ce48b14d854732afc9e46bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  palette: {fileID: 11400000, guid: b75be58f903358146b59385003d16afc, type: 2}
+  type: 0
+  updateTime: 0
+  colorName: _ASEOutlineColor
+  materialIndex: 0
 --- !u!114 &114734404536303158
 MonoBehaviour:
   m_ObjectHideFlags: 1

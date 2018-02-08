@@ -127,6 +127,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4583049800912140}
   - component: {fileID: 212794843023267468}
+  - component: {fileID: 114452343512246538}
   m_Layer: 8
   m_Name: GameObject
   m_TagString: Untagged
@@ -2869,7 +2870,7 @@ MonoBehaviour:
       localPos: {x: 0.05, y: 0, z: 0}
   rightStickFire: 1
   minJoystickFireMagnitude: 0.7
-  leftHandOnlyFire: 0
+  oneButtonFiresBoth: 0
   useAutofire: 0
 --- !u!114 &114071297937733786
 MonoBehaviour:
@@ -3440,6 +3441,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playOnAwake: 1
+--- !u!114 &114452343512246538
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1118995196881124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d20957195496ebf4692b64d1b4f3476b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  palette: {fileID: 11400000, guid: d523dec5d4d7f3b4095ef641ce76b2a8, type: 2}
+  type: 1
+  updateTime: 0
 --- !u!114 &114461110543041426
 MonoBehaviour:
   m_ObjectHideFlags: 1

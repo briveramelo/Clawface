@@ -144,6 +144,7 @@ GameObject:
   - component: {fileID: 4695430902721922}
   - component: {fileID: 137606470861657438}
   - component: {fileID: 114304162013349394}
+  - component: {fileID: 114687840854673678}
   m_Layer: 0
   m_Name: Enemy_2_mesh
   m_TagString: Untagged
@@ -292,6 +293,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4067420890221204}
   - component: {fileID: 212738557589267012}
+  - component: {fileID: 114329407781774472}
   m_Layer: 9
   m_Name: New Sprite
   m_TagString: Untagged
@@ -2099,6 +2101,20 @@ MonoBehaviour:
   proximityFlashInterval: 0.2
   stunnedFlashStrength: 1
   stunnedFlashPower: 1
+--- !u!114 &114329407781774472
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1309172951023292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d20957195496ebf4692b64d1b4f3476b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  palette: {fileID: 11400000, guid: b75be58f903358146b59385003d16afc, type: 2}
+  type: 0
+  updateTime: 0
 --- !u!114 &114412683619950216
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2190,6 +2206,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 348b0120920885b4195bf71cb50e01dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114687840854673678
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1157701827447024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc7084e61ce48b14d854732afc9e46bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  palette: {fileID: 11400000, guid: b75be58f903358146b59385003d16afc, type: 2}
+  type: 0
+  updateTime: 0
+  colorName: _ASEOutlineColor
+  materialIndex: 0
 --- !u!114 &114718370040682812
 MonoBehaviour:
   m_ObjectHideFlags: 1

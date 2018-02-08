@@ -349,6 +349,7 @@ GameObject:
   - component: {fileID: 4424266464085222}
   - component: {fileID: 137094842210881390}
   - component: {fileID: 114753824678365428}
+  - component: {fileID: 114941729230881076}
   m_Layer: 20
   m_Name: Enemy_3_mesh
   m_TagString: Untagged
@@ -403,6 +404,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4466914312190472}
   - component: {fileID: 212282305153309684}
+  - component: {fileID: 114340202439511656}
   m_Layer: 9
   m_Name: New Sprite
   m_TagString: Untagged
@@ -1298,6 +1300,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 348b0120920885b4195bf71cb50e01dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114340202439511656
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1585608369167792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d20957195496ebf4692b64d1b4f3476b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  palette: {fileID: 11400000, guid: b75be58f903358146b59385003d16afc, type: 2}
+  type: 0
+  updateTime: 0
 --- !u!114 &114407294708943934
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1473,6 +1489,22 @@ MonoBehaviour:
   rigbod: {fileID: 54823713930264312}
   iceForceMultiplier: 15
   movementMode: 0
+--- !u!114 &114941729230881076
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1423473109609094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc7084e61ce48b14d854732afc9e46bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  palette: {fileID: 11400000, guid: b75be58f903358146b59385003d16afc, type: 2}
+  type: 0
+  updateTime: 0
+  colorName: _ASEOutlineColor
+  materialIndex: 0
 --- !u!114 &114965506303583444
 MonoBehaviour:
   m_ObjectHideFlags: 1
