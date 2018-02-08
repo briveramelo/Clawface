@@ -1,3 +1,5 @@
+// Upgrade NOTE: upgraded instancing buffer 'FishParticle' to new syntax.
+
 // Made with Amplify Shader Editor
 // Available at the Unity Asset Store - http://u3d.as/y3X 
 Shader "Fish Particle"

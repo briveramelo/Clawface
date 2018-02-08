@@ -19,6 +19,8 @@ public class Spawner : RoutineRunner
     public int currentNumEnemies = 0;
     public int totalNumEnemies = 0;
 
+    private float spawnHeightOffset = 50.0f;
+
 
     #region private variables
 
@@ -43,6 +45,17 @@ public class Spawner : RoutineRunner
                 return PoolObjectType.GreenBouncer;
             case SpawnType.Kamikaze:
                 return PoolObjectType.Kamikaze;
+            case SpawnType.KamikazePulser:
+                return PoolObjectType.KamikazePulser;
+            case SpawnType.KamikazeMommy:
+                return PoolObjectType.KamikazeMommy;
+            case SpawnType.ZombieBeserker:
+                return PoolObjectType.ZombieBeserker;
+            case SpawnType.ZombieAcider:
+                return PoolObjectType.ZombieAcider;
+            case SpawnType.BlasterShotgun:
+                return PoolObjectType.BlasterShotgun;
+
         }
         return PoolObjectType.MallCopBlaster;
     }
@@ -51,9 +64,10 @@ public class Spawner : RoutineRunner
     #endregion
 
     #region Unity LifeCycle
-    void Start()
+    void Init()
     {
         totalNumEnemies = 0;
+        currentWave = 0;
         foreach (Wave w in waves)
         {
             foreach(WaveType type in w.monsterList)
@@ -75,7 +89,7 @@ public class Spawner : RoutineRunner
         {
             spawnPoints.Add(child_point);
         }
-
+        Init();
         CheckToSpawnEnemyCluster();
     }
 
@@ -93,7 +107,7 @@ public class Spawner : RoutineRunner
 
         if(totalNumEnemies == 0)
         {
-            EventSystem.Instance.TriggerEvent(Strings.Events.CALL_NEXTWAVEENEMIES);
+            EventSystem.Instance.TriggerEvent(Strings.Events.CALL_NEXT_WAVE);
         }
     }
 
@@ -140,7 +154,10 @@ public class Spawner : RoutineRunner
     }
 
     void SpawnEnemy(Vector3 spawnPosition, PoolObjectType enemy) {
+        spawnPosition.y += spawnHeightOffset;
         GameObject spawnedObject = ObjectPool.Instance.GetObject(enemy);
+        spawnedObject.transform.position = spawnPosition;
+        //spawnedObject.SetActive(false);
 
         if (spawnedObject) {
             ISpawnable spawnable = spawnedObject.GetComponentInChildren<ISpawnable>();
@@ -149,7 +166,13 @@ public class Spawner : RoutineRunner
                 spawnable.RegisterDeathEvent(ReportDeath);
             }
 
-            spawnable.WarpToNavMesh(spawnPosition);
+            EnemyBase enemyBase = spawnedObject.GetComponent<EnemyBase>();
+            if (enemyBase)
+            {
+                enemyBase.SpawnWithRagdoll(spawnPosition);
+            }
+
+            //spawnable.WarpToNavMesh(spawnPosition);
             EventSystem.Instance.TriggerEvent(Strings.Events.ENEMY_SPAWNED, spawnedObject);
 
             currentNumEnemies++;

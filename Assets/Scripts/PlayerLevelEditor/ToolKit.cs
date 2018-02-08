@@ -94,7 +94,7 @@ namespace PlayerLevelEditor
 
             if (pGameObjectTF == null)
             {
-                Debug.LogError("Container[" + Container.name + "]can't find[" + gameobjectName + "]");
+                Debug.LogWarning("Container[" + Container.name + "]can't find[" + gameobjectName + "]");
                 return null;
             }
 

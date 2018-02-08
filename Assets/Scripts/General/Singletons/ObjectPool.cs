@@ -82,6 +82,7 @@ public class Pool
 
             for (int i = 0; i < numToSpawn; i++) {
                 GameObject item = MonoBehaviour.Instantiate(prefabs[prefabListIndex], parent.transform) as GameObject;
+                item.AddComponent<ObjectPoolItem>().SetParent(parent.transform);
                 item.SetActive(false);
                 objects.Add(item);
                 cummulativeObjectsSpawned++;

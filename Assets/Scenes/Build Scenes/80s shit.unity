@@ -1422,10 +1422,10 @@ MonoBehaviour:
   waves:
   - spawnedHashCodes: 
     monsterList:
-    - Type: 1
-      Count: 2
-    - Type: 0
+    - Type: 7
       Count: 1
+    - Type: 0
+      Count: 0
     - Type: 1
       Count: 0
     remainingSpawns: 0
@@ -2332,6 +2332,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1590018abacad0b47b5c6460cba9858b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  axis: 4
   rotationSpeed: 0.5
 --- !u!23 &97282034
 MeshRenderer:
@@ -4119,6 +4120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1590018abacad0b47b5c6460cba9858b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  axis: 4
   rotationSpeed: 0.5
 --- !u!23 &167063401
 MeshRenderer:
@@ -20331,6 +20333,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1590018abacad0b47b5c6460cba9858b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  axis: 4
   rotationSpeed: 0.5
 --- !u!23 &1031274716
 MeshRenderer:
@@ -32165,6 +32168,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1590018abacad0b47b5c6460cba9858b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  axis: 4
   rotationSpeed: 0.5
 --- !u!23 &1584231664
 MeshRenderer:
@@ -34816,6 +34820,7 @@ MonoBehaviour:
     Time: 5
   - Prefab: {fileID: 2067283718}
     Time: 5
+  lastWave: 0
 --- !u!4 &1760477451
 Transform:
   m_ObjectHideFlags: 0

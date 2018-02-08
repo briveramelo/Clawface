@@ -1,3 +1,6 @@
+// Upgrade NOTE: upgraded instancing buffer 'PBROutlinePlayer' to new syntax.
+// Upgrade NOTE: upgraded instancing buffer 'PBROutlinePlayer1stPassv2' to new syntax.
+
 // Made with Amplify Shader Editor
 // Available at the Unity Asset Store - http://u3d.as/y3X 
 Shader "Diffuse Outline"
