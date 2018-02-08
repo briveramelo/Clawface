@@ -1207,7 +1207,7 @@ GameObject:
   - component: {fileID: 208207113347138978}
   - component: {fileID: 114066209736771612}
   m_Layer: 9
-  m_Name: BlasterCopErratic
+  m_Name: BlasterCopReanimator
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2859,6 +2859,7 @@ MonoBehaviour:
   deathSFX: 0
   pushRoot: {fileID: 54723207537948854}
   pushDirection: 0
+  hips: {fileID: 0}
   playerDetectorSphereCollider: {fileID: 135115725107046198}
   closeEnoughToFireDistance: 13
   properties:
