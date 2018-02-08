@@ -34,6 +34,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     [SerializeField] private SFXType deathSFX;
     [SerializeField] Rigidbody pushRoot;
     [SerializeField] PushDirection pushDirection;
+    [SerializeField] GameObject hips;
     #endregion
 
     #region 3. Private fields
@@ -165,11 +166,11 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     void ISpawnable.WarpToNavMesh(Vector3 position)
     {
         transform.position = position;
+        navAgent.enabled = true;
         bool sucessfulWarp = navAgent.Warp(position);
         if (!sucessfulWarp) {
             Debug.LogWarning("Failed to warp!");
-        }
-        navAgent.enabled = true;
+        }        
     }
 
 
@@ -248,13 +249,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
 
     public virtual void ResetForRebirth()
     {
-        DisableRagdoll();
-        if (grabObject)
-        {
-            grabObject.transform.parent = transform;
-            grabObject.transform.localPosition = grabStartPosition;
-            grabObject.transform.localScale = Vector3.one;
-        }
+        DisableRagdoll();        
         GetComponent<CapsuleCollider>().enabled = true;
         myStats.ResetForRebirth();
         controller.ResetForRebirth();
@@ -265,8 +260,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         lastChance = false;
         isStunFlashing = false;
         alreadyStunned = false;
-        isIndestructable = false;
-        
+        isIndestructable = false;        
     }
 
     public void DisableCollider()
@@ -292,35 +286,45 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         {
             aiController.DeActivateAI();
         }
+        navAgent.enabled = false;
         ragdollOn = true;
     }
 
     public void DisableRagdoll()
     {
+        Vector3 position = hips.transform.position;
+        position.y = 2.57f;
+        GetComponent<ISpawnable>().WarpToNavMesh(position);
         if (jointRigidBodies != null)
         {
             //Ignore the first entry (its the self rigidbody)
             for (int i = 1; i < jointRigidBodies.Length; i++)
             {
+                RagdollHandler ragdollHandler = jointRigidBodies[i].GetComponent<RagdollHandler>();
+                if (ragdollHandler)
+                {
+                    ragdollHandler.ResetBone();
+                }
                 jointRigidBodies[i].useGravity = false;
                 jointRigidBodies[i].isKinematic = true;
                 if (rigidBodyMasses != null)
                 {
                     jointRigidBodies[i].mass = rigidBodyMasses[i];
                 }
-                RagdollHandler ragdollHandler = jointRigidBodies[i].GetComponent<RagdollHandler>();
-                if (ragdollHandler)
-                {
-                    ragdollHandler.ResetBone();
-                }
             }
         }
-        animator.enabled = true;
+        animator.enabled = true;        
         AIController aiController = GetComponent<AIController>();
         if (aiController)
         {
             aiController.ActivateAI();
         }
+        if (grabObject)
+        {
+            grabObject.transform.parent = transform;
+            grabObject.transform.localPosition = grabStartPosition;
+            grabObject.transform.localScale = Vector3.one;
+        }        
         ragdollOn = false;
     }
 
@@ -348,11 +352,15 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
 
     public void Push(float force)
     {
+        Push(force, pushDirection);
+    }
+
+    public void Push(float force, PushDirection direction)
+    {
         if (!ragdollOn)
         {
-            DisableCollider();
-            EnableRagdoll();
-            switch (pushDirection)
+            FallDown();
+            switch (direction)
             {
                 case PushDirection.BACK:
                     AddForce(force * -velBody.GetForward());
@@ -365,19 +373,15 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
                     AddForce(force * (-velBody.GetForward() + Vector3.down).normalized);
                     break;
             }
-            Timing.CallDelayed(5.0f, GetUp);
+            Timing.CallDelayed(3.0f, GetUp);
         }
     }
 
-    private void AddForce(Vector3 force)
+    public void SpawnWithRagdoll(Vector3 position)
     {
-        if (pushRoot)
-        {
-            pushRoot.AddForce(force, ForceMode.Impulse);
-        }
+        Push(20.0f, PushDirection.DOWN);
+        
     }
-
-
     #endregion
 
     #region 6. Private Methods
@@ -390,6 +394,12 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     {
         EnableCollider();
         DisableRagdoll();
+    }
+
+    private void FallDown()
+    {
+        DisableCollider();
+        EnableRagdoll();
     }
 
     private void SetInvincible(object[] parameters)
@@ -422,6 +432,14 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     {
         jointRigidBodies = GetComponentsInChildren<Rigidbody>();       
         ExtractRbWeights();
+    }
+
+    private void AddForce(Vector3 force)
+    {
+        if (pushRoot)
+        {
+            pushRoot.AddForce(force, ForceMode.Impulse);
+        }
     }
     #endregion
 }
