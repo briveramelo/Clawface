@@ -45,8 +45,6 @@ public class LevelUnit : RoutineRunner {
     [SerializeField] AbsAnim colorShiftAnim;
     [SerializeField] Color riseColor, flatColor, fallColor;
 
-    
-    
     #endregion
 
     #region public variables

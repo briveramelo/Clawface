@@ -20,7 +20,7 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.6397059, g: 0.6397059, b: 0.6397059, a: 1}
+  m_AmbientSkyColor: {r: 1, g: 1, b: 1, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 0.38
@@ -32,7 +32,7 @@ RenderSettings:
   m_FlareFadeSpeed: 3
   m_HaloTexture: {fileID: 0}
   m_SpotCookie: {fileID: 10001, guid: 0000000000000000e000000000000000, type: 0}
-  m_DefaultReflectionMode: 0
+  m_DefaultReflectionMode: 1
   m_DefaultReflectionResolution: 128
   m_ReflectionBounces: 1
   m_ReflectionIntensity: 1
@@ -50,7 +50,7 @@ LightmapSettings:
     m_IndirectOutputScale: 1
     m_AlbedoBoost: 1
     m_TemporalCoherenceThreshold: 1
-    m_EnvironmentLightingMode: 0
+    m_EnvironmentLightingMode: 1
     m_EnableBakedLightmaps: 1
     m_EnableRealtimeLightmaps: 0
   m_LightmapEditorSettings:
@@ -212,9 +212,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0, g: 0.95862055, b: 1, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &12694597
 BoxCollider:
@@ -396,9 +396,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.52638483, g: 0.2973075, b: 0.8602941, a: 1}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 0, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &13168804
 BoxCollider:
@@ -580,9 +580,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &16545581
 BoxCollider:
@@ -838,9 +838,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &24137140
 BoxCollider:
@@ -1022,9 +1022,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 0, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &34009631
 BoxCollider:
@@ -1315,8 +1315,8 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  riseColor: {r: 0.7647059, g: 0.24740486, b: 0.75043565, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
   fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &62972555
@@ -1499,8 +1499,8 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
   fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &64149859
@@ -1580,6 +1580,90 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.1, y: 1.2, z: 1.1}
   m_Center: {x: 0, y: 0, z: 0.00000047683716}
+--- !u!1 &66015951
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 66015955}
+  - component: {fileID: 66015954}
+  - component: {fileID: 66015953}
+  - component: {fileID: 66015952}
+  m_Layer: 0
+  m_Name: Plane (4)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!23 &66015952
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 66015951}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_Materials:
+  - {fileID: 2100000, guid: 2c1696e9e52dc4c49be77f902ef27813, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 1
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!64 &66015953
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 66015951}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Convex: 0
+  m_InflateMesh: 0
+  m_SkinWidth: 0.01
+  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!33 &66015954
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 66015951}
+  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &66015955
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 66015951}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -12.7, y: -4.5, z: -137.6}
+  m_LocalScale: {x: 7.862724, y: 31.957771, z: 24.881067}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 17
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1 &70634241
 GameObject:
   m_ObjectHideFlags: 0
@@ -1618,10 +1702,10 @@ MonoBehaviour:
   waves:
   - spawnedHashCodes: 
     monsterList:
-    - Type: 7
-      Count: 0
+    - Type: 1
+      Count: 1
     - Type: 0
-      Count: 5
+      Count: 0
     - Type: 1
       Count: 0
     remainingSpawns: 0
@@ -2272,8 +2356,8 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
   fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &95774084
@@ -2484,9 +2568,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0, g: 0.95862055, b: 1, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &96150381
 BoxCollider:
@@ -3207,9 +3291,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 0, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &133601958
 BoxCollider:
@@ -3391,9 +3475,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0, g: 0.95862055, b: 1, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &135926253
 BoxCollider:
@@ -3727,9 +3811,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 0, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &147080989
 BoxCollider:
@@ -3911,9 +3995,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.52638483, g: 0.2973075, b: 0.8602941, a: 1}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 0, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &147521014
 BoxCollider:
@@ -4387,8 +4471,8 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
   fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &160303288
@@ -4732,9 +4816,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 0, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &176578155
 BoxCollider:
@@ -5080,9 +5164,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 0, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &204845403
 BoxCollider:
@@ -5329,8 +5413,8 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  riseColor: {r: 0.7647059, g: 0.24740486, b: 0.75043565, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
   fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &212034736
@@ -5513,9 +5597,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 0, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &213551578
 BoxCollider:
@@ -5796,8 +5880,8 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  riseColor: {r: 0.7647059, g: 0.24740486, b: 0.75043565, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
   fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &234777222
@@ -5980,9 +6064,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0, g: 0.95862055, b: 1, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &239624721
 BoxCollider:
@@ -6238,9 +6322,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &250161699
 BoxCollider:
@@ -6536,9 +6620,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &272894626
 BoxCollider:
@@ -6958,8 +7042,8 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
   fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &287696266
@@ -7142,9 +7226,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.52638483, g: 0.2973075, b: 0.8602941, a: 1}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 0, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &289360587
 BoxCollider:
@@ -7499,9 +7583,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.52638483, g: 0.2973075, b: 0.8602941, a: 1}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 0, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &298603699
 BoxCollider:
@@ -7757,9 +7841,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0, g: 0.95862055, b: 1, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &315309322
 BoxCollider:
@@ -8168,8 +8252,8 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
   fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &325650547
@@ -8533,9 +8617,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 0, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &339548190
 BoxCollider:
@@ -8777,9 +8861,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 0, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &345096545
 BoxCollider:
@@ -9208,8 +9292,8 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  riseColor: {r: 0.7647059, g: 0.24740486, b: 0.75043565, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
   fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &363617222
@@ -9392,9 +9476,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 0, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &365859609
 BoxCollider:
@@ -9576,8 +9660,8 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
   fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &367058606
@@ -9760,8 +9844,8 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
   fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &382180037
@@ -9944,9 +10028,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &385141687
 BoxCollider:
@@ -10128,9 +10212,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.52638483, g: 0.2973075, b: 0.8602941, a: 1}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 0, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &398690075
 BoxCollider:
@@ -10451,9 +10535,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &424013188
 BoxCollider:
@@ -10783,9 +10867,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &435960291
 BoxCollider:
@@ -10967,9 +11051,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0, g: 0.95862055, b: 1, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &440177346
 BoxCollider:
@@ -11171,9 +11255,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &450571946
 BoxCollider:
@@ -11454,9 +11538,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 0, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &462031824
 BoxCollider:
@@ -11638,8 +11722,8 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
   fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &462340298
@@ -12087,9 +12171,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.52638483, g: 0.2973075, b: 0.8602941, a: 1}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 0, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &506173524
 BoxCollider:
@@ -12250,10 +12334,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 1 Wave 1
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
   floorStateEvents:
-  - Spawner 1 Wave 1
   - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
@@ -12291,9 +12375,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 0, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &524994056
 BoxCollider:
@@ -12636,9 +12720,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0, g: 0.95862055, b: 1, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &539217215
 BoxCollider:
@@ -13133,9 +13217,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0, g: 0.95862055, b: 1, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &564827521
 BoxCollider:
@@ -13346,8 +13430,8 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
   fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &573898540
@@ -13530,8 +13614,8 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
   fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &576170977
@@ -14038,9 +14122,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 0, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &628541616
 BoxCollider:
@@ -14222,8 +14306,8 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
   fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &631466245
@@ -14545,8 +14629,8 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
   fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &654501371
@@ -14935,8 +15019,8 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
   fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &682523747
@@ -15202,9 +15286,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &700059606
 BoxCollider:
@@ -15386,9 +15470,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 0, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &707743344
 BoxCollider:
@@ -15870,9 +15954,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &733378288
 BoxCollider:
@@ -16490,8 +16574,8 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
   fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &777937628
@@ -16872,9 +16956,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0, g: 0.95862055, b: 1, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &785586099
 BoxCollider:
@@ -17056,9 +17140,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.52638483, g: 0.2973075, b: 0.8602941, a: 1}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 0, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &797050457
 BoxCollider:
@@ -17339,8 +17423,8 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
   fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &807231956
@@ -17523,9 +17607,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0, g: 0.95862055, b: 1, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &813602764
 BoxCollider:
@@ -17846,8 +17930,8 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  riseColor: {r: 0.7647059, g: 0.24740486, b: 0.75043565, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
   fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &817353999
@@ -18058,9 +18142,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0, g: 0.95862055, b: 1, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &823821904
 BoxCollider:
@@ -18483,8 +18567,8 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
   fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &840093217
@@ -18667,8 +18751,8 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
   fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &841119601
@@ -18851,9 +18935,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 0, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &849157217
 BoxCollider:
@@ -19083,9 +19167,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 0, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &854525423
 BoxCollider:
@@ -19366,9 +19450,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &860246870
 BoxCollider:
@@ -19570,9 +19654,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 0, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &880090713
 BoxCollider:
@@ -19754,8 +19838,8 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
   fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &896681592
@@ -20012,8 +20096,8 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
   fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &929175084
@@ -20295,8 +20379,8 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
   fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &934920724
@@ -20479,9 +20563,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0, g: 0.95862055, b: 1, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &942288886
 BoxCollider:
@@ -20663,8 +20747,8 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
   fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &945582503
@@ -20847,9 +20931,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.52638483, g: 0.2973075, b: 0.8602941, a: 1}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 0, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &952256107
 BoxCollider:
@@ -21031,8 +21115,8 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
   fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &953201609
@@ -21235,9 +21319,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &954167729
 BoxCollider:
@@ -21594,8 +21678,8 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
   fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &958755788
@@ -21851,9 +21935,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 0, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &977854365
 BoxCollider:
@@ -22035,9 +22119,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.52638483, g: 0.2973075, b: 0.8602941, a: 1}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 0, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &996748864
 BoxCollider:
@@ -22400,9 +22484,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 0, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &1014650573
 BoxCollider:
@@ -22743,9 +22827,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &1037392170
 BoxCollider:
@@ -23289,9 +23373,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 0, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &1060870497
 BoxCollider:
@@ -23473,8 +23557,8 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
   fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1071340038
@@ -23657,9 +23741,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &1076517659
 BoxCollider:
@@ -23799,9 +23883,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents: []
-  floorStateEvents:
+  coverStateEvents:
   - Spawner 1 Wave 1
+  floorStateEvents:
   - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
@@ -23841,9 +23925,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &1077028127
 BoxCollider:
@@ -24045,8 +24129,8 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
   fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1084087048
@@ -24365,9 +24449,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 0, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &1105452175
 BoxCollider:
@@ -24606,9 +24690,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0, g: 0.95862055, b: 1, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &1118716993
 BoxCollider:
@@ -24790,8 +24874,8 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
   fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1123132411
@@ -25073,9 +25157,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 0, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &1126301443
 BoxCollider:
@@ -25331,9 +25415,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &1140165806
 BoxCollider:
@@ -25515,8 +25599,8 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  riseColor: {r: 0.7647059, g: 0.24740486, b: 0.75043565, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
   fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1144947153
@@ -25699,8 +25783,8 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  riseColor: {r: 0.7647059, g: 0.24740486, b: 0.75043565, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
   fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1147649685
@@ -26121,9 +26205,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0, g: 0.95862055, b: 1, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &1165319146
 BoxCollider:
@@ -26305,9 +26389,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0, g: 0.95862055, b: 1, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &1167016689
 BoxCollider:
@@ -26603,9 +26687,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 0, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &1186931770
 BoxCollider:
@@ -26787,9 +26871,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &1187470307
 BoxCollider:
@@ -26971,9 +27055,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 0, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &1199710088
 BoxCollider:
@@ -27216,8 +27300,8 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
   fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1211835468
@@ -27513,9 +27597,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0, g: 0.95862055, b: 1, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &1214551470
 BoxCollider:
@@ -27805,9 +27889,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 0, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &1228785515
 BoxCollider:
@@ -28009,9 +28093,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.52638483, g: 0.2973075, b: 0.8602941, a: 1}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 0, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &1244174225
 BoxCollider:
@@ -28193,9 +28277,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.52638483, g: 0.2973075, b: 0.8602941, a: 1}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 0, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &1257558423
 BoxCollider:
@@ -28289,7 +28373,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1260307934
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28546,8 +28630,8 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
   fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1262756102
@@ -28779,8 +28863,8 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
   fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1275750777
@@ -29028,9 +29112,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &1306882864
 BoxCollider:
@@ -29717,9 +29801,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 0, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &1351713878
 BoxCollider:
@@ -29823,7 +29907,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 8
   m_Type: 1
-  m_Color: {r: 0.4286481, g: 0.31141868, b: 0.44117647, a: 1}
+  m_Color: {r: 0.84533465, g: 0.5514706, b: 1, a: 1}
   m_Intensity: 0.5
   m_Range: 10
   m_SpotAngle: 30
@@ -29843,7 +29927,7 @@ Light:
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_Lightmapping: 4
+  m_Lightmapping: 1
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
@@ -29857,7 +29941,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1354418665}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -37.9, y: 45.48, z: -128.53}
+  m_LocalPosition: {x: -25.74, y: 45.5, z: -161}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -29986,9 +30070,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0, g: 0.95862055, b: 1, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &1364644705
 BoxCollider:
@@ -30170,9 +30254,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &1366354431
 BoxCollider:
@@ -30394,8 +30478,8 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
   fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1388768184
@@ -30578,8 +30662,8 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
   fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1394354572
@@ -30836,8 +30920,8 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
   fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1413211907
@@ -31104,9 +31188,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 0, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &1419345218
 BoxCollider:
@@ -31372,9 +31456,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 0, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &1429489072
 BoxCollider:
@@ -31556,9 +31640,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 0, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &1435292450
 BoxCollider:
@@ -31740,9 +31824,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0, g: 0.95862055, b: 1, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &1436338955
 BoxCollider:
@@ -31924,8 +32008,8 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
   fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1453249466
@@ -32247,8 +32331,8 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
   fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1466696723
@@ -32431,9 +32515,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 0, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &1468090314
 BoxCollider:
@@ -32615,8 +32699,8 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
   fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1468957567
@@ -32799,8 +32883,8 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
   fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1480688924
@@ -32983,8 +33067,8 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
   fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1492172661
@@ -33286,8 +33370,8 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
   fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1517256120
@@ -33586,8 +33670,8 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
   fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1529754748
@@ -33770,9 +33854,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0, g: 0.95862055, b: 1, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &1531299676
 BoxCollider:
@@ -33954,8 +34038,8 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
   fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1533272002
@@ -34138,9 +34222,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 0, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &1536767643
 BoxCollider:
@@ -34322,9 +34406,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &1537034991
 BoxCollider:
@@ -34580,9 +34664,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 0, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &1538536110
 BoxCollider:
@@ -34858,9 +34942,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &1559005181
 BoxCollider:
@@ -35141,9 +35225,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 0, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &1562269163
 BoxCollider:
@@ -35325,9 +35409,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &1563831469
 BoxCollider:
@@ -35509,8 +35593,8 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
   fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1566647465
@@ -35767,8 +35851,8 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
   fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1571956708
@@ -36038,9 +36122,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0, g: 0.95862055, b: 1, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &1598902115
 BoxCollider:
@@ -36321,9 +36405,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &1607166039
 BoxCollider:
@@ -36678,8 +36762,8 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
   fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1640018026
@@ -36956,9 +37040,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &1654001978
 BoxCollider:
@@ -37702,9 +37786,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0, g: 0.95862055, b: 1, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &1707666430
 BoxCollider:
@@ -38002,9 +38086,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &1721464011
 BoxCollider:
@@ -38186,9 +38270,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.52638483, g: 0.2973075, b: 0.8602941, a: 1}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 0, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &1723210098
 BoxCollider:
@@ -38652,9 +38736,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 0, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &1754455813
 BoxCollider:
@@ -38889,9 +38973,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0, g: 0.95862055, b: 1, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &1764667936
 BoxCollider:
@@ -39093,9 +39177,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 0, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &1776473974
 BoxCollider:
@@ -39351,9 +39435,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &1789614391
 BoxCollider:
@@ -39535,9 +39619,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0, g: 0.95862055, b: 1, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &1799120540
 BoxCollider:
@@ -39719,9 +39803,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.52638483, g: 0.2973075, b: 0.8602941, a: 1}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 0, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &1799536561
 BoxCollider:
@@ -39945,9 +40029,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &1813325832
 BoxCollider:
@@ -40190,8 +40274,8 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
   fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1822545438
@@ -40374,9 +40458,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 0, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &1824586874
 BoxCollider:
@@ -40805,8 +40889,8 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
   fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1846939594
@@ -40989,8 +41073,8 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
   fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1862551982
@@ -41173,9 +41257,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.52638483, g: 0.2973075, b: 0.8602941, a: 1}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 0, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &1863135544
 BoxCollider:
@@ -41431,9 +41515,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.52638483, g: 0.2973075, b: 0.8602941, a: 1}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 0, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &1875741574
 BoxCollider:
@@ -41615,9 +41699,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &1876074317
 BoxCollider:
@@ -41799,9 +41883,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0, g: 0.95862055, b: 1, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &1876168607
 BoxCollider:
@@ -42269,9 +42353,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 0, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &1918361063
 BoxCollider:
@@ -42453,8 +42537,8 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  riseColor: {r: 0.7647059, g: 0.24740486, b: 0.75043565, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
   fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1925162977
@@ -42711,9 +42795,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &1931948352
 BoxCollider:
@@ -42915,9 +42999,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 0, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &1939637880
 BoxCollider:
@@ -43099,9 +43183,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0, g: 0.95862055, b: 1, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &1945871399
 BoxCollider:
@@ -43456,9 +43540,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &1989739925
 BoxCollider:
@@ -43788,9 +43872,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.52638483, g: 0.2973075, b: 0.8602941, a: 1}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 0, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &2007312355
 BoxCollider:
@@ -43972,9 +44056,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 0, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &2008298569
 BoxCollider:
@@ -44190,9 +44274,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &2018203602
 BoxCollider:
@@ -44683,8 +44767,8 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  riseColor: {r: 0.7647059, g: 0.24740486, b: 0.75043565, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
   fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &2041126251
@@ -44867,8 +44951,8 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
   fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &2046108681
@@ -45051,9 +45135,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 0, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &2049794318
 BoxCollider:
@@ -45587,7 +45671,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2067283719
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46154,9 +46238,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0, g: 0.95862055, b: 1, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &2071588898
 BoxCollider:
@@ -46313,9 +46397,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0, g: 0.95862055, b: 1, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &2071659894
 BoxCollider:
@@ -46571,9 +46655,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0, g: 0.95862055, b: 1, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &2079839510
 BoxCollider:
@@ -46755,9 +46839,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 0, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &2080439357
 BoxCollider:
@@ -47054,8 +47138,8 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
   fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &2095179890
@@ -47618,9 +47702,9 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
-  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
-  fallColor: {r: 1, g: 1, b: 1, a: 0}
+  riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 1, g: 1, b: 1, a: 0}
+  fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &2146424140
 BoxCollider:
