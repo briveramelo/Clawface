@@ -1703,7 +1703,7 @@ Transform:
   m_GameObject: {fileID: 1643876914540702}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.15, y: 0.15, z: 0.15}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_Children: []
   m_Father: {fileID: 4913140830600710}
   m_RootOrder: 0
@@ -2249,7 +2249,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1385345176205422}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 25.773937, y: 3.2933753, z: -132.49698}
   m_LocalScale: {x: 5.4, y: 5.4, z: 5.4}
   m_Children:
   - {fileID: 4026820681351070}
@@ -3093,6 +3093,7 @@ MonoBehaviour:
   bloodEmissionLocation: {fileID: 4313216080101678}
   scoreValue: 200
   bufferHealth: 3
+  stunnedTime: 7
   grabObject: {fileID: 1775636957589736}
   affectObject: {fileID: 1887600873005720}
   hitFlasher: {fileID: 114702588984713274}
@@ -3100,6 +3101,7 @@ MonoBehaviour:
   deathSFX: 0
   pushRoot: {fileID: 54527247813940898}
   pushDirection: 0
+  hips: {fileID: 1241035809786012}
   playerDetectorSphereCollider: {fileID: 135652806102363036}
   closeEnoughToFireDistance: 13
   properties:

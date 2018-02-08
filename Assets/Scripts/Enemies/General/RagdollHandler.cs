@@ -7,6 +7,8 @@ public class RagdollHandler : MonoBehaviour {
     #region private variables
     private bool isReady;
     private Vector3 startPosition;
+    private Vector3 startScale;
+    private Quaternion startRotation;
     #endregion
 
     #region unity lifecycle
@@ -15,6 +17,8 @@ public class RagdollHandler : MonoBehaviour {
         if (startPosition == Vector3.zero)
         {
             startPosition = transform.localPosition;
+            startScale = transform.localScale;
+            startRotation = transform.localRotation;
             isReady = true;
         }
     }
@@ -26,6 +30,8 @@ public class RagdollHandler : MonoBehaviour {
         if (isReady)
         {
             transform.localPosition = startPosition;
+            transform.localScale = startScale;
+            transform.localRotation = startRotation;
         }
     }
     #endregion
