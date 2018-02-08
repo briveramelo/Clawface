@@ -12,7 +12,7 @@ public class PLEBlockUnit : MonoBehaviour
 
     private bool occupied;
     [SerializeField] private int blockID = 0;
-    [SerializeField] public Transform spawnPos;
+    [SerializeField] public Transform spawnTrans;
 
     List<LevelUnitStates> LevelStates = new List<LevelUnitStates>();
 
@@ -73,7 +73,7 @@ public class PLEBlockUnit : MonoBehaviour
 
     public Vector3 GetSpawnPosition()
     {
-        return spawnPos.position;
+        return spawnTrans.position;
     }
 
 

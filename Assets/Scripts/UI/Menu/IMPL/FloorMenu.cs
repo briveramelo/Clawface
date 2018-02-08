@@ -21,7 +21,6 @@ public class FloorMenu : Menu {
     #region Private Fields
 
     private bool inputGuard = false;
-    private GameObject mainLevelObject;
     private GameObject levelBlock;
     private bool initialized = false;
     private float raycastDistance = 1000.0f;
@@ -65,7 +64,6 @@ public class FloorMenu : Menu {
 
     public void Initialize(params object[] par)
     {
-        mainLevelObject = EditorToolKit.FindGameObject("LEVEL");
         levelBlock = Resources.Load(Strings.Editor.RESOURCE_PATH + Strings.Editor.BASIC_LVL_BLOCK) as GameObject;
 
         initialized = true;

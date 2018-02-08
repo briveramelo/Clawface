@@ -1119,6 +1119,11 @@ Prefab:
       propertyPath: realLevelParent
       value: 
       objectReference: {fileID: 40200495}
+    - target: {fileID: 114986609073309614, guid: 595c17daa3c5bc948af47b8cf23a2f91,
+        type: 2}
+      propertyPath: mHelper
+      value: 
+      objectReference: {fileID: 2108763662}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 595c17daa3c5bc948af47b8cf23a2f91, type: 2}
   m_IsPrefabParent: 0
@@ -6924,6 +6929,7 @@ GameObject:
   - component: {fileID: 2108763658}
   - component: {fileID: 2108763660}
   - component: {fileID: 2108763661}
+  - component: {fileID: 2108763662}
   m_Layer: 0
   m_Name: PlayerLevelEditor
   m_TagString: Untagged
@@ -6991,6 +6997,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2cd9337ea0990b4aa28d112d09a3a2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2108763662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2108763657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe674e7297677a74787a3f0b913571e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentHoveredObject: {fileID: 0}
+  currentBlockUnit: {fileID: 0}
+  currentMouseWorldPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &2118389424
 GameObject:
   m_ObjectHideFlags: 0

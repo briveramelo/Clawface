@@ -30,6 +30,7 @@ public class PropsMenu : Menu
     [SerializeField] private Button initiallySelected;
     [SerializeField] private LevelEditor editorInstance;
     [SerializeField] private GameObject realLevelParent;
+    [SerializeField] private MouseHelper mHelper;
 
     #endregion
 
@@ -60,48 +61,52 @@ public class PropsMenu : Menu
     {
         if(inputGuard)
         {
-            if(Input.GetMouseButtonDown(MouseButtons.LEFT))
+            //we click on a prop?
+            if(Input.GetMouseButtonDown(MouseButtons.LEFT) && selectedProp == null)
             {
-                if(selectedProp == null)
+                selectedProp = RaycastToUI();
+                if(selectedProp)
                 {
-                    selectedProp = RaycastToUI();
+                    newWorldProp = GameObject.Instantiate(selectedProp, realLevelParent.transform, true);
+                }
+                
+            }
 
-                    if(selectedProp)
-                    {
-                        newWorldProp = GameObject.Instantiate(selectedProp, transform.position, Quaternion.identity, realLevelParent.transform);
-                    }
+            if(newWorldProp != null)
+            {
+                if(mHelper.currentBlockUnit != null)
+                {
+                    newWorldProp.transform.position = mHelper.currentBlockUnit.spawnTrans.position;
+                }
+
+            }
+
+            if (Input.GetMouseButtonUp(MouseButtons.LEFT) && newWorldProp != null)
+            {
+                if(mHelper.currentBlockUnit != null)
+                {
+                    newWorldProp.transform.position = mHelper.currentBlockUnit.spawnTrans.position;
+                    mHelper.currentBlockUnit.SetOccupation(true);
+                    GameObject.Instantiate(newWorldProp, realLevelParent.transform, true);
+                    newWorldProp = null;
+                    selectedProp = null;
                 }
             }
-
-            if(Input.GetMouseButtonDown(MouseButtons.LEFT) && selectedProp)
-            {
-                Ray r = UnityEngine.Camera.main.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-
-                if(Physics.Raycast(r, out hit, 1000.0f))
-                {
-
-                    GameObject spawnPos = hit.transform.gameObject;
-
-                    if(spawnPos)
-                    {
-                        PLEBlockUnit pointManager = spawnPos.GetComponent<PLEBlockUnit>();
-
-                        if(pointManager)
-                        {
-                            Debug.Log(pointManager.GetSpawnPosition());
-                        }
-                    }
-                }
-            }
-
-            if(Input.GetMouseButtonUp(MouseButtons.LEFT))
-            {
-                selectedProp = null;
-            }
+            
         }
     }
 
+    private void OnMouseDown()
+    {
+        selectedProp = RaycastToUI();
+        newWorldProp = GameObject.Instantiate(selectedProp, realLevelParent.transform, true);
+    }
+
+    private void OnMouseUp()
+    {
+        selectedProp = null;
+        newWorldProp = null;
+    }
 
 
     #endregion
@@ -145,7 +150,6 @@ public class PropsMenu : Menu
         inputGuard = true;
 
         //draw the grid
-        //editorInstance.gridController.SetGridVisiblity(true);
         editorInstance.gridController.currentEditorMenu = EditorMenu.PROPS_MENU;
 
     }
@@ -155,7 +159,6 @@ public class PropsMenu : Menu
         base.HideStarted();
         inputGuard = false;
         initialized = false;
-        //editorInstance.gridController.SetGridVisiblity(false);
     }
 
     protected override void DefaultShow(Transition transition, Effect[] effects)
@@ -207,43 +210,7 @@ public class PropsMenu : Menu
         i_obj.transform.position = i_Pos;
         Debug.Log(i_Pos);
     }
-
-    private void UpdateObjectPreview()
-    {
-
-        Vector3 mousePos = Input.mousePosition;
-
-        Vector3 sceneMousePos = Camera.main.ScreenToWorldPoint(mousePos);
-
-
-        //Ray r = UnityEngine.Camera.main.ScreenPointToRay(Input.mousePosition);
-        //RaycastHit h;
-
-        //if (Physics.Raycast(r, out h, raycastDistance))
-        //{
-        //    sceneMousePos = h.point;
-
-        //    if(Input.GetMouseButtonDown(MouseButtons.LEFT))
-        //    {
-        //        Vector3 objectPos = PlayerLevelEditor.ToolLib.ConvertToGrid(sceneMousePos);
-
-        //        //Consider when placing on top of spawnpoints
-        //        //IsLegalPlacement();
-
-        //        if (objectPos != null)
-        //        {
-        //            newItemPos = objectPos;
-        //        }
-
-        //    }
-
-        //}
-
-        ////draw preview block at location
-        //ToolLib.draft(levelBlock, ToolLib.ConvertToGrid(sceneMousePos - levelBlock.transform.position), Color.green);
-
-    }
-
+    
     private void BackAction()
     {
         MainPLEMenu menu = editorInstance.GetMenu(PLEMenu.MAIN) as MainPLEMenu;
