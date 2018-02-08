@@ -148,7 +148,7 @@ namespace Turing.VFX
                 float flashStrength = Mathf.Clamp01(Mathf.Pow(stunnedFlashStrength * (0.5f + Mathf.Sin(2f * Mathf.PI * percent) + 0.5f), stunnedFlashPower));
                 SetFlashStrength(flashStrength, stunnedFlashColor);
 
-                t = (t + Time.deltaTime) % (flashInterval);
+                t = (t + Time.unscaledDeltaTime) % (flashInterval);
 
                 yield return null;
             }

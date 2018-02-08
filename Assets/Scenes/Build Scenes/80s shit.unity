@@ -183,10 +183,38 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   - Spawner 3 Wave 1
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &12694597
 BoxCollider:
@@ -326,9 +354,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents: []
-  floorStateEvents:
+  coverStateEvents:
   - Spawner 1 Wave 1
+  floorStateEvents:
   - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
@@ -339,10 +367,38 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   - Spawner 3 Wave 1
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &13168804
 BoxCollider:
@@ -497,8 +553,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &16545581
 BoxCollider:
@@ -727,8 +811,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &24137140
 BoxCollider:
@@ -883,8 +995,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &34009631
 BoxCollider:
@@ -1144,12 +1284,40 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   - Spawner 3 Wave 1
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &62972555
 BoxCollider:
@@ -1290,6 +1458,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -1302,10 +1471,37 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents:
   - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &64149859
 BoxCollider:
@@ -1423,9 +1619,9 @@ MonoBehaviour:
   - spawnedHashCodes: 
     monsterList:
     - Type: 7
-      Count: 1
-    - Type: 0
       Count: 0
+    - Type: 0
+      Count: 5
     - Type: 1
       Count: 0
     remainingSpawns: 0
@@ -2035,6 +2231,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -2042,15 +2239,42 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &95774084
 BoxCollider:
@@ -2233,8 +2457,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &96150381
 BoxCollider:
@@ -2928,8 +3180,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &133601958
 BoxCollider:
@@ -3082,10 +3362,38 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   - Spawner 3 Wave 1
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &135926253
 BoxCollider:
@@ -3392,8 +3700,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &147080989
 BoxCollider:
@@ -3533,9 +3869,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents: []
-  floorStateEvents:
+  coverStateEvents:
   - Spawner 1 Wave 1
+  floorStateEvents:
   - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
@@ -3548,8 +3884,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &147521014
 BoxCollider:
@@ -3982,6 +4346,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -3989,15 +4354,42 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &160303288
 BoxCollider:
@@ -4313,8 +4705,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &176578155
 BoxCollider:
@@ -4633,8 +5053,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &204845403
 BoxCollider:
@@ -4850,12 +5298,40 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   - Spawner 3 Wave 1
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &212034736
 BoxCollider:
@@ -5010,8 +5486,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &213551578
 BoxCollider:
@@ -5261,12 +5765,40 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   - Spawner 3 Wave 1
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &234777222
 BoxCollider:
@@ -5421,8 +5953,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &239624721
 BoxCollider:
@@ -5651,8 +6211,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &250161699
 BoxCollider:
@@ -5921,8 +6509,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &272894626
 BoxCollider:
@@ -6301,6 +6917,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -6308,15 +6925,42 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &287696266
 BoxCollider:
@@ -6456,9 +7100,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents: []
-  floorStateEvents:
+  coverStateEvents:
   - Spawner 1 Wave 1
+  floorStateEvents:
   - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
@@ -6471,8 +7115,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &289360587
 BoxCollider:
@@ -6785,9 +7457,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents: []
-  floorStateEvents:
+  coverStateEvents:
   - Spawner 1 Wave 1
+  floorStateEvents:
   - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
@@ -6800,8 +7472,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &298603699
 BoxCollider:
@@ -7030,8 +7730,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &315309322
 BoxCollider:
@@ -7399,6 +8127,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -7411,10 +8140,37 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents:
   - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &325650547
 BoxCollider:
@@ -7617,7 +8373,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 333929688}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.06, y: 2.57, z: -11.41}
+  m_LocalPosition: {x: -13.63, y: 2.57, z: -14.84}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 618998398}
@@ -7750,8 +8506,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &339548190
 BoxCollider:
@@ -7966,8 +8750,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &345096545
 BoxCollider:
@@ -8365,12 +9177,40 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   - Spawner 3 Wave 1
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &363617222
 BoxCollider:
@@ -8525,8 +9365,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &365859609
 BoxCollider:
@@ -8667,6 +9535,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -8674,15 +9543,42 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &367058606
 BoxCollider:
@@ -8823,6 +9719,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -8830,15 +9727,42 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &382180037
 BoxCollider:
@@ -8993,8 +9917,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &385141687
 BoxCollider:
@@ -9134,9 +10086,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents: []
-  floorStateEvents:
+  coverStateEvents:
   - Spawner 1 Wave 1
+  floorStateEvents:
   - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
@@ -9149,8 +10101,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &398690075
 BoxCollider:
@@ -9444,8 +10424,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &424013188
 BoxCollider:
@@ -9748,8 +10756,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &435960291
 BoxCollider:
@@ -9904,8 +10940,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &440177346
 BoxCollider:
@@ -10080,8 +11144,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &450571946
 BoxCollider:
@@ -10335,8 +11427,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &462031824
 BoxCollider:
@@ -10477,6 +11597,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -10489,10 +11610,37 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents:
   - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &462340298
 BoxCollider:
@@ -10897,9 +12045,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents: []
-  floorStateEvents:
+  coverStateEvents:
   - Spawner 1 Wave 1
+  floorStateEvents:
   - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
@@ -10910,10 +12058,38 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   - Spawner 3 Wave 1
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &506173524
 BoxCollider:
@@ -11088,8 +12264,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &524994056
 BoxCollider:
@@ -11405,8 +12609,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &539217215
 BoxCollider:
@@ -11874,8 +13106,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &564827521
 BoxCollider:
@@ -12045,6 +13305,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -12052,15 +13313,42 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &573898540
 BoxCollider:
@@ -12201,6 +13489,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -12208,15 +13497,42 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &576170977
 BoxCollider:
@@ -12695,8 +14011,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &628541616
 BoxCollider:
@@ -12837,6 +14181,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -12849,10 +14194,37 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents:
   - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &631466245
 BoxCollider:
@@ -13132,6 +14504,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -13144,10 +14517,37 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents:
   - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &654501371
 BoxCollider:
@@ -13494,6 +14894,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -13501,15 +14902,42 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &682523747
 BoxCollider:
@@ -13747,8 +15175,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &700059606
 BoxCollider:
@@ -13889,6 +15345,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 1 Wave 2
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
   floorStateEvents:
@@ -13901,10 +15358,37 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents:
   - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &707743344
 BoxCollider:
@@ -14359,8 +15843,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &733378288
 BoxCollider:
@@ -14937,6 +16449,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -14949,10 +16462,37 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents:
   - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &777937628
 BoxCollider:
@@ -15303,10 +16843,38 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   - Spawner 3 Wave 1
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &785586099
 BoxCollider:
@@ -15446,9 +17014,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents: []
-  floorStateEvents:
+  coverStateEvents:
   - Spawner 1 Wave 1
+  floorStateEvents:
   - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
@@ -15461,8 +17029,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &797050457
 BoxCollider:
@@ -15702,6 +17298,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -15709,15 +17306,42 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &807231956
 BoxCollider:
@@ -15872,8 +17496,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &813602764
 BoxCollider:
@@ -16163,12 +17815,40 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   - Spawner 3 Wave 1
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &817353999
 BoxCollider:
@@ -16351,8 +18031,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &823821904
 BoxCollider:
@@ -16748,8 +18456,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &840093217
 BoxCollider:
@@ -16904,8 +18640,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &841119601
 BoxCollider:
@@ -17060,8 +18824,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &849157217
 BoxCollider:
@@ -17264,8 +19056,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &854525423
 BoxCollider:
@@ -17519,8 +19339,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &860246870
 BoxCollider:
@@ -17681,6 +19529,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 1 Wave 2
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
@@ -17693,10 +19542,37 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents:
   - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &880090713
 BoxCollider:
@@ -17837,6 +19713,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -17844,15 +19721,42 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &896681592
 BoxCollider:
@@ -18067,6 +19971,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -18074,15 +19979,42 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &929175084
 BoxCollider:
@@ -18322,6 +20254,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -18329,15 +20262,42 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &934920724
 BoxCollider:
@@ -18492,8 +20452,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &942288886
 BoxCollider:
@@ -18634,6 +20622,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -18646,10 +20635,37 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents:
   - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &945582503
 BoxCollider:
@@ -18789,9 +20805,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents: []
-  floorStateEvents:
+  coverStateEvents:
   - Spawner 1 Wave 1
+  floorStateEvents:
   - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
@@ -18804,8 +20820,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &952256107
 BoxCollider:
@@ -18946,6 +20990,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -18953,15 +20998,42 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &953201609
 BoxCollider:
@@ -19136,8 +21208,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &954167729
 BoxCollider:
@@ -19453,6 +21553,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -19465,10 +21566,37 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents:
   - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &958755788
 BoxCollider:
@@ -19696,8 +21824,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &977854365
 BoxCollider:
@@ -19837,9 +21993,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents: []
-  floorStateEvents:
+  coverStateEvents:
   - Spawner 1 Wave 1
+  floorStateEvents:
   - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
@@ -19852,8 +22008,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &996748864
 BoxCollider:
@@ -20189,8 +22373,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1014650573
 BoxCollider:
@@ -20504,8 +22716,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1037392170
 BoxCollider:
@@ -21022,8 +23262,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1060870497
 BoxCollider:
@@ -21164,6 +23432,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -21171,15 +23440,42 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1071340038
 BoxCollider:
@@ -21334,8 +23630,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1076517659
 BoxCollider:
@@ -21490,8 +23814,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1077028127
 BoxCollider:
@@ -21652,6 +24004,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -21659,15 +24012,42 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1084087048
 BoxCollider:
@@ -21958,8 +24338,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1105452175
 BoxCollider:
@@ -22171,8 +24579,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1118716993
 BoxCollider:
@@ -22313,6 +24749,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -22325,10 +24762,37 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents:
   - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1123132411
 BoxCollider:
@@ -22582,8 +25046,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1126301443
 BoxCollider:
@@ -22812,8 +25304,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1140165806
 BoxCollider:
@@ -22964,12 +25484,40 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   - Spawner 3 Wave 1
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1144947153
 BoxCollider:
@@ -23124,8 +25672,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1147649685
 BoxCollider:
@@ -23518,8 +26094,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1165319146
 BoxCollider:
@@ -23674,8 +26278,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1167016689
 BoxCollider:
@@ -23944,8 +26576,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1186931770
 BoxCollider:
@@ -24100,8 +26760,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1187470307
 BoxCollider:
@@ -24256,8 +26944,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1199710088
 BoxCollider:
@@ -24459,6 +27175,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -24466,15 +27183,42 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1211835468
 BoxCollider:
@@ -24742,8 +27486,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1214551470
 BoxCollider:
@@ -25006,8 +27778,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1228785515
 BoxCollider:
@@ -25167,9 +27967,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents: []
-  floorStateEvents:
+  coverStateEvents:
   - Spawner 1 Wave 1
+  floorStateEvents:
   - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
@@ -25182,8 +27982,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1244174225
 BoxCollider:
@@ -25323,9 +28151,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents: []
-  floorStateEvents:
+  coverStateEvents:
   - Spawner 1 Wave 1
+  floorStateEvents:
   - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
@@ -25336,10 +28164,38 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   - Spawner 3 Wave 1
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1257558423
 BoxCollider:
@@ -25649,6 +28505,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -25661,10 +28518,37 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents:
   - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1262756102
 BoxCollider:
@@ -25854,6 +28738,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -25861,15 +28746,42 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1275750777
 BoxCollider:
@@ -26089,8 +29001,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1306882864
 BoxCollider:
@@ -26750,8 +29690,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1351713878
 BoxCollider:
@@ -26991,8 +29959,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1364644705
 BoxCollider:
@@ -27147,8 +30143,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1366354431
 BoxCollider:
@@ -27329,6 +30353,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -27336,15 +30361,42 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1388768184
 BoxCollider:
@@ -27485,6 +30537,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -27492,15 +30545,42 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1394354572
 BoxCollider:
@@ -27715,6 +30795,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -27727,10 +30808,37 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents:
   - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1413211907
 BoxCollider:
@@ -27969,8 +31077,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1419345218
 BoxCollider:
@@ -28209,8 +31345,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1429489072
 BoxCollider:
@@ -28365,8 +31529,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1435292450
 BoxCollider:
@@ -28521,8 +31713,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1436338955
 BoxCollider:
@@ -28663,6 +31883,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -28670,15 +31891,42 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1453249466
 BoxCollider:
@@ -28958,6 +32206,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -28970,10 +32219,37 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents:
   - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1466696723
 BoxCollider:
@@ -29128,8 +32404,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1468090314
 BoxCollider:
@@ -29270,6 +32574,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -29277,15 +32582,42 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1468957567
 BoxCollider:
@@ -29426,6 +32758,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -29433,15 +32766,42 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1480688924
 BoxCollider:
@@ -29582,6 +32942,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -29589,15 +32950,42 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1492172661
 BoxCollider:
@@ -29857,6 +33245,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -29869,10 +33258,37 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents:
   - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1517256120
 BoxCollider:
@@ -30129,6 +33545,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -30136,15 +33553,42 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1529754748
 BoxCollider:
@@ -30299,8 +33743,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1531299676
 BoxCollider:
@@ -30441,6 +33913,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -30453,10 +33926,37 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents:
   - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1533272002
 BoxCollider:
@@ -30611,8 +34111,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1536767643
 BoxCollider:
@@ -30767,8 +34295,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1537034991
 BoxCollider:
@@ -30997,8 +34553,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1538536110
 BoxCollider:
@@ -31247,8 +34831,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1559005181
 BoxCollider:
@@ -31488,6 +35100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 1 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
@@ -31500,10 +35113,37 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents:
   - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1562269163
 BoxCollider:
@@ -31658,8 +35298,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1563831469
 BoxCollider:
@@ -31800,6 +35468,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -31807,15 +35476,42 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1566647465
 BoxCollider:
@@ -32044,8 +35740,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1571956708
 BoxCollider:
@@ -32287,8 +36011,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1598902115
 BoxCollider:
@@ -32542,8 +36294,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1607166039
 BoxCollider:
@@ -32857,6 +36637,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -32864,15 +36645,42 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1640018026
 BoxCollider:
@@ -33121,8 +36929,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1654001978
 BoxCollider:
@@ -33839,8 +37675,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1707666430
 BoxCollider:
@@ -34111,8 +37975,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1721464011
 BoxCollider:
@@ -34252,9 +38144,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents: []
-  floorStateEvents:
+  coverStateEvents:
   - Spawner 1 Wave 1
+  floorStateEvents:
   - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
@@ -34267,8 +38159,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1723210098
 BoxCollider:
@@ -34705,8 +38625,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1754455813
 BoxCollider:
@@ -34912,10 +38860,38 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   - Spawner 3 Wave 1
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1764667936
 BoxCollider:
@@ -35076,6 +39052,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 1 Wave 2
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
@@ -35088,10 +39065,37 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents:
   - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1776473974
 BoxCollider:
@@ -35320,8 +39324,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1789614391
 BoxCollider:
@@ -35476,8 +39508,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1799120540
 BoxCollider:
@@ -35617,9 +39677,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents: []
-  floorStateEvents:
+  coverStateEvents:
   - Spawner 1 Wave 1
+  floorStateEvents:
   - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
@@ -35632,8 +39692,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1799536561
 BoxCollider:
@@ -35830,8 +39918,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1813325832
 BoxCollider:
@@ -36033,6 +40149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -36045,10 +40162,37 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents:
   - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1822545438
 BoxCollider:
@@ -36203,8 +40347,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1824586874
 BoxCollider:
@@ -36606,8 +40778,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1846939594
 BoxCollider:
@@ -36748,6 +40948,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -36760,10 +40961,37 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents:
   - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1862551982
 BoxCollider:
@@ -36903,9 +41131,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents: []
-  floorStateEvents:
+  coverStateEvents:
   - Spawner 1 Wave 1
+  floorStateEvents:
   - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
@@ -36918,8 +41146,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1863135544
 BoxCollider:
@@ -37133,9 +41389,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents: []
-  floorStateEvents:
+  coverStateEvents:
   - Spawner 1 Wave 1
+  floorStateEvents:
   - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
@@ -37148,8 +41404,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1875741574
 BoxCollider:
@@ -37304,8 +41588,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1876074317
 BoxCollider:
@@ -37460,8 +41772,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1876168607
 BoxCollider:
@@ -37902,8 +42242,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1918361063
 BoxCollider:
@@ -38054,12 +42422,40 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   - Spawner 3 Wave 1
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1925162977
 BoxCollider:
@@ -38288,8 +42684,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1931948352
 BoxCollider:
@@ -38464,8 +42888,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1939637880
 BoxCollider:
@@ -38620,8 +43072,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1945871399
 BoxCollider:
@@ -38949,8 +43429,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &1989739925
 BoxCollider:
@@ -39238,9 +43746,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents: []
-  floorStateEvents:
+  coverStateEvents:
   - Spawner 1 Wave 1
+  floorStateEvents:
   - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
@@ -39251,10 +43759,38 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   - Spawner 3 Wave 1
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &2007312355
 BoxCollider:
@@ -39409,8 +43945,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &2008298569
 BoxCollider:
@@ -39599,8 +44163,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &2018203602
 BoxCollider:
@@ -40060,12 +44652,40 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   - Spawner 3 Wave 1
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &2041126251
 BoxCollider:
@@ -40206,6 +44826,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -40213,15 +44834,42 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &2046108681
 BoxCollider:
@@ -40376,8 +45024,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &2049794318
 BoxCollider:
@@ -41036,7 +45712,7 @@ MonoBehaviour:
     intensity: 0
     NumToNextWave: 0
     preEventNames:
-    - Spawner 3 Wave 4
+    - Spawner 3 Wave 5
     postEventNames: []
     spawnOffset: 0
     spawnTimeOffset: 0
@@ -41451,8 +46127,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &2071588898
 BoxCollider:
@@ -41582,8 +46286,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &2071659894
 BoxCollider:
@@ -41812,8 +46544,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &2079839510
 BoxCollider:
@@ -41968,8 +46728,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &2080439357
 BoxCollider:
@@ -42225,6 +47013,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -42232,15 +47021,42 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &2095179890
 BoxCollider:
@@ -42775,8 +47591,36 @@ MonoBehaviour:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
+  - Spawner 3 Wave 5
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
+  riseColor: {r: 0, g: 1, b: 0.9172416, a: 0}
+  flatColor: {r: 0.17647058, g: 0.17647058, b: 0.17647058, a: 0}
+  fallColor: {r: 1, g: 1, b: 1, a: 0}
   defaultState: 1
 --- !u!65 &2146424140
 BoxCollider:

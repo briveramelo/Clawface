@@ -19,6 +19,8 @@ public class Spawner : RoutineRunner
     public int currentNumEnemies = 0;
     public int totalNumEnemies = 0;
 
+    private float spawnHeightOffset = 50.0f;
+
 
     #region private variables
 
@@ -152,7 +154,10 @@ public class Spawner : RoutineRunner
     }
 
     void SpawnEnemy(Vector3 spawnPosition, PoolObjectType enemy) {
+        spawnPosition.y += spawnHeightOffset;
         GameObject spawnedObject = ObjectPool.Instance.GetObject(enemy);
+        spawnedObject.transform.position = spawnPosition;
+        //spawnedObject.SetActive(false);
 
         if (spawnedObject) {
             ISpawnable spawnable = spawnedObject.GetComponentInChildren<ISpawnable>();
@@ -161,7 +166,13 @@ public class Spawner : RoutineRunner
                 spawnable.RegisterDeathEvent(ReportDeath);
             }
 
-            spawnable.WarpToNavMesh(spawnPosition);
+            EnemyBase enemyBase = spawnedObject.GetComponent<EnemyBase>();
+            if (enemyBase)
+            {
+                enemyBase.SpawnWithRagdoll(spawnPosition);
+            }
+
+            //spawnable.WarpToNavMesh(spawnPosition);
             EventSystem.Instance.TriggerEvent(Strings.Events.ENEMY_SPAWNED, spawnedObject);
 
             currentNumEnemies++;
