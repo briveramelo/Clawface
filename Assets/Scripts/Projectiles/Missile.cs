@@ -157,7 +157,9 @@ public class Missile : MonoBehaviour {
         {
             position.y = hit.point.y;
         }
-        explodeVFX.transform.position = position;
+        if (explodeVFX) {
+            explodeVFX.transform.position = position;
+        }
     }
 
     private void ResetBullet()
