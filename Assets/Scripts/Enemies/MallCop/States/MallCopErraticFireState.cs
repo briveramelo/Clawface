@@ -1,11 +1,11 @@
 ﻿
-
+//Uses 
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using MovementEffects;
 
-public class MallCopErraticFireState : AIState {
+public class MallCopReanimatorFireState : AIState {
 
     private float currentAngleToTarget;
     private float lastAngleToTarget;
