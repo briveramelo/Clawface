@@ -16,7 +16,23 @@ public class WaveSystem : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Return))
         {
-            UpdateLevelUnitState();
+            currentWave++;
+
+            if (currentWave >= 3)
+                currentWave = 0;
+
+            switch (currentWave)
+            {
+                case 0:
+                    EventSystem.Instance.TriggerEvent(Strings.Events.PLE_TEST_WAVE_0);
+                    return;
+                case 1:
+                    EventSystem.Instance.TriggerEvent(Strings.Events.PLE_TEST_WAVE_1);
+                    return;
+                case 2:
+                    EventSystem.Instance.TriggerEvent(Strings.Events.PLE_TEST_WAVE_2);
+                    return;
+            }
         }
     }
 
@@ -34,8 +50,8 @@ public class WaveSystem : MonoBehaviour
         {
             EventSystem.Instance.TriggerEvent(Strings.Events.PLE_UPDATE_LEVELSTATE);
 
+            string wave = Strings.Events.PLE_TEST_WAVE_ + currentWave.ToString();
 
-            string wave = "PLE_TEST_WAVE_" + currentWave.ToString();
             EventSystem.Instance.TriggerEvent(wave);
         }
     }

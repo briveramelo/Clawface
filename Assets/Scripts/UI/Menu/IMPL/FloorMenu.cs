@@ -79,15 +79,20 @@ public class FloorMenu : Menu {
         {
             if(GO != null)
             {
-                LevelUnit LU = GO.GetComponent<LevelUnit>();
-
-                if (LU) LU.SetCurrentState(LevelUnitStates.pit);
+                List<LevelUnitStates> LUS = GO.GetComponent<PLEBlockUnit>().GetLevelStates();
+                LUS[WaveSystem.currentWave] = LevelUnitStates.pit;
             }
             else
             {
                 selectedObjects.Remove(GO);
             }
         }
+
+        if (EventSystem.Instance)
+        {
+            EventSystem.Instance.TriggerEvent(Strings.Events.PLE_UPDATE_LEVELSTATE);
+        }
+
     }
 
     public void FlatFloorAction()
@@ -98,14 +103,18 @@ public class FloorMenu : Menu {
         {
             if (GO != null)
             {
-                LevelUnit LU = GO.GetComponent<LevelUnit>();
-
-                if (LU) LU.SetCurrentState(LevelUnitStates.floor);
+                List<LevelUnitStates> LUS = GO.GetComponent<PLEBlockUnit>().GetLevelStates();
+                LUS[WaveSystem.currentWave] = LevelUnitStates.floor;
             }
             else
             {
                 selectedObjects.Remove(GO);
             }
+        }
+
+        if (EventSystem.Instance)
+        {
+            EventSystem.Instance.TriggerEvent(Strings.Events.PLE_UPDATE_LEVELSTATE);
         }
     }
 
@@ -117,14 +126,18 @@ public class FloorMenu : Menu {
         {
             if (GO != null)
             {
-                LevelUnit LU = GO.GetComponent<LevelUnit>();
-
-                if (LU) LU.SetCurrentState(LevelUnitStates.cover);
+                List<LevelUnitStates> LUS = GO.GetComponent<PLEBlockUnit>().GetLevelStates();
+                LUS[WaveSystem.currentWave] = LevelUnitStates.cover;
             }
             else
             {
                 selectedObjects.Remove(GO);
             }
+        }
+
+        if (EventSystem.Instance)
+        {
+            EventSystem.Instance.TriggerEvent(Strings.Events.PLE_UPDATE_LEVELSTATE);
         }
     }
 

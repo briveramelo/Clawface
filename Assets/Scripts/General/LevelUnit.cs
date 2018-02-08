@@ -154,6 +154,33 @@ public class LevelUnit : RoutineRunner {
         }
     }
 
+    public void DeRegisterEvent(string eventName)
+    {
+        if (coverStateEvents != null)
+        {
+            if (coverStateEvents.Contains(eventName))
+            {
+                coverStateEvents.Remove(eventName);
+            }
+        }
+
+        if (floorStateEvents != null)
+        {
+            if (floorStateEvents.Contains(eventName))
+            {
+                floorStateEvents.Remove(eventName);
+            }
+        }
+
+        if (pitStateEvents != null)
+        {
+            if (pitStateEvents.Contains(eventName))
+            {
+                pitStateEvents.Remove(eventName);
+            }
+        }
+    }
+
     private void CalculateStatePositions()
     {
         if(currentState == LevelUnitStates.cover)
