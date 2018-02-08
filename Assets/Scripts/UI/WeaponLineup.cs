@@ -18,6 +18,7 @@ public class WeaponLineup : MonoBehaviour
 
     [SerializeField] private GameObject[] slots;
     [SerializeField] private GameObject[] weapons;
+    [SerializeField] private Sprite[] weaponGraphs;
     [SerializeField] private ModType selectedWeapon = ModType.Geyser;
     [SerializeField] private float weaponSwapTime = 0.25f;
     [SerializeField] private Sprite selectedRightSprite, selectedLeftSprite;
@@ -27,11 +28,12 @@ public class WeaponLineup : MonoBehaviour
     [SerializeField] private Color initialColor = Color.blue;
     [SerializeField] private WeaponSelectGlowController glowControl;
     [SerializeField] private ButtonSFXEffects buttonFX;
+    [SerializeField] private Image graphImage;
 
     #endregion
 
     #region Private References
-    
+
     #endregion
 
     public ModType GetSelection()
@@ -79,20 +81,30 @@ public class WeaponLineup : MonoBehaviour
         LeanTween.scale(weapons[4], Vector3.zero, weaponSwapTime);
 
         selectedWeapon = weapons[1].GetComponent<WeaponTypeComponent>().typeOfMod;
+        graphImage.sprite = weaponGraphs[1];
 
         GameObject[] weaponsCopy = new GameObject[weapons.Length];
+        Sprite[] graphsCopy = new Sprite[weapons.Length];
         weapons.CopyTo(weaponsCopy, 0);
+        weaponGraphs.CopyTo(graphsCopy, 0);
 
         for (int i = weapons.Length - 1; i >= 0; i--)
         {
             if (i != weapons.Length - 1)
+            {
                 weaponsCopy[i + 1] = weapons[i];
+                graphsCopy[i + 1] = weaponGraphs[i];
+            }
             else
+            {
                 weaponsCopy[0] = weapons[i];
+                graphsCopy[0] = weaponGraphs[i];
+            }
         }
 
 
         this.weapons = weaponsCopy;
+        this.weaponGraphs = graphsCopy;
         
     }
     public void MoveLeft()
@@ -122,18 +134,30 @@ public class WeaponLineup : MonoBehaviour
         LeanTween.scale(weapons[4], new Vector3(0.5f, 0.5f, 0.5f), weaponSwapTime);
         
         selectedWeapon = weapons[3].GetComponent<WeaponTypeComponent>().typeOfMod;
+        graphImage.sprite = weaponGraphs[3];
+
         GameObject[] weaponsCopy = new GameObject[weapons.Length];
+        Sprite[] graphsCopy = new Sprite[weapons.Length];
         weapons.CopyTo(weaponsCopy,0);
+        weaponGraphs.CopyTo(graphsCopy, 0);
+
         for (int i =weapons.Length-1 ; i>=0; i--)
         {
             if (i != 0)
-                weaponsCopy[i-1] = weapons[i];
+            {
+                weaponsCopy[i - 1] = weapons[i];
+                graphsCopy[i - 1] = weaponGraphs[i];
+            }
             else
-                weaponsCopy[weapons.Length-1] = weapons[0];
+            {
+                weaponsCopy[weapons.Length - 1] = weapons[0];
+                graphsCopy[weaponGraphs.Length - 1] = weaponGraphs[0];
+            }
         }
         
 
         this.weapons = weaponsCopy;
+        this.weaponGraphs = graphsCopy;
         
     }
 }
