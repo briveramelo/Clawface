@@ -27,10 +27,6 @@ public class DashState : IPlayerState {
     protected int totalAttackPoses;
     [SerializeField]
     private ClawArmController clawArmController;
-    [SerializeField]
-    private bool useClawPunch;
-    [SerializeField]
-    private bool dashInLookDirection;
     #endregion
 
     #region Private Fields
@@ -61,21 +57,12 @@ public class DashState : IPlayerState {
             SFXManager.Instance.Play(SFXType.Dash, transform.position);
             dashPuff.Play();
             dashTrail.GetComponent<TrailRenderer>().enabled = true;
-            if (!isClawOut && useClawPunch)
-            {
-                isClawOut = true;
-                clawArmController.ExtendClawToDistance(stateVariables.clawPunchDistance);
-            }
         }
         currentFrame++;
         PlayAnimation();
         CheckForIFrames();
-        MovePlayer();
-        if (useClawPunch)
-        {
-            ClearProjectilesAndDamageEnemies();
-            //BlastEm();
-        }
+        MovePlayer();        
+        PushEnemies();
         if (currentFrame >= totalDashFrames) {
             ResetState();
         }
@@ -88,11 +75,7 @@ public class DashState : IPlayerState {
 
     public override void StateLateUpdate()
     {
-        if (useClawPunch)
-        {
-            currentRotation += Time.deltaTime * stateVariables.headSpinSpeed;
-            stateVariables.modelHead.transform.rotation = Quaternion.AngleAxis(currentRotation, Vector3.up);
-        }
+        
     }
     #endregion
 
@@ -140,15 +123,7 @@ public class DashState : IPlayerState {
 
     private void MovePlayer()
     {
-        Vector3 direction;
-        if (dashInLookDirection)
-        {
-            direction = stateVariables.velBody.GetForward();
-        }
-        else
-        {
-            direction = stateVariables.velBody.MoveDirection;
-        }        
+        Vector3 direction = stateVariables.velBody.MoveDirection;
         direction.y = 0f;
         stateVariables.velBody.velocity = direction * dashVelocity;
     }
@@ -166,26 +141,18 @@ public class DashState : IPlayerState {
         }
     }
 
-    private void ClearProjectilesAndDamageEnemies()
+    private void PushEnemies()
     {
-        string[] layers = { Strings.Layers.ENEMY_PROJECTILE, Strings.Layers.ENEMY };
-        Collider[] colliders = Physics.OverlapSphere(transform.position, stateVariables.clawPunchDistance, LayerMask.GetMask(layers));
+        string[] layers = { Strings.Layers.ENEMY };
+        Collider[] colliders = Physics.OverlapSphere(transform.position, stateVariables.dashEnemyCheckRadius, LayerMask.GetMask(layers));
         foreach (Collider collider in colliders)
-        {
-            BlasterBullet bullet = collider.GetComponent<BlasterBullet>();
-            if (bullet)
+        {            
+            EnemyBase enemyBase = collider.GetComponent<EnemyBase>();
+            if (enemyBase)
             {
-                bullet.DestroyBullet();
-            }
-            else
-            {
-                EnemyBase enemyBase = collider.GetComponent<EnemyBase>();
-                if (enemyBase)
-                {
-                    Vector3 direction = clawArmController.transform.forward;
-                    direction.y = 0f;
-                    enemyBase.Push(stateVariables.dashEnemyPushForce);
-                }
+                Vector3 direction = clawArmController.transform.forward;
+                direction.y = 0f;
+                enemyBase.Push(stateVariables.dashEnemyPushForce);
             }
         }
     }

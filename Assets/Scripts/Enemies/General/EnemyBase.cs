@@ -313,7 +313,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
                 }
             }
         }
-        animator.enabled = true;        
+        animator.enabled = true;
         AIController aiController = GetComponent<AIController>();
         if (aiController)
         {

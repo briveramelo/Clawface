@@ -81,7 +81,7 @@ public class MallCop : EnemyBase
         return false;
     }
     bool CheckToFinishFiring()
-    {
+    {        
         if (myStats.health <= myStats.skinnableHealth || alreadyStunned)
         {
             controller.CurrentState = stun;
@@ -89,9 +89,8 @@ public class MallCop : EnemyBase
             controller.DeActivateAI();
         }
 
-            if (controller.CurrentState == fire && fire.DoneFiring())
+        if (controller.CurrentState == fire && fire.DoneFiring())
             {
-
                 if (controller.DistanceFromTarget > closeEnoughToFireDistance)
                 {
                     ToleranceTimeToExit();
