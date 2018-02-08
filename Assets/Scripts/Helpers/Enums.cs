@@ -290,5 +290,13 @@ public enum EditorMenu
     SPAWN_MENU = 3,
     SAVE_MENU = 4,
     HELP_MENU = 5
-    
+
+}
+
+public enum FireMode
+{
+    AIM_TO_SHOOT,
+    SINGLE_TRIGGER,
+    AUTOFIRE,
+    MANUAL
 }
