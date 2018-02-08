@@ -68,7 +68,7 @@ namespace PlayerLevelEditor
 
             if (EventSystem.Instance)
             {
-                EventSystem.Instance.RegisterEvent(Strings.Events.CALL_NEXTWAVEENEMIES, CallNextWave);
+                EventSystem.Instance.RegisterEvent(Strings.Events.CALL_NEXT_WAVE, CallNextWave);
                 EventSystem.Instance.TriggerEvent(Strings.Events.PLE_TEST_WAVE_0);
             }
 
@@ -115,7 +115,7 @@ namespace PlayerLevelEditor
             LevelEditor.m_DynamicLevelSystem.DeRegisterEvent();
 
             if(EventSystem.Instance)
-                EventSystem.Instance.UnRegisterEvent(Strings.Events.CALL_NEXTWAVEENEMIES, CallNextWave);
+                EventSystem.Instance.UnRegisterEvent(Strings.Events.CALL_NEXT_WAVE, CallNextWave);
 
 
             foreach (GameObject UIObject in UIObjects)
@@ -288,7 +288,7 @@ namespace PlayerLevelEditor
             else
             {
                 NumEnemy = 0;
-                EventSystem.Instance.TriggerEvent(Strings.Events.CALL_NEXTWAVEENEMIES);
+                EventSystem.Instance.TriggerEvent(Strings.Events.CALL_NEXT_WAVE);
             }
         }
 

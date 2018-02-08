@@ -23,7 +23,6 @@ public class ClawArmController : MonoBehaviour {
     private bool retracting;
     private float extendTime;
     private float retractTime;
-    private BoxCollider collider;
 
     private float extendSpeed {
         get
@@ -52,12 +51,7 @@ public class ClawArmController : MonoBehaviour {
 
     private void Start()
     {
-        clawAnimationHandler.gameObject.SetActive(false);
-        collider = GetComponent<BoxCollider>();
-        if (collider)
-        {
-            collider.enabled = false;
-        }
+        clawAnimationHandler.gameObject.SetActive(false);        
     }
 
     // Update is called once per frame
@@ -96,22 +90,13 @@ public class ClawArmController : MonoBehaviour {
         extending = false;
         retracting = false;
         end.position = start.position;
-        end.forward = start.forward;
-        if (collider)
-        {
-            collider.enabled = false;
-            collider.center = Vector3.zero;
-        }
+        end.forward = start.forward;        
     }
 
     public void ExtendClawToDistance(float radius, bool enableCollider = false)
     {
         clawAnimationHandler.gameObject.SetActive(true);
         end.position = start.position + start.forward * radius;
-        if (collider)
-        {
-            collider.enabled = enableCollider;
-        }
     }
 
     public Vector3 GetEndPosition()
@@ -135,11 +120,6 @@ public class ClawArmController : MonoBehaviour {
         if (end.position != start.position)
         {
             arm.transform.forward = (end.position - start.position).normalized;
-        }
-
-        if (collider)
-        {
-            collider.center = end.localPosition;
         }
     }
 
