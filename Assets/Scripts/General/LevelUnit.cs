@@ -5,8 +5,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using System.Linq;
 using MovementEffects;
-public enum LevelUnitStates
-{    
+public enum LevelUnitStates {
     cover,
     floor,
     pit
@@ -25,10 +24,13 @@ public class LevelUnit : RoutineRunner {
     private LevelUnitStates currentState;
     private LevelUnitStates nextState;
     private GameObject blockingObject;
-    List<Collider> overlappingColliders=new List<Collider>(10);
+    List<Collider> overlappingColliders = new List<Collider>(10);
     private int overlappingObjects;
     MeshRenderer meshRenderer;
     MaterialPropertyBlock materialPropertyBlock;
+    Color startColor, targetColor;
+    const string AlbedoTint = "_AlbedoTint";
+    string tintCoroutineName { get { return coroutineName + AlbedoTint; } }
     #endregion
 
     #region serialized fields
@@ -41,7 +43,10 @@ public class LevelUnit : RoutineRunner {
     [SerializeField] float yMoveSpeed = 0.03f;
 
     [SerializeField] AbsAnim colorShiftAnim;
-    [SerializeField] Color riseColor, fallColor;
+    [SerializeField] Color riseColor, flatColor, fallColor;
+
+    
+    
     #endregion
 
     #region public variables
@@ -49,11 +54,9 @@ public class LevelUnit : RoutineRunner {
     #endregion
 
     #region unity lifecycle
-    private void Awake()
-    {        
-        meshRenderer = GetComponent<MeshRenderer>();        
-        if (meshRenderer)
-        {
+    private void Awake() {
+        meshRenderer = GetComponent<MeshRenderer>();
+        if (meshRenderer) {
             meshSizeY = meshRenderer.bounds.size.y;
             meshSizeZ = meshRenderer.bounds.size.z;
             meshSizeX = meshRenderer.bounds.size.x;
@@ -65,128 +68,106 @@ public class LevelUnit : RoutineRunner {
         CalculateStatePositions();
     }
 
-    private void Start()
-    {
+    private void Start() {
         RegisterToEvents();
     }
 
-    private void OnDestroy()
-    {
-        if (EventSystem.Instance)
-        {
+    private void OnDestroy() {
+        if (EventSystem.Instance) {
             DeRegisterFromEvents();
         }
     }
 
-    void FixedUpdate () {
-        if (isTransitioning)
-        {
+    void FixedUpdate() {
+        if (isTransitioning) {
             if (overlappingObjects == 0) {
                 MoveToNewPosition();
             }
-        }        
+        }
     }
 
     private void OnTriggerStay(Collider other) {
         if (isTransitioning) {
-            if (other.gameObject.tag.Equals(Strings.Tags.PLAYER) || other.gameObject.tag.Equals(Strings.Tags.ENEMY)) {                
-                if (!overlappingColliders.Contains(other)) {                    
+            if (other.gameObject.tag.Equals(Strings.Tags.PLAYER) || other.gameObject.tag.Equals(Strings.Tags.ENEMY)) {
+                if (!overlappingColliders.Contains(other)) {
                     overlappingObjects++;
                     overlappingColliders.Add(other);
                     Timing.RunCoroutine(WaitToRemove(other), Segment.FixedUpdate, coroutineName);
                 }
             }
-        }        
+        }
     }
 
     IEnumerator<float> WaitToRemove(Collider other) {
         yield return Timing.WaitForSeconds(.25f);
-        overlappingColliders.Remove(other);        
+        overlappingColliders.Remove(other);
         yield return 0f;
         overlappingObjects--;
     }
     #endregion
 
     #region private functions
-    public void RegisterToEvents()
-    {
-        if (coverStateEvents != null)
-        {
-            foreach (string eventName in coverStateEvents)
-            {
+    public void RegisterToEvents() {
+        if (coverStateEvents != null) {
+            foreach (string eventName in coverStateEvents) {
                 EventSystem.Instance.RegisterEvent(eventName, TransitionToCoverState);
             }
         }
 
-        if (floorStateEvents != null)
-        {
-            foreach (string eventName in floorStateEvents)
-            {
+        if (floorStateEvents != null) {
+            foreach (string eventName in floorStateEvents) {
                 EventSystem.Instance.RegisterEvent(eventName, TransitionToFloorState);
             }
         }
 
-        if (pitStateEvents != null)
-        {
-            foreach (string eventName in pitStateEvents)
-            {
+        if (pitStateEvents != null) {
+            foreach (string eventName in pitStateEvents) {
                 EventSystem.Instance.RegisterEvent(eventName, TransitionToPitState);
             }
         }
     }
 
-    public void DeRegisterFromEvents()
-    {
-        if (coverStateEvents != null)
-        {
-            foreach (string eventName in coverStateEvents)
-            {
+    public void DeRegisterFromEvents() {
+        if (coverStateEvents != null) {
+            foreach (string eventName in coverStateEvents) {
                 EventSystem.Instance.UnRegisterEvent(eventName, TransitionToCoverState);
             }
         }
 
-        if (floorStateEvents != null)
-        {
-            foreach (string eventName in floorStateEvents)
-            {
+        if (floorStateEvents != null) {
+            foreach (string eventName in floorStateEvents) {
                 EventSystem.Instance.UnRegisterEvent(eventName, TransitionToFloorState);
             }
         }
 
-        if (pitStateEvents != null)
-        {
-            foreach (string eventName in pitStateEvents)
-            {
+        if (pitStateEvents != null) {
+            foreach (string eventName in pitStateEvents) {
                 EventSystem.Instance.UnRegisterEvent(eventName, TransitionToPitState);
             }
         }
     }
 
-    private void CalculateStatePositions()
-    {
-        if(currentState == LevelUnitStates.cover)
-        {
+    private void CalculateStatePositions() {
+        if (currentState == LevelUnitStates.cover) {
             coverYPosition = transform.position.y;
             floorYPosition = coverYPosition - meshSizeY;
             pitYPosition = floorYPosition - meshSizeY;
-        }else if(currentState == LevelUnitStates.floor)
-        {
+        }
+        else if (currentState == LevelUnitStates.floor) {
             floorYPosition = transform.position.y;
             coverYPosition = floorYPosition + meshSizeY;
             pitYPosition = floorYPosition - meshSizeY;
-        }else if(currentState == LevelUnitStates.pit)
-        {
+        }
+        else if (currentState == LevelUnitStates.pit) {
             pitYPosition = transform.position.y;
             floorYPosition = pitYPosition + meshSizeY;
             coverYPosition = floorYPosition + meshSizeY;
         }
-    }    
+    }
 
-    private void MoveToNewPosition()
-    {
+    private void MoveToNewPosition() {
         Vector3 newPosition = transform.position;
-        switch (nextState)
-        {
+        switch (nextState) {
             case LevelUnitStates.cover:
                 newPosition = new Vector3(transform.position.x, coverYPosition, transform.position.z);
                 break;
@@ -197,23 +178,19 @@ public class LevelUnit : RoutineRunner {
                 newPosition = new Vector3(transform.position.x, pitYPosition, transform.position.z);
                 break;
         }
-        if (newPosition != transform.position)
-        {
+        if (newPosition != transform.position) {
             transform.position = Vector3.MoveTowards(transform.position, newPosition, yMoveSpeed * meshSizeY);
-            if (Vector3.Distance(transform.position, newPosition) < 0.01f)
-            {
+            if (Vector3.Distance(transform.position, newPosition) < 0.01f) {
                 transform.position = newPosition;
                 currentState = nextState;
                 isTransitioning = false;
-                if(currentState == LevelUnitStates.floor)
-                {
+                if (currentState == LevelUnitStates.floor) {
                     gameObject.tag = Strings.Tags.FLOOR;
                     gameObject.layer = (int)Layers.Ground;
                     HideBlockingObject();
-                }                
+                }
             }
-            switch (nextState)
-            {
+            switch (nextState) {
                 case LevelUnitStates.cover:
                     gameObject.tag = Strings.Tags.WALL;
                     gameObject.layer = (int)Layers.Obstacle;
@@ -230,22 +207,18 @@ public class LevelUnit : RoutineRunner {
         }
     }
 
-    private void AddEvent(ref List<string> eventNames, string eventName)
-    {
-        if(eventNames == null)
-        {
+    private void AddEvent(ref List<string> eventNames, string eventName) {
+        if (eventNames == null) {
             eventNames = new List<string>();
         }
-        if (!eventNames.Contains(eventName))
-        {
+        if (!eventNames.Contains(eventName)) {
             eventNames.Add(eventName);
         }
     }
 
-    private void CreateBlockingObject()
-    {        
+    private void CreateBlockingObject() {
         blockingObject = new GameObject("Blocking Object");
-        blockingObject.SetActive(false);        
+        blockingObject.SetActive(false);
         blockingObject.transform.SetParent(transform.parent);
         blockingObject.transform.position = new Vector3(transform.position.x, coverYPosition, transform.position.z);
         blockingObject.transform.localScale = new Vector3(meshSizeX, meshSizeY, meshSizeZ);
@@ -254,22 +227,15 @@ public class LevelUnit : RoutineRunner {
         blockingObject.layer = LayerMask.NameToLayer(Strings.Layers.OBSTACLE);
     }
 
-    private void ShowBlockingObject()
-    {
-        if (!blockingObject)
-        {
+    private void ShowBlockingObject() {
+        if (!blockingObject) {
             CreateBlockingObject();
         }
 
-        if (!blockingObject.activeSelf)
-        {
+        if (!blockingObject.activeSelf) {
             blockingObject.SetActive(true);
         }
-    }
-
-    const string AlbedoTint = "_AlbedoTint";
-    string tintCoroutineName { get { return coroutineName + AlbedoTint; } }
-    Color startColor, targetColor;
+    }    
 
     void OnColorChange(float progress) {
         Color newColor = startColor + (targetColor - startColor) * progress;
@@ -279,65 +245,52 @@ public class LevelUnit : RoutineRunner {
     #endregion
 
     #region public functions
-    public void SetCurrentState(LevelUnitStates newState)
-    {
-        
+    public void SetCurrentState(LevelUnitStates newState) {
+
 
         currentState = newState;
         CalculateStatePositions();
     }
 
-    public void ClearEvents()
-    {
-        if (coverStateEvents != null)
-        {
+    public void ClearEvents() {
+        if (coverStateEvents != null) {
             coverStateEvents.Clear();
         }
-        if (floorStateEvents != null)
-        {
+        if (floorStateEvents != null) {
             floorStateEvents.Clear();
         }
-        if (pitStateEvents != null)
-        {
+        if (pitStateEvents != null) {
             pitStateEvents.Clear();
         }
     }
 
-    public void AddCoverStateEvent(string eventName)
-    {
+    public void AddCoverStateEvent(string eventName) {
         AddEvent(ref coverStateEvents, eventName);
     }
 
-    public void AddFloorStateEvent(string eventName)
-    {
+    public void AddFloorStateEvent(string eventName) {
         AddEvent(ref floorStateEvents, eventName);
     }
 
-    public void AddPitStateEvent(string eventName)
-    {
+    public void AddPitStateEvent(string eventName) {
         AddEvent(ref pitStateEvents, eventName);
     }
 
-    public bool CheckForEvent(string eventName, LevelUnitStates state)
-    {
+    public bool CheckForEvent(string eventName, LevelUnitStates state) {
         bool result = false;
-        switch (state)
-        {
+        switch (state) {
             case LevelUnitStates.cover:
-                if (coverStateEvents != null)
-                {
+                if (coverStateEvents != null) {
                     result = coverStateEvents.Contains(eventName);
                 }
                 break;
             case LevelUnitStates.floor:
-                if (floorStateEvents != null)
-                {
+                if (floorStateEvents != null) {
                     result = floorStateEvents.Contains(eventName);
                 }
                 break;
             case LevelUnitStates.pit:
-                if (pitStateEvents != null)
-                {
+                if (pitStateEvents != null) {
                     result = pitStateEvents.Contains(eventName);
                 }
                 break;
@@ -345,51 +298,47 @@ public class LevelUnit : RoutineRunner {
         return result;
     }
 
-    public void TransitionToCoverState(params object[] inputs)
-    {
-        
-        if (currentState != LevelUnitStates.cover)
-        {
+    public void TransitionToCoverState(params object[] inputs) {
+
+        if (currentState != LevelUnitStates.cover) {
             nextState = LevelUnitStates.cover;
-            TriggerColorShift(nextState);
             isTransitioning = true;
-        }        
+        }
+        TriggerColorShift(LevelUnitStates.cover);
     }
 
-    public void TransitionToFloorState(params object[] inputs)
-    {
-        
-        if (currentState != LevelUnitStates.floor)
-        {
+    public void TransitionToFloorState(params object[] inputs) {
+
+        if (currentState != LevelUnitStates.floor) {
             nextState = LevelUnitStates.floor;
-            TriggerColorShift(nextState);
             isTransitioning = true;
-        }        
+        }
+        TriggerColorShift(LevelUnitStates.floor);
     }
 
-    public void TransitionToPitState(params object[] inputs)
-    {
-        
-        if (currentState != LevelUnitStates.pit)
-        {
+    public void TransitionToPitState(params object[] inputs) {
+
+        if (currentState != LevelUnitStates.pit) {
             nextState = LevelUnitStates.pit;
-            TriggerColorShift(nextState);
             isTransitioning = true;
-        }        
+        }
+        TriggerColorShift(LevelUnitStates.pit);
     }
 
-    public void HideBlockingObject()
-    {
-        if (blockingObject != null)
-        {
+    public void HideBlockingObject() {
+        if (blockingObject != null) {
             blockingObject.SetActive(false);
         }
     }
 
     void TriggerColorShift(LevelUnitStates newState) {
         Timing.KillCoroutines(tintCoroutineName);
-        startColor = meshRenderer.material.GetColor(AlbedoTint);
-        targetColor = newState == LevelUnitStates.cover ? riseColor : fallColor;
+        startColor = materialPropertyBlock.GetVector(AlbedoTint);
+        switch (newState) {
+            case LevelUnitStates.cover: targetColor = riseColor; break;
+            case LevelUnitStates.floor: targetColor = flatColor; break;
+            case LevelUnitStates.pit: targetColor = fallColor; break;
+        }
         colorShiftAnim.Animate(tintCoroutineName);
     }
 
