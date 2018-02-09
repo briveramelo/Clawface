@@ -11,8 +11,20 @@ public enum LevelUnitStates {
     floor,
     pit
 }
+public interface ILevelTilable {
+    void SetCurrentState(LevelUnitStates newState);
+    void ClearEvents();
+    void AddCoverStateEvent(string eventName);
+    void AddFloorStateEvent(string eventName);
+    void AddPitStateEvent(string eventName);
+    bool CheckForEvent(string eventName, LevelUnitStates state);
+    void TransitionToCoverState(params object[] inputs);
+    void TransitionToFloorState(params object[] inputs);
+    void TransitionToPitState(params object[] inputs);
+    void HideBlockingObject();
+}
 
-public class LevelUnit : RoutineRunner {
+public class LevelUnit : RoutineRunner, ILevelTilable {
 
     #region private variables
     private float meshSizeY;
@@ -32,15 +44,13 @@ public class LevelUnit : RoutineRunner {
     Color startColor, targetColor;
     const string AlbedoTint = "_AlbedoTint";
     string tintCoroutineName { get { return coroutineName + AlbedoTint; } }
+    List<LevelUnitStates> levelUnitStates = new List<LevelUnitStates>();
     #endregion
 
     #region serialized fields
-    [SerializeField]
-    private List<string> coverStateEvents;
-    [SerializeField]
-    private List<string> floorStateEvents;
-    [SerializeField]
-    private List<string> pitStateEvents;
+    [SerializeField] private List<string> coverStateEvents = new List<string>();
+    [SerializeField] private List<string> floorStateEvents = new List<string>();
+    [SerializeField] private List<string> pitStateEvents = new List<string>();
     [SerializeField] float yMoveSpeed = 0.03f;
 
     [SerializeField] AbsAnim colorShiftAnim;
@@ -114,7 +124,8 @@ public class LevelUnit : RoutineRunner {
     #endregion
 
     #region private functions
-    public void RegisterToEvents() {
+    public void RegisterToEvents() {        
+
         if (coverStateEvents != null) {
             foreach (string eventName in coverStateEvents) {
                 EventSystem.Instance.RegisterEvent(eventName, TransitionToCoverState);
@@ -135,6 +146,7 @@ public class LevelUnit : RoutineRunner {
     }
 
     public void DeRegisterFromEvents() {
+        levelUnitStates.Clear();
         if (coverStateEvents != null) {
             foreach (string eventName in coverStateEvents) {
                 EventSystem.Instance.UnRegisterEvent(eventName, TransitionToCoverState);
@@ -282,8 +294,6 @@ public class LevelUnit : RoutineRunner {
 
     #region public functions
     public void SetCurrentState(LevelUnitStates newState) {
-
-
         currentState = newState;
         CalculateStatePositions();
     }
@@ -301,14 +311,17 @@ public class LevelUnit : RoutineRunner {
     }
 
     public void AddCoverStateEvent(string eventName) {
+        levelUnitStates.Add(LevelUnitStates.cover);
         AddEvent(ref coverStateEvents, eventName);
     }
 
     public void AddFloorStateEvent(string eventName) {
+        levelUnitStates.Add(LevelUnitStates.floor);
         AddEvent(ref floorStateEvents, eventName);
     }
 
     public void AddPitStateEvent(string eventName) {
+        levelUnitStates.Add(LevelUnitStates.pit);
         AddEvent(ref pitStateEvents, eventName);
     }
 

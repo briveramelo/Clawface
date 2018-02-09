@@ -29,6 +29,7 @@ public class PropsMenu : Menu
 
     [SerializeField] private Button initiallySelected;
     [SerializeField] private LevelEditor editorInstance;
+    [SerializeField] private Transform realLevelParent;
 
     #endregion
 
@@ -65,7 +66,12 @@ public class PropsMenu : Menu
 
                 if (selectedProp)
                 {
-                    newWorldProp = GameObject.Instantiate(selectedProp, sceneMousePos, Quaternion.identity, transform);
+                    Transform propsParent = realLevelParent.Find(Strings.Editor.Props);
+                    if (propsParent == null) {
+                        propsParent = Instantiate(new GameObject(Strings.Editor.Props), sceneMousePos, Quaternion.identity, realLevelParent).transform;
+                        propsParent.name = Strings.Editor.Props;
+                    }
+                    newWorldProp = GameObject.Instantiate(selectedProp, sceneMousePos, Quaternion.identity, propsParent);
                 }
             }
 
