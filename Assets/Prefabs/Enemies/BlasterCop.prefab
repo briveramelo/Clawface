@@ -845,6 +845,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4283075463157132}
   - component: {fileID: 212873936275070074}
+  - component: {fileID: 114234631545339266}
   m_Layer: 9
   m_Name: Outline
   m_TagString: Untagged
@@ -1218,6 +1219,7 @@ GameObject:
   - component: {fileID: 4342439602971446}
   - component: {fileID: 137161068071271554}
   - component: {fileID: 114702588984713274}
+  - component: {fileID: 114826797397779088}
   m_Layer: 0
   m_Name: Enemy_1_mesh
   m_TagString: Untagged
@@ -2889,6 +2891,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 348b0120920885b4195bf71cb50e01dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114234631545339266
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1643876914540702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d20957195496ebf4692b64d1b4f3476b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  palette: {fileID: 11400000, guid: b75be58f903358146b59385003d16afc, type: 2}
+  type: 0
+  updateTime: 0
 --- !u!114 &114298957372922056
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3072,6 +3088,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   axis: 4
   rotationSpeed: 2
+--- !u!114 &114826797397779088
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1887600873005720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc7084e61ce48b14d854732afc9e46bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  palette: {fileID: 11400000, guid: b75be58f903358146b59385003d16afc, type: 2}
+  type: 0
+  updateTime: 0
+  colorName: _ASEOutlineColor
+  materialIndex: 0
 --- !u!114 &114865393807199374
 MonoBehaviour:
   m_ObjectHideFlags: 1
