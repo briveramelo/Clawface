@@ -285,6 +285,7 @@ GameObject:
   - component: {fileID: 4652075277596738}
   - component: {fileID: 114383598510306820}
   - component: {fileID: 114487690885405298}
+  - component: {fileID: 114541910711848530}
   m_Layer: 9
   m_Name: OutlineParent (1)
   m_TagString: Untagged
@@ -3499,7 +3500,8 @@ MonoBehaviour:
   hitFlashColor: {r: 1, g: 1, b: 1, a: 1}
   hitFlashStrength: 1
   hitFlashTime: 0.25
-  stunnedFlashColor: {r: 0.741, g: 1, b: 1, a: 1}
+  edibleColorPalette: {fileID: 11400000, guid: 2f7c2b8d53709ec49a6626fbe707fe94, type: 2}
+  edibleColorPaletteType: 0
   stunnedFlashInterval: 0.5
   proximityFlashInterval: 0.2
   stunnedFlashStrength: 1
@@ -3721,6 +3723,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 348b0120920885b4195bf71cb50e01dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114541910711848530
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1175987854693164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d78df81fd98c30a4cb033e17495b4a87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mode: 1
+  sprite: {fileID: 212812660468440806}
+  enemy: {fileID: 114040901487755194}
 --- !u!114 &114567799476784482
 MonoBehaviour:
   m_ObjectHideFlags: 1

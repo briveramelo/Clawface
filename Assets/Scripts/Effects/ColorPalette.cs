@@ -8,6 +8,19 @@ public class ColorPalette : ScriptableObject
     [SerializeField] Color colorPrimary;
     [SerializeField] Color colorSecondary;
 
+    public Color GetColor (ColorType type)
+    {
+        switch (type)
+        {
+            case ColorType.Primary:
+                return colorPrimary;
+            case ColorType.Secondary:
+                return colorSecondary;
+            default:
+                return default(Color);
+        }
+    }
+
     public Color PrimaryColor { get { return colorPrimary; } }
     public Color SecondaryColor { get { return colorSecondary; } }
 

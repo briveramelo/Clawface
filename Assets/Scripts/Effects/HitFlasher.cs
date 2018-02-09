@@ -39,7 +39,9 @@ namespace Turing.VFX
 
         [Header("Stunned Flash Settings")]
 
-        [SerializeField] Color stunnedFlashColor = Color.white;
+        //[SerializeField] Color stunnedFlashColor = Color.white;
+        [SerializeField] ColorPalette edibleColorPalette;
+        [SerializeField] ColorPalette.ColorType edibleColorPaletteType;
 
         [Range(0.01f, 10.0f)]
         [SerializeField] float stunnedFlashInterval = 0.5f;
@@ -146,7 +148,7 @@ namespace Turing.VFX
 
 
                 float flashStrength = Mathf.Clamp01(Mathf.Pow(stunnedFlashStrength * (0.5f + Mathf.Sin(2f * Mathf.PI * percent) + 0.5f), stunnedFlashPower));
-                SetFlashStrength(flashStrength, stunnedFlashColor);
+                SetFlashStrength(flashStrength, edibleColorPalette.GetColor(edibleColorPaletteType));
 
                 t = (t + Time.unscaledDeltaTime) % (flashInterval);
 
