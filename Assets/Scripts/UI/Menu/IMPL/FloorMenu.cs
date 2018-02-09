@@ -45,7 +45,7 @@ public class FloorMenu : Menu {
         {
             if(initialized)
             {
-                UpdateObjectPreview();
+                //UpdateObjectPreview();
             }
 
             if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN))
@@ -193,7 +193,7 @@ public class FloorMenu : Menu {
         }
 
         //draw preview block at location
-        ToolLib.draft(previewGridBlock, ToolLib.ConvertToGrid(sceneMousePos - previewGridBlock.transform.position), Color.green);
+        //ToolLib.draft(previewGridBlock, ToolLib.ConvertToGrid(sceneMousePos - previewGridBlock.transform.position), Color.green);
 
     }
 
