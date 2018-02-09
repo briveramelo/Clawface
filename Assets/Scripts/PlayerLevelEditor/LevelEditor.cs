@@ -88,7 +88,6 @@ namespace PlayerLevelEditor
         public void EditorInitialize(params object[] par)
         {
             m_DynamicLevelSystem = new DynamicLevelSystem();
-            propsEditorMenu.Initialize();
             dynLevelEditorMenu.Initialize();
             //ObjectDB = new Database();
 

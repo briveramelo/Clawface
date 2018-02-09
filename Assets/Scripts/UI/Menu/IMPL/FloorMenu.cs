@@ -21,7 +21,7 @@ public class FloorMenu : Menu {
     #region Private Fields
 
     private bool inputGuard = false;
-    private GameObject levelBlock;
+    private GameObject previewGridBlock;
     private bool initialized = false;
     private float raycastDistance = 1000.0f;
     private Vector3 sceneMousePos;
@@ -64,7 +64,7 @@ public class FloorMenu : Menu {
 
     public void Initialize(params object[] par)
     {
-        levelBlock = Resources.Load(Strings.Editor.RESOURCE_PATH + Strings.Editor.BASIC_LVL_BLOCK) as GameObject;
+        previewGridBlock = Resources.Load(Strings.Editor.RESOURCE_PATH + Strings.Editor.BASIC_LVL_BLOCK) as GameObject;
 
         initialized = true;
     }
@@ -193,7 +193,7 @@ public class FloorMenu : Menu {
         }
 
         //draw preview block at location
-        ToolLib.draft(levelBlock, ToolLib.ConvertToGrid(sceneMousePos - levelBlock.transform.position), Color.green);
+        ToolLib.draft(previewGridBlock, ToolLib.ConvertToGrid(sceneMousePos - previewGridBlock.transform.position), Color.green);
 
     }
 

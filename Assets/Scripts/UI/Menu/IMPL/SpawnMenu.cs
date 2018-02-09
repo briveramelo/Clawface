@@ -20,6 +20,8 @@ public class SpawnMenu : Menu {
 
     [SerializeField] private Button initiallySelected;
     [SerializeField] private LevelEditor editorInstance;
+    [SerializeField] private GameObject realLevelParent;
+    [SerializeField] private MouseHelper mHelper;
 
     #endregion
 

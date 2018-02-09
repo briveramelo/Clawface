@@ -1,11 +1,13 @@
-﻿using System.Collections;
+﻿//Garin
+
+using System.Collections;
+using System.Collections.Generic;
 
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 using PlayerLevelEditor;
-using System.Collections.Generic;
 
 public class PropsMenu : Menu
 {
@@ -20,9 +22,6 @@ public class PropsMenu : Menu
         }
     }
 
-
-
-
     #endregion
 
     #region Serialized Unity Fields
@@ -35,22 +34,12 @@ public class PropsMenu : Menu
     #endregion
 
     #region Private Fields
-
-    //TODO: Only uses the level block prefab, need to hook in new method
-    //to select other items
-    private static GameObject levelBlock;
-    private GameObject mainLevelObject;
-    private float raycastDistance = 1000.0f;
-    private Vector3 sceneMousePos;
-    private bool initialized = false;
-    private Vector3 newItemPos = Vector3.zero;
-
+   
     private GameObject selectedProp = null;
     private GameObject newWorldProp = null;
-
-    PointerEventData pointerData;
-
+    private PointerEventData pointerData;
     private bool inputGuard = false;
+    
     #endregion
 
 
@@ -61,7 +50,6 @@ public class PropsMenu : Menu
     {
         if(inputGuard)
         {
-            //we click on a prop?
             if(Input.GetMouseButtonDown(MouseButtons.LEFT) && selectedProp == null)
             {
                 selectedProp = RaycastToUI();
@@ -116,28 +104,6 @@ public class PropsMenu : Menu
     public PropsMenu() : base(Strings.MenuStrings.ADD_PROPS_PLE)
     { }
 
-    public void Initialize(params object[] par)
-    {
-        mainLevelObject = EditorToolKit.FindGameObject("LEVEL");
-        levelBlock = Resources.Load(Strings.Editor.RESOURCE_PATH + Strings.Editor.BASIC_LVL_BLOCK) as GameObject;
-
-        initialized = true;
-    }
-
-    public void AddAction()
-    {
-        if (mainLevelObject == null)
-        {
-            Initialize();
-        }
-
-        GameObject _instance = GameObject.Instantiate(levelBlock, newItemPos, Quaternion.identity);
-
-        _instance.transform.SetParent(mainLevelObject.transform);
-
-        newItemPos = Vector3.zero;
-
-    }
 
     #endregion
 
@@ -158,7 +124,6 @@ public class PropsMenu : Menu
     {
         base.HideStarted();
         inputGuard = false;
-        initialized = false;
     }
 
     protected override void DefaultShow(Transition transition, Effect[] effects)
