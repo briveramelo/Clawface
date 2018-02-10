@@ -20,12 +20,17 @@ public class DataPersister : MonoBehaviour {
         if (!Directory.Exists(PathDirectory)) {
             Directory.CreateDirectory(PathDirectory);
         }
-
         if (File.Exists(FilePath)) {
-            BinaryFormatter bf = new BinaryFormatter();
-            FileStream fileStream = File.Open(FilePath, FileMode.Open);
-            ActiveDataSave = new DataSave((DataSave)bf.Deserialize(fileStream));
-            fileStream.Close();
+            try {
+                BinaryFormatter bf = new BinaryFormatter();
+                FileStream fileStream = File.Open(FilePath, FileMode.Open);
+                ActiveDataSave = new DataSave((DataSave)bf.Deserialize(fileStream));
+                fileStream.Close();
+            }
+            catch {
+                File.Delete(FilePath);
+                ActiveDataSave = new DataSave();
+            }
         }
         else {
             ActiveDataSave = new DataSave();
