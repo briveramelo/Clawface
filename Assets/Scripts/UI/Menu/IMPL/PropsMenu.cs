@@ -66,6 +66,7 @@ public class PropsMenu : Menu
             else if (UpdatePreview) {
                 UpdatePreviewPosition();
             }
+            //Make function for delete selected item
 
             if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN))
             {

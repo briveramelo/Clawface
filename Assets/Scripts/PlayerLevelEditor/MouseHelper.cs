@@ -30,7 +30,15 @@ public class MouseHelper : MonoBehaviour {
     }
     private void Update() {
         r = Camera.main.ScreenPointToRay(Input.mousePosition);
-        
+
+
+        RaycastItems(r);
+        RaycastGround(r);
+
+
+    }
+
+    void RaycastItems(Ray r) {
         hitItem = Physics.Raycast(r, out raycastHit, 1000.0f);
         if (hitItem) {
             currentHoveredObject = raycastHit.transform.gameObject;
@@ -39,7 +47,9 @@ public class MouseHelper : MonoBehaviour {
         else {
             currentHoveredObject = null;
         }
+    }
 
+    void RaycastGround(Ray r) {
         hitTile = Physics.Raycast(r, out raycastHitTile, 1000.0f, layerMask);
         if (hitTile) {
             currentBlockUnit = raycastHitTile.transform.gameObject.GetComponent<PLEBlockUnit>();
@@ -47,6 +57,7 @@ public class MouseHelper : MonoBehaviour {
         else {
             currentBlockUnit = null;
         }
+
     }
 
     #endregion 
