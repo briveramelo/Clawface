@@ -10,13 +10,13 @@ public class MouseHelper : MonoBehaviour {
     public static GameObject currentHoveredObject;
     public static PLEBlockUnit currentBlockUnit;
     public static Vector3 currentMouseWorldPosition;
-
+    public static RaycastHit raycastHit;
+    public static bool hitItem;
     #endregion
 
     #region Private Fields
 
     private Ray r;
-    private RaycastHit h;
 
     #endregion
 
@@ -25,13 +25,11 @@ public class MouseHelper : MonoBehaviour {
     private void Update()
     {
         r = UnityEngine.Camera.main.ScreenPointToRay(Input.mousePosition);
-
-        if (Physics.Raycast(r, out h, 1000.0f))
-        {
-            currentHoveredObject = h.transform.gameObject;
+        hitItem = Physics.Raycast(r, out raycastHit, 1000.0f);
+        if (hitItem) {
+            currentHoveredObject = raycastHit.transform.gameObject;
             currentBlockUnit = currentHoveredObject.GetComponent<PLEBlockUnit>();
-            currentMouseWorldPosition = h.transform.position;
-
+            currentMouseWorldPosition = raycastHit.transform.position;
         }
     }
 
