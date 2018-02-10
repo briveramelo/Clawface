@@ -25,8 +25,6 @@ public class DashState : IPlayerState {
     protected int[] highlightPoses;
     [SerializeField]
     protected int totalAttackPoses;
-    [SerializeField]
-    private ClawArmController clawArmController;
     #endregion
 
     #region Private Fields
@@ -91,7 +89,6 @@ public class DashState : IPlayerState {
             stateVariables.velBody.velocity = stateVariables.velBody.GetForward() * dashVelocity/10f;
         }
         dashTrail.GetComponent<TrailRenderer>().enabled = false;
-        clawArmController.ResetClawArm();
         isClawOut = false;
         currentRotation = 0.0f;
         stateVariables.stateFinished = true;
@@ -126,20 +123,7 @@ public class DashState : IPlayerState {
         Vector3 direction = stateVariables.velBody.MoveDirection;
         direction.y = 0f;
         stateVariables.velBody.velocity = direction * dashVelocity;
-    }
-
-    private void BlastEm()
-    {
-        Collider[] enemies = Physics.OverlapSphere(clawArmController.GetEndPosition(), stateVariables.dashEnemyCheckRadius, LayerMask.GetMask(Strings.Layers.ENEMY));
-        foreach(Collider enemy in enemies)
-        {
-            EnemyBase enemyBase = enemy.GetComponent<EnemyBase>();
-            if (enemyBase)
-            {
-                enemyBase.Push(stateVariables.dashEnemyPushForce);
-            }
-        }
-    }
+    }    
 
     private void PushEnemies()
     {
@@ -150,7 +134,7 @@ public class DashState : IPlayerState {
             EnemyBase enemyBase = collider.GetComponent<EnemyBase>();
             if (enemyBase)
             {
-                Vector3 direction = clawArmController.transform.forward;
+                Vector3 direction = transform.forward;
                 direction.y = 0f;
                 enemyBase.Push(stateVariables.dashEnemyPushForce);
             }
