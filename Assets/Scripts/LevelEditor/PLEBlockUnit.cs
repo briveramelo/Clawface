@@ -84,9 +84,11 @@ public class PLEBlockUnit : MonoBehaviour
 
     public void AddWave(params object[] parameters)
     {
-        Debug.Log("Add Wave");
-        //       LevelStates.Add(LevelUnitStates.floor);
+        LevelStates.Add(LevelUnitStates.floor);
     }
+
+
+
 
 
     public void UpdateDynamicLevelState(params object[] parameters)

@@ -9,26 +9,16 @@ public class WaveSystem : MonoBehaviour
 
     private void Start()
     {
-//        for (int i = 0; i < maxWave; i++)
+
     }
 
     private void Update()
     {
         if(Input.GetKeyDown(KeyCode.Return))
         {
-            switch (currentWave)
-            {
-                case 0:
-                    EventSystem.Instance.TriggerEvent(Strings.Events.PLE_TEST_WAVE_0);
-                    break;
-                case 1:
-                    EventSystem.Instance.TriggerEvent(Strings.Events.PLE_TEST_WAVE_1);
-                    break;
-                case 2:
-                    EventSystem.Instance.TriggerEvent(Strings.Events.PLE_TEST_WAVE_2);
-                    break;
-            }
+            string wave = Strings.Events.PLE_TEST_WAVE_ + currentWave.ToString();
 
+            EventSystem.Instance.TriggerEvent(wave);
 
             currentWave++;
 
@@ -39,10 +29,12 @@ public class WaveSystem : MonoBehaviour
 
     public void DoTheThing()
     {
+        /*
         Debug.Log(currentWave++);
 
         if (currentWave >= 3)
             currentWave = 0;
+            */
     }
 
     public void UpdateLevelUnitState()
@@ -63,6 +55,15 @@ public class WaveSystem : MonoBehaviour
         if (EventSystem.Instance)
         {
             EventSystem.Instance.TriggerEvent(Strings.Events.PLE_ADD_WAVE);
+        }
+    }
+
+
+    public void DeleteCurrentWave()
+    {
+        if (EventSystem.Instance)
+        {
+            EventSystem.Instance.TriggerEvent(Strings.Events.PLE_DELETE_CURRENTWAVE);
         }
     }
 }
