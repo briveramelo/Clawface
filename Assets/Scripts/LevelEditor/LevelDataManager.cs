@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using ModMan;
 using MovementEffects;
-
+using System.Linq;
 
 //Questions for Garin/Lai
 //How can I reference tile prefabs / prop prefabs?
@@ -43,7 +43,7 @@ public class LevelDataManager : RoutineRunner {
         playerLevelEditorGrid.ResetGrid();
         Timing.RunCoroutine(DelayAction(()=> {
             LoadTiles();
-            SpawnProps();
+            LoadProps();
         }), coroutineName);
         
         //SpawnSpawns();
@@ -70,12 +70,14 @@ public class LevelDataManager : RoutineRunner {
         }
     }
 
-    void SpawnProps() {
-        GameObject[] propPrefabs = Resources.LoadAll<GameObject>(Strings.Editor.RESOURCE_PATH + Strings.Editor.ENV_OBJECTS_PATH);
+    void LoadProps() {
+        propsParent.DestroyAllChildren1();
+        List<GameObject> propPrefabs = Resources.LoadAll<GameObject>(Strings.Editor.ENV_OBJECTS_PATH).ToList();
         for (int i = 0; i < ActivePropData.Count; i++) {
             PropData propData = ActivePropData[i];
-            GameObject propToSpawn = propPrefabs[propData.propType];
-            Transform child = Instantiate(propToSpawn, spawnParent, false).transform;
+            GameObject propToSpawn = propPrefabs.Find(item=>item.name==propData.propType);
+            Transform child = Instantiate(propToSpawn, propsParent, false).transform;
+            child.name = propData.propType;
             child.position = propData.position.AsVector;
             child.rotation = Quaternion.Euler(propData.rotation.AsVector);
         }
@@ -120,10 +122,11 @@ public class LevelDataManager : RoutineRunner {
     }
 
     void SaveProps() {
+        //List<string> propNames = Resources.LoadAll<GameObject>(Strings.Editor.ENV_OBJECTS_PATH).Select(item=>item.name).ToList();
         ActivePropData.Clear();
         for (int i = 0; i < propsParent.childCount; i++) {
             Transform prop = propsParent.GetChild(i);
-            int propType = 0; //HOW DO I GET THIS FOR REAL
+            string propType = prop.name;
             PropData propData = new PropData(propType, prop);
             ActivePropData.Add(propData);
         }

@@ -109,13 +109,13 @@ public class TileData {
 
 [Serializable] //No enum for prop types?
 public class PropData {
-    public PropData(int propType, Transform trans) {
+    public PropData(string propType, Transform trans) {
         this.propType = propType;
         this.position = new Vector3_S(trans.position);
         this.rotation = new Vector3_S(trans.rotation.eulerAngles);
     }
 
-    public int propType;
+    public string propType;
     public Vector3_S position;
     public Vector3_S rotation;
 }

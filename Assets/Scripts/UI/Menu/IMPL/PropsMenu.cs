@@ -93,6 +93,7 @@ public class PropsMenu : Menu
     void PlaceProp() {
         GameObject nextWorldProp = Instantiate(selectedProp, propsParent);
         nextWorldProp.transform.position = MouseHelper.currentBlockUnit.spawnTrans.position;
+        nextWorldProp.name = selectedProp.name.TryCleanClone();
         MouseHelper.currentBlockUnit.SetOccupation(true);
     }
 
