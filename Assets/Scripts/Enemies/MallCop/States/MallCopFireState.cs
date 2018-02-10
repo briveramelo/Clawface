@@ -12,10 +12,10 @@ public class MallCopFireState : AIState {
     private float currentWeight;
     private Vector3 initialPosition;
 
+
     private bool doneFiring;
     public float fireRange;
     public bool firstDetection;
-
 
     public override void OnEnter() {
         initialPosition = controller.transform.position;
@@ -38,7 +38,7 @@ public class MallCopFireState : AIState {
         navAgent.velocity = Vector3.zero;
         lastAngleToTarget = CheckAngle();
         CheckRotationDifference();
-        FreezePosition();
+        FreezePosition();   
     }
 
     public override void OnExit() {
@@ -71,7 +71,7 @@ public class MallCopFireState : AIState {
     }
 
     private void FreezePosition()
-    {
+    {        
         controller.transform.position = initialPosition;
     }
 
