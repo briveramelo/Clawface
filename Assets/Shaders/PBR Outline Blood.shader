@@ -10,6 +10,7 @@ Shader "PBR Outline Blood"
 		_AlbedoTint("Albedo Tint", Color) = (1,1,1,0)
 		_Normal("Normal", 2D) = "white" {}
 		_MetallicSmoothnessEmissiveAO("MetallicSmoothnessEmissiveAO", 2D) = "white" {}
+		_MetallicScale("Metallic Scale", Range(0.0,1.0)) = 1.0
 		_EmissiveColor("Emissive Color", Color) = (1,1,1,0)
 		_EmissiveStrength("Emissive Strength", Range( 0 , 5)) = 0
 		_TextureTiling("Texture Tiling", Float) = 2
@@ -66,6 +67,7 @@ Shader "PBR Outline Blood"
 		uniform sampler2D _SplatMap;
 		uniform float4 _SplatMap_ST;
 		uniform sampler2D _MetallicSmoothnessEmissiveAO;
+		uniform float _MetallicScale;
 		uniform float4 _EmissiveColor;
 		uniform float _EmissiveStrength;
 
@@ -81,7 +83,7 @@ Shader "PBR Outline Blood"
 			float4 lerpResult60 = lerp( ( tex2D( _Albedo, uv_TexCoord11 ) * _AlbedoTint ) , lerpResult61 , tex2D( _SplatMap, uv_SplatMap ).a);
 			o.Albedo = lerpResult60.rgb;
 			o.Emission = ( ( tex2D( _MetallicSmoothnessEmissiveAO, uv_TexCoord11 ).b * _EmissiveColor ) * _EmissiveStrength ).rgb;
-			o.Metallic = tex2D( _MetallicSmoothnessEmissiveAO, uv_TexCoord11 ).r;
+			o.Metallic = tex2D( _MetallicSmoothnessEmissiveAO, uv_TexCoord11 ).r * _MetallicScale;
 			o.Smoothness = tex2D( _MetallicSmoothnessEmissiveAO, uv_TexCoord11 ).g;
 			o.Occlusion = tex2D( _MetallicSmoothnessEmissiveAO, uv_TexCoord11 ).a;
 			o.Alpha = 1;
