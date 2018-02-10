@@ -76,6 +76,10 @@ public class PLEBlockUnit : MonoBehaviour
         return spawnTrans.position;
     }
 
+    public List<LevelUnitStates> GetLevelStates()
+    {
+        return LevelStates;
+    }
 
 
     public void AddWave(params object[] parameters)
@@ -84,12 +88,40 @@ public class PLEBlockUnit : MonoBehaviour
         //       LevelStates.Add(LevelUnitStates.floor);
     }
 
+
     public void UpdateDynamicLevelState(params object[] parameters)
     {
-        Debug.Log("Update Wave");
-
         LevelUnit LU = GetComponent<LevelUnit>();
-        LU.SetCurrentState(LevelStates[WaveSystem.currentWave]);
+
+        if (LU == null) return;
+   
+        for (int i = 0; i < LevelStates.Count; i++)
+        {
+            string event_name = Strings.Events.PLE_TEST_WAVE_ + i.ToString();
+
+            Debug.Log(event_name);
+
+            LU.DeRegisterEvent(event_name);
+
+            LevelUnitStates state = LevelStates[i];
+
+            switch (state)
+            {
+                case LevelUnitStates.cover:
+                    LU.AddCoverStateEvent(event_name);
+                    break;
+
+                case LevelUnitStates.floor:
+                    LU.AddFloorStateEvent(event_name);
+                    break;
+
+                case LevelUnitStates.pit:
+                    LU.AddPitStateEvent(event_name);
+                    break;
+            }
+        }
+
+        LU.RegisterToEvents();
     }
 
     #endregion
