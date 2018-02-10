@@ -95,6 +95,9 @@
         public const string SET_DYNLEVEL_PLE = "FloorMenu";
         public const string MAIN_PLE_MENU = "MainPLEMenu";
         public const string INIT_PLE_MENU = "InitPLEMenu";
+        public const string SAVE_PLE_MENU = "SaveMenu";
+        public const string WAVE_PLE_MENU = "WaveMenu";
+        public const string HELP_PLE_MENU = "HelpMenu";
 
     }
 

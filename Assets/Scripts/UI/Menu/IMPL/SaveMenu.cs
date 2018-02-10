@@ -1,16 +1,19 @@
-﻿using UnityEngine.UI;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 using PlayerLevelEditor;
 
-public class SpawnMenu : Menu {
-
+public class SaveMenu : Menu {
+    
     #region Public Fields
 
     public override Button InitialSelection
     {
         get
         {
-            return initiallySelected;
+            throw new System.NotImplementedException();
         }
     }
 
@@ -24,32 +27,29 @@ public class SpawnMenu : Menu {
 
     #endregion
 
+    #region Private Fields
+
+    private bool inputGuard = false;
+
+    #endregion
+
     #region Unity Lifecycle
 
     private void Update()
     {
         if(inputGuard)
         {
-
-            if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN))
-            {
-                BackAction();
-            }
+            //active update loop
         }
     }
 
-    #endregion  
+    #endregion
 
     #region Public Interface
 
-    public SpawnMenu() : base(Strings.MenuStrings.ADD_SPAWNS_PLE)
-    { }
+    public SaveMenu() : base(Strings.MenuStrings.SAVE_PLE_MENU)
+    { } 
 
-    #endregion
-
-    #region Private Fields 
-
-    private bool inputGuard = false;
 
     #endregion
 
@@ -59,7 +59,6 @@ public class SpawnMenu : Menu {
     {
         base.ShowComplete();
         inputGuard = true;
-        editorInstance.gridController.currentEditorMenu = EditorMenu.SPAWN_MENU;
     }
 
     protected override void HideStarted()
@@ -68,27 +67,15 @@ public class SpawnMenu : Menu {
         inputGuard = false;
     }
 
-    protected override void DefaultShow(Transition transition, Effect[] effects)
-    {
-        Fade(transition, effects);
-
-    }
-
     protected override void DefaultHide(Transition transition, Effect[] effects)
     {
         Fade(transition, effects);
     }
 
-    #endregion
-
-    #region Private Interface
-    
-    private void BackAction()
+    protected override void DefaultShow(Transition transition, Effect[] effects)
     {
-        MainPLEMenu menu = editorInstance.GetMenu(PLEMenu.MAIN) as MainPLEMenu;
-        MenuManager.Instance.DoTransition(menu, Menu.Transition.SHOW, new Menu.Effect[] { Menu.Effect.EXCLUSIVE });
+        Fade(transition, effects);
     }
 
     #endregion
-
 }

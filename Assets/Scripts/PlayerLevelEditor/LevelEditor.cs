@@ -21,7 +21,9 @@ namespace PlayerLevelEditor
         [SerializeField] private PropsMenu propsEditorMenu;
         [SerializeField] private SpawnMenu spawnsEditorMenu;
         [SerializeField] private FloorMenu dynLevelEditorMenu;
-        
+        [SerializeField] private SaveMenu saveEditorMenu;
+        [SerializeField] private WaveMenu waveEditorMenu;
+        [SerializeField] private HelpMenu helpEditorMenu;
        
         #endregion  
 
@@ -46,6 +48,9 @@ namespace PlayerLevelEditor
             MenuManager.Instance.DoTransition(propsEditorMenu, Menu.Transition.HIDE, new Menu.Effect[] { });
             MenuManager.Instance.DoTransition(spawnsEditorMenu, Menu.Transition.HIDE, new Menu.Effect[] { });
             MenuManager.Instance.DoTransition(dynLevelEditorMenu, Menu.Transition.HIDE, new Menu.Effect[] { });
+            MenuManager.Instance.DoTransition(saveEditorMenu, Menu.Transition.HIDE, new Menu.Effect[] { });
+            MenuManager.Instance.DoTransition(helpEditorMenu, Menu.Transition.HIDE, new Menu.Effect[] { });
+            MenuManager.Instance.DoTransition(waveEditorMenu, Menu.Transition.HIDE, new Menu.Effect[] { });
 
             //show the init menu
             MenuManager.Instance.DoTransition(mainEditorMenu, Menu.Transition.SHOW, new Menu.Effect[] { Menu.Effect.EXCLUSIVE });
@@ -78,6 +83,12 @@ namespace PlayerLevelEditor
                     return spawnsEditorMenu;
                 case PLEMenu.DYNAMIC:
                     return dynLevelEditorMenu;
+                case PLEMenu.WAVE:
+                    return waveEditorMenu;
+                case PLEMenu.HELP:
+                    return helpEditorMenu;
+                case PLEMenu.SAVE:
+                    return saveEditorMenu;
                 default:
                     return null;
             }
@@ -100,6 +111,9 @@ namespace PlayerLevelEditor
         MAIN,
         PROPS,
         DYNAMIC,
-        SPAWN
+        SPAWN,
+        SAVE,
+        HELP,
+        WAVE
     }
 }

@@ -104,16 +104,32 @@ public class MainPLEMenu : Menu {
 
     }
 
+    public void OpenSaveAction()
+    {
+        SaveMenu menu = editorInstance.GetMenu(PLEMenu.SAVE) as SaveMenu;
+        MenuManager.Instance.DoTransition(menu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+
+    }
+
+    public void OpenHelpAction()
+    {
+        HelpMenu menu = editorInstance.GetMenu(PLEMenu.HELP) as HelpMenu;
+        MenuManager.Instance.DoTransition(menu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+
+    }
+
+    public void OpenWaveAction()
+    {
+        WaveMenu menu = editorInstance.GetMenu(PLEMenu.WAVE) as WaveMenu;
+        MenuManager.Instance.DoTransition(menu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+
+    }
+
     public void TestLevelAction()
     {
 
     }
-
-    public void DuplicateToolAction()
-    {
-
-    }
-
+    
     #endregion
 
     #region Private Interface
