@@ -68,7 +68,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         RaycastHit hit;
 
         if (Physics.Raycast(ray, out hit, 1000.0f)) {
-            if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)) {
+            if (Input.GetMouseButtonDown(MouseButtons.LEFT) || Input.GetMouseButtonDown(MouseButtons.RIGHT)) {
                 OnClickObject = hit.transform.gameObject;
             }
 
@@ -98,15 +98,15 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     }
 
     private void CreateBlock(RaycastHit hit) {
-        if (Input.GetKey(KeyCode.LeftShift) && Input.GetMouseButtonUp(0)) {
+        if (Input.GetKey(KeyCode.LeftShift) && Input.GetMouseButtonUp(MouseButtons.LEFT)) {
             SelectBlocks(hit);
         }
-        else if (Input.GetMouseButtonUp(0)) {
+        else if (Input.GetMouseButtonUp(MouseButtons.LEFT)) {
             DeselectBlocks();
             DuplicateBlocks(hit);
         }
 
-        if (Input.GetKey(KeyCode.LeftControl) && Input.GetMouseButtonUp(1)) {
+        if (Input.GetKey(KeyCode.LeftControl) && Input.GetMouseButtonUp(MouseButtons.RIGHT)) {
             DeselectBlocks();
             DeleteBlocks(hit);
         }
@@ -143,7 +143,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
 
         #region update lastHoveredObjects
 
-        if (Input.GetMouseButton(0)) {
+        if (Input.GetMouseButton(MouseButtons.LEFT)) {
             List<GameObject> Objects = SelectObjectsAlgorithm(hit);
 
             foreach (GameObject Object in Objects) {
