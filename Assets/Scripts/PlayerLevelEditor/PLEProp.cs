@@ -4,6 +4,5 @@ using UnityEngine;
 
 public class PLEProp : MonoBehaviour
 {
-
     public GameObject registeredProp;
 }

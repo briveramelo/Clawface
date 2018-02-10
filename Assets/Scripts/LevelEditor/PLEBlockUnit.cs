@@ -99,10 +99,7 @@ public class PLEBlockUnit : MonoBehaviour
         {
             string event_name = Strings.Events.PLE_TEST_WAVE_ + i.ToString();
 
-            Debug.Log(event_name);
-
             LU.DeRegisterEvent(event_name);
-
             LevelUnitStates state = LevelStates[i];
 
             switch (state)

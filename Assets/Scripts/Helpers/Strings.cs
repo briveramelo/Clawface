@@ -202,6 +202,11 @@
         public const string SPAWN_OBJECTS_PATH = "PlayerLevelEditorObjects/SpawnProps/";
 
         public const string IMAGE_PREVIEW_PATH = "PlayerLevelEditorObjects/png/";
+
+        public const string Tiles = "Tiles";
+        public const string Props = "Props";
+        public const string Spawns = "Spawns";
+        public const string Wave = "Wave";
     }
 
     

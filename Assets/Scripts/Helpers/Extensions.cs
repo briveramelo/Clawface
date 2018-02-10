@@ -44,6 +44,10 @@ namespace ModMan {
 
             return (rDif + gDif + bDif + aDif) < tolerance;
         }
+        public static Color ChangeAlpha(this Color color, float newAlpha) {
+            color.a = newAlpha;
+            return color;
+        }
         public static string ToHex(this Color color)
         {
             int r = (int)(color.r * 256);
@@ -286,8 +290,16 @@ namespace ModMan {
         {
             //Debug.Log ("child count " + transform.childCount.ToString());
             //Debug.Log ("shit");
-            for (int i = 0; i < transform.childCount; i++)
+            int count = transform.childCount;
+            for (int i = 0; i < count-1; i++)
             {
+                Helpers.DestroyProper(transform.GetChild(i).gameObject);
+            }
+        }
+
+        public static void DestroyAllChildren1(this Transform transform) {
+            int count = transform.childCount;
+            for (int i = count - 1; i >=0; i--) {
                 Helpers.DestroyProper(transform.GetChild(i).gameObject);
             }
         }

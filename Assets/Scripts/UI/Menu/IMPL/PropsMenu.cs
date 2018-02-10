@@ -28,7 +28,7 @@ public class PropsMenu : Menu
 
     [SerializeField] private Button initiallySelected;
     [SerializeField] private LevelEditor editorInstance;
-    [SerializeField] private GameObject realLevelParent;
+    [SerializeField] private Transform propsParent;
     [SerializeField] private MouseHelper mHelper;
 
     #endregion
@@ -55,7 +55,7 @@ public class PropsMenu : Menu
                 selectedProp = RaycastToUI();
                 if(selectedProp)
                 {
-                    newWorldProp = GameObject.Instantiate(selectedProp, realLevelParent.transform, true);
+                    newWorldProp = GameObject.Instantiate(selectedProp, propsParent, true);
                 }
                 
             }
@@ -75,7 +75,7 @@ public class PropsMenu : Menu
                 {
                     newWorldProp.transform.position = MouseHelper.currentBlockUnit.spawnTrans.position;
                     MouseHelper.currentBlockUnit.SetOccupation(true);
-                    GameObject.Instantiate(newWorldProp, realLevelParent.transform, true);
+                    GameObject.Instantiate(newWorldProp, propsParent, true);
                     newWorldProp = null;
                     selectedProp = null;
                 }
@@ -92,7 +92,7 @@ public class PropsMenu : Menu
     private void OnMouseDown()
     {
         selectedProp = RaycastToUI();
-        newWorldProp = GameObject.Instantiate(selectedProp, realLevelParent.transform, true);
+        newWorldProp = GameObject.Instantiate(selectedProp, propsParent, true);
     }
 
     private void OnMouseUp()

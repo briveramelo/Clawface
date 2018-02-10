@@ -598,6 +598,9 @@ MonoBehaviour:
     max: 6
   fissureLiveTime: 8
   muzzle: {fileID: 4829776361292650}
+  timeToCharge: 1
+  chargeDamage: 9
+  chargeSpeed: 40
 --- !u!114 &114636888699788508
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -618,8 +621,7 @@ MonoBehaviour:
     maxLimit: 0
     min: 1
     max: 2
-  spawnPrefab: {fileID: 1250428240314920, guid: 28a9bd31163bbff42b85d0e1f011ea14,
-    type: 2}
+  spawnObjectType: 62
   spawnInterval: 1000000
   forceMin: 4
   forceMax: 6

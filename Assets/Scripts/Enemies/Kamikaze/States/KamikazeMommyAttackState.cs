@@ -5,6 +5,7 @@ using MovementEffects;
 
 public class KamikazeMommyAttackState : AIState
 {
+    public bool playerDead = false;
     private bool attackDone = false;
     private float kamikazeSpawnProbablity;
     private float kamikazePulserSpawnProbability;
@@ -34,6 +35,13 @@ public class KamikazeMommyAttackState : AIState
 
     private void Attack()
     {
+        if (playerDead)
+        {
+            controller.UpdateState(EAIState.Celebrate);
+            controller.DeActivateAI();
+            return;
+        }
+
         //Make sure the kamikaze is not stunned
         if (myStats.health <= myStats.skinnableHealth)
         {
