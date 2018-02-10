@@ -8,6 +8,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 using PlayerLevelEditor;
+using ModMan;
 
 public class PropsMenu : Menu
 {
@@ -36,13 +37,16 @@ public class PropsMenu : Menu
     #region Private Fields
    
     private GameObject selectedProp = null;
-    private GameObject newWorldProp = null;
+    private GameObject previewProp = null;
     private PointerEventData pointerData;
     private bool inputGuard = false;
     
     #endregion
 
-
+    bool SelectUI { get { return Input.GetMouseButtonDown(MouseButtons.LEFT) && RaycastToUI()!=null; } }
+    bool DeselectUI { get { return Input.GetMouseButtonDown(MouseButtons.RIGHT); } }
+    bool Place { get { return Input.GetMouseButtonDown(MouseButtons.LEFT) && selectedProp != null && MouseHelper.currentBlockUnit != null && !MouseHelper.currentBlockUnit.GetOccupation(); } }
+    bool UpdatePreview { get { return previewProp != null && MouseHelper.currentBlockUnit!=null && !MouseHelper.currentBlockUnit.GetOccupation(); } }
     #region Unity Lifecycle
 
     // Update is called once per frame
@@ -50,36 +54,19 @@ public class PropsMenu : Menu
     {
         if(inputGuard)
         {
-            if(Input.GetMouseButtonDown(MouseButtons.LEFT) && selectedProp == null)
-            {
-                selectedProp = RaycastToUI();
-                if(selectedProp)
-                {
-                    newWorldProp = GameObject.Instantiate(selectedProp, propsParent, true);
-                }
-                
+            if (SelectUI) {
+                SelectUIItem();
             }
-
-            if(newWorldProp != null)
-            {
-                if(MouseHelper.currentBlockUnit != null)
-                {
-                    newWorldProp.transform.position = MouseHelper.currentBlockUnit.spawnTrans.position;
-                }
-
+            else if (Place) {
+                PlaceProp();
             }
-
-            if (Input.GetMouseButtonUp(MouseButtons.LEFT) && newWorldProp != null)
-            {
-                if(MouseHelper.currentBlockUnit != null)
-                {
-                    newWorldProp.transform.position = MouseHelper.currentBlockUnit.spawnTrans.position;
-                    MouseHelper.currentBlockUnit.SetOccupation(true);
-                    GameObject.Instantiate(newWorldProp, propsParent, true);
-                    newWorldProp = null;
-                    selectedProp = null;
-                }
+            else if (DeselectUI) {
+                DeselectUIItem();
             }
+            else if (UpdatePreview) {
+                UpdatePreviewPosition();
+            }
+            //Make function for delete selected item
 
             if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN))
             {
@@ -89,19 +76,33 @@ public class PropsMenu : Menu
         }
     }
 
-    private void OnMouseDown()
-    {
+    void SelectUIItem() {
         selectedProp = RaycastToUI();
-        newWorldProp = GameObject.Instantiate(selectedProp, propsParent, true);
+        TryDestroyPreview();
+        previewProp = GameObject.Instantiate(selectedProp);
     }
 
-    private void OnMouseUp()
-    {
+    void UpdatePreviewPosition() {
+        previewProp.transform.position = MouseHelper.currentBlockUnit.spawnTrans.position;
+    }
+
+    void DeselectUIItem() {
         selectedProp = null;
-        newWorldProp = null;
+        TryDestroyPreview();
     }
 
+    void PlaceProp() {
+        GameObject nextWorldProp = Instantiate(selectedProp, propsParent);
+        nextWorldProp.transform.position = MouseHelper.currentBlockUnit.spawnTrans.position;
+        nextWorldProp.name = selectedProp.name.TryCleanClone();
+        MouseHelper.currentBlockUnit.SetOccupation(true);
+    }
 
+    void TryDestroyPreview() {
+        if (previewProp) {
+            Helpers.DestroyProper(previewProp);
+        }
+    }
     #endregion
 
     #region Public Interface
@@ -129,6 +130,7 @@ public class PropsMenu : Menu
     {
         base.HideStarted();
         inputGuard = false;
+        TryDestroyPreview();
     }
 
     protected override void DefaultShow(Transition transition, Effect[] effects)
@@ -170,15 +172,7 @@ public class PropsMenu : Menu
             }
         }
 
-
-
         return selectedProp;
-    }
-
-    private void DrawPreviewItemInWorld(Vector3 i_Pos, GameObject i_obj)
-    {
-        i_obj.transform.position = i_Pos;
-        Debug.Log(i_Pos);
     }
     
     private void BackAction()
