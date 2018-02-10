@@ -10,6 +10,7 @@
 		_NoiseStrength("Noise Strength", Range(0.0, 100.0)) = 1.0
 		_NoiseScrollSpeed("Noise Scroll Speed", Range(0.01, 100.0)) = 1.0
 		_NoiseTex("Noise", 2D) = "black" {}
+		_FadeDist("FadeDist", Range(1, 1000)) = 100
 	}
 	SubShader
 	{
@@ -18,6 +19,9 @@
 
 		Pass
 		{
+			ZWrite Off
+			Blend SrcAlpha OneMinusSrcAlpha
+
 			CGPROGRAM
 			#pragma vertex vert
 			#pragma fragment frag
@@ -35,7 +39,7 @@
 				float2 uv : TEXCOORD0;
 				float2 colorUV : TEXCOORD1;
 				float4 vertex : SV_POSITION;
-				float4 color : COLOR;
+				float4 color : COLOR0;
 			};
 
 			sampler2D _ColorMask;
@@ -49,6 +53,7 @@
 			float4 _ColorTex_ST;
 			float _NoiseScrollSpeed;
 			float _NoiseStrength;
+			float _FadeDist;
 			
 			v2f vert (appdata v)
 			{
@@ -59,6 +64,9 @@
 				float x = cos(_ColorScrollDirection);
 				float y = sin(_ColorScrollDirection);
 				o.colorUV = TRANSFORM_TEX(o.uv, _ColorTex) + float2(x, y) * _Time.y * _ColorScrollSpeed;
+				float3 worldPos = mul(v.vertex, unity_ObjectToWorld).xyz;
+				float d = distance(_WorldSpaceCameraPos, worldPos);
+				o.color = (1.0 - d / _FadeDist) * float4(1.0, 1.0, 1.0, 1.0);
 				return o;
 			}
 			
@@ -66,8 +74,7 @@
 			{
 				fixed maskVal = tex2D(_ColorMask, i.uv).r * _ColorVibrance;
 				fixed4 c = tex2D(_ColorTex, i.colorUV);
-				float cameraDist = dist(_WorldSpace)
-				c.a = 1.0;
+				c.a = i.color.a;
 				c.xyz *= maskVal;
 				return c;
 			}
