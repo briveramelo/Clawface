@@ -28,7 +28,7 @@ public class WaveMenu : Menu
 
     #region Public Interface
 
-    public WaveMenu() : base(Strings.MenuStrings.MAIN_PLE_MENU)
+    public WaveMenu() : base(Strings.MenuStrings.WAVE_PLE_MENU)
     { }
 
     #endregion
