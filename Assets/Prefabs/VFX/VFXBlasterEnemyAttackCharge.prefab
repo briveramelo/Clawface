@@ -72,6 +72,7 @@ GameObject:
   - component: {fileID: 4701489712408628}
   - component: {fileID: 198822848714518544}
   - component: {fileID: 199865362346119268}
+  - component: {fileID: 114141204475164628}
   m_Layer: 0
   m_Name: VFXBlasterEnemyAttackCharge
   m_TagString: Untagged
@@ -134,6 +135,18 @@ Transform:
   m_Father: {fileID: 4701489712408628}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114141204475164628
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1920451394156722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c04c1e44b827c143ae1f433e9d82d3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playOnAwake: 1
 --- !u!198 &198516421408816170
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -193,7 +206,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 399320274
+  randomSeed: -1341559651
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -3478,7 +3491,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 1907708392
+  randomSeed: 1012220918
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -6757,7 +6770,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 2064103642
+  randomSeed: 82586863
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -10019,7 +10032,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 1375278931
+  randomSeed: -1113804988
   InitialModule:
     serializedVersion: 3
     enabled: 1
