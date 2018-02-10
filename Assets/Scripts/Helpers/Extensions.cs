@@ -8,6 +8,14 @@ namespace ModMan {
 
     public static class StringExtension
     {
+        public static string TryCleanClone(this string myStringName) {
+            const string clone = "(Clone)";
+            if (myStringName.Contains(clone)) {
+                myStringName = myStringName.Substring(0, myStringName.Length - clone.Length);
+            }
+            return myStringName;
+        }
+
         public static string AddSpacesBetweenUpperCase (string str)
         {
             string result = str;

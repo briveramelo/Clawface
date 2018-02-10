@@ -20,12 +20,17 @@ public class DataPersister : MonoBehaviour {
         if (!Directory.Exists(PathDirectory)) {
             Directory.CreateDirectory(PathDirectory);
         }
-
         if (File.Exists(FilePath)) {
-            BinaryFormatter bf = new BinaryFormatter();
-            FileStream fileStream = File.Open(FilePath, FileMode.Open);
-            ActiveDataSave = new DataSave((DataSave)bf.Deserialize(fileStream));
-            fileStream.Close();
+            try {
+                BinaryFormatter bf = new BinaryFormatter();
+                FileStream fileStream = File.Open(FilePath, FileMode.Open);
+                ActiveDataSave = new DataSave((DataSave)bf.Deserialize(fileStream));
+                fileStream.Close();
+            }
+            catch {
+                File.Delete(FilePath);
+                ActiveDataSave = new DataSave();
+            }
         }
         else {
             ActiveDataSave = new DataSave();
@@ -109,13 +114,13 @@ public class TileData {
 
 [Serializable] //No enum for prop types?
 public class PropData {
-    public PropData(int propType, Transform trans) {
+    public PropData(string propType, Transform trans) {
         this.propType = propType;
         this.position = new Vector3_S(trans.position);
         this.rotation = new Vector3_S(trans.rotation.eulerAngles);
     }
 
-    public int propType;
+    public string propType;
     public Vector3_S position;
     public Vector3_S rotation;
 }
