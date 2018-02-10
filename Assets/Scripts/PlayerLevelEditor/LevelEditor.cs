@@ -15,8 +15,7 @@ namespace PlayerLevelEditor
         
 
         #region Serialized Unity Fields
-
-        [SerializeField] private CanvasGroup editorCG;
+        
         [SerializeField] private MainPLEMenu mainEditorMenu;
         [SerializeField] private PropsMenu propsEditorMenu;
         [SerializeField] private SpawnMenu spawnsEditorMenu;
@@ -28,10 +27,7 @@ namespace PlayerLevelEditor
         #endregion  
 
         private void Start()
-        {
-            editorCG.alpha = 0f;
-            editorCG.interactable = false;
-            
+        {            
             MenuSetup();
         }
 

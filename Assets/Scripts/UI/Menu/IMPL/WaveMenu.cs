@@ -37,7 +37,23 @@ public class WaveMenu : Menu
 
     private bool inputGuard = false;
 
-    #endregion  
+    #endregion
+
+    #region Protected Interface
+
+    protected override void ShowComplete()
+    {
+        base.ShowComplete();
+        inputGuard = true;
+    }
+
+    protected override void HideStarted()
+    {
+        base.HideStarted();
+        inputGuard = false;
+    }
+
+    #endregion
 
     #region Unity Lifecycle
 
@@ -71,10 +87,9 @@ public class WaveMenu : Menu
 
     #region Private Interface
 
-    private void BackAction()
+    public void BackAction()
     {
-        MainPLEMenu menu = editorInstance.GetMenu(PLEMenu.MAIN) as MainPLEMenu;
-        MenuManager.Instance.DoTransition(menu, Menu.Transition.SHOW, new Menu.Effect[] { Menu.Effect.EXCLUSIVE });
+        MenuManager.Instance.DoTransition(editorInstance.GetMenu(PLEMenu.MAIN), Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
     }
 
     #endregion
