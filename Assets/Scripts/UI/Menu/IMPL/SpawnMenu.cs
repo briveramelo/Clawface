@@ -24,6 +24,13 @@ public class SpawnMenu : Menu {
 
     #endregion
 
+    #region Private Fields
+
+    private GameObject selectedSpawn = null;
+    private GameObject newWorldSpawn = null;
+
+    #endregion
+
     #region Unity Lifecycle
 
     private void Update()
