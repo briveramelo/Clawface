@@ -215,7 +215,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     }
 
     void DeselectBlocks() {
-
+        selectedObjects.Clear();
         for (int i = 0; i < gridTiles.Count; i++) {
             GridTile tile = gridTiles[i];
             tile.ChangeColor(spawnddBlockDefaultColor);
@@ -230,6 +230,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
             GridTile tile = gridTiles[i];
             if (Objects.Contains(tile.realTile)) {
                 tile.ChangeColor(Color.red);
+                selectedObjects.Add(tile.realTile);
             }
         }
     }
@@ -288,21 +289,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     public List<GameObject> GetSelectedBlocks()
     {
         return selectedObjects;
-    }
-
-    public void DoSomeShitForSelectedObjects()
-    {
-        foreach(GameObject obj in selectedObjects)
-        {
-            if (obj == null)
-                continue;
-
-            Debug.Log("Doing Action for Object: " + obj + " at " + obj.transform.position);
-            obj.GetComponent<Renderer>().material.color = Color.green;
-        }
-
-        selectedObjects.Clear();
-    }
+    }    
 
     public void SetGridVisiblity(bool i_set)
     {

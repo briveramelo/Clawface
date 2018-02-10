@@ -75,21 +75,12 @@ public class FloorMenu : Menu {
     {
         List<GameObject> selectedObjects = editorInstance.gridController.GetSelectedBlocks();
 
-        foreach(GameObject GO in selectedObjects)
-        {
-            if(GO != null)
-            {
-                List<LevelUnitStates> LUS = GO.GetComponent<PLEBlockUnit>().GetLevelStates();
-                LUS[WaveSystem.currentWave] = LevelUnitStates.pit;
-            }
-            else
-            {
-                selectedObjects.Remove(GO);
-            }
+        foreach(GameObject GO in selectedObjects) {
+            List<LevelUnitStates> LUS = GO.GetComponent<PLEBlockUnit>().GetLevelStates();
+            LUS[WaveSystem.currentWave] = LevelUnitStates.pit;
         }
 
-        if (EventSystem.Instance)
-        {
+        if (EventSystem.Instance) {
             EventSystem.Instance.TriggerEvent(Strings.Events.PLE_UPDATE_LEVELSTATE);
         }
 
