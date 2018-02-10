@@ -62,25 +62,30 @@ public class PropsMenu : Menu
 
             if(newWorldProp != null)
             {
-                if(mHelper.currentBlockUnit != null)
+                if(MouseHelper.currentBlockUnit != null)
                 {
-                    newWorldProp.transform.position = mHelper.currentBlockUnit.spawnTrans.position;
+                    newWorldProp.transform.position = MouseHelper.currentBlockUnit.spawnTrans.position;
                 }
 
             }
 
             if (Input.GetMouseButtonUp(MouseButtons.LEFT) && newWorldProp != null)
             {
-                if(mHelper.currentBlockUnit != null)
+                if(MouseHelper.currentBlockUnit != null)
                 {
-                    newWorldProp.transform.position = mHelper.currentBlockUnit.spawnTrans.position;
-                    mHelper.currentBlockUnit.SetOccupation(true);
+                    newWorldProp.transform.position = MouseHelper.currentBlockUnit.spawnTrans.position;
+                    MouseHelper.currentBlockUnit.SetOccupation(true);
                     GameObject.Instantiate(newWorldProp, realLevelParent.transform, true);
                     newWorldProp = null;
                     selectedProp = null;
                 }
             }
-            
+
+            if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN))
+            {
+                BackAction();
+            }
+
         }
     }
 

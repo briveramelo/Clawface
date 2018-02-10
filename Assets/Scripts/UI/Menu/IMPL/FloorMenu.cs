@@ -21,8 +21,6 @@ public class FloorMenu : Menu {
     #region Private Fields
 
     private bool inputGuard = false;
-    private GameObject previewGridBlock;
-    private bool initialized = false;
     private float raycastDistance = 1000.0f;
     private Vector3 sceneMousePos;
     private Vector3 newItemPos = Vector3.zero;
@@ -38,15 +36,13 @@ public class FloorMenu : Menu {
 
 
     #region Unity Lifecycle
+   
 
     private void Update()
     {
         if(inputGuard)
         {
-            if(initialized)
-            {
-                //UpdateObjectPreview();
-            }
+
 
             if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN))
             {
@@ -55,6 +51,8 @@ public class FloorMenu : Menu {
         }
     }
 
+
+
     #endregion  
 
     #region Public Interface
@@ -62,12 +60,6 @@ public class FloorMenu : Menu {
     public FloorMenu() : base(Strings.MenuStrings.SET_DYNLEVEL_PLE)
     { }
 
-    public void Initialize(params object[] par)
-    {
-        previewGridBlock = Resources.Load(Strings.Editor.RESOURCE_PATH + Strings.Editor.BASIC_LVL_BLOCK) as GameObject;
-
-        initialized = true;
-    }
 
     public void DropFloorAction()
     {
@@ -148,7 +140,6 @@ public class FloorMenu : Menu {
     {
         base.HideStarted();
         inputGuard = false;
-        initialized = false;
         editorInstance.gridController.ClearSelectedBlocks();
         editorInstance.gridController.SetGridVisiblity(false);
     }

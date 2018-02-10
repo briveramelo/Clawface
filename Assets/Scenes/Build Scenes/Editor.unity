@@ -3626,6 +3626,7 @@ GameObject:
   - component: {fileID: 1252529052}
   - component: {fileID: 1252529051}
   - component: {fileID: 1252529055}
+  - component: {fileID: 1252529050}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -3633,6 +3634,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!81 &1252529050
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1252529049}
+  m_Enabled: 1
 --- !u!92 &1252529051
 Behaviour:
   m_ObjectHideFlags: 0
@@ -4695,11 +4703,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 114714574332746492, guid: dc7165861f6f6514b801d2d1bd9bbf6a,
-        type: 2}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4248664760445148, guid: dc7165861f6f6514b801d2d1bd9bbf6a, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -4732,50 +4735,16 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
-    - target: {fileID: 114227295990773728, guid: dc7165861f6f6514b801d2d1bd9bbf6a,
-        type: 2}
-      propertyPath: editorInstance
-      value: 
-      objectReference: {fileID: 2108763658}
-    - target: {fileID: 224853235637795296, guid: dc7165861f6f6514b801d2d1bd9bbf6a,
-        type: 2}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1850195209223946, guid: dc7165861f6f6514b801d2d1bd9bbf6a, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114714574332746492, guid: dc7165861f6f6514b801d2d1bd9bbf6a,
-        type: 2}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114714574332746492, guid: dc7165861f6f6514b801d2d1bd9bbf6a,
-        type: 2}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 114714574332746492, guid: dc7165861f6f6514b801d2d1bd9bbf6a,
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 2108763661}
-    - target: {fileID: 114714574332746492, guid: dc7165861f6f6514b801d2d1bd9bbf6a,
+    - target: {fileID: 114227295990773728, guid: dc7165861f6f6514b801d2d1bd9bbf6a,
         type: 2}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: DoTheThing
-      objectReference: {fileID: 0}
-    - target: {fileID: 114714574332746492, guid: dc7165861f6f6514b801d2d1bd9bbf6a,
-        type: 2}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 224859418483597082, guid: dc7165861f6f6514b801d2d1bd9bbf6a,
-        type: 2}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
+      propertyPath: editorInstance
+      value: 
+      objectReference: {fileID: 2108763658}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: dc7165861f6f6514b801d2d1bd9bbf6a, type: 2}
   m_IsPrefabParent: 0
@@ -6120,6 +6089,48 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1845577878}
+--- !u!1001 &1922815506
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4384104832815496, guid: 35e2e81db0ce1444abf0202e84477b36, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4384104832815496, guid: 35e2e81db0ce1444abf0202e84477b36, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4384104832815496, guid: 35e2e81db0ce1444abf0202e84477b36, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4384104832815496, guid: 35e2e81db0ce1444abf0202e84477b36, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4384104832815496, guid: 35e2e81db0ce1444abf0202e84477b36, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4384104832815496, guid: 35e2e81db0ce1444abf0202e84477b36, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4384104832815496, guid: 35e2e81db0ce1444abf0202e84477b36, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4384104832815496, guid: 35e2e81db0ce1444abf0202e84477b36, type: 2}
+      propertyPath: m_RootOrder
+      value: 10
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 35e2e81db0ce1444abf0202e84477b36, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1001 &1924087776
 Prefab:
   m_ObjectHideFlags: 0
@@ -6187,6 +6198,11 @@ Prefab:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114444987615557282, guid: 276672d4c27918744a57ba9484a193ce,
+        type: 2}
+      propertyPath: realLevelParent
+      value: 
+      objectReference: {fileID: 40200495}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 276672d4c27918744a57ba9484a193ce, type: 2}
   m_IsPrefabParent: 0
@@ -6983,7 +6999,7 @@ MonoBehaviour:
   levelSize: 20
   hoverColor: {r: 0, g: 0, b: 1, a: 1}
   selectedColor: {r: 1, g: 0, b: 0, a: 1}
-  editorInstance: {fileID: 0}
+  editorInstance: {fileID: 2108763658}
   displaying: 0
   currentEditorMenu: 0
 --- !u!114 &2108763661
@@ -7008,9 +7024,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe674e7297677a74787a3f0b913571e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentHoveredObject: {fileID: 0}
-  currentBlockUnit: {fileID: 0}
-  currentMouseWorldPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &2118389424
 GameObject:
   m_ObjectHideFlags: 0

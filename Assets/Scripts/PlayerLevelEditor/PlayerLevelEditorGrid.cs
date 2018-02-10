@@ -47,20 +47,8 @@ public class PlayerLevelEditorGrid : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        if (EventSystem.Instance)
-        {
-            EventSystem.Instance.RegisterEvent(Strings.Events.INIT_EDITOR, Initilaize);      
-        }     
+        Initialize();
     }
-
-    private void OnDestroy()
-    {
-        if (EventSystem.Instance)
-        {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.INIT_EDITOR, Initilaize);
-        }
-    }
-
 
     // Update is called once per frame
     void Update()
@@ -97,7 +85,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour
 
     #region Private Interface
 
-    private void Initilaize(params object[] par)
+    private void Initialize(params object[] par)
     {
         previewBlock = Resources.Load(Strings.Editor.RESOURCE_PATH + Strings.Editor.BASIC_LE_BLOCK) as GameObject;
         spawnedBlock = Resources.Load(Strings.Editor.RESOURCE_PATH + Strings.Editor.BASIC_LVL_BLOCK) as GameObject;

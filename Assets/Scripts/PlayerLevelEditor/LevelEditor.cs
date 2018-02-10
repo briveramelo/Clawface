@@ -8,22 +8,11 @@ namespace PlayerLevelEditor
     public class LevelEditor : MonoBehaviour
     {
         #region Public Fields
-
-        static public DynamicLevelSystem m_DynamicLevelSystem;
+        
         public PlayerLevelEditorGrid gridController;
 
         #endregion
-
-        Database ObjectDB;
-        FunctionController controller = new FunctionController();
-
-        Button Btn_Init;
-        Button Btn_Add;
-        Button Btn_Duplicate;
-        Button Btn_Dynamic;
-        Button Btn_Test;
-        Button Btn_EndTest;
-        Button Btn_Quit;
+        
 
         #region Serialized Unity Fields
 
@@ -41,28 +30,11 @@ namespace PlayerLevelEditor
             editorCG.alpha = 0f;
             editorCG.interactable = false;
             
-            if(EventSystem.Instance)
-            {
-                EventSystem.Instance.RegisterEvent(Strings.Events.INIT_EDITOR, EditorInitialize);
-            }
+            MenuSetup();
         }
 
         void Update()
         {
-            if (controller != null)
-            {
-                controller.Update();
-            }
-            
-        }
-
-
-        private void OnDestroy()
-        {
-            if (EventSystem.Instance)
-            {
-                EventSystem.Instance.UnRegisterEvent(Strings.Events.INIT_EDITOR, EditorInitialize);
-            }
         }
 
         #region Private Interface
@@ -84,48 +56,7 @@ namespace PlayerLevelEditor
 
 
         #region Public Interface  
-        // Use this for initialization
-        public void EditorInitialize(params object[] par)
-        {
-            m_DynamicLevelSystem = new DynamicLevelSystem();
-            dynLevelEditorMenu.Initialize();
-            //ObjectDB = new Database();
-
-            //controller.SetFunction(new Initialize(controller));
-
-            MenuSetup();
-
-        }
-
-
-        public void UseInitFunc(Button thisBtn)
-        {
-            controller.SetFunction(new Initialize(controller));
-        }
-
-        public void UsingAddFunc(Button thisBtn)
-        {
-            controller.SetFunction(new Add(controller));
-        }
-
-        public void UsingDuplicateFunc(Button thisBtn)
-        {
-            controller.SetFunction(new Duplicate(controller));
-        }
-
-        public void UsingDynamicFunc(Button thisBtn)
-        {
-            controller.SetFunction(new DynamicLevel(controller));
-        }
-
-        public void UsingTestFunc(Button thisBtn)
-        {
-            if (Initialize.IsDone() == false)
-                return;
-
-            controller.SetFunction(new Test(controller));
-        }
-
+        
         public void UsingQuitFunction(Button thisBtn)
         {
             Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
@@ -139,8 +70,6 @@ namespace PlayerLevelEditor
         {
             switch (i_menu)
             {
-                //case PLEMenu.INIT:
-                //    return initEditorMenu;
                 case PLEMenu.MAIN:
                     return mainEditorMenu;
                 case PLEMenu.PROPS:

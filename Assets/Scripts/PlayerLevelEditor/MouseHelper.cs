@@ -7,9 +7,9 @@ public class MouseHelper : MonoBehaviour {
 
     #region Public Fields
 
-    public GameObject currentHoveredObject;
-    public PLEBlockUnit currentBlockUnit;
-    public Vector3 currentMouseWorldPosition;
+    public static GameObject currentHoveredObject;
+    public static PLEBlockUnit currentBlockUnit;
+    public static Vector3 currentMouseWorldPosition;
 
     #endregion
 

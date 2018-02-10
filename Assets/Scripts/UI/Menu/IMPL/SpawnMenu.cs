@@ -21,7 +21,6 @@ public class SpawnMenu : Menu {
     [SerializeField] private Button initiallySelected;
     [SerializeField] private LevelEditor editorInstance;
     [SerializeField] private GameObject realLevelParent;
-    [SerializeField] private MouseHelper mHelper;
 
     #endregion
 
@@ -31,8 +30,6 @@ public class SpawnMenu : Menu {
     {
         if(inputGuard)
         {
-            //if(Initialize)
-
 
             if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN))
             {
@@ -97,11 +94,8 @@ public class SpawnMenu : Menu {
 
     private void BackAction()
     {
-
         MainPLEMenu menu = editorInstance.GetMenu(PLEMenu.MAIN) as MainPLEMenu;
-
         MenuManager.Instance.DoTransition(menu, Menu.Transition.SHOW, new Menu.Effect[] { Menu.Effect.EXCLUSIVE });
-
     }
 
     #endregion
