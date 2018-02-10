@@ -913,7 +913,6 @@ GameObject:
   - component: {fileID: 114325496831137656}
   - component: {fileID: 114132200228300390}
   - component: {fileID: 114929162397462484}
-  - component: {fileID: 114230612584863982}
   m_Layer: 8
   m_Name: Player_Combat
   m_TagString: Player
@@ -2928,8 +2927,6 @@ MonoBehaviour:
   highlightPoses: 01000000
   totalAttackPoses: 10
   clawArmController: {fileID: 114675049875242238}
-  useClawPunch: 0
-  dashInLookDirection: 0
 --- !u!114 &114136393911348448
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3051,19 +3048,6 @@ MonoBehaviour:
   m_MaximumEffort: 2
   m_Damping: 4
   m_OptimalTargetDistance: 0
---- !u!114 &114230612584863982
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1737478168596758}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 14a5df0819376f34d86a41843d4acfd3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isBlockingState: 0
-  clawArmController: {fileID: 114675049875242238}
 --- !u!114 &114232247552945318
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3277,12 +3261,6 @@ MonoBehaviour:
     ArmExtensionSFX: 14
     ArmEnemyCaptureSFX: 15
     EatSFX: 16
-    headSpinClawRadius: 4
-    headSpinSpeed: 5000
-    headSpinDuration: 7.5
-    headSpinCoolDown: 10
-    headSpinDamage: 0.05
-    clawPunchDistance: 7.5
     dashEnemyCheckRadius: 1
     dashEnemyPushForce: 10
   defaultState: {fileID: 114776189445566068}
@@ -3290,12 +3268,10 @@ MonoBehaviour:
   holdAttackSlowDown: 3
   dashState: {fileID: 114132200228300390}
   dashCoolDown: 0.1
-  useHeadSpin: 0
   eatingState: {fileID: 114325496831137656}
   eatCollider: {fileID: 135888620666243734}
   tutorialSlowDownRate: 0.05
   tutorialSpeedUpRate: 0.05
-  headSpinState: {fileID: 114230612584863982}
 --- !u!114 &114346970600587694
 MonoBehaviour:
   m_ObjectHideFlags: 1
