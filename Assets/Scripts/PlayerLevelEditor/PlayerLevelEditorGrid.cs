@@ -46,15 +46,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
-        if (EventSystem.Instance) {
-            EventSystem.Instance.RegisterEvent(Strings.Events.INIT_EDITOR, Initilaize);
-        }
-    }
-
-    private void OnDestroy() {
-        if (EventSystem.Instance) {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.INIT_EDITOR, Initilaize);
-        }
+        Initilaize();
     }
 
 
@@ -63,11 +55,8 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         if (!displaying)
             return;
 
-        Ray ray = UnityEngine.Camera.main.ScreenPointToRay(Input.mousePosition);
-
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit, 1000.0f)) {
+        if (MouseHelper.hitItem) {
+            RaycastHit hit = MouseHelper.raycastHit;
             if (Input.GetMouseButtonDown(MouseButtons.LEFT) || Input.GetMouseButtonDown(MouseButtons.RIGHT)) {
                 OnClickObject = hit.transform.gameObject;
             }
