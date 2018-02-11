@@ -77,6 +77,7 @@ public class LightningGun : Mod {
             GameObject vfx = ObjectPool.Instance.GetObject (PoolObjectType.VFXLightningGunShoot);
             if (vfx)
             {
+                vfx.transform.SetParent (transform);
                 vfx.transform.position = muzzleTransform.position;
                 vfx.transform.rotation = muzzleTransform.rotation;
             }
