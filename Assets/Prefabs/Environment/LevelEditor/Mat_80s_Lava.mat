@@ -12,7 +12,7 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 3000
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -23,8 +23,12 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ColorMask:
-        m_Texture: {fileID: 2800000, guid: 0ea4515c46c803343b3323103f8bd7e7, type: 3}
+        m_Texture: {fileID: 2800000, guid: 75e55e57bc6a00d4c8773ac2cd65de06, type: 3}
         m_Scale: {x: 10, y: 10}
+        m_Offset: {x: 0, y: 0}
+    - _ColorMaskAdd:
+        m_Texture: {fileID: 2800000, guid: 8e79d10634a2fad449b9272e0d160af0, type: 3}
+        m_Scale: {x: 2, y: 2}
         m_Offset: {x: 0, y: 0}
     - _ColorTex:
         m_Texture: {fileID: 2800000, guid: e7a525630d7a5c54d809dfd6f38eba7c, type: 3}
@@ -56,7 +60,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _NoiseTex:
         m_Texture: {fileID: 2800000, guid: 83a8f98ec877ea04081a1efeabfb9f5b, type: 3}
-        m_Scale: {x: 1, y: 1}
+        m_Scale: {x: 2, y: 2}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
         m_Texture: {fileID: 0}
@@ -68,18 +72,22 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _BumpScale: 1
+    - _ColorMaskAddScrollSpeed: 0.025
+    - _ColorMaskAddStrength: 0.35
     - _ColorScrollDirection: 3.54
-    - _ColorScrollSpeed: 0.2
-    - _ColorVibrance: 0.375
+    - _ColorScrollSpeed: 0.1
+    - _ColorVibrance: 0.5
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
+    - _FadeDist: 1000
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _Metallic: 0
     - _Mode: 0
-    - _NoiseScrollSpeed: 0.1
+    - _NoisePower: 2.23
+    - _NoiseScrollSpeed: 0.01
     - _NoiseStrength: 100
     - _OcclusionStrength: 1
     - _Parallax: 0.02
