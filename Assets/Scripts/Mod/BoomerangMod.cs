@@ -75,9 +75,15 @@ public class BoomerangMod : Mod
     {
         SFXManager.Instance.Play(shootSFX, transform.position);
         PoolObjectType poolObjType = PoolObjectType.VFXBoomerangShoot;
+
         GameObject vfx = ObjectPool.Instance.GetObject(poolObjType);
-        vfx.transform.position = bulletSpawnPoint.position;
-        vfx.transform.rotation = transform.rotation;
+        if (vfx)
+        {
+            vfx.transform.SetParent (transform);
+            vfx.transform.position = bulletSpawnPoint.position;
+            vfx.transform.rotation = transform.rotation;
+        }
+        
         BoomerangBullet bullet = SpawnBullet();
         launcherAnimator.SetTrigger("Fire");
         projectileAnimator.SetTrigger("Fire");

@@ -82,6 +82,7 @@ public class MissileMod : Mod {
             projectile.GetComponent<Missile>().Init(missileSpeed, closeRadius, farRadius, closeDamage, farDamage, projectileLifetime, verticalImpulse, bulletGravity);
 
             GameObject vfx = ObjectPool.Instance.GetObject(shootVFX);
+            vfx.transform.SetParent (transform);
             vfx.transform.position = bulletSpawnPoint.position;
             vfx.transform.rotation = bulletSpawnPoint.rotation;
         }
