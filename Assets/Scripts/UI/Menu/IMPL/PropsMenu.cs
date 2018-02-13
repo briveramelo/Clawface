@@ -68,7 +68,7 @@ public class PropsMenu : Menu
             }
             //TODO: Make function for delete selected item
 
-            if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN))
+            if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.UP))
             {
                 BackAction();
             }
@@ -97,6 +97,7 @@ public class PropsMenu : Menu
     void PlaceProp() {
         GameObject nextWorldProp = Instantiate(selectedProp, propsParent);
         nextWorldProp.transform.position = MouseHelper.currentBlockUnit.spawnTrans.position;
+        nextWorldProp.transform.SetParent(MouseHelper.currentBlockUnit.spawnTrans);
         nextWorldProp.name = selectedProp.name.TryCleanClone();
         MouseHelper.currentBlockUnit.SetOccupation(true);
     }

@@ -72,15 +72,11 @@ public class SpawnMenu : Menu {
             }
             //TODO: Make function for delete selected item
 
-            if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN))
+            if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.UP))
             {
                 BackAction();
             }
-
-            if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN))
-            {
-                BackAction();
-            }
+            
         }
     }
 
@@ -156,6 +152,7 @@ public class SpawnMenu : Menu {
     {
         GameObject nextWorldSpawn = Instantiate(selectedSpawn, spawnParent);
         nextWorldSpawn.transform.position = MouseHelper.currentBlockUnit.spawnTrans.position;
+        nextWorldSpawn.transform.SetParent(MouseHelper.currentBlockUnit.spawnTrans);
         nextWorldSpawn.name = selectedSpawn.name.TryCleanClone();
         MouseHelper.currentBlockUnit.SetOccupation(true);
     }
