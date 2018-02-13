@@ -73,7 +73,8 @@ public class Pool
         int cummulativeObjectsSpawned = 0;
         for (int prefabListIndex = 0; prefabListIndex < prefabs.Count; prefabListIndex++) {
 
-            
+            if (prefabs[prefabListIndex] == null)
+                Debug.Log(this.name);
             GameObject parent = new GameObject(prefabs[prefabListIndex].name);
             parent.transform.SetParent(grandParent.transform);
             int numToSpawn = size / prefabs.Count;

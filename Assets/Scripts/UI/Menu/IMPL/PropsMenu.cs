@@ -66,7 +66,7 @@ public class PropsMenu : Menu
             else if (UpdatePreview) {
                 UpdatePreviewPosition();
             }
-            //Make function for delete selected item
+            //TODO: Make function for delete selected item
 
             if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN))
             {
@@ -77,9 +77,12 @@ public class PropsMenu : Menu
     }
 
     void SelectUIItem() {
-        selectedProp = RaycastToUI();
-        TryDestroyPreview();
-        previewProp = GameObject.Instantiate(selectedProp);
+        selectedProp = ScrollGroupHelper.RaycastToScrollGroup();
+        if (selectedProp)
+        {
+            TryDestroyPreview();
+            previewProp = GameObject.Instantiate(selectedProp);
+        }
     }
 
     void UpdatePreviewPosition() {
@@ -146,34 +149,6 @@ public class PropsMenu : Menu
     #endregion
 
     #region Private Interface
-
-    private GameObject RaycastToUI()
-    {
-        GameObject selectedProp = null;
-        UnityEngine.EventSystems.EventSystem mine = UnityEngine.EventSystems.EventSystem.current;
-
-        pointerData = new PointerEventData(UnityEngine.EventSystems.EventSystem.current);
-
-        pointerData.position = Input.mousePosition;
-
-        List<RaycastResult> results = new List<RaycastResult>();
-
-        mine.RaycastAll(pointerData, results);
-
-        if (results.Count > 0)
-        {
-            foreach (RaycastResult r in results)
-            {
-                PLEProp currentProp = r.gameObject.GetComponent<PLEProp>();
-                if (currentProp)
-                {
-                    selectedProp = currentProp.registeredProp;
-                }
-            }
-        }
-
-        return selectedProp;
-    }
     
     private void BackAction()
     {
