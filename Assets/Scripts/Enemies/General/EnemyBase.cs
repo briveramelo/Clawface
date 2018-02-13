@@ -314,6 +314,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
             }
         }
         animator.enabled = true;
+        animator.SetTrigger("DoGetUp");
         AIController aiController = GetComponent<AIController>();
         if (aiController)
         {
