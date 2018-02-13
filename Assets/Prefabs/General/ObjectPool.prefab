@@ -396,10 +396,17 @@ MonoBehaviour:
     size: 25
     mostUsed: 0
     objects: []
-  - name: BlasterReanimator
+  - name: VFXKamikazeExplosionWarning
     poolObjectType: 65
     prefabs:
-    - {fileID: 1884496262132788, guid: 063275ad067ad9f449ec774d9c883357, type: 2}
+    - {fileID: 1698762830304932, guid: 5c89ba5a596241e46b177cd4e14dafdd, type: 2}
     size: 25
+    mostUsed: 0
+    objects: []
+  - name: VFXEnemyChargeBlaster
+    poolObjectType: 66
+    prefabs:
+    - {fileID: 1920451394156722, guid: 910a954b41a14354e80f09bf3c345764, type: 2}
+    size: 20
     mostUsed: 0
     objects: []

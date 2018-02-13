@@ -78,8 +78,11 @@ public class SpreadGun : Mod {
         }
         SFXManager.Instance.Play(shootSFX, transform.position);
         animator.SetTrigger("Shoot");
+
         GameObject vfx = ObjectPool.Instance.GetObject(shootVFX);
-        if (vfx) {
+        if (vfx)
+        {
+            vfx.transform.SetParent (transform);
             vfx.transform.position = bulletSpawnTransform.position;
             vfx.transform.rotation = bulletSpawnTransform.rotation;
         }

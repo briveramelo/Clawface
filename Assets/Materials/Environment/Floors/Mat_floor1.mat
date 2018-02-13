@@ -19,7 +19,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _Albedo:
-        m_Texture: {fileID: 2800000, guid: 0cfd7738e6d083b46a8a7c60afd08151, type: 3}
+        m_Texture: {fileID: 2800000, guid: f226229c28e79234aa841fce70a34582, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BloodColorationMask:
@@ -55,11 +55,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicSmoothnessEmissiveAO:
-        m_Texture: {fileID: 2800000, guid: 2963a9b20c93b3c4c86958fd80eae00c, type: 3}
+        m_Texture: {fileID: 2800000, guid: 55355ca6067428c43816c9f3a677243b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Normal:
-        m_Texture: {fileID: 2800000, guid: f15e4879b7c433348b9c5fc5d9b3d7f6, type: 3}
+        m_Texture: {fileID: 2800000, guid: e42687c1199f5bf468e0cad58b2ade51, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -85,11 +85,12 @@ Material:
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _EmissiveStrength: 0
+    - _EmissiveStrength: 1
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _Metallic: 0
+    - _MetallicScale: 1
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
@@ -102,9 +103,9 @@ Material:
     - __dirty: 1
     m_Colors:
     - _ASEOutlineColor: {r: 0, g: 0, b: 0, a: 0}
-    - _AlbedoTint: {r: 1, g: 1, b: 1, a: 0}
+    - _AlbedoTint: {r: 0.16176468, g: 0.16176468, b: 0.16176468, a: 0}
     - _Blood1: {r: 0.88235295, g: 0, b: 0.035294086, a: 1}
     - _Blood2: {r: 0.5147059, g: 0.0037846058, b: 0.0037846058, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _EmissiveColor: {r: 1, g: 1, b: 1, a: 0}
+    - _EmissiveColor: {r: 1, g: 0.28676468, b: 0.92129815, a: 0}

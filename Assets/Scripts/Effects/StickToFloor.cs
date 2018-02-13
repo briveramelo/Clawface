@@ -12,7 +12,7 @@ public class StickToFloor : MonoBehaviour
     private void Update()
     {
         RaycastHit hit;
-        if (Physics.Raycast (new Ray(transform.position + new Vector3(0.0f, rayStartOffset, 0.0f), Vector3.down), out hit, Mathf.Infinity, layerMask))
+        if (Physics.Raycast (new Ray(transform.parent.position + new Vector3(0.0f, rayStartOffset, 0.0f), Vector3.down), out hit, Mathf.Infinity, layerMask))
         {
             Vector3 position = transform.position;
             position.y = hit.point.y + offset;

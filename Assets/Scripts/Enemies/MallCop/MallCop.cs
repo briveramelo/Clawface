@@ -81,7 +81,7 @@ public class MallCop : EnemyBase
         return false;
     }
     bool CheckToFinishFiring()
-    {
+    {        
         if (myStats.health <= myStats.skinnableHealth || alreadyStunned)
         {
             controller.CurrentState = stun;
@@ -89,9 +89,8 @@ public class MallCop : EnemyBase
             controller.DeActivateAI();
         }
 
-            if (controller.CurrentState == fire && fire.DoneFiring())
+        if (controller.CurrentState == fire && fire.DoneFiring())
             {
-
                 if (controller.DistanceFromTarget > closeEnoughToFireDistance)
                 {
                     ToleranceTimeToExit();
@@ -271,6 +270,19 @@ public class MallCop : EnemyBase
         animator.SetLayerWeight(3, currentHitReactionLayerWeight);
     }
 
+    void ShowChargeEffect ()
+    {
+        GameObject vfx = ObjectPool.Instance.GetObject(PoolObjectType.VFXEnemyChargeBlaster);
+        Vector3 scaleBackup = vfx.transform.localScale;
+        vfx.transform.SetParent (mod.transform);
+        vfx.transform.localPosition = Vector3.zero;
+        vfx.transform.localRotation = Quaternion.identity;
+        vfx.transform.localScale = new Vector3 (
+            scaleBackup.x / vfx.transform.localScale.x,
+            scaleBackup.y / vfx.transform.localScale.y,
+            scaleBackup.z / vfx.transform.localScale.z
+        );
+    }
 
     #endregion
 

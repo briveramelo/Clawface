@@ -127,6 +127,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4583049800912140}
   - component: {fileID: 212794843023267468}
+  - component: {fileID: 114452343512246538}
   m_Layer: 8
   m_Name: GameObject
   m_TagString: Untagged
@@ -308,6 +309,7 @@ GameObject:
   - component: {fileID: 4152012412468260}
   - component: {fileID: 33952861974394932}
   - component: {fileID: 23195416465571598}
+  - component: {fileID: 114232247552945318}
   m_Layer: 0
   m_Name: Arm_Mid
   m_TagString: Untagged
@@ -389,6 +391,7 @@ GameObject:
   - component: {fileID: 4017953799746766}
   - component: {fileID: 33022962297342250}
   - component: {fileID: 23987148271589300}
+  - component: {fileID: 114777409757151710}
   m_Layer: 0
   m_Name: Arm_Start
   m_TagString: Untagged
@@ -707,6 +710,7 @@ GameObject:
   - component: {fileID: 4414944835318518}
   - component: {fileID: 137286752708950636}
   - component: {fileID: 114796988419787074}
+  - component: {fileID: 114081852227380934}
   m_Layer: 0
   m_Name: Keira_mesh
   m_TagString: Untagged
@@ -909,7 +913,6 @@ GameObject:
   - component: {fileID: 114325496831137656}
   - component: {fileID: 114132200228300390}
   - component: {fileID: 114929162397462484}
-  - component: {fileID: 114230612584863982}
   m_Layer: 8
   m_Name: Player_Combat
   m_TagString: Player
@@ -1596,7 +1599,7 @@ Transform:
   m_GameObject: {fileID: 1703451787772948}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0, y: 0.12, z: 0.089}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_Children:
   - {fileID: 4017953799746766}
   - {fileID: 4152012412468260}
@@ -2869,7 +2872,7 @@ MonoBehaviour:
       localPos: {x: 0.05, y: 0, z: 0}
   rightStickFire: 1
   minJoystickFireMagnitude: 0.7
-  leftHandOnlyFire: 0
+  oneButtonFiresBoth: 0
   useAutofire: 0
 --- !u!114 &114071297937733786
 MonoBehaviour:
@@ -2887,6 +2890,22 @@ MonoBehaviour:
   moveState: {fileID: 114776189445566068}
   playerRigidbody: {fileID: 54953484378717752}
   playerFace: {fileID: 114929162397462484}
+--- !u!114 &114081852227380934
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1548179130936168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc7084e61ce48b14d854732afc9e46bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  palette: {fileID: 11400000, guid: d523dec5d4d7f3b4095ef641ce76b2a8, type: 2}
+  type: 0
+  updateTime: 0
+  colorName: _ASEOutlineColor
+  materialIndex: 0
 --- !u!114 &114132200228300390
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2908,8 +2927,6 @@ MonoBehaviour:
   highlightPoses: 01000000
   totalAttackPoses: 10
   clawArmController: {fileID: 114675049875242238}
-  useClawPunch: 0
-  dashInLookDirection: 0
 --- !u!114 &114136393911348448
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3031,19 +3048,22 @@ MonoBehaviour:
   m_MaximumEffort: 2
   m_Damping: 4
   m_OptimalTargetDistance: 0
---- !u!114 &114230612584863982
+--- !u!114 &114232247552945318
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1737478168596758}
+  m_GameObject: {fileID: 1241115439030452}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 14a5df0819376f34d86a41843d4acfd3, type: 3}
+  m_Script: {fileID: 11500000, guid: dc7084e61ce48b14d854732afc9e46bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isBlockingState: 0
-  clawArmController: {fileID: 114675049875242238}
+  palette: {fileID: 11400000, guid: d523dec5d4d7f3b4095ef641ce76b2a8, type: 2}
+  type: 0
+  updateTime: 0
+  colorName: _ASEOutlineColor
+  materialIndex: 0
 --- !u!114 &114243902593320478
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3241,12 +3261,6 @@ MonoBehaviour:
     ArmExtensionSFX: 14
     ArmEnemyCaptureSFX: 15
     EatSFX: 16
-    headSpinClawRadius: 4
-    headSpinSpeed: 5000
-    headSpinDuration: 7.5
-    headSpinCoolDown: 10
-    headSpinDamage: 0.05
-    clawPunchDistance: 7.5
     dashEnemyCheckRadius: 1
     dashEnemyPushForce: 10
   defaultState: {fileID: 114776189445566068}
@@ -3254,12 +3268,10 @@ MonoBehaviour:
   holdAttackSlowDown: 3
   dashState: {fileID: 114132200228300390}
   dashCoolDown: 0.1
-  useHeadSpin: 0
   eatingState: {fileID: 114325496831137656}
   eatCollider: {fileID: 135888620666243734}
   tutorialSlowDownRate: 0.05
   tutorialSpeedUpRate: 0.05
-  headSpinState: {fileID: 114230612584863982}
 --- !u!114 &114346970600587694
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3440,6 +3452,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playOnAwake: 1
+--- !u!114 &114452343512246538
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1118995196881124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d20957195496ebf4692b64d1b4f3476b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  palette: {fileID: 11400000, guid: d523dec5d4d7f3b4095ef641ce76b2a8, type: 2}
+  type: 1
+  updateTime: 0
 --- !u!114 &114461110543041426
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3890,6 +3916,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isBlockingState: 0
   simpleMoveAndRotate: 1
+--- !u!114 &114777409757151710
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1356087388319460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc7084e61ce48b14d854732afc9e46bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  palette: {fileID: 11400000, guid: d523dec5d4d7f3b4095ef641ce76b2a8, type: 2}
+  type: 0
+  updateTime: 0
+  colorName: _ASEOutlineColor
+  materialIndex: 0
 --- !u!114 &114796988419787074
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3904,7 +3946,8 @@ MonoBehaviour:
   hitFlashColor: {r: 1, g: 1, b: 1, a: 1}
   hitFlashStrength: 1
   hitFlashTime: 0.25
-  stunnedFlashColor: {r: 1, g: 1, b: 1, a: 1}
+  edibleColorPalette: {fileID: 0}
+  edibleColorPaletteType: 0
   stunnedFlashInterval: 0.5
   proximityFlashInterval: 0.2
   stunnedFlashStrength: 1

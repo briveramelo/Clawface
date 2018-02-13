@@ -353,6 +353,16 @@ namespace ModMan {
         }
     }
 
+    public static class SpriteRendererExtensions
+    {
+        public static void SetAlpha (this SpriteRenderer spriteRenderer, float alpha)
+        {
+            Color color = spriteRenderer.color;
+            color.a = alpha;
+            spriteRenderer.color = color;
+        }
+    }
+
     public static class Helpers
     {
         public static void DestroyProper (GameObject gameObject)

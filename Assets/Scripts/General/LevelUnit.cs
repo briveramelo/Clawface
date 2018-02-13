@@ -43,10 +43,9 @@ public class LevelUnit : RoutineRunner {
     [SerializeField] float yMoveSpeed = 0.03f;
 
     [SerializeField] AbsAnim colorShiftAnim;
-    [SerializeField] Color riseColor, flatColor, fallColor;
+    [SerializeField] Color riseColor, fallColor;
+    Color flatColor;
 
-    
-    
     #endregion
 
     #region public variables
@@ -62,6 +61,7 @@ public class LevelUnit : RoutineRunner {
             meshSizeX = meshRenderer.bounds.size.x;
             materialPropertyBlock = new MaterialPropertyBlock();
             meshRenderer.GetPropertyBlock(materialPropertyBlock);
+            flatColor = materialPropertyBlock.GetVector(AlbedoTint);
         }
         colorShiftAnim.OnUpdate = OnColorChange;
         currentState = defaultState;
@@ -304,7 +304,7 @@ public class LevelUnit : RoutineRunner {
             nextState = LevelUnitStates.cover;
             isTransitioning = true;
         }
-        TriggerColorShift(LevelUnitStates.cover);
+            TriggerColorShift(LevelUnitStates.cover);
     }
 
     public void TransitionToFloorState(params object[] inputs) {
@@ -313,7 +313,7 @@ public class LevelUnit : RoutineRunner {
             nextState = LevelUnitStates.floor;
             isTransitioning = true;
         }
-        TriggerColorShift(LevelUnitStates.floor);
+            TriggerColorShift(LevelUnitStates.floor);
     }
 
     public void TransitionToPitState(params object[] inputs) {
@@ -322,7 +322,7 @@ public class LevelUnit : RoutineRunner {
             nextState = LevelUnitStates.pit;
             isTransitioning = true;
         }
-        TriggerColorShift(LevelUnitStates.pit);
+            TriggerColorShift(LevelUnitStates.pit);
     }
 
     public void HideBlockingObject() {

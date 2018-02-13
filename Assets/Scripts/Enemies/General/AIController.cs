@@ -95,6 +95,7 @@ public abstract class AIController : MonoBehaviour {
     public void ActivateAI()
     {
         deActivateAI = false;
+        currentState = states.chase;
     }
 
     protected void Update() {
