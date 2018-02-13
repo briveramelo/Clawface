@@ -1,6 +1,12 @@
-﻿using UnityEngine.UI;
+﻿using System.Collections.Generic;
+
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using UnityEngine;
+
+using ModMan;
 using PlayerLevelEditor;
+
 
 public class SpawnMenu : Menu {
 
@@ -27,7 +33,18 @@ public class SpawnMenu : Menu {
     #region Private Fields
 
     private GameObject selectedSpawn = null;
-    private GameObject newWorldSpawn = null;
+    private GameObject previewSpawn = null;
+    private PointerEventData pointerData;
+    private bool inputGuard = false;
+
+    #endregion
+
+    #region Boolean Helpers
+
+    bool SelectUI { get { return Input.GetMouseButtonDown(MouseButtons.LEFT) && RaycastToUI() != null; } }
+    bool DeselectUI { get { return Input.GetMouseButtonDown(MouseButtons.RIGHT); } }
+    bool Place { get { return Input.GetMouseButtonDown(MouseButtons.LEFT) && selectedSpawn != null && MouseHelper.currentBlockUnit != null && !MouseHelper.currentBlockUnit.GetOccupation(); } }
+    bool UpdatePreview { get { return previewSpawn != null && MouseHelper.currentBlockUnit != null && !MouseHelper.currentBlockUnit.GetOccupation(); } }
 
     #endregion
 
@@ -37,6 +54,28 @@ public class SpawnMenu : Menu {
     {
         if(inputGuard)
         {
+            if (SelectUI)
+            {
+                SelectUIItem();
+            }
+            else if (Place)
+            {
+                PlaceSpawn();
+            }
+            else if (DeselectUI)
+            {
+                DeselectUIItem();
+            }
+            else if (UpdatePreview)
+            {
+                UpdatePreviewPosition();
+            }
+            //TODO: Make function for delete selected item
+
+            if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN))
+            {
+                BackAction();
+            }
 
             if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN))
             {
@@ -53,13 +92,7 @@ public class SpawnMenu : Menu {
     { }
 
     #endregion
-
-    #region Private Fields 
-
-    private bool inputGuard = false;
-
-    #endregion
-
+    
     #region Protected Interface
 
     protected override void ShowComplete()
@@ -89,7 +122,72 @@ public class SpawnMenu : Menu {
     #endregion
 
     #region Private Interface
-    
+
+    private void SelectUIItem()
+    {
+        selectedSpawn = ScrollGroupHelper.RaycastToScrollGroup();
+        if(selectedSpawn)
+        {
+            TryDestroyPreview();
+            previewSpawn = GameObject.Instantiate(selectedSpawn);
+        }
+    }
+
+    private void UpdatePreviewPosition()
+    {
+        previewSpawn.transform.position = MouseHelper.currentBlockUnit.spawnTrans.position;
+    }
+
+    private void DeselectUIItem()
+    {
+        selectedSpawn = null;
+        TryDestroyPreview();
+    }
+
+    private void TryDestroyPreview()
+    {
+        if(previewSpawn)
+        {
+            Helpers.DestroyProper(previewSpawn);
+        }
+    }
+
+    private void PlaceSpawn()
+    {
+        GameObject nextWorldSpawn = Instantiate(selectedSpawn, spawnParent);
+        nextWorldSpawn.transform.position = MouseHelper.currentBlockUnit.spawnTrans.position;
+        nextWorldSpawn.name = selectedSpawn.name.TryCleanClone();
+        MouseHelper.currentBlockUnit.SetOccupation(true);
+    }
+
+    private GameObject RaycastToUI()
+    {
+        GameObject selectedSpawn = null;
+        UnityEngine.EventSystems.EventSystem mine = UnityEngine.EventSystems.EventSystem.current;
+
+        pointerData = new PointerEventData(UnityEngine.EventSystems.EventSystem.current);
+
+        pointerData.position = Input.mousePosition;
+
+        List<RaycastResult> results = new List<RaycastResult>();
+
+        mine.RaycastAll(pointerData, results);
+
+        if (results.Count > 0)
+        {
+            foreach (RaycastResult r in results)
+            {
+                PLESpawn currentSpawn = r.gameObject.GetComponent<PLESpawn>();
+                if (currentSpawn)
+                {
+                    selectedSpawn = currentSpawn.registeredSpawner;
+                }
+            }
+        }
+
+        return selectedSpawn;
+    }
+
     private void BackAction()
     {
         MainPLEMenu menu = editorInstance.GetMenu(PLEMenu.MAIN) as MainPLEMenu;

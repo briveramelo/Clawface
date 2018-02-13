@@ -30,7 +30,6 @@ public class PropsMenu : Menu
     [SerializeField] private Button initiallySelected;
     [SerializeField] private LevelEditor editorInstance;
     [SerializeField] private Transform propsParent;
-    [SerializeField] private MouseHelper mHelper;
 
     #endregion
 
@@ -43,10 +42,11 @@ public class PropsMenu : Menu
     
     #endregion
 
-    bool SelectUI { get { return Input.GetMouseButtonDown(MouseButtons.LEFT) && RaycastToUI()!=null; } }
+    bool SelectUI { get { return Input.GetMouseButtonDown(MouseButtons.LEFT) && RaycastToUI() !=null; } }
     bool DeselectUI { get { return Input.GetMouseButtonDown(MouseButtons.RIGHT); } }
     bool Place { get { return Input.GetMouseButtonDown(MouseButtons.LEFT) && selectedProp != null && MouseHelper.currentBlockUnit != null && !MouseHelper.currentBlockUnit.GetOccupation(); } }
     bool UpdatePreview { get { return previewProp != null && MouseHelper.currentBlockUnit!=null && !MouseHelper.currentBlockUnit.GetOccupation(); } }
+   
     #region Unity Lifecycle
 
     // Update is called once per frame
@@ -149,7 +149,36 @@ public class PropsMenu : Menu
     #endregion
 
     #region Private Interface
-    
+
+    private GameObject RaycastToUI()
+    {
+        GameObject selectedProp = null;
+        UnityEngine.EventSystems.EventSystem mine = UnityEngine.EventSystems.EventSystem.current;
+
+        pointerData = new PointerEventData(UnityEngine.EventSystems.EventSystem.current);
+
+        pointerData.position = Input.mousePosition;
+
+        List<RaycastResult> results = new List<RaycastResult>();
+
+        mine.RaycastAll(pointerData, results);
+
+        if (results.Count > 0)
+        {
+            foreach (RaycastResult r in results)
+            {
+                PLEProp currentProp = r.gameObject.GetComponent<PLEProp>();
+                if (currentProp)
+                {
+                    selectedProp = currentProp.registeredProp;
+                }
+            }
+        }
+
+        return selectedProp;
+    }
+
+
     private void BackAction()
     {
         MainPLEMenu menu = editorInstance.GetMenu(PLEMenu.MAIN) as MainPLEMenu;

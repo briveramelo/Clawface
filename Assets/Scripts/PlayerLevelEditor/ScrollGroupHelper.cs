@@ -9,7 +9,7 @@ public class ScrollGroupHelper : MonoBehaviour {
 
     private static PointerEventData pointerData;
     private static UnityEngine.EventSystems.EventSystem current;
-    private static GameObject selectedProp = null;
+    private static GameObject selectedObject = null;
     
     #endregion
 
@@ -35,14 +35,21 @@ public class ScrollGroupHelper : MonoBehaviour {
             foreach (RaycastResult r in results)
             {
                 PLEProp currentProp = r.gameObject.GetComponent<PLEProp>();
+                PLESpawn currentSpawn = r.gameObject.GetComponent<PLESpawn>();
+
                 if (currentProp)
                 {
-                    selectedProp = currentProp.registeredProp;
+                    selectedObject = currentProp.registeredProp;
+                }
+
+                else if(currentSpawn)
+                {
+                    selectedObject = currentSpawn.registeredSpawner;
                 }
             }
         }
 
-        return selectedProp;
+        return selectedObject;
     }
 
     #endregion
