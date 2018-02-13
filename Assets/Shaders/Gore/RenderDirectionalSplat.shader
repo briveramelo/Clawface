@@ -81,7 +81,7 @@
 							color.a = max(color.a, maskSample.r);
 
 							// Merge normals
-							float3 unpacked = (normalSample * 2) - 1;
+							float3 unpacked = UnpackNormal(normalSample).xyz;
 							color.rgb = MergeNormals(color.rgb, unpacked);
 						}
 					}

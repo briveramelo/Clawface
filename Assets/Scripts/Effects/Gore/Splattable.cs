@@ -57,6 +57,9 @@ public class Splattable : MonoBehaviour
     /// </summary>
     private Queue<QueuedSplat> splatsToRender;
 
+    private Texture2DArray masks;
+    private Texture2DArray normals;
+
 	#endregion
 
 	#region Unity Lifecycle
@@ -72,6 +75,10 @@ public class Splattable : MonoBehaviour
 		splatMap = new RenderTexture (renderTextureWidth, renderTextureHeight, 0, RenderTextureFormat.ARGB32);
 		splatMap.Create ();
 		paintingMaterial = new Material (renderSplat);
+        Vector4[] empty = new Vector4[numSplatsToRender];
+        paintingMaterial.SetVectorArray("_Anchors", empty);
+        paintingMaterial.SetVectorArray("_Rotations", empty);
+        paintingMaterial.SetVectorArray("_Positions", empty);
 
 		propBlock = new MaterialPropertyBlock ();
 		myRenderer = GetComponent<Renderer> ();
@@ -162,8 +169,8 @@ public class Splattable : MonoBehaviour
         // TODO if possible: Convert renderMaterial to a common material and make these [PerRendererData]
         paintingMaterial.SetTexture("_Previous", splatMap);
         paintingMaterial.SetTexture("_PaintMask", paintMask);
-        paintingMaterial.SetTexture("_Masks", CreateTextureArray(masks));
-        paintingMaterial.SetTexture("_Normals", CreateTextureArray(normals));
+        paintingMaterial.SetTexture("_Masks", CreateTextureArray(masks, ref this.masks));
+        paintingMaterial.SetTexture("_Normals", CreateTextureArray(normals, ref this.normals));
         paintingMaterial.SetVectorArray("_Anchors", anchors);
         paintingMaterial.SetVectorArray("_Rotations", rotations);
         paintingMaterial.SetVectorArray("_Positions", positions);
@@ -183,10 +190,14 @@ public class Splattable : MonoBehaviour
     /// </summary>
     /// <param name="textures">The List of Texture2D objects to pack in an array.</param>
     /// <returns>A Texture2DArray containing the textures in the argument list.</returns>
-    private Texture2DArray CreateTextureArray(List<Texture2D> textures)
+    private Texture2DArray CreateTextureArray(List<Texture2D> textures, ref Texture2DArray array)
     {
-        Texture2DArray array = new Texture2DArray( Mathf.FloorToInt(frameDim.x), Mathf.FloorToInt(frameDim.y),
-            textures.Count, textures[0].format, true);
+        if (array == null)
+        {
+            array = new Texture2DArray(Mathf.FloorToInt(frameDim.x), Mathf.FloorToInt(frameDim.y),
+                numSplatsToRender, textures[0].format, true);
+        }
+
         for (int index = 0; index < textures.Count; index++)
         {
             Graphics.CopyTexture(textures[index], 0, array, index);
