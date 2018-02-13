@@ -45,12 +45,23 @@ public class WaveMenu : Menu
     {
         base.ShowComplete();
         inputGuard = true;
+
+        if (EventSystem.Instance)
+        {
+            string event_name = Strings.Events.PLE_TEST_WAVE_ + WaveSystem.currentWave;
+            EventSystem.Instance.TriggerEvent(event_name);
+        }
     }
 
     protected override void HideStarted()
     {
         base.HideStarted();
         inputGuard = false;
+
+        if (EventSystem.Instance)
+        {
+            EventSystem.Instance.TriggerEvent(Strings.Events.PLE_RESET_LEVELSTATE);
+        }
     }
 
     #endregion

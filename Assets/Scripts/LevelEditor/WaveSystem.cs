@@ -24,17 +24,17 @@ public class WaveSystem : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Return))
-        {
-            string wave = Strings.Events.PLE_TEST_WAVE_ + currentWave.ToString();
+        //if(Input.GetKeyDown(KeyCode.Return))
+        //{
+        //    string wave = Strings.Events.PLE_TEST_WAVE_ + currentWave.ToString();
 
-            EventSystem.Instance.TriggerEvent(wave);
+        //    EventSystem.Instance.TriggerEvent(wave);
 
-            currentWave++;
+        //    currentWave++;
 
-            if (currentWave >= maxWave)
-                currentWave = 0;
-        }
+        //    if (currentWave >= maxWave)
+        //        currentWave = 0;
+        //}
     }
 
     private void UpdateWaveText()

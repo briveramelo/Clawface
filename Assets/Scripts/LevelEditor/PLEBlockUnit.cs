@@ -36,6 +36,16 @@ public class PLEBlockUnit : MonoBehaviour
             EventSystem.Instance.RegisterEvent(Strings.Events.PLE_ADD_WAVE, AddWave);
             EventSystem.Instance.RegisterEvent(Strings.Events.PLE_UPDATE_LEVELSTATE, UpdateDynamicLevelState);
         }
+
+        RegisterDefaultState();
+    }
+
+    private void OnEnable()
+    {
+        if (EventSystem.Instance)
+        {
+            EventSystem.Instance.TriggerEvent(Strings.Events.PLE_RESET_LEVELSTATE);
+        }
     }
 
     private void OnDestroy()
@@ -48,6 +58,23 @@ public class PLEBlockUnit : MonoBehaviour
     }
 
     #endregion
+
+    #region Private Interface
+
+    void RegisterDefaultState()
+    {
+        LevelUnit LU = GetComponent<LevelUnit>();
+        if (LU == null) return;
+
+        string event_name = Strings.Events.PLE_RESET_LEVELSTATE;
+        LU.AddFloorStateEvent(event_name);
+        LU.RegisterToEvents();
+    }
+
+
+    #endregion
+
+
 
     #region Public Interface
 
@@ -86,10 +113,6 @@ public class PLEBlockUnit : MonoBehaviour
     {
         LevelStates.Add(LevelUnitStates.floor);
     }
-
-
-
-
 
     public void UpdateDynamicLevelState(params object[] parameters)
     {
