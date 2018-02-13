@@ -30,7 +30,6 @@ public class PropsMenu : Menu
     [SerializeField] private Button initiallySelected;
     [SerializeField] private LevelEditor editorInstance;
     [SerializeField] private Transform propsParent;
-    [SerializeField] private MouseHelper mHelper;
 
     #endregion
 
@@ -43,10 +42,11 @@ public class PropsMenu : Menu
     
     #endregion
 
-    bool SelectUI { get { return Input.GetMouseButtonDown(MouseButtons.LEFT) && RaycastToUI()!=null; } }
+    bool SelectUI { get { return Input.GetMouseButtonDown(MouseButtons.LEFT) && RaycastToUI() !=null; } }
     bool DeselectUI { get { return Input.GetMouseButtonDown(MouseButtons.RIGHT); } }
     bool Place { get { return Input.GetMouseButtonDown(MouseButtons.LEFT) && selectedProp != null && MouseHelper.currentBlockUnit != null && !MouseHelper.currentBlockUnit.GetOccupation(); } }
     bool UpdatePreview { get { return previewProp != null && MouseHelper.currentBlockUnit!=null && !MouseHelper.currentBlockUnit.GetOccupation(); } }
+   
     #region Unity Lifecycle
 
     // Update is called once per frame
@@ -66,7 +66,7 @@ public class PropsMenu : Menu
             else if (UpdatePreview) {
                 UpdatePreviewPosition();
             }
-            //Make function for delete selected item
+            //TODO: Make function for delete selected item
 
             if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN))
             {
@@ -77,9 +77,12 @@ public class PropsMenu : Menu
     }
 
     void SelectUIItem() {
-        selectedProp = RaycastToUI();
-        TryDestroyPreview();
-        previewProp = GameObject.Instantiate(selectedProp);
+        selectedProp = ScrollGroupHelper.RaycastToScrollGroup();
+        if (selectedProp)
+        {
+            TryDestroyPreview();
+            previewProp = GameObject.Instantiate(selectedProp);
+        }
     }
 
     void UpdatePreviewPosition() {
@@ -174,7 +177,8 @@ public class PropsMenu : Menu
 
         return selectedProp;
     }
-    
+
+
     private void BackAction()
     {
         MainPLEMenu menu = editorInstance.GetMenu(PLEMenu.MAIN) as MainPLEMenu;
