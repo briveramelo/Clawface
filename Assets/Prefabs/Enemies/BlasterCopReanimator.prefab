@@ -667,7 +667,7 @@ GameObject:
   - component: {fileID: 4037692710032838}
   - component: {fileID: 135115725107046198}
   m_Layer: 0
-  m_Name: PlayerDetector
+  m_Name: EnemyDetector
   m_TagString: PlayerDetector
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1200,7 +1200,7 @@ GameObject:
   - component: {fileID: 95918438224399824}
   - component: {fileID: 54584080867092864}
   - component: {fileID: 136179924322832506}
-  - component: {fileID: 114038692980872308}
+  - component: {fileID: 114245872920878514}
   - component: {fileID: 114567583818950468}
   - component: {fileID: 114688655684175244}
   - component: {fileID: 114415726037995366}
@@ -2831,54 +2831,6 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114038692980872308
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1884496262132788}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b1444ffcf52e334da0cde9fbf9459dd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controller: {fileID: 114567583818950468}
-  velBody: {fileID: 114688655684175244}
-  animator: {fileID: 95918438224399824}
-  myStats: {fileID: 114415726037995366}
-  navAgent: {fileID: 195267516505952242}
-  navObstacle: {fileID: 208207113347138978}
-  eatHealth: 20
-  bloodEmissionLocation: {fileID: 4426179561426106}
-  scoreValue: 200
-  bufferHealth: 3
-  stunnedTime: 7
-  grabObject: {fileID: 1181628842630280}
-  affectObject: {fileID: 1418280531807818}
-  hitFlasher: {fileID: 114683351225275340}
-  hitSFX: 0
-  deathSFX: 0
-  pushRoot: {fileID: 54723207537948854}
-  pushDirection: 0
-  hips: {fileID: 0}
-  playerDetectorSphereCollider: {fileID: 135115725107046198}
-  closeEnoughToFireDistance: 13
-  properties:
-    runMultiplier: 2.5
-    hitRate: 0
-    selfDestructTime: 0
-    blastRadius: 0
-    rotationSpeed: 0
-    minBounces: 0
-    maxBounces: 0
-    minShots: 0
-    maxShots: 0
-    numberOfShots: 0
-    rotate: 0
-    kamikazeProbability: 0
-    kamikazePulserProbability: 0
-  mod: {fileID: 114876992884506124}
-  maxToleranceTime: 4
 --- !u!114 &114059098425877058
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2916,7 +2868,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   margin: 0.1
   timeTilCull: 5
-  enemyBase: {fileID: 114038692980872308}
+  enemyBase: {fileID: 114245872920878514}
 --- !u!114 &114105734796005168
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2963,6 +2915,54 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 348b0120920885b4195bf71cb50e01dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114245872920878514
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1884496262132788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0629c62368a88547a28ecec7cc1c76a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: {fileID: 114567583818950468}
+  velBody: {fileID: 114688655684175244}
+  animator: {fileID: 95918438224399824}
+  myStats: {fileID: 114415726037995366}
+  navAgent: {fileID: 195267516505952242}
+  navObstacle: {fileID: 208207113347138978}
+  eatHealth: 20
+  bloodEmissionLocation: {fileID: 4426179561426106}
+  scoreValue: 200
+  bufferHealth: 3
+  stunnedTime: 7
+  grabObject: {fileID: 1181628842630280}
+  affectObject: {fileID: 1418280531807818}
+  hitFlasher: {fileID: 114683351225275340}
+  hitSFX: 0
+  deathSFX: 0
+  pushRoot: {fileID: 54723207537948854}
+  pushDirection: 0
+  hips: {fileID: 1889553808235984}
+  enemyDetectorSphereCollider: {fileID: 135115725107046198}
+  closeEnoughToFireDistance: 18
+  properties:
+    runMultiplier: 0
+    hitRate: 0
+    selfDestructTime: 0
+    blastRadius: 0
+    rotationSpeed: 0
+    minBounces: 0
+    maxBounces: 0
+    minShots: 0
+    maxShots: 0
+    numberOfShots: 0
+    rotate: 0
+    kamikazeProbability: 0
+    kamikazePulserProbability: 0
+  bulletHellController: {fileID: 0}
+  maxToleranceTime: 0
 --- !u!114 &114300210336101976
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3021,8 +3021,8 @@ MonoBehaviour:
   attack: 6
   defense: 5
   health: 16
-  maxHealth: 0
-  moveSpeed: 8
+  maxHealth: 16
+  moveSpeed: 12
   rangedAccuracy: 1
   shotSpeed: 21
   shotPushForce: 3

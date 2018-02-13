@@ -126,8 +126,17 @@ public abstract class AIController : MonoBehaviour {
         if (mod != null)
         {
             mod.transform.Reset(modMemento);            
-
         }
+    }
+
+    public bool IsStunned()
+    {
+        return currentState == states.stun;
+    }
+
+    public void SetDefaultState()
+    {
+        CurrentState = states.chase;
     }
 
     public void RestartStateTimer() {

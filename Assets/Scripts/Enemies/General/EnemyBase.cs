@@ -203,6 +203,16 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     {
     }
 
+    public void ResetHealth()
+    {
+        myStats.health = myStats.maxHealth;
+        alreadyStunned = false;
+        isStunFlashing = false;
+        hitFlasher.SetStunnedState();
+        controller.SetDefaultState();
+        currentStunTime = 0.0f;
+    }
+
     public GameObject GetAffectObject()
     {
         return affectObject;
