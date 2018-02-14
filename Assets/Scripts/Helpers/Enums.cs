@@ -169,7 +169,7 @@ public enum PoolObjectType {
     ZombieBeserker = 57,
     ZombieAcider = 58,
     BlasterShotgun = 60,
-    BlasterReanimator = 66,
+    BlasterReanimator = 67,
 }
 
 public enum MovementMode

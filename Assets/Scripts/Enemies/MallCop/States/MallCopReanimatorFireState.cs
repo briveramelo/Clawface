@@ -21,6 +21,7 @@ public class MallCopReanimatorFireState : AIState {
         initialPosition = controller.transform.position;
         navAgent.enabled = false;
         navObstacle.enabled = true;
+        animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.ReadyFire);
         doneFiring = false;
         firstDetection = false;
         animator.SetLayerWeight(1, 0.0f);
@@ -30,7 +31,6 @@ public class MallCopReanimatorFireState : AIState {
         Vector3 lookAtPosition = new Vector3(controller.AttackTarget.position.x, controller.transform.position.y, controller.AttackTarget.position.z);
         controller.transform.LookAt(lookAtPosition);
         navAgent.velocity = Vector3.zero;
-        HealWounded();
         FreezePosition();
     }
 
@@ -41,9 +41,10 @@ public class MallCopReanimatorFireState : AIState {
         animator.SetLayerWeight(1, 0.0f);
     }
 
-    private void HealWounded()
+    public void HealWounded()
     {
-        if (controller.AttackTarget != null)
+        //Make sure to heal an enemy
+        if (controller.AttackTarget != null && controller.AttackTarget.gameObject.tag == Strings.Layers.ENEMY && controller.AttackTarget.gameObject.GetInstanceID() != this.controller.gameObject.GetInstanceID())
         {
             controller.AttackTarget.GetComponent<EnemyBase>().ResetHealth();
         }
@@ -74,6 +75,7 @@ public class MallCopReanimatorFireState : AIState {
 
     public void EndFireDone()
     {
+        controller.AttackTarget = controller.FindPlayer();
         controller.UpdateState(EAIState.Chase);
     }
 

@@ -163,6 +163,15 @@ namespace Turing.VFX
             if (gameObject.activeInHierarchy)
                 StartCoroutine(DoStunnedState());
         }
+
+        public void SetStrength(float newStrength)
+        {
+            MaterialPropertyBlock props = new MaterialPropertyBlock();
+            props.SetFloat("_HitColorStrength", newStrength);
+            foreach (SkinnedMeshRenderer meshRenderer in meshRenderers)
+                meshRenderer.SetPropertyBlock(props);
+        }
+
         #endregion
     }
 }

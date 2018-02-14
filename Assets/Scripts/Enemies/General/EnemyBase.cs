@@ -208,8 +208,12 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         myStats.health = myStats.maxHealth;
         alreadyStunned = false;
         isStunFlashing = false;
-        hitFlasher.SetStunnedState();
+
+
+        hitFlasher.StopAllCoroutines();
+        hitFlasher.SetStrength(0.0f);
         controller.SetDefaultState();
+        controller.ActivateAI();
         currentStunTime = 0.0f;
     }
 
