@@ -55,6 +55,8 @@ public class Spawner : RoutineRunner
                 return PoolObjectType.ZombieAcider;
             case SpawnType.BlasterShotgun:
                 return PoolObjectType.BlasterShotgun;
+            case SpawnType.BlasterReanimator:
+                return PoolObjectType.BlasterReanimator;
 
         }
         return PoolObjectType.MallCopBlaster;

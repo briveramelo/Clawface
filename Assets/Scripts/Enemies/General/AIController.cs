@@ -25,6 +25,7 @@ public abstract class AIController : MonoBehaviour {
     #region 4. Private fields
     private Transform attackTarget;
     private GameObject player;
+    private float distanceFromTarget;
     #endregion
 
     #region 5. Protected fields
@@ -58,7 +59,7 @@ public abstract class AIController : MonoBehaviour {
 
 
     private bool deActivateAI = false;
-    public float distanceFromTarget;
+    
     public float DistanceFromTarget {get{ distanceFromTarget = Vector3.Distance(transform.position, AttackTarget.position); return distanceFromTarget; }}
     public Vector3 DirectionToTarget {
         get {
@@ -74,6 +75,7 @@ public abstract class AIController : MonoBehaviour {
             }
             currentState = value;
             DEBUG_CURRENTSTATE = currentState.ToString();
+            //DEBUG_ATTACKTARGET = attackTarget.gameObject.name.ToString();
             currentState.OnEnter();
             Timing.RunCoroutine(IERestartStateTimer());
         }
@@ -132,8 +134,17 @@ public abstract class AIController : MonoBehaviour {
         if (mod != null)
         {
             mod.transform.Reset(modMemento);            
-
         }
+    }
+
+    public bool IsStunned()
+    {
+        return currentState == states.stun;
+    }
+
+    public void SetDefaultState()
+    {
+        CurrentState = states.chase;
     }
 
     public void RestartStateTimer() {
