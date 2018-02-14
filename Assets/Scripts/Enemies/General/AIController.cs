@@ -24,6 +24,7 @@ public abstract class AIController : MonoBehaviour {
 
     #region 4. Private fields
     private Transform attackTarget;
+    private GameObject player;
     #endregion
 
     #region 5. Protected fields
@@ -78,6 +79,11 @@ public abstract class AIController : MonoBehaviour {
         }
     }
     public List<Func<bool>> checksToUpdateState = new List<Func<bool>>();
+
+    private void Start()
+    {
+        player = null;
+    }
 
     private void OnDisable()
     {
@@ -136,7 +142,10 @@ public abstract class AIController : MonoBehaviour {
 
     public Transform FindPlayer()
     {
-        GameObject player = GameObject.FindGameObjectWithTag(Strings.Tags.PLAYER);
+        if (!player)
+        {
+            player = GameObject.FindGameObjectWithTag(Strings.Tags.PLAYER);
+        }
         if (player)
         {
             return player.transform;
