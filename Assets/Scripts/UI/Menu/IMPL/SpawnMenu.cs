@@ -41,7 +41,7 @@ public class SpawnMenu : Menu {
 
     #region Boolean Helpers
 
-    bool SelectUI { get { return Input.GetMouseButtonDown(MouseButtons.LEFT) && RaycastToUI() != null; } }
+    bool SelectUI { get { return Input.GetMouseButtonDown(MouseButtons.LEFT) && ScrollGroupHelper.currentSpawn != null; } }
     bool DeselectUI { get { return Input.GetMouseButtonDown(MouseButtons.RIGHT); } }
     bool Place { get { return Input.GetMouseButtonDown(MouseButtons.LEFT) && selectedSpawn != null && MouseHelper.currentBlockUnit != null && !MouseHelper.currentBlockUnit.GetOccupation(); } }
     bool UpdatePreview { get { return previewSpawn != null && MouseHelper.currentBlockUnit != null && !MouseHelper.currentBlockUnit.GetOccupation(); } }
@@ -125,10 +125,11 @@ public class SpawnMenu : Menu {
 
     private void SelectUIItem()
     {
-        selectedSpawn = ScrollGroupHelper.RaycastToScrollGroup();
-        if(selectedSpawn)
+        PLESpawn currentSpawn = ScrollGroupHelper.currentSpawn;
+
+        if(currentSpawn)
         {
-            TryDestroyPreview();
+            selectedSpawn = currentSpawn.registeredSpawner;
             previewSpawn = GameObject.Instantiate(selectedSpawn);
         }
     }
@@ -159,35 +160,7 @@ public class SpawnMenu : Menu {
         nextWorldSpawn.name = selectedSpawn.name.TryCleanClone();
         MouseHelper.currentBlockUnit.SetOccupation(true);
     }
-
-    private GameObject RaycastToUI()
-    {
-        GameObject selectedSpawn = null;
-        UnityEngine.EventSystems.EventSystem mine = UnityEngine.EventSystems.EventSystem.current;
-
-        pointerData = new PointerEventData(UnityEngine.EventSystems.EventSystem.current);
-
-        pointerData.position = Input.mousePosition;
-
-        List<RaycastResult> results = new List<RaycastResult>();
-
-        mine.RaycastAll(pointerData, results);
-
-        if (results.Count > 0)
-        {
-            foreach (RaycastResult r in results)
-            {
-                PLESpawn currentSpawn = r.gameObject.GetComponent<PLESpawn>();
-                if (currentSpawn)
-                {
-                    selectedSpawn = currentSpawn.registeredSpawner;
-                }
-            }
-        }
-
-        return selectedSpawn;
-    }
-
+    
     private void BackAction()
     {
         MainPLEMenu menu = editorInstance.GetMenu(PLEMenu.MAIN) as MainPLEMenu;

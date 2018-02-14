@@ -5,12 +5,19 @@ using UnityEngine.EventSystems;
 
 public class ScrollGroupHelper : MonoBehaviour {
 
+    #region Public Fields
+
+    public static PLEProp currentProp = null;
+    public static PLESpawn currentSpawn = null;
+
+    #endregion
+
     #region Private fields
 
     private static PointerEventData pointerData;
     private static UnityEngine.EventSystems.EventSystem current;
     private static GameObject selectedObject = null;
-    
+    private List<RaycastResult> results = new List<RaycastResult>();
     #endregion
 
     #region Unity Lifecycle
@@ -22,11 +29,20 @@ public class ScrollGroupHelper : MonoBehaviour {
 
     }
 
-    public static GameObject RaycastToScrollGroup()
+    private void Update()
+    {
+        RaycastToScrollGroup();
+    }
+
+    #endregion
+
+    #region Private Interface
+
+    private GameObject RaycastToScrollGroup()
     {
         pointerData.position = Input.mousePosition;
 
-        List<RaycastResult> results = new List<RaycastResult>();
+        results = new List<RaycastResult>();
 
         current.RaycastAll(pointerData, results);
 
@@ -34,18 +50,11 @@ public class ScrollGroupHelper : MonoBehaviour {
         {
             foreach (RaycastResult r in results)
             {
-                PLEProp currentProp = r.gameObject.GetComponent<PLEProp>();
-                PLESpawn currentSpawn = r.gameObject.GetComponent<PLESpawn>();
+                currentProp = r.gameObject.GetComponent<PLEProp>();
+                currentSpawn = r.gameObject.GetComponent<PLESpawn>();
 
-                if (currentProp)
-                {
-                    selectedObject = currentProp.registeredProp;
-                }
-
-                else if(currentSpawn)
-                {
-                    selectedObject = currentSpawn.registeredSpawner;
-                }
+                if (currentProp || currentSpawn)
+                    break;
             }
         }
 
