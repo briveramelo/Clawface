@@ -98,7 +98,10 @@ public class GoreManager : Singleton<GoreManager> {
                     Splattable canSplat = obj.GetComponent<Splattable>();
                     if (canSplat) {
                         var buffer = canSplat.QueueSplat(randomSplat, worldPos, new Vector3(1, 0, 0));
-                        uvSpaceCamera.AddCommandBuffer(CameraEvent.AfterEverything, buffer);
+                        if (buffer != null)
+                        {
+                            uvSpaceCamera.AddCommandBuffer(CameraEvent.AfterEverything, buffer);
+                        }
                     }
                 }
             }

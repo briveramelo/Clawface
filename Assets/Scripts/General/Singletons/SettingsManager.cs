@@ -58,7 +58,7 @@ public class SettingsManager : Singleton<SettingsManager>
         }
         set
         {
-            if (value < 0 || value > 4)
+            if (value < 0 || value > 5)
             {
                 Debug.LogWarning("Trying to set bad gore detail level (ignoring): " + value);
                 return;
@@ -84,7 +84,7 @@ public class SettingsManager : Singleton<SettingsManager>
         }
     }
 
-    public float SFXVolumen
+    public float SFXVolume
     {
         get
         {
@@ -188,7 +188,7 @@ public class SettingsManager : Singleton<SettingsManager>
         public bool fullscreen;
 
         [Header("Graphics")]
-        [Range(0, 4)]
+        [Range(0, 5)]
         public int goreDetail;
 
         //// Audio
