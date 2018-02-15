@@ -19,20 +19,9 @@ public class EnvScrollGroup : MonoBehaviour {
 
     private void Start()
     {
-        if (EventSystem.Instance)
-        {
-            EventSystem.Instance.RegisterEvent(Strings.Events.INIT_EDITOR, InitializeWindow);
-        }
+        InitializeWindow();
     }
-
-    private void OnDestroy()
-    {
-        if (EventSystem.Instance)
-        {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.INIT_EDITOR, InitializeWindow);
-        }
-    }
-
+    
     #endregion  
 
     #region Private Interface
