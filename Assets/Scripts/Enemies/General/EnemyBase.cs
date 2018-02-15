@@ -329,13 +329,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
                 }                
             }
         }
-        animator.enabled = true;
-        AIController aiController = GetComponent<AIController>();
-        if (aiController)
-        {
-            aiController.ActivateAI();
-        }
-
+        animator.enabled = true;        
         if (grabObject)
         {
             grabObject.transform.parent = transform;
@@ -467,6 +461,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     {
         EnableCollider();
         DisableRagdoll();
+        animator.SetTrigger("DoGetUp");
         ActivateAIMethods();
         animator.SetTrigger("DoGetUp");
         animator.SetInteger("AnimationState", (int)AnimationStates.Walk);

@@ -90,12 +90,15 @@
         public const string WEAPON_SELECT = "WeaponSelect";
 
         //levelEditor
-        public const string ADD_PROPS_PLE = "AddPropsMenu";
-        public const string ADD_SPAWNS_PLE = "AddSpawnsMenu";
-        public const string SET_DYNLEVEL_PLE = "SetDynamicLevelMenu";
+        public const string ADD_PROPS_PLE = "PropsMenu";
+        public const string ADD_SPAWNS_PLE = "SpawnMenu";
+        public const string SET_DYNLEVEL_PLE = "FloorMenu";
         public const string MAIN_PLE_MENU = "MainPLEMenu";
         public const string INIT_PLE_MENU = "InitPLEMenu";
-
+        public const string SAVE_PLE_MENU = "SaveMenu";
+        public const string WAVE_PLE_MENU = "WaveMenu";
+        public const string HELP_PLE_MENU = "HelpMenu";
+        public const string TEST_PLE_MENU = "TestMenu";
     }
 
     public class Input
@@ -169,9 +172,16 @@
         public const string SHOW_TUTORIAL_TEXT = "ShowTutorialText";
         public const string HIDE_TUTORIAL_TEXT = "HideTutorialText";
 
+
+        public const string PLE_TEST_WAVE_  = "PLE_TEST_WAVE_";
         public const string PLE_TEST_WAVE_0 = "PLE_TEST_WAVE_0";
         public const string PLE_TEST_WAVE_1 = "PLE_TEST_WAVE_1";
         public const string PLE_TEST_WAVE_2 = "PLE_TEST_WAVE_2";
+        public const string PLE_ADD_WAVE    = "PLE_ADD_WAVE";
+
+        public const string PLE_DELETE_CURRENTWAVE = "PLE_DELETE_CURRENTWAVE";
+        public const string PLE_UPDATE_LEVELSTATE  = "PLE_UPDATE_LEVELSTATE";
+        public const string PLE_RESET_LEVELSTATE   = "PLE_RESET_LEVELSTATE";
 
         public const string ENEMY_INVINCIBLE = "ENEMY_INVINCIBLE";
         public const string GAME_CAN_PAUSE = "GAME_CAN_PAUSE";
@@ -190,11 +200,16 @@
 
         //objects
         public const string BASIC_LE_BLOCK = "LECube";
-        public const string BASIC_LVL_BLOCK = "EnvProps/MockBlock";
+        public const string BASIC_LVL_BLOCK = "PLEBlockUnit_Default";
         public const string ENV_OBJECTS_PATH = "PlayerLevelEditorObjects/EnvProps/";
         public const string SPAWN_OBJECTS_PATH = "PlayerLevelEditorObjects/SpawnProps/";
 
         public const string IMAGE_PREVIEW_PATH = "PlayerLevelEditorObjects/png/";
+
+        public const string Tiles = "Tiles";
+        public const string Props = "Props";
+        public const string Spawns = "Spawns";
+        public const string Wave = "Wave";
     }
 
     
