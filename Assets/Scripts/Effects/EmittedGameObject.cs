@@ -16,6 +16,7 @@ public class EmittedGameObject : MonoBehaviour {
 
     public void Init (float duration, AnimationCurve scaleCurve)
     {
+        originalScale = transform.localScale;
         this.duration = duration;
         this.scaleCurve = scaleCurve;
     }
@@ -25,7 +26,7 @@ public class EmittedGameObject : MonoBehaviour {
         lifeTimer += Time.deltaTime;
         if (lifeTimer >= duration)
         {
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
 
         else

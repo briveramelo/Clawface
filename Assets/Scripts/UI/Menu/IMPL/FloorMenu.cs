@@ -21,9 +21,6 @@ public class FloorMenu : Menu {
     #region Private Fields
 
     private bool inputGuard = false;
-    private GameObject mainLevelObject;
-    private GameObject levelBlock;
-    private bool initialized = false;
     private float raycastDistance = 1000.0f;
     private Vector3 sceneMousePos;
     private Vector3 newItemPos = Vector3.zero;
@@ -39,22 +36,22 @@ public class FloorMenu : Menu {
 
 
     #region Unity Lifecycle
+   
 
     private void Update()
     {
         if(inputGuard)
         {
-            if(initialized)
-            {
-                UpdateObjectPreview();
-            }
 
-            if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN))
+
+            if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.UP))
             {
                 BackAction();
             }
         }
     }
+
+
 
     #endregion  
 
@@ -63,31 +60,20 @@ public class FloorMenu : Menu {
     public FloorMenu() : base(Strings.MenuStrings.SET_DYNLEVEL_PLE)
     { }
 
-    public void Initialize(params object[] par)
-    {
-        mainLevelObject = EditorToolKit.FindGameObject("LEVEL");
-        levelBlock = Resources.Load(Strings.Editor.RESOURCE_PATH + Strings.Editor.BASIC_LVL_BLOCK) as GameObject;
-
-        initialized = true;
-    }
 
     public void DropFloorAction()
     {
         List<GameObject> selectedObjects = editorInstance.gridController.GetSelectedBlocks();
 
-        foreach(GameObject GO in selectedObjects)
-        {
-            if(GO != null)
-            {
-                LevelUnit LU = GO.GetComponent<LevelUnit>();
-
-                if (LU) LU.SetCurrentState(LevelUnitStates.pit);
-            }
-            else
-            {
-                selectedObjects.Remove(GO);
-            }
+        foreach(GameObject GO in selectedObjects) {
+            List<LevelUnitStates> LUS = GO.GetComponent<PLEBlockUnit>().GetLevelStates();
+            LUS[WaveSystem.currentWave] = LevelUnitStates.pit;
         }
+
+        if (EventSystem.Instance) {
+            EventSystem.Instance.TriggerEvent(Strings.Events.PLE_UPDATE_LEVELSTATE);
+        }
+
     }
 
     public void FlatFloorAction()
@@ -98,14 +84,18 @@ public class FloorMenu : Menu {
         {
             if (GO != null)
             {
-                LevelUnit LU = GO.GetComponent<LevelUnit>();
-
-                if (LU) LU.SetCurrentState(LevelUnitStates.floor);
+                List<LevelUnitStates> LUS = GO.GetComponent<PLEBlockUnit>().GetLevelStates();
+                LUS[WaveSystem.currentWave] = LevelUnitStates.floor;
             }
             else
             {
                 selectedObjects.Remove(GO);
             }
+        }
+
+        if (EventSystem.Instance)
+        {
+            EventSystem.Instance.TriggerEvent(Strings.Events.PLE_UPDATE_LEVELSTATE);
         }
     }
 
@@ -117,14 +107,18 @@ public class FloorMenu : Menu {
         {
             if (GO != null)
             {
-                LevelUnit LU = GO.GetComponent<LevelUnit>();
-
-                if (LU) LU.SetCurrentState(LevelUnitStates.cover);
+                List<LevelUnitStates> LUS = GO.GetComponent<PLEBlockUnit>().GetLevelStates();
+                LUS[WaveSystem.currentWave] = LevelUnitStates.cover;
             }
             else
             {
                 selectedObjects.Remove(GO);
             }
+        }
+
+        if (EventSystem.Instance)
+        {
+            EventSystem.Instance.TriggerEvent(Strings.Events.PLE_UPDATE_LEVELSTATE);
         }
     }
 
@@ -150,7 +144,6 @@ public class FloorMenu : Menu {
     {
         base.HideStarted();
         inputGuard = false;
-        initialized = false;
         editorInstance.gridController.ClearSelectedBlocks();
         editorInstance.gridController.SetGridVisiblity(false);
     }
@@ -195,7 +188,7 @@ public class FloorMenu : Menu {
         }
 
         //draw preview block at location
-        ToolLib.draft(levelBlock, ToolLib.ConvertToGrid(sceneMousePos - levelBlock.transform.position), Color.green);
+        //ToolLib.draft(previewGridBlock, ToolLib.ConvertToGrid(sceneMousePos - previewGridBlock.transform.position), Color.green);
 
     }
 

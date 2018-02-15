@@ -35,7 +35,7 @@ public class MainPLEMenu : Menu {
     {
         if(inputGuard)
         {
-            if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN))
+            if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.UP))
             {
                 QuitAction();
             }
@@ -66,6 +66,13 @@ public class MainPLEMenu : Menu {
         base.HideStarted();
         inputGuard = false;
     }
+
+    protected override void HideComplete()
+    {
+        base.HideComplete();
+        int x = 3;
+    }
+
 
     protected override void DefaultShow(Transition transition, Effect[] effects)
     {
@@ -104,16 +111,33 @@ public class MainPLEMenu : Menu {
 
     }
 
+    public void OpenSaveAction()
+    {
+        SaveMenu menu = editorInstance.GetMenu(PLEMenu.SAVE) as SaveMenu;
+        MenuManager.Instance.DoTransition(menu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+
+    }
+
+    public void OpenHelpAction()
+    {
+        HelpMenu menu = editorInstance.GetMenu(PLEMenu.HELP) as HelpMenu;
+        MenuManager.Instance.DoTransition(menu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+
+    }
+
+    public void OpenWaveAction()
+    {
+        WaveMenu menu = editorInstance.GetMenu(PLEMenu.WAVE) as WaveMenu;
+        MenuManager.Instance.DoTransition(menu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+
+    }
+
     public void TestLevelAction()
     {
-
+        TestMenu menu = editorInstance.GetMenu(PLEMenu.TEST) as TestMenu;
+        MenuManager.Instance.DoTransition(menu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE});
     }
-
-    public void DuplicateToolAction()
-    {
-
-    }
-
+    
     #endregion
 
     #region Private Interface

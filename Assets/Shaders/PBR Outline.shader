@@ -11,6 +11,7 @@ Shader "PBR Outline"
 		_AlbedoTint("Albedo Tint", Color) = (1,1,1,0)
 		_Normal("Normal", 2D) = "white" {}
 		_MetallicSmoothnessEmissiveAO("MetallicSmoothnessEmissiveAO", 2D) = "white" {}
+		_MetallicScale("Metallic Scale", Range (0.0, 1.0)) = 1.0
 		_EmissiveColor("Emissive Color", Color) = (1,1,1,0)
 		_EmissiveStrength("Emissive Strength", Range( 0 , 5)) = 0
 		_TextureTiling("Texture Tiling", Float) = 1
@@ -54,6 +55,7 @@ Shader "PBR Outline"
 		uniform sampler2D _Albedo;
 		uniform float4 _AlbedoTint;
 		uniform sampler2D _MetallicSmoothnessEmissiveAO;
+		uniform float _MetallicScale;
 		uniform float4 _EmissiveColor;
 		uniform float _EmissiveStrength;
 
@@ -69,7 +71,7 @@ Shader "PBR Outline"
 			o.Normal = UnpackNormal( tex2D( _Normal, i.texcoord_0 ) );
 			o.Albedo = ( tex2D( _Albedo, i.texcoord_0 ) * _AlbedoTint ).xyz;
 			o.Emission = ( ( tex2D( _MetallicSmoothnessEmissiveAO, i.texcoord_0 ).z * _EmissiveColor ) * _EmissiveStrength ).rgb;
-			o.Metallic = tex2D( _MetallicSmoothnessEmissiveAO, i.texcoord_0 ).x;
+			o.Metallic = tex2D(_MetallicSmoothnessEmissiveAO, i.texcoord_0).x * _MetallicScale;
 			o.Smoothness = tex2D( _MetallicSmoothnessEmissiveAO, i.texcoord_0 ).y;
 			o.Occlusion = tex2D( _MetallicSmoothnessEmissiveAO, i.texcoord_0 ).w;
 			o.Alpha = 1;

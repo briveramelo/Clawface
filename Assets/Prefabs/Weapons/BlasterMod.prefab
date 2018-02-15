@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4139109422647026}
   - component: {fileID: 212848766035826630}
   - component: {fileID: 114068777369783902}
+  - component: {fileID: 114303307688055992}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -72,6 +73,7 @@ GameObject:
   - component: {fileID: 23696953131226156}
   - component: {fileID: 33940292094079364}
   - component: {fileID: 95673893484272912}
+  - component: {fileID: 114488279136947244}
   m_Layer: 0
   m_Name: Mesh
   m_TagString: Untagged
@@ -88,6 +90,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4110280413669516}
   - component: {fileID: 212145272129255058}
+  - component: {fileID: 114535315908582916}
   m_Layer: 0
   m_Name: Sprite (1)
   m_TagString: Untagged
@@ -266,6 +269,50 @@ MonoBehaviour:
   bulletLiveTime: 2
   bulletSpeed: 25
   bulletType: 2
+--- !u!114 &114303307688055992
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1007694284918472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d20957195496ebf4692b64d1b4f3476b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  palette: {fileID: 11400000, guid: 69b7bec6cd087b7469ca0bdf63993e25, type: 2}
+  type: 1
+  updateTime: 0
+--- !u!114 &114488279136947244
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1185459907938530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc7084e61ce48b14d854732afc9e46bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  palette: {fileID: 11400000, guid: 69b7bec6cd087b7469ca0bdf63993e25, type: 2}
+  type: 1
+  updateTime: 0
+  colorName: _Color
+  materialIndex: 0
+--- !u!114 &114535315908582916
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1432514518550928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d20957195496ebf4692b64d1b4f3476b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  palette: {fileID: 11400000, guid: 69b7bec6cd087b7469ca0bdf63993e25, type: 2}
+  type: 1
+  updateTime: 0
 --- !u!135 &135919586698204584
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -311,7 +358,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 6bedf0eccb8308644b914375b418fe60, type: 3}
-  m_Color: {r: 0.26666668, g: 0.2647059, b: 1, a: 1}
+  m_Color: {r: 0.24705882, g: 0.24705882, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -353,7 +400,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 45e022543fd2eb14394526100167312c, type: 3}
-  m_Color: {r: 0.49803922, g: 0.49803922, b: 1, a: 1}
+  m_Color: {r: 0.24705882, g: 0.24705882, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

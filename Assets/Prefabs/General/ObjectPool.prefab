@@ -126,7 +126,7 @@ MonoBehaviour:
   - name: VFXBlasterShoot
     poolObjectType: 17
     prefabs:
-    - {fileID: 1304047419736928, guid: 24fe3d045dd9b7342a2df29cb1dc6e78, type: 2}
+    - {fileID: 1921089154119268, guid: 5a352cd94d5c0fe418820a4021897983, type: 2}
     size: 20
     mostUsed: 0
     objects: []
@@ -154,7 +154,7 @@ MonoBehaviour:
   - name: VFXBlasterImpactEffect
     poolObjectType: 3
     prefabs:
-    - {fileID: 1721231149954134, guid: 1a3cf2d121479104994c7791f4b5ae81, type: 2}
+    - {fileID: 1280264375826500, guid: 70231cd42fdf37a4da9bb8c36f424e5e, type: 2}
     size: 400
     mostUsed: 0
     objects: []
@@ -366,5 +366,58 @@ MonoBehaviour:
     prefabs:
     - {fileID: 1983309303701888, guid: fe64b726584f97343a2d31a72e7b7228, type: 2}
     size: 200
+    mostUsed: 0
+    objects: []
+  - name: VFXMortarExplode
+    poolObjectType: 61
+    prefabs:
+    - {fileID: 1388094577342938, guid: c4023ef6d3a6f83488c16ecc99e3fcc1, type: 2}
+    size: 20
+    mostUsed: 0
+    objects: []
+  - name: VFXFish
+    poolObjectType: 62
+    prefabs:
+    - {fileID: 1250428240314920, guid: 28a9bd31163bbff42b85d0e1f011ea14, type: 2}
+    size: 50
+    mostUsed: 0
+    objects: []
+  - name: VFXMortarShell
+    poolObjectType: 63
+    prefabs:
+    - {fileID: 1760655516083668, guid: e4115a0883b76a34da24cf163f58661d, type: 2}
+    size: 25
+    mostUsed: 0
+    objects: []
+  - name: VFXMortarShoot
+    poolObjectType: 64
+    prefabs:
+    - {fileID: 1348975784824880, guid: 870867328b4f1d94a8542780cefb0991, type: 2}
+    size: 25
+    mostUsed: 0
+    objects: []
+  - name: VFXKamikazeExplosionWarning
+    poolObjectType: 65
+    prefabs:
+    - {fileID: 1698762830304932, guid: 5c89ba5a596241e46b177cd4e14dafdd, type: 2}
+    size: 25
+    mostUsed: 0
+    objects: []
+  - name: VFXEnemyChargeBlaster
+    poolObjectType: 66
+    prefabs:
+    - {fileID: 1920451394156722, guid: 910a954b41a14354e80f09bf3c345764, type: 2}
+    size: 20
+    mostUsed: 0
+    objects: []
+  - name: BlasterReanimator
+    poolObjectType: 67
+    prefabs:
+    - {fileID: 1884496262132788, guid: 063275ad067ad9f449ec774d9c883357, type: 2}
+  - name: VFXBoomerangProjectileDie
+    poolObjectType: 68
+    prefabs:
+    - {fileID: 1814792802505142, guid: 2ba83663469c22749b5ffb7be91110ae, type: 2}
+    size: 20
     mostUsed: 0
     objects: []
