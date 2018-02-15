@@ -142,6 +142,7 @@ public enum PoolObjectType {
     VFXMortarShoot=64,
     VFXKamikazeExplosionWarning=65,
     VFXEnemyChargeBlaster=66,
+    VFXBoomerangProjectileDie=68,
 
     //BulletTypes
     TurretBullet = 28,

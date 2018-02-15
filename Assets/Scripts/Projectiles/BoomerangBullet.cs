@@ -38,7 +38,8 @@ public class BoomerangBullet : MonoBehaviour {
 
         if (deathTimer > timeUntilDestroyed || currentDistanceTraveled >= maxDistance || currentBounces > maxBounces)
         {
-            EmitBulletCollision();
+            GameObject vfx = ObjectPool.Instance.GetObject(PoolObjectType.VFXBoomerangProjectileDie);
+            if (vfx) vfx.transform.position = transform.position;
             ResetBullet();
             return;
         }
@@ -64,9 +65,14 @@ public class BoomerangBullet : MonoBehaviour {
                 Vector3 incomingVec = hit.point - this.transform.position;
                 Vector3 reflectVec = Vector3.Reflect(incomingVec, hit.normal);
                 transform.forward = reflectVec;
-                EmitBulletCollision();
                 SFXManager.Instance.Play(SFXType.BlasterProjectileImpact, transform.position);
                 currentBounces++;
+
+                GameObject effect = ObjectPool.Instance.GetObject(PoolObjectType.VFXBoomerangImpact);
+                if (effect)
+                {
+                    effect.transform.position = hit.point;
+                }    
             }
         }
     }
@@ -121,21 +127,15 @@ public class BoomerangBullet : MonoBehaviour {
         }
     }
 
-    private void EmitBulletCollision() {
-        GameObject effect = ObjectPool.Instance.GetObject(PoolObjectType.VFXBoomerangImpact);
-        if (effect) {
-            effect.transform.position = transform.position;
-        }    
-    }
-
     private IEnumerator<float> DestroyAfter()
     {
         yield return Timing.WaitForSeconds(timeUntilDestroyed);
         if (gameObject.activeSelf)
         {
-            EmitBulletCollision();
             trail.Clear();
             gameObject.SetActive(false);
+            GameObject vfx = ObjectPool.Instance.GetObject(PoolObjectType.VFXBoomerangProjectileDie);
+            if (vfx) vfx.transform.position = transform.position;
         }
     }
 
