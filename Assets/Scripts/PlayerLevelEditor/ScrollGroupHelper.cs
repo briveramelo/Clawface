@@ -38,8 +38,10 @@ public class ScrollGroupHelper : MonoBehaviour {
 
     #region Private Interface
 
-    private GameObject RaycastToScrollGroup()
+    private void RaycastToScrollGroup()
     {
+        currentProp = null;
+        currentSpawn = null;
         pointerData.position = Input.mousePosition;
 
         results = new List<RaycastResult>();
@@ -57,8 +59,7 @@ public class ScrollGroupHelper : MonoBehaviour {
                     break;
             }
         }
-
-        return selectedObject;
+        
     }
 
     #endregion
