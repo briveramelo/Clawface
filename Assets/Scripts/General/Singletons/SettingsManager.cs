@@ -2,6 +2,7 @@
 
 using System;
 using UnityEngine;
+using UnityEngine.Audio;
 
 #endregion
 
@@ -130,6 +131,12 @@ public class SettingsManager : Singleton<SettingsManager>
     [SerializeField]
     private Settings defaultSettings;
 
+    [SerializeField]
+    private AudioMixer musicMixer;
+
+    [SerializeField]
+    private AudioMixer sfxMixer;
+
     #endregion
 
     #region Fields (Private)
@@ -146,13 +153,18 @@ public class SettingsManager : Singleton<SettingsManager>
         settings = Settings.ReadSettings();
     }
 
+    private void Start()
+    {
+        settings.ApplySettings(musicMixer, sfxMixer);
+    }
+
     #endregion
 
     #region Interface (Public)
 
     public void ApplyChanges()
     {
-        settings.ApplySettings();
+        settings.ApplySettings(musicMixer, sfxMixer);
         settings.WriteSettings();
     }
 
@@ -223,19 +235,38 @@ public class SettingsManager : Singleton<SettingsManager>
             return toReplace;
         }
 
-        public void ApplySettings()
+        public void ApplySettings(AudioMixer musicMixer, AudioMixer sfxMixer)
         {
             // We really only apply the settings that need to be applied.
             // Most others will be queried by other components in the program.
             QualitySettings.SetQualityLevel(qualityLevel);
             Screen.SetResolution(resolution.width, resolution.height, fullscreen);
-            // TODO set audio settings.
+            musicMixer.SetFloat("Volume", LinearToDecibel(music));
+            sfxMixer.SetFloat("Volume", LinearToDecibel(sfx));
         }
 
         public void WriteSettings()
         {
             string settings = JsonUtility.ToJson(this);
             PlayerPrefs.SetString(SETTINGS, settings);
+        }
+
+        #endregion
+
+        #region Interface (Private)
+
+        // Sourced from: https://answers.unity.com/questions/283192/
+        private float LinearToDecibel(float linear)
+        {
+            float dB;
+            if (linear != 0)
+            {
+                dB = 40F * Mathf.Log10(linear);
+            } else
+            {
+                dB = -80F;
+            }
+            return dB;
         }
 
         #endregion
