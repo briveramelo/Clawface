@@ -11,7 +11,7 @@ public class MenuMusicManager : RoutineRunner {
     static bool isPlaying;
 
     void Start() {
-        EventSystem.Instance.RegisterEvent(Strings.Events.WEAPONSSELECT_FROM_STAGEOVER, Play);
+        EventSystem.Instance.RegisterEvent(Strings.Events.WEAPONS_SELECT_FROM_STAGE_OVER, Play);
         EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_STARTED, Stop);
         EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_RESTARTED, Stop);
         if (playOnStart) {            
@@ -21,7 +21,7 @@ public class MenuMusicManager : RoutineRunner {
 
     void OnDestroy() {
         if (EventSystem.Instance) {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.WEAPONSSELECT_FROM_STAGEOVER, Play);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.WEAPONS_SELECT_FROM_STAGE_OVER, Play);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_STARTED, Stop);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_RESTARTED, Stop);
         }        

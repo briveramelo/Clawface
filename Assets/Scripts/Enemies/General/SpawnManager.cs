@@ -27,7 +27,7 @@ public class SpawnManager : RoutineRunner
 
     void OnDestroy() {        
         if (EventSystem.Instance) {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.WEAPONSSELECT_FROM_STAGEOVER, TerminateSpawnerAndEnemies);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.WEAPONS_SELECT_FROM_STAGE_OVER, TerminateSpawnerAndEnemies);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.CALL_NEXT_WAVE, CallNextSpawner);
         }
     }
@@ -46,7 +46,7 @@ public class SpawnManager : RoutineRunner
 
     void Start()
     {        
-        EventSystem.Instance.RegisterEvent(Strings.Events.WEAPONSSELECT_FROM_STAGEOVER, TerminateSpawnerAndEnemies);
+        EventSystem.Instance.RegisterEvent(Strings.Events.WEAPONS_SELECT_FROM_STAGE_OVER, TerminateSpawnerAndEnemies);
         EventSystem.Instance.RegisterEvent(Strings.Events.CALL_NEXT_WAVE, CallNextSpawner);
         if (spawners.Count == 0)
         {
@@ -97,6 +97,10 @@ public class SpawnManager : RoutineRunner
         {
             //wave complete            
             EventSystem.Instance.TriggerEvent(Strings.Events.WAVE_COMPLETE, waveNumber);
+            if(waveNumber == 0)
+            {
+                SFXManager.Instance.Play(SFXType.AnnounceLevelStart, Vector3.zero);
+            }
             waveNumber++;
             time = spawners[currentSpawner].Time;
             spawner = spawners[currentSpawner++].Prefab.GetComponent<Spawner>();
