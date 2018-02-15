@@ -159,7 +159,7 @@ GameObject:
   - component: {fileID: 65427258851758646}
   - component: {fileID: 114154415669238134}
   m_Layer: 0
-  m_Name: Missile
+  m_Name: Mortar
   m_TagString: Mod
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -410,14 +410,14 @@ MonoBehaviour:
     isCoolingDown: 0
     isActive: 0
   shootSFX: 2
-  missileSpeed: 22
+  missileSpeed: 35
   closeDamage: 2.5
   farDamage: 0.5
   closeRadius: 3.5
   farRadius: 10
   projectileLifetime: 8
-  verticalImpulse: 80
-  bulletGravity: 6
+  verticalImpulse: 40
+  bulletGravity: 200
   animator: {fileID: 95674492031489362}
   shellEmitter: {fileID: 114559412259662952}
   bulletSpawnPoint: {fileID: 4250488396338662}
