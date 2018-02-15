@@ -55,6 +55,8 @@ public class Spawner : RoutineRunner
                 return PoolObjectType.ZombieAcider;
             case SpawnType.BlasterShotgun:
                 return PoolObjectType.BlasterShotgun;
+            case SpawnType.BlasterReanimator:
+                return PoolObjectType.BlasterReanimator;
 
         }
         return PoolObjectType.MallCopBlaster;
@@ -133,8 +135,6 @@ public class Spawner : RoutineRunner
 
     private IEnumerator<float> SpawnEnemyCluster()
     {
-        yield return Timing.WaitForSeconds(0.0f);
-
         for(int i = 0; i < waves[currentWave].monsterList.Count; i++)
         {
             for(int j = 0; j < waves[currentWave].monsterList[i].Count; j++)
@@ -147,7 +147,9 @@ public class Spawner : RoutineRunner
                     spawnEffect.transform.position = spawnPosition;
                 }
                 PoolObjectType enemy = GetPoolObject(waves[currentWave].monsterList[i].Type);
-                Timing.RunCoroutine(DelayAction(() => SpawnEnemy(spawnPosition, enemy), spawnDelay), coroutineName);
+                SpawnEnemy(spawnPosition, enemy);
+                yield return Timing.WaitForSeconds(1.0f);
+                //Timing.RunCoroutine(DelayAction(() => SpawnEnemy(spawnPosition, enemy), spawnDelay), coroutineName);
             }
         }        
 
@@ -169,10 +171,9 @@ public class Spawner : RoutineRunner
             EnemyBase enemyBase = spawnedObject.GetComponent<EnemyBase>();
             if (enemyBase)
             {
-                enemyBase.SpawnWithRagdoll(spawnPosition);
+                enemyBase.SpawnWithRagdoll(spawnPosition);                
             }
-
-            //spawnable.WarpToNavMesh(spawnPosition);
+            
             EventSystem.Instance.TriggerEvent(Strings.Events.ENEMY_SPAWNED, spawnedObject);
 
             currentNumEnemies++;

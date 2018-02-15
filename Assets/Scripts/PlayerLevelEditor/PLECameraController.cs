@@ -134,12 +134,12 @@ namespace PlayerLevelEditor
             }
 
 
-            if (Input.GetMouseButtonDown(1))
+            if (Input.GetMouseButtonDown(MouseButtons.RIGHT))
             {
                 pitch = transform.eulerAngles.x;
                 yaw = transform.eulerAngles.y;
             }
-            if (!Input.GetKey(KeyCode.LeftControl) && Input.GetMouseButton(1))
+            if (!Input.GetKey(KeyCode.LeftControl) && Input.GetMouseButton(MouseButtons.RIGHT))
             {
                 yaw += speedH * Input.GetAxis("Mouse X");
                 pitch -= speedV * Input.GetAxis("Mouse Y");

@@ -126,7 +126,7 @@ MonoBehaviour:
   - name: VFXBlasterShoot
     poolObjectType: 17
     prefabs:
-    - {fileID: 1952365906086912, guid: febfb920ee68a2b4fb35aa033a25e538, type: 2}
+    - {fileID: 1921089154119268, guid: 5a352cd94d5c0fe418820a4021897983, type: 2}
     size: 20
     mostUsed: 0
     objects: []
@@ -410,8 +410,12 @@ MonoBehaviour:
     size: 20
     mostUsed: 0
     objects: []
-  - name: VFXBoomerangProjectileDie
+  - name: BlasterReanimator
     poolObjectType: 67
+    prefabs:
+    - {fileID: 1884496262132788, guid: 063275ad067ad9f449ec774d9c883357, type: 2}
+  - name: VFXBoomerangProjectileDie
+    poolObjectType: 68
     prefabs:
     - {fileID: 1814792802505142, guid: 2ba83663469c22749b5ffb7be91110ae, type: 2}
     size: 20

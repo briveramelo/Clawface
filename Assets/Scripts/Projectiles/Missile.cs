@@ -39,6 +39,8 @@ public class Missile : MonoBehaviour {
 
     private float gravity;
     private float yImpulse;
+
+    Vector3 flattenedForward;
     #endregion
 
     #region Unity lifecycle
@@ -55,10 +57,10 @@ public class Missile : MonoBehaviour {
         if (isReady)
         {
             deathTimer += Time.deltaTime;
-            transform.position += (transform.forward * speed * Time.deltaTime);
-            transform.position += (transform.up * yImpulse * Time.deltaTime);
+            transform.position += (flattenedForward * speed * Time.deltaTime);
+            transform.position += (Vector3.up * yImpulse * Time.deltaTime);
             mesh.transform.LookAt (transform.position + transform.forward * speed + transform.up * yImpulse);
-            yImpulse -= gravity;
+            yImpulse -= gravity * Time.deltaTime;
 
             if (deathTimer > timeTilDeath)
             {
@@ -93,6 +95,10 @@ public class Missile : MonoBehaviour {
         initPosition = transform.position;
         deathTimer = 0f;
         gravity = 0f;
+        flattenedForward = transform.forward;
+        flattenedForward.y = 0f;
+        flattenedForward.Normalize();
+        Debug.Log(flattenedForward + "... " + yImpulse);
         trail.Clear();
     }
     #endregion

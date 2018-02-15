@@ -235,8 +235,6 @@ public class MallCop : EnemyBase
     {
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, closeEnoughToFireDistance);
-        //Gizmos.color = Color.green;
-        //Gizmos.DrawWireSphere(playerDetectorSphereCollider.transform.position, maxDistanceBeforeChasing);
     }
 
     private void ToleranceTimeToExit()
@@ -275,7 +273,8 @@ public class MallCop : EnemyBase
         GameObject vfx = ObjectPool.Instance.GetObject(PoolObjectType.VFXEnemyChargeBlaster);
         Vector3 scaleBackup = vfx.transform.localScale;
         vfx.transform.SetParent (mod.transform);
-        vfx.transform.localPosition = Vector3.zero;
+        //For offsetting the particle
+        vfx.transform.localPosition = new Vector3(0.0f,0.2f,1.0f);
         vfx.transform.localRotation = Quaternion.identity;
         vfx.transform.localScale = new Vector3 (
             scaleBackup.x / vfx.transform.localScale.x,
