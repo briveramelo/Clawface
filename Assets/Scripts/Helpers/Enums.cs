@@ -34,6 +34,9 @@ public enum SFXType {
     ClawExtend,
     ClawGrab,
     PlayerEat,
+    AnnounceDeath,
+    AnnounceLevelStart,
+    AnnounceTitle
 }
 
 public enum MusicType

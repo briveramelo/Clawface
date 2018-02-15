@@ -106,7 +106,7 @@ public class StageOverMenu : Menu
         WeaponSelectMenu weaponMenu = menu as WeaponSelectMenu;
         weaponMenu.menuTarget = Strings.MenuStrings.STAGE_OVER;
 
-        EventSystem.Instance.TriggerEvent(Strings.Events.WEAPONSSELECT_FROM_STAGEOVER);
+        EventSystem.Instance.TriggerEvent(Strings.Events.WEAPONS_SELECT_FROM_STAGE_OVER);
 
         MenuManager.Instance.DoTransition(menu, Transition.SHOW,
             new Effect[] { Effect.EXCLUSIVE });
