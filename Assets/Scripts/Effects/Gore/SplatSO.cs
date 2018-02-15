@@ -84,7 +84,7 @@ public class SplatSO : ScriptableObject {
     /// The frame rate to play this Splat at.
     /// </summary>
     [SerializeField]
-    [Range (1, 60)]
+    [Range (1, 300)]
     private int fps = 15;
 
     #endregion
