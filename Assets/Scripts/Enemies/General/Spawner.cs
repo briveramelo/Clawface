@@ -171,10 +171,9 @@ public class Spawner : RoutineRunner
             EnemyBase enemyBase = spawnedObject.GetComponent<EnemyBase>();
             if (enemyBase)
             {
-                enemyBase.SpawnWithRagdoll(spawnPosition);
+                enemyBase.SpawnWithRagdoll(spawnPosition);                
             }
-
-            //spawnable.WarpToNavMesh(spawnPosition);
+            
             EventSystem.Instance.TriggerEvent(Strings.Events.ENEMY_SPAWNED, spawnedObject);
 
             currentNumEnemies++;

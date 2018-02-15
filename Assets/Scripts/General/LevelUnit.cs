@@ -80,22 +80,20 @@ public class LevelUnit : RoutineRunner {
 
     void FixedUpdate() {
         if (isTransitioning) {
-            if (overlappingObjects == 0) {
+            if (CanStartTransition()) {
                 MoveToNewPosition();
+            }
+            else
+            {
+                int a = 0;
             }
         }
     }
 
-    private void OnTriggerStay(Collider other) {
-        if (isTransitioning) {
-            if (other.gameObject.tag.Equals(Strings.Tags.PLAYER) || other.gameObject.tag.Equals(Strings.Tags.ENEMY)) {
-                if (!overlappingColliders.Contains(other)) {
-                    overlappingObjects++;
-                    overlappingColliders.Add(other);
-                    Timing.RunCoroutine(WaitToRemove(other), Segment.FixedUpdate, coroutineName);
-                }
-            }
-        }
+    private bool CanStartTransition()
+    {
+        string[] masks = { Strings.Layers.ENEMY, Strings.Layers.ENEMY_BODY, Strings.Layers.MODMAN };
+        return !Physics.CheckBox(transform.position, Vector3.one * 0.5f, Quaternion.identity, LayerMask.GetMask(masks));
     }
 
     IEnumerator<float> WaitToRemove(Collider other) {
@@ -188,6 +186,7 @@ public class LevelUnit : RoutineRunner {
                     gameObject.tag = Strings.Tags.FLOOR;
                     gameObject.layer = (int)Layers.Ground;
                     HideBlockingObject();
+                    TriggerColorShift(LevelUnitStates.floor);
                 }
             }
             switch (nextState) {
@@ -299,30 +298,26 @@ public class LevelUnit : RoutineRunner {
     }
 
     public void TransitionToCoverState(params object[] inputs) {
-
         if (currentState != LevelUnitStates.cover) {
             nextState = LevelUnitStates.cover;
             isTransitioning = true;
         }
-            TriggerColorShift(LevelUnitStates.cover);
+        TriggerColorShift(LevelUnitStates.cover);
     }
 
     public void TransitionToFloorState(params object[] inputs) {
-
         if (currentState != LevelUnitStates.floor) {
             nextState = LevelUnitStates.floor;
             isTransitioning = true;
         }
-            TriggerColorShift(LevelUnitStates.floor);
     }
 
     public void TransitionToPitState(params object[] inputs) {
-
         if (currentState != LevelUnitStates.pit) {
             nextState = LevelUnitStates.pit;
             isTransitioning = true;
         }
-            TriggerColorShift(LevelUnitStates.pit);
+        TriggerColorShift(LevelUnitStates.pit);
     }
 
     public void HideBlockingObject() {
