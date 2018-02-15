@@ -134,7 +134,8 @@ public class MainPLEMenu : Menu {
 
     public void TestLevelAction()
     {
-
+        TestMenu menu = editorInstance.GetMenu(PLEMenu.TEST) as TestMenu;
+        MenuManager.Instance.DoTransition(menu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE});
     }
     
     #endregion

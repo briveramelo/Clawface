@@ -98,7 +98,7 @@
         public const string SAVE_PLE_MENU = "SaveMenu";
         public const string WAVE_PLE_MENU = "WaveMenu";
         public const string HELP_PLE_MENU = "HelpMenu";
-
+        public const string TEST_PLE_MENU = "TestMenu";
     }
 
     public class Input
