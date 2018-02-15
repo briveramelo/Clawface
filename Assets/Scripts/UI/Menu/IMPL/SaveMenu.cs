@@ -13,7 +13,7 @@ public class SaveMenu : Menu {
     {
         get
         {
-            throw new System.NotImplementedException();
+            return initiallySelected;
         }
     }
 

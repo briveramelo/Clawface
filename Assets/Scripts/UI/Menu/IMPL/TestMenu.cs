@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+
 using PlayerLevelEditor;
 
-public class WaveMenu : Menu
+public class TestMenu : Menu
 {
+
     #region Public Fields
 
     public override Button InitialSelection
@@ -22,14 +24,6 @@ public class WaveMenu : Menu
 
     [SerializeField] private Button initiallySelected;
     [SerializeField] private LevelEditor editorInstance;
-    [SerializeField] private GameObject realLevelParent;
-
-    #endregion
-
-    #region Public Interface
-
-    public WaveMenu() : base(Strings.MenuStrings.WAVE_PLE_MENU)
-    { }
 
     #endregion
 
@@ -39,50 +33,46 @@ public class WaveMenu : Menu
 
     #endregion
 
-    #region Protected Interface
-
-    protected override void ShowComplete()
-    {
-        base.ShowComplete();
-        inputGuard = true;
-
-        if (EventSystem.Instance)
-        {
-            string event_name = Strings.Events.PLE_TEST_WAVE_ + WaveSystem.currentWave;
-            EventSystem.Instance.TriggerEvent(event_name);
-        }
-    }
-
-    protected override void HideStarted()
-    {
-        base.HideStarted();
-        inputGuard = false;
-
-        if (EventSystem.Instance)
-        {
-            EventSystem.Instance.TriggerEvent(Strings.Events.PLE_RESET_LEVELSTATE);
-        }
-    }
-
-    #endregion
-
     #region Unity Lifecycle
 
     private void Update()
     {
         if (inputGuard)
         {
-            if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.UP))
+            if(InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.UP))
             {
                 BackAction();
             }
-
+            //active update loop
         }
     }
 
     #endregion
 
+    #region Public Interface
+
+    public TestMenu() : base(Strings.MenuStrings.TEST_PLE_MENU)
+    {
+
+    }
+
+
+    #endregion
+
+
     #region Protected Interface
+
+    protected override void ShowComplete()
+    {
+        base.ShowComplete();
+        inputGuard = true;
+    }
+
+    protected override void HideStarted()
+    {
+        base.HideStarted();
+        inputGuard = false;
+    }
 
     protected override void DefaultHide(Transition transition, Effect[] effects)
     {
@@ -98,7 +88,7 @@ public class WaveMenu : Menu
 
     #region Private Interface
 
-    public void BackAction()
+    private void BackAction()
     {
         MenuManager.Instance.DoTransition(editorInstance.GetMenu(PLEMenu.MAIN), Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
     }

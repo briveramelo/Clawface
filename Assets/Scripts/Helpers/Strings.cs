@@ -98,7 +98,7 @@
         public const string SAVE_PLE_MENU = "SaveMenu";
         public const string WAVE_PLE_MENU = "WaveMenu";
         public const string HELP_PLE_MENU = "HelpMenu";
-
+        public const string TEST_PLE_MENU = "TestMenu";
     }
 
     public class Input
@@ -178,8 +178,10 @@
         public const string PLE_TEST_WAVE_1 = "PLE_TEST_WAVE_1";
         public const string PLE_TEST_WAVE_2 = "PLE_TEST_WAVE_2";
         public const string PLE_ADD_WAVE    = "PLE_ADD_WAVE";
+
         public const string PLE_DELETE_CURRENTWAVE = "PLE_DELETE_CURRENTWAVE";
-        public const string PLE_UPDATE_LEVELSTATE = "PLE_UPDATE_LEVELSTATE";
+        public const string PLE_UPDATE_LEVELSTATE  = "PLE_UPDATE_LEVELSTATE";
+        public const string PLE_RESET_LEVELSTATE   = "PLE_RESET_LEVELSTATE";
 
         public const string ENEMY_INVINCIBLE = "ENEMY_INVINCIBLE";
         public const string GAME_CAN_PAUSE = "GAME_CAN_PAUSE";

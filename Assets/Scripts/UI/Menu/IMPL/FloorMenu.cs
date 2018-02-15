@@ -44,7 +44,7 @@ public class FloorMenu : Menu {
         {
 
 
-            if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN))
+            if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.UP))
             {
                 BackAction();
             }
