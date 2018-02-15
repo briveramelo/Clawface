@@ -330,7 +330,6 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
             }
         }
         animator.enabled = true;
-        animator.SetTrigger("DoGetUp");
         AIController aiController = GetComponent<AIController>();
         if (aiController)
         {
@@ -469,6 +468,8 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         EnableCollider();
         DisableRagdoll();
         ActivateAIMethods();
+        animator.SetTrigger("DoGetUp");
+        animator.SetInteger("AnimationState", (int)AnimationStates.Walk);
     }
 
     private void FallDown()
