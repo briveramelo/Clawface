@@ -33,12 +33,8 @@ public class ModManager : MonoBehaviour
     [SerializeField] private ModType[] modPool;
     [SerializeField] private ModPositions modPositions;
 
-    [SerializeField] private bool rightStickFire = true;
     [SerializeField] private float minJoystickFireMagnitude = 0.7f;
-
-    [SerializeField] private bool leftHandOnlyFire = false;
-
-    [SerializeField] private bool useAutofire = false;
+    
     #endregion    
 
     #region Private Fields
@@ -259,43 +255,44 @@ public class ModManager : MonoBehaviour
     private List<ModSpot> GetCommandedModSpots(ButtonMode mode) {
         List<ModSpot> modSpots = new List<ModSpot>();
 
-        if (useAutofire)
+        switch (SettingsManager.Instance.FireMode)
         {
-            modSpots.Add(ModSpot.ArmL);
-            modSpots.Add(ModSpot.ArmR);
-            return modSpots;
-        }
-
-        if (rightStickFire)
-        {
-            bool joystickInput = InputManager.Instance.QueryAxes(Strings.Input.Axes.LOOK).magnitude >= minJoystickFireMagnitude ? true : false;
-
-            if (joystickInput)
-            {
+            case FireMode.AIM_TO_SHOOT:
+                bool joystickInput = InputManager.Instance.QueryAxes(Strings.Input.Axes.LOOK).magnitude >= minJoystickFireMagnitude;
+                if (joystickInput)
+                {
+                    modSpots.Add(ModSpot.ArmL);
+                    modSpots.Add(ModSpot.ArmR);
+                }
+                break;
+            case FireMode.SINGLE_TRIGGER:
+                if (InputManager.Instance.QueryAction(Strings.Input.Actions.FIRE_LEFT, mode) ||
+                    InputManager.Instance.QueryAction(Strings.Input.Actions.FIRE_RIGHT, mode))
+                {
+                    modSpots.Add(ModSpot.ArmL);
+                    modSpots.Add(ModSpot.ArmR);
+                }
+                break;
+            case FireMode.AUTOFIRE:
                 modSpots.Add(ModSpot.ArmL);
                 modSpots.Add(ModSpot.ArmR);
-                return modSpots;
-            }
-        }
-
-        if (InputManager.Instance.QueryAction(Strings.Input.Actions.FIRE_LEFT, mode))
-        {
-            modSpots.Add(ModSpot.ArmL);
-
-            if (leftHandOnlyFire)
-            {
-                modSpots.Add(ModSpot.ArmR);
-                return modSpots;
-            }
-        }
-        if (InputManager.Instance.QueryAction(Strings.Input.Actions.FIRE_RIGHT, mode))
-        {
-            modSpots.Add(ModSpot.ArmR);
+                break;
+            case FireMode.MANUAL:
+                if (InputManager.Instance.QueryAction(Strings.Input.Actions.FIRE_LEFT, mode))
+                {
+                    modSpots.Add(ModSpot.ArmL);
+                }
+                if (InputManager.Instance.QueryAction(Strings.Input.Actions.FIRE_RIGHT, mode))
+                {
+                    modSpots.Add(ModSpot.ArmR);
+                }
+                break;
         }
 
         if (modSpots.Count==0) {
             modSpots.Add(ModSpot.Default);
         }
+
         return modSpots;        
     }
 
