@@ -24,6 +24,7 @@ public class TestMenu : Menu
 
     [SerializeField] private Button initiallySelected;
     [SerializeField] private LevelEditor editorInstance;
+    [SerializeField] private Transform TileParents;
 
     #endregion
 
@@ -43,6 +44,9 @@ public class TestMenu : Menu
             {
                 BackAction();
             }
+
+
+
             //active update loop
         }
     }
@@ -66,6 +70,10 @@ public class TestMenu : Menu
     {
         base.ShowComplete();
         inputGuard = true;
+
+
+
+
     }
 
     protected override void HideStarted()
@@ -92,6 +100,28 @@ public class TestMenu : Menu
     {
         MenuManager.Instance.DoTransition(editorInstance.GetMenu(PLEMenu.MAIN), Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
     }
+
+
+
+    private void InitTest()
+    {
+        if(TileParents.childCount == 0)
+        {
+            Debug.Log("No Tile");
+            return;
+        }
+
+
+        foreach(Transform chindGO in TileParents)
+        {
+            if(chindGO.gameObject.GetComponent<PLEBlockUnit>().GetOccupation() == false)
+            {
+
+            }
+        }
+
+    }
+
 
     #endregion
 }
