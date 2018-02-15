@@ -55,6 +55,8 @@ public class Spawner : RoutineRunner
                 return PoolObjectType.ZombieAcider;
             case SpawnType.BlasterShotgun:
                 return PoolObjectType.BlasterShotgun;
+            case SpawnType.BlasterReanimator:
+                return PoolObjectType.BlasterReanimator;
 
         }
         return PoolObjectType.MallCopBlaster;
@@ -169,10 +171,9 @@ public class Spawner : RoutineRunner
             EnemyBase enemyBase = spawnedObject.GetComponent<EnemyBase>();
             if (enemyBase)
             {
-                enemyBase.SpawnWithRagdoll(spawnPosition);
+                enemyBase.SpawnWithRagdoll(spawnPosition);                
             }
-
-            //spawnable.WarpToNavMesh(spawnPosition);
+            
             EventSystem.Instance.TriggerEvent(Strings.Events.ENEMY_SPAWNED, spawnedObject);
 
             currentNumEnemies++;

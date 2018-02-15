@@ -10,31 +10,31 @@ using ModMan;
 using MovementEffects;
 
 [System.Serializable]
-public class MallCopProperties : AIProperties
+public class MallCopReanimatorProperties : AIProperties
 {
 }
 
-public class MallCop : EnemyBase
+public class MallCopReanimator : EnemyBase
 {
 
     #region 1. Serialized Unity Inspector Fields
-    [SerializeField] SphereCollider playerDetectorSphereCollider;
-    [SerializeField] float closeEnoughToFireDistance;
+    [SerializeField] SphereCollider enemyDetectorSphereCollider;
+    [SerializeField] float closeEnoughToReanimate;
     [SerializeField] private MallCopProperties properties;
-    [SerializeField] private Mod mod;
-    [SerializeField] private float maxToleranceTime;
+    [SerializeField] private Transform healParticleTransform;
     #endregion
 
     #region 2. Private fields
     //The AI States of the Mall Cop
-    private MallCopChaseState chase;
-    private MallCopFireState fire;
+    private MallCopReanimatorChaseState chase;
+    private MallCopReanimatorFireState fire;
     private MallCopStunState stun;
     private MallCopCelebrateState celebrate;
     private float currentToleranceTime;
     private float currentHitReactionLayerWeight;
     private float hitReactionLayerDecrementSpeed = 1.5f;
     private Vector3 rayCastPosition;
+    private bool foundStunnedEnemy = false;
     #endregion
 
     #region 3. Unity Lifecycle
@@ -42,9 +42,7 @@ public class MallCop : EnemyBase
     public override void Awake()
     {
         InitilizeStates();
-        controller.Initialize(properties, mod, velBody, animator, myStats, navAgent, navObstacle, aiStates);
-        mod.setModSpot(ModSpot.ArmR);
-        mod.AttachAffect(ref myStats, velBody);
+        controller.Initialize(properties, velBody, animator, myStats, navAgent, navObstacle, aiStates);
         damaged.Set(DamagedType.MallCop, bloodEmissionLocation);
 
         controller.checksToUpdateState = new List<Func<bool>>() {
@@ -52,11 +50,23 @@ public class MallCop : EnemyBase
             CheckToFinishFiring,
             CheckIfStunned
         };
-
-        mod.damage = myStats.attack;
         currentToleranceTime = 0.0f;
         base.Awake();
     }
+
+    private void OnTriggerStay(Collider other)
+    {
+        //Found an enemy
+        if (other.gameObject.tag == Strings.Layers.ENEMY && other.GetInstanceID() != this.gameObject.GetInstanceID())
+        {
+            if (other.gameObject.GetComponent<AIController>().IsStunned() && !foundStunnedEnemy)
+            {
+                controller.AttackTarget = other.gameObject.transform;
+                foundStunnedEnemy = true;
+            }
+        }
+    }
+
 
     #endregion
 
@@ -65,58 +75,33 @@ public class MallCop : EnemyBase
     //State conditions
     bool CheckToFire()
     {
-        Vector3 fwd = controller.DirectionToTarget;
-        rayCastPosition = new Vector3(controller.transform.position.x, controller.transform.position.y + 1f, controller.transform.position.z);
-        RaycastHit hit;
-
-        if ((controller.CurrentState == chase && controller.DistanceFromTarget <= closeEnoughToFireDistance))
+        if ((controller.CurrentState == chase && foundStunnedEnemy &&  controller.DistanceFromTarget < closeEnoughToReanimate))
         {
-            if (Physics.Raycast(rayCastPosition, fwd, out hit, 50, LayerMask.GetMask(Strings.Layers.MODMAN, Strings.Layers.OBSTACLE)))
-            {
-                if (hit.transform.tag == Strings.Tags.PLAYER)
-                    controller.UpdateState(EAIState.Fire);
-            }
+            controller.UpdateState(EAIState.Fire);
             return true;
         }
         return false;
     }
     bool CheckToFinishFiring()
-    {        
+    {
+
         if (myStats.health <= myStats.skinnableHealth || alreadyStunned)
         {
             controller.CurrentState = stun;
             controller.UpdateState(EAIState.Stun);
             controller.DeActivateAI();
+            return true;
         }
 
         if (controller.CurrentState == fire && fire.DoneFiring())
-            {
-                if (controller.DistanceFromTarget > closeEnoughToFireDistance)
-                {
-                    ToleranceTimeToExit();
-                }
-                else if (controller.DistanceFromTarget < closeEnoughToFireDistance)
-                {
-                    ToleranceTimeToExit();
-                    currentToleranceTime = 0.0f;
-                }
-            else
-            {
-                Vector3 fwd = controller.DirectionToTarget;
-                rayCastPosition = new Vector3(controller.transform.position.x, controller.transform.position.y + 1f, controller.transform.position.z);
-                RaycastHit hit;
-
-                if (Physics.Raycast(rayCastPosition, fwd, out hit, 50, LayerMask.GetMask(Strings.Layers.MODMAN, Strings.Layers.OBSTACLE)))
-                {
-                    if (hit.transform.tag != Strings.Tags.PLAYER)
-                    {
-                        fire.StartEndFire();
-                    }
-                }
-
-            }
+        {
+            
+            fire.StartEndFire();
+            
             return true;
         }
+        
+        
         return false;
     }
     bool CheckIfStunned()
@@ -132,19 +117,22 @@ public class MallCop : EnemyBase
 
     }
 
-    float maxDistanceBeforeChasing { get { return playerDetectorSphereCollider.radius * playerDetectorSphereCollider.transform.localScale.x * transform.localScale.x; } } //assumes parenting scheme...
+    float maxDistanceBeforeChasing { get { return enemyDetectorSphereCollider.radius * enemyDetectorSphereCollider.transform.localScale.x * transform.localScale.x; } } //assumes parenting scheme...
 
 
     public override void OnDeath()
     {
         base.OnDeath();
-        mod.KillCoroutines();
     }
 
     public override void ResetForRebirth()
     {
-        mod.setModSpot(ModSpot.ArmR);
         base.ResetForRebirth();
+    }
+
+    public void Heal()
+    {
+        fire.HealWounded();
     }
 
     public void ReadyToFire()
@@ -154,18 +142,8 @@ public class MallCop : EnemyBase
 
     public void EndFireDone()
     {
+        foundStunnedEnemy = false;
         fire.EndFireDone();
-    }
-
-    public void StartAiming()
-    {
-        animator.SetLayerWeight(2, 1.0f);
-    }
-
-    public void StopAiming()
-    {
-        fire.StopAiming();
-        animator.SetLayerWeight(2, 0.0f);
     }
 
     public override void DoPlayerKilledState(object[] parameters)
@@ -217,9 +195,9 @@ public class MallCop : EnemyBase
     private void InitilizeStates()
     {
         aiStates = new List<AIState>();
-        chase = new MallCopChaseState();
+        chase = new MallCopReanimatorChaseState();
         chase.stateName = "chase";
-        fire = new MallCopFireState();
+        fire = new MallCopReanimatorFireState();
         fire.stateName = "fire";
         stun = new MallCopStunState();
         stun.stateName = "stun";
@@ -234,26 +212,11 @@ public class MallCop : EnemyBase
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position, closeEnoughToFireDistance);
+        Gizmos.DrawWireSphere(transform.position, closeEnoughToReanimate);
+        //Gizmos.color = Color.green;
+        //Gizmos.DrawWireSphere(playerDetectorSphereCollider.transform.position, maxDistanceBeforeChasing);
     }
 
-    private void ToleranceTimeToExit()
-    {
-        currentToleranceTime += Time.deltaTime;
-
-        if (currentToleranceTime >= maxToleranceTime)
-        {
-            if (controller.DistanceFromTarget < closeEnoughToFireDistance)
-            {
-                currentToleranceTime = 0.0f;
-            }
-            else
-            {
-                fire.StartEndFire();
-            }
-        }
-
-    }
 
     private IEnumerator<float> HitReactionLerp()
     {
@@ -268,21 +231,20 @@ public class MallCop : EnemyBase
         animator.SetLayerWeight(3, currentHitReactionLayerWeight);
     }
 
-    void ShowChargeEffect ()
+    void ShowChargeEffect()
     {
         GameObject vfx = ObjectPool.Instance.GetObject(PoolObjectType.VFXEnemyChargeBlaster);
         Vector3 scaleBackup = vfx.transform.localScale;
-        vfx.transform.SetParent (mod.transform);
+        vfx.transform.SetParent(healParticleTransform);
         //For offsetting the particle
-        vfx.transform.localPosition = new Vector3(0.0f,0.2f,1.0f);
+        vfx.transform.localPosition = Vector3.zero;
         vfx.transform.localRotation = Quaternion.identity;
-        vfx.transform.localScale = new Vector3 (
+        vfx.transform.localScale = new Vector3(
             scaleBackup.x / vfx.transform.localScale.x,
             scaleBackup.y / vfx.transform.localScale.y,
             scaleBackup.z / vfx.transform.localScale.z
         );
     }
-
     #endregion
 
 }
