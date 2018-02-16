@@ -62,6 +62,7 @@ public class LevelDataManager : RoutineRunner {
                     case LevelUnitStates.pit: levelUnit.AddPitStateEvent(eventName); break;
                 }
             }
+            levelUnit.RegisterToEvents();
         }
     }
 
@@ -94,8 +95,10 @@ public class LevelDataManager : RoutineRunner {
                 child.position = spawnData.position.AsVector;
             }
         }
-        spawnParent.ToggleAllChildren(false);
-        spawnParent.GetChild(0).gameObject.SetActive(true);
+        if (spawnParent.childCount>0) {
+            spawnParent.ToggleAllChildren(false);
+            spawnParent.GetChild(0).gameObject.SetActive(true);
+        }
         waveSystem.ResetToWave0();
     }
     #endregion
