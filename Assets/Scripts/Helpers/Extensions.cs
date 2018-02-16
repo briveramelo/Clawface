@@ -305,21 +305,16 @@ namespace ModMan {
             transformToRestore.rotation = startRotation;
         }
 
-        public static void DestroyAllChildren (this Transform transform)
-        {
-            //Debug.Log ("child count " + transform.childCount.ToString());
-            //Debug.Log ("shit");
-            int count = transform.childCount;
-            for (int i = 0; i < count-1; i++)
-            {
-                Helpers.DestroyProper(transform.GetChild(i).gameObject);
-            }
-        }
-
-        public static void DestroyAllChildren1(this Transform transform) {
+        public static void DestroyAllChildren(this Transform transform) {
             int count = transform.childCount;
             for (int i = count - 1; i >=0; i--) {
                 Helpers.DestroyProper(transform.GetChild(i).gameObject);
+            }
+        }
+        public static void ToggleAllChildren(this Transform transform, bool enabled) {
+            int count = transform.childCount;
+            for (int i = count - 1; i >= 0; i--) {
+                transform.GetChild(i).gameObject.SetActive(enabled);
             }
         }
     }

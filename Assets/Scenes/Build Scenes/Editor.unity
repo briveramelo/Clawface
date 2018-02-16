@@ -648,6 +648,11 @@ Prefab:
       propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114668926659405458, guid: 5e7918a87c1bcda4e85da0e79fe13662,
+        type: 2}
+      propertyPath: faderDuration
+      value: 0.1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5e7918a87c1bcda4e85da0e79fe13662, type: 2}
   m_IsPrefabParent: 0
@@ -1507,6 +1512,11 @@ Prefab:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114227295990773728, guid: dc7165861f6f6514b801d2d1bd9bbf6a,
+        type: 2}
+      propertyPath: faderDuration
+      value: 0.1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: dc7165861f6f6514b801d2d1bd9bbf6a, type: 2}
   m_IsPrefabParent: 0
@@ -1613,6 +1623,11 @@ Prefab:
       propertyPath: TileParents
       value: 
       objectReference: {fileID: 1550652432}
+    - target: {fileID: 114975273168620376, guid: 5d4815fa76705444486dd40ae7e1915e,
+        type: 2}
+      propertyPath: faderDuration
+      value: 0.1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5d4815fa76705444486dd40ae7e1915e, type: 2}
   m_IsPrefabParent: 0
@@ -1738,7 +1753,7 @@ Prefab:
     - target: {fileID: 114444987615557282, guid: 276672d4c27918744a57ba9484a193ce,
         type: 2}
       propertyPath: faderDuration
-      value: 0.25
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 114444987615557282, guid: 276672d4c27918744a57ba9484a193ce,
         type: 2}
@@ -1916,7 +1931,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1d639908595252468bf81da3877e24b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridTiles: []
   objectGrid: {fileID: 1319605150}
   realLevel: {fileID: 40200495}
   tileParent: {fileID: 1550652432}

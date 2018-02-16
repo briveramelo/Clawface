@@ -4,7 +4,7 @@ using PlayerLevelEditor;
 using ModMan;
 public class PlayerLevelEditorGrid : MonoBehaviour {
     #region Private Fields
-    public List<GridTile> gridTiles = new List<GridTile>();
+    private List<GridTile> gridTiles = new List<GridTile>();
 
     private GameObject previewBlock = null;
     private GameObject spawnedBlock = null;

@@ -39,7 +39,7 @@ public class LevelDataManager : RoutineRunner {
         Timing.RunCoroutine(DelayAction(()=> {
             LoadTiles();
             LoadProps();
-            //SpawnSpawns();
+            SpawnSpawns();
         }), coroutineName);        
     }
 
@@ -65,7 +65,7 @@ public class LevelDataManager : RoutineRunner {
     }
 
     void LoadProps() {
-        propsParent.DestroyAllChildren1();
+        propsParent.DestroyAllChildren();
         List<GameObject> propPrefabs = Resources.LoadAll<GameObject>(Strings.Editor.ENV_OBJECTS_PATH).ToList();
         for (int i = 0; i < ActivePropData.Count; i++) {
             PropData propData = ActivePropData[i];
@@ -78,19 +78,25 @@ public class LevelDataManager : RoutineRunner {
     }
 
     void SpawnSpawns() {
-        //FIX
-        GameObject[] enemyUIPrefabs = Resources.LoadAll<GameObject>(Strings.Editor.RESOURCE_PATH + Strings.Editor.BASIC_LVL_BLOCK);
+        List<GameObject> spawnObjects = Resources.LoadAll<GameObject>(Strings.Editor.SPAWN_OBJECTS_PATH).ToList();
+        spawnParent.DestroyAllChildren();
         for (int i = 0; i < ActiveWaveData.Count; i++) {
             GameObject waveParent = new GameObject(GetWaveName(i));
-            spawnParent.transform.SetParent(spawnParent);
+            waveParent.transform.SetParent(spawnParent);
             for (int j = 0; j < ActiveWaveData[i].spawnData.Count; j++) {
                 SpawnData spawnData = ActiveWaveData[i].spawnData[j];
-                int spawnType = spawnData.spawnType;
-                GameObject enemyUIPrefabToSpawn = enemyUIPrefabs[spawnType];
+                GameObject enemyUIPrefabToSpawn = spawnObjects[spawnData.spawnType];
                 Transform child = Instantiate(enemyUIPrefabToSpawn, waveParent.transform, false).transform;
-                //child.GetComponent<SPAWNUI>.SetCount(spawnData.count);
+                PLESpawn pleSpawn = child.GetComponent<PLESpawn>();
+                pleSpawn.spawnCount = spawnData.count;
+                pleSpawn.spawnType = spawnData.SpawnType;
                 child.position = spawnData.position.AsVector;
             }
+        }
+        spawnParent.ToggleAllChildren(false);
+        Transform currentWaveChild = spawnParent.GetChild(WaveSystem.currentWave);
+        if (currentWaveChild) {
+            currentWaveChild.gameObject.SetActive(true);
         }
     }
     #endregion
@@ -133,8 +139,9 @@ public class LevelDataManager : RoutineRunner {
             Transform waveParent = spawnParent.GetChild(i);
             for (int j = 0; j < waveParent.childCount; j++) {
                 Transform spawnUI = waveParent.GetChild(j);
-                int spawnType = 0; //HOW DO I GET THIS FOR REAL
-                int spawnCount = 1;//prop.GetComponent<SPAWNUI>.GetCount();
+                PLESpawn spawn = spawnUI.GetComponent<PLESpawn>();
+                int spawnType = (int)spawn.spawnType;
+                int spawnCount = spawn.spawnCount;
                 SpawnData spawnData = new SpawnData(spawnType, spawnCount, spawnUI.position);
                 ActiveWaveData[i].spawnData.Add(spawnData);
             }

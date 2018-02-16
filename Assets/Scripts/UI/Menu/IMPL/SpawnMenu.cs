@@ -7,10 +7,6 @@ public class SpawnMenu : PlacementMenu {
     public SpawnMenu() : base(Strings.MenuStrings.ADD_SPAWNS_PLE) { }
     #endregion
 
-    #region Private Fields
-    private PointerEventData pointerData;
-    #endregion
-
     private void Awake() {
         EventSystem.Instance.RegisterEvent(Strings.Events.PLE_CHANGEWAVE, OnWaveChange);
     }
