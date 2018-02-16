@@ -30,12 +30,9 @@ public class MouseHelper : MonoBehaviour {
     }
     private void Update() {
         r = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-
+        
         RaycastItems(r);
         RaycastGround(r);
-
-
     }
 
     void RaycastItems(Ray r) {
@@ -57,7 +54,6 @@ public class MouseHelper : MonoBehaviour {
         else {
             currentBlockUnit = null;
         }
-
     }
 
     #endregion 

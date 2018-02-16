@@ -140,6 +140,10 @@ namespace ModMan {
             vector.y=0;
             return vector.normalized;
         }
+        public static Vector3 NoY(this Vector3 vec) {
+            vec.y = 0;
+            return vec;
+        }
         /// <summary>
         /// Returns the greatest of this vector's components.
         /// </summary>
