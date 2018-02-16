@@ -13,6 +13,7 @@ namespace PlayerLevelEditor
         [SerializeField] private float pitchSpeed = 4f;
         [SerializeField] private float panSpeed = 0.01f;
         [SerializeField] private float zPanSpeed = 0.01f;
+        [SerializeField] private float zoomScrubSpeed = 0.01f;
 
         private Material lineMaterial;
         private Color lineColor = Color.red;
@@ -45,6 +46,7 @@ namespace PlayerLevelEditor
         {
             HandleCameraMovement();
             HandleCameraRotation();
+            HandleCameraZooming();
         }
 
         //void OnPostRender()
@@ -90,8 +92,7 @@ namespace PlayerLevelEditor
 
         
         void HandleCameraMovement() {
-            const float moveSpeed = 0.5f;
-            const float scrollSpeed = 5f;
+            const float moveSpeed = 0.5f;            
             if (Input.GetKey(KeyCode.W)) {
                 transform.Translate(moveSpeed * Vector3.forward);
             }
@@ -106,16 +107,7 @@ namespace PlayerLevelEditor
 
             if (Input.GetKey(KeyCode.A)) {
                 transform.Translate(moveSpeed * Vector3.left);
-            }
-
-            if (Input.GetAxis("Mouse ScrollWheel") < 0) { // back
-                mainCamera.transform.Translate(Vector3.forward * scrollSpeed);
-            }
-
-            if (Input.GetAxis("Mouse ScrollWheel") > 0) {// forward
-                mainCamera.transform.Translate(Vector3.back * scrollSpeed);
-            }
-
+            }            
 
             if (Input.GetMouseButtonDown(MouseButtons.MIDDLE) || (Input.GetMouseButtonDown(MouseButtons.LEFT) && Input.GetKey(KeyCode.Space))) {
                 startScreenPosition = Input.mousePosition;
@@ -132,6 +124,27 @@ namespace PlayerLevelEditor
                 mainCamera.transform.position = startCamPosition + screenDiff * panSpeed;
             }
 
+        }
+
+        void HandleCameraZooming() {
+            const float scrollSpeed = 5f;
+            if (Input.GetAxis("Mouse ScrollWheel") < 0) { // back
+                mainCamera.transform.Translate(Vector3.forward * scrollSpeed);
+            }
+
+            if (Input.GetAxis("Mouse ScrollWheel") > 0) {// forward
+                mainCamera.transform.Translate(Vector3.back * scrollSpeed);
+            }
+
+            if (Input.GetMouseButtonDown(MouseButtons.LEFT) && Input.GetKey(KeyCode.Z)) {
+                startScreenPosition = Input.mousePosition;
+                startCamPosition = mainCamera.transform.position;
+            }
+            if (Input.GetMouseButton(MouseButtons.LEFT) && Input.GetKey(KeyCode.Z)) {
+                Vector3 screenDiff = Input.mousePosition - startScreenPosition;
+                float shift = Vector3.Dot(Vector3.right, screenDiff);
+                mainCamera.transform.position = startCamPosition + mainCamera.transform.forward * shift * zoomScrubSpeed;
+            }
         }
 
         void HandleCameraRotation() {
