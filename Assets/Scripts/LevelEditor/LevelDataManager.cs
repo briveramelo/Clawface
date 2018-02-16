@@ -4,6 +4,7 @@ using UnityEngine;
 using ModMan;
 using MovementEffects;
 using System.Linq;
+using UnityEngine.UI;
 
 public class LevelDataManager : RoutineRunner {
 
@@ -11,6 +12,7 @@ public class LevelDataManager : RoutineRunner {
     [SerializeField] private Transform tileParent, propsParent, spawnParent;
     [SerializeField] private PlayerLevelEditorGrid playerLevelEditorGrid;
     [SerializeField] private WaveSystem waveSystem;
+    [SerializeField] private InputField levelName, levelDescription;
 
     private DataSave DataSave { get { return DataPersister.ActiveDataSave; } }
     private LevelData ActiveLevelData { get { return DataSave.ActiveLevelData; } }
@@ -109,6 +111,8 @@ public class LevelDataManager : RoutineRunner {
         SaveProps();
         SaveSpawns();
 
+        ActiveLevelData.name = levelName.text;
+        ActiveLevelData.description= levelDescription.text;
         dataPersister.TrySave();
     }
     void SaveTiles() {

@@ -62,14 +62,12 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
             }
 
             if (currentEditorMenu == EditorMenu.PROPS_MENU) {
-                //                DrawPreviewBlock(hit);
+                //DrawPreviewBlock(hit);
             }
             else if (currentEditorMenu == EditorMenu.FLOOR_MENU) {
                 DrawPreviewBlock(hit);
-                CreateBlock(hit);
+                HandleBlockInteractions(hit);
             }
-
-
         }
     }
 
@@ -84,22 +82,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         spawnddBlockDefaultColor = spawnedBlock.GetComponent<Renderer>().sharedMaterial.color;
 
         InitGridTiles();
-    }
-
-    private void CreateBlock(RaycastHit hit) {
-        if (Input.GetKey(KeyCode.LeftShift) && Input.GetMouseButtonUp(MouseButtons.LEFT)) {
-            SelectBlocks(hit);
-        }
-        else if (Input.GetMouseButtonUp(MouseButtons.LEFT)) {
-            DeselectBlocks();
-            DuplicateBlocks(hit);
-        }
-
-        if (Input.GetKey(KeyCode.LeftControl) && Input.GetMouseButtonUp(MouseButtons.RIGHT)) {
-            DeselectBlocks();
-            DeleteBlocks(hit);
-        }
-    }
+    }    
 
     private void DrawPreviewBlock(RaycastHit hit) {
         #region clean up lastHoveredObjects
@@ -149,6 +132,21 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
 
     }
 
+    private void HandleBlockInteractions(RaycastHit hit) {
+        if (Input.GetKey(KeyCode.LeftShift) && Input.GetMouseButtonUp(MouseButtons.LEFT)) {
+            SelectBlocks(hit);
+        }
+        else if (Input.GetMouseButtonUp(MouseButtons.LEFT)) {
+            DeselectBlocks();
+            DuplicateBlocks(hit);
+        }
+
+        if (Input.GetMouseButtonUp(MouseButtons.RIGHT)) {
+            DeselectBlocks();
+            DeleteBlocks(hit);
+        }
+    }
+
     void InitGridTiles() {
         for (int i = -levelSize; i <= levelSize; i++) {
             for (int j = -levelSize; j <= levelSize; j++) {
@@ -185,8 +183,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         }
     }
 
-    void DeleteBlocks(RaycastHit hit)
-    {
+    void DeleteBlocks(RaycastHit hit) {
         List<GameObject> Objects = SelectObjectsAlgorithm(hit);
         DeleteBlocks(Objects);
     }
@@ -211,8 +208,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         }
     }
 
-    void SelectBlocks(RaycastHit hit)
-    {
+    void SelectBlocks(RaycastHit hit) {
         List<GameObject> Objects = SelectObjectsAlgorithm(hit);
 
         for(int i = 0; i < gridTiles.Count; i++) {
@@ -224,12 +220,12 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         }
     }
 
-    List<GameObject> SelectObjectsAlgorithm(RaycastHit hit)
-    {
+    List<GameObject> SelectObjectsAlgorithm(RaycastHit hit) {
         List<GameObject> Objects = new List<GameObject>();
 
-        if (OnClickObject == null)
+        if (OnClickObject == null) {
             return Objects;
+        }
 
 
         float xMax = Mathf.Max(OnClickObject.transform.position.x, hit.transform.position.x);
@@ -241,17 +237,16 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
 
         var HitsInX = Physics.BoxCastAll(new Vector3(xMin, 0, zMin), new Vector3(1, 1, 1), Vector3.right, Quaternion.identity, xMax - xMin);
 
-        foreach (var itemX in HitsInX)
-        {
+        foreach (var itemX in HitsInX) {
             if(!Objects.Contains(itemX.transform.gameObject))
                 Objects.Add(itemX.transform.gameObject);
 
             var HitsInZ = Physics.BoxCastAll(itemX.transform.position, new Vector3(1, 1, 1), Vector3.forward, Quaternion.identity, zMax - zMin);
 
-            foreach (var itemZ in HitsInZ)
-            {
-                if (!Objects.Contains(itemZ.transform.gameObject))
+            foreach (var itemZ in HitsInZ) {
+                if (!Objects.Contains(itemZ.transform.gameObject)) {
                     Objects.Add(itemZ.transform.gameObject);
+                }
             }
         }
 
@@ -270,18 +265,13 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         });
     }    
 
-    public void ClearSelectedBlocks()
-    {
+    public void ClearSelectedBlocks() {
         DeselectBlocks();
     }
 
-    public List<GameObject> GetSelectedBlocks()
-    {
-        return selectedObjects;
-    }    
+    public List<GameObject> GetSelectedBlocks() { return selectedObjects; }    
 
-    public void SetGridVisiblity(bool i_set)
-    {
+    public void SetGridVisiblity(bool i_set) {
         displaying = i_set;
         for (int i = 0; i < gridTiles.Count; i++) {
             gridTiles[i].TryShowGhost();
