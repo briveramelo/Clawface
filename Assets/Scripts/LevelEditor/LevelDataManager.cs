@@ -10,6 +10,7 @@ public class LevelDataManager : RoutineRunner {
 	[SerializeField] private DataPersister dataPersister;
     [SerializeField] private Transform tileParent, propsParent, spawnParent;
     [SerializeField] private PlayerLevelEditorGrid playerLevelEditorGrid;
+    [SerializeField] private WaveSystem waveSystem;
 
     private DataSave DataSave { get { return DataPersister.ActiveDataSave; } }
     private LevelData ActiveLevelData { get { return DataSave.ActiveLevelData; } }
@@ -94,10 +95,8 @@ public class LevelDataManager : RoutineRunner {
             }
         }
         spawnParent.ToggleAllChildren(false);
-        Transform currentWaveChild = spawnParent.GetChild(WaveSystem.currentWave);
-        if (currentWaveChild) {
-            currentWaveChild.gameObject.SetActive(true);
-        }
+        spawnParent.GetChild(0).gameObject.SetActive(true);
+        waveSystem.ResetToWave0();
     }
     #endregion
 
@@ -114,10 +113,12 @@ public class LevelDataManager : RoutineRunner {
         for (int i = 0; i < tileParent.childCount; i++) {
             Transform tile = tileParent.GetChild(i);
             PLEBlockUnit blockUnit = tile.GetComponent<PLEBlockUnit>();
-            List<LevelUnitStates> levelStates = blockUnit.GetLevelStates();
-            int tileType = 0; //HOW DO I GET THIS FOR REAL
-            TileData tileData = new TileData(tileType, tile.position, levelStates);
-            ActiveTileData.Add(tileData);
+            if (blockUnit) {
+                List<LevelUnitStates> levelStates = blockUnit.GetLevelStates();
+                int tileType = 0; //HOW DO I GET THIS FOR REAL
+                TileData tileData = new TileData(tileType, tile.position, levelStates);
+                ActiveTileData.Add(tileData);
+            }
         }
     }
 

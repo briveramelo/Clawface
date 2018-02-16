@@ -51,6 +51,12 @@ public class WaveSystem : MonoBehaviour
 
     }
 
+    public void ResetToWave0() {
+        currentWave = 0;
+        UpdateWaveText();
+        EventSystem.Instance.TriggerEvent(Strings.Events.PLE_CHANGEWAVE);
+    }
+
     public void NextWave()
     {
         currentWave++;

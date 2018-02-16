@@ -45,14 +45,23 @@ public class SpawnMenu : PlacementMenu {
         }
     }
     protected override void PostPlaceItem(GameObject newItem) {
-        string waveName = GetWaveName(WaveSystem.currentWave);
-        Transform waveParent = createdItemsParent.Find(waveName);
-        if (waveParent==null) {
-            waveParent = new GameObject(waveName).transform;
-            waveParent.SetParent(createdItemsParent);
+        int currentWave = WaveSystem.currentWave;
+        Transform waveParent = TryCreateWaveParent(currentWave);
+        for (int i = currentWave; i >= 0; i--) {
+            TryCreateWaveParent(i);
         }
         newItem.transform.SetParent(waveParent);
     }
+    Transform TryCreateWaveParent(int i) {
+        string waveName = GetWaveName(i);
+        Transform waveParent = createdItemsParent.Find(waveName);
+        if (waveParent == null) {
+            waveParent = new GameObject(waveName).transform;
+            waveParent.SetParent(createdItemsParent);
+        }
+        return waveParent;
+    }
+
     #endregion
     private string GetWaveName(int i) { return Strings.Editor.Wave + i; }
 }

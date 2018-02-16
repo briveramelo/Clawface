@@ -274,7 +274,7 @@ namespace ModMan {
     public static class TransformExtensions {
         public static void SortChildrenByName(this Transform parent) {
             List<Transform> children = new List<Transform>();
-            for(int i=0; i<parent.childCount; i++){
+            for (int i = parent.childCount - 1; i >= 0; i--) {
                 Transform child = parent.GetChild(i);
                 children.Add(child);
                 child.parent = null;
