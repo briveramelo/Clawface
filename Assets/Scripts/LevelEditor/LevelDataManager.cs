@@ -9,17 +9,17 @@ using System.Linq;
 //How can I reference tile prefabs / prop prefabs?
 public class LevelDataManager : RoutineRunner {
 
-	[SerializeField] DataPersister dataPersister;
-    [SerializeField] Transform tileParent, propsParent, spawnParent;
-    [SerializeField] PlayerLevelEditorGrid playerLevelEditorGrid;
+	[SerializeField] private DataPersister dataPersister;
+    [SerializeField] private Transform tileParent, propsParent, spawnParent;
+    [SerializeField] private PlayerLevelEditorGrid playerLevelEditorGrid;
 
-    DataSave DataSave { get { return DataPersister.ActiveDataSave; } }
-    LevelData ActiveLevelData { get { return DataSave.ActiveLevelData; } }
-    List<WaveData> ActiveWaveData { get { return ActiveLevelData.waveData; } set { ActiveLevelData.waveData = value; } }
-    List<TileData> ActiveTileData { get { return ActiveLevelData.tileData; } set { ActiveLevelData.tileData = value; } }
-    List<PropData> ActivePropData { get { return ActiveLevelData.propData; } set { ActiveLevelData.propData = value; } }
-    
-    string GetWaveName(int i) { return Strings.Editor.Wave + i; }
+    private DataSave DataSave { get { return DataPersister.ActiveDataSave; } }
+    private LevelData ActiveLevelData { get { return DataSave.ActiveLevelData; } }
+    private List<WaveData> ActiveWaveData { get { return ActiveLevelData.waveData; } set { ActiveLevelData.waveData = value; } }
+    private List<TileData> ActiveTileData { get { return ActiveLevelData.tileData; } set { ActiveLevelData.tileData = value; } }
+    private List<PropData> ActivePropData { get { return ActiveLevelData.propData; } set { ActiveLevelData.propData = value; } }
+
+    private string GetWaveName(int i) { return Strings.Editor.Wave + i; }
 
 
     #region UnityLifecycle

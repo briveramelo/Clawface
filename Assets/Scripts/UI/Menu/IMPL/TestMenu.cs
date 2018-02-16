@@ -114,7 +114,7 @@ public class TestMenu : Menu
 
         foreach(Transform chindGO in TileParents)
         {
-            if(chindGO.gameObject.GetComponent<PLEBlockUnit>().GetOccupation() == false)
+            if(chindGO.gameObject.GetComponent<PLEBlockUnit>().IsOccupied() == false)
             {
 
             }
