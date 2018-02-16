@@ -1,12 +1,10 @@
-﻿using System.Collections;
+﻿//Brandon
 using System.Collections.Generic;
 using UnityEngine;
 using ModMan;
 using MovementEffects;
 using System.Linq;
 
-//Questions for Garin/Lai
-//How can I reference tile prefabs / prop prefabs?
 public class LevelDataManager : RoutineRunner {
 
 	[SerializeField] private DataPersister dataPersister;
@@ -22,10 +20,7 @@ public class LevelDataManager : RoutineRunner {
     private string GetWaveName(int i) { return Strings.Editor.Wave + i; }
 
 
-    #region UnityLifecycle
-    private void Awake() {
-        
-    }
+    #region Unity Lifecycle
 
     private void Update() {
         if (Input.GetKeyDown(KeyCode.Alpha7)) {
@@ -44,9 +39,8 @@ public class LevelDataManager : RoutineRunner {
         Timing.RunCoroutine(DelayAction(()=> {
             LoadTiles();
             LoadProps();
-        }), coroutineName);
-        
-        //SpawnSpawns();
+            //SpawnSpawns();
+        }), coroutineName);        
     }
 
     void LoadTiles() {
@@ -105,7 +99,7 @@ public class LevelDataManager : RoutineRunner {
     public void SaveLevel() {
         SaveTiles();
         SaveProps();
-        //SaveSpawns();
+        SaveSpawns();
 
         dataPersister.TrySave();
     }
@@ -133,6 +127,7 @@ public class LevelDataManager : RoutineRunner {
     }
     void SaveSpawns() {
         ActiveWaveData.Clear();
+        spawnParent.SortChildrenByName();
         for (int i = 0; i < spawnParent.childCount; i++) {
             ActiveWaveData.Add(new WaveData());
             Transform waveParent = spawnParent.GetChild(i);

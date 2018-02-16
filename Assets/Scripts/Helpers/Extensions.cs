@@ -272,6 +272,17 @@ namespace ModMan {
     }
 
     public static class TransformExtensions {
+        public static void SortChildrenByName(this Transform parent) {
+            List<Transform> children = new List<Transform>();
+            for(int i=0; i<parent.childCount; i++){
+                Transform child = parent.GetChild(i);
+                children.Add(child);
+                child.parent = null;
+            }
+            children.Sort((Transform t1, Transform t2) => { return t1.name.CompareTo(t2.name); });
+            children.ForEach(child => child.parent = parent);
+        }
+
         public static void Reset (this Transform tr) {
             tr.localPosition = Vector3.zero;
             tr.localRotation = Quaternion.identity;

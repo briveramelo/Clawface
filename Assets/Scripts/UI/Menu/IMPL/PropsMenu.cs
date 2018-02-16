@@ -1,14 +1,6 @@
-﻿//Garin
-
-using System.Collections;
-using System.Collections.Generic;
-
-using UnityEngine;
-using UnityEngine.UI;
+﻿//Garin + Brandon
 using UnityEngine.EventSystems;
 
-using PlayerLevelEditor;
-using ModMan;
 
 public class PropsMenu : PlacementMenu
 {

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿//Lai
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -62,6 +63,7 @@ public class WaveSystem : MonoBehaviour
 
         string wave = Strings.Events.PLE_TEST_WAVE_ + currentWave.ToString();
         EventSystem.Instance.TriggerEvent(wave);
+        EventSystem.Instance.TriggerEvent(Strings.Events.PLE_CHANGEWAVE);
     }
 
     public void PrevWave()
@@ -76,6 +78,7 @@ public class WaveSystem : MonoBehaviour
         string wave = Strings.Events.PLE_TEST_WAVE_ + currentWave.ToString();
 
         EventSystem.Instance.TriggerEvent(wave);
+        EventSystem.Instance.TriggerEvent(Strings.Events.PLE_CHANGEWAVE);
     }
 
     public void UpdateLevelUnitState()

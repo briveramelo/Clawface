@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿//Brandon
+
 using System.Collections.Generic;
 using UnityEngine;
 using PlayerLevelEditor;
@@ -38,8 +39,8 @@ public abstract class PlacementMenu : Menu {
                 PlaceItem();
             }
             else if (RightClick) {
-                bool deletedUIItem = DeselectUIItem();
-                if (!deletedUIItem && CanDeletedHoveredItem) {
+                bool deletedPreviewItem = DeselectUIItem();
+                if (!deletedPreviewItem && CanDeletedHoveredItem) {
                     DeleteHoveredItem();
                 }
             }
@@ -63,7 +64,9 @@ public abstract class PlacementMenu : Menu {
         newItem.name = selectedItem.name.TryCleanClone();
         itemNames.Add(newItem.name);
         MouseHelper.currentBlockUnit.SetOccupation(true);
+        PostPlaceItem(newItem);
     }
+    protected virtual void PostPlaceItem(GameObject newItem){}
     protected bool DeselectUIItem() {
         selectedItem = null;
         return TryDestroyPreview();
@@ -74,9 +77,9 @@ public abstract class PlacementMenu : Menu {
     }
 
     private void DeleteHoveredItem() {
-        Helpers.DestroyProper(MouseHelper.currentHoveredObject);
         MouseHelper.currentBlockUnit.SetOccupation(false);
         itemNames.Remove(MouseHelper.currentHoveredObject.name);
+        Helpers.DestroyProper(MouseHelper.currentHoveredObject);
     }
 
     protected bool TryDestroyPreview() {
