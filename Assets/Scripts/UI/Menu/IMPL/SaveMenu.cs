@@ -86,7 +86,7 @@ public class SaveMenu : Menu {
         Fade(transition, effects);
     }
 
-    private void BackAction() {
+    public void BackAction() {
         MainPLEMenu menu = editorInstance.GetMenu(PLEMenu.MAIN) as MainPLEMenu;
         MenuManager.Instance.DoTransition(menu, Menu.Transition.SHOW, new Menu.Effect[] { Menu.Effect.EXCLUSIVE });
     }

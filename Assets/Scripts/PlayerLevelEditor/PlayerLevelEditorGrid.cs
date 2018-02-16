@@ -2,6 +2,8 @@
 using UnityEngine;
 using PlayerLevelEditor;
 using ModMan;
+using System.Linq;
+
 public class PlayerLevelEditorGrid : MonoBehaviour {
     #region Private Fields
     private List<GridTile> gridTiles = new List<GridTile>();
@@ -24,6 +26,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     [SerializeField] GameObject objectGrid;
     [SerializeField] GameObject realLevel;
     [SerializeField] GameObject tileParent;
+    [SerializeField] GameObject wallPrefab;
     private int levelSize = 5;
     [SerializeField] private Color hoverColor = Color.blue;
     [SerializeField] private Color selectedColor = Color.red;
@@ -162,8 +165,17 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         GameObject realBlock = GameObject.Instantiate(spawnedBlock, position, Quaternion.identity);
         realBlock.name = RealBlock;
 
-        GridTile tile = new GridTile(realBlock, ghostBlock, position, objectGrid.transform, tileParent.transform);
+        GameObject wall_N = GameObject.Instantiate(wallPrefab, position + Vector3.up * 5f + Vector3.forward * 2.5f, Quaternion.Euler(0f, 0f, 0f));
+        GameObject wall_E = GameObject.Instantiate(wallPrefab, position + Vector3.up * 5f + Vector3.right * 2.5f, Quaternion.Euler(0f, 90f, 0f));
+        GameObject wall_W = GameObject.Instantiate(wallPrefab, position + Vector3.up * 5f + Vector3.left * 2.5f, Quaternion.Euler(0f, 270f, 0f));
+        GameObject wall_S = GameObject.Instantiate(wallPrefab, position + Vector3.up * 5f + Vector3.back * 2.5f, Quaternion.Euler(0f, 180f, 0f));
+
+        GridTile tile = new GridTile(realBlock, ghostBlock, position, objectGrid.transform, tileParent.transform, wall_N, wall_E, wall_W, wall_S);
         gridTiles.Add(tile);
+    }
+
+    public void ShowWalls() {
+        gridTiles.ForEach(tile => tile.EnableWalls());
     }
 
     void DuplicateBlocks(RaycastHit hit) {
@@ -283,7 +295,17 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
 
 [System.Serializable]
 public class GridTile {
-    public GridTile(GameObject real, GameObject ghost, Vector3 position, Transform ghostParent, Transform tileParent) {
+    public GridTile(GameObject real, GameObject ghost, Vector3 position, Transform ghostParent, Transform tileParent, GameObject wall_N, GameObject wall_E, GameObject wall_W, GameObject wall_S) {
+        this.wall_N = wall_N;
+        this.wall_E = wall_E;
+        this.wall_S = wall_S;
+        this.wall_W = wall_W;
+
+        wall_N.SetActive(false);
+        wall_E.SetActive(false);
+        wall_W.SetActive(false);
+        wall_S.SetActive(false);
+
         realTile = real;
         ghostTile = ghost;
         Position = position;
@@ -295,12 +317,18 @@ public class GridTile {
         rend.GetPropertyBlock(propBlock);
         realTile.transform.SetParent(ghostParent);
         ghostTile.transform.SetParent(ghostParent);
+
+        wall_N.transform.SetParent(ghostParent);
+        wall_E.transform.SetParent(ghostParent);
+        wall_W.transform.SetParent(ghostParent);
+        wall_S.transform.SetParent(ghostParent);
     }
     Transform ghostParent, tileParent;
     MeshRenderer rend;
     MaterialPropertyBlock propBlock = new MaterialPropertyBlock();
     public GameObject realTile;
     public GameObject ghostTile;
+    public GameObject wall_N, wall_E, wall_W, wall_S;
     public Vector3 Position { get { return realTile.transform.position; } set { realTile.transform.position = value; ghostTile.transform.position = value; } }
     public bool IsEither(GameObject other) { return realTile == other || ghostTile == other; }
     public bool IsActive {
@@ -330,5 +358,24 @@ public class GridTile {
     public void ChangeColor(Color color) {
         propBlock.SetColor("_Color", color);
         rend.SetPropertyBlock(propBlock);
+    }
+
+    public void EnableWalls() {
+        bool blockNorth = false;
+        bool blockEast = false;
+        bool blockWest = false;
+        bool blockSouth = false;
+
+        if (IsActive) {
+            blockNorth = Physics.OverlapSphere(realTile.transform.position + Vector3.forward * 5f, .2f).ToList().Exists(item => item.GetComponent<PLEBlockUnit>());
+            blockEast = Physics.OverlapSphere(realTile.transform.position + Vector3.right * 5f, .2f).ToList().Exists(item => item.GetComponent<PLEBlockUnit>());
+            blockWest = Physics.OverlapSphere(realTile.transform.position + Vector3.left * 5f, .2f).ToList().Exists(item => item.GetComponent<PLEBlockUnit>());
+            blockSouth = Physics.OverlapSphere(realTile.transform.position + Vector3.back * 5f, .2f).ToList().Exists(item => item.GetComponent<PLEBlockUnit>());
+        }
+
+        wall_N.SetActive(IsActive && !blockNorth);
+        wall_E.SetActive(IsActive && !blockEast);
+        wall_W.SetActive(IsActive && !blockWest);
+        wall_S.SetActive(IsActive && !blockSouth);
     }
 }
