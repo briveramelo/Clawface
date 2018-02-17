@@ -114,13 +114,13 @@ public class TestMenu : Menu
             return;
         }
 
-        foreach(Transform chindGO in tileParents)
+        foreach(Transform childGO in tileParents)
         {
-            PLEBlockUnit PLEU = chindGO.gameObject.GetComponent<PLEBlockUnit>();
+            PLEBlockUnit PLEU = childGO.gameObject.GetComponent<PLEBlockUnit>();
 
             if (PLEU == null) continue;
 
-            if (PLEU.GetOccupation() == false)
+            if(PLEU.IsOccupied() == false)
             {
                 playerSpawnerInstance = Instantiate(playerSpawnerPrefab);
                 playerSpawnerInstance.transform.position = PLEU.spawnTrans.position;

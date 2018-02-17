@@ -83,7 +83,7 @@ public class PLEBlockUnit : MonoBehaviour
         occupied = i_state;
     }
 
-    public bool GetOccupation()
+    public bool IsOccupied()
     {
         return occupied;
     }

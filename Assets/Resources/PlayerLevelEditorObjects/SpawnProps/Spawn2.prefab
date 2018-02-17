@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 33586279818003374}
   - component: {fileID: 65783035759279310}
   - component: {fileID: 23258436058064460}
+  - component: {fileID: 114831710567479400}
   m_Layer: 0
   m_Name: Spawn2
   m_TagString: Untagged
@@ -93,3 +94,17 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &114831710567479400
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1262570951177246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5ba14b95532c8c4e8ff2eb7805132d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  registeredSpawner: {fileID: 0}
+  spawnType: 1
+  spawnCount: 0
