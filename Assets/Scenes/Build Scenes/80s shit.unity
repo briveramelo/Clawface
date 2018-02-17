@@ -354,9 +354,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents:
-  - Spawner 1 Wave 1
+  coverStateEvents: []
   floorStateEvents:
+  - Spawner 1 Wave 1
   - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
@@ -1210,6 +1210,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coverStateEvents: []
   floorStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 2 Wave 1
@@ -1221,8 +1223,6 @@ MonoBehaviour:
   - Spawner 3 Wave 4
   - Spawner 3 Wave 5
   pitStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   yMoveSpeed: 0.03
@@ -1393,13 +1393,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
-  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
   floorStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
@@ -1407,8 +1408,7 @@ MonoBehaviour:
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
   - Spawner 3 Wave 5
-  pitStateEvents:
-  - Spawner 1 Wave 1
+  pitStateEvents: []
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -1599,155 +1599,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
---- !u!1 &70634241
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 70634243}
-  - component: {fileID: 70634242}
-  m_Layer: 0
-  m_Name: MallCopSpawner(Clone)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &70634242
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 70634241}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bdce7029b13d37940afce8409d4837bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  useIntensityCurve: 0
-  manualEdits: 1
-  intensityCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  waves:
-  - spawnedHashCodes: 
-    monsterList:
-    - Type: 11
-      Count: 1
-    - Type: 1
-      Count: 2
-    - Type: 1
-      Count: 0
-    remainingSpawns: 0
-    spawnEffectTime: 1.5
-    intensity: 0
-    NumToNextWave: 0
-    preEventNames:
-    - Spawner 1 Wave 1
-    - Music_Spawner 1 Wave 1
-    postEventNames: []
-    spawnOffset: 0
-    spawnTimeOffset: 0
-    SpawningTime:
-      minLimit: 0
-      maxLimit: 0
-      min: 1
-      max: 1
-  - spawnedHashCodes: 
-    monsterList:
-    - Type: 1
-      Count: 1
-    - Type: 0
-      Count: 1
-    - Type: 3
-      Count: 2
-    remainingSpawns: 0
-    spawnEffectTime: 1.5
-    intensity: 0
-    NumToNextWave: 0
-    preEventNames:
-    - Spawner 1 Wave 2
-    postEventNames: []
-    spawnOffset: 0
-    spawnTimeOffset: 0
-    SpawningTime:
-      minLimit: 0
-      maxLimit: 0
-      min: 1
-      max: 1
-  - spawnedHashCodes: 
-    monsterList:
-    - Type: 2
-      Count: 1
-    - Type: 1
-      Count: 2
-    - Type: 3
-      Count: 1
-    - Type: 0
-      Count: 2
-    remainingSpawns: 0
-    spawnEffectTime: 1.5
-    intensity: 0
-    NumToNextWave: 1
-    preEventNames:
-    - Spawner 1 Wave 3
-    postEventNames: []
-    spawnOffset: 0
-    spawnTimeOffset: 0
-    SpawningTime:
-      minLimit: 0
-      maxLimit: 0
-      min: 1
-      max: 1
-  - spawnedHashCodes: 
-    monsterList:
-    - Type: 1
-      Count: 3
-    - Type: 0
-      Count: 3
-    - Type: 2
-      Count: 1
-    - Type: 3
-      Count: 2
-    remainingSpawns: 0
-    spawnEffectTime: 1.5
-    intensity: 0
-    NumToNextWave: 0
-    preEventNames:
-    - Spawner 1 Wave 4
-    postEventNames: []
-    spawnOffset: 0
-    spawnTimeOffset: 0
-    SpawningTime:
-      minLimit: 0
-      maxLimit: 0
-      min: 1
-      max: 1
-  currentWaveNumber: 0
-  currentNumEnemies: 0
-  totalNumEnemies: 0
---- !u!4 &70634243
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 70634241}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 125315667}
-  - {fileID: 1096097737}
-  - {fileID: 1804774521}
-  - {fileID: 717551484}
-  m_Father: {fileID: 1760477451}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &70837762
 Prefab:
   m_ObjectHideFlags: 0
@@ -2250,7 +2101,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
-  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -2258,6 +2108,7 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
@@ -2785,48 +2636,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 117883196}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &125315666
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 125315667}
-  - component: {fileID: 125315668}
-  m_Layer: 0
-  m_Name: SpawnPoint (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &125315667
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 125315666}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 6.7, y: 2.3, z: -22.8}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 70634243}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &125315668
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 125315666}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4459bc4938fbdce4dab448c115726a99, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  radius: 0.77
-  color: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &126159300
 GameObject:
   m_ObjectHideFlags: 0
@@ -3600,9 +3409,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents:
-  - Spawner 1 Wave 1
+  coverStateEvents: []
   floorStateEvents:
+  - Spawner 1 Wave 1
   - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
@@ -4077,7 +3886,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
-  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -4085,6 +3893,7 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
@@ -4457,48 +4266,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.1, y: 1.2, z: 1.1}
   m_Center: {x: 0, y: 0, z: 0.00000047683716}
---- !u!1 &184025019
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 184025020}
-  - component: {fileID: 184025021}
-  m_Layer: 0
-  m_Name: SpawnPoint (3)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &184025020
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 184025019}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 27.9, y: 2.3, z: 20.1}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 2067283720}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &184025021
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 184025019}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4459bc4938fbdce4dab448c115726a99, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  radius: 0.77
-  color: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1001 &196805365
 Prefab:
   m_ObjectHideFlags: 0
@@ -4868,6 +4635,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coverStateEvents: []
   floorStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 2 Wave 1
@@ -4879,8 +4648,6 @@ MonoBehaviour:
   - Spawner 3 Wave 4
   - Spawner 3 Wave 5
   pitStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   yMoveSpeed: 0.03
@@ -5335,6 +5102,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coverStateEvents: []
   floorStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 2 Wave 1
@@ -5346,8 +5115,6 @@ MonoBehaviour:
   - Spawner 3 Wave 4
   - Spawner 3 Wave 5
   pitStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   yMoveSpeed: 0.03
@@ -5517,12 +5284,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents:
-  - Spawner 1 Wave 3
-  - Spawner 1 Wave 4
+  coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
+  - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -6496,7 +6263,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
-  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -6504,6 +6270,7 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
@@ -6679,9 +6446,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents:
-  - Spawner 1 Wave 1
+  coverStateEvents: []
   floorStateEvents:
+  - Spawner 1 Wave 1
   - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
@@ -7036,9 +6803,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents:
-  - Spawner 1 Wave 1
+  coverStateEvents: []
   floorStateEvents:
+  - Spawner 1 Wave 1
   - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
@@ -7652,13 +7419,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
-  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
   floorStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
@@ -7666,8 +7434,7 @@ MonoBehaviour:
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
   - Spawner 3 Wave 5
-  pitStateEvents:
-  - Spawner 1 Wave 1
+  pitStateEvents: []
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -8693,6 +8460,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coverStateEvents: []
   floorStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 2 Wave 1
@@ -8704,8 +8473,6 @@ MonoBehaviour:
   - Spawner 3 Wave 4
   - Spawner 3 Wave 5
   pitStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   yMoveSpeed: 0.03
@@ -9060,7 +8827,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
-  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -9068,6 +8834,7 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
@@ -9244,7 +9011,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
-  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -9252,6 +9018,7 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
@@ -9427,10 +9194,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 1 Wave 2
   floorStateEvents:
   - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 2 Wave 1
@@ -9611,9 +9378,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents:
-  - Spawner 1 Wave 1
+  coverStateEvents: []
   floorStateEvents:
+  - Spawner 1 Wave 1
   - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
@@ -10656,6 +10423,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coverStateEvents: []
   floorStateEvents:
+  - Spawner 1 Wave 1
   - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
@@ -10669,8 +10437,7 @@ MonoBehaviour:
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
   - Spawner 3 Wave 5
-  pitStateEvents:
-  - Spawner 1 Wave 1
+  pitStateEvents: []
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -11122,13 +10889,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
-  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
   floorStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
@@ -11136,8 +10904,7 @@ MonoBehaviour:
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
   - Spawner 3 Wave 5
-  pitStateEvents:
-  - Spawner 1 Wave 1
+  pitStateEvents: []
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -11538,9 +11305,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents:
-  - Spawner 1 Wave 1
+  coverStateEvents: []
   floorStateEvents:
+  - Spawner 1 Wave 1
   - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
@@ -11743,10 +11510,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
-  - Spawner 1 Wave 1
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
   floorStateEvents:
+  - Spawner 1 Wave 1
   - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
@@ -11865,48 +11632,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.1, y: 1.2, z: 1.1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!1 &531545392
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 531545393}
-  - component: {fileID: 531545394}
-  m_Layer: 0
-  m_Name: SpawnPoint (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &531545393
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 531545392}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -9.4, y: 2.3, z: -19.3}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 2067283720}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &531545394
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 531545392}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4459bc4938fbdce4dab448c115726a99, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  radius: 0.77
-  color: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &534102452 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 5d9223fd338d51c44a10b29684719367, type: 3}
@@ -12798,7 +12523,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
-  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -12806,6 +12530,7 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
@@ -12982,7 +12707,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
-  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -12990,6 +12714,7 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
@@ -13386,48 +13111,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 625543212}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &626288275
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 626288276}
-  - component: {fileID: 626288277}
-  m_Layer: 0
-  m_Name: SpawnPoint (2)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &626288276
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 626288275}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -15.5, y: 2.3, z: 16.4}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 2067283720}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &626288277
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 626288275}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4459bc4938fbdce4dab448c115726a99, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  radius: 0.77
-  color: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &628541612
 GameObject:
   m_ObjectHideFlags: 0
@@ -13674,13 +13357,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
-  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
   floorStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
@@ -13688,8 +13372,7 @@ MonoBehaviour:
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
   - Spawner 3 Wave 5
-  pitStateEvents:
-  - Spawner 1 Wave 1
+  pitStateEvents: []
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -13997,13 +13680,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
-  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
   floorStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
@@ -14011,8 +13695,7 @@ MonoBehaviour:
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
   - Spawner 3 Wave 5
-  pitStateEvents:
-  - Spawner 1 Wave 1
+  pitStateEvents: []
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -14337,7 +14020,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
-  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -14345,6 +14027,7 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
@@ -14757,10 +14440,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
-  - Spawner 1 Wave 2
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
   floorStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 2 Wave 1
@@ -14771,8 +14455,7 @@ MonoBehaviour:
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
   - Spawner 3 Wave 5
-  pitStateEvents:
-  - Spawner 1 Wave 1
+  pitStateEvents: []
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -14978,48 +14661,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 716914986}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &717551483
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 717551484}
-  - component: {fileID: 717551485}
-  m_Layer: 0
-  m_Name: SpawnPoint (4)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &717551484
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 717551483}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 28.1, y: 2.3, z: 2.9}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 70634243}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &717551485
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 717551483}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4459bc4938fbdce4dab448c115726a99, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  radius: 0.77
-  color: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &725703250 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 5d9223fd338d51c44a10b29684719367, type: 3}
@@ -15467,6 +15108,48 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 5.000001, y: 5, z: 5.0000005}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1001 &757991634
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4443966054629342, guid: 4f1a768e32a194e48b4ccc7eedeecb4e, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -11.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4443966054629342, guid: 4f1a768e32a194e48b4ccc7eedeecb4e, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 4443966054629342, guid: 4f1a768e32a194e48b4ccc7eedeecb4e, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -139.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4443966054629342, guid: 4f1a768e32a194e48b4ccc7eedeecb4e, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4443966054629342, guid: 4f1a768e32a194e48b4ccc7eedeecb4e, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4443966054629342, guid: 4f1a768e32a194e48b4ccc7eedeecb4e, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4443966054629342, guid: 4f1a768e32a194e48b4ccc7eedeecb4e, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4443966054629342, guid: 4f1a768e32a194e48b4ccc7eedeecb4e, type: 2}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 4f1a768e32a194e48b4ccc7eedeecb4e, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &759635624 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 5d9223fd338d51c44a10b29684719367, type: 3}
@@ -15722,13 +15405,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
-  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
   floorStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
@@ -15736,8 +15420,7 @@ MonoBehaviour:
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
   - Spawner 3 Wave 5
-  pitStateEvents:
-  - Spawner 1 Wave 1
+  pitStateEvents: []
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -16287,9 +15970,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents:
-  - Spawner 1 Wave 1
+  coverStateEvents: []
   floorStateEvents:
+  - Spawner 1 Wave 1
   - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
@@ -16571,7 +16254,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
-  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -16579,6 +16261,7 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
@@ -16940,6 +16623,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coverStateEvents: []
   floorStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 2 Wave 1
@@ -16951,8 +16636,6 @@ MonoBehaviour:
   - Spawner 3 Wave 4
   - Spawner 3 Wave 5
   pitStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   yMoveSpeed: 0.03
@@ -18496,12 +18179,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
-  - Spawner 1 Wave 2
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
   floorStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 2 Wave 1
@@ -18510,8 +18194,7 @@ MonoBehaviour:
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
   - Spawner 3 Wave 5
-  pitStateEvents:
-  - Spawner 1 Wave 1
+  pitStateEvents: []
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -18680,7 +18363,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
-  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -18688,6 +18370,7 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
@@ -18938,7 +18621,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
-  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -18946,6 +18628,7 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
@@ -19221,7 +18904,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
-  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -19229,6 +18911,7 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
@@ -19589,13 +19272,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
-  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
   floorStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
@@ -19603,8 +19287,7 @@ MonoBehaviour:
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
   - Spawner 3 Wave 5
-  pitStateEvents:
-  - Spawner 1 Wave 1
+  pitStateEvents: []
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -19772,9 +19455,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents:
-  - Spawner 1 Wave 1
+  coverStateEvents: []
   floorStateEvents:
+  - Spawner 1 Wave 1
   - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
@@ -19957,7 +19640,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
-  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -19965,6 +19647,7 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
@@ -20520,13 +20203,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
-  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
   floorStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
@@ -20534,8 +20218,7 @@ MonoBehaviour:
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
   - Spawner 3 Wave 5
-  pitStateEvents:
-  - Spawner 1 Wave 1
+  pitStateEvents: []
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -20642,48 +20325,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.1, y: 1.2, z: 1.1}
   m_Center: {x: -0.0000019073486, y: 0, z: 0.00000047683716}
---- !u!1 &971652400
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 971652401}
-  - component: {fileID: 971652402}
-  m_Layer: 0
-  m_Name: SpawnPoint (4)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &971652401
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 971652400}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 27.9, y: 2.3, z: -15.8}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 2067283720}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &971652402
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 971652400}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4459bc4938fbdce4dab448c115726a99, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  radius: 0.77
-  color: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &977854361
 GameObject:
   m_ObjectHideFlags: 0
@@ -20929,9 +20570,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents:
-  - Spawner 1 Wave 1
+  coverStateEvents: []
   floorStateEvents:
+  - Spawner 1 Wave 1
   - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
@@ -22281,7 +21922,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
-  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -22289,6 +21929,7 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
@@ -22464,10 +22105,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 1 Wave 2
   floorStateEvents:
   - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 2 Wave 1
@@ -22648,9 +22289,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents:
-  - Spawner 1 Wave 1
+  coverStateEvents: []
   floorStateEvents:
+  - Spawner 1 Wave 1
   - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
@@ -22853,7 +22494,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
-  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -22861,6 +22501,7 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
@@ -22995,48 +22636,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 5.000001, y: 5, z: 5.0000005}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!1 &1096097736
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 1096097737}
-  - component: {fileID: 1096097738}
-  m_Layer: 0
-  m_Name: SpawnPoint (2)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1096097737
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1096097736}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -15.5, y: 2.3, z: 6.3}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 70634243}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1096097738
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1096097736}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4459bc4938fbdce4dab448c115726a99, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  radius: 0.77
-  color: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1001 &1103185909
 Prefab:
   m_ObjectHideFlags: 0
@@ -23413,12 +23012,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents:
-  - Spawner 1 Wave 3
-  - Spawner 1 Wave 4
+  coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
+  - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -23598,13 +23197,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
-  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
   floorStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
@@ -23612,8 +23212,7 @@ MonoBehaviour:
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
   - Spawner 3 Wave 5
-  pitStateEvents:
-  - Spawner 1 Wave 1
+  pitStateEvents: []
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -24138,10 +23737,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 1 Wave 2
   floorStateEvents:
   - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 2 Wave 1
@@ -24324,6 +23923,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coverStateEvents: []
   floorStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 2 Wave 1
@@ -24335,8 +23936,6 @@ MonoBehaviour:
   - Spawner 3 Wave 4
   - Spawner 3 Wave 5
   pitStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   yMoveSpeed: 0.03
@@ -24506,10 +24105,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 1 Wave 2
   floorStateEvents:
   - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 2 Wave 1
@@ -25959,7 +25558,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
-  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -25967,6 +25565,7 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
@@ -26751,9 +26350,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents:
-  - Spawner 1 Wave 1
+  coverStateEvents: []
   floorStateEvents:
+  - Spawner 1 Wave 1
   - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
@@ -26935,9 +26534,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents:
-  - Spawner 1 Wave 1
+  coverStateEvents: []
   floorStateEvents:
+  - Spawner 1 Wave 1
   - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
@@ -27058,175 +26657,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.1, y: 1.2, z: 1.1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!1 &1260307933
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 1260307935}
-  - component: {fileID: 1260307934}
-  m_Layer: 0
-  m_Name: MallCopSpawner(Clone)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &1260307934
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1260307933}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bdce7029b13d37940afce8409d4837bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  useIntensityCurve: 0
-  manualEdits: 0
-  intensityCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  waves:
-  - spawnedHashCodes: 
-    monsterList:
-    - Type: 0
-      Count: 3
-    - Type: 1
-      Count: 3
-    - Type: 3
-      Count: 2
-    remainingSpawns: 0
-    spawnEffectTime: 1.5
-    intensity: 0
-    NumToNextWave: 2
-    preEventNames:
-    - Spawner 2 Wave 1
-    - Music_Spawner 2 Wave 1
-    postEventNames: []
-    spawnOffset: 0
-    spawnTimeOffset: 0
-    SpawningTime:
-      minLimit: 0
-      maxLimit: 0
-      min: 1.7
-      max: 2
-  - spawnedHashCodes: 
-    monsterList:
-    - Type: 0
-      Count: 2
-    - Type: 1
-      Count: 3
-    - Type: 2
-      Count: 1
-    remainingSpawns: 0
-    spawnEffectTime: 1.5
-    intensity: 0
-    NumToNextWave: 2
-    preEventNames:
-    - Spawner 2 Wave 2
-    postEventNames: []
-    spawnOffset: 0
-    spawnTimeOffset: 0
-    SpawningTime:
-      minLimit: 0
-      maxLimit: 0
-      min: 1.7
-      max: 2
-  - spawnedHashCodes: 
-    monsterList:
-    - Type: 0
-      Count: 0
-    - Type: 1
-      Count: 5
-    - Type: 0
-      Count: 0
-    remainingSpawns: 0
-    spawnEffectTime: 1.5
-    intensity: 0
-    NumToNextWave: 3
-    preEventNames:
-    - Spawner 2 Wave 3
-    postEventNames: []
-    spawnOffset: 0
-    spawnTimeOffset: 0
-    SpawningTime:
-      minLimit: 0
-      maxLimit: 0
-      min: 1.7
-      max: 2
-  - spawnedHashCodes: 
-    monsterList:
-    - Type: 4
-      Count: 1
-    - Type: 1
-      Count: 4
-    - Type: 3
-      Count: 0
-    remainingSpawns: 0
-    spawnEffectTime: 1.5
-    intensity: 0
-    NumToNextWave: 0
-    preEventNames:
-    - Spawner 2 Wave 4
-    postEventNames: []
-    spawnOffset: 0
-    spawnTimeOffset: 0
-    SpawningTime:
-      minLimit: 0
-      maxLimit: 0
-      min: 1.7
-      max: 2
-  - spawnedHashCodes: 
-    monsterList:
-    - Type: 4
-      Count: 1
-    - Type: 2
-      Count: 1
-    - Type: 3
-      Count: 0
-    - Type: 1
-      Count: 0
-    remainingSpawns: 0
-    spawnEffectTime: 1.5
-    intensity: 0
-    NumToNextWave: 0
-    preEventNames:
-    - Spawner 2 Wave 5
-    postEventNames: []
-    spawnOffset: 0
-    spawnTimeOffset: 0
-    SpawningTime:
-      minLimit: 0
-      maxLimit: 0
-      min: 1.7
-      max: 2
-  currentWaveNumber: 0
-  currentNumEnemies: 0
-  totalNumEnemies: 0
---- !u!4 &1260307935
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1260307933}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 1724796944}
-  - {fileID: 1737748288}
-  - {fileID: 1520368029}
-  - {fileID: 1711806661}
-  m_Father: {fileID: 1760477451}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1262756098
 GameObject:
   m_ObjectHideFlags: 0
@@ -27289,13 +26719,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
-  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
   floorStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
@@ -27303,8 +26734,7 @@ MonoBehaviour:
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
   - Spawner 3 Wave 5
-  pitStateEvents:
-  - Spawner 1 Wave 1
+  pitStateEvents: []
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -27522,7 +26952,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
-  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -27530,6 +26959,7 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
@@ -28933,7 +28363,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
-  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -28941,6 +28370,7 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
@@ -29117,7 +28547,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
-  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -29125,6 +28554,7 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
@@ -29375,13 +28805,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
-  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
   floorStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
@@ -29389,8 +28820,7 @@ MonoBehaviour:
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
   - Spawner 3 Wave 5
-  pitStateEvents:
-  - Spawner 1 Wave 1
+  pitStateEvents: []
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -30463,7 +29893,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
-  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -30471,6 +29900,7 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
@@ -30647,13 +30077,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
-  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
   floorStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
@@ -30661,8 +30092,7 @@ MonoBehaviour:
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
   - Spawner 3 Wave 5
-  pitStateEvents:
-  - Spawner 1 Wave 1
+  pitStateEvents: []
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -31015,7 +30445,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
-  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -31023,6 +30452,7 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
@@ -31199,7 +30629,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
-  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -31207,6 +30636,7 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
@@ -31383,7 +30813,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
-  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -31391,6 +30820,7 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
@@ -31686,13 +31116,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
-  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
   floorStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
@@ -31700,8 +31131,7 @@ MonoBehaviour:
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
   - Spawner 3 Wave 5
-  pitStateEvents:
-  - Spawner 1 Wave 1
+  pitStateEvents: []
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -31808,48 +31238,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.1, y: 1.2, z: 1.1}
   m_Center: {x: 0, y: 0, z: -0.00000023841858}
---- !u!1 &1520368028
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 1520368029}
-  - component: {fileID: 1520368030}
-  m_Layer: 0
-  m_Name: SpawnPoint (3)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1520368029
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1520368028}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 9.2, y: 2.3, z: 19.6}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1260307935}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1520368030
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1520368028}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4459bc4938fbdce4dab448c115726a99, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  radius: 0.77
-  color: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1001 &1528283596
 Prefab:
   m_ObjectHideFlags: 0
@@ -31986,7 +31374,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
-  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -31994,6 +31381,7 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
@@ -32354,13 +31742,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
-  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
   floorStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
@@ -32368,8 +31757,7 @@ MonoBehaviour:
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
   - Spawner 3 Wave 5
-  pitStateEvents:
-  - Spawner 1 Wave 1
+  pitStateEvents: []
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -33541,11 +32929,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
-  - Spawner 1 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
   floorStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 2 Wave 1
@@ -33555,8 +32944,7 @@ MonoBehaviour:
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
   - Spawner 3 Wave 5
-  pitStateEvents:
-  - Spawner 1 Wave 1
+  pitStateEvents: []
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -33909,7 +33297,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
-  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -33917,6 +33304,7 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
@@ -34635,6 +34023,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coverStateEvents: []
   floorStateEvents:
+  - Spawner 1 Wave 1
   - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
@@ -34648,8 +34037,7 @@ MonoBehaviour:
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
   - Spawner 3 Wave 5
-  pitStateEvents:
-  - Spawner 1 Wave 1
+  pitStateEvents: []
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -34991,7 +34379,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
-  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -34999,6 +34386,7 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
@@ -36137,48 +35525,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.1, y: 1.2, z: 1.1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!1 &1711806660
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 1711806661}
-  - component: {fileID: 1711806662}
-  m_Layer: 0
-  m_Name: SpawnPoint (4)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1711806661
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1711806660}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -17.3, y: 2.3, z: 0.3}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1260307935}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1711806662
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1711806660}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4459bc4938fbdce4dab448c115726a99, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  radius: 0.77
-  color: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1001 &1719619526
 Prefab:
   m_ObjectHideFlags: 0
@@ -36314,10 +35660,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 1 Wave 2
   floorStateEvents:
   - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 2 Wave 1
@@ -36498,9 +35844,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents:
-  - Spawner 1 Wave 1
+  coverStateEvents: []
   floorStateEvents:
+  - Spawner 1 Wave 1
   - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
@@ -36621,48 +35967,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.1, y: 1.2, z: 1.1}
   m_Center: {x: 0, y: 0, z: 0.00000011920929}
---- !u!1 &1724796943
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 1724796944}
-  - component: {fileID: 1724796945}
-  m_Layer: 0
-  m_Name: SpawnPoint (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1724796944
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1724796943}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 9.5, y: 2.3, z: -18.2}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1260307935}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1724796945
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1724796943}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4459bc4938fbdce4dab448c115726a99, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  radius: 0.77
-  color: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &1735681274
 GameObject:
   m_ObjectHideFlags: 0
@@ -36762,48 +36066,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1735681274}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &1737748287
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 1737748288}
-  - component: {fileID: 1737748289}
-  m_Layer: 0
-  m_Name: SpawnPoint (2)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1737748288
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1737748287}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 30, y: 2.3, z: -1.8}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1260307935}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1737748289
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1737748287}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4459bc4938fbdce4dab448c115726a99, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  radius: 0.77
-  color: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &1742429028
 GameObject:
   m_ObjectHideFlags: 0
@@ -37087,59 +36349,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.1, y: 1.2, z: 1.1}
   m_Center: {x: -0.0000019073486, y: 0, z: 0.00000047683716}
---- !u!1 &1760477449
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 1169520305889718, guid: 4f1a768e32a194e48b4ccc7eedeecb4e,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 1760477451}
-  - component: {fileID: 1760477450}
-  m_Layer: 0
-  m_Name: MallCopSpawner
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1760477450
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1760477449}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2dcb19ecf5026024e947d60af4dcaa75, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spawners:
-  - Prefab: {fileID: 70634241}
-    Time: 5
-  - Prefab: {fileID: 1260307933}
-    Time: 5
-  - Prefab: {fileID: 2067283718}
-    Time: 5
-  lastWave: 0
---- !u!4 &1760477451
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 4443966054629342, guid: 4f1a768e32a194e48b4ccc7eedeecb4e,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1760477449}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -11.1, y: 0.9, z: -139.8}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 70634243}
-  - {fileID: 1260307935}
-  - {fileID: 2067283720}
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1764667932
 GameObject:
   m_ObjectHideFlags: 0
@@ -37406,12 +36615,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
-  - Spawner 1 Wave 2
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
   floorStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 2 Wave 1
@@ -37420,8 +36630,7 @@ MonoBehaviour:
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
   - Spawner 3 Wave 5
-  pitStateEvents:
-  - Spawner 1 Wave 1
+  pitStateEvents: []
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -38031,9 +37240,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents:
-  - Spawner 1 Wave 1
+  coverStateEvents: []
   floorStateEvents:
+  - Spawner 1 Wave 1
   - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
@@ -38154,48 +37363,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.1, y: 1.2, z: 1.1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!1 &1804774520
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 1804774521}
-  - component: {fileID: 1804774522}
-  m_Layer: 0
-  m_Name: SpawnPoint (3)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1804774521
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1804774520}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4.6, y: 2.3, z: 22.9}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 70634243}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1804774522
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1804774520}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4459bc4938fbdce4dab448c115726a99, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  radius: 0.77
-  color: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &1813325828
 GameObject:
   m_ObjectHideFlags: 0
@@ -38503,13 +37670,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
-  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
   floorStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
@@ -38517,8 +37685,7 @@ MonoBehaviour:
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
   - Spawner 3 Wave 5
-  pitStateEvents:
-  - Spawner 1 Wave 1
+  pitStateEvents: []
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -39302,13 +38469,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
-  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
   - Spawner 2 Wave 4
   - Spawner 2 Wave 5
   floorStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
@@ -39316,8 +38484,7 @@ MonoBehaviour:
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
   - Spawner 3 Wave 5
-  pitStateEvents:
-  - Spawner 1 Wave 1
+  pitStateEvents: []
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -39485,9 +38652,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents:
-  - Spawner 1 Wave 1
+  coverStateEvents: []
   floorStateEvents:
+  - Spawner 1 Wave 1
   - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
@@ -39743,9 +38910,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents:
-  - Spawner 1 Wave 1
+  coverStateEvents: []
   floorStateEvents:
+  - Spawner 1 Wave 1
   - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
@@ -39929,6 +39096,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coverStateEvents: []
   floorStateEvents:
+  - Spawner 1 Wave 1
   - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
@@ -39942,8 +39110,7 @@ MonoBehaviour:
   - Spawner 3 Wave 3
   - Spawner 3 Wave 4
   - Spawner 3 Wave 5
-  pitStateEvents:
-  - Spawner 1 Wave 1
+  pitStateEvents: []
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -40767,6 +39934,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coverStateEvents: []
   floorStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 2 Wave 1
@@ -40778,8 +39947,6 @@ MonoBehaviour:
   - Spawner 3 Wave 4
   - Spawner 3 Wave 5
   pitStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   yMoveSpeed: 0.03
@@ -41411,12 +40578,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents:
-  - Spawner 1 Wave 3
-  - Spawner 1 Wave 4
+  coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
+  - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -42100,9 +41267,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents:
-  - Spawner 1 Wave 1
+  coverStateEvents: []
   floorStateEvents:
+  - Spawner 1 Wave 1
   - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
@@ -42846,6 +42013,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coverStateEvents: []
   floorStateEvents:
+  - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 2 Wave 1
@@ -42857,8 +42026,6 @@ MonoBehaviour:
   - Spawner 3 Wave 4
   - Spawner 3 Wave 5
   pitStateEvents:
-  - Spawner 1 Wave 1
-  - Spawner 1 Wave 2
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   yMoveSpeed: 0.03
@@ -43029,7 +42196,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
-  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -43037,6 +42203,7 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
@@ -43608,175 +42775,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camera: {fileID: 0}
---- !u!1 &2067283718
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 2067283720}
-  - component: {fileID: 2067283719}
-  m_Layer: 0
-  m_Name: MallCopSpawner(Clone)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &2067283719
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2067283718}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bdce7029b13d37940afce8409d4837bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  useIntensityCurve: 0
-  manualEdits: 1
-  intensityCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  waves:
-  - spawnedHashCodes: 
-    monsterList:
-    - Type: 2
-      Count: 1
-    - Type: 0
-      Count: 1
-    - Type: 3
-      Count: 1
-    - Type: 1
-      Count: 4
-    remainingSpawns: 0
-    spawnEffectTime: 1.5
-    intensity: 0
-    NumToNextWave: 1
-    preEventNames:
-    - Spawner 3 Wave 1
-    - Music_Spawner 3 Wave 1
-    postEventNames: []
-    spawnOffset: 0
-    spawnTimeOffset: 0
-    SpawningTime:
-      minLimit: 0
-      maxLimit: 0
-      min: 1
-      max: 1
-  - spawnedHashCodes: 
-    monsterList:
-    - Type: 1
-      Count: 2
-    - Type: 3
-      Count: 6
-    - Type: 0
-      Count: 3
-    - Type: 2
-      Count: 1
-    remainingSpawns: 0
-    spawnEffectTime: 1.5
-    intensity: 0
-    NumToNextWave: 2
-    preEventNames:
-    - Spawner 3 Wave 2
-    postEventNames: []
-    spawnOffset: 0
-    spawnTimeOffset: 0
-    SpawningTime:
-      minLimit: 0
-      maxLimit: 0
-      min: 1
-      max: 1
-  - spawnedHashCodes: 
-    monsterList:
-    - Type: 4
-      Count: 1
-    - Type: 1
-      Count: 3
-    - Type: 3
-      Count: 1
-    remainingSpawns: 0
-    spawnEffectTime: 1.5
-    intensity: 0
-    NumToNextWave: 0
-    preEventNames:
-    - Spawner 3 Wave 3
-    postEventNames: []
-    spawnOffset: 0
-    spawnTimeOffset: 0
-    SpawningTime:
-      minLimit: 0
-      maxLimit: 0
-      min: 1
-      max: 1
-  - spawnedHashCodes: 
-    monsterList:
-    - Type: 5
-      Count: 1
-    - Type: 1
-      Count: 4
-    remainingSpawns: 0
-    spawnEffectTime: 1.5
-    intensity: 0
-    NumToNextWave: 0
-    preEventNames:
-    - Spawner 3 Wave 4
-    postEventNames: []
-    spawnOffset: 0
-    spawnTimeOffset: 0
-    SpawningTime:
-      minLimit: 0
-      maxLimit: 0
-      min: 1
-      max: 1
-  - spawnedHashCodes: 
-    monsterList:
-    - Type: 2
-      Count: 1
-    - Type: 4
-      Count: 1
-    - Type: 5
-      Count: 1
-    remainingSpawns: 0
-    spawnEffectTime: 1.5
-    intensity: 0
-    NumToNextWave: 0
-    preEventNames:
-    - Spawner 3 Wave 5
-    postEventNames: []
-    spawnOffset: 0
-    spawnTimeOffset: 0
-    SpawningTime:
-      minLimit: 0
-      maxLimit: 0
-      min: 1
-      max: 1
-  currentWaveNumber: 0
-  currentNumEnemies: 0
-  totalNumEnemies: 7
---- !u!4 &2067283720
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2067283718}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 531545393}
-  - {fileID: 626288276}
-  - {fileID: 184025020}
-  - {fileID: 971652401}
-  m_Father: {fileID: 1760477451}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2067606000
 GameObject:
   m_ObjectHideFlags: 0
@@ -44565,12 +43563,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents:
-  - Spawner 1 Wave 3
-  - Spawner 1 Wave 4
+  coverStateEvents: []
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
+  - Spawner 1 Wave 3
+  - Spawner 1 Wave 4
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -45049,7 +44047,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
-  - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
   - Spawner 2 Wave 3
@@ -45057,6 +44054,7 @@ MonoBehaviour:
   - Spawner 2 Wave 5
   floorStateEvents:
   - Spawner 1 Wave 1
+  - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 1 Wave 4
   - Spawner 3 Wave 1
