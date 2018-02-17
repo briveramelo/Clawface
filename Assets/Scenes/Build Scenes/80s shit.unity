@@ -213,6 +213,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0, g: 0.95862055, b: 1, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &12694597
@@ -396,6 +397,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.52638483, g: 0.2973075, b: 0.8602941, a: 1}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &13168804
@@ -579,6 +581,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.8308824, g: 0.8308824, b: 0.8308824, a: 0}
   defaultState: 1
 --- !u!65 &16545581
@@ -836,6 +839,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.8308824, g: 0.8308824, b: 0.8308824, a: 0}
   defaultState: 1
 --- !u!65 &24137140
@@ -1019,6 +1023,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &34009631
@@ -1098,71 +1103,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.1, y: 1.2, z: 1.1}
   m_Center: {x: 0, y: 0, z: 0.00000047683716}
---- !u!1 &53343825
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 53343826}
-  - component: {fileID: 53343827}
-  m_Layer: 11
-  m_Name: Point light (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &53343826
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 53343825}
-  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: 2.37, y: 2.2503083, z: -2.05}
-  m_LocalScale: {x: 8.888889, y: 8.888889, z: 8.888889}
-  m_Children: []
-  m_Father: {fileID: 2066801582}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!108 &53343827
-Light:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 53343825}
-  m_Enabled: 1
-  serializedVersion: 8
-  m_Type: 2
-  m_Color: {r: 0.5147059, g: 0.93975663, b: 1, a: 1}
-  m_Intensity: 1
-  m_Range: 20
-  m_SpotAngle: 30
-  m_CookieSize: 10
-  m_Shadows:
-    m_Type: 0
-    m_Resolution: -1
-    m_CustomResolution: -1
-    m_Strength: 1
-    m_Bias: 0.05
-    m_NormalBias: 0.4
-    m_NearPlane: 0.2
-  m_Cookie: {fileID: 0}
-  m_DrawHalo: 0
-  m_Flare: {fileID: 0}
-  m_RenderMode: 0
-  m_CullingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_Lightmapping: 4
-  m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 1
-  m_ColorTemperature: 6570
-  m_UseColorTemperature: 0
-  m_ShadowRadius: 0
-  m_ShadowAngle: 0
 --- !u!1 &58445766
 GameObject:
   m_ObjectHideFlags: 0
@@ -1311,6 +1251,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 1, g: 0, b: 0.972414, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &62972555
@@ -1494,6 +1435,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &64149859
@@ -1655,7 +1597,7 @@ Transform:
   m_LocalScale: {x: 7.862724, y: 31.957771, z: 24.881067}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 17
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1 &70634241
 GameObject:
@@ -2350,6 +2292,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &95774084
@@ -2561,6 +2504,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0, g: 0.95862055, b: 1, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &96150381
@@ -2615,93 +2559,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 96150375}
   m_Mesh: {fileID: 4300000, guid: a74f6f4f8f795e54b9c8a507518dd0b1, type: 3}
---- !u!1 &97282031
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 1971763071840746, guid: f21d0c57a5dfb4940a2e49fad53a7211,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 97282032}
-  - component: {fileID: 97282035}
-  - component: {fileID: 97282034}
-  - component: {fileID: 97282033}
-  m_Layer: 19
-  m_Name: pasted__pCube1
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &97282032
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 4019302606477702, guid: f21d0c57a5dfb4940a2e49fad53a7211,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 97282031}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 1.2396334, y: 0.22000036, z: 2.7627532}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 673856721}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
---- !u!114 &97282033
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 97282031}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1590018abacad0b47b5c6460cba9858b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  axis: 4
-  rotationSpeed: 0.5
---- !u!23 &97282034
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 23288632005744008, guid: f21d0c57a5dfb4940a2e49fad53a7211,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 97282031}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_Materials:
-  - {fileID: 2100000, guid: d9fddc2a1dfd82f4195d6ad74b4ea55d, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
---- !u!33 &97282035
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 33344376348949324, guid: f21d0c57a5dfb4940a2e49fad53a7211,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 97282031}
-  m_Mesh: {fileID: 4300000, guid: 3610317ea74d54447b61958906c92d4c, type: 3}
 --- !u!1 &97851305
 GameObject:
   m_ObjectHideFlags: 0
@@ -2827,7 +2684,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &117883196
 GameObject:
@@ -3011,55 +2868,6 @@ Transform:
   m_Father: {fileID: 1034551065}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &127685679
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 1137251036553950, guid: f21d0c57a5dfb4940a2e49fad53a7211,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 127685680}
-  - component: {fileID: 127685681}
-  m_Layer: 19
-  m_Name: hathos_logo
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &127685680
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 4196080080299334, guid: f21d0c57a5dfb4940a2e49fad53a7211,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 127685679}
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -0.09, y: 5.29, z: -0.25}
-  m_LocalScale: {x: 0.6660234, y: 0.6660236, z: 0.6660236}
-  m_Children: []
-  m_Father: {fileID: 139475975}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
---- !u!95 &127685681
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 95063919197584646, guid: f21d0c57a5dfb4940a2e49fad53a7211,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 127685679}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 3610317ea74d54447b61958906c92d4c, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
 --- !u!1 &128251018
 GameObject:
   m_ObjectHideFlags: 0
@@ -3283,6 +3091,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &133601958
@@ -3466,6 +3275,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0, g: 0.95862055, b: 1, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &135926253
@@ -3545,158 +3355,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.1, y: 1.2, z: 1.1}
   m_Center: {x: 0, y: 0, z: 0.00000023841858}
---- !u!1 &139475974
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 1964421055344778, guid: f21d0c57a5dfb4940a2e49fad53a7211,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 139475975}
-  - component: {fileID: 139475982}
-  - component: {fileID: 139475981}
-  - component: {fileID: 139475980}
-  - component: {fileID: 139475979}
-  - component: {fileID: 139475978}
-  - component: {fileID: 139475977}
-  - component: {fileID: 139475976}
-  m_Layer: 19
-  m_Name: Kiosk
-  m_TagString: Wall
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &139475975
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 4465238921313556, guid: f21d0c57a5dfb4940a2e49fad53a7211,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 139475974}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.73, y: 0, z: 33.36}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 208851788}
-  - {fileID: 167063399}
-  - {fileID: 127685680}
-  - {fileID: 816222220}
-  m_Father: {fileID: 687778934}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &139475976
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 114382640361768818, guid: f21d0c57a5dfb4940a2e49fad53a7211,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 139475974}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
-  renderTextureWidth: 512
-  renderTextureHeight: 512
---- !u!208 &139475977
-NavMeshObstacle:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 208046270561163244, guid: f21d0c57a5dfb4940a2e49fad53a7211,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 139475974}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 2.5, y: 2.5, z: 2.506}
-  m_MoveThreshold: 0.1
-  m_Carve: 1
-  m_CarveOnlyStationary: 1
-  m_Center: {x: 0, y: 2.5270002, z: 0}
-  m_TimeToStationary: 0.5
---- !u!65 &139475978
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 65628152861054026, guid: f21d0c57a5dfb4940a2e49fad53a7211,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 139475974}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 5.0000043, y: 1.55, z: 5.0126333}
-  m_Center: {x: -0.0000011920929, y: 4.52, z: -0.006108403}
---- !u!65 &139475979
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 65958129626844862, guid: f21d0c57a5dfb4940a2e49fad53a7211,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 139475974}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 5.0000043, y: 1.94, z: 5.0126333}
-  m_Center: {x: -0.0000011920929, y: 0.62, z: -0.006108403}
---- !u!65 &139475980
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 65536995349271608, guid: f21d0c57a5dfb4940a2e49fad53a7211,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 139475974}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 5.0000043, y: 3.79, z: 1.29}
-  m_Center: {x: -0.0000011920929, y: 2.61, z: 1.85}
---- !u!23 &139475981
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 23810911590604178, guid: f21d0c57a5dfb4940a2e49fad53a7211,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 139475974}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_Materials:
-  - {fileID: 2100000, guid: ca6d754a049075f4f83b9f12aeaddb56, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
---- !u!33 &139475982
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 33192023131934886, guid: f21d0c57a5dfb4940a2e49fad53a7211,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 139475974}
-  m_Mesh: {fileID: 4300000, guid: cf40914a1f824964faf4a37924e70a8e, type: 3}
 --- !u!1 &147080985
 GameObject:
   m_ObjectHideFlags: 0
@@ -3801,6 +3459,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &147080989
@@ -3984,6 +3643,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.52638483, g: 0.2973075, b: 0.8602941, a: 1}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &147521014
@@ -4459,6 +4119,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &160303288
@@ -4538,93 +4199,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.1, y: 1.2, z: 1.1}
   m_Center: {x: 0, y: 0, z: 0.00000047683716}
---- !u!1 &167063398
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 1971763071840746, guid: f21d0c57a5dfb4940a2e49fad53a7211,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 167063399}
-  - component: {fileID: 167063402}
-  - component: {fileID: 167063401}
-  - component: {fileID: 167063400}
-  m_Layer: 19
-  m_Name: pasted__pCube1
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &167063399
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 4019302606477702, guid: f21d0c57a5dfb4940a2e49fad53a7211,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 167063398}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.7356244, y: 3.4499419, z: -0.10346985}
-  m_LocalScale: {x: 0.666024, y: 0.6660238, z: 0.6660244}
-  m_Children: []
-  m_Father: {fileID: 139475975}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
---- !u!114 &167063400
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 167063398}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1590018abacad0b47b5c6460cba9858b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  axis: 4
-  rotationSpeed: 0.5
---- !u!23 &167063401
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 23288632005744008, guid: f21d0c57a5dfb4940a2e49fad53a7211,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 167063398}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_Materials:
-  - {fileID: 2100000, guid: d9fddc2a1dfd82f4195d6ad74b4ea55d, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
---- !u!33 &167063402
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 33344376348949324, guid: f21d0c57a5dfb4940a2e49fad53a7211,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 167063398}
-  m_Mesh: {fileID: 4300000, guid: 3610317ea74d54447b61958906c92d4c, type: 3}
 --- !u!1001 &171316356
 Prefab:
   m_ObjectHideFlags: 0
@@ -4803,6 +4377,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &176578155
@@ -4971,7 +4546,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4996217589287838, guid: f7f0788457a83ae4ab3f8d9af40231a5, type: 2}
       propertyPath: m_RootOrder
-      value: 8
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 114774333468769098, guid: f7f0788457a83ae4ab3f8d9af40231a5,
         type: 2}
@@ -5150,6 +4725,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &204845403
@@ -5229,71 +4805,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.1, y: 1.2, z: 1.1}
   m_Center: {x: 0, y: 0, z: 0.00000047683716}
---- !u!1 &208851787
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 208851788}
-  - component: {fileID: 208851789}
-  m_Layer: 11
-  m_Name: Point light
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &208851788
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 208851787}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.24, y: 2.2503083, z: -2.11}
-  m_LocalScale: {x: 8.888889, y: 8.888889, z: 8.888889}
-  m_Children: []
-  m_Father: {fileID: 139475975}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!108 &208851789
-Light:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 208851787}
-  m_Enabled: 1
-  serializedVersion: 8
-  m_Type: 2
-  m_Color: {r: 0.5147059, g: 0.93975663, b: 1, a: 1}
-  m_Intensity: 1
-  m_Range: 20
-  m_SpotAngle: 30
-  m_CookieSize: 10
-  m_Shadows:
-    m_Type: 0
-    m_Resolution: -1
-    m_CustomResolution: -1
-    m_Strength: 1
-    m_Bias: 0.05
-    m_NormalBias: 0.4
-    m_NearPlane: 0.2
-  m_Cookie: {fileID: 0}
-  m_DrawHalo: 0
-  m_Flare: {fileID: 0}
-  m_RenderMode: 0
-  m_CullingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_Lightmapping: 4
-  m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 1
-  m_ColorTemperature: 6570
-  m_UseColorTemperature: 0
-  m_ShadowRadius: 0
-  m_ShadowAngle: 0
 --- !u!1 &212034732
 GameObject:
   m_ObjectHideFlags: 0
@@ -5398,6 +4909,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 1, g: 0, b: 0.972414, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &212034736
@@ -5581,6 +5093,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &213551578
@@ -5863,6 +5376,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 1, g: 0, b: 0.972414, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &234777222
@@ -6046,6 +5560,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0, g: 0.95862055, b: 1, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &239624721
@@ -6303,6 +5818,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.8308824, g: 0.8308824, b: 0.8308824, a: 0}
   defaultState: 1
 --- !u!65 &250161699
@@ -6600,6 +6116,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.8308824, g: 0.8308824, b: 0.8308824, a: 0}
   defaultState: 1
 --- !u!65 &272894626
@@ -7021,6 +6538,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &287696266
@@ -7204,6 +6722,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.52638483, g: 0.2973075, b: 0.8602941, a: 1}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &289360587
@@ -7560,6 +7079,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.52638483, g: 0.2973075, b: 0.8602941, a: 1}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &298603699
@@ -7817,6 +7337,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0, g: 0.95862055, b: 1, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &315309322
@@ -8069,60 +7590,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 321189432}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1001 &325051725
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4420968590421344, guid: 8fe032b243658fd47917ea1e7a6f36bf, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: -2.9032
-      objectReference: {fileID: 0}
-    - target: {fileID: 4420968590421344, guid: 8fe032b243658fd47917ea1e7a6f36bf, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 2.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4420968590421344, guid: 8fe032b243658fd47917ea1e7a6f36bf, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: -138.59
-      objectReference: {fileID: 0}
-    - target: {fileID: 4420968590421344, guid: 8fe032b243658fd47917ea1e7a6f36bf, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4420968590421344, guid: 8fe032b243658fd47917ea1e7a6f36bf, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: -0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 4420968590421344, guid: 8fe032b243658fd47917ea1e7a6f36bf, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4420968590421344, guid: 8fe032b243658fd47917ea1e7a6f36bf, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 4420968590421344, guid: 8fe032b243658fd47917ea1e7a6f36bf, type: 2}
-      propertyPath: m_RootOrder
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4420968590421344, guid: 8fe032b243658fd47917ea1e7a6f36bf, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 4420968590421344, guid: 8fe032b243658fd47917ea1e7a6f36bf, type: 2}
-      propertyPath: m_LocalScale.y
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 4420968590421344, guid: 8fe032b243658fd47917ea1e7a6f36bf, type: 2}
-      propertyPath: m_LocalScale.z
-      value: 12
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: 8fe032b243658fd47917ea1e7a6f36bf, type: 2}
-  m_IsPrefabParent: 0
 --- !u!1 &325650543
 GameObject:
   m_ObjectHideFlags: 0
@@ -8227,6 +7694,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &325650547
@@ -8591,6 +8059,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &339548190
@@ -8834,6 +8303,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &345096545
@@ -9264,6 +8734,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 1, g: 0, b: 0.972414, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &363617222
@@ -9447,6 +8918,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &365859609
@@ -9630,6 +9102,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &367058606
@@ -9813,6 +9286,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &382180037
@@ -9996,6 +9470,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.8308824, g: 0.8308824, b: 0.8308824, a: 0}
   defaultState: 1
 --- !u!65 &385141687
@@ -10179,6 +9654,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.52638483, g: 0.2973075, b: 0.8602941, a: 1}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &398690075
@@ -10501,6 +9977,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.8308824, g: 0.8308824, b: 0.8308824, a: 0}
   defaultState: 1
 --- !u!65 &424013188
@@ -10832,6 +10309,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.8308824, g: 0.8308824, b: 0.8308824, a: 0}
   defaultState: 1
 --- !u!65 &435960291
@@ -11015,6 +10493,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0, g: 0.95862055, b: 1, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &440177346
@@ -11218,6 +10697,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.8308824, g: 0.8308824, b: 0.8308824, a: 0}
   defaultState: 1
 --- !u!65 &450571946
@@ -11500,6 +10980,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &462031824
@@ -11683,6 +11164,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &462340298
@@ -11995,38 +11477,6 @@ Light:
   m_UseColorTemperature: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
---- !u!1 &498256629
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 498256630}
-  m_Layer: 0
-  m_Name: Inside_Deco
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &498256630
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 498256629}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 21.8, y: 0, z: -128.6}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 2066801582}
-  - {fileID: 969749598}
-  - {fileID: 825534743}
-  - {fileID: 687778934}
-  m_Father: {fileID: 0}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &506173520
 GameObject:
   m_ObjectHideFlags: 0
@@ -12131,6 +11581,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.52638483, g: 0.2973075, b: 0.8602941, a: 1}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &506173524
@@ -12334,6 +11785,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &524994056
@@ -12678,6 +12130,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0, g: 0.95862055, b: 1, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &539217215
@@ -12794,7 +12247,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 09d47bc75227c1a4ea7f726d85995c25, type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 09d47bc75227c1a4ea7f726d85995c25, type: 3}
       propertyPath: m_LocalScale.x
@@ -13174,6 +12627,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0, g: 0.95862055, b: 1, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &564827521
@@ -13280,7 +12734,7 @@ Transform:
   m_Children:
   - {fileID: 1275616763}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &573898536
 GameObject:
@@ -13386,6 +12840,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &573898540
@@ -13569,6 +13024,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &576170977
@@ -14076,6 +13532,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &628541616
@@ -14259,6 +13716,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &631466245
@@ -14581,6 +14039,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &654501371
@@ -14717,56 +14176,6 @@ MonoBehaviour:
   m_VoxelSize: 0.16666667
   m_BuildHeightMesh: 0
   m_NavMeshData: {fileID: 1060275197}
---- !u!1 &673856720
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 1137251036553950, guid: f21d0c57a5dfb4940a2e49fad53a7211,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 673856721}
-  - component: {fileID: 673856722}
-  m_Layer: 19
-  m_Name: hathos_logo
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &673856721
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 4196080080299334, guid: f21d0c57a5dfb4940a2e49fad53a7211,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 673856720}
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -0.09, y: 5.29, z: -0.25}
-  m_LocalScale: {x: 0.6660234, y: 0.6660236, z: 0.6660236}
-  m_Children:
-  - {fileID: 97282032}
-  m_Father: {fileID: 2023066197}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
---- !u!95 &673856722
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 95063919197584646, guid: f21d0c57a5dfb4940a2e49fad53a7211,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 673856720}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 3610317ea74d54447b61958906c92d4c, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
 --- !u!1 &681645138
 GameObject:
   m_ObjectHideFlags: 0
@@ -14970,6 +14379,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &682523747
@@ -15101,37 +14511,6 @@ Transform:
   m_Father: {fileID: 2012362237}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &687778933
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 1228914391783050, guid: f21d0c57a5dfb4940a2e49fad53a7211,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 687778934}
-  m_Layer: 19
-  m_Name: Hathos Kiosk (1)
-  m_TagString: Wall
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &687778934
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 4118433667905056, guid: f21d0c57a5dfb4940a2e49fad53a7211,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 687778933}
-  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: 6.7, y: 2.578084, z: 64.69}
-  m_LocalScale: {x: 1.35, y: 1.35, z: 1.35}
-  m_Children:
-  - {fileID: 139475975}
-  m_Father: {fileID: 498256630}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!1 &700059602
 GameObject:
   m_ObjectHideFlags: 0
@@ -15236,6 +14615,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.8308824, g: 0.8308824, b: 0.8308824, a: 0}
   defaultState: 1
 --- !u!65 &700059606
@@ -15419,6 +14799,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &707743344
@@ -15639,145 +15020,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 0.77
   color: {r: 1, g: 0, b: 0, a: 1}
---- !u!1 &724927752
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 1665489068997584, guid: f21d0c57a5dfb4940a2e49fad53a7211,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 724927753}
-  - component: {fileID: 724927759}
-  - component: {fileID: 724927758}
-  - component: {fileID: 724927757}
-  - component: {fileID: 724927756}
-  - component: {fileID: 724927755}
-  - component: {fileID: 724927754}
-  m_Layer: 19
-  m_Name: Chair_B (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &724927753
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 4270971912089396, guid: f21d0c57a5dfb4940a2e49fad53a7211,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 724927752}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0.6, y: 0.844, z: -4.03}
-  m_LocalScale: {x: 12, y: 12, z: 12}
-  m_Children: []
-  m_Father: {fileID: 2023066197}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
---- !u!114 &724927754
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 114079482274938134, guid: f21d0c57a5dfb4940a2e49fad53a7211,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 724927752}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
-  renderTextureWidth: 512
-  renderTextureHeight: 512
---- !u!114 &724927755
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 114560739332361928, guid: f21d0c57a5dfb4940a2e49fad53a7211,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 724927752}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8baf5dc5eb76d149b8ecb529cbc7c96, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  foot: {fileID: 724927753}
-  rigbod: {fileID: 724927757}
-  iceForceMultiplier: 3
-  movementMode: 1
---- !u!64 &724927756
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 64028347371915562, guid: f21d0c57a5dfb4940a2e49fad53a7211,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 724927752}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Convex: 1
-  m_InflateMesh: 0
-  m_SkinWidth: 0.01
-  m_Mesh: {fileID: 4300000, guid: ba00a063aa1b17f459902e3b80cb10db, type: 3}
---- !u!54 &724927757
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 54654742084443072, guid: f21d0c57a5dfb4940a2e49fad53a7211,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 724927752}
-  serializedVersion: 2
-  m_Mass: 2
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!23 &724927758
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 23976666153584382, guid: f21d0c57a5dfb4940a2e49fad53a7211,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 724927752}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_Materials:
-  - {fileID: 2100000, guid: cb274dfc79465684db092b2ed7e2301d, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
---- !u!33 &724927759
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 33238456596311186, guid: f21d0c57a5dfb4940a2e49fad53a7211,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 724927752}
-  m_Mesh: {fileID: 4300000, guid: ba00a063aa1b17f459902e3b80cb10db, type: 3}
 --- !u!1 &725703250 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 5d9223fd338d51c44a10b29684719367, type: 3}
@@ -15902,6 +15144,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.8308824, g: 0.8308824, b: 0.8308824, a: 0}
   defaultState: 1
 --- !u!65 &733378288
@@ -16103,7 +15346,7 @@ Transform:
   - {fileID: 1034551065}
   - {fileID: 492769194}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &747720164
 GameObject:
@@ -16521,6 +15764,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &777937628
@@ -16902,6 +16146,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0, g: 0.95862055, b: 1, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &785586099
@@ -17085,6 +16330,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.52638483, g: 0.2973075, b: 0.8602941, a: 1}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &797050457
@@ -17367,6 +16613,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &807231956
@@ -17550,6 +16797,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0, g: 0.95862055, b: 1, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &813602764
@@ -17629,145 +16877,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.1, y: 1.2, z: 1.1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!1 &816222219
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 1665489068997584, guid: f21d0c57a5dfb4940a2e49fad53a7211,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 816222220}
-  - component: {fileID: 816222226}
-  - component: {fileID: 816222225}
-  - component: {fileID: 816222224}
-  - component: {fileID: 816222223}
-  - component: {fileID: 816222222}
-  - component: {fileID: 816222221}
-  m_Layer: 19
-  m_Name: Chair_B (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &816222220
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 4270971912089396, guid: f21d0c57a5dfb4940a2e49fad53a7211,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 816222219}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0.6, y: 0.844, z: 3.34}
-  m_LocalScale: {x: 12, y: 12, z: 12}
-  m_Children: []
-  m_Father: {fileID: 139475975}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
---- !u!114 &816222221
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 114079482274938134, guid: f21d0c57a5dfb4940a2e49fad53a7211,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 816222219}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
-  renderTextureWidth: 512
-  renderTextureHeight: 512
---- !u!114 &816222222
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 114560739332361928, guid: f21d0c57a5dfb4940a2e49fad53a7211,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 816222219}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8baf5dc5eb76d149b8ecb529cbc7c96, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  foot: {fileID: 816222220}
-  rigbod: {fileID: 816222224}
-  iceForceMultiplier: 3
-  movementMode: 1
---- !u!64 &816222223
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 64028347371915562, guid: f21d0c57a5dfb4940a2e49fad53a7211,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 816222219}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Convex: 1
-  m_InflateMesh: 0
-  m_SkinWidth: 0.01
-  m_Mesh: {fileID: 4300000, guid: ba00a063aa1b17f459902e3b80cb10db, type: 3}
---- !u!54 &816222224
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 54654742084443072, guid: f21d0c57a5dfb4940a2e49fad53a7211,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 816222219}
-  serializedVersion: 2
-  m_Mass: 2
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!23 &816222225
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 23976666153584382, guid: f21d0c57a5dfb4940a2e49fad53a7211,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 816222219}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_Materials:
-  - {fileID: 2100000, guid: cb274dfc79465684db092b2ed7e2301d, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
---- !u!33 &816222226
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 33238456596311186, guid: f21d0c57a5dfb4940a2e49fad53a7211,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 816222219}
-  m_Mesh: {fileID: 4300000, guid: ba00a063aa1b17f459902e3b80cb10db, type: 3}
 --- !u!1 &817353995
 GameObject:
   m_ObjectHideFlags: 0
@@ -17872,6 +16981,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 1, g: 0, b: 0.972414, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &817353999
@@ -18083,6 +17193,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0, g: 0.95862055, b: 1, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &823821904
@@ -18137,173 +17248,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 823821898}
   m_Mesh: {fileID: 4300000, guid: a74f6f4f8f795e54b9c8a507518dd0b1, type: 3}
---- !u!1 &825534734
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 1159817217382010, guid: 2d9ec57c2d01d3647934da4806d6efa5,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 825534743}
-  - component: {fileID: 825534742}
-  - component: {fileID: 825534741}
-  - component: {fileID: 825534740}
-  - component: {fileID: 825534739}
-  - component: {fileID: 825534738}
-  - component: {fileID: 825534737}
-  - component: {fileID: 825534736}
-  - component: {fileID: 825534735}
-  m_Layer: 19
-  m_Name: Coffee Kiosk
-  m_TagString: Wall
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &825534735
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 114723022726497300, guid: 2d9ec57c2d01d3647934da4806d6efa5,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 825534734}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
-  renderTextureWidth: 512
-  renderTextureHeight: 512
---- !u!114 &825534736
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 114842366974738448, guid: 2d9ec57c2d01d3647934da4806d6efa5,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 825534734}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
-  renderTextureWidth: 512
-  renderTextureHeight: 512
---- !u!208 &825534737
-NavMeshObstacle:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 208989393057243180, guid: 2d9ec57c2d01d3647934da4806d6efa5,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 825534734}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 2.5, y: 2.5, z: 2.506}
-  m_MoveThreshold: 0.1
-  m_Carve: 1
-  m_CarveOnlyStationary: 1
-  m_Center: {x: 0, y: 2.5270002, z: 0}
-  m_TimeToStationary: 0.5
---- !u!65 &825534738
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 65647988909620550, guid: 2d9ec57c2d01d3647934da4806d6efa5,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 825534734}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 5.0000043, y: 5.74, z: 5.0126333}
-  m_Center: {x: -0.0000011920929, y: 6.75, z: -0.006108403}
---- !u!65 &825534739
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 65184066357780158, guid: 2d9ec57c2d01d3647934da4806d6efa5,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 825534734}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 5.0000043, y: 1.94, z: 5.0126333}
-  m_Center: {x: -0.0000011920929, y: 0.62, z: -0.006108403}
---- !u!65 &825534740
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 65770086025428756, guid: 2d9ec57c2d01d3647934da4806d6efa5,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 825534734}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 5.0000043, y: 9.696648, z: 1.29}
-  m_Center: {x: -0.0000011920929, y: 4.875227, z: 1.85}
---- !u!23 &825534741
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 23563855222893676, guid: 2d9ec57c2d01d3647934da4806d6efa5,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 825534734}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_Materials:
-  - {fileID: 2100000, guid: ca6d754a049075f4f83b9f12aeaddb56, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
---- !u!33 &825534742
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 33245273434192982, guid: 2d9ec57c2d01d3647934da4806d6efa5,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 825534734}
-  m_Mesh: {fileID: 4300000, guid: cf40914a1f824964faf4a37924e70a8e, type: 3}
---- !u!4 &825534743
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 4813754001521000, guid: 2d9ec57c2d01d3647934da4806d6efa5,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 825534734}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -55.63, y: 2.578084, z: 20.520004}
-  m_LocalScale: {x: 1.35, y: 1.35, z: 1.35}
-  m_Children:
-  - {fileID: 1294383210}
-  - {fileID: 1031274714}
-  - {fileID: 1313719901}
-  m_Father: {fileID: 498256630}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &827580853
 GameObject:
   m_ObjectHideFlags: 0
@@ -18507,6 +17451,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &840093217
@@ -18690,6 +17635,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &841119601
@@ -18873,6 +17819,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &849157217
@@ -19104,6 +18051,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &854525423
@@ -19386,6 +18334,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.8308824, g: 0.8308824, b: 0.8308824, a: 0}
   defaultState: 1
 --- !u!65 &860246870
@@ -19589,6 +18538,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &880090713
@@ -19772,6 +18722,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &896681592
@@ -20029,6 +18980,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &929175084
@@ -20311,6 +19263,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &934920724
@@ -20494,6 +19447,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0, g: 0.95862055, b: 1, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &942288886
@@ -20677,6 +19631,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &945582503
@@ -20860,6 +19815,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.52638483, g: 0.2973075, b: 0.8602941, a: 1}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &952256107
@@ -21043,6 +19999,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &953201609
@@ -21246,6 +20203,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.8308824, g: 0.8308824, b: 0.8308824, a: 0}
   defaultState: 1
 --- !u!65 &954167729
@@ -21604,6 +20562,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &958755788
@@ -21683,37 +20642,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.1, y: 1.2, z: 1.1}
   m_Center: {x: -0.0000019073486, y: 0, z: 0.00000047683716}
---- !u!1 &969749597
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 1228914391783050, guid: f21d0c57a5dfb4940a2e49fad53a7211,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 969749598}
-  m_Layer: 19
-  m_Name: Hathos Kiosk
-  m_TagString: Wall
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &969749598
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 4118433667905056, guid: f21d0c57a5dfb4940a2e49fad53a7211,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 969749597}
-  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: -53.90203, y: 2.578084, z: 4.7286453}
-  m_LocalScale: {x: 1.35, y: 1.35, z: 1.35}
-  m_Children:
-  - {fileID: 2023066197}
-  m_Father: {fileID: 498256630}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!1 &971652400
 GameObject:
   m_ObjectHideFlags: 0
@@ -21860,6 +20788,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &977854365
@@ -22043,6 +20972,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.52638483, g: 0.2973075, b: 0.8602941, a: 1}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &996748864
@@ -22159,7 +21089,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 09d47bc75227c1a4ea7f726d85995c25, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 09d47bc75227c1a4ea7f726d85995c25, type: 3}
       propertyPath: m_LocalScale.x
@@ -22407,6 +21337,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1014650573
@@ -22506,93 +21437,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 5.000001, y: 5, z: 5.0000005}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!1 &1031274713
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 1675099999248984, guid: 2d9ec57c2d01d3647934da4806d6efa5,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 1031274714}
-  - component: {fileID: 1031274717}
-  - component: {fileID: 1031274716}
-  - component: {fileID: 1031274715}
-  m_Layer: 19
-  m_Name: Coffee Logo
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1031274714
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 4018833049176020, guid: 2d9ec57c2d01d3647934da4806d6efa5,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1031274713}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.31999856, y: 3.64, z: -0.29}
-  m_LocalScale: {x: 2.136219, y: 2.1362176, z: 4.6513004}
-  m_Children: []
-  m_Father: {fileID: 825534743}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1031274715
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1031274713}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1590018abacad0b47b5c6460cba9858b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  axis: 4
-  rotationSpeed: 0.5
---- !u!23 &1031274716
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 23159196895062108, guid: 2d9ec57c2d01d3647934da4806d6efa5,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1031274713}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_Materials:
-  - {fileID: 2100000, guid: d9fddc2a1dfd82f4195d6ad74b4ea55d, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
---- !u!33 &1031274717
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 33552299621235544, guid: 2d9ec57c2d01d3647934da4806d6efa5,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1031274713}
-  m_Mesh: {fileID: 4300000, guid: b79c8c4cd67e3234a8508bef259b0cc8, type: 3}
 --- !u!1 &1033717097 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 5d9223fd338d51c44a10b29684719367, type: 3}
@@ -22749,6 +21593,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.8308824, g: 0.8308824, b: 0.8308824, a: 0}
   defaultState: 1
 --- !u!65 &1037392170
@@ -23294,6 +22139,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1060870497
@@ -23477,6 +22323,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1071340038
@@ -23660,6 +22507,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.8308824, g: 0.8308824, b: 0.8308824, a: 0}
   defaultState: 1
 --- !u!65 &1076517659
@@ -23843,6 +22691,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.8308824, g: 0.8308824, b: 0.8308824, a: 0}
   defaultState: 1
 --- !u!65 &1077028127
@@ -24046,6 +22895,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1084087048
@@ -24365,6 +23215,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1105452175
@@ -24605,6 +23456,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0, g: 0.95862055, b: 1, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1118716993
@@ -24788,6 +23640,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1123132411
@@ -25070,6 +23923,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1126301443
@@ -25327,6 +24181,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.8308824, g: 0.8308824, b: 0.8308824, a: 0}
   defaultState: 1
 --- !u!65 &1140165806
@@ -25510,6 +24365,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 1, g: 0, b: 0.972414, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1144947153
@@ -25693,6 +24549,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 1, g: 0, b: 0.972414, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1147649685
@@ -25846,71 +24703,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5d9223fd338d51c44a10b29684719367, type: 3}
   m_IsPrefabParent: 0
---- !u!1 &1161738867
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 1161738868}
-  - component: {fileID: 1161738869}
-  m_Layer: 11
-  m_Name: Point light
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1161738868
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1161738867}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.5707176, y: 2.2503083, z: 1.6389885}
-  m_LocalScale: {x: 8.888889, y: 8.888889, z: 8.888889}
-  m_Children: []
-  m_Father: {fileID: 2023066197}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!108 &1161738869
-Light:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1161738867}
-  m_Enabled: 1
-  serializedVersion: 8
-  m_Type: 2
-  m_Color: {r: 0.5147059, g: 0.93975663, b: 1, a: 1}
-  m_Intensity: 1
-  m_Range: 20
-  m_SpotAngle: 30
-  m_CookieSize: 10
-  m_Shadows:
-    m_Type: 0
-    m_Resolution: -1
-    m_CustomResolution: -1
-    m_Strength: 1
-    m_Bias: 0.05
-    m_NormalBias: 0.4
-    m_NearPlane: 0.2
-  m_Cookie: {fileID: 0}
-  m_DrawHalo: 0
-  m_Flare: {fileID: 0}
-  m_RenderMode: 0
-  m_CullingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_Lightmapping: 4
-  m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 1
-  m_ColorTemperature: 6570
-  m_UseColorTemperature: 0
-  m_ShadowRadius: 0
-  m_ShadowAngle: 0
 --- !u!1 &1162113282
 GameObject:
   m_ObjectHideFlags: 0
@@ -26114,6 +24906,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0, g: 0.95862055, b: 1, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1165319146
@@ -26297,6 +25090,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0, g: 0.95862055, b: 1, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1167016689
@@ -26594,6 +25388,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1186931770
@@ -26777,6 +25572,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.8308824, g: 0.8308824, b: 0.8308824, a: 0}
   defaultState: 1
 --- !u!65 &1187470307
@@ -26960,6 +25756,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1199710088
@@ -27204,6 +26001,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1211835468
@@ -27500,6 +26298,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0, g: 0.95862055, b: 1, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &1214551470
@@ -27791,6 +26590,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1228785515
@@ -27994,6 +26794,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.52638483, g: 0.2973075, b: 0.8602941, a: 1}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1244174225
@@ -28177,6 +26978,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.52638483, g: 0.2973075, b: 0.8602941, a: 1}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1257558423
@@ -28529,6 +27331,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1262756102
@@ -28761,6 +27564,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1275750777
@@ -28840,71 +27644,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.1, y: 1.2, z: 1.1}
   m_Center: {x: 0, y: 0, z: 0.00000047683716}
---- !u!1 &1294383209
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 1294383210}
-  - component: {fileID: 1294383211}
-  m_Layer: 11
-  m_Name: Point light (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1294383210
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1294383209}
-  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: -1.0207396, y: 2.2503083, z: 0.52148324}
-  m_LocalScale: {x: 8.888889, y: 8.888889, z: 8.888889}
-  m_Children: []
-  m_Father: {fileID: 825534743}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!108 &1294383211
-Light:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1294383209}
-  m_Enabled: 1
-  serializedVersion: 8
-  m_Type: 2
-  m_Color: {r: 0.5147059, g: 0.93975663, b: 1, a: 1}
-  m_Intensity: 1
-  m_Range: 20
-  m_SpotAngle: 30
-  m_CookieSize: 10
-  m_Shadows:
-    m_Type: 0
-    m_Resolution: -1
-    m_CustomResolution: -1
-    m_Strength: 1
-    m_Bias: 0.05
-    m_NormalBias: 0.4
-    m_NearPlane: 0.2
-  m_Cookie: {fileID: 0}
-  m_DrawHalo: 0
-  m_Flare: {fileID: 0}
-  m_RenderMode: 0
-  m_CullingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_Lightmapping: 4
-  m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 1
-  m_ColorTemperature: 6570
-  m_UseColorTemperature: 0
-  m_ShadowRadius: 0
-  m_ShadowAngle: 0
 --- !u!1 &1306882860
 GameObject:
   m_ObjectHideFlags: 0
@@ -29009,6 +27748,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.8308824, g: 0.8308824, b: 0.8308824, a: 0}
   defaultState: 1
 --- !u!65 &1306882864
@@ -29261,145 +28001,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1309274980}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &1313719900
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 1243319959838922, guid: 2d9ec57c2d01d3647934da4806d6efa5,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 1313719901}
-  - component: {fileID: 1313719907}
-  - component: {fileID: 1313719906}
-  - component: {fileID: 1313719905}
-  - component: {fileID: 1313719904}
-  - component: {fileID: 1313719903}
-  - component: {fileID: 1313719902}
-  m_Layer: 19
-  m_Name: Chair_B (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1313719901
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 4208259103403950, guid: 2d9ec57c2d01d3647934da4806d6efa5,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1313719900}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0.31, y: 0.844, z: -4.36}
-  m_LocalScale: {x: 12, y: 12, z: 12}
-  m_Children: []
-  m_Father: {fileID: 825534743}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
---- !u!114 &1313719902
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 114938412182928750, guid: 2d9ec57c2d01d3647934da4806d6efa5,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1313719900}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
-  renderTextureWidth: 512
-  renderTextureHeight: 512
---- !u!114 &1313719903
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 114431259967998298, guid: 2d9ec57c2d01d3647934da4806d6efa5,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1313719900}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8baf5dc5eb76d149b8ecb529cbc7c96, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  foot: {fileID: 1313719901}
-  rigbod: {fileID: 1313719905}
-  iceForceMultiplier: 3
-  movementMode: 1
---- !u!64 &1313719904
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 64535263945039914, guid: 2d9ec57c2d01d3647934da4806d6efa5,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1313719900}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Convex: 1
-  m_InflateMesh: 0
-  m_SkinWidth: 0.01
-  m_Mesh: {fileID: 4300000, guid: ba00a063aa1b17f459902e3b80cb10db, type: 3}
---- !u!54 &1313719905
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 54691794254669694, guid: 2d9ec57c2d01d3647934da4806d6efa5,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1313719900}
-  serializedVersion: 2
-  m_Mass: 2
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!23 &1313719906
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 23692291283983742, guid: 2d9ec57c2d01d3647934da4806d6efa5,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1313719900}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_Materials:
-  - {fileID: 2100000, guid: cb274dfc79465684db092b2ed7e2301d, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
---- !u!33 &1313719907
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 33694811702613494, guid: 2d9ec57c2d01d3647934da4806d6efa5,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1313719900}
-  m_Mesh: {fileID: 4300000, guid: ba00a063aa1b17f459902e3b80cb10db, type: 3}
 --- !u!1001 &1325933225
 Prefab:
   m_ObjectHideFlags: 0
@@ -29697,6 +28298,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1351713878
@@ -29839,7 +28441,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1 &1358444893 stripped
 GameObject:
@@ -29965,6 +28567,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0, g: 0.95862055, b: 1, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1364644705
@@ -30148,6 +28751,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.8308824, g: 0.8308824, b: 0.8308824, a: 0}
   defaultState: 1
 --- !u!65 &1366354431
@@ -30371,6 +28975,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1388768184
@@ -30554,6 +29159,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1394354572
@@ -30811,6 +29417,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1413211907
@@ -30972,7 +29579,7 @@ Transform:
   m_LocalScale: {x: 3.5736291, y: 14.5249, z: 11.308518}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1 &1419345214
 GameObject:
@@ -31078,6 +29685,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1419345218
@@ -31239,7 +29847,7 @@ Transform:
   m_LocalScale: {x: 3.5736291, y: 14.5249, z: 11.308518}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1429489068
 GameObject:
@@ -31345,6 +29953,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1429489072
@@ -31528,6 +30137,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1435292450
@@ -31711,6 +30321,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0, g: 0.95862055, b: 1, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1436338955
@@ -31894,6 +30505,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1453249466
@@ -31973,145 +30585,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.1, y: 1.2, z: 1.1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!1 &1465172493
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 1243319959838922, guid: 2d9ec57c2d01d3647934da4806d6efa5,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 1465172494}
-  - component: {fileID: 1465172500}
-  - component: {fileID: 1465172499}
-  - component: {fileID: 1465172498}
-  - component: {fileID: 1465172497}
-  - component: {fileID: 1465172496}
-  - component: {fileID: 1465172495}
-  m_Layer: 19
-  m_Name: Chair_B (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1465172494
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 4208259103403950, guid: 2d9ec57c2d01d3647934da4806d6efa5,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1465172493}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0.31, y: 0.844, z: 3.27}
-  m_LocalScale: {x: 12, y: 12, z: 12}
-  m_Children: []
-  m_Father: {fileID: 2066801582}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
---- !u!114 &1465172495
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 114938412182928750, guid: 2d9ec57c2d01d3647934da4806d6efa5,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1465172493}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
-  renderTextureWidth: 512
-  renderTextureHeight: 512
---- !u!114 &1465172496
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 114431259967998298, guid: 2d9ec57c2d01d3647934da4806d6efa5,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1465172493}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8baf5dc5eb76d149b8ecb529cbc7c96, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  foot: {fileID: 1465172494}
-  rigbod: {fileID: 1465172498}
-  iceForceMultiplier: 3
-  movementMode: 1
---- !u!64 &1465172497
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 64535263945039914, guid: 2d9ec57c2d01d3647934da4806d6efa5,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1465172493}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Convex: 1
-  m_InflateMesh: 0
-  m_SkinWidth: 0.01
-  m_Mesh: {fileID: 4300000, guid: ba00a063aa1b17f459902e3b80cb10db, type: 3}
---- !u!54 &1465172498
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 54691794254669694, guid: 2d9ec57c2d01d3647934da4806d6efa5,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1465172493}
-  serializedVersion: 2
-  m_Mass: 2
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!23 &1465172499
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 23692291283983742, guid: 2d9ec57c2d01d3647934da4806d6efa5,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1465172493}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_Materials:
-  - {fileID: 2100000, guid: cb274dfc79465684db092b2ed7e2301d, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
---- !u!33 &1465172500
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 33694811702613494, guid: 2d9ec57c2d01d3647934da4806d6efa5,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1465172493}
-  m_Mesh: {fileID: 4300000, guid: ba00a063aa1b17f459902e3b80cb10db, type: 3}
 --- !u!1 &1466696719
 GameObject:
   m_ObjectHideFlags: 0
@@ -32216,6 +30689,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1466696723
@@ -32399,6 +30873,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1468090314
@@ -32582,6 +31057,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1468957567
@@ -32765,6 +31241,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1480688924
@@ -32948,6 +31425,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1492172661
@@ -33250,6 +31728,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1517256120
@@ -33549,6 +32028,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1529754748
@@ -33732,6 +32212,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0, g: 0.95862055, b: 1, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1531299676
@@ -33915,6 +32396,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1533272002
@@ -34098,6 +32580,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1536767643
@@ -34281,6 +32764,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.8308824, g: 0.8308824, b: 0.8308824, a: 0}
   defaultState: 1
 --- !u!65 &1537034991
@@ -34538,6 +33022,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1538536110
@@ -34815,6 +33300,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.8308824, g: 0.8308824, b: 0.8308824, a: 0}
   defaultState: 1
 --- !u!65 &1559005181
@@ -35097,6 +33583,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1562269163
@@ -35280,6 +33767,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.8308824, g: 0.8308824, b: 0.8308824, a: 0}
   defaultState: 1
 --- !u!65 &1563831469
@@ -35463,6 +33951,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1566647465
@@ -35720,6 +34209,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1571956708
@@ -35799,93 +34289,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.1, y: 1.2, z: 1.1}
   m_Center: {x: 0.0000038146973, y: 0, z: 0}
---- !u!1 &1584231661
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 1675099999248984, guid: 2d9ec57c2d01d3647934da4806d6efa5,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 1584231662}
-  - component: {fileID: 1584231665}
-  - component: {fileID: 1584231664}
-  - component: {fileID: 1584231663}
-  m_Layer: 19
-  m_Name: Coffee Logo
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1584231662
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 4018833049176020, guid: 2d9ec57c2d01d3647934da4806d6efa5,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1584231661}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.32, y: 3.64, z: -0.29}
-  m_LocalScale: {x: 2.136219, y: 2.1362176, z: 4.6513004}
-  m_Children: []
-  m_Father: {fileID: 2066801582}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1584231663
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1584231661}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1590018abacad0b47b5c6460cba9858b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  axis: 4
-  rotationSpeed: 0.5
---- !u!23 &1584231664
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 23159196895062108, guid: 2d9ec57c2d01d3647934da4806d6efa5,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1584231661}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_Materials:
-  - {fileID: 2100000, guid: d9fddc2a1dfd82f4195d6ad74b4ea55d, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
---- !u!33 &1584231665
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 33552299621235544, guid: 2d9ec57c2d01d3647934da4806d6efa5,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1584231661}
-  m_Mesh: {fileID: 4300000, guid: b79c8c4cd67e3234a8508bef259b0cc8, type: 3}
 --- !u!1 &1598902111
 GameObject:
   m_ObjectHideFlags: 0
@@ -35990,6 +34393,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0, g: 0.95862055, b: 1, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1598902115
@@ -36272,6 +34676,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.8308824, g: 0.8308824, b: 0.8308824, a: 0}
   defaultState: 1
 --- !u!65 &1607166039
@@ -36628,6 +35033,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1640018026
@@ -36905,6 +35311,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.8308824, g: 0.8308824, b: 0.8308824, a: 0}
   defaultState: 1
 --- !u!65 &1654001978
@@ -37544,7 +35951,7 @@ Transform:
   - {fileID: 658721733}
   - {fileID: 2012362237}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1707666426
 GameObject:
@@ -37650,6 +36057,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0, g: 0.95862055, b: 1, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1707666430
@@ -37949,6 +36357,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.8308824, g: 0.8308824, b: 0.8308824, a: 0}
   defaultState: 1
 --- !u!65 &1721464011
@@ -38132,6 +36541,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.52638483, g: 0.2973075, b: 0.8602941, a: 1}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1723210098
@@ -38597,6 +37007,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1754455813
@@ -38727,7 +37138,7 @@ Transform:
   - {fileID: 1260307935}
   - {fileID: 2067283720}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1764667932
 GameObject:
@@ -38833,6 +37244,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0, g: 0.95862055, b: 1, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1764667936
@@ -39036,6 +37448,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1776473974
@@ -39293,6 +37706,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.8308824, g: 0.8308824, b: 0.8308824, a: 0}
   defaultState: 1
 --- !u!65 &1789614391
@@ -39476,6 +37890,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0, g: 0.95862055, b: 1, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1799120540
@@ -39659,6 +38074,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.52638483, g: 0.2973075, b: 0.8602941, a: 1}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1799536561
@@ -39884,6 +38300,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.8308824, g: 0.8308824, b: 0.8308824, a: 0}
   defaultState: 1
 --- !u!65 &1813325832
@@ -40128,6 +38545,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1822545438
@@ -40311,6 +38729,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1824586874
@@ -40741,6 +39160,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1846939594
@@ -40924,6 +39344,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1862551982
@@ -41107,6 +39528,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.52638483, g: 0.2973075, b: 0.8602941, a: 1}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1863135544
@@ -41364,6 +39786,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.52638483, g: 0.2973075, b: 0.8602941, a: 1}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1875741574
@@ -41547,6 +39970,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.8308824, g: 0.8308824, b: 0.8308824, a: 0}
   defaultState: 1
 --- !u!65 &1876074317
@@ -41730,6 +40154,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0, g: 0.95862055, b: 1, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1876168607
@@ -42199,6 +40624,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1918361063
@@ -42382,6 +40808,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 1, g: 0, b: 0.972414, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1925162977
@@ -42639,6 +41066,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.8308824, g: 0.8308824, b: 0.8308824, a: 0}
   defaultState: 1
 --- !u!65 &1931948352
@@ -42842,6 +41270,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1939637880
@@ -43025,6 +41454,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0, g: 0.95862055, b: 1, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &1945871399
@@ -43381,6 +41811,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.8308824, g: 0.8308824, b: 0.8308824, a: 0}
   defaultState: 1
 --- !u!65 &1989739925
@@ -43712,6 +42143,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.52638483, g: 0.2973075, b: 0.8602941, a: 1}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &2007312355
@@ -43895,6 +42327,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &2008298569
@@ -44112,6 +42545,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.8308824, g: 0.8308824, b: 0.8308824, a: 0}
   defaultState: 1
 --- !u!65 &2018203602
@@ -44191,157 +42625,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.1, y: 1.2, z: 1.1}
   m_Center: {x: 0, y: 0, z: -0.00000023841858}
---- !u!1 &2023066196
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 1964421055344778, guid: f21d0c57a5dfb4940a2e49fad53a7211,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 2023066197}
-  - component: {fileID: 2023066204}
-  - component: {fileID: 2023066203}
-  - component: {fileID: 2023066202}
-  - component: {fileID: 2023066201}
-  - component: {fileID: 2023066200}
-  - component: {fileID: 2023066199}
-  - component: {fileID: 2023066198}
-  m_Layer: 19
-  m_Name: Kiosk
-  m_TagString: Wall
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2023066197
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 4465238921313556, guid: f21d0c57a5dfb4940a2e49fad53a7211,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2023066196}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.73, y: 0, z: 33.36}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 1161738868}
-  - {fileID: 673856721}
-  - {fileID: 724927753}
-  m_Father: {fileID: 969749598}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2023066198
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 114382640361768818, guid: f21d0c57a5dfb4940a2e49fad53a7211,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2023066196}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
-  renderTextureWidth: 512
-  renderTextureHeight: 512
---- !u!208 &2023066199
-NavMeshObstacle:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 208046270561163244, guid: f21d0c57a5dfb4940a2e49fad53a7211,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2023066196}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 2.5, y: 2.5, z: 2.506}
-  m_MoveThreshold: 0.1
-  m_Carve: 1
-  m_CarveOnlyStationary: 1
-  m_Center: {x: 0, y: 2.5270002, z: 0}
-  m_TimeToStationary: 0.5
---- !u!65 &2023066200
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 65628152861054026, guid: f21d0c57a5dfb4940a2e49fad53a7211,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2023066196}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 5.0000043, y: 1.55, z: 5.0126333}
-  m_Center: {x: -0.0000011920929, y: 4.52, z: -0.006108403}
---- !u!65 &2023066201
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 65958129626844862, guid: f21d0c57a5dfb4940a2e49fad53a7211,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2023066196}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 5.0000043, y: 1.94, z: 5.0126333}
-  m_Center: {x: -0.0000011920929, y: 0.62, z: -0.006108403}
---- !u!65 &2023066202
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 65536995349271608, guid: f21d0c57a5dfb4940a2e49fad53a7211,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2023066196}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 5.0000043, y: 3.79, z: 1.29}
-  m_Center: {x: -0.0000011920929, y: 2.61, z: 1.85}
---- !u!23 &2023066203
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 23810911590604178, guid: f21d0c57a5dfb4940a2e49fad53a7211,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2023066196}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_Materials:
-  - {fileID: 2100000, guid: ca6d754a049075f4f83b9f12aeaddb56, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
---- !u!33 &2023066204
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 33192023131934886, guid: f21d0c57a5dfb4940a2e49fad53a7211,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2023066196}
-  m_Mesh: {fileID: 4300000, guid: cf40914a1f824964faf4a37924e70a8e, type: 3}
 --- !u!1001 &2030975080
 Prefab:
   m_ObjectHideFlags: 0
@@ -44498,7 +42781,7 @@ Transform:
   m_LocalScale: {x: 3.5736291, y: 14.5249, z: 11.308518}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1 &2041126247
 GameObject:
@@ -44604,6 +42887,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 1, g: 0, b: 0.972414, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &2041126251
@@ -44787,6 +43071,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &2046108681
@@ -44970,6 +43255,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &2049794318
@@ -45247,173 +43533,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2059159892}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &2066801581
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 1159817217382010, guid: 2d9ec57c2d01d3647934da4806d6efa5,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 2066801582}
-  - component: {fileID: 2066801590}
-  - component: {fileID: 2066801589}
-  - component: {fileID: 2066801588}
-  - component: {fileID: 2066801587}
-  - component: {fileID: 2066801586}
-  - component: {fileID: 2066801585}
-  - component: {fileID: 2066801584}
-  - component: {fileID: 2066801583}
-  m_Layer: 19
-  m_Name: Coffee Kiosk (1)
-  m_TagString: Wall
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2066801582
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 4813754001521000, guid: 2d9ec57c2d01d3647934da4806d6efa5,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2066801581}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4.2300014, y: 2.578084, z: -39.429993}
-  m_LocalScale: {x: 1.35, y: 1.35, z: 1.35}
-  m_Children:
-  - {fileID: 53343826}
-  - {fileID: 1584231662}
-  - {fileID: 1465172494}
-  m_Father: {fileID: 498256630}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2066801583
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 114723022726497300, guid: 2d9ec57c2d01d3647934da4806d6efa5,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2066801581}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
-  renderTextureWidth: 512
-  renderTextureHeight: 512
---- !u!114 &2066801584
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 114842366974738448, guid: 2d9ec57c2d01d3647934da4806d6efa5,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2066801581}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
-  renderTextureWidth: 512
-  renderTextureHeight: 512
---- !u!208 &2066801585
-NavMeshObstacle:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 208989393057243180, guid: 2d9ec57c2d01d3647934da4806d6efa5,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2066801581}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 2.5, y: 2.5, z: 2.506}
-  m_MoveThreshold: 0.1
-  m_Carve: 1
-  m_CarveOnlyStationary: 1
-  m_Center: {x: 0, y: 2.5270002, z: 0}
-  m_TimeToStationary: 0.5
---- !u!65 &2066801586
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 65647988909620550, guid: 2d9ec57c2d01d3647934da4806d6efa5,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2066801581}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 5.0000043, y: 5.74, z: 5.0126333}
-  m_Center: {x: -0.0000011920929, y: 6.75, z: -0.006108403}
---- !u!65 &2066801587
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 65184066357780158, guid: 2d9ec57c2d01d3647934da4806d6efa5,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2066801581}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 5.0000043, y: 1.94, z: 5.0126333}
-  m_Center: {x: -0.0000011920929, y: 0.62, z: -0.006108403}
---- !u!65 &2066801588
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 65770086025428756, guid: 2d9ec57c2d01d3647934da4806d6efa5,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2066801581}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 5.0000043, y: 9.696648, z: 1.29}
-  m_Center: {x: -0.0000011920929, y: 4.875227, z: 1.85}
---- !u!23 &2066801589
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 23563855222893676, guid: 2d9ec57c2d01d3647934da4806d6efa5,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2066801581}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_Materials:
-  - {fileID: 2100000, guid: ca6d754a049075f4f83b9f12aeaddb56, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
---- !u!33 &2066801590
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 33245273434192982, guid: 2d9ec57c2d01d3647934da4806d6efa5,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2066801581}
-  m_Mesh: {fileID: 4300000, guid: cf40914a1f824964faf4a37924e70a8e, type: 3}
 --- !u!1 &2067017380
 GameObject:
   m_ObjectHideFlags: 0
@@ -45475,7 +43594,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2067017383
 MonoBehaviour:
@@ -45740,7 +43859,7 @@ Transform:
   m_LocalScale: {x: 3.5736291, y: 14.5249, z: 11.308518}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2068467332
 GameObject:
@@ -46072,6 +44191,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0, g: 0.95862055, b: 1, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 1, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!65 &2071588898
@@ -46230,6 +44350,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0, g: 0.95862055, b: 1, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &2071659894
@@ -46487,6 +44608,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0, g: 0.95862055, b: 1, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &2079839510
@@ -46670,6 +44792,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.8308824, g: 0.77627677, b: 0.33601862, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &2080439357
@@ -46968,6 +45091,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.78676474, g: 0.28925174, b: 0.28925174, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.83137256, g: 0.83137256, b: 0.83137256, a: 0}
   defaultState: 1
 --- !u!65 &2095179890
@@ -47084,7 +45208,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4384104832815496, guid: 35e2e81db0ce1444abf0202e84477b36, type: 2}
       propertyPath: m_RootOrder
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114289271992239290, guid: 35e2e81db0ce1444abf0202e84477b36,
         type: 2}
@@ -47531,6 +45655,7 @@ MonoBehaviour:
     playOnAwake: 0
     maxValue: 1
   riseColor: {r: 0.3148789, g: 0.8235294, b: 0.4446724, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.8308824, g: 0.8308824, b: 0.8308824, a: 0}
   defaultState: 1
 --- !u!65 &2146424140
