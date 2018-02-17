@@ -2926,7 +2926,6 @@ MonoBehaviour:
   dashTrail: {fileID: 1658227218610060}
   highlightPoses: 01000000
   totalAttackPoses: 10
-  clawArmController: {fileID: 114675049875242238}
 --- !u!114 &114136393911348448
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3435,8 +3434,8 @@ MonoBehaviour:
   cam: {fileID: 114537611951469978}
   minEnemyDistanceForMinCamSize: 10
   camSizeGoesUpBy1ForEveryXUnits: 2.5
-  minCameraSize: 10.5
-  maxCameraSize: 12
+  minCameraSize: 11
+  maxCameraSize: 13
   lerpMultiplier: 3
   player: {fileID: 1737478168596758}
   activeEnemies: []
@@ -3556,8 +3555,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attack: 0
-  defense: 5
-  health: 50
+  defense: 0
+  health: 9
   maxHealth: 0
   moveSpeed: 18
   rangedAccuracy: 1
