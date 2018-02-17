@@ -9,25 +9,18 @@ public class LevelLandmark : MonoBehaviour
 
     private void Start()
     {
-        if (Application.isPlaying)
-        {
-            EventSystem.Instance.RegisterEvent(Strings.Events.CALL_NEXT_WAVE, HideVFX);
-            EventSystem.Instance.RegisterEvent(Strings.Events.WAVE_COMPLETE, ShowVFX);
-        }
+        EventSystem.Instance.RegisterEvent(Strings.Events.ENEMY_SPAWNED, DoShowEffects);
         particleSystems = vfx.GetComponentsInChildren<ParticleSystem>();
         HideVFX();
     }
 
     private void OnDestroy()
     {
-        if (Application.isPlaying)
-        {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.WAVE_COMPLETE, ShowVFX);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.CALL_NEXT_WAVE, HideVFX);
-        }
+        EventSystem.Instance.UnRegisterEvent(Strings.Events.ENEMY_SPAWNED, DoShowEffects);
+        StopAllCoroutines();
     }
 
-    void ShowVFX (params object[] parameters)
+    void ShowVFX ()
     {
         vfx.SetActive(true);
         foreach (ParticleSystem ps in particleSystems)
@@ -36,12 +29,26 @@ public class LevelLandmark : MonoBehaviour
         }
     }
 
-    void HideVFX (params object[] paramters)
+    void HideVFX ()
     {
         foreach (ParticleSystem ps in particleSystems)
         {
             ps.Stop();
         }
         vfx.SetActive(false);
+    }
+
+    void DoShowEffects (params object[] parameters)
+    {
+        StartCoroutine (ShowEffects());
+    }
+
+    IEnumerator ShowEffects ()
+    {
+        ShowVFX();
+
+        yield return new WaitForSecondsRealtime(3.0f);
+
+        HideVFX();
     }
 }
