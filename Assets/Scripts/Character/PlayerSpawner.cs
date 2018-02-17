@@ -166,4 +166,10 @@ public class PlayerSpawner : MonoBehaviour
     }
 
     #endregion
+
+
+    public GameObject GetplayerPrefabGO()
+    {
+        return playerPrefabGO;
+    }
 }
