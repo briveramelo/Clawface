@@ -463,6 +463,8 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         DisableRagdoll();
         animator.SetTrigger("DoGetUp");
         ActivateAIMethods();
+        animator.SetTrigger("DoGetUp");
+        animator.SetInteger("AnimationState", (int)AnimationStates.Walk);
     }
 
     private void FallDown()
