@@ -99,7 +99,7 @@ public class SpawnManager : RoutineRunner
             EventSystem.Instance.TriggerEvent(Strings.Events.WAVE_COMPLETE, waveNumber);
             if(waveNumber == 0)
             {
-                SFXManager.Instance.Play(SFXType.AnnounceLevelStart, Vector3.zero);
+                //SFXManager.Instance.Play(SFXType.AnnounceLevelStart, Vector3.zero);
             }
             waveNumber++;
             time = spawners[currentSpawner].Time;

@@ -89,7 +89,7 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
                 if (stats.GetStat(CharacterStatType.Health) <= 0)
                 {
                     EventSystem.Instance.TriggerEvent(Strings.Events.PLAYER_KILLED, SceneManager.GetActiveScene().name, AnalyticsManager.Instance.GetCurrentWave(), ModManager.leftArmOnLoad.ToString(), ModManager.rightArmOnLoad.ToString());
-                    SFXManager.Instance.Play(SFXType.AnnounceDeath, Vector3.zero);
+                    //SFXManager.Instance.Play(SFXType.AnnounceDeath, Vector3.zero);
                     //Revive(); //removed because of the inclusion of the game over menu
                     if (playerMesh && modSockets)
                     {                        
