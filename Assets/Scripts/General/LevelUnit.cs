@@ -43,6 +43,7 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
     private const string AlbedoTint = "_AlbedoTint";
     private string tintCoroutineName { get { return coroutineName + AlbedoTint; } }
     private List<LevelUnitStates> levelUnitStates = new List<LevelUnitStates>();
+    private Splattable splattable;
     #endregion
 
     #region serialized fields
@@ -63,9 +64,12 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
     #endregion
 
     #region unity lifecycle
-    private void Awake() {
+    private void Awake()
+    {
+        splattable = GetComponent<Splattable>();
         meshRenderer = GetComponent<MeshRenderer>();
-        if (meshRenderer) {
+        if (meshRenderer)
+        {
             meshSizeY = meshRenderer.bounds.size.y;
             meshSizeZ = meshRenderer.bounds.size.z;
             meshSizeX = meshRenderer.bounds.size.x;
@@ -331,28 +335,34 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
         }
         return result;
     }
-
-    public void TransitionToCoverState(params object[] inputs) {
-
-        if (currentState != LevelUnitStates.cover) {
+    
+    public void TransitionToCoverState(params object[] inputs)
+    {
+        if (currentState != LevelUnitStates.cover)
+        {
+            splattable.PaintMask = Texture2D.blackTexture;
             nextState = LevelUnitStates.cover;
             isTransitioning = true;
         }
         TriggerColorShift(LevelUnitStates.cover);
     }
-
-    public void TransitionToFloorState(params object[] inputs) {
-
-        if (currentState != LevelUnitStates.floor) {
+    
+    public void TransitionToFloorState(params object[] inputs)
+    {
+        if (currentState != LevelUnitStates.floor)
+        {
+            splattable.PaintMask = Texture2D.whiteTexture;
             nextState = LevelUnitStates.floor;
             isTransitioning = true;
         }
         TriggerColorShift(LevelUnitStates.floor);
     }
-
-    public void TransitionToPitState(params object[] inputs) {
-
-        if (currentState != LevelUnitStates.pit) {
+    
+    public void TransitionToPitState(params object[] inputs)
+    {
+        if (currentState != LevelUnitStates.pit)
+        {
+            splattable.PaintMask = Texture2D.blackTexture;
             nextState = LevelUnitStates.pit;
             isTransitioning = true;
         }

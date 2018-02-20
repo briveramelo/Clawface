@@ -128,8 +128,8 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
             myStats.TakeDamage(damager.damage);
             damagePack.Set(damager, damaged);
             SFXManager.Instance.Play(hitSFX, transform.position);
-            DamageFXManager.Instance.EmitDamageEffect(damagePack);
-            
+            GoreManager.Instance.EmitDirectionalBlood(damagePack);
+            hitFlasher.HitFlash ();
 
             if (myStats.health <= 0)
             {
