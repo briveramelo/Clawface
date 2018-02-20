@@ -14,7 +14,7 @@ public class MainPLEMenu : Menu
             return initiallySelected;
         }
     }
-
+    
     #endregion
 
     #region Serialized Unity Fields
@@ -126,6 +126,11 @@ public class MainPLEMenu : Menu
     public void TestLevelAction()
     {
         editorInstance.SwitchToMenu(PLEMenu.TEST);
+    }
+
+    public void SetSelectedTextColor(PLEMenu i_selection)
+    {
+
     }
 
     public void QuitAction()

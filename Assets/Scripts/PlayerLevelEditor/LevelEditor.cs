@@ -29,7 +29,7 @@ namespace PlayerLevelEditor
 
         #region Private Fields
 
-        private PLEMenu currentDisplayedMenu;
+        public PLEMenu currentDisplayedMenu;
 
         #endregion
 
