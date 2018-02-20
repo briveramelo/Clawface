@@ -120,6 +120,8 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
 
     public abstract Vector3 ReCalculateTargetPosition();
 
+    public Vector3 GetPosition () { return transform.position; }
+
     void IDamageable.TakeDamage(Damager damager)
     {
         if (myStats.health > 0 && !isIndestructable)

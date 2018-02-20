@@ -143,6 +143,9 @@ public class Missile : MonoBehaviour {
             if (damageable != null)
             {
                 damageable.TakeDamage(damage);
+
+                GameObject blood = ObjectPool.Instance.GetObject(PoolObjectType.VFXBloodSpurt);
+                if (blood) blood.transform.position = damageable.GetPosition();
             }
         }
 
@@ -153,6 +156,9 @@ public class Missile : MonoBehaviour {
             if (damageable != null)
             {
                 damageable.TakeDamage(damage);
+
+                GameObject blood = ObjectPool.Instance.GetObject(PoolObjectType.VFXBloodSpurt);
+                if (blood) blood.transform.position = damageable.GetPosition();
             }
         }
 

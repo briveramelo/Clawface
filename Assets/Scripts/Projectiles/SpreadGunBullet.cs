@@ -74,6 +74,9 @@ public class SpreadGunBullet : MonoBehaviour {
                 damager.damage = currentDamage;
                 damager.damagerType = DamagerType.SpreadGun;
                 damageable.TakeDamage(damager);
+
+                GameObject blood = ObjectPool.Instance.GetObject(PoolObjectType.VFXBloodSpurt);
+                if (blood) blood.transform.position = damageable.GetPosition();
             }
             GameObject vfx = ObjectPool.Instance.GetObject(impactVFX);
             if (vfx) {
