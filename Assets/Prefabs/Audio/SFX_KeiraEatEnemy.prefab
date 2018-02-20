@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 82937504943979054}
   - component: {fileID: 114356058847275120}
   - component: {fileID: 114467195516667010}
+  - component: {fileID: 114397803928807148}
   m_Layer: 0
   m_Name: SFX_KeiraEatEnemy
   m_TagString: Untagged
@@ -109,7 +110,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -135,6 +136,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   channels:
   - {fileID: 114467195516667010}
+  - {fileID: 114397803928807148}
   loop: 0
   playOnStart: 0
   spatialBlend: 0
@@ -151,6 +153,27 @@ MonoBehaviour:
   changePitchEachLoop: 0
   pitch: 1
   pitchRange:
+    minLimit: 0
+    maxLimit: 0
+    min: 1
+    max: 1
+--- !u!114 &114397803928807148
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1629326788155226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e594d69e58e793c47b9d13e384085fc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clips:
+  - {fileID: 8300000, guid: 1847a802fbca56940a8b15209d11079a, type: 3}
+  changeVolumeEachLoop: 0
+  uniformVolume: 1
+  useRandomVolume: 0
+  randomVolumeRange:
     minLimit: 0
     maxLimit: 0
     min: 1

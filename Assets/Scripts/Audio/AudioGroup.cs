@@ -220,6 +220,8 @@ namespace Turing.Audio
             if (loop && randomPitch && changePitchEachLoop) pitch = pitchRange.GetRandomValue();
             else pitch = randomPitch ? pitchRange.GetRandomValue() : pitch;
 
+            audioSource.pitch = pitch;
+
             longestClipLength = 0f;
             foreach (AudioChannel channel in channels)
             {
