@@ -54,14 +54,17 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
 
 
     // Update is called once per frame
-    void Update() {
+    void Update()
+    {
         if (!displaying)
             return;
 
         if (MouseHelper.hitItem) {
             RaycastHit hit = MouseHelper.raycastHit;
-            if (Input.GetMouseButtonDown(MouseButtons.LEFT) || Input.GetMouseButtonDown(MouseButtons.RIGHT)) {
+            if (Input.GetMouseButtonDown(MouseButtons.LEFT) || Input.GetMouseButtonDown(MouseButtons.RIGHT))
+            {                
                 OnClickObject = hit.transform.gameObject;
+                Debug.Log(OnClickObject.transform.localPosition);                
             }
 
             if (currentEditorMenu == EditorMenu.PROPS_MENU) {
@@ -235,7 +238,8 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     List<GameObject> SelectObjectsAlgorithm(RaycastHit hit) {
         List<GameObject> Objects = new List<GameObject>();
 
-        if (OnClickObject == null) {
+        if (OnClickObject == null)
+        {
             return Objects;
         }
 
@@ -246,14 +250,15 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         float zMax = Mathf.Max(OnClickObject.transform.position.z, hit.transform.position.z);
         float zMin = Mathf.Min(OnClickObject.transform.position.z, hit.transform.position.z);
 
+        float y = OnClickObject.transform.position.y;
 
-        var HitsInX = Physics.BoxCastAll(new Vector3(xMin, 0, zMin), new Vector3(1, 1, 1), Vector3.right, Quaternion.identity, xMax - xMin);
+        var HitsInX = Physics.BoxCastAll(new Vector3(xMin, y, zMin), new Vector3(1, 40, 1), Vector3.right, Quaternion.identity, xMax - xMin);
 
         foreach (var itemX in HitsInX) {
             if(!Objects.Contains(itemX.transform.gameObject))
                 Objects.Add(itemX.transform.gameObject);
 
-            var HitsInZ = Physics.BoxCastAll(itemX.transform.position, new Vector3(1, 1, 1), Vector3.forward, Quaternion.identity, zMax - zMin);
+            var HitsInZ = Physics.BoxCastAll(itemX.transform.position , new Vector3(1, 40, 1), Vector3.forward, Quaternion.identity, zMax - zMin);
 
             foreach (var itemZ in HitsInZ) {
                 if (!Objects.Contains(itemZ.transform.gameObject)) {
