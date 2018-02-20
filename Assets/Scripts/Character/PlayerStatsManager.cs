@@ -15,7 +15,6 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     #endregion
 
     #region Serialized Unity Inspector fields
-    [SerializeField] private CameraLock cameraLock;
     [SerializeField] private PlayerFaceController faceController;
     [SerializeField] private bool shake;
     [SerializeField] private GameObject playerMesh;
@@ -74,7 +73,7 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
                 stats.TakeDamage(damageModifier * damager.damage);
                 healthFraction = stats.GetHealthFraction();
                 EventSystem.Instance.TriggerEvent(Strings.Events.PLAYER_HEALTH_MODIFIED, healthFraction);
-                cameraLock.Shake();
+
                 float shakeIntensity = 1f - healthFraction;
                 if (shake)
                 {
