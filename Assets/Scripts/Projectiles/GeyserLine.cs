@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class GeyserLine : MonoBehaviour {
+public class GeyserLine : RoutineRunner {
 
     #region Public fields
     #endregion
@@ -88,7 +88,7 @@ public class GeyserLine : MonoBehaviour {
         intensity = Mathf.Clamp(intensity, 0f, 1f);
         transform.localScale = initialScale * intensity;
         myParticleSystem.Play();
-        Timing.RunCoroutine(WaitForParticleSystem(liveTime));
+        Timing.RunCoroutine(WaitForParticleSystem(liveTime), coroutineName);
     }
 
     public void SetShooterType(bool isPlayer)
