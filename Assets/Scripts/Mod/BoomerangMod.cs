@@ -83,7 +83,7 @@ public class BoomerangMod : Mod
             vfx.transform.position = bulletSpawnPoint.position;
             vfx.transform.rotation = transform.rotation;
         }
-        
+
         BoomerangBullet bullet = SpawnBullet();
         launcherAnimator.SetTrigger("Fire");
         projectileAnimator.SetTrigger("Fire");
@@ -98,7 +98,8 @@ public class BoomerangMod : Mod
 
         if (boomerangObject)
         {
-            boomerangBullet = ObjectPool.Instance.GetObject(poolObjType).GetComponent<BoomerangBullet>();
+            boomerangBullet = boomerangObject.GetComponent<BoomerangBullet>();
+
             if (boomerangBullet)
             {
                 boomerangBullet.transform.position = bulletSpawnPoint.position;
