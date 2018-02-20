@@ -36,7 +36,9 @@ public enum SFXType {
     PlayerEat,
     AnnounceDeath,
     AnnounceLevelStart,
-    AnnounceTitle
+    AnnounceTitle,
+    MortarShoot,
+    MortarExplosion
 }
 
 public enum MusicType

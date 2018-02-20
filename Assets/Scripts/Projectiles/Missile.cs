@@ -16,6 +16,7 @@ public class Missile : MonoBehaviour {
     [SerializeField] private TrailRenderer trail;
 
     [SerializeField] private PoolObjectType explosionEffect = PoolObjectType.VFXKamikazeExplosion;
+    [SerializeField] private SFXType explosionSound = SFXType.MortarExplosion;
     [SerializeField] LayerMask floorLayerMask;
 
 
@@ -172,6 +173,8 @@ public class Missile : MonoBehaviour {
         if (explodeVFX) {
             explodeVFX.transform.position = position;
         }
+
+        SFXManager.Instance.Play (explosionSound, position);
     }
 
     private void ResetBullet()
