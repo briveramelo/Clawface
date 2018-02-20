@@ -9,7 +9,7 @@ public class ServiceWrangler : Singleton<ServiceWrangler> {
 
     [SerializeField]
     private GameObject sfxManager, objectPool, inputManager, hitstopManager,
-         analyticsManager, upgradeManager, menuManager, musicManager, scoreManager, 
+         analyticsManager, menuManager, musicManager, scoreManager, 
         respawnPoint, eventSystem, achievementManager, platformManager, goreManager, saveState, aiManager;
 
     private Dictionary<string, PrefabBool> singletonPrefabRegistry;
@@ -23,7 +23,6 @@ public class ServiceWrangler : Singleton<ServiceWrangler> {
                     { typeof(HitstopManager).ToString(),        new PrefabBool(ref hitstopManager) },
                     { typeof(MenuManager).ToString(),                new PrefabBool(ref menuManager) },
                     { typeof(AnalyticsManager).ToString(),      new PrefabBool(ref analyticsManager) },
-                    { typeof(UpgradeManager).ToString(),       new PrefabBool(ref upgradeManager) },
                     { typeof(MusicManager).ToString(),       new PrefabBool(ref musicManager) },
                     { typeof(ScoreManager).ToString(),       new PrefabBool(ref scoreManager) },
                     { typeof(RespawnPoint).ToString(),       new PrefabBool(ref respawnPoint) },

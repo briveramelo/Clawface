@@ -21,12 +21,11 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     [SerializeField] private GameObject modSockets;
     [SerializeField] private PoolObjectType deathVFX;
     [SerializeField] private SFXType deathSFX;
-
     [SerializeField] private List<HealthRatio> damageScaling = new List<HealthRatio>();
+    [SerializeField] private Stats stats;
     #endregion
 
     #region Private Fields
-    [SerializeField] private Stats stats;
     float startHealth;
     float healthAtLastSkin;
     float lastSkinHealthBoost;
@@ -37,10 +36,7 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     // Use this for initialization
     void Start()
     {
-        stats.SetMaxHealth(UpgradeManager.Instance.GetHealthLevel());
         startHealth = stats.GetStat(CharacterStatType.MaxHealth);
-        UpgradeManager.Instance.SetPlayerStats(this.stats);
-        UpgradeManager.Instance.SetPlayerStatsManager(this);
         hitFlasher = GetComponentInChildren<HitFlasher>();
     }
 	
