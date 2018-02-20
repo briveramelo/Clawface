@@ -11,6 +11,7 @@ public class MouseHelper : MonoBehaviour {
     public static PLEBlockUnit currentBlockUnit;
     public static Vector3 currentMouseWorldPosition;
     public static RaycastHit raycastHit;
+    public static RaycastHit raycastHitTile;
     public static bool hitItem;
     public static bool hitTile;
     #endregion
@@ -19,7 +20,6 @@ public class MouseHelper : MonoBehaviour {
 
     private Ray r;
     private int layerMask;
-    private RaycastHit raycastHitTile;
     #endregion
 
     #region Unity Lifecycle
@@ -28,20 +28,25 @@ public class MouseHelper : MonoBehaviour {
     private void Start() {
         layerMask = LayerMask.GetMask(Strings.Layers.GROUND);
     }
-    private void Update() {
+    private void Update()
+    {
         r = Camera.main.ScreenPointToRay(Input.mousePosition);
-        
+
         RaycastItems(r);
         RaycastGround(r);
     }
 
-    void RaycastItems(Ray r) {
+    void RaycastItems(Ray r)
+    {
         hitItem = Physics.Raycast(r, out raycastHit, 1000.0f);
-        if (hitItem) {
+
+        if (hitItem)
+        {
             currentHoveredObject = raycastHit.transform.gameObject;
             currentMouseWorldPosition = raycastHit.transform.position;
         }
-        else {
+        else
+        {
             currentHoveredObject = null;
         }
     }
