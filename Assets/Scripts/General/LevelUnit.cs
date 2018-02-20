@@ -276,6 +276,7 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
 
     void OnColorChange(float progress) {
         Color newColor = startColor + (targetColor - startColor) * progress;
+        meshRenderer.GetPropertyBlock(materialPropertyBlock);
         materialPropertyBlock.SetColor(AlbedoTint, newColor);
         meshRenderer.SetPropertyBlock(materialPropertyBlock);
     }
