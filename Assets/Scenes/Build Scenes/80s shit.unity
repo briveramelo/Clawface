@@ -278,9 +278,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &12694601
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -462,9 +466,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &13168808
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -646,9 +654,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &16545585
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -904,9 +916,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &24137144
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1088,9 +1104,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &34009635
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1316,9 +1336,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &62972559
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1500,9 +1524,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &64149863
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2124,9 +2152,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &95774088
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2199,9 +2231,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!114 &96150379
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2881,9 +2917,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &133601962
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3065,9 +3105,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &135926257
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3249,9 +3293,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &147080993
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3433,9 +3481,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &147521018
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3909,9 +3961,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &160303292
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4167,9 +4223,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &176578159
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4473,9 +4533,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &204845407
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4657,9 +4721,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &212034740
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4841,9 +4909,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &213551582
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5124,9 +5196,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &234777226
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5308,9 +5384,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &239624725
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5566,9 +5646,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &250161703
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5864,9 +5948,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &272894630
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6286,9 +6374,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &287696270
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6470,9 +6562,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &289360591
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6827,9 +6923,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &298603703
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7085,9 +7185,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &315309326
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7442,9 +7546,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &325650551
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7807,9 +7915,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &339548194
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8051,9 +8163,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &345096549
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8482,9 +8598,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &363617226
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8666,9 +8786,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &365859613
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8850,9 +8974,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &367058610
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9034,9 +9162,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &382180041
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9218,9 +9350,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &385141691
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9402,9 +9538,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &398690079
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9725,9 +9865,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &424013192
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10057,9 +10201,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &435960295
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10241,9 +10389,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &440177350
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10445,9 +10597,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &450571950
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10728,9 +10884,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &462031828
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10912,9 +11072,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &462340302
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11329,9 +11493,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &506173528
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11533,9 +11701,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &524994060
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11836,9 +12008,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &539217219
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12337,9 +12513,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &564827525
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12550,9 +12730,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &573898544
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12734,9 +12918,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &576170981
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -13200,9 +13388,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &628541620
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -13384,9 +13576,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &631466249
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -13707,9 +13903,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &654501375
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -14047,9 +14247,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &682523751
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -14283,9 +14487,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &700059610
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -14467,9 +14675,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &707743348
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -14770,9 +14982,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &733378292
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -15432,9 +15648,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &777937632
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -15814,9 +16034,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &785586103
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -15998,9 +16222,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &797050461
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -16281,9 +16509,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &807231960
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -16465,9 +16697,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &813602768
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -16649,9 +16885,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &817354003
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -16724,9 +16964,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!114 &823821902
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17119,9 +17363,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &840093221
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -17303,9 +17551,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &841119605
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -17487,9 +17739,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &849157221
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -17719,9 +17975,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &854525427
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -18002,9 +18262,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &860246874
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -18206,9 +18470,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &880090717
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -18390,9 +18658,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &896681596
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -18648,9 +18920,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &929175088
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -18931,9 +19207,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &934920728
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -19115,9 +19395,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &942288890
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -19299,9 +19583,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &945582507
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -19483,9 +19771,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &952256111
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -19667,9 +19959,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &953201613
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -19871,9 +20167,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &954167733
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -20230,9 +20530,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &958755792
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -20414,9 +20718,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &977854369
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -20598,9 +20906,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &996748868
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -20964,9 +21276,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1014650577
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -21220,9 +21536,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1037392174
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -21766,9 +22086,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1060870501
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -21950,9 +22274,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1071340042
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -22134,9 +22462,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1076517663
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -22318,9 +22650,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1077028131
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -22522,9 +22858,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1084087052
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -22842,9 +23182,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1105452179
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -23083,9 +23427,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1118716997
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -23267,9 +23615,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1123132415
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -23550,9 +23902,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1126301447
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -23808,9 +24164,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1140165810
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -23992,9 +24352,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1144947157
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -24176,9 +24540,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1147649689
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -24533,9 +24901,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1165319150
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -24717,9 +25089,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1167016693
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -25015,9 +25391,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1186931774
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -25199,9 +25579,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1187470311
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -25383,9 +25767,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1199710092
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -25628,9 +26016,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1211835472
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -25788,9 +26180,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!114 &1214551468
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26217,9 +26613,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1228785519
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -26421,9 +26821,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1244174229
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -26605,9 +27009,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1257558427
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -26789,9 +27197,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1262756106
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -27022,9 +27434,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1275750781
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -27206,9 +27622,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1306882868
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -27756,9 +28176,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1351713882
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -28025,9 +28449,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1364644709
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -28209,9 +28637,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1366354435
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -28433,9 +28865,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1388768188
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -28617,9 +29053,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1394354576
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -28875,9 +29315,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1413211911
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -29059,9 +29503,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1419345222
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -29243,9 +29691,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1429489076
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -29427,9 +29879,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1435292454
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -29611,9 +30067,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1436338959
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -29795,9 +30255,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1453249470
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -29979,9 +30443,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1466696727
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -30163,9 +30631,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1468090318
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -30347,9 +30819,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1468957571
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -30531,9 +31007,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1480688928
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -30715,9 +31195,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1492172665
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -31018,9 +31502,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1517256124
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -31276,9 +31764,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1529754752
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -31460,9 +31952,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1531299680
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -31644,9 +32140,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1533272006
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -31828,9 +32328,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1536767647
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -32012,9 +32516,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1537034995
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -32270,9 +32778,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1538536114
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -32548,9 +33060,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1559005185
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -32831,9 +33347,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1562269167
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -33015,9 +33535,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1563831473
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -33199,9 +33723,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1566647469
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -33457,9 +33985,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1571956712
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -33641,9 +34173,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1598902119
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -33924,9 +34460,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1607166043
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -34281,9 +34821,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1640018030
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -34559,9 +35103,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1654001982
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -35305,9 +35853,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1707666434
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -35563,9 +36115,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1721464015
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -35747,9 +36303,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1723210102
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -36129,9 +36689,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1754455817
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -36313,9 +36877,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1764667940
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -36517,9 +37085,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1776473978
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -36775,9 +37347,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1789614395
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -36959,9 +37535,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1799120544
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -37143,9 +37723,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1799536565
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -37327,9 +37911,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1813325836
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -37572,9 +38160,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1822545442
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -37756,9 +38348,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1824586878
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -38187,9 +38783,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1846939598
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -38371,9 +38971,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1862551986
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -38555,9 +39159,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1863135548
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -38813,9 +39421,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1875741578
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -38997,9 +39609,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1876074321
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -39181,9 +39797,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1876168611
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -39714,9 +40334,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1918361067
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -39898,9 +40522,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1925162981
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -40156,9 +40784,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1931948356
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -40360,9 +40992,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1939637884
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -40544,9 +41180,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1945871403
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -40901,9 +41541,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &1989739929
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -41233,9 +41877,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &2007312359
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -41417,9 +42065,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &2008298573
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -41635,9 +42287,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &2018203606
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -41893,9 +42549,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &2041126255
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -42077,9 +42737,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &2046108685
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -42261,9 +42925,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &2049794322
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -42807,9 +43475,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!114 &2071588896
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43103,9 +43775,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &2071659898
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -43361,9 +44037,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &2079839514
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -43545,9 +44225,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &2080439361
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -43844,9 +44528,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &2095179894
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -44408,9 +45096,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
   renderTextureWidth: 512
   renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!65 &2146424144
 BoxCollider:
   m_ObjectHideFlags: 0

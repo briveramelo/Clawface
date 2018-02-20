@@ -80,6 +80,7 @@ public class StageOverMenu : Menu
             SceneManager.GetActiveScene().name, AnalyticsManager.Instance.GetCurrentWave(), ScoreManager.Instance.GetScore());
         loadMenu.TargetScene = Strings.Scenes.MainMenu;
         loadMenu.Fast = true;
+        ObjectPool.Instance.ResetPools();
         MenuManager.Instance.DoTransition(loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
     }
 
@@ -92,6 +93,8 @@ public class StageOverMenu : Menu
 
         PauseMenu p = (PauseMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.PAUSE);
         p.CanPause = true;
+
+        ObjectPool.Instance.ResetPools();
 
         EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_RESTARTED, scene.name, AnalyticsManager.Instance.GetCurrentWave(), ScoreManager.Instance.GetScore());
 

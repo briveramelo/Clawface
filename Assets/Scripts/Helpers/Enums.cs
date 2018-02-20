@@ -122,7 +122,6 @@ public enum PoolObjectType {
     //VFX
     VFXBlasterImpactEffect = 3,
     VFXBloodDecal = 6,
-    VFXBloodEmitter = 7,
     VFXSegwayBlaster = 9,
     VFXMallCopExplosion = 10,
     VFXBlasterShoot = 17,

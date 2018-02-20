@@ -130,8 +130,8 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
             myStats.TakeDamage(damager.damage);
             damagePack.Set(damager, damaged);
             SFXManager.Instance.Play(hitSFX, transform.position);
-            DamageFXManager.Instance.EmitDamageEffect(damagePack);
-            
+            GoreManager.Instance.EmitDirectionalBlood(damagePack);
+            hitFlasher.HitFlash ();
 
             if (myStats.health <= 0)
             {
@@ -250,7 +250,6 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
                     mallCopParts.transform.rotation = transform.rotation;
                 }
             }
-            UpgradeManager.Instance.AddEXP(Mathf.FloorToInt(myStats.exp));
             navAgent.speed = 0;
             navAgent.enabled = false;
             gameObject.SetActive(false);

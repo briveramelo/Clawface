@@ -13,81 +13,81 @@ public class DamageFXManager : Singleton<DamageFXManager> {
         RedirectionEvents = new Dictionary<DamagedType, Dictionary<DamagerType, System.Action<DamagePack>>>() {
             {DamagedType.MallCop,
                 new Dictionary<DamagerType, System.Action<DamagePack>>() {
-                    {DamagerType.SegwayPush, EmitBlood },
-                    {DamagerType.BlasterBullet, EmitBlood },
-                    {DamagerType.SpreadGun, EmitBlood },
-                    {DamagerType.TankTreads, EmitBlood },
-                    {DamagerType.GrapplingHook, EmitBlood },
-                    {DamagerType.Boomerang, EmitBlood },
-                    {DamagerType.Geyser, EmitBlood },
+                    {DamagerType.SegwayPush, EmitDirectionalBlood },
+                    {DamagerType.BlasterBullet, EmitDirectionalBlood },
+                    {DamagerType.SpreadGun, EmitDirectionalBlood },
+                    {DamagerType.TankTreads, EmitDirectionalBlood },
+                    {DamagerType.GrapplingHook, EmitDirectionalBlood },
+                    {DamagerType.Boomerang, EmitDirectionalBlood },
+                    {DamagerType.Geyser, EmitDirectionalBlood },
                     //{DamagerType.StunMine, EmitGeyser },
-                    {DamagerType.FireTrap, EmitBlood },
-                    {DamagerType.GrapplingBotExplosion, EmitBlood },
-                    {DamagerType.Dice, EmitBlood },
+                    {DamagerType.FireTrap, EmitDirectionalBlood },
+                    {DamagerType.GrapplingBotExplosion, EmitDirectionalBlood },
+                    {DamagerType.Dice, EmitDirectionalBlood },
                     //{DamagerType.StunStomp, EmitGeyser}
                 }
             },
             {DamagedType.Milo,
                 new Dictionary<DamagerType, System.Action<DamagePack>>() {
-                    {DamagerType.SegwayPush, EmitBlood },
-                    {DamagerType.BlasterBullet, EmitBlood },
-                    {DamagerType.SpreadGun, EmitBlood },
-                    {DamagerType.TankTreads, EmitBlood },
-                    {DamagerType.GrapplingHook, EmitBlood },
-                    {DamagerType.Boomerang, EmitBlood },
-                    {DamagerType.Geyser, EmitBlood },
+                    {DamagerType.SegwayPush, EmitDirectionalBlood },
+                    {DamagerType.BlasterBullet, EmitDirectionalBlood },
+                    {DamagerType.SpreadGun, EmitDirectionalBlood },
+                    {DamagerType.TankTreads, EmitDirectionalBlood },
+                    {DamagerType.GrapplingHook, EmitDirectionalBlood },
+                    {DamagerType.Boomerang, EmitDirectionalBlood },
+                    {DamagerType.Geyser, EmitDirectionalBlood },
                     //{DamagerType.StunMine, EmitGeyser },
-                    {DamagerType.FireTrap, EmitBlood },
-                    {DamagerType.GrapplingBotExplosion, EmitBlood },
-                    {DamagerType.Dice, EmitBlood },
+                    {DamagerType.FireTrap, EmitDirectionalBlood },
+                    {DamagerType.GrapplingBotExplosion, EmitDirectionalBlood },
+                    {DamagerType.Dice, EmitDirectionalBlood },
                     //{DamagerType.StunStomp, EmitGeyser}
                 }
             },
             {DamagedType.Zombie,
                 new Dictionary<DamagerType, System.Action<DamagePack>>() {
-                    {DamagerType.SegwayPush, EmitBlood },
-                    {DamagerType.BlasterBullet, EmitBlood },
-                    {DamagerType.SpreadGun, EmitBlood },
-                    {DamagerType.TankTreads, EmitBlood },
-                    {DamagerType.GrapplingHook, EmitBlood },
-                    {DamagerType.Boomerang, EmitBlood },
-                    {DamagerType.Geyser, EmitGeyser },
+                    {DamagerType.SegwayPush, EmitDirectionalBlood },
+                    {DamagerType.BlasterBullet, EmitDirectionalBlood },
+                    {DamagerType.SpreadGun, EmitDirectionalBlood },
+                    {DamagerType.TankTreads, EmitDirectionalBlood },
+                    {DamagerType.GrapplingHook, EmitDirectionalBlood },
+                    {DamagerType.Boomerang, EmitDirectionalBlood },
+                    {DamagerType.Geyser, EmitDirectionalBlood },
                     //{DamagerType.StunMine, EmitGeyser },
-                    {DamagerType.FireTrap, EmitBlood },
-                    {DamagerType.GrapplingBotExplosion, EmitBlood },
-                    {DamagerType.Dice, EmitGeyser },
+                    {DamagerType.FireTrap, EmitDirectionalBlood },
+                    {DamagerType.GrapplingBotExplosion, EmitDirectionalBlood },
+                    {DamagerType.Dice, EmitDirectionalBlood },
                     //{DamagerType.StunStomp, EmitGeyser}
                 }
             },
             {DamagedType.Bouncer,
                 new Dictionary<DamagerType, System.Action<DamagePack>>() {
-                    {DamagerType.SegwayPush, EmitBlood },
-                    {DamagerType.BlasterBullet, EmitBlood },
-                    {DamagerType.SpreadGun, EmitBlood },
-                    {DamagerType.TankTreads, EmitBlood },
-                    {DamagerType.GrapplingHook, EmitBlood },
-                    {DamagerType.Boomerang, EmitBlood },
-                    {DamagerType.Geyser, EmitGeyser },
+                    {DamagerType.SegwayPush, EmitDirectionalBlood },
+                    {DamagerType.BlasterBullet, EmitDirectionalBlood },
+                    {DamagerType.SpreadGun, EmitDirectionalBlood },
+                    {DamagerType.TankTreads, EmitDirectionalBlood },
+                    {DamagerType.GrapplingHook, EmitDirectionalBlood },
+                    {DamagerType.Boomerang, EmitDirectionalBlood },
+                    {DamagerType.Geyser, EmitDirectionalBlood },
                     //{DamagerType.StunMine, EmitGeyser },
-                    {DamagerType.FireTrap, EmitBlood },
-                    {DamagerType.GrapplingBotExplosion, EmitBlood },
-                    {DamagerType.Dice, EmitGeyser },
+                    {DamagerType.FireTrap, EmitDirectionalBlood },
+                    {DamagerType.GrapplingBotExplosion, EmitDirectionalBlood },
+                    {DamagerType.Dice, EmitDirectionalBlood },
                     //{DamagerType.StunStomp, EmitGeyser}
                 }
             },
             {DamagedType.Kamikaze,
                 new Dictionary<DamagerType, System.Action<DamagePack>>() {
-                    {DamagerType.SegwayPush, EmitBlood },
-                    {DamagerType.BlasterBullet, EmitBlood },
-                    {DamagerType.SpreadGun, EmitBlood },
-                    {DamagerType.TankTreads, EmitBlood },
-                    {DamagerType.GrapplingHook, EmitBlood },
-                    {DamagerType.Boomerang, EmitBlood },
-                    {DamagerType.Geyser, EmitGeyser },
+                    {DamagerType.SegwayPush, EmitDirectionalBlood },
+                    {DamagerType.BlasterBullet, EmitDirectionalBlood },
+                    {DamagerType.SpreadGun, EmitDirectionalBlood },
+                    {DamagerType.TankTreads, EmitDirectionalBlood },
+                    {DamagerType.GrapplingHook, EmitDirectionalBlood },
+                    {DamagerType.Boomerang, EmitDirectionalBlood },
+                    {DamagerType.Geyser, EmitDirectionalBlood },
                     //{DamagerType.StunMine, EmitGeyser },
-                    {DamagerType.FireTrap, EmitBlood },
-                    {DamagerType.GrapplingBotExplosion, EmitBlood },
-                    {DamagerType.Dice, EmitGeyser },
+                    {DamagerType.FireTrap, EmitDirectionalBlood },
+                    {DamagerType.GrapplingBotExplosion, EmitDirectionalBlood },
+                    {DamagerType.Dice, EmitDirectionalBlood },
                     //{DamagerType.StunStomp, EmitGeyser}
                 }
             },
@@ -113,45 +113,27 @@ public class DamageFXManager : Singleton<DamageFXManager> {
     }
     #endregion
 
-    void EmitBlood(DamagePack dPack) {        
-        if (Mathf.Abs(dPack.damager.impactDirection.y) < 0.5f) {
-            EmitBloodBilaterally(dPack.damaged);
-        }
-        else {            
-            Vector3 bloodDirection = dPack.damager.impactDirection;
-            bloodDirection.x = 23.38f;
-            EmitBloodInDirection(bloodDirection, dPack.damaged.owner.position);
-        }    
-    }
-    void EmitGeyser(DamagePack dPack) {
-        EmitBloodInDirection(dPack.damager.impactDirection, dPack.damaged.owner.position);
-    }
-    
-    #region Private Helper Functions
-    private void EmitBloodBilaterally(Damaged damaged) {
-        SetupBlood(ObjectPool.Instance.GetObject(PoolObjectType.VFXBloodEmitter), damaged, true);
-        SetupBlood(ObjectPool.Instance.GetObject(PoolObjectType.VFXBloodEmitter), damaged, false);
-    }
+    #region Private Interface
 
-    private void SetupBlood(GameObject emitter, Damaged damaged, bool facingFront){        
-        if (emitter != null){ // && damaged.owner!=null
-            emitter.transform.position = damaged.owner.position;
-            Vector3 bulletAngs = damaged.owner.rotation.eulerAngles + (facingFront ? Vector3.zero : Vector3.up * 180f);
-            Vector3 projectileAngs = emitter.transform.rotation.eulerAngles;
-            emitter.transform.rotation = Quaternion.Euler(projectileAngs.x, bulletAngs.y, 0f);
+    private void EmitDirectionalBlood(DamagePack pack) {
+        // Determine Position to emit blood from:
+        Vector3 position = pack.damaged.owner.position;
+        RaycastHit hit;
+        if (Physics.Raycast(position, Vector3.down, out hit, 5F, LayerMasker.GetLayerMask(Layers.Ground)))
+        {
+            position = hit.point;
+        } else
+        {
+            // We'll set the 'y' to zero which should be near the floor...
+            position.y = 0;
         }
-    }
 
-    private void EmitBloodInDirection(Vector3 emissionDirection, Vector3 spawnPoint) {
-        GameObject bloodEmitter = ObjectPool.Instance.GetObject(PoolObjectType.VFXBloodEmitter);
-        if (bloodEmitter) {
-            bloodEmitter.transform.ResetRotation(3f);
-            bloodEmitter.transform.position = spawnPoint;
-            if (emissionDirection != Vector3.zero)
-            {
-                bloodEmitter.transform.rotation = Quaternion.LookRotation(emissionDirection);
-            }
-        }        
+        // Obtain lateral impact direction
+        Vector3 impactDir = pack.damager.impactDirection;
+        Vector2 projectileDir = new Vector2(impactDir.x, impactDir.z);
+
+        // Queue Up Blood with the GoreManager
+        //GoreManager.Instance.QueueSplat(position, projectileDir);
     }
 
     #endregion
