@@ -16,7 +16,10 @@ public class LevelLandmark : MonoBehaviour
 
     private void OnDestroy()
     {
-        EventSystem.Instance.UnRegisterEvent(Strings.Events.ENEMY_SPAWNED, DoShowEffects);
+        if (EventSystem.Instance) {
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.ENEMY_SPAWNED, DoShowEffects);
+        } 
+
         StopAllCoroutines();
     }
 
