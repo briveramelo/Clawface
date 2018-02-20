@@ -405,10 +405,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvas: {fileID: 1706372150991232}
   canvasGroup: {fileID: 225331146283117060}
-  faderDuration: 0.5
-  initiallySelected: {fileID: 114960102459246670}
+  faderDuration: 0
   editorInstance: {fileID: 0}
-  spawnParent: {fileID: 0}
+  initiallySelected: {fileID: 114960102459246670}
+  createdItemsParent: {fileID: 0}
 --- !u!114 &114479070044364876
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -482,6 +482,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   registeredSpawner: {fileID: 0}
+  spawnType: 0
+  spawnCount: 0
 --- !u!114 &114605253380897438
 MonoBehaviour:
   m_ObjectHideFlags: 1

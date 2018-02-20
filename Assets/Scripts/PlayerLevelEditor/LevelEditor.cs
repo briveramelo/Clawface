@@ -24,8 +24,14 @@ namespace PlayerLevelEditor
         [SerializeField] private WaveMenu waveEditorMenu;
         [SerializeField] private HelpMenu helpEditorMenu;
         [SerializeField] private TestMenu testEditorMenu;
-       
-        #endregion  
+
+        #endregion
+
+        #region Private Fields
+
+        private PLEMenu currentDisplayedMenu;
+
+        #endregion
 
         private void Start()
         {            
@@ -53,12 +59,28 @@ namespace PlayerLevelEditor
             //show the init menu
             MenuManager.Instance.DoTransition(mainEditorMenu, Menu.Transition.SHOW, new Menu.Effect[] { Menu.Effect.EXCLUSIVE });
 
+            currentDisplayedMenu = PLEMenu.NONE;
+
         }
 
         #endregion
 
 
         #region Public Interface  
+
+        public void SwitchToMenu(PLEMenu i_newMenu)
+        {
+            if(currentDisplayedMenu != PLEMenu.NONE)
+            {
+                Menu menuToHide = GetMenu(currentDisplayedMenu);
+                MenuManager.Instance.DoTransition(menuToHide, Menu.Transition.HIDE, new Menu.Effect[] { });
+            }
+
+            Menu newMenu = GetMenu(i_newMenu);
+            MenuManager.Instance.DoTransition(newMenu, Menu.Transition.SHOW, new Menu.Effect[] { });
+
+            currentDisplayedMenu = i_newMenu;
+        }
         
         public void UsingQuitFunction(Button thisBtn)
         {
@@ -93,6 +115,8 @@ namespace PlayerLevelEditor
                     return null;
             }
         }
+
+        
         
 
         #endregion  
@@ -115,6 +139,7 @@ namespace PlayerLevelEditor
         SAVE,
         HELP,
         WAVE,
-        TEST
+        TEST,
+        NONE
     }
 }

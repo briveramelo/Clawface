@@ -2,7 +2,8 @@
 using UnityEngine;
 using PlayerLevelEditor;
 
-public class MainPLEMenu : Menu {
+public class MainPLEMenu : Menu
+{
 
     #region Public Fields
 
@@ -33,7 +34,7 @@ public class MainPLEMenu : Menu {
 
     private void Update()
     {
-        if(inputGuard)
+        if (inputGuard)
         {
             if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.UP))
             {
@@ -70,7 +71,6 @@ public class MainPLEMenu : Menu {
     protected override void HideComplete()
     {
         base.HideComplete();
-        int x = 3;
     }
 
 
@@ -90,59 +90,45 @@ public class MainPLEMenu : Menu {
 
     public void OpenPropsAction()
     {
-        PropsMenu menu = editorInstance.GetMenu(PLEMenu.PROPS) as PropsMenu;
-        
-        MenuManager.Instance.DoTransition(menu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
-        
+        editorInstance.SwitchToMenu(PLEMenu.PROPS);
 
     }
 
     public void OpenSpawnsAction()
     {
-        SpawnMenu menu = editorInstance.GetMenu(PLEMenu.SPAWN) as SpawnMenu;
-        MenuManager.Instance.DoTransition(menu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
-
+        editorInstance.SwitchToMenu(PLEMenu.SPAWN);
     }
 
     public void OpenFloorSystemAction()
     {
-        FloorMenu menu = editorInstance.GetMenu(PLEMenu.DYNAMIC) as FloorMenu;
-        MenuManager.Instance.DoTransition(menu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+        editorInstance.SwitchToMenu(PLEMenu.DYNAMIC);
 
     }
 
     public void OpenSaveAction()
     {
-        SaveMenu menu = editorInstance.GetMenu(PLEMenu.SAVE) as SaveMenu;
-        MenuManager.Instance.DoTransition(menu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+        editorInstance.SwitchToMenu(PLEMenu.SAVE);
 
     }
 
     public void OpenHelpAction()
     {
-        HelpMenu menu = editorInstance.GetMenu(PLEMenu.HELP) as HelpMenu;
-        MenuManager.Instance.DoTransition(menu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+        editorInstance.SwitchToMenu(PLEMenu.HELP);
 
     }
 
     public void OpenWaveAction()
     {
-        WaveMenu menu = editorInstance.GetMenu(PLEMenu.WAVE) as WaveMenu;
-        MenuManager.Instance.DoTransition(menu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+        editorInstance.SwitchToMenu(PLEMenu.WAVE);
 
     }
 
     public void TestLevelAction()
     {
-        TestMenu menu = editorInstance.GetMenu(PLEMenu.TEST) as TestMenu;
-        MenuManager.Instance.DoTransition(menu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE});
+        editorInstance.SwitchToMenu(PLEMenu.TEST);
     }
-    
-    #endregion
 
-    #region Private Interface
-
-    private void QuitAction()
+    public void QuitAction()
     {
         Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
         LoadMenu loadMenu = menu as LoadMenu;
@@ -152,6 +138,5 @@ public class MainPLEMenu : Menu {
     }
 
     #endregion
-
 
 }
