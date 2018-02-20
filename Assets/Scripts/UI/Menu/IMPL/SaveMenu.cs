@@ -24,6 +24,7 @@ public class SaveMenu : Menu {
     [SerializeField] private Button initiallySelected;
     [SerializeField] private LevelEditor editorInstance;
     [SerializeField] private GameObject realLevelParent;
+    [SerializeField] private PLECameraController cameraController;
 
     #endregion
 
@@ -39,7 +40,9 @@ public class SaveMenu : Menu {
     {
         if(inputGuard)
         {
-            //active update loop
+            if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.UP)) {
+                BackAction();
+            }
         }
     }
 
@@ -61,10 +64,16 @@ public class SaveMenu : Menu {
         inputGuard = true;
     }
 
+    protected override void ShowStarted() {
+        base.ShowStarted();
+        cameraController.enabled = false;
+    }
+
     protected override void HideStarted()
     {
         base.HideStarted();
         inputGuard = false;
+        cameraController.enabled = true;
     }
 
     protected override void DefaultHide(Transition transition, Effect[] effects)
@@ -75,6 +84,11 @@ public class SaveMenu : Menu {
     protected override void DefaultShow(Transition transition, Effect[] effects)
     {
         Fade(transition, effects);
+    }
+
+    public void BackAction() {
+        MainPLEMenu menu = editorInstance.GetMenu(PLEMenu.MAIN) as MainPLEMenu;
+        MenuManager.Instance.DoTransition(menu, Menu.Transition.SHOW, new Menu.Effect[] { Menu.Effect.EXCLUSIVE });
     }
 
     #endregion

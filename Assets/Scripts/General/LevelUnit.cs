@@ -255,13 +255,13 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
 
     private void CreateBlockingObject() {
         blockingObject = new GameObject("Blocking Object");
-        blockingObject.SetActive(false);
         blockingObject.transform.SetParent(transform.parent);
         blockingObject.transform.position = new Vector3(transform.position.x, coverYPosition, transform.position.z);
         blockingObject.transform.localScale = new Vector3(meshSizeX, meshSizeY, meshSizeZ);
         blockingObject.AddComponent<BoxCollider>();
         blockingObject.AddComponent<NavMeshObstacle>().carving = true;
         blockingObject.layer = LayerMask.NameToLayer(Strings.Layers.OBSTACLE);
+        blockingObject.SetActive(false);
     }
 
     private void ShowBlockingObject() {

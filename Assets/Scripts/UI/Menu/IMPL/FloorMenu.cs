@@ -36,7 +36,7 @@ public class FloorMenu : Menu {
 
 
     #region Unity Lifecycle
-   
+
 
     private void Update()
     {
@@ -146,6 +146,7 @@ public class FloorMenu : Menu {
         inputGuard = false;
         editorInstance.gridController.ClearSelectedBlocks();
         editorInstance.gridController.SetGridVisiblity(false);
+        editorInstance.gridController.ShowWalls();
     }
 
     protected override void DefaultShow(Transition transition, Effect[] effects)

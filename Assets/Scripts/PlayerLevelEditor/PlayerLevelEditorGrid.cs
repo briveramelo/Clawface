@@ -2,9 +2,11 @@
 using UnityEngine;
 using PlayerLevelEditor;
 using ModMan;
+using System.Linq;
+
 public class PlayerLevelEditorGrid : MonoBehaviour {
     #region Private Fields
-    public List<GridTile> gridTiles = new List<GridTile>();
+    private List<GridTile> gridTiles = new List<GridTile>();
 
     private GameObject previewBlock = null;
     private GameObject spawnedBlock = null;
@@ -24,6 +26,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     [SerializeField] GameObject objectGrid;
     [SerializeField] GameObject realLevel;
     [SerializeField] GameObject tileParent;
+    [SerializeField] GameObject wallPrefab;
     private int levelSize = 5;
     [SerializeField] private Color hoverColor = Color.blue;
     [SerializeField] private Color selectedColor = Color.red;
@@ -62,14 +65,12 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
             }
 
             if (currentEditorMenu == EditorMenu.PROPS_MENU) {
-                //                DrawPreviewBlock(hit);
+                //DrawPreviewBlock(hit);
             }
             else if (currentEditorMenu == EditorMenu.FLOOR_MENU) {
                 DrawPreviewBlock(hit);
-                CreateBlock(hit);
+                HandleBlockInteractions(hit);
             }
-
-
         }
     }
 
@@ -84,22 +85,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         spawnddBlockDefaultColor = spawnedBlock.GetComponent<Renderer>().sharedMaterial.color;
 
         InitGridTiles();
-    }
-
-    private void CreateBlock(RaycastHit hit) {
-        if (Input.GetKey(KeyCode.LeftShift) && Input.GetMouseButtonUp(MouseButtons.LEFT)) {
-            SelectBlocks(hit);
-        }
-        else if (Input.GetMouseButtonUp(MouseButtons.LEFT)) {
-            DeselectBlocks();
-            DuplicateBlocks(hit);
-        }
-
-        if (Input.GetKey(KeyCode.LeftControl) && Input.GetMouseButtonUp(MouseButtons.RIGHT)) {
-            DeselectBlocks();
-            DeleteBlocks(hit);
-        }
-    }
+    }    
 
     private void DrawPreviewBlock(RaycastHit hit) {
         #region clean up lastHoveredObjects
@@ -149,6 +135,21 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
 
     }
 
+    private void HandleBlockInteractions(RaycastHit hit) {
+        if (Input.GetKey(KeyCode.LeftShift) && Input.GetMouseButtonUp(MouseButtons.LEFT)) {
+            SelectBlocks(hit);
+        }
+        else if (Input.GetMouseButtonUp(MouseButtons.LEFT)) {
+            DeselectBlocks();
+            DuplicateBlocks(hit);
+        }
+
+        if (Input.GetMouseButtonUp(MouseButtons.RIGHT)) {
+            DeselectBlocks();
+            DeleteBlocks(hit);
+        }
+    }
+
     void InitGridTiles() {
         for (int i = -levelSize; i <= levelSize; i++) {
             for (int j = -levelSize; j <= levelSize; j++) {
@@ -164,8 +165,17 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         GameObject realBlock = GameObject.Instantiate(spawnedBlock, position, Quaternion.identity);
         realBlock.name = RealBlock;
 
-        GridTile tile = new GridTile(realBlock, ghostBlock, position, objectGrid.transform, tileParent.transform);
+        GameObject wall_N = GameObject.Instantiate(wallPrefab, position + Vector3.up * 5f + Vector3.forward * 2.5f, Quaternion.Euler(0f, 0f, 0f));
+        GameObject wall_E = GameObject.Instantiate(wallPrefab, position + Vector3.up * 5f + Vector3.right * 2.5f, Quaternion.Euler(0f, 90f, 0f));
+        GameObject wall_W = GameObject.Instantiate(wallPrefab, position + Vector3.up * 5f + Vector3.left * 2.5f, Quaternion.Euler(0f, 270f, 0f));
+        GameObject wall_S = GameObject.Instantiate(wallPrefab, position + Vector3.up * 5f + Vector3.back * 2.5f, Quaternion.Euler(0f, 180f, 0f));
+
+        GridTile tile = new GridTile(realBlock, ghostBlock, position, objectGrid.transform, tileParent.transform, wall_N, wall_E, wall_W, wall_S);
         gridTiles.Add(tile);
+    }
+
+    public void ShowWalls() {
+        gridTiles.ForEach(tile => tile.EnableWalls());
     }
 
     void DuplicateBlocks(RaycastHit hit) {
@@ -185,8 +195,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         }
     }
 
-    void DeleteBlocks(RaycastHit hit)
-    {
+    void DeleteBlocks(RaycastHit hit) {
         List<GameObject> Objects = SelectObjectsAlgorithm(hit);
         DeleteBlocks(Objects);
     }
@@ -211,8 +220,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         }
     }
 
-    void SelectBlocks(RaycastHit hit)
-    {
+    void SelectBlocks(RaycastHit hit) {
         List<GameObject> Objects = SelectObjectsAlgorithm(hit);
 
         for(int i = 0; i < gridTiles.Count; i++) {
@@ -224,12 +232,12 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         }
     }
 
-    List<GameObject> SelectObjectsAlgorithm(RaycastHit hit)
-    {
+    List<GameObject> SelectObjectsAlgorithm(RaycastHit hit) {
         List<GameObject> Objects = new List<GameObject>();
 
-        if (OnClickObject == null)
+        if (OnClickObject == null) {
             return Objects;
+        }
 
 
         float xMax = Mathf.Max(OnClickObject.transform.position.x, hit.transform.position.x);
@@ -241,17 +249,16 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
 
         var HitsInX = Physics.BoxCastAll(new Vector3(xMin, 0, zMin), new Vector3(1, 1, 1), Vector3.right, Quaternion.identity, xMax - xMin);
 
-        foreach (var itemX in HitsInX)
-        {
+        foreach (var itemX in HitsInX) {
             if(!Objects.Contains(itemX.transform.gameObject))
                 Objects.Add(itemX.transform.gameObject);
 
             var HitsInZ = Physics.BoxCastAll(itemX.transform.position, new Vector3(1, 1, 1), Vector3.forward, Quaternion.identity, zMax - zMin);
 
-            foreach (var itemZ in HitsInZ)
-            {
-                if (!Objects.Contains(itemZ.transform.gameObject))
+            foreach (var itemZ in HitsInZ) {
+                if (!Objects.Contains(itemZ.transform.gameObject)) {
                     Objects.Add(itemZ.transform.gameObject);
+                }
             }
         }
 
@@ -270,18 +277,13 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         });
     }    
 
-    public void ClearSelectedBlocks()
-    {
+    public void ClearSelectedBlocks() {
         DeselectBlocks();
     }
 
-    public List<GameObject> GetSelectedBlocks()
-    {
-        return selectedObjects;
-    }    
+    public List<GameObject> GetSelectedBlocks() { return selectedObjects; }    
 
-    public void SetGridVisiblity(bool i_set)
-    {
+    public void SetGridVisiblity(bool i_set) {
         displaying = i_set;
         for (int i = 0; i < gridTiles.Count; i++) {
             gridTiles[i].TryShowGhost();
@@ -293,7 +295,17 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
 
 [System.Serializable]
 public class GridTile {
-    public GridTile(GameObject real, GameObject ghost, Vector3 position, Transform ghostParent, Transform tileParent) {
+    public GridTile(GameObject real, GameObject ghost, Vector3 position, Transform ghostParent, Transform tileParent, GameObject wall_N, GameObject wall_E, GameObject wall_W, GameObject wall_S) {
+        this.wall_N = wall_N;
+        this.wall_E = wall_E;
+        this.wall_S = wall_S;
+        this.wall_W = wall_W;
+
+        wall_N.SetActive(false);
+        wall_E.SetActive(false);
+        wall_W.SetActive(false);
+        wall_S.SetActive(false);
+
         realTile = real;
         ghostTile = ghost;
         Position = position;
@@ -305,12 +317,18 @@ public class GridTile {
         rend.GetPropertyBlock(propBlock);
         realTile.transform.SetParent(ghostParent);
         ghostTile.transform.SetParent(ghostParent);
+
+        wall_N.transform.SetParent(ghostParent);
+        wall_E.transform.SetParent(ghostParent);
+        wall_W.transform.SetParent(ghostParent);
+        wall_S.transform.SetParent(ghostParent);
     }
     Transform ghostParent, tileParent;
     MeshRenderer rend;
     MaterialPropertyBlock propBlock = new MaterialPropertyBlock();
     public GameObject realTile;
     public GameObject ghostTile;
+    public GameObject wall_N, wall_E, wall_W, wall_S;
     public Vector3 Position { get { return realTile.transform.position; } set { realTile.transform.position = value; ghostTile.transform.position = value; } }
     public bool IsEither(GameObject other) { return realTile == other || ghostTile == other; }
     public bool IsActive {
@@ -340,5 +358,24 @@ public class GridTile {
     public void ChangeColor(Color color) {
         propBlock.SetColor("_Color", color);
         rend.SetPropertyBlock(propBlock);
+    }
+
+    public void EnableWalls() {
+        bool blockNorth = false;
+        bool blockEast = false;
+        bool blockWest = false;
+        bool blockSouth = false;
+
+        if (IsActive) {
+            blockNorth = Physics.OverlapSphere(realTile.transform.position + Vector3.forward * 5f, .2f).ToList().Exists(item => item.GetComponent<PLEBlockUnit>());
+            blockEast = Physics.OverlapSphere(realTile.transform.position + Vector3.right * 5f, .2f).ToList().Exists(item => item.GetComponent<PLEBlockUnit>());
+            blockWest = Physics.OverlapSphere(realTile.transform.position + Vector3.left * 5f, .2f).ToList().Exists(item => item.GetComponent<PLEBlockUnit>());
+            blockSouth = Physics.OverlapSphere(realTile.transform.position + Vector3.back * 5f, .2f).ToList().Exists(item => item.GetComponent<PLEBlockUnit>());
+        }
+
+        wall_N.SetActive(IsActive && !blockNorth);
+        wall_E.SetActive(IsActive && !blockEast);
+        wall_W.SetActive(IsActive && !blockWest);
+        wall_S.SetActive(IsActive && !blockSouth);
     }
 }
