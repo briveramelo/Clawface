@@ -13,8 +13,8 @@
 		[PerRendererData] _Count ("Count (Number of splats)", Int) = 0
 
 		[Header (Decal Reference Dimensions)]
-		_Width ("Decal Reference Width", Float) = 4
-		_Height ("Decal Reference Height", Float) = 4
+		_Width ("Decal Reference Width", Float) = 8
+		_Height ("Decal Reference Height", Float) = 8
 	}
 	SubShader
 	{
