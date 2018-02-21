@@ -55,7 +55,8 @@ public class CameraLerp : MonoBehaviour
 
         if (activeEnemies.Count == 0)
         {
-            cam.m_Lens.OrthographicSize = Mathf.Lerp(cam.m_Lens.OrthographicSize, minCameraSize, Time.deltaTime * lerpMultiplier);
+            // cam.m_Lens.OrthographicSize = Mathf.Lerp(cam.m_Lens.OrthographicSize, minCameraSize, Time.deltaTime * lerpMultiplier);
+            cam.m_Lens.FieldOfView = Mathf.Lerp(cam.m_Lens.FieldOfView, minCameraSize, Time.deltaTime * lerpMultiplier);
             return;
         }
 
@@ -69,7 +70,7 @@ public class CameraLerp : MonoBehaviour
         if (minCameraSize + adjustedDistance < minCameraSize) adjustedDistance = 0f;
         if (minCameraSize + adjustedDistance > maxCameraSize) adjustedDistance = maxCameraSize - minCameraSize;
 
-        cam.m_Lens.OrthographicSize = Mathf.Lerp(cam.m_Lens.OrthographicSize, minCameraSize + adjustedDistance, Time.deltaTime * lerpMultiplier);
+        cam.m_Lens.FieldOfView = Mathf.Lerp(cam.m_Lens.FieldOfView, minCameraSize + adjustedDistance, Time.deltaTime * lerpMultiplier);
     }
 
     private void OnEnemySpawned(params object[] objects)

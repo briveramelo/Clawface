@@ -17,6 +17,7 @@ public class Stats : MonoBehaviour, IModifiable {
     #region Unity LifeCycle
     void Awake() {
         originalStats = new StatsMemento(attack, defense, health, maxHealth, moveSpeed, rangedAccuracy, shotSpeed, shotPushForce, skinnableHealth, exp);
+        if (maxHealth == 0) maxHealth = health;
     }
 
     
@@ -71,7 +72,7 @@ public class Stats : MonoBehaviour, IModifiable {
         return -1;
     }
 
-    public float GetHealthFraction(){ 
+    public float GetHealthFraction(){
         return health/maxHealth;    
     }
 

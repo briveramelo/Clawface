@@ -69,6 +69,7 @@ public class BlasterMod : Mod {
         GameObject vfx = ObjectPool.Instance.GetObject(poolObjType);
         if (vfx != null)
         {
+            vfx.transform.SetParent (transform);
             vfx.transform.position = bulletSpawnPoint.position;
             vfx.transform.rotation = transform.rotation;
         }
