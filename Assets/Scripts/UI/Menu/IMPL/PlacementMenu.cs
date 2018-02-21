@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public abstract class PlacementMenu : Menu {
 
-    public PlacementMenu(string menuName) : base(menuName){ }
+    public PlacementMenu(string menuName) : base(menuName) { }
 
     public override Button InitialSelection { get { return initiallySelected; } }
 
@@ -66,7 +66,7 @@ public abstract class PlacementMenu : Menu {
         MouseHelper.currentBlockUnit.SetOccupation(true);
         PostPlaceItem(newItem);
     }
-    protected virtual void PostPlaceItem(GameObject newItem){}
+    protected virtual void PostPlaceItem(GameObject newItem) { }
     protected bool DeselectUIItem() {
         selectedItem = null;
         return TryDestroyPreview();

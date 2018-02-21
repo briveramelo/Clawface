@@ -257,7 +257,7 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
     }
 
     private void CreateBlockingObject() {
-        blockingObject = new GameObject("Blocking Object");
+        blockingObject = new GameObject(Strings.BLOCKINGOBJECT);
         blockingObject.transform.SetParent(transform.parent);
         blockingObject.transform.position = new Vector3(transform.position.x, coverYPosition, transform.position.z);
         blockingObject.transform.localScale = new Vector3(meshSizeX, meshSizeY, meshSizeZ);

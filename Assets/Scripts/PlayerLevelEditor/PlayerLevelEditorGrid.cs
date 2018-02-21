@@ -367,10 +367,10 @@ public class GridTile {
         bool blockSouth = false;
 
         if (IsActive) {
-            blockNorth = Physics.OverlapSphere(realTile.transform.position + Vector3.forward * 5f, .2f).ToList().Exists(item => item.GetComponent<PLEBlockUnit>());
-            blockEast = Physics.OverlapSphere(realTile.transform.position + Vector3.right * 5f, .2f).ToList().Exists(item => item.GetComponent<PLEBlockUnit>());
-            blockWest = Physics.OverlapSphere(realTile.transform.position + Vector3.left * 5f, .2f).ToList().Exists(item => item.GetComponent<PLEBlockUnit>());
-            blockSouth = Physics.OverlapSphere(realTile.transform.position + Vector3.back * 5f, .2f).ToList().Exists(item => item.GetComponent<PLEBlockUnit>());
+            blockNorth = Physics.OverlapBox(realTile.transform.position + Vector3.forward * 5f, new Vector3(1,10,1) ).ToList().Exists(item => item.GetComponent<PLEBlockUnit>());
+            blockEast = Physics.OverlapBox(realTile.transform.position + Vector3.right * 5f, new Vector3(1, 10, 1)).ToList().Exists(item => item.GetComponent<PLEBlockUnit>());
+            blockWest = Physics.OverlapBox(realTile.transform.position + Vector3.left * 5f, new Vector3(1, 10, 1)).ToList().Exists(item => item.GetComponent<PLEBlockUnit>());
+            blockSouth = Physics.OverlapBox(realTile.transform.position + Vector3.back * 5f, new Vector3(1, 10, 1)).ToList().Exists(item => item.GetComponent<PLEBlockUnit>());
         }
 
         wall_N.SetActive(IsActive && !blockNorth);

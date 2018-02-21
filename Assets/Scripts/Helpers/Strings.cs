@@ -1,6 +1,6 @@
 ﻿public class Strings
 {
-
+    public const string BLOCKINGOBJECT = "BLOCKING OBJECT";
     public const string ANIMATIONSTATE = "AnimationState";
     public const string FEETSTATE = "FeetState";
 

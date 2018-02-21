@@ -44,9 +44,10 @@ public class MouseHelper : MonoBehaviour {
         hitItem = hits.Length>0;
         float closestDistance = 10000f;
         raycastHit = null;
+        
         for (int i = 0; i < hits.Length; i++) {
             RaycastHit hit = hits[i];
-            if (hit.transform.CompareTag(Strings.Tags.WALL) || hit.transform.gameObject.layer==(int)Layers.Ground) {
+            if (!hit.transform.name.Contains(Strings.BLOCKINGOBJECT)) {
                 float distance = Vector3.Distance(hit.transform.position, Camera.main.transform.position);
                 if (distance< closestDistance) {
                     closestDistance = distance;
