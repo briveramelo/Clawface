@@ -15,7 +15,7 @@ public class PLEBlockUnit : MonoBehaviour
     [SerializeField] public Transform spawnTrans;
 
     public List<LevelUnitStates> LevelStates = new List<LevelUnitStates>();
-
+    [HideInInspector] public GameObject prop;
     #endregion
 
     #region Unity Lifecycle
@@ -74,6 +74,9 @@ public class PLEBlockUnit : MonoBehaviour
     public void SetOccupation(bool i_state)
     {
         occupied = i_state;
+    }
+    public void SetOccupation(GameObject prop) {
+        this.prop = prop;
     }
 
     public bool IsOccupied()

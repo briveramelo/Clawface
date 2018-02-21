@@ -64,6 +64,7 @@ public abstract class PlacementMenu : Menu {
         newItem.name = selectedItem.name.TryCleanClone();
         itemNames.Add(newItem.name);
         MouseHelper.currentBlockUnit.SetOccupation(true);
+        MouseHelper.currentBlockUnit.SetOccupation(newItem);
         PostPlaceItem(newItem);
     }
     protected virtual void PostPlaceItem(GameObject newItem) { }
