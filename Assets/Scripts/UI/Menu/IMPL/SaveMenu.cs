@@ -64,7 +64,8 @@ public class SaveMenu : Menu {
         inputGuard = true;
     }
 
-    protected override void ShowStarted() {
+    protected override void ShowStarted()
+    {
         base.ShowStarted();
         cameraController.enabled = false;
     }
@@ -86,9 +87,10 @@ public class SaveMenu : Menu {
         Fade(transition, effects);
     }
 
-    public void BackAction() {
-        MainPLEMenu menu = editorInstance.GetMenu(PLEMenu.MAIN) as MainPLEMenu;
-        MenuManager.Instance.DoTransition(menu, Menu.Transition.SHOW, new Menu.Effect[] { Menu.Effect.EXCLUSIVE });
+    public void BackAction()
+    {
+        Menu menuToHide = editorInstance.GetMenu(PLEMenu.SAVE);
+        MenuManager.Instance.DoTransition(menuToHide, Menu.Transition.HIDE, new Menu.Effect[] { });
     }
 
     #endregion
