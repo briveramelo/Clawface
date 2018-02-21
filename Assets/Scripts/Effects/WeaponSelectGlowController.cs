@@ -11,10 +11,17 @@ public class WeaponSelectGlowController : RoutineRunner {
     [SerializeField] new MeshRenderer renderer;
     private Color color;
     private MaterialPropertyBlock propBlock;
+    private MaterialPropertyBlock PropBlock {
+        get {
+            if (propBlock==null) {
+                propBlock = new MaterialPropertyBlock();
+            }
+            return propBlock;
+        }
+    }   
 
     private void Awake()
-    {
-        propBlock = new MaterialPropertyBlock();
+    {        
         color = renderer.material.GetColor("_Tint");
     }
 
@@ -38,8 +45,8 @@ public class WeaponSelectGlowController : RoutineRunner {
 
     void SetColor (Color color)
     {
-        propBlock.SetColor ("_Tint", color);
-        renderer.SetPropertyBlock(propBlock);        
+        PropBlock.SetColor ("_Tint", color);
+        renderer.SetPropertyBlock(PropBlock);        
     }
 
     void SetColorInstant (Color color)

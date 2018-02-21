@@ -121,6 +121,8 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
 
     public abstract Vector3 ReCalculateTargetPosition();
 
+    public Vector3 GetPosition () { return transform.position; }
+
     void IDamageable.TakeDamage(Damager damager)
     {
         if (myStats.health > 0 && !isIndestructable)
@@ -129,8 +131,8 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
             myStats.TakeDamage(damager.damage);
             damagePack.Set(damager, damaged);
             SFXManager.Instance.Play(hitSFX, transform.position);
-            DamageFXManager.Instance.EmitDamageEffect(damagePack);
-            
+            GoreManager.Instance.EmitDirectionalBlood(damagePack);
+            hitFlasher.HitFlash ();
 
             if (myStats.health <= 0)
             {
@@ -249,7 +251,6 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
                     mallCopParts.transform.rotation = transform.rotation;
                 }
             }
-            UpgradeManager.Instance.AddEXP(Mathf.FloorToInt(myStats.exp));
             navAgent.speed = 0;
             navAgent.enabled = false;
             gameObject.SetActive(false);
@@ -330,8 +331,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
                 }                
             }
         }
-        animator.enabled = true;
-        
+        animator.enabled = true;        
         if (grabObject)
         {
             grabObject.transform.parent = transform;
@@ -413,17 +413,27 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     private IEnumerator WaitAndGetUp()
     {
         yield return new WaitForSeconds(3.0f);
+        bool findNearestTile = false;
         while (PlayerIsNear() || IsFalling())
         {
+            findNearestTile = IsOnObstacle();
+            if (findNearestTile)
+            {
+                break;
+            }
             yield return new WaitForEndOfFrame();
         }
-        GetUp();
+        GetUp(findNearestTile);
+    }
+
+    private bool IsOnObstacle()
+    {
+        return Physics.CheckSphere(hips.transform.position, 2.0f, LayerMask.GetMask(Strings.Layers.OBSTACLE));
     }
 
     private bool IsFalling()
-    {
-        bool result = Physics.CheckSphere(hips.transform.position, 2.0f, LayerMask.GetMask(Strings.Layers.GROUND));
-        return !result;
+    {        
+        return !Physics.CheckSphere(hips.transform.position, 2.0f, LayerMask.GetMask(Strings.Layers.GROUND));
     }
 
     private bool PlayerIsNear()
@@ -439,16 +449,42 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         }
     }
 
-    private void ActivateAIMethods()
+    private bool ActivateAIMethods(bool findNearestFloorTile = false)
     {
+        bool spaceFound = false;
         if (gameObject.activeSelf)
         {
             Vector3 position = hips.transform.position;
             Ray ray = new Ray(position, Vector3.down);
+            int mask = LayerMask.GetMask(Strings.Layers.GROUND);            
             RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.GetMask(Strings.Layers.GROUND)))
+
+            if (!findNearestFloorTile && Physics.Raycast(ray, out hit, Mathf.Infinity, mask))
             {
                 position = hit.point;
+                spaceFound = true;
+            }
+            else 
+            {
+                int i = 1;
+                while (!spaceFound && i < 7)
+                {
+                    Collider[] tiles = Physics.OverlapSphere(hips.transform.position, 10.0f * i, mask);
+                    if (tiles.Length > 0)
+                    {
+                        position = tiles[0].transform.position;
+                        spaceFound = true;
+                    }
+                    else
+                    {
+                        i++;
+                        Debug.LogError("No tiles found for iteration " + i);
+                    }
+                }
+            }
+
+            if (spaceFound)
+            {
                 GetComponent<ISpawnable>().WarpToNavMesh(position);
                 AIController aiController = GetComponent<AIController>();
                 if (aiController)
@@ -457,13 +493,24 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
                 }
             }
         }
+        return spaceFound;
     }
 
-    private void GetUp()
+    private void GetUp(bool findNearestFloorTile = false)
     {
         EnableCollider();
         DisableRagdoll();
-        ActivateAIMethods();
+        animator.SetTrigger("DoGetUp");
+        if (ActivateAIMethods(findNearestFloorTile))
+        {
+            animator.SetTrigger("DoGetUp");
+            animator.SetInteger("AnimationState", (int)AnimationStates.Walk);
+        }
+        else
+        {
+            //Kill
+            OnDeath();
+        }
     }
 
     private void FallDown()

@@ -703,6 +703,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4170626836177186}
   - component: {fileID: 212612233659892394}
+  - component: {fileID: 114426184230659544}
   m_Layer: 9
   m_Name: Outline
   m_TagString: Untagged
@@ -2856,6 +2857,20 @@ MonoBehaviour:
   skinnableHealth: 6
   exp: 2
   invincibilityCoolDownTime: 0
+--- !u!114 &114426184230659544
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1469105016028086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d20957195496ebf4692b64d1b4f3476b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  palette: {fileID: 11400000, guid: b75be58f903358146b59385003d16afc, type: 2}
+  type: 0
+  updateTime: 0
 --- !u!114 &114426381079459442
 MonoBehaviour:
   m_ObjectHideFlags: 1

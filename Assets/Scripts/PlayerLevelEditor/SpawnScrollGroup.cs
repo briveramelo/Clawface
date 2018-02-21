@@ -19,25 +19,14 @@ public class SpawnScrollGroup : MonoBehaviour {
 
     private void Start()
     {
-        if (EventSystem.Instance)
-        {
-            EventSystem.Instance.RegisterEvent(Strings.Events.INIT_EDITOR, InitializeWindow);
-        }
-    }
-
-    private void OnDestroy()
-    {
-        if (EventSystem.Instance)
-        {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.INIT_EDITOR, InitializeWindow);
-        }
+        Initialize();
     }
 
     #endregion  
 
     #region Private Interface
 
-    private void InitializeWindow(params object[] par)
+    private void Initialize()
     {
 
         GameObject[] props = Resources.LoadAll<GameObject>(Strings.Editor.SPAWN_OBJECTS_PATH) as GameObject[];
@@ -52,8 +41,8 @@ public class SpawnScrollGroup : MonoBehaviour {
             GameObject go = props[i];
 
             GameObject toAdd = GameObject.Instantiate(iconTemplate);
-            PLEProp propToSet = toAdd.GetComponent<PLEProp>();
-            propToSet.registeredProp = go;
+            PLESpawn spawnToSet = toAdd.GetComponent<PLESpawn>();
+            spawnToSet.registeredSpawner = go;
 
             toAdd.SetActive(true);
             toAdd.name = go.name;

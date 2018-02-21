@@ -19,6 +19,7 @@ public class Stats : MonoBehaviour, IModifiable {
     public void SetStats()
     {
         originalStats = new StatsMemento(attack, defense, health, maxHealth, moveSpeed, rangedAccuracy, shotSpeed, shotPushForce, skinnableHealth, exp);
+        if (maxHealth == 0) maxHealth = health;
     }
 
     public void Multiply(CharacterStatType statType, float statMultiplier) {
@@ -69,7 +70,7 @@ public class Stats : MonoBehaviour, IModifiable {
         return -1;
     }
 
-    public float GetHealthFraction(){ 
+    public float GetHealthFraction(){
         return health/maxHealth;    
     }
 

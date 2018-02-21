@@ -102,13 +102,6 @@ MonoBehaviour:
     size: 25
     mostUsed: 0
     objects: []
-  - name: VFXBloodEmitter
-    poolObjectType: 7
-    prefabs:
-    - {fileID: 1489536630767924, guid: 0720ab2ce0e66a745b45cef6f6bb2cc9, type: 2}
-    size: 100
-    mostUsed: 0
-    objects: []
   - name: VFXSegwayBlaster
     poolObjectType: 9
     prefabs:
@@ -126,7 +119,7 @@ MonoBehaviour:
   - name: VFXBlasterShoot
     poolObjectType: 17
     prefabs:
-    - {fileID: 1952365906086912, guid: febfb920ee68a2b4fb35aa033a25e538, type: 2}
+    - {fileID: 1921089154119268, guid: 5a352cd94d5c0fe418820a4021897983, type: 2}
     size: 20
     mostUsed: 0
     objects: []
@@ -414,6 +407,20 @@ MonoBehaviour:
     poolObjectType: 67
     prefabs:
     - {fileID: 1884496262132788, guid: 063275ad067ad9f449ec774d9c883357, type: 2}
+    size: 1
+    mostUsed: 0
+    objects: []
+  - name: VFXBoomerangProjectileDie
+    poolObjectType: 68
+    prefabs:
+    - {fileID: 1814792802505142, guid: 2ba83663469c22749b5ffb7be91110ae, type: 2}
     size: 20
+    mostUsed: 0
+    objects: []
+  - name: VFXBloodSpurt
+    poolObjectType: 69
+    prefabs:
+    - {fileID: 1674968188752656, guid: b1fa18791ce148d44a52a05d844016aa, type: 2}
+    size: 50
     mostUsed: 0
     objects: []
