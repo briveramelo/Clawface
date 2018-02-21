@@ -64,7 +64,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
             if (Input.GetMouseButtonDown(MouseButtons.LEFT) || Input.GetMouseButtonDown(MouseButtons.RIGHT))
             {                
                 OnClickObject = hit.transform.gameObject;
-                Debug.Log(OnClickObject.transform.localPosition);                
+                //Debug.Log(OnClickObject.transform.localPosition);                
             }
 
             if (currentEditorMenu == EditorMenu.PROPS_MENU) {
