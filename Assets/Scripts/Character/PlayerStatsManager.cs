@@ -47,6 +47,11 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     #endregion
 
     #region Public Methods
+    public Vector3 GetPosition ()
+    {
+        return transform.position;
+    }
+
     public void TakeDamage(Damager damager)
     {
         if (damageModifier > 0.0f)

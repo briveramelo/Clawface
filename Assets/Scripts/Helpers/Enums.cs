@@ -36,7 +36,9 @@ public enum SFXType {
     PlayerEat,
     AnnounceDeath,
     AnnounceLevelStart,
-    AnnounceTitle
+    AnnounceTitle,
+    MortarShoot,
+    MortarExplosion
 }
 
 public enum MusicType
@@ -145,6 +147,7 @@ public enum PoolObjectType {
     VFXKamikazeExplosionWarning=65,
     VFXEnemyChargeBlaster=66,
     VFXBoomerangProjectileDie=68,
+    VFXBloodSpurt=69,
 
     //BulletTypes
     TurretBullet = 28,

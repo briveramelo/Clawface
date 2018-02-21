@@ -74,6 +74,9 @@ public class SpreadGunBullet : MonoBehaviour {
                 // HACK - This isn't perfect.. but I think it will suffice for our type of gameplay.
                 damager.Set(currentDamage, DamagerType.SpreadGun, transform.forward);
                 damageable.TakeDamage(damager);
+
+                GameObject blood = ObjectPool.Instance.GetObject(PoolObjectType.VFXBloodSpurt);
+                if (blood) blood.transform.position = damageable.GetPosition();
             }
             GameObject vfx = ObjectPool.Instance.GetObject(impactVFX);
             if (vfx) {
