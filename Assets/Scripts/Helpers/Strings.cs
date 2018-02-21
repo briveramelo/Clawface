@@ -177,6 +177,7 @@
         public const string PLE_TEST_WAVE_0 = "PLE_TEST_WAVE_0";
         public const string PLE_TEST_WAVE_1 = "PLE_TEST_WAVE_1";
         public const string PLE_TEST_WAVE_2 = "PLE_TEST_WAVE_2";
+        public const string PLE_CHANGEWAVE = "PLE_ChangeWave";
         public const string PLE_ADD_WAVE    = "PLE_ADD_WAVE";
 
         public const string PLE_DELETE_CURRENTWAVE = "PLE_DELETE_CURRENTWAVE";

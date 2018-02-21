@@ -45,6 +45,7 @@ public class KamikazePulserAttackState : AIState {
         if (pulseGenerator) {
             pulseGenerator.transform.position = controller.transform.position;
             currentPulseGenerator = pulseGenerator.GetComponent<PulseGenerator>();
+            currentPulseGenerator.SetPulseGeneratorStats(properties.maxPulses,properties.pulseRate,properties.scaleRate,properties.maxScale,myStats.attack);
         }
     }
 

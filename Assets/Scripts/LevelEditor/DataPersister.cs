@@ -68,7 +68,7 @@ public class DataSave {
 
 [Serializable]
 public class LevelData {
-    public string name;
+    public string name, description;
     public List<WaveData> waveData = new List<WaveData>();
     public List<TileData> tileData = new List<TileData>();
     public List<PropData> propData = new List<PropData>();

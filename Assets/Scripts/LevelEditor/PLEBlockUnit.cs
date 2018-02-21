@@ -14,7 +14,7 @@ public class PLEBlockUnit : MonoBehaviour
     [SerializeField] private int blockID = 0;
     [SerializeField] public Transform spawnTrans;
 
-    List<LevelUnitStates> LevelStates = new List<LevelUnitStates>();
+    public List<LevelUnitStates> LevelStates = new List<LevelUnitStates>();
 
     #endregion
 
@@ -42,19 +42,12 @@ public class PLEBlockUnit : MonoBehaviour
 
     private void OnEnable()
     {
-        if (EventSystem.Instance)
-        {
-            EventSystem.Instance.TriggerEvent(Strings.Events.PLE_RESET_LEVELSTATE);
-        }
+
     }
 
     private void OnDestroy()
     {
-        if (EventSystem.Instance)
-        {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_ADD_WAVE, AddWave);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_UPDATE_LEVELSTATE, UpdateDynamicLevelState);
-        }
+
     }
 
     #endregion
@@ -83,7 +76,7 @@ public class PLEBlockUnit : MonoBehaviour
         occupied = i_state;
     }
 
-    public bool GetOccupation()
+    public bool IsOccupied()
     {
         return occupied;
     }

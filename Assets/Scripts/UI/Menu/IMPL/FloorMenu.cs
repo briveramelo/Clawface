@@ -36,7 +36,7 @@ public class FloorMenu : Menu {
 
 
     #region Unity Lifecycle
-   
+
 
     private void Update()
     {
@@ -65,20 +65,31 @@ public class FloorMenu : Menu {
     {
         List<GameObject> selectedObjects = editorInstance.gridController.GetSelectedBlocks();
 
+        if (selectedObjects.Count == 0)
+            return;
+
+
         foreach(GameObject GO in selectedObjects) {
             List<LevelUnitStates> LUS = GO.GetComponent<PLEBlockUnit>().GetLevelStates();
             LUS[WaveSystem.currentWave] = LevelUnitStates.pit;
         }
 
-        if (EventSystem.Instance) {
+        if (EventSystem.Instance)
+        {
             EventSystem.Instance.TriggerEvent(Strings.Events.PLE_UPDATE_LEVELSTATE);
-        }
 
+            string event_name = Strings.Events.PLE_TEST_WAVE_ + WaveSystem.currentWave;
+            EventSystem.Instance.TriggerEvent(event_name);
+        }
     }
 
     public void FlatFloorAction()
     {
         List<GameObject> selectedObjects = editorInstance.gridController.GetSelectedBlocks();
+
+        if (selectedObjects.Count == 0)
+            return;
+
 
         foreach (GameObject GO in selectedObjects)
         {
@@ -96,12 +107,19 @@ public class FloorMenu : Menu {
         if (EventSystem.Instance)
         {
             EventSystem.Instance.TriggerEvent(Strings.Events.PLE_UPDATE_LEVELSTATE);
+
+            string event_name = Strings.Events.PLE_TEST_WAVE_ + WaveSystem.currentWave;
+            EventSystem.Instance.TriggerEvent(event_name);
         }
     }
 
     public void RiseFloorAction()
     {
         List<GameObject> selectedObjects = editorInstance.gridController.GetSelectedBlocks();
+
+        if (selectedObjects.Count == 0)
+            return;
+
 
         foreach (GameObject GO in selectedObjects)
         {
@@ -119,6 +137,9 @@ public class FloorMenu : Menu {
         if (EventSystem.Instance)
         {
             EventSystem.Instance.TriggerEvent(Strings.Events.PLE_UPDATE_LEVELSTATE);
+
+            string event_name = Strings.Events.PLE_TEST_WAVE_ + WaveSystem.currentWave;
+            EventSystem.Instance.TriggerEvent(event_name);
         }
     }
 
@@ -146,6 +167,7 @@ public class FloorMenu : Menu {
         inputGuard = false;
         editorInstance.gridController.ClearSelectedBlocks();
         editorInstance.gridController.SetGridVisiblity(false);
+        editorInstance.gridController.ShowWalls();
     }
 
     protected override void DefaultShow(Transition transition, Effect[] effects)

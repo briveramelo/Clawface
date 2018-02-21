@@ -38,6 +38,7 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     {
         startHealth = stats.GetStat(CharacterStatType.MaxHealth);
         hitFlasher = GetComponentInChildren<HitFlasher>();
+        stats.SetStats();
     }
 	
 	// Update is called once per frame

@@ -7,20 +7,23 @@ using MovementEffects;
 
 public class MallCopReanimatorFireState : AIState {
 
+    public float fireRange;
+    public bool firstDetection;
+    public float animatorSpeed;
+
     private float currentAngleToTarget;
     private float lastAngleToTarget;
     private float currentWeight;
     private Vector3 initialPosition;
-
     private bool doneFiring;
-    public float fireRange;
-    public bool firstDetection;
-
+    private float oldAnimatorSpeed;
 
     public override void OnEnter() {
         initialPosition = controller.transform.position;
         navAgent.enabled = false;
         navObstacle.enabled = true;
+        oldAnimatorSpeed = animator.speed;
+        animator.speed = animatorSpeed;
         animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.ReadyFire);
         doneFiring = false;
         firstDetection = false;
@@ -38,6 +41,7 @@ public class MallCopReanimatorFireState : AIState {
         navObstacle.enabled = false;
         navAgent.enabled = true;
         doneFiring = false;
+        animator.speed = oldAnimatorSpeed;
         animator.SetLayerWeight(1, 0.0f);
     }
 

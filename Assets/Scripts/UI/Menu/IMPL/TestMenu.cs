@@ -24,13 +24,16 @@ public class TestMenu : Menu
 
     [SerializeField] private Button initiallySelected;
     [SerializeField] private LevelEditor editorInstance;
-    [SerializeField] private Transform TileParents;
+    [SerializeField] private Transform tileParents;
+
+    [SerializeField] private GameObject playerSpawnerPrefab;
 
     #endregion
 
     #region Private Fields
 
     private bool inputGuard = false;
+    GameObject playerSpawnerInstance = null;
 
     #endregion
 
@@ -71,15 +74,15 @@ public class TestMenu : Menu
         base.ShowComplete();
         inputGuard = true;
 
-
-
-
+        InitTestMode();
     }
 
     protected override void HideStarted()
     {
         base.HideStarted();
         inputGuard = false;
+
+        ReleaseTestMode();
     }
 
     protected override void DefaultHide(Transition transition, Effect[] effects)
@@ -103,25 +106,53 @@ public class TestMenu : Menu
 
 
 
-    private void InitTest()
+    private void InitTestMode()
     {
-        if(TileParents.childCount == 0)
+        if(tileParents.childCount == 0)
         {
-            Debug.Log("No Tile");
+            //Debug.Log("No Tile");
             return;
         }
 
-
-        foreach(Transform chindGO in TileParents)
+        foreach(Transform childGO in tileParents)
         {
-            if(chindGO.gameObject.GetComponent<PLEBlockUnit>().GetOccupation() == false)
-            {
+            PLEBlockUnit PLEU = childGO.gameObject.GetComponent<PLEBlockUnit>();
 
+            if (PLEU == null) continue;
+
+            if(PLEU.IsOccupied() == false)
+            {
+                playerSpawnerInstance = Instantiate(playerSpawnerPrefab);
+                playerSpawnerInstance.transform.position = PLEU.spawnTrans.position;
+
+                return;
             }
         }
 
     }
 
+
+
+    private void ReleaseTestMode()
+    {
+        //Debug.Log("ReleaseTestMode");
+
+        GameObject playerInstance = null;
+
+        if (playerSpawnerInstance != null)
+        {
+            playerInstance = playerSpawnerInstance.GetComponent<PlayerSpawner>().GetplayerPrefabGO();
+
+            DestroyImmediate(playerSpawnerInstance);
+            playerSpawnerInstance = null;
+        }
+
+        if(playerInstance != null)
+        {
+            DestroyImmediate(playerInstance);
+            playerInstance = null;
+        }
+    }
 
     #endregion
 }
