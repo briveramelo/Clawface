@@ -23,6 +23,8 @@ public class PropsMenu : PlacementMenu
         }
     }
     protected override void PostPlaceItem(GameObject newItem) {
+        MouseHelper.currentBlockUnit.SetOccupation(true);
+        MouseHelper.currentBlockUnit.SetProp(newItem);
         Rigidbody rigbod = newItem.GetComponent<Rigidbody>();
         rigbod.isKinematic = true;
     }

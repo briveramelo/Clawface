@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using ModMan;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,6 +17,7 @@ public class PLEBlockUnit : MonoBehaviour
 
     public List<LevelUnitStates> LevelStates = new List<LevelUnitStates>();
     [HideInInspector] public GameObject prop;
+    [HideInInspector] public List<GameObject> spawns;
     #endregion
 
     #region Unity Lifecycle
@@ -75,8 +77,25 @@ public class PLEBlockUnit : MonoBehaviour
     {
         occupied = i_state;
     }
-    public void SetOccupation(GameObject prop) {
+    public void SetProp(GameObject prop) {
         this.prop = prop;
+    }
+    public void AddSpawn(GameObject spawn) {
+        spawns.Add(spawn);
+    }
+    public void RemoveSpawn(GameObject spawn) {
+        spawns.Remove(spawn);
+    }
+    public void ClearItems() {
+        for (int i = spawns.Count - 1; i >= 0; i--) {
+            Helpers.DestroyProper(spawns[i]);
+        }
+        spawns.Clear();
+
+        if (prop!=null) {
+            Helpers.DestroyProper(prop);
+        }
+        SetOccupation(false);
     }
 
     public bool IsOccupied()

@@ -188,6 +188,8 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
                 GridTile tile = gridTiles[j];
                 if (tile.IsEither(Objects[i])) {
                     tile.IsActive = true;
+                    PLEBlockUnit blockUnit = tile.realTile.GetComponent<PLEBlockUnit>();
+                    blockUnit.SetOccupation(false);
                     break;
                 }
             };
@@ -206,11 +208,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
                 if (tile.IsEither(Objects[i])) {
                     tile.IsActive = false;
                     PLEBlockUnit blockUnit = tile.realTile.GetComponent<PLEBlockUnit>();
-                    if (blockUnit.IsOccupied()) {
-                        if (blockUnit.prop) {
-                            Helpers.DestroyProper(blockUnit.prop);
-                        }
-                    }
+                    blockUnit.ClearItems();
                     break;
                 }
             }
