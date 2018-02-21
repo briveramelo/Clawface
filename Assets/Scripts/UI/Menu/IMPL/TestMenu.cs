@@ -110,7 +110,7 @@ public class TestMenu : Menu
     {
         if(tileParents.childCount == 0)
         {
-            Debug.Log("No Tile");
+            //Debug.Log("No Tile");
             return;
         }
 
@@ -135,7 +135,7 @@ public class TestMenu : Menu
 
     private void ReleaseTestMode()
     {
-        Debug.Log("ReleaseTestMode");
+        //Debug.Log("ReleaseTestMode");
 
         GameObject playerInstance = null;
 
