@@ -6,21 +6,23 @@ using System;
 using MovementEffects;
 
 [System.Serializable]
-public class ZombieProperties : AIProperties
+public class ZombieAciderProperties : AIProperties
 {
 }
 
-public class Zombie : EnemyBase
+public class ZombieAcider : EnemyBase
 {
     #region 1. Serialized Unity Inspector Fields
-    [SerializeField] private ZombieProperties properties;
+    [SerializeField] private ZombieAciderProperties properties;
     [SerializeField] private TentacleTrigger tentacle;
+    [SerializeField] private TrailRenderer trailRenderer;
+    [SerializeField] private ColliderGenerator colliderGenerator;
     #endregion
 
     #region 2. Private fields
 
     //The AI States of the Zombie
-    private ZombieChaseState chase;
+    private ZombieAciderChaseState chase;
     private ZombieAttackState attack;
     private ZombieStunState stun;
     private ZombieCelebrateState celebrate;
@@ -32,12 +34,19 @@ public class Zombie : EnemyBase
 
     #region 3. Unity Lifecycle
 
+
     public override void Awake()
     {
         myStats = GetComponent<Stats>();
         SetAllStats();
         InitilizeStates();
-        attack.animatorSpeed = EnemyStatsManager.Instance.zombieStats.animationAttackSpeed;
+        trailRenderer.Clear();
+        trailRenderer.enabled = false;
+        colliderGenerator.enabled = false;
+        chase.trailRenderer = trailRenderer;
+        chase.colliderGenerator = colliderGenerator;
+        chase.needToClearTrail = true;
+        attack.animatorSpeed = EnemyStatsManager.Instance.zombieAciderStats.animationAttackSpeed;
         controller.Initialize(properties,velBody, animator, myStats, navAgent, navObstacle,aiStates);
         damaged.Set(DamagedType.MallCop, bloodEmissionLocation);
         controller.checksToUpdateState = new List<Func<bool>>() {
@@ -123,6 +132,10 @@ public class Zombie : EnemyBase
 
     public override void OnDeath()
     {
+        trailRenderer.Clear();
+        trailRenderer.enabled = false;
+        colliderGenerator.enabled = false;
+        chase.needToClearTrail = true;
         base.OnDeath();
     }
 
@@ -179,7 +192,7 @@ public class Zombie : EnemyBase
     private void InitilizeStates()
     {
         aiStates = new List<AIState>();
-        chase = new ZombieChaseState();
+        chase = new ZombieAciderChaseState();
         chase.stateName = "chase";
         attack = new ZombieAttackState();
         attack.stateName = "attack";
@@ -195,22 +208,29 @@ public class Zombie : EnemyBase
 
     private void SetAllStats()
     {
-        myStats.health = EnemyStatsManager.Instance.zombieStats.health;
-        myStats.maxHealth = EnemyStatsManager.Instance.zombieStats.maxHealth;
-        myStats.skinnableHealth = EnemyStatsManager.Instance.zombieStats.skinnableHealth;
-        myStats.moveSpeed = EnemyStatsManager.Instance.zombieStats.speed;
-        myStats.attack = EnemyStatsManager.Instance.zombieStats.attack;
+        myStats.health = EnemyStatsManager.Instance.zombieAciderStats.health;
+        myStats.maxHealth = EnemyStatsManager.Instance.zombieAciderStats.maxHealth;
+        myStats.skinnableHealth = EnemyStatsManager.Instance.zombieAciderStats.skinnableHealth;
+        myStats.moveSpeed = EnemyStatsManager.Instance.zombieAciderStats.speed;
+        myStats.attack = EnemyStatsManager.Instance.zombieAciderStats.attack;
 
-        navAgent.speed = EnemyStatsManager.Instance.zombieStats.speed;
-        navAgent.angularSpeed = EnemyStatsManager.Instance.zombieStats.angularSpeed;
-        navAgent.acceleration = EnemyStatsManager.Instance.zombieStats.acceleration;
-        navAgent.stoppingDistance = EnemyStatsManager.Instance.zombieStats.stoppingDistance;
+        navAgent.speed = EnemyStatsManager.Instance.zombieAciderStats.speed;
+        navAgent.angularSpeed = EnemyStatsManager.Instance.zombieAciderStats.angularSpeed;
+        navAgent.acceleration = EnemyStatsManager.Instance.zombieAciderStats.acceleration;
+        navAgent.stoppingDistance = EnemyStatsManager.Instance.zombieAciderStats.stoppingDistance;
 
-        scoreValue = EnemyStatsManager.Instance.zombieStats.scoreValue;
-        eatHealth = EnemyStatsManager.Instance.zombieStats.eatHealth;
-        stunnedTime = EnemyStatsManager.Instance.zombieStats.stunnedTime;
+        scoreValue = EnemyStatsManager.Instance.zombieAciderStats.scoreValue;
+        eatHealth = EnemyStatsManager.Instance.zombieAciderStats.eatHealth;
+        stunnedTime = EnemyStatsManager.Instance.zombieAciderStats.stunnedTime;
 
-        closeEnoughToAttackDistance = EnemyStatsManager.Instance.zombieStats.closeEnoughToAttackDistance;
+        closeEnoughToAttackDistance = EnemyStatsManager.Instance.zombieAciderStats.stunnedTime;
+        
+
+        trailRenderer.time = EnemyStatsManager.Instance.zombieAciderStats.trailRendererTime;
+        trailRenderer.startWidth = EnemyStatsManager.Instance.zombieAciderStats.trailRendererWidth;
+
+        colliderGenerator.SetStats(EnemyStatsManager.Instance.zombieAciderStats.colliderGenerationTime, EnemyStatsManager.Instance.zombieAciderStats.acidTriggerLife);
+
         myStats.SetStats();
     }
 

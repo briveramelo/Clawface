@@ -11,23 +11,17 @@ using System;
 [System.Serializable]
 public class KamikazePulserProperties : AIProperties
 {
-
-    public void InitializeProperties()
-    {
-
-    }
 }
 
 public class KamikazePulser : EnemyBase
 {
 
     #region 2. Serialized Unity Inspector Fields
-    [SerializeField] float closeEnoughToAttackDistance;
     [SerializeField] private KamikazePulserProperties properties;
     #endregion
 
     #region 3. Private fields
-
+    private float closeEnoughToAttackDistance;
 
     //The AI States of the Kamikaze
     private KamikazeChaseState chase;
@@ -39,8 +33,9 @@ public class KamikazePulser : EnemyBase
     #region 4. Unity Lifecycle
     public override void Awake()
     {
+        myStats = GetComponent<Stats>();
+        SetAllStats();
         InitilizeStates();
-        properties.InitializeProperties();
         controller.Initialize(properties, velBody, animator, myStats, navAgent, navObstacle, aiStates);
         damaged.Set(DamagedType.MallCop, bloodEmissionLocation);
         controller.checksToUpdateState = new List<Func<bool>>() {
@@ -136,6 +131,32 @@ public class KamikazePulser : EnemyBase
         aiStates.Add(attack);
         aiStates.Add(stun);
         aiStates.Add(celebrate);
+    }
+
+    private void SetAllStats()
+    {
+        myStats.health = EnemyStatsManager.Instance.kamikazePulserStats.health;
+        myStats.maxHealth = EnemyStatsManager.Instance.kamikazePulserStats.maxHealth;
+        myStats.skinnableHealth = EnemyStatsManager.Instance.kamikazePulserStats.skinnableHealth;
+        myStats.moveSpeed = EnemyStatsManager.Instance.kamikazePulserStats.speed;
+        myStats.attack = EnemyStatsManager.Instance.kamikazePulserStats.attack;
+
+        navAgent.speed = EnemyStatsManager.Instance.kamikazePulserStats.speed;
+        navAgent.angularSpeed = EnemyStatsManager.Instance.kamikazePulserStats.angularSpeed;
+        navAgent.acceleration = EnemyStatsManager.Instance.kamikazePulserStats.acceleration;
+        navAgent.stoppingDistance = EnemyStatsManager.Instance.kamikazePulserStats.stoppingDistance;
+
+        scoreValue = EnemyStatsManager.Instance.kamikazePulserStats.scoreValue;
+        eatHealth = EnemyStatsManager.Instance.kamikazePulserStats.eatHealth;
+        stunnedTime = EnemyStatsManager.Instance.kamikazePulserStats.stunnedTime;
+
+        closeEnoughToAttackDistance = EnemyStatsManager.Instance.kamikazePulserStats.closeEnoughToAttackDistance;
+        properties.maxPulses = EnemyStatsManager.Instance.kamikazePulserStats.maxPulses;
+        properties.pulseRate = EnemyStatsManager.Instance.kamikazePulserStats.pulseRate;
+        properties.scaleRate = EnemyStatsManager.Instance.kamikazePulserStats.scaleRate;
+        properties.maxScale = EnemyStatsManager.Instance.kamikazePulserStats.maxScale;
+
+        myStats.SetStats();
     }
 
     private void OnDrawGizmosSelected()

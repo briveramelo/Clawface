@@ -1698,7 +1698,7 @@ MonoBehaviour:
     - Type: 11
       Count: 1
     - Type: 1
-      Count: 2
+      Count: 0
     - Type: 1
       Count: 0
     remainingSpawns: 0
@@ -47091,6 +47091,12 @@ Prefab:
       propertyPath: saveState
       value: 
       objectReference: {fileID: 1891796562961920, guid: d54b93de0b17edc4e9428c681d355fa1,
+        type: 2}
+    - target: {fileID: 114289271992239290, guid: 35e2e81db0ce1444abf0202e84477b36,
+        type: 2}
+      propertyPath: enemyStatsManager
+      value: 
+      objectReference: {fileID: 1757848764820972, guid: 264b23c5a007ff6498132923742cf79e,
         type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 35e2e81db0ce1444abf0202e84477b36, type: 2}

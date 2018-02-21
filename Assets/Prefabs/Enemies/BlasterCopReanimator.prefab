@@ -1139,10 +1139,10 @@ GameObject:
   - component: {fileID: 114245872920878514}
   - component: {fileID: 114567583818950468}
   - component: {fileID: 114688655684175244}
-  - component: {fileID: 114415726037995366}
   - component: {fileID: 195267516505952242}
   - component: {fileID: 208207113347138978}
   - component: {fileID: 114066209736771612}
+  - component: {fileID: 114415726037995366}
   m_Layer: 9
   m_Name: BlasterCopReanimator
   m_TagString: Enemy
@@ -2758,14 +2758,9 @@ MonoBehaviour:
   controller: {fileID: 114567583818950468}
   velBody: {fileID: 114688655684175244}
   animator: {fileID: 95918438224399824}
-  myStats: {fileID: 114415726037995366}
   navAgent: {fileID: 195267516505952242}
   navObstacle: {fileID: 208207113347138978}
-  eatHealth: 20
   bloodEmissionLocation: {fileID: 4426179561426106}
-  scoreValue: 200
-  bufferHealth: 3
-  stunnedTime: 7
   grabObject: {fileID: 1181628842630280}
   affectObject: {fileID: 1418280531807818}
   hitFlasher: {fileID: 114683351225275340}
@@ -2774,8 +2769,8 @@ MonoBehaviour:
   pushRoot: {fileID: 54723207537948854}
   pushDirection: 0
   hips: {fileID: 1889553808235984}
+  enemyType: 11
   enemyDetectorSphereCollider: {fileID: 135115725107046198}
-  closeEnoughToReanimate: 3.42
   properties:
     runMultiplier: 0
     hitRate: 0
@@ -2790,6 +2785,10 @@ MonoBehaviour:
     rotate: 0
     kamikazeProbability: 0
     kamikazePulserProbability: 0
+    maxPulses: 0
+    pulseRate: 0
+    scaleRate: 0
+    maxScale: 0
   healParticleTransform: {fileID: 4809836751739658}
 --- !u!114 &114300210336101976
 MonoBehaviour:
