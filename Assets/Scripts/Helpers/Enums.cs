@@ -34,6 +34,11 @@ public enum SFXType {
     ClawExtend,
     ClawGrab,
     PlayerEat,
+    AnnounceDeath,
+    AnnounceLevelStart,
+    AnnounceTitle,
+    MortarShoot,
+    MortarExplosion
 }
 
 public enum MusicType
@@ -117,7 +122,6 @@ public enum PoolObjectType {
     //VFX
     VFXBlasterImpactEffect = 3,
     VFXBloodDecal = 6,
-    VFXBloodEmitter = 7,
     VFXSegwayBlaster = 9,
     VFXMallCopExplosion = 10,
     VFXBlasterShoot = 17,
@@ -140,6 +144,10 @@ public enum PoolObjectType {
     VFXFish=62,
     VFXMortarShell=63,
     VFXMortarShoot=64,
+    VFXKamikazeExplosionWarning=65,
+    VFXEnemyChargeBlaster=66,
+    VFXBoomerangProjectileDie=68,
+    VFXBloodSpurt=69,
 
     //BulletTypes
     TurretBullet = 28,
@@ -166,7 +174,8 @@ public enum PoolObjectType {
     KamikazeMommy = 56,
     ZombieBeserker = 57,
     ZombieAcider = 58,
-    BlasterShotgun = 60
+    BlasterShotgun = 60,
+    BlasterReanimator = 67,
 }
 
 public enum MovementMode
@@ -279,6 +288,7 @@ public enum SpawnType {
     ZombieBeserker = 8,
     ZombieAcider = 9,
     BlasterShotgun = 10,
+    BlasterReanimator = 11,
 }
 
 public enum ActionType

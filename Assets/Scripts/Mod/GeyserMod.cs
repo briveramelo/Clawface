@@ -99,6 +99,7 @@ public class GeyserMod : Mod {
             GameObject shootEffect = ObjectPool.Instance.GetObject (PoolObjectType.VFXGeyserShoot);
             if (shootEffect)
             {
+                shootEffect.transform.SetParent (muzzle);
                 shootEffect.transform.position = muzzle.position;
                 shootEffect.transform.rotation = muzzle.rotation;
             }

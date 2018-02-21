@@ -80,6 +80,7 @@ public class StageOverMenu : Menu
             SceneManager.GetActiveScene().name, AnalyticsManager.Instance.GetCurrentWave(), ScoreManager.Instance.GetScore());
         loadMenu.TargetScene = Strings.Scenes.MainMenu;
         loadMenu.Fast = true;
+        ObjectPool.Instance.ResetPools();
         MenuManager.Instance.DoTransition(loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
     }
 
@@ -92,6 +93,8 @@ public class StageOverMenu : Menu
 
         PauseMenu p = (PauseMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.PAUSE);
         p.CanPause = true;
+
+        ObjectPool.Instance.ResetPools();
 
         EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_RESTARTED, scene.name, AnalyticsManager.Instance.GetCurrentWave(), ScoreManager.Instance.GetScore());
 
@@ -106,7 +109,7 @@ public class StageOverMenu : Menu
         WeaponSelectMenu weaponMenu = menu as WeaponSelectMenu;
         weaponMenu.menuTarget = Strings.MenuStrings.STAGE_OVER;
 
-        EventSystem.Instance.TriggerEvent(Strings.Events.WEAPONSSELECT_FROM_STAGEOVER);
+        EventSystem.Instance.TriggerEvent(Strings.Events.WEAPONS_SELECT_FROM_STAGE_OVER);
 
         MenuManager.Instance.DoTransition(menu, Transition.SHOW,
             new Effect[] { Effect.EXCLUSIVE });

@@ -45,14 +45,13 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
 
 
     #region Unity Lifecycle
-
-    // Use this for initialization
+   
     void Start() {
         Initilaize();
     }
 
 
-    // Update is called once per frame
+    
     void Update()
     {
         if (!displaying)

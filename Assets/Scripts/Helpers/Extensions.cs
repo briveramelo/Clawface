@@ -174,11 +174,11 @@ namespace ModMan {
 
     public static class GameObjectExtensions {
 
-        public static void DeActivate(this GameObject obj, float timeToDeactivate) {
-            Timing.RunCoroutine(IEDeActivate(obj, timeToDeactivate));
+        public static void DeActivate(this GameObject obj, float timeToDeactivate, string coroutineName) {
+            Timing.RunCoroutine(IEDeActivate(obj, timeToDeactivate), coroutineName);
         }
-        public static void FollowAndDeActivate(this GameObject obj, float timeToDeactivate, Transform objToFollow, Vector3 offset) {
-            Timing.RunCoroutine(IEDeActivate(obj, timeToDeactivate, objToFollow, offset));
+        public static void FollowAndDeActivate(this GameObject obj, float timeToDeactivate, Transform objToFollow, Vector3 offset, string coroutineName) {
+            Timing.RunCoroutine(IEDeActivate(obj, timeToDeactivate, objToFollow, offset), coroutineName);
         }
         static IEnumerator<float> IEDeActivate(GameObject obj, float timeToDeactivate) {
             yield return Timing.WaitForSeconds(timeToDeactivate);
@@ -390,6 +390,16 @@ namespace ModMan {
                 default:
                     return float.NaN;
             }
+        }
+    }
+
+    public static class SpriteRendererExtensions
+    {
+        public static void SetAlpha (this SpriteRenderer spriteRenderer, float alpha)
+        {
+            Color color = spriteRenderer.color;
+            color.a = alpha;
+            spriteRenderer.color = color;
         }
     }
 
