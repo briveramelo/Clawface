@@ -6,6 +6,8 @@ using UnityEngine.AI;
 using System.Linq;
 using MovementEffects;
 using ModMan;
+using UnityEngine.Assertions;
+
 public enum LevelUnitStates {
     cover,
     floor,
@@ -68,11 +70,12 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
     {
         splattable = GetComponent<Splattable>();
         meshRenderer = GetComponent<MeshRenderer>();
+        Assert.IsNotNull(splattable);
         if (meshRenderer)
         {
+            meshSizeX = meshRenderer.bounds.size.x;
             meshSizeY = meshRenderer.bounds.size.y;
             meshSizeZ = meshRenderer.bounds.size.z;
-            meshSizeX = meshRenderer.bounds.size.x;
             materialPropertyBlock = new MaterialPropertyBlock();
             meshRenderer.GetPropertyBlock(materialPropertyBlock);
             Color emptyColor = new Color(0f, 0f, 0f, 0f);

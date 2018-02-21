@@ -10,7 +10,7 @@ public class MouseHelper : MonoBehaviour {
     public static GameObject currentHoveredObject;
     public static PLEBlockUnit currentBlockUnit;
     public static Vector3 currentMouseWorldPosition;
-    public static RaycastHit raycastHit;
+    public static RaycastHit? raycastHit;
     public static RaycastHit raycastHitTile;
     public static bool hitItem;
     public static bool hitTile;
@@ -19,7 +19,7 @@ public class MouseHelper : MonoBehaviour {
     #region Private Fields
 
     private Ray r;
-    private int groundMask, ignoreObstacleMask;
+    private int groundMask, obstacleMask, groundOrObstacleMask;
     #endregion
 
     #region Unity Lifecycle
@@ -27,7 +27,8 @@ public class MouseHelper : MonoBehaviour {
 
     private void Start() {
         groundMask = LayerMask.GetMask(Strings.Layers.GROUND);
-        ignoreObstacleMask = ~LayerMask.GetMask(Strings.Layers.OBSTACLE);
+        obstacleMask = LayerMask.GetMask(Strings.Layers.OBSTACLE);
+        groundOrObstacleMask = groundMask | obstacleMask;
     }
     private void Update()
     {
@@ -38,13 +39,28 @@ public class MouseHelper : MonoBehaviour {
         RaycastGround(r);
     }    
 
-    void RaycastItems(Ray r)
-    {
-        hitItem = Physics.Raycast(r, out raycastHit, 1000.0f, ignoreObstacleMask);
+    void RaycastItems(Ray r) {
+        RaycastHit[] hits = Physics.RaycastAll(r, 1000.0f);
+        hitItem = hits.Length>0;
+        float closestDistance = 10000f;
+        raycastHit = null;
+        for (int i = 0; i < hits.Length; i++) {
+            RaycastHit hit = hits[i];
+            if (hit.transform.CompareTag(Strings.Tags.WALL) || hit.transform.gameObject.layer==(int)Layers.Ground) {
+                float distance = Vector3.Distance(hit.transform.position, Camera.main.transform.position);
+                if (distance< closestDistance) {
+                    closestDistance = distance;
+                    raycastHit = hit;
+                }
+            }
+        }
 
         if (hitItem) {
-            currentHoveredObject = raycastHit.transform.gameObject;
-            currentMouseWorldPosition = raycastHit.point;
+            if (raycastHit==null) {
+                raycastHit = hits[0];
+            }
+            currentHoveredObject = raycastHit.Value.transform.gameObject;
+            currentMouseWorldPosition = raycastHit.Value.point;
         }
         else {
             currentHoveredObject = null;

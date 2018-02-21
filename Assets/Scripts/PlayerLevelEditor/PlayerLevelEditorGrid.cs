@@ -58,7 +58,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
             return;
 
         if (MouseHelper.hitItem) {
-            RaycastHit hit = MouseHelper.raycastHit;
+            RaycastHit hit = MouseHelper.raycastHit.Value;
             if (Input.GetMouseButtonDown(MouseButtons.LEFT) || Input.GetMouseButtonDown(MouseButtons.RIGHT)) {                
                 OnClickObject = hit.transform.gameObject;
             }
