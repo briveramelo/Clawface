@@ -144,6 +144,16 @@ namespace ModMan {
             vec.y = 0;
             return vec;
         }
+        public static Vector3 NoZ(this Vector3 vec) {
+            vec.z = 0;
+            return vec;
+        }
+        public static Vector3 Abs(this Vector3 vec) {
+            vec.x = Mathf.Abs(vec.x);
+            vec.y = Mathf.Abs(vec.y);
+            vec.z = Mathf.Abs(vec.z);
+            return vec;
+        }
         /// <summary>
         /// Returns the greatest of this vector's components.
         /// </summary>
