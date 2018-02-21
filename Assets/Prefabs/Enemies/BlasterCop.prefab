@@ -581,10 +581,10 @@ GameObject:
   - component: {fileID: 114865393807199374}
   - component: {fileID: 114875676311210122}
   - component: {fileID: 114053334789138164}
-  - component: {fileID: 114562163281978664}
   - component: {fileID: 195488204217186714}
   - component: {fileID: 208751853675774266}
   - component: {fileID: 114465414391305930}
+  - component: {fileID: 114466372114887282}
   m_Layer: 9
   m_Name: BlasterCop
   m_TagString: Enemy
@@ -2953,7 +2953,7 @@ MonoBehaviour:
   margin: 0.1
   timeTilCull: 5
   enemyBase: {fileID: 114865393807199374}
---- !u!114 &114562163281978664
+--- !u!114 &114466372114887282
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -2964,16 +2964,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c7112b3692977d4987101d9add4e51f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attack: 6
-  defense: 5
-  health: 16
-  maxHealth: 16
-  moveSpeed: 8
-  rangedAccuracy: 1
-  shotSpeed: 21
-  shotPushForce: 3
-  skinnableHealth: 6
-  exp: 2
+  attack: 0
+  defense: 0
+  health: 0
+  maxHealth: 0
+  moveSpeed: 0
+  rangedAccuracy: 0
+  shotSpeed: 0
+  shotPushForce: 0
+  skinnableHealth: 0
+  exp: 0
   invincibilityCoolDownTime: 0
 --- !u!114 &114643118667313710
 MonoBehaviour:
@@ -3134,14 +3134,9 @@ MonoBehaviour:
   controller: {fileID: 114875676311210122}
   velBody: {fileID: 114053334789138164}
   animator: {fileID: 95336391681727560}
-  myStats: {fileID: 114562163281978664}
   navAgent: {fileID: 195488204217186714}
   navObstacle: {fileID: 208751853675774266}
-  eatHealth: 20
   bloodEmissionLocation: {fileID: 4313216080101678}
-  scoreValue: 200
-  bufferHealth: 3
-  stunnedTime: 7
   grabObject: {fileID: 1775636957589736}
   affectObject: {fileID: 1887600873005720}
   hitFlasher: {fileID: 114702588984713274}
@@ -3150,8 +3145,8 @@ MonoBehaviour:
   pushRoot: {fileID: 54527247813940898}
   pushDirection: 0
   hips: {fileID: 1241035809786012}
+  enemyType: 0
   playerDetectorSphereCollider: {fileID: 135652806102363036}
-  closeEnoughToFireDistance: 13
   properties:
     runMultiplier: 2.5
     hitRate: 0
@@ -3166,8 +3161,11 @@ MonoBehaviour:
     rotate: 0
     kamikazeProbability: 0
     kamikazePulserProbability: 0
+    maxPulses: 0
+    pulseRate: 0
+    scaleRate: 0
+    maxScale: 0
   mod: {fileID: 114348748851308058}
-  maxToleranceTime: 4
 --- !u!114 &114875676311210122
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3184,7 +3182,6 @@ MonoBehaviour:
   modPrefab: {fileID: 1196166492728184}
   timeInLastState: 0
   stateTimerIsRunning: 0
-  distanceFromTarget: 0
 --- !u!114 &114955122493697100
 MonoBehaviour:
   m_ObjectHideFlags: 1
