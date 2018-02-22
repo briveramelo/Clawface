@@ -76,7 +76,6 @@ public class WaveMenu : Menu
             {
                 BackAction();
             }
-
         }
     }
 

@@ -116,21 +116,11 @@ public class TestMenu : Menu
             return;
         }
 
-        foreach(Transform childGO in tileParents)
-        {
-            PLEBlockUnit PLEU = childGO.gameObject.GetComponent<PLEBlockUnit>();
+        editorCamera.SetActive(false);
+        SpawnMenu.playerSpawnInstance.SetActive(false);
 
-            if (PLEU == null) continue;
-
-            if(PLEU.IsOccupied() == false)
-            {
-                playerSpawnerInstance = Instantiate(playerSpawnerPrefab);
-                playerSpawnerInstance.transform.position = PLEU.spawnTrans.position;
-
-                return;
-            }
-        }
-
+        playerSpawnerInstance = Instantiate(playerSpawnerPrefab);
+        playerSpawnerInstance.transform.position = SpawnMenu.playerSpawnInstance.transform.position;
     }
 
 
@@ -154,6 +144,9 @@ public class TestMenu : Menu
             DestroyImmediate(playerInstance);
             playerInstance = null;
         }
+
+        editorCamera.SetActive(true);
+        SpawnMenu.playerSpawnInstance.SetActive(true);
     }
 
     #endregion

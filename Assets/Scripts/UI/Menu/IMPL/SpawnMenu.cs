@@ -7,6 +7,12 @@ public class SpawnMenu : PlacementMenu {
     public SpawnMenu() : base(Strings.MenuStrings.ADD_SPAWNS_PLE) { }
     #endregion
 
+    #region Private Fields
+
+    static public GameObject playerSpawnInstance = null;
+
+    #endregion  
+
     private void Awake() {
         EventSystem.Instance.RegisterEvent(Strings.Events.PLE_CHANGEWAVE, OnWaveChange);
     }
@@ -53,6 +59,16 @@ public class SpawnMenu : PlacementMenu {
         newItem.transform.SetParent(waveParent);
         
         MouseHelper.currentBlockUnit.AddSpawn(newItem);
+
+        if(newItem.CompareTag(Strings.Editor.PLAYER_SPAWN_TAG))
+        {
+            if(playerSpawnInstance != null)
+            {
+                DestroyImmediate(playerSpawnInstance);
+            }
+
+            playerSpawnInstance = newItem;
+        }
     }
     Transform TryCreateWaveParent(int i) {
         string waveName = GetWaveName(i);
