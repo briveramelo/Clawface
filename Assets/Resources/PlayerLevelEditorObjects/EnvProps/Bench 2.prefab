@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 65972574447839556}
   - component: {fileID: 114731245196899798}
   - component: {fileID: 54428026671772824}
+  - component: {fileID: 114904424109048236}
   m_Layer: 19
   m_Name: Bench 2
   m_TagString: Untagged
@@ -128,3 +129,15 @@ MonoBehaviour:
   renderSplat: {fileID: 4800000, guid: c88f0516221acdb41b36e96ca0f7069f, type: 3}
   numSplatsToRender: 10
   frameDim: {x: 256, y: 256}
+--- !u!114 &114904424109048236
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1483837039648612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 883a9ed7a14090c4bb7f2b6e311326dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  registeredProp: {fileID: 0}

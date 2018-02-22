@@ -18,7 +18,6 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     private bool inputGuard = false;
 
     private List<GameObject> lastHoveredObjects = new List<GameObject>();
-
     #endregion
 
     #region Unity Serialized Fields
@@ -46,25 +45,22 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
 
 
     #region Unity Lifecycle
-
-    // Use this for initialization
+   
     void Start() {
         Initilaize();
     }
 
 
-    // Update is called once per frame
+    
     void Update()
     {
         if (!displaying)
             return;
 
         if (MouseHelper.hitItem) {
-            RaycastHit hit = MouseHelper.raycastHit;
-            if (Input.GetMouseButtonDown(MouseButtons.LEFT) || Input.GetMouseButtonDown(MouseButtons.RIGHT))
-            {                
+            RaycastHit hit = MouseHelper.raycastHit.Value;
+            if (Input.GetMouseButtonDown(MouseButtons.LEFT) || Input.GetMouseButtonDown(MouseButtons.RIGHT)) {                
                 OnClickObject = hit.transform.gameObject;
-                //Debug.Log(OnClickObject.transform.localPosition);                
             }
 
             if (currentEditorMenu == EditorMenu.PROPS_MENU) {
@@ -142,12 +138,12 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         if (Input.GetKey(KeyCode.LeftShift) && Input.GetMouseButtonUp(MouseButtons.LEFT)) {
             SelectBlocks(hit);
         }
-        else if (Input.GetMouseButtonUp(MouseButtons.LEFT)) {
+        else if (Input.GetMouseButtonUp(MouseButtons.LEFT) && !Input.GetKey(KeyCode.LeftAlt)) {
             DeselectBlocks();
             DuplicateBlocks(hit);
         }
 
-        if (Input.GetMouseButtonUp(MouseButtons.RIGHT)) {
+        if (Input.GetMouseButtonUp(MouseButtons.RIGHT) && !Input.GetKey(KeyCode.LeftAlt)) {
             DeselectBlocks();
             DeleteBlocks(hit);
         }
@@ -192,6 +188,8 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
                 GridTile tile = gridTiles[j];
                 if (tile.IsEither(Objects[i])) {
                     tile.IsActive = true;
+                    PLEBlockUnit blockUnit = tile.realTile.GetComponent<PLEBlockUnit>();
+                    blockUnit.SetOccupation(false);
                     break;
                 }
             };
@@ -209,6 +207,8 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
                 GridTile tile = gridTiles[j];
                 if (tile.IsEither(Objects[i])) {
                     tile.IsActive = false;
+                    PLEBlockUnit blockUnit = tile.realTile.GetComponent<PLEBlockUnit>();
+                    blockUnit.ClearItems();
                     break;
                 }
             }
@@ -217,31 +217,31 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
 
     void DeselectBlocks() {
         selectedObjects.Clear();
-        for (int i = 0; i < gridTiles.Count; i++) {
-            GridTile tile = gridTiles[i];
-            tile.ChangeColor(spawnddBlockDefaultColor);
-        }
+        gridTiles.ForEach(tile => { tile.ChangeColor(spawnddBlockDefaultColor); });
     }
 
     void SelectBlocks(RaycastHit hit) {
         List<GameObject> Objects = SelectObjectsAlgorithm(hit);
-
-        for(int i = 0; i < gridTiles.Count; i++) {
-            GridTile tile = gridTiles[i];
+        gridTiles.ForEach(tile => {
             if (Objects.Contains(tile.realTile)) {
                 tile.ChangeColor(Color.red);
                 selectedObjects.Add(tile.realTile);
             }
-        }
+        });
     }
 
     List<GameObject> SelectObjectsAlgorithm(RaycastHit hit) {
         List<GameObject> Objects = new List<GameObject>();
 
-        if (OnClickObject == null)
-        {
+        if (OnClickObject == null) {
             return Objects;
         }
+        //if (Vector3.Distance(OnClickObject.transform.position, hit.transform.position)<2.5f) {
+        //    if (!Objects.Contains(OnClickObject)) {
+        //        Objects.Add(OnClickObject);
+        //    }
+        //    return Objects;
+        //}
 
 
         float xMax = Mathf.Max(OnClickObject.transform.position.x, hit.transform.position.x);
@@ -250,10 +250,11 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         float zMax = Mathf.Max(OnClickObject.transform.position.z, hit.transform.position.z);
         float zMin = Mathf.Min(OnClickObject.transform.position.z, hit.transform.position.z);
 
-        float y = OnClickObject.transform.position.y;
+        float y = OnClickObject.transform.position.y;        
+
 
         var HitsInX = Physics.BoxCastAll(new Vector3(xMin, y, zMin), new Vector3(1, 40, 1), Vector3.right, Quaternion.identity, xMax - xMin);
-
+        
         foreach (var itemX in HitsInX) {
             if(!Objects.Contains(itemX.transform.gameObject))
                 Objects.Add(itemX.transform.gameObject);
@@ -290,9 +291,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
 
     public void SetGridVisiblity(bool i_set) {
         displaying = i_set;
-        for (int i = 0; i < gridTiles.Count; i++) {
-            gridTiles[i].TryShowGhost();
-        }
+        gridTiles.ForEach(tile => { tile.TryShowGhost(); });
     }
 
     #endregion
@@ -372,10 +371,10 @@ public class GridTile {
         bool blockSouth = false;
 
         if (IsActive) {
-            blockNorth = Physics.OverlapSphere(realTile.transform.position + Vector3.forward * 5f, .2f).ToList().Exists(item => item.GetComponent<PLEBlockUnit>());
-            blockEast = Physics.OverlapSphere(realTile.transform.position + Vector3.right * 5f, .2f).ToList().Exists(item => item.GetComponent<PLEBlockUnit>());
-            blockWest = Physics.OverlapSphere(realTile.transform.position + Vector3.left * 5f, .2f).ToList().Exists(item => item.GetComponent<PLEBlockUnit>());
-            blockSouth = Physics.OverlapSphere(realTile.transform.position + Vector3.back * 5f, .2f).ToList().Exists(item => item.GetComponent<PLEBlockUnit>());
+            blockNorth = Physics.OverlapBox(realTile.transform.position + Vector3.forward * 5f, new Vector3(1,10,1) ).ToList().Exists(item => item.GetComponent<PLEBlockUnit>());
+            blockEast = Physics.OverlapBox(realTile.transform.position + Vector3.right * 5f, new Vector3(1, 10, 1)).ToList().Exists(item => item.GetComponent<PLEBlockUnit>());
+            blockWest = Physics.OverlapBox(realTile.transform.position + Vector3.left * 5f, new Vector3(1, 10, 1)).ToList().Exists(item => item.GetComponent<PLEBlockUnit>());
+            blockSouth = Physics.OverlapBox(realTile.transform.position + Vector3.back * 5f, new Vector3(1, 10, 1)).ToList().Exists(item => item.GetComponent<PLEBlockUnit>());
         }
 
         wall_N.SetActive(IsActive && !blockNorth);

@@ -3,9 +3,17 @@ using UnityEngine.EventSystems;
 using UnityEngine;
 public class SpawnMenu : PlacementMenu {
 
+    private PLESpawn selectedSpawn;
+
     #region Public Interface
     public SpawnMenu() : base(Strings.MenuStrings.ADD_SPAWNS_PLE) { }
     #endregion
+
+    #region Private Fields
+
+    static public GameObject playerSpawnInstance = null;
+
+    #endregion  
 
     private void Awake() {
         EventSystem.Instance.RegisterEvent(Strings.Events.PLE_CHANGEWAVE, OnWaveChange);
@@ -28,18 +36,24 @@ public class SpawnMenu : PlacementMenu {
     }
 
     #region Protected Interface
-    protected override bool SelectUI { get { return base.SelectUI && ScrollGroupHelper.currentSpawn != null; } }
+    protected override bool SelectUI { get { return base.SelectUI && ScrollGroupHelper.currentUIItem != null; } }
+    protected override bool SelectItem { get { return base.SelectUI && MouseHelper.currentSpawn != null; } }
 
     protected override void ShowComplete() {
         base.ShowComplete();
         editorInstance.gridController.currentEditorMenu = EditorMenu.SPAWN_MENU;
     }
 
-    protected override void SelectUIItem() {
-        PLESpawn currentSpawn = ScrollGroupHelper.currentSpawn;
 
-        if(currentSpawn) {
-            selectedItem = currentSpawn.registeredSpawner;
+    protected override void DeselectAll() {
+        base.DeselectAll();
+        selectedSpawn = null;
+    }
+    protected override void SelectUIItem() {
+        PLEUIItem currentUIItem = ScrollGroupHelper.currentUIItem;
+
+        if(currentUIItem) {
+            selectedItem = currentUIItem.registeredItem;
             TryDestroyPreview();
             previewItem = Instantiate(selectedItem);
         }
@@ -51,6 +65,18 @@ public class SpawnMenu : PlacementMenu {
             TryCreateWaveParent(i);
         }
         newItem.transform.SetParent(waveParent);
+        
+        MouseHelper.currentBlockUnit.AddSpawn(newItem);
+
+        if(newItem.CompareTag(Strings.Editor.PLAYER_SPAWN_TAG))
+        {
+            if(playerSpawnInstance != null)
+            {
+                DestroyImmediate(playerSpawnInstance);
+            }
+
+            playerSpawnInstance = newItem;
+        }
     }
     Transform TryCreateWaveParent(int i) {
         string waveName = GetWaveName(i);
@@ -64,4 +90,16 @@ public class SpawnMenu : PlacementMenu {
 
     #endregion
     private string GetWaveName(int i) { return Strings.Editor.Wave + i; }
+
+    protected override void SelectGameItem() {
+        base.SelectGameItem();
+        MouseHelper.currentSpawn.Select();
+        selectedSpawn = MouseHelper.currentSpawn;
+    }
+    protected override void DeselectItem() {
+        if (selectedSpawn!=null) {
+            selectedSpawn.Deselect();
+            selectedSpawn = null;
+        }
+    }
 }

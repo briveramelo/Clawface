@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using System.Linq;
-using MovementEffects;
+using MEC;
 using ModMan;
+using UnityEngine.Assertions;
+
 public enum LevelUnitStates {
     cover,
     floor,
@@ -68,11 +70,12 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
     {
         splattable = GetComponent<Splattable>();
         meshRenderer = GetComponent<MeshRenderer>();
+        Assert.IsNotNull(splattable);
         if (meshRenderer)
         {
+            meshSizeX = meshRenderer.bounds.size.x;
             meshSizeY = meshRenderer.bounds.size.y;
             meshSizeZ = meshRenderer.bounds.size.z;
-            meshSizeX = meshRenderer.bounds.size.x;
             materialPropertyBlock = new MaterialPropertyBlock();
             meshRenderer.GetPropertyBlock(materialPropertyBlock);
             Color emptyColor = new Color(0f, 0f, 0f, 0f);
@@ -162,6 +165,7 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
             if (coverStateEvents.Contains(eventName))
             {
                 coverStateEvents.Remove(eventName);
+                EventSystem.Instance.UnRegisterEvent(eventName, TransitionToCoverState);
             }
         }
 
@@ -170,6 +174,7 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
             if (floorStateEvents.Contains(eventName))
             {
                 floorStateEvents.Remove(eventName);
+                EventSystem.Instance.UnRegisterEvent(eventName, TransitionToFloorState);
             }
         }
 
@@ -178,6 +183,7 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
             if (pitStateEvents.Contains(eventName))
             {
                 pitStateEvents.Remove(eventName);
+                EventSystem.Instance.UnRegisterEvent(eventName, TransitionToPitState);
             }
         }
     }
@@ -254,7 +260,7 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
     }
 
     private void CreateBlockingObject() {
-        blockingObject = new GameObject("Blocking Object");
+        blockingObject = new GameObject(Strings.BLOCKINGOBJECT);
         blockingObject.transform.SetParent(transform.parent);
         blockingObject.transform.position = new Vector3(transform.position.x, coverYPosition, transform.position.z);
         blockingObject.transform.localScale = new Vector3(meshSizeX, meshSizeY, meshSizeZ);

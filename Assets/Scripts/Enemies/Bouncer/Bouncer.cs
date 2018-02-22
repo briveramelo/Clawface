@@ -32,6 +32,7 @@ public class Bouncer : EnemyBase
     private BouncerFireState fire;
     private BouncerStunState stun;
     private BouncerCelebrateState celebrate;
+    private BouncerGetUpState getUp;
 
 
     #endregion
@@ -149,6 +150,11 @@ public class Bouncer : EnemyBase
         base.ResetForRebirth();
     }
 
+    public void GetUpDone()
+    {
+        getUp.Up();
+    }
+
     public void FireBullet()
     {
         if (fire.shotCount >= fire.maxShots)
@@ -194,10 +200,13 @@ public class Bouncer : EnemyBase
         stun.stateName = "stun";
         celebrate = new BouncerCelebrateState();
         celebrate.stateName = "celebrate";
+        getUp = new BouncerGetUpState();
+        getUp.stateName = "getUp";
         aiStates.Add(chase);
         aiStates.Add(fire);
         aiStates.Add(stun);
         aiStates.Add(celebrate);
+        aiStates.Add(getUp);
     }
 
     private void SetAllStats()

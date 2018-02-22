@@ -41,8 +41,8 @@ public class EnvScrollGroup : MonoBehaviour {
             GameObject go = props[i];
 
             GameObject toAdd = GameObject.Instantiate(iconTemplate);
-            PLEProp propToSet = toAdd.GetComponent<PLEProp>();
-            propToSet.registeredProp = go;
+            PLEUIItem propToSet = toAdd.GetComponent<PLEUIItem>();
+            propToSet.registeredItem = go;
 
             toAdd.SetActive(true);
             toAdd.name = go.name;

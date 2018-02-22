@@ -1,6 +1,6 @@
 ﻿public class Strings
 {
-
+    public const string BLOCKINGOBJECT = "BLOCKING OBJECT";
     public const string ANIMATIONSTATE = "AnimationState";
     public const string FEETSTATE = "FeetState";
 
@@ -211,6 +211,8 @@
         public const string Props = "Props";
         public const string Spawns = "Spawns";
         public const string Wave = "Wave";
+
+        public const string PLAYER_SPAWN_TAG = "PLE_PlayerSpawn";
     }
 
     

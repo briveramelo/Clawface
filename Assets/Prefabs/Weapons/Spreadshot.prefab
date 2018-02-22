@@ -396,6 +396,7 @@ MonoBehaviour:
     timeToCoolDown: 0.5
     isCoolingDown: 0
     isActive: 0
+    cooldownTimer: 0
   shootSFX: 11
   gunProperties:
     bulletSpeed: 25
@@ -403,9 +404,10 @@ MonoBehaviour:
     bulletMinScale: 0.25
     bulletMaxScale: 1
     bulletMinDamage: 1
-    bulletMaxDamage: 3
+    bulletMaxDamage: 3.5
     bulletMinAlpha: 0
   bulletSpawnTransform: {fileID: 4923580559650126}
+  shootVFX: 51
 --- !u!120 &120165419093617702
 LineRenderer:
   m_ObjectHideFlags: 1
