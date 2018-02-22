@@ -446,16 +446,16 @@ AnimatorStateTransition:
   m_PrefabInternal: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 1
-    m_ConditionEvent: DoGetUp
-    m_EventTreshold: 0
+  - m_ConditionMode: 6
+    m_ConditionEvent: AnimationState
+    m_EventTreshold: 9
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102097559626464424}
   m_Solo: 0
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0
+  m_TransitionDuration: 0.1
   m_TransitionOffset: 0
   m_ExitTime: 0.75
   m_HasExitTime: 0
@@ -493,7 +493,7 @@ AnimatorState:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: GetUp
-  m_Speed: 0.1
+  m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
   m_StateMachineBehaviours: []
@@ -504,7 +504,7 @@ AnimatorState:
   m_SpeedParameterActive: 0
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 5482642ab540d8d4792dbcbc66df20f5, type: 2}
+  m_Motion: {fileID: 7400000, guid: 1dd61b89daf4c1b4c8c8c17523d317ba, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -942,7 +942,7 @@ AnimatorStateMachine:
     m_Position: {x: 348, y: 300, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102911130044098262}
-    m_Position: {x: 12, y: 432, z: 0}
+    m_Position: {x: -96, y: 348, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102250649014709266}
     m_Position: {x: 288, y: -48, z: 0}
@@ -975,7 +975,7 @@ AnimatorStateMachine:
   m_EntryPosition: {x: -240, y: 180, z: 0}
   m_ExitPosition: {x: 564, y: 420, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
-  m_DefaultState: {fileID: 1102911130044098262}
+  m_DefaultState: {fileID: 1102097559626464424}
 --- !u!1107 &1107476895789165044
 AnimatorStateMachine:
   serializedVersion: 5
