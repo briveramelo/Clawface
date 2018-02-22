@@ -56,7 +56,6 @@ GameObject:
   - component: {fileID: 114234328579327424}
   - component: {fileID: 199645707389576318}
   - component: {fileID: 198160985884711644}
-  - component: {fileID: 114313933403305242}
   - component: {fileID: 114169571129479912}
   m_Layer: 0
   m_Name: GenericBloodSpurt
@@ -130,19 +129,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playOnAwake: 1
---- !u!114 &114313933403305242
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1674968188752656}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7eb4a53ccb703bc4a83ae2b88b7262a5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  splatterLifetime: 2.5
-  splashRange: 1.5
 --- !u!198 &198160985884711644
 ParticleSystem:
   m_ObjectHideFlags: 1
