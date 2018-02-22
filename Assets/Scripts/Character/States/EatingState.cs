@@ -138,7 +138,8 @@ public class EatingState : IPlayerState
         if (stateVariables.eatTargetEnemy.activeSelf)
         {
             IEatable eatable = stateVariables.eatTargetEnemy.GetComponent<IEatable>();
-            int health = eatable.Eat();
+            int health;
+            eatable.Eat(out health);
             stateVariables.statsManager.TakeHealth(health);
             Stats stats = GetComponent<Stats>();
             EventSystem.Instance.TriggerEvent(Strings.Events.UPDATE_HEALTH, stats.GetHealthFraction());
@@ -151,7 +152,7 @@ public class EatingState : IPlayerState
             GameObject healthJuice = ObjectPool.Instance.GetObject(PoolObjectType.VFXHealthGain);
             if (healthJuice)
             {
-                healthJuice.FollowAndDeActivate(3f, transform, Vector3.up * 3.2f);
+                healthJuice.FollowAndDeActivate(3f, transform, Vector3.up * 3.2f, coroutineName);
             }
             SFXManager.Instance.Play(stateVariables.EatSFX, transform.position);
         }

@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using MovementEffects;
+using MEC;
 
-public class BulletBehavior : MonoBehaviour {
+public class BulletBehavior : RoutineRunner {
 
     Vector3 movementVector;
     float bulletSpeed;
@@ -16,7 +16,7 @@ public class BulletBehavior : MonoBehaviour {
     {
         shooterProperties.Initialize(0, 5, 6, 2);
         SetShooterProperties(shooterProperties);
-        Timing.RunCoroutine(DestroyAfter());
+       Timing.RunCoroutine(DestroyAfter(), coroutineName);
     }
 
     private IEnumerator<float> DestroyAfter()

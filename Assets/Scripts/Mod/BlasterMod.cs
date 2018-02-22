@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using MovementEffects;
+using MEC;
 
 public class BlasterMod : Mod {
 
@@ -56,6 +56,14 @@ public class BlasterMod : Mod {
     {
         base.DetachAffect();
     }
+
+    public void SetBulletStats(float newBulletLiveTime, float newBulletSpeed, float newDamage)
+    {
+        bulletLiveTime = newBulletLiveTime;
+        bulletSpeed = newBulletSpeed;
+        damage = newDamage;
+    }
+
     
     protected override void DoWeaponActions(){
         Shoot();
@@ -69,6 +77,7 @@ public class BlasterMod : Mod {
         GameObject vfx = ObjectPool.Instance.GetObject(poolObjType);
         if (vfx != null)
         {
+            vfx.transform.SetParent (transform);
             vfx.transform.position = bulletSpawnPoint.position;
             vfx.transform.rotation = transform.rotation;
         }

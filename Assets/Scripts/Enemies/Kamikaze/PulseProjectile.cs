@@ -5,12 +5,14 @@ using UnityEngine;
 public class PulseProjectile : MonoBehaviour
 {
 
-    [SerializeField] private float scaleRate;
-    [SerializeField] private float maxScale;
+
     [SerializeField] private SphereCollider sphereCollider;
 
     private Damager damager = new Damager();
     private float scaleValue = 0.0f;
+    private float scaleRate;
+    private float maxScale;
+    private float damage;
 
     private void OnEnable()
     {
@@ -42,6 +44,14 @@ public class PulseProjectile : MonoBehaviour
         }
     }
 
+    public void SetPulseProjectileStats(float newScaleRate, float newMaxScale, float newDamage)
+    {
+        scaleRate = newScaleRate;
+        maxScale = newMaxScale;
+        damage = newDamage;
+
+}
+
 
     private void ScalePulse()
     {
@@ -59,7 +69,7 @@ public class PulseProjectile : MonoBehaviour
     {
         if (damageable != null)
         {
-            damager.Set(10.0f, DamagerType.BlasterBullet, Vector3.zero);
+            damager.Set(damage, DamagerType.BlasterBullet, Vector3.zero);
             damageable.TakeDamage(damager);
         }
     }

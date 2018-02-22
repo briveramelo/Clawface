@@ -1,257 +1,98 @@
-﻿using System.Collections;
-
+﻿//Garin + Brandon
+using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
-
-using PlayerLevelEditor;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
-public class PropsMenu : Menu
+public class PropsMenu : PlacementMenu
 {
-
-    #region Public Fields
-
-    public override Button InitialSelection
-    {
-        get
-        {
-            return initiallySelected;
-        }
-    }
-
-
-
-
-    #endregion
-
-    #region Serialized Unity Fields
-
-    [SerializeField] private Button initiallySelected;
-    [SerializeField] private LevelEditor editorInstance;
-    [SerializeField] private GameObject realLevelParent;
-
+    #region Public Interface
+    public PropsMenu() : base(Strings.MenuStrings.ADD_PROPS_PLE) { }
     #endregion
 
     #region Private Fields
-
-    //TODO: Only uses the level block prefab, need to hook in new method
-    //to select other items
-    private static GameObject levelBlock;
-    private GameObject mainLevelObject;
-    private float raycastDistance = 1000.0f;
-    private Vector3 sceneMousePos;
-    private bool initialized = false;
-    private Vector3 newItemPos = Vector3.zero;
-
-    private GameObject selectedProp = null;
-    private GameObject newWorldProp = null;
-
-    PointerEventData pointerData;
-
-    private bool inputGuard = false;
+    private float currentRotation = 0.0f;
+    private PLEProp selectedProp;
     #endregion
 
+    #region Serialzied Unity Fields
+    [SerializeField] private Text rotationLabel;
+    #endregion
 
-    #region Unity Lifecycle
+    #region Protected Interface
+    protected override bool SelectUI { get { return base.SelectUI && ScrollGroupHelper.currentUIItem !=null; } }
+    protected override bool SelectItem { get { return base.SelectUI && MouseHelper.currentProp != null; } }
 
-    // Update is called once per frame
-    private void Update()
-    {
-        if(inputGuard)
-        {
-            if(Input.GetMouseButtonDown(MouseButtons.LEFT))
-            {
-                if(selectedProp == null)
-                {
-                    selectedProp = RaycastToUI();
 
-                    if(selectedProp)
-                    {
-                        newWorldProp = GameObject.Instantiate(selectedProp, transform.position, Quaternion.identity, realLevelParent.transform);
-                    }
-                }
-            }
-
-            if(Input.GetMouseButtonDown(MouseButtons.LEFT) && selectedProp)
-            {
-                Ray r = UnityEngine.Camera.main.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-
-                if(Physics.Raycast(r, out hit, 1000.0f))
-                {
-
-                    GameObject spawnPos = hit.transform.gameObject;
-
-                    if(spawnPos)
-                    {
-                        PLEBlockUnit pointManager = spawnPos.GetComponent<PLEBlockUnit>();
-
-                        if(pointManager)
-                        {
-                            Debug.Log(pointManager.GetSpawnPosition());
-                        }
-                    }
-                }
-            }
-
-            if(Input.GetMouseButtonUp(MouseButtons.LEFT))
-            {
-                selectedProp = null;
-            }
-        }
+    protected override void DeselectAll() {
+        base.DeselectAll();
+        selectedProp = null;
     }
+    protected override void SelectUIItem() {
+        PLEUIItem currentUIItem = ScrollGroupHelper.currentUIItem;
 
-
-
+        if(currentUIItem) {
+            selectedItem = currentUIItem.registeredItem;
+            TryDestroyPreview();
+            previewItem = Instantiate(selectedItem);
+            previewItem.GetComponent<Rigidbody>().isKinematic = true;
+        }
+        
+    }
+    protected override void PostPlaceItem(GameObject newItem) {
+        MouseHelper.currentBlockUnit.SetOccupation(true);
+        MouseHelper.currentBlockUnit.SetProp(newItem);
+        Rigidbody rigbod = newItem.GetComponent<Rigidbody>();
+        rigbod.isKinematic = true;
+        newItem.transform.localEulerAngles = new Vector3(0, currentRotation, 0);
+    }
+    protected override void HideStarted() {
+        base.HideStarted();
+        List<Rigidbody> rigBods = createdItemsParent.GetComponentsInChildren<Rigidbody>().ToList();
+        rigBods.ForEach(rigbod=> rigbod.isKinematic = false);
+        
+        rotationLabel.text = 0.ToString("0");
+    }
+    protected override void ShowStarted() {
+        base.ShowStarted();
+        List<Rigidbody> rigBods = createdItemsParent.GetComponentsInChildren<Rigidbody>().ToList();
+        rigBods.ForEach(rigbod => rigbod.isKinematic = true);
+    }
+    protected override void ShowComplete() {
+        base.ShowComplete();
+        //draw the grid
+        editorInstance.gridController.currentEditorMenu = EditorMenu.PROPS_MENU;
+    }
+    protected override void UpdatePreviewPosition()
+    {
+        base.UpdatePreviewPosition();
+        previewItem.transform.localEulerAngles = new Vector3(0, currentRotation, 0);
+    }
     #endregion
 
     #region Public Interface
-
-    public PropsMenu() : base(Strings.MenuStrings.ADD_PROPS_PLE)
-    { }
-
-    public void Initialize(params object[] par)
-    {
-        mainLevelObject = EditorToolKit.FindGameObject("LEVEL");
-        levelBlock = Resources.Load(Strings.Editor.RESOURCE_PATH + Strings.Editor.BASIC_LVL_BLOCK) as GameObject;
-
-        initialized = true;
-    }
-
-    public void AddAction()
-    {
-        if (mainLevelObject == null)
-        {
-            Initialize();
+    public void ApplyRotationDelta(float i_del) {
+        currentRotation += i_del;
+        if (currentRotation > 270.0f || currentRotation < -270.0f) {
+            currentRotation = 0.0f;
         }
-
-        GameObject _instance = GameObject.Instantiate(levelBlock, newItemPos, Quaternion.identity);
-
-        _instance.transform.SetParent(mainLevelObject.transform);
-
-        newItemPos = Vector3.zero;
-
-    }
-
-    #endregion
-
-
-    #region Protected Interface
-
-    protected override void ShowComplete()
-    {
-        base.ShowComplete();
-        inputGuard = true;
-
-        //draw the grid
-        //editorInstance.gridController.SetGridVisiblity(true);
-        editorInstance.gridController.currentEditorMenu = EditorMenu.PROPS_MENU;
-
-    }
-
-    protected override void HideStarted()
-    {
-        base.HideStarted();
-        inputGuard = false;
-        initialized = false;
-        //editorInstance.gridController.SetGridVisiblity(false);
-    }
-
-    protected override void DefaultShow(Transition transition, Effect[] effects)
-    {
-        Fade(transition, effects);
-    }
-
-    protected override void DefaultHide(Transition transition, Effect[] effects)
-    {
-        Fade(transition, effects);
-    }
-
-    #endregion
-
-    #region Private Interface
-
-    private GameObject RaycastToUI()
-    {
-        GameObject selectedProp = null;
-        UnityEngine.EventSystems.EventSystem mine = UnityEngine.EventSystems.EventSystem.current;
-
-        pointerData = new PointerEventData(UnityEngine.EventSystems.EventSystem.current);
-
-        pointerData.position = Input.mousePosition;
-
-        List<RaycastResult> results = new List<RaycastResult>();
-
-        mine.RaycastAll(pointerData, results);
-
-        if (results.Count > 0)
-        {
-            foreach (RaycastResult r in results)
-            {
-                PLEProp currentProp = r.gameObject.GetComponent<PLEProp>();
-                if (currentProp)
-                {
-                    selectedProp = currentProp.registeredProp;
-                }
-            }
+        rotationLabel.text = currentRotation.ToString("0");
+        if (selectedProp!=null) {
+            selectedProp.transform.localEulerAngles = new Vector3(0f, currentRotation, 0f);
         }
-
-
-
-        return selectedProp;
     }
 
-    private void DrawPreviewItemInWorld(Vector3 i_Pos, GameObject i_obj)
-    {
-        i_obj.transform.position = i_Pos;
-        Debug.Log(i_Pos);
+    protected override void SelectGameItem() {
+        base.SelectGameItem();
+        MouseHelper.currentProp.Select();
+        selectedProp = MouseHelper.currentProp;
+        rotationLabel.text = selectedProp.transform.localEulerAngles.y.ToString("0");
     }
-
-    private void UpdateObjectPreview()
-    {
-
-        Vector3 mousePos = Input.mousePosition;
-
-        Vector3 sceneMousePos = Camera.main.ScreenToWorldPoint(mousePos);
-
-
-        //Ray r = UnityEngine.Camera.main.ScreenPointToRay(Input.mousePosition);
-        //RaycastHit h;
-
-        //if (Physics.Raycast(r, out h, raycastDistance))
-        //{
-        //    sceneMousePos = h.point;
-
-        //    if(Input.GetMouseButtonDown(MouseButtons.LEFT))
-        //    {
-        //        Vector3 objectPos = PlayerLevelEditor.ToolLib.ConvertToGrid(sceneMousePos);
-
-        //        //Consider when placing on top of spawnpoints
-        //        //IsLegalPlacement();
-
-        //        if (objectPos != null)
-        //        {
-        //            newItemPos = objectPos;
-        //        }
-
-        //    }
-
-        //}
-
-        ////draw preview block at location
-        //ToolLib.draft(levelBlock, ToolLib.ConvertToGrid(sceneMousePos - levelBlock.transform.position), Color.green);
-
+    protected override void DeselectItem() {
+        if (selectedProp!=null) {
+            selectedProp.Deselect();
+            selectedProp = null;
+        }
     }
-
-    private void BackAction()
-    {
-        MainPLEMenu menu = editorInstance.GetMenu(PLEMenu.MAIN) as MainPLEMenu;
-
-        MenuManager.Instance.DoTransition(menu, Menu.Transition.SHOW, new Menu.Effect[] { Menu.Effect.EXCLUSIVE });
-    }
-
     #endregion
-
-
 }

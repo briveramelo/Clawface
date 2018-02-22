@@ -1,29 +1,35 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using MovementEffects;
+using MEC;
 
 public class KamikazeMommyAttackState : AIState
 {
+    public bool playerDead = false;
+
     private bool attackDone = false;
-    private float kamikazeSpawnProbablity;
-    private float kamikazePulserSpawnProbability;
+    private float currentSpawnRate = 0.0f;
 
     public override void OnEnter()
     {
         navAgent.enabled = false;
         navObstacle.enabled = true;
         attackDone = false;
-        kamikazeSpawnProbablity = properties.kamikazeProbability;
-        kamikazePulserSpawnProbability = properties.kamikazePulserProbability;
         animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.Attack1);
-        Attack();
     }
     public override void Update()
     {
         Vector3 lookAtPosition = new Vector3(controller.AttackTarget.position.x, controller.transform.position.y, controller.AttackTarget.position.z);
         controller.transform.LookAt(lookAtPosition);
         navAgent.velocity = Vector3.zero;
+
+        currentSpawnRate += Time.deltaTime;
+
+        if (currentSpawnRate > properties.spawnRate)
+        {
+            SpawnKamikazeMinion();
+            currentSpawnRate = 0.0f;
+        }
     }
     public override void OnExit()
     {
@@ -32,8 +38,15 @@ public class KamikazeMommyAttackState : AIState
         navAgent.enabled = true;
     }
 
-    private void Attack()
+    private void SpawnKamikazeMinion()
     {
+        if (playerDead)
+        {
+            controller.UpdateState(EAIState.Celebrate);
+            controller.DeActivateAI();
+            return;
+        }
+
         //Make sure the kamikaze is not stunned
         if (myStats.health <= myStats.skinnableHealth)
         {
@@ -41,12 +54,12 @@ public class KamikazeMommyAttackState : AIState
             controller.DeActivateAI();
         }
 
-        float probabilitySum = kamikazeSpawnProbablity + kamikazePulserSpawnProbability;
+        float probabilitySum = properties.kamikazeProbability + properties.kamikazePulserProbability;
         float randomRoll = Random.Range(0.0f,probabilitySum);
 
         //Check random roll case
 
-        if (randomRoll <= kamikazeSpawnProbablity)
+        if (randomRoll <= properties.kamikazeProbability)
         {
             GameObject kamikaze = ObjectPool.Instance.GetObject(PoolObjectType.Kamikaze);
             if (kamikaze)
@@ -54,7 +67,7 @@ public class KamikazeMommyAttackState : AIState
                 kamikaze.transform.position = controller.transform.position;
             }
         }
-        else if (randomRoll > kamikazeSpawnProbablity && randomRoll <= probabilitySum)
+        else if (randomRoll > properties.kamikazeProbability && randomRoll <= probabilitySum)
         {
             GameObject kamikaze = ObjectPool.Instance.GetObject(PoolObjectType.KamikazePulser);
             if (kamikaze)
@@ -63,9 +76,6 @@ public class KamikazeMommyAttackState : AIState
             }
 
         }
-
-        
-
         attackDone = true;
     }
 

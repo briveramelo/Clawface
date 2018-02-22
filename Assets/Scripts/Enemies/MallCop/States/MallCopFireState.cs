@@ -3,28 +3,36 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using MovementEffects;
+using MEC;
 
 public class MallCopFireState : AIState {
+
+    public float fireRange;
+    public bool firstDetection;
+    public float animatorSpeed;
 
     private float currentAngleToTarget;
     private float lastAngleToTarget;
     private float currentWeight;
     private Vector3 initialPosition;
-
     private bool doneFiring;
-    public float fireRange;
-    public bool firstDetection;
-
+    private float oldAnimatorSpeed;
 
     public override void OnEnter() {
         initialPosition = controller.transform.position;
         navAgent.enabled = false;
         navObstacle.enabled = true;
+        oldAnimatorSpeed = animator.speed;
         if (controller.DistanceFromTarget <= fireRange && !firstDetection)
+        {
+            animator.speed = animatorSpeed;
             animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.Fire1);
+        }
         else
+        {
+            animator.speed = oldAnimatorSpeed;
             animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.ReadyFire);
+        }
         doneFiring = false;
         firstDetection = false;
         animator.SetLayerWeight(1, 0.0f);
@@ -38,13 +46,14 @@ public class MallCopFireState : AIState {
         navAgent.velocity = Vector3.zero;
         lastAngleToTarget = CheckAngle();
         CheckRotationDifference();
-        FreezePosition();
+        FreezePosition();   
     }
 
     public override void OnExit() {
         navObstacle.enabled = false;
         navAgent.enabled = true;
         doneFiring = false;
+        animator.speed = oldAnimatorSpeed;
         animator.SetLayerWeight(1, 0.0f);
     }
 
@@ -71,7 +80,7 @@ public class MallCopFireState : AIState {
     }
 
     private void FreezePosition()
-    {
+    {        
         controller.transform.position = initialPosition;
     }
 
@@ -88,6 +97,7 @@ public class MallCopFireState : AIState {
 
     public void StartEndFire()
     {
+        animator.speed = oldAnimatorSpeed;
         animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.EndFire);
     }
 

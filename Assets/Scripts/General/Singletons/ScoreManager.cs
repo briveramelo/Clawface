@@ -160,8 +160,8 @@ public class ScoreManager : Singleton<ScoreManager> {
 
     public void AddToScoreAndCombo(int points)
     {
-        AddToScore(points);
         AddToCombo();
+        AddToScore(points);
     }
 
     public float GetCurrentTimeRemaining()
@@ -231,9 +231,8 @@ public class ScoreManager : Singleton<ScoreManager> {
     {
         if (useAlternateScoreMode)
         {
-            currentCombo++;
-            EventSystem.Instance.TriggerEvent(Strings.Events.COMBO_UPDATED, currentCombo);
-            CalculateTimerQuadrant();
+            
+            
         }
     }
 
@@ -243,7 +242,18 @@ public class ScoreManager : Singleton<ScoreManager> {
         {
             if (parameters != null && parameters[1] != null)
             {
+
+                AddToScoreAndCombo((int)parameters[1]);
+
+                /*
+                currentCombo++;
+
+                EventSystem.Instance.TriggerEvent(Strings.Events.COMBO_UPDATED, currentCombo);
+                CalculateTimerQuadrant();
+
                 AddToScore((int)parameters[1]);
+                */
+                
             }
         }
         else

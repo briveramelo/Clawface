@@ -7,42 +7,32 @@ using System;
 [System.Serializable]
 public class BouncerProperties : AIProperties
 {
-    [Range(1, 10)] public int maxBouncerBounces;
-    [Range(1, 10)] public int minBouncerBounces;
-    [Range(1, 100)] public int maxBouncerShots;
-    [Range(1, 100)] public int minBouncerShots;
-    [Range(1f, 100f)] public float bouncerRotationSpeed;
-    public bool bouncerRotate;
-
-    public void InitializeProperties()
-    {
-        maxBounces = maxBouncerBounces;
-        minBounces = minBouncerBounces;
-        maxShots = maxBouncerShots;
-        minShots = minBouncerShots;
-        rotationSpeed = bouncerRotationSpeed;
-        rotate = bouncerRotate;
-    }
-
 }
 
 public class Bouncer : EnemyBase
 {
 
     #region 2. Serialized Unity Inspector Fields
-    [SerializeField] float closeEnoughToAttackDistance;
     [SerializeField] private BouncerProperties properties;
     [SerializeField] private BulletHellPatternController bulletPatternController;
     [SerializeField] private HitTrigger hitTrigger;
     #endregion
 
     #region 3. Private fields
+    private int maxBounces;
+    private int minBounces;
+    private int maxShots;
+    private int minShots;
+    private float rotationSpeed;
+    private bool rotate;
+
 
     //The AI States of the Zombie
     private BouncerChaseState chase;
     private BouncerFireState fire;
     private BouncerStunState stun;
     private BouncerCelebrateState celebrate;
+    private BouncerGetUpState getUp;
 
 
     #endregion
@@ -52,9 +42,26 @@ public class Bouncer : EnemyBase
 
     public override void Awake()
     {
+        myStats = GetComponent<Stats>();
+        SetAllStats();
         InitilizeStates();
-        properties.InitializeProperties();
-        controller.Initialize(properties, velBody, animator, myStats, navAgent, navObstacle, bulletPatternController, aiStates);
+
+        if (enemyType.Equals(SpawnType.Bouncer))
+        {
+            fire.animatorSpeed = EnemyStatsManager.Instance.bouncerStats.animationShootSpeed;
+        }
+
+        else if (enemyType.Equals(SpawnType.RedBouncer))
+        {
+            fire.animatorSpeed = EnemyStatsManager.Instance.redBouncerStats.animationShootSpeed;
+        }
+
+        else if (enemyType.Equals(SpawnType.GreenBouncer))
+        {
+            fire.animatorSpeed = EnemyStatsManager.Instance.greenBouncerStats.animationShootSpeed;
+        }
+
+            controller.Initialize(properties, velBody, animator, myStats, navAgent, navObstacle, bulletPatternController, aiStates);
         damaged.Set(DamagedType.MallCop, bloodEmissionLocation);
 
         controller.checksToUpdateState = new List<Func<bool>>() {
@@ -143,6 +150,11 @@ public class Bouncer : EnemyBase
         base.ResetForRebirth();
     }
 
+    public void GetUpDone()
+    {
+        getUp.Up();
+    }
+
     public void FireBullet()
     {
         if (fire.shotCount >= fire.maxShots)
@@ -159,9 +171,13 @@ public class Bouncer : EnemyBase
 
     public override void DoPlayerKilledState(object[] parameters)
     {
-        //animator.SetTrigger("DoVictoryDance");
-        //controller.CurrentState = celebrate;
-        //controller.UpdateState(EAIState.Celebrate);
+        if (myStats.health > myStats.skinnableHealth)
+        {
+            animator.SetTrigger("DoVictoryDance");
+            controller.CurrentState = celebrate;
+            controller.UpdateState(EAIState.Celebrate);
+            animator.SetInteger("AnimationState", -1);
+        }
     }
 
     public override Vector3 ReCalculateTargetPosition()
@@ -184,16 +200,110 @@ public class Bouncer : EnemyBase
         stun.stateName = "stun";
         celebrate = new BouncerCelebrateState();
         celebrate.stateName = "celebrate";
+        getUp = new BouncerGetUpState();
+        getUp.stateName = "getUp";
         aiStates.Add(chase);
         aiStates.Add(fire);
         aiStates.Add(stun);
         aiStates.Add(celebrate);
+        aiStates.Add(getUp);
+    }
+
+    private void SetAllStats()
+    {
+        if (enemyType.Equals(SpawnType.Bouncer))
+        {
+            myStats.health = EnemyStatsManager.Instance.bouncerStats.health;
+            myStats.maxHealth = EnemyStatsManager.Instance.bouncerStats.maxHealth;
+            myStats.skinnableHealth = EnemyStatsManager.Instance.bouncerStats.skinnableHealth;
+            myStats.moveSpeed = EnemyStatsManager.Instance.bouncerStats.speed;
+            myStats.attack = EnemyStatsManager.Instance.bouncerStats.attack;
+
+            navAgent.speed = EnemyStatsManager.Instance.bouncerStats.speed;
+            navAgent.angularSpeed = EnemyStatsManager.Instance.bouncerStats.angularSpeed;
+            navAgent.acceleration = EnemyStatsManager.Instance.bouncerStats.acceleration;
+            navAgent.stoppingDistance = EnemyStatsManager.Instance.bouncerStats.stoppingDistance;
+
+            scoreValue = EnemyStatsManager.Instance.bouncerStats.scoreValue;
+            eatHealth = EnemyStatsManager.Instance.bouncerStats.eatHealth;
+            stunnedTime = EnemyStatsManager.Instance.bouncerStats.stunnedTime;
+
+            properties.maxBounces = EnemyStatsManager.Instance.bouncerStats.maxBounces;
+            properties.minBounces = EnemyStatsManager.Instance.bouncerStats.minBounces;
+            properties.maxShots = EnemyStatsManager.Instance.bouncerStats.maxShots;
+            properties.minShots = EnemyStatsManager.Instance.bouncerStats.minShots;
+            properties.rotationSpeed = EnemyStatsManager.Instance.bouncerStats.rotationSpeed;
+            properties.rotate = EnemyStatsManager.Instance.bouncerStats.rotate;
+
+            bulletPatternController.SetBulletHellProperties(EnemyStatsManager.Instance.bouncerStats.separationFromForwardVector, EnemyStatsManager.Instance.bouncerStats.bulletSpeed, EnemyStatsManager.Instance.bouncerStats.bulletDamage, EnemyStatsManager.Instance.bouncerStats.rateOfFire, EnemyStatsManager.Instance.bouncerStats.bulletOffsetFromOrigin, EnemyStatsManager.Instance.bouncerStats.bulletStrands, EnemyStatsManager.Instance.bouncerStats.separationAngleBetweenStrands, EnemyStatsManager.Instance.bouncerStats.rotationDirection, EnemyStatsManager.Instance.bouncerStats.rotationSpeed,
+                EnemyStatsManager.Instance.bouncerStats.bulletLiveTime, EnemyStatsManager.Instance.bouncerStats.animationDriven);
+
+            
+        }
+        else if (enemyType.Equals(SpawnType.RedBouncer))
+        {
+            myStats.health = EnemyStatsManager.Instance.redBouncerStats.health;
+            myStats.maxHealth = EnemyStatsManager.Instance.redBouncerStats.maxHealth;
+            myStats.skinnableHealth = EnemyStatsManager.Instance.redBouncerStats.skinnableHealth;
+            myStats.moveSpeed = EnemyStatsManager.Instance.redBouncerStats.speed;
+            myStats.attack = EnemyStatsManager.Instance.redBouncerStats.attack;
+
+            navAgent.speed = EnemyStatsManager.Instance.redBouncerStats.speed;
+            navAgent.angularSpeed = EnemyStatsManager.Instance.redBouncerStats.angularSpeed;
+            navAgent.acceleration = EnemyStatsManager.Instance.redBouncerStats.acceleration;
+            navAgent.stoppingDistance = EnemyStatsManager.Instance.redBouncerStats.stoppingDistance;
+
+            scoreValue = EnemyStatsManager.Instance.redBouncerStats.scoreValue;
+            eatHealth = EnemyStatsManager.Instance.redBouncerStats.eatHealth;
+            stunnedTime = EnemyStatsManager.Instance.redBouncerStats.stunnedTime;
+
+            properties.maxBounces = EnemyStatsManager.Instance.redBouncerStats.maxBounces;
+            properties.minBounces = EnemyStatsManager.Instance.redBouncerStats.minBounces;
+            properties.maxShots = EnemyStatsManager.Instance.redBouncerStats.maxShots;
+            properties.minShots = EnemyStatsManager.Instance.redBouncerStats.minShots;
+            properties.rotationSpeed = EnemyStatsManager.Instance.redBouncerStats.rotationSpeed;
+            properties.rotate = EnemyStatsManager.Instance.redBouncerStats.rotate;
+
+            bulletPatternController.SetBulletHellProperties(EnemyStatsManager.Instance.redBouncerStats.separationFromForwardVector, EnemyStatsManager.Instance.redBouncerStats.bulletSpeed, EnemyStatsManager.Instance.redBouncerStats.bulletDamage, EnemyStatsManager.Instance.redBouncerStats.rateOfFire, EnemyStatsManager.Instance.redBouncerStats.bulletOffsetFromOrigin, EnemyStatsManager.Instance.redBouncerStats.bulletStrands, EnemyStatsManager.Instance.redBouncerStats.separationAngleBetweenStrands, EnemyStatsManager.Instance.redBouncerStats.rotationDirection, EnemyStatsManager.Instance.redBouncerStats.rotationSpeed,
+                EnemyStatsManager.Instance.redBouncerStats.bulletLiveTime, EnemyStatsManager.Instance.redBouncerStats.animationDriven);
+
+           
+        }
+        else if (enemyType.Equals(SpawnType.GreenBouncer))
+        {
+            myStats.health = EnemyStatsManager.Instance.greenBouncerStats.health;
+            myStats.maxHealth = EnemyStatsManager.Instance.greenBouncerStats.maxHealth;
+            myStats.skinnableHealth = EnemyStatsManager.Instance.greenBouncerStats.skinnableHealth;
+            myStats.moveSpeed = EnemyStatsManager.Instance.greenBouncerStats.speed;
+            myStats.attack = EnemyStatsManager.Instance.greenBouncerStats.attack;
+
+            navAgent.speed = EnemyStatsManager.Instance.greenBouncerStats.speed;
+            navAgent.angularSpeed = EnemyStatsManager.Instance.greenBouncerStats.angularSpeed;
+            navAgent.acceleration = EnemyStatsManager.Instance.greenBouncerStats.acceleration;
+            navAgent.stoppingDistance = EnemyStatsManager.Instance.greenBouncerStats.stoppingDistance;
+
+            scoreValue = EnemyStatsManager.Instance.greenBouncerStats.scoreValue;
+            eatHealth = EnemyStatsManager.Instance.greenBouncerStats.eatHealth;
+            stunnedTime = EnemyStatsManager.Instance.greenBouncerStats.stunnedTime;
+
+            properties.maxBounces = EnemyStatsManager.Instance.greenBouncerStats.maxBounces;
+            properties.minBounces = EnemyStatsManager.Instance.greenBouncerStats.minBounces;
+            properties.maxShots = EnemyStatsManager.Instance.greenBouncerStats.maxShots;
+            properties.minShots = EnemyStatsManager.Instance.greenBouncerStats.minShots;
+            properties.rotationSpeed = EnemyStatsManager.Instance.greenBouncerStats.rotationSpeed;
+            properties.rotate = EnemyStatsManager.Instance.greenBouncerStats.rotate;
+
+            bulletPatternController.SetBulletHellProperties(EnemyStatsManager.Instance.greenBouncerStats.separationFromForwardVector, EnemyStatsManager.Instance.greenBouncerStats.bulletSpeed, EnemyStatsManager.Instance.greenBouncerStats.bulletDamage, EnemyStatsManager.Instance.greenBouncerStats.rateOfFire, EnemyStatsManager.Instance.greenBouncerStats.bulletOffsetFromOrigin, EnemyStatsManager.Instance.greenBouncerStats.bulletStrands, EnemyStatsManager.Instance.greenBouncerStats.separationAngleBetweenStrands, EnemyStatsManager.Instance.greenBouncerStats.rotationDirection, EnemyStatsManager.Instance.greenBouncerStats.rotationSpeed,
+                EnemyStatsManager.Instance.greenBouncerStats.bulletLiveTime, EnemyStatsManager.Instance.greenBouncerStats.animationDriven);
+        }
+
+        myStats.SetStats();
     }
 
     private void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position, closeEnoughToAttackDistance);
+        //Gizmos.color = Color.blue;
+        //Gizmos.DrawWireSphere(transform.position, closeEnoughToAttackDistance);
     }
 
 

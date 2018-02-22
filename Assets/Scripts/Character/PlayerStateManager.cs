@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using MovementEffects;
+using MEC;
 
 public class PlayerStateManager : RoutineRunner {
 
@@ -21,17 +21,13 @@ public class PlayerStateManager : RoutineRunner {
     [SerializeField]
     private DashState dashState;
     [SerializeField]
-    private float dashCoolDown;
-    [SerializeField]
-    private bool useHeadSpin;
+    private float dashCoolDown;    
 
     [SerializeField] private EatingState eatingState;
     [SerializeField] private SphereCollider eatCollider;
 
     [SerializeField] private float tutorialSlowDownRate = 0.05f;
     [SerializeField] private float tutorialSpeedUpRate = 0.05f;
-
-    [SerializeField] private HeadSpinState headSpinState;
     #endregion
 
     #region Private Fields
@@ -86,20 +82,14 @@ public class PlayerStateManager : RoutineRunner {
             }
             if (InputManager.Instance.QueryAction(Strings.Input.Actions.DODGE, ButtonMode.DOWN) && canDash) // do dodge / dash
             {
-                if (useHeadSpin)
-                {
-                    SwitchState(headSpinState);
-                }
-                else
-                {
-                    SwitchState(dashState);
-                }                
+                SwitchState(dashState);
                 Physics.IgnoreLayerCollision(LayerMask.NameToLayer(Strings.Layers.ENEMY), LayerMask.NameToLayer(Strings.Layers.MODMAN), true);
                 Physics.IgnoreLayerCollision(LayerMask.NameToLayer(Strings.Layers.ENEMY_BODY), LayerMask.NameToLayer(Strings.Layers.MODMAN), true);
                 canDash = false;
                 StartCoroutine(WaitForDashCoolDown());
             }
-            else if (InputManager.Instance.QueryAction(Strings.Input.Actions.EAT, ButtonMode.DOWN) && !playerStates.Contains(dashState) && !playerStates.Contains(eatingState) && !playerStates.Contains(headSpinState))
+            else if (InputManager.Instance.QueryAction(Strings.Input.Actions.EAT, ButtonMode.DOWN) && 
+                !playerStates.Contains(dashState) && !playerStates.Contains(eatingState))
             {
                 if (CheckForEatableEnemy())
                 {
@@ -204,7 +194,6 @@ public class PlayerStateManager : RoutineRunner {
         defaultState.Init(ref stateVariables);
         dashState.Init(ref stateVariables);
         eatingState.Init(ref stateVariables);
-        headSpinState.Init(ref stateVariables);
     }
 
     private void StartTutorial()
@@ -297,14 +286,7 @@ public class PlayerStateManager : RoutineRunner {
         {
             yield return null;
         }
-        if (useHeadSpin)
-        {
-            yield return new WaitForSeconds(stateVariables.headSpinCoolDown);
-        }
-        else
-        {
-            yield return new WaitForSeconds(dashCoolDown);
-        }        
+        yield return new WaitForSeconds(dashCoolDown);
         canDash = true;        
     }
 
@@ -377,13 +359,7 @@ public class PlayerStateManager : RoutineRunner {
         public float eatRadius;
         public SFXType ArmExtensionSFX;
         public SFXType ArmEnemyCaptureSFX;
-        public SFXType EatSFX;
-        public float headSpinClawRadius = 5.0f;
-        public float headSpinSpeed = 1.0f;
-        public float headSpinDuration = 5.0f;
-        public float headSpinCoolDown = 3.0f;
-        public float headSpinDamage = 0.05f;
-        public float clawPunchDistance = 5.0f;
+        public SFXType EatSFX;        
         public float dashEnemyCheckRadius = 0.5f;
         public float dashEnemyPushForce = 5.0f;
     }

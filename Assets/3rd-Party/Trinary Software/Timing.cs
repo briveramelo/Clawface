@@ -1,12 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.Assertions;
 #if UNITY_5_5_OR_NEWER
 using UnityEngine.Profiling;
 #endif
 
 // /////////////////////////////////////////////////////////////////////////////////////////
 //                              More Effective Coroutines
-//                                        v2.03.3
+//                                        v3.01.0
 // 
 // This is an improved implementation of coroutines that boasts zero per-frame memory allocations,
 // runs about twice as fast as Unity's built in coroutines and has a range of extra features.
@@ -23,17 +24,10 @@ using UnityEngine.Profiling;
 // All rights preserved
 // /////////////////////////////////////////////////////////////////////////////////////////
 
-namespace MovementEffects
+namespace MEC
 {
     public class Timing : MonoBehaviour
     {
-        public enum DebugInfoType
-        {
-            None,
-            SeperateCoroutines,
-            SeperateTags
-        }
-
         /// <summary>
         /// The time between calls to SlowUpdate.
         /// </summary>
@@ -44,12 +38,7 @@ namespace MovementEffects
         /// is not open this value is ignored and all coroutines behave as if "None" is selected.
         /// </summary>
         [Tooltip("How much data should be sent to the profiler window when it's open.")]
-        public DebugInfoType ProfilerDebugAmount = DebugInfoType.SeperateCoroutines;
-        /// <summary>
-        /// Whether the manual timeframe should automatically trigger during the update segment.
-        /// </summary>
-        [Tooltip("When using manual timeframe, should it run automatically after the update loop or only when TriggerManualTimframeUpdate is called.")]
-        public bool AutoTriggerManualTimeframe = true;
+        public DebugInfoType ProfilerDebugAmount;
         /// <summary>
         /// The number of coroutines that are being run in the Update segment.
         /// </summary>
@@ -73,25 +62,21 @@ namespace MovementEffects
         /// <summary>
         /// The time in seconds that the current segment has been running.
         /// </summary>
-        [HideInInspector]
-        public double localTime;
+        [System.NonSerialized]
+        public float localTime;
         /// <summary>
         /// The time in seconds that the current segment has been running.
         /// </summary>
-        public static float LocalTime { get { return (float)Instance.localTime; } }
+        public static float LocalTime { get { return Instance.localTime; } }
         /// <summary>
         /// The amount of time in fractional seconds that elapsed between this frame and the last frame.
         /// </summary>
-        [HideInInspector]
+        [System.NonSerialized]
         public float deltaTime;
         /// <summary>
         /// The amount of time in fractional seconds that elapsed between this frame and the last frame.
         /// </summary>
         public static float DeltaTime { get { return Instance.deltaTime; } }
-        /// <summary>
-        /// When defined, all errors from inside coroutines will be passed into this function instead of falling through to the Unity console.
-        /// </summary>
-        public System.Action<System.Exception> OnError;
         /// <summary>
         /// Used for advanced coroutine control.
         /// </summary>
@@ -105,35 +90,45 @@ namespace MovementEffects
         /// This is equalivant to "yeild return 0f;"
         /// </summary>
         public readonly static float WaitForOneFrame = 0f;
+        /// <summary>
+        /// The main thread that (almost) everything in unity runs in.
+        /// </summary>
+        public static System.Threading.Thread MainThread { get; private set; }
 
-        private bool _runningUpdate;
-        private bool _runningLateUpdate;
-        private bool _runningFixedUpdate;
-        private bool _runningSlowUpdate;
+        private static bool _tmpBool;
+        private static CoroutineHandle _tmpHandle;
+
+        private int _currentUpdateFrame;
+        private int _currentLateUpdateFrame;
+        private int _currentFixedUpdateFrame;
+        private int _currentSlowUpdateFrame;
         private int _nextUpdateProcessSlot;
         private int _nextLateUpdateProcessSlot;
         private int _nextFixedUpdateProcessSlot;
         private int _nextSlowUpdateProcessSlot;
-        private double _lastUpdateTime;
-        private double _lastLateUpdateTime;
-        private double _lastFixedUpdateTime;
-        private double _lastSlowUpdateTime;
+        private int _lastUpdateProcessSlot;
+        private int _lastLateUpdateProcessSlot;
+        private int _lastFixedUpdateProcessSlot;
+        private int _lastSlowUpdateProcessSlot;
+        private float _lastUpdateTime;
+        private float _lastLateUpdateTime;
+        private float _lastFixedUpdateTime;
+        private float _lastSlowUpdateTime;
+        private float _lastSlowUpdateDeltaTime;
         private ushort _framesSinceUpdate;
         private ushort _expansions = 1;
         private byte _instanceID;
 
-        private readonly Dictionary<CoroutineHandle, HashSet<ProcessData>> _waitingTriggers = new Dictionary<CoroutineHandle, HashSet<ProcessData>>();
-        private readonly Queue<System.Exception> _exceptions = new Queue<System.Exception>();
+        private readonly Dictionary<CoroutineHandle, HashSet<CoroutineHandle>> _waitingTriggers = new Dictionary<CoroutineHandle, HashSet<CoroutineHandle>>();
         private readonly Dictionary<CoroutineHandle, ProcessIndex> _handleToIndex = new Dictionary<CoroutineHandle, ProcessIndex>();
         private readonly Dictionary<ProcessIndex, CoroutineHandle> _indexToHandle = new Dictionary<ProcessIndex, CoroutineHandle>();
-        private readonly Dictionary<ProcessIndex, string> _processTags = new Dictionary<ProcessIndex, string>();
-        private readonly Dictionary<string, HashSet<ProcessIndex>> _taggedProcesses = new Dictionary<string, HashSet<ProcessIndex>>();
+        private readonly Dictionary<CoroutineHandle, string> _processTags = new Dictionary<CoroutineHandle, string>();
+        private readonly Dictionary<string, HashSet<CoroutineHandle>> _taggedProcesses = new Dictionary<string, HashSet<CoroutineHandle>>();
 
         private IEnumerator<float>[] UpdateProcesses = new IEnumerator<float>[InitialBufferSizeLarge];
         private IEnumerator<float>[] LateUpdateProcesses = new IEnumerator<float>[InitialBufferSizeSmall];
         private IEnumerator<float>[] FixedUpdateProcesses = new IEnumerator<float>[InitialBufferSizeMedium];
         private IEnumerator<float>[] SlowUpdateProcesses = new IEnumerator<float>[InitialBufferSizeMedium];
-
         private bool[] UpdatePaused = new bool[InitialBufferSizeLarge];
         private bool[] LateUpdatePaused = new bool[InitialBufferSizeSmall];
         private bool[] FixedUpdatePaused = new bool[InitialBufferSizeMedium];
@@ -154,32 +149,22 @@ namespace MovementEffects
             {
                 if (_instance == null || !_instance.gameObject)
                 {
-                    GameObject instanceHome = GameObject.Find("Movement Effects");
-                    System.Type movementType =
-                        System.Type.GetType("MovementEffects.Movement, MovementOverTime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null");
+                    GameObject instanceHome = GameObject.Find("Timing Controller");
 
-                    if(instanceHome == null)
+                    if (instanceHome == null)
                     {
-                        instanceHome = new GameObject { name = "Movement Effects" };
-                        DontDestroyOnLoad(instanceHome);
-
-                        if (movementType != null)
-                            instanceHome.AddComponent(movementType);
+                        instanceHome = new GameObject {name = "Timing Controller"};
 
                         _instance = instanceHome.AddComponent<Timing>();
                     }
                     else
                     {
-                         if (movementType != null && instanceHome.GetComponent(movementType) == null) 
-                            instanceHome.AddComponent(movementType);
-
                         _instance = instanceHome.GetComponent<Timing>() ?? instanceHome.AddComponent<Timing>();
                     }
                 }
 
                 return _instance;
             }
-
             set { _instance = value; }
         }
 
@@ -194,13 +179,16 @@ namespace MovementEffects
             while (ActiveInstances.ContainsKey(_instanceID))
                 _instanceID++;
 
-            if (_instanceID == 0x20)
+            if (_instanceID == 0x10)
             {
                 GameObject.Destroy(gameObject);
-                throw new System.OverflowException("You are only allowed 31 instances of MEC at one time.");
+                throw new System.OverflowException("You are only allowed 15 instances of MEC at one time.");
             }
 
             ActiveInstances.Add(_instanceID, this);
+
+            if (MainThread == null)
+                MainThread = System.Threading.Thread.CurrentThread;
         }
 
         void OnDestroy()
@@ -219,115 +207,85 @@ namespace MovementEffects
             if (_lastSlowUpdateTime + TimeBetweenSlowUpdateCalls < Time.realtimeSinceStartup && _nextSlowUpdateProcessSlot > 0)
             {
                 ProcessIndex coindex = new ProcessIndex { seg = Segment.SlowUpdate };
-                _runningSlowUpdate = true;
-                UpdateTimeValues(coindex.seg);
+                if (UpdateTimeValues(coindex.seg))
+                    _lastSlowUpdateProcessSlot = _nextSlowUpdateProcessSlot;
 
-                for (coindex.i = 0; coindex.i < _nextSlowUpdateProcessSlot; coindex.i++)
+                for (coindex.i = 0; coindex.i < _lastSlowUpdateProcessSlot; coindex.i++)
                 {
                     if (!SlowUpdatePaused[coindex.i] && SlowUpdateProcesses[coindex.i] != null && !(localTime < SlowUpdateProcesses[coindex.i].Current))
                     {
-                        if (ProfilerDebugAmount != DebugInfoType.None)
+                        if (ProfilerDebugAmount != DebugInfoType.None && _indexToHandle.ContainsKey(coindex))
                         {
-                            Profiler.BeginSample(ProfilerDebugAmount == DebugInfoType.SeperateTags
-                                                     ? ("Processing Coroutine (Slow Update)" +
-                                                        (_processTags.ContainsKey(coindex) ? ", tag " + _processTags[coindex] : ", no tag"))
-                                                     : "Processing Coroutine (Slow Update)");
+                            Profiler.BeginSample(ProfilerDebugAmount == DebugInfoType.SeperateTags ? ("Processing Coroutine (Slow Update)" +
+                                    (_processTags.ContainsKey(_indexToHandle[coindex]) ? ", tag " + _processTags[_indexToHandle[coindex]] : ", no tag"))
+                                    : "Processing Coroutine (Slow Update)");
                         }
 
-                        try
+                        if (!SlowUpdateProcesses[coindex.i].MoveNext())
                         {
-                            if (!SlowUpdateProcesses[coindex.i].MoveNext())
+                            SlowUpdateProcesses[coindex.i] = null;
+                        }
+                        else if (SlowUpdateProcesses[coindex.i] != null && float.IsNaN(SlowUpdateProcesses[coindex.i].Current))
+                        {
+                            if(ReplacementFunction == null)
                             {
                                 SlowUpdateProcesses[coindex.i] = null;
                             }
-                            else if (SlowUpdateProcesses[coindex.i] != null && float.IsNaN(SlowUpdateProcesses[coindex.i].Current))
-                            {
-                                if(ReplacementFunction == null)
-                                {
-                                    SlowUpdateProcesses[coindex.i] = null;
-                                }
-                                else
-                                {
-                                    SlowUpdateProcesses[coindex.i] = ReplacementFunction(SlowUpdateProcesses[coindex.i], _indexToHandle[coindex]);
-
-                                    ReplacementFunction = null;
-                                    coindex.i--;
-                                }
-                            }
-                        }
-                        catch (System.Exception ex)
-                        {
-                            if (OnError == null)
-                                _exceptions.Enqueue(ex);
                             else
-                                OnError(ex);
+                            {
+                                SlowUpdateProcesses[coindex.i] = ReplacementFunction(SlowUpdateProcesses[coindex.i], _indexToHandle[coindex]);
 
-                            SlowUpdateProcesses[coindex.i] = null;
+                                ReplacementFunction = null;
+                                coindex.i--;
+                            }
                         }
 
                         if (ProfilerDebugAmount != DebugInfoType.None)
                             Profiler.EndSample();
                     }
                 }
-
-                _runningSlowUpdate = false;
             }
 
             if (_nextUpdateProcessSlot > 0)
             {
                 ProcessIndex coindex = new ProcessIndex { seg = Segment.Update };
-                _runningUpdate = true;
-                UpdateTimeValues(coindex.seg);
+                if (UpdateTimeValues(coindex.seg))
+                    _lastUpdateProcessSlot = _nextUpdateProcessSlot;
 
-                for (coindex.i = 0; coindex.i < _nextUpdateProcessSlot; coindex.i++)
+                for (coindex.i = 0; coindex.i < _lastUpdateProcessSlot; coindex.i++)
                 {
                     if (!UpdatePaused[coindex.i] && UpdateProcesses[coindex.i] != null && !(localTime < UpdateProcesses[coindex.i].Current))
                     {
-                        if (ProfilerDebugAmount != DebugInfoType.None)
+                        if (ProfilerDebugAmount != DebugInfoType.None && _indexToHandle.ContainsKey(coindex))
                         {
-                            Profiler.BeginSample(ProfilerDebugAmount == DebugInfoType.SeperateTags
-                                                     ? ("Processing Coroutine" +
-                                                        (_processTags.ContainsKey(coindex) ? ", tag " + _processTags[coindex] : ", no tag"))
-                                                     : "Processing Coroutine");
+                            Profiler.BeginSample(ProfilerDebugAmount == DebugInfoType.SeperateTags ? ("Processing Coroutine" +
+                                    (_processTags.ContainsKey(_indexToHandle[coindex]) ? ", tag " + _processTags[_indexToHandle[coindex]] : ", no tag"))
+                                    : "Processing Coroutine");
                         }
 
-                        try
+                        if (!UpdateProcesses[coindex.i].MoveNext())
                         {
-                            if (!UpdateProcesses[coindex.i].MoveNext())
+                            UpdateProcesses[coindex.i] = null;
+                        }
+                        else if (UpdateProcesses[coindex.i] != null && float.IsNaN(UpdateProcesses[coindex.i].Current))
+                        {
+                            if(ReplacementFunction == null)
                             {
                                 UpdateProcesses[coindex.i] = null;
                             }
-                            else if (UpdateProcesses[coindex.i] != null && float.IsNaN(UpdateProcesses[coindex.i].Current))
-                            {
-                                if(ReplacementFunction == null)
-                                {
-                                    UpdateProcesses[coindex.i] = null;
-                                }
-                                else
-                                {
-                                    UpdateProcesses[coindex.i] = ReplacementFunction(UpdateProcesses[coindex.i], _indexToHandle[coindex]);
-
-                                    ReplacementFunction = null;
-                                    coindex.i--;
-                                }
-                            }
-                        }
-                        catch (System.Exception ex)
-                        {
-                            if (OnError == null)
-                                _exceptions.Enqueue(ex);
                             else
-                                OnError(ex);
+                            {
+                                UpdateProcesses[coindex.i] = ReplacementFunction(UpdateProcesses[coindex.i], _indexToHandle[coindex]);
 
-                            UpdateProcesses[coindex.i] = null;
+                                ReplacementFunction = null;
+                                coindex.i--;
+                            }
                         }
 
                         if (ProfilerDebugAmount != DebugInfoType.None)
                             Profiler.EndSample();
                     }
                 }
-
-                _runningUpdate = false;
             }
 
             if(++_framesSinceUpdate > FramesUntilMaintenance)
@@ -342,9 +300,6 @@ namespace MovementEffects
                 if (ProfilerDebugAmount != DebugInfoType.None)
                     Profiler.EndSample();
             }
-
-            if (_exceptions.Count > 0)
-                 throw _exceptions.Dequeue();
         }
 
         void FixedUpdate()
@@ -355,62 +310,44 @@ namespace MovementEffects
             if (_nextFixedUpdateProcessSlot > 0)
             {
                 ProcessIndex coindex = new ProcessIndex { seg = Segment.FixedUpdate };
-                _runningFixedUpdate = true;
-                UpdateTimeValues(coindex.seg);
+                if (UpdateTimeValues(coindex.seg))
+                    _lastFixedUpdateProcessSlot = _nextFixedUpdateProcessSlot;
 
-                for (coindex.i = 0; coindex.i < _nextFixedUpdateProcessSlot; coindex.i++)
+                for (coindex.i = 0; coindex.i < _lastFixedUpdateProcessSlot; coindex.i++)
                 {
                     if (!FixedUpdatePaused[coindex.i] && FixedUpdateProcesses[coindex.i] != null && !(localTime < FixedUpdateProcesses[coindex.i].Current))
                     {
-                        if (ProfilerDebugAmount != DebugInfoType.None)
+                        if (ProfilerDebugAmount != DebugInfoType.None && _indexToHandle.ContainsKey(coindex))
                         {
-                            Profiler.BeginSample(ProfilerDebugAmount == DebugInfoType.SeperateTags
-                                                     ? ("Processing Coroutine" +
-                                                        (_processTags.ContainsKey(coindex) ? ", tag " + _processTags[coindex] : ", no tag"))
-                                                     : "Processing Coroutine");
+                            Profiler.BeginSample(ProfilerDebugAmount == DebugInfoType.SeperateTags ? ("Processing Coroutine" +
+                                    (_processTags.ContainsKey(_indexToHandle[coindex]) ? ", tag " + _processTags[_indexToHandle[coindex]] : ", no tag"))
+                                    : "Processing Coroutine");
                         }
 
-                        try
+                        if (!FixedUpdateProcesses[coindex.i].MoveNext())
                         {
-                            if (!FixedUpdateProcesses[coindex.i].MoveNext())
+                            FixedUpdateProcesses[coindex.i] = null;
+                        }
+                        else if (FixedUpdateProcesses[coindex.i] != null && float.IsNaN(FixedUpdateProcesses[coindex.i].Current))
+                        {
+                            if(ReplacementFunction == null)
                             {
                                 FixedUpdateProcesses[coindex.i] = null;
                             }
-                            else if (FixedUpdateProcesses[coindex.i] != null && float.IsNaN(FixedUpdateProcesses[coindex.i].Current))
-                            {
-                                if(ReplacementFunction == null)
-                                {
-                                    FixedUpdateProcesses[coindex.i] = null;
-                                }
-                                else
-                                {
-                                    FixedUpdateProcesses[coindex.i] = ReplacementFunction(FixedUpdateProcesses[coindex.i], _indexToHandle[coindex]);
-
-                                    ReplacementFunction = null;
-                                    coindex.i--;
-                                }
-                            }
-                        }
-                        catch (System.Exception ex)
-                        {
-                            if (OnError == null)
-                                _exceptions.Enqueue(ex);
                             else
-                                OnError(ex);
+                            {
+                                FixedUpdateProcesses[coindex.i] = ReplacementFunction(FixedUpdateProcesses[coindex.i], _indexToHandle[coindex]);
 
-                            FixedUpdateProcesses[coindex.i] = null;
+                                ReplacementFunction = null;
+                                coindex.i--;
+                            }
                         }
 
                         if (ProfilerDebugAmount != DebugInfoType.None)
                             Profiler.EndSample();
                     }
                 }
-
-                _runningFixedUpdate = false;
             }
-
-            if (_exceptions.Count > 0)
-                throw _exceptions.Dequeue();
         }
 
         void LateUpdate()
@@ -421,62 +358,44 @@ namespace MovementEffects
             if (_nextLateUpdateProcessSlot > 0)
             {
                 ProcessIndex coindex = new ProcessIndex { seg = Segment.LateUpdate };
-                _runningLateUpdate = true;
-                UpdateTimeValues(coindex.seg);
+                if (UpdateTimeValues(coindex.seg))
+                    _lastLateUpdateProcessSlot = _nextLateUpdateProcessSlot;
 
-                for (coindex.i = 0; coindex.i < _nextLateUpdateProcessSlot; coindex.i++)
+                for (coindex.i = 0; coindex.i < _lastLateUpdateProcessSlot; coindex.i++)
                 {
                     if (!LateUpdatePaused[coindex.i] && LateUpdateProcesses[coindex.i] != null && !(localTime < LateUpdateProcesses[coindex.i].Current))
                     {
-                        if (ProfilerDebugAmount != DebugInfoType.None)
+                        if (ProfilerDebugAmount != DebugInfoType.None && _indexToHandle.ContainsKey(coindex))
                         {
-                            Profiler.BeginSample(ProfilerDebugAmount == DebugInfoType.SeperateTags
-                                                     ? ("Processing Coroutine" +
-                                                        (_processTags.ContainsKey(coindex) ? ", tag " + _processTags[coindex] : ", no tag"))
-                                                     : "Processing Coroutine");
+                            Profiler.BeginSample(ProfilerDebugAmount == DebugInfoType.SeperateTags ? ("Processing Coroutine" +
+                                    (_processTags.ContainsKey(_indexToHandle[coindex]) ? ", tag " + _processTags[_indexToHandle[coindex]] : ", no tag"))
+                                    : "Processing Coroutine");
                         }
 
-                        try
+                        if (!LateUpdateProcesses[coindex.i].MoveNext())
                         {
-                            if (!LateUpdateProcesses[coindex.i].MoveNext())
+                            LateUpdateProcesses[coindex.i] = null;
+                        }
+                        else if (LateUpdateProcesses[coindex.i] != null && float.IsNaN(LateUpdateProcesses[coindex.i].Current))
+                        {
+                            if(ReplacementFunction == null)
                             {
                                 LateUpdateProcesses[coindex.i] = null;
                             }
-                            else if (LateUpdateProcesses[coindex.i] != null && float.IsNaN(LateUpdateProcesses[coindex.i].Current))
-                            {
-                                if(ReplacementFunction == null)
-                                {
-                                    LateUpdateProcesses[coindex.i] = null;
-                                }
-                                else
-                                {
-                                    LateUpdateProcesses[coindex.i] = ReplacementFunction(LateUpdateProcesses[coindex.i], _indexToHandle[coindex]);
-
-                                    ReplacementFunction = null;
-                                    coindex.i--;
-                                }
-                            }
-                        }
-                        catch (System.Exception ex)
-                        {
-                            if (OnError == null)
-                                _exceptions.Enqueue(ex);
                             else
-                                OnError(ex);
+                            {
+                                LateUpdateProcesses[coindex.i] = ReplacementFunction(LateUpdateProcesses[coindex.i], _indexToHandle[coindex]);
 
-                            LateUpdateProcesses[coindex.i] = null;
+                                ReplacementFunction = null;
+                                coindex.i--;
+                            }
                         }
 
                         if (ProfilerDebugAmount != DebugInfoType.None)
                             Profiler.EndSample();
                     }
                 }
-
-                _runningLateUpdate = false;
             }
-
-            if (_exceptions.Count > 0)
-                throw _exceptions.Dequeue();
         }
 
         private void RemoveUnused()
@@ -500,6 +419,7 @@ namespace MovementEffects
 
             ProcessIndex outer, inner;
             outer.seg = inner.seg = Segment.Update;
+
             for (outer.i = inner.i = 0; outer.i < _nextUpdateProcessSlot; outer.i++)
             {
                 if (UpdateProcesses[outer.i] != null)
@@ -508,10 +428,10 @@ namespace MovementEffects
                     {
                         UpdateProcesses[inner.i] = UpdateProcesses[outer.i];
                         UpdatePaused[inner.i] = UpdatePaused[outer.i];
-                        MoveTag(outer, inner);
 
                         if (_indexToHandle.ContainsKey(inner))
                         {
+                            RemoveTag(_indexToHandle[inner]);
                             _handleToIndex.Remove(_indexToHandle[inner]);
                             _indexToHandle.Remove(inner);
                         }
@@ -527,15 +447,17 @@ namespace MovementEffects
             {
                 UpdateProcesses[outer.i] = null;
                 UpdatePaused[outer.i] = false;
-                RemoveTag(outer);
 
                 if (_indexToHandle.ContainsKey(outer))
                 {
+                    RemoveTag(_indexToHandle[outer]);
+
                     _handleToIndex.Remove(_indexToHandle[outer]);
                     _indexToHandle.Remove(outer);
                 }
             }
 
+            _lastUpdateProcessSlot -= _nextUpdateProcessSlot - inner.i;
             UpdateCoroutines = _nextUpdateProcessSlot = inner.i;
 
             outer.seg = inner.seg = Segment.FixedUpdate;
@@ -547,10 +469,10 @@ namespace MovementEffects
                     {
                         FixedUpdateProcesses[inner.i] = FixedUpdateProcesses[outer.i];
                         FixedUpdatePaused[inner.i] = FixedUpdatePaused[outer.i];
-                        MoveTag(outer, inner);
 
                         if (_indexToHandle.ContainsKey(inner))
                         {
+                            RemoveTag(_indexToHandle[inner]);
                             _handleToIndex.Remove(_indexToHandle[inner]);
                             _indexToHandle.Remove(inner);
                         }
@@ -566,15 +488,17 @@ namespace MovementEffects
             {
                 FixedUpdateProcesses[outer.i] = null;
                 FixedUpdatePaused[outer.i] = false;
-                RemoveTag(outer);
 
                 if (_indexToHandle.ContainsKey(outer))
                 {
+                    RemoveTag(_indexToHandle[outer]);
+
                     _handleToIndex.Remove(_indexToHandle[outer]);
                     _indexToHandle.Remove(outer);
                 }
             }
 
+            _lastFixedUpdateProcessSlot -= _nextFixedUpdateProcessSlot - inner.i;
             FixedUpdateCoroutines = _nextFixedUpdateProcessSlot = inner.i;
 
             outer.seg = inner.seg = Segment.LateUpdate;
@@ -586,10 +510,10 @@ namespace MovementEffects
                     {
                         LateUpdateProcesses[inner.i] = LateUpdateProcesses[outer.i];
                         LateUpdatePaused[inner.i] = LateUpdatePaused[outer.i];
-                        MoveTag(outer, inner);
 
                         if (_indexToHandle.ContainsKey(inner))
                         {
+                            RemoveTag(_indexToHandle[inner]);
                             _handleToIndex.Remove(_indexToHandle[inner]);
                             _indexToHandle.Remove(inner);
                         }
@@ -605,15 +529,17 @@ namespace MovementEffects
             {
                 LateUpdateProcesses[outer.i] = null;
                 LateUpdatePaused[outer.i] = false;
-                RemoveTag(outer);
 
                 if (_indexToHandle.ContainsKey(outer))
                 {
+                    RemoveTag(_indexToHandle[outer]);
+
                     _handleToIndex.Remove(_indexToHandle[outer]);
                     _indexToHandle.Remove(outer);
                 }
             }
 
+            _lastLateUpdateProcessSlot -= _nextLateUpdateProcessSlot - inner.i;
             LateUpdateCoroutines = _nextLateUpdateProcessSlot = inner.i;
 
             outer.seg = inner.seg = Segment.SlowUpdate;
@@ -625,10 +551,10 @@ namespace MovementEffects
                     {
                         SlowUpdateProcesses[inner.i] = SlowUpdateProcesses[outer.i];
                         SlowUpdatePaused[inner.i] = SlowUpdatePaused[outer.i];
-                        MoveTag(outer, inner);
 
                         if (_indexToHandle.ContainsKey(inner))
                         {
+                            RemoveTag(_indexToHandle[inner]);
                             _handleToIndex.Remove(_indexToHandle[inner]);
                             _indexToHandle.Remove(inner);
                         }
@@ -644,15 +570,17 @@ namespace MovementEffects
             {
                 SlowUpdateProcesses[outer.i] = null;
                 SlowUpdatePaused[outer.i] = false;
-                RemoveTag(outer);
 
                 if (_indexToHandle.ContainsKey(outer))
                 {
+                    RemoveTag(_indexToHandle[outer]);
+
                     _handleToIndex.Remove(_indexToHandle[outer]);
                     _indexToHandle.Remove(outer);
                 }
             }
 
+            _lastSlowUpdateProcessSlot -= _nextSlowUpdateProcessSlot - inner.i;
             SlowUpdateCoroutines = _nextSlowUpdateProcessSlot = inner.i;
         }
 
@@ -678,9 +606,6 @@ namespace MovementEffects
             return coroutine == null ? new CoroutineHandle()
                 : Instance.RunCoroutineInternal(coroutine, Segment.Update, tag, new CoroutineHandle(Instance._instanceID), true);
         }
-
-
-
 
         /// <summary>
         /// Run a new coroutine.
@@ -765,6 +690,9 @@ namespace MovementEffects
                 _handleToIndex.Remove(handle);
             }
 
+            float currentLocalTime = localTime;
+            float currentDeltaTime = deltaTime;
+
             switch (timing)
             {
                 case Segment.Update:
@@ -784,56 +712,40 @@ namespace MovementEffects
                         }
                     }
 
+                    if (UpdateTimeValues(slot.seg))
+                        _lastUpdateProcessSlot = _nextUpdateProcessSlot;
+
                     slot.i = _nextUpdateProcessSlot++;
                     UpdateProcesses[slot.i] = coroutine;
 
                     if (null != tag)
-                        AddTag(tag, slot);
+                        AddTag(tag, handle);
 
                     _indexToHandle.Add(slot, handle);
                     _handleToIndex.Add(handle, slot);
 
-                    if (!_runningUpdate && prewarm)
+                    if (prewarm)
                     {
-                        try
+                        if (!UpdateProcesses[slot.i].MoveNext())
                         {
-                            _runningUpdate = true;
-                            SetTimeValues(slot.seg);
-
-                            if (!UpdateProcesses[slot.i].MoveNext())
+                            UpdateProcesses[slot.i] = null;
+                        }
+                        else if (UpdateProcesses[slot.i] != null && float.IsNaN(UpdateProcesses[slot.i].Current))
+                        {
+                            if (ReplacementFunction == null)
                             {
                                 UpdateProcesses[slot.i] = null;
                             }
-                            else if (UpdateProcesses[slot.i] != null && float.IsNaN(UpdateProcesses[slot.i].Current))
-                            {
-                                if (ReplacementFunction == null)
-                                {
-                                    UpdateProcesses[slot.i] = null;
-                                }
-                                else
-                                {
-                                    UpdateProcesses[slot.i] = ReplacementFunction(UpdateProcesses[slot.i], _indexToHandle[slot]);
-
-                                    ReplacementFunction = null;
-                                }
-                            }
-                        }
-                        catch (System.Exception ex)
-                        {
-                            if (OnError == null)
-                                _exceptions.Enqueue(ex);
                             else
-                                OnError(ex);
+                            {
+                                UpdateProcesses[slot.i] = ReplacementFunction(UpdateProcesses[slot.i], _indexToHandle[slot]);
 
-                            UpdateProcesses[slot.i] = null;
-                        }
-                        finally
-                        {
-                            _runningUpdate = false;
+                                ReplacementFunction = null;
+                            }
                         }
                     }
 
-                    return handle;
+                    break;
 
                 case Segment.FixedUpdate:
 
@@ -852,56 +764,40 @@ namespace MovementEffects
                         }
                     }
 
+                    if (UpdateTimeValues(slot.seg))
+                        _lastFixedUpdateProcessSlot = _nextFixedUpdateProcessSlot;
+
                     slot.i = _nextFixedUpdateProcessSlot++;
                     FixedUpdateProcesses[slot.i] = coroutine;
 
                     if (null != tag)
-                        AddTag(tag, slot);
+                        AddTag(tag, handle);
 
                     _indexToHandle.Add(slot, handle);
                     _handleToIndex.Add(handle, slot);
 
-                    if (!_runningFixedUpdate && prewarm)
+                    if (prewarm)
                     {
-                        try
+                        if (!FixedUpdateProcesses[slot.i].MoveNext())
                         {
-                            _runningFixedUpdate = true;
-                            SetTimeValues(slot.seg);
-
-                            if (!FixedUpdateProcesses[slot.i].MoveNext())
+                            FixedUpdateProcesses[slot.i] = null;
+                        }
+                        else if (FixedUpdateProcesses[slot.i] != null && float.IsNaN(FixedUpdateProcesses[slot.i].Current))
+                        {
+                            if (ReplacementFunction == null)
                             {
                                 FixedUpdateProcesses[slot.i] = null;
                             }
-                            else if (FixedUpdateProcesses[slot.i] != null && float.IsNaN(FixedUpdateProcesses[slot.i].Current))
-                            {
-                                if (ReplacementFunction == null)
-                                {
-                                    FixedUpdateProcesses[slot.i] = null;
-                                }
-                                else
-                                {
-                                    FixedUpdateProcesses[slot.i] = ReplacementFunction(FixedUpdateProcesses[slot.i], _indexToHandle[slot]);
-
-                                    ReplacementFunction = null;
-                                }
-                            }
-                        }
-                        catch (System.Exception ex)
-                        {
-                            if (OnError == null)
-                                _exceptions.Enqueue(ex);
                             else
-                                OnError(ex);
+                            {
+                                FixedUpdateProcesses[slot.i] = ReplacementFunction(FixedUpdateProcesses[slot.i], _indexToHandle[slot]);
 
-                            FixedUpdateProcesses[slot.i] = null;
-                        }
-                        finally
-                        {
-                            _runningFixedUpdate = false;
+                                ReplacementFunction = null;
+                            }
                         }
                     }
 
-                    return handle;
+                    break;
 
                 case Segment.LateUpdate:
 
@@ -920,56 +816,40 @@ namespace MovementEffects
                         }
                     }
 
+                    if (UpdateTimeValues(slot.seg))
+                        _lastLateUpdateProcessSlot = _nextLateUpdateProcessSlot;
+
                     slot.i = _nextLateUpdateProcessSlot++;
                     LateUpdateProcesses[slot.i] = coroutine;
 
                     if (tag != null)
-                        AddTag(tag, slot);
+                        AddTag(tag, handle);
 
                     _indexToHandle.Add(slot, handle);
                     _handleToIndex.Add(handle, slot);
 
-                    if (!_runningLateUpdate && prewarm)
+                    if (prewarm)
                     {
-                        try
+                        if (!LateUpdateProcesses[slot.i].MoveNext())
                         {
-                            _runningLateUpdate = true;
-                            SetTimeValues(slot.seg);
-
-                            if (!LateUpdateProcesses[slot.i].MoveNext())
+                            LateUpdateProcesses[slot.i] = null;
+                        }
+                        else if (LateUpdateProcesses[slot.i] != null && float.IsNaN(LateUpdateProcesses[slot.i].Current))
+                        {
+                            if (ReplacementFunction == null)
                             {
                                 LateUpdateProcesses[slot.i] = null;
                             }
-                            else if (LateUpdateProcesses[slot.i] != null && float.IsNaN(LateUpdateProcesses[slot.i].Current))
-                            {
-                                if (ReplacementFunction == null)
-                                {
-                                    LateUpdateProcesses[slot.i] = null;
-                                }
-                                else
-                                {
-                                    LateUpdateProcesses[slot.i] = ReplacementFunction(LateUpdateProcesses[slot.i], _indexToHandle[slot]);
-
-                                    ReplacementFunction = null;
-                                }
-                            }
-                        }
-                        catch (System.Exception ex)
-                        {
-                            if (OnError == null)
-                                _exceptions.Enqueue(ex);
                             else
-                                OnError(ex);
+                            {
+                                LateUpdateProcesses[slot.i] = ReplacementFunction(LateUpdateProcesses[slot.i], _indexToHandle[slot]);
 
-                            LateUpdateProcesses[slot.i] = null;
-                        }
-                        finally
-                        {
-                            _runningLateUpdate = false;
+                                ReplacementFunction = null;
+                            }
                         }
                     }
 
-                    return handle;
+                    break;
 
                 case Segment.SlowUpdate:
 
@@ -988,60 +868,50 @@ namespace MovementEffects
                         }
                     }
 
+                    if (UpdateTimeValues(slot.seg))
+                        _lastSlowUpdateProcessSlot = _nextSlowUpdateProcessSlot;
+
                     slot.i = _nextSlowUpdateProcessSlot++;
                     SlowUpdateProcesses[slot.i] = coroutine;
 
                     if (tag != null)
-                        AddTag(tag, slot);
+                        AddTag(tag, handle);
 
                     _indexToHandle.Add(slot, handle);
                     _handleToIndex.Add(handle, slot);
 
-                    if (!_runningSlowUpdate && prewarm)
+                    if (prewarm)
                     {
-                        try
+                        if (!SlowUpdateProcesses[slot.i].MoveNext())
                         {
-                            _runningSlowUpdate = true;
-                            SetTimeValues(slot.seg);
-
-                            if (!SlowUpdateProcesses[slot.i].MoveNext())
+                            SlowUpdateProcesses[slot.i] = null;
+                        }
+                        else if (SlowUpdateProcesses[slot.i] != null && float.IsNaN(SlowUpdateProcesses[slot.i].Current))
+                        {
+                            if (ReplacementFunction == null)
                             {
                                 SlowUpdateProcesses[slot.i] = null;
                             }
-                            else if (SlowUpdateProcesses[slot.i] != null && float.IsNaN(SlowUpdateProcesses[slot.i].Current))
-                            {
-                                if (ReplacementFunction == null)
-                                {
-                                    SlowUpdateProcesses[slot.i] = null;
-                                }
-                                else
-                                {
-                                    SlowUpdateProcesses[slot.i] = ReplacementFunction(SlowUpdateProcesses[slot.i], _indexToHandle[slot]);
-
-                                    ReplacementFunction = null;
-                                }
-                            }
-                        }
-                        catch (System.Exception ex)
-                        {
-                            if (OnError == null)
-                                _exceptions.Enqueue(ex);
                             else
-                                OnError(ex);
+                            {
+                                SlowUpdateProcesses[slot.i] = ReplacementFunction(SlowUpdateProcesses[slot.i], _indexToHandle[slot]);
 
-                            SlowUpdateProcesses[slot.i] = null;
-                        }
-                        finally
-                        {
-                            _runningSlowUpdate = false;
+                                ReplacementFunction = null;
+                            }
                         }
                     }
 
-                    return handle;
+                    break;
 
                 default:
-                    return new CoroutineHandle();
+                    handle = new CoroutineHandle();
+                    break;
             }
+
+            localTime = currentLocalTime;
+            deltaTime = currentDeltaTime;
+
+            return handle;
         }
 
         /// <summary>
@@ -1118,7 +988,7 @@ namespace MovementEffects
                     CloseWaitingProcess(handle);
 
                 foundOne = CoindexExtract(_handleToIndex[handle]) != null;
-                RemoveTag(_handleToIndex[handle]);
+                RemoveTag(handle);
             }
 
             return foundOne ? 1 : 0;
@@ -1149,20 +1019,20 @@ namespace MovementEffects
                 var matchEnum = _taggedProcesses[tag].GetEnumerator();
                 matchEnum.MoveNext();
 
-                if (CoindexKill(matchEnum.Current))
+                if (Nullify(_handleToIndex[matchEnum.Current]))
                 {
-                    if (_waitingTriggers.ContainsKey(_indexToHandle[matchEnum.Current]))
-                        CloseWaitingProcess(_indexToHandle[matchEnum.Current]);
+                    if (_waitingTriggers.ContainsKey(matchEnum.Current))
+                        CloseWaitingProcess(matchEnum.Current);
 
                     numberFound++;
                 }
 
                 RemoveTag(matchEnum.Current);
 
-                if (_indexToHandle.ContainsKey(matchEnum.Current))
+                if (_handleToIndex.ContainsKey(matchEnum.Current))
                 {
-                    _handleToIndex.Remove(_indexToHandle[matchEnum.Current]);
-                    _indexToHandle.Remove(matchEnum.Current);
+                    _indexToHandle.Remove(_handleToIndex[matchEnum.Current]);
+                    _handleToIndex.Remove(matchEnum.Current);
                 }
             }
 
@@ -1226,6 +1096,26 @@ namespace MovementEffects
         }
 
         /// <summary>
+        /// This will pause any matching coroutines until ResumeCoroutines is called.
+        /// </summary>
+        /// <param name="handle">The handle of the coroutine to pause.</param>
+        /// <returns>The number of coroutines that were paused (0 or 1).</returns>
+        public static int PauseCoroutines(CoroutineHandle handle)
+        {
+            return ActiveInstances.ContainsKey(handle.Key) ? GetInstance(handle.Key).PauseCoroutinesOnInstance(handle) : 0;
+        }
+
+        /// <summary>
+        /// This will pause any matching coroutines running on this MEC instance until ResumeCoroutinesOnInstance is called.
+        /// </summary>
+        /// <param name="handle">The handle of the coroutine to pause.</param>
+        /// <returns>The number of coroutines that were paused (0 or 1).</returns>
+        public int PauseCoroutinesOnInstance(CoroutineHandle handle)
+        {
+            return _handleToIndex.ContainsKey(handle) && !CoindexIsNull(_handleToIndex[handle]) && !SetPause(_handleToIndex[handle]) ? 1 : 0;
+        }
+
+        /// <summary>
         /// This will pause any matching coroutines running on the current MEC instance until ResumeCoroutines is called.
         /// </summary>
         /// <param name="tag">Any coroutines with a matching tag will be paused.</param>
@@ -1249,7 +1139,7 @@ namespace MovementEffects
             var matchesEnum = _taggedProcesses[tag].GetEnumerator();
 
             while (matchesEnum.MoveNext())
-                if (!CoindexIsNull(matchesEnum.Current) && !CoindexSetPause(matchesEnum.Current))
+                if (!CoindexIsNull(_handleToIndex[matchesEnum.Current]) && !SetPause(_handleToIndex[matchesEnum.Current]))
                     count++;
 
             return count;
@@ -1317,9 +1207,9 @@ namespace MovementEffects
 
                 while (pausedList.MoveNext())
                 {
-                    if (_handleToIndex.ContainsKey(pausedList.Current.Handle) && !CoindexIsNull(_handleToIndex[pausedList.Current.Handle]))
+                    if (_handleToIndex.ContainsKey(pausedList.Current) && !CoindexIsNull(_handleToIndex[pausedList.Current]))
                     {
-                        CoindexSetPause(_handleToIndex[pausedList.Current.Handle]);
+                        SetPause(_handleToIndex[pausedList.Current]);
                         listCount++;
                     }
                     else
@@ -1334,6 +1224,36 @@ namespace MovementEffects
             }
 
             return count;
+        }
+
+        /// <summary>
+        /// This will resume any matching coroutines.
+        /// </summary>
+        /// <param name="handle">The handle of the coroutine to resume.</param>
+        /// <returns>The number of coroutines that were resumed (0 or 1).</returns>
+        public static int ResumeCoroutines(CoroutineHandle handle)
+        {
+            return ActiveInstances.ContainsKey(handle.Key) ? GetInstance(handle.Key).ResumeCoroutinesOnInstance(handle) : 0;
+        }
+
+        /// <summary>
+        /// This will resume any matching coroutines running on this MEC instance.
+        /// </summary>
+        /// <param name="handle">The handle of the coroutine to resume.</param>
+        /// <returns>The number of coroutines that were resumed (0 or 1).</returns>
+        public int ResumeCoroutinesOnInstance(CoroutineHandle handle)
+        {
+            var waitingEnum = _waitingTriggers.GetEnumerator();
+            while (waitingEnum.MoveNext())
+            {
+                var pausedList = waitingEnum.Current.Value.GetEnumerator();
+                while (pausedList.MoveNext())
+                    if (pausedList.Current == handle)
+                        return 0;
+            }
+
+            return _handleToIndex.ContainsKey(handle) &&
+                !CoindexIsNull(_handleToIndex[handle]) && SetPause(_handleToIndex[handle], false) ? 1 : 0;
         }
 
         /// <summary>
@@ -1360,7 +1280,7 @@ namespace MovementEffects
 
             var indexesEnum = _taggedProcesses[tag].GetEnumerator();
             while (indexesEnum.MoveNext())
-                if (!CoindexIsNull(indexesEnum.Current) && CoindexSetPause(indexesEnum.Current, false))
+                if (!CoindexIsNull(_handleToIndex[indexesEnum.Current]) && SetPause(_handleToIndex[indexesEnum.Current], false))
                     count++;
 
             var waitingEnum = _waitingTriggers.GetEnumerator();
@@ -1369,95 +1289,119 @@ namespace MovementEffects
                 var pausedList = waitingEnum.Current.Value.GetEnumerator();
                 while (pausedList.MoveNext())
                 {
-                    if (_handleToIndex.ContainsKey(pausedList.Current.Handle) && !CoindexIsNull(_handleToIndex[pausedList.Current.Handle])
-                        && !CoindexSetPause(_handleToIndex[pausedList.Current.Handle]))
+                    if (_handleToIndex.ContainsKey(pausedList.Current) && !CoindexIsNull(_handleToIndex[pausedList.Current])
+                        && !SetPause(_handleToIndex[pausedList.Current]))
+                    {
                         count--;
+                    }
                 }
             }
 
             return count;
         }
 
-        private void UpdateTimeValues(Segment segment)
+        private bool UpdateTimeValues(Segment segment)
         {
             switch(segment)
             {
                 case Segment.Update:
-                    deltaTime = Time.deltaTime;
-                    _lastUpdateTime += deltaTime;
-                    localTime = _lastUpdateTime;
-                    break;
-                case Segment.LateUpdate:
-                    deltaTime = Time.deltaTime;
-                    _lastLateUpdateTime += deltaTime;
-                    localTime = _lastLateUpdateTime;
-                    break;
-                case Segment.FixedUpdate:
-                    deltaTime = Time.deltaTime;
-                    _lastFixedUpdateTime += deltaTime;
-                    localTime = _lastFixedUpdateTime;
-                    break;
-                case Segment.SlowUpdate:
-                    if(_lastSlowUpdateTime == 0d)
-                        deltaTime = TimeBetweenSlowUpdateCalls;
+                    if (_currentUpdateFrame != Time.frameCount)
+                    {
+                        deltaTime = Time.deltaTime;
+                        _lastUpdateTime += deltaTime;
+                        localTime = _lastUpdateTime;
+                        _currentUpdateFrame = Time.frameCount;
+                        return true;
+                    }
                     else
-                        deltaTime = Time.realtimeSinceStartup - (float)_lastSlowUpdateTime;
-
-                    localTime = _lastSlowUpdateTime = Time.realtimeSinceStartup;
-                    break;
+                    {
+                        deltaTime = Time.deltaTime;
+                        localTime = _lastUpdateTime;
+                        return false;
+                    }
+                case Segment.LateUpdate:
+                    if (_currentLateUpdateFrame != Time.frameCount)
+                    {
+                        deltaTime = Time.deltaTime;
+                        _lastLateUpdateTime += deltaTime;
+                        localTime = _lastLateUpdateTime;
+                        _currentLateUpdateFrame = Time.frameCount;
+                        return true;
+                    }
+                    else
+                    {
+                        deltaTime = Time.deltaTime;
+                        localTime = _lastLateUpdateTime;
+                        return false;
+                    }
+                case Segment.FixedUpdate:
+                    if (_currentFixedUpdateFrame != Time.frameCount)
+                    {
+                        deltaTime = Time.deltaTime;
+                        _lastFixedUpdateTime += deltaTime;
+                        localTime = _lastFixedUpdateTime;
+                        _currentFixedUpdateFrame = Time.frameCount;
+                        return true;
+                    }
+                    else
+                    {
+                        deltaTime = Time.deltaTime;
+                        localTime = _lastFixedUpdateTime;
+                        return false;
+                    }
+                case Segment.SlowUpdate:
+                    if (_currentSlowUpdateFrame != Time.frameCount)
+                    {
+                        deltaTime = _lastSlowUpdateDeltaTime = Time.realtimeSinceStartup - _lastSlowUpdateTime;
+                        localTime = _lastSlowUpdateTime = Time.realtimeSinceStartup;
+                        _currentSlowUpdateFrame = Time.frameCount;
+                        return true;
+                    }
+                    else
+                    {
+                        deltaTime = _lastSlowUpdateDeltaTime;
+                        localTime = _lastSlowUpdateTime;
+                        return false;
+                    }
             }
+            return true;
         }
 
-        private void SetTimeValues(Segment segment)
+        private float GetSegmentTime(Segment segment)
         {
             switch (segment)
             {
                 case Segment.Update:
-                    deltaTime = Time.deltaTime;
-                    localTime = _lastUpdateTime;
-                    break;
+                    if (_currentUpdateFrame == Time.frameCount)
+                        return _lastUpdateTime;
+                    else 
+                        return _lastUpdateTime + Time.deltaTime;
                 case Segment.LateUpdate:
-                    deltaTime = Time.deltaTime;
-                    localTime = _lastLateUpdateTime;
-                    break;
+                    if (_currentUpdateFrame == Time.frameCount)
+                        return _lastLateUpdateTime;
+                    else
+                        return _lastLateUpdateTime + Time.deltaTime;
                 case Segment.FixedUpdate:
-                    deltaTime = Time.deltaTime;
-                    localTime = _lastFixedUpdateTime;
-                    break;
+                    if (_currentFixedUpdateFrame == Time.frameCount)
+                        return _lastFixedUpdateTime;
+                    else
+                        return _lastFixedUpdateTime + Time.deltaTime;
                 case Segment.SlowUpdate:
-                    deltaTime = Time.realtimeSinceStartup - (float)_lastSlowUpdateTime;
-                    localTime = _lastSlowUpdateTime;
-                    break;
-            }
-        }
-
-        private double GetSegmentTime(Segment segment)
-        {
-            switch (segment)
-            {
-                case Segment.Update:
-                    return _lastUpdateTime;
-                case Segment.LateUpdate:
-                    return _lastLateUpdateTime;
-                case Segment.FixedUpdate:
-                    return _lastFixedUpdateTime;
-                case Segment.SlowUpdate:
-                    return _lastSlowUpdateTime;
+                    return Time.realtimeSinceStartup;
                 default:
-                    return 0d;
+                    return 0f;
             }
         }
 
         /// <summary>
-        /// Resets the value of LocalTime to zero (only for the Update, LateUpdate, and FixedUpdate segments).
+        /// Not all segments can have their local time value reset to zero, but the ones that can are reset through this function.
         /// </summary>
         public void ResetTimeCountOnInstance()
         {
-            localTime = 0d;
+            localTime = 0f;
 
-            _lastUpdateTime = 0d;
-            _lastLateUpdateTime = 0d;
-            _lastFixedUpdateTime = 0d;
+            _lastUpdateTime = 0f;
+            _lastFixedUpdateTime = 0f;
         }
 
         /// <summary>
@@ -1470,17 +1414,17 @@ namespace MovementEffects
             return ActiveInstances.ContainsKey(ID) ? ActiveInstances[ID] : null;
         }
 
-        private void AddTag(string tag, ProcessIndex coindex)
+        private void AddTag(string tag, CoroutineHandle coindex)
         {
             _processTags.Add(coindex, tag);
 
             if (_taggedProcesses.ContainsKey(tag))
                 _taggedProcesses[tag].Add(coindex);
             else
-                _taggedProcesses.Add(tag, new HashSet<ProcessIndex> { coindex });
+                _taggedProcesses.Add(tag, new HashSet<CoroutineHandle> { coindex });
         }
 
-        private void RemoveTag(ProcessIndex coindex)
+        private void RemoveTag(CoroutineHandle coindex)
         {
             if (_processTags.ContainsKey(coindex))
             {
@@ -1493,25 +1437,18 @@ namespace MovementEffects
             }
         }
 
-        private void MoveTag(ProcessIndex coindexFrom, ProcessIndex coindexTo)
+        /// <returns>Whether it was already null.</returns>
+        private bool Nullify(CoroutineHandle handle)
         {
-            RemoveTag(coindexTo);
-
-            if (_processTags.ContainsKey(coindexFrom))
-            {
-                _taggedProcesses[_processTags[coindexFrom]].Remove(coindexFrom);
-                _taggedProcesses[_processTags[coindexFrom]].Add(coindexTo);
-
-                _processTags.Add(coindexTo, _processTags[coindexFrom]);
-                _processTags.Remove(coindexFrom);
-            }
+            return Nullify(_handleToIndex[handle]);
         }
 
-        private bool CoindexKill(ProcessIndex coindex)
+        /// <returns>Whether it was already null.</returns>
+        private bool Nullify(ProcessIndex coindex)
         {
             bool retVal;
 
-            switch(coindex.seg)
+            switch (coindex.seg)
             {
                 case Segment.Update:
                     retVal = UpdateProcesses[coindex.i] != null;
@@ -1529,9 +1466,9 @@ namespace MovementEffects
                     retVal = SlowUpdateProcesses[coindex.i] != null;
                     SlowUpdateProcesses[coindex.i] = null;
                     return retVal;
+                default:
+                    return false;
             }
-
-            return false;
         }
 
         private IEnumerator<float> CoindexExtract(ProcessIndex coindex)
@@ -1595,31 +1532,62 @@ namespace MovementEffects
             }
         }
 
-        private bool CoindexSetPause(ProcessIndex coindex, bool newPausedState = true)
+        private bool SetPause(ProcessIndex coindex, bool newPausedState = true)
         {
-            bool isPaused;
+            if (CoindexPeek(coindex) == null)
+                return false;
 
+            bool isPaused;
+            
             switch (coindex.seg)
             {
                 case Segment.Update:
                     isPaused = UpdatePaused[coindex.i];
                     UpdatePaused[coindex.i] = newPausedState;
+
+                    if (newPausedState && UpdateProcesses[coindex.i].Current > GetSegmentTime(coindex.seg))
+                        UpdateProcesses[coindex.i] = _InjectDelay(UpdateProcesses[coindex.i],
+                            UpdateProcesses[coindex.i].Current - GetSegmentTime(coindex.seg));
+
                     return isPaused;
                 case Segment.FixedUpdate:
                     isPaused = FixedUpdatePaused[coindex.i];
                     FixedUpdatePaused[coindex.i] = newPausedState;
+
+                    if (newPausedState && FixedUpdateProcesses[coindex.i].Current > GetSegmentTime(coindex.seg))
+                        FixedUpdateProcesses[coindex.i] = _InjectDelay(FixedUpdateProcesses[coindex.i],
+                            FixedUpdateProcesses[coindex.i].Current - GetSegmentTime(coindex.seg));
+
                     return isPaused;
                 case Segment.LateUpdate:
                     isPaused = LateUpdatePaused[coindex.i];
                     LateUpdatePaused[coindex.i] = newPausedState;
+
+                    if (newPausedState && LateUpdateProcesses[coindex.i].Current > GetSegmentTime(coindex.seg))
+                        LateUpdateProcesses[coindex.i] = _InjectDelay(LateUpdateProcesses[coindex.i],
+                            LateUpdateProcesses[coindex.i].Current - GetSegmentTime(coindex.seg));
+
                     return isPaused;
                 case Segment.SlowUpdate:
                     isPaused = SlowUpdatePaused[coindex.i];
                     SlowUpdatePaused[coindex.i] = newPausedState;
+
+                    if (newPausedState && SlowUpdateProcesses[coindex.i].Current > GetSegmentTime(coindex.seg))
+                        SlowUpdateProcesses[coindex.i] = _InjectDelay(SlowUpdateProcesses[coindex.i],
+                            SlowUpdateProcesses[coindex.i].Current - GetSegmentTime(coindex.seg));
+
                     return isPaused;
                 default:
                     return false;
             }
+        }
+
+        private static IEnumerator<float> _InjectDelay(IEnumerator<float> proc, float delayTime)
+        {
+            yield return WaitForSeconds(delayTime);
+
+            ReplacementFunction = delegate { return proc; };
+            yield return float.NaN;
         }
 
         private void CoindexReplace(ProcessIndex coindex, IEnumerator<float> replacement)
@@ -1641,16 +1609,8 @@ namespace MovementEffects
             }
         }
 
-        private static IEnumerator<float> _InjectDelay(IEnumerator<float> proc, double returnAt)
-        {
-            yield return (float)returnAt;
-
-            ReplacementFunction = delegate { return proc; };
-            yield return float.NaN;
-        }
-
         /// <summary>
-        /// Use in a yield return statement to wait for the specified number of seconds.
+        /// Use "yield return Timing.WaitForSeconds(time);" to wait for the specified number of seconds.
         /// </summary>
         /// <param name="waitTime">Number of seconds to wait.</param>
         public static float WaitForSeconds(float waitTime)
@@ -1660,13 +1620,13 @@ namespace MovementEffects
         }
 
         /// <summary>
-        /// Use in a yield return statement to wait for the specified number of seconds.
+        /// Use "yield return timingInstance.WaitForSecondsOnInstance(time);" to wait for the specified number of seconds.
         /// </summary>
         /// <param name="waitTime">Number of seconds to wait.</param>
         public float WaitForSecondsOnInstance(float waitTime)
         {
             if (float.IsNaN(waitTime)) waitTime = 0f;
-            return (float)localTime + waitTime;
+            return localTime + waitTime;
         }
 
         /// <summary>
@@ -1680,8 +1640,8 @@ namespace MovementEffects
         }
 
         /// <summary>
-        /// Use the command "yield return Timing.WaitUntilDone(otherCoroutine);" to pause the current 
-        /// coroutine until otherCoroutine is done.
+        /// Use the command "yield return Timing.WaitUntilDone(otherCoroutine, false);" to pause the current 
+        /// coroutine until otherCoroutine is done, supressing warnings.
         /// </summary>
         /// <param name="otherCoroutine">The coroutine to pause for.</param>
         /// <param name="warnOnIssue">Post a warning to the console if no hold action was actually performed.</param>
@@ -1698,45 +1658,42 @@ namespace MovementEffects
                 {
                     inst.CoindexReplace(inst._handleToIndex[otherCoroutine],
                         inst._StartWhenDone(otherCoroutine, inst.CoindexPeek(inst._handleToIndex[otherCoroutine])));
-                    inst._waitingTriggers.Add(otherCoroutine, new HashSet<ProcessData>());
+                    inst._waitingTriggers.Add(otherCoroutine, new HashSet<CoroutineHandle>());
                 }
 
-                ReplacementFunction = (coptr, handle) =>
-                {
-                    if (handle == otherCoroutine)
-                    {
-                        if (warnOnIssue)
-                            Debug.LogWarning("A coroutine attempted to wait for itself.");
-
-                        return coptr;
-                    }
-                    if (handle.Key != otherCoroutine.Key)
-                    {
-                        if (warnOnIssue)
-                            Debug.LogWarning("A coroutine attempted to wait for a coroutine running on a different MEC instance.");
-
-                        return coptr;
-                    }
-
-                    inst._waitingTriggers[otherCoroutine].Add(new ProcessData
-                    {
-                        Handle = handle,
-                        PauseTime = coptr.Current > inst.GetSegmentTime(inst._handleToIndex[handle].seg)
-                            ? coptr.Current - (float)inst.GetSegmentTime(inst._handleToIndex[handle].seg) : 0f
-                    });
-
-                    inst.CoindexSetPause(inst._handleToIndex[handle]);
-
-                    return coptr;
-                };
+                _tmpBool = warnOnIssue;
+                _tmpHandle = otherCoroutine;
+                ReplacementFunction = inst.WaitUntilDoneWrapper;
 
                 return float.NaN;
             }
 
-            if (warnOnIssue)
-                Debug.LogWarning("WaitUntilDone cannot hold: The coroutine handle that was passed in is invalid.\n" + otherCoroutine);
+            Assert.IsFalse(warnOnIssue, "WaitUntilDone cannot hold: The coroutine handle that was passed in is invalid.\n" + otherCoroutine);
 
             return 0f;
+        }
+
+        private IEnumerator<float> WaitUntilDoneWrapper(IEnumerator<float> coptr, CoroutineHandle handle)
+        {
+            CoroutineHandle otherCoroutine = _tmpHandle;
+            bool warnOnIssue = _tmpBool;
+
+            if (handle == otherCoroutine)
+            {
+                Assert.IsFalse(warnOnIssue, "A coroutine attempted to wait for itself.");
+                return coptr;
+            }
+            if (handle.Key != otherCoroutine.Key)
+            {
+                Assert.IsFalse(warnOnIssue, "A coroutine attempted to wait for a coroutine running on a different MEC instance.");
+                return coptr;
+            }
+
+            _waitingTriggers[otherCoroutine].Add(handle);
+
+            SetPause(_handleToIndex[handle]);
+
+            return coptr;
         }
 
         private IEnumerator<float> _StartWhenDone(CoroutineHandle handle, IEnumerator<float> proc)
@@ -1765,17 +1722,18 @@ namespace MovementEffects
             _waitingTriggers.Remove(handle);
 
             while (tasksEnum.MoveNext())
-            {
-                if (_handleToIndex.ContainsKey(tasksEnum.Current.Handle))
-                {
-                    ProcessIndex coIndex = _handleToIndex[tasksEnum.Current.Handle];
+                if (_handleToIndex.ContainsKey(tasksEnum.Current) && !HandleIsInWaitingList(tasksEnum.Current))
+                    SetPause(_handleToIndex[tasksEnum.Current], false);
+        }
 
-                    if (tasksEnum.Current.PauseTime > 0d)
-                        CoindexReplace(coIndex, _InjectDelay(CoindexPeek(coIndex), (float)(GetSegmentTime(coIndex.seg) + tasksEnum.Current.PauseTime)));
+        private bool HandleIsInWaitingList(CoroutineHandle handle)
+        {
+            var triggersEnum = _waitingTriggers.GetEnumerator();
+            while (triggersEnum.MoveNext())
+                if (triggersEnum.Current.Value.Contains(handle))
+                    return true;
 
-                    CoindexSetPause(coIndex, false);
-                }
-            }
+            return false;
         }
 
         /// <summary>
@@ -1793,7 +1751,7 @@ namespace MovementEffects
         private static IEnumerator<float> _StartWhenDone(WWW www, IEnumerator<float> pausedProc)
         {
             while (!www.isDone)
-                yield return 0f;
+                yield return WaitForOneFrame;
 
             ReplacementFunction = delegate { return pausedProc; };
             yield return float.NaN;
@@ -1814,7 +1772,7 @@ namespace MovementEffects
         private static IEnumerator<float> _StartWhenDone(AsyncOperation operation, IEnumerator<float> pausedProc)
         {
             while (!operation.isDone)
-                yield return 0f;
+                yield return WaitForOneFrame;
 
             ReplacementFunction = delegate { return pausedProc; };
             yield return float.NaN;
@@ -1836,7 +1794,7 @@ namespace MovementEffects
         private static IEnumerator<float> _StartWhenDone(CustomYieldInstruction operation, IEnumerator<float> pausedProc)
         {
             while (operation.keepWaiting)
-                yield return 0f;
+                yield return WaitForOneFrame;
 
             ReplacementFunction = delegate { return pausedProc; };
             yield return float.NaN;
@@ -1855,10 +1813,11 @@ namespace MovementEffects
                 return false;
 
             if (!_waitingTriggers.ContainsKey(key))
-                _waitingTriggers.Add(key, new HashSet<ProcessData>());
+                _waitingTriggers.Add(key, new HashSet<CoroutineHandle> { coroutine });
+            else
+                _waitingTriggers[key].Add(coroutine);
 
-            _waitingTriggers[key].Add(new ProcessData { Handle = coroutine });
-            CoindexSetPause(_handleToIndex[coroutine]);
+            SetPause(_handleToIndex[coroutine]);
 
             return true;
         }
@@ -1875,16 +1834,9 @@ namespace MovementEffects
                 !_handleToIndex.ContainsKey(coroutine) || !_waitingTriggers.ContainsKey(key))
                 return false;
 
-            ProcessData wrappedCoroutine = new ProcessData { Handle = coroutine };
-            _waitingTriggers[key].Remove(wrappedCoroutine);
+            _waitingTriggers[key].Remove(coroutine);
 
-            bool coroutineStillPaused = false;
-            var triggersEnum = _waitingTriggers.GetEnumerator();
-            while (triggersEnum.MoveNext())
-                if (triggersEnum.Current.Value.Contains(wrappedCoroutine))
-                    coroutineStillPaused = true;
-
-            CoindexSetPause(_handleToIndex[coroutine], coroutineStillPaused);
+            SetPause(_handleToIndex[coroutine], HandleIsInWaitingList(coroutine));
 
             return true;
         }
@@ -1897,7 +1849,7 @@ namespace MovementEffects
         /// <returns>The handle to the coroutine that is started by this function.</returns>
         public static CoroutineHandle CallDelayed(float delay, System.Action action)
         {
-            return action == null ? new CoroutineHandle() : RunCoroutine(Instance._DelayedCall(delay, action));
+            return action == null ? new CoroutineHandle() : RunCoroutine(Instance._DelayedCall(delay, action, null));
         }
 
         /// <summary>
@@ -1908,14 +1860,39 @@ namespace MovementEffects
         /// <returns>The handle to the coroutine that is started by this function.</returns>
         public CoroutineHandle CallDelayedOnInstance(float delay, System.Action action)
         {
-            return action == null ? new CoroutineHandle() : RunCoroutineOnInstance(_DelayedCall(delay, action));
+            return action == null ? new CoroutineHandle() : RunCoroutineOnInstance(_DelayedCall(delay, action, null));
         }
 
-        private IEnumerator<float> _DelayedCall(float delay, System.Action action)
+        /// <summary>
+        /// Calls the specified action after a specified number of seconds.
+        /// </summary>
+        /// <param name="delay">The number of seconds to wait before calling the action.</param>
+        /// <param name="action">The action to call.</param>
+        /// <param name="cancelWith">A GameObject that will be checked to make sure it hasn't been destroyed before calling the action.</param>
+        /// <returns>The handle to the coroutine that is started by this function.</returns>
+        public static CoroutineHandle CallDelayed(float delay, System.Action action, GameObject cancelWith)
+        {
+            return action == null ? new CoroutineHandle() : RunCoroutine(Instance._DelayedCall(delay, action, cancelWith));
+        }
+
+        /// <summary>
+        /// Calls the specified action after a specified number of seconds.
+        /// </summary>
+        /// <param name="delay">The number of seconds to wait before calling the action.</param>
+        /// <param name="action">The action to call.</param>
+        /// <param name="cancelWith">A GameObject that will be checked to make sure it hasn't been destroyed before calling the action.</param>
+        /// <returns>The handle to the coroutine that is started by this function.</returns>
+        public CoroutineHandle CallDelayedOnInstance(float delay, System.Action action, GameObject cancelWith)
+        {
+            return action == null ? new CoroutineHandle() : RunCoroutineOnInstance(_DelayedCall(delay, action, cancelWith));
+        }
+
+        private IEnumerator<float> _DelayedCall(float delay, System.Action action, GameObject cancelWith)
         {
             yield return WaitForSecondsOnInstance(delay);
 
-            action();
+            if(ReferenceEquals(cancelWith, null) || cancelWith != null)
+                action();
         }
 
         /// <summary>
@@ -2177,29 +2154,6 @@ namespace MovementEffects
                 onDone(reference);
         }
 
-        private struct ProcessData : System.IEquatable<ProcessData>
-        {
-            public CoroutineHandle Handle;
-            public float PauseTime;
-
-            public bool Equals(ProcessData other)
-            {
-                return Handle == other.Handle;
-            }
-
-            public override bool Equals(object other)
-            {
-                if (other is ProcessData)
-                    return Equals((ProcessData)other);
-                return false;
-            }
-
-            public override int GetHashCode()
-            {
-                return Handle.GetHashCode();
-            }
-        }
-
         private struct ProcessIndex : System.IEquatable<ProcessIndex>
         {
             public Segment seg;
@@ -2291,13 +2245,51 @@ namespace MovementEffects
         public new static void print(object message) { }
     }
 
+    /// <summary>
+    /// The timing segment that a coroutine is running in or should be run in.
+    /// </summary>
     public enum Segment
     {
+        /// <summary>
+        /// Sometimes returned as an error state
+        /// </summary>
         Invalid = -1,
+        /// <summary>
+        /// This is the default timing segment
+        /// </summary>
         Update,
+        /// <summary>
+        /// This is primarily used for physics calculations
+        /// </summary>
         FixedUpdate,
+        /// <summary>
+        /// This is run immediately after update
+        /// </summary>
         LateUpdate,
-        SlowUpdate,
+        /// <summary>
+        /// This executes, by default, about as quickly as the eye can detect changes in a text field
+        /// </summary>
+        SlowUpdate
+    }
+
+    /// <summary>
+    /// How much debug info should be sent to the Unity profiler. NOTE: Setting this to anything above none shows up in the profiler as a 
+    /// decrease in performance and a memory alloc. Those effects do not translate onto device.
+    /// </summary>
+    public enum DebugInfoType
+    {
+        /// <summary>
+        /// None coroutines will be separated in the Unity profiler
+        /// </summary>
+        None,
+        /// <summary>
+        /// The Unity profiler will identify each coroutine individually
+        /// </summary>
+        SeperateCoroutines,
+        /// <summary>
+        /// Coroutines will be separated and any tags or layers will be identified
+        /// </summary>
+        SeperateTags
     }
 
     /// <summary>
@@ -2305,9 +2297,8 @@ namespace MovementEffects
     /// </summary>
     public struct CoroutineHandle : System.IEquatable<CoroutineHandle>
     {
-        private const byte ReservedSpace = 0x1F;
-        private readonly static int[] NextIndex = 
-            { ReservedSpace + 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        private const byte ReservedSpace = 0x0F;
+        private readonly static int[] NextIndex = { ReservedSpace + 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
         private readonly int _id;
 
         public byte Key { get { return (byte)(_id & ReservedSpace); } }
@@ -2347,6 +2338,14 @@ namespace MovementEffects
         {
             return _id;
         }
+
+        /// <summary>
+        /// Is true if this handle may have been a valid handle at some point. (i.e. is not an uninitialized handle, error handle, or a key to a coroutine lock)
+        /// </summary>
+        public bool IsValid
+        {
+            get { return Key != 0; }
+        }
     }
 }
 
@@ -2360,7 +2359,7 @@ public static class MECExtensionMethods
     /// <returns>The modified coroutine handle.</returns>
     public static IEnumerator<float> CancelWith(this IEnumerator<float> coroutine, GameObject gameObject)
     {
-        while (gameObject && gameObject.activeInHierarchy && coroutine.MoveNext())
+        while (MEC.Timing.MainThread != System.Threading.Thread.CurrentThread || (gameObject && gameObject.activeInHierarchy && coroutine.MoveNext()))
             yield return coroutine.Current;
     }
 
@@ -2373,7 +2372,8 @@ public static class MECExtensionMethods
     /// <returns>The modified coroutine handle.</returns>
     public static IEnumerator<float> CancelWith(this IEnumerator<float> coroutine, GameObject gameObject1, GameObject gameObject2)
     {
-        while (gameObject1 && gameObject1.activeInHierarchy && gameObject2 && gameObject2.activeInHierarchy && coroutine.MoveNext())
+        while (MEC.Timing.MainThread != System.Threading.Thread.CurrentThread || (gameObject1 && gameObject1.activeInHierarchy && 
+                gameObject2 && gameObject2.activeInHierarchy && coroutine.MoveNext()))
             yield return coroutine.Current;
     }
 
@@ -2388,8 +2388,8 @@ public static class MECExtensionMethods
     public static IEnumerator<float> CancelWith(this IEnumerator<float> coroutine,
         GameObject gameObject1, GameObject gameObject2, GameObject gameObject3)
     {
-        while (gameObject1 && gameObject1.activeInHierarchy && gameObject2 && gameObject2.activeInHierarchy &&
-                gameObject3 && gameObject3.activeInHierarchy && coroutine.MoveNext())
+        while (MEC.Timing.MainThread != System.Threading.Thread.CurrentThread || (gameObject1 && gameObject1.activeInHierarchy && 
+                gameObject2 && gameObject2.activeInHierarchy && gameObject3 && gameObject3.activeInHierarchy && coroutine.MoveNext()))
             yield return coroutine.Current;
     }
 }

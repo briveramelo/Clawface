@@ -210,20 +210,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 205d2f24998c3ca4195927aa09b17b01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 5
+  damage: 0
   pickupCollider: {fileID: 65209099370088602}
   energySettings:
     timeToCoolDown: 0.45
     isCoolingDown: 0
     isActive: 0
+    cooldownTimer: 0
   shootSFX: 12
   muzzleTransform: {fileID: 4564136626918456}
   projectileProperties:
     projectileSpeed: 40
-    projectileHitDamage: 1.2
+    projectileHitDamage: 1.3
     homingAngle: 360
     homingRadius: 6
     maxChainableEnemies: 5
     maxDistance: 20
     maxDistancePerSubChain: 20
     lightningSFX: 2
+  arcLightningRange: 6
+  arcLightningAngleDotProduct: 0.5
+  arcLightningMaxDPS: 3
+  arcLightningLayer:
+    serializedVersion: 2
+    m_Bits: 512

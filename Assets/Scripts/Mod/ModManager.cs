@@ -34,7 +34,6 @@ public class ModManager : MonoBehaviour
     [SerializeField] private ModPositions modPositions;
 
     [SerializeField] private float minJoystickFireMagnitude = 0.7f;
-    
     #endregion    
 
     #region Private Fields

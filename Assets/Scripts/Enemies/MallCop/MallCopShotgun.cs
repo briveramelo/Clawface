@@ -7,7 +7,7 @@ using UnityEngine.AI;
 using System.Linq;
 using System;
 using ModMan;
-using MovementEffects;
+using MEC;
 
 [System.Serializable]
 public class MallCopShotgunProperties : AIProperties
@@ -19,10 +19,8 @@ public class MallCopShotgun : EnemyBase
 
     #region 1. Serialized Unity Inspector Fields
     [SerializeField] SphereCollider playerDetectorSphereCollider;
-    [SerializeField] float closeEnoughToFireDistance;
     [SerializeField] private MallCopProperties properties;
     [SerializeField] private BulletHellPatternController bulletHellController;
-    [SerializeField] private float maxToleranceTime;
     #endregion
 
     #region 2. Private fields
@@ -31,9 +29,12 @@ public class MallCopShotgun : EnemyBase
     private MallCopFireState fire;
     private MallCopStunState stun;
     private MallCopCelebrateState celebrate;
+    private MallCopGetUpState getUp;
     private float currentToleranceTime;
     private float currentHitReactionLayerWeight;
     private float hitReactionLayerDecrementSpeed = 1.5f;
+    private float closeEnoughToFireDistance;
+    private float maxToleranceTime;
     private Vector3 rayCastPosition;
     #endregion
 
@@ -41,7 +42,10 @@ public class MallCopShotgun : EnemyBase
 
     public override void Awake()
     {
+        myStats = GetComponent<Stats>();
+        SetAllStats();
         InitilizeStates();
+        fire.animatorSpeed = EnemyStatsManager.Instance.blasterShotgunStats.animationShootSpeed;
         controller.Initialize(properties, velBody, animator, myStats, navAgent, navObstacle, bulletHellController, aiStates);
         damaged.Set(DamagedType.MallCop, bloodEmissionLocation);
 
@@ -169,6 +173,11 @@ public class MallCopShotgun : EnemyBase
         animator.SetLayerWeight(2, 0.0f);
     }
 
+    public void GetUpDone()
+    {
+        getUp.Up();
+    }
+
     public override void DoPlayerKilledState(object[] parameters)
     {
         if (myStats.health > myStats.skinnableHealth)
@@ -226,10 +235,65 @@ public class MallCopShotgun : EnemyBase
         stun.stateName = "stun";
         celebrate = new MallCopCelebrateState();
         celebrate.stateName = "celebrate";
+        getUp = new MallCopGetUpState();
+        getUp.stateName = "getUp";
         aiStates.Add(chase);
         aiStates.Add(fire);
         aiStates.Add(stun);
         aiStates.Add(celebrate);
+        aiStates.Add(getUp);
+        
+    }
+
+    private void SetAllStats()
+    {
+        myStats.health = EnemyStatsManager.Instance.blasterShotgunStats.health;
+        myStats.maxHealth = EnemyStatsManager.Instance.blasterShotgunStats.maxHealth;
+        myStats.skinnableHealth = EnemyStatsManager.Instance.blasterShotgunStats.skinnableHealth;
+        myStats.moveSpeed = EnemyStatsManager.Instance.blasterShotgunStats.speed;
+        myStats.attack = EnemyStatsManager.Instance.blasterShotgunStats.attack;
+
+        navAgent.speed = EnemyStatsManager.Instance.blasterShotgunStats.speed;
+        navAgent.angularSpeed = EnemyStatsManager.Instance.blasterShotgunStats.angularSpeed;
+        navAgent.acceleration = EnemyStatsManager.Instance.blasterShotgunStats.acceleration;
+        navAgent.stoppingDistance = EnemyStatsManager.Instance.blasterShotgunStats.stoppingDistance;
+
+        scoreValue = EnemyStatsManager.Instance.blasterShotgunStats.scoreValue;
+        eatHealth = EnemyStatsManager.Instance.blasterShotgunStats.eatHealth;
+        stunnedTime = EnemyStatsManager.Instance.blasterShotgunStats.stunnedTime;
+
+        closeEnoughToFireDistance = EnemyStatsManager.Instance.blasterShotgunStats.closeEnoughToFireDistance;
+        maxToleranceTime = EnemyStatsManager.Instance.blasterShotgunStats.maxToleranceTime;
+
+        bulletHellController.SetBulletHellProperties(EnemyStatsManager.Instance.blasterShotgunStats.separationFromForwardVector,
+            EnemyStatsManager.Instance.blasterShotgunStats.bulletSpeed, EnemyStatsManager.Instance.blasterShotgunStats.bulletDamage,
+            EnemyStatsManager.Instance.blasterShotgunStats.rateOfFire,
+            EnemyStatsManager.Instance.blasterShotgunStats.bulletOffsetFromOrigin,
+            EnemyStatsManager.Instance.blasterShotgunStats.bulletStrands,
+            EnemyStatsManager.Instance.blasterShotgunStats.separationAngleBetweenStrands,
+            EnemyStatsManager.Instance.blasterShotgunStats.rotationDirection,
+            EnemyStatsManager.Instance.blasterShotgunStats.rotationSpeedBulletHellController,
+            EnemyStatsManager.Instance.blasterShotgunStats.bulletLiveTime,
+            EnemyStatsManager.Instance.blasterShotgunStats.animationDriven);
+
+        
+
+        myStats.SetStats();
+    }
+
+    private void ShowChargeEffect()
+    {
+        GameObject vfx = ObjectPool.Instance.GetObject(PoolObjectType.VFXEnemyChargeBlaster);
+        Vector3 scaleBackup = vfx.transform.localScale;
+        vfx.transform.SetParent(bulletHellController.transform);
+        //For offsetting the particle
+        vfx.transform.localPosition = Vector3.zero;
+        vfx.transform.localRotation = Quaternion.Euler(-90.0f,0.0f,0.0f);
+        vfx.transform.localScale = new Vector3(
+            scaleBackup.x / vfx.transform.localScale.x,
+            scaleBackup.y / vfx.transform.localScale.y,
+            scaleBackup.z / vfx.transform.localScale.z
+        );
     }
 
     private void OnDrawGizmosSelected()

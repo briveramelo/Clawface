@@ -1,22 +1,27 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using MovementEffects;
+using MEC;
 
 [System.Serializable]
 public class ZombieAttackState : AIState
 {
+    public bool moveTowardsPlayer;
+    public bool doneAttacking;
+    public float animatorSpeed;
+
     private ShooterProperties shooterProperties = new ShooterProperties();
     private Damager damager = new Damager();
     List<int> attacks;
-    public bool moveTowardsPlayer;
-    public bool doneAttacking;
     private Vector3 initialPosition;
+    private float oldAnimatorSpeed;
 
     public override void OnEnter()
     {
         initialPosition = controller.transform.position;
         doneAttacking = false;
+        oldAnimatorSpeed = animator.speed;
+        animator.speed = animatorSpeed;
         attacks = new List<int>();
         //attacks.Add((int)AnimationStates.Attack1);
         //attacks.Add((int)AnimationStates.Attack2);
@@ -32,11 +37,7 @@ public class ZombieAttackState : AIState
     }
     public override void Update()
     {
-        WaitToMove();
-
-        //if(navAgent.isActiveAndEnabled)
-        //    navAgent.SetDestination(controller.AttackTarget.position);
-
+        FreezePosition();
         Vector3 lookPos = new Vector3(controller.AttackTarget.transform.position.x, controller.transform.position.y, controller.AttackTarget.transform.position.z);
         controller.transform.LookAt(lookPos);
     }
@@ -45,6 +46,7 @@ public class ZombieAttackState : AIState
         navAgent.speed = myStats.moveSpeed;
         navObstacle.enabled = false;
         navAgent.enabled = true;
+        animator.speed = oldAnimatorSpeed;
         attacks.Clear();
     }
 
@@ -66,22 +68,6 @@ public class ZombieAttackState : AIState
     public bool CanRestart()
     {
         return doneAttacking;
-    }
-
-    private bool WaitToMove()
-    {
-        //if (moveTowardsPlayer)
-        //{
-        //    //navAgent.speed = navAgent.speed * 1.0f;
-        //    return true;
-        //}
-        //else
-        //{
-            FreezePosition();
-        //}
-
-
-        return false;
     }
 
     private void FreezePosition()

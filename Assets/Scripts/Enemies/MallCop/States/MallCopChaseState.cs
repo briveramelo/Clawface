@@ -17,7 +17,6 @@ public class MallCopChaseState : AIState {
         Chase();        
     }
     public override void OnExit() {
-
     }
 
     void Chase() {

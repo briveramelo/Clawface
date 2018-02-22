@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using MovementEffects;
+using MEC;
 using System;
 using Turing.VFX;
 using ModMan;
@@ -172,6 +172,10 @@ public class LightningProjectile : MonoBehaviour {
                 damager.impactDirection = transform.forward;
                 damager.damage = projectileProperties.projectileHitDamage;
                 damageable.TakeDamage(damager);
+
+                GameObject blood = ObjectPool.Instance.GetObject(PoolObjectType.VFXBloodSpurt);
+                if (blood) blood.transform.position = damageable.GetPosition();
+
                 GameObject vfx = ObjectPool.Instance.GetObject (PoolObjectType.VFXLightningGunImpact);
                 if (vfx && affectTarget)
                 {

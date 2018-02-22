@@ -70,4 +70,9 @@ public abstract class AIProperties
     [HideInInspector] public bool rotate;
     [HideInInspector] public float kamikazeProbability;
     [HideInInspector] public float kamikazePulserProbability;
+    [HideInInspector] public int maxPulses;
+    [HideInInspector] public float pulseRate;
+    [HideInInspector] public float scaleRate;
+    [HideInInspector] public float maxScale;
+    [HideInInspector] public float spawnRate;
 }

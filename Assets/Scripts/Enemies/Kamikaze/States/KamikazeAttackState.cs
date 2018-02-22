@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using MovementEffects;
+using MEC;
 
 public class KamikazeAttackState : AIState {
 
@@ -42,10 +42,11 @@ public class KamikazeAttackState : AIState {
 
     IEnumerator<float> RunStartupTimer()
     {
-        GameObject explosionSphere = ObjectPool.Instance.GetObject(PoolObjectType.KamikazeExplosionSphere);
-        if (explosionSphere) {
-            explosionSphere.transform.position = controller.transform.position;
-            explosionSphere.GetComponent<ExplosionTrigger>().Initialize(blastRadius,scaleRate);
+        //GameObject explosionSphere = ObjectPool.Instance.GetObject(PoolObjectType.KamikazeExplosionSphere);
+        GameObject explosionWarning = ObjectPool.Instance.GetObject(PoolObjectType.VFXKamikazeExplosionWarning);
+        if (explosionWarning) {
+            explosionWarning.transform.position = controller.transform.position;
+            //explosionSphere.GetComponent<ExplosionTrigger>().Initialize(blastRadius,scaleRate);
         }
 
         yield return Timing.WaitForSeconds(waitTimeToDestruct);

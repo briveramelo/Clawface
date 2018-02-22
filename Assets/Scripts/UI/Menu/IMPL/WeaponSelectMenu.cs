@@ -3,6 +3,7 @@
 using ModMan;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class WeaponSelectMenu : Menu
 {
@@ -49,6 +50,18 @@ public class WeaponSelectMenu : Menu
 
     [SerializeField]
     private float queryActionEverySeconds = .75f;
+
+    [SerializeField]
+    private Text weaponNameText;
+
+    [SerializeField]
+    private Text weaponDescriptionText;
+
+    [SerializeField]
+    private Image weaponGraph;
+
+    [SerializeField]
+    private List<WeaponInfo> weaponInfos;
 
     #endregion
 
@@ -206,6 +219,8 @@ public class WeaponSelectMenu : Menu
 
         leftArm.ResetArrows();
         rightArm.ResetArrows();
+
+        ChangeWeaponTextPanel(rightArm);
     }
 
     private void BackButtonBehaviour ()
@@ -225,6 +240,7 @@ public class WeaponSelectMenu : Menu
             if (InputManager.Instance.QueryAction(Strings.Input.UI.SUBMIT, ButtonMode.DOWN))
             {
                 LockInRightAction();
+                ChangeWeaponTextPanel(leftArm);
                 leftArm.GlowControl.Reset();
             }
             else if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN))
@@ -260,6 +276,7 @@ public class WeaponSelectMenu : Menu
                 selectingPlayerLeft = true;
                 leftArm.GlowControl.Reset();
                 leftArm.ResetArrows();
+                ChangeWeaponTextPanel(leftArm);
             }
         }
 
@@ -297,11 +314,13 @@ public class WeaponSelectMenu : Menu
         if (isLeft)
         {
             lineup.MoveLeft();
+            ChangeWeaponTextPanel(lineup);
             return true;
         }
         else if (isRight)
         {
             lineup.MoveRight();
+            ChangeWeaponTextPanel(lineup);
             return true;
         }
         return false;
@@ -319,6 +338,22 @@ public class WeaponSelectMenu : Menu
         startButton.image.sprite = selectedButtonSprite;
         ModManager.leftArmOnLoad = leftArm.GetSelection();
         selectingPlayerLeft = false;
+    }
+
+    private void ChangeWeaponTextPanel(WeaponLineup lineup)
+    {
+        ModType type = lineup.GetSelection();
+
+        foreach (WeaponInfo info in weaponInfos)
+        {
+            if (info.weaponType == type)
+            {
+                weaponNameText.text = info.weaponName;
+                weaponDescriptionText.text = info.weaponDescription;
+                weaponGraph.sprite = info.weaponGraph;
+                return;
+            }
+        }
     }
 
     #endregion

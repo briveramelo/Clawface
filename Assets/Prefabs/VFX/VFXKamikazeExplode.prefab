@@ -55,8 +55,6 @@ GameObject:
   - component: {fileID: 4179855533488976}
   - component: {fileID: 198257795894134252}
   - component: {fileID: 199964198394189406}
-  - component: {fileID: 114858006641094604}
-  - component: {fileID: 114595218077302328}
   m_Layer: 0
   m_Name: ExplosionEffect
   m_TagString: Untagged
@@ -259,19 +257,6 @@ Transform:
   m_Father: {fileID: 4197420676377876}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114595218077302328
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1348511289912464}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7eb4a53ccb703bc4a83ae2b88b7262a5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  splatterLifetime: 2.5
-  splashRange: 1.5
 --- !u!114 &114735827850050510
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -284,27 +269,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playOnAwake: 1
---- !u!114 &114858006641094604
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1348511289912464}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dcc18adc8151c17449e1a72786ecd1c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  explosionParticleSystem: {fileID: 198257795894134252}
-  splatterLifetime: 2.5
-  limbs:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  limbExplodeForce: 200
-  gp: {fileID: 114595218077302328}
 --- !u!198 &198257795894134252
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -6646,7 +6610,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 2023040177
+  randomSeed: -166483639
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -9829,7 +9793,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 1000292385
+  randomSeed: 1554555383
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -13024,7 +12988,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -1332746118
+  randomSeed: 572401868
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -16183,7 +16147,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -707037522
+  randomSeed: -273872302
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -19354,7 +19318,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 450396599
+  randomSeed: -356854297
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -22676,7 +22640,7 @@ ParticleSystemRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 2100000, guid: c447f39b221c5a84cb2fb58b49b27d3e, type: 2}
+  - {fileID: 2100000, guid: c55aa7389efe8874aaf2cc8de0cca44e, type: 2}
   - {fileID: 2100000, guid: 8b9b8642e2967de4eb6bab5b6576dbe9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0

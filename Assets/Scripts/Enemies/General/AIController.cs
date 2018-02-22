@@ -4,12 +4,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using MovementEffects;
+using MEC;
 using System;
 using System.Linq;
 using ModMan;
 
-public abstract class AIController : MonoBehaviour {
+public abstract class AIController : RoutineRunner {
 
     #region 2. Serialized Unity Inspector Fields
     [SerializeField] protected string DEBUG_CURRENTSTATE;
@@ -24,6 +24,8 @@ public abstract class AIController : MonoBehaviour {
 
     #region 4. Private fields
     private Transform attackTarget;
+    private GameObject player;
+    private float distanceFromTarget;
     #endregion
 
     #region 5. Protected fields
@@ -54,10 +56,8 @@ public abstract class AIController : MonoBehaviour {
     }
     public Vector3 AttackTargetPosition { get { return AttackTarget.position - transform.forward * .1f; } }
 
-
-
     private bool deActivateAI = false;
-    public float distanceFromTarget;
+    
     public float DistanceFromTarget {get{ distanceFromTarget = Vector3.Distance(transform.position, AttackTarget.position); return distanceFromTarget; }}
     public Vector3 DirectionToTarget {
         get {
@@ -73,11 +73,17 @@ public abstract class AIController : MonoBehaviour {
             }
             currentState = value;
             DEBUG_CURRENTSTATE = currentState.ToString();
+            //DEBUG_ATTACKTARGET = attackTarget.gameObject.name.ToString();
             currentState.OnEnter();
-            Timing.RunCoroutine(IERestartStateTimer());
+            Timing.RunCoroutine(IERestartStateTimer(), coroutineName);
         }
     }
     public List<Func<bool>> checksToUpdateState = new List<Func<bool>>();
+
+    private void Start()
+    {
+        player = null;
+    }
 
     private void OnDisable()
     {
@@ -94,6 +100,7 @@ public abstract class AIController : MonoBehaviour {
 
     public void ActivateAI()
     {
+        CurrentState = states.getUp;
         deActivateAI = false;
     }
 
@@ -125,17 +132,29 @@ public abstract class AIController : MonoBehaviour {
         if (mod != null)
         {
             mod.transform.Reset(modMemento);            
-
         }
     }
 
+    public bool IsStunned()
+    {
+        return currentState == states.stun;
+    }
+
+    public void SetDefaultState()
+    {
+        CurrentState = states.chase;
+    }
+
     public void RestartStateTimer() {
-        Timing.RunCoroutine(IERestartStateTimer());
+        Timing.RunCoroutine(IERestartStateTimer(), coroutineName);
     }
 
     public Transform FindPlayer()
     {
-        GameObject player = GameObject.FindGameObjectWithTag(Strings.Tags.PLAYER);
+        if (!player)
+        {
+            player = GameObject.FindGameObjectWithTag(Strings.Tags.PLAYER);
+        }
         if (player)
         {
             return player.transform;
@@ -187,7 +206,7 @@ public abstract class AIController : MonoBehaviour {
         if (mod != null)
             modMemento.Initialize(mod.transform);
 
-        CurrentState = states.chase;
+        CurrentState = states.getUp;
     }
 
     public void Initialize(
@@ -214,7 +233,7 @@ public abstract class AIController : MonoBehaviour {
         if(mod != null)
         modMemento.Initialize(mod.transform);
 
-        CurrentState = states.chase;
+        CurrentState = states.getUp;
     }
 
     public void Initialize(
@@ -240,7 +259,7 @@ public abstract class AIController : MonoBehaviour {
         if (mod != null)
             modMemento.Initialize(mod.transform);
 
-        CurrentState = states.chase;
+        CurrentState = states.getUp;
     }
 
     public void UpdateState(EAIState state)
@@ -271,6 +290,7 @@ public abstract class AIController : MonoBehaviour {
         public AIState death;
         public AIState stun;
         public AIState celebrate;
+        public AIState getUp;
 
         public Dictionary<EAIState, AIState> aiStates;
 
@@ -323,6 +343,11 @@ public abstract class AIController : MonoBehaviour {
                 {
                     celebrate = state;
                     aiStates.Add(EAIState.Celebrate, celebrate);
+                }
+                else if (state.stateName.Equals("getUp"))
+                {
+                    getUp = state;
+                    aiStates.Add(EAIState.GetUp, getUp);
                 }
             }
 
@@ -378,6 +403,11 @@ public abstract class AIController : MonoBehaviour {
                 {
                     celebrate = state;
                     aiStates.Add(EAIState.Celebrate, celebrate);
+                }
+                else if (state.stateName.Equals("getUp"))
+                {
+                    getUp = state;
+                    aiStates.Add(EAIState.GetUp, getUp);
                 }
             }
 

@@ -17,6 +17,11 @@ public class MissileMod : Mod {
     [SerializeField] private float verticalImpulse;
     [SerializeField] private float bulletGravity;
 
+    [SerializeField] private Animator animator;
+    [SerializeField] private GameObjectEmitter shellEmitter;
+    [SerializeField] private Transform bulletSpawnPoint;
+    [SerializeField] private PoolObjectType shootVFX;
+
     public override void DeActivate()
     {
     }
@@ -57,7 +62,11 @@ public class MissileMod : Mod {
     {
         if (GetMissile())
         {
+
             SFXManager.Instance.Play(shootSFX, transform.position);
+            animator.SetTrigger("Shoot");
+            shellEmitter.Emit();
+            
             // FinishFiring();
         }
     }
@@ -71,6 +80,11 @@ public class MissileMod : Mod {
             projectile.transform.forward = transform.forward;
             projectile.transform.rotation = Quaternion.Euler(0f, projectile.transform.rotation.eulerAngles.y, 0f);
             projectile.GetComponent<Missile>().Init(missileSpeed, closeRadius, farRadius, closeDamage, farDamage, projectileLifetime, verticalImpulse, bulletGravity);
+
+            GameObject vfx = ObjectPool.Instance.GetObject(shootVFX);
+            vfx.transform.SetParent (transform);
+            vfx.transform.position = bulletSpawnPoint.position;
+            vfx.transform.rotation = bulletSpawnPoint.rotation;
         }
 
         return projectile;

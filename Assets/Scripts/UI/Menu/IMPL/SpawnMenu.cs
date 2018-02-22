@@ -1,107 +1,116 @@
-﻿using UnityEngine.UI;
+﻿//Garin + Brandon
+using UnityEngine.EventSystems;
 using UnityEngine;
-using PlayerLevelEditor;
+public class SpawnMenu : PlacementMenu {
 
-public class SpawnMenu : Menu {
+    private PLESpawn selectedSpawn;
 
-    #region Public Fields
-
-    public override Button InitialSelection
-    {
-        get
-        {
-            return initiallySelected;
-        }
-    }
-
+    #region Public Interface
+    public SpawnMenu() : base(Strings.MenuStrings.ADD_SPAWNS_PLE) { }
     #endregion
 
-    #region Serialized Unity Fields
+    #region Private Fields
 
-    [SerializeField] private Button initiallySelected;
-    [SerializeField] private LevelEditor editorInstance;
-
-    #endregion
-
-    #region Unity Lifecycle
-
-    private void Update()
-    {
-        if(inputGuard)
-        {
-            //if(Initialize)
-
-
-            if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN))
-            {
-                BackAction();
-            }
-        }
-    }
+    static public GameObject playerSpawnInstance = null;
 
     #endregion  
 
-    #region Public Interface
+    private void Awake() {
+        EventSystem.Instance.RegisterEvent(Strings.Events.PLE_CHANGEWAVE, OnWaveChange);
+    }
+    private void OnDestroy() {
+        if (EventSystem.Instance) {
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_CHANGEWAVE, OnWaveChange);
+        }
+    }
 
-    public SpawnMenu() : base(Strings.MenuStrings.ADD_SPAWNS_PLE)
-    { }
+    void OnWaveChange(params object[] parameters) {
 
-    #endregion
+        string activeWaveName = GetWaveName(WaveSystem.currentWave);
 
-    #region Private Fields 
+        for (int i = 0; i < createdItemsParent.childCount; i++)
+        {
+            //Accounts for not disabling the player spawn object between switching of waves.
+            GameObject currentGO = createdItemsParent.GetChild(i).gameObject;
 
-    private bool inputGuard = false;
-
-    #endregion
+            if (!currentGO.CompareTag(Strings.Editor.PLAYER_SPAWN_TAG))
+            {
+                currentGO.SetActive(false);
+            }
+        }
+        Transform activeWave = createdItemsParent.Find(activeWaveName);
+        if (activeWave!=null) {
+            activeWave.gameObject.SetActive(true);
+        }
+    }
 
     #region Protected Interface
+    protected override bool SelectUI { get { return base.SelectUI && ScrollGroupHelper.currentUIItem != null; } }
+    protected override bool SelectItem { get { return base.SelectUI && MouseHelper.currentSpawn != null; } }
 
-    protected override void ShowComplete()
-    {
+    protected override void ShowComplete() {
         base.ShowComplete();
-        inputGuard = true;
         editorInstance.gridController.currentEditorMenu = EditorMenu.SPAWN_MENU;
     }
 
-    protected override void HideStarted()
-    {
-        base.HideStarted();
-        inputGuard = false;
+
+    protected override void DeselectAll() {
+        base.DeselectAll();
+        selectedSpawn = null;
     }
+    protected override void SelectUIItem() {
+        PLEUIItem currentUIItem = ScrollGroupHelper.currentUIItem;
 
-    protected override void DefaultShow(Transition transition, Effect[] effects)
-    {
-        Fade(transition, effects);
-
+        if(currentUIItem) {
+            selectedItem = currentUIItem.registeredItem;
+            TryDestroyPreview();
+            previewItem = Instantiate(selectedItem);
+        }
     }
-
-    protected override void DefaultHide(Transition transition, Effect[] effects)
-    {
-        Fade(transition, effects);
-    }
-
-    #endregion
-
-    #region Private Interface
-
-    private void AddAction()
-    {
-        //TODO: Set Button to activated state via Sprite change
-#if UNITY_EDITOR
-        Debug.Log("Adding enemies ooooh");
-#endif
+    protected override void PostPlaceItem(GameObject newItem) {
+        int currentWave = WaveSystem.currentWave;
+        Transform waveParent = TryCreateWaveParent(currentWave);
+        for (int i = currentWave; i >= 0; i--) {
+            TryCreateWaveParent(i);
+        }
+        newItem.transform.SetParent(waveParent);
         
+        MouseHelper.currentBlockUnit.AddSpawn(newItem);
+
+        if(newItem.CompareTag(Strings.Editor.PLAYER_SPAWN_TAG))
+        {
+            if(playerSpawnInstance != null)
+            {
+                DestroyImmediate(playerSpawnInstance);
+            }
+
+            playerSpawnInstance = newItem;
+            playerSpawnInstance.transform.SetParent(TryCreateWaveParent(0).parent);
+
+        }
     }
-
-    private void BackAction()
-    {
-
-        MainPLEMenu menu = editorInstance.GetMenu(PLEMenu.MAIN) as MainPLEMenu;
-
-        MenuManager.Instance.DoTransition(menu, Menu.Transition.SHOW, new Menu.Effect[] { Menu.Effect.EXCLUSIVE });
-
+    Transform TryCreateWaveParent(int i) {
+        string waveName = GetWaveName(i);
+        Transform waveParent = createdItemsParent.Find(waveName);
+        if (waveParent == null) {
+            waveParent = new GameObject(waveName).transform;
+            waveParent.SetParent(createdItemsParent);
+        }
+        return waveParent;
     }
 
     #endregion
+    private string GetWaveName(int i) { return Strings.Editor.Wave + i; }
 
+    protected override void SelectGameItem() {
+        base.SelectGameItem();
+        MouseHelper.currentSpawn.Select();
+        selectedSpawn = MouseHelper.currentSpawn;
+    }
+    protected override void DeselectItem() {
+        if (selectedSpawn!=null) {
+            selectedSpawn.Deselect();
+            selectedSpawn = null;
+        }
+    }
 }

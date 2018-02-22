@@ -22,6 +22,8 @@ GameObject:
   - component: {fileID: 114762000818483058}
   - component: {fileID: 82938227598913504}
   - component: {fileID: 114652027652496938}
+  - component: {fileID: 114995109856299658}
+  - component: {fileID: 114080366383499922}
   m_Layer: 0
   m_Name: SFX_PlayerTakeDamage
   m_TagString: Untagged
@@ -123,6 +125,28 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &114080366383499922
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1940307074282692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e594d69e58e793c47b9d13e384085fc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clips:
+  - {fileID: 8300000, guid: 0bcc87e91afe3444d90bdb961a3bd401, type: 3}
+  - {fileID: 8300000, guid: 854c2fb063bc1634baec46c6fc03ae13, type: 3}
+  changeVolumeEachLoop: 0
+  uniformVolume: 0.5
+  useRandomVolume: 0
+  randomVolumeRange:
+    minLimit: 0
+    maxLimit: 0
+    min: 1
+    max: 1
 --- !u!114 &114652027652496938
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -160,6 +184,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   channels:
   - {fileID: 114652027652496938}
+  - {fileID: 114995109856299658}
+  - {fileID: 114080366383499922}
   loop: 0
   playOnStart: 0
   spatialBlend: 0
@@ -176,6 +202,27 @@ MonoBehaviour:
   changePitchEachLoop: 0
   pitch: 1
   pitchRange:
+    minLimit: 0
+    maxLimit: 0
+    min: 1
+    max: 1
+--- !u!114 &114995109856299658
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1940307074282692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e594d69e58e793c47b9d13e384085fc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clips:
+  - {fileID: 8300000, guid: 8ea2e99a50411064895e3331dc4b0786, type: 3}
+  changeVolumeEachLoop: 0
+  uniformVolume: 1
+  useRandomVolume: 0
+  randomVolumeRange:
     minLimit: 0
     maxLimit: 0
     min: 1

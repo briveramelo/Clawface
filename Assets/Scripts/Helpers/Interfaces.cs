@@ -22,6 +22,7 @@ public interface IDamageable
 {
     void TakeDamage(Damager damager);
     float GetHealth();
+    Vector3 GetPosition();
 }
 
 public interface IModifiable
@@ -46,7 +47,7 @@ public interface ICollectable{
 public interface IEatable
 {
     bool IsEatable();
-    int Eat();
+    void Eat(out int health);
     void DisableCollider();
     void EnableRagdoll(float weight = 1.0f);
     void DisableRagdoll();

@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using MovementEffects;
+using MEC;
 
 public class BlasterBullet : MonoBehaviour {
 
@@ -102,6 +102,9 @@ public class BlasterBullet : MonoBehaviour {
 
             damager.Set(damage, DamagerType.BlasterBullet, transform.forward);
             damageable.TakeDamage(damager);
+
+            GameObject blood = ObjectPool.Instance.GetObject (PoolObjectType.VFXBloodSpurt);
+            if (blood) blood.transform.position = damageable.GetPosition();
         }
     }
 

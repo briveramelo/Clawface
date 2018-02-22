@@ -6,12 +6,14 @@ public class ColliderGenerator : MonoBehaviour {
 
     [SerializeField] private GameObject prefabWithCollider;
     [SerializeField] private GameObject tentacleBone;
-    [SerializeField] private float colliderGenerationTime;
 
     [SerializeField] private Zombie zombieParent;
     [SerializeField] private ZombieBeserker zombieBeserkerParent;
+    [SerializeField] private ZombieAcider zombieAciderParent;
 
+    private float colliderGenerationTime;
     private float currentGenerationTime = 0.0f;
+    private float currentAcidTriggerLife;
 
 	// Update is called once per frame
 	void Update () {
@@ -24,11 +26,16 @@ public class ColliderGenerator : MonoBehaviour {
         {
             GameObject acidCollider = ObjectPool.Instance.GetObject(PoolObjectType.AcidTrigger);
             acidCollider.transform.position = transform.position;
-            if(zombieParent)
-                acidCollider.GetComponent<AcidTrigger>().SetZombieParent(zombieParent);
-            else
-                acidCollider.GetComponent<AcidTrigger>().SetZombieParent(zombieBeserkerParent);
+            acidCollider.GetComponent<AcidTrigger>().SetAcidTriggerLife(currentAcidTriggerLife);
+            acidCollider.GetComponent<AcidTrigger>().SetZombieParent(zombieAciderParent);
             currentGenerationTime = 0.0f;
         }
 	}
+
+    public void SetStats(float newColliderGenerationTime,float newAcidTriggerLife)
+    {
+        colliderGenerationTime = newColliderGenerationTime;
+        currentAcidTriggerLife = newAcidTriggerLife;
+    }
+
 }

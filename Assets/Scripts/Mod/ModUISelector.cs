@@ -4,10 +4,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using ModMan;
-using MovementEffects;
+using MEC;
 using System.Linq;
 
-public class ModUISelector : MonoBehaviour {
+public class ModUISelector : RoutineRunner {
 
     [SerializeField] private GameObject modEquipCanvas;//, selectionHighlighter;
     [SerializeField] private GameObject blasterIcon, boomerangeIcon, missileIcon, segwayIcon, geyserIcon, grapplerIcon, stunbatonIcon;
@@ -71,7 +71,7 @@ public class ModUISelector : MonoBehaviour {
                             !modManager.GetModSpotDictionary()[spotCommands.Key].mod.modEnergySettings.isActive)) {
 
                             modManager.EquipMod(spotCommands.Key, selectedMod);
-                            Timing.RunCoroutine(DelayCanActivate(command));
+                            Timing.RunCoroutine(DelayCanActivate(command), coroutineName);
                             CloseCanvas();
                         }
                         else {
@@ -202,7 +202,7 @@ public class ModUISelector : MonoBehaviour {
     }
 
     #region Private Structures
-    private class ModUIElement {
+    private class ModUIElement : RoutineRunnerNonMono {
         public GameObject uiElement;
         public Range360 range;
         public ModType modType = ModType.None;
@@ -234,7 +234,7 @@ public class ModUISelector : MonoBehaviour {
         public ModUIElement(ModType modType, GameObject uiElement) {
             this.modType=modType;
             this.uiElement=uiElement;
-            Timing.RunCoroutine(InternalUpdate(), Segment.LateUpdate);
+            Timing.RunCoroutine(InternalUpdate(), Segment.LateUpdate, coroutineName);
         }
 
         public void Set(ModType modType, int numMods, int myIndex) {
@@ -256,21 +256,21 @@ public class ModUISelector : MonoBehaviour {
         public void SetBadSelection() {
             uiElement.transform.localPosition = myPosition;
             Timing.KillCoroutines(coroutineString);
-            Timing.RunCoroutine(Shake());
+            Timing.RunCoroutine(Shake(), coroutineName);
         }        
                 
         public void SetSelected() {
             isSelected = true;
             uiElement.transform.localPosition = myPosition;
             Timing.KillCoroutines(coroutineString);
-            Timing.RunCoroutine(Bulge());
+            Timing.RunCoroutine(Bulge(), coroutineName);
         }
         
         public void SetUnSelected() {
             uiElement.transform.localPosition = myPosition;
             isSelected = false;
             Timing.KillCoroutines(coroutineString);
-            Timing.RunCoroutine(LerpToScale(startScale, 0.2f));
+            Timing.RunCoroutine(LerpToScale(startScale, 0.2f), coroutineName);
         }
         public void Close() {
             uiElement.transform.localPosition = myPosition;
@@ -281,7 +281,7 @@ public class ModUISelector : MonoBehaviour {
 
         private IEnumerable<float> ScaleToStart() {
             isShrinking=true;
-            yield return Timing.WaitUntilDone(Timing.RunCoroutine(LerpToScale(startScale, 0.1f)));
+            yield return Timing.WaitUntilDone(Timing.RunCoroutine(LerpToScale(startScale, 0.1f), coroutineName));
             isShrinking=false;
         }
         private IEnumerator<float> Bulge() {

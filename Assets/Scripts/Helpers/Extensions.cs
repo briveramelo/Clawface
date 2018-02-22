@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using MovementEffects;
+using MEC;
 using System.Reflection;
 using System;
 
@@ -8,6 +8,14 @@ namespace ModMan {
 
     public static class StringExtension
     {
+        public static string TryCleanClone(this string myStringName) {
+            const string clone = "(Clone)";
+            if (myStringName.Contains(clone)) {
+                myStringName = myStringName.Substring(0, myStringName.Length - clone.Length);
+            }
+            return myStringName;
+        }
+
         public static string AddSpacesBetweenUpperCase (string str)
         {
             string result = str;
@@ -43,6 +51,10 @@ namespace ModMan {
             float aDif = Mathf.Abs(color.a - color2.a);
 
             return (rDif + gDif + bDif + aDif) < tolerance;
+        }
+        public static Color ChangeAlpha(this Color color, float newAlpha) {
+            color.a = newAlpha;
+            return color;
         }
         public static string ToHex(this Color color)
         {
@@ -128,6 +140,20 @@ namespace ModMan {
             vector.y=0;
             return vector.normalized;
         }
+        public static Vector3 NoY(this Vector3 vec) {
+            vec.y = 0;
+            return vec;
+        }
+        public static Vector3 NoZ(this Vector3 vec) {
+            vec.z = 0;
+            return vec;
+        }
+        public static Vector3 Abs(this Vector3 vec) {
+            vec.x = Mathf.Abs(vec.x);
+            vec.y = Mathf.Abs(vec.y);
+            vec.z = Mathf.Abs(vec.z);
+            return vec;
+        }
         /// <summary>
         /// Returns the greatest of this vector's components.
         /// </summary>
@@ -148,11 +174,11 @@ namespace ModMan {
 
     public static class GameObjectExtensions {
 
-        public static void DeActivate(this GameObject obj, float timeToDeactivate) {
-            Timing.RunCoroutine(IEDeActivate(obj, timeToDeactivate));
+        public static void DeActivate(this GameObject obj, float timeToDeactivate, string coroutineName) {
+            Timing.RunCoroutine(IEDeActivate(obj, timeToDeactivate), coroutineName);
         }
-        public static void FollowAndDeActivate(this GameObject obj, float timeToDeactivate, Transform objToFollow, Vector3 offset) {
-            Timing.RunCoroutine(IEDeActivate(obj, timeToDeactivate, objToFollow, offset));
+        public static void FollowAndDeActivate(this GameObject obj, float timeToDeactivate, Transform objToFollow, Vector3 offset, string coroutineName) {
+            Timing.RunCoroutine(IEDeActivate(obj, timeToDeactivate, objToFollow, offset), coroutineName);
         }
         static IEnumerator<float> IEDeActivate(GameObject obj, float timeToDeactivate) {
             yield return Timing.WaitForSeconds(timeToDeactivate);
@@ -260,6 +286,17 @@ namespace ModMan {
     }
 
     public static class TransformExtensions {
+        public static void SortChildrenByName(this Transform parent) {
+            List<Transform> children = new List<Transform>();
+            for (int i = parent.childCount - 1; i >= 0; i--) {
+                Transform child = parent.GetChild(i);
+                children.Add(child);
+                child.parent = null;
+            }
+            children.Sort((Transform t1, Transform t2) => { return t1.name.CompareTo(t2.name); });
+            children.ForEach(child => child.parent = parent);
+        }
+
         public static void Reset (this Transform tr) {
             tr.localPosition = Vector3.zero;
             tr.localRotation = Quaternion.identity;
@@ -282,13 +319,16 @@ namespace ModMan {
             transformToRestore.rotation = startRotation;
         }
 
-        public static void DestroyAllChildren (this Transform transform)
-        {
-            //Debug.Log ("child count " + transform.childCount.ToString());
-            //Debug.Log ("shit");
-            for (int i = 0; i < transform.childCount; i++)
-            {
+        public static void DestroyAllChildren(this Transform transform) {
+            int count = transform.childCount;
+            for (int i = count - 1; i >=0; i--) {
                 Helpers.DestroyProper(transform.GetChild(i).gameObject);
+            }
+        }
+        public static void ToggleAllChildren(this Transform transform, bool enabled) {
+            int count = transform.childCount;
+            for (int i = count - 1; i >= 0; i--) {
+                transform.GetChild(i).gameObject.SetActive(enabled);
             }
         }
     }
@@ -350,6 +390,16 @@ namespace ModMan {
                 default:
                     return float.NaN;
             }
+        }
+    }
+
+    public static class SpriteRendererExtensions
+    {
+        public static void SetAlpha (this SpriteRenderer spriteRenderer, float alpha)
+        {
+            Color color = spriteRenderer.color;
+            color.a = alpha;
+            spriteRenderer.color = color;
         }
     }
 

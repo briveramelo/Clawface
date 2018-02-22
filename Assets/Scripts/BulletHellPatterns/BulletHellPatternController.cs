@@ -16,17 +16,18 @@ public class BulletHellPatternController : MonoBehaviour {
     [SerializeField][Range(0.0f, 10.0f)]    private float rotationSpeed;
     [SerializeField] private float bulletLiveTime = 1.0f;
     [SerializeField] private bool animationDriven;
+    [HideInInspector]public enum RotateDirection
+    {
+        Right,
+        Left
+    };
     #endregion
 
     #region 2. Private fields
     private Vector3 referenceVector;
     private Quaternion rotationSeparationFromForward;
     private List<BulletHellStrand> bulletHellStrandList;
-    private enum RotateDirection
-    {
-        Right,
-        Left
-    };
+    
     private float currentTime;
     private int currentNumberOfStrands = 0;
     private int oldNumberOfStrands = 0;
@@ -144,6 +145,22 @@ public class BulletHellPatternController : MonoBehaviour {
 
     }
     #endregion
+
+    public void SetBulletHellProperties(float newSeparationFromForwardVector, float newBulletSpeed, float newBulletDamage, float newRateOfFire, float newBulletOffsetFromOrigin, int newBulletStands, float newSeparationAngleBetweenStands, RotateDirection newRotationDirection, float newRotationSpeed, float newBulletLiveTime,bool newAnimationDriven)
+    {
+        separationFromForwardVector = newSeparationFromForwardVector;
+        bulletSpeed = newBulletSpeed;
+        bulletDamage = newBulletDamage;
+        rateOfFire = newRateOfFire;
+        bulletOffsetFromOrigin = newBulletOffsetFromOrigin;
+        bulletStrands = newBulletStands;
+        separationAngleBetweenStrands = newSeparationAngleBetweenStands;
+        rotationDirection = newRotationDirection;
+        rotationSpeed = newRotationSpeed;
+        bulletLiveTime = newBulletLiveTime;
+        animationDriven = newAnimationDriven;
+    }
+
 
     #region 5. Public Methods  
     public float GetFireRate()

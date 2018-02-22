@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using MovementEffects;
+using MEC;
 
 public class BoomerangBullet : MonoBehaviour {
 
@@ -38,7 +38,6 @@ public class BoomerangBullet : MonoBehaviour {
 
         if (deathTimer > timeUntilDestroyed || currentDistanceTraveled >= maxDistance || currentBounces > maxBounces)
         {
-            EmitBulletCollision();
             ResetBullet();
             return;
         }
@@ -64,9 +63,14 @@ public class BoomerangBullet : MonoBehaviour {
                 Vector3 incomingVec = hit.point - this.transform.position;
                 Vector3 reflectVec = Vector3.Reflect(incomingVec, hit.normal);
                 transform.forward = reflectVec;
-                EmitBulletCollision();
                 SFXManager.Instance.Play(SFXType.BlasterProjectileImpact, transform.position);
                 currentBounces++;
+
+                GameObject effect = ObjectPool.Instance.GetObject(PoolObjectType.VFXBoomerangImpact);
+                if (effect)
+                {
+                    effect.transform.position = hit.point;
+                }    
             }
         }
     }
@@ -91,6 +95,7 @@ public class BoomerangBullet : MonoBehaviour {
         this.rayDistanceMultiplier = rayDistanceMultiplier;
         this.currentBounces = 0;
         this.currentDistanceTraveled = 0f;
+        this.trail.Clear();
 
         this.maxDistance = maxDistance;
         this.maxBounces = maxBounces;
@@ -108,6 +113,8 @@ public class BoomerangBullet : MonoBehaviour {
     {
         trail.Clear();
         gameObject.SetActive(false);
+        GameObject vfx = ObjectPool.Instance.GetObject(PoolObjectType.VFXBoomerangProjectileDie);
+        if (vfx) vfx.transform.position = transform.position;
     }
 
     #endregion
@@ -118,14 +125,10 @@ public class BoomerangBullet : MonoBehaviour {
 
             damager.Set(damage, DamagerType.Boomerang, transform.forward);
             damageable.TakeDamage(damager);
-        }
-    }
 
-    private void EmitBulletCollision() {
-        GameObject effect = ObjectPool.Instance.GetObject(PoolObjectType.VFXBoomerangImpact);
-        if (effect) {
-            effect.transform.position = transform.position;
-        }    
+            GameObject blood = ObjectPool.Instance.GetObject(PoolObjectType.VFXBloodSpurt);
+            if (blood) blood.transform.position = damageable.GetPosition();
+        }
     }
 
     private IEnumerator<float> DestroyAfter()
@@ -133,9 +136,7 @@ public class BoomerangBullet : MonoBehaviour {
         yield return Timing.WaitForSeconds(timeUntilDestroyed);
         if (gameObject.activeSelf)
         {
-            EmitBulletCollision();
-            trail.Clear();
-            gameObject.SetActive(false);
+            ResetBullet();
         }
     }
 
