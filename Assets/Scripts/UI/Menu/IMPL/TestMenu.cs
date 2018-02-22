@@ -25,8 +25,8 @@ public class TestMenu : Menu
     [SerializeField] private Button initiallySelected;
     [SerializeField] private LevelEditor editorInstance;
     [SerializeField] private Transform tileParents;
-
     [SerializeField] private GameObject playerSpawnerPrefab;
+    [SerializeField] private GameObject editorCamera;
 
     #endregion
 
