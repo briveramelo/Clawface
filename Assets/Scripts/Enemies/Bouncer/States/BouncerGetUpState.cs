@@ -8,7 +8,7 @@ public class BouncerGetUpState : AIState {
     {
         navAgent.enabled = false;
         navObstacle.enabled = true;
-        animator.SetTrigger("DoGetUp");
+
     }
     public override void Update()
     {

@@ -279,7 +279,8 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         lastChance = false;
         isStunFlashing = false;
         alreadyStunned = false;
-        isIndestructable = false;        
+        isIndestructable = false;
+
     }
 
     public void DisableCollider()
@@ -478,7 +479,6 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
                     else
                     {
                         i++;
-                        Debug.LogError("No tiles found for iteration " + i);
                     }
                 }
             }
@@ -500,11 +500,10 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     {
         EnableCollider();
         DisableRagdoll();
-        animator.SetTrigger("DoGetUp");
         if (ActivateAIMethods(findNearestFloorTile))
         {
-            animator.SetTrigger("DoGetUp");
-            animator.SetInteger("AnimationState", (int)AnimationStates.Walk);
+            //animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.GetUp);
+            //animator.SetTrigger("DoGetUp");
         }
         else
         {

@@ -56,8 +56,6 @@ public abstract class AIController : RoutineRunner {
     }
     public Vector3 AttackTargetPosition { get { return AttackTarget.position - transform.forward * .1f; } }
 
-
-
     private bool deActivateAI = false;
     
     public float DistanceFromTarget {get{ distanceFromTarget = Vector3.Distance(transform.position, AttackTarget.position); return distanceFromTarget; }}
@@ -103,7 +101,7 @@ public abstract class AIController : RoutineRunner {
     public void ActivateAI()
     {
         deActivateAI = false;
-        currentState = states.getUp;
+        currentState = states.chase;
     }
 
     protected void Update() {
@@ -129,7 +127,7 @@ public abstract class AIController : RoutineRunner {
         stateTimerIsRunning = false;
         timeInLastState = 0f;
         deActivateAI = false;
-        CurrentState = states.getUp;
+        CurrentState = states.chase;
 
         if (mod != null)
         {
@@ -208,7 +206,7 @@ public abstract class AIController : RoutineRunner {
         if (mod != null)
             modMemento.Initialize(mod.transform);
 
-        CurrentState = states.getUp;
+        CurrentState = states.chase;
     }
 
     public void Initialize(
@@ -235,7 +233,7 @@ public abstract class AIController : RoutineRunner {
         if(mod != null)
         modMemento.Initialize(mod.transform);
 
-        CurrentState = states.getUp;
+        CurrentState = states.chase;
     }
 
     public void Initialize(
@@ -261,7 +259,7 @@ public abstract class AIController : RoutineRunner {
         if (mod != null)
             modMemento.Initialize(mod.transform);
 
-        CurrentState = states.getUp;
+        CurrentState = states.chase;
     }
 
     public void UpdateState(EAIState state)
