@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using MovementEffects;
+using MEC;
 using System;
 using System.Linq;
 using ModMan;

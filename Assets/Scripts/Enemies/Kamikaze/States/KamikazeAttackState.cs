@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using MovementEffects;
+using MEC;
 
 public class KamikazeAttackState : AIState {
 

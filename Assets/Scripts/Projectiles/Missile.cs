@@ -99,7 +99,6 @@ public class Missile : MonoBehaviour {
         flattenedForward = transform.forward;
         flattenedForward.y = 0f;
         flattenedForward.Normalize();
-        Debug.Log(flattenedForward + "... " + yImpulse);
         trail.Clear();
     }
     #endregion

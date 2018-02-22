@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using MovementEffects;
+using MEC;
 
 public class BoomerangBullet : MonoBehaviour {
 
@@ -38,8 +38,6 @@ public class BoomerangBullet : MonoBehaviour {
 
         if (deathTimer > timeUntilDestroyed || currentDistanceTraveled >= maxDistance || currentBounces > maxBounces)
         {
-            GameObject vfx = ObjectPool.Instance.GetObject(PoolObjectType.VFXBoomerangProjectileDie);
-            if (vfx) vfx.transform.position = transform.position;
             ResetBullet();
             return;
         }
@@ -97,6 +95,7 @@ public class BoomerangBullet : MonoBehaviour {
         this.rayDistanceMultiplier = rayDistanceMultiplier;
         this.currentBounces = 0;
         this.currentDistanceTraveled = 0f;
+        this.trail.Clear();
 
         this.maxDistance = maxDistance;
         this.maxBounces = maxBounces;
@@ -114,6 +113,8 @@ public class BoomerangBullet : MonoBehaviour {
     {
         trail.Clear();
         gameObject.SetActive(false);
+        GameObject vfx = ObjectPool.Instance.GetObject(PoolObjectType.VFXBoomerangProjectileDie);
+        if (vfx) vfx.transform.position = transform.position;
     }
 
     #endregion
@@ -135,10 +136,7 @@ public class BoomerangBullet : MonoBehaviour {
         yield return Timing.WaitForSeconds(timeUntilDestroyed);
         if (gameObject.activeSelf)
         {
-            trail.Clear();
-            gameObject.SetActive(false);
-            GameObject vfx = ObjectPool.Instance.GetObject(PoolObjectType.VFXBoomerangProjectileDie);
-            if (vfx) vfx.transform.position = transform.position;
+            ResetBullet();
         }
     }
 

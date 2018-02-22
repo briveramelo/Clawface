@@ -138,7 +138,8 @@ public class EatingState : IPlayerState
         if (stateVariables.eatTargetEnemy.activeSelf)
         {
             IEatable eatable = stateVariables.eatTargetEnemy.GetComponent<IEatable>();
-            int health = eatable.Eat();
+            int health;
+            eatable.Eat(out health);
             stateVariables.statsManager.TakeHealth(health);
             Stats stats = GetComponent<Stats>();
             EventSystem.Instance.TriggerEvent(Strings.Events.UPDATE_HEALTH, stats.GetHealthFraction());

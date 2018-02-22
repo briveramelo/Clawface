@@ -1,4 +1,4 @@
-﻿using MovementEffects;
+﻿using MEC;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -117,6 +117,7 @@ public class BoomerangMod : Mod
                 }
             }
         }
+
         return boomerangBullet;
     }
 

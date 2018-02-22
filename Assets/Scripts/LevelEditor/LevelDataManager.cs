@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using ModMan;
-using MovementEffects;
+using MEC;
 using System.Linq;
 using UnityEngine.UI;
 
