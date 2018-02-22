@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using MovementEffects;
+using MEC;
 using System.Reflection;
 using System;
 
@@ -142,6 +142,16 @@ namespace ModMan {
         }
         public static Vector3 NoY(this Vector3 vec) {
             vec.y = 0;
+            return vec;
+        }
+        public static Vector3 NoZ(this Vector3 vec) {
+            vec.z = 0;
+            return vec;
+        }
+        public static Vector3 Abs(this Vector3 vec) {
+            vec.x = Mathf.Abs(vec.x);
+            vec.y = Mathf.Abs(vec.y);
+            vec.z = Mathf.Abs(vec.z);
             return vec;
         }
         /// <summary>

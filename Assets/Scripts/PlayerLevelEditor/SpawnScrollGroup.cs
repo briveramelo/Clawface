@@ -41,8 +41,8 @@ public class SpawnScrollGroup : MonoBehaviour {
             GameObject go = props[i];
 
             GameObject toAdd = GameObject.Instantiate(iconTemplate);
-            PLESpawn spawnToSet = toAdd.GetComponent<PLESpawn>();
-            spawnToSet.registeredSpawner = go;
+            PLEUIItem spawnToSet = toAdd.GetComponent<PLEUIItem>();
+            spawnToSet.registeredItem = go;
 
             toAdd.SetActive(true);
             toAdd.name = go.name;

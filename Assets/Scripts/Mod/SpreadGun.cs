@@ -30,6 +30,8 @@ public class SpreadGun : Mod {
         {
             transform.forward = wielderMovable.GetForward();
         }
+
+        base.Update();
     }
     #endregion
 

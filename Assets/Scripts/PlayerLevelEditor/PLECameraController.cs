@@ -11,9 +11,9 @@ namespace PlayerLevelEditor
 
         [SerializeField] private float yawSpeed = 4f;
         [SerializeField] private float pitchSpeed = 4f;
-        [SerializeField] private float panSpeed = 0.01f;
-        [SerializeField] private float zPanSpeed = 0.01f;
-        [SerializeField] private float zoomScrubSpeed = 0.01f;
+        [SerializeField] private float panSpeed = -0.15f;
+        [SerializeField] private float zPanSpeed = 0.5f;
+        [SerializeField] private float zoomScrubSpeed = 0.2f;
 
         private Material lineMaterial;
         private Color lineColor = Color.red;

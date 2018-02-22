@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using System;
-using MovementEffects;
+using MEC;
 
 [System.Serializable]
 public class ZombieBeserkerProperties : AIProperties

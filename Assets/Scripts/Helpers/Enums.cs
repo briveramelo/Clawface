@@ -291,6 +291,8 @@ public enum SpawnType {
     ZombieAcider = 9,
     BlasterShotgun = 10,
     BlasterReanimator = 11,
+    Keira=12,
+
 }
 
 public enum ActionType
