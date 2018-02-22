@@ -5,6 +5,7 @@ using UnityEngine;
 using PlayerLevelEditor;
 using ModMan;
 using UnityEngine.UI;
+using System.Linq;
 
 public abstract class PlacementMenu : Menu {
 
@@ -23,6 +24,8 @@ public abstract class PlacementMenu : Menu {
 
     #region Boolean Helpers
     protected virtual bool SelectUI { get { return Input.GetMouseButtonDown(MouseButtons.LEFT); } }
+    protected virtual bool SelectItem { get { return Input.GetMouseButtonDown(MouseButtons.LEFT) && MouseHelper.hitItem; } }
+    protected virtual bool DeSelectItem { get { return Input.GetMouseButtonDown(MouseButtons.LEFT) || Input.GetMouseButtonDown(MouseButtons.RIGHT); } }
     protected bool RightClick { get { return Input.GetMouseButtonDown(MouseButtons.RIGHT); } }
     protected bool Place { get { return Input.GetMouseButtonDown(MouseButtons.LEFT) && selectedItem != null && MouseHelper.currentBlockUnit != null && !MouseHelper.currentBlockUnit.IsOccupied(); } }
     protected bool UpdatePreview { get { return previewItem != null && MouseHelper.currentBlockUnit != null && !MouseHelper.currentBlockUnit.IsOccupied(); } }
@@ -38,8 +41,12 @@ public abstract class PlacementMenu : Menu {
             else if (Place) {
                 PlaceItem();
             }
+            else if (SelectItem) {
+                SelectGameItem();
+            }
             else if (RightClick) {
                 bool deletedPreviewItem = DeselectUIItem();
+                DeselectItem();
                 if (!deletedPreviewItem && CanDeletedHoveredItem) {
                     DeleteHoveredItem();
                 }
@@ -57,6 +64,15 @@ public abstract class PlacementMenu : Menu {
 
     #region Protected Interface
     protected abstract void SelectUIItem();
+    protected abstract void DeselectItem();
+
+    protected virtual void SelectGameItem() {
+        DeselectAll();
+    }
+    protected virtual void DeselectAll() {
+        List<PLEItem> items = createdItemsParent.GetComponentsInChildren<PLEItem>().ToList();
+        items.ForEach(item => { item.Deselect(); });
+    }
 
     protected virtual void PlaceItem() {
         GameObject newItem = Instantiate(selectedItem, createdItemsParent);
@@ -99,6 +115,7 @@ public abstract class PlacementMenu : Menu {
     protected override void HideStarted() {
         base.HideStarted();
         inputGuard = false;
+        DeselectAll();
         TryDestroyPreview();
     }
 
