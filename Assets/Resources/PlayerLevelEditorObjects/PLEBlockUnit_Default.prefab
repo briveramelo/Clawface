@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 65334912515786070}
   - component: {fileID: 114664520121305100}
   - component: {fileID: 114563025464454724}
+  - component: {fileID: 114487318508482400}
   m_Layer: 11
   m_Name: PLEBlockUnit_Default
   m_TagString: Untagged
@@ -124,6 +125,24 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0.00000014901161}
+--- !u!114 &114487318508482400
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1221831762204170}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4e66acd90e8c8f4cbe329bf33cdd508, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  paintMask: {fileID: 0}
+  renderMask: {fileID: 2800000, guid: 7ef82fc50a48f5647a5875188a741e7b, type: 3}
+  renderTextureWidth: 512
+  renderTextureHeight: 512
+  renderSplat: {fileID: 4800000, guid: 1141af9b9cdce95498e98fdab06ad4a1, type: 3}
+  numSplatsToRender: 10
+  frameDim: {x: 256, y: 256}
 --- !u!114 &114563025464454724
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -139,6 +158,21 @@ MonoBehaviour:
   floorStateEvents: []
   pitStateEvents: []
   yMoveSpeed: 0.03
+  colorShiftAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    deltaTime: 0
+    duration: 0
+    looping: 0
+    playOnAwake: 0
+    maxValue: 0
+  riseColor: {r: 0, g: 0, b: 0, a: 0}
+  flatColor: {r: 0, g: 0, b: 0, a: 0}
+  fallColor: {r: 0, g: 0, b: 0, a: 0}
   defaultState: 1
 --- !u!114 &114664520121305100
 MonoBehaviour:
@@ -153,3 +187,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   blockID: 0
   spawnTrans: {fileID: 4073452186645112}
+  LevelStates: 

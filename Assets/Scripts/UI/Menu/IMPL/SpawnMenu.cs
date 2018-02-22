@@ -59,6 +59,8 @@ public class SpawnMenu : PlacementMenu {
             TryCreateWaveParent(i);
         }
         newItem.transform.SetParent(waveParent);
+        
+        MouseHelper.currentBlockUnit.AddSpawn(newItem);
     }
     Transform TryCreateWaveParent(int i) {
         string waveName = GetWaveName(i);

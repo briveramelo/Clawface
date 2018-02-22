@@ -40,6 +40,8 @@ public class PropsMenu : PlacementMenu
         
     }
     protected override void PostPlaceItem(GameObject newItem) {
+        MouseHelper.currentBlockUnit.SetOccupation(true);
+        MouseHelper.currentBlockUnit.SetProp(newItem);
         Rigidbody rigbod = newItem.GetComponent<Rigidbody>();
         rigbod.isKinematic = true;
         newItem.transform.localEulerAngles = new Vector3(0, currentRotation, 0);
