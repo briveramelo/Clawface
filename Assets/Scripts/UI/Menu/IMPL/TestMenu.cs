@@ -108,6 +108,8 @@ public class TestMenu : Menu
 
     private void InitTestMode()
     {
+        MenuManager.Instance.DoTransition(editorInstance.GetMenu(PLEMenu.MAIN), Transition.HIDE, new Effect[] {});
+
         if(tileParents.childCount == 0)
         {
             //Debug.Log("No Tile");
