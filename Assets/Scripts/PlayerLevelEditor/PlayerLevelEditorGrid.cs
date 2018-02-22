@@ -289,9 +289,9 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
 
     public List<GameObject> GetSelectedBlocks() { return selectedObjects; }    
 
-    public void SetGridVisiblity(bool i_set) {
-        displaying = i_set;
-        gridTiles.ForEach(tile => { tile.TryShowGhost(); });
+    public void SetGridVisiblity(bool show) {
+        displaying = show;
+        gridTiles.ForEach(tile => { tile.ToggleGhostGlobal(show); });
     }
 
     #endregion

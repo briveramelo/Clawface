@@ -153,12 +153,15 @@ public class FloorMenu : Menu {
     #endregion
 
     #region Protected Interface
-
+    protected override void ShowStarted() {
+        base.ShowStarted();
+        editorInstance.gridController.SetGridVisiblity(true);
+    }
     protected override void ShowComplete()
     {
         base.ShowComplete();
         inputGuard = true;
-        editorInstance.gridController.SetGridVisiblity(true);
+        
         editorInstance.gridController.currentEditorMenu = EditorMenu.FLOOR_MENU;
     }
 
