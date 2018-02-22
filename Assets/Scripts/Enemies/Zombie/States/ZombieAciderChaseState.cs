@@ -10,12 +10,6 @@ public class ZombieAciderChaseState : AIState {
 
     public override void OnEnter()
     {
-        if (needToClearTrail)
-        {
-            trailRenderer.Clear();
-            needToClearTrail = false;
-        }
-        trailRenderer.enabled = true;
         colliderGenerator.enabled = true;
         animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.Walk);
         controller.AttackTarget = controller.FindPlayer();
@@ -27,7 +21,7 @@ public class ZombieAciderChaseState : AIState {
     }
     public override void OnExit()
     {
-
+        colliderGenerator.enabled = false;
     }
 
     private void Chase()

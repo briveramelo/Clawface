@@ -152,8 +152,8 @@ MonoBehaviour:
     closeEnoughToAttackDistance: 3
     animationAttackSpeed: 1.5
     trailRendererTime: 4
-    trailRendererWidth: 1
-    colliderGenerationTime: 0.01
+    trailRendererWidth: 2
+    colliderGenerationTime: 0.05
     acidTriggerLife: 4
   kamikazeStats:
     health: 12
@@ -200,6 +200,7 @@ MonoBehaviour:
     eatHealth: 20
     stunnedTime: 7
     closeEnoughToAttackDistance: 10
+    spawnRate: 0
     kamikazeSpawnProbability: 0.46
     kamikazePulserSpawnProbability: 0.264
   bouncerStats:
