@@ -26,6 +26,7 @@ public class Kamikaze : EnemyBase
     private KamikazeAttackState attack;
     private KamikazeStunState stun;
     private KamikazeCelebrateState celebrate;
+    private KamikazeGetUpState getUp;
     #endregion
 
     #region 4. Unity Lifecycle
@@ -110,6 +111,11 @@ public class Kamikaze : EnemyBase
         return Vector3.zero;
     }
 
+    public void GetUpDone()
+    {
+        getUp.Up();
+    }
+
     #endregion
 
     #region 6. Private Methods    
@@ -125,10 +131,13 @@ public class Kamikaze : EnemyBase
         stun.stateName = "stun";
         celebrate = new KamikazeCelebrateState();
         celebrate.stateName = "celebrate";
+        getUp = new KamikazeGetUpState();
+        getUp.stateName = "getUp";
         aiStates.Add(chase);
         aiStates.Add(attack);
         aiStates.Add(stun);
         aiStates.Add(celebrate);
+        aiStates.Add(getUp);
     }
 
     private void SetAllStats()

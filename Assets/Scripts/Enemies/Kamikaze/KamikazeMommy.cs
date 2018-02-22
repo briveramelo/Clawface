@@ -26,10 +26,11 @@ public class KamikazeMommy : EnemyBase
     //The AI States of the Kamikaze
     private float closeEnoughToAttackDistance;
 
-    private KamikazeChaseState chase;
+    private KamikazeMommyChaseState chase;
     private KamikazeMommyAttackState attack;
     private KamikazeStunState stun;
     private KamikazeCelebrateState celebrate;
+    private KamikazeGetUpState getUp;
     #endregion
 
     #region 4. Unity Lifecycle
@@ -115,6 +116,11 @@ public class KamikazeMommy : EnemyBase
         return Vector3.zero;
     }
 
+    public void GetUpDone()
+    {
+        getUp.Up();
+    }
+
     #endregion
 
     #region 6. Private Methods    
@@ -122,7 +128,7 @@ public class KamikazeMommy : EnemyBase
     private void InitilizeStates()
     {
         aiStates = new List<AIState>();
-        chase = new KamikazeChaseState();
+        chase = new KamikazeMommyChaseState();
         chase.stateName = "chase";
         attack = new KamikazeMommyAttackState();
         attack.stateName = "attack";
@@ -130,10 +136,13 @@ public class KamikazeMommy : EnemyBase
         stun.stateName = "stun";
         celebrate = new KamikazeCelebrateState();
         celebrate.stateName = "celebrate";
+        getUp = new KamikazeGetUpState();
+        getUp.stateName = "getUp";
         aiStates.Add(chase);
         aiStates.Add(attack);
         aiStates.Add(stun);
         aiStates.Add(celebrate);
+        aiStates.Add(getUp);
     }
 
     private void SetAllStats()
@@ -154,6 +163,7 @@ public class KamikazeMommy : EnemyBase
         stunnedTime = EnemyStatsManager.Instance.kamikazeMommyStats.stunnedTime;
 
         closeEnoughToAttackDistance = EnemyStatsManager.Instance.kamikazeMommyStats.closeEnoughToAttackDistance;
+        properties.spawnRate = EnemyStatsManager.Instance.kamikazeMommyStats.spawnRate;
         properties.kamikazeProbability = EnemyStatsManager.Instance.kamikazeMommyStats.kamikazeSpawnProbability;
         properties.kamikazePulserProbability = EnemyStatsManager.Instance.kamikazeMommyStats.kamikazePulserSpawnProbability;
 
