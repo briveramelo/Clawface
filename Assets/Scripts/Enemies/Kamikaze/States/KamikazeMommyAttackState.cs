@@ -6,9 +6,11 @@ using MovementEffects;
 public class KamikazeMommyAttackState : AIState
 {
     public bool playerDead = false;
+
     private bool attackDone = false;
     private float kamikazeSpawnProbablity;
     private float kamikazePulserSpawnProbability;
+    private float currentSpawnRate = 0.0f;
 
     public override void OnEnter()
     {
@@ -18,13 +20,22 @@ public class KamikazeMommyAttackState : AIState
         kamikazeSpawnProbablity = properties.kamikazeProbability;
         kamikazePulserSpawnProbability = properties.kamikazePulserProbability;
         animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.Attack1);
-        Attack();
     }
     public override void Update()
     {
         Vector3 lookAtPosition = new Vector3(controller.AttackTarget.position.x, controller.transform.position.y, controller.AttackTarget.position.z);
         controller.transform.LookAt(lookAtPosition);
         navAgent.velocity = Vector3.zero;
+
+        currentSpawnRate += Time.deltaTime;
+
+        if (currentSpawnRate > properties.spawnRate)
+        {
+            Attack();
+            currentSpawnRate = 0.0f;
+        }
+
+
     }
     public override void OnExit()
     {

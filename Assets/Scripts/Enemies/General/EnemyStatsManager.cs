@@ -136,6 +136,7 @@ public class KamikazePulserStats : SharedEnemyStats
 public class KamikazeMommyStats : SharedEnemyStats
 {
     public float closeEnoughToAttackDistance;
+    [Range(0.1f, 5f)] public float spawnRate;
     [Range(0f, 1f)] public float kamikazeSpawnProbability;
     [Range(0f, 1f)] public float kamikazePulserSpawnProbability;
 }
