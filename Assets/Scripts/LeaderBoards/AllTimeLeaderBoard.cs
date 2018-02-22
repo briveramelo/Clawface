@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Steamworks;
 using UnityEngine;
 
-public class AllTimeLeaderBoard : SteamLeaderBoard {
+public class AllTimeLeaderBoard : GenericSteamLeaderBoard {
 
     private static string LEADER_BOARD_NAME = "ALL_TIME_LEADERBOARD";
 

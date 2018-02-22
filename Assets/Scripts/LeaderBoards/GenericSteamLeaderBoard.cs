@@ -4,7 +4,7 @@ using UnityEngine;
 using Steamworks;
 using System;
 
-public abstract class SteamLeaderBoard : MonoBehaviour {
+public abstract class GenericSteamLeaderBoard : MonoBehaviour {
     
     #region Private Variables
     //We store date as diff variables in the array dd,mm,yyyy and time. Based on the type of leaderboard, we then set the appropriate values as the score

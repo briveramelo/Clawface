@@ -30,7 +30,7 @@ public class LeaderBoards : Singleton<LeaderBoards> {
     #endregion
 
     #region Public Methods
-    public bool GetLeaderBoardData(LeaderBoardType type, SteamLeaderBoard.ResultsCallBack callBackFunction, int numberOfEntries)
+    public bool GetLeaderBoardData(LeaderBoardType type, GenericSteamLeaderBoard.ResultsCallBack callBackFunction, int numberOfEntries)
     {
         bool result = false;
         switch (type)
