@@ -72,7 +72,7 @@ public abstract class PlacementMenu : Menu {
         return TryDestroyPreview();
     }
 
-    protected void UpdatePreviewPosition() {
+    protected virtual void UpdatePreviewPosition() {
         previewItem.transform.position = MouseHelper.currentBlockUnit.spawnTrans.position;
     }
 
