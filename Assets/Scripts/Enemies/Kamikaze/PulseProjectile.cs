@@ -5,7 +5,7 @@ using UnityEngine;
 public class PulseProjectile : MonoBehaviour
 {
 
-
+    [SerializeField] ParticleSystem ps;
     [SerializeField] private SphereCollider sphereCollider;
 
     private Damager damager = new Damager();
@@ -18,7 +18,6 @@ public class PulseProjectile : MonoBehaviour
     {
         scaleValue = 0.0f;
         transform.localScale = new Vector3(scaleValue, 0.1f, scaleValue);
-
     }
 
     private void OnTriggerEnter(Collider other)
@@ -57,6 +56,10 @@ public class PulseProjectile : MonoBehaviour
     {
         scaleValue += Time.deltaTime * scaleRate;
         transform.localScale = new Vector3(scaleValue, 0.1f, scaleValue);
+
+        // Adjust particle system scale
+        ParticleSystem.ShapeModule shape = ps.shape;
+        //shape.radius += Time.deltaTime * scaleRate;
     }
 
     private void OnDisable()

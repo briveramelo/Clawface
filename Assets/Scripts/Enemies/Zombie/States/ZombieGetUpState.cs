@@ -5,6 +5,9 @@ using ModMan;
 
 public class ZombieGetUpState : AIState {
 
+    public TrailRenderer trailRenderer;
+    public bool needToClearTrail;
+
     public override void OnEnter()
     {
         animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.GetUp);
@@ -19,6 +22,13 @@ public class ZombieGetUpState : AIState {
 
     public void Up()
     {
+         if (needToClearTrail)
+        {
+            trailRenderer.Clear();
+            needToClearTrail = false;
+        }
+        trailRenderer.enabled = true;
+
         controller.UpdateState(EAIState.Chase);
     }
 }
