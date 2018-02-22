@@ -8,7 +8,7 @@ public abstract class SteamLeaderBoard : MonoBehaviour {
     
     #region Private Variables
     //We store date as diff variables in the array dd,mm,yyyy and time. Based on the type of leaderboard, we then set the appropriate values as the score
-    private const int MAX_DETAILS = 4;    
+    protected const int MAX_DETAILS = 4;    
     public delegate void ResultsCallBack(List<LeaderBoardVars> results);
     private CallResult<LeaderboardFindResult_t> leaderBoardFindResult;
     private CallResult<LeaderboardScoresDownloaded_t> leaderBoardScoresDownloaded;
@@ -65,7 +65,7 @@ public abstract class SteamLeaderBoard : MonoBehaviour {
         if (SteamManager.Initialized && IsReady)
         {
             int[] details = new int[MAX_DETAILS];
-            GetScoreAndDetails(out score, out details);
+            score = GetScoreAndDetails(score, out details);
             SteamUserStats.UploadLeaderboardScore(leaderBoard, ELeaderboardUploadScoreMethod.k_ELeaderboardUploadScoreMethodKeepBest, score, details, MAX_DETAILS);
             result = true;
         }
@@ -110,17 +110,10 @@ public abstract class SteamLeaderBoard : MonoBehaviour {
             for (int i = 0; i < count; i++)
             {
                 LeaderboardEntry_t entry;
-                int[] details = new int[MAX_DETAILS];
+                int[] details;
                 if(SteamUserStats.GetDownloadedLeaderboardEntry(entries, i, out entry, details, MAX_DETAILS))
                 {
-                    LeaderBoardVars leaderBoardVars = ExtractLeaderBoardVars(entry, details);
-                    //leaderBoardVars.rank = entry.m_nGlobalRank;
-                    //leaderBoardVars.score = entry.m_nScore;
-                    //leaderBoardVars.userID = entry.m_steamIDUser.ToString();
-                    //leaderBoardVars.day = details[0];
-                    //leaderBoardVars.month = details[1];
-                    //leaderBoardVars.year = details[2];
-                    //leaderBoardVars.time = details[3];
+                    LeaderBoardVars leaderBoardVars = ExtractLeaderBoardVars(entry, details);                    
                     results.Add(leaderBoardVars);
                 }
             }
@@ -136,7 +129,7 @@ public abstract class SteamLeaderBoard : MonoBehaviour {
     protected abstract List<LeaderBoardVars> SortEntries(List<LeaderBoardVars> results);
 
     //Custom implementation based on the type of leader board
-    protected abstract void GetScoreAndDetails(out int score, out int[] details);
+    protected abstract int GetScoreAndDetails(int score, out int[] details);
     #endregion
 
     #region Public structs
