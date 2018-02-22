@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 using ModMan;
-using MovementEffects;
+using MEC;
 
 public class BouncerChaseState : AIState {
 

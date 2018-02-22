@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using Turing.VFX;
 using ModMan;
-using MovementEffects;
+using MEC;
 using System;
 
 public enum PushDirection{
@@ -185,12 +185,12 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         return alreadyStunned;
     }
 
-    int IEatable.Eat()
+    void IEatable.Eat(out int health)
     {
         EventSystem.Instance.TriggerEvent(Strings.Events.EAT_ENEMY);
         aboutTobeEaten = true;
-        Timing.RunCoroutine(DelayAction(OnDeath), coroutineName);
-        return eatHealth;
+        health = eatHealth;
+        OnDeath();
     }
 
     void IStunnable.Stun()

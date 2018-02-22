@@ -7,7 +7,7 @@ using UnityEngine.AI;
 using System.Linq;
 using System;
 using ModMan;
-using MovementEffects;
+using MEC;
 
 [System.Serializable]
 public class MallCopProperties : AIProperties
