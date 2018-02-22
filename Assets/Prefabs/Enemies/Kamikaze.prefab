@@ -1279,14 +1279,9 @@ MonoBehaviour:
   controller: {fileID: 114894865214537378}
   velBody: {fileID: 114694166038940668}
   animator: {fileID: 95143086848869420}
-  myStats: {fileID: 114585084290289136}
   navAgent: {fileID: 195467075105033086}
   navObstacle: {fileID: 208370818041086144}
-  eatHealth: 15
   bloodEmissionLocation: {fileID: 4953175451998414}
-  scoreValue: 150
-  bufferHealth: 3
-  stunnedTime: 7
   grabObject: {fileID: 1613971381554584}
   affectObject: {fileID: 1697594495471972}
   hitFlasher: {fileID: 114419598569920118}
@@ -1295,7 +1290,7 @@ MonoBehaviour:
   pushRoot: {fileID: 54723900465810428}
   pushDirection: 0
   hips: {fileID: 1228589784813594}
-  closeEnoughToAttackDistance: 2.5
+  enemyType: 3
   properties:
     runMultiplier: 2.5
     hitRate: 0
@@ -1310,8 +1305,10 @@ MonoBehaviour:
     rotate: 0
     kamikazeProbability: 0
     kamikazePulserProbability: 0
-    kamikazeSelfDestructTime: 0.25
-    kamikazeBlastRadius: 14
+    maxPulses: 0
+    pulseRate: 0
+    scaleRate: 0
+    maxScale: 0
 --- !u!114 &114374748567998220
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1522,7 +1519,6 @@ MonoBehaviour:
   modPrefab: {fileID: 0}
   timeInLastState: 0
   stateTimerIsRunning: 0
-  distanceFromTarget: 0
 --- !u!114 &114981870358552884
 MonoBehaviour:
   m_ObjectHideFlags: 1

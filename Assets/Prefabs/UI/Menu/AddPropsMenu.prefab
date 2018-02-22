@@ -74,7 +74,7 @@ GameObject:
   - component: {fileID: 224199331715311194}
   - component: {fileID: 222586128989047636}
   - component: {fileID: 114188981968808774}
-  - component: {fileID: 114736238907774280}
+  - component: {fileID: 114659930423051820}
   m_Layer: 0
   m_Name: Prop1
   m_TagString: Untagged
@@ -229,7 +229,7 @@ GameObject:
   - component: {fileID: 222497306863682220}
   - component: {fileID: 114805001666463106}
   m_Layer: 0
-  m_Name: Text
+  m_Name: RotValueLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -340,7 +340,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114121830297232242}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114986609073309614}
+        m_MethodName: ApplyRotationDelta
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 90
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114085247982915312
@@ -424,7 +435,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1654806929385894}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
@@ -494,7 +505,7 @@ MonoBehaviour:
   m_FontData:
     m_Font: {fileID: 12800000, guid: adff3eb1237ff5f43a10a7a08cfaeda7, type: 3}
     m_FontSize: 70
-    m_FontStyle: 0
+    m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 10
     m_MaxSize: 70
@@ -533,7 +544,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1906744821984116}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
@@ -639,6 +650,18 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.ScrollRect+ScrollRectEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &114659930423051820
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1358243600333066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa696e8481e003b438923117e763b37c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  registeredItem: {fileID: 0}
 --- !u!114 &114681863403731360
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -652,18 +675,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   iconTemplate: {fileID: 1358243600333066}
   groupContent: {fileID: 1488017782716826}
---- !u!114 &114736238907774280
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1358243600333066}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 883a9ed7a14090c4bb7f2b6e311326dc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  registeredProp: {fileID: 0}
 --- !u!114 &114801216728467044
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -723,7 +734,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: 0
 --- !u!114 &114813696488313158
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -869,7 +880,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114852207163045044}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114986609073309614}
+        m_MethodName: ApplyRotationDelta
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: -90
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114986609073309614
@@ -889,6 +911,7 @@ MonoBehaviour:
   editorInstance: {fileID: 0}
   initiallySelected: {fileID: 0}
   createdItemsParent: {fileID: 0}
+  rotationLabel: {fileID: 114805001666463106}
 --- !u!222 &222039032279581622
 CanvasRenderer:
   m_ObjectHideFlags: 1

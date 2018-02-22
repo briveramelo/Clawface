@@ -19,14 +19,9 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     [SerializeField] protected AIController controller;
     [SerializeField] protected VelocityBody velBody;
     [SerializeField] protected Animator animator;
-    [SerializeField] protected Stats myStats;
     [SerializeField] protected NavMeshAgent navAgent;
     [SerializeField] protected NavMeshObstacle navObstacle;
-    [SerializeField] protected int eatHealth;
     [SerializeField] protected Transform bloodEmissionLocation;
-    [SerializeField] protected int scoreValue = 200;
-    [SerializeField] protected int bufferHealth = 3;
-    [SerializeField] [Range(1.0f,10.0f)]protected float stunnedTime;
     [SerializeField] private GameObject grabObject;
     [SerializeField] private GameObject affectObject;
     [SerializeField] protected HitFlasher hitFlasher;
@@ -35,6 +30,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     [SerializeField] Rigidbody pushRoot;
     [SerializeField] PushDirection pushDirection;
     [SerializeField] GameObject hips;
+    [SerializeField] protected SpawnType enemyType;
     #endregion
 
     #region 3. Private fields
@@ -49,11 +45,16 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     private int id;
     private bool ragdollOn;
     private float currentStunTime = 0.0f;
+    private int bufferHealth = 3;
     private Vector3 spawnPosition;
     #endregion
 
     #region 0. Protected fields
     protected bool alreadyStunned = false;
+    protected int eatHealth;
+    protected int scoreValue;
+    protected float stunnedTime;
+    protected Stats myStats;
     protected Damaged damaged = new Damaged();
     protected DamagePack damagePack = new DamagePack();
     protected Will will = new Will();

@@ -9,6 +9,8 @@ public class MouseHelper : MonoBehaviour {
 
     public static GameObject currentHoveredObject;
     public static PLEBlockUnit currentBlockUnit;
+    public static PLESpawn currentSpawn;
+    public static PLEProp currentProp;
     public static Vector3 currentMouseWorldPosition;
     public static RaycastHit? raycastHit;
     public static RaycastHit raycastHitTile;
@@ -55,16 +57,19 @@ public class MouseHelper : MonoBehaviour {
                 }
             }
         }
-
         if (hitItem) {
             if (raycastHit==null) {
                 raycastHit = hits[0];
             }
+            currentMouseWorldPosition = raycastHit.Value.transform.position;
             currentHoveredObject = raycastHit.Value.transform.gameObject;
-            currentMouseWorldPosition = raycastHit.Value.point;
+            currentProp = currentHoveredObject.GetComponent<PLEProp>();
+            currentSpawn = currentHoveredObject.GetComponent<PLESpawn>();            
         }
         else {
             currentHoveredObject = null;
+            currentProp = null;
+            currentSpawn = null;
         }
     }
 

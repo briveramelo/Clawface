@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class AcidTrigger : MonoBehaviour {
 
-    [SerializeField] [Range(1.0f, 5.0f)] private float acidTriggerLife;
 
+    private float acidTriggerLife;
     private Zombie zombieParent;
     private ZombieBeserker zombieBeserkerParent;
+    private ZombieAcider zombieAciderParent;
     private float currentAcidTriggerLife = 0.0f;
     
 
@@ -34,6 +35,16 @@ public class AcidTrigger : MonoBehaviour {
         zombieBeserkerParent = newZombieParent;
     }
 
+    public void SetZombieParent(ZombieAcider newZombieParent)
+    {
+        zombieAciderParent = newZombieParent;
+    }
+
+    public void SetAcidTriggerLife(float newAcidTriggerLife)
+    {
+        acidTriggerLife = newAcidTriggerLife;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
 
@@ -49,6 +60,14 @@ public class AcidTrigger : MonoBehaviour {
             if (other.gameObject.CompareTag(Strings.Tags.PLAYER))
             {
                 zombieBeserkerParent.DamageAttackTarget();
+            }
+        }
+
+        else if (zombieAciderParent)
+        {
+            if (other.gameObject.CompareTag(Strings.Tags.PLAYER))
+            {
+                zombieAciderParent.DamageAttackTarget();
             }
         }
 
