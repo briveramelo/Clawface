@@ -110,9 +110,8 @@ public class TestMenu : Menu
     {
         MenuManager.Instance.DoTransition(editorInstance.GetMenu(PLEMenu.MAIN), Transition.HIDE, new Effect[] {});
 
-        if(tileParents.childCount == 0)
+        if(tileParents.childCount == 0 || SpawnMenu.playerSpawnInstance == null)
         {
-            //Debug.Log("No Tile");
             return;
         }
 
@@ -146,7 +145,12 @@ public class TestMenu : Menu
         }
 
         editorCamera.SetActive(true);
-        SpawnMenu.playerSpawnInstance.SetActive(true);
+
+        if (SpawnMenu.playerSpawnInstance != null)
+        {
+            SpawnMenu.playerSpawnInstance.SetActive(true);
+        }
+
     }
 
     #endregion
