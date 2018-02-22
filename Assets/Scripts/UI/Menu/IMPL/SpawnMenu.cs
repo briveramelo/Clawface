@@ -25,9 +25,18 @@ public class SpawnMenu : PlacementMenu {
     }
 
     void OnWaveChange(params object[] parameters) {
+
         string activeWaveName = GetWaveName(WaveSystem.currentWave);
-        for (int i = 0; i < createdItemsParent.childCount; i++) {
-            createdItemsParent.GetChild(i).gameObject.SetActive(false);
+
+        for (int i = 0; i < createdItemsParent.childCount; i++)
+        {
+            //Accounts for not disabling the player spawn object between switching of waves.
+            GameObject currentGO = createdItemsParent.GetChild(i).gameObject;
+
+            if (!currentGO.CompareTag(Strings.Editor.PLAYER_SPAWN_TAG))
+            {
+                currentGO.SetActive(false);
+            }
         }
         Transform activeWave = createdItemsParent.Find(activeWaveName);
         if (activeWave!=null) {
@@ -76,6 +85,8 @@ public class SpawnMenu : PlacementMenu {
             }
 
             playerSpawnInstance = newItem;
+            playerSpawnInstance.transform.SetParent(TryCreateWaveParent(0).parent);
+
         }
     }
     Transform TryCreateWaveParent(int i) {

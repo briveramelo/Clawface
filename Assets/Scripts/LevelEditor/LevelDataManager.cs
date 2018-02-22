@@ -142,12 +142,16 @@ public class LevelDataManager : RoutineRunner {
     void SaveSpawns() {
         ActiveWaveData.Clear();
         spawnParent.SortChildrenByName();
-        //Need to check that keira has been [placed
-        Transform keira = spawnParent.GetChild(0);
-        SpawnData keiraSpawnData = new SpawnData((int)SpawnType.Keira, 1, keira.position);
-        ActiveWaveData[0].spawnData.Add(keiraSpawnData);
+        //TODO Need to check that keira has been placed
+        int startIndex = 0;
+        if (SpawnMenu.playerSpawnInstance) {
+            Transform keira = spawnParent.GetChild(0);
+            SpawnData keiraSpawnData = new SpawnData((int)SpawnType.Keira, 1, keira.position);
+            ActiveWaveData[0].spawnData.Add(keiraSpawnData);
+            startIndex = 1;
+        }
 
-        for (int i = 1; i < spawnParent.childCount; i++) {
+        for (int i = startIndex; i < spawnParent.childCount; i++) {
             ActiveWaveData.Add(new WaveData());
             Transform waveParent = spawnParent.GetChild(i);
             for (int j = 0; j < waveParent.childCount; j++) {
