@@ -26,7 +26,7 @@ public class KamikazeMommy : EnemyBase
     //The AI States of the Kamikaze
     private float closeEnoughToAttackDistance;
 
-    private KamikazeChaseState chase;
+    private KamikazeMommyChaseState chase;
     private KamikazeMommyAttackState attack;
     private KamikazeStunState stun;
     private KamikazeCelebrateState celebrate;
@@ -128,7 +128,7 @@ public class KamikazeMommy : EnemyBase
     private void InitilizeStates()
     {
         aiStates = new List<AIState>();
-        chase = new KamikazeChaseState();
+        chase = new KamikazeMommyChaseState();
         chase.stateName = "chase";
         attack = new KamikazeMommyAttackState();
         attack.stateName = "attack";
