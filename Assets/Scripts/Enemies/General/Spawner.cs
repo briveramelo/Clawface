@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using ModMan;
-using MovementEffects;
+using MEC;
 using System.Linq;
 using Turing.VFX;
 
@@ -128,12 +128,12 @@ public class Spawner : RoutineRunner
             if (currentWave < waves.Count)
             {
                 waves[currentWave].FirePreEvents();
-                Timing.RunCoroutine(SpawnEnemyCluster(), coroutineName);
+                StartCoroutine(SpawnEnemyCluster());
             }
         }
     }
 
-    private IEnumerator<float> SpawnEnemyCluster()
+    private IEnumerator SpawnEnemyCluster()
     {
         for(int i = 0; i < waves[currentWave].monsterList.Count; i++)
         {
@@ -148,7 +148,7 @@ public class Spawner : RoutineRunner
                 }
                 PoolObjectType enemy = GetPoolObject(waves[currentWave].monsterList[i].Type);
                 SpawnEnemy(spawnPosition, enemy);
-                yield return Timing.WaitForSeconds(1.0f);
+                yield return new WaitForSeconds(1.0f);
                 //Timing.RunCoroutine(DelayAction(() => SpawnEnemy(spawnPosition, enemy), spawnDelay), coroutineName);
             }
         }        

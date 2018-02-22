@@ -42,8 +42,6 @@ public class FloorMenu : Menu {
     {
         if(inputGuard)
         {
-
-
             if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.UP))
             {
                 BackAction();
@@ -77,9 +75,10 @@ public class FloorMenu : Menu {
         if (EventSystem.Instance)
         {
             EventSystem.Instance.TriggerEvent(Strings.Events.PLE_UPDATE_LEVELSTATE);
-
+//            print("DropFloorAction PLE_UPDATE_LEVELSTATE" + Strings.Events.PLE_UPDATE_LEVELSTATE);
             string event_name = Strings.Events.PLE_TEST_WAVE_ + WaveSystem.currentWave;
             EventSystem.Instance.TriggerEvent(event_name);
+//            print("DropFloorAction event_name" + event_name);
         }
     }
 
@@ -107,9 +106,10 @@ public class FloorMenu : Menu {
         if (EventSystem.Instance)
         {
             EventSystem.Instance.TriggerEvent(Strings.Events.PLE_UPDATE_LEVELSTATE);
-
+//            print("FlatFloorAction PLE_UPDATE_LEVELSTATE" + Strings.Events.PLE_UPDATE_LEVELSTATE);
             string event_name = Strings.Events.PLE_TEST_WAVE_ + WaveSystem.currentWave;
             EventSystem.Instance.TriggerEvent(event_name);
+//            print("FlatFloorAction event_name" + event_name);
         }
     }
 
@@ -137,9 +137,10 @@ public class FloorMenu : Menu {
         if (EventSystem.Instance)
         {
             EventSystem.Instance.TriggerEvent(Strings.Events.PLE_UPDATE_LEVELSTATE);
-
-            string event_name = Strings.Events.PLE_TEST_WAVE_ + WaveSystem.currentWave;
+//            print("RiseFloorAction PLE_UPDATE_LEVELSTATE" + Strings.Events.PLE_UPDATE_LEVELSTATE);
+            string event_name = Strings.Events.PLE_TEST_WAVE_ + WaveSystem.currentWave;            
             EventSystem.Instance.TriggerEvent(event_name);
+//            print("RiseFloorAction event_name" + event_name);
         }
     }
 

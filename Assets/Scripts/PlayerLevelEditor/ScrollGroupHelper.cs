@@ -7,8 +7,7 @@ public class ScrollGroupHelper : MonoBehaviour {
 
     #region Public Fields
 
-    public static PLEProp currentProp = null;
-    public static PLESpawn currentSpawn = null;
+    public static PLEUIItem currentUIItem = null;
 
     #endregion
 
@@ -40,8 +39,7 @@ public class ScrollGroupHelper : MonoBehaviour {
 
     private void RaycastToScrollGroup()
     {
-        currentProp = null;
-        currentSpawn = null;
+        currentUIItem = null;
         pointerData.position = Input.mousePosition;
 
         results = new List<RaycastResult>();
@@ -52,10 +50,9 @@ public class ScrollGroupHelper : MonoBehaviour {
         {
             foreach (RaycastResult r in results)
             {
-                currentProp = r.gameObject.GetComponent<PLEProp>();
-                currentSpawn = r.gameObject.GetComponent<PLESpawn>();
+                currentUIItem = r.gameObject.GetComponent<PLEUIItem>();
 
-                if (currentProp || currentSpawn)
+                if (currentUIItem)
                     break;
             }
         }

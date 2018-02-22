@@ -25,8 +25,8 @@ public class TestMenu : Menu
     [SerializeField] private Button initiallySelected;
     [SerializeField] private LevelEditor editorInstance;
     [SerializeField] private Transform tileParents;
-
     [SerializeField] private GameObject playerSpawnerPrefab;
+    [SerializeField] private GameObject editorCamera;
 
     #endregion
 
@@ -108,27 +108,18 @@ public class TestMenu : Menu
 
     private void InitTestMode()
     {
-        if(tileParents.childCount == 0)
+        MenuManager.Instance.DoTransition(editorInstance.GetMenu(PLEMenu.MAIN), Transition.HIDE, new Effect[] {});
+
+        if(tileParents.childCount == 0 || SpawnMenu.playerSpawnInstance == null)
         {
-            //Debug.Log("No Tile");
             return;
         }
 
-        foreach(Transform childGO in tileParents)
-        {
-            PLEBlockUnit PLEU = childGO.gameObject.GetComponent<PLEBlockUnit>();
+        editorCamera.SetActive(false);
+        SpawnMenu.playerSpawnInstance.SetActive(false);
 
-            if (PLEU == null) continue;
-
-            if(PLEU.IsOccupied() == false)
-            {
-                playerSpawnerInstance = Instantiate(playerSpawnerPrefab);
-                playerSpawnerInstance.transform.position = PLEU.spawnTrans.position;
-
-                return;
-            }
-        }
-
+        playerSpawnerInstance = Instantiate(playerSpawnerPrefab);
+        playerSpawnerInstance.transform.position = SpawnMenu.playerSpawnInstance.transform.position;
     }
 
 
@@ -152,6 +143,14 @@ public class TestMenu : Menu
             DestroyImmediate(playerInstance);
             playerInstance = null;
         }
+
+        editorCamera.SetActive(true);
+
+        if (SpawnMenu.playerSpawnInstance != null)
+        {
+            SpawnMenu.playerSpawnInstance.SetActive(true);
+        }
+
     }
 
     #endregion
