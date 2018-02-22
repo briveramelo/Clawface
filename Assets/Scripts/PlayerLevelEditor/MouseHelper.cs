@@ -8,6 +8,7 @@ public class MouseHelper : MonoBehaviour {
     #region Public Fields
 
     public static GameObject currentHoveredObject;
+    public static GameObject currentHoveredProp;
     public static PLEBlockUnit currentBlockUnit;
     public static Vector3 currentMouseWorldPosition;
     public static RaycastHit raycastHit;
@@ -44,6 +45,11 @@ public class MouseHelper : MonoBehaviour {
         {
             currentHoveredObject = raycastHit.transform.gameObject;
             currentMouseWorldPosition = raycastHit.transform.position;
+            PLEProp currentProp = currentHoveredObject.GetComponent<PLEProp>();
+            if (currentProp != null)
+            {
+                currentHoveredProp = currentProp.gameObject;
+            }
         }
         else
         {

@@ -11,21 +11,12 @@ public class PropsMenu : PlacementMenu
     #endregion
 
     #region Private Fields
-    private float currentRotation;
+    private float currentRotation = 0.0f;
     #endregion
 
     #region Serialzied Unity Fields
     [SerializeField] private Text rotationLabel;
     #endregion
-
-    #region Unity Lifecycle
-    protected override void Start()
-    {
-        base.Start();
-        currentRotation = 0.0f;
-        rotationLabel.text = currentRotation.ToString();
-    }
-    #endregion  
 
     #region Protected Interface
     protected override bool SelectUI { get { return base.SelectUI && ScrollGroupHelper.currentProp !=null; } }    
