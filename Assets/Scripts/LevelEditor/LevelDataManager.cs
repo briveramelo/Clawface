@@ -142,7 +142,12 @@ public class LevelDataManager : RoutineRunner {
     void SaveSpawns() {
         ActiveWaveData.Clear();
         spawnParent.SortChildrenByName();
-        for (int i = 0; i < spawnParent.childCount; i++) {
+        //Need to check that keira has been [placed
+        Transform keira = spawnParent.GetChild(0);
+        SpawnData keiraSpawnData = new SpawnData((int)SpawnType.Keira, 1, keira.position);
+        ActiveWaveData[0].spawnData.Add(keiraSpawnData);
+
+        for (int i = 1; i < spawnParent.childCount; i++) {
             ActiveWaveData.Add(new WaveData());
             Transform waveParent = spawnParent.GetChild(i);
             for (int j = 0; j < waveParent.childCount; j++) {
@@ -151,7 +156,7 @@ public class LevelDataManager : RoutineRunner {
                 int spawnType = (int)spawn.spawnType;
                 int spawnCount = spawn.spawnCount;
                 SpawnData spawnData = new SpawnData(spawnType, spawnCount, spawnUI.position);
-                ActiveWaveData[i].spawnData.Add(spawnData);
+                ActiveWaveData[i-1].spawnData.Add(spawnData);
             }
         }
     }
