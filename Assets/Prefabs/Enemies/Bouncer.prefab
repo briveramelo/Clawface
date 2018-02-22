@@ -3472,14 +3472,9 @@ MonoBehaviour:
   controller: {fileID: 114984547541172986}
   velBody: {fileID: 114732265360839062}
   animator: {fileID: 95144425409533956}
-  myStats: {fileID: 114857703702930746}
   navAgent: {fileID: 195516232639174252}
   navObstacle: {fileID: 208811840099296770}
-  eatHealth: 30
   bloodEmissionLocation: {fileID: 4059519650337944}
-  scoreValue: 300
-  bufferHealth: 3
-  stunnedTime: 7
   grabObject: {fileID: 1857666137023048}
   affectObject: {fileID: 1191435301809762}
   hitFlasher: {fileID: 114282653234116914}
@@ -3488,7 +3483,7 @@ MonoBehaviour:
   pushRoot: {fileID: 54840024417299628}
   pushDirection: 0
   hips: {fileID: 1270112567933996}
-  closeEnoughToAttackDistance: 0
+  enemyType: 2
   properties:
     runMultiplier: 0
     hitRate: 0
@@ -3503,12 +3498,10 @@ MonoBehaviour:
     rotate: 0
     kamikazeProbability: 0
     kamikazePulserProbability: 0
-    maxBouncerBounces: 5
-    minBouncerBounces: 2
-    maxBouncerShots: 8
-    minBouncerShots: 4
-    bouncerRotationSpeed: 0
-    bouncerRotate: 0
+    maxPulses: 0
+    pulseRate: 0
+    scaleRate: 0
+    maxScale: 0
   bulletPatternController: {fileID: 114428446350129332}
   hitTrigger: {fileID: 114564202051418958}
 --- !u!114 &114130934324087062

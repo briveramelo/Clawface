@@ -140,6 +140,10 @@ namespace ModMan {
             vector.y=0;
             return vector.normalized;
         }
+        public static Vector3 NoY(this Vector3 vec) {
+            vec.y = 0;
+            return vec;
+        }
         /// <summary>
         /// Returns the greatest of this vector's components.
         /// </summary>
@@ -160,11 +164,11 @@ namespace ModMan {
 
     public static class GameObjectExtensions {
 
-        public static void DeActivate(this GameObject obj, float timeToDeactivate) {
-            Timing.RunCoroutine(IEDeActivate(obj, timeToDeactivate));
+        public static void DeActivate(this GameObject obj, float timeToDeactivate, string coroutineName) {
+            Timing.RunCoroutine(IEDeActivate(obj, timeToDeactivate), coroutineName);
         }
-        public static void FollowAndDeActivate(this GameObject obj, float timeToDeactivate, Transform objToFollow, Vector3 offset) {
-            Timing.RunCoroutine(IEDeActivate(obj, timeToDeactivate, objToFollow, offset));
+        public static void FollowAndDeActivate(this GameObject obj, float timeToDeactivate, Transform objToFollow, Vector3 offset, string coroutineName) {
+            Timing.RunCoroutine(IEDeActivate(obj, timeToDeactivate, objToFollow, offset), coroutineName);
         }
         static IEnumerator<float> IEDeActivate(GameObject obj, float timeToDeactivate) {
             yield return Timing.WaitForSeconds(timeToDeactivate);
@@ -272,6 +276,17 @@ namespace ModMan {
     }
 
     public static class TransformExtensions {
+        public static void SortChildrenByName(this Transform parent) {
+            List<Transform> children = new List<Transform>();
+            for (int i = parent.childCount - 1; i >= 0; i--) {
+                Transform child = parent.GetChild(i);
+                children.Add(child);
+                child.parent = null;
+            }
+            children.Sort((Transform t1, Transform t2) => { return t1.name.CompareTo(t2.name); });
+            children.ForEach(child => child.parent = parent);
+        }
+
         public static void Reset (this Transform tr) {
             tr.localPosition = Vector3.zero;
             tr.localRotation = Quaternion.identity;
@@ -294,21 +309,16 @@ namespace ModMan {
             transformToRestore.rotation = startRotation;
         }
 
-        public static void DestroyAllChildren (this Transform transform)
-        {
-            //Debug.Log ("child count " + transform.childCount.ToString());
-            //Debug.Log ("shit");
-            int count = transform.childCount;
-            for (int i = 0; i < count-1; i++)
-            {
-                Helpers.DestroyProper(transform.GetChild(i).gameObject);
-            }
-        }
-
-        public static void DestroyAllChildren1(this Transform transform) {
+        public static void DestroyAllChildren(this Transform transform) {
             int count = transform.childCount;
             for (int i = count - 1; i >=0; i--) {
                 Helpers.DestroyProper(transform.GetChild(i).gameObject);
+            }
+        }
+        public static void ToggleAllChildren(this Transform transform, bool enabled) {
+            int count = transform.childCount;
+            for (int i = count - 1; i >= 0; i--) {
+                transform.GetChild(i).gameObject.SetActive(enabled);
             }
         }
     }

@@ -124,6 +124,9 @@ public class BoomerangBullet : MonoBehaviour {
 
             damager.Set(damage, DamagerType.Boomerang, transform.forward);
             damageable.TakeDamage(damager);
+
+            GameObject blood = ObjectPool.Instance.GetObject(PoolObjectType.VFXBloodSpurt);
+            if (blood) blood.transform.position = damageable.GetPosition();
         }
     }
 

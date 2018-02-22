@@ -6,6 +6,7 @@ public class TentacleTrigger : MonoBehaviour {
 
     [SerializeField] private Zombie zombieParent;
     [SerializeField] private ZombieBeserker zombieBeserkerParent;
+    [SerializeField] private ZombieAcider zombieAciderParent;
     [SerializeField] private Collider childCollider;
     private bool triggerDamage = false;
 
@@ -27,7 +28,13 @@ public class TentacleTrigger : MonoBehaviour {
                 zombieBeserkerParent.DamageAttackTarget();
             }
         }
-       
+        else if (zombieAciderParent)
+        {
+            if (other.gameObject.CompareTag(Strings.Tags.PLAYER) && triggerDamage)
+            {
+                zombieAciderParent.DamageAttackTarget();
+            }
+        }
     }
 
     public void ActivateTriggerDamage()

@@ -1,31 +1,29 @@
-﻿using System.Collections;
+﻿//Brandon
 using System.Collections.Generic;
 using UnityEngine;
 using ModMan;
 using MovementEffects;
 using System.Linq;
+using UnityEngine.UI;
 
-//Questions for Garin/Lai
-//How can I reference tile prefabs / prop prefabs?
 public class LevelDataManager : RoutineRunner {
 
-	[SerializeField] DataPersister dataPersister;
-    [SerializeField] Transform tileParent, propsParent, spawnParent;
-    [SerializeField] PlayerLevelEditorGrid playerLevelEditorGrid;
+	[SerializeField] private DataPersister dataPersister;
+    [SerializeField] private Transform tileParent, propsParent, spawnParent;
+    [SerializeField] private PlayerLevelEditorGrid playerLevelEditorGrid;
+    [SerializeField] private WaveSystem waveSystem;
+    [SerializeField] private InputField levelName, levelDescription;
 
-    DataSave DataSave { get { return DataPersister.ActiveDataSave; } }
-    LevelData ActiveLevelData { get { return DataSave.ActiveLevelData; } }
-    List<WaveData> ActiveWaveData { get { return ActiveLevelData.waveData; } set { ActiveLevelData.waveData = value; } }
-    List<TileData> ActiveTileData { get { return ActiveLevelData.tileData; } set { ActiveLevelData.tileData = value; } }
-    List<PropData> ActivePropData { get { return ActiveLevelData.propData; } set { ActiveLevelData.propData = value; } }
-    
-    string GetWaveName(int i) { return Strings.Editor.Wave + i; }
+    private DataSave DataSave { get { return DataPersister.ActiveDataSave; } }
+    private LevelData ActiveLevelData { get { return DataSave.ActiveLevelData; } }
+    private List<WaveData> ActiveWaveData { get { return ActiveLevelData.waveData; } set { ActiveLevelData.waveData = value; } }
+    private List<TileData> ActiveTileData { get { return ActiveLevelData.tileData; } set { ActiveLevelData.tileData = value; } }
+    private List<PropData> ActivePropData { get { return ActiveLevelData.propData; } set { ActiveLevelData.propData = value; } }
+
+    private string GetWaveName(int i) { return Strings.Editor.Wave + i; }
 
 
-    #region UnityLifecycle
-    private void Awake() {
-        
-    }
+    #region Unity Lifecycle
 
     private void Update() {
         if (Input.GetKeyDown(KeyCode.Alpha7)) {
@@ -44,9 +42,8 @@ public class LevelDataManager : RoutineRunner {
         Timing.RunCoroutine(DelayAction(()=> {
             LoadTiles();
             LoadProps();
-        }), coroutineName);
-        
-        //SpawnSpawns();
+            SpawnSpawns();
+        }), coroutineName);        
     }
 
     void LoadTiles() {
@@ -67,11 +64,12 @@ public class LevelDataManager : RoutineRunner {
                     case LevelUnitStates.pit: levelUnit.AddPitStateEvent(eventName); break;
                 }
             }
+            levelUnit.RegisterToEvents();
         }
     }
 
     void LoadProps() {
-        propsParent.DestroyAllChildren1();
+        propsParent.DestroyAllChildren();
         List<GameObject> propPrefabs = Resources.LoadAll<GameObject>(Strings.Editor.ENV_OBJECTS_PATH).ToList();
         for (int i = 0; i < ActivePropData.Count; i++) {
             PropData propData = ActivePropData[i];
@@ -84,20 +82,26 @@ public class LevelDataManager : RoutineRunner {
     }
 
     void SpawnSpawns() {
-        //FIX
-        GameObject[] enemyUIPrefabs = Resources.LoadAll<GameObject>(Strings.Editor.RESOURCE_PATH + Strings.Editor.BASIC_LVL_BLOCK);
+        List<GameObject> spawnObjects = Resources.LoadAll<GameObject>(Strings.Editor.SPAWN_OBJECTS_PATH).ToList();
+        spawnParent.DestroyAllChildren();
         for (int i = 0; i < ActiveWaveData.Count; i++) {
             GameObject waveParent = new GameObject(GetWaveName(i));
-            spawnParent.transform.SetParent(spawnParent);
+            waveParent.transform.SetParent(spawnParent);
             for (int j = 0; j < ActiveWaveData[i].spawnData.Count; j++) {
                 SpawnData spawnData = ActiveWaveData[i].spawnData[j];
-                int spawnType = spawnData.spawnType;
-                GameObject enemyUIPrefabToSpawn = enemyUIPrefabs[spawnType];
+                GameObject enemyUIPrefabToSpawn = spawnObjects[spawnData.spawnType];
                 Transform child = Instantiate(enemyUIPrefabToSpawn, waveParent.transform, false).transform;
-                //child.GetComponent<SPAWNUI>.SetCount(spawnData.count);
+                PLESpawn pleSpawn = child.GetComponent<PLESpawn>();
+                pleSpawn.spawnCount = spawnData.count;
+                pleSpawn.spawnType = spawnData.SpawnType;
                 child.position = spawnData.position.AsVector;
             }
         }
+        if (spawnParent.childCount>0) {
+            spawnParent.ToggleAllChildren(false);
+            spawnParent.GetChild(0).gameObject.SetActive(true);
+        }
+        waveSystem.ResetToWave0();
     }
     #endregion
 
@@ -105,8 +109,10 @@ public class LevelDataManager : RoutineRunner {
     public void SaveLevel() {
         SaveTiles();
         SaveProps();
-        //SaveSpawns();
+        SaveSpawns();
 
+        ActiveLevelData.name = levelName.text;
+        ActiveLevelData.description= levelDescription.text;
         dataPersister.TrySave();
     }
     void SaveTiles() {
@@ -114,10 +120,12 @@ public class LevelDataManager : RoutineRunner {
         for (int i = 0; i < tileParent.childCount; i++) {
             Transform tile = tileParent.GetChild(i);
             PLEBlockUnit blockUnit = tile.GetComponent<PLEBlockUnit>();
-            List<LevelUnitStates> levelStates = blockUnit.GetLevelStates();
-            int tileType = 0; //HOW DO I GET THIS FOR REAL
-            TileData tileData = new TileData(tileType, tile.position, levelStates);
-            ActiveTileData.Add(tileData);
+            if (blockUnit) {
+                List<LevelUnitStates> levelStates = blockUnit.GetLevelStates();
+                int tileType = 0; //HOW DO I GET THIS FOR REAL
+                TileData tileData = new TileData(tileType, tile.position, levelStates);
+                ActiveTileData.Add(tileData);
+            }
         }
     }
 
@@ -133,13 +141,15 @@ public class LevelDataManager : RoutineRunner {
     }
     void SaveSpawns() {
         ActiveWaveData.Clear();
+        spawnParent.SortChildrenByName();
         for (int i = 0; i < spawnParent.childCount; i++) {
             ActiveWaveData.Add(new WaveData());
             Transform waveParent = spawnParent.GetChild(i);
             for (int j = 0; j < waveParent.childCount; j++) {
                 Transform spawnUI = waveParent.GetChild(j);
-                int spawnType = 0; //HOW DO I GET THIS FOR REAL
-                int spawnCount = 1;//prop.GetComponent<SPAWNUI>.GetCount();
+                PLESpawn spawn = spawnUI.GetComponent<PLESpawn>();
+                int spawnType = (int)spawn.spawnType;
+                int spawnCount = spawn.spawnCount;
                 SpawnData spawnData = new SpawnData(spawnType, spawnCount, spawnUI.position);
                 ActiveWaveData[i].spawnData.Add(spawnData);
             }

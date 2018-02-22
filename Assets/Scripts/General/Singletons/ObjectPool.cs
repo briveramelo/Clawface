@@ -112,6 +112,7 @@ public class Pool
         objects.ForEach(obj => {
             if (obj) {
                 obj.SetActive(false);
+                obj.GetComponent<ObjectPoolItem>().ResetParent();
             }
             else {
                 objects.Remove(obj);

@@ -11,21 +11,12 @@ using System;
 [System.Serializable]
 public class KamikazeMommyProperties : AIProperties
 {
-    [Range(0f, 1f)] public float kamikazeSpawnProbability;
-    [Range(0f, 1f)] public float kamikazePulserSpawnProbability;
-
-    public void InitializeProperties()
-    {
-        kamikazeProbability = kamikazeSpawnProbability;
-        kamikazePulserProbability = kamikazePulserSpawnProbability;
-    }
 }
 
 public class KamikazeMommy : EnemyBase
 {
 
     #region 2. Serialized Unity Inspector Fields
-    [SerializeField] float closeEnoughToAttackDistance;
     [SerializeField] private KamikazeMommyProperties properties;
     #endregion
 
@@ -33,6 +24,8 @@ public class KamikazeMommy : EnemyBase
 
 
     //The AI States of the Kamikaze
+    private float closeEnoughToAttackDistance;
+
     private KamikazeChaseState chase;
     private KamikazeMommyAttackState attack;
     private KamikazeStunState stun;
@@ -42,8 +35,9 @@ public class KamikazeMommy : EnemyBase
     #region 4. Unity Lifecycle
     public override void Awake()
     {
+        myStats = GetComponent<Stats>();
+        SetAllStats();
         InitilizeStates();
-        properties.InitializeProperties();
         controller.Initialize(properties, velBody, animator, myStats, navAgent, navObstacle, aiStates);
         damaged.Set(DamagedType.MallCop, bloodEmissionLocation);
         controller.checksToUpdateState = new List<Func<bool>>() {
@@ -140,6 +134,30 @@ public class KamikazeMommy : EnemyBase
         aiStates.Add(attack);
         aiStates.Add(stun);
         aiStates.Add(celebrate);
+    }
+
+    private void SetAllStats()
+    {
+        myStats.health = EnemyStatsManager.Instance.kamikazeMommyStats.health;
+        myStats.maxHealth = EnemyStatsManager.Instance.kamikazeMommyStats.maxHealth;
+        myStats.skinnableHealth = EnemyStatsManager.Instance.kamikazeMommyStats.skinnableHealth;
+        myStats.moveSpeed = EnemyStatsManager.Instance.kamikazeMommyStats.speed;
+        myStats.attack = EnemyStatsManager.Instance.kamikazeMommyStats.attack;
+
+        navAgent.speed = EnemyStatsManager.Instance.kamikazeMommyStats.speed;
+        navAgent.angularSpeed = EnemyStatsManager.Instance.kamikazeMommyStats.angularSpeed;
+        navAgent.acceleration = EnemyStatsManager.Instance.kamikazeMommyStats.acceleration;
+        navAgent.stoppingDistance = EnemyStatsManager.Instance.kamikazeMommyStats.stoppingDistance;
+
+        scoreValue = EnemyStatsManager.Instance.kamikazeMommyStats.scoreValue;
+        eatHealth = EnemyStatsManager.Instance.kamikazeMommyStats.eatHealth;
+        stunnedTime = EnemyStatsManager.Instance.kamikazeMommyStats.stunnedTime;
+
+        closeEnoughToAttackDistance = EnemyStatsManager.Instance.kamikazeMommyStats.closeEnoughToAttackDistance;
+        properties.kamikazeProbability = EnemyStatsManager.Instance.kamikazeMommyStats.kamikazeSpawnProbability;
+        properties.kamikazePulserProbability = EnemyStatsManager.Instance.kamikazeMommyStats.kamikazePulserSpawnProbability;
+
+        myStats.SetStats();
     }
 
     private void OnDrawGizmosSelected()

@@ -8,20 +8,11 @@ using MovementEffects;
 [System.Serializable]
 public class ZombieProperties : AIProperties
 {
-    [HideInInspector] public float zombieHitRate;
-
-    public void InitializeProperties()
-    {
-        hitRate = zombieHitRate;
-    }
 }
 
 public class Zombie : EnemyBase
 {
     #region 1. Serialized Unity Inspector Fields
-
-    [SerializeField] float closeEnoughToAttackDistance;
-    [SerializeField] float maxDistanceBeforeChasing = 2.0f;
     [SerializeField] private ZombieProperties properties;
     [SerializeField] private TentacleTrigger tentacle;
     #endregion
@@ -35,6 +26,7 @@ public class Zombie : EnemyBase
     private ZombieCelebrateState celebrate;
     private float currentHitReactionLayerWeight;
     private float hitReactionLayerDecrementSpeed = 1.5f;
+    private float closeEnoughToAttackDistance;
 
     #endregion
 
@@ -42,8 +34,10 @@ public class Zombie : EnemyBase
 
     public override void Awake()
     {
+        myStats = GetComponent<Stats>();
+        SetAllStats();
         InitilizeStates();
-        properties.InitializeProperties();
+        attack.animatorSpeed = EnemyStatsManager.Instance.zombieStats.animationAttackSpeed;
         controller.Initialize(properties,velBody, animator, myStats, navAgent, navObstacle,aiStates);
         damaged.Set(DamagedType.MallCop, bloodEmissionLocation);
         controller.checksToUpdateState = new List<Func<bool>>() {
@@ -197,6 +191,27 @@ public class Zombie : EnemyBase
         aiStates.Add(attack);
         aiStates.Add(stun);
         aiStates.Add(celebrate);
+    }
+
+    private void SetAllStats()
+    {
+        myStats.health = EnemyStatsManager.Instance.zombieStats.health;
+        myStats.maxHealth = EnemyStatsManager.Instance.zombieStats.maxHealth;
+        myStats.skinnableHealth = EnemyStatsManager.Instance.zombieStats.skinnableHealth;
+        myStats.moveSpeed = EnemyStatsManager.Instance.zombieStats.speed;
+        myStats.attack = EnemyStatsManager.Instance.zombieStats.attack;
+
+        navAgent.speed = EnemyStatsManager.Instance.zombieStats.speed;
+        navAgent.angularSpeed = EnemyStatsManager.Instance.zombieStats.angularSpeed;
+        navAgent.acceleration = EnemyStatsManager.Instance.zombieStats.acceleration;
+        navAgent.stoppingDistance = EnemyStatsManager.Instance.zombieStats.stoppingDistance;
+
+        scoreValue = EnemyStatsManager.Instance.zombieStats.scoreValue;
+        eatHealth = EnemyStatsManager.Instance.zombieStats.eatHealth;
+        stunnedTime = EnemyStatsManager.Instance.zombieStats.stunnedTime;
+
+        closeEnoughToAttackDistance = EnemyStatsManager.Instance.zombieStats.closeEnoughToAttackDistance;
+        myStats.SetStats();
     }
 
     private void OnDrawGizmosSelected()

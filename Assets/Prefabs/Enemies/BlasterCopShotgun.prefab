@@ -1359,10 +1359,10 @@ GameObject:
   - component: {fileID: 114508702464693168}
   - component: {fileID: 114093592891521370}
   - component: {fileID: 114091689835536362}
-  - component: {fileID: 114004723841260800}
   - component: {fileID: 195192020719963710}
   - component: {fileID: 208451646585675754}
   - component: {fileID: 114301370108646634}
+  - component: {fileID: 114004723841260800}
   m_Layer: 9
   m_Name: BlasterCopShotgun
   m_TagString: Enemy
@@ -2927,7 +2927,6 @@ MonoBehaviour:
   modPrefab: {fileID: 1124420979041326}
   timeInLastState: 0
   stateTimerIsRunning: 0
-  distanceFromTarget: 0
 --- !u!114 &114137239192721096
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3072,14 +3071,9 @@ MonoBehaviour:
   controller: {fileID: 114093592891521370}
   velBody: {fileID: 114091689835536362}
   animator: {fileID: 95052988848398958}
-  myStats: {fileID: 114004723841260800}
   navAgent: {fileID: 195192020719963710}
   navObstacle: {fileID: 208451646585675754}
-  eatHealth: 20
   bloodEmissionLocation: {fileID: 4599728240228422}
-  scoreValue: 200
-  bufferHealth: 3
-  stunnedTime: 7
   grabObject: {fileID: 1751227463504910}
   affectObject: {fileID: 1336133641742842}
   hitFlasher: {fileID: 114137239192721096}
@@ -3088,8 +3082,8 @@ MonoBehaviour:
   pushRoot: {fileID: 54232076842440916}
   pushDirection: 0
   hips: {fileID: 1122716737576336}
+  enemyType: 10
   playerDetectorSphereCollider: {fileID: 135714352142118664}
-  closeEnoughToFireDistance: 8
   properties:
     runMultiplier: 0
     hitRate: 0
@@ -3104,8 +3098,11 @@ MonoBehaviour:
     rotate: 0
     kamikazeProbability: 0
     kamikazePulserProbability: 0
+    maxPulses: 0
+    pulseRate: 0
+    scaleRate: 0
+    maxScale: 0
   bulletHellController: {fileID: 114316577206612858}
-  maxToleranceTime: 4
 --- !u!114 &114572378797492830
 MonoBehaviour:
   m_ObjectHideFlags: 1
