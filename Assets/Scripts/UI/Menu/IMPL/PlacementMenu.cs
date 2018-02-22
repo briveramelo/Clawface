@@ -97,6 +97,13 @@ public abstract class PlacementMenu : Menu {
         Helpers.DestroyProper(MouseHelper.currentHoveredObject);
     }
 
+    public void ResetMenu(List<string> loadedItemNames) {
+        itemNames.Clear();
+        loadedItemNames.ForEach(item => {
+            itemNames.Add(item);
+        });
+    }
+
     protected bool TryDestroyPreview() {
         if (previewItem) {
             Helpers.DestroyProper(previewItem);

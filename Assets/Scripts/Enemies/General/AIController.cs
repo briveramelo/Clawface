@@ -56,8 +56,6 @@ public abstract class AIController : RoutineRunner {
     }
     public Vector3 AttackTargetPosition { get { return AttackTarget.position - transform.forward * .1f; } }
 
-
-
     private bool deActivateAI = false;
     
     public float DistanceFromTarget {get{ distanceFromTarget = Vector3.Distance(transform.position, AttackTarget.position); return distanceFromTarget; }}
@@ -102,8 +100,8 @@ public abstract class AIController : RoutineRunner {
 
     public void ActivateAI()
     {
+        CurrentState = states.getUp;
         deActivateAI = false;
-        currentState = states.getUp;
     }
 
     protected void Update() {
@@ -129,7 +127,7 @@ public abstract class AIController : RoutineRunner {
         stateTimerIsRunning = false;
         timeInLastState = 0f;
         deActivateAI = false;
-        CurrentState = states.getUp;
+        CurrentState = states.chase;
 
         if (mod != null)
         {

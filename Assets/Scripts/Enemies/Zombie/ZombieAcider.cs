@@ -146,6 +146,8 @@ public class ZombieAcider : EnemyBase
 
     public override void ResetForRebirth()
     {
+        trailRenderer.Clear();
+        chase.needToClearTrail = true;
         base.ResetForRebirth();
     }
 
