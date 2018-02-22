@@ -74,4 +74,5 @@ public abstract class AIProperties
     [HideInInspector] public float pulseRate;
     [HideInInspector] public float scaleRate;
     [HideInInspector] public float maxScale;
+    [HideInInspector] public float spawnRate;
 }
