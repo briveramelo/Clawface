@@ -19,10 +19,9 @@ public class MallCop : EnemyBase
 
     #region 1. Serialized Unity Inspector Fields
     [SerializeField] SphereCollider playerDetectorSphereCollider;
-    [SerializeField] float closeEnoughToFireDistance;
     [SerializeField] private MallCopProperties properties;
     [SerializeField] private Mod mod;
-    [SerializeField] private float maxToleranceTime;
+
     #endregion
 
     #region 2. Private fields
@@ -34,6 +33,8 @@ public class MallCop : EnemyBase
     private float currentToleranceTime;
     private float currentHitReactionLayerWeight;
     private float hitReactionLayerDecrementSpeed = 1.5f;
+    private float closeEnoughToFireDistance;
+    private float maxToleranceTime;
     private Vector3 rayCastPosition;
     #endregion
 
@@ -41,7 +42,10 @@ public class MallCop : EnemyBase
 
     public override void Awake()
     {
+        myStats = GetComponent<Stats>();
+        SetAllStats();
         InitilizeStates();
+        fire.animatorSpeed = EnemyStatsManager.Instance.blasterStats.animationShootSpeed;
         controller.Initialize(properties, mod, velBody, animator, myStats, navAgent, navObstacle, aiStates);
         mod.setModSpot(ModSpot.ArmR);
         mod.AttachAffect(ref myStats, velBody);
@@ -229,6 +233,33 @@ public class MallCop : EnemyBase
         aiStates.Add(fire);
         aiStates.Add(stun);
         aiStates.Add(celebrate);
+    }
+
+    private void SetAllStats()
+    {
+        myStats.health = EnemyStatsManager.Instance.blasterStats.health;
+        myStats.maxHealth = EnemyStatsManager.Instance.blasterStats.maxHealth;
+        myStats.skinnableHealth = EnemyStatsManager.Instance.blasterStats.skinnableHealth;
+        myStats.moveSpeed = EnemyStatsManager.Instance.blasterStats.speed;
+        myStats.attack = EnemyStatsManager.Instance.blasterStats.attack;
+
+        navAgent.speed = EnemyStatsManager.Instance.blasterStats.speed;
+        navAgent.angularSpeed = EnemyStatsManager.Instance.blasterStats.angularSpeed;
+        navAgent.acceleration = EnemyStatsManager.Instance.blasterStats.acceleration;
+        navAgent.stoppingDistance = EnemyStatsManager.Instance.blasterStats.stoppingDistance;
+
+        scoreValue = EnemyStatsManager.Instance.blasterStats.scoreValue;
+        eatHealth = EnemyStatsManager.Instance.blasterStats.eatHealth;
+        stunnedTime = EnemyStatsManager.Instance.blasterStats.stunnedTime;
+
+        closeEnoughToFireDistance = EnemyStatsManager.Instance.blasterStats.closeEnoughToFireDistance;
+        maxToleranceTime = EnemyStatsManager.Instance.blasterStats.maxToleranceTime;
+
+        if (mod.GetComponent<BlasterMod>())
+        {
+            mod.GetComponent<BlasterMod>().SetBulletStats(EnemyStatsManager.Instance.blasterStats.bulletLiveTime, EnemyStatsManager.Instance.blasterStats.bulletSpeed, EnemyStatsManager.Instance.blasterStats.attack);
+        }
+        myStats.SetStats();
     }
 
     private void OnDrawGizmosSelected()

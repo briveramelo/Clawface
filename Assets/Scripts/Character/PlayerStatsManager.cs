@@ -15,19 +15,17 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     #endregion
 
     #region Serialized Unity Inspector fields
-    [SerializeField] private CameraLock cameraLock;
     [SerializeField] private PlayerFaceController faceController;
     [SerializeField] private bool shake;
     [SerializeField] private GameObject playerMesh;
     [SerializeField] private GameObject modSockets;
     [SerializeField] private PoolObjectType deathVFX;
     [SerializeField] private SFXType deathSFX;
-
     [SerializeField] private List<HealthRatio> damageScaling = new List<HealthRatio>();
+    [SerializeField] private Stats stats;
     #endregion
 
     #region Private Fields
-    [SerializeField] private Stats stats;
     float startHealth;
     float healthAtLastSkin;
     float lastSkinHealthBoost;
@@ -38,11 +36,9 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     // Use this for initialization
     void Start()
     {
-        stats.SetMaxHealth(UpgradeManager.Instance.GetHealthLevel());
         startHealth = stats.GetStat(CharacterStatType.MaxHealth);
-        UpgradeManager.Instance.SetPlayerStats(this.stats);
-        UpgradeManager.Instance.SetPlayerStatsManager(this);
         hitFlasher = GetComponentInChildren<HitFlasher>();
+        stats.SetStats();
     }
 	
 	// Update is called once per frame
@@ -52,6 +48,11 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     #endregion
 
     #region Public Methods
+    public Vector3 GetPosition ()
+    {
+        return transform.position;
+    }
+
     public void TakeDamage(Damager damager)
     {
         if (damageModifier > 0.0f)
@@ -74,7 +75,7 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
                 stats.TakeDamage(damageModifier * damager.damage);
                 healthFraction = stats.GetHealthFraction();
                 EventSystem.Instance.TriggerEvent(Strings.Events.PLAYER_HEALTH_MODIFIED, healthFraction);
-                cameraLock.Shake();
+
                 float shakeIntensity = 1f - healthFraction;
                 if (shake)
                 {

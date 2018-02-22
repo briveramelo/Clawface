@@ -22,6 +22,7 @@ public interface IDamageable
 {
     void TakeDamage(Damager damager);
     float GetHealth();
+    Vector3 GetPosition();
 }
 
 public interface IModifiable

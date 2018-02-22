@@ -43,6 +43,7 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
     private const string AlbedoTint = "_AlbedoTint";
     private string tintCoroutineName { get { return coroutineName + AlbedoTint; } }
     private List<LevelUnitStates> levelUnitStates = new List<LevelUnitStates>();
+    private Splattable splattable;
     #endregion
 
     #region serialized fields
@@ -63,9 +64,12 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
     #endregion
 
     #region unity lifecycle
-    private void Awake() {
+    private void Awake()
+    {
+        splattable = GetComponent<Splattable>();
         meshRenderer = GetComponent<MeshRenderer>();
-        if (meshRenderer) {
+        if (meshRenderer)
+        {
             meshSizeY = meshRenderer.bounds.size.y;
             meshSizeZ = meshRenderer.bounds.size.z;
             meshSizeX = meshRenderer.bounds.size.x;
@@ -251,13 +255,13 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
 
     private void CreateBlockingObject() {
         blockingObject = new GameObject("Blocking Object");
-        blockingObject.SetActive(false);
         blockingObject.transform.SetParent(transform.parent);
         blockingObject.transform.position = new Vector3(transform.position.x, coverYPosition, transform.position.z);
         blockingObject.transform.localScale = new Vector3(meshSizeX, meshSizeY, meshSizeZ);
         blockingObject.AddComponent<BoxCollider>();
         blockingObject.AddComponent<NavMeshObstacle>().carving = true;
         blockingObject.layer = LayerMask.NameToLayer(Strings.Layers.OBSTACLE);
+        blockingObject.SetActive(false);
     }
 
     private void ShowBlockingObject() {
@@ -272,6 +276,7 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
 
     void OnColorChange(float progress) {
         Color newColor = startColor + (targetColor - startColor) * progress;
+        meshRenderer.GetPropertyBlock(materialPropertyBlock);
         materialPropertyBlock.SetColor(AlbedoTint, newColor);
         meshRenderer.SetPropertyBlock(materialPropertyBlock);
     }
@@ -331,28 +336,34 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
         }
         return result;
     }
-
-    public void TransitionToCoverState(params object[] inputs) {
-
-        if (currentState != LevelUnitStates.cover) {
+    
+    public void TransitionToCoverState(params object[] inputs)
+    {
+        if (currentState != LevelUnitStates.cover)
+        {
+            splattable.PaintMask = Texture2D.blackTexture;
             nextState = LevelUnitStates.cover;
             isTransitioning = true;
         }
         TriggerColorShift(LevelUnitStates.cover);
     }
-
-    public void TransitionToFloorState(params object[] inputs) {
-
-        if (currentState != LevelUnitStates.floor) {
+    
+    public void TransitionToFloorState(params object[] inputs)
+    {
+        if (currentState != LevelUnitStates.floor)
+        {
+            splattable.PaintMask = Texture2D.whiteTexture;
             nextState = LevelUnitStates.floor;
             isTransitioning = true;
         }
         TriggerColorShift(LevelUnitStates.floor);
     }
-
-    public void TransitionToPitState(params object[] inputs) {
-
-        if (currentState != LevelUnitStates.pit) {
+    
+    public void TransitionToPitState(params object[] inputs)
+    {
+        if (currentState != LevelUnitStates.pit)
+        {
+            splattable.PaintMask = Texture2D.blackTexture;
             nextState = LevelUnitStates.pit;
             isTransitioning = true;
         }

@@ -56,6 +56,14 @@ public class BlasterMod : Mod {
     {
         base.DetachAffect();
     }
+
+    public void SetBulletStats(float newBulletLiveTime, float newBulletSpeed, float newDamage)
+    {
+        bulletLiveTime = newBulletLiveTime;
+        bulletSpeed = newBulletSpeed;
+        damage = newDamage;
+    }
+
     
     protected override void DoWeaponActions(){
         Shoot();

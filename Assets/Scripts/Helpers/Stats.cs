@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Stats : MonoBehaviour, IModifiable {
     #region Serialized Unity Inspector Fields
-    public float attack, defense, health, maxHealth, moveSpeed, rangedAccuracy, shotSpeed, shotPushForce, skinnableHealth, exp, invincibilityCoolDownTime;
+    [HideInInspector]public float attack, defense, health, maxHealth, moveSpeed, rangedAccuracy, shotSpeed, shotPushForce, skinnableHealth, exp, invincibilityCoolDownTime;
     #endregion
 
     #region Private Fields
@@ -14,15 +14,14 @@ public class Stats : MonoBehaviour, IModifiable {
     private bool isInvincible = false;
     #endregion
 
-    #region Unity LifeCycle
-    void Awake() {
+    #region Public Methods
+
+    public void SetStats()
+    {
         originalStats = new StatsMemento(attack, defense, health, maxHealth, moveSpeed, rangedAccuracy, shotSpeed, shotPushForce, skinnableHealth, exp);
+        if (maxHealth == 0) maxHealth = health;
     }
 
-    
-    #endregion
-
-    #region Public Methods
     public void Multiply(CharacterStatType statType, float statMultiplier) {
         switch (statType) {
             case CharacterStatType.Attack:
@@ -71,7 +70,7 @@ public class Stats : MonoBehaviour, IModifiable {
         return -1;
     }
 
-    public float GetHealthFraction(){ 
+    public float GetHealthFraction(){
         return health/maxHealth;    
     }
 

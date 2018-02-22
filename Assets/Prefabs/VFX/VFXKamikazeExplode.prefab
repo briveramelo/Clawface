@@ -55,8 +55,6 @@ GameObject:
   - component: {fileID: 4179855533488976}
   - component: {fileID: 198257795894134252}
   - component: {fileID: 199964198394189406}
-  - component: {fileID: 114858006641094604}
-  - component: {fileID: 114595218077302328}
   m_Layer: 0
   m_Name: ExplosionEffect
   m_TagString: Untagged
@@ -259,19 +257,6 @@ Transform:
   m_Father: {fileID: 4197420676377876}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114595218077302328
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1348511289912464}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7eb4a53ccb703bc4a83ae2b88b7262a5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  splatterLifetime: 2.5
-  splashRange: 1.5
 --- !u!114 &114735827850050510
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -284,27 +269,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playOnAwake: 1
---- !u!114 &114858006641094604
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1348511289912464}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dcc18adc8151c17449e1a72786ecd1c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  explosionParticleSystem: {fileID: 198257795894134252}
-  splatterLifetime: 2.5
-  limbs:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  limbExplodeForce: 200
-  gp: {fileID: 114595218077302328}
 --- !u!198 &198257795894134252
 ParticleSystem:
   m_ObjectHideFlags: 1

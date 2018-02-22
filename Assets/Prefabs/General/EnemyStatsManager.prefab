@@ -1,0 +1,294 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1757848764820972}
+  m_IsPrefabParent: 1
+--- !u!1 &1757848764820972
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4788931021212416}
+  - component: {fileID: 114184078683000828}
+  m_Layer: 0
+  m_Name: EnemyStatsManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4788931021212416
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1757848764820972}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114184078683000828
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1757848764820972}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8106f969034c51a41bdb3de989dcc4c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shouldRegister: 1
+  blasterStats:
+    health: 16
+    maxHealth: 16
+    skinnableHealth: 7
+    attack: 3
+    speed: 8
+    angularSpeed: 360
+    acceleration: 15
+    stoppingDistance: 1
+    scoreValue: 200
+    eatHealth: 1
+    stunnedTime: 7
+    closeEnoughToFireDistance: 13
+    maxToleranceTime: 4
+    bulletLiveTime: 5
+    bulletSpeed: 20
+    animationShootSpeed: 2
+  blasterShotgunStats:
+    health: 16
+    maxHealth: 16
+    skinnableHealth: 3
+    attack: 3
+    speed: 15
+    angularSpeed: 360
+    acceleration: 20
+    stoppingDistance: 1
+    scoreValue: 200
+    eatHealth: 20
+    stunnedTime: 7
+    closeEnoughToFireDistance: 8
+    maxToleranceTime: 4
+    separationFromForwardVector: -26
+    bulletSpeed: 30
+    bulletDamage: 5
+    rateOfFire: 1
+    bulletOffsetFromOrigin: 2
+    bulletStrands: 8
+    separationAngleBetweenStrands: 5
+    rotationDirection: 0
+    rotationSpeedBulletHellController: 0
+    bulletLiveTime: 2.5
+    animationDriven: 1
+    animationShootSpeed: 1
+  blasterReanimatorStats:
+    health: 16
+    maxHealth: 16
+    skinnableHealth: 3
+    attack: 3
+    speed: 12
+    angularSpeed: 360
+    acceleration: 15
+    stoppingDistance: 1
+    scoreValue: 200
+    eatHealth: 20
+    stunnedTime: 7
+    closeEnoughToReanimateDistance: 3.42
+    animationShootSpeed: 1
+  zombieStats:
+    health: 12
+    maxHealth: 12
+    skinnableHealth: 3
+    attack: 3
+    speed: 16
+    angularSpeed: 10000
+    acceleration: 30
+    stoppingDistance: 3
+    scoreValue: 100
+    eatHealth: 12
+    stunnedTime: 7
+    closeEnoughToAttackDistance: 3
+    animationAttackSpeed: 1
+  zombieBeserkerStats:
+    health: 12
+    maxHealth: 12
+    skinnableHealth: 3
+    attack: 3
+    speed: 16
+    angularSpeed: 10000
+    acceleration: 30
+    stoppingDistance: 2.5
+    scoreValue: 200
+    eatHealth: 20
+    stunnedTime: 7
+    closeEnoughToAttackDistance: 2.5
+    animationAttackSpeed: 1
+  zombieAciderStats:
+    health: 12
+    maxHealth: 12
+    skinnableHealth: 3
+    attack: 3
+    speed: 16
+    angularSpeed: 10000
+    acceleration: 30
+    stoppingDistance: 3
+    scoreValue: 100
+    eatHealth: 20
+    stunnedTime: 7
+    closeEnoughToAttackDistance: 3
+    animationAttackSpeed: 1.5
+    trailRendererTime: 4
+    trailRendererWidth: 1
+    colliderGenerationTime: 0.01
+    acidTriggerLife: 4
+  kamikazeStats:
+    health: 12
+    maxHealth: 12
+    skinnableHealth: 3
+    attack: 3
+    speed: 35
+    angularSpeed: 1000
+    acceleration: 50
+    stoppingDistance: 1
+    scoreValue: 150
+    eatHealth: 20
+    stunnedTime: 7
+    closeEnoughToAttackDistance: 2.5
+    selfDestructTime: 0.25
+    blastRadius: 14
+  kamikazePulserStats:
+    health: 12
+    maxHealth: 12
+    skinnableHealth: 3
+    attack: 3
+    speed: 35
+    angularSpeed: 1000
+    acceleration: 50
+    stoppingDistance: 1
+    scoreValue: 200
+    eatHealth: 20
+    stunnedTime: 7
+    closeEnoughToAttackDistance: 5
+    maxPulses: 3
+    pulseRate: 0.93
+    scaleRate: 1.15
+    maxScale: 2.06
+  kamikazeMommyStats:
+    health: 60
+    maxHealth: 60
+    skinnableHealth: 3
+    attack: 3
+    speed: 10
+    angularSpeed: 1000
+    acceleration: 40
+    stoppingDistance: 1
+    scoreValue: 200
+    eatHealth: 20
+    stunnedTime: 7
+    closeEnoughToAttackDistance: 10
+    kamikazeSpawnProbability: 0.46
+    kamikazePulserSpawnProbability: 0.264
+  bouncerStats:
+    health: 20
+    maxHealth: 20
+    skinnableHealth: 3
+    attack: 3
+    speed: 2
+    angularSpeed: 360
+    acceleration: 15
+    stoppingDistance: 1
+    scoreValue: 300
+    eatHealth: 20
+    stunnedTime: 7
+    maxBounces: 5
+    minBounces: 2
+    maxShots: 8
+    minShots: 4
+    rotationSpeed: 0
+    rotate: 0
+    separationFromForwardVector: 0
+    bulletSpeed: 10
+    bulletDamage: 20.2
+    rateOfFire: 0.6
+    bulletOffsetFromOrigin: 2.5
+    bulletStrands: 6
+    separationAngleBetweenStrands: 60
+    rotationDirection: 0
+    rotationSpeedBulletHellController: 0
+    bulletLiveTime: 5
+    animationDriven: 1
+    animationShootSpeed: 1
+  redBouncerStats:
+    health: 35
+    maxHealth: 35
+    skinnableHealth: 3
+    attack: 3
+    speed: 2
+    angularSpeed: 360
+    acceleration: 15
+    stoppingDistance: 1
+    scoreValue: 300
+    eatHealth: 20
+    stunnedTime: 7
+    maxBounces: 7
+    minBounces: 4
+    maxShots: 45
+    minShots: 50
+    rotationSpeed: 0
+    rotate: 0
+    separationFromForwardVector: 0
+    bulletSpeed: 13
+    bulletDamage: 20.2
+    rateOfFire: 0.4
+    bulletOffsetFromOrigin: 2.5
+    bulletStrands: 6
+    separationAngleBetweenStrands: 60
+    rotationDirection: 0
+    rotationSpeedBulletHellController: 0
+    bulletLiveTime: 5
+    animationDriven: 1
+    animationShootSpeed: 1
+  greenBouncerStats:
+    health: 50
+    maxHealth: 50
+    skinnableHealth: 3
+    attack: 3
+    speed: 2
+    angularSpeed: 360
+    acceleration: 15
+    stoppingDistance: 1
+    scoreValue: 300
+    eatHealth: 30
+    stunnedTime: 7
+    maxBounces: 5
+    minBounces: 2
+    maxShots: 66
+    minShots: 76
+    rotationSpeed: 85
+    rotate: 1
+    separationFromForwardVector: 0
+    bulletSpeed: 10
+    bulletDamage: 20.2
+    rateOfFire: 0.6
+    bulletOffsetFromOrigin: 2.5
+    bulletStrands: 6
+    separationAngleBetweenStrands: 60
+    rotationDirection: 0
+    rotationSpeedBulletHellController: 0
+    bulletLiveTime: 5
+    animationDriven: 1
+    animationShootSpeed: 1

@@ -39,7 +39,6 @@ GameObject:
   - component: {fileID: 114697070674134514}
   - component: {fileID: 199195227262759070}
   - component: {fileID: 198947589618534786}
-  - component: {fileID: 114864170799816040}
   m_Layer: 0
   m_Name: GoreExplosion
   m_TagString: Untagged
@@ -117,19 +116,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playOnAwake: 1
---- !u!114 &114864170799816040
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1525977427810654}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7eb4a53ccb703bc4a83ae2b88b7262a5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  splatterLifetime: 2.5
-  splashRange: 1.5
 --- !u!198 &198246991714299236
 ParticleSystem:
   m_ObjectHideFlags: 1

@@ -19,7 +19,6 @@ public class MallCopReanimator : EnemyBase
 
     #region 1. Serialized Unity Inspector Fields
     [SerializeField] SphereCollider enemyDetectorSphereCollider;
-    [SerializeField] float closeEnoughToReanimate;
     [SerializeField] private MallCopProperties properties;
     [SerializeField] private Transform healParticleTransform;
     #endregion
@@ -35,13 +34,17 @@ public class MallCopReanimator : EnemyBase
     private float hitReactionLayerDecrementSpeed = 1.5f;
     private Vector3 rayCastPosition;
     private bool foundStunnedEnemy = false;
+    private float closeEnoughToReanimateDistance;
     #endregion
 
     #region 3. Unity Lifecycle
 
     public override void Awake()
     {
+        myStats = GetComponent<Stats>();
+        SetAllStats();
         InitilizeStates();
+        fire.animatorSpeed = EnemyStatsManager.Instance.blasterReanimatorStats.animationShootSpeed;
         controller.Initialize(properties, velBody, animator, myStats, navAgent, navObstacle, aiStates);
         damaged.Set(DamagedType.MallCop, bloodEmissionLocation);
 
@@ -75,7 +78,7 @@ public class MallCopReanimator : EnemyBase
     //State conditions
     bool CheckToFire()
     {
-        if ((controller.CurrentState == chase && foundStunnedEnemy &&  controller.DistanceFromTarget < closeEnoughToReanimate))
+        if ((controller.CurrentState == chase && foundStunnedEnemy &&  controller.DistanceFromTarget <closeEnoughToReanimateDistance))
         {
             controller.UpdateState(EAIState.Fire);
             return true;
@@ -209,10 +212,32 @@ public class MallCopReanimator : EnemyBase
         aiStates.Add(celebrate);
     }
 
+    private void SetAllStats()
+    {
+        myStats.health = EnemyStatsManager.Instance.blasterReanimatorStats.health;
+        myStats.maxHealth = EnemyStatsManager.Instance.blasterReanimatorStats.maxHealth;
+        myStats.skinnableHealth = EnemyStatsManager.Instance.blasterReanimatorStats.skinnableHealth;
+        myStats.moveSpeed = EnemyStatsManager.Instance.blasterReanimatorStats.speed;
+        myStats.attack = EnemyStatsManager.Instance.blasterReanimatorStats.attack;
+
+        navAgent.speed = EnemyStatsManager.Instance.blasterReanimatorStats.speed;
+        navAgent.angularSpeed = EnemyStatsManager.Instance.blasterReanimatorStats.angularSpeed;
+        navAgent.acceleration = EnemyStatsManager.Instance.blasterReanimatorStats.acceleration;
+        navAgent.stoppingDistance = EnemyStatsManager.Instance.blasterReanimatorStats.stoppingDistance;
+
+        scoreValue = EnemyStatsManager.Instance.blasterReanimatorStats.scoreValue;
+        eatHealth = EnemyStatsManager.Instance.blasterReanimatorStats.eatHealth;
+        stunnedTime = EnemyStatsManager.Instance.blasterReanimatorStats.stunnedTime;
+
+        closeEnoughToReanimateDistance = EnemyStatsManager.Instance.blasterReanimatorStats.closeEnoughToReanimateDistance;
+
+        myStats.SetStats();
+    }
+
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position, closeEnoughToReanimate);
+        Gizmos.DrawWireSphere(transform.position, closeEnoughToReanimateDistance);
         //Gizmos.color = Color.green;
         //Gizmos.DrawWireSphere(playerDetectorSphereCollider.transform.position, maxDistanceBeforeChasing);
     }

@@ -9,7 +9,7 @@ using System;
 using System.Linq;
 using ModMan;
 
-public abstract class AIController : MonoBehaviour {
+public abstract class AIController : RoutineRunner {
 
     #region 2. Serialized Unity Inspector Fields
     [SerializeField] protected string DEBUG_CURRENTSTATE;
@@ -77,7 +77,7 @@ public abstract class AIController : MonoBehaviour {
             DEBUG_CURRENTSTATE = currentState.ToString();
             //DEBUG_ATTACKTARGET = attackTarget.gameObject.name.ToString();
             currentState.OnEnter();
-            Timing.RunCoroutine(IERestartStateTimer());
+            Timing.RunCoroutine(IERestartStateTimer(), coroutineName);
         }
     }
     public List<Func<bool>> checksToUpdateState = new List<Func<bool>>();
@@ -148,7 +148,7 @@ public abstract class AIController : MonoBehaviour {
     }
 
     public void RestartStateTimer() {
-        Timing.RunCoroutine(IERestartStateTimer());
+        Timing.RunCoroutine(IERestartStateTimer(), coroutineName);
     }
 
     public Transform FindPlayer()
