@@ -93,7 +93,7 @@ namespace Turing.VFX
         /// </summary>
         public void HitFlash (float intensity, float duration)
         {
-            StopAllCoroutines();
+            StopCoroutine("DoHitFlash");
             StartCoroutine(DoHitFlash(intensity, duration));
         }
 
@@ -132,10 +132,12 @@ namespace Turing.VFX
         /// </summary>
         public void SetStunnedState ()
         {
+            Debug.Log("SetStunnedState");
             flashInterval = stunnedFlashInterval;
             StopAllCoroutines();
             if (gameObject.activeInHierarchy)
                 StartCoroutine(DoStunnedState());
+            else Debug.LogWarning("Tried to start stun state on inactive object!", gameObject);
         }
 
         IEnumerator DoStunnedState ()
@@ -158,10 +160,12 @@ namespace Turing.VFX
 
         public void SetCloseToEatState()
         {
+            Debug.Log("SetCloseToEat");
             flashInterval = proximityFlashInterval;
             StopAllCoroutines();
             if (gameObject.activeInHierarchy)
                 StartCoroutine(DoStunnedState());
+            else Debug.LogWarning("Tried to start edible state on inactive object!", gameObject);
         }
 
         public void SetStrength(float newStrength)

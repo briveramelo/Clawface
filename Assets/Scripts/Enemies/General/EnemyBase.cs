@@ -356,10 +356,12 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         if (isClose)
         {
             hitFlasher.SetCloseToEatState();
+            isStunFlashing = true;
         }
         else
         {
             hitFlasher.SetStunnedState();
+            isStunFlashing = true;
         }
     }
 
