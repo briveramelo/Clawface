@@ -165,6 +165,7 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
             if (coverStateEvents.Contains(eventName))
             {
                 coverStateEvents.Remove(eventName);
+                EventSystem.Instance.UnRegisterEvent(eventName, TransitionToCoverState);
             }
         }
 
@@ -173,6 +174,7 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
             if (floorStateEvents.Contains(eventName))
             {
                 floorStateEvents.Remove(eventName);
+                EventSystem.Instance.UnRegisterEvent(eventName, TransitionToFloorState);
             }
         }
 
@@ -181,6 +183,7 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
             if (pitStateEvents.Contains(eventName))
             {
                 pitStateEvents.Remove(eventName);
+                EventSystem.Instance.UnRegisterEvent(eventName, TransitionToPitState);
             }
         }
     }
