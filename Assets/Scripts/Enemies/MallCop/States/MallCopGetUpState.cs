@@ -7,7 +7,7 @@ public class MallCopGetUpState : AIState
 {
     public override void OnEnter()
     {
-        
+        animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.GetUp);
     }
     public override void Update()
     {

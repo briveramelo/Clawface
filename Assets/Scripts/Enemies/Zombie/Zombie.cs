@@ -124,7 +124,6 @@ public class Zombie : EnemyBase
 
     public void GetUpDone()
     {
-        Debug.Log("Get UP!");
         getUp.Up();
     }
 

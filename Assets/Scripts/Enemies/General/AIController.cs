@@ -100,8 +100,8 @@ public abstract class AIController : RoutineRunner {
 
     public void ActivateAI()
     {
+        CurrentState = states.getUp;
         deActivateAI = false;
-        currentState = states.chase;
     }
 
     protected void Update() {
@@ -206,7 +206,7 @@ public abstract class AIController : RoutineRunner {
         if (mod != null)
             modMemento.Initialize(mod.transform);
 
-        CurrentState = states.chase;
+        CurrentState = states.getUp;
     }
 
     public void Initialize(
@@ -233,7 +233,7 @@ public abstract class AIController : RoutineRunner {
         if(mod != null)
         modMemento.Initialize(mod.transform);
 
-        CurrentState = states.chase;
+        CurrentState = states.getUp;
     }
 
     public void Initialize(
@@ -259,7 +259,7 @@ public abstract class AIController : RoutineRunner {
         if (mod != null)
             modMemento.Initialize(mod.transform);
 
-        CurrentState = states.chase;
+        CurrentState = states.getUp;
     }
 
     public void UpdateState(EAIState state)
