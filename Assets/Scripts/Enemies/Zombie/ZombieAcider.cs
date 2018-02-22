@@ -26,6 +26,7 @@ public class ZombieAcider : EnemyBase
     private ZombieAttackState attack;
     private ZombieStunState stun;
     private ZombieCelebrateState celebrate;
+    private ZombieGetUpState getUp;
     private float currentHitReactionLayerWeight;
     private float hitReactionLayerDecrementSpeed = 1.5f;
     private float closeEnoughToAttackDistance;
@@ -124,6 +125,10 @@ public class ZombieAcider : EnemyBase
         attack.doneAttacking = true;
     }
 
+    public void GetUpDone()
+    {
+        getUp.Up();
+    }
 
     public void DamageAttackTarget()
     {
@@ -200,10 +205,13 @@ public class ZombieAcider : EnemyBase
         stun.stateName = "stun";
         celebrate = new ZombieCelebrateState();
         celebrate.stateName = "celebrate";
+        getUp = new ZombieGetUpState();
+        getUp.stateName = "getUp";
         aiStates.Add(chase);
         aiStates.Add(attack);
         aiStates.Add(stun);
         aiStates.Add(celebrate);
+        aiStates.Add(getUp);
     }
 
     private void SetAllStats()

@@ -286,6 +286,7 @@ GameObject:
   - component: {fileID: 195022516103172376}
   - component: {fileID: 208461642810736044}
   - component: {fileID: 114002811662092862}
+  - component: {fileID: 95222250786295402}
   m_Layer: 9
   m_Name: KamikazePulser
   m_TagString: Enemy
@@ -301,7 +302,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4316910236735862}
-  - component: {fileID: 95652487981495660}
   m_Layer: 20
   m_Name: Kamikaze
   m_TagString: Untagged
@@ -1191,13 +1191,13 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.12332431, y: 0.12351747, z: 0.24477226}
   m_Center: {x: 0.061662156, y: -0.018235058, z: -0.00000016391277}
---- !u!95 &95652487981495660
+--- !u!95 &95222250786295402
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1360290682085754}
+  m_GameObject: {fileID: 1350195012740228}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 702dabecb023db44eb830c16e359d1d7, type: 3}
   m_Controller: {fileID: 9100000, guid: df730419a6eb7cc42838715819efff83, type: 2}
@@ -1386,7 +1386,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller: {fileID: 114767139671576884}
   velBody: {fileID: 114917881176828100}
-  animator: {fileID: 95652487981495660}
+  animator: {fileID: 95222250786295402}
   navAgent: {fileID: 195022516103172376}
   navObstacle: {fileID: 208461642810736044}
   bloodEmissionLocation: {fileID: 4875520078057472}
