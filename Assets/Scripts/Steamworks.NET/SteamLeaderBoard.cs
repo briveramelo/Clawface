@@ -4,41 +4,24 @@ using UnityEngine;
 using Steamworks;
 using System;
 
-public class SteamLeaderBoard : MonoBehaviour {
-
-    public struct LeaderBoardVars
-    {
-        public string userID;
-        public int rank;
-        public int score;
-        public int day;
-        public int month;
-        public int year;
-        public int time;
-    }
-
-    enum ActionEnum
-    {
-        Update, Get
-    }
-
+public abstract class SteamLeaderBoard : MonoBehaviour {
+    
     #region Private Variables
-    //We store date as diff variables in the array dd,mm,yyyy,time and score. Based on the type of leaderboard, we then set the appropriate values as the score
-    static private int MAX_DETAILS = 4;
-    static private string LEADERBOARD_ALL_TIME = "LEADERBOARD_ALL_TIME";
+    //We store date as diff variables in the array dd,mm,yyyy and time. Based on the type of leaderboard, we then set the appropriate values as the score
+    private const int MAX_DETAILS = 4;    
     public delegate void ResultsCallBack(List<LeaderBoardVars> results);
     private CallResult<LeaderboardFindResult_t> leaderBoardFindResult;
     private CallResult<LeaderboardScoresDownloaded_t> leaderBoardScoresDownloaded;
     private ResultsCallBack callbackAction;
-    private bool isWorking;
-    private ActionEnum currentAction;
+    private SteamLeaderboard_t leaderBoard;
     #endregion
 
     #region Public Fields
-    public bool IsWorking{
+    private bool IsReady
+    {
         get
         {
-            return isWorking;
+            return leaderBoard.m_SteamLeaderboard != 0;
         }
     }
     #endregion
@@ -48,34 +31,30 @@ public class SteamLeaderBoard : MonoBehaviour {
     {
         leaderBoardFindResult = CallResult<LeaderboardFindResult_t>.Create(OnLeaderBoardFindResult);
         leaderBoardScoresDownloaded = CallResult<LeaderboardScoresDownloaded_t>.Create(OnLeaderBoardScoresDownloaded);
-    }
+        leaderBoard.m_SteamLeaderboard = 0;
+    }    
 
     private void Start()
     {
-        if (SteamManager.Initialized)
-        {
-            
-        }
+       
     }
     #endregion
 
     #region Public Methods
-    public bool FetchAllTimeLeaderBoard(ResultsCallBack callbackAction)
+    public bool FetchLeaderBoardData(ResultsCallBack callbackAction)
     {
         bool result = false;
-        if (SteamManager.Initialized && !isWorking)
+        if (SteamManager.Initialized && IsReady)
         {
-            SteamAPICall_t apiCall = SteamUserStats.FindOrCreateLeaderboard(LEADERBOARD_ALL_TIME, ELeaderboardSortMethod.k_ELeaderboardSortMethodDescending, ELeaderboardDisplayType.k_ELeaderboardDisplayTypeNumeric);
-            if (leaderBoardFindResult.IsActive())
+            SteamAPICall_t apiCall = SteamUserStats.DownloadLeaderboardEntries(leaderBoard, ELeaderboardDataRequest.k_ELeaderboardDataRequestGlobal, 1, 10);
+            if (leaderBoardScoresDownloaded.IsActive())
             {
-                leaderBoardFindResult.Cancel();
-                leaderBoardFindResult.Dispose();
+                leaderBoardScoresDownloaded.Cancel();
+                leaderBoardScoresDownloaded.Dispose();
             }
-            leaderBoardFindResult.Set(apiCall);
+            leaderBoardScoresDownloaded.Set(apiCall);
             this.callbackAction = callbackAction;
             result = true;
-            isWorking = true;
-            currentAction = ActionEnum.Get;
         }
         return result;
     }
@@ -83,47 +62,43 @@ public class SteamLeaderBoard : MonoBehaviour {
     public bool UpdateLeaderBoards(int score)
     {
         bool result = false;
-        if (SteamManager.Initialized)
+        if (SteamManager.Initialized && IsReady)
         {
-            SteamAPICall_t apiCall = SteamUserStats.FindOrCreateLeaderboard(LEADERBOARD_ALL_TIME, ELeaderboardSortMethod.k_ELeaderboardSortMethodDescending, ELeaderboardDisplayType.k_ELeaderboardDisplayTypeNumeric);
+            int[] details = new int[MAX_DETAILS];
+            GetScoreAndDetails(out score, out details);
+            SteamUserStats.UploadLeaderboardScore(leaderBoard, ELeaderboardUploadScoreMethod.k_ELeaderboardUploadScoreMethodKeepBest, score, details, MAX_DETAILS);
             result = true;
-            isWorking = true;
-            currentAction = ActionEnum.Update;
         }
         return result;
-    }
+    }   
     #endregion
 
     #region Private Methods
+    protected void Initialize(string leaderBoardName)
+    {
+        if (SteamManager.Initialized)
+        {
+            //Get leader board id
+            SteamAPICall_t apiCall = SteamUserStats.FindOrCreateLeaderboard(leaderBoardName, ELeaderboardSortMethod.k_ELeaderboardSortMethodDescending, ELeaderboardDisplayType.k_ELeaderboardDisplayTypeNumeric);
+            leaderBoardFindResult.Set(apiCall);
+        }
+    }
+
     private void OnLeaderBoardFindResult(LeaderboardFindResult_t param, bool bIOFailure)
     {
         if(param.m_bLeaderboardFound != 1 || bIOFailure)
         {
             Debug.LogError("LeaderBoard not found");
-            isWorking = false;
         }
         else
         {
-            SteamLeaderboard_t leaderBoard = param.m_hSteamLeaderboard;
-            if (currentAction == ActionEnum.Get)
-            {
-                SteamAPICall_t apiCall = SteamUserStats.DownloadLeaderboardEntries(leaderBoard, ELeaderboardDataRequest.k_ELeaderboardDataRequestGlobal, 1, 10);
-                if (leaderBoardScoresDownloaded.IsActive())
-                {
-                    leaderBoardScoresDownloaded.Cancel();
-                    leaderBoardScoresDownloaded.Dispose();
-                }
-                leaderBoardScoresDownloaded.Set(apiCall);
-            }
-            else
-            {
-
-            }
+            leaderBoard = param.m_hSteamLeaderboard;                        
         }
     }
 
     private void OnLeaderBoardScoresDownloaded(LeaderboardScoresDownloaded_t param, bool bIOFailure)
     {
+        List<LeaderBoardVars> results = new List<LeaderBoardVars>();
         if (bIOFailure)
         {
             Debug.LogError("Error getting leader board entries");
@@ -131,28 +106,49 @@ public class SteamLeaderBoard : MonoBehaviour {
         else
         {
             int count = param.m_cEntryCount;
-            SteamLeaderboardEntries_t entries = param.m_hSteamLeaderboardEntries;
-            List<LeaderBoardVars> results = new List<LeaderBoardVars>();
+            SteamLeaderboardEntries_t entries = param.m_hSteamLeaderboardEntries;            
             for (int i = 0; i < count; i++)
             {
                 LeaderboardEntry_t entry;
                 int[] details = new int[MAX_DETAILS];
                 if(SteamUserStats.GetDownloadedLeaderboardEntry(entries, i, out entry, details, MAX_DETAILS))
                 {
-                    LeaderBoardVars leaderBoardVars;
-                    leaderBoardVars.rank = entry.m_nGlobalRank;
-                    leaderBoardVars.score = entry.m_nScore;
-                    leaderBoardVars.userID = entry.m_steamIDUser.ToString();
-                    leaderBoardVars.day = details[0];
-                    leaderBoardVars.month = details[1];
-                    leaderBoardVars.year = details[2];
-                    leaderBoardVars.time = details[3];
+                    LeaderBoardVars leaderBoardVars = ExtractLeaderBoardVars(entry, details);
+                    //leaderBoardVars.rank = entry.m_nGlobalRank;
+                    //leaderBoardVars.score = entry.m_nScore;
+                    //leaderBoardVars.userID = entry.m_steamIDUser.ToString();
+                    //leaderBoardVars.day = details[0];
+                    //leaderBoardVars.month = details[1];
+                    //leaderBoardVars.year = details[2];
+                    //leaderBoardVars.time = details[3];
                     results.Add(leaderBoardVars);
                 }
             }
-            callbackAction(results);
-            isWorking = false;
+            results = SortEntries(results);            
         }
+        callbackAction(results);
+    }
+
+    //Custom implementation based on the type of leader board
+    protected abstract LeaderBoardVars ExtractLeaderBoardVars(LeaderboardEntry_t entry, int[] details);
+
+    //Custom implementation based on the type of leader board
+    protected abstract List<LeaderBoardVars> SortEntries(List<LeaderBoardVars> results);
+
+    //Custom implementation based on the type of leader board
+    protected abstract void GetScoreAndDetails(out int score, out int[] details);
+    #endregion
+
+    #region Public structs
+    public struct LeaderBoardVars
+    {
+        public string userID;
+        public int rank;
+        public int score;
+        public int day;
+        public int month;
+        public int year;
+        public int time;
     }
     #endregion
 
