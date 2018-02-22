@@ -19,13 +19,9 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     [SerializeField] protected AIController controller;
     [SerializeField] protected VelocityBody velBody;
     [SerializeField] protected Animator animator;
-    [SerializeField] protected Stats myStats;
     [SerializeField] protected NavMeshAgent navAgent;
     [SerializeField] protected NavMeshObstacle navObstacle;
-    [SerializeField] protected int eatHealth;
     [SerializeField] protected Transform bloodEmissionLocation;
-    [SerializeField] protected int scoreValue = 200;
-    [SerializeField] protected int bufferHealth = 3;
     [SerializeField] private GameObject grabObject;
     [SerializeField] private GameObject affectObject;
     [SerializeField] protected HitFlasher hitFlasher;
@@ -33,6 +29,8 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     [SerializeField] private SFXType deathSFX;
     [SerializeField] Rigidbody pushRoot;
     [SerializeField] PushDirection pushDirection;
+    [SerializeField] GameObject hips;
+    [SerializeField] protected SpawnType enemyType;
     #endregion
 
     #region 3. Private fields
@@ -46,10 +44,17 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     private bool isIndestructable;
     private int id;
     private bool ragdollOn;
+    private float currentStunTime = 0.0f;
+    private int bufferHealth = 3;
+    private Vector3 spawnPosition;
     #endregion
 
     #region 0. Protected fields
     protected bool alreadyStunned = false;
+    protected int eatHealth;
+    protected int scoreValue;
+    protected float stunnedTime;
+    protected Stats myStats;
     protected Damaged damaged = new Damaged();
     protected DamagePack damagePack = new DamagePack();
     protected Will will = new Will();
@@ -71,7 +76,24 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         //}
     }
 
-    
+    public void Update()
+    {
+        if (alreadyStunned)
+        {
+            currentStunTime += Time.deltaTime;
+
+            if (currentStunTime > stunnedTime)
+            {
+                OnDeath();
+            }
+        }
+
+        //Kill if it falls off the world
+        if(hips.transform.position.y < -100.0f)
+        {
+            OnDeath();
+        }
+    }
 
     public virtual void Awake()
     {
@@ -99,6 +121,8 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
 
     public abstract Vector3 ReCalculateTargetPosition();
 
+    public Vector3 GetPosition () { return transform.position; }
+
     void IDamageable.TakeDamage(Damager damager)
     {
         if (myStats.health > 0 && !isIndestructable)
@@ -107,36 +131,19 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
             myStats.TakeDamage(damager.damage);
             damagePack.Set(damager, damaged);
             SFXManager.Instance.Play(hitSFX, transform.position);
-            DamageFXManager.Instance.EmitDamageEffect(damagePack);
-            
+            GoreManager.Instance.EmitDirectionalBlood(damagePack);
+            hitFlasher.HitFlash ();
 
             if (myStats.health <= 0)
             {
-
-                if (alreadyStunned)
-                    lastChance = true;
-
-                if (lastChance && alreadyStunned)
-                {
-                    OnDeath();
-                }
-                else
-                {
-                    myStats.health = bufferHealth;
-                    lastChance = true;
-                    alreadyStunned = true;
-                }
+                myStats.health = bufferHealth;
             }
 
 
             if (myStats.health <= myStats.skinnableHealth)
             {
-                if (!alreadyStunned)
-                {
-                    
                     myStats.health = bufferHealth;
                     alreadyStunned = true;
-                }
             }
         }
 
@@ -155,9 +162,6 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
                 hitFlasher.HitFlash();
             }
         }
-
-        
-
     }
 
     float IDamageable.GetHealth()
@@ -168,11 +172,11 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     void ISpawnable.WarpToNavMesh(Vector3 position)
     {
         transform.position = position;
+        navAgent.enabled = true;
         bool sucessfulWarp = navAgent.Warp(position);
         if (!sucessfulWarp) {
             Debug.LogWarning("Failed to warp!");
         }
-        navAgent.enabled = true;
     }
 
 
@@ -205,6 +209,20 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     {
     }
 
+    public void ResetHealth()
+    {
+        myStats.health = myStats.maxHealth;
+        alreadyStunned = false;
+        isStunFlashing = false;
+
+
+        hitFlasher.StopAllCoroutines();
+        hitFlasher.SetStrength(0.0f);
+        controller.SetDefaultState();
+        controller.ActivateAI();
+        currentStunTime = 0.0f;
+    }
+
     public GameObject GetAffectObject()
     {
         return affectObject;
@@ -233,13 +251,13 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
                     mallCopParts.transform.rotation = transform.rotation;
                 }
             }
-            UpgradeManager.Instance.AddEXP(Mathf.FloorToInt(myStats.exp));
             navAgent.speed = 0;
             navAgent.enabled = false;
             gameObject.SetActive(false);
             aboutTobeEaten = false;
             SFXManager.Instance.Play(deathSFX, transform.position);
             AIEnemyData testData = new AIEnemyData(controller.GetInstanceID());
+            currentStunTime = 0.0f;
             if (AIManager.Instance != null)
             {
                 AIManager.Instance.Remove(testData);
@@ -250,13 +268,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
 
     public virtual void ResetForRebirth()
     {
-        DisableRagdoll();
-        if (grabObject)
-        {
-            grabObject.transform.parent = transform;
-            grabObject.transform.localPosition = grabStartPosition;
-            grabObject.transform.localScale = Vector3.one;
-        }
+        DisableRagdoll();        
         GetComponent<CapsuleCollider>().enabled = true;
         myStats.ResetForRebirth();
         controller.ResetForRebirth();
@@ -267,8 +279,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         lastChance = false;
         isStunFlashing = false;
         alreadyStunned = false;
-        isIndestructable = false;
-        
+        isIndestructable = false;        
     }
 
     public void DisableCollider()
@@ -294,35 +305,39 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         {
             aiController.DeActivateAI();
         }
+        navAgent.enabled = false;
         ragdollOn = true;
     }
 
     public void DisableRagdoll()
-    {
+    {        
         if (jointRigidBodies != null)
         {
             //Ignore the first entry (its the self rigidbody)
             for (int i = 1; i < jointRigidBodies.Length; i++)
             {
-                jointRigidBodies[i].useGravity = false;
-                jointRigidBodies[i].isKinematic = true;
-                if (rigidBodyMasses != null)
-                {
-                    jointRigidBodies[i].mass = rigidBodyMasses[i];
-                }
                 RagdollHandler ragdollHandler = jointRigidBodies[i].GetComponent<RagdollHandler>();
                 if (ragdollHandler)
                 {
                     ragdollHandler.ResetBone();
                 }
+                jointRigidBodies[i].useGravity = false;
+                jointRigidBodies[i].velocity = Vector3.zero;
+                jointRigidBodies[i].angularVelocity = Vector3.zero;
+                jointRigidBodies[i].isKinematic = true;
+                if (rigidBodyMasses != null)
+                {
+                    jointRigidBodies[i].mass = rigidBodyMasses[i];
+                }                
             }
         }
-        animator.enabled = true;
-        AIController aiController = GetComponent<AIController>();
-        if (aiController)
+        animator.enabled = true;        
+        if (grabObject)
         {
-            aiController.ActivateAI();
-        }
+            grabObject.transform.parent = transform;
+            grabObject.transform.localPosition = grabStartPosition;
+            grabObject.transform.localScale = Vector3.one;
+        }        
         ragdollOn = false;
     }
 
@@ -350,11 +365,15 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
 
     public void Push(float force)
     {
+        Push(force, pushDirection);
+    }
+
+    public void Push(float force, PushDirection direction)
+    {
         if (!ragdollOn)
         {
-            DisableCollider();
-            EnableRagdoll();
-            switch (pushDirection)
+            FallDown();
+            switch (direction)
             {
                 case PushDirection.BACK:
                     AddForce(force * -velBody.GetForward());
@@ -367,31 +386,137 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
                     AddForce(force * (-velBody.GetForward() + Vector3.down).normalized);
                     break;
             }
-            Timing.CallDelayed(5.0f, GetUp);
+            StopCoroutine(WaitAndGetUp());
+            StartCoroutine(WaitAndGetUp());
         }
     }
 
-    private void AddForce(Vector3 force)
+    public void SpawnWithRagdoll(Vector3 position)
     {
-        if (pushRoot)
-        {
-            pushRoot.AddForce(force, ForceMode.Impulse);
-        }
+        spawnPosition = position;
+        transform.position = spawnPosition;
+        SpawnWithRagdoll();
     }
-
-
     #endregion
 
     #region 6. Private Methods
+    private void SpawnWithRagdoll()
+    {
+        Push(20.0f, PushDirection.DOWN);
+    }
+
     private void EnableCollider()
     {
         GetComponent<CapsuleCollider>().enabled = true;
     }
 
-    private void GetUp()
+    private IEnumerator WaitAndGetUp()
+    {
+        yield return new WaitForSeconds(3.0f);
+        bool findNearestTile = false;
+        while (PlayerIsNear() || IsFalling())
+        {
+            findNearestTile = IsOnObstacle();
+            if (findNearestTile)
+            {
+                break;
+            }
+            yield return new WaitForEndOfFrame();
+        }
+        GetUp(findNearestTile);
+    }
+
+    private bool IsOnObstacle()
+    {
+        return Physics.CheckSphere(hips.transform.position, 2.0f, LayerMask.GetMask(Strings.Layers.OBSTACLE));
+    }
+
+    private bool IsFalling()
+    {        
+        return !Physics.CheckSphere(hips.transform.position, 2.0f, LayerMask.GetMask(Strings.Layers.GROUND));
+    }
+
+    private bool PlayerIsNear()
+    {
+        Transform playerTransform = controller.FindPlayer();
+        if (playerTransform)
+        {
+            return Vector3.Distance(transform.position, playerTransform.position) <= 4.0f;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    private bool ActivateAIMethods(bool findNearestFloorTile = false)
+    {
+        bool spaceFound = false;
+        if (gameObject.activeSelf)
+        {
+            Vector3 position = hips.transform.position;
+            Ray ray = new Ray(position, Vector3.down);
+            int mask = LayerMask.GetMask(Strings.Layers.GROUND);            
+            RaycastHit hit;
+
+            if (!findNearestFloorTile && Physics.Raycast(ray, out hit, Mathf.Infinity, mask))
+            {
+                position = hit.point;
+                spaceFound = true;
+            }
+            else 
+            {
+                int i = 1;
+                while (!spaceFound && i < 7)
+                {
+                    Collider[] tiles = Physics.OverlapSphere(hips.transform.position, 10.0f * i, mask);
+                    if (tiles.Length > 0)
+                    {
+                        position = tiles[0].transform.position;
+                        spaceFound = true;
+                    }
+                    else
+                    {
+                        i++;
+                        Debug.LogError("No tiles found for iteration " + i);
+                    }
+                }
+            }
+
+            if (spaceFound)
+            {
+                GetComponent<ISpawnable>().WarpToNavMesh(position);
+                AIController aiController = GetComponent<AIController>();
+                if (aiController)
+                {
+                    aiController.ActivateAI();
+                }
+            }
+        }
+        return spaceFound;
+    }
+
+    private void GetUp(bool findNearestFloorTile = false)
     {
         EnableCollider();
         DisableRagdoll();
+        animator.SetTrigger("DoGetUp");
+        if (ActivateAIMethods(findNearestFloorTile))
+        {
+            animator.SetTrigger("DoGetUp");
+            animator.SetInteger("AnimationState", (int)AnimationStates.Walk);
+        }
+        else
+        {
+            //Kill
+            OnDeath();
+        }
+    }
+
+    private void FallDown()
+    {
+        DisableCollider();
+        EnableRagdoll();
     }
 
     private void SetInvincible(object[] parameters)
@@ -424,6 +549,14 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     {
         jointRigidBodies = GetComponentsInChildren<Rigidbody>();       
         ExtractRbWeights();
+    }
+
+    private void AddForce(Vector3 force)
+    {
+        if (pushRoot)
+        {
+            pushRoot.AddForce(force, ForceMode.Impulse);
+        }
     }
     #endregion
 }

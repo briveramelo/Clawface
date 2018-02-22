@@ -12,9 +12,11 @@ public class GoreManager : Singleton<GoreManager> {
 
     [Header ("Splat Stuffs")]
     [SerializeField]
-    private Texture2D[] splats;
+    private SplatSO[] splats;
     [SerializeField]
     private float sphereRadius = 1F;
+    [SerializeField]
+    private float castDistance = 1.5F;
 
     #if UNITY_EDITOR
 
@@ -28,12 +30,14 @@ public class GoreManager : Singleton<GoreManager> {
     #region Fields (Private)
 
     #if UNITY_EDITOR
-    private GameObject debugSpheres;
+    private GameObject debugMarkers;
     #endif
 
     private bool shouldRenderSplats = false;
 
     #endregion
+
+    #region Interface (Unity Lifecycle)
 
     protected override void Awake()
     {
@@ -43,8 +47,8 @@ public class GoreManager : Singleton<GoreManager> {
 
         #if UNITY_EDITOR
         
-        debugSpheres = new GameObject("Debug Spheres");
-        debugSpheres.transform.SetParent(gameObject.transform);
+        debugMarkers = new GameObject("Debug Markers");
+        debugMarkers.transform.SetParent(gameObject.transform);
 
         #endif
     }
@@ -63,47 +67,81 @@ public class GoreManager : Singleton<GoreManager> {
     #if UNITY_EDITOR
     private void OnLevelWasLoaded(int level)
     {
-        Destroy(debugSpheres);
-        debugSpheres = new GameObject("Debug Spheres");
-        debugSpheres.transform.SetParent(gameObject.transform);
+        Destroy(debugMarkers);
+        debugMarkers = new GameObject("Debug Markers");
+        debugMarkers.transform.SetParent(gameObject.transform);
     }
     #endif
 
-    public void QueueSplat(Vector3 worldPos) {
+    #endregion
 
-        Collider[] collided = Physics.OverlapSphere(worldPos, sphereRadius);
+    #region Interface (Public)
+
+    public void AddBloodBuffer(CommandBuffer buffer)
+    {
+        uvSpaceCamera.AddCommandBuffer(CameraEvent.AfterEverything, buffer);
+        shouldRenderSplats = true;
+    }
+
+    public void EmitDirectionalBlood(DamagePack pack)
+    {
+        // Determine Position to emit blood from:
+        Vector3 position = pack.damaged.owner.position;
+        RaycastHit hit;
+        if (Physics.Raycast(position, Vector3.down, out hit, 5F,
+            LayerMasker.GetLayerMask(Layers.Ground)))
+        {
+            position = hit.point;
+        }
+        else
+        {
+            // We'll set the 'y' to zero which should be near the floor...
+            position.y = 0;
+        }
+
+        // Obtain lateral impact direction
+        Vector3 impactDir = pack.damager.impactDirection;
+        Vector2 projectileDir = new Vector2(impactDir.x, impactDir.z);
+
+        // Queue Up Directional Splat
+        QueueDirectionalSplat(position, projectileDir);
+    }
+
+    #endregion
+
+    #region Interface (Private)
+
+    private void QueueDirectionalSplat(Vector3 worldPos, Vector2 projectileDir) {
         
+        Vector3 raycastDir = new Vector3(projectileDir.x, 0, projectileDir.y);
+        RaycastHit[] collided = Physics.SphereCastAll(worldPos, sphereRadius, raycastDir, castDistance);
+
         if (collided.Length != 0)
         {
             #if UNITY_EDITOR
             if (debugSplats)
             {
-                GameObject hitSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-                hitSphere.transform.SetParent(debugSpheres.transform);
-                hitSphere.transform.position = worldPos;
-                hitSphere.transform.localScale = new Vector3(sphereRadius, sphereRadius, sphereRadius);
+                GameObject hitSphere = GameObject.CreatePrimitive(PrimitiveType.Capsule);
+                hitSphere.transform.SetParent(debugMarkers.transform);
+                hitSphere.transform.up = -raycastDir;
+                hitSphere.transform.position = worldPos + raycastDir / 2F;
+                hitSphere.transform.localScale = new Vector3(sphereRadius,
+                    castDistance, sphereRadius);
                 hitSphere.GetComponent<Collider>().enabled = false;
             }
             #endif
-
-            shouldRenderSplats = true;
             
-            Texture2D randomSplat = splats[Random.Range(0, splats.Length - 1)];
-            GameObject decal = ObjectPool.Instance.GetObject(PoolObjectType.VFXBloodDecal);
-            if (decal) {
-                decal.transform.position = worldPos + Vector3.up * .0001f * ++num;
-                //VFXBloodSplatAnimator splatAnimator = decal.GetComponent<VFXBloodSplatAnimator>();                
-                foreach (Collider collider in collided) {
-                    GameObject obj = collider.gameObject;
-                    Splattable canSplat = obj.GetComponent<Splattable>();
-                    if (canSplat) {
-                        var buffer = canSplat.QueueSplat(randomSplat, worldPos, new Vector3(1, 0, 0));
-                        uvSpaceCamera.AddCommandBuffer(CameraEvent.AfterEverything, buffer);
-                    }
+            SplatSO randomSplat = splats[Random.Range(0, splats.Length - 1)];             
+            foreach (RaycastHit hit in collided) {
+                Collider collider = hit.collider;
+                GameObject obj = collider.gameObject;
+                Splattable canSplat = obj.GetComponent<Splattable>();
+                if (canSplat) {
+                    canSplat.QueueNewSplat(randomSplat, worldPos, projectileDir);
                 }
             }
         }
     }
-    
-    static int num;
+
+    #endregion
 }

@@ -12,6 +12,13 @@ public class Missile : MonoBehaviour {
     [Tooltip("This is just for testing purposes, the actual variable that controls this in the MissileMod script!")]
     [SerializeField] private float testFarDamageRadius;
 
+    [SerializeField] private MeshRenderer mesh;
+    [SerializeField] private TrailRenderer trail;
+
+    [SerializeField] private PoolObjectType explosionEffect = PoolObjectType.VFXKamikazeExplosion;
+    [SerializeField] private SFXType explosionSound = SFXType.MortarExplosion;
+    [SerializeField] LayerMask floorLayerMask;
+
 
     #endregion
 
@@ -33,6 +40,8 @@ public class Missile : MonoBehaviour {
 
     private float gravity;
     private float yImpulse;
+
+    Vector3 flattenedForward;
     #endregion
 
     #region Unity lifecycle
@@ -49,9 +58,10 @@ public class Missile : MonoBehaviour {
         if (isReady)
         {
             deathTimer += Time.deltaTime;
-            transform.position += (transform.forward * speed * Time.deltaTime);
-            transform.position += (transform.up * yImpulse * Time.deltaTime);
-            yImpulse -= gravity;
+            transform.position += (flattenedForward * speed * Time.deltaTime);
+            transform.position += (Vector3.up * yImpulse * Time.deltaTime);
+            mesh.transform.LookAt (transform.position + transform.forward * speed + transform.up * yImpulse);
+            yImpulse -= gravity * Time.deltaTime;
 
             if (deathTimer > timeTilDeath)
             {
@@ -86,6 +96,11 @@ public class Missile : MonoBehaviour {
         initPosition = transform.position;
         deathTimer = 0f;
         gravity = 0f;
+        flattenedForward = transform.forward;
+        flattenedForward.y = 0f;
+        flattenedForward.Normalize();
+        Debug.Log(flattenedForward + "... " + yImpulse);
+        trail.Clear();
     }
     #endregion
 
@@ -129,6 +144,9 @@ public class Missile : MonoBehaviour {
             if (damageable != null)
             {
                 damageable.TakeDamage(damage);
+
+                GameObject blood = ObjectPool.Instance.GetObject(PoolObjectType.VFXBloodSpurt);
+                if (blood) blood.transform.position = damageable.GetPosition();
             }
         }
 
@@ -139,8 +157,24 @@ public class Missile : MonoBehaviour {
             if (damageable != null)
             {
                 damageable.TakeDamage(damage);
+
+                GameObject blood = ObjectPool.Instance.GetObject(PoolObjectType.VFXBloodSpurt);
+                if (blood) blood.transform.position = damageable.GetPosition();
             }
         }
+
+        GameObject explodeVFX = ObjectPool.Instance.GetObject(explosionEffect);
+        RaycastHit hit;
+        Vector3 position = transform.position;
+        if (Physics.Raycast (new Ray(transform.position + new Vector3(0.0f, 50.0f, 0.0f), Vector3.down), out hit, Mathf.Infinity, floorLayerMask))
+        {
+            position.y = hit.point.y;
+        }
+        if (explodeVFX) {
+            explodeVFX.transform.position = position;
+        }
+
+        SFXManager.Instance.Play (explosionSound, position);
     }
 
     private void ResetBullet()

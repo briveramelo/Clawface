@@ -19,8 +19,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4746596208703264}
-  - component: {fileID: 198286329837640492}
   - component: {fileID: 199410235349328818}
+  - component: {fileID: 198126824582008936}
   m_Layer: 0
   m_Name: front
   m_TagString: Untagged
@@ -101,7 +101,7 @@ Transform:
   m_GameObject: {fileID: 1921089154119268}
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -2.68, y: 0, z: 0}
-  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_Children:
   - {fileID: 4741660546142084}
   - {fileID: 4100959084830364}
@@ -172,9 +172,9 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.2
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!198 &198286329837640492
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 2.36}
+--- !u!198 &198126824582008936
 ParticleSystem:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -232,8 +232,8 @@ ParticleSystem:
       m_RotationOrder: 4
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
-  scalingMode: 1
-  randomSeed: 773191050
+  scalingMode: 0
+  randomSeed: -1324175513
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -3494,8 +3494,8 @@ ParticleSystem:
       m_RotationOrder: 4
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
-  scalingMode: 1
-  randomSeed: -829090933
+  scalingMode: 0
+  randomSeed: -210032788
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -6756,8 +6756,8 @@ ParticleSystem:
       m_RotationOrder: 4
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
-  scalingMode: 1
-  randomSeed: 1664002787
+  scalingMode: 0
+  randomSeed: -1295439527
   InitialModule:
     serializedVersion: 3
     enabled: 1

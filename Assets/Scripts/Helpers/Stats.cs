@@ -6,22 +6,22 @@ using UnityEngine;
 
 public class Stats : MonoBehaviour, IModifiable {
     #region Serialized Unity Inspector Fields
-    public float attack, defense, health, maxHealth, moveSpeed, rangedAccuracy, shotSpeed, shotPushForce, skinnableHealth, exp;
+    [HideInInspector]public float attack, defense, health, maxHealth, moveSpeed, rangedAccuracy, shotSpeed, shotPushForce, skinnableHealth, exp, invincibilityCoolDownTime;
     #endregion
 
     #region Private Fields
     private StatsMemento originalStats;
-    #endregion
-
-    #region Unity LifeCycle
-    void Awake() {
-        originalStats = new StatsMemento(attack, defense, health, maxHealth, moveSpeed, rangedAccuracy, shotSpeed, shotPushForce, skinnableHealth, exp);
-    }
-
-    
+    private bool isInvincible = false;
     #endregion
 
     #region Public Methods
+
+    public void SetStats()
+    {
+        originalStats = new StatsMemento(attack, defense, health, maxHealth, moveSpeed, rangedAccuracy, shotSpeed, shotPushForce, skinnableHealth, exp);
+        if (maxHealth == 0) maxHealth = health;
+    }
+
     public void Multiply(CharacterStatType statType, float statMultiplier) {
         switch (statType) {
             case CharacterStatType.Attack:
@@ -70,7 +70,7 @@ public class Stats : MonoBehaviour, IModifiable {
         return -1;
     }
 
-    public float GetHealthFraction(){ 
+    public float GetHealthFraction(){
         return health/maxHealth;    
     }
 
@@ -82,12 +82,21 @@ public class Stats : MonoBehaviour, IModifiable {
 
 
     public float TakeDamage(float damage) {
-        health-= damage;
-        if (health < 0) {
-            health = 0;
-        }        
+        if (!isInvincible)
+        {
+            health -= damage;
+            if (health < 0)
+            {
+                health = 0;
+            }            
+            if (invincibilityCoolDownTime > 0)
+            {
+                isInvincible = true;
+                StartCoroutine(InvincibilityCoolDown());
+            }
+        }
         return health;
-    }
+    }    
 
     public void ResetForRebirth() {
         attack = originalStats.attack;
@@ -95,6 +104,14 @@ public class Stats : MonoBehaviour, IModifiable {
         health = originalStats.health;
         moveSpeed = originalStats.moveSpeed;
         rangedAccuracy = originalStats.rangedAccuracy;
+    }
+    #endregion
+
+    #region Private functions
+    private IEnumerator InvincibilityCoolDown()
+    {
+        yield return new WaitForSeconds(invincibilityCoolDownTime);
+        isInvincible = false;
     }
     #endregion
 

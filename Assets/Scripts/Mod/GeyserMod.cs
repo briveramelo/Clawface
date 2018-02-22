@@ -14,10 +14,19 @@ public class GeyserMod : Mod {
     [SerializeField] private FloatRange fishLaunchSpeed;
     [SerializeField] private float fissureLiveTime;
     [SerializeField] private Transform muzzle;
+
+    [SerializeField]
+    private float timeToCharge;
+    [SerializeField]
+    private float chargeDamage;
+    [SerializeField]
+    private float chargeSpeed;
     #endregion
 
     #region Private Fields
     private Animator animator;
+    private bool isCharged;
+    private string geyserCoroutineString = "geyserModCharge";
     #endregion
 
     #region Unity Lifecycle
@@ -29,12 +38,21 @@ public class GeyserMod : Mod {
         base.Awake();
     }
 
+    protected void Start()
+    {
+        Timing.KillCoroutines(geyserCoroutineString);
+        Timing.RunCoroutine(Charge(), geyserCoroutineString);
+    }
+
     protected override void Update()
     {
+
+        /* Again, do we need this anymore?
         if (wielderMovable != null)
         {
             transform.forward = wielderMovable.GetForward();
         }
+        */
         base.Update();
     }
 
@@ -44,6 +62,8 @@ public class GeyserMod : Mod {
     public override void Activate(Action onCompleteCoolDown=null, Action onActivate=null){
         base.Activate(onCompleteCoolDown, onActivate);
     }
+
+
 
     public override void AttachAffect(ref Stats wielderStats, IMovable wielderMovable)
     {
@@ -62,6 +82,12 @@ public class GeyserMod : Mod {
 
 
     #region Private Methods    
+    private IEnumerator<float> Charge()
+    {
+        yield return Timing.WaitForSeconds(timeToCharge);
+        isCharged = true;
+    }
+
     protected override void DoWeaponActions() { Erupt(); }
 
     private void Erupt()
@@ -73,9 +99,12 @@ public class GeyserMod : Mod {
             GameObject shootEffect = ObjectPool.Instance.GetObject (PoolObjectType.VFXGeyserShoot);
             if (shootEffect)
             {
+                shootEffect.transform.SetParent (muzzle);
                 shootEffect.transform.position = muzzle.position;
                 shootEffect.transform.rotation = muzzle.rotation;
             }
+            Timing.KillCoroutines(geyserCoroutineString);
+            Timing.RunCoroutine(Charge(), geyserCoroutineString);
         }
     }
 
@@ -87,7 +116,16 @@ public class GeyserMod : Mod {
             projectile.transform.position = transform.position + transform.forward * geyserStartDistanceOffset;
             projectile.transform.forward = transform.forward;
             projectile.transform.rotation = Quaternion.Euler(0f, projectile.transform.rotation.eulerAngles.y, 0f);
-            projectile.GetComponent<GeyserFissure>().Initialize(fissureSpeed, damage, fissureLiveTime);
+
+            if (isCharged)
+            {
+                projectile.GetComponent<GeyserFissure>().Initialize(chargeSpeed, chargeDamage, fissureLiveTime);
+            }
+            else
+            {
+                projectile.GetComponent<GeyserFissure>().Initialize(fissureSpeed, damage, fissureLiveTime);
+            }
+            isCharged = false;
             fishEmitter.SetBaseEmissionSpeed(fishLaunchSpeed.GetRandomValue());
             fishEmitter.Play();
         }

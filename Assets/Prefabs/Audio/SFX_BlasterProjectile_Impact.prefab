@@ -56,7 +56,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
-  m_Pitch: 1
+  m_Pitch: 1.1084851
   Loop: 0
   Mute: 0
   Spatialize: 0
@@ -198,14 +198,14 @@ MonoBehaviour:
     maxLimit: 0
     min: 1
     max: 1
-  randomPitch: 0
+  randomPitch: 1
   changePitchEachLoop: 0
-  pitch: 1
+  pitch: 1.1084851
   pitchRange:
     minLimit: 0
     maxLimit: 0
-    min: 1
-    max: 1
+    min: 0.5
+    max: 1.5
 --- !u!114 &114809192947017850
 MonoBehaviour:
   m_ObjectHideFlags: 1

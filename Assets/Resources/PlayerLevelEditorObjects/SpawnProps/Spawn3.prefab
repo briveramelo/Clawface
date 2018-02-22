@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 33644033711481660}
   - component: {fileID: 65277484675683846}
   - component: {fileID: 23306178146642738}
+  - component: {fileID: 114146786763367782}
   m_Layer: 0
   m_Name: Spawn3
   m_TagString: Untagged
@@ -93,3 +94,17 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &114146786763367782
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1537129061591722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5ba14b95532c8c4e8ff2eb7805132d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  registeredSpawner: {fileID: 0}
+  spawnType: 2
+  spawnCount: 0

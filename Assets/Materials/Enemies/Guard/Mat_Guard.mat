@@ -12,7 +12,7 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2990
+  m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -47,7 +47,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 06142d23f2eead644b6bf689ed9b586c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -87,7 +87,7 @@ Material:
     - _GlossyReflections: 1
     - _HitColorStrength: 0
     - _Metallic: 0
-    - _MetallicScale: 1
+    - _MetallicScale: 0
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
@@ -100,11 +100,11 @@ Material:
     - _ZWrite: 1
     - __dirty: 1
     m_Colors:
-    - _ASEOutlineColor: {r: 1, g: 0, b: 0, a: 1}
+    - _ASEOutlineColor: {r: 1, g: 0.5568628, b: 0, a: 1}
     - _AlbedoTint: {r: 1, g: 1, b: 1, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _EmissiveColor: {r: 0.52205884, g: 0.78245443, b: 1, a: 0}
     - _FaceColor: {r: 0, g: 0, b: 0, a: 0}
     - _HitColor: {r: 1, g: 1, b: 0.7352941, a: 0}
-    - _XrayColor: {r: 1, g: 0.1764706, b: 0.1764706, a: 0}
+    - _XrayColor: {r: 1, g: 0.5568628, b: 0, a: 1}

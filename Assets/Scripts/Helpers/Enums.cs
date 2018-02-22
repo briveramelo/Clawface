@@ -34,6 +34,11 @@ public enum SFXType {
     ClawExtend,
     ClawGrab,
     PlayerEat,
+    AnnounceDeath,
+    AnnounceLevelStart,
+    AnnounceTitle,
+    MortarShoot,
+    MortarExplosion
 }
 
 public enum MusicType
@@ -111,11 +116,12 @@ public enum PoolObjectType {
     GeyserFissure = 29,	
     BlasterImpactEffect = 31,
     KamikazeExplosionSphere = 48,
+    KamikazePulseGenerator = 54,
+    AcidTrigger = 59,
 
     //VFX
     VFXBlasterImpactEffect = 3,
     VFXBloodDecal = 6,
-    VFXBloodEmitter = 7,
     VFXSegwayBlaster = 9,
     VFXMallCopExplosion = 10,
     VFXBlasterShoot = 17,
@@ -134,6 +140,14 @@ public enum PoolObjectType {
     VFXSpreadshotShoot=51,
     VFXSpreadshotImpact=52,
     VFXEnemyProjectileImpact=53,
+    VFXMortarExplode=61,
+    VFXFish=62,
+    VFXMortarShell=63,
+    VFXMortarShoot=64,
+    VFXKamikazeExplosionWarning=65,
+    VFXEnemyChargeBlaster=66,
+    VFXBoomerangProjectileDie=68,
+    VFXBloodSpurt=69,
 
     //BulletTypes
     TurretBullet = 28,
@@ -156,7 +170,12 @@ public enum PoolObjectType {
     Kamikaze = 34,
     RedBouncer = 46,
     GreenBouncer = 47,
-
+    KamikazePulser = 55,
+    KamikazeMommy = 56,
+    ZombieBeserker = 57,
+    ZombieAcider = 58,
+    BlasterShotgun = 60,
+    BlasterReanimator = 67,
 }
 
 public enum MovementMode
@@ -264,9 +283,26 @@ public enum SpawnType {
     Kamikaze = 3,
     RedBouncer = 4,
     GreenBouncer = 5,
+    KamikazePulser = 6,
+    KamikazeMommy = 7,
+    ZombieBeserker = 8,
+    ZombieAcider = 9,
+    BlasterShotgun = 10,
+    BlasterReanimator = 11,
 }
 
 public enum ActionType
 {
     Skin=0
+}
+
+public enum EditorMenu
+{
+    MAIN_EDITOR_MENU = 0,
+    FLOOR_MENU = 1,
+    PROPS_MENU = 2,
+    SPAWN_MENU = 3,
+    SAVE_MENU = 4,
+    HELP_MENU = 5
+    
 }

@@ -9,7 +9,7 @@ public class GameObjectEmitter : MonoBehaviour {
     [SerializeField] protected bool playOnEnable = true;
     [SerializeField] protected bool burstOnPlay = true;
     [SerializeField] protected IntRange burstOnPlayCount;
-    [SerializeField] protected GameObject spawnPrefab;    
+    [SerializeField] protected PoolObjectType spawnObjectType;
     [SerializeField] protected float spawnInterval = 0.5f;
     [SerializeField] protected float forceMin = 1.0f;
     [SerializeField] protected float forceMax = 2.0f;
@@ -43,7 +43,6 @@ public class GameObjectEmitter : MonoBehaviour {
         playing = true;
         if (burstOnPlay) {
             int randomNum = burstOnPlayCount.GetRandomValue();
-            print(randomNum);
             for (int i = 0; i < randomNum; i++)
             {
                 Emit();
@@ -65,9 +64,9 @@ public class GameObjectEmitter : MonoBehaviour {
         }
 	}
 
-    protected virtual GameObject Emit ()
+    public virtual GameObject Emit ()
     {
-        GameObject instance = Instantiate(spawnPrefab);
+        GameObject instance = ObjectPool.Instance.GetObject(spawnObjectType);
         instance.transform.position = transform.position + Random.insideUnitSphere * emissionSphereRadius;
         instance.transform.rotation = Quaternion.Euler(Random.insideUnitSphere * 360.0f);
 

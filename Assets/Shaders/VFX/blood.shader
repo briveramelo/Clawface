@@ -1,3 +1,5 @@
+// Upgrade NOTE: upgraded instancing buffer 'turingblood' to new syntax.
+
 // Made with Amplify Shader Editor
 // Available at the Unity Asset Store - http://u3d.as/y3X 
 Shader "turing/blood"
@@ -38,26 +40,31 @@ Shader "turing/blood"
 		uniform float4 _BloodMask_ST;
 		uniform float _MaskClipValue = 0.5;
 
-		UNITY_INSTANCING_CBUFFER_START(turingblood)
+		UNITY_INSTANCING_BUFFER_START(turingblood)
 			UNITY_DEFINE_INSTANCED_PROP(float4, _Color1)
+#define _Color1_arr turingblood
 			UNITY_DEFINE_INSTANCED_PROP(float4, _Color2)
+#define _Color2_arr turingblood
 			UNITY_DEFINE_INSTANCED_PROP(float, _BloodSmoothness1)
+#define _BloodSmoothness1_arr turingblood
 			UNITY_DEFINE_INSTANCED_PROP(float, _BloodSmoothness2)
+#define _BloodSmoothness2_arr turingblood
 			UNITY_DEFINE_INSTANCED_PROP(float, _DetailMaskTiling)
-		UNITY_INSTANCING_CBUFFER_END
+#define _DetailMaskTiling_arr turingblood
+		UNITY_INSTANCING_BUFFER_END(turingblood)
 
 		void vertexDataFunc( inout appdata_full v, out Input o )
 		{
 			UNITY_INITIALIZE_OUTPUT( Input, o );
-			float2 temp_cast_0 = UNITY_ACCESS_INSTANCED_PROP(_DetailMaskTiling);
+			float2 temp_cast_0 = UNITY_ACCESS_INSTANCED_PROP(_DetailMaskTiling_arr, _DetailMaskTiling);
 			o.texcoord_0.xy = v.texcoord.xy * temp_cast_0 + float2( 0,0 );
 		}
 
 		void surf( Input i , inout SurfaceOutputStandard o )
 		{
 			float2 uv_DetailMask = i.uv_texcoord * _DetailMask_ST.xy + _DetailMask_ST.zw;
-			o.Albedo = lerp( UNITY_ACCESS_INSTANCED_PROP(_Color1) , UNITY_ACCESS_INSTANCED_PROP(_Color2) , tex2D( _DetailMask,uv_DetailMask).x ).rgb;
-			o.Smoothness = lerp( UNITY_ACCESS_INSTANCED_PROP(_BloodSmoothness1) , UNITY_ACCESS_INSTANCED_PROP(_BloodSmoothness2) , tex2D( _TextureSample1,i.texcoord_0).x );
+			o.Albedo = lerp( UNITY_ACCESS_INSTANCED_PROP(_Color1_arr, _Color1) , UNITY_ACCESS_INSTANCED_PROP(_Color2_arr, _Color2) , tex2D( _DetailMask,uv_DetailMask).x ).rgb;
+			o.Smoothness = lerp( UNITY_ACCESS_INSTANCED_PROP(_BloodSmoothness1_arr, _BloodSmoothness1) , UNITY_ACCESS_INSTANCED_PROP(_BloodSmoothness2_arr, _BloodSmoothness2) , tex2D( _TextureSample1,i.texcoord_0).x );
 			o.Alpha = 1;
 			float2 uv_BloodMask = i.uv_texcoord * _BloodMask_ST.xy + _BloodMask_ST.zw;
 			clip( tex2D( _BloodMask,uv_BloodMask) - ( _MaskClipValue ).xxxx );

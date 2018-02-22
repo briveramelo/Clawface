@@ -19,10 +19,9 @@ public class MallCop : EnemyBase
 
     #region 1. Serialized Unity Inspector Fields
     [SerializeField] SphereCollider playerDetectorSphereCollider;
-    [SerializeField] float closeEnoughToFireDistance;
     [SerializeField] private MallCopProperties properties;
     [SerializeField] private Mod mod;
-    [SerializeField] private float maxToleranceTime;
+
     #endregion
 
     #region 2. Private fields
@@ -34,13 +33,19 @@ public class MallCop : EnemyBase
     private float currentToleranceTime;
     private float currentHitReactionLayerWeight;
     private float hitReactionLayerDecrementSpeed = 1.5f;
+    private float closeEnoughToFireDistance;
+    private float maxToleranceTime;
+    private Vector3 rayCastPosition;
     #endregion
 
     #region 3. Unity Lifecycle
 
     public override void Awake()
     {
+        myStats = GetComponent<Stats>();
+        SetAllStats();
         InitilizeStates();
+        fire.animatorSpeed = EnemyStatsManager.Instance.blasterStats.animationShootSpeed;
         controller.Initialize(properties, mod, velBody, animator, myStats, navAgent, navObstacle, aiStates);
         mod.setModSpot(ModSpot.ArmR);
         mod.AttachAffect(ref myStats, velBody);
@@ -65,11 +70,12 @@ public class MallCop : EnemyBase
     bool CheckToFire()
     {
         Vector3 fwd = controller.DirectionToTarget;
+        rayCastPosition = new Vector3(controller.transform.position.x, controller.transform.position.y + 1f, controller.transform.position.z);
         RaycastHit hit;
 
         if ((controller.CurrentState == chase && controller.DistanceFromTarget <= closeEnoughToFireDistance))
         {
-            if (Physics.Raycast(controller.transform.position, fwd, out hit, 50, LayerMask.GetMask(Strings.Layers.MODMAN, Strings.Layers.OBSTACLE)))
+            if (Physics.Raycast(rayCastPosition, fwd, out hit, 50, LayerMask.GetMask(Strings.Layers.MODMAN, Strings.Layers.OBSTACLE)))
             {
                 if (hit.transform.tag == Strings.Tags.PLAYER)
                     controller.UpdateState(EAIState.Fire);
@@ -79,7 +85,7 @@ public class MallCop : EnemyBase
         return false;
     }
     bool CheckToFinishFiring()
-    {
+    {        
         if (myStats.health <= myStats.skinnableHealth || alreadyStunned)
         {
             controller.CurrentState = stun;
@@ -87,9 +93,8 @@ public class MallCop : EnemyBase
             controller.DeActivateAI();
         }
 
-            if (controller.CurrentState == fire && fire.DoneFiring())
+        if (controller.CurrentState == fire && fire.DoneFiring())
             {
-
                 if (controller.DistanceFromTarget > closeEnoughToFireDistance)
                 {
                     ToleranceTimeToExit();
@@ -102,9 +107,10 @@ public class MallCop : EnemyBase
             else
             {
                 Vector3 fwd = controller.DirectionToTarget;
+                rayCastPosition = new Vector3(controller.transform.position.x, controller.transform.position.y + 1f, controller.transform.position.z);
                 RaycastHit hit;
 
-                if (Physics.Raycast(controller.transform.position, fwd, out hit, 50, LayerMask.GetMask(Strings.Layers.MODMAN, Strings.Layers.OBSTACLE)))
+                if (Physics.Raycast(rayCastPosition, fwd, out hit, 50, LayerMask.GetMask(Strings.Layers.MODMAN, Strings.Layers.OBSTACLE)))
                 {
                     if (hit.transform.tag != Strings.Tags.PLAYER)
                     {
@@ -229,12 +235,37 @@ public class MallCop : EnemyBase
         aiStates.Add(celebrate);
     }
 
+    private void SetAllStats()
+    {
+        myStats.health = EnemyStatsManager.Instance.blasterStats.health;
+        myStats.maxHealth = EnemyStatsManager.Instance.blasterStats.maxHealth;
+        myStats.skinnableHealth = EnemyStatsManager.Instance.blasterStats.skinnableHealth;
+        myStats.moveSpeed = EnemyStatsManager.Instance.blasterStats.speed;
+        myStats.attack = EnemyStatsManager.Instance.blasterStats.attack;
+
+        navAgent.speed = EnemyStatsManager.Instance.blasterStats.speed;
+        navAgent.angularSpeed = EnemyStatsManager.Instance.blasterStats.angularSpeed;
+        navAgent.acceleration = EnemyStatsManager.Instance.blasterStats.acceleration;
+        navAgent.stoppingDistance = EnemyStatsManager.Instance.blasterStats.stoppingDistance;
+
+        scoreValue = EnemyStatsManager.Instance.blasterStats.scoreValue;
+        eatHealth = EnemyStatsManager.Instance.blasterStats.eatHealth;
+        stunnedTime = EnemyStatsManager.Instance.blasterStats.stunnedTime;
+
+        closeEnoughToFireDistance = EnemyStatsManager.Instance.blasterStats.closeEnoughToFireDistance;
+        maxToleranceTime = EnemyStatsManager.Instance.blasterStats.maxToleranceTime;
+
+        if (mod.GetComponent<BlasterMod>())
+        {
+            mod.GetComponent<BlasterMod>().SetBulletStats(EnemyStatsManager.Instance.blasterStats.bulletLiveTime, EnemyStatsManager.Instance.blasterStats.bulletSpeed, EnemyStatsManager.Instance.blasterStats.attack);
+        }
+        myStats.SetStats();
+    }
+
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, closeEnoughToFireDistance);
-        //Gizmos.color = Color.green;
-        //Gizmos.DrawWireSphere(playerDetectorSphereCollider.transform.position, maxDistanceBeforeChasing);
     }
 
     private void ToleranceTimeToExit()
@@ -268,6 +299,20 @@ public class MallCop : EnemyBase
         animator.SetLayerWeight(3, currentHitReactionLayerWeight);
     }
 
+    void ShowChargeEffect ()
+    {
+        GameObject vfx = ObjectPool.Instance.GetObject(PoolObjectType.VFXEnemyChargeBlaster);
+        Vector3 scaleBackup = vfx.transform.localScale;
+        vfx.transform.SetParent (mod.transform);
+        //For offsetting the particle
+        vfx.transform.localPosition = new Vector3(0.0f,0.2f,1.0f);
+        vfx.transform.localRotation = Quaternion.identity;
+        vfx.transform.localScale = new Vector3 (
+            scaleBackup.x / vfx.transform.localScale.x,
+            scaleBackup.y / vfx.transform.localScale.y,
+            scaleBackup.z / vfx.transform.localScale.z
+        );
+    }
 
     #endregion
 

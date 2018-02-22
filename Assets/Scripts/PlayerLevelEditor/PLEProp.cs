@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PLEProp : MonoBehaviour {
-
-
+public class PLEProp : MonoBehaviour
+{
     public GameObject registeredProp;
 }

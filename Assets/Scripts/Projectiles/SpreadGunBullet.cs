@@ -71,9 +71,12 @@ public class SpreadGunBullet : MonoBehaviour {
             if (damageable != null)
             {
                 Damager damager = new Damager();
-                damager.damage = currentDamage;
-                damager.damagerType = DamagerType.SpreadGun;
+                // HACK - This isn't perfect.. but I think it will suffice for our type of gameplay.
+                damager.Set(currentDamage, DamagerType.SpreadGun, transform.forward);
                 damageable.TakeDamage(damager);
+
+                GameObject blood = ObjectPool.Instance.GetObject(PoolObjectType.VFXBloodSpurt);
+                if (blood) blood.transform.position = damageable.GetPosition();
             }
             GameObject vfx = ObjectPool.Instance.GetObject(impactVFX);
             if (vfx) {
@@ -105,7 +108,7 @@ public class SpreadGunBullet : MonoBehaviour {
     {        
         isReady = false;
         gameObject.SetActive(false);
-        transform.SetParent(ObjectPool.Instance.transform);
+        //transform.SetParent(ObjectPool.Instance.transform);
         currentDamage = 0;
         Color newColor = new Color(oldColor.r, oldColor.g, oldColor.b, maxAlpha);
         material.SetColor("_TintColor", newColor);

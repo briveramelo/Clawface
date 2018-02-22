@@ -41,6 +41,7 @@ public class MainMenu : Menu
         weaponMenu.menuTarget = Strings.MenuStrings.MAIN;
         MenuManager.Instance.DoTransition(weaponMenu, Transition.SHOW,
             new Effect[] { Effect.EXCLUSIVE });
+        //SFXManager.Instance.Play(SFXType.AnnounceTitle, Vector3.zero);
     }
 
     public void EditorAction()
