@@ -17,7 +17,7 @@ public class AllTimeLeaderBoard : SteamLeaderBoard {
         LeaderBoardVars leaderBoardVars;
         leaderBoardVars.rank = entry.m_nGlobalRank;
         leaderBoardVars.score = entry.m_nScore;
-        leaderBoardVars.userID = entry.m_steamIDUser.ToString();
+        leaderBoardVars.userID = SteamFriends.GetFriendPersonaName(entry.m_steamIDUser);
         leaderBoardVars.day = details[0];
         leaderBoardVars.month = details[1];
         leaderBoardVars.year = details[2];

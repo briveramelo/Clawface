@@ -41,12 +41,12 @@ public abstract class SteamLeaderBoard : MonoBehaviour {
     #endregion
 
     #region Public Methods
-    public bool FetchLeaderBoardData(ResultsCallBack callbackAction)
+    public bool FetchLeaderBoardData(ResultsCallBack callbackAction, int numberOfEntries)
     {
         bool result = false;
         if (SteamManager.Initialized && IsReady)
         {
-            SteamAPICall_t apiCall = SteamUserStats.DownloadLeaderboardEntries(leaderBoard, ELeaderboardDataRequest.k_ELeaderboardDataRequestGlobal, 1, 10);
+            SteamAPICall_t apiCall = SteamUserStats.DownloadLeaderboardEntries(leaderBoard, ELeaderboardDataRequest.k_ELeaderboardDataRequestGlobal, 1, numberOfEntries);
             if (leaderBoardScoresDownloaded.IsActive())
             {
                 leaderBoardScoresDownloaded.Cancel();
@@ -59,7 +59,7 @@ public abstract class SteamLeaderBoard : MonoBehaviour {
         return result;
     }
 
-    public bool UpdateLeaderBoards(int score)
+    public bool UpdateLeaderBoard(int score)
     {
         bool result = false;
         if (SteamManager.Initialized && IsReady)
@@ -110,7 +110,7 @@ public abstract class SteamLeaderBoard : MonoBehaviour {
             for (int i = 0; i < count; i++)
             {
                 LeaderboardEntry_t entry;
-                int[] details;
+                int[] details = new int[MAX_DETAILS];
                 if(SteamUserStats.GetDownloadedLeaderboardEntry(entries, i, out entry, details, MAX_DETAILS))
                 {
                     LeaderBoardVars leaderBoardVars = ExtractLeaderBoardVars(entry, details);                    
