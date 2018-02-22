@@ -42,7 +42,7 @@ public class LevelDataManager : RoutineRunner {
         Timing.RunCoroutine(DelayAction(()=> {
             LoadTiles();
             LoadProps();
-            SpawnSpawns();
+            LoadSpawns();
         }), coroutineName);        
     }
 
@@ -81,7 +81,7 @@ public class LevelDataManager : RoutineRunner {
         }
     }
 
-    void SpawnSpawns() {
+    void LoadSpawns() {
         List<GameObject> spawnObjects = Resources.LoadAll<GameObject>(Strings.Editor.SPAWN_OBJECTS_PATH).ToList();
         spawnParent.DestroyAllChildren();
         for (int i = 0; i < ActiveWaveData.Count; i++) {
@@ -89,7 +89,8 @@ public class LevelDataManager : RoutineRunner {
             waveParent.transform.SetParent(spawnParent);
             for (int j = 0; j < ActiveWaveData[i].spawnData.Count; j++) {
                 SpawnData spawnData = ActiveWaveData[i].spawnData[j];
-                GameObject enemyUIPrefabToSpawn = spawnObjects[spawnData.spawnType];
+                int spawnIndex = Mathf.Clamp(spawnData.spawnType, 0, spawnObjects.Count - 1);
+                GameObject enemyUIPrefabToSpawn = spawnObjects[spawnIndex];
                 Transform child = Instantiate(enemyUIPrefabToSpawn, waveParent.transform, false).transform;
                 PLESpawn pleSpawn = child.GetComponent<PLESpawn>();
                 pleSpawn.spawnCount = spawnData.count;
@@ -145,13 +146,11 @@ public class LevelDataManager : RoutineRunner {
         //TODO Need to check that keira has been placed
         int startIndex = 0;
         if (SpawnMenu.playerSpawnInstance) {
-            Transform keira = spawnParent.GetChild(0);
-            SpawnData keiraSpawnData = new SpawnData((int)SpawnType.Keira, 1, keira.position);
-            ActiveWaveData[0].spawnData.Add(keiraSpawnData);
-            startIndex = 1;
+            startIndex = 1;            
         }
 
         for (int i = startIndex; i < spawnParent.childCount; i++) {
+            int currentIndex = SpawnMenu.playerSpawnInstance ? i-1 : i;
             ActiveWaveData.Add(new WaveData());
             Transform waveParent = spawnParent.GetChild(i);
             for (int j = 0; j < waveParent.childCount; j++) {
@@ -160,8 +159,14 @@ public class LevelDataManager : RoutineRunner {
                 int spawnType = (int)spawn.spawnType;
                 int spawnCount = spawn.spawnCount;
                 SpawnData spawnData = new SpawnData(spawnType, spawnCount, spawnUI.position);
-                ActiveWaveData[i-1].spawnData.Add(spawnData);
+                ActiveWaveData[currentIndex].spawnData.Add(spawnData);
             }
+        }
+
+        if (SpawnMenu.playerSpawnInstance) {
+            Transform keira = spawnParent.GetChild(0);
+            SpawnData keiraSpawnData = new SpawnData((int)SpawnType.Keira, 1, keira.position);
+            ActiveWaveData[0].spawnData.Add(keiraSpawnData);
         }
     }
 
