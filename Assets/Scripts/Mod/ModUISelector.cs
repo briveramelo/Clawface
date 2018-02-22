@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using ModMan;
-using MovementEffects;
+using MEC;
 using System.Linq;
 
 public class ModUISelector : RoutineRunner {
@@ -234,7 +234,7 @@ public class ModUISelector : RoutineRunner {
         public ModUIElement(ModType modType, GameObject uiElement) {
             this.modType=modType;
             this.uiElement=uiElement;
-            Timing.RunCoroutine(InternalUpdate(), Segment.LateUpdate);
+            Timing.RunCoroutine(InternalUpdate(), Segment.LateUpdate, coroutineName);
         }
 
         public void Set(ModType modType, int numMods, int myIndex) {

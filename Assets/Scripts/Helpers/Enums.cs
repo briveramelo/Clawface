@@ -253,8 +253,9 @@ public enum AnimationStates {
 
     HitReaction1 = 8,
     HitReaction2 = 81,
-    HitReaction3 = 82
+    HitReaction3 = 82,
 
+    GetUp = 9
 }
 
 public enum EAIState
@@ -265,6 +266,7 @@ public enum EAIState
     Death = 4,
     Stun = 5,
     Celebrate = 6,
+    GetUp = 7
 }
 
 
@@ -289,6 +291,8 @@ public enum SpawnType {
     ZombieAcider = 9,
     BlasterShotgun = 10,
     BlasterReanimator = 11,
+    Keira=12,
+
 }
 
 public enum ActionType

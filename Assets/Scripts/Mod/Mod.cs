@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using MovementEffects;
+using MEC;
 using System;
 using Turing.VFX;
 
-public abstract class Mod : MonoBehaviour {
+public abstract class Mod : RoutineRunner {
 
     #region Public fields
     public int GetWielderInstanceID() {
@@ -48,7 +48,11 @@ public abstract class Mod : MonoBehaviour {
     }
 
     protected virtual void Update()
-    {        
+    {
+        if (energySettings.isCoolingDown)
+        {
+            energySettings.UpdateCooldownTime(Time.deltaTime);
+        }
     }
     #endregion
 
@@ -60,13 +64,15 @@ public abstract class Mod : MonoBehaviour {
     public virtual void Activate(Action onCompleteCoolDown=null, Action onActivate=null) {
         if (!energySettings.isInUse && !energySettings.isCoolingDown)
         {
-            energySettings.isCoolingDown = true;
-            Timing.RunCoroutine(RunCooldown(onCompleteCoolDown), Segment.FixedUpdate);
+            
+            // Timing.RunCoroutine(RunCooldown(onCompleteCoolDown), Segment.Update, coroutineName);
             DoWeaponActions();
             if (onActivate != null)
             {
                 onActivate();
             }
+            RunCooldown(onCompleteCoolDown);
+
         }
     }
 
@@ -118,14 +124,10 @@ public abstract class Mod : MonoBehaviour {
     #endregion
 
     #region Private Methods
-    protected IEnumerator<float> RunCooldown(Action onComplete)
+    protected void RunCooldown(Action onComplete)
     {        
         recentlyHitObjects.Clear();
-        yield return Timing.WaitUntilDone(Timing.RunCoroutine(energySettings.BeginCoolDown(), Segment.FixedUpdate));
-        if (onComplete != null)
-        {
-            onComplete();
-        }
+        energySettings.BeginCoolDown(onComplete);
     }
     #endregion
 
@@ -135,18 +137,36 @@ public abstract class Mod : MonoBehaviour {
 
         public float timeToCoolDown;
 
-        [HideInInspector] public bool isCoolingDown;
-        [HideInInspector] public bool isActive;
+        public bool isCoolingDown;
+        public bool isActive;
 
         public bool isInUse { get { return isCoolingDown || isActive;} }
 
         public float coolDownTime { get { return timeToCoolDown; } }
         public float attack { get { return attack; } }
-                
-        public IEnumerator<float> BeginCoolDown() {            
+
+        public float cooldownTimer;
+
+        private Action onComplete;
+
+        public void BeginCoolDown(Action onComplete) {            
             isCoolingDown = true;
-            yield return Timing.WaitForSeconds(coolDownTime);
-            isCoolingDown = false;
+            cooldownTimer = coolDownTime;
+        }
+
+        public void UpdateCooldownTime(float deltaTime)
+        {
+            cooldownTimer -= deltaTime;
+
+            if (cooldownTimer <= 0f)
+            {
+                isCoolingDown = false;
+                if (onComplete != null)
+                {
+                    onComplete();
+                    onComplete = null;
+                }
+            }
         }
     }
     #endregion

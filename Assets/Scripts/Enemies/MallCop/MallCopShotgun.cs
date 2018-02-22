@@ -7,7 +7,7 @@ using UnityEngine.AI;
 using System.Linq;
 using System;
 using ModMan;
-using MovementEffects;
+using MEC;
 
 [System.Serializable]
 public class MallCopShotgunProperties : AIProperties
@@ -29,6 +29,7 @@ public class MallCopShotgun : EnemyBase
     private MallCopFireState fire;
     private MallCopStunState stun;
     private MallCopCelebrateState celebrate;
+    private MallCopGetUpState getUp;
     private float currentToleranceTime;
     private float currentHitReactionLayerWeight;
     private float hitReactionLayerDecrementSpeed = 1.5f;
@@ -172,6 +173,11 @@ public class MallCopShotgun : EnemyBase
         animator.SetLayerWeight(2, 0.0f);
     }
 
+    public void GetUpDone()
+    {
+        getUp.Up();
+    }
+
     public override void DoPlayerKilledState(object[] parameters)
     {
         if (myStats.health > myStats.skinnableHealth)
@@ -229,10 +235,14 @@ public class MallCopShotgun : EnemyBase
         stun.stateName = "stun";
         celebrate = new MallCopCelebrateState();
         celebrate.stateName = "celebrate";
+        getUp = new MallCopGetUpState();
+        getUp.stateName = "getUp";
         aiStates.Add(chase);
         aiStates.Add(fire);
         aiStates.Add(stun);
         aiStates.Add(celebrate);
+        aiStates.Add(getUp);
+        
     }
 
     private void SetAllStats()

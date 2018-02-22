@@ -122,7 +122,7 @@ public class LoadMenu : Menu {
     private IEnumerator LoadingCoroutine()
     {
         SpawnManager.spawnersLocked = true;
-        MovementEffects.Timing.KillCoroutines();
+        MEC.Timing.KillCoroutines();
         ObjectPool.Instance.ResetPools();
         loadingBar.size = 0.0F;
         loaded = false;        

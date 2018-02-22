@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using MovementEffects;
+using MEC;
 using System;
 using System.Linq;
 using ModMan;
@@ -56,8 +56,6 @@ public abstract class AIController : RoutineRunner {
     }
     public Vector3 AttackTargetPosition { get { return AttackTarget.position - transform.forward * .1f; } }
 
-
-
     private bool deActivateAI = false;
     
     public float DistanceFromTarget {get{ distanceFromTarget = Vector3.Distance(transform.position, AttackTarget.position); return distanceFromTarget; }}
@@ -102,8 +100,8 @@ public abstract class AIController : RoutineRunner {
 
     public void ActivateAI()
     {
+        CurrentState = states.getUp;
         deActivateAI = false;
-        currentState = states.chase;
     }
 
     protected void Update() {
@@ -208,7 +206,7 @@ public abstract class AIController : RoutineRunner {
         if (mod != null)
             modMemento.Initialize(mod.transform);
 
-        CurrentState = states.chase;
+        CurrentState = states.getUp;
     }
 
     public void Initialize(
@@ -235,7 +233,7 @@ public abstract class AIController : RoutineRunner {
         if(mod != null)
         modMemento.Initialize(mod.transform);
 
-        CurrentState = states.chase;
+        CurrentState = states.getUp;
     }
 
     public void Initialize(
@@ -261,7 +259,7 @@ public abstract class AIController : RoutineRunner {
         if (mod != null)
             modMemento.Initialize(mod.transform);
 
-        CurrentState = states.chase;
+        CurrentState = states.getUp;
     }
 
     public void UpdateState(EAIState state)
@@ -292,6 +290,7 @@ public abstract class AIController : RoutineRunner {
         public AIState death;
         public AIState stun;
         public AIState celebrate;
+        public AIState getUp;
 
         public Dictionary<EAIState, AIState> aiStates;
 
@@ -344,6 +343,11 @@ public abstract class AIController : RoutineRunner {
                 {
                     celebrate = state;
                     aiStates.Add(EAIState.Celebrate, celebrate);
+                }
+                else if (state.stateName.Equals("getUp"))
+                {
+                    getUp = state;
+                    aiStates.Add(EAIState.GetUp, getUp);
                 }
             }
 
@@ -399,6 +403,11 @@ public abstract class AIController : RoutineRunner {
                 {
                     celebrate = state;
                     aiStates.Add(EAIState.Celebrate, celebrate);
+                }
+                else if (state.stateName.Equals("getUp"))
+                {
+                    getUp = state;
+                    aiStates.Add(EAIState.GetUp, getUp);
                 }
             }
 

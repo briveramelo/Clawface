@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using ModMan;
-using MovementEffects;
+using MEC;
 using System.Linq;
 using UnityEngine.UI;
 
@@ -13,6 +13,8 @@ public class LevelDataManager : RoutineRunner {
     [SerializeField] private PlayerLevelEditorGrid playerLevelEditorGrid;
     [SerializeField] private WaveSystem waveSystem;
     [SerializeField] private InputField levelName, levelDescription;
+    [SerializeField] private SpawnMenu spawnMenu;
+    [SerializeField] private PropsMenu propsMenu;
 
     private DataSave DataSave { get { return DataPersister.ActiveDataSave; } }
     private LevelData ActiveLevelData { get { return DataSave.ActiveLevelData; } }
@@ -40,19 +42,46 @@ public class LevelDataManager : RoutineRunner {
         dataPersister.Load(levelIndex);
         playerLevelEditorGrid.ResetGrid();
         Timing.RunCoroutine(DelayAction(()=> {
-            LoadTiles();
             LoadProps();
-            SpawnSpawns();
+            LoadSpawns();
+            LoadTiles();
+
+            spawnParent.ToggleAllChildren(false);
+            if (spawnParent.childCount>0) {
+                Transform firstChild = spawnParent.GetChild(0);
+                if (firstChild.name.Contains("Player")) {
+                    firstChild.gameObject.SetActive(true);
+                }
+                if (spawnParent.Find(GetWaveName(0))) {
+                    spawnParent.Find(GetWaveName(0)).gameObject.SetActive(true);
+                }
+            }
+
         }), coroutineName);        
     }
 
     void LoadTiles() {
+                
         for (int i = 0; i < ActiveTileData.Count; i++) {
             TileData tileData = ActiveTileData[i];
             List<LevelUnitStates> levelStates = tileData.levelStates;
             GridTile tile = playerLevelEditorGrid.GetTileAtPoint(tileData.position.AsVector);
             tile.IsActive = true;
             LevelUnit levelUnit = tile.realTile.GetComponent<LevelUnit>();
+            PLEBlockUnit blockUnit = tile.realTile.GetComponent<PLEBlockUnit>();
+
+            List<GameObject> props = Physics.OverlapBox(tile.realTile.transform.position, new Vector3(1,10,1)).ToList().Where(prop => prop.GetComponent<PLEProp>()).Select(item => item.gameObject).ToList();
+
+            if (props.Count>0) {
+                blockUnit.SetOccupation(true);
+                blockUnit.SetProp(props[0]);
+            }
+
+            List<PLESpawn> spawns = Physics.OverlapBox(tile.realTile.transform.position, new Vector3(1, 10, 1)).ToList().Where(prop => prop.GetComponent<PLESpawn>()).Select(prop => prop.GetComponent<PLESpawn>()).ToList();
+            spawns.ForEach(spawn => {
+                blockUnit.AddSpawn(spawn.gameObject);
+            });
+
             tile.realTile.transform.SetParent(tileParent);
             levelUnit.DeRegisterFromEvents();
             for (int j = 0; j < levelStates.Count; j++) {
@@ -69,6 +98,7 @@ public class LevelDataManager : RoutineRunner {
     }
 
     void LoadProps() {
+        List<string> propNames = new List<string>();
         propsParent.DestroyAllChildren();
         List<GameObject> propPrefabs = Resources.LoadAll<GameObject>(Strings.Editor.ENV_OBJECTS_PATH).ToList();
         for (int i = 0; i < ActivePropData.Count; i++) {
@@ -76,32 +106,45 @@ public class LevelDataManager : RoutineRunner {
             GameObject propToSpawn = propPrefabs.Find(item=>item.name==propData.propType);
             Transform child = Instantiate(propToSpawn, propsParent, false).transform;
             child.name = propData.propType;
+            propNames.Add(child.name);
             child.position = propData.position.AsVector;
             child.rotation = Quaternion.Euler(propData.rotation.AsVector);
         }
+        propsMenu.ResetMenu(propNames);
     }
 
-    void SpawnSpawns() {
+    void LoadSpawns() {
+        List<string> spawnNames = new List<string>();
         List<GameObject> spawnObjects = Resources.LoadAll<GameObject>(Strings.Editor.SPAWN_OBJECTS_PATH).ToList();
+        List<PLESpawn> pleSpawns = spawnObjects.Select(spawn => spawn.GetComponent<PLESpawn>()).ToList();
+        List<PLESpawn> spawnedPLEs = new List<PLESpawn>();
         spawnParent.DestroyAllChildren();
         for (int i = 0; i < ActiveWaveData.Count; i++) {
             GameObject waveParent = new GameObject(GetWaveName(i));
             waveParent.transform.SetParent(spawnParent);
             for (int j = 0; j < ActiveWaveData[i].spawnData.Count; j++) {
                 SpawnData spawnData = ActiveWaveData[i].spawnData[j];
-                GameObject enemyUIPrefabToSpawn = spawnObjects[spawnData.spawnType];
+                GameObject enemyUIPrefabToSpawn = pleSpawns.Find(spawn=>(int)(spawn.spawnType)==spawnData.spawnType).gameObject;
                 Transform child = Instantiate(enemyUIPrefabToSpawn, waveParent.transform, false).transform;
+                child.name = child.name.TryCleanClone();
+                spawnNames.Add(child.name);
                 PLESpawn pleSpawn = child.GetComponent<PLESpawn>();
+                spawnedPLEs.Add(pleSpawn);
                 pleSpawn.spawnCount = spawnData.count;
                 pleSpawn.spawnType = spawnData.SpawnType;
                 child.position = spawnData.position.AsVector;
             }
-        }
-        if (spawnParent.childCount>0) {
-            spawnParent.ToggleAllChildren(false);
-            spawnParent.GetChild(0).gameObject.SetActive(true);
+        }        
+
+        System.Predicate<PLESpawn> keiraSpawn = spawn => spawn.spawnType == SpawnType.Keira;
+        if (spawnedPLEs.Exists(keiraSpawn)) {
+            Transform keiraSpawnTransform = spawnedPLEs.Find(keiraSpawn).transform;
+            keiraSpawnTransform.SetParent(spawnParent);
+            keiraSpawnTransform.SetAsFirstSibling();
+            SpawnMenu.playerSpawnInstance = keiraSpawnTransform.gameObject;
         }
         waveSystem.ResetToWave0();
+        spawnMenu.ResetMenu(spawnNames);
     }
     #endregion
 
@@ -142,7 +185,14 @@ public class LevelDataManager : RoutineRunner {
     void SaveSpawns() {
         ActiveWaveData.Clear();
         spawnParent.SortChildrenByName();
-        for (int i = 0; i < spawnParent.childCount; i++) {
+        //TODO Need to check that keira has been placed
+        int startIndex = 0;
+        if (SpawnMenu.playerSpawnInstance) {
+            startIndex = 1;            
+        }
+
+        for (int i = startIndex; i < spawnParent.childCount; i++) {
+            int currentIndex = SpawnMenu.playerSpawnInstance ? i-1 : i;
             ActiveWaveData.Add(new WaveData());
             Transform waveParent = spawnParent.GetChild(i);
             for (int j = 0; j < waveParent.childCount; j++) {
@@ -151,8 +201,14 @@ public class LevelDataManager : RoutineRunner {
                 int spawnType = (int)spawn.spawnType;
                 int spawnCount = spawn.spawnCount;
                 SpawnData spawnData = new SpawnData(spawnType, spawnCount, spawnUI.position);
-                ActiveWaveData[i].spawnData.Add(spawnData);
+                ActiveWaveData[currentIndex].spawnData.Add(spawnData);
             }
+        }
+
+        if (SpawnMenu.playerSpawnInstance) {
+            Transform keira = spawnParent.GetChild(0);
+            SpawnData keiraSpawnData = new SpawnData((int)SpawnType.Keira, 1, keira.position);
+            ActiveWaveData[0].spawnData.Add(keiraSpawnData);
         }
     }
 

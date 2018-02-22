@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using Turing.VFX;
 using ModMan;
-using MovementEffects;
+using MEC;
 using System;
 
 public enum PushDirection{
@@ -185,12 +185,12 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         return alreadyStunned;
     }
 
-    int IEatable.Eat()
+    void IEatable.Eat(out int health)
     {
         EventSystem.Instance.TriggerEvent(Strings.Events.EAT_ENEMY);
         aboutTobeEaten = true;
-        Timing.RunCoroutine(DelayAction(OnDeath), coroutineName);
-        return eatHealth;
+        health = eatHealth;
+        OnDeath();
     }
 
     void IStunnable.Stun()
@@ -279,7 +279,8 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         lastChance = false;
         isStunFlashing = false;
         alreadyStunned = false;
-        isIndestructable = false;        
+        isIndestructable = false;
+
     }
 
     public void DisableCollider()
@@ -449,14 +450,40 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         }
     }
 
-    private bool ActivateAIMethods(bool findNearestFloorTile = false)
+    private void ActivateAIMethods(Vector3 position)
+    {
+        navAgent.enabled = false;
+        navObstacle.enabled = false;
+        GetComponent<ISpawnable>().WarpToNavMesh(position);
+        controller.ActivateAI();
+    }
+
+    private void GetUp(bool findNearestFloorTile = false)
+    {
+        EnableCollider();
+        Vector3 warpPosition;
+        bool spaceFound = GetValidTile(out warpPosition, findNearestFloorTile);
+        DisableRagdoll();
+        if (spaceFound)
+        {
+            ActivateAIMethods(warpPosition);
+        }
+        else
+        {
+            //Kill
+            OnDeath();
+        }
+    }
+
+    private bool GetValidTile(out Vector3 position, bool findNearestFloorTile)
     {
         bool spaceFound = false;
+        position = Vector3.zero;
         if (gameObject.activeSelf)
         {
-            Vector3 position = hips.transform.position;
+            position = hips.transform.position;
             Ray ray = new Ray(position, Vector3.down);
-            int mask = LayerMask.GetMask(Strings.Layers.GROUND);            
+            int mask = LayerMask.GetMask(Strings.Layers.GROUND);
             RaycastHit hit;
 
             if (!findNearestFloorTile && Physics.Raycast(ray, out hit, Mathf.Infinity, mask))
@@ -464,7 +491,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
                 position = hit.point;
                 spaceFound = true;
             }
-            else 
+            else
             {
                 int i = 1;
                 while (!spaceFound && i < 7)
@@ -478,39 +505,11 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
                     else
                     {
                         i++;
-                        Debug.LogError("No tiles found for iteration " + i);
                     }
-                }
-            }
-
-            if (spaceFound)
-            {
-                GetComponent<ISpawnable>().WarpToNavMesh(position);
-                AIController aiController = GetComponent<AIController>();
-                if (aiController)
-                {
-                    aiController.ActivateAI();
                 }
             }
         }
         return spaceFound;
-    }
-
-    private void GetUp(bool findNearestFloorTile = false)
-    {
-        EnableCollider();
-        DisableRagdoll();
-        animator.SetTrigger("DoGetUp");
-        if (ActivateAIMethods(findNearestFloorTile))
-        {
-            animator.SetTrigger("DoGetUp");
-            animator.SetInteger("AnimationState", (int)AnimationStates.Walk);
-        }
-        else
-        {
-            //Kill
-            OnDeath();
-        }
     }
 
     private void FallDown()
