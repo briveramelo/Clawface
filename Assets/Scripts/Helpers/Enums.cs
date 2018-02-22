@@ -255,6 +255,7 @@ public enum AnimationStates {
     HitReaction2 = 81,
     HitReaction3 = 82,
 
+    GetUp = 9
 }
 
 public enum EAIState
