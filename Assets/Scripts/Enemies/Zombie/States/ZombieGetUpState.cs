@@ -27,7 +27,7 @@ public class ZombieGetUpState : AIState {
             trailRenderer.Clear();
             needToClearTrail = false;
         }
-        trailRenderer.enabled = true;
+        if (trailRenderer) trailRenderer.enabled = true;
 
         controller.UpdateState(EAIState.Chase);
     }
