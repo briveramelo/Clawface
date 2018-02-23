@@ -24,6 +24,7 @@ namespace PlayerLevelEditor
         [SerializeField] private WaveMenu waveEditorMenu;
         [SerializeField] private HelpMenu helpEditorMenu;
         [SerializeField] private TestMenu testEditorMenu;
+        [SerializeField] private PLELevelSelectMenu pleLevelSelectMenu;
 
         #endregion
 
@@ -55,6 +56,7 @@ namespace PlayerLevelEditor
             MenuManager.Instance.DoTransition(helpEditorMenu, Menu.Transition.HIDE, new Menu.Effect[] { });
             MenuManager.Instance.DoTransition(waveEditorMenu, Menu.Transition.HIDE, new Menu.Effect[] { });
             MenuManager.Instance.DoTransition(testEditorMenu, Menu.Transition.HIDE, new Menu.Effect[] { });
+            MenuManager.Instance.DoTransition(pleLevelSelectMenu, Menu.Transition.HIDE, new Menu.Effect[] { });
 
             //show the init menu
             MenuManager.Instance.DoTransition(mainEditorMenu, Menu.Transition.SHOW, new Menu.Effect[] { Menu.Effect.EXCLUSIVE });
@@ -112,6 +114,8 @@ namespace PlayerLevelEditor
                     return saveEditorMenu;
                 case PLEMenu.TEST:
                     return testEditorMenu;
+                case PLEMenu.LEVELSELECT:
+                    return pleLevelSelectMenu;
                 default:
                     return null;
             }
@@ -141,6 +145,7 @@ namespace PlayerLevelEditor
         HELP,
         WAVE,
         TEST,
+        LEVELSELECT,
         NONE
     }
 }

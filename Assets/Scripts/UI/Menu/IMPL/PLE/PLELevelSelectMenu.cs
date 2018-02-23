@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class PLELevelSelectMenu : Menu {
-    public PLELevelSelectMenu() : base (Strings.MenuStrings.LOAD_PLE_MENU) { }
+    public PLELevelSelectMenu() : base (Strings.MenuStrings.LEVELSELECT_PLE_MENU) { }
     public override Button InitialSelection { get { return null; } }
 
     protected override void ShowComplete() {

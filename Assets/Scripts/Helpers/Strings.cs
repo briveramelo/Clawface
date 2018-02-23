@@ -99,7 +99,7 @@
         public const string WAVE_PLE_MENU = "WaveMenu";
         public const string HELP_PLE_MENU = "HelpMenu";
         public const string TEST_PLE_MENU = "TestMenu";
-        public const string LOAD_PLE_MENU = "LoadPLEMenu";
+        public const string LEVELSELECT_PLE_MENU = "PLELevelSelectMenu";
     }
 
     public class Input

@@ -128,6 +128,10 @@ public class MainPLEMenu : Menu
         editorInstance.SwitchToMenu(PLEMenu.TEST);
     }
 
+    public void LevelSelectAction() {
+        editorInstance.SwitchToMenu(PLEMenu.LEVELSELECT);
+    }
+
     public void SetSelectedTextColor(PLEMenu i_selection)
     {
 
