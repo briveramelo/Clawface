@@ -29,7 +29,9 @@ public class LevelDataManager : RoutineRunner {
 
 
     #region Unity Lifecycle
-
+    private void Start() {
+        LoadSelectedLevel();
+    }
     private void Update() {
         if (Input.GetKeyDown(KeyCode.Alpha7)) {
             SaveLevel();
@@ -47,6 +49,7 @@ public class LevelDataManager : RoutineRunner {
             LoadProps();
             LoadSpawns();
             LoadTiles();
+            waveSystem.ResetToWave0();
             playerLevelEditorGrid.ShowWalls();
             spawnParent.ToggleAllChildren(false);
             if (spawnParent.childCount>0) {
@@ -71,7 +74,7 @@ public class LevelDataManager : RoutineRunner {
             tile.IsActive = true;
             LevelUnit levelUnit = tile.realTile.GetComponent<LevelUnit>();
             PLEBlockUnit blockUnit = tile.realTile.GetComponent<PLEBlockUnit>();
-
+            blockUnit.SetLevelStates(levelStates);
             List<GameObject> props = Physics.OverlapBox(tile.realTile.transform.position, new Vector3(1,10,1)).ToList().Where(prop => prop.GetComponent<PLEProp>()).Select(item => item.gameObject).ToList();
 
             if (props.Count>0) {
@@ -85,17 +88,17 @@ public class LevelDataManager : RoutineRunner {
             });
 
             tile.realTile.transform.SetParent(tileParent);
-            levelUnit.DeRegisterFromEvents();
-            for (int j = 0; j < levelStates.Count; j++) {
-                string eventName = Strings.Events.PLE_TEST_WAVE_ + j;
-                LevelUnitStates state = levelStates[j];
-                switch (state) {
-                    case LevelUnitStates.cover: levelUnit.AddCoverStateEvent(eventName); break;
-                    case LevelUnitStates.floor: levelUnit.AddFloorStateEvent(eventName); break;
-                    case LevelUnitStates.pit: levelUnit.AddPitStateEvent(eventName); break;
-                }
-            }
-            levelUnit.RegisterToEvents();
+            //levelUnit.DeRegisterFromEvents();
+            //for (int j = 0; j < levelStates.Count; j++) {
+            //    string eventName = Strings.Events.PLE_TEST_WAVE_ + j;
+            //    LevelUnitStates state = levelStates[j];
+            //    switch (state) {
+            //        case LevelUnitStates.cover: levelUnit.AddCoverStateEvent(eventName); break;
+            //        case LevelUnitStates.floor: levelUnit.AddFloorStateEvent(eventName); break;
+            //        case LevelUnitStates.pit: levelUnit.AddPitStateEvent(eventName); break;
+            //    }
+            //}
+            //levelUnit.RegisterToEvents();
         }
     }
 
@@ -145,7 +148,6 @@ public class LevelDataManager : RoutineRunner {
             keiraSpawnTransform.SetAsFirstSibling();
             SpawnMenu.playerSpawnInstance = keiraSpawnTransform.gameObject;
         }
-        waveSystem.ResetToWave0();
         spawnMenu.ResetMenu(spawnNames);
     }
     #endregion

@@ -15,7 +15,7 @@ public class PLEBlockUnit : MonoBehaviour
     [SerializeField] private int blockID = 0;
     [SerializeField] public Transform spawnTrans;
 
-    public List<LevelUnitStates> LevelStates = new List<LevelUnitStates>();
+    public List<LevelUnitStates> levelStates = new List<LevelUnitStates>();
     [HideInInspector] public GameObject prop;
     [HideInInspector] public List<GameObject> spawns;
     #endregion
@@ -27,29 +27,28 @@ public class PLEBlockUnit : MonoBehaviour
         occupied = false;
     }
 
-    public void Start()
+    IEnumerator Start()
     {
-        LevelStates.Add(LevelUnitStates.floor);
-        LevelStates.Add(LevelUnitStates.floor);
-        LevelStates.Add(LevelUnitStates.floor);
-
-        if (EventSystem.Instance)
-        {
-            EventSystem.Instance.RegisterEvent(Strings.Events.PLE_ADD_WAVE, AddWave);
-            EventSystem.Instance.RegisterEvent(Strings.Events.PLE_UPDATE_LEVELSTATE, UpdateDynamicLevelState);
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
+        if (levelStates.Count == 0) {
+            for (int i = 0; i < WaveSystem.maxWave; i++) {
+                levelStates.Add(LevelUnitStates.floor);
+            }
+            RegisterDefaultState();
         }
-
-        RegisterDefaultState();
     }
 
-    private void OnEnable()
-    {
-
+    private void OnEnable() {
+        EventSystem.Instance.RegisterEvent(Strings.Events.PLE_ADD_WAVE, AddWave);
+        EventSystem.Instance.RegisterEvent(Strings.Events.PLE_UPDATE_LEVELSTATE, UpdateDynamicLevelState);
     }
 
-    private void OnDestroy()
-    {
-
+    private void OnDisable() {
+        if (EventSystem.Instance) {
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_ADD_WAVE, AddWave);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_UPDATE_LEVELSTATE, UpdateDynamicLevelState);
+        }
     }
 
     #endregion
@@ -58,12 +57,12 @@ public class PLEBlockUnit : MonoBehaviour
 
     void RegisterDefaultState()
     {
-        LevelUnit LU = GetComponent<LevelUnit>();
-        if (LU == null) return;
+        LevelUnit levelUnit = GetComponent<LevelUnit>();
+        if (levelUnit == null) return;
 
         string event_name = Strings.Events.PLE_RESET_LEVELSTATE;
-        LU.AddFloorStateEvent(event_name);
-        LU.RegisterToEvents();
+        levelUnit.AddFloorStateEvent(event_name);
+        levelUnit.RegisterToEvents();
     }
 
 
@@ -120,45 +119,49 @@ public class PLEBlockUnit : MonoBehaviour
 
     public List<LevelUnitStates> GetLevelStates()
     {
-        return LevelStates;
+        return levelStates;
+    }
+    public void SetLevelStates(List<LevelUnitStates> newLevelStates) {
+        levelStates.Clear();
+        levelStates = new List<LevelUnitStates>();
+        newLevelStates.ForEach(state => {
+            levelStates.Add(state);
+        });
+        UpdateDynamicLevelState();
     }
 
 
     public void AddWave(params object[] parameters)
     {
-        LevelStates.Add(LevelUnitStates.floor);
+        levelStates.Add(LevelUnitStates.floor);
     }
 
     public void UpdateDynamicLevelState(params object[] parameters)
     {
-        LevelUnit LU = GetComponent<LevelUnit>();
+        LevelUnit levelUnit = GetComponent<LevelUnit>();
 
-        if (LU == null) return;
-   
-        for (int i = 0; i < LevelStates.Count; i++)
-        {
+        if (levelUnit == null) return;
+
+        levelUnit.DeRegisterFromEvents();
+        for (int i = 0; i < levelStates.Count; i++) {
             string event_name = Strings.Events.PLE_TEST_WAVE_ + i.ToString();
+            
+            LevelUnitStates state = levelStates[i];
 
-            LU.DeRegisterEvent(event_name);
-            LevelUnitStates state = LevelStates[i];
-
-            switch (state)
-            {
+            switch (state) {
                 case LevelUnitStates.cover:
-                    LU.AddCoverStateEvent(event_name);
+                    levelUnit.AddCoverStateEvent(event_name);
                     break;
-
                 case LevelUnitStates.floor:
-                    LU.AddFloorStateEvent(event_name);
+                    levelUnit.AddFloorStateEvent(event_name);
                     break;
-
                 case LevelUnitStates.pit:
-                    LU.AddPitStateEvent(event_name);
+                    levelUnit.AddPitStateEvent(event_name);
                     break;
             }
         }
 
-        LU.RegisterToEvents();
+        levelUnit.RegisterToEvents();
     }
 
     #endregion

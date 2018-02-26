@@ -275,7 +275,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
 
     #region Public Interface
     public GridTile GetTileAtPoint(Vector3 point) {
-        return gridTiles.Find(tile => tile.Position.IsAboutEqual(point));
+        return gridTiles.Find(tile => tile.Position.NoY().IsAboutEqual(point.NoY()));
     }
     public void ResetGrid() {
         gridTiles.ForEach(tile => {

@@ -59,89 +59,40 @@ public class FloorMenu : Menu {
     { }
 
 
-    public void DropFloorAction()
-    {
-        List<GameObject> selectedObjects = editorInstance.gridController.GetSelectedBlocks();
-
-        if (selectedObjects.Count == 0)
-            return;
-
-
-        foreach(GameObject GO in selectedObjects) {
-            List<LevelUnitStates> LUS = GO.GetComponent<PLEBlockUnit>().GetLevelStates();
-            LUS[WaveSystem.currentWave] = LevelUnitStates.pit;
-        }
-
-        if (EventSystem.Instance)
-        {
-            EventSystem.Instance.TriggerEvent(Strings.Events.PLE_UPDATE_LEVELSTATE);
-//            print("DropFloorAction PLE_UPDATE_LEVELSTATE" + Strings.Events.PLE_UPDATE_LEVELSTATE);
-            string event_name = Strings.Events.PLE_TEST_WAVE_ + WaveSystem.currentWave;
-            EventSystem.Instance.TriggerEvent(event_name);
-//            print("DropFloorAction event_name" + event_name);
-        }
+    public void DropFloorAction() {
+        UpdateSelectedTiles(LevelUnitStates.pit);
     }
 
-    public void FlatFloorAction()
-    {
+    public void FlatFloorAction() {
+        UpdateSelectedTiles(LevelUnitStates.floor);
+    }
+
+    public void RiseFloorAction() {
+        UpdateSelectedTiles(LevelUnitStates.cover);
+    }
+
+    void UpdateSelectedTiles(LevelUnitStates state) {
         List<GameObject> selectedObjects = editorInstance.gridController.GetSelectedBlocks();
 
         if (selectedObjects.Count == 0)
             return;
 
-
-        foreach (GameObject GO in selectedObjects)
-        {
-            if (GO != null)
-            {
-                List<LevelUnitStates> LUS = GO.GetComponent<PLEBlockUnit>().GetLevelStates();
-                LUS[WaveSystem.currentWave] = LevelUnitStates.floor;
+        foreach (GameObject GO in selectedObjects) {
+            if (GO != null) {
+                List<LevelUnitStates> levelUnitStates = GO.GetComponent<PLEBlockUnit>().GetLevelStates();
+                levelUnitStates[WaveSystem.currentWave] = state;
             }
-            else
-            {
+            else {
                 selectedObjects.Remove(GO);
             }
         }
+        
+        string event_name = Strings.Events.PLE_TEST_WAVE_ + WaveSystem.currentWave;
+        EventSystem.Instance.TriggerEvent(Strings.Events.PLE_UPDATE_LEVELSTATE);
+        EventSystem.Instance.TriggerEvent(event_name);
 
-        if (EventSystem.Instance)
-        {
-            EventSystem.Instance.TriggerEvent(Strings.Events.PLE_UPDATE_LEVELSTATE);
-//            print("FlatFloorAction PLE_UPDATE_LEVELSTATE" + Strings.Events.PLE_UPDATE_LEVELSTATE);
-            string event_name = Strings.Events.PLE_TEST_WAVE_ + WaveSystem.currentWave;
-            EventSystem.Instance.TriggerEvent(event_name);
-//            print("FlatFloorAction event_name" + event_name);
-        }
-    }
-
-    public void RiseFloorAction()
-    {
-        List<GameObject> selectedObjects = editorInstance.gridController.GetSelectedBlocks();
-
-        if (selectedObjects.Count == 0)
-            return;
-
-
-        foreach (GameObject GO in selectedObjects)
-        {
-            if (GO != null)
-            {
-                List<LevelUnitStates> LUS = GO.GetComponent<PLEBlockUnit>().GetLevelStates();
-                LUS[WaveSystem.currentWave] = LevelUnitStates.cover;
-            }
-            else
-            {
-                selectedObjects.Remove(GO);
-            }
-        }
-
-        if (EventSystem.Instance)
-        {
-            EventSystem.Instance.TriggerEvent(Strings.Events.PLE_UPDATE_LEVELSTATE);
-//            print("RiseFloorAction PLE_UPDATE_LEVELSTATE" + Strings.Events.PLE_UPDATE_LEVELSTATE);
-            string event_name = Strings.Events.PLE_TEST_WAVE_ + WaveSystem.currentWave;            
-            EventSystem.Instance.TriggerEvent(event_name);
-//            print("RiseFloorAction event_name" + event_name);
-        }
+        //            print("RiseFloorAction PLE_UPDATE_LEVELSTATE" + Strings.Events.PLE_UPDATE_LEVELSTATE);
+        //            print("RiseFloorAction event_name" + event_name);
     }
 
     public void BackAction()
