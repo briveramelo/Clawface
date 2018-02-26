@@ -91,6 +91,8 @@ public class PlayerStateManager : RoutineRunner {
             else if (InputManager.Instance.QueryAction(Strings.Input.Actions.EAT, ButtonMode.DOWN) && 
                 !playerStates.Contains(dashState) && !playerStates.Contains(eatingState))
             {
+                ScoreManager.Instance.ResetCombo();
+
                 if (CheckForEatableEnemy())
                 {
                     SwitchState(eatingState);
