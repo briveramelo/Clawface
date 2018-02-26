@@ -160,9 +160,7 @@ public class FloorMenu : Menu {
     protected override void ShowComplete()
     {
         base.ShowComplete();
-        inputGuard = true;
-        
-        editorInstance.gridController.currentEditorMenu = EditorMenu.FLOOR_MENU;
+        inputGuard = true;        
     }
 
     protected override void HideStarted()

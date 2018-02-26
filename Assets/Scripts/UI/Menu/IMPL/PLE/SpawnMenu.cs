@@ -50,7 +50,6 @@ public class SpawnMenu : PlacementMenu {
 
     protected override void ShowComplete() {
         base.ShowComplete();
-        editorInstance.gridController.currentEditorMenu = EditorMenu.SPAWN_MENU;
     }
 
 

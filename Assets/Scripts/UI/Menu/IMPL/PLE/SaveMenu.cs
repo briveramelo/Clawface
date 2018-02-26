@@ -25,11 +25,12 @@ public class SaveMenu : Menu {
     [SerializeField] private LevelEditor editorInstance;
     [SerializeField] private GameObject realLevelParent;
     [SerializeField] private PLECameraController cameraController;
+    [SerializeField] private InputField nameText, descriptionText;
 
     #endregion
 
     #region Private Fields
-
+    private DataSave ActiveDataSave { get { return DataPersister.ActiveDataSave; } }
     private bool inputGuard = false;
 
     #endregion
@@ -68,6 +69,8 @@ public class SaveMenu : Menu {
     {
         base.ShowStarted();
         cameraController.enabled = false;
+        nameText.text = ActiveDataSave.ActiveLevelData.name;
+        descriptionText.text = ActiveDataSave.ActiveLevelData.description;
     }
 
     protected override void HideStarted()

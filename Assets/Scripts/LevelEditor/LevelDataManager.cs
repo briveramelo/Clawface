@@ -1,14 +1,17 @@
 ﻿//Brandon
 using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 using ModMan;
 using MEC;
 using System.Linq;
 using UnityEngine.UI;
+using PlayerLevelEditor;
 
 public class LevelDataManager : RoutineRunner {
 
 	[SerializeField] private DataPersister dataPersister;
+    [SerializeField] private LevelEditor levelEditor;
     [SerializeField] private Transform tileParent, propsParent, spawnParent;
     [SerializeField] private PlayerLevelEditorGrid playerLevelEditorGrid;
     [SerializeField] private WaveSystem waveSystem;
@@ -32,20 +35,19 @@ public class LevelDataManager : RoutineRunner {
             SaveLevel();
         }
         if (Input.GetKeyDown(KeyCode.Alpha0)) {
-            LoadLevel(0);
+            LoadSelectedLevel();
         }
     }
     #endregion
 
     #region Load
-    public void LoadLevel(int levelIndex) {
-        dataPersister.Load(levelIndex);
+    public void LoadSelectedLevel() {
         playerLevelEditorGrid.ResetGrid();
         Timing.RunCoroutine(DelayAction(()=> {
             LoadProps();
             LoadSpawns();
             LoadTiles();
-
+            playerLevelEditorGrid.ShowWalls();
             spawnParent.ToggleAllChildren(false);
             if (spawnParent.childCount>0) {
                 Transform firstChild = spawnParent.GetChild(0);
@@ -149,14 +151,17 @@ public class LevelDataManager : RoutineRunner {
     #endregion
 
     #region Save
+    public void SaveNewLevel() {
+        DataSave.AddAndSelectNewLevel();
+        SaveLevel();
+    }
+
     public void SaveLevel() {
         SaveTiles();
         SaveProps();
         SaveSpawns();
-
-        ActiveLevelData.name = levelName.text;
-        ActiveLevelData.description= levelDescription.text;
-        dataPersister.TrySave();
+        SaveLevelText();
+        StartCoroutine(TakePictureAndSave());
     }
     void SaveTiles() {
         ActiveTileData.Clear();
@@ -212,6 +217,32 @@ public class LevelDataManager : RoutineRunner {
         }
     }
 
+    void SaveLevelText() {
+        ActiveLevelData.name = levelName.text;
+        ActiveLevelData.description = levelDescription.text;
+    }
+
+    IEnumerator TakePictureAndSave() {
+        levelEditor.GetMenu(PLEMenu.MAIN).CanvasGroup.alpha = 0f;
+        yield return new WaitForEndOfFrame();
+        SavePicture();
+        dataPersister.TrySave();
+        yield return new WaitForEndOfFrame();
+        levelEditor.GetMenu(PLEMenu.MAIN).CanvasGroup.alpha = 1f;
+    }
+
+    void SavePicture() {
+        Texture2D snapshot = new Texture2D((int)Camera.main.pixelRect.width, (int)Camera.main.pixelRect.height);
+        Rect snapRect = Camera.main.pixelRect;
+        //snapRect.width = LevelData.width;
+        //snapRect.height = LevelData.height;
+        snapshot.ReadPixels(snapRect, 0, 0);
+        snapshot.Apply();
+        byte[] imageBytes = snapshot.EncodeToPNG();
+        ActiveLevelData.SetPicture(imageBytes, Camera.main.pixelRect.size);
+    }
+
+    
     #endregion
 
 }

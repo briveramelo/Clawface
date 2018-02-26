@@ -36,7 +36,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     #region Public Fields
 
     [HideInInspector] public bool displaying = false;
-    [HideInInspector] public EditorMenu currentEditorMenu = EditorMenu.MAIN_EDITOR_MENU;
+    private PLEMenu CurrentEditorMenu { get { return editorInstance.currentDisplayedMenu; } }
 
     #endregion
 
@@ -63,10 +63,10 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
                 OnClickObject = hit.transform.gameObject;
             }
 
-            if (currentEditorMenu == EditorMenu.PROPS_MENU) {
+            if (CurrentEditorMenu == PLEMenu.PROPS) {
                 //DrawPreviewBlock(hit);
             }
-            else if (currentEditorMenu == EditorMenu.FLOOR_MENU) {
+            else if (CurrentEditorMenu == PLEMenu.FLOOR) {
                 DrawPreviewBlock(hit);
                 HandleBlockInteractions(hit);
             }

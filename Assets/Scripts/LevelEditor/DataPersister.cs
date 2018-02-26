@@ -8,26 +8,27 @@ using System.IO;
 public class DataPersister : MonoBehaviour {
     
     public static DataSave ActiveDataSave = new DataSave();
-
+    public DataSave inspectorSave;
     string PathDirectory { get { return Application.dataPath + "/Saves";} }
     string FilePath { get { return PathDirectory + "/savefile.dat"; } }
 
     private void Awake() {
-        Load(0);
+        Load();
     }
-    public void Load(int levelIndex) {
+    public void Load() {
         ActiveDataSave = null;
         if (!Directory.Exists(PathDirectory)) {
             Directory.CreateDirectory(PathDirectory);
         }
         if (File.Exists(FilePath)) {
+            BinaryFormatter bf = new BinaryFormatter();
+            FileStream fileStream = File.Open(FilePath, FileMode.Open);
             try {
-                BinaryFormatter bf = new BinaryFormatter();
-                FileStream fileStream = File.Open(FilePath, FileMode.Open);
                 ActiveDataSave = new DataSave((DataSave)bf.Deserialize(fileStream));
                 fileStream.Close();
             }
             catch {
+                fileStream.Close();
                 File.Delete(FilePath);
                 ActiveDataSave = new DataSave();
             }
@@ -35,7 +36,7 @@ public class DataPersister : MonoBehaviour {
         else {
             ActiveDataSave = new DataSave();
         }
-        ActiveDataSave.SelectedIndex = levelIndex;
+        inspectorSave = ActiveDataSave;
     }
 
     public void TrySave() {
@@ -58,17 +59,44 @@ public class DataSave {
     public DataSave(DataSave dataSave) {
         this.levelDatas = dataSave.levelDatas;
     }
+    public List<LevelData> levelDatas = new List<LevelData>();
+
+    int selectedIndex = 0;
 
     public LevelData ActiveLevelData { get { if (levelDatas.Count==0) { levelDatas.Add(new LevelData()); } return levelDatas[SelectedIndex]; } }
-    public int SelectedIndex { get { return selectedIndex; } set { selectedIndex = Mathf.Clamp(selectedIndex, 0, Mathf.Max(1, levelDatas.Count - 1)); } }
+    public int SelectedIndex { get { return selectedIndex; } set { selectedIndex = Mathf.Clamp(value, 0, Mathf.Max(levelDatas.Count - 1, 0)); } }
 
-    [SerializeField] List<LevelData> levelDatas = new List<LevelData>();
-    int selectedIndex = 0;
+    public void AddAndSelectNewLevel() {
+        levelDatas.Add(new LevelData());
+        SelectedIndex = levelDatas.Count-1;
+    }
 }
 
 [Serializable]
-public class LevelData {
+public class LevelData {    
+
     public string name, description;
+    public byte[] imageData;
+    public Vector2_S size;
+    public Texture2D Snapshot {
+        get {
+            if (snapShot==null) {
+                snapShot = new Texture2D((int)size.x, (int)size.y);
+                if (imageData!=null) {
+                    snapShot.LoadImage(imageData);
+                }
+            }
+            return snapShot;
+        }
+    }
+    public void SetPicture(byte[] imageData, Vector2 dimensions) {
+        this.imageData = imageData;
+        this.size = new Vector2_S(dimensions);
+        snapShot = new Texture2D((int)dimensions.x, (int)dimensions.y);
+        snapShot.LoadImage(imageData);
+    }
+
+    [NonSerialized] Texture2D snapShot;
     public List<WaveData> waveData = new List<WaveData>();
     public List<TileData> tileData = new List<TileData>();
     public List<PropData> propData = new List<PropData>();
@@ -141,6 +169,21 @@ public struct Vector3_S {
         this.z = position.z;
     }
     public Vector3 AsVector { get { return new Vector3(x, y, z); } }
+}
+
+[Serializable]
+public struct Vector2_S {
+    public float x;
+    public float y;
+    public Vector2_S(float x, float y) {
+        this.x = x;
+        this.y = y;        
+    }
+    public Vector2_S(Vector2 position) {
+        this.x = position.x;
+        this.y = position.y;
+    }
+    public Vector2 AsVector { get { return new Vector2(x, y); } }
 }
 
 [Serializable]

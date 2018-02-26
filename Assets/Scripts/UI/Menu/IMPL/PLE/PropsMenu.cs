@@ -61,7 +61,6 @@ public class PropsMenu : PlacementMenu
     protected override void ShowComplete() {
         base.ShowComplete();
         //draw the grid
-        editorInstance.gridController.currentEditorMenu = EditorMenu.PROPS_MENU;
     }
     protected override void UpdatePreviewPosition()
     {
