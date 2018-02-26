@@ -114,6 +114,8 @@ public class LevelDataManager : RoutineRunner {
             propNames.Add(child.name);
             child.position = propData.position.AsVector;
             child.rotation = Quaternion.Euler(propData.rotation.AsVector);
+            Rigidbody rigbod = child.GetComponent<Rigidbody>();
+            rigbod.isKinematic = true;
         }
         propsMenu.ResetMenu(propNames);
     }

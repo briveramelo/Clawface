@@ -6,8 +6,12 @@ using UnityEngine.UI;
 
 public class PropsMenu : PlacementMenu
 {
-    #region Public Interface
     public PropsMenu() : base(Strings.MenuStrings.ADD_PROPS_PLE) { }
+    #region Public Interface
+    public void TogglePropRigbodKinematic(bool isKinematic) {
+        List<Rigidbody> rigBods = createdItemsParent.GetComponentsInChildren<Rigidbody>().ToList();
+        rigBods.ForEach(rigbod => rigbod.isKinematic = isKinematic);
+    }
     #endregion
 
     #region Private Fields
@@ -18,6 +22,8 @@ public class PropsMenu : PlacementMenu
     #region Serialzied Unity Fields
     [SerializeField] private Text rotationLabel;
     #endregion
+
+    
 
     #region Protected Interface
     protected override bool SelectUI { get { return base.SelectUI && ScrollGroupHelper.currentUIItem !=null; } }
@@ -48,15 +54,13 @@ public class PropsMenu : PlacementMenu
     }
     protected override void HideStarted() {
         base.HideStarted();
-        List<Rigidbody> rigBods = createdItemsParent.GetComponentsInChildren<Rigidbody>().ToList();
-        rigBods.ForEach(rigbod=> rigbod.isKinematic = false);
-        
+        TogglePropRigbodKinematic(true);
+
         rotationLabel.text = 0.ToString("0");
     }
     protected override void ShowStarted() {
         base.ShowStarted();
-        List<Rigidbody> rigBods = createdItemsParent.GetComponentsInChildren<Rigidbody>().ToList();
-        rigBods.ForEach(rigbod => rigbod.isKinematic = true);
+        TogglePropRigbodKinematic(true);
     }
     protected override void ShowComplete() {
         base.ShowComplete();
