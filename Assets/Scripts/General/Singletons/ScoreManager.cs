@@ -36,7 +36,7 @@ public class ScoreManager : Singleton<ScoreManager> {
 
         EventSystem.Instance.RegisterEvent(Strings.Events.DEATH_ENEMY, OnPlayerKilledEnemy);
         EventSystem.Instance.RegisterEvent(Strings.Events.EAT_ENEMY, OnPlayerAte);
-        EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_DAMAGED, OnPlayerDamaged);
+        // EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_DAMAGED, OnPlayerDamaged);
         EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_STARTED, OnLevelStart);
         EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_RESTARTED, OnLevelRestart);
         EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_QUIT, OnLevelQuit);
@@ -48,7 +48,7 @@ public class ScoreManager : Singleton<ScoreManager> {
         {
             EventSystem.Instance.UnRegisterEvent(Strings.Events.DEATH_ENEMY, OnPlayerKilledEnemy);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.EAT_ENEMY, OnPlayerAte);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_DAMAGED, OnPlayerDamaged);
+            // EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_DAMAGED, OnPlayerDamaged);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_STARTED, OnLevelStart);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_RESTARTED, OnLevelRestart);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_QUIT, OnLevelQuit);
@@ -138,18 +138,8 @@ public class ScoreManager : Singleton<ScoreManager> {
 
     public void AddToScore(int points)
     {
-        int delta = 0;
-        if (currentCombo < scoreMultiplierPerCombo.Count)
-        {
-            delta = points * scoreMultiplierPerCombo[currentCombo];
-            score += delta;
-        }
-        else
-        {
-            delta = points * scoreMultiplierPerCombo[scoreMultiplierPerCombo.Count - 1];
-            score += delta;
-        }
-
+        int delta = points * GetCurrentMultiplier();
+        score += delta;
         EventSystem.Instance.TriggerEvent(Strings.Events.SCORE_UPDATED,score,delta);
     }
 

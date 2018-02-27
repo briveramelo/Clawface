@@ -11,6 +11,7 @@ public class LightningProjectile : MonoBehaviour {
     #region Serialized Unity Inspector Fields
 
     [SerializeField] LightningChain chainEffect;
+    [SerializeField] private ParticleSystem vfxLightning;
 
     #endregion
 
@@ -83,6 +84,8 @@ public class LightningProjectile : MonoBehaviour {
 
     public void Init(LightningGun.ProjectileProperties properties, Transform startingTransform, int enemyCount = 0, List<Transform> ignoreEnemies = null)
     {
+        chainEffect.Reset();
+        vfxLightning.Clear();
         projectileProperties = properties;
         transform.position = startingTransform.position;
         startingPosition = transform.position;
@@ -103,11 +106,18 @@ public class LightningProjectile : MonoBehaviour {
         damager.damagerType = DamagerType.GrapplingHook;
         
         chainEffect.SetTarget (transform);
+
+        if (enemyCount == 0)
+        {
+            chainEffect.SetOrigin(transform);
+            chainEffect.SetTarget(transform);
+        }
     }
 
     public void ResetToDefaults()
     {
         chainEffect.Reset();
+        vfxLightning.Clear();
         projectileProperties = null;
         startingPosition = Vector3.zero;
         target = null;

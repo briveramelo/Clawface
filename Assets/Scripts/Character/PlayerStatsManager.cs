@@ -23,6 +23,15 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     [SerializeField] private SFXType deathSFX;
     [SerializeField] private List<HealthRatio> damageScaling = new List<HealthRatio>();
     [SerializeField] private Stats stats;
+
+    [SerializeField]
+    private bool playerTakesSetDamage;
+
+    [SerializeField]
+    private float setDamageToTake;
+
+    [SerializeField]
+    private DashState dashState;
     #endregion
 
     #region Private Fields
@@ -41,10 +50,6 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
         stats.SetStats();
     }
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
     #endregion
 
     #region Public Methods
@@ -55,62 +60,75 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
 
     public void TakeDamage(Damager damager)
     {
-        if (damageModifier > 0.0f)
+        if (dashState.CheckForIFrames())
         {
-            if (stats.GetStat(CharacterStatType.Health) > 0)
+            ScoreManager.Instance.AddToCombo();
+            return;
+        }
+
+
+        float healthFraction = stats.GetHealthFraction();
+
+        if (!playerTakesSetDamage)
+        {
+            if (damageModifier > 0.0f)
             {
-
-                EventSystem.Instance.TriggerEvent(Strings.Events.PLAYER_DAMAGED);
-                float healthFraction = stats.GetHealthFraction();
-
-                for (int i = 0; i < damageScaling.Count; i++)
+                if (stats.GetStat(CharacterStatType.Health) > 0)
                 {
-                    if (healthFraction >= damageScaling[i].healthPercentage)
+                    for (int i = 0; i < damageScaling.Count; i++)
                     {
-                        damageModifier = damageScaling[i].damageRatio;
-                        break;
-                    }
-                }
-
-                stats.TakeDamage(damageModifier * damager.damage);
-                healthFraction = stats.GetHealthFraction();
-                EventSystem.Instance.TriggerEvent(Strings.Events.PLAYER_HEALTH_MODIFIED, healthFraction);
-
-                float shakeIntensity = 1f - healthFraction;
-                if (shake)
-                {
-                    InputManager.Instance.Vibrate(VibrationTargets.BOTH, shakeIntensity);
-                }
-                SFXManager.Instance.Play(SFXType.PlayerTakeDamage, transform.position);
-
-                faceController.SetTemporaryEmotion(PlayerFaceController.Emotion.Angry, 0.5f);
-
-                hitFlasher.HitFlash ();
-
-                if (stats.GetStat(CharacterStatType.Health) <= 0)
-                {
-                    EventSystem.Instance.TriggerEvent(Strings.Events.PLAYER_KILLED, SceneManager.GetActiveScene().name, AnalyticsManager.Instance.GetCurrentWave(), ModManager.leftArmOnLoad.ToString(), ModManager.rightArmOnLoad.ToString());
-                    //SFXManager.Instance.Play(SFXType.AnnounceDeath, Vector3.zero);
-                    //Revive(); //removed because of the inclusion of the game over menu
-                    if (playerMesh && modSockets)
-                    {                        
-                        GameObject vfx = ObjectPool.Instance.GetObject(deathVFX);
-                        if (vfx) {
-                            vfx.transform.position = playerMesh.transform.position;
-                            vfx.SetActive(true);
-                        }
-                        CapsuleCollider collider = GetComponent<CapsuleCollider>();
-                        if (collider)
+                        if (healthFraction >= damageScaling[i].healthPercentage)
                         {
-                            collider.enabled = false;
+                            damageModifier = damageScaling[i].damageRatio;
+                            break;
                         }
-                        playerMesh.SetActive(false);
-                        modSockets.SetActive(false);
-                        SFXManager.Instance.Play(deathSFX, playerMesh.transform.position);
                     }
                 }
+                stats.TakeDamage(damageModifier * damager.damage); 
             }
-          
+        }
+        else
+        {
+            stats.TakeDamage(setDamageToTake);
+        }
+
+        EventSystem.Instance.TriggerEvent(Strings.Events.PLAYER_DAMAGED);
+        healthFraction = stats.GetHealthFraction();
+        EventSystem.Instance.TriggerEvent(Strings.Events.PLAYER_HEALTH_MODIFIED, healthFraction);
+
+        float shakeIntensity = 1f - healthFraction;
+        if (shake)
+        {
+            InputManager.Instance.Vibrate(VibrationTargets.BOTH, shakeIntensity);
+        }
+        SFXManager.Instance.Play(SFXType.PlayerTakeDamage, transform.position);
+
+        faceController.SetTemporaryEmotion(PlayerFaceController.Emotion.Angry, 0.5f);
+
+        hitFlasher.HitFlash();
+
+        if (stats.GetStat(CharacterStatType.Health) <= 0)
+        {
+            EventSystem.Instance.TriggerEvent(Strings.Events.PLAYER_KILLED, SceneManager.GetActiveScene().name, AnalyticsManager.Instance.GetCurrentWave(), ModManager.leftArmOnLoad.ToString(), ModManager.rightArmOnLoad.ToString());
+            //SFXManager.Instance.Play(SFXType.AnnounceDeath, Vector3.zero);
+            //Revive(); //removed because of the inclusion of the game over menu
+            if (playerMesh && modSockets)
+            {
+                GameObject vfx = ObjectPool.Instance.GetObject(deathVFX);
+                if (vfx)
+                {
+                    vfx.transform.position = playerMesh.transform.position;
+                    vfx.SetActive(true);
+                }
+                CapsuleCollider collider = GetComponent<CapsuleCollider>();
+                if (collider)
+                {
+                    collider.enabled = false;
+                }
+                playerMesh.SetActive(false);
+                modSockets.SetActive(false);
+                SFXManager.Instance.Play(deathSFX, playerMesh.transform.position);
+            }
         }
     }
 
