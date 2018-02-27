@@ -85,6 +85,19 @@ public class PLEBlockUnit : MonoBehaviour
     public void RemoveSpawn(GameObject spawn) {
         spawns.Remove(spawn);
     }
+    public bool HasActiveSpawn {
+        get {
+            CleanNullSpawns();
+            return spawns.Exists(spawn => { return spawn.activeSelf; });
+        }
+    }
+    void CleanNullSpawns() {
+        for (int i = spawns.Count - 1; i >= 0; i--) {
+            if (spawns[i] == null) {
+                spawns.RemoveAt(i);
+            }
+        }
+    }
     public void ClearItems() {
         for (int i = spawns.Count - 1; i >= 0; i--) {
             Helpers.DestroyProper(spawns[i]);
@@ -121,9 +134,15 @@ public class PLEBlockUnit : MonoBehaviour
     {
         return levelStates;
     }
+    public LevelUnitStates GetStateAtWave(int waveIndex) {
+        return levelStates[waveIndex];
+    }
+    public bool IsFlatAtWave(int waveIndex) {
+        return GetStateAtWave(waveIndex) == LevelUnitStates.floor;
+    }
+
     public void SetLevelStates(List<LevelUnitStates> newLevelStates) {
         levelStates.Clear();
-        levelStates = new List<LevelUnitStates>();
         newLevelStates.ForEach(state => {
             levelStates.Add(state);
         });

@@ -59,7 +59,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         if (!displaying)
             return;
 
-        if (MouseHelper.hitItem) {
+        if (MouseHelper.HitItem) {
             RaycastHit hit = MouseHelper.raycastHit.Value;
 
             if (Input.GetMouseButtonDown(MouseButtons.LEFT) || Input.GetMouseButtonDown(MouseButtons.RIGHT)) {
@@ -87,58 +87,76 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     }    
 
     private void HandleWireSelection(RaycastHit hit) {
-        #region clean up lastHoveredObjects
+        CleanUpLastHoveredObjects(hit);
+        UpdateCurrentHoveredObject(hit);
+        UpdateLastHoveredObjects(hit);
+    }
 
+    void CleanUpLastHoveredObjects(RaycastHit hit) {
         foreach (GameObject GO in lastHoveredObjects) {
-            if (GO == null)
+            if (GO == null) {
                 continue;
-
+            }
             PreviewCubeController lastPCC = GO.GetComponent<PreviewCubeController>();
-
-            if (lastPCC)
+            if (lastPCC) {
                 lastPCC.ResetColor();
+            }
         }
 
         lastHoveredObjects.Clear();
+    }
 
-        #endregion
-
-        #region update currentHoveredObject
-
+    void UpdateCurrentHoveredObject(RaycastHit hit) {
         GameObject currentHoveredObject = hit.transform.gameObject;
         PreviewCubeController currentPCC = currentHoveredObject.GetComponent<PreviewCubeController>();
-
-        if (currentPCC)
+        if (currentPCC) {
             currentPCC.SetColor(hoverColor);
-
+        }
         lastHoveredObjects.Add(currentHoveredObject);
+    }
 
-        #endregion
-
-        #region update lastHoveredObjects
-
+    void UpdateLastHoveredObjects(RaycastHit hit) {
         if (Input.GetMouseButton(MouseButtons.LEFT)) {
             List<GameObject> selectedObjects = SelectObjectsAlgorithm(hit);
-
             foreach (GameObject selectedObject in selectedObjects) {
                 PreviewCubeController ObjectPCC = selectedObject.GetComponent<PreviewCubeController>();
-
                 if (ObjectPCC) {
                     lastHoveredObjects.Add(selectedObject);
                     ObjectPCC.SetColor(hoverColor);
                 }
             }
         }
-
-        #endregion
-
     }
 
     private void HandleBlockInteractions(RaycastHit hit) {
-        if (MouseHelper.hitTile) {
-            
-        }
+        HandleSelectingBlocks(hit);
+        HandleDeleteBlockSelection(hit);
+        HandleHoveringBlocks(hit);
+    }
 
+    GridTile lastSelectedTile;
+    void HandleHoveringBlocks(RaycastHit hit) {
+        if (MouseHelper.HitTile) {
+            Vector3 mousePos = MouseHelper.currentBlockUnit.transform.position;
+            GridTile hoveredTile = GetTileAtPoint(mousePos);
+            if (lastSelectedTile != null && hoveredTile != lastSelectedTile) {
+                if (!hoveredTile.isSelected) {
+                    hoveredTile.ChangeColor(hoverColor);
+                }
+                if (!lastSelectedTile.isSelected) {
+                    lastSelectedTile.ChangeColor(spawnedBlockDefaultColor);
+                }
+            }
+            lastSelectedTile = hoveredTile;
+        }
+        else {
+            if (lastSelectedTile != null && !lastSelectedTile.isSelected) {
+                lastSelectedTile.ChangeColor(spawnedBlockDefaultColor);
+            }
+        }
+    }
+
+    void HandleSelectingBlocks(RaycastHit hit) {
         if (Input.GetMouseButtonDown(MouseButtons.LEFT) && !Input.GetKey(KeyCode.LeftShift)) {
             DeselectBlocks();
         }
@@ -152,8 +170,9 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         if (Input.GetMouseButtonUp(MouseButtons.LEFT) && !Input.GetKey(KeyCode.LeftAlt)) {
             DuplicateBlocks(hit);
         }
+    }
 
-
+    void HandleDeleteBlockSelection(RaycastHit hit) {
         if (Input.GetMouseButtonDown(MouseButtons.RIGHT)) {
             DeselectBlocks();
         }
@@ -238,17 +257,24 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     void DeselectBlocks() {
         selectedGameObjects.Clear();
         lastSelectedGameObjects.Clear();
-        gridTiles.ForEach(tile => { tile.ChangeColor(spawnedBlockDefaultColor); });
+        gridTiles.ForEach(tile => {
+            tile.ChangeColor(spawnedBlockDefaultColor);
+            tile.SetSelected(false);
+        });
     }
 
     void DeselectBlocksAndReselectPreviouslySelected() {
         selectedGameObjects.Clear();
-        gridTiles.ForEach(tile => { tile.ChangeColor(spawnedBlockDefaultColor); });
+        gridTiles.ForEach(tile => {
+            tile.ChangeColor(spawnedBlockDefaultColor);
+            tile.SetSelected(false);
+        });
 
         gridTiles.ForEach(tile => {
             lastSelectedGameObjects.ForEach(lastList => {
                 if (lastList.Contains(tile.realTile)) {
                     tile.ChangeColor(selectedColor);
+                    tile.SetSelected(true);
                     selectedGameObjects.Add(tile.realTile);
                 }
             });
@@ -261,6 +287,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         gridTiles.ForEach(tile => {
             if (selectedObjects.Contains(tile.realTile)) {
                 tile.ChangeColor(selectionColor);
+                tile.SetSelected(true);
                 selectedGameObjects.Add(tile.realTile);
             }
         });
@@ -379,6 +406,7 @@ public class GridTile {
     public GameObject realTile;
     public GameObject ghostTile;
     public GameObject wall_N, wall_E, wall_W, wall_S;
+    public bool isSelected;
     public Vector3 Position { get { return realTile.transform.position; } set { realTile.transform.position = value; ghostTile.transform.position = value; } }
     public bool IsEither(GameObject other) { return realTile == other || ghostTile == other; }
     public bool IsActive {
@@ -408,6 +436,9 @@ public class GridTile {
     public void ChangeColor(Color color) {
         propBlock.SetColor("_Color", color);
         rend.SetPropertyBlock(propBlock);
+    }
+    public void SetSelected(bool isSelected) {
+        this.isSelected = isSelected;
     }
 
     public void EnableWalls() {

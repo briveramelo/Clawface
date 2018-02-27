@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 using ModMan;
-using MEC;
 using System.Linq;
 using UnityEngine.UI;
 using PlayerLevelEditor;
 
-public class LevelDataManager : RoutineRunner {
+public class LevelDataManager : MonoBehaviour {
 
 	[SerializeField] private DataPersister dataPersister;
     [SerializeField] private LevelEditor levelEditor;
@@ -44,32 +43,26 @@ public class LevelDataManager : RoutineRunner {
 
     #region Load
     public void LoadSelectedLevel() {
-        playerLevelEditorGrid.ResetGrid();
-        Timing.RunCoroutine(DelayAction(()=> {
-            LoadProps();
-            LoadSpawns();
-            LoadTiles();
-            waveSystem.ResetToWave0();
-            playerLevelEditorGrid.ShowWalls();
-            spawnParent.ToggleAllChildren(false);
-            if (spawnParent.childCount>0) {
-                Transform firstChild = spawnParent.GetChild(0);
-                if (firstChild.name.Contains("Player")) {
-                    firstChild.gameObject.SetActive(true);
-                }
-                if (spawnParent.Find(GetWaveName(0))) {
-                    spawnParent.Find(GetWaveName(0)).gameObject.SetActive(true);
-                }
-            }
+        StartCoroutine(DelayLoad());
+    }
 
-        }), coroutineName);        
+    IEnumerator DelayLoad() {
+        yield return new WaitForEndOfFrame();
+        LoadProps();
+        LoadSpawnsAllOn();
+        LoadTiles();
+        LoadSpawnsToggledState();
+        waveSystem.ResetToWave0();
     }
 
     void LoadTiles() {
-                
+        playerLevelEditorGrid.ResetGrid();
         for (int i = 0; i < ActiveTileData.Count; i++) {
             TileData tileData = ActiveTileData[i];
-            List<LevelUnitStates> levelStates = tileData.levelStates;
+            List<LevelUnitStates> levelStates = new List<LevelUnitStates>();
+            foreach (LevelUnitStates levelUnitState in tileData.levelStates) {
+                levelStates.Add(levelUnitState);
+            }
             GridTile tile = playerLevelEditorGrid.GetTileAtPoint(tileData.position.AsVector);
             tile.IsActive = true;
             LevelUnit levelUnit = tile.realTile.GetComponent<LevelUnit>();
@@ -88,18 +81,8 @@ public class LevelDataManager : RoutineRunner {
             });
 
             tile.realTile.transform.SetParent(tileParent);
-            //levelUnit.DeRegisterFromEvents();
-            //for (int j = 0; j < levelStates.Count; j++) {
-            //    string eventName = Strings.Events.PLE_TEST_WAVE_ + j;
-            //    LevelUnitStates state = levelStates[j];
-            //    switch (state) {
-            //        case LevelUnitStates.cover: levelUnit.AddCoverStateEvent(eventName); break;
-            //        case LevelUnitStates.floor: levelUnit.AddFloorStateEvent(eventName); break;
-            //        case LevelUnitStates.pit: levelUnit.AddPitStateEvent(eventName); break;
-            //    }
-            //}
-            //levelUnit.RegisterToEvents();
         }
+        playerLevelEditorGrid.ShowWalls();
     }
 
     void LoadProps() {
@@ -120,7 +103,7 @@ public class LevelDataManager : RoutineRunner {
         propsMenu.ResetMenu(propNames);
     }
 
-    void LoadSpawns() {
+    void LoadSpawnsAllOn() {
         List<string> spawnNames = new List<string>();
         List<GameObject> spawnObjects = Resources.LoadAll<GameObject>(Strings.Editor.SPAWN_OBJECTS_PATH).ToList();
         List<PLESpawn> pleSpawns = spawnObjects.Select(spawn => spawn.GetComponent<PLESpawn>()).ToList();
@@ -151,6 +134,19 @@ public class LevelDataManager : RoutineRunner {
             SpawnMenu.playerSpawnInstance = keiraSpawnTransform.gameObject;
         }
         spawnMenu.ResetMenu(spawnNames);
+    }
+
+    void LoadSpawnsToggledState() {
+        spawnParent.ToggleAllChildren(false);
+        if (spawnParent.childCount > 0) {
+            Transform firstChild = spawnParent.GetChild(0);
+            if (firstChild.name.Contains("Player")) {
+                firstChild.gameObject.SetActive(true);
+            }
+            if (spawnParent.Find(GetWaveName(0))) {
+                spawnParent.Find(GetWaveName(0)).gameObject.SetActive(true);
+            }
+        }
     }
     #endregion
 

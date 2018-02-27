@@ -20,15 +20,14 @@ public class PLELevelSelectMenu : Menu {
     [SerializeField] private LevelDataManager levelDataManager;
     [SerializeField] private GridLayoutGroup gridLayoutGroup;
 
-    private const int width = 600;
-    private const int height = 400;
-    private static readonly Vector2 imageDimensions = new Vector2(width, height);
+    //private const int width = 600;
+    //private const int height = 400;
+    //private static readonly Vector2 imageDimensions = new Vector2(width, height);
     private DataSave ActiveDataSave { get { return DataPersister.ActiveDataSave; } }
     private List<LevelData> Levels { get { return ActiveDataSave.levelDatas; } }
     private List<LevelUI> levelUIs= new List<LevelUI>();
-    private RectTransform LevelContentRect { get { return levelContentParent as RectTransform; } }
-
-    Coroutine handle;
+    private int selectedLevelIndex = 0;
+    
     public void OnSearchChange() {
         gridLayoutGroup.enabled = false;
         string searchTerm = searchField.text.ToLowerInvariant();
@@ -46,13 +45,14 @@ public class PLELevelSelectMenu : Menu {
     }
 
     public void LoadLevel() {
+        ActiveDataSave.SelectedIndex = selectedLevelIndex;
         levelEditor.SwitchToMenu(PLEMenu.FLOOR);
         levelDataManager.LoadSelectedLevel();
     }
 
-    public void SelectLevel(int levelIndex) {        
-        ActiveDataSave.SelectedIndex = levelIndex;
-        LevelData selectedLevel = ActiveDataSave.ActiveLevelData;
+    public void SelectLevel(int levelIndex) {
+        selectedLevelIndex = levelIndex;
+        LevelData selectedLevel = ActiveDataSave.levelDatas[levelIndex];
         levelNameText.text = selectedLevel.name;
         levelDescriptionText.text = selectedLevel.description;
         levelImage.sprite = Sprite.Create(selectedLevel.Snapshot, new Rect(Vector2.zero, selectedLevel.size.AsVector), Vector2.one * .5f);

@@ -10,10 +10,16 @@ public class DataPersister : MonoBehaviour {
     public static DataSave ActiveDataSave = new DataSave();
     string PathDirectory { get { return Application.dataPath + "/Saves";} }
     string FilePath { get { return PathDirectory + "/savefile.dat"; } }
+
     public DataSave dataSave;
+
+    #region Unity Lifecyle
     private void Awake() {
         Load();
     }
+    #endregion
+
+    #region Public Interface
     public void Load() {
         ActiveDataSave = null;
         if (!Directory.Exists(PathDirectory)) {
@@ -39,16 +45,6 @@ public class DataPersister : MonoBehaviour {
         dataSave = ActiveDataSave;
     }
 
-    void ClearEmptyLevels() {
-        Predicate<LevelData> containsLevel = level => !string.IsNullOrEmpty(level.name);
-        Predicate<LevelData> containsEmptyLevel = level => string.IsNullOrEmpty(level.name);
-        if (ActiveDataSave.levelDatas.Exists(containsLevel)) {
-            while (ActiveDataSave.levelDatas.Exists(containsEmptyLevel)) {
-                ActiveDataSave.levelDatas.Remove(ActiveDataSave.levelDatas.Find(containsEmptyLevel));
-            }
-        }
-    }
-
     public void DeleteSelectedLevel() {
         ActiveDataSave.DeleteSelectedLevel();
         ActiveDataSave.AddAndSelectNewLevel();
@@ -58,13 +54,26 @@ public class DataPersister : MonoBehaviour {
         ClearEmptyLevels();
         Save();
     }
+    #endregion
 
+    #region Private Interface
     void Save() {
         BinaryFormatter bf = new BinaryFormatter();
         FileStream fileStream = File.Create(FilePath);
         bf.Serialize(fileStream, new DataSave(ActiveDataSave));
         fileStream.Close();
     }
+
+    void ClearEmptyLevels() {
+        Predicate<LevelData> containsLevel = level => !level.IsEmpty;
+        Predicate<LevelData> containsEmptyLevel = level => level.IsEmpty;
+        if (ActiveDataSave.levelDatas.Exists(containsLevel)) {
+            while (ActiveDataSave.levelDatas.Exists(containsEmptyLevel)) {
+                ActiveDataSave.levelDatas.Remove(ActiveDataSave.levelDatas.Find(containsEmptyLevel));
+            }
+        }
+    }
+    #endregion
 }
 
 #region Memory Structures
@@ -118,6 +127,7 @@ public class LevelData {
         snapShot = new Texture2D((int)dimensions.x, (int)dimensions.y);
         snapShot.LoadImage(imageData);
     }
+    public bool IsEmpty { get { return string.IsNullOrEmpty(name); } }
 
     [NonSerialized] Texture2D snapShot;
     public List<WaveData> waveData = new List<WaveData>();

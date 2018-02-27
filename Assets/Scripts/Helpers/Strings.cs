@@ -41,6 +41,7 @@
 
     public class Layers
     {
+        public const string UI = "UI";
         public const string GROUND = "Ground";
         public const string MODMAN = "ModMan";
         public const string OBSTACLE = "Obstacle";
