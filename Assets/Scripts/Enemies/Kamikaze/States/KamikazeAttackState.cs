@@ -45,7 +45,7 @@ public class KamikazeAttackState : AIState {
         //GameObject explosionSphere = ObjectPool.Instance.GetObject(PoolObjectType.KamikazeExplosionSphere);
         GameObject explosionWarning = ObjectPool.Instance.GetObject(PoolObjectType.VFXKamikazeExplosionWarning);
         if (explosionWarning) {
-            explosionWarning.transform.position = controller.transform.position;
+            explosionWarning.transform.position = controller.transform.position + new Vector3(0.0f, 0.25f, 0.0f);
             //explosionSphere.GetComponent<ExplosionTrigger>().Initialize(blastRadius,scaleRate);
         }
 

@@ -152,8 +152,8 @@ MonoBehaviour:
     closeEnoughToAttackDistance: 3
     animationAttackSpeed: 1.5
     trailRendererTime: 4
-    trailRendererWidth: 1
-    colliderGenerationTime: 0.01
+    trailRendererWidth: 2
+    colliderGenerationTime: 0.05
     acidTriggerLife: 4
   kamikazeStats:
     health: 12
@@ -168,8 +168,13 @@ MonoBehaviour:
     eatHealth: 1
     stunnedTime: 3.5
     closeEnoughToAttackDistance: 2.5
+<<<<<<< HEAD
+    selfDestructTime: 1
+    blastRadius: 14
+=======
     selfDestructTime: 0.75
     blastRadius: 30
+>>>>>>> refs/remotes/origin/Airlock
   kamikazePulserStats:
     health: 12
     maxHealth: 12
@@ -200,7 +205,11 @@ MonoBehaviour:
     eatHealth: 20
     stunnedTime: 7
     closeEnoughToAttackDistance: 10
+<<<<<<< HEAD
+    spawnRate: 0
+=======
     spawnRate: 1
+>>>>>>> refs/remotes/origin/Airlock
     kamikazeSpawnProbability: 0.46
     kamikazePulserSpawnProbability: 0.264
   bouncerStats:
