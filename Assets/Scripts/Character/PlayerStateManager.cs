@@ -21,7 +21,9 @@ public class PlayerStateManager : RoutineRunner {
     [SerializeField]
     private DashState dashState;
     [SerializeField]
-    private float dashCoolDown;    
+    private float dashCoolDown;
+    [SerializeField]
+    private float eatCoolDown;
 
     [SerializeField] private EatingState eatingState;
     [SerializeField] private SphereCollider eatCollider;
@@ -34,6 +36,7 @@ public class PlayerStateManager : RoutineRunner {
     private IPlayerState movementState;
     private List<IPlayerState> playerStates;
     private bool canDash = true;
+    private bool canEat = true;
     private bool stateChanged;
     private bool playerCanMove = true;
     private bool isTutorialDone;
@@ -69,7 +72,10 @@ public class PlayerStateManager : RoutineRunner {
         //for input blocking 
         EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_COMPLETED, BlockInput);
         EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_KILLED, BlockInput);
+        EventSystem.Instance.RegisterEvent(Strings.Events.FINISHED_EATING, FinishedEat);
     }
+
+    
 
     // Update is called once per frame
     void Update()
@@ -90,14 +96,11 @@ public class PlayerStateManager : RoutineRunner {
                 StartCoroutine(WaitForDashCoolDown());
             }
             else if (InputManager.Instance.QueryAction(Strings.Input.Actions.EAT, ButtonMode.DOWN) && 
-                !playerStates.Contains(dashState) && !playerStates.Contains(eatingState))
+                !playerStates.Contains(dashState) && !playerStates.Contains(eatingState) && canEat)
             {
-                ScoreManager.Instance.ResetCombo();
-
-                if (CheckForEatableEnemy())
-                {
-                    SwitchState(eatingState);
-                }
+                CheckForEatableEnemy();
+                SwitchState(eatingState);
+                canEat = false;
             }
 
             playerStates.ForEach(state => state.StateUpdate());
@@ -165,6 +168,7 @@ public class PlayerStateManager : RoutineRunner {
         {
             EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_COMPLETED, BlockInput);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_KILLED, BlockInput);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.FINISHED_EATING, FinishedEat);
         }
         
     }
@@ -293,6 +297,18 @@ public class PlayerStateManager : RoutineRunner {
         canDash = true;        
     }
 
+    private IEnumerator WaitForEatCoolDown()
+    {
+        while (!stateVariables.stateFinished)
+        {
+            yield return null;
+        }
+        yield return new WaitForSeconds(eatCoolDown);
+        canEat = true;
+        EventSystem.Instance.TriggerEvent(Strings.Events.ACTIVATE_MOD);
+    }
+
+
     private bool CheckForEatableEnemy()
     {
         GameObject potentialEatableEnemy = GetClosestEnemy();
@@ -335,6 +351,11 @@ public class PlayerStateManager : RoutineRunner {
             }
         }
         return null;
+    }
+
+    private void FinishedEat(object[] parameters)
+    {
+        StartCoroutine(WaitForEatCoolDown());
     }
     #endregion
 
