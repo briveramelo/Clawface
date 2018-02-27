@@ -41,6 +41,7 @@
 
     public class Layers
     {
+        public const string UI = "UI";
         public const string GROUND = "Ground";
         public const string MODMAN = "ModMan";
         public const string OBSTACLE = "Obstacle";
@@ -99,6 +100,7 @@
         public const string WAVE_PLE_MENU = "WaveMenu";
         public const string HELP_PLE_MENU = "HelpMenu";
         public const string TEST_PLE_MENU = "TestMenu";
+        public const string LEVELSELECT_PLE_MENU = "PLELevelSelectMenu";
     }
 
     public class Input

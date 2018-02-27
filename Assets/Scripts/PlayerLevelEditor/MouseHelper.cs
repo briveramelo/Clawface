@@ -13,9 +13,9 @@ public class MouseHelper : MonoBehaviour {
     public static PLEProp currentProp;
     public static Vector3 currentMouseWorldPosition;
     public static RaycastHit? raycastHit;
-    public static RaycastHit raycastHitTile;
-    public static bool hitItem;
-    public static bool hitTile;
+    public static RaycastHit? raycastHitTile;
+    public static bool HitItem { get; private set; }
+    public static bool HitTile { get; private set; }
     #endregion
 
     #region Private Fields
@@ -36,29 +36,22 @@ public class MouseHelper : MonoBehaviour {
     {
         Vector3 mousePos = Input.mousePosition.NoZ();
         r = Camera.main.ScreenPointToRay(mousePos);
-        
-        RaycastItems(r);
-        RaycastGround(r);
+        bool hitUI = UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject();
+        RaycastItems(r, hitUI);
+        RaycastGround(r, hitUI);
     }    
 
-    void RaycastItems(Ray r) {
+    void RaycastItems(Ray r, bool hitUI) {
         RaycastHit[] hits = Physics.RaycastAll(r, 1000.0f);
-        hitItem = hits.Length>0;
-        float closestDistance = 10000f;
-        raycastHit = null;
-        
-        for (int i = 0; i < hits.Length; i++) {
-            RaycastHit hit = hits[i];
-            string hitName = hit.transform.name;
-            if (!hitName.Contains(Strings.BLOCKINGOBJECT) && !hitName.Contains("Wall")) {
-                float distance = Vector3.Distance(hit.transform.position, Camera.main.transform.position);
-                if (distance< closestDistance) {
-                    closestDistance = distance;
-                    raycastHit = hit;
-                }
-            }
+        HitItem = hits.Length>0;
+        if (hitUI) {
+            HitItem = false;
         }
-        if (hitItem) {
+        System.Predicate<string> nameCheck = hitName=>!hitName.Contains(Strings.BLOCKINGOBJECT) && !hitName.Contains("Wall");
+        raycastHit = HitItem ? GetClosestHit(hits, nameCheck) : null;
+
+        
+        if (HitItem) {
             if (raycastHit==null) {
                 raycastHit = hits[0];
             }
@@ -74,15 +67,46 @@ public class MouseHelper : MonoBehaviour {
         }
     }
 
-    void RaycastGround(Ray r) {
-        hitTile = Physics.Raycast(r, out raycastHitTile, 1000.0f, groundMask);
-        if (hitTile) {
-            currentBlockUnit = raycastHitTile.transform.gameObject.GetComponent<PLEBlockUnit>();
+    void RaycastGround(Ray r, bool hitUI) {
+        RaycastHit[] hits = Physics.RaycastAll(r, 1000.0f, groundOrObstacleMask);
+        HitTile = hits.Length > 0;
+        if (hitUI) {
+            HitTile = false;
+        }
+        System.Predicate<string> nameCheck = hitName => hitName.Contains("RealBlock");
+        raycastHitTile = HitTile ? GetClosestHit(hits, nameCheck) : null;
+
+        if (HitTile) {
+            if (raycastHitTile == null) {
+                raycastHitTile = hits[0];
+            }
+            currentBlockUnit = raycastHitTile.Value.transform.GetComponent<PLEBlockUnit>();
+            if (currentBlockUnit==null) {
+                print("currentBlockUnit is null!");
+            }
         }
         else {
             currentBlockUnit = null;
         }
     }
+
+    RaycastHit? GetClosestHit(RaycastHit[] hits, System.Predicate<string> hitNameChecks) {
+        float closestDistance = 10000f;
+        RaycastHit? thisHit = null;
+        for (int i = 0; i < hits.Length; i++) {
+            RaycastHit hit = hits[i];
+            string hitName = hit.transform.name;
+            
+            if (hitNameChecks(hitName)) {
+                float distance = Vector3.Distance(hit.transform.position, Camera.main.transform.position);
+                if (distance < closestDistance) {
+                    closestDistance = distance;
+                    thisHit = hit;
+                }
+            }
+        }
+        return thisHit;
+    }    
 
     #endregion 
 
