@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[ExecuteInEditMode]
 public class cirCleTimer : MonoBehaviour {
 
     public Vector3 speed;
