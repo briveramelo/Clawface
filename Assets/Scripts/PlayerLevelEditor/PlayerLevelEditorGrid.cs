@@ -27,7 +27,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     [SerializeField] GameObject realLevel;
     [SerializeField] GameObject tileParent;
     [SerializeField] GameObject wallPrefab;
-    private int levelSize = 5;
+    [SerializeField] private int levelSize = 5;
     [SerializeField] private Color hoverColor = Color.blue;
     [SerializeField] private Color selectedColor = Color.blue;
     [SerializeField] private Color deletePreviewColor = Color.red;
@@ -61,17 +61,15 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
 
         if (MouseHelper.hitItem) {
             RaycastHit hit = MouseHelper.raycastHit.Value;
-            if (Input.GetMouseButtonDown(MouseButtons.LEFT) || Input.GetMouseButtonDown(MouseButtons.RIGHT)) {                
+
+            if (Input.GetMouseButtonDown(MouseButtons.LEFT) || Input.GetMouseButtonDown(MouseButtons.RIGHT)) {
                 OnClickObject = hit.transform.gameObject;
             }
 
-            if (CurrentEditorMenu == PLEMenu.PROPS) {
-                //DrawPreviewBlock(hit);
+            if (!Input.GetKey(KeyCode.LeftAlt)) {
+                HandleWireSelection(hit);
             }
-            else if (CurrentEditorMenu == PLEMenu.FLOOR) {
-                DrawPreviewBlock(hit);
-                HandleBlockInteractions(hit);
-            }
+            HandleBlockInteractions(hit);
         }
     }
 
@@ -88,7 +86,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         InitGridTiles();
     }    
 
-    private void DrawPreviewBlock(RaycastHit hit) {
+    private void HandleWireSelection(RaycastHit hit) {
         #region clean up lastHoveredObjects
 
         foreach (GameObject GO in lastHoveredObjects) {
@@ -120,9 +118,9 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         #region update lastHoveredObjects
 
         if (Input.GetMouseButton(MouseButtons.LEFT)) {
-            List<GameObject> selectedObjectse = SelectObjectsAlgorithm(hit);
+            List<GameObject> selectedObjects = SelectObjectsAlgorithm(hit);
 
-            foreach (GameObject selectedObject in selectedObjectse) {
+            foreach (GameObject selectedObject in selectedObjects) {
                 PreviewCubeController ObjectPCC = selectedObject.GetComponent<PreviewCubeController>();
 
                 if (ObjectPCC) {
@@ -148,8 +146,10 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
             DeselectBlocksAndReselectPreviouslySelected();
             SelectBlocks(hit, selectedColor);
         }
-        if (Input.GetMouseButtonUp(MouseButtons.LEFT) && !Input.GetKey(KeyCode.LeftAlt)) {
+        if (Input.GetMouseButtonUp(MouseButtons.LEFT) && Input.GetKey(KeyCode.LeftShift) && !Input.GetKey(KeyCode.LeftAlt)) {
             AddToLastSelectedObjects(hit);
+        }
+        if (Input.GetMouseButtonUp(MouseButtons.LEFT) && !Input.GetKey(KeyCode.LeftAlt)) {
             DuplicateBlocks(hit);
         }
 
