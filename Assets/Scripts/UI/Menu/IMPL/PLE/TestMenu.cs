@@ -120,6 +120,7 @@ public class TestMenu : Menu
 
         playerSpawnerInstance = Instantiate(playerSpawnerPrefab);
         playerSpawnerInstance.transform.position = SpawnMenu.playerSpawnInstance.transform.position;
+        EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_STARTED);
     }
 
 
@@ -151,6 +152,7 @@ public class TestMenu : Menu
             SpawnMenu.playerSpawnInstance.SetActive(true);
         }
 
+        EventSystem.Instance.TriggerEvent(Strings.Events.PLE_TEST_END);
     }
 
     #endregion
