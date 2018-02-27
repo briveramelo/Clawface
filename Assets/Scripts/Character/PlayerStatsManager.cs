@@ -60,7 +60,12 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
 
     public void TakeDamage(Damager damager)
     {
-        if (dashState.CheckForIFrames()) return;
+        if (dashState.CheckForIFrames())
+        {
+            ScoreManager.Instance.AddToCombo();
+            return;
+        }
+
 
         float healthFraction = stats.GetHealthFraction();
 
