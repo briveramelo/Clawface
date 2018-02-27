@@ -121,7 +121,7 @@ public class LevelDataManager : MonoBehaviour {
                 PLESpawn pleSpawn = child.GetComponent<PLESpawn>();
                 spawnedPLEs.Add(pleSpawn);
                 pleSpawn.spawnCount = spawnData.count;
-                pleSpawn.spawnType = spawnData.SpawnType;
+                pleSpawn.spawnType = (SpawnType)spawnData.spawnType;
                 child.position = spawnData.position.AsVector;
             }
         }        

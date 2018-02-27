@@ -14,14 +14,14 @@ public class PLESpawn : PLEItem {
     #region Public Fields
     public float spawnFrequency = 0.5f;
     public int totalSpawnAmount = 2;
-    public PoolObjectType spawnType;
+    public SpawnType spawnType;
     public int spawnCount;
 
     #endregion
 
     #region Unity Lifecycle
 
-    private void Awake()
+    private void Start()
     {
         currentSpawnAmount = totalSpawnAmount;
     }
@@ -69,7 +69,7 @@ public class PLESpawn : PLEItem {
     private void SpawnEnemy()
     {
         Vector3 spawnPos = new Vector3(0, transform.position.y + spawnHeightOffset, 0);
-        GameObject newSpawnObj = ObjectPool.Instance.GetObject(spawnType);
+        GameObject newSpawnObj = ObjectPool.Instance.GetObject((PoolObjectType)spawnType);
         
         if(newSpawnObj)
         {
