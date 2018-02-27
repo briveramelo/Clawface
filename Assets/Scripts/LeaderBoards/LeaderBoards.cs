@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(AllTimeLeaderBoard), typeof(WeeklyLeaderBoard))]
+[RequireComponent(typeof(AllTimeLeaderBoard), typeof(WeeklyLeaderBoard), typeof(DailyLeaderBoard))]
 public class LeaderBoards : Singleton<LeaderBoards> {
 
     public enum LeaderBoardType
