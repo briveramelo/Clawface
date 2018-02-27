@@ -75,7 +75,9 @@ public class DataSave {
     public DataSave(DataSave dataSave) {
         this.levelDatas = dataSave.levelDatas;
     }
+    #region Serialized Data
     public List<LevelData> levelDatas = new List<LevelData>();
+    #endregion
 
     int selectedIndex = 0;
 

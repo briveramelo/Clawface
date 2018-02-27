@@ -10,15 +10,15 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
 
     private GameObject previewBlock = null;
     private GameObject spawnedBlock = null;
-    private Color spawnddBlockDefaultColor;
+    private Color spawnedBlockDefaultColor;
 
     private GameObject OnClickObject = null;
-    private List<GameObject> selectedObjects = new List<GameObject>();
+    private List<GameObject> selectedGameObjects = new List<GameObject>();
 
     private bool inputGuard = false;
 
     private List<GameObject> lastHoveredObjects = new List<GameObject>();
-    private List<List<GameObject>> lastSelectedGameObjects = new List<List<GameObject>>();
+    public List<List<GameObject>> lastSelectedGameObjects = new List<List<GameObject>>();
     #endregion
 
     #region Unity Serialized Fields
@@ -83,7 +83,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         previewBlock = Resources.Load(Strings.Editor.RESOURCE_PATH + Strings.Editor.BASIC_LE_BLOCK) as GameObject;
         spawnedBlock = Resources.Load(Strings.Editor.RESOURCE_PATH + Strings.Editor.BASIC_LVL_BLOCK) as GameObject;
 
-        spawnddBlockDefaultColor = spawnedBlock.GetComponent<Renderer>().sharedMaterial.color;
+        spawnedBlockDefaultColor = spawnedBlock.GetComponent<Renderer>().sharedMaterial.color;
 
         InitGridTiles();
     }    
@@ -120,13 +120,13 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         #region update lastHoveredObjects
 
         if (Input.GetMouseButton(MouseButtons.LEFT)) {
-            List<GameObject> Objects = SelectObjectsAlgorithm(hit);
+            List<GameObject> selectedObjectse = SelectObjectsAlgorithm(hit);
 
-            foreach (GameObject Object in Objects) {
-                PreviewCubeController ObjectPCC = Object.GetComponent<PreviewCubeController>();
+            foreach (GameObject selectedObject in selectedObjectse) {
+                PreviewCubeController ObjectPCC = selectedObject.GetComponent<PreviewCubeController>();
 
                 if (ObjectPCC) {
-                    lastHoveredObjects.Add(Object);
+                    lastHoveredObjects.Add(selectedObject);
                     ObjectPCC.SetColor(hoverColor);
                 }
             }
@@ -148,10 +148,11 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
             DeselectBlocksAndReselectPreviouslySelected();
             SelectBlocks(hit, selectedColor);
         }
-
         if (Input.GetMouseButtonUp(MouseButtons.LEFT) && !Input.GetKey(KeyCode.LeftAlt)) {
+            AddToLastSelectedObjects(hit);
             DuplicateBlocks(hit);
         }
+
 
         if (Input.GetMouseButtonDown(MouseButtons.RIGHT)) {
             DeselectBlocks();
@@ -201,11 +202,11 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         DuplicateBlocks(Objects);
     }
 
-    void DuplicateBlocks(List<GameObject> Objects) {
-        for (int i = 0; i < Objects.Count; i++) {
+    void DuplicateBlocks(List<GameObject> selectedObjects) {
+        for (int i = 0; i < selectedObjects.Count; i++) {
             for (int j = 0; j < gridTiles.Count; j++) {
                 GridTile tile = gridTiles[j];
-                if (tile.IsEither(Objects[i])) {
+                if (tile.IsEither(selectedObjects[i])) {
                     tile.IsActive = true;
                     PLEBlockUnit blockUnit = tile.realTile.GetComponent<PLEBlockUnit>();
                     blockUnit.SetOccupation(false);
@@ -220,11 +221,11 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         DeleteBlocks(Objects);
     }
 
-    void DeleteBlocks(List<GameObject> Objects) {
-        for (int i = 0; i < Objects.Count; i++) {
+    void DeleteBlocks(List<GameObject> selectedObjects) {
+        for (int i = 0; i < selectedObjects.Count; i++) {
             for (int j = 0; j < gridTiles.Count; j++) {
                 GridTile tile = gridTiles[j];
-                if (tile.IsEither(Objects[i])) {
+                if (tile.IsEither(selectedObjects[i])) {
                     tile.IsActive = false;
                     PLEBlockUnit blockUnit = tile.realTile.GetComponent<PLEBlockUnit>();
                     blockUnit.ClearItems();
@@ -235,50 +236,53 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     }
 
     void DeselectBlocks() {
-        selectedObjects.Clear();
+        selectedGameObjects.Clear();
         lastSelectedGameObjects.Clear();
-        gridTiles.ForEach(tile => { tile.ChangeColor(spawnddBlockDefaultColor); });
+        gridTiles.ForEach(tile => { tile.ChangeColor(spawnedBlockDefaultColor); });
     }
 
     void DeselectBlocksAndReselectPreviouslySelected() {
-        selectedObjects.Clear();
-        gridTiles.ForEach(tile => { tile.ChangeColor(spawnddBlockDefaultColor); });
-
+        selectedGameObjects.Clear();
+        gridTiles.ForEach(tile => { tile.ChangeColor(spawnedBlockDefaultColor); });
 
         gridTiles.ForEach(tile => {
             lastSelectedGameObjects.ForEach(lastList => {
                 if (lastList.Contains(tile.realTile)) {
                     tile.ChangeColor(selectedColor);
-                    selectedObjects.Add(tile.realTile);
+                    selectedGameObjects.Add(tile.realTile);
                 }
             });
         });
     }
 
     void SelectBlocks(RaycastHit hit, Color selectionColor) {
-        List<GameObject> Objects = SelectObjectsAlgorithm(hit);
+        List<GameObject> selectedObjects = SelectObjectsAlgorithm(hit);
+
         gridTiles.ForEach(tile => {
-            if (Objects.Contains(tile.realTile)) {
+            if (selectedObjects.Contains(tile.realTile)) {
                 tile.ChangeColor(selectionColor);
-                selectedObjects.Add(tile.realTile);
+                selectedGameObjects.Add(tile.realTile);
             }
         });
+    }
 
-        for (int i = lastSelectedGameObjects.Count-1; i >=0; i--) {
-            for (int j = Objects.Count-1; j >=0 ; j--) {
-                if (lastSelectedGameObjects[i].Contains(Objects[j])) {
-                    Objects.Remove(Objects[j]);
+    void AddToLastSelectedObjects(RaycastHit hit) {
+        List<GameObject> selectedObjects = SelectObjectsAlgorithm(hit);
+        for (int i = lastSelectedGameObjects.Count - 1; i >= 0; i--) {
+            for (int j = selectedObjects.Count - 1; j >= 0; j--) {
+                if (lastSelectedGameObjects[i].Contains(selectedObjects[j])) {
+                    selectedObjects.Remove(selectedObjects[j]);
                 }
             }
         }
-        lastSelectedGameObjects.Add(Objects);
+        lastSelectedGameObjects.Add(selectedObjects);
     }
 
     List<GameObject> SelectObjectsAlgorithm(RaycastHit hit) {
-        List<GameObject> Objects = new List<GameObject>();
+        List<GameObject> selectedObjects = new List<GameObject>();
 
         if (OnClickObject == null) {
-            return Objects;
+            return selectedObjects;
         }
         //if (Vector3.Distance(OnClickObject.transform.position, hit.transform.position)<2.5f) {
         //    if (!Objects.Contains(OnClickObject)) {
@@ -300,19 +304,19 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         var HitsInX = Physics.BoxCastAll(new Vector3(xMin, y, zMin), new Vector3(1, 40, 1), Vector3.right, Quaternion.identity, xMax - xMin);
         
         foreach (var itemX in HitsInX) {
-            if(!Objects.Contains(itemX.transform.gameObject))
-                Objects.Add(itemX.transform.gameObject);
+            if(!selectedObjects.Contains(itemX.transform.gameObject))
+                selectedObjects.Add(itemX.transform.gameObject);
 
             var HitsInZ = Physics.BoxCastAll(itemX.transform.position , new Vector3(1, 40, 1), Vector3.forward, Quaternion.identity, zMax - zMin);
 
             foreach (var itemZ in HitsInZ) {
-                if (!Objects.Contains(itemZ.transform.gameObject)) {
-                    Objects.Add(itemZ.transform.gameObject);
+                if (!selectedObjects.Contains(itemZ.transform.gameObject)) {
+                    selectedObjects.Add(itemZ.transform.gameObject);
                 }
             }
         }
 
-        return Objects;
+        return selectedObjects;
     }
 
     #endregion
@@ -329,7 +333,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         DeselectBlocks();
     }
 
-    public List<GameObject> GetSelectedBlocks() { return selectedObjects; }    
+    public List<GameObject> GetSelectedBlocks() { return selectedGameObjects; }    
 
     public void SetGridVisiblity(bool show) {
         displaying = show;
