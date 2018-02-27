@@ -7,8 +7,9 @@ using System;
 public abstract class GenericSteamLeaderBoard : MonoBehaviour {
     
     #region Private Variables
-    //We store date as diff variables in the array dd,mm,yyyy and time. Based on the type of leaderboard, we then set the appropriate values as the score
-    protected const int MAX_DETAILS = 4;    
+    //We store the actual score value in the details array
+    protected const int MAX_DETAILS = 1;    
+    protected readonly DateTime epochStart = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
     public delegate void ResultsCallBack(List<LeaderBoardVars> results);
     private CallResult<LeaderboardFindResult_t> leaderBoardFindResult;
     private CallResult<LeaderboardScoresDownloaded_t> leaderBoardScoresDownloaded;
@@ -64,7 +65,7 @@ public abstract class GenericSteamLeaderBoard : MonoBehaviour {
         bool result = false;
         if (SteamManager.Initialized && IsReady)
         {
-            int[] details = new int[MAX_DETAILS];
+            int[] details;
             score = GetScoreAndDetails(score, out details);
             SteamUserStats.UploadLeaderboardScore(leaderBoard, ELeaderboardUploadScoreMethod.k_ELeaderboardUploadScoreMethodKeepBest, score, details, MAX_DETAILS);
             result = true;
@@ -122,6 +123,11 @@ public abstract class GenericSteamLeaderBoard : MonoBehaviour {
         callbackAction(results);
     }
 
+    protected long GetSecondsSinceEpoch()
+    {
+        return (long)(DateTime.UtcNow - epochStart).TotalSeconds;
+    }
+
     //Custom implementation based on the type of leader board
     protected abstract LeaderBoardVars ExtractLeaderBoardVars(LeaderboardEntry_t entry, int[] details);
 
@@ -137,10 +143,7 @@ public abstract class GenericSteamLeaderBoard : MonoBehaviour {
     {
         public string userID;
         public int score;
-        public int day;
-        public int month;
-        public int year;
-        public int time;
+        public int otherInfo; //Use for sorting (if required)
     }
     #endregion
 

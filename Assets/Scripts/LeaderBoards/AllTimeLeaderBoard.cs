@@ -5,22 +5,24 @@ using UnityEngine;
 
 public class AllTimeLeaderBoard : GenericSteamLeaderBoard {
 
+    #region Private variables
     private static string LEADER_BOARD_NAME = "ALL_TIME_LEADERBOARD";
+    #endregion
 
+    #region Unity lifecycle
     // Use this for initialization
     void Start () {
         Initialize(LEADER_BOARD_NAME);
 	}
+    #endregion
 
+    #region protected methods
     protected override LeaderBoardVars ExtractLeaderBoardVars(LeaderboardEntry_t entry, int[] details)
     {
         LeaderBoardVars leaderBoardVars;
         leaderBoardVars.score = entry.m_nScore;
         leaderBoardVars.userID = SteamFriends.GetFriendPersonaName(entry.m_steamIDUser);
-        leaderBoardVars.day = details[0];
-        leaderBoardVars.month = details[1];
-        leaderBoardVars.year = details[2];
-        leaderBoardVars.time = details[3];
+        leaderBoardVars.otherInfo = details[0];
         return leaderBoardVars;
     }
 
@@ -36,4 +38,5 @@ public class AllTimeLeaderBoard : GenericSteamLeaderBoard {
     {
         return results;
     }
+    #endregion
 }

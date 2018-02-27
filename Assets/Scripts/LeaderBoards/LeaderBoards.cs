@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(AllTimeLeaderBoard))]
+[RequireComponent(typeof(AllTimeLeaderBoard), typeof(WeeklyLeaderBoard))]
 public class LeaderBoards : Singleton<LeaderBoards> {
 
     public enum LeaderBoardType
@@ -15,17 +15,16 @@ public class LeaderBoards : Singleton<LeaderBoards> {
 
     #region Private Variables
     private AllTimeLeaderBoard allTimeLeaderBoard;
+    private WeeklyLeaderBoard weeklyLeaderBoard;
+    private DailyLeaderBoard dailyLeaderBoard;
     #endregion
 
     #region Unity Lifecycle
     // Use this for initialization
     void Start () {
         allTimeLeaderBoard = GetComponent<AllTimeLeaderBoard>();
-    }
-	
-	// Update is called once per frame
-	void Update () {
-       
+        weeklyLeaderBoard = GetComponent<WeeklyLeaderBoard>();
+        dailyLeaderBoard = GetComponent<DailyLeaderBoard>();
     }
     #endregion
 
@@ -39,8 +38,10 @@ public class LeaderBoards : Singleton<LeaderBoards> {
                 result = allTimeLeaderBoard.FetchLeaderBoardData(callBackFunction, numberOfEntries);
                 break;
             case LeaderBoardType.WEEKLY:
+                result = weeklyLeaderBoard.FetchLeaderBoardData(callBackFunction, numberOfEntries);
                 break;
             case LeaderBoardType.DAILY:
+                result = dailyLeaderBoard.FetchLeaderBoardData(callBackFunction, numberOfEntries);
                 break;
             default:
                 break;
@@ -52,6 +53,8 @@ public class LeaderBoards : Singleton<LeaderBoards> {
     {
         bool result = false;
         result = allTimeLeaderBoard.UpdateLeaderBoard(score);
+        result = result && weeklyLeaderBoard.UpdateLeaderBoard(score);
+        result = result && dailyLeaderBoard.UpdateLeaderBoard(score);
         return result;
     }
     #endregion

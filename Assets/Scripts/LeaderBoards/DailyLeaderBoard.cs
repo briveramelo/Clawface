@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using Steamworks;
 using UnityEngine;
 
-public class WeeklyLeaderBoard : GenericSteamLeaderBoard {
+public class DailyLeaderBoard : GenericSteamLeaderBoard
+{
 
     #region private variables
-    private static string LEADER_BOARD_NAME = "WEEKLY_LEADERBOARD";
-    private const int SECONDS_IN_A_WEEK = 60 * 60 * 24 * 7;
+    private static string LEADER_BOARD_NAME = "DAILY_LEADERBOARD";
+    private const int SECONDS_IN_A_DAY = 60 * 60 * 24;
     #endregion
 
     #region unity lifecycle
@@ -19,39 +20,36 @@ public class WeeklyLeaderBoard : GenericSteamLeaderBoard {
     #endregion
 
     #region protected methods
-    //Extract the actual score from the composite score
     protected override LeaderBoardVars ExtractLeaderBoardVars(LeaderboardEntry_t entry, int[] details)
     {
         LeaderBoardVars leaderBoardVars;
-        int weekNumber = details[0];
+        int dayNumber = details[0];
         string savedScoreString = entry.m_nScore.ToString();
-        savedScoreString = savedScoreString.Substring(weekNumber.ToString().Length);
+        savedScoreString = savedScoreString.Substring(dayNumber.ToString().Length);
         int actualScore = int.Parse(savedScoreString);
         leaderBoardVars.score = actualScore;
         leaderBoardVars.userID = SteamFriends.GetFriendPersonaName(entry.m_steamIDUser);
-        leaderBoardVars.otherInfo = weekNumber;
+        leaderBoardVars.otherInfo = dayNumber;
         return leaderBoardVars;
     }
 
-    //The score is a composite of the week number and the actual score
     protected override int GetScoreAndDetails(int score, out int[] details)
     {
-        int weekNumber = GetCurrentWeekSinceEpoch();
+        int dayNumber = GetCurrentDaySinceEpoch();
         details = new int[MAX_DETAILS];
-        details[0] = weekNumber;
-        string scoreString = weekNumber.ToString() + score.ToString();
+        details[0] = dayNumber;
+        string scoreString = dayNumber.ToString() + score.ToString();
         int finalScore = int.Parse(scoreString);
         return finalScore;
     }
 
-    //Remove entries that are not in the current week
     protected override List<LeaderBoardVars> SortEntries(List<LeaderBoardVars> results)
-    {        
-        int currentWeekNumber = GetCurrentWeekSinceEpoch();
+    {
+        int dayNumber = GetCurrentDaySinceEpoch();
         List<LeaderBoardVars> sortedList = new List<LeaderBoardVars>();
-        foreach(LeaderBoardVars vars in results)
+        foreach (LeaderBoardVars vars in results)
         {
-            if(vars.otherInfo == currentWeekNumber)
+            if (vars.otherInfo == dayNumber)
             {
                 sortedList.Add(vars);
             }
@@ -60,12 +58,12 @@ public class WeeklyLeaderBoard : GenericSteamLeaderBoard {
     }
     #endregion
 
-    #region private methods
-    private int GetCurrentWeekSinceEpoch()
+    #region private method
+    private int GetCurrentDaySinceEpoch()
     {
-        long currentTimeSeconds = GetSecondsSinceEpoch();
-        int currentWeekNumber = (int)(currentTimeSeconds / SECONDS_IN_A_WEEK);
-        return currentWeekNumber;
+        long currentSeconds = GetSecondsSinceEpoch();
+        int currentDay = (int)(currentSeconds / SECONDS_IN_A_DAY);
+        return currentDay;
     }
     #endregion
 }
