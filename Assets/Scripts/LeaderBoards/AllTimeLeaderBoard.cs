@@ -15,7 +15,6 @@ public class AllTimeLeaderBoard : GenericSteamLeaderBoard {
     protected override LeaderBoardVars ExtractLeaderBoardVars(LeaderboardEntry_t entry, int[] details)
     {
         LeaderBoardVars leaderBoardVars;
-        leaderBoardVars.rank = entry.m_nGlobalRank;
         leaderBoardVars.score = entry.m_nScore;
         leaderBoardVars.userID = SteamFriends.GetFriendPersonaName(entry.m_steamIDUser);
         leaderBoardVars.day = details[0];

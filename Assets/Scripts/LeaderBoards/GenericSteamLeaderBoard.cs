@@ -136,7 +136,6 @@ public abstract class GenericSteamLeaderBoard : MonoBehaviour {
     public struct LeaderBoardVars
     {
         public string userID;
-        public int rank;
         public int score;
         public int day;
         public int month;
