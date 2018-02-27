@@ -24,7 +24,6 @@ GameObject:
   - component: {fileID: 114044420155061846}
   - component: {fileID: 114403912724172180}
   - component: {fileID: 114655407437463010}
-  - component: {fileID: 114309314539220742}
   m_Layer: 0
   m_Name: Play
   m_TagString: Untagged
@@ -43,6 +42,7 @@ GameObject:
   - component: {fileID: 222620214543673208}
   - component: {fileID: 114489524136055458}
   - component: {fileID: 114453747880308420}
+  - component: {fileID: 114680070493194928}
   m_Layer: 0
   m_Name: Button Group
   m_TagString: Untagged
@@ -63,7 +63,6 @@ GameObject:
   - component: {fileID: 114562099310595960}
   - component: {fileID: 114818347203425648}
   - component: {fileID: 114202818636925644}
-  - component: {fileID: 114649061604806052}
   m_Layer: 0
   m_Name: Editor
   m_TagString: Untagged
@@ -172,7 +171,6 @@ GameObject:
   - component: {fileID: 114120045394534206}
   - component: {fileID: 114204008470247126}
   - component: {fileID: 114870747036180648}
-  - component: {fileID: 114097238225628992}
   m_Layer: 0
   m_Name: Quit
   m_TagString: Untagged
@@ -193,7 +191,6 @@ GameObject:
   - component: {fileID: 114522490449137318}
   - component: {fileID: 114248625171219634}
   - component: {fileID: 114149057397778972}
-  - component: {fileID: 114274070042089756}
   m_Layer: 0
   m_Name: Controls
   m_TagString: Untagged
@@ -264,7 +261,6 @@ GameObject:
   - component: {fileID: 114940989182998016}
   - component: {fileID: 114628050863263408}
   - component: {fileID: 114566346811163282}
-  - component: {fileID: 114388668248608964}
   m_Layer: 0
   m_Name: Credits
   m_TagString: Untagged
@@ -359,8 +355,8 @@ MonoBehaviour:
   m_SpriteState:
     m_HighlightedSprite: {fileID: 21300000, guid: 6ce9286bfc9ebcc4d9a5fc8a3017b40a,
       type: 3}
-    m_PressedSprite: {fileID: 21300000, guid: 6ce9286bfc9ebcc4d9a5fc8a3017b40a, type: 3}
-    m_DisabledSprite: {fileID: 21300000, guid: 040c162357fd5574ab6e2bbface697db, type: 3}
+    m_PressedSprite: {fileID: 21300000, guid: 57d1d6a9754443f43809361015f69af2, type: 3}
+    m_DisabledSprite: {fileID: 21300000, guid: 97f7915ce3b3f4f40a5bf73e852579b9, type: 3}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted
@@ -384,53 +380,6 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &114097238225628992
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1512931197260644}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 9
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 114870747036180648}
-          m_MethodName: set_Selected
-          m_Mode: 6
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 1
-          m_CallState: 2
-      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
-        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  - eventID: 10
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 114870747036180648}
-          m_MethodName: set_Selected
-          m_Mode: 6
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
-        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  delegates: []
 --- !u!114 &114120045394534206
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -459,8 +408,8 @@ MonoBehaviour:
   m_SpriteState:
     m_HighlightedSprite: {fileID: 21300000, guid: 6ce9286bfc9ebcc4d9a5fc8a3017b40a,
       type: 3}
-    m_PressedSprite: {fileID: 21300000, guid: 6ce9286bfc9ebcc4d9a5fc8a3017b40a, type: 3}
-    m_DisabledSprite: {fileID: 21300000, guid: 040c162357fd5574ab6e2bbface697db, type: 3}
+    m_PressedSprite: {fileID: 21300000, guid: 57d1d6a9754443f43809361015f69af2, type: 3}
+    m_DisabledSprite: {fileID: 21300000, guid: 97f7915ce3b3f4f40a5bf73e852579b9, type: 3}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted
@@ -497,6 +446,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   colorOff: {r: 0.96862745, g: 0.9764706, b: 0.4627451, a: 1}
   colorOn: {r: 0.90588236, g: 0, b: 0.8039216, a: 1}
+  colorDisabled: {r: 0.5764706, g: 0.5764706, b: 0.5764706, a: 1}
   spriteOff: {fileID: 21300000, guid: 040c162357fd5574ab6e2bbface697db, type: 3}
   spriteOn: {fileID: 21300000, guid: 6ce9286bfc9ebcc4d9a5fc8a3017b40a, type: 3}
   button: {fileID: 114522490449137318}
@@ -522,10 +472,10 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: adff3eb1237ff5f43a10a7a08cfaeda7, type: 3}
-    m_FontSize: 60
+    m_FontSize: 40
     m_FontStyle: 1
     m_BestFit: 0
-    m_MinSize: 5
+    m_MinSize: 3
     m_MaxSize: 75
     m_Alignment: 4
     m_AlignByGeometry: 0
@@ -547,6 +497,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   colorOff: {r: 0.96862745, g: 0.9764706, b: 0.4627451, a: 1}
   colorOn: {r: 0.90588236, g: 0, b: 0.8039216, a: 1}
+  colorDisabled: {r: 0.5764706, g: 0.5764706, b: 0.5764706, a: 1}
   spriteOff: {fileID: 21300000, guid: 040c162357fd5574ab6e2bbface697db, type: 3}
   spriteOn: {fileID: 21300000, guid: 6ce9286bfc9ebcc4d9a5fc8a3017b40a, type: 3}
   button: {fileID: 114562099310595960}
@@ -589,53 +540,6 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!114 &114274070042089756
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1627053696771226}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 9
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 114149057397778972}
-          m_MethodName: set_Selected
-          m_Mode: 6
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 1
-          m_CallState: 2
-      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
-        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  - eventID: 10
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 114149057397778972}
-          m_MethodName: set_Selected
-          m_Mode: 6
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
-        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  delegates: []
 --- !u!114 &114286390928339672
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -657,10 +561,10 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: adff3eb1237ff5f43a10a7a08cfaeda7, type: 3}
-    m_FontSize: 60
+    m_FontSize: 40
     m_FontStyle: 1
     m_BestFit: 0
-    m_MinSize: 5
+    m_MinSize: 3
     m_MaxSize: 75
     m_Alignment: 4
     m_AlignByGeometry: 0
@@ -669,100 +573,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: CREDITS
---- !u!114 &114309314539220742
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1057216052519814}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 9
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 114655407437463010}
-          m_MethodName: set_Selected
-          m_Mode: 6
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 1
-          m_CallState: 2
-      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
-        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  - eventID: 10
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 114655407437463010}
-          m_MethodName: set_Selected
-          m_Mode: 6
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
-        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  delegates: []
---- !u!114 &114388668248608964
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1863907626451942}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 9
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 114566346811163282}
-          m_MethodName: set_Selected
-          m_Mode: 6
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 1
-          m_CallState: 2
-      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
-        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  - eventID: 10
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 114566346811163282}
-          m_MethodName: set_Selected
-          m_Mode: 6
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
-        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  delegates: []
 --- !u!114 &114403013621255368
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -784,10 +594,10 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: adff3eb1237ff5f43a10a7a08cfaeda7, type: 3}
-    m_FontSize: 60
+    m_FontSize: 40
     m_FontStyle: 1
     m_BestFit: 0
-    m_MinSize: 5
+    m_MinSize: 3
     m_MaxSize: 75
     m_Alignment: 4
     m_AlignByGeometry: 0
@@ -848,17 +658,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 0
+    m_Left: 115
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 0
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 300, y: 150}
+  m_CellSize: {x: 250, y: 100}
   m_Spacing: {x: 0, y: 0}
   m_Constraint: 1
-  m_ConstraintCount: 2
+  m_ConstraintCount: 1
 --- !u!114 &114455626087892392
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -929,7 +739,7 @@ MonoBehaviour:
   m_MinHeight: -1
   m_PreferredWidth: -1
   m_PreferredHeight: 400
-  m_FlexibleWidth: 1
+  m_FlexibleWidth: -1
   m_FlexibleHeight: 1
   m_LayoutPriority: 1
 --- !u!114 &114522490449137318
@@ -960,8 +770,8 @@ MonoBehaviour:
   m_SpriteState:
     m_HighlightedSprite: {fileID: 21300000, guid: 6ce9286bfc9ebcc4d9a5fc8a3017b40a,
       type: 3}
-    m_PressedSprite: {fileID: 21300000, guid: 6ce9286bfc9ebcc4d9a5fc8a3017b40a, type: 3}
-    m_DisabledSprite: {fileID: 21300000, guid: 040c162357fd5574ab6e2bbface697db, type: 3}
+    m_PressedSprite: {fileID: 21300000, guid: 57d1d6a9754443f43809361015f69af2, type: 3}
+    m_DisabledSprite: {fileID: 21300000, guid: 97f7915ce3b3f4f40a5bf73e852579b9, type: 3}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted
@@ -1006,10 +816,10 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: adff3eb1237ff5f43a10a7a08cfaeda7, type: 3}
-    m_FontSize: 60
+    m_FontSize: 40
     m_FontStyle: 1
     m_BestFit: 0
-    m_MinSize: 5
+    m_MinSize: 3
     m_MaxSize: 75
     m_Alignment: 4
     m_AlignByGeometry: 0
@@ -1062,8 +872,8 @@ MonoBehaviour:
   m_SpriteState:
     m_HighlightedSprite: {fileID: 21300000, guid: 6ce9286bfc9ebcc4d9a5fc8a3017b40a,
       type: 3}
-    m_PressedSprite: {fileID: 21300000, guid: 6ce9286bfc9ebcc4d9a5fc8a3017b40a, type: 3}
-    m_DisabledSprite: {fileID: 21300000, guid: 040c162357fd5574ab6e2bbface697db, type: 3}
+    m_PressedSprite: {fileID: 21300000, guid: 57d1d6a9754443f43809361015f69af2, type: 3}
+    m_DisabledSprite: {fileID: 21300000, guid: 97f7915ce3b3f4f40a5bf73e852579b9, type: 3}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted
@@ -1100,6 +910,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   colorOff: {r: 0.96862745, g: 0.9764706, b: 0.4627451, a: 1}
   colorOn: {r: 0.90588236, g: 0, b: 0.8039216, a: 1}
+  colorDisabled: {r: 0.5764706, g: 0.5764706, b: 0.5764706, a: 1}
   spriteOff: {fileID: 21300000, guid: 040c162357fd5574ab6e2bbface697db, type: 3}
   spriteOn: {fileID: 21300000, guid: 6ce9286bfc9ebcc4d9a5fc8a3017b40a, type: 3}
   button: {fileID: 114940989182998016}
@@ -1150,53 +961,6 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!114 &114649061604806052
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1092008283370256}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 9
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 114202818636925644}
-          m_MethodName: set_Selected
-          m_Mode: 6
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 1
-          m_CallState: 2
-      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
-        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  - eventID: 10
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 114202818636925644}
-          m_MethodName: set_Selected
-          m_Mode: 6
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
-        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  delegates: []
 --- !u!114 &114655407437463010
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1210,10 +974,66 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   colorOff: {r: 0.96862745, g: 0.9764706, b: 0.4627451, a: 1}
   colorOn: {r: 0.90588236, g: 0, b: 0.8039216, a: 1}
+  colorDisabled: {r: 0.5764706, g: 0.5764706, b: 0.5764706, a: 1}
   spriteOff: {fileID: 21300000, guid: 040c162357fd5574ab6e2bbface697db, type: 3}
   spriteOn: {fileID: 21300000, guid: 6ce9286bfc9ebcc4d9a5fc8a3017b40a, type: 3}
   button: {fileID: 114044420155061846}
   text: {fileID: 114866710817195288}
+--- !u!114 &114680070493194928
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1059047440384146}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15aaed1c92969d04d9a401efd6d47f23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  layout: {fileID: 114453747880308420}
+  bundles:
+  - aspect: 0
+    cellSize: {x: 275, y: 110}
+    padding:
+      m_Left: 160
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+  - aspect: 1
+    cellSize: {x: 275, y: 110}
+    padding:
+      m_Left: 160
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+  - aspect: 2
+    cellSize: {x: 275, y: 110}
+    padding:
+      m_Left: 160
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+  - aspect: 3
+    cellSize: {x: 250, y: 100}
+    padding:
+      m_Left: 175
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+  - aspect: 4
+    cellSize: {x: 250, y: 100}
+    padding:
+      m_Left: 115
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+  defaultCellSize: {x: 250, y: 100}
+  defaultPadding:
+    m_Left: 115
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  freezeUpdates: 0
 --- !u!114 &114729727747367086
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1337,10 +1157,10 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: adff3eb1237ff5f43a10a7a08cfaeda7, type: 3}
-    m_FontSize: 60
+    m_FontSize: 40
     m_FontStyle: 1
     m_BestFit: 0
-    m_MinSize: 5
+    m_MinSize: 3
     m_MaxSize: 75
     m_Alignment: 4
     m_AlignByGeometry: 0
@@ -1362,6 +1182,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   colorOff: {r: 0.96862745, g: 0.9764706, b: 0.4627451, a: 1}
   colorOn: {r: 0.90588236, g: 0, b: 0.8039216, a: 1}
+  colorDisabled: {r: 0.5764706, g: 0.5764706, b: 0.5764706, a: 1}
   spriteOff: {fileID: 21300000, guid: 040c162357fd5574ab6e2bbface697db, type: 3}
   spriteOn: {fileID: 21300000, guid: 6ce9286bfc9ebcc4d9a5fc8a3017b40a, type: 3}
   button: {fileID: 114120045394534206}
@@ -1421,8 +1242,8 @@ MonoBehaviour:
   m_SpriteState:
     m_HighlightedSprite: {fileID: 21300000, guid: 6ce9286bfc9ebcc4d9a5fc8a3017b40a,
       type: 3}
-    m_PressedSprite: {fileID: 21300000, guid: 6ce9286bfc9ebcc4d9a5fc8a3017b40a, type: 3}
-    m_DisabledSprite: {fileID: 21300000, guid: 040c162357fd5574ab6e2bbface697db, type: 3}
+    m_PressedSprite: {fileID: 21300000, guid: 57d1d6a9754443f43809361015f69af2, type: 3}
+    m_DisabledSprite: {fileID: 21300000, guid: 97f7915ce3b3f4f40a5bf73e852579b9, type: 3}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted
