@@ -29,6 +29,9 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
 
     [SerializeField]
     private float setDamageToTake;
+
+    [SerializeField]
+    private DashState dashState;
     #endregion
 
     #region Private Fields
@@ -47,10 +50,6 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
         stats.SetStats();
     }
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
     #endregion
 
     #region Public Methods
@@ -61,6 +60,8 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
 
     public void TakeDamage(Damager damager)
     {
+        if (dashState.CheckForIFrames()) return;
+
         float healthFraction = stats.GetHealthFraction();
 
         if (!playerTakesSetDamage)
