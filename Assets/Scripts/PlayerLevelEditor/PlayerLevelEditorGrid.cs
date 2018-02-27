@@ -28,7 +28,8 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     [SerializeField] GameObject wallPrefab;
     private int levelSize = 5;
     [SerializeField] private Color hoverColor = Color.blue;
-    [SerializeField] private Color selectedColor = Color.red;
+    [SerializeField] private Color selectedColor = Color.blue;
+    [SerializeField] private Color deletePreviewColor = Color.red;
     [SerializeField] private LevelEditor editorInstance;
 
     #endregion
@@ -135,17 +136,33 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     }
 
     private void HandleBlockInteractions(RaycastHit hit) {
-        if (Input.GetKey(KeyCode.LeftShift) && Input.GetMouseButtonUp(MouseButtons.LEFT)) {
-            SelectBlocks(hit);
+        if (MouseHelper.hitTile) {
+            
+        }
+
+        if (Input.GetMouseButtonDown(MouseButtons.LEFT)) {
+            DeselectBlocks();
+        }
+        if (Input.GetKey(KeyCode.LeftShift) && Input.GetMouseButton(MouseButtons.LEFT)) {
+            DeselectBlocks();
+            SelectBlocks(hit, selectedColor);
         }
         else if (Input.GetMouseButtonUp(MouseButtons.LEFT) && !Input.GetKey(KeyCode.LeftAlt)) {
-            DeselectBlocks();
             DuplicateBlocks(hit);
         }
 
-        if (Input.GetMouseButtonUp(MouseButtons.RIGHT) && !Input.GetKey(KeyCode.LeftAlt)) {
+        if (Input.GetMouseButtonDown(MouseButtons.RIGHT)) {
             DeselectBlocks();
-            DeleteBlocks(hit);
+        }
+        if (Input.GetMouseButton(MouseButtons.RIGHT) && !Input.GetKey(KeyCode.LeftAlt)) {
+            DeselectBlocks();
+            SelectBlocks(hit, deletePreviewColor);
+        }
+        if (Input.GetMouseButtonUp(MouseButtons.RIGHT)) {
+            DeselectBlocks();
+            if (!Input.GetKey(KeyCode.LeftAlt)) {
+                DeleteBlocks(hit);
+            }
         }
     }
 
@@ -220,11 +237,11 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         gridTiles.ForEach(tile => { tile.ChangeColor(spawnddBlockDefaultColor); });
     }
 
-    void SelectBlocks(RaycastHit hit) {
+    void SelectBlocks(RaycastHit hit, Color selectionColor) {
         List<GameObject> Objects = SelectObjectsAlgorithm(hit);
         gridTiles.ForEach(tile => {
             if (Objects.Contains(tile.realTile)) {
-                tile.ChangeColor(Color.red);
+                tile.ChangeColor(selectionColor);
                 selectedObjects.Add(tile.realTile);
             }
         });
@@ -278,9 +295,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         return gridTiles.Find(tile => tile.Position.NoY().IsAboutEqual(point.NoY()));
     }
     public void ResetGrid() {
-        gridTiles.ForEach(tile => {
-            tile.IsActive = false;
-        });
+        gridTiles.ForEach(tile => { tile.IsActive = false; });
     }    
 
     public void ClearSelectedBlocks() {
