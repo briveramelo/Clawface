@@ -19,8 +19,8 @@ public class LevelDataManager : RoutineRunner {
     [SerializeField] private SpawnMenu spawnMenu;
     [SerializeField] private PropsMenu propsMenu;
 
-    private DataSave DataSave { get { return DataPersister.ActiveDataSave; } }
-    private LevelData ActiveLevelData { get { return DataSave.ActiveLevelData; } }
+    private DataSave ActiveDataSave { get { return DataPersister.ActiveDataSave; } }
+    private LevelData ActiveLevelData { get { return ActiveDataSave.ActiveLevelData; } }
     private List<WaveData> ActiveWaveData { get { return ActiveLevelData.waveData; } set { ActiveLevelData.waveData = value; } }
     private List<TileData> ActiveTileData { get { return ActiveLevelData.tileData; } set { ActiveLevelData.tileData = value; } }
     private List<PropData> ActivePropData { get { return ActiveLevelData.propData; } set { ActiveLevelData.propData = value; } }
@@ -156,7 +156,7 @@ public class LevelDataManager : RoutineRunner {
 
     #region Save
     public void SaveNewLevel() {
-        DataSave.AddAndSelectNewLevel();
+        ActiveDataSave.AddAndSelectNewLevel();
         SaveLevel();
     }
 
@@ -246,7 +246,14 @@ public class LevelDataManager : RoutineRunner {
         ActiveLevelData.SetPicture(imageBytes, Camera.main.pixelRect.size);
     }
 
-    
+
+    #endregion
+
+    #region Delete
+    public void DeleteSelectedLevel() {
+        dataPersister.DeleteSelectedLevel();
+        dataPersister.TrySave();
+    }
     #endregion
 
 }

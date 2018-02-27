@@ -65,6 +65,10 @@ public class PLELevelSelectMenu : Menu {
     protected override void ShowStarted() {
         base.ShowStarted();
         searchField.text = "";
+        ClearAndGenerateLevelUI();
+    }
+
+    public void ClearAndGenerateLevelUI() {
         levelContentParent.DestroyAllChildren();
         StartCoroutine(DelayGeneration());
     }
@@ -76,15 +80,19 @@ public class PLELevelSelectMenu : Menu {
         int i = 0;
         levelUIs.Clear();
         Levels.ForEach(level => {
-            GameObject newUI = Instantiate(levelUIPrefab, levelContentParent);
-            LevelUI levelUI = newUI.GetComponent<LevelUI>();
-            levelUI.Initialize(this, level, i);
-            levelUIs.Add(levelUI);
+            if (!string.IsNullOrEmpty(level.name)) {
+                GameObject newUI = Instantiate(levelUIPrefab, levelContentParent);
+                LevelUI levelUI = newUI.GetComponent<LevelUI>();
+                levelUI.Initialize(this, level, i);
+                levelUIs.Add(levelUI);
+            }
             i++;
         });
-        if (levelUIs.Count > 0) {
-            SelectLevel(0);
+        System.Predicate<LevelUI> containsLevel = level => !string.IsNullOrEmpty(level.levelData.name);
+        if (levelUIs.Count > 0 && levelUIs.Exists(containsLevel)) {
+            SelectLevel(levelUIs.FindIndex(containsLevel));
         }
+        OnSearchChange();
     }
 
     protected override void HideComplete() {

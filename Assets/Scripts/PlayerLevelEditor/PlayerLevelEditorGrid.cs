@@ -18,6 +18,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     private bool inputGuard = false;
 
     private List<GameObject> lastHoveredObjects = new List<GameObject>();
+    private List<List<GameObject>> lastSelectedGameObjects = new List<List<GameObject>>();
     #endregion
 
     #region Unity Serialized Fields
@@ -140,14 +141,15 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
             
         }
 
-        if (Input.GetMouseButtonDown(MouseButtons.LEFT)) {
+        if (Input.GetMouseButtonDown(MouseButtons.LEFT) && !Input.GetKey(KeyCode.LeftShift)) {
             DeselectBlocks();
         }
-        if (Input.GetKey(KeyCode.LeftShift) && Input.GetMouseButton(MouseButtons.LEFT)) {
-            DeselectBlocks();
+        if (Input.GetMouseButton(MouseButtons.LEFT) && Input.GetKey(KeyCode.LeftShift)) {
+            DeselectBlocksAndReselectPreviouslySelected();
             SelectBlocks(hit, selectedColor);
         }
-        else if (Input.GetMouseButtonUp(MouseButtons.LEFT) && !Input.GetKey(KeyCode.LeftAlt)) {
+
+        if (Input.GetMouseButtonUp(MouseButtons.LEFT) && !Input.GetKey(KeyCode.LeftAlt)) {
             DuplicateBlocks(hit);
         }
 
@@ -234,7 +236,23 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
 
     void DeselectBlocks() {
         selectedObjects.Clear();
+        lastSelectedGameObjects.Clear();
         gridTiles.ForEach(tile => { tile.ChangeColor(spawnddBlockDefaultColor); });
+    }
+
+    void DeselectBlocksAndReselectPreviouslySelected() {
+        selectedObjects.Clear();
+        gridTiles.ForEach(tile => { tile.ChangeColor(spawnddBlockDefaultColor); });
+
+
+        gridTiles.ForEach(tile => {
+            lastSelectedGameObjects.ForEach(lastList => {
+                if (lastList.Contains(tile.realTile)) {
+                    tile.ChangeColor(selectedColor);
+                    selectedObjects.Add(tile.realTile);
+                }
+            });
+        });
     }
 
     void SelectBlocks(RaycastHit hit, Color selectionColor) {
@@ -245,6 +263,15 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
                 selectedObjects.Add(tile.realTile);
             }
         });
+
+        for (int i = lastSelectedGameObjects.Count-1; i >=0; i--) {
+            for (int j = Objects.Count-1; j >=0 ; j--) {
+                if (lastSelectedGameObjects[i].Contains(Objects[j])) {
+                    Objects.Remove(Objects[j]);
+                }
+            }
+        }
+        lastSelectedGameObjects.Add(Objects);
     }
 
     List<GameObject> SelectObjectsAlgorithm(RaycastHit hit) {

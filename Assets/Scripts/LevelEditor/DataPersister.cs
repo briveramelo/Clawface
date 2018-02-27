@@ -8,10 +8,9 @@ using System.IO;
 public class DataPersister : MonoBehaviour {
     
     public static DataSave ActiveDataSave = new DataSave();
-    public DataSave inspectorSave;
     string PathDirectory { get { return Application.dataPath + "/Saves";} }
     string FilePath { get { return PathDirectory + "/savefile.dat"; } }
-
+    public DataSave dataSave;
     private void Awake() {
         Load();
     }
@@ -36,10 +35,27 @@ public class DataPersister : MonoBehaviour {
         else {
             ActiveDataSave = new DataSave();
         }
-        inspectorSave = ActiveDataSave;
+        ClearEmptyLevels();
+        dataSave = ActiveDataSave;
+    }
+
+    void ClearEmptyLevels() {
+        Predicate<LevelData> containsLevel = level => !string.IsNullOrEmpty(level.name);
+        Predicate<LevelData> containsEmptyLevel = level => string.IsNullOrEmpty(level.name);
+        if (ActiveDataSave.levelDatas.Exists(containsLevel)) {
+            while (ActiveDataSave.levelDatas.Exists(containsEmptyLevel)) {
+                ActiveDataSave.levelDatas.Remove(ActiveDataSave.levelDatas.Find(containsEmptyLevel));
+            }
+        }
+    }
+
+    public void DeleteSelectedLevel() {
+        ActiveDataSave.DeleteSelectedLevel();
+        ActiveDataSave.AddAndSelectNewLevel();
     }
 
     public void TrySave() {
+        ClearEmptyLevels();
         Save();
     }
 
@@ -69,6 +85,11 @@ public class DataSave {
     public void AddAndSelectNewLevel() {
         levelDatas.Add(new LevelData());
         SelectedIndex = levelDatas.Count-1;
+    }
+    public void DeleteSelectedLevel() {
+        if (levelDatas.Count-1 >= SelectedIndex){
+            levelDatas.RemoveAt(SelectedIndex);
+        }
     }
 }
 
