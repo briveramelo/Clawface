@@ -6,10 +6,11 @@ using UnityEngine.UI;
 
 public class WaveSystem : MonoBehaviour
 {
-    private static int systemMaxWave = 12;
-
+    public static bool infWaveSelected = true;
     public static int maxWave = 3;
     public static int currentWave = 0;
+
+    private static int systemMaxWave = 12;
 
     public GameObject WaveTextObj;
     private Text WaveText;
@@ -17,16 +18,24 @@ public class WaveSystem : MonoBehaviour
     public GameObject TotalWaveTextObj;
     private Text TotalWaveText;
 
+    public  GameObject InfWaveObj;
+    private Toggle InfWaveObjToggle;
+
     private void Start()
     {
         WaveText = WaveTextObj.GetComponent<Text>();
+
         TotalWaveText = TotalWaveTextObj.GetComponent<Text>();
+
+        InfWaveObjToggle = InfWaveObj.GetComponent<Toggle>();
+        infWaveSelected = InfWaveObjToggle.isOn;
 
         UpdateWaveText();
     }
 
     private void Update()
     {
+
         //if(Input.GetKeyDown(KeyCode.Return))
         //{
         //    string wave = Strings.Events.PLE_TEST_WAVE_ + currentWave.ToString();
@@ -101,8 +110,6 @@ public class WaveSystem : MonoBehaviour
 
     public void AddNewWave()
     {
-        Debug.Log("Add New Wave");
-
         if (maxWave == systemMaxWave) return;
 
         maxWave++;
@@ -111,23 +118,41 @@ public class WaveSystem : MonoBehaviour
         if (EventSystem.Instance)
         {
             EventSystem.Instance.TriggerEvent(Strings.Events.PLE_ADD_WAVE);
+            EventSystem.Instance.TriggerEvent(Strings.Events.PLE_UPDATE_LEVELSTATE);
         }
     }
 
 
     public void DeleteCurrentWave()
     {
-        Debug.Log("Delete current Wave");
-
         if (maxWave == 1) return;
 
-        maxWave--;
-        UpdateWaveText();
 
         if (EventSystem.Instance)
         {
             EventSystem.Instance.TriggerEvent(Strings.Events.PLE_DELETE_CURRENTWAVE);
+            EventSystem.Instance.TriggerEvent(Strings.Events.PLE_UPDATE_LEVELSTATE);
         }
+
+        maxWave--;
+
+        if (currentWave >= maxWave)
+            currentWave = 0;
+
+        UpdateWaveText();
+
+
+        if (EventSystem.Instance)
+        {
+            string wave = Strings.Events.PLE_TEST_WAVE_ + currentWave.ToString();
+            EventSystem.Instance.TriggerEvent(wave);
+        }
+    }
+
+
+    public void UpdateInfWaveState()
+    {
+        infWaveSelected = InfWaveObjToggle.isOn;
     }
 
 }
