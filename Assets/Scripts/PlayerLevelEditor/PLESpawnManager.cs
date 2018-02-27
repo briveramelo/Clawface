@@ -47,11 +47,6 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
         currentWave++;
     }
 
-    private void CreateWave()
-    {
-
-    }
-
     #endregion
 
 
