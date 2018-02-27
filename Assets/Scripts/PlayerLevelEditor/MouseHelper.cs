@@ -82,7 +82,8 @@ public class MouseHelper : MonoBehaviour {
             }
             currentBlockUnit = raycastHitTile.Value.transform.GetComponent<PLEBlockUnit>();
             if (currentBlockUnit==null) {
-                print("currentBlockUnit is null!");
+                HitTile = false;
+                raycastHitTile = null;
             }
         }
         else {
