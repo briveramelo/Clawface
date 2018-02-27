@@ -84,15 +84,15 @@ MonoBehaviour:
     closeEnoughToFireDistance: 8
     maxToleranceTime: 4
     separationFromForwardVector: -26
-    bulletSpeed: 30
+    bulletSpeed: 4
     bulletDamage: 5
-    rateOfFire: 1
+    rateOfFire: 1.6
     bulletOffsetFromOrigin: 2
-    bulletStrands: 8
-    separationAngleBetweenStrands: 5
+    bulletStrands: 4
+    separationAngleBetweenStrands: 12
     rotationDirection: 0
     rotationSpeedBulletHellController: 0
-    bulletLiveTime: 2.5
+    bulletLiveTime: 4
     animationDriven: 1
     animationShootSpeed: 1
   blasterReanimatorStats:
@@ -160,33 +160,38 @@ MonoBehaviour:
     maxHealth: 12
     skinnableHealth: 3
     attack: 3
-    speed: 35
-    angularSpeed: 1000
+    speed: 30
+    angularSpeed: 900
     acceleration: 50
     stoppingDistance: 1
     scoreValue: 150
-    eatHealth: 20
-    stunnedTime: 7
+    eatHealth: 1
+    stunnedTime: 3.5
     closeEnoughToAttackDistance: 2.5
+<<<<<<< HEAD
     selfDestructTime: 1
     blastRadius: 14
+=======
+    selfDestructTime: 0.75
+    blastRadius: 30
+>>>>>>> refs/remotes/origin/Airlock
   kamikazePulserStats:
     health: 12
     maxHealth: 12
     skinnableHealth: 3
     attack: 3
-    speed: 35
-    angularSpeed: 1000
+    speed: 30
+    angularSpeed: 900
     acceleration: 50
     stoppingDistance: 1
     scoreValue: 200
     eatHealth: 20
-    stunnedTime: 7
+    stunnedTime: 3.5
     closeEnoughToAttackDistance: 5
-    maxPulses: 3
-    pulseRate: 0.93
+    maxPulses: 1
+    pulseRate: 2
     scaleRate: 1.15
-    maxScale: 2.06
+    maxScale: 2
   kamikazeMommyStats:
     health: 60
     maxHealth: 60
@@ -200,7 +205,11 @@ MonoBehaviour:
     eatHealth: 20
     stunnedTime: 7
     closeEnoughToAttackDistance: 10
+<<<<<<< HEAD
     spawnRate: 0
+=======
+    spawnRate: 1
+>>>>>>> refs/remotes/origin/Airlock
     kamikazeSpawnProbability: 0.46
     kamikazePulserSpawnProbability: 0.264
   bouncerStats:
