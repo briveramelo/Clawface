@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class WaveSystem : MonoBehaviour
 {
+    private static int systemMaxWave = 12;
+
     public static int maxWave = 3;
     public static int currentWave = 0;
 
@@ -97,8 +99,15 @@ public class WaveSystem : MonoBehaviour
     }
 
 
-    public void AddWave()
+    public void AddNewWave()
     {
+        Debug.Log("Add New Wave");
+
+        if (maxWave == systemMaxWave) return;
+
+        maxWave++;
+        UpdateWaveText();
+
         if (EventSystem.Instance)
         {
             EventSystem.Instance.TriggerEvent(Strings.Events.PLE_ADD_WAVE);
@@ -108,6 +117,13 @@ public class WaveSystem : MonoBehaviour
 
     public void DeleteCurrentWave()
     {
+        Debug.Log("Delete current Wave");
+
+        if (maxWave == 1) return;
+
+        maxWave--;
+        UpdateWaveText();
+
         if (EventSystem.Instance)
         {
             EventSystem.Instance.TriggerEvent(Strings.Events.PLE_DELETE_CURRENTWAVE);
