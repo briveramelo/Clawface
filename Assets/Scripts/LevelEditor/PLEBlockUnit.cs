@@ -99,6 +99,14 @@ public class PLEBlockUnit : MonoBehaviour
         }
     }
     public void ClearItems() {
+        transform.position = transform.position.NoY();
+        levelStates.Clear();
+        for (int i = 0; i < WaveSystem.maxWave; i++) {
+            levelStates.Add(LevelUnitStates.floor);
+        }
+        UpdateDynamicLevelState();
+
+
         for (int i = spawns.Count - 1; i >= 0; i--) {
             Helpers.DestroyProper(spawns[i]);
         }

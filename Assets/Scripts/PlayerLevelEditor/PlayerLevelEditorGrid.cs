@@ -18,15 +18,15 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     private bool inputGuard = false;
 
     private List<GameObject> lastHoveredObjects = new List<GameObject>();
-    public List<List<GameObject>> lastSelectedGameObjects = new List<List<GameObject>>();
+    private List<List<GameObject>> lastSelectedGameObjects = new List<List<GameObject>>();
     #endregion
 
     #region Unity Serialized Fields
 
-    [SerializeField] GameObject objectGrid;
-    [SerializeField] GameObject realLevel;
-    [SerializeField] GameObject tileParent;
-    [SerializeField] GameObject wallPrefab;
+    [SerializeField] private GameObject objectGrid;
+    [SerializeField] private GameObject realLevel;
+    [SerializeField] private GameObject tileParent;
+    [SerializeField] private GameObject wallPrefab;
     [SerializeField] private int levelSize = 5;
     [SerializeField] private Color hoverColor = Color.blue;
     [SerializeField] private Color selectedColor = Color.blue;
@@ -169,6 +169,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         }
         if (Input.GetMouseButtonUp(MouseButtons.LEFT) && !Input.GetKey(KeyCode.LeftAlt)) {
             DuplicateBlocks(hit);
+            ShowWalls();
         }
     }
 
@@ -184,6 +185,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
             DeselectBlocks();
             if (!Input.GetKey(KeyCode.LeftAlt)) {
                 DeleteBlocks(hit);
+                ShowWalls();
             }
         }
     }
@@ -311,12 +313,6 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         if (OnClickObject == null) {
             return selectedObjects;
         }
-        //if (Vector3.Distance(OnClickObject.transform.position, hit.transform.position)<2.5f) {
-        //    if (!Objects.Contains(OnClickObject)) {
-        //        Objects.Add(OnClickObject);
-        //    }
-        //    return Objects;
-        //}
 
 
         float xMax = Mathf.Max(OnClickObject.transform.position.x, hit.transform.position.x);
@@ -400,6 +396,9 @@ public class GridTile {
         wall_W.transform.SetParent(ghostParent);
         wall_S.transform.SetParent(ghostParent);
     }
+    //private const string BlockColor = "_AlbedoTint";
+    private const string BlockColor = "_Color";
+
     Transform ghostParent, tileParent;
     MeshRenderer rend;
     MaterialPropertyBlock propBlock = new MaterialPropertyBlock();
@@ -434,7 +433,7 @@ public class GridTile {
         ghostTile.SetActive(!IsActive);
     }
     public void ChangeColor(Color color) {
-        propBlock.SetColor("_Color", color);
+        propBlock.SetColor(BlockColor, color);
         rend.SetPropertyBlock(propBlock);
     }
     public void SetSelected(bool isSelected) {

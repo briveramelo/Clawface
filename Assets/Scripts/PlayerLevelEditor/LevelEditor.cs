@@ -27,6 +27,7 @@ namespace PlayerLevelEditor
         [SerializeField] private SaveMenu saveEditorMenu;
         [SerializeField] private PLELevelSelectMenu levelSelectEditorMenu;
         [SerializeField] private HelpMenu helpEditorMenu;
+        [SerializeField] private PLECameraController cameraController;
         private List<Menu> pleMenus;
         //[SerializeField] private Button initialMenuButton;
 
@@ -109,6 +110,10 @@ namespace PlayerLevelEditor
             loadMenu.TargetScene = Strings.Scenes.MainMenu;
 
             MenuManager.Instance.DoTransition(loadMenu,Menu.Transition.SHOW, new Menu.Effect[] { Menu.Effect.EXCLUSIVE });
+        }
+
+        public void ToggleCameraController(bool isEnabled) {
+            cameraController.enabled=isEnabled;
         }
 
         public Menu GetMenu(PLEMenu i_menu)

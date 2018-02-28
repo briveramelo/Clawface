@@ -27,7 +27,12 @@ public class PLELevelSelectMenu : Menu {
     private List<LevelData> Levels { get { return ActiveDataSave.levelDatas; } }
     private List<LevelUI> levelUIs= new List<LevelUI>();
     private int selectedLevelIndex = 0;
-    
+
+    #region Unity Lifecyle    
+
+
+    #endregion
+    #region Public Interface
     public void OnSearchChange() {
         gridLayoutGroup.enabled = false;
         string searchTerm = searchField.text.ToLowerInvariant();
@@ -38,10 +43,6 @@ public class PLELevelSelectMenu : Menu {
         }
         
         StartCoroutine(WaitToActivate());
-    }
-    IEnumerator WaitToActivate() {
-        yield return new WaitForEndOfFrame();
-        gridLayoutGroup.enabled = true;
     }
 
     public void LoadLevel() {
@@ -56,22 +57,53 @@ public class PLELevelSelectMenu : Menu {
         levelNameText.text = selectedLevel.name;
         levelDescriptionText.text = selectedLevel.description;
         levelImage.sprite = Sprite.Create(selectedLevel.Snapshot, new Rect(Vector2.zero, selectedLevel.size.AsVector), Vector2.one * .5f);
+        levelUIs.ForEach(levelUI => {
+            levelUI.OnGroupSelectChanged(levelIndex);
+        });
     }
+    public void ClearAndGenerateLevelUI() {
+        levelContentParent.DestroyAllChildren();
+        StartCoroutine(DelayGeneration());
+    }
+    #endregion
 
+    #region Protected Interface
     protected override void ShowComplete() {
         base.ShowComplete();
     }
 
     protected override void ShowStarted() {
         base.ShowStarted();
+        levelEditor.ToggleCameraController(false);
         searchField.text = "";
         ClearAndGenerateLevelUI();
     }
-
-    public void ClearAndGenerateLevelUI() {
-        levelContentParent.DestroyAllChildren();
-        StartCoroutine(DelayGeneration());
+    protected override void HideComplete() {
+        base.HideComplete();
     }
+
+    protected override void HideStarted() {
+        base.HideStarted();
+        levelEditor.ToggleCameraController(true);
+    }    
+
+    protected override void DefaultHide(Transition transition, Effect[] effects) {
+        Fade(transition, effects);
+    }
+
+    protected override void DefaultShow(Transition transition, Effect[] effects) {
+        Fade(transition, effects);
+    }
+    #endregion
+
+
+    #region Private Interface
+
+    IEnumerator WaitToActivate() {
+        yield return new WaitForEndOfFrame();
+        gridLayoutGroup.enabled = true;
+    }
+
     IEnumerator DelayGeneration() {
         yield return new WaitForEndOfFrame();
         GenerateLevelUI();
@@ -94,20 +126,6 @@ public class PLELevelSelectMenu : Menu {
         }
         OnSearchChange();
     }
+    #endregion
 
-    protected override void HideComplete() {
-        base.HideComplete();
-    }
-
-    protected override void HideStarted() {
-        base.HideStarted();
-    }    
-
-    protected override void DefaultHide(Transition transition, Effect[] effects) {
-        Fade(transition, effects);
-    }
-
-    protected override void DefaultShow(Transition transition, Effect[] effects) {
-        Fade(transition, effects);
-    }
 }
