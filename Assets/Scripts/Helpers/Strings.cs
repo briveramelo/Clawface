@@ -134,6 +134,7 @@
         public const string CAPTURE_ENEMY = "CaptureEnemy";
         public const string ARM_ANIMATION_COMPLETE = "ArmAnimationComplete";
         public const string UPDATE_HEALTH = "UpdateHealth";
+        public const string FINISHED_EATING = "FinishedEating";
 
         public const string KILL_ENEMY = "KillEnemy";
         public const string BEAT_LEVEL1 = "BeatLevel1";
@@ -190,6 +191,9 @@
         public const string GAME_CAN_PAUSE = "GAME_CAN_PAUSE";
 
         public const string INIT_EDITOR = "INIT_EDITOR";
+
+        public const string ACTIVATE_MOD = "ACTIVATE_MOD";
+        public const string DEACTIVATE_MOD = "DEACTIVATE_MOD";
     }
 
     public class Editor

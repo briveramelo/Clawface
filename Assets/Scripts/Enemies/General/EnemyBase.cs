@@ -134,6 +134,10 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
             GoreManager.Instance.EmitDirectionalBlood(damagePack);
             hitFlasher.HitFlash ();
 
+            // Blood effect
+            GameObject blood = ObjectPool.Instance.GetObject(PoolObjectType.VFXBloodSpurt);
+            if (blood) blood.transform.position = transform.position;
+
             if (myStats.health <= 0)
             {
                 myStats.health = bufferHealth;
@@ -357,10 +361,12 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         if (isClose)
         {
             hitFlasher.SetCloseToEatState();
+            isStunFlashing = true;
         }
         else
         {
             hitFlasher.SetStunnedState();
+            isStunFlashing = true;
         }
     }
 

@@ -85,6 +85,8 @@ public class ModManager : MonoBehaviour
     private void OnEnable()
     {
         EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_KILLED, PlayerDead);
+        EventSystem.Instance.RegisterEvent(Strings.Events.ACTIVATE_MOD, SetCanActivate);
+        EventSystem.Instance.RegisterEvent(Strings.Events.DEACTIVATE_MOD, DisableCanActivate);
     }
 
     private void OnDisable()
@@ -92,6 +94,8 @@ public class ModManager : MonoBehaviour
         if (EventSystem.Instance)
         {
             EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_KILLED, PlayerDead);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.ACTIVATE_MOD, SetCanActivate);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.DEACTIVATE_MOD, DisableCanActivate);
         }
     }
 
@@ -134,8 +138,13 @@ public class ModManager : MonoBehaviour
         }
     }
 
-    public void SetCanActivate() {
+    public void SetCanActivate(params object[] parameters) {
         canActivate = true;
+    }
+
+    public void DisableCanActivate(params object[] parameters)
+    {
+        canActivate = false;
     }
     #endregion
 
