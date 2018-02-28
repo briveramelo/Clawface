@@ -247,7 +247,7 @@ public class LevelDataManager : MonoBehaviour {
         snapshot.Resize((int)LevelData.fixedSize.x, (int)LevelData.fixedSize.y);
         snapshot.Apply();
         byte[] imageBytes = snapshot.EncodeToPNG();
-        ActiveLevelData.SetPicture(imageBytes, Camera.main.pixelRect.size);
+        ActiveLevelData.SetPicture(imageBytes);
     }
 
 

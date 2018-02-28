@@ -109,7 +109,6 @@ public class LevelData {
 
     public string name, description;
     public byte[] imageData;
-    public Vector2_S size;
     public static readonly Vector2 fixedSize = new Vector2(656, 369);
     public Sprite MySprite {
         get {
@@ -122,9 +121,8 @@ public class LevelData {
     [NonSerialized] Texture2D imageTexture;
     [NonSerialized] Sprite snapShot;
 
-    public void SetPicture(byte[] imageData, Vector2 dimensions) {
+    public void SetPicture(byte[] imageData) {
         this.imageData = imageData;
-        this.size = new Vector2_S(dimensions);
         CreateSprite();
     }
     public bool IsEmpty { get { return string.IsNullOrEmpty(name); } }
@@ -137,11 +135,11 @@ public class LevelData {
     public int PropCount { get { return propData.Count; } }
 
     void CreateSprite() {
-        imageTexture = new Texture2D((int)size.x, (int)size.y);
+        imageTexture = new Texture2D((int)fixedSize.x, (int)fixedSize.y);
         if (imageData != null) {
             imageTexture.LoadImage(imageData);
         }
-        snapShot = Sprite.Create(imageTexture, new Rect(Vector2.zero, size.AsVector), Vector2.one * .5f);
+        snapShot = Sprite.Create(imageTexture, new Rect(Vector2.zero, fixedSize), Vector2.one * .5f);
     }
 }
 
