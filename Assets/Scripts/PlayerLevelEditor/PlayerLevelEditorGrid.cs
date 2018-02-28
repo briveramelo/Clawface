@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 using PlayerLevelEditor;
 using ModMan;
@@ -10,7 +11,6 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
 
     private GameObject previewBlock = null;
     private GameObject spawnedBlock = null;
-    private Color spawnedBlockDefaultColor;
 
     private GameObject OnClickObject = null;
     private List<GameObject> selectedGameObjects = new List<GameObject>();
@@ -45,15 +45,46 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     const string GhostBlock = "GhostBlock";
     const string RealBlock = "RealBlock";
 
+    #region Public Interface
+
+    public void ShowWalls() {
+        gridTiles.ForEach(tile => tile.EnableWalls());
+    }
+    public GridTile GetTileAtPoint(Vector3 point) {
+        return gridTiles.Find(tile => tile.Position.NoY().IsAboutEqual(point.NoY()));
+    }
+    public void ResetGrid() {
+        gridTiles.ForEach(tile => { tile.IsActive = false; });
+    }
+
+    public void ClearSelectedBlocks() {
+        DeselectBlocks();
+    }
+
+    public List<GameObject> GetSelectedBlocks() { return selectedGameObjects; }
+
+    public void SetGridVisiblity(bool show) {
+        displaying = show;
+        gridTiles.ForEach(tile => { tile.ToggleGhostGlobal(show); });
+    }
+
+    #endregion
 
     #region Unity Lifecycle
-   
+
     void Start() {
         Initilaize();
+        //EventSystem.Instance.RegisterEvent(Strings.Events.PLE_UPDATE_LEVELSTATE, OnTileHeightsChanged);
+    }    
+
+    private void OnDestroy() {
+        if (EventSystem.Instance) {
+            //EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_UPDATE_LEVELSTATE, OnTileHeightsChanged);
+        }
     }
 
 
-    
+
     void Update()
     {
         if (!displaying)
@@ -79,9 +110,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
 
     private void Initilaize(params object[] par) {
         previewBlock = Resources.Load(Strings.Editor.RESOURCE_PATH + Strings.Editor.BASIC_LE_BLOCK) as GameObject;
-        spawnedBlock = Resources.Load(Strings.Editor.RESOURCE_PATH + Strings.Editor.BASIC_LVL_BLOCK) as GameObject;
-
-        spawnedBlockDefaultColor = spawnedBlock.GetComponent<Renderer>().sharedMaterial.color;
+        spawnedBlock = Resources.Load(Strings.Editor.RESOURCE_PATH + Strings.Editor.CHERLIN_LVL_BLOCK) as GameObject;
 
         InitGridTiles();
     }    
@@ -92,7 +121,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         UpdateLastHoveredObjects(hit);
     }
 
-    void CleanUpLastHoveredObjects(RaycastHit hit) {
+    private void CleanUpLastHoveredObjects(RaycastHit hit) {
         foreach (GameObject GO in lastHoveredObjects) {
             if (GO == null) {
                 continue;
@@ -106,7 +135,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         lastHoveredObjects.Clear();
     }
 
-    void UpdateCurrentHoveredObject(RaycastHit hit) {
+    private void UpdateCurrentHoveredObject(RaycastHit hit) {
         GameObject currentHoveredObject = hit.transform.gameObject;
         PreviewCubeController currentPCC = currentHoveredObject.GetComponent<PreviewCubeController>();
         if (currentPCC) {
@@ -115,7 +144,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         lastHoveredObjects.Add(currentHoveredObject);
     }
 
-    void UpdateLastHoveredObjects(RaycastHit hit) {
+    private void UpdateLastHoveredObjects(RaycastHit hit) {
         if (Input.GetMouseButton(MouseButtons.LEFT)) {
             List<GameObject> selectedObjects = SelectObjectsAlgorithm(hit);
             foreach (GameObject selectedObject in selectedObjects) {
@@ -134,8 +163,8 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         HandleHoveringBlocks(hit);
     }
 
-    GridTile lastSelectedTile;
-    void HandleHoveringBlocks(RaycastHit hit) {
+    private GridTile lastSelectedTile;
+    private void HandleHoveringBlocks(RaycastHit hit) {
         if (MouseHelper.HitTile) {
             Vector3 mousePos = MouseHelper.currentBlockUnit.transform.position;
             GridTile hoveredTile = GetTileAtPoint(mousePos);
@@ -144,19 +173,19 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
                     hoveredTile.ChangeColor(hoverColor);
                 }
                 if (!lastSelectedTile.isSelected) {
-                    lastSelectedTile.ChangeColor(spawnedBlockDefaultColor);
+                    lastSelectedTile.ChangeColor(lastSelectedTile.CurrentTileStateColor);
                 }
             }
             lastSelectedTile = hoveredTile;
         }
         else {
             if (lastSelectedTile != null && !lastSelectedTile.isSelected) {
-                lastSelectedTile.ChangeColor(spawnedBlockDefaultColor);
+                lastSelectedTile.ChangeColor(lastSelectedTile.CurrentTileStateColor);
             }
         }
     }
 
-    void HandleSelectingBlocks(RaycastHit hit) {
+    private void HandleSelectingBlocks(RaycastHit hit) {
         if (Input.GetMouseButtonDown(MouseButtons.LEFT) && !Input.GetKey(KeyCode.LeftShift)) {
             DeselectBlocks();
         }
@@ -173,7 +202,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         }
     }
 
-    void HandleDeleteBlockSelection(RaycastHit hit) {
+    private void HandleDeleteBlockSelection(RaycastHit hit) {
         if (Input.GetMouseButtonDown(MouseButtons.RIGHT)) {
             DeselectBlocks();
         }
@@ -190,7 +219,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         }
     }
 
-    void InitGridTiles() {
+    private void InitGridTiles() {
         for (int i = -levelSize; i <= levelSize; i++) {
             for (int j = -levelSize; j <= levelSize; j++) {
                 Vector3 position = new Vector3(i * 5, 0, j * 5);
@@ -199,7 +228,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         }
     }
 
-    void AddGridTile(Vector3 position) {
+    private void AddGridTile(Vector3 position) {
         GameObject ghostBlock = GameObject.Instantiate(previewBlock, position, Quaternion.identity);
         ghostBlock.name = GhostBlock;
         GameObject realBlock = GameObject.Instantiate(spawnedBlock, position, Quaternion.identity);
@@ -214,16 +243,14 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         gridTiles.Add(tile);
     }
 
-    public void ShowWalls() {
-        gridTiles.ForEach(tile => tile.EnableWalls());
-    }
+    
 
-    void DuplicateBlocks(RaycastHit hit) {
+    private void DuplicateBlocks(RaycastHit hit) {
         List<GameObject> Objects = SelectObjectsAlgorithm(hit);
         DuplicateBlocks(Objects);
     }
 
-    void DuplicateBlocks(List<GameObject> selectedObjects) {
+    private void DuplicateBlocks(List<GameObject> selectedObjects) {
         for (int i = 0; i < selectedObjects.Count; i++) {
             for (int j = 0; j < gridTiles.Count; j++) {
                 GridTile tile = gridTiles[j];
@@ -237,12 +264,12 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         }
     }
 
-    void DeleteBlocks(RaycastHit hit) {
+    private void DeleteBlocks(RaycastHit hit) {
         List<GameObject> Objects = SelectObjectsAlgorithm(hit);
         DeleteBlocks(Objects);
     }
 
-    void DeleteBlocks(List<GameObject> selectedObjects) {
+    private void DeleteBlocks(List<GameObject> selectedObjects) {
         for (int i = 0; i < selectedObjects.Count; i++) {
             for (int j = 0; j < gridTiles.Count; j++) {
                 GridTile tile = gridTiles[j];
@@ -256,19 +283,19 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         }
     }
 
-    void DeselectBlocks() {
+    private void DeselectBlocks() {
         selectedGameObjects.Clear();
         lastSelectedGameObjects.Clear();
         gridTiles.ForEach(tile => {
-            tile.ChangeColor(spawnedBlockDefaultColor);
+            tile.ChangeColor(tile.CurrentTileStateColor);
             tile.SetSelected(false);
         });
     }
 
-    void DeselectBlocksAndReselectPreviouslySelected() {
+    private void DeselectBlocksAndReselectPreviouslySelected() {
         selectedGameObjects.Clear();
         gridTiles.ForEach(tile => {
-            tile.ChangeColor(spawnedBlockDefaultColor);
+            tile.ChangeColor(tile.CurrentTileStateColor);
             tile.SetSelected(false);
         });
 
@@ -283,7 +310,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         });
     }
 
-    void SelectBlocks(RaycastHit hit, Color selectionColor) {
+    private void SelectBlocks(RaycastHit hit, Color selectionColor) {
         List<GameObject> selectedObjects = SelectObjectsAlgorithm(hit);
 
         gridTiles.ForEach(tile => {
@@ -295,11 +322,15 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         });
     }
 
-    void AddToLastSelectedObjects(RaycastHit hit) {
+    private void AddToLastSelectedObjects(RaycastHit hit) {
         List<GameObject> selectedObjects = SelectObjectsAlgorithm(hit);
         for (int i = lastSelectedGameObjects.Count - 1; i >= 0; i--) {
             for (int j = selectedObjects.Count - 1; j >= 0; j--) {
                 if (lastSelectedGameObjects[i].Contains(selectedObjects[j])) {
+                    GridTile selectedTile = gridTiles.Find(tile => { return tile.realTile == selectedObjects[j]; });
+                    selectedTile.ChangeColor(selectedTile.CurrentTileStateColor);
+                    selectedTile.SetSelected(false);
+                    lastSelectedGameObjects[i].Remove(selectedObjects[j]);
                     selectedObjects.Remove(selectedObjects[j]);
                 }
             }
@@ -307,7 +338,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         lastSelectedGameObjects.Add(selectedObjects);
     }
 
-    List<GameObject> SelectObjectsAlgorithm(RaycastHit hit) {
+    private List<GameObject> SelectObjectsAlgorithm(RaycastHit hit) {
         List<GameObject> selectedObjects = new List<GameObject>();
 
         if (OnClickObject == null) {
@@ -340,30 +371,10 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         }
 
         return selectedObjects;
-    }
-
-    #endregion
-
-    #region Public Interface
-    public GridTile GetTileAtPoint(Vector3 point) {
-        return gridTiles.Find(tile => tile.Position.NoY().IsAboutEqual(point.NoY()));
-    }
-    public void ResetGrid() {
-        gridTiles.ForEach(tile => { tile.IsActive = false; });
     }    
-
-    public void ClearSelectedBlocks() {
-        DeselectBlocks();
-    }
-
-    public List<GameObject> GetSelectedBlocks() { return selectedGameObjects; }    
-
-    public void SetGridVisiblity(bool show) {
-        displaying = show;
-        gridTiles.ForEach(tile => { tile.ToggleGhostGlobal(show); });
-    }
-
     #endregion
+
+    
 }
 
 [System.Serializable]
@@ -386,8 +397,10 @@ public class GridTile {
 
         this.ghostParent = ghostParent;
         this.tileParent = tileParent;
-        rend = realTile.GetComponent<MeshRenderer>();
-        rend.GetPropertyBlock(propBlock);
+        meshRenderer = realTile.GetComponent<MeshRenderer>();
+        levelUnit = realTile.GetComponent<LevelUnit>();
+        blockUnit = realTile.GetComponent<PLEBlockUnit>();
+        meshRenderer.GetPropertyBlock(propBlock);
         realTile.transform.SetParent(ghostParent);
         ghostTile.transform.SetParent(ghostParent);
 
@@ -396,12 +409,14 @@ public class GridTile {
         wall_W.transform.SetParent(ghostParent);
         wall_S.transform.SetParent(ghostParent);
     }
-    //private const string BlockColor = "_AlbedoTint";
-    private const string BlockColor = "_Color";
+    public const string BlockColorName = "_AlbedoTint";
+    //private const string BlockColor = "_Color";
 
     Transform ghostParent, tileParent;
-    MeshRenderer rend;
+    MeshRenderer meshRenderer;
     MaterialPropertyBlock propBlock = new MaterialPropertyBlock();
+    LevelUnit levelUnit;
+    PLEBlockUnit blockUnit;
     public GameObject realTile;
     public GameObject ghostTile;
     public GameObject wall_N, wall_E, wall_W, wall_S;
@@ -433,9 +448,10 @@ public class GridTile {
         ghostTile.SetActive(!IsActive);
     }
     public void ChangeColor(Color color) {
-        propBlock.SetColor(BlockColor, color);
-        rend.SetPropertyBlock(propBlock);
+        propBlock.SetColor(BlockColorName, color);
+        meshRenderer.SetPropertyBlock(propBlock);
     }
+    public Color CurrentTileStateColor { get { return levelUnit.CurrentStateColor; } }
     public void SetSelected(bool isSelected) {
         this.isSelected = isSelected;
     }

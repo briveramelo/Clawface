@@ -65,9 +65,9 @@ public class WaveSystem : MonoBehaviour
 
 
         UpdateWaveText();
-
+        bool shouldChangeColor = true;
         string wave = Strings.Events.PLE_TEST_WAVE_ + currentWave.ToString();
-        EventSystem.Instance.TriggerEvent(wave);
+        EventSystem.Instance.TriggerEvent(wave, shouldChangeColor);
         EventSystem.Instance.TriggerEvent(Strings.Events.PLE_CHANGEWAVE);
     }
 
@@ -80,9 +80,10 @@ public class WaveSystem : MonoBehaviour
 
         UpdateWaveText();
 
+        bool shouldChangeColor = true;
         string wave = Strings.Events.PLE_TEST_WAVE_ + currentWave.ToString();
 
-        EventSystem.Instance.TriggerEvent(wave);
+        EventSystem.Instance.TriggerEvent(wave, shouldChangeColor);
         EventSystem.Instance.TriggerEvent(Strings.Events.PLE_CHANGEWAVE);
     }
 
@@ -90,9 +91,10 @@ public class WaveSystem : MonoBehaviour
     {
         if (EventSystem.Instance)
         {
+            bool shouldChangeColor = true;
             EventSystem.Instance.TriggerEvent(Strings.Events.PLE_UPDATE_LEVELSTATE);
             string wave = Strings.Events.PLE_TEST_WAVE_ + currentWave.ToString();
-            EventSystem.Instance.TriggerEvent(wave);
+            EventSystem.Instance.TriggerEvent(wave, shouldChangeColor);
         }
     }
 

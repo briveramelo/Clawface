@@ -19,12 +19,13 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4971984987700142}
-  - component: {fileID: 33318835605188908}
-  - component: {fileID: 23736041872131040}
-  - component: {fileID: 65738597059905108}
+  - component: {fileID: 114751341882121438}
   - component: {fileID: 114096634060359934}
   - component: {fileID: 114090154358929182}
   - component: {fileID: 114884145739428358}
+  - component: {fileID: 33318835605188908}
+  - component: {fileID: 23736041872131040}
+  - component: {fileID: 65738597059905108}
   - component: {fileID: 65509547728630370}
   m_Layer: 11
   m_Name: PLEBlockUnit_Cherlin
@@ -167,6 +168,22 @@ MonoBehaviour:
   flatColor: {r: 0, g: 0, b: 0, a: 0}
   fallColor: {r: 0.8308824, g: 0.8308824, b: 0.8308824, a: 0}
   defaultState: 1
+--- !u!114 &114751341882121438
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1369339441507028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b649a64d54bb51409ae83343682f85b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blockID: 0
+  spawnTrans: {fileID: 0}
+  levelStates: 
+  prop: {fileID: 0}
+  spawns: []
 --- !u!114 &114884145739428358
 MonoBehaviour:
   m_ObjectHideFlags: 1
