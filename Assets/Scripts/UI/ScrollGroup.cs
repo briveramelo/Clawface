@@ -38,10 +38,7 @@ public abstract class ScrollGroup : MonoBehaviour {
             GameObject toAdd = GameObject.Instantiate(iconTemplate);
             PLEUIItem spawnToSet = toAdd.GetComponent<PLEUIItem>();
             pleUIItems.Add(spawnToSet);
-            spawnToSet.InitializeItem(i, this);
-            if (i == 0) {
-                SelectItem(i);
-            }
+            spawnToSet.InitializeItem(i, this);            
             spawnToSet.registeredItem = go;
 
             toAdd.SetActive(true);
@@ -66,6 +63,8 @@ public abstract class ScrollGroup : MonoBehaviour {
             myRec.localScale = new Vector3(1.0f, 1.0f, 1.0f);
 
         }
+
+        SelectItem(0);
     }
     #endregion
 }
