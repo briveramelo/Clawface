@@ -103,7 +103,7 @@ public abstract class PlacementMenu : Menu {
         previewItem.transform.position = MouseHelper.currentBlockUnit.spawnTrans.position;
     }
 
-    private void DeleteHoveredItem() {
+    protected virtual void DeleteHoveredItem() {
         MouseHelper.currentBlockUnit.SetOccupation(false);
         itemNames.Remove(MouseHelper.currentHoveredObject.name);
         Helpers.DestroyProper(MouseHelper.currentHoveredObject);

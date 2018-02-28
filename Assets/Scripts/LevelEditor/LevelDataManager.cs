@@ -54,9 +54,10 @@ public class LevelDataManager : MonoBehaviour {
         LoadSpawnsToggledState();
         waveSystem.ResetToWave0();
         LoadImages();
+        levelEditor.CheckToSetMenuInteractability();
     }
 
-    void LoadTiles() {
+    private void LoadTiles() {
         playerLevelEditorGrid.ResetGrid();
         for (int i = 0; i < ActiveTileData.Count; i++) {
             TileData tileData = ActiveTileData[i];
@@ -86,7 +87,7 @@ public class LevelDataManager : MonoBehaviour {
         playerLevelEditorGrid.ShowWalls();
     }
 
-    void LoadProps() {
+    private void LoadProps() {
         List<string> propNames = new List<string>();
         propsParent.DestroyAllChildren();
         List<GameObject> propPrefabs = Resources.LoadAll<GameObject>(Strings.Editor.ENV_OBJECTS_PATH).ToList();
@@ -104,7 +105,7 @@ public class LevelDataManager : MonoBehaviour {
         propsMenu.ResetMenu(propNames);
     }
 
-    void LoadSpawnsAllOn() {
+    private void LoadSpawnsAllOn() {
         List<string> spawnNames = new List<string>();
         List<GameObject> spawnObjects = Resources.LoadAll<GameObject>(Strings.Editor.SPAWN_OBJECTS_PATH).ToList();
         List<PLESpawn> pleSpawns = spawnObjects.Select(spawn => spawn.GetComponent<PLESpawn>()).ToList();
@@ -137,7 +138,7 @@ public class LevelDataManager : MonoBehaviour {
         spawnMenu.ResetMenu(spawnNames);
     }
 
-    void LoadSpawnsToggledState() {
+    private void LoadSpawnsToggledState() {
         spawnParent.ToggleAllChildren(false);
         if (spawnParent.childCount > 0) {
             Transform firstChild = spawnParent.GetChild(0);
@@ -150,11 +151,13 @@ public class LevelDataManager : MonoBehaviour {
         }
     }
 
-    void LoadImages() {
+    private void LoadImages() {
         ActiveDataSave.levelDatas.ForEach(levelData => {
             Sprite dummySprite = levelData.MySprite;
         });
     }
+
+    
     #endregion
 
     #region Save
@@ -170,7 +173,7 @@ public class LevelDataManager : MonoBehaviour {
         SaveLevelText();
         StartCoroutine(TakePictureAndSave());
     }
-    void SaveTiles() {
+    private void SaveTiles() {
         ActiveTileData.Clear();
         for (int i = 0; i < tileParent.childCount; i++) {
             Transform tile = tileParent.GetChild(i);
@@ -184,7 +187,7 @@ public class LevelDataManager : MonoBehaviour {
         }
     }
 
-    void SaveProps() {
+    private void SaveProps() {
         //List<string> propNames = Resources.LoadAll<GameObject>(Strings.Editor.ENV_OBJECTS_PATH).Select(item=>item.name).ToList();
         ActivePropData.Clear();
         for (int i = 0; i < propsParent.childCount; i++) {
@@ -194,7 +197,7 @@ public class LevelDataManager : MonoBehaviour {
             ActivePropData.Add(propData);
         }
     }
-    void SaveSpawns() {
+    private void SaveSpawns() {
         ActiveWaveData.Clear();
         spawnParent.SortChildrenByName();
         //TODO Need to check that keira has been placed
@@ -224,7 +227,7 @@ public class LevelDataManager : MonoBehaviour {
         }
     }
 
-    void SaveLevelText() {
+    private void SaveLevelText() {
         ActiveLevelData.name = levelName.text;
         ActiveLevelData.description = levelDescription.text;
     }
@@ -238,13 +241,13 @@ public class LevelDataManager : MonoBehaviour {
         levelEditor.GetMenu(PLEMenu.MAIN).CanvasGroup.alpha = 1f;
     }
 
-    void SavePicture() {
+    private void SavePicture() {
         Texture2D snapshot = new Texture2D((int)Camera.main.pixelRect.width, (int)Camera.main.pixelRect.height);
         Rect snapRect = Camera.main.pixelRect;
         //snapRect.width = LevelData.width;
         //snapRect.height = LevelData.height;
         snapshot.ReadPixels(snapRect, 0, 0);
-        snapshot.Resize((int)LevelData.fixedSize.x, (int)LevelData.fixedSize.y);
+        TextureScale.Bilinear(snapshot, (int)LevelData.fixedSize.x, (int)LevelData.fixedSize.y);
         snapshot.Apply();
         byte[] imageBytes = snapshot.EncodeToPNG();
         ActiveLevelData.SetPicture(imageBytes);

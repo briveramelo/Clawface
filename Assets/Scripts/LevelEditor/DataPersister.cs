@@ -91,7 +91,15 @@ public class DataSave {
     int selectedIndex = 0;
 
     public LevelData ActiveLevelData { get { if (levelDatas.Count==0) { levelDatas.Add(new LevelData()); } return levelDatas[SelectedIndex]; } }
-    public int SelectedIndex { get { return selectedIndex; } set { selectedIndex = Mathf.Clamp(value, 0, Mathf.Max(levelDatas.Count - 1, 0)); } }
+    public int SelectedIndex {
+        get {
+            selectedIndex = Mathf.Clamp(selectedIndex, 0, Mathf.Max(levelDatas.Count - 1, 0));
+            return selectedIndex;
+        }
+        set {
+            selectedIndex = value;
+        }
+    }
 
     public void AddAndSelectNewLevel() {
         levelDatas.Add(new LevelData());

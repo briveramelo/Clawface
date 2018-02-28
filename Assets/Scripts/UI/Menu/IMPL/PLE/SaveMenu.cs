@@ -96,4 +96,7 @@ public class SaveMenu : Menu {
     }
 
     #endregion
+
+    #region Private Interface
+    #endregion
 }

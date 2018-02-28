@@ -45,30 +45,6 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     const string GhostBlock = "GhostBlock";
     const string RealBlock = "RealBlock";
 
-    #region Public Interface
-
-    public void ShowWalls() {
-        gridTiles.ForEach(tile => tile.EnableWalls());
-    }
-    public GridTile GetTileAtPoint(Vector3 point) {
-        return gridTiles.Find(tile => tile.Position.NoY().IsAboutEqual(point.NoY()));
-    }
-    public void ResetGrid() {
-        gridTiles.ForEach(tile => { tile.IsActive = false; });
-    }
-
-    public void ClearSelectedBlocks() {
-        DeselectBlocks();
-    }
-
-    public List<GameObject> GetSelectedBlocks() { return selectedGameObjects; }
-
-    public void SetGridVisiblity(bool show) {
-        displaying = show;
-        gridTiles.ForEach(tile => { tile.ToggleGhostGlobal(show); });
-    }
-
-    #endregion
 
     #region Unity Lifecycle
 
@@ -106,8 +82,36 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
 
     #endregion
 
-    #region Private Interface
+    #region Public Interface
 
+    public bool AnyTilesEnabled() {
+        return gridTiles.Any(tile => tile.IsActive);
+    }
+
+    public void ShowWalls() {
+        gridTiles.ForEach(tile => tile.EnableWalls());
+    }
+    public GridTile GetTileAtPoint(Vector3 point) {
+        return gridTiles.Find(tile => tile.Position.NoY().IsAboutEqual(point.NoY()));
+    }
+    public void ResetGrid() {
+        gridTiles.ForEach(tile => { tile.IsActive = false; });
+    }
+
+    public void ClearSelectedBlocks() {
+        DeselectBlocks();
+    }
+
+    public List<GameObject> GetSelectedBlocks() { return selectedGameObjects; }
+
+    public void SetGridVisiblity(bool show) {
+        displaying = show;
+        gridTiles.ForEach(tile => { tile.ToggleGhostGlobal(show); });
+    }
+
+    #endregion
+
+    #region Private Interface
     private void Initilaize(params object[] par) {
         previewBlock = Resources.Load(Strings.Editor.RESOURCE_PATH + Strings.Editor.BASIC_LE_BLOCK) as GameObject;
         spawnedBlock = Resources.Load(Strings.Editor.RESOURCE_PATH + Strings.Editor.CHERLIN_LVL_BLOCK) as GameObject;
@@ -201,6 +205,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         if (Input.GetMouseButtonUp(MouseButtons.LEFT) && !Input.GetKey(KeyCode.LeftAlt)) {
             DuplicateBlocks(hit);
             ShowWalls();
+            editorInstance.CheckToSetMenuInteractability();
         }
     }
 
@@ -217,6 +222,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
             if (!Input.GetKey(KeyCode.LeftAlt)) {
                 DeleteBlocks(hit);
                 ShowWalls();
+                editorInstance.CheckToSetMenuInteractability();
             }
         }
     }
