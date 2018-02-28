@@ -24,7 +24,7 @@ public class InGameUI : MonoBehaviour {
     [SerializeField] private Transform healthBar;
 
     [Header("Tutorial")]
-    [SerializeField] private Image onScreenTutorialElement;
+    [SerializeField] private Text onScreenTutorialElement;
     [SerializeField] private Image FullScreenFadeElement;
 
     [Header("GlitchDamageEffect")]
@@ -270,6 +270,7 @@ public class InGameUI : MonoBehaviour {
 
     private void ShowTutorialText(object[] parameters)
     {
+        onScreenTutorialElement.text = (string)parameters[0];
         onScreenTutorialElement.enabled = true;
         FullScreenFadeElement.enabled = true;
     }

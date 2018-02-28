@@ -41,6 +41,8 @@ public class PlayerStateManager : RoutineRunner {
     private bool playerCanMove = true;
     private bool isTutorialDone;
     private bool isInTutorial;
+    private bool isDashTutorialDone;
+    private bool isInDashTutorial;
     private bool isSlowDownFinished;
 
     const string SlowTime = "SlowTime";
@@ -80,7 +82,7 @@ public class PlayerStateManager : RoutineRunner {
     // Update is called once per frame
     void Update()
     {
-        if (playerCanMove && !isInTutorial)
+        if (playerCanMove && !isInTutorial && !isInDashTutorial)
         {
             if (stateChanged && stateVariables.stateFinished)
             {
@@ -114,6 +116,17 @@ public class PlayerStateManager : RoutineRunner {
                 FinishTutorial();
             }
         }
+        else if (isInDashTutorial)
+        {
+            if (InputManager.Instance.QueryAction(Strings.Input.Actions.DODGE, ButtonMode.DOWN))
+            {
+                SwitchState(dashState);
+                dashState.StartDash();
+                Physics.IgnoreLayerCollision(LayerMask.NameToLayer(Strings.Layers.ENEMY), LayerMask.NameToLayer(Strings.Layers.MODMAN), true);
+                Physics.IgnoreLayerCollision(LayerMask.NameToLayer(Strings.Layers.ENEMY_BODY), LayerMask.NameToLayer(Strings.Layers.MODMAN), true);
+                FinishDashTutorial();
+            }
+        }
     }
 
 
@@ -145,6 +158,7 @@ public class PlayerStateManager : RoutineRunner {
     private void OnTriggerEnter(Collider other)
     {
         SetEnemyCloseToEat(other, true);
+        SetEnemyCloseToDash(other, true);
     }
 
     private void OnTriggerStay(Collider other)
@@ -153,11 +167,16 @@ public class PlayerStateManager : RoutineRunner {
         {
             SetEnemyCloseToEat(other, true);
         }
+        if (!isDashTutorialDone && !isInDashTutorial)
+        {
+            SetEnemyCloseToDash(other, true);
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
         SetEnemyCloseToEat(other, false);
+        SetEnemyCloseToDash(other, false);
     }
 
     private void OnDestroy()
@@ -196,6 +215,14 @@ public class PlayerStateManager : RoutineRunner {
         }
     }
 
+    private void SetEnemyCloseToDash(Collider other, bool state)
+    {
+        if (other.tag.Equals(Strings.Tags.ENEMY))
+        {
+            StartDashTutorial();
+        }
+    }
+
     private void InitializeStates()
     {
         defaultState.Init(ref stateVariables);
@@ -212,11 +239,27 @@ public class PlayerStateManager : RoutineRunner {
             EventSystem.Instance.TriggerEvent(Strings.Events.GAME_CAN_PAUSE, false);
             eatCollider.radius *= TutorialRadiusMultiplier;
             stateVariables.eatRadius *= TutorialRadiusMultiplier;
-            Timing.RunCoroutine(StartTutorialSlowDown(), SlowTime);
+            string tutorialText = "press RT to eat enemies and recover health";
+            Timing.RunCoroutine(StartTutorialSlowDown(tutorialText), SlowTime);
         }
     }
 
-    private IEnumerator<float> StartTutorialSlowDown()
+    private void StartDashTutorial()
+    {
+        if (!isDashTutorialDone && !isInDashTutorial)
+        {
+            isInDashTutorial = true;
+            EventSystem.Instance.TriggerEvent(Strings.Events.ENEMY_INVINCIBLE, true);
+            EventSystem.Instance.TriggerEvent(Strings.Events.GAME_CAN_PAUSE, false);
+            //Using the same eat collider to trigger dash tutorial
+            eatCollider.radius *= TutorialRadiusMultiplier;
+            stateVariables.eatRadius *= TutorialRadiusMultiplier;
+            string tutorialText = "press LT to dash through baddies and bullets";
+            Timing.RunCoroutine(StartTutorialSlowDown(tutorialText), SlowTime);
+        }
+    }
+
+    private IEnumerator<float> StartTutorialSlowDown(string tutorialText)
     {        
         while (tutorialTimeScale > 0.1f)
         {
@@ -226,7 +269,7 @@ public class PlayerStateManager : RoutineRunner {
         }
         tutorialTimeScale = 0.0f;
         Time.timeScale = tutorialTimeScale;
-        EventSystem.Instance.TriggerEvent(Strings.Events.SHOW_TUTORIAL_TEXT);
+        EventSystem.Instance.TriggerEvent(Strings.Events.SHOW_TUTORIAL_TEXT,tutorialText);
         EventSystem.Instance.TriggerEvent(Strings.Events.ENEMY_INVINCIBLE, false);
         isSlowDownFinished = true;
     }
@@ -243,9 +286,22 @@ public class PlayerStateManager : RoutineRunner {
         }
     }
 
+    private void FinishDashTutorial()
+    {
+        if (!isDashTutorialDone && isSlowDownFinished)
+        {
+            isDashTutorialDone = true;
+            EventSystem.Instance.TriggerEvent(Strings.Events.GAME_CAN_PAUSE, true);
+            eatCollider.radius /= TutorialRadiusMultiplier;
+            stateVariables.eatRadius /= TutorialRadiusMultiplier;
+            Timing.RunCoroutine(StartTutorialSpeedUp(), SpeedTime);
+        }
+    }
+
     private IEnumerator<float> StartTutorialSpeedUp()
     {        
         isInTutorial = false;
+        isInDashTutorial = false;
         while (tutorialTimeScale < 0.9f)
         {
             tutorialTimeScale = Mathf.Lerp(tutorialTimeScale, 1.0f, tutorialSpeedUpRate);
