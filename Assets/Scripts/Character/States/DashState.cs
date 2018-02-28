@@ -25,6 +25,15 @@ public class DashState : IPlayerState {
     protected int[] highlightPoses;
     [SerializeField]
     protected int totalAttackPoses;
+
+    [SerializeField]
+    private float totalDashTime;
+
+    [SerializeField]
+    private float dashITimeStart;
+
+    [SerializeField]
+    private float dashITimeEnd;
     #endregion
 
     #region Private Fields
@@ -32,6 +41,8 @@ public class DashState : IPlayerState {
     private int currentPose;
     private bool isClawOut;
     private float currentRotation;
+
+    private float dashTimer;
     #endregion
 
     #region Unity Lifecycle
@@ -47,28 +58,36 @@ public class DashState : IPlayerState {
         this.stateVariables = stateVariables;        
         currentFrame = 0;
         currentPose = 0;
+        dashTimer = 0f;
     }
 
     public override void StateFixedUpdate()
     {
-        if (currentFrame == 0) {
-            SFXManager.Instance.Play(SFXType.Dash, transform.position);
-            dashPuff.Play();
-            dashTrail.GetComponent<TrailRenderer>().enabled = true;
-        }
-        currentFrame++;
-        PlayAnimation();
-        CheckForIFrames();
-        MovePlayer();        
-        PushEnemies();
-        if (currentFrame >= totalDashFrames) {
-            ResetState();
-        }
+        //currentFrame++;
+        //PlayAnimation();
+        //CheckForIFrames();
+        //MovePlayer();        
+        //PushEnemies();
+        //if (currentFrame >= totalDashFrames) {
+        //    ResetState();
+        //}
+    }
+
+    public void StartDash()
+    {
+        SFXManager.Instance.Play(SFXType.Dash, transform.position);
+        dashPuff.Play();
+        dashTrail.GetComponent<TrailRenderer>().enabled = true;
     }
 
     public override void StateUpdate()
     {
-        
+        dashTimer += Time.deltaTime;
+        PlayAnimation();
+        MovePlayer();
+        PushEnemies();
+
+        if (dashTimer >= totalDashTime) ResetState();
     }
 
     public override void StateLateUpdate()
@@ -84,10 +103,12 @@ public class DashState : IPlayerState {
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer(Strings.Layers.ENEMY_BODY), LayerMask.NameToLayer(Strings.Layers.MODMAN), false);
         currentFrame = 0;
         currentPose = 0;
+        dashTimer = 0f;
         stateVariables.statsManager.damageModifier = 1.0f;
         if (stateVariables.velBody.GetMovementMode()==MovementMode.ICE) {
             stateVariables.velBody.velocity = stateVariables.velBody.GetForward() * dashVelocity/10f;
         }
+        dashTrail.GetComponent<TrailRenderer>().Clear();
         dashTrail.GetComponent<TrailRenderer>().enabled = false;
         isClawOut = false;
         currentRotation = 0.0f;
@@ -107,15 +128,11 @@ public class DashState : IPlayerState {
         stateVariables.animator.Play(PlayerAnimationStates.Dash.ToString(), -1, currentPose / (float)totalAttackPoses);
     }
 
-    private void CheckForIFrames()
+    public bool CheckForIFrames()
     {
-        if(currentFrame == iFrameStart)
-        {
-            stateVariables.statsManager.damageModifier = 0.0f;
-        }else if (currentFrame == iFrameEnd)
-        {
-            stateVariables.statsManager.damageModifier = 1.0f;
-        }
+        if (dashTimer >= dashITimeStart && dashTimer < dashITimeEnd) return true;
+
+        return false;
     }
 
     private void MovePlayer()

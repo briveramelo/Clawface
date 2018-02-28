@@ -1346,7 +1346,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1037098238369040}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.01, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4067420890221204}
@@ -2248,6 +2248,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zombieParent: {fileID: 0}
   zombieBeserkerParent: {fileID: 114526479287558800}
+  zombieAciderParent: {fileID: 0}
   childCollider: {fileID: 136605771835953142}
 --- !u!114 &114814501131977724
 MonoBehaviour:

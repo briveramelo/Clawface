@@ -94,6 +94,7 @@ public class KamikazePulser : EnemyBase
 
     public override void ResetForRebirth()
     {
+        SetScorePoints(EnemyStatsManager.Instance.kamikazePulserStats.scoreValue);
         base.ResetForRebirth();
     }
 
@@ -118,6 +119,11 @@ public class KamikazePulser : EnemyBase
         getUp.Up();
     }
 
+
+    public void SetScorePoints(int score)
+    {
+        scoreValue = score;
+    }
     #endregion
 
     #region 6. Private Methods    
