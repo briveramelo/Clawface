@@ -165,22 +165,24 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
 
     private GridTile lastSelectedTile;
     private void HandleHoveringBlocks(RaycastHit hit) {
-        if (MouseHelper.HitTile) {
-            Vector3 mousePos = MouseHelper.currentBlockUnit.transform.position;
-            GridTile hoveredTile = GetTileAtPoint(mousePos);
-            if (lastSelectedTile != null && hoveredTile != lastSelectedTile) {
-                if (!hoveredTile.isSelected) {
-                    hoveredTile.ChangeColor(hoverColor);
+        if (!Input.GetKey(KeyCode.LeftShift)) {
+            if (MouseHelper.HitTile) {
+                Vector3 mousePos = MouseHelper.currentBlockUnit.transform.position;
+                GridTile hoveredTile = GetTileAtPoint(mousePos);
+                if (lastSelectedTile != null && hoveredTile != lastSelectedTile) {
+                    if (!hoveredTile.isSelected) {
+                        hoveredTile.ChangeColor(hoverColor);
+                    }
+                    if (!lastSelectedTile.isSelected) {
+                        lastSelectedTile.ChangeColor(lastSelectedTile.CurrentTileStateColor);
+                    }
                 }
-                if (!lastSelectedTile.isSelected) {
+                lastSelectedTile = hoveredTile;
+            }
+            else {
+                if (lastSelectedTile != null && !lastSelectedTile.isSelected) {
                     lastSelectedTile.ChangeColor(lastSelectedTile.CurrentTileStateColor);
                 }
-            }
-            lastSelectedTile = hoveredTile;
-        }
-        else {
-            if (lastSelectedTile != null && !lastSelectedTile.isSelected) {
-                lastSelectedTile.ChangeColor(lastSelectedTile.CurrentTileStateColor);
             }
         }
     }
@@ -190,11 +192,11 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
             DeselectBlocks();
         }
         if (Input.GetMouseButton(MouseButtons.LEFT) && Input.GetKey(KeyCode.LeftShift)) {
-            DeselectBlocksAndReselectPreviouslySelected();
+            ReselectPreviouslySelected();
             SelectBlocks(hit, selectedColor);
         }
         if (Input.GetMouseButtonUp(MouseButtons.LEFT) && Input.GetKey(KeyCode.LeftShift) && !Input.GetKey(KeyCode.LeftAlt)) {
-            AddToLastSelectedObjects(hit);
+            ToggleLastSelectedObjects(hit);
         }
         if (Input.GetMouseButtonUp(MouseButtons.LEFT) && !Input.GetKey(KeyCode.LeftAlt)) {
             DuplicateBlocks(hit);
@@ -292,7 +294,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         });
     }
 
-    private void DeselectBlocksAndReselectPreviouslySelected() {
+    private void ReselectPreviouslySelected() {
         selectedGameObjects.Clear();
         gridTiles.ForEach(tile => {
             tile.ChangeColor(tile.CurrentTileStateColor);
@@ -315,14 +317,25 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
 
         gridTiles.ForEach(tile => {
             if (selectedObjects.Contains(tile.realTile)) {
-                tile.ChangeColor(selectionColor);
-                tile.SetSelected(true);
-                selectedGameObjects.Add(tile.realTile);
+                if (lastSelectedGameObjects.Exists(lastList => lastList.Contains(tile.realTile))) {
+                    tile.ChangeColor(tile.CurrentTileStateColor);
+                    tile.SetSelected(false);
+                    if (selectedGameObjects.Contains(tile.realTile)) {
+                        selectedGameObjects.Remove(tile.realTile);
+                    }
+                }
+                else {
+                    tile.ChangeColor(selectionColor);
+                    tile.SetSelected(true);
+                    if (!selectedGameObjects.Contains(tile.realTile)) {
+                        selectedGameObjects.Add(tile.realTile);
+                    }
+                }
             }
         });
     }
 
-    private void AddToLastSelectedObjects(RaycastHit hit) {
+    private void ToggleLastSelectedObjects(RaycastHit hit) {
         List<GameObject> selectedObjects = SelectObjectsAlgorithm(hit);
         for (int i = lastSelectedGameObjects.Count - 1; i >= 0; i--) {
             for (int j = selectedObjects.Count - 1; j >= 0; j--) {
