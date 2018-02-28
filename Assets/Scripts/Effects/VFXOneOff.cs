@@ -121,6 +121,7 @@ namespace Turing.VFX
                 {
                     float duration = particleSystem.main.duration + 
                         particleSystem.main.startLifetime.Max();
+                    duration /= particleSystem.main.simulationSpeed;
                     if (duration > max)
                         max = duration;
                 }
