@@ -53,6 +53,7 @@ public class LevelDataManager : MonoBehaviour {
         LoadTiles();
         LoadSpawnsToggledState();
         waveSystem.ResetToWave0();
+        LoadImages();
     }
 
     void LoadTiles() {
@@ -148,6 +149,12 @@ public class LevelDataManager : MonoBehaviour {
             }
         }
     }
+
+    void LoadImages() {
+        ActiveDataSave.levelDatas.ForEach(levelData => {
+            Sprite dummySprite = levelData.MySprite;
+        });
+    }
     #endregion
 
     #region Save
@@ -237,6 +244,7 @@ public class LevelDataManager : MonoBehaviour {
         //snapRect.width = LevelData.width;
         //snapRect.height = LevelData.height;
         snapshot.ReadPixels(snapRect, 0, 0);
+        snapshot.Resize((int)LevelData.fixedSize.x, (int)LevelData.fixedSize.y);
         snapshot.Apply();
         byte[] imageBytes = snapshot.EncodeToPNG();
         ActiveLevelData.SetPicture(imageBytes, Camera.main.pixelRect.size);

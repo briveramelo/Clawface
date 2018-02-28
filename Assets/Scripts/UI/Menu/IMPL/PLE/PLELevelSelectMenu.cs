@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using ModMan;
 using PlayerLevelEditor;
+using System.Linq;
 
 public class PLELevelSelectMenu : Menu {
 
@@ -36,9 +37,17 @@ public class PLELevelSelectMenu : Menu {
     public void OnSearchChange() {
         gridLayoutGroup.enabled = false;
         string searchTerm = searchField.text.ToLowerInvariant();
+        List<string> searchTerms = searchTerm.Split(' ').ToList();
+
         for (int i = 0; i < levelUIs.Count; i++) {
             LevelData levelData = levelUIs[i].levelData;
-            bool shouldShow = string.IsNullOrEmpty(searchTerm) || searchTerm.Length == 0 || levelData.name.ToLowerInvariant().Contains(searchTerm) || levelData.description.ToLowerInvariant().Contains(searchTerm);
+            string levelDataName = levelData.name.ToLowerInvariant();
+            string levelDataDescription = levelData.description.ToLowerInvariant();
+            bool shouldShow =
+                string.IsNullOrEmpty(searchTerm) ||
+                searchTerm.Length == 0 ||
+                searchTerms.All(term => { return levelDataName.Contains(term) || levelDataDescription.Contains(term); });                
+
             levelUIs[i].gameObject.SetActive(shouldShow);
         }
         
@@ -56,7 +65,7 @@ public class PLELevelSelectMenu : Menu {
         LevelData selectedLevel = ActiveDataSave.levelDatas[levelIndex];
         levelNameText.text = selectedLevel.name;
         levelDescriptionText.text = selectedLevel.description;
-        levelImage.sprite = Sprite.Create(selectedLevel.Snapshot, new Rect(Vector2.zero, selectedLevel.size.AsVector), Vector2.one * .5f);
+        levelImage.sprite = selectedLevel.MySprite;
         levelUIs.ForEach(levelUI => {
             levelUI.OnGroupSelectChanged(levelIndex);
         });

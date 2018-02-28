@@ -20,7 +20,7 @@ public class LevelUI : ClickableBase, IUIGroupable {
         this.levelIndex = levelIndex;
         colorChangingUI.SetUIIndex(levelIndex);
         this.levelData = levelData;
-        image.sprite = Sprite.Create(levelData.Snapshot, new Rect(Vector2.zero, levelData.size.AsVector), Vector2.one * .5f);
+        image.sprite = levelData.MySprite;
     }
 
     public override void OnPointerDown(PointerEventData eventData) {

@@ -110,26 +110,24 @@ public class LevelData {
     public string name, description;
     public byte[] imageData;
     public Vector2_S size;
-    public Texture2D Snapshot {
+    public static readonly Vector2 fixedSize = new Vector2(656, 369);
+    public Sprite MySprite {
         get {
             if (snapShot==null) {
-                snapShot = new Texture2D((int)size.x, (int)size.y);
-                if (imageData!=null) {
-                    snapShot.LoadImage(imageData);
-                }
+                CreateSprite();
             }
             return snapShot;
         }
     }
+    [NonSerialized] Texture2D imageTexture;
+    [NonSerialized] Sprite snapShot;
+
     public void SetPicture(byte[] imageData, Vector2 dimensions) {
         this.imageData = imageData;
         this.size = new Vector2_S(dimensions);
-        snapShot = new Texture2D((int)dimensions.x, (int)dimensions.y);
-        snapShot.LoadImage(imageData);
+        CreateSprite();
     }
     public bool IsEmpty { get { return string.IsNullOrEmpty(name); } }
-
-    [NonSerialized] Texture2D snapShot;
     public List<WaveData> waveData = new List<WaveData>();
     public List<TileData> tileData = new List<TileData>();
     public List<PropData> propData = new List<PropData>();
@@ -137,6 +135,14 @@ public class LevelData {
     public int WaveCount { get { return waveData.Count; } }
     public int TileCount { get { return tileData.Count; } }
     public int PropCount { get { return propData.Count; } }
+
+    void CreateSprite() {
+        imageTexture = new Texture2D((int)size.x, (int)size.y);
+        if (imageData != null) {
+            imageTexture.LoadImage(imageData);
+        }
+        snapShot = Sprite.Create(imageTexture, new Rect(Vector2.zero, size.AsVector), Vector2.one * .5f);
+    }
 }
 
 [Serializable]
