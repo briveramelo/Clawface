@@ -324,11 +324,12 @@ public class Wave
 
     private void FireEvents(List<string> eventNames)
     {
+        bool shouldShowColor = true;
         if (eventNames != null)
         {
             for (int i = 0; i < eventNames.Count; i++)
             {
-                EventSystem.Instance.TriggerEvent(eventNames[i]);
+                EventSystem.Instance.TriggerEvent(eventNames[i], shouldShowColor);
             }
         }
     }
