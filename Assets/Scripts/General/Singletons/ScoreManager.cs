@@ -1,5 +1,6 @@
 ﻿// Adam Kay
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -40,7 +41,8 @@ public class ScoreManager : Singleton<ScoreManager> {
         EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_STARTED, OnLevelStart);
         EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_RESTARTED, OnLevelRestart);
         EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_QUIT, OnLevelQuit);
-    }
+        EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_KILLED, OnPlayerKilled);
+    }       
 
     private new void OnDestroy()
     {
@@ -52,6 +54,7 @@ public class ScoreManager : Singleton<ScoreManager> {
             EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_STARTED, OnLevelStart);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_RESTARTED, OnLevelRestart);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_QUIT, OnLevelQuit);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_KILLED, OnPlayerKilled);
         }
 
         base.OnDestroy();
@@ -282,6 +285,10 @@ public class ScoreManager : Singleton<ScoreManager> {
         OnLevelStart();
     }
 
+    private void OnPlayerKilled(object[] parameters)
+    {
+        LeaderBoards.Instance.UpdateScore(score);
+    }
     #endregion
 
 }

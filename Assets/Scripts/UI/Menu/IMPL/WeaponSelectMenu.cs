@@ -63,6 +63,9 @@ public class WeaponSelectMenu : Menu
     [SerializeField]
     private List<WeaponInfo> weaponInfos;
 
+    [SerializeField] Animator leftArmAnimator;
+    [SerializeField] Animator rightArmAnimator;
+
     #endregion
 
     #region Fields (Internal)
@@ -258,6 +261,7 @@ public class WeaponSelectMenu : Menu
             else if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN))
             {
                 ResetMenu();
+                rightArmAnimator.SetTrigger("DoUnlock");
             }
         }
         else if (!selectingPlayerRight && !selectingPlayerLeft)
@@ -277,6 +281,7 @@ public class WeaponSelectMenu : Menu
                 leftArm.GlowControl.Reset();
                 leftArm.ResetArrows();
                 ChangeWeaponTextPanel(leftArm);
+                leftArmAnimator.SetTrigger("DoUnlock");
             }
         }
 
@@ -331,6 +336,7 @@ public class WeaponSelectMenu : Menu
         ModManager.rightArmOnLoad = rightArm.GetSelection();
         selectingPlayerRight = false;
         selectingPlayerLeft = true;
+        rightArmAnimator.SetTrigger("DoLock");
     }
 
     private void LockInLeftAction()
@@ -338,6 +344,7 @@ public class WeaponSelectMenu : Menu
         startButton.image.sprite = selectedButtonSprite;
         ModManager.leftArmOnLoad = leftArm.GetSelection();
         selectingPlayerLeft = false;
+        leftArmAnimator.SetTrigger("DoLock");
     }
 
     private void ChangeWeaponTextPanel(WeaponLineup lineup)
