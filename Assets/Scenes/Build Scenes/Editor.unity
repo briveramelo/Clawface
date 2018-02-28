@@ -502,6 +502,12 @@ RectTransform:
   m_PrefabParentObject: {fileID: 224895612749015212, guid: dc7165861f6f6514b801d2d1bd9bbf6a,
     type: 2}
   m_PrefabInternal: {fileID: 1496410350}
+--- !u!114 &301734844 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114712441298845850, guid: 276672d4c27918744a57ba9484a193ce,
+    type: 2}
+  m_PrefabInternal: {fileID: 386979250}
+  m_Script: {fileID: 11500000, guid: 10f2f5c70a053a242b4008c273170742, type: 3}
 --- !u!1001 &386979250
 Prefab:
   m_ObjectHideFlags: 0
@@ -558,7 +564,7 @@ Prefab:
     - target: {fileID: 224203359098590320, guid: 276672d4c27918744a57ba9484a193ce,
         type: 2}
       propertyPath: m_AnchorMin.x
-      value: 0.329
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224203359098590320, guid: 276672d4c27918744a57ba9484a193ce,
         type: 2}
@@ -718,6 +724,11 @@ Prefab:
       propertyPath: m_NumberOfSteps
       value: 11
       objectReference: {fileID: 0}
+    - target: {fileID: 114444987615557282, guid: 276672d4c27918744a57ba9484a193ce,
+        type: 2}
+      propertyPath: scrollGroup
+      value: 
+      objectReference: {fileID: 301734844}
     m_RemovedComponents:
     - {fileID: 114661907225827630, guid: 276672d4c27918744a57ba9484a193ce, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 276672d4c27918744a57ba9484a193ce, type: 2}
@@ -3279,6 +3290,7 @@ MonoBehaviour:
   editorInstance: {fileID: 2108763658}
   initiallySelected: {fileID: 0}
   createdItemsParent: {fileID: 1374059645}
+  scrollGroup: {fileID: 2046029975}
   rotationLabel: {fileID: 1824775689}
 --- !u!1001 &1692626335
 Prefab:

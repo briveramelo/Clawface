@@ -19,6 +19,9 @@ public abstract class ScrollGroup : MonoBehaviour {
 
 
     #region Public Interface
+    public PLEUIItem GetFirstUIItem() {
+        return pleUIItems[0];
+    }
     public void SelectItem(int itemIndex) {
         pleUIItems.ForEach(item => { item.OnGroupSelectChanged(itemIndex); });
     }

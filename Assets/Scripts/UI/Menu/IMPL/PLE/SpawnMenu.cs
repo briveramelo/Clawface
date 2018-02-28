@@ -52,19 +52,12 @@ public class SpawnMenu : PlacementMenu {
         base.ShowComplete();
     }
 
-
     protected override void DeselectAll() {
         base.DeselectAll();
         selectedSpawn = null;
     }
     protected override void SelectUIItem() {
-        PLEUIItem currentUIItem = ScrollGroupHelper.currentUIItem;
-
-        if(currentUIItem) {
-            selectedItem = currentUIItem.registeredItem;
-            TryDestroyPreview();
-            previewItem = Instantiate(selectedItem);
-        }
+        base.SelectUIItem();
     }
     protected override void PostPlaceItem(GameObject newItem) {
         int currentWave = WaveSystem.currentWave;
