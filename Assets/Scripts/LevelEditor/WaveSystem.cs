@@ -15,7 +15,7 @@ public class WaveSystem : MonoBehaviour
     [SerializeField] private InputField waveInputField;
     [SerializeField] private Text totalWaveText;
     [SerializeField] private Toggle infWaveObjToggle;
-    [SerializeField] private Button removeWave, addWave;
+    [SerializeField] private Button removeWave, addWave, prevWave, nextWave;
 
     #region Unity Lifecycle
     private void Start() {
