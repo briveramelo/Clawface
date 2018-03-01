@@ -3,7 +3,7 @@ using UnityEngine.Assertions;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(Button))]
+[RequireComponent(typeof(Selectable))]
 public class SelectorToggle : MonoBehaviour {
 
     #region Fields (Unity Serialization)
@@ -27,7 +27,7 @@ public class SelectorToggle : MonoBehaviour {
 
     [Header("References")]
     [SerializeField]
-    private Button button;
+    private Selectable selectable;
 
     [SerializeField]
     private Text text;
@@ -48,7 +48,7 @@ public class SelectorToggle : MonoBehaviour {
 
     private void Awake()
     {
-        Assert.IsNotNull(button);
+        Assert.IsNotNull(selectable);
         Assert.IsNotNull(text);
 
         // Events
@@ -68,7 +68,7 @@ public class SelectorToggle : MonoBehaviour {
         pointerExit.eventID = EventTriggerType.PointerExit;
         pointerExit.callback.AddListener(ButtonOnPointerExit);
 
-        EventTrigger trigger = button.gameObject.AddComponent<EventTrigger>();
+        EventTrigger trigger = selectable.gameObject.AddComponent<EventTrigger>();
         trigger.hideFlags = HideFlags.HideInInspector;
         trigger.triggers.AddRange(new EventTrigger.Entry[]
         {
@@ -78,14 +78,14 @@ public class SelectorToggle : MonoBehaviour {
             pointerExit
         });
 
-        interactable = button.interactable;
+        interactable = selectable.interactable;
     }
 
     private void Update()
     {
-        if (interactable != button.interactable)
+        if (interactable != selectable.interactable)
         {
-            interactable = button.interactable;
+            interactable = selectable.interactable;
             UpdateDisplay();
         }
     }
@@ -132,7 +132,7 @@ public class SelectorToggle : MonoBehaviour {
         }
 
         // Set values.
-        button.image.sprite = sprite;
+        selectable.image.sprite = sprite;
         text.color = color;
     }
 
