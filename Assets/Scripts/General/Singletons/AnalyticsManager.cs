@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Analytics;
+using UnityEngine.SceneManagement;
 
 public class AnalyticsManager : Singleton<AnalyticsManager>
 {
@@ -102,6 +103,8 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         {
             levelDodgePresses++;
         }
+
+
     }
 
     private void OnApplicationQuit()
@@ -197,6 +200,11 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
     #region Private Methods
     private void OnLevelStarted(params object[] parameters)
     {
+        if (SceneManager.GetActiveScene().name == "Editor")
+        {
+            return;
+        }
+
         currentLevelTime = 0f;
         totalCurrentLevelTime = 0f;
         levelEatPresses = 0;
@@ -228,6 +236,11 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
 
     private void OnPlayerKilled(params object[] parameters)
     {
+        if (SceneManager.GetActiveScene().name == "Editor")
+        {
+            return;
+        }
+
         Dictionary<string, object> playerEventDeath = new Dictionary<string, object>();
 
         string level = parameters[0] as string;
@@ -256,6 +269,11 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
 
     private void OnLevelRestart(params object[] parameters)
     {
+        if (SceneManager.GetActiveScene().name == "Editor")
+        {
+            return;
+        }
+
         Dictionary<string, object> levelRestartDictionary = new Dictionary<string, object>();
 
         string level = parameters[0] as string;
@@ -292,6 +310,11 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
 
     private void OnLevelQuit(params object[] parameters)
     {
+        if (SceneManager.GetActiveScene().name == "Editor")
+        {
+            return;
+        }
+
         Dictionary<string, object> levelQuitDictionary = new Dictionary<string, object>();
 
         string level = parameters[0] as string;
@@ -330,6 +353,11 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
 
     private void OnLevelCompleted(params object[] parameters)
     {
+        if (SceneManager.GetActiveScene().name == "Editor")
+        {
+            return;
+        }
+
         Dictionary<string, object> levelCompletedDictionary = new Dictionary<string, object>();
 
         string level = parameters[0] as string;

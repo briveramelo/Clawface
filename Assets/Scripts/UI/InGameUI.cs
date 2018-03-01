@@ -14,6 +14,7 @@ public class InGameUI : MonoBehaviour {
     [SerializeField] private Text onScreenCombo;
     [SerializeField] private float comboOnScreenTime = 2.0f;
     [SerializeField] private Image comboTimer;
+    [SerializeField] private Animation comboAnimation;
 
     [Header("Score")]
     [SerializeField] private Text onScreenScore;
@@ -228,6 +229,7 @@ public class InGameUI : MonoBehaviour {
         if ((int)currentCombo[0] > 0)
         {
             onScreenCombo.text = "x " + currentCombo[0].ToString();
+            comboAnimation.Play();
         }
         else
         {

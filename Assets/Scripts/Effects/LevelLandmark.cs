@@ -18,7 +18,7 @@ public class LevelLandmark : MonoBehaviour
 
     private void Start()
     {
-        EventSystem.Instance.RegisterEvent(Strings.Events.ENEMY_SPAWNED, DoShowEffects);
+        EventSystem.Instance.RegisterEvent(Strings.Events.WAVE_COMPLETE, DoShowEffects);
         particleSystems = vfx.GetComponentsInChildren<ParticleSystem>();
         HideVFX();
     }
@@ -26,7 +26,7 @@ public class LevelLandmark : MonoBehaviour
     private void OnDestroy()
     {
         if (EventSystem.Instance) {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.ENEMY_SPAWNED, DoShowEffects);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.WAVE_COMPLETE, DoShowEffects);
         } 
 
         StopAllCoroutines();
