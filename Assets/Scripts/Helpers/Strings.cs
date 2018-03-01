@@ -220,7 +220,7 @@
     }
 
     
-public class AchievementNames {
+    public class AchievementNames {
         public const string Kill100 = "Blood Bath";
         public const string BeatLevel1 = "Conquest";
         public const string Skin20Enemies = "Skinner";        
