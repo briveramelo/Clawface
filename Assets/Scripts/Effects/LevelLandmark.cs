@@ -42,6 +42,8 @@ public class LevelLandmark : MonoBehaviour
         vfx.Play();
         line.widthMultiplier = activeWidth;
         line.material = activeMaterial;
+
+        SFXManager.Instance.Play(SFXType.LandmarkBlast, transform.position);
     }
 
     void HideVFX ()
