@@ -23,7 +23,7 @@ public class ZombieAcider : EnemyBase
 
     //The AI States of the Zombie
     private ZombieAciderChaseState chase;
-    private ZombieAttackState attack;
+    private ZombieAciderAttackState attack;
     private ZombieStunState stun;
     private ZombieCelebrateState celebrate;
     private ZombieGetUpState getUp;
@@ -44,9 +44,10 @@ public class ZombieAcider : EnemyBase
         trailRenderer.Clear();
         trailRenderer.enabled = false;
         colliderGenerator.enabled = false;
-        chase.trailRenderer = trailRenderer;
         chase.colliderGenerator = colliderGenerator;
-        chase.needToClearTrail = true;
+        attack.colliderGenerator = colliderGenerator;
+        getUp.trailRenderer = trailRenderer;
+        getUp.needToClearTrail = true;
         attack.animatorSpeed = EnemyStatsManager.Instance.zombieAciderStats.animationAttackSpeed;
         controller.Initialize(properties,velBody, animator, myStats, navAgent, navObstacle,aiStates);
         damaged.Set(DamagedType.MallCop, bloodEmissionLocation);
@@ -147,7 +148,7 @@ public class ZombieAcider : EnemyBase
     public override void ResetForRebirth()
     {
         trailRenderer.Clear();
-        chase.needToClearTrail = true;
+        getUp.needToClearTrail = true;
         base.ResetForRebirth();
     }
 
@@ -201,7 +202,7 @@ public class ZombieAcider : EnemyBase
         aiStates = new List<AIState>();
         chase = new ZombieAciderChaseState();
         chase.stateName = "chase";
-        attack = new ZombieAttackState();
+        attack = new ZombieAciderAttackState();
         attack.stateName = "attack";
         stun = new ZombieStunState();
         stun.stateName = "stun";
