@@ -96,6 +96,7 @@ public class PLESpawn : PLEItem {
     {
         Vector3 spawnPos = new Vector3(0, transform.position.y + spawnHeightOffset, 0);
         GameObject newSpawnObj = ObjectPool.Instance.GetObject(spawnType.ToPoolObject());
+        spawnPos = transform.TransformPoint(spawnPos);
         
         if(newSpawnObj)
         {
