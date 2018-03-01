@@ -23,7 +23,7 @@ public class WaveMenu : Menu
     [SerializeField] private Button initiallySelected;
     [SerializeField] private LevelEditor editorInstance;
     [SerializeField] private GameObject realLevelParent;
-    [SerializeField] private InputField waveInputField;
+    [SerializeField] private InputField waveInputField;    
 
     #endregion
 
@@ -72,9 +72,14 @@ public class WaveMenu : Menu
         MenuManager.Instance.DoTransition(editorInstance.GetMenu(PLEMenu.MAIN), Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
     }
 
-    public void OnSelectedWaveTextValidated() {        
-        int newWave =int.Parse(waveInputField.text);
-        editorInstance.waveSystem.ChangeToWave(newWave-1);
+    public void OnSelectedWaveTextValidated() {
+        int newWave = 0;
+        if (int.TryParse(waveInputField.text, out newWave)) {
+            editorInstance.waveSystem.ChangeToWave(newWave - 1);
+        }
+        else {
+            editorInstance.waveSystem.UpdateWaveText();
+        }
     }
     #endregion
 
