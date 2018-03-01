@@ -2202,7 +2202,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1636472283561872}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.01, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4170626836177186}
@@ -2861,14 +2861,9 @@ MonoBehaviour:
   controller: {fileID: 114567583818950468}
   velBody: {fileID: 114688655684175244}
   animator: {fileID: 95918438224399824}
-  myStats: {fileID: 114415726037995366}
   navAgent: {fileID: 195267516505952242}
   navObstacle: {fileID: 208207113347138978}
-  eatHealth: 20
   bloodEmissionLocation: {fileID: 4426179561426106}
-  scoreValue: 200
-  bufferHealth: 3
-  stunnedTime: 7
   grabObject: {fileID: 1181628842630280}
   affectObject: {fileID: 1418280531807818}
   hitFlasher: {fileID: 114683351225275340}
@@ -2877,8 +2872,8 @@ MonoBehaviour:
   pushRoot: {fileID: 54723207537948854}
   pushDirection: 0
   hips: {fileID: 1889553808235984}
+  enemyType: 0
   playerDetectorSphereCollider: {fileID: 135115725107046198}
-  closeEnoughToFireDistance: 13
   properties:
     runMultiplier: 2.5
     hitRate: 0
@@ -2893,8 +2888,11 @@ MonoBehaviour:
     rotate: 0
     kamikazeProbability: 0
     kamikazePulserProbability: 0
+    maxPulses: 0
+    pulseRate: 0
+    scaleRate: 0
+    maxScale: 0
   mod: {fileID: 114876992884506124}
-  maxToleranceTime: 4
 --- !u!114 &114059098425877058
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3086,7 +3084,6 @@ MonoBehaviour:
   modPrefab: {fileID: 1701025848830338}
   timeInLastState: 0
   stateTimerIsRunning: 0
-  distanceFromTarget: 0
 --- !u!114 &114683351225275340
 MonoBehaviour:
   m_ObjectHideFlags: 1
