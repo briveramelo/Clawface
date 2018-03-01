@@ -13,7 +13,7 @@ public class WaveSystem : MonoBehaviour
     private static int systemMaxWave = 20;
 
     [SerializeField] private InputField waveInputField;
-    [SerializeField] private Text totalWaveText;
+    [SerializeField] private Text totalWaveText, currentWaveText;
     [SerializeField] private Toggle infWaveObjToggle;
     [SerializeField] private Button removeWave, addWave, prevWave, nextWave;
 
@@ -42,6 +42,7 @@ public class WaveSystem : MonoBehaviour
     #region Public interface
     public void UpdateWaveText() {
         waveInputField.text = (currentWave + 1).ToString();
+        currentWaveText.text = (currentWave + 1).ToString();
         totalWaveText.text = maxWave.ToString();
     }
 
@@ -90,6 +91,8 @@ public class WaveSystem : MonoBehaviour
             addWave.interactable = false;
         }
         removeWave.interactable = true;
+        prevWave.interactable = true;
+        nextWave.interactable = true;
         UpdateWaveText();
         
         EventSystem.Instance.TriggerEvent(Strings.Events.PLE_ADD_WAVE);
@@ -105,10 +108,12 @@ public class WaveSystem : MonoBehaviour
 
         maxWave--;
         if (currentWave >= maxWave) {
-            currentWave = 0;
+            currentWave = maxWave-1;
         }
         if (maxWave == 1) {
             removeWave.interactable = false;
+            prevWave.interactable = false;
+            nextWave.interactable = false;
         }
         addWave.interactable = true;
 
