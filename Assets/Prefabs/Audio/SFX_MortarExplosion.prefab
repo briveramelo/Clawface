@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 114277680358057954}
   - component: {fileID: 114971047115424596}
   - component: {fileID: 114644554447162006}
+  - component: {fileID: 114235474552372752}
   m_Layer: 0
   m_Name: SFX_MortarExplosion
   m_TagString: Untagged
@@ -56,7 +57,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
-  m_Pitch: 1
+  m_Pitch: 0.99887574
   Loop: 0
   Mute: 0
   Spatialize: 0
@@ -124,6 +125,31 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &114235474552372752
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1846638016693490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e594d69e58e793c47b9d13e384085fc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clips:
+  - {fileID: 8300000, guid: 7d1b6c99e42e7de4a97a231408a1a65d, type: 3}
+  - {fileID: 8300000, guid: 26d8e62efd6a85f4db6e936490697cfc, type: 3}
+  - {fileID: 8300000, guid: e33378dc91dd93c468ee2638c5fcdfc7, type: 3}
+  - {fileID: 8300000, guid: e11684657e8d3b14398ba33eadb094b6, type: 3}
+  - {fileID: 8300000, guid: b29e18db54221a14aabae86e26558979, type: 3}
+  changeVolumeEachLoop: 0
+  uniformVolume: 1
+  useRandomVolume: 0
+  randomVolumeRange:
+    minLimit: 0
+    maxLimit: 0
+    min: 1
+    max: 1
 --- !u!114 &114277680358057954
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -181,6 +207,7 @@ MonoBehaviour:
   - {fileID: 114277680358057954}
   - {fileID: 114971047115424596}
   - {fileID: 114644554447162006}
+  - {fileID: 114235474552372752}
   loop: 0
   playOnStart: 0
   spatialBlend: 0
@@ -193,14 +220,14 @@ MonoBehaviour:
     maxLimit: 0
     min: 1
     max: 1
-  randomPitch: 0
+  randomPitch: 1
   changePitchEachLoop: 0
-  pitch: 1
+  pitch: 0.99887574
   pitchRange:
     minLimit: 0
     maxLimit: 0
-    min: 1
-    max: 1
+    min: 0.95
+    max: 1.05
 --- !u!114 &114971047115424596
 MonoBehaviour:
   m_ObjectHideFlags: 1

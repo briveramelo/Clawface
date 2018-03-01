@@ -10,11 +10,11 @@
 		_ColorScrollSpeed("Color Scroll Speed", Range(0.0, 100.0)) = 1.0
 		_ColorScrollDirection ("Color Scroll Direction", Range(0.0, 6.28)) = 0.0
 		_ColorVibrance("Color Vibrance", Range(0.0, 1.0)) = 1.0
-		_NoiseStrength("Noise Strength", Range(0.0, 100.0)) = 1.0
+		_NoiseStrength("Noise Strength", Range(0.0, 1000.0)) = 1.0
 		_NoiseScrollSpeed("Noise Scroll Speed", Range(0.01, 100.0)) = 1.0
 		_NoiseTex("Noise", 2D) = "black" {}
 		_NoisePower("Noise Power", Range(1.0, 5.0)) = 1.0
-		_FadeDist("FadeDist", Range(1, 1000)) = 100
+		_FadeDist("FadeDist", Range(1, 10000)) = 100
 	}
 	SubShader
 	{

@@ -92,6 +92,7 @@ public class Kamikaze : EnemyBase
     public override void ResetForRebirth()
     {
         attack.setToSelfDestruct = false;
+        SetScorePoints(EnemyStatsManager.Instance.kamikazeStats.scoreValue);
         base.ResetForRebirth();
     }
 
@@ -114,6 +115,11 @@ public class Kamikaze : EnemyBase
     public void GetUpDone()
     {
         getUp.Up();
+    }
+
+    public void SetScorePoints(int score)
+    {
+        scoreValue = score;
     }
 
     #endregion

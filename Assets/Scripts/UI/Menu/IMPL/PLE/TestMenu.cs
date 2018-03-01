@@ -26,8 +26,7 @@ public class TestMenu : Menu
     [SerializeField] private LevelEditor editorInstance;
     [SerializeField] private Transform tileParents;
     [SerializeField] private GameObject playerSpawnerPrefab;
-    [SerializeField] private GameObject editorCamera;
-
+    [SerializeField] private GameObject editorCamera;    
     #endregion
 
     #region Private Fields
@@ -68,7 +67,9 @@ public class TestMenu : Menu
 
 
     #region Protected Interface
-
+    protected override void ShowStarted() {
+        base.ShowStarted();
+    }
     protected override void ShowComplete()
     {
         base.ShowComplete();

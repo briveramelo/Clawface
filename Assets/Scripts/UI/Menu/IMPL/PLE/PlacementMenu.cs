@@ -16,6 +16,7 @@ public abstract class PlacementMenu : Menu {
     [SerializeField] protected LevelEditor editorInstance;
     [SerializeField] protected Button initiallySelected;
     [SerializeField] protected Transform createdItemsParent;
+    [SerializeField] protected ScrollGroup scrollGroup;
 
     protected bool inputGuard = false;
     protected GameObject selectedItem = null;
@@ -63,7 +64,18 @@ public abstract class PlacementMenu : Menu {
     #endregion
 
     #region Protected Interface
-    protected abstract void SelectUIItem();
+    protected virtual void SelectUIItem() {
+        PLEUIItem currentUIItem = ScrollGroupHelper.currentUIItem;
+
+        if (currentUIItem) {
+            OnSelectUIItem(currentUIItem);
+        }
+    }
+    protected virtual void OnSelectUIItem(PLEUIItem item) {
+        selectedItem = item.registeredItem;
+        TryDestroyPreview();
+        previewItem = Instantiate(selectedItem);
+    }
     protected abstract void DeselectItem();
 
     protected virtual void SelectGameItem() {
@@ -91,7 +103,7 @@ public abstract class PlacementMenu : Menu {
         previewItem.transform.position = MouseHelper.currentBlockUnit.spawnTrans.position;
     }
 
-    private void DeleteHoveredItem() {
+    protected virtual void DeleteHoveredItem() {
         MouseHelper.currentBlockUnit.SetOccupation(false);
         itemNames.Remove(MouseHelper.currentHoveredObject.name);
         Helpers.DestroyProper(MouseHelper.currentHoveredObject);
@@ -112,7 +124,10 @@ public abstract class PlacementMenu : Menu {
         return false;
     }
 
-
+    protected override void ShowStarted() {
+        base.ShowStarted();
+        OnSelectUIItem(scrollGroup.GetFirstUIItem());
+    }
     protected override void ShowComplete() {
         base.ShowComplete();
         inputGuard = true;

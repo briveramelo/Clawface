@@ -12,7 +12,7 @@ public class MaterialUseColorPalette : UseColorPaletteBase
         Renderer meshRenderer = GetComponent<MeshRenderer>();
         if (meshRenderer == null) meshRenderer = GetComponent<SkinnedMeshRenderer>();
 
-        Material mat = meshRenderer.materials[materialIndex];
+        Material mat = meshRenderer.sharedMaterials[materialIndex];
         mat.SetColor (colorName, TargetColor);
     }
 }

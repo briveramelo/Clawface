@@ -1,6 +1,8 @@
 ﻿//Garin + Brandon
 using UnityEngine.EventSystems;
 using UnityEngine;
+using PlayerLevelEditor;
+
 public class SpawnMenu : PlacementMenu {
 
     private PLESpawn selectedSpawn;
@@ -47,24 +49,20 @@ public class SpawnMenu : PlacementMenu {
     #region Protected Interface
     protected override bool SelectUI { get { return base.SelectUI && ScrollGroupHelper.currentUIItem != null; } }
     protected override bool SelectItem { get { return base.SelectUI && MouseHelper.currentSpawn != null; } }
-
+    protected override void DeleteHoveredItem() {
+        base.DeleteHoveredItem();
+        editorInstance.CheckToSetMenuInteractability();
+    }
     protected override void ShowComplete() {
         base.ShowComplete();
     }
-
 
     protected override void DeselectAll() {
         base.DeselectAll();
         selectedSpawn = null;
     }
     protected override void SelectUIItem() {
-        PLEUIItem currentUIItem = ScrollGroupHelper.currentUIItem;
-
-        if(currentUIItem) {
-            selectedItem = currentUIItem.registeredItem;
-            TryDestroyPreview();
-            previewItem = Instantiate(selectedItem);
-        }
+        base.SelectUIItem();
     }
     protected override void PostPlaceItem(GameObject newItem) {
         int currentWave = WaveSystem.currentWave;
@@ -93,8 +91,8 @@ public class SpawnMenu : PlacementMenu {
 
             playerSpawnInstance = newItem;
             playerSpawnInstance.transform.SetParent(TryCreateWaveParent(0).parent);
-
         }
+        editorInstance.CheckToSetMenuInteractability();
     }
     Transform TryCreateWaveParent(int i) {
         string waveName = GetWaveName(i);
@@ -104,7 +102,7 @@ public class SpawnMenu : PlacementMenu {
             waveParent.SetParent(createdItemsParent);
         }
         return waveParent;
-    }
+    }    
 
     #endregion
     private string GetWaveName(int i) { return Strings.Editor.Wave + i; }
