@@ -12,7 +12,7 @@ public class BouncerChaseState : AIState {
     private float jumpTargetDistance = 10f;
     private bool moving = false;
     private float height = 12.0f;
-    private float tolerance = 0.1f;
+    private float tolerance = 0.25f;
     private int jumpCount = 0;
     private int maxJumpCount;
     private Vector3 finalPosition;
@@ -273,7 +273,7 @@ public class BouncerChaseState : AIState {
 
     public void StopCoroutines()
     {
-        Timing.KillCoroutines();
+        Timing.KillCoroutines(coroutineName);
 
         Vector3 fwd = -controller.transform.up;
         RaycastHit hit;
