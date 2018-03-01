@@ -12,23 +12,32 @@ public class PLESpawn : PLEItem {
     private int currentSpawnAmount;
     private float spawnHeightOffset = 50.0f;
     private List<GameObject> spawnedEnemies = new List<GameObject>();
+    private Renderer rend;
     #endregion
     
     #region Public Fields
-    public float spawnFrequency = 0.5f;
-    public int totalSpawnAmount = 2;
-    public SpawnType spawnType;
     [HideInInspector] public int registeredWave = -99;
     [HideInInspector] public bool allEnemiesDead = false;
     #endregion
 
+    #region Serialized Unity Fields
+    public float spawnFrequency = 0.5f;
+    public int totalSpawnAmount = 2;
+    public SpawnType spawnType;
+    #endregion
+
     #region Unity Lifecycle
+
+    private void Awake()
+    {
+        rend = GetComponent<Renderer>();
+    }
 
     private void OnEnable()
     {
         if(EventSystem.Instance)
         {
-            EventSystem.Instance.RegisterEvent(Strings.Events.PLE_TEST_END, SetAmounts);
+            EventSystem.Instance.RegisterEvent(Strings.Events.PLE_TEST_END, Reset);
         }
        
     }
@@ -37,13 +46,13 @@ public class PLESpawn : PLEItem {
     {
         if(EventSystem.Instance)
         {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_TEST_END, SetAmounts);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_TEST_END, Reset);
         }
     }
 
     private void Start()
     {
-        SetAmounts(null);
+        Reset(null);
     }
 
     #endregion
@@ -77,6 +86,7 @@ public class PLESpawn : PLEItem {
 
     private IEnumerator SpawnEnemies()
     {
+        rend.enabled = false;
         for(int i = 0; i < totalSpawnAmount; i++)
         {
             GameObject newSpawnEffect = ObjectPool.Instance.GetObject(PoolObjectType.VFXEnemySpawn);
@@ -125,9 +135,10 @@ public class PLESpawn : PLEItem {
             Debug.LogFormat("<color=#ffff00>" + "NOT ENOUGH SPAWN-OBJECT" + "</color>");
         }
     }
-    private void SetAmounts(object[] parameters)
+    private void Reset(object[] parameters)
     {
         currentSpawnAmount = totalSpawnAmount;
+        rend.enabled = true;
     }
 
 
