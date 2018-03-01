@@ -536,7 +536,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 0}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -665,8 +665,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outline: {fileID: 114121153961494700}
-  selectedColor: {r: 1, g: 0, b: 0.8896551, a: 1}
-  unselectedColor: {r: 0, g: 0, b: 0, a: 1}
+  selectedSprite: {fileID: 21300000, guid: b4c3e331204d0b94bac0921b505278a3, type: 3}
+  unselectedSprite: {fileID: 21300000, guid: e67b711ca4302654b967ab01ae85a1ce, type: 3}
 --- !u!114 &114516317259336954
 MonoBehaviour:
   m_ObjectHideFlags: 1

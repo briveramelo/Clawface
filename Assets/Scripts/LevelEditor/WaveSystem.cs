@@ -146,8 +146,9 @@ public class WaveSystem : MonoBehaviour
 
         if (EventSystem.Instance)
         {
+            bool shouldChangeColor = true;
             string wave = Strings.Events.PLE_TEST_WAVE_ + currentWave.ToString();
-            EventSystem.Instance.TriggerEvent(wave);
+            EventSystem.Instance.TriggerEvent(wave, shouldChangeColor);
         }
     }
 
