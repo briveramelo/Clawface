@@ -2025,6 +2025,7 @@ GameObject:
   - component: {fileID: 2108763661}
   - component: {fileID: 2108763662}
   - component: {fileID: 2108763663}
+  - component: {fileID: 2108763664}
   m_Layer: 0
   m_Name: PlayerLevelEditor
   m_TagString: Untagged
@@ -2124,6 +2125,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbf81380ad805384cbf507146af107b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2108763664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2108763657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 519bf17bb86e2df4389d0451a879e239, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shouldRegister: 0
 --- !u!1001 &2112778244
 Prefab:
   m_ObjectHideFlags: 0
