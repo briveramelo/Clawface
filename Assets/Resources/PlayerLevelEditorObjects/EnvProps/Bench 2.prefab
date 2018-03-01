@@ -19,12 +19,12 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4580075285087456}
+  - component: {fileID: 114904424109048236}
   - component: {fileID: 33642929414313782}
   - component: {fileID: 23257770395915634}
   - component: {fileID: 65972574447839556}
   - component: {fileID: 114731245196899798}
   - component: {fileID: 54428026671772824}
-  - component: {fileID: 114904424109048236}
   m_Layer: 19
   m_Name: Bench 2
   m_TagString: Untagged
@@ -140,4 +140,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 883a9ed7a14090c4bb7f2b6e311326dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  meshRenderer: {fileID: 23257770395915634}
   registeredProp: {fileID: 0}

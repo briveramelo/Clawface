@@ -211,10 +211,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5ba14b95532c8c4e8ff2eb7805132d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  meshRenderer: {fileID: 23258436058064460}
+  registeredWave: -99
+  allEnemiesDead: 0
   spawnFrequency: 0.5
   totalSpawnAmount: 2
   spawnType: 6
-  spawnCount: 1
 --- !u!222 &222477677243889914
 CanvasRenderer:
   m_ObjectHideFlags: 1

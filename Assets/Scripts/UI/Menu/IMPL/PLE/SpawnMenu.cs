@@ -79,7 +79,6 @@ public class SpawnMenu : PlacementMenu {
         {
             PLESpawnManager.Instance.RegisterSpawner(currentWave, spawn);
             spawn.registeredWave = currentWave;
-            Debug.Log("Added " + spawn.gameObject.name + " to spawnManager at wave : " + currentWave);
         }
 
         if(newItem.CompareTag(Strings.Editor.PLAYER_SPAWN_TAG))

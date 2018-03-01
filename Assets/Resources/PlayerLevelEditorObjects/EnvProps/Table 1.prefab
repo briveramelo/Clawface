@@ -19,11 +19,11 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4210687132342398}
+  - component: {fileID: 114650025426206288}
   - component: {fileID: 33398612934784762}
   - component: {fileID: 23711084133579172}
   - component: {fileID: 65987653281860606}
   - component: {fileID: 54786599423237082}
-  - component: {fileID: 114650025426206288}
   m_Layer: 19
   m_Name: Table 1
   m_TagString: Untagged
@@ -121,4 +121,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 883a9ed7a14090c4bb7f2b6e311326dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  meshRenderer: {fileID: 23711084133579172}
   registeredProp: {fileID: 0}

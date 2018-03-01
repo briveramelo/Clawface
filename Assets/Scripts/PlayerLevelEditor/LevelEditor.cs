@@ -12,12 +12,12 @@ namespace PlayerLevelEditor
         
         public PLEMenu currentDisplayedMenu;
         public PlayerLevelEditorGrid gridController;
-
+        public WaveSystem waveSystem;
         #endregion
-        
+
 
         #region Serialized Unity Fields
-        
+
         [SerializeField] private MainPLEMenu mainEditorMenu;
         [SerializeField] private FloorMenu floorEditorMenu;
         [SerializeField] private PropsMenu propsEditorMenu;

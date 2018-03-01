@@ -121,7 +121,10 @@ public class TestMenu : Menu
 
         playerSpawnerInstance = Instantiate(playerSpawnerPrefab);
         playerSpawnerInstance.transform.position = SpawnMenu.playerSpawnInstance.transform.position;
-        EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_STARTED);
+        editorInstance.waveSystem.ResetToWave0();
+        EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_STARTED, Strings.Scenes.Editor, ModManager.leftArmOnLoad.ToString(), ModManager.rightArmOnLoad.ToString());
+        
+        
     }
 
 
