@@ -24,8 +24,10 @@ public class InGameUI : MonoBehaviour {
     [SerializeField] private Transform healthBar;
 
     [Header("Tutorial")]
-    [SerializeField] private Image onScreenTutorialElement;
+    [SerializeField] private Text eatTutorialTextElement;
+    [SerializeField] private Text dashTutorialTextElement;
     [SerializeField] private Image FullScreenFadeElement;
+    [SerializeField] private Image tutorialBG;
 
     [Header("GlitchDamageEffect")]
     [SerializeField] private Sprite[] glitchSprites;
@@ -264,14 +266,30 @@ public class InGameUI : MonoBehaviour {
 
     private void HideTutorialText(object[] parameters)
     {
-        onScreenTutorialElement.enabled = false;
+        eatTutorialTextElement.enabled = false;
+        dashTutorialTextElement.enabled = false;
         FullScreenFadeElement.enabled = false;
+        tutorialBG.enabled = false;
     }
 
     private void ShowTutorialText(object[] parameters)
     {
-        onScreenTutorialElement.enabled = true;
-        FullScreenFadeElement.enabled = true;
+        tutorialBG.enabled = true;
+        int eatOrDash = (int)parameters[0];
+        eatTutorialTextElement.enabled = false;
+        dashTutorialTextElement.enabled = false;
+
+        if (eatOrDash == 1)
+        {
+            //eat
+            eatTutorialTextElement.enabled = true;
+        }
+        else
+        {
+            //dash
+            dashTutorialTextElement.enabled = true;
+        }
+
     }
 
     private void HideHUD(object[] parameters) {

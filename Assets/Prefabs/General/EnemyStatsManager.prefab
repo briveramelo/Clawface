@@ -79,7 +79,7 @@ MonoBehaviour:
     acceleration: 20
     stoppingDistance: 1
     scoreValue: 200
-    eatHealth: 20
+    eatHealth: 1
     stunnedTime: 7
     closeEnoughToFireDistance: 8
     maxToleranceTime: 4
@@ -105,7 +105,7 @@ MonoBehaviour:
     acceleration: 15
     stoppingDistance: 1
     scoreValue: 200
-    eatHealth: 20
+    eatHealth: 1
     stunnedTime: 7
     closeEnoughToReanimateDistance: 3.42
     animationShootSpeed: 1
@@ -119,7 +119,7 @@ MonoBehaviour:
     acceleration: 30
     stoppingDistance: 3
     scoreValue: 100
-    eatHealth: 12
+    eatHealth: 1
     stunnedTime: 7
     closeEnoughToAttackDistance: 3
     animationAttackSpeed: 1
@@ -133,7 +133,7 @@ MonoBehaviour:
     acceleration: 30
     stoppingDistance: 2.5
     scoreValue: 200
-    eatHealth: 20
+    eatHealth: 1
     stunnedTime: 7
     closeEnoughToAttackDistance: 2.5
     animationAttackSpeed: 1
@@ -147,7 +147,7 @@ MonoBehaviour:
     acceleration: 30
     stoppingDistance: 3
     scoreValue: 100
-    eatHealth: 20
+    eatHealth: 1
     stunnedTime: 7
     closeEnoughToAttackDistance: 3
     animationAttackSpeed: 1.5
@@ -168,8 +168,8 @@ MonoBehaviour:
     eatHealth: 1
     stunnedTime: 3.5
     closeEnoughToAttackDistance: 2.5
-    selfDestructTime: 0.75
-    blastRadius: 30
+    selfDestructTime: 0.65
+    blastRadius: 15
   kamikazePulserStats:
     health: 12
     maxHealth: 12
@@ -180,7 +180,7 @@ MonoBehaviour:
     acceleration: 50
     stoppingDistance: 1
     scoreValue: 200
-    eatHealth: 20
+    eatHealth: 1
     stunnedTime: 3.5
     closeEnoughToAttackDistance: 5
     maxPulses: 1
@@ -197,7 +197,7 @@ MonoBehaviour:
     acceleration: 40
     stoppingDistance: 1
     scoreValue: 200
-    eatHealth: 20
+    eatHealth: 1
     stunnedTime: 7
     closeEnoughToAttackDistance: 10
     spawnRate: 1
@@ -213,7 +213,7 @@ MonoBehaviour:
     acceleration: 15
     stoppingDistance: 1
     scoreValue: 300
-    eatHealth: 20
+    eatHealth: 1
     stunnedTime: 7
     maxBounces: 5
     minBounces: 2
@@ -243,7 +243,7 @@ MonoBehaviour:
     acceleration: 15
     stoppingDistance: 1
     scoreValue: 300
-    eatHealth: 20
+    eatHealth: 1
     stunnedTime: 7
     maxBounces: 7
     minBounces: 4
@@ -273,7 +273,7 @@ MonoBehaviour:
     acceleration: 15
     stoppingDistance: 1
     scoreValue: 300
-    eatHealth: 30
+    eatHealth: 1
     stunnedTime: 7
     maxBounces: 5
     minBounces: 2
