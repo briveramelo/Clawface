@@ -220,6 +220,26 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 186071059}
+--- !u!1 &671798886 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 100010, guid: 6deee6136a1c40e41af0d45dc46d3262, type: 3}
+  m_PrefabInternal: {fileID: 892122685}
+--- !u!114 &671798887
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 671798886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc7084e61ce48b14d854732afc9e46bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  palette: {fileID: 11400000, guid: d523dec5d4d7f3b4095ef641ce76b2a8, type: 2}
+  type: 0
+  updateTime: 0
+  colorName: _ASEOutlineColor
+  materialIndex: 0
 --- !u!1 &701566929
 GameObject:
   m_ObjectHideFlags: 0
@@ -654,7 +674,7 @@ Material:
     - _ZWrite: 1
     - __dirty: 1
     m_Colors:
-    - _ASEOutlineColor: {r: 0.33595324, g: 0, b: 0.9191176, a: 0}
+    - _ASEOutlineColor: {r: 0.9960785, g: 0.24313727, b: 0.654902, a: 1}
     - _AlbedoTint: {r: 1, g: 1, b: 1, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Color1: {r: 0.5, g: 0.54482746, b: 1, a: 0}
