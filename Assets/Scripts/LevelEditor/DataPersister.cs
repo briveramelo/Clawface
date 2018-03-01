@@ -11,7 +11,7 @@ public class DataPersister : MonoBehaviour {
     string PathDirectory { get { return Application.dataPath + "/Saves";} }
     string FilePath { get { return PathDirectory + "/savefile.dat"; } }
 
-    public DataSave dataSave;
+    //public DataSave dataSave;
 
     #region Unity Lifecyle
     private void Awake() {
@@ -42,7 +42,7 @@ public class DataPersister : MonoBehaviour {
             ActiveDataSave = new DataSave();
         }
         ClearEmptyLevels();
-        dataSave = ActiveDataSave;
+        //dataSave = ActiveDataSave;
     }
 
     public void DeleteSelectedLevel() {
