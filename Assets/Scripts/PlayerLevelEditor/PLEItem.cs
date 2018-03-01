@@ -4,22 +4,27 @@ using UnityEngine;
 
 public abstract class PLEItem : MonoBehaviour {
 
+    [SerializeField] MeshRenderer meshRenderer;
     protected MeshRenderer myMeshRenderer;
     protected MaterialPropertyBlock matPropBlock;
+    protected MaterialPropertyBlock MatPropBlock {
+        get {
+            if (matPropBlock==null) {
+                matPropBlock = new MaterialPropertyBlock();
+            }
+            return matPropBlock;
+        }
+    }    
+
     const string AlbedoTint = "_AlbedoTint";
-    private void Awake() {
-        myMeshRenderer = GetComponent<MeshRenderer>();
-        matPropBlock = new MaterialPropertyBlock();
-        myMeshRenderer.GetPropertyBlock(matPropBlock);
-    }
 
     public virtual void Select() {
-        matPropBlock.SetColor(AlbedoTint, Color.blue);        
-        myMeshRenderer.SetPropertyBlock(matPropBlock);
+        MatPropBlock.SetColor(AlbedoTint, Color.blue);
+        meshRenderer.SetPropertyBlock(MatPropBlock);
     }
     public virtual void Deselect() {
-        matPropBlock.SetColor(AlbedoTint, Color.white);
-        myMeshRenderer.SetPropertyBlock(matPropBlock);
+        MatPropBlock.SetColor(AlbedoTint, Color.white);
+        meshRenderer.SetPropertyBlock(MatPropBlock);
     }
     
 }
