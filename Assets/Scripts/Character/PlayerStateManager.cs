@@ -239,8 +239,7 @@ public class PlayerStateManager : RoutineRunner {
             EventSystem.Instance.TriggerEvent(Strings.Events.GAME_CAN_PAUSE, false);
             eatCollider.radius *= TutorialRadiusMultiplier;
             stateVariables.eatRadius *= TutorialRadiusMultiplier;
-            string tutorialText = "press RT to eat enemies and recover health";
-            Timing.RunCoroutine(StartTutorialSlowDown(tutorialText), SlowTime);
+            Timing.RunCoroutine(StartTutorialSlowDown(1), SlowTime);
         }
     }
 
@@ -254,12 +253,11 @@ public class PlayerStateManager : RoutineRunner {
             //Using the same eat collider to trigger dash tutorial
             eatCollider.radius *= TutorialRadiusMultiplier;
             stateVariables.eatRadius *= TutorialRadiusMultiplier;
-            string tutorialText = "press LT to dash through baddies and bullets";
-            Timing.RunCoroutine(StartTutorialSlowDown(tutorialText), SlowTime);
+            Timing.RunCoroutine(StartTutorialSlowDown(2), SlowTime);
         }
     }
 
-    private IEnumerator<float> StartTutorialSlowDown(string tutorialText)
+    private IEnumerator<float> StartTutorialSlowDown(int i_eatOrDash)
     {        
         while (tutorialTimeScale > 0.1f)
         {
@@ -269,7 +267,7 @@ public class PlayerStateManager : RoutineRunner {
         }
         tutorialTimeScale = 0.0f;
         Time.timeScale = tutorialTimeScale;
-        EventSystem.Instance.TriggerEvent(Strings.Events.SHOW_TUTORIAL_TEXT,tutorialText);
+        EventSystem.Instance.TriggerEvent(Strings.Events.SHOW_TUTORIAL_TEXT,i_eatOrDash);
         EventSystem.Instance.TriggerEvent(Strings.Events.ENEMY_INVINCIBLE, false);
         isSlowDownFinished = true;
     }
