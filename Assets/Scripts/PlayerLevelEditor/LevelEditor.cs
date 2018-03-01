@@ -12,12 +12,12 @@ namespace PlayerLevelEditor
         
         public PLEMenu currentDisplayedMenu;
         public PlayerLevelEditorGrid gridController;
-
+        public WaveSystem waveSystem;
         #endregion
-        
+
 
         #region Serialized Unity Fields
-        
+
         [SerializeField] private MainPLEMenu mainEditorMenu;
         [SerializeField] private FloorMenu floorEditorMenu;
         [SerializeField] private PropsMenu propsEditorMenu;
@@ -27,6 +27,7 @@ namespace PlayerLevelEditor
         [SerializeField] private SaveMenu saveEditorMenu;
         [SerializeField] private PLELevelSelectMenu levelSelectEditorMenu;
         [SerializeField] private HelpMenu helpEditorMenu;
+        [SerializeField] private PLECameraController cameraController;
         private List<Menu> pleMenus;
         //[SerializeField] private Button initialMenuButton;
 
@@ -56,38 +57,17 @@ namespace PlayerLevelEditor
 
         }
 
+        #region Public Interface
+        public void CheckToSetMenuInteractability() {
+            bool isInteractable = gridController.AnyTilesEnabled();
+            ToggleMenuInteractable(isInteractable, PLEMenu.PROPS, PLEMenu.SPAWN, PLEMenu.WAVE);
 
-        #region Private Interface
-
-
-        private void MenuSetup()
-        {
-            //Hide menus that aren't need to be shown yet
-            pleMenus.ForEach(menu => {
-                MenuManager.Instance.DoTransition(menu, Menu.Transition.HIDE, new Menu.Effect[] { Menu.Effect.INSTANT });
-                menu.Canvas.SetActive(false);
-                menu.CanvasGroup.alpha = 0.0F;
-                menu.CanvasGroup.blocksRaycasts = false;
-                menu.CanvasGroup.interactable = false;
-            });
-
-            //show the main/floor menus
-            MenuManager.Instance.DoTransition(mainEditorMenu, Menu.Transition.SHOW, new Menu.Effect[] { Menu.Effect.INSTANT });
-            MenuManager.Instance.DoTransition(floorEditorMenu, Menu.Transition.SHOW, new Menu.Effect[] { Menu.Effect.INSTANT });
-
-            currentDisplayedMenu = PLEMenu.FLOOR;
-            mainEditorMenu.OpenFloorSystemAction();
-            gridController.SetGridVisiblity(true);
+            isInteractable = SpawnMenu.playerSpawnInstance != null;
+            ToggleMenuInteractable(isInteractable, PLEMenu.SAVE, PLEMenu.TEST);
         }
+        
 
-        #endregion
-
-
-        #region Public Interface  
-
-
-        public void SwitchToMenu(PLEMenu i_newMenu)
-        {
+        public void SwitchToMenu(PLEMenu i_newMenu) {
             
             if (i_newMenu!=currentDisplayedMenu) {                
                 if (currentDisplayedMenu != PLEMenu.NONE) {
@@ -109,6 +89,10 @@ namespace PlayerLevelEditor
             loadMenu.TargetScene = Strings.Scenes.MainMenu;
 
             MenuManager.Instance.DoTransition(loadMenu,Menu.Transition.SHOW, new Menu.Effect[] { Menu.Effect.EXCLUSIVE });
+        }
+
+        public void ToggleCameraController(bool isEnabled) {
+            cameraController.enabled=isEnabled;
         }
 
         public Menu GetMenu(PLEMenu i_menu)
@@ -142,6 +126,35 @@ namespace PlayerLevelEditor
         
 
         #endregion  
+
+        #region Private Interface
+
+
+        private void MenuSetup()
+        {
+            //Hide menus that aren't need to be shown yet
+            pleMenus.ForEach(menu => {
+                MenuManager.Instance.DoTransition(menu, Menu.Transition.HIDE, new Menu.Effect[] { Menu.Effect.INSTANT });
+                menu.Canvas.SetActive(false);
+                menu.CanvasGroup.alpha = 0.0F;
+                menu.CanvasGroup.blocksRaycasts = false;
+                menu.CanvasGroup.interactable = false;
+            });
+
+            //show the main/floor menus
+            MenuManager.Instance.DoTransition(mainEditorMenu, Menu.Transition.SHOW, new Menu.Effect[] { Menu.Effect.INSTANT });
+            MenuManager.Instance.DoTransition(floorEditorMenu, Menu.Transition.SHOW, new Menu.Effect[] { Menu.Effect.INSTANT });
+
+            currentDisplayedMenu = PLEMenu.FLOOR;
+            mainEditorMenu.OpenFloorSystemAction();
+            gridController.SetGridVisiblity(true);
+        }
+        void ToggleMenuInteractable(bool isInteractable, params PLEMenu[] menus) {
+            foreach (PLEMenu menu in menus) {
+                mainEditorMenu.ToggleMenuInteractable(menu, isInteractable);
+            }
+        }
+        #endregion
     }
 
     class NavMeshAreas

@@ -26,8 +26,7 @@ public class TestMenu : Menu
     [SerializeField] private LevelEditor editorInstance;
     [SerializeField] private Transform tileParents;
     [SerializeField] private GameObject playerSpawnerPrefab;
-    [SerializeField] private GameObject editorCamera;
-
+    [SerializeField] private GameObject editorCamera;    
     #endregion
 
     #region Private Fields
@@ -68,7 +67,9 @@ public class TestMenu : Menu
 
 
     #region Protected Interface
-
+    protected override void ShowStarted() {
+        base.ShowStarted();
+    }
     protected override void ShowComplete()
     {
         base.ShowComplete();
@@ -120,6 +121,10 @@ public class TestMenu : Menu
 
         playerSpawnerInstance = Instantiate(playerSpawnerPrefab);
         playerSpawnerInstance.transform.position = SpawnMenu.playerSpawnInstance.transform.position;
+        editorInstance.waveSystem.ResetToWave0();
+        EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_STARTED, Strings.Scenes.Editor, ModManager.leftArmOnLoad.ToString(), ModManager.rightArmOnLoad.ToString());
+        
+        
     }
 
 
@@ -151,6 +156,7 @@ public class TestMenu : Menu
             SpawnMenu.playerSpawnInstance.SetActive(true);
         }
 
+        EventSystem.Instance.TriggerEvent(Strings.Events.PLE_TEST_END);
     }
 
     #endregion

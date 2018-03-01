@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using ModMan;
 using PlayerLevelEditor;
+using System.Linq;
 
 public class PLELevelSelectMenu : Menu {
 
@@ -27,21 +28,30 @@ public class PLELevelSelectMenu : Menu {
     private List<LevelData> Levels { get { return ActiveDataSave.levelDatas; } }
     private List<LevelUI> levelUIs= new List<LevelUI>();
     private int selectedLevelIndex = 0;
-    
+
+    #region Unity Lifecyle    
+
+
+    #endregion
+    #region Public Interface
     public void OnSearchChange() {
         gridLayoutGroup.enabled = false;
         string searchTerm = searchField.text.ToLowerInvariant();
+        List<string> searchTerms = searchTerm.Split(' ').ToList();
+
         for (int i = 0; i < levelUIs.Count; i++) {
             LevelData levelData = levelUIs[i].levelData;
-            bool shouldShow = string.IsNullOrEmpty(searchTerm) || searchTerm.Length == 0 || levelData.name.ToLowerInvariant().Contains(searchTerm) || levelData.description.ToLowerInvariant().Contains(searchTerm);
+            string levelDataName = levelData.name.ToLowerInvariant();
+            string levelDataDescription = levelData.description.ToLowerInvariant();
+            bool shouldShow =
+                string.IsNullOrEmpty(searchTerm) ||
+                searchTerm.Length == 0 ||
+                searchTerms.All(term => { return levelDataName.Contains(term) || levelDataDescription.Contains(term); });                
+
             levelUIs[i].gameObject.SetActive(shouldShow);
         }
         
         StartCoroutine(WaitToActivate());
-    }
-    IEnumerator WaitToActivate() {
-        yield return new WaitForEndOfFrame();
-        gridLayoutGroup.enabled = true;
     }
 
     public void LoadLevel() {
@@ -55,23 +65,54 @@ public class PLELevelSelectMenu : Menu {
         LevelData selectedLevel = ActiveDataSave.levelDatas[levelIndex];
         levelNameText.text = selectedLevel.name;
         levelDescriptionText.text = selectedLevel.description;
-        levelImage.sprite = Sprite.Create(selectedLevel.Snapshot, new Rect(Vector2.zero, selectedLevel.size.AsVector), Vector2.one * .5f);
+        levelImage.sprite = selectedLevel.MySprite;
+        levelUIs.ForEach(levelUI => {
+            levelUI.OnGroupSelectChanged(levelIndex);
+        });
     }
+    public void ClearAndGenerateLevelUI() {
+        levelContentParent.DestroyAllChildren();
+        StartCoroutine(DelayGeneration());
+    }
+    #endregion
 
+    #region Protected Interface
     protected override void ShowComplete() {
         base.ShowComplete();
     }
 
     protected override void ShowStarted() {
         base.ShowStarted();
+        levelEditor.ToggleCameraController(false);
         searchField.text = "";
         ClearAndGenerateLevelUI();
     }
-
-    public void ClearAndGenerateLevelUI() {
-        levelContentParent.DestroyAllChildren();
-        StartCoroutine(DelayGeneration());
+    protected override void HideComplete() {
+        base.HideComplete();
     }
+
+    protected override void HideStarted() {
+        base.HideStarted();
+        levelEditor.ToggleCameraController(true);
+    }    
+
+    protected override void DefaultHide(Transition transition, Effect[] effects) {
+        Fade(transition, effects);
+    }
+
+    protected override void DefaultShow(Transition transition, Effect[] effects) {
+        Fade(transition, effects);
+    }
+    #endregion
+
+
+    #region Private Interface
+
+    IEnumerator WaitToActivate() {
+        yield return new WaitForEndOfFrame();
+        gridLayoutGroup.enabled = true;
+    }
+
     IEnumerator DelayGeneration() {
         yield return new WaitForEndOfFrame();
         GenerateLevelUI();
@@ -94,20 +135,6 @@ public class PLELevelSelectMenu : Menu {
         }
         OnSearchChange();
     }
+    #endregion
 
-    protected override void HideComplete() {
-        base.HideComplete();
-    }
-
-    protected override void HideStarted() {
-        base.HideStarted();
-    }    
-
-    protected override void DefaultHide(Transition transition, Effect[] effects) {
-        Fade(transition, effects);
-    }
-
-    protected override void DefaultShow(Transition transition, Effect[] effects) {
-        Fade(transition, effects);
-    }
 }

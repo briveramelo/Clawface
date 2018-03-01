@@ -373,6 +373,43 @@ namespace ModMan {
         }
     }
 
+    public static class EnumExtensions
+    {
+
+        public static PoolObjectType ToPoolObject(this SpawnType spawnType)
+        {
+            switch (spawnType)
+            {
+                case SpawnType.Blaster:
+                    return PoolObjectType.MallCopBlaster;
+                case SpawnType.Zombie:
+                    return PoolObjectType.Zombie;
+                case SpawnType.Bouncer:
+                    return PoolObjectType.Bouncer;
+                case SpawnType.RedBouncer:
+                    return PoolObjectType.RedBouncer;
+                case SpawnType.GreenBouncer:
+                    return PoolObjectType.GreenBouncer;
+                case SpawnType.Kamikaze:
+                    return PoolObjectType.Kamikaze;
+                case SpawnType.KamikazePulser:
+                    return PoolObjectType.KamikazePulser;
+                case SpawnType.KamikazeMommy:
+                    return PoolObjectType.KamikazeMommy;
+                case SpawnType.ZombieBeserker:
+                    return PoolObjectType.ZombieBeserker;
+                case SpawnType.ZombieAcider:
+                    return PoolObjectType.ZombieAcider;
+                case SpawnType.BlasterShotgun:
+                    return PoolObjectType.BlasterShotgun;
+                case SpawnType.BlasterReanimator:
+                    return PoolObjectType.BlasterReanimator;
+
+            }
+            return PoolObjectType.MallCopBlaster;
+        }
+    }
+
     public static class MinMaxCurveExtensions
     {
         public static float Max (this ParticleSystem.MinMaxCurve curve)

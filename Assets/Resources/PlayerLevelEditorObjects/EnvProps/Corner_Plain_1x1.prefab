@@ -19,13 +19,13 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4065044170660192}
+  - component: {fileID: 114659679790398554}
   - component: {fileID: 33291544098971664}
   - component: {fileID: 23143433438644220}
   - component: {fileID: 65119274818842826}
   - component: {fileID: 65034312446848054}
   - component: {fileID: 65113425505728472}
   - component: {fileID: 54091285711630982}
-  - component: {fileID: 114659679790398554}
   m_Layer: 19
   m_Name: Corner_Plain_1x1
   m_TagString: Wall
@@ -96,7 +96,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -147,4 +147,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 883a9ed7a14090c4bb7f2b6e311326dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  meshRenderer: {fileID: 23143433438644220}
   registeredProp: {fileID: 0}

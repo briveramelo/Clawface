@@ -60,15 +60,15 @@ public class FloorMenu : Menu {
 
 
     public void DropFloorAction() {
-        UpdateSelectedAndOpenTiles(LevelUnitStates.pit);
+        UpdateSelectedAndOpenTilesState(LevelUnitStates.pit);
     }
 
     public void FlatFloorAction() {
-        UpdateSelectedAndOpenTiles(LevelUnitStates.floor);
+        UpdateSelectedAndOpenTilesState(LevelUnitStates.floor);
     }
 
     public void RiseFloorAction() {
-        UpdateSelectedAndOpenTiles(LevelUnitStates.cover);
+        UpdateSelectedAndOpenTilesState(LevelUnitStates.cover);
     }
 
     public void BackAction()
@@ -112,7 +112,7 @@ public class FloorMenu : Menu {
     #endregion
 
     #region Private Interface    
-    void UpdateSelectedAndOpenTiles(LevelUnitStates state) {
+    void UpdateSelectedAndOpenTilesState(LevelUnitStates state) {
         List<GameObject> selectedObjects = editorInstance.gridController.GetSelectedBlocks();
 
         if (selectedObjects.Count == 0)
@@ -132,11 +132,12 @@ public class FloorMenu : Menu {
         }
 
         string event_name = Strings.Events.PLE_TEST_WAVE_ + WaveSystem.currentWave;
+        bool shouldChangeColor = false;
         EventSystem.Instance.TriggerEvent(Strings.Events.PLE_UPDATE_LEVELSTATE);
-        EventSystem.Instance.TriggerEvent(event_name);
+        EventSystem.Instance.TriggerEvent(event_name, shouldChangeColor);
 
         //print("RiseFloorAction PLE_UPDATE_LEVELSTATE" + Strings.Events.PLE_UPDATE_LEVELSTATE);
         //print("RiseFloorAction event_name" + event_name);
-    }
+    }    
     #endregion
 }
