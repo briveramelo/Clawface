@@ -108,7 +108,8 @@ public class PlayerStateManager : RoutineRunner {
             playerStates.ForEach(state => state.StateUpdate());
         }else if (isInTutorial)
         {
-            if (InputManager.Instance.QueryAction(Strings.Input.Actions.EAT, ButtonMode.DOWN)){
+            if (InputManager.Instance.QueryAction(Strings.Input.Actions.EAT, ButtonMode.DOWN) && isSlowDownFinished)
+            {
                 if (CheckForEatableEnemy())
                 {
                     SwitchState(eatingState);
@@ -118,7 +119,7 @@ public class PlayerStateManager : RoutineRunner {
         }
         else if (isInDashTutorial)
         {
-            if (InputManager.Instance.QueryAction(Strings.Input.Actions.DODGE, ButtonMode.DOWN))
+            if (InputManager.Instance.QueryAction(Strings.Input.Actions.DODGE, ButtonMode.DOWN) && isSlowDownFinished)
             {
                 SwitchState(dashState);
                 dashState.StartDash();
@@ -274,7 +275,7 @@ public class PlayerStateManager : RoutineRunner {
 
     private void FinishTutorial()
     {
-        if (!isTutorialDone && isSlowDownFinished)
+        if (!isTutorialDone)
         {
             isTutorialDone = true;
             EventSystem.Instance.TriggerEvent(Strings.Events.GAME_CAN_PAUSE, true);
@@ -286,13 +287,15 @@ public class PlayerStateManager : RoutineRunner {
 
     private void FinishDashTutorial()
     {
-        if (!isDashTutorialDone && isSlowDownFinished)
+        if (!isDashTutorialDone)
         {
             isDashTutorialDone = true;
             EventSystem.Instance.TriggerEvent(Strings.Events.GAME_CAN_PAUSE, true);
             eatCollider.radius /= TutorialRadiusMultiplier;
             stateVariables.eatRadius /= TutorialRadiusMultiplier;
             Timing.RunCoroutine(StartTutorialSpeedUp(), SpeedTime);
+            //Reset the bool to false for the eat tutorial
+            isSlowDownFinished = false;
         }
     }
 
