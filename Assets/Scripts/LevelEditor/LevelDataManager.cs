@@ -120,8 +120,8 @@ public class LevelDataManager : MonoBehaviour {
                 spawnNames.Add(child.name);
                 PLESpawn pleSpawn = child.GetComponent<PLESpawn>();
                 spawnedPLEs.Add(pleSpawn);
-                pleSpawn.spawnCount = spawnData.count;
-                pleSpawn.spawnType = spawnData.SpawnType;
+                pleSpawn.totalSpawnAmount = spawnData.count;
+                pleSpawn.spawnType = (SpawnType)spawnData.spawnType;
                 child.position = spawnData.position.AsVector;
             }
         }        
@@ -204,7 +204,7 @@ public class LevelDataManager : MonoBehaviour {
                 Transform spawnUI = waveParent.GetChild(j);
                 PLESpawn spawn = spawnUI.GetComponent<PLESpawn>();
                 int spawnType = (int)spawn.spawnType;
-                int spawnCount = spawn.spawnCount;
+                int spawnCount = spawn.totalSpawnAmount;
                 SpawnData spawnData = new SpawnData(spawnType, spawnCount, spawnUI.position);
                 ActiveWaveData[currentIndex].spawnData.Add(spawnData);
             }
