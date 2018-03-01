@@ -9,12 +9,12 @@ public interface IUIGroupable {
 
 public class ColorChangingUI : MonoBehaviour, IUIGroupable {
     [SerializeField] private Image outline;
-    [SerializeField] private Color selectedColor, unselectedColor;
+    [SerializeField] private Sprite selectedSprite, unselectedSprite;
     private int uiIndex;
     public void SetUIIndex(int uiIndex) {
         this.uiIndex = uiIndex;
     }
     public void OnGroupSelectChanged(int selectedIndex) {
-        outline.color = selectedIndex == uiIndex ? selectedColor : unselectedColor;
+        outline.sprite = selectedIndex == uiIndex ? selectedSprite : unselectedSprite;
     }
 }
