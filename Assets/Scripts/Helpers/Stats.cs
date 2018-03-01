@@ -80,6 +80,10 @@ public class Stats : MonoBehaviour, IModifiable {
         originalStats.maxHealth = newMax;
     }
 
+    public void LockHealth()
+    {
+        health = 5.0f;
+    }
 
     public float TakeDamage(float damage) {
         if (!isInvincible)
