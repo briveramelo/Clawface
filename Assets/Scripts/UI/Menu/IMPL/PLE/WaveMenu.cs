@@ -23,6 +23,7 @@ public class WaveMenu : Menu
     [SerializeField] private Button initiallySelected;
     [SerializeField] private LevelEditor editorInstance;
     [SerializeField] private GameObject realLevelParent;
+    [SerializeField] private InputField waveInputField;
 
     #endregion
 
@@ -66,6 +67,17 @@ public class WaveMenu : Menu
 
     #endregion
 
+    #region Public Interface
+    public void BackAction() {
+        MenuManager.Instance.DoTransition(editorInstance.GetMenu(PLEMenu.MAIN), Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+    }
+
+    public void OnSelectedWaveTextValidated() {        
+        int newWave =int.Parse(waveInputField.text);
+        editorInstance.waveSystem.ChangeToWave(newWave-1);
+    }
+    #endregion
+
     #region Unity Lifecycle
 
     private void Update()
@@ -97,10 +109,7 @@ public class WaveMenu : Menu
 
     #region Private Interface
 
-    public void BackAction()
-    {
-        MenuManager.Instance.DoTransition(editorInstance.GetMenu(PLEMenu.MAIN), Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
-    }
+    
 
     #endregion
 }
