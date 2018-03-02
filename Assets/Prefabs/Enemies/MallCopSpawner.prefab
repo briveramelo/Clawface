@@ -2468,7 +2468,7 @@ MonoBehaviour:
     remainingSpawns: 0
     spawnEffectTime: 0
     intensity: 0
-    NumToNextWave: 0
+    NumToNextWave: 1
     preEventNames:
     - Spawner 1 Wave 1
     - Music_Spawner 1 Wave 1
@@ -2483,17 +2483,17 @@ MonoBehaviour:
   - spawnedHashCodes: 
     monsterList:
     - Type: 1
-      Count: 1
+      Count: 4
     - Type: 0
-      Count: 1
-    - Type: 3
       Count: 2
-    - Type: 0
+    - Type: 6
+      Count: 3
+    - Type: 2
       Count: 1
     remainingSpawns: 0
     spawnEffectTime: 0
     intensity: 0
-    NumToNextWave: 1
+    NumToNextWave: 2
     preEventNames:
     - Spawner 1 Wave 2
     postEventNames: []
@@ -2506,44 +2506,20 @@ MonoBehaviour:
       max: 1
   - spawnedHashCodes: 
     monsterList:
-    - Type: 2
+    - Type: 9
       Count: 1
-    - Type: 1
-      Count: 2
-    - Type: 3
-      Count: 1
-    - Type: 0
-      Count: 2
-    remainingSpawns: 0
-    spawnEffectTime: 0
-    intensity: 0
-    NumToNextWave: 1
-    preEventNames:
-    - Spawner 1 Wave 3
-    postEventNames: []
-    spawnOffset: 0
-    spawnTimeOffset: 0
-    SpawningTime:
-      minLimit: 0
-      maxLimit: 0
-      min: 1
-      max: 1
-  - spawnedHashCodes: 
-    monsterList:
-    - Type: 1
+    - Type: 10
       Count: 3
-    - Type: 0
-      Count: 3
-    - Type: 2
-      Count: 1
     - Type: 3
+      Count: 6
+    - Type: 2
       Count: 2
     remainingSpawns: 0
     spawnEffectTime: 0
     intensity: 0
     NumToNextWave: 0
     preEventNames:
-    - Spawner 1 Wave 4
+    - Spawner 1 Wave 3
     postEventNames: []
     spawnOffset: 0
     spawnTimeOffset: 0

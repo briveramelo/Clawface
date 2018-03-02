@@ -61,7 +61,7 @@ MonoBehaviour:
     angularSpeed: 360
     acceleration: 15
     stoppingDistance: 1
-    scoreValue: 200
+    scoreValue: 400
     eatHealth: 1
     stunnedTime: 3
     closeEnoughToFireDistance: 13
@@ -78,7 +78,7 @@ MonoBehaviour:
     angularSpeed: 360
     acceleration: 20
     stoppingDistance: 1
-    scoreValue: 200
+    scoreValue: 400
     eatHealth: 1
     stunnedTime: 3
     closeEnoughToFireDistance: 8
@@ -118,7 +118,7 @@ MonoBehaviour:
     angularSpeed: 10000
     acceleration: 30
     stoppingDistance: 3
-    scoreValue: 100
+    scoreValue: 200
     eatHealth: 1
     stunnedTime: 3
     closeEnoughToAttackDistance: 3
@@ -132,7 +132,7 @@ MonoBehaviour:
     angularSpeed: 10000
     acceleration: 30
     stoppingDistance: 2.5
-    scoreValue: 150
+    scoreValue: 300
     eatHealth: 1
     stunnedTime: 3
     closeEnoughToAttackDistance: 2.5
@@ -146,7 +146,7 @@ MonoBehaviour:
     angularSpeed: 10000
     acceleration: 30
     stoppingDistance: 3
-    scoreValue: 175
+    scoreValue: 350
     eatHealth: 1
     stunnedTime: 3
     closeEnoughToAttackDistance: 3
@@ -164,7 +164,7 @@ MonoBehaviour:
     angularSpeed: 900
     acceleration: 50
     stoppingDistance: 1
-    scoreValue: 50
+    scoreValue: 100
     eatHealth: 1
     stunnedTime: 3
     closeEnoughToAttackDistance: 2.5
@@ -179,14 +179,14 @@ MonoBehaviour:
     angularSpeed: 900
     acceleration: 50
     stoppingDistance: 1
-    scoreValue: 150
+    scoreValue: 300
     eatHealth: 1
     stunnedTime: 3
     closeEnoughToAttackDistance: 5
-    maxPulses: 1
-    pulseRate: 2
-    scaleRate: 1.15
-    maxScale: 2
+    maxPulses: 2
+    pulseRate: 6
+    scaleRate: 1.01
+    maxScale: 5
   kamikazeMommyStats:
     health: 50
     maxHealth: 50
@@ -196,7 +196,7 @@ MonoBehaviour:
     angularSpeed: 1000
     acceleration: 40
     stoppingDistance: 1
-    scoreValue: 500
+    scoreValue: 1000
     eatHealth: 2
     stunnedTime: 4
     closeEnoughToAttackDistance: 10
@@ -212,7 +212,7 @@ MonoBehaviour:
     angularSpeed: 360
     acceleration: 15
     stoppingDistance: 1
-    scoreValue: 300
+    scoreValue: 600
     eatHealth: 1
     stunnedTime: 3
     maxBounces: 5
@@ -242,7 +242,7 @@ MonoBehaviour:
     angularSpeed: 360
     acceleration: 15
     stoppingDistance: 1
-    scoreValue: 400
+    scoreValue: 800
     eatHealth: 1
     stunnedTime: 3
     maxBounces: 7
@@ -272,7 +272,7 @@ MonoBehaviour:
     angularSpeed: 360
     acceleration: 15
     stoppingDistance: 1
-    scoreValue: 500
+    scoreValue: 1000
     eatHealth: 2
     stunnedTime: 4
     maxBounces: 5
