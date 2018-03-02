@@ -51,7 +51,7 @@ public class SpawnMenu : PlacementMenu {
     protected override bool SelectItem { get { return base.SelectUI && MouseHelper.currentSpawn != null; } }
     protected override void DeleteHoveredItem() {
         base.DeleteHoveredItem();
-        editorInstance.CheckToSetMenuInteractability();
+        levelEditor.CheckToSetMenuInteractability();
     }
     protected override void ShowComplete() {
         base.ShowComplete();
@@ -91,7 +91,7 @@ public class SpawnMenu : PlacementMenu {
             playerSpawnInstance = newItem;
             playerSpawnInstance.transform.SetParent(TryCreateWaveParent(0).parent);
         }
-        editorInstance.CheckToSetMenuInteractability();
+        levelEditor.CheckToSetMenuInteractability();
     }
     Transform TryCreateWaveParent(int i) {
         string waveName = GetWaveName(i);

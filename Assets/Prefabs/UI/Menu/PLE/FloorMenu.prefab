@@ -58,7 +58,7 @@ GameObject:
   - component: {fileID: 4585520604647898}
   - component: {fileID: 114661496561445140}
   m_Layer: 5
-  m_Name: SetDynamicLevelMenu
+  m_Name: FloorMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -521,8 +521,8 @@ MonoBehaviour:
   canvas: {fileID: 1044720133497524}
   canvasGroup: {fileID: 225619499881535544}
   faderDuration: 0
+  levelEditor: {fileID: 0}
   initiallySelected: {fileID: 0}
-  editorInstance: {fileID: 0}
 --- !u!114 &114861218748389584
 MonoBehaviour:
   m_ObjectHideFlags: 1

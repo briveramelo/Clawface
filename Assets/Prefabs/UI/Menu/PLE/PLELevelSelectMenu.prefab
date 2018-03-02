@@ -911,7 +911,7 @@ GameObject:
   - component: {fileID: 4653922571923122}
   - component: {fileID: 114057520406640258}
   m_Layer: 5
-  m_Name: PLELevelSelectMenu 1
+  m_Name: PLELevelSelectMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1418,6 +1418,10 @@ MonoBehaviour:
   canvas: {fileID: 1810414253232462}
   canvasGroup: {fileID: 225866229404006804}
   faderDuration: 0
+  levelEditor: {fileID: 0}
+  initiallySelected: {fileID: 114597672417075940}
+  backMenuTarget: 
+  forwardMenuTarget: 
   levelContentParent: {fileID: 224395711333652390}
   levelUIPrefab: {fileID: 1481057405793118, guid: 8cde25fbdab84e04ca1217d972da64e3,
     type: 2}
@@ -1425,9 +1429,10 @@ MonoBehaviour:
   levelDescriptionText: {fileID: 114755477241284538}
   searchField: {fileID: 114567251334883976}
   levelImage: {fileID: 114708278040342634}
-  levelEditor: {fileID: 0}
-  levelDataManager: {fileID: 0}
   gridLayoutGroup: {fileID: 114334762688176296}
+  deleteButtonObject: {fileID: 1258197422022528}
+  levelDataManager: {fileID: 0}
+  plePrefab: {fileID: 1517401390331960, guid: 1a37425c52508c04ebb0496cc3688ed5, type: 2}
 --- !u!114 &114090925045714546
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1567,8 +1572,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outline: {fileID: 114929500168818764}
-  selectedSprite: {fileID: 0}
-  unselectedSprite: {fileID: 0}
+  selectedSprite: {fileID: 21300000, guid: b4c3e331204d0b94bac0921b505278a3, type: 3}
+  unselectedSprite: {fileID: 21300000, guid: e67b711ca4302654b967ab01ae85a1ce, type: 3}
 --- !u!114 &114162049087532358
 MonoBehaviour:
   m_ObjectHideFlags: 1

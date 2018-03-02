@@ -15,7 +15,7 @@ public abstract class Menu : MonoBehaviour {
         get { return menuName; }
     }
 
-    public abstract Button InitialSelection
+    public abstract Selectable InitialSelection
     {
         get;
     }

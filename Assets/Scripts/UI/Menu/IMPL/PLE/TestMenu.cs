@@ -5,25 +5,14 @@ using UnityEngine.UI;
 
 using PlayerLevelEditor;
 
-public class TestMenu : Menu
+public class TestMenu : PlayerLevelEditorMenu
 {
 
-    #region Public Fields
-
-    public override Button InitialSelection
-    {
-        get
-        {
-            return initiallySelected;
-        }
-    }
+    #region Public Fields    
 
     #endregion
 
     #region Serialized Unity Fields
-
-    [SerializeField] private Button initiallySelected;
-    [SerializeField] private LevelEditor editorInstance;
     [SerializeField] private Transform tileParents;
     [SerializeField] private GameObject playerSpawnerPrefab;
     [SerializeField] private GameObject editorCamera;    
@@ -31,36 +20,18 @@ public class TestMenu : Menu
 
     #region Private Fields
 
-    private bool inputGuard = false;
     GameObject playerSpawnerInstance = null;
 
     #endregion
 
     #region Unity Lifecycle
-
-    private void Update()
-    {
-        if (inputGuard)
-        {
-            if(InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.UP))
-            {
-                BackAction();
-            }
-
-
-
-            //active update loop
-        }
-    }
+    
 
     #endregion
 
     #region Public Interface
 
-    public TestMenu() : base(Strings.MenuStrings.TEST_PLE_MENU)
-    {
-
-    }
+    public TestMenu() : base(Strings.MenuStrings.TEST_PLE_MENU) { }
 
 
     #endregion
@@ -73,16 +44,12 @@ public class TestMenu : Menu
     protected override void ShowComplete()
     {
         base.ShowComplete();
-        inputGuard = true;
-
         InitTestMode();
     }
 
     protected override void HideStarted()
     {
         base.HideStarted();
-        inputGuard = false;
-
         ReleaseTestMode();
     }
 
@@ -100,16 +67,17 @@ public class TestMenu : Menu
 
     #region Private Interface
 
-    private void BackAction()
-    {
-        MenuManager.Instance.DoTransition(editorInstance.GetMenu(PLEMenu.MAIN), Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+    public override void BackAction() {
+        Menu mainPLEMenu = levelEditor.GetMenu(PLEMenu.MAIN);
+        MenuManager.Instance.DoTransition(mainPLEMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+        base.BackAction();
     }
 
 
 
     private void InitTestMode()
     {
-        MenuManager.Instance.DoTransition(editorInstance.GetMenu(PLEMenu.MAIN), Transition.HIDE, new Effect[] {});
+        MenuManager.Instance.DoTransition(levelEditor.GetMenu(PLEMenu.MAIN), Transition.HIDE, new Effect[] {});
 
         if(tileParents.childCount == 0 || SpawnMenu.playerSpawnInstance == null)
         {
@@ -121,16 +89,13 @@ public class TestMenu : Menu
 
         playerSpawnerInstance = Instantiate(playerSpawnerPrefab);
         playerSpawnerInstance.transform.position = SpawnMenu.playerSpawnInstance.transform.position;
-        editorInstance.waveSystem.ResetToWave0();
+        levelEditor.waveSystem.ResetToWave0();
         EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_STARTED, Strings.Scenes.Editor, ModManager.leftArmOnLoad.ToString(), ModManager.rightArmOnLoad.ToString());
-        
-        
     }
 
 
 
-    private void ReleaseTestMode()
-    {
+    private void ReleaseTestMode() {
         //Debug.Log("ReleaseTestMode");
 
         GameObject playerInstance = null;

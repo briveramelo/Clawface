@@ -9,7 +9,7 @@ public class WeaponSelectMenu : Menu
 {
 	#region Accessors (Menu)
 
-	public override Button InitialSelection
+	public override Selectable InitialSelection
     {
 		get
         {
@@ -70,7 +70,8 @@ public class WeaponSelectMenu : Menu
 
     #region Fields (Internal)
 
-    internal string menuTarget = null;
+    internal string backMenuTarget = null;
+    internal string forwardMenuTarget = null;
 
     #endregion
 
@@ -172,7 +173,7 @@ public class WeaponSelectMenu : Menu
     public void BackAction ()
 	{
         fader.DoShow(fadeDuration, () => {
-		    MenuManager.Instance.DoTransition (menuTarget, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+		    MenuManager.Instance.DoTransition (backMenuTarget, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
         });
     }
 
@@ -180,20 +181,15 @@ public class WeaponSelectMenu : Menu
 	{
 	    ModManager.assignFromPool = false;
 
-		// Acquire target level.
-		Menu menu = MenuManager.Instance.GetMenuByName (Strings.MenuStrings.LEVEL_SELECT);
-        string level = Strings.Scenes.Arena;
-        Debug.LogWarning("Target level is currently using String.Scenes constant.  Fix later when adding LevelSelectMenu back.");
-
 		// Acquire Pause Menu
-		menu = MenuManager.Instance.GetMenuByName (Strings.MenuStrings.PAUSE);
+		Menu menu = MenuManager.Instance.GetMenuByName (Strings.MenuStrings.PAUSE);
 		PauseMenu pauseMenu = (PauseMenu)menu;
 		pauseMenu.CanPause = true;
 
 		// Acquire LoadMenu and set target.
 		menu = MenuManager.Instance.GetMenuByName (Strings.MenuStrings.LOAD);
 		LoadMenu loadMenu = (LoadMenu)menu;
-		loadMenu.TargetScene = level;
+		loadMenu.TargetScene = forwardMenuTarget;
 
         // Trigger level started event
         ModManager.rightArmOnLoad = rightArm.GetSelection();
@@ -201,8 +197,7 @@ public class WeaponSelectMenu : Menu
         EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_STARTED, loadMenu.TargetScene, ModManager.leftArmOnLoad.ToString(), ModManager.rightArmOnLoad.ToString());
 
 		// Make it happen.
-		MenuManager.Instance.DoTransition (loadMenu, Transition.SHOW,
-			new Effect[] { Effect.EXCLUSIVE });
+		MenuManager.Instance.DoTransition (loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
 	}
 
     #endregion

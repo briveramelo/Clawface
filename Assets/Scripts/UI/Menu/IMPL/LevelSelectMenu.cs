@@ -8,7 +8,7 @@ public class LevelSelectMenu : Menu
 {
 	#region Accessors (Menu)
 
-	public override Button InitialSelection {
+	public override Selectable InitialSelection {
 		get {
 			foreach (ThemeBundle bundle in themes) {
 				if (bundle.theme == selectedTheme) {
@@ -85,7 +85,7 @@ public class LevelSelectMenu : Menu
 	{
         base.Start();
 		RewireNavigation ();
-        selectedLevel = SceneManager.GetActiveScene().name;
+        selectedLevel = SceneTracker.CurrentLevelName;
 	}
 
 	private void Update ()
@@ -170,7 +170,7 @@ public class LevelSelectMenu : Menu
         // Transition to Weapon Select.
         Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.WEAPON_SELECT);
         WeaponSelectMenu weaponMenu = menu as WeaponSelectMenu;
-        weaponMenu.menuTarget = Strings.MenuStrings.LEVEL_SELECT;
+        weaponMenu.forwardMenuTarget = Strings.MenuStrings.LEVEL_SELECT;
 
 		MenuManager.Instance.DoTransition (menu, Transition.SHOW,
 			new Effect[] { Effect.EXCLUSIVE });

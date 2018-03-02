@@ -13,6 +13,7 @@ namespace PlayerLevelEditor
         public PLEMenu currentDisplayedMenu;
         public PlayerLevelEditorGrid gridController;
         public WaveSystem waveSystem;
+        public LevelDataManager levelDataManager;
         #endregion
 
 
@@ -79,6 +80,14 @@ namespace PlayerLevelEditor
                 MenuManager.Instance.DoTransition(newMenu, Menu.Transition.SHOW, new Menu.Effect[] { });
 
                 currentDisplayedMenu = i_newMenu;
+
+                if (currentDisplayedMenu == PLEMenu.SAVE || currentDisplayedMenu == PLEMenu.LEVELSELECT) {
+                    ToggleCameraController(false);
+                }
+                else {
+                    ToggleCameraController(true);
+                }
+                mainEditorMenu.SetMenuToggleOn(currentDisplayedMenu);
             }
         }
         

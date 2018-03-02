@@ -11,7 +11,7 @@ public class PauseMenu : Menu
 
 	#region Public Fields
 
-	public override Button InitialSelection {
+	public override Selectable InitialSelection {
 		get {
 			return initiallySelected;
 		}

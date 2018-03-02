@@ -6,32 +6,38 @@ using ModMan;
 using PlayerLevelEditor;
 using System.Linq;
 
-public class PLELevelSelectMenu : Menu {
+public class PLELevelSelectMenu : PlayerLevelEditorMenu {
 
     public PLELevelSelectMenu() : base (Strings.MenuStrings.LEVELSELECT_PLE_MENU) { }
 
-    public override Button InitialSelection { get { return null; } }
+    public string backMenuTarget, forwardMenuTarget;
+
 
     [SerializeField] private Transform levelContentParent;
     [SerializeField] private GameObject levelUIPrefab;
     [SerializeField] private Text levelNameText, levelDescriptionText;
     [SerializeField] private InputField searchField;
     [SerializeField] private Image levelImage;
-    [SerializeField] private LevelEditor levelEditor;
-    [SerializeField] private LevelDataManager levelDataManager;
     [SerializeField] private GridLayoutGroup gridLayoutGroup;
+    [SerializeField] private GameObject deleteButtonObject;
+    [SerializeField] private LevelDataManager levelDataManager;
+    [SerializeField] private GameObject plePrefab;
 
     //private const int width = 600;
     //private const int height = 400;
-    //private static readonly Vector2 imageDimensions = new Vector2(width, height);
+    //private static readonly Vector2 imageDimensions = new Vector2(width, height);    
     private DataSave ActiveDataSave { get { return DataPersister.ActiveDataSave; } }
     private List<LevelData> Levels { get { return ActiveDataSave.levelDatas; } }
     private List<LevelUI> levelUIs= new List<LevelUI>();
     private int selectedLevelIndex = 0;
 
-    #region Unity Lifecyle    
-
-
+    #region Unity Lifecyle
+    protected override void Start() {
+        base.Start();
+        if (!SceneTracker.IsCurrentSceneEditor) {
+            CreateDataParentTransforms();
+        }
+    }
     #endregion
     #region Public Interface
     public void OnSearchChange() {
@@ -51,13 +57,23 @@ public class PLELevelSelectMenu : Menu {
             levelUIs[i].gameObject.SetActive(shouldShow);
         }
         
-        StartCoroutine(WaitToActivate());
+        StartCoroutine(ResortImagePositions());
     }
 
     public void LoadLevel() {
         ActiveDataSave.SelectedIndex = selectedLevelIndex;
-        levelEditor.SwitchToMenu(PLEMenu.FLOOR);
         levelDataManager.LoadSelectedLevel();
+
+        if (SceneTracker.IsCurrentSceneEditor) {
+            levelEditor.SwitchToMenu(PLEMenu.FLOOR);
+        }
+        else {
+            string weaponSelectMenuname = Strings.MenuStrings.WEAPON_SELECT;
+            WeaponSelectMenu weaponSelectMenu = (WeaponSelectMenu)MenuManager.Instance.GetMenuByName(weaponSelectMenuname);
+            weaponSelectMenu.backMenuTarget = weaponSelectMenuname;
+            weaponSelectMenu.forwardMenuTarget = Strings.Scenes.EditorPlayer;
+            MenuManager.Instance.DoTransition(weaponSelectMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+        }
     }
 
     public void SelectLevel(int levelIndex) {
@@ -66,9 +82,7 @@ public class PLELevelSelectMenu : Menu {
         levelNameText.text = selectedLevel.name;
         levelDescriptionText.text = selectedLevel.description;
         levelImage.sprite = selectedLevel.MySprite;
-        levelUIs.ForEach(levelUI => {
-            levelUI.OnGroupSelectChanged(levelIndex);
-        });
+        levelUIs.ForEach(levelUI => { levelUI.OnGroupSelectChanged(levelIndex); });
     }
     public void ClearAndGenerateLevelUI() {
         levelContentParent.DestroyAllChildren();
@@ -83,9 +97,14 @@ public class PLELevelSelectMenu : Menu {
 
     protected override void ShowStarted() {
         base.ShowStarted();
-        levelEditor.ToggleCameraController(false);
         searchField.text = "";
         ClearAndGenerateLevelUI();
+        if (SceneTracker.IsCurrentSceneEditor) {
+            deleteButtonObject.SetActive(true);
+        }
+        else {
+            deleteButtonObject.SetActive(false);
+        }
     }
     protected override void HideComplete() {
         base.HideComplete();
@@ -93,31 +112,41 @@ public class PLELevelSelectMenu : Menu {
 
     protected override void HideStarted() {
         base.HideStarted();
-        levelEditor.ToggleCameraController(true);
-    }    
+        if (SceneTracker.IsCurrentSceneEditor) {
 
-    protected override void DefaultHide(Transition transition, Effect[] effects) {
-        Fade(transition, effects);
-    }
-
-    protected override void DefaultShow(Transition transition, Effect[] effects) {
-        Fade(transition, effects);
+        }
+        else {
+            
+        }
     }
     #endregion
 
 
     #region Private Interface
 
-    IEnumerator WaitToActivate() {
+    public override void BackAction() {
+        if (SceneTracker.IsCurrentSceneEditor) {
+            base.BackAction();
+        }
+        else {
+            MenuManager.Instance.DoTransition(backMenuTarget, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+        }
+    }
+
+    private void ForwardAction() {
+
+    }
+
+    private IEnumerator ResortImagePositions() {
         yield return new WaitForEndOfFrame();
         gridLayoutGroup.enabled = true;
     }
 
-    IEnumerator DelayGeneration() {
+    private IEnumerator DelayGeneration() {
         yield return new WaitForEndOfFrame();
         GenerateLevelUI();
     }
-    void GenerateLevelUI() {
+    private void GenerateLevelUI() {
         int i = 0;
         levelUIs.Clear();
         Levels.ForEach(level => {
@@ -134,6 +163,10 @@ public class PLELevelSelectMenu : Menu {
             SelectLevel(levelUIs.FindIndex(containsLevel));
         }
         OnSearchChange();
+    }
+    void CreateDataParentTransforms() {
+        GameObject pleGO = Instantiate(plePrefab) as GameObject;
+        pleGO.AddComponent<SceneTraverser>().Initialize(Strings.Scenes.SceneNames.PlayerLevels);
     }
     #endregion
 

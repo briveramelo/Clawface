@@ -31,13 +31,19 @@
 
     public class Scenes
     {
-        public const string MainMenu = "Scenes/Build Scenes/MainMenu";
+        public const string ScenesDirectory = "Scenes/Build Scenes/";
+        public const string MainMenu = ScenesDirectory + SceneNames.MainMenu;
+        public const string Arena = ScenesDirectory + SceneNames.Arena;
+        public const string Editor = ScenesDirectory + SceneNames.Editor;
+        public const string EditorPlayer = ScenesDirectory + SceneNames.PlayerLevels;
 
-        //public const string Arena = "Scenes/Build Scenes/Gucci_V1.2";
-        public const string Arena = "Scenes/Build Scenes/80s shit";
-
-        public const string Editor = "Scenes/Build Scenes/Editor";
-    }
+        public class SceneNames {
+            public const string MainMenu = "MainMenu";
+            public const string Arena = "80s shit";
+            public const string Editor = "Editor";
+            public const string PlayerLevels = "PlayerLevels";
+        }
+    }    
 
     public class Layers
     {

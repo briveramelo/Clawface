@@ -37,7 +37,7 @@ public class LoadMenu : Menu {
         }
     }
 
-    public override Button InitialSelection
+    public override Selectable InitialSelection
     {
         get
         {

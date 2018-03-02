@@ -11,7 +11,7 @@ public class StageOverMenu : Menu
 {
     #region Public Fields
 
-    public override Button InitialSelection
+    public override Selectable InitialSelection
     {
         get
         {
@@ -107,12 +107,16 @@ public class StageOverMenu : Menu
         // Transition to Weapon Select.
         Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.WEAPON_SELECT);
         WeaponSelectMenu weaponMenu = menu as WeaponSelectMenu;
-        weaponMenu.menuTarget = Strings.MenuStrings.STAGE_OVER;
+        weaponMenu.backMenuTarget = Strings.MenuStrings.STAGE_OVER;
+        weaponMenu.forwardMenuTarget = Strings.MenuStrings.LOAD;
+
+        menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
+        LoadMenu loadMenu = menu as LoadMenu;
+        loadMenu.TargetScene = SceneTracker.CurrentLevelName;
 
         EventSystem.Instance.TriggerEvent(Strings.Events.WEAPONS_SELECT_FROM_STAGE_OVER);
 
-        MenuManager.Instance.DoTransition(menu, Transition.SHOW,
-            new Effect[] { Effect.EXCLUSIVE });
+        MenuManager.Instance.DoTransition(menu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
     }
 
     public void NextLevelAction()
@@ -122,8 +126,8 @@ public class StageOverMenu : Menu
         Scene scene = SceneManager.GetActiveScene();
         loadMenu.TargetScene = scene.name;
 
-        PauseMenu p = (PauseMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.PAUSE);
-        p.CanPause = true;
+        PauseMenu pauseMenu = (PauseMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.PAUSE);
+        pauseMenu.CanPause = true;
         //TODO: What is the "next" level, the next one in the build index? 
 
         //EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_RESTARTED, scene.name, AnalyticsManager.Instance.GetCurrentWave(), ScoreManager.Instance.GetScore());
