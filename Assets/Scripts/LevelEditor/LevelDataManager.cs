@@ -11,11 +11,12 @@ public class LevelDataManager : MonoBehaviour {
 
     [Header("Required for all scenes")]
     [SerializeField] private DataPersister dataPersister;
-
-    [Header("Player Editor Scene-specific")]
     [SerializeField] private LevelEditor levelEditor;
     [SerializeField] private Transform tileParent, propsParent, spawnParent;
-    [SerializeField] private InputField levelName, levelDescription;
+
+    [Header("Player Editor Scene-specific")]
+    [SerializeField] private InputField levelName;
+    [SerializeField] private InputField levelDescription;
 
     private DataSave ActiveDataSave { get { return DataPersister.ActiveDataSave; } }
     private LevelData ActiveLevelData { get { return ActiveDataSave.ActiveLevelData; } }
@@ -34,17 +35,33 @@ public class LevelDataManager : MonoBehaviour {
 
     #region Load
     public void LoadSelectedLevel() {
-        StartCoroutine(DelayLoad());
+        if (SceneTracker.IsCurrentSceneEditor) {
+            StartCoroutine(DelayLoadOneFrame());
+        }
+        else {
+            transform.root.gameObject.SetActive(true);
+            StartCoroutine(DelayLoadUntilSceneLoaded());
+        }
     }    
 
-    private IEnumerator DelayLoad() {
+    private IEnumerator DelayLoadOneFrame() {
         yield return new WaitForEndOfFrame();
+        LoadEntireLevel();
+    }
+    private IEnumerator DelayLoadUntilSceneLoaded() {
+        while (!SceneTracker.IsCurrentScenePlayerLevels) {
+            yield return null;
+        }
+        LoadEntireLevel();
+    }
+
+    private void LoadEntireLevel() {
         LoadProps();
         LoadSpawnsAllOn();
         LoadTiles();
         LoadSpawnsToggledState();
         LoadImages();
-        if (levelEditor != null) {
+        if (SceneTracker.IsCurrentSceneEditor) {
             levelEditor.waveSystem.ResetToWave0();
             levelEditor.CheckToSetMenuInteractability();
         }
@@ -133,6 +150,9 @@ public class LevelDataManager : MonoBehaviour {
             tile.realTile.transform.SetParent(tileParent);
         }
         levelEditor.gridController.ShowWalls();
+        if (!SceneTracker.IsCurrentSceneEditor) {
+            levelEditor.gridController.SetGridVisiblity(false);
+        }
     }
 
     private void LoadSpawnsToggledState() {

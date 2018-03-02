@@ -14,6 +14,7 @@ public class LoadMenu : Menu {
     #endregion
 
     #region Public Fields
+    public System.Action onCompleteSceneLoad;
     public string TargetScene
     {
         get
@@ -139,8 +140,10 @@ public class LoadMenu : Menu {
         loadingBar.size = 1.0F;
         loadingText.text = "Press any key to continue...";
         loaded = true;
-        
-
+        EventSystem.Instance.TriggerEvent(Strings.Events.SCENE_LOADED);
+        if (onCompleteSceneLoad!=null) {
+            onCompleteSceneLoad();
+        }
     }
 
     #endregion

@@ -201,6 +201,8 @@
 
         public const string ACTIVATE_MOD = "ACTIVATE_MOD";
         public const string DEACTIVATE_MOD = "DEACTIVATE_MOD";
+
+        public const string SCENE_LOADED = "SCENE LOADED";
     }
 
     public class Editor

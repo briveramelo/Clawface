@@ -25,11 +25,12 @@ public class MainPLEMenu : PlayerLevelEditorMenu {
     #endregion  
 
     #region Unity Lifecycle
-
-    protected override void Start() {
-        base.Start();
+    private void Awake() {
         InitializeMenuToggles();
         SetupToggleInteractability();
+    }
+    protected override void Start() {
+        base.Start();                
     }
 
     void InitializeMenuToggles() {        
@@ -107,18 +108,20 @@ public class MainPLEMenu : PlayerLevelEditorMenu {
         SelectMenuItem(PLEMenu.HELP);
     }
     public void SelectMenuItem(PLEMenu menu) {
-        menuToggles.ForEach(menuToggle => { menuToggle.toggle.onValueChanged.SwitchListenerState(UnityEngine.Events.UnityEventCallState.Off); });
-        Toggle selectedMenuToggle = menuToggles.Find(menuToggle => menuToggle.menu == menu).toggle;
-        selectedMenuToggle.isOn = true;
-        selectedMenuToggle.Select();
-        UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(selectedMenuToggle.gameObject);
+        if (menu != levelEditor.currentDisplayedMenu) {
+            menuToggles.ForEach(menuToggle => { menuToggle.toggle.onValueChanged.SwitchListenerState(UnityEngine.Events.UnityEventCallState.Off); });
+            Toggle selectedMenuToggle = menuToggles.Find(menuToggle => menuToggle.menu == menu).toggle;
+            selectedMenuToggle.isOn = true;
+            selectedMenuToggle.Select();
+            UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(selectedMenuToggle.gameObject);
 
-        levelEditor.SwitchToMenu(menu);
-        textColorSetter.SetTextColor();
-        menuToggles.ForEach(menuToggle => {
-            menuToggle.toggle.onValueChanged.SwitchListenerState(UnityEngine.Events.UnityEventCallState.RuntimeOnly);
-            menuToggle.spriteShifter.OnToggleChanged();
-        });
+            levelEditor.SwitchToMenu(menu);
+            textColorSetter.SetTextColor();
+            menuToggles.ForEach(menuToggle => {
+                menuToggle.toggle.onValueChanged.SwitchListenerState(UnityEngine.Events.UnityEventCallState.RuntimeOnly);
+                menuToggle.spriteShifter.OnToggleChanged();
+            });
+        }
     }
 
     public void SetSelectedTextColor(PLEMenu i_selection)
@@ -127,12 +130,12 @@ public class MainPLEMenu : PlayerLevelEditorMenu {
     }
 
     public void QuitAction()
-    {
+    {        
         Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
-        LoadMenu loadMenu = menu as LoadMenu;
+        LoadMenu loadMenu = (LoadMenu)menu;
         loadMenu.TargetScene = Strings.Scenes.MainMenu;
-
-        MenuManager.Instance.DoTransition(loadMenu, Menu.Transition.SHOW, new Menu.Effect[] { Menu.Effect.EXCLUSIVE });
+        loadMenu.Fast = true;
+        MenuManager.Instance.DoTransition(loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
     }
 
     #endregion

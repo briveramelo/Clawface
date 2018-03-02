@@ -85,7 +85,7 @@ public class LevelSelectMenu : Menu
 	{
         base.Start();
 		RewireNavigation ();
-        selectedLevel = SceneTracker.CurrentLevelName;
+        selectedLevel = SceneTracker.CurrentSceneName;
 	}
 
 	private void Update ()

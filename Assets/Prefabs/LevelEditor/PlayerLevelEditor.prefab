@@ -211,10 +211,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 427bc9278a1f9d740b26d02e2811db31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentDisplayedMenu: 3
   gridController: {fileID: 114961083394896710}
-  waveSystem: {fileID: 0}
   levelDataManager: {fileID: 114302409008453142}
+  currentDisplayedMenu: 3
+  waveSystem: {fileID: 0}
   mainEditorMenu: {fileID: 0}
   floorEditorMenu: {fileID: 0}
   propsEditorMenu: {fileID: 0}
@@ -255,6 +255,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shouldRegister: 0
+  dontDestroyOnLoad: 0
 --- !u!114 &114961083394896710
 MonoBehaviour:
   m_ObjectHideFlags: 1

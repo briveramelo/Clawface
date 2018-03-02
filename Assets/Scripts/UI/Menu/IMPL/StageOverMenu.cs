@@ -76,8 +76,7 @@ public class StageOverMenu : Menu
     {
         Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
         LoadMenu loadMenu = (LoadMenu)menu;
-        EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_QUIT, 
-            SceneManager.GetActiveScene().name, AnalyticsManager.Instance.GetCurrentWave(), ScoreManager.Instance.GetScore());
+        EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_QUIT, SceneTracker.CurrentSceneName, AnalyticsManager.Instance.GetCurrentWave(), ScoreManager.Instance.GetScore());
         loadMenu.TargetScene = Strings.Scenes.MainMenu;
         loadMenu.Fast = true;
         ObjectPool.Instance.ResetPools();
@@ -88,15 +87,14 @@ public class StageOverMenu : Menu
     {
         Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
         LoadMenu loadMenu = (LoadMenu)menu;
-        Scene scene = SceneManager.GetActiveScene();
-        loadMenu.TargetScene = scene.name;
+        string sceneName = SceneTracker.CurrentSceneName;
+        loadMenu.TargetScene = sceneName;
 
         PauseMenu p = (PauseMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.PAUSE);
         p.CanPause = true;
 
         ObjectPool.Instance.ResetPools();
-
-        EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_RESTARTED, scene.name, AnalyticsManager.Instance.GetCurrentWave(), ScoreManager.Instance.GetScore());
+        EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_RESTARTED, sceneName, AnalyticsManager.Instance.GetCurrentWave(), ScoreManager.Instance.GetScore());
 
 
         MenuManager.Instance.DoTransition(loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
@@ -112,7 +110,7 @@ public class StageOverMenu : Menu
 
         menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
         LoadMenu loadMenu = menu as LoadMenu;
-        loadMenu.TargetScene = SceneTracker.CurrentLevelName;
+        loadMenu.TargetScene = SceneTracker.CurrentSceneName;
 
         EventSystem.Instance.TriggerEvent(Strings.Events.WEAPONS_SELECT_FROM_STAGE_OVER);
 

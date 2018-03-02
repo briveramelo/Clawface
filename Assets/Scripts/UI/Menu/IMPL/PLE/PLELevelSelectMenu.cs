@@ -62,16 +62,17 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
 
     public void LoadLevel() {
         ActiveDataSave.SelectedIndex = selectedLevelIndex;
-        levelDataManager.LoadSelectedLevel();
 
         if (SceneTracker.IsCurrentSceneEditor) {
+            levelDataManager.LoadSelectedLevel();
             levelEditor.SwitchToMenu(PLEMenu.FLOOR);
         }
         else {
-            string weaponSelectMenuname = Strings.MenuStrings.WEAPON_SELECT;
-            WeaponSelectMenu weaponSelectMenu = (WeaponSelectMenu)MenuManager.Instance.GetMenuByName(weaponSelectMenuname);
-            weaponSelectMenu.backMenuTarget = weaponSelectMenuname;
-            weaponSelectMenu.forwardMenuTarget = Strings.Scenes.EditorPlayer;
+            string weaponSelectMenuName = Strings.MenuStrings.WEAPON_SELECT;
+            WeaponSelectMenu weaponSelectMenu = (WeaponSelectMenu)MenuManager.Instance.GetMenuByName(weaponSelectMenuName);
+            weaponSelectMenu.backMenuTarget = Strings.MenuStrings.MAIN;            
+            weaponSelectMenu.forwardMenuTarget = Strings.Scenes.SceneNames.PlayerLevels;
+
             MenuManager.Instance.DoTransition(weaponSelectMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
         }
     }
@@ -165,8 +166,10 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
         OnSearchChange();
     }
     void CreateDataParentTransforms() {
-        GameObject pleGO = Instantiate(plePrefab) as GameObject;
-        pleGO.AddComponent<SceneTraverser>().Initialize(Strings.Scenes.SceneNames.PlayerLevels);
+        //GameObject pleGO = Instantiate(plePrefab) as GameObject;
+        //pleGO.AddComponent<SceneTraverser>().Initialize(Strings.Scenes.SceneNames.PlayerLevels);
+        //levelDataManager = pleGO.GetComponentInChildren<LevelDataManager>();
+        //pleGO.SetActive(false);
     }
     #endregion
 

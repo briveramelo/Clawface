@@ -6,14 +6,15 @@ using UnityEngine.UI;
 
 namespace PlayerLevelEditor
 {
-    public class LevelEditor : MonoBehaviour
-    {
+    public class LevelEditor : MonoBehaviour {
         #region Public Fields
-        
-        public PLEMenu currentDisplayedMenu;
+        [Header("Required Fields")]
         public PlayerLevelEditorGrid gridController;
-        public WaveSystem waveSystem;
         public LevelDataManager levelDataManager;
+
+        [Header("Player Level Editor-Scene Specific")]
+        public PLEMenu currentDisplayedMenu;
+        public WaveSystem waveSystem;
         #endregion
 
 
@@ -29,33 +30,17 @@ namespace PlayerLevelEditor
         [SerializeField] private PLELevelSelectMenu levelSelectEditorMenu;
         [SerializeField] private HelpMenu helpEditorMenu;
         [SerializeField] private PLECameraController cameraController;
-        private List<Menu> pleMenus;
-        //[SerializeField] private Button initialMenuButton;
-
         #endregion
 
         #region Private Fields
+        private List<Menu> pleMenus;
 
-        #endregion
+        #endregion        
 
         private void Start() {
-            pleMenus = new List<Menu>() {
-                mainEditorMenu,
-                floorEditorMenu,
-                propsEditorMenu,
-                spawnsEditorMenu,
-                waveEditorMenu,
-                testEditorMenu,
-                saveEditorMenu,
-                levelSelectEditorMenu,
-                helpEditorMenu
-            };
-            MenuSetup();
-        }
-
-        void Update()
-        {
-
+            if (SceneTracker.IsCurrentSceneEditor) {
+                SetUpMenus();
+            }
         }
 
         #region Public Interface
@@ -130,17 +115,21 @@ namespace PlayerLevelEditor
                     return null;
             }
         }
-
-        
-        
-
         #endregion  
 
         #region Private Interface
-
-
-        private void MenuSetup()
-        {
+        private void SetUpMenus() {
+            pleMenus = new List<Menu>() {
+                mainEditorMenu,
+                floorEditorMenu,
+                propsEditorMenu,
+                spawnsEditorMenu,
+                waveEditorMenu,
+                testEditorMenu,
+                saveEditorMenu,
+                levelSelectEditorMenu,
+                helpEditorMenu
+            };
             //Hide menus that aren't need to be shown yet
             pleMenus.ForEach(menu => {
                 MenuManager.Instance.DoTransition(menu, Menu.Transition.HIDE, new Menu.Effect[] { Menu.Effect.INSTANT });
@@ -158,6 +147,7 @@ namespace PlayerLevelEditor
             mainEditorMenu.OpenFloorSystemAction();
             gridController.SetGridVisiblity(true);
         }
+
         void ToggleMenuInteractable(bool isInteractable, params PLEMenu[] menus) {
             foreach (PLEMenu menu in menus) {
                 mainEditorMenu.ToggleMenuInteractable(menu, isInteractable);
@@ -185,6 +175,7 @@ namespace PlayerLevelEditor
         WAVE,
         TEST,
         LEVELSELECT,
+        EXIT,
         NONE
     }
 }

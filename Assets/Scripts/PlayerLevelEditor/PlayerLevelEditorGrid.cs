@@ -99,7 +99,9 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     }
 
     public void ClearSelectedBlocks() {
-        DeselectBlocks();
+        if (gameObject.activeSelf) {
+            DeselectBlocks();
+        }
     }
 
     public List<GameObject> GetSelectedBlocks() { return selectedGameObjects; }

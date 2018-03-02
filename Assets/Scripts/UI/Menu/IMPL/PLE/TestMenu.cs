@@ -53,16 +53,6 @@ public class TestMenu : PlayerLevelEditorMenu
         ReleaseTestMode();
     }
 
-    protected override void DefaultHide(Transition transition, Effect[] effects)
-    {
-        Fade(transition, effects);
-    }
-
-    protected override void DefaultShow(Transition transition, Effect[] effects)
-    {
-        Fade(transition, effects);
-    }
-
     #endregion
 
     #region Private Interface
@@ -72,7 +62,6 @@ public class TestMenu : PlayerLevelEditorMenu
         MenuManager.Instance.DoTransition(mainPLEMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
         base.BackAction();
     }
-
 
 
     private void InitTestMode()
@@ -90,6 +79,13 @@ public class TestMenu : PlayerLevelEditorMenu
         playerSpawnerInstance = Instantiate(playerSpawnerPrefab);
         playerSpawnerInstance.transform.position = SpawnMenu.playerSpawnInstance.transform.position;
         levelEditor.waveSystem.ResetToWave0();
+
+        //WeaponSelectMenu weaponSelectMenu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.WEAPON_SELECT) as WeaponSelectMenu;
+        //weaponSelectMenu.backMenuTarget = null;
+        //weaponSelectMenu.forwardMenuTarget = null;
+        //MenuManager.Instance.DoTransition(weaponSelectMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+
+
         EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_STARTED, Strings.Scenes.Editor, ModManager.leftArmOnLoad.ToString(), ModManager.rightArmOnLoad.ToString());
     }
 

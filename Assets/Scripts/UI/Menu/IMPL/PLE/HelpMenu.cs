@@ -12,7 +12,6 @@ public class HelpMenu : PlayerLevelEditorMenu
     #endregion
 
     #region Serialized Unity Fields
-    [SerializeField] private GameObject realLevelParent;
 
     #endregion
 
