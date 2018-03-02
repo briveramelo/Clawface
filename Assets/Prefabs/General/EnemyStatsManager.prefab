@@ -63,7 +63,7 @@ MonoBehaviour:
     stoppingDistance: 1
     scoreValue: 200
     eatHealth: 1
-    stunnedTime: 7
+    stunnedTime: 3
     closeEnoughToFireDistance: 13
     maxToleranceTime: 4
     bulletLiveTime: 5
@@ -80,7 +80,7 @@ MonoBehaviour:
     stoppingDistance: 1
     scoreValue: 200
     eatHealth: 1
-    stunnedTime: 7
+    stunnedTime: 3
     closeEnoughToFireDistance: 8
     maxToleranceTime: 4
     separationFromForwardVector: -26
@@ -120,7 +120,7 @@ MonoBehaviour:
     stoppingDistance: 3
     scoreValue: 100
     eatHealth: 1
-    stunnedTime: 7
+    stunnedTime: 3
     closeEnoughToAttackDistance: 3
     animationAttackSpeed: 1
   zombieBeserkerStats:
@@ -134,7 +134,7 @@ MonoBehaviour:
     stoppingDistance: 2.5
     scoreValue: 150
     eatHealth: 1
-    stunnedTime: 7
+    stunnedTime: 3
     closeEnoughToAttackDistance: 2.5
     animationAttackSpeed: 1
   zombieAciderStats:
@@ -148,7 +148,7 @@ MonoBehaviour:
     stoppingDistance: 3
     scoreValue: 175
     eatHealth: 1
-    stunnedTime: 7
+    stunnedTime: 3
     closeEnoughToAttackDistance: 3
     animationAttackSpeed: 1.5
     trailRendererTime: 4
@@ -166,7 +166,7 @@ MonoBehaviour:
     stoppingDistance: 1
     scoreValue: 50
     eatHealth: 1
-    stunnedTime: 3.5
+    stunnedTime: 3
     closeEnoughToAttackDistance: 2.5
     selfDestructTime: 0.65
     blastRadius: 15
@@ -181,7 +181,7 @@ MonoBehaviour:
     stoppingDistance: 1
     scoreValue: 150
     eatHealth: 1
-    stunnedTime: 3.5
+    stunnedTime: 3
     closeEnoughToAttackDistance: 5
     maxPulses: 1
     pulseRate: 2
@@ -197,8 +197,8 @@ MonoBehaviour:
     acceleration: 40
     stoppingDistance: 1
     scoreValue: 500
-    eatHealth: 1
-    stunnedTime: 7
+    eatHealth: 2
+    stunnedTime: 4
     closeEnoughToAttackDistance: 10
     spawnRate: 1
     kamikazeSpawnProbability: 0.46
@@ -214,7 +214,7 @@ MonoBehaviour:
     stoppingDistance: 1
     scoreValue: 300
     eatHealth: 1
-    stunnedTime: 7
+    stunnedTime: 3
     maxBounces: 5
     minBounces: 2
     maxShots: 8
@@ -244,7 +244,7 @@ MonoBehaviour:
     stoppingDistance: 1
     scoreValue: 400
     eatHealth: 1
-    stunnedTime: 7
+    stunnedTime: 3
     maxBounces: 7
     minBounces: 4
     maxShots: 45
@@ -273,8 +273,8 @@ MonoBehaviour:
     acceleration: 15
     stoppingDistance: 1
     scoreValue: 500
-    eatHealth: 1
-    stunnedTime: 7
+    eatHealth: 2
+    stunnedTime: 4
     maxBounces: 5
     minBounces: 2
     maxShots: 66
