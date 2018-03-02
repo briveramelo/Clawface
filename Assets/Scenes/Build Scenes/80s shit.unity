@@ -28544,6 +28544,11 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.1, y: 1.2, z: 1.1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!224 &1147615647 stripped
+RectTransform:
+  m_PrefabParentObject: {fileID: 224224471966856640, guid: 53f0fd0d8c5c59a43890b10afe9e06b8,
+    type: 2}
+  m_PrefabInternal: {fileID: 1525094232}
 --- !u!1 &1147649681
 GameObject:
   m_ObjectHideFlags: 0
@@ -36393,6 +36398,172 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.1, y: 1.2, z: 1.1}
   m_Center: {x: 0, y: 0, z: -0.00000023841858}
+--- !u!1001 &1525094232
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4858299322855392, guid: 53f0fd0d8c5c59a43890b10afe9e06b8, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4858299322855392, guid: 53f0fd0d8c5c59a43890b10afe9e06b8, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4858299322855392, guid: 53f0fd0d8c5c59a43890b10afe9e06b8, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4858299322855392, guid: 53f0fd0d8c5c59a43890b10afe9e06b8, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4858299322855392, guid: 53f0fd0d8c5c59a43890b10afe9e06b8, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4858299322855392, guid: 53f0fd0d8c5c59a43890b10afe9e06b8, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4858299322855392, guid: 53f0fd0d8c5c59a43890b10afe9e06b8, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4858299322855392, guid: 53f0fd0d8c5c59a43890b10afe9e06b8, type: 2}
+      propertyPath: m_RootOrder
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1671197216798858, guid: 53f0fd0d8c5c59a43890b10afe9e06b8, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114583838252687844, guid: 53f0fd0d8c5c59a43890b10afe9e06b8,
+        type: 2}
+      propertyPath: health
+      value: 
+      objectReference: {fileID: 1147615647}
+    - target: {fileID: 114583838252687844, guid: 53f0fd0d8c5c59a43890b10afe9e06b8,
+        type: 2}
+      propertyPath: comboSettings.speed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114583838252687844, guid: 53f0fd0d8c5c59a43890b10afe9e06b8,
+        type: 2}
+      propertyPath: comboSettings.amplitude
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114583838252687844, guid: 53f0fd0d8c5c59a43890b10afe9e06b8,
+        type: 2}
+      propertyPath: comboSettings.rotationOffset
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 114583838252687844, guid: 53f0fd0d8c5c59a43890b10afe9e06b8,
+        type: 2}
+      propertyPath: comboSettings.bounciness
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 114583838252687844, guid: 53f0fd0d8c5c59a43890b10afe9e06b8,
+        type: 2}
+      propertyPath: comboSettings.bounceColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114583838252687844, guid: 53f0fd0d8c5c59a43890b10afe9e06b8,
+        type: 2}
+      propertyPath: comboSettings.bounceColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114583838252687844, guid: 53f0fd0d8c5c59a43890b10afe9e06b8,
+        type: 2}
+      propertyPath: comboSettings.bounceColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114583838252687844, guid: 53f0fd0d8c5c59a43890b10afe9e06b8,
+        type: 2}
+      propertyPath: scoreSettings.speed
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 114583838252687844, guid: 53f0fd0d8c5c59a43890b10afe9e06b8,
+        type: 2}
+      propertyPath: scoreSettings.amplitude
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114583838252687844, guid: 53f0fd0d8c5c59a43890b10afe9e06b8,
+        type: 2}
+      propertyPath: scoreSettings.rotationOffset
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114583838252687844, guid: 53f0fd0d8c5c59a43890b10afe9e06b8,
+        type: 2}
+      propertyPath: scoreSettings.bounciness
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114583838252687844, guid: 53f0fd0d8c5c59a43890b10afe9e06b8,
+        type: 2}
+      propertyPath: scoreSettings.bounceColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114583838252687844, guid: 53f0fd0d8c5c59a43890b10afe9e06b8,
+        type: 2}
+      propertyPath: scoreSettings.bounceColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114583838252687844, guid: 53f0fd0d8c5c59a43890b10afe9e06b8,
+        type: 2}
+      propertyPath: scoreSettings.bounceColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114583838252687844, guid: 53f0fd0d8c5c59a43890b10afe9e06b8,
+        type: 2}
+      propertyPath: healthSettings.speed
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114583838252687844, guid: 53f0fd0d8c5c59a43890b10afe9e06b8,
+        type: 2}
+      propertyPath: healthSettings.amplitude
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114583838252687844, guid: 53f0fd0d8c5c59a43890b10afe9e06b8,
+        type: 2}
+      propertyPath: healthSettings.bounciness
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114583838252687844, guid: 53f0fd0d8c5c59a43890b10afe9e06b8,
+        type: 2}
+      propertyPath: healthSettings.bounceColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114583838252687844, guid: 53f0fd0d8c5c59a43890b10afe9e06b8,
+        type: 2}
+      propertyPath: healthSettings.bounceColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114583838252687844, guid: 53f0fd0d8c5c59a43890b10afe9e06b8,
+        type: 2}
+      propertyPath: healthSettings.bounceColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114583838252687844, guid: 53f0fd0d8c5c59a43890b10afe9e06b8,
+        type: 2}
+      propertyPath: healthSettings.bounceColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114583838252687844, guid: 53f0fd0d8c5c59a43890b10afe9e06b8,
+        type: 2}
+      propertyPath: scoreSettings.bounceColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114583838252687844, guid: 53f0fd0d8c5c59a43890b10afe9e06b8,
+        type: 2}
+      propertyPath: comboSettings.bounceColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 53f0fd0d8c5c59a43890b10afe9e06b8, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1001 &1528283596
 Prefab:
   m_ObjectHideFlags: 0

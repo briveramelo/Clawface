@@ -60,10 +60,10 @@
 				float4 color = UNITY_ACCESS_INSTANCED_PROP(_Color);
 
 				float distFromCenter = distance(i.worldVertex.xz, circleCenter);
-				if (distFromCenter < r) return fixed4(0.0, 0.0, 0.0, 0.0);
-				if (distFromCenter > r + _RingWidth) return fixed4(0.0, 0.0, 0.0, 0.0);
+				if (distFromCenter < r - _RingWidth / 2.0) return fixed4(0.0, 0.0, 0.0, 0.0);
+				if (distFromCenter > r + _RingWidth / 2.0) return fixed4(0.0, 0.0, 0.0, 0.0);
 
-				float lookupXCoord = (distFromCenter - r) / _RingWidth;
+				float lookupXCoord = (distFromCenter - r - _RingWidth / 2.0) / _RingWidth;
 
 				float4 c = tex2D(_MainTex, lookupXCoord * _MainTex_ST.xy) * color;
 				return c;
