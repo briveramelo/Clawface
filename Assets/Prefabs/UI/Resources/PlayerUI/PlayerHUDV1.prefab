@@ -158,6 +158,7 @@ GameObject:
   - component: {fileID: 4858299322855392}
   - component: {fileID: 114475050188855062}
   - component: {fileID: 114122756613829562}
+  - component: {fileID: 114583838252687844}
   m_Layer: 0
   m_Name: PlayerHUDV1
   m_TagString: Untagged
@@ -733,6 +734,19 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114583838252687844
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1671197216798858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27161203e7aefa744bd177ada13000d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  combo: {fileID: 224738005654080734}
+  score: {fileID: 224441135228400208}
 --- !u!114 &114620908109128230
 MonoBehaviour:
   m_ObjectHideFlags: 1
