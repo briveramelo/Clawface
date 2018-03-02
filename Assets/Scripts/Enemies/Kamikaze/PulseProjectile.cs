@@ -17,6 +17,7 @@ public class PulseProjectile : MonoBehaviour
     private float scaleRate;
     private float maxScale;
     private float damage;
+    private float offset = 0.5f;
 
     private void OnEnable()
     {
@@ -27,12 +28,12 @@ public class PulseProjectile : MonoBehaviour
         transform.localScale = new Vector3(scaleValue, 0.1f, scaleValue);
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
             if (other.gameObject.CompareTag(Strings.Tags.PLAYER))
             {
 
-                if (Vector3.Distance(transform.position, other.transform.position) > sphereCollider.radius * scaleValue)
+                if (Vector3.Distance(transform.position, other.transform.position) < (sphereCollider.radius * scaleValue + offset) && Vector3.Distance(transform.position, other.transform.position) > sphereCollider.radius * scaleValue - offset)
                 {
                     Damage(other.gameObject.GetComponent<IDamageable>());
                 }

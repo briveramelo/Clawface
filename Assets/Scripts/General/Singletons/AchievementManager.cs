@@ -2,65 +2,44 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Steamworks;
 
-[RequireComponent(typeof(AchievementLocalizer))]
 public class AchievementManager : Singleton<AchievementManager> {
 
-    protected AchievementManager() { }
+    #region Private variables
+    private bool isInitialized;
+    private CSteamID userId;
+    #endregion
 
-    [SerializeField] AchievementScriptable OG_AchievementScriptable;
-    AchievementScriptable achievements;
-    public AchievementScriptable Achievements {
-        get {
-            if (achievements==null) {
-                achievements = Instantiate(OG_AchievementScriptable);
-            }
-            return achievements;
+    #region Unity Lifecycle
+    private void Start()
+    {
+        if (SteamManager.Initialized)
+        {
+            isInitialized = SteamUserStats.RequestCurrentStats();
+            userId = SteamUser.GetSteamID();
         }
     }
-    public List<Achievement> AchievementsList { get { return Achievements.dataList; } }
+    #endregion
 
-    private void OnEnable() {
-        EventSystem.Instance.RegisterEvent(Strings.Events.DEATH_ENEMY, KillEnemy);
-        EventSystem.Instance.RegisterEvent(Strings.Events.EAT_ENEMY, SkinEnemy);
-    }
-
-    private void OnDisable() {
-        if (EventSystem.Instance) {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.DEATH_ENEMY, KillEnemy);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.EAT_ENEMY, SkinEnemy);
+    #region Public methods
+    public bool SetAchievement(string achievementName)
+    {
+        bool result = false;
+        result = SteamUserStats.SetAchievement(achievementName);
+        if (result)
+        {
+            result = SteamUserStats.StoreStats();
         }
+        return result;
     }
 
-
-    void KillEnemy(params object[] parameters) {        
-        TryEarnAchievement(Strings.AchievementNames.Kill100);
-    }    
-
-    void SkinEnemy(params object[] parameters) {
-        TryEarnAchievement(Strings.AchievementNames.Skin20Enemies);        
-    }    
-
-
-
-
-
-
-
-
-
-    void TryEarnAchievement(string achievementName) {
-        Achievement chieve = Achievements.Find(achievementName);
-        if (chieve != null && !chieve.IsEarned) {
-            chieve.count++;
-            if (!chieve.IsEarned) {
-                EventSystem.Instance.TriggerEvent(Strings.Events.PROGRESS_ACHIEVEMENT, chieve);
-            }
-            else {
-                EventSystem.Instance.TriggerEvent(Strings.Events.EARN_ACHIEVEMENT, chieve);
-            }
-        }
+    public bool UpdateAchievementProgress(string achievementName, uint currentProgress, uint maxProgress)
+    {
+        bool result = false;
+        result = SteamUserStats.IndicateAchievementProgress(achievementName, currentProgress, maxProgress);
+        return result;
     }
-
+    #endregion
 
 }

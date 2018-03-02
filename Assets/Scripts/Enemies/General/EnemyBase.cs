@@ -92,7 +92,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         if(hips.transform.position.y < -100.0f)
         {
             OnDeath();
-        }
+        }       
     }
 
     public virtual void Awake()
@@ -287,13 +287,19 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
 
     }
 
+    public virtual void DisableStateResidue()
+    {
+
+    }
+
     public void DisableCollider()
     {
         GetComponent<CapsuleCollider>().enabled = false;
     }
 
     public void EnableRagdoll(float weight = 1.0f)
-    {        
+    {
+        DisableStateResidue();
         if (jointRigidBodies != null)
         {
             //Ignore the first entry (its the self rigidbody)
@@ -310,8 +316,10 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         {
             aiController.DeActivateAI();
         }
+
         navAgent.enabled = false;
         ragdollOn = true;
+       
     }
 
     public void DisableRagdoll()

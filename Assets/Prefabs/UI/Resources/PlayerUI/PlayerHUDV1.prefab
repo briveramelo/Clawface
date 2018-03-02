@@ -208,6 +208,7 @@ GameObject:
   - component: {fileID: 224395664440722112}
   - component: {fileID: 222547650921691428}
   - component: {fileID: 114477538861807324}
+  - component: {fileID: 111264239676833034}
   m_Layer: 5
   m_Name: ComboText
   m_TagString: Untagged
@@ -351,6 +352,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!111 &111264239676833034
+Animation:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1772314352960464}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 3945855d46bd2f341a7d63424fe769a7, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 3945855d46bd2f341a7d63424fe769a7, type: 2}
+  m_WrapMode: 1
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!114 &114122756613829562
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -650,6 +666,7 @@ MonoBehaviour:
   onScreenCombo: {fileID: 114477538861807324}
   comboOnScreenTime: 2
   comboTimer: {fileID: 114287028418194906}
+  comboAnimation: {fileID: 111264239676833034}
   onScreenScore: {fileID: 114304961858602650}
   onScreenScoreDelta: {fileID: 114812715170954840}
   healthMask: {fileID: 224109978695907258}

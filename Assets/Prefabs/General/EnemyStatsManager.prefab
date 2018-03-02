@@ -63,7 +63,7 @@ MonoBehaviour:
     stoppingDistance: 1
     scoreValue: 200
     eatHealth: 1
-    stunnedTime: 7
+    stunnedTime: 3
     closeEnoughToFireDistance: 13
     maxToleranceTime: 4
     bulletLiveTime: 5
@@ -80,7 +80,7 @@ MonoBehaviour:
     stoppingDistance: 1
     scoreValue: 200
     eatHealth: 1
-    stunnedTime: 7
+    stunnedTime: 3
     closeEnoughToFireDistance: 8
     maxToleranceTime: 4
     separationFromForwardVector: -26
@@ -120,7 +120,7 @@ MonoBehaviour:
     stoppingDistance: 3
     scoreValue: 100
     eatHealth: 1
-    stunnedTime: 7
+    stunnedTime: 3
     closeEnoughToAttackDistance: 3
     animationAttackSpeed: 1
   zombieBeserkerStats:
@@ -132,9 +132,9 @@ MonoBehaviour:
     angularSpeed: 10000
     acceleration: 30
     stoppingDistance: 2.5
-    scoreValue: 200
+    scoreValue: 150
     eatHealth: 1
-    stunnedTime: 7
+    stunnedTime: 3
     closeEnoughToAttackDistance: 2.5
     animationAttackSpeed: 1
   zombieAciderStats:
@@ -146,9 +146,9 @@ MonoBehaviour:
     angularSpeed: 10000
     acceleration: 30
     stoppingDistance: 3
-    scoreValue: 100
+    scoreValue: 175
     eatHealth: 1
-    stunnedTime: 7
+    stunnedTime: 3
     closeEnoughToAttackDistance: 3
     animationAttackSpeed: 1.5
     trailRendererTime: 4
@@ -164,9 +164,9 @@ MonoBehaviour:
     angularSpeed: 900
     acceleration: 50
     stoppingDistance: 1
-    scoreValue: 150
+    scoreValue: 50
     eatHealth: 1
-    stunnedTime: 3.5
+    stunnedTime: 3
     closeEnoughToAttackDistance: 2.5
     selfDestructTime: 0.65
     blastRadius: 15
@@ -179,33 +179,33 @@ MonoBehaviour:
     angularSpeed: 900
     acceleration: 50
     stoppingDistance: 1
-    scoreValue: 200
+    scoreValue: 150
     eatHealth: 1
-    stunnedTime: 3.5
+    stunnedTime: 3
     closeEnoughToAttackDistance: 5
     maxPulses: 1
     pulseRate: 2
     scaleRate: 1.15
     maxScale: 2
   kamikazeMommyStats:
-    health: 60
-    maxHealth: 60
+    health: 50
+    maxHealth: 50
     skinnableHealth: 3
     attack: 3
     speed: 10
     angularSpeed: 1000
     acceleration: 40
     stoppingDistance: 1
-    scoreValue: 200
-    eatHealth: 1
-    stunnedTime: 7
+    scoreValue: 500
+    eatHealth: 2
+    stunnedTime: 4
     closeEnoughToAttackDistance: 10
     spawnRate: 1
     kamikazeSpawnProbability: 0.46
     kamikazePulserSpawnProbability: 0.264
   bouncerStats:
-    health: 20
-    maxHealth: 20
+    health: 25
+    maxHealth: 25
     skinnableHealth: 3
     attack: 3
     speed: 2
@@ -214,7 +214,7 @@ MonoBehaviour:
     stoppingDistance: 1
     scoreValue: 300
     eatHealth: 1
-    stunnedTime: 7
+    stunnedTime: 3
     maxBounces: 5
     minBounces: 2
     maxShots: 8
@@ -242,9 +242,9 @@ MonoBehaviour:
     angularSpeed: 360
     acceleration: 15
     stoppingDistance: 1
-    scoreValue: 300
+    scoreValue: 400
     eatHealth: 1
-    stunnedTime: 7
+    stunnedTime: 3
     maxBounces: 7
     minBounces: 4
     maxShots: 45
@@ -264,17 +264,17 @@ MonoBehaviour:
     animationDriven: 1
     animationShootSpeed: 1
   greenBouncerStats:
-    health: 50
-    maxHealth: 50
+    health: 45
+    maxHealth: 45
     skinnableHealth: 3
     attack: 3
     speed: 2
     angularSpeed: 360
     acceleration: 15
     stoppingDistance: 1
-    scoreValue: 300
-    eatHealth: 1
-    stunnedTime: 7
+    scoreValue: 500
+    eatHealth: 2
+    stunnedTime: 4
     maxBounces: 5
     minBounces: 2
     maxShots: 66
