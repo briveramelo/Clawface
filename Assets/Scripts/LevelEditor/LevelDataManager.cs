@@ -48,6 +48,7 @@ public class LevelDataManager : MonoBehaviour {
         LoadSpawnsToggledState();
         LoadImages();
         if (SceneTracker.IsCurrentSceneEditor) {
+            WaveSystem.maxWave = ActiveLevelData.MaxWave;
             levelEditor.waveSystem.ResetToWave0();
             levelEditor.CheckToSetMenuInteractability();
         }

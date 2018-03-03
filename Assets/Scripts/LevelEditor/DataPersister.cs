@@ -11,7 +11,7 @@ public class DataPersister : MonoBehaviour {
     string PathDirectory { get { return Application.dataPath + "/Saves";} }
     string FilePath { get { return PathDirectory + "/savefile.dat"; } }
 
-    //public DataSave dataSave;
+    public DataSave dataSave;
 
     #region Unity Lifecyle
     private void Awake() {
@@ -42,7 +42,7 @@ public class DataPersister : MonoBehaviour {
             ActiveDataSave = new DataSave();
         }
         ClearEmptyLevels();
-        //dataSave = ActiveDataSave;
+        dataSave = ActiveDataSave;
     }
 
     public void DeleteSelectedLevel() {
@@ -142,11 +142,20 @@ public class LevelData {
     public bool IsEmpty { get { return string.IsNullOrEmpty(name); } }
     public List<WaveData> waveData = new List<WaveData>();
     public List<TileData> tileData = new List<TileData>();
-    public List<PropData> propData = new List<PropData>();
+    public List<PropData> propData = new List<PropData>();    
 
     public int WaveCount { get { return waveData.Count; } }
     public int TileCount { get { return tileData.Count; } }
     public int PropCount { get { return propData.Count; } }
+    public int MaxWave {
+        get {
+            int tileWaveCount = 0;
+            if (tileData.Count>0) {
+                tileWaveCount = tileData[0].levelStates.Count;
+            }
+            return Mathf.Max(WaveCount, tileWaveCount);
+        }
+    }
 
     void CreateSprite() {
         imageTexture = new Texture2D((int)fixedSize.x, (int)fixedSize.y);

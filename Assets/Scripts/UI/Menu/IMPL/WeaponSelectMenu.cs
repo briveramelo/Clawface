@@ -4,6 +4,7 @@ using ModMan;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using System;
 
 public class WeaponSelectMenu : Menu
 {
@@ -70,9 +71,9 @@ public class WeaponSelectMenu : Menu
 
     #region Fields (Public)
     private bool UseLoadMenu { get { return forwardMenuTarget == Strings.MenuStrings.LOAD;} }
-    private System.Action onCompleteSceneLoad;
-    private System.Action onStartAction;
-    private System.Action onReturnFromPLE;
+    private Action onCompleteSceneLoad;
+    private Action onStartAction;
+    private Action onReturnFromPLE;
     #endregion
 
     #region Fields (Internal)
@@ -188,7 +189,7 @@ public class WeaponSelectMenu : Menu
             onReturnFromPLE();
         }
     }
-    public void DefineNavigation(string backMenuTarget, string forwardMenuTarget, System.Action onStartAction=null, System.Action onCompleteSceneLoad=null, System.Action onReturnFromPLE=null) {
+    public void DefineNavigation(string backMenuTarget, string forwardMenuTarget, Action onStartAction=null, Action onCompleteSceneLoad=null, Action onReturnFromPLE=null) {
         this.backMenuTarget = backMenuTarget;
         this.forwardMenuTarget = forwardMenuTarget;
         this.onStartAction = onStartAction;
