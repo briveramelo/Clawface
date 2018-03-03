@@ -6,21 +6,24 @@ using UnityEngine.UI;
 public class LevelUI : ClickableBase, IUIGroupable {
 
     public LevelData levelData;
-
-    [SerializeField] private Image image;
+    public Image image;
     [SerializeField] private ColorChangingUI colorChangingUI;
+
     private PLELevelSelectMenu menu;
     private int levelIndex;
     private const int imageWidth = 225;
     private const int imageHeight = 225;
     private static readonly Vector2 imageDimensions = new Vector2(imageWidth, imageHeight);
 
-    public void Initialize(PLELevelSelectMenu menu, LevelData levelData, int levelIndex) {
+    public void Initialize(PLELevelSelectMenu menu, LevelData levelData, int levelIndex, bool isHathosLevel=false) {
         this.menu = menu;
         this.levelIndex = levelIndex;
         colorChangingUI.SetUIIndex(levelIndex);
-        this.levelData = levelData;
-        image.sprite = levelData.MySprite;
+
+        if (!isHathosLevel) {
+            this.levelData = levelData;
+            image.sprite = levelData.MySprite;
+        }
     }
 
     public override void OnPointerDown(PointerEventData eventData) {
