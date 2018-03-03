@@ -22,21 +22,6 @@ public class WaveSystem : MonoBehaviour
         UpdateWaveText();
     }
 
-    private void Update()
-    {
-
-        //if(Input.GetKeyDown(KeyCode.Return))
-        //{
-        //    string wave = Strings.Events.PLE_TEST_WAVE_ + currentWave.ToString();
-
-        //    EventSystem.Instance.TriggerEvent(wave);
-
-        //    currentWave++;
-
-        //    if (currentWave >= maxWave)
-        //        currentWave = 0;
-        //}
-    }
     #endregion
 
     #region Public interface

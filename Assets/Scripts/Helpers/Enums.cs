@@ -38,7 +38,8 @@ public enum SFXType {
     AnnounceLevelStart,
     AnnounceTitle,
     MortarShoot,
-    MortarExplosion
+    MortarExplosion,
+    LandmarkBlast
 }
 
 public enum MusicType

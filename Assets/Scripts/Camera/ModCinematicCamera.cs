@@ -46,12 +46,6 @@ public class ModCinematicCamera : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        if (Input.GetKeyDown(KeyCode.B) && !LeanTween.isTweening(cameraLock.gameObject))
-        {
-            //StartTween();
-
-        }
-
         if (lookAtPlayer)
         {
             cameraLock.transform.LookAt(player);
