@@ -8,7 +8,7 @@ using System.Linq;
 
 public class PLELevelSelectMenu : PlayerLevelEditorMenu {
 
-    public PLELevelSelectMenu() : base (Strings.MenuStrings.LevelEditor.LEVELSELECT_PLE_MENU) { }
+    public PLELevelSelectMenu() : base(Strings.MenuStrings.LevelEditor.LEVELSELECT_PLE_MENU) { }
 
     [HideInInspector] public string backMenuTarget;
 
@@ -16,10 +16,10 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
     [SerializeField] private Transform levelContentParent;
     [SerializeField] private GameObject levelUIPrefab;
     [SerializeField] private Text selectedLevelNameText, selectedLevelDescriptionText;
-    [SerializeField] private Image selectedLevelImage;
+    [SerializeField] private Image selectedLevelImage, selectedLevelFavoriteIcon;
     [SerializeField] private InputField searchField;
     [SerializeField] private GridLayoutGroup gridLayoutGroup;
-    [SerializeField] private Button deleteButton, loadButton;
+    [SerializeField] private Button deleteButton, favoriteButton, loadButton;
     [SerializeField] private LevelDataManager levelDataManager;
     [SerializeField] private GameObject plePrefab;
     [SerializeField] private List<MemorableTransform> preMadeLevelUITransforms;
@@ -29,21 +29,31 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
     #region Fields (Private)
     private DataSave ActiveDataSave { get { return DataPersister.ActiveDataSave; } }
     private List<LevelData> Levels { get { return ActiveDataSave.levelDatas; } }
-    private List<LevelUI> levelUIs= new List<LevelUI>();
+    private List<LevelUI> levelUIs = new List<LevelUI>();
     private int selectedLevelIndex = 0;
-    private bool IsHathosLevelSelected { get { return selectedLevelIndex == 0; } }
+    private bool IsHathosLevelSelected { get { return !SceneTracker.IsCurrentSceneEditor && selectedLevelIndex == 0; } }
     private int NumHathosLevels { get { return !SceneTracker.IsCurrentSceneEditor ? preMadeLevelUITransforms.Count : 0; } }
+    private LevelSelectFilterType activeFilter=LevelSelectFilterType.All;
     #endregion
 
 
 
     #region Unity Lifecyle
     protected override void Start() {
-        base.Start();        
+        base.Start();
     }
     #endregion
 
     #region Public Interface
+    public void FilterLevels(int filterType) {
+        activeFilter = (LevelSelectFilterType)filterType;
+        for (int i = 0; i < levelUIs.Count; i++) {
+            LevelData levelData = levelUIs[i].levelData;
+            bool shouldShow = levelData.IsValidLevel(activeFilter);
+            levelUIs[i].gameObject.SetActive(shouldShow);
+        }
+    }
+
     public void OnSearchChange() {
         gridLayoutGroup.enabled = false;
         string searchTerm = searchField.text.ToLowerInvariant();
@@ -54,13 +64,13 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
             string levelDataName = levelData.name.ToLowerInvariant();
             string levelDataDescription = levelData.description.ToLowerInvariant();
             bool shouldShow =
-                string.IsNullOrEmpty(searchTerm) ||
+                (string.IsNullOrEmpty(searchTerm) ||
                 searchTerm.Length == 0 ||
-                searchTerms.All(term => { return levelDataName.Contains(term) || levelDataDescription.Contains(term); });                
+                searchTerms.All(term => { return levelDataName.Contains(term) || levelDataDescription.Contains(term); }));
 
             levelUIs[i].gameObject.SetActive(shouldShow);
         }
-        
+        FilterLevels((int)activeFilter);
         StartCoroutine(ResortImagePositions());
     }
 
@@ -75,7 +85,7 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
             string loadMenuName = Strings.MenuStrings.LOAD;
             WeaponSelectMenu weaponSelectMenu = (WeaponSelectMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.WEAPON_SELECT);
             weaponSelectMenu.DefineNavigation(Strings.MenuStrings.LevelEditor.LEVELSELECT_PLE_MENU, loadMenuName);
-            
+
             LoadMenu loadMenu = (LoadMenu)MenuManager.Instance.GetMenuByName(loadMenuName);
             loadMenu.TargetScenePath = IsHathosLevelSelected ? Strings.Scenes.ScenePaths.Arena : Strings.Scenes.ScenePaths.PlayerLevels;
 
@@ -91,7 +101,9 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
         selectedLevelDescriptionText.text = selectedLevel.description;
         selectedLevelImage.sprite = selectedLevel.MySprite;
 
-        levelUIs.ForEach(levelUI => { levelUI.OnGroupSelectChanged(levelIndex); });        
+        levelUIs.ForEach(levelUI => { levelUI.OnGroupSelectChanged(levelIndex); });
+        favoriteButton.interactable = !IsHathosLevelSelected;
+        selectedLevelFavoriteIcon.enabled = selectedLevel.isFavorite;
     }
 
     public override void BackAction() {
@@ -101,7 +113,7 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
         else {
             MenuManager.Instance.DoTransition(backMenuTarget, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
         }
-    }    
+    }
 
     public void ClearAndGenerateLevelUI() {
         preMadeLevelUITransforms.ForEach(memorableTransform => { memorableTransform.transform.SetParent(null); });
@@ -113,11 +125,23 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
         preMadeLevelUITransforms.ForEach(memorableTransform => { memorableTransform.transform.gameObject.SetActive(!SceneTracker.IsCurrentSceneEditor); });
         StartCoroutine(DelayGeneration());
     }
+
+    public void ToggleSelectedLevelIsFavorite() {
+        LevelUI selectedLevelUI = levelUIs[selectedLevelIndex];
+        selectedLevelUI.ToggleIsFavorite();
+        selectedLevelFavoriteIcon.enabled = selectedLevelUI.levelData.isFavorite;
+    }
+
+    public void DeleteSelectedLevel() {
+        levelDataManager.DeleteSelectedLevel();
+        SetButtonsInteractability();
+    }
     #endregion
 
     #region Protected Interface
     protected override void ShowStarted() {
         base.ShowStarted();
+        activeFilter = LevelSelectFilterType.All;
         searchField.text = "";
         InitializeHathosLevels();
         PositionLevelsInSceneContext();
@@ -128,10 +152,18 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
         else {
             deleteButton.gameObject.SetActive(false);
         }
+        SetButtonsInteractability();
     }
     #endregion
 
     #region Private Interface    
+    private void SetButtonsInteractability() {
+        bool buttonsInteractable = levelUIs.Count > 0;
+        deleteButton.interactable = buttonsInteractable;
+        favoriteButton.interactable = buttonsInteractable;
+        loadButton.interactable = buttonsInteractable;
+    }
+
 
     private void PositionLevelsInSceneContext() {
         gridLayoutGroup.padding = SceneTracker.IsCurrentSceneEditor ? gridLayoutConfigWithoutHathos : gridLayoutConfigWithHathos;
@@ -212,5 +244,23 @@ public class MemorableTransform {
 
     public void ResetTransform() {
         savedConfiguration.Reset(transform);
+    }
+}
+
+public enum LevelSelectFilterType {
+    All=0,
+    Downloaded=1,
+    User=2,
+    Favorite=3,
+}
+public static class LevelSelectFliter {
+    public static bool IsValidLevel(this LevelData levelData, LevelSelectFilterType filter) {
+        switch (filter) {
+            case LevelSelectFilterType.All: return true;
+            case LevelSelectFilterType.Downloaded: return levelData.isDownloaded;
+            case LevelSelectFilterType.User: return levelData.isMadeByThisUser;
+            case LevelSelectFilterType.Favorite: return levelData.isFavorite;
+        }
+        return false;
     }
 }

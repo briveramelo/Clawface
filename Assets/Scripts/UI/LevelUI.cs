@@ -8,6 +8,7 @@ public class LevelUI : ClickableBase, IUIGroupable {
     public LevelData levelData;
     public Image image;
     [SerializeField] private ColorChangingUI colorChangingUI;
+    [SerializeField] private Image favoriteIcon;
 
     private PLELevelSelectMenu menu;
     private int levelIndex;
@@ -19,11 +20,16 @@ public class LevelUI : ClickableBase, IUIGroupable {
         this.menu = menu;
         this.levelIndex = levelIndex;
         colorChangingUI.SetUIIndex(levelIndex);
-
         if (!isHathosLevel) {
+            favoriteIcon.enabled = levelData.isFavorite;
             this.levelData = levelData;
             image.sprite = levelData.MySprite;
         }
+    }
+
+    public void ToggleIsFavorite() {
+        levelData.isFavorite = !levelData.isFavorite;
+        favoriteIcon.enabled = levelData.isFavorite;
     }
 
     public override void OnPointerDown(PointerEventData eventData) {

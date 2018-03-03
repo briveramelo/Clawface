@@ -171,7 +171,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
 
     private GridTile lastSelectedTile;
     private void HandleHoveringBlocks(RaycastHit hit) {
-        if (!Input.GetKey(KeyCode.LeftShift)) {
+        if (!(Input.GetKey(KeyCode.LeftShift) && Input.GetMouseButton(MouseButtons.LEFT))) {
             if (MouseHelper.HitTile) {
                 Vector3 mousePos = MouseHelper.currentBlockUnit.transform.position;
                 GridTile hoveredTile = GetTileAtPoint(mousePos);
@@ -194,7 +194,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     }
 
     private void HandleSelectingBlocks(RaycastHit hit) {
-        if (Input.GetMouseButtonDown(MouseButtons.LEFT) && !Input.GetKey(KeyCode.LeftShift)) {
+        if (Input.GetMouseButtonDown(MouseButtons.LEFT) && !Input.GetKey(KeyCode.LeftShift) && !Input.GetKey(KeyCode.LeftAlt)) {
             DeselectBlocks();
         }
         if (Input.GetMouseButton(MouseButtons.LEFT) && Input.GetKey(KeyCode.LeftShift)) {
@@ -348,9 +348,11 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         for (int i = lastSelectedGameObjects.Count - 1; i >= 0; i--) {
             for (int j = selectedObjects.Count - 1; j >= 0; j--) {
                 if (lastSelectedGameObjects[i].Contains(selectedObjects[j])) {
-                    GridTile selectedTile = gridTiles.Find(tile => { return tile.realTile == selectedObjects[j]; });
-                    selectedTile.ChangeColor(selectedTile.CurrentTileStateColor);
-                    selectedTile.SetSelected(false);
+                    GridTile selectedTile = gridTiles.Find(tile => tile.realTile == selectedObjects[j]);
+                    if (selectedTile!=null) {
+                        selectedTile.ChangeColor(selectedTile.CurrentTileStateColor);
+                        selectedTile.SetSelected(false);
+                    }
                     lastSelectedGameObjects[i].Remove(selectedObjects[j]);
                     selectedObjects.Remove(selectedObjects[j]);
                 }

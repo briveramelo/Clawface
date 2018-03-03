@@ -117,6 +117,9 @@ public class LevelData {
 
     public string name, description;
     [HideInInspector] public byte[] imageData;
+    public bool isFavorite=false;
+    public bool isDownloaded=false;
+    public bool isMadeByThisUser=true;
     public static readonly Vector2 fixedSize = new Vector2(656, 369);
     public Sprite MySprite {
         get {

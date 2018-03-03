@@ -13,6 +13,7 @@ namespace PlayerLevelEditor
         
         #region Public Fields
         public PlayerLevelEditorGrid gridController;
+        public LevelDataManager levelDataManager;
 
         [HideInInspector] public bool hasCreatedPlayer;
 

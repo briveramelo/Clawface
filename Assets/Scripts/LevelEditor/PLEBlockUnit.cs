@@ -165,7 +165,11 @@ public class PLEBlockUnit : MonoBehaviour
 
     public void AddNewWave(params object[] parameters)
     {
-        levelStates.Add(LevelUnitStates.floor);
+        LevelUnitStates newState = LevelUnitStates.floor;
+        if (levelStates.Count>=WaveSystem.currentWave) {
+            newState = levelStates[WaveSystem.currentWave];
+        }
+        levelStates.Insert(WaveSystem.currentWave, newState);
     }
 
     public void DeleteCurrentWave(params object[] parameters)
