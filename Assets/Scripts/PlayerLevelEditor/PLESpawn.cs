@@ -13,6 +13,7 @@ public class PLESpawn : PLEItem {
     private float spawnHeightOffset = 50.0f;
     private List<GameObject> spawnedEnemies = new List<GameObject>();
     private Renderer rend;
+    private Vector3 actualSpawnPos;
     #endregion
     
     #region Public Fields
@@ -53,6 +54,8 @@ public class PLESpawn : PLEItem {
     private void Start()
     {
         Reset(null);
+        actualSpawnPos = new Vector3(0, transform.position.y + spawnHeightOffset, 0);
+        actualSpawnPos = transform.TransformPoint(actualSpawnPos);
     }
 
     #endregion
@@ -62,6 +65,11 @@ public class PLESpawn : PLEItem {
     public void StartSpawning()
     {
         StartCoroutine(SpawnEnemies());
+    }
+
+    public SpawnData GetSpawnData()
+    {
+        return new SpawnData((int)spawnType, totalSpawnAmount, actualSpawnPos);
     }
 
     #endregion
@@ -103,13 +111,11 @@ public class PLESpawn : PLEItem {
 
     private void SpawnEnemy()
     {
-        Vector3 spawnPos = new Vector3(0, transform.position.y + spawnHeightOffset, 0);
         GameObject newSpawnObj = ObjectPool.Instance.GetObject(spawnType.ToPoolObject());
-        spawnPos = transform.TransformPoint(spawnPos);
-        
+                
         if(newSpawnObj)
         {
-            newSpawnObj.transform.position = spawnPos;
+            newSpawnObj.transform.position = actualSpawnPos;
             ISpawnable spawnable = newSpawnObj.GetComponentInChildren<ISpawnable>();
             if(!spawnable.HasWillBeenWritten())
             {
@@ -120,7 +126,7 @@ public class PLESpawn : PLEItem {
 
             if(enemyBase)
             {
-                enemyBase.SpawnWithRagdoll(spawnPos);
+                enemyBase.SpawnWithRagdoll(actualSpawnPos);
             }
 
             currentSpawnAmount++;

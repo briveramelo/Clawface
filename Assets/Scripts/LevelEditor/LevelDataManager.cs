@@ -206,7 +206,7 @@ public class LevelDataManager : MonoBehaviour {
             ActivePropData.Add(propData);
         }
     }
-    private void SaveSpawns() {
+    public void SaveSpawns() {
         ActiveWaveData.Clear();
         spawnParent.SortChildrenByName();
         int startIndex = 0;
@@ -223,7 +223,11 @@ public class LevelDataManager : MonoBehaviour {
                 PLESpawn spawn = spawnUI.GetComponent<PLESpawn>();
                 int spawnType = (int)spawn.spawnType;
                 int spawnCount = spawn.totalSpawnAmount;
-                SpawnData spawnData = new SpawnData(spawnType, spawnCount, spawnUI.position);
+                SpawnData spawnData = new SpawnData(spawnType, spawnCount, spawnUI.position)
+                {
+                    pleSpawn = spawn
+                };
+                
                 ActiveWaveData[currentIndex].spawnData.Add(spawnData);
             }
         }

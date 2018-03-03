@@ -77,7 +77,7 @@ public class SpawnMenu : PlacementMenu {
         PLESpawn spawn = newItem.GetComponent<PLESpawn>();
         if(spawn)
         {
-            PLESpawnManager.Instance.RegisterSpawner(currentWave, spawn);
+            //TODO: What happens if the registered wave is 'deleted'
             spawn.registeredWave = currentWave;
         }
 
