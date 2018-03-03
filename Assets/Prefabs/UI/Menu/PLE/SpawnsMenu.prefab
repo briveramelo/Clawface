@@ -92,7 +92,7 @@ GameObject:
   - component: {fileID: 4221612634798814}
   - component: {fileID: 114444987615557282}
   m_Layer: 5
-  m_Name: AddSpawnsMenu
+  m_Name: SpawnsMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -265,7 +265,7 @@ GameObject:
   - component: {fileID: 114153663557177326}
   - component: {fileID: 114300295775553116}
   m_Layer: 0
-  m_Name: Prop1
+  m_Name: Spawn-Sample
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -570,7 +570,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114296544353745084}
   m_HandleRect: {fileID: 224203359098590320}
   m_Direction: 0
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 11
   m_OnValueChanged:
@@ -652,7 +652,7 @@ MonoBehaviour:
   canvas: {fileID: 1706372150991232}
   canvasGroup: {fileID: 225331146283117060}
   faderDuration: 0
-  editorInstance: {fileID: 0}
+  levelEditor: {fileID: 0}
   initiallySelected: {fileID: 0}
   createdItemsParent: {fileID: 0}
   scrollGroup: {fileID: 114712441298845850}
@@ -911,7 +911,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 691c1ecb3066131448d13cb210960d5a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e67b711ca4302654b967ab01ae85a1ce, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1

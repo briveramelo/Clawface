@@ -4,12 +4,13 @@ using ModMan;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using System;
 
 public class WeaponSelectMenu : Menu
 {
 	#region Accessors (Menu)
 
-	public override Button InitialSelection
+	public override Selectable InitialSelection
     {
 		get
         {
@@ -68,9 +69,17 @@ public class WeaponSelectMenu : Menu
 
     #endregion
 
+    #region Fields (Public)
+    private bool UseLoadMenu { get { return forwardMenuTarget == Strings.MenuStrings.LOAD;} }
+    private Action onCompleteSceneLoad;
+    private Action onStartAction;
+    private Action onReturnFromPLE;
+    #endregion
+
     #region Fields (Internal)
 
-    internal string menuTarget = null;
+    internal string backMenuTarget = null;
+    internal string forwardMenuTarget = null;
 
     #endregion
 
@@ -171,38 +180,55 @@ public class WeaponSelectMenu : Menu
 
     public void BackAction ()
 	{
-        fader.DoShow(fadeDuration, () => {
-		    MenuManager.Instance.DoTransition (menuTarget, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
-        });
+        if (backMenuTarget != null) {
+            fader.DoShow(fadeDuration, () => {
+                MenuManager.Instance.DoTransition(backMenuTarget, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+            });
+        }
+        if(onReturnFromPLE!=null) {
+            onReturnFromPLE();
+        }
+    }
+    public void DefineNavigation(string backMenuTarget, string forwardMenuTarget, Action onStartAction=null, Action onCompleteSceneLoad=null, Action onReturnFromPLE=null) {
+        this.backMenuTarget = backMenuTarget;
+        this.forwardMenuTarget = forwardMenuTarget;
+        this.onStartAction = onStartAction;
+        this.onCompleteSceneLoad = onCompleteSceneLoad;
+        this.onReturnFromPLE = onReturnFromPLE;
     }
 
 	public void StartAction ()
 	{
+        //Set up ModManager
 	    ModManager.assignFromPool = false;
-
-		// Acquire target level.
-		Menu menu = MenuManager.Instance.GetMenuByName (Strings.MenuStrings.LEVEL_SELECT);
-        string level = Strings.Scenes.Arena;
-        Debug.LogWarning("Target level is currently using String.Scenes constant.  Fix later when adding LevelSelectMenu back.");
-
-		// Acquire Pause Menu
-		menu = MenuManager.Instance.GetMenuByName (Strings.MenuStrings.PAUSE);
-		PauseMenu pauseMenu = (PauseMenu)menu;
-		pauseMenu.CanPause = true;
-
-		// Acquire LoadMenu and set target.
-		menu = MenuManager.Instance.GetMenuByName (Strings.MenuStrings.LOAD);
-		LoadMenu loadMenu = (LoadMenu)menu;
-		loadMenu.TargetScene = level;
-
-        // Trigger level started event
         ModManager.rightArmOnLoad = rightArm.GetSelection();
         ModManager.leftArmOnLoad = leftArm.GetSelection();
-        EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_STARTED, loadMenu.TargetScene, ModManager.leftArmOnLoad.ToString(), ModManager.rightArmOnLoad.ToString());
+
+        // Acquire Pause Menu
+        PauseMenu pauseMenu = (PauseMenu)MenuManager.Instance.GetMenuByName (Strings.MenuStrings.PAUSE);
+		pauseMenu.CanPause = true;
+
+        // Acquire LoadMenu and set target.
+        string targetScene = SceneTracker.CurrentSceneName;
+        Menu menu = MenuManager.Instance.GetMenuByName(forwardMenuTarget);
+        if (UseLoadMenu) {
+            LoadMenu loadMenu = (LoadMenu)menu;
+            loadMenu.onCompleteSceneLoad = onCompleteSceneLoad;
+            targetScene = loadMenu.TargetScenePath;
+        }
+        if (forwardMenuTarget != null) {
+            MenuManager.Instance.DoTransition(menu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+        }
+        else {
+            MenuManager.Instance.ClearMenus();
+        }
 
 		// Make it happen.
-		MenuManager.Instance.DoTransition (loadMenu, Transition.SHOW,
-			new Effect[] { Effect.EXCLUSIVE });
+        EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_STARTED, targetScene, ModManager.leftArmOnLoad.ToString(), ModManager.rightArmOnLoad.ToString());
+
+        if (onStartAction!=null) {
+            onStartAction();
+        }
 	}
 
     #endregion

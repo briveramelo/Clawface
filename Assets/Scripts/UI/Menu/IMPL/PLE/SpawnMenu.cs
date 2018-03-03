@@ -1,7 +1,6 @@
 ﻿//Garin + Brandon
 using UnityEngine.EventSystems;
 using UnityEngine;
-using UnityEngine.UI;
 using PlayerLevelEditor;
 
 public class SpawnMenu : PlacementMenu {
@@ -9,30 +8,14 @@ public class SpawnMenu : PlacementMenu {
     private PLESpawn selectedSpawn;
 
     #region Public Interface
-    public SpawnMenu() : base(Strings.MenuStrings.ADD_SPAWNS_PLE) { }
-
-    public void SetAmtOnSelectedSpawn()
-    {
-        if(selectedSpawn)
-        {
-            int finalAmt = 0;
-
-            if (System.Int32.TryParse(amountText.text, out finalAmt))
-            {
-                selectedSpawn.totalSpawnAmount = finalAmt;
-            }
-            
-        }
-    }
+    public SpawnMenu() : base(Strings.MenuStrings.LevelEditor.ADD_SPAWNS_PLE) { }
     #endregion
 
     #region Private Fields
-    static public GameObject playerSpawnInstance = null;
-    #endregion
 
-    #region Serialized Unity Fields
-    [SerializeField] private Text amountText;
-    #endregion
+    static public GameObject playerSpawnInstance = null;
+
+    #endregion  
 
     private void Awake() {
         EventSystem.Instance.RegisterEvent(Strings.Events.PLE_CHANGEWAVE, OnWaveChange);
@@ -42,7 +25,7 @@ public class SpawnMenu : PlacementMenu {
             EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_CHANGEWAVE, OnWaveChange);
         }
     }
-    
+
     void OnWaveChange(params object[] parameters) {
 
         string activeWaveName = GetWaveName(WaveSystem.currentWave);
@@ -68,7 +51,7 @@ public class SpawnMenu : PlacementMenu {
     protected override bool SelectItem { get { return base.SelectUI && MouseHelper.currentSpawn != null; } }
     protected override void DeleteHoveredItem() {
         base.DeleteHoveredItem();
-        editorInstance.CheckToSetMenuInteractability();
+        levelEditor.CheckToSetMenuInteractability();
     }
     protected override void ShowComplete() {
         base.ShowComplete();
@@ -108,7 +91,7 @@ public class SpawnMenu : PlacementMenu {
             playerSpawnInstance = newItem;
             playerSpawnInstance.transform.SetParent(TryCreateWaveParent(0).parent);
         }
-        editorInstance.CheckToSetMenuInteractability();
+        levelEditor.CheckToSetMenuInteractability();
     }
     Transform TryCreateWaveParent(int i) {
         string waveName = GetWaveName(i);
@@ -125,7 +108,6 @@ public class SpawnMenu : PlacementMenu {
 
     protected override void SelectGameItem() {
         base.SelectGameItem();
-       
         MouseHelper.currentSpawn.Select();
         selectedSpawn = MouseHelper.currentSpawn;
     }

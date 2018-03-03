@@ -30,8 +30,8 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 
     #region Protected Fields
 
-    [SerializeField]
-    protected bool shouldRegister = true;
+    [SerializeField] protected bool shouldRegister = true;
+    [SerializeField] protected bool dontDestroyOnLoad = true;
     #endregion
 
     #region Private Fields
@@ -47,10 +47,13 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
             instance = this as T;
             if (Application.isPlaying)
             {
-                if (shouldRegister)
+                if (shouldRegister) {
                     ServiceWrangler.Instance.RegisterSingleton(instance);
+                }
 
-                DontDestroyOnLoad(gameObject);
+                if (dontDestroyOnLoad) {
+                    DontDestroyOnLoad(gameObject);
+                }
             }  
         }
         else {

@@ -26,6 +26,8 @@ public class Spawner : RoutineRunner
 
     private int currentWave = 0;
 
+    private bool spwanDone = true;
+
     List<Transform> spawnPoints = new List<Transform>();
 
     #endregion
@@ -44,7 +46,24 @@ public class Spawner : RoutineRunner
             }
         }
     }
-    
+
+
+    private void Update()
+    {
+        //Lock HP for test:
+        //{
+        //    GameObject player = GameObject.FindGameObjectWithTag("Player");
+        //    if (player)
+        //    {
+        //        Stats stats = player.GetComponent<Stats>();
+        //        stats.LockHealth();
+        //    }
+        //}
+
+
+//        Debug.Log(NumSpawn);
+    }
+
     #endregion
 
     public void Activate()
@@ -61,16 +80,20 @@ public class Spawner : RoutineRunner
     #region Private Methods
     private void ReportDeath()
     {
+//        Debug.Log("DEATH: " + ++NumDeath);
+
         currentNumEnemies--;
         totalNumEnemies--;
 
-        if (currentWave < waves.Count - 1 && currentNumEnemies <= waves[currentWave].NumToNextWave)
+        if (currentWave < waves.Count - 1 && currentNumEnemies <= waves[currentWave].NumToNextWave && spwanDone == true)
         {
+//            Debug.Log("Call Next");
             GoToNextWave();
         }
 
-        if(totalNumEnemies == 0)
+        if (totalNumEnemies == 0)
         {
+ //           gameObject.SetActive(false);
             EventSystem.Instance.TriggerEvent(Strings.Events.CALL_NEXT_WAVE);
         }
     }
@@ -97,7 +120,10 @@ public class Spawner : RoutineRunner
 
     private IEnumerator SpawnEnemyCluster()
     {
-        for(int i = 0; i < waves[currentWave].monsterList.Count; i++)
+        spwanDone = false;
+
+
+        for (int i = 0; i < waves[currentWave].monsterList.Count; i++)
         {
             for(int j = 0; j < waves[currentWave].monsterList[i].Count; j++)
             {
@@ -108,16 +134,20 @@ public class Spawner : RoutineRunner
                     spawnEffect.GetComponent<VFXOneOff>().Play(spawnDelay);
                     spawnEffect.transform.position = spawnPosition;
                 }
+
                 PoolObjectType enemy = waves[currentWave].monsterList[i].Type.ToPoolObject();
                 SpawnEnemy(spawnPosition, enemy);
                 yield return new WaitForSeconds(1.0f);
                 //Timing.RunCoroutine(DelayAction(() => SpawnEnemy(spawnPosition, enemy), spawnDelay), coroutineName);
             }
-        }        
+        }
 
+        spwanDone = true;
+//        currentWave++;
     }
 
-    void SpawnEnemy(Vector3 spawnPosition, PoolObjectType enemy) {
+    void SpawnEnemy(Vector3 spawnPosition, PoolObjectType enemy)
+    {
         spawnPosition.y += spawnHeightOffset;
         GameObject spawnedObject = ObjectPool.Instance.GetObject(enemy);
         spawnedObject.transform.position = spawnPosition;
@@ -126,8 +156,13 @@ public class Spawner : RoutineRunner
         if (spawnedObject) {
             ISpawnable spawnable = spawnedObject.GetComponentInChildren<ISpawnable>();
 
-            if (!spawnable.HasWillBeenWritten()) {
+            if (!spawnable.HasWillBeenWritten())
+            {
                 spawnable.RegisterDeathEvent(ReportDeath);
+            }
+            else
+            {
+                Debug.Log("No ReportDeath???");
             }
 
             EnemyBase enemyBase = spawnedObject.GetComponent<EnemyBase>();
@@ -137,6 +172,8 @@ public class Spawner : RoutineRunner
             }
             
             EventSystem.Instance.TriggerEvent(Strings.Events.ENEMY_SPAWNED, spawnedObject);
+
+//            Debug.Log("SPAWN: " + ++NumSpawn);
 
             currentNumEnemies++;
         }

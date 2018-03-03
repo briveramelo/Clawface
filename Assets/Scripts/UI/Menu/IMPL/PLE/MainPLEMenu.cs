@@ -3,83 +3,66 @@ using UnityEngine;
 using PlayerLevelEditor;
 using System.Collections.Generic;
 using System.Linq;
+using ModMan;
 
-public class MainPLEMenu : Menu {
+public class MainPLEMenu : PlayerLevelEditorMenu {
 
-    public MainPLEMenu() : base(Strings.MenuStrings.MAIN_PLE_MENU) { }
+    public MainPLEMenu() : base(Strings.MenuStrings.LevelEditor.MAIN_PLE_MENU) { }
 
     #region Public Fields
-
-    public override Button InitialSelection {
-        get {
-            return initiallySelected;
-        }
-    }
 
     #endregion
 
     #region Serialized Unity Fields
-
-    [SerializeField] private Button initiallySelected;
-    [SerializeField] private LevelEditor editorInstance;
+    [SerializeField] private GroupTextColorSetter textColorSetter;
     [SerializeField] private ToggleGroup toggleGroup;
     [SerializeField] private Toggle firstToggle;
     [SerializeField] private Toggle floorToggle, propsToggle, spawnsToggle, waveToggle, testToggle, saveToggle, loadToggle, helpToggle, exitToggle;
     #endregion
 
     #region Private Fields
-    private List<Toggle> allToggles = new List<Toggle>();
-    private bool inputGuard = false;
-
+    private List<MenuToggle> menuToggles = new List<MenuToggle>();
     #endregion  
 
     #region Unity Lifecycle
-
-    protected override void Start() {
-        base.Start();
+    private void Awake() {
+        InitializeMenuToggles();
         SetupToggleInteractability();
+    }
+    protected override void Start() {
+        base.Start();                
+    }
+
+    void InitializeMenuToggles() {        
+        menuToggles.Add(new MenuToggle(PLEMenu.FLOOR, floorToggle));
+        menuToggles.Add(new MenuToggle(PLEMenu.PROPS, propsToggle));
+        menuToggles.Add(new MenuToggle(PLEMenu.SPAWN, spawnsToggle));
+        menuToggles.Add(new MenuToggle(PLEMenu.WAVE, waveToggle));
+        menuToggles.Add(new MenuToggle(PLEMenu.TEST, testToggle));        
+        menuToggles.Add(new MenuToggle(PLEMenu.SAVE, saveToggle));
+        menuToggles.Add(new MenuToggle(PLEMenu.LEVELSELECT, loadToggle));
+        menuToggles.Add(new MenuToggle(PLEMenu.HELP, helpToggle));
     }
 
     void SetupToggleInteractability() {
-        allToggles.ForEach(toggle => { toggle.interactable = false; });
+        menuToggles.ForEach(menuToggle => { menuToggle.toggle.interactable = false; });
         floorToggle.interactable = true;
         loadToggle.interactable = true;
         helpToggle.interactable = true;
         exitToggle.interactable = true;
     }
 
-    private void Update() {
-        if (inputGuard) {
-
-            //if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.UP))
-            //{
-            //    QuitAction();
-            //}
-
-        }
-    }
-
-    #endregion
-
-    #region Private interface
-    Toggle GetToggle(PLEMenu menu) {
-        switch (menu) {
-            case PLEMenu.FLOOR: return floorToggle;
-            case PLEMenu.PROPS: return propsToggle;
-            case PLEMenu.SPAWN: return spawnsToggle;
-            case PLEMenu.WAVE: return waveToggle;
-            case PLEMenu.TEST: return testToggle;
-            case PLEMenu.SAVE: return saveToggle;
-            case PLEMenu.LEVELSELECT: return loadToggle;
-            case PLEMenu.HELP: return helpToggle;
-        }
-        return floorToggle;
-    }
     #endregion
 
     #region Public Interface
+    public void SetMenuToggleOn(PLEMenu menu) {
+        menuToggles.ForEach(menuToggle => { menuToggle.toggle.onValueChanged.SwitchListenerState(UnityEngine.Events.UnityEventCallState.Off); });
+        menuToggles.Find(menuToggle => menuToggle.menu == menu).toggle.isOn = true;
+        menuToggles.ForEach(menuToggle => { menuToggle.toggle.onValueChanged.SwitchListenerState(UnityEngine.Events.UnityEventCallState.RuntimeOnly); });
+    }
+
     public void ToggleMenuInteractable(PLEMenu menu, bool isInteractable) {
-        Toggle toggle = GetToggle(menu);
+        Toggle toggle = menuToggles.Find(item => item.menu == menu).toggle;
         toggle.interactable = isInteractable;
     }
 
@@ -89,40 +72,59 @@ public class MainPLEMenu : Menu {
     }
 
     public void OpenFloorSystemAction() {
-        editorInstance.SwitchToMenu(PLEMenu.FLOOR);
+        SelectMenuItem(PLEMenu.FLOOR);
     }
 
     public void OpenPropsAction()
     {
-        editorInstance.SwitchToMenu(PLEMenu.PROPS);
+        SelectMenuItem(PLEMenu.PROPS);
     }
 
     public void OpenSpawnsAction()
     {
-        editorInstance.SwitchToMenu(PLEMenu.SPAWN);
+        SelectMenuItem(PLEMenu.SPAWN);
     }    
-
-    public void OpenSaveAction()
-    {
-        editorInstance.SwitchToMenu(PLEMenu.SAVE);
-    }
-
-    public void OpenLevelSelectAction() {
-        editorInstance.SwitchToMenu(PLEMenu.LEVELSELECT);
-    }
 
     public void OpenWaveAction()
     {
-        editorInstance.SwitchToMenu(PLEMenu.WAVE);
+        SelectMenuItem(PLEMenu.WAVE);
+    }
+
+    public void OpenSaveAction()
+    {
+        SelectMenuItem(PLEMenu.SAVE);
+    }
+
+    public void OpenLevelSelectAction() {
+        SelectMenuItem(PLEMenu.LEVELSELECT);
     }
 
     public void TestLevelAction()
     {
-        editorInstance.SwitchToMenu(PLEMenu.TEST);
+        SelectMenuItem(PLEMenu.TEST);
     }
 
     public void OpenHelpAction() {
-        editorInstance.SwitchToMenu(PLEMenu.HELP);
+        SelectMenuItem(PLEMenu.HELP);
+    }
+    public void SelectMenuItem(PLEMenu menu) {
+        Toggle selectedMenuToggle = menuToggles.Find(menuToggle => menuToggle.menu == menu).toggle;
+        if (menu != levelEditor.currentDisplayedMenu) {
+            menuToggles.ForEach(menuToggle => {
+                menuToggle.toggle.onValueChanged.SwitchListenerState(UnityEngine.Events.UnityEventCallState.Off);
+                menuToggle.toggle.isOn = false;
+            });
+            selectedMenuToggle.isOn = true;
+            selectedMenuToggle.Select();
+            UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(selectedMenuToggle.gameObject);
+
+            levelEditor.SwitchToMenu(menu);
+            textColorSetter.SetColor();
+            menuToggles.ForEach(menuToggle => {
+                menuToggle.toggle.onValueChanged.SwitchListenerState(UnityEngine.Events.UnityEventCallState.RuntimeOnly);
+                menuToggle.spriteShifter.OnToggleChanged();
+            });
+        }
     }
 
     public void SetSelectedTextColor(PLEMenu i_selection)
@@ -131,12 +133,12 @@ public class MainPLEMenu : Menu {
     }
 
     public void QuitAction()
-    {
+    {        
         Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
-        LoadMenu loadMenu = menu as LoadMenu;
-        loadMenu.TargetScene = Strings.Scenes.MainMenu;
-
-        MenuManager.Instance.DoTransition(loadMenu, Menu.Transition.SHOW, new Menu.Effect[] { Menu.Effect.EXCLUSIVE });
+        LoadMenu loadMenu = (LoadMenu)menu;
+        loadMenu.TargetScenePath = Strings.Scenes.ScenePaths.MainMenu;
+        //loadMenu.Fast = true;
+        MenuManager.Instance.DoTransition(loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
     }
 
     #endregion
@@ -145,28 +147,31 @@ public class MainPLEMenu : Menu {
 
     protected override void ShowComplete() {
         base.ShowComplete();
-        inputGuard = true;
     }
 
     protected override void HideStarted() {
         base.HideStarted();
-        inputGuard = false;
     }
 
     protected override void HideComplete() {
         base.HideComplete();
     }
 
-
-    protected override void DefaultShow(Transition transition, Effect[] effects) {
-        Fade(transition, effects);
-    }
-
-    protected override void DefaultHide(Transition transition, Effect[] effects) {
-        Fade(transition, effects);
-    }
-
     #endregion
 
+    #region Private interface
+    
+    #endregion
 
+}
+
+class MenuToggle {
+    public MenuToggle(PLEMenu menu, Toggle toggle) {
+        this.menu = menu;
+        this.toggle = toggle;
+        spriteShifter = toggle.GetComponent<SpriteShifter>();
+    }
+    public PLEMenu menu;
+    public Toggle toggle;
+    public SpriteShifter spriteShifter;
 }
