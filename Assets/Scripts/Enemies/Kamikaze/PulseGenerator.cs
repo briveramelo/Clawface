@@ -7,6 +7,9 @@ public class PulseGenerator : MonoBehaviour
 
     [SerializeField] private GameObject pulseProjectile;
 
+    static int pulseIndex = 0;
+    const int maxPulseIndex = 15;
+
     private int maxPulses;
     private float pulseRate;
     private float scaleRate;
@@ -36,12 +39,14 @@ public class PulseGenerator : MonoBehaviour
         if (currentRateValue >= pulseRate && currentPulse < maxPulses)
         {
             GameObject pulse = Instantiate(pulseProjectile, 
-                gameObject.transform.position + new Vector3(0.0f, 0.005f * currentPulse, 0.0f), 
+                gameObject.transform.position + new Vector3(0.0f, 0.5f * pulseIndex + 0.01f, 0.0f), 
                 Quaternion.identity);
             PulseProjectile newPulseProjectile = pulse.GetComponent<PulseProjectile>();
             newPulseProjectile.SetPulseProjectileStats(scaleRate,maxScale,damage);
             currentRateValue = 0.0f;
             currentPulse++;
+            newPulseProjectile.SetRenderQueue(3000 + pulseIndex);
+            pulseIndex = (pulseIndex + 1) % maxPulseIndex;
         }
         if (currentPulse >= maxPulses)
         {

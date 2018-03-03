@@ -11,6 +11,7 @@
 	{
 		Tags { "RenderType"="Transparent" "Queue"="Transparent" }
 		Blend SrcAlpha OneMinusSrcAlpha
+		ZWrite On
 
 		Pass
 		{
@@ -58,12 +59,13 @@
 				float2 circleCenter = mul(float4(0.0, 0.0, 0.0, 0.0), unity_ObjectToWorld).xz;
 				float r = UNITY_ACCESS_INSTANCED_PROP(_Radius);
 				float4 color = UNITY_ACCESS_INSTANCED_PROP(_Color);
+				float halfRingWidth = _RingWidth / 2.0;
 
 				float distFromCenter = distance(i.worldVertex.xz, circleCenter);
-				if (distFromCenter < r - _RingWidth / 2.0) return fixed4(0.0, 0.0, 0.0, 0.0);
-				if (distFromCenter > r + _RingWidth / 2.0) return fixed4(0.0, 0.0, 0.0, 0.0);
+				if (distFromCenter < r - halfRingWidth) return fixed4(0.0, 0.0, 0.0, 0.0);
+				if (distFromCenter > r + halfRingWidth) return fixed4(0.0, 0.0, 0.0, 0.0);
 
-				float lookupXCoord = (distFromCenter - r - _RingWidth / 2.0) / _RingWidth;
+				float lookupXCoord = (distFromCenter - (r - halfRingWidth)) / _RingWidth;
 
 				float4 c = tex2D(_MainTex, lookupXCoord * _MainTex_ST.xy) * color;
 				return c;
