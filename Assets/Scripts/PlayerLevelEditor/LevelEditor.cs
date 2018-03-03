@@ -10,7 +10,6 @@ namespace PlayerLevelEditor
         #region Public Fields
         [Header("Required Fields")]
         public PlayerLevelEditorGrid gridController;
-        public LevelDataManager levelDataManager;
 
         [Header("Player Level Editor-Scene Specific")]
         public PLEMenu currentDisplayedMenu;

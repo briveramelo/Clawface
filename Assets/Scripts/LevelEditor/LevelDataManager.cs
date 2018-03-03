@@ -20,9 +20,9 @@ public class LevelDataManager : MonoBehaviour {
 
     private DataSave ActiveDataSave { get { return DataPersister.ActiveDataSave; } }
     private LevelData ActiveLevelData { get { return ActiveDataSave.ActiveLevelData; } }
-    private List<WaveData> ActiveWaveData { get { return ActiveLevelData.waveData; } set { ActiveLevelData.waveData = value; } }
-    private List<TileData> ActiveTileData { get { return ActiveLevelData.tileData; } set { ActiveLevelData.tileData = value; } }
-    private List<PropData> ActivePropData { get { return ActiveLevelData.propData; } set { ActiveLevelData.propData = value; } }    
+    private List<WaveData> ActiveWaveData { get { return ActiveLevelData.waveData; } }
+    private List<TileData> ActiveTileData { get { return ActiveLevelData.tileData; } }
+    private List<PropData> ActivePropData { get { return ActiveLevelData.propData; } }
 
 
     #region Unity Lifecycle
