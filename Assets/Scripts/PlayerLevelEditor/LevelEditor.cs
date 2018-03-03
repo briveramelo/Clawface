@@ -7,9 +7,14 @@ using UnityEngine.UI;
 namespace PlayerLevelEditor
 {
     public class LevelEditor : MonoBehaviour {
-        #region Public Fields
+
         [Header("Required Fields")]
+        [SerializeField] private GameObject playerSpawnerPrefab;
+        
+        #region Public Fields
         public PlayerLevelEditorGrid gridController;
+
+        [HideInInspector] public bool hasCreatedPlayer;
 
         [Header("Player Level Editor-Scene Specific")]
         public PLEMenu currentDisplayedMenu;
@@ -33,7 +38,7 @@ namespace PlayerLevelEditor
 
         #region Private Fields
         private List<Menu> pleMenus = new List<Menu>();
-
+        private GameObject playerSpawnerInstance = null;
         #endregion        
 
         private void Start() {
@@ -44,7 +49,39 @@ namespace PlayerLevelEditor
 
         #region Public Interface
         public void PlayLevel() {
-            //PLESpawnManager.Instance.
+            SpawnMenu.playerSpawnInstance.SetActive(false);
+
+            playerSpawnerInstance = Instantiate(playerSpawnerPrefab);
+            playerSpawnerInstance.transform.position = SpawnMenu.playerSpawnInstance.transform.position;
+
+            if (SceneTracker.IsCurrentSceneEditor) {
+                waveSystem.ResetToWave0();
+            }
+            else {
+                WaveSystem.currentWave = 0;
+            }
+            hasCreatedPlayer = true;
+        }
+        public void ExitLevel() {
+            GameObject playerInstance = null;
+            if (playerSpawnerInstance != null) {
+                playerInstance = playerSpawnerInstance.GetComponent<PlayerSpawner>().GetplayerPrefabGO();
+
+                DestroyImmediate(playerSpawnerInstance);
+                playerSpawnerInstance = null;
+            }
+
+            if (playerInstance != null) {
+                DestroyImmediate(playerInstance);
+                playerInstance = null;
+            }
+
+            if (SpawnMenu.playerSpawnInstance != null) {
+                SpawnMenu.playerSpawnInstance.SetActive(true);
+            }
+
+            EventSystem.Instance.TriggerEvent(Strings.Events.PLE_TEST_END);
+            hasCreatedPlayer = false;
         }
 
         public void CheckToSetMenuInteractability() {

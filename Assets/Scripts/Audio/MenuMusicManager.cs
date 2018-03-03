@@ -7,13 +7,12 @@ using ModMan;
 public class MenuMusicManager : Singleton<MenuMusicManager> {
 
     [SerializeField] AudioSource intro, looping;
-    [SerializeField] bool playOnStart;
     static bool isPlaying;
 
     void Start() {
         EventSystem.Instance.RegisterEvent(Strings.Events.WEAPONS_SELECT_FROM_STAGE_OVER, Play);
         EventSystem.Instance.RegisterEvent(Strings.Events.SCENE_LOADED, CheckSceneToPlay);
-        if (playOnStart) {            
+        if (SceneTracker.IsCurrentSceneMain || SceneTracker.IsCurrentSceneEditor) {
             Play();
         }
     }

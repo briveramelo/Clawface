@@ -35,8 +35,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4588059675165932}
   - component: {fileID: 114300397762325604}
+  - component: {fileID: 114950661016402394}
   - component: {fileID: 114961083394896710}
-  - component: {fileID: 114443658732401420}
   m_Layer: 0
   m_Name: PlayerLevelEditor
   m_TagString: Untagged
@@ -167,7 +167,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1517401390331960}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -211,8 +211,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 427bc9278a1f9d740b26d02e2811db31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerSpawnerPrefab: {fileID: 1892597131071296, guid: 7f3bd5b4144688a4f9c9cab6e3160139,
+    type: 2}
   gridController: {fileID: 114961083394896710}
-  levelDataManager: {fileID: 114302409008453142}
+  hasCreatedPlayer: 0
   currentDisplayedMenu: 3
   waveSystem: {fileID: 0}
   mainEditorMenu: {fileID: 0}
@@ -243,7 +245,7 @@ MonoBehaviour:
   spawnParent: {fileID: 4168169116435916}
   levelName: {fileID: 0}
   levelDescription: {fileID: 0}
---- !u!114 &114443658732401420
+--- !u!114 &114950661016402394
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}

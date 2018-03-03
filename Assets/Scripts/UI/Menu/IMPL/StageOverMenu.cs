@@ -87,14 +87,13 @@ public class StageOverMenu : Menu
     {
         Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
         LoadMenu loadMenu = (LoadMenu)menu;
-        string sceneName = SceneTracker.CurrentSceneName;
-        loadMenu.TargetScenePath = sceneName;
+        loadMenu.TargetScenePath = SceneTracker.CurrentScenePath;
 
         PauseMenu p = (PauseMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.PAUSE);
         p.CanPause = true;
 
-        ObjectPool.Instance.ResetPools();
-        EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_RESTARTED, sceneName, AnalyticsManager.Instance.GetCurrentWave(), ScoreManager.Instance.GetScore());
+        ObjectPool.Instance.ResetPools();        
+        EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_RESTARTED, SceneTracker.CurrentSceneName, AnalyticsManager.Instance.GetCurrentWave(), ScoreManager.Instance.GetScore());
 
 
         MenuManager.Instance.DoTransition(loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
@@ -120,14 +119,13 @@ public class StageOverMenu : Menu
     {
         Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
         LoadMenu loadMenu = (LoadMenu)menu;
-        Scene scene = SceneManager.GetActiveScene();
-        loadMenu.TargetScenePath = scene.name;
+        loadMenu.TargetScenePath = SceneTracker.CurrentScenePath;
 
         PauseMenu pauseMenu = (PauseMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.PAUSE);
         pauseMenu.CanPause = true;
         //TODO: What is the "next" level, the next one in the build index? 
 
-        //EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_RESTARTED, scene.name, AnalyticsManager.Instance.GetCurrentWave(), ScoreManager.Instance.GetScore());
+        //EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_RESTARTED, SceneTracker.CurrentSceneName, AnalyticsManager.Instance.GetCurrentWave(), ScoreManager.Instance.GetScore());
 
 
         MenuManager.Instance.DoTransition(loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });

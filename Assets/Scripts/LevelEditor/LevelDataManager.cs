@@ -53,6 +53,7 @@ public class LevelDataManager : MonoBehaviour {
         }
         else {
             //Trigger level start event?
+            levelEditor.PlayLevel();
         }
     }
 
@@ -96,6 +97,10 @@ public class LevelDataManager : MonoBehaviour {
                 pleSpawn.totalSpawnAmount = spawnData.count;
                 pleSpawn.spawnType = (SpawnType)spawnData.spawnType;
                 child.position = spawnData.position.AsVector;
+
+                //Hook in when it's ready
+                //Might also need to wipe out the list
+                //PLESpawnManager.Instance.RegisterSpawner(i, pleSpawn);
             }
         }        
 

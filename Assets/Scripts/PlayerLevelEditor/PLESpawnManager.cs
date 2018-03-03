@@ -20,7 +20,7 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
         if(EventSystem.Instance)
         {
             EventSystem.Instance.RegisterEvent(Strings.Events.CALL_NEXT_WAVE, CallNextWave);
-            EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_STARTED, CallNextWave);
+            //EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_STARTED, CallNextWave);
             EventSystem.Instance.RegisterEvent(Strings.Events.PLE_TEST_END, Reset);
 
         }
@@ -32,7 +32,7 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
         if (EventSystem.Instance)
         {
             EventSystem.Instance.UnRegisterEvent(Strings.Events.CALL_NEXT_WAVE, CallNextWave);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_STARTED, CallNextWave);
+            //EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_STARTED, CallNextWave);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_TEST_END, Reset);
         }
     }

@@ -14,13 +14,10 @@ public class TestMenu : PlayerLevelEditorMenu
 
     #region Serialized Unity Fields
     [SerializeField] private Transform tileParents;
-    [SerializeField] private GameObject playerSpawnerPrefab;
     #endregion
 
-    #region Private Fields
-
-    GameObject playerSpawnerInstance = null;
-    private bool hasCreatedPlayer = false;
+    #region Private Fields    
+    private bool HasCreatedPlayer { get { return levelEditor.hasCreatedPlayer; } set { levelEditor.hasCreatedPlayer = value; } }
     #endregion
 
     #region Unity Lifecycle
@@ -33,7 +30,7 @@ public class TestMenu : PlayerLevelEditorMenu
     public TestMenu() : base(Strings.MenuStrings.LevelEditor.TEST_PLE_MENU) { }
 
     public override void BackAction() {
-        if (hasCreatedPlayer) {
+        if (HasCreatedPlayer) {
             ReleaseTestMode();
         }
 
@@ -88,35 +85,11 @@ public class TestMenu : PlayerLevelEditorMenu
     }
 
     void CreatePlayer() {
-        SpawnMenu.playerSpawnInstance.SetActive(false);
-
-        playerSpawnerInstance = Instantiate(playerSpawnerPrefab);
-        playerSpawnerInstance.transform.position = SpawnMenu.playerSpawnInstance.transform.position;
-        levelEditor.waveSystem.ResetToWave0();
-        hasCreatedPlayer = true;
+        levelEditor.PlayLevel();   
     }
 
-    private void ReleaseTestMode() {        
-
-        GameObject playerInstance = null;
-        if (playerSpawnerInstance != null) {
-            playerInstance = playerSpawnerInstance.GetComponent<PlayerSpawner>().GetplayerPrefabGO();
-
-            DestroyImmediate(playerSpawnerInstance);
-            playerSpawnerInstance = null;
-        }
-
-        if(playerInstance != null) {
-            DestroyImmediate(playerInstance);
-            playerInstance = null;
-        }        
-
-        if (SpawnMenu.playerSpawnInstance != null) {
-            SpawnMenu.playerSpawnInstance.SetActive(true);
-        }
-
-        EventSystem.Instance.TriggerEvent(Strings.Events.PLE_TEST_END);
-        hasCreatedPlayer = false;
+    private void ReleaseTestMode() {
+        levelEditor.ExitLevel();
     }
 
     #endregion
