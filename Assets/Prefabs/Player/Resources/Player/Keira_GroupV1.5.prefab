@@ -2395,8 +2395,8 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.1
-  far clip plane: 5000
+  near clip plane: 250
+  far clip plane: 500
   field of view: 5.5
   orthographic: 0
   orthographic size: 8.5
@@ -3253,8 +3253,8 @@ MonoBehaviour:
   playerStatsManager: {fileID: 114430878911601216}
   holdAttackSlowDown: 3
   dashState: {fileID: 114132200228300390}
-  dashCoolDown: 0.28
-  eatCoolDown: 0.28
+  dashCoolDown: 0.29
+  eatCoolDown: 0.29
   eatingState: {fileID: 114325496831137656}
   eatCollider: {fileID: 135888620666243734}
   tutorialSlowDownRate: 0.05
@@ -3600,8 +3600,8 @@ MonoBehaviour:
   m_Lens:
     FieldOfView: 5.5
     OrthographicSize: 8.5
-    NearClipPlane: 0.1
-    FarClipPlane: 5000
+    NearClipPlane: 250
+    FarClipPlane: 500
     Dutch: 4
   m_ComponentOwner: {fileID: 4389288433435948}
 --- !u!114 &114538159332933710
@@ -3974,7 +3974,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89f60c4196cdba9418afd934866d4338, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerMaterial: {fileID: 2100000, guid: 74f4f482051380e4eb096d09801c0686, type: 2}
   playerRenderer: {fileID: 137286752708950636}
   idleExpression: {fileID: 2800000, guid: b304d9d1355731e49bb82a259ca2b4ac, type: 3}
   idleColor: {r: 1, g: 1, b: 1, a: 0}

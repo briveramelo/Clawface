@@ -44,6 +44,7 @@ public class PlayerStateManager : RoutineRunner {
     private bool isDashTutorialDone;
     private bool isInDashTutorial;
     private bool isSlowDownFinished;
+    private bool isSpeedUpFinished;
 
     const string SlowTime = "SlowTime";
     const string SpeedTime = "SpeedTime";
@@ -119,6 +120,7 @@ public class PlayerStateManager : RoutineRunner {
         }
         else if (isInDashTutorial)
         {
+            
             if (InputManager.Instance.QueryAction(Strings.Input.Actions.DODGE, ButtonMode.DOWN) && isSlowDownFinished)
             {
                 SwitchState(dashState);
@@ -158,26 +160,26 @@ public class PlayerStateManager : RoutineRunner {
 
     private void OnTriggerEnter(Collider other)
     {
-        SetEnemyCloseToEat(other, true);
         SetEnemyCloseToDash(other, true);
+        SetEnemyCloseToEat(other, true);
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if(!isTutorialDone && !isInTutorial)
-        {
-            SetEnemyCloseToEat(other, true);
-        }
         if (!isDashTutorialDone && !isInDashTutorial)
         {
             SetEnemyCloseToDash(other, true);
+        }
+        if (!isTutorialDone && !isInTutorial)
+        {
+            SetEnemyCloseToEat(other, true);
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        SetEnemyCloseToEat(other, false);
         SetEnemyCloseToDash(other, false);
+        SetEnemyCloseToEat(other, false);
     }
 
     private void OnDestroy()
@@ -198,7 +200,7 @@ public class PlayerStateManager : RoutineRunner {
 
     private void SetEnemyCloseToEat(Collider other, bool state)
     {
-        if (other.tag.Equals(Strings.Tags.ENEMY))
+        if (other.tag.Equals(Strings.Tags.ENEMY) && !isInDashTutorial && isSpeedUpFinished)
         {
             IEatable skinnable = other.GetComponent<IEatable>();
             if (skinnable != null && skinnable.IsEatable())
@@ -312,6 +314,7 @@ public class PlayerStateManager : RoutineRunner {
         tutorialTimeScale = 1.0f;
         Time.timeScale = tutorialTimeScale;
         EventSystem.Instance.TriggerEvent(Strings.Events.HIDE_TUTORIAL_TEXT);
+        isSpeedUpFinished = true;
     }
 
     private void BlockInput(params object[] parameter)

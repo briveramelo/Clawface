@@ -69,7 +69,7 @@ public class SpawnManager : RoutineRunner
 
         levelTime += Time.deltaTime;
 
-        if(lastWave == 0 && currentSpawner == spawners.Count && LevelClear == true)
+        if(currentSpawner == spawners.Count && LevelClear == true)
         {
             LevelClear = false;
             ScoreManager.Instance.UpdateHighScore(SceneManager.GetActiveScene().name, ScoreManager.Instance.GetScore());
@@ -87,7 +87,7 @@ public class SpawnManager : RoutineRunner
     {
         if(lastWave > 0 && currentSpawner > lastWave - 1)
         {            
-            if(currentSpawner == spawners.Count)
+            if(currentSpawner >= spawners.Count)
             {
                 currentSpawner = lastWave;
             }
@@ -95,7 +95,8 @@ public class SpawnManager : RoutineRunner
 
         if(currentSpawner < spawners.Count)
         {
-            //wave complete            
+            //wave complete      
+//            Debug.Log("wave complete");
             EventSystem.Instance.TriggerEvent(Strings.Events.WAVE_COMPLETE, waveNumber);
             if(waveNumber == 0)
             {

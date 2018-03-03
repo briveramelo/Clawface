@@ -104,6 +104,11 @@ public abstract class AIController : RoutineRunner {
         deActivateAI = false;
     }
 
+    public bool isAIActive()
+    {
+        return deActivateAI;
+    }
+
     protected void Update() {
 
         if (!deActivateAI)
