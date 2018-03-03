@@ -83,7 +83,7 @@ namespace PlayerLevelEditor
         {
             Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
             LoadMenu loadMenu = menu as LoadMenu;
-            loadMenu.TargetScenePath = Strings.Scenes.MainMenu;
+            loadMenu.TargetScenePath = Strings.Scenes.ScenePaths.MainMenu;
 
             MenuManager.Instance.DoTransition(loadMenu,Menu.Transition.SHOW, new Menu.Effect[] { Menu.Effect.EXCLUSIVE });
         }

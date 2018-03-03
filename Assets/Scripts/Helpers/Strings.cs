@@ -31,11 +31,14 @@
 
     public class Scenes
     {
-        public const string ScenesDirectory = "Scenes/Build Scenes/";
-        public const string MainMenu = ScenesDirectory + SceneNames.MainMenu;
-        public const string Arena = ScenesDirectory + SceneNames.Arena;
-        public const string Editor = ScenesDirectory + SceneNames.Editor;
-        public const string PlayerLevels = ScenesDirectory + SceneNames.PlayerLevels;
+        public class ScenePaths {
+            public const string ScenesDirectory = "Scenes/Build Scenes/";
+
+            public const string MainMenu = ScenesDirectory + SceneNames.MainMenu;
+            public const string Arena = ScenesDirectory + SceneNames.Arena;
+            public const string Editor = ScenesDirectory + SceneNames.Editor;
+            public const string PlayerLevels = ScenesDirectory + SceneNames.PlayerLevels;
+        }
 
         public class SceneNames {
             public const string MainMenu = "MainMenu";

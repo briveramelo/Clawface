@@ -79,7 +79,7 @@ public class TestMenu : PlayerLevelEditorMenu
             base.ShowComplete();
             CreatePlayer();
             levelEditor.ToggleCameraGameObject(false);
-            EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_STARTED, Strings.Scenes.Editor, ModManager.leftArmOnLoad.ToString(), ModManager.rightArmOnLoad.ToString());
+            EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_STARTED, Strings.Scenes.ScenePaths.Editor, ModManager.leftArmOnLoad.ToString(), ModManager.rightArmOnLoad.ToString());
         };
 
         weaponSelectMenu.DefineNavigation(null, null, onStartAction, null, onReturnFromPLE);

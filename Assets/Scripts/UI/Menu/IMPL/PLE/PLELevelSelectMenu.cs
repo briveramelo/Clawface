@@ -73,7 +73,7 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
             weaponSelectMenu.DefineNavigation(Strings.MenuStrings.LevelEditor.LEVELSELECT_PLE_MENU, loadMenuName);
 
             LoadMenu loadMenu = (LoadMenu)MenuManager.Instance.GetMenuByName(loadMenuName);
-            loadMenu.TargetScenePath = Strings.Scenes.PlayerLevels;
+            loadMenu.TargetScenePath = Strings.Scenes.ScenePaths.PlayerLevels;
 
 
             MenuManager.Instance.DoTransition(weaponSelectMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
