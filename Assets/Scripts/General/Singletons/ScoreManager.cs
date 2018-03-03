@@ -27,6 +27,8 @@ public class ScoreManager : Singleton<ScoreManager> {
     #region Privates
     private float comboTimer;
     private float currentQuadrant;
+
+    private bool updateScore;
     #endregion
 
     #region Unity Lifecycle
@@ -236,7 +238,10 @@ public class ScoreManager : Singleton<ScoreManager> {
             if (parameters != null && parameters[1] != null)
             {
 
-                AddToScoreAndCombo((int)parameters[1]);
+                if (updateScore)
+                {
+                    AddToScoreAndCombo((int)parameters[1]);
+                }
 
                 /*
                 currentCombo++;
@@ -267,6 +272,8 @@ public class ScoreManager : Singleton<ScoreManager> {
 
     private void OnLevelStart(params object[] parameters)
     {
+        updateScore = true;
+
         score = 0;
         currentCombo = 0;
         highestCombo = 0;
@@ -287,6 +294,7 @@ public class ScoreManager : Singleton<ScoreManager> {
 
     private void OnPlayerKilled(object[] parameters)
     {
+        updateScore = false;
         LeaderBoards.Instance.UpdateScore(score);
     }
     #endregion
