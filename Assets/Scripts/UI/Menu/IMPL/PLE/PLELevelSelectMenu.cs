@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using ModMan;
 using PlayerLevelEditor;
+using System.Linq;
 
 public class PLELevelSelectMenu : Menu {
 
@@ -20,79 +21,79 @@ public class PLELevelSelectMenu : Menu {
     [SerializeField] private LevelDataManager levelDataManager;
     [SerializeField] private GridLayoutGroup gridLayoutGroup;
 
-    private const int width = 600;
-    private const int height = 400;
-    private static readonly Vector2 imageDimensions = new Vector2(width, height);
+    //private const int width = 600;
+    //private const int height = 400;
+    //private static readonly Vector2 imageDimensions = new Vector2(width, height);
     private DataSave ActiveDataSave { get { return DataPersister.ActiveDataSave; } }
     private List<LevelData> Levels { get { return ActiveDataSave.levelDatas; } }
     private List<LevelUI> levelUIs= new List<LevelUI>();
-    private RectTransform LevelContentRect { get { return levelContentParent as RectTransform; } }
+    private int selectedLevelIndex = 0;
 
-    Coroutine handle;
+    #region Unity Lifecyle    
+
+
+    #endregion
+    #region Public Interface
     public void OnSearchChange() {
         gridLayoutGroup.enabled = false;
         string searchTerm = searchField.text.ToLowerInvariant();
+        List<string> searchTerms = searchTerm.Split(' ').ToList();
+
         for (int i = 0; i < levelUIs.Count; i++) {
             LevelData levelData = levelUIs[i].levelData;
-            bool shouldShow = string.IsNullOrEmpty(searchTerm) || searchTerm.Length == 0 || levelData.name.ToLowerInvariant().Contains(searchTerm) || levelData.description.ToLowerInvariant().Contains(searchTerm);
+            string levelDataName = levelData.name.ToLowerInvariant();
+            string levelDataDescription = levelData.description.ToLowerInvariant();
+            bool shouldShow =
+                string.IsNullOrEmpty(searchTerm) ||
+                searchTerm.Length == 0 ||
+                searchTerms.All(term => { return levelDataName.Contains(term) || levelDataDescription.Contains(term); });                
+
             levelUIs[i].gameObject.SetActive(shouldShow);
         }
         
         StartCoroutine(WaitToActivate());
     }
-    IEnumerator WaitToActivate() {
-        yield return new WaitForEndOfFrame();
-        gridLayoutGroup.enabled = true;
-    }
 
     public void LoadLevel() {
+        ActiveDataSave.SelectedIndex = selectedLevelIndex;
         levelEditor.SwitchToMenu(PLEMenu.FLOOR);
         levelDataManager.LoadSelectedLevel();
     }
 
-    public void SelectLevel(int levelIndex) {        
-        ActiveDataSave.SelectedIndex = levelIndex;
-        LevelData selectedLevel = ActiveDataSave.ActiveLevelData;
+    public void SelectLevel(int levelIndex) {
+        selectedLevelIndex = levelIndex;
+        LevelData selectedLevel = ActiveDataSave.levelDatas[levelIndex];
         levelNameText.text = selectedLevel.name;
         levelDescriptionText.text = selectedLevel.description;
-        levelImage.sprite = Sprite.Create(selectedLevel.Snapshot, new Rect(Vector2.zero, selectedLevel.size.AsVector), Vector2.one * .5f);
+        levelImage.sprite = selectedLevel.MySprite;
+        levelUIs.ForEach(levelUI => {
+            levelUI.OnGroupSelectChanged(levelIndex);
+        });
     }
+    public void ClearAndGenerateLevelUI() {
+        levelContentParent.DestroyAllChildren();
+        StartCoroutine(DelayGeneration());
+    }
+    #endregion
 
+    #region Protected Interface
     protected override void ShowComplete() {
         base.ShowComplete();
     }
 
     protected override void ShowStarted() {
         base.ShowStarted();
+        levelEditor.ToggleCameraController(false);
         searchField.text = "";
-        levelContentParent.DestroyAllChildren();
-        StartCoroutine(DelayGeneration());
+        ClearAndGenerateLevelUI();
     }
-    IEnumerator DelayGeneration() {
-        yield return new WaitForEndOfFrame();
-        GenerateLevelUI();
-    }
-    void GenerateLevelUI() {
-        int i = 0;
-        levelUIs.Clear();
-        Levels.ForEach(level => {
-            GameObject newUI = Instantiate(levelUIPrefab, levelContentParent);
-            LevelUI levelUI = newUI.GetComponent<LevelUI>();
-            levelUI.Initialize(this, level, i);
-            levelUIs.Add(levelUI);
-            i++;
-        });
-        if (levelUIs.Count > 0) {
-            SelectLevel(0);
-        }
-    }
-
     protected override void HideComplete() {
         base.HideComplete();
     }
 
     protected override void HideStarted() {
         base.HideStarted();
+        levelEditor.ToggleCameraController(true);
     }    
 
     protected override void DefaultHide(Transition transition, Effect[] effects) {
@@ -102,4 +103,38 @@ public class PLELevelSelectMenu : Menu {
     protected override void DefaultShow(Transition transition, Effect[] effects) {
         Fade(transition, effects);
     }
+    #endregion
+
+
+    #region Private Interface
+
+    IEnumerator WaitToActivate() {
+        yield return new WaitForEndOfFrame();
+        gridLayoutGroup.enabled = true;
+    }
+
+    IEnumerator DelayGeneration() {
+        yield return new WaitForEndOfFrame();
+        GenerateLevelUI();
+    }
+    void GenerateLevelUI() {
+        int i = 0;
+        levelUIs.Clear();
+        Levels.ForEach(level => {
+            if (!string.IsNullOrEmpty(level.name)) {
+                GameObject newUI = Instantiate(levelUIPrefab, levelContentParent);
+                LevelUI levelUI = newUI.GetComponent<LevelUI>();
+                levelUI.Initialize(this, level, i);
+                levelUIs.Add(levelUI);
+            }
+            i++;
+        });
+        System.Predicate<LevelUI> containsLevel = level => !string.IsNullOrEmpty(level.levelData.name);
+        if (levelUIs.Count > 0 && levelUIs.Exists(containsLevel)) {
+            SelectLevel(levelUIs.FindIndex(containsLevel));
+        }
+        OnSearchChange();
+    }
+    #endregion
+
 }

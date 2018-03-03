@@ -39,6 +39,7 @@ public class KamikazeMommyChaseState : AIState {
             GameObject kamikaze = ObjectPool.Instance.GetObject(PoolObjectType.Kamikaze);
             if (kamikaze)
             {
+                kamikaze.GetComponent<Kamikaze>().SetScorePoints(0);
                 kamikaze.transform.position = controller.transform.position;
             }
         }
@@ -47,6 +48,7 @@ public class KamikazeMommyChaseState : AIState {
             GameObject kamikaze = ObjectPool.Instance.GetObject(PoolObjectType.KamikazePulser);
             if (kamikaze)
             {
+                kamikaze.GetComponent<KamikazePulser>().SetScorePoints(0);
                 kamikaze.transform.position = controller.transform.position;
             }
         }

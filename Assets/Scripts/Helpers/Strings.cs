@@ -41,6 +41,7 @@
 
     public class Layers
     {
+        public const string UI = "UI";
         public const string GROUND = "Ground";
         public const string MODMAN = "ModMan";
         public const string OBSTACLE = "Obstacle";
@@ -133,6 +134,7 @@
         public const string CAPTURE_ENEMY = "CaptureEnemy";
         public const string ARM_ANIMATION_COMPLETE = "ArmAnimationComplete";
         public const string UPDATE_HEALTH = "UpdateHealth";
+        public const string FINISHED_EATING = "FinishedEating";
 
         public const string KILL_ENEMY = "KillEnemy";
         public const string BEAT_LEVEL1 = "BeatLevel1";
@@ -180,6 +182,7 @@
         public const string PLE_TEST_WAVE_2 = "PLE_TEST_WAVE_2";
         public const string PLE_CHANGEWAVE = "PLE_ChangeWave";
         public const string PLE_ADD_WAVE    = "PLE_ADD_WAVE";
+        public const string PLE_TEST_END = "PleTestEnd";
 
         public const string PLE_DELETE_CURRENTWAVE = "PLE_DELETE_CURRENTWAVE";
         public const string PLE_UPDATE_LEVELSTATE  = "PLE_UPDATE_LEVELSTATE";
@@ -189,6 +192,9 @@
         public const string GAME_CAN_PAUSE = "GAME_CAN_PAUSE";
 
         public const string INIT_EDITOR = "INIT_EDITOR";
+
+        public const string ACTIVATE_MOD = "ACTIVATE_MOD";
+        public const string DEACTIVATE_MOD = "DEACTIVATE_MOD";
     }
 
     public class Editor
@@ -203,6 +209,7 @@
         //objects
         public const string BASIC_LE_BLOCK = "LECube";
         public const string BASIC_LVL_BLOCK = "PLEBlockUnit_Default";
+        public const string CHERLIN_LVL_BLOCK = "PLEBlockUnit_Cherlin";
         public const string ENV_OBJECTS_PATH = "PlayerLevelEditorObjects/EnvProps/";
         public const string SPAWN_OBJECTS_PATH = "PlayerLevelEditorObjects/SpawnProps/";
 

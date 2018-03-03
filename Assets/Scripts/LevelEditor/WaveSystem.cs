@@ -6,25 +6,25 @@ using UnityEngine.UI;
 
 public class WaveSystem : MonoBehaviour
 {
+    public static bool infWaveSelected = true;
     public static int maxWave = 3;
     public static int currentWave = 0;
 
-    public GameObject WaveTextObj;
-    private Text WaveText;
+    private static int systemMaxWave = 20;
 
-    public GameObject TotalWaveTextObj;
-    private Text TotalWaveText;
+    [SerializeField] private InputField waveInputField;
+    [SerializeField] private Text totalWaveText, currentWaveText;
+    [SerializeField] private Toggle infWaveObjToggle;
+    [SerializeField] private Button removeWave, addWave, prevWave, nextWave;
 
-    private void Start()
-    {
-        WaveText = WaveTextObj.GetComponent<Text>();
-        TotalWaveText = TotalWaveTextObj.GetComponent<Text>();
-
+    #region Unity Lifecycle
+    private void Start() {
         UpdateWaveText();
     }
 
     private void Update()
     {
+
         //if(Input.GetKeyDown(KeyCode.Return))
         //{
         //    string wave = Strings.Events.PLE_TEST_WAVE_ + currentWave.ToString();
@@ -37,81 +37,97 @@ public class WaveSystem : MonoBehaviour
         //        currentWave = 0;
         //}
     }
+    #endregion
 
-    private void UpdateWaveText()
-    {
-        WaveText.text = (currentWave + 1).ToString();
-        TotalWaveText.text = maxWave.ToString();
-    }
-
-
-
-    public void DoTheThing()
-    {
-
+    #region Public interface
+    public void UpdateWaveText() {
+        waveInputField.text = (currentWave + 1).ToString();
+        currentWaveText.text = (currentWave + 1).ToString();
+        totalWaveText.text = maxWave.ToString();
     }
 
     public void ResetToWave0() {
-        currentWave = 1;
-        PrevWave();
+        ChangeToWave(0);
     }
 
-    public void NextWave()
-    {
+    public void ChangeToWave(int newWave) {
+        currentWave = Mathf.Clamp(newWave, 0, maxWave-1);
+        UpdateWaveText();
+        bool shouldChangeColor = true;
+        string wave = Strings.Events.PLE_TEST_WAVE_ + currentWave.ToString();
+        EventSystem.Instance.TriggerEvent(wave, shouldChangeColor);
+        EventSystem.Instance.TriggerEvent(Strings.Events.PLE_CHANGEWAVE);
+    }
+
+    public void NextWave() {
         currentWave++;
-
-        if (currentWave >= maxWave)
+        if (currentWave >= maxWave) {
             currentWave = 0;
-
-
-        UpdateWaveText();
-
-        string wave = Strings.Events.PLE_TEST_WAVE_ + currentWave.ToString();
-        EventSystem.Instance.TriggerEvent(wave);
-        EventSystem.Instance.TriggerEvent(Strings.Events.PLE_CHANGEWAVE);
+        }        
+        ChangeToWave(currentWave);
     }
 
-    public void PrevWave()
-    {
+    public void PrevWave() {
         currentWave--;
-
-        if (currentWave < 0)
+        if (currentWave < 0) {
             currentWave = maxWave - 1;
+        }
+        ChangeToWave(currentWave);
+    }
+
+    public void UpdateLevelUnitState() {
+        bool shouldChangeColor = true;
+        EventSystem.Instance.TriggerEvent(Strings.Events.PLE_UPDATE_LEVELSTATE);
+        string wave = Strings.Events.PLE_TEST_WAVE_ + currentWave.ToString();
+        EventSystem.Instance.TriggerEvent(wave, shouldChangeColor);
+    }
+
+
+    public void AddNewWave() {
+        if (maxWave == systemMaxWave) return;
+
+        maxWave++;
+        if (maxWave==systemMaxWave) {
+            addWave.interactable = false;
+        }
+        removeWave.interactable = true;
+        prevWave.interactable = true;
+        nextWave.interactable = true;
+        UpdateWaveText();
+        
+        EventSystem.Instance.TriggerEvent(Strings.Events.PLE_ADD_WAVE);
+        EventSystem.Instance.TriggerEvent(Strings.Events.PLE_UPDATE_LEVELSTATE);
+    }
+
+
+    public void DeleteCurrentWave() {
+        if (maxWave == 1) return;
+        
+        EventSystem.Instance.TriggerEvent(Strings.Events.PLE_DELETE_CURRENTWAVE);
+        EventSystem.Instance.TriggerEvent(Strings.Events.PLE_UPDATE_LEVELSTATE);        
+
+        maxWave--;
+        if (currentWave >= maxWave) {
+            currentWave = maxWave-1;
+        }
+        if (maxWave == 1) {
+            removeWave.interactable = false;
+            prevWave.interactable = false;
+            nextWave.interactable = false;
+        }
+        addWave.interactable = true;
 
         UpdateWaveText();
 
+        
+        bool shouldChangeColor = true;
         string wave = Strings.Events.PLE_TEST_WAVE_ + currentWave.ToString();
-
-        EventSystem.Instance.TriggerEvent(wave);
-        EventSystem.Instance.TriggerEvent(Strings.Events.PLE_CHANGEWAVE);
-    }
-
-    public void UpdateLevelUnitState()
-    {
-        if (EventSystem.Instance)
-        {
-            EventSystem.Instance.TriggerEvent(Strings.Events.PLE_UPDATE_LEVELSTATE);
-            string wave = Strings.Events.PLE_TEST_WAVE_ + currentWave.ToString();
-            EventSystem.Instance.TriggerEvent(wave);
-        }
+        EventSystem.Instance.TriggerEvent(wave, shouldChangeColor);
     }
 
 
-    public void AddWave()
-    {
-        if (EventSystem.Instance)
-        {
-            EventSystem.Instance.TriggerEvent(Strings.Events.PLE_ADD_WAVE);
-        }
+    public void UpdateInfWaveState() {
+        infWaveSelected = infWaveObjToggle.isOn;
     }
-
-
-    public void DeleteCurrentWave()
-    {
-        if (EventSystem.Instance)
-        {
-            EventSystem.Instance.TriggerEvent(Strings.Events.PLE_DELETE_CURRENTWAVE);
-        }
-    }
-
+    #endregion
 }

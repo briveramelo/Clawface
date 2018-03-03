@@ -35,32 +35,23 @@ public class PropsMenu : PlacementMenu
         selectedProp = null;
     }
     protected override void SelectUIItem() {
-        PLEUIItem currentUIItem = ScrollGroupHelper.currentUIItem;
-
-        if(currentUIItem) {
-            selectedItem = currentUIItem.registeredItem;
-            TryDestroyPreview();
-            previewItem = Instantiate(selectedItem);
-            previewItem.GetComponent<Rigidbody>().isKinematic = true;
-        }
+        base.SelectUIItem();
         
     }
     protected override void PostPlaceItem(GameObject newItem) {
         MouseHelper.currentBlockUnit.SetOccupation(true);
         MouseHelper.currentBlockUnit.SetProp(newItem);
-        Rigidbody rigbod = newItem.GetComponent<Rigidbody>();
-        rigbod.isKinematic = true;
         newItem.transform.localEulerAngles = new Vector3(0, currentRotation, 0);
     }
     protected override void HideStarted() {
         base.HideStarted();
-        TogglePropRigbodKinematic(true);
+        //TogglePropRigbodKinematic(true);
 
         rotationLabel.text = 0.ToString("0");
     }
     protected override void ShowStarted() {
         base.ShowStarted();
-        TogglePropRigbodKinematic(true);
+        //TogglePropRigbodKinematic(true);
     }
     protected override void ShowComplete() {
         base.ShowComplete();

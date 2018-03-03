@@ -39,14 +39,19 @@ public class PLEBlockUnit : MonoBehaviour
         }
     }
 
-    private void OnEnable() {
-        EventSystem.Instance.RegisterEvent(Strings.Events.PLE_ADD_WAVE, AddWave);
+    private void OnEnable()
+    {
+        EventSystem.Instance.RegisterEvent(Strings.Events.PLE_ADD_WAVE, AddNewWave);
+        EventSystem.Instance.RegisterEvent(Strings.Events.PLE_DELETE_CURRENTWAVE, DeleteCurrentWave);
         EventSystem.Instance.RegisterEvent(Strings.Events.PLE_UPDATE_LEVELSTATE, UpdateDynamicLevelState);
     }
 
-    private void OnDisable() {
-        if (EventSystem.Instance) {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_ADD_WAVE, AddWave);
+    private void OnDisable()
+    {
+        if (EventSystem.Instance)
+        {
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_ADD_WAVE, AddNewWave);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_DELETE_CURRENTWAVE, DeleteCurrentWave);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_UPDATE_LEVELSTATE, UpdateDynamicLevelState);
         }
     }
@@ -85,7 +90,28 @@ public class PLEBlockUnit : MonoBehaviour
     public void RemoveSpawn(GameObject spawn) {
         spawns.Remove(spawn);
     }
+    public bool HasActiveSpawn {
+        get {
+            CleanNullSpawns();
+            return spawns.Exists(spawn => { return spawn.activeSelf; });
+        }
+    }
+    void CleanNullSpawns() {
+        for (int i = spawns.Count - 1; i >= 0; i--) {
+            if (spawns[i] == null) {
+                spawns.RemoveAt(i);
+            }
+        }
+    }
     public void ClearItems() {
+        transform.position = transform.position.NoY();
+        levelStates.Clear();
+        for (int i = 0; i < WaveSystem.maxWave; i++) {
+            levelStates.Add(LevelUnitStates.floor);
+        }
+        UpdateDynamicLevelState();
+
+
         for (int i = spawns.Count - 1; i >= 0; i--) {
             Helpers.DestroyProper(spawns[i]);
         }
@@ -121,9 +147,15 @@ public class PLEBlockUnit : MonoBehaviour
     {
         return levelStates;
     }
+    public LevelUnitStates GetStateAtWave(int waveIndex) {
+        return levelStates[waveIndex];
+    }
+    public bool IsFlatAtWave(int waveIndex) {
+        return GetStateAtWave(waveIndex) == LevelUnitStates.floor;
+    }
+
     public void SetLevelStates(List<LevelUnitStates> newLevelStates) {
         levelStates.Clear();
-        levelStates = new List<LevelUnitStates>();
         newLevelStates.ForEach(state => {
             levelStates.Add(state);
         });
@@ -131,9 +163,14 @@ public class PLEBlockUnit : MonoBehaviour
     }
 
 
-    public void AddWave(params object[] parameters)
+    public void AddNewWave(params object[] parameters)
     {
         levelStates.Add(LevelUnitStates.floor);
+    }
+
+    public void DeleteCurrentWave(params object[] parameters)
+    {
+        levelStates.RemoveAt(WaveSystem.currentWave);
     }
 
     public void UpdateDynamicLevelState(params object[] parameters)
@@ -143,9 +180,11 @@ public class PLEBlockUnit : MonoBehaviour
         if (levelUnit == null) return;
 
         levelUnit.DeRegisterFromEvents();
-        for (int i = 0; i < levelStates.Count; i++) {
+
+        for (int i = 0; i < levelStates.Count; i++)
+        {
             string event_name = Strings.Events.PLE_TEST_WAVE_ + i.ToString();
-            
+
             LevelUnitStates state = levelStates[i];
 
             switch (state) {

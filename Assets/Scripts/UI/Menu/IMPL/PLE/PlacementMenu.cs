@@ -16,6 +16,7 @@ public abstract class PlacementMenu : Menu {
     [SerializeField] protected LevelEditor editorInstance;
     [SerializeField] protected Button initiallySelected;
     [SerializeField] protected Transform createdItemsParent;
+    [SerializeField] protected ScrollGroup scrollGroup;
 
     protected bool inputGuard = false;
     protected GameObject selectedItem = null;
@@ -24,11 +25,11 @@ public abstract class PlacementMenu : Menu {
 
     #region Boolean Helpers
     protected virtual bool SelectUI { get { return Input.GetMouseButtonDown(MouseButtons.LEFT); } }
-    protected virtual bool SelectItem { get { return Input.GetMouseButtonDown(MouseButtons.LEFT) && MouseHelper.hitItem; } }
+    protected virtual bool SelectItem { get { return Input.GetMouseButtonDown(MouseButtons.LEFT) && MouseHelper.HitItem; } }
     protected virtual bool DeSelectItem { get { return Input.GetMouseButtonDown(MouseButtons.LEFT) || Input.GetMouseButtonDown(MouseButtons.RIGHT); } }
     protected bool RightClick { get { return Input.GetMouseButtonDown(MouseButtons.RIGHT); } }
-    protected bool Place { get { return Input.GetMouseButtonDown(MouseButtons.LEFT) && selectedItem != null && MouseHelper.currentBlockUnit != null && !MouseHelper.currentBlockUnit.IsOccupied(); } }
-    protected bool UpdatePreview { get { return previewItem != null && MouseHelper.currentBlockUnit != null && !MouseHelper.currentBlockUnit.IsOccupied(); } }
+    protected bool Place { get { return Input.GetMouseButtonDown(MouseButtons.LEFT) && selectedItem != null && MouseHelper.currentBlockUnit != null && !MouseHelper.currentBlockUnit.IsOccupied() && MouseHelper.currentBlockUnit.IsFlatAtWave(WaveSystem.currentWave); } }
+    protected bool UpdatePreview { get { return previewItem != null && MouseHelper.currentBlockUnit != null && !MouseHelper.currentBlockUnit.IsOccupied() && MouseHelper.currentBlockUnit.IsFlatAtWave(WaveSystem.currentWave); } }
     protected bool CanDeletedHoveredItem { get { return MouseHelper.currentHoveredObject && itemNames.Contains(MouseHelper.currentHoveredObject.name); } }
     #endregion
 
@@ -63,7 +64,18 @@ public abstract class PlacementMenu : Menu {
     #endregion
 
     #region Protected Interface
-    protected abstract void SelectUIItem();
+    protected virtual void SelectUIItem() {
+        PLEUIItem currentUIItem = ScrollGroupHelper.currentUIItem;
+
+        if (currentUIItem) {
+            OnSelectUIItem(currentUIItem);
+        }
+    }
+    protected virtual void OnSelectUIItem(PLEUIItem item) {
+        selectedItem = item.registeredItem;
+        TryDestroyPreview();
+        previewItem = Instantiate(selectedItem);
+    }
     protected abstract void DeselectItem();
 
     protected virtual void SelectGameItem() {
@@ -91,7 +103,7 @@ public abstract class PlacementMenu : Menu {
         previewItem.transform.position = MouseHelper.currentBlockUnit.spawnTrans.position;
     }
 
-    private void DeleteHoveredItem() {
+    protected virtual void DeleteHoveredItem() {
         MouseHelper.currentBlockUnit.SetOccupation(false);
         itemNames.Remove(MouseHelper.currentHoveredObject.name);
         Helpers.DestroyProper(MouseHelper.currentHoveredObject);
@@ -112,7 +124,10 @@ public abstract class PlacementMenu : Menu {
         return false;
     }
 
-
+    protected override void ShowStarted() {
+        base.ShowStarted();
+        OnSelectUIItem(scrollGroup.GetFirstUIItem());
+    }
     protected override void ShowComplete() {
         base.ShowComplete();
         inputGuard = true;

@@ -8,13 +8,18 @@ using System.IO;
 public class DataPersister : MonoBehaviour {
     
     public static DataSave ActiveDataSave = new DataSave();
-    public DataSave inspectorSave;
     string PathDirectory { get { return Application.dataPath + "/Saves";} }
     string FilePath { get { return PathDirectory + "/savefile.dat"; } }
 
+    public DataSave dataSave;
+
+    #region Unity Lifecyle
     private void Awake() {
         Load();
     }
+    #endregion
+
+    #region Public Interface
     public void Load() {
         ActiveDataSave = null;
         if (!Directory.Exists(PathDirectory)) {
@@ -36,19 +41,39 @@ public class DataPersister : MonoBehaviour {
         else {
             ActiveDataSave = new DataSave();
         }
-        inspectorSave = ActiveDataSave;
+        ClearEmptyLevels();
+        dataSave = ActiveDataSave;
+    }
+
+    public void DeleteSelectedLevel() {
+        ActiveDataSave.DeleteSelectedLevel();
+        ActiveDataSave.AddAndSelectNewLevel();
     }
 
     public void TrySave() {
+        ClearEmptyLevels();
         Save();
     }
+    #endregion
 
+    #region Private Interface
     void Save() {
         BinaryFormatter bf = new BinaryFormatter();
         FileStream fileStream = File.Create(FilePath);
         bf.Serialize(fileStream, new DataSave(ActiveDataSave));
         fileStream.Close();
     }
+
+    void ClearEmptyLevels() {
+        Predicate<LevelData> containsLevel = level => !level.IsEmpty;
+        Predicate<LevelData> containsEmptyLevel = level => level.IsEmpty;
+        if (ActiveDataSave.levelDatas.Exists(containsLevel)) {
+            while (ActiveDataSave.levelDatas.Exists(containsEmptyLevel)) {
+                ActiveDataSave.levelDatas.Remove(ActiveDataSave.levelDatas.Find(containsEmptyLevel));
+            }
+        }
+    }
+    #endregion
 }
 
 #region Memory Structures
@@ -59,16 +84,31 @@ public class DataSave {
     public DataSave(DataSave dataSave) {
         this.levelDatas = dataSave.levelDatas;
     }
+    #region Serialized Data
     public List<LevelData> levelDatas = new List<LevelData>();
+    #endregion
 
     int selectedIndex = 0;
 
     public LevelData ActiveLevelData { get { if (levelDatas.Count==0) { levelDatas.Add(new LevelData()); } return levelDatas[SelectedIndex]; } }
-    public int SelectedIndex { get { return selectedIndex; } set { selectedIndex = Mathf.Clamp(value, 0, Mathf.Max(levelDatas.Count - 1, 0)); } }
+    public int SelectedIndex {
+        get {
+            selectedIndex = Mathf.Clamp(selectedIndex, 0, Mathf.Max(levelDatas.Count - 1, 0));
+            return selectedIndex;
+        }
+        set {
+            selectedIndex = value;
+        }
+    }
 
     public void AddAndSelectNewLevel() {
         levelDatas.Add(new LevelData());
         SelectedIndex = levelDatas.Count-1;
+    }
+    public void DeleteSelectedLevel() {
+        if (levelDatas.Count-1 >= SelectedIndex){
+            levelDatas.RemoveAt(SelectedIndex);
+        }
     }
 }
 
@@ -77,26 +117,23 @@ public class LevelData {
 
     public string name, description;
     public byte[] imageData;
-    public Vector2_S size;
-    public Texture2D Snapshot {
+    public static readonly Vector2 fixedSize = new Vector2(656, 369);
+    public Sprite MySprite {
         get {
             if (snapShot==null) {
-                snapShot = new Texture2D((int)size.x, (int)size.y);
-                if (imageData!=null) {
-                    snapShot.LoadImage(imageData);
-                }
+                CreateSprite();
             }
             return snapShot;
         }
     }
-    public void SetPicture(byte[] imageData, Vector2 dimensions) {
-        this.imageData = imageData;
-        this.size = new Vector2_S(dimensions);
-        snapShot = new Texture2D((int)dimensions.x, (int)dimensions.y);
-        snapShot.LoadImage(imageData);
-    }
+    [NonSerialized] Texture2D imageTexture;
+    [NonSerialized] Sprite snapShot;
 
-    [NonSerialized] Texture2D snapShot;
+    public void SetPicture(byte[] imageData) {
+        this.imageData = imageData;
+        CreateSprite();
+    }
+    public bool IsEmpty { get { return string.IsNullOrEmpty(name); } }
     public List<WaveData> waveData = new List<WaveData>();
     public List<TileData> tileData = new List<TileData>();
     public List<PropData> propData = new List<PropData>();
@@ -104,6 +141,14 @@ public class LevelData {
     public int WaveCount { get { return waveData.Count; } }
     public int TileCount { get { return tileData.Count; } }
     public int PropCount { get { return propData.Count; } }
+
+    void CreateSprite() {
+        imageTexture = new Texture2D((int)fixedSize.x, (int)fixedSize.y);
+        if (imageData != null) {
+            imageTexture.LoadImage(imageData);
+        }
+        snapShot = Sprite.Create(imageTexture, new Rect(Vector2.zero, fixedSize), Vector2.one * .5f);
+    }
 }
 
 [Serializable]

@@ -907,7 +907,6 @@ GameObject:
   - component: {fileID: 114345112533484480}
   - component: {fileID: 114776189445566068}
   - component: {fileID: 114489776356330050}
-  - component: {fileID: 114142571702700546}
   - component: {fileID: 114325496831137656}
   - component: {fileID: 114132200228300390}
   - component: {fileID: 114929162397462484}
@@ -1176,6 +1175,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4806531297447834}
   - component: {fileID: 114774866003249794}
+  - component: {fileID: 114089143370338398}
   m_Layer: 8
   m_Name: Outline
   m_TagString: Untagged
@@ -2904,6 +2904,17 @@ MonoBehaviour:
   updateTime: 0
   colorName: _ASEOutlineColor
   materialIndex: 0
+--- !u!114 &114089143370338398
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1978960390659116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43aa95afa232e8041b0dedbcc2d755d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114132200228300390
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2924,6 +2935,9 @@ MonoBehaviour:
   dashTrail: {fileID: 1658227218610060}
   highlightPoses: 01000000
   totalAttackPoses: 10
+  totalDashTime: 0.283
+  dashITimeStart: 0.016
+  dashITimeEnd: 0.233
 --- !u!114 &114136393911348448
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2954,20 +2968,6 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Cinemachine.CinemachineBrain+VcamEvent, Assembly-CSharp, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &114142571702700546
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1737478168596758}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91de37c58a03df24abc21a3913fb6f37, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cameraPosition1: {fileID: 0}
-  cameraPosition2: {fileID: 0}
-  timeToMoveBackToOriginalPosition: 1
 --- !u!114 &114143807245148098
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3253,7 +3253,8 @@ MonoBehaviour:
   playerStatsManager: {fileID: 114430878911601216}
   holdAttackSlowDown: 3
   dashState: {fileID: 114132200228300390}
-  dashCoolDown: 0.1
+  dashCoolDown: 0.28
+  eatCoolDown: 0.28
   eatingState: {fileID: 114325496831137656}
   eatCollider: {fileID: 135888620666243734}
   tutorialSlowDownRate: 0.05
@@ -3406,6 +3407,9 @@ MonoBehaviour:
   - healthPercentage: 0
     damageRatio: 0.6
   stats: {fileID: 114482720515291186}
+  playerTakesSetDamage: 1
+  setDamageToTake: 3
+  dashState: {fileID: 114132200228300390}
 --- !u!114 &114440139089632224
 MonoBehaviour:
   m_ObjectHideFlags: 1

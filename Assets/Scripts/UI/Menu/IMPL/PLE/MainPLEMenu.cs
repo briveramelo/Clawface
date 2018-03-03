@@ -6,6 +6,8 @@ using System.Linq;
 
 public class MainPLEMenu : Menu {
 
+    public MainPLEMenu() : base(Strings.MenuStrings.MAIN_PLE_MENU) { }
+
     #region Public Fields
 
     public override Button InitialSelection {
@@ -22,10 +24,11 @@ public class MainPLEMenu : Menu {
     [SerializeField] private LevelEditor editorInstance;
     [SerializeField] private ToggleGroup toggleGroup;
     [SerializeField] private Toggle firstToggle;
+    [SerializeField] private Toggle floorToggle, propsToggle, spawnsToggle, waveToggle, testToggle, saveToggle, loadToggle, helpToggle, exitToggle;
     #endregion
 
     #region Private Fields
-
+    private List<Toggle> allToggles = new List<Toggle>();
     private bool inputGuard = false;
 
     #endregion  
@@ -34,6 +37,15 @@ public class MainPLEMenu : Menu {
 
     protected override void Start() {
         base.Start();
+        SetupToggleInteractability();
+    }
+
+    void SetupToggleInteractability() {
+        allToggles.ForEach(toggle => { toggle.interactable = false; });
+        floorToggle.interactable = true;
+        loadToggle.interactable = true;
+        helpToggle.interactable = true;
+        exitToggle.interactable = true;
     }
 
     private void Update() {
@@ -49,40 +61,28 @@ public class MainPLEMenu : Menu {
 
     #endregion
 
-    #region Public Interface
-
-    public MainPLEMenu() : base(Strings.MenuStrings.MAIN_PLE_MENU) { }
-
-    #endregion
-
-    #region Protected Interface
-
-    protected override void ShowComplete() {
-        base.ShowComplete();
-        inputGuard = true;
+    #region Private interface
+    Toggle GetToggle(PLEMenu menu) {
+        switch (menu) {
+            case PLEMenu.FLOOR: return floorToggle;
+            case PLEMenu.PROPS: return propsToggle;
+            case PLEMenu.SPAWN: return spawnsToggle;
+            case PLEMenu.WAVE: return waveToggle;
+            case PLEMenu.TEST: return testToggle;
+            case PLEMenu.SAVE: return saveToggle;
+            case PLEMenu.LEVELSELECT: return loadToggle;
+            case PLEMenu.HELP: return helpToggle;
+        }
+        return floorToggle;
     }
-
-    protected override void HideStarted() {
-        base.HideStarted();
-        inputGuard = false;
-    }
-
-    protected override void HideComplete() {
-        base.HideComplete();
-    }
-
-
-    protected override void DefaultShow(Transition transition, Effect[] effects) {
-        Fade(transition, effects);
-    }
-
-    protected override void DefaultHide(Transition transition, Effect[] effects) {
-        Fade(transition, effects);
-    }
-
     #endregion
 
     #region Public Interface
+    public void ToggleMenuInteractable(PLEMenu menu, bool isInteractable) {
+        Toggle toggle = GetToggle(menu);
+        toggle.interactable = isInteractable;
+    }
+
     public void LoadLevel() {
         toggleGroup.SetAllTogglesOff();
         firstToggle.isOn = true;
@@ -140,5 +140,33 @@ public class MainPLEMenu : Menu {
     }
 
     #endregion
+
+    #region Protected Interface
+
+    protected override void ShowComplete() {
+        base.ShowComplete();
+        inputGuard = true;
+    }
+
+    protected override void HideStarted() {
+        base.HideStarted();
+        inputGuard = false;
+    }
+
+    protected override void HideComplete() {
+        base.HideComplete();
+    }
+
+
+    protected override void DefaultShow(Transition transition, Effect[] effects) {
+        Fade(transition, effects);
+    }
+
+    protected override void DefaultHide(Transition transition, Effect[] effects) {
+        Fade(transition, effects);
+    }
+
+    #endregion
+
 
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 using PlayerLevelEditor;
+using System.Linq;
 
 public class FloorMenu : Menu {
 
@@ -55,44 +56,19 @@ public class FloorMenu : Menu {
 
     #region Public Interface
 
-    public FloorMenu() : base(Strings.MenuStrings.SET_DYNLEVEL_PLE)
-    { }
+    public FloorMenu() : base(Strings.MenuStrings.SET_DYNLEVEL_PLE) { }
 
 
     public void DropFloorAction() {
-        UpdateSelectedTiles(LevelUnitStates.pit);
+        UpdateSelectedAndOpenTilesState(LevelUnitStates.pit);
     }
 
     public void FlatFloorAction() {
-        UpdateSelectedTiles(LevelUnitStates.floor);
+        UpdateSelectedAndOpenTilesState(LevelUnitStates.floor);
     }
 
     public void RiseFloorAction() {
-        UpdateSelectedTiles(LevelUnitStates.cover);
-    }
-
-    void UpdateSelectedTiles(LevelUnitStates state) {
-        List<GameObject> selectedObjects = editorInstance.gridController.GetSelectedBlocks();
-
-        if (selectedObjects.Count == 0)
-            return;
-
-        foreach (GameObject GO in selectedObjects) {
-            if (GO != null) {
-                List<LevelUnitStates> levelUnitStates = GO.GetComponent<PLEBlockUnit>().GetLevelStates();
-                levelUnitStates[WaveSystem.currentWave] = state;
-            }
-            else {
-                selectedObjects.Remove(GO);
-            }
-        }
-        
-        string event_name = Strings.Events.PLE_TEST_WAVE_ + WaveSystem.currentWave;
-        EventSystem.Instance.TriggerEvent(Strings.Events.PLE_UPDATE_LEVELSTATE);
-        EventSystem.Instance.TriggerEvent(event_name);
-
-        //            print("RiseFloorAction PLE_UPDATE_LEVELSTATE" + Strings.Events.PLE_UPDATE_LEVELSTATE);
-        //            print("RiseFloorAction event_name" + event_name);
+        UpdateSelectedAndOpenTilesState(LevelUnitStates.cover);
     }
 
     public void BackAction()
@@ -135,37 +111,33 @@ public class FloorMenu : Menu {
 
     #endregion
 
-    #region Private Interface
+    #region Private Interface    
+    void UpdateSelectedAndOpenTilesState(LevelUnitStates state) {
+        List<GameObject> selectedObjects = editorInstance.gridController.GetSelectedBlocks();
 
-    private void UpdateObjectPreview()
-    {
-        Ray r = UnityEngine.Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit h;
+        if (selectedObjects.Count == 0)
+            return;
 
-        if (Physics.Raycast(r, out h, raycastDistance))
-        {
-            sceneMousePos = h.point;
-
-            if (Input.GetMouseButtonDown(MouseButtons.LEFT))
-            {
-                Vector3 objectPos = PlayerLevelEditor.ToolLib.ConvertToGrid(sceneMousePos);
-
-                //Consider when placing on top of spawnpoints
-                //IsLegalPlacement();
-
-                if (objectPos != null)
-                {
-                    newItemPos = objectPos;
+        foreach (GameObject GO in selectedObjects) {
+            if (GO != null) {
+                PLEBlockUnit blockUnit = GO.GetComponent<PLEBlockUnit>();
+                if (!blockUnit.HasActiveSpawn) {
+                    List<LevelUnitStates> levelUnitStates = blockUnit.GetLevelStates();
+                    levelUnitStates[WaveSystem.currentWave] = state;
                 }
-
             }
-
+            else {
+                selectedObjects.Remove(GO);
+            }
         }
 
-        //draw preview block at location
-        //ToolLib.draft(previewGridBlock, ToolLib.ConvertToGrid(sceneMousePos - previewGridBlock.transform.position), Color.green);
+        string event_name = Strings.Events.PLE_TEST_WAVE_ + WaveSystem.currentWave;
+        bool shouldChangeColor = false;
+        EventSystem.Instance.TriggerEvent(Strings.Events.PLE_UPDATE_LEVELSTATE);
+        EventSystem.Instance.TriggerEvent(event_name, shouldChangeColor);
 
-    }
-
+        //print("RiseFloorAction PLE_UPDATE_LEVELSTATE" + Strings.Events.PLE_UPDATE_LEVELSTATE);
+        //print("RiseFloorAction event_name" + event_name);
+    }    
     #endregion
 }
