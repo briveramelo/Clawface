@@ -4,7 +4,7 @@ using UnityEngine;
 using Steamworks;
 using System;
 
-public class SteamWorkshop : MonoBehaviour {
+public class SteamWorkshop : Singleton<SteamWorkshop> {
 
     public delegate void CreateItemCallBack(PublishedFileId_t fileId);
     public delegate void SubmitItemCallBack(bool result);
@@ -20,11 +20,6 @@ public class SteamWorkshop : MonoBehaviour {
     {
         createItemResult = CallResult<CreateItemResult_t>.Create(OnCreateItemResult);
         submitItemResult = CallResult<SubmitItemUpdateResult_t>.Create(OnSubmitItemUpdateResult);
-    }    
-
-    private void OnDisable()
-    {
-        
     }
     #endregion
 
