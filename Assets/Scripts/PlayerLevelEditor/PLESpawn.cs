@@ -78,7 +78,6 @@ public class PLESpawn : PLEItem {
             {
                 //report that enemies are all dead to wave system
                 allEnemiesDead = true;
-                Debug.Log("All enemies for Spawner: " + gameObject.name + " of type : " + spawnType + " are dead.");
                 //EventSystem.Instance.TriggerEvent(Strings.Events.REPORT_DEATH, registeredWave, spawnType);
             }
         }
@@ -116,8 +115,7 @@ public class PLESpawn : PLEItem {
             {
                 spawnable.RegisterDeathEvent(ReportDeath);
             }
-
-            //TODO: How to register enemies to let us know that they're dead
+            
             EnemyBase enemyBase = newSpawnObj.GetComponent<EnemyBase>();
 
             if(enemyBase)
