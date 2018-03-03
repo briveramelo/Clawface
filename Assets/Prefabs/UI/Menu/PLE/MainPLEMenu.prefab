@@ -382,7 +382,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4248664760445148}
   - component: {fileID: 114227295990773728}
-  - component: {fileID: 114076679737924256}
+  - component: {fileID: 114961285472343052}
   m_Layer: 5
   m_Name: MainPLEMenu
   m_TagString: Untagged
@@ -493,29 +493,6 @@ MonoBehaviour:
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: PROPS
---- !u!114 &114076679737924256
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1850195209223946}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38a95b7ed8ce34c45a495adc53515482, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  floorText: {fileID: 114308516491368228}
-  propsText: {fileID: 114053430836695078}
-  spawnsText: {fileID: 114256137862573034}
-  wavesText: {fileID: 114632879767087896}
-  testText: {fileID: 114796489006055548}
-  saveText: {fileID: 114297513273549574}
-  loadText: {fileID: 114361951954746964}
-  helpText: {fileID: 114540299902453662}
-  exitText: {fileID: 114181025368847584}
-  editorInstance: {fileID: 0}
-  selectedColor: {r: 0.8627451, g: 0.07058824, b: 0.827451, a: 1}
-  defaultColor: {r: 1, g: 1, b: 0.39215687, a: 1}
 --- !u!114 &114115408132603258
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -715,7 +692,7 @@ MonoBehaviour:
   faderDuration: 0
   levelEditor: {fileID: 0}
   initiallySelected: {fileID: 114255212265644956}
-  textColorSetter: {fileID: 114076679737924256}
+  textColorSetter: {fileID: 114961285472343052}
   toggleGroup: {fileID: 114569997384100642}
   firstToggle: {fileID: 114255212265644956}
   floorToggle: {fileID: 114255212265644956}
@@ -1808,6 +1785,38 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &114961285472343052
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1850195209223946}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c71ce8ec09c13d645b5838a0ce32804e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textToggles:
+  - toggle: {fileID: 114255212265644956}
+    text: {fileID: 114308516491368228}
+  - toggle: {fileID: 114229199769165826}
+    text: {fileID: 114053430836695078}
+  - toggle: {fileID: 114630735322886638}
+    text: {fileID: 114256137862573034}
+  - toggle: {fileID: 114890258225946760}
+    text: {fileID: 114632879767087896}
+  - toggle: {fileID: 114277087779114950}
+    text: {fileID: 114796489006055548}
+  - toggle: {fileID: 114383495919320256}
+    text: {fileID: 114297513273549574}
+  - toggle: {fileID: 114115408132603258}
+    text: {fileID: 114361951954746964}
+  - toggle: {fileID: 114600511264765556}
+    text: {fileID: 114540299902453662}
+  - toggle: {fileID: 114573958305836074}
+    text: {fileID: 114181025368847584}
+  selectedColor: {r: 0.8627451, g: 0.07058824, b: 0.827451, a: 1}
+  unSelectedColor: {r: 1, g: 1, b: 0.39215687, a: 1}
 --- !u!114 &114962684744709752
 MonoBehaviour:
   m_ObjectHideFlags: 1

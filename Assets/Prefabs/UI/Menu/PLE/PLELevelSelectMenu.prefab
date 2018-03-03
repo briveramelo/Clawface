@@ -294,7 +294,6 @@ GameObject:
   - component: {fileID: 222003386670488334}
   - component: {fileID: 114179443648208210}
   - component: {fileID: 114822807194414180}
-  - component: {fileID: 114772709270985314}
   m_Layer: 5
   m_Name: Favorite
   m_TagString: Untagged
@@ -348,7 +347,6 @@ GameObject:
   - component: {fileID: 222170111161811692}
   - component: {fileID: 114851495875056114}
   - component: {fileID: 114651686322632120}
-  - component: {fileID: 114197177208187530}
   m_Layer: 5
   m_Name: User
   m_TagString: Untagged
@@ -384,7 +382,6 @@ GameObject:
   - component: {fileID: 222680654287560914}
   - component: {fileID: 114513650182361862}
   - component: {fileID: 114032336373952928}
-  - component: {fileID: 114008605758064092}
   m_Layer: 5
   m_Name: Downloaded
   m_TagString: Untagged
@@ -1082,7 +1079,6 @@ GameObject:
   - component: {fileID: 222153023925124922}
   - component: {fileID: 114171695105082454}
   - component: {fileID: 114597672417075940}
-  - component: {fileID: 114521394266335032}
   m_Layer: 5
   m_Name: All
   m_TagString: Untagged
@@ -1185,6 +1181,8 @@ GameObject:
   - component: {fileID: 224360191859455656}
   - component: {fileID: 114843116789820190}
   - component: {fileID: 114393188035442006}
+  - component: {fileID: 114443858871049614}
+  - component: {fileID: 114274623435543326}
   m_Layer: 5
   m_Name: Buttons
   m_TagString: Untagged
@@ -1308,21 +1306,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114008605758064092
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1314437488075194}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17487bd354adb924390257b248fc99f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  myImage: {fileID: 114513650182361862}
-  myToggle: {fileID: 114032336373952928}
-  selectedSprite: {fileID: 21300000, guid: 6ce9286bfc9ebcc4d9a5fc8a3017b40a, type: 3}
-  unselectedSprite: {fileID: 21300000, guid: 040c162357fd5574ab6e2bbface697db, type: 3}
 --- !u!114 &114009148387467972
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1452,7 +1435,29 @@ MonoBehaviour:
   m_Group: {fileID: 114393188035442006}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114443858871049614}
+        m_MethodName: SetColor
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 114274623435543326}
+        m_MethodName: OnToggleChanged
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
   m_IsOn: 0
@@ -1779,21 +1784,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scrollBar: {fileID: 114457048386613364}
   scrollSpeedMultiplier: 0.4
---- !u!114 &114197177208187530
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1301370961190012}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17487bd354adb924390257b248fc99f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  myImage: {fileID: 114851495875056114}
-  myToggle: {fileID: 114651686322632120}
-  selectedSprite: {fileID: 21300000, guid: 6ce9286bfc9ebcc4d9a5fc8a3017b40a, type: 3}
-  unselectedSprite: {fileID: 21300000, guid: 040c162357fd5574ab6e2bbface697db, type: 3}
 --- !u!114 &114214518872695778
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1968,6 +1958,28 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114274623435543326
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1924607140961544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52f7b9a96f66fa140bddeb767ce6f13c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  imageToggles:
+  - toggle: {fileID: 114597672417075940}
+    image: {fileID: 114171695105082454}
+  - toggle: {fileID: 114032336373952928}
+    image: {fileID: 114513650182361862}
+  - toggle: {fileID: 114651686322632120}
+    image: {fileID: 114851495875056114}
+  - toggle: {fileID: 114822807194414180}
+    image: {fileID: 114179443648208210}
+  selectedSprite: {fileID: 21300000, guid: 6ce9286bfc9ebcc4d9a5fc8a3017b40a, type: 3}
+  unselectedSprite: {fileID: 21300000, guid: 040c162357fd5574ab6e2bbface697db, type: 3}
 --- !u!114 &114289717430924698
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2298,6 +2310,28 @@ MonoBehaviour:
     propData: []
   image: {fileID: 114647732941043722}
   colorChangingUI: {fileID: 114632515831921818}
+--- !u!114 &114443858871049614
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1924607140961544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c71ce8ec09c13d645b5838a0ce32804e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textToggles:
+  - toggle: {fileID: 114597672417075940}
+    text: {fileID: 114512634050044692}
+  - toggle: {fileID: 114032336373952928}
+    text: {fileID: 114021631787182022}
+  - toggle: {fileID: 114651686322632120}
+    text: {fileID: 114214518872695778}
+  - toggle: {fileID: 114822807194414180}
+    text: {fileID: 114311260884547838}
+  selectedColor: {r: 0.8627451, g: 0.07058824, b: 0.827451, a: 1}
+  unSelectedColor: {r: 1, g: 1, b: 0.39215687, a: 1}
 --- !u!114 &114448549834998080
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2386,7 +2420,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 224266473417269380}
   m_Direction: 2
   m_Value: 0.99999934
-  m_Size: 0.8255462
+  m_Size: 0.82669216
   m_NumberOfSteps: 9
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2513,7 +2547,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.8627451, g: 0.07058824, b: 0.827451, a: 1}
+  m_Color: {r: 1, g: 1, b: 0.39215687, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -2595,21 +2629,6 @@ MonoBehaviour:
   outline: {fileID: 114551125152887174}
   selectedSprite: {fileID: 0}
   unselectedSprite: {fileID: 0}
---- !u!114 &114521394266335032
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1854511236316852}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17487bd354adb924390257b248fc99f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  myImage: {fileID: 114171695105082454}
-  myToggle: {fileID: 114597672417075940}
-  selectedSprite: {fileID: 21300000, guid: 6ce9286bfc9ebcc4d9a5fc8a3017b40a, type: 3}
-  unselectedSprite: {fileID: 21300000, guid: 040c162357fd5574ab6e2bbface697db, type: 3}
 --- !u!114 &114525339573534254
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3002,7 +3021,29 @@ MonoBehaviour:
   m_Group: {fileID: 114393188035442006}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114443858871049614}
+        m_MethodName: SetColor
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 114274623435543326}
+        m_MethodName: OnToggleChanged
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
   m_IsOn: 1
@@ -3122,7 +3163,29 @@ MonoBehaviour:
   m_Group: {fileID: 114393188035442006}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114443858871049614}
+        m_MethodName: SetColor
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 114274623435543326}
+        m_MethodName: OnToggleChanged
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
   m_IsOn: 0
@@ -3493,21 +3556,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114772709270985314
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1266746381234362}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17487bd354adb924390257b248fc99f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  myImage: {fileID: 114179443648208210}
-  myToggle: {fileID: 114822807194414180}
-  selectedSprite: {fileID: 21300000, guid: 6ce9286bfc9ebcc4d9a5fc8a3017b40a, type: 3}
-  unselectedSprite: {fileID: 21300000, guid: 040c162357fd5574ab6e2bbface697db, type: 3}
 --- !u!114 &114798549715316058
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3597,7 +3645,29 @@ MonoBehaviour:
   m_Group: {fileID: 114393188035442006}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114443858871049614}
+        m_MethodName: SetColor
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 114274623435543326}
+        m_MethodName: OnToggleChanged
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
   m_IsOn: 0

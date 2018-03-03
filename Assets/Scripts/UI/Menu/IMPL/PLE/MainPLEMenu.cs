@@ -14,7 +14,7 @@ public class MainPLEMenu : PlayerLevelEditorMenu {
     #endregion
 
     #region Serialized Unity Fields
-    [SerializeField] private SetTextColorHelper textColorSetter;
+    [SerializeField] private GroupTextColorSetter textColorSetter;
     [SerializeField] private ToggleGroup toggleGroup;
     [SerializeField] private Toggle firstToggle;
     [SerializeField] private Toggle floorToggle, propsToggle, spawnsToggle, waveToggle, testToggle, saveToggle, loadToggle, helpToggle, exitToggle;
@@ -119,7 +119,7 @@ public class MainPLEMenu : PlayerLevelEditorMenu {
             UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(selectedMenuToggle.gameObject);
 
             levelEditor.SwitchToMenu(menu);
-            textColorSetter.SetTextColor();
+            textColorSetter.SetColor();
             menuToggles.ForEach(menuToggle => {
                 menuToggle.toggle.onValueChanged.SwitchListenerState(UnityEngine.Events.UnityEventCallState.RuntimeOnly);
                 menuToggle.spriteShifter.OnToggleChanged();
