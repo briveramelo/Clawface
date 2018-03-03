@@ -35,6 +35,9 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
 
     [SerializeField]
     private float invincibleTime;
+
+    [SerializeField]
+    private float dashComboTime;
     #endregion
 
     #region Private Fields
@@ -43,6 +46,7 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     float lastSkinHealthBoost;
     HitFlasher hitFlasher;
     private float invincibleTimer;
+    private float dashComboTimer;
     #endregion
 
     #region Unity Lifecycle
@@ -57,6 +61,7 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     void Update()
     {
         invincibleTimer -= Time.deltaTime;
+        dashComboTimer -= Time.deltaTime;
     }
 	
     #endregion
@@ -74,9 +79,10 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
             return;
         }
 
-        if (dashState.CheckForIFrames())
+        if (dashState.CheckForIFrames() && dashComboTimer <= 0f)
         {
             ScoreManager.Instance.AddToCombo();
+            dashComboTimer = dashComboTime;
             return;
         }
 
