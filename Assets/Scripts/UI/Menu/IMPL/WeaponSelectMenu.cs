@@ -213,7 +213,7 @@ public class WeaponSelectMenu : Menu
         if (UseLoadMenu) {
             LoadMenu loadMenu = (LoadMenu)menu;
             loadMenu.onCompleteSceneLoad = onCompleteSceneLoad;
-            targetScene = loadMenu.TargetSceneName;
+            targetScene = loadMenu.TargetScenePath;
         }
         if (forwardMenuTarget != null) {
             MenuManager.Instance.DoTransition(menu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });

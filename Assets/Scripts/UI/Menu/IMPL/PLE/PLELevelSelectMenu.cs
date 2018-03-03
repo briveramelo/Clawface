@@ -70,10 +70,10 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
         else {
             string loadMenuName = Strings.MenuStrings.LOAD;
             WeaponSelectMenu weaponSelectMenu = (WeaponSelectMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.WEAPON_SELECT);
-            weaponSelectMenu.DefineNavigation(Strings.MenuStrings.MAIN, loadMenuName);
+            weaponSelectMenu.DefineNavigation(Strings.MenuStrings.LevelEditor.LEVELSELECT_PLE_MENU, loadMenuName);
 
             LoadMenu loadMenu = (LoadMenu)MenuManager.Instance.GetMenuByName(loadMenuName);
-            loadMenu.TargetSceneName = Strings.Scenes.PlayerLevels;
+            loadMenu.TargetScenePath = Strings.Scenes.PlayerLevels;
 
 
             MenuManager.Instance.DoTransition(weaponSelectMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });

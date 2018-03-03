@@ -4,7 +4,7 @@ using UnityEngine;
 using MEC;
 using System.Linq;
 using ModMan;
-public class MenuMusicManager : RoutineRunner {
+public class MenuMusicManager : Singleton<MenuMusicManager> {
 
     [SerializeField] AudioSource intro, looping;
     [SerializeField] bool playOnStart;
@@ -12,23 +12,30 @@ public class MenuMusicManager : RoutineRunner {
 
     void Start() {
         EventSystem.Instance.RegisterEvent(Strings.Events.WEAPONS_SELECT_FROM_STAGE_OVER, Play);
-        EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_STARTED, Stop);
-        EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_RESTARTED, Stop);
+        EventSystem.Instance.RegisterEvent(Strings.Events.SCENE_LOADED, CheckSceneToPlay);
         if (playOnStart) {            
             Play();
         }
     }
 
-    void OnDestroy() {
+    public override void OnDestroy() {
         if (EventSystem.Instance) {
             EventSystem.Instance.UnRegisterEvent(Strings.Events.WEAPONS_SELECT_FROM_STAGE_OVER, Play);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_STARTED, Stop);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_RESTARTED, Stop);
-        }        
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.SCENE_LOADED, CheckSceneToPlay);
+        }
+        base.OnDestroy();
+    }
+
+    void CheckSceneToPlay(params object[] items) {
+        if (SceneTracker.IsCurrentSceneMain) {
+            Play();
+        }
+        else if (SceneTracker.IsCurrentScene80sShit || SceneTracker.IsCurrentScenePlayerLevels) {
+            Stop();
+        }
     }
 
     void Play(params object[] items) {
-        Stop();
         if (!isPlaying) {
             isPlaying = true;
             StartCoroutine(GoToLoop());
@@ -36,11 +43,9 @@ public class MenuMusicManager : RoutineRunner {
     }
 
     void Stop(params object[] items) {
-        if (intro.isPlaying || looping.isPlaying && intro && looping) {            
-            isPlaying = false;
-            intro.Stop();
-            looping.Stop();
-        }
+        isPlaying = false;
+        intro.Stop();
+        looping.Stop();
     }
 
     IEnumerator GoToLoop() {        
@@ -48,6 +53,7 @@ public class MenuMusicManager : RoutineRunner {
         while (!(intro.time - intro.clip.length).AboutEqual(0f, 0.01f)) {
             yield return null;
         }
+        intro.Stop();
         looping.Play();
     }
 }

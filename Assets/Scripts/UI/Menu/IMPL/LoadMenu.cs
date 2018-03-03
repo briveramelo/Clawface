@@ -15,7 +15,7 @@ public class LoadMenu : Menu {
 
     #region Public Fields
     public System.Action onCompleteSceneLoad;
-    public string TargetSceneName
+    public string TargetScenePath
     {
         get
         {

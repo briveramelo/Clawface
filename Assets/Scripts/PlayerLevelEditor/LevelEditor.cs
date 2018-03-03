@@ -43,6 +43,10 @@ namespace PlayerLevelEditor
         }
 
         #region Public Interface
+        public void PlayLevel() {
+            //PLESpawnManager.Instance.
+        }
+
         public void CheckToSetMenuInteractability() {
             bool isInteractable = gridController.AnyTilesEnabled();
             ToggleMenuInteractable(isInteractable, PLEMenu.PROPS, PLEMenu.SPAWN, PLEMenu.WAVE);
@@ -79,7 +83,7 @@ namespace PlayerLevelEditor
         {
             Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
             LoadMenu loadMenu = menu as LoadMenu;
-            loadMenu.TargetSceneName = Strings.Scenes.MainMenu;
+            loadMenu.TargetScenePath = Strings.Scenes.MainMenu;
 
             MenuManager.Instance.DoTransition(loadMenu,Menu.Transition.SHOW, new Menu.Effect[] { Menu.Effect.EXCLUSIVE });
         }

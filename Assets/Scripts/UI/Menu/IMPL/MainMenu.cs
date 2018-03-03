@@ -26,7 +26,7 @@ public class MainMenu : PlayerLevelEditorMenu
         // Target Level is hard coded right now.
         Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
         LoadMenu loadMenu = menu as LoadMenu;
-        loadMenu.TargetSceneName = Strings.Scenes.Arena;        
+        loadMenu.TargetScenePath = Strings.Scenes.Arena;        
 
         // Transition to level Select
         menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LevelEditor.LEVELSELECT_PLE_MENU);
@@ -40,7 +40,7 @@ public class MainMenu : PlayerLevelEditorMenu
     {
         Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
         LoadMenu loadMenu = menu as LoadMenu;
-        loadMenu.TargetSceneName = Strings.Scenes.Editor;
+        loadMenu.TargetScenePath = Strings.Scenes.Editor;
         loadMenu.Fast = true;
 
         MenuManager.Instance.DoTransition(loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });

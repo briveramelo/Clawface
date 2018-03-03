@@ -27,31 +27,17 @@ public class LevelDataManager : MonoBehaviour {
 
     #region Unity Lifecycle
     private void Start() {
-        if (SceneTracker.IsCurrentSceneEditor) {
-            LoadSelectedLevel();
-        }
+        LoadSelectedLevel();
     }
     #endregion
 
     #region Load
     public void LoadSelectedLevel() {
-        if (SceneTracker.IsCurrentSceneEditor) {
-            StartCoroutine(DelayLoadOneFrame());
-        }
-        else {
-            transform.root.gameObject.SetActive(true);
-            StartCoroutine(DelayLoadUntilSceneLoaded());
-        }
+        StartCoroutine(DelayLoadOneFrame());        
     }    
 
     private IEnumerator DelayLoadOneFrame() {
         yield return new WaitForEndOfFrame();
-        LoadEntireLevel();
-    }
-    private IEnumerator DelayLoadUntilSceneLoaded() {
-        while (!SceneTracker.IsCurrentScenePlayerLevels) {
-            yield return null;
-        }
         LoadEntireLevel();
     }
 
@@ -64,6 +50,9 @@ public class LevelDataManager : MonoBehaviour {
         if (SceneTracker.IsCurrentSceneEditor) {
             levelEditor.waveSystem.ResetToWave0();
             levelEditor.CheckToSetMenuInteractability();
+        }
+        else {
+            //Trigger level start event?
         }
     }
 
@@ -169,9 +158,7 @@ public class LevelDataManager : MonoBehaviour {
     }
 
     private void LoadImages() {
-        ActiveDataSave.levelDatas.ForEach(levelData => {
-            Sprite dummySprite = levelData.MySprite;
-        });
+        ActiveDataSave.levelDatas.ForEach(levelData => { Sprite dummySprite = levelData.MySprite; });
     }
     
     #endregion
@@ -216,7 +203,6 @@ public class LevelDataManager : MonoBehaviour {
     private void SaveSpawns() {
         ActiveWaveData.Clear();
         spawnParent.SortChildrenByName();
-        //TODO Need to check that keira has been placed
         int startIndex = 0;
         if (SpawnMenu.playerSpawnInstance) {
             startIndex = 1;            
@@ -260,8 +246,6 @@ public class LevelDataManager : MonoBehaviour {
     private void SavePicture() {
         Texture2D snapshot = new Texture2D((int)Camera.main.pixelRect.width, (int)Camera.main.pixelRect.height);
         Rect snapRect = Camera.main.pixelRect;
-        //snapRect.width = LevelData.width;
-        //snapRect.height = LevelData.height;
         snapshot.ReadPixels(snapRect, 0, 0);
         TextureScale.Bilinear(snapshot, (int)LevelData.fixedSize.x, (int)LevelData.fixedSize.y);
         snapshot.Apply();
