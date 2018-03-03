@@ -581,16 +581,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92244819fcb501b44967c14280bb78fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 6
+  damage: 7
   pickupCollider: {fileID: 65003413662208174}
   energySettings:
     timeToCoolDown: 0.6
     isCoolingDown: 0
     isActive: 0
+    cooldownTimer: 0
   shootSFX: 13
   fishEmitter: {fileID: 114636888699788508}
   geyserStartDistanceOffset: 0
-  fissureSpeed: 30
+  fissureSpeed: 35
   fishLaunchSpeed:
     minLimit: 0
     maxLimit: 0
