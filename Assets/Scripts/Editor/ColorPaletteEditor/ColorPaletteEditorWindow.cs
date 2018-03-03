@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-public class ColorPaletteEditor : EditorWindow
+public class ColorPaletteEditorWindow : EditorWindow
 {
     const string COLOR_PALETTES_PATH = "ColorPalettes";
 
-    static ColorPaletteEditor Instance;
+    static ColorPaletteEditorWindow Instance;
 
     Vector2 scrollPos = Vector2.zero;
 
@@ -16,7 +16,7 @@ public class ColorPaletteEditor : EditorWindow
     [MenuItem("Window/Color Palette Editor")]
 	static void Init ()
     {
-        Instance = GetWindow<ColorPaletteEditor>("Color Palette Editor");
+        Instance = GetWindow<ColorPaletteEditorWindow>("Color Palette Editor");
         Instance.Show();
         Instance.LoadColorPalettes();
     }

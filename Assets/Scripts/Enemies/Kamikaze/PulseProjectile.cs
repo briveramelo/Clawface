@@ -59,6 +59,11 @@ public class PulseProjectile : MonoBehaviour
 
 }
 
+    public void SetRenderQueue (int queue)
+    {
+        ringRenderer.material.renderQueue = queue;
+    }
+
 
     private void ScalePulse()
     {
@@ -74,7 +79,7 @@ public class PulseProjectile : MonoBehaviour
         //materialInstance.SetColor("_Color", color);
 
         MaterialPropertyBlock props = new MaterialPropertyBlock();
-        props.SetFloat("_Radius", scaleValue * 8.91f - ringWidth);
+        props.SetFloat("_Radius", scaleValue * 8.91f);
         props.SetColor("_Color", color);
         ringRenderer.SetPropertyBlock(props);
     }
