@@ -76,10 +76,17 @@ public class SpawnMenu : PlacementMenu {
             activeWave.gameObject.SetActive(true);
         }
     }
-    private void UpdateAmtField(int i_amt)
+    private void UpdateAmtField(int i_amt, bool makeEmpty = false)
     {
-        string toSet = Convert.ToString(i_amt);
-        amountField.text = toSet;
+        if(makeEmpty)
+        {
+            amountField.text = "";
+        }
+        else
+        {
+            string toSet = Convert.ToString(i_amt);
+            amountField.text = toSet;
+        }
     }
 
     private string GetWaveName(int i) { return Strings.Editor.Wave + i; }
@@ -150,9 +157,12 @@ public class SpawnMenu : PlacementMenu {
         base.SelectGameItem();
         MouseHelper.currentSpawn.Select();
         selectedSpawn = MouseHelper.currentSpawn;
+        amountField.interactable = true;
         UpdateAmtField(selectedSpawn.totalSpawnAmount);
     }
     protected override void DeselectItem() {
+        amountField.interactable = false;
+        UpdateAmtField(0, true);
         if (selectedSpawn!=null) {
             selectedSpawn.Deselect();
             selectedSpawn = null;

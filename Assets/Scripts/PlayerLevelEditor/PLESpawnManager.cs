@@ -59,7 +59,12 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
         
         for(int i = 0; i < currentWaveSpawners.Count; i++)
         {
-            currentWaveSpawners[i].StartSpawning();
+            //for keira
+            if(currentWaveSpawners[i] != null)
+            {
+                currentWaveSpawners[i].StartSpawning();
+            }
+            
         }
     }
 

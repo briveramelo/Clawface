@@ -41,7 +41,7 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
             else if (SelectItem) {
                 SelectGameItem();
             }
-            else if (RightClick) {
+            else if (DeSelectItem) {
                 bool deletedPreviewItem = DeselectUIItem();
                 DeselectItem();
                 if (!deletedPreviewItem && CanDeletedHoveredItem) {
