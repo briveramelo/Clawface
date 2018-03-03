@@ -8,7 +8,7 @@ using System.Linq;
 
 public class PLELevelSelectMenu : PlayerLevelEditorMenu {
 
-    public PLELevelSelectMenu() : base (Strings.MenuStrings.LEVELSELECT_PLE_MENU) { }
+    public PLELevelSelectMenu() : base (Strings.MenuStrings.LevelEditor.LEVELSELECT_PLE_MENU) { }
 
     public string backMenuTarget, forwardMenuTarget;
 
@@ -68,10 +68,13 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
             levelEditor.SwitchToMenu(PLEMenu.FLOOR);
         }
         else {
-            string weaponSelectMenuName = Strings.MenuStrings.WEAPON_SELECT;
-            WeaponSelectMenu weaponSelectMenu = (WeaponSelectMenu)MenuManager.Instance.GetMenuByName(weaponSelectMenuName);
-            weaponSelectMenu.backMenuTarget = Strings.MenuStrings.MAIN;            
-            weaponSelectMenu.forwardMenuTarget = Strings.Scenes.SceneNames.PlayerLevels;
+            string loadMenuName = Strings.MenuStrings.LOAD;
+            WeaponSelectMenu weaponSelectMenu = (WeaponSelectMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.WEAPON_SELECT);
+            weaponSelectMenu.DefineNavigation(Strings.MenuStrings.MAIN, loadMenuName);
+
+            LoadMenu loadMenu = (LoadMenu)MenuManager.Instance.GetMenuByName(loadMenuName);
+            loadMenu.TargetSceneName = Strings.Scenes.PlayerLevels;
+
 
             MenuManager.Instance.DoTransition(weaponSelectMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
         }

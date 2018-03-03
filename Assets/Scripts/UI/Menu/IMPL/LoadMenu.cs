@@ -15,7 +15,7 @@ public class LoadMenu : Menu {
 
     #region Public Fields
     public System.Action onCompleteSceneLoad;
-    public string TargetScene
+    public string TargetSceneName
     {
         get
         {
@@ -67,7 +67,7 @@ public class LoadMenu : Menu {
     {
         base.Start();
 
-        target = SceneManager.GetActiveScene().name;        
+        target = SceneTracker.CurrentSceneName;        
 
     }
     void Update()
@@ -80,8 +80,7 @@ public class LoadMenu : Menu {
             MenuManager.Instance.DoTransition(this, Transition.HIDE, new Effect[] { });
             SpawnManager.spawnersLocked = false;
 
-            if (target == Strings.Scenes.Editor)
-            {
+            if (target == Strings.Scenes.SceneNames.Editor) {
                 EventSystem.Instance.TriggerEvent(Strings.Events.INIT_EDITOR, null);
             }
         }

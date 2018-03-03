@@ -29,7 +29,7 @@ public class SaveMenu : PlayerLevelEditorMenu {
 
     #region Public Interface
 
-    public SaveMenu() : base(Strings.MenuStrings.SAVE_PLE_MENU)
+    public SaveMenu() : base(Strings.MenuStrings.LevelEditor.SAVE_PLE_MENU)
     { } 
 
 

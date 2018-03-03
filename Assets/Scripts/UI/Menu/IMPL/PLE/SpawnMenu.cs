@@ -8,7 +8,7 @@ public class SpawnMenu : PlacementMenu {
     private PLESpawn selectedSpawn;
 
     #region Public Interface
-    public SpawnMenu() : base(Strings.MenuStrings.ADD_SPAWNS_PLE) { }
+    public SpawnMenu() : base(Strings.MenuStrings.LevelEditor.ADD_SPAWNS_PLE) { }
     #endregion
 
     #region Private Fields

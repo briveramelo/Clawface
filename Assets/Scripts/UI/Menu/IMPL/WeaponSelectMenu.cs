@@ -68,6 +68,13 @@ public class WeaponSelectMenu : Menu
 
     #endregion
 
+    #region Fields (Public)
+    private bool UseLoadMenu { get { return forwardMenuTarget == Strings.MenuStrings.LOAD;} }
+    private System.Action onCompleteSceneLoad;
+    private System.Action onStartAction;
+    private System.Action onReturnFromPLE;
+    #endregion
+
     #region Fields (Internal)
 
     internal string backMenuTarget = null;
@@ -172,32 +179,55 @@ public class WeaponSelectMenu : Menu
 
     public void BackAction ()
 	{
-        fader.DoShow(fadeDuration, () => {
-		    MenuManager.Instance.DoTransition (backMenuTarget, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
-        });
+        if (backMenuTarget != null) {
+            fader.DoShow(fadeDuration, () => {
+                MenuManager.Instance.DoTransition(backMenuTarget, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+            });
+        }
+        if(onReturnFromPLE!=null) {
+            onReturnFromPLE();
+        }
+    }
+    public void DefineNavigation(string backMenuTarget, string forwardMenuTarget, System.Action onStartAction=null, System.Action onCompleteSceneLoad=null, System.Action onReturnFromPLE=null) {
+        this.backMenuTarget = backMenuTarget;
+        this.forwardMenuTarget = forwardMenuTarget;
+        this.onStartAction = onStartAction;
+        this.onCompleteSceneLoad = onCompleteSceneLoad;
+        this.onReturnFromPLE = onReturnFromPLE;
     }
 
 	public void StartAction ()
 	{
+        //Set up ModManager
 	    ModManager.assignFromPool = false;
-
-		// Acquire Pause Menu
-		Menu menu = MenuManager.Instance.GetMenuByName (Strings.MenuStrings.PAUSE);
-		PauseMenu pauseMenu = (PauseMenu)menu;
-		pauseMenu.CanPause = true;
-
-		// Acquire LoadMenu and set target.
-		menu = MenuManager.Instance.GetMenuByName (Strings.MenuStrings.LOAD);
-		LoadMenu loadMenu = (LoadMenu)menu;
-		loadMenu.TargetScene = forwardMenuTarget;
-
-        // Trigger level started event
         ModManager.rightArmOnLoad = rightArm.GetSelection();
         ModManager.leftArmOnLoad = leftArm.GetSelection();
-        EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_STARTED, loadMenu.TargetScene, ModManager.leftArmOnLoad.ToString(), ModManager.rightArmOnLoad.ToString());
+
+        // Acquire Pause Menu
+        PauseMenu pauseMenu = (PauseMenu)MenuManager.Instance.GetMenuByName (Strings.MenuStrings.PAUSE);
+		pauseMenu.CanPause = true;
+
+        // Acquire LoadMenu and set target.
+        string targetScene = SceneTracker.CurrentSceneName;
+        Menu menu = MenuManager.Instance.GetMenuByName(forwardMenuTarget);
+        if (UseLoadMenu) {
+            LoadMenu loadMenu = (LoadMenu)menu;
+            loadMenu.onCompleteSceneLoad = onCompleteSceneLoad;
+            targetScene = loadMenu.TargetSceneName;
+        }
+        if (forwardMenuTarget != null) {
+            MenuManager.Instance.DoTransition(menu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+        }
+        else {
+            MenuManager.Instance.ClearMenus();
+        }
 
 		// Make it happen.
-		MenuManager.Instance.DoTransition (loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+        EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_STARTED, targetScene, ModManager.leftArmOnLoad.ToString(), ModManager.rightArmOnLoad.ToString());
+
+        if (onStartAction!=null) {
+            onStartAction();
+        }
 	}
 
     #endregion

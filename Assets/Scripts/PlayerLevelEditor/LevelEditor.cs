@@ -33,7 +33,7 @@ namespace PlayerLevelEditor
         #endregion
 
         #region Private Fields
-        private List<Menu> pleMenus;
+        private List<Menu> pleMenus = new List<Menu>();
 
         #endregion        
 
@@ -80,13 +80,19 @@ namespace PlayerLevelEditor
         {
             Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
             LoadMenu loadMenu = menu as LoadMenu;
-            loadMenu.TargetScene = Strings.Scenes.MainMenu;
+            loadMenu.TargetSceneName = Strings.Scenes.MainMenu;
 
             MenuManager.Instance.DoTransition(loadMenu,Menu.Transition.SHOW, new Menu.Effect[] { Menu.Effect.EXCLUSIVE });
         }
 
         public void ToggleCameraController(bool isEnabled) {
             cameraController.enabled=isEnabled;
+            if (isEnabled) {
+                ToggleCameraGameObject(true);
+            }
+        }
+        public void ToggleCameraGameObject(bool isEnabled) {
+            cameraController.gameObject.SetActive(isEnabled);
         }
 
         public Menu GetMenu(PLEMenu i_menu)
@@ -118,7 +124,8 @@ namespace PlayerLevelEditor
         #endregion  
 
         #region Private Interface
-        private void SetUpMenus() {
+        public void SetUpMenus() {
+            pleMenus.Clear();
             pleMenus = new List<Menu>() {
                 mainEditorMenu,
                 floorEditorMenu,
@@ -146,6 +153,7 @@ namespace PlayerLevelEditor
             currentDisplayedMenu = PLEMenu.FLOOR;
             mainEditorMenu.OpenFloorSystemAction();
             gridController.SetGridVisiblity(true);
+            ToggleCameraController(true);
         }
 
         void ToggleMenuInteractable(bool isInteractable, params PLEMenu[] menus) {

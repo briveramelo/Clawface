@@ -35,7 +35,7 @@
         public const string MainMenu = ScenesDirectory + SceneNames.MainMenu;
         public const string Arena = ScenesDirectory + SceneNames.Arena;
         public const string Editor = ScenesDirectory + SceneNames.Editor;
-        public const string EditorPlayer = ScenesDirectory + SceneNames.PlayerLevels;
+        public const string PlayerLevels = ScenesDirectory + SceneNames.PlayerLevels;
 
         public class SceneNames {
             public const string MainMenu = "MainMenu";
@@ -97,16 +97,18 @@
         public const string WEAPON_SELECT = "WeaponSelect";
 
         //levelEditor
-        public const string ADD_PROPS_PLE = "PropsMenu";
-        public const string ADD_SPAWNS_PLE = "SpawnMenu";
-        public const string SET_DYNLEVEL_PLE = "FloorMenu";
-        public const string MAIN_PLE_MENU = "MainPLEMenu";
-        public const string INIT_PLE_MENU = "InitPLEMenu";
-        public const string SAVE_PLE_MENU = "SaveMenu";
-        public const string WAVE_PLE_MENU = "WaveMenu";
-        public const string HELP_PLE_MENU = "HelpMenu";
-        public const string TEST_PLE_MENU = "TestMenu";
-        public const string LEVELSELECT_PLE_MENU = "PLELevelSelectMenu";
+        public class LevelEditor {
+            public const string ADD_PROPS_PLE = "PropsMenu";
+            public const string ADD_SPAWNS_PLE = "SpawnMenu";
+            public const string SET_DYNLEVEL_PLE = "FloorMenu";
+            public const string MAIN_PLE_MENU = "MainPLEMenu";
+            public const string INIT_PLE_MENU = "InitPLEMenu";
+            public const string SAVE_PLE_MENU = "SaveMenu";
+            public const string WAVE_PLE_MENU = "WaveMenu";
+            public const string HELP_PLE_MENU = "HelpMenu";
+            public const string TEST_PLE_MENU = "TestMenu";
+            public const string LEVELSELECT_PLE_MENU = "PLELevelSelectMenu";
+        }
     }
 
     public class Input

@@ -7,7 +7,7 @@ using ModMan;
 
 public class MainPLEMenu : PlayerLevelEditorMenu {
 
-    public MainPLEMenu() : base(Strings.MenuStrings.MAIN_PLE_MENU) { }
+    public MainPLEMenu() : base(Strings.MenuStrings.LevelEditor.MAIN_PLE_MENU) { }
 
     #region Public Fields
 
@@ -108,9 +108,12 @@ public class MainPLEMenu : PlayerLevelEditorMenu {
         SelectMenuItem(PLEMenu.HELP);
     }
     public void SelectMenuItem(PLEMenu menu) {
+        Toggle selectedMenuToggle = menuToggles.Find(menuToggle => menuToggle.menu == menu).toggle;
         if (menu != levelEditor.currentDisplayedMenu) {
-            menuToggles.ForEach(menuToggle => { menuToggle.toggle.onValueChanged.SwitchListenerState(UnityEngine.Events.UnityEventCallState.Off); });
-            Toggle selectedMenuToggle = menuToggles.Find(menuToggle => menuToggle.menu == menu).toggle;
+            menuToggles.ForEach(menuToggle => {
+                menuToggle.toggle.onValueChanged.SwitchListenerState(UnityEngine.Events.UnityEventCallState.Off);
+                menuToggle.toggle.isOn = false;
+            });
             selectedMenuToggle.isOn = true;
             selectedMenuToggle.Select();
             UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(selectedMenuToggle.gameObject);
@@ -133,8 +136,8 @@ public class MainPLEMenu : PlayerLevelEditorMenu {
     {        
         Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
         LoadMenu loadMenu = (LoadMenu)menu;
-        loadMenu.TargetScene = Strings.Scenes.MainMenu;
-        loadMenu.Fast = true;
+        loadMenu.TargetSceneName = Strings.Scenes.MainMenu;
+        //loadMenu.Fast = true;
         MenuManager.Instance.DoTransition(loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
     }
 

@@ -19,7 +19,7 @@ public class WaveMenu : PlayerLevelEditorMenu
 
     #region Public Interface
 
-    public WaveMenu() : base(Strings.MenuStrings.WAVE_PLE_MENU) { }
+    public WaveMenu() : base(Strings.MenuStrings.LevelEditor.WAVE_PLE_MENU) { }
 
     #endregion
 

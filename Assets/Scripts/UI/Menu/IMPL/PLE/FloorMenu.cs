@@ -30,7 +30,7 @@ public class FloorMenu : PlayerLevelEditorMenu {
 
     #region Public Interface
 
-    public FloorMenu() : base(Strings.MenuStrings.SET_DYNLEVEL_PLE) { }
+    public FloorMenu() : base(Strings.MenuStrings.LevelEditor.SET_DYNLEVEL_PLE) { }
 
 
     public void DropFloorAction() {

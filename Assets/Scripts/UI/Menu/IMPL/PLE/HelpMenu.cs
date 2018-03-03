@@ -17,7 +17,7 @@ public class HelpMenu : PlayerLevelEditorMenu
 
     #region Public Interface
 
-    public HelpMenu() : base(Strings.MenuStrings.HELP_PLE_MENU)
+    public HelpMenu() : base(Strings.MenuStrings.LevelEditor.HELP_PLE_MENU)
     { }
 
     #endregion

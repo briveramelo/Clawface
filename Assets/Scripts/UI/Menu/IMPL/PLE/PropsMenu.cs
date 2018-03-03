@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class PropsMenu : PlacementMenu
 {
-    public PropsMenu() : base(Strings.MenuStrings.ADD_PROPS_PLE) { }
+    public PropsMenu() : base(Strings.MenuStrings.LevelEditor.ADD_PROPS_PLE) { }
     #region Public Interface
     public void TogglePropRigbodKinematic(bool isKinematic) {
         List<Rigidbody> rigBods = createdItemsParent.GetComponentsInChildren<Rigidbody>().ToList();

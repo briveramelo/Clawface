@@ -77,7 +77,7 @@ public class StageOverMenu : Menu
         Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
         LoadMenu loadMenu = (LoadMenu)menu;
         EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_QUIT, SceneTracker.CurrentSceneName, AnalyticsManager.Instance.GetCurrentWave(), ScoreManager.Instance.GetScore());
-        loadMenu.TargetScene = Strings.Scenes.MainMenu;
+        loadMenu.TargetSceneName = Strings.Scenes.MainMenu;
         loadMenu.Fast = true;
         ObjectPool.Instance.ResetPools();
         MenuManager.Instance.DoTransition(loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
@@ -88,7 +88,7 @@ public class StageOverMenu : Menu
         Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
         LoadMenu loadMenu = (LoadMenu)menu;
         string sceneName = SceneTracker.CurrentSceneName;
-        loadMenu.TargetScene = sceneName;
+        loadMenu.TargetSceneName = sceneName;
 
         PauseMenu p = (PauseMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.PAUSE);
         p.CanPause = true;
@@ -105,12 +105,11 @@ public class StageOverMenu : Menu
         // Transition to Weapon Select.
         Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.WEAPON_SELECT);
         WeaponSelectMenu weaponMenu = menu as WeaponSelectMenu;
-        weaponMenu.backMenuTarget = Strings.MenuStrings.STAGE_OVER;
-        weaponMenu.forwardMenuTarget = Strings.MenuStrings.LOAD;
+        weaponMenu.DefineNavigation(Strings.MenuStrings.STAGE_OVER, Strings.MenuStrings.LOAD);
 
         menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
         LoadMenu loadMenu = menu as LoadMenu;
-        loadMenu.TargetScene = SceneTracker.CurrentSceneName;
+        loadMenu.TargetSceneName = SceneTracker.CurrentSceneName;
 
         EventSystem.Instance.TriggerEvent(Strings.Events.WEAPONS_SELECT_FROM_STAGE_OVER);
 
@@ -122,7 +121,7 @@ public class StageOverMenu : Menu
         Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
         LoadMenu loadMenu = (LoadMenu)menu;
         Scene scene = SceneManager.GetActiveScene();
-        loadMenu.TargetScene = scene.name;
+        loadMenu.TargetSceneName = scene.name;
 
         PauseMenu pauseMenu = (PauseMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.PAUSE);
         pauseMenu.CanPause = true;

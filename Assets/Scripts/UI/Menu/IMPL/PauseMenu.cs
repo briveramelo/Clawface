@@ -84,7 +84,7 @@ public class PauseMenu : Menu
 		Menu menu = MenuManager.Instance.GetMenuByName (Strings.MenuStrings.LOAD);
 		LoadMenu loadMenu = (LoadMenu)menu;
 		Scene scene = SceneManager.GetActiveScene ();
-		loadMenu.TargetScene = scene.name;
+		loadMenu.TargetSceneName = scene.name;
         ObjectPool.Instance.ResetPools();
 
         EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_RESTARTED, scene.name, AnalyticsManager.Instance.GetCurrentWave(), ScoreManager.Instance.GetScore());
@@ -99,7 +99,7 @@ public class PauseMenu : Menu
 		Menu menu = MenuManager.Instance.GetMenuByName (Strings.MenuStrings.LOAD);
         EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_QUIT, SceneManager.GetActiveScene().name, AnalyticsManager.Instance.GetCurrentWave(), ScoreManager.Instance.GetScore());
         LoadMenu loadMenu = (LoadMenu)menu;
-		loadMenu.TargetScene = Strings.Scenes.MainMenu;
+		loadMenu.TargetSceneName = Strings.Scenes.MainMenu;
 		loadMenu.Fast = true;
         ObjectPool.Instance.ResetPools();
         MenuManager.Instance.DoTransition (loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });

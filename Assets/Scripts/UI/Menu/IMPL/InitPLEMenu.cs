@@ -89,7 +89,7 @@ public class InitPLEMenu : Menu {
     }
 
 
-    public InitPLEMenu() : base(Strings.MenuStrings.INIT_PLE_MENU)
+    public InitPLEMenu() : base(Strings.MenuStrings.LevelEditor.INIT_PLE_MENU)
     { }
 
     public void ConfirmAction()
