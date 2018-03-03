@@ -910,6 +910,7 @@ GameObject:
   - component: {fileID: 114325496831137656}
   - component: {fileID: 114132200228300390}
   - component: {fileID: 114929162397462484}
+  - component: {fileID: 114610520375812168}
   m_Layer: 8
   m_Name: Player_Combat
   m_TagString: Player
@@ -3664,6 +3665,19 @@ MonoBehaviour:
   m_PitchDamping: 0
   m_YawDamping: 0
   m_RollDamping: 0
+--- !u!114 &114610520375812168
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1737478168596758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47775603a55940d479bc9d660c708323, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flashSpeed: 8
+  renderer: {fileID: 137286752708950636}
 --- !u!114 &114629925188236412
 MonoBehaviour:
   m_ObjectHideFlags: 1

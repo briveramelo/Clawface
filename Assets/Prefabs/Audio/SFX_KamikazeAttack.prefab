@@ -9,32 +9,34 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1670425139498140}
+  m_RootGameObject: {fileID: 1208374873030172}
   m_IsPrefabParent: 1
---- !u!1 &1670425139498140
+--- !u!1 &1208374873030172
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4510724490126370}
-  - component: {fileID: 114734007923454034}
-  - component: {fileID: 82810490231665330}
-  - component: {fileID: 114483563934736122}
+  - component: {fileID: 4261744995524056}
+  - component: {fileID: 82693848209115440}
+  - component: {fileID: 114375973639563784}
+  - component: {fileID: 114543444211538142}
+  - component: {fileID: 114466155941038024}
+  - component: {fileID: 114711078546244310}
   m_Layer: 0
-  m_Name: SFX_Boomerang_Throw
+  m_Name: SFX_KamikazeAttack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4510724490126370
+--- !u!4 &4261744995524056
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1670425139498140}
+  m_GameObject: {fileID: 1208374873030172}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -42,12 +44,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!82 &82810490231665330
+--- !u!82 &82693848209115440
 AudioSource:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1670425139498140}
+  m_GameObject: {fileID: 1208374873030172}
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
@@ -60,7 +62,7 @@ AudioSource:
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
-  DopplerLevel: 0
+  DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
   Pan2D: 0
@@ -97,7 +99,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 0
+    m_RotationOrder: 4
   spreadCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -121,47 +123,28 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 0
---- !u!114 &114483563934736122
+    m_RotationOrder: 4
+--- !u!114 &114375973639563784
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1670425139498140}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e594d69e58e793c47b9d13e384085fc4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  clips:
-  - {fileID: 8300000, guid: edbf8316a373d9e4999f3718caa883a3, type: 3}
-  changeVolumeEachLoop: 0
-  uniformVolume: 1
-  useRandomVolume: 0
-  randomVolumeRange:
-    minLimit: 0
-    maxLimit: 0
-    min: 1
-    max: 1
---- !u!114 &114734007923454034
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1670425139498140}
+  m_GameObject: {fileID: 1208374873030172}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0d167c7d70ccec34481b86b1564156d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   channels:
-  - {fileID: 114483563934736122}
+  - {fileID: 114543444211538142}
+  - {fileID: 114466155941038024}
+  - {fileID: 114711078546244310}
   loop: 0
   playOnStart: 0
   spatialBlend: 0
   maxDistance: 500
   changeVolumeEachLoop: 0
-  uniformVolume: 0.5
+  uniformVolume: 1
   useRandomVolume: 0
   randomVolumeRange:
     minLimit: 0
@@ -172,6 +155,69 @@ MonoBehaviour:
   changePitchEachLoop: 0
   pitch: 1
   pitchRange:
+    minLimit: 0
+    maxLimit: 0
+    min: 1
+    max: 1
+--- !u!114 &114466155941038024
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1208374873030172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e594d69e58e793c47b9d13e384085fc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clips:
+  - {fileID: 8300000, guid: 23e8a435305ce28458eab4346211566d, type: 3}
+  changeVolumeEachLoop: 0
+  uniformVolume: 0.75
+  useRandomVolume: 0
+  randomVolumeRange:
+    minLimit: 0
+    maxLimit: 0
+    min: 1
+    max: 1
+--- !u!114 &114543444211538142
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1208374873030172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e594d69e58e793c47b9d13e384085fc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clips:
+  - {fileID: 8300000, guid: cb15f0c2a13f05c429e2dc23a1113f48, type: 3}
+  changeVolumeEachLoop: 0
+  uniformVolume: 1
+  useRandomVolume: 0
+  randomVolumeRange:
+    minLimit: 0
+    maxLimit: 0
+    min: 1
+    max: 1
+--- !u!114 &114711078546244310
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1208374873030172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e594d69e58e793c47b9d13e384085fc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clips:
+  - {fileID: 8300000, guid: f40596d1a8d990248b675f8b8f65c635, type: 3}
+  changeVolumeEachLoop: 0
+  uniformVolume: 0.75
+  useRandomVolume: 0
+  randomVolumeRange:
     minLimit: 0
     maxLimit: 0
     min: 1
