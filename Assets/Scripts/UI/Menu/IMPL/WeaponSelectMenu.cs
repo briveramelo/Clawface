@@ -58,7 +58,19 @@ public class WeaponSelectMenu : Menu
     private Text weaponDescriptionText;
 
     [SerializeField]
-    private Image weaponGraph;
+    private Image weaponGraphic;
+
+    [SerializeField]
+    private Image damageBar;
+
+    [SerializeField]
+    private Image rangeBar;
+
+    [SerializeField]
+    private Image rofBar;
+
+    [SerializeField]
+    private Image difficultyBar;
 
     [SerializeField]
     private List<WeaponInfo> weaponInfos;
@@ -356,8 +368,14 @@ public class WeaponSelectMenu : Menu
             if (info.weaponType == type)
             {
                 weaponNameText.text = info.weaponName;
-                weaponDescriptionText.text = info.weaponDescription;
-                weaponGraph.sprite = info.weaponGraph;
+                // weaponDescriptionText.text = info.weaponDescription;
+                weaponGraphic.sprite = info.weaponImage;
+
+
+                LeanTween.value(damageBar.fillAmount, info.damageValue, 0.3f).setOnUpdate((float val) => { damageBar.fillAmount = val; }) ;
+                LeanTween.value(rangeBar.fillAmount, info.rangeValue, 0.3f).setOnUpdate((float val) => { rangeBar.fillAmount = val; });
+                LeanTween.value(rofBar.fillAmount, info.rofValue, 0.3f).setOnUpdate((float val) => { rofBar.fillAmount = val; });
+                LeanTween.value(difficultyBar.fillAmount, info.difficultyValue, 0.3f).setOnUpdate((float val) => { difficultyBar.fillAmount = val; });
                 return;
             }
         }

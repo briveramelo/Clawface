@@ -151,10 +151,9 @@ public class ZombieBeserker : EnemyBase
         if (myStats.health > myStats.skinnableHealth)
         {
             animator.SetLayerWeight(2, 0.0f);
-            animator.SetTrigger("DoVictoryDance");
+            animator.SetInteger("AnimationState", -1);
             controller.CurrentState = celebrate;
             controller.UpdateState(EAIState.Celebrate);
-            animator.SetInteger("AnimationState", -1);
         }
     }
 
