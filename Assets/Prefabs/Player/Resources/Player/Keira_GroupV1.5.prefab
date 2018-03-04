@@ -2936,8 +2936,9 @@ MonoBehaviour:
   highlightPoses: 01000000
   totalAttackPoses: 10
   totalDashTime: 0.283
-  dashITimeStart: 0
+  dashITimeStart: 0.001
   dashITimeEnd: 0.283
+  dashComboTime: 0.05
 --- !u!114 &114136393911348448
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3413,7 +3414,6 @@ MonoBehaviour:
   setDamageToTake: 3
   dashState: {fileID: 114132200228300390}
   invincibleTime: 0.5
-  dashComboTime: 0.2
 --- !u!114 &114440139089632224
 MonoBehaviour:
   m_ObjectHideFlags: 1
