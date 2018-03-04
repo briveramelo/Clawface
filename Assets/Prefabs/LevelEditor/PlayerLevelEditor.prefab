@@ -99,6 +99,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4727196625096274}
+  - component: {fileID: 114488250318766794}
+  - component: {fileID: 114524551131750834}
   m_Layer: 0
   m_Name: Tiles
   m_TagString: Untagged
@@ -200,6 +202,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6eb5161684722204abcbe1829a361b45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dataSave:
+    levelDatas: []
 --- !u!114 &114300397762325604
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -246,6 +250,62 @@ MonoBehaviour:
   spawnParent: {fileID: 4168169116435916}
   levelName: {fileID: 0}
   levelDescription: {fileID: 0}
+--- !u!114 &114488250318766794
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1893115858669172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_BuildHeightMesh: 0
+  m_NavMeshData: {fileID: 0}
+--- !u!114 &114524551131750834
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1893115858669172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_BuildHeightMesh: 0
+  m_NavMeshData: {fileID: 0}
 --- !u!114 &114950661016402394
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -259,6 +319,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shouldRegister: 0
   dontDestroyOnLoad: 0
+  editorInstance: {fileID: 114300397762325604}
 --- !u!114 &114961083394896710
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -279,4 +340,5 @@ MonoBehaviour:
   selectedColor: {r: 0, g: 0, b: 1, a: 1}
   deletePreviewColor: {r: 1, g: 0, b: 0, a: 1}
   editorInstance: {fileID: 114300397762325604}
+  levelNav: {fileID: 114524551131750834}
   displaying: 0

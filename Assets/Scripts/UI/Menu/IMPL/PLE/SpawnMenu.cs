@@ -2,6 +2,8 @@
 using UnityEngine.EventSystems;
 using UnityEngine;
 using PlayerLevelEditor;
+using UnityEngine.UI;
+using System;
 
 public class SpawnMenu : PlacementMenu {
 
@@ -9,16 +11,41 @@ public class SpawnMenu : PlacementMenu {
 
     #region Public Interface
     public SpawnMenu() : base(Strings.MenuStrings.LevelEditor.ADD_SPAWNS_PLE) { }
+    public void SetAmtOnSelectedSpawn()
+    {
+        if (selectedSpawn)
+        {
+            int finalAmt = 0;
+
+            if (System.Int32.TryParse(amountField.text, out finalAmt))
+            {
+                selectedSpawn.totalSpawnAmount = finalAmt;
+            }
+
+        }
+    }
+
     #endregion
 
-    #region Private Fields
+    #region Serialized Unity Fields
+
+    [SerializeField] private InputField amountField;
+
+    #endregion
+
+    #region Public Fields
 
     static public GameObject playerSpawnInstance = null;
 
-    #endregion  
+    #endregion
+
+    #region Unity Lifecycle
 
     private void Awake() {
-        EventSystem.Instance.RegisterEvent(Strings.Events.PLE_CHANGEWAVE, OnWaveChange);
+        if(EventSystem.Instance){
+            EventSystem.Instance.RegisterEvent(Strings.Events.PLE_CHANGEWAVE, OnWaveChange);
+        }
+        
     }
     private void OnDestroy() {
         if (EventSystem.Instance) {
@@ -26,7 +53,11 @@ public class SpawnMenu : PlacementMenu {
         }
     }
 
-    void OnWaveChange(params object[] parameters) {
+    #endregion
+
+    #region Private Interface
+
+    private void OnWaveChange(params object[] parameters) {
 
         string activeWaveName = GetWaveName(WaveSystem.currentWave);
 
@@ -45,6 +76,33 @@ public class SpawnMenu : PlacementMenu {
             activeWave.gameObject.SetActive(true);
         }
     }
+    private void UpdateAmtField(int i_amt, bool makeEmpty = false)
+    {
+        if(makeEmpty)
+        {
+            amountField.text = "";
+        }
+        else
+        {
+            string toSet = Convert.ToString(i_amt);
+            amountField.text = toSet;
+        }
+    }
+
+    private string GetWaveName(int i) { return Strings.Editor.Wave + i; }
+    private Transform TryCreateWaveParent(int i)
+    {
+        string waveName = GetWaveName(i);
+        Transform waveParent = createdItemsParent.Find(waveName);
+        if (waveParent == null)
+        {
+            waveParent = new GameObject(waveName).transform;
+            waveParent.SetParent(createdItemsParent);
+        }
+        return waveParent;
+    }
+
+    #endregion
 
     #region Protected Interface
     protected override bool SelectUI { get { return base.SelectUI && ScrollGroupHelper.currentUIItem != null; } }
@@ -77,7 +135,7 @@ public class SpawnMenu : PlacementMenu {
         PLESpawn spawn = newItem.GetComponent<PLESpawn>();
         if(spawn)
         {
-            PLESpawnManager.Instance.RegisterSpawner(currentWave, spawn);
+            //TODO: What happens if the registered wave is 'deleted'
             spawn.registeredWave = currentWave;
         }
 
@@ -92,29 +150,25 @@ public class SpawnMenu : PlacementMenu {
             playerSpawnInstance.transform.SetParent(TryCreateWaveParent(0).parent);
         }
         levelEditor.CheckToSetMenuInteractability();
+        UpdateAmtField(spawn.totalSpawnAmount);
     }
-    Transform TryCreateWaveParent(int i) {
-        string waveName = GetWaveName(i);
-        Transform waveParent = createdItemsParent.Find(waveName);
-        if (waveParent == null) {
-            waveParent = new GameObject(waveName).transform;
-            waveParent.SetParent(createdItemsParent);
-        }
-        return waveParent;
-    }    
-
-    #endregion
-    private string GetWaveName(int i) { return Strings.Editor.Wave + i; }
 
     protected override void SelectGameItem() {
         base.SelectGameItem();
         MouseHelper.currentSpawn.Select();
         selectedSpawn = MouseHelper.currentSpawn;
+        amountField.interactable = true;
+        UpdateAmtField(selectedSpawn.totalSpawnAmount);
     }
     protected override void DeselectItem() {
+        amountField.interactable = false;
+        UpdateAmtField(0, true);
         if (selectedSpawn!=null) {
             selectedSpawn.Deselect();
             selectedSpawn = null;
         }
     }
+
+
+    #endregion
 }

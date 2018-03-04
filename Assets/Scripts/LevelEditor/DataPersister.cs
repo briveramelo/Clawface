@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
+using System.Linq;
 
 public class DataPersister : MonoBehaviour {
     
@@ -144,6 +145,11 @@ public class LevelData {
     public List<TileData> tileData = new List<TileData>();
     public List<PropData> propData = new List<PropData>();    
 
+    public List<PLESpawn> GetPLESpawnsFromWave(int i_wave)
+    {
+        return waveData[i_wave].GetPleSpawnsFromWave();
+    }
+
     public int WaveCount { get { return waveData.Count; } }
     public int TileCount { get { return tileData.Count; } }
     public int PropCount { get { return propData.Count; } }
@@ -169,6 +175,10 @@ public class LevelData {
 [Serializable]
 public class WaveData {
     public List<SpawnData> spawnData = new List<SpawnData>();
+    public List<PLESpawn> GetPleSpawnsFromWave()
+    {
+        return spawnData.Select(item => { return item.pleSpawn; }).ToList();
+    }
 }
 
 [Serializable]
@@ -182,6 +192,7 @@ public class SpawnData {
     public int spawnType;
     public int count;
     public Vector3_S position = new Vector3_S();
+    [NonSerialized] public PLESpawn pleSpawn;
 
     public SpawnType SpawnType { get { return (SpawnType)spawnType; } }
 }
