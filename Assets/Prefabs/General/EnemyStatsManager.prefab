@@ -55,7 +55,7 @@ MonoBehaviour:
   blasterStats:
     health: 16
     maxHealth: 16
-    skinnableHealth: 7
+    skinnableHealth: 1
     attack: 3
     speed: 8
     angularSpeed: 360
@@ -70,9 +70,9 @@ MonoBehaviour:
     bulletSpeed: 20
     animationShootSpeed: 2
   blasterShotgunStats:
-    health: 16
-    maxHealth: 16
-    skinnableHealth: 3
+    health: 17
+    maxHealth: 17
+    skinnableHealth: 1
     attack: 3
     speed: 15
     angularSpeed: 360
@@ -112,7 +112,7 @@ MonoBehaviour:
   zombieStats:
     health: 12
     maxHealth: 12
-    skinnableHealth: 3
+    skinnableHealth: 1
     attack: 3
     speed: 16
     angularSpeed: 10000
@@ -124,9 +124,9 @@ MonoBehaviour:
     closeEnoughToAttackDistance: 3
     animationAttackSpeed: 1
   zombieBeserkerStats:
-    health: 12
-    maxHealth: 12
-    skinnableHealth: 3
+    health: 15
+    maxHealth: 15
+    skinnableHealth: 1
     attack: 3
     speed: 16
     angularSpeed: 10000
@@ -138,9 +138,9 @@ MonoBehaviour:
     closeEnoughToAttackDistance: 2.5
     animationAttackSpeed: 1
   zombieAciderStats:
-    health: 12
-    maxHealth: 12
-    skinnableHealth: 3
+    health: 18
+    maxHealth: 18
+    skinnableHealth: 1
     attack: 3
     speed: 16
     angularSpeed: 10000
@@ -156,9 +156,9 @@ MonoBehaviour:
     colliderGenerationTime: 0.05
     acidTriggerLife: 4
   kamikazeStats:
-    health: 12
-    maxHealth: 12
-    skinnableHealth: 3
+    health: 10
+    maxHealth: 10
+    skinnableHealth: 1
     attack: 3
     speed: 30
     angularSpeed: 900
@@ -168,12 +168,12 @@ MonoBehaviour:
     eatHealth: 1
     stunnedTime: 3
     closeEnoughToAttackDistance: 2.5
-    selfDestructTime: 0.65
+    selfDestructTime: 0.75
     blastRadius: 15
   kamikazePulserStats:
     health: 12
     maxHealth: 12
-    skinnableHealth: 3
+    skinnableHealth: 1
     attack: 3
     speed: 30
     angularSpeed: 900
@@ -183,14 +183,14 @@ MonoBehaviour:
     eatHealth: 1
     stunnedTime: 3
     closeEnoughToAttackDistance: 5
-    maxPulses: 2
+    maxPulses: 1
     pulseRate: 5
     scaleRate: 0.5
     maxScale: 4.5
   kamikazeMommyStats:
     health: 50
     maxHealth: 50
-    skinnableHealth: 3
+    skinnableHealth: 1
     attack: 3
     speed: 10
     angularSpeed: 1000
@@ -206,7 +206,7 @@ MonoBehaviour:
   bouncerStats:
     health: 25
     maxHealth: 25
-    skinnableHealth: 3
+    skinnableHealth: 1
     attack: 3
     speed: 2
     angularSpeed: 360
@@ -236,7 +236,7 @@ MonoBehaviour:
   redBouncerStats:
     health: 35
     maxHealth: 35
-    skinnableHealth: 3
+    skinnableHealth: 1
     attack: 3
     speed: 2
     angularSpeed: 360
@@ -266,7 +266,7 @@ MonoBehaviour:
   greenBouncerStats:
     health: 45
     maxHealth: 45
-    skinnableHealth: 3
+    skinnableHealth: 1
     attack: 3
     speed: 2
     angularSpeed: 360
