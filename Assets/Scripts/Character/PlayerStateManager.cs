@@ -120,7 +120,7 @@ public class PlayerStateManager : RoutineRunner {
         }
         else if (isInDashTutorial)
         {
-            
+
             if (InputManager.Instance.QueryAction(Strings.Input.Actions.DODGE, ButtonMode.DOWN) && isSlowDownFinished)
             {
                 SwitchState(dashState);
@@ -128,6 +128,12 @@ public class PlayerStateManager : RoutineRunner {
                 Physics.IgnoreLayerCollision(LayerMask.NameToLayer(Strings.Layers.ENEMY), LayerMask.NameToLayer(Strings.Layers.MODMAN), true);
                 Physics.IgnoreLayerCollision(LayerMask.NameToLayer(Strings.Layers.ENEMY_BODY), LayerMask.NameToLayer(Strings.Layers.MODMAN), true);
                 FinishDashTutorial();
+            }
+
+            else
+            {
+                SwitchState(defaultState);
+                defaultState.StateUpdate();
             }
         }
     }
