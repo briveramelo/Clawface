@@ -23,8 +23,8 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
     protected virtual bool SelectItem { get { return Input.GetMouseButtonDown(MouseButtons.LEFT) && MouseHelper.HitItem; } }
     protected virtual bool DeSelectItem { get { return Input.GetMouseButtonDown(MouseButtons.LEFT) || Input.GetMouseButtonDown(MouseButtons.RIGHT); } }
     protected bool RightClick { get { return Input.GetMouseButtonDown(MouseButtons.RIGHT); } }
-    protected bool Place { get { return Input.GetMouseButtonDown(MouseButtons.LEFT) && selectedItem != null && MouseHelper.currentBlockUnit != null && !MouseHelper.currentBlockUnit.IsOccupied() && MouseHelper.currentBlockUnit.IsFlatAtWave(WaveSystem.currentWave); } }
-    protected bool UpdatePreview { get { return previewItem != null && MouseHelper.currentBlockUnit != null && !MouseHelper.currentBlockUnit.IsOccupied() && MouseHelper.currentBlockUnit.IsFlatAtWave(WaveSystem.currentWave); } }
+    protected bool Place { get { return Input.GetMouseButtonDown(MouseButtons.LEFT) && selectedItem != null && MouseHelper.currentBlockUnit != null && !MouseHelper.currentBlockUnit.IsOccupied() && MouseHelper.currentBlockUnit.IsFlatAtWave(PLESpawnManager.Instance.CurrentWave); } }
+    protected bool UpdatePreview { get { return previewItem != null && MouseHelper.currentBlockUnit != null && !MouseHelper.currentBlockUnit.IsOccupied() && MouseHelper.currentBlockUnit.IsFlatAtWave(PLESpawnManager.Instance.CurrentWave); } }
     protected bool CanDeletedHoveredItem { get { return MouseHelper.currentHoveredObject && itemNames.Contains(MouseHelper.currentHoveredObject.name); } }
     #endregion
 

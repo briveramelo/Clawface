@@ -8,20 +8,16 @@ namespace PlayerLevelEditor
 {
     public class LevelEditor : MonoBehaviour {
 
-        [Header("Required Fields")]
+        [Header("Persistent Fields")]
         [SerializeField] private GameObject playerSpawnerPrefab;
         
-        #region Public Fields
         public PlayerLevelEditorGrid gridController;
         public LevelDataManager levelDataManager;
-
         [HideInInspector] public bool hasCreatedPlayer;
-
-        [Header("Player Level Editor-Scene Specific")]
+        [SerializeField] private Transform createdSpawnsParent;
+        [Header("Player Level Editor-Scene Specific Fields")]
         public PLEMenu currentDisplayedMenu;
         public WaveSystem waveSystem;
-        #endregion
-
 
         #region Serialized Unity Fields
 
@@ -35,21 +31,74 @@ namespace PlayerLevelEditor
         [SerializeField] private PLELevelSelectMenu levelSelectEditorMenu;
         [SerializeField] private HelpMenu helpEditorMenu;
         [SerializeField] private PLECameraController cameraController;
+
+        
         #endregion
+
 
         #region Private Fields
         private List<Menu> pleMenus = new List<Menu>();
         private GameObject playerSpawnerInstance = null;
-        #endregion        
+        #endregion
+
+        #region Unity Lifecycle
 
         private void Start() {
+
+            EventSystem.Instance.RegisterEvent(Strings.Events.PLE_CHANGEWAVE, EnableSpawnsOnWaveChange);
+            EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_STARTED, PlayLevel);
+
             if (SceneTracker.IsCurrentSceneEditor) {
                 SetUpMenus();
             }
         }
 
+        private void OnDestroy()
+        {
+            if(EventSystem.Instance)
+            {
+                EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_CHANGEWAVE, EnableSpawnsOnWaveChange);
+                EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_STARTED, PlayLevel);
+            }
+            
+        }
+
+
+        #endregion
+
+        
         #region Public Interface
-        public void PlayLevel() {
+        public void EnableSpawnsOnWaveChange(params object[] parameters)
+        {
+            string activeWaveName = "";
+            if(parameters.Length > 0)
+            {
+                int wave = (int)parameters[0];
+                activeWaveName = GetWaveName(wave);
+            }
+
+
+            for (int i = 1; i < createdSpawnsParent.childCount; i++)
+            {
+                //Accounts for not disabling the player spawn object between switching of waves.
+                GameObject currentGO = createdSpawnsParent.GetChild(i).gameObject;
+
+                if (!currentGO.CompareTag(Strings.Editor.PLAYER_SPAWN_TAG))
+                {
+                    currentGO.SetActive(false);
+                }
+            }
+            Transform activeWave = createdSpawnsParent.Find(activeWaveName);
+            if (activeWave != null)
+            {
+                activeWave.gameObject.SetActive(true);
+            }
+        }
+
+
+        public string GetWaveName(int i) { return Strings.Editor.Wave + i; }
+
+        public void PlayLevel(params object[] i_params) {
             SpawnMenu.playerSpawnInstance.SetActive(false);
 
             playerSpawnerInstance = Instantiate(playerSpawnerPrefab);
@@ -59,7 +108,7 @@ namespace PlayerLevelEditor
                 waveSystem.ResetToWave0();
             }
             else {
-                WaveSystem.currentWave = 0;
+                PLESpawnManager.Instance.CurrentWave = 0;
             }
             hasCreatedPlayer = true;
         }
@@ -135,7 +184,6 @@ namespace PlayerLevelEditor
         public void ToggleCameraGameObject(bool isEnabled) {
             cameraController.gameObject.SetActive(isEnabled);
         }
-
         public Menu GetMenu(PLEMenu i_menu)
         {
             switch (i_menu)

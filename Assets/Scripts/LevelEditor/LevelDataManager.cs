@@ -48,7 +48,7 @@ public class LevelDataManager : MonoBehaviour {
         LoadSpawnsToggledState();
         LoadImages();
         if (SceneTracker.IsCurrentSceneEditor) {
-            WaveSystem.maxWave = ActiveLevelData.MaxWave;
+            PLESpawnManager.Instance.MaxWave = ActiveLevelData.MaxWave;
             levelEditor.waveSystem.ResetToWave0();
             levelEditor.CheckToSetMenuInteractability();
         }
@@ -205,12 +205,12 @@ public class LevelDataManager : MonoBehaviour {
     public void SaveSpawns() {
         ActiveWaveData.Clear();
         spawnParent.SortChildrenByName();
-        int startIndex = 0;
-        if (SpawnMenu.playerSpawnInstance) {
-            startIndex = 1;            
-        }
+        //int startIndex = 0;
+        //if (SpawnMenu.playerSpawnInstance) {
+        //    startIndex = 1;            
+        //}
 
-        for (int i = startIndex; i < spawnParent.childCount; i++) {
+        for (int i = 1; i < spawnParent.childCount; i++) {
             int currentIndex = SpawnMenu.playerSpawnInstance ? i-1 : i;
             ActiveWaveData.Add(new WaveData());
             Transform waveParent = spawnParent.GetChild(i);

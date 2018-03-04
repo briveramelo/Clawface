@@ -87,7 +87,7 @@ public class FloorMenu : PlayerLevelEditorMenu {
                 PLEBlockUnit blockUnit = GO.GetComponent<PLEBlockUnit>();
                 if (!blockUnit.HasActiveSpawn) {
                     List<LevelUnitStates> levelUnitStates = blockUnit.GetLevelStates();
-                    levelUnitStates[WaveSystem.currentWave] = state;
+                    levelUnitStates[PLESpawnManager.Instance.CurrentWave] = state;
                 }
             }
             else {
@@ -95,7 +95,7 @@ public class FloorMenu : PlayerLevelEditorMenu {
             }
         }
 
-        string event_name = Strings.Events.PLE_TEST_WAVE_ + WaveSystem.currentWave;
+        string event_name = Strings.Events.PLE_TEST_WAVE_ + PLESpawnManager.Instance.CurrentWave;
         bool shouldChangeColor = false;
         EventSystem.Instance.TriggerEvent(Strings.Events.PLE_UPDATE_LEVELSTATE);
         EventSystem.Instance.TriggerEvent(event_name, shouldChangeColor);

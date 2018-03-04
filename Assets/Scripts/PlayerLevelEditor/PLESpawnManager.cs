@@ -12,8 +12,15 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
     
     private LevelData ActiveLevelData { get { return DataPersister.ActiveDataSave.ActiveLevelData; } }
     private List<WaveData> ActiveWaveData { get { return ActiveLevelData.waveData; } }
-    private int currentWave = -1;
+    private static int systemMaxWaveLimit = 20;
+    #endregion
 
+    #region Public Fields
+    public bool InfiniteWavesEnabled { get; set; }
+    public int CurrentWave { get; set; }
+    public int MaxWave { get; set; }
+    public bool AtMaxWaveLimit { get { return MaxWave == systemMaxWaveLimit; } private set { } }
+    public bool OneWaveRemaining { get { return MaxWave == 1; } private set { } }
     #endregion
 
     #region Serialized Unity Fields
@@ -54,8 +61,9 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
     #region Private Interface
     private void CallNextWave(params object[] i_params)
     {
-        currentWave++;
-        List<PLESpawn> currentWaveSpawners = ActiveLevelData.GetPLESpawnsFromWave(currentWave);
+        CurrentWave++;
+        editorInstance.EnableSpawnsOnWaveChange(CurrentWave);
+        List<PLESpawn> currentWaveSpawners = ActiveLevelData.GetPLESpawnsFromWave(CurrentWave);
         
         for(int i = 0; i < currentWaveSpawners.Count; i++)
         {
@@ -78,7 +86,7 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
     private void ProcessDeath(params object[] parameters)
     {
         //check if all spawners in given wave are marked as completed
-        List<PLESpawn> currentWaveSpawners = ActiveLevelData.GetPLESpawnsFromWave(currentWave);
+        List<PLESpawn> currentWaveSpawners = ActiveLevelData.GetPLESpawnsFromWave(CurrentWave);
         bool waveDead = true;
 
         for (int i = 0; i < currentWaveSpawners.Count; i++)
@@ -101,7 +109,7 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
     {
         //Timing.KillCoroutines(coroutineName);
         FindObjectsOfType<EnemyBase>().ToList().ForEach(enemy => { enemy.OnDeath(); });
-        currentWave = -1;
+        CurrentWave = -1;
     }
 
 
@@ -113,6 +121,52 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
     public void RegisterAllSpawns() {
 
         editorInstance.levelDataManager.SaveSpawns();
+        
+    }
+
+    public void SetToWave(int i_wave)
+    {
+        CurrentWave = Mathf.Clamp(i_wave, 0, MaxWave - 1);
+        CurrentWave = i_wave;
+        editorInstance.EnableSpawnsOnWaveChange(CurrentWave);
+    }
+
+    public void GoToPreviousWave()
+    {
+        CurrentWave--;
+        if(CurrentWave < 0)
+        {
+            CurrentWave = MaxWave - 1;
+        }
+        SetToWave(CurrentWave);
+    }
+
+    public void GoToNextWave()
+    {
+        CurrentWave++;
+        if(CurrentWave >= MaxWave)
+            CurrentWave = 0;
+        
+        SetToWave(CurrentWave);
+
+    }
+
+    public void AddWave()
+    {
+        if (AtMaxWaveLimit)
+            return;
+        MaxWave++;
+    }
+
+    public void DeleteWave(int i_wave)
+    {
+        if (MaxWave == 1)
+            return;
+        MaxWave--;
+        if(CurrentWave >= MaxWave)
+        {
+            CurrentWave = MaxWave - 1;
+        }
         
     }
 
