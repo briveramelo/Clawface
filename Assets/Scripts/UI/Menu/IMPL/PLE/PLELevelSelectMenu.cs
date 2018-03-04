@@ -328,7 +328,7 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
         leaderboardButton.interactable = true;
         loadButton.interactable = anyLevelsDisplayed;
 
-        Selectable selected = lastSelectedLevel == null ? null : lastSelectedLevel.selectable;
+        Selectable selected = lastSelectedLevel == null ? (anyLevelsDisplayed? displayedLevelUIs[0].selectable : null) : lastSelectedLevel.selectable;
         SetFilterButtonsNavigation(selected);
         SetLevelItemButtonsNavigation(displayedLevelUIs);
     }
