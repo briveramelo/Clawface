@@ -39,7 +39,7 @@ public class PulseGenerator : MonoBehaviour
         if (currentRateValue >= pulseRate && currentPulse < maxPulses)
         {
             GameObject pulse = Instantiate(pulseProjectile, 
-                gameObject.transform.position + new Vector3(0.0f, 0.5f * pulseIndex + 0.01f, 0.0f), 
+                gameObject.transform.position + new Vector3(0.0f, 0.01f * pulseIndex + 0.01f, 0.0f), 
                 Quaternion.identity);
             PulseProjectile newPulseProjectile = pulse.GetComponent<PulseProjectile>();
             newPulseProjectile.SetPulseProjectileStats(scaleRate,maxScale,damage);
