@@ -198,7 +198,7 @@ public class PlayerStateManager : RoutineRunner {
 
     private void StartTutorial()
     {
-        if (!isTutorialDone && !isInTutorial)
+        if (SettingsManager.Instance.Tutorial && !isTutorialDone && !isInTutorial)
         {
             isInTutorial = true;
             EventSystem.Instance.TriggerEvent(Strings.Events.ENEMY_INVINCIBLE, true);

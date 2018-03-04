@@ -3,7 +3,6 @@ using UnityEngine.Assertions;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(Selectable))]
 public class SelectorToggle : MonoBehaviour {
 
     #region Fields (Unity Serialization)
@@ -30,6 +29,9 @@ public class SelectorToggle : MonoBehaviour {
     private Selectable selectable;
 
     [SerializeField]
+    private Image image;
+
+    [SerializeField]
     private Text text;
 
     #endregion
@@ -49,6 +51,7 @@ public class SelectorToggle : MonoBehaviour {
     private void Awake()
     {
         Assert.IsNotNull(selectable);
+        Assert.IsNotNull(image);
         Assert.IsNotNull(text);
 
         // Events
@@ -68,8 +71,11 @@ public class SelectorToggle : MonoBehaviour {
         pointerExit.eventID = EventTriggerType.PointerExit;
         pointerExit.callback.AddListener(ButtonOnPointerExit);
 
-        EventTrigger trigger = selectable.gameObject.AddComponent<EventTrigger>();
-        trigger.hideFlags = HideFlags.HideInInspector;
+        EventTrigger trigger = selectable.gameObject.GetComponent<EventTrigger>();
+        if (trigger == null)
+        {
+            trigger = selectable.gameObject.AddComponent<EventTrigger>();
+        }
         trigger.triggers.AddRange(new EventTrigger.Entry[]
         {
             select,
@@ -79,6 +85,7 @@ public class SelectorToggle : MonoBehaviour {
         });
 
         interactable = selectable.interactable;
+        UpdateDisplay();
     }
 
     private void Update()
@@ -132,7 +139,8 @@ public class SelectorToggle : MonoBehaviour {
         }
 
         // Set values.
-        selectable.image.sprite = sprite;
+        image.enabled = sprite != null;
+        image.sprite = sprite;
         text.color = color;
     }
 

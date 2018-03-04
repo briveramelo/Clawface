@@ -192,7 +192,7 @@ GameObject:
   - component: {fileID: 114248625171219634}
   - component: {fileID: 114149057397778972}
   m_Layer: 0
-  m_Name: Controls
+  m_Name: Settings
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -293,7 +293,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1802830024571162}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 137.27388, y: -86.171715, z: 391.10742}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224783938892456072}
@@ -449,7 +449,8 @@ MonoBehaviour:
   colorDisabled: {r: 0.5764706, g: 0.5764706, b: 0.5764706, a: 1}
   spriteOff: {fileID: 21300000, guid: 040c162357fd5574ab6e2bbface697db, type: 3}
   spriteOn: {fileID: 21300000, guid: 6ce9286bfc9ebcc4d9a5fc8a3017b40a, type: 3}
-  button: {fileID: 114522490449137318}
+  selectable: {fileID: 114522490449137318}
+  image: {fileID: 114592812426004468}
   text: {fileID: 114403013621255368}
 --- !u!114 &114162725773738148
 MonoBehaviour:
@@ -500,7 +501,8 @@ MonoBehaviour:
   colorDisabled: {r: 0.5764706, g: 0.5764706, b: 0.5764706, a: 1}
   spriteOff: {fileID: 21300000, guid: 040c162357fd5574ab6e2bbface697db, type: 3}
   spriteOn: {fileID: 21300000, guid: 6ce9286bfc9ebcc4d9a5fc8a3017b40a, type: 3}
-  button: {fileID: 114562099310595960}
+  selectable: {fileID: 114562099310595960}
+  image: {fileID: 114459122251617490}
   text: {fileID: 114162725773738148}
 --- !u!114 &114204008470247126
 MonoBehaviour:
@@ -605,7 +607,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: CONTROLS
+  m_Text: SETTINGS
 --- !u!114 &114403912724172180
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -783,7 +785,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 114729727747367086}
-        m_MethodName: ControlsAction
+        m_MethodName: SettingsAction
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -913,7 +915,8 @@ MonoBehaviour:
   colorDisabled: {r: 0.5764706, g: 0.5764706, b: 0.5764706, a: 1}
   spriteOff: {fileID: 21300000, guid: 040c162357fd5574ab6e2bbface697db, type: 3}
   spriteOn: {fileID: 21300000, guid: 6ce9286bfc9ebcc4d9a5fc8a3017b40a, type: 3}
-  button: {fileID: 114940989182998016}
+  selectable: {fileID: 114940989182998016}
+  image: {fileID: 114455626087892392}
   text: {fileID: 114286390928339672}
 --- !u!114 &114592812426004468
 MonoBehaviour:
@@ -977,7 +980,8 @@ MonoBehaviour:
   colorDisabled: {r: 0.5764706, g: 0.5764706, b: 0.5764706, a: 1}
   spriteOff: {fileID: 21300000, guid: 040c162357fd5574ab6e2bbface697db, type: 3}
   spriteOn: {fileID: 21300000, guid: 6ce9286bfc9ebcc4d9a5fc8a3017b40a, type: 3}
-  button: {fileID: 114044420155061846}
+  selectable: {fileID: 114044420155061846}
+  image: {fileID: 114006282316303362}
   text: {fileID: 114866710817195288}
 --- !u!114 &114680070493194928
 MonoBehaviour:
@@ -1185,7 +1189,8 @@ MonoBehaviour:
   colorDisabled: {r: 0.5764706, g: 0.5764706, b: 0.5764706, a: 1}
   spriteOff: {fileID: 21300000, guid: 040c162357fd5574ab6e2bbface697db, type: 3}
   spriteOn: {fileID: 21300000, guid: 6ce9286bfc9ebcc4d9a5fc8a3017b40a, type: 3}
-  button: {fileID: 114120045394534206}
+  selectable: {fileID: 114120045394534206}
+  image: {fileID: 114920095680024094}
   text: {fileID: 114535439229824854}
 --- !u!114 &114920095680024094
 MonoBehaviour:

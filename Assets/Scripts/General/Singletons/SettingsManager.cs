@@ -124,6 +124,18 @@ public class SettingsManager : Singleton<SettingsManager>
         }
     }
 
+    public bool Tutorial
+    {
+        get
+        {
+            return settings.tutorial;
+        }
+        set
+        {
+            settings.tutorial = value;
+        }
+    }
+
     #endregion
 
     #region Fields (Unity Serialization)
@@ -173,6 +185,11 @@ public class SettingsManager : Singleton<SettingsManager>
         settings = Settings.ReadSettings();
     }
 
+    public void SetDefault()
+    {
+        settings = Instance.defaultSettings;
+    }
+
     #endregion
 
     #region Types (Internal)
@@ -218,6 +235,9 @@ public class SettingsManager : Singleton<SettingsManager>
         public FireMode fireMode;
 
         public bool snapLook;
+
+        [Header("Other")]
+        public bool tutorial;
 
         #endregion
 
