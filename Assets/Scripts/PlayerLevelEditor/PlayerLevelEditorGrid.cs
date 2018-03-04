@@ -4,6 +4,7 @@ using UnityEngine;
 using PlayerLevelEditor;
 using ModMan;
 using System.Linq;
+using UnityEngine.AI;
 
 public class PlayerLevelEditorGrid : MonoBehaviour {
     #region Private Fields
@@ -32,6 +33,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     [SerializeField] private Color selectedColor = Color.blue;
     [SerializeField] private Color deletePreviewColor = Color.red;
     [SerializeField] private LevelEditor editorInstance;
+    [SerializeField] private NavMeshSurface levelNav;
 
     #endregion
 
@@ -48,14 +50,23 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
 
     #region Unity Lifecycle
 
+    private void OnEnable()
+    {
+        if(EventSystem.Instance)
+        {
+            EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_STARTED, BakeMesh);
+        }
+    }
+
     void Start() {
         Initilaize();
+
         //EventSystem.Instance.RegisterEvent(Strings.Events.PLE_UPDATE_LEVELSTATE, OnTileHeightsChanged);
     }    
 
     private void OnDestroy() {
         if (EventSystem.Instance) {
-            //EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_UPDATE_LEVELSTATE, OnTileHeightsChanged);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_STARTED, BakeMesh);
         }
     }
 
@@ -99,7 +110,9 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     }
 
     public void ClearSelectedBlocks() {
-        DeselectBlocks();
+        if (gameObject.activeSelf) {
+            DeselectBlocks();
+        }
     }
 
     public List<GameObject> GetSelectedBlocks() { return selectedGameObjects; }
@@ -112,17 +125,27 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     #endregion
 
     #region Private Interface
+
+    private void BakeMesh(params object[] i_params)
+    {
+        levelNav.BuildNavMesh();
+    }
+
     private void Initilaize(params object[] par) {
         previewBlock = Resources.Load(Strings.Editor.RESOURCE_PATH + Strings.Editor.BASIC_LE_BLOCK) as GameObject;
         spawnedBlock = Resources.Load(Strings.Editor.RESOURCE_PATH + Strings.Editor.CHERLIN_LVL_BLOCK) as GameObject;
 
         InitGridTiles();
-    }    
+    }
 
-    private void HandleWireSelection(RaycastHit hit) {
-        CleanUpLastHoveredObjects(hit);
-        UpdateCurrentHoveredObject(hit);
-        UpdateLastHoveredObjects(hit);
+    private void HandleWireSelection(RaycastHit hit)
+    {
+        if (hit.transform != null)
+        {
+            CleanUpLastHoveredObjects(hit);
+            UpdateCurrentHoveredObject(hit);
+            UpdateLastHoveredObjects(hit);
+        }
     }
 
     private void CleanUpLastHoveredObjects(RaycastHit hit) {
@@ -169,7 +192,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
 
     private GridTile lastSelectedTile;
     private void HandleHoveringBlocks(RaycastHit hit) {
-        if (!Input.GetKey(KeyCode.LeftShift)) {
+        if (!(Input.GetKey(KeyCode.LeftShift) && Input.GetMouseButton(MouseButtons.LEFT))) {
             if (MouseHelper.HitTile) {
                 Vector3 mousePos = MouseHelper.currentBlockUnit.transform.position;
                 GridTile hoveredTile = GetTileAtPoint(mousePos);
@@ -192,7 +215,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     }
 
     private void HandleSelectingBlocks(RaycastHit hit) {
-        if (Input.GetMouseButtonDown(MouseButtons.LEFT) && !Input.GetKey(KeyCode.LeftShift)) {
+        if (Input.GetMouseButtonDown(MouseButtons.LEFT) && !Input.GetKey(KeyCode.LeftShift) && !Input.GetKey(KeyCode.LeftAlt)) {
             DeselectBlocks();
         }
         if (Input.GetMouseButton(MouseButtons.LEFT) && Input.GetKey(KeyCode.LeftShift)) {
@@ -346,9 +369,11 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         for (int i = lastSelectedGameObjects.Count - 1; i >= 0; i--) {
             for (int j = selectedObjects.Count - 1; j >= 0; j--) {
                 if (lastSelectedGameObjects[i].Contains(selectedObjects[j])) {
-                    GridTile selectedTile = gridTiles.Find(tile => { return tile.realTile == selectedObjects[j]; });
-                    selectedTile.ChangeColor(selectedTile.CurrentTileStateColor);
-                    selectedTile.SetSelected(false);
+                    GridTile selectedTile = gridTiles.Find(tile => tile.realTile == selectedObjects[j]);
+                    if (selectedTile!=null) {
+                        selectedTile.ChangeColor(selectedTile.CurrentTileStateColor);
+                        selectedTile.SetSelected(false);
+                    }
                     lastSelectedGameObjects[i].Remove(selectedObjects[j]);
                     selectedObjects.Remove(selectedObjects[j]);
                 }

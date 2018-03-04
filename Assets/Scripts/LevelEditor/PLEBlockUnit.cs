@@ -32,7 +32,7 @@ public class PLEBlockUnit : MonoBehaviour
         yield return new WaitForEndOfFrame();
         yield return new WaitForEndOfFrame();
         if (levelStates.Count == 0) {
-            for (int i = 0; i < WaveSystem.maxWave; i++) {
+            for (int i = 0; i < PLESpawnManager.Instance.MaxWave; i++) {
                 levelStates.Add(LevelUnitStates.floor);
             }
             RegisterDefaultState();
@@ -106,7 +106,8 @@ public class PLEBlockUnit : MonoBehaviour
     public void ClearItems() {
         transform.position = transform.position.NoY();
         levelStates.Clear();
-        for (int i = 0; i < WaveSystem.maxWave; i++) {
+        
+        for (int i = 0; i < PLESpawnManager.Instance.MaxWave; i++) {
             levelStates.Add(LevelUnitStates.floor);
         }
         UpdateDynamicLevelState();
@@ -165,12 +166,16 @@ public class PLEBlockUnit : MonoBehaviour
 
     public void AddNewWave(params object[] parameters)
     {
-        levelStates.Add(LevelUnitStates.floor);
+        LevelUnitStates newState = LevelUnitStates.floor;
+        if (levelStates.Count>= PLESpawnManager.Instance.CurrentWave) {
+            newState = levelStates[PLESpawnManager.Instance.CurrentWave];
+        }
+        levelStates.Insert(PLESpawnManager.Instance.CurrentWave, newState);
     }
 
     public void DeleteCurrentWave(params object[] parameters)
     {
-        levelStates.RemoveAt(WaveSystem.currentWave);
+        levelStates.RemoveAt(PLESpawnManager.Instance.CurrentWave);
     }
 
     public void UpdateDynamicLevelState(params object[] parameters)

@@ -5,7 +5,7 @@ public class SettingsMenu : Menu
 {
     #region Public Accessors
 
-    public override Button InitialSelection
+    public override Selectable InitialSelection
     {
         get
         {

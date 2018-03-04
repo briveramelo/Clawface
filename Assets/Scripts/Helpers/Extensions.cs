@@ -3,7 +3,7 @@ using UnityEngine;
 using MEC;
 using System.Reflection;
 using System;
-
+using UnityEngine.UI;
 namespace ModMan {
 
     public static class StringExtension
@@ -169,6 +169,14 @@ namespace ModMan {
         public static Float3 ToFloat3 (this Vector3 v)
         {
             return new Float3 (v.x, v.y, v.z);
+        }
+    }
+
+    public static class UIExtensions {
+        public static void SwitchListenerState(this UnityEngine.Events.UnityEventBase eventBase, UnityEngine.Events.UnityEventCallState newState) {
+            for (int i = 0; i < eventBase.GetPersistentEventCount(); i++) {
+                eventBase.SetPersistentListenerState(i, newState);
+            }
         }
     }
 

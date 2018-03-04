@@ -5,158 +5,86 @@ using UnityEngine.UI;
 
 using PlayerLevelEditor;
 
-public class TestMenu : Menu
+public class TestMenu : PlayerLevelEditorMenu
 {
 
-    #region Public Fields
-
-    public override Button InitialSelection
-    {
-        get
-        {
-            return initiallySelected;
-        }
-    }
+    #region Public Fields    
 
     #endregion
 
     #region Serialized Unity Fields
-
-    [SerializeField] private Button initiallySelected;
-    [SerializeField] private LevelEditor editorInstance;
     [SerializeField] private Transform tileParents;
-    [SerializeField] private GameObject playerSpawnerPrefab;
-    [SerializeField] private GameObject editorCamera;    
     #endregion
 
-    #region Private Fields
-
-    private bool inputGuard = false;
-    GameObject playerSpawnerInstance = null;
-
+    #region Private Fields    
+    private bool HasCreatedPlayer { get { return levelEditor.hasCreatedPlayer; } set { levelEditor.hasCreatedPlayer = value; } }
     #endregion
 
     #region Unity Lifecycle
-
-    private void Update()
-    {
-        if (inputGuard)
-        {
-            if(InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.UP))
-            {
-                BackAction();
-            }
-
-
-
-            //active update loop
-        }
-    }
+    
 
     #endregion
 
     #region Public Interface
 
-    public TestMenu() : base(Strings.MenuStrings.TEST_PLE_MENU)
-    {
+    public TestMenu() : base(Strings.MenuStrings.LevelEditor.TEST_PLE_MENU) { }
 
+    public override void BackAction() {
+        if (HasCreatedPlayer) {
+            ReleaseTestMode();
+        }
+
+        MenuManager.Instance.DoTransition(Strings.MenuStrings.WEAPON_SELECT, Transition.HIDE, new Effect[] { Effect.INSTANT });
+
+        Menu mainPLEMenu = levelEditor.GetMenu(PLEMenu.MAIN);
+        MenuManager.Instance.DoTransition(mainPLEMenu, Transition.SHOW, new Effect[] { });
+        
+        base.BackAction();
     }
-
 
     #endregion
 
 
     #region Protected Interface
     protected override void ShowStarted() {
-        base.ShowStarted();
+        ShowWeaponSelectMenu();
     }
-    protected override void ShowComplete()
-    {
+    protected override void ShowComplete() {
         base.ShowComplete();
-        inputGuard = true;
-
-        InitTestMode();
     }
 
-    protected override void HideStarted()
-    {
+    protected override void HideStarted() {
         base.HideStarted();
-        inputGuard = false;
-
-        ReleaseTestMode();
-    }
-
-    protected override void DefaultHide(Transition transition, Effect[] effects)
-    {
-        Fade(transition, effects);
-    }
-
-    protected override void DefaultShow(Transition transition, Effect[] effects)
-    {
-        Fade(transition, effects);
     }
 
     #endregion
 
-    #region Private Interface
+    #region Private Interface    
 
-    private void BackAction()
+
+    private void ShowWeaponSelectMenu()
     {
-        MenuManager.Instance.DoTransition(editorInstance.GetMenu(PLEMenu.MAIN), Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+        levelEditor.ToggleCameraController(false);        
+
+        WeaponSelectMenu weaponSelectMenu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.WEAPON_SELECT) as WeaponSelectMenu;
+        System.Action onReturnFromPLE = () => {
+            BackAction();
+            levelEditor.SetUpMenus();
+        };
+        System.Action onStartAction = () => {
+            base.ShowStarted();
+            base.ShowComplete();
+            levelEditor.ToggleCameraGameObject(false);
+        };
+
+        weaponSelectMenu.DefineNavigation(null, null, onStartAction, null, onReturnFromPLE);
+
+        MenuManager.Instance.DoTransition(weaponSelectMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
     }
 
 
-
-    private void InitTestMode()
-    {
-        MenuManager.Instance.DoTransition(editorInstance.GetMenu(PLEMenu.MAIN), Transition.HIDE, new Effect[] {});
-
-        if(tileParents.childCount == 0 || SpawnMenu.playerSpawnInstance == null)
-        {
-            return;
-        }
-
-        editorCamera.SetActive(false);
-        SpawnMenu.playerSpawnInstance.SetActive(false);
-
-        playerSpawnerInstance = Instantiate(playerSpawnerPrefab);
-        playerSpawnerInstance.transform.position = SpawnMenu.playerSpawnInstance.transform.position;
-        editorInstance.waveSystem.ResetToWave0();
-        EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_STARTED, Strings.Scenes.Editor, ModManager.leftArmOnLoad.ToString(), ModManager.rightArmOnLoad.ToString());
-        
-        
-    }
-
-
-
-    private void ReleaseTestMode()
-    {
-        //Debug.Log("ReleaseTestMode");
-
-        GameObject playerInstance = null;
-
-        if (playerSpawnerInstance != null)
-        {
-            playerInstance = playerSpawnerInstance.GetComponent<PlayerSpawner>().GetplayerPrefabGO();
-
-            DestroyImmediate(playerSpawnerInstance);
-            playerSpawnerInstance = null;
-        }
-
-        if(playerInstance != null)
-        {
-            DestroyImmediate(playerInstance);
-            playerInstance = null;
-        }
-
-        editorCamera.SetActive(true);
-
-        if (SpawnMenu.playerSpawnInstance != null)
-        {
-            SpawnMenu.playerSpawnInstance.SetActive(true);
-        }
-
-        EventSystem.Instance.TriggerEvent(Strings.Events.PLE_TEST_END);
+    private void ReleaseTestMode() {
+        levelEditor.ExitLevel();
     }
 
     #endregion

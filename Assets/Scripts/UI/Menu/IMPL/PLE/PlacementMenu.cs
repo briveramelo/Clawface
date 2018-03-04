@@ -7,18 +7,13 @@ using ModMan;
 using UnityEngine.UI;
 using System.Linq;
 
-public abstract class PlacementMenu : Menu {
+public abstract class PlacementMenu : PlayerLevelEditorMenu {
 
     public PlacementMenu(string menuName) : base(menuName) { }
 
-    public override Button InitialSelection { get { return initiallySelected; } }
-
-    [SerializeField] protected LevelEditor editorInstance;
-    [SerializeField] protected Button initiallySelected;
     [SerializeField] protected Transform createdItemsParent;
     [SerializeField] protected ScrollGroup scrollGroup;
 
-    protected bool inputGuard = false;
     protected GameObject selectedItem = null;
     protected GameObject previewItem = null;
     protected List<string> itemNames = new List<string>();
@@ -28,14 +23,15 @@ public abstract class PlacementMenu : Menu {
     protected virtual bool SelectItem { get { return Input.GetMouseButtonDown(MouseButtons.LEFT) && MouseHelper.HitItem; } }
     protected virtual bool DeSelectItem { get { return Input.GetMouseButtonDown(MouseButtons.LEFT) || Input.GetMouseButtonDown(MouseButtons.RIGHT); } }
     protected bool RightClick { get { return Input.GetMouseButtonDown(MouseButtons.RIGHT); } }
-    protected bool Place { get { return Input.GetMouseButtonDown(MouseButtons.LEFT) && selectedItem != null && MouseHelper.currentBlockUnit != null && !MouseHelper.currentBlockUnit.IsOccupied() && MouseHelper.currentBlockUnit.IsFlatAtWave(WaveSystem.currentWave); } }
-    protected bool UpdatePreview { get { return previewItem != null && MouseHelper.currentBlockUnit != null && !MouseHelper.currentBlockUnit.IsOccupied() && MouseHelper.currentBlockUnit.IsFlatAtWave(WaveSystem.currentWave); } }
+    protected bool Place { get { return Input.GetMouseButtonDown(MouseButtons.LEFT) && selectedItem != null && MouseHelper.currentBlockUnit != null && !MouseHelper.currentBlockUnit.IsOccupied() && MouseHelper.currentBlockUnit.IsFlatAtWave(PLESpawnManager.Instance.CurrentWave); } }
+    protected bool UpdatePreview { get { return previewItem != null && MouseHelper.currentBlockUnit != null && !MouseHelper.currentBlockUnit.IsOccupied() && MouseHelper.currentBlockUnit.IsFlatAtWave(PLESpawnManager.Instance.CurrentWave); } }
     protected bool CanDeletedHoveredItem { get { return MouseHelper.currentHoveredObject && itemNames.Contains(MouseHelper.currentHoveredObject.name); } }
     #endregion
 
     #region Unity Lifecycle
-    protected virtual void Update() {
-        if (inputGuard) {
+    protected override void Update() {
+        base.Update();
+        if (allowInput) {
             if (SelectUI) {
                 SelectUIItem();
             }
@@ -45,7 +41,7 @@ public abstract class PlacementMenu : Menu {
             else if (SelectItem) {
                 SelectGameItem();
             }
-            else if (RightClick) {
+            else if (DeSelectItem) {
                 bool deletedPreviewItem = DeselectUIItem();
                 DeselectItem();
                 if (!deletedPreviewItem && CanDeletedHoveredItem) {
@@ -54,10 +50,6 @@ public abstract class PlacementMenu : Menu {
             }
             else if (UpdatePreview) {
                 UpdatePreviewPosition();
-            }
-
-            if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.UP)) {
-                BackAction();
             }
         }
     }
@@ -130,33 +122,17 @@ public abstract class PlacementMenu : Menu {
     }
     protected override void ShowComplete() {
         base.ShowComplete();
-        inputGuard = true;
     }
 
     protected override void HideStarted() {
         base.HideStarted();
-        inputGuard = false;
         DeselectAll();
         TryDestroyPreview();
-    }
-
-    protected override void DefaultShow(Transition transition, Effect[] effects) {
-        Fade(transition, effects);
-    }
-
-    protected override void DefaultHide(Transition transition, Effect[] effects) {
-        Fade(transition, effects);
     }
 
     #endregion
 
     #region Private Interface
-
-    protected void BackAction() {
-        MainPLEMenu menu = editorInstance.GetMenu(PLEMenu.MAIN) as MainPLEMenu;
-
-        MenuManager.Instance.DoTransition(menu, Menu.Transition.SHOW, new Menu.Effect[] { Menu.Effect.EXCLUSIVE });
-    }
 
     #endregion
 }

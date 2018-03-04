@@ -11,7 +11,7 @@ public class PauseMenu : Menu
 
 	#region Public Fields
 
-	public override Button InitialSelection {
+	public override Selectable InitialSelection {
 		get {
 			return initiallySelected;
 		}
@@ -83,11 +83,10 @@ public class PauseMenu : Menu
         
 		Menu menu = MenuManager.Instance.GetMenuByName (Strings.MenuStrings.LOAD);
 		LoadMenu loadMenu = (LoadMenu)menu;
-		Scene scene = SceneManager.GetActiveScene ();
-		loadMenu.TargetScene = scene.name;
+		loadMenu.TargetScenePath = SceneTracker.CurrentScenePath;
         ObjectPool.Instance.ResetPools();
 
-        EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_RESTARTED, scene.name, AnalyticsManager.Instance.GetCurrentWave(), ScoreManager.Instance.GetScore());
+        EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_RESTARTED, SceneTracker.CurrentSceneName, AnalyticsManager.Instance.GetCurrentWave(), ScoreManager.Instance.GetScore());
 
 
         MenuManager.Instance.DoTransition (loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
@@ -99,7 +98,7 @@ public class PauseMenu : Menu
 		Menu menu = MenuManager.Instance.GetMenuByName (Strings.MenuStrings.LOAD);
         EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_QUIT, SceneManager.GetActiveScene().name, AnalyticsManager.Instance.GetCurrentWave(), ScoreManager.Instance.GetScore());
         LoadMenu loadMenu = (LoadMenu)menu;
-		loadMenu.TargetScene = Strings.Scenes.MainMenu;
+		loadMenu.TargetScenePath = Strings.Scenes.ScenePaths.MainMenu;
 		loadMenu.Fast = true;
         ObjectPool.Instance.ResetPools();
         MenuManager.Instance.DoTransition (loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });

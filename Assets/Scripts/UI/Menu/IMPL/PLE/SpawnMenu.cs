@@ -2,56 +2,79 @@
 using UnityEngine.EventSystems;
 using UnityEngine;
 using PlayerLevelEditor;
+using UnityEngine.UI;
+using System;
 
 public class SpawnMenu : PlacementMenu {
 
     private PLESpawn selectedSpawn;
 
     #region Public Interface
-    public SpawnMenu() : base(Strings.MenuStrings.ADD_SPAWNS_PLE) { }
+    public SpawnMenu() : base(Strings.MenuStrings.LevelEditor.ADD_SPAWNS_PLE) { }
+    public void SetAmtOnSelectedSpawn()
+    {
+        if (selectedSpawn)
+        {
+            int finalAmt = 0;
+
+            if (System.Int32.TryParse(amountField.text, out finalAmt))
+            {
+                selectedSpawn.totalSpawnAmount = finalAmt;
+            }
+
+        }
+    }
+
     #endregion
 
-    #region Private Fields
+    #region Serialized Unity Fields
+
+    [SerializeField] private InputField amountField;
+
+    #endregion
+
+    #region Public Fields
 
     static public GameObject playerSpawnInstance = null;
 
-    #endregion  
+    #endregion
 
-    private void Awake() {
-        EventSystem.Instance.RegisterEvent(Strings.Events.PLE_CHANGEWAVE, OnWaveChange);
-    }
-    private void OnDestroy() {
-        if (EventSystem.Instance) {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_CHANGEWAVE, OnWaveChange);
-        }
-    }
-
-    void OnWaveChange(params object[] parameters) {
-
-        string activeWaveName = GetWaveName(WaveSystem.currentWave);
-
-        for (int i = 0; i < createdItemsParent.childCount; i++)
+    #region Private Interface
+    
+    private void UpdateAmtField(int i_amt, bool makeEmpty = false)
+    {
+        if(makeEmpty)
         {
-            //Accounts for not disabling the player spawn object between switching of waves.
-            GameObject currentGO = createdItemsParent.GetChild(i).gameObject;
-
-            if (!currentGO.CompareTag(Strings.Editor.PLAYER_SPAWN_TAG))
-            {
-                currentGO.SetActive(false);
-            }
+            amountField.text = "";
         }
-        Transform activeWave = createdItemsParent.Find(activeWaveName);
-        if (activeWave!=null) {
-            activeWave.gameObject.SetActive(true);
+        else
+        {
+            string toSet = Convert.ToString(i_amt);
+            amountField.text = toSet;
         }
     }
+
+   
+    private Transform TryCreateWaveParent(int i)
+    {
+        string waveName = levelEditor.GetWaveName(i);
+        Transform waveParent = createdItemsParent.Find(waveName);
+        if (waveParent == null)
+        {
+            waveParent = new GameObject(waveName).transform;
+            waveParent.SetParent(createdItemsParent);
+        }
+        return waveParent;
+    }
+
+    #endregion
 
     #region Protected Interface
     protected override bool SelectUI { get { return base.SelectUI && ScrollGroupHelper.currentUIItem != null; } }
     protected override bool SelectItem { get { return base.SelectUI && MouseHelper.currentSpawn != null; } }
     protected override void DeleteHoveredItem() {
         base.DeleteHoveredItem();
-        editorInstance.CheckToSetMenuInteractability();
+        levelEditor.CheckToSetMenuInteractability();
     }
     protected override void ShowComplete() {
         base.ShowComplete();
@@ -65,7 +88,7 @@ public class SpawnMenu : PlacementMenu {
         base.SelectUIItem();
     }
     protected override void PostPlaceItem(GameObject newItem) {
-        int currentWave = WaveSystem.currentWave;
+        int currentWave = PLESpawnManager.Instance.CurrentWave;
         Transform waveParent = TryCreateWaveParent(currentWave);
         for (int i = currentWave; i >= 0; i--) {
             TryCreateWaveParent(i);
@@ -77,7 +100,7 @@ public class SpawnMenu : PlacementMenu {
         PLESpawn spawn = newItem.GetComponent<PLESpawn>();
         if(spawn)
         {
-            PLESpawnManager.Instance.RegisterSpawner(currentWave, spawn);
+            //TODO: What happens if the registered wave is 'deleted'
             spawn.registeredWave = currentWave;
         }
 
@@ -91,30 +114,26 @@ public class SpawnMenu : PlacementMenu {
             playerSpawnInstance = newItem;
             playerSpawnInstance.transform.SetParent(TryCreateWaveParent(0).parent);
         }
-        editorInstance.CheckToSetMenuInteractability();
+        levelEditor.CheckToSetMenuInteractability();
+        UpdateAmtField(spawn.totalSpawnAmount);
     }
-    Transform TryCreateWaveParent(int i) {
-        string waveName = GetWaveName(i);
-        Transform waveParent = createdItemsParent.Find(waveName);
-        if (waveParent == null) {
-            waveParent = new GameObject(waveName).transform;
-            waveParent.SetParent(createdItemsParent);
-        }
-        return waveParent;
-    }    
-
-    #endregion
-    private string GetWaveName(int i) { return Strings.Editor.Wave + i; }
 
     protected override void SelectGameItem() {
         base.SelectGameItem();
         MouseHelper.currentSpawn.Select();
         selectedSpawn = MouseHelper.currentSpawn;
+        amountField.interactable = true;
+        UpdateAmtField(selectedSpawn.totalSpawnAmount);
     }
     protected override void DeselectItem() {
+        amountField.interactable = false;
+        UpdateAmtField(0, true);
         if (selectedSpawn!=null) {
             selectedSpawn.Deselect();
             selectedSpawn = null;
         }
     }
+
+
+    #endregion
 }
