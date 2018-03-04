@@ -6,6 +6,7 @@ using ModMan;
 using PlayerLevelEditor;
 using System.Linq;
 using System;
+ 
 public class PLELevelSelectMenu : PlayerLevelEditorMenu {
 
     public PLELevelSelectMenu() : base(Strings.MenuStrings.LevelEditor.LEVELSELECT_PLE_MENU) { }
@@ -26,7 +27,7 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
     [SerializeField] private GameObject plePrefab;
     [SerializeField] private List<MemorableTransform> preMadeLevelUITransforms;
     [SerializeField] private RectOffset gridLayoutConfigWithHathos, gridLayoutConfigWithoutHathos;
-    [SerializeField, Range(0,1)] private float scrollUnitPerRow;
+    [SerializeField] private DiffAnim scrollSlideAnim;
     #endregion
 
     #region Fields (Private)
@@ -51,7 +52,8 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
         }
     }
     private const int levelsPerRow = 4;
-
+    private LevelUI lastSelectedLevel;
+    private bool IsLastLevelShowing { get { return lastSelectedLevel == null ? false : (lastSelectedLevel.gameObject.activeInHierarchy); } }
     #endregion
 
 
@@ -59,6 +61,7 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
     #region Unity Lifecyle
     protected override void Start() {
         base.Start();
+        scrollSlideAnim.OnUpdate = (val) => { levelScrollBar.value = val; };
         levelUISelectionMatch = item => CurrentEventSystemGameObject == item.selectable.gameObject;
     }
 
@@ -77,12 +80,16 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
             LevelData levelData = levelUIs[i].levelData;
             bool shouldShow = levelData.IsValidLevel(activeFilter);
             levelUIs[i].gameObject.SetActive(shouldShow);
+            if (!shouldShow) {
+                CheckToNullLastSelected(levelUIs[i].selectable);
+            }
         }
         SetButtonNavigation();
+        PositionLevelsInSceneContext();
+        StartCoroutine(ResortImagePositions());
     }
 
     public void OnSearchChange() {
-        gridLayoutGroup.enabled = false;
         string searchTerm = searchField.text.ToLowerInvariant();
         List<string> searchTerms = searchTerm.Split(' ').ToList();
 
@@ -96,9 +103,11 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
                 searchTerms.All(term => { return levelDataName.Contains(term) || levelDataDescription.Contains(term); }));
 
             levelUIs[i].gameObject.SetActive(shouldShow);
+            if (!shouldShow) {
+                CheckToNullLastSelected(levelUIs[i].selectable);
+            }
         }
         FilterLevels((int)activeFilter);
-        StartCoroutine(ResortImagePositions());
     }
 
     public void LoadLevel() {
@@ -121,9 +130,14 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
         }
     }
 
+    public void SelectLevel(LevelUI levelUI) {
+        SelectLevel(levelUI.LevelIndex);
+    }
+
     public void SelectLevel(int levelIndex) {
         SelectedLevelIndex = levelIndex;
         SelectedLevelUI.selectable.Select();
+        lastSelectedLevel = SelectedLevelUI;
 
         LevelData selectedLevel = SelectedLevelUI.levelData;
         selectedLevelNameText.text = selectedLevel.name;
@@ -179,7 +193,6 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
         activeFilter = LevelSelectFilterType.All;
         searchField.text = "";
         InitializeHathosLevels();
-        PositionLevelsInSceneContext();
         ClearAndGenerateLevelUI();
         if (SceneTracker.IsCurrentSceneEditor) {
             deleteButton.gameObject.SetActive(true);
@@ -209,7 +222,8 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
             float yInput = InputManager.Instance.QueryAxes(Strings.Input.UI.NAVIGATION).y;
             if (Mathf.Abs(yInput)>.5f) {
                 bool goUp = yInput > 0f;
-                GameObject downSelection = levelUIs.Count > 0 ? levelUIs[0].selectable.gameObject : loadButton.gameObject;
+                List<LevelUI> displayedLevelUIs = DisplayedLevelUIs;
+                GameObject downSelection = displayedLevelUIs.Count > 0 ? displayedLevelUIs[0].selectable.gameObject : loadButton.gameObject;
                 GameObject selectedObject = goUp ? allToggle.gameObject : downSelection;
                 CurrentEventSystem.SetSelectedGameObject(selectedObject);
             }
@@ -220,10 +234,10 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
         List<LevelUI> displayedLevelUIs = DisplayedLevelUIs;
         if (IsHathosLevelDisplayed) {
             SetHathosLevelNavigation(displayedLevelUIs);
-            filterButtonDownSelectable = levelUIs[0].selectable;
+            filterButtonDownSelectable = (lastSelectedLevel ?? displayedLevelUIs[0]).selectable;
         }
         else {
-            filterButtonDownSelectable = displayedLevelUIs.Count > 0 ? levelUIs[0].selectable : loadButton;
+            filterButtonDownSelectable = displayedLevelUIs.Count > 0 ? (lastSelectedLevel ?? displayedLevelUIs[0]).selectable : loadButton;
         }
 
         SetPlayerLevelNavigation(displayedLevelUIs);
@@ -280,7 +294,7 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
 
     private void SetLevelItemButtonsNavigation(List<LevelUI> displayedLevelUIs) {
 
-        Selectable absoluteLeftTarget = displayedLevelUIs.Count > 0 ? displayedLevelUIs[0].selectable : allToggle;
+        Selectable absoluteLeftTarget = displayedLevelUIs.Count > 0 ? (lastSelectedLevel ?? displayedLevelUIs[0]).selectable : allToggle;
 
         //delete button navigation
         SetNavigation(deleteButton, absoluteLeftTarget, SelectableDirection.Left, SelectableDirection.Up);
@@ -288,16 +302,17 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
         //favorite button navigation
         bool deleteButtonAvailable = deleteButton.interactable && deleteButton.IsActive();
         Selectable leftTarget = deleteButtonAvailable ? deleteButton : absoluteLeftTarget;
-        SetNavigation(favoriteButton, leftTarget, SelectableDirection.Left, SelectableDirection.Up);        
+        SetNavigation(favoriteButton, leftTarget, SelectableDirection.Left);
+        SetNavigation(favoriteButton, absoluteLeftTarget, SelectableDirection.Up);
 
         //leaderboard button navigation
         leftTarget = favoriteButton.interactable ? favoriteButton : absoluteLeftTarget;
-        SetNavigation(leaderboardButton, leftTarget, SelectableDirection.Left, SelectableDirection.Up);
-
+        SetNavigation(leaderboardButton, leftTarget, SelectableDirection.Left);
+        SetNavigation(leaderboardButton, absoluteLeftTarget, SelectableDirection.Up);
         //load button navigation
         leftTarget = leaderboardButton.interactable ? leaderboardButton : absoluteLeftTarget;
-        SetNavigation(loadButton, leftTarget, SelectableDirection.Left, SelectableDirection.Up);
-
+        SetNavigation(loadButton, leftTarget, SelectableDirection.Left);
+        SetNavigation(loadButton, absoluteLeftTarget, SelectableDirection.Up);
     }
 
 
@@ -312,6 +327,9 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
         favoriteButton.interactable = anyLevelsDisplayed && !IsHathosLevelSelected;
         leaderboardButton.interactable = true;
         loadButton.interactable = anyLevelsDisplayed;
+
+        Selectable selected = lastSelectedLevel == null ? null : lastSelectedLevel.selectable;
+        SetFilterButtonsNavigation(selected);
         SetLevelItemButtonsNavigation(displayedLevelUIs);
     }
 
@@ -319,17 +337,28 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
         List<LevelUI> displayedLevelUIs = DisplayedLevelUIs;
         int displayedIndex = displayedLevelUIs.FindIndex(levelUI => levelUI == SelectedLevelUI);
         if (IsHathosLevelDisplayed && SelectedLevelIndex != 0) {
-            displayedIndex += 4;
+            displayedIndex += levelsPerRow-1;
         }        
         int levelRow = Mathf.FloorToInt(1f * displayedIndex / levelsPerRow);
+        int totalRows = Mathf.CeilToInt(1f * (displayedLevelUIs.Count / levelsPerRow));
+        float invertedPercentProgress = 1f * levelRow / totalRows;
+        float targetProgress = 1f - invertedPercentProgress;
 
-
-        levelScrollBar.value = 1f - levelRow * scrollUnitPerRow;
+        MEC.Timing.KillCoroutines(coroutineName);
+        scrollSlideAnim.startValue = levelScrollBar.value;
+        scrollSlideAnim.diff = targetProgress - scrollSlideAnim.startValue;
+        scrollSlideAnim.Animate(coroutineName);
     }
 
 
     private void PositionLevelsInSceneContext() {
-        gridLayoutGroup.padding = SceneTracker.IsCurrentSceneEditor ? gridLayoutConfigWithoutHathos : gridLayoutConfigWithHathos;
+        gridLayoutGroup.padding = IsHathosLevelDisplayed ? gridLayoutConfigWithHathos : gridLayoutConfigWithoutHathos;
+    }
+
+    private void CheckToNullLastSelected(Selectable turnedOff) {
+        if (turnedOff == lastSelectedLevel) {
+            lastSelectedLevel = null;
+        }
     }
 
     private void InitializeHathosLevels() {
@@ -352,8 +381,10 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
     }    
 
     private IEnumerator ResortImagePositions() {
+        gridLayoutGroup.enabled = false;
         yield return new WaitForEndOfFrame();
         gridLayoutGroup.enabled = true;
+        AlignScrollbar();
     }
 
     private IEnumerator DelayGeneration() {

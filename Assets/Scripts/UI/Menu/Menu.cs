@@ -6,7 +6,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public abstract class Menu : MonoBehaviour {
+public abstract class Menu : RoutineRunner {
 
     #region Properties
     private string menuName;
