@@ -226,6 +226,7 @@ GameObject:
   - component: {fileID: 23701837258829682}
   - component: {fileID: 65438049201471146}
   - component: {fileID: 114447543317646344}
+  - component: {fileID: 114780576403867814}
   m_Layer: 20
   m_Name: BlasterMod
   m_TagString: Mod
@@ -2983,6 +2984,7 @@ MonoBehaviour:
   rotationSpeed: 0
   bulletLiveTime: 0.25
   animationDriven: 1
+  shootSound: 23
 --- !u!114 &114399283091022888
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3052,6 +3054,7 @@ MonoBehaviour:
     timeToCoolDown: 0
     isCoolingDown: 0
     isActive: 0
+    cooldownTimer: 0
   shootSFX: 0
   bulletSpawnPoint: {fileID: 4643996250760050}
   bulletLiveTime: 5
@@ -3102,6 +3105,7 @@ MonoBehaviour:
     pulseRate: 0
     scaleRate: 0
     maxScale: 0
+    spawnRate: 0
   bulletHellController: {fileID: 114316577206612858}
 --- !u!114 &114572378797492830
 MonoBehaviour:
@@ -3198,6 +3202,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 348b0120920885b4195bf71cb50e01dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114780576403867814
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1124420979041326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc7084e61ce48b14d854732afc9e46bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  palette: {fileID: 11400000, guid: b75be58f903358146b59385003d16afc, type: 2}
+  type: 0
+  updateTime: 0
+  colorName: _ASEOutlineColor
+  materialIndex: 0
 --- !u!114 &114841704781311700
 MonoBehaviour:
   m_ObjectHideFlags: 1

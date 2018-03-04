@@ -11,6 +11,12 @@ public class EatingState : IPlayerState
     #region Serialized Fields
     [SerializeField]
     private ClawArmController clawArmController;
+
+    [SerializeField]
+    private Turing.VFX.PlayerFaceController playerFaceController;
+
+    [SerializeField]
+    private float happyTimeAfterEating;
     #endregion
 
     #region Private Fields
@@ -115,7 +121,7 @@ public class EatingState : IPlayerState
         {
             if (stateVariables.eatTargetEnemy)
             {
-                stateVariables.statsManager.MakeHappy();
+                // stateVariables.statsManager.MakeHappy();
                 IEatable eatable = stateVariables.eatTargetEnemy.GetComponent<IEatable>();
                 if (eatable != null)
                 {
@@ -168,26 +174,21 @@ public class EatingState : IPlayerState
                 Stats stats = GetComponent<Stats>();
                 EventSystem.Instance.TriggerEvent(Strings.Events.UPDATE_HEALTH, stats.GetHealthFraction());
                 GameObject skinningEffect = ObjectPool.Instance.GetObject(PoolObjectType.VFXMallCopExplosion);
+                playerFaceController.SetTemporaryEmotion(Turing.VFX.PlayerFaceController.Emotion.Happy, happyTimeAfterEating);
+
                 if (skinningEffect && clawTransform)
                 {
                     skinningEffect.transform.position = clawTransform.position;
                 }
 
-
+                
                 GameObject healthJuice = ObjectPool.Instance.GetObject(PoolObjectType.VFXHealthGain);
                 if (healthJuice)
                 {
                     healthJuice.FollowAndDeActivate(3f, transform, Vector3.up * 3.2f, coroutineName);
                 }
                 SFXManager.Instance.Play(stateVariables.EatSFX, transform.position);
-            }
-
-            else
-            {
-
-            }
-
-           
+            }      
         }
     }
 

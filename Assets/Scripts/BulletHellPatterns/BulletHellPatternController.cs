@@ -21,6 +21,7 @@ public class BulletHellPatternController : MonoBehaviour {
         Right,
         Left
     };
+    [SerializeField] private SFXType shootSound;
     #endregion
 
     #region 2. Private fields
@@ -68,7 +69,6 @@ public class BulletHellPatternController : MonoBehaviour {
         //For each stand 
         for (int i = 0; i < bulletHellStrandList.Count; i++)
         {
-            SFXManager.Instance.Play(SFXType.BlasterShoot, transform.position);
             GameObject newBullet = ObjectPool.Instance.GetObject(PoolObjectType.EnemyBulletSmall);
             if (newBullet) {
                 newBullet.transform.position = transform.position + (bulletHellStrandList[i].movementDirection * bulletOffsetFromOrigin);
@@ -77,6 +77,8 @@ public class BulletHellPatternController : MonoBehaviour {
                 newBullet.GetComponent<BlasterBullet>().SetShooterType(true);
             }
         }
+
+        SFXManager.Instance.Play(shootSound, transform.position);
     }
     private void RotateBulletHellController()
     {

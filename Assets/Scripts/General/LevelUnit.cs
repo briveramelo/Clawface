@@ -90,11 +90,12 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
         CalculateStatePositions();
     }
 
-    private void Start() {
+    private void OnEnable() {
         RegisterToEvents();
     }
 
-    private void OnDestroy() {
+    protected override void OnDisable() {
+        base.OnDisable();
         if (EventSystem.Instance) {
             DeRegisterFromEvents();
         }
@@ -116,74 +117,37 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
         return !Physics.CheckBox(transform.position, Vector3.one * 0.5f, Quaternion.identity, LayerMask.GetMask(masks));
     }
 
-    public void RegisterToEvents() {        
+    
 
-        if (coverStateEvents != null) {
-            foreach (string eventName in coverStateEvents) {
-                EventSystem.Instance.RegisterEvent(eventName, TransitionToCoverState);
-            }
-        }
-
-        if (floorStateEvents != null) {
-            foreach (string eventName in floorStateEvents) {
-                EventSystem.Instance.RegisterEvent(eventName, TransitionToFloorState);
-            }
-        }
-
-        if (pitStateEvents != null) {
-            foreach (string eventName in pitStateEvents) {
-                EventSystem.Instance.RegisterEvent(eventName, TransitionToPitState);
+    void RegisterEvents(ref List<string> eventNames, EventSystem.FunctionPrototype func) {
+        if (eventNames != null) {
+            foreach (string eventName in eventNames) {
+                EventSystem.Instance.RegisterEvent(eventName, func);
             }
         }
     }
 
-    public void DeRegisterFromEvents() {
-        levelUnitStates.Clear();
-        if (coverStateEvents != null) {
-            foreach (string eventName in coverStateEvents) {
-                EventSystem.Instance.UnRegisterEvent(eventName, TransitionToCoverState);
+    void UnregisterEvents(ref List<string> eventNames, EventSystem.FunctionPrototype func) {
+        if (eventNames != null) {
+            foreach (string eventName in eventNames) {
+                EventSystem.Instance.UnRegisterEvent(eventName, func);
             }
-        }
-
-        if (floorStateEvents != null) {
-            foreach (string eventName in floorStateEvents) {
-                EventSystem.Instance.UnRegisterEvent(eventName, TransitionToFloorState);
-            }
-        }
-
-        if (pitStateEvents != null) {
-            foreach (string eventName in pitStateEvents) {
-                EventSystem.Instance.UnRegisterEvent(eventName, TransitionToPitState);
-            }
+            eventNames.Clear();
         }
     }
 
     public void DeRegisterEvent(string eventName)
-    {
-        if (coverStateEvents != null)
-        {
-            if (coverStateEvents.Contains(eventName))
-            {
-                coverStateEvents.Remove(eventName);
-                EventSystem.Instance.UnRegisterEvent(eventName, TransitionToCoverState);
-            }
-        }
+    {        
+        TryUnRegister(ref coverStateEvents, eventName, TransitionToPitState);
+        TryUnRegister(ref floorStateEvents, eventName, TransitionToPitState);
+        TryUnRegister(ref pitStateEvents, eventName, TransitionToPitState);
+    }
 
-        if (floorStateEvents != null)
-        {
-            if (floorStateEvents.Contains(eventName))
-            {
-                floorStateEvents.Remove(eventName);
-                EventSystem.Instance.UnRegisterEvent(eventName, TransitionToFloorState);
-            }
-        }
-
-        if (pitStateEvents != null)
-        {
-            if (pitStateEvents.Contains(eventName))
-            {
-                pitStateEvents.Remove(eventName);
-                EventSystem.Instance.UnRegisterEvent(eventName, TransitionToPitState);
+    void TryUnRegister(ref List<string> eventNames, string eventName, EventSystem.FunctionPrototype func) {
+        if (eventNames != null) {
+            if (eventNames.Contains(eventName)) {
+                eventNames.Remove(eventName);
+                EventSystem.Instance.UnRegisterEvent(eventName, func);
             }
         }
     }
@@ -289,9 +253,38 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
     #endregion
 
     #region public functions
+    public Color RiseColor { get { return riseColor; } }
+    public Color FlatColor { get { return flatColor; } }
+    public Color FallColor { get { return fallColor; } }
+    public Color CurrentStateColor {
+        get {
+            switch (currentState) {
+                case LevelUnitStates.cover: return riseColor;
+                case LevelUnitStates.floor: return flatColor;
+                case LevelUnitStates.pit: return fallColor;
+            }
+            return flatColor;
+        }
+    }
+
     public void SetCurrentState(LevelUnitStates newState) {
         currentState = newState;
         CalculateStatePositions();
+    }
+
+    public void RegisterToEvents() {
+
+        RegisterEvents(ref coverStateEvents, TransitionToCoverState);
+        RegisterEvents(ref floorStateEvents, TransitionToFloorState);
+        RegisterEvents(ref pitStateEvents, TransitionToPitState);
+    }
+
+    public void DeRegisterFromEvents() {
+        UnregisterEvents(ref coverStateEvents, TransitionToCoverState);
+        UnregisterEvents(ref floorStateEvents, TransitionToFloorState);
+        UnregisterEvents(ref pitStateEvents, TransitionToPitState);
+
+        levelUnitStates.Clear();
     }
 
     public void ClearEvents() {
@@ -351,7 +344,10 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
             nextState = LevelUnitStates.cover;
             isTransitioning = true;
         }
-        TriggerColorShift(LevelUnitStates.cover);
+        bool shouldChangeColor = (bool)inputs[0];
+        if (shouldChangeColor) {
+            TriggerColorShift(LevelUnitStates.cover);
+        }
     }
     
     public void TransitionToFloorState(params object[] inputs)
@@ -362,7 +358,10 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
             nextState = LevelUnitStates.floor;
             isTransitioning = true;
         }
-        TriggerColorShift(LevelUnitStates.floor);
+        bool shouldChangeColor = (bool)inputs[0];
+        if (shouldChangeColor) {
+            TriggerColorShift(LevelUnitStates.floor);
+        }
     }
     
     public void TransitionToPitState(params object[] inputs)
@@ -373,7 +372,10 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
             nextState = LevelUnitStates.pit;
             isTransitioning = true;
         }
-        TriggerColorShift(LevelUnitStates.pit);
+        bool shouldChangeColor = (bool)inputs[0];
+        if (shouldChangeColor) {
+            TriggerColorShift(LevelUnitStates.pit);
+        }
     }
 
     public void HideBlockingObject() {

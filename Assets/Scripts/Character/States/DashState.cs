@@ -34,6 +34,9 @@ public class DashState : IPlayerState {
 
     [SerializeField]
     private float dashITimeEnd;
+
+    [SerializeField]
+    private float dashComboTime;
     #endregion
 
     #region Private Fields
@@ -42,7 +45,11 @@ public class DashState : IPlayerState {
     private bool isClawOut;
     private float currentRotation;
 
+    [SerializeField]
     private float dashTimer;
+
+    [SerializeField]
+    private float dashComboTimer;
     #endregion
 
     #region Unity Lifecycle
@@ -59,6 +66,7 @@ public class DashState : IPlayerState {
         currentFrame = 0;
         currentPose = 0;
         dashTimer = 0f;
+        dashComboTimer = 0f;
     }
 
     public override void StateFixedUpdate()
@@ -83,6 +91,7 @@ public class DashState : IPlayerState {
     public override void StateUpdate()
     {
         dashTimer += Time.deltaTime;
+        dashComboTimer += Time.deltaTime;
         PlayAnimation();
         MovePlayer();
         PushEnemies();
@@ -104,6 +113,7 @@ public class DashState : IPlayerState {
         currentFrame = 0;
         currentPose = 0;
         dashTimer = 0f;
+        dashComboTimer = 0f;
         stateVariables.statsManager.damageModifier = 1.0f;
         if (stateVariables.velBody.GetMovementMode()==MovementMode.ICE) {
             stateVariables.velBody.velocity = stateVariables.velBody.GetForward() * dashVelocity/10f;
@@ -132,6 +142,12 @@ public class DashState : IPlayerState {
     {
         if (dashTimer >= dashITimeStart && dashTimer < dashITimeEnd) return true;
 
+        return false;
+    }
+
+    public bool CheckIfDashGivesCombo()
+    {
+        if (dashComboTimer >= dashComboTime) return true;
         return false;
     }
 

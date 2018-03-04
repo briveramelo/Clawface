@@ -103,10 +103,6 @@ public class ModManager : MonoBehaviour
     {
         CheckToCollectMod();
         CheckToChargeAndFireMods();
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            AcquireRandomMods();
-        }
     }
 
     private void AcquireRandomMods() {

@@ -2648,7 +2648,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1565649259410298}
-  m_LocalRotation: {x: -0.004022064, y: -0.019070724, z: -0.045825735, w: 0.99875927}
+  m_LocalRotation: {x: -0.0040220646, y: -0.019070726, z: -0.04582574, w: 0.9987593}
   m_LocalPosition: {x: -0.32301262, y: -5.6965335e-17, z: -3.527373e-17}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -3502,6 +3502,7 @@ MonoBehaviour:
     pulseRate: 0
     scaleRate: 0
     maxScale: 0
+    spawnRate: 0
   bulletPatternController: {fileID: 114428446350129332}
   hitTrigger: {fileID: 114564202051418958}
 --- !u!114 &114130934324087062
@@ -3702,6 +3703,7 @@ MonoBehaviour:
   rotationSpeed: 0
   bulletLiveTime: 5
   animationDriven: 1
+  shootSound: 25
 --- !u!114 &114526525244699386
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -21,6 +21,11 @@ public class RagdollHandler : MonoBehaviour {
             startRotation = transform.localRotation;
             isReady = true;
         }
+        CharacterJoint joint = GetComponent<CharacterJoint>();
+        if (joint)
+        {
+            joint.enableProjection = true;
+        }
     }
     #endregion
 
