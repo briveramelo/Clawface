@@ -32,6 +32,12 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
 
     [SerializeField]
     private DashState dashState;
+
+    [SerializeField]
+    private float invincibleTime;
+
+    [SerializeField]
+    private float dashComboTime;
     #endregion
 
     #region Private Fields
@@ -39,6 +45,8 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     float healthAtLastSkin;
     float lastSkinHealthBoost;
     HitFlasher hitFlasher;
+    private float invincibleTimer;
+    private float dashComboTimer;
     #endregion
 
     #region Unity Lifecycle
@@ -48,6 +56,12 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
         startHealth = stats.GetStat(CharacterStatType.MaxHealth);
         hitFlasher = GetComponentInChildren<HitFlasher>();
         stats.SetStats();
+    }
+
+    void Update()
+    {
+        invincibleTimer -= Time.deltaTime;
+        dashComboTimer -= Time.deltaTime;
     }
 	
     #endregion
@@ -60,9 +74,15 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
 
     public void TakeDamage(Damager damager)
     {
-        if (dashState.CheckForIFrames())
+        if (invincibleTimer >= 0f)
+        {
+            return;
+        }
+
+        if (dashState.CheckForIFrames() && dashComboTimer <= 0f)
         {
             ScoreManager.Instance.AddToCombo();
+            dashComboTimer = dashComboTime;
             return;
         }
 
@@ -92,6 +112,8 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
             stats.TakeDamage(setDamageToTake);
         }
 
+
+        invincibleTimer = invincibleTime;
         EventSystem.Instance.TriggerEvent(Strings.Events.PLAYER_DAMAGED);
         healthFraction = stats.GetHealthFraction();
         EventSystem.Instance.TriggerEvent(Strings.Events.PLAYER_HEALTH_MODIFIED, healthFraction);
