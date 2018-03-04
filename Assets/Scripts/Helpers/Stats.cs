@@ -12,6 +12,7 @@ public class Stats : MonoBehaviour, IModifiable {
     #region Private Fields
     private StatsMemento originalStats;
     private bool isInvincible = false;
+    private FadeController fadeController;
     #endregion
 
     #region Public Methods
@@ -20,6 +21,7 @@ public class Stats : MonoBehaviour, IModifiable {
     {
         originalStats = new StatsMemento(attack, defense, health, maxHealth, moveSpeed, rangedAccuracy, shotSpeed, shotPushForce, skinnableHealth, exp);
         if (maxHealth == 0) maxHealth = health;
+        fadeController = GetComponent<FadeController>();
     }
 
     public void Multiply(CharacterStatType statType, float statMultiplier) {
@@ -97,6 +99,7 @@ public class Stats : MonoBehaviour, IModifiable {
             {
                 isInvincible = true;
                 StartCoroutine(InvincibilityCoolDown());
+                fadeController.StartFlashing();
             }
         }
         return health;
@@ -116,6 +119,7 @@ public class Stats : MonoBehaviour, IModifiable {
     {
         yield return new WaitForSeconds(invincibilityCoolDownTime);
         isInvincible = false;
+        fadeController.StopFlashing();
     }
     #endregion
 

@@ -39,7 +39,12 @@ public enum SFXType {
     AnnounceTitle,
     MortarShoot,
     MortarExplosion,
-    LandmarkBlast
+    LandmarkBlast,
+    GuardAttack,
+    ZombieAttack,
+    BouncerAttack,
+    KamikazeAttack,
+    KamikazePulse
 }
 
 public enum MusicType
