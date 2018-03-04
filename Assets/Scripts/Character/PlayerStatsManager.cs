@@ -36,8 +36,6 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     [SerializeField]
     private float invincibleTime;
 
-    [SerializeField]
-    private float dashComboTime;
     #endregion
 
     #region Private Fields
@@ -46,7 +44,6 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     float lastSkinHealthBoost;
     HitFlasher hitFlasher;
     private float invincibleTimer;
-    private float dashComboTimer;
     #endregion
 
     #region Unity Lifecycle
@@ -61,7 +58,6 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     void Update()
     {
         invincibleTimer -= Time.deltaTime;
-        dashComboTimer -= Time.deltaTime;
     }
 	
     #endregion
@@ -79,38 +75,20 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
             return;
         }
 
-        if (dashState.CheckForIFrames() && dashComboTimer <= 0f)
+        if (dashState.CheckForIFrames())
         {
-            ScoreManager.Instance.AddToCombo();
-            dashComboTimer = dashComboTime;
+            if (dashState.CheckIfDashGivesCombo())
+            {
+                ScoreManager.Instance.AddToCombo();
+            }
             return;
         }
 
 
         float healthFraction = stats.GetHealthFraction();
 
-        if (!playerTakesSetDamage)
-        {
-            if (damageModifier > 0.0f)
-            {
-                if (stats.GetStat(CharacterStatType.Health) > 0)
-                {
-                    for (int i = 0; i < damageScaling.Count; i++)
-                    {
-                        if (healthFraction >= damageScaling[i].healthPercentage)
-                        {
-                            damageModifier = damageScaling[i].damageRatio;
-                            break;
-                        }
-                    }
-                }
-                stats.TakeDamage(damageModifier * damager.damage); 
-            }
-        }
-        else
-        {
-            stats.TakeDamage(setDamageToTake);
-        }
+        stats.TakeDamage(setDamageToTake);
+
 
 
         invincibleTimer = invincibleTime;
