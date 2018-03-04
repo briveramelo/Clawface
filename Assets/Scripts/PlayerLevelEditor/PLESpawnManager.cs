@@ -12,8 +12,12 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
     
     private LevelData ActiveLevelData { get { return DataPersister.ActiveDataSave.ActiveLevelData; } }
     private List<WaveData> ActiveWaveData { get { return ActiveLevelData.waveData; } }
-    private int currentWave = -1;
 
+    #endregion
+
+    #region Public Fields
+
+    public int CurrentWave { get; private set; }
     #endregion
 
     #region Serialized Unity Fields
@@ -54,8 +58,9 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
     #region Private Interface
     private void CallNextWave(params object[] i_params)
     {
-        currentWave++;
-        List<PLESpawn> currentWaveSpawners = ActiveLevelData.GetPLESpawnsFromWave(currentWave);
+        CurrentWave++;
+        editorInstance.EnableSpawnsOnWaveChange(CurrentWave);
+        List<PLESpawn> currentWaveSpawners = ActiveLevelData.GetPLESpawnsFromWave(CurrentWave);
         
         for(int i = 0; i < currentWaveSpawners.Count; i++)
         {
@@ -78,7 +83,7 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
     private void ProcessDeath(params object[] parameters)
     {
         //check if all spawners in given wave are marked as completed
-        List<PLESpawn> currentWaveSpawners = ActiveLevelData.GetPLESpawnsFromWave(currentWave);
+        List<PLESpawn> currentWaveSpawners = ActiveLevelData.GetPLESpawnsFromWave(CurrentWave);
         bool waveDead = true;
 
         for (int i = 0; i < currentWaveSpawners.Count; i++)
@@ -101,7 +106,7 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
     {
         //Timing.KillCoroutines(coroutineName);
         FindObjectsOfType<EnemyBase>().ToList().ForEach(enemy => { enemy.OnDeath(); });
-        currentWave = -1;
+        CurrentWave = -1;
     }
 
 

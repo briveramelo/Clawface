@@ -39,43 +39,8 @@ public class SpawnMenu : PlacementMenu {
 
     #endregion
 
-    #region Unity Lifecycle
-
-    private void Awake() {
-        if(EventSystem.Instance){
-            EventSystem.Instance.RegisterEvent(Strings.Events.PLE_CHANGEWAVE, OnWaveChange);
-        }
-        
-    }
-    private void OnDestroy() {
-        if (EventSystem.Instance) {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_CHANGEWAVE, OnWaveChange);
-        }
-    }
-
-    #endregion
-
     #region Private Interface
-
-    private void OnWaveChange(params object[] parameters) {
-
-        string activeWaveName = GetWaveName(WaveSystem.currentWave);
-
-        for (int i = 0; i < createdItemsParent.childCount; i++)
-        {
-            //Accounts for not disabling the player spawn object between switching of waves.
-            GameObject currentGO = createdItemsParent.GetChild(i).gameObject;
-
-            if (!currentGO.CompareTag(Strings.Editor.PLAYER_SPAWN_TAG))
-            {
-                currentGO.SetActive(false);
-            }
-        }
-        Transform activeWave = createdItemsParent.Find(activeWaveName);
-        if (activeWave!=null) {
-            activeWave.gameObject.SetActive(true);
-        }
-    }
+    
     private void UpdateAmtField(int i_amt, bool makeEmpty = false)
     {
         if(makeEmpty)
@@ -89,10 +54,10 @@ public class SpawnMenu : PlacementMenu {
         }
     }
 
-    private string GetWaveName(int i) { return Strings.Editor.Wave + i; }
+   
     private Transform TryCreateWaveParent(int i)
     {
-        string waveName = GetWaveName(i);
+        string waveName = levelEditor.GetWaveName(i);
         Transform waveParent = createdItemsParent.Find(waveName);
         if (waveParent == null)
         {
@@ -123,7 +88,7 @@ public class SpawnMenu : PlacementMenu {
         base.SelectUIItem();
     }
     protected override void PostPlaceItem(GameObject newItem) {
-        int currentWave = WaveSystem.currentWave;
+        int currentWave = WaveSystem.currentWorkingWave;
         Transform waveParent = TryCreateWaveParent(currentWave);
         for (int i = currentWave; i >= 0; i--) {
             TryCreateWaveParent(i);

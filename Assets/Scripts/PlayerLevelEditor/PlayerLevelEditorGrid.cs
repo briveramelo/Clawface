@@ -136,12 +136,16 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         spawnedBlock = Resources.Load(Strings.Editor.RESOURCE_PATH + Strings.Editor.CHERLIN_LVL_BLOCK) as GameObject;
 
         InitGridTiles();
-    }    
+    }
 
-    private void HandleWireSelection(RaycastHit hit) {
-        CleanUpLastHoveredObjects(hit);
-        UpdateCurrentHoveredObject(hit);
-        UpdateLastHoveredObjects(hit);
+    private void HandleWireSelection(RaycastHit hit)
+    {
+        if (hit.transform != null)
+        {
+            CleanUpLastHoveredObjects(hit);
+            UpdateCurrentHoveredObject(hit);
+            UpdateLastHoveredObjects(hit);
+        }
     }
 
     private void CleanUpLastHoveredObjects(RaycastHit hit) {
