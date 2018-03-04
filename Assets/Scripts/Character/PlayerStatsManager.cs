@@ -75,9 +75,12 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
             return;
         }
 
-        if (dashState.CheckForIFrames() && dashState.CheckIfDashGivesCombo())
+        if (dashState.CheckForIFrames())
         {
-            ScoreManager.Instance.AddToCombo();
+            if (dashState.CheckIfDashGivesCombo())
+            {
+                ScoreManager.Instance.AddToCombo();
+            }
             return;
         }
 
