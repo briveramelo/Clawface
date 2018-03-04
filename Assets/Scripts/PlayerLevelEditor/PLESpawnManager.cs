@@ -12,12 +12,15 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
     
     private LevelData ActiveLevelData { get { return DataPersister.ActiveDataSave.ActiveLevelData; } }
     private List<WaveData> ActiveWaveData { get { return ActiveLevelData.waveData; } }
-
+    private static int systemMaxWaveLimit = 20;
     #endregion
 
     #region Public Fields
-
-    public int CurrentWave { get; private set; }
+    public bool InfiniteWavesEnabled { get; set; }
+    public int CurrentWave { get; set; }
+    public int MaxWave { get; set; }
+    public bool AtMaxWaveLimit { get { return MaxWave == systemMaxWaveLimit; } private set { } }
+    public bool OneWaveRemaining { get { return MaxWave == 1; } private set { } }
     #endregion
 
     #region Serialized Unity Fields
@@ -118,6 +121,52 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
     public void RegisterAllSpawns() {
 
         editorInstance.levelDataManager.SaveSpawns();
+        
+    }
+
+    public void SetToWave(int i_wave)
+    {
+        CurrentWave = Mathf.Clamp(i_wave, 0, MaxWave - 1);
+        CurrentWave = i_wave;
+        editorInstance.EnableSpawnsOnWaveChange(CurrentWave);
+    }
+
+    public void GoToPreviousWave()
+    {
+        CurrentWave--;
+        if(CurrentWave < 0)
+        {
+            CurrentWave = MaxWave - 1;
+        }
+        SetToWave(CurrentWave);
+    }
+
+    public void GoToNextWave()
+    {
+        CurrentWave++;
+        if(CurrentWave >= MaxWave)
+            CurrentWave = 0;
+        
+        SetToWave(CurrentWave);
+
+    }
+
+    public void AddWave()
+    {
+        if (AtMaxWaveLimit)
+            return;
+        MaxWave++;
+    }
+
+    public void DeleteWave(int i_wave)
+    {
+        if (MaxWave == 1)
+            return;
+        MaxWave--;
+        if(CurrentWave >= MaxWave)
+        {
+            CurrentWave = MaxWave - 1;
+        }
         
     }
 

@@ -88,7 +88,7 @@ public class SpawnMenu : PlacementMenu {
         base.SelectUIItem();
     }
     protected override void PostPlaceItem(GameObject newItem) {
-        int currentWave = WaveSystem.currentWorkingWave;
+        int currentWave = PLESpawnManager.Instance.CurrentWave;
         Transform waveParent = TryCreateWaveParent(currentWave);
         for (int i = currentWave; i >= 0; i--) {
             TryCreateWaveParent(i);

@@ -46,6 +46,7 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
     private string tintCoroutineName { get { return coroutineName + AlbedoTint; } }
     private List<LevelUnitStates> levelUnitStates = new List<LevelUnitStates>();
     private Splattable splattable;
+    private static string[] masks = { Strings.Layers.ENEMY, Strings.Layers.ENEMY_BODY, Strings.Layers.MODMAN };
     #endregion
 
     #region serialized fields
@@ -113,7 +114,6 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
     #region private functions
     private bool CanStartTransition()
     {
-        string[] masks = { Strings.Layers.ENEMY, Strings.Layers.ENEMY_BODY, Strings.Layers.MODMAN };
         return !Physics.CheckBox(transform.position, Vector3.one * 0.5f, Quaternion.identity, LayerMask.GetMask(masks));
     }
 

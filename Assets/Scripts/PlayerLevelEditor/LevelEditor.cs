@@ -108,7 +108,7 @@ namespace PlayerLevelEditor
                 waveSystem.ResetToWave0();
             }
             else {
-                WaveSystem.currentWorkingWave = 0;
+                PLESpawnManager.Instance.CurrentWave = 0;
             }
             hasCreatedPlayer = true;
         }
@@ -184,7 +184,6 @@ namespace PlayerLevelEditor
         public void ToggleCameraGameObject(bool isEnabled) {
             cameraController.gameObject.SetActive(isEnabled);
         }
-
         public Menu GetMenu(PLEMenu i_menu)
         {
             switch (i_menu)
