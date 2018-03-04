@@ -121,6 +121,7 @@ public class LevelData {
     public bool isFavorite=false;
     public bool isDownloaded=false;
     public bool isMadeByThisUser=true;
+    public bool isInfinite;
     public static readonly Vector2 fixedSize = new Vector2(656, 369);
     public Sprite MySprite {
         get {

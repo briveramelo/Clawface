@@ -53,7 +53,6 @@ public class LevelDataManager : MonoBehaviour {
             levelEditor.CheckToSetMenuInteractability();
         }
         else {
-            //Trigger level start event?
             levelEditor.PlayLevel();
         }
     }
@@ -98,10 +97,6 @@ public class LevelDataManager : MonoBehaviour {
                 pleSpawn.totalSpawnAmount = spawnData.count;
                 pleSpawn.spawnType = (SpawnType)spawnData.spawnType;
                 child.position = spawnData.position.AsVector;
-
-                //Hook in when it's ready
-                //Might also need to wipe out the list
-                //PLESpawnManager.Instance.RegisterSpawner(i, pleSpawn);
             }
         }        
 
@@ -180,6 +175,7 @@ public class LevelDataManager : MonoBehaviour {
         SaveProps();
         SaveSpawns();
         SaveLevelText();
+        SaveWaveState();
         StartCoroutine(TakePictureAndSave());
     }
     private void SaveTiles() {
@@ -242,6 +238,11 @@ public class LevelDataManager : MonoBehaviour {
     private void SaveLevelText() {
         ActiveLevelData.name = levelName.text;
         ActiveLevelData.description = levelDescription.text;
+    }
+
+    private void SaveWaveState() {
+        //TODO reconnect to SpawnManager
+        //ActiveLevelData.isInfinite = SpawnManager.Instance.isInfinite;
     }
 
     IEnumerator TakePictureAndSave() {

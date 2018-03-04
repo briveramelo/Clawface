@@ -7,18 +7,20 @@ public class LevelUI : ClickableBase, IUIGroupable {
 
     public LevelData levelData;
     public Image image;
+    public Selectable selectable;
+
     [SerializeField] private ColorChangingUI colorChangingUI;
     [SerializeField] private Image favoriteIcon;
 
     private PLELevelSelectMenu menu;
-    private int levelIndex;
+    public int LevelIndex { get; private set; }
     private const int imageWidth = 225;
     private const int imageHeight = 225;
     private static readonly Vector2 imageDimensions = new Vector2(imageWidth, imageHeight);
 
     public void Initialize(PLELevelSelectMenu menu, LevelData levelData, int levelIndex, bool isHathosLevel=false) {
         this.menu = menu;
-        this.levelIndex = levelIndex;
+        this.LevelIndex = levelIndex;
         colorChangingUI.SetUIIndex(levelIndex);
         if (!isHathosLevel) {
             favoriteIcon.enabled = levelData.isFavorite;
@@ -33,7 +35,7 @@ public class LevelUI : ClickableBase, IUIGroupable {
     }
 
     public override void OnPointerDown(PointerEventData eventData) {
-        menu.SelectLevel(levelIndex);
+        menu.SelectLevel(LevelIndex);
     }
 
     public void OnGroupSelectChanged(int selectedIndex) {

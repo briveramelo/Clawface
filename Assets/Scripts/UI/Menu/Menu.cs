@@ -10,6 +10,8 @@ public abstract class Menu : MonoBehaviour {
 
     #region Properties
     private string menuName;
+    protected UnityEngine.EventSystems.EventSystem CurrentEventSystem {get{ return UnityEngine.EventSystems.EventSystem.current; } }
+    protected GameObject CurrentEventSystemGameObject { get { return CurrentEventSystem.currentSelectedGameObject; } }
     public string MenuName
     {
         get { return menuName; }
