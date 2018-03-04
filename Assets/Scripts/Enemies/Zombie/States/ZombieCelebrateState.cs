@@ -8,10 +8,9 @@ public class ZombieCelebrateState : AIState {
 
     public override void OnEnter()
     {
-        List<int> celebrations = new List<int>() { 0, 1, 2, 3, 4 };
-        animator.SetInteger("VictoryDanceIndex", celebrations.GetRandom());
         navAgent.enabled = false;
         navObstacle.enabled = true;
+        animator.SetTrigger("DoVictoryDance");
     }
     public override void Update()
     {

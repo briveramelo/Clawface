@@ -159,10 +159,10 @@ public class MallCopReanimator : EnemyBase
     {
         if (myStats.health > myStats.skinnableHealth)
         {
-            animator.SetTrigger("DoVictoryDance");
+            fire.StopCoroutines();
+            animator.SetInteger("AnimationState", -1);
             controller.CurrentState = celebrate;
             controller.UpdateState(EAIState.Celebrate);
-            animator.SetInteger("AnimationState", -1);
         }
     }
 
