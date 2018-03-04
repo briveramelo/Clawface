@@ -10,7 +10,7 @@ public class RandomizeInt : StateMachineBehaviour
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        //base.OnStateEnter(animator, stateInfo, layerIndex);
-        //animator.SetInteger (parameterName, Random.Range (min, max + 1));
+        base.OnStateEnter(animator, stateInfo, layerIndex);
+        animator.SetInteger (parameterName, Random.Range (min, max + 1));
     }
 }

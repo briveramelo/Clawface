@@ -122,7 +122,7 @@ public class InGameUI : MonoBehaviour {
         {
             healthBarScale = 1 / health;
         }
-        healthBar.localScale = new Vector3(healthBarScale, 1.0F, 1.0F);
+        healthBar.localScale = new Vector3(healthBarScale, healthBar.localScale.y, healthBar.localScale.z);
     }
     #endregion
 

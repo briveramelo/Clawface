@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Turing.VFX;
 
 public class PulseProjectile : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class PulseProjectile : MonoBehaviour
     [SerializeField] Material ringMaterial;
     [SerializeField] Renderer ringRenderer;
     [SerializeField] AnimationCurve ringOpacity;
+    [SerializeField] ParticleSystem sparkPS;
     Material materialInstance;
 
     private Damager damager = new Damager();
@@ -56,7 +58,12 @@ public class PulseProjectile : MonoBehaviour
         scaleRate = newScaleRate;
         maxScale = newMaxScale;
         damage = newDamage;
-
+        VFXOneOff vfx = ps.GetComponent<VFXOneOff>();
+        vfx.Stop();
+        ParticleSystem.MainModule main = ps.main;
+        float newDuration = (maxScale / scaleRate) - main.startLifetime.constantMax;
+        main.duration = newDuration;
+        vfx.Play();
 }
 
     public void SetRenderQueue (int queue)
@@ -82,6 +89,9 @@ public class PulseProjectile : MonoBehaviour
         props.SetFloat("_Radius", scaleValue * 8.91f);
         props.SetColor("_Color", color);
         ringRenderer.SetPropertyBlock(props);
+
+        ParticleSystem.ShapeModule sparkShape = sparkPS.shape;
+        sparkShape.scale = 8.91f * scaleValue * Vector3.one;
     }
 
     private void OnDisable()
