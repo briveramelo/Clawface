@@ -14,7 +14,6 @@ public enum LevelUnitStates {
     Pit
 }
 public interface ILevelTilable {
-    void SetCurrentState(LevelUnitStates newState);
     void ClearEvents();
     bool CheckForEvent(string eventName, LevelUnitStates state);
     void TransitionToCoverState(params object[] inputs);
@@ -30,6 +29,7 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
     private float meshSizeZ;
     private float meshSizeX;
     private bool isTransitioning;
+    private bool isBeginningTransition;
     private float pitYPosition;
     private float coverYPosition;
     private float floorYPosition;
@@ -55,7 +55,7 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
     [SerializeField] AbsAnim colorShiftAnim;
     [SerializeField] Color riseColor, flatColor, fallColor;
 
-    
+    private Vector3 pitPosition, flatPosition, risePosition, targetPosition;
     
     #endregion
 
@@ -85,7 +85,7 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
         }
         colorShiftAnim.OnUpdate = OnColorChange;
         currentState = defaultState;
-        CalculateStatePositions();
+        InitializeStatePositions();
     }
 
     private void OnEnable() {
@@ -101,163 +101,22 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
 
     void FixedUpdate() {
         if (isTransitioning) {
-            if (CanStartTransition()) {
-                MoveToNewPosition();
-            }
+            HandleTransition();
         }
     }
     #endregion
 
-    #region private functions
-    private bool CanStartTransition()
-    {
-        return !Physics.CheckBox(transform.position, Vector3.one * 0.5f, Quaternion.identity, LayerMask.GetMask(masks));
-    }
-
-    
-
-    void RegisterEvents(ref List<string> eventNames, EventSystem.FunctionPrototype func) {
-        if (eventNames != null) {
-            foreach (string eventName in eventNames) {
-                EventSystem.Instance.RegisterEvent(eventName, func);
-            }
-        }
-    }
-
-    void UnregisterEvents(ref List<string> eventNames, EventSystem.FunctionPrototype func) {
-        if (eventNames != null) {
-            foreach (string eventName in eventNames) {
-                EventSystem.Instance.UnRegisterEvent(eventName, func);
-            }
-            eventNames.Clear();
-        }
-    }
-
-    public void DeRegisterEvent(string eventName)
-    {
-        TryUnRegister(ref pitStateEvents, eventName, TransitionToPitState);
-        TryUnRegister(ref floorStateEvents, eventName, TransitionToFloorState);
-        TryUnRegister(ref coverStateEvents, eventName, TransitionToCoverState);
-    }
-
-    void TryUnRegister(ref List<string> eventNames, string eventName, EventSystem.FunctionPrototype func) {
-        if (eventNames != null) {
-            if (eventNames.Contains(eventName)) {
-                eventNames.Remove(eventName);
-                EventSystem.Instance.UnRegisterEvent(eventName, func);
-            }
-        }
-    }
-
-    private void CalculateStatePositions()
-    {
-        if(currentState == LevelUnitStates.Cover)
-        {
-            coverYPosition = transform.position.y;
-            floorYPosition = coverYPosition - meshSizeY;
-            pitYPosition = floorYPosition - meshSizeY;
-        }
-        else if (currentState == LevelUnitStates.Floor) {
-            floorYPosition = transform.position.y;
-            coverYPosition = floorYPosition + meshSizeY;
-            pitYPosition = floorYPosition - meshSizeY;
-        }
-        else if (currentState == LevelUnitStates.Pit) {
-            pitYPosition = transform.position.y;
-            floorYPosition = pitYPosition + meshSizeY;
-            coverYPosition = floorYPosition + meshSizeY;
-        }
-    }
-
-    private void MoveToNewPosition() {
-        Vector3 newPosition = transform.position;
-        switch (nextState) {
-            case LevelUnitStates.Cover:
-                newPosition = new Vector3(transform.position.x, coverYPosition, transform.position.z);
-                break;
-            case LevelUnitStates.Floor:
-                newPosition = new Vector3(transform.position.x, floorYPosition, transform.position.z);
-                break;
-            case LevelUnitStates.Pit:
-                newPosition = new Vector3(transform.position.x, pitYPosition, transform.position.z);
-                break;
-        }
-        if (newPosition != transform.position) {
-            transform.position = Vector3.MoveTowards(transform.position, newPosition, yMoveSpeed * meshSizeY);
-            if (Vector3.Distance(transform.position, newPosition) < 0.01f) {
-                transform.position = newPosition;
-                currentState = nextState;
-                isTransitioning = false;
-                if (currentState == LevelUnitStates.Floor) {
-                    gameObject.tag = Strings.Tags.FLOOR;
-                    gameObject.layer = (int)Layers.Ground;
-                    HideBlockingObject();
-                }
-            }
-            switch (nextState) {
-                case LevelUnitStates.Cover:
-                    gameObject.tag = Strings.Tags.WALL;
-                    gameObject.layer = (int)Layers.Obstacle;
-                    ShowBlockingObject();
-                    break;
-                case LevelUnitStates.Pit:
-                    gameObject.tag = Strings.Tags.FLOOR;
-                    gameObject.layer = (int)Layers.Ground;
-                    ShowBlockingObject();
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-
-    private void AddEvent(ref List<string> eventNames, string eventName) {
-        if (eventNames == null) {
-            eventNames = new List<string>();
-        }
-        if (!eventNames.Contains(eventName)) {
-            eventNames.Add(eventName);
-        }
-    }
-
-    private void CreateBlockingObject() {
-        blockingObject = new GameObject(Strings.BLOCKINGOBJECT);
-        blockingObject.transform.SetParent(transform.parent);
-        blockingObject.transform.position = new Vector3(transform.position.x, coverYPosition, transform.position.z);
-        blockingObject.transform.localScale = new Vector3(meshSizeX, meshSizeY, meshSizeZ);
-        blockingObject.AddComponent<BoxCollider>();
-        blockingObject.AddComponent<NavMeshObstacle>().carving = true;
-        blockingObject.layer = LayerMask.NameToLayer(Strings.Layers.OBSTACLE);
-        blockingObject.SetActive(false);
-    }
-
-    private void ShowBlockingObject() {
-        if (!blockingObject) {
-            CreateBlockingObject();
-        }
-
-        if (!blockingObject.activeSelf) {
-            blockingObject.SetActive(true);
-        }
-    }    
-
-    void OnColorChange(float progress) {
-        Color newColor = startColor + (targetColor - startColor) * progress;
-        meshRenderer.GetPropertyBlock(materialPropertyBlock);
-        materialPropertyBlock.SetColor(AlbedoTint, newColor);
-        meshRenderer.SetPropertyBlock(materialPropertyBlock);
-    }
-    #endregion
-
+    #region Public Interface
     #region public functions
     public Color RiseColor { get { return riseColor; } }
     public Color FlatColor { get { return flatColor; } }
     public Color FallColor { get { return fallColor; } }
     public Color CurrentStateColor { get { return GetStateColor(currentState); } }
 
-    public void SetCurrentState(LevelUnitStates newState) {
-        currentState = newState;
-        CalculateStatePositions();
+    public void DeRegisterEvent(string eventName) {
+        TryUnRegister(ref pitStateEvents, eventName, TransitionToPitState);
+        TryUnRegister(ref floorStateEvents, eventName, TransitionToFloorState);
+        TryUnRegister(ref coverStateEvents, eventName, TransitionToCoverState);
     }
 
     public void HideBlockingObject() {
@@ -305,37 +164,129 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
         result = GetStateEvents(state).Contains(eventName);
         return result;
     }
-    
-    public void TransitionToCoverState(params object[] inputs)
-    {
+
+    public void TransitionToCoverState(params object[] inputs) {
         bool wasToldToChangeColor = (bool)inputs[0];
         TryTransitionToState(LevelUnitStates.Cover, Texture2D.blackTexture, wasToldToChangeColor);
     }
-    
-    public void TransitionToFloorState(params object[] inputs)
-    {
+
+    public void TransitionToFloorState(params object[] inputs) {
         bool wasToldToChangeColor = (bool)inputs[0];
         TryTransitionToState(LevelUnitStates.Floor, Texture2D.whiteTexture, wasToldToChangeColor);
     }
-    
-    public void TransitionToPitState(params object[] inputs)
-    {
+
+    public void TransitionToPitState(params object[] inputs) {
         bool wasToldToChangeColor = (bool)inputs[0];
         TryTransitionToState(LevelUnitStates.Pit, Texture2D.blackTexture, wasToldToChangeColor);
     }
 
-    private void TryTransitionToState(LevelUnitStates state, Texture2D paintMaskTexture, bool wasToldToChangeColor) {
-        if (currentState != state) {
-            splattable.PaintMask = Texture2D.blackTexture;
-            nextState = state;
-            isTransitioning = true;
-        }
-        bool shouldChangeColor = wasToldToChangeColor && !CurrentColor.IsAboutEqual(GetStateColor(state));
-        if (shouldChangeColor) {
-            TriggerColorShift(state);
+    #endregion
+    #endregion
+
+    #region Private Interface
+    private bool CanTransition { get { return !Physics.CheckBox(transform.position, Vector3.one * 0.5f, Quaternion.identity, LayerMask.GetMask(masks)); } }            
+
+    private void TryUnRegister(ref List<string> eventNames, string eventName, EventSystem.FunctionPrototype func) {
+        if (eventNames != null) {
+            if (eventNames.Contains(eventName)) {
+                eventNames.Remove(eventName);
+                EventSystem.Instance.UnRegisterEvent(eventName, func);
+            }
         }
     }
-    
+
+    private void InitializeStatePositions()
+    {
+        floorYPosition = transform.position.y;
+        coverYPosition = floorYPosition + meshSizeY;
+        pitYPosition = floorYPosition - meshSizeY;
+
+        pitPosition = new Vector3(transform.position.x, pitYPosition, transform.position.z);
+        flatPosition = new Vector3(transform.position.x, floorYPosition, transform.position.z);
+        risePosition = new Vector3(transform.position.x, coverYPosition, transform.position.z);
+    }
+
+    private void HandleTransition() {
+        if (CanTransition) {
+            if (isBeginningTransition) {
+                isBeginningTransition = false;
+                BeginTransition();
+            }
+            MoveToNewPosition();
+        }
+    }
+
+    private void MoveToNewPosition() {
+        transform.position = Vector3.MoveTowards(transform.position, targetPosition, yMoveSpeed * meshSizeY);
+        if (Vector3.Distance(transform.position, targetPosition) < 0.01f) {
+            FinishTransition(targetPosition);
+        }
+    }
+
+    private void BeginTransition() {
+        switch (nextState) {
+            case LevelUnitStates.Cover:
+                gameObject.tag = Strings.Tags.WALL;
+                gameObject.layer = (int)Layers.Obstacle;
+                ShowBlockingObject();
+                break;
+            case LevelUnitStates.Pit:
+                gameObject.tag = Strings.Tags.FLOOR;
+                gameObject.layer = (int)Layers.Ground;
+                ShowBlockingObject();
+                break;
+        }
+    }
+
+    private void FinishTransition(Vector3 finalPosition) {
+        transform.position = finalPosition;
+        currentState = nextState;
+        isTransitioning = false;
+        if (currentState == LevelUnitStates.Floor) {
+            gameObject.tag = Strings.Tags.FLOOR;
+            gameObject.layer = (int)Layers.Ground;
+            HideBlockingObject();
+        }
+    }
+
+    private void AddEvent(ref List<string> eventNames, string eventName) {
+        if (eventNames == null) {
+            eventNames = new List<string>();
+        }
+        if (!eventNames.Contains(eventName)) {
+            eventNames.Add(eventName);
+        }
+    }
+
+    private void CreateBlockingObject() {
+        blockingObject = new GameObject(Strings.BLOCKINGOBJECT);
+        blockingObject.transform.SetParent(transform.parent);
+        blockingObject.transform.position = new Vector3(transform.position.x, coverYPosition, transform.position.z);
+        blockingObject.transform.localScale = new Vector3(meshSizeX, meshSizeY, meshSizeZ);
+        blockingObject.AddComponent<BoxCollider>();
+        blockingObject.AddComponent<NavMeshObstacle>().carving = true;
+        blockingObject.layer = LayerMask.NameToLayer(Strings.Layers.OBSTACLE);
+        blockingObject.SetActive(false);
+    }
+
+    private void ShowBlockingObject() {
+        if (!blockingObject) {
+            CreateBlockingObject();
+        }
+
+        if (!blockingObject.activeSelf) {
+            blockingObject.SetActive(true);
+        }
+    }
+
+    private void OnColorChange(float progress) {
+        Color newColor = startColor + (targetColor - startColor) * progress;
+        meshRenderer.GetPropertyBlock(materialPropertyBlock);
+        materialPropertyBlock.SetColor(AlbedoTint, newColor);
+        meshRenderer.SetPropertyBlock(materialPropertyBlock);
+    }
+
+
 
     private void TriggerColorShift(LevelUnitStates newState) {
         Timing.KillCoroutines(TintCoroutineName);
@@ -347,7 +298,7 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
     private Color CurrentColor { get { return materialPropertyBlock.GetVector(AlbedoTint); } }
 
     private Color GetStateColor(LevelUnitStates state) {
-        switch (currentState) {
+        switch (state) {
             case LevelUnitStates.Cover: return riseColor;
             case LevelUnitStates.Floor: return flatColor;
             case LevelUnitStates.Pit: return fallColor;
@@ -362,6 +313,46 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
         }
         return null;
     }
+    private Vector3 GetStatePosition(LevelUnitStates state) {
+        switch (state) {
+            case LevelUnitStates.Cover: return risePosition;
+            case LevelUnitStates.Floor: return flatPosition;
+            case LevelUnitStates.Pit: return pitPosition;
+        }
+        return flatPosition;
+    }
 
+    private void RegisterEvents(ref List<string> eventNames, EventSystem.FunctionPrototype func) {
+        if (eventNames != null) {
+            foreach (string eventName in eventNames) {
+                EventSystem.Instance.RegisterEvent(eventName, func);
+            }
+        }
+    }
+
+    private void UnregisterEvents(ref List<string> eventNames, EventSystem.FunctionPrototype func) {
+        if (eventNames != null) {
+            foreach (string eventName in eventNames) {
+                EventSystem.Instance.UnRegisterEvent(eventName, func);
+            }
+            eventNames.Clear();
+        }
+    }
+
+    private void TryTransitionToState(LevelUnitStates newState, Texture2D paintMaskTexture, bool wasToldToChangeColor) {
+        if ((isTransitioning && currentState==newState) || currentState != newState) {
+            splattable.PaintMask = Texture2D.blackTexture;
+            nextState = newState;
+            targetPosition = GetStatePosition(nextState);
+            isBeginningTransition = true;
+            isTransitioning = true;
+        }
+        bool shouldChangeColor = wasToldToChangeColor && !CurrentColor.IsAboutEqual(GetStateColor(newState));
+        if (shouldChangeColor) {
+            TriggerColorShift(newState);
+        }
+    }
     #endregion
+
+    
 }

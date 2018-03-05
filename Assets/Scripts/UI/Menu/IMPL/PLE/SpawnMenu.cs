@@ -7,25 +7,11 @@ using System;
 
 public class SpawnMenu : PlacementMenu {
 
-    private PLESpawn selectedSpawn;
+    private const int minSpawns = 1;
+    private const int maxSpawns = 99;
+    public SpawnMenu() : base(Strings.MenuStrings.LevelEditor.ADD_SPAWNS_PLE) { }    
 
-    #region Public Interface
-    public SpawnMenu() : base(Strings.MenuStrings.LevelEditor.ADD_SPAWNS_PLE) { }
-    public void SetAmtOnSelectedSpawn()
-    {
-        if (selectedSpawn)
-        {
-            int finalAmt = 0;
-
-            if (System.Int32.TryParse(amountField.text, out finalAmt))
-            {
-                selectedSpawn.totalSpawnAmount = finalAmt;
-            }
-
-        }
-    }
-
-    #endregion
+    private PLESpawn SelectedSpawn { get { return selectedPLEItem as PLESpawn; } }        
 
     #region Serialized Unity Fields
 
@@ -39,21 +25,27 @@ public class SpawnMenu : PlacementMenu {
 
     #endregion
 
-    #region Private Interface
     
-    private void UpdateAmtField(int i_amt, bool makeEmpty = false)
-    {
-        if(makeEmpty)
-        {
-            amountField.text = "";
-        }
-        else
-        {
-            string toSet = Convert.ToString(i_amt);
-            amountField.text = toSet;
-        }
-    }     
 
+    #region Public Interface
+    public void SetAmtOnSelectedSpawn() {
+        if (selectedPLEItem) {
+            int finalAmt = 0;
+
+            if (System.Int32.TryParse(amountField.text, out finalAmt)) {
+                SelectedSpawn.totalSpawnAmount = finalAmt;
+            }
+
+        }
+    }
+    public void Increment() {
+        int newAmount = Mathf.Clamp(SelectedSpawn.totalSpawnAmount + 1, minSpawns, maxSpawns);
+        ChangeSpawnAmount(newAmount);
+    }
+    public void Decrement() {
+        int newAmount = Mathf.Clamp(SelectedSpawn.totalSpawnAmount - 1, minSpawns, maxSpawns);
+        ChangeSpawnAmount(newAmount);
+    }    
     #endregion
 
     #region Protected Interface
@@ -71,15 +63,14 @@ public class SpawnMenu : PlacementMenu {
 
     protected override void ShowStarted() {
         base.ShowStarted();
-        amountField.interactable = false;
+        SetInteractability(false);
     }
     protected override void ShowComplete() {
         base.ShowComplete();
     }
 
-    protected override void DeselectAll() {
-        base.DeselectAll();
-        selectedSpawn = null;
+    protected override void DeselectAllGameItems() {
+        base.DeselectAllGameItems();
     }
 
     protected override void PostPlaceItem(GameObject newItem) {
@@ -111,24 +102,51 @@ public class SpawnMenu : PlacementMenu {
         }
         levelEditor.SetMenuButtonInteractability();
         UpdateAmtField(spawn.totalSpawnAmount);
-    }
+    }    
 
     protected override void SelectGameItem() {
         base.SelectGameItem();
         MouseHelper.currentSpawn.Select();
-        selectedSpawn = MouseHelper.currentSpawn;
-        amountField.interactable = selectedSpawn.spawnType != SpawnType.Keira;
-        UpdateAmtField(selectedSpawn.totalSpawnAmount);
+        selectedPLEItem = MouseHelper.currentSpawn;
+        UpdateAmtField(SelectedSpawn.totalSpawnAmount);
+        SetInteractability();
     }
     protected override void DeselectItem() {
-        amountField.interactable = false;
+        base.DeselectItem();
+        SetInteractability(false);
         UpdateAmtField(0, true);
-        if (selectedSpawn!=null) {
-            selectedSpawn.Deselect();
-            selectedSpawn = null;
+    }
+    protected override void InitializeSelectables() {
+        base.InitializeSelectables();
+        selectables.Add(amountField);
+    }
+    
+    protected override void SetInteractability() {
+        bool isItemSelectedAndNotKeira = selectedPLEItem != null && SelectedSpawn.spawnType != SpawnType.Keira;
+        selectables.ForEach(selectable => { selectable.interactable = isItemSelectedAndNotKeira; });
+
+        leftButton.interactable = isItemSelectedAndNotKeira && SelectedSpawn.totalSpawnAmount > minSpawns;
+        rightButton.interactable = isItemSelectedAndNotKeira && SelectedSpawn.totalSpawnAmount < maxSpawns;
+    }
+
+    #endregion
+
+    #region Private Interface
+    private void UpdateAmtField(int i_amt, bool makeEmpty = false) {
+        if (makeEmpty) {
+            amountField.text = "";
+        }
+        else {
+            string toSet = Convert.ToString(i_amt);
+            amountField.text = toSet;
         }
     }
 
-
+    private void ChangeSpawnAmount(int newAmount) {
+        UpdateAmtField(newAmount);
+        SetAmtOnSelectedSpawn();
+        SetInteractability();
+    }
     #endregion
+
 }

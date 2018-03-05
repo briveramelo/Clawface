@@ -168,10 +168,11 @@ public class PLEBlockUnit : MonoBehaviour
     public void AddNewWave(params object[] parameters)
     {
         LevelUnitStates newState = LevelUnitStates.Floor;
-        if (levelStates.Count> PLESpawnManager.Instance.CurrentWaveIndex) {
-            newState = levelStates[PLESpawnManager.Instance.CurrentWaveIndex];
+        int currentWaveIndex = PLESpawnManager.Instance.CurrentWaveIndex;
+        if (levelStates.Count > currentWaveIndex) {
+            newState = levelStates[currentWaveIndex];
         }
-        levelStates.Insert(PLESpawnManager.Instance.CurrentWaveIndex, newState);
+        levelStates.Insert(currentWaveIndex, newState);
     }
 
     public void DeleteCurrentWave(params object[] parameters)

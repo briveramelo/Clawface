@@ -17,6 +17,7 @@ public class WaveMenu : PlayerLevelEditorMenu
     [SerializeField] private Text totalWaveText;
     [SerializeField] private Toggle infWaveObjToggle;
     [SerializeField] private Button removeWave, addWave, prevWave, nextWave;
+    [SerializeField] private Text checkBox;
     #endregion
 
     #region Public Interface
@@ -70,7 +71,7 @@ public class WaveMenu : PlayerLevelEditorMenu
     }
 
     public void AddNewWave() {
-        PLESpawnManager.Instance.AddWave();
+        PLESpawnManager.Instance.TryAddWave();
 
         SetMenuButtonInteractability();
         UpdateWaveText();
@@ -81,7 +82,7 @@ public class WaveMenu : PlayerLevelEditorMenu
     }
 
     public void DeleteCurrentWave() {
-        PLESpawnManager.Instance.DeleteWave(PLESpawnManager.Instance.CurrentWaveIndex);
+        PLESpawnManager.Instance.TryDeleteWave(PLESpawnManager.Instance.CurrentWaveIndex);
 
         EventSystem.Instance.TriggerEvent(Strings.Events.PLE_DELETE_CURRENTWAVE);
         EventSystem.Instance.TriggerEvent(Strings.Events.PLE_UPDATE_LEVELSTATE);
@@ -98,6 +99,7 @@ public class WaveMenu : PlayerLevelEditorMenu
 
     public void UpdateInfWaveState() {
         PLESpawnManager.Instance.InfiniteWavesEnabled = infWaveObjToggle.isOn;
+        checkBox.enabled = infWaveObjToggle.isOn;
     }
 
     public void OnSelectedWaveTextValidated() {
@@ -135,9 +137,10 @@ public class WaveMenu : PlayerLevelEditorMenu
         bool atMaxWaveLimit = PLESpawnManager.Instance.AtMaxWaveLimit;
         addWave.interactable = !atMaxWaveLimit;
 
-        removeWave.interactable = !atMaxWaveLimit;
-        prevWave.interactable = !atMaxWaveLimit;
-        nextWave.interactable = !atMaxWaveLimit;
+        bool atMinWaveLimit = PLESpawnManager.Instance.AtMinWaveLimit;
+        removeWave.interactable = !atMinWaveLimit;
+        prevWave.interactable = !atMinWaveLimit;
+        nextWave.interactable = !atMinWaveLimit;
     }
 
 

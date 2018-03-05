@@ -12,15 +12,15 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
     
     private LevelData ActiveLevelData { get { return DataPersister.ActiveDataSave.ActiveLevelData; } }
     private List<WaveData> ActiveWaveData { get { return ActiveLevelData.waveData; } }
-    private static int systemMaxWaveLimit = 20;
+    private static int systemMaxWaveIndex = 19;
     #endregion
 
     #region Public Fields
     public bool InfiniteWavesEnabled { get; set; }
     public int CurrentWaveIndex { get; set; }
     public int MaxWaveIndex { get; set; }
-    public bool AtMaxWaveLimit { get { return MaxWaveIndex == systemMaxWaveLimit; } }
-    public bool OneWaveMax { get { return MaxWaveIndex == 1; } }
+    public bool AtMaxWaveLimit { get { return MaxWaveIndex == systemMaxWaveIndex; } }
+    public bool AtMinWaveLimit { get { return MaxWaveIndex == 0; } }
     public string CurrentWaveText { get { return string.Format("{0}",CurrentWaveIndex + 1); } }
     public string MaxWaveText { get { return string.Format("{0}", MaxWaveIndex + 1); } }
     #endregion
@@ -153,16 +153,16 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
         SetToWave(CurrentWaveIndex);
     }
 
-    public void AddWave()
+    public void TryAddWave()
     {
         if (AtMaxWaveLimit)
             return;
         MaxWaveIndex++;
     }
 
-    public void DeleteWave(int i_wave)
+    public void TryDeleteWave(int i_wave)
     {
-        if (MaxWaveIndex == 1)
+        if (MaxWaveIndex == 0)
             return;
 
         MaxWaveIndex--;

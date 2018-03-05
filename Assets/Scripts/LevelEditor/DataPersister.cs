@@ -154,13 +154,14 @@ public class LevelData {
     public int WaveCount { get { return waveData.Count; } }
     public int TileCount { get { return tileData.Count; } }
     public int PropCount { get { return propData.Count; } }
-    public int MaxWave {
+    public int MaxWaveIndex {
         get {
             int tileWaveCount = 0;
             if (tileData.Count>0) {
                 tileWaveCount = tileData[0].levelStates.Count;
             }
-            return Mathf.Max(WaveCount, tileWaveCount);
+            int longestListLength = Mathf.Max(WaveCount, tileWaveCount);
+            return Mathf.Clamp(longestListLength - 1, 0, longestListLength);
         }
     }
 

@@ -13,7 +13,10 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
 
     [SerializeField] protected Transform createdItemsParent;
     [SerializeField] protected ScrollGroup scrollGroup;
+    [SerializeField] protected Selectable leftButton, rightButton;
 
+    protected PLEItem selectedPLEItem;
+    protected List<Selectable> selectables = new List<Selectable>();
     protected GameObject selectedItem = null;
     protected GameObject previewItem = null;
     protected List<string> itemNames = new List<string>();
@@ -21,7 +24,7 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
     #region Boolean Helpers
     protected virtual bool SelectUI { get { return Input.GetMouseButtonDown(MouseButtons.LEFT); } }
     protected virtual bool SelectItem { get { return Input.GetMouseButtonDown(MouseButtons.LEFT) && MouseHelper.HitItem; } }
-    protected virtual bool DeSelectItem { get { return Input.GetMouseButtonDown(MouseButtons.LEFT) || Input.GetMouseButtonDown(MouseButtons.RIGHT); } }
+    protected virtual bool DeSelectItem { get { return (Input.GetMouseButtonDown(MouseButtons.LEFT) || Input.GetMouseButtonDown(MouseButtons.RIGHT)) && !MouseHelper.HitUI; } }
     protected bool RightClick { get { return Input.GetMouseButtonDown(MouseButtons.RIGHT); } }
     protected virtual bool Place { get { return Input.GetMouseButtonDown(MouseButtons.LEFT) && selectedItem != null && MouseHelper.currentBlockUnit != null && !MouseHelper.currentBlockUnit.IsOccupied() && MouseHelper.currentBlockUnit.IsFlatAtWave(PLESpawnManager.Instance.CurrentWaveIndex); } }
     protected virtual bool UpdatePreview { get { return previewItem != null && MouseHelper.currentBlockUnit != null && !MouseHelper.currentBlockUnit.IsOccupied() && MouseHelper.currentBlockUnit.IsFlatAtWave(PLESpawnManager.Instance.CurrentWaveIndex); } }
@@ -29,6 +32,10 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
     #endregion
 
     #region Unity Lifecycle
+
+    protected virtual void Awake() {
+        InitializeSelectables();
+    }
     protected override void Update() {
         base.Update();
         if (allowInput) {
@@ -67,15 +74,24 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
         selectedItem = item.registeredItem;
         TryDestroyPreview();
         previewItem = Instantiate(selectedItem);
+        PostOnSelectUIItem(previewItem);
     }
-    protected abstract void DeselectItem();
+    protected virtual void PostOnSelectUIItem(GameObject newItem) { }
+    protected virtual void DeselectItem() {
+        if (selectedPLEItem != null) {
+            selectedPLEItem.Deselect();
+            selectedPLEItem = null;
+        }
+        SetInteractability();
+    }
 
     protected virtual void SelectGameItem() {
-        DeselectAll();
+        DeselectAllGameItems();
     }
-    protected virtual void DeselectAll() {
+    protected virtual void DeselectAllGameItems() {
         List<PLEItem> items = createdItemsParent.GetComponentsInChildren<PLEItem>().ToList();
         items.ForEach(item => { item.Deselect(); });
+        selectedPLEItem = null;
     }
 
     protected virtual void PlaceItem() {
@@ -86,6 +102,7 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
         PostPlaceItem(newItem);
     }
     protected virtual void PostPlaceItem(GameObject newItem) { }
+
     protected bool DeselectUIItem() {
         selectedItem = null;
         return TryDestroyPreview();
@@ -119,6 +136,7 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
     protected override void ShowStarted() {
         base.ShowStarted();
         OnSelectUIItem(scrollGroup.GetLastUIItem());
+        SetInteractability(false);
     }
     protected override void ShowComplete() {
         base.ShowComplete();
@@ -126,9 +144,19 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
 
     protected override void HideStarted() {
         base.HideStarted();
-        DeselectAll();
+        DeselectAllGameItems();
         TryDestroyPreview();
     }
+
+    protected virtual void InitializeSelectables() {
+        selectables.Add(leftButton);
+        selectables.Add(rightButton);
+    }
+
+    protected virtual void SetInteractability(bool isInteractable) {
+        selectables.ForEach(selectable => { selectable.interactable = isInteractable; });
+    }
+    protected abstract void SetInteractability();
 
     #endregion
 

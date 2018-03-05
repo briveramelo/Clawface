@@ -49,19 +49,9 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
 
 
     #region Unity Lifecycle
-
-    private void OnEnable()
-    {
-        if(EventSystem.Instance)
-        {
-            EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_STARTED, BakeMesh);
-        }
-    }
-
     void Start() {
         Initilaize();
-
-        //EventSystem.Instance.RegisterEvent(Strings.Events.PLE_UPDATE_LEVELSTATE, OnTileHeightsChanged);
+        EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_STARTED, BakeMesh);
     }    
 
     private void OnDestroy() {
@@ -69,8 +59,6 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
             EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_STARTED, BakeMesh);
         }
     }
-
-
 
     void Update()
     {

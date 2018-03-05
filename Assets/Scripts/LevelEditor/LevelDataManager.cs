@@ -52,7 +52,8 @@ public class LevelDataManager : MonoBehaviour {
         LoadSpawnsToggledState();
         LoadImages();
         LoadInSceneContext();
-        PLESpawnManager.Instance.MaxWaveIndex = ActiveLevelData.MaxWave;
+        PLESpawnManager.Instance.MaxWaveIndex = ActiveLevelData.MaxWaveIndex;
+        PLESpawnManager.Instance.InfiniteWavesEnabled = ActiveLevelData.isInfinite;
     }    
 
     private void LoadProps() {

@@ -12,8 +12,11 @@ namespace PlayerLevelEditor
         [SerializeField] private float yawSpeed = 4f;
         [SerializeField] private float pitchSpeed = 4f;
         [SerializeField] private float panSpeed = -0.15f;
+        [SerializeField] private float WASDSpeed = 4f;
+        [SerializeField] private float scrollSpeed = 5f;
         [SerializeField] private float zPanSpeed = 0.5f;
         [SerializeField] private float zoomScrubSpeed = 0.2f;
+
 
         private Material lineMaterial;
         private Color lineColor = Color.red;
@@ -91,22 +94,21 @@ namespace PlayerLevelEditor
 
 
         
-        void HandleCameraMovement() {
-            const float moveSpeed = 0.5f;            
+        void HandleCameraMovement() {            
             if (Input.GetKey(KeyCode.W)) {
-                transform.Translate(moveSpeed * Vector3.forward);
+                transform.Translate(WASDSpeed * Vector3.forward);
             }
 
             if (Input.GetKey(KeyCode.S)) {
-                transform.Translate(moveSpeed * Vector3.back);
+                transform.Translate(WASDSpeed * Vector3.back);
             }
 
             if (Input.GetKey(KeyCode.D)) {
-                transform.Translate(moveSpeed * Vector3.right);
+                transform.Translate(WASDSpeed * Vector3.right);
             }
 
             if (Input.GetKey(KeyCode.A)) {
-                transform.Translate(moveSpeed * Vector3.left);
+                transform.Translate(WASDSpeed * Vector3.left);
             }            
 
             if (Input.GetMouseButtonDown(MouseButtons.MIDDLE) || (Input.GetMouseButtonDown(MouseButtons.LEFT) && Input.GetKey(KeyCode.Space))) {
@@ -126,8 +128,7 @@ namespace PlayerLevelEditor
 
         }
 
-        void HandleCameraZooming() {
-            const float scrollSpeed = 5f;
+        void HandleCameraZooming() {            
             if (Input.GetAxis("Mouse ScrollWheel") < 0) { // back
                 mainCamera.transform.Translate(Vector3.forward * scrollSpeed);
             }

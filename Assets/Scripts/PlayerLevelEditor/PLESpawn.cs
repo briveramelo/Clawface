@@ -36,11 +36,7 @@ public class PLESpawn : PLEItem {
 
     private void OnEnable()
     {
-        if(EventSystem.Instance)
-        {
-            EventSystem.Instance.RegisterEvent(Strings.Events.PLE_TEST_END, Reset);
-        }
-       
+        EventSystem.Instance.RegisterEvent(Strings.Events.PLE_TEST_END, Reset);               
     }
 
     private void OnDisable()
