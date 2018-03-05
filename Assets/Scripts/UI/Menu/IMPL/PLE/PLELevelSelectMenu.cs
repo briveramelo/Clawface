@@ -229,6 +229,8 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
             }
         }
     }
+
+    #region Button Navigation
     private void SetButtonNavigation() {
         Selectable filterButtonDownSelectable = null;
         List<LevelUI> displayedLevelUIs = DisplayedLevelUIs;
@@ -332,6 +334,7 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
         SetFilterButtonsNavigation(selected);
         SetLevelItemButtonsNavigation(displayedLevelUIs);
     }
+    #endregion
 
     private void AlignScrollbar() {
         List<LevelUI> displayedLevelUIs = DisplayedLevelUIs;
@@ -428,6 +431,7 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
 
 }
 
+#region Support Classes and Types
 [System.Serializable]
 public class MemorableTransform {
     public Transform transform;
@@ -498,3 +502,4 @@ public static class LevelSelectFliter {
         return false;
     }
 }
+#endregion

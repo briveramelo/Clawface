@@ -17,7 +17,7 @@ public abstract class PlayerLevelEditorMenu : Menu {
 
     protected virtual void Update() {
         if (allowInput) {
-            if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.UP)) {
+            if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN)) {
                 BackAction();
             }
         }
