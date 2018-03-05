@@ -2940,6 +2940,8 @@ MonoBehaviour:
   dashITimeStart: 0.001
   dashITimeEnd: 0.283
   dashComboTime: 0.05
+  dashTimer: 0
+  dashComboTimer: 0
 --- !u!114 &114136393911348448
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3247,7 +3249,7 @@ MonoBehaviour:
     modelHead: {fileID: 1123885398707320}
     clawExtensionTime: 0.35
     clawRetractionTime: 0.35
-    eatRadius: 10
+    eatRadius: 12
     ArmExtensionSFX: 14
     ArmEnemyCaptureSFX: 15
     EatSFX: 16
