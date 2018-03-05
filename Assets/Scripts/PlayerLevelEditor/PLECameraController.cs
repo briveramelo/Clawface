@@ -18,16 +18,16 @@ namespace PlayerLevelEditor
         [SerializeField] private float zoomScrubSpeed = 0.2f;
 
 
-        private Material lineMaterial;
-        private Color lineColor = Color.red;
-        private List<Vector3> vertices = new List<Vector3>();
         private Camera mainCamera;
         Vector3 startScreenPosition, startCamPosition;
 
         private float yaw = 0.0f;
         private float pitch = 0.0f;
 
-
+        #region Unused... Delete?
+        private Material lineMaterial;
+        private Color lineColor = Color.red;
+        private List<Vector3> vertices = new List<Vector3>();
         void Awake()
         {
             Shader shader = Shader.Find("Hidden/Internal-Colored");
@@ -36,49 +36,8 @@ namespace PlayerLevelEditor
             lineMaterial.shader.hideFlags = HideFlags.HideAndDontSave;
         }
 
-        // Creates a simple two point line
-
-        void Start()
-        {
-            mainCamera = Camera.main;
-        }
-
-        // Sets line endpoints to center of screen and mouse position
-
-        void Update()
-        {
-            HandleCameraMovement();
-            HandleCameraRotation();
-            HandleCameraZooming();
-        }
-
-        //void OnPostRender()
-        //{
-        //    GL.Begin(GL.LINES);
-        //    GL.Color(lineColor);
-
-        //    lineMaterial.SetPass(0);
-
-        //    for (int i = 0; i < vertices.Count; i++)
-        //    {
-        //        GL.Vertex(vertices[i]);
-        //    }
-
-
-        //    GL.End();
-
-        //    vertices.Clear();
-        //}
-
-        void OnApplicationQuit()
-        {
-            DestroyImmediate(lineMaterial);
-        }
-
-        public void DrawLine(Vector3 p1, Vector3 p2)
-        {
-            if (p1 == null || p2 == null)
-            {
+        public void DrawLine(Vector3 p1, Vector3 p2) {
+            if (p1 == null || p2 == null) {
                 Debug.Log("p1 or p2 is null");
                 return;
             }
@@ -87,10 +46,29 @@ namespace PlayerLevelEditor
             vertices.Add(p2);
         }
 
-        public void SetLineColor(Color color)
-        {
+        public void SetLineColor(Color color) {
             lineColor = color;
         }
+
+        void Start()
+        {
+            mainCamera = Camera.main;
+        }
+        #endregion
+
+        void Update()
+        {
+            HandleCameraMovement();
+            HandleCameraRotation();
+            HandleCameraZooming();
+        }
+
+        void OnApplicationQuit()
+        {
+            DestroyImmediate(lineMaterial);
+        }
+
+        
 
 
         
