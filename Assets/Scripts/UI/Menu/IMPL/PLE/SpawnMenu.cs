@@ -52,29 +52,26 @@ public class SpawnMenu : PlacementMenu {
             string toSet = Convert.ToString(i_amt);
             amountField.text = toSet;
         }
-    }
-
-   
-    private Transform TryCreateWaveParent(int i)
-    {
-        string waveName = levelEditor.GetWaveName(i);
-        Transform waveParent = createdItemsParent.Find(waveName);
-        if (waveParent == null)
-        {
-            waveParent = new GameObject(waveName).transform;
-            waveParent.SetParent(createdItemsParent);
-        }
-        return waveParent;
-    }
+    }     
 
     #endregion
 
     #region Protected Interface
     protected override bool SelectUI { get { return base.SelectUI && ScrollGroupHelper.currentUIItem != null; } }
     protected override bool SelectItem { get { return base.SelectUI && MouseHelper.currentSpawn != null; } }
+    protected override bool CanDeletedHoveredItem { get { return base.CanDeletedHoveredItem && MouseHelper.currentSpawn; } }
+    protected override bool Place { get { return base.Place && !MouseHelper.currentBlockUnit.HasActiveSpawn; } }
+    protected override bool UpdatePreview { get { return base.UpdatePreview && !MouseHelper.currentBlockUnit.HasActiveSpawn; } }
+
+
     protected override void DeleteHoveredItem() {
         base.DeleteHoveredItem();
-        levelEditor.CheckToSetMenuInteractability();
+        levelEditor.SetMenuButtonInteractability();
+    }
+
+    protected override void ShowStarted() {
+        base.ShowStarted();
+        amountField.interactable = false;
     }
     protected override void ShowComplete() {
         base.ShowComplete();
@@ -84,14 +81,12 @@ public class SpawnMenu : PlacementMenu {
         base.DeselectAll();
         selectedSpawn = null;
     }
-    protected override void SelectUIItem() {
-        base.SelectUIItem();
-    }
+
     protected override void PostPlaceItem(GameObject newItem) {
-        int currentWave = PLESpawnManager.Instance.CurrentWave;
-        Transform waveParent = TryCreateWaveParent(currentWave);
+        int currentWave = PLESpawnManager.Instance.CurrentWaveIndex;
+        Transform waveParent = levelEditor.TryCreateWaveParent(currentWave);
         for (int i = currentWave; i >= 0; i--) {
-            TryCreateWaveParent(i);
+            levelEditor.TryCreateWaveParent(i);
         }
         newItem.transform.SetParent(waveParent);
         
@@ -112,9 +107,9 @@ public class SpawnMenu : PlacementMenu {
             }
 
             playerSpawnInstance = newItem;
-            playerSpawnInstance.transform.SetParent(TryCreateWaveParent(0).parent);
+            playerSpawnInstance.transform.SetParent(levelEditor.TryCreateWaveParent(0).parent);
         }
-        levelEditor.CheckToSetMenuInteractability();
+        levelEditor.SetMenuButtonInteractability();
         UpdateAmtField(spawn.totalSpawnAmount);
     }
 
@@ -122,7 +117,7 @@ public class SpawnMenu : PlacementMenu {
         base.SelectGameItem();
         MouseHelper.currentSpawn.Select();
         selectedSpawn = MouseHelper.currentSpawn;
-        amountField.interactable = true;
+        amountField.interactable = selectedSpawn.spawnType != SpawnType.Keira;
         UpdateAmtField(selectedSpawn.totalSpawnAmount);
     }
     protected override void DeselectItem() {

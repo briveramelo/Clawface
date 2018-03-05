@@ -34,15 +34,15 @@ public class FloorMenu : PlayerLevelEditorMenu {
 
 
     public void DropFloorAction() {
-        UpdateSelectedAndOpenTilesState(LevelUnitStates.pit);
+        UpdateSelectedAndOpenTilesState(LevelUnitStates.Pit);
     }
 
     public void FlatFloorAction() {
-        UpdateSelectedAndOpenTilesState(LevelUnitStates.floor);
+        UpdateSelectedAndOpenTilesState(LevelUnitStates.Floor);
     }
 
     public void RiseFloorAction() {
-        UpdateSelectedAndOpenTilesState(LevelUnitStates.cover);
+        UpdateSelectedAndOpenTilesState(LevelUnitStates.Cover);
     }
 
     public override void BackAction()
@@ -77,28 +77,28 @@ public class FloorMenu : PlayerLevelEditorMenu {
 
     #region Private Interface    
     void UpdateSelectedAndOpenTilesState(LevelUnitStates state) {
-        List<GameObject> selectedObjects = levelEditor.gridController.GetSelectedBlocks();
+        List<GridTile> selectedGridTiles = levelEditor.gridController.GetSelectedGridTiles();
 
-        if (selectedObjects.Count == 0)
+        if (selectedGridTiles.Count == 0)
             return;
 
-        foreach (GameObject GO in selectedObjects) {
-            if (GO != null) {
-                PLEBlockUnit blockUnit = GO.GetComponent<PLEBlockUnit>();
-                if (!blockUnit.HasActiveSpawn) {
-                    List<LevelUnitStates> levelUnitStates = blockUnit.GetLevelStates();
-                    levelUnitStates[PLESpawnManager.Instance.CurrentWave] = state;
-                }
-            }
-            else {
-                selectedObjects.Remove(GO);
+        int currentWaveIndex = PLESpawnManager.Instance.CurrentWaveIndex;
+        for (int i=0; i<selectedGridTiles.Count; i++) {
+            GridTile tile = selectedGridTiles[i];
+            PLEBlockUnit blockUnit = tile.blockUnit;
+            LevelUnit levelUnit = tile.levelUnit;
+            if (!blockUnit.HasActiveSpawn) {
+                List<LevelUnitStates> levelUnitStates = blockUnit.GetLevelStates();
+                levelUnitStates[currentWaveIndex] = state;
+                blockUnit.UpdateTileHeightStates();
+                levelUnit.TryTransitionToState(state, false);
             }
         }
 
-        string event_name = Strings.Events.PLE_TEST_WAVE_ + PLESpawnManager.Instance.CurrentWave;
-        bool shouldChangeColor = false;
-        EventSystem.Instance.TriggerEvent(Strings.Events.PLE_UPDATE_LEVELSTATE);
-        EventSystem.Instance.TriggerEvent(event_name, shouldChangeColor);
+        //string eventName = Strings.Events.PLE_TEST_WAVE_ + PLESpawnManager.Instance.CurrentWaveIndex;
+        //bool shouldChangeColor = false;
+        //EventSystem.Instance.TriggerEvent(eventName, shouldChangeColor);
+        //EventSystem.Instance.TriggerEvent(Strings.Events.PLE_UPDATE_LEVELSTATE);
     }    
     #endregion
 }

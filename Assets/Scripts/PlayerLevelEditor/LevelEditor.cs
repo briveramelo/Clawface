@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using ModMan;
 
 namespace PlayerLevelEditor
 {
@@ -17,7 +18,6 @@ namespace PlayerLevelEditor
         [SerializeField] private Transform createdSpawnsParent;
         [Header("Player Level Editor-Scene Specific Fields")]
         public PLEMenu currentDisplayedMenu;
-        public WaveSystem waveSystem;
 
         #region Serialized Unity Fields
 
@@ -45,7 +45,7 @@ namespace PlayerLevelEditor
 
         private void Start() {
 
-            EventSystem.Instance.RegisterEvent(Strings.Events.PLE_CHANGEWAVE, EnableSpawnsOnWaveChange);
+            EventSystem.Instance.RegisterEvent(Strings.Events.PLE_CHANGEWAVE, EnableCurrentWaveSpawnParents);
             EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_STARTED, PlayLevel);
 
             if (SceneTracker.IsCurrentSceneEditor) {
@@ -57,7 +57,7 @@ namespace PlayerLevelEditor
         {
             if(EventSystem.Instance)
             {
-                EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_CHANGEWAVE, EnableSpawnsOnWaveChange);
+                EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_CHANGEWAVE, EnableCurrentWaveSpawnParents);
                 EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_STARTED, PlayLevel);
             }
             
@@ -68,35 +68,48 @@ namespace PlayerLevelEditor
 
         
         #region Public Interface
-        public void EnableSpawnsOnWaveChange(params object[] parameters)
+        public string GetWaveName(int i) { return Strings.Editor.Wave + i; }
+        public void EnableCurrentWaveSpawnParents(params object[] parameters)
         {
-            string activeWaveName = "";
-            if(parameters.Length > 0)
-            {
-                int wave = (int)parameters[0];
-                activeWaveName = GetWaveName(wave);
+            createdSpawnsParent.SortChildrenByName();
+            int currentWaveIndex = 0;
+            if (parameters.Length > 0) {
+                currentWaveIndex = (int)parameters[0];
+            }
+            else {
+                currentWaveIndex = PLESpawnManager.Instance.CurrentWaveIndex;
             }
 
-
-            for (int i = 1; i < createdSpawnsParent.childCount; i++)
+            int startIndex = SpawnMenu.playerSpawnInstance == null ? 0 : 1;
+            for (int i = startIndex; i < createdSpawnsParent.childCount; i++)
             {
-                //Accounts for not disabling the player spawn object between switching of waves.
-                GameObject currentGO = createdSpawnsParent.GetChild(i).gameObject;
-
-                if (!currentGO.CompareTag(Strings.Editor.PLAYER_SPAWN_TAG))
-                {
-                    currentGO.SetActive(false);
+                GameObject waveParent = createdSpawnsParent.GetChild(i).gameObject;
+                if (!waveParent.CompareTag(Strings.Editor.PLAYER_SPAWN_TAG)) {
+                    waveParent.SetActive(false);
                 }
             }
-            Transform activeWave = createdSpawnsParent.Find(activeWaveName);
-            if (activeWave != null)
+
+            string activeWaveName = GetWaveName(currentWaveIndex);
+            Transform currentWaveParent = createdSpawnsParent.Find(activeWaveName);
+            if (currentWaveParent != null)
             {
-                activeWave.gameObject.SetActive(true);
+                currentWaveParent.gameObject.SetActive(true);
             }
         }
 
+        public Transform TryCreateWaveParent(int i) {
+            string waveName = GetWaveName(i);
+            Transform waveParent = createdSpawnsParent.Find(waveName);
+            if (waveParent == null) {
+                waveParent = new GameObject(waveName).transform;
+                waveParent.SetParent(createdSpawnsParent);
+            }
+            return waveParent;
+        }
 
-        public string GetWaveName(int i) { return Strings.Editor.Wave + i; }
+        public void ResetToWave0() {
+            waveEditorMenu.ResetToWave0();
+        }
 
         public void PlayLevel(params object[] i_params) {
             SpawnMenu.playerSpawnInstance.SetActive(false);
@@ -105,10 +118,7 @@ namespace PlayerLevelEditor
             playerSpawnerInstance.transform.position = SpawnMenu.playerSpawnInstance.transform.position;
 
             if (SceneTracker.IsCurrentSceneEditor) {
-                waveSystem.ResetToWave0();
-            }
-            else {
-                PLESpawnManager.Instance.CurrentWave = 0;
+                ResetToWave0();
             }
             hasCreatedPlayer = true;
         }
@@ -134,12 +144,12 @@ namespace PlayerLevelEditor
             hasCreatedPlayer = false;
         }
 
-        public void CheckToSetMenuInteractability() {
-            bool isInteractable = gridController.AnyTilesEnabled();
-            ToggleMenuInteractable(isInteractable, PLEMenu.PROPS, PLEMenu.SPAWN, PLEMenu.WAVE);
+        public void SetMenuButtonInteractability() {
+            bool anyTilesOn = gridController.AnyTilesEnabled();
+            ToggleMenuInteractable(anyTilesOn, PLEMenu.PROPS, PLEMenu.SPAWN, PLEMenu.WAVE);
 
-            isInteractable = SpawnMenu.playerSpawnInstance != null;
-            ToggleMenuInteractable(isInteractable, PLEMenu.SAVE, PLEMenu.TEST);
+            bool anyTilesOnAndPlayerOn = anyTilesOn && SpawnMenu.playerSpawnInstance != null;
+            ToggleMenuInteractable(anyTilesOnAndPlayerOn, PLEMenu.SAVE, PLEMenu.TEST);
         }
         
 
@@ -210,9 +220,7 @@ namespace PlayerLevelEditor
                     return null;
             }
         }
-        #endregion  
 
-        #region Private Interface
         public void SetUpMenus() {
             pleMenus.Clear();
             pleMenus = new List<Menu>() {
@@ -244,6 +252,10 @@ namespace PlayerLevelEditor
             gridController.SetGridVisiblity(true);
             ToggleCameraController(true);
         }
+        #endregion
+
+        #region Private Interface
+
 
         void ToggleMenuInteractable(bool isInteractable, params PLEMenu[] menus) {
             foreach (PLEMenu menu in menus) {

@@ -53,7 +53,7 @@ public class PLESpawn : PLEItem {
 
     private void Start()
     {
-        Reset(null);
+        Reset();
         actualSpawnPos = new Vector3(0, transform.position.y + spawnHeightOffset, 0);
         actualSpawnPos = transform.TransformPoint(actualSpawnPos);
     }
@@ -136,10 +136,10 @@ public class PLESpawn : PLEItem {
         }
         else
         {
-            Debug.LogFormat("<color=#ffff00>" + "NOT ENOUGH SPAWN-OBJECT" + "</color>");
+            Debug.LogFormat("<color=#ffff00>" + "NOT ENOUGH SPAWN-OBJECTS for: " + spawnType + "</color>");
         }
     }
-    private void Reset(object[] parameters)
+    private void Reset(params object[] parameters)
     {
         currentSpawnAmount = totalSpawnAmount;
         rend.enabled = true;

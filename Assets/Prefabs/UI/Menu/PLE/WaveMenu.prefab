@@ -40,7 +40,7 @@ GameObject:
   - component: {fileID: 114158603312310664}
   - component: {fileID: 114165098372016686}
   m_Layer: 5
-  m_Name: LWaveButton
+  m_Name: PrevWave-Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -160,7 +160,7 @@ GameObject:
   - component: {fileID: 114528404821166776}
   - component: {fileID: 114071359373493402}
   m_Layer: 5
-  m_Name: RWaveButton
+  m_Name: NextWave-Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -380,7 +380,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4672683008574240}
   - component: {fileID: 114127192870787554}
-  - component: {fileID: 114795018715560032}
   m_Layer: 5
   m_Name: WaveMenu
   m_TagString: Untagged
@@ -719,7 +718,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114795018715560032}
+      - m_Target: {fileID: 114127192870787554}
         m_MethodName: NextWave
         m_Mode: 1
         m_Arguments:
@@ -771,7 +770,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114795018715560032}
+      - m_Target: {fileID: 114127192870787554}
         m_MethodName: AddNewWave
         m_Mode: 1
         m_Arguments:
@@ -827,8 +826,14 @@ MonoBehaviour:
   faderDuration: 0
   levelEditor: {fileID: 0}
   initiallySelected: {fileID: 114165098372016686}
-  realLevelParent: {fileID: 0}
+  currentWaveText: {fileID: 0}
   waveInputField: {fileID: 114283317979122588}
+  totalWaveText: {fileID: 114009858251929988}
+  infWaveObjToggle: {fileID: 114515378537525878}
+  removeWave: {fileID: 114805574165814344}
+  addWave: {fileID: 114100704420057640}
+  prevWave: {fileID: 114165098372016686}
+  nextWave: {fileID: 114071359373493402}
 --- !u!114 &114158603312310664
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -928,7 +933,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114795018715560032}
+      - m_Target: {fileID: 114127192870787554}
         m_MethodName: PrevWave
         m_Mode: 1
         m_Arguments:
@@ -1390,7 +1395,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114795018715560032}
+      - m_Target: {fileID: 114127192870787554}
         m_MethodName: UpdateInfWaveState
         m_Mode: 1
         m_Arguments:
@@ -1830,25 +1835,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114795018715560032
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1626789504675884}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2cd9337ea0990b4aa28d112d09a3a2e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  waveInputField: {fileID: 114283317979122588}
-  totalWaveText: {fileID: 114009858251929988}
-  currentWaveText: {fileID: 0}
-  infWaveObjToggle: {fileID: 114515378537525878}
-  removeWave: {fileID: 114805574165814344}
-  addWave: {fileID: 114100704420057640}
-  prevWave: {fileID: 114165098372016686}
-  nextWave: {fileID: 114071359373493402}
 --- !u!114 &114805574165814344
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1888,7 +1874,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114795018715560032}
+      - m_Target: {fileID: 114127192870787554}
         m_MethodName: DeleteCurrentWave
         m_Mode: 1
         m_Arguments:

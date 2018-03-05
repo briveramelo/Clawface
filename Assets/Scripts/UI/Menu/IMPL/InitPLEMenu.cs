@@ -129,7 +129,7 @@ public class InitPLEMenu : Menu {
                 else if (_instance.GetComponent<LevelUnit>() == null)
                 {
                     LevelUnit LU = _instance.AddComponent<LevelUnit>() as LevelUnit;
-                    LU.defaultState = LevelUnitStates.floor;
+                    LU.defaultState = LevelUnitStates.Floor;
                     AddNavMeshModifier(_instance, PlayerLevelEditor.NavMeshAreas.Walkable);
 
                     if (i == 0 && j == 0)

@@ -3,7 +3,7 @@
     public const string BLOCKINGOBJECT = "BLOCKING OBJECT";
     public const string ANIMATIONSTATE = "AnimationState";
     public const string FEETSTATE = "FeetState";
-
+    public const string RESPAWN_POINT = "RespawnPoint";
     public class Paths
     {
         public static string PLAYER_PREFAB_NAME = "Keira_GroupV";
@@ -51,12 +51,22 @@
     public class Layers
     {
         public const string UI = "UI";
-        public const string GROUND = "Ground";
         public const string MODMAN = "ModMan";
-        public const string OBSTACLE = "Obstacle";
         public const string ENEMY = "Enemy";
+        public const string MINI_MAP = "MiniMap";
+        public const string GROUND = "Ground";
+        public const string BLOOD = "Blood";
+        public const string HOLOGRAM = "Hologram";
+        public const string GLOBE_TEXT = "Globe_Text";
+        public const string PLAYER_DETECTOR = "PlayerDetector";
+        public const string INVISIBLE_ENEMY_FENCE = "InvisibleEnemyFence";
+        public const string DICE_BLOCKS = "DiceBlocks";
+        public const string OUTLINE = "EnemyProjectile";
+        public const string OBSTACLE = "Obstacle";
         public const string ENEMY_BODY = "EnemyBody";
         public const string ENEMY_PROJECTILE = "EnemyProjectile";
+        public const string CLAW = "Claw";
+        public const string SPAWN = "Spawn";
     }
 
     public class TextStrings
@@ -207,7 +217,7 @@
         public const string ACTIVATE_MOD = "ACTIVATE_MOD";
         public const string DEACTIVATE_MOD = "DEACTIVATE_MOD";
 
-        public const string SCENE_LOADED = "SCENE LOADED";
+        public const string SCENE_LOADED = "SCENE LOADED";        
     }
 
     public class Editor

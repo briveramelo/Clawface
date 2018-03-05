@@ -161,18 +161,7 @@ public class LevelDynamicsWindow : EditorWindow {
                                 LevelUnit levelUnit = levelUnitStruct.levelUnit.GetComponent<LevelUnit>();
                                 if (levelUnit)
                                 {
-                                    switch (levelUnitStruct.state)
-                                    {
-                                        case LevelUnitStates.cover:
-                                            levelUnit.AddCoverStateEvent(localEventName);
-                                            break;
-                                        case LevelUnitStates.floor:
-                                            levelUnit.AddFloorStateEvent(localEventName);
-                                            break;
-                                        case LevelUnitStates.pit:
-                                            levelUnit.AddPitStateEvent(localEventName);
-                                            break;
-                                    }                                    
+                                    levelUnit.AddStateEvent(levelUnitStruct.state, localEventName);
                                 }
                             }
 
@@ -317,11 +306,11 @@ public class LevelDynamicsWindow : EditorWindow {
                     rect.width = unitWidth;
                     rect.height = unitHeight;                    
                     Color defaultColor = GUI.color;
-                    if (levelUnitStruct.state == LevelUnitStates.floor)
+                    if (levelUnitStruct.state == LevelUnitStates.Floor)
                     {                        
                         GUI.color = floorColor;
                     }
-                    else if (levelUnitStruct.state == LevelUnitStates.cover)
+                    else if (levelUnitStruct.state == LevelUnitStates.Cover)
                     {                        
                         GUI.color = coverColor;
                     }
@@ -333,7 +322,7 @@ public class LevelDynamicsWindow : EditorWindow {
                     {
                         int localState = (int)levelUnitStruct.state;
                         localState++;
-                        if(localState > (int)LevelUnitStates.pit)
+                        if(localState > (int)LevelUnitStates.Pit)
                         {
                             localState = 0;
                         }
@@ -374,19 +363,19 @@ public class LevelDynamicsWindow : EditorWindow {
                     WaveObject.LevelObjectData levelUnitStruct = new WaveObject.LevelObjectData();
                     levelUnitStruct.levelUnit = levelUnit;
                     bool eventExists = false;
-                    if (levelUnit.CheckForEvent(localEventName, LevelUnitStates.floor))
+                    if (levelUnit.CheckForEvent(localEventName, LevelUnitStates.Floor))
                     {
-                        levelUnitStruct.state = LevelUnitStates.floor;
+                        levelUnitStruct.state = LevelUnitStates.Floor;
                         eventExists = true;
                     }
-                    else if (levelUnit.CheckForEvent(localEventName, LevelUnitStates.cover))
+                    else if (levelUnit.CheckForEvent(localEventName, LevelUnitStates.Cover))
                     {
-                        levelUnitStruct.state = LevelUnitStates.cover;
+                        levelUnitStruct.state = LevelUnitStates.Cover;
                         eventExists = true;
                     }
-                    else if (levelUnit.CheckForEvent(localEventName, LevelUnitStates.pit))
+                    else if (levelUnit.CheckForEvent(localEventName, LevelUnitStates.Pit))
                     {
-                        levelUnitStruct.state = LevelUnitStates.pit;
+                        levelUnitStruct.state = LevelUnitStates.Pit;
                         eventExists = true;
                     }
 

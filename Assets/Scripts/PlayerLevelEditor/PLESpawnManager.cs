@@ -17,10 +17,12 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
 
     #region Public Fields
     public bool InfiniteWavesEnabled { get; set; }
-    public int CurrentWave { get; set; }
-    public int MaxWave { get; set; }
-    public bool AtMaxWaveLimit { get { return MaxWave == systemMaxWaveLimit; } private set { } }
-    public bool OneWaveRemaining { get { return MaxWave == 1; } private set { } }
+    public int CurrentWaveIndex { get; set; }
+    public int MaxWaveIndex { get; set; }
+    public bool AtMaxWaveLimit { get { return MaxWaveIndex == systemMaxWaveLimit; } }
+    public bool OneWaveMax { get { return MaxWaveIndex == 1; } }
+    public string CurrentWaveText { get { return string.Format("{0}",CurrentWaveIndex + 1); } }
+    public string MaxWaveText { get { return string.Format("{0}", MaxWaveIndex + 1); } }
     #endregion
 
     #region Serialized Unity Fields
@@ -61,18 +63,20 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
     #region Private Interface
     private void CallNextWave(params object[] i_params)
     {
-        CurrentWave++;
-        editorInstance.EnableSpawnsOnWaveChange(CurrentWave);
-        List<PLESpawn> currentWaveSpawners = ActiveLevelData.GetPLESpawnsFromWave(CurrentWave);
-        
-        for(int i = 0; i < currentWaveSpawners.Count; i++)
-        {
+        CurrentWaveIndex++;
+        CallWave(CurrentWaveIndex);
+    }
+
+    void CallWave(int waveIndex) {
+        editorInstance.EnableCurrentWaveSpawnParents(waveIndex);
+        List<PLESpawn> currentWaveSpawners = ActiveLevelData.GetPLESpawnsFromWave(waveIndex);
+
+        for (int i = 0; i < currentWaveSpawners.Count; i++) {
             //for keira
-            if(currentWaveSpawners[i] != null)
-            {
+            if (currentWaveSpawners[i] != null) {
                 currentWaveSpawners[i].StartSpawning();
             }
-            
+
         }
     }
 
@@ -80,13 +84,13 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
     {
         Reset();
         RegisterAllSpawns();
-        CallNextWave();
+        CallWave(0);
     }
 
     private void ProcessDeath(params object[] parameters)
     {
         //check if all spawners in given wave are marked as completed
-        List<PLESpawn> currentWaveSpawners = ActiveLevelData.GetPLESpawnsFromWave(CurrentWave);
+        List<PLESpawn> currentWaveSpawners = ActiveLevelData.GetPLESpawnsFromWave(CurrentWaveIndex);
         bool waveDead = true;
 
         for (int i = 0; i < currentWaveSpawners.Count; i++)
@@ -109,7 +113,7 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
     {
         //Timing.KillCoroutines(coroutineName);
         FindObjectsOfType<EnemyBase>().ToList().ForEach(enemy => { enemy.OnDeath(); });
-        CurrentWave = -1;
+        CurrentWaveIndex = 0;
     }
 
 
@@ -126,46 +130,45 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
 
     public void SetToWave(int i_wave)
     {
-        CurrentWave = Mathf.Clamp(i_wave, 0, MaxWave - 1);
-        CurrentWave = i_wave;
-        editorInstance.EnableSpawnsOnWaveChange(CurrentWave);
+        CurrentWaveIndex = Mathf.Clamp(i_wave, 0, MaxWaveIndex);
+        editorInstance.EnableCurrentWaveSpawnParents(CurrentWaveIndex);
     }
 
     public void GoToPreviousWave()
     {
-        CurrentWave--;
-        if(CurrentWave < 0)
+        CurrentWaveIndex--;
+        if(CurrentWaveIndex < 0)
         {
-            CurrentWave = MaxWave - 1;
+            CurrentWaveIndex = MaxWaveIndex;
         }
-        SetToWave(CurrentWave);
+        SetToWave(CurrentWaveIndex);
     }
 
     public void GoToNextWave()
     {
-        CurrentWave++;
-        if(CurrentWave >= MaxWave)
-            CurrentWave = 0;
+        CurrentWaveIndex++;
+        if(CurrentWaveIndex > MaxWaveIndex)
+            CurrentWaveIndex = 0;
         
-        SetToWave(CurrentWave);
-
+        SetToWave(CurrentWaveIndex);
     }
 
     public void AddWave()
     {
         if (AtMaxWaveLimit)
             return;
-        MaxWave++;
+        MaxWaveIndex++;
     }
 
     public void DeleteWave(int i_wave)
     {
-        if (MaxWave == 1)
+        if (MaxWaveIndex == 1)
             return;
-        MaxWave--;
-        if(CurrentWave >= MaxWave)
+
+        MaxWaveIndex--;
+        if(CurrentWaveIndex > MaxWaveIndex)
         {
-            CurrentWave = MaxWave - 1;
+            CurrentWaveIndex = MaxWaveIndex;
         }
         
     }

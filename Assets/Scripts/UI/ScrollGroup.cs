@@ -10,7 +10,9 @@ public abstract class ScrollGroup : MonoBehaviour {
 
     protected abstract string ResourcesPath { get; }
     protected List<PLEUIItem> pleUIItems = new List<PLEUIItem>();
-    private bool hasInitialized = false;
+    protected bool hasInitialized = false;
+    public int LastSelectedIndex { get; private set; }
+
     #region Unity Lifecycle
     private void Start() {
         TryInitialize();
@@ -19,11 +21,16 @@ public abstract class ScrollGroup : MonoBehaviour {
 
 
     #region Public Interface
-    public PLEUIItem GetFirstUIItem() {
+    public PLEUIItem GetLastUIItem() {
+        TryInitialize();
+        return pleUIItems[LastSelectedIndex];
+    }
+    public virtual PLEUIItem GetUIItem(int index) {
         TryInitialize();
         return pleUIItems[0];
     }
     public void SelectItem(int itemIndex) {
+        LastSelectedIndex = itemIndex;
         pleUIItems.ForEach(item => { item.OnGroupSelectChanged(itemIndex); });
     }
     #endregion
@@ -72,7 +79,7 @@ public abstract class ScrollGroup : MonoBehaviour {
     }
     #endregion
 
-    void TryInitialize() {
+    protected void TryInitialize() {
         if (!hasInitialized) {
             InitializeUI();
             hasInitialized = true;
