@@ -53,8 +53,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shouldRegister: 1
   blasterStats:
-    health: 16
-    maxHealth: 16
+    health: 14
+    maxHealth: 14
     skinnableHealth: 1
     attack: 3
     speed: 8
@@ -70,8 +70,8 @@ MonoBehaviour:
     bulletSpeed: 20
     animationShootSpeed: 2
   blasterShotgunStats:
-    health: 17
-    maxHealth: 17
+    health: 16
+    maxHealth: 16
     skinnableHealth: 1
     attack: 3
     speed: 15
@@ -124,8 +124,8 @@ MonoBehaviour:
     closeEnoughToAttackDistance: 3
     animationAttackSpeed: 1
   zombieBeserkerStats:
-    health: 15
-    maxHealth: 15
+    health: 14
+    maxHealth: 14
     skinnableHealth: 1
     attack: 3
     speed: 16
@@ -138,8 +138,8 @@ MonoBehaviour:
     closeEnoughToAttackDistance: 2.5
     animationAttackSpeed: 1
   zombieAciderStats:
-    health: 18
-    maxHealth: 18
+    health: 17
+    maxHealth: 17
     skinnableHealth: 1
     attack: 3
     speed: 16
@@ -184,8 +184,8 @@ MonoBehaviour:
     stunnedTime: 3
     closeEnoughToAttackDistance: 5
     maxPulses: 1
-    pulseRate: 5
-    scaleRate: 0.5
+    pulseRate: 4
+    scaleRate: 0.6
     maxScale: 4.5
   kamikazeMommyStats:
     health: 50
@@ -215,8 +215,8 @@ MonoBehaviour:
     scoreValue: 600
     eatHealth: 1
     stunnedTime: 3
-    maxBounces: 5
-    minBounces: 2
+    maxBounces: 4
+    minBounces: 1
     maxShots: 8
     minShots: 4
     rotationSpeed: 0
@@ -245,8 +245,8 @@ MonoBehaviour:
     scoreValue: 800
     eatHealth: 1
     stunnedTime: 3
-    maxBounces: 7
-    minBounces: 4
+    maxBounces: 3
+    minBounces: 1
     maxShots: 45
     minShots: 50
     rotationSpeed: 0
@@ -275,8 +275,8 @@ MonoBehaviour:
     scoreValue: 1000
     eatHealth: 2
     stunnedTime: 4
-    maxBounces: 5
-    minBounces: 2
+    maxBounces: 2
+    minBounces: 1
     maxShots: 66
     minShots: 76
     rotationSpeed: 85
