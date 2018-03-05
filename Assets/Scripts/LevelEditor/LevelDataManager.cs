@@ -89,7 +89,7 @@ public class LevelDataManager : MonoBehaviour {
                 SpawnData spawnData = ActiveWaveData[i].spawnData[j];
                 GameObject enemyUIPrefabToSpawn = pleSpawns.Find(spawn=>(int)(spawn.spawnType)==spawnData.spawnType).gameObject;
                 Transform newSpawnTransform = Instantiate(enemyUIPrefabToSpawn, waveParent.transform, false).transform;
-                newSpawnTransform.name = newSpawnTransform.name.TryCleanClone();
+                newSpawnTransform.name = newSpawnTransform.name.TryCleanName(Strings.CLONE);
                 spawnNames.Add(newSpawnTransform.name);
                 PLESpawn pleSpawn = newSpawnTransform.GetComponent<PLESpawn>();
                 spawnedPLEs.Add(pleSpawn);

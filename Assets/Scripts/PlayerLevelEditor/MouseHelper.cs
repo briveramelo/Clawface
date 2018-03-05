@@ -48,7 +48,7 @@ public class MouseHelper : MonoBehaviour {
         if (hitUI) {
             HitItem = false;
         }
-        System.Predicate<string> nameCheck = hitName=>!hitName.Contains(Strings.BLOCKINGOBJECT) && !hitName.Contains("Wall");
+        System.Predicate<string> nameCheck = hitName=>!hitName.Contains(Strings.BLOCKINGOBJECT) && !hitName.Contains("Wall") && !hitName.Contains(Strings.PREVIEW);
         raycastHit = HitItem ? GetClosestHit(hits, nameCheck) : null;
 
         
@@ -74,7 +74,7 @@ public class MouseHelper : MonoBehaviour {
         if (hitUI) {
             HitTile = false;
         }
-        System.Predicate<string> nameCheck = hitName => hitName.Contains("RealBlock");
+        System.Predicate<string> nameCheck = hitName => hitName.Contains(Strings.REAL_BLOCK);
         raycastHitTile = HitTile ? GetClosestHit(hits, nameCheck) : null;
 
         if (HitTile) {

@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public abstract class ScrollGroup : MonoBehaviour {
 
+    [SerializeField] protected PlacementMenu placementMenu;
     [SerializeField] protected GameObject iconTemplate;
     [SerializeField] protected GameObject groupContent;
 
@@ -32,6 +33,7 @@ public abstract class ScrollGroup : MonoBehaviour {
     public void SelectItem(int itemIndex) {
         LastSelectedIndex = itemIndex;
         pleUIItems.ForEach(item => { item.OnGroupSelectChanged(itemIndex); });
+        placementMenu.SelectUIItem(pleUIItems[itemIndex]);
     }
     #endregion
 

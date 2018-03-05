@@ -8,10 +8,9 @@ namespace ModMan {
 
     public static class StringExtension
     {
-        public static string TryCleanClone(this string myStringName) {
-            const string clone = "(Clone)";
-            if (myStringName.Contains(clone)) {
-                myStringName = myStringName.Substring(0, myStringName.Length - clone.Length);
+        public static string TryCleanName(this string myStringName, string suffixToRemove) {
+            if (!string.IsNullOrEmpty(myStringName) && !string.IsNullOrEmpty(suffixToRemove) && myStringName.Contains(suffixToRemove)) {
+                myStringName = myStringName.Substring(0, myStringName.Length - suffixToRemove.Length);
             }
             return myStringName;
         }

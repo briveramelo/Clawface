@@ -17,7 +17,7 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
 
     protected PLEItem selectedPLEItem;
     protected List<Selectable> selectables = new List<Selectable>();
-    protected GameObject selectedItem = null;
+    protected GameObject selectedItemPrefab = null;
     protected GameObject previewItem = null;
     protected List<string> itemNames = new List<string>();
 
@@ -26,7 +26,7 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
     protected virtual bool SelectItem { get { return Input.GetMouseButtonDown(MouseButtons.LEFT) && MouseHelper.HitItem; } }
     protected virtual bool DeSelectItem { get { return (Input.GetMouseButtonDown(MouseButtons.LEFT) || Input.GetMouseButtonDown(MouseButtons.RIGHT)) && !MouseHelper.HitUI; } }
     protected bool RightClick { get { return Input.GetMouseButtonDown(MouseButtons.RIGHT); } }
-    protected virtual bool Place { get { return Input.GetMouseButtonDown(MouseButtons.LEFT) && selectedItem != null && MouseHelper.currentBlockUnit != null && !MouseHelper.currentBlockUnit.IsOccupied() && MouseHelper.currentBlockUnit.IsFlatAtWave(PLESpawnManager.Instance.CurrentWaveIndex); } }
+    protected virtual bool Place { get { return Input.GetMouseButtonDown(MouseButtons.LEFT) && selectedItemPrefab != null && MouseHelper.currentBlockUnit != null && !MouseHelper.currentBlockUnit.IsOccupied() && MouseHelper.currentBlockUnit.IsFlatAtWave(PLESpawnManager.Instance.CurrentWaveIndex); } }
     protected virtual bool UpdatePreview { get { return previewItem != null && MouseHelper.currentBlockUnit != null && !MouseHelper.currentBlockUnit.IsOccupied() && MouseHelper.currentBlockUnit.IsFlatAtWave(PLESpawnManager.Instance.CurrentWaveIndex); } }
     protected virtual bool CanDeletedHoveredItem { get { return MouseHelper.currentHoveredObject && itemNames.Contains(MouseHelper.currentHoveredObject.name); } }
     #endregion
@@ -39,10 +39,7 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
     protected override void Update() {
         base.Update();
         if (allowInput) {
-            if (SelectUI) {
-                SelectUIItem();
-            }
-            else if (Place) {
+            if (Place) {
                 PlaceItem();
             }
             else if (SelectItem) {
@@ -63,17 +60,12 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
     #endregion
 
     #region Protected Interface
-    protected virtual void SelectUIItem() {
-        PLEUIItem currentUIItem = ScrollGroupHelper.currentUIItem;
-
-        if (currentUIItem) {
-            OnSelectUIItem(currentUIItem);
-        }
-    }
-    protected virtual void OnSelectUIItem(PLEUIItem item) {
-        selectedItem = item.registeredItem;
+    public virtual void SelectUIItem(PLEUIItem item) {
+        selectedItemPrefab = item.registeredItem;
         TryDestroyPreview();
-        previewItem = Instantiate(selectedItem);
+        previewItem = Instantiate(selectedItemPrefab);
+        previewItem.name = previewItem.name.TryCleanName(Strings.CLONE);
+        previewItem.name += Strings.PREVIEW;
         PostOnSelectUIItem(previewItem);
     }
     protected virtual void PostOnSelectUIItem(GameObject newItem) { }
@@ -86,6 +78,7 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
     }
 
     protected virtual void SelectGameItem() {
+        DeselectUIItem();
         DeselectAllGameItems();
     }
     protected virtual void DeselectAllGameItems() {
@@ -95,16 +88,16 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
     }
 
     protected virtual void PlaceItem() {
-        GameObject newItem = Instantiate(selectedItem, createdItemsParent);
+        GameObject newItem = Instantiate(selectedItemPrefab, createdItemsParent);
         newItem.transform.position = MouseHelper.currentBlockUnit.spawnTrans.position;
-        newItem.name = selectedItem.name.TryCleanClone();
+        newItem.name = selectedItemPrefab.name.TryCleanName(Strings.CLONE);
         itemNames.Add(newItem.name);
         PostPlaceItem(newItem);
     }
     protected virtual void PostPlaceItem(GameObject newItem) { }
 
     protected bool DeselectUIItem() {
-        selectedItem = null;
+        selectedItemPrefab = null;
         return TryDestroyPreview();
     }
 
@@ -135,7 +128,7 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
 
     protected override void ShowStarted() {
         base.ShowStarted();
-        OnSelectUIItem(scrollGroup.GetLastUIItem());
+        SelectUIItem(scrollGroup.GetLastUIItem());
         SetInteractability(false);
     }
     protected override void ShowComplete() {

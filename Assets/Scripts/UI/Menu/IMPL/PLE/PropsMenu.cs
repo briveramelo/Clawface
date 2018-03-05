@@ -39,15 +39,11 @@ public class PropsMenu : PlacementMenu
 
     #region Protected Interface
     protected override bool SelectUI { get { return base.SelectUI && ScrollGroupHelper.currentUIItem !=null; } }
-    protected override bool SelectItem { get { return base.SelectUI && MouseHelper.currentProp != null; } }
+    protected override bool SelectItem { get { return base.SelectItem && MouseHelper.currentProp != null; } }
     protected override bool CanDeletedHoveredItem { get { return base.CanDeletedHoveredItem && MouseHelper.currentProp; } }
 
     protected override void DeselectAllGameItems() {
         base.DeselectAllGameItems();
-    }
-    protected override void SelectUIItem() {
-        base.SelectUIItem();
-        
     }
     protected override void PostPlaceItem(GameObject newItem) {
         MouseHelper.currentBlockUnit.SetOccupation(true);

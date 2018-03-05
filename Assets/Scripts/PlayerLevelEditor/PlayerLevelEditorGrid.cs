@@ -44,8 +44,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
 
     #endregion
 
-    const string GhostBlock = "GhostBlock";
-    const string RealBlock = "RealBlock";
+    
 
 
     #region Unity Lifecycle
@@ -249,9 +248,9 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
 
     private void AddGridTile(Vector3 position) {
         GameObject ghostBlock = GameObject.Instantiate(previewBlock, position, Quaternion.identity);
-        ghostBlock.name = GhostBlock;
+        ghostBlock.name = Strings.GHOST_BLOCK;
         GameObject realBlock = GameObject.Instantiate(spawnedBlock, position, Quaternion.identity);
-        realBlock.name = RealBlock;
+        realBlock.name = Strings.REAL_BLOCK;
 
         GameObject wall_N = GameObject.Instantiate(wallPrefab, position + Vector3.up * 5f + Vector3.forward * 2.5f, Quaternion.Euler(0f, 0f, 0f));
         GameObject wall_E = GameObject.Instantiate(wallPrefab, position + Vector3.up * 5f + Vector3.right * 2.5f, Quaternion.Euler(0f, 90f, 0f));

@@ -4,6 +4,11 @@
     public const string ANIMATIONSTATE = "AnimationState";
     public const string FEETSTATE = "FeetState";
     public const string RESPAWN_POINT = "RespawnPoint";
+    public const string CLONE = "(Clone)";
+    public const string PREVIEW = "Preview";
+    public const string GHOST_BLOCK = "GhostBlock";
+    public const string REAL_BLOCK = "RealBlock";
+
     public class Paths
     {
         public static string PLAYER_PREFAB_NAME = "Keira_GroupV";
