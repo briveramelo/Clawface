@@ -61,12 +61,14 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
 
     #region Protected Interface
     public virtual void SelectUIItem(PLEUIItem item) {
-        selectedItemPrefab = item.registeredItem;
-        TryDestroyPreview();
-        previewItem = Instantiate(selectedItemPrefab);
-        previewItem.name = previewItem.name.TryCleanName(Strings.CLONE);
-        previewItem.name += Strings.PREVIEW;
-        PostOnSelectUIItem(previewItem);
+        if (allowInput) {
+            selectedItemPrefab = item.registeredItem;
+            TryDestroyPreview();
+            previewItem = Instantiate(selectedItemPrefab);
+            previewItem.name = previewItem.name.TryCleanName(Strings.CLONE);
+            previewItem.name += Strings.PREVIEW;
+            PostOnSelectUIItem(previewItem);
+        }
     }
     protected virtual void PostOnSelectUIItem(GameObject newItem) { }
     protected virtual void DeselectItem() {

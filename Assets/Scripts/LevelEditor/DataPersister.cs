@@ -150,6 +150,18 @@ public class LevelData {
     {
         return waveData[i_wave].GetPleSpawnsFromWave();
     }
+    public SpawnData KeiraSpawnData {
+        get {
+            Predicate<SpawnData> isKeira = item => item.SpawnType == SpawnType.Keira;           
+            Predicate<WaveData> waveHasKeira = waveElement => waveElement.spawnData.Exists(isKeira);
+            WaveData keiraWave = waveData.Find(waveHasKeira);
+            SpawnData keiraSpawnData = null;
+            if (keiraWave!=null) {
+                keiraSpawnData = keiraWave.spawnData.Find(isKeira);
+            }
+            return keiraSpawnData;
+        }
+    }
 
     public int WaveCount { get { return waveData.Count; } }
     public int TileCount { get { return tileData.Count; } }

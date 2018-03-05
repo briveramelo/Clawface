@@ -44,7 +44,7 @@ public class ScoreManager : Singleton<ScoreManager> {
         EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_KILLED, OnPlayerKilled);
     }       
 
-    private new void OnDestroy()
+    private void OnDestroy()
     {
         if (EventSystem.Instance)
         {
@@ -57,7 +57,6 @@ public class ScoreManager : Singleton<ScoreManager> {
             EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_KILLED, OnPlayerKilled);
         }
 
-        base.OnDestroy();
     }
 
     // Update is called once per frame

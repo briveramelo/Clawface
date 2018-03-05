@@ -17,12 +17,11 @@ public class MenuMusicManager : Singleton<MenuMusicManager> {
         }
     }
 
-    public override void OnDestroy() {
+    public void OnDestroy() {
         if (EventSystem.Instance) {
             EventSystem.Instance.UnRegisterEvent(Strings.Events.WEAPONS_SELECT_FROM_STAGE_OVER, Play);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.SCENE_LOADED, CheckSceneToPlay);
         }
-        base.OnDestroy();
     }
 
     void CheckSceneToPlay(params object[] items) {

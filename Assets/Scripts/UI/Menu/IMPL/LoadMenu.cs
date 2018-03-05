@@ -6,6 +6,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System;
 
 public class LoadMenu : Menu {
 
@@ -14,14 +15,14 @@ public class LoadMenu : Menu {
     #endregion
 
     #region Public Fields
-    public System.Action onCompleteSceneLoad;
-    public string TargetScenePath
+    private System.Action onCompleteSceneLoad;
+    public string TargetSceneName
     {
         get
         {
             return target;
         }
-        set
+        private set
         {
             target = value;            
         }
@@ -79,16 +80,17 @@ public class LoadMenu : Menu {
             loadingText.text = "Starting...";
             MenuManager.Instance.DoTransition(this, Transition.HIDE, new Effect[] { });
             SpawnManager.spawnersLocked = false;
-
-            if (target == Strings.Scenes.SceneNames.Editor) {
-                EventSystem.Instance.TriggerEvent(Strings.Events.INIT_EDITOR, null);
-            }
         }
     }
     #endregion
 
     #region Public Interface
     public LoadMenu() : base(Strings.MenuStrings.LOAD) {}
+
+    public void SetNavigation(string targetSceneName, Action onCompleteSceneLoad=null) {
+        TargetSceneName = targetSceneName;
+        this.onCompleteSceneLoad = onCompleteSceneLoad;
+    }
     #endregion
 
     #region Protected Interface

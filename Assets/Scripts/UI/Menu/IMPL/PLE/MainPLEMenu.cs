@@ -136,7 +136,7 @@ public class MainPLEMenu : PlayerLevelEditorMenu {
     {        
         Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
         LoadMenu loadMenu = (LoadMenu)menu;
-        loadMenu.TargetScenePath = Strings.Scenes.ScenePaths.MainMenu;
+        loadMenu.SetNavigation(Strings.Scenes.ScenePaths.MainMenu);
         //loadMenu.Fast = true;
         MenuManager.Instance.DoTransition(loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
     }

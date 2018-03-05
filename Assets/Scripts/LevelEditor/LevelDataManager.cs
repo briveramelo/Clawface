@@ -92,6 +92,7 @@ public class LevelDataManager : MonoBehaviour {
                 newSpawnTransform.name = newSpawnTransform.name.TryCleanName(Strings.CLONE);
                 spawnNames.Add(newSpawnTransform.name);
                 PLESpawn pleSpawn = newSpawnTransform.GetComponent<PLESpawn>();
+                spawnData.pleSpawn = pleSpawn;
                 spawnedPLEs.Add(pleSpawn);
                 pleSpawn.totalSpawnAmount = spawnData.count;
                 pleSpawn.spawnType = (SpawnType)spawnData.spawnType;
@@ -168,9 +169,6 @@ public class LevelDataManager : MonoBehaviour {
             levelEditor.ResetToWave0();
             levelEditor.SetMenuButtonInteractability();
         }
-        else {
-            levelEditor.PlayLevel();
-        }
     }
 
     #endregion
@@ -218,28 +216,32 @@ public class LevelDataManager : MonoBehaviour {
         spawnParent.SortChildrenByName();
 
         for (int i = 1; i < spawnParent.childCount; i++) {
-            int currentIndex = SpawnMenu.playerSpawnInstance ? i-1 : i;
-            ActiveWaveData.Add(new WaveData());
             Transform waveParent = spawnParent.GetChild(i);
-            for (int j = 0; j < waveParent.childCount; j++) {
-                Transform spawnUI = waveParent.GetChild(j);
-                PLESpawn spawn = spawnUI.GetComponent<PLESpawn>();
-                int spawnType = (int)spawn.spawnType;
-                int spawnCount = spawn.totalSpawnAmount;
-                SpawnData spawnData = new SpawnData(spawnType, spawnCount, spawnUI.position)
-                {
-                    pleSpawn = spawn
-                };
-                
-                ActiveWaveData[currentIndex].spawnData.Add(spawnData);
+            int waveChildCount = waveParent.childCount;
+            if (waveChildCount>0) {
+                ActiveWaveData.Add(new WaveData());
+                for (int j = 0; j < waveParent.childCount; j++) {
+                    Transform spawnUI = waveParent.GetChild(j);
+                    AddSpawnData(spawnUI, i-1);
+                }
             }
         }
 
         if (SpawnMenu.playerSpawnInstance) {
             Transform keira = spawnParent.GetChild(0);
-            SpawnData keiraSpawnData = new SpawnData((int)SpawnType.Keira, 1, keira.position);
-            ActiveWaveData[0].spawnData.Add(keiraSpawnData);
+            AddSpawnData(keira, 0);
         }
+    }
+
+    void AddSpawnData(Transform spawnUI, int waveIndex) {
+        PLESpawn spawn = spawnUI.GetComponent<PLESpawn>();
+        int spawnType = (int)spawn.spawnType;
+        int spawnCount = spawn.totalSpawnAmount;
+        SpawnData spawnData = new SpawnData(spawnType, spawnCount, spawnUI.position) {
+            pleSpawn = spawn
+        };
+
+        ActiveWaveData[waveIndex].spawnData.Add(spawnData);
     }
 
     private void SaveLevelText() {
@@ -249,7 +251,6 @@ public class LevelDataManager : MonoBehaviour {
 
     private void SaveWaveState() {
         ActiveLevelData.isInfinite = PLESpawnManager.Instance.InfiniteWavesEnabled;
-        //ActiveLevelData.MaxWave = PLESpawnManager.Instance.MaxWaveIndex;
     }
 
     IEnumerator TakePictureAndSave() {

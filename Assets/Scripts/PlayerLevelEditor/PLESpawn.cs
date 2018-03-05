@@ -60,7 +60,12 @@ public class PLESpawn : PLEItem {
 
     public void StartSpawning()
     {
-        StartCoroutine(SpawnEnemies());
+        if (spawnType != SpawnType.Keira) {
+            StartCoroutine(SpawnEnemies());
+        }
+        else {
+            gameObject.AddComponent<PlayerSpawner>();
+        }
     }
 
     public SpawnData GetSpawnData()

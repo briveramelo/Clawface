@@ -14,7 +14,7 @@ public enum LevelUnitStates {
     Pit
 }
 public interface ILevelTilable {
-    void ClearEvents();
+    void ClearNamedStateEventsLists();
     bool CheckForEvent(string eventName, LevelUnitStates state);
     void TransitionToCoverState(params object[] inputs);
     void TransitionToFloorState(params object[] inputs);
@@ -86,16 +86,19 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
         colorShiftAnim.OnUpdate = OnColorChange;
         currentState = defaultState;
         InitializeStatePositions();
+        SetBlockColor(CurrentStateColor);
     }
 
     private void OnEnable() {
-        RegisterToEvents();
+        RegisterToNamedStateEvents();
+        EventSystem.Instance.RegisterEvent(Strings.Events.CALL_NEXT_WAVE_PLE, TransitionToWave);
     }
 
     protected override void OnDisable() {
         base.OnDisable();
         if (EventSystem.Instance) {
-            DeRegisterFromEvents();
+            DeRegisterFromNamedStateEvents();
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.CALL_NEXT_WAVE_PLE, TransitionToWave);
         }
     }
 
@@ -125,13 +128,13 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
         }
     }
 
-    public void RegisterToEvents() {
+    public void RegisterToNamedStateEvents() {
         RegisterEvents(ref coverStateEvents, TransitionToCoverState);
         RegisterEvents(ref floorStateEvents, TransitionToFloorState);
         RegisterEvents(ref pitStateEvents, TransitionToPitState);
     }
 
-    public void DeRegisterFromEvents() {
+    public void DeRegisterFromNamedStateEvents() {
         UnregisterEvents(ref coverStateEvents, TransitionToCoverState);
         UnregisterEvents(ref floorStateEvents, TransitionToFloorState);
         UnregisterEvents(ref pitStateEvents, TransitionToPitState);
@@ -139,13 +142,19 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
         levelUnitStates.Clear();
     }
 
-    public void ClearEvents() {
+    public void ClearNamedStateEventsLists() {
         coverStateEvents.Clear();
         floorStateEvents.Clear();
         pitStateEvents.Clear();
     }
+    public void SetLevelUnitStates(List<LevelUnitStates> newLevelStates) {
+        levelUnitStates.Clear();
+        newLevelStates.ForEach(state => {
+            levelUnitStates.Add(state);
+        });
+    }
 
-    public void AddStateEvent(LevelUnitStates state, string eventName) {
+    public void AddNamedStateEvent(LevelUnitStates state, string eventName) {
         levelUnitStates.Add(state);
         List<string> stateEvents = GetStateEvents(state);
         AddEvent(ref stateEvents, eventName);
@@ -184,6 +193,11 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
     #endregion
 
     #region Private Interface
+
+    private void TransitionToWave(params object[] parameters) {
+        int currentWaveIndex = (int)parameters[0];
+        TryTransitionToState(levelUnitStates[currentWaveIndex], true);
+    }
     private bool CanTransition { get { return !Physics.CheckBox(transform.position, Vector3.one * 0.5f, Quaternion.identity, LayerMask.GetMask(masks)); } }            
 
     private void TryUnRegister(ref List<string> eventNames, string eventName, EventSystem.FunctionPrototype func) {
@@ -281,7 +295,10 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
 
     private void OnColorChange(float progress) {
         Color newColor = startColor + (targetColor - startColor) * progress;
-        meshRenderer.GetPropertyBlock(materialPropertyBlock);
+        SetBlockColor(newColor);
+    }
+
+    private void SetBlockColor(Color newColor) {
         materialPropertyBlock.SetColor(AlbedoTint, newColor);
         meshRenderer.SetPropertyBlock(materialPropertyBlock);
     }

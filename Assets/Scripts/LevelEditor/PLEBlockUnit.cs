@@ -63,12 +63,9 @@ public class PLEBlockUnit : MonoBehaviour
 
     void RegisterDefaultState()
     {
-        LevelUnit levelUnit = GetComponent<LevelUnit>();
-        if (levelUnit == null) return;
-
         string eventName = Strings.Events.PLE_RESET_LEVELSTATE;
-        levelUnit.AddStateEvent(LevelUnitStates.Floor, eventName);
-        levelUnit.RegisterToEvents();
+        levelUnit.AddNamedStateEvent(LevelUnitStates.Floor, eventName);
+        levelUnit.RegisterToNamedStateEvents();
     }
 
 
@@ -182,14 +179,20 @@ public class PLEBlockUnit : MonoBehaviour
 
     public void UpdateTileHeightStates(params object[] parameters)
     {
-        levelUnit.DeRegisterFromEvents();
-        string eventName = null;
-        for (int i = 0; i < levelStates.Count; i++) {
-            eventName = string.Format("{0}{1}", Strings.Events.PLE_TEST_WAVE_, i.ToString());
-            LevelUnitStates state = levelStates[i];
-            levelUnit.AddStateEvent(state, eventName);
+        if (SceneTracker.IsCurrentSceneEditor) {
+            levelUnit.DeRegisterFromNamedStateEvents();
+            string eventName = null;
+            string eventBase = Strings.Events.PLE_TEST_WAVE_;
+            for (int i = 0; i < levelStates.Count; i++) {
+                eventName = string.Format("{0}{1}", eventBase, i.ToString());
+                LevelUnitStates state = levelStates[i];
+                levelUnit.AddNamedStateEvent(state, eventName);
+            }
+            levelUnit.RegisterToNamedStateEvents();
         }
-        levelUnit.RegisterToEvents();
+        else {
+            levelUnit.SetLevelUnitStates(levelStates);
+        }
     }
 
     #endregion

@@ -96,7 +96,7 @@ namespace PlayerLevelEditor
                 LevelUnit LU = m_GameObjects[j].GetComponent<LevelUnit>();
 
                 if(LU)
-                    LU.DeRegisterFromEvents();
+                    LU.DeRegisterFromNamedStateEvents();
             }
 
             for (int j = 0; j < m_GameObjects.Count; j++)
@@ -110,10 +110,10 @@ namespace PlayerLevelEditor
                     string event_name = "PLE_TEST_WAVE_" + i.ToString();
 
                     LevelUnitStates state = map[i][m_GameObjects[j].GetInstanceID()];
-                    LU.AddStateEvent(state, event_name);                    
+                    LU.AddNamedStateEvent(state, event_name);                    
                 }
 
-                LU.RegisterToEvents();
+                LU.RegisterToNamedStateEvents();
             }
         }
 
@@ -125,7 +125,7 @@ namespace PlayerLevelEditor
                 LevelUnit LU = m_GameObjects[j].GetComponent<LevelUnit>();
 
                 if(LU)
-                   LU.DeRegisterFromEvents();
+                   LU.DeRegisterFromNamedStateEvents();
             }
 
             Release();

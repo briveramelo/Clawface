@@ -174,6 +174,7 @@
 
         public const string LOCK_SPAWNERS = "LockSpawners";
         public const string CALL_NEXT_WAVE = "CallNextWave";
+        public const string CALL_NEXT_WAVE_PLE = "CallNextWavePLE";
         public const string ENEMY_SPAWNED = "EnemySpawned";
         public const string WAVE_COMPLETE = "WaveComplete";
 

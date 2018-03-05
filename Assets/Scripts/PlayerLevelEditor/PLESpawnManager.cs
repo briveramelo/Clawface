@@ -34,25 +34,17 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
 
     #region Unity Lifecycle
 
-    protected override void Awake()
-    {
-        base.Awake();
-        if (EventSystem.Instance)
-        {
-            EventSystem.Instance.RegisterEvent(Strings.Events.CALL_NEXT_WAVE, CallNextWave);
-            EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_STARTED, StartLevel);
-            EventSystem.Instance.RegisterEvent(Strings.Events.PLE_TEST_END, Reset);
-
-        }
+    void Start()
+    {        
+        EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_STARTED, StartLevelDelayed);
+        EventSystem.Instance.RegisterEvent(Strings.Events.PLE_TEST_END, Reset);
     }
 
-    public override void OnDestroy()
+    public void OnDestroy()
     {
-        base.OnDestroy();
         if (EventSystem.Instance)
         {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.CALL_NEXT_WAVE, CallNextWave);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_STARTED, StartLevel);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_STARTED, StartLevelDelayed);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_TEST_END, Reset);
         }
     }
@@ -72,18 +64,23 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
         List<PLESpawn> currentWaveSpawners = ActiveLevelData.GetPLESpawnsFromWave(waveIndex);
 
         for (int i = 0; i < currentWaveSpawners.Count; i++) {
-            //for keira
-            if (currentWaveSpawners[i] != null) {
-                currentWaveSpawners[i].StartSpawning();
-            }
-
+            PLESpawn spawn = currentWaveSpawners[i];
+            spawn.StartSpawning();
         }
+        EventSystem.Instance.TriggerEvent(Strings.Events.CALL_NEXT_WAVE_PLE, waveIndex);
     }
 
-    private void StartLevel(params object[] i_params)
+    private void StartLevelDelayed(params object[] i_params)
     {
+        StartCoroutine(WaitForDataToLoad());        
+    }
+
+    IEnumerator WaitForDataToLoad() {
         Reset();
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
         RegisterAllSpawns();
+        editorInstance.ToggleCameraGameObject(false);
         CallWave(0);
     }
 
@@ -105,7 +102,12 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
 
         if(waveDead)
         {
-            EventSystem.Instance.TriggerEvent(Strings.Events.CALL_NEXT_WAVE);
+            if (CurrentWaveIndex >= ActiveLevelData.WaveCount-1) {
+                EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_COMPLETED);
+            }
+            else{
+                CallNextWave();
+            }
         }
 
     }
@@ -123,9 +125,7 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
     #region Public Interface
 
     public void RegisterAllSpawns() {
-
         editorInstance.levelDataManager.SaveSpawns();
-        
     }
 
     public void SetToWave(int i_wave)

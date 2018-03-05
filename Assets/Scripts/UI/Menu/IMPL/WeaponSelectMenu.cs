@@ -228,13 +228,8 @@ public class WeaponSelectMenu : Menu
 		pauseMenu.CanPause = true;
 
         // Acquire LoadMenu and set target.
-        string targetScene = SceneTracker.CurrentSceneName;
+        string targetSceneName = SceneTracker.CurrentSceneName;
         Menu menu = MenuManager.Instance.GetMenuByName(forwardMenuTarget);
-        if (UseLoadMenu) {
-            LoadMenu loadMenu = (LoadMenu)menu;
-            loadMenu.onCompleteSceneLoad = onCompleteSceneLoad;
-            targetScene = loadMenu.TargetScenePath;
-        }
         if (forwardMenuTarget != null) {
             MenuManager.Instance.DoTransition(menu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
         }
@@ -242,9 +237,23 @@ public class WeaponSelectMenu : Menu
             MenuManager.Instance.ClearMenus();
         }
 
-		// Make it happen.
-        EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_STARTED, targetScene, ModManager.leftArmOnLoad.ToString(), ModManager.rightArmOnLoad.ToString());
-
+        if (UseLoadMenu) {
+            LoadMenu loadMenu = (LoadMenu)menu;
+            targetSceneName = loadMenu.TargetSceneName;
+            Action onLoadMenuCompleteSceneLoad = () => {                
+                if (SceneTracker.IsSceneArena(targetSceneName)) {
+                    EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_STARTED, targetSceneName, ModManager.leftArmOnLoad.ToString(), ModManager.rightArmOnLoad.ToString());
+                }
+                if (onCompleteSceneLoad!=null) {
+                    onCompleteSceneLoad();
+                }
+            };
+            loadMenu.SetNavigation(targetSceneName, onLoadMenuCompleteSceneLoad);
+        }
+        else if (SceneTracker.IsSceneArena(targetSceneName)) {
+            EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_STARTED, targetSceneName, ModManager.leftArmOnLoad.ToString(), ModManager.rightArmOnLoad.ToString());
+        }
+        
         if (onStartAction!=null) {
             onStartAction();
         }

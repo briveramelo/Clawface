@@ -161,7 +161,7 @@ public class LevelDynamicsWindow : EditorWindow {
                                 LevelUnit levelUnit = levelUnitStruct.levelUnit.GetComponent<LevelUnit>();
                                 if (levelUnit)
                                 {
-                                    levelUnit.AddStateEvent(levelUnitStruct.state, localEventName);
+                                    levelUnit.AddNamedStateEvent(levelUnitStruct.state, localEventName);
                                 }
                             }
 
@@ -210,7 +210,7 @@ public class LevelDynamicsWindow : EditorWindow {
                             LevelUnit levelUnit = levelUnitStruct.levelUnit.GetComponent<LevelUnit>();
                             if (levelUnit)
                             {
-                                levelUnit.ClearEvents();
+                                levelUnit.ClearNamedStateEventsLists();
                             }
                         }
                     }

@@ -13,11 +13,11 @@ public class TestMenu : PlayerLevelEditorMenu
     #endregion
 
     #region Serialized Unity Fields
-    [SerializeField] private Transform tileParents;
+
     #endregion
 
     #region Private Fields    
-    private bool HasCreatedPlayer { get { return levelEditor.hasCreatedPlayer; } set { levelEditor.hasCreatedPlayer = value; } }
+
     #endregion
 
     #region Unity Lifecycle
@@ -30,8 +30,11 @@ public class TestMenu : PlayerLevelEditorMenu
     public TestMenu() : base(Strings.MenuStrings.LevelEditor.TEST_PLE_MENU) { }
 
     public override void BackAction() {
-        if (HasCreatedPlayer) {
-            ReleaseTestMode();
+        levelEditor.ExitLevel();
+
+        GameObject player = GameObject.FindGameObjectWithTag(Strings.Tags.PLAYER);
+        if (player) {
+            Destroy(player.transform.root.gameObject);
         }
 
         MenuManager.Instance.DoTransition(Strings.MenuStrings.WEAPON_SELECT, Transition.HIDE, new Effect[] { Effect.INSTANT });
@@ -74,17 +77,12 @@ public class TestMenu : PlayerLevelEditorMenu
         System.Action onStartAction = () => {
             base.ShowStarted();
             base.ShowComplete();
-            levelEditor.ToggleCameraGameObject(false);
+            EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_STARTED, SceneTracker.CurrentSceneName, ModManager.leftArmOnLoad.ToString(), ModManager.rightArmOnLoad.ToString());
         };
 
         weaponSelectMenu.DefineNavigation(null, null, onStartAction, null, onReturnFromPLE);
 
         MenuManager.Instance.DoTransition(weaponSelectMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
-    }
-
-
-    private void ReleaseTestMode() {
-        levelEditor.ExitLevel();
     }
 
     #endregion

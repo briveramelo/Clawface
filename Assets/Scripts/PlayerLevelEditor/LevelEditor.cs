@@ -14,8 +14,10 @@ namespace PlayerLevelEditor
         
         public PlayerLevelEditorGrid gridController;
         public LevelDataManager levelDataManager;
-        [HideInInspector] public bool hasCreatedPlayer;
         [SerializeField] private Transform createdSpawnsParent;
+
+        [Header("Required")]
+        [SerializeField] private GameObject cameraGameObject;
         [Header("Player Level Editor-Scene Specific Fields")]
         public PLEMenu currentDisplayedMenu;
 
@@ -112,36 +114,16 @@ namespace PlayerLevelEditor
         }
 
         public void PlayLevel(params object[] i_params) {
-            SpawnMenu.playerSpawnInstance.SetActive(false);
-
-            playerSpawnerInstance = Instantiate(playerSpawnerPrefab);
-            playerSpawnerInstance.transform.position = SpawnMenu.playerSpawnInstance.transform.position;
-
             if (SceneTracker.IsCurrentSceneEditor) {
                 ResetToWave0();
             }
-            hasCreatedPlayer = true;
         }
         public void ExitLevel() {
-            GameObject playerInstance = null;
-            if (playerSpawnerInstance != null) {
-                playerInstance = playerSpawnerInstance.GetComponent<PlayerSpawner>().GetplayerPrefabGO();
-
-                DestroyImmediate(playerSpawnerInstance);
-                playerSpawnerInstance = null;
-            }
-
-            if (playerInstance != null) {
-                DestroyImmediate(playerInstance);
-                playerInstance = null;
-            }
-
             if (SpawnMenu.playerSpawnInstance != null) {
                 SpawnMenu.playerSpawnInstance.SetActive(true);
             }
 
             EventSystem.Instance.TriggerEvent(Strings.Events.PLE_TEST_END);
-            hasCreatedPlayer = false;
         }
 
         public void SetMenuButtonInteractability() {
@@ -180,7 +162,7 @@ namespace PlayerLevelEditor
         {
             Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
             LoadMenu loadMenu = menu as LoadMenu;
-            loadMenu.TargetScenePath = Strings.Scenes.ScenePaths.MainMenu;
+            loadMenu.SetNavigation(Strings.Scenes.ScenePaths.MainMenu);
 
             MenuManager.Instance.DoTransition(loadMenu,Menu.Transition.SHOW, new Menu.Effect[] { Menu.Effect.EXCLUSIVE });
         }
@@ -192,7 +174,7 @@ namespace PlayerLevelEditor
             }
         }
         public void ToggleCameraGameObject(bool isEnabled) {
-            cameraController.gameObject.SetActive(isEnabled);
+            cameraGameObject.SetActive(isEnabled);
         }
         public Menu GetMenu(PLEMenu i_menu)
         {
