@@ -51,7 +51,6 @@ public class GeyserFissure : MonoBehaviour {
     { 
         if (other.CompareTag(Strings.Tags.ENEMY))
         {
-
             IDamageable damageable = other.GetComponent<IDamageable>();
 
             if (damageable != null && !hitEnemies.Contains(other.transform))

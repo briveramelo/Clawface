@@ -14,13 +14,6 @@ public class GeyserMod : Mod {
     [SerializeField] private FloatRange fishLaunchSpeed;
     [SerializeField] private float fissureLiveTime;
     [SerializeField] private Transform muzzle;
-
-    [SerializeField]
-    private float timeToCharge;
-    [SerializeField]
-    private float chargeDamage;
-    [SerializeField]
-    private float chargeSpeed;
     #endregion
 
     #region Private Fields
@@ -40,8 +33,6 @@ public class GeyserMod : Mod {
 
     protected void Start()
     {
-        Timing.KillCoroutines(geyserCoroutineString);
-        Timing.RunCoroutine(Charge(), geyserCoroutineString);
     }
 
     protected override void Update()
@@ -82,11 +73,6 @@ public class GeyserMod : Mod {
 
 
     #region Private Methods    
-    private IEnumerator<float> Charge()
-    {
-        yield return Timing.WaitForSeconds(timeToCharge);
-        isCharged = true;
-    }
 
     protected override void DoWeaponActions() { Erupt(); }
 
@@ -103,8 +89,6 @@ public class GeyserMod : Mod {
                 shootEffect.transform.position = muzzle.position;
                 shootEffect.transform.rotation = muzzle.rotation;
             }
-            Timing.KillCoroutines(geyserCoroutineString);
-            Timing.RunCoroutine(Charge(), geyserCoroutineString);
         }
     }
 
@@ -117,15 +101,9 @@ public class GeyserMod : Mod {
             projectile.transform.forward = transform.forward;
             projectile.transform.rotation = Quaternion.Euler(0f, projectile.transform.rotation.eulerAngles.y, 0f);
 
-            if (isCharged)
-            {
-                projectile.GetComponent<GeyserFissure>().Initialize(chargeSpeed, chargeDamage, fissureLiveTime);
-            }
-            else
-            {
-                projectile.GetComponent<GeyserFissure>().Initialize(fissureSpeed, damage, fissureLiveTime);
-            }
-            isCharged = false;
+
+            projectile.GetComponent<GeyserFissure>().Initialize(fissureSpeed, damage, fissureLiveTime);
+
             fishEmitter.SetBaseEmissionSpeed(fishLaunchSpeed.GetRandomValue());
             fishEmitter.Play();
         }
