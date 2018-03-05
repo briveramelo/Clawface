@@ -50,12 +50,12 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     #region Unity Lifecycle
     void Start() {
         Initilaize();
-        EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_STARTED, BakeMesh);
+        EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_STARTED, CheckToBakeMesh);
     }    
 
     private void OnDestroy() {
         if (EventSystem.Instance) {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_STARTED, BakeMesh);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_STARTED, CheckToBakeMesh);
         }
     }
 
@@ -112,13 +112,23 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     #endregion
 
     #region Private Interface
-
-    private void BakeMesh(params object[] i_params)
-    {
-        levelNav.BuildNavMesh();
+    bool needsToBuildMesh = false;
+    public void QueueToBakeNavMesh() {
+        needsToBuildMesh = true;
     }
 
-    private void Initilaize(params object[] par) {
+
+    private void CheckToBakeMesh(params object[] i_params)
+    {
+        if (needsToBuildMesh) {
+            //optimization ideas https://forum.unity.com/threads/navmeshes-very-slow-generation.116741/
+            levelNav.BuildNavMesh();
+            needsToBuildMesh = false;
+        }
+    }
+
+    private void Initilaize() {
+        needsToBuildMesh = true;
         previewBlock = Resources.Load(Strings.Editor.RESOURCE_PATH + Strings.Editor.BASIC_LE_BLOCK) as GameObject;
         spawnedBlock = Resources.Load(Strings.Editor.RESOURCE_PATH + Strings.Editor.CHERLIN_LVL_BLOCK) as GameObject;
 
@@ -269,12 +279,17 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     }
 
     private void DuplicateBlocks(List<GameObject> selectedObjects) {
+        bool queueToRebuild = false;
         for (int i = 0; i < selectedObjects.Count; i++) {
             GridTile selectedTile = gridTiles.Find(tile => tile.ghostTile == selectedObjects[i]);
             if (selectedTile != null) {
                 selectedTile.IsActive = true;
                 selectedTile.blockUnit.SetOccupation(false);
+                queueToRebuild = true;
             }
+        }
+        if (queueToRebuild) {
+            QueueToBakeNavMesh();
         }
     }
 
@@ -284,13 +299,17 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     }
 
     private void DeleteBlocks(List<GameObject> selectedObjects) {
-
+        bool queueToRebuild = false;
         for (int i = 0; i < selectedObjects.Count; i++) {
             GridTile selectedTile = gridTiles.Find(tile => tile.realTile == selectedObjects[i]);
             if (selectedTile!=null) {
                 selectedTile.IsActive = false;
                 selectedTile.blockUnit.ClearItems();
+                queueToRebuild = true;
             }
+        }
+        if (queueToRebuild) {
+            QueueToBakeNavMesh();
         }
     }
 

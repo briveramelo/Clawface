@@ -57,7 +57,6 @@ GameObject:
   - component: {fileID: 224270339521548678}
   - component: {fileID: 114626984618239772}
   - component: {fileID: 222606920265965884}
-  - component: {fileID: 114712441298845850}
   m_Layer: 5
   m_Name: Scroll View
   m_TagString: Untagged
@@ -109,6 +108,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4221612634798814}
   - component: {fileID: 114444987615557282}
+  - component: {fileID: 114993998135834030}
   m_Layer: 5
   m_Name: SpawnsMenu
   m_TagString: Untagged
@@ -811,7 +811,7 @@ MonoBehaviour:
   levelEditor: {fileID: 0}
   initiallySelected: {fileID: 0}
   createdItemsParent: {fileID: 0}
-  scrollGroup: {fileID: 114712441298845850}
+  scrollGroup: {fileID: 114993998135834030}
   leftButton: {fileID: 114765267907416354}
   rightButton: {fileID: 114096005273140524}
   amountField: {fileID: 114174096547780390}
@@ -994,19 +994,6 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.ScrollRect+ScrollRectEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &114712441298845850
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1100686948156982}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10f2f5c70a053a242b4008c273170742, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  iconTemplate: {fileID: 1930277514977714}
-  groupContent: {fileID: 1633138765901094}
 --- !u!114 &114731065244756632
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1107,6 +1094,20 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114993998135834030
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1198313627372682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10f2f5c70a053a242b4008c273170742, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  placementMenu: {fileID: 114444987615557282}
+  iconTemplate: {fileID: 1930277514977714}
+  groupContent: {fileID: 1633138765901094}
 --- !u!222 &222147829016878104
 CanvasRenderer:
   m_ObjectHideFlags: 1

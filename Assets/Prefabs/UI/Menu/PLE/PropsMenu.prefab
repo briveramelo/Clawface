@@ -141,6 +141,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4002120410119360}
   - component: {fileID: 114986609073309614}
+  - component: {fileID: 114081709417863970}
   m_Layer: 5
   m_Name: PropsMenu
   m_TagString: Untagged
@@ -312,7 +313,6 @@ GameObject:
   - component: {fileID: 224073046959693218}
   - component: {fileID: 114646816873160910}
   - component: {fileID: 222181456571022588}
-  - component: {fileID: 114681863403731360}
   m_Layer: 5
   m_Name: Scroll View
   m_TagString: Untagged
@@ -350,6 +350,20 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &114081709417863970
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1451313315766644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cce10afd75fc6a44b0b762b48355bcf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  placementMenu: {fileID: 114986609073309614}
+  iconTemplate: {fileID: 1358243600333066}
+  groupContent: {fileID: 1488017782716826}
 --- !u!114 &114083746711931304
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -672,7 +686,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 0.9764706}
-  m_RaycastTarget: 0
+  m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -729,19 +743,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   registeredItem: {fileID: 0}
---- !u!114 &114681863403731360
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1985016108687524}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5cce10afd75fc6a44b0b762b48355bcf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  iconTemplate: {fileID: 1358243600333066}
-  groupContent: {fileID: 1488017782716826}
 --- !u!114 &114805001666463106
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -978,7 +979,7 @@ MonoBehaviour:
   levelEditor: {fileID: 0}
   initiallySelected: {fileID: 0}
   createdItemsParent: {fileID: 0}
-  scrollGroup: {fileID: 114681863403731360}
+  scrollGroup: {fileID: 114081709417863970}
   leftButton: {fileID: 114961210405948228}
   rightButton: {fileID: 114083746711931304}
   rotationLabel: {fileID: 114805001666463106}
@@ -1227,7 +1228,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000023841858, y: -20}
+  m_AnchoredPosition: {x: 0.000030517578, y: -20}
   m_SizeDelta: {x: -3.3199782, y: 115}
   m_Pivot: {x: 0, y: 1}
 --- !u!224 &224227093283647582

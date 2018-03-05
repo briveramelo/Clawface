@@ -112,7 +112,8 @@ public class LevelDataManager : MonoBehaviour {
     }
 
     private void LoadTiles() {
-        levelEditor.gridController.ResetGrid();
+        PlayerLevelEditorGrid gridController = levelEditor.gridController;
+        gridController.ResetGrid();
         for (int i = 0; i < ActiveTileData.Count; i++) {
             TileData tileData = ActiveTileData[i];
             List<LevelUnitStates> levelStates = new List<LevelUnitStates>();
@@ -138,10 +139,11 @@ public class LevelDataManager : MonoBehaviour {
 
             tile.realTile.transform.SetParent(tileParent);
         }
-        levelEditor.gridController.ShowWalls();
+        gridController.ShowWalls();
         if (!SceneTracker.IsCurrentSceneEditor) {
-            levelEditor.gridController.SetGridVisiblity(false);
+            gridController.SetGridVisiblity(false);
         }
+        gridController.QueueToBakeNavMesh();
     }
 
     private void LoadSpawnsToggledState() {
