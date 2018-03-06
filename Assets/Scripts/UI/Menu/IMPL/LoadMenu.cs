@@ -52,6 +52,17 @@ public class LoadMenu : Menu {
     private Scrollbar loadingBar;
     [SerializeField]
     private Text loadingText;
+
+    [Header("Text Strings")]
+    [SerializeField]
+    private string loading = "L O A D I N G";
+
+    [SerializeField]
+    private string ready = "P R E S S   T O   E X E C U T E";
+
+    [SerializeField]
+    private string starting = "S T A R T I N G"
+        ;
     #endregion
 
     #region Private Fields
@@ -75,7 +86,7 @@ public class LoadMenu : Menu {
         {
             fast = false;
             loaded = false;
-            loadingText.text = "Starting...";
+            loadingText.text = starting;
             MenuManager.Instance.DoTransition(this, Transition.HIDE, new Effect[] { });
             SpawnManager.spawnersLocked = false;
 
@@ -112,7 +123,7 @@ public class LoadMenu : Menu {
     {
         base.HideComplete();
         loadingBar.size = 0.0F;
-        loadingText.text = "Loading";
+        loadingText.text = loading;
     }
 
     #endregion
@@ -137,7 +148,7 @@ public class LoadMenu : Menu {
         Shader.WarmupAllShaders();
 
         loadingBar.size = 1.0F;
-        loadingText.text = "Press any key to continue...";
+        loadingText.text = ready;
         loaded = true;
         
 

@@ -44,6 +44,18 @@ public abstract class Menu : MonoBehaviour {
     }
     #endregion
 
+    #region Accessors (Protected)
+
+    protected float FaderDuration
+    {
+        get
+        {
+            return faderDuration;
+        }
+    }
+
+    #endregion
+
     #region Serialized Unity Fields
     [SerializeField]
     private GameObject canvas;

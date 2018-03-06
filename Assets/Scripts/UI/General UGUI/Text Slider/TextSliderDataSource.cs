@@ -1,0 +1,46 @@
+﻿using UnityEngine;
+
+public abstract class TextSliderDataSource : MonoBehaviour
+{
+
+    #region Accessors (Public)
+
+    /// <summary>
+    /// Returns the textual representation of the currently selected value
+    /// </summary>
+    public abstract string Text
+    {
+        get;
+    }
+
+    /// <summary>
+    /// Returns the untyped current value (to facilitate working with Unity nonsense),.
+    /// This will have to be cast by whatever is using this..  Don't do stupid things. :P
+    /// </summary>
+    public abstract object Value
+    {
+        get;
+    }
+
+    /// <summary>
+    /// The number of entries to display;
+    /// </summary>
+    public abstract int Count
+    {
+        get;
+    }
+
+    public abstract int Selected
+    {
+        get;
+        set;
+    }
+
+    #endregion
+
+    #region Interface (Public)
+
+    public abstract void ForceUpdate();
+
+    #endregion
+}
