@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MoveState : IPlayerState
 {
-    [Tooltip("Whether the left joystick handles both movement or rotation or just movement")]
-    [SerializeField]
-    private bool simpleMoveAndRotate = false;
-
     #region Private Fields
     private float sphereRadius = 0.1f;
     private Vector3 moveDirection;
@@ -170,7 +163,7 @@ public class MoveState : IPlayerState
     }
 
     private void HandleRotation(){
-        if (simpleMoveAndRotate)
+        if (SettingsManager.Instance.SnapLook)
         {
             if (lastLookDirection != Vector3.zero)
             {

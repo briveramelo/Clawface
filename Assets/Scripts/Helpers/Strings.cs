@@ -86,7 +86,8 @@
         public const string PAUSE = "PauseMenu";
         public const string TUTORIAL = "TutorialMenu";
         public const string STAGE_OVER = "StageOverMenu";
-        public const string CONTROLS = "Settings";
+        public const string SETTINGS = "Settings";
+        public const string CONTROLS = "Controls";
         public const string LEVEL_SELECT = "LevelSelect";
         public const string WEAPON_SELECT = "WeaponSelect";
 
@@ -123,6 +124,10 @@
         public class UI
         {
             public const string NAVIGATION = "UINavigation";
+            public const string NAV_RIGHT = "Nav Right";
+            public const string NAV_LEFT = "Nav Left";
+            public const string NAV_UP = "Nav Up";
+            public const string NAV_DOWN = "Nav Down";
             public const string SUBMIT = "UISubmit";
             public const string CANCEL = "UICancel";
         }
