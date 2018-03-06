@@ -73,65 +73,69 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
 
     public void TakeDamage(Damager damager)
     {
-        if (invincibleTimer >= 0f)
-        {
-            return;
-        }
+        if(stats.health > 0)
+        { 
 
-        if (dashState.CheckForIFrames())
-        {
-            if (dashState.CheckIfDashGivesCombo() && !gotDashComboThisFrame)
+            if (invincibleTimer >= 0f)
             {
-                gotDashComboThisFrame = true;
-                ScoreManager.Instance.AddToCombo();
+                return;
             }
-            return;
-        }
 
-
-        float healthFraction = stats.GetHealthFraction();
-
-        stats.TakeDamage(setDamageToTake);
-
-
-
-        invincibleTimer = invincibleTime;
-        EventSystem.Instance.TriggerEvent(Strings.Events.PLAYER_DAMAGED);
-        healthFraction = stats.GetHealthFraction();
-        EventSystem.Instance.TriggerEvent(Strings.Events.PLAYER_HEALTH_MODIFIED, healthFraction);
-
-        float shakeIntensity = 1f - healthFraction;
-        if (shake)
-        {
-            InputManager.Instance.Vibrate(VibrationTargets.BOTH, shakeIntensity);
-        }
-        SFXManager.Instance.Play(SFXType.PlayerTakeDamage, transform.position);
-
-        faceController.SetTemporaryEmotion(PlayerFaceController.Emotion.Angry, 0.5f);
-
-        hitFlasher.HitFlash();
-
-        if (stats.GetStat(CharacterStatType.Health) <= 0)
-        {
-            EventSystem.Instance.TriggerEvent(Strings.Events.PLAYER_KILLED, SceneManager.GetActiveScene().name, AnalyticsManager.Instance.GetCurrentWave(), ModManager.leftArmOnLoad.ToString(), ModManager.rightArmOnLoad.ToString());
-            //SFXManager.Instance.Play(SFXType.AnnounceDeath, Vector3.zero);
-            //Revive(); //removed because of the inclusion of the game over menu
-            if (playerMesh && modSockets)
+            if (dashState.CheckForIFrames())
             {
-                GameObject vfx = ObjectPool.Instance.GetObject(deathVFX);
-                if (vfx)
+                if (dashState.CheckIfDashGivesCombo() && !gotDashComboThisFrame)
                 {
-                    vfx.transform.position = playerMesh.transform.position;
-                    vfx.SetActive(true);
+                    gotDashComboThisFrame = true;
+                    ScoreManager.Instance.AddToCombo();
                 }
-                CapsuleCollider collider = GetComponent<CapsuleCollider>();
-                if (collider)
+                return;
+            }
+
+
+            float healthFraction = stats.GetHealthFraction();
+
+            stats.TakeDamage(setDamageToTake);
+
+
+
+            invincibleTimer = invincibleTime;
+            EventSystem.Instance.TriggerEvent(Strings.Events.PLAYER_DAMAGED);
+            healthFraction = stats.GetHealthFraction();
+            EventSystem.Instance.TriggerEvent(Strings.Events.PLAYER_HEALTH_MODIFIED, healthFraction);
+
+            float shakeIntensity = 1f - healthFraction;
+            if (shake)
+            {
+                InputManager.Instance.Vibrate(VibrationTargets.BOTH, shakeIntensity);
+            }
+            SFXManager.Instance.Play(SFXType.PlayerTakeDamage, transform.position);
+
+            faceController.SetTemporaryEmotion(PlayerFaceController.Emotion.Angry, 0.5f);
+
+            hitFlasher.HitFlash();
+
+            if (stats.GetStat(CharacterStatType.Health) <= 0)
+            {
+                EventSystem.Instance.TriggerEvent(Strings.Events.PLAYER_KILLED, SceneManager.GetActiveScene().name, AnalyticsManager.Instance.GetCurrentWave(), ModManager.leftArmOnLoad.ToString(), ModManager.rightArmOnLoad.ToString());
+                //SFXManager.Instance.Play(SFXType.AnnounceDeath, Vector3.zero);
+                //Revive(); //removed because of the inclusion of the game over menu
+                if (playerMesh && modSockets)
                 {
-                    collider.enabled = false;
+                    GameObject vfx = ObjectPool.Instance.GetObject(deathVFX);
+                    if (vfx)
+                    {
+                        vfx.transform.position = playerMesh.transform.position;
+                        vfx.SetActive(true);
+                    }
+                    CapsuleCollider collider = GetComponent<CapsuleCollider>();
+                    if (collider)
+                    {
+                        collider.enabled = false;
+                    }
+                    playerMesh.SetActive(false);
+                    modSockets.SetActive(false);
+                    SFXManager.Instance.Play(deathSFX, playerMesh.transform.position);
                 }
-                playerMesh.SetActive(false);
-                modSockets.SetActive(false);
-                SFXManager.Instance.Play(deathSFX, playerMesh.transform.position);
             }
         }
     }

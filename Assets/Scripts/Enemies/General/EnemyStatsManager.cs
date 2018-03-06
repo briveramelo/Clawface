@@ -130,6 +130,7 @@ public class KamikazePulserStats : SharedEnemyStats
     //Pulse stats
     [Range(0f, 10f)] public float scaleRate;
     [Range(0.1f, 10f)] public float maxScale;
+    [Range(1f, 5f)] public float waitTimeAfterAttack;
 }
 
 [System.Serializable]
