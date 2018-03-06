@@ -6,6 +6,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System;
 
 public class LoadMenu : Menu {
 
@@ -14,13 +15,14 @@ public class LoadMenu : Menu {
     #endregion
 
     #region Public Fields
-    public string TargetScene
+    private System.Action onCompleteSceneLoad;
+    public string TargetSceneName
     {
         get
         {
             return target;
         }
-        set
+        private set
         {
             target = value;            
         }
@@ -37,7 +39,7 @@ public class LoadMenu : Menu {
         }
     }
 
-    public override Button InitialSelection
+    public override Selectable InitialSelection
     {
         get
         {
@@ -77,7 +79,7 @@ public class LoadMenu : Menu {
     {
         base.Start();
 
-        target = SceneManager.GetActiveScene().name;        
+        target = SceneTracker.CurrentSceneName;        
 
     }
     void Update()
@@ -89,17 +91,17 @@ public class LoadMenu : Menu {
             loadingText.text = starting;
             MenuManager.Instance.DoTransition(this, Transition.HIDE, new Effect[] { });
             SpawnManager.spawnersLocked = false;
-
-            if (target == Strings.Scenes.Editor)
-            {
-                EventSystem.Instance.TriggerEvent(Strings.Events.INIT_EDITOR, null);
-            }
         }
     }
     #endregion
 
     #region Public Interface
     public LoadMenu() : base(Strings.MenuStrings.LOAD) {}
+
+    public void SetNavigation(string targetSceneName, Action onCompleteSceneLoad=null) {
+        TargetSceneName = targetSceneName;
+        this.onCompleteSceneLoad = onCompleteSceneLoad;
+    }
     #endregion
 
     #region Protected Interface
@@ -150,8 +152,10 @@ public class LoadMenu : Menu {
         loadingBar.size = 1.0F;
         loadingText.text = ready;
         loaded = true;
-        
-
+        EventSystem.Instance.TriggerEvent(Strings.Events.SCENE_LOADED);
+        if (onCompleteSceneLoad!=null) {
+            onCompleteSceneLoad();
+        }
     }
 
     #endregion

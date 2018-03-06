@@ -3,6 +3,11 @@
     public const string BLOCKINGOBJECT = "BLOCKING OBJECT";
     public const string ANIMATIONSTATE = "AnimationState";
     public const string FEETSTATE = "FeetState";
+    public const string RESPAWN_POINT = "RespawnPoint";
+    public const string CLONE = "(Clone)";
+    public const string PREVIEW = "Preview";
+    public const string GHOST_BLOCK = "GhostBlock";
+    public const string REAL_BLOCK = "RealBlock";
 
     public class Paths
     {
@@ -31,23 +36,42 @@
 
     public class Scenes
     {
-        public const string MainMenu = "Scenes/Build Scenes/MainMenu";
+        public class ScenePaths {
+            public const string ScenesDirectory = "Scenes/Build Scenes/";
 
-        //public const string Arena = "Scenes/Build Scenes/Gucci_V1.2";
-        public const string Arena = "Scenes/Build Scenes/80s shit";
+            public const string MainMenu = ScenesDirectory + SceneNames.MainMenu;
+            public const string Arena = ScenesDirectory + SceneNames.Arena;
+            public const string Editor = ScenesDirectory + SceneNames.Editor;
+            public const string PlayerLevels = ScenesDirectory + SceneNames.PlayerLevels;
+        }
 
-        public const string Editor = "Scenes/Build Scenes/Editor";
-    }
+        public class SceneNames {
+            public const string MainMenu = "MainMenu";
+            public const string Arena = "80s shit";
+            public const string Editor = "Editor";
+            public const string PlayerLevels = "PlayerLevels";
+        }
+    }    
 
     public class Layers
     {
         public const string UI = "UI";
-        public const string GROUND = "Ground";
         public const string MODMAN = "ModMan";
-        public const string OBSTACLE = "Obstacle";
         public const string ENEMY = "Enemy";
+        public const string MINI_MAP = "MiniMap";
+        public const string GROUND = "Ground";
+        public const string BLOOD = "Blood";
+        public const string HOLOGRAM = "Hologram";
+        public const string GLOBE_TEXT = "Globe_Text";
+        public const string PLAYER_DETECTOR = "PlayerDetector";
+        public const string INVISIBLE_ENEMY_FENCE = "InvisibleEnemyFence";
+        public const string DICE_BLOCKS = "DiceBlocks";
+        public const string OUTLINE = "EnemyProjectile";
+        public const string OBSTACLE = "Obstacle";
         public const string ENEMY_BODY = "EnemyBody";
         public const string ENEMY_PROJECTILE = "EnemyProjectile";
+        public const string CLAW = "Claw";
+        public const string SPAWN = "Spawn";
     }
 
     public class TextStrings
@@ -92,16 +116,18 @@
         public const string WEAPON_SELECT = "WeaponSelect";
 
         //levelEditor
-        public const string ADD_PROPS_PLE = "PropsMenu";
-        public const string ADD_SPAWNS_PLE = "SpawnMenu";
-        public const string SET_DYNLEVEL_PLE = "FloorMenu";
-        public const string MAIN_PLE_MENU = "MainPLEMenu";
-        public const string INIT_PLE_MENU = "InitPLEMenu";
-        public const string SAVE_PLE_MENU = "SaveMenu";
-        public const string WAVE_PLE_MENU = "WaveMenu";
-        public const string HELP_PLE_MENU = "HelpMenu";
-        public const string TEST_PLE_MENU = "TestMenu";
-        public const string LEVELSELECT_PLE_MENU = "PLELevelSelectMenu";
+        public class LevelEditor {
+            public const string ADD_PROPS_PLE = "PropsMenu";
+            public const string ADD_SPAWNS_PLE = "SpawnMenu";
+            public const string SET_DYNLEVEL_PLE = "FloorMenu";
+            public const string MAIN_PLE_MENU = "MainPLEMenu";
+            public const string INIT_PLE_MENU = "InitPLEMenu";
+            public const string SAVE_PLE_MENU = "SaveMenu";
+            public const string WAVE_PLE_MENU = "WaveMenu";
+            public const string HELP_PLE_MENU = "HelpMenu";
+            public const string TEST_PLE_MENU = "TestMenu";
+            public const string LEVELSELECT_PLE_MENU = "PLELevelSelectMenu";
+        }
     }
 
     public class Input
@@ -154,6 +180,7 @@
 
         public const string LOCK_SPAWNERS = "LockSpawners";
         public const string CALL_NEXT_WAVE = "CallNextWave";
+        public const string CALL_NEXT_WAVE_PLE = "CallNextWavePLE";
         public const string ENEMY_SPAWNED = "EnemySpawned";
         public const string WAVE_COMPLETE = "WaveComplete";
 
@@ -201,6 +228,8 @@
 
         public const string ACTIVATE_MOD = "ACTIVATE_MOD";
         public const string DEACTIVATE_MOD = "DEACTIVATE_MOD";
+
+        public const string SCENE_LOADED = "SCENE LOADED";        
     }
 
     public class Editor

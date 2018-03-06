@@ -6,37 +6,36 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class PauseMenu : Menu
-{
+public class PauseMenu : Menu {
 
-	#region Public Fields
+    #region Public Fields
 
-	public override Button InitialSelection {
-		get {
-			return initiallySelected;
-		}
-	}
+    public override Selectable InitialSelection {
+        get {
+            return initiallySelected;
+        }
+    }
 
-	public bool CanPause {
-		get {
-			return canPause;
-		}
-		set {
-			canPause = value;
-		}
-	}
+    public bool CanPause {
+        get {
+            return canPause;
+        }
+        set {
+            canPause = value;
+        }
+    }
 
-	#endregion
+    #endregion
 
-	#region Serialized Unity Fields
+    #region Serialized Unity Fields
 
-	[SerializeField]
-	private Button initiallySelected;
+    [SerializeField]
+    private Button initiallySelected;
 
-	#endregion
+    #endregion
 
-	#region Private Fields
-
+    #region Private Fields
+    public bool IsPaused{ get { return paused; } }
 	private bool paused = false;
 	private bool canPause = true;
     // used to indicate the game is in a level and "can pause"
@@ -83,11 +82,10 @@ public class PauseMenu : Menu
         
 		Menu menu = MenuManager.Instance.GetMenuByName (Strings.MenuStrings.LOAD);
 		LoadMenu loadMenu = (LoadMenu)menu;
-		Scene scene = SceneManager.GetActiveScene ();
-		loadMenu.TargetScene = scene.name;
+		loadMenu.SetNavigation(SceneTracker.CurrentSceneName);
         ObjectPool.Instance.ResetPools();
 
-        EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_RESTARTED, scene.name, AnalyticsManager.Instance.GetCurrentWave(), ScoreManager.Instance.GetScore());
+        EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_RESTARTED, SceneTracker.CurrentSceneName, AnalyticsManager.Instance.GetCurrentWave(), ScoreManager.Instance.GetScore());
 
 
         MenuManager.Instance.DoTransition (loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
@@ -99,7 +97,7 @@ public class PauseMenu : Menu
 		Menu menu = MenuManager.Instance.GetMenuByName (Strings.MenuStrings.LOAD);
         EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_QUIT, SceneManager.GetActiveScene().name, AnalyticsManager.Instance.GetCurrentWave(), ScoreManager.Instance.GetScore());
         LoadMenu loadMenu = (LoadMenu)menu;
-		loadMenu.TargetScene = Strings.Scenes.MainMenu;
+		loadMenu.SetNavigation(Strings.Scenes.ScenePaths.MainMenu);
 		loadMenu.Fast = true;
         ObjectPool.Instance.ResetPools();
         MenuManager.Instance.DoTransition (loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });

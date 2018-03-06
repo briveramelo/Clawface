@@ -8,10 +8,10 @@ public class PLEUIItem : ClickableBase, IUIGroupable {
     public GameObject registeredItem;
     private ScrollGroup scrollGroup;
     private ColorChangingUI colorChangingUI;
-    int itemIndex;
+    public int ItemIndex { get; private set; }
 
     public override void OnPointerDown(PointerEventData eventData) {
-        scrollGroup.SelectItem(itemIndex);
+        scrollGroup.SelectItem(ItemIndex);
     }
 
     public override void OnPointerEnter(PointerEventData eventData) {
@@ -23,7 +23,7 @@ public class PLEUIItem : ClickableBase, IUIGroupable {
     }
 
     public void InitializeItem(int itemIndex, ScrollGroup scrollGroup) {
-        this.itemIndex = itemIndex;
+        this.ItemIndex = itemIndex;
         this.scrollGroup = scrollGroup;
         colorChangingUI = GetComponent<ColorChangingUI>();
         colorChangingUI.SetUIIndex(itemIndex);

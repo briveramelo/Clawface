@@ -70,8 +70,6 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
             EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_QUIT, OnLevelQuit);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_RESTARTED, OnLevelRestart);
         }
-
-        base.OnDestroy();   
     }
 
 

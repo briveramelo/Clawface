@@ -6,17 +6,29 @@ using UnityEngine.UI;
 
 public class PropsMenu : PlacementMenu
 {
-    public PropsMenu() : base(Strings.MenuStrings.ADD_PROPS_PLE) { }
+    public PropsMenu() : base(Strings.MenuStrings.LevelEditor.ADD_PROPS_PLE) { }
     #region Public Interface
-    public void TogglePropRigbodKinematic(bool isKinematic) {
-        List<Rigidbody> rigBods = createdItemsParent.GetComponentsInChildren<Rigidbody>().ToList();
-        rigBods.ForEach(rigbod => rigbod.isKinematic = isKinematic);
-    }
+
     #endregion
 
     #region Private Fields
-    private float currentRotation = 0.0f;
-    private PLEProp selectedProp;
+    private const int maxRotation = 270;
+    private const int minRotation = 0;
+
+    private float CurrentRotation {
+        get { return currentRotation; }
+        set {
+            float newRotation = value;
+            if (newRotation > maxRotation) {
+                newRotation = minRotation;
+            }
+            else if (newRotation < minRotation) {
+                newRotation = maxRotation;
+            }
+            currentRotation = newRotation;
+        }
+    }
+    private float currentRotation;
     #endregion
 
     #region Serialzied Unity Fields
@@ -27,66 +39,72 @@ public class PropsMenu : PlacementMenu
 
     #region Protected Interface
     protected override bool SelectUI { get { return base.SelectUI && ScrollGroupHelper.currentUIItem !=null; } }
-    protected override bool SelectItem { get { return base.SelectUI && MouseHelper.currentProp != null; } }
+    protected override bool SelectItem { get { return base.SelectItem && MouseHelper.currentProp != null; } }
+    protected override bool CanDeletedHoveredItem { get { return base.CanDeletedHoveredItem && MouseHelper.currentProp; } }
 
-
-    protected override void DeselectAll() {
-        base.DeselectAll();
-        selectedProp = null;
-    }
-    protected override void SelectUIItem() {
-        base.SelectUIItem();
-        
+    protected override void DeselectAllGameItems() {
+        base.DeselectAllGameItems();
     }
     protected override void PostPlaceItem(GameObject newItem) {
         MouseHelper.currentBlockUnit.SetOccupation(true);
         MouseHelper.currentBlockUnit.SetProp(newItem);
-        newItem.transform.localEulerAngles = new Vector3(0, currentRotation, 0);
     }
+    protected override void PostOnSelectUIItem(GameObject newItem) {
+        ApplyRotation(newItem.transform, 0f);
+    }
+
     protected override void HideStarted() {
         base.HideStarted();
-        //TogglePropRigbodKinematic(true);
-
-        rotationLabel.text = 0.ToString("0");
     }
     protected override void ShowStarted() {
         base.ShowStarted();
-        //TogglePropRigbodKinematic(true);
+        ApplyRotation(0);
     }
     protected override void ShowComplete() {
-        base.ShowComplete();
-        //draw the grid
+        base.ShowComplete();        
     }
     protected override void UpdatePreviewPosition()
     {
         base.UpdatePreviewPosition();
-        previewItem.transform.localEulerAngles = new Vector3(0, currentRotation, 0);
+        previewItem.transform.localEulerAngles = new Vector3(0, CurrentRotation, 0);
+    }
+    protected override void SetInteractability() {
+        bool isItemSelected = selectedPLEItem != null;
+        selectables.ForEach(selectable => { selectable.interactable = isItemSelected; });
+
     }
     #endregion
 
     #region Public Interface
     public void ApplyRotationDelta(float i_del) {
-        currentRotation += i_del;
-        if (currentRotation > 270.0f || currentRotation < -270.0f) {
-            currentRotation = 0.0f;
+        CurrentRotation += i_del;
+        ApplyRotation(CurrentRotation);
+    }
+
+    private void ApplyRotation(Transform item, float rotation) {
+        CurrentRotation = rotation;
+        rotationLabel.text = CurrentRotation.ToString("0");
+        if (item != null) {
+            item.localEulerAngles = new Vector3(0f, CurrentRotation, 0f);
         }
-        rotationLabel.text = currentRotation.ToString("0");
-        if (selectedProp!=null) {
-            selectedProp.transform.localEulerAngles = new Vector3(0f, currentRotation, 0f);
+    }
+    private void ApplyRotation(float rotation) {
+        CurrentRotation = rotation;
+        rotationLabel.text = CurrentRotation.ToString("0");
+        if (selectedPLEItem != null) {
+            selectedPLEItem.transform.localEulerAngles = new Vector3(0f, CurrentRotation, 0f);
         }
     }
 
     protected override void SelectGameItem() {
         base.SelectGameItem();
         MouseHelper.currentProp.Select();
-        selectedProp = MouseHelper.currentProp;
-        rotationLabel.text = selectedProp.transform.localEulerAngles.y.ToString("0");
+        selectedPLEItem = MouseHelper.currentProp;
+        ApplyRotation(selectedPLEItem.transform.localEulerAngles.y);
+        SetInteractability();
     }
     protected override void DeselectItem() {
-        if (selectedProp!=null) {
-            selectedProp.Deselect();
-            selectedProp = null;
-        }
+        base.DeselectItem();
     }
     #endregion
 }
