@@ -195,7 +195,7 @@ public class SettingsManager : Singleton<SettingsManager>
     #region Types (Internal)
 
     [Serializable]
-    internal struct Settings
+    internal class Settings
     {
         #region Constants (Private)
 

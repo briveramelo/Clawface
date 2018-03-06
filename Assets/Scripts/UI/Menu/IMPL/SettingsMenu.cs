@@ -122,6 +122,11 @@ public class SettingsMenu : Menu {
     public void ButtonBack()
     {
         MenuManager.Instance.DoTransition(Strings.MenuStrings.MAIN, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+
+        // Load ControlMapper Data
+        Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.CONTROLS);
+        ControlMapperMenu cMenu = menu as ControlMapperMenu;
+        cMenu.UserDataStore.Load();
     }
 
     public void ButtonDefault()
@@ -133,6 +138,11 @@ public class SettingsMenu : Menu {
     {
         TransferSettingsToManager();
         SettingsManager.Instance.ApplyChanges();
+
+        // Apply ControlMapper Data
+        Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.CONTROLS);
+        ControlMapperMenu cMenu = menu as ControlMapperMenu;
+        cMenu.UserDataStore.Save();
     }
 
     public void ButtonRemap()

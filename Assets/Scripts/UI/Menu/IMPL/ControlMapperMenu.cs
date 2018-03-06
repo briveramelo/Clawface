@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Rewired.Data;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class ControlMapperMenu : Menu
@@ -12,12 +13,23 @@ public class ControlMapperMenu : Menu
             return doneButton;
         }
     }
+
+    public UserDataStore_PlayerPrefs UserDataStore
+    {
+        get
+        {
+            return userDataStore;
+        }
+    }
     #endregion
 
     #region Unity Serializations
 
     [SerializeField]
     private Button doneButton;
+
+    [SerializeField]
+    private UserDataStore_PlayerPrefs userDataStore;
 
     #endregion
 
