@@ -9,7 +9,7 @@ public abstract class GenericSteamLeaderBoard : MonoBehaviour {
     #region Private Variables
     //We store the actual score value in the details array
     protected const int MAX_DETAILS = 1;    
-    protected readonly DateTime epochStart = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+    protected readonly DateTime epochStart = new DateTime(2018, 1, 1, 0, 0, 0, DateTimeKind.Utc);
     public delegate void ResultsCallBack(List<LeaderBoardVars> results);
     private CallResult<LeaderboardFindResult_t> leaderBoardFindResult;
     private CallResult<LeaderboardScoresDownloaded_t> leaderBoardScoresDownloaded;
