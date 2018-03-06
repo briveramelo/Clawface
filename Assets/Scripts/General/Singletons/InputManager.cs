@@ -116,6 +116,11 @@ public class InputManager : Singleton<InputManager> {
         }
     }
 
+    //// HasJoystick
+    public bool HasJoystick()
+    {
+        return player.controllers.joystickCount > 0;
+    }
 
     #endregion
 }

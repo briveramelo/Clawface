@@ -112,6 +112,18 @@ public class SettingsManager : Singleton<SettingsManager>
         }
     }
 
+    public MouseAimMode MouseAimMode
+    {
+        get
+        {
+            return settings.mouseAimMode;
+        }
+        set
+        {
+            settings.mouseAimMode = value;
+        }
+    }
+
     public bool SnapLook
     {
         get
@@ -233,6 +245,8 @@ public class SettingsManager : Singleton<SettingsManager>
 
         [Header("Controls")]
         public FireMode fireMode;
+
+        public MouseAimMode mouseAimMode;
 
         public bool snapLook;
 
