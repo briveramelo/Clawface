@@ -159,7 +159,7 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
         AddEvent(ref stateEvents, eventName);
     }
 
-    public void TryTransitionToState(LevelUnitStates state, bool wasToldToChangeColor) {
+    public void TryTransitionToState(LevelUnitStates state, bool wasToldToChangeColor) {        
         switch (state) {
             case LevelUnitStates.Cover: TransitionToCoverState(wasToldToChangeColor); break;
             case LevelUnitStates.Floor: TransitionToFloorState(wasToldToChangeColor); break;
@@ -234,6 +234,7 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
         if (Vector3.Distance(transform.position, targetPosition) < 0.01f) {
             FinishTransition(targetPosition);
         }
+        print("moving position");
     }
 
     private void BeginTransition() {
@@ -356,7 +357,9 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
     }
 
     private void TryTransitionToState(LevelUnitStates newState, Texture2D paintMaskTexture, bool wasToldToChangeColor) {
+        print("trying transitioning to state");
         if ((isTransitioning && currentState==newState) || currentState != newState) {
+            print("transitioning to state");
             splattable.PaintMask = Texture2D.blackTexture;
             nextState = newState;
             targetPosition = GetStatePosition(nextState);

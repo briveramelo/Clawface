@@ -129,7 +129,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
                 {
                     tile.blockUnit.UpdateTileHeightStates();
                     tile.ResetHeight();
-                    tile.levelUnit.TransitionToWave(0);
+                    //tile.levelUnit.TransitionToWave(0);
                 }
             });
             levelNav.BuildNavMesh();
