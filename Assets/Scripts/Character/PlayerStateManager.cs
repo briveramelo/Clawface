@@ -210,7 +210,8 @@ public class PlayerStateManager : RoutineRunner {
 
     private void OnEnemyDeathByEating(object[] parameters)
     {
-        playerOutline.SetActive(false);
+        if(playerOutline)
+            playerOutline.SetActive(false);
     }
     #endregion
 

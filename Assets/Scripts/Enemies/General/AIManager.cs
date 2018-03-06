@@ -8,13 +8,26 @@ public class AIManager : Singleton<AIManager> {
     private List<AIEnemyData> enemyData;
     private float separationDistance = 10;
     private bool removingEnemy = false;
+    private bool isPlayerDead = false;
     #endregion
 
     #region 1. UnityLifeCycle
+    public void OnEnable()
+    {
+        EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_KILLED,SetPlayerDead);
+        EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_RESTARTED, SetPlayerNotDead);
+    }
+
     public new void Awake()
     {
         base.Awake();
         enemyData = new List<AIEnemyData>();
+    }
+
+    public void OnDisable()
+    {
+        EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_KILLED, SetPlayerDead);
+        EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_RESTARTED, SetPlayerNotDead);
     }
     #endregion
 
@@ -74,7 +87,10 @@ public class AIManager : Singleton<AIManager> {
         }
         removingEnemy = false;
     }
-
+    public bool GetPlayerDead()
+    {
+        return isPlayerDead;
+    }
 
     #endregion
 
@@ -93,6 +109,17 @@ public class AIManager : Singleton<AIManager> {
         }
         return true;
     }
+
+    private void SetPlayerDead(object[] parameters)
+    {
+        isPlayerDead = true;
+    }
+
+    private void SetPlayerNotDead(object[] parameters)
+    {
+        isPlayerDead = false;
+    }
+
     #endregion
 }
 
