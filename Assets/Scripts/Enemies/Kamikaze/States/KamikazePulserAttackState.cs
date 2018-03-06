@@ -5,6 +5,7 @@ using MEC;
 
 public class KamikazePulserAttackState : AIState {
 
+    public float waitTimeAfterAttack;
     private PulseGenerator currentPulseGenerator;
     private bool attackDone = false;
 
@@ -63,10 +64,15 @@ public class KamikazePulserAttackState : AIState {
         if (currentPulseGenerator.gameObject != null && currentPulseGenerator.DonePulsing())
         {
             currentPulseGenerator.gameObject.SetActive(false);
-            attackDone = true;
+            Timing.RunCoroutine(WaitToMove(), coroutineName);
         }
+    }
 
-        
+    IEnumerator<float> WaitToMove()
+    {
+        yield return Timing.WaitForSeconds(waitTimeAfterAttack);
+        attackDone = true;
+        yield return 1.0f;
     }
 
     public bool DoneAttacking()

@@ -43,9 +43,8 @@ public class ZombieAttackState : AIState
     }
     public override void OnExit()
     {
+        doneAttacking = false;
         navAgent.speed = myStats.moveSpeed;
-        navObstacle.enabled = false;
-        navAgent.enabled = true;
         animator.speed = oldAnimatorSpeed;
         attacks.Clear();
     }

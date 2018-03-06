@@ -53,6 +53,7 @@ public class MallCop : EnemyBase
         damaged.Set(DamagedType.MallCop, bloodEmissionLocation);
 
         controller.checksToUpdateState = new List<Func<bool>>() {
+            CheckPlayerDead,
             CheckToFire,
             CheckToFinishFiring,
             CheckIfStunned
@@ -68,6 +69,23 @@ public class MallCop : EnemyBase
     #region 4. Public Methods   
 
     //State conditions
+    bool CheckPlayerDead()
+    {
+        if (AIManager.Instance.GetPlayerDead())
+        {
+            if (myStats.health > myStats.skinnableHealth && !celebrate.isCelebrating())
+            {
+                fire.StopCoroutines();
+                controller.CurrentState = celebrate;
+                controller.UpdateState(EAIState.Celebrate);
+            }
+            return true;
+        }
+        return false;
+    }
+
+
+
     bool CheckToFire()
     {
         Vector3 fwd = controller.DirectionToTarget;
@@ -180,13 +198,6 @@ public class MallCop : EnemyBase
 
     public override void DoPlayerKilledState(object[] parameters)
     {
-        if (myStats.health > myStats.skinnableHealth)
-        {
-            fire.StopCoroutines();
-            animator.SetInteger("AnimationState", -1);
-            controller.CurrentState = celebrate;
-            controller.UpdateState(EAIState.Celebrate);
-        }
     }
 
     public override Vector3 ReCalculateTargetPosition()
