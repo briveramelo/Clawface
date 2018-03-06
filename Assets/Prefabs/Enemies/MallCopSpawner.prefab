@@ -171,22 +171,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1149424929241148
-GameObject:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 4809732138976828}
-  - component: {fileID: 114687275961355118}
-  m_Layer: 0
-  m_Name: SpawnPoint (3)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &1169292301386790
 GameObject:
   m_ObjectHideFlags: 1
@@ -262,22 +246,6 @@ GameObject:
   - component: {fileID: 114447779785779624}
   m_Layer: 0
   m_Name: MallCopSpawner(Clone) (8)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!1 &1198153070166998
-GameObject:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 4192745774118270}
-  - component: {fileID: 114042030622744070}
-  m_Layer: 0
-  m_Name: SpawnPoint (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -427,22 +395,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1366203809409584
-GameObject:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 4855517629995208}
-  - component: {fileID: 114244558518386444}
-  m_Layer: 0
-  m_Name: SpawnPoint (4)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &1377633138498376
 GameObject:
   m_ObjectHideFlags: 1
@@ -571,22 +523,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1619074622205654
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 4718614530628982}
-  - component: {fileID: 114586153842111428}
-  m_Layer: 0
-  m_Name: MallCopSpawner(Clone) (9)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &1623319464061436
 GameObject:
   m_ObjectHideFlags: 1
@@ -710,22 +646,6 @@ GameObject:
   - component: {fileID: 114302743054493234}
   m_Layer: 0
   m_Name: MallCopSpawner(Clone) (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!1 &1765141040062742
-GameObject:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 4207694196126438}
-  - component: {fileID: 114035781948677200}
-  m_Layer: 0
-  m_Name: SpawnPoint (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1071,19 +991,6 @@ Transform:
   m_Father: {fileID: 4950808825753732}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4192745774118270
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1198153070166998}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 9.5, y: 2.3, z: -18.2}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4718614530628982}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4201487825997374
 Transform:
   m_ObjectHideFlags: 1
@@ -1096,19 +1003,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4950808825753732}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4207694196126438
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1765141040062742}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 30, y: 2.3, z: -1.8}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4718614530628982}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4208188877019794
 Transform:
@@ -1311,7 +1205,6 @@ Transform:
   - {fileID: 4714205853914882}
   - {fileID: 4987230094301148}
   - {fileID: 4950808825753732}
-  - {fileID: 4718614530628982}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1522,23 +1415,6 @@ Transform:
   m_Father: {fileID: 4443966054629342}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4718614530628982
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1619074622205654}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 4192745774118270}
-  - {fileID: 4207694196126438}
-  - {fileID: 4809732138976828}
-  - {fileID: 4855517629995208}
-  m_Father: {fileID: 4443966054629342}
-  m_RootOrder: 10
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4723770822374742
 Transform:
   m_ObjectHideFlags: 1
@@ -1578,19 +1454,6 @@ Transform:
   m_Father: {fileID: 4987230094301148}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4809732138976828
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1149424929241148}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 9.2, y: 2.3, z: 19.6}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4718614530628982}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4821069645670122
 Transform:
   m_ObjectHideFlags: 1
@@ -1603,19 +1466,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4387701013047882}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4855517629995208
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1366203809409584}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -17.3, y: 2.3, z: 0.3}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4718614530628982}
-  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4907345167308302
 Transform:
@@ -1696,32 +1546,6 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1926029007835628}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4459bc4938fbdce4dab448c115726a99, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  radius: 0.77
-  color: {r: 1, g: 0, b: 0, a: 1}
---- !u!114 &114035781948677200
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1765141040062742}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4459bc4938fbdce4dab448c115726a99, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  radius: 0.77
-  color: {r: 1, g: 0, b: 0, a: 1}
---- !u!114 &114042030622744070
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1198153070166998}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4459bc4938fbdce4dab448c115726a99, type: 3}
@@ -1964,19 +1788,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 0.77
   color: {r: 1, g: 0, b: 0, a: 1}
---- !u!114 &114244558518386444
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1366203809409584}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4459bc4938fbdce4dab448c115726a99, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  radius: 0.77
-  color: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &114262162544366794
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2006,7 +1817,7 @@ MonoBehaviour:
     - Type: 10
       Count: 2
     - Type: 6
-      Count: 1
+      Count: 2
     remainingSpawns: 0
     spawnEffectTime: 0
     intensity: 0
@@ -2027,7 +1838,7 @@ MonoBehaviour:
     - Type: 3
       Count: 3
     - Type: 1
-      Count: 5
+      Count: 4
     - Type: 9
       Count: 2
     - Type: 0
@@ -2051,11 +1862,11 @@ MonoBehaviour:
     - Type: 8
       Count: 4
     - Type: 10
+      Count: 3
+    - Type: 4
       Count: 1
-    - Type: 3
-      Count: 3
     - Type: 0
-      Count: 3
+      Count: 4
     remainingSpawns: 0
     spawnEffectTime: 0
     intensity: 0
@@ -2072,10 +1883,10 @@ MonoBehaviour:
       max: 2
   - spawnedHashCodes: 
     monsterList:
-    - Type: 4
+    - Type: 5
       Count: 1
     - Type: 1
-      Count: 4
+      Count: 3
     - Type: 3
       Count: 2
     - Type: 6
@@ -2100,10 +1911,10 @@ MonoBehaviour:
       Count: 1
     - Type: 2
       Count: 1
-    - Type: 5
-      Count: 1
-    - Type: 1
+    - Type: 0
       Count: 3
+    - Type: 9
+      Count: 2
     remainingSpawns: 0
     spawnEffectTime: 0
     intensity: 0
@@ -2458,9 +2269,9 @@ MonoBehaviour:
   - spawnedHashCodes: 
     monsterList:
     - Type: 1
-      Count: 2
-    - Type: 0
       Count: 3
+    - Type: 0
+      Count: 1
     - Type: 3
       Count: 2
     - Type: 2
@@ -2482,13 +2293,13 @@ MonoBehaviour:
       max: 1
   - spawnedHashCodes: 
     monsterList:
-    - Type: 1
-      Count: 4
-    - Type: 10
+    - Type: 8
+      Count: 2
+    - Type: 0
       Count: 2
     - Type: 6
       Count: 1
-    - Type: 2
+    - Type: 10
       Count: 2
     remainingSpawns: 0
     spawnEffectTime: 0
@@ -2507,11 +2318,11 @@ MonoBehaviour:
   - spawnedHashCodes: 
     monsterList:
     - Type: 8
-      Count: 4
+      Count: 3
     - Type: 9
       Count: 1
     - Type: 3
-      Count: 3
+      Count: 2
     - Type: 4
       Count: 1
     remainingSpawns: 0
@@ -3132,150 +2943,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 0.77
   color: {r: 1, g: 0, b: 0, a: 1}
---- !u!114 &114586153842111428
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1619074622205654}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bdce7029b13d37940afce8409d4837bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  useIntensityCurve: 0
-  manualEdits: 0
-  intensityCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  waves:
-  - spawnedHashCodes: 
-    monsterList:
-    - Type: 0
-      Count: 3
-    - Type: 1
-      Count: 3
-    - Type: 3
-      Count: 2
-    - Type: 6
-      Count: 1
-    remainingSpawns: 0
-    spawnEffectTime: 0
-    intensity: 0
-    NumToNextWave: 2
-    preEventNames:
-    - Spawner 11 Wave 1
-    - Music_Spawner 11 Wave 1
-    postEventNames: []
-    spawnOffset: 0
-    spawnTimeOffset: 0
-    SpawningTime:
-      minLimit: 0
-      maxLimit: 0
-      min: 1.7
-      max: 2
-  - spawnedHashCodes: 
-    monsterList:
-    - Type: 6
-      Count: 2
-    - Type: 8
-      Count: 3
-    - Type: 2
-      Count: 1
-    - Type: 0
-      Count: 3
-    remainingSpawns: 0
-    spawnEffectTime: 0
-    intensity: 0
-    NumToNextWave: 2
-    preEventNames:
-    - Spawner 11 Wave 2
-    postEventNames: []
-    spawnOffset: 0
-    spawnTimeOffset: 0
-    SpawningTime:
-      minLimit: 0
-      maxLimit: 0
-      min: 1.7
-      max: 2
-  - spawnedHashCodes: 
-    monsterList:
-    - Type: 8
-      Count: 4
-    - Type: 10
-      Count: 1
-    - Type: 3
-      Count: 3
-    - Type: 0
-      Count: 3
-    remainingSpawns: 0
-    spawnEffectTime: 0
-    intensity: 0
-    NumToNextWave: 3
-    preEventNames:
-    - Spawner 11 Wave 3
-    postEventNames: []
-    spawnOffset: 0
-    spawnTimeOffset: 0
-    SpawningTime:
-      minLimit: 0
-      maxLimit: 0
-      min: 1.7
-      max: 2
-  - spawnedHashCodes: 
-    monsterList:
-    - Type: 4
-      Count: 1
-    - Type: 1
-      Count: 4
-    - Type: 3
-      Count: 2
-    - Type: 6
-      Count: 1
-    remainingSpawns: 0
-    spawnEffectTime: 0
-    intensity: 0
-    NumToNextWave: 0
-    preEventNames:
-    - Spawner 11 Wave 4
-    postEventNames: []
-    spawnOffset: 0
-    spawnTimeOffset: 0
-    SpawningTime:
-      minLimit: 0
-      maxLimit: 0
-      min: 1.7
-      max: 2
-  - spawnedHashCodes: 
-    monsterList:
-    - Type: 4
-      Count: 1
-    - Type: 2
-      Count: 1
-    - Type: 3
-      Count: 0
-    - Type: 1
-      Count: 0
-    remainingSpawns: 0
-    spawnEffectTime: 0
-    intensity: 0
-    NumToNextWave: 0
-    preEventNames:
-    - Spawner 11 Wave 5
-    postEventNames: []
-    spawnOffset: 0
-    spawnTimeOffset: 0
-    SpawningTime:
-      minLimit: 0
-      maxLimit: 0
-      min: 1.7
-      max: 2
-  currentWaveNumber: 0
-  currentNumEnemies: 0
-  totalNumEnemies: 0
 --- !u!114 &114624661580875500
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3308,19 +2975,6 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1624465114373174}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4459bc4938fbdce4dab448c115726a99, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  radius: 0.77
-  color: {r: 1, g: 0, b: 0, a: 1}
---- !u!114 &114687275961355118
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1149424929241148}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4459bc4938fbdce4dab448c115726a99, type: 3}
@@ -3542,8 +3196,6 @@ MonoBehaviour:
   - Prefab: {fileID: 1317879250956632}
     Time: 3
   - Prefab: {fileID: 1190209355396742}
-    Time: 3
-  - Prefab: {fileID: 1619074622205654}
     Time: 3
   lastWave: 1
 --- !u!114 &114773759160687902
