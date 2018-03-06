@@ -76,9 +76,8 @@ public class PlayerStateManager : RoutineRunner {
         EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_COMPLETED, BlockInput);
         EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_KILLED, BlockInput);
         EventSystem.Instance.RegisterEvent(Strings.Events.FINISHED_EATING, FinishedEat);
+        EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_KILLED, DisableCollider);
     }
-
-    
 
     // Update is called once per frame
     void Update()
@@ -197,6 +196,7 @@ public class PlayerStateManager : RoutineRunner {
             EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_COMPLETED, BlockInput);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_KILLED, BlockInput);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.FINISHED_EATING, FinishedEat);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_KILLED, DisableCollider);
         }
         
     }
@@ -422,6 +422,14 @@ public class PlayerStateManager : RoutineRunner {
     private void FinishedEat(object[] parameters)
     {
         StartCoroutine(WaitForEatCoolDown());
+    }
+
+    private void DisableCollider(object[] parameters)
+    {
+        if (eatCollider)
+        {
+            eatCollider.enabled = false;
+        }
     }
     #endregion
 
