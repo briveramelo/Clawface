@@ -349,6 +349,7 @@ public class WeaponSelectMenu : Menu
         selectingPlayerRight = false;
         selectingPlayerLeft = true;
         rightArmAnimator.SetTrigger("DoLock");
+        SFXManager.Instance.Play(SFXType.LandmarkBlastShort, transform.position);
     }
 
     private void LockInLeftAction()
@@ -357,6 +358,7 @@ public class WeaponSelectMenu : Menu
         ModManager.leftArmOnLoad = leftArm.GetSelection();
         selectingPlayerLeft = false;
         leftArmAnimator.SetTrigger("DoLock");
+        SFXManager.Instance.Play(SFXType.LandmarkBlastShort, transform.position);
     }
 
     private void ChangeWeaponTextPanel(WeaponLineup lineup)

@@ -44,7 +44,8 @@ public enum SFXType {
     ZombieAttack,
     BouncerAttack,
     KamikazeAttack,
-    KamikazePulse
+    KamikazePulse,
+    LandmarkBlastShort
 }
 
 public enum MusicType
