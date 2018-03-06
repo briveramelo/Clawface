@@ -172,7 +172,10 @@ public class EatingState : IPlayerState
                 eatable.Eat(out health);
                 stateVariables.statsManager.TakeHealth(health);
                 Stats stats = GetComponent<Stats>();
+
                 EventSystem.Instance.TriggerEvent(Strings.Events.UPDATE_HEALTH, stats.GetHealthFraction());
+                EventSystem.Instance.TriggerEvent(Strings.Events.ENEMY_DEATH_BY_EATING);
+
                 GameObject skinningEffect = ObjectPool.Instance.GetObject(PoolObjectType.VFXMallCopExplosion);
                 playerFaceController.SetTemporaryEmotion(Turing.VFX.PlayerFaceController.Emotion.Happy, happyTimeAfterEating);
 
