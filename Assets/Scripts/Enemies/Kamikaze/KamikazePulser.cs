@@ -37,9 +37,11 @@ public class KamikazePulser : EnemyBase
         myStats = GetComponent<Stats>();
         SetAllStats();
         InitilizeStates();
+        attack.waitTimeAfterAttack = EnemyStatsManager.Instance.kamikazePulserStats.waitTimeAfterAttack;
         controller.Initialize(properties, velBody, animator, myStats, navAgent, navObstacle, aiStates);
         damaged.Set(DamagedType.MallCop, bloodEmissionLocation);
         controller.checksToUpdateState = new List<Func<bool>>() {
+            CheckPlayerDead,
             CheckToAttack,
             CheckToFinishAttack,
             CheckIfStunned
@@ -51,6 +53,20 @@ public class KamikazePulser : EnemyBase
     #region 5. Public Methods   
 
     //State conditions
+    bool CheckPlayerDead()
+    {
+        if (AIManager.Instance.GetPlayerDead())
+        {
+            if (myStats.health > myStats.skinnableHealth && !celebrate.isCelebrating())
+            {
+                controller.CurrentState = celebrate;
+                controller.UpdateState(EAIState.Celebrate);
+            }
+            return true;
+        }
+        return false;
+    }
+
     bool CheckToAttack()
     {
         if (controller.CurrentState == chase && controller.DistanceFromTarget < closeEnoughToAttackDistance)
@@ -100,12 +116,6 @@ public class KamikazePulser : EnemyBase
 
     public override void DoPlayerKilledState(object[] parameters)
     {
-        if (myStats.health > myStats.skinnableHealth)
-        {
-            animator.SetInteger("AnimationState", -1);
-            controller.CurrentState = celebrate;
-            controller.UpdateState(EAIState.Celebrate);
-        }
     }
 
     public override Vector3 ReCalculateTargetPosition()

@@ -177,7 +177,7 @@ public class MenuManager : Singleton<MenuManager> {
         {
             ClearMenus();
         }
-
+        if (bundle.menu == null) return;
         switch (bundle.transition)
         {
             case Menu.Transition.HIDE:

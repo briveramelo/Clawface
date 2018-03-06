@@ -111,9 +111,8 @@ namespace Turing.LevelEditor
                 StopPlayingLevel();
         }
 
-        new void OnDestroy()
+        void OnDestroy()
         {
-            base.OnDestroy();
 
             selectedObjects.Clear();
             hoveredObjects.Clear();

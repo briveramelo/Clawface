@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using System;
+using ModMan;
 
 [System.Serializable]
 public class BouncerProperties : AIProperties
@@ -16,6 +17,7 @@ public class Bouncer : EnemyBase
     [SerializeField] private BouncerProperties properties;
     [SerializeField] private BulletHellPatternController bulletPatternController;
     [SerializeField] private HitTrigger hitTrigger;
+    [SerializeField] private SpriteRenderer shadowOutline;
     #endregion
 
     #region 3. Private fields
@@ -61,10 +63,11 @@ public class Bouncer : EnemyBase
             fire.animatorSpeed = EnemyStatsManager.Instance.greenBouncerStats.animationShootSpeed;
         }
 
-            controller.Initialize(properties, velBody, animator, myStats, navAgent, navObstacle, bulletPatternController, aiStates);
+        controller.Initialize(properties, velBody, animator, myStats, navAgent, navObstacle, bulletPatternController, aiStates);
         damaged.Set(DamagedType.MallCop, bloodEmissionLocation);
 
         controller.checksToUpdateState = new List<Func<bool>>() {
+            CheckPlayerDead,
             CheckToAttack,
             CheckToFinishAttacking,
             CheckIfStunned
@@ -77,6 +80,21 @@ public class Bouncer : EnemyBase
     #endregion
 
     #region 5. Public Methods   
+    bool CheckPlayerDead()
+    {
+        if (AIManager.Instance.GetPlayerDead())
+        {
+            if (myStats.health > myStats.skinnableHealth && !celebrate.isCelebrating())
+            {
+                chase.StopCoroutines();
+                controller.CurrentState = celebrate;
+                controller.UpdateState(EAIState.Celebrate);
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     bool CheckToAttack()
     {
@@ -98,7 +116,7 @@ public class Bouncer : EnemyBase
                 controller.DeActivateAI();
             }
 
-            if (fire.DoneFiring())
+            else if (fire.DoneFiring())
             {
                 controller.UpdateState(EAIState.Chase);
             }
@@ -123,11 +141,13 @@ public class Bouncer : EnemyBase
     public void DoneJumpStart()
     {
         chase.doneStartingJump = true;
+        shadowOutline.gameObject.SetActive(true);
     }
 
     public void DoneJumpLanding()
     {
         chase.doneLandingJump = true;
+        shadowOutline.gameObject.SetActive(false);
     }
 
     public void ActivateHitTrigger()
@@ -148,6 +168,7 @@ public class Bouncer : EnemyBase
     public override void ResetForRebirth()
     {
         base.ResetForRebirth();
+        shadowOutline.gameObject.SetActive(false);
     }
 
     public void GetUpDone()
@@ -171,13 +192,6 @@ public class Bouncer : EnemyBase
 
     public override void DoPlayerKilledState(object[] parameters)
     {
-        if (myStats.health > myStats.skinnableHealth)
-        {
-            chase.StopCoroutines();
-            animator.SetInteger("AnimationState", -1);
-            controller.CurrentState = celebrate;
-            controller.UpdateState(EAIState.Celebrate);
-        }
     }
 
     public override Vector3 ReCalculateTargetPosition()

@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MoveState : IPlayerState
 {
-    [Tooltip("Whether the left joystick handles both movement or rotation or just movement")]
+    #region Fields (Unity Serialization)
+
     [SerializeField]
-    private bool simpleMoveAndRotate = false;
+    private LayerMask mouseLookMask;
+
+    #endregion
 
     #region Private Fields
     private float sphereRadius = 0.1f;
@@ -48,6 +48,16 @@ public class MoveState : IPlayerState
         {
             Vector2 controllerMoveDir = InputManager.Instance.QueryAxes(Strings.Input.Axes.MOVEMENT);
             Vector2 lookDir = InputManager.Instance.QueryAxes(Strings.Input.Axes.LOOK);
+
+            bool usesMouse = ShouldUseMouse();
+            if (usesMouse)
+            {
+                lookDir = DetermineMouseLook();
+            } else
+            {
+                lookDir = InputManager.Instance.QueryAxes(Strings.Input.Axes.LOOK);
+            }
+
             bool isAnyAxisInput = controllerMoveDir.magnitude > stateVariables.axisThreshold;
             if (!isAnyAxisInput)
             {
@@ -75,7 +85,10 @@ public class MoveState : IPlayerState
             moveDirection.y = 0f;
             moveDirection.Normalize();
 
-            lastLookDirection = Camera.main.transform.TransformDirection(lastLookDirection);
+            if (!usesMouse)
+            {
+                lastLookDirection = Camera.main.transform.TransformDirection(lastLookDirection);
+            }
             lastLookDirection.y = 0f;
             lastLookDirection.Normalize();
 
@@ -170,7 +183,7 @@ public class MoveState : IPlayerState
     }
 
     private void HandleRotation(){
-        if (simpleMoveAndRotate)
+        if (SettingsManager.Instance.SnapLook)
         {
             if (lastLookDirection != Vector3.zero)
             {
@@ -206,6 +219,38 @@ public class MoveState : IPlayerState
     public PlayerStateManager.StateVariables GetStateVariables()
     {
         return stateVariables;
+    }
+
+    private bool ShouldUseMouse()
+    {
+        switch (SettingsManager.Instance.MouseAimMode)
+        {
+            case MouseAimMode.AUTOMATIC:
+                return !InputManager.Instance.HasJoystick();
+            case MouseAimMode.ALWAYS_ON:
+                return true;
+            case MouseAimMode.ALWAYS_OFF:
+                return false;
+            default:
+                throw new System.Exception("Bad MouseAimMode parameter!");
+        }
+    }
+
+    private Vector2 DetermineMouseLook()
+    {
+        RaycastHit hit;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out hit, 1000F, mouseLookMask))
+        {
+            Vector3 hitPosition = hit.point;
+            Vector3 playerPosition = stateVariables.playerTransform.position;
+            Vector3 look = hitPosition - playerPosition;
+            return new Vector2(look.x, look.z);
+        }
+        else
+        {
+            return Vector3.zero;
+        }
     }
     #endregion
 }

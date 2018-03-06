@@ -4,6 +4,7 @@ using UnityEngine;
 using PlayerLevelEditor;
 using ModMan;
 using System.Linq;
+using UnityEngine.AI;
 
 public class PlayerLevelEditorGrid : MonoBehaviour {
     #region Private Fields
@@ -13,7 +14,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     private GameObject spawnedBlock = null;
 
     private GameObject OnClickObject = null;
-    private List<GameObject> selectedGameObjects = new List<GameObject>();
+    private List<GridTile> selectedGridTiles = new List<GridTile>();
 
     private bool inputGuard = false;
 
@@ -32,6 +33,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     [SerializeField] private Color selectedColor = Color.blue;
     [SerializeField] private Color deletePreviewColor = Color.red;
     [SerializeField] private LevelEditor editorInstance;
+    [SerializeField] private NavMeshSurface levelNav;
 
     #endregion
 
@@ -42,24 +44,20 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
 
     #endregion
 
-    const string GhostBlock = "GhostBlock";
-    const string RealBlock = "RealBlock";
+    
 
 
     #region Unity Lifecycle
-
     void Start() {
         Initilaize();
-        //EventSystem.Instance.RegisterEvent(Strings.Events.PLE_UPDATE_LEVELSTATE, OnTileHeightsChanged);
+        EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_STARTED, CheckToBakeMesh);
     }    
 
     private void OnDestroy() {
         if (EventSystem.Instance) {
-            //EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_UPDATE_LEVELSTATE, OnTileHeightsChanged);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_STARTED, CheckToBakeMesh);
         }
     }
-
-
 
     void Update()
     {
@@ -99,10 +97,12 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     }
 
     public void ClearSelectedBlocks() {
-        DeselectBlocks();
+        if (gameObject.activeSelf) {
+            DeselectBlocks();
+        }
     }
 
-    public List<GameObject> GetSelectedBlocks() { return selectedGameObjects; }
+    public List<GridTile> GetSelectedGridTiles() { return selectedGridTiles; }
 
     public void SetGridVisiblity(bool show) {
         displaying = show;
@@ -112,17 +112,37 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     #endregion
 
     #region Private Interface
-    private void Initilaize(params object[] par) {
+    bool needsToBuildMesh = false;
+    public void QueueToBakeNavMesh() {
+        needsToBuildMesh = true;
+    }
+
+
+    private void CheckToBakeMesh(params object[] i_params)
+    {
+        if (needsToBuildMesh) {
+            //optimization ideas https://forum.unity.com/threads/navmeshes-very-slow-generation.116741/
+            levelNav.BuildNavMesh();
+            needsToBuildMesh = false;
+        }
+    }
+
+    private void Initilaize() {
+        needsToBuildMesh = true;
         previewBlock = Resources.Load(Strings.Editor.RESOURCE_PATH + Strings.Editor.BASIC_LE_BLOCK) as GameObject;
         spawnedBlock = Resources.Load(Strings.Editor.RESOURCE_PATH + Strings.Editor.CHERLIN_LVL_BLOCK) as GameObject;
 
         InitGridTiles();
-    }    
+    }
 
-    private void HandleWireSelection(RaycastHit hit) {
-        CleanUpLastHoveredObjects(hit);
-        UpdateCurrentHoveredObject(hit);
-        UpdateLastHoveredObjects(hit);
+    private void HandleWireSelection(RaycastHit hit)
+    {
+        if (hit.transform != null)
+        {
+            CleanUpLastHoveredObjects(hit);
+            UpdateCurrentHoveredObject(hit);
+            UpdateLastHoveredObjects(hit);
+        }
     }
 
     private void CleanUpLastHoveredObjects(RaycastHit hit) {
@@ -169,7 +189,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
 
     private GridTile lastSelectedTile;
     private void HandleHoveringBlocks(RaycastHit hit) {
-        if (!Input.GetKey(KeyCode.LeftShift)) {
+        if (!(Input.GetKey(KeyCode.LeftShift) && Input.GetMouseButton(MouseButtons.LEFT))) {
             if (MouseHelper.HitTile) {
                 Vector3 mousePos = MouseHelper.currentBlockUnit.transform.position;
                 GridTile hoveredTile = GetTileAtPoint(mousePos);
@@ -192,7 +212,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     }
 
     private void HandleSelectingBlocks(RaycastHit hit) {
-        if (Input.GetMouseButtonDown(MouseButtons.LEFT) && !Input.GetKey(KeyCode.LeftShift)) {
+        if (Input.GetMouseButtonDown(MouseButtons.LEFT) && !Input.GetKey(KeyCode.LeftShift) && !Input.GetKey(KeyCode.LeftAlt)) {
             DeselectBlocks();
         }
         if (Input.GetMouseButton(MouseButtons.LEFT) && Input.GetKey(KeyCode.LeftShift)) {
@@ -205,7 +225,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         if (Input.GetMouseButtonUp(MouseButtons.LEFT) && !Input.GetKey(KeyCode.LeftAlt)) {
             DuplicateBlocks(hit);
             ShowWalls();
-            editorInstance.CheckToSetMenuInteractability();
+            editorInstance.SetMenuButtonInteractability();
         }
     }
 
@@ -222,7 +242,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
             if (!Input.GetKey(KeyCode.LeftAlt)) {
                 DeleteBlocks(hit);
                 ShowWalls();
-                editorInstance.CheckToSetMenuInteractability();
+                editorInstance.SetMenuButtonInteractability();
             }
         }
     }
@@ -238,9 +258,9 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
 
     private void AddGridTile(Vector3 position) {
         GameObject ghostBlock = GameObject.Instantiate(previewBlock, position, Quaternion.identity);
-        ghostBlock.name = GhostBlock;
+        ghostBlock.name = Strings.GHOST_BLOCK;
         GameObject realBlock = GameObject.Instantiate(spawnedBlock, position, Quaternion.identity);
-        realBlock.name = RealBlock;
+        realBlock.name = Strings.REAL_BLOCK;
 
         GameObject wall_N = GameObject.Instantiate(wallPrefab, position + Vector3.up * 5f + Vector3.forward * 2.5f, Quaternion.Euler(0f, 0f, 0f));
         GameObject wall_E = GameObject.Instantiate(wallPrefab, position + Vector3.up * 5f + Vector3.right * 2.5f, Quaternion.Euler(0f, 90f, 0f));
@@ -259,16 +279,17 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     }
 
     private void DuplicateBlocks(List<GameObject> selectedObjects) {
+        bool queueToRebuild = false;
         for (int i = 0; i < selectedObjects.Count; i++) {
-            for (int j = 0; j < gridTiles.Count; j++) {
-                GridTile tile = gridTiles[j];
-                if (tile.IsEither(selectedObjects[i])) {
-                    tile.IsActive = true;
-                    PLEBlockUnit blockUnit = tile.realTile.GetComponent<PLEBlockUnit>();
-                    blockUnit.SetOccupation(false);
-                    break;
-                }
-            };
+            GridTile selectedTile = gridTiles.Find(tile => tile.ghostTile == selectedObjects[i]);
+            if (selectedTile != null) {
+                selectedTile.IsActive = true;
+                selectedTile.blockUnit.SetOccupation(false);
+                queueToRebuild = true;
+            }
+        }
+        if (queueToRebuild) {
+            QueueToBakeNavMesh();
         }
     }
 
@@ -278,21 +299,22 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     }
 
     private void DeleteBlocks(List<GameObject> selectedObjects) {
+        bool queueToRebuild = false;
         for (int i = 0; i < selectedObjects.Count; i++) {
-            for (int j = 0; j < gridTiles.Count; j++) {
-                GridTile tile = gridTiles[j];
-                if (tile.IsEither(selectedObjects[i])) {
-                    tile.IsActive = false;
-                    PLEBlockUnit blockUnit = tile.realTile.GetComponent<PLEBlockUnit>();
-                    blockUnit.ClearItems();
-                    break;
-                }
+            GridTile selectedTile = gridTiles.Find(tile => tile.realTile == selectedObjects[i]);
+            if (selectedTile!=null) {
+                selectedTile.IsActive = false;
+                selectedTile.blockUnit.ClearItems();
+                queueToRebuild = true;
             }
+        }
+        if (queueToRebuild) {
+            QueueToBakeNavMesh();
         }
     }
 
     private void DeselectBlocks() {
-        selectedGameObjects.Clear();
+        selectedGridTiles.Clear();
         lastSelectedGameObjects.Clear();
         gridTiles.ForEach(tile => {
             tile.ChangeColor(tile.CurrentTileStateColor);
@@ -301,7 +323,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     }
 
     private void ReselectPreviouslySelected() {
-        selectedGameObjects.Clear();
+        selectedGridTiles.Clear();
         gridTiles.ForEach(tile => {
             tile.ChangeColor(tile.CurrentTileStateColor);
             tile.SetSelected(false);
@@ -312,7 +334,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
                 if (lastList.Contains(tile.realTile)) {
                     tile.ChangeColor(selectedColor);
                     tile.SetSelected(true);
-                    selectedGameObjects.Add(tile.realTile);
+                    selectedGridTiles.Add(tile);
                 }
             });
         });
@@ -326,15 +348,15 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
                 if (lastSelectedGameObjects.Exists(lastList => lastList.Contains(tile.realTile))) {
                     tile.ChangeColor(tile.CurrentTileStateColor);
                     tile.SetSelected(false);
-                    if (selectedGameObjects.Contains(tile.realTile)) {
-                        selectedGameObjects.Remove(tile.realTile);
+                    if (selectedGridTiles.Contains(tile)) {
+                        selectedGridTiles.Remove(tile);
                     }
                 }
                 else {
                     tile.ChangeColor(selectionColor);
                     tile.SetSelected(true);
-                    if (!selectedGameObjects.Contains(tile.realTile)) {
-                        selectedGameObjects.Add(tile.realTile);
+                    if (!selectedGridTiles.Contains(tile)) {
+                        selectedGridTiles.Add(tile);
                     }
                 }
             }
@@ -343,12 +365,16 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
 
     private void ToggleLastSelectedObjects(RaycastHit hit) {
         List<GameObject> selectedObjects = SelectObjectsAlgorithm(hit);
+
+
         for (int i = lastSelectedGameObjects.Count - 1; i >= 0; i--) {
             for (int j = selectedObjects.Count - 1; j >= 0; j--) {
                 if (lastSelectedGameObjects[i].Contains(selectedObjects[j])) {
-                    GridTile selectedTile = gridTiles.Find(tile => { return tile.realTile == selectedObjects[j]; });
-                    selectedTile.ChangeColor(selectedTile.CurrentTileStateColor);
-                    selectedTile.SetSelected(false);
+                    GridTile selectedTile = gridTiles.Find(tile => tile.realTile == selectedObjects[j]);
+                    if (selectedTile!=null) {
+                        selectedTile.ChangeColor(selectedTile.CurrentTileStateColor);
+                        selectedTile.SetSelected(false);
+                    }
                     lastSelectedGameObjects[i].Remove(selectedObjects[j]);
                     selectedObjects.Remove(selectedObjects[j]);
                 }
@@ -412,7 +438,6 @@ public class GridTile {
         realTile = real;
         ghostTile = ghost;
         Position = position;
-        IsActive = false;
 
         this.ghostParent = ghostParent;
         this.tileParent = tileParent;
@@ -427,6 +452,8 @@ public class GridTile {
         wall_E.transform.SetParent(ghostParent);
         wall_W.transform.SetParent(ghostParent);
         wall_S.transform.SetParent(ghostParent);
+
+        IsActive = false;
     }
     public const string BlockColorName = "_AlbedoTint";
     //private const string BlockColor = "_Color";
@@ -434,8 +461,8 @@ public class GridTile {
     Transform ghostParent, tileParent;
     MeshRenderer meshRenderer;
     MaterialPropertyBlock propBlock = new MaterialPropertyBlock();
-    LevelUnit levelUnit;
-    PLEBlockUnit blockUnit;
+    public LevelUnit levelUnit;
+    public PLEBlockUnit blockUnit;
     public GameObject realTile;
     public GameObject ghostTile;
     public GameObject wall_N, wall_E, wall_W, wall_S;
@@ -443,9 +470,12 @@ public class GridTile {
     public Vector3 Position { get { return realTile.transform.position; } set { realTile.transform.position = value; ghostTile.transform.position = value; } }
     public bool IsEither(GameObject other) { return realTile == other || ghostTile == other; }
     public bool IsActive {
-        get { return realTile.activeSelf; }
+        get { return realTile.activeInHierarchy; }
         set {
             bool isActive = value;
+            if (!isActive) {
+                levelUnit.HideBlockingObject();
+            }
             realTile.SetActive(isActive);
             ghostTile.SetActive(!isActive);
             Transform newParent = isActive ? tileParent : ghostParent;

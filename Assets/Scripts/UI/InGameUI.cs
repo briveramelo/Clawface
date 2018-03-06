@@ -112,7 +112,7 @@ public class InGameUI : MonoBehaviour {
     {
         float health = (float)i_healthVal[0];
         Assert.IsTrue(health >= 0.0F && health <= 1.0F);
-        healthMask.localScale = new Vector3(health, 1.0F, 1.0F);
+        //healthMask.localScale = new Vector3(health, 1.0F, 1.0F);
         float healthBarScale;
         if (health == 0) //acounts for NaN cases...
         {
@@ -120,7 +120,8 @@ public class InGameUI : MonoBehaviour {
         }
         else
         {
-            healthBarScale = 1 / health;
+            //healthBarScale = 1.0f / health;
+            healthBarScale = health;
         }
         healthBar.localScale = new Vector3(healthBarScale, healthBar.localScale.y, healthBar.localScale.z);
     }
@@ -166,9 +167,9 @@ public class InGameUI : MonoBehaviour {
         while (scale.x > 0f)
         {
             scale = newDeltaGO.transform.localScale;
-            scale.x -= Time.fixedDeltaTime / modifier;
-            scale.y -= Time.fixedDeltaTime / modifier;
-            scale.z -= Time.fixedDeltaTime / modifier;
+            scale.x -= Time.deltaTime / modifier;
+            scale.y -= Time.deltaTime / modifier;
+            scale.z -= Time.deltaTime / modifier;
             newDeltaGO.transform.localScale = scale;
             yield return new WaitForEndOfFrame();            
         }

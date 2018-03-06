@@ -45,7 +45,6 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     private int id;
     private bool ragdollOn;
     private float currentStunTime = 0.0f;
-    private int bufferHealth = 3;
     private Vector3 spawnPosition;
     #endregion
 
@@ -140,7 +139,6 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
 
             if (myStats.health <= 0 || myStats.health <= myStats.skinnableHealth)
             {
-                myStats.health = bufferHealth;
                 alreadyStunned = true;
             }
         }
@@ -216,7 +214,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
 
         hitFlasher.StopAllCoroutines();
         hitFlasher.SetStrength(0.0f);
-        controller.SetDefaultState();
+        controller.SetDefaultChaseState();
         controller.ActivateAI();
         currentStunTime = 0.0f;
     }
@@ -278,7 +276,6 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         isStunFlashing = false;
         alreadyStunned = false;
         isIndestructable = false;
-
     }
 
     public virtual void DisableStateResidue()

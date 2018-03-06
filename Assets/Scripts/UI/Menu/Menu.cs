@@ -6,16 +6,18 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public abstract class Menu : MonoBehaviour {
+public abstract class Menu : RoutineRunner {
 
     #region Properties
     private string menuName;
+    protected UnityEngine.EventSystems.EventSystem CurrentEventSystem {get{ return UnityEngine.EventSystems.EventSystem.current; } }
+    protected GameObject CurrentEventSystemGameObject { get { return CurrentEventSystem.currentSelectedGameObject; } }
     public string MenuName
     {
         get { return menuName; }
     }
 
-    public abstract Button InitialSelection
+    public abstract Selectable InitialSelection
     {
         get;
     }
@@ -42,6 +44,18 @@ public abstract class Menu : MonoBehaviour {
             return canvasGroup;
         }
     }
+    #endregion
+
+    #region Accessors (Protected)
+
+    protected float FaderDuration
+    {
+        get
+        {
+            return faderDuration;
+        }
+    }
+
     #endregion
 
     #region Serialized Unity Fields

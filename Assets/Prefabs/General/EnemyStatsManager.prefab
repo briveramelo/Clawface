@@ -53,8 +53,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shouldRegister: 1
   blasterStats:
-    health: 14
-    maxHealth: 14
+    health: 12
+    maxHealth: 12
     skinnableHealth: 1
     attack: 3
     speed: 8
@@ -67,11 +67,11 @@ MonoBehaviour:
     closeEnoughToFireDistance: 13
     maxToleranceTime: 4
     bulletLiveTime: 5
-    bulletSpeed: 20
+    bulletSpeed: 12
     animationShootSpeed: 2
   blasterShotgunStats:
-    health: 16
-    maxHealth: 16
+    health: 15
+    maxHealth: 15
     skinnableHealth: 1
     attack: 3
     speed: 15
@@ -81,10 +81,10 @@ MonoBehaviour:
     scoreValue: 400
     eatHealth: 1
     stunnedTime: 3
-    closeEnoughToFireDistance: 8
+    closeEnoughToFireDistance: 4
     maxToleranceTime: 4
     separationFromForwardVector: -26
-    bulletSpeed: 4
+    bulletSpeed: 3
     bulletDamage: 5
     rateOfFire: 1.6
     bulletOffsetFromOrigin: 2
@@ -92,7 +92,7 @@ MonoBehaviour:
     separationAngleBetweenStrands: 12
     rotationDirection: 0
     rotationSpeedBulletHellController: 0
-    bulletLiveTime: 4
+    bulletLiveTime: 3
     animationDriven: 1
     animationShootSpeed: 1
   blasterReanimatorStats:
@@ -124,8 +124,8 @@ MonoBehaviour:
     closeEnoughToAttackDistance: 3
     animationAttackSpeed: 1
   zombieBeserkerStats:
-    health: 14
-    maxHealth: 14
+    health: 15
+    maxHealth: 15
     skinnableHealth: 1
     attack: 3
     speed: 16
@@ -138,8 +138,8 @@ MonoBehaviour:
     closeEnoughToAttackDistance: 2.5
     animationAttackSpeed: 1
   zombieAciderStats:
-    health: 17
-    maxHealth: 17
+    health: 18
+    maxHealth: 18
     skinnableHealth: 1
     attack: 3
     speed: 16
@@ -156,8 +156,8 @@ MonoBehaviour:
     colliderGenerationTime: 0.05
     acidTriggerLife: 4
   kamikazeStats:
-    health: 10
-    maxHealth: 10
+    health: 8
+    maxHealth: 8
     skinnableHealth: 1
     attack: 3
     speed: 30
@@ -171,8 +171,8 @@ MonoBehaviour:
     selfDestructTime: 0.75
     blastRadius: 15
   kamikazePulserStats:
-    health: 12
-    maxHealth: 12
+    health: 11
+    maxHealth: 11
     skinnableHealth: 1
     attack: 3
     speed: 30
@@ -184,9 +184,10 @@ MonoBehaviour:
     stunnedTime: 3
     closeEnoughToAttackDistance: 5
     maxPulses: 1
-    pulseRate: 4
+    pulseRate: 2
     scaleRate: 0.6
-    maxScale: 4.5
+    maxScale: 6
+    waitTimeAfterAttack: 2.01
   kamikazeMommyStats:
     health: 50
     maxHealth: 50
@@ -222,7 +223,7 @@ MonoBehaviour:
     rotationSpeed: 0
     rotate: 0
     separationFromForwardVector: 0
-    bulletSpeed: 10
+    bulletSpeed: 8
     bulletDamage: 20.2
     rateOfFire: 0.6
     bulletOffsetFromOrigin: 2.5
@@ -275,21 +276,21 @@ MonoBehaviour:
     scoreValue: 1000
     eatHealth: 2
     stunnedTime: 4
-    maxBounces: 2
+    maxBounces: 3
     minBounces: 1
-    maxShots: 66
-    minShots: 76
-    rotationSpeed: 85
+    maxShots: 80
+    minShots: 60
+    rotationSpeed: 90
     rotate: 1
     separationFromForwardVector: 0
-    bulletSpeed: 10
-    bulletDamage: 20.2
-    rateOfFire: 0.6
-    bulletOffsetFromOrigin: 2.5
-    bulletStrands: 6
-    separationAngleBetweenStrands: 60
+    bulletSpeed: 4
+    bulletDamage: 3
+    rateOfFire: 0
+    bulletOffsetFromOrigin: 3
+    bulletStrands: 4
+    separationAngleBetweenStrands: 90
     rotationDirection: 0
-    rotationSpeedBulletHellController: 0
-    bulletLiveTime: 5
+    rotationSpeedBulletHellController: 8
+    bulletLiveTime: 16
     animationDriven: 1
     animationShootSpeed: 1

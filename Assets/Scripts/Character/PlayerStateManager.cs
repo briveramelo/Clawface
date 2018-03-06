@@ -210,7 +210,8 @@ public class PlayerStateManager : RoutineRunner {
 
     private void OnEnemyDeathByEating(object[] parameters)
     {
-        playerOutline.SetActive(false);
+        if(playerOutline)
+            playerOutline.SetActive(false);
     }
     #endregion
 
@@ -256,7 +257,7 @@ public class PlayerStateManager : RoutineRunner {
 
     private void StartTutorial()
     {
-        if (!isTutorialDone && !isInTutorial)
+        if (SettingsManager.Instance.Tutorial && !isTutorialDone && !isInTutorial)
         {
             isInTutorial = true;
             EventSystem.Instance.TriggerEvent(Strings.Events.ENEMY_INVINCIBLE, true);
@@ -269,7 +270,7 @@ public class PlayerStateManager : RoutineRunner {
 
     private void StartDashTutorial()
     {
-        if (!isDashTutorialDone && !isInDashTutorial)
+        if (SettingsManager.Instance.Tutorial && !isDashTutorialDone && !isInDashTutorial)
         {
             isInDashTutorial = true;
             EventSystem.Instance.TriggerEvent(Strings.Events.ENEMY_INVINCIBLE, true);

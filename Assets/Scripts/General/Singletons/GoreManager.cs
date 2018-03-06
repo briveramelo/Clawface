@@ -130,7 +130,7 @@ public class GoreManager : Singleton<GoreManager> {
                 hitSphere.GetComponent<Collider>().enabled = false;
             }
             #endif
-            
+
             SplatSO randomSplat = splats[Random.Range(0, splats.Length - 1)];             
             foreach (RaycastHit hit in collided) {
                 Collider collider = hit.collider;

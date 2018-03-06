@@ -33,7 +33,9 @@ public class PlayerSpawner : MonoBehaviour
     void Start()
     {
         camera = GetComponentInChildren<Camera>();
-        camera.enabled = false;
+        if (camera) {
+            camera.enabled = false;
+        }
 
         SpawnPlayerPrefab();
 

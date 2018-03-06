@@ -6,6 +6,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System;
 
 public class LoadMenu : Menu {
 
@@ -14,13 +15,14 @@ public class LoadMenu : Menu {
     #endregion
 
     #region Public Fields
-    public string TargetScene
+    private System.Action onCompleteSceneLoad;
+    public string TargetSceneName
     {
         get
         {
             return target;
         }
-        set
+        private set
         {
             target = value;            
         }
@@ -37,7 +39,7 @@ public class LoadMenu : Menu {
         }
     }
 
-    public override Button InitialSelection
+    public override Selectable InitialSelection
     {
         get
         {
@@ -52,6 +54,17 @@ public class LoadMenu : Menu {
     private Scrollbar loadingBar;
     [SerializeField]
     private Text loadingText;
+
+    [Header("Text Strings")]
+    [SerializeField]
+    private string loading = "L O A D I N G";
+
+    [SerializeField]
+    private string ready = "P R E S S   T O   E X E C U T E";
+
+    [SerializeField]
+    private string starting = "S T A R T I N G"
+        ;
     #endregion
 
     #region Private Fields
@@ -66,7 +79,7 @@ public class LoadMenu : Menu {
     {
         base.Start();
 
-        target = SceneManager.GetActiveScene().name;        
+        target = SceneTracker.CurrentSceneName;        
 
     }
     void Update()
@@ -75,20 +88,20 @@ public class LoadMenu : Menu {
         {
             fast = false;
             loaded = false;
-            loadingText.text = "Starting...";
+            loadingText.text = starting;
             MenuManager.Instance.DoTransition(this, Transition.HIDE, new Effect[] { });
             SpawnManager.spawnersLocked = false;
-
-            if (target == Strings.Scenes.Editor)
-            {
-                EventSystem.Instance.TriggerEvent(Strings.Events.INIT_EDITOR, null);
-            }
         }
     }
     #endregion
 
     #region Public Interface
     public LoadMenu() : base(Strings.MenuStrings.LOAD) {}
+
+    public void SetNavigation(string targetSceneName, Action onCompleteSceneLoad=null) {
+        TargetSceneName = targetSceneName;
+        this.onCompleteSceneLoad = onCompleteSceneLoad;
+    }
     #endregion
 
     #region Protected Interface
@@ -112,7 +125,7 @@ public class LoadMenu : Menu {
     {
         base.HideComplete();
         loadingBar.size = 0.0F;
-        loadingText.text = "Loading";
+        loadingText.text = loading;
     }
 
     #endregion
@@ -137,10 +150,12 @@ public class LoadMenu : Menu {
         Shader.WarmupAllShaders();
 
         loadingBar.size = 1.0F;
-        loadingText.text = "Press any key to continue...";
+        loadingText.text = ready;
         loaded = true;
-        
-
+        EventSystem.Instance.TriggerEvent(Strings.Events.SCENE_LOADED);
+        if (onCompleteSceneLoad!=null) {
+            onCompleteSceneLoad();
+        }
     }
 
     #endregion
