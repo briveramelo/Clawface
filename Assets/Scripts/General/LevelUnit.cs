@@ -45,7 +45,7 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
     private Splattable splattable;
     private static string[] masks = { Strings.Layers.ENEMY, Strings.Layers.ENEMY_BODY, Strings.Layers.MODMAN };
     #endregion
-
+    
     #region serialized fields
     [SerializeField] private List<string> coverStateEvents = new List<string>();
     [SerializeField] private List<string> floorStateEvents = new List<string>();
@@ -110,7 +110,6 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
     #endregion
 
     #region Public Interface
-    #region public functions
     public Color RiseColor { get { return riseColor; } }
     public Color FlatColor { get { return flatColor; } }
     public Color FallColor { get { return fallColor; } }
@@ -189,15 +188,15 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
         TryTransitionToState(LevelUnitStates.Pit, Texture2D.blackTexture, wasToldToChangeColor);
     }
 
-    #endregion
-    #endregion
-
-    #region Private Interface
-
-    private void TransitionToWave(params object[] parameters) {
+    public void TransitionToWave(params object[] parameters)
+    {
         int currentWaveIndex = (int)parameters[0];
         TryTransitionToState(levelUnitStates[currentWaveIndex], true);
     }
+    
+    #endregion
+
+    #region Private Interface
     private bool CanTransition { get { return !Physics.CheckBox(transform.position, Vector3.one * 0.5f, Quaternion.identity, LayerMask.GetMask(masks)); } }            
 
     private void TryUnRegister(ref List<string> eventNames, string eventName, EventSystem.FunctionPrototype func) {

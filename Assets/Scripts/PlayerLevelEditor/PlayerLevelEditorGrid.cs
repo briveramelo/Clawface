@@ -24,9 +24,9 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
 
     #region Unity Serialized Fields
 
-    [SerializeField] private GameObject objectGrid;
-    [SerializeField] private GameObject realLevel;
-    [SerializeField] private GameObject tileParent;
+    [SerializeField] private Transform objectGrid;
+    [SerializeField] private Transform tileParent;
+    [SerializeField] private Transform spawnsParent;
     [SerializeField] private GameObject wallPrefab;
     [SerializeField] private int levelSize = 5;
     [SerializeField] private Color hoverColor = Color.blue;
@@ -121,8 +121,19 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     private void CheckToBakeMesh(params object[] i_params)
     {
         if (needsToBuildMesh) {
-            //optimization ideas https://forum.unity.com/threads/navmeshes-very-slow-generation.116741/
+            
+            spawnsParent.gameObject.SetActive(false);
+
+            gridTiles.ForEach(tile => {
+                if (tile.IsActive)
+                {
+                    tile.blockUnit.UpdateTileHeightStates();
+                    tile.ResetHeight();
+                    tile.levelUnit.TransitionToWave(0);
+                }
+            });
             levelNav.BuildNavMesh();
+            spawnsParent.gameObject.SetActive(true);
             needsToBuildMesh = false;
         }
     }
@@ -267,7 +278,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         GameObject wall_W = GameObject.Instantiate(wallPrefab, position + Vector3.up * 5f + Vector3.left * 2.5f, Quaternion.Euler(0f, 270f, 0f));
         GameObject wall_S = GameObject.Instantiate(wallPrefab, position + Vector3.up * 5f + Vector3.back * 2.5f, Quaternion.Euler(0f, 180f, 0f));
 
-        GridTile tile = new GridTile(realBlock, ghostBlock, position, objectGrid.transform, tileParent.transform, wall_N, wall_E, wall_W, wall_S);
+        GridTile tile = new GridTile(realBlock, ghostBlock, position, objectGrid, tileParent, wall_N, wall_E, wall_W, wall_S);
         gridTiles.Add(tile);
     }
 
@@ -522,5 +533,11 @@ public class GridTile {
         wall_E.SetActive(IsActive && !blockEast);
         wall_W.SetActive(IsActive && !blockWest);
         wall_S.SetActive(IsActive && !blockSouth);
+    }
+
+    public void ResetHeight()
+    {
+        realTile.transform.position = realTile.transform.position.NoY();
+        levelUnit.HideBlockingObject();
     }
 }
