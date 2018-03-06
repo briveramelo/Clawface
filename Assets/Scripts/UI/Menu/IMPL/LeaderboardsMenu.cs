@@ -5,19 +5,23 @@ using UnityEngine.UI;
 
 public class LeaderboardsMenu : Menu
 {
-    #region Public methods
-    public override Button InitialSelection
-    {
-        get
-        {
-            throw new System.NotImplementedException();
-        }
-    }
+    #region Serialized fields
+    [SerializeField]
+    private Button allTimeButton;
     #endregion
 
     #region Public Interface
-    public LeaderboardsMenu() : base(Strings.MenuStrings.LEADER_BOARDS) { }
+    public LeaderboardsMenu(string name) : base(name)
+    {
+    }
 
+    public override Selectable InitialSelection
+    {
+        get
+        {
+            return allTimeButton;
+        }
+    }
     #endregion
     #region protected methods
     protected override void DefaultHide(Transition transition, Effect[] effects)
