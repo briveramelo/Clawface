@@ -45,7 +45,6 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     private int id;
     private bool ragdollOn;
     private float currentStunTime = 0.0f;
-    private int bufferHealth = 3;
     private Vector3 spawnPosition;
     #endregion
 
@@ -140,7 +139,6 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
 
             if (myStats.health <= 0 || myStats.health <= myStats.skinnableHealth)
             {
-                myStats.health = bufferHealth;
                 alreadyStunned = true;
             }
         }
@@ -254,12 +252,12 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
             gameObject.SetActive(false);
             aboutTobeEaten = false;
             SFXManager.Instance.Play(deathSFX, transform.position);
-            AIEnemyData testData = new AIEnemyData(controller.GetInstanceID());
+            //AIEnemyData testData = new AIEnemyData(controller.GetInstanceID());
             currentStunTime = 0.0f;
-            if (AIManager.Instance != null)
-            {
-                AIManager.Instance.Remove(testData);
-            }
+            //if (AIManager.Instance != null)
+            //{
+            //    AIManager.Instance.Remove(testData);
+            //}
             ClearAffecters();
         }
     }

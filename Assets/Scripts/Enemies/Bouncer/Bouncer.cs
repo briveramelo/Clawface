@@ -61,7 +61,7 @@ public class Bouncer : EnemyBase
             fire.animatorSpeed = EnemyStatsManager.Instance.greenBouncerStats.animationShootSpeed;
         }
 
-            controller.Initialize(properties, velBody, animator, myStats, navAgent, navObstacle, bulletPatternController, aiStates);
+        controller.Initialize(properties, velBody, animator, myStats, navAgent, navObstacle, bulletPatternController, aiStates);
         damaged.Set(DamagedType.MallCop, bloodEmissionLocation);
 
         controller.checksToUpdateState = new List<Func<bool>>() {
@@ -98,7 +98,7 @@ public class Bouncer : EnemyBase
                 controller.DeActivateAI();
             }
 
-            if (fire.DoneFiring())
+            else if (fire.DoneFiring())
             {
                 controller.UpdateState(EAIState.Chase);
             }
