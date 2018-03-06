@@ -29,6 +29,11 @@ public class LeaderBoards : Singleton<LeaderBoards> {
     #endregion
 
     #region Public Methods
+    public bool GetLeaderBoardData(GenericSteamLeaderBoard.ResultsCallBack callBackFunction, int numberOfEntries)
+    {
+        return GetLeaderBoardData(LeaderBoardType.ALL_TIME, callBackFunction, numberOfEntries);
+    }
+
     public bool GetLeaderBoardData(LeaderBoardType type, GenericSteamLeaderBoard.ResultsCallBack callBackFunction, int numberOfEntries)
     {
         bool result = false;
@@ -53,8 +58,8 @@ public class LeaderBoards : Singleton<LeaderBoards> {
     {
         bool result = false;
         result = allTimeLeaderBoard.UpdateLeaderBoard(score);
-        result = result && weeklyLeaderBoard.UpdateLeaderBoard(score);
-        result = result && dailyLeaderBoard.UpdateLeaderBoard(score);
+        //result = result && weeklyLeaderBoard.UpdateLeaderBoard(score);
+        //result = result && dailyLeaderBoard.UpdateLeaderBoard(score);
         return result;
     }
     #endregion
