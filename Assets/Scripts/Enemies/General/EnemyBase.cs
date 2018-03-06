@@ -82,7 +82,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         {
             currentStunTime += Time.deltaTime;
 
-            if (currentStunTime > stunnedTime)
+            if (currentStunTime > stunnedTime && !isIndestructable)
             {
                 OnDeath();
             }
