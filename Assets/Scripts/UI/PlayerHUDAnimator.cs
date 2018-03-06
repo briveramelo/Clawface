@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class PlayerHUDAnimator : MonoBehaviour
 {
+    const float BOUNCE_THRESHOLD = 0.1f;
+
     [SerializeField]
     RectTransform combo;
     [SerializeField]
@@ -118,7 +120,7 @@ public class PlayerHUDAnimator : MonoBehaviour
             yield return null;
         }
 
-        if (multiplier > 0.01f)
+        if (multiplier >= BOUNCE_THRESHOLD)
             yield return DoBounce(tr, settings, multiplier * settings.bounciness);
     }
 
