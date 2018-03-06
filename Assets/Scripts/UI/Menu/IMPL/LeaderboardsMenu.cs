@@ -11,9 +11,7 @@ public class LeaderboardsMenu : Menu
     #endregion
 
     #region Public Interface
-    public LeaderboardsMenu(string name) : base(name)
-    {
-    }
+    public LeaderboardsMenu() : base(Strings.MenuStrings.LEADER_BOARDS) { }
 
     public override Selectable InitialSelection
     {
