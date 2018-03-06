@@ -165,9 +165,9 @@ public class InGameUI : MonoBehaviour {
         while (scale.x > 0f)
         {
             scale = newDeltaGO.transform.localScale;
-            scale.x -= Time.fixedDeltaTime / modifier;
-            scale.y -= Time.fixedDeltaTime / modifier;
-            scale.z -= Time.fixedDeltaTime / modifier;
+            scale.x -= Time.deltaTime / modifier;
+            scale.y -= Time.deltaTime / modifier;
+            scale.z -= Time.deltaTime / modifier;
             newDeltaGO.transform.localScale = scale;
             yield return new WaitForEndOfFrame();            
         }
