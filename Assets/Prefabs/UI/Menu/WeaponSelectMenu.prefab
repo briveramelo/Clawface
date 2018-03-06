@@ -8049,7 +8049,11 @@ MonoBehaviour:
   queryActionEverySeconds: 0.3
   weaponNameText: {fileID: 114027298136550322}
   weaponDescriptionText: {fileID: 0}
-  weaponGraph: {fileID: 0}
+  weaponGraphic: {fileID: 114834123599515006}
+  damageBar: {fileID: 114810029798459002}
+  rangeBar: {fileID: 114536443583294350}
+  rofBar: {fileID: 114123246335736058}
+  difficultyBar: {fileID: 114401392987418920}
   weaponInfos:
   - {fileID: 11400000, guid: f10d4369da982c34c97c96a9d8d5a71a, type: 2}
   - {fileID: 11400000, guid: f6ff10826cd94e04e929414084c70be8, type: 2}
@@ -9148,7 +9152,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.93333334, g: 0.9411765, b: 0.47843137, a: 1}
   m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
