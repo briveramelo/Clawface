@@ -82,7 +82,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         {
             currentStunTime += Time.deltaTime;
 
-            if (currentStunTime > stunnedTime)
+            if (currentStunTime > stunnedTime && !isIndestructable)
             {
                 OnDeath();
             }
@@ -138,16 +138,10 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
             GameObject blood = ObjectPool.Instance.GetObject(PoolObjectType.VFXBloodSpurt);
             if (blood) blood.transform.position = transform.position;
 
-            if (myStats.health <= 0)
+            if (myStats.health <= 0 || myStats.health <= myStats.skinnableHealth)
             {
                 myStats.health = bufferHealth;
-            }
-
-
-            if (myStats.health <= myStats.skinnableHealth)
-            {
-                    myStats.health = bufferHealth;
-                    alreadyStunned = true;
+                alreadyStunned = true;
             }
         }
 

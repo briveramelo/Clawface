@@ -44,6 +44,8 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     float lastSkinHealthBoost;
     HitFlasher hitFlasher;
     private float invincibleTimer;
+
+    bool gotDashComboThisFrame;
     #endregion
 
     #region Unity Lifecycle
@@ -58,6 +60,7 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     void Update()
     {
         invincibleTimer -= Time.deltaTime;
+        gotDashComboThisFrame = false;
     }
 	
     #endregion
@@ -77,8 +80,9 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
 
         if (dashState.CheckForIFrames())
         {
-            if (dashState.CheckIfDashGivesCombo())
+            if (dashState.CheckIfDashGivesCombo() && !gotDashComboThisFrame)
             {
+                gotDashComboThisFrame = true;
                 ScoreManager.Instance.AddToCombo();
             }
             return;

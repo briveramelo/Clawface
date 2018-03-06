@@ -94,7 +94,7 @@ public class DashState : IPlayerState {
         dashComboTimer += Time.deltaTime;
         PlayAnimation();
         MovePlayer();
-        PushEnemies();
+        //PushEnemies();
 
         if (dashTimer >= totalDashTime) ResetState();
     }
