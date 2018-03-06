@@ -132,7 +132,6 @@ namespace Turing.VFX
         /// </summary>
         public void SetStunnedState ()
         {
-            Debug.Log("SetStunnedState");
             flashInterval = stunnedFlashInterval;
             StopAllCoroutines();
             if (gameObject.activeInHierarchy)
@@ -160,7 +159,6 @@ namespace Turing.VFX
 
         public void SetCloseToEatState()
         {
-            Debug.Log("SetCloseToEat");
             flashInterval = proximityFlashInterval;
             StopAllCoroutines();
             if (gameObject.activeInHierarchy)

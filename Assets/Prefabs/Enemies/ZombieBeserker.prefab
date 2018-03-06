@@ -2185,6 +2185,7 @@ MonoBehaviour:
     pulseRate: 0
     scaleRate: 0
     maxScale: 0
+    spawnRate: 0
   tentacle: {fileID: 114718370040682812}
 --- !u!114 &114542147718135064
 MonoBehaviour:
@@ -2250,6 +2251,7 @@ MonoBehaviour:
   zombieBeserkerParent: {fileID: 114526479287558800}
   zombieAciderParent: {fileID: 0}
   childCollider: {fileID: 136605771835953142}
+  swingSound: 24
 --- !u!114 &114814501131977724
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3100,7 +3102,7 @@ NavMeshAgent:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1272387688406716}
-  m_Enabled: 1
+  m_Enabled: 0
   m_AgentTypeID: 0
   m_Radius: 1.49
   m_Speed: 6

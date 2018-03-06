@@ -12,6 +12,7 @@ public class GeyserFissure : MonoBehaviour {
     [SerializeField] FishEmitter fishEmitter;
     [SerializeField] private PoolObjectType enemyImpactEffect;
     [SerializeField] private PoolObjectType wallImpactEffect;
+    [SerializeField] private float scaleUpTime = 0.5f;
 
     private List<Transform> hitEnemies;
     TrailRenderer[] trails;
@@ -50,7 +51,6 @@ public class GeyserFissure : MonoBehaviour {
     { 
         if (other.CompareTag(Strings.Tags.ENEMY))
         {
-
             IDamageable damageable = other.GetComponent<IDamageable>();
 
             if (damageable != null && !hitEnemies.Contains(other.transform))
@@ -81,15 +81,14 @@ public class GeyserFissure : MonoBehaviour {
     IEnumerator ScaleUp ()
     {
         Vector3 originalScale = Vector3.one;
-        Vector3 scale = Vector3.zero;
-        effect.localScale = scale;
+        effect.localScale = Vector3.zero;
 
-        Vector3 dScale = originalScale / 30.0f;
-        for (int i = 0; i < 30; i++)
+        float t = 0.0f;
+        while (t < 1.0f)
         {
-            scale += dScale;
-            effect.localScale = scale;
-            //Debug.Log (scale);
+            t += Time.deltaTime * Time.timeScale;
+
+            effect.localScale = Vector3.Lerp(Vector3.zero, originalScale, t);
 
             yield return null;
         }

@@ -14,6 +14,7 @@ public class InGameUI : MonoBehaviour {
     [SerializeField] private Text onScreenCombo;
     [SerializeField] private float comboOnScreenTime = 2.0f;
     [SerializeField] private Image comboTimer;
+    [SerializeField] private Animation comboAnimation;
 
     [Header("Score")]
     [SerializeField] private Text onScreenScore;
@@ -111,7 +112,7 @@ public class InGameUI : MonoBehaviour {
     {
         float health = (float)i_healthVal[0];
         Assert.IsTrue(health >= 0.0F && health <= 1.0F);
-        healthMask.localScale = new Vector3(health, 1.0F, 1.0F);
+        //healthMask.localScale = new Vector3(health, 1.0F, 1.0F);
         float healthBarScale;
         if (health == 0) //acounts for NaN cases...
         {
@@ -119,9 +120,10 @@ public class InGameUI : MonoBehaviour {
         }
         else
         {
-            healthBarScale = 1 / health;
+            //healthBarScale = 1.0f / health;
+            healthBarScale = health;
         }
-        healthBar.localScale = new Vector3(healthBarScale, 1.0F, 1.0F);
+        healthBar.localScale = new Vector3(healthBarScale, healthBar.localScale.y, healthBar.localScale.z);
     }
     #endregion
 
@@ -228,6 +230,7 @@ public class InGameUI : MonoBehaviour {
         if ((int)currentCombo[0] > 0)
         {
             onScreenCombo.text = "x " + currentCombo[0].ToString();
+            comboAnimation.Play();
         }
         else
         {

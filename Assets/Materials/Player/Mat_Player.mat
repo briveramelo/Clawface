@@ -7,12 +7,12 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Mat_Player
-  m_Shader: {fileID: 4800000, guid: 90e875139871e324280050b9dde66503, type: 3}
+  m_Shader: {fileID: 4800000, guid: eeb911d39efd15746ba5a392a6fa14c9, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2998
+  m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -96,6 +96,7 @@ Material:
     - _NoiseSize: 0.2
     - _NoiseSpeed: 1.55
     - _OcclusionStrength: 1
+    - _Opacity: 1
     - _Parallax: 0.02
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -106,13 +107,13 @@ Material:
     - _ZWrite: 1
     - __dirty: 1
     m_Colors:
-    - _ASEOutlineColor: {r: 0.3372549, g: 0, b: 0.91764706, a: 1}
+    - _ASEOutlineColor: {r: 0.9960785, g: 0.24313727, b: 0.654902, a: 1}
     - _AlbedoTint: {r: 1, g: 1, b: 1, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Color1: {r: 0.5, g: 0.54482746, b: 1, a: 0}
     - _Color2: {r: 0.022058845, g: 0.43346828, b: 1, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _EmissiveColor: {r: 1, g: 1, b: 1, a: 0}
+    - _EmissiveColor: {r: 0.6066176, g: 0.9705882, b: 0.8952839, a: 0}
     - _FaceColor: {r: 1, g: 1, b: 1, a: 0}
-    - _HitColor: {r: 1, g: 0, b: 0, a: 0}
+    - _HitColor: {r: 1, g: 0.2689655, b: 0, a: 0}
     - _XrayColor: {r: 0.30980393, g: 0.44313726, b: 0.93333334, a: 0}

@@ -6,37 +6,36 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class PauseMenu : Menu
-{
+public class PauseMenu : Menu {
 
-	#region Public Fields
+    #region Public Fields
 
-	public override Selectable InitialSelection {
-		get {
-			return initiallySelected;
-		}
-	}
+    public override Selectable InitialSelection {
+        get {
+            return initiallySelected;
+        }
+    }
 
-	public bool CanPause {
-		get {
-			return canPause;
-		}
-		set {
-			canPause = value;
-		}
-	}
+    public bool CanPause {
+        get {
+            return canPause;
+        }
+        set {
+            canPause = value;
+        }
+    }
 
-	#endregion
+    #endregion
 
-	#region Serialized Unity Fields
+    #region Serialized Unity Fields
 
-	[SerializeField]
-	private Button initiallySelected;
+    [SerializeField]
+    private Button initiallySelected;
 
-	#endregion
+    #endregion
 
-	#region Private Fields
-
+    #region Private Fields
+    public bool IsPaused{ get { return paused; } }
 	private bool paused = false;
 	private bool canPause = true;
     // used to indicate the game is in a level and "can pause"

@@ -141,10 +141,9 @@ public class Zombie : EnemyBase
     {
         if (myStats.health > myStats.skinnableHealth)
         {
-            animator.SetTrigger("DoVictoryDance");
+            animator.SetInteger("AnimationState", -1);
             controller.CurrentState = celebrate;
             controller.UpdateState(EAIState.Celebrate);
-            animator.SetInteger("AnimationState", -1);
         }
     }
 
@@ -173,7 +172,7 @@ public class Zombie : EnemyBase
             }
             currentHitReactionLayerWeight = 1.0f;
             animator.SetLayerWeight(1, currentHitReactionLayerWeight);
-            Timing.RunCoroutine(HitReactionLerp(), coroutineName);
+            StartCoroutine(HitReactionLerp());
         }
         base.DoHitReaction(damager);
     }

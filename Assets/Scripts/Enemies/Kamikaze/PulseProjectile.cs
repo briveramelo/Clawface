@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Turing.VFX;
 
 public class PulseProjectile : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class PulseProjectile : MonoBehaviour
     [SerializeField] Material ringMaterial;
     [SerializeField] Renderer ringRenderer;
     [SerializeField] AnimationCurve ringOpacity;
+    [SerializeField] ParticleSystem sparkPS;
     Material materialInstance;
 
     private Damager damager = new Damager();
@@ -17,6 +19,7 @@ public class PulseProjectile : MonoBehaviour
     private float scaleRate;
     private float maxScale;
     private float damage;
+    private float offset = 0.5f;
 
     private void OnEnable()
     {
@@ -27,12 +30,12 @@ public class PulseProjectile : MonoBehaviour
         transform.localScale = new Vector3(scaleValue, 0.1f, scaleValue);
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
             if (other.gameObject.CompareTag(Strings.Tags.PLAYER))
             {
 
-                if (Vector3.Distance(transform.position, other.transform.position) > sphereCollider.radius * scaleValue)
+                if (Vector3.Distance(transform.position, other.transform.position) < (sphereCollider.radius * scaleValue + offset) && Vector3.Distance(transform.position, other.transform.position) > sphereCollider.radius * scaleValue - offset)
                 {
                     Damage(other.gameObject.GetComponent<IDamageable>());
                 }
@@ -55,8 +58,18 @@ public class PulseProjectile : MonoBehaviour
         scaleRate = newScaleRate;
         maxScale = newMaxScale;
         damage = newDamage;
-
+        VFXOneOff vfx = ps.GetComponent<VFXOneOff>();
+        vfx.Stop();
+        ParticleSystem.MainModule main = ps.main;
+        float newDuration = (maxScale / scaleRate) - main.startLifetime.constantMax;
+        main.duration = newDuration;
+        vfx.Play();
 }
+
+    public void SetRenderQueue (int queue)
+    {
+        ringRenderer.material.renderQueue = queue;
+    }
 
 
     private void ScalePulse()
@@ -73,9 +86,12 @@ public class PulseProjectile : MonoBehaviour
         //materialInstance.SetColor("_Color", color);
 
         MaterialPropertyBlock props = new MaterialPropertyBlock();
-        props.SetFloat("_Radius", scaleValue * 8.91f - ringWidth);
+        props.SetFloat("_Radius", scaleValue * 8.91f);
         props.SetColor("_Color", color);
         ringRenderer.SetPropertyBlock(props);
+
+        ParticleSystem.ShapeModule sparkShape = sparkPS.shape;
+        sparkShape.scale = 8.91f * scaleValue * Vector3.one;
     }
 
     private void OnDisable()

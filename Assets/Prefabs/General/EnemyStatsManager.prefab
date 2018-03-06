@@ -53,38 +53,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shouldRegister: 1
   blasterStats:
-    health: 16
-    maxHealth: 16
-    skinnableHealth: 7
+    health: 12
+    maxHealth: 12
+    skinnableHealth: 1
     attack: 3
     speed: 8
     angularSpeed: 360
     acceleration: 15
     stoppingDistance: 1
-    scoreValue: 200
+    scoreValue: 400
     eatHealth: 1
-    stunnedTime: 7
+    stunnedTime: 3
     closeEnoughToFireDistance: 13
     maxToleranceTime: 4
     bulletLiveTime: 5
-    bulletSpeed: 20
+    bulletSpeed: 12
     animationShootSpeed: 2
   blasterShotgunStats:
-    health: 16
-    maxHealth: 16
-    skinnableHealth: 3
+    health: 15
+    maxHealth: 15
+    skinnableHealth: 1
     attack: 3
     speed: 15
     angularSpeed: 360
     acceleration: 20
     stoppingDistance: 1
-    scoreValue: 200
-    eatHealth: 20
-    stunnedTime: 7
-    closeEnoughToFireDistance: 8
+    scoreValue: 400
+    eatHealth: 1
+    stunnedTime: 3
+    closeEnoughToFireDistance: 4
     maxToleranceTime: 4
     separationFromForwardVector: -26
-    bulletSpeed: 4
+    bulletSpeed: 3
     bulletDamage: 5
     rateOfFire: 1.6
     bulletOffsetFromOrigin: 2
@@ -92,7 +92,7 @@ MonoBehaviour:
     separationAngleBetweenStrands: 12
     rotationDirection: 0
     rotationSpeedBulletHellController: 0
-    bulletLiveTime: 4
+    bulletLiveTime: 3
     animationDriven: 1
     animationShootSpeed: 1
   blasterReanimatorStats:
@@ -105,50 +105,50 @@ MonoBehaviour:
     acceleration: 15
     stoppingDistance: 1
     scoreValue: 200
-    eatHealth: 20
+    eatHealth: 1
     stunnedTime: 7
     closeEnoughToReanimateDistance: 3.42
     animationShootSpeed: 1
   zombieStats:
     health: 12
     maxHealth: 12
-    skinnableHealth: 3
+    skinnableHealth: 1
     attack: 3
     speed: 16
     angularSpeed: 10000
     acceleration: 30
     stoppingDistance: 3
-    scoreValue: 100
-    eatHealth: 12
-    stunnedTime: 7
+    scoreValue: 200
+    eatHealth: 1
+    stunnedTime: 3
     closeEnoughToAttackDistance: 3
     animationAttackSpeed: 1
   zombieBeserkerStats:
-    health: 12
-    maxHealth: 12
-    skinnableHealth: 3
+    health: 15
+    maxHealth: 15
+    skinnableHealth: 1
     attack: 3
     speed: 16
     angularSpeed: 10000
     acceleration: 30
     stoppingDistance: 2.5
-    scoreValue: 200
-    eatHealth: 20
-    stunnedTime: 7
+    scoreValue: 300
+    eatHealth: 1
+    stunnedTime: 3
     closeEnoughToAttackDistance: 2.5
     animationAttackSpeed: 1
   zombieAciderStats:
-    health: 12
-    maxHealth: 12
-    skinnableHealth: 3
+    health: 18
+    maxHealth: 18
+    skinnableHealth: 1
     attack: 3
     speed: 16
     angularSpeed: 10000
     acceleration: 30
     stoppingDistance: 3
-    scoreValue: 100
-    eatHealth: 20
-    stunnedTime: 7
+    scoreValue: 350
+    eatHealth: 1
+    stunnedTime: 3
     closeEnoughToAttackDistance: 3
     animationAttackSpeed: 1.5
     trailRendererTime: 4
@@ -156,73 +156,73 @@ MonoBehaviour:
     colliderGenerationTime: 0.05
     acidTriggerLife: 4
   kamikazeStats:
-    health: 12
-    maxHealth: 12
-    skinnableHealth: 3
+    health: 8
+    maxHealth: 8
+    skinnableHealth: 1
     attack: 3
     speed: 30
     angularSpeed: 900
     acceleration: 50
     stoppingDistance: 1
-    scoreValue: 150
+    scoreValue: 100
     eatHealth: 1
-    stunnedTime: 3.5
+    stunnedTime: 3
     closeEnoughToAttackDistance: 2.5
-    selfDestructTime: 0.65
+    selfDestructTime: 0.75
     blastRadius: 15
   kamikazePulserStats:
-    health: 12
-    maxHealth: 12
-    skinnableHealth: 3
+    health: 11
+    maxHealth: 11
+    skinnableHealth: 1
     attack: 3
     speed: 30
     angularSpeed: 900
     acceleration: 50
     stoppingDistance: 1
-    scoreValue: 200
-    eatHealth: 20
-    stunnedTime: 3.5
+    scoreValue: 300
+    eatHealth: 1
+    stunnedTime: 3
     closeEnoughToAttackDistance: 5
     maxPulses: 1
-    pulseRate: 2
-    scaleRate: 1.15
-    maxScale: 2
+    pulseRate: 4
+    scaleRate: 0.6
+    maxScale: 6
   kamikazeMommyStats:
-    health: 60
-    maxHealth: 60
-    skinnableHealth: 3
+    health: 50
+    maxHealth: 50
+    skinnableHealth: 1
     attack: 3
     speed: 10
     angularSpeed: 1000
     acceleration: 40
     stoppingDistance: 1
-    scoreValue: 200
-    eatHealth: 20
-    stunnedTime: 7
+    scoreValue: 1000
+    eatHealth: 2
+    stunnedTime: 4
     closeEnoughToAttackDistance: 10
     spawnRate: 1
     kamikazeSpawnProbability: 0.46
     kamikazePulserSpawnProbability: 0.264
   bouncerStats:
-    health: 20
-    maxHealth: 20
-    skinnableHealth: 3
+    health: 25
+    maxHealth: 25
+    skinnableHealth: 1
     attack: 3
     speed: 2
     angularSpeed: 360
     acceleration: 15
     stoppingDistance: 1
-    scoreValue: 300
-    eatHealth: 20
-    stunnedTime: 7
-    maxBounces: 5
-    minBounces: 2
+    scoreValue: 600
+    eatHealth: 1
+    stunnedTime: 3
+    maxBounces: 4
+    minBounces: 1
     maxShots: 8
     minShots: 4
     rotationSpeed: 0
     rotate: 0
     separationFromForwardVector: 0
-    bulletSpeed: 10
+    bulletSpeed: 8
     bulletDamage: 20.2
     rateOfFire: 0.6
     bulletOffsetFromOrigin: 2.5
@@ -236,17 +236,17 @@ MonoBehaviour:
   redBouncerStats:
     health: 35
     maxHealth: 35
-    skinnableHealth: 3
+    skinnableHealth: 1
     attack: 3
     speed: 2
     angularSpeed: 360
     acceleration: 15
     stoppingDistance: 1
-    scoreValue: 300
-    eatHealth: 20
-    stunnedTime: 7
-    maxBounces: 7
-    minBounces: 4
+    scoreValue: 800
+    eatHealth: 1
+    stunnedTime: 3
+    maxBounces: 3
+    minBounces: 1
     maxShots: 45
     minShots: 50
     rotationSpeed: 0
@@ -264,32 +264,32 @@ MonoBehaviour:
     animationDriven: 1
     animationShootSpeed: 1
   greenBouncerStats:
-    health: 50
-    maxHealth: 50
-    skinnableHealth: 3
+    health: 45
+    maxHealth: 45
+    skinnableHealth: 1
     attack: 3
     speed: 2
     angularSpeed: 360
     acceleration: 15
     stoppingDistance: 1
-    scoreValue: 300
-    eatHealth: 30
-    stunnedTime: 7
-    maxBounces: 5
-    minBounces: 2
-    maxShots: 66
-    minShots: 76
-    rotationSpeed: 85
+    scoreValue: 1000
+    eatHealth: 2
+    stunnedTime: 4
+    maxBounces: 3
+    minBounces: 1
+    maxShots: 80
+    minShots: 60
+    rotationSpeed: 90
     rotate: 1
     separationFromForwardVector: 0
-    bulletSpeed: 10
-    bulletDamage: 20.2
-    rateOfFire: 0.6
-    bulletOffsetFromOrigin: 2.5
-    bulletStrands: 6
-    separationAngleBetweenStrands: 60
+    bulletSpeed: 4
+    bulletDamage: 3
+    rateOfFire: 0
+    bulletOffsetFromOrigin: 3
+    bulletStrands: 4
+    separationAngleBetweenStrands: 90
     rotationDirection: 0
-    rotationSpeedBulletHellController: 0
-    bulletLiveTime: 5
+    rotationSpeedBulletHellController: 8
+    bulletLiveTime: 16
     animationDriven: 1
     animationShootSpeed: 1

@@ -9,8 +9,7 @@ public class MallCopCelebrateState : AIState
     { 
         navAgent.enabled = false;
         navObstacle.enabled = true;
-        List<int> celebrations = new List<int>() { 0, 1, 2, 3, 4 };
-        animator.SetInteger("VictoryDanceIndex", celebrations.GetRandom());
+        animator.SetTrigger("DoVictoryDance");
     }
     public override void Update()
     {

@@ -24,7 +24,7 @@ public class ZombieBeserkerChaseState : AIState {
     public override void OnExit()
     {
         doneAttacking = false;
-        Timing.KillCoroutines();
+        Timing.KillCoroutines(coroutineName);
     }
 
     public void RandomAttack()

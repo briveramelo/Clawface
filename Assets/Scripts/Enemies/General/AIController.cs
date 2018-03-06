@@ -104,6 +104,11 @@ public abstract class AIController : RoutineRunner {
         deActivateAI = false;
     }
 
+    public bool isAIActive()
+    {
+        return deActivateAI;
+    }
+
     protected void Update() {
 
         if (!deActivateAI)
@@ -127,7 +132,7 @@ public abstract class AIController : RoutineRunner {
         stateTimerIsRunning = false;
         timeInLastState = 0f;
         deActivateAI = false;
-        CurrentState = states.chase;
+        CurrentState = states.getUp;
 
         if (mod != null)
         {

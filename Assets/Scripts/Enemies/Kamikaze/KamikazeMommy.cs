@@ -104,10 +104,9 @@ public class KamikazeMommy : EnemyBase
         if (myStats.health > myStats.skinnableHealth)
         {
             attack.playerDead = true;
-            animator.SetTrigger("DoVictoryDance");
+            animator.SetInteger("AnimationState", -1);
             controller.CurrentState = celebrate;
             controller.UpdateState(EAIState.Celebrate);
-            animator.SetInteger("AnimationState", -1);
         }
     }
 

@@ -12,6 +12,7 @@ public class KamikazeAttackState : AIState {
     private float scaleRate;
     public bool setToSelfDestruct = false;
     private bool attackDone = false;
+    GameObject explosionWarning;
 
     public override void OnEnter()
     {
@@ -31,6 +32,8 @@ public class KamikazeAttackState : AIState {
         Vector3 lookAtPosition = new Vector3(controller.AttackTarget.position.x, controller.transform.position.y, controller.AttackTarget.position.z);
         controller.transform.LookAt(lookAtPosition);
         navAgent.velocity = Vector3.zero;
+
+           
     }
     public override void OnExit()
     {
@@ -42,15 +45,12 @@ public class KamikazeAttackState : AIState {
 
     IEnumerator<float> RunStartupTimer()
     {
-        //GameObject explosionSphere = ObjectPool.Instance.GetObject(PoolObjectType.KamikazeExplosionSphere);
-        GameObject explosionWarning = ObjectPool.Instance.GetObject(PoolObjectType.VFXKamikazeExplosionWarning);
+        explosionWarning = ObjectPool.Instance.GetObject(PoolObjectType.VFXKamikazeExplosionWarning);
         if (explosionWarning) {
             explosionWarning.transform.position = controller.transform.position + new Vector3(0.0f, 0.25f, 0.0f);
-            //explosionSphere.GetComponent<ExplosionTrigger>().Initialize(blastRadius,scaleRate);
         }
 
         yield return Timing.WaitForSeconds(waitTimeToDestruct);
-
         //Make sure the kamikaze is not stunned
         if (myStats.health <= myStats.skinnableHealth)
         {
@@ -96,5 +96,11 @@ public class KamikazeAttackState : AIState {
         return attackDone;
     }
 
+    public void StopCoroutines()
+    {
+        Timing.KillCoroutines(coroutineName);
+        if(explosionWarning)
+        explosionWarning.gameObject.SetActive(false);
+    }
 
 }

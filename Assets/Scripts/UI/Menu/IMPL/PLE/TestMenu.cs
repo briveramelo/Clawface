@@ -17,11 +17,21 @@ public class TestMenu : PlayerLevelEditorMenu
     #endregion
 
     #region Private Fields    
-
+    PauseMenu pauseMenu;
     #endregion
 
     #region Unity Lifecycle
-    
+    protected override void Start() {
+        base.Start();
+        pauseMenu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.PAUSE) as PauseMenu;
+    }
+    protected override void Update() {
+        if (allowInput && !pauseMenu.IsPaused) {
+            if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN)) {
+                BackAction();
+            }
+        }
+    }
 
     #endregion
 

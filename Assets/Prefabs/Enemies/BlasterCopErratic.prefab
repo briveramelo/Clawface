@@ -2892,6 +2892,7 @@ MonoBehaviour:
     pulseRate: 0
     scaleRate: 0
     maxScale: 0
+    spawnRate: 0
   mod: {fileID: 114876992884506124}
 --- !u!114 &114059098425877058
 MonoBehaviour:
@@ -3174,7 +3175,8 @@ MonoBehaviour:
     timeToCoolDown: 0
     isCoolingDown: 0
     isActive: 0
-  shootSFX: 0
+    cooldownTimer: 0
+  shootSFX: 23
   bulletSpawnPoint: {fileID: 4389435239001472}
   bulletLiveTime: 5
   bulletSpeed: 30
