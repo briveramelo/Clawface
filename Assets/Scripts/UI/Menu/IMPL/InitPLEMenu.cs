@@ -6,7 +6,7 @@ public class InitPLEMenu : Menu {
 
     #region Public Fields
 
-    public override Button InitialSelection
+    public override Selectable InitialSelection
     {
         get
         {
@@ -89,7 +89,7 @@ public class InitPLEMenu : Menu {
     }
 
 
-    public InitPLEMenu() : base(Strings.MenuStrings.INIT_PLE_MENU)
+    public InitPLEMenu() : base(Strings.MenuStrings.LevelEditor.INIT_PLE_MENU)
     { }
 
     public void ConfirmAction()
@@ -129,7 +129,7 @@ public class InitPLEMenu : Menu {
                 else if (_instance.GetComponent<LevelUnit>() == null)
                 {
                     LevelUnit LU = _instance.AddComponent<LevelUnit>() as LevelUnit;
-                    LU.defaultState = LevelUnitStates.floor;
+                    LU.defaultState = LevelUnitStates.Floor;
                     AddNavMeshModifier(_instance, PlayerLevelEditor.NavMeshAreas.Walkable);
 
                     if (i == 0 && j == 0)

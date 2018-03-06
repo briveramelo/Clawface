@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
+using System.Linq;
 
 public class DataPersister : MonoBehaviour {
     
@@ -90,8 +91,8 @@ public class DataSave {
 
     int selectedIndex = 0;
 
-    public LevelData ActiveLevelData { get { if (levelDatas.Count==0) { levelDatas.Add(new LevelData()); } return levelDatas[SelectedIndex]; } }
-    public int SelectedIndex {
+    public LevelData ActiveLevelData { get { if (levelDatas.Count==0) { levelDatas.Add(new LevelData()); } return levelDatas[SelectedLevelIndex]; } }
+    public int SelectedLevelIndex {
         get {
             selectedIndex = Mathf.Clamp(selectedIndex, 0, Mathf.Max(levelDatas.Count - 1, 0));
             return selectedIndex;
@@ -103,11 +104,11 @@ public class DataSave {
 
     public void AddAndSelectNewLevel() {
         levelDatas.Add(new LevelData());
-        SelectedIndex = levelDatas.Count-1;
+        SelectedLevelIndex = levelDatas.Count-1;
     }
     public void DeleteSelectedLevel() {
-        if (levelDatas.Count-1 >= SelectedIndex){
-            levelDatas.RemoveAt(SelectedIndex);
+        if (levelDatas.Count-1 >= SelectedLevelIndex){
+            levelDatas.RemoveAt(SelectedLevelIndex);
         }
     }
 }
@@ -116,7 +117,11 @@ public class DataSave {
 public class LevelData {    
 
     public string name, description;
-    public byte[] imageData;
+    [HideInInspector] public byte[] imageData;
+    public bool isFavorite=false;
+    public bool isDownloaded=false;
+    public bool isMadeByThisUser=true;
+    public bool isInfinite;
     public static readonly Vector2 fixedSize = new Vector2(656, 369);
     public Sprite MySprite {
         get {
@@ -124,6 +129,9 @@ public class LevelData {
                 CreateSprite();
             }
             return snapShot;
+        }
+        set {
+            snapShot = value;
         }
     }
     [NonSerialized] Texture2D imageTexture;
@@ -136,11 +144,38 @@ public class LevelData {
     public bool IsEmpty { get { return string.IsNullOrEmpty(name); } }
     public List<WaveData> waveData = new List<WaveData>();
     public List<TileData> tileData = new List<TileData>();
-    public List<PropData> propData = new List<PropData>();
+    public List<PropData> propData = new List<PropData>();    
+
+    public List<PLESpawn> GetPLESpawnsFromWave(int i_wave)
+    {
+        return waveData[i_wave].GetPleSpawnsFromWave();
+    }
+    public SpawnData KeiraSpawnData {
+        get {
+            Predicate<SpawnData> isKeira = item => item.SpawnType == SpawnType.Keira;           
+            Predicate<WaveData> waveHasKeira = waveElement => waveElement.spawnData.Exists(isKeira);
+            WaveData keiraWave = waveData.Find(waveHasKeira);
+            SpawnData keiraSpawnData = null;
+            if (keiraWave!=null) {
+                keiraSpawnData = keiraWave.spawnData.Find(isKeira);
+            }
+            return keiraSpawnData;
+        }
+    }
 
     public int WaveCount { get { return waveData.Count; } }
     public int TileCount { get { return tileData.Count; } }
     public int PropCount { get { return propData.Count; } }
+    public int MaxWaveIndex {
+        get {
+            int tileWaveCount = 0;
+            if (tileData.Count>0) {
+                tileWaveCount = tileData[0].levelStates.Count;
+            }
+            int longestListLength = Mathf.Max(WaveCount, tileWaveCount);
+            return Mathf.Clamp(longestListLength - 1, 0, longestListLength);
+        }
+    }
 
     void CreateSprite() {
         imageTexture = new Texture2D((int)fixedSize.x, (int)fixedSize.y);
@@ -154,6 +189,10 @@ public class LevelData {
 [Serializable]
 public class WaveData {
     public List<SpawnData> spawnData = new List<SpawnData>();
+    public List<PLESpawn> GetPleSpawnsFromWave()
+    {
+        return spawnData.Select(item => { return item.pleSpawn; }).ToList();
+    }
 }
 
 [Serializable]
@@ -167,6 +206,7 @@ public class SpawnData {
     public int spawnType;
     public int count;
     public Vector3_S position = new Vector3_S();
+    [NonSerialized] public PLESpawn pleSpawn;
 
     public SpawnType SpawnType { get { return (SpawnType)spawnType; } }
 }

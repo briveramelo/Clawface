@@ -31,7 +31,7 @@ public class SaveState : Singleton<SaveState> {
         EventSystem.Instance.RegisterEvent(Strings.Events.SET_LEVEL_SCORE, SetScoreForLevel);
     }
 
-    private new void OnDestroy()
+    private void OnDestroy()
     {
         if (EventSystem.Instance)
         {
@@ -39,7 +39,6 @@ public class SaveState : Singleton<SaveState> {
             EventSystem.Instance.UnRegisterEvent(Strings.Events.UNLOCK_NEXT_LEVEL, UnlockNextLevel);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.SET_LEVEL_SCORE, SetScoreForLevel);
         }
-        base.OnDestroy();
     }
     #endregion
 

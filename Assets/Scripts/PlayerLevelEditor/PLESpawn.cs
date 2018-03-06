@@ -13,6 +13,7 @@ public class PLESpawn : PLEItem {
     private float spawnHeightOffset = 50.0f;
     private List<GameObject> spawnedEnemies = new List<GameObject>();
     private Renderer rend;
+    private Vector3 actualSpawnPos;
     #endregion
     
     #region Public Fields
@@ -35,11 +36,7 @@ public class PLESpawn : PLEItem {
 
     private void OnEnable()
     {
-        if(EventSystem.Instance)
-        {
-            EventSystem.Instance.RegisterEvent(Strings.Events.PLE_TEST_END, Reset);
-        }
-       
+        EventSystem.Instance.RegisterEvent(Strings.Events.PLE_TEST_END, Reset);               
     }
 
     private void OnDisable()
@@ -52,7 +49,9 @@ public class PLESpawn : PLEItem {
 
     private void Start()
     {
-        Reset(null);
+        Reset();
+        actualSpawnPos = new Vector3(0, transform.position.y + spawnHeightOffset, 0);
+        actualSpawnPos = transform.TransformPoint(actualSpawnPos);
     }
 
     #endregion
@@ -61,7 +60,17 @@ public class PLESpawn : PLEItem {
 
     public void StartSpawning()
     {
-        StartCoroutine(SpawnEnemies());
+        if (spawnType != SpawnType.Keira) {
+            StartCoroutine(SpawnEnemies());
+        }
+        else {
+            gameObject.AddComponent<PlayerSpawner>();
+        }
+    }
+
+    public SpawnData GetSpawnData()
+    {
+        return new SpawnData((int)spawnType, totalSpawnAmount, actualSpawnPos);
     }
 
     #endregion
@@ -78,7 +87,6 @@ public class PLESpawn : PLEItem {
             {
                 //report that enemies are all dead to wave system
                 allEnemiesDead = true;
-                Debug.Log("All enemies for Spawner: " + gameObject.name + " of type : " + spawnType + " are dead.");
                 //EventSystem.Instance.TriggerEvent(Strings.Events.REPORT_DEATH, registeredWave, spawnType);
             }
         }
@@ -104,25 +112,22 @@ public class PLESpawn : PLEItem {
 
     private void SpawnEnemy()
     {
-        Vector3 spawnPos = new Vector3(0, transform.position.y + spawnHeightOffset, 0);
         GameObject newSpawnObj = ObjectPool.Instance.GetObject(spawnType.ToPoolObject());
-        spawnPos = transform.TransformPoint(spawnPos);
-        
+                
         if(newSpawnObj)
         {
-            newSpawnObj.transform.position = spawnPos;
+            newSpawnObj.transform.position = actualSpawnPos;
             ISpawnable spawnable = newSpawnObj.GetComponentInChildren<ISpawnable>();
             if(!spawnable.HasWillBeenWritten())
             {
                 spawnable.RegisterDeathEvent(ReportDeath);
             }
-
-            //TODO: How to register enemies to let us know that they're dead
+            
             EnemyBase enemyBase = newSpawnObj.GetComponent<EnemyBase>();
 
             if(enemyBase)
             {
-                enemyBase.SpawnWithRagdoll(spawnPos);
+                enemyBase.SpawnWithRagdoll(actualSpawnPos);
             }
 
             currentSpawnAmount++;
@@ -132,10 +137,10 @@ public class PLESpawn : PLEItem {
         }
         else
         {
-            Debug.LogFormat("<color=#ffff00>" + "NOT ENOUGH SPAWN-OBJECT" + "</color>");
+            Debug.LogFormat("<color=#ffff00>" + "NOT ENOUGH SPAWN-OBJECTS for: " + spawnType + "</color>");
         }
     }
-    private void Reset(object[] parameters)
+    private void Reset(params object[] parameters)
     {
         currentSpawnAmount = totalSpawnAmount;
         rend.enabled = true;

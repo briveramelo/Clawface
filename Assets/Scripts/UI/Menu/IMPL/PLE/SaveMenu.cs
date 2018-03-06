@@ -5,98 +5,82 @@ using UnityEngine.UI;
 
 using PlayerLevelEditor;
 
-public class SaveMenu : Menu {
+public class SaveMenu : PlayerLevelEditorMenu {
     
     #region Public Fields
-
-    public override Button InitialSelection
-    {
-        get
-        {
-            return initiallySelected;
-        }
-    }
 
     #endregion
 
     #region Serialized Unity Fields
 
-    [SerializeField] private Button initiallySelected;
-    [SerializeField] private LevelEditor editorInstance;
     [SerializeField] private GameObject realLevelParent;
     [SerializeField] private InputField nameText, descriptionText;
+    [SerializeField] private Button saveNewButton, overwriteButton;
 
     #endregion
 
     #region Private Fields
     private DataSave ActiveDataSave { get { return DataPersister.ActiveDataSave; } }
-    private bool inputGuard = false;
-
+    private LevelData ActiveLevelData { get { return ActiveDataSave.ActiveLevelData; } }
+    private UnityEngine.EventSystems.EventSystem CurrentEventSystem { get { return UnityEngine.EventSystems.EventSystem.current; } }
+    private GameObject CurrentSelectedGameObject { get { return UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject; } }
+    private bool IsNameInputSelected { get { return CurrentSelectedGameObject == nameText; } }
+    private bool IsDescriptionInputSelected { get { return CurrentSelectedGameObject == descriptionText; } }
+    private bool MoveForward { get { return Input.GetKeyDown(KeyCode.Tab) && !Input.GetKey(KeyCode.LeftShift); } }
+    private bool MoveBack { get { return Input.GetKeyDown(KeyCode.Tab) && Input.GetKey(KeyCode.LeftShift); } }
     #endregion
 
-    #region Unity Lifecycle
-
-    private void Update()
-    {
-        if(inputGuard)
-        {
-            if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.UP)) {
-                BackAction();
-            }
+    #region Unity Lifecycle    
+    protected override void Update() {
+        base.Update();
+        if (allowInput) {
+            HandleInputFieldSelection();
         }
     }
-
     #endregion
 
     #region Public Interface
 
-    public SaveMenu() : base(Strings.MenuStrings.SAVE_PLE_MENU)
-    { } 
+    public SaveMenu() : base(Strings.MenuStrings.LevelEditor.SAVE_PLE_MENU)
+    { }
 
+    public void OverwriteLevel() {
+        levelEditor.levelDataManager.SaveLevel();
+        BackAction();
+    }
+
+    public void SaveNewLevel() {
+        levelEditor.levelDataManager.SaveNewLevel();
+        BackAction();
+    }
 
     #endregion
 
     #region Protected Interface
 
-    protected override void ShowComplete()
-    {
-        base.ShowComplete();
-        inputGuard = true;
-    }
-
-    protected override void ShowStarted()
-    {
+    protected override void ShowStarted() {
         base.ShowStarted();
-        editorInstance.ToggleCameraController(false);
-        nameText.text = ActiveDataSave.ActiveLevelData.name;
-        descriptionText.text = ActiveDataSave.ActiveLevelData.description;
-    }
-
-    protected override void HideStarted()
-    {
-        base.HideStarted();
-        inputGuard = false;
-        editorInstance.ToggleCameraController(true);
-    }
-
-    protected override void DefaultHide(Transition transition, Effect[] effects)
-    {
-        Fade(transition, effects);
-    }
-
-    protected override void DefaultShow(Transition transition, Effect[] effects)
-    {
-        Fade(transition, effects);
-    }
-
-    public void BackAction()
-    {
-        Menu menuToHide = editorInstance.GetMenu(PLEMenu.SAVE);
-        MenuManager.Instance.DoTransition(menuToHide, Menu.Transition.HIDE, new Menu.Effect[] { });
+        CurrentEventSystem.SetSelectedGameObject(nameText.gameObject);
+        SetButtonInteractability();
+        nameText.text = ActiveLevelData.name;
+        descriptionText.text = ActiveLevelData.description;
     }
 
     #endregion
 
     #region Private Interface
+    void SetButtonInteractability() {
+        bool interactable = ActiveLevelData.isMadeByThisUser;
+        overwriteButton.interactable = interactable;
+    }
+
+    void HandleInputFieldSelection() {
+        if (MoveForward) {
+            CurrentEventSystem.SetSelectedGameObject(descriptionText.gameObject);
+        }
+        else if (MoveBack) {
+            CurrentEventSystem.SetSelectedGameObject(nameText.gameObject);
+        }
+    }
     #endregion
 }
