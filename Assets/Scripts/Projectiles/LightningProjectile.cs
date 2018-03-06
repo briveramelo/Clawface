@@ -46,21 +46,30 @@ public class LightningProjectile : MonoBehaviour {
         //Are hook properties set and have we not hit a target
         if (projectileProperties != null)
         {
-            //Check for target if no target
-            if (!target || (target && !target.gameObject.activeSelf))
+
+            if (target && !target.gameObject.activeSelf)
             {
-                target = null;
-                CheckForTargets();
+                if (!CheckForTargets())
+                {
+                    ResetToDefaults();
+                    return;
+                }
             }
-            else
+
+            if (target)
             {
                 // Look at target
                 transform.LookAt(target);
                 // Ensure the forward vector is in 2D
-                transform.forward = new Vector3(transform.forward.x, transform.forward.y, transform.forward.z);                
+                transform.forward = new Vector3(transform.forward.x, transform.forward.y, transform.forward.z);
             }
+            else
+            {
+                if (enemyCount == 0) CheckForTargets();
+            }
+
             //Check for max distance
-            if (CalculateChainLength() >= projectileProperties.maxDistance)
+            if (CalculateChainLength() >= projectileProperties.maxDistance && !target)
             {
                 ResetToDefaults();
                 return;
@@ -143,14 +152,15 @@ public class LightningProjectile : MonoBehaviour {
         {
             //Initialize
             LightningProjectile nextProjectile = nextHookObject.GetComponent<LightningProjectile>();
-            ignoreTargets.Add(target);
             nextProjectile.Init(newProperties, transform, enemyCount, ignoreTargets);
-            SFXManager.Instance.Play(projectileProperties.lightningSFX, transform.position);
+
+            if (!nextProjectile.CheckForTargets())
+                nextProjectile.ResetToDefaults();
         }
     }
 
     private void OnTriggerEnter(Collider other)
-    {     
+    {
         // Is the collided object an enemy if not already attached
         if (other.CompareTag(Strings.Tags.ENEMY) && !ignoreTargets.Contains(other.transform))
         {
@@ -158,15 +168,6 @@ public class LightningProjectile : MonoBehaviour {
             if (other.transform != target)
             {
                 target = other.transform;
-            }
-            
-            //Increment enemy count
-            enemyCount++;
-            //Check for max enemies
-            if (enemyCount < projectileProperties.maxChainableEnemies)
-            {
-                //Spawn next chain
-                SpawnNextProjectile();
             }
 
             //Do damage
@@ -182,27 +183,42 @@ public class LightningProjectile : MonoBehaviour {
                 damager.impactDirection = transform.forward;
                 damager.damage = projectileProperties.projectileHitDamage;
                 damageable.TakeDamage(damager);
+                ignoreTargets.Add(other.transform);
 
                 GameObject blood = ObjectPool.Instance.GetObject(PoolObjectType.VFXBloodSpurt);
                 if (blood) blood.transform.position = damageable.GetPosition();
 
-                GameObject vfx = ObjectPool.Instance.GetObject (PoolObjectType.VFXLightningGunImpact);
+                GameObject vfx = ObjectPool.Instance.GetObject(PoolObjectType.VFXLightningGunImpact);
                 if (vfx && affectTarget)
                 {
-                    vfx.transform.SetParent (affectTarget.transform);
+                    vfx.transform.SetParent(affectTarget.transform);
                     vfx.transform.position = transform.position;
                 }
+
+                SFXManager.Instance.Play(projectileProperties.lightningSFX, transform.position);
             }
 
-            gameObject.SetActive(false);
+            //Increment enemy count
+            enemyCount++;
+            //Check for max enemies
+            if (enemyCount < projectileProperties.maxChainableEnemies)
+            {
+                SpawnNextProjectile();
+            }
+
+            ResetToDefaults();
         }
         else if (other.CompareTag(Strings.Tags.WALL))
         {
-            gameObject.SetActive(false);
+            ResetToDefaults();
         }
     }
 
-    private void CheckForTargets()
+    /// <summary>
+    /// Checks for targets in a sphere. Returns true if a target was found.
+    /// </summary>
+    /// <returns></returns>
+    public bool CheckForTargets()
     {
         //Sphere cast to get all enemies
         Collider[] hits = Physics.OverlapSphere(transform.position, projectileProperties.homingRadius, LayerMask.GetMask(Strings.Layers.ENEMY));
@@ -218,8 +234,6 @@ public class LightningProjectile : MonoBehaviour {
                     float angle = Mathf.Abs(Vector3.Angle(transform.forward, hit.transform.position));
                     if (angle < projectileProperties.homingAngle / 2f)
                     {
-                        //target = hit.transform;
-                        //break;
                         // Check if the enemy is closest
                         if (closestEnemy)
                         {
@@ -240,7 +254,10 @@ public class LightningProjectile : MonoBehaviour {
             }
             // Acquire target
             target = closestEnemy;
+
+            if (target != null) return true;
         }
+        return false;
     }
     #endregion
 

@@ -47,6 +47,8 @@ public class KamikazePulserAttackState : AIState {
             currentPulseGenerator = pulseGenerator.GetComponent<PulseGenerator>();
             currentPulseGenerator.SetPulseGeneratorStats(properties.maxPulses,properties.pulseRate,properties.scaleRate,properties.maxScale,myStats.attack);
         }
+
+        SFXManager.Instance.Play(SFXType.KamikazePulse, velBody.transform.position);
     }
 
     private void CheckPulseDone()

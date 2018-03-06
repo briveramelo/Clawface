@@ -25,12 +25,6 @@ public class ModInventory : MonoBehaviour {
         };
 	}
 
-    void Update() {
-        if (Input.GetKeyDown(KeyCode.Keypad1)) {
-            UnlockAllMods();
-        }
-    }
-
     void UnlockAllMods() {
         modInventory.ForEach((key, value)=>value.isCollected=true);        
     }

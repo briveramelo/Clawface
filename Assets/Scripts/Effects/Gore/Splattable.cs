@@ -32,10 +32,6 @@ public class Splattable : MonoBehaviour
     [SerializeField] private Texture2D paintMask = null;
     [SerializeField] private Texture2D renderMask = null;
 
-	[Header ("Render Texture Configuration")]
-	[SerializeField] private int renderTextureWidth = 512;
-	[SerializeField] private int renderTextureHeight = 512;
-
     [Header ("Splat Rendering Configuration (You probably shouldn't edit these!)")]
     [Tooltip ("This SHOULD BE SET TO SOMETHING.")]
     [SerializeField] private Shader renderSplat = null;
@@ -50,6 +46,7 @@ public class Splattable : MonoBehaviour
 	private Material paintingMaterial;
 	private Renderer myRenderer;
 	private MaterialPropertyBlock propBlock;
+    private Dims dims;
 
     /// <summary>
     /// This queue will contain splats that need to be rendered to the
@@ -72,8 +69,10 @@ public class Splattable : MonoBehaviour
         renderMask = renderMask != null ? renderMask : Texture2D.whiteTexture;
 
         // Set Up Render Data
-		splatMap = new RenderTexture (renderTextureWidth, renderTextureHeight, 0, RenderTextureFormat.ARGB32);
+        dims = GetRenderDims();
+		splatMap = new RenderTexture (dims.Width, dims.Height, 0, RenderTextureFormat.ARGB32);
 		splatMap.Create ();
+
 		paintingMaterial = new Material (renderSplat);
         Vector4[] empty = new Vector4[numSplatsToRender];
         paintingMaterial.SetVectorArray("_Anchors", empty);
@@ -116,6 +115,11 @@ public class Splattable : MonoBehaviour
     /// <param name="projectileDir">The direction to splat in.</param>
     public void QueueNewSplat (SplatSO splatData, Vector3 worldPos, Vector2 projectileDir)
 	{
+        if (dims.Width == 0 || dims.Height == 0)
+        {
+            return;
+        }
+
         QueuedSplat splat = new QueuedSplat();
         splat.splatData = splatData;
         splat.frame = 0;
@@ -126,8 +130,36 @@ public class Splattable : MonoBehaviour
 	}
 
     #endregion
+    
+    #region Private Interface
 
-    #region Interface (Private)
+    private Dims GetRenderDims()
+    {
+        Dims dims;
+        switch (SettingsManager.Instance.GoreDetail)
+        {
+            default:
+            case 0:
+                dims = new Dims(0, 0);
+                break;
+            case 1:
+                dims = new Dims(32, 32);
+                break;
+            case 2:
+                dims = new Dims(64, 64);
+                break;
+            case 3:
+                dims = new Dims(128, 128);
+                break;
+            case 4:
+                dims = new Dims(256, 256);
+                break;
+            case 5:
+                dims = new Dims(512, 512);
+                break;
+        }
+        return dims;
+    }
 
     /// <summary>
     /// Creates a CommandBuffer and primes the material to do rendering.
@@ -177,8 +209,8 @@ public class Splattable : MonoBehaviour
         paintingMaterial.SetInt("_Count", count);
 
         // Set Up Command Buffer
-        CommandBuffer splatBuffer = new CommandBuffer ();
-        splatBuffer.GetTemporaryRT(Shader.PropertyToID("_TEMPORARY"), renderTextureWidth, renderTextureHeight);
+        CommandBuffer splatBuffer = new CommandBuffer();
+        splatBuffer.GetTemporaryRT(Shader.PropertyToID("_TEMPORARY"), dims.Width, dims.Height);
         splatBuffer.SetRenderTarget(Shader.PropertyToID("_TEMPORARY"));
         splatBuffer.DrawRenderer(myRenderer, paintingMaterial);
         splatBuffer.Blit(Shader.PropertyToID("_TEMPORARY"), splatMap);
@@ -220,6 +252,46 @@ public class Splattable : MonoBehaviour
 
     #region Types (Private)
 
+    private struct Dims
+    {
+        #region Accessors (Public)
+
+        public int Width
+        {
+            get
+            {
+                return width;
+            }
+        }
+
+        public int Height
+        {
+            get
+            {
+                return height;
+            }
+        }
+
+        #endregion
+
+        #region Fields (Private)
+
+        private int width;
+        private int height;
+
+        #endregion
+
+        #region Constructors (Public)
+
+        public Dims(int width, int height)
+        {
+            this.width = width;
+            this.height = height;
+        }
+
+        #endregion
+    }
+    
     /// <summary>
     /// This struct is used to track data being rendered by the Splattable.
     /// We have to queue this data up and render it in batches since there

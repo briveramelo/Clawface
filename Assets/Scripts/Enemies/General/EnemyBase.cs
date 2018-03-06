@@ -45,7 +45,6 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     private int id;
     private bool ragdollOn;
     private float currentStunTime = 0.0f;
-    private int bufferHealth = 3;
     private Vector3 spawnPosition;
     #endregion
 
@@ -82,7 +81,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         {
             currentStunTime += Time.deltaTime;
 
-            if (currentStunTime > stunnedTime)
+            if (currentStunTime > stunnedTime && !isIndestructable)
             {
                 OnDeath();
             }
@@ -92,7 +91,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         if(hips.transform.position.y < -100.0f)
         {
             OnDeath();
-        }
+        }       
     }
 
     public virtual void Awake()
@@ -138,16 +137,9 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
             GameObject blood = ObjectPool.Instance.GetObject(PoolObjectType.VFXBloodSpurt);
             if (blood) blood.transform.position = transform.position;
 
-            if (myStats.health <= 0)
+            if (myStats.health <= 0 || myStats.health <= myStats.skinnableHealth)
             {
-                myStats.health = bufferHealth;
-            }
-
-
-            if (myStats.health <= myStats.skinnableHealth)
-            {
-                    myStats.health = bufferHealth;
-                    alreadyStunned = true;
+                alreadyStunned = true;
             }
         }
 
@@ -260,12 +252,12 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
             gameObject.SetActive(false);
             aboutTobeEaten = false;
             SFXManager.Instance.Play(deathSFX, transform.position);
-            AIEnemyData testData = new AIEnemyData(controller.GetInstanceID());
+            //AIEnemyData testData = new AIEnemyData(controller.GetInstanceID());
             currentStunTime = 0.0f;
-            if (AIManager.Instance != null)
-            {
-                AIManager.Instance.Remove(testData);
-            }
+            //if (AIManager.Instance != null)
+            //{
+            //    AIManager.Instance.Remove(testData);
+            //}
             ClearAffecters();
         }
     }
@@ -287,13 +279,19 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
 
     }
 
+    public virtual void DisableStateResidue()
+    {
+
+    }
+
     public void DisableCollider()
     {
         GetComponent<CapsuleCollider>().enabled = false;
     }
 
     public void EnableRagdoll(float weight = 1.0f)
-    {        
+    {
+        DisableStateResidue();
         if (jointRigidBodies != null)
         {
             //Ignore the first entry (its the self rigidbody)
@@ -310,8 +308,10 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         {
             aiController.DeActivateAI();
         }
+
         navAgent.enabled = false;
         ragdollOn = true;
+       
     }
 
     public void DisableRagdoll()

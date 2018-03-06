@@ -826,7 +826,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1701189232420900}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.1, z: 0}
+  m_LocalPosition: {x: 0, y: 0.086, z: 0}
   m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_Children:
   - {fileID: 4466914312190472}
@@ -922,7 +922,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1783855380962358}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.4, z: 0}
+  m_LocalPosition: {x: 0, y: -0.374, z: 0}
   m_LocalScale: {x: 4.5000005, y: 4.5000005, z: 4.5000005}
   m_Children: []
   m_Father: {fileID: 4921156897759504}
@@ -1394,7 +1394,7 @@ MonoBehaviour:
   affectObject: {fileID: 1360290682085754}
   hitFlasher: {fileID: 114753824678365428}
   hitSFX: 0
-  deathSFX: 0
+  deathSFX: 26
   pushRoot: {fileID: 54559570575705246}
   pushDirection: 0
   hips: {fileID: 1317269091080240}
@@ -1417,6 +1417,7 @@ MonoBehaviour:
     pulseRate: 0
     scaleRate: 0
     maxScale: 0
+    spawnRate: 0
 --- !u!114 &114644823505261640
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1619,7 +1620,7 @@ CapsuleCollider:
   m_Radius: 0.68055296
   m_Height: 4.0705585
   m_Direction: 1
-  m_Center: {x: -0.03, y: 1.5, z: 0.22}
+  m_Center: {x: -0.03, y: 1.5, z: 0.04}
 --- !u!136 &136970960791745374
 CapsuleCollider:
   m_ObjectHideFlags: 1
@@ -2257,7 +2258,7 @@ NavMeshAgent:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1350195012740228}
-  m_Enabled: 1
+  m_Enabled: 0
   m_AgentTypeID: 0
   m_Radius: 2.02
   m_Speed: 6
@@ -2269,7 +2270,7 @@ NavMeshAgent:
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 3.35
-  m_BaseOffset: 0.05
+  m_BaseOffset: 0.32
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 3
 --- !u!208 &208461642810736044
@@ -2285,7 +2286,7 @@ NavMeshObstacle:
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0.52, z: 0}
   m_TimeToStationary: 0.5
 --- !u!212 &212282305153309684
 SpriteRenderer:

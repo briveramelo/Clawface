@@ -12,10 +12,11 @@ public class BouncerChaseState : AIState {
     private float jumpTargetDistance = 10f;
     private bool moving = false;
     private float height = 12.0f;
-    private float tolerance = 0.1f;
+    private float tolerance = 0.05f;
     private int jumpCount = 0;
     private int maxJumpCount;
     private Vector3 finalPosition;
+    private Vector3 targetPosition;
 
     //Smooth Lerping
     float lerpTime = 1.0f;
@@ -45,7 +46,6 @@ public class BouncerChaseState : AIState {
 
     public override void OnExit()
     {
-       
     }
 
     private void Chase()
@@ -63,14 +63,11 @@ public class BouncerChaseState : AIState {
 
     private void GetNewChaseTarget()
     {
-
-
         Vector3 moveDirection = controller.DirectionToTarget;
         jumpTarget = controller.transform.position + (moveDirection.normalized * jumpTargetDistance);
 
         Vector3 fwd = controller.DirectionToTarget;
         RaycastHit hit;
-        //finalPosition = controller.AttackTargetPosition;
         //Do a ray cast to check there is no obstruction
         if (Physics.Raycast(controller.transform.position, fwd, out hit, Mathf.Infinity, LayerMask.GetMask(Strings.Layers.MODMAN, Strings.Layers.OBSTACLE)))
         {            
@@ -120,7 +117,7 @@ public class BouncerChaseState : AIState {
                 }
                 else
                 {                    
-                    Vector3 bouncerPos = new Vector3(controller.transform.position.x, 0.0f, controller.transform.position.z);
+                    Vector3 bouncerPos = new Vector3(controller.transform.position.x, controller.transform.position.y, controller.transform.position.z);
                     Vector3 closestPoint = hit.collider.ClosestPointOnBounds(bouncerPos);
                     float newDistance = Vector3.Distance(closestPoint, bouncerPos);
 
@@ -161,7 +158,8 @@ public class BouncerChaseState : AIState {
             else
             {
                 //Debug.Log("Readjusted");
-                finalPosition = controller.transform.position + Random.insideUnitSphere * jumpTargetDistance/2;
+                finalPosition = controller.transform.position + Random.insideUnitSphere * jumpTargetDistance / 2;
+                finalPosition.y = controller.transform.position.y;
                 moving = true;
                 Timing.RunCoroutine(Move(), coroutineName);
             }
@@ -170,7 +168,8 @@ public class BouncerChaseState : AIState {
         else
         {
             //Debug.Log("Readjusted");
-            finalPosition = controller.transform.position + Random.insideUnitSphere * jumpTargetDistance/2;
+            finalPosition = controller.transform.position + Random.insideUnitSphere * jumpTargetDistance / 2;
+            finalPosition.y = controller.transform.position.y;
             moving = true;
             Timing.RunCoroutine(Move(), coroutineName);
         }
@@ -179,16 +178,19 @@ public class BouncerChaseState : AIState {
 
     IEnumerator<float> Move()
     {
+        //Fix to avoid teleportation
+        navAgent.Warp(controller.transform.position);
 
         animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.Jumping);
 
         while (!doneStartingJump)
         {
+           
             yield return 0.0f;
         }
 
         Vector3 initialPosition = controller.transform.position;
-        Vector3 targetPosition = new Vector3(finalPosition.x, 0.2f, finalPosition.z);
+        targetPosition = new Vector3(finalPosition.x, finalPosition.y + 0.2f, finalPosition.z);
 
         Vector3 smoothMidpoint1 = initialPosition + ((targetPosition - initialPosition) * 0.2f);
         Vector3 midpoint = initialPosition + ((targetPosition - initialPosition) * 0.5f);
@@ -198,17 +200,17 @@ public class BouncerChaseState : AIState {
         smoothMidpoint1.y += height * 0.7f;
         smoothMidpoint2.y += height * 0.7f;
 
-        yield return Timing.WaitUntilDone(Timing.RunCoroutine(LerpToNextPosition(initialPosition, smoothMidpoint1, myStats.moveSpeed*2.5f), coroutineName));
-        yield return Timing.WaitUntilDone(Timing.RunCoroutine(LerpToNextPosition(smoothMidpoint1, midpoint, myStats.moveSpeed * 2.0f), coroutineName));
+        yield return Timing.WaitUntilDone(Timing.RunCoroutine(LerpToNextPosition(initialPosition, smoothMidpoint1, myStats.moveSpeed*2.5f),coroutineName));
+        yield return Timing.WaitUntilDone(Timing.RunCoroutine(LerpToNextPosition(smoothMidpoint1, midpoint, myStats.moveSpeed * 2.0f) ,coroutineName));
         yield return Timing.WaitUntilDone(Timing.RunCoroutine(LerpToNextPosition(midpoint, smoothMidpoint2, myStats.moveSpeed * 2.5f), coroutineName));
-        yield return Timing.WaitUntilDone(Timing.RunCoroutine(LerpToNextPosition(smoothMidpoint2, targetPosition, myStats.moveSpeed * 3.0f), coroutineName));
+        yield return Timing.WaitUntilDone(Timing.RunCoroutine(LerpToNextPosition(smoothMidpoint2, targetPosition, myStats.moveSpeed * 3.0f),coroutineName));
 
-        if(gotStunned)
-            animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.Stunned);
+        if (gotStunned)
+        {
+            controller.UpdateState(EAIState.Stun);
+        }
         else
             animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.EndJump);
-
-
 
         while (!doneLandingJump)
         {
@@ -217,7 +219,6 @@ public class BouncerChaseState : AIState {
         doneStartingJump = false;
         doneLandingJump = false;
         jumpCount++;
-
         moving = false;
     }
 
@@ -235,8 +236,6 @@ public class BouncerChaseState : AIState {
                 currentLerpTime = lerpTime;
             }
             interpolation = currentLerpTime / lerpTime;
-
-            
 
             controller.transform.position = Vector3.Lerp(initialPosition, targetPosition, interpolation);
 
@@ -274,4 +273,19 @@ public class BouncerChaseState : AIState {
         }
     }
 
+    public void StopCoroutines()
+    {
+        Timing.KillCoroutines(coroutineName);
+
+        Vector3 fwd = -controller.transform.up;
+        RaycastHit hit;
+
+        if (Physics.Raycast(controller.transform.position, fwd, out hit, Mathf.Infinity, LayerMask.GetMask(Strings.Layers.GROUND)))
+        {
+            if (hit.transform.tag == Strings.Tags.FLOOR)
+            {
+                controller.transform.position = hit.point;
+            }
+        }
+    }
 }

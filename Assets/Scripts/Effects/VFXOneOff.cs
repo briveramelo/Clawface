@@ -104,6 +104,8 @@ namespace Turing.VFX
             foreach (var lensFlare in lensFlares) lensFlare.enabled = false;
             foreach (var lightFlicker in lightFlickers) lightFlicker.Stop();
             foreach (var lensFlareFlicker in lensFlareFlickers) lensFlareFlicker.Stop();
+
+            StopAllCoroutines();
         }
 
         /// <summary>

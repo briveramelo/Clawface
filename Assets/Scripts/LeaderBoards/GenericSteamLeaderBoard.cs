@@ -33,11 +33,6 @@ public abstract class GenericSteamLeaderBoard : MonoBehaviour {
         leaderBoardFindResult = CallResult<LeaderboardFindResult_t>.Create(OnLeaderBoardFindResult);
         leaderBoardScoresDownloaded = CallResult<LeaderboardScoresDownloaded_t>.Create(OnLeaderBoardScoresDownloaded);
         leaderBoard.m_SteamLeaderboard = 0;
-    }    
-
-    private void Start()
-    {
-       
     }
     #endregion
 

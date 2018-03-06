@@ -88,5 +88,9 @@ public class MallCopReanimatorFireState : AIState {
         return doneFiring;
     }
 
+    public void StopCoroutines()
+    {
+        Timing.KillCoroutines(coroutineName);
+    }
 
 }

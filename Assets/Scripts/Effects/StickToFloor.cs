@@ -32,4 +32,12 @@ public class StickToFloor : MonoBehaviour
         Gizmos.DrawLine(transform.position, lastHit);
         Gizmos.DrawWireSphere (lastHit, 1.0f);
     }
+
+    public float DistanceFromParent
+    {
+        get
+        {
+            return Vector3.Distance (transform.parent.position, transform.position);
+        }
+    }
 }

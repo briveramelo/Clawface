@@ -50,27 +50,27 @@ public class LightningGun : Mod {
     #region Public Methods
     public override void Activate(Action onCompleteCoolDown=null, Action onActivate=null)
     {
-        // Winston arc part
-        Collider[] hitObjects = Physics.OverlapSphere(this.transform.position, arcLightningRange, arcLightningLayer);
+        //// Winston arc part
+        //Collider[] hitObjects = Physics.OverlapSphere(this.transform.position, arcLightningRange, arcLightningLayer);
 
-        foreach (Collider hit in hitObjects)
-        {
-            Vector3 vectorToCollider = (hit.transform.position - transform.position).normalized;
-            if (Vector3.Dot(vectorToCollider, transform.forward) > arcLightningAngleDotProduct) {
+        //foreach (Collider hit in hitObjects)
+        //{
+        //    Vector3 vectorToCollider = (hit.transform.position - transform.position).normalized;
+        //    if (Vector3.Dot(vectorToCollider, transform.forward) > arcLightningAngleDotProduct) {
 
-                IDamageable enemy = hit.GetComponent<IDamageable>();
+        //        IDamageable enemy = hit.GetComponent<IDamageable>();
 
-                if (enemy != null)
-                {
-                    Damager damage = new Damager();
-                    damage.damage = Vector3.Distance(this.transform.position, hit.transform.position) / arcLightningRange * arcLightningMaxDPS * Time.deltaTime;
-                    damage.damagerType = DamagerType.GrapplingHook;
-                    damage.impactDirection = vectorToCollider;
+        //        if (enemy != null)
+        //        {
+        //            Damager damage = new Damager();
+        //            damage.damage = Vector3.Distance(this.transform.position, hit.transform.position) / arcLightningRange * arcLightningMaxDPS * Time.deltaTime;
+        //            damage.damagerType = DamagerType.GrapplingHook;
+        //            damage.impactDirection = vectorToCollider;
 
-                    enemy.TakeDamage(damage);
-                }
-            }
-        }
+        //            enemy.TakeDamage(damage);
+        //        }
+        //    }
+        //}
 
         // Lightning Ball part
         onActivate = () => {            
@@ -95,6 +95,7 @@ public class LightningGun : Mod {
             LightningProjectile currentHook = hookObject.GetComponent<LightningProjectile>();
             ProjectileProperties newProperties = new ProjectileProperties(projectileProperties);            
             currentHook.Init(projectileProperties, muzzleTransform);
+            currentHook.CheckForTargets();
             animator.SetTrigger("Shoot");
         }
     }    

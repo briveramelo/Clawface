@@ -17,8 +17,8 @@ namespace Turing.VFX
         /// <summary>
         /// Reference to the player's material instance.
         /// </summary>
-        [Tooltip("Reference to the player's material instance.")]
-        [SerializeField] Material playerMaterial;
+        //[Tooltip("Reference to the player's material instance.")]
+        //[SerializeField] Material playerMaterial;
 
         /// <summary>
         /// Reference to the player's mesh renderer.
@@ -92,7 +92,7 @@ namespace Turing.VFX
         /// <summary>
         /// Instantiated material (so that template material isn't changed).
         /// </summary>
-        Material material;
+        //Material material;
 
         /// <summary>
         /// Current emotional state of the player.
@@ -105,9 +105,9 @@ namespace Turing.VFX
         void Awake ()
         {
             // Instantiate material
-            material = Instantiate (playerMaterial) as Material;
-            material.CopyPropertiesFromMaterial (playerMaterial);
-            playerRenderer.material = material;
+            //material = Instantiate (playerMaterial) as Material;
+            //material.CopyPropertiesFromMaterial (playerMaterial);
+            //playerRenderer.material = material;
 
             // Set initial emotion
             SetEmotion (emotion);
@@ -196,7 +196,7 @@ namespace Turing.VFX
         /// </summary>
         void SetFacialExpression (Texture2D face)
         {
-            material.SetTexture ("_FaceTexture", face);
+            playerRenderer.material.SetTexture ("_FaceTexture", face);
         }
 
         public void SetTemporaryEmotion (Emotion emotion, float time)
@@ -210,7 +210,7 @@ namespace Turing.VFX
         /// </summary>
         void SetFacialColor (Color color)
         {
-            material.SetColor ("_FaceColor", color);
+            playerRenderer.material.SetColor ("_FaceColor", color);
         }
 
         #endregion

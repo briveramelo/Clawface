@@ -27,6 +27,8 @@ public class ScoreManager : Singleton<ScoreManager> {
     #region Privates
     private float comboTimer;
     private float currentQuadrant;
+
+    private bool updateScore;
     #endregion
 
     #region Unity Lifecycle
@@ -37,7 +39,7 @@ public class ScoreManager : Singleton<ScoreManager> {
 
         EventSystem.Instance.RegisterEvent(Strings.Events.DEATH_ENEMY, OnPlayerKilledEnemy);
         EventSystem.Instance.RegisterEvent(Strings.Events.EAT_ENEMY, OnPlayerAte);
-        // EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_DAMAGED, OnPlayerDamaged);
+        EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_DAMAGED, OnPlayerDamaged);
         EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_STARTED, OnLevelStart);
         EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_RESTARTED, OnLevelRestart);
         EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_QUIT, OnLevelQuit);
@@ -50,7 +52,7 @@ public class ScoreManager : Singleton<ScoreManager> {
         {
             EventSystem.Instance.UnRegisterEvent(Strings.Events.DEATH_ENEMY, OnPlayerKilledEnemy);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.EAT_ENEMY, OnPlayerAte);
-            // EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_DAMAGED, OnPlayerDamaged);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_DAMAGED, OnPlayerDamaged);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_STARTED, OnLevelStart);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_RESTARTED, OnLevelRestart);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_QUIT, OnLevelQuit);
@@ -235,7 +237,10 @@ public class ScoreManager : Singleton<ScoreManager> {
             if (parameters != null && parameters[1] != null)
             {
 
-                AddToScoreAndCombo((int)parameters[1]);
+                if (updateScore)
+                {
+                    AddToScoreAndCombo((int)parameters[1]);
+                }
 
                 /*
                 currentCombo++;
@@ -258,14 +263,14 @@ public class ScoreManager : Singleton<ScoreManager> {
     {
         if (useAlternateScoreMode)
         {
-            currentCombo = 0;
-            EventSystem.Instance.TriggerEvent(Strings.Events.COMBO_UPDATED, currentCombo);
-            CalculateTimerQuadrant();
+            ResetCombo();
         }
     }
 
     private void OnLevelStart(params object[] parameters)
     {
+        updateScore = true;
+
         score = 0;
         currentCombo = 0;
         highestCombo = 0;
@@ -286,6 +291,7 @@ public class ScoreManager : Singleton<ScoreManager> {
 
     private void OnPlayerKilled(object[] parameters)
     {
+        updateScore = false;
         LeaderBoards.Instance.UpdateScore(score);
     }
     #endregion

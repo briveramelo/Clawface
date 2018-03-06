@@ -46,9 +46,9 @@ public class MainMenu : PlayerLevelEditorMenu
         MenuManager.Instance.DoTransition(loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
     }
 
-    public void ControlsAction()
+    public void SettingsAction()
     {
-        MenuManager.Instance.DoTransition(Strings.MenuStrings.CONTROLS,
+        MenuManager.Instance.DoTransition(Strings.MenuStrings.SETTINGS,
             Transition.SHOW, new Effect[] { Effect.EXCLUSIVE, Effect.FADE });
     }
 

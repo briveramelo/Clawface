@@ -32,6 +32,10 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
 
     [SerializeField]
     private DashState dashState;
+
+    [SerializeField]
+    private float invincibleTime;
+
     #endregion
 
     #region Private Fields
@@ -39,6 +43,9 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     float healthAtLastSkin;
     float lastSkinHealthBoost;
     HitFlasher hitFlasher;
+    private float invincibleTimer;
+
+    bool gotDashComboThisFrame;
     #endregion
 
     #region Unity Lifecycle
@@ -48,6 +55,12 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
         startHealth = stats.GetStat(CharacterStatType.MaxHealth);
         hitFlasher = GetComponentInChildren<HitFlasher>();
         stats.SetStats();
+    }
+
+    void Update()
+    {
+        invincibleTimer -= Time.deltaTime;
+        gotDashComboThisFrame = false;
     }
 	
     #endregion
@@ -60,38 +73,29 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
 
     public void TakeDamage(Damager damager)
     {
+        if (invincibleTimer >= 0f)
+        {
+            return;
+        }
+
         if (dashState.CheckForIFrames())
         {
-            ScoreManager.Instance.AddToCombo();
+            if (dashState.CheckIfDashGivesCombo() && !gotDashComboThisFrame)
+            {
+                gotDashComboThisFrame = true;
+                ScoreManager.Instance.AddToCombo();
+            }
             return;
         }
 
 
         float healthFraction = stats.GetHealthFraction();
 
-        if (!playerTakesSetDamage)
-        {
-            if (damageModifier > 0.0f)
-            {
-                if (stats.GetStat(CharacterStatType.Health) > 0)
-                {
-                    for (int i = 0; i < damageScaling.Count; i++)
-                    {
-                        if (healthFraction >= damageScaling[i].healthPercentage)
-                        {
-                            damageModifier = damageScaling[i].damageRatio;
-                            break;
-                        }
-                    }
-                }
-                stats.TakeDamage(damageModifier * damager.damage); 
-            }
-        }
-        else
-        {
-            stats.TakeDamage(setDamageToTake);
-        }
+        stats.TakeDamage(setDamageToTake);
 
+
+
+        invincibleTimer = invincibleTime;
         EventSystem.Instance.TriggerEvent(Strings.Events.PLAYER_DAMAGED);
         healthFraction = stats.GetHealthFraction();
         EventSystem.Instance.TriggerEvent(Strings.Events.PLAYER_HEALTH_MODIFIED, healthFraction);

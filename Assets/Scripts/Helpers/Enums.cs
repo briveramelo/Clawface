@@ -38,7 +38,14 @@ public enum SFXType {
     AnnounceLevelStart,
     AnnounceTitle,
     MortarShoot,
-    MortarExplosion
+    MortarExplosion,
+    LandmarkBlast,
+    GuardAttack,
+    ZombieAttack,
+    BouncerAttack,
+    KamikazeAttack,
+    KamikazePulse,
+    LandmarkBlastShort
 }
 
 public enum MusicType
@@ -299,4 +306,24 @@ public enum SpawnType {
 public enum ActionType
 {
     Skin=0
+}
+
+public enum EditorMenu
+{
+    MAIN_EDITOR_MENU = 0,
+    FLOOR_MENU = 1,
+    PROPS_MENU = 2,
+    SPAWN_MENU = 3,
+    SAVE_MENU = 4,
+    HELP_MENU = 5
+
+}
+
+public enum FireMode
+{
+    AIM_TO_SHOOT = 0,
+    SINGLE_TRIGGER,
+    AUTOFIRE,
+    MANUAL,
+    COUNT
 }

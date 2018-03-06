@@ -44,10 +44,14 @@ public class Kamikaze : EnemyBase
         };
         base.Awake();
     }
+
+
+
     #endregion
 
     #region 5. Public Methods   
-    
+
+
     //State conditions
     bool CheckToSelfDestruct()
     {
@@ -71,6 +75,7 @@ public class Kamikaze : EnemyBase
     }
     bool DeleteKamikaze()
     {
+
         if (controller.CurrentState == attack && attack.DoneAttacking() )
         {
             if (attack.setToSelfDestruct)
@@ -83,8 +88,6 @@ public class Kamikaze : EnemyBase
                 controller.UpdateState(EAIState.Attack);
                 return true;
             }
-
-            
         }
         return false;
     }
@@ -100,10 +103,9 @@ public class Kamikaze : EnemyBase
     {
         if (myStats.health > myStats.skinnableHealth)
         {
-            animator.SetTrigger("DoVictoryDance");
+            animator.SetInteger("AnimationState", -1);
             controller.CurrentState = celebrate;
             controller.UpdateState(EAIState.Celebrate);
-            animator.SetInteger("AnimationState", -1);
         }
     }
 
@@ -120,6 +122,11 @@ public class Kamikaze : EnemyBase
     public void SetScorePoints(int score)
     {
         scoreValue = score;
+    }
+
+    public override void DisableStateResidue()
+    {
+        attack.StopCoroutines();
     }
 
     #endregion

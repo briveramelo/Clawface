@@ -52,6 +52,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shouldRegister: 1
+  dontDestroyOnLoad: 1
   pools:
   - name: BlasterBullet
     poolObjectType: 2
@@ -225,7 +226,7 @@ MonoBehaviour:
     poolObjectType: 42
     prefabs:
     - {fileID: 1130061683809566, guid: 9a5bd367854db024caba00447b4bc385, type: 2}
-    size: 30
+    size: 70
     mostUsed: 0
     objects: []
   - name: VFXKamikazeExplosion
