@@ -145,7 +145,7 @@ public abstract class AIController : RoutineRunner {
         return currentState == states.stun;
     }
 
-    public void SetDefaultState()
+    public void SetDefaultChaseState()
     {
         CurrentState = states.chase;
     }

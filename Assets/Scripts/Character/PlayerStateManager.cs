@@ -30,8 +30,6 @@ public class PlayerStateManager : RoutineRunner {
 
     [SerializeField] private float tutorialSlowDownRate = 0.05f;
     [SerializeField] private float tutorialSpeedUpRate = 0.05f;
-
-    [SerializeField] private GameObject playerOutline;
     #endregion
 
     #region Private Fields
@@ -73,11 +71,6 @@ public class PlayerStateManager : RoutineRunner {
         movementState = defaultState;
         playerStates = new List<IPlayerState>(){ defaultState};
         eatCollider.radius = stateVariables.eatRadius;
-
-        if (playerOutline)
-        {
-            playerOutline.SetActive(false);
-        }
 
         //for input blocking 
         EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_COMPLETED, BlockInput);        
@@ -210,7 +203,7 @@ public class PlayerStateManager : RoutineRunner {
 
     private void OnEnemyDeathByEating(object[] parameters)
     {
-        playerOutline.SetActive(false);
+        
     }
     #endregion
 
@@ -227,8 +220,6 @@ public class PlayerStateManager : RoutineRunner {
                 if (enemyBase)
                 {
                     enemyBase.CloserToEat(state);
-                                       
-                    playerOutline.SetActive(state);                    
 
                     if (state)
                     {

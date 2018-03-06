@@ -214,7 +214,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
 
         hitFlasher.StopAllCoroutines();
         hitFlasher.SetStrength(0.0f);
-        controller.SetDefaultState();
+        controller.SetDefaultChaseState();
         controller.ActivateAI();
         currentStunTime = 0.0f;
     }
@@ -252,12 +252,12 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
             gameObject.SetActive(false);
             aboutTobeEaten = false;
             SFXManager.Instance.Play(deathSFX, transform.position);
-            //AIEnemyData testData = new AIEnemyData(controller.GetInstanceID());
+            AIEnemyData testData = new AIEnemyData(controller.GetInstanceID());
             currentStunTime = 0.0f;
-            //if (AIManager.Instance != null)
-            //{
-            //    AIManager.Instance.Remove(testData);
-            //}
+            if (AIManager.Instance != null)
+            {
+                AIManager.Instance.Remove(testData);
+            }
             ClearAffecters();
         }
     }
@@ -276,7 +276,6 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         isStunFlashing = false;
         alreadyStunned = false;
         isIndestructable = false;
-
     }
 
     public virtual void DisableStateResidue()
