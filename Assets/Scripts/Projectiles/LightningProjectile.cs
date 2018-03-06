@@ -51,6 +51,7 @@ public class LightningProjectile : MonoBehaviour {
             {
                 if (!CheckForTargets())
                 {
+                    ResetToDefaults();
                     return;
                 }
             }
