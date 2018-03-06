@@ -5,7 +5,7 @@ public class CreditsMenu : Menu
 {
     #region Public Fields
 
-    public override Button InitialSelection
+    public override Selectable InitialSelection
     {
         get
         {

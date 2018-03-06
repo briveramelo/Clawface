@@ -1,15 +1,24 @@
-﻿using UnityEngine;
+﻿using Rewired.Data;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class ControlMapperMenu : Menu
 {
     #region Public Accessors
 
-    public override Button InitialSelection
+    public override Selectable InitialSelection
     {
         get
         {
             return doneButton;
+        }
+    }
+
+    public UserDataStore_PlayerPrefs UserDataStore
+    {
+        get
+        {
+            return userDataStore;
         }
     }
     #endregion
@@ -18,6 +27,9 @@ public class ControlMapperMenu : Menu
 
     [SerializeField]
     private Button doneButton;
+
+    [SerializeField]
+    private UserDataStore_PlayerPrefs userDataStore;
 
     #endregion
 

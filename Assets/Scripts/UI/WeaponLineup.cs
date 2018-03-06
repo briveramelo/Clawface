@@ -7,10 +7,8 @@ public class WeaponLineup : MonoBehaviour
 {
     #region Public Fields (Accessors)
 
-    public WeaponSelectGlowController GlowControl
-    {
-        get { return glowControl; }
-    }
+    public WeaponSelectGlowController GlowControl { get { return glowControl; } }
+    public ModType GetModType { get { return selectedWeapon; } }
 
     #endregion  
 
@@ -36,18 +34,17 @@ public class WeaponLineup : MonoBehaviour
 
     #endregion
 
-    public ModType GetSelection()
-    {
+    
+    
+    public void SelectArrows() {
         moveRightButton.image.sprite = selectedRightSprite;
         moveLeftButton.image.sprite = selectedLeftSprite;
         moveRightButton.image.color = selectedColor;
         moveLeftButton.image.color = selectedColor;
-        glowControl.SetConfirmed(true);
         buttonFX.PlayButtonConfirm();
-        return selectedWeapon;
     }
 
-    public void ResetArrows()
+    public void UnselectArrows()
     {
         moveRightButton.image.sprite = unselectedRightSprite;
         moveLeftButton.image.sprite = unselectedLeftSprite;

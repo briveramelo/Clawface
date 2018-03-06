@@ -2,73 +2,82 @@
 using UnityEngine.EventSystems;
 using UnityEngine;
 using PlayerLevelEditor;
+using UnityEngine.UI;
+using System;
 
 public class SpawnMenu : PlacementMenu {
 
-    private PLESpawn selectedSpawn;
+    private const int minSpawns = 1;
+    private const int maxSpawns = 99;
+    public SpawnMenu() : base(Strings.MenuStrings.LevelEditor.ADD_SPAWNS_PLE) { }    
 
-    #region Public Interface
-    public SpawnMenu() : base(Strings.MenuStrings.ADD_SPAWNS_PLE) { }
+    private PLESpawn SelectedSpawn { get { return selectedPLEItem as PLESpawn; } }        
+
+    #region Serialized Unity Fields
+
+    [SerializeField] private InputField amountField;
+
     #endregion
 
-    #region Private Fields
+    #region Public Fields
 
     static public GameObject playerSpawnInstance = null;
 
-    #endregion  
+    #endregion
 
-    private void Awake() {
-        EventSystem.Instance.RegisterEvent(Strings.Events.PLE_CHANGEWAVE, OnWaveChange);
-    }
-    private void OnDestroy() {
-        if (EventSystem.Instance) {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_CHANGEWAVE, OnWaveChange);
-        }
-    }
+    
 
-    void OnWaveChange(params object[] parameters) {
+    #region Public Interface
+    public void SetAmtOnSelectedSpawn() {
+        if (selectedPLEItem) {
+            int finalAmt = 0;
 
-        string activeWaveName = GetWaveName(WaveSystem.currentWave);
-
-        for (int i = 0; i < createdItemsParent.childCount; i++)
-        {
-            //Accounts for not disabling the player spawn object between switching of waves.
-            GameObject currentGO = createdItemsParent.GetChild(i).gameObject;
-
-            if (!currentGO.CompareTag(Strings.Editor.PLAYER_SPAWN_TAG))
-            {
-                currentGO.SetActive(false);
+            if (System.Int32.TryParse(amountField.text, out finalAmt)) {
+                SelectedSpawn.totalSpawnAmount = finalAmt;
             }
-        }
-        Transform activeWave = createdItemsParent.Find(activeWaveName);
-        if (activeWave!=null) {
-            activeWave.gameObject.SetActive(true);
+
         }
     }
+    public void Increment() {
+        int newAmount = Mathf.Clamp(SelectedSpawn.totalSpawnAmount + 1, minSpawns, maxSpawns);
+        ChangeSpawnAmount(newAmount);
+    }
+    public void Decrement() {
+        int newAmount = Mathf.Clamp(SelectedSpawn.totalSpawnAmount - 1, minSpawns, maxSpawns);
+        ChangeSpawnAmount(newAmount);
+    }    
+    #endregion
 
     #region Protected Interface
     protected override bool SelectUI { get { return base.SelectUI && ScrollGroupHelper.currentUIItem != null; } }
     protected override bool SelectItem { get { return base.SelectUI && MouseHelper.currentSpawn != null; } }
+    protected override bool CanDeletedHoveredItem { get { return base.CanDeletedHoveredItem && MouseHelper.currentSpawn; } }
+    protected override bool Place { get { return base.Place && !MouseHelper.currentBlockUnit.HasActiveSpawn; } }
+    protected override bool UpdatePreview { get { return base.UpdatePreview && !MouseHelper.currentBlockUnit.HasActiveSpawn; } }
+
+
     protected override void DeleteHoveredItem() {
         base.DeleteHoveredItem();
-        editorInstance.CheckToSetMenuInteractability();
+        levelEditor.SetMenuButtonInteractability();
+    }
+
+    protected override void ShowStarted() {
+        base.ShowStarted();
+        SetInteractability(false);
     }
     protected override void ShowComplete() {
         base.ShowComplete();
     }
 
-    protected override void DeselectAll() {
-        base.DeselectAll();
-        selectedSpawn = null;
+    protected override void DeselectAllGameItems() {
+        base.DeselectAllGameItems();
     }
-    protected override void SelectUIItem() {
-        base.SelectUIItem();
-    }
+
     protected override void PostPlaceItem(GameObject newItem) {
-        int currentWave = WaveSystem.currentWave;
-        Transform waveParent = TryCreateWaveParent(currentWave);
+        int currentWave = PLESpawnManager.Instance.CurrentWaveIndex;
+        Transform waveParent = levelEditor.TryCreateWaveParent(currentWave);
         for (int i = currentWave; i >= 0; i--) {
-            TryCreateWaveParent(i);
+            levelEditor.TryCreateWaveParent(i);
         }
         newItem.transform.SetParent(waveParent);
         
@@ -77,7 +86,7 @@ public class SpawnMenu : PlacementMenu {
         PLESpawn spawn = newItem.GetComponent<PLESpawn>();
         if(spawn)
         {
-            PLESpawnManager.Instance.RegisterSpawner(currentWave, spawn);
+            //TODO: What happens if the registered wave is 'deleted'
             spawn.registeredWave = currentWave;
         }
 
@@ -89,32 +98,55 @@ public class SpawnMenu : PlacementMenu {
             }
 
             playerSpawnInstance = newItem;
-            playerSpawnInstance.transform.SetParent(TryCreateWaveParent(0).parent);
+            playerSpawnInstance.transform.SetParent(levelEditor.TryCreateWaveParent(0).parent);
         }
-        editorInstance.CheckToSetMenuInteractability();
-    }
-    Transform TryCreateWaveParent(int i) {
-        string waveName = GetWaveName(i);
-        Transform waveParent = createdItemsParent.Find(waveName);
-        if (waveParent == null) {
-            waveParent = new GameObject(waveName).transform;
-            waveParent.SetParent(createdItemsParent);
-        }
-        return waveParent;
+        levelEditor.SetMenuButtonInteractability();
+        UpdateAmtField(spawn.totalSpawnAmount);
     }    
-
-    #endregion
-    private string GetWaveName(int i) { return Strings.Editor.Wave + i; }
 
     protected override void SelectGameItem() {
         base.SelectGameItem();
         MouseHelper.currentSpawn.Select();
-        selectedSpawn = MouseHelper.currentSpawn;
+        selectedPLEItem = MouseHelper.currentSpawn;
+        UpdateAmtField(SelectedSpawn.totalSpawnAmount);
+        SetInteractability();
     }
     protected override void DeselectItem() {
-        if (selectedSpawn!=null) {
-            selectedSpawn.Deselect();
-            selectedSpawn = null;
+        base.DeselectItem();
+        SetInteractability(false);
+        UpdateAmtField(0, true);
+    }
+    protected override void InitializeSelectables() {
+        base.InitializeSelectables();
+        selectables.Add(amountField);
+    }
+    
+    protected override void SetInteractability() {
+        bool isItemSelectedAndNotKeira = selectedPLEItem != null && SelectedSpawn.spawnType != SpawnType.Keira;
+        selectables.ForEach(selectable => { selectable.interactable = isItemSelectedAndNotKeira; });
+
+        leftButton.interactable = isItemSelectedAndNotKeira && SelectedSpawn.totalSpawnAmount > minSpawns;
+        rightButton.interactable = isItemSelectedAndNotKeira && SelectedSpawn.totalSpawnAmount < maxSpawns;
+    }
+
+    #endregion
+
+    #region Private Interface
+    private void UpdateAmtField(int i_amt, bool makeEmpty = false) {
+        if (makeEmpty) {
+            amountField.text = "";
+        }
+        else {
+            string toSet = Convert.ToString(i_amt);
+            amountField.text = toSet;
         }
     }
+
+    private void ChangeSpawnAmount(int newAmount) {
+        UpdateAmtField(newAmount);
+        SetAmtOnSelectedSpawn();
+        SetInteractability();
+    }
+    #endregion
+
 }

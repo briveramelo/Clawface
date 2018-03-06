@@ -5,13 +5,14 @@
 		_MainTex ("Texture", 2D) = "white" {}
 		_ScrollSpeed("Scroll Speed", Range(0,100)) = 1
 		_ScrollDirection("Scroll Direction", Vector) = (1.0, 1.0, 0.0, 0.0)
+		[HideInInspector] _Color("Color", Color) = (1.0, 1.0, 1.0, 1.0)
 	}
 	SubShader
 	{
 		Tags { "RenderType"="Opaque" "Queue"="Transparent" }
 		LOD 100
 
-		Blend SrcAlpha OneMinusSrcAlpha
+		Blend SrcAlpha One
 		ZWrite Off
 
 		Pass
@@ -35,6 +36,7 @@
 			};
 
 			sampler2D _MainTex;
+			float4 _Color;
 			float4 _MainTex_ST;
 			float _ScrollSpeed;
 			float4 _ScrollDirection;
@@ -50,8 +52,8 @@
 			fixed4 frag (v2f i) : SV_Target
 			{
 				fixed4 col = tex2D(_MainTex, i.uv);
-				col.a = col.r;
-				return col;
+				col.a = col.r * _Color.a;
+				return col * _Color;
 			}
 			ENDCG
 		}

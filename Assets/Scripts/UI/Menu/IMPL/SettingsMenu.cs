@@ -6,7 +6,7 @@ public class SettingsMenu : Menu {
 
     #region Accessors (Menu)
 
-    public override Button InitialSelection
+    public override Selectable InitialSelection
     {
         get
         {
@@ -27,57 +27,60 @@ public class SettingsMenu : Menu {
 
     [Header("Panel Buttons")]
     [SerializeField]
-    private Button graphics;
+    private Button graphics = null;
 
     [SerializeField]
-    private new Button audio;
+    private new Button audio = null;
 
     [SerializeField]
-    private Button controls;
+    private Button controls = null;
 
     [SerializeField]
-    private Button other;
+    private Button other = null;
 
     [Header("Action Buttons")]
     [SerializeField]
-    private Button back;
+    private Button back = null;
 
     [SerializeField]
-    private Button _default;
+    private Button _default = null;
 
     [SerializeField]
-    private Button apply;
+    private Button apply = null;
 
     [Header("Settings Objects - Graphics")]
     [SerializeField]
-    private TextSlider quality;
+    private TextSlider quality = null;
 
     [SerializeField]
-    private TextSlider resolution;
+    private TextSlider resolution = null;
 
     [SerializeField]
-    private TextSlider goreDetail;
+    private TextSlider goreDetail = null;
 
     [SerializeField]
-    private Toggle fullscreen;
+    private Toggle fullscreen = null;
 
     [Header("Settings Objects - Audio")]
     [SerializeField]
-    private Slider music;
+    private Slider music = null;
 
     [SerializeField]
-    private Slider ui;
+    private Slider ui = null;
 
     [Header("Settings Objects - Controls")]
     [SerializeField]
-    private TextSlider fireMode;
+    private TextSlider fireMode = null;
 
     [SerializeField]
-    private Toggle snapLook;
+    private TextSlider mouseAimMode = null;
+
+    [SerializeField]
+    private Toggle snapLook = null;
 
     [Header("Settings Objects - Other")]
     [SerializeField]
-    private Toggle tutorial;
+    private Toggle tutorial = null;
 
     #endregion
 
@@ -122,6 +125,11 @@ public class SettingsMenu : Menu {
     public void ButtonBack()
     {
         MenuManager.Instance.DoTransition(Strings.MenuStrings.MAIN, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+
+        // Load ControlMapper Data
+        Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.CONTROLS);
+        ControlMapperMenu cMenu = menu as ControlMapperMenu;
+        cMenu.UserDataStore.Load();
     }
 
     public void ButtonDefault()
@@ -133,6 +141,11 @@ public class SettingsMenu : Menu {
     {
         TransferSettingsToManager();
         SettingsManager.Instance.ApplyChanges();
+
+        // Apply ControlMapper Data
+        Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.CONTROLS);
+        ControlMapperMenu cMenu = menu as ControlMapperMenu;
+        cMenu.UserDataStore.Save();
     }
 
     public void ButtonRemap()
@@ -214,6 +227,7 @@ public class SettingsMenu : Menu {
 
         // Controls
         fireMode.DataSource.ForceUpdate();
+        mouseAimMode.DataSource.ForceUpdate();
         snapLook.isOn = manager.SnapLook;
 
         // Other
@@ -236,6 +250,7 @@ public class SettingsMenu : Menu {
 
         // Controls
         manager.FireMode = (FireMode)fireMode.DataSource.Value;
+        manager.MouseAimMode = (MouseAimMode)mouseAimMode.DataSource.Value;
         manager.SnapLook = snapLook.isOn;
 
         // Other

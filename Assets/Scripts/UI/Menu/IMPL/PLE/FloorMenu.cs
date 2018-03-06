@@ -5,17 +5,9 @@ using UnityEngine;
 using PlayerLevelEditor;
 using System.Linq;
 
-public class FloorMenu : Menu {
+public class FloorMenu : PlayerLevelEditorMenu {
 
     #region Public Fields
-
-    public override Button InitialSelection
-    {
-        get
-        {
-            return initiallySelected;
-        }
-    }
 
     #endregion
 
@@ -29,51 +21,33 @@ public class FloorMenu : Menu {
 
     #region Serialized Unity Fields
 
-    [SerializeField] private Button initiallySelected;
-    [SerializeField] private LevelEditor editorInstance;
-
-
     #endregion
 
 
     #region Unity Lifecycle
 
-
-    private void Update()
-    {
-        if(inputGuard)
-        {
-            if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.UP))
-            {
-                BackAction();
-            }
-        }
-    }
-
-
-
     #endregion  
 
     #region Public Interface
 
-    public FloorMenu() : base(Strings.MenuStrings.SET_DYNLEVEL_PLE) { }
+    public FloorMenu() : base(Strings.MenuStrings.LevelEditor.SET_DYNLEVEL_PLE) { }
 
 
     public void DropFloorAction() {
-        UpdateSelectedAndOpenTilesState(LevelUnitStates.pit);
+        UpdateSelectedAndOpenTilesState(LevelUnitStates.Pit);
     }
 
     public void FlatFloorAction() {
-        UpdateSelectedAndOpenTilesState(LevelUnitStates.floor);
+        UpdateSelectedAndOpenTilesState(LevelUnitStates.Floor);
     }
 
     public void RiseFloorAction() {
-        UpdateSelectedAndOpenTilesState(LevelUnitStates.cover);
+        UpdateSelectedAndOpenTilesState(LevelUnitStates.Cover);
     }
 
-    public void BackAction()
+    public override void BackAction()
     {
-        MenuManager.Instance.DoTransition(editorInstance.GetMenu(PLEMenu.MAIN), Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+        
     }
 
 
@@ -82,7 +56,7 @@ public class FloorMenu : Menu {
     #region Protected Interface
     protected override void ShowStarted() {
         base.ShowStarted();
-        editorInstance.gridController.SetGridVisiblity(true);
+        levelEditor.gridController.SetGridVisiblity(true);
     }
     protected override void ShowComplete()
     {
@@ -94,50 +68,37 @@ public class FloorMenu : Menu {
     {
         base.HideStarted();
         inputGuard = false;
-        editorInstance.gridController.ClearSelectedBlocks();
-        editorInstance.gridController.SetGridVisiblity(false);
-        editorInstance.gridController.ShowWalls();
-    }
-
-    protected override void DefaultShow(Transition transition, Effect[] effects)
-    {
-        Fade(transition, effects);
-    }
-
-    protected override void DefaultHide(Transition transition, Effect[] effects)
-    {
-        Fade(transition, effects);
+        levelEditor.gridController.ClearSelectedBlocks();
+        levelEditor.gridController.SetGridVisiblity(false);
+        levelEditor.gridController.ShowWalls();
     }
 
     #endregion
 
     #region Private Interface    
     void UpdateSelectedAndOpenTilesState(LevelUnitStates state) {
-        List<GameObject> selectedObjects = editorInstance.gridController.GetSelectedBlocks();
+        List<GridTile> selectedGridTiles = levelEditor.gridController.GetSelectedGridTiles();
 
-        if (selectedObjects.Count == 0)
+        if (selectedGridTiles.Count == 0)
             return;
 
-        foreach (GameObject GO in selectedObjects) {
-            if (GO != null) {
-                PLEBlockUnit blockUnit = GO.GetComponent<PLEBlockUnit>();
-                if (!blockUnit.HasActiveSpawn) {
-                    List<LevelUnitStates> levelUnitStates = blockUnit.GetLevelStates();
-                    levelUnitStates[WaveSystem.currentWave] = state;
-                }
-            }
-            else {
-                selectedObjects.Remove(GO);
+        int currentWaveIndex = PLESpawnManager.Instance.CurrentWaveIndex;
+        for (int i=0; i<selectedGridTiles.Count; i++) {
+            GridTile tile = selectedGridTiles[i];
+            PLEBlockUnit blockUnit = tile.blockUnit;
+            LevelUnit levelUnit = tile.levelUnit;
+            if (!blockUnit.HasActiveSpawn) {
+                List<LevelUnitStates> levelUnitStates = blockUnit.GetLevelStates();
+                levelUnitStates[currentWaveIndex] = state;
+                blockUnit.UpdateTileHeightStates();
+                levelUnit.TryTransitionToState(state, false);
             }
         }
 
-        string event_name = Strings.Events.PLE_TEST_WAVE_ + WaveSystem.currentWave;
-        bool shouldChangeColor = false;
-        EventSystem.Instance.TriggerEvent(Strings.Events.PLE_UPDATE_LEVELSTATE);
-        EventSystem.Instance.TriggerEvent(event_name, shouldChangeColor);
-
-        //print("RiseFloorAction PLE_UPDATE_LEVELSTATE" + Strings.Events.PLE_UPDATE_LEVELSTATE);
-        //print("RiseFloorAction event_name" + event_name);
+        //string eventName = Strings.Events.PLE_TEST_WAVE_ + PLESpawnManager.Instance.CurrentWaveIndex;
+        //bool shouldChangeColor = false;
+        //EventSystem.Instance.TriggerEvent(eventName, shouldChangeColor);
+        //EventSystem.Instance.TriggerEvent(Strings.Events.PLE_UPDATE_LEVELSTATE);
     }    
     #endregion
 }

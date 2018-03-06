@@ -3,15 +3,14 @@ using UnityEngine;
 using MEC;
 using System.Reflection;
 using System;
-
+using UnityEngine.UI;
 namespace ModMan {
 
     public static class StringExtension
     {
-        public static string TryCleanClone(this string myStringName) {
-            const string clone = "(Clone)";
-            if (myStringName.Contains(clone)) {
-                myStringName = myStringName.Substring(0, myStringName.Length - clone.Length);
+        public static string TryCleanName(this string myStringName, string suffixToRemove) {
+            if (!string.IsNullOrEmpty(myStringName) && !string.IsNullOrEmpty(suffixToRemove) && myStringName.Contains(suffixToRemove)) {
+                myStringName = myStringName.Substring(0, myStringName.Length - suffixToRemove.Length);
             }
             return myStringName;
         }
@@ -169,6 +168,14 @@ namespace ModMan {
         public static Float3 ToFloat3 (this Vector3 v)
         {
             return new Float3 (v.x, v.y, v.z);
+        }
+    }
+
+    public static class UIExtensions {
+        public static void SwitchListenerState(this UnityEngine.Events.UnityEventBase eventBase, UnityEngine.Events.UnityEventCallState newState) {
+            for (int i = 0; i < eventBase.GetPersistentEventCount(); i++) {
+                eventBase.SetPersistentListenerState(i, newState);
+            }
         }
     }
 

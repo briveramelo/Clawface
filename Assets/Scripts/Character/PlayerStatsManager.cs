@@ -179,7 +179,7 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     #region Private Methods
     private void Revive() {
         SFXManager.Instance.Play(SFXType.PlayerDeath, transform.position);
-        transform.position = GameObject.Find("RespawnPoint").transform.position;
+        transform.position = GameObject.Find(Strings.RESPAWN_POINT).transform.position;
         stats.Add(CharacterStatType.Health, (int)startHealth);
         startHealth = stats.GetStat(CharacterStatType.MaxHealth);
 

@@ -270,7 +270,7 @@ public class PlayerStateManager : RoutineRunner {
 
     private void StartDashTutorial()
     {
-        if (!isDashTutorialDone && !isInDashTutorial)
+        if (SettingsManager.Instance.Tutorial && !isDashTutorialDone && !isInDashTutorial)
         {
             isInDashTutorial = true;
             EventSystem.Instance.TriggerEvent(Strings.Events.ENEMY_INVINCIBLE, true);

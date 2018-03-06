@@ -20,6 +20,14 @@ public class EnemyCulling : MonoBehaviour
 
 
     #region Privates
+    private Camera MainCamera {
+        get {
+            if (mainCamera==null) {
+                mainCamera = Camera.main;
+            }
+            return mainCamera;
+        }
+    }
     private Camera mainCamera;
 
     private float zeroMinusMargin;
@@ -47,7 +55,7 @@ public class EnemyCulling : MonoBehaviour
     void Update()
     {
         if (enemyBase.IsEatable()) {
-            Vector3 screenPoint = mainCamera.WorldToViewportPoint(transform.position);
+            Vector3 screenPoint = MainCamera.WorldToViewportPoint(transform.position);
             bool onScreen = screenPoint.z > zeroMinusMargin && screenPoint.x > zeroMinusMargin && screenPoint.x < onePlusMargin && screenPoint.y > zeroMinusMargin && screenPoint.y < onePlusMargin;
 
             if (!onScreen)

@@ -327,3 +327,11 @@ public enum FireMode
     MANUAL,
     COUNT
 }
+
+public enum MouseAimMode
+{
+    AUTOMATIC,
+    ALWAYS_ON,
+    ALWAYS_OFF,
+    COUNT
+}

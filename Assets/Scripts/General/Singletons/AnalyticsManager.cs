@@ -60,7 +60,7 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
 
     #region Unity Lifecycle
     
-    private new void OnDestroy()
+    private void OnDestroy()
     {
         if (EventSystem.Instance)
         {
@@ -70,8 +70,6 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
             EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_QUIT, OnLevelQuit);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_RESTARTED, OnLevelRestart);
         }
-
-        base.OnDestroy();   
     }
 
 
@@ -190,6 +188,11 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         currentWave = wave;
     }
 
+    public void IncrementWave()
+    {
+        currentWave++;
+    }
+
     public void SetCurrentLevelTime(float time)
     {
         currentLevelTime = time;
@@ -209,6 +212,7 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         totalCurrentLevelTime = 0f;
         levelEatPresses = 0;
         levelDodgePresses = 0;
+        currentWave = 0;
 
         string level = parameters[0] as string;
         string leftArm = parameters[1] as string;
@@ -306,6 +310,7 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         currentLevelTime = 0f;
         levelEatPresses = 0;
         levelDodgePresses = 0;
+        currentWave = 0;
     }
 
     private void OnLevelQuit(params object[] parameters)
@@ -349,6 +354,7 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         currentLevelDeaths = 0;
         levelEatPresses = 0;
         levelDodgePresses = 0;
+        currentWave = 0;
     }
 
     private void OnLevelCompleted(params object[] parameters)

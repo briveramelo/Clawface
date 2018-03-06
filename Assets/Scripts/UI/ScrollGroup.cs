@@ -5,25 +5,35 @@ using UnityEngine.UI;
 
 public abstract class ScrollGroup : MonoBehaviour {
 
+    [SerializeField] protected PlacementMenu placementMenu;
     [SerializeField] protected GameObject iconTemplate;
     [SerializeField] protected GameObject groupContent;
 
     protected abstract string ResourcesPath { get; }
     protected List<PLEUIItem> pleUIItems = new List<PLEUIItem>();
+    protected bool hasInitialized = false;
+    public int LastSelectedIndex { get; private set; }
 
     #region Unity Lifecycle
     private void Start() {
-        InitializeUI();
+        TryInitialize();
     }
     #endregion
 
 
     #region Public Interface
-    public PLEUIItem GetFirstUIItem() {
+    public PLEUIItem GetLastUIItem() {
+        TryInitialize();
+        return pleUIItems[LastSelectedIndex];
+    }
+    public virtual PLEUIItem GetUIItem(int index) {
+        TryInitialize();
         return pleUIItems[0];
     }
     public void SelectItem(int itemIndex) {
+        LastSelectedIndex = itemIndex;
         pleUIItems.ForEach(item => { item.OnGroupSelectChanged(itemIndex); });
+        placementMenu.SelectUIItem(pleUIItems[itemIndex]);
     }
     #endregion
 
@@ -70,4 +80,11 @@ public abstract class ScrollGroup : MonoBehaviour {
         SelectItem(0);
     }
     #endregion
+
+    protected void TryInitialize() {
+        if (!hasInitialized) {
+            InitializeUI();
+            hasInitialized = true;
+        }
+    }
 }
