@@ -584,24 +584,21 @@ MonoBehaviour:
   damage: 8
   pickupCollider: {fileID: 65003413662208174}
   energySettings:
-    timeToCoolDown: 0.6
+    timeToCoolDown: 0.55
     isCoolingDown: 0
     isActive: 0
     cooldownTimer: 0
   shootSFX: 13
   fishEmitter: {fileID: 114636888699788508}
   geyserStartDistanceOffset: 0
-  fissureSpeed: 35
+  fissureSpeed: 21
   fishLaunchSpeed:
     minLimit: 0
     maxLimit: 0
     min: 3
     max: 6
-  fissureLiveTime: 8
+  fissureLiveTime: 9
   muzzle: {fileID: 4829776361292650}
-  timeToCharge: 1
-  chargeDamage: 9
-  chargeSpeed: 40
 --- !u!114 &114636888699788508
 MonoBehaviour:
   m_ObjectHideFlags: 1

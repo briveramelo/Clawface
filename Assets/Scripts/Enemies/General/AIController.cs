@@ -132,7 +132,7 @@ public abstract class AIController : RoutineRunner {
         stateTimerIsRunning = false;
         timeInLastState = 0f;
         deActivateAI = false;
-        CurrentState = states.chase;
+        CurrentState = states.getUp;
 
         if (mod != null)
         {
