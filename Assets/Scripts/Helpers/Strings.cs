@@ -141,6 +141,7 @@
         public const string SKIN_ENEMY = "SkinEnemy";
         public const string DEATH_ENEMY = "DeathEnemy";
         public const string EAT_ENEMY = "EatEnemy";
+        public const string ENEMY_DEATH_BY_EATING = "ENEMY_DEATH_BY_EATING";
 
         public const string EARN_ACHIEVEMENT = "EarnAchievement";
         public const string PROGRESS_ACHIEVEMENT = "ProgressAchievement";

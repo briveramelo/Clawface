@@ -30,6 +30,8 @@ public class PlayerStateManager : RoutineRunner {
 
     [SerializeField] private float tutorialSlowDownRate = 0.05f;
     [SerializeField] private float tutorialSpeedUpRate = 0.05f;
+
+    [SerializeField] private GameObject playerOutline;
     #endregion
 
     #region Private Fields
@@ -72,13 +74,17 @@ public class PlayerStateManager : RoutineRunner {
         playerStates = new List<IPlayerState>(){ defaultState};
         eatCollider.radius = stateVariables.eatRadius;
 
-        //for input blocking 
-        EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_COMPLETED, BlockInput);
-        EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_KILLED, BlockInput);
-        EventSystem.Instance.RegisterEvent(Strings.Events.FINISHED_EATING, FinishedEat);
-    }
+        if (playerOutline)
+        {
+            playerOutline.SetActive(false);
+        }
 
-    
+        //for input blocking 
+        EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_COMPLETED, BlockInput);        
+        EventSystem.Instance.RegisterEvent(Strings.Events.FINISHED_EATING, FinishedEat);
+        EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_KILLED, OnPlayerKilled);
+        EventSystem.Instance.RegisterEvent(Strings.Events.ENEMY_DEATH_BY_EATING, OnEnemyDeathByEating);
+    }
 
     // Update is called once per frame
     void Update()
@@ -195,10 +201,16 @@ public class PlayerStateManager : RoutineRunner {
         if(instance)
         {
             EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_COMPLETED, BlockInput);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_KILLED, BlockInput);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.FINISHED_EATING, FinishedEat);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_KILLED, OnPlayerKilled);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.DEATH_ENEMY, OnEnemyDeathByEating);
         }
         
+    }
+
+    private void OnEnemyDeathByEating(object[] parameters)
+    {
+        playerOutline.SetActive(false);
     }
     #endregion
 
@@ -215,6 +227,9 @@ public class PlayerStateManager : RoutineRunner {
                 if (enemyBase)
                 {
                     enemyBase.CloserToEat(state);
+                                       
+                    playerOutline.SetActive(state);                    
+
                     if (state)
                     {
                         StartTutorial();
@@ -422,6 +437,15 @@ public class PlayerStateManager : RoutineRunner {
     private void FinishedEat(object[] parameters)
     {
         StartCoroutine(WaitForEatCoolDown());
+    }
+
+    private void OnPlayerKilled(object[] parameters)
+    {
+        if (eatCollider)
+        {
+            eatCollider.enabled = false;
+        }
+        BlockInput(parameters);
     }
     #endregion
 
