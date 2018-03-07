@@ -45,7 +45,7 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
     private Splattable splattable;
     private static string[] masks = { Strings.Layers.ENEMY, Strings.Layers.ENEMY_BODY, Strings.Layers.MODMAN };
     #endregion
-
+    
     #region serialized fields
     [SerializeField] private List<string> coverStateEvents = new List<string>();
     [SerializeField] private List<string> floorStateEvents = new List<string>();
@@ -91,14 +91,16 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
 
     private void OnEnable() {
         RegisterToNamedStateEvents();
-        EventSystem.Instance.RegisterEvent(Strings.Events.CALL_NEXT_WAVE_PLE, TransitionToWave);
+        EventSystem.Instance.RegisterEvent(Strings.Events.PLE_CALL_WAVE, TransitionToWave);
+        EventSystem.Instance.RegisterEvent(Strings.Events.PLE_CHANGEWAVE, TransitionToWave);
     }
 
     protected override void OnDisable() {
         base.OnDisable();
         if (EventSystem.Instance) {
             DeRegisterFromNamedStateEvents();
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.CALL_NEXT_WAVE_PLE, TransitionToWave);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_CALL_WAVE, TransitionToWave);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_CHANGEWAVE, TransitionToWave);
         }
     }
 
@@ -110,7 +112,6 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
     #endregion
 
     #region Public Interface
-    #region public functions
     public Color RiseColor { get { return riseColor; } }
     public Color FlatColor { get { return flatColor; } }
     public Color FallColor { get { return fallColor; } }
@@ -153,6 +154,10 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
             levelUnitStates.Add(state);
         });
     }
+    public void SetCurrentState(int waveIndex) {
+        currentState = levelUnitStates[waveIndex];
+        print("current state is " + currentState);
+    }
 
     public void AddNamedStateEvent(LevelUnitStates state, string eventName) {
         levelUnitStates.Add(state);
@@ -160,7 +165,7 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
         AddEvent(ref stateEvents, eventName);
     }
 
-    public void TryTransitionToState(LevelUnitStates state, bool wasToldToChangeColor) {
+    public void TryTransitionToState(LevelUnitStates state, bool wasToldToChangeColor) {        
         switch (state) {
             case LevelUnitStates.Cover: TransitionToCoverState(wasToldToChangeColor); break;
             case LevelUnitStates.Floor: TransitionToFloorState(wasToldToChangeColor); break;
@@ -189,15 +194,15 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
         TryTransitionToState(LevelUnitStates.Pit, Texture2D.blackTexture, wasToldToChangeColor);
     }
 
-    #endregion
-    #endregion
-
-    #region Private Interface
-
-    private void TransitionToWave(params object[] parameters) {
+    public void TransitionToWave(params object[] parameters)
+    {
         int currentWaveIndex = (int)parameters[0];
         TryTransitionToState(levelUnitStates[currentWaveIndex], true);
     }
+    
+    #endregion
+
+    #region Private Interface
     private bool CanTransition { get { return !Physics.CheckBox(transform.position, Vector3.one * 0.5f, Quaternion.identity, LayerMask.GetMask(masks)); } }            
 
     private void TryUnRegister(ref List<string> eventNames, string eventName, EventSystem.FunctionPrototype func) {
@@ -234,7 +239,7 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
         transform.position = Vector3.MoveTowards(transform.position, targetPosition, yMoveSpeed * meshSizeY);
         if (Vector3.Distance(transform.position, targetPosition) < 0.01f) {
             FinishTransition(targetPosition);
-        }
+        }        
     }
 
     private void BeginTransition() {
@@ -357,14 +362,16 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
     }
 
     private void TryTransitionToState(LevelUnitStates newState, Texture2D paintMaskTexture, bool wasToldToChangeColor) {
+        
         if ((isTransitioning && currentState==newState) || currentState != newState) {
+            
             splattable.PaintMask = Texture2D.blackTexture;
             nextState = newState;
             targetPosition = GetStatePosition(nextState);
             isBeginningTransition = true;
             isTransitioning = true;
         }
-        bool shouldChangeColor = wasToldToChangeColor && !CurrentColor.IsAboutEqual(GetStateColor(newState));
+        bool shouldChangeColor = wasToldToChangeColor && isTransitioning;
         if (shouldChangeColor) {
             TriggerColorShift(newState);
         }

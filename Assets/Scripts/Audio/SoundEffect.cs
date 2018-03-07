@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.Audio;
 public class SoundEffect
 {
     public bool Available = true;
@@ -9,13 +9,15 @@ public class SoundEffect
     protected GameObject m_SFX_GameObject = null;
     protected Turing.Audio.AudioGroup m_AudioGroup = null;
     
-    public SoundEffect(GameObject i_SFX, Transform i_SFXManager)
+    public SoundEffect(GameObject i_SFX, Transform i_SFXManager, AudioMixer i_mixerToSet)
     {
         Available = true;
         m_SFX_GameObject = i_SFX;
         m_SFXManager = i_SFXManager;
         m_SFX_GameObject.transform.parent = i_SFXManager;
         m_AudioGroup = m_SFX_GameObject.GetComponent<Turing.Audio.AudioGroup>();
+        m_AudioGroup.SetMixer(i_mixerToSet);
+        
     }
 
     public virtual void Play(Vector3 position)

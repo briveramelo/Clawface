@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 public abstract class ScrollGroup : MonoBehaviour {
 
@@ -30,7 +31,7 @@ public abstract class ScrollGroup : MonoBehaviour {
         TryInitialize();
         return pleUIItems[0];
     }
-    public void SelectItem(int itemIndex) {
+    public virtual void SelectItem(int itemIndex) {
         LastSelectedIndex = itemIndex;
         pleUIItems.ForEach(item => { item.OnGroupSelectChanged(itemIndex); });
         placementMenu.SelectUIItem(pleUIItems[itemIndex]);
@@ -39,16 +40,16 @@ public abstract class ScrollGroup : MonoBehaviour {
 
     #region Protected Interface
     protected virtual void InitializeUI() {
-        GameObject[] gameObjects = Resources.LoadAll<GameObject>(ResourcesPath) as GameObject[];
-    #if !UNITY_EDITOR
+        List<GameObject> gameObjects = (Resources.LoadAll<GameObject>(ResourcesPath) as GameObject[]).ToList();
+        gameObjects.OrderBy(go => go.name).ToList();
+#if !UNITY_EDITOR
         Texture2D[] objectTextures;
         objectTextures = Resources.LoadAll<Texture2D>(Strings.Editor.IMAGE_PREVIEW_PATH) as Texture2D[];
-    #endif
+#endif
 
-        for (int i = 0; i < gameObjects.Length; i++) {
+        for (int i = 0; i < gameObjects.Count; i++) {
             GameObject go = gameObjects[i];
-
-            GameObject toAdd = GameObject.Instantiate(iconTemplate);
+            GameObject toAdd = Instantiate(iconTemplate);
             PLEUIItem spawnToSet = toAdd.GetComponent<PLEUIItem>();
             pleUIItems.Add(spawnToSet);
             spawnToSet.InitializeItem(i, this);            

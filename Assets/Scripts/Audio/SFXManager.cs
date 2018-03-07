@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class SFXManager : Singleton<SFXManager>
 {
@@ -8,8 +9,8 @@ public class SFXManager : Singleton<SFXManager>
     private Dictionary<SFXType, List<SoundEffect>> sfxDictionary;
 
     #region SFX Object
-    [SerializeField]
-    private List<SFXUnit> SFXList;
+    [SerializeField] private List<SFXUnit> SFXList;
+    [SerializeField] private AudioMixer sfxMixer;
     #endregion
 
     private void Start()
@@ -17,6 +18,7 @@ public class SFXManager : Singleton<SFXManager>
         sfxDictionary = new Dictionary<SFXType, List<SoundEffect>>();
         foreach (SFXUnit unit in SFXList)
         {
+
             sfxDictionary.Add(unit.type, InitList(unit.audioClipObject));
         }
     }
@@ -96,7 +98,7 @@ public class SFXManager : Singleton<SFXManager>
 
         for(int i = 0; i < numSFX; i++)
         {
-            List.Add(new SoundEffect(Instantiate(i_SFX), transform));
+            List.Add(new SoundEffect(Instantiate(i_SFX), transform, sfxMixer));
         }
 
         return List;
@@ -104,7 +106,7 @@ public class SFXManager : Singleton<SFXManager>
 
     private SoundEffect CreateNewSFX(SFXType i_Type, List<SoundEffect> List)
     {
-        SoundEffect newSFX = new SoundEffect(Instantiate(List[0].GetObject()), transform);
+        SoundEffect newSFX = new SoundEffect(Instantiate(List[0].GetObject()), transform, sfxMixer);
         List.Add(newSFX);
         newSFX.Available = false;
         StartCoroutine(WaitForReturnList(newSFX));

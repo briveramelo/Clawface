@@ -36,7 +36,6 @@ public class PLEBlockUnit : MonoBehaviour
             for (int i = 0; i <= PLESpawnManager.Instance.MaxWaveIndex; i++) {
                 levelStates.Add(LevelUnitStates.Floor);
             }
-            RegisterDefaultState();
         }
     }
 
@@ -44,7 +43,7 @@ public class PLEBlockUnit : MonoBehaviour
     {
         EventSystem.Instance.RegisterEvent(Strings.Events.PLE_ADD_WAVE, AddNewWave);
         EventSystem.Instance.RegisterEvent(Strings.Events.PLE_DELETE_CURRENTWAVE, DeleteCurrentWave);
-        EventSystem.Instance.RegisterEvent(Strings.Events.PLE_UPDATE_LEVELSTATE, UpdateTileHeightStates);
+        EventSystem.Instance.RegisterEvent(Strings.Events.PLE_SYNC_LEVEL_UNIT_STATES, SyncTileHeightStates);
     }
 
     private void OnDisable()
@@ -53,20 +52,13 @@ public class PLEBlockUnit : MonoBehaviour
         {
             EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_ADD_WAVE, AddNewWave);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_DELETE_CURRENTWAVE, DeleteCurrentWave);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_UPDATE_LEVELSTATE, UpdateTileHeightStates);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_SYNC_LEVEL_UNIT_STATES, SyncTileHeightStates);
         }
     }
 
     #endregion
 
-    #region Private Interface
-
-    void RegisterDefaultState()
-    {
-        string eventName = Strings.Events.PLE_RESET_LEVELSTATE;
-        levelUnit.AddNamedStateEvent(LevelUnitStates.Floor, eventName);
-        levelUnit.RegisterToNamedStateEvents();
-    }
+    #region Private Interface    
 
 
     #endregion
@@ -108,7 +100,7 @@ public class PLEBlockUnit : MonoBehaviour
         for (int i = 0; i <= PLESpawnManager.Instance.MaxWaveIndex; i++) {
             levelStates.Add(LevelUnitStates.Floor);
         }
-        UpdateTileHeightStates();
+        SyncTileHeightStates();
 
 
         for (int i = spawns.Count - 1; i >= 0; i--) {
@@ -120,6 +112,7 @@ public class PLEBlockUnit : MonoBehaviour
             Helpers.DestroyProper(prop);
         }
         SetOccupation(false);
+        SyncTileHeightStates();
     }
 
     public bool IsOccupied()
@@ -158,7 +151,7 @@ public class PLEBlockUnit : MonoBehaviour
         newLevelStates.ForEach(state => {
             levelStates.Add(state);
         });
-        UpdateTileHeightStates();
+        SyncTileHeightStates();
     }
 
 
@@ -177,22 +170,9 @@ public class PLEBlockUnit : MonoBehaviour
         levelStates.RemoveAt(PLESpawnManager.Instance.CurrentWaveIndex);
     }
 
-    public void UpdateTileHeightStates(params object[] parameters)
+    public void SyncTileHeightStates(params object[] parameters)
     {
-        if (SceneTracker.IsCurrentSceneEditor) {
-            levelUnit.DeRegisterFromNamedStateEvents();
-            string eventName = null;
-            string eventBase = Strings.Events.PLE_TEST_WAVE_;
-            for (int i = 0; i < levelStates.Count; i++) {
-                eventName = string.Format("{0}{1}", eventBase, i.ToString());
-                LevelUnitStates state = levelStates[i];
-                levelUnit.AddNamedStateEvent(state, eventName);
-            }
-            levelUnit.RegisterToNamedStateEvents();
-        }
-        else {
-            levelUnit.SetLevelUnitStates(levelStates);
-        }
+        levelUnit.SetLevelUnitStates(levelStates);
     }
 
     #endregion

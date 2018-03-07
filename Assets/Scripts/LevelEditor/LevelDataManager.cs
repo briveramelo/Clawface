@@ -229,6 +229,10 @@ public class LevelDataManager : MonoBehaviour {
 
         if (SpawnMenu.playerSpawnInstance) {
             Transform keira = spawnParent.GetChild(0);
+            if(ActiveWaveData.Count == 0)
+            {
+                ActiveWaveData.Add(new WaveData());
+            }
             AddSpawnData(keira, 0);
         }
     }

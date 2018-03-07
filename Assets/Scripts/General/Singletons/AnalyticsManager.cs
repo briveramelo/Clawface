@@ -359,7 +359,7 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
 
     private void OnLevelCompleted(params object[] parameters)
     {
-        if (SceneManager.GetActiveScene().name == "Editor")
+        if (SceneTracker.IsCurrentSceneEditor || SceneTracker.IsCurrentScenePlayerLevels)
         {
             return;
         }
