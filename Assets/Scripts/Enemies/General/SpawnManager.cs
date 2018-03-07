@@ -105,7 +105,7 @@ public class SpawnManager : RoutineRunner
             waveNumber++;
             time = spawners[currentSpawner].Time;
             spawner = spawners[currentSpawner++].Prefab.GetComponent<Spawner>();
-            AnalyticsManager.Instance.SetCurrentWave(currentSpawner);
+            AnalyticsManager.Instance.IncrementWave();
             yield return Timing.WaitForSeconds(waitTime);
             spawner.Activate();
         }

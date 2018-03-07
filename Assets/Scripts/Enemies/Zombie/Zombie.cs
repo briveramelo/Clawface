@@ -42,6 +42,7 @@ public class Zombie : EnemyBase
         controller.Initialize(properties,velBody, animator, myStats, navAgent, navObstacle,aiStates);
         damaged.Set(DamagedType.MallCop, bloodEmissionLocation);
         controller.checksToUpdateState = new List<Func<bool>>() {
+            CheckPlayerDead,
             CheckToAttack,
             CheckToFinishAttacking,
             CheckIfStunned
@@ -54,6 +55,21 @@ public class Zombie : EnemyBase
     #region 4. Public Methods   
 
     //State conditions
+    bool CheckPlayerDead()
+    {
+        if (AIManager.Instance.GetPlayerDead())
+        {
+            if (myStats.health > myStats.skinnableHealth && !celebrate.isCelebrating())
+            {
+                controller.CurrentState = celebrate;
+                controller.UpdateState(EAIState.Celebrate);
+                return true;
+            }
+        }
+        return false;
+    }
+      
+
     bool CheckToAttack()
     {
         if (controller.CurrentState == chase && controller.DistanceFromTarget < closeEnoughToAttackDistance)
@@ -72,14 +88,18 @@ public class Zombie : EnemyBase
 
             if (shouldChase)
             {
+                controller.CurrentState = chase;
                 controller.UpdateState(EAIState.Chase);
+                return true;
             }
             else
             {
                 animator.SetTrigger("Attack");
+                controller.CurrentState = attack;
                 controller.UpdateState(EAIState.Attack);
+                return true;
             }
-            return true;
+            
         }
         return false;
     }
@@ -139,12 +159,7 @@ public class Zombie : EnemyBase
 
     public override void DoPlayerKilledState(object[] parameters)
     {
-        if (myStats.health > myStats.skinnableHealth)
-        {
-            animator.SetInteger("AnimationState", -1);
-            controller.CurrentState = celebrate;
-            controller.UpdateState(EAIState.Celebrate);
-        }
+
     }
 
     public override Vector3 ReCalculateTargetPosition()
