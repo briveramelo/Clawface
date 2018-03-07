@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public abstract class PLEItem : MonoBehaviour {
 
-    [SerializeField] MeshRenderer meshRenderer;
-    protected MeshRenderer myMeshRenderer;
+    [SerializeField] protected Color selectedColor;
+    protected Color startColor;
+    protected List<Renderer> renderers;
     protected MaterialPropertyBlock matPropBlock;
     protected MaterialPropertyBlock MatPropBlock {
         get {
@@ -14,17 +16,22 @@ public abstract class PLEItem : MonoBehaviour {
             }
             return matPropBlock;
         }
+    }
+
+    protected virtual void Start() {
+        renderers = GetComponentsInChildren<Renderer>().ToList();
+        startColor = renderers[0].material.GetColor(ColorTint);
     }    
 
-    const string AlbedoTint = "_AlbedoTint";
+    protected abstract string ColorTint { get; }
 
     public virtual void Select() {
-        MatPropBlock.SetColor(AlbedoTint, Color.blue);
-        meshRenderer.SetPropertyBlock(MatPropBlock);
+        MatPropBlock.SetColor(ColorTint, selectedColor);
+        renderers.ForEach(renderer => { renderer.SetPropertyBlock(MatPropBlock); });
     }
     public virtual void Deselect() {
-        MatPropBlock.SetColor(AlbedoTint, Color.white);
-        meshRenderer.SetPropertyBlock(MatPropBlock);
+        MatPropBlock.SetColor(ColorTint, startColor);
+        renderers.ForEach(renderer => { renderer.SetPropertyBlock(MatPropBlock); });
     }
     
 }

@@ -24,9 +24,9 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
 
     #region Unity Serialized Fields
 
-    [SerializeField] private GameObject objectGrid;
-    [SerializeField] private GameObject realLevel;
-    [SerializeField] private GameObject tileParent;
+    [SerializeField] private Transform objectGrid;
+    [SerializeField] private Transform tileParent;
+    [SerializeField] private Transform spawnsParent;
     [SerializeField] private GameObject wallPrefab;
     [SerializeField] private int levelSize = 5;
     [SerializeField] private Color hoverColor = Color.blue;
@@ -121,8 +121,17 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     private void CheckToBakeMesh(params object[] i_params)
     {
         if (needsToBuildMesh) {
-            //optimization ideas https://forum.unity.com/threads/navmeshes-very-slow-generation.116741/
+            
+            spawnsParent.gameObject.SetActive(false);
+
+            gridTiles.ForEach(tile => {
+                if (tile.IsActive)
+                {
+                    tile.ResetTileHeightAndStates();
+                }
+            });
             levelNav.BuildNavMesh();
+            spawnsParent.gameObject.SetActive(true);
             needsToBuildMesh = false;
         }
     }
@@ -262,12 +271,12 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         GameObject realBlock = GameObject.Instantiate(spawnedBlock, position, Quaternion.identity);
         realBlock.name = Strings.REAL_BLOCK;
 
-        GameObject wall_N = GameObject.Instantiate(wallPrefab, position + Vector3.up * 5f + Vector3.forward * 2.5f, Quaternion.Euler(0f, 0f, 0f));
-        GameObject wall_E = GameObject.Instantiate(wallPrefab, position + Vector3.up * 5f + Vector3.right * 2.5f, Quaternion.Euler(0f, 90f, 0f));
-        GameObject wall_W = GameObject.Instantiate(wallPrefab, position + Vector3.up * 5f + Vector3.left * 2.5f, Quaternion.Euler(0f, 270f, 0f));
-        GameObject wall_S = GameObject.Instantiate(wallPrefab, position + Vector3.up * 5f + Vector3.back * 2.5f, Quaternion.Euler(0f, 180f, 0f));
+        GameObject wall_N = GameObject.Instantiate(wallPrefab, position + Vector3.up * 5.001f + Vector3.forward * 2.5f, Quaternion.Euler(0f, 0f, 0f));
+        GameObject wall_E = GameObject.Instantiate(wallPrefab, position + Vector3.up * 5.001f + Vector3.right * 2.5f, Quaternion.Euler(0f, 90f, 0f));
+        GameObject wall_W = GameObject.Instantiate(wallPrefab, position + Vector3.up * 5.001f + Vector3.left * 2.5f, Quaternion.Euler(0f, 270f, 0f));
+        GameObject wall_S = GameObject.Instantiate(wallPrefab, position + Vector3.up * 5.001f + Vector3.back * 2.5f, Quaternion.Euler(0f, 180f, 0f));
 
-        GridTile tile = new GridTile(realBlock, ghostBlock, position, objectGrid.transform, tileParent.transform, wall_N, wall_E, wall_W, wall_S);
+        GridTile tile = new GridTile(realBlock, ghostBlock, position, objectGrid, tileParent, wall_N, wall_E, wall_W, wall_S);
         gridTiles.Add(tile);
     }
 
@@ -284,6 +293,8 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
             GridTile selectedTile = gridTiles.Find(tile => tile.ghostTile == selectedObjects[i]);
             if (selectedTile != null) {
                 selectedTile.IsActive = true;
+                selectedTile.ResetTileHeightAndStates();
+                selectedTile.ChangeColor(selectedTile.CurrentTileStateColor);
                 selectedTile.blockUnit.SetOccupation(false);
                 queueToRebuild = true;
             }
@@ -456,7 +467,6 @@ public class GridTile {
         IsActive = false;
     }
     public const string BlockColorName = "_AlbedoTint";
-    //private const string BlockColor = "_Color";
 
     Transform ghostParent, tileParent;
     MeshRenderer meshRenderer;
@@ -522,5 +532,12 @@ public class GridTile {
         wall_E.SetActive(IsActive && !blockEast);
         wall_W.SetActive(IsActive && !blockWest);
         wall_S.SetActive(IsActive && !blockSouth);
+    }
+
+    public void ResetTileHeightAndStates()
+    {
+        realTile.transform.position = realTile.transform.position.NoY();
+        blockUnit.SyncTileHeightStates();
+        levelUnit.HideBlockingObject();
     }
 }

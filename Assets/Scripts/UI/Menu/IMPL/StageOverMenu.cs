@@ -33,10 +33,7 @@ public class StageOverMenu : Menu
     private Text combo;
 
     [SerializeField]
-    private Text title;
-
-    [SerializeField]
-    private Button nextLevelButton;
+    private Text title;    
 
     [SerializeField]
     private float popUpDelay = 2.0f;
@@ -52,8 +49,7 @@ public class StageOverMenu : Menu
         {
             EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_COMPLETED, LevelCompleteStart);
             EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_KILLED, PlayerDeathStart);
-        }
-        nextLevelButton.gameObject.SetActive(false);
+        }        
     }
 
     private void OnDestroy()
@@ -70,6 +66,10 @@ public class StageOverMenu : Menu
 
     public StageOverMenu() : base(Strings.MenuStrings.STAGE_OVER)
     {
+    }
+
+    public void DefineNavigation() {
+
     }
 
     public void QuitAction()
@@ -177,8 +177,7 @@ public class StageOverMenu : Menu
         m.CanPause = false;
 
         yield return new WaitForSeconds((float)parameter[0]);
-
-        nextLevelButton.gameObject.SetActive(true);
+        
         title.text = Strings.TextStrings.STAGE_OVER_TEXT;
         MenuManager.Instance.DoTransition(Strings.MenuStrings.STAGE_OVER,
             Menu.Transition.SHOW, new Menu.Effect[] { Menu.Effect.EXCLUSIVE });
