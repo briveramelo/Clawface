@@ -4,6 +4,7 @@ using UnityEngine;
 using PlayerLevelEditor;
 using UnityEngine.UI;
 using System;
+using ModMan;
 
 public class SpawnMenu : PlacementMenu {
 
@@ -16,6 +17,7 @@ public class SpawnMenu : PlacementMenu {
     #region Serialized Unity Fields
 
     [SerializeField] private InputField amountField;
+    [SerializeField] private Text nameText;
 
     #endregion
 
@@ -35,7 +37,6 @@ public class SpawnMenu : PlacementMenu {
             if (System.Int32.TryParse(amountField.text, out finalAmt)) {
                 SelectedSpawn.totalSpawnAmount = finalAmt;
             }
-
         }
     }
     public void Increment() {
@@ -101,20 +102,20 @@ public class SpawnMenu : PlacementMenu {
             playerSpawnInstance.transform.SetParent(levelEditor.TryCreateWaveParent(0).parent);
         }
         levelEditor.SetMenuButtonInteractability();
-        UpdateAmtField(spawn.totalSpawnAmount);
+        //UpdateFields(SelectedSpawn.totalSpawnAmount, SelectedSpawn.spawnType.SpawnDisplayName());
     }    
 
     protected override void SelectGameItem() {
         base.SelectGameItem();
         MouseHelper.currentSpawn.Select();
         selectedPLEItem = MouseHelper.currentSpawn;
-        UpdateAmtField(SelectedSpawn.totalSpawnAmount);
+        UpdateFields(SelectedSpawn.totalSpawnAmount, SelectedSpawn.spawnType.SpawnDisplayName());
         SetInteractability();
     }
     protected override void DeselectItem() {
         base.DeselectItem();
         SetInteractability(false);
-        UpdateAmtField(0, true);
+        UpdateFields(0, "-", true);        
     }
     protected override void InitializeSelectables() {
         base.InitializeSelectables();
@@ -129,6 +130,12 @@ public class SpawnMenu : PlacementMenu {
         rightButton.interactable = isItemSelectedAndNotKeira && SelectedSpawn.totalSpawnAmount < maxSpawns;
     }
 
+    protected override void PostOnSelectUIItem(GameObject newItem) {
+        base.PostOnSelectUIItem(newItem);
+        PLESpawn spawn = newItem.GetComponent<PLESpawn>();
+        UpdateFields(spawn.totalSpawnAmount, spawn.spawnType.SpawnDisplayName());
+    }
+
     #endregion
 
     #region Private Interface
@@ -140,6 +147,11 @@ public class SpawnMenu : PlacementMenu {
             string toSet = Convert.ToString(i_amt);
             amountField.text = toSet;
         }
+    }
+
+    private void UpdateFields(int spawnAmount, string newName, bool isAmountEmpty=false) {
+        UpdateAmtField(spawnAmount, isAmountEmpty);
+        nameText.text = newName;
     }
 
     private void ChangeSpawnAmount(int newAmount) {
