@@ -94,11 +94,6 @@ public class FloorMenu : PlayerLevelEditorMenu {
                 levelUnit.TryTransitionToState(state, false);
             }
         }
-
-        //string eventName = Strings.Events.PLE_TEST_WAVE_ + PLESpawnManager.Instance.CurrentWaveIndex;
-        //bool shouldChangeColor = false;
-        //EventSystem.Instance.TriggerEvent(eventName, shouldChangeColor);
-        //EventSystem.Instance.TriggerEvent(Strings.Events.PLE_UPDATE_LEVELSTATE);
     }    
     #endregion
 }

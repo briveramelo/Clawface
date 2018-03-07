@@ -50,9 +50,7 @@ namespace PlayerLevelEditor
 
         #region Unity Lifecycle
 
-        private void Start() {
-
-            EventSystem.Instance.RegisterEvent(Strings.Events.PLE_CHANGEWAVE, EnableCurrentWaveSpawnParents);
+        private void Start() {            
             EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_STARTED, PlayLevel);
 
             if (SceneTracker.IsCurrentSceneEditor) {
@@ -64,7 +62,6 @@ namespace PlayerLevelEditor
         {
             if(EventSystem.Instance)
             {
-                EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_CHANGEWAVE, EnableCurrentWaveSpawnParents);
                 EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_STARTED, PlayLevel);
             }
             

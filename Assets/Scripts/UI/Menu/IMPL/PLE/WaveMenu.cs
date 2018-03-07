@@ -43,7 +43,7 @@ public class WaveMenu : PlayerLevelEditorMenu
     public void ChangeToWave(int newWave) {
         int currentWaveIndex = PLESpawnManager.Instance.SetToWave(newWave);
         UpdateWaveText();
-        EventSystem.Instance.TriggerEvent(Strings.Events.PLE_CHANGEWAVE, currentWaveIndex);
+        levelEditor.EnableCurrentWaveSpawnParents();
         EventSystem.Instance.TriggerEvent(Strings.Events.PLE_CALL_WAVE, currentWaveIndex);
     }
 

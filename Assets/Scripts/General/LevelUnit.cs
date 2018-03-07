@@ -371,7 +371,7 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
             isBeginningTransition = true;
             isTransitioning = true;
         }
-        bool shouldChangeColor = wasToldToChangeColor && !CurrentColor.IsAboutEqual(GetStateColor(newState));
+        bool shouldChangeColor = wasToldToChangeColor && isTransitioning;
         if (shouldChangeColor) {
             TriggerColorShift(newState);
         }
