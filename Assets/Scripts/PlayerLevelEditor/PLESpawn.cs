@@ -14,6 +14,7 @@ public class PLESpawn : PLEItem {
     private List<GameObject> spawnedEnemies = new List<GameObject>();
     private Renderer rend;
     private Vector3 actualSpawnPos;
+    private Action onAllEnemiesDead;
     #endregion
     
     #region Public Fields
@@ -23,7 +24,7 @@ public class PLESpawn : PLEItem {
 
     #region Serialized Unity Fields
     public float spawnFrequency = 0.5f;
-    public int totalSpawnAmount = 2;
+    public int totalSpawnAmount = 1;
     public SpawnType spawnType;
     #endregion
 
@@ -57,6 +58,9 @@ public class PLESpawn : PLEItem {
     #endregion
 
     #region Public Interface
+    public void SetOnAllEnemiesDead(Action onAllEnemiesDead) {
+        this.onAllEnemiesDead = onAllEnemiesDead;
+    }
 
     public void StartSpawning()
     {
@@ -81,21 +85,16 @@ public class PLESpawn : PLEItem {
     {
         if (!allEnemiesDead)
         {
-            currentSpawnAmount--;
-
-            if (currentSpawnAmount <= 0)
-            {
-                //report that enemies are all dead to wave system
-                allEnemiesDead = true;
-                //EventSystem.Instance.TriggerEvent(Strings.Events.REPORT_DEATH, registeredWave, spawnType);
-            }
+            OnEnemyDeath();
         }
     }
 
     private IEnumerator SpawnEnemies()
     {
+        allEnemiesDead = false;
         rend.enabled = false;
-        for(int i = 0; i < totalSpawnAmount; i++)
+        currentSpawnAmount = totalSpawnAmount;
+        for (int i = 0; i < totalSpawnAmount; i++)
         {
             GameObject newSpawnEffect = ObjectPool.Instance.GetObject(PoolObjectType.VFXEnemySpawn);
             if(newSpawnEffect)
@@ -103,7 +102,6 @@ public class PLESpawn : PLEItem {
                 newSpawnEffect.GetComponent<VFXOneOff>().Play(spawnFrequency);
                 newSpawnEffect.transform.position = transform.position;
             }
-
             SpawnEnemy();
 
             yield return new WaitForSeconds(spawnFrequency);
@@ -130,18 +128,29 @@ public class PLESpawn : PLEItem {
                 enemyBase.SpawnWithRagdoll(actualSpawnPos);
             }
 
-            currentSpawnAmount++;
-
             EventSystem.Instance.TriggerEvent(Strings.Events.ENEMY_SPAWNED, newSpawnObj);
 
         }
         else
         {
+            //TODO THIS WILL BREAK
+            //ERROR PENDING
+            OnEnemyDeath();
             Debug.LogFormat("<color=#ffff00>" + "NOT ENOUGH SPAWN-OBJECTS for: " + spawnType + "</color>");
+        }
+    }
+
+    private void OnEnemyDeath() {
+        currentSpawnAmount--;
+        if (currentSpawnAmount <= 0) {
+            allEnemiesDead = true;
+            onAllEnemiesDead();
         }
     }
     private void Reset(params object[] parameters)
     {
+        StopAllCoroutines();
+        allEnemiesDead = false;
         currentSpawnAmount = totalSpawnAmount;
         rend.enabled = true;
     }

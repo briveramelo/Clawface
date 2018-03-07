@@ -41,14 +41,10 @@ public class WaveMenu : PlayerLevelEditorMenu
     }
 
     public void ChangeToWave(int newWave) {
-        PLESpawnManager.Instance.SetToWave(newWave);
+        int currentWaveIndex = PLESpawnManager.Instance.SetToWave(newWave);
         UpdateWaveText();
-        bool shouldChangeColor = true;
-        int currentWaveIndex = PLESpawnManager.Instance.CurrentWaveIndex;
-        string waveName = Strings.Events.PLE_TEST_WAVE_ + currentWaveIndex.ToString();
-        levelEditor.EnableCurrentWaveSpawnParents();
-        EventSystem.Instance.TriggerEvent(waveName, shouldChangeColor);
         EventSystem.Instance.TriggerEvent(Strings.Events.PLE_CHANGEWAVE, currentWaveIndex);
+        EventSystem.Instance.TriggerEvent(Strings.Events.PLE_CALL_WAVE, currentWaveIndex);
     }
 
     public void UpdateWaveText() {
@@ -59,42 +55,38 @@ public class WaveMenu : PlayerLevelEditorMenu
     }
 
     public void NextWave() {
-        PLESpawnManager.Instance.GoToNextWave();
+        int currentWaveIndex = PLESpawnManager.Instance.GoToNextWave();
         UpdateWaveText();
         UpdateLevelUnitState();
+        ChangeToWave(currentWaveIndex);
     }
 
     public void PrevWave() {
-        PLESpawnManager.Instance.GoToPreviousWave();
+        int currentWaveIndex = PLESpawnManager.Instance.GoToPreviousWave();
         UpdateWaveText();
         UpdateLevelUnitState();
+        ChangeToWave(currentWaveIndex);
     }
 
     public void AddNewWave() {
         PLESpawnManager.Instance.TryAddWave();
+        EventSystem.Instance.TriggerEvent(Strings.Events.PLE_ADD_WAVE);
+        EventSystem.Instance.TriggerEvent(Strings.Events.PLE_SYNC_LEVEL_UNIT_STATES);
+        levelEditor.EnableCurrentWaveSpawnParents();
 
         SetMenuButtonInteractability();
         UpdateWaveText();
-        levelEditor.EnableCurrentWaveSpawnParents();
-
-        EventSystem.Instance.TriggerEvent(Strings.Events.PLE_ADD_WAVE);
-        EventSystem.Instance.TriggerEvent(Strings.Events.PLE_UPDATE_LEVELSTATE);
     }
 
     public void DeleteCurrentWave() {
-        PLESpawnManager.Instance.TryDeleteWave(PLESpawnManager.Instance.CurrentWaveIndex);
-
+        int currentWaveIndex = PLESpawnManager.Instance.TryDeleteWave(PLESpawnManager.Instance.CurrentWaveIndex);
         EventSystem.Instance.TriggerEvent(Strings.Events.PLE_DELETE_CURRENTWAVE);
-        EventSystem.Instance.TriggerEvent(Strings.Events.PLE_UPDATE_LEVELSTATE);
-
+        EventSystem.Instance.TriggerEvent(Strings.Events.PLE_SYNC_LEVEL_UNIT_STATES);
+        EventSystem.Instance.TriggerEvent(Strings.Events.PLE_CHANGEWAVE, currentWaveIndex);
         levelEditor.EnableCurrentWaveSpawnParents();
+
         SetMenuButtonInteractability();
         UpdateWaveText();
-
-
-        bool shouldChangeColor = true;
-        string wave = Strings.Events.PLE_TEST_WAVE_ + PLESpawnManager.Instance.CurrentWaveIndex.ToString();
-        EventSystem.Instance.TriggerEvent(wave, shouldChangeColor);
     }
 
     public void UpdateInfWaveState() {
@@ -127,10 +119,7 @@ public class WaveMenu : PlayerLevelEditorMenu
 
     #region Private Interface
     private void UpdateLevelUnitState() {
-        bool shouldChangeColor = true;
-        EventSystem.Instance.TriggerEvent(Strings.Events.PLE_UPDATE_LEVELSTATE);
-        string wave = Strings.Events.PLE_TEST_WAVE_ + PLESpawnManager.Instance.CurrentWaveIndex.ToString();
-        EventSystem.Instance.TriggerEvent(wave, shouldChangeColor);
+        EventSystem.Instance.TriggerEvent(Strings.Events.PLE_SYNC_LEVEL_UNIT_STATES);
     }
 
     private void SetMenuButtonInteractability() {

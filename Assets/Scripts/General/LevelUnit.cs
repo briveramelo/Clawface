@@ -91,14 +91,16 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
 
     private void OnEnable() {
         RegisterToNamedStateEvents();
-        EventSystem.Instance.RegisterEvent(Strings.Events.CALL_NEXT_WAVE_PLE, TransitionToWave);
+        EventSystem.Instance.RegisterEvent(Strings.Events.PLE_CALL_WAVE, TransitionToWave);
+        EventSystem.Instance.RegisterEvent(Strings.Events.PLE_CHANGEWAVE, TransitionToWave);
     }
 
     protected override void OnDisable() {
         base.OnDisable();
         if (EventSystem.Instance) {
             DeRegisterFromNamedStateEvents();
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.CALL_NEXT_WAVE_PLE, TransitionToWave);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_CALL_WAVE, TransitionToWave);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_CHANGEWAVE, TransitionToWave);
         }
     }
 
@@ -151,6 +153,10 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
         newLevelStates.ForEach(state => {
             levelUnitStates.Add(state);
         });
+    }
+    public void SetCurrentState(int waveIndex) {
+        currentState = levelUnitStates[waveIndex];
+        print("current state is " + currentState);
     }
 
     public void AddNamedStateEvent(LevelUnitStates state, string eventName) {
@@ -233,8 +239,7 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
         transform.position = Vector3.MoveTowards(transform.position, targetPosition, yMoveSpeed * meshSizeY);
         if (Vector3.Distance(transform.position, targetPosition) < 0.01f) {
             FinishTransition(targetPosition);
-        }
-        print("moving position");
+        }        
     }
 
     private void BeginTransition() {
@@ -357,9 +362,9 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
     }
 
     private void TryTransitionToState(LevelUnitStates newState, Texture2D paintMaskTexture, bool wasToldToChangeColor) {
-        print("trying transitioning to state");
+        
         if ((isTransitioning && currentState==newState) || currentState != newState) {
-            print("transitioning to state");
+            
             splattable.PaintMask = Texture2D.blackTexture;
             nextState = newState;
             targetPosition = GetStatePosition(nextState);

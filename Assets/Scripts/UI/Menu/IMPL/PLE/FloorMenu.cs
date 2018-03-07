@@ -90,7 +90,7 @@ public class FloorMenu : PlayerLevelEditorMenu {
             if (!blockUnit.HasActiveSpawn) {
                 List<LevelUnitStates> levelUnitStates = blockUnit.GetLevelStates();
                 levelUnitStates[currentWaveIndex] = state;
-                blockUnit.UpdateTileHeightStates();
+                blockUnit.SyncTileHeightStates();
                 levelUnit.TryTransitionToState(state, false);
             }
         }

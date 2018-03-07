@@ -127,9 +127,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
             gridTiles.ForEach(tile => {
                 if (tile.IsActive)
                 {
-                    tile.blockUnit.UpdateTileHeightStates();
-                    tile.ResetHeight();
-                    //tile.levelUnit.TransitionToWave(0);
+                    tile.ResetTileHeightAndStates();
                 }
             });
             levelNav.BuildNavMesh();
@@ -295,6 +293,8 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
             GridTile selectedTile = gridTiles.Find(tile => tile.ghostTile == selectedObjects[i]);
             if (selectedTile != null) {
                 selectedTile.IsActive = true;
+                selectedTile.ResetTileHeightAndStates();
+                selectedTile.ChangeColor(selectedTile.CurrentTileStateColor);
                 selectedTile.blockUnit.SetOccupation(false);
                 queueToRebuild = true;
             }
@@ -467,7 +467,6 @@ public class GridTile {
         IsActive = false;
     }
     public const string BlockColorName = "_AlbedoTint";
-    //private const string BlockColor = "_Color";
 
     Transform ghostParent, tileParent;
     MeshRenderer meshRenderer;
@@ -535,9 +534,10 @@ public class GridTile {
         wall_S.SetActive(IsActive && !blockSouth);
     }
 
-    public void ResetHeight()
+    public void ResetTileHeightAndStates()
     {
         realTile.transform.position = realTile.transform.position.NoY();
+        blockUnit.SyncTileHeightStates();
         levelUnit.HideBlockingObject();
     }
 }
