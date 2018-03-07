@@ -18,7 +18,7 @@ public class StageOverMenu : Menu
             return initialButton;
         }
     }
-
+    public bool IsDisplaying { get; private set; }
     #endregion
 
     #region Serialized Unity Fields
@@ -148,6 +148,7 @@ public class StageOverMenu : Menu
     protected override void ShowStarted()
     {
         base.ShowStarted();
+        IsDisplaying = true;
         UpdateScores();
     }
 
@@ -159,6 +160,7 @@ public class StageOverMenu : Menu
     protected override void HideComplete()
     {
         base.HideComplete();
+        IsDisplaying = false;
     }
 
     #endregion

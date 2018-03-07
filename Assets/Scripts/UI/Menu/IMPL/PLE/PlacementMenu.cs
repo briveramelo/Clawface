@@ -62,6 +62,7 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
     #region Protected Interface
     public virtual void SelectUIItem(PLEUIItem item) {
         if (allowInput) {
+            DeselectItem();
             selectedItemPrefab = item.registeredItem;
             TryDestroyPreview();
             previewItem = Instantiate(selectedItemPrefab);
