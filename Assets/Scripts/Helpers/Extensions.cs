@@ -8,6 +8,24 @@ namespace ModMan {
 
     public static class StringExtension
     {
+        public static string SpawnDisplayName(this SpawnType spawn) {
+            switch (spawn) {
+                case SpawnType.Blaster: return "Blaster";
+                case SpawnType.BlasterShotgun: return "Shotgun Blaster";
+                case SpawnType.Bouncer: return "Bouncer";
+                case SpawnType.GreenBouncer: return "Green Bouncer";
+                case SpawnType.Kamikaze: return "Kamikaze";
+                case SpawnType.KamikazeMommy: return "Kamikaze Mommy";
+                case SpawnType.KamikazePulser: return "Kamikaze Pulser";
+                case SpawnType.Keira: return "Keira";
+                case SpawnType.RedBouncer: return "Red Bouncer";
+                case SpawnType.Zombie: return "Zombie";
+                case SpawnType.ZombieAcider: return "Acid Zombie";
+                case SpawnType.ZombieBeserker: return "Berserker Zombie";
+            }
+            return "unnamed";
+        }
+
         public static string TryCleanName(this string myStringName, string suffixToRemove) {
             if (!string.IsNullOrEmpty(myStringName) && !string.IsNullOrEmpty(suffixToRemove) && myStringName.Contains(suffixToRemove)) {
                 myStringName = myStringName.Substring(0, myStringName.Length - suffixToRemove.Length);
@@ -195,7 +213,7 @@ namespace ModMan {
         }
         static IEnumerator<float> IEDeActivate(GameObject obj, float timeToDeactivate, Transform objToFollow, Vector3 offset) {
             float timeRemaining=timeToDeactivate;
-            while(timeRemaining>0f && obj!=null) {
+            while(timeRemaining>0f && obj!=null && objToFollow!=null) {
                 timeRemaining-=Time.fixedDeltaTime;
                 obj.transform.position = objToFollow.position + offset;
                 yield return 0f;

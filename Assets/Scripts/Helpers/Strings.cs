@@ -114,6 +114,7 @@
         public const string CONTROLS = "Controls";
         public const string LEVEL_SELECT = "LevelSelect";
         public const string WEAPON_SELECT = "WeaponSelect";
+        public const string LEADER_BOARDS = "LeaderBoards";
 
         //levelEditor
         public class LevelEditor {
@@ -180,7 +181,7 @@
 
         public const string LOCK_SPAWNERS = "LockSpawners";
         public const string CALL_NEXT_WAVE = "CallNextWave";
-        public const string CALL_NEXT_WAVE_PLE = "CallNextWavePLE";
+        public const string PLE_CALL_WAVE = "CallNextWavePLE";
         public const string ENEMY_SPAWNED = "EnemySpawned";
         public const string WAVE_COMPLETE = "WaveComplete";
 
@@ -218,7 +219,7 @@
         public const string PLE_TEST_END = "PleTestEnd";
 
         public const string PLE_DELETE_CURRENTWAVE = "PLE_DELETE_CURRENTWAVE";
-        public const string PLE_UPDATE_LEVELSTATE  = "PLE_UPDATE_LEVELSTATE";
+        public const string PLE_SYNC_LEVEL_UNIT_STATES  = "PLE_UPDATE_LEVELSTATE";
         public const string PLE_RESET_LEVELSTATE   = "PLE_RESET_LEVELSTATE";
 
         public const string ENEMY_INVINCIBLE = "ENEMY_INVINCIBLE";

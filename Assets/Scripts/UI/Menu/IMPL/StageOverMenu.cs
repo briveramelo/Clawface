@@ -2,6 +2,7 @@
 *  @author Cornelia Schultz
 */
 
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,7 +19,7 @@ public class StageOverMenu : Menu
             return initialButton;
         }
     }
-
+    public bool IsDisplaying { get; private set; }
     #endregion
 
     #region Serialized Unity Fields
@@ -33,13 +34,21 @@ public class StageOverMenu : Menu
     private Text combo;
 
     [SerializeField]
-    private Text title;
-
-    [SerializeField]
-    private Button nextLevelButton;
+    private Text title;    
 
     [SerializeField]
     private float popUpDelay = 2.0f;
+
+    [SerializeField] private Button testLevelButton;
+    [SerializeField] private Button weaponSelectButton;
+    [SerializeField] private Button restartButton;
+    [SerializeField] private Button quitButton;
+
+    #endregion
+
+    #region Private Fields
+
+    private Action onExitTest;
 
     #endregion
 
@@ -52,8 +61,7 @@ public class StageOverMenu : Menu
         {
             EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_COMPLETED, LevelCompleteStart);
             EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_KILLED, PlayerDeathStart);
-        }
-        nextLevelButton.gameObject.SetActive(false);
+        }        
     }
 
     private void OnDestroy()
@@ -70,6 +78,19 @@ public class StageOverMenu : Menu
 
     public StageOverMenu() : base(Strings.MenuStrings.STAGE_OVER)
     {
+    }
+
+    public void DefineNavigation(Action i_act) {
+        onExitTest = i_act;
+    }
+
+    public void ExitTestAction()
+    {
+        if (onExitTest != null)
+        {
+            onExitTest();
+        }
+                
     }
 
     public void QuitAction()
@@ -148,7 +169,9 @@ public class StageOverMenu : Menu
     protected override void ShowStarted()
     {
         base.ShowStarted();
+        IsDisplaying = true;
         UpdateScores();
+        SetButtonStates();
     }
 
     protected override void ShowComplete()
@@ -159,6 +182,7 @@ public class StageOverMenu : Menu
     protected override void HideComplete()
     {
         base.HideComplete();
+        IsDisplaying = false;
     }
 
     #endregion
@@ -177,8 +201,7 @@ public class StageOverMenu : Menu
         m.CanPause = false;
 
         yield return new WaitForSeconds((float)parameter[0]);
-
-        nextLevelButton.gameObject.SetActive(true);
+        
         title.text = Strings.TextStrings.STAGE_OVER_TEXT;
         MenuManager.Instance.DoTransition(Strings.MenuStrings.STAGE_OVER,
             Menu.Transition.SHOW, new Menu.Effect[] { Menu.Effect.EXCLUSIVE });
@@ -204,6 +227,27 @@ public class StageOverMenu : Menu
     private void PlayerDeathStart(params object[] parameter)
     {
         StartCoroutine(DoPlayerDeath(popUpDelay));
+    }
+
+    private void SetButtonStates()
+    {
+
+        testLevelButton.gameObject.SetActive(false);
+        weaponSelectButton.gameObject.SetActive(false);
+        restartButton.gameObject.SetActive(false);
+        quitButton.gameObject.SetActive(false);
+
+        if(SceneTracker.IsCurrentSceneEditor)
+        {
+            testLevelButton.gameObject.SetActive(true);
+        }
+        else
+        {
+            weaponSelectButton.gameObject.SetActive(true);
+            restartButton.gameObject.SetActive(true);
+            quitButton.gameObject.SetActive(true);
+        }
+
     }
 
     #endregion

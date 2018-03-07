@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using UnityEngine;
+using UnityEngine.Audio;
 
 namespace Turing.Audio
 {
@@ -252,6 +253,15 @@ namespace Turing.Audio
             }
             audioSource.PlayOneShot (clip, 
                 channel.GetVolume() * uniformVolume);
+        }
+
+        public void SetMixer(AudioMixer i_mixer)
+        {
+            //mixer.FindMatchingGroups("Master")[0]
+
+            //audioSource.outputAudioMixerGroup = i_mixer.outputAudioMixerGroup;
+            audioSource.outputAudioMixerGroup = i_mixer.FindMatchingGroups("Master")[0];
+            int x = 3;
         }
 
         /// <summary>
