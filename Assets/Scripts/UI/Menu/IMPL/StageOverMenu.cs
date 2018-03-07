@@ -2,6 +2,7 @@
 *  @author Cornelia Schultz
 */
 
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -38,6 +39,17 @@ public class StageOverMenu : Menu
     [SerializeField]
     private float popUpDelay = 2.0f;
 
+    [SerializeField] private Button testLevelButton;
+    [SerializeField] private Button weaponSelectButton;
+    [SerializeField] private Button restartButton;
+    [SerializeField] private Button quitButton;
+
+    #endregion
+
+    #region Private Fields
+
+    private Action onExitTest;
+
     #endregion
 
     #region Unity Lifecycle
@@ -68,8 +80,17 @@ public class StageOverMenu : Menu
     {
     }
 
-    public void DefineNavigation() {
+    public void DefineNavigation(Action i_act) {
+        onExitTest = i_act;
+    }
 
+    public void ExitTestAction()
+    {
+        if (onExitTest != null)
+        {
+            onExitTest();
+        }
+                
     }
 
     public void QuitAction()
@@ -150,6 +171,7 @@ public class StageOverMenu : Menu
         base.ShowStarted();
         IsDisplaying = true;
         UpdateScores();
+        SetButtonStates();
     }
 
     protected override void ShowComplete()
@@ -205,6 +227,27 @@ public class StageOverMenu : Menu
     private void PlayerDeathStart(params object[] parameter)
     {
         StartCoroutine(DoPlayerDeath(popUpDelay));
+    }
+
+    private void SetButtonStates()
+    {
+
+        testLevelButton.gameObject.SetActive(false);
+        weaponSelectButton.gameObject.SetActive(false);
+        restartButton.gameObject.SetActive(false);
+        quitButton.gameObject.SetActive(false);
+
+        if(SceneTracker.IsCurrentSceneEditor)
+        {
+            testLevelButton.gameObject.SetActive(true);
+        }
+        else
+        {
+            weaponSelectButton.gameObject.SetActive(true);
+            restartButton.gameObject.SetActive(true);
+            quitButton.gameObject.SetActive(true);
+        }
+
     }
 
     #endregion
