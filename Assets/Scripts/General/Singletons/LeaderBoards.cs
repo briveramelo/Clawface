@@ -13,6 +13,13 @@ public class LeaderBoards : Singleton<LeaderBoards> {
         DAILY
     }
 
+    public enum SelectionType
+    {
+        GLOBAL,
+        FRIENDS,
+        AROUND_USER
+    }
+
     #region Private Variables
     private AllTimeLeaderBoard allTimeLeaderBoard;
     private WeeklyLeaderBoard weeklyLeaderBoard;
@@ -29,25 +36,31 @@ public class LeaderBoards : Singleton<LeaderBoards> {
     #endregion
 
     #region Public Methods
-    public bool GetLeaderBoardData(GenericSteamLeaderBoard.ResultsCallBack callBackFunction, int numberOfEntries, bool friendsOnly = false)
+    public bool GetLeaderBoardData(GenericSteamLeaderBoard.ResultsCallBack callBackFunction, int numberOfEntries, SelectionType type = SelectionType.GLOBAL)
     {
-        return GetLeaderBoardData(LeaderBoardType.ALL_TIME, callBackFunction, numberOfEntries, friendsOnly);
+        return GetLeaderBoardData(LeaderBoardType.ALL_TIME, callBackFunction, numberOfEntries, type);
     }
 
-    public bool GetLeaderBoardData(LeaderBoardType type, GenericSteamLeaderBoard.ResultsCallBack callBackFunction, int numberOfEntries, bool friendsOnly = false)
+    public bool GetLeaderBoardData(LeaderBoardType leaderBoardType, GenericSteamLeaderBoard.ResultsCallBack callBackFunction, int numberOfEntries, SelectionType selectionType = SelectionType.GLOBAL)
     {
         bool result = false;
         Steamworks.ELeaderboardDataRequest requestType;
-        if (friendsOnly)
+
+        switch (selectionType)
         {
-            requestType = Steamworks.ELeaderboardDataRequest.k_ELeaderboardDataRequestFriends;
-        }
-        else
-        {
-            requestType = Steamworks.ELeaderboardDataRequest.k_ELeaderboardDataRequestGlobal;
+            case SelectionType.FRIENDS:
+                requestType = Steamworks.ELeaderboardDataRequest.k_ELeaderboardDataRequestFriends;
+                break;
+            case SelectionType.AROUND_USER:
+                requestType = Steamworks.ELeaderboardDataRequest.k_ELeaderboardDataRequestGlobalAroundUser;
+                break;
+            case SelectionType.GLOBAL:
+            default:
+                requestType = Steamworks.ELeaderboardDataRequest.k_ELeaderboardDataRequestGlobal;
+                break;
         }
         
-        switch (type)
+        switch (leaderBoardType)
         {
             case LeaderBoardType.ALL_TIME:
                 result = allTimeLeaderBoard.FetchLeaderBoardData(callBackFunction, numberOfEntries, requestType);

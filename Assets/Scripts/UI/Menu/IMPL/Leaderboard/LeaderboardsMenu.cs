@@ -8,9 +8,6 @@ public class LeaderboardsMenu : Menu
 {
     #region Serialized fields
     [SerializeField]
-    private Button allTimeButton;
-
-    [SerializeField]
     private GameObject leaderBoardEntryPrefab;
 
     [SerializeField]
@@ -20,11 +17,19 @@ public class LeaderboardsMenu : Menu
     private GameObject loadingObject;
 
     [SerializeField]
-    private int maxEntries = 10;
+    private int maxEntries = 100;
+
+    [SerializeField]
+    private Button globalButton;
+
+    [SerializeField]
+    private Button friendButton;
+
+    [SerializeField]
+    private Button aroundUserButton;
     #endregion
 
     #region private fields
-    private bool showingFriends;
     private List<LeaderboardEntry> leaderBoardEntries;
     #endregion
 
@@ -33,42 +38,41 @@ public class LeaderboardsMenu : Menu
     {
         get
         {
-            return allTimeButton;
+            return globalButton;
         }
     }
     #endregion
 
     #region Public methods
     public LeaderboardsMenu() : base(Strings.MenuStrings.LEADER_BOARDS) {
-        showingFriends = false;
         leaderBoardEntries = new List<LeaderboardEntry>();
     }
 
     public void OnPressBack()
     {
+        leaderBoardEntries.Clear();
         MenuManager.Instance.DoTransition(Strings.MenuStrings.LevelEditor.LEVELSELECT_PLE_MENU, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
     }
 
-    public void ToggleFriends()
+    public void GetGlobalLeaderboardEntries()
     {
-        foreach (LeaderboardEntry entry in leaderBoardEntries)
-        {
-            entry.IsVisible(false);
-        }
-        loadingObject.SetActive(true);
+        globalButton.Select();
+        GetLeaderboardEntries(LeaderBoards.SelectionType.GLOBAL);
+    }
 
-        showingFriends = !showingFriends;
-        if (showingFriends)
-        {
-            GetLeaderboardEntriesWithFriends();
-        }
-        else
-        {
-            GetLeaderboardEntries();
-        }
+    public void GetFriendsLeaderboardEntries()
+    {
+        friendButton.Select();
+        GetLeaderboardEntries(LeaderBoards.SelectionType.FRIENDS);
+    }
+
+    public void GetAroundUserLeaderboardEntries()
+    {
+        aroundUserButton.Select();
+        GetLeaderboardEntries(LeaderBoards.SelectionType.AROUND_USER);
     }
     #endregion
-    
+
     #region protected methods
     protected override void DefaultHide(Transition transition, Effect[] effects)
     {
@@ -78,19 +82,20 @@ public class LeaderboardsMenu : Menu
     protected override void DefaultShow(Transition transition, Effect[] effects)
     {
         Fade(transition, effects);
-        GetLeaderboardEntries();
+        GetLeaderboardEntries(LeaderBoards.SelectionType.GLOBAL);
     }
     #endregion
 
     #region private methods
-    private void GetLeaderboardEntries()
+    private void GetLeaderboardEntries(LeaderBoards.SelectionType selectionType)
     {
-        LeaderBoards.Instance.GetLeaderBoardData(OnLeaderBoardEntriesReturned, maxEntries);
-    }    
+        foreach (LeaderboardEntry entry in leaderBoardEntries)
+        {
+            entry.IsVisible(false);
+        }
+        loadingObject.SetActive(true);
 
-    private void GetLeaderboardEntriesWithFriends()
-    {
-        LeaderBoards.Instance.GetLeaderBoardData(OnLeaderBoardEntriesReturned, maxEntries, true);
+        LeaderBoards.Instance.GetLeaderBoardData(OnLeaderBoardEntriesReturned, maxEntries, selectionType);
     }
 
     private void OnLeaderBoardEntriesReturned(List<GenericSteamLeaderBoard.LeaderBoardVars> results)
