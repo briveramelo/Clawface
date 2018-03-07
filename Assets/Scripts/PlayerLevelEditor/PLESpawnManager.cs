@@ -60,6 +60,7 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
     }
 
     void CallWave(int waveIndex) {
+        CurrentWaveIndex = waveIndex;
         editorInstance.EnableCurrentWaveSpawnParents(waveIndex);
         List<PLESpawn> currentWaveSpawners = ActiveLevelData.GetPLESpawnsFromWave(waveIndex);
 
@@ -103,10 +104,14 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
 
         if(waveDead)
         {
-            if (CurrentWaveIndex >= ActiveLevelData.WaveCount-1) {
+            if (CurrentWaveIndex >= ActiveLevelData.WaveCount-1 && !InfiniteWavesEnabled) {
                 EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_COMPLETED);
             }
-            else{
+            else if(CurrentWaveIndex >= ActiveLevelData.WaveCount - 1 && InfiniteWavesEnabled){
+                CallWave(0);
+            }
+            else
+            {
                 CallNextWave();
             }
         }
