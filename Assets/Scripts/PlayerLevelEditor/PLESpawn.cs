@@ -150,8 +150,7 @@ public class PLESpawn : PLEItem {
         allEnemiesDead = false;
         currentSpawnAmount = totalSpawnAmount;
         renderers.ForEach(renderer => renderer.enabled = true);
-    }
-
+    }    
 
     #endregion
 

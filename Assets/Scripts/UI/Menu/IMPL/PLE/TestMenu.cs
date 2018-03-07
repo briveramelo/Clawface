@@ -17,12 +17,14 @@ public class TestMenu : PlayerLevelEditorMenu
     #endregion
 
     #region Private Fields    
-    PauseMenu pauseMenu;
+    private PauseMenu pauseMenu;
+    private StageOverMenu stageOverMenu;
     #endregion
 
     #region Unity Lifecycle
     protected override void Start() {
         base.Start();
+        stageOverMenu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.STAGE_OVER) as StageOverMenu;
         pauseMenu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.PAUSE) as PauseMenu;
     }
     protected override void Update() {
@@ -40,6 +42,11 @@ public class TestMenu : PlayerLevelEditorMenu
     public TestMenu() : base(Strings.MenuStrings.LevelEditor.TEST_PLE_MENU) { }
 
     public override void BackAction() {
+        if (stageOverMenu.IsDisplaying) {
+            MenuManager.Instance.DoTransition(stageOverMenu, Transition.HIDE, new Effect[] { });
+        }
+
+
         levelEditor.ExitLevel();
 
         GameObject player = GameObject.FindGameObjectWithTag(Strings.Tags.PLAYER);
