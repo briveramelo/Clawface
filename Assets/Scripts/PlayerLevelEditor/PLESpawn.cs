@@ -89,7 +89,7 @@ public class PLESpawn : PLEItem {
     private IEnumerator SpawnEnemies()
     {
         allEnemiesDead = false;
-        renderers.ForEach(renderer=> renderer.enabled = false);
+        Renderers.ForEach(renderer=> renderer.enabled = false);
         currentSpawnAmount = totalSpawnAmount;
         for (int i = 0; i < totalSpawnAmount; i++)
         {
@@ -152,7 +152,7 @@ public class PLESpawn : PLEItem {
         StopAllCoroutines();
         allEnemiesDead = false;
         currentSpawnAmount = totalSpawnAmount;
-        renderers.ForEach(renderer => renderer.enabled = true);
+        Renderers.ForEach(renderer => renderer.enabled = true);
     }    
 
     #endregion

@@ -121,6 +121,7 @@ namespace PlayerLevelEditor
             }
         }
         public void ExitLevel() {
+            ToggleCameraController(true);
             if (SpawnMenu.playerSpawnInstance != null) {
                 SpawnMenu.playerSpawnInstance.SetActive(true);
             }

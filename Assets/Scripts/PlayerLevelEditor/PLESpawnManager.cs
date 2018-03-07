@@ -107,11 +107,10 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
         {
             if (CurrentWaveIndex >= ActiveLevelData.WaveCount - 1 && !InfiniteWavesEnabled)
             {
-                if (editorInstance.GetIsTesting())
-                {
-                    EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_COMPLETED);
-                }
-                
+                EventSystem.Instance.TriggerEvent(
+                    Strings.Events.LEVEL_COMPLETED, SceneTracker.CurrentSceneName, 
+                    ScoreManager.Instance.GetScore(), ModManager.leftArmOnLoad.ToString(),
+                    ModManager.rightArmOnLoad.ToString());
             }
             else if (CurrentWaveIndex >= ActiveLevelData.WaveCount - 1 && InfiniteWavesEnabled)
             {
@@ -131,7 +130,6 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
         {
             PLESpawn spawn = currentWaveSpawners[i];
             spawn.SetOnAllEnemiesDead(null);
-         
         }
         FindObjectsOfType<EnemyBase>().ToList().ForEach(enemy => { enemy.OnDeath(); });
         CurrentWaveIndex = 0;
