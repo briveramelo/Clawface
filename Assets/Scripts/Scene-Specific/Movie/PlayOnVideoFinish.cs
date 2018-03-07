@@ -33,6 +33,7 @@ public class PlayOnVideoFinish : MonoBehaviour {
 
     public void LoadLevel()
     {
+        MenuMusicManager.Instance.Play();
         SceneManager.LoadScene(levelToLoad);
     }
 }

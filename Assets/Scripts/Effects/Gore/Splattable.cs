@@ -57,51 +57,64 @@ public class Splattable : MonoBehaviour
     private Texture2DArray masks;
     private Texture2DArray normals;
 
+    private static bool goreEnabled = false;
+
 	#endregion
 
 	#region Unity Lifecycle
 
 	private void Awake ()
 	{
-        // Assertions
-		Assert.IsNotNull (renderSplat);
-        paintMask = paintMask != null ? paintMask : Texture2D.whiteTexture;
-        renderMask = renderMask != null ? renderMask : Texture2D.whiteTexture;
+        if(SettingsManager.Instance.GoreDetail > 0)
+        {
+            goreEnabled = true;
+        }
 
-        // Set Up Render Data
-        dims = GetRenderDims();
-		splatMap = new RenderTexture (dims.Width, dims.Height, 0, RenderTextureFormat.ARGB32);
-		splatMap.Create ();
+        if(goreEnabled)
+        {
+            // Assertions
+            Assert.IsNotNull(renderSplat);
+            paintMask = paintMask != null ? paintMask : Texture2D.whiteTexture;
+            renderMask = renderMask != null ? renderMask : Texture2D.whiteTexture;
 
-		paintingMaterial = new Material (renderSplat);
-        Vector4[] empty = new Vector4[numSplatsToRender];
-        paintingMaterial.SetVectorArray("_Anchors", empty);
-        paintingMaterial.SetVectorArray("_Rotations", empty);
-        paintingMaterial.SetVectorArray("_Positions", empty);
+            // Set Up Render Data
+            dims = GetRenderDims();
+            splatMap = new RenderTexture(dims.Width, dims.Height, 0, RenderTextureFormat.ARGB32);
+            splatMap.Create();
 
-		propBlock = new MaterialPropertyBlock ();
-		myRenderer = GetComponent<Renderer> ();
+            paintingMaterial = new Material(renderSplat);
+            Vector4[] empty = new Vector4[numSplatsToRender];
+            paintingMaterial.SetVectorArray("_Anchors", empty);
+            paintingMaterial.SetVectorArray("_Rotations", empty);
+            paintingMaterial.SetVectorArray("_Positions", empty);
 
-		myRenderer.GetPropertyBlock (propBlock);
-		propBlock.SetTexture ("_SplatMap", splatMap);
-        propBlock.SetTexture ("_RenderMask", renderMask);
-		myRenderer.SetPropertyBlock (propBlock);
+            propBlock = new MaterialPropertyBlock();
+            myRenderer = GetComponent<Renderer>();
 
-        // Set Up Queuing System
-        splatsToRender = new Queue<QueuedSplat>();
+            myRenderer.GetPropertyBlock(propBlock);
+            propBlock.SetTexture("_SplatMap", splatMap);
+            propBlock.SetTexture("_RenderMask", renderMask);
+            myRenderer.SetPropertyBlock(propBlock);
+
+            // Set Up Queuing System
+            splatsToRender = new Queue<QueuedSplat>();
+        }
 	}
 
     private void Update ()
     {
-        // If we have some splat data to render, create a command
-        // buffer for it and give it to the GoreManager to do the
-        // rendering.
-        if (splatsToRender.Count > 0)
+        if (goreEnabled)
         {
-            CommandBuffer buffer = CreateCommandBuffer();
-            GoreManager.Instance.AddBloodBuffer(buffer);
+            // If we have some splat data to render, create a command
+            // buffer for it and give it to the GoreManager to do the
+            // rendering.
+            if (splatsToRender.Count > 0)
+            {
+                CommandBuffer buffer = CreateCommandBuffer();
+                GoreManager.Instance.AddBloodBuffer(buffer);
+            }
         }
-    } 
+    }
 
     #endregion
 
@@ -113,21 +126,24 @@ public class Splattable : MonoBehaviour
     /// <param name="splatData">The SplatSO describing the splat.</param>
     /// <param name="worldPos">The world position to anchor the splat at.</param>
     /// <param name="projectileDir">The direction to splat in.</param>
-    public void QueueNewSplat (SplatSO splatData, Vector3 worldPos, Vector2 projectileDir)
-	{
-        if (dims.Width == 0 || dims.Height == 0)
+    public void QueueNewSplat(SplatSO splatData, Vector3 worldPos, Vector2 projectileDir)
+    {
+        if (goreEnabled)
         {
-            return;
+            if (dims.Width == 0 || dims.Height == 0)
+            {
+                return;
+            }
+
+            QueuedSplat splat = new QueuedSplat();
+            splat.splatData = splatData;
+            splat.frame = 0;
+            splat.worldPos = worldPos;
+            splat.projectileDir = projectileDir;
+
+            splatsToRender.Enqueue(splat);
         }
-
-        QueuedSplat splat = new QueuedSplat();
-        splat.splatData = splatData;
-        splat.frame = 0;
-        splat.worldPos = worldPos;
-        splat.projectileDir = projectileDir;
-
-        splatsToRender.Enqueue(splat);
-	}
+    }
 
     #endregion
     
