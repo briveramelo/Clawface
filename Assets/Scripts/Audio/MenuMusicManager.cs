@@ -6,9 +6,19 @@ using System.Linq;
 using ModMan;
 public class MenuMusicManager : Singleton<MenuMusicManager> {
 
-    [SerializeField] AudioSource intro, looping;
-    static bool isPlaying;
+    #region Serialized Unity Fields
 
+    [SerializeField] AudioSource intro, looping;
+
+    #endregion
+
+    #region Private Fields
+
+    private static bool isPlaying;
+
+    #endregion
+
+    #region Unity Lifecycle
     void Start() {
         EventSystem.Instance.RegisterEvent(Strings.Events.WEAPONS_SELECT_FROM_STAGE_OVER, Play);
         EventSystem.Instance.RegisterEvent(Strings.Events.SCENE_LOADED, CheckSceneToPlay);
@@ -24,6 +34,23 @@ public class MenuMusicManager : Singleton<MenuMusicManager> {
         }
     }
 
+    #endregion
+
+    #region Public Interface
+
+    public void Play(params object[] items)
+    {
+        if (!isPlaying)
+        {
+            isPlaying = true;
+            StartCoroutine(GoToLoop());
+        }
+    }
+
+    #endregion
+
+    #region Private Interface
+
     void CheckSceneToPlay(params object[] items) {
         if (SceneTracker.IsCurrentSceneMain) {
             Play();
@@ -33,12 +60,6 @@ public class MenuMusicManager : Singleton<MenuMusicManager> {
         }
     }
 
-    void Play(params object[] items) {
-        if (!isPlaying) {
-            isPlaying = true;
-            StartCoroutine(GoToLoop());
-        }
-    }
 
     void Stop(params object[] items) {
         isPlaying = false;
@@ -54,4 +75,6 @@ public class MenuMusicManager : Singleton<MenuMusicManager> {
         intro.Stop();
         looping.Play();
     }
+
+    #endregion
 }
