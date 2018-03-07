@@ -5,6 +5,7 @@ using ModMan;
 
 using Turing.VFX;
 using System;
+using System.Linq;
 
 public class PLESpawn : PLEItem {
 
@@ -12,7 +13,7 @@ public class PLESpawn : PLEItem {
     private int currentSpawnAmount;
     private float spawnHeightOffset = 50.0f;
     private List<GameObject> spawnedEnemies = new List<GameObject>();
-    private Renderer rend;
+    
     private Vector3 actualSpawnPos;
     private Action onAllEnemiesDead;
     #endregion
@@ -27,13 +28,8 @@ public class PLESpawn : PLEItem {
     public int totalSpawnAmount = 1;
     public SpawnType spawnType;
     #endregion
-
-    #region Unity Lifecycle
-
-    private void Awake()
-    {
-        rend = GetComponent<Renderer>();
-    }
+    protected override string ColorTint { get { return "_Color"; } }
+    #region Unity Lifecycle    
 
     private void OnEnable()
     {
@@ -48,8 +44,9 @@ public class PLESpawn : PLEItem {
         }
     }
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         Reset();
         actualSpawnPos = new Vector3(0, transform.position.y + spawnHeightOffset, 0);
         actualSpawnPos = transform.TransformPoint(actualSpawnPos);
@@ -92,7 +89,7 @@ public class PLESpawn : PLEItem {
     private IEnumerator SpawnEnemies()
     {
         allEnemiesDead = false;
-        rend.enabled = false;
+        renderers.ForEach(renderer=> renderer.enabled = false);
         currentSpawnAmount = totalSpawnAmount;
         for (int i = 0; i < totalSpawnAmount; i++)
         {
@@ -152,7 +149,7 @@ public class PLESpawn : PLEItem {
         StopAllCoroutines();
         allEnemiesDead = false;
         currentSpawnAmount = totalSpawnAmount;
-        rend.enabled = true;
+        renderers.ForEach(renderer => renderer.enabled = true);
     }
 
 
