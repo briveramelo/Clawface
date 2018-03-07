@@ -1349,6 +1349,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224912474840111148}
   - component: {fileID: 114862859949830940}
+  - component: {fileID: 114416389662042754}
   m_Layer: 0
   m_Name: Content
   m_TagString: Untagged
@@ -2027,7 +2028,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: NAME
+  m_Text: sdfsdf
 --- !u!114 &114063556935420342
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2636,7 +2637,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: NAME
+  m_Text: sdff
 --- !u!114 &114212526727008646
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2729,7 +2730,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: NAME
+  m_Text: aaaaaaa
 --- !u!114 &114238618387102404
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2771,8 +2772,8 @@ MonoBehaviour:
   m_Content: {fileID: 224912474840111148}
   m_Horizontal: 0
   m_Vertical: 1
-  m_MovementType: 1
-  m_Elasticity: 0
+  m_MovementType: 2
+  m_Elasticity: 0.1
   m_Inertia: 0
   m_DecelerationRate: 0.135
   m_ScrollSensitivity: 1
@@ -3532,6 +3533,19 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Leaderboards
+--- !u!114 &114416389662042754
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1751811631611202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1741964061, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 0
+  m_VerticalFit: 2
 --- !u!114 &114441737410079148
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3564,7 +3578,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: NAME
+  m_Text: dfdf
 --- !u!114 &114443224649542844
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3822,7 +3836,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: NAME
+  m_Text: sdf
 --- !u!114 &114552737600217252
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4606,8 +4620,8 @@ MonoBehaviour:
   m_HandleRect: {fileID: 224594248997368934}
   m_Direction: 3
   m_Value: 0
-  m_Size: 1
-  m_NumberOfSteps: 0
+  m_Size: 0.4861111
+  m_NumberOfSteps: 11
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -7796,10 +7810,10 @@ RectTransform:
   m_Father: {fileID: 224261680766980186}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.0000021979213}
-  m_SizeDelta: {x: 0, y: 300}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: -476.5, y: 370}
+  m_SizeDelta: {x: 952, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!224 &224925721642329246
 RectTransform:
