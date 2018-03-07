@@ -29,24 +29,34 @@ public class LeaderBoards : Singleton<LeaderBoards> {
     #endregion
 
     #region Public Methods
-    public bool GetLeaderBoardData(GenericSteamLeaderBoard.ResultsCallBack callBackFunction, int numberOfEntries)
+    public bool GetLeaderBoardData(GenericSteamLeaderBoard.ResultsCallBack callBackFunction, int numberOfEntries, bool friendsOnly = false)
     {
-        return GetLeaderBoardData(LeaderBoardType.ALL_TIME, callBackFunction, numberOfEntries);
+        return GetLeaderBoardData(LeaderBoardType.ALL_TIME, callBackFunction, numberOfEntries, friendsOnly);
     }
 
-    public bool GetLeaderBoardData(LeaderBoardType type, GenericSteamLeaderBoard.ResultsCallBack callBackFunction, int numberOfEntries)
+    public bool GetLeaderBoardData(LeaderBoardType type, GenericSteamLeaderBoard.ResultsCallBack callBackFunction, int numberOfEntries, bool friendsOnly = false)
     {
         bool result = false;
+        Steamworks.ELeaderboardDataRequest requestType;
+        if (friendsOnly)
+        {
+            requestType = Steamworks.ELeaderboardDataRequest.k_ELeaderboardDataRequestFriends;
+        }
+        else
+        {
+            requestType = Steamworks.ELeaderboardDataRequest.k_ELeaderboardDataRequestGlobal;
+        }
+        
         switch (type)
         {
             case LeaderBoardType.ALL_TIME:
-                result = allTimeLeaderBoard.FetchLeaderBoardData(callBackFunction, numberOfEntries);
+                result = allTimeLeaderBoard.FetchLeaderBoardData(callBackFunction, numberOfEntries, requestType);
                 break;
             case LeaderBoardType.WEEKLY:
-                result = weeklyLeaderBoard.FetchLeaderBoardData(callBackFunction, numberOfEntries);
+                result = weeklyLeaderBoard.FetchLeaderBoardData(callBackFunction, numberOfEntries, requestType);
                 break;
             case LeaderBoardType.DAILY:
-                result = dailyLeaderBoard.FetchLeaderBoardData(callBackFunction, numberOfEntries);
+                result = dailyLeaderBoard.FetchLeaderBoardData(callBackFunction, numberOfEntries, requestType);
                 break;
             default:
                 break;
