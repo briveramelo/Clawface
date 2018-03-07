@@ -130,7 +130,7 @@ public class PLESpawn : PLEItem {
         }
         else
         {
-            //TODO THIS WILL BREAK
+            //TODO THIS WILL BREAK, IMPLEMENT MAX NUMBER
             //ERROR PENDING
             OnEnemyDeath();
             Debug.LogFormat("<color=#ffff00>" + "NOT ENOUGH SPAWN-OBJECTS for: " + spawnType + "</color>");
@@ -141,7 +141,10 @@ public class PLESpawn : PLEItem {
         currentSpawnAmount--;
         if (currentSpawnAmount <= 0) {
             allEnemiesDead = true;
-            onAllEnemiesDead();
+            if (onAllEnemiesDead != null)
+            {
+                onAllEnemiesDead();
+            }
         }
     }
     private void Reset(params object[] parameters)

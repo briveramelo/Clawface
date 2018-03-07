@@ -78,10 +78,10 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
     }
 
     IEnumerator WaitForDataToLoad() {
-        Reset();
         yield return new WaitForEndOfFrame();
         yield return new WaitForEndOfFrame();
         RegisterAllSpawns();
+        Reset();
         editorInstance.ToggleCameraGameObject(false);
         CallWave(0);
     }
@@ -97,6 +97,7 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
             PLESpawn currentSpawn = currentWaveSpawners[i];
             if (!currentSpawn.allEnemiesDead && currentSpawn.spawnType!=SpawnType.Keira)
             {
+                
                 waveDead = false;
                 break;
             }
@@ -104,10 +105,16 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
 
         if(waveDead)
         {
-            if (CurrentWaveIndex >= ActiveLevelData.WaveCount-1 && !InfiniteWavesEnabled) {
-                EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_COMPLETED);
+            if (CurrentWaveIndex >= ActiveLevelData.WaveCount - 1 && !InfiniteWavesEnabled)
+            {
+                if (editorInstance.GetIsTesting())
+                {
+                    EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_COMPLETED);
+                }
+                
             }
-            else if(CurrentWaveIndex >= ActiveLevelData.WaveCount - 1 && InfiniteWavesEnabled){
+            else if (CurrentWaveIndex >= ActiveLevelData.WaveCount - 1 && InfiniteWavesEnabled)
+            {
                 CallWave(0);
             }
             else
@@ -119,6 +126,13 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
     }
     private void Reset(params object[] parameters)
     {
+        List<PLESpawn> currentWaveSpawners = ActiveLevelData.GetPLESpawnsFromWave(CurrentWaveIndex);
+        for (int i = 0; i < currentWaveSpawners.Count; i++)
+        {
+            PLESpawn spawn = currentWaveSpawners[i];
+            spawn.SetOnAllEnemiesDead(null);
+         
+        }
         FindObjectsOfType<EnemyBase>().ToList().ForEach(enemy => { enemy.OnDeath(); });
         CurrentWaveIndex = 0;
     }

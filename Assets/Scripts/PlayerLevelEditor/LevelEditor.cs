@@ -37,10 +37,15 @@ namespace PlayerLevelEditor
         
         #endregion
 
-
         #region Private Fields
         private List<Menu> pleMenus = new List<Menu>();
         private GameObject playerSpawnerInstance = null;
+        #endregion
+
+        #region Public Fields
+
+        public bool IsTesting { get; private set; }
+
         #endregion
 
         #region Unity Lifecycle
@@ -122,7 +127,7 @@ namespace PlayerLevelEditor
             if (SpawnMenu.playerSpawnInstance != null) {
                 SpawnMenu.playerSpawnInstance.SetActive(true);
             }
-
+            SetIsTesting(false);
             EventSystem.Instance.TriggerEvent(Strings.Events.PLE_TEST_END);
         }
 
@@ -233,6 +238,16 @@ namespace PlayerLevelEditor
             mainEditorMenu.OpenFloorSystemAction();
             gridController.SetGridVisiblity(true);
             ToggleCameraController(true);
+        }
+
+        public bool GetIsTesting()
+        {
+            return IsTesting;
+        }
+
+        public void SetIsTesting(bool i_status)
+        {
+            IsTesting = i_status;
         }
         #endregion
 

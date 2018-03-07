@@ -49,6 +49,7 @@ public class TestMenu : PlayerLevelEditorMenu
 
         levelEditor.ExitLevel();
 
+
         GameObject player = GameObject.FindGameObjectWithTag(Strings.Tags.PLAYER);
         if (player) {
             Destroy(player.transform.root.gameObject);
@@ -93,6 +94,7 @@ public class TestMenu : PlayerLevelEditorMenu
         };
         System.Action onStartAction = () => {
             base.ShowStarted();
+            levelEditor.SetIsTesting(true);
             base.ShowComplete();
             EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_STARTED, SceneTracker.CurrentSceneName, ModManager.leftArmOnLoad.ToString(), ModManager.rightArmOnLoad.ToString());
         };

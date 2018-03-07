@@ -31,7 +31,7 @@ public class WaveMenu : PlayerLevelEditorMenu
     #endregion
 
     #region Protected Interface
-
+    
 
     #endregion
 
@@ -114,6 +114,8 @@ public class WaveMenu : PlayerLevelEditorMenu
         base.ShowStarted();
         UpdateWaveText();
         SetMenuButtonInteractability();
+        infWaveObjToggle.isOn = PLESpawnManager.Instance.InfiniteWavesEnabled;
+        UpdateInfWaveState();
     }
     #endregion
 
