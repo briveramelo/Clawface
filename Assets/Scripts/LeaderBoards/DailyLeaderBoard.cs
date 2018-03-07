@@ -22,7 +22,7 @@ public class DailyLeaderBoard : GenericSteamLeaderBoard
     #region protected methods
     protected override LeaderBoardVars ExtractLeaderBoardVars(LeaderboardEntry_t entry, int[] details)
     {
-        LeaderBoardVars leaderBoardVars;
+        LeaderBoardVars leaderBoardVars = new LeaderBoardVars();
         int dayNumber = details[0];
         string savedScoreString = entry.m_nScore.ToString();
         savedScoreString = savedScoreString.Substring(dayNumber.ToString().Length);
@@ -30,6 +30,7 @@ public class DailyLeaderBoard : GenericSteamLeaderBoard
         leaderBoardVars.score = actualScore;
         leaderBoardVars.userID = SteamFriends.GetFriendPersonaName(entry.m_steamIDUser);
         leaderBoardVars.otherInfo = dayNumber;
+        leaderBoardVars.rank = entry.m_nGlobalRank;
         return leaderBoardVars;
     }
 
