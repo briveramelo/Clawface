@@ -32,6 +32,7 @@ public class LeaderboardsMenu : Menu
     #region private fields
     private List<LeaderboardEntry> leaderBoardEntries;
     private bool allowInput;
+    private string currentLevelName;
     #endregion
 
     #region public fields
@@ -120,10 +121,13 @@ public class LeaderboardsMenu : Menu
         foreach (LeaderboardEntry entry in leaderBoardEntries)
         {
             entry.IsVisible(false);
-        }
+        }       
+
+        bool result = LeaderBoards.Instance.GetLeaderBoardData(OnLeaderBoardEntriesReturned, maxEntries, selectionType);
+        
+        loadingObject.GetComponent<LoadingText>().SetError(result);
         loadingObject.SetActive(true);
 
-        LeaderBoards.Instance.GetLeaderBoardData(OnLeaderBoardEntriesReturned, maxEntries, selectionType);
     }
 
     private void OnLeaderBoardEntriesReturned(List<GenericSteamLeaderBoard.LeaderBoardVars> results)
@@ -154,6 +158,11 @@ public class LeaderboardsMenu : Menu
         {
             leaderBoardEntries[i].IsVisible(false);
         }
+    }
+
+    internal void SetLevelName(string levelName)
+    {
+        currentLevelName = levelName;
     }
     #endregion
 }

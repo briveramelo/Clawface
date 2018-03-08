@@ -197,7 +197,9 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
     }
 
     public void OnShowLeaderboard() {
+        string levelName = SelectedLevelUI.levelData.name;
         MenuManager.Instance.DoTransition(Strings.MenuStrings.LEADER_BOARDS, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+        ((LeaderboardsMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LEADER_BOARDS)).SetLevelName(levelName);
     }
 
     public void ToggleSelectedLevelIsFavorite() {
