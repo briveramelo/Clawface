@@ -280,13 +280,13 @@ public class PlayerStateManager : RoutineRunner {
 
     private IEnumerator<float> StartTutorialSlowDown(int i_eatOrDash)
     {        
-        while (tutorialTimeScale > 0.3f)
+        while (tutorialTimeScale > 0.1f)
         {
-            tutorialTimeScale = Mathf.Lerp(tutorialTimeScale, 0.2f, tutorialSlowDownRate);
+            tutorialTimeScale = Mathf.Lerp(tutorialTimeScale, 0.0f, tutorialSlowDownRate);
             Time.timeScale = tutorialTimeScale;
             yield return 0f;
         }
-        tutorialTimeScale = 0.2f;
+        tutorialTimeScale = 0.0f;
         Time.timeScale = tutorialTimeScale;
         EventSystem.Instance.TriggerEvent(Strings.Events.SHOW_TUTORIAL_TEXT,i_eatOrDash);
         EventSystem.Instance.TriggerEvent(Strings.Events.ENEMY_INVINCIBLE, false);
