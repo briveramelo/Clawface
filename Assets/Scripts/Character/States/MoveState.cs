@@ -117,7 +117,6 @@ public class MoveState : IPlayerState
 
     public override void StateFixedUpdate()
     {
-        
     }
 
     public override void StateLateUpdate()
