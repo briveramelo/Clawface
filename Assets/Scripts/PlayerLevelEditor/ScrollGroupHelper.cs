@@ -25,7 +25,6 @@ public class ScrollGroupHelper : MonoBehaviour {
     {
         current = UnityEngine.EventSystems.EventSystem.current;
         pointerData = new PointerEventData(current);
-
     }
 
     private void Update()

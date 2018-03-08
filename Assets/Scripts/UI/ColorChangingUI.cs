@@ -17,4 +17,7 @@ public class ColorChangingUI : MonoBehaviour, IUIGroupable {
     public void OnGroupSelectChanged(int selectedIndex) {
         outline.sprite = selectedIndex == uiIndex ? selectedSprite : unselectedSprite;
     }
+    public void ToggleInteractable(bool interactable) {
+        outline.color = interactable ? Color.white : Color.grey;
+    }
 }

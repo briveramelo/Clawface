@@ -27,6 +27,8 @@ public class PLESpawn : PLEItem {
     public float spawnFrequency = 0.5f;
     public int totalSpawnAmount = 1;
     public SpawnType spawnType;
+    public string DisplayName { get { return spawnType.DisplayName(); } }
+    public int MaxPerWave { get { return spawnType.MaxPerWave(); } }
     #endregion
     protected override string ColorTint { get { return "_Color"; } }
     #region Unity Lifecycle    
@@ -152,7 +154,13 @@ public class PLESpawn : PLEItem {
         StopAllCoroutines();
         allEnemiesDead = false;
         currentSpawnAmount = totalSpawnAmount;
-        Renderers.ForEach(renderer => renderer.enabled = true);
+        Renderers.ForEach(renderer => {
+            renderer.enabled = true;
+            SkinnedMeshRenderer meshRenderer = renderer as SkinnedMeshRenderer;
+            if (meshRenderer!=null) {
+                //meshRenderer.updateWhenOffscreen = true;
+            }
+        });
     }    
 
     #endregion
