@@ -142,6 +142,8 @@ public class ScoreManager : Singleton<ScoreManager> {
 
     public void AddToScore(int points)
     {
+        if (points <= 0) return;
+
         int delta = points * GetCurrentMultiplier();
         score += delta;
         EventSystem.Instance.TriggerEvent(Strings.Events.SCORE_UPDATED,score,delta);
