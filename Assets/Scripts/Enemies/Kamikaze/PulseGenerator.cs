@@ -30,6 +30,7 @@ public class PulseGenerator : MonoBehaviour
     {
         donePulsing = false;
         currentPulse = 0;
+        currentRateValue = 0.0f;
     }
 
     private void Update()
