@@ -152,7 +152,13 @@ public class PLESpawn : PLEItem {
         StopAllCoroutines();
         allEnemiesDead = false;
         currentSpawnAmount = totalSpawnAmount;
-        Renderers.ForEach(renderer => renderer.enabled = true);
+        Renderers.ForEach(renderer => {
+            renderer.enabled = true;
+            SkinnedMeshRenderer meshRenderer = renderer as SkinnedMeshRenderer;
+            if (meshRenderer!=null) {
+                //meshRenderer.updateWhenOffscreen = true;
+            }
+        });
     }    
 
     #endregion

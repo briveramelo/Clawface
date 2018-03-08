@@ -148,7 +148,9 @@ public class LevelData {
 
     public List<PLESpawn> GetPLESpawnsFromWave(int i_wave)
     {
-        
+        while (waveData.Count<=i_wave) {
+            waveData.Add(new WaveData());
+        }
         return waveData[i_wave].GetPleSpawnsFromWave();
     }
     public SpawnData KeiraSpawnData {
@@ -163,7 +165,21 @@ public class LevelData {
             return keiraSpawnData;
         }
     }
+    public bool AllWavesHaveEnemies(int maxWaveIndex){
+        if (waveData.Count == 0) return false;
 
+        List<PLESpawn> waveOne = GetPLESpawnsFromWave(0);
+        if (waveOne.Count==0 || (waveOne.Count==1 && waveOne.Exists(spawn=>spawn.spawnType==SpawnType.Keira))) {
+            return false;
+        }
+        for (int i = 1; i <= maxWaveIndex; i++) {
+            List<PLESpawn> spawns = GetPLESpawnsFromWave(i);
+            if (spawns.Count==0) {
+                return false;
+            }
+        }
+        return true;
+    }
     public int WaveCount { get { return waveData.Count; } }
     public int TileCount { get { return tileData.Count; } }
     public int PropCount { get { return propData.Count; } }

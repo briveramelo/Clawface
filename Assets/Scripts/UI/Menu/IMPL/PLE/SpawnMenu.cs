@@ -75,34 +75,30 @@ public class SpawnMenu : PlacementMenu {
     }
 
     protected override void PostPlaceItem(GameObject newItem) {
-        int currentWave = PLESpawnManager.Instance.CurrentWaveIndex;
-        Transform waveParent = levelEditor.TryCreateWaveParent(currentWave);
-        for (int i = currentWave; i >= 0; i--) {
+        int currentWaveIndex = PLESpawnManager.Instance.CurrentWaveIndex;
+        int maxWaveIndex = PLESpawnManager.Instance.MaxWaveIndex;
+        Transform waveParent = levelEditor.TryCreateWaveParent(currentWaveIndex);
+        for (int i = maxWaveIndex; i >= 0; i--) {
             levelEditor.TryCreateWaveParent(i);
         }
-        newItem.transform.SetParent(waveParent);
-        
+        newItem.transform.SetParent(waveParent);        
         MouseHelper.currentBlockUnit.AddSpawn(newItem);
+        //UNUSED
+        //PLESpawn spawn = newItem.GetComponent<PLESpawn>();
+        //if(spawn)
+        //{
+        //    //TODO: What happens if the registered wave is 'deleted'
+        //    spawn.registeredWave = currentWaveIndex;
+        //}
 
-        PLESpawn spawn = newItem.GetComponent<PLESpawn>();
-        if(spawn)
-        {
-            //TODO: What happens if the registered wave is 'deleted'
-            spawn.registeredWave = currentWave;
-        }
-
-        if(newItem.CompareTag(Strings.Editor.PLAYER_SPAWN_TAG))
-        {
-            if(playerSpawnInstance != null)
-            {
+        if(newItem.CompareTag(Strings.Editor.PLAYER_SPAWN_TAG)) {
+            if(playerSpawnInstance != null) {
                 DestroyImmediate(playerSpawnInstance);
             }
-
             playerSpawnInstance = newItem;
             playerSpawnInstance.transform.SetParent(levelEditor.TryCreateWaveParent(0).parent);
         }
         levelEditor.SetMenuButtonInteractability();
-        //UpdateFields(SelectedSpawn.totalSpawnAmount, SelectedSpawn.spawnType.SpawnDisplayName());
     }    
 
     protected override void SelectGameItem() {

@@ -21,7 +21,7 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
     [SerializeField] private Image selectedLevelImage, selectedLevelFavoriteIcon;
     [SerializeField] private InputField searchField;
     [SerializeField] private GridLayoutGroup gridLayoutGroup;
-    [SerializeField] private Button deleteButton, favoriteButton, leaderboardButton, loadButton;
+    [SerializeField] private Button backButton, deleteButton, favoriteButton, leaderboardButton, loadButton;
     [SerializeField] private Toggle allToggle, downloadedToggle, userToggle, favoriteToggle;
     [SerializeField] private Scrollbar levelScrollBar;
     [SerializeField] private GameObject plePrefab;
@@ -41,7 +41,7 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
     private bool IsHathosLevelDisplayed { get { return NumHathosLevels > 0 && levelUIs.Count>0 && levelUIs[0].gameObject.activeInHierarchy; } }
     private bool IsHathosLevelSelected { get { return !SceneTracker.IsCurrentSceneEditor && SelectedLevelIndex == 0; } }
     private int NumHathosLevels { get { return !SceneTracker.IsCurrentSceneEditor ? preMadeLevelUITransforms.Count : 0; } }
-    private LevelSelectFilterType activeFilter=LevelSelectFilterType.All;
+    private LevelSelectFilterType activeFilter;
     private Predicate<LevelUI> levelUISelectionMatch;
     private LevelUI SelectedLevelUI {
         get {
@@ -53,6 +53,24 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
     }
     private const int levelsPerRow = 4;
     private LevelUI lastSelectedLevel;
+    private List<Toggle> filterToggles = new List<Toggle>();
+    private int SelectedFilterToggle {
+        get {
+            return Mathf.Clamp(selectedFilterIndex, 0, filterToggles.Count);
+        }
+        set {
+            if (value >= filterToggles.Count) {
+                value = 0;
+            }
+            else if (value<0) {
+                value = filterToggles.Count;
+            }
+            selectedFilterIndex = value;
+            activeFilter = (LevelSelectFilterType)selectedFilterIndex;
+        }
+    }
+    private List<Selectable> levelItemSelectables = new List<Selectable>();
+    private int selectedFilterIndex;
     private bool IsLastLevelShowing { get { return lastSelectedLevel == null ? false : (lastSelectedLevel.gameObject.activeInHierarchy); } }
     #endregion
 
@@ -61,6 +79,12 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
     #region Unity Lifecyle
     protected override void Start() {
         base.Start();
+        filterToggles = new List<Toggle>() {
+            allToggle, downloadedToggle, userToggle, favoriteToggle
+        };
+        levelItemSelectables = new List<Selectable>() {
+            backButton, deleteButton, favoriteButton, leaderboardButton, loadButton
+        };
         scrollSlideAnim.OnUpdate = (val) => { levelScrollBar.value = val; };
         levelUISelectionMatch = item => CurrentEventSystemGameObject == item.selectable.gameObject;
     }
@@ -69,13 +93,14 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
         base.Update();
         if (allowInput) {
             CheckToSelectNewLevelFromController();
+            CheckToMoveFilter();
         }
     }    
     #endregion
 
     #region Public Interface
     public void FilterLevels(int filterType) {
-        activeFilter = (LevelSelectFilterType)filterType;
+        SelectedFilterToggle = filterType;
         for (int i = 0; i < levelUIs.Count; i++) {
             LevelData levelData = levelUIs[i].levelData;
             bool shouldShow = levelData.IsValidLevel(activeFilter);
@@ -190,7 +215,7 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
     #region Protected Interface
     protected override void ShowStarted() {
         base.ShowStarted();
-        activeFilter = LevelSelectFilterType.All;
+        SelectedFilterToggle = (int)LevelSelectFilterType.All;
         searchField.text = "";
         InitializeHathosLevels();
         ClearAndGenerateLevelUI();
@@ -204,6 +229,17 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
     #endregion
 
     #region Private Interface 
+    private void CheckToMoveFilter() {
+        if (InputManager.Instance.QueryAction(Strings.Input.Actions.FIRE_LEFT, ButtonMode.DOWN)) {
+            SelectedFilterToggle--;
+            FilterLevels(SelectedFilterToggle);
+        }
+        else if (InputManager.Instance.QueryAction(Strings.Input.Actions.FIRE_RIGHT, ButtonMode.DOWN)) {
+            SelectedFilterToggle++;
+            FilterLevels(SelectedFilterToggle);
+        }
+    }
+
 
     private void CheckToSelectNewLevelFromController() {
         bool isLevelUISelected = SelectedLevelUI != null && levelUIs.Exists(levelUISelectionMatch);
@@ -218,9 +254,13 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
             }
         }
 
-        if (CurrentEventSystemGameObject== searchField.gameObject) {
+        TryDeselectSearchField();
+    }
+
+    private void TryDeselectSearchField() {
+        if (CurrentEventSystemGameObject == searchField.gameObject) {
             float yInput = InputManager.Instance.QueryAxes(Strings.Input.UI.NAVIGATION).y;
-            if (Mathf.Abs(yInput)>.5f) {
+            if (Mathf.Abs(yInput) > .5f) {
                 bool goUp = yInput > 0f;
                 List<LevelUI> displayedLevelUIs = DisplayedLevelUIs;
                 GameObject downSelection = displayedLevelUIs.Count > 0 ? displayedLevelUIs[0].selectable.gameObject : loadButton.gameObject;
@@ -296,25 +336,32 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
 
     private void SetLevelItemButtonsNavigation(List<LevelUI> displayedLevelUIs) {
 
-        Selectable absoluteLeftTarget = displayedLevelUIs.Count > 0 ? (lastSelectedLevel ?? displayedLevelUIs[0]).selectable : allToggle;
+        Selectable upperTarget = displayedLevelUIs.Count > 0 ? (lastSelectedLevel ?? displayedLevelUIs[0]).selectable : allToggle;
+        Selectable leftMostOnBottom = backButton;
+        Selectable rightOfBack = levelItemSelectables.Find(item => { return item!=backButton && item.IsActive() && item.interactable; });
+        //back button navigation
+        SetNavigation(backButton, loadButton, SelectableDirection.Left);
+        SetNavigation(backButton, upperTarget, SelectableDirection.Up);
+        SetNavigation(backButton, rightOfBack, SelectableDirection.Right);
 
         //delete button navigation
-        SetNavigation(deleteButton, absoluteLeftTarget, SelectableDirection.Left, SelectableDirection.Up);
+        SetNavigation(deleteButton, leftMostOnBottom, SelectableDirection.Left, SelectableDirection.Up);
 
         //favorite button navigation
         bool deleteButtonAvailable = deleteButton.interactable && deleteButton.IsActive();
-        Selectable leftTarget = deleteButtonAvailable ? deleteButton : absoluteLeftTarget;
+        Selectable leftTarget = deleteButtonAvailable ? deleteButton : leftMostOnBottom;
         SetNavigation(favoriteButton, leftTarget, SelectableDirection.Left);
-        SetNavigation(favoriteButton, absoluteLeftTarget, SelectableDirection.Up);
+        SetNavigation(favoriteButton, upperTarget, SelectableDirection.Up);
 
         //leaderboard button navigation
-        leftTarget = favoriteButton.interactable ? favoriteButton : absoluteLeftTarget;
+        leftTarget = favoriteButton.interactable ? favoriteButton : leftMostOnBottom;
         SetNavigation(leaderboardButton, leftTarget, SelectableDirection.Left);
-        SetNavigation(leaderboardButton, absoluteLeftTarget, SelectableDirection.Up);
+        SetNavigation(leaderboardButton, upperTarget, SelectableDirection.Up);
+
         //load button navigation
-        leftTarget = leaderboardButton.interactable ? leaderboardButton : absoluteLeftTarget;
+        leftTarget = leaderboardButton.interactable ? leaderboardButton : leftMostOnBottom;
         SetNavigation(loadButton, leftTarget, SelectableDirection.Left);
-        SetNavigation(loadButton, absoluteLeftTarget, SelectableDirection.Up);
+        SetNavigation(loadButton, upperTarget, SelectableDirection.Up);
     }
 
 

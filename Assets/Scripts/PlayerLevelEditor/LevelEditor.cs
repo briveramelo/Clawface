@@ -101,6 +101,11 @@ namespace PlayerLevelEditor
             }
         }
 
+        public void TryCreateAllWaveParents() {
+            for (int i = 0; i < PLESpawnManager.Instance.MaxWaveIndex; i++) {
+                TryCreateWaveParent(i);
+            }
+        }
         public Transform TryCreateWaveParent(int i) {
             string waveName = GetWaveName(i);
             Transform waveParent = createdSpawnsParent.Find(waveName);
@@ -134,7 +139,14 @@ namespace PlayerLevelEditor
             ToggleMenuInteractable(anyTilesOn, PLEMenu.PROPS, PLEMenu.SPAWN, PLEMenu.WAVE);
 
             bool anyTilesOnAndPlayerOn = anyTilesOn && SpawnMenu.playerSpawnInstance != null;
-            ToggleMenuInteractable(anyTilesOnAndPlayerOn, PLEMenu.SAVE, PLEMenu.TEST);
+            ToggleMenuInteractable(anyTilesOnAndPlayerOn, PLEMenu.TEST);
+
+
+            TryCreateAllWaveParents();
+            levelDataManager.SaveSpawns();
+            bool allWavesHaveEnemies = levelDataManager.ActiveLevelData.AllWavesHaveEnemies(PLESpawnManager.Instance.MaxWaveIndex);
+            bool playerOnTilesOnAndAllWavesHaveEnemies = anyTilesOnAndPlayerOn && allWavesHaveEnemies;
+            ToggleMenuInteractable(playerOnTilesOnAndAllWavesHaveEnemies, PLEMenu.SAVE);
         }
         
 

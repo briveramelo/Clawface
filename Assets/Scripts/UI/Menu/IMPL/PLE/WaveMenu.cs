@@ -73,6 +73,7 @@ public class WaveMenu : PlayerLevelEditorMenu
         EventSystem.Instance.TriggerEvent(Strings.Events.PLE_ADD_WAVE);
         EventSystem.Instance.TriggerEvent(Strings.Events.PLE_SYNC_LEVEL_UNIT_STATES);
         levelEditor.EnableCurrentWaveSpawnParents();
+        levelEditor.SetMenuButtonInteractability();
 
         SetMenuButtonInteractability();
         UpdateWaveText();
@@ -84,6 +85,7 @@ public class WaveMenu : PlayerLevelEditorMenu
         EventSystem.Instance.TriggerEvent(Strings.Events.PLE_SYNC_LEVEL_UNIT_STATES);
         EventSystem.Instance.TriggerEvent(Strings.Events.PLE_CHANGEWAVE, currentWaveIndex);
         levelEditor.EnableCurrentWaveSpawnParents();
+        levelEditor.SetMenuButtonInteractability();
 
         SetMenuButtonInteractability();
         UpdateWaveText();
