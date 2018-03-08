@@ -170,7 +170,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 9 Wave 3
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -195,14 +196,13 @@ MonoBehaviour:
   - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
-  - Spawner 8 Wave 3
   - Spawner 9 Wave 1
   - Spawner 9 Wave 2
-  - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 8 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -372,7 +372,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 9 Wave 1
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -395,9 +396,6 @@ MonoBehaviour:
   - Spawner 7 Wave 2
   - Spawner 7 Wave 3
   - Spawner 8 Wave 1
-  - Spawner 8 Wave 2
-  - Spawner 8 Wave 3
-  - Spawner 9 Wave 1
   - Spawner 9 Wave 2
   - Spawner 9 Wave 3
   - Spawner 10 Wave 1
@@ -405,6 +403,8 @@ MonoBehaviour:
   - Spawner 10 Wave 3
   pitStateEvents:
   - Spawner 4 Wave 2
+  - Spawner 8 Wave 2
+  - Spawner 8 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -949,7 +949,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 6 Wave 1
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -966,7 +967,6 @@ MonoBehaviour:
   - Spawner 5 Wave 1
   - Spawner 5 Wave 2
   - Spawner 5 Wave 3
-  - Spawner 6 Wave 1
   - Spawner 6 Wave 2
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
@@ -1397,7 +1397,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 4 Wave 3
+  - Spawner 9 Wave 1
+  - Spawner 9 Wave 2
+  - Spawner 9 Wave 3
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -1412,24 +1416,20 @@ MonoBehaviour:
   - Spawner 5 Wave 2
   - Spawner 5 Wave 3
   - Spawner 6 Wave 1
-  - Spawner 6 Wave 2
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
   - Spawner 7 Wave 3
-  - Spawner 8 Wave 1
-  - Spawner 8 Wave 2
-  - Spawner 8 Wave 3
-  - Spawner 9 Wave 1
-  - Spawner 9 Wave 2
-  - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
   pitStateEvents:
   - Spawner 4 Wave 1
   - Spawner 4 Wave 2
-  - Spawner 4 Wave 3
+  - Spawner 6 Wave 2
+  - Spawner 8 Wave 1
+  - Spawner 8 Wave 2
+  - Spawner 8 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -1600,16 +1600,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 2 Wave 3
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 9 Wave 1
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
-  - Spawner 2 Wave 3
   - Spawner 4 Wave 1
   - Spawner 4 Wave 2
   - Spawner 4 Wave 3
@@ -1621,17 +1622,16 @@ MonoBehaviour:
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
   - Spawner 8 Wave 3
-  - Spawner 9 Wave 1
-  - Spawner 9 Wave 2
-  - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 7 Wave 3
+  - Spawner 9 Wave 2
+  - Spawner 9 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -2245,6 +2245,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 9 Wave 2
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -2263,17 +2264,16 @@ MonoBehaviour:
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
   - Spawner 8 Wave 3
-  - Spawner 9 Wave 1
-  - Spawner 9 Wave 2
-  - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 7 Wave 3
+  - Spawner 9 Wave 1
+  - Spawner 9 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -3036,6 +3036,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coverStateEvents:
   - Spawner 3 Wave 3
+  - Spawner 4 Wave 3
+  - Spawner 9 Wave 1
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -3058,7 +3060,6 @@ MonoBehaviour:
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
   - Spawner 8 Wave 3
-  - Spawner 9 Wave 1
   - Spawner 9 Wave 2
   - Spawner 9 Wave 3
   - Spawner 10 Wave 1
@@ -3066,7 +3067,6 @@ MonoBehaviour:
   - Spawner 10 Wave 3
   pitStateEvents:
   - Spawner 4 Wave 2
-  - Spawner 4 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -3236,7 +3236,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 9 Wave 1
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -3261,14 +3262,13 @@ MonoBehaviour:
   - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
-  - Spawner 8 Wave 3
-  - Spawner 9 Wave 1
   - Spawner 9 Wave 2
   - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 8 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -3664,15 +3664,15 @@ MonoBehaviour:
   - Spawner 7 Wave 2
   - Spawner 7 Wave 3
   - Spawner 8 Wave 1
-  - Spawner 8 Wave 2
-  - Spawner 8 Wave 3
   - Spawner 9 Wave 1
   - Spawner 9 Wave 2
   - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 8 Wave 2
+  - Spawner 8 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -4138,6 +4138,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 9 Wave 1
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -4156,17 +4157,16 @@ MonoBehaviour:
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
   - Spawner 8 Wave 3
-  - Spawner 9 Wave 1
-  - Spawner 9 Wave 2
-  - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 7 Wave 3
+  - Spawner 9 Wave 2
+  - Spawner 9 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -4664,7 +4664,7 @@ Prefab:
         type: 2}
       propertyPath: clips.Array.data[6]
       value: 
-      objectReference: {fileID: 8300000, guid: 44de88c8b5066f14e8ed99bf1bfdba4c, type: 3}
+      objectReference: {fileID: 8300000, guid: 18d42d4449b442344976c780436d8756, type: 3}
     - target: {fileID: 114774333468769098, guid: f7f0788457a83ae4ab3f8d9af40231a5,
         type: 2}
       propertyPath: clips.Array.data[7]
@@ -4674,7 +4674,7 @@ Prefab:
         type: 2}
       propertyPath: clips.Array.data[8]
       value: 
-      objectReference: {fileID: 8300000, guid: 18d42d4449b442344976c780436d8756, type: 3}
+      objectReference: {fileID: 8300000, guid: 44de88c8b5066f14e8ed99bf1bfdba4c, type: 3}
     - target: {fileID: 114774333468769098, guid: f7f0788457a83ae4ab3f8d9af40231a5,
         type: 2}
       propertyPath: clips.Array.data[9]
@@ -5006,7 +5006,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 4 Wave 3
+  - Spawner 9 Wave 1
+  - Spawner 9 Wave 2
+  - Spawner 9 Wave 3
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -5026,19 +5030,15 @@ MonoBehaviour:
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
   - Spawner 7 Wave 3
-  - Spawner 8 Wave 1
-  - Spawner 8 Wave 2
-  - Spawner 8 Wave 3
-  - Spawner 9 Wave 1
-  - Spawner 9 Wave 2
-  - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
   pitStateEvents:
   - Spawner 4 Wave 1
   - Spawner 4 Wave 2
-  - Spawner 4 Wave 3
+  - Spawner 8 Wave 1
+  - Spawner 8 Wave 2
+  - Spawner 8 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -5682,7 +5682,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 4 Wave 3
+  - Spawner 9 Wave 1
+  - Spawner 9 Wave 2
+  - Spawner 9 Wave 3
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -5693,7 +5697,6 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
-  - Spawner 4 Wave 3
   - Spawner 5 Wave 1
   - Spawner 5 Wave 2
   - Spawner 5 Wave 3
@@ -5703,18 +5706,15 @@ MonoBehaviour:
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
   - Spawner 7 Wave 3
-  - Spawner 8 Wave 1
-  - Spawner 8 Wave 2
-  - Spawner 8 Wave 3
-  - Spawner 9 Wave 1
-  - Spawner 9 Wave 2
-  - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
   pitStateEvents:
   - Spawner 4 Wave 1
   - Spawner 4 Wave 2
+  - Spawner 8 Wave 1
+  - Spawner 8 Wave 2
+  - Spawner 8 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -5985,7 +5985,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coverStateEvents:
   - Spawner 5 Wave 1
-  - Spawner 5 Wave 3
+  - Spawner 6 Wave 1
+  - Spawner 6 Wave 3
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -6000,22 +6001,21 @@ MonoBehaviour:
   - Spawner 4 Wave 2
   - Spawner 4 Wave 3
   - Spawner 5 Wave 2
-  - Spawner 6 Wave 1
   - Spawner 6 Wave 2
-  - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
   - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
-  - Spawner 8 Wave 3
   - Spawner 9 Wave 1
   - Spawner 9 Wave 2
   - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 5 Wave 3
+  - Spawner 8 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -6259,7 +6259,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 6 Wave 2
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -6277,7 +6278,6 @@ MonoBehaviour:
   - Spawner 5 Wave 2
   - Spawner 5 Wave 3
   - Spawner 6 Wave 1
-  - Spawner 6 Wave 2
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
@@ -7019,6 +7019,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 9 Wave 1
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -7037,17 +7038,16 @@ MonoBehaviour:
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
   - Spawner 8 Wave 3
-  - Spawner 9 Wave 1
-  - Spawner 9 Wave 2
-  - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 7 Wave 3
+  - Spawner 9 Wave 2
+  - Spawner 9 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -7235,21 +7235,21 @@ MonoBehaviour:
   - Spawner 5 Wave 2
   - Spawner 5 Wave 3
   - Spawner 6 Wave 1
-  - Spawner 6 Wave 2
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
   - Spawner 7 Wave 3
   - Spawner 8 Wave 1
-  - Spawner 8 Wave 2
-  - Spawner 8 Wave 3
   - Spawner 9 Wave 1
   - Spawner 9 Wave 2
   - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 6 Wave 2
+  - Spawner 8 Wave 2
+  - Spawner 8 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -7616,15 +7616,15 @@ MonoBehaviour:
   - Spawner 7 Wave 2
   - Spawner 7 Wave 3
   - Spawner 8 Wave 1
-  - Spawner 8 Wave 2
-  - Spawner 8 Wave 3
   - Spawner 9 Wave 1
   - Spawner 9 Wave 2
   - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 8 Wave 2
+  - Spawner 8 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -7969,6 +7969,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coverStateEvents:
   - Spawner 2 Wave 2
+  - Spawner 6 Wave 1
+  - Spawner 6 Wave 3
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -7983,15 +7985,12 @@ MonoBehaviour:
   - Spawner 5 Wave 1
   - Spawner 5 Wave 2
   - Spawner 5 Wave 3
-  - Spawner 6 Wave 1
   - Spawner 6 Wave 2
-  - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
   - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
-  - Spawner 8 Wave 3
   - Spawner 9 Wave 1
   - Spawner 9 Wave 2
   - Spawner 9 Wave 3
@@ -8000,6 +7999,7 @@ MonoBehaviour:
   - Spawner 10 Wave 3
   pitStateEvents:
   - Spawner 2 Wave 3
+  - Spawner 8 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -8343,6 +8343,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 2 Wave 3
+  - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   floorStateEvents:
@@ -8351,8 +8353,6 @@ MonoBehaviour:
   - Spawner 1 Wave 3
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
-  - Spawner 2 Wave 3
-  - Spawner 3 Wave 1
   - Spawner 4 Wave 1
   - Spawner 4 Wave 2
   - Spawner 4 Wave 3
@@ -8364,17 +8364,17 @@ MonoBehaviour:
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
   - Spawner 8 Wave 3
-  - Spawner 9 Wave 1
-  - Spawner 9 Wave 2
-  - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 7 Wave 3
+  - Spawner 9 Wave 1
+  - Spawner 9 Wave 2
+  - Spawner 9 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -8904,6 +8904,56 @@ Prefab:
     - target: {fileID: 4443966054629342, guid: 4f1a768e32a194e48b4ccc7eedeecb4e, type: 2}
       propertyPath: m_RootOrder
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114299534321766072, guid: 4f1a768e32a194e48b4ccc7eedeecb4e,
+        type: 2}
+      propertyPath: waves.Array.data[1].monsterList.Array.data[3].Type
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114299534321766072, guid: 4f1a768e32a194e48b4ccc7eedeecb4e,
+        type: 2}
+      propertyPath: waves.Array.data[1].monsterList.Array.data[3].Count
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114299534321766072, guid: 4f1a768e32a194e48b4ccc7eedeecb4e,
+        type: 2}
+      propertyPath: waves.Array.data[1].monsterList.Array.data[1].Type
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 114299534321766072, guid: 4f1a768e32a194e48b4ccc7eedeecb4e,
+        type: 2}
+      propertyPath: waves.Array.data[1].monsterList.Array.data[2].Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114299534321766072, guid: 4f1a768e32a194e48b4ccc7eedeecb4e,
+        type: 2}
+      propertyPath: waves.Array.data[2].monsterList.Array.data[0].Type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114299534321766072, guid: 4f1a768e32a194e48b4ccc7eedeecb4e,
+        type: 2}
+      propertyPath: waves.Array.data[2].monsterList.Array.data[1].Type
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114299534321766072, guid: 4f1a768e32a194e48b4ccc7eedeecb4e,
+        type: 2}
+      propertyPath: waves.Array.data[2].monsterList.Array.data[2].Type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114299534321766072, guid: 4f1a768e32a194e48b4ccc7eedeecb4e,
+        type: 2}
+      propertyPath: waves.Array.data[2].monsterList.Array.data[3].Type
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 114299534321766072, guid: 4f1a768e32a194e48b4ccc7eedeecb4e,
+        type: 2}
+      propertyPath: waves.Array.data[2].monsterList.Array.data[3].Count
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114299534321766072, guid: 4f1a768e32a194e48b4ccc7eedeecb4e,
+        type: 2}
+      propertyPath: waves.Array.data[2].monsterList.Array.data[1].Count
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4f1a768e32a194e48b4ccc7eedeecb4e, type: 2}
@@ -9478,7 +9528,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 4 Wave 3
+  - Spawner 9 Wave 1
+  - Spawner 9 Wave 2
+  - Spawner 9 Wave 3
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -9498,19 +9552,15 @@ MonoBehaviour:
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
   - Spawner 7 Wave 3
-  - Spawner 8 Wave 1
-  - Spawner 8 Wave 2
-  - Spawner 8 Wave 3
-  - Spawner 9 Wave 1
-  - Spawner 9 Wave 2
-  - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
   pitStateEvents:
   - Spawner 4 Wave 1
   - Spawner 4 Wave 2
-  - Spawner 4 Wave 3
+  - Spawner 8 Wave 1
+  - Spawner 8 Wave 2
+  - Spawner 8 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -9885,6 +9935,7 @@ MonoBehaviour:
   coverStateEvents:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 9 Wave 3
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -9904,17 +9955,16 @@ MonoBehaviour:
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
   - Spawner 8 Wave 3
-  - Spawner 9 Wave 1
-  - Spawner 9 Wave 2
-  - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 7 Wave 3
+  - Spawner 9 Wave 1
+  - Spawner 9 Wave 2
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -10087,6 +10137,7 @@ MonoBehaviour:
   coverStateEvents:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 9 Wave 3
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -10106,17 +10157,16 @@ MonoBehaviour:
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
   - Spawner 8 Wave 3
-  - Spawner 9 Wave 1
-  - Spawner 9 Wave 2
-  - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 7 Wave 3
+  - Spawner 9 Wave 1
+  - Spawner 9 Wave 2
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -10286,7 +10336,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 6 Wave 3
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -10305,7 +10356,6 @@ MonoBehaviour:
   - Spawner 5 Wave 3
   - Spawner 6 Wave 1
   - Spawner 6 Wave 2
-  - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
   - Spawner 7 Wave 3
@@ -10512,15 +10562,15 @@ MonoBehaviour:
   - Spawner 7 Wave 2
   - Spawner 7 Wave 3
   - Spawner 8 Wave 1
-  - Spawner 8 Wave 2
-  - Spawner 8 Wave 3
   - Spawner 9 Wave 1
   - Spawner 9 Wave 2
   - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 8 Wave 2
+  - Spawner 8 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -14196,7 +14246,6 @@ MonoBehaviour:
   - Spawner 5 Wave 3
   - Spawner 6 Wave 1
   - Spawner 6 Wave 2
-  - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
   - Spawner 7 Wave 3
@@ -14209,7 +14258,8 @@ MonoBehaviour:
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 6 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -14746,22 +14796,22 @@ MonoBehaviour:
   - Spawner 5 Wave 1
   - Spawner 5 Wave 2
   - Spawner 5 Wave 3
-  - Spawner 6 Wave 1
   - Spawner 6 Wave 2
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
-  - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
-  - Spawner 8 Wave 3
   - Spawner 9 Wave 1
   - Spawner 9 Wave 2
   - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 6 Wave 1
+  - Spawner 7 Wave 2
+  - Spawner 7 Wave 3
+  - Spawner 8 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -15455,16 +15505,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 2 Wave 3
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 9 Wave 2
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
-  - Spawner 2 Wave 3
   - Spawner 4 Wave 1
   - Spawner 4 Wave 2
   - Spawner 4 Wave 3
@@ -15476,17 +15527,16 @@ MonoBehaviour:
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
   - Spawner 8 Wave 3
-  - Spawner 9 Wave 1
-  - Spawner 9 Wave 2
-  - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 7 Wave 3
+  - Spawner 9 Wave 1
+  - Spawner 9 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -15912,8 +15962,6 @@ MonoBehaviour:
   - Spawner 7 Wave 2
   - Spawner 7 Wave 3
   - Spawner 8 Wave 1
-  - Spawner 8 Wave 2
-  - Spawner 8 Wave 3
   - Spawner 9 Wave 1
   - Spawner 9 Wave 2
   - Spawner 9 Wave 3
@@ -15922,6 +15970,8 @@ MonoBehaviour:
   - Spawner 10 Wave 3
   pitStateEvents:
   - Spawner 4 Wave 2
+  - Spawner 8 Wave 2
+  - Spawner 8 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -16113,6 +16163,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coverStateEvents:
   - Spawner 3 Wave 3
+  - Spawner 4 Wave 3
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -16143,7 +16194,6 @@ MonoBehaviour:
   - Spawner 10 Wave 3
   pitStateEvents:
   - Spawner 4 Wave 2
-  - Spawner 4 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -16639,6 +16689,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coverStateEvents:
   - Spawner 2 Wave 2
+  - Spawner 6 Wave 1
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -16653,7 +16704,6 @@ MonoBehaviour:
   - Spawner 5 Wave 1
   - Spawner 5 Wave 2
   - Spawner 5 Wave 3
-  - Spawner 6 Wave 1
   - Spawner 6 Wave 2
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
@@ -16661,7 +16711,6 @@ MonoBehaviour:
   - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
-  - Spawner 8 Wave 3
   - Spawner 9 Wave 1
   - Spawner 9 Wave 2
   - Spawner 9 Wave 3
@@ -16670,6 +16719,7 @@ MonoBehaviour:
   - Spawner 10 Wave 3
   pitStateEvents:
   - Spawner 2 Wave 3
+  - Spawner 8 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -17107,18 +17157,18 @@ MonoBehaviour:
   - Spawner 6 Wave 2
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
-  - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
-  - Spawner 8 Wave 3
   - Spawner 9 Wave 1
   - Spawner 9 Wave 2
   - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 7 Wave 2
+  - Spawner 7 Wave 3
+  - Spawner 8 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -17321,6 +17371,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 9 Wave 1
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -17339,17 +17390,16 @@ MonoBehaviour:
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
   - Spawner 8 Wave 3
-  - Spawner 9 Wave 1
-  - Spawner 9 Wave 2
-  - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 7 Wave 3
+  - Spawner 9 Wave 2
+  - Spawner 9 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -17522,6 +17572,7 @@ MonoBehaviour:
   coverStateEvents:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 9 Wave 3
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -17539,19 +17590,18 @@ MonoBehaviour:
   - Spawner 6 Wave 1
   - Spawner 6 Wave 2
   - Spawner 6 Wave 3
-  - Spawner 7 Wave 1
-  - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
   - Spawner 8 Wave 3
-  - Spawner 9 Wave 1
-  - Spawner 9 Wave 2
-  - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 7 Wave 1
+  - Spawner 7 Wave 2
+  - Spawner 7 Wave 3
+  - Spawner 9 Wave 1
+  - Spawner 9 Wave 2
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -18206,15 +18256,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 2 Wave 3
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 9 Wave 2
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
-  - Spawner 2 Wave 3
   - Spawner 4 Wave 1
   - Spawner 4 Wave 2
   - Spawner 4 Wave 3
@@ -18226,18 +18277,17 @@ MonoBehaviour:
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
   - Spawner 8 Wave 3
-  - Spawner 9 Wave 1
-  - Spawner 9 Wave 2
-  - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
   pitStateEvents:
   - Spawner 1 Wave 3
+  - Spawner 7 Wave 3
+  - Spawner 9 Wave 1
+  - Spawner 9 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -18547,16 +18597,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 2 Wave 3
+  - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 9 Wave 3
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
-  - Spawner 2 Wave 3
-  - Spawner 3 Wave 1
   - Spawner 4 Wave 1
   - Spawner 4 Wave 2
   - Spawner 4 Wave 3
@@ -18568,17 +18619,16 @@ MonoBehaviour:
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
   - Spawner 8 Wave 3
-  - Spawner 9 Wave 1
-  - Spawner 9 Wave 2
-  - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 7 Wave 3
+  - Spawner 9 Wave 1
+  - Spawner 9 Wave 2
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -19124,17 +19174,17 @@ MonoBehaviour:
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
   - Spawner 8 Wave 3
-  - Spawner 9 Wave 1
-  - Spawner 9 Wave 2
-  - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 7 Wave 3
+  - Spawner 9 Wave 1
+  - Spawner 9 Wave 2
+  - Spawner 9 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -19356,7 +19406,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 6 Wave 1
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -19373,7 +19424,6 @@ MonoBehaviour:
   - Spawner 5 Wave 1
   - Spawner 5 Wave 2
   - Spawner 5 Wave 3
-  - Spawner 6 Wave 1
   - Spawner 6 Wave 2
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
@@ -19923,7 +19973,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coverStateEvents:
   - Spawner 5 Wave 1
-  - Spawner 5 Wave 3
+  - Spawner 6 Wave 2
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -19938,8 +19988,6 @@ MonoBehaviour:
   - Spawner 4 Wave 2
   - Spawner 4 Wave 3
   - Spawner 5 Wave 2
-  - Spawner 6 Wave 1
-  - Spawner 6 Wave 2
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
@@ -19953,7 +20001,9 @@ MonoBehaviour:
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 5 Wave 3
+  - Spawner 6 Wave 1
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -20560,16 +20610,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 2 Wave 3
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 9 Wave 1
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
-  - Spawner 2 Wave 3
   - Spawner 4 Wave 1
   - Spawner 4 Wave 2
   - Spawner 4 Wave 3
@@ -20581,17 +20632,16 @@ MonoBehaviour:
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
   - Spawner 8 Wave 3
-  - Spawner 9 Wave 1
-  - Spawner 9 Wave 2
-  - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 7 Wave 3
+  - Spawner 9 Wave 2
+  - Spawner 9 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -20959,7 +21009,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 9 Wave 2
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -20979,19 +21030,18 @@ MonoBehaviour:
   - Spawner 6 Wave 1
   - Spawner 6 Wave 2
   - Spawner 6 Wave 3
-  - Spawner 7 Wave 1
-  - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
-  - Spawner 8 Wave 3
   - Spawner 9 Wave 1
-  - Spawner 9 Wave 2
   - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 7 Wave 1
+  - Spawner 7 Wave 2
+  - Spawner 7 Wave 3
+  - Spawner 8 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -21185,15 +21235,15 @@ MonoBehaviour:
   - Spawner 7 Wave 2
   - Spawner 7 Wave 3
   - Spawner 8 Wave 1
-  - Spawner 8 Wave 2
-  - Spawner 8 Wave 3
   - Spawner 9 Wave 1
   - Spawner 9 Wave 2
   - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 8 Wave 2
+  - Spawner 8 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -21466,6 +21516,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 9 Wave 1
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -21484,17 +21535,16 @@ MonoBehaviour:
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
   - Spawner 8 Wave 3
-  - Spawner 9 Wave 1
-  - Spawner 9 Wave 2
-  - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 7 Wave 3
+  - Spawner 9 Wave 2
+  - Spawner 9 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -21689,14 +21739,14 @@ MonoBehaviour:
   - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
-  - Spawner 8 Wave 3
   - Spawner 9 Wave 1
   - Spawner 9 Wave 2
   - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 8 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -21866,7 +21916,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 4 Wave 3
+  - Spawner 9 Wave 1
+  - Spawner 9 Wave 2
+  - Spawner 9 Wave 3
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -21877,7 +21931,6 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
-  - Spawner 4 Wave 3
   - Spawner 5 Wave 1
   - Spawner 5 Wave 2
   - Spawner 5 Wave 3
@@ -21887,18 +21940,15 @@ MonoBehaviour:
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
   - Spawner 7 Wave 3
-  - Spawner 8 Wave 1
-  - Spawner 8 Wave 2
-  - Spawner 8 Wave 3
-  - Spawner 9 Wave 1
-  - Spawner 9 Wave 2
-  - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
   pitStateEvents:
   - Spawner 4 Wave 1
   - Spawner 4 Wave 2
+  - Spawner 8 Wave 1
+  - Spawner 8 Wave 2
+  - Spawner 8 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -22381,6 +22431,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 9 Wave 1
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 4 Wave 1
@@ -22394,17 +22445,16 @@ MonoBehaviour:
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
   - Spawner 8 Wave 3
-  - Spawner 9 Wave 1
-  - Spawner 9 Wave 2
-  - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 7 Wave 3
+  - Spawner 9 Wave 2
+  - Spawner 9 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -22583,6 +22633,8 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 9 Wave 1
+  - Spawner 9 Wave 2
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 4 Wave 1
@@ -22596,17 +22648,15 @@ MonoBehaviour:
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
   - Spawner 8 Wave 3
-  - Spawner 9 Wave 1
-  - Spawner 9 Wave 2
-  - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 7 Wave 3
+  - Spawner 9 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -23046,9 +23096,6 @@ MonoBehaviour:
   - Spawner 6 Wave 1
   - Spawner 6 Wave 2
   - Spawner 6 Wave 3
-  - Spawner 7 Wave 1
-  - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
   - Spawner 8 Wave 3
@@ -23058,7 +23105,10 @@ MonoBehaviour:
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 7 Wave 1
+  - Spawner 7 Wave 2
+  - Spawner 7 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -23755,6 +23805,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 9 Wave 2
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -23773,17 +23824,16 @@ MonoBehaviour:
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
   - Spawner 8 Wave 3
-  - Spawner 9 Wave 1
-  - Spawner 9 Wave 2
-  - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 7 Wave 3
+  - Spawner 9 Wave 1
+  - Spawner 9 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -24049,17 +24099,17 @@ MonoBehaviour:
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
   - Spawner 8 Wave 3
-  - Spawner 9 Wave 1
-  - Spawner 9 Wave 2
-  - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 7 Wave 3
+  - Spawner 9 Wave 1
+  - Spawner 9 Wave 2
+  - Spawner 9 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -24332,6 +24382,8 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 4 Wave 3
+  - Spawner 9 Wave 1
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -24348,19 +24400,17 @@ MonoBehaviour:
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
   - Spawner 8 Wave 3
-  - Spawner 9 Wave 1
-  - Spawner 9 Wave 2
-  - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
   pitStateEvents:
   - Spawner 4 Wave 2
-  - Spawner 4 Wave 3
+  - Spawner 7 Wave 3
+  - Spawner 9 Wave 2
+  - Spawner 9 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -24555,14 +24605,14 @@ MonoBehaviour:
   - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
-  - Spawner 8 Wave 3
   - Spawner 9 Wave 1
   - Spawner 9 Wave 2
   - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 8 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -24733,15 +24783,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 2 Wave 2
+  - Spawner 2 Wave 3
+  - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 9 Wave 3
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
   - Spawner 2 Wave 1
-  - Spawner 2 Wave 2
-  - Spawner 2 Wave 3
-  - Spawner 3 Wave 1
   - Spawner 4 Wave 1
   - Spawner 4 Wave 2
   - Spawner 4 Wave 3
@@ -24753,18 +24804,17 @@ MonoBehaviour:
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
   - Spawner 8 Wave 3
-  - Spawner 9 Wave 1
-  - Spawner 9 Wave 2
-  - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
   pitStateEvents:
   - Spawner 1 Wave 3
+  - Spawner 7 Wave 3
+  - Spawner 9 Wave 1
+  - Spawner 9 Wave 2
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -24958,15 +25008,15 @@ MonoBehaviour:
   - Spawner 7 Wave 2
   - Spawner 7 Wave 3
   - Spawner 8 Wave 1
-  - Spawner 8 Wave 2
-  - Spawner 8 Wave 3
   - Spawner 9 Wave 1
   - Spawner 9 Wave 2
   - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 8 Wave 2
+  - Spawner 8 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -25140,6 +25190,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 9 Wave 2
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -25158,17 +25209,16 @@ MonoBehaviour:
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
   - Spawner 8 Wave 3
-  - Spawner 9 Wave 1
-  - Spawner 9 Wave 2
-  - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 7 Wave 3
+  - Spawner 9 Wave 1
+  - Spawner 9 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -25375,12 +25425,8 @@ MonoBehaviour:
   - Spawner 5 Wave 1
   - Spawner 5 Wave 2
   - Spawner 5 Wave 3
-  - Spawner 6 Wave 1
   - Spawner 6 Wave 2
   - Spawner 6 Wave 3
-  - Spawner 7 Wave 1
-  - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
   - Spawner 8 Wave 3
@@ -25390,7 +25436,11 @@ MonoBehaviour:
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 6 Wave 1
+  - Spawner 7 Wave 1
+  - Spawner 7 Wave 2
+  - Spawner 7 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -25736,15 +25786,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 2 Wave 2
+  - Spawner 2 Wave 3
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 9 Wave 1
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
   - Spawner 2 Wave 1
-  - Spawner 2 Wave 2
-  - Spawner 2 Wave 3
   - Spawner 4 Wave 1
   - Spawner 4 Wave 2
   - Spawner 4 Wave 3
@@ -25756,18 +25807,17 @@ MonoBehaviour:
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
   - Spawner 8 Wave 3
-  - Spawner 9 Wave 1
-  - Spawner 9 Wave 2
-  - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
   pitStateEvents:
   - Spawner 1 Wave 3
+  - Spawner 7 Wave 3
+  - Spawner 9 Wave 2
+  - Spawner 9 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -26163,15 +26213,15 @@ MonoBehaviour:
   - Spawner 7 Wave 2
   - Spawner 7 Wave 3
   - Spawner 8 Wave 1
-  - Spawner 8 Wave 2
-  - Spawner 8 Wave 3
   - Spawner 9 Wave 1
   - Spawner 9 Wave 2
   - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 8 Wave 2
+  - Spawner 8 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -27602,6 +27652,7 @@ MonoBehaviour:
   coverStateEvents:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 9 Wave 3
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -27621,17 +27672,16 @@ MonoBehaviour:
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
   - Spawner 8 Wave 3
-  - Spawner 9 Wave 1
-  - Spawner 9 Wave 2
-  - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 7 Wave 3
+  - Spawner 9 Wave 1
+  - Spawner 9 Wave 2
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -27818,7 +27868,6 @@ MonoBehaviour:
   - Spawner 5 Wave 1
   - Spawner 5 Wave 2
   - Spawner 5 Wave 3
-  - Spawner 6 Wave 1
   - Spawner 6 Wave 2
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
@@ -27833,7 +27882,8 @@ MonoBehaviour:
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 6 Wave 1
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -28003,7 +28053,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 6 Wave 2
+  - Spawner 9 Wave 2
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -28021,7 +28073,6 @@ MonoBehaviour:
   - Spawner 5 Wave 2
   - Spawner 5 Wave 3
   - Spawner 6 Wave 1
-  - Spawner 6 Wave 2
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
@@ -28030,7 +28081,6 @@ MonoBehaviour:
   - Spawner 8 Wave 2
   - Spawner 8 Wave 3
   - Spawner 9 Wave 1
-  - Spawner 9 Wave 2
   - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
@@ -28229,6 +28279,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 9 Wave 2
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -28247,17 +28298,16 @@ MonoBehaviour:
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
   - Spawner 8 Wave 3
-  - Spawner 9 Wave 1
-  - Spawner 9 Wave 2
-  - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 7 Wave 3
+  - Spawner 9 Wave 1
+  - Spawner 9 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -28523,6 +28573,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coverStateEvents:
   - Spawner 3 Wave 3
+  - Spawner 4 Wave 3
+  - Spawner 9 Wave 2
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -28546,14 +28598,12 @@ MonoBehaviour:
   - Spawner 8 Wave 2
   - Spawner 8 Wave 3
   - Spawner 9 Wave 1
-  - Spawner 9 Wave 2
   - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
   pitStateEvents:
   - Spawner 4 Wave 2
-  - Spawner 4 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -28782,7 +28832,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coverStateEvents:
   - Spawner 5 Wave 1
-  - Spawner 5 Wave 3
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -28797,22 +28846,23 @@ MonoBehaviour:
   - Spawner 4 Wave 2
   - Spawner 4 Wave 3
   - Spawner 5 Wave 2
-  - Spawner 6 Wave 1
   - Spawner 6 Wave 2
-  - Spawner 6 Wave 3
-  - Spawner 7 Wave 1
-  - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
-  - Spawner 8 Wave 3
   - Spawner 9 Wave 1
   - Spawner 9 Wave 2
   - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 5 Wave 3
+  - Spawner 6 Wave 1
+  - Spawner 6 Wave 3
+  - Spawner 7 Wave 1
+  - Spawner 7 Wave 2
+  - Spawner 7 Wave 3
+  - Spawner 8 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -28983,15 +29033,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 2 Wave 2
+  - Spawner 2 Wave 3
+  - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
   - Spawner 2 Wave 1
-  - Spawner 2 Wave 2
-  - Spawner 2 Wave 3
-  - Spawner 3 Wave 1
   - Spawner 4 Wave 1
   - Spawner 4 Wave 2
   - Spawner 4 Wave 3
@@ -29003,18 +29053,18 @@ MonoBehaviour:
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
   - Spawner 8 Wave 3
-  - Spawner 9 Wave 1
-  - Spawner 9 Wave 2
-  - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
   pitStateEvents:
   - Spawner 1 Wave 3
+  - Spawner 7 Wave 3
+  - Spawner 9 Wave 1
+  - Spawner 9 Wave 2
+  - Spawner 9 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -29577,7 +29627,6 @@ MonoBehaviour:
   - Spawner 5 Wave 2
   - Spawner 5 Wave 3
   - Spawner 6 Wave 1
-  - Spawner 6 Wave 2
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
@@ -29591,7 +29640,8 @@ MonoBehaviour:
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 6 Wave 2
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -29761,7 +29811,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 4 Wave 3
+  - Spawner 9 Wave 1
+  - Spawner 9 Wave 2
+  - Spawner 9 Wave 3
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -29772,7 +29826,6 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
-  - Spawner 4 Wave 3
   - Spawner 5 Wave 1
   - Spawner 5 Wave 2
   - Spawner 5 Wave 3
@@ -29782,18 +29835,15 @@ MonoBehaviour:
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
   - Spawner 7 Wave 3
-  - Spawner 8 Wave 1
-  - Spawner 8 Wave 2
-  - Spawner 8 Wave 3
-  - Spawner 9 Wave 1
-  - Spawner 9 Wave 2
-  - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
   pitStateEvents:
   - Spawner 4 Wave 1
   - Spawner 4 Wave 2
+  - Spawner 8 Wave 1
+  - Spawner 8 Wave 2
+  - Spawner 8 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -30358,19 +30408,19 @@ MonoBehaviour:
   - Spawner 6 Wave 1
   - Spawner 6 Wave 2
   - Spawner 6 Wave 3
-  - Spawner 7 Wave 1
-  - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
-  - Spawner 8 Wave 3
   - Spawner 9 Wave 1
   - Spawner 9 Wave 2
   - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 7 Wave 1
+  - Spawner 7 Wave 2
+  - Spawner 7 Wave 3
+  - Spawner 8 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -30565,14 +30615,14 @@ MonoBehaviour:
   - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
-  - Spawner 8 Wave 3
   - Spawner 9 Wave 1
   - Spawner 9 Wave 2
   - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 8 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -30858,6 +30908,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coverStateEvents:
   - Spawner 3 Wave 3
+  - Spawner 4 Wave 3
+  - Spawner 9 Wave 3
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -30882,13 +30934,11 @@ MonoBehaviour:
   - Spawner 8 Wave 3
   - Spawner 9 Wave 1
   - Spawner 9 Wave 2
-  - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
   pitStateEvents:
   - Spawner 4 Wave 2
-  - Spawner 4 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -31545,17 +31595,17 @@ MonoBehaviour:
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
   - Spawner 8 Wave 3
-  - Spawner 9 Wave 1
-  - Spawner 9 Wave 2
-  - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 7 Wave 3
+  - Spawner 9 Wave 1
+  - Spawner 9 Wave 2
+  - Spawner 9 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -32698,15 +32748,15 @@ MonoBehaviour:
   - Spawner 7 Wave 2
   - Spawner 7 Wave 3
   - Spawner 8 Wave 1
-  - Spawner 8 Wave 2
-  - Spawner 8 Wave 3
   - Spawner 9 Wave 1
   - Spawner 9 Wave 2
   - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 8 Wave 2
+  - Spawner 8 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -32876,7 +32926,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 9 Wave 2
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -32899,16 +32950,15 @@ MonoBehaviour:
   - Spawner 7 Wave 2
   - Spawner 7 Wave 3
   - Spawner 8 Wave 1
-  - Spawner 8 Wave 2
-  - Spawner 8 Wave 3
   - Spawner 9 Wave 1
-  - Spawner 9 Wave 2
   - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
   pitStateEvents:
   - Spawner 4 Wave 2
+  - Spawner 8 Wave 2
+  - Spawner 8 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -33079,15 +33129,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 2 Wave 3
+  - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 9 Wave 3
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
-  - Spawner 2 Wave 3
-  - Spawner 3 Wave 1
   - Spawner 4 Wave 1
   - Spawner 4 Wave 2
   - Spawner 4 Wave 3
@@ -33099,18 +33150,17 @@ MonoBehaviour:
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
   - Spawner 8 Wave 3
-  - Spawner 9 Wave 1
-  - Spawner 9 Wave 2
-  - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
   pitStateEvents:
   - Spawner 1 Wave 3
+  - Spawner 7 Wave 3
+  - Spawner 9 Wave 1
+  - Spawner 9 Wave 2
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -33352,6 +33402,7 @@ MonoBehaviour:
   coverStateEvents:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 9 Wave 3
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -33371,17 +33422,16 @@ MonoBehaviour:
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
   - Spawner 8 Wave 3
-  - Spawner 9 Wave 1
-  - Spawner 9 Wave 2
-  - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 7 Wave 3
+  - Spawner 9 Wave 1
+  - Spawner 9 Wave 2
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -33756,7 +33806,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 6 Wave 2
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -33774,7 +33825,6 @@ MonoBehaviour:
   - Spawner 5 Wave 2
   - Spawner 5 Wave 3
   - Spawner 6 Wave 1
-  - Spawner 6 Wave 2
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
@@ -34611,7 +34661,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 6 Wave 2
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -34629,21 +34680,20 @@ MonoBehaviour:
   - Spawner 5 Wave 2
   - Spawner 5 Wave 3
   - Spawner 6 Wave 1
-  - Spawner 6 Wave 2
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
-  - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
-  - Spawner 8 Wave 3
   - Spawner 9 Wave 1
   - Spawner 9 Wave 2
   - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 7 Wave 2
+  - Spawner 7 Wave 3
+  - Spawner 8 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -34813,7 +34863,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 6 Wave 1
+  - Spawner 6 Wave 3
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -34830,9 +34882,7 @@ MonoBehaviour:
   - Spawner 5 Wave 1
   - Spawner 5 Wave 2
   - Spawner 5 Wave 3
-  - Spawner 6 Wave 1
   - Spawner 6 Wave 2
-  - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
   - Spawner 7 Wave 3
@@ -35059,6 +35109,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 9 Wave 1
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -35077,17 +35128,16 @@ MonoBehaviour:
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
   - Spawner 8 Wave 3
-  - Spawner 9 Wave 1
-  - Spawner 9 Wave 2
-  - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 7 Wave 3
+  - Spawner 9 Wave 2
+  - Spawner 9 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -35260,6 +35310,8 @@ MonoBehaviour:
   coverStateEvents:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 4 Wave 3
+  - Spawner 9 Wave 3
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -35277,19 +35329,17 @@ MonoBehaviour:
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
   - Spawner 8 Wave 3
-  - Spawner 9 Wave 1
-  - Spawner 9 Wave 2
-  - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
   pitStateEvents:
   - Spawner 4 Wave 2
-  - Spawner 4 Wave 3
+  - Spawner 7 Wave 3
+  - Spawner 9 Wave 1
+  - Spawner 9 Wave 2
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -35534,15 +35584,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 2 Wave 2
+  - Spawner 2 Wave 3
+  - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
   - Spawner 2 Wave 1
-  - Spawner 2 Wave 2
-  - Spawner 2 Wave 3
-  - Spawner 3 Wave 1
   - Spawner 4 Wave 1
   - Spawner 4 Wave 2
   - Spawner 4 Wave 3
@@ -35554,18 +35604,18 @@ MonoBehaviour:
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
   - Spawner 8 Wave 3
-  - Spawner 9 Wave 1
-  - Spawner 9 Wave 2
-  - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
   pitStateEvents:
   - Spawner 1 Wave 3
+  - Spawner 7 Wave 3
+  - Spawner 9 Wave 1
+  - Spawner 9 Wave 2
+  - Spawner 9 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -36459,20 +36509,20 @@ MonoBehaviour:
   - Spawner 5 Wave 3
   - Spawner 6 Wave 1
   - Spawner 6 Wave 2
-  - Spawner 6 Wave 3
-  - Spawner 7 Wave 1
-  - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
-  - Spawner 8 Wave 3
   - Spawner 9 Wave 1
   - Spawner 9 Wave 2
   - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 6 Wave 3
+  - Spawner 7 Wave 1
+  - Spawner 7 Wave 2
+  - Spawner 7 Wave 3
+  - Spawner 8 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -36664,17 +36714,17 @@ MonoBehaviour:
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
   - Spawner 8 Wave 3
-  - Spawner 9 Wave 1
-  - Spawner 9 Wave 2
-  - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 7 Wave 3
+  - Spawner 9 Wave 1
+  - Spawner 9 Wave 2
+  - Spawner 9 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -36845,15 +36895,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 2 Wave 2
+  - Spawner 2 Wave 3
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 9 Wave 1
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
   - Spawner 2 Wave 1
-  - Spawner 2 Wave 2
-  - Spawner 2 Wave 3
   - Spawner 4 Wave 1
   - Spawner 4 Wave 2
   - Spawner 4 Wave 3
@@ -36865,18 +36916,17 @@ MonoBehaviour:
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
   - Spawner 8 Wave 3
-  - Spawner 9 Wave 1
-  - Spawner 9 Wave 2
-  - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
   pitStateEvents:
   - Spawner 1 Wave 3
+  - Spawner 7 Wave 3
+  - Spawner 9 Wave 2
+  - Spawner 9 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -37252,6 +37302,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 9 Wave 1
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -37269,18 +37320,17 @@ MonoBehaviour:
   - Spawner 6 Wave 2
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
-  - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
   - Spawner 8 Wave 3
-  - Spawner 9 Wave 1
-  - Spawner 9 Wave 2
-  - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 7 Wave 2
+  - Spawner 7 Wave 3
+  - Spawner 9 Wave 2
+  - Spawner 9 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -37454,6 +37504,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 9 Wave 2
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -37472,17 +37523,16 @@ MonoBehaviour:
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
   - Spawner 8 Wave 3
-  - Spawner 9 Wave 1
-  - Spawner 9 Wave 2
-  - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 7 Wave 3
+  - Spawner 9 Wave 1
+  - Spawner 9 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -37656,6 +37706,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 9 Wave 2
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -37674,17 +37725,16 @@ MonoBehaviour:
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
   - Spawner 8 Wave 3
-  - Spawner 9 Wave 1
-  - Spawner 9 Wave 2
-  - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 7 Wave 3
+  - Spawner 9 Wave 1
+  - Spawner 9 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -38073,16 +38123,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 2 Wave 3
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 9 Wave 2
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
-  - Spawner 2 Wave 3
   - Spawner 4 Wave 1
   - Spawner 4 Wave 2
   - Spawner 4 Wave 3
@@ -38094,17 +38145,16 @@ MonoBehaviour:
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
   - Spawner 8 Wave 3
-  - Spawner 9 Wave 1
-  - Spawner 9 Wave 2
-  - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 7 Wave 3
+  - Spawner 9 Wave 1
+  - Spawner 9 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -38370,17 +38420,17 @@ MonoBehaviour:
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
   - Spawner 8 Wave 3
-  - Spawner 9 Wave 1
-  - Spawner 9 Wave 2
-  - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 7 Wave 3
+  - Spawner 9 Wave 1
+  - Spawner 9 Wave 2
+  - Spawner 9 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -38570,19 +38620,19 @@ MonoBehaviour:
   - Spawner 6 Wave 1
   - Spawner 6 Wave 2
   - Spawner 6 Wave 3
-  - Spawner 7 Wave 1
-  - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
-  - Spawner 8 Wave 3
   - Spawner 9 Wave 1
   - Spawner 9 Wave 2
   - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 7 Wave 1
+  - Spawner 7 Wave 2
+  - Spawner 7 Wave 3
+  - Spawner 8 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -38753,16 +38803,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 2 Wave 3
+  - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 9 Wave 3
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
   - Spawner 1 Wave 3
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
-  - Spawner 2 Wave 3
-  - Spawner 3 Wave 1
   - Spawner 4 Wave 1
   - Spawner 4 Wave 2
   - Spawner 4 Wave 3
@@ -38774,17 +38825,16 @@ MonoBehaviour:
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
   - Spawner 8 Wave 3
-  - Spawner 9 Wave 1
-  - Spawner 9 Wave 2
-  - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 7 Wave 3
+  - Spawner 9 Wave 1
+  - Spawner 9 Wave 2
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -39745,9 +39795,7 @@ MonoBehaviour:
   - Spawner 5 Wave 1
   - Spawner 5 Wave 2
   - Spawner 5 Wave 3
-  - Spawner 6 Wave 1
   - Spawner 6 Wave 2
-  - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
   - Spawner 7 Wave 3
@@ -39760,7 +39808,9 @@ MonoBehaviour:
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 6 Wave 1
+  - Spawner 6 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -40231,7 +40281,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 6 Wave 2
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -40248,8 +40299,6 @@ MonoBehaviour:
   - Spawner 5 Wave 1
   - Spawner 5 Wave 2
   - Spawner 5 Wave 3
-  - Spawner 6 Wave 1
-  - Spawner 6 Wave 2
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
@@ -40263,7 +40312,8 @@ MonoBehaviour:
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 6 Wave 1
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -40436,6 +40486,7 @@ MonoBehaviour:
   coverStateEvents:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 4 Wave 3
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -40453,19 +40504,18 @@ MonoBehaviour:
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
   - Spawner 8 Wave 3
-  - Spawner 9 Wave 1
-  - Spawner 9 Wave 2
-  - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
   pitStateEvents:
   - Spawner 4 Wave 2
-  - Spawner 4 Wave 3
+  - Spawner 7 Wave 3
+  - Spawner 9 Wave 1
+  - Spawner 9 Wave 2
+  - Spawner 9 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -40718,6 +40768,7 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 9 Wave 3
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 4 Wave 1
@@ -40731,17 +40782,16 @@ MonoBehaviour:
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
   - Spawner 8 Wave 3
-  - Spawner 9 Wave 1
-  - Spawner 9 Wave 2
-  - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 7 Wave 3
+  - Spawner 9 Wave 1
+  - Spawner 9 Wave 2
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -40932,18 +40982,18 @@ MonoBehaviour:
   - Spawner 6 Wave 2
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
-  - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
-  - Spawner 8 Wave 3
   - Spawner 9 Wave 1
   - Spawner 9 Wave 2
   - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 7 Wave 2
+  - Spawner 7 Wave 3
+  - Spawner 8 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -41212,7 +41262,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 9 Wave 1
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -41238,7 +41289,6 @@ MonoBehaviour:
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
   - Spawner 8 Wave 3
-  - Spawner 9 Wave 1
   - Spawner 9 Wave 2
   - Spawner 9 Wave 3
   - Spawner 10 Wave 1
@@ -41591,6 +41641,8 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 4 Wave 3
+  - Spawner 9 Wave 2
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -41607,19 +41659,17 @@ MonoBehaviour:
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
   - Spawner 8 Wave 3
-  - Spawner 9 Wave 1
-  - Spawner 9 Wave 2
-  - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
   pitStateEvents:
   - Spawner 4 Wave 2
-  - Spawner 4 Wave 3
+  - Spawner 7 Wave 3
+  - Spawner 9 Wave 1
+  - Spawner 9 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -41883,7 +41933,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 6 Wave 2
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -41901,11 +41952,7 @@ MonoBehaviour:
   - Spawner 5 Wave 2
   - Spawner 5 Wave 3
   - Spawner 6 Wave 1
-  - Spawner 6 Wave 2
-  - Spawner 6 Wave 3
   - Spawner 7 Wave 1
-  - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
   - Spawner 8 Wave 3
@@ -41915,7 +41962,10 @@ MonoBehaviour:
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 6 Wave 3
+  - Spawner 7 Wave 2
+  - Spawner 7 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -42671,7 +42721,6 @@ MonoBehaviour:
   - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
-  - Spawner 8 Wave 3
   - Spawner 9 Wave 1
   - Spawner 9 Wave 2
   - Spawner 9 Wave 3
@@ -42680,6 +42729,7 @@ MonoBehaviour:
   - Spawner 10 Wave 3
   pitStateEvents:
   - Spawner 2 Wave 3
+  - Spawner 8 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -42940,7 +42990,6 @@ MonoBehaviour:
   - Spawner 5 Wave 1
   - Spawner 5 Wave 2
   - Spawner 5 Wave 3
-  - Spawner 6 Wave 1
   - Spawner 6 Wave 2
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
@@ -42955,7 +43004,8 @@ MonoBehaviour:
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 6 Wave 1
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -43149,15 +43199,15 @@ MonoBehaviour:
   - Spawner 7 Wave 2
   - Spawner 7 Wave 3
   - Spawner 8 Wave 1
-  - Spawner 8 Wave 2
-  - Spawner 8 Wave 3
   - Spawner 9 Wave 1
   - Spawner 9 Wave 2
   - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 8 Wave 2
+  - Spawner 8 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -43847,18 +43897,18 @@ MonoBehaviour:
   - Spawner 6 Wave 2
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
-  - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
-  - Spawner 8 Wave 3
   - Spawner 9 Wave 1
   - Spawner 9 Wave 2
   - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 7 Wave 2
+  - Spawner 7 Wave 3
+  - Spawner 8 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -44423,7 +44473,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 9 Wave 3
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -44451,7 +44502,6 @@ MonoBehaviour:
   - Spawner 8 Wave 3
   - Spawner 9 Wave 1
   - Spawner 9 Wave 2
-  - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
@@ -44830,7 +44880,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 6 Wave 1
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -44847,7 +44898,6 @@ MonoBehaviour:
   - Spawner 5 Wave 1
   - Spawner 5 Wave 2
   - Spawner 5 Wave 3
-  - Spawner 6 Wave 1
   - Spawner 6 Wave 2
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
@@ -44855,14 +44905,14 @@ MonoBehaviour:
   - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
-  - Spawner 8 Wave 3
   - Spawner 9 Wave 1
   - Spawner 9 Wave 2
   - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 8 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -45056,15 +45106,15 @@ MonoBehaviour:
   - Spawner 7 Wave 2
   - Spawner 7 Wave 3
   - Spawner 8 Wave 1
-  - Spawner 8 Wave 2
-  - Spawner 8 Wave 3
   - Spawner 9 Wave 1
   - Spawner 9 Wave 2
   - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 8 Wave 2
+  - Spawner 8 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -45498,6 +45548,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 2 Wave 3
+  - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
   floorStateEvents:
@@ -45506,8 +45558,6 @@ MonoBehaviour:
   - Spawner 1 Wave 3
   - Spawner 2 Wave 1
   - Spawner 2 Wave 2
-  - Spawner 2 Wave 3
-  - Spawner 3 Wave 1
   - Spawner 4 Wave 1
   - Spawner 4 Wave 2
   - Spawner 4 Wave 3
@@ -45519,17 +45569,17 @@ MonoBehaviour:
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
   - Spawner 8 Wave 3
-  - Spawner 9 Wave 1
-  - Spawner 9 Wave 2
-  - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 7 Wave 3
+  - Spawner 9 Wave 1
+  - Spawner 9 Wave 2
+  - Spawner 9 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -46157,6 +46207,8 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 9 Wave 2
+  - Spawner 9 Wave 3
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 4 Wave 1
@@ -46170,17 +46222,15 @@ MonoBehaviour:
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
   - Spawner 8 Wave 3
-  - Spawner 9 Wave 1
-  - Spawner 9 Wave 2
-  - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 7 Wave 3
+  - Spawner 9 Wave 1
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -46351,15 +46401,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coverStateEvents:
+  - Spawner 2 Wave 2
+  - Spawner 2 Wave 3
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 9 Wave 2
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
   - Spawner 2 Wave 1
-  - Spawner 2 Wave 2
-  - Spawner 2 Wave 3
   - Spawner 4 Wave 1
   - Spawner 4 Wave 2
   - Spawner 4 Wave 3
@@ -46371,18 +46422,17 @@ MonoBehaviour:
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
   - Spawner 8 Wave 3
-  - Spawner 9 Wave 1
-  - Spawner 9 Wave 2
-  - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
   pitStateEvents:
   - Spawner 1 Wave 3
+  - Spawner 7 Wave 3
+  - Spawner 9 Wave 1
+  - Spawner 9 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -46576,15 +46626,15 @@ MonoBehaviour:
   - Spawner 7 Wave 2
   - Spawner 7 Wave 3
   - Spawner 8 Wave 1
-  - Spawner 8 Wave 2
-  - Spawner 8 Wave 3
   - Spawner 9 Wave 1
   - Spawner 9 Wave 2
   - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 8 Wave 2
+  - Spawner 8 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -46852,15 +46902,15 @@ MonoBehaviour:
   - Spawner 7 Wave 2
   - Spawner 7 Wave 3
   - Spawner 8 Wave 1
-  - Spawner 8 Wave 2
-  - Spawner 8 Wave 3
   - Spawner 9 Wave 1
   - Spawner 9 Wave 2
   - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 8 Wave 2
+  - Spawner 8 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -47232,7 +47282,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 6 Wave 2
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -47250,21 +47301,20 @@ MonoBehaviour:
   - Spawner 5 Wave 2
   - Spawner 5 Wave 3
   - Spawner 6 Wave 1
-  - Spawner 6 Wave 2
-  - Spawner 6 Wave 3
-  - Spawner 7 Wave 1
-  - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
-  - Spawner 8 Wave 3
   - Spawner 9 Wave 1
   - Spawner 9 Wave 2
   - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 6 Wave 3
+  - Spawner 7 Wave 1
+  - Spawner 7 Wave 2
+  - Spawner 7 Wave 3
+  - Spawner 8 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -48021,7 +48071,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 4 Wave 3
+  - Spawner 9 Wave 1
+  - Spawner 9 Wave 2
+  - Spawner 9 Wave 3
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -48041,19 +48095,15 @@ MonoBehaviour:
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
   - Spawner 7 Wave 3
-  - Spawner 8 Wave 1
-  - Spawner 8 Wave 2
-  - Spawner 8 Wave 3
-  - Spawner 9 Wave 1
-  - Spawner 9 Wave 2
-  - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
   pitStateEvents:
   - Spawner 4 Wave 1
   - Spawner 4 Wave 2
-  - Spawner 4 Wave 3
+  - Spawner 8 Wave 1
+  - Spawner 8 Wave 2
+  - Spawner 8 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -48315,7 +48365,6 @@ MonoBehaviour:
   - Spawner 5 Wave 2
   - Spawner 5 Wave 3
   - Spawner 6 Wave 1
-  - Spawner 6 Wave 2
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
@@ -48329,7 +48378,8 @@ MonoBehaviour:
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 6 Wave 2
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -48740,20 +48790,20 @@ MonoBehaviour:
   - Spawner 5 Wave 3
   - Spawner 6 Wave 1
   - Spawner 6 Wave 2
-  - Spawner 6 Wave 3
   - Spawner 7 Wave 1
-  - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
-  - Spawner 8 Wave 3
   - Spawner 9 Wave 1
   - Spawner 9 Wave 2
   - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 6 Wave 3
+  - Spawner 7 Wave 2
+  - Spawner 7 Wave 3
+  - Spawner 8 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -49197,7 +49247,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coverStateEvents:
   - Spawner 5 Wave 1
-  - Spawner 5 Wave 3
+  - Spawner 6 Wave 3
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -49213,8 +49263,6 @@ MonoBehaviour:
   - Spawner 4 Wave 3
   - Spawner 5 Wave 2
   - Spawner 6 Wave 1
-  - Spawner 6 Wave 2
-  - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
   - Spawner 7 Wave 3
@@ -49227,7 +49275,9 @@ MonoBehaviour:
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 5 Wave 3
+  - Spawner 6 Wave 2
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -49644,7 +49694,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 9 Wave 3
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -49661,22 +49712,21 @@ MonoBehaviour:
   - Spawner 5 Wave 2
   - Spawner 5 Wave 3
   - Spawner 6 Wave 1
-  - Spawner 6 Wave 2
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
   - Spawner 7 Wave 3
   - Spawner 8 Wave 1
-  - Spawner 8 Wave 2
-  - Spawner 8 Wave 3
   - Spawner 9 Wave 1
   - Spawner 9 Wave 2
-  - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
   pitStateEvents:
   - Spawner 4 Wave 2
+  - Spawner 6 Wave 2
+  - Spawner 8 Wave 2
+  - Spawner 8 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -50358,7 +50408,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 4 Wave 3
+  - Spawner 9 Wave 1
+  - Spawner 9 Wave 2
+  - Spawner 9 Wave 3
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -50369,7 +50423,6 @@ MonoBehaviour:
   - Spawner 3 Wave 1
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
-  - Spawner 4 Wave 3
   - Spawner 5 Wave 1
   - Spawner 5 Wave 2
   - Spawner 5 Wave 3
@@ -50379,18 +50432,15 @@ MonoBehaviour:
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
   - Spawner 7 Wave 3
-  - Spawner 8 Wave 1
-  - Spawner 8 Wave 2
-  - Spawner 8 Wave 3
-  - Spawner 9 Wave 1
-  - Spawner 9 Wave 2
-  - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
   pitStateEvents:
   - Spawner 4 Wave 1
   - Spawner 4 Wave 2
+  - Spawner 8 Wave 1
+  - Spawner 8 Wave 2
+  - Spawner 8 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -50582,17 +50632,17 @@ MonoBehaviour:
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
   - Spawner 8 Wave 3
-  - Spawner 9 Wave 1
-  - Spawner 9 Wave 2
-  - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 7 Wave 3
+  - Spawner 9 Wave 1
+  - Spawner 9 Wave 2
+  - Spawner 9 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -50783,8 +50833,6 @@ MonoBehaviour:
   - Spawner 6 Wave 2
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
-  - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
   - Spawner 8 Wave 3
@@ -50794,7 +50842,9 @@ MonoBehaviour:
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 7 Wave 2
+  - Spawner 7 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -51658,13 +51708,11 @@ MonoBehaviour:
   - Spawner 5 Wave 3
   - Spawner 6 Wave 1
   - Spawner 6 Wave 2
-  - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
   - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
-  - Spawner 8 Wave 3
   - Spawner 9 Wave 1
   - Spawner 9 Wave 2
   - Spawner 9 Wave 3
@@ -51673,6 +51721,8 @@ MonoBehaviour:
   - Spawner 10 Wave 3
   pitStateEvents:
   - Spawner 2 Wave 3
+  - Spawner 6 Wave 3
+  - Spawner 8 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -51916,7 +51966,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 6 Wave 1
+  - Spawner 6 Wave 3
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -51933,22 +51985,20 @@ MonoBehaviour:
   - Spawner 5 Wave 1
   - Spawner 5 Wave 2
   - Spawner 5 Wave 3
-  - Spawner 6 Wave 1
-  - Spawner 6 Wave 2
-  - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
   - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
-  - Spawner 8 Wave 3
   - Spawner 9 Wave 1
   - Spawner 9 Wave 2
   - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 6 Wave 2
+  - Spawner 8 Wave 3
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -52438,6 +52488,7 @@ MonoBehaviour:
   coverStateEvents:
   - Spawner 3 Wave 2
   - Spawner 3 Wave 3
+  - Spawner 9 Wave 3
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -52457,17 +52508,16 @@ MonoBehaviour:
   - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
-  - Spawner 7 Wave 3
   - Spawner 8 Wave 1
   - Spawner 8 Wave 2
   - Spawner 8 Wave 3
-  - Spawner 9 Wave 1
-  - Spawner 9 Wave 2
-  - Spawner 9 Wave 3
   - Spawner 10 Wave 1
   - Spawner 10 Wave 2
   - Spawner 10 Wave 3
-  pitStateEvents: []
+  pitStateEvents:
+  - Spawner 7 Wave 3
+  - Spawner 9 Wave 1
+  - Spawner 9 Wave 2
   yMoveSpeed: 0.03
   colorShiftAnim:
     curve:
@@ -53110,7 +53160,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc8f876e47273546924b4546d297cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coverStateEvents: []
+  coverStateEvents:
+  - Spawner 6 Wave 3
   floorStateEvents:
   - Spawner 1 Wave 1
   - Spawner 1 Wave 2
@@ -53129,7 +53180,6 @@ MonoBehaviour:
   - Spawner 5 Wave 3
   - Spawner 6 Wave 1
   - Spawner 6 Wave 2
-  - Spawner 6 Wave 3
   - Spawner 7 Wave 1
   - Spawner 7 Wave 2
   - Spawner 7 Wave 3

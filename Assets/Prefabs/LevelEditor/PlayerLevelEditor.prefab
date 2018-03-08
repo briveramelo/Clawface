@@ -267,7 +267,7 @@ MonoBehaviour:
   m_LayerMask:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_UseGeometry: 0
+  m_UseGeometry: 1
   m_DefaultArea: 0
   m_IgnoreNavMeshAgent: 1
   m_IgnoreNavMeshObstacle: 1
@@ -302,9 +302,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1d639908595252468bf81da3877e24b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectGrid: {fileID: 1060222218768404}
-  realLevel: {fileID: 1805185341224630}
-  tileParent: {fileID: 1893115858669172}
+  objectGrid: {fileID: 4387566135660400}
+  tileParent: {fileID: 4727196625096274}
+  spawnsParent: {fileID: 4168169116435916}
   wallPrefab: {fileID: 1962610561088626, guid: 1c437717841520f4d992d3772ab36f24, type: 2}
   levelSize: 20
   hoverColor: {r: 0.5294118, g: 0.5294118, b: 1, a: 1}

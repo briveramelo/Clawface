@@ -92,7 +92,7 @@ public class Pool
 
     public GameObject GetObject()
     {
-        GameObject objToReturn = objects.Find(obj => !obj.activeSelf);
+        GameObject objToReturn = objects.Find(obj => obj!=null && !obj.activeSelf);
         if (objToReturn==null) {
             string debugMessage = "No more " + poolObjectType.ToString() + " objects found! Make your pool bigger than " + size;
             Debug.LogFormat("<color=#ffff00>" + debugMessage + "</color>");

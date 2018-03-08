@@ -37,17 +37,20 @@ namespace PlayerLevelEditor
         
         #endregion
 
-
         #region Private Fields
         private List<Menu> pleMenus = new List<Menu>();
         private GameObject playerSpawnerInstance = null;
         #endregion
 
+        #region Public Fields
+
+        public bool IsTesting { get; private set; }
+
+        #endregion
+
         #region Unity Lifecycle
 
-        private void Start() {
-
-            EventSystem.Instance.RegisterEvent(Strings.Events.PLE_CHANGEWAVE, EnableCurrentWaveSpawnParents);
+        private void Start() {            
             EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_STARTED, PlayLevel);
 
             if (SceneTracker.IsCurrentSceneEditor) {
@@ -59,7 +62,6 @@ namespace PlayerLevelEditor
         {
             if(EventSystem.Instance)
             {
-                EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_CHANGEWAVE, EnableCurrentWaveSpawnParents);
                 EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_STARTED, PlayLevel);
             }
             
@@ -119,10 +121,11 @@ namespace PlayerLevelEditor
             }
         }
         public void ExitLevel() {
+            ToggleCameraController(true);
             if (SpawnMenu.playerSpawnInstance != null) {
                 SpawnMenu.playerSpawnInstance.SetActive(true);
             }
-
+            SetIsTesting(false);
             EventSystem.Instance.TriggerEvent(Strings.Events.PLE_TEST_END);
         }
 
@@ -233,6 +236,16 @@ namespace PlayerLevelEditor
             mainEditorMenu.OpenFloorSystemAction();
             gridController.SetGridVisiblity(true);
             ToggleCameraController(true);
+        }
+
+        public bool GetIsTesting()
+        {
+            return IsTesting;
+        }
+
+        public void SetIsTesting(bool i_status)
+        {
+            IsTesting = i_status;
         }
         #endregion
 

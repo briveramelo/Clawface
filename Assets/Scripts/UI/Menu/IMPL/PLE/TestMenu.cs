@@ -17,12 +17,14 @@ public class TestMenu : PlayerLevelEditorMenu
     #endregion
 
     #region Private Fields    
-    PauseMenu pauseMenu;
+    private PauseMenu pauseMenu;
+    private StageOverMenu stageOverMenu;
     #endregion
 
     #region Unity Lifecycle
     protected override void Start() {
         base.Start();
+        stageOverMenu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.STAGE_OVER) as StageOverMenu;
         pauseMenu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.PAUSE) as PauseMenu;
     }
     protected override void Update() {
@@ -40,13 +42,13 @@ public class TestMenu : PlayerLevelEditorMenu
     public TestMenu() : base(Strings.MenuStrings.LevelEditor.TEST_PLE_MENU) { }
 
     public override void BackAction() {
-        levelEditor.ExitLevel();
-
-        GameObject player = GameObject.FindGameObjectWithTag(Strings.Tags.PLAYER);
-        if (player) {
-            Destroy(player.transform.root.gameObject);
+        if (stageOverMenu.IsDisplaying) {
+            MenuManager.Instance.DoTransition(stageOverMenu, Transition.HIDE, new Effect[] { });
         }
 
+        levelEditor.ExitLevel();
+
+        DestroyPlayer();
         MenuManager.Instance.DoTransition(Strings.MenuStrings.WEAPON_SELECT, Transition.HIDE, new Effect[] { Effect.INSTANT });
 
         Menu mainPLEMenu = levelEditor.GetMenu(PLEMenu.MAIN);
@@ -60,7 +62,20 @@ public class TestMenu : PlayerLevelEditorMenu
 
     #region Protected Interface
     protected override void ShowStarted() {
+        levelEditor.levelDataManager.SaveSpawns();
         ShowWeaponSelectMenu();
+
+        System.Action onExitTestAction = () =>
+        {
+            levelEditor.ExitLevel();
+            DestroyPlayer();
+            Menu mainPLEMenu = levelEditor.GetMenu(PLEMenu.MAIN);
+            MenuManager.Instance.DoTransition(mainPLEMenu, Transition.SHOW, new Effect[] {Effect.EXCLUSIVE});
+            MenuManager.Instance.DoTransition(this, Transition.HIDE, new Effect[] { });
+
+        };
+        stageOverMenu.DefineNavigation(onExitTestAction);
+        
     }
     protected override void ShowComplete() {
         base.ShowComplete();
@@ -74,6 +89,16 @@ public class TestMenu : PlayerLevelEditorMenu
 
     #region Private Interface    
 
+    private void DestroyPlayer()
+    {
+        GameObject player = GameObject.FindGameObjectWithTag(Strings.Tags.PLAYER);
+
+        if (player)
+        {
+            Destroy(player.transform.root.gameObject);
+        }
+
+    }
 
     private void ShowWeaponSelectMenu()
     {
@@ -86,6 +111,7 @@ public class TestMenu : PlayerLevelEditorMenu
         };
         System.Action onStartAction = () => {
             base.ShowStarted();
+            levelEditor.SetIsTesting(true);
             base.ShowComplete();
             EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_STARTED, SceneTracker.CurrentSceneName, ModManager.leftArmOnLoad.ToString(), ModManager.rightArmOnLoad.ToString());
         };

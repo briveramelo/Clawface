@@ -13,6 +13,13 @@ public class LeaderBoards : Singleton<LeaderBoards> {
         DAILY
     }
 
+    public enum SelectionType
+    {
+        GLOBAL,
+        FRIENDS,
+        AROUND_USER
+    }
+
     #region Private Variables
     private AllTimeLeaderBoard allTimeLeaderBoard;
     private WeeklyLeaderBoard weeklyLeaderBoard;
@@ -29,19 +36,40 @@ public class LeaderBoards : Singleton<LeaderBoards> {
     #endregion
 
     #region Public Methods
-    public bool GetLeaderBoardData(LeaderBoardType type, GenericSteamLeaderBoard.ResultsCallBack callBackFunction, int numberOfEntries)
+    public bool GetLeaderBoardData(GenericSteamLeaderBoard.ResultsCallBack callBackFunction, int numberOfEntries, SelectionType type = SelectionType.GLOBAL)
+    {
+        return GetLeaderBoardData(LeaderBoardType.ALL_TIME, callBackFunction, numberOfEntries, type);
+    }
+
+    public bool GetLeaderBoardData(LeaderBoardType leaderBoardType, GenericSteamLeaderBoard.ResultsCallBack callBackFunction, int numberOfEntries, SelectionType selectionType = SelectionType.GLOBAL)
     {
         bool result = false;
-        switch (type)
+        Steamworks.ELeaderboardDataRequest requestType;
+
+        switch (selectionType)
+        {
+            case SelectionType.FRIENDS:
+                requestType = Steamworks.ELeaderboardDataRequest.k_ELeaderboardDataRequestFriends;
+                break;
+            case SelectionType.AROUND_USER:
+                requestType = Steamworks.ELeaderboardDataRequest.k_ELeaderboardDataRequestGlobalAroundUser;
+                break;
+            case SelectionType.GLOBAL:
+            default:
+                requestType = Steamworks.ELeaderboardDataRequest.k_ELeaderboardDataRequestGlobal;
+                break;
+        }
+        
+        switch (leaderBoardType)
         {
             case LeaderBoardType.ALL_TIME:
-                result = allTimeLeaderBoard.FetchLeaderBoardData(callBackFunction, numberOfEntries);
+                result = allTimeLeaderBoard.FetchLeaderBoardData(callBackFunction, numberOfEntries, requestType);
                 break;
             case LeaderBoardType.WEEKLY:
-                result = weeklyLeaderBoard.FetchLeaderBoardData(callBackFunction, numberOfEntries);
+                result = weeklyLeaderBoard.FetchLeaderBoardData(callBackFunction, numberOfEntries, requestType);
                 break;
             case LeaderBoardType.DAILY:
-                result = dailyLeaderBoard.FetchLeaderBoardData(callBackFunction, numberOfEntries);
+                result = dailyLeaderBoard.FetchLeaderBoardData(callBackFunction, numberOfEntries, requestType);
                 break;
             default:
                 break;
@@ -53,8 +81,8 @@ public class LeaderBoards : Singleton<LeaderBoards> {
     {
         bool result = false;
         result = allTimeLeaderBoard.UpdateLeaderBoard(score);
-        result = result && weeklyLeaderBoard.UpdateLeaderBoard(score);
-        result = result && dailyLeaderBoard.UpdateLeaderBoard(score);
+        //result = result && weeklyLeaderBoard.UpdateLeaderBoard(score);
+        //result = result && dailyLeaderBoard.UpdateLeaderBoard(score);
         return result;
     }
     #endregion

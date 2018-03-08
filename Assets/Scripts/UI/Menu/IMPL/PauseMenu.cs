@@ -29,8 +29,8 @@ public class PauseMenu : Menu {
 
     #region Serialized Unity Fields
 
-    [SerializeField]
-    private Button initiallySelected;
+    [SerializeField] private Button initiallySelected;
+    [SerializeField] private Button weaponSelectButton;
 
     #endregion
 
@@ -108,6 +108,18 @@ public class PauseMenu : Menu {
         MenuManager.Instance.ClearMenus();
     }
 
+    public void WeaponSelectAction()
+    {
+        //string loadMenuName = Strings.MenuStrings.LOAD;
+        WeaponSelectMenu weaponSelectMenu = (WeaponSelectMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.WEAPON_SELECT);
+        weaponSelectMenu.DefineNavigation(Strings.MenuStrings.PAUSE, Strings.MenuStrings.LOAD);
+
+        LoadMenu loadMenu = (LoadMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
+        loadMenu.SetNavigation(SceneTracker.CurrentSceneName);
+
+        MenuManager.Instance.DoTransition(weaponSelectMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+    }
+
 	#endregion
 
 	#region Protected Interface
@@ -125,6 +137,13 @@ public class PauseMenu : Menu {
 	protected override void ShowStarted ()
 	{
 		base.ShowStarted ();
+
+        //disable weapon select if in level editor
+        //if(!SceneTracker.IsCurrentScene80sShit)
+        //{
+        //    weaponSelectButton.gameObject.SetActive(false);
+        //}
+        
 		SetPaused (true);
 	}
 
@@ -132,7 +151,8 @@ public class PauseMenu : Menu {
 	{
 		base.HideComplete ();
 		SetPaused (false);
-	}
+        //weaponSelectButton.gameObject.SetActive(true);
+    }
 
 	#endregion
 
@@ -150,6 +170,6 @@ public class PauseMenu : Menu {
             canPause = (bool) parameters[0];
         }
     }
-
+    
     #endregion
 }
