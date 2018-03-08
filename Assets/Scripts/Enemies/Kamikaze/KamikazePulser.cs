@@ -59,6 +59,7 @@ public class KamikazePulser : EnemyBase
         {
             if (myStats.health > myStats.skinnableHealth && !celebrate.isCelebrating())
             {
+                attack.StopPulse();
                 controller.CurrentState = celebrate;
                 controller.UpdateState(EAIState.Celebrate);
             }
@@ -100,6 +101,7 @@ public class KamikazePulser : EnemyBase
     {
         if (myStats.health <= myStats.skinnableHealth || alreadyStunned)
         {
+            attack.StopPulse();
             controller.CurrentState = stun;
             controller.UpdateState(EAIState.Stun);
             controller.DeActivateAI();
@@ -127,7 +129,6 @@ public class KamikazePulser : EnemyBase
     {
         getUp.Up();
     }
-
 
     public void SetScorePoints(int score)
     {
@@ -188,8 +189,6 @@ public class KamikazePulser : EnemyBase
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, closeEnoughToAttackDistance);
     }
-
-
     #endregion
 
 
