@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfcca5d5dcd2fd64d9e64b2032aa6a32, type: 3}
+  m_Name: Splat 2
+  m_EditorClassIdentifier: 
+  frames:
+  - mask: {fileID: 2800000, guid: dd14d2d66a10bef4abd58efd9f24fa66, type: 3}
+    normal: {fileID: 2800000, guid: 9ec738d9518c7514fab79fea42ddacb5, type: 3}
+  - mask: {fileID: 2800000, guid: cd71ed16c3eb4664191341cd1d146583, type: 3}
+    normal: {fileID: 2800000, guid: 666b81483c0243a468391cd1d22ab5cb, type: 3}
+  - mask: {fileID: 2800000, guid: 0a79b3341759a44419fbb525f2de52a2, type: 3}
+    normal: {fileID: 2800000, guid: 8d86b8b9aac4f5841a3f2c111449db52, type: 3}
+  - mask: {fileID: 2800000, guid: 4a84d0f764d11334fa2c09c3f84f7d94, type: 3}
+    normal: {fileID: 2800000, guid: f6caca5675522b240a3ea1107dbcd8a1, type: 3}
+  - mask: {fileID: 2800000, guid: dce1a00d41bafbd46913c89d543d5636, type: 3}
+    normal: {fileID: 2800000, guid: 031a40882969b244ca5def5f7feac4ab, type: 3}
+  - mask: {fileID: 2800000, guid: 80d006430b2bf774cb74e55945af0812, type: 3}
+    normal: {fileID: 2800000, guid: 1a77cbe205e76d148ab829dfad0d7a5e, type: 3}
+  anchor: {x: 0.5, y: 0.5}
+  rotation: {x: 1, y: 0}
+  fps: 60
