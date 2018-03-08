@@ -197,7 +197,7 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
     }
 
     public void OnShowLeaderboard() {
-
+        MenuManager.Instance.DoTransition(Strings.MenuStrings.LEADER_BOARDS, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
     }
 
     public void ToggleSelectedLevelIsFavorite() {

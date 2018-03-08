@@ -224,6 +224,15 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         return affectObject;
     }
 
+    public void EnableNavAgent()
+    {
+        navAgent.enabled = true;
+    }
+
+    public void WarpNavAgent(Vector3 position)
+    {
+        navAgent.Warp(position);
+    }
 
     public virtual void OnDeath()
     {

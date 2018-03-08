@@ -37,12 +37,12 @@ public abstract class GenericSteamLeaderBoard : MonoBehaviour {
     #endregion
 
     #region Public Methods
-    public bool FetchLeaderBoardData(ResultsCallBack callbackAction, int numberOfEntries)
+    public bool FetchLeaderBoardData(ResultsCallBack callbackAction, int numberOfEntries, ELeaderboardDataRequest requestType)
     {
         bool result = false;
         if (SteamManager.Initialized && IsReady)
         {
-            SteamAPICall_t apiCall = SteamUserStats.DownloadLeaderboardEntries(leaderBoard, ELeaderboardDataRequest.k_ELeaderboardDataRequestGlobal, 1, numberOfEntries);
+            SteamAPICall_t apiCall = SteamUserStats.DownloadLeaderboardEntries(leaderBoard, requestType, 1, numberOfEntries);
             if (leaderBoardScoresDownloaded.IsActive())
             {
                 leaderBoardScoresDownloaded.Cancel();
@@ -138,6 +138,7 @@ public abstract class GenericSteamLeaderBoard : MonoBehaviour {
     {
         public string userID;
         public int score;
+        public int rank;
         public int otherInfo; //Use for sorting (if required)
     }
     #endregion

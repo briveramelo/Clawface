@@ -86,7 +86,7 @@ public class GeyserFissure : MonoBehaviour {
         float t = 0.0f;
         while (t < 1.0f)
         {
-            t += Time.deltaTime * Time.timeScale;
+            t += Time.deltaTime / scaleUpTime;
 
             effect.localScale = Vector3.Lerp(Vector3.zero, originalScale, t);
 
