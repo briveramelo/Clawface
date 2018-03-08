@@ -17,15 +17,23 @@ public class PlayOnVideoFinish : MonoBehaviour {
 
     private bool fadeTriggered;
 
-	// Update is called once per frame
-	void Update () {
+    private PauseMenu menu;
+
+    private void Start()
+    {
+        menu = (PauseMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.PAUSE);
+        menu.CanPause = false;
+    }
+
+    // Update is called once per frame
+    void Update () {
 		if (!player.isPlaying && !fadeTriggered)
         {
             fadeTriggered = true;
             blackScreen.Play();
         }
 
-        if (InputManager.Instance.QueryAction(Strings.Input.UI.SUBMIT, ButtonMode.DOWN) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Escape))
+        if (InputManager.Instance.QueryAction(Strings.Input.UI.SUBMIT, ButtonMode.DOWN) || InputManager.Instance.QueryAction(Strings.Input.Actions.PAUSE, ButtonMode.DOWN) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Escape))
         {
             LoadLevel();
         }
@@ -34,6 +42,7 @@ public class PlayOnVideoFinish : MonoBehaviour {
     public void LoadLevel()
     {
         MenuMusicManager.Instance.Play();
+        menu.CanPause = true;
         SceneManager.LoadScene(levelToLoad);
     }
 }
