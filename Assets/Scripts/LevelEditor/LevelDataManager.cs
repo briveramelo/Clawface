@@ -219,7 +219,6 @@ public class LevelDataManager : MonoBehaviour {
             Transform waveParent = spawnParent.GetChild(i);
             int waveChildCount = waveParent.childCount;
             if (waveChildCount>0) {
-                ActiveWaveData.Add(new WaveData());
                 for (int j = 0; j < waveParent.childCount; j++) {
                     Transform spawnUI = waveParent.GetChild(j);
                     AddSpawnData(spawnUI, i-1);
@@ -229,10 +228,6 @@ public class LevelDataManager : MonoBehaviour {
 
         if (SpawnMenu.playerSpawnInstance) {
             Transform keira = spawnParent.GetChild(0);
-            if(ActiveWaveData.Count == 0)
-            {
-                ActiveWaveData.Add(new WaveData());
-            }
             AddSpawnData(keira, 0);
         }
     }
@@ -244,7 +239,9 @@ public class LevelDataManager : MonoBehaviour {
         SpawnData spawnData = new SpawnData(spawnType, spawnCount, spawnUI.position) {
             pleSpawn = spawn
         };
-
+        while (ActiveWaveData.Count <= waveIndex) {
+            ActiveWaveData.Add(new WaveData());
+        }
         ActiveWaveData[waveIndex].spawnData.Add(spawnData);
     }
 

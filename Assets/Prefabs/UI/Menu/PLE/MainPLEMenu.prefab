@@ -38,6 +38,7 @@ GameObject:
   - component: {fileID: 224689000064263096}
   - component: {fileID: 222158828149564972}
   - component: {fileID: 114297513273549574}
+  - component: {fileID: 114523570750220440}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -55,6 +56,7 @@ GameObject:
   - component: {fileID: 224077873499824654}
   - component: {fileID: 222512285312430754}
   - component: {fileID: 114796489006055548}
+  - component: {fileID: 114107674680657492}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -72,6 +74,7 @@ GameObject:
   - component: {fileID: 224223841748760390}
   - component: {fileID: 222817350305536896}
   - component: {fileID: 114491920725247466}
+  - component: {fileID: 114790757670531526}
   m_Layer: 5
   m_Name: Current Wave#
   m_TagString: Untagged
@@ -110,6 +113,7 @@ GameObject:
   - component: {fileID: 224054496502694042}
   - component: {fileID: 222673505900927468}
   - component: {fileID: 114632879767087896}
+  - component: {fileID: 114118729871388378}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -146,6 +150,7 @@ GameObject:
   - component: {fileID: 224559072629068666}
   - component: {fileID: 222806923918274670}
   - component: {fileID: 114540299902453662}
+  - component: {fileID: 114231065155599996}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -239,6 +244,7 @@ GameObject:
   - component: {fileID: 224945498393023454}
   - component: {fileID: 222701405028527392}
   - component: {fileID: 114361951954746964}
+  - component: {fileID: 114404521867090844}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -313,6 +319,7 @@ GameObject:
   - component: {fileID: 224271507898720488}
   - component: {fileID: 222430457702699226}
   - component: {fileID: 114053430836695078}
+  - component: {fileID: 114409743169200064}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -349,6 +356,7 @@ GameObject:
   - component: {fileID: 224034286862584654}
   - component: {fileID: 222158608714872750}
   - component: {fileID: 114181025368847584}
+  - component: {fileID: 114830890919978288}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -366,6 +374,7 @@ GameObject:
   - component: {fileID: 224465062635775476}
   - component: {fileID: 222178533941401006}
   - component: {fileID: 114256137862573034}
+  - component: {fileID: 114158813859707804}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -417,6 +426,7 @@ GameObject:
   - component: {fileID: 224083257391602886}
   - component: {fileID: 222688549401391398}
   - component: {fileID: 114308516491368228}
+  - component: {fileID: 114579423159488684}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -493,6 +503,21 @@ MonoBehaviour:
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: PROPS
+--- !u!114 &114107674680657492
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1072227470850214}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0690a3854e7dc44395761fc0fccc7bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  palette: {fileID: 11400000, guid: c594dab3683600d448ee480376d2e87c, type: 2}
+  type: 0
+  updateTime: 0
+  maskableGraphic: {fileID: 114796489006055548}
 --- !u!114 &114115408132603258
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -550,6 +575,21 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
   m_IsOn: 0
+--- !u!114 &114118729871388378
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1381977320816498}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0690a3854e7dc44395761fc0fccc7bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  palette: {fileID: 11400000, guid: c594dab3683600d448ee480376d2e87c, type: 2}
+  type: 0
+  updateTime: 0
+  maskableGraphic: {fileID: 114632879767087896}
 --- !u!114 &114128146686811188
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -592,6 +632,21 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114158813859707804
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1846500178721198}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0690a3854e7dc44395761fc0fccc7bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  palette: {fileID: 11400000, guid: c594dab3683600d448ee480376d2e87c, type: 2}
+  type: 0
+  updateTime: 0
+  maskableGraphic: {fileID: 114256137862573034}
 --- !u!114 &114181025368847584
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -761,6 +816,21 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
   m_IsOn: 0
+--- !u!114 &114231065155599996
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1406092475349338}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0690a3854e7dc44395761fc0fccc7bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  palette: {fileID: 11400000, guid: c594dab3683600d448ee480376d2e87c, type: 2}
+  type: 0
+  updateTime: 0
+  maskableGraphic: {fileID: 114540299902453662}
 --- !u!114 &114255212265644956
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -953,7 +1023,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.8627451, g: 0.07058824, b: 0.827451, a: 1}
+  m_Color: {r: 1, g: 1, b: 0.39215687, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1106,6 +1176,36 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
   m_IsOn: 0
+--- !u!114 &114404521867090844
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1665969093175074}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0690a3854e7dc44395761fc0fccc7bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  palette: {fileID: 11400000, guid: c594dab3683600d448ee480376d2e87c, type: 2}
+  type: 0
+  updateTime: 0
+  maskableGraphic: {fileID: 114361951954746964}
+--- !u!114 &114409743169200064
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1800878931814660}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0690a3854e7dc44395761fc0fccc7bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  palette: {fileID: 11400000, guid: c594dab3683600d448ee480376d2e87c, type: 2}
+  type: 0
+  updateTime: 0
+  maskableGraphic: {fileID: 114053430836695078}
 --- !u!114 &114482679273070290
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1145,7 +1245,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0.8896551, a: 1}
+  m_Color: {r: 1, g: 1, b: 0.39215687, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1208,6 +1308,21 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114523570750220440
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1044088551210840}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0690a3854e7dc44395761fc0fccc7bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  palette: {fileID: 11400000, guid: c594dab3683600d448ee480376d2e87c, type: 2}
+  type: 0
+  updateTime: 0
+  maskableGraphic: {fileID: 114297513273549574}
 --- !u!114 &114524721278972964
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1352,6 +1467,21 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
   m_IsOn: 0
+--- !u!114 &114579423159488684
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1930788363626052}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0690a3854e7dc44395761fc0fccc7bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  palette: {fileID: 11400000, guid: c594dab3683600d448ee480376d2e87c, type: 2}
+  type: 0
+  updateTime: 0
+  maskableGraphic: {fileID: 114308516491368228}
 --- !u!114 &114596142495774952
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1595,6 +1725,21 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114790757670531526
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1227789446746006}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0690a3854e7dc44395761fc0fccc7bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  palette: {fileID: 11400000, guid: c594dab3683600d448ee480376d2e87c, type: 2}
+  type: 0
+  updateTime: 0
+  maskableGraphic: {fileID: 114491920725247466}
 --- !u!114 &114792233544998700
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1670,6 +1815,21 @@ MonoBehaviour:
   myToggle: {fileID: 114573958305836074}
   selectedSprite: {fileID: 21300000, guid: 6ce9286bfc9ebcc4d9a5fc8a3017b40a, type: 3}
   unselectedSprite: {fileID: 21300000, guid: 040c162357fd5574ab6e2bbface697db, type: 3}
+--- !u!114 &114830890919978288
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1821425780070322}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0690a3854e7dc44395761fc0fccc7bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  palette: {fileID: 11400000, guid: c594dab3683600d448ee480376d2e87c, type: 2}
+  type: 0
+  updateTime: 0
+  maskableGraphic: {fileID: 114181025368847584}
 --- !u!114 &114844734653850458
 MonoBehaviour:
   m_ObjectHideFlags: 1

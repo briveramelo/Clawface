@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-[CustomEditor(typeof(UseColorPaletteBase), true)]
+[CustomEditor(typeof(UseColorPaletteBase), true), CanEditMultipleObjects]
 public class UseColorPaletteBaseEditor : Editor
 {
     UseColorPaletteBase _target;
