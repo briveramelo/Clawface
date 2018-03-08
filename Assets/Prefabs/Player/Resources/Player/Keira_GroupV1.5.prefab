@@ -2397,7 +2397,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 250
-  far clip plane: 500
+  far clip plane: 1000
   field of view: 5.5
   orthographic: 0
   orthographic size: 8.5
@@ -3260,8 +3260,8 @@ MonoBehaviour:
   eatCoolDown: 0.3
   eatingState: {fileID: 114325496831137656}
   eatCollider: {fileID: 135888620666243734}
-  tutorialSlowDownRate: 0.1
-  tutorialSpeedUpRate: 0.1
+  tutorialSlowDownRate: 0.05
+  tutorialSpeedUpRate: 0.05
 --- !u!114 &114346970600587694
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3605,7 +3605,7 @@ MonoBehaviour:
     FieldOfView: 5.5
     OrthographicSize: 8.5
     NearClipPlane: 250
-    FarClipPlane: 500
+    FarClipPlane: 1000
     Dutch: 4
   m_ComponentOwner: {fileID: 4389288433435948}
 --- !u!114 &114538159332933710

@@ -25,9 +25,12 @@ public class ColliderGenerator : MonoBehaviour {
         if (currentGenerationTime > colliderGenerationTime)
         {
             GameObject acidCollider = ObjectPool.Instance.GetObject(PoolObjectType.AcidTrigger);
-            acidCollider.transform.position = transform.position;
-            acidCollider.GetComponent<AcidTrigger>().SetAcidTriggerLife(currentAcidTriggerLife);
-            acidCollider.GetComponent<AcidTrigger>().SetZombieParent(zombieAciderParent);
+            if (acidCollider) {
+                acidCollider.transform.position = transform.position;
+                AcidTrigger acidTrigger = acidCollider.GetComponent<AcidTrigger>();
+                acidTrigger.SetAcidTriggerLife(currentAcidTriggerLife);
+                acidTrigger.SetZombieParent(zombieAciderParent);
+            }
             currentGenerationTime = 0.0f;
         }
 	}

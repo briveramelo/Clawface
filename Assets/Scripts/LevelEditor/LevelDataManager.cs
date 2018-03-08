@@ -18,11 +18,11 @@ public class LevelDataManager : MonoBehaviour {
     [SerializeField] private InputField levelName;
     [SerializeField] private InputField levelDescription;
 
-    private DataSave ActiveDataSave { get { return DataPersister.ActiveDataSave; } }
-    private LevelData ActiveLevelData { get { return ActiveDataSave.ActiveLevelData; } }
-    private List<WaveData> ActiveWaveData { get { return ActiveLevelData.waveData; } }
-    private List<TileData> ActiveTileData { get { return ActiveLevelData.tileData; } }
-    private List<PropData> ActivePropData { get { return ActiveLevelData.propData; } }
+    public DataSave ActiveDataSave { get { return DataPersister.ActiveDataSave; } }
+    public LevelData ActiveLevelData { get { return ActiveDataSave.ActiveLevelData; } }
+    public List<WaveData> ActiveWaveData { get { return ActiveLevelData.waveData; } }
+    public List<TileData> ActiveTileData { get { return ActiveLevelData.tileData; } }
+    public List<PropData> ActivePropData { get { return ActiveLevelData.propData; } }
     private int spawnLayerMask;
 
     #region Unity Lifecycle

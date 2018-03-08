@@ -8,6 +8,7 @@ public class KamikazePulserAttackState : AIState {
     public float waitTimeAfterAttack;
     private PulseGenerator currentPulseGenerator;
     private bool attackDone = false;
+    private GameObject pulseGenerator;
 
     public override void OnEnter()
     {
@@ -38,11 +39,12 @@ public class KamikazePulserAttackState : AIState {
         //Make sure the kamikaze is not stunned
         if (myStats.health <= myStats.skinnableHealth)
         {
+            StopPulse();
             controller.UpdateState(EAIState.Stun);
             controller.DeActivateAI();
         }
 
-        GameObject pulseGenerator = ObjectPool.Instance.GetObject(PoolObjectType.KamikazePulseGenerator);
+        pulseGenerator = ObjectPool.Instance.GetObject(PoolObjectType.KamikazePulseGenerator);
         if (pulseGenerator) {
             pulseGenerator.transform.position = controller.transform.position;
             currentPulseGenerator = pulseGenerator.GetComponent<PulseGenerator>();
@@ -80,5 +82,9 @@ public class KamikazePulserAttackState : AIState {
         return attackDone;
     }
 
+    public void StopPulse()
+    {
+        pulseGenerator.SetActive(false);
+    }
 
 }
