@@ -76,8 +76,8 @@
 
     public class TextStrings
     {
-        public const string GAME_OVER_TEXT = "Game Over";
-        public const string STAGE_OVER_TEXT = "Stage Over";
+        public const string GAME_OVER_TEXT = "GAME OVER";
+        public const string STAGE_OVER_TEXT = "STAGE OVER";
 
         public static readonly string[] FLAVOR_TEXT = 
         {
