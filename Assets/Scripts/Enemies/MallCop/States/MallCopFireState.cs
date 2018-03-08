@@ -44,6 +44,7 @@ public class MallCopFireState : AIState {
         Vector3 lookAtPosition = new Vector3(controller.AttackTarget.position.x, controller.transform.position.y, controller.AttackTarget.position.z);
         controller.transform.LookAt(lookAtPosition);
         navAgent.velocity = Vector3.zero;
+        controller.transform.eulerAngles = new Vector3(0.0f,controller.transform.eulerAngles.y,0.0f);
         lastAngleToTarget = CheckAngle();
         CheckRotationDifference();
         FreezePosition();   
