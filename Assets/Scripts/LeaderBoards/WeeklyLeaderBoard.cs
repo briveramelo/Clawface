@@ -22,7 +22,7 @@ public class WeeklyLeaderBoard : GenericSteamLeaderBoard {
     //Extract the actual score from the composite score
     protected override LeaderBoardVars ExtractLeaderBoardVars(LeaderboardEntry_t entry, int[] details)
     {
-        LeaderBoardVars leaderBoardVars;
+        LeaderBoardVars leaderBoardVars = new LeaderBoardVars();
         int weekNumber = details[0];
         string savedScoreString = entry.m_nScore.ToString();
         savedScoreString = savedScoreString.Substring(weekNumber.ToString().Length);
@@ -30,6 +30,7 @@ public class WeeklyLeaderBoard : GenericSteamLeaderBoard {
         leaderBoardVars.score = actualScore;
         leaderBoardVars.userID = SteamFriends.GetFriendPersonaName(entry.m_steamIDUser);
         leaderBoardVars.otherInfo = weekNumber;
+        leaderBoardVars.rank = entry.m_nGlobalRank;
         return leaderBoardVars;
     }
 

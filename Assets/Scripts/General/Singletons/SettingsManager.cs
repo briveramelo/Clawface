@@ -97,6 +97,7 @@ public class SettingsManager : Singleton<SettingsManager>
             {
                 Debug.LogWarning("Trying to set bad sfx volume level (ignoring): " + value);
             }
+            settings.sfx = value;
         }
     }
 

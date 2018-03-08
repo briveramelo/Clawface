@@ -39,6 +39,8 @@ public class PlayerHUDAnimator : MonoBehaviour
         EventSystem.Instance.RegisterEvent(Strings.Events.COMBO_UPDATED, BounceCombo);
         EventSystem.Instance.RegisterEvent(Strings.Events.SCORE_UPDATED, BounceScore);
         EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_DAMAGED, BounceHealth);
+        EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_STARTED, HandleLevelStarted);
+        EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_STARTED, HandleLevelRestarted);
     }
 
     private void OnDestroy()
@@ -48,6 +50,8 @@ public class PlayerHUDAnimator : MonoBehaviour
             EventSystem.Instance.UnRegisterEvent(Strings.Events.COMBO_UPDATED, BounceCombo);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.SCORE_UPDATED, BounceScore);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_DAMAGED, BounceHealth);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_STARTED, HandleLevelStarted);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_STARTED, HandleLevelRestarted);
         }
     }
 
@@ -122,6 +126,26 @@ public class PlayerHUDAnimator : MonoBehaviour
 
         if (multiplier >= BOUNCE_THRESHOLD)
             yield return DoBounce(tr, settings, multiplier * settings.bounciness);
+    }
+
+    void HandleLevelRestarted (params object[] parameters)
+    {
+        ResetBounce();
+    }
+
+    void HandleLevelStarted(params object[] parameters)
+    {
+        ResetBounce();
+    }
+
+    void ResetBounce ()
+    {
+        combo.localRotation = score.localRotation = 
+            health.localRotation = Quaternion.identity;
+        combo.localScale = comboOriginalScale;
+        score.localScale = scoreOriginalScale;
+        health.localScale = healthOriginalScale;
+        StopAllCoroutines();
     }
 
     [System.Serializable]

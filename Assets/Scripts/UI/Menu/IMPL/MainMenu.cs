@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class MainMenu : PlayerLevelEditorMenu
+public class MainMenu : Menu
 {
     #region Public Fields
 
@@ -63,8 +63,13 @@ public class MainMenu : PlayerLevelEditorMenu
         Application.Quit();
     }
 
-    public override void BackAction() {
-        
+
+    protected override void DefaultHide(Transition transition, Effect[] effects) {
+        Fade(transition, effects);
+    }
+
+    protected override void DefaultShow(Transition transition, Effect[] effects) {
+        Fade(transition, effects);
     }
 
     #endregion

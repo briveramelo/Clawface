@@ -52,6 +52,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shouldRegister: 1
+  dontDestroyOnLoad: 1
   blasterStats:
     health: 12
     maxHealth: 12
@@ -151,10 +152,10 @@ MonoBehaviour:
     stunnedTime: 3
     closeEnoughToAttackDistance: 3
     animationAttackSpeed: 1.5
-    trailRendererTime: 4
+    trailRendererTime: 5
     trailRendererWidth: 2
     colliderGenerationTime: 0.05
-    acidTriggerLife: 4
+    acidTriggerLife: 5
   kamikazeStats:
     health: 8
     maxHealth: 8
@@ -201,9 +202,9 @@ MonoBehaviour:
     eatHealth: 2
     stunnedTime: 4
     closeEnoughToAttackDistance: 10
-    spawnRate: 1
-    kamikazeSpawnProbability: 0.46
-    kamikazePulserSpawnProbability: 0.264
+    spawnRate: 1.5
+    kamikazeSpawnProbability: 0.75
+    kamikazePulserSpawnProbability: 0.25
   bouncerStats:
     health: 25
     maxHealth: 25
@@ -248,10 +249,10 @@ MonoBehaviour:
     stunnedTime: 3
     maxBounces: 3
     minBounces: 1
-    maxShots: 45
-    minShots: 50
-    rotationSpeed: 0
-    rotate: 0
+    maxShots: 65
+    minShots: 55
+    rotationSpeed: 0.25
+    rotate: 1
     separationFromForwardVector: 0
     bulletSpeed: 13
     bulletDamage: 20.2
@@ -283,7 +284,7 @@ MonoBehaviour:
     rotationSpeed: 90
     rotate: 1
     separationFromForwardVector: 0
-    bulletSpeed: 4
+    bulletSpeed: 6
     bulletDamage: 3
     rateOfFire: 0
     bulletOffsetFromOrigin: 3
