@@ -74,13 +74,7 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     public void TakeDamage(Damager damager)
     {
         if(stats.health > 0)
-        { 
-
-            if (invincibleTimer >= 0f)
-            {
-                return;
-            }
-
+        {
             if (dashState.CheckForIFrames())
             {
                 if (dashState.CheckIfDashGivesCombo() && !gotDashComboThisFrame)
@@ -90,6 +84,13 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
                 }
                 return;
             }
+
+            if (invincibleTimer >= 0f)
+            {
+                return;
+            }
+
+            
 
 
             float healthFraction = stats.GetHealthFraction();
