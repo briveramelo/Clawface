@@ -69,6 +69,7 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
             EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_COMPLETED, OnLevelCompleted);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_QUIT, OnLevelQuit);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_RESTARTED, OnLevelRestart);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.WAVE_COMPLETE, OnWaveComplete);
         }
     }
 
@@ -81,8 +82,7 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_COMPLETED, OnLevelCompleted);
         EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_QUIT, OnLevelQuit);
         EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_RESTARTED, OnLevelRestart);
-
-        
+        EventSystem.Instance.RegisterEvent(Strings.Events.WAVE_COMPLETE, OnWaveComplete);
     }
 
 
@@ -203,7 +203,7 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
     #region Private Methods
     private void OnLevelStarted(params object[] parameters)
     {
-        if (SceneManager.GetActiveScene().name == "Editor")
+        if (SceneTracker.IsCurrentSceneEditor || SceneTracker.IsCurrentScenePlayerLevels)
         {
             return;
         }
@@ -240,7 +240,7 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
 
     private void OnPlayerKilled(params object[] parameters)
     {
-        if (SceneManager.GetActiveScene().name == "Editor")
+        if (SceneTracker.IsCurrentSceneEditor || SceneTracker.IsCurrentScenePlayerLevels)
         {
             return;
         }
@@ -273,7 +273,7 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
 
     private void OnLevelRestart(params object[] parameters)
     {
-        if (SceneManager.GetActiveScene().name == "Editor")
+        if (SceneTracker.IsCurrentSceneEditor || SceneTracker.IsCurrentScenePlayerLevels)
         {
             return;
         }
@@ -315,7 +315,7 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
 
     private void OnLevelQuit(params object[] parameters)
     {
-        if (SceneManager.GetActiveScene().name == "Editor")
+        if (SceneTracker.IsCurrentSceneEditor || SceneTracker.IsCurrentScenePlayerLevels)
         {
             return;
         }
@@ -355,6 +355,39 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         levelEatPresses = 0;
         levelDodgePresses = 0;
         currentWave = 0;
+    }
+
+    private void OnWaveComplete(params object[] parameters)
+    {
+
+        if (SceneTracker.IsCurrentSceneEditor || SceneTracker.IsCurrentScenePlayerLevels || currentWave <= 0)
+        {
+            return;
+        }
+
+        Dictionary<string, object> waveCompletedDictionary = new Dictionary<string, object>();
+
+        string level = SceneManager.GetActiveScene().name;
+        float runtime = currentLevelTime;
+        float totalLevelTime = totalCurrentLevelTime;
+        int score = ScoreManager.Instance.GetScore();
+        string leftArm = leftArmOnLoad;
+        string rightArm = rightArmOnLoad;
+
+        waveCompletedDictionary.Add("level", level);
+        waveCompletedDictionary.Add("runTime", runtime);
+        waveCompletedDictionary.Add("wave", currentWave);
+        waveCompletedDictionary.Add("score", score);
+        waveCompletedDictionary.Add("leftArm", leftArm);
+        waveCompletedDictionary.Add("rightArm", rightArm);
+        waveCompletedDictionary.Add("deaths", currentLevelDeaths);
+        waveCompletedDictionary.Add("eats", levelEatPresses);
+        waveCompletedDictionary.Add("dodges", levelDodgePresses);
+
+#if !UNITY_EDITOR
+        Analytics.CustomEvent(Strings.Events.WAVE_COMPLETE, waveCompletedDictionary);
+#endif
+
     }
 
     private void OnLevelCompleted(params object[] parameters)

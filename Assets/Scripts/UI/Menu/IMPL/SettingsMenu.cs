@@ -90,10 +90,25 @@ public class SettingsMenu : Menu {
 
     #endregion
 
+    #region Fields (Private)
+    private bool allowInput;
+    #endregion
+
     #region Constructors (Public)
 
     public SettingsMenu() : base(Strings.MenuStrings.SETTINGS) {}
 
+    #endregion
+    
+
+    #region Unity Lifecycle
+    private void Update() {
+        if (allowInput) {
+            if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN)) {
+                ButtonBack();
+            }
+        }
+    }
     #endregion
 
     #region Interface (Public)
@@ -170,6 +185,7 @@ public class SettingsMenu : Menu {
     protected override void ShowStarted()
     {
         base.ShowStarted();
+        allowInput = true;
         TransferSettingsFromManager();
         StartCoroutine(RotateCamera(offRotation, onRotation));
     }
@@ -177,6 +193,7 @@ public class SettingsMenu : Menu {
     protected override void HideStarted()
     {
         base.HideStarted();
+        allowInput = false;
         StartCoroutine(RotateCamera(onRotation, offRotation));
     }
 

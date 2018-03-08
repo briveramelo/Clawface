@@ -8,7 +8,7 @@ namespace ModMan {
 
     public static class StringExtension
     {
-        public static string SpawnDisplayName(this SpawnType spawn) {
+        public static string DisplayName(this SpawnType spawn) {
             switch (spawn) {
                 case SpawnType.Blaster: return "Blaster";
                 case SpawnType.BlasterShotgun: return "Shotgun Blaster";
@@ -24,6 +24,23 @@ namespace ModMan {
                 case SpawnType.ZombieBeserker: return "Berserker Zombie";
             }
             return "unnamed";
+        }
+        public static int MaxPerWave(this SpawnType spawn) {
+            switch (spawn) {
+                case SpawnType.Keira: return 1;
+                case SpawnType.Blaster: return 15;
+                case SpawnType.BlasterShotgun: return 15;
+                case SpawnType.Zombie: return 15;
+                case SpawnType.ZombieAcider: return 15;
+                case SpawnType.ZombieBeserker: return 15;
+                case SpawnType.Bouncer: return 5;
+                case SpawnType.GreenBouncer: return 5;
+                case SpawnType.RedBouncer: return 5;
+                case SpawnType.Kamikaze: return 25;
+                case SpawnType.KamikazeMommy: return 2;
+                case SpawnType.KamikazePulser: return 25;
+            }
+            return 0;
         }
 
         public static string TryCleanName(this string myStringName, string suffixToRemove) {

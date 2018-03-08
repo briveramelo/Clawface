@@ -60,7 +60,7 @@ public abstract class Menu : RoutineRunner {
 
     #region Serialized Unity Fields
     [SerializeField]
-    private GameObject canvas;
+    protected GameObject canvas;
 
     [SerializeField]
     private CanvasGroup canvasGroup;

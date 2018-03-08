@@ -31,6 +31,7 @@ public class LeaderboardsMenu : Menu
 
     #region private fields
     private List<LeaderboardEntry> leaderBoardEntries;
+    private bool allowInput;
     #endregion
 
     #region public fields
@@ -43,6 +44,16 @@ public class LeaderboardsMenu : Menu
     }
     #endregion
 
+    #region unity lifecycle
+    private void Update()
+    {
+        if (allowInput && InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN))
+        {
+            OnPressBack();
+        }
+    }
+    #endregion
+
     #region Public methods
     public LeaderboardsMenu() : base(Strings.MenuStrings.LEADER_BOARDS) {
         leaderBoardEntries = new List<LeaderboardEntry>();
@@ -50,6 +61,10 @@ public class LeaderboardsMenu : Menu
 
     public void OnPressBack()
     {
+        foreach (LeaderboardEntry entry in leaderBoardEntries)
+        {
+            Destroy(entry.gameObject);
+        }
         leaderBoardEntries.Clear();
         MenuManager.Instance.DoTransition(Strings.MenuStrings.LevelEditor.LEVELSELECT_PLE_MENU, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
     }
@@ -83,6 +98,19 @@ public class LeaderboardsMenu : Menu
     {
         Fade(transition, effects);
         GetLeaderboardEntries(LeaderBoards.SelectionType.GLOBAL);
+
+    }
+
+    protected override void ShowStarted()
+    {
+        base.ShowStarted();
+        allowInput = true;
+    }
+
+    protected override void HideStarted()
+    {
+        base.HideStarted();
+        allowInput = false;
     }
     #endregion
 

@@ -34,8 +34,11 @@ public abstract class ScrollGroup : MonoBehaviour {
     public virtual void SelectItem(int itemIndex) {
         LastSelectedIndex = itemIndex;
         pleUIItems.ForEach(item => { item.OnGroupSelectChanged(itemIndex); });
-        placementMenu.SelectUIItem(pleUIItems[itemIndex]);
+        placementMenu.TrySelectUIItem(pleUIItems[itemIndex]);
     }
+    public virtual void DeselectAll() {
+        pleUIItems.ForEach(item => { item.OnGroupSelectChanged(-1); });
+    }    
     #endregion
 
     #region Protected Interface
@@ -52,8 +55,7 @@ public abstract class ScrollGroup : MonoBehaviour {
             GameObject toAdd = Instantiate(iconTemplate);
             PLEUIItem spawnToSet = toAdd.GetComponent<PLEUIItem>();
             pleUIItems.Add(spawnToSet);
-            spawnToSet.InitializeItem(i, this);            
-            spawnToSet.registeredItem = go;
+            spawnToSet.InitializeItem(i, this, go);
 
             toAdd.SetActive(true);
             toAdd.name = go.name;
@@ -75,7 +77,6 @@ public abstract class ScrollGroup : MonoBehaviour {
             toAdd.transform.SetParent(groupContent.transform);
             RectTransform myRec = toAdd.GetComponent<RectTransform>();
             myRec.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-
         }
 
         SelectItem(0);

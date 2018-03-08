@@ -12,6 +12,9 @@ public class LightningProjectile : MonoBehaviour {
 
     [SerializeField] LightningChain chainEffect;
     [SerializeField] private ParticleSystem vfxLightning;
+    [SerializeField] 
+    [Tooltip("Max time projectile will remain after hitting an enemy (defines how long you can see the lightning)")]
+    private float maxLiveTimeAfterHittingEnemy = 1.0f;
 
     #endregion
 
@@ -22,6 +25,8 @@ public class LightningProjectile : MonoBehaviour {
     private List<Transform> ignoreTargets;
     private Damager damager;
     private Vector3 startingPosition;
+    private bool markedForRemoval;
+    private float removalTime;
     #endregion
 
     #region Unity Lifecycle
@@ -43,9 +48,26 @@ public class LightningProjectile : MonoBehaviour {
 
     private void Update()
     {
+        if (markedForRemoval)
+        {
+            removalTime += Time.deltaTime;
+            if(removalTime > maxLiveTimeAfterHittingEnemy)
+            {                
+                ResetToDefaults();
+            }
+        }
+
         //Are hook properties set and have we not hit a target
         if (projectileProperties != null)
         {
+
+            //Cancel out y of the target so that the projectile stays at the same level
+            if (target)
+            {
+                Vector3 targetPosition = target.position;
+                targetPosition.y = transform.position.y;
+                target.position = targetPosition;
+            }
 
             if (target && !target.gameObject.activeSelf)
             {
@@ -133,6 +155,9 @@ public class LightningProjectile : MonoBehaviour {
         enemyCount = 0;
         ignoreTargets = new List<Transform>();
         gameObject.SetActive(false);
+        markedForRemoval = false;
+        removalTime = 0.0f;
+        vfxLightning.gameObject.SetActive(true);
     }
     #endregion
 
@@ -206,7 +231,8 @@ public class LightningProjectile : MonoBehaviour {
                 SpawnNextProjectile();
             }
 
-            ResetToDefaults();
+            markedForRemoval = true;
+            vfxLightning.gameObject.SetActive(false);
         }
         else if (other.CompareTag(Strings.Tags.WALL))
         {
