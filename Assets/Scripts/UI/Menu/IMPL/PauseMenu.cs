@@ -111,20 +111,23 @@ public class PauseMenu : Menu {
     public void WeaponSelectAction()
     {
         //string loadMenuName = Strings.MenuStrings.LOAD;
-        WeaponSelectMenu weaponSelectMenu = (WeaponSelectMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.WEAPON_SELECT);
-        weaponSelectMenu.DefineNavigation(Strings.MenuStrings.PAUSE, Strings.MenuStrings.LOAD);
+        //WeaponSelectMenu weaponSelectMenu = (WeaponSelectMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.WEAPON_SELECT);
+        //weaponSelectMenu.DefineNavigation(Strings.MenuStrings.PAUSE, Strings.MenuStrings.LOAD);
 
-        LoadMenu loadMenu = (LoadMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
-        loadMenu.SetNavigation(SceneTracker.CurrentSceneName);
+        //LoadMenu loadMenu = (LoadMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
+        //loadMenu.SetNavigation(SceneTracker.CurrentSceneName);
 
-        MenuManager.Instance.DoTransition(weaponSelectMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+        //MenuManager.Instance.DoTransition(weaponSelectMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+        ConfirmMenu confirmMenu = (ConfirmMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.CONFIRM);
+        //confirmMenu.DefineNavigation(Strings.menu)
+        MenuManager.Instance.DoTransition(confirmMenu, Transition.SHOW, new Effect[] {  });
     }
 
-	#endregion
+    #endregion
 
-	#region Protected Interface
+    #region Protected Interface
 
-	protected override void DefaultShow (Transition transition, Effect[] effects)
+    protected override void DefaultShow (Transition transition, Effect[] effects)
 	{
 		Fade (transition, effects);
 	}
