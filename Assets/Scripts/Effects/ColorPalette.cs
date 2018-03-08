@@ -7,6 +7,7 @@ public class ColorPalette : ScriptableObject
 {
     [SerializeField] Color colorPrimary;
     [SerializeField] Color colorSecondary;
+    [SerializeField] Color colorTertiary;
 
     public Color GetColor (ColorType type)
     {
@@ -16,6 +17,8 @@ public class ColorPalette : ScriptableObject
                 return colorPrimary;
             case ColorType.Secondary:
                 return colorSecondary;
+            case ColorType.Tertiary:
+                return colorTertiary;
             default:
                 return default(Color);
         }
@@ -23,10 +26,12 @@ public class ColorPalette : ScriptableObject
 
     public Color PrimaryColor { get { return colorPrimary; } }
     public Color SecondaryColor { get { return colorSecondary; } }
+    public Color TertiaryColor { get { return colorTertiary; } }
 
     public enum ColorType
     {
         Primary,
-        Secondary
+        Secondary,
+        Tertiary
     }
 }

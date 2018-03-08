@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfcca5d5dcd2fd64d9e64b2032aa6a32, type: 3}
+  m_Name: Directional 6
+  m_EditorClassIdentifier: 
+  frames:
+  - mask: {fileID: 2800000, guid: 683d4348d15cdf54db418f7ab70ff8a4, type: 3}
+    normal: {fileID: 2800000, guid: 823251ef78c8fff41bfb9bc8498a6280, type: 3}
+  - mask: {fileID: 2800000, guid: 2139aa649e035364788f570951bfd8cd, type: 3}
+    normal: {fileID: 2800000, guid: 91aa170e5cd59d94f81fc3eda577a7c6, type: 3}
+  - mask: {fileID: 2800000, guid: b628b7bcf641e6f4cbb9e97759b518a0, type: 3}
+    normal: {fileID: 2800000, guid: df628b039ab196146a274f30e9ea8aff, type: 3}
+  - mask: {fileID: 2800000, guid: 597928cfaf3831a41a6e412a6234f2c0, type: 3}
+    normal: {fileID: 2800000, guid: 5499c0bcca9f28c449fe2689e4513680, type: 3}
+  - mask: {fileID: 2800000, guid: a937f7375836bbe4c9cb6dcaa2ad9fb3, type: 3}
+    normal: {fileID: 2800000, guid: e15dbb12aa54ac84dadb4c0d059482d6, type: 3}
+  - mask: {fileID: 2800000, guid: ff5d8dd600985a744b65f953d8d1f45e, type: 3}
+    normal: {fileID: 2800000, guid: 06a885f66e3b5ae428fb16c8acc3450d, type: 3}
+  anchor: {x: -2, y: 0.5}
+  rotation: {x: 1, y: 0}
+  fps: 60
