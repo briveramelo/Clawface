@@ -230,13 +230,17 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
 
     #region Private Interface 
     private void CheckToMoveFilter() {
-        if (InputManager.Instance.QueryAction(Strings.Input.Actions.FIRE_LEFT, ButtonMode.DOWN)) {
-            SelectedFilterToggle--;
+        bool leftButtonPressed = InputManager.Instance.QueryAction(Strings.Input.Actions.FIRE_LEFT, ButtonMode.DOWN);
+        bool rightBumperPressed = InputManager.Instance.QueryAction(Strings.Input.Actions.FIRE_RIGHT, ButtonMode.DOWN);
+        if (leftButtonPressed || rightBumperPressed) {
+            if (leftButtonPressed) {
+                SelectedFilterToggle--;
+            }
+            else {
+                SelectedFilterToggle++;
+            }
             FilterLevels(SelectedFilterToggle);
-        }
-        else if (InputManager.Instance.QueryAction(Strings.Input.Actions.FIRE_RIGHT, ButtonMode.DOWN)) {
-            SelectedFilterToggle++;
-            FilterLevels(SelectedFilterToggle);
+            CurrentEventSystem.SetSelectedGameObject(filterToggles[SelectedFilterToggle].gameObject);
         }
     }
 
