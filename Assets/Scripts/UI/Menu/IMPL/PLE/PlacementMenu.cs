@@ -60,15 +60,20 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
     #endregion
 
     #region Protected Interface
-    public virtual void SelectUIItem(PLEUIItem item) {
+    public virtual void TrySelectUIItem(PLEUIItem item) {
         if (allowInput) {
-            DeselectItem();
-            selectedItemPrefab = item.registeredItem;
-            TryDestroyPreview();
-            previewItem = Instantiate(selectedItemPrefab);
-            previewItem.name = previewItem.name.TryCleanName(Strings.CLONE);
-            previewItem.name += Strings.PREVIEW;
-            PostOnSelectUIItem(previewItem);
+            if (item.isInteractable) {
+                DeselectItem();
+                selectedItemPrefab = item.registeredItem;
+                TryDestroyPreview();
+                previewItem = Instantiate(selectedItemPrefab);
+                previewItem.name = previewItem.name.TryCleanName(Strings.CLONE);
+                previewItem.name += Strings.PREVIEW;
+                PostOnSelectUIItem(previewItem);
+            }
+            else {
+                scrollGroup.DeselectAll();
+            }
         }
     }
     protected virtual void PostOnSelectUIItem(GameObject newItem) { }
@@ -77,7 +82,7 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
             selectedPLEItem.Deselect();
             selectedPLEItem = null;
         }
-        SetInteractability();
+        SetInteractabilityByState();
     }
 
     protected virtual void SelectGameItem() {
@@ -100,6 +105,7 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
     protected virtual void PostPlaceItem(GameObject newItem) { }
 
     protected bool DeselectUIItem() {
+        scrollGroup.DeselectAll();
         selectedItemPrefab = null;
         return TryDestroyPreview();
     }
@@ -131,8 +137,7 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
 
     protected override void ShowStarted() {
         base.ShowStarted();
-        SelectUIItem(scrollGroup.GetLastUIItem());
-        SetInteractability(false);
+        ForceInteractability(false);
     }
     protected override void ShowComplete() {
         base.ShowComplete();
@@ -149,10 +154,10 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
         selectables.Add(rightButton);
     }
 
-    protected virtual void SetInteractability(bool isInteractable) {
+    protected virtual void ForceInteractability(bool isInteractable) {
         selectables.ForEach(selectable => { selectable.interactable = isInteractable; });
     }
-    protected abstract void SetInteractability();
+    protected abstract void SetInteractabilityByState();
 
     #endregion
 

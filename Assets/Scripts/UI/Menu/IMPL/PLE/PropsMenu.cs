@@ -58,6 +58,7 @@ public class PropsMenu : PlacementMenu
     }
     protected override void ShowStarted() {
         base.ShowStarted();
+        TrySelectUIItem(scrollGroup.GetLastUIItem());
         ApplyRotation(0);
     }
     protected override void ShowComplete() {
@@ -68,10 +69,9 @@ public class PropsMenu : PlacementMenu
         base.UpdatePreviewPosition();
         previewItem.transform.localEulerAngles = new Vector3(0, CurrentRotation, 0);
     }
-    protected override void SetInteractability() {
+    protected override void SetInteractabilityByState() {
         bool isItemSelected = selectedPLEItem != null;
         selectables.ForEach(selectable => { selectable.interactable = isItemSelected; });
-
     }
     #endregion
 
@@ -101,7 +101,7 @@ public class PropsMenu : PlacementMenu
         MouseHelper.currentProp.Select();
         selectedPLEItem = MouseHelper.currentProp;
         ApplyRotation(selectedPLEItem.transform.localEulerAngles.y);
-        SetInteractability();
+        SetInteractabilityByState();
     }
     protected override void DeselectItem() {
         base.DeselectItem();

@@ -131,6 +131,7 @@ namespace PlayerLevelEditor
                 SpawnMenu.playerSpawnInstance.SetActive(true);
             }
             SetIsTesting(false);
+            ObjectPool.Instance.ResetPools();
             EventSystem.Instance.TriggerEvent(Strings.Events.PLE_TEST_END);
         }
 

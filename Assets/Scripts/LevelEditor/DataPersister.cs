@@ -146,6 +146,16 @@ public class LevelData {
     public List<TileData> tileData = new List<TileData>();
     public List<PropData> propData = new List<PropData>();    
 
+    public int NumSpawns(SpawnType spawnType, int waveIndex) {
+        int totalSpawnsOfType = 0;
+        List<PLESpawn> spawns = GetPLESpawnsFromWave(waveIndex);
+        for (int i = 0; i < spawns.Count; i++) {
+            if (spawns[i].spawnType==spawnType) {
+                totalSpawnsOfType += spawns[i].totalSpawnAmount;
+            }
+        }
+        return totalSpawnsOfType;
+    }
     public List<PLESpawn> GetPLESpawnsFromWave(int i_wave)
     {
         while (waveData.Count<=i_wave) {

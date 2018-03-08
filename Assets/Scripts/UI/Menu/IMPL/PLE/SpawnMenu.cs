@@ -5,18 +5,22 @@ using PlayerLevelEditor;
 using UnityEngine.UI;
 using System;
 using ModMan;
+using System.Collections.Generic;
 
 public class SpawnMenu : PlacementMenu {
 
     private const int minSpawns = 1;
-    private const int maxSpawns = 99;
     public SpawnMenu() : base(Strings.MenuStrings.LevelEditor.ADD_SPAWNS_PLE) { }    
 
-    private PLESpawn SelectedSpawn { get { return selectedPLEItem as PLESpawn; } }        
+    private PLESpawn SelectedSpawn { get { return selectedPLEItem as PLESpawn; } }
+    private LevelData ActiveLevelData { get { return DataPersister.ActiveDataSave.ActiveLevelData; } }
+    private int NumberSpawnsInWave { get { return ActiveLevelData.NumSpawns(SelectedSpawn.spawnType, PLESpawnManager.Instance.CurrentWaveIndex); } }
+    private List<PLESpawn> CurrentWavePLESpawns { get { return ActiveLevelData.GetPLESpawnsFromWave(PLESpawnManager.Instance.CurrentWaveIndex); } }
 
     #region Serialized Unity Fields
 
     [SerializeField] private InputField amountField;
+    [SerializeField] private Text amountAvailable;
     [SerializeField] private Text nameText;
 
     #endregion
@@ -29,51 +33,54 @@ public class SpawnMenu : PlacementMenu {
 
     
 
-    #region Public Interface
-    public void SetAmtOnSelectedSpawn() {
+    #region Public Interface    
+    public void Increment() {
+        int newAmount = Mathf.Clamp(SelectedSpawn.totalSpawnAmount + 1, minSpawns, SelectedSpawn.MaxPerWave);
+        ChangeSpawnAmountInternally(newAmount);
+    }
+    public void Decrement() {
+        int newAmount = Mathf.Clamp(SelectedSpawn.totalSpawnAmount - 1, minSpawns, SelectedSpawn.MaxPerWave);
+        ChangeSpawnAmountInternally(newAmount);
+    }
+    public void SetAmountOnSelectedSpawn() {
+        int spawnCount = 0;
         if (selectedPLEItem) {
-            int finalAmt = 0;
-
-            if (System.Int32.TryParse(amountField.text, out finalAmt)) {
-                SelectedSpawn.totalSpawnAmount = finalAmt;
+            if (System.Int32.TryParse(amountField.text, out spawnCount)) {
+                spawnCount = Mathf.Clamp(spawnCount, minSpawns, SelectedSpawn.MaxPerWave);
+                SelectedSpawn.totalSpawnAmount = spawnCount;
+                SetInteractabilityByState();
             }
         }
     }
-    public void Increment() {
-        int newAmount = Mathf.Clamp(SelectedSpawn.totalSpawnAmount + 1, minSpawns, maxSpawns);
-        ChangeSpawnAmount(newAmount);
-    }
-    public void Decrement() {
-        int newAmount = Mathf.Clamp(SelectedSpawn.totalSpawnAmount - 1, minSpawns, maxSpawns);
-        ChangeSpawnAmount(newAmount);
-    }    
     #endregion
 
     #region Protected Interface
-    protected override bool SelectUI { get { return base.SelectUI && ScrollGroupHelper.currentUIItem != null; } }
+    protected override bool SelectUI { get { return base.SelectUI && ScrollGroupHelper.currentUIItem != null && ScrollGroupHelper.currentUIItem.isInteractable; } }
     protected override bool SelectItem { get { return base.SelectUI && MouseHelper.currentSpawn != null; } }
     protected override bool CanDeletedHoveredItem { get { return base.CanDeletedHoveredItem && MouseHelper.currentSpawn; } }
     protected override bool Place { get { return base.Place && !MouseHelper.currentBlockUnit.HasActiveSpawn; } }
     protected override bool UpdatePreview { get { return base.UpdatePreview && !MouseHelper.currentBlockUnit.HasActiveSpawn; } }
 
+    protected override void InitializeSelectables() {
+        base.InitializeSelectables();
+        selectables.Add(amountField);
+    }
 
     protected override void DeleteHoveredItem() {
         base.DeleteHoveredItem();
+        SetInteractabilityByState();
         levelEditor.SetMenuButtonInteractability();
     }
 
     protected override void ShowStarted() {
         base.ShowStarted();
-        SetInteractability(false);
+        if (!playerSpawnInstance) {
+            (scrollGroup as SpawnScrollGroup).SelectKeira();
+        }
+        else {
+            TrySelectUIItem(scrollGroup.GetLastUIItem());
+        }
     }
-    protected override void ShowComplete() {
-        base.ShowComplete();
-    }
-
-    protected override void DeselectAllGameItems() {
-        base.DeselectAllGameItems();
-    }
-
     protected override void PostPlaceItem(GameObject newItem) {
         int currentWaveIndex = PLESpawnManager.Instance.CurrentWaveIndex;
         int maxWaveIndex = PLESpawnManager.Instance.MaxWaveIndex;
@@ -83,13 +90,6 @@ public class SpawnMenu : PlacementMenu {
         }
         newItem.transform.SetParent(waveParent);        
         MouseHelper.currentBlockUnit.AddSpawn(newItem);
-        //UNUSED
-        //PLESpawn spawn = newItem.GetComponent<PLESpawn>();
-        //if(spawn)
-        //{
-        //    //TODO: What happens if the registered wave is 'deleted'
-        //    spawn.registeredWave = currentWaveIndex;
-        //}
 
         if(newItem.CompareTag(Strings.Editor.PLAYER_SPAWN_TAG)) {
             if(playerSpawnInstance != null) {
@@ -98,63 +98,101 @@ public class SpawnMenu : PlacementMenu {
             playerSpawnInstance = newItem;
             playerSpawnInstance.transform.SetParent(levelEditor.TryCreateWaveParent(0).parent);
         }
-        levelEditor.SetMenuButtonInteractability();
+        PLESpawn spawn = newItem.GetComponent<PLESpawn>();
+        if (spawn) {
+            int spawnAmount = spawn.totalSpawnAmount;
+            ChangeSpawnAmountInternally(spawnAmount);
+            UpdateAmountField(spawnAmount);
+            int remainingSpawns = spawn.MaxPerWave - NumberSpawnsInCurrentWave(spawn.spawnType);
+            UpdateAvailableField(remainingSpawns);
+
+
+            if (NumberSpawnsInCurrentWave(spawn.spawnType) >= spawn.MaxPerWave ) {
+                TryDestroyPreview();
+                DeselectItem();
+                DeselectUIItem();
+            }
+        }
+
+        SetInteractabilityByState();
+        levelEditor.SetMenuButtonInteractability();        
     }    
 
     protected override void SelectGameItem() {
         base.SelectGameItem();
         MouseHelper.currentSpawn.Select();
         selectedPLEItem = MouseHelper.currentSpawn;
-        UpdateFields(SelectedSpawn.totalSpawnAmount, SelectedSpawn.spawnType.SpawnDisplayName());
-        SetInteractability();
+        int spawnAmount = SelectedSpawn.totalSpawnAmount;
+        UpdateFields(spawnAmount, SelectedSpawn.DisplayName, false);
+        ChangeSpawnAmountInternally(spawnAmount);
     }
     protected override void DeselectItem() {
         base.DeselectItem();
-        SetInteractability(false);
+        ForceInteractability(false);
         UpdateFields(0, "-", true);        
     }
-    protected override void InitializeSelectables() {
-        base.InitializeSelectables();
-        selectables.Add(amountField);
-    }
     
-    protected override void SetInteractability() {
+    
+    protected override void SetInteractabilityByState() {
         bool isItemSelectedAndNotKeira = selectedPLEItem != null && SelectedSpawn.spawnType != SpawnType.Keira;
         selectables.ForEach(selectable => { selectable.interactable = isItemSelectedAndNotKeira; });
 
         leftButton.interactable = isItemSelectedAndNotKeira && SelectedSpawn.totalSpawnAmount > minSpawns;
-        rightButton.interactable = isItemSelectedAndNotKeira && SelectedSpawn.totalSpawnAmount < maxSpawns;
+        rightButton.interactable = isItemSelectedAndNotKeira && NumberSpawnsInWave < SelectedSpawn.MaxPerWave;
+        (scrollGroup as SpawnScrollGroup).SetSpawnUIInteractability(PLESpawnManager.Instance.CurrentWaveIndex);
     }
 
     protected override void PostOnSelectUIItem(GameObject newItem) {
         base.PostOnSelectUIItem(newItem);
         PLESpawn spawn = newItem.GetComponent<PLESpawn>();
-        UpdateFields(spawn.totalSpawnAmount, spawn.spawnType.SpawnDisplayName());
+        UpdateFields(spawn.totalSpawnAmount, spawn.DisplayName);
+        int remainingSpawns = spawn.MaxPerWave - NumberSpawnsInCurrentWave(spawn.spawnType);
+        UpdateAvailableField(remainingSpawns);
     }
-
     #endregion
 
-    #region Private Interface
-    private void UpdateAmtField(int i_amt, bool makeEmpty = false) {
-        if (makeEmpty) {
-            amountField.text = "";
-        }
-        else {
-            string toSet = Convert.ToString(i_amt);
-            amountField.text = toSet;
-        }
+    private void ChangeSpawnAmountInternally(int newAmount) {
+        UpdateAmountField(newAmount);
+        SetAmountOnSelectedSpawn();
+        levelEditor.levelDataManager.SaveSpawns();
+        UpdateAvailableField();
+        SetInteractabilityByState();
     }
 
-    private void UpdateFields(int spawnAmount, string newName, bool isAmountEmpty=false) {
-        UpdateAmtField(spawnAmount, isAmountEmpty);
+
+    #region Private Interface
+    private void UpdateFields(int spawnAmount, string newName, bool isAmountEmpty = false) {
+        UpdateAmountField(spawnAmount, isAmountEmpty);
         nameText.text = newName;
     }
 
-    private void ChangeSpawnAmount(int newAmount) {
-        UpdateAmtField(newAmount);
-        SetAmtOnSelectedSpawn();
-        SetInteractability();
+
+
+    private void UpdateAmountField(int i_amt, bool makeEmpty = false) {
+        if (makeEmpty) {
+            amountField.text = "";
+            amountAvailable.text = "-";
+        }
+        else {
+            string newAmount = Convert.ToString(i_amt);
+            amountField.text = newAmount;            
+        }
     }
+
+    private void UpdateAvailableField(int available) {
+        string remainingAmount = available.ToString();
+        amountAvailable.text = remainingAmount;
+    }
+    private void UpdateAvailableField() {
+        if (SelectedSpawn != null) {
+            string remainingAmount = Convert.ToString(SelectedSpawn.MaxPerWave - NumberSpawnsInWave);
+            amountAvailable.text = remainingAmount;
+        }
+    }
+    private int NumberSpawnsInCurrentWave(SpawnType type) {
+        return ActiveLevelData.NumSpawns(type, PLESpawnManager.Instance.CurrentWaveIndex);
+    }
+
     #endregion
 
 }
