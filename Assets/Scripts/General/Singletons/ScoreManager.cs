@@ -147,6 +147,11 @@ public class ScoreManager : Singleton<ScoreManager> {
         int delta = points * GetCurrentMultiplier();
         score += delta;
         EventSystem.Instance.TriggerEvent(Strings.Events.SCORE_UPDATED,score,delta);
+
+        if(score >= 250000)
+        {
+            AchievementManager.Instance.SetAchievement(Strings.AchievementNames.CLAWFACE);
+        }
     }
 
     public int GetCurrentMultiplier()

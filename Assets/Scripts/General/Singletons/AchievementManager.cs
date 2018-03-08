@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Steamworks;
+using System;
 
 public class AchievementManager : Singleton<AchievementManager> {
 
@@ -18,8 +19,11 @@ public class AchievementManager : Singleton<AchievementManager> {
         {
             isInitialized = SteamUserStats.RequestCurrentStats();
             userId = SteamUser.GetSteamID();
+
+            ResetAchievements();
+
         }
-    }
+    }    
     #endregion
 
     #region Public methods
@@ -39,6 +43,24 @@ public class AchievementManager : Singleton<AchievementManager> {
         bool result = false;
         result = SteamUserStats.IndicateAchievementProgress(achievementName, currentProgress, maxProgress);
         return result;
+    }
+    #endregion
+
+    #region private methods
+    private void ResetAchievements()
+    {
+#if UNITY_EDITOR
+        Strings.AchievementNames names = new Strings.AchievementNames();
+        System.Reflection.FieldInfo[] fields = names.GetType().GetFields(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
+        foreach(System.Reflection.FieldInfo field in fields)
+        {
+            string achievementName = (string)field.GetValue(null);
+            if (achievementName != null)
+            {
+                SteamUserStats.ClearAchievement(achievementName);
+            }
+        }
+#endif
     }
     #endregion
 

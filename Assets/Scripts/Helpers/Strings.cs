@@ -263,7 +263,8 @@
     public class AchievementNames {
         public const string Kill100 = "Blood Bath";
         public const string BeatLevel1 = "Conquest";
-        public const string Skin20Enemies = "Skinner";        
+        public const string Skin20Enemies = "Skinner";
+        public const string CLAWFACE = "CLAWFACE";
     }
 
     public class PlayerPrefStrings
