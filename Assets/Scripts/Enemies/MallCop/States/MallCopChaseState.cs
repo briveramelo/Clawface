@@ -26,8 +26,8 @@ public class MallCopChaseState : AIState {
         {
             Vector3 lookAtPosition = new Vector3(controller.AttackTarget.position.x, controller.transform.position.y, controller.AttackTarget.position.z);
             controller.transform.LookAt(lookAtPosition);
-            //controller.transform.rotation = Quaternion.Euler(0f, controller.transform.rotation.eulerAngles.y, 0f);
         }
+        controller.transform.eulerAngles = new Vector3(0.0f, controller.transform.eulerAngles.y, 0.0f);
         navAgent.SetDestination(controller.AttackTarget.position);
     }
 }

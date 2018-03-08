@@ -285,11 +285,13 @@ public class InGameUI : MonoBehaviour {
         if (eatOrDash == 1)
         {
             //eat
-            eatTutorialTextElement.enabled = true;
+            eatTutorialTextElement.text = InputManager.Instance.HasJoystick() ? eatTutorialTextElement.text.Replace("*", "RT") : eatTutorialTextElement.text.Replace("*", "E");
+                eatTutorialTextElement.enabled = true;
         }
         else
         {
             //dash
+            dashTutorialTextElement.text = InputManager.Instance.HasJoystick() ? dashTutorialTextElement.text.Replace("*", "LT") : dashTutorialTextElement.text.Replace("*", "SPACE");
             dashTutorialTextElement.enabled = true;
         }
 
