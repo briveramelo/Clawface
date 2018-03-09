@@ -120,7 +120,7 @@ public class DataSave {
 public class LevelData {
 
     private readonly DateTime epochStart = new DateTime(2018, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-    public long TimeSavedInSecondsSinceEpoch { get { return (long)(TimeSaved - epochStart).TotalSeconds; } }
+    public long TimeSavedInMillisecondsSinceEpoch { get { return (long)(TimeSaved - epochStart).TotalMilliseconds; } }
 
 
     public string name, description;
@@ -129,6 +129,7 @@ public class LevelData {
     public bool isDownloaded = false;
     public bool isMadeByThisUser = true;
     public bool isInfinite;
+    public bool isHathosLevel;
     public static readonly Vector2 fixedSize = new Vector2(656, 369);
     public Sprite MySprite {
         get {
@@ -144,12 +145,21 @@ public class LevelData {
     public DateTime TimeSaved {
         get {
             if(timeSaved==null){
-                if (string.IsNullOrEmpty(dateString)) {
-                    timeSaved = DateTime.UtcNow;
-                    dateString = timeSaved.Value.ToString(System.Globalization.CultureInfo.InvariantCulture);
+                if (!isHathosLevel)
+                {
+                    if (string.IsNullOrEmpty(dateString))
+                    {
+                        timeSaved = DateTime.UtcNow;
+                        dateString = timeSaved.Value.ToString(System.Globalization.CultureInfo.InvariantCulture);
+                    }
+                    else
+                    {
+                        timeSaved = DateTime.Parse(dateString, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.RoundtripKind);
+                    }
                 }
-                else {
-                    timeSaved = DateTime.Parse(dateString, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.RoundtripKind);
+                else
+                {
+                    timeSaved = epochStart;
                 }
             }
             return timeSaved.Value; 
@@ -166,7 +176,7 @@ public class LevelData {
         this.imageData = imageData;
         CreateSprite();
     }
-    public string UniqueSteamName { get { return name + TimeSavedInSecondsSinceEpoch; } }
+    public string UniqueSteamName { get { return name + TimeSavedInMillisecondsSinceEpoch; } }
 
     public bool IsEmpty { get { return string.IsNullOrEmpty(name); } }
     public List<WaveData> waveData = new List<WaveData>();
