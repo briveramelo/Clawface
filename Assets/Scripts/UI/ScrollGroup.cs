@@ -83,7 +83,13 @@ public abstract class ScrollGroup : RoutineRunner {
                 pleUIItem.imagePreview.sprite = pleItem.iconPreview;
             }
             else {
-                Texture2D itemTex = objectTextures[i];
+                Texture2D itemTex = null;
+                if (i >= objectTextures.Length) {
+                    itemTex = Texture2D.whiteTexture;
+                }
+                else {
+                    itemTex = objectTextures[i];
+                }
                 Sprite newSprite = Sprite.Create(itemTex, new Rect(0, 0, itemTex.width, itemTex.height), new Vector2(0.5f, 0.5f));
                 pleUIItem.imagePreview.sprite = newSprite;
             }

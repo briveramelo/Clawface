@@ -253,8 +253,8 @@
         public const string ENV_OBJECTS_PATH = "PlayerLevelEditorObjects/EnvProps/";
         public const string SPAWN_OBJECTS_PATH = "PlayerLevelEditorObjects/SpawnProps/";
 
-        public const string SPAWN_ICON_IMAGE_PREVIEW_PATH = "PlayerLevelEditorObjects/png/Spawns/";
-        public const string PROP_ICON_IMAGE_PREVIEW_PATH = "PlayerLevelEditorObjects/png/Props/";
+        public const string SPAWN_ICON_IMAGE_PREVIEW_PATH = "PlayerLevelEditorObjects/png/Spawn-images/";
+        public const string PROP_ICON_IMAGE_PREVIEW_PATH = "PlayerLevelEditorObjects/png/Prop-images/";
 
         public const string Tiles = "Tiles";
         public const string Props = "Props";
