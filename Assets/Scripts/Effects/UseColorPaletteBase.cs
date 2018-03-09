@@ -13,7 +13,17 @@ public abstract class UseColorPaletteBase : MonoBehaviour
     {
         get
         {
-            return type == ColorPalette.ColorType.Primary ? palette.PrimaryColor : palette.SecondaryColor;
+            switch (type) {
+                case ColorPalette.ColorType.Primary:
+                    return palette.PrimaryColor;
+                case ColorPalette.ColorType.Secondary:
+                    return palette.SecondaryColor;
+                case ColorPalette.ColorType.Tertiary:
+                    return palette.TertiaryColor;
+                default:
+                    Debug.LogError("That color type ain't supported, boye.");
+                    return default(Color);
+            }
         }
     }
 

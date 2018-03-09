@@ -122,5 +122,67 @@ public class InputManager : Singleton<InputManager> {
         return player.controllers.joystickCount > 0;
     }
 
+    public Binding QueryBinding(string action)
+    {
+        string keyboard = null;
+        string mouse = null;
+        string joystick = null;
+        
+        foreach (var item in player.controllers.maps.ElementMapsWithAction(ControllerType.Keyboard, action, true))
+        {
+            if (item.enabled)
+            {
+                keyboard = item.elementIdentifierName;
+                break;
+            }
+        }
+        foreach (var item in player.controllers.maps.ElementMapsWithAction(ControllerType.Mouse, action, true))
+        {
+            if (item.enabled)
+            {
+                mouse = item.elementIdentifierName;
+                break;
+            }
+        }
+        foreach (var item in player.controllers.maps.ElementMapsWithAction(ControllerType.Joystick, action, true))
+        {
+            if (item.enabled)
+            {
+                joystick = item.elementIdentifierName;
+                break;
+            }
+        }
+
+        return new Binding(keyboard, mouse, joystick);
+    }
+
+    #endregion
+
+    #region Types (Public)
+
+    public struct Binding
+    {
+        #region Fields (Public)
+
+        public string keyboard;
+
+        public string mouse;
+
+        public string joystick;
+
+        #endregion
+
+        #region Constructors (Public)
+
+        public Binding(string keyboard, string mouse, string joystick)
+        {
+            this.keyboard = keyboard;
+            this.mouse = mouse;
+            this.joystick = joystick;
+        }
+
+        #endregion
+    }
+
     #endregion
 }

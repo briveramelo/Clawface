@@ -52,6 +52,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shouldRegister: 1
+  dontDestroyOnLoad: 1
   defaultSettings:
     qualityLevel: 0
     fullscreen: 0
@@ -59,7 +60,9 @@ MonoBehaviour:
     music: 0.75
     sfx: 0.5
     fireMode: 0
+    mouseAimMode: 0
     snapLook: 1
+    difficulty: 1
     tutorial: 1
   musicMixer: {fileID: 24100000, guid: 3e01fedbc36f6424097eb1a03f44931f, type: 2}
   sfxMixer: {fileID: 24100000, guid: 7912cd0fac86ed741b76e37da7a81fd1, type: 2}
