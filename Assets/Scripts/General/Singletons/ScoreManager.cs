@@ -146,12 +146,7 @@ public class ScoreManager : Singleton<ScoreManager> {
 
         int delta = points * GetCurrentMultiplier();
         score += delta;
-        EventSystem.Instance.TriggerEvent(Strings.Events.SCORE_UPDATED,score,delta);
-
-        if(score >= 250000)
-        {
-            AchievementManager.Instance.SetAchievement(Strings.AchievementNames.CLAWFACE);
-        }
+        EventSystem.Instance.TriggerEvent(Strings.Events.SCORE_UPDATED,score,delta);        
     }
 
     public int GetCurrentMultiplier()
@@ -192,6 +187,11 @@ public class ScoreManager : Singleton<ScoreManager> {
 
         EventSystem.Instance.TriggerEvent(Strings.Events.SET_LEVEL_SCORE, level, highScores[level]);
         SendScoresToLeaderboard();
+
+        if (SceneTracker.IsCurrentScene80sShit)
+        {
+            AchievementManager.Instance.SetAchievement(Strings.AchievementNames.CLAWFACE);
+        }
     }
 
     public int GetHighScore(string level)
