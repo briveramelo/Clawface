@@ -508,6 +508,7 @@ GameObject:
   - component: {fileID: 222003386670488334}
   - component: {fileID: 114179443648208210}
   - component: {fileID: 114822807194414180}
+  - component: {fileID: 114097785320734924}
   m_Layer: 5
   m_Name: Favorite
   m_TagString: Untagged
@@ -579,6 +580,7 @@ GameObject:
   - component: {fileID: 222170111161811692}
   - component: {fileID: 114851495875056114}
   - component: {fileID: 114651686322632120}
+  - component: {fileID: 114648442598254838}
   m_Layer: 5
   m_Name: User
   m_TagString: Untagged
@@ -614,6 +616,7 @@ GameObject:
   - component: {fileID: 222680654287560914}
   - component: {fileID: 114513650182361862}
   - component: {fileID: 114032336373952928}
+  - component: {fileID: 114534821530543160}
   m_Layer: 5
   m_Name: Downloaded
   m_TagString: Untagged
@@ -1135,7 +1138,7 @@ GameObject:
   - component: {fileID: 114622886580230346}
   - component: {fileID: 114629731945181576}
   m_Layer: 0
-  m_Name: Image
+  m_Name: Preview
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2068,6 +2071,7 @@ GameObject:
   - component: {fileID: 222153023925124922}
   - component: {fileID: 114171695105082454}
   - component: {fileID: 114597672417075940}
+  - component: {fileID: 114646031369184172}
   m_Layer: 5
   m_Name: All
   m_TagString: Untagged
@@ -2173,8 +2177,6 @@ GameObject:
   - component: {fileID: 224360191859455656}
   - component: {fileID: 114843116789820190}
   - component: {fileID: 114393188035442006}
-  - component: {fileID: 114443858871049614}
-  - component: {fileID: 114274623435543326}
   m_Layer: 5
   m_Name: Buttons
   m_TagString: Untagged
@@ -2448,6 +2450,7 @@ MonoBehaviour:
   selectable: {fileID: 114743860086388650}
   colorChangingUI: {fileID: 114864237359076540}
   favoriteIcon: {fileID: 114659328247809410}
+  outline: {fileID: 0}
 --- !u!114 &114020373015735212
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2523,7 +2526,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: c85ec03468d98fe42a27841be144f680, type: 3}
-    m_FontSize: 20
+    m_FontSize: 25
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 2
@@ -2605,28 +2608,6 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114443858871049614}
-        m_MethodName: SetColor
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 114274623435543326}
-        m_MethodName: OnToggleChanged
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 114057520406640258}
         m_MethodName: FilterLevels
         m_Mode: 3
@@ -2805,6 +2786,7 @@ MonoBehaviour:
   favoriteToggle: {fileID: 114822807194414180}
   levelScrollBar: {fileID: 114457048386613364}
   plePrefab: {fileID: 1517401390331960, guid: 1a37425c52508c04ebb0496cc3688ed5, type: 2}
+  hathosBigPreview: {fileID: 21300000, guid: 68fc05e11ef93c84fb07c8ec568f9f11, type: 3}
   preMadeLevelUITransforms:
   - transform: {fileID: 224524488521066228}
   gridLayoutConfigWithHathos:
@@ -2842,6 +2824,36 @@ MonoBehaviour:
     playOnAwake: 0
     startValue: 0
     diff: 0
+  selectLevelAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 1
+        inSlope: 0.23884575
+        outSlope: 0.23884575
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.5
+        value: 1.1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: -0.38482344
+        outSlope: -0.38482344
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 0.4
+    looping: 0
+    playOnAwake: 0
+    maxValue: 1
 --- !u!114 &114059469798435534
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2979,6 +2991,25 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114097785320734924
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1266746381234362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb2be5fcf4accb94998ef33d08856341, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colorOff: {r: 0.96862745, g: 0.9764706, b: 0.4627451, a: 1}
+  colorOn: {r: 0.90588236, g: 0, b: 0.8039216, a: 1}
+  colorDisabled: {r: 0.1, g: 0.1, b: 0.1, a: 1}
+  spriteOff: {fileID: 21300000, guid: 040c162357fd5574ab6e2bbface697db, type: 3}
+  spriteOn: {fileID: 21300000, guid: 6ce9286bfc9ebcc4d9a5fc8a3017b40a, type: 3}
+  selectable: {fileID: 114822807194414180}
+  image: {fileID: 114179443648208210}
+  text: {fileID: 114311260884547838}
 --- !u!114 &114100006324855494
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3189,6 +3220,7 @@ MonoBehaviour:
   selectable: {fileID: 114227213008671642}
   colorChangingUI: {fileID: 114153787087066762}
   favoriteIcon: {fileID: 114149761254187106}
+  outline: {fileID: 0}
 --- !u!114 &114143569515313866
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3233,10 +3265,10 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: c85ec03468d98fe42a27841be144f680, type: 3}
-    m_FontSize: 75
+    m_FontSize: 60
     m_FontStyle: 1
-    m_BestFit: 1
-    m_MinSize: 10
+    m_BestFit: 0
+    m_MinSize: 6
     m_MaxSize: 105
     m_Alignment: 3
     m_AlignByGeometry: 0
@@ -3244,7 +3276,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Level Select
+  m_Text: LEVEL SELECT
 --- !u!114 &114149761254187106
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3300,6 +3332,7 @@ MonoBehaviour:
   selectable: {fileID: 114172754102087188}
   colorChangingUI: {fileID: 114877302894008128}
   favoriteIcon: {fileID: 114547855738232724}
+  outline: {fileID: 0}
 --- !u!114 &114152366544307322
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3569,6 +3602,7 @@ MonoBehaviour:
   selectable: {fileID: 114975650306931920}
   colorChangingUI: {fileID: 114529388246175234}
   favoriteIcon: {fileID: 114042659964826014}
+  outline: {fileID: 0}
 --- !u!114 &114185324542433268
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3803,7 +3837,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: c85ec03468d98fe42a27841be144f680, type: 3}
-    m_FontSize: 20
+    m_FontSize: 25
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 2
@@ -4029,6 +4063,7 @@ MonoBehaviour:
   selectable: {fileID: 114568839453297666}
   colorChangingUI: {fileID: 114103904788037072}
   favoriteIcon: {fileID: 114764667935800742}
+  outline: {fileID: 0}
 --- !u!114 &114240182531712254
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4197,28 +4232,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114274623435543326
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1924607140961544}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52f7b9a96f66fa140bddeb767ce6f13c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  imageToggles:
-  - toggle: {fileID: 114597672417075940}
-    image: {fileID: 114171695105082454}
-  - toggle: {fileID: 114032336373952928}
-    image: {fileID: 114513650182361862}
-  - toggle: {fileID: 114651686322632120}
-    image: {fileID: 114851495875056114}
-  - toggle: {fileID: 114822807194414180}
-    image: {fileID: 114179443648208210}
-  selectedSprite: {fileID: 21300000, guid: 6ce9286bfc9ebcc4d9a5fc8a3017b40a, type: 3}
-  unselectedSprite: {fileID: 21300000, guid: 040c162357fd5574ab6e2bbface697db, type: 3}
 --- !u!114 &114277268744280614
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4280,6 +4293,7 @@ MonoBehaviour:
   selectable: {fileID: 114850173997205158}
   colorChangingUI: {fileID: 114448187748186488}
   favoriteIcon: {fileID: 114026949002020890}
+  outline: {fileID: 0}
 --- !u!114 &114296679661362954
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4412,7 +4426,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: c85ec03468d98fe42a27841be144f680, type: 3}
-    m_FontSize: 20
+    m_FontSize: 25
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 2
@@ -4593,7 +4607,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 21300000, guid: 040c162357fd5574ab6e2bbface697db, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4683,6 +4697,7 @@ MonoBehaviour:
   selectable: {fileID: 114221772296576192}
   colorChangingUI: {fileID: 114519523126572444}
   favoriteIcon: {fileID: 114009858886806360}
+  outline: {fileID: 0}
 --- !u!114 &114384636049017246
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4805,6 +4820,7 @@ MonoBehaviour:
   selectable: {fileID: 114823981539408018}
   colorChangingUI: {fileID: 114962311480069874}
   favoriteIcon: {fileID: 114913570691906882}
+  outline: {fileID: 0}
 --- !u!114 &114407775144529832
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4905,6 +4921,7 @@ MonoBehaviour:
   selectable: {fileID: 114334217056154040}
   colorChangingUI: {fileID: 114913782234686900}
   favoriteIcon: {fileID: 114263105219021056}
+  outline: {fileID: 0}
 --- !u!114 &114415235474419472
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5036,28 +5053,7 @@ MonoBehaviour:
   selectable: {fileID: 114486948559216354}
   colorChangingUI: {fileID: 114678655163342460}
   favoriteIcon: {fileID: 114856902374138902}
---- !u!114 &114443858871049614
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1924607140961544}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c71ce8ec09c13d645b5838a0ce32804e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  textToggles:
-  - toggle: {fileID: 114597672417075940}
-    text: {fileID: 114512634050044692}
-  - toggle: {fileID: 114032336373952928}
-    text: {fileID: 114021631787182022}
-  - toggle: {fileID: 114651686322632120}
-    text: {fileID: 114214518872695778}
-  - toggle: {fileID: 114822807194414180}
-    text: {fileID: 114311260884547838}
-  selectedColor: {r: 0.8627451, g: 0.07058824, b: 0.827451, a: 1}
-  unSelectedColor: {r: 1, g: 1, b: 0.39215687, a: 1}
+  outline: {fileID: 0}
 --- !u!114 &114444292490091588
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5272,8 +5268,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114305202144207988}
   m_HandleRect: {fileID: 224266473417269380}
   m_Direction: 2
-  m_Value: 0.9999998
-  m_Size: 0.4059283
+  m_Value: 1
+  m_Size: 0.40565604
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -5480,6 +5476,7 @@ MonoBehaviour:
   selectable: {fileID: 114185324542433268}
   colorChangingUI: {fileID: 114444292490091588}
   favoriteIcon: {fileID: 114693268002035852}
+  outline: {fileID: 0}
 --- !u!114 &114498803248239100
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5535,6 +5532,7 @@ MonoBehaviour:
   selectable: {fileID: 114325160934466822}
   colorChangingUI: {fileID: 114731475672445446}
   favoriteIcon: {fileID: 114691835411410962}
+  outline: {fileID: 0}
 --- !u!114 &114512634050044692
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5556,7 +5554,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: c85ec03468d98fe42a27841be144f680, type: 3}
-    m_FontSize: 20
+    m_FontSize: 25
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 2
@@ -5676,6 +5674,25 @@ MonoBehaviour:
   outline: {fileID: 114892761268459026}
   selectedSprite: {fileID: 21300000, guid: b4c3e331204d0b94bac0921b505278a3, type: 3}
   unselectedSprite: {fileID: 21300000, guid: e67b711ca4302654b967ab01ae85a1ce, type: 3}
+--- !u!114 &114534821530543160
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1314437488075194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb2be5fcf4accb94998ef33d08856341, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colorOff: {r: 0.96862745, g: 0.9764706, b: 0.4627451, a: 1}
+  colorOn: {r: 0.90588236, g: 0, b: 0.8039216, a: 1}
+  colorDisabled: {r: 0.1, g: 0.1, b: 0.1, a: 1}
+  spriteOff: {fileID: 21300000, guid: 040c162357fd5574ab6e2bbface697db, type: 3}
+  spriteOn: {fileID: 21300000, guid: 6ce9286bfc9ebcc4d9a5fc8a3017b40a, type: 3}
+  selectable: {fileID: 114032336373952928}
+  image: {fileID: 114513650182361862}
+  text: {fileID: 114021631787182022}
 --- !u!114 &114539815891010138
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5776,6 +5793,7 @@ MonoBehaviour:
   selectable: {fileID: 114629731945181576}
   colorChangingUI: {fileID: 114089328556351532}
   favoriteIcon: {fileID: 114007217937421428}
+  outline: {fileID: 0}
 --- !u!114 &114547855738232724
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5873,6 +5891,7 @@ MonoBehaviour:
   selectable: {fileID: 114724557612604138}
   colorChangingUI: {fileID: 114678691675306556}
   favoriteIcon: {fileID: 114567394070043746}
+  outline: {fileID: 0}
 --- !u!114 &114567251334883976
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6266,28 +6285,6 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114443858871049614}
-        m_MethodName: SetColor
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 114274623435543326}
-        m_MethodName: OnToggleChanged
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 114057520406640258}
         m_MethodName: FilterLevels
         m_Mode: 3
@@ -6343,6 +6340,7 @@ MonoBehaviour:
   selectable: {fileID: 114035895260182084}
   colorChangingUI: {fileID: 114396156675507290}
   favoriteIcon: {fileID: 114480311585687038}
+  outline: {fileID: 0}
 --- !u!114 &114622886580230346
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6559,6 +6557,44 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114646031369184172
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1854511236316852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb2be5fcf4accb94998ef33d08856341, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colorOff: {r: 0.96862745, g: 0.9764706, b: 0.4627451, a: 1}
+  colorOn: {r: 0.90588236, g: 0, b: 0.8039216, a: 1}
+  colorDisabled: {r: 0.1, g: 0.1, b: 0.1, a: 1}
+  spriteOff: {fileID: 21300000, guid: 040c162357fd5574ab6e2bbface697db, type: 3}
+  spriteOn: {fileID: 21300000, guid: 6ce9286bfc9ebcc4d9a5fc8a3017b40a, type: 3}
+  selectable: {fileID: 114597672417075940}
+  image: {fileID: 114171695105082454}
+  text: {fileID: 114512634050044692}
+--- !u!114 &114648442598254838
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1301370961190012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb2be5fcf4accb94998ef33d08856341, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colorOff: {r: 0.96862745, g: 0.9764706, b: 0.4627451, a: 1}
+  colorOn: {r: 0.90588236, g: 0, b: 0.8039216, a: 1}
+  colorDisabled: {r: 0.1, g: 0.1, b: 0.1, a: 1}
+  spriteOff: {fileID: 21300000, guid: 040c162357fd5574ab6e2bbface697db, type: 3}
+  spriteOn: {fileID: 21300000, guid: 6ce9286bfc9ebcc4d9a5fc8a3017b40a, type: 3}
+  selectable: {fileID: 114651686322632120}
+  image: {fileID: 114851495875056114}
+  text: {fileID: 114214518872695778}
 --- !u!114 &114651686322632120
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6602,28 +6638,6 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114443858871049614}
-        m_MethodName: SetColor
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 114274623435543326}
-        m_MethodName: OnToggleChanged
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 114057520406640258}
         m_MethodName: FilterLevels
         m_Mode: 3
@@ -6741,6 +6755,7 @@ MonoBehaviour:
   selectable: {fileID: 114413338842690498}
   colorChangingUI: {fileID: 114157646062444396}
   favoriteIcon: {fileID: 0}
+  outline: {fileID: 114929500168818764}
 --- !u!114 &114674525110873842
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6959,7 +6974,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 68fc05e11ef93c84fb07c8ec568f9f11, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -7323,6 +7338,7 @@ MonoBehaviour:
   selectable: {fileID: 114579966542130530}
   colorChangingUI: {fileID: 114862889499244652}
   favoriteIcon: {fileID: 114393736051555634}
+  outline: {fileID: 0}
 --- !u!114 &114790247013586078
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7462,28 +7478,6 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114443858871049614}
-        m_MethodName: SetColor
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 114274623435543326}
-        m_MethodName: OnToggleChanged
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 114057520406640258}
         m_MethodName: FilterLevels
         m_Mode: 3
@@ -7874,6 +7868,7 @@ MonoBehaviour:
   selectable: {fileID: 114422222700351384}
   colorChangingUI: {fileID: 114759166625748478}
   favoriteIcon: {fileID: 114645653603046480}
+  outline: {fileID: 0}
 --- !u!114 &114877302894008128
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7916,6 +7911,7 @@ MonoBehaviour:
   selectable: {fileID: 114334527363221638}
   colorChangingUI: {fileID: 114911797693013992}
   favoriteIcon: {fileID: 114723923440593164}
+  outline: {fileID: 0}
 --- !u!114 &114879889430243904
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7944,6 +7940,7 @@ MonoBehaviour:
   selectable: {fileID: 114539815891010138}
   colorChangingUI: {fileID: 114738558418670196}
   favoriteIcon: {fileID: 114093051429843648}
+  outline: {fileID: 0}
 --- !u!114 &114880716535667938
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7972,6 +7969,7 @@ MonoBehaviour:
   selectable: {fileID: 114678019604925522}
   colorChangingUI: {fileID: 114395058206665184}
   favoriteIcon: {fileID: 114152366544307322}
+  outline: {fileID: 0}
 --- !u!114 &114886474506081934
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8027,6 +8025,7 @@ MonoBehaviour:
   selectable: {fileID: 114193443396798934}
   colorChangingUI: {fileID: 114916395078069114}
   favoriteIcon: {fileID: 114199637195157716}
+  outline: {fileID: 0}
 --- !u!114 &114892761268459026
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8139,10 +8138,10 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: c85ec03468d98fe42a27841be144f680, type: 3}
-    m_FontSize: 32
+    m_FontSize: 25
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 2
     m_MaxSize: 54
     m_Alignment: 3
     m_AlignByGeometry: 0
@@ -8150,7 +8149,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Search
+  m_Text: SEARCH
 --- !u!114 &114905028900280726
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8414,6 +8413,7 @@ MonoBehaviour:
   selectable: {fileID: 114674525110873842}
   colorChangingUI: {fileID: 114208839994393246}
   favoriteIcon: {fileID: 114855972962295868}
+  outline: {fileID: 0}
 --- !u!114 &114975650306931920
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9584,7 +9584,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 310.42, y: 75}
+  m_SizeDelta: {x: 229.96, y: 75}
   m_Pivot: {x: 1, y: 0}
 --- !u!224 &224261168054565862
 RectTransform:
@@ -9820,8 +9820,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 234.08, y: -101.2}
-  m_SizeDelta: {x: 453.9, y: 50}
+  m_AnchoredPosition: {x: 222.91, y: -101.2}
+  m_SizeDelta: {x: 475.4, y: 85}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!224 &224343224624684400
 RectTransform:
@@ -10063,7 +10063,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 244.21, y: 85}
+  m_SizeDelta: {x: 300.2, y: 85}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224434096978247692
 RectTransform:
@@ -10100,7 +10100,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 244.21, y: 85}
+  m_SizeDelta: {x: 171.9, y: 85}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224455414321455518
 RectTransform:
@@ -10119,7 +10119,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 310.42, y: 75}
+  m_SizeDelta: {x: 265.5, y: 75}
   m_Pivot: {x: 1, y: 0}
 --- !u!224 &224465977176979992
 RectTransform:
@@ -10466,7 +10466,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 310.42, y: 75}
+  m_SizeDelta: {x: 342.1, y: 75}
   m_Pivot: {x: 1, y: 0}
 --- !u!224 &224645814247849704
 RectTransform:
@@ -10485,7 +10485,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 244.21, y: 85}
+  m_SizeDelta: {x: 159.9, y: 85}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224647572082196812
 RectTransform:
@@ -10618,7 +10618,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 310.42, y: 75}
+  m_SizeDelta: {x: 201.6, y: 75}
   m_Pivot: {x: 1, y: 0}
 --- !u!224 &224685344905549250
 RectTransform:
@@ -10884,8 +10884,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -20, y: 0}
+  m_AnchoredPosition: {x: 9.749985, y: 0}
+  m_SizeDelta: {x: -39.500008, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224758288879684720
 RectTransform:
@@ -11126,8 +11126,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -20, y: 0}
+  m_AnchoredPosition: {x: 9.749985, y: 0}
+  m_SizeDelta: {x: -39.500008, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224844612599481440
 RectTransform:
@@ -11378,7 +11378,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -0.00024414062, y: 313.37024}
+  m_AnchoredPosition: {x: -0.00024414062, y: 313.24695}
   m_SizeDelta: {x: 1076.03, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!224 &224908918996703918
@@ -11585,7 +11585,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 244.21, y: 85}
+  m_SizeDelta: {x: 229.55, y: 85}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224996453870325518
 RectTransform:

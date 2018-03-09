@@ -25,9 +25,11 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
     [SerializeField] private Toggle allToggle, downloadedToggle, userToggle, favoriteToggle;
     [SerializeField] private Scrollbar levelScrollBar;
     [SerializeField] private GameObject plePrefab;
+    [SerializeField] private Sprite hathosBigPreview;
     [SerializeField] private List<MemorableTransform> preMadeLevelUITransforms;
     [SerializeField] private RectOffset gridLayoutConfigWithHathos, gridLayoutConfigWithoutHathos;
     [SerializeField] private DiffAnim scrollSlideAnim;
+    [SerializeField] private AbsAnim selectLevelAnim;
     #endregion
 
     #region Fields (Private)
@@ -72,6 +74,8 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
     private List<Selectable> levelItemSelectables = new List<Selectable>();
     private int selectedFilterIndex;
     private bool IsLastLevelShowing { get { return lastSelectedLevel == null ? false : (lastSelectedLevel.gameObject.activeInHierarchy); } }
+    private string ScrollCoroutineName { get { return coroutineName + "Scroll"; } }
+    private string PulseCoroutineName { get { return coroutineName + "Pulse"; } }
     #endregion
 
 
@@ -160,14 +164,23 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
     }
 
     public void SelectLevel(int levelIndex) {
+        MEC.Timing.KillCoroutines(PulseCoroutineName);
+        if (lastSelectedLevel!=null) {
+            lastSelectedLevel.ScaleLevelUISize(1f);
+        }
+
         SelectedLevelIndex = levelIndex;
+        selectLevelAnim.OnUpdate = SelectedLevelUI.ScaleLevelUISize;
+        selectLevelAnim.Animate(PulseCoroutineName);
+
         SelectedLevelUI.selectable.Select();
         lastSelectedLevel = SelectedLevelUI;
 
         LevelData selectedLevel = SelectedLevelUI.levelData;
         selectedLevelNameText.text = selectedLevel.name;
         selectedLevelDescriptionText.text = selectedLevel.description;
-        selectedLevelImage.sprite = selectedLevel.MySprite;
+        Sprite spriteToShow = selectedLevel.isHathosLevel ? hathosBigPreview : selectedLevel.MySprite;
+        selectedLevelImage.sprite = spriteToShow;
 
         levelUIs.ForEach(levelUI => { levelUI.OnGroupSelectChanged(levelIndex); });
         selectedLevelFavoriteIcon.enabled = selectedLevel.isFavorite;
@@ -197,9 +210,11 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
     }
 
     public void OnShowLeaderboard() {
-        string levelName = SelectedLevelUI.levelData.UniqueSteamName;
-        MenuManager.Instance.DoTransition(Strings.MenuStrings.LEADER_BOARDS, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
-        ((LeaderboardsMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LEADER_BOARDS)).SetLevelName(levelName);
+        if (SelectedLevelUI!=null) {
+            string levelName = SelectedLevelUI.levelData.UniqueSteamName;
+            MenuManager.Instance.DoTransition(Strings.MenuStrings.LEADER_BOARDS, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+            ((LeaderboardsMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LEADER_BOARDS)).SetLevelName(levelName);
+        }
     }
 
     public void ToggleSelectedLevelIsFavorite() {
@@ -400,10 +415,10 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
         float invertedPercentProgress = 1f * levelRow / totalRows;
         float targetProgress = 1f - invertedPercentProgress;
 
-        MEC.Timing.KillCoroutines(coroutineName);
+        MEC.Timing.KillCoroutines(ScrollCoroutineName);
         scrollSlideAnim.startValue = levelScrollBar.value;
         scrollSlideAnim.diff = targetProgress - scrollSlideAnim.startValue;
-        scrollSlideAnim.Animate(coroutineName);
+        scrollSlideAnim.Animate(ScrollCoroutineName);
     }
 
 
