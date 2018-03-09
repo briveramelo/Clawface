@@ -18,6 +18,6 @@ public class ColorChangingUI : MonoBehaviour, IUIGroupable {
         outline.sprite = selectedIndex == uiIndex ? selectedSprite : unselectedSprite;
     }
     public void ToggleInteractable(bool interactable) {
-        outline.color = interactable ? Color.white : Color.grey;
+        outline.color = interactable ? Color.white : new Color(.25f, .25f, .25f, 1f);
     }
 }

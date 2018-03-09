@@ -132,7 +132,7 @@ public class SpawnMenu : PlacementMenu {
         selectedPLEItem = selectedItem;
         selectedPLEItem.Select();
         int spawnAmount = SelectedSpawn.totalSpawnAmount;
-        UpdateFields(spawnAmount, SelectedSpawn.DisplayName, false);
+        UpdateFields(spawnAmount, SelectedSpawn.DisplayName.ToUpper(), false);
         ChangeSpawnAmountInternally(spawnAmount);
     }
     protected override void DeselectItem() {
@@ -154,7 +154,7 @@ public class SpawnMenu : PlacementMenu {
     protected override void PostOnSelectUIItem(GameObject newItem) {
         base.PostOnSelectUIItem(newItem);
         PLESpawn spawn = newItem.GetComponent<PLESpawn>();
-        UpdateFields(spawn.totalSpawnAmount, spawn.DisplayName);
+        UpdateFields(spawn.totalSpawnAmount, spawn.DisplayName.ToUpper());
         int remainingSpawns = spawn.MaxPerWave - NumberSpawnsInCurrentWave(spawn.spawnType);
         UpdateAvailableField(remainingSpawns);
     }

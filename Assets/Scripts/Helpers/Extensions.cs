@@ -6,6 +6,11 @@ using System;
 using UnityEngine.UI;
 namespace ModMan {
 
+    public static class BoolExtensions {
+        public static int ToInt(this bool myBool) {
+            return myBool ? 1 : -1;
+        }
+    }
     public static class StringExtension
     {
         public static string DisplayName(this SpawnType spawn) {

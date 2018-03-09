@@ -26,7 +26,7 @@ public class PLESpawn : PLEItem {
     #region Serialized Unity Fields
     public float spawnFrequency = 0.5f;
     public int totalSpawnAmount = 1;
-    public SpawnType spawnType;
+    public SpawnType spawnType;    
     public string DisplayName { get { return spawnType.DisplayName(); } }
     public int MaxPerWave { get { return spawnType.MaxPerWave(); } }
     #endregion

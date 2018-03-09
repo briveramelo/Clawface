@@ -144,7 +144,6 @@ public class LevelDataManager : MonoBehaviour {
         if (!SceneTracker.IsCurrentSceneEditor) {
             gridController.SetGridVisiblity(false);
         }
-        gridController.QueueToBakeNavMesh();
     }
 
     private void LoadSpawnsToggledState() {

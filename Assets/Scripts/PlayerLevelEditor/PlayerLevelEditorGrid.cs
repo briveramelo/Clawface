@@ -17,7 +17,6 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     private List<GridTile> selectedGridTiles = new List<GridTile>();
 
     private bool inputGuard = false;
-    private bool needsToBuildMesh = false;
     private GridTile currentHoveredTile;
     private GridTile HoveredTile {
         get {
@@ -134,30 +133,21 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
 
     #region Private Interface
 
-    public void QueueToBakeNavMesh() {
-        needsToBuildMesh = true;
-    }
-
 
     private void CheckToBakeMesh(params object[] i_params) {
-        if (needsToBuildMesh) {
+        spawnsParent.gameObject.SetActive(false);
 
-            spawnsParent.gameObject.SetActive(false);
-
-            gridTiles.ForEach(tile => {
-                if (tile.IsActive) {
-                    tile.ResetTileHeightAndStates();
-                }
-            });
-            levelNav.BuildNavMesh();
-            spawnsParent.gameObject.SetActive(true);
-            needsToBuildMesh = false;
-        }
+        gridTiles.ForEach(tile => {
+            if (tile.IsActive) {
+                tile.ResetTileHeightAndStates();
+            }
+        });
+        levelNav.BuildNavMesh();
+        spawnsParent.gameObject.SetActive(true);
     }
 
     #region Initialization
     private void Initilaize() {
-        needsToBuildMesh = true;
         previewBlock = Resources.Load(Strings.Editor.RESOURCE_PATH + Strings.Editor.BASIC_LE_BLOCK) as GameObject;
         spawnedBlock = Resources.Load(Strings.Editor.RESOURCE_PATH + Strings.Editor.CHERLIN_LVL_BLOCK) as GameObject;
 
@@ -288,7 +278,6 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     }
 
     private void ShowBlocks(List<GameObject> selectedObjects) {
-        bool queueToRebuild = false;
         for (int i = 0; i < selectedObjects.Count; i++) {
             GridTile selectedTile = gridTiles.Find(tile => tile.ghostTile == selectedObjects[i]);
             if (selectedTile != null) {
@@ -296,11 +285,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
                 selectedTile.ResetTileHeightAndStates();
                 selectedTile.ChangeRealBlockColor(selectedTile.CurrentTileStateColor);
                 selectedTile.blockUnit.SetOccupation(false);
-                queueToRebuild = true;
             }
-        }
-        if (queueToRebuild) {
-            QueueToBakeNavMesh();
         }
     }
 
@@ -310,17 +295,12 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     }
 
     private void DeleteBlocks(List<GameObject> selectedObjects) {
-        bool queueToRebuild = false;
         for (int i = 0; i < selectedObjects.Count; i++) {
             GridTile selectedTile = gridTiles.Find(tile => tile.realTile == selectedObjects[i]);
             if (selectedTile != null) {
                 selectedTile.IsActive = false;
                 selectedTile.blockUnit.ClearItems();
-                queueToRebuild = true;
             }
-        }
-        if (queueToRebuild) {
-            QueueToBakeNavMesh();
         }
     }
 

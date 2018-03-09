@@ -237,13 +237,18 @@ public class StageOverMenu : Menu
         if(SceneTracker.IsCurrentSceneEditor)
         {
             testLevelButton.gameObject.SetActive(true);
+            CurrentEventSystem.SetSelectedGameObject(testLevelButton.gameObject);
         }
         else
         {
             weaponSelectButton.gameObject.SetActive(true);
             restartButton.gameObject.SetActive(true);
             quitButton.gameObject.SetActive(true);
+
+            CurrentEventSystem.SetSelectedGameObject(weaponSelectButton.gameObject);
         }
+
+        
 
     }
 
