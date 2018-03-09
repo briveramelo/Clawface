@@ -335,3 +335,11 @@ public enum MouseAimMode
     ALWAYS_OFF,
     COUNT
 }
+
+public enum Difficulty
+{
+    EASY,
+    NORMAL,
+    HARD,
+    COUNT
+}
