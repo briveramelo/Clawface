@@ -31,6 +31,8 @@ public class PauseMenu : Menu {
 
     [SerializeField] private Button initiallySelected;
     [SerializeField] private Button weaponSelectButton;
+    [SerializeField] private Button restartButton;
+    [SerializeField] private Button quitButton;
 
     #endregion
 
@@ -110,21 +112,48 @@ public class PauseMenu : Menu {
 
     public void WeaponSelectAction()
     {
-        //string loadMenuName = Strings.MenuStrings.LOAD;
-        WeaponSelectMenu weaponSelectMenu = (WeaponSelectMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.WEAPON_SELECT);
-        weaponSelectMenu.DefineNavigation(Strings.MenuStrings.PAUSE, Strings.MenuStrings.LOAD);
+        Action OnYesAction = () =>
+        {
+            string currentScene = SceneTracker.CurrentSceneName;
+           
 
-        LoadMenu loadMenu = (LoadMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
-        loadMenu.SetNavigation(SceneTracker.CurrentSceneName);
+            Action LoadWeaponSelectAction = () =>
+            {
+                
+                WeaponSelectMenu weaponMenu = (WeaponSelectMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.WEAPON_SELECT);
+                weaponMenu.DefineNavigation(Strings.MenuStrings.MAIN, Strings.MenuStrings.LOAD);
+                LoadMenu lm = (LoadMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
+                lm.SetNavigation(currentScene);
+                
+                MenuManager.Instance.DoTransition(weaponMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+            };
 
-        MenuManager.Instance.DoTransition(weaponSelectMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+            MenuManager.Instance.DoTransition(MenuManager.Instance.GetMenuByName(Strings.MenuStrings.CONFIRM), Transition.HIDE, new Effect[] { });
+            LoadMenu loadMenu = (LoadMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
+            loadMenu.SetNavigation(Strings.Scenes.ScenePaths.MainMenu,LoadWeaponSelectAction);
+
+            MenuManager.Instance.DoTransition(loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+
+        };
+
+        Action OnNoAction = () =>
+        {
+            MenuManager.Instance.DoTransition(MenuManager.Instance.GetMenuByName(Strings.MenuStrings.CONFIRM), Transition.HIDE, new Effect[] { });
+            this.SelectInitialButton();
+        };
+
+        ConfirmMenu confirmMenu = (ConfirmMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.CONFIRM);
+
+        confirmMenu.DefineActions("This will end your current game are you sure?",OnYesAction,OnNoAction);
+
+        MenuManager.Instance.DoTransition(confirmMenu, Transition.SHOW, new Effect[] {  });
     }
 
-	#endregion
+    #endregion
 
-	#region Protected Interface
+    #region Protected Interface
 
-	protected override void DefaultShow (Transition transition, Effect[] effects)
+    protected override void DefaultShow (Transition transition, Effect[] effects)
 	{
 		Fade (transition, effects);
 	}
@@ -137,21 +166,15 @@ public class PauseMenu : Menu {
 	protected override void ShowStarted ()
 	{
 		base.ShowStarted ();
+        SetButtonStates();
 
-        //disable weapon select if in level editor
-        //if(!SceneTracker.IsCurrentScene80sShit)
-        //{
-        //    weaponSelectButton.gameObject.SetActive(false);
-        //}
-        
-		SetPaused (true);
+        SetPaused (true);
 	}
 
 	protected override void HideComplete ()
 	{
 		base.HideComplete ();
 		SetPaused (false);
-        //weaponSelectButton.gameObject.SetActive(true);
     }
 
 	#endregion
@@ -168,6 +191,20 @@ public class PauseMenu : Menu {
     {
         if (parameters.Length > 0) {            
             canPause = (bool) parameters[0];
+        }
+    }
+
+    private void SetButtonStates()
+    {
+        restartButton.gameObject.SetActive(false);
+        weaponSelectButton.gameObject.SetActive(false);
+        quitButton.gameObject.SetActive(false);
+
+        if(!SceneTracker.IsCurrentSceneEditor)
+        {
+            restartButton.gameObject.SetActive(true);
+            weaponSelectButton.gameObject.SetActive(true);
+            quitButton.gameObject.SetActive(true);
         }
     }
     

@@ -18,7 +18,7 @@ public class MouseAimModeTextSliderDataSource : TextSliderDataSource {
                 case MouseAimMode.ALWAYS_OFF:
                     return "NEVER";
                 default:
-                    throw new Exception("Invalid FireMode Enum value.");
+                    throw new Exception("Invalid MouseAimMode Enum value.");
             }
         }
     }

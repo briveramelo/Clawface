@@ -119,10 +119,8 @@ public class DataSave {
 [Serializable]
 public class LevelData {
 
-    protected readonly DateTime epochStart = new DateTime(2018, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-    protected long GetSecondsSinceEpoch() {
-        return (long)(DateTime.UtcNow - epochStart).TotalSeconds;
-    }
+    private readonly DateTime epochStart = new DateTime(2018, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+    public long TimeSavedInSecondsSinceEpoch { get { return (long)(TimeSaved - epochStart).TotalSeconds; } }
 
 
     public string name, description;
@@ -168,7 +166,7 @@ public class LevelData {
         this.imageData = imageData;
         CreateSprite();
     }
-    public string UniqueSteamName { get { return name + TimeSaved; } }
+    public string UniqueSteamName { get { return name + TimeSavedInSecondsSinceEpoch; } }
 
     public bool IsEmpty { get { return string.IsNullOrEmpty(name); } }
     public List<WaveData> waveData = new List<WaveData>();

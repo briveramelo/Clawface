@@ -137,6 +137,18 @@ public class SettingsManager : Singleton<SettingsManager>
         }
     }
 
+    public Difficulty Difficulty
+    {
+        get
+        {
+            return settings.difficulty;
+        }
+        set
+        {
+            settings.difficulty = value;
+        }
+    }
+
     public bool Tutorial
     {
         get
@@ -251,7 +263,9 @@ public class SettingsManager : Singleton<SettingsManager>
 
         public bool snapLook;
 
-        [Header("Other")]
+        [Header("GamePlay")]
+        public Difficulty difficulty;
+
         public bool tutorial;
 
         #endregion
