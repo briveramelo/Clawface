@@ -84,7 +84,8 @@ public class KamikazePulserAttackState : AIState {
 
     public void StopPulse()
     {
-        pulseGenerator.SetActive(false);
+        if(pulseGenerator)
+            pulseGenerator.SetActive(false);
     }
 
 }

@@ -45,7 +45,10 @@ public enum SFXType {
     BouncerAttack,
     KamikazeAttack,
     KamikazePulse,
-    LandmarkBlastShort
+    LandmarkBlastShort,
+    PLEPlaceObject,
+    PLEHoverUI,
+    PLEClickUI
 }
 
 public enum MusicType
@@ -156,6 +159,7 @@ public enum PoolObjectType {
     VFXBoomerangProjectileDie=68,
     VFXBloodSpurt=69,
     VFXKamikazePulse=70,
+    VFXPLEPlaceObject=71,
 
     //BulletTypes
     TurretBullet = 28,
@@ -333,5 +337,13 @@ public enum MouseAimMode
     AUTOMATIC,
     ALWAYS_ON,
     ALWAYS_OFF,
+    COUNT
+}
+
+public enum Difficulty
+{
+    EASY,
+    NORMAL,
+    HARD,
     COUNT
 }

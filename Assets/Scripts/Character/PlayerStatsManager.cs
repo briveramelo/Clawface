@@ -80,6 +80,7 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
                 if (dashState.CheckIfDashGivesCombo() && !gotDashComboThisFrame)
                 {
                     gotDashComboThisFrame = true;
+                    dashState.ResetDashComboTimer();
                     ScoreManager.Instance.AddToCombo();
                 }
                 return;

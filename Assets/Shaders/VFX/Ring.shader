@@ -11,7 +11,7 @@
 	{
 		Tags { "RenderType"="Transparent" "Queue"="Transparent" }
 		Blend SrcAlpha OneMinusSrcAlpha
-		ZWrite On
+		ZWrite Off
 
 		Pass
 		{

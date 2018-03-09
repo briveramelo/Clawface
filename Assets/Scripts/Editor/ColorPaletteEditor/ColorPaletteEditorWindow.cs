@@ -60,9 +60,11 @@ public class ColorPaletteEditorWindow : EditorWindow
                 SerializedObject obj = new SerializedObject(colorPalette);
                 SerializedProperty pri = obj.FindProperty("colorPrimary");
                 SerializedProperty sec = obj.FindProperty("colorSecondary");
+                SerializedProperty ter = obj.FindProperty("colorTertiary");
 
                 EditorGUILayout.PropertyField(pri);
                 EditorGUILayout.PropertyField(sec);
+                EditorGUILayout.PropertyField(ter);
 
                 obj.ApplyModifiedProperties();
 

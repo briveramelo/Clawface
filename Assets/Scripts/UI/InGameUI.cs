@@ -285,11 +285,83 @@ public class InGameUI : MonoBehaviour {
         if (eatOrDash == 1)
         {
             //eat
-            eatTutorialTextElement.enabled = true;
+            InputManager.Binding currentBinding;
+            currentBinding = InputManager.Instance.QueryBinding(Strings.Input.Actions.EAT);
+
+            string key = "";
+            switch (SettingsManager.Instance.MouseAimMode)
+            {
+                case MouseAimMode.AUTOMATIC:
+                    if (InputManager.Instance.HasJoystick())
+                    {
+                        key = currentBinding.joystick;
+                    } else 
+                    {
+                        key = currentBinding.mouse != null ? currentBinding.mouse :         currentBinding.keyboard;
+                    }
+                    break;
+                case MouseAimMode.ALWAYS_ON:
+                    key = currentBinding.mouse != null ? currentBinding.mouse : currentBinding.keyboard;
+                    break;
+                case MouseAimMode.ALWAYS_OFF:
+                    if (InputManager.Instance.HasJoystick())
+                    {
+                        key = currentBinding.joystick;
+                    } else
+                    {
+                        key = currentBinding.keyboard;
+                    }
+                    break;
+            }
+            string[] words = key.Split(' ');
+            if (words.Length > 1)
+            {
+                key = words[0][0].ToString() + words[1][0].ToString();
+            }
+
+            eatTutorialTextElement.text = eatTutorialTextElement.text.Replace("*",key.ToUpper()); 
+                eatTutorialTextElement.enabled = true;
         }
         else
         {
             //dash
+            InputManager.Binding currentBinding;
+            currentBinding = InputManager.Instance.QueryBinding(Strings.Input.Actions.DODGE);
+
+            string key = "";
+            switch (SettingsManager.Instance.MouseAimMode)
+            {
+                case MouseAimMode.AUTOMATIC:
+                    if (InputManager.Instance.HasJoystick())
+                    {
+                        key = currentBinding.joystick;
+                    }
+                    else
+                    {
+                        key = currentBinding.mouse != null ? currentBinding.mouse : currentBinding.keyboard;
+                    }
+                    break;
+                case MouseAimMode.ALWAYS_ON:
+                    key = currentBinding.mouse != null ? currentBinding.mouse : currentBinding.keyboard;
+                    break;
+                case MouseAimMode.ALWAYS_OFF:
+                    if (InputManager.Instance.HasJoystick())
+                    {
+                        key = currentBinding.joystick;
+                    }
+                    else
+                    {
+                        key = currentBinding.keyboard;
+                    }
+                    break;
+            }
+            string[] words = key.Split(' ');
+            if (words.Length > 1)
+            {
+                key = words[0][0].ToString() + words[1][0].ToString();    
+            }
+
+            dashTutorialTextElement.text = dashTutorialTextElement.text.Replace("*",key.ToUpper());
             dashTutorialTextElement.enabled = true;
         }
 
