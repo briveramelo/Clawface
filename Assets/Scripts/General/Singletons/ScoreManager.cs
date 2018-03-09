@@ -191,6 +191,7 @@ public class ScoreManager : Singleton<ScoreManager> {
         }
 
         EventSystem.Instance.TriggerEvent(Strings.Events.SET_LEVEL_SCORE, level, highScores[level]);
+        SendScoresToLeaderboard();
     }
 
     public int GetHighScore(string level)
@@ -299,7 +300,13 @@ public class ScoreManager : Singleton<ScoreManager> {
     private void OnPlayerKilled(object[] parameters)
     {
         updateScore = false;
-        LeaderBoards.Instance.UpdateScore(score, DataPersister.ActiveDataSave.ActiveLevelData.name);
+        SendScoresToLeaderboard();
+    }
+
+    private void SendScoresToLeaderboard()
+    {
+        string levelName = ((PLELevelSelectMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LevelEditor.LEVELSELECT_PLE_MENU)).SelectedLevelUI.levelData.UniqueSteamName;
+        LeaderBoards.Instance.UpdateScore(score, levelName);
     }
     #endregion
 

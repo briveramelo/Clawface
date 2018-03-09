@@ -43,7 +43,7 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
     private int NumHathosLevels { get { return !SceneTracker.IsCurrentSceneEditor ? preMadeLevelUITransforms.Count : 0; } }
     private LevelSelectFilterType activeFilter;
     private Predicate<LevelUI> levelUISelectionMatch;
-    private LevelUI SelectedLevelUI {
+    public LevelUI SelectedLevelUI {
         get {
             if (levelUIs.Count > 0) {
                 return levelUIs[SelectedLevelIndex];
@@ -197,7 +197,7 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
     }
 
     public void OnShowLeaderboard() {
-        string levelName = SelectedLevelUI.levelData.name;
+        string levelName = SelectedLevelUI.levelData.UniqueSteamName;
         MenuManager.Instance.DoTransition(Strings.MenuStrings.LEADER_BOARDS, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
         ((LeaderboardsMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LEADER_BOARDS)).SetLevelName(levelName);
     }

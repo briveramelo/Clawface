@@ -50,8 +50,7 @@ public class LeaderBoards : Singleton<LeaderBoards> {
 
     public bool UpdateScore(int score, string levelName)
     {
-        bool result = false;
-        levelName += leaderboardNamePostString;
+        bool result = false;        
         result = allTimeLeaderBoard.UpdateLeaderBoard(score, levelName);
         return result;
     }
