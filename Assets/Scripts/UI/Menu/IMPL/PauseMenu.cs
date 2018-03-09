@@ -112,30 +112,39 @@ public class PauseMenu : Menu {
 
     public void WeaponSelectAction()
     {
-        //string loadMenuName = Strings.MenuStrings.LOAD;
-        //WeaponSelectMenu weaponSelectMenu = (WeaponSelectMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.WEAPON_SELECT);
-        //weaponSelectMenu.DefineNavigation(Strings.MenuStrings.PAUSE, Strings.MenuStrings.LOAD);
-
-        //LoadMenu loadMenu = (LoadMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
-        //loadMenu.SetNavigation(SceneTracker.CurrentSceneName);
-
-        //MenuManager.Instance.DoTransition(weaponSelectMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
-
         Action OnYesAction = () =>
         {
-            //end current game so that it isn't running
-            // load to weapon select`
-            //stuff in here
+            string currentScene = SceneTracker.CurrentSceneName;
+           
+
+            Action LoadWeaponSelectAction = () =>
+            {
+                
+                WeaponSelectMenu weaponMenu = (WeaponSelectMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.WEAPON_SELECT);
+                weaponMenu.DefineNavigation(Strings.MenuStrings.MAIN, Strings.MenuStrings.LOAD);
+                LoadMenu lm = (LoadMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
+                lm.SetNavigation(currentScene);
+                
+                MenuManager.Instance.DoTransition(weaponMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+            };
+
+            MenuManager.Instance.DoTransition(MenuManager.Instance.GetMenuByName(Strings.MenuStrings.CONFIRM), Transition.HIDE, new Effect[] { });
+            LoadMenu loadMenu = (LoadMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
+            loadMenu.SetNavigation(Strings.Scenes.ScenePaths.MainMenu,LoadWeaponSelectAction);
+
+            MenuManager.Instance.DoTransition(loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+
         };
 
         Action OnNoAction = () =>
         {
-
+            MenuManager.Instance.DoTransition(MenuManager.Instance.GetMenuByName(Strings.MenuStrings.CONFIRM), Transition.HIDE, new Effect[] { });
+            this.SelectInitialButton();
         };
 
         ConfirmMenu confirmMenu = (ConfirmMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.CONFIRM);
 
-        //confirmMenu.DefineActions("This will end your current game are you sure?", );
+        confirmMenu.DefineActions("This will end your current game are you sure?",OnYesAction,OnNoAction);
 
         MenuManager.Instance.DoTransition(confirmMenu, Transition.SHOW, new Effect[] {  });
     }

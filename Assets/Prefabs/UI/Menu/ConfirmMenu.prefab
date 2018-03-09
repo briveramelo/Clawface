@@ -462,11 +462,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnRight: {fileID: 114867093920811302}
   m_Transition: 2
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -527,7 +527,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvas: {fileID: 1730831686855194}
   canvasGroup: {fileID: 225231192542891914}
-  faderDuration: 1
+  faderDuration: 0.25
   mainButton: {fileID: 114867093920811302}
   messageText: {fileID: 114023502975416194}
 --- !u!114 &114638607071370324
@@ -569,10 +569,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnLeft: {fileID: 114513084456847398}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 2
   m_Colors:

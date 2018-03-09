@@ -122,18 +122,15 @@ public class StageOverMenu : Menu
 
     public void WeaponSelectAction()
     {
-        // Transition to Weapon Select.
-        Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.WEAPON_SELECT);
-        WeaponSelectMenu weaponMenu = menu as WeaponSelectMenu;
-        weaponMenu.DefineNavigation(Strings.MenuStrings.STAGE_OVER, Strings.MenuStrings.LOAD);
-
-        menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
-        LoadMenu loadMenu = menu as LoadMenu;
-        loadMenu.SetNavigation(SceneTracker.CurrentSceneName);
+        
+        WeaponSelectMenu weaponMenu = (WeaponSelectMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.WEAPON_SELECT);
+        weaponMenu.DefineNavigation(Strings.Scenes.ScenePaths.MainMenu, Strings.MenuStrings.LOAD);
+        LoadMenu lm = (LoadMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
+        lm.SetNavigation(SceneTracker.CurrentSceneName);
 
         EventSystem.Instance.TriggerEvent(Strings.Events.WEAPONS_SELECT_FROM_STAGE_OVER);
 
-        MenuManager.Instance.DoTransition(menu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+        MenuManager.Instance.DoTransition(weaponMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
     }
 
     public void NextLevelAction()
