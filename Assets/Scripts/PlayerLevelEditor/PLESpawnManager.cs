@@ -38,6 +38,7 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
     {        
         EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_STARTED, StartLevelDelayed);
         EventSystem.Instance.RegisterEvent(Strings.Events.PLE_TEST_END, Reset);
+        EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_RESTARTED, StartLevelDelayed);
     }
 
     public void OnDestroy()
@@ -46,6 +47,7 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
         {
             EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_STARTED, StartLevelDelayed);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_TEST_END, Reset);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_RESTARTED, StartLevelDelayed);
         }
     }
 
@@ -134,7 +136,7 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
         FindObjectsOfType<EnemyBase>().ToList().ForEach(enemy => { enemy.OnDeath(); });
         CurrentWaveIndex = 0;
     }
-
+    
 
 
     #endregion
