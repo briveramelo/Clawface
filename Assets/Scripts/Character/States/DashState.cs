@@ -37,6 +37,7 @@ public class DashState : IPlayerState {
 
     [SerializeField]
     private float dashComboTime;
+
     #endregion
 
     #region Private Fields
@@ -69,6 +70,12 @@ public class DashState : IPlayerState {
         dashComboTimer = 0f;
     }
 
+    public void Update()
+    {
+        dashComboTimer += Time.deltaTime;
+    }
+
+
     public override void StateFixedUpdate()
     {
         //currentFrame++;
@@ -84,6 +91,7 @@ public class DashState : IPlayerState {
     public void StartDash()
     {
         SFXManager.Instance.Play(SFXType.Dash, transform.position);
+        dashTimer = 0f;
         dashPuff.Play();
         dashTrail.GetComponent<TrailRenderer>().enabled = true;
     }
@@ -91,7 +99,7 @@ public class DashState : IPlayerState {
     public override void StateUpdate()
     {
         dashTimer += Time.deltaTime;
-        dashComboTimer += Time.deltaTime;
+        
         PlayAnimation();
         MovePlayer();
         //PushEnemies();
@@ -113,7 +121,6 @@ public class DashState : IPlayerState {
         currentFrame = 0;
         currentPose = 0;
         dashTimer = 0f;
-        dashComboTimer = 0f;
         stateVariables.statsManager.damageModifier = 1.0f;
         if (stateVariables.velBody.GetMovementMode()==MovementMode.ICE) {
             stateVariables.velBody.velocity = stateVariables.velBody.GetForward() * dashVelocity/10f;
@@ -149,6 +156,11 @@ public class DashState : IPlayerState {
     {
         if (dashComboTimer >= dashComboTime) return true;
         return false;
+    }
+
+    public void ResetDashComboTimer()
+    {
+        dashComboTimer = 0f;
     }
 
     private void MovePlayer()
