@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public class MouseAimModeTextSliderDataSource : TextSliderDataSource {
+public class DifficultyTextSliderDataSource : TextSliderDataSource {
 
     #region Accessors (TextSliderDataSource)
 
@@ -9,16 +9,16 @@ public class MouseAimModeTextSliderDataSource : TextSliderDataSource {
     {
         get
         {
-            switch(mode)
+            switch(difficulty)
             {
-                case MouseAimMode.AUTOMATIC:
-                    return "AUTOMATIC";
-                case MouseAimMode.ALWAYS_ON:
-                    return "ALWAYS";
-                case MouseAimMode.ALWAYS_OFF:
-                    return "NEVER";
+                case Difficulty.EASY:
+                    return "EASY";
+                case Difficulty.NORMAL:
+                    return "NORMAL";
+                case Difficulty.HARD:
+                    return "HARD";
                 default:
-                    throw new Exception("Invalid MouseAimMode Enum value.");
+                    throw new Exception("Invalid Difficulty Enum value.");
             }
         }
     }
@@ -27,7 +27,7 @@ public class MouseAimModeTextSliderDataSource : TextSliderDataSource {
     {
         get
         {
-            return mode;
+            return difficulty;
         }
     }
 
@@ -35,7 +35,7 @@ public class MouseAimModeTextSliderDataSource : TextSliderDataSource {
     {
         get
         {
-            return (int)MouseAimMode.COUNT;
+            return (int)Difficulty.COUNT;
         }
     }
 
@@ -43,11 +43,11 @@ public class MouseAimModeTextSliderDataSource : TextSliderDataSource {
     {
         get
         {
-            return (int)mode;
+            return (int)difficulty;
         }
         set
         {
-            mode = (MouseAimMode)value;
+            difficulty = (Difficulty)value;
         }
     }
 
@@ -55,7 +55,7 @@ public class MouseAimModeTextSliderDataSource : TextSliderDataSource {
 
     #region Fields (Private)
 
-    private MouseAimMode mode;
+    private Difficulty difficulty;
 
     #endregion
 
@@ -63,7 +63,7 @@ public class MouseAimModeTextSliderDataSource : TextSliderDataSource {
 
     public override void ForceUpdate()
     {
-        mode = SettingsManager.Instance.MouseAimMode;
+        difficulty = SettingsManager.Instance.Difficulty;
     }
 
     #endregion
