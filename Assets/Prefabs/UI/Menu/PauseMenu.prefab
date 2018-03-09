@@ -199,7 +199,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1587698987299916
 GameObject:
   m_ObjectHideFlags: 1
@@ -387,9 +387,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvas: {fileID: 1707386458081456}
   canvasGroup: {fileID: 225160659828769048}
-  faderDuration: 0.25
+  faderDuration: 1
   initiallySelected: {fileID: 114714374685131552}
   weaponSelectButton: {fileID: 114086849254144746}
+  restartButton: {fileID: 114419440754143842}
+  quitButton: {fileID: 114801775362846806}
 --- !u!114 &114288936127077946
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -595,7 +597,7 @@ MonoBehaviour:
   colorOn: {r: 0.90588236, g: 0, b: 0.8039216, a: 1}
   colorDisabled: {r: 0.1, g: 0.1, b: 0.1, a: 1}
   spriteOff: {fileID: 21300000, guid: 040c162357fd5574ab6e2bbface697db, type: 3}
-  spriteOn: {fileID: 21300000, guid: 6ce9286bfc9ebcc4d9a5fc8a3017b40a, type: 3}
+  spriteOn: {fileID: 21300000, guid: 040c162357fd5574ab6e2bbface697db, type: 3}
   selectable: {fileID: 114714374685131552}
   image: {fileID: 114814671664330786}
   text: {fileID: 114344671044808096}
@@ -861,7 +863,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.391}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1019,7 +1021,7 @@ MonoBehaviour:
   colorOn: {r: 0.90588236, g: 0, b: 0.8039216, a: 1}
   colorDisabled: {r: 0.1, g: 0.1, b: 0.1, a: 1}
   spriteOff: {fileID: 21300000, guid: 040c162357fd5574ab6e2bbface697db, type: 3}
-  spriteOn: {fileID: 21300000, guid: 6ce9286bfc9ebcc4d9a5fc8a3017b40a, type: 3}
+  spriteOn: {fileID: 21300000, guid: 040c162357fd5574ab6e2bbface697db, type: 3}
   selectable: {fileID: 114801775362846806}
   image: {fileID: 114827429635576804}
   text: {fileID: 114676805766822834}
@@ -1149,7 +1151,7 @@ MonoBehaviour:
   colorOn: {r: 0.90588236, g: 0, b: 0.8039216, a: 1}
   colorDisabled: {r: 0.1, g: 0.1, b: 0.1, a: 1}
   spriteOff: {fileID: 21300000, guid: 040c162357fd5574ab6e2bbface697db, type: 3}
-  spriteOn: {fileID: 21300000, guid: 6ce9286bfc9ebcc4d9a5fc8a3017b40a, type: 3}
+  spriteOn: {fileID: 21300000, guid: 040c162357fd5574ab6e2bbface697db, type: 3}
   selectable: {fileID: 114419440754143842}
   image: {fileID: 114317947701226988}
   text: {fileID: 114430617954526266}
@@ -1201,7 +1203,7 @@ MonoBehaviour:
   colorOn: {r: 0.90588236, g: 0, b: 0.8039216, a: 1}
   colorDisabled: {r: 0.1, g: 0.1, b: 0.1, a: 1}
   spriteOff: {fileID: 21300000, guid: 040c162357fd5574ab6e2bbface697db, type: 3}
-  spriteOn: {fileID: 21300000, guid: 6ce9286bfc9ebcc4d9a5fc8a3017b40a, type: 3}
+  spriteOn: {fileID: 21300000, guid: 040c162357fd5574ab6e2bbface697db, type: 3}
   selectable: {fileID: 114086849254144746}
   image: {fileID: 114690849227519180}
   text: {fileID: 114964102880026074}
@@ -1450,10 +1452,10 @@ RectTransform:
   m_Father: {fileID: 224537369453178100}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 400, y: -255}
-  m_SizeDelta: {x: 400, y: 85}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 1, y: 0}
 --- !u!224 &224731359042327954
 RectTransform:
