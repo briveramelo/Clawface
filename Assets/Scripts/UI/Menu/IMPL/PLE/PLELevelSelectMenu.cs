@@ -170,6 +170,8 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
         }
 
         SelectedLevelIndex = levelIndex;
+        DataPersister.ActiveDataSave.SelectByUniqueName(SelectedLevelUI.levelData.UniqueSteamName);
+
         selectLevelAnim.OnUpdate = SelectedLevelUI.ScaleLevelUISize;
         selectLevelAnim.Animate(PulseCoroutineName);
 
@@ -180,6 +182,7 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
         selectedLevelNameText.text = selectedLevel.name;
         selectedLevelDescriptionText.text = selectedLevel.description;
         Sprite spriteToShow = selectedLevel.isHathosLevel ? hathosBigPreview : selectedLevel.MySprite;
+        
         selectedLevelImage.sprite = spriteToShow;
 
         levelUIs.ForEach(levelUI => { levelUI.OnGroupSelectChanged(levelIndex); });

@@ -72,12 +72,14 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     #region Unity Lifecycle
     void Start() {
         Initilaize();
-        EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_STARTED, CheckToBakeMesh);
+        EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_STARTED, TriggerBakeNavMesh);
+        EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_RESTARTED, TriggerBakeNavMesh);
     }
 
     private void OnDestroy() {
         if (EventSystem.Instance) {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_STARTED, CheckToBakeMesh);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_STARTED, TriggerBakeNavMesh);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_RESTARTED, TriggerBakeNavMesh);
         }
     }
 
@@ -134,7 +136,17 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     #region Private Interface
 
 
-    private void CheckToBakeMesh(params object[] i_params) {
+    private void TriggerBakeNavMesh(params object[] i_params) {
+        StartCoroutine(WaitToLoad());
+    }
+
+    IEnumerator WaitToLoad() {
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
+        BakeNavMesh();
+    }
+
+    void BakeNavMesh() {
         spawnsParent.gameObject.SetActive(false);
 
         gridTiles.ForEach(tile => {
@@ -283,7 +295,6 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
             if (selectedTile != null) {
                 selectedTile.IsActive = true;
                 selectedTile.ResetTileHeightAndStates();
-                selectedTile.ChangeRealBlockColor(selectedTile.CurrentTileStateColor);
                 selectedTile.blockUnit.SetOccupation(false);
             }
         }
@@ -529,9 +540,8 @@ public class GridTile {
 
     public void ResetTileHeightAndStates()
     {
-        realTile.transform.position = realTile.transform.position.NoY();
         blockUnit.SyncTileHeightStates();
-        levelUnit.HideBlockingObject();
+        levelUnit.SnapToFloorState();
         ChangeRealBlockColor(CurrentTileStateColor);
     }
 }

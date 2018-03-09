@@ -6,7 +6,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using System.Linq;
 
-public class DataPersister : MonoBehaviour {
+public class DataPersister : Singleton<DataPersister> {
     
     public static DataSave ActiveDataSave = new DataSave();
     string PathDirectory { get { return Application.dataPath + "/Saves";} }
@@ -15,7 +15,8 @@ public class DataPersister : MonoBehaviour {
     public DataSave dataSave;
 
     #region Unity Lifecyle
-    private void Awake() {
+    protected override void Awake() {
+        base.Awake();
         Load();
     }
     #endregion
@@ -44,6 +45,7 @@ public class DataPersister : MonoBehaviour {
         }
         ClearEmptyLevels();
         dataSave = ActiveDataSave;
+        if (true) { }
     }
 
     public void DeleteSelectedLevel() {
@@ -100,6 +102,9 @@ public class DataSave {
         set {
             selectedIndex = value;
         }
+    }
+    public void SelectByUniqueName(string uniqueName) {
+        SelectedLevelIndex = levelDatas.FindIndex(levelData => levelData.UniqueSteamName==uniqueName);
     }
 
     public void AddAndSelectNewLevel() {

@@ -10,7 +10,6 @@ using PlayerLevelEditor;
 public class LevelDataManager : MonoBehaviour {
 
     [Header("Required for all scenes")]
-    [SerializeField] private DataPersister dataPersister;
     [SerializeField] private LevelEditor levelEditor;
     [SerializeField] private Transform tileParent, propsParent, spawnParent;
 
@@ -18,6 +17,7 @@ public class LevelDataManager : MonoBehaviour {
     [SerializeField] private InputField levelName;
     [SerializeField] private InputField levelDescription;
 
+    private DataPersister dataPersister { get { return DataPersister.Instance; } }
     public DataSave ActiveDataSave { get { return DataPersister.ActiveDataSave; } }
     public LevelData ActiveLevelData { get { return ActiveDataSave.ActiveLevelData; } }
     public List<WaveData> ActiveWaveData { get { return ActiveLevelData.waveData; } }
