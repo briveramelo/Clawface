@@ -55,6 +55,7 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
         startHealth = stats.GetStat(CharacterStatType.MaxHealth);
         hitFlasher = GetComponentInChildren<HitFlasher>();
         stats.SetStats();
+        EventSystem.Instance.TriggerEvent(Strings.Events.PLAYER_BIRTHED);
     }
 
     void Update()

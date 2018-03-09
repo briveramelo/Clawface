@@ -74,10 +74,10 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
 
     private void StartLevelDelayed(params object[] i_params)
     {
-        StartCoroutine(WaitForDataToLoad());        
+        StartCoroutine(DelayLevelStart());        
     }
 
-    IEnumerator WaitForDataToLoad() {
+    IEnumerator DelayLevelStart() {
         yield return new WaitForEndOfFrame();
         yield return new WaitForEndOfFrame();
         RegisterAllSpawns();

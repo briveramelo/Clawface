@@ -72,7 +72,7 @@ public class WaveMenu : PlayerLevelEditorMenu
         PLESpawnManager.Instance.TryAddWave();
         EventSystem.Instance.TriggerEvent(Strings.Events.PLE_ADD_WAVE);
         EventSystem.Instance.TriggerEvent(Strings.Events.PLE_SYNC_LEVEL_UNIT_STATES);
-        levelEditor.EnableCurrentWaveSpawnParents();
+        //levelEditor.EnableCurrentWaveSpawnParents();
         levelEditor.SetMenuButtonInteractability();
 
         SetMenuButtonInteractability();

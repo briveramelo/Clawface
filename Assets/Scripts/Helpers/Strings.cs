@@ -205,6 +205,7 @@
 
         public const string PLAYER_DAMAGED = "PlayerDamaged";
         public const string PLAYER_KILLED = "PlayerKilled";
+        public const string PLAYER_BIRTHED = "PlayerBirthed";
 
         public const string SHOW_TUTORIAL_TEXT = "ShowTutorialText";
         public const string HIDE_TUTORIAL_TEXT = "HideTutorialText";
