@@ -81,13 +81,16 @@ public class PauseMenu : Menu {
 
 	public void restartAction ()
 	{
-        
-		Menu menu = MenuManager.Instance.GetMenuByName (Strings.MenuStrings.LOAD);
+        Action callRestartEventAction = () =>
+        {
+            EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_RESTARTED, SceneTracker.CurrentSceneName, AnalyticsManager.Instance.GetCurrentWave(), ScoreManager.Instance.GetScore());
+        };
+        Menu menu = MenuManager.Instance.GetMenuByName (Strings.MenuStrings.LOAD);
 		LoadMenu loadMenu = (LoadMenu)menu;
-		loadMenu.SetNavigation(SceneTracker.CurrentSceneName);
+		loadMenu.SetNavigation(SceneTracker.CurrentSceneName, callRestartEventAction);
         ObjectPool.Instance.ResetPools();
 
-        EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_RESTARTED, SceneTracker.CurrentSceneName, AnalyticsManager.Instance.GetCurrentWave(), ScoreManager.Instance.GetScore());
+        
 
 
         MenuManager.Instance.DoTransition (loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
