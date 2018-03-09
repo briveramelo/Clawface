@@ -299,7 +299,7 @@ public class ScoreManager : Singleton<ScoreManager> {
     private void OnPlayerKilled(object[] parameters)
     {
         updateScore = false;
-        LeaderBoards.Instance.UpdateScore(score);
+        LeaderBoards.Instance.UpdateScore(score, SceneTracker.CurrentSceneName);
     }
     #endregion
 

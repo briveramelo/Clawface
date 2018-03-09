@@ -3,15 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(AllTimeLeaderBoard), typeof(WeeklyLeaderBoard), typeof(DailyLeaderBoard))]
+[RequireComponent(typeof(AllTimeLeaderBoard))]
 public class LeaderBoards : Singleton<LeaderBoards> {
-
-    public enum LeaderBoardType
-    {
-        ALL_TIME,
-        WEEKLY,
-        DAILY
-    }
 
     public enum SelectionType
     {
@@ -22,29 +15,23 @@ public class LeaderBoards : Singleton<LeaderBoards> {
 
     #region Private Variables
     private AllTimeLeaderBoard allTimeLeaderBoard;
-    private WeeklyLeaderBoard weeklyLeaderBoard;
-    private DailyLeaderBoard dailyLeaderBoard;
+    private string leaderboardNamePostString = "_ALL_TIME";
     #endregion
 
     #region Unity Lifecycle
     // Use this for initialization
     void Start () {
         allTimeLeaderBoard = GetComponent<AllTimeLeaderBoard>();
-        weeklyLeaderBoard = GetComponent<WeeklyLeaderBoard>();
-        dailyLeaderBoard = GetComponent<DailyLeaderBoard>();
     }
     #endregion
 
     #region Public Methods
-    public bool GetLeaderBoardData(GenericSteamLeaderBoard.ResultsCallBack callBackFunction, int numberOfEntries, SelectionType type = SelectionType.GLOBAL)
-    {
-        return GetLeaderBoardData(LeaderBoardType.ALL_TIME, callBackFunction, numberOfEntries, type);
-    }
-
-    public bool GetLeaderBoardData(LeaderBoardType leaderBoardType, GenericSteamLeaderBoard.ResultsCallBack callBackFunction, int numberOfEntries, SelectionType selectionType = SelectionType.GLOBAL)
+    public bool GetLeaderBoardData(string levelName, GenericSteamLeaderBoard.ResultsCallBack callBackFunction, int numberOfEntries, SelectionType selectionType = SelectionType.GLOBAL)
     {
         bool result = false;
         Steamworks.ELeaderboardDataRequest requestType;
+
+        levelName += leaderboardNamePostString;
 
         switch (selectionType)
         {
@@ -59,30 +46,16 @@ public class LeaderBoards : Singleton<LeaderBoards> {
                 requestType = Steamworks.ELeaderboardDataRequest.k_ELeaderboardDataRequestGlobal;
                 break;
         }
-        
-        switch (leaderBoardType)
-        {
-            case LeaderBoardType.ALL_TIME:
-                result = allTimeLeaderBoard.FetchLeaderBoardData(callBackFunction, numberOfEntries, requestType);
-                break;
-            case LeaderBoardType.WEEKLY:
-                result = weeklyLeaderBoard.FetchLeaderBoardData(callBackFunction, numberOfEntries, requestType);
-                break;
-            case LeaderBoardType.DAILY:
-                result = dailyLeaderBoard.FetchLeaderBoardData(callBackFunction, numberOfEntries, requestType);
-                break;
-            default:
-                break;
-        }
+
+        result = allTimeLeaderBoard.FetchLeaderBoardData(levelName, callBackFunction, numberOfEntries, requestType);
         return result;
     }
 
-    public bool UpdateScore(int score)
+    public bool UpdateScore(int score, string levelName)
     {
         bool result = false;
-        result = allTimeLeaderBoard.UpdateLeaderBoard(score);
-        //result = result && weeklyLeaderBoard.UpdateLeaderBoard(score);
-        //result = result && dailyLeaderBoard.UpdateLeaderBoard(score);
+        levelName += leaderboardNamePostString;
+        result = allTimeLeaderBoard.UpdateLeaderBoard(score, levelName);
         return result;
     }
     #endregion

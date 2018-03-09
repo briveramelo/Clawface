@@ -33,6 +33,7 @@ public class LeaderboardsMenu : Menu
     private List<LeaderboardEntry> leaderBoardEntries;
     private bool allowInput;
     private string currentLevelName;
+    private LeaderBoards.SelectionType currentSelectionType;
     #endregion
 
     #region public fields
@@ -123,40 +124,47 @@ public class LeaderboardsMenu : Menu
             entry.IsVisible(false);
         }       
 
-        bool result = LeaderBoards.Instance.GetLeaderBoardData(OnLeaderBoardEntriesReturned, maxEntries, selectionType);
+        bool result = LeaderBoards.Instance.GetLeaderBoardData(currentLevelName, OnLeaderBoardEntriesReturned, maxEntries, selectionType);
         
         loadingObject.GetComponent<LoadingText>().SetError(result);
         loadingObject.SetActive(true);
 
     }
 
-    private void OnLeaderBoardEntriesReturned(List<GenericSteamLeaderBoard.LeaderBoardVars> results)
+    private void OnLeaderBoardEntriesReturned(List<GenericSteamLeaderBoard.LeaderBoardVars> results, bool retry)
     {
-        int numberOfReusableEntries = leaderBoardEntries.Count;
-        int numberOfResults = results.Count;
-        if (numberOfReusableEntries < numberOfResults)
+        if (!retry)
         {
-            int numberOfNewObjects = numberOfResults - numberOfReusableEntries;
-            for(int i=0;i< numberOfNewObjects; i++)
+            int numberOfReusableEntries = leaderBoardEntries.Count;
+            int numberOfResults = results.Count;
+            if (numberOfReusableEntries < numberOfResults)
             {
-                GameObject newObject = Instantiate(leaderBoardEntryPrefab);
-                newObject.transform.SetParent(entriesHolder);
-                leaderBoardEntries.Add(newObject.GetComponent<LeaderboardEntry>());
+                int numberOfNewObjects = numberOfResults - numberOfReusableEntries;
+                for (int i = 0; i < numberOfNewObjects; i++)
+                {
+                    GameObject newObject = Instantiate(leaderBoardEntryPrefab);
+                    newObject.transform.SetParent(entriesHolder);
+                    leaderBoardEntries.Add(newObject.GetComponent<LeaderboardEntry>());
+                }
+            }
+
+            numberOfReusableEntries = leaderBoardEntries.Count;
+            loadingObject.SetActive(false);
+            for (int i = 0; i < numberOfResults; i++)
+            {
+                GenericSteamLeaderBoard.LeaderBoardVars result = results[i];
+                leaderBoardEntries[i].SetData(result.rank.ToString(), result.userID, result.score.ToString());
+                leaderBoardEntries[i].IsVisible(true);
+            }
+
+            for (int i = numberOfResults; i < numberOfReusableEntries; i++)
+            {
+                leaderBoardEntries[i].IsVisible(false);
             }
         }
-
-        numberOfReusableEntries = leaderBoardEntries.Count;
-        loadingObject.SetActive(false);
-        for(int i=0;i< numberOfResults; i++)
+        else
         {
-            GenericSteamLeaderBoard.LeaderBoardVars result = results[i];
-            leaderBoardEntries[i].SetData(result.rank.ToString(), result.userID, result.score.ToString());
-            leaderBoardEntries[i].IsVisible(true);
-        }
-                
-        for(int i = numberOfResults; i < numberOfReusableEntries; i++)
-        {
-            leaderBoardEntries[i].IsVisible(false);
+            GetLeaderboardEntries(currentSelectionType);
         }
     }
 
