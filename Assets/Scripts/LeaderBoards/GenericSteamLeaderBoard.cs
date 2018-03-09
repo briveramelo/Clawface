@@ -38,9 +38,9 @@ public abstract class GenericSteamLeaderBoard : MonoBehaviour {
         bool result = false;
         this.callbackAction = callbackAction;
         SteamLeaderboard_t leaderBoard;
-        if (leaderBoards.TryGetValue(leaderBoardName, out leaderBoard))
-        {   
-            if (SteamManager.Initialized)
+        if (SteamManager.Initialized)
+        {  
+            if (leaderBoards.TryGetValue(leaderBoardName, out leaderBoard))
             {
                 SteamAPICall_t apiCall = SteamUserStats.DownloadLeaderboardEntries(leaderBoard, requestType, 1, numberOfEntries);
                 if (leaderBoardScoresDownloaded.IsActive())
@@ -48,15 +48,15 @@ public abstract class GenericSteamLeaderBoard : MonoBehaviour {
                     leaderBoardScoresDownloaded.Cancel();
                     leaderBoardScoresDownloaded.Dispose();
                 }
-                leaderBoardScoresDownloaded.Set(apiCall);                
+                leaderBoardScoresDownloaded.Set(apiCall);
                 result = true;
             }
-        }
-        else
-        {
-            //Get or create the leader board
-            actionType = 1;
-            result = FindOrCreateLeaderboard(leaderBoardName);
+            else
+            {
+                //Get or create the leader board
+                actionType = 1;
+                result = FindOrCreateLeaderboard(leaderBoardName);
+            }
         }
         return result;
     }
@@ -65,26 +65,27 @@ public abstract class GenericSteamLeaderBoard : MonoBehaviour {
     {
         bool result = false;
         SteamLeaderboard_t leaderBoard;
-        if (leaderBoards.TryGetValue(leaderBoardName, out leaderBoard))
-        {
-            if (SteamManager.Initialized)
+        if (SteamManager.Initialized)
+        {            
+            if (leaderBoards.TryGetValue(leaderBoardName, out leaderBoard))
             {
+
                 int[] details;
                 score = GetScoreAndDetails(score, out details);
                 SteamUserStats.UploadLeaderboardScore(leaderBoard, ELeaderboardUploadScoreMethod.k_ELeaderboardUploadScoreMethodKeepBest, score, details, MAX_DETAILS);
                 result = true;
+                //Reset action type
+                actionType = 0;
             }
-            //Reset action type
-            actionType = 0;
-        }
-        else
-        {
-            //Get or create the leader board if not already called (checking action type to avoid infinite loops)
-            if (actionType != 2)
+            else
             {
-                actionType = 2;
-                currentScore = score;
-                result = FindOrCreateLeaderboard(leaderBoardName);
+                //Get or create the leader board if not already called (checking action type to avoid infinite loops)
+                if (actionType != 2)
+                {
+                    actionType = 2;
+                    currentScore = score;
+                    result = FindOrCreateLeaderboard(leaderBoardName);
+                }
             }
         }
         return result;

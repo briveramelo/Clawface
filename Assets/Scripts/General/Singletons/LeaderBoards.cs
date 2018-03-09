@@ -15,7 +15,6 @@ public class LeaderBoards : Singleton<LeaderBoards> {
 
     #region Private Variables
     private AllTimeLeaderBoard allTimeLeaderBoard;
-    private string leaderboardNamePostString = "_ALL_TIME";
     #endregion
 
     #region Unity Lifecycle
@@ -30,8 +29,6 @@ public class LeaderBoards : Singleton<LeaderBoards> {
     {
         bool result = false;
         Steamworks.ELeaderboardDataRequest requestType;
-
-        levelName += leaderboardNamePostString;
 
         switch (selectionType)
         {
