@@ -83,7 +83,7 @@ public class PLEBlockUnit : MonoBehaviour
     public bool HasActiveSpawn {
         get {
             CleanNullSpawns();
-            return spawns.Exists(spawn => { return spawn.activeSelf; });
+            return spawns.Exists(spawn => { return spawn.activeInHierarchy; });
         }
     }
     void CleanNullSpawns() {

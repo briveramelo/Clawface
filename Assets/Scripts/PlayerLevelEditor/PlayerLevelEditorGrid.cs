@@ -203,15 +203,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         if (Input.GetMouseButtonUp(MouseButtons.LEFT)) {
             UnhighlightGhostTiles();
         }
-    }
-
-    private void TryHoverTile() {
-        if (!Input.GetKey(KeyCode.LeftAlt)){
-            Vector3 blockPosition = MouseHelper.currentHoveredObject != null ? MouseHelper.currentHoveredObject.transform.position : Vector3.one * 10000;
-            GridTile newHoveredRealTile = GetTileAtPoint(blockPosition);
-            HoveredTile = newHoveredRealTile;
-        }
-    }
+    }    
 
     private void UnhighlightGhostTiles() {
         lastHighlightedGhostTiles.ForEach(tile => { tile.ChangeHoverGhostColor(); });
@@ -234,12 +226,18 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
             }
         }
 
-    }    
+    }
     #endregion
 
-
+    private void TryHoverTile() {
+        if (!Input.GetKey(KeyCode.LeftAlt)) {
+            Vector3 blockPosition = MouseHelper.currentHoveredObject != null ? MouseHelper.currentHoveredObject.transform.position : Vector3.one * 10000;
+            GridTile newHoveredRealTile = GetTileAtPoint(blockPosition);
+            HoveredTile = newHoveredRealTile;
+        }
+    }
     #region Real Tiles Interactions
-    
+
 
     private void HandleBlockSelectionInteractions(RaycastHit hit) {
         HandleSelectingBlocks(hit);
@@ -247,20 +245,22 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     }        
 
     private void HandleSelectingBlocks(RaycastHit hit) {
-        if (Input.GetMouseButtonDown(MouseButtons.LEFT) && !Input.GetKey(KeyCode.LeftShift) && !Input.GetKey(KeyCode.LeftAlt)) {
-            DeselectBlocks();
-        }
-        if (Input.GetMouseButton(MouseButtons.LEFT)) {
-            ReselectPreviouslySelected();
-            SelectBlocks(hit, selectedColor);
-        }
-        if (Input.GetMouseButtonUp(MouseButtons.LEFT) && !Input.GetKey(KeyCode.LeftAlt)) {
-            ToggleLastSelectedObjects(hit);
-        }
-        if (Input.GetMouseButtonUp(MouseButtons.LEFT) && !Input.GetKey(KeyCode.LeftAlt)) {
-            ShowBlocks(hit);
-            ShowWalls();
-            editorInstance.SetMenuButtonInteractability();
+        if (!Input.GetKey(KeyCode.LeftAlt)) {
+            if (Input.GetMouseButtonDown(MouseButtons.LEFT) && !Input.GetKey(KeyCode.LeftShift)) {
+                DeselectBlocks();
+            }
+            if (Input.GetMouseButton(MouseButtons.LEFT)) {
+                ReselectPreviouslySelected();
+                SelectBlocks(hit, selectedColor);
+            }
+            if (Input.GetMouseButtonUp(MouseButtons.LEFT)) {
+                ToggleLastSelectedObjects(hit);
+            }
+            if (Input.GetMouseButtonUp(MouseButtons.LEFT)) {
+                ShowBlocks(hit);
+                ShowWalls();
+                editorInstance.SetMenuButtonInteractability();
+            }
         }
     }
 

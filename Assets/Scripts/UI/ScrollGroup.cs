@@ -29,7 +29,11 @@ public abstract class ScrollGroup : MonoBehaviour {
     }
     public virtual PLEUIItem GetUIItem(int index) {
         TryInitialize();
-        return pleUIItems[0];
+        return pleUIItems[index];
+    }
+    public virtual PLEUIItem TryGetFirstAvailableUIItem() {
+        TryInitialize();
+        return pleUIItems.Find(item => item.isInteractable);
     }
     public virtual void SelectItem(int itemIndex) {
         LastSelectedIndex = itemIndex;

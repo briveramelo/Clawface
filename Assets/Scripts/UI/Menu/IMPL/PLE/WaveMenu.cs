@@ -31,7 +31,12 @@ public class WaveMenu : PlayerLevelEditorMenu
     #endregion
 
     #region Protected Interface
-    
+    protected override void Update() {
+        base.Update();
+        if (allowInput) {
+            HandleHotKeys();
+        }
+    }
 
     #endregion
 
@@ -122,6 +127,15 @@ public class WaveMenu : PlayerLevelEditorMenu
     #endregion
 
     #region Private Interface
+
+    void HandleHotKeys() {
+        if (Input.GetKeyDown(KeyCode.LeftArrow)) {
+            PrevWave();
+        }
+        else if (Input.GetKeyDown(KeyCode.RightArrow)) {
+            NextWave();
+        }
+    }
     private void UpdateLevelUnitState() {
         EventSystem.Instance.TriggerEvent(Strings.Events.PLE_SYNC_LEVEL_UNIT_STATES);
     }
