@@ -290,8 +290,9 @@ public class SettingsManager : Singleton<SettingsManager>
             // Most others will be queried by other components in the program.
             QualitySettings.SetQualityLevel(qualityLevel);
             Screen.SetResolution(resolution.width, resolution.height, fullscreen);
-            musicMixer.SetFloat("Volume", LinearToDecibel(music));
-            sfxMixer.SetFloat("Volume", LinearToDecibel(sfx));
+            MusicManager.Instance.SetMusicAudioLevel(music);
+            SFXManager.Instance.SetSFXAudioLevel(sfx);
+            
         }
 
         public void WriteSettings()
@@ -299,7 +300,7 @@ public class SettingsManager : Singleton<SettingsManager>
             string settings = JsonUtility.ToJson(this);
             PlayerPrefs.SetString(SETTINGS, settings);
         }
-
+        
         #endregion
 
         #region Interface (Private)
