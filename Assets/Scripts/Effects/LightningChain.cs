@@ -74,10 +74,14 @@ namespace Turing.VFX
 
         void Update()
         {
-            if (origin && destination)
+            if (origin && destination && origin.gameObject.activeSelf && destination.gameObject.activeSelf)
             {
                 lineRender.SetPosition(0, origin.position);
                 lineRender.SetPosition(1, destination.position);
+            }
+            else
+            {
+                gameObject.SetActive(false);
             }
         }
     }
