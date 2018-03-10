@@ -27,6 +27,12 @@ public class LeaderboardsMenu : Menu
 
     [SerializeField]
     private Button aroundUserButton;
+
+    [SerializeField]
+    private Scrollbar verticalScrollbar;
+
+    [SerializeField]
+    private float scrollSpeed;
     #endregion
 
     #region private fields
@@ -52,6 +58,15 @@ public class LeaderboardsMenu : Menu
         if (allowInput && InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN))
         {
             OnPressBack();
+        }
+
+        if (allowInput && InputManager.Instance.QueryAxes(Strings.Input.Axes.LOOK).y < -0.3f)
+        {
+            verticalScrollbar.value -= scrollSpeed * Time.deltaTime;
+        }
+        else if (allowInput && InputManager.Instance.QueryAxes(Strings.Input.Axes.LOOK).y > 0.3f)
+        {
+            verticalScrollbar.value += scrollSpeed * Time.deltaTime;
         }
     }
     #endregion
