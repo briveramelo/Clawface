@@ -1,15 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public class PLEUIItem : ClickableBase, IUIGroupable {
 
-    public PLEItem pleItem;
-    public GameObject registeredItem;
+    [SerializeField] public Image imagePreview;
+    [HideInInspector] public PLEItem pleItem;
+    [HideInInspector] public GameObject registeredItem;
+    [HideInInspector] public bool isInteractable=true;
     private ScrollGroup scrollGroup;
     private ColorChangingUI colorChangingUI;
-    public bool isInteractable=true;
     public int ItemIndex { get; private set; }    
 
     public override void OnPointerDown(PointerEventData eventData) {
@@ -34,6 +36,7 @@ public class PLEUIItem : ClickableBase, IUIGroupable {
         colorChangingUI.SetUIIndex(itemIndex);
         this.registeredItem = registeredItem;
         this.pleItem = registeredItem.GetComponent<PLEItem>();
+        //this.imagePreview.sprite = pleItem.iconPreview;
     }
 
     public void ToggleInteractable(bool isInteractable) {

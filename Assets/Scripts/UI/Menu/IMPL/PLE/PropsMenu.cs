@@ -96,10 +96,8 @@ public class PropsMenu : PlacementMenu
         }
     }
 
-    protected override void SelectGameItem() {
-        base.SelectGameItem();
-        MouseHelper.currentProp.Select();
-        selectedPLEItem = MouseHelper.currentProp;
+    protected override void SelectGameItem(PLEItem selectedItem) {
+        base.SelectGameItem(selectedItem);        
         ApplyRotation(selectedPLEItem.transform.localEulerAngles.y);
         SetInteractabilityByState();
     }

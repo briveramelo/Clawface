@@ -13,7 +13,7 @@ public class WaveMenu : PlayerLevelEditorMenu
 
     #region Serialized Unity Fields
     [SerializeField] private Text currentWaveText;
-    [SerializeField] private InputField waveInputField;
+    //[SerializeField] private InputField waveInputField;
     [SerializeField] private Text totalWaveText;
     [SerializeField] private Toggle infWaveObjToggle;
     [SerializeField] private Button removeWave, addWave, prevWave, nextWave;
@@ -31,7 +31,12 @@ public class WaveMenu : PlayerLevelEditorMenu
     #endregion
 
     #region Protected Interface
-    
+    protected override void Update() {
+        base.Update();
+        if (!levelEditor.IsTesting) {
+            HandleHotKeys();
+        }
+    }
 
     #endregion
 
@@ -49,7 +54,7 @@ public class WaveMenu : PlayerLevelEditorMenu
 
     public void UpdateWaveText() {
         string currentWaveAsText = PLESpawnManager.Instance.CurrentWaveText;
-        waveInputField.text = currentWaveAsText;
+        //waveInputField.text = currentWaveAsText;
         currentWaveText.text = currentWaveAsText;
         totalWaveText.text = PLESpawnManager.Instance.MaxWaveText;
     }
@@ -72,7 +77,7 @@ public class WaveMenu : PlayerLevelEditorMenu
         PLESpawnManager.Instance.TryAddWave();
         EventSystem.Instance.TriggerEvent(Strings.Events.PLE_ADD_WAVE);
         EventSystem.Instance.TriggerEvent(Strings.Events.PLE_SYNC_LEVEL_UNIT_STATES);
-        levelEditor.EnableCurrentWaveSpawnParents();
+        //levelEditor.EnableCurrentWaveSpawnParents();
         levelEditor.SetMenuButtonInteractability();
 
         SetMenuButtonInteractability();
@@ -96,15 +101,15 @@ public class WaveMenu : PlayerLevelEditorMenu
         checkBox.enabled = infWaveObjToggle.isOn;
     }
 
-    public void OnSelectedWaveTextValidated() {
-        int newWave = 0;
-        if (int.TryParse(waveInputField.text, out newWave)) {
-            ChangeToWave(newWave - 1);
-        }
-        else {
-            UpdateWaveText();
-        }
-    }
+    //public void OnSelectedWaveTextValidated() {
+    //    int newWave = 0;
+    //    if (int.TryParse(waveInputField.text, out newWave)) {
+    //        ChangeToWave(newWave - 1);
+    //    }
+    //    else {
+    //        UpdateWaveText();
+    //    }
+    //}
     #endregion
 
     #region Unity Lifecycle
@@ -122,6 +127,15 @@ public class WaveMenu : PlayerLevelEditorMenu
     #endregion
 
     #region Private Interface
+
+    void HandleHotKeys() {
+        if (Input.GetKeyDown(KeyCode.LeftArrow)) {
+            PrevWave();
+        }
+        else if (Input.GetKeyDown(KeyCode.RightArrow)) {
+            NextWave();
+        }
+    }
     private void UpdateLevelUnitState() {
         EventSystem.Instance.TriggerEvent(Strings.Events.PLE_SYNC_LEVEL_UNIT_STATES);
     }

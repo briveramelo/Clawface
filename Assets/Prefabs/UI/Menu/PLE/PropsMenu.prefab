@@ -367,6 +367,33 @@ MonoBehaviour:
   placementMenu: {fileID: 114986609073309614}
   iconTemplate: {fileID: 1358243600333066}
   groupContent: {fileID: 1488017782716826}
+  scrollbar: {fileID: 114813696488313158}
+  scrollAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 0.35
+    looping: 0
+    playOnAwake: 0
+    startValue: 0
+    diff: 0
+  scrollMultiplier: 2.2
 --- !u!114 &114083746711931304
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -596,10 +623,10 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: c85ec03468d98fe42a27841be144f680, type: 3}
-    m_FontSize: 40
+    m_FontSize: 25
     m_FontStyle: 1
     m_BestFit: 0
-    m_MinSize: 3
+    m_MinSize: 2
     m_MaxSize: 70
     m_Alignment: 3
     m_AlignByGeometry: 0
@@ -775,6 +802,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa696e8481e003b438923117e763b37c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  imagePreview: {fileID: 114188981968808774}
   pleItem: {fileID: 0}
   registeredItem: {fileID: 0}
   isInteractable: 1
@@ -812,10 +840,10 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: c85ec03468d98fe42a27841be144f680, type: 3}
-    m_FontSize: 40
+    m_FontSize: 25
     m_FontStyle: 1
     m_BestFit: 0
-    m_MinSize: 3
+    m_MinSize: 2
     m_MaxSize: 59
     m_Alignment: 4
     m_AlignByGeometry: 0
@@ -864,7 +892,7 @@ MonoBehaviour:
   m_Direction: 0
   m_Value: 0
   m_Size: 1
-  m_NumberOfSteps: 11
+  m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []

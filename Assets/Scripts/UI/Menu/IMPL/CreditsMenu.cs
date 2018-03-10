@@ -15,10 +15,16 @@ public class CreditsMenu : Menu
 
     #endregion
 
-    #region Unity Serilization Fields
+    #region Private Fields
 
-    [SerializeField]
-    private Button returnButton;
+    bool inputGuard = false;
+
+    #endregion
+
+
+    #region Unity Serialized Fields
+
+    [SerializeField] private Button returnButton;
 
     #endregion
 
@@ -34,7 +40,31 @@ public class CreditsMenu : Menu
 
     #endregion
 
+    #region Unity Lifecycle
+
+    private void Update()
+    {
+        if (inputGuard && InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN))
+        {
+            BackAction();
+        }
+    }
+
+    #endregion
+
     #region Protected Interface
+
+    protected override void ShowComplete()
+    {
+        base.ShowComplete();
+        inputGuard = true;
+    }
+
+    protected override void HideStarted()
+    {
+        base.HideStarted();
+        inputGuard = false;
+    }
 
     protected override void DefaultShow(Transition transition, Effect[] effects)
     {

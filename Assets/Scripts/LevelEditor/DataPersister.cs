@@ -6,7 +6,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using System.Linq;
 
-public class DataPersister : MonoBehaviour {
+public class DataPersister : Singleton<DataPersister> {
     
     public static DataSave ActiveDataSave = new DataSave();
     string PathDirectory { get { return Application.dataPath + "/Saves";} }
@@ -15,7 +15,8 @@ public class DataPersister : MonoBehaviour {
     public DataSave dataSave;
 
     #region Unity Lifecyle
-    private void Awake() {
+    protected override void Awake() {
+        base.Awake();
         Load();
     }
     #endregion
@@ -44,6 +45,7 @@ public class DataPersister : MonoBehaviour {
         }
         ClearEmptyLevels();
         dataSave = ActiveDataSave;
+        if (true) { }
     }
 
     public void DeleteSelectedLevel() {
@@ -53,6 +55,7 @@ public class DataPersister : MonoBehaviour {
 
     public void TrySave() {
         ClearEmptyLevels();
+        ActiveDataSave.SaveTimestamp();
         Save();
     }
     #endregion
@@ -78,7 +81,6 @@ public class DataPersister : MonoBehaviour {
 }
 
 #region Memory Structures
-
 [Serializable]
 public class DataSave {
     public DataSave() { }
@@ -101,6 +103,9 @@ public class DataSave {
             selectedIndex = value;
         }
     }
+    public void SelectByUniqueName(string uniqueName) {
+        SelectedLevelIndex = levelDatas.FindIndex(levelData => levelData.UniqueSteamName==uniqueName);
+    }
 
     public void AddAndSelectNewLevel() {
         levelDatas.Add(new LevelData());
@@ -111,21 +116,29 @@ public class DataSave {
             levelDatas.RemoveAt(SelectedLevelIndex);
         }
     }
+    public void SaveTimestamp() {
+        ActiveLevelData.SaveTimestamp();
+    }
 }
 
 [Serializable]
-public class LevelData {    
+public class LevelData {
+
+    private readonly DateTime epochStart = new DateTime(2018, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+    public long TimeSavedInMillisecondsSinceEpoch { get { return (long)(TimeSaved - epochStart).TotalMilliseconds; } }
+
 
     public string name, description;
     [HideInInspector] public byte[] imageData;
-    public bool isFavorite=false;
-    public bool isDownloaded=false;
-    public bool isMadeByThisUser=true;
+    public bool isFavorite = false;
+    public bool isDownloaded = false;
+    public bool isMadeByThisUser = true;
     public bool isInfinite;
+    public bool isHathosLevel;
     public static readonly Vector2 fixedSize = new Vector2(656, 369);
     public Sprite MySprite {
         get {
-            if (snapShot==null) {
+            if (snapShot == null) {
                 CreateSprite();
             }
             return snapShot;
@@ -134,13 +147,42 @@ public class LevelData {
             snapShot = value;
         }
     }
+    public DateTime TimeSaved {
+        get {
+            if(timeSaved==null){
+                if (!isHathosLevel)
+                {
+                    if (string.IsNullOrEmpty(dateString))
+                    {
+                        timeSaved = DateTime.UtcNow;
+                        dateString = timeSaved.Value.ToString(System.Globalization.CultureInfo.InvariantCulture);
+                    }
+                    else
+                    {
+                        timeSaved = DateTime.Parse(dateString, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.RoundtripKind);
+                    }
+                }
+                else
+                {
+                    timeSaved = epochStart;
+                }
+            }
+            return timeSaved.Value; 
+        }
+    }
+
     [NonSerialized] Texture2D imageTexture;
     [NonSerialized] Sprite snapShot;
+    [NonSerialized] DateTime? timeSaved;
+    [SerializeField] string dateString;
+
 
     public void SetPicture(byte[] imageData) {
         this.imageData = imageData;
         CreateSprite();
     }
+    public string UniqueSteamName { get { return name + TimeSavedInMillisecondsSinceEpoch; } }
+
     public bool IsEmpty { get { return string.IsNullOrEmpty(name); } }
     public List<WaveData> waveData = new List<WaveData>();
     public List<TileData> tileData = new List<TileData>();
@@ -193,6 +235,11 @@ public class LevelData {
     public int WaveCount { get { return waveData.Count; } }
     public int TileCount { get { return tileData.Count; } }
     public int PropCount { get { return propData.Count; } }
+
+    public void SaveTimestamp() {
+        this.timeSaved = DateTime.UtcNow;
+        dateString = timeSaved.Value.ToString(System.Globalization.CultureInfo.InvariantCulture);
+    }
     public int MaxWaveIndex {
         get {
             int tileWaveCount = 0;
@@ -211,6 +258,7 @@ public class LevelData {
         }
         snapShot = Sprite.Create(imageTexture, new Rect(Vector2.zero, fixedSize), Vector2.one * .5f);
     }
+
 }
 
 [Serializable]

@@ -5,6 +5,7 @@ using UnityEngine;
 
 public abstract class PLEItem : MonoBehaviour {
 
+    public Sprite iconPreview;
     [SerializeField] protected Color selectedColor;
     protected Color startColor;
     protected List<Renderer> Renderers {

@@ -4,6 +4,7 @@ using UnityEngine;
 public class SpawnScrollGroup : ScrollGroup {    
 
     protected override string ResourcesPath { get { return Strings.Editor.SPAWN_OBJECTS_PATH; } }
+    protected override string IconImagePath { get { return Strings.Editor.SPAWN_ICON_IMAGE_PREVIEW_PATH; } }
 
     public virtual void SetSpawnUIInteractability(int currentWave) {
         LevelData activeLevelData = DataPersister.ActiveDataSave.ActiveLevelData;

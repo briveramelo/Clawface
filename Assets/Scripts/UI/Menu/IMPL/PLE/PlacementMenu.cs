@@ -43,7 +43,7 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
                 PlaceItem();
             }
             else if (SelectItem) {
-                SelectGameItem();
+                SelectGameItem(MouseHelper.currentItem);
             }
             else if (DeSelectItem) {
                 bool deletedPreviewItem = DeselectUIItem();
@@ -85,9 +85,11 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
         SetInteractabilityByState();
     }
 
-    protected virtual void SelectGameItem() {
+    protected virtual void SelectGameItem(PLEItem selectedItem) {
         DeselectUIItem();
         DeselectAllGameItems();
+        selectedItem.Select();
+        selectedPLEItem = selectedItem;
     }
     protected virtual void DeselectAllGameItems() {
         List<PLEItem> items = createdItemsParent.GetComponentsInChildren<PLEItem>().ToList();

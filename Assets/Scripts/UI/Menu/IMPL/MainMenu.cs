@@ -19,6 +19,10 @@ public class MainMenu : Menu
     #region Public Interface
 
     public MainMenu() : base(Strings.MenuStrings.MAIN) {}
+    protected override void ShowStarted() {
+        base.ShowStarted();        
+    }
+
 
     //// Actions used by Buttons on this Menu
     public void StartAction()

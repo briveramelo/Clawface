@@ -30,7 +30,9 @@ public class MainPLEMenu : PlayerLevelEditorMenu {
         SetupToggleInteractability();
     }
     protected override void Start() {
-        base.Start();                
+        base.Start();
+        PauseMenu pauseMenu = (PauseMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.PAUSE);
+        pauseMenu.CanPause = false;
     }
 
     void InitializeMenuToggles() {        

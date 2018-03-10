@@ -62,11 +62,14 @@ public class TestMenu : PlayerLevelEditorMenu
 
     #region Protected Interface
     protected override void ShowStarted() {
+
         levelEditor.levelDataManager.SaveSpawns();
         ShowWeaponSelectMenu();
 
         System.Action onExitTestAction = () =>
         {
+            PauseMenu pauseMenu = (PauseMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.PAUSE);
+            pauseMenu.CanPause = false;
             levelEditor.ExitLevel();
             DestroyPlayer();
             Menu mainPLEMenu = levelEditor.GetMenu(PLEMenu.MAIN);

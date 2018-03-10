@@ -12,7 +12,7 @@ public class ServiceWrangler : Singleton<ServiceWrangler> {
         menuManager, analyticsManager, musicManager, scoreManager, respawnPoint,
         eventSystem, achievementManager, platformManager, goreManager,
         saveState, aiManager, enemyStatsManager, leaderBoards, menuMusicManager,
-        steamWorkshop, settingsManager;
+        steamWorkshop, settingsManager, dataPersister;
 
     private Dictionary<string, PrefabBool> singletonPrefabRegistry;
     private Dictionary<string, PrefabBool> SingletonPrefabRegistry {
@@ -38,7 +38,8 @@ public class ServiceWrangler : Singleton<ServiceWrangler> {
                     { typeof(LeaderBoards).ToString(),       new PrefabBool(ref leaderBoards) },
                     { typeof(MenuMusicManager).ToString(),       new PrefabBool(ref menuMusicManager) },
                     { typeof(SteamWorkshop).ToString(),       new PrefabBool(ref steamWorkshop) },
-                    { typeof(SettingsManager).ToString(), new PrefabBool(ref settingsManager) }
+                    { typeof(SettingsManager).ToString(), new PrefabBool(ref settingsManager) },
+                    { typeof(DataPersister).ToString(), new PrefabBool(ref dataPersister) },
                 };
             }
             return singletonPrefabRegistry;

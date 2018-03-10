@@ -105,6 +105,9 @@ public class SpawnMenu : PlacementMenu {
             UpdateAmountField(spawnAmount);
             int remainingSpawns = spawn.MaxPerWave - NumberSpawnsInCurrentWave(spawn.spawnType);
             UpdateAvailableField(remainingSpawns);
+            if (spawn.spawnType != SpawnType.Keira) {
+                SelectGameItem(spawn);
+            }            
 
 
             if (NumberSpawnsInCurrentWave(spawn.spawnType) >= spawn.MaxPerWave ) {
@@ -112,18 +115,24 @@ public class SpawnMenu : PlacementMenu {
                 DeselectItem();
                 DeselectUIItem();
             }
-        }
 
+            if (spawn.spawnType==SpawnType.Keira) {
+                PLEUIItem firstAvailable = scrollGroup.TryGetFirstAvailableUIItem();
+                if (firstAvailable) {
+                    TrySelectUIItem(firstAvailable);
+                }
+            }
+        }
         SetInteractabilityByState();
         levelEditor.SetMenuButtonInteractability();        
     }    
 
-    protected override void SelectGameItem() {
-        base.SelectGameItem();
-        MouseHelper.currentSpawn.Select();
-        selectedPLEItem = MouseHelper.currentSpawn;
+    protected override void SelectGameItem(PLEItem selectedItem) {
+        base.SelectGameItem(selectedItem);
+        selectedPLEItem = selectedItem;
+        selectedPLEItem.Select();
         int spawnAmount = SelectedSpawn.totalSpawnAmount;
-        UpdateFields(spawnAmount, SelectedSpawn.DisplayName, false);
+        UpdateFields(spawnAmount, SelectedSpawn.DisplayName.ToUpper(), false);
         ChangeSpawnAmountInternally(spawnAmount);
     }
     protected override void DeselectItem() {
@@ -145,7 +154,7 @@ public class SpawnMenu : PlacementMenu {
     protected override void PostOnSelectUIItem(GameObject newItem) {
         base.PostOnSelectUIItem(newItem);
         PLESpawn spawn = newItem.GetComponent<PLESpawn>();
-        UpdateFields(spawn.totalSpawnAmount, spawn.DisplayName);
+        UpdateFields(spawn.totalSpawnAmount, spawn.DisplayName.ToUpper());
         int remainingSpawns = spawn.MaxPerWave - NumberSpawnsInCurrentWave(spawn.spawnType);
         UpdateAvailableField(remainingSpawns);
     }

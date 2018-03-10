@@ -26,7 +26,7 @@ public class PLESpawn : PLEItem {
     #region Serialized Unity Fields
     public float spawnFrequency = 0.5f;
     public int totalSpawnAmount = 1;
-    public SpawnType spawnType;
+    public SpawnType spawnType;    
     public string DisplayName { get { return spawnType.DisplayName(); } }
     public int MaxPerWave { get { return spawnType.MaxPerWave(); } }
     #endregion
@@ -35,21 +35,21 @@ public class PLESpawn : PLEItem {
 
     private void OnEnable()
     {
-        EventSystem.Instance.RegisterEvent(Strings.Events.PLE_TEST_END, Reset);               
+        EventSystem.Instance.RegisterEvent(Strings.Events.PLE_TEST_END, ResetSpawnValues);               
     }
 
     private void OnDisable()
     {
         if(EventSystem.Instance)
         {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_TEST_END, Reset);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_TEST_END, ResetSpawnValues);
         }
     }
 
     protected override void Start()
     {
         base.Start();
-        Reset();
+        ResetSpawnValues();
         actualSpawnPos = new Vector3(0, transform.position.y + spawnHeightOffset, 0);
         actualSpawnPos = transform.TransformPoint(actualSpawnPos);
     }
@@ -91,7 +91,7 @@ public class PLESpawn : PLEItem {
     private IEnumerator SpawnEnemies()
     {
         allEnemiesDead = false;
-        Renderers.ForEach(renderer=> renderer.enabled = false);
+        EnableAllMeshes(false);
         currentSpawnAmount = totalSpawnAmount;
         for (int i = 0; i < totalSpawnAmount; i++)
         {
@@ -149,19 +149,24 @@ public class PLESpawn : PLEItem {
             }
         }
     }
-    private void Reset(params object[] parameters)
+    
+    private void ResetSpawnValues(params object[] parameters)
     {
         StopAllCoroutines();
         allEnemiesDead = false;
         currentSpawnAmount = totalSpawnAmount;
+        EnableAllMeshes(true);
+    }
+
+    void EnableAllMeshes(bool isEnabled) {
         Renderers.ForEach(renderer => {
-            renderer.enabled = true;
+            renderer.enabled = isEnabled;
             SkinnedMeshRenderer meshRenderer = renderer as SkinnedMeshRenderer;
-            if (meshRenderer!=null) {
-                //meshRenderer.updateWhenOffscreen = true;
+            if (meshRenderer != null) {
+                meshRenderer.updateWhenOffscreen = isEnabled;
             }
         });
-    }    
+    }
 
     #endregion
 

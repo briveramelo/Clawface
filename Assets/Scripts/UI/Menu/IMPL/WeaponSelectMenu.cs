@@ -172,9 +172,7 @@ public class WeaponSelectMenu : Menu
 
     protected override void ShowStarted() {
         base.ShowStarted();
-
         ResetMenu();
-
     }
 
     protected override void ShowComplete()
@@ -233,11 +231,7 @@ public class WeaponSelectMenu : Menu
         //Set up ModManager
 	    ModManager.assignFromPool = false;
         ModManager.rightArmOnLoad = rightArm.GetModType;
-        ModManager.leftArmOnLoad = leftArm.GetModType;
-
-        // Acquire Pause Menu
-        PauseMenu pauseMenu = (PauseMenu)MenuManager.Instance.GetMenuByName (Strings.MenuStrings.PAUSE);
-		pauseMenu.CanPause = true;
+        ModManager.leftArmOnLoad = leftArm.GetModType;                
 
         // Acquire LoadMenu and set target.
         string targetSceneName = SceneTracker.CurrentSceneName;
@@ -254,6 +248,8 @@ public class WeaponSelectMenu : Menu
             targetSceneName = loadMenu.TargetSceneName;
             Action onLoadMenuCompleteSceneLoad = () => {                
                 if (SceneTracker.IsSceneArena(targetSceneName)) {
+                    PauseMenu pauseMenu = (PauseMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.PAUSE);
+                    pauseMenu.CanPause = true;
                     EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_STARTED, targetSceneName, ModManager.leftArmOnLoad.ToString(), ModManager.rightArmOnLoad.ToString());
                 }
                 if (onCompleteSceneLoad!=null) {

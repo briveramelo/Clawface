@@ -120,6 +120,7 @@ public class LoadMenu : Menu {
     {
         base.ShowComplete();
         StartCoroutine(LoadingCoroutine());
+        MusicManager.Instance.SetMusicAudioLevel(0.0f);
     }
     protected override void HideComplete()
     {
@@ -156,6 +157,7 @@ public class LoadMenu : Menu {
         if (onCompleteSceneLoad!=null) {
             onCompleteSceneLoad();
         }
+        MusicManager.Instance.SetMusicAudioLevel(SettingsManager.Instance.MusicVolume);
     }
 
     #endregion
