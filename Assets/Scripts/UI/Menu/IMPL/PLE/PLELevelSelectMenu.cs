@@ -31,6 +31,7 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
     [SerializeField] private RectOffset gridLayoutConfigWithHathos, gridLayoutConfigWithoutHathos;
     [SerializeField] private DiffAnim scrollSlideAnim;
     [SerializeField] private AbsAnim selectLevelAnim;
+    [SerializeField] private MainPLEMenu mainPleMenu;
     #endregion
 
     #region Fields (Private)
@@ -152,23 +153,32 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
     }
 
     public void LoadLevel() {
-        ActiveDataSave.SelectedLevelIndex = SelectedLevelIndex - NumHathosLevels;
 
-        if (SceneTracker.IsCurrentSceneEditor) {
-            levelDataManager.LoadSelectedLevel();
-            levelEditor.SwitchToMenu(PLEMenu.FLOOR);
+        if (SceneTracker.IsCurrentSceneEditor)
+        {
+            ConfirmMenu confirmMenu = (ConfirmMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.CONFIRM);
+
+            Action onYesAction = () =>
+            {
+                LoadSelectedLevel();
+            };
+
+            Action onNoAction = () =>
+            {
+                MenuManager.Instance.DoTransition(confirmMenu, Transition.HIDE, new Effect[] { });
+                SelectInitialButton();
+            };
+
+
+            confirmMenu.DefineActions("You will lose unsaved data, are you sure?", onYesAction, onNoAction);
+
+            MenuManager.Instance.DoTransition(confirmMenu, Transition.SHOW, new Effect[] { });
         }
-        else {
-            string loadMenuName = Strings.MenuStrings.LOAD;
-            WeaponSelectMenu weaponSelectMenu = (WeaponSelectMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.WEAPON_SELECT);
-            weaponSelectMenu.DefineNavigation(Strings.MenuStrings.LevelEditor.LEVELSELECT_PLE_MENU, loadMenuName);
-
-            LoadMenu loadMenu = (LoadMenu)MenuManager.Instance.GetMenuByName(loadMenuName);
-            loadMenu.SetNavigation(IsHathosLevelSelected ? Strings.Scenes.ScenePaths.Arena : Strings.Scenes.ScenePaths.PlayerLevels);
-
-
-            MenuManager.Instance.DoTransition(weaponSelectMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+        else
+        {
+            LoadSelectedLevel();
         }
+
     }
 
     public void SelectLevel(LevelUI levelUI) {
@@ -239,12 +249,57 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
     }
 
     public void DeleteSelectedLevel() {
-        levelDataManager.DeleteSelectedLevel();
-        SetButtonsInteractabilityAndNavigation(DisplayedLevelUIs);
+
+        ConfirmMenu confirmMenu = (ConfirmMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.CONFIRM);
+
+        Action onYesAction = () =>
+        {
+            levelDataManager.DeleteSelectedLevel();
+            SetButtonsInteractabilityAndNavigation(DisplayedLevelUIs);
+            ClearAndGenerateLevelUI();
+        };
+
+        Action onNoAction = () =>
+        {
+            MenuManager.Instance.DoTransition(confirmMenu, Transition.HIDE, new Effect[] { });
+            SelectInitialButton();
+        };
+        confirmMenu.DefineActions("Are you sure?", onYesAction, onNoAction);
+
+        MenuManager.Instance.DoTransition(confirmMenu, Transition.SHOW, new Effect[] { });
+
     }
     #endregion
 
     #region Protected Interface
+
+    private void LoadSelectedLevel()
+    {
+        ActiveDataSave.SelectedLevelIndex = SelectedLevelIndex - NumHathosLevels;
+
+        if (SceneTracker.IsCurrentSceneEditor)
+        {
+            levelDataManager.LoadSelectedLevel();
+            levelEditor.SwitchToMenu(PLEMenu.FLOOR);
+        }
+        else
+        {
+            string loadMenuName = Strings.MenuStrings.LOAD;
+            WeaponSelectMenu weaponSelectMenu = (WeaponSelectMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.WEAPON_SELECT);
+            weaponSelectMenu.DefineNavigation(Strings.MenuStrings.LevelEditor.LEVELSELECT_PLE_MENU, loadMenuName);
+
+            LoadMenu loadMenu = (LoadMenu)MenuManager.Instance.GetMenuByName(loadMenuName);
+            loadMenu.SetNavigation(IsHathosLevelSelected ? Strings.Scenes.ScenePaths.Arena : Strings.Scenes.ScenePaths.PlayerLevels);
+
+
+            MenuManager.Instance.DoTransition(weaponSelectMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+        }
+        if(!SceneTracker.IsCurrentSceneMain)
+        {
+            mainPleMenu.LoadLevel();
+        }
+        
+    }
     protected override void ShowStarted() {
         base.ShowStarted();
         SelectedFilterToggle = (int)LevelSelectFilterType.All;

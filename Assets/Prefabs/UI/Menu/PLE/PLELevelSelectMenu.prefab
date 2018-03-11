@@ -2953,6 +2953,7 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
+  mainPleMenu: {fileID: 0}
 --- !u!114 &114059469798435534
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5447,7 +5448,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 224266473417269380}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.40588656
+  m_Size: 0.40625674
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -6454,17 +6455,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 114057520406640258}
-        m_MethodName: LoadLevel
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 0}
         m_MethodName: LoadLevel
         m_Mode: 1
         m_Arguments:
@@ -8431,17 +8421,6 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 114057520406640258}
         m_MethodName: DeleteSelectedLevel
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 114057520406640258}
-        m_MethodName: ClearAndGenerateLevelUI
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

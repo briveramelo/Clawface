@@ -1,9 +1,9 @@
 ﻿using UnityEngine.UI;
 using UnityEngine;
-using PlayerLevelEditor;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using ModMan;
+using PlayerLevelEditor;
 
 public class MainPLEMenu : PlayerLevelEditorMenu {
 
@@ -131,19 +131,29 @@ public class MainPLEMenu : PlayerLevelEditorMenu {
             selectedMenuToggle.toggler.SetState(true);
         }
     }
-
-    public void SetSelectedTextColor(PLEMenu i_selection)
+    public void QuitAction()
     {
 
-    }
+        ConfirmMenu confirmMenu = (ConfirmMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.CONFIRM);
 
-    public void QuitAction()
-    {        
-        Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
-        LoadMenu loadMenu = (LoadMenu)menu;
-        loadMenu.SetNavigation(Strings.Scenes.ScenePaths.MainMenu);
-        //loadMenu.Fast = true;
-        MenuManager.Instance.DoTransition(loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+        Action onYesAction = () =>
+        {
+            Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
+            LoadMenu loadMenu = (LoadMenu)menu;
+            loadMenu.SetNavigation(Strings.Scenes.ScenePaths.MainMenu);
+            MenuManager.Instance.DoTransition(loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+        };
+
+        Action onNoAction = () =>
+        {
+            MenuManager.Instance.DoTransition(confirmMenu, Transition.HIDE, new Effect[] { });
+            SelectInitialButton();
+        };
+
+        confirmMenu.DefineActions("You will lose unsaved data, are you sure?", onYesAction, onNoAction);
+
+        MenuManager.Instance.DoTransition(confirmMenu, Transition.SHOW, new Effect[] { });
+
     }
 
     #endregion
