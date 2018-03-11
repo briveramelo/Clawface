@@ -41,7 +41,7 @@ public class WaveMenu : PlayerLevelEditorMenu
     #endregion
 
     #region Public Interface
-    public void ResetToWave0() {
+    public void ResetToWave0() {        
         ChangeToWave(0);
     }
 
@@ -129,10 +129,10 @@ public class WaveMenu : PlayerLevelEditorMenu
     #region Private Interface
 
     void HandleHotKeys() {
-        if (Input.GetKeyDown(KeyCode.LeftArrow)) {
+        if (Input.GetKeyDown(KeyCode.LeftArrow)) { // || Input.GetKeyDown(KeyCode.A)) {
             PrevWave();
         }
-        else if (Input.GetKeyDown(KeyCode.RightArrow)) {
+        else if (Input.GetKeyDown(KeyCode.RightArrow)){// || Input.GetKeyDown(KeyCode.D)) {
             NextWave();
         }
     }

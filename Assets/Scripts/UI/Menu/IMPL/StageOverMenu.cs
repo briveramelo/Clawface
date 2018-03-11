@@ -123,9 +123,8 @@ public class StageOverMenu : Menu
 
     public void WeaponSelectAction()
     {
-        
         WeaponSelectMenu weaponMenu = (WeaponSelectMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.WEAPON_SELECT);
-        weaponMenu.DefineNavigation(Strings.Scenes.ScenePaths.MainMenu, Strings.MenuStrings.LOAD);
+        weaponMenu.DefineNavigation(null, Strings.MenuStrings.LOAD);
         LoadMenu lm = (LoadMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
         lm.SetNavigation(SceneTracker.CurrentSceneName);
 

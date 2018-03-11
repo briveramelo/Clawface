@@ -12,6 +12,7 @@ public abstract class Menu : RoutineRunner {
     private string menuName;
     protected UnityEngine.EventSystems.EventSystem CurrentEventSystem {get{ return UnityEngine.EventSystems.EventSystem.current; } }
     protected GameObject CurrentEventSystemGameObject { get { return CurrentEventSystem.currentSelectedGameObject; } }
+    protected GameObject lastSelectedGameObject;
     public string MenuName
     {
         get { return menuName; }
@@ -74,10 +75,14 @@ public abstract class Menu : RoutineRunner {
     {
         canvasGroup.alpha = 0.0F;
     }
+
+    protected virtual void LateUpdate() {
+        lastSelectedGameObject = CurrentEventSystemGameObject;
+    }
     #endregion
 
     #region Private Fields
-    
+
     private bool displayed;
 
     #endregion

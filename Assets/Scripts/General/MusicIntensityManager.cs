@@ -30,8 +30,7 @@ public class MusicIntensityManager : RoutineRunner {
     void Start () {
 		for (int i=0;i< musicEventsList.Count; i++)
         {
-            EventSystem.Instance.RegisterEvent(musicEventsList[i], ChangeTrack);
-            EventSystem.Instance.RegisterEvent(Strings.Events.WEAPONS_SELECT_FROM_STAGE_OVER, Stop);            
+            EventSystem.Instance.RegisterEvent(musicEventsList[i], ChangeTrack);         
         }
         currentTrack = -1;
         isSource2Active = false;
@@ -44,7 +43,6 @@ public class MusicIntensityManager : RoutineRunner {
             for (int i = 0; i < musicEventsList.Count; i++)
             {
                 EventSystem.Instance.UnRegisterEvent(musicEventsList[i], ChangeTrack);                
-                EventSystem.Instance.UnRegisterEvent(Strings.Events.WEAPONS_SELECT_FROM_STAGE_OVER, Stop);
             }
         }
     }

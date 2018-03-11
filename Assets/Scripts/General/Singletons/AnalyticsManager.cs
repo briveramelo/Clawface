@@ -367,7 +367,7 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
 
         Dictionary<string, object> waveCompletedDictionary = new Dictionary<string, object>();
 
-        string level = SceneManager.GetActiveScene().name;
+        string level = SceneTracker.CurrentSceneName;
         float runtime = currentLevelTime;
         float totalLevelTime = totalCurrentLevelTime;
         int score = ScoreManager.Instance.GetScore();

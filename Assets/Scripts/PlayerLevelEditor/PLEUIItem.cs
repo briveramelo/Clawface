@@ -16,7 +16,7 @@ public class PLEUIItem : ClickableBase, IUIGroupable {
 
     public override void OnPointerDown(PointerEventData eventData) {
         if (isInteractable) {
-            scrollGroup.SelectItem(ItemIndex);
+            scrollGroup.SelectUIItem(ItemIndex);
         }
     }
 
@@ -36,7 +36,7 @@ public class PLEUIItem : ClickableBase, IUIGroupable {
         colorChangingUI.SetUIIndex(itemIndex);
         this.registeredItem = registeredItem;
         this.pleItem = registeredItem.GetComponent<PLEItem>();
-        //this.imagePreview.sprite = pleItem.iconPreview;
+        this.imagePreview.sprite = pleItem.iconPreview;
     }
 
     public void ToggleInteractable(bool isInteractable) {

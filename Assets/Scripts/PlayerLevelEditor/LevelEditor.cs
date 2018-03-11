@@ -60,11 +60,9 @@ namespace PlayerLevelEditor
 
         private void OnDestroy()
         {
-            if(EventSystem.Instance)
-            {
+            if(EventSystem.Instance) {
                 EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_STARTED, PlayLevel);
-            }
-            
+            }            
         }
 
 
@@ -117,6 +115,7 @@ namespace PlayerLevelEditor
         }
 
         public void ResetToWave0() {
+            gridController.ResetTileHeightsAndStates();
             waveEditorMenu.ResetToWave0();
         }
 
@@ -163,13 +162,8 @@ namespace PlayerLevelEditor
                 MenuManager.Instance.DoTransition(newMenu, Menu.Transition.SHOW, new Menu.Effect[] { });
 
                 currentDisplayedMenu = i_newMenu;
-
-                if (currentDisplayedMenu == PLEMenu.SAVE || currentDisplayedMenu == PLEMenu.LEVELSELECT) {
-                    ToggleCameraController(false);
-                }
-                else {
-                    ToggleCameraController(true);
-                }
+                bool showCameraController = !IsMenu(currentDisplayedMenu, PLEMenu.SAVE, PLEMenu.LEVELSELECT, PLEMenu.TEST);
+                ToggleCameraController(showCameraController);
                 mainEditorMenu.SetMenuToggleOn(currentDisplayedMenu);
             }
         }
@@ -264,6 +258,14 @@ namespace PlayerLevelEditor
 
         #region Private Interface
 
+        private bool IsMenu(PLEMenu menuInQuestion, params PLEMenu[] potentialMatches) {
+            foreach (PLEMenu menu in potentialMatches) {
+                if (menuInQuestion==menu) {
+                    return true;
+                }
+            }
+            return false;
+        }
 
         void ToggleMenuInteractable(bool isInteractable, params PLEMenu[] menus) {
             foreach (PLEMenu menu in menus) {
