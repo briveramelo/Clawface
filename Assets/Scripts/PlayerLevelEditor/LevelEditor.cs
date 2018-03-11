@@ -157,7 +157,7 @@ namespace PlayerLevelEditor
                     Menu menuToHide = GetMenu(currentDisplayedMenu);
                     MenuManager.Instance.DoTransition(menuToHide, Menu.Transition.HIDE, new Menu.Effect[] { });
                 }
-
+                print("showing the " + i_newMenu + " menu");
                 Menu newMenu = GetMenu(i_newMenu);
                 MenuManager.Instance.DoTransition(newMenu, Menu.Transition.SHOW, new Menu.Effect[] { });
 
