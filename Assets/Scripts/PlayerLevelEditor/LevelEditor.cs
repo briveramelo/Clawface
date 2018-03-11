@@ -151,22 +151,24 @@ namespace PlayerLevelEditor
 
         public void SwitchToMenu(PLEMenu i_newMenu) {
             if (i_newMenu!=currentDisplayedMenu) {
-                pleMenus.ForEach(menu => {
-                    if (menu.MenuName!=Strings.MenuStrings.LevelEditor.MAIN_PLE_MENU) {
-                        MenuManager.Instance.DoTransition(menu, Menu.Transition.HIDE, new Menu.Effect[] { Menu.Effect.INSTANT });
-                    }
-                });
+                HideAllMenusExceptMain();
                 ConfirmMenu confirmMenu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.CONFIRM) as ConfirmMenu;
                 MenuManager.Instance.DoTransition(confirmMenu, Menu.Transition.HIDE, new Menu.Effect[] { Menu.Effect.INSTANT });
-
                 Menu newMenu = GetMenu(i_newMenu);
                 MenuManager.Instance.DoTransition(newMenu, Menu.Transition.SHOW, new Menu.Effect[] { Menu.Effect.INSTANT });
-
                 currentDisplayedMenu = i_newMenu;
                 bool showCameraController = !IsMenu(currentDisplayedMenu, PLEMenu.SAVE, PLEMenu.LEVELSELECT, PLEMenu.TEST);
                 ToggleCameraController(showCameraController);
                 mainEditorMenu.SetMenuToggleOn(currentDisplayedMenu);
             }
+        }
+
+        public void HideAllMenusExceptMain() {
+            pleMenus.ForEach(menu => {
+                if (menu.MenuName != Strings.MenuStrings.LevelEditor.MAIN_PLE_MENU) {
+                    MenuManager.Instance.DoTransition(menu, Menu.Transition.HIDE, new Menu.Effect[] { Menu.Effect.INSTANT });
+                }
+            });
         }
         
         public void UsingQuitFunction(Button thisBtn)

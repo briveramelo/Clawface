@@ -43,7 +43,7 @@ public class ConfirmMenu: Menu
         {
             if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN))
             {
-                MenuManager.Instance.DoTransition(this, Transition.HIDE, new Effect[] { });
+                MenuManager.Instance.DoTransition(this, Transition.HIDE, new Effect[] { Effect.INSTANT });
             }
         }
     }
@@ -77,7 +77,7 @@ public class ConfirmMenu: Menu
   
     public void YesAction()
     {
-        MenuManager.Instance.DoTransition(this, Transition.HIDE, new Effect[] { });
+        MenuManager.Instance.DoTransition(this, Transition.HIDE, new Effect[] { Effect.INSTANT });
 
         if (onYesAction != null)
         {
@@ -87,7 +87,7 @@ public class ConfirmMenu: Menu
 
     public void NoAction()
     {
-        MenuManager.Instance.DoTransition(this, Transition.HIDE, new Effect[] { });
+        MenuManager.Instance.DoTransition(this, Transition.HIDE, new Effect[] { Effect.INSTANT });
 
         if (onNoAction != null)
         {
@@ -124,6 +124,7 @@ public class ConfirmMenu: Menu
         SetYesButtonInteractibility(true);
         SetNoButtonText("NO");
         SetYesButtonText("YES");
+        print("confirm hide started");
     }
 
     protected override void DefaultHide(Transition transition, Effect[] effects) {

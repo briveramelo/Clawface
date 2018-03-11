@@ -94,6 +94,8 @@ public class MainPLEMenu : PlayerLevelEditorMenu {
 
     public void OpenSaveAction()
     {
+        SelectMenuItem(PLEMenu.SAVE);        
+
         SaveMenu saveMenu = levelEditor.GetMenu(PLEMenu.SAVE) as SaveMenu;
         ConfirmMenu confirmMenu = (ConfirmMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.CONFIRM);
         confirmMenu.SetYesButtonText("Save");
@@ -111,8 +113,10 @@ public class MainPLEMenu : PlayerLevelEditorMenu {
 
         //save as
         Action saveAsAction = () => {
+            saveMenu.CanvasGroup.alpha = 1;
+            saveMenu.CanvasGroup.interactable = true;
+            saveMenu.CanvasGroup.blocksRaycasts = true;
             MenuManager.Instance.DoTransition(confirmMenu, Transition.HIDE, new Effect[] { Effect.INSTANT });
-            SelectMenuItem(PLEMenu.SAVE);
         };
 
 

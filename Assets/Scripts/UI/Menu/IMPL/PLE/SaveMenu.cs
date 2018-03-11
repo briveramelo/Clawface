@@ -31,7 +31,7 @@ public class SaveMenu : PlayerLevelEditorMenu {
     #region Unity Lifecycle    
     protected override void Update() {
         base.Update();
-        if (allowInput) {
+        if (allowInput && Displayed) {
             HandleInputFieldSelection();
         }
     }
@@ -61,6 +61,13 @@ public class SaveMenu : PlayerLevelEditorMenu {
         CurrentEventSystem.SetSelectedGameObject(nameText.gameObject);
         nameText.text = ActiveLevelData.name;
         descriptionText.text = ActiveLevelData.description;
+    }
+
+    protected override void ShowComplete() {
+        base.ShowComplete();
+        CanvasGroup.alpha = 0;
+        CanvasGroup.interactable =false;
+        CanvasGroup.blocksRaycasts = false;
     }
 
     #endregion

@@ -34,20 +34,20 @@ public class MusicManager : Singleton<MusicManager>
     
     private void Start()
     {
-        EventSystem.Instance.RegisterEvent(Strings.Events.SCENE_LOADED, PlayMusic);
+        EventSystem.Instance.RegisterEvent(Strings.Events.SCENE_LOADED, PlayMusicInSceneContext);
         musicDictionary = new Dictionary<MusicType, AudioClip>();
         foreach (GameTrack t in gameTracks)
         {
             musicDictionary.Add(t.type, t.trackClip);
-        }
-        
+        }        
+        PlayMusicInSceneContext();
     }
 
     private void OnDestroy()
     {
         if(EventSystem.Instance)
         {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.SCENE_LOADED, PlayMusic);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.SCENE_LOADED, PlayMusicInSceneContext);
         }
     }
 
@@ -67,40 +67,39 @@ public class MusicManager : Singleton<MusicManager>
 
     #region Private Interface
 
-    private void PlayMusic(params object[] i_params)
+    private void PlayMusicInSceneContext(params object[] i_params)
     {
-        if (SceneTracker.IsCurrentSceneMain || SceneTracker.IsCurrentSceneMovie)
-        {
-            ResetSource();
-            StartCoroutine(PlayMainMenuMusic());
+        if (!SceneTracker.IsCurrentSceneMovie) {
+            if (SceneTracker.IsCurrentSceneMain || SceneTracker.IsCurrentSceneEditor) {
+                StartCoroutine(PlayMainMenuMusic());
+            }
+            else if (SceneTracker.IsCurrentScenePlayerLevels) {
+                ResetSource();
+                PlayRandomGameTrack();
+            }
+            else if (SceneTracker.IsCurrentScene80sShit) {
+                mainMusicSource.Stop();
+                loopMusicSource.Stop();
+            }
         }
-        else if (SceneTracker.IsCurrentScenePlayerLevels)
-        {
-            ResetSource();
-            PlayRandomGameTrack();
-        }
-        else if (!SceneTracker.IsCurrentSceneEditor)
-        {
-            mainMusicSource.Stop();
-            loopMusicSource.Stop();
-        }
-
     }
     private IEnumerator PlayMainMenuMusic()
     {
-        
         AudioClip firstToPlay = musicDictionary[MusicType.MainMenu_Intro];
         AudioClip toLoop = musicDictionary[MusicType.MainMenu_Loop];
-
-        mainMusicSource.clip = firstToPlay;
-        loopMusicSource.clip = toLoop;
-        mainMusicSource.Play();
-        while (!(mainMusicSource.time - mainMusicSource.clip.length).AboutEqual(0f, 0.01f))
-        {
-            yield return null;
+        bool isAlreadyPlayingMenuMusic = ((mainMusicSource.clip == firstToPlay && mainMusicSource.isPlaying) || (loopMusicSource.clip == toLoop && loopMusicSource.isPlaying));
+        if (!isAlreadyPlayingMenuMusic) {
+            mainMusicSource.loop = false;
+            mainMusicSource.clip = firstToPlay;
+            loopMusicSource.clip = toLoop;
+            mainMusicSource.Play();
+            while (!(mainMusicSource.time - mainMusicSource.clip.length).AboutEqual(0f, 0.01f))
+            {
+                yield return null;
+            }
+            loopMusicSource.Play();
+            mainMusicSource.Stop();
         }
-        mainMusicSource.Stop();
-        loopMusicSource.Play();
     }
 
     private void ResetSource()
@@ -112,7 +111,7 @@ public class MusicManager : Singleton<MusicManager>
     private void PlayRandomGameTrack()
     {
         AudioClip toPlay = musicDictionary[MusicType.Hathos_Lo];
-        int sel = (int)UnityEngine.Random.Range(1, 3);
+        int sel = (int)UnityEngine.Random.Range(1, 4);
         switch(sel)
         {
             case 2:

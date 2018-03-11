@@ -31,7 +31,6 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
     [SerializeField] private RectOffset gridLayoutConfigWithHathos, gridLayoutConfigWithoutHathos;
     [SerializeField] private DiffAnim scrollSlideAnim;
     [SerializeField] private AbsAnim selectLevelAnim;
-    [SerializeField] private MainPLEMenu mainPleMenu;
     #endregion
 
     #region Fields (Private)
@@ -157,7 +156,6 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
         if (SceneTracker.IsCurrentSceneEditor)
         {
             ConfirmMenu confirmMenu = (ConfirmMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.CONFIRM);
-
             Action onYesAction = () =>
             {
                 LoadSelectedLevel();
@@ -169,7 +167,9 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
                 SelectInitialButton();
             };
 
-
+            LoadMenu loadMenu = (LoadMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
+            loadMenu.SetNavigation(IsHathosLevelSelected ? Strings.Scenes.ScenePaths.Arena : Strings.Scenes.ScenePaths.PlayerLevels);
+            loadMenu.Fast = true;
             confirmMenu.DefineActions("You will lose unsaved data, are you sure?", onYesAction, onNoAction);
 
             MenuManager.Instance.DoTransition(confirmMenu, Transition.SHOW, new Effect[] { Effect.INSTANT });
@@ -294,11 +294,6 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
 
             MenuManager.Instance.DoTransition(weaponSelectMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
         }
-        if(!SceneTracker.IsCurrentSceneMain)
-        {
-            mainPleMenu.LoadLevel();
-        }
-        
     }
     protected override void ShowStarted() {
         base.ShowStarted();

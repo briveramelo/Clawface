@@ -9,6 +9,8 @@ using UnityEngine.Assertions;
 using UnityEngine.UI;
 using Rewired.Integration.UnityUI;
 
+using UnityES = UnityEngine.EventSystems.EventSystem;
+
 public class MenuManager : Singleton<MenuManager> {
 
     #region Accessors (Internal)
@@ -19,6 +21,19 @@ public class MenuManager : Singleton<MenuManager> {
         {
             return mouseMode;
         }
+        private set
+        {
+            mouseMode = value;
+            Cursor.visible = mouseMode;
+            if (mouseMode)
+            {
+                eventSystem.SetSelectedGameObject(null);
+            } else if (menuStack.Count > 0)
+            {
+                Menu active = menuStack[menuStack.Count - 1];
+                active.SelectInitialButton();
+            }
+        }
     }
 
     #endregion
@@ -26,6 +41,8 @@ public class MenuManager : Singleton<MenuManager> {
     #region Unity Serialization Fields
     [SerializeField]
     private List<GameObject> menuPrefabs;
+    [SerializeField]
+    private UnityES eventSystem;
     [SerializeField]
     private RewiredStandaloneInputModule input;
     [SerializeField]
@@ -36,7 +53,7 @@ public class MenuManager : Singleton<MenuManager> {
     private List<Menu> menus = new List<Menu>();
     private Queue<TransitionBundle> transitionQueue = new Queue<TransitionBundle>();
     private List<Menu> menuStack = new List<Menu>();
-    bool mouseMode = false;
+    private bool mouseMode = false;
     #endregion
 
     #region Unity Lifecycle Functions
@@ -58,7 +75,13 @@ public class MenuManager : Singleton<MenuManager> {
             menus.Add(menu);
         }
     }
-    void Update()
+
+    private void Start()
+    {
+        MouseMode = !InputManager.Instance.HasJoystick();
+    }
+
+    private void Update()
     {
         if (transitionQueue.Count > 0)
         {
@@ -73,17 +96,15 @@ public class MenuManager : Singleton<MenuManager> {
         }
 
         // Check if we should switch between mouse mode or not
-        if (!mouseMode && Input.GetMouseButtonDown (0))
+        bool mouseInput = InputManager.Instance.Player.controllers.Mouse.GetAnyButton();
+        if (!mouseMode && (InputManager.Instance.Player.controllers.Mouse.GetAnyButtonDown()
+            || Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0))
         {
-            mouseMode = true;
-        } else if (mouseMode && InputManager.Instance.Player.GetAnyButtonDown())
+            MouseMode = true;
+        } else if (!mouseInput && mouseMode &&
+            InputManager.Instance.Player.controllers.Joysticks.Any((joystick) => joystick.GetAnyButton()))
         {
-            mouseMode = false;
-            if (menuStack.Count > 0)
-            {
-                Menu active = menuStack[menuStack.Count - 1];
-                active.SelectInitialButton();
-            }
+            MouseMode = false;
         }
     }
     #endregion

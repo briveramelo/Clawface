@@ -34,6 +34,13 @@ public class SelectorToggle : MonoBehaviour {
     [SerializeField]
     private Text text;
 
+    [Header("Tweaks")]
+    [SerializeField]
+    private bool overrideDisabledColor;
+
+    [SerializeField]
+    private bool alwaysUpdate;
+
     #endregion
 
     #region Fields (Private)
@@ -83,19 +90,47 @@ public class SelectorToggle : MonoBehaviour {
             pointerEnter,
             pointerExit
         });
+    }
 
+    private void Start()
+    {
         interactable = selectable.interactable;
         UpdateDisplay();
     }
 
     private void Update()
     {
-        if (interactable != selectable.interactable)
+        if (alwaysUpdate || interactable != selectable.interactable)
         {
             interactable = selectable.interactable;
             UpdateDisplay();
         }
     }
+    #endregion
+
+    #region Interface (Public)
+
+    public void UpdateDisplay()
+    {
+        Sprite sprite;
+        Color color;
+        if (interactable)
+        {
+            sprite = (selected || hovered) ? spriteOn : spriteOff;
+            color = (selected || hovered) ? colorOn : colorOff;
+        }
+        else
+        {
+            sprite = spriteOff;
+            color = overrideDisabledColor ? ((selected || hovered) ? colorOn : colorOff) : colorDisabled;
+        }
+
+        // Set values.
+        image.enabled = sprite != null;
+        image.sprite = sprite;
+        text.color = color;
+    }
+
     #endregion
 
     #region Interface (Private)
@@ -122,26 +157,6 @@ public class SelectorToggle : MonoBehaviour {
     {
         hovered = false;
         UpdateDisplay();
-    }
-
-    private void UpdateDisplay()
-    {
-        Sprite sprite;
-        Color color;
-        if (interactable)
-        {
-            sprite = (selected || hovered) ? spriteOn : spriteOff;
-            color = (selected || hovered) ? colorOn : colorOff;
-        } else
-        {
-            sprite = spriteOff;
-            color = colorDisabled;
-        }
-
-        // Set values.
-        image.enabled = sprite != null;
-        image.sprite = sprite;
-        text.color = color;
     }
 
     #endregion
