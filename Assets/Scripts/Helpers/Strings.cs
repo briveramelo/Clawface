@@ -52,6 +52,7 @@
             public const string Arena = "80s shit";
             public const string Editor = "Editor";
             public const string PlayerLevels = "PlayerLevels";
+            public const string Movie = "Movie";
         }
     }    
 
