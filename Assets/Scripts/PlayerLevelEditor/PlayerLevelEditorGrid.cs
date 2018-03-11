@@ -60,7 +60,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     #endregion
 
     #region Public Fields
-
+    public int LevelSize { get { return levelSize; } }
     [HideInInspector] public bool displaying = false;
     private PLEMenu CurrentEditorMenu { get { return editorInstance.currentDisplayedMenu; } }
 
@@ -130,7 +130,13 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         displaying = show;
         gridTiles.ForEach(tile => { tile.ToggleGhostGlobal(show); });
     }
-
+    public void ResetTileHeightsAndStates() {
+        gridTiles.ForEach(tile => {
+            if (tile.IsActive) {
+                tile.ResetTileHeightAndStates();
+            }
+        });
+    }
     #endregion
 
     #region Private Interface
@@ -148,12 +154,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
 
     void BakeNavMesh() {
         spawnsParent.gameObject.SetActive(false);
-
-        gridTiles.ForEach(tile => {
-            if (tile.IsActive) {
-                tile.ResetTileHeightAndStates();
-            }
-        });
+        ResetTileHeightsAndStates();
         levelNav.BuildNavMesh();
         spawnsParent.gameObject.SetActive(true);
     }

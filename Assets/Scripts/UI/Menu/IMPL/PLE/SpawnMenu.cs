@@ -78,7 +78,7 @@ public class SpawnMenu : PlacementMenu {
             (scrollGroup as SpawnScrollGroup).SelectKeira();
         }
         else {
-            TrySelectUIItem(scrollGroup.GetLastUIItem());
+            scrollGroup.SelectLastSelectedUIItem();
         }
     }
     protected override void PostPlaceItem(GameObject newItem) {
@@ -119,11 +119,12 @@ public class SpawnMenu : PlacementMenu {
             if (spawn.spawnType==SpawnType.Keira) {
                 PLEUIItem firstAvailable = scrollGroup.TryGetFirstAvailableUIItem();
                 if (firstAvailable) {
-                    TrySelectUIItem(firstAvailable);
+                    scrollGroup.SelectUIItem(firstAvailable.ItemIndex); //will call TrySelectUIItem back here
                 }
             }
         }
         SetInteractabilityByState();
+        
         levelEditor.SetMenuButtonInteractability();        
     }    
 
@@ -151,8 +152,8 @@ public class SpawnMenu : PlacementMenu {
         (scrollGroup as SpawnScrollGroup).SetSpawnUIInteractability(PLESpawnManager.Instance.CurrentWaveIndex);
     }
 
-    protected override void PostOnSelectUIItem(GameObject newItem) {
-        base.PostOnSelectUIItem(newItem);
+    protected override void PostSelectUIItemMenuSpecific(GameObject newItem) {
+        base.PostSelectUIItemMenuSpecific(newItem);
         PLESpawn spawn = newItem.GetComponent<PLESpawn>();
         UpdateFields(spawn.totalSpawnAmount, spawn.DisplayName.ToUpper());
         int remainingSpawns = spawn.MaxPerWave - NumberSpawnsInCurrentWave(spawn.spawnType);

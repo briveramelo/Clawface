@@ -60,7 +60,7 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
     #endregion
 
     #region Protected Interface
-    public virtual void TrySelectUIItem(PLEUIItem item) {
+    public virtual void PostSelectUIItem(PLEUIItem item) {
         if (allowInput) {
             if (item.isInteractable) {
                 DeselectItem();
@@ -69,14 +69,14 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
                 previewItem = Instantiate(selectedItemPrefab);
                 previewItem.name = previewItem.name.TryCleanName(Strings.CLONE);
                 previewItem.name += Strings.PREVIEW;
-                PostOnSelectUIItem(previewItem);
+                PostSelectUIItemMenuSpecific(previewItem);
             }
             else {
-                scrollGroup.DeselectAll();
+                scrollGroup.DeselectAllUIItems();
             }
         }
     }
-    protected virtual void PostOnSelectUIItem(GameObject newItem) { }
+    protected virtual void PostSelectUIItemMenuSpecific(GameObject newItem) { }
     protected virtual void DeselectItem() {
         if (selectedPLEItem != null) {
             selectedPLEItem.Deselect();
@@ -107,7 +107,7 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
     protected virtual void PostPlaceItem(GameObject newItem) { }
 
     protected bool DeselectUIItem() {
-        scrollGroup.DeselectAll();
+        scrollGroup.DeselectAllUIItems();
         selectedItemPrefab = null;
         return TryDestroyPreview();
     }
@@ -159,8 +159,10 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
     protected virtual void ForceInteractability(bool isInteractable) {
         selectables.ForEach(selectable => { selectable.interactable = isInteractable; });
     }
+    protected void SelectUIItem(int itemIndex) {
+        scrollGroup.SelectUIItem(itemIndex);
+    }
     protected abstract void SetInteractabilityByState();
-
     #endregion
 
     #region Private Interface
