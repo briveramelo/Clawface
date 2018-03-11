@@ -9,25 +9,25 @@ namespace PlayerLevelEditor
     public class PLECameraController : MonoBehaviour
     {
         [SerializeField] private PlayerLevelEditorGrid gridController;
-        [SerializeField] private float minFarClipPlain=20f;
-        [SerializeField] private float rotationSpeed = 4f * 60f;        
-        [SerializeField] private float panSpeed = -0.15f * 60f;
-        [SerializeField] private float WASDSpeedBase = 1f * 60f;
-        [SerializeField] private float zoomScrollSpeed = 5f * 60f;
-        [SerializeField] private float zoomScrubSpeed = 0.2f * 60f;
-        [SerializeField] private float zPanSpeed = 0.5f * 60f;
+        [SerializeField] private float panSpeedBase;
+        [SerializeField] private float WASDSpeedBase;
+        [SerializeField] private float zoomScrollSpeed;
+        [SerializeField] private float zoomScrubSpeed;
+        [SerializeField] private float zPanSpeed;
+        [SerializeField] private float rotationSpeed;
         [SerializeField] private float heightOffsetSpeedMultiplier;
+        [SerializeField] private float minFarClipPlain;
 
         private float CameraDistanceAway { get { return Vector3.Distance(mainCamera.transform.position, Vector3.zero); } }
         private float CameraYDistanceAway { get { return mainCamera.transform.position.y; } }
         private float CameraYDistanceMuliplier { get { return heightOffsetSpeedMultiplier * CameraYDistanceAway; } }
         private float WASDSpeedAdjusted { get { return (WASDSpeedBase + CameraYDistanceMuliplier) * Time.deltaTime; } }
-        private float PanSpeedAdjusted { get { return (panSpeed - CameraYDistanceMuliplier); } }
+        private float PanSpeedAdjusted { get { return (panSpeedBase - CameraYDistanceMuliplier); } }
 
         private float ZPanSpeedAdjusted { get { return (zPanSpeed /* use camera offset??? */ ) * Time.deltaTime; } }
         private float RotationSpeedAdjusted { get { return rotationSpeed * Time.deltaTime; } }
         private float ScrollSpeedAdjusted { get { return zoomScrollSpeed * Time.deltaTime; } }
-        private float ZoomScrubSpeedAdjusted { get { return zoomScrubSpeed * Time.deltaTime; } }
+        private float ZoomScrubSpeedAdjusted { get { return zoomScrubSpeed; } }
 
 
         private Camera mainCamera;
@@ -125,17 +125,17 @@ namespace PlayerLevelEditor
                 screenDiff = mainCamera.transform.TransformDirection(screenDiff);
                 screenDiff.y = 0;
                 //what is this zPanSpeed??
-                screenDiff += ZPanSpeedAdjusted * yShift * mainCamera.transform.forward.NormalizedNoY();
+                //screenDiff += ZPanSpeedAdjusted * yShift * mainCamera.transform.forward.NormalizedNoY();
                 mainCamera.transform.position = startCamPosition + screenDiff * PanSpeedAdjusted;
             }
         }
 
         void HandleCameraZooming() {            
-            if (Input.GetAxis("Mouse ScrollWheel") < 0) { // back
+            if (Input.GetAxis("Mouse ScrollWheel") < 0) {
                 mainCamera.transform.Translate(Vector3.forward * ScrollSpeedAdjusted);
             }
 
-            if (Input.GetAxis("Mouse ScrollWheel") > 0) {// forward
+            if (Input.GetAxis("Mouse ScrollWheel") > 0) {
                 mainCamera.transform.Translate(Vector3.back * ScrollSpeedAdjusted);
             }
 

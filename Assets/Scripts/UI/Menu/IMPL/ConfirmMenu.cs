@@ -120,12 +120,13 @@ public class ConfirmMenu: Menu
     {
         base.HideStarted();
         inputGuard = false;
-
+        SetNoButtonInteractibility(true);
+        SetYesButtonInteractibility(true);
+        SetNoButtonText("NO");
+        SetYesButtonText("YES");
     }
 
     protected override void DefaultHide(Transition transition, Effect[] effects) {
-        SetNoButtonText("NO");
-        SetYesButtonText("YES");
         Fade(transition, effects);
     }
 

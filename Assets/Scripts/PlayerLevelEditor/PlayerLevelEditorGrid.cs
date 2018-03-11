@@ -196,7 +196,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     private void HandleGroupGhostSelectionPreview() {
         if (MouseHelper.HitItem) {
             RaycastHit hit = MouseHelper.raycastHit.Value;
-            if (!Input.GetKey(KeyCode.LeftAlt)) {
+            if (!Input.GetKey(KeyCode.LeftAlt) && !Input.GetKey(KeyCode.Z)) {
                 if (Input.GetMouseButton(MouseButtons.LEFT)) {
                     UnhighlightGhostTiles();
                     HighlightGhostTiles(hit);
@@ -233,7 +233,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     #endregion
 
     private void TryHoverTile() {
-        if (!Input.GetKey(KeyCode.LeftAlt)) {
+        if (!Input.GetKey(KeyCode.LeftAlt) && !Input.GetKey(KeyCode.Z)) {
             Vector3 blockPosition = MouseHelper.currentHoveredObject != null ? MouseHelper.currentHoveredObject.transform.position : Vector3.one * 10000;
             GridTile newHoveredRealTile = GetTileAtPoint(blockPosition);
             HoveredTile = newHoveredRealTile;
@@ -248,7 +248,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     }        
 
     private void HandleSelectingBlocks(RaycastHit hit) {
-        if (!Input.GetKey(KeyCode.LeftAlt)) {
+        if (!Input.GetKey(KeyCode.LeftAlt) && !Input.GetKey(KeyCode.Z)) {
             if (Input.GetMouseButtonDown(MouseButtons.LEFT) && !Input.GetKey(KeyCode.LeftShift)) {
                 DeselectBlocks();
             }
@@ -271,13 +271,13 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         if (Input.GetMouseButtonDown(MouseButtons.RIGHT)) {
             DeselectBlocks();
         }
-        if (Input.GetMouseButton(MouseButtons.RIGHT) && !Input.GetKey(KeyCode.LeftAlt)) {
+        if (Input.GetMouseButton(MouseButtons.RIGHT) && !Input.GetKey(KeyCode.LeftAlt) && !Input.GetKey(KeyCode.Z)) {
             DeselectBlocks();
             SelectBlocks(hit, deletePreviewColor);
         }
         if (Input.GetMouseButtonUp(MouseButtons.RIGHT)) {
             DeselectBlocks();
-            if (!Input.GetKey(KeyCode.LeftAlt)) {
+            if (!Input.GetKey(KeyCode.LeftAlt) && !Input.GetKey(KeyCode.Z)) {
                 DeleteBlocks(hit);
                 ShowWalls();
                 editorInstance.SetMenuButtonInteractability();

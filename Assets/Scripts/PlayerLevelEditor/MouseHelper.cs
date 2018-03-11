@@ -59,8 +59,8 @@ public class MouseHelper : MonoBehaviour {
             }
             currentMouseWorldPosition = raycastHit.Value.transform.position;
             currentHoveredObject = raycastHit.Value.transform.gameObject;
-            currentProp = currentHoveredObject.GetComponent<PLEProp>();
             currentItem = currentHoveredObject.GetComponent<PLEItem>();
+            currentProp = currentHoveredObject.GetComponent<PLEProp>();
             currentSpawn = currentHoveredObject.GetComponent<PLESpawn>();            
         }
         else {

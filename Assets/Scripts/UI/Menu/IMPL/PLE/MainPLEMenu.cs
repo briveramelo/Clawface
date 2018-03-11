@@ -94,32 +94,30 @@ public class MainPLEMenu : PlayerLevelEditorMenu {
 
     public void OpenSaveAction()
     {
+        SaveMenu saveMenu = levelEditor.GetMenu(PLEMenu.SAVE) as SaveMenu;
+        ConfirmMenu confirmMenu = (ConfirmMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.CONFIRM);
+        confirmMenu.SetYesButtonText("Save");
+        confirmMenu.SetNoButtonText("Save As");
 
-        //ConfirmMenu confirmMenu = (ConfirmMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.CONFIRM);
-        //confirmMenu.SetNoButtonText("Save As");
-        //confirmMenu.SetYesButtonText("Save");
+        //set interactibility of buttons
+        bool isSaveButtonInteractable = saveMenu.IsOverwriteButtonInteractable();
+        confirmMenu.SetYesButtonInteractibility(isSaveButtonInteractable);
 
-        ////set interactibility of buttons
-        ////confirmMenu.SetYesButtonInteractibility(false);
-        ////confirmMenu.SetNoButtonInteractibility(false);
+        //save
+        Action saveAction = () => {
+            MenuManager.Instance.DoTransition(confirmMenu, Transition.HIDE, new Effect[] { Effect.INSTANT });
+            saveMenu.Save();
+        };
 
-        ////save
-        //Action saveAction = () =>
-        //{
-        //    
-        //};
-
-        ////save as
-        //Action saveAsAction = () =>
-        //{
-        //    //SelectMenuItem(PLEMenu.SAVE);
-        //};
+        //save as
+        Action saveAsAction = () => {
+            MenuManager.Instance.DoTransition(confirmMenu, Transition.HIDE, new Effect[] { Effect.INSTANT });
+            SelectMenuItem(PLEMenu.SAVE);
+        };
 
 
-        //confirmMenu.DefineActions("Saving...", saveAction, saveAsAction);
-
-        //MenuManager.Instance.DoTransition(confirmMenu, Transition.SHOW, new Effect[] { });
-        SelectMenuItem(PLEMenu.SAVE);
+        confirmMenu.DefineActions("Saving...", saveAction, saveAsAction);
+        MenuManager.Instance.DoTransition(confirmMenu, Transition.SHOW, new Effect[] { Effect.INSTANT });
     }
 
     public void OpenLevelSelectAction() {

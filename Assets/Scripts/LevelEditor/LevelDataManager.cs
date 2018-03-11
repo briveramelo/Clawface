@@ -267,6 +267,7 @@ public class LevelDataManager : MonoBehaviour {
         dataPersister.TrySave();
         yield return new WaitForEndOfFrame();
         levelEditor.GetMenu(PLEMenu.MAIN).CanvasGroup.alpha = 1f;
+        levelEditor.GetMenu(PLEMenu.FLOOR).CanvasGroup.alpha = 1f;
         levelEditor.SwitchToMenu(PLEMenu.FLOOR);
     }
 

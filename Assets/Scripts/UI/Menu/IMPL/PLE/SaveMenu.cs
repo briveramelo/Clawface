@@ -15,17 +15,15 @@ public class SaveMenu : PlayerLevelEditorMenu {
 
     [SerializeField] private GameObject realLevelParent;
     [SerializeField] private InputField nameText, descriptionText;
-    [SerializeField] private Button saveNewButton, overwriteButton;
+    [SerializeField] private Button saveNewButton;
 
     #endregion
 
     #region Private Fields
     private DataSave ActiveDataSave { get { return DataPersister.ActiveDataSave; } }
     private LevelData ActiveLevelData { get { return ActiveDataSave.ActiveLevelData; } }
-    private UnityEngine.EventSystems.EventSystem CurrentEventSystem { get { return UnityEngine.EventSystems.EventSystem.current; } }
-    private GameObject CurrentSelectedGameObject { get { return UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject; } }
-    private bool IsNameInputSelected { get { return CurrentSelectedGameObject == nameText; } }
-    private bool IsDescriptionInputSelected { get { return CurrentSelectedGameObject == descriptionText; } }
+    private bool IsNameInputSelected { get { return CurrentEventSystemGameObject == nameText.gameObject; } }
+    private bool IsDescriptionInputSelected { get { return CurrentEventSystemGameObject == descriptionText.gameObject; } }
     private bool MoveForward { get { return Input.GetKeyDown(KeyCode.Tab) && !Input.GetKey(KeyCode.LeftShift); } }
     private bool MoveBack { get { return Input.GetKeyDown(KeyCode.Tab) && Input.GetKey(KeyCode.LeftShift); } }
     #endregion
@@ -44,12 +42,12 @@ public class SaveMenu : PlayerLevelEditorMenu {
     public SaveMenu() : base(Strings.MenuStrings.LevelEditor.SAVE_PLE_MENU)
     { }
 
-    public void OverwriteLevel() {
+    public void Save() {
         levelEditor.levelDataManager.SaveLevel();
         BackAction();
     }
 
-    public void SaveNewLevel() {
+    public void SaveAs() {
         levelEditor.levelDataManager.SaveNewLevel();
         BackAction();
     }
@@ -61,7 +59,6 @@ public class SaveMenu : PlayerLevelEditorMenu {
     protected override void ShowStarted() {
         base.ShowStarted();
         CurrentEventSystem.SetSelectedGameObject(nameText.gameObject);
-        SetButtonInteractability();
         nameText.text = ActiveLevelData.name;
         descriptionText.text = ActiveLevelData.description;
     }
@@ -69,9 +66,8 @@ public class SaveMenu : PlayerLevelEditorMenu {
     #endregion
 
     #region Private Interface
-    void SetButtonInteractability() {
-        bool interactable = ActiveLevelData.isMadeByThisUser;
-        overwriteButton.interactable = interactable;
+    public bool IsOverwriteButtonInteractable() {
+        return ActiveLevelData.isMadeByThisUser && !ActiveLevelData.IsEmpty;
     }
 
     void HandleInputFieldSelection() {
