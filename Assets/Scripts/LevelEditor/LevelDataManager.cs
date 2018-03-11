@@ -54,6 +54,9 @@ public class LevelDataManager : MonoBehaviour {
         LoadInSceneContext();
         PLESpawnManager.Instance.MaxWaveIndex = ActiveLevelData.MaxWaveIndex;
         PLESpawnManager.Instance.InfiniteWavesEnabled = ActiveLevelData.isInfinite;
+        if (SceneTracker.IsCurrentSceneEditor) {
+            (levelEditor.GetMenu(PLEMenu.WAVE) as WaveMenu).SetMenuButtonInteractability();
+        }
     }    
 
     private void LoadProps() {

@@ -140,7 +140,7 @@ public class WaveMenu : PlayerLevelEditorMenu
         EventSystem.Instance.TriggerEvent(Strings.Events.PLE_SYNC_LEVEL_UNIT_STATES);
     }
 
-    private void SetMenuButtonInteractability() {
+    public void SetMenuButtonInteractability() {
         bool atMaxWaveLimit = PLESpawnManager.Instance.AtMaxWaveLimit;
         addWave.interactable = !atMaxWaveLimit;
 
