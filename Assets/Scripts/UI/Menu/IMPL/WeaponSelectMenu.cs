@@ -250,7 +250,7 @@ public class WeaponSelectMenu : Menu
                 if (SceneTracker.IsSceneArena(targetSceneName)) {
                     PauseMenu pauseMenu = (PauseMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.PAUSE);
                     pauseMenu.CanPause = true;
-                    EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_STARTED, targetSceneName, ModManager.leftArmOnLoad.ToString(), ModManager.rightArmOnLoad.ToString());
+                    EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_STARTED, SceneTracker.CurrentSceneName, ModManager.leftArmOnLoad.ToString(), ModManager.rightArmOnLoad.ToString());
                 }
                 if (onCompleteSceneLoad!=null) {
                     onCompleteSceneLoad();
@@ -259,7 +259,7 @@ public class WeaponSelectMenu : Menu
             loadMenu.SetNavigation(targetSceneName, onLoadMenuCompleteSceneLoad);
         }
         else if (SceneTracker.IsSceneArena(targetSceneName)) {
-            EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_STARTED, targetSceneName, ModManager.leftArmOnLoad.ToString(), ModManager.rightArmOnLoad.ToString());
+            EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_STARTED, SceneTracker.CurrentSceneName, ModManager.leftArmOnLoad.ToString(), ModManager.rightArmOnLoad.ToString());
         }
         
         if (onStartAction!=null) {
