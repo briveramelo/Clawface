@@ -41,8 +41,9 @@ public class PlayOnVideoFinish : MonoBehaviour {
 
     public void LoadLevel()
     {
-        MenuMusicManager.Instance.Play();
+        
         menu.CanPause = true;
         SceneManager.LoadScene(levelToLoad);
+        EventSystem.Instance.TriggerEvent(Strings.Events.SCENE_LOADED);
     }
 }
