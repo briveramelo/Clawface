@@ -64,6 +64,7 @@ public class DifficultyTextSliderDataSource : TextSliderDataSource {
     public override void ForceUpdate()
     {
         difficulty = SettingsManager.Instance.Difficulty;
+        base.ForceUpdate();
     }
 
     #endregion

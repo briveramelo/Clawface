@@ -161,7 +161,7 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
 
             LoadMenu loadMenu = (LoadMenu)MenuManager.Instance.GetMenuByName(loadMenuName);
             loadMenu.SetNavigation(IsHathosLevelSelected ? Strings.Scenes.ScenePaths.Arena : Strings.Scenes.ScenePaths.PlayerLevels);
-
+            loadMenu.Fast = true; // we want the game to start asap
 
             MenuManager.Instance.DoTransition(weaponSelectMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
         }

@@ -225,7 +225,7 @@ public class MoveState : IPlayerState
         switch (SettingsManager.Instance.MouseAimMode)
         {
             case MouseAimMode.AUTOMATIC:
-                return !InputManager.Instance.HasJoystick();
+                return MenuManager.Instance.MouseMode;
             case MouseAimMode.ALWAYS_ON:
                 return true;
             case MouseAimMode.ALWAYS_OFF:

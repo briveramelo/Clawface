@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -33,6 +35,9 @@ public class TextSlider : Selectable {
 
     [SerializeField]
     private Text text;
+    
+    [SerializeField]
+    private ValueChangedEvent OnValueChanged;
 
     #endregion
 
@@ -83,6 +88,8 @@ public class TextSlider : Selectable {
             enter,
             exit
         });
+
+        dataSource.OnDataSourceForcedUpdate += (_) => { DoUpdate(dataSource.Selected); };
     }
 
     protected override void Start()
@@ -148,6 +155,11 @@ public class TextSlider : Selectable {
         // Update UI
         UpdateArrowsDisplayed();
         text.text = dataSource.Text;
+
+        // Event
+        if (OnValueChanged != null) {
+            OnValueChanged.Invoke(dataSource, value);
+        }
     }
 
     private void UpdateArrowsDisplayed()
@@ -163,6 +175,13 @@ public class TextSlider : Selectable {
             rightArrow.SetActive(false);
         }
     }
-    
+
+    #endregion
+
+    #region Types (Public)
+
+    [Serializable]
+    public class ValueChangedEvent : UnityEvent<TextSliderDataSource, int> { }
+
     #endregion
 }

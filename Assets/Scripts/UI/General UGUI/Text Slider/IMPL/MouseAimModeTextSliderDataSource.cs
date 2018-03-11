@@ -64,6 +64,7 @@ public class MouseAimModeTextSliderDataSource : TextSliderDataSource {
     public override void ForceUpdate()
     {
         mode = SettingsManager.Instance.MouseAimMode;
+        base.ForceUpdate();
     }
 
     #endregion

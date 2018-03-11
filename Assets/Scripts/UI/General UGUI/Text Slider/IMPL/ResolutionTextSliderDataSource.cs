@@ -56,6 +56,7 @@ public class ResolutionTextSliderDataSource : TextSliderDataSource {
     {
         resolution = SettingsManager.Instance.Resolution;
         validResolutions = DetermineValidResolutions();
+        base.ForceUpdate();
     }
 
     #endregion

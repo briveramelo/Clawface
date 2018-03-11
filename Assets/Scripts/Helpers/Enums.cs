@@ -326,9 +326,9 @@ public enum EditorMenu
 public enum FireMode
 {
     AIM_TO_SHOOT = 0,
-    SINGLE_TRIGGER,
     AUTOFIRE,
     MANUAL,
+    SINGLE_TRIGGER,
     COUNT
 }
 

@@ -103,7 +103,6 @@ public class SettingsMenu : Menu {
 
     #endregion
     
-
     #region Unity Lifecycle
     private void Update() {
         if (allowInput) {
@@ -153,6 +152,7 @@ public class SettingsMenu : Menu {
     public void ButtonDefault()
     {
         SettingsManager.Instance.SetDefault();
+        TransferSettingsFromManager();
     }
 
     public void ButtonApply()

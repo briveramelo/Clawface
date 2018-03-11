@@ -22,7 +22,6 @@ GameObject:
   - component: {fileID: 222385575688274300}
   - component: {fileID: 114804394533142740}
   - component: {fileID: 114123032331179382}
-  - component: {fileID: 114183632318292818}
   - component: {fileID: 114228221421515036}
   - component: {fileID: 114470875992060766}
   - component: {fileID: 114754065793326338}
@@ -60,7 +59,6 @@ GameObject:
   - component: {fileID: 222862993129871754}
   - component: {fileID: 114861684680684866}
   - component: {fileID: 114190604721792722}
-  - component: {fileID: 114838690894469026}
   - component: {fileID: 114945827617383794}
   - component: {fileID: 114592001213761254}
   - component: {fileID: 114968989135543284}
@@ -130,6 +128,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4486235953307392}
   - component: {fileID: 114377888959831036}
+  - component: {fileID: 114116408591312868}
   m_Layer: 0
   m_Name: StageOverMenu
   m_TagString: Untagged
@@ -148,7 +147,6 @@ GameObject:
   - component: {fileID: 222094574631011634}
   - component: {fileID: 114484376656273824}
   - component: {fileID: 114045119853464286}
-  - component: {fileID: 114365974263903912}
   - component: {fileID: 114835058835933978}
   - component: {fileID: 114592859055373186}
   - component: {fileID: 114844672372597470}
@@ -309,7 +307,6 @@ GameObject:
   - component: {fileID: 222481776131813248}
   - component: {fileID: 114728682491482218}
   - component: {fileID: 114953716929895314}
-  - component: {fileID: 114515079867933434}
   - component: {fileID: 114148671143834966}
   - component: {fileID: 114472597798492430}
   - component: {fileID: 114778746745023956}
@@ -471,7 +468,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 114365974263903912}
+      - m_Target: {fileID: 114116408591312868}
         m_MethodName: PlayButtonConfirm
         m_Mode: 1
         m_Arguments:
@@ -503,6 +500,17 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &114116408591312868
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1309020805264158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c2c8a88c24564a45899428cde8821c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114123032331179382
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -554,7 +562,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 114183632318292818}
+      - m_Target: {fileID: 114116408591312868}
         m_MethodName: PlayButtonConfirm
         m_Mode: 1
         m_Arguments:
@@ -583,7 +591,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 114515079867933434}
+        - m_Target: {fileID: 114116408591312868}
           m_MethodName: PlayButtonSelect
           m_Mode: 1
           m_Arguments:
@@ -619,17 +627,6 @@ MonoBehaviour:
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 1
   m_ChildControlHeight: 1
---- !u!114 &114183632318292818
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1017256096935224}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c2c8a88c24564a45899428cde8821c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114190604721792722
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -681,7 +678,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 114838690894469026}
+      - m_Target: {fileID: 114116408591312868}
         m_MethodName: PlayButtonConfirm
         m_Mode: 1
         m_Arguments:
@@ -729,7 +726,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 114183632318292818}
+        - m_Target: {fileID: 114116408591312868}
           m_MethodName: PlayButtonSelect
           m_Mode: 1
           m_Arguments:
@@ -832,17 +829,6 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
---- !u!114 &114365974263903912
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1340106434336496}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c2c8a88c24564a45899428cde8821c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114377888959831036
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -964,17 +950,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114515079867933434
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1554175122308994}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c2c8a88c24564a45899428cde8821c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114517649698926730
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1463,7 +1438,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 114365974263903912}
+        - m_Target: {fileID: 114116408591312868}
           m_MethodName: PlayButtonSelect
           m_Mode: 1
           m_Arguments:
@@ -1477,17 +1452,6 @@ MonoBehaviour:
       m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
         Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   delegates: []
---- !u!114 &114838690894469026
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1107574014689592}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c2c8a88c24564a45899428cde8821c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114844672372597470
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1618,7 +1582,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 114838690894469026}
+        - m_Target: {fileID: 114116408591312868}
           m_MethodName: PlayButtonSelect
           m_Mode: 1
           m_Arguments:
@@ -1683,7 +1647,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 114515079867933434}
+      - m_Target: {fileID: 114116408591312868}
         m_MethodName: PlayButtonConfirm
         m_Mode: 1
         m_Arguments:
