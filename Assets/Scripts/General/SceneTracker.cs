@@ -10,6 +10,7 @@ public class SceneTracker {
     public static bool IsCurrentSceneMain { get { return CurrentSceneName == Strings.Scenes.SceneNames.MainMenu; } }
     public static bool IsCurrentScenePlayerLevels { get { return CurrentSceneName == Strings.Scenes.SceneNames.PlayerLevels; } }
     public static bool IsCurrentSceneMovie { get { return CurrentSceneName == Strings.Scenes.SceneNames.Movie; } }
+
     public static bool IsSceneArena(string sceneNameOrPath) {
         return sceneNameOrPath == Strings.Scenes.ScenePaths.Arena || sceneNameOrPath == Strings.Scenes.ScenePaths.PlayerLevels ||
             sceneNameOrPath == Strings.Scenes.SceneNames.Arena || sceneNameOrPath == Strings.Scenes.SceneNames.PlayerLevels;

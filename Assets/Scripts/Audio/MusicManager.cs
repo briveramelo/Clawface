@@ -39,8 +39,10 @@ public class MusicManager : Singleton<MusicManager>
         foreach (GameTrack t in gameTracks)
         {
             musicDictionary.Add(t.type, t.trackClip);
-        }        
-        PlayMusicInSceneContext();
+        }
+        if (!SceneTracker.IsCurrentSceneMovie) {
+            PlayMusicInSceneContext();
+        }
     }
 
     private void OnDestroy()
@@ -69,18 +71,16 @@ public class MusicManager : Singleton<MusicManager>
 
     private void PlayMusicInSceneContext(params object[] i_params)
     {
-        if (!SceneTracker.IsCurrentSceneMovie) {
-            if (SceneTracker.IsCurrentSceneMain || SceneTracker.IsCurrentSceneEditor) {
-                StartCoroutine(PlayMainMenuMusic());
-            }
-            else if (SceneTracker.IsCurrentScenePlayerLevels) {
-                ResetSource();
-                PlayRandomGameTrack();
-            }
-            else if (SceneTracker.IsCurrentScene80sShit) {
-                mainMusicSource.Stop();
-                loopMusicSource.Stop();
-            }
+        if (SceneTracker.IsCurrentSceneMovie || SceneTracker.IsCurrentSceneMain || SceneTracker.IsCurrentSceneEditor) {
+            StartCoroutine(PlayMainMenuMusic());
+        }
+        else if (SceneTracker.IsCurrentScenePlayerLevels) {
+            ResetSource();
+            PlayRandomGameTrack();
+        }
+        else if (SceneTracker.IsCurrentScene80sShit) {
+            mainMusicSource.Stop();
+            loopMusicSource.Stop();
         }
     }
     private IEnumerator PlayMainMenuMusic()
