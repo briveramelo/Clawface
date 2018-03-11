@@ -124,7 +124,6 @@ public class ConfirmMenu: Menu
         SetYesButtonInteractibility(true);
         SetNoButtonText("NO");
         SetYesButtonText("YES");
-        print("confirm hide started");
     }
 
     protected override void DefaultHide(Transition transition, Effect[] effects) {

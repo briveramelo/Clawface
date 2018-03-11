@@ -96,9 +96,14 @@ public class TestMenu : PlayerLevelEditorMenu
     {
         GameObject player = GameObject.FindGameObjectWithTag(Strings.Tags.PLAYER);
 
-        if (player)
-        {
+        if (player) {
             Destroy(player.transform.root.gameObject);
+        }
+        else {
+            player = GameObject.Find("Keira_GroupV1.5(Clone)");
+            if (player) {
+                Destroy(player);
+            }
         }
 
     }

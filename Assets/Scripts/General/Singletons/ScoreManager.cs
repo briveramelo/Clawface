@@ -305,8 +305,13 @@ public class ScoreManager : Singleton<ScoreManager> {
 
     private void SendScoresToLeaderboard()
     {
-        string levelName = ((PLELevelSelectMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LevelEditor.LEVELSELECT_PLE_MENU)).SelectedLevelUI.levelData.UniqueSteamName;
-        LeaderBoards.Instance.UpdateScore(score, levelName);
+        if (!SceneTracker.IsCurrentSceneEditor) {
+            LevelUI levelUI = ((PLELevelSelectMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LevelEditor.LEVELSELECT_PLE_MENU)).SelectedLevelUI;
+            if (levelUI!=null) {
+                string levelName = levelUI.levelData.UniqueSteamName;
+                LeaderBoards.Instance.UpdateScore(score, levelName);
+            }
+        }
     }
     #endregion
 

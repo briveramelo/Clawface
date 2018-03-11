@@ -23,6 +23,7 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
     public bool AtMinWaveLimit { get { return MaxWaveIndex == 0; } }
     public string CurrentWaveText { get { return string.Format("{0}",CurrentWaveIndex + 1); } }
     public string MaxWaveText { get { return string.Format("{0}", MaxWaveIndex + 1); } }
+    public GameObject keiraParent;
     #endregion
 
     #region Serialized Unity Fields
