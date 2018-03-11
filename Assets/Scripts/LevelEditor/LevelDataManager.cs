@@ -254,8 +254,11 @@ public class LevelDataManager : MonoBehaviour {
     }
 
     IEnumerator TakePictureAndSave() {
-        levelEditor.GetMenu(PLEMenu.MAIN).CanvasGroup.alpha = 0f;
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
         levelEditor.gridController.SetGridVisiblity(false);
+        levelEditor.GetMenu(PLEMenu.MAIN).CanvasGroup.alpha = 0f;
+        levelEditor.GetMenu(PLEMenu.FLOOR).CanvasGroup.alpha = 0f;
         yield return new WaitForEndOfFrame();
         SavePicture();
         dataPersister.TrySave();

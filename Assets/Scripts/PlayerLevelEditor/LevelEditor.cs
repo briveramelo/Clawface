@@ -67,7 +67,6 @@ namespace PlayerLevelEditor
 
 
         #endregion
-
         
         #region Public Interface
         public string GetWaveName(int i) { return Strings.Editor.Wave + i; }
@@ -157,7 +156,6 @@ namespace PlayerLevelEditor
                     Menu menuToHide = GetMenu(currentDisplayedMenu);
                     MenuManager.Instance.DoTransition(menuToHide, Menu.Transition.HIDE, new Menu.Effect[] { });
                 }
-
                 Menu newMenu = GetMenu(i_newMenu);
                 MenuManager.Instance.DoTransition(newMenu, Menu.Transition.SHOW, new Menu.Effect[] { });
 
@@ -186,30 +184,19 @@ namespace PlayerLevelEditor
         public void ToggleCameraGameObject(bool isEnabled) {
             cameraGameObject.SetActive(isEnabled);
         }
-        public Menu GetMenu(PLEMenu i_menu)
-        {
-            switch (i_menu)
-            {
-                case PLEMenu.MAIN:
-                    return mainEditorMenu;
-                case PLEMenu.PROPS:
-                    return propsEditorMenu;
-                case PLEMenu.SPAWN:
-                    return spawnsEditorMenu;
-                case PLEMenu.FLOOR:
-                    return floorEditorMenu;
-                case PLEMenu.WAVE:
-                    return waveEditorMenu;
-                case PLEMenu.HELP:
-                    return helpEditorMenu;
-                case PLEMenu.SAVE:
-                    return saveEditorMenu;
-                case PLEMenu.TEST:
-                    return testEditorMenu;
-                case PLEMenu.LEVELSELECT:
-                    return levelSelectEditorMenu;
-                default:
-                    return null;
+
+        public Menu GetMenu(PLEMenu i_menu) {
+            switch (i_menu) {
+                case PLEMenu.MAIN:          return mainEditorMenu;
+                case PLEMenu.PROPS:         return propsEditorMenu;
+                case PLEMenu.SPAWN:         return spawnsEditorMenu;
+                case PLEMenu.FLOOR:         return floorEditorMenu;
+                case PLEMenu.WAVE:          return waveEditorMenu;
+                case PLEMenu.HELP:          return helpEditorMenu;
+                case PLEMenu.SAVE:          return saveEditorMenu;
+                case PLEMenu.TEST:          return testEditorMenu;
+                case PLEMenu.LEVELSELECT:   return levelSelectEditorMenu;
+                default:                    return null;
             }
         }
 

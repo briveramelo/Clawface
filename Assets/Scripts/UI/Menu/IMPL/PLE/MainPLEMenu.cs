@@ -110,22 +110,25 @@ public class MainPLEMenu : PlayerLevelEditorMenu {
         SelectMenuItem(PLEMenu.HELP);
     }
     public void SelectMenuItem(PLEMenu menu) {
-        Toggle selectedMenuToggle = menuToggles.Find(menuToggle => menuToggle.menu == menu).toggle;
+        MenuToggle selectedMenuToggle = menuToggles.Find(menuToggle => menuToggle.menu == menu);
+        Toggle selectedToggle = selectedMenuToggle.toggle;
         if (menu != levelEditor.currentDisplayedMenu) {
             menuToggles.ForEach(menuToggle => {
                 menuToggle.toggle.onValueChanged.SwitchListenerState(UnityEngine.Events.UnityEventCallState.Off);
                 menuToggle.toggle.isOn = false;
             });
-            selectedMenuToggle.isOn = true;
-            selectedMenuToggle.Select();
-            UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(selectedMenuToggle.gameObject);
+            selectedToggle.isOn = true;
+            selectedToggle.Select();
+            UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(selectedToggle.gameObject);
 
             levelEditor.SwitchToMenu(menu);
             textColorSetter.SetColor();
             menuToggles.ForEach(menuToggle => {
                 menuToggle.toggle.onValueChanged.SwitchListenerState(UnityEngine.Events.UnityEventCallState.RuntimeOnly);
                 menuToggle.spriteShifter.OnToggleChanged();
+                menuToggle.toggler.SetState(false);
             });
+            selectedMenuToggle.toggler.SetState(true);
         }
     }
 
@@ -167,13 +170,16 @@ public class MainPLEMenu : PlayerLevelEditorMenu {
 
 }
 
+[System.Serializable]
 class MenuToggle {
     public MenuToggle(PLEMenu menu, Toggle toggle) {
         this.menu = menu;
         this.toggle = toggle;
         spriteShifter = toggle.GetComponent<SpriteShifter>();
+        toggler= toggle.gameObject.GetComponentInChildren<GameObjectToggler>(true);
     }
     public PLEMenu menu;
     public Toggle toggle;
     public SpriteShifter spriteShifter;
+    public GameObjectToggler toggler;
 }
