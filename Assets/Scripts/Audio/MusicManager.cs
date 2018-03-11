@@ -27,6 +27,7 @@ public class MusicManager : Singleton<MusicManager>
     #region Serialized Unity Fields
     [SerializeField] private AudioSource mainMusicSource;
     [SerializeField] private AudioSource loopMusicSource;
+    [SerializeField] private AudioMixer musicMixer;
     #endregion
 
     #region Unity Lifecycle
@@ -53,32 +54,38 @@ public class MusicManager : Singleton<MusicManager>
     #endregion
 
     #region Public Interface
-    
+   
 
-    public void PlayMusic(params object[] i_params)
+    public void SetMusicAudioLevel(float i_newlevel)
+    {
+        i_newlevel = Mathf.Clamp(i_newlevel, 0.0f, 1.0f);
+        musicMixer.SetFloat("Volume", LinearToDecibel(i_newlevel));
+    }
+
+
+    #endregion
+
+    #region Private Interface
+
+    private void PlayMusic(params object[] i_params)
     {
         if (SceneTracker.IsCurrentSceneMain || SceneTracker.IsCurrentSceneMovie)
         {
             ResetSource();
             StartCoroutine(PlayMainMenuMusic());
-        }        
-        else if(SceneTracker.IsCurrentScenePlayerLevels)
+        }
+        else if (SceneTracker.IsCurrentScenePlayerLevels)
         {
             ResetSource();
             PlayRandomGameTrack();
         }
-        else if(!SceneTracker.IsCurrentSceneEditor)
+        else if (!SceneTracker.IsCurrentSceneEditor)
         {
             mainMusicSource.Stop();
             loopMusicSource.Stop();
         }
-        
+
     }
-    
-    #endregion
-
-    #region Private Interface
-
     private IEnumerator PlayMainMenuMusic()
     {
         
@@ -119,6 +126,21 @@ public class MusicManager : Singleton<MusicManager>
         mainMusicSource.loop = true;
         mainMusicSource.Play();
     }
+
+    private float LinearToDecibel(float linear)
+    {
+        float dB;
+        if (linear != 0)
+        {
+            dB = 40F * Mathf.Log10(linear);
+        }
+        else
+        {
+            dB = -80F;
+        }
+        return dB;
+    }
+
 
 
     #endregion

@@ -290,7 +290,7 @@ public class SettingsManager : Singleton<SettingsManager>
             // Most others will be queried by other components in the program.
             QualitySettings.SetQualityLevel(qualityLevel);
             Screen.SetResolution(resolution.width, resolution.height, fullscreen);
-            //MusicManager.Instance.SetMusicAudioLevel(music);
+            MusicManager.Instance.SetMusicAudioLevel(music);
             SFXManager.Instance.SetSFXAudioLevel(sfx);
             
         }
