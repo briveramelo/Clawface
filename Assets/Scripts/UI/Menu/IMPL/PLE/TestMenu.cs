@@ -105,8 +105,6 @@ public class TestMenu : PlayerLevelEditorMenu
 
     private void ShowWeaponSelectMenu()
     {
-        levelEditor.ToggleCameraController(false);        
-
         WeaponSelectMenu weaponSelectMenu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.WEAPON_SELECT) as WeaponSelectMenu;
         System.Action onReturnFromPLE = () => {
             BackAction();

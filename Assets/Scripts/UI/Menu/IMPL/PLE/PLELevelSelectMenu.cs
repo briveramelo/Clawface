@@ -27,6 +27,7 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
     [SerializeField] private GameObject plePrefab;
     [SerializeField] private Sprite hathosBigPreview;
     [SerializeField] private List<MemorableTransform> preMadeLevelUITransforms;
+    [SerializeField] private List<GameObjectToggler> filterButtonTogglers;
     [SerializeField] private RectOffset gridLayoutConfigWithHathos, gridLayoutConfigWithoutHathos;
     [SerializeField] private DiffAnim scrollSlideAnim;
     [SerializeField] private AbsAnim selectLevelAnim;
@@ -43,7 +44,7 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
     private bool IsHathosLevelDisplayed { get { return NumHathosLevels > 0 && levelUIs.Count > 0 && levelUIs[0].gameObject.activeInHierarchy; } }
     private bool IsHathosLevelSelected { get { return !SceneTracker.IsCurrentSceneEditor && SelectedLevelIndex == 0; } }
     private int NumHathosLevels { get { return !SceneTracker.IsCurrentSceneEditor ? preMadeLevelUITransforms.Count : 0; } }
-    private Predicate<LevelUI> levelUISelectionMatch;
+    private Predicate<LevelUI> currentSelectedUIIsLevel;
     public LevelUI SelectedLevelUI {
         get {
             if (levelUIs.Count > 0) {
@@ -67,6 +68,7 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
                 value = filterToggles.Count;
             }
             selectedFilterIndex = value;
+            filterButtonTogglers.ForEach(changer => changer.OnGroupSelectChanged(selectedFilterIndex));
         }
     }
     private LevelSelectFilterType ActiveFilter { get { return (LevelSelectFilterType)SelectedFilterToggle; } }
@@ -83,6 +85,8 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
     #region Unity Lifecyle
     protected override void Start() {
         base.Start();
+        int i = 0;
+        filterButtonTogglers.ForEach(changer => { changer.SetUIIndex(i); i++; });
 
         shouldSearchShow = (levelUI) => {
             string searchTerm = searchField.text.ToLowerInvariant();
@@ -110,7 +114,7 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
             backButton, deleteButton, favoriteButton, leaderboardButton, loadButton
         };
         scrollSlideAnim.OnUpdate = (val) => { levelScrollBar.value = val; };
-        levelUISelectionMatch = item => CurrentEventSystemGameObject == item.selectable.gameObject;
+        currentSelectedUIIsLevel = item => CurrentEventSystemGameObject == item.selectable.gameObject;
     }
 
     protected override void Update() {
@@ -196,7 +200,7 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
         levelUIs.ForEach(levelUI => { levelUI.OnGroupSelectChanged(levelIndex); });
         selectedLevelFavoriteIcon.enabled = selectedLevel.isFavorite;
         SetButtonsInteractabilityAndNavigation(DisplayedLevelUIs);
-
+        CurrentEventSystem.SetSelectedGameObject(SelectedLevelUI.selectable.gameObject);
         AlignScrollbar();
     }
 
@@ -258,6 +262,7 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
 
     #region Private Interface 
     private void CheckToMoveFilter() {
+        //TODO set this up work with Strings.Input.UI
         bool leftButtonPressed = InputManager.Instance.QueryAction(Strings.Input.Actions.FIRE_LEFT, ButtonMode.DOWN);
         bool rightBumperPressed = InputManager.Instance.QueryAction(Strings.Input.Actions.FIRE_RIGHT, ButtonMode.DOWN);
         bool mouseClicked = Input.GetMouseButtonDown(MouseButtons.LEFT) || Input.GetMouseButtonDown(MouseButtons.RIGHT) || Input.GetMouseButtonDown(MouseButtons.MIDDLE);
@@ -275,9 +280,9 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
 
 
     private void CheckToSelectNewLevelFromController() {
-        bool isLevelUISelected = SelectedLevelUI != null && levelUIs.Exists(levelUISelectionMatch);
-        if (isLevelUISelected && SelectedLevelUI.selectable.gameObject != CurrentEventSystemGameObject && CurrentEventSystemGameObject.transform.parent.GetComponent<LevelUI>()) {
-            LevelUI newlySelectedLevelUI = levelUIs.Find(levelUISelectionMatch);
+        bool isLevelUISelected = SelectedLevelUI != null && levelUIs.Exists(currentSelectedUIIsLevel);
+        if (isLevelUISelected && SelectedLevelUI.selectable.gameObject != lastSelectedGameObject && CurrentEventSystemGameObject.transform.parent.GetComponent<LevelUI>()) {
+            LevelUI newlySelectedLevelUI = levelUIs.Find(currentSelectedUIIsLevel);
             SelectLevel(newlySelectedLevelUI.LevelIndex);
         }
 

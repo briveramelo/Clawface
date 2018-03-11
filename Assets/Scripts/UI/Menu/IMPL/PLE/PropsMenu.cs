@@ -49,7 +49,7 @@ public class PropsMenu : PlacementMenu
         MouseHelper.currentBlockUnit.SetOccupation(true);
         MouseHelper.currentBlockUnit.SetProp(newItem);
     }
-    protected override void PostOnSelectUIItem(GameObject newItem) {
+    protected override void PostSelectUIItemMenuSpecific(GameObject newItem) {
         ApplyRotation(newItem.transform, 0f);
     }
 
@@ -58,7 +58,7 @@ public class PropsMenu : PlacementMenu
     }
     protected override void ShowStarted() {
         base.ShowStarted();
-        TrySelectUIItem(scrollGroup.GetLastUIItem());
+        scrollGroup.SelectLastSelectedUIItem();
         ApplyRotation(0);
     }
     protected override void ShowComplete() {
