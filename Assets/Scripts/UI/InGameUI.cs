@@ -292,7 +292,7 @@ public class InGameUI : MonoBehaviour {
             switch (SettingsManager.Instance.MouseAimMode)
             {
                 case MouseAimMode.AUTOMATIC:
-                    if (InputManager.Instance.HasJoystick())
+                    if (!MenuManager.Instance.MouseMode)
                     {
                         key = currentBinding.joystick;
                     } else 
@@ -332,7 +332,7 @@ public class InGameUI : MonoBehaviour {
             switch (SettingsManager.Instance.MouseAimMode)
             {
                 case MouseAimMode.AUTOMATIC:
-                    if (InputManager.Instance.HasJoystick())
+                    if (!MenuManager.Instance.MouseMode)
                     {
                         key = currentBinding.joystick;
                     }
