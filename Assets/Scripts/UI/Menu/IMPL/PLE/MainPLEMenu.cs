@@ -94,6 +94,31 @@ public class MainPLEMenu : PlayerLevelEditorMenu {
 
     public void OpenSaveAction()
     {
+
+        //ConfirmMenu confirmMenu = (ConfirmMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.CONFIRM);
+        //confirmMenu.SetNoButtonText("Save As");
+        //confirmMenu.SetYesButtonText("Save");
+
+        ////set interactibility of buttons
+        ////confirmMenu.SetYesButtonInteractibility(false);
+        ////confirmMenu.SetNoButtonInteractibility(false);
+
+        ////save
+        //Action saveAction = () =>
+        //{
+        //    
+        //};
+
+        ////save as
+        //Action saveAsAction = () =>
+        //{
+        //    //SelectMenuItem(PLEMenu.SAVE);
+        //};
+
+
+        //confirmMenu.DefineActions("Saving...", saveAction, saveAsAction);
+
+        //MenuManager.Instance.DoTransition(confirmMenu, Transition.SHOW, new Effect[] { });
         SelectMenuItem(PLEMenu.SAVE);
     }
 
@@ -115,7 +140,9 @@ public class MainPLEMenu : PlayerLevelEditorMenu {
         if (menu != levelEditor.currentDisplayedMenu) {
             menuToggles.ForEach(menuToggle => {
                 menuToggle.toggle.onValueChanged.SwitchListenerState(UnityEngine.Events.UnityEventCallState.Off);
-                menuToggle.toggle.isOn = false;
+                if (selectedMenuToggle!=menuToggle) {
+                    menuToggle.toggle.isOn = false;
+                }
             });
             selectedToggle.isOn = true;
             selectedToggle.Select();
