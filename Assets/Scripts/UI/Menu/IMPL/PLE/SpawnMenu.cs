@@ -19,10 +19,11 @@ public class SpawnMenu : PlacementMenu {
 
     #region Serialized Unity Fields
 
+    [SerializeField] private Image selectedSpawnImage;
     [SerializeField] private InputField amountField;
     [SerializeField] private Text amountAvailable;
     [SerializeField] private Text nameText;
-
+    [SerializeField] private float heightWithPreview, heightWithoutPreview;    //with 732.83, without 207.33
     #endregion
 
     #region Public Fields
@@ -31,7 +32,10 @@ public class SpawnMenu : PlacementMenu {
 
     #endregion
 
-    
+    #region Unity Lifecycle
+        
+    #endregion
+
 
     #region Public Interface    
     public void Increment() {
@@ -75,10 +79,15 @@ public class SpawnMenu : PlacementMenu {
     protected override void ShowStarted() {
         base.ShowStarted();
         if (!playerSpawnInstance) {
-            (scrollGroup as SpawnScrollGroup).SelectKeira();
+            PLEUIItem keiraItem = (scrollGroup as SpawnScrollGroup).SelectKeira();
+            selectedSpawnImage.sprite = keiraItem.imagePreview.sprite;
         }
         else {
-            scrollGroup.SelectLastSelectedUIItem();
+            PLEUIItem firstAvailable = scrollGroup.TryGetFirstAvailableUIItem();
+            if (firstAvailable) {
+                selectedSpawnImage.sprite = firstAvailable.imagePreview.sprite;
+                scrollGroup.SelectUIItem(firstAvailable.ItemIndex);
+            }
         }
     }
     protected override void PostPlaceItem(GameObject newItem) {
@@ -119,30 +128,32 @@ public class SpawnMenu : PlacementMenu {
             if (spawn.spawnType==SpawnType.Keira) {
                 PLEUIItem firstAvailable = scrollGroup.TryGetFirstAvailableUIItem();
                 if (firstAvailable) {
-                    scrollGroup.SelectUIItem(firstAvailable.ItemIndex); //will call TrySelectUIItem back here
+                    selectedSpawnImage.sprite = firstAvailable.imagePreview.sprite;
+                    scrollGroup.SelectUIItem(firstAvailable.ItemIndex);
                 }
             }
         }
         SetInteractabilityByState();
         
         levelEditor.SetMenuButtonInteractability();        
-    }    
+    }
 
     protected override void SelectGameItem(PLEItem selectedItem) {
         base.SelectGameItem(selectedItem);
         selectedPLEItem = selectedItem;
-        selectedPLEItem.Select();
+        selectedPLEItem.Select(highlightColor);
         int spawnAmount = SelectedSpawn.totalSpawnAmount;
-        UpdateFields(spawnAmount, SelectedSpawn.DisplayName.ToUpper(), false);
+        UpdateFields(spawnAmount, SelectedSpawn.DisplayName.ToUpper(), SelectedSpawn.iconPreview);
         ChangeSpawnAmountInternally(spawnAmount);
     }
     protected override void DeselectItem() {
         base.DeselectItem();
         ForceInteractability(false);
-        UpdateFields(0, "-", true);        
+        UpdateFields(0, "-", null, true);        
     }
-    
-    
+
+
+
     protected override void SetInteractabilityByState() {
         bool isItemSelectedAndNotKeira = selectedPLEItem != null && SelectedSpawn.spawnType != SpawnType.Keira;
         selectables.ForEach(selectable => { selectable.interactable = isItemSelectedAndNotKeira; });
@@ -155,7 +166,7 @@ public class SpawnMenu : PlacementMenu {
     protected override void PostSelectUIItemMenuSpecific(GameObject newItem) {
         base.PostSelectUIItemMenuSpecific(newItem);
         PLESpawn spawn = newItem.GetComponent<PLESpawn>();
-        UpdateFields(spawn.totalSpawnAmount, spawn.DisplayName.ToUpper());
+        UpdateFields(spawn.totalSpawnAmount, spawn.DisplayName.ToUpper(), spawn.iconPreview);
         int remainingSpawns = spawn.MaxPerWave - NumberSpawnsInCurrentWave(spawn.spawnType);
         UpdateAvailableField(remainingSpawns);
     }
@@ -171,9 +182,11 @@ public class SpawnMenu : PlacementMenu {
 
 
     #region Private Interface
-    private void UpdateFields(int spawnAmount, string newName, bool isAmountEmpty = false) {
+    private void UpdateFields(int spawnAmount, string newName, Sprite iconPreview, bool isAmountEmpty = false) {
         UpdateAmountField(spawnAmount, isAmountEmpty);
         nameText.text = newName;
+        selectedSpawnImage.gameObject.SetActive(iconPreview != null);
+        selectedSpawnImage.sprite = iconPreview;
     }
 
 
@@ -206,3 +219,4 @@ public class SpawnMenu : PlacementMenu {
     #endregion
 
 }
+

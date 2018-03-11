@@ -6,8 +6,8 @@ using UnityEngine;
 public abstract class PLEItem : MonoBehaviour {
 
     public Sprite iconPreview;
-    [SerializeField] protected Color selectedColor;
     protected Color startColor;
+    public bool IsSelected { get; private set; }
     protected List<Renderer> Renderers {
         get {
             if (renderers == null) {
@@ -33,13 +33,25 @@ public abstract class PLEItem : MonoBehaviour {
 
     protected abstract string ColorTint { get; }
 
-    public virtual void Select() {
-        MatPropBlock.SetColor(ColorTint, selectedColor);
+    public virtual void Select(Color selectionColor) {
+        IsSelected = true;
+        MatPropBlock.SetColor(ColorTint, selectionColor);
         Renderers.ForEach(renderer => { renderer.SetPropertyBlock(MatPropBlock); });
     }
     public virtual void Deselect() {
+        IsSelected = false;
         MatPropBlock.SetColor(ColorTint, startColor);
         Renderers.ForEach(renderer => { renderer.SetPropertyBlock(MatPropBlock); });
     }
-    
+    public virtual void TryHighlight(Color highlightColor) {
+        if (!IsSelected) {
+            MatPropBlock.SetColor(ColorTint, highlightColor);
+            Renderers.ForEach(renderer => { renderer.SetPropertyBlock(MatPropBlock); });
+        }
+    }
+    public virtual void TryUnHighlight() {
+        if (!IsSelected) {
+            Deselect();
+        }
+    }
 }

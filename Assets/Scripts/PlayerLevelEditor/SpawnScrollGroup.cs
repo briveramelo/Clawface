@@ -15,10 +15,11 @@ public class SpawnScrollGroup : ScrollGroup {
         });
     }
 
-    public void SelectKeira() {
-        int keiraIndex = pleUIItems.FindIndex(item => {
+    public PLEUIItem SelectKeira() {
+        PLEUIItem keiraItem = pleUIItems.Find(item => {
             return (item.pleItem as PLESpawn).spawnType == SpawnType.Keira;
         });
-        SelectUIItem(keiraIndex);
+        SelectUIItem(keiraItem.ItemIndex);
+        return keiraItem;
     }
 }

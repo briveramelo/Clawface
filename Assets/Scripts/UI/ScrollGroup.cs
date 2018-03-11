@@ -45,9 +45,11 @@ public abstract class ScrollGroup : RoutineRunner {
         pleUIItems.ForEach(item => { item.OnGroupSelectChanged(itemIndex); });
         placementMenu.PostSelectUIItem(pleUIItems[itemIndex]);
     }
-    public virtual void SelectLastSelectedUIItem() {
+    public virtual PLEUIItem SelectLastSelectedUIItem() {
         pleUIItems.ForEach(item => { item.OnGroupSelectChanged(LastSelectedIndex); });
-        placementMenu.PostSelectUIItem(pleUIItems[LastSelectedIndex]);
+        PLEUIItem lastSelectedItem = pleUIItems[LastSelectedIndex];
+        placementMenu.PostSelectUIItem(lastSelectedItem);
+        return lastSelectedItem;
     }
     public virtual void DeselectAllUIItems() {
         pleUIItems.ForEach(item => { item.OnGroupSelectChanged(-1); });
