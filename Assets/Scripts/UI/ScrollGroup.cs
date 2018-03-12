@@ -74,7 +74,7 @@ public abstract class ScrollGroup : RoutineRunner {
         for (int i = 0; i < itemPrefabs.Count; i++) {
             GameObject itemPrefab = itemPrefabs[i];
             GameObject toAdd = Instantiate(iconTemplate);
-            PLEItem pleItem = itemPrefab.GetComponent<PLEItem>();
+            //PLEItem pleItem = itemPrefab.GetComponent<PLEItem>();
             PLEUIItem pleUIItem = toAdd.GetComponent<PLEUIItem>();
             pleUIItems.Add(pleUIItem);
             pleUIItem.InitializeItem(i, this, itemPrefab);

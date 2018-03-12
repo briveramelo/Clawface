@@ -43,17 +43,11 @@ public class TestMenu : PlayerLevelEditorMenu
 
     public override void BackAction() {
         if (stageOverMenu.IsDisplaying) {
-            MenuManager.Instance.DoTransition(stageOverMenu, Transition.HIDE, new Effect[] { });
+            MenuManager.Instance.DoTransition(stageOverMenu, Transition.HIDE, new Effect[] { Effect.INSTANT });
         }
 
         levelEditor.ExitLevel();
-
-        DestroyPlayer();
         MenuManager.Instance.DoTransition(Strings.MenuStrings.WEAPON_SELECT, Transition.HIDE, new Effect[] { Effect.INSTANT });
-
-        Menu mainPLEMenu = levelEditor.GetMenu(PLEMenu.MAIN);
-        MenuManager.Instance.DoTransition(mainPLEMenu, Transition.SHOW, new Effect[] { });
-        
         base.BackAction();
     }
 
@@ -71,13 +65,10 @@ public class TestMenu : PlayerLevelEditorMenu
             PauseMenu pauseMenu = (PauseMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.PAUSE);
             pauseMenu.CanPause = false;
             levelEditor.ExitLevel();
-            DestroyPlayer();
-            Menu mainPLEMenu = levelEditor.GetMenu(PLEMenu.MAIN);
+            MenuManager.Instance.DoTransition(this, Transition.HIDE, new Effect[] { Effect.EXCLUSIVE });
             MenuManager.Instance.DoTransition(mainPLEMenu, Transition.SHOW, new Effect[] {Effect.EXCLUSIVE});
-            MenuManager.Instance.DoTransition(this, Transition.HIDE, new Effect[] { });
-
         };
-        stageOverMenu.DefineNavigation(onExitTestAction);
+        stageOverMenu.DefineExitTestAction(onExitTestAction);
         
     }
     protected override void ShowComplete() {
@@ -92,39 +83,29 @@ public class TestMenu : PlayerLevelEditorMenu
 
     #region Private Interface    
 
-    private void DestroyPlayer()
-    {
-        GameObject player = GameObject.FindGameObjectWithTag(Strings.Tags.PLAYER);
-
-        if (player) {
-            Destroy(player.transform.root.gameObject);
-        }
-        else {
-            player = GameObject.Find("Keira_GroupV1.5(Clone)");
-            if (player) {
-                Destroy(player);
-            }
-        }
-
-    }
+    
 
     private void ShowWeaponSelectMenu()
     {
         WeaponSelectMenu weaponSelectMenu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.WEAPON_SELECT) as WeaponSelectMenu;
         System.Action onReturnFromPLE = () => {
             BackAction();
-            levelEditor.SetUpMenus();
+            mainPLEMenu.SetUpMenus();
         };
         System.Action onStartAction = () => {
             base.ShowStarted();
             levelEditor.SetIsTesting(true);
+            PLESpawnManager.Instance.TryStartLevel();
             base.ShowComplete();
-            EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_STARTED, SceneTracker.CurrentSceneName, ModManager.leftArmOnLoad.ToString(), ModManager.rightArmOnLoad.ToString());
         };
 
         weaponSelectMenu.DefineNavigation(null, null, onStartAction, null, onReturnFromPLE);
 
         MenuManager.Instance.DoTransition(weaponSelectMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+    }
+
+    public override void SetMenuButtonInteractabilityByState() {
+        
     }
 
     #endregion

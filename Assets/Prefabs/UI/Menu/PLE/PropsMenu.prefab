@@ -329,7 +329,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1451313315766644}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -368,6 +368,11 @@ MonoBehaviour:
   iconTemplate: {fileID: 1358243600333066}
   groupContent: {fileID: 1488017782716826}
   scrollbar: {fileID: 114813696488313158}
+  itemPrefabs:
+  - {fileID: 1340946973673572, guid: 9869b122c626e3642bc788ddef0df2ad, type: 2}
+  - {fileID: 1483837039648612, guid: dedaf4e83ebe3c840a0898ad532a9862, type: 2}
+  - {fileID: 1706456867766694, guid: 2984f53ddfb5c504186534ae9331cde0, type: 2}
+  - {fileID: 1667618883192534, guid: ef55423ab5a9d394c860f51af7b19efc, type: 2}
   scrollAnim:
     curve:
       serializedVersion: 2
@@ -1052,12 +1057,15 @@ MonoBehaviour:
   canvas: {fileID: 1796612787611346}
   canvasGroup: {fileID: 225408413913193276}
   faderDuration: 0
-  levelEditor: {fileID: 0}
   initiallySelected: {fileID: 0}
+  levelEditor: {fileID: 0}
+  mainPLEMenu: {fileID: 0}
+  allSelectables: []
   createdItemsParent: {fileID: 0}
   scrollGroup: {fileID: 114081709417863970}
   leftButton: {fileID: 114961210405948228}
   rightButton: {fileID: 114083746711931304}
+  highlightColor: {r: 0, g: 0.627451, b: 1, a: 0.7764706}
   rotationLabel: {fileID: 114805001666463106}
 --- !u!222 &222039032279581622
 CanvasRenderer:
@@ -1304,7 +1312,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000030517578, y: -20}
+  m_AnchoredPosition: {x: -0.000023305416, y: -20}
   m_SizeDelta: {x: 0, y: 115}
   m_Pivot: {x: 0, y: 1}
 --- !u!224 &224227093283647582

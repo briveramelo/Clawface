@@ -25,8 +25,9 @@ public class MoveState : IPlayerState
         EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_KILLED, PlayerDead);
     }
 
-    private void OnDisable()
+    protected override void OnDisable()
     {
+        base.OnDisable();
         if (EventSystem.Instance)
         {
             EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_KILLED, PlayerDead);

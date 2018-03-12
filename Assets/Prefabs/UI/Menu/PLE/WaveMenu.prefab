@@ -414,7 +414,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1626789504675884}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -563,8 +563,13 @@ MonoBehaviour:
   canvas: {fileID: 1334509273098702}
   canvasGroup: {fileID: 225026368488364116}
   faderDuration: 0
-  levelEditor: {fileID: 0}
   initiallySelected: {fileID: 0}
+  levelEditor: {fileID: 0}
+  mainPLEMenu: {fileID: 0}
+  allSelectables:
+  - {fileID: 114805574165814344}
+  - {fileID: 114100704420057640}
+  - {fileID: 114513919450607702}
   currentWaveText: {fileID: 0}
   totalWaveText: {fileID: 114009858251929988}
   infWaveObjToggle: {fileID: 114513919450607702}

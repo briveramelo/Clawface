@@ -80,8 +80,8 @@ public class StageOverMenu : Menu
     {
     }
 
-    public void DefineNavigation(Action i_act) {
-        onExitTest = i_act;
+    public void DefineExitTestAction(Action onExitTest) {
+        this.onExitTest = onExitTest;
     }
 
     public void ExitTestAction()
@@ -217,8 +217,7 @@ public class StageOverMenu : Menu
         yield return new WaitForSeconds((float)parameter[0]);
 
         title.text = Strings.TextStrings.GAME_OVER_TEXT;
-        MenuManager.Instance.DoTransition(Strings.MenuStrings.STAGE_OVER,
-            Menu.Transition.SHOW, new Menu.Effect[] { Menu.Effect.EXCLUSIVE });
+        MenuManager.Instance.DoTransition(Strings.MenuStrings.STAGE_OVER, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
     }
 
     private void PlayerDeathStart(params object[] parameter)
@@ -228,28 +227,22 @@ public class StageOverMenu : Menu
 
     private void SetButtonStates()
     {
-
         testLevelButton.gameObject.SetActive(false);
         weaponSelectButton.gameObject.SetActive(false);
         restartButton.gameObject.SetActive(false);
         quitButton.gameObject.SetActive(false);
 
-        if(SceneTracker.IsCurrentSceneEditor)
-        {
+        if(SceneTracker.IsCurrentSceneEditor) {
             testLevelButton.gameObject.SetActive(true);
             CurrentEventSystem.SetSelectedGameObject(testLevelButton.gameObject);
         }
-        else
-        {
+        else {
             weaponSelectButton.gameObject.SetActive(true);
             restartButton.gameObject.SetActive(true);
             quitButton.gameObject.SetActive(true);
 
             CurrentEventSystem.SetSelectedGameObject(weaponSelectButton.gameObject);
         }
-
-        
-
     }
 
     #endregion

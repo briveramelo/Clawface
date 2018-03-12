@@ -18,7 +18,6 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
 
     protected PLEItem lastHoveredItem;
     protected PLEItem selectedPLEItem;
-    protected List<Selectable> selectables = new List<Selectable>();
     protected GameObject selectedItemPrefab = null;
     protected GameObject previewItem = null;
     protected List<string> itemNames = new List<string>();
@@ -34,10 +33,6 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
     #endregion
 
     #region Unity Lifecycle
-
-    protected virtual void Awake() {
-        InitializeSelectables();
-    }
     protected override void Update() {
         base.Update();
         if (allowInput) {
@@ -101,7 +96,7 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
             selectedPLEItem.Deselect();
             selectedPLEItem = null;
         }
-        SetInteractabilityByState();
+        SetMenuButtonInteractabilityByState();
     }
 
     protected virtual void SelectGameItem(PLEItem selectedItem) {
@@ -158,7 +153,7 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
 
     protected override void ShowStarted() {
         base.ShowStarted();
-        ForceInteractability(false);
+        //ForceMenuButtonInteractability(false);
     }
     protected override void ShowComplete() {
         base.ShowComplete();
@@ -169,16 +164,6 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
         DeselectAllGameItems();
         TryDestroyPreview();
     }
-
-    protected virtual void InitializeSelectables() {
-        selectables.Add(leftButton);
-        selectables.Add(rightButton);
-    }
-
-    protected virtual void ForceInteractability(bool isInteractable) {
-        selectables.ForEach(selectable => { selectable.interactable = isInteractable; });
-    }    
-    protected abstract void SetInteractabilityByState();
     #endregion
 
     #region Private Interface

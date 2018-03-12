@@ -13,9 +13,9 @@ public class SpawnMenu : PlacementMenu {
     public SpawnMenu() : base(Strings.MenuStrings.LevelEditor.ADD_SPAWNS_PLE) { }    
 
     private PLESpawn SelectedSpawn { get { return selectedPLEItem as PLESpawn; } }
-    private LevelData ActiveLevelData { get { return DataPersister.ActiveDataSave.ActiveLevelData; } }
-    private int NumberSpawnsInWave { get { return ActiveLevelData.NumSpawns(SelectedSpawn.spawnType, PLESpawnManager.Instance.CurrentWaveIndex); } }
-    private List<PLESpawn> CurrentWavePLESpawns { get { return ActiveLevelData.GetPLESpawnsFromWave(PLESpawnManager.Instance.CurrentWaveIndex); } }
+    private LevelData WorkingLevelData { get { return DataPersister.ActiveDataSave.workingLevelData; } }
+    private int NumberSpawnsInWave { get { return WorkingLevelData.NumSpawns(SelectedSpawn.spawnType, PLESpawnManager.Instance.CurrentWaveIndex); } }
+    private List<PLESpawn> CurrentWavePLESpawns { get { return WorkingLevelData.GetPLESpawnsFromWave(PLESpawnManager.Instance.CurrentWaveIndex); } }
 
     #region Serialized Unity Fields
 
@@ -23,7 +23,6 @@ public class SpawnMenu : PlacementMenu {
     [SerializeField] private InputField amountField;
     [SerializeField] private Text amountAvailable;
     [SerializeField] private Text nameText;
-    [SerializeField] private float heightWithPreview, heightWithoutPreview;    //with 732.83, without 207.33
     #endregion
 
     #region Public Fields
@@ -33,9 +32,22 @@ public class SpawnMenu : PlacementMenu {
     #endregion
 
     #region Unity Lifecycle
-        
-    #endregion
+    protected override void Start() {
+        base.Start();
+        EventSystem.Instance.RegisterEvent(Strings.Events.PLE_TEST_END, EnableKeira);
+    }
 
+    private void OnDestroy() {
+        if (EventSystem.Instance) {
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_TEST_END, EnableKeira);
+        }
+    }
+    #endregion
+    void EnableKeira(params object[] parameters) {
+        if (playerSpawnInstance != null) {
+            playerSpawnInstance.SetActive(true);
+        }
+    }
 
     #region Public Interface    
     public void Increment() {
@@ -52,9 +64,18 @@ public class SpawnMenu : PlacementMenu {
             if (System.Int32.TryParse(amountField.text, out spawnCount)) {
                 spawnCount = Mathf.Clamp(spawnCount, minSpawns, SelectedSpawn.MaxPerWave);
                 SelectedSpawn.totalSpawnAmount = spawnCount;
-                SetInteractabilityByState();
+                SetMenuButtonInteractabilityByState();
             }
         }
+    }
+
+    public override void SetMenuButtonInteractabilityByState() {
+        bool isItemSelectedAndNotKeira = selectedPLEItem != null && SelectedSpawn.spawnType != SpawnType.Keira;
+        allSelectables.ForEach(selectable => { selectable.interactable = isItemSelectedAndNotKeira; });
+
+        leftButton.interactable = isItemSelectedAndNotKeira && SelectedSpawn.totalSpawnAmount > minSpawns;
+        rightButton.interactable = isItemSelectedAndNotKeira && NumberSpawnsInWave < SelectedSpawn.MaxPerWave;
+        (scrollGroup as SpawnScrollGroup).SetSpawnUIInteractability(PLESpawnManager.Instance.CurrentWaveIndex);
     }
     #endregion
 
@@ -65,15 +86,11 @@ public class SpawnMenu : PlacementMenu {
     protected override bool Place { get { return base.Place && !MouseHelper.currentBlockUnit.HasActiveSpawn; } }
     protected override bool UpdatePreview { get { return base.UpdatePreview && !MouseHelper.currentBlockUnit.HasActiveSpawn; } }
 
-    protected override void InitializeSelectables() {
-        base.InitializeSelectables();
-        selectables.Add(amountField);
-    }
 
     protected override void DeleteHoveredItem() {
         base.DeleteHoveredItem();
-        SetInteractabilityByState();
-        levelEditor.SetMenuButtonInteractability();
+        SetMenuButtonInteractabilityByState();
+        mainPLEMenu.SetMenuButtonInteractabilityByState();
     }
 
     protected override void ShowStarted() {
@@ -89,6 +106,7 @@ public class SpawnMenu : PlacementMenu {
                 scrollGroup.SelectUIItem(firstAvailable.ItemIndex);
             }
         }
+        (scrollGroup as SpawnScrollGroup).SetSpawnUIInteractability(PLESpawnManager.Instance.CurrentWaveIndex);
     }
     protected override void PostPlaceItem(GameObject newItem) {
         int currentWaveIndex = PLESpawnManager.Instance.CurrentWaveIndex;
@@ -133,9 +151,9 @@ public class SpawnMenu : PlacementMenu {
                 }
             }
         }
-        SetInteractabilityByState();
-        
-        levelEditor.SetMenuButtonInteractability();        
+        SetMenuButtonInteractabilityByState();
+
+        mainPLEMenu.SetMenuButtonInteractabilityByState();        
     }
 
     protected override void SelectGameItem(PLEItem selectedItem) {
@@ -148,20 +166,12 @@ public class SpawnMenu : PlacementMenu {
     }
     protected override void DeselectItem() {
         base.DeselectItem();
-        ForceInteractability(false);
+        ForceMenuButtonInteractability(false);
         UpdateFields(0, "-", null, true);        
     }
 
 
-
-    protected override void SetInteractabilityByState() {
-        bool isItemSelectedAndNotKeira = selectedPLEItem != null && SelectedSpawn.spawnType != SpawnType.Keira;
-        selectables.ForEach(selectable => { selectable.interactable = isItemSelectedAndNotKeira; });
-
-        leftButton.interactable = isItemSelectedAndNotKeira && SelectedSpawn.totalSpawnAmount > minSpawns;
-        rightButton.interactable = isItemSelectedAndNotKeira && NumberSpawnsInWave < SelectedSpawn.MaxPerWave;
-        (scrollGroup as SpawnScrollGroup).SetSpawnUIInteractability(PLESpawnManager.Instance.CurrentWaveIndex);
-    }
+    
 
     protected override void PostSelectUIItemMenuSpecific(GameObject newItem) {
         base.PostSelectUIItemMenuSpecific(newItem);
@@ -177,7 +187,7 @@ public class SpawnMenu : PlacementMenu {
         SetAmountOnSelectedSpawn();
         levelEditor.levelDataManager.SaveSpawns();
         UpdateAvailableField();
-        SetInteractabilityByState();
+        SetMenuButtonInteractabilityByState();
     }
 
 
@@ -213,8 +223,10 @@ public class SpawnMenu : PlacementMenu {
         }
     }
     private int NumberSpawnsInCurrentWave(SpawnType type) {
-        return ActiveLevelData.NumSpawns(type, PLESpawnManager.Instance.CurrentWaveIndex);
+        return WorkingLevelData.NumSpawns(type, PLESpawnManager.Instance.CurrentWaveIndex);
     }
+
+    
 
     #endregion
 

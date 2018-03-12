@@ -215,14 +215,11 @@
         public const string HIDE_TUTORIAL_TEXT = "HideTutorialText";
 
 
-        public const string PLE_TEST_WAVE_  = "PLE_TEST_WAVE_";
-        public const string PLE_TEST_WAVE_0 = "PLE_TEST_WAVE_0";
-        public const string PLE_TEST_WAVE_1 = "PLE_TEST_WAVE_1";
-        public const string PLE_TEST_WAVE_2 = "PLE_TEST_WAVE_2";
+        public const string PLE_ON_LEVEL_DATA_LOADED = "PLE_ON_LEVEL_DATA_LOADED";
+        public const string PLE_ON_LEVEL_READY = "PLE_ON_LEVEL_READY";
         public const string PLE_CHANGEWAVE = "PLE_ChangeWave";
         public const string PLE_ADD_WAVE    = "PLE_ADD_WAVE";
         public const string PLE_TEST_END = "PleTestEnd";
-
         public const string PLE_DELETE_CURRENTWAVE = "PLE_DELETE_CURRENTWAVE";
         public const string PLE_SYNC_LEVEL_UNIT_STATES  = "PLE_UPDATE_LEVELSTATE";
         public const string PLE_RESET_LEVELSTATE   = "PLE_RESET_LEVELSTATE";

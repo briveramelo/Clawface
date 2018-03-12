@@ -144,7 +144,7 @@ public class PauseMenu : Menu {
             SelectInitialButton();
         };
 
-        confirmMenu.DefineActions("This will end your current game are you sure?",onYesAction,onNoAction);
+        confirmMenu.DefineActions("This will end your current game. Are you sure?",onYesAction,onNoAction);
 
         MenuManager.Instance.DoTransition(confirmMenu, Transition.SHOW, new Effect[] {  });
     }

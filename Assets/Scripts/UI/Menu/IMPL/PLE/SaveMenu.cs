@@ -15,13 +15,13 @@ public class SaveMenu : PlayerLevelEditorMenu {
 
     [SerializeField] private GameObject realLevelParent;
     [SerializeField] private InputField nameText, descriptionText;
-    [SerializeField] private Button saveNewButton;
+    [SerializeField] private Button saveButton;
 
     #endregion
 
     #region Private Fields
     private DataSave ActiveDataSave { get { return DataPersister.ActiveDataSave; } }
-    private LevelData ActiveLevelData { get { return ActiveDataSave.ActiveLevelData; } }
+    private LevelData WorkingLevelData { get { return ActiveDataSave.workingLevelData; } }
     private bool IsNameInputSelected { get { return CurrentEventSystemGameObject == nameText.gameObject; } }
     private bool IsDescriptionInputSelected { get { return CurrentEventSystemGameObject == descriptionText.gameObject; } }
     private bool MoveForward { get { return Input.GetKeyDown(KeyCode.Tab) && !Input.GetKey(KeyCode.LeftShift); } }
@@ -59,8 +59,8 @@ public class SaveMenu : PlayerLevelEditorMenu {
     protected override void ShowStarted() {
         base.ShowStarted();
         CurrentEventSystem.SetSelectedGameObject(nameText.gameObject);
-        nameText.text = ActiveLevelData.name;
-        descriptionText.text = ActiveLevelData.description;
+        nameText.text = WorkingLevelData.name;
+        descriptionText.text = WorkingLevelData.description;
     }
 
     protected override void ShowComplete() {
@@ -74,7 +74,7 @@ public class SaveMenu : PlayerLevelEditorMenu {
 
     #region Private Interface
     public bool IsOverwriteButtonInteractable() {
-        return ActiveLevelData.isMadeByThisUser && !ActiveLevelData.IsEmpty;
+        return WorkingLevelData.isMadeByThisUser && !WorkingLevelData.IsEmpty;
     }
 
     void HandleInputFieldSelection() {
@@ -84,6 +84,10 @@ public class SaveMenu : PlayerLevelEditorMenu {
         else if (MoveBack) {
             CurrentEventSystem.SetSelectedGameObject(nameText.gameObject);
         }
+    }
+
+    public override void SetMenuButtonInteractabilityByState() {
+        
     }
     #endregion
 }

@@ -262,7 +262,7 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
         isTransitioning = false;        
         gameObject.tag = Strings.Tags.FLOOR;
         gameObject.layer = (int)Layers.Ground;
-        HideBlockingObject();
+        HideBlockingObject();        
     }
 
     private void FinishTransition(Vector3 finalPosition) {
@@ -370,10 +370,8 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
     }
 
     private void TryTransitionToState(LevelUnitStates newState, Texture2D paintMaskTexture, bool wasToldToChangeColor) {
-        
         if ((isTransitioning && currentState==newState) || currentState != newState) {
-            
-            splattable.PaintMask = Texture2D.blackTexture;
+            splattable.PaintMask = paintMaskTexture;
             nextState = newState;
             targetPosition = GetStatePosition(nextState);
             isBeginningTransition = true;

@@ -20,7 +20,7 @@ public class SetTextColorHelper : MonoBehaviour
     [SerializeField] private Text helpText;
     [SerializeField] private Text exitText;
 
-    [SerializeField] private LevelEditor editorInstance;
+    [SerializeField] private MainPLEMenu mainPLEMenu;
 
     [SerializeField] private Color selectedColor;
     [SerializeField] private Color defaultColor;
@@ -45,36 +45,17 @@ public class SetTextColorHelper : MonoBehaviour
         helpText.color = defaultColor;
         exitText.color = defaultColor;
 
-        switch (editorInstance.currentDisplayedMenu)
+        switch (mainPLEMenu.currentDisplayedMenu)
         {
-
-            case PLEMenu.FLOOR:
-                floorText.color = selectedColor;
-                break;
-            case PLEMenu.PROPS:
-                propsText.color = selectedColor;
-                break;
-            case PLEMenu.SPAWN:
-                spawnsText.color = selectedColor;
-                break;
-            case PLEMenu.WAVE:
-                wavesText.color = selectedColor;
-                break;
-            case PLEMenu.TEST:
-                testText.color = selectedColor;
-                break;
-            case PLEMenu.SAVE:
-                saveText.color = selectedColor;
-                break;
-            case PLEMenu.LEVELSELECT:
-                loadText.color = selectedColor;
-                break;
-            case PLEMenu.HELP:
-                helpText.color = selectedColor;
-                break;
-            case PLEMenu.NONE:
-                floorText.color = selectedColor;
-                break;
+            case PLEMenu.FLOOR: floorText.color = selectedColor; break;
+            case PLEMenu.PROPS: propsText.color = selectedColor; break;
+            case PLEMenu.SPAWN: spawnsText.color = selectedColor; break;
+            case PLEMenu.WAVE: wavesText.color = selectedColor; break;
+            case PLEMenu.TEST: testText.color = selectedColor; break;
+            case PLEMenu.SAVE: saveText.color = selectedColor; break;
+            case PLEMenu.LEVELSELECT: loadText.color = selectedColor; break;
+            case PLEMenu.HELP: helpText.color = selectedColor; break;
+            case PLEMenu.NONE: floorText.color = selectedColor; break;
         }
 
     }

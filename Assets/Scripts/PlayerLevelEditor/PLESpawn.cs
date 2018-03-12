@@ -33,27 +33,20 @@ public class PLESpawn : PLEItem {
     protected override string ColorTint { get { return "_Color"; } }
     #region Unity Lifecycle    
 
-    private void OnEnable()
-    {
-        EventSystem.Instance.RegisterEvent(Strings.Events.PLE_TEST_END, ResetSpawnValues);               
-    }
-
-    private void OnDisable()
-    {
-        if(EventSystem.Instance)
-        {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_TEST_END, ResetSpawnValues);
-        }
-    }
-
-    protected override void Start()
-    {
+    protected override void Start() {
         base.Start();
         ResetSpawnValues();
         actualSpawnPos = new Vector3(0, transform.position.y + spawnHeightOffset, 0);
         actualSpawnPos = transform.TransformPoint(actualSpawnPos);
+
+        EventSystem.Instance.RegisterEvent(Strings.Events.PLE_TEST_END, ResetSpawnValues);               
     }
 
+    private void OnDestroy() {
+        if (EventSystem.Instance) {
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_TEST_END, ResetSpawnValues);
+        }
+    }
     #endregion
 
     #region Public Interface
@@ -132,8 +125,6 @@ public class PLESpawn : PLEItem {
         }
         else
         {
-            //TODO THIS WILL BREAK, IMPLEMENT MAX NUMBER
-            //ERROR PENDING
             OnEnemyDeath();
             Debug.LogFormat("<color=#ffff00>" + "NOT ENOUGH SPAWN-OBJECTS for: " + spawnType + "</color>");
         }

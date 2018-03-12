@@ -55,6 +55,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     [SerializeField] private Color selectedColor = Color.blue;
     [SerializeField] private Color deletePreviewColor = Color.red;
     [SerializeField] private LevelEditor editorInstance;
+    [SerializeField] private MainPLEMenu mainPLEMenu;
     [SerializeField] private NavMeshSurface levelNav;
 
     #endregion
@@ -62,7 +63,6 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     #region Public Fields
     public int LevelSize { get { return levelSize; } }
     [HideInInspector] public bool displaying = false;
-    private PLEMenu CurrentEditorMenu { get { return editorInstance.currentDisplayedMenu; } }
 
     #endregion
 
@@ -72,14 +72,14 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     #region Unity Lifecycle
     void Start() {
         Initilaize();
-        EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_STARTED, TriggerBakeNavMesh);
-        EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_RESTARTED, TriggerBakeNavMesh);
+        EventSystem.Instance.RegisterEvent(Strings.Events.PLE_ON_LEVEL_DATA_LOADED, BakeNavMesh);
+        EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_RESTARTED, BakeNavMesh);
     }
 
     private void OnDestroy() {
         if (EventSystem.Instance) {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_STARTED, TriggerBakeNavMesh);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_RESTARTED, TriggerBakeNavMesh);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_ON_LEVEL_DATA_LOADED, BakeNavMesh);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_RESTARTED, BakeNavMesh);
         }
     }
 
@@ -105,7 +105,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
 
     #region Public Interface
     public List<GridTile> GetSelectedGridTiles() { return selectedGridTiles; }
-
+    public bool AnyTilesSelected() { return selectedGridTiles.Count > 0; }
     public bool AnyTilesEnabled() {
         return gridTiles.Any(tile => tile.IsActive);
     }
@@ -141,22 +141,12 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
 
     #region Private Interface
 
-
-    private void TriggerBakeNavMesh(params object[] i_params) {
-        StartCoroutine(WaitToLoad());
-    }
-
-    IEnumerator WaitToLoad() {
-        yield return new WaitForEndOfFrame();
-        yield return new WaitForEndOfFrame();
-        BakeNavMesh();
-    }
-
-    void BakeNavMesh() {
+    void BakeNavMesh(params object[] i_params) {
         spawnsParent.gameObject.SetActive(false);
         ResetTileHeightsAndStates();
         levelNav.BuildNavMesh();
         spawnsParent.gameObject.SetActive(true);
+        EventSystem.Instance.TriggerEvent(Strings.Events.PLE_ON_LEVEL_READY);
     }
 
     #region Initialization
@@ -251,6 +241,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         if (!Input.GetKey(KeyCode.LeftAlt) && !Input.GetKey(KeyCode.Z)) {
             if (Input.GetMouseButtonDown(MouseButtons.LEFT) && !Input.GetKey(KeyCode.LeftShift)) {
                 DeselectBlocks();
+                mainPLEMenu.SetMenuButtonInteractabilityByState();
             }
             if (Input.GetMouseButton(MouseButtons.LEFT)) {
                 ReselectPreviouslySelected();
@@ -262,7 +253,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
             if (Input.GetMouseButtonUp(MouseButtons.LEFT)) {
                 ShowBlocks(hit);
                 ShowWalls();
-                editorInstance.SetMenuButtonInteractability();
+                mainPLEMenu.SetMenuButtonInteractabilityByState();
             }
         }
     }
@@ -270,6 +261,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     private void HandleDeleteBlockSelection(RaycastHit hit) {
         if (Input.GetMouseButtonDown(MouseButtons.RIGHT)) {
             DeselectBlocks();
+            mainPLEMenu.SetMenuButtonInteractabilityByState();
         }
         if (Input.GetMouseButton(MouseButtons.RIGHT) && !Input.GetKey(KeyCode.LeftAlt) && !Input.GetKey(KeyCode.Z)) {
             DeselectBlocks();
@@ -280,7 +272,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
             if (!Input.GetKey(KeyCode.LeftAlt) && !Input.GetKey(KeyCode.Z)) {
                 DeleteBlocks(hit);
                 ShowWalls();
-                editorInstance.SetMenuButtonInteractability();
+                mainPLEMenu.SetMenuButtonInteractabilityByState();
             }
         }
     }
@@ -516,6 +508,7 @@ public class GridTile {
         meshRenderer.SetPropertyBlock(propBlock);
     }
     public Color CurrentTileStateColor { get { return levelUnit.CurrentStateColor; } }
+    public Color FloorTileStateColor { get { return levelUnit.FlatColor; } }
     public void SetSelected(bool isSelected) {
         this.isSelected = isSelected;
     }
@@ -543,6 +536,6 @@ public class GridTile {
     {
         blockUnit.SyncTileHeightStates();
         levelUnit.SnapToFloorState();
-        ChangeRealBlockColor(CurrentTileStateColor);
+        ChangeRealBlockColor(FloorTileStateColor);
     }
 }

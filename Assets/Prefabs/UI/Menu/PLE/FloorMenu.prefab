@@ -178,7 +178,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1134686435154204}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -569,8 +569,13 @@ MonoBehaviour:
   canvas: {fileID: 1044720133497524}
   canvasGroup: {fileID: 225619499881535544}
   faderDuration: 0
-  levelEditor: {fileID: 0}
   initiallySelected: {fileID: 0}
+  levelEditor: {fileID: 0}
+  mainPLEMenu: {fileID: 0}
+  allSelectables:
+  - {fileID: 114205945814738768}
+  - {fileID: 114979242634801156}
+  - {fileID: 114517408593797698}
 --- !u!114 &114861218748389584
 MonoBehaviour:
   m_ObjectHideFlags: 1

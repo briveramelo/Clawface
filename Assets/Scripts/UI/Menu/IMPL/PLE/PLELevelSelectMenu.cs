@@ -30,7 +30,7 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
     [SerializeField] private List<GameObjectToggler> filterButtonTogglers;
     [SerializeField] private RectOffset gridLayoutConfigWithHathos, gridLayoutConfigWithoutHathos;
     [SerializeField] private DiffAnim scrollSlideAnim;
-    [SerializeField] private AbsAnim selectLevelAnim;
+    [SerializeField] private AbsAnim selectLevelAnim;    
     #endregion
 
     #region Fields (Private)
@@ -165,12 +165,8 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
             {
                 MenuManager.Instance.DoTransition(confirmMenu, Transition.HIDE, new Effect[] { Effect.INSTANT });
                 SelectInitialButton();
-            };
-
-            LoadMenu loadMenu = (LoadMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
-            loadMenu.SetNavigation(IsHathosLevelSelected ? Strings.Scenes.ScenePaths.Arena : Strings.Scenes.ScenePaths.PlayerLevels);
-            loadMenu.Fast = true;
-            confirmMenu.DefineActions("You will lose unsaved data, are you sure?", onYesAction, onNoAction);
+            };            
+            confirmMenu.DefineActions("You will lose any unsaved data. Are you sure?", onYesAction, onNoAction);
 
             MenuManager.Instance.DoTransition(confirmMenu, Transition.SHOW, new Effect[] { Effect.INSTANT });
         }
@@ -178,7 +174,6 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
         {
             LoadSelectedLevel();
         }
-
     }
 
     public void SelectLevel(LevelUI levelUI) {
@@ -192,7 +187,6 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
         }
 
         SelectedLevelIndex = levelIndex;
-        DataPersister.ActiveDataSave.SelectByUniqueName(SelectedLevelUI.levelData.UniqueSteamName);
 
         selectLevelAnim.OnUpdate = SelectedLevelUI.ScaleLevelUISize;
         selectLevelAnim.Animate(PulseCoroutineName);
@@ -209,7 +203,7 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
 
         levelUIs.ForEach(levelUI => { levelUI.OnGroupSelectChanged(levelIndex); });
         selectedLevelFavoriteIcon.enabled = selectedLevel.isFavorite;
-        SetButtonsInteractabilityAndNavigation(DisplayedLevelUIs);
+        SetButtonsInteractabilityAndNavigation();
         CurrentEventSystem.SetSelectedGameObject(SelectedLevelUI.selectable.gameObject);
         AlignScrollbar();
     }
@@ -254,8 +248,8 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
 
         Action onYesAction = () =>
         {
-            levelDataManager.DeleteSelectedLevel();
-            SetButtonsInteractabilityAndNavigation(DisplayedLevelUIs);
+            levelDataManager.TryDeleteLevel(SelectedLevelUI.levelData.UniqueSteamName);
+            SetButtonsInteractabilityAndNavigation();
             ClearAndGenerateLevelUI();
         };
 
@@ -275,12 +269,12 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
 
     private void LoadSelectedLevel()
     {
-        ActiveDataSave.SelectedLevelIndex = SelectedLevelIndex - NumHathosLevels;
+        DataPersister.ActiveDataSave.FillWorkingLevelDataWithExistingLevelData(SelectedLevelUI.levelData.UniqueSteamName);
 
         if (SceneTracker.IsCurrentSceneEditor)
         {
             levelDataManager.LoadSelectedLevel();
-            levelEditor.SwitchToMenu(PLEMenu.FLOOR);
+            mainPLEMenu.SwitchToMenu(PLEMenu.FLOOR);
         }
         else
         {
@@ -372,7 +366,7 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
 
         SetPlayerLevelNavigation(displayedLevelUIs);
         SetFilterButtonsNavigation(filterButtonDownSelectable);
-        SetButtonsInteractabilityAndNavigation(displayedLevelUIs);
+        SetButtonsInteractabilityAndNavigation();
     }
 
     void SetPlayerLevelNavigation(List<LevelUI> displayedLevelUIs) {
@@ -458,7 +452,8 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
     }
 
 
-    private void SetButtonsInteractabilityAndNavigation(List<LevelUI> displayedLevelUIs) {
+    private void SetButtonsInteractabilityAndNavigation() {
+        List<LevelUI> displayedLevelUIs = DisplayedLevelUIs;
         bool anyLevelsDisplayed = displayedLevelUIs.Count > 0;
         deleteButton.interactable = anyLevelsDisplayed;
         favoriteButton.interactable = anyLevelsDisplayed && !IsHathosLevelSelected;
@@ -561,6 +556,10 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
             LevelUI hathosUI = hathosUIs[q];
             levelUIs.Add(hathosUI);
         }
+    }
+
+    public override void SetMenuButtonInteractabilityByState() {
+        SetButtonsInteractabilityAndNavigation();
     }
     #endregion
 

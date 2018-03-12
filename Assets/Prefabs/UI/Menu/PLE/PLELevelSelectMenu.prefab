@@ -2425,7 +2425,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1810822838683126}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2516,13 +2516,13 @@ MonoBehaviour:
   levelData:
     name: 
     description: 
-    imageData: 
     isFavorite: 0
     isDownloaded: 0
     isMadeByThisUser: 1
     isInfinite: 0
     isHathosLevel: 0
     dateString: 
+    imageData: 
     waveData: []
     tileData: []
     propData: []
@@ -2856,8 +2856,10 @@ MonoBehaviour:
   canvas: {fileID: 1810414253232462}
   canvasGroup: {fileID: 225866229404006804}
   faderDuration: 0
-  levelEditor: {fileID: 0}
   initiallySelected: {fileID: 0}
+  levelEditor: {fileID: 0}
+  mainPLEMenu: {fileID: 0}
+  allSelectables: []
   backMenuTarget: 
   levelDataManager: {fileID: 0}
   levelContentParent: {fileID: 224897030861063398}
@@ -2953,7 +2955,6 @@ MonoBehaviour:
     looping: 0
     playOnAwake: 0
     maxValue: 1
-  mainPleMenu: {fileID: 0}
 --- !u!114 &114059469798435534
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3124,6 +3125,8 @@ MonoBehaviour:
   selectable: {fileID: 114822807194414180}
   image: {fileID: 114179443648208210}
   text: {fileID: 114311260884547838}
+  overrideDisabledColor: 0
+  alwaysUpdate: 0
 --- !u!114 &114100006324855494
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3320,13 +3323,13 @@ MonoBehaviour:
   levelData:
     name: 
     description: 
-    imageData: 
     isFavorite: 0
     isDownloaded: 0
     isMadeByThisUser: 1
     isInfinite: 0
     isHathosLevel: 0
     dateString: 
+    imageData: 
     waveData: []
     tileData: []
     propData: []
@@ -3432,13 +3435,13 @@ MonoBehaviour:
   levelData:
     name: 
     description: 
-    imageData: 
     isFavorite: 0
     isDownloaded: 0
     isMadeByThisUser: 1
     isInfinite: 0
     isHathosLevel: 0
     dateString: 
+    imageData: 
     waveData: []
     tileData: []
     propData: []
@@ -3702,13 +3705,13 @@ MonoBehaviour:
   levelData:
     name: 
     description: 
-    imageData: 
     isFavorite: 0
     isDownloaded: 0
     isMadeByThisUser: 1
     isInfinite: 0
     isHathosLevel: 0
     dateString: 
+    imageData: 
     waveData: []
     tileData: []
     propData: []
@@ -4141,6 +4144,8 @@ MonoBehaviour:
   selectable: {fileID: 114924464856241986}
   image: {fileID: 114576221747601522}
   text: {fileID: 114277268744280614}
+  overrideDisabledColor: 0
+  alwaysUpdate: 0
 --- !u!114 &114229922844820154
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4182,13 +4187,13 @@ MonoBehaviour:
   levelData:
     name: 
     description: 
-    imageData: 
     isFavorite: 0
     isDownloaded: 0
     isMadeByThisUser: 1
     isInfinite: 0
     isHathosLevel: 0
     dateString: 
+    imageData: 
     waveData: []
     tileData: []
     propData: []
@@ -4412,13 +4417,13 @@ MonoBehaviour:
   levelData:
     name: 
     description: 
-    imageData: 
     isFavorite: 0
     isDownloaded: 0
     isMadeByThisUser: 1
     isInfinite: 0
     isHathosLevel: 0
     dateString: 
+    imageData: 
     waveData: []
     tileData: []
     propData: []
@@ -4488,6 +4493,8 @@ MonoBehaviour:
   selectable: {fileID: 114893217712779956}
   image: {fileID: 114635322812658144}
   text: {fileID: 114949421211608202}
+  overrideDisabledColor: 0
+  alwaysUpdate: 0
 --- !u!114 &114307024211320782
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4862,13 +4869,13 @@ MonoBehaviour:
   levelData:
     name: 
     description: 
-    imageData: 
     isFavorite: 0
     isDownloaded: 0
     isMadeByThisUser: 1
     isInfinite: 0
     isHathosLevel: 0
     dateString: 
+    imageData: 
     waveData: []
     tileData: []
     propData: []
@@ -4985,13 +4992,13 @@ MonoBehaviour:
   levelData:
     name: 
     description: 
-    imageData: 
     isFavorite: 0
     isDownloaded: 0
     isMadeByThisUser: 1
     isInfinite: 0
     isHathosLevel: 0
     dateString: 
+    imageData: 
     waveData: []
     tileData: []
     propData: []
@@ -5086,13 +5093,13 @@ MonoBehaviour:
   levelData:
     name: 
     description: 
-    imageData: 
     isFavorite: 0
     isDownloaded: 0
     isMadeByThisUser: 1
     isInfinite: 0
     isHathosLevel: 0
     dateString: 
+    imageData: 
     waveData: []
     tileData: []
     propData: []
@@ -5218,13 +5225,13 @@ MonoBehaviour:
   levelData:
     name: 
     description: 
-    imageData: 
     isFavorite: 0
     isDownloaded: 0
     isMadeByThisUser: 1
     isInfinite: 0
     isHathosLevel: 0
     dateString: 
+    imageData: 
     waveData: []
     tileData: []
     propData: []
@@ -5447,8 +5454,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114305202144207988}
   m_HandleRect: {fileID: 224266473417269380}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 0.40625674
+  m_Value: 0.4499999
+  m_Size: 0.40588656
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -5501,6 +5508,8 @@ MonoBehaviour:
   selectable: {fileID: 114525339573534254}
   image: {fileID: 114054554622724146}
   text: {fileID: 114755434418213108}
+  overrideDisabledColor: 0
+  alwaysUpdate: 0
 --- !u!114 &114478578187916614
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5671,13 +5680,13 @@ MonoBehaviour:
   levelData:
     name: 
     description: 
-    imageData: 
     isFavorite: 0
     isDownloaded: 0
     isMadeByThisUser: 1
     isInfinite: 0
     isHathosLevel: 0
     dateString: 
+    imageData: 
     waveData: []
     tileData: []
     propData: []
@@ -5727,13 +5736,13 @@ MonoBehaviour:
   levelData:
     name: 
     description: 
-    imageData: 
     isFavorite: 0
     isDownloaded: 0
     isMadeByThisUser: 1
     isInfinite: 0
     isHathosLevel: 0
     dateString: 
+    imageData: 
     waveData: []
     tileData: []
     propData: []
@@ -5902,6 +5911,8 @@ MonoBehaviour:
   selectable: {fileID: 114032336373952928}
   image: {fileID: 114513650182361862}
   text: {fileID: 114021631787182022}
+  overrideDisabledColor: 0
+  alwaysUpdate: 0
 --- !u!114 &114539815891010138
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5988,13 +5999,13 @@ MonoBehaviour:
   levelData:
     name: 
     description: 
-    imageData: 
     isFavorite: 0
     isDownloaded: 0
     isMadeByThisUser: 1
     isInfinite: 0
     isHathosLevel: 0
     dateString: 
+    imageData: 
     waveData: []
     tileData: []
     propData: []
@@ -6113,13 +6124,13 @@ MonoBehaviour:
   levelData:
     name: 
     description: 
-    imageData: 
     isFavorite: 0
     isDownloaded: 0
     isMadeByThisUser: 1
     isInfinite: 0
     isHathosLevel: 0
     dateString: 
+    imageData: 
     waveData: []
     tileData: []
     propData: []
@@ -6551,13 +6562,13 @@ MonoBehaviour:
   levelData:
     name: 
     description: 
-    imageData: 
     isFavorite: 0
     isDownloaded: 0
     isMadeByThisUser: 1
     isInfinite: 0
     isHathosLevel: 0
     dateString: 
+    imageData: 
     waveData: []
     tileData: []
     propData: []
@@ -6801,6 +6812,8 @@ MonoBehaviour:
   selectable: {fileID: 114597672417075940}
   image: {fileID: 114171695105082454}
   text: {fileID: 114512634050044692}
+  overrideDisabledColor: 0
+  alwaysUpdate: 0
 --- !u!114 &114648442598254838
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6820,6 +6833,8 @@ MonoBehaviour:
   selectable: {fileID: 114651686322632120}
   image: {fileID: 114851495875056114}
   text: {fileID: 114214518872695778}
+  overrideDisabledColor: 0
+  alwaysUpdate: 0
 --- !u!114 &114651686322632120
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6966,13 +6981,13 @@ MonoBehaviour:
   levelData:
     name: Hathos Level
     description: This level is really hard!
-    imageData: 
     isFavorite: 0
     isDownloaded: 0
     isMadeByThisUser: 0
     isInfinite: 0
     isHathosLevel: 1
     dateString: 
+    imageData: 
     waveData: []
     tileData: []
     propData: []
@@ -7563,13 +7578,13 @@ MonoBehaviour:
   levelData:
     name: 
     description: 
-    imageData: 
     isFavorite: 0
     isDownloaded: 0
     isMadeByThisUser: 1
     isInfinite: 0
     isHathosLevel: 0
     dateString: 
+    imageData: 
     waveData: []
     tileData: []
     propData: []
@@ -7597,6 +7612,8 @@ MonoBehaviour:
   selectable: {fileID: 114588552616787980}
   image: {fileID: 114384636049017246}
   text: {fileID: 114117801361123718}
+  overrideDisabledColor: 0
+  alwaysUpdate: 0
 --- !u!114 &114790247013586078
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7871,6 +7888,8 @@ MonoBehaviour:
   selectable: {fileID: 114572970814407454}
   image: {fileID: 114105606318547478}
   text: {fileID: 114774730965500848}
+  overrideDisabledColor: 0
+  alwaysUpdate: 0
 --- !u!114 &114843116789820190
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8169,13 +8188,13 @@ MonoBehaviour:
   levelData:
     name: 
     description: 
-    imageData: 
     isFavorite: 0
     isDownloaded: 0
     isMadeByThisUser: 1
     isInfinite: 0
     isHathosLevel: 0
     dateString: 
+    imageData: 
     waveData: []
     tileData: []
     propData: []
@@ -8223,13 +8242,13 @@ MonoBehaviour:
   levelData:
     name: 
     description: 
-    imageData: 
     isFavorite: 0
     isDownloaded: 0
     isMadeByThisUser: 1
     isInfinite: 0
     isHathosLevel: 0
     dateString: 
+    imageData: 
     waveData: []
     tileData: []
     propData: []
@@ -8252,13 +8271,13 @@ MonoBehaviour:
   levelData:
     name: 
     description: 
-    imageData: 
     isFavorite: 0
     isDownloaded: 0
     isMadeByThisUser: 1
     isInfinite: 0
     isHathosLevel: 0
     dateString: 
+    imageData: 
     waveData: []
     tileData: []
     propData: []
@@ -8281,13 +8300,13 @@ MonoBehaviour:
   levelData:
     name: 
     description: 
-    imageData: 
     isFavorite: 0
     isDownloaded: 0
     isMadeByThisUser: 1
     isInfinite: 0
     isHathosLevel: 0
     dateString: 
+    imageData: 
     waveData: []
     tileData: []
     propData: []
@@ -8337,13 +8356,13 @@ MonoBehaviour:
   levelData:
     name: 
     description: 
-    imageData: 
     isFavorite: 0
     isDownloaded: 0
     isMadeByThisUser: 1
     isInfinite: 0
     isHathosLevel: 0
     dateString: 
+    imageData: 
     waveData: []
     tileData: []
     propData: []
@@ -8752,13 +8771,13 @@ MonoBehaviour:
   levelData:
     name: 
     description: 
-    imageData: 
     isFavorite: 0
     isDownloaded: 0
     isMadeByThisUser: 1
     isInfinite: 0
     isHathosLevel: 0
     dateString: 
+    imageData: 
     waveData: []
     tileData: []
     propData: []
@@ -11830,7 +11849,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -0.00024414062, y: 313.37}
+  m_AnchoredPosition: {x: -0.00024414062, y: 1021.46436}
   m_SizeDelta: {x: 1076.03, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!224 &224908918996703918

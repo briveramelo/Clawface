@@ -119,7 +119,6 @@ namespace PlayerLevelEditor
 
             if (Input.GetMouseButton(MouseButtons.MIDDLE) || (Input.GetMouseButton(MouseButtons.LEFT) && Input.GetKey(KeyCode.Space))) {
                 Vector3 screenDiff = Input.mousePosition - startScreenPosition;
-                float yShift = screenDiff.y;
                 screenDiff.z = screenDiff.y;
                 screenDiff.y = 0;
                 screenDiff = mainCamera.transform.TransformDirection(screenDiff);
