@@ -160,7 +160,6 @@ public class LevelData {
         copy.waveData.ForEach(wave => { this.waveData.Add(new WaveData(wave)); });
         copy.tileData.ForEach(tile => { this.tileData.Add(new TileData(tile)); });
         copy.propData.ForEach(prop => { this.propData.Add(new PropData(prop)); });
-        //SaveTimestamp();
     }
 
     private readonly DateTime epochStart = new DateTime(2018, 1, 1, 0, 0, 0, DateTimeKind.Utc);

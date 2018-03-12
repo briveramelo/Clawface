@@ -269,7 +269,9 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
 
     private void LoadSelectedLevel()
     {
-        DataPersister.ActiveDataSave.FillWorkingLevelDataWithExistingLevelData(SelectedLevelUI.levelData.UniqueSteamName);
+        if (!SelectedLevelUI.levelData.isHathosLevel) {
+            DataPersister.ActiveDataSave.FillWorkingLevelDataWithExistingLevelData(SelectedLevelUI.levelData.UniqueSteamName);
+        }
 
         if (SceneTracker.IsCurrentSceneEditor)
         {
