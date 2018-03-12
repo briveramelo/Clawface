@@ -28,12 +28,13 @@ public class TestMenu : PlayerLevelEditorMenu
         pauseMenu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.PAUSE) as PauseMenu;
     }
     protected override void Update() {
-        if (allowInput && !pauseMenu.IsPaused) {
+        base.Update();
+        if (allowInput) {
             if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN)) {
                 BackAction();
             }
-        }
-    }
+        }        
+    }    
 
     #endregion
 
@@ -44,8 +45,6 @@ public class TestMenu : PlayerLevelEditorMenu
     public override void BackAction() {
         MenuManager.Instance.DoTransition(stageOverMenu, Transition.HIDE, new Effect[] { Effect.INSTANT });
         MenuManager.Instance.DoTransition(Strings.MenuStrings.WEAPON_SELECT, Transition.HIDE, new Effect[] { Effect.INSTANT });
-        PauseMenu pauseMenu = (PauseMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.PAUSE);
-        pauseMenu.CanPause = false;
 
         levelEditor.ExitLevel();
         base.BackAction();
@@ -92,9 +91,6 @@ public class TestMenu : PlayerLevelEditorMenu
         System.Action onStartAction = () => {
             base.ShowStarted();
             levelEditor.SetIsTesting(true);
-            PLESpawnManager.Instance.TryStartLevel();
-            PauseMenu pauseMenu = (PauseMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.PAUSE);
-            pauseMenu.CanPause = true;
             base.ShowComplete();
         };
 

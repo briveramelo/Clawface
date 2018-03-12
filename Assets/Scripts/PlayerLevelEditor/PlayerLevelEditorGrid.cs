@@ -141,7 +141,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
 
     #region Private Interface
 
-    void BakeNavMesh(params object[] i_params) {
+    public void BakeNavMesh(params object[] i_params) {
         spawnsParent.gameObject.SetActive(false);
         ResetTileHeightsAndStates();
         levelNav.BuildNavMesh();

@@ -74,10 +74,10 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
         EventSystem.Instance.TriggerEvent(Strings.Events.PLE_CALL_WAVE, waveIndex);
     }
 
-    public void TryStartLevel(params object[] parameters)
+    private void TryStartLevel(params object[] parameters)
     {
         if (SceneTracker.IsCurrentScenePlayerLevels || editorInstance.IsTesting) {
-            RegisterAllSpawns();
+            SyncLevelData();
             Reset();
             editorInstance.ToggleCameraGameObject(false);//should match up in same frame where keira's camera comes on
             CallWave(0);
@@ -136,8 +136,9 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
 
     #region Public Interface
 
-    public void RegisterAllSpawns() {
+    public void SyncLevelData() {
         editorInstance.levelDataManager.SaveSpawns();
+        EventSystem.Instance.TriggerEvent(Strings.Events.PLE_SYNC_LEVEL_UNIT_STATES);
     }
 
     public int SetToWave(int i_wave)

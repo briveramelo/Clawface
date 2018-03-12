@@ -124,6 +124,9 @@ namespace PlayerLevelEditor
         public void SetIsTesting(bool i_status)
         {
             IsTesting = i_status;
+            if (IsTesting) {
+                gridController.BakeNavMesh();
+            }
         }
         #endregion
 

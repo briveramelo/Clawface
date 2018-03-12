@@ -61,9 +61,9 @@ public class PauseMenu : Menu {
 
     void Update ()
 	{
-		if (canPause && InputManager.Instance.QueryAction (Strings.Input.Actions.PAUSE,
-			          ButtonMode.DOWN)) {
+		if (canPause && InputManager.Instance.QueryAction (Strings.Input.Actions.PAUSE, ButtonMode.DOWN)) {
 			if (!paused && !Displayed) {
+                paused = true;
 				MenuManager.Instance.DoTransition (this, Transition.TOGGLE, new Effect[] { });
 			} else if (Displayed) {
 				MenuManager.Instance.ClearMenus ();
