@@ -99,8 +99,7 @@ public class StageOverMenu : Menu
         LoadMenu loadMenu = (LoadMenu)menu;
         EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_QUIT, SceneTracker.CurrentSceneName, AnalyticsManager.Instance.GetCurrentWave(), ScoreManager.Instance.GetScore());
         loadMenu.SetNavigation(Strings.Scenes.ScenePaths.MainMenu);
-        loadMenu.Fast = true;
-        ObjectPool.Instance.ResetPools();
+        ObjectPool.Instance.ResetPools(); //already done in load menu?
         MenuManager.Instance.DoTransition(loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
     }
 

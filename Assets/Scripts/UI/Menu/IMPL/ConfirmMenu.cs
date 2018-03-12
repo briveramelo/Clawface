@@ -43,7 +43,7 @@ public class ConfirmMenu: Menu
         {
             if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN))
             {
-                MenuManager.Instance.DoTransition(this, Transition.HIDE, new Effect[] { Effect.INSTANT });
+                NoAction();
             }
         }
     }

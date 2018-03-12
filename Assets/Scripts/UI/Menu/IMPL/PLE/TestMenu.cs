@@ -42,12 +42,12 @@ public class TestMenu : PlayerLevelEditorMenu
     public TestMenu() : base(Strings.MenuStrings.LevelEditor.TEST_PLE_MENU) { }
 
     public override void BackAction() {
-        if (stageOverMenu.IsDisplaying) {
-            MenuManager.Instance.DoTransition(stageOverMenu, Transition.HIDE, new Effect[] { Effect.INSTANT });
-        }
+        MenuManager.Instance.DoTransition(stageOverMenu, Transition.HIDE, new Effect[] { Effect.INSTANT });
+        MenuManager.Instance.DoTransition(Strings.MenuStrings.WEAPON_SELECT, Transition.HIDE, new Effect[] { Effect.INSTANT });
+        PauseMenu pauseMenu = (PauseMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.PAUSE);
+        pauseMenu.CanPause = false;
 
         levelEditor.ExitLevel();
-        MenuManager.Instance.DoTransition(Strings.MenuStrings.WEAPON_SELECT, Transition.HIDE, new Effect[] { Effect.INSTANT });
         base.BackAction();
     }
 
@@ -60,15 +60,12 @@ public class TestMenu : PlayerLevelEditorMenu
         levelEditor.levelDataManager.SaveSpawns();
         ShowWeaponSelectMenu();
 
-        System.Action onExitTestAction = () =>
-        {
-            PauseMenu pauseMenu = (PauseMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.PAUSE);
-            pauseMenu.CanPause = false;
-            levelEditor.ExitLevel();
-            MenuManager.Instance.DoTransition(this, Transition.HIDE, new Effect[] { Effect.EXCLUSIVE });
-            MenuManager.Instance.DoTransition(mainPLEMenu, Transition.SHOW, new Effect[] {Effect.EXCLUSIVE});
-        };
-        stageOverMenu.DefineExitTestAction(onExitTestAction);
+        //System.Action onExitTestAction = () =>
+        //{
+            
+        //    BackAction
+        //};
+        stageOverMenu.DefineExitTestAction(BackAction);
         
     }
     protected override void ShowComplete() {
@@ -96,6 +93,8 @@ public class TestMenu : PlayerLevelEditorMenu
             base.ShowStarted();
             levelEditor.SetIsTesting(true);
             PLESpawnManager.Instance.TryStartLevel();
+            PauseMenu pauseMenu = (PauseMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.PAUSE);
+            pauseMenu.CanPause = true;
             base.ShowComplete();
         };
 

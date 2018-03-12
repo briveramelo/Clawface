@@ -238,7 +238,6 @@ public class MainPLEMenu : PlayerLevelEditorMenu {
             });
             selectedToggle.isOn = true;
             selectedToggle.Select();
-            UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(selectedToggle.gameObject);
 
             SwitchToMenu(menu);
         }
@@ -249,6 +248,7 @@ public class MainPLEMenu : PlayerLevelEditorMenu {
             menuToggle.toggler.SetState(false);
         });
         selectedMenuToggle.toggler.SetState(true);
+        CurrentEventSystem.SetSelectedGameObject(selectedToggle.gameObject);
     }
     public void QuitAction()
     {
@@ -264,13 +264,13 @@ public class MainPLEMenu : PlayerLevelEditorMenu {
 
         Action onNoAction = () =>
         {
-            MenuManager.Instance.DoTransition(confirmMenu, Transition.HIDE, new Effect[] { });
-            SelectInitialButton();
+            MenuManager.Instance.DoTransition(confirmMenu, Transition.HIDE, new Effect[] { Effect.INSTANT });
+            OpenFloorSystemAction();
         };
 
         confirmMenu.DefineActions("You will lose any unsaved data. Are you sure?", onYesAction, onNoAction);
 
-        MenuManager.Instance.DoTransition(confirmMenu, Transition.SHOW, new Effect[] { });
+        MenuManager.Instance.DoTransition(confirmMenu, Transition.SHOW, new Effect[] { Effect.INSTANT });
     }
 
     public Menu GetMenu(PLEMenu i_menu) {

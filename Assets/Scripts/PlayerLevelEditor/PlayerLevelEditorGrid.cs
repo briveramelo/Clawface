@@ -70,16 +70,16 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
 
 
     #region Unity Lifecycle
-    void Start() {
-        Initilaize();
+    void Awake() {
+        Initialize();
         EventSystem.Instance.RegisterEvent(Strings.Events.PLE_ON_LEVEL_DATA_LOADED, BakeNavMesh);
-        EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_RESTARTED, BakeNavMesh);
+        //EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_RESTARTED, BakeNavMesh);
     }
 
     private void OnDestroy() {
         if (EventSystem.Instance) {
             EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_ON_LEVEL_DATA_LOADED, BakeNavMesh);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_RESTARTED, BakeNavMesh);
+            //EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_RESTARTED, BakeNavMesh);
         }
     }
 
@@ -150,7 +150,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     }
 
     #region Initialization
-    private void Initilaize() {
+    private void Initialize() {
         previewBlock = Resources.Load(Strings.Editor.RESOURCE_PATH + Strings.Editor.BASIC_LE_BLOCK) as GameObject;
         spawnedBlock = Resources.Load(Strings.Editor.RESOURCE_PATH + Strings.Editor.CHERLIN_LVL_BLOCK) as GameObject;
 

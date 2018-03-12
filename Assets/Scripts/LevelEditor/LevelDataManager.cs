@@ -58,13 +58,12 @@ public class LevelDataManager : MonoBehaviour {
         PLESpawnManager.Instance.MaxWaveIndex = WorkingLevelData.MaxWaveIndex;
         PLESpawnManager.Instance.InfiniteWavesEnabled = WorkingLevelData.isInfinite;
 
-        EventSystem.Instance.TriggerEvent(Strings.Events.PLE_ON_LEVEL_DATA_LOADED);
-
         int waveIndex = 0;
         waveIndex = PLESpawnManager.Instance.SetToWave(waveIndex);//sets spawn parent enabling in here
-        EventSystem.Instance.TriggerEvent(Strings.Events.PLE_CALL_WAVE, waveIndex);
+        EventSystem.Instance.TriggerEvent(Strings.Events.PLE_ON_LEVEL_DATA_LOADED);
 
         if (SceneTracker.IsCurrentSceneEditor) {
+            EventSystem.Instance.TriggerEvent(Strings.Events.PLE_CALL_WAVE, waveIndex);
             mainPLEMenu.SetMenuButtonInteractabilityByState();
             mainPLEMenu.SwitchToMenu(PLEMenu.FLOOR);
         }

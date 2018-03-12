@@ -27,7 +27,7 @@ public class LoadMenu : Menu {
             target = value;            
         }
     }
-    public bool Fast
+    public bool OpenNextSceneInstantly
     {
         get
         {
@@ -69,8 +69,9 @@ public class LoadMenu : Menu {
 
     #region Private Fields
     private bool loaded = false;
-    private bool fast = false;
+    private bool fast = true;
     private string target = "";
+    private bool allowInput;
     #endregion
 
     #region Unity Lifecycle Methods
@@ -78,19 +79,19 @@ public class LoadMenu : Menu {
     protected override void Start()
     {
         base.Start();
-
-        target = SceneTracker.CurrentSceneName;        
-
+        fast = true;
+        target = SceneTracker.CurrentSceneName;
     }
     void Update()
     {
-        if (loaded && (InputManager.Instance.AnyKey() || fast))
-        {
-            fast = false;
-            loaded = false;
-            loadingText.text = starting;
-            MenuManager.Instance.DoTransition(this, Transition.HIDE, new Effect[] { });
-            SpawnManager.spawnersLocked = false;
+        if (allowInput) {
+            if (loaded && (InputManager.Instance.AnyKey() || fast))
+            {
+                loaded = false;
+                loadingText.text = starting;
+                MenuManager.Instance.DoTransition(this, Transition.HIDE, new Effect[] { });
+                SpawnManager.spawnersLocked = false;
+            }
         }
     }
     #endregion
@@ -120,7 +121,13 @@ public class LoadMenu : Menu {
     {
         base.ShowComplete();
         StartCoroutine(LoadingCoroutine());
+        allowInput = true;
         //MusicManager.Instance.SetMusicAudioLevel(0.0f);
+    }
+
+    protected override void HideStarted() {
+        base.HideStarted();
+        allowInput = false;
     }
     protected override void HideComplete()
     {
@@ -157,7 +164,6 @@ public class LoadMenu : Menu {
         if (onCompleteSceneLoad!=null) {
             onCompleteSceneLoad();
         }
-        //MusicManager.Instance.SetMusicAudioLevel(SettingsManager.Instance.MusicVolume);
     }
 
     #endregion
