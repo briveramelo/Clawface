@@ -75,7 +75,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         //}
     }
 
-    public void Update()
+    void Update()
     {
         if (alreadyStunned)
         {
@@ -238,10 +238,11 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
 
     public virtual void OnDeath()
     {
-        EventSystem.Instance.TriggerEvent(Strings.Events.DEATH_ENEMY, gameObject, scoreValue);
-
+        
         if (!will.isDead)
         {
+            EventSystem.Instance.TriggerEvent(Strings.Events.DEATH_ENEMY, gameObject, scoreValue);
+
             will.isDead = true;
             if (will.willHasBeenWritten)
             {
