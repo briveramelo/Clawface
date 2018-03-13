@@ -269,6 +269,7 @@ public class MainPLEMenu : PlayerLevelEditorMenu {
     }
     public void QuitAction()
     {
+        SelectMenuItem(PLEMenu.EXIT);
         ConfirmMenu confirmMenu = (ConfirmMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.CONFIRM);
 
         Action onYesAction = () =>
@@ -282,7 +283,7 @@ public class MainPLEMenu : PlayerLevelEditorMenu {
         Action onNoAction = () =>
         {
             MenuManager.Instance.DoTransition(Strings.MenuStrings.CONFIRM, Transition.HIDE, new Effect[] { Effect.INSTANT });
-            MenuManager.Instance.DoTransition(confirmMenu, Transition.HIDE, new Effect[] { Effect.INSTANT });
+            MenuManager.Instance.DoTransition(confirmMenu, Transition.HIDE, new Effect[] { Effect.INSTANT });            
             OpenFloorSystemAction();
         };
 
