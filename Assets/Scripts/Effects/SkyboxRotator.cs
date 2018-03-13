@@ -6,7 +6,7 @@ public class SkyboxRotator : MonoBehaviour {
 
     [SerializeField] float rotationSpeed = 1.0f;
     Material skyboxInstance;
-    float t = 0.0f;
+    float rotation = 0.0f;
 
     private void Awake()
     {
@@ -16,8 +16,8 @@ public class SkyboxRotator : MonoBehaviour {
 
     private void Update()
     {
-        t = (t + Time.deltaTime * rotationSpeed) % 360.0f;
+        rotation = (rotation + Time.deltaTime * rotationSpeed) % 360.0f;
 
-        skyboxInstance.SetFloat("_Rotation", t);
+        skyboxInstance.SetFloat("_Rotation", rotation);
     }
 }
