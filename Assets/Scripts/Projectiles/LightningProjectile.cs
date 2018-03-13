@@ -27,6 +27,8 @@ public class LightningProjectile : MonoBehaviour {
     private Vector3 startingPosition;
     private bool markedForRemoval;
     private float removalTime;
+
+    private float yPosition;
     #endregion
 
     #region Unity Lifecycle
@@ -61,13 +63,13 @@ public class LightningProjectile : MonoBehaviour {
         if (projectileProperties != null)
         {
 
-            //Cancel out y of the target so that the projectile stays at the same level
-            if (target)
-            {
-                Vector3 targetPosition = target.position;
-                targetPosition.y = transform.position.y;
-                target.position = targetPosition;
-            }
+            ////Cancel out y of the target so that the projectile stays at the same level
+            //if (target)
+            //{
+            //    Vector3 targetPosition = target.position;
+            //    targetPosition.y = transform.position.y;
+            //    target.position = targetPosition;
+            //}
 
             if (target && !target.gameObject.activeSelf)
             {
@@ -82,8 +84,11 @@ public class LightningProjectile : MonoBehaviour {
             {
                 // Look at target
                 transform.LookAt(target);
+
+                // transform.rotation.eulerAngles.Set(0f, transform.rotation.eulerAngles.y, 0f);
+
                 // Ensure the forward vector is in 2D
-                transform.forward = new Vector3(transform.forward.x, transform.forward.y, transform.forward.z);
+                //transform.forward = new Vector3(0f, transform.forward.y, 0f);
             }
             else
             {
@@ -98,6 +103,7 @@ public class LightningProjectile : MonoBehaviour {
             }
             //Move forward
             transform.position = transform.position + (transform.forward * projectileProperties.projectileSpeed * Time.deltaTime);
+            transform.position = new Vector3(transform.position.x, yPosition, transform.position.z);
         }
     }
     #endregion
@@ -122,7 +128,7 @@ public class LightningProjectile : MonoBehaviour {
         startingPosition = transform.position;
         transform.forward = startingTransform.forward;
         this.enemyCount = enemyCount;
-
+        yPosition = transform.position.y;
         
         if (ignoreEnemies != null)
         {
@@ -158,6 +164,7 @@ public class LightningProjectile : MonoBehaviour {
         markedForRemoval = false;
         removalTime = 0.0f;
         vfxLightning.gameObject.SetActive(true);
+        yPosition = 0f;
     }
     #endregion
 

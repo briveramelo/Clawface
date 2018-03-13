@@ -212,7 +212,7 @@ public class SettingsManager : Singleton<SettingsManager>
 
     public void SetDefault()
     {
-        settings = Instance.defaultSettings;
+        settings = Settings.GetDefaults();
     }
 
     #endregion
@@ -233,13 +233,13 @@ public class SettingsManager : Singleton<SettingsManager>
         //// Graphics Quality Settings
 
         [HideInInspector]
-        public int qualityLevel;
+        public int qualityLevel = QualitySettings.GetQualityLevel();
         
         [HideInInspector]
-        public Resolution resolution;
+        public Resolution resolution = Screen.currentResolution;
         
         [HideInInspector]
-        public bool fullscreen;
+        public bool fullscreen = Screen.fullScreen;
 
         [Header("Graphics")]
         [Range(0, 5)]
@@ -270,15 +270,62 @@ public class SettingsManager : Singleton<SettingsManager>
 
         #endregion
 
+        #region Fields (Private)
+
+        private static int defaultQualityLevel;
+
+        private static Resolution defaultResolution;
+
+        private static bool defaultFullscreen;
+
+        #endregion
+
+        #region Constructors (Public)
+
+        static Settings()
+        {
+            defaultQualityLevel = QualitySettings.GetQualityLevel();
+            defaultResolution = Screen.currentResolution;
+            defaultFullscreen = Screen.fullScreen;
+        }
+
+        public Settings(Settings other = null)
+        {
+            if (other != null)
+            {
+                qualityLevel = other.qualityLevel;
+                resolution = other.resolution;
+                fullscreen = other.fullscreen;
+                goreDetail = other.goreDetail;
+
+                music = other.music;
+                sfx = other.sfx;
+
+                fireMode = other.fireMode;
+                mouseAimMode = other.mouseAimMode;
+                snapLook = other.snapLook;
+
+                difficulty = other.difficulty;
+                tutorial = other.tutorial;
+            }
+        }
+
+        #endregion
+
         #region Interface (Public)
+
+        public static Settings GetDefaults()
+        {
+            Settings defaults = new Settings(Instance.defaultSettings);
+            defaults.qualityLevel = defaultQualityLevel;
+            defaults.resolution = defaultResolution;
+            defaults.fullscreen = defaultFullscreen;
+            return defaults;
+        }
 
         public static Settings ReadSettings()
         {
-            Settings toReplace = Instance.defaultSettings;
-            toReplace.qualityLevel = QualitySettings.GetQualityLevel();
-            toReplace.resolution = Screen.currentResolution;
-            toReplace.fullscreen = Screen.fullScreen;
-
+            Settings toReplace = GetDefaults();
             string settings = PlayerPrefs.GetString(SETTINGS);
             JsonUtility.FromJsonOverwrite(settings, toReplace);
             return toReplace;

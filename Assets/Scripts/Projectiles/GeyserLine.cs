@@ -32,8 +32,9 @@ public class GeyserLine : RoutineRunner {
         damager = new Damager();
     }
 
-    void OnDisable()
+    protected override void OnDisable()
     {
+        base.OnDisable();
         transform.localScale = initialScale;
     }
 

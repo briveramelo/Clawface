@@ -4,22 +4,31 @@ using UnityEngine;
 public class SpawnScrollGroup : ScrollGroup {    
 
     protected override string ResourcesPath { get { return Strings.Editor.SPAWN_OBJECTS_PATH; } }
-    protected override string IconImagePath { get { return Strings.Editor.SPAWN_ICON_IMAGE_PREVIEW_PATH; } }
+    DataSave ActiveDataSave { get { return DataPersister.ActiveDataSave; } }
 
-    public virtual void SetSpawnUIInteractability(int currentWave) {
-        LevelData activeLevelData = DataPersister.ActiveDataSave.ActiveLevelData;
+    public virtual void HandleSpawnUIInteractability(int currentWave) {
+        LevelData workingLevelData = ActiveDataSave.workingLevelData;
         pleUIItems.ForEach(item => {
             PLESpawn spawn = item.pleItem as PLESpawn;
-            int numberOfSpawns = activeLevelData.NumSpawns(spawn.spawnType, currentWave);
+            int numberOfSpawns = workingLevelData.NumSpawns(spawn.spawnType, currentWave);
             bool isInteractable = spawn.MaxPerWave > numberOfSpawns;
             item.ToggleInteractable(isInteractable);
         });
+
+        bool keiraExists = SpawnMenu.playerSpawnInstance != null;
+        KeiraUIItem.ToggleInteractable(!keiraExists);
+
+        PLEUIItem lastItem = GetLastUIItem();
+        if (!lastItem.isInteractable) {
+            placementMenu.TrySelectFirstAvailable();
+        }
     }
 
-    public void SelectKeira() {
-        int keiraIndex = pleUIItems.FindIndex(item => {
-            return (item.pleItem as PLESpawn).spawnType == SpawnType.Keira;
-        });
-        SelectItem(keiraIndex);
+    public PLEUIItem SelectKeira() {
+        PLEUIItem keiraItem = KeiraUIItem;
+        SelectUIItem(keiraItem.ItemIndex);
+        return keiraItem;
     }
+
+    PLEUIItem KeiraUIItem { get { return pleUIItems.Find(item => { return (item.pleItem as PLESpawn).spawnType == SpawnType.Keira; }); } }
 }

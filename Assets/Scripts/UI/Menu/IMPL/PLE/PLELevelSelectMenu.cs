@@ -27,9 +27,10 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
     [SerializeField] private GameObject plePrefab;
     [SerializeField] private Sprite hathosBigPreview;
     [SerializeField] private List<MemorableTransform> preMadeLevelUITransforms;
+    [SerializeField] private List<GameObjectToggler> filterButtonTogglers;
     [SerializeField] private RectOffset gridLayoutConfigWithHathos, gridLayoutConfigWithoutHathos;
     [SerializeField] private DiffAnim scrollSlideAnim;
-    [SerializeField] private AbsAnim selectLevelAnim;
+    [SerializeField] private AbsAnim selectLevelAnim;    
     #endregion
 
     #region Fields (Private)
@@ -43,7 +44,7 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
     private bool IsHathosLevelDisplayed { get { return NumHathosLevels > 0 && levelUIs.Count > 0 && levelUIs[0].gameObject.activeInHierarchy; } }
     private bool IsHathosLevelSelected { get { return !SceneTracker.IsCurrentSceneEditor && SelectedLevelIndex == 0; } }
     private int NumHathosLevels { get { return !SceneTracker.IsCurrentSceneEditor ? preMadeLevelUITransforms.Count : 0; } }
-    private Predicate<LevelUI> levelUISelectionMatch;
+    private Predicate<LevelUI> currentSelectedUIIsLevel;
     public LevelUI SelectedLevelUI {
         get {
             if (levelUIs.Count > 0) {
@@ -67,6 +68,7 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
                 value = filterToggles.Count;
             }
             selectedFilterIndex = value;
+            filterButtonTogglers.ForEach(changer => changer.OnGroupSelectChanged(selectedFilterIndex));
         }
     }
     private LevelSelectFilterType ActiveFilter { get { return (LevelSelectFilterType)SelectedFilterToggle; } }
@@ -83,6 +85,8 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
     #region Unity Lifecyle
     protected override void Start() {
         base.Start();
+        int i = 0;
+        filterButtonTogglers.ForEach(changer => { changer.SetUIIndex(i); i++; });
 
         shouldSearchShow = (levelUI) => {
             string searchTerm = searchField.text.ToLowerInvariant();
@@ -110,7 +114,7 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
             backButton, deleteButton, favoriteButton, leaderboardButton, loadButton
         };
         scrollSlideAnim.OnUpdate = (val) => { levelScrollBar.value = val; };
-        levelUISelectionMatch = item => CurrentEventSystemGameObject == item.selectable.gameObject;
+        currentSelectedUIIsLevel = item => CurrentEventSystemGameObject == item.selectable.gameObject;
     }
 
     protected override void Update() {
@@ -148,22 +152,27 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
     }
 
     public void LoadLevel() {
-        ActiveDataSave.SelectedLevelIndex = SelectedLevelIndex - NumHathosLevels;
 
-        if (SceneTracker.IsCurrentSceneEditor) {
-            levelDataManager.LoadSelectedLevel();
-            levelEditor.SwitchToMenu(PLEMenu.FLOOR);
+        if (SceneTracker.IsCurrentSceneEditor)
+        {
+            ConfirmMenu confirmMenu = (ConfirmMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.CONFIRM);
+            Action onYesAction = () =>
+            {
+                LoadSelectedLevel();
+            };
+
+            Action onNoAction = () =>
+            {
+                MenuManager.Instance.DoTransition(confirmMenu, Transition.HIDE, new Effect[] { Effect.INSTANT });
+                SelectInitialButton();
+            };            
+            confirmMenu.DefineActions("You will lose any unsaved data. Are you sure?", onYesAction, onNoAction);
+
+            MenuManager.Instance.DoTransition(confirmMenu, Transition.SHOW, new Effect[] { Effect.INSTANT });
         }
-        else {
-            string loadMenuName = Strings.MenuStrings.LOAD;
-            WeaponSelectMenu weaponSelectMenu = (WeaponSelectMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.WEAPON_SELECT);
-            weaponSelectMenu.DefineNavigation(Strings.MenuStrings.LevelEditor.LEVELSELECT_PLE_MENU, loadMenuName);
-
-            LoadMenu loadMenu = (LoadMenu)MenuManager.Instance.GetMenuByName(loadMenuName);
-            loadMenu.SetNavigation(IsHathosLevelSelected ? Strings.Scenes.ScenePaths.Arena : Strings.Scenes.ScenePaths.PlayerLevels);
-
-
-            MenuManager.Instance.DoTransition(weaponSelectMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+        else
+        {
+            LoadSelectedLevel();
         }
     }
 
@@ -178,7 +187,6 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
         }
 
         SelectedLevelIndex = levelIndex;
-        DataPersister.ActiveDataSave.SelectByUniqueName(SelectedLevelUI.levelData.UniqueSteamName);
 
         selectLevelAnim.OnUpdate = SelectedLevelUI.ScaleLevelUISize;
         selectLevelAnim.Animate(PulseCoroutineName);
@@ -195,8 +203,8 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
 
         levelUIs.ForEach(levelUI => { levelUI.OnGroupSelectChanged(levelIndex); });
         selectedLevelFavoriteIcon.enabled = selectedLevel.isFavorite;
-        SetButtonsInteractabilityAndNavigation(DisplayedLevelUIs);
-
+        SetButtonsInteractabilityAndNavigation();
+        CurrentEventSystem.SetSelectedGameObject(SelectedLevelUI.selectable.gameObject);
         AlignScrollbar();
     }
 
@@ -235,12 +243,54 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
     }
 
     public void DeleteSelectedLevel() {
-        levelDataManager.DeleteSelectedLevel();
-        SetButtonsInteractabilityAndNavigation(DisplayedLevelUIs);
+
+        ConfirmMenu confirmMenu = (ConfirmMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.CONFIRM);
+
+        Action onYesAction = () =>
+        {
+            levelDataManager.TryDeleteLevel(SelectedLevelUI.levelData.UniqueSteamName);
+            SetButtonsInteractabilityAndNavigation();
+            ClearAndGenerateLevelUI();
+        };
+
+        Action onNoAction = () =>
+        {
+            MenuManager.Instance.DoTransition(confirmMenu, Transition.HIDE, new Effect[] { });
+            SelectInitialButton();
+        };
+        confirmMenu.DefineActions("Are you sure?", onYesAction, onNoAction);
+
+        MenuManager.Instance.DoTransition(confirmMenu, Transition.SHOW, new Effect[] { });
+
     }
     #endregion
 
     #region Protected Interface
+
+    private void LoadSelectedLevel()
+    {
+        if (!SelectedLevelUI.levelData.isHathosLevel) {
+            DataPersister.ActiveDataSave.FillWorkingLevelDataWithExistingLevelData(SelectedLevelUI.levelData.UniqueSteamName);
+        }
+
+        if (SceneTracker.IsCurrentSceneEditor)
+        {
+            levelDataManager.LoadSelectedLevel();
+            mainPLEMenu.SwitchToMenu(PLEMenu.FLOOR);
+        }
+        else
+        {
+            string loadMenuName = Strings.MenuStrings.LOAD;
+            WeaponSelectMenu weaponSelectMenu = (WeaponSelectMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.WEAPON_SELECT);
+            weaponSelectMenu.DefineNavigation(Strings.MenuStrings.LevelEditor.LEVELSELECT_PLE_MENU, loadMenuName);
+
+            LoadMenu loadMenu = (LoadMenu)MenuManager.Instance.GetMenuByName(loadMenuName);
+            loadMenu.SetNavigation(IsHathosLevelSelected ? Strings.Scenes.ScenePaths.Arena : Strings.Scenes.ScenePaths.PlayerLevels);
+
+
+            MenuManager.Instance.DoTransition(weaponSelectMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+        }
+    }
     protected override void ShowStarted() {
         base.ShowStarted();
         SelectedFilterToggle = (int)LevelSelectFilterType.All;
@@ -258,6 +308,7 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
 
     #region Private Interface 
     private void CheckToMoveFilter() {
+        //TODO set this up work with Strings.Input.UI
         bool leftButtonPressed = InputManager.Instance.QueryAction(Strings.Input.Actions.FIRE_LEFT, ButtonMode.DOWN);
         bool rightBumperPressed = InputManager.Instance.QueryAction(Strings.Input.Actions.FIRE_RIGHT, ButtonMode.DOWN);
         bool mouseClicked = Input.GetMouseButtonDown(MouseButtons.LEFT) || Input.GetMouseButtonDown(MouseButtons.RIGHT) || Input.GetMouseButtonDown(MouseButtons.MIDDLE);
@@ -275,9 +326,9 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
 
 
     private void CheckToSelectNewLevelFromController() {
-        bool isLevelUISelected = SelectedLevelUI != null && levelUIs.Exists(levelUISelectionMatch);
-        if (isLevelUISelected && SelectedLevelUI.selectable.gameObject != CurrentEventSystemGameObject && CurrentEventSystemGameObject.transform.parent.GetComponent<LevelUI>()) {
-            LevelUI newlySelectedLevelUI = levelUIs.Find(levelUISelectionMatch);
+        bool isLevelUISelected = SelectedLevelUI != null && levelUIs.Exists(currentSelectedUIIsLevel);
+        if (isLevelUISelected && SelectedLevelUI.selectable.gameObject != lastSelectedGameObject && CurrentEventSystemGameObject.transform.parent.GetComponent<LevelUI>()) {
+            LevelUI newlySelectedLevelUI = levelUIs.Find(currentSelectedUIIsLevel);
             SelectLevel(newlySelectedLevelUI.LevelIndex);
         }
 
@@ -317,7 +368,7 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
 
         SetPlayerLevelNavigation(displayedLevelUIs);
         SetFilterButtonsNavigation(filterButtonDownSelectable);
-        SetButtonsInteractabilityAndNavigation(displayedLevelUIs);
+        SetButtonsInteractabilityAndNavigation();
     }
 
     void SetPlayerLevelNavigation(List<LevelUI> displayedLevelUIs) {
@@ -403,7 +454,8 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
     }
 
 
-    private void SetButtonsInteractabilityAndNavigation(List<LevelUI> displayedLevelUIs) {
+    private void SetButtonsInteractabilityAndNavigation() {
+        List<LevelUI> displayedLevelUIs = DisplayedLevelUIs;
         bool anyLevelsDisplayed = displayedLevelUIs.Count > 0;
         deleteButton.interactable = anyLevelsDisplayed;
         favoriteButton.interactable = anyLevelsDisplayed && !IsHathosLevelSelected;
@@ -506,6 +558,10 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
             LevelUI hathosUI = hathosUIs[q];
             levelUIs.Add(hathosUI);
         }
+    }
+
+    public override void SetMenuButtonInteractabilityByState() {
+        SetButtonsInteractabilityAndNavigation();
     }
     #endregion
 

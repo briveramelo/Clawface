@@ -14,7 +14,7 @@ public class PLESpawn : PLEItem {
     private float spawnHeightOffset = 50.0f;
     private List<GameObject> spawnedEnemies = new List<GameObject>();
     
-    private Vector3 actualSpawnPos;
+    private Vector3 ActualSpawnPos { get { return transform.position + Vector3.up * spawnHeightOffset; } }
     private Action onAllEnemiesDead;
     #endregion
     
@@ -33,27 +33,17 @@ public class PLESpawn : PLEItem {
     protected override string ColorTint { get { return "_Color"; } }
     #region Unity Lifecycle    
 
-    private void OnEnable()
-    {
+    protected override void Start() {
+        base.Start();
+
         EventSystem.Instance.RegisterEvent(Strings.Events.PLE_TEST_END, ResetSpawnValues);               
     }
 
-    private void OnDisable()
-    {
-        if(EventSystem.Instance)
-        {
+    private void OnDestroy() {
+        if (EventSystem.Instance) {
             EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_TEST_END, ResetSpawnValues);
         }
     }
-
-    protected override void Start()
-    {
-        base.Start();
-        ResetSpawnValues();
-        actualSpawnPos = new Vector3(0, transform.position.y + spawnHeightOffset, 0);
-        actualSpawnPos = transform.TransformPoint(actualSpawnPos);
-    }
-
     #endregion
 
     #region Public Interface
@@ -69,11 +59,6 @@ public class PLESpawn : PLEItem {
         else {
             gameObject.AddComponent<PlayerSpawner>();
         }
-    }
-
-    public SpawnData GetSpawnData()
-    {
-        return new SpawnData((int)spawnType, totalSpawnAmount, actualSpawnPos);
     }
 
     #endregion
@@ -113,7 +98,7 @@ public class PLESpawn : PLEItem {
                 
         if(newSpawnObj)
         {
-            newSpawnObj.transform.position = actualSpawnPos;
+            newSpawnObj.transform.position = ActualSpawnPos;
             ISpawnable spawnable = newSpawnObj.GetComponentInChildren<ISpawnable>();
             if(!spawnable.HasWillBeenWritten())
             {
@@ -124,7 +109,7 @@ public class PLESpawn : PLEItem {
 
             if(enemyBase)
             {
-                enemyBase.SpawnWithRagdoll(actualSpawnPos);
+                enemyBase.SpawnWithRagdoll(ActualSpawnPos);
             }
 
             EventSystem.Instance.TriggerEvent(Strings.Events.ENEMY_SPAWNED, newSpawnObj);
@@ -132,8 +117,6 @@ public class PLESpawn : PLEItem {
         }
         else
         {
-            //TODO THIS WILL BREAK, IMPLEMENT MAX NUMBER
-            //ERROR PENDING
             OnEnemyDeath();
             Debug.LogFormat("<color=#ffff00>" + "NOT ENOUGH SPAWN-OBJECTS for: " + spawnType + "</color>");
         }

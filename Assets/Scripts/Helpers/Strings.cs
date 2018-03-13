@@ -52,6 +52,7 @@
             public const string Arena = "80s shit";
             public const string Editor = "Editor";
             public const string PlayerLevels = "PlayerLevels";
+            public const string Movie = "Movie";
         }
     }    
 
@@ -121,9 +122,9 @@
 
         //levelEditor
         public class LevelEditor {
-            public const string ADD_PROPS_PLE = "PropsMenu";
-            public const string ADD_SPAWNS_PLE = "SpawnMenu";
-            public const string SET_DYNLEVEL_PLE = "FloorMenu";
+            public const string PROPS_PLE_MENU = "PropsMenu";
+            public const string SPAWNS_PLE_MENU = "SpawnMenu";
+            public const string FLOOR_PLE_MENU = "FloorMenu";
             public const string MAIN_PLE_MENU = "MainPLEMenu";
             public const string INIT_PLE_MENU = "InitPLEMenu";
             public const string SAVE_PLE_MENU = "SaveMenu";
@@ -131,6 +132,7 @@
             public const string HELP_PLE_MENU = "HelpMenu";
             public const string TEST_PLE_MENU = "TestMenu";
             public const string LEVELSELECT_PLE_MENU = "PLELevelSelectMenu";
+            public const string EXIT_PLE_MENU = "ExitMenu";
         }
     }
 
@@ -184,7 +186,6 @@
 
         public const string LOCK_SPAWNERS = "LockSpawners";
         public const string CALL_NEXT_WAVE = "CallNextWave";
-        public const string PLE_CALL_WAVE = "CallNextWavePLE";
         public const string ENEMY_SPAWNED = "EnemySpawned";
         public const string WAVE_COMPLETE = "WaveComplete";
 
@@ -214,17 +215,14 @@
         public const string HIDE_TUTORIAL_TEXT = "HideTutorialText";
 
 
-        public const string PLE_TEST_WAVE_  = "PLE_TEST_WAVE_";
-        public const string PLE_TEST_WAVE_0 = "PLE_TEST_WAVE_0";
-        public const string PLE_TEST_WAVE_1 = "PLE_TEST_WAVE_1";
-        public const string PLE_TEST_WAVE_2 = "PLE_TEST_WAVE_2";
+        public const string PLE_ON_LEVEL_DATA_LOADED = "PLE_ON_LEVEL_DATA_LOADED";
+        public const string PLE_ON_LEVEL_READY = "PLE_ON_LEVEL_READY";
+        public const string PLE_CALL_WAVE = "CallNextWavePLE";
         public const string PLE_CHANGEWAVE = "PLE_ChangeWave";
         public const string PLE_ADD_WAVE    = "PLE_ADD_WAVE";
         public const string PLE_TEST_END = "PleTestEnd";
-
         public const string PLE_DELETE_CURRENTWAVE = "PLE_DELETE_CURRENTWAVE";
         public const string PLE_SYNC_LEVEL_UNIT_STATES  = "PLE_UPDATE_LEVELSTATE";
-        public const string PLE_RESET_LEVELSTATE   = "PLE_RESET_LEVELSTATE";
 
         public const string ENEMY_INVINCIBLE = "ENEMY_INVINCIBLE";
         public const string GAME_CAN_PAUSE = "GAME_CAN_PAUSE";

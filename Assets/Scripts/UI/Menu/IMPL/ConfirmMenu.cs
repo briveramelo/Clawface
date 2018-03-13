@@ -28,6 +28,10 @@ public class ConfirmMenu: Menu
     #region Serialized Unity Fields
 
     [SerializeField] private Button mainButton;
+    [SerializeField] private Button yesButton;
+    [SerializeField] private Button noButton;
+    [SerializeField] private Text yesButtonText;
+    [SerializeField] private Text noButtonText;
     [SerializeField] private Text messageText;
     #endregion
 
@@ -59,17 +63,21 @@ public class ConfirmMenu: Menu
         onNoAction = i_onNo;
     }
 
-    public void DefineNavigation(string i_backMenuTarget)
-    {
-        backMenuTarget = i_backMenuTarget;
-    }
-
     public ConfirmMenu() : base(Strings.MenuStrings.CONFIRM) {}
 
+    public void SetYesButtonText(string i_string)
+    {
+        yesButtonText.text = i_string;
+    }
+
+    public void SetNoButtonText(string i_string)
+    {
+        noButtonText.text = i_string;
+    }
   
     public void YesAction()
     {
-        MenuManager.Instance.DoTransition(this, Transition.HIDE, new Effect[] { });
+        MenuManager.Instance.DoTransition(this, Transition.HIDE, new Effect[] { Effect.INSTANT });
 
         if (onYesAction != null)
         {
@@ -79,13 +87,23 @@ public class ConfirmMenu: Menu
 
     public void NoAction()
     {
-        MenuManager.Instance.DoTransition(this, Transition.HIDE, new Effect[] { });
+        MenuManager.Instance.DoTransition(this, Transition.HIDE, new Effect[] { Effect.INSTANT });
 
         if (onNoAction != null)
         {
             onNoAction();
         }
 
+    }
+
+    public void SetYesButtonInteractibility(bool i_state)
+    {
+        yesButton.interactable = i_state;
+    }
+
+    public void SetNoButtonInteractibility(bool i_state)
+    {
+        noButton.interactable = i_state;
     }
 
     #endregion
@@ -102,7 +120,10 @@ public class ConfirmMenu: Menu
     {
         base.HideStarted();
         inputGuard = false;
-
+        SetNoButtonInteractibility(true);
+        SetYesButtonInteractibility(true);
+        SetNoButtonText("NO");
+        SetYesButtonText("YES");
     }
 
     protected override void DefaultHide(Transition transition, Effect[] effects) {

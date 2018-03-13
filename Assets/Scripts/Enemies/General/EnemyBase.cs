@@ -75,7 +75,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         //}
     }
 
-    public void Update()
+    void Update()
     {
         if (alreadyStunned)
         {
@@ -106,11 +106,13 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         ResetForRebirth();        
     }
 
-    private new void OnDisable()
+    protected override void OnDisable()
     {
-        EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_KILLED, DoPlayerKilledState);
-        EventSystem.Instance.UnRegisterEvent(Strings.Events.ENEMY_INVINCIBLE, SetInvincible);
         base.OnDisable();
+        if (EventSystem.Instance) {
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_KILLED, DoPlayerKilledState);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.ENEMY_INVINCIBLE, SetInvincible);
+        }
     }
     #endregion
 
@@ -236,10 +238,11 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
 
     public virtual void OnDeath()
     {
-        EventSystem.Instance.TriggerEvent(Strings.Events.DEATH_ENEMY, gameObject, scoreValue);
-
+        
         if (!will.isDead)
         {
+            EventSystem.Instance.TriggerEvent(Strings.Events.DEATH_ENEMY, gameObject, scoreValue);
+
             will.isDead = true;
             if (will.willHasBeenWritten)
             {
@@ -429,13 +432,9 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     {
         yield return new WaitForSeconds(3.0f);
         bool findNearestTile = false;
-        while (PlayerIsNear() || IsFalling())
+        while ((PlayerIsNear() || IsFalling()) && !findNearestTile)
         {
             findNearestTile = IsOnObstacle();
-            if (findNearestTile)
-            {
-                break;
-            }
             yield return new WaitForEndOfFrame();
         }
         GetUp(findNearestTile);

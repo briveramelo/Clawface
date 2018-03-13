@@ -349,7 +349,14 @@ public class PlayerStateManager : RoutineRunner {
             if (newState.IsBlockingState())
             {
                 stateVariables.velBody.velocity = Vector3.zero;
+
+                //Force reset all states that are not the new state
+                foreach (IPlayerState state in playerStates)
+                {
+                    state.ResetState();
+                }
                 playerStates.Clear();
+                
             }        
             playerStates.Add(newState);
             stateVariables.stateFinished = false;

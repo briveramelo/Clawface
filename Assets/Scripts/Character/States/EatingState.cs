@@ -41,7 +41,8 @@ public class EatingState : IPlayerState
         EventSystem.Instance.RegisterEvent(Strings.Events.CAPTURE_ENEMY, CaptureEnemy);
         EventSystem.Instance.RegisterEvent(Strings.Events.ARM_ANIMATION_COMPLETE, EndState);
     }
-    private void OnDisable() {
+    protected override void OnDisable() {
+        base.OnDisable();
         if (EventSystem.Instance) {
             EventSystem.Instance.UnRegisterEvent(Strings.Events.FACE_OPEN, DoArmExtension);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.CAPTURE_ENEMY, CaptureEnemy);
@@ -88,19 +89,8 @@ public class EatingState : IPlayerState
     {
         LookAtEnemy();
     }
-    #endregion
 
-    #region Private Methods
-    private void LookAtEnemy()
-    {
-        if (stateVariables.eatTargetEnemy)
-        {
-            Vector3 enemyPosition = stateVariables.eatTargetEnemy.transform.position;
-            stateVariables.modelHead.transform.LookAt(new Vector3(enemyPosition.x, 0f, enemyPosition.z));
-        }
-    }
-
-    protected override void ResetState()
+    public override void ResetState()
     {
         EventSystem.Instance.TriggerEvent(Strings.Events.FINISHED_EATING);
         clawArmController.ResetClawArm();
@@ -112,7 +102,17 @@ public class EatingState : IPlayerState
         isAnimating = false;
         stateVariables.stateFinished = true;
     }
+    #endregion
 
+    #region Private Methods
+    private void LookAtEnemy()
+    {
+        if (stateVariables.eatTargetEnemy)
+        {
+            Vector3 enemyPosition = stateVariables.eatTargetEnemy.transform.position;
+            stateVariables.modelHead.transform.LookAt(new Vector3(enemyPosition.x, 0f, enemyPosition.z));
+        }
+    }
 
     private void DoArmExtension(params object[] parameters)
     {

@@ -22,7 +22,6 @@ GameObject:
   - component: {fileID: 222694948702390538}
   - component: {fileID: 114814671664330786}
   - component: {fileID: 114714374685131552}
-  - component: {fileID: 114367211064865408}
   - component: {fileID: 114431607326865848}
   - component: {fileID: 114328681203798670}
   - component: {fileID: 114412725624306792}
@@ -44,10 +43,9 @@ GameObject:
   - component: {fileID: 222703708759827594}
   - component: {fileID: 114317947701226988}
   - component: {fileID: 114419440754143842}
-  - component: {fileID: 114469391703872508}
-  - component: {fileID: 114288936127077946}
   - component: {fileID: 114845692697666544}
   - component: {fileID: 114898823339431254}
+  - component: {fileID: 114954721149782096}
   m_Layer: 0
   m_Name: Restart Button
   m_TagString: Untagged
@@ -66,10 +64,9 @@ GameObject:
   - component: {fileID: 222762628138366902}
   - component: {fileID: 114827429635576804}
   - component: {fileID: 114801775362846806}
-  - component: {fileID: 114517316221033116}
-  - component: {fileID: 114299917566169364}
   - component: {fileID: 114387376822008226}
   - component: {fileID: 114804251498659624}
+  - component: {fileID: 114136769544384744}
   m_Layer: 0
   m_Name: Quit Button
   m_TagString: Untagged
@@ -86,6 +83,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4449141941014648}
   - component: {fileID: 114118637965440600}
+  - component: {fileID: 114952391209793546}
   m_Layer: 0
   m_Name: PauseMenu
   m_TagString: Untagged
@@ -189,10 +187,9 @@ GameObject:
   - component: {fileID: 222832209367546072}
   - component: {fileID: 114690849227519180}
   - component: {fileID: 114086849254144746}
-  - component: {fileID: 114875781137917330}
-  - component: {fileID: 114031489225408778}
   - component: {fileID: 114520076287984382}
   - component: {fileID: 114969418480178910}
+  - component: {fileID: 114618084435865566}
   m_Layer: 0
   m_Name: WeaponSelectButton
   m_TagString: Untagged
@@ -267,36 +264,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114031489225408778
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1571337799102920}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 9
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 114875781137917330}
-          m_MethodName: PlayButtonSelect
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
-        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  delegates: []
 --- !u!114 &114086849254144746
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -348,7 +315,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 114875781137917330}
+      - m_Target: {fileID: 114952391209793546}
         m_MethodName: PlayButtonConfirm
         m_Mode: 1
         m_Arguments:
@@ -392,12 +359,12 @@ MonoBehaviour:
   weaponSelectButton: {fileID: 114086849254144746}
   restartButton: {fileID: 114419440754143842}
   quitButton: {fileID: 114801775362846806}
---- !u!114 &114288936127077946
+--- !u!114 &114136769544384744
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1060923826331338}
+  m_GameObject: {fileID: 1318464600361462}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
@@ -408,7 +375,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 114469391703872508}
+        - m_Target: {fileID: 114952391209793546}
           m_MethodName: PlayButtonSelect
           m_Mode: 1
           m_Arguments:
@@ -443,36 +410,6 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
---- !u!114 &114299917566169364
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1318464600361462}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 9
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 114517316221033116}
-          m_MethodName: PlayButtonSelect
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
-        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  delegates: []
 --- !u!114 &114317947701226988
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -552,17 +489,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: RESUME
---- !u!114 &114367211064865408
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1045468972453314}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c2c8a88c24564a45899428cde8821c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114387376822008226
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -652,7 +578,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 114469391703872508}
+      - m_Target: {fileID: 114952391209793546}
         m_MethodName: PlayButtonConfirm
         m_Mode: 1
         m_Arguments:
@@ -741,7 +667,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 114367211064865408}
+        - m_Target: {fileID: 114952391209793546}
           m_MethodName: PlayButtonSelect
           m_Mode: 1
           m_Arguments:
@@ -755,17 +681,6 @@ MonoBehaviour:
       m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
         Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   delegates: []
---- !u!114 &114469391703872508
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1060923826331338}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c2c8a88c24564a45899428cde8821c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114471908330857720
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -788,17 +703,6 @@ MonoBehaviour:
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 1
   m_ChildControlHeight: 1
---- !u!114 &114517316221033116
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1318464600361462}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c2c8a88c24564a45899428cde8821c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114520076287984382
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -818,6 +722,36 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &114618084435865566
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1571337799102920}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 9
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 114952391209793546}
+          m_MethodName: PlayButtonSelect
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  delegates: []
 --- !u!114 &114676805766822834
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -929,7 +863,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 114367211064865408}
+      - m_Target: {fileID: 114952391209793546}
         m_MethodName: PlayButtonConfirm
         m_Mode: 1
         m_Arguments:
@@ -993,7 +927,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 114517316221033116}
+      - m_Target: {fileID: 114952391209793546}
         m_MethodName: PlayButtonConfirm
         m_Mode: 1
         m_Arguments:
@@ -1125,17 +1059,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114875781137917330
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1571337799102920}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c2c8a88c24564a45899428cde8821c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114898823339431254
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1155,6 +1078,47 @@ MonoBehaviour:
   selectable: {fileID: 114419440754143842}
   image: {fileID: 114317947701226988}
   text: {fileID: 114430617954526266}
+--- !u!114 &114952391209793546
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1364298826775566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c2c8a88c24564a45899428cde8821c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114954721149782096
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1060923826331338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 9
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 114952391209793546}
+          m_MethodName: PlayButtonSelect
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  delegates: []
 --- !u!114 &114964102880026074
 MonoBehaviour:
   m_ObjectHideFlags: 1

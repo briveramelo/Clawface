@@ -25,8 +25,9 @@ public class MoveState : IPlayerState
         EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_KILLED, PlayerDead);
     }
 
-    private void OnDisable()
+    protected override void OnDisable()
     {
+        base.OnDisable();
         if (EventSystem.Instance)
         {
             EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_KILLED, PlayerDead);
@@ -200,11 +201,7 @@ public class MoveState : IPlayerState
                 stateVariables.playerTransform.forward = lastLookDirection;
             }
         }
-    }
-
-    protected override void ResetState()
-    {
-    }
+    }    
 
     private void PlayerDead(params object[] parameters)
     {
@@ -225,7 +222,7 @@ public class MoveState : IPlayerState
         switch (SettingsManager.Instance.MouseAimMode)
         {
             case MouseAimMode.AUTOMATIC:
-                return !InputManager.Instance.HasJoystick();
+                return MenuManager.Instance.MouseMode;
             case MouseAimMode.ALWAYS_ON:
                 return true;
             case MouseAimMode.ALWAYS_OFF:
@@ -250,6 +247,10 @@ public class MoveState : IPlayerState
         {
             return Vector3.zero;
         }
+    }
+
+    public override void ResetState()
+    {
     }
     #endregion
 }

@@ -8,8 +8,10 @@ public abstract class PlayerLevelEditorMenu : Menu {
 
     public PlayerLevelEditorMenu(string name) : base(name) { }
 
-    [SerializeField] protected LevelEditor levelEditor;
     [SerializeField] protected Selectable initiallySelected;
+    [SerializeField] protected LevelEditor levelEditor;
+    [SerializeField] protected MainPLEMenu mainPLEMenu;
+    [SerializeField] protected List<Selectable> allSelectables;
 
     public override Selectable InitialSelection { get { return initiallySelected; } }
 
@@ -32,11 +34,17 @@ public abstract class PlayerLevelEditorMenu : Menu {
     }
 
     public virtual void BackAction() {
-        (levelEditor.GetMenu(PLEMenu.MAIN) as MainPLEMenu).OpenFloorSystemAction();
+        mainPLEMenu.OpenFloorSystemAction();
+    }
+
+    public abstract void SetMenuButtonInteractabilityByState();
+    public virtual void ForceMenuButtonInteractability(bool isInteractable) {
+        allSelectables.ForEach(selectable => { selectable.interactable = isInteractable; });
     }
 
     protected override void ShowStarted() {
         base.ShowStarted();
+        SetMenuButtonInteractabilityByState();
         allowInput = true;
     }
 

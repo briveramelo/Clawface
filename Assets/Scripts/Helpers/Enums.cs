@@ -53,7 +53,11 @@ public enum SFXType {
 
 public enum MusicType
 {
-    MainMenu_Track
+    MainMenu_Intro,
+    MainMenu_Loop,
+    Hathos_Lo,
+    Hathos_Med,
+    Hathos_Hi
 }
 
 public enum DamagerType {
@@ -326,9 +330,9 @@ public enum EditorMenu
 public enum FireMode
 {
     AIM_TO_SHOOT = 0,
-    SINGLE_TRIGGER,
     AUTOFIRE,
     MANUAL,
+    SINGLE_TRIGGER,
     COUNT
 }
 

@@ -61,9 +61,9 @@ public class PauseMenu : Menu {
 
     void Update ()
 	{
-		if (canPause && InputManager.Instance.QueryAction (Strings.Input.Actions.PAUSE,
-			          ButtonMode.DOWN)) {
+		if (canPause && (InputManager.Instance.QueryAction (Strings.Input.Actions.PAUSE, ButtonMode.DOWN) || InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN))) {
 			if (!paused && !Displayed) {
+                paused = true;
 				MenuManager.Instance.DoTransition (this, Transition.TOGGLE, new Effect[] { });
 			} else if (Displayed) {
 				MenuManager.Instance.ClearMenus ();
@@ -90,9 +90,6 @@ public class PauseMenu : Menu {
 		loadMenu.SetNavigation(SceneTracker.CurrentSceneName, callRestartEventAction);
         ObjectPool.Instance.ResetPools();
 
-        
-
-
         MenuManager.Instance.DoTransition (loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
 	}
 
@@ -103,7 +100,6 @@ public class PauseMenu : Menu {
         EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_QUIT, SceneManager.GetActiveScene().name, AnalyticsManager.Instance.GetCurrentWave(), ScoreManager.Instance.GetScore());
         LoadMenu loadMenu = (LoadMenu)menu;
 		loadMenu.SetNavigation(Strings.Scenes.ScenePaths.MainMenu);
-		loadMenu.Fast = true;
         ObjectPool.Instance.ResetPools();
         MenuManager.Instance.DoTransition (loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
 	}
@@ -144,7 +140,7 @@ public class PauseMenu : Menu {
             SelectInitialButton();
         };
 
-        confirmMenu.DefineActions("This will end your current game are you sure?",onYesAction,onNoAction);
+        confirmMenu.DefineActions("This will end your current game. Are you sure?",onYesAction,onNoAction);
 
         MenuManager.Instance.DoTransition(confirmMenu, Transition.SHOW, new Effect[] {  });
     }

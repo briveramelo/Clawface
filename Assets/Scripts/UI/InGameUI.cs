@@ -30,6 +30,8 @@ public class InGameUI : MonoBehaviour {
     [SerializeField] private Text dashTutorialTextElement;
     [SerializeField] private Image FullScreenFadeElement;
     [SerializeField] private Image tutorialBG;
+    [SerializeField] private Image orangeEatenImage;
+    [SerializeField] private Image orangeCircleImage;
 
     [Header("GlitchDamageEffect")]
     [SerializeField] private Sprite[] glitchSprites;
@@ -283,6 +285,8 @@ public class InGameUI : MonoBehaviour {
         dashTutorialTextElement.enabled = false;
         FullScreenFadeElement.enabled = false;
         tutorialBG.enabled = false;
+        orangeEatenImage.enabled = false;
+        orangeCircleImage.enabled = false;
     }
 
     private void ShowTutorialText(object[] parameters)
@@ -302,7 +306,7 @@ public class InGameUI : MonoBehaviour {
             switch (SettingsManager.Instance.MouseAimMode)
             {
                 case MouseAimMode.AUTOMATIC:
-                    if (InputManager.Instance.HasJoystick())
+                    if (!MenuManager.Instance.MouseMode)
                     {
                         key = currentBinding.joystick;
                     } else 
@@ -330,7 +334,9 @@ public class InGameUI : MonoBehaviour {
             }
 
             eatTutorialTextElement.text = eatTutorialTextElement.text.Replace("*",key.ToUpper()); 
-                eatTutorialTextElement.enabled = true;
+            eatTutorialTextElement.enabled = true;
+            orangeEatenImage.enabled = true;
+            orangeCircleImage.enabled = true;
         }
         else
         {
@@ -342,7 +348,7 @@ public class InGameUI : MonoBehaviour {
             switch (SettingsManager.Instance.MouseAimMode)
             {
                 case MouseAimMode.AUTOMATIC:
-                    if (InputManager.Instance.HasJoystick())
+                    if (!MenuManager.Instance.MouseMode)
                     {
                         key = currentBinding.joystick;
                     }

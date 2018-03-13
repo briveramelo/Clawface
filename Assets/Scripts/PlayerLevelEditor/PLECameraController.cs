@@ -8,19 +8,32 @@ namespace PlayerLevelEditor
     [RequireComponent(typeof(Camera))]
     public class PLECameraController : MonoBehaviour
     {
+        [SerializeField] private PlayerLevelEditorGrid gridController;
+        [SerializeField] private float panSpeedBase;
+        [SerializeField] private float WASDSpeedBase;
+        [SerializeField] private float zoomScrollSpeed;
+        [SerializeField] private float zoomScrubSpeed;
+        [SerializeField] private float zPanSpeed;
+        [SerializeField] private float rotationSpeed;
+        [SerializeField] private float heightOffsetSpeedMultiplier;
+        [SerializeField] private float minFarClipPlain;
 
-        [SerializeField] private float yawSpeed = 4f;
-        [SerializeField] private float pitchSpeed = 4f;
-        [SerializeField] private float panSpeed = -0.15f;
-        [SerializeField] private float WASDSpeed = 4f;
-        [SerializeField] private float scrollSpeed = 5f;
-        [SerializeField] private float zPanSpeed = 0.5f;
-        [SerializeField] private float zoomScrubSpeed = 0.2f;
+        private float CameraDistanceAway { get { return Vector3.Distance(mainCamera.transform.position, Vector3.zero); } }
+        private float CameraYDistanceAway { get { return mainCamera.transform.position.y; } }
+        private float CameraYDistanceMuliplier { get { return heightOffsetSpeedMultiplier * CameraYDistanceAway; } }
+        private float WASDSpeedAdjusted { get { return (WASDSpeedBase + CameraYDistanceMuliplier) * Time.deltaTime; } }
+        private float PanSpeedAdjusted { get { return (panSpeedBase - CameraYDistanceMuliplier); } }
+
+        private float ZPanSpeedAdjusted { get { return (zPanSpeed /* use camera offset??? */ ) * Time.deltaTime; } }
+        private float RotationSpeedAdjusted { get { return rotationSpeed * Time.deltaTime; } }
+        private float ScrollSpeedAdjusted { get { return zoomScrollSpeed * Time.deltaTime; } }
+        private float ZoomScrubSpeedAdjusted { get { return zoomScrubSpeed; } }
 
 
         private Camera mainCamera;
         Vector3 startScreenPosition, startCamPosition;
 
+        private float levelSize;//assumes levelSize is set and unchanged after the start funciton is called
         private float yaw = 0.0f;
         private float pitch = 0.0f;
 
@@ -50,17 +63,20 @@ namespace PlayerLevelEditor
             lineColor = color;
         }
 
+        #endregion
+        
         void Start()
         {
+            levelSize = gridController.LevelSize;
             mainCamera = Camera.main;
         }
-        #endregion
 
         void Update()
         {
             HandleCameraMovement();
             HandleCameraRotation();
             HandleCameraZooming();
+            HandleClippingPlanes();
         }
 
         void OnApplicationQuit()
@@ -72,47 +88,54 @@ namespace PlayerLevelEditor
 
 
         
-        void HandleCameraMovement() {            
+        void HandleCameraMovement() {
+            HandleCameraWASD();
+            HandleCameraPanning();
+        }
+
+        private void HandleCameraWASD() {
             if (Input.GetKey(KeyCode.W)) {
-                transform.Translate(WASDSpeed * Vector3.forward);
+                transform.Translate(WASDSpeedAdjusted * Vector3.forward);
             }
 
             if (Input.GetKey(KeyCode.S)) {
-                transform.Translate(WASDSpeed * Vector3.back);
+                transform.Translate(WASDSpeedAdjusted * Vector3.back);
             }
 
             if (Input.GetKey(KeyCode.D)) {
-                transform.Translate(WASDSpeed * Vector3.right);
+                transform.Translate(WASDSpeedAdjusted * Vector3.right);
             }
 
             if (Input.GetKey(KeyCode.A)) {
-                transform.Translate(WASDSpeed * Vector3.left);
-            }            
+                transform.Translate(WASDSpeedAdjusted * Vector3.left);
+            }
+        }
 
+        void HandleCameraPanning() {
             if (Input.GetMouseButtonDown(MouseButtons.MIDDLE) || (Input.GetMouseButtonDown(MouseButtons.LEFT) && Input.GetKey(KeyCode.Space))) {
                 startScreenPosition = Input.mousePosition;
                 startCamPosition = mainCamera.transform.position;
             }
+
             if (Input.GetMouseButton(MouseButtons.MIDDLE) || (Input.GetMouseButton(MouseButtons.LEFT) && Input.GetKey(KeyCode.Space))) {
                 Vector3 screenDiff = Input.mousePosition - startScreenPosition;
-                float yShift = screenDiff.y;
                 screenDiff.z = screenDiff.y;
                 screenDiff.y = 0;
                 screenDiff = mainCamera.transform.TransformDirection(screenDiff);
                 screenDiff.y = 0;
-                screenDiff += zPanSpeed * yShift * mainCamera.transform.forward.NormalizedNoY();
-                mainCamera.transform.position = startCamPosition + screenDiff * panSpeed;
+                //what is this zPanSpeed??
+                //screenDiff += ZPanSpeedAdjusted * yShift * mainCamera.transform.forward.NormalizedNoY();
+                mainCamera.transform.position = startCamPosition + screenDiff * PanSpeedAdjusted;
             }
-
         }
 
         void HandleCameraZooming() {            
-            if (Input.GetAxis("Mouse ScrollWheel") < 0) { // back
-                mainCamera.transform.Translate(Vector3.forward * scrollSpeed);
+            if (Input.GetAxis("Mouse ScrollWheel") < 0) {
+                mainCamera.transform.Translate(Vector3.forward * ScrollSpeedAdjusted);
             }
 
-            if (Input.GetAxis("Mouse ScrollWheel") > 0) {// forward
-                mainCamera.transform.Translate(Vector3.back * scrollSpeed);
+            if (Input.GetAxis("Mouse ScrollWheel") > 0) {
+                mainCamera.transform.Translate(Vector3.back * ScrollSpeedAdjusted);
             }
 
             if (Input.GetMouseButtonDown(MouseButtons.LEFT) && Input.GetKey(KeyCode.Z)) {
@@ -122,22 +145,27 @@ namespace PlayerLevelEditor
             if (Input.GetMouseButton(MouseButtons.LEFT) && Input.GetKey(KeyCode.Z)) {
                 Vector3 screenDiff = Input.mousePosition - startScreenPosition;
                 float shift = Vector3.Dot(Vector3.right, screenDiff);
-                mainCamera.transform.position = startCamPosition + mainCamera.transform.forward * shift * zoomScrubSpeed;
+                mainCamera.transform.position = startCamPosition + mainCamera.transform.forward * shift * ZoomScrubSpeedAdjusted;
             }
         }
 
+        //TODO rotate around SelectedObject
         void HandleCameraRotation() {
             if (Input.GetMouseButtonDown(MouseButtons.LEFT)) {
                 pitch = transform.eulerAngles.x;
                 yaw = transform.eulerAngles.y;
             }
             if (Input.GetKey(KeyCode.LeftAlt) && Input.GetMouseButton(MouseButtons.LEFT)) {
-                yaw += yawSpeed * Input.GetAxis("Mouse X");
-                pitch -= pitchSpeed * Input.GetAxis("Mouse Y");
+                yaw += RotationSpeedAdjusted * Input.GetAxis("Mouse X");
+                pitch -= RotationSpeedAdjusted * Input.GetAxis("Mouse Y");
                 transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
             }
         }
 
+        void HandleClippingPlanes() {
+            float xDistanceAway = (levelSize * 5f * Mathf.Sqrt(2f)) + CameraDistanceAway;
+            mainCamera.farClipPlane = minFarClipPlain + xDistanceAway;
+        }
     }
 }
 

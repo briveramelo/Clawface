@@ -81,6 +81,7 @@ public class Kamikaze : EnemyBase
     {
         if (myStats.health <= myStats.skinnableHealth || alreadyStunned)
         {
+            DisableStateResidue();
             controller.CurrentState = stun;
             controller.UpdateState(EAIState.Stun);
             controller.DeActivateAI();
@@ -95,12 +96,8 @@ public class Kamikaze : EnemyBase
         {
             if (attack.setToSelfDestruct)
             {
+                DisableStateResidue();
                 OnDeath();
-                return true;
-            }
-            else
-            {
-                controller.UpdateState(EAIState.Attack);
                 return true;
             }
         }

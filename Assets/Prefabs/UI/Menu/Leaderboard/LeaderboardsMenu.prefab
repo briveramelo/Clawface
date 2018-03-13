@@ -861,6 +861,8 @@ MonoBehaviour:
   globalButton: {fileID: 114983724765704698}
   friendButton: {fileID: 114842832773371280}
   aroundUserButton: {fileID: 114045332248910020}
+  verticalScrollbar: {fileID: 114776734281160180}
+  scrollSpeed: 5
 --- !u!114 &114273684272352192
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1407,7 +1409,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114002913537563290}
   m_HandleRect: {fileID: 224594248997368934}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 11
   m_OnValueChanged:

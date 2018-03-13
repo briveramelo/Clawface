@@ -10,14 +10,15 @@ public abstract class ScrollGroup : RoutineRunner {
     [SerializeField] protected GameObject iconTemplate;
     [SerializeField] protected GameObject groupContent;
     [SerializeField] protected Scrollbar scrollbar;
+    [SerializeField] protected List<GameObject> itemPrefabs;
     [SerializeField] DiffAnim scrollAnim;
     [SerializeField] protected float scrollMultiplier;
 
     protected abstract string ResourcesPath { get; }
-    protected abstract string IconImagePath { get; }
     protected List<PLEUIItem> pleUIItems = new List<PLEUIItem>();
     protected bool hasInitialized = false;
     public int LastSelectedIndex { get; private set; }
+    private string ScrollCoroutineName{get{ return coroutineName + "Scroll"; } }
 
     #region Unity Lifecycle
     private void Start() {        
@@ -39,12 +40,18 @@ public abstract class ScrollGroup : RoutineRunner {
         TryInitialize();
         return pleUIItems.Find(item => item.isInteractable);
     }
-    public virtual void SelectItem(int itemIndex) {
+    public virtual void SelectUIItem(int itemIndex) {
         LastSelectedIndex = itemIndex;
         pleUIItems.ForEach(item => { item.OnGroupSelectChanged(itemIndex); });
-        placementMenu.TrySelectUIItem(pleUIItems[itemIndex]);
+        placementMenu.PostSelectUIItem(pleUIItems[itemIndex]);
     }
-    public virtual void DeselectAll() {
+    public virtual PLEUIItem SelectLastSelectedUIItem() {
+        pleUIItems.ForEach(item => { item.OnGroupSelectChanged(LastSelectedIndex); });
+        PLEUIItem lastSelectedItem = pleUIItems[LastSelectedIndex];
+        placementMenu.PostSelectUIItem(lastSelectedItem);
+        return lastSelectedItem;
+    }
+    public virtual void DeselectAllUIItems() {
         pleUIItems.ForEach(item => { item.OnGroupSelectChanged(-1); });
     }
     public virtual void MoveScrollbar(bool isRight) {
@@ -52,54 +59,35 @@ public abstract class ScrollGroup : RoutineRunner {
         float amountToMove = unitTileSize * (isRight.ToInt()) * scrollMultiplier;
         float targetAmount = scrollbar.value + amountToMove;
 
-        MEC.Timing.KillCoroutines(coroutineName);
+        MEC.Timing.KillCoroutines(ScrollCoroutineName);
         scrollAnim.startValue = scrollbar.value;
         scrollAnim.diff = targetAmount - scrollAnim.startValue;
-        scrollAnim.Animate(coroutineName);
+        scrollAnim.Animate(ScrollCoroutineName);
     }
     #endregion
 
     #region Protected Interface
     protected virtual void InitializeUI() {
-        scrollAnim.OnUpdate = (val) => { scrollbar.value = val; };
-
-        List<GameObject> itemPrefabs = (Resources.LoadAll<GameObject>(ResourcesPath) as GameObject[]).ToList();
+        scrollAnim.OnUpdate = (val) => { scrollbar.value = val; };        
         itemPrefabs.OrderBy(go => go.name).ToList();
-
-        Texture2D[] objectTextures;
-        objectTextures = Resources.LoadAll<Texture2D>(IconImagePath) as Texture2D[];
 
         for (int i = 0; i < itemPrefabs.Count; i++) {
             GameObject itemPrefab = itemPrefabs[i];
             GameObject toAdd = Instantiate(iconTemplate);
-            PLEItem pleItem = itemPrefab.GetComponent<PLEItem>();
+            //PLEItem pleItem = itemPrefab.GetComponent<PLEItem>();
             PLEUIItem pleUIItem = toAdd.GetComponent<PLEUIItem>();
             pleUIItems.Add(pleUIItem);
             pleUIItem.InitializeItem(i, this, itemPrefab);
 
             toAdd.SetActive(true);
             toAdd.name = itemPrefab.name;
-            if (pleItem.iconPreview!=null) {
-                pleUIItem.imagePreview.sprite = pleItem.iconPreview;
-            }
-            else {
-                Texture2D itemTex = null;
-                if (i >= objectTextures.Length) {
-                    itemTex = Texture2D.whiteTexture;
-                }
-                else {
-                    itemTex = objectTextures[i];
-                }
-                Sprite newSprite = Sprite.Create(itemTex, new Rect(0, 0, itemTex.width, itemTex.height), new Vector2(0.5f, 0.5f));
-                pleUIItem.imagePreview.sprite = newSprite;
-            }
 
             toAdd.transform.SetParent(groupContent.transform);
             RectTransform myRec = toAdd.GetComponent<RectTransform>();
-            myRec.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+            myRec.localScale = Vector3.one;
         }
 
-        SelectItem(0);
+        SelectUIItem(0);
     }
     #endregion
 

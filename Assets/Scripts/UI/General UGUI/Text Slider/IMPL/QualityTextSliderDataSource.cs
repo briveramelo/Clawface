@@ -54,6 +54,7 @@ public class QualityTextSliderDataSource : TextSliderDataSource {
     public override void ForceUpdate()
     {
         index = SettingsManager.Instance.QualityLevel;
+        base.ForceUpdate();
     }
 
     #endregion

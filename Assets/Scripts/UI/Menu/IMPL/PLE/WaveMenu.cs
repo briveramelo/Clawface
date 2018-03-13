@@ -41,14 +41,16 @@ public class WaveMenu : PlayerLevelEditorMenu
     #endregion
 
     #region Public Interface
-    public void ResetToWave0() {
+    public void ResetToWave0() {        
         ChangeToWave(0);
     }
 
     public void ChangeToWave(int newWave) {
         int currentWaveIndex = PLESpawnManager.Instance.SetToWave(newWave);
         UpdateWaveText();
-        levelEditor.EnableCurrentWaveSpawnParents();
+        UpdateLevelUnitState();
+        mainPLEMenu.DeselectAllBlocks();
+        mainPLEMenu.SetMenuButtonInteractabilityByState();
         EventSystem.Instance.TriggerEvent(Strings.Events.PLE_CALL_WAVE, currentWaveIndex);
     }
 
@@ -61,15 +63,11 @@ public class WaveMenu : PlayerLevelEditorMenu
 
     public void NextWave() {
         int currentWaveIndex = PLESpawnManager.Instance.GoToNextWave();
-        UpdateWaveText();
-        UpdateLevelUnitState();
         ChangeToWave(currentWaveIndex);
     }
 
     public void PrevWave() {
         int currentWaveIndex = PLESpawnManager.Instance.GoToPreviousWave();
-        UpdateWaveText();
-        UpdateLevelUnitState();
         ChangeToWave(currentWaveIndex);
     }
 
@@ -77,10 +75,7 @@ public class WaveMenu : PlayerLevelEditorMenu
         PLESpawnManager.Instance.TryAddWave();
         EventSystem.Instance.TriggerEvent(Strings.Events.PLE_ADD_WAVE);
         EventSystem.Instance.TriggerEvent(Strings.Events.PLE_SYNC_LEVEL_UNIT_STATES);
-        //levelEditor.EnableCurrentWaveSpawnParents();
-        levelEditor.SetMenuButtonInteractability();
-
-        SetMenuButtonInteractability();
+        mainPLEMenu.SetMenuButtonInteractabilityByState();
         UpdateWaveText();
     }
 
@@ -90,9 +85,7 @@ public class WaveMenu : PlayerLevelEditorMenu
         EventSystem.Instance.TriggerEvent(Strings.Events.PLE_SYNC_LEVEL_UNIT_STATES);
         EventSystem.Instance.TriggerEvent(Strings.Events.PLE_CHANGEWAVE, currentWaveIndex);
         levelEditor.EnableCurrentWaveSpawnParents();
-        levelEditor.SetMenuButtonInteractability();
-
-        SetMenuButtonInteractability();
+        mainPLEMenu.SetMenuButtonInteractabilityByState();
         UpdateWaveText();
     }
 
@@ -120,7 +113,6 @@ public class WaveMenu : PlayerLevelEditorMenu
     protected override void ShowStarted() {
         base.ShowStarted();
         UpdateWaveText();
-        SetMenuButtonInteractability();
         infWaveObjToggle.isOn = PLESpawnManager.Instance.InfiniteWavesEnabled;
         UpdateInfWaveState();
     }
@@ -129,10 +121,10 @@ public class WaveMenu : PlayerLevelEditorMenu
     #region Private Interface
 
     void HandleHotKeys() {
-        if (Input.GetKeyDown(KeyCode.LeftArrow)) {
+        if (Input.GetKeyDown(KeyCode.LeftArrow)) { // || Input.GetKeyDown(KeyCode.A)) {
             PrevWave();
         }
-        else if (Input.GetKeyDown(KeyCode.RightArrow)) {
+        else if (Input.GetKeyDown(KeyCode.RightArrow)){// || Input.GetKeyDown(KeyCode.D)) {
             NextWave();
         }
     }
@@ -140,12 +132,13 @@ public class WaveMenu : PlayerLevelEditorMenu
         EventSystem.Instance.TriggerEvent(Strings.Events.PLE_SYNC_LEVEL_UNIT_STATES);
     }
 
-    private void SetMenuButtonInteractability() {
+    public override void SetMenuButtonInteractabilityByState() {
         bool atMaxWaveLimit = PLESpawnManager.Instance.AtMaxWaveLimit;
         addWave.interactable = !atMaxWaveLimit;
 
         bool atMinWaveLimit = PLESpawnManager.Instance.AtMinWaveLimit;
         removeWave.interactable = !atMinWaveLimit;
+        
         prevWave.interactable = !atMinWaveLimit;
         nextWave.interactable = !atMinWaveLimit;
     }

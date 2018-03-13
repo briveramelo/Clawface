@@ -200,23 +200,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 427bc9278a1f9d740b26d02e2811db31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSpawnerPrefab: {fileID: 1892597131071296, guid: 7f3bd5b4144688a4f9c9cab6e3160139,
-    type: 2}
   gridController: {fileID: 114961083394896710}
   levelDataManager: {fileID: 114302409008453142}
   createdSpawnsParent: {fileID: 4168169116435916}
   cameraGameObject: {fileID: 0}
-  currentDisplayedMenu: 3
-  mainEditorMenu: {fileID: 0}
-  floorEditorMenu: {fileID: 0}
-  propsEditorMenu: {fileID: 0}
-  spawnsEditorMenu: {fileID: 0}
-  waveEditorMenu: {fileID: 0}
-  testEditorMenu: {fileID: 0}
-  saveEditorMenu: {fileID: 0}
-  levelSelectEditorMenu: {fileID: 0}
-  helpEditorMenu: {fileID: 0}
   cameraController: {fileID: 0}
+  mainPLEMenu: {fileID: 0}
 --- !u!114 &114302409008453142
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -232,6 +221,7 @@ MonoBehaviour:
   tileParent: {fileID: 4727196625096274}
   propsParent: {fileID: 4510605436037708}
   spawnParent: {fileID: 4168169116435916}
+  mainPLEMenu: {fileID: 0}
   levelName: {fileID: 0}
   levelDescription: {fileID: 0}
 --- !u!114 &114488250318766794
@@ -296,5 +286,6 @@ MonoBehaviour:
   selectedColor: {r: 0.38039216, g: 0.60784316, b: 0.8745098, a: 0.67058825}
   deletePreviewColor: {r: 0.62352943, g: 0.1764706, b: 0.1764706, a: 0.50980395}
   editorInstance: {fileID: 114300397762325604}
+  mainPLEMenu: {fileID: 0}
   levelNav: {fileID: 114488250318766794}
   displaying: 0
