@@ -56,7 +56,7 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
     [SerializeField] Color riseColor, flatColor, fallColor;
 
     private Vector3 pitPosition, flatPosition, risePosition, targetPosition;
-    
+    private Texture2D defaultRenderMask;
     #endregion
 
     #region public variables
@@ -69,13 +69,13 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
         splattable = GetComponent<Splattable>();
         meshRenderer = GetComponent<MeshRenderer>();
         Assert.IsNotNull(splattable);
+        defaultRenderMask = splattable.RenderMask;
         if (meshRenderer)
         {
             meshSizeX = meshRenderer.bounds.size.x;
             meshSizeY = meshRenderer.bounds.size.y;
             meshSizeZ = meshRenderer.bounds.size.z;
             materialPropertyBlock = new MaterialPropertyBlock();
-            meshRenderer.GetPropertyBlock(materialPropertyBlock);
             Color emptyColor = new Color(0f, 0f, 0f, 0f);
             if (riseColor.IsAboutEqual(emptyColor) ) {
                 riseColor = Color.cyan.ChangeAlpha(.3f);
@@ -180,17 +180,17 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
 
     public void TransitionToCoverState(params object[] inputs) {
         bool wasToldToChangeColor = (bool)inputs[0];
-        TryTransitionToState(LevelUnitStates.Cover, Texture2D.blackTexture, wasToldToChangeColor);
+        TryTransitionToState(LevelUnitStates.Cover, Texture2D.blackTexture, Texture2D.blackTexture, wasToldToChangeColor);
     }
 
     public void TransitionToFloorState(params object[] inputs) {
         bool wasToldToChangeColor = (bool)inputs[0];
-        TryTransitionToState(LevelUnitStates.Floor, Texture2D.whiteTexture, wasToldToChangeColor);
+        TryTransitionToState(LevelUnitStates.Floor, Texture2D.whiteTexture, defaultRenderMask, wasToldToChangeColor);
     }
 
     public void TransitionToPitState(params object[] inputs) {
         bool wasToldToChangeColor = (bool)inputs[0];
-        TryTransitionToState(LevelUnitStates.Pit, Texture2D.blackTexture, wasToldToChangeColor);
+        TryTransitionToState(LevelUnitStates.Pit, Texture2D.blackTexture, Texture2D.blackTexture, wasToldToChangeColor);
     }
 
     public void TransitionToWave(params object[] parameters)
@@ -312,6 +312,7 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
     }
 
     private void SetBlockColor(Color newColor) {
+        meshRenderer.GetPropertyBlock(materialPropertyBlock);
         materialPropertyBlock.SetColor(AlbedoTint, newColor);
         meshRenderer.SetPropertyBlock(materialPropertyBlock);
     }
@@ -369,9 +370,10 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
         }
     }
 
-    private void TryTransitionToState(LevelUnitStates newState, Texture2D paintMaskTexture, bool wasToldToChangeColor) {
+    private void TryTransitionToState(LevelUnitStates newState, Texture2D paintMaskTexture, Texture2D renderMask, bool wasToldToChangeColor) {
         if ((isTransitioning && currentState==newState) || currentState != newState) {
             splattable.PaintMask = paintMaskTexture;
+            splattable.RenderMask = renderMask;
             nextState = newState;
             targetPosition = GetStatePosition(nextState);
             isBeginningTransition = true;

@@ -429,7 +429,7 @@ public class WeaponSelectMenu : Menu
         SFXManager.Instance.Play(SFXType.LandmarkBlastShort, transform.position);
     }
 
-    private void ChangeWeaponTextPanel(WeaponLineup lineup)
+    public void ChangeWeaponTextPanel(WeaponLineup lineup)
     {
         ModType type = lineup.GetModType;
 
