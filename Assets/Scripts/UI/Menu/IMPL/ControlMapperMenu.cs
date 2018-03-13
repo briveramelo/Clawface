@@ -33,6 +33,24 @@ public class ControlMapperMenu : Menu
 
     #endregion
 
+    #region Fields (Private)
+
+    private bool inputGuard;
+
+    #endregion
+
+    #region Interface (Unity Lifecycle)
+
+    private void Update()
+    {
+        if (inputGuard && InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN))
+        {
+            DoneEditingControls();
+        }
+    }
+
+    #endregion
+
     #region Public Interface
     public ControlMapperMenu() : base(Strings.MenuStrings.CONTROLS) {}
 
@@ -55,6 +73,18 @@ public class ControlMapperMenu : Menu
     protected override void DefaultHide(Transition transition, Effect[] effects)
     {
         Fade(transition, effects);
+    }
+
+    protected override void ShowComplete()
+    {
+        base.ShowComplete();
+        inputGuard = true;
+    }
+
+    protected override void HideStarted()
+    {
+        base.HideStarted();
+        inputGuard = false;
     }
 
     #endregion

@@ -14,9 +14,10 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
     [SerializeField] protected Transform createdItemsParent;
     [SerializeField] protected ScrollGroup scrollGroup;
     [SerializeField] protected Selectable leftButton, rightButton;
+    [SerializeField] protected Color highlightColor;
 
+    protected PLEItem lastHoveredItem;
     protected PLEItem selectedPLEItem;
-    protected List<Selectable> selectables = new List<Selectable>();
     protected GameObject selectedItemPrefab = null;
     protected GameObject previewItem = null;
     protected List<string> itemNames = new List<string>();
@@ -32,10 +33,6 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
     #endregion
 
     #region Unity Lifecycle
-
-    protected virtual void Awake() {
-        InitializeSelectables();
-    }
     protected override void Update() {
         base.Update();
         if (allowInput) {
@@ -43,7 +40,7 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
                 PlaceItem();
             }
             else if (SelectItem) {
-                SelectGameItem();
+                SelectGameItem(MouseHelper.currentItem);
             }
             else if (DeSelectItem) {
                 bool deletedPreviewItem = DeselectUIItem();
@@ -55,12 +52,28 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
             else if (UpdatePreview) {
                 UpdatePreviewPosition();
             }
+
+            if (allowInput) {
+                CheckToHightlight();
+            }
         }
     }
     #endregion
 
     #region Protected Interface
-    public virtual void TrySelectUIItem(PLEUIItem item) {
+    protected virtual void CheckToHightlight() {
+        if (previewItem==null) {
+            PLEItem currentItem = MouseHelper.currentItem;
+            if (lastHoveredItem != null && (lastHoveredItem != currentItem || currentItem == null)) {
+                lastHoveredItem.TryUnHighlight();
+            }
+            if (currentItem != null) {
+                currentItem.TryHighlight(highlightColor);
+            }
+            lastHoveredItem = currentItem;
+        }
+    }
+    public virtual void PostSelectUIItem(PLEUIItem item) {
         if (allowInput) {
             if (item.isInteractable) {
                 DeselectItem();
@@ -69,25 +82,28 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
                 previewItem = Instantiate(selectedItemPrefab);
                 previewItem.name = previewItem.name.TryCleanName(Strings.CLONE);
                 previewItem.name += Strings.PREVIEW;
-                PostOnSelectUIItem(previewItem);
+                previewItem.GetComponent<PLEItem>().TryHighlight(highlightColor);
+                PostSelectUIItemMenuSpecific(previewItem);
             }
             else {
-                scrollGroup.DeselectAll();
+                scrollGroup.DeselectAllUIItems();
             }
         }
     }
-    protected virtual void PostOnSelectUIItem(GameObject newItem) { }
+    protected virtual void PostSelectUIItemMenuSpecific(GameObject newItem) { }
     protected virtual void DeselectItem() {
         if (selectedPLEItem != null) {
             selectedPLEItem.Deselect();
             selectedPLEItem = null;
         }
-        SetInteractabilityByState();
+        SetMenuButtonInteractabilityByState();
     }
 
-    protected virtual void SelectGameItem() {
+    protected virtual void SelectGameItem(PLEItem selectedItem) {
         DeselectUIItem();
         DeselectAllGameItems();
+        selectedItem.Select(highlightColor);
+        selectedPLEItem = selectedItem;
     }
     protected virtual void DeselectAllGameItems() {
         List<PLEItem> items = createdItemsParent.GetComponentsInChildren<PLEItem>().ToList();
@@ -104,8 +120,8 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
     }
     protected virtual void PostPlaceItem(GameObject newItem) { }
 
-    protected bool DeselectUIItem() {
-        scrollGroup.DeselectAll();
+    protected virtual bool DeselectUIItem() {
+        scrollGroup.DeselectAllUIItems();
         selectedItemPrefab = null;
         return TryDestroyPreview();
     }
@@ -137,7 +153,7 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
 
     protected override void ShowStarted() {
         base.ShowStarted();
-        ForceInteractability(false);
+        //ForceMenuButtonInteractability(false);
     }
     protected override void ShowComplete() {
         base.ShowComplete();
@@ -148,17 +164,6 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
         DeselectAllGameItems();
         TryDestroyPreview();
     }
-
-    protected virtual void InitializeSelectables() {
-        selectables.Add(leftButton);
-        selectables.Add(rightButton);
-    }
-
-    protected virtual void ForceInteractability(bool isInteractable) {
-        selectables.ForEach(selectable => { selectable.interactable = isInteractable; });
-    }
-    protected abstract void SetInteractabilityByState();
-
     #endregion
 
     #region Private Interface

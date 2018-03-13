@@ -85,8 +85,9 @@ public abstract class AIController : RoutineRunner {
         player = null;
     }
 
-    private void OnDisable()
+    protected override void OnDisable()
     {
+        base.OnDisable();
         foreach (KeyValuePair<EAIState, AIState> state in states.aiStates)
         {
                 Timing.KillCoroutines(state.Value.coroutineName);

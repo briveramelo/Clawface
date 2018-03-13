@@ -156,7 +156,6 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
     }
     public void SetCurrentState(int waveIndex) {
         currentState = levelUnitStates[waveIndex];
-        print("current state is " + currentState);
     }
 
     public void AddNamedStateEvent(LevelUnitStates state, string eventName) {
@@ -255,6 +254,15 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
                 ShowBlockingObject();
                 break;
         }
+    }
+
+    public void SnapToFloorState() {
+        transform.position = flatPosition;
+        currentState = LevelUnitStates.Floor;
+        isTransitioning = false;        
+        gameObject.tag = Strings.Tags.FLOOR;
+        gameObject.layer = (int)Layers.Ground;
+        HideBlockingObject();        
     }
 
     private void FinishTransition(Vector3 finalPosition) {
@@ -362,10 +370,8 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
     }
 
     private void TryTransitionToState(LevelUnitStates newState, Texture2D paintMaskTexture, bool wasToldToChangeColor) {
-        
         if ((isTransitioning && currentState==newState) || currentState != newState) {
-            
-            splattable.PaintMask = Texture2D.blackTexture;
+            splattable.PaintMask = paintMaskTexture;
             nextState = newState;
             targetPosition = GetStatePosition(nextState);
             isBeginningTransition = true;

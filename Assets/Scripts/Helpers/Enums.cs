@@ -45,12 +45,19 @@ public enum SFXType {
     BouncerAttack,
     KamikazeAttack,
     KamikazePulse,
-    LandmarkBlastShort
+    LandmarkBlastShort,
+    PLEPlaceObject,
+    PLEHoverUI,
+    PLEClickUI
 }
 
 public enum MusicType
 {
-    MainMenu_Track
+    MainMenu_Intro,
+    MainMenu_Loop,
+    Hathos_Lo,
+    Hathos_Med,
+    Hathos_Hi
 }
 
 public enum DamagerType {
@@ -156,6 +163,7 @@ public enum PoolObjectType {
     VFXBoomerangProjectileDie=68,
     VFXBloodSpurt=69,
     VFXKamikazePulse=70,
+    VFXPLEPlaceObject=71,
 
     //BulletTypes
     TurretBullet = 28,
@@ -322,9 +330,9 @@ public enum EditorMenu
 public enum FireMode
 {
     AIM_TO_SHOOT = 0,
-    SINGLE_TRIGGER,
     AUTOFIRE,
     MANUAL,
+    SINGLE_TRIGGER,
     COUNT
 }
 
@@ -333,5 +341,13 @@ public enum MouseAimMode
     AUTOMATIC,
     ALWAYS_ON,
     ALWAYS_OFF,
+    COUNT
+}
+
+public enum Difficulty
+{
+    EASY,
+    NORMAL,
+    HARD,
     COUNT
 }

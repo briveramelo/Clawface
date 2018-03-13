@@ -4,8 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using PlayerLevelEditor;
 
-public class HelpMenu : PlayerLevelEditorMenu
-{
+public class HelpMenu : PlayerLevelEditorMenu {
 
     #region Public Fields
 
@@ -17,8 +16,7 @@ public class HelpMenu : PlayerLevelEditorMenu
 
     #region Public Interface
 
-    public HelpMenu() : base(Strings.MenuStrings.LevelEditor.HELP_PLE_MENU)
-    { }
+    public HelpMenu() : base(Strings.MenuStrings.LevelEditor.HELP_PLE_MENU) { }
 
     #endregion
 
@@ -33,13 +31,11 @@ public class HelpMenu : PlayerLevelEditorMenu
 
     #region Protected Interface
 
-    protected override void ShowComplete()
-    {
+    protected override void ShowComplete() {
         base.ShowComplete();
     }
 
-    protected override void HideStarted()
-    {
+    protected override void HideStarted() {
         base.HideStarted();
     }
 
@@ -47,5 +43,11 @@ public class HelpMenu : PlayerLevelEditorMenu
 
     #region Private Interface    
 
+    #endregion
+
+    #region Public Interface
+    public override void SetMenuButtonInteractabilityByState() {
+
+    }
     #endregion
 }

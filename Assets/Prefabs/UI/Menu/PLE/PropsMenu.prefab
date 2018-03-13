@@ -329,7 +329,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1451313315766644}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -367,6 +367,38 @@ MonoBehaviour:
   placementMenu: {fileID: 114986609073309614}
   iconTemplate: {fileID: 1358243600333066}
   groupContent: {fileID: 1488017782716826}
+  scrollbar: {fileID: 114813696488313158}
+  itemPrefabs:
+  - {fileID: 1340946973673572, guid: 9869b122c626e3642bc788ddef0df2ad, type: 2}
+  - {fileID: 1483837039648612, guid: dedaf4e83ebe3c840a0898ad532a9862, type: 2}
+  - {fileID: 1706456867766694, guid: 2984f53ddfb5c504186534ae9331cde0, type: 2}
+  - {fileID: 1667618883192534, guid: ef55423ab5a9d394c860f51af7b19efc, type: 2}
+  scrollAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 0.35
+    looping: 0
+    playOnAwake: 0
+    startValue: 0
+    diff: 0
+  scrollMultiplier: 2.2
 --- !u!114 &114083746711931304
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -596,10 +628,10 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: c85ec03468d98fe42a27841be144f680, type: 3}
-    m_FontSize: 40
+    m_FontSize: 25
     m_FontStyle: 1
     m_BestFit: 0
-    m_MinSize: 3
+    m_MinSize: 2
     m_MaxSize: 70
     m_Alignment: 3
     m_AlignByGeometry: 0
@@ -775,6 +807,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa696e8481e003b438923117e763b37c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  imagePreview: {fileID: 114188981968808774}
   pleItem: {fileID: 0}
   registeredItem: {fileID: 0}
   isInteractable: 1
@@ -812,10 +845,10 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: c85ec03468d98fe42a27841be144f680, type: 3}
-    m_FontSize: 40
+    m_FontSize: 25
     m_FontStyle: 1
     m_BestFit: 0
-    m_MinSize: 3
+    m_MinSize: 2
     m_MaxSize: 59
     m_Alignment: 4
     m_AlignByGeometry: 0
@@ -864,7 +897,7 @@ MonoBehaviour:
   m_Direction: 0
   m_Value: 0
   m_Size: 1
-  m_NumberOfSteps: 11
+  m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1024,12 +1057,15 @@ MonoBehaviour:
   canvas: {fileID: 1796612787611346}
   canvasGroup: {fileID: 225408413913193276}
   faderDuration: 0
-  levelEditor: {fileID: 0}
   initiallySelected: {fileID: 0}
+  levelEditor: {fileID: 0}
+  mainPLEMenu: {fileID: 0}
+  allSelectables: []
   createdItemsParent: {fileID: 0}
   scrollGroup: {fileID: 114081709417863970}
   leftButton: {fileID: 114961210405948228}
   rightButton: {fileID: 114083746711931304}
+  highlightColor: {r: 0, g: 0.627451, b: 1, a: 0.7764706}
   rotationLabel: {fileID: 114805001666463106}
 --- !u!222 &222039032279581622
 CanvasRenderer:
@@ -1276,7 +1312,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000030517578, y: -20}
+  m_AnchoredPosition: {x: -0.000023305416, y: -20}
   m_SizeDelta: {x: 0, y: 115}
   m_Pivot: {x: 0, y: 1}
 --- !u!224 &224227093283647582

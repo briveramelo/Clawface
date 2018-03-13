@@ -107,7 +107,7 @@ MonoBehaviour:
     poolObjectType: 27
     prefabs:
     - {fileID: 1710971362640574, guid: 866233a7d4824d743a9e92808db275df, type: 2}
-    size: 25
+    size: 50
     mostUsed: 0
     objects: []
   - name: VFXSegwayBlaster
@@ -475,6 +475,14 @@ MonoBehaviour:
     poolObjectType: 69
     prefabs:
     - {fileID: 1674968188752656, guid: b1fa18791ce148d44a52a05d844016aa, type: 2}
+    size: 200
+    mostUsed: 0
+    objects: []
+  - name: VFXPLEPlaceObject
+    grandParent: {fileID: 0}
+    poolObjectType: 71
+    prefabs:
+    - {fileID: 1763319909148328, guid: 01d3848461a295c4b88d32e139b6f5f1, type: 2}
     size: 200
     mostUsed: 0
     objects: []

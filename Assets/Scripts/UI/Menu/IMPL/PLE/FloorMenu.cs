@@ -45,6 +45,11 @@ public class FloorMenu : PlayerLevelEditorMenu {
         UpdateSelectedAndOpenTilesState(LevelUnitStates.Cover);
     }
 
+    public override void SetMenuButtonInteractabilityByState() {
+        bool anyTilesSelected = levelEditor.gridController.AnyTilesSelected();
+        allSelectables.ForEach(selectable => { selectable.interactable = anyTilesSelected; });
+    }
+
     public override void BackAction()
     {
         

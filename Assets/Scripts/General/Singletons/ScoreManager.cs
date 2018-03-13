@@ -21,6 +21,15 @@ public class ScoreManager : Singleton<ScoreManager> {
 
     [SerializeField] private float maxTimeRemaining;
 
+    [SerializeField]
+    private float easyModeMultiplier;
+
+    [SerializeField]
+    private float normalModeMultiplier;
+
+    [SerializeField]
+    private float hardModeMultiplier;
+
     [SerializeField] private Dictionary<string, int> highScores;
     #endregion
 
@@ -144,19 +153,34 @@ public class ScoreManager : Singleton<ScoreManager> {
     {
         if (points <= 0) return;
 
-        int delta = points * GetCurrentMultiplier();
+        int delta = Mathf.FloorToInt(points * GetCurrentMultiplier());
         score += delta;
-        EventSystem.Instance.TriggerEvent(Strings.Events.SCORE_UPDATED,score,delta);
-
-        if(score >= 250000)
-        {
-            AchievementManager.Instance.SetAchievement(Strings.AchievementNames.CLAWFACE);
-        }
+        EventSystem.Instance.TriggerEvent(Strings.Events.SCORE_UPDATED,score,delta);        
     }
 
-    public int GetCurrentMultiplier()
+    public float GetCurrentMultiplier()
     {
-        return (currentCombo < scoreMultiplierPerCombo.Count) ? scoreMultiplierPerCombo[currentCombo] : scoreMultiplierPerCombo[scoreMultiplierPerCombo.Count - 1];
+        int baseMultiplier = (currentCombo < scoreMultiplierPerCombo.Count) ? scoreMultiplierPerCombo[currentCombo] : scoreMultiplierPerCombo[scoreMultiplierPerCombo.Count - 1];
+        Difficulty difficulty = SettingsManager.Instance.Difficulty;
+
+        float difficultyMultiplier = 0f;
+
+        switch (difficulty) {
+            case Difficulty.EASY:
+                difficultyMultiplier = easyModeMultiplier;
+                break;
+            case Difficulty.NORMAL:
+                difficultyMultiplier = normalModeMultiplier;
+                break;
+            case Difficulty.HARD:
+                difficultyMultiplier = hardModeMultiplier;
+                break;
+            default:
+                difficultyMultiplier = normalModeMultiplier;
+                break;
+            }
+
+        return baseMultiplier * difficultyMultiplier;
     }
 
     public void AddToScoreAndCombo(int points)
@@ -191,6 +215,12 @@ public class ScoreManager : Singleton<ScoreManager> {
         }
 
         EventSystem.Instance.TriggerEvent(Strings.Events.SET_LEVEL_SCORE, level, highScores[level]);
+        SendScoresToLeaderboard();
+
+        if (SceneTracker.IsCurrentScene80sShit)
+        {
+            AchievementManager.Instance.SetAchievement(Strings.AchievementNames.CLAWFACE);
+        }
     }
 
     public int GetHighScore(string level)
@@ -299,7 +329,18 @@ public class ScoreManager : Singleton<ScoreManager> {
     private void OnPlayerKilled(object[] parameters)
     {
         updateScore = false;
-        LeaderBoards.Instance.UpdateScore(score);
+        SendScoresToLeaderboard();
+    }
+
+    private void SendScoresToLeaderboard()
+    {
+        if (!SceneTracker.IsCurrentSceneEditor) {
+            LevelUI levelUI = ((PLELevelSelectMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LevelEditor.LEVELSELECT_PLE_MENU)).SelectedLevelUI;
+            if (levelUI!=null) {
+                string levelName = levelUI.levelData.UniqueSteamName;
+                LeaderBoards.Instance.UpdateScore(score, levelName);
+            }
+        }
     }
     #endregion
 

@@ -9,6 +9,7 @@ public class MouseHelper : MonoBehaviour {
 
     public static GameObject currentHoveredObject;
     public static PLEBlockUnit currentBlockUnit;
+    public static PLEItem currentItem;
     public static PLESpawn currentSpawn;
     public static PLEProp currentProp;
     public static Vector3 currentMouseWorldPosition;
@@ -58,6 +59,7 @@ public class MouseHelper : MonoBehaviour {
             }
             currentMouseWorldPosition = raycastHit.Value.transform.position;
             currentHoveredObject = raycastHit.Value.transform.gameObject;
+            currentItem = currentHoveredObject.GetComponent<PLEItem>();
             currentProp = currentHoveredObject.GetComponent<PLEProp>();
             currentSpawn = currentHoveredObject.GetComponent<PLESpawn>();            
         }
@@ -65,6 +67,7 @@ public class MouseHelper : MonoBehaviour {
             currentHoveredObject = null;
             currentProp = null;
             currentSpawn = null;
+            currentItem = null;
         }
     }
 

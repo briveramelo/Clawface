@@ -68,7 +68,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4508809971509320}
   - component: {fileID: 114302409008453142}
-  - component: {fileID: 114204481179315568}
   m_Layer: 0
   m_Name: RealLevel
   m_TagString: Untagged
@@ -127,7 +126,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1060222218768404}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 270.54218, y: 52.493725, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4588059675165932}
@@ -140,7 +139,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1805185341224630}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 270.54218, y: 52.493725, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4727196625096274}
@@ -190,19 +189,6 @@ Transform:
   m_Father: {fileID: 4508809971509320}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114204481179315568
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1805185341224630}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6eb5161684722204abcbe1829a361b45, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dataSave:
-    levelDatas: []
 --- !u!114 &114300397762325604
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -214,23 +200,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 427bc9278a1f9d740b26d02e2811db31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSpawnerPrefab: {fileID: 1892597131071296, guid: 7f3bd5b4144688a4f9c9cab6e3160139,
-    type: 2}
   gridController: {fileID: 114961083394896710}
   levelDataManager: {fileID: 114302409008453142}
   createdSpawnsParent: {fileID: 4168169116435916}
   cameraGameObject: {fileID: 0}
-  currentDisplayedMenu: 3
-  mainEditorMenu: {fileID: 0}
-  floorEditorMenu: {fileID: 0}
-  propsEditorMenu: {fileID: 0}
-  spawnsEditorMenu: {fileID: 0}
-  waveEditorMenu: {fileID: 0}
-  testEditorMenu: {fileID: 0}
-  saveEditorMenu: {fileID: 0}
-  levelSelectEditorMenu: {fileID: 0}
-  helpEditorMenu: {fileID: 0}
   cameraController: {fileID: 0}
+  mainPLEMenu: {fileID: 0}
 --- !u!114 &114302409008453142
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -242,11 +217,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cae682ba6b4678f4bb4b50f317719d69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dataPersister: {fileID: 114204481179315568}
   levelEditor: {fileID: 114300397762325604}
   tileParent: {fileID: 4727196625096274}
   propsParent: {fileID: 4510605436037708}
   spawnParent: {fileID: 4168169116435916}
+  mainPLEMenu: {fileID: 0}
   levelName: {fileID: 0}
   levelDescription: {fileID: 0}
 --- !u!114 &114488250318766794
@@ -261,12 +236,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AgentTypeID: 0
-  m_CollectObjects: 0
+  m_CollectObjects: 2
   m_Size: {x: 10, y: 10, z: 10}
   m_Center: {x: 0, y: 2, z: 0}
   m_LayerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 2048
   m_UseGeometry: 1
   m_DefaultArea: 0
   m_IgnoreNavMeshAgent: 1
@@ -307,9 +282,10 @@ MonoBehaviour:
   spawnsParent: {fileID: 4168169116435916}
   wallPrefab: {fileID: 1962610561088626, guid: 1c437717841520f4d992d3772ab36f24, type: 2}
   levelSize: 20
-  hoverColor: {r: 0.5294118, g: 0.5294118, b: 1, a: 1}
-  selectedColor: {r: 0, g: 0, b: 1, a: 1}
-  deletePreviewColor: {r: 1, g: 0, b: 0, a: 1}
+  hoverColor: {r: 0.38039216, g: 0.60784316, b: 0.8745098, a: 0.67058825}
+  selectedColor: {r: 0.38039216, g: 0.60784316, b: 0.8745098, a: 0.67058825}
+  deletePreviewColor: {r: 0.62352943, g: 0.1764706, b: 0.1764706, a: 0.50980395}
   editorInstance: {fileID: 114300397762325604}
+  mainPLEMenu: {fileID: 0}
   levelNav: {fileID: 114488250318766794}
   displaying: 0

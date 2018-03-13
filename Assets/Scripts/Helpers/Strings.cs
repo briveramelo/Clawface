@@ -8,6 +8,8 @@
     public const string PREVIEW = "Preview";
     public const string GHOST_BLOCK = "GhostBlock";
     public const string REAL_BLOCK = "RealBlock";
+    public const string LEADERBOARD_LOADING = "LOADING";
+    public const string LEADERBOARD_ERROR = "CANNOT REACH LEADERBOARD RIGHT NOW";
 
     public class Paths
     {
@@ -50,6 +52,7 @@
             public const string Arena = "80s shit";
             public const string Editor = "Editor";
             public const string PlayerLevels = "PlayerLevels";
+            public const string Movie = "Movie";
         }
     }    
 
@@ -115,6 +118,7 @@
         public const string LEVEL_SELECT = "LevelSelect";
         public const string WEAPON_SELECT = "WeaponSelect";
         public const string LEADER_BOARDS = "LeaderBoards";
+        public const string CONFIRM = "ConfirmMenu";
 
         //levelEditor
         public class LevelEditor {
@@ -205,19 +209,17 @@
 
         public const string PLAYER_DAMAGED = "PlayerDamaged";
         public const string PLAYER_KILLED = "PlayerKilled";
+        public const string PLAYER_BIRTHED = "PlayerBirthed";
 
         public const string SHOW_TUTORIAL_TEXT = "ShowTutorialText";
         public const string HIDE_TUTORIAL_TEXT = "HideTutorialText";
 
 
-        public const string PLE_TEST_WAVE_  = "PLE_TEST_WAVE_";
-        public const string PLE_TEST_WAVE_0 = "PLE_TEST_WAVE_0";
-        public const string PLE_TEST_WAVE_1 = "PLE_TEST_WAVE_1";
-        public const string PLE_TEST_WAVE_2 = "PLE_TEST_WAVE_2";
+        public const string PLE_ON_LEVEL_DATA_LOADED = "PLE_ON_LEVEL_DATA_LOADED";
+        public const string PLE_ON_LEVEL_READY = "PLE_ON_LEVEL_READY";
         public const string PLE_CHANGEWAVE = "PLE_ChangeWave";
         public const string PLE_ADD_WAVE    = "PLE_ADD_WAVE";
         public const string PLE_TEST_END = "PleTestEnd";
-
         public const string PLE_DELETE_CURRENTWAVE = "PLE_DELETE_CURRENTWAVE";
         public const string PLE_SYNC_LEVEL_UNIT_STATES  = "PLE_UPDATE_LEVELSTATE";
         public const string PLE_RESET_LEVELSTATE   = "PLE_RESET_LEVELSTATE";
@@ -249,7 +251,8 @@
         public const string ENV_OBJECTS_PATH = "PlayerLevelEditorObjects/EnvProps/";
         public const string SPAWN_OBJECTS_PATH = "PlayerLevelEditorObjects/SpawnProps/";
 
-        public const string IMAGE_PREVIEW_PATH = "PlayerLevelEditorObjects/png/";
+        public const string SPAWN_ICON_IMAGE_PREVIEW_PATH = "PlayerLevelEditorObjects/png/Spawn-images/";
+        public const string PROP_ICON_IMAGE_PREVIEW_PATH = "PlayerLevelEditorObjects/png/Prop-images/";
 
         public const string Tiles = "Tiles";
         public const string Props = "Props";

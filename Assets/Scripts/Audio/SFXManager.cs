@@ -86,10 +86,14 @@ public class SFXManager : Singleton<SFXManager>
                 }
             }
         }
-//       string message="No SFX Found for " + i_Type + ". Please add.";
-//       Debug.LogFormat("<color=#0000FF>" + message + "</color>");
     }
+
     
+    public void SetSFXAudioLevel(float i_newLevel)
+    {
+        i_newLevel = Mathf.Clamp(i_newLevel, 0.0f, 1.0f);
+        sfxMixer.SetFloat("Volume", LinearToDecibel(i_newLevel));
+    }
 
     private List<SoundEffect> InitList(GameObject i_SFX)
     {
@@ -102,6 +106,21 @@ public class SFXManager : Singleton<SFXManager>
         }
 
         return List;
+    }
+
+    // Sourced from: https://answers.unity.com/questions/283192/
+    private float LinearToDecibel(float linear)
+    {
+        float dB;
+        if (linear != 0)
+        {
+            dB = 40F * Mathf.Log10(linear);
+        }
+        else
+        {
+            dB = -80F;
+        }
+        return dB;
     }
 
     private SoundEffect CreateNewSFX(SFXType i_Type, List<SoundEffect> List)

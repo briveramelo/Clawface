@@ -229,7 +229,7 @@ public class PlayerStateManager : RoutineRunner {
 
                     if (state)
                     {
-                        StartTutorial();
+                        StartEatTutorial();
                     }
                 }
             }
@@ -251,9 +251,9 @@ public class PlayerStateManager : RoutineRunner {
         eatingState.Init(ref stateVariables);
     }
 
-    private void StartTutorial()
+    private void StartEatTutorial()
     {
-        if (SettingsManager.Instance.Tutorial && !isTutorialDone && !isInTutorial)
+        if (SettingsManager.Instance.Tutorial && !isTutorialDone && !isInTutorial && SceneTracker.IsCurrentScene80sShit)
         {
             isInTutorial = true;
             EventSystem.Instance.TriggerEvent(Strings.Events.ENEMY_INVINCIBLE, true);
@@ -266,7 +266,7 @@ public class PlayerStateManager : RoutineRunner {
 
     private void StartDashTutorial()
     {
-        if (SettingsManager.Instance.Tutorial && !isDashTutorialDone && !isInDashTutorial)
+        if (SettingsManager.Instance.Tutorial && !isDashTutorialDone && !isInDashTutorial && SceneTracker.IsCurrentScene80sShit)
         {
             isInDashTutorial = true;
             EventSystem.Instance.TriggerEvent(Strings.Events.ENEMY_INVINCIBLE, true);

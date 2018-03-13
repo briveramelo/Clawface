@@ -55,6 +55,7 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
         startHealth = stats.GetStat(CharacterStatType.MaxHealth);
         hitFlasher = GetComponentInChildren<HitFlasher>();
         stats.SetStats();
+        EventSystem.Instance.TriggerEvent(Strings.Events.PLAYER_BIRTHED);
     }
 
     void Update()
@@ -80,6 +81,7 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
                 if (dashState.CheckIfDashGivesCombo() && !gotDashComboThisFrame)
                 {
                     gotDashComboThisFrame = true;
+                    dashState.ResetDashComboTimer();
                     ScoreManager.Instance.AddToCombo();
                 }
                 return;
@@ -95,7 +97,21 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
 
             float healthFraction = stats.GetHealthFraction();
 
-            stats.TakeDamage(setDamageToTake);
+            float damageToTake = setDamageToTake;
+            switch (SettingsManager.Instance.Difficulty)
+            {
+                case Difficulty.EASY:
+                    damageToTake *= 1.0f/6.0f;
+                    break;
+                case Difficulty.HARD:
+                    damageToTake *= 3f;
+                    break;
+                case Difficulty.NORMAL:
+                default:
+                    break;
+            }
+
+            stats.TakeDamage(damageToTake);
 
 
 

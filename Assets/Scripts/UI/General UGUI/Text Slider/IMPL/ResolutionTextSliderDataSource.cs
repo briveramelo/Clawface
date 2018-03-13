@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class ResolutionTextSliderDataSource : TextSliderDataSource {
+public class ResolutionTextSliderDataSource : TextSliderDataSource
+{
 
     #region Accessors (TextSliderDataSource)
 
@@ -37,7 +38,11 @@ public class ResolutionTextSliderDataSource : TextSliderDataSource {
         }
         set
         {
+#if UNITY_EDITOR
+            resolution = new Resolution();
+#else
             resolution = validResolutions[value];
+#endif
         }
     }
 
@@ -56,6 +61,7 @@ public class ResolutionTextSliderDataSource : TextSliderDataSource {
     {
         resolution = SettingsManager.Instance.Resolution;
         validResolutions = DetermineValidResolutions();
+        base.ForceUpdate();
     }
 
     #endregion
@@ -71,9 +77,11 @@ public class ResolutionTextSliderDataSource : TextSliderDataSource {
             if (IsSupported(resolution))
             {
                 Resolution cmp = valid.Find((other) => { return other.width == resolution.width && other.height == resolution.height; });
-                if (cmp.width != resolution.width || cmp.height != resolution.height) {
+                if (cmp.width != resolution.width || cmp.height != resolution.height)
+                {
                     valid.Add(resolution);
-                } else if (cmp.refreshRate < resolution.refreshRate)
+                }
+                else if (cmp.refreshRate < resolution.refreshRate)
                 {
                     valid.Remove(cmp);
                     valid.Add(cmp);

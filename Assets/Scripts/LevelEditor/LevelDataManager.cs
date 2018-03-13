@@ -10,19 +10,20 @@ using PlayerLevelEditor;
 public class LevelDataManager : MonoBehaviour {
 
     [Header("Required for all scenes")]
-    [SerializeField] private DataPersister dataPersister;
     [SerializeField] private LevelEditor levelEditor;
     [SerializeField] private Transform tileParent, propsParent, spawnParent;
 
     [Header("Player Editor Scene-specific")]
+    [SerializeField] private MainPLEMenu mainPLEMenu;
     [SerializeField] private InputField levelName;
     [SerializeField] private InputField levelDescription;
 
+    private DataPersister dataPersister { get { return DataPersister.Instance; } }
     public DataSave ActiveDataSave { get { return DataPersister.ActiveDataSave; } }
-    public LevelData ActiveLevelData { get { return ActiveDataSave.ActiveLevelData; } }
-    public List<WaveData> ActiveWaveData { get { return ActiveLevelData.waveData; } }
-    public List<TileData> ActiveTileData { get { return ActiveLevelData.tileData; } }
-    public List<PropData> ActivePropData { get { return ActiveLevelData.propData; } }
+    public LevelData WorkingLevelData { get { return ActiveDataSave.workingLevelData; } }
+    public List<WaveData> WorkingWaveData { get { return WorkingLevelData.waveData; } }
+    public List<TileData> WorkingTileData { get { return WorkingLevelData.tileData; } }
+    public List<PropData> WorkingPropData { get { return WorkingLevelData.propData; } }
     private int spawnLayerMask;
 
     #region Unity Lifecycle
@@ -31,7 +32,9 @@ public class LevelDataManager : MonoBehaviour {
         spawnLayerMask = LayerMask.GetMask(Strings.Layers.SPAWN);
     }
     private void Start() {
-        LoadSelectedLevel();
+        if (!SceneTracker.IsCurrentSceneEditor) {
+            LoadSelectedLevel();
+        }
     }
     #endregion
 
@@ -51,17 +54,27 @@ public class LevelDataManager : MonoBehaviour {
         LoadTiles();
         LoadSpawnsToggledState();
         LoadImages();
-        LoadInSceneContext();
-        PLESpawnManager.Instance.MaxWaveIndex = ActiveLevelData.MaxWaveIndex;
-        PLESpawnManager.Instance.InfiniteWavesEnabled = ActiveLevelData.isInfinite;
+
+        PLESpawnManager.Instance.MaxWaveIndex = WorkingLevelData.MaxWaveIndex;
+        PLESpawnManager.Instance.InfiniteWavesEnabled = WorkingLevelData.isInfinite;
+
+        int waveIndex = 0;
+        waveIndex = PLESpawnManager.Instance.SetToWave(waveIndex);//sets spawn parent enabling in here
+        EventSystem.Instance.TriggerEvent(Strings.Events.PLE_ON_LEVEL_DATA_LOADED);
+
+        if (SceneTracker.IsCurrentSceneEditor) {
+            EventSystem.Instance.TriggerEvent(Strings.Events.PLE_CALL_WAVE, waveIndex);
+            mainPLEMenu.SetMenuButtonInteractabilityByState();
+            mainPLEMenu.SwitchToMenu(PLEMenu.FLOOR);
+        }
     }    
 
     private void LoadProps() {
         List<string> propNames = new List<string>();
         propsParent.DestroyAllChildren();
         List<GameObject> propPrefabs = Resources.LoadAll<GameObject>(Strings.Editor.ENV_OBJECTS_PATH).ToList();
-        for (int i = 0; i < ActivePropData.Count; i++) {
-            PropData propData = ActivePropData[i];
+        for (int i = 0; i < WorkingPropData.Count; i++) {
+            PropData propData = WorkingPropData[i];
             GameObject propToSpawn = propPrefabs.Find(item => item.name == propData.propType);
             Transform child = Instantiate(propToSpawn, propsParent, false).transform;
             child.name = propData.propType;
@@ -72,7 +85,7 @@ public class LevelDataManager : MonoBehaviour {
             rigbod.isKinematic = true;
         }
         if (SceneTracker.IsCurrentSceneEditor) {
-            (levelEditor.GetMenu(PLEMenu.PROPS) as PropsMenu).ResetMenu(propNames);
+            (mainPLEMenu.GetMenu(PLEMenu.PROPS) as PropsMenu).ResetMenu(propNames);
         }
     }
 
@@ -82,11 +95,11 @@ public class LevelDataManager : MonoBehaviour {
         List<PLESpawn> pleSpawns = spawnObjects.Select(spawn => spawn.GetComponent<PLESpawn>()).ToList();
         List<PLESpawn> spawnedPLEs = new List<PLESpawn>();
         spawnParent.DestroyAllChildren();
-        for (int i = 0; i < ActiveWaveData.Count; i++) {
+        for (int i = 0; i < WorkingWaveData.Count; i++) {
             GameObject waveParent = new GameObject(GetWaveName(i));
             waveParent.transform.SetParent(spawnParent);
-            for (int j = 0; j < ActiveWaveData[i].spawnData.Count; j++) {
-                SpawnData spawnData = ActiveWaveData[i].spawnData[j];
+            for (int j = 0; j < WorkingWaveData[i].spawnData.Count; j++) {
+                SpawnData spawnData = WorkingWaveData[i].spawnData[j];
                 GameObject enemyUIPrefabToSpawn = pleSpawns.Find(spawn=>(int)(spawn.spawnType)==spawnData.spawnType).gameObject;
                 Transform newSpawnTransform = Instantiate(enemyUIPrefabToSpawn, waveParent.transform, false).transform;
                 newSpawnTransform.name = newSpawnTransform.name.TryCleanName(Strings.CLONE);
@@ -108,20 +121,20 @@ public class LevelDataManager : MonoBehaviour {
             SpawnMenu.playerSpawnInstance = keiraSpawnTransform.gameObject;
         }
         if (SceneTracker.IsCurrentSceneEditor) {
-            (levelEditor.GetMenu(PLEMenu.SPAWN) as SpawnMenu).ResetMenu(spawnNames);
+            (mainPLEMenu.GetMenu(PLEMenu.SPAWN) as SpawnMenu).ResetMenu(spawnNames);
         }
     }
 
     private void LoadTiles() {
         PlayerLevelEditorGrid gridController = levelEditor.gridController;
         gridController.ResetGrid();
-        for (int i = 0; i < ActiveTileData.Count; i++) {
-            TileData tileData = ActiveTileData[i];
+        for (int i = 0; i < WorkingTileData.Count; i++) {
+            TileData tileData = WorkingTileData[i];
             List<LevelUnitStates> levelStates = new List<LevelUnitStates>();
             foreach (LevelUnitStates levelUnitState in tileData.levelStates) {
                 levelStates.Add(levelUnitState);
             }
-            GridTile tile = levelEditor.gridController.GetTileAtPoint(tileData.position.AsVector);
+            GridTile tile = gridController.GetTileAtPoint(tileData.position.AsVector);
             tile.IsActive = true;
             LevelUnit levelUnit = tile.levelUnit;
             PLEBlockUnit blockUnit = tile.blockUnit;
@@ -144,7 +157,6 @@ public class LevelDataManager : MonoBehaviour {
         if (!SceneTracker.IsCurrentSceneEditor) {
             gridController.SetGridVisiblity(false);
         }
-        gridController.QueueToBakeNavMesh();
     }
 
     private void LoadSpawnsToggledState() {
@@ -164,13 +176,6 @@ public class LevelDataManager : MonoBehaviour {
         ActiveDataSave.levelDatas.ForEach(levelData => { Sprite dummySprite = levelData.MySprite; });
     }
 
-    private void LoadInSceneContext() {
-        if (SceneTracker.IsCurrentSceneEditor) {
-            levelEditor.ResetToWave0();
-            levelEditor.SetMenuButtonInteractability();
-        }
-    }
-
     #endregion
 
     #region Save
@@ -188,7 +193,7 @@ public class LevelDataManager : MonoBehaviour {
         StartCoroutine(TakePictureAndSave());
     }
     private void SaveTiles() {
-        ActiveTileData.Clear();
+        WorkingTileData.Clear();
         for (int i = 0; i < tileParent.childCount; i++) {
             Transform tile = tileParent.GetChild(i);
             PLEBlockUnit blockUnit = tile.GetComponent<PLEBlockUnit>();
@@ -196,23 +201,23 @@ public class LevelDataManager : MonoBehaviour {
                 List<LevelUnitStates> levelStates = blockUnit.GetLevelStates();
                 int tileType = 0; //HOW DO I GET THIS FOR REAL
                 TileData tileData = new TileData(tileType, tile.position, levelStates);
-                ActiveTileData.Add(tileData);
+                WorkingTileData.Add(tileData);
             }
         }
     }
 
     private void SaveProps() {
         //List<string> propNames = Resources.LoadAll<GameObject>(Strings.Editor.ENV_OBJECTS_PATH).Select(item=>item.name).ToList();
-        ActivePropData.Clear();
+        WorkingPropData.Clear();
         for (int i = 0; i < propsParent.childCount; i++) {
             Transform prop = propsParent.GetChild(i);
             string propType = prop.name;
             PropData propData = new PropData(propType, prop);
-            ActivePropData.Add(propData);
+            WorkingPropData.Add(propData);
         }
     }
     public void SaveSpawns() {
-        ActiveWaveData.Clear();
+        WorkingWaveData.Clear();
         spawnParent.SortChildrenByName();
 
         for (int i = 1; i < spawnParent.childCount; i++) {
@@ -239,30 +244,35 @@ public class LevelDataManager : MonoBehaviour {
         SpawnData spawnData = new SpawnData(spawnType, spawnCount, spawnUI.position) {
             pleSpawn = spawn
         };
-        while (ActiveWaveData.Count <= waveIndex) {
-            ActiveWaveData.Add(new WaveData());
+        while (WorkingWaveData.Count <= waveIndex) {
+            WorkingWaveData.Add(new WaveData());
         }
-        ActiveWaveData[waveIndex].spawnData.Add(spawnData);
+        WorkingWaveData[waveIndex].spawnData.Add(spawnData);
     }
 
     private void SaveLevelText() {
-        ActiveLevelData.name = levelName.text;
-        ActiveLevelData.description = levelDescription.text;
+        WorkingLevelData.name = levelName.text;
+        WorkingLevelData.description = levelDescription.text;
     }
 
     private void SaveWaveState() {
-        ActiveLevelData.isInfinite = PLESpawnManager.Instance.InfiniteWavesEnabled;
+        WorkingLevelData.isInfinite = PLESpawnManager.Instance.InfiniteWavesEnabled;
     }
 
     IEnumerator TakePictureAndSave() {
-        levelEditor.GetMenu(PLEMenu.MAIN).CanvasGroup.alpha = 0f;
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
         levelEditor.gridController.SetGridVisiblity(false);
+        mainPLEMenu.CanvasGroup.alpha = 0f;
+        mainPLEMenu.GetMenu(PLEMenu.FLOOR).CanvasGroup.alpha = 0f;
         yield return new WaitForEndOfFrame();
         SavePicture();
         dataPersister.TrySave();
         yield return new WaitForEndOfFrame();
-        levelEditor.GetMenu(PLEMenu.MAIN).CanvasGroup.alpha = 1f;
-        levelEditor.SwitchToMenu(PLEMenu.FLOOR);
+        mainPLEMenu.CanvasGroup.alpha = 1f;
+        mainPLEMenu.GetMenu(PLEMenu.FLOOR).CanvasGroup.alpha = 1f;
+        mainPLEMenu.SwitchToMenu(PLEMenu.FLOOR);
+        levelEditor.gridController.SetGridVisiblity(true);
     }
 
     private void SavePicture() {
@@ -272,15 +282,15 @@ public class LevelDataManager : MonoBehaviour {
         TextureScale.Bilinear(snapshot, (int)LevelData.fixedSize.x, (int)LevelData.fixedSize.y);
         snapshot.Apply();
         byte[] imageBytes = snapshot.EncodeToPNG();
-        ActiveLevelData.SetPicture(imageBytes);
+        WorkingLevelData.SetPicture(imageBytes);
     }
 
     private string GetWaveName(int i) { return Strings.Editor.Wave + i; }
     #endregion
 
     #region Delete
-    public void DeleteSelectedLevel() {
-        dataPersister.DeleteSelectedLevel();
+    public void TryDeleteLevel(string uniqueName) {
+        dataPersister.TryDeleteLevel(uniqueName);
         dataPersister.TrySave();
     }
     #endregion

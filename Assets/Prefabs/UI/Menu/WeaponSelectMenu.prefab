@@ -619,7 +619,6 @@ GameObject:
   - component: {fileID: 222791186349490818}
   - component: {fileID: 114031818429548444}
   - component: {fileID: 114271799307692296}
-  - component: {fileID: 114880893127716052}
   - component: {fileID: 114833761650462204}
   m_Layer: 5
   m_Name: W2L
@@ -997,7 +996,6 @@ GameObject:
   - component: {fileID: 222813957528980642}
   - component: {fileID: 114468556553779578}
   - component: {fileID: 114128116686635702}
-  - component: {fileID: 114052032162713022}
   - component: {fileID: 114718938673537422}
   m_Layer: 5
   m_Name: W2R
@@ -2384,6 +2382,8 @@ GameObject:
   - component: {fileID: 222563985046473438}
   - component: {fileID: 114614947780411144}
   - component: {fileID: 114201674317650024}
+  - component: {fileID: 114685202748438878}
+  - component: {fileID: 114974278512416988}
   m_Layer: 5
   m_Name: StartButton
   m_TagString: Untagged
@@ -2467,7 +2467,6 @@ GameObject:
   - component: {fileID: 222181286019169224}
   - component: {fileID: 114713970538677674}
   - component: {fileID: 114511596057394768}
-  - component: {fileID: 114658664689669136}
   - component: {fileID: 114128903714024426}
   m_Layer: 5
   m_Name: W1R
@@ -2840,7 +2839,6 @@ GameObject:
   - component: {fileID: 222306085848872212}
   - component: {fileID: 114302784568958550}
   - component: {fileID: 114127857788288646}
-  - component: {fileID: 114842295575169240}
   - component: {fileID: 114148244714258552}
   m_Layer: 5
   m_Name: W1L
@@ -2953,6 +2951,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4802608462030868}
   - component: {fileID: 114190226252898878}
+  - component: {fileID: 114884768874255344}
   m_Layer: 0
   m_Name: WeaponSelectMenu
   m_TagString: Untagged
@@ -7355,7 +7354,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Damage
+  m_Text: DAMAGE
 --- !u!114 &114015527387680748
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7476,17 +7475,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114052032162713022
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1278148297558916}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c2c8a88c24564a45899428cde8821c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114052093212889954
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7572,7 +7560,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Range
+  m_Text: RANGE
 --- !u!114 &114123246335736058
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7651,6 +7639,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 114884768874255344}
+        m_MethodName: PlayButtonConfirm
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114128116686635702
@@ -7704,6 +7703,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 114884768874255344}
+        m_MethodName: PlayButtonConfirm
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114128903714024426
@@ -7722,7 +7732,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 114658664689669136}
+        - m_Target: {fileID: 114884768874255344}
           m_MethodName: PlayButtonSelect
           m_Mode: 1
           m_Arguments:
@@ -7768,7 +7778,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Difficulty
+  m_Text: DIFFICULTY
 --- !u!114 &114140368002890712
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7812,7 +7822,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 114842295575169240}
+        - m_Target: {fileID: 114884768874255344}
           m_MethodName: PlayButtonSelect
           m_Mode: 1
           m_Arguments:
@@ -7954,6 +7964,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 114884768874255344}
+        m_MethodName: PlayButtonConfirm
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114224259821520030
@@ -7996,7 +8017,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: c85ec03468d98fe42a27841be144f680, type: 3}
-    m_FontSize: 24
+    m_FontSize: 30
     m_FontStyle: 0
     m_BestFit: 1
     m_MinSize: 1
@@ -8007,7 +8028,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Start
+  m_Text: START
 --- !u!114 &114232894571167186
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8083,6 +8104,17 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 114536811467650330}
         m_MethodName: MoveRight
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 114884768874255344}
+        m_MethodName: PlayButtonConfirm
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8298,7 +8330,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Rate of Fire
+  m_Text: RATE OF FIRE
 --- !u!114 &114424741576677916
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8444,6 +8476,17 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 114958186342356902}
         m_MethodName: MoveLeft
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 114884768874255344}
+        m_MethodName: PlayButtonConfirm
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8700,17 +8743,25 @@ MonoBehaviour:
   startAlpha: 1
   endAlpha: 0
   duration: 1
---- !u!114 &114658664689669136
+--- !u!114 &114685202748438878
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1688257888943854}
+  m_GameObject: {fileID: 1659092959119114}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c2c8a88c24564a45899428cde8821c8, type: 3}
+  m_Script: {fileID: 11500000, guid: cb2be5fcf4accb94998ef33d08856341, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  colorOff: {r: 0.96862745, g: 0.9764706, b: 0.4627451, a: 1}
+  colorOn: {r: 0.90588236, g: 0, b: 0.8039216, a: 1}
+  colorDisabled: {r: 0.1, g: 0.1, b: 0.1, a: 1}
+  spriteOff: {fileID: 21300000, guid: 040c162357fd5574ab6e2bbface697db, type: 3}
+  spriteOn: {fileID: 21300000, guid: 6ce9286bfc9ebcc4d9a5fc8a3017b40a, type: 3}
+  selectable: {fileID: 114201674317650024}
+  image: {fileID: 114614947780411144}
+  text: {fileID: 114225961891616124}
 --- !u!114 &114708782972877898
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8777,7 +8828,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 114052032162713022}
+        - m_Target: {fileID: 114884768874255344}
           m_MethodName: PlayButtonSelect
           m_Mode: 1
           m_Arguments:
@@ -8952,7 +9003,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 114880893127716052}
+        - m_Target: {fileID: 114884768874255344}
           m_MethodName: PlayButtonSelect
           m_Mode: 1
           m_Arguments:
@@ -8993,17 +9044,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114842295575169240
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1798654801573802}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c2c8a88c24564a45899428cde8821c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114843784576696684
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9111,12 +9151,12 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114880893127716052
+--- !u!114 &114884768874255344
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1139898610639760}
+  m_GameObject: {fileID: 1836405386306046}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5c2c8a88c24564a45899428cde8821c8, type: 3}
@@ -9299,6 +9339,36 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &114974278512416988
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1659092959119114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 9
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 114884768874255344}
+          m_MethodName: PlayButtonSelect
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  delegates: []
 --- !u!114 &114978267961607626
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -30871,7 +30941,7 @@ RectTransform:
   m_GameObject: {fileID: 1659092959119114}
   m_LocalRotation: {x: -0.51525766, y: -0, z: -0, w: 0.85703534}
   m_LocalPosition: {x: 0, y: 0, z: -20.9}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 1}
   m_Children:
   - {fileID: 224247173819241700}
   m_Father: {fileID: 224302732116134932}
@@ -30879,8 +30949,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: -62.029003, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0.2}
-  m_AnchoredPosition: {x: 0, y: 66.8}
-  m_SizeDelta: {x: 200, y: -20}
+  m_AnchoredPosition: {x: 0, y: 68.29997}
+  m_SizeDelta: {x: 225, y: 0.40005112}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224694452335634434
 RectTransform:

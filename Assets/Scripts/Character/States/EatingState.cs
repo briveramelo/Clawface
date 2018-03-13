@@ -41,7 +41,8 @@ public class EatingState : IPlayerState
         EventSystem.Instance.RegisterEvent(Strings.Events.CAPTURE_ENEMY, CaptureEnemy);
         EventSystem.Instance.RegisterEvent(Strings.Events.ARM_ANIMATION_COMPLETE, EndState);
     }
-    private void OnDisable() {
+    protected override void OnDisable() {
+        base.OnDisable();
         if (EventSystem.Instance) {
             EventSystem.Instance.UnRegisterEvent(Strings.Events.FACE_OPEN, DoArmExtension);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.CAPTURE_ENEMY, CaptureEnemy);

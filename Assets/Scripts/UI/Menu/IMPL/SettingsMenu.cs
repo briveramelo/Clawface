@@ -78,7 +78,10 @@ public class SettingsMenu : Menu {
     [SerializeField]
     private Toggle snapLook = null;
 
-    [Header("Settings Objects - Other")]
+    [Header("Settings Objects - GamePlay")]
+    [SerializeField]
+    private TextSlider difficulty = null;
+
     [SerializeField]
     private Toggle tutorial = null;
 
@@ -100,7 +103,6 @@ public class SettingsMenu : Menu {
 
     #endregion
     
-
     #region Unity Lifecycle
     private void Update() {
         if (allowInput) {
@@ -131,9 +133,9 @@ public class SettingsMenu : Menu {
         LinkActionButtonsTo(snapLook);
     }
 
-    public void RewireForOther()
+    public void RewireForGamePlay()
     {
-        LinkPanelButtonsTo(tutorial);
+        LinkPanelButtonsTo(difficulty);
         LinkActionButtonsTo(tutorial);
     }
 
@@ -150,6 +152,7 @@ public class SettingsMenu : Menu {
     public void ButtonDefault()
     {
         SettingsManager.Instance.SetDefault();
+        TransferSettingsFromManager();
     }
 
     public void ButtonApply()
@@ -247,7 +250,8 @@ public class SettingsMenu : Menu {
         mouseAimMode.DataSource.ForceUpdate();
         snapLook.isOn = manager.SnapLook;
 
-        // Other
+        // GamePlay
+        difficulty.DataSource.ForceUpdate();
         tutorial.isOn = manager.Tutorial;
     }
 
@@ -270,7 +274,8 @@ public class SettingsMenu : Menu {
         manager.MouseAimMode = (MouseAimMode)mouseAimMode.DataSource.Value;
         manager.SnapLook = snapLook.isOn;
 
-        // Other
+        // GamePlay
+        manager.Difficulty = (Difficulty)difficulty.DataSource.Value;
         manager.Tutorial = tutorial.isOn;
     }
 
