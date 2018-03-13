@@ -111,10 +111,8 @@ public class DashState : IPlayerState {
     {
         
     }
-    #endregion
 
-    #region Private Methods
-    protected override void ResetState()
+    public override void ResetState()
     {
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer(Strings.Layers.ENEMY), LayerMask.NameToLayer(Strings.Layers.MODMAN), false);
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer(Strings.Layers.ENEMY_BODY), LayerMask.NameToLayer(Strings.Layers.MODMAN), false);
@@ -122,8 +120,9 @@ public class DashState : IPlayerState {
         currentPose = 0;
         dashTimer = 0f;
         stateVariables.statsManager.damageModifier = 1.0f;
-        if (stateVariables.velBody.GetMovementMode()==MovementMode.ICE) {
-            stateVariables.velBody.velocity = stateVariables.velBody.GetForward() * dashVelocity/10f;
+        if (stateVariables.velBody.GetMovementMode() == MovementMode.ICE)
+        {
+            stateVariables.velBody.velocity = stateVariables.velBody.GetForward() * dashVelocity / 10f;
         }
         dashTrail.GetComponent<TrailRenderer>().Clear();
         dashTrail.GetComponent<TrailRenderer>().enabled = false;
@@ -131,7 +130,9 @@ public class DashState : IPlayerState {
         currentRotation = 0.0f;
         stateVariables.stateFinished = true;
     }
+    #endregion
 
+    #region Private Methods
     private void PlayAnimation()
     {
         if (currentPose != highlightPoses[0] || totalDashFrames - currentFrame <= totalAttackPoses / 2)

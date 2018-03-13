@@ -201,11 +201,7 @@ public class MoveState : IPlayerState
                 stateVariables.playerTransform.forward = lastLookDirection;
             }
         }
-    }
-
-    protected override void ResetState()
-    {
-    }
+    }    
 
     private void PlayerDead(params object[] parameters)
     {
@@ -251,6 +247,10 @@ public class MoveState : IPlayerState
         {
             return Vector3.zero;
         }
+    }
+
+    public override void ResetState()
+    {
     }
     #endregion
 }

@@ -89,19 +89,8 @@ public class EatingState : IPlayerState
     {
         LookAtEnemy();
     }
-    #endregion
 
-    #region Private Methods
-    private void LookAtEnemy()
-    {
-        if (stateVariables.eatTargetEnemy)
-        {
-            Vector3 enemyPosition = stateVariables.eatTargetEnemy.transform.position;
-            stateVariables.modelHead.transform.LookAt(new Vector3(enemyPosition.x, 0f, enemyPosition.z));
-        }
-    }
-
-    protected override void ResetState()
+    public override void ResetState()
     {
         EventSystem.Instance.TriggerEvent(Strings.Events.FINISHED_EATING);
         clawArmController.ResetClawArm();
@@ -113,7 +102,17 @@ public class EatingState : IPlayerState
         isAnimating = false;
         stateVariables.stateFinished = true;
     }
+    #endregion
 
+    #region Private Methods
+    private void LookAtEnemy()
+    {
+        if (stateVariables.eatTargetEnemy)
+        {
+            Vector3 enemyPosition = stateVariables.eatTargetEnemy.transform.position;
+            stateVariables.modelHead.transform.LookAt(new Vector3(enemyPosition.x, 0f, enemyPosition.z));
+        }
+    }
 
     private void DoArmExtension(params object[] parameters)
     {
