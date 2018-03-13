@@ -13,7 +13,7 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
 
     [SerializeField] protected Transform createdItemsParent;
     [SerializeField] protected ScrollGroup scrollGroup;
-    [SerializeField] protected Selectable leftButton, rightButton;
+    [SerializeField] protected Image selectedPreviewImage;
     [SerializeField] protected Color highlightColor;
 
     protected PLEItem lastHoveredItem;
@@ -153,7 +153,6 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
 
     protected override void ShowStarted() {
         base.ShowStarted();
-        //ForceMenuButtonInteractability(false);
     }
     protected override void ShowComplete() {
         base.ShowComplete();
@@ -164,9 +163,17 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
         DeselectAllGameItems();
         TryDestroyPreview();
     }
-    #endregion
 
-    #region Private Interface
+    public virtual void TrySelectFirstAvailable() {
+        PLEUIItem firstAvailable = scrollGroup.TryGetFirstAvailableUIItem();
+        if (firstAvailable) {
+            selectedPreviewImage.sprite = firstAvailable.imagePreview.sprite;
+            scrollGroup.SelectUIItem(firstAvailable.ItemIndex);
+        }
+    }
+        #endregion
 
-    #endregion
-}
+        #region Private Interface
+
+        #endregion
+    }

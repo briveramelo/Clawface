@@ -10,7 +10,7 @@ using System.Collections.Generic;
 public class SpawnMenu : PlacementMenu {
 
     private const int minSpawns = 1;
-    public SpawnMenu() : base(Strings.MenuStrings.LevelEditor.ADD_SPAWNS_PLE) { }    
+    public SpawnMenu() : base(Strings.MenuStrings.LevelEditor.SPAWNS_PLE_MENU) { }    
 
     private PLESpawn SelectedSpawn { get { return selectedPLEItem as PLESpawn; } }
     private LevelData WorkingLevelData { get { return DataPersister.ActiveDataSave.workingLevelData; } }
@@ -19,7 +19,7 @@ public class SpawnMenu : PlacementMenu {
 
     #region Serialized Unity Fields
 
-    [SerializeField] private Image selectedSpawnImage;
+    [SerializeField] protected Selectable decreaseSpawnCountButton, increaseSpawnCountButton;
     [SerializeField] private InputField amountField;
     [SerializeField] private Text amountAvailable;
     [SerializeField] private Text nameText;
@@ -34,16 +34,16 @@ public class SpawnMenu : PlacementMenu {
     #region Unity Lifecycle
     protected override void Start() {
         base.Start();
-        EventSystem.Instance.RegisterEvent(Strings.Events.PLE_TEST_END, EnableKeira);
+        EventSystem.Instance.RegisterEvent(Strings.Events.PLE_TEST_END, TryEnableKeira);
     }
 
     private void OnDestroy() {
         if (EventSystem.Instance) {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_TEST_END, EnableKeira);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_TEST_END, TryEnableKeira);
         }
     }
     #endregion
-    void EnableKeira(params object[] parameters) {
+    void TryEnableKeira(params object[] parameters) {
         if (playerSpawnInstance != null) {
             playerSpawnInstance.SetActive(true);
         }
@@ -64,18 +64,19 @@ public class SpawnMenu : PlacementMenu {
             if (System.Int32.TryParse(amountField.text, out spawnCount)) {
                 spawnCount = Mathf.Clamp(spawnCount, minSpawns, SelectedSpawn.MaxPerWave);
                 SelectedSpawn.totalSpawnAmount = spawnCount;
-                SetMenuButtonInteractabilityByState();
+                mainPLEMenu.SetMenuButtonInteractabilityByState();
             }
         }
     }
 
     public override void SetMenuButtonInteractabilityByState() {
+        levelEditor.levelDataManager.SyncWorkingSpawnData();
         bool isItemSelectedAndNotKeira = selectedPLEItem != null && SelectedSpawn.spawnType != SpawnType.Keira;
         allSelectables.ForEach(selectable => { selectable.interactable = isItemSelectedAndNotKeira; });
 
-        leftButton.interactable = isItemSelectedAndNotKeira && SelectedSpawn.totalSpawnAmount > minSpawns;
-        rightButton.interactable = isItemSelectedAndNotKeira && NumberSpawnsInWave < SelectedSpawn.MaxPerWave;
-        (scrollGroup as SpawnScrollGroup).SetSpawnUIInteractability(PLESpawnManager.Instance.CurrentWaveIndex);
+        decreaseSpawnCountButton.interactable = isItemSelectedAndNotKeira && SelectedSpawn.totalSpawnAmount > minSpawns;
+        increaseSpawnCountButton.interactable = isItemSelectedAndNotKeira && NumberSpawnsInWave < SelectedSpawn.MaxPerWave;
+        (scrollGroup as SpawnScrollGroup).HandleSpawnUIInteractability(PLESpawnManager.Instance.CurrentWaveIndex);
     }
     #endregion
 
@@ -89,25 +90,19 @@ public class SpawnMenu : PlacementMenu {
 
     protected override void DeleteHoveredItem() {
         base.DeleteHoveredItem();
-        SetMenuButtonInteractabilityByState();
         mainPLEMenu.SetMenuButtonInteractabilityByState();
     }
 
     protected override void ShowStarted() {
         base.ShowStarted();
-        if (!playerSpawnInstance) {
-            PLEUIItem keiraItem = (scrollGroup as SpawnScrollGroup).SelectKeira();
-            selectedSpawnImage.sprite = keiraItem.imagePreview.sprite;
-        }
-        else {
-            PLEUIItem firstAvailable = scrollGroup.TryGetFirstAvailableUIItem();
-            if (firstAvailable) {
-                selectedSpawnImage.sprite = firstAvailable.imagePreview.sprite;
-                scrollGroup.SelectUIItem(firstAvailable.ItemIndex);
-            }
-        }
-        (scrollGroup as SpawnScrollGroup).SetSpawnUIInteractability(PLESpawnManager.Instance.CurrentWaveIndex);
+        mainPLEMenu.SetMenuButtonInteractabilityByState();
+        TrySelectFirstAvailable();
     }
+    public override void TrySelectFirstAvailable() {
+        base.TrySelectFirstAvailable();
+    }
+
+
     protected override void PostPlaceItem(GameObject newItem) {
         int currentWaveIndex = PLESpawnManager.Instance.CurrentWaveIndex;
         int maxWaveIndex = PLESpawnManager.Instance.MaxWaveIndex;
@@ -146,14 +141,12 @@ public class SpawnMenu : PlacementMenu {
             if (spawn.spawnType==SpawnType.Keira) {
                 PLEUIItem firstAvailable = scrollGroup.TryGetFirstAvailableUIItem();
                 if (firstAvailable) {
-                    selectedSpawnImage.sprite = firstAvailable.imagePreview.sprite;
+                    selectedPreviewImage.sprite = firstAvailable.imagePreview.sprite;
                     scrollGroup.SelectUIItem(firstAvailable.ItemIndex);
                 }
             }
         }
-        SetMenuButtonInteractabilityByState();
-
-        mainPLEMenu.SetMenuButtonInteractabilityByState();        
+        mainPLEMenu.SetMenuButtonInteractabilityByState();
     }
 
     protected override void SelectGameItem(PLEItem selectedItem) {
@@ -185,9 +178,9 @@ public class SpawnMenu : PlacementMenu {
     private void ChangeSpawnAmountInternally(int newAmount) {
         UpdateAmountField(newAmount);
         SetAmountOnSelectedSpawn();
-        levelEditor.levelDataManager.SaveSpawns();
+        levelEditor.levelDataManager.SyncWorkingSpawnData();
         UpdateAvailableField();
-        SetMenuButtonInteractabilityByState();
+        mainPLEMenu.SetMenuButtonInteractabilityByState();
     }
 
 
@@ -195,8 +188,8 @@ public class SpawnMenu : PlacementMenu {
     private void UpdateFields(int spawnAmount, string newName, Sprite iconPreview, bool isAmountEmpty = false) {
         UpdateAmountField(spawnAmount, isAmountEmpty);
         nameText.text = newName;
-        selectedSpawnImage.gameObject.SetActive(iconPreview != null);
-        selectedSpawnImage.sprite = iconPreview;
+        selectedPreviewImage.gameObject.SetActive(iconPreview != null);
+        selectedPreviewImage.sprite = iconPreview;
     }
 
 

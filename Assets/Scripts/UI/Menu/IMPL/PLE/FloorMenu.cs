@@ -20,6 +20,7 @@ public class FloorMenu : PlayerLevelEditorMenu {
     #endregion
 
     #region Serialized Unity Fields
+    [SerializeField] private Button flattenAllButton;
 
     #endregion
 
@@ -30,7 +31,7 @@ public class FloorMenu : PlayerLevelEditorMenu {
 
     #region Public Interface
 
-    public FloorMenu() : base(Strings.MenuStrings.LevelEditor.SET_DYNLEVEL_PLE) { }
+    public FloorMenu() : base(Strings.MenuStrings.LevelEditor.FLOOR_PLE_MENU) { }
 
 
     public void DropFloorAction() {
@@ -45,9 +46,17 @@ public class FloorMenu : PlayerLevelEditorMenu {
         UpdateSelectedAndOpenTilesState(LevelUnitStates.Cover);
     }
 
+    public void FlattenAllTiles() {
+        List<GridTile> allTiles = levelEditor.gridController.GetAllActiveGridTiles();
+        UpdateTiles(allTiles, LevelUnitStates.Floor, true);
+    }
+
     public override void SetMenuButtonInteractabilityByState() {
         bool anyTilesSelected = levelEditor.gridController.AnyTilesSelected();
         allSelectables.ForEach(selectable => { selectable.interactable = anyTilesSelected; });
+
+        bool anyActiveTilesNotFlat = levelEditor.gridController.AnyActiveTilesNotFlat();
+        flattenAllButton.interactable = anyActiveTilesNotFlat;
     }
 
     public override void BackAction()
@@ -83,22 +92,25 @@ public class FloorMenu : PlayerLevelEditorMenu {
     #region Private Interface    
     void UpdateSelectedAndOpenTilesState(LevelUnitStates state) {
         List<GridTile> selectedGridTiles = levelEditor.gridController.GetSelectedGridTiles();
+        UpdateTiles(selectedGridTiles, state, false);
+    }
 
-        if (selectedGridTiles.Count == 0)
+    void UpdateTiles(List<GridTile> tiles, LevelUnitStates state, bool wasToldToChangeColor) {
+        if (tiles.Count == 0)
             return;
 
         int currentWaveIndex = PLESpawnManager.Instance.CurrentWaveIndex;
-        for (int i=0; i<selectedGridTiles.Count; i++) {
-            GridTile tile = selectedGridTiles[i];
+        for (int i = 0; i < tiles.Count; i++) {
+            GridTile tile = tiles[i];
             PLEBlockUnit blockUnit = tile.blockUnit;
             LevelUnit levelUnit = tile.levelUnit;
             if (!blockUnit.HasActiveSpawn) {
                 List<LevelUnitStates> levelUnitStates = blockUnit.GetLevelStates();
                 levelUnitStates[currentWaveIndex] = state;
                 blockUnit.SyncTileHeightStates();
-                levelUnit.TryTransitionToState(state, false);
+                levelUnit.TryTransitionToState(state, wasToldToChangeColor);
             }
         }
-    }    
+    }
     #endregion
 }

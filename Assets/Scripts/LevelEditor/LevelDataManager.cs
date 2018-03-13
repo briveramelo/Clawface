@@ -44,7 +44,7 @@ public class LevelDataManager : MonoBehaviour {
     }    
 
     private IEnumerator DelayLoadOneFrame() {
-        yield return new WaitForEndOfFrame();
+        yield return null;
         LoadEntireLevel();
     }
 
@@ -185,14 +185,14 @@ public class LevelDataManager : MonoBehaviour {
     }
 
     public void SaveLevel() {
-        SaveTiles();
-        SaveProps();
-        SaveSpawns();
-        SaveLevelText();
-        SaveWaveState();
+        SyncWorkingTileData();
+        SyncWorkingPropData();
+        SyncWorkingSpawnData();
+        SyncWorkingLevelText();
+        SyncWorkingWaveState();
         StartCoroutine(TakePictureAndSave());
     }
-    private void SaveTiles() {
+    private void SyncWorkingTileData() {
         WorkingTileData.Clear();
         for (int i = 0; i < tileParent.childCount; i++) {
             Transform tile = tileParent.GetChild(i);
@@ -206,7 +206,7 @@ public class LevelDataManager : MonoBehaviour {
         }
     }
 
-    private void SaveProps() {
+    private void SyncWorkingPropData() {
         //List<string> propNames = Resources.LoadAll<GameObject>(Strings.Editor.ENV_OBJECTS_PATH).Select(item=>item.name).ToList();
         WorkingPropData.Clear();
         for (int i = 0; i < propsParent.childCount; i++) {
@@ -216,28 +216,31 @@ public class LevelDataManager : MonoBehaviour {
             WorkingPropData.Add(propData);
         }
     }
-    public void SaveSpawns() {
+    
+    public void SyncWorkingSpawnData() {
         WorkingWaveData.Clear();
         spawnParent.SortChildrenByName();
 
-        for (int i = 1; i < spawnParent.childCount; i++) {
+        for (int i = 0; i < spawnParent.childCount; i++) {
             Transform waveParent = spawnParent.GetChild(i);
-            int waveChildCount = waveParent.childCount;
-            if (waveChildCount>0) {
+            PLESpawn spawn = waveParent.GetComponent<PLESpawn>();
+            if (spawn != null) {
+                AddSpawnData(waveParent, 0);
+            }
+            else {
+                int waveChildCount = waveParent.childCount;
                 for (int j = 0; j < waveParent.childCount; j++) {
                     Transform spawnUI = waveParent.GetChild(j);
-                    AddSpawnData(spawnUI, i-1);
+                    if (spawnUI) {
+                        AddSpawnData(spawnUI, i-1);
+                    }
                 }
             }
-        }
-
-        if (SpawnMenu.playerSpawnInstance) {
-            Transform keira = spawnParent.GetChild(0);
-            AddSpawnData(keira, 0);
         }
     }
 
     void AddSpawnData(Transform spawnUI, int waveIndex) {
+        waveIndex = Mathf.Max(waveIndex, 0);
         PLESpawn spawn = spawnUI.GetComponent<PLESpawn>();
         int spawnType = (int)spawn.spawnType;
         int spawnCount = spawn.totalSpawnAmount;
@@ -250,12 +253,12 @@ public class LevelDataManager : MonoBehaviour {
         WorkingWaveData[waveIndex].spawnData.Add(spawnData);
     }
 
-    private void SaveLevelText() {
+    private void SyncWorkingLevelText() {
         WorkingLevelData.name = levelName.text;
         WorkingLevelData.description = levelDescription.text;
     }
 
-    private void SaveWaveState() {
+    private void SyncWorkingWaveState() {
         WorkingLevelData.isInfinite = PLESpawnManager.Instance.InfiniteWavesEnabled;
     }
 
@@ -292,6 +295,9 @@ public class LevelDataManager : MonoBehaviour {
     public void TryDeleteLevel(string uniqueName) {
         dataPersister.TryDeleteLevel(uniqueName);
         dataPersister.TrySave();
+        if (SceneTracker.IsCurrentSceneEditor) {
+            mainPLEMenu.SetMenuButtonInteractabilityByState();
+        }
     }
     #endregion
 

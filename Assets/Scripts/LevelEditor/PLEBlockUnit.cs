@@ -143,7 +143,7 @@ public class PLEBlockUnit : MonoBehaviour
         return levelStates[waveIndex];
     }
     public bool IsFlatAtWave(int waveIndex) {
-        return GetStateAtWave(waveIndex) == LevelUnitStates.Floor;
+        return waveIndex < levelStates.Count && GetStateAtWave(waveIndex) == LevelUnitStates.Floor;
     }
 
     public void SetLevelStates(List<LevelUnitStates> newLevelStates) {

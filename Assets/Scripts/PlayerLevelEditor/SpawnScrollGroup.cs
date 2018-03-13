@@ -6,7 +6,7 @@ public class SpawnScrollGroup : ScrollGroup {
     protected override string ResourcesPath { get { return Strings.Editor.SPAWN_OBJECTS_PATH; } }
     DataSave ActiveDataSave { get { return DataPersister.ActiveDataSave; } }
 
-    public virtual void SetSpawnUIInteractability(int currentWave) {
+    public virtual void HandleSpawnUIInteractability(int currentWave) {
         LevelData workingLevelData = ActiveDataSave.workingLevelData;
         pleUIItems.ForEach(item => {
             PLESpawn spawn = item.pleItem as PLESpawn;
@@ -14,13 +14,21 @@ public class SpawnScrollGroup : ScrollGroup {
             bool isInteractable = spawn.MaxPerWave > numberOfSpawns;
             item.ToggleInteractable(isInteractable);
         });
+
+        bool keiraExists = SpawnMenu.playerSpawnInstance != null;
+        KeiraUIItem.ToggleInteractable(!keiraExists);
+
+        PLEUIItem lastItem = GetLastUIItem();
+        if (!lastItem.isInteractable) {
+            placementMenu.TrySelectFirstAvailable();
+        }
     }
 
     public PLEUIItem SelectKeira() {
-        PLEUIItem keiraItem = pleUIItems.Find(item => {
-            return (item.pleItem as PLESpawn).spawnType == SpawnType.Keira;
-        });
+        PLEUIItem keiraItem = KeiraUIItem;
         SelectUIItem(keiraItem.ItemIndex);
         return keiraItem;
     }
+
+    PLEUIItem KeiraUIItem { get { return pleUIItems.Find(item => { return (item.pleItem as PLESpawn).spawnType == SpawnType.Keira; }); } }
 }

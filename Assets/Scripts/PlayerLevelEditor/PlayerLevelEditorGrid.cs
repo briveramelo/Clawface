@@ -104,11 +104,11 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     #endregion
 
     #region Public Interface
+    public List<GridTile> GetAllActiveGridTiles() { return gridTiles.FindAll(tile=>tile.IsActive); }
     public List<GridTile> GetSelectedGridTiles() { return selectedGridTiles; }
     public bool AnyTilesSelected() { return selectedGridTiles.Count > 0; }
-    public bool AnyTilesEnabled() {
-        return gridTiles.Any(tile => tile.IsActive);
-    }
+    public bool AnyTilesActive() { return gridTiles.Any(tile => tile.IsActive); }
+    public bool AnyActiveTilesNotFlat() { return gridTiles.Any(tile => tile.IsActive && !tile.blockUnit.IsFlatAtWave(PLESpawnManager.Instance.CurrentWaveIndex)); }
 
     public void ShowWalls() {
         gridTiles.ForEach(tile => tile.EnableWalls());
@@ -241,7 +241,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         if (!Input.GetKey(KeyCode.LeftAlt) && !Input.GetKey(KeyCode.Z)) {
             if (Input.GetMouseButtonDown(MouseButtons.LEFT) && !Input.GetKey(KeyCode.LeftShift)) {
                 DeselectBlocks();
-                mainPLEMenu.SetMenuButtonInteractabilityByState();
+                mainPLEMenu.SetMenuButtonInteractabilityByState(PLEMenu.FLOOR);
             }
             if (Input.GetMouseButton(MouseButtons.LEFT)) {
                 ReselectPreviouslySelected();
@@ -249,19 +249,18 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
             }
             if (Input.GetMouseButtonUp(MouseButtons.LEFT)) {
                 ToggleLastSelectedObjects(hit);
-            }
-            if (Input.GetMouseButtonUp(MouseButtons.LEFT)) {
+
                 ShowBlocks(hit);
                 ShowWalls();
                 mainPLEMenu.SetMenuButtonInteractabilityByState();
-            }
+            }            
         }
     }
 
     private void HandleDeleteBlockSelection(RaycastHit hit) {
         if (Input.GetMouseButtonDown(MouseButtons.RIGHT)) {
             DeselectBlocks();
-            mainPLEMenu.SetMenuButtonInteractabilityByState();
+            mainPLEMenu.SetMenuButtonInteractabilityByState(PLEMenu.FLOOR);
         }
         if (Input.GetMouseButton(MouseButtons.RIGHT) && !Input.GetKey(KeyCode.LeftAlt) && !Input.GetKey(KeyCode.Z)) {
             DeselectBlocks();

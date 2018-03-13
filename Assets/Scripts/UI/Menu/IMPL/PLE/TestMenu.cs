@@ -56,7 +56,7 @@ public class TestMenu : PlayerLevelEditorMenu
     #region Protected Interface
     protected override void ShowStarted() {
 
-        levelEditor.levelDataManager.SaveSpawns();
+        levelEditor.levelDataManager.SyncWorkingSpawnData();
         ShowWeaponSelectMenu();
 
         //System.Action onExitTestAction = () =>

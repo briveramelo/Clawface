@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class PropsMenu : PlacementMenu
 {
-    public PropsMenu() : base(Strings.MenuStrings.LevelEditor.ADD_PROPS_PLE) { }
+    public PropsMenu() : base(Strings.MenuStrings.LevelEditor.PROPS_PLE_MENU) { }
     #region Public Interface
 
     #endregion

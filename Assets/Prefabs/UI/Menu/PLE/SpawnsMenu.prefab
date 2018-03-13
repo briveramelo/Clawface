@@ -1197,7 +1197,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114296544353745084}
   m_HandleRect: {fileID: 224203359098590320}
   m_Direction: 0
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -1387,17 +1387,15 @@ MonoBehaviour:
   levelEditor: {fileID: 0}
   mainPLEMenu: {fileID: 0}
   allSelectables:
-  - {fileID: 114886305103170984}
-  - {fileID: 114354434934063532}
   - {fileID: 114765267907416354}
-  - {fileID: 114096005273140524}
   - {fileID: 114174096547780390}
+  - {fileID: 114096005273140524}
   createdItemsParent: {fileID: 0}
   scrollGroup: {fileID: 114993998135834030}
-  leftButton: {fileID: 114765267907416354}
-  rightButton: {fileID: 114096005273140524}
+  selectedPreviewImage: {fileID: 114450709907580062}
   highlightColor: {r: 0, g: 0.627451, b: 1, a: 0.778}
-  selectedSpawnImage: {fileID: 114450709907580062}
+  decreaseSpawnCountButton: {fileID: 114765267907416354}
+  increaseSpawnCountButton: {fileID: 114096005273140524}
   amountField: {fileID: 114174096547780390}
   amountAvailable: {fileID: 114444275336845224}
   nameText: {fileID: 114607870920927888}

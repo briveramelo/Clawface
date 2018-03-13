@@ -137,7 +137,7 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
     #region Public Interface
 
     public void SyncLevelData() {
-        editorInstance.levelDataManager.SaveSpawns();
+        editorInstance.levelDataManager.SyncWorkingSpawnData();
         EventSystem.Instance.TriggerEvent(Strings.Events.PLE_SYNC_LEVEL_UNIT_STATES);
     }
 
