@@ -12,6 +12,7 @@ public class InGameUI : MonoBehaviour {
     #region Serialized Unity Inspector Fields
     [Header("OnScreenCombo")]
     [SerializeField] private Text onScreenCombo;
+    [SerializeField] private Image onScreenComboImage;
     [SerializeField] private float comboOnScreenTime = 2.0f;
     [SerializeField] private Image comboTimer;
     [SerializeField] private Animation comboAnimation;
@@ -71,8 +72,8 @@ public class InGameUI : MonoBehaviour {
             EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_FAILED, HideHUD);
             EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_KILLED, HideHUD);
             EventSystem.Instance.RegisterEvent(Strings.Events.WAVE_COMPLETE, ShowWaveText);
-
-
+            EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_STARTED, HideCombo);
+            EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_RESTARTED, HideCombo);
         }
         onScreenCombo.text = "";
         onScreenScoreDelta.text = "";
@@ -100,6 +101,8 @@ public class InGameUI : MonoBehaviour {
             EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_FAILED, HideHUD);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_KILLED, HideHUD);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.WAVE_COMPLETE, ShowWaveText);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_STARTED, HideCombo);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_RESTARTED, HideCombo);
         }
     }
     #endregion
@@ -198,6 +201,7 @@ public class InGameUI : MonoBehaviour {
         if (finalVal == 0f)
         {
             SetAlphaOfText(onScreenCombo, 0.0f);
+            SetAlphaOfImage(onScreenComboImage, 0.0f);
         }
 
 
@@ -229,6 +233,7 @@ public class InGameUI : MonoBehaviour {
     private void UpdateCombo(params object[] currentCombo)
     {
         SetAlphaOfText(onScreenCombo, 1.0f);
+        SetAlphaOfImage(onScreenComboImage, 1.0f);
         if ((int)currentCombo[0] > 0)
         {
             onScreenCombo.text = "x " + currentCombo[0].ToString();
@@ -239,8 +244,15 @@ public class InGameUI : MonoBehaviour {
             if (onScreenCombo.color.a != 0f)
             {
                 SetAlphaOfText(onScreenCombo, 0.0f);
+                SetAlphaOfImage(onScreenComboImage, 0.0f);
             }
         }
+    }
+
+    void HideCombo (params object[] parameters)
+    {
+        SetAlphaOfText(onScreenCombo, 0.0f);
+        SetAlphaOfImage(onScreenComboImage, 0.0f);
     }
 
     private void ShowWaveText(params object[] currentWave)
@@ -263,6 +275,13 @@ public class InGameUI : MonoBehaviour {
     }
 
     private void SetAlphaOfText(Text i_toMod, float i_newAlpha)
+    {
+        Color c = i_toMod.color;
+        c.a = i_newAlpha;
+        i_toMod.color = c;
+    }
+
+    private void SetAlphaOfImage(Image i_toMod, float i_newAlpha)
     {
         Color c = i_toMod.color;
         c.a = i_newAlpha;
