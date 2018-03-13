@@ -350,11 +350,9 @@ public class PlayerStateManager : RoutineRunner {
             {
                 stateVariables.velBody.velocity = Vector3.zero;
 
-                //Force reset all states that are not the new state
-                foreach (IPlayerState state in playerStates)
-                {
-                    state.ResetState();
-                }
+                //Force reset dash state to prevent invincibility
+                dashState.ResetState();
+
                 playerStates.Clear();
                 
             }        
