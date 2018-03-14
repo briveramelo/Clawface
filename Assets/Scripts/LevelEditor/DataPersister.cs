@@ -370,6 +370,7 @@ public class TileData {
     public int tileType;
     public Vector3_S position;
     public List<LevelUnitStates> levelStates = new List<LevelUnitStates>();
+    public Color RiseColor { get { return TileColors.GetColor(tileType); } }
 }
 
 [Serializable] //No enum for prop types?

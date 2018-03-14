@@ -45,6 +45,22 @@ public class FloorMenu : PlayerLevelEditorMenu {
     public void RiseFloorAction() {
         UpdateSelectedAndOpenTilesState(LevelUnitStates.Cover);
     }
+    public void ColorAction(int tileType) {
+        List<GridTile> tiles = levelEditor.gridController.GetSelectedGridTiles();
+        if (tiles.Count == 0)
+            return;
+
+        int currentWaveIndex = PLESpawnManager.Instance.CurrentWaveIndex;
+        Color newColor = TileColors.GetColor(tileType);
+        for (int i = 0; i < tiles.Count; i++) {
+            GridTile tile = tiles[i];
+            PLEBlockUnit blockUnit = tile.blockUnit;
+            if (!blockUnit.HasActiveSpawn) {
+                blockUnit.riseColor = newColor;
+                blockUnit.SyncTileStatesAndColors();
+            }
+        }
+    }
 
     public void FlattenAllTiles() {
         List<GridTile> allTiles = levelEditor.gridController.GetAllActiveGridTiles();
@@ -107,7 +123,7 @@ public class FloorMenu : PlayerLevelEditorMenu {
             if (!blockUnit.HasActiveSpawn) {
                 List<LevelUnitStates> levelUnitStates = blockUnit.GetLevelStates();
                 levelUnitStates[currentWaveIndex] = state;
-                blockUnit.SyncTileHeightStates();
+                blockUnit.SyncTileStatesAndColors();
                 levelUnit.TryTransitionToState(state, wasToldToChangeColor);
             }
         }

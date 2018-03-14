@@ -33,7 +33,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         if (tile != null) {
             tile.isHovered = isHovered;
             Color blockColor = isHovered ? hoverColor : (tile.isSelected ? selectedColor : tile.CurrentTileStateColor);
-            tile.ChangeRealBlockColor(blockColor);
+            tile.SetAlbedoColor(blockColor);
 
             Color? ghostColor = isHovered ? (hoverColor as Color?) : null;
             tile.ChangeHoverGhostColor(ghostColor);
@@ -285,8 +285,8 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         for (int i = 0; i < selectedObjects.Count; i++) {
             GridTile selectedTile = gridTiles.Find(tile => tile.ghostTile == selectedObjects[i]);
             if (selectedTile != null) {
-                selectedTile.IsActive = true;
                 selectedTile.ResetTileHeightAndStates();
+                selectedTile.IsActive = true;
             }
         }
     }
@@ -345,7 +345,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     }
 
     private void SelectTile(GridTile tile, Color selectionColor, bool isSelected) {
-        tile.ChangeRealBlockColor(selectionColor);
+        tile.SetAlbedoColor(selectionColor);
         tile.SetSelected(isSelected);
 
         if (isSelected && !selectedGridTiles.Contains(tile)) {
@@ -433,11 +433,9 @@ public class GridTile {
 
         this.ghostParent = ghostParent;
         this.tileParent = tileParent;
-        meshRenderer = realTile.GetComponent<MeshRenderer>();
         levelUnit = realTile.GetComponent<LevelUnit>();
         blockUnit = realTile.GetComponent<PLEBlockUnit>();
         ghostPreview = ghostTile.GetComponent<PreviewCubeController>();
-        meshRenderer.GetPropertyBlock(propBlock);
         realTile.transform.SetParent(ghostParent);
         ghostTile.transform.SetParent(ghostParent);
 
@@ -448,12 +446,9 @@ public class GridTile {
 
         IsActive = false;
     }
-    public const string BlockColorName = "_AlbedoTint";
 
     Transform ghostParent, tileParent;
-    MeshRenderer meshRenderer;
     PreviewCubeController ghostPreview;
-    MaterialPropertyBlock propBlock = new MaterialPropertyBlock();
     public LevelUnit levelUnit;
     public PLEBlockUnit blockUnit;
     public GameObject realTile;
@@ -471,6 +466,12 @@ public class GridTile {
             if (!isActive) {
                 levelUnit.HideBlockingObject();
             }
+            else {
+                blockUnit.riseColor = TileColors.Green;
+                levelUnit.SetEmissiveColor(TileColors.Green);
+            }
+
+
             realTile.SetActive(isActive);
             ghostTile.SetActive(!isActive);
             Transform newParent = isActive ? tileParent : ghostParent;
@@ -501,12 +502,12 @@ public class GridTile {
     }
 
 
-    public void ChangeRealBlockColor(Color color) {
-        propBlock.SetColor(BlockColorName, color);
-        meshRenderer.SetPropertyBlock(propBlock);
+    public void SetAlbedoColor(Color color) {
+        levelUnit.SetAlbedoColor(color);
     }
     public Color CurrentTileStateColor { get { return levelUnit.CurrentStateColor; } }
     public Color FloorTileStateColor { get { return levelUnit.FlatColor; } }
+    public Color RiseTileColor { get { return levelUnit.RiseColor; } }
     public void SetSelected(bool isSelected) {
         this.isSelected = isSelected;
     }
@@ -532,8 +533,9 @@ public class GridTile {
 
     public void ResetTileHeightAndStates()
     {
-        blockUnit.SyncTileHeightStates();
+        blockUnit.SyncTileStatesAndColors();
         levelUnit.SnapToFloorState();
-        ChangeRealBlockColor(FloorTileStateColor);
+        SetAlbedoColor(FloorTileStateColor);
+        levelUnit.SetEmissiveColor(RiseTileColor);
     }
 }

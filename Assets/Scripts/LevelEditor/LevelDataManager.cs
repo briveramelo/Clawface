@@ -139,7 +139,7 @@ public class LevelDataManager : MonoBehaviour {
             tile.IsActive = true;
             LevelUnit levelUnit = tile.levelUnit;
             PLEBlockUnit blockUnit = tile.blockUnit;
-            blockUnit.SetLevelStates(levelStates);
+            blockUnit.SetLevelStates(levelStates, tileData.RiseColor);
             List<GameObject> props = Physics.OverlapBox(tile.realTile.transform.position, new Vector3(1, 10, 1)).ToList().Where(prop => prop.GetComponent<PLEProp>()).Select(item => item.gameObject).ToList();
 
             if (props.Count > 0) {
@@ -199,7 +199,7 @@ public class LevelDataManager : MonoBehaviour {
             PLEBlockUnit blockUnit = tile.GetComponent<PLEBlockUnit>();
             if (blockUnit) {
                 List<LevelUnitStates> levelStates = blockUnit.GetLevelStates();
-                int tileType = 0; //HOW DO I GET THIS FOR REAL
+                int tileType = blockUnit.TileType;
                 TileData tileData = new TileData(tileType, tile.position, levelStates);
                 WorkingTileData.Add(tileData);
             }
