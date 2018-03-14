@@ -51,6 +51,7 @@ public class MainPLEMenu : PlayerLevelEditorMenu {
         }
     }
 
+
     void InitializeMenuToggles() {        
         menuToggles.Add(new MenuToggle(PLEMenu.FLOOR, floorToggle));
         menuToggles.Add(new MenuToggle(PLEMenu.PROPS, propsToggle));

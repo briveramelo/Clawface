@@ -149,8 +149,8 @@ public class SpawnMenu : PlacementMenu {
         mainPLEMenu.SetMenuButtonInteractabilityByState();
     }
 
-    protected override void SelectGameItem(PLEItem selectedItem) {
-        base.SelectGameItem(selectedItem);
+    protected override void SelectGameItem(PLEItem selectedItem, bool isPickingUp=false) {
+        base.SelectGameItem(selectedItem, isPickingUp);        
         selectedPLEItem = selectedItem;
         selectedPLEItem.Select(highlightColor);
         int spawnAmount = SelectedSpawn.totalSpawnAmount;

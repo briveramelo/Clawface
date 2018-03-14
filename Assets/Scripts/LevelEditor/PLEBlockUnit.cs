@@ -11,7 +11,6 @@ public class PLEBlockUnit : MonoBehaviour
 
     #region Private Fields
 
-    private bool occupied;
     [SerializeField] private int blockID = 0;
     [SerializeField] public Transform spawnTrans;
     [SerializeField] private LevelUnit levelUnit;
@@ -22,11 +21,6 @@ public class PLEBlockUnit : MonoBehaviour
     #endregion
 
     #region Unity Lifecycle
-
-    private void Awake()
-    {
-        occupied = false;
-    }
 
     IEnumerator Start()
     {
@@ -66,16 +60,13 @@ public class PLEBlockUnit : MonoBehaviour
 
 
     #region Public Interface
-
-    public void SetOccupation(bool i_state)
-    {
-        occupied = i_state;
-    }
     public void SetProp(GameObject prop) {
         this.prop = prop;
     }
     public void AddSpawn(GameObject spawn) {
-        spawns.Add(spawn);
+        if (!spawns.Contains(spawn)) {
+            spawns.Add(spawn);
+        }
     }
     public void RemoveSpawn(GameObject spawn) {
         spawns.Remove(spawn);
@@ -111,29 +102,10 @@ public class PLEBlockUnit : MonoBehaviour
         if (prop!=null) {
             Helpers.DestroyProper(prop);
         }
-        SetOccupation(false);
         SyncTileHeightStates();
     }
 
-    public bool IsOccupied()
-    {
-        return occupied;
-    }
-
-    public void SetBlockID(int i_id)
-    {
-        blockID = i_id;
-    }
-
-    public int GetBlockID()
-    {
-        return blockID;
-    }
-
-    public Vector3 GetSpawnPosition()
-    {
-        return spawnTrans.position;
-    }
+    public bool IsOccupied { get { return HasActiveSpawn || prop!=null; } }
 
     public List<LevelUnitStates> GetLevelStates()
     {

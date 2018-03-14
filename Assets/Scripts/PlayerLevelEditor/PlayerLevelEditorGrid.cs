@@ -287,7 +287,6 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
             if (selectedTile != null) {
                 selectedTile.IsActive = true;
                 selectedTile.ResetTileHeightAndStates();
-                selectedTile.blockUnit.SetOccupation(false);
             }
         }
     }

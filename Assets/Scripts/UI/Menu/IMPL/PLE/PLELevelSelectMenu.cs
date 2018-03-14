@@ -276,7 +276,6 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
         if (SceneTracker.IsCurrentSceneEditor)
         {
             levelDataManager.LoadSelectedLevel();
-            mainPLEMenu.SwitchToMenu(PLEMenu.FLOOR);
         }
         else
         {

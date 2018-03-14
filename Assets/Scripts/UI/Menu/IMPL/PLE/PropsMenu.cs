@@ -46,7 +46,6 @@ public class PropsMenu : PlacementMenu
         base.DeselectAllGameItems();
     }
     protected override void PostPlaceItem(GameObject newItem) {
-        MouseHelper.currentBlockUnit.SetOccupation(true);
         MouseHelper.currentBlockUnit.SetProp(newItem);
     }
     protected override void PostSelectUIItemMenuSpecific(GameObject newItem) {
@@ -92,8 +91,8 @@ public class PropsMenu : PlacementMenu
         }
     }
 
-    protected override void SelectGameItem(PLEItem selectedItem) {
-        base.SelectGameItem(selectedItem);        
+    protected override void SelectGameItem(PLEItem selectedItem, bool isPickingUp=false) {
+        base.SelectGameItem(selectedItem, isPickingUp);        
         ApplyRotation(selectedPLEItem.transform.localEulerAngles.y);
         SetMenuButtonInteractabilityByState();
     }

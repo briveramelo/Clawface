@@ -41,9 +41,11 @@ public class LevelDataManager : MonoBehaviour {
     #region Load
     public void LoadSelectedLevel() {
         StartCoroutine(DelayLoadOneFrame());        
-    }    
+    }
 
     private IEnumerator DelayLoadOneFrame() {
+        propsParent.DestroyAllChildren();
+        spawnParent.DestroyAllChildren();
         yield return null;
         LoadEntireLevel();
     }
@@ -70,8 +72,7 @@ public class LevelDataManager : MonoBehaviour {
     }    
 
     private void LoadProps() {
-        List<string> propNames = new List<string>();
-        propsParent.DestroyAllChildren();
+        List<string> propNames = new List<string>();        
         List<GameObject> propPrefabs = Resources.LoadAll<GameObject>(Strings.Editor.ENV_OBJECTS_PATH).ToList();
         for (int i = 0; i < WorkingPropData.Count; i++) {
             PropData propData = WorkingPropData[i];
@@ -94,7 +95,6 @@ public class LevelDataManager : MonoBehaviour {
         List<GameObject> spawnObjects = Resources.LoadAll<GameObject>(Strings.Editor.SPAWN_OBJECTS_PATH).ToList();
         List<PLESpawn> pleSpawns = spawnObjects.Select(spawn => spawn.GetComponent<PLESpawn>()).ToList();
         List<PLESpawn> spawnedPLEs = new List<PLESpawn>();
-        spawnParent.DestroyAllChildren();
         for (int i = 0; i < WorkingWaveData.Count; i++) {
             GameObject waveParent = new GameObject(GetWaveName(i));
             waveParent.transform.SetParent(spawnParent);
@@ -111,7 +111,8 @@ public class LevelDataManager : MonoBehaviour {
                 pleSpawn.spawnType = (SpawnType)spawnData.spawnType;
                 newSpawnTransform.position = spawnData.position.AsVector;
             }
-        }        
+        }
+        
 
         System.Predicate<PLESpawn> keiraSpawn = spawn => spawn.spawnType == SpawnType.Keira;
         if (spawnedPLEs.Exists(keiraSpawn)) {
@@ -142,7 +143,6 @@ public class LevelDataManager : MonoBehaviour {
             List<GameObject> props = Physics.OverlapBox(tile.realTile.transform.position, new Vector3(1, 10, 1)).ToList().Where(prop => prop.GetComponent<PLEProp>()).Select(item => item.gameObject).ToList();
 
             if (props.Count > 0) {
-                blockUnit.SetOccupation(true);
                 blockUnit.SetProp(props[0]);
             }
 
