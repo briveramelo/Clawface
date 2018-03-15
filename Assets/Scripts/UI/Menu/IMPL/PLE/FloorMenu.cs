@@ -55,10 +55,8 @@ public class FloorMenu : PlayerLevelEditorMenu {
         for (int i = 0; i < tiles.Count; i++) {
             GridTile tile = tiles[i];
             PLEBlockUnit blockUnit = tile.blockUnit;
-            if (!blockUnit.HasActiveSpawn) {
-                blockUnit.riseColor = newColor;
-                blockUnit.SyncTileStatesAndColors();
-            }
+            blockUnit.riseColor = newColor;
+            blockUnit.SyncTileStatesAndColors();
         }
     }
 

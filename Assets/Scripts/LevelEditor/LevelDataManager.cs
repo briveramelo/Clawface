@@ -114,6 +114,7 @@ public class LevelDataManager : MonoBehaviour {
                 pleSpawn.minSpawns = minSpawns;
                 pleSpawn.totalSpawnAmount = spawnData.count;
                 pleSpawn.spawnType = (SpawnType)spawnData.spawnType;
+                pleSpawn.tile = levelEditor.gridController.GetTileAtPoint(spawnData.position.AsVector);
                 newSpawnTransform.position = spawnData.position.AsVector;
             }
         }

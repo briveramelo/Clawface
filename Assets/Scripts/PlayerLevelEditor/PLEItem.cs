@@ -15,6 +15,7 @@ public abstract class PLEItem : MonoBehaviour {
             return startColor;
         }
     }
+    public GridTile tile;
     public bool IsSelected { get; private set; }
     protected List<Renderer> Renderers {
         get {

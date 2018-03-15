@@ -148,6 +148,10 @@ public class StageOverMenu : Menu
         MenuManager.Instance.DoTransition(loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
     }
 
+    public void KillAllTransitions() {
+        StopAllCoroutines();
+    }
+
     #endregion
 
     #region Protected Interface
@@ -199,8 +203,7 @@ public class StageOverMenu : Menu
         yield return new WaitForSeconds((float)parameter[0]);
         
         title.text = Strings.TextStrings.STAGE_OVER_TEXT;
-        MenuManager.Instance.DoTransition(Strings.MenuStrings.STAGE_OVER,
-            Menu.Transition.SHOW, new Menu.Effect[] { Menu.Effect.EXCLUSIVE });
+        MenuManager.Instance.DoTransition(this, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
     }
 
     private void LevelCompleteStart(params object[] parameter)
@@ -216,7 +219,7 @@ public class StageOverMenu : Menu
         yield return new WaitForSeconds((float)parameter[0]);
 
         title.text = Strings.TextStrings.GAME_OVER_TEXT;
-        MenuManager.Instance.DoTransition(Strings.MenuStrings.STAGE_OVER, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+        MenuManager.Instance.DoTransition(this, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
     }
 
     private void PlayerDeathStart(params object[] parameter)

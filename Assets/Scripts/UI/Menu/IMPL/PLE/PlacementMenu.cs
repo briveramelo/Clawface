@@ -24,7 +24,7 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
 
     #region Boolean Helpers
     protected virtual bool SelectUI { get { return Input.GetMouseButtonDown(MouseButtons.LEFT); } }
-    protected virtual bool SelectItem { get { return Input.GetMouseButtonDown(MouseButtons.LEFT) && MouseHelper.currentItem!=null && MouseHelper.currentBlockUnit!=null; } }
+    protected virtual bool SelectItem { get { return Input.GetMouseButtonDown(MouseButtons.LEFT) && MouseHelper.currentItem != null && MouseHelper.currentBlockUnit != null; } }
     protected virtual bool DeSelectItem { get { return (Input.GetMouseButtonDown(MouseButtons.LEFT) || Input.GetMouseButtonDown(MouseButtons.RIGHT)) && !MouseHelper.HitUI; } }
     protected bool RightClick { get { return Input.GetMouseButtonDown(MouseButtons.RIGHT); } }
     protected virtual bool Place { get { return Input.GetMouseButtonDown(MouseButtons.LEFT) && selectedItemPrefab != null && MouseHelper.currentBlockUnit != null && !MouseHelper.currentBlockUnit.IsOccupied && MouseHelper.currentBlockUnit.IsFlatAtWave(PLESpawnManager.Instance.CurrentWaveIndex); } }
@@ -71,6 +71,7 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
     protected virtual void RePlaceGameItem() {
         MouseHelper.currentBlockUnit.AddSpawn(selectedPLEItem.gameObject);
         selectedPLEItem.transform.position = MouseHelper.currentBlockUnit.spawnTrans.position;
+        selectedPLEItem.tile = levelEditor.gridController.GetTileAtPoint(MouseHelper.currentBlockUnit.transform.position);
         SelectGameItem(selectedPLEItem);
     }
     protected virtual void CheckToHightlight() {
@@ -117,7 +118,7 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
         selectedItem.Select(highlightColor);
         selectedPLEItem = selectedItem;
         if (isPickingUp) {
-            MouseHelper.currentBlockUnit.RemoveSpawn(selectedItem.gameObject);
+            selectedItem.tile.blockUnit.RemoveSpawn(selectedItem.gameObject);
         }
     }
     protected virtual void DeselectAllGameItems() {
@@ -127,8 +128,9 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
     }
 
     protected virtual void PlaceItem() {
-        GameObject newItem = Instantiate(selectedItemPrefab, createdItemsParent);
+        GameObject newItem = Instantiate(selectedItemPrefab, createdItemsParent);        
         newItem.transform.position = MouseHelper.currentBlockUnit.spawnTrans.position;
+        newItem.GetComponent<PLEItem>().tile = levelEditor.gridController.GetTileAtPoint(MouseHelper.currentBlockUnit.transform.position);
         newItem.name = selectedItemPrefab.name.TryCleanName(Strings.CLONE);
         itemNames.Add(newItem.name);
         PostPlaceItem(newItem);
