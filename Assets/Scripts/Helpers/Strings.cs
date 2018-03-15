@@ -195,6 +195,7 @@
 
         public const string SCORE_UPDATED = "ScoreUpdated";
         public const string COMBO_UPDATED = "ComboUpdated";
+        public const string MULTIPLIER_UPDATED = "MultiplierUpdated";
         public const string COMBO_TIMER_UPDATED = "ComboTimerUpdated";
         public const string PLAYER_HEALTH_MODIFIED = "PlayerHealthModified";
 
