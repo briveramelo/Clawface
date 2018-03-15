@@ -17,7 +17,6 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     private List<GridTile> selectedGridTiles = new List<GridTile>();
 
     private bool inputGuard = false;
-    private bool needsToBuildMesh = false;
     private GridTile currentHoveredTile;
     private GridTile HoveredTile {
         get {
@@ -34,7 +33,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         if (tile != null) {
             tile.isHovered = isHovered;
             Color blockColor = isHovered ? hoverColor : (tile.isSelected ? selectedColor : tile.CurrentTileStateColor);
-            tile.ChangeRealBlockColor(blockColor);
+            tile.SetAlbedoColor(blockColor);
 
             Color? ghostColor = isHovered ? (hoverColor as Color?) : null;
             tile.ChangeHoverGhostColor(ghostColor);
@@ -56,14 +55,14 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     [SerializeField] private Color selectedColor = Color.blue;
     [SerializeField] private Color deletePreviewColor = Color.red;
     [SerializeField] private LevelEditor editorInstance;
+    [SerializeField] private MainPLEMenu mainPLEMenu;
     [SerializeField] private NavMeshSurface levelNav;
 
     #endregion
 
     #region Public Fields
-
+    public int LevelSize { get { return levelSize; } }
     [HideInInspector] public bool displaying = false;
-    private PLEMenu CurrentEditorMenu { get { return editorInstance.currentDisplayedMenu; } }
 
     #endregion
 
@@ -71,14 +70,16 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
 
 
     #region Unity Lifecycle
-    void Start() {
-        Initilaize();
-        EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_STARTED, CheckToBakeMesh);
+    void Awake() {
+        Initialize();
+        EventSystem.Instance.RegisterEvent(Strings.Events.PLE_ON_LEVEL_DATA_LOADED, BakeNavMesh);
+        //EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_RESTARTED, BakeNavMesh);
     }
 
     private void OnDestroy() {
         if (EventSystem.Instance) {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_STARTED, CheckToBakeMesh);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_ON_LEVEL_DATA_LOADED, BakeNavMesh);
+            //EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_RESTARTED, BakeNavMesh);
         }
     }
 
@@ -103,11 +104,11 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     #endregion
 
     #region Public Interface
+    public List<GridTile> GetAllActiveGridTiles() { return gridTiles.FindAll(tile=>tile.IsActive); }
     public List<GridTile> GetSelectedGridTiles() { return selectedGridTiles; }
-
-    public bool AnyTilesEnabled() {
-        return gridTiles.Any(tile => tile.IsActive);
-    }
+    public bool AnyTilesSelected() { return selectedGridTiles.Count > 0; }
+    public bool AnyTilesActive() { return gridTiles.Any(tile => tile.IsActive); }
+    public bool AnyActiveTilesNotFlat() { return gridTiles.Any(tile => tile.IsActive && !tile.blockUnit.IsFlatAtWave(PLESpawnManager.Instance.CurrentWaveIndex)); }
 
     public void ShowWalls() {
         gridTiles.ForEach(tile => tile.EnableWalls());
@@ -129,35 +130,27 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         displaying = show;
         gridTiles.ForEach(tile => { tile.ToggleGhostGlobal(show); });
     }
-
+    public void ResetTileHeightsAndStates() {
+        gridTiles.ForEach(tile => {
+            if (tile.IsActive) {
+                tile.ResetTileHeightAndStates();
+            }
+        });
+    }
     #endregion
 
     #region Private Interface
 
-    public void QueueToBakeNavMesh() {
-        needsToBuildMesh = true;
-    }
-
-
-    private void CheckToBakeMesh(params object[] i_params) {
-        if (needsToBuildMesh) {
-
-            spawnsParent.gameObject.SetActive(false);
-
-            gridTiles.ForEach(tile => {
-                if (tile.IsActive) {
-                    tile.ResetTileHeightAndStates();
-                }
-            });
-            levelNav.BuildNavMesh();
-            spawnsParent.gameObject.SetActive(true);
-            needsToBuildMesh = false;
-        }
+    public void BakeNavMesh(params object[] i_params) {
+        spawnsParent.gameObject.SetActive(false);
+        ResetTileHeightsAndStates();
+        levelNav.BuildNavMesh();
+        spawnsParent.gameObject.SetActive(true);
+        EventSystem.Instance.TriggerEvent(Strings.Events.PLE_ON_LEVEL_READY);
     }
 
     #region Initialization
-    private void Initilaize() {
-        needsToBuildMesh = true;
+    private void Initialize() {
         previewBlock = Resources.Load(Strings.Editor.RESOURCE_PATH + Strings.Editor.BASIC_LE_BLOCK) as GameObject;
         spawnedBlock = Resources.Load(Strings.Editor.RESOURCE_PATH + Strings.Editor.CHERLIN_LVL_BLOCK) as GameObject;
 
@@ -193,7 +186,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     private void HandleGroupGhostSelectionPreview() {
         if (MouseHelper.HitItem) {
             RaycastHit hit = MouseHelper.raycastHit.Value;
-            if (!Input.GetKey(KeyCode.LeftAlt)) {
+            if (!Input.GetKey(KeyCode.LeftAlt) && !Input.GetKey(KeyCode.Z)) {
                 if (Input.GetMouseButton(MouseButtons.LEFT)) {
                     UnhighlightGhostTiles();
                     HighlightGhostTiles(hit);
@@ -203,15 +196,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
         if (Input.GetMouseButtonUp(MouseButtons.LEFT)) {
             UnhighlightGhostTiles();
         }
-    }
-
-    private void TryHoverTile() {
-        if (!Input.GetKey(KeyCode.LeftAlt)){
-            Vector3 blockPosition = MouseHelper.currentHoveredObject != null ? MouseHelper.currentHoveredObject.transform.position : Vector3.one * 10000;
-            GridTile newHoveredRealTile = GetTileAtPoint(blockPosition);
-            HoveredTile = newHoveredRealTile;
-        }
-    }
+    }    
 
     private void UnhighlightGhostTiles() {
         lastHighlightedGhostTiles.ForEach(tile => { tile.ChangeHoverGhostColor(); });
@@ -234,12 +219,18 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
             }
         }
 
-    }    
+    }
     #endregion
 
-
+    private void TryHoverTile() {
+        if (!Input.GetKey(KeyCode.LeftAlt) && !Input.GetKey(KeyCode.Z)) {
+            Vector3 blockPosition = MouseHelper.currentHoveredObject != null ? MouseHelper.currentHoveredObject.transform.position : Vector3.one * 10000;
+            GridTile newHoveredRealTile = GetTileAtPoint(blockPosition);
+            HoveredTile = newHoveredRealTile;
+        }
+    }
     #region Real Tiles Interactions
-    
+
 
     private void HandleBlockSelectionInteractions(RaycastHit hit) {
         HandleSelectingBlocks(hit);
@@ -247,37 +238,40 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     }        
 
     private void HandleSelectingBlocks(RaycastHit hit) {
-        if (Input.GetMouseButtonDown(MouseButtons.LEFT) && !Input.GetKey(KeyCode.LeftShift) && !Input.GetKey(KeyCode.LeftAlt)) {
-            DeselectBlocks();
-        }
-        if (Input.GetMouseButton(MouseButtons.LEFT)) {
-            ReselectPreviouslySelected();
-            SelectBlocks(hit, selectedColor);
-        }
-        if (Input.GetMouseButtonUp(MouseButtons.LEFT) && !Input.GetKey(KeyCode.LeftAlt)) {
-            ToggleLastSelectedObjects(hit);
-        }
-        if (Input.GetMouseButtonUp(MouseButtons.LEFT) && !Input.GetKey(KeyCode.LeftAlt)) {
-            ShowBlocks(hit);
-            ShowWalls();
-            editorInstance.SetMenuButtonInteractability();
+        if (!Input.GetKey(KeyCode.LeftAlt) && !Input.GetKey(KeyCode.Z)) {
+            if (Input.GetMouseButtonDown(MouseButtons.LEFT) && !Input.GetKey(KeyCode.LeftShift)) {
+                DeselectBlocks();
+                mainPLEMenu.SetMenuButtonInteractabilityByState(PLEMenu.FLOOR);
+            }
+            if (Input.GetMouseButton(MouseButtons.LEFT)) {
+                ReselectPreviouslySelected();
+                SelectBlocks(hit, selectedColor);
+            }
+            if (Input.GetMouseButtonUp(MouseButtons.LEFT)) {
+                ToggleLastSelectedObjects(hit);
+
+                ShowBlocks(hit);
+                ShowWalls();
+                mainPLEMenu.SetMenuButtonInteractabilityByState();
+            }            
         }
     }
 
     private void HandleDeleteBlockSelection(RaycastHit hit) {
         if (Input.GetMouseButtonDown(MouseButtons.RIGHT)) {
             DeselectBlocks();
+            mainPLEMenu.SetMenuButtonInteractabilityByState(PLEMenu.FLOOR);
         }
-        if (Input.GetMouseButton(MouseButtons.RIGHT) && !Input.GetKey(KeyCode.LeftAlt)) {
+        if (Input.GetMouseButton(MouseButtons.RIGHT) && !Input.GetKey(KeyCode.LeftAlt) && !Input.GetKey(KeyCode.Z)) {
             DeselectBlocks();
             SelectBlocks(hit, deletePreviewColor);
         }
         if (Input.GetMouseButtonUp(MouseButtons.RIGHT)) {
             DeselectBlocks();
-            if (!Input.GetKey(KeyCode.LeftAlt)) {
+            if (!Input.GetKey(KeyCode.LeftAlt) && !Input.GetKey(KeyCode.Z)) {
                 DeleteBlocks(hit);
                 ShowWalls();
-                editorInstance.SetMenuButtonInteractability();
+                mainPLEMenu.SetMenuButtonInteractabilityByState();
             }
         }
     }
@@ -288,19 +282,12 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     }
 
     private void ShowBlocks(List<GameObject> selectedObjects) {
-        bool queueToRebuild = false;
         for (int i = 0; i < selectedObjects.Count; i++) {
             GridTile selectedTile = gridTiles.Find(tile => tile.ghostTile == selectedObjects[i]);
             if (selectedTile != null) {
-                selectedTile.IsActive = true;
                 selectedTile.ResetTileHeightAndStates();
-                selectedTile.ChangeRealBlockColor(selectedTile.CurrentTileStateColor);
-                selectedTile.blockUnit.SetOccupation(false);
-                queueToRebuild = true;
+                selectedTile.IsActive = true;
             }
-        }
-        if (queueToRebuild) {
-            QueueToBakeNavMesh();
         }
     }
 
@@ -310,17 +297,12 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     }
 
     private void DeleteBlocks(List<GameObject> selectedObjects) {
-        bool queueToRebuild = false;
         for (int i = 0; i < selectedObjects.Count; i++) {
             GridTile selectedTile = gridTiles.Find(tile => tile.realTile == selectedObjects[i]);
             if (selectedTile != null) {
                 selectedTile.IsActive = false;
                 selectedTile.blockUnit.ClearItems();
-                queueToRebuild = true;
             }
-        }
-        if (queueToRebuild) {
-            QueueToBakeNavMesh();
         }
     }
 
@@ -363,7 +345,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     }
 
     private void SelectTile(GridTile tile, Color selectionColor, bool isSelected) {
-        tile.ChangeRealBlockColor(selectionColor);
+        tile.SetAlbedoColor(selectionColor);
         tile.SetSelected(isSelected);
 
         if (isSelected && !selectedGridTiles.Contains(tile)) {
@@ -451,11 +433,9 @@ public class GridTile {
 
         this.ghostParent = ghostParent;
         this.tileParent = tileParent;
-        meshRenderer = realTile.GetComponent<MeshRenderer>();
         levelUnit = realTile.GetComponent<LevelUnit>();
         blockUnit = realTile.GetComponent<PLEBlockUnit>();
         ghostPreview = ghostTile.GetComponent<PreviewCubeController>();
-        meshRenderer.GetPropertyBlock(propBlock);
         realTile.transform.SetParent(ghostParent);
         ghostTile.transform.SetParent(ghostParent);
 
@@ -466,12 +446,9 @@ public class GridTile {
 
         IsActive = false;
     }
-    public const string BlockColorName = "_AlbedoTint";
 
     Transform ghostParent, tileParent;
-    MeshRenderer meshRenderer;
     PreviewCubeController ghostPreview;
-    MaterialPropertyBlock propBlock = new MaterialPropertyBlock();
     public LevelUnit levelUnit;
     public PLEBlockUnit blockUnit;
     public GameObject realTile;
@@ -489,6 +466,12 @@ public class GridTile {
             if (!isActive) {
                 levelUnit.HideBlockingObject();
             }
+            else {
+                blockUnit.riseColor = TileColors.Green;
+                levelUnit.SetEmissiveColor(TileColors.Green);
+            }
+
+
             realTile.SetActive(isActive);
             ghostTile.SetActive(!isActive);
             Transform newParent = isActive ? tileParent : ghostParent;
@@ -519,11 +502,12 @@ public class GridTile {
     }
 
 
-    public void ChangeRealBlockColor(Color color) {
-        propBlock.SetColor(BlockColorName, color);
-        meshRenderer.SetPropertyBlock(propBlock);
+    public void SetAlbedoColor(Color color) {
+        levelUnit.SetAlbedoColor(color);
     }
     public Color CurrentTileStateColor { get { return levelUnit.CurrentStateColor; } }
+    public Color FloorTileStateColor { get { return levelUnit.FlatColor; } }
+    public Color RiseTileColor { get { return levelUnit.RiseColor; } }
     public void SetSelected(bool isSelected) {
         this.isSelected = isSelected;
     }
@@ -549,9 +533,9 @@ public class GridTile {
 
     public void ResetTileHeightAndStates()
     {
-        realTile.transform.position = realTile.transform.position.NoY();
-        blockUnit.SyncTileHeightStates();
-        levelUnit.HideBlockingObject();
-        ChangeRealBlockColor(CurrentTileStateColor);
+        blockUnit.SyncTileStatesAndColors();
+        levelUnit.SnapToFloorState();
+        SetAlbedoColor(FloorTileStateColor);
+        levelUnit.SetEmissiveColor(RiseTileColor);
     }
 }

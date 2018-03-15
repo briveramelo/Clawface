@@ -19,6 +19,10 @@ public class MainMenu : Menu
     #region Public Interface
 
     public MainMenu() : base(Strings.MenuStrings.MAIN) {}
+    protected override void ShowStarted() {
+        base.ShowStarted();        
+    }
+
 
     //// Actions used by Buttons on this Menu
     public void StartAction()
@@ -41,7 +45,6 @@ public class MainMenu : Menu
         Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
         LoadMenu loadMenu = menu as LoadMenu;
         loadMenu.SetNavigation(Strings.Scenes.ScenePaths.Editor);
-        loadMenu.Fast = true;
 
         MenuManager.Instance.DoTransition(loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
     }

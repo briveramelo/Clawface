@@ -13,29 +13,29 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
 
     [SerializeField] protected Transform createdItemsParent;
     [SerializeField] protected ScrollGroup scrollGroup;
-    [SerializeField] protected Selectable leftButton, rightButton;
+    [SerializeField] protected Image selectedPreviewImage;
+    [SerializeField] protected Color highlightColor;
 
+    protected PLEItem lastHoveredItem;
     protected PLEItem selectedPLEItem;
-    protected List<Selectable> selectables = new List<Selectable>();
     protected GameObject selectedItemPrefab = null;
     protected GameObject previewItem = null;
     protected List<string> itemNames = new List<string>();
 
     #region Boolean Helpers
     protected virtual bool SelectUI { get { return Input.GetMouseButtonDown(MouseButtons.LEFT); } }
-    protected virtual bool SelectItem { get { return Input.GetMouseButtonDown(MouseButtons.LEFT) && MouseHelper.HitItem; } }
+    protected virtual bool SelectItem { get { return Input.GetMouseButtonDown(MouseButtons.LEFT) && MouseHelper.currentItem != null && MouseHelper.currentBlockUnit != null; } }
     protected virtual bool DeSelectItem { get { return (Input.GetMouseButtonDown(MouseButtons.LEFT) || Input.GetMouseButtonDown(MouseButtons.RIGHT)) && !MouseHelper.HitUI; } }
     protected bool RightClick { get { return Input.GetMouseButtonDown(MouseButtons.RIGHT); } }
-    protected virtual bool Place { get { return Input.GetMouseButtonDown(MouseButtons.LEFT) && selectedItemPrefab != null && MouseHelper.currentBlockUnit != null && !MouseHelper.currentBlockUnit.IsOccupied() && MouseHelper.currentBlockUnit.IsFlatAtWave(PLESpawnManager.Instance.CurrentWaveIndex); } }
-    protected virtual bool UpdatePreview { get { return previewItem != null && MouseHelper.currentBlockUnit != null && !MouseHelper.currentBlockUnit.IsOccupied() && MouseHelper.currentBlockUnit.IsFlatAtWave(PLESpawnManager.Instance.CurrentWaveIndex); } }
-    protected virtual bool CanDeletedHoveredItem { get { return MouseHelper.currentHoveredObject && itemNames.Contains(MouseHelper.currentHoveredObject.name); } }
+    protected virtual bool Place { get { return Input.GetMouseButtonDown(MouseButtons.LEFT) && selectedItemPrefab != null && MouseHelper.currentBlockUnit != null && !MouseHelper.currentBlockUnit.IsOccupied && MouseHelper.currentBlockUnit.IsFlatAtWave(PLESpawnManager.Instance.CurrentWaveIndex); } }
+    protected virtual bool IsCurrentTileAvailable { get { return MouseHelper.currentBlockUnit != null && !MouseHelper.currentBlockUnit.IsOccupied && MouseHelper.currentBlockUnit.IsFlatAtWave(PLESpawnManager.Instance.CurrentWaveIndex); } }
+    protected virtual bool UpdatePreview { get { return previewItem != null && IsCurrentTileAvailable; } }
+    protected virtual bool UpdateGameItem { get { return selectedPLEItem != null && Input.GetMouseButton(MouseButtons.LEFT) && IsCurrentTileAvailable; } }
+    protected virtual bool ReplaceGameItem { get { return selectedPLEItem != null && Input.GetMouseButtonUp(MouseButtons.LEFT) && IsCurrentTileAvailable; } }
+    protected virtual bool CanDeleteHoveredItem { get { return Input.GetMouseButtonDown(MouseButtons.RIGHT) && MouseHelper.currentHoveredObject!=null && itemNames.Contains(MouseHelper.currentHoveredObject.name); } }
     #endregion
 
     #region Unity Lifecycle
-
-    protected virtual void Awake() {
-        InitializeSelectables();
-    }
     protected override void Update() {
         base.Update();
         if (allowInput) {
@@ -43,24 +43,50 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
                 PlaceItem();
             }
             else if (SelectItem) {
-                SelectGameItem();
+                SelectGameItem(MouseHelper.currentItem, true);
             }
             else if (DeSelectItem) {
                 bool deletedPreviewItem = DeselectUIItem();
                 DeselectItem();
-                if (!deletedPreviewItem && CanDeletedHoveredItem) {
+                if (!deletedPreviewItem && CanDeleteHoveredItem) {
                     DeleteHoveredItem();
                 }
             }
             else if (UpdatePreview) {
                 UpdatePreviewPosition();
             }
+            else if (UpdateGameItem) {
+                UpdateSelectedPLEItemPosition();
+            }
+            else if (ReplaceGameItem) {
+                RePlaceGameItem();
+            }
+
+            CheckToHightlight();
         }
     }
     #endregion
 
     #region Protected Interface
-    public virtual void TrySelectUIItem(PLEUIItem item) {
+    protected virtual void RePlaceGameItem() {
+        MouseHelper.currentBlockUnit.AddSpawn(selectedPLEItem.gameObject);
+        selectedPLEItem.transform.position = MouseHelper.currentBlockUnit.spawnTrans.position;
+        selectedPLEItem.tile = levelEditor.gridController.GetTileAtPoint(MouseHelper.currentBlockUnit.transform.position);
+        SelectGameItem(selectedPLEItem);
+    }
+    protected virtual void CheckToHightlight() {
+        if (previewItem==null && !(selectedPLEItem != null && Input.GetMouseButton(MouseButtons.LEFT))) {
+            PLEItem currentItem = MouseHelper.currentItem;
+            if (lastHoveredItem != null && (lastHoveredItem != currentItem || currentItem == null)) {
+                lastHoveredItem.TryUnHighlight();
+            }
+            if (currentItem != null) {
+                currentItem.TryHighlight(highlightColor);
+            }
+            lastHoveredItem = currentItem;
+        }
+    }
+    public virtual void PostSelectUIItem(PLEUIItem item) {
         if (allowInput) {
             if (item.isInteractable) {
                 DeselectItem();
@@ -69,25 +95,31 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
                 previewItem = Instantiate(selectedItemPrefab);
                 previewItem.name = previewItem.name.TryCleanName(Strings.CLONE);
                 previewItem.name += Strings.PREVIEW;
-                PostOnSelectUIItem(previewItem);
+                previewItem.GetComponent<PLEItem>().TryHighlight(highlightColor);
+                PostSelectUIItemMenuSpecific(previewItem);
             }
             else {
-                scrollGroup.DeselectAll();
+                scrollGroup.DeselectAllUIItems();
             }
         }
     }
-    protected virtual void PostOnSelectUIItem(GameObject newItem) { }
+    protected virtual void PostSelectUIItemMenuSpecific(GameObject newItem) { }
     protected virtual void DeselectItem() {
         if (selectedPLEItem != null) {
             selectedPLEItem.Deselect();
             selectedPLEItem = null;
         }
-        SetInteractabilityByState();
+        SetMenuButtonInteractabilityByState();
     }
 
-    protected virtual void SelectGameItem() {
+    protected virtual void SelectGameItem(PLEItem selectedItem, bool isPickingUp=false) {
         DeselectUIItem();
         DeselectAllGameItems();
+        selectedItem.Select(highlightColor);
+        selectedPLEItem = selectedItem;
+        if (isPickingUp) {
+            selectedItem.tile.blockUnit.RemoveSpawn(selectedItem.gameObject);
+        }
     }
     protected virtual void DeselectAllGameItems() {
         List<PLEItem> items = createdItemsParent.GetComponentsInChildren<PLEItem>().ToList();
@@ -96,16 +128,17 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
     }
 
     protected virtual void PlaceItem() {
-        GameObject newItem = Instantiate(selectedItemPrefab, createdItemsParent);
+        GameObject newItem = Instantiate(selectedItemPrefab, createdItemsParent);        
         newItem.transform.position = MouseHelper.currentBlockUnit.spawnTrans.position;
+        newItem.GetComponent<PLEItem>().tile = levelEditor.gridController.GetTileAtPoint(MouseHelper.currentBlockUnit.transform.position);
         newItem.name = selectedItemPrefab.name.TryCleanName(Strings.CLONE);
         itemNames.Add(newItem.name);
         PostPlaceItem(newItem);
     }
     protected virtual void PostPlaceItem(GameObject newItem) { }
 
-    protected bool DeselectUIItem() {
-        scrollGroup.DeselectAll();
+    protected virtual bool DeselectUIItem() {
+        scrollGroup.DeselectAllUIItems();
         selectedItemPrefab = null;
         return TryDestroyPreview();
     }
@@ -113,9 +146,11 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
     protected virtual void UpdatePreviewPosition() {
         previewItem.transform.position = MouseHelper.currentBlockUnit.spawnTrans.position;
     }
+    protected virtual void UpdateSelectedPLEItemPosition() {
+        selectedPLEItem.transform.position = MouseHelper.currentBlockUnit.spawnTrans.position;
+    }
 
     protected virtual void DeleteHoveredItem() {
-        MouseHelper.currentBlockUnit.SetOccupation(false);
         itemNames.Remove(MouseHelper.currentHoveredObject.name);
         Helpers.DestroyProper(MouseHelper.currentHoveredObject);
     }
@@ -137,7 +172,6 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
 
     protected override void ShowStarted() {
         base.ShowStarted();
-        ForceInteractability(false);
     }
     protected override void ShowComplete() {
         base.ShowComplete();
@@ -149,16 +183,13 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
         TryDestroyPreview();
     }
 
-    protected virtual void InitializeSelectables() {
-        selectables.Add(leftButton);
-        selectables.Add(rightButton);
+    public virtual void TrySelectFirstAvailable() {
+        PLEUIItem firstAvailable = scrollGroup.TryGetFirstAvailableUIItem();
+        if (firstAvailable) {
+            selectedPreviewImage.sprite = firstAvailable.imagePreview.sprite;
+            scrollGroup.SelectUIItem(firstAvailable.ItemIndex);
+        }
     }
-
-    protected virtual void ForceInteractability(bool isInteractable) {
-        selectables.ForEach(selectable => { selectable.interactable = isInteractable; });
-    }
-    protected abstract void SetInteractabilityByState();
-
     #endregion
 
     #region Private Interface

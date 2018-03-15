@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class PropsMenu : PlacementMenu
 {
-    public PropsMenu() : base(Strings.MenuStrings.LevelEditor.ADD_PROPS_PLE) { }
+    public PropsMenu() : base(Strings.MenuStrings.LevelEditor.PROPS_PLE_MENU) { }
     #region Public Interface
 
     #endregion
@@ -40,16 +40,15 @@ public class PropsMenu : PlacementMenu
     #region Protected Interface
     protected override bool SelectUI { get { return base.SelectUI && ScrollGroupHelper.currentUIItem !=null; } }
     protected override bool SelectItem { get { return base.SelectItem && MouseHelper.currentProp != null; } }
-    protected override bool CanDeletedHoveredItem { get { return base.CanDeletedHoveredItem && MouseHelper.currentProp; } }
+    protected override bool CanDeleteHoveredItem { get { return base.CanDeleteHoveredItem && MouseHelper.currentProp; } }
 
     protected override void DeselectAllGameItems() {
         base.DeselectAllGameItems();
     }
     protected override void PostPlaceItem(GameObject newItem) {
-        MouseHelper.currentBlockUnit.SetOccupation(true);
         MouseHelper.currentBlockUnit.SetProp(newItem);
     }
-    protected override void PostOnSelectUIItem(GameObject newItem) {
+    protected override void PostSelectUIItemMenuSpecific(GameObject newItem) {
         ApplyRotation(newItem.transform, 0f);
     }
 
@@ -58,7 +57,7 @@ public class PropsMenu : PlacementMenu
     }
     protected override void ShowStarted() {
         base.ShowStarted();
-        TrySelectUIItem(scrollGroup.GetLastUIItem());
+        scrollGroup.SelectLastSelectedUIItem();
         ApplyRotation(0);
     }
     protected override void ShowComplete() {
@@ -68,10 +67,6 @@ public class PropsMenu : PlacementMenu
     {
         base.UpdatePreviewPosition();
         previewItem.transform.localEulerAngles = new Vector3(0, CurrentRotation, 0);
-    }
-    protected override void SetInteractabilityByState() {
-        bool isItemSelected = selectedPLEItem != null;
-        selectables.ForEach(selectable => { selectable.interactable = isItemSelected; });
     }
     #endregion
 
@@ -96,15 +91,18 @@ public class PropsMenu : PlacementMenu
         }
     }
 
-    protected override void SelectGameItem() {
-        base.SelectGameItem();
-        MouseHelper.currentProp.Select();
-        selectedPLEItem = MouseHelper.currentProp;
+    protected override void SelectGameItem(PLEItem selectedItem, bool isPickingUp=false) {
+        base.SelectGameItem(selectedItem, isPickingUp);        
         ApplyRotation(selectedPLEItem.transform.localEulerAngles.y);
-        SetInteractabilityByState();
+        SetMenuButtonInteractabilityByState();
     }
     protected override void DeselectItem() {
         base.DeselectItem();
+    }
+
+    public override void SetMenuButtonInteractabilityByState() {
+        bool isItemSelected = selectedPLEItem != null;
+        allSelectables.ForEach(selectable => { selectable.interactable = isItemSelected; });
     }
     #endregion
 }

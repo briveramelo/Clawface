@@ -5,6 +5,7 @@ using UnityEngine;
 public class ObjectPoolItem : MonoBehaviour {
 
     Transform myParent;
+
     public void SetParent(Transform newParent) {
         myParent = newParent;
     }
@@ -15,6 +16,7 @@ public class ObjectPoolItem : MonoBehaviour {
     private void OnEnable() {
         if (myParent!=null) {
             ResetParent();
+            transform.SetAsLastSibling();
         }
     }    
 }

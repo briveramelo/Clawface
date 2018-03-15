@@ -14,12 +14,13 @@ public class PLESpawn : PLEItem {
     private float spawnHeightOffset = 50.0f;
     private List<GameObject> spawnedEnemies = new List<GameObject>();
     
-    private Vector3 actualSpawnPos;
-    private Action onAllEnemiesDead;
+    private Vector3 ActualSpawnPos { get { return transform.position + Vector3.up * spawnHeightOffset; } }
+    private Action onCriticalEnemiesDead;
     #endregion
     
     #region Public Fields
     [HideInInspector] public int registeredWave = -99;
+    [HideInInspector] public bool minEnemiesDead = false;
     [HideInInspector] public bool allEnemiesDead = false;
     #endregion
 
@@ -27,53 +28,50 @@ public class PLESpawn : PLEItem {
     public float spawnFrequency = 0.5f;
     public int totalSpawnAmount = 1;
     public SpawnType spawnType;
+    public int minSpawns;
+    public int MinSpawns { get { return minSpawns; } set { FindObjectsOfType<PLESpawn>().ToList().FindAll(spawn => spawn.spawnType == this.spawnType).ForEach(spawn => spawn.minSpawns = value); } }
     public string DisplayName { get { return spawnType.DisplayName(); } }
     public int MaxPerWave { get { return spawnType.MaxPerWave(); } }
     #endregion
     protected override string ColorTint { get { return "_Color"; } }
     #region Unity Lifecycle    
 
-    private void OnEnable()
-    {
-        EventSystem.Instance.RegisterEvent(Strings.Events.PLE_TEST_END, Reset);               
+    protected override void Start() {
+        base.Start();
+        EventSystem.Instance.RegisterEvent(Strings.Events.PLE_TEST_END, ResetSpawnValues);               
     }
 
-    private void OnDisable()
-    {
-        if(EventSystem.Instance)
-        {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_TEST_END, Reset);
+    private void OnDestroy() {
+        if (EventSystem.Instance) {
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_TEST_END, ResetSpawnValues);
         }
     }
-
-    protected override void Start()
-    {
-        base.Start();
-        Reset();
-        actualSpawnPos = new Vector3(0, transform.position.y + spawnHeightOffset, 0);
-        actualSpawnPos = transform.TransformPoint(actualSpawnPos);
-    }
-
     #endregion
 
     #region Public Interface
-    public void SetOnAllEnemiesDead(Action onAllEnemiesDead) {
-        this.onAllEnemiesDead = onAllEnemiesDead;
+    public bool MinEnemiesDead { get { return minEnemiesDead || spawnType == SpawnType.Keira; } }
+    public bool AllEnemiesDead { get { return allEnemiesDead || spawnType == SpawnType.Keira; } }
+    public void SetOnCriticalEnemiesDead(Action onCriticalEnemiesDead) {
+        this.onCriticalEnemiesDead = onCriticalEnemiesDead;
     }
 
     public void StartSpawning()
     {
+        minEnemiesDead = false;
+        allEnemiesDead = false;
+        EnableAllMeshes(false);
+        currentSpawnAmount = totalSpawnAmount;
+
         if (spawnType != SpawnType.Keira) {
             StartCoroutine(SpawnEnemies());
         }
         else {
-            gameObject.AddComponent<PlayerSpawner>();
+            PlayerSpawner spawner = gameObject.GetComponent<PlayerSpawner>();
+            if (spawner==null) {
+                gameObject.AddComponent<PlayerSpawner>();
+            }
+            gameObject.SetActive(true);
         }
-    }
-
-    public SpawnData GetSpawnData()
-    {
-        return new SpawnData((int)spawnType, totalSpawnAmount, actualSpawnPos);
     }
 
     #endregion
@@ -89,10 +87,7 @@ public class PLESpawn : PLEItem {
     }
 
     private IEnumerator SpawnEnemies()
-    {
-        allEnemiesDead = false;
-        Renderers.ForEach(renderer=> renderer.enabled = false);
-        currentSpawnAmount = totalSpawnAmount;
+    {        
         for (int i = 0; i < totalSpawnAmount; i++)
         {
             GameObject newSpawnEffect = ObjectPool.Instance.GetObject(PoolObjectType.VFXEnemySpawn);
@@ -113,7 +108,7 @@ public class PLESpawn : PLEItem {
                 
         if(newSpawnObj)
         {
-            newSpawnObj.transform.position = actualSpawnPos;
+            newSpawnObj.transform.position = ActualSpawnPos;
             ISpawnable spawnable = newSpawnObj.GetComponentInChildren<ISpawnable>();
             if(!spawnable.HasWillBeenWritten())
             {
@@ -124,7 +119,7 @@ public class PLESpawn : PLEItem {
 
             if(enemyBase)
             {
-                enemyBase.SpawnWithRagdoll(actualSpawnPos);
+                enemyBase.SpawnWithRagdoll(ActualSpawnPos);
             }
 
             EventSystem.Instance.TriggerEvent(Strings.Events.ENEMY_SPAWNED, newSpawnObj);
@@ -132,8 +127,6 @@ public class PLESpawn : PLEItem {
         }
         else
         {
-            //TODO THIS WILL BREAK, IMPLEMENT MAX NUMBER
-            //ERROR PENDING
             OnEnemyDeath();
             Debug.LogFormat("<color=#ffff00>" + "NOT ENOUGH SPAWN-OBJECTS for: " + spawnType + "</color>");
         }
@@ -141,27 +134,41 @@ public class PLESpawn : PLEItem {
 
     private void OnEnemyDeath() {
         currentSpawnAmount--;
-        if (currentSpawnAmount <= 0) {
-            allEnemiesDead = true;
-            if (onAllEnemiesDead != null)
-            {
-                onAllEnemiesDead();
+        if (currentSpawnAmount <= MinSpawns) {
+            minEnemiesDead = true;
+            if (currentSpawnAmount<=0) {
+                allEnemiesDead = true;
+            }
+
+            if (onCriticalEnemiesDead != null) {
+                onCriticalEnemiesDead();
             }
         }
     }
-    private void Reset(params object[] parameters)
+    
+    private void ResetSpawnValues(params object[] parameters)
     {
         StopAllCoroutines();
+        minEnemiesDead = false;
         allEnemiesDead = false;
         currentSpawnAmount = totalSpawnAmount;
+        Deselect();
+        EnableAllMeshes(true);
+        PlayerSpawner keiraSpawner = GetComponent<PlayerSpawner>();
+        if (keiraSpawner!=null) {
+            Destroy(keiraSpawner);
+        }
+    }
+
+    void EnableAllMeshes(bool isEnabled) {
         Renderers.ForEach(renderer => {
-            renderer.enabled = true;
+            renderer.enabled = isEnabled;
             SkinnedMeshRenderer meshRenderer = renderer as SkinnedMeshRenderer;
-            if (meshRenderer!=null) {
-                //meshRenderer.updateWhenOffscreen = true;
+            if (meshRenderer != null) {
+                meshRenderer.updateWhenOffscreen = isEnabled;
             }
         });
-    }    
+    }
 
     #endregion
 

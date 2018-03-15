@@ -6,6 +6,11 @@ using System;
 using UnityEngine.UI;
 namespace ModMan {
 
+    public static class BoolExtensions {
+        public static int ToInt(this bool myBool) {
+            return myBool ? 1 : -1;
+        }
+    }
     public static class StringExtension
     {
         public static string DisplayName(this SpawnType spawn) {
@@ -100,6 +105,11 @@ namespace ModMan {
         }
     }
     public static class ListExtensions {
+
+        public static void MoveToBack<T>(this List<T> list, T item) {
+            list.Remove(item);
+            list.Add(item);
+        }
         public static void AddUntil<T>(this List<T> list, int index) {
             while (list.Count <= index) {
                 list.Add(default(T));

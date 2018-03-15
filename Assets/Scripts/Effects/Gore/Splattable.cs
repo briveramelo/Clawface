@@ -23,6 +23,15 @@ public class Splattable : MonoBehaviour
             paintMask = value;
         }
     }
+    public Texture2D RenderMask {
+        get {
+            return renderMask;
+        }
+        set {
+            renderMask = value;
+            UpdatePropertyBlock();
+        }
+    }
 
     #endregion
 
@@ -91,10 +100,7 @@ public class Splattable : MonoBehaviour
             propBlock = new MaterialPropertyBlock();
             myRenderer = GetComponent<Renderer>();
 
-            myRenderer.GetPropertyBlock(propBlock);
-            propBlock.SetTexture("_SplatMap", splatMap);
-            propBlock.SetTexture("_RenderMask", renderMask);
-            myRenderer.SetPropertyBlock(propBlock);
+            UpdatePropertyBlock();
 
             // Set Up Queuing System
             splatsToRender = new Queue<QueuedSplat>();
@@ -262,6 +268,13 @@ public class Splattable : MonoBehaviour
     {
         yield return new WaitForSeconds(1F / toQueue.splatData.FPS);
         splatsToRender.Enqueue(toQueue);
+    }
+
+    private void UpdatePropertyBlock() {
+        myRenderer.GetPropertyBlock(propBlock);
+        propBlock.SetTexture("_SplatMap", splatMap);
+        propBlock.SetTexture("_RenderMask", renderMask);
+        myRenderer.SetPropertyBlock(propBlock);
     }
 
     #endregion

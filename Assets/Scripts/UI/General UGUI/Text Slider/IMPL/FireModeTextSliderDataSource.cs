@@ -16,7 +16,7 @@ public class FireModeTextSliderDataSource : TextSliderDataSource {
                 case FireMode.SINGLE_TRIGGER:
                     return "SINGLE TRIGGER";
                 case FireMode.AUTOFIRE:
-                    return "AUTOFIRE";
+                    return "AUTOMATIC";
                 case FireMode.MANUAL:
                     return "MANUAL";
                 default:
@@ -66,6 +66,7 @@ public class FireModeTextSliderDataSource : TextSliderDataSource {
     public override void ForceUpdate()
     {
         mode = SettingsManager.Instance.FireMode;
+        base.ForceUpdate();
     }
 
     #endregion

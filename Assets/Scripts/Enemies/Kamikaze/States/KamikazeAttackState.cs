@@ -56,6 +56,7 @@ public class KamikazeAttackState : AIState {
         {
             controller.UpdateState(EAIState.Stun);
             controller.DeActivateAI();
+            StopCoroutines();
         }
         else if (Vector3.Distance(controller.transform.position, controller.AttackTarget.transform.position) < blastRadius * 0.5f)
         {

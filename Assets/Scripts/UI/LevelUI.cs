@@ -11,12 +11,13 @@ public class LevelUI : ClickableBase, IUIGroupable {
 
     [SerializeField] private ColorChangingUI colorChangingUI;
     [SerializeField] private Image favoriteIcon;
+    [SerializeField] private Image outline;
 
     private PLELevelSelectMenu menu;
     public int LevelIndex { get; private set; }
     private const int imageWidth = 225;
     private const int imageHeight = 225;
-    private static readonly Vector2 imageDimensions = new Vector2(imageWidth, imageHeight);
+    private static readonly Vector2 imageDimensions = new Vector2(imageWidth, imageHeight);    
 
     public void Initialize(PLELevelSelectMenu menu, LevelData levelData, int levelIndex, bool isHathosLevel=false) {
         this.menu = menu;
@@ -41,4 +42,8 @@ public class LevelUI : ClickableBase, IUIGroupable {
     public void OnGroupSelectChanged(int selectedIndex) {
         colorChangingUI.OnGroupSelectChanged(selectedIndex);
     }
+    public void ScaleLevelUISize(float scaleMutliplier) {
+        transform.localScale = Vector3.one * scaleMutliplier;
+    }
+    public float CurrentScale { get { return outline.transform.localScale.x; } }
 }

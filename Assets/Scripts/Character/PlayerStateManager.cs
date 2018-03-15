@@ -8,6 +8,7 @@ using MEC;
 public class PlayerStateManager : RoutineRunner {
 
     #region Public fields
+    public static GameObject keiraRootGameObject;
     public StateVariables stateVariables;
     #endregion
 
@@ -61,6 +62,7 @@ public class PlayerStateManager : RoutineRunner {
 
     // Use this for initialization
     void Start () {
+        keiraRootGameObject = transform.root.gameObject;
         stateChanged = false;
         stateVariables.stateFinished = true;
         stateVariables.playerTransform = transform;
@@ -229,7 +231,7 @@ public class PlayerStateManager : RoutineRunner {
 
                     if (state)
                     {
-                        StartTutorial();
+                        StartEatTutorial();
                     }
                 }
             }
@@ -251,9 +253,9 @@ public class PlayerStateManager : RoutineRunner {
         eatingState.Init(ref stateVariables);
     }
 
-    private void StartTutorial()
+    private void StartEatTutorial()
     {
-        if (SettingsManager.Instance.Tutorial && !isTutorialDone && !isInTutorial)
+        if (SettingsManager.Instance.Tutorial && !isTutorialDone && !isInTutorial && SceneTracker.IsCurrentScene80sShit)
         {
             isInTutorial = true;
             EventSystem.Instance.TriggerEvent(Strings.Events.ENEMY_INVINCIBLE, true);
@@ -266,7 +268,7 @@ public class PlayerStateManager : RoutineRunner {
 
     private void StartDashTutorial()
     {
-        if (SettingsManager.Instance.Tutorial && !isDashTutorialDone && !isInDashTutorial)
+        if (SettingsManager.Instance.Tutorial && !isDashTutorialDone && !isInDashTutorial && SceneTracker.IsCurrentScene80sShit)
         {
             isInDashTutorial = true;
             EventSystem.Instance.TriggerEvent(Strings.Events.ENEMY_INVINCIBLE, true);
@@ -349,7 +351,12 @@ public class PlayerStateManager : RoutineRunner {
             if (newState.IsBlockingState())
             {
                 stateVariables.velBody.velocity = Vector3.zero;
+
+                //Force reset dash state to prevent invincibility
+                dashState.ResetState();
+
                 playerStates.Clear();
+                
             }        
             playerStates.Add(newState);
             stateVariables.stateFinished = false;

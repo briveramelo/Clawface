@@ -104,7 +104,7 @@ public static class Support
         float normalizedTime = 0f;
         while (timeRemaining > 0f)
         {
-            float deltaTime = GetDeltaTime(deltaTimeType);
+            float deltaTime = GetDeltaTime(deltaTimeType);            
             timeRemaining -= deltaTime;
             normalizedTime = 1f - timeRemaining / transitionTime;
             float currentDiff = transitionCurve.Evaluate(normalizedTime) * totalDiff;

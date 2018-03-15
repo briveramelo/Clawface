@@ -55,6 +55,7 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
         startHealth = stats.GetStat(CharacterStatType.MaxHealth);
         hitFlasher = GetComponentInChildren<HitFlasher>();
         stats.SetStats();
+        EventSystem.Instance.TriggerEvent(Strings.Events.PLAYER_BIRTHED);
     }
 
     void Update()
@@ -100,7 +101,7 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
             switch (SettingsManager.Instance.Difficulty)
             {
                 case Difficulty.EASY:
-                    damageToTake *= 0.5f;
+                    damageToTake *= 1.0f/6.0f;
                     break;
                 case Difficulty.HARD:
                     damageToTake *= 3f;

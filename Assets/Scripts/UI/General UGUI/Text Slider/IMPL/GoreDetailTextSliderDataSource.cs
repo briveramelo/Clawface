@@ -62,6 +62,7 @@ public class GoreDetailTextSliderDataSource : TextSliderDataSource {
     public override void ForceUpdate()
     {
         index = SettingsManager.Instance.GoreDetail;
+        base.ForceUpdate();
     }
 
     #endregion

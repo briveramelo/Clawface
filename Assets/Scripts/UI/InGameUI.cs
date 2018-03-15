@@ -12,6 +12,7 @@ public class InGameUI : MonoBehaviour {
     #region Serialized Unity Inspector Fields
     [Header("OnScreenCombo")]
     [SerializeField] private Text onScreenCombo;
+    [SerializeField] private Image onScreenComboImage;
     [SerializeField] private float comboOnScreenTime = 2.0f;
     [SerializeField] private Image comboTimer;
     [SerializeField] private Animation comboAnimation;
@@ -29,6 +30,8 @@ public class InGameUI : MonoBehaviour {
     [SerializeField] private Text dashTutorialTextElement;
     [SerializeField] private Image FullScreenFadeElement;
     [SerializeField] private Image tutorialBG;
+    [SerializeField] private Image orangeEatenImage;
+    [SerializeField] private Image orangeCircleImage;
 
     [Header("GlitchDamageEffect")]
     [SerializeField] private Sprite[] glitchSprites;
@@ -48,34 +51,31 @@ public class InGameUI : MonoBehaviour {
     #endregion
 
     #region Unity Lifecycle
-    void Awake()
-    {
-        comboTimer.fillAmount = 0f;
-        
-    }
+
     private void Start()
     {
         if (EventSystem.Instance)
         {
             //register events
             EventSystem.Instance.RegisterEvent(Strings.Events.SCORE_UPDATED, UpdateScore);
-            EventSystem.Instance.RegisterEvent(Strings.Events.COMBO_UPDATED, UpdateCombo);
+            EventSystem.Instance.RegisterEvent(Strings.Events.MULTIPLIER_UPDATED, UpdateCombo);
             EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_DAMAGED, DoDamageEffect);
             EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_HEALTH_MODIFIED, SetHealth);
-            EventSystem.Instance.RegisterEvent(Strings.Events.COMBO_TIMER_UPDATED, UpdateComboQuadrant);
+            // EventSystem.Instance.RegisterEvent(Strings.Events.COMBO_TIMER_UPDATED, UpdateComboQuadrant);
             EventSystem.Instance.RegisterEvent(Strings.Events.SHOW_TUTORIAL_TEXT, ShowTutorialText);
             EventSystem.Instance.RegisterEvent(Strings.Events.HIDE_TUTORIAL_TEXT, HideTutorialText);
             EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_COMPLETED, HideHUD);
             EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_FAILED, HideHUD);
             EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_KILLED, HideHUD);
             EventSystem.Instance.RegisterEvent(Strings.Events.WAVE_COMPLETE, ShowWaveText);
-
-
+            // EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_STARTED, HideCombo);
+            // EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_RESTARTED, HideCombo);
         }
         onScreenCombo.text = "";
         onScreenScoreDelta.text = "";
         onScreenScore.text = "";
         waveCompleteText.text = "";
+        UpdateCombo(null);
         HideTutorialText(null);
         ShowHUD(null);
     }
@@ -88,16 +88,18 @@ public class InGameUI : MonoBehaviour {
         if (EventSystem.Instance)
         {
             EventSystem.Instance.UnRegisterEvent(Strings.Events.SCORE_UPDATED, UpdateScore);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.COMBO_UPDATED, UpdateCombo);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.MULTIPLIER_UPDATED, UpdateCombo);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_DAMAGED, DoDamageEffect);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_HEALTH_MODIFIED, SetHealth);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.COMBO_TIMER_UPDATED, UpdateComboQuadrant);
+            // EventSystem.Instance.UnRegisterEvent(Strings.Events.COMBO_TIMER_UPDATED, UpdateComboQuadrant);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.SHOW_TUTORIAL_TEXT, ShowTutorialText);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.HIDE_TUTORIAL_TEXT, HideTutorialText);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_COMPLETED, HideHUD);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_FAILED, HideHUD);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_KILLED, HideHUD);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.WAVE_COMPLETE, ShowWaveText);
+            // EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_STARTED, HideCombo);
+            // EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_RESTARTED, HideCombo);
         }
     }
     #endregion
@@ -196,6 +198,7 @@ public class InGameUI : MonoBehaviour {
         if (finalVal == 0f)
         {
             SetAlphaOfText(onScreenCombo, 0.0f);
+            SetAlphaOfImage(onScreenComboImage, 0.0f);
         }
 
 
@@ -227,9 +230,22 @@ public class InGameUI : MonoBehaviour {
     private void UpdateCombo(params object[] currentCombo)
     {
         SetAlphaOfText(onScreenCombo, 1.0f);
-        if ((int)currentCombo[0] > 0)
+        SetAlphaOfImage(onScreenComboImage, 1.0f);
+
+        int combo;
+
+        if (currentCombo != null && currentCombo[0] != null)
         {
-            onScreenCombo.text = "x " + currentCombo[0].ToString();
+            combo = Mathf.FloorToInt((float)currentCombo[0]);
+        }
+        else
+        {
+            combo = Mathf.FloorToInt(ScoreManager.Instance.GetCurrentPreDifficultyMultiplier());
+        }
+
+        if (combo > 0)
+        {
+            onScreenCombo.text = "x " + combo.ToString();
             comboAnimation.Play();
         }
         else
@@ -237,8 +253,15 @@ public class InGameUI : MonoBehaviour {
             if (onScreenCombo.color.a != 0f)
             {
                 SetAlphaOfText(onScreenCombo, 0.0f);
+                SetAlphaOfImage(onScreenComboImage, 0.0f);
             }
         }
+    }
+
+    void HideCombo (params object[] parameters)
+    {
+        SetAlphaOfText(onScreenCombo, 0.0f);
+        SetAlphaOfImage(onScreenComboImage, 0.0f);
     }
 
     private void ShowWaveText(params object[] currentWave)
@@ -267,12 +290,21 @@ public class InGameUI : MonoBehaviour {
         i_toMod.color = c;
     }
 
+    private void SetAlphaOfImage(Image i_toMod, float i_newAlpha)
+    {
+        Color c = i_toMod.color;
+        c.a = i_newAlpha;
+        i_toMod.color = c;
+    }
+
     private void HideTutorialText(object[] parameters)
     {
         eatTutorialTextElement.enabled = false;
         dashTutorialTextElement.enabled = false;
         FullScreenFadeElement.enabled = false;
         tutorialBG.enabled = false;
+        orangeEatenImage.enabled = false;
+        orangeCircleImage.enabled = false;
     }
 
     private void ShowTutorialText(object[] parameters)
@@ -292,7 +324,7 @@ public class InGameUI : MonoBehaviour {
             switch (SettingsManager.Instance.MouseAimMode)
             {
                 case MouseAimMode.AUTOMATIC:
-                    if (InputManager.Instance.HasJoystick())
+                    if (!MenuManager.Instance.MouseMode)
                     {
                         key = currentBinding.joystick;
                     } else 
@@ -320,7 +352,9 @@ public class InGameUI : MonoBehaviour {
             }
 
             eatTutorialTextElement.text = eatTutorialTextElement.text.Replace("*",key.ToUpper()); 
-                eatTutorialTextElement.enabled = true;
+            eatTutorialTextElement.enabled = true;
+            orangeEatenImage.enabled = true;
+            orangeCircleImage.enabled = true;
         }
         else
         {
@@ -332,7 +366,7 @@ public class InGameUI : MonoBehaviour {
             switch (SettingsManager.Instance.MouseAimMode)
             {
                 case MouseAimMode.AUTOMATIC:
-                    if (InputManager.Instance.HasJoystick())
+                    if (!MenuManager.Instance.MouseMode)
                     {
                         key = currentBinding.joystick;
                     }

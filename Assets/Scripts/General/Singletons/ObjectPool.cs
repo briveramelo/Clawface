@@ -49,6 +49,7 @@ public class Pool
     public List<GameObject> prefabs = new List<GameObject>();
     public int size;
     public int mostUsed;
+    public int currentMaxIndex;
     [HideInInspector] public List<GameObject> objects = new List<GameObject>();
 
     public Pool(ref List<GameObject> prefabs, PoolObjectType poolObjectType, int size) {
@@ -87,8 +88,10 @@ public class Pool
     void CreateItem(int prefabListIndex, GameObject parent) {
         GameObject item = MonoBehaviour.Instantiate(prefabs[prefabListIndex], parent.transform) as GameObject;
         item.AddComponent<ObjectPoolItem>().SetParent(parent.transform);
+        item.name = string.Format("{0}{1}", prefabs[prefabListIndex].name, currentMaxIndex);
         item.SetActive(false);
         objects.Add(item);
+        currentMaxIndex++;
     }
 
     public GameObject GetObject()
@@ -103,6 +106,7 @@ public class Pool
             if (currentIndex>mostUsed) {
                 mostUsed = currentIndex+1;
             }
+            objects.MoveToBack(objToReturn);
             objToReturn.SetActive(true);
         }
         return objToReturn;

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public abstract class TextSliderDataSource : MonoBehaviour
 {
@@ -40,7 +41,19 @@ public abstract class TextSliderDataSource : MonoBehaviour
 
     #region Interface (Public)
 
-    public abstract void ForceUpdate();
+    public virtual void ForceUpdate()
+    {
+        if (OnDataSourceForcedUpdate != null)
+        {
+            OnDataSourceForcedUpdate.Invoke(this);
+        }
+    }
+
+    #endregion
+
+    #region Types (Public)
+
+    public event Action<TextSliderDataSource> OnDataSourceForcedUpdate;
 
     #endregion
 }

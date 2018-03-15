@@ -14,8 +14,8 @@ public class AIManager : Singleton<AIManager> {
     #region 1. UnityLifeCycle
     public void OnEnable()
     {
-        EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_KILLED,SetPlayerDead);
-        EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_RESTARTED, SetPlayerNotDead);
+        EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_KILLED, SetPlayerDead);
+        EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_BIRTHED, SetPlayerNotDead);
     }
 
     public new void Awake()
@@ -26,8 +26,10 @@ public class AIManager : Singleton<AIManager> {
 
     public void OnDisable()
     {
-        EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_KILLED, SetPlayerDead);
-        EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_RESTARTED, SetPlayerNotDead);
+        if (EventSystem.Instance) {
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_KILLED, SetPlayerDead);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_BIRTHED, SetPlayerNotDead);
+        }
     }
     #endregion
 

@@ -21,6 +21,15 @@ public class ScoreManager : Singleton<ScoreManager> {
 
     [SerializeField] private float maxTimeRemaining;
 
+    [SerializeField]
+    private float easyModeMultiplier;
+
+    [SerializeField]
+    private float normalModeMultiplier;
+
+    [SerializeField]
+    private float hardModeMultiplier;
+
     [SerializeField] private Dictionary<string, int> highScores;
     #endregion
 
@@ -41,6 +50,7 @@ public class ScoreManager : Singleton<ScoreManager> {
         EventSystem.Instance.RegisterEvent(Strings.Events.EAT_ENEMY, OnPlayerAte);
         EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_DAMAGED, OnPlayerDamaged);
         EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_STARTED, OnLevelStart);
+        EventSystem.Instance.RegisterEvent(Strings.Events.PLE_ON_LEVEL_READY, OnLevelStart);
         EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_RESTARTED, OnLevelRestart);
         EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_QUIT, OnLevelQuit);
         EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_KILLED, OnPlayerKilled);
@@ -54,6 +64,7 @@ public class ScoreManager : Singleton<ScoreManager> {
             EventSystem.Instance.UnRegisterEvent(Strings.Events.EAT_ENEMY, OnPlayerAte);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_DAMAGED, OnPlayerDamaged);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_STARTED, OnLevelStart);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_ON_LEVEL_READY, OnLevelStart);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_RESTARTED, OnLevelRestart);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_QUIT, OnLevelQuit);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_KILLED, OnPlayerKilled);
@@ -85,7 +96,8 @@ public class ScoreManager : Singleton<ScoreManager> {
     public void ResetCombo()
     {
         currentCombo = 0;
-        EventSystem.Instance.TriggerEvent(Strings.Events.COMBO_TIMER_UPDATED, 0.0f);
+        // EventSystem.Instance.TriggerEvent(Strings.Events.COMBO_TIMER_UPDATED, 0.0f);
+        EventSystem.Instance.TriggerEvent(Strings.Events.MULTIPLIER_UPDATED, GetCurrentPreDifficultyMultiplier());
     }
 
     public void ResetScore()
@@ -103,6 +115,8 @@ public class ScoreManager : Singleton<ScoreManager> {
 
     public void AddToCombo()
     {
+        float beforeMultiplier = GetCurrentPreDifficultyMultiplier();
+
         currentCombo++;
         
         if (currentCombo > highestCombo)
@@ -121,7 +135,15 @@ public class ScoreManager : Singleton<ScoreManager> {
 
         comboTimer = maxTimeRemaining;
 
+        float afterMultiplier = GetCurrentPreDifficultyMultiplier();
+
         EventSystem.Instance.TriggerEvent(Strings.Events.COMBO_UPDATED, currentCombo);
+
+        if (!Mathf.Approximately(beforeMultiplier, afterMultiplier))
+        {
+            EventSystem.Instance.TriggerEvent(Strings.Events.MULTIPLIER_UPDATED, GetCurrentPreDifficultyMultiplier());
+        }
+
         CalculateTimerQuadrant();
     }
 
@@ -144,14 +166,40 @@ public class ScoreManager : Singleton<ScoreManager> {
     {
         if (points <= 0) return;
 
-        int delta = points * GetCurrentMultiplier();
+        int delta = Mathf.FloorToInt(points * GetCurrentMultiplier());
         score += delta;
         EventSystem.Instance.TriggerEvent(Strings.Events.SCORE_UPDATED,score,delta);        
     }
 
-    public int GetCurrentMultiplier()
+    public float GetCurrentPreDifficultyMultiplier()
     {
-        return (currentCombo < scoreMultiplierPerCombo.Count) ? scoreMultiplierPerCombo[currentCombo] : scoreMultiplierPerCombo[scoreMultiplierPerCombo.Count - 1];
+        float baseMultiplier = (currentCombo < scoreMultiplierPerCombo.Count) ? scoreMultiplierPerCombo[currentCombo] : scoreMultiplierPerCombo[scoreMultiplierPerCombo.Count - 1];
+        return baseMultiplier;
+    }
+
+    public float GetCurrentMultiplier()
+    {
+        float baseMultiplier = GetCurrentPreDifficultyMultiplier();
+        Difficulty difficulty = SettingsManager.Instance.Difficulty;
+
+        float difficultyMultiplier = 0f;
+
+        switch (difficulty) {
+            case Difficulty.EASY:
+                difficultyMultiplier = easyModeMultiplier;
+                break;
+            case Difficulty.NORMAL:
+                difficultyMultiplier = normalModeMultiplier;
+                break;
+            case Difficulty.HARD:
+                difficultyMultiplier = hardModeMultiplier;
+                break;
+            default:
+                difficultyMultiplier = normalModeMultiplier;
+                break;
+            }
+
+        return baseMultiplier * difficultyMultiplier;
     }
 
     public void AddToScoreAndCombo(int points)
@@ -225,7 +273,7 @@ public class ScoreManager : Singleton<ScoreManager> {
 
         if (nextQuadrant != currentQuadrant)
         {
-            EventSystem.Instance.TriggerEvent(Strings.Events.COMBO_TIMER_UPDATED, nextQuadrant);
+            // EventSystem.Instance.TriggerEvent(Strings.Events.COMBO_TIMER_UPDATED, nextQuadrant);
         }
     }
 
@@ -285,6 +333,7 @@ public class ScoreManager : Singleton<ScoreManager> {
         currentQuadrant = 0;
 
         CalculateTimerQuadrant();
+        EventSystem.Instance.TriggerEvent(Strings.Events.MULTIPLIER_UPDATED, GetCurrentPreDifficultyMultiplier());
     }
 
     private void OnLevelRestart(params object[] parameters)
@@ -305,8 +354,13 @@ public class ScoreManager : Singleton<ScoreManager> {
 
     private void SendScoresToLeaderboard()
     {
-        string levelName = ((PLELevelSelectMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LevelEditor.LEVELSELECT_PLE_MENU)).SelectedLevelUI.levelData.UniqueSteamName;
-        LeaderBoards.Instance.UpdateScore(score, levelName);
+        if (!SceneTracker.IsCurrentSceneEditor) {
+            LevelUI levelUI = ((PLELevelSelectMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LevelEditor.LEVELSELECT_PLE_MENU)).SelectedLevelUI;
+            if (levelUI!=null) {
+                string levelName = levelUI.levelData.UniqueSteamName;
+                LeaderBoards.Instance.UpdateScore(score, levelName);
+            }
+        }
     }
     #endregion
 

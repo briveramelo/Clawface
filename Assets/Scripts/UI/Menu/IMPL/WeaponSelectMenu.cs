@@ -172,17 +172,15 @@ public class WeaponSelectMenu : Menu
 
     protected override void ShowStarted() {
         base.ShowStarted();
-
         ResetMenu();
-
+        previousCamera = Camera.main;
+        previousGameObject = previousCamera.gameObject;
     }
 
     protected override void ShowComplete()
     {
         base.ShowComplete();
         inputGuard = true;
-        previousCamera = Camera.main;
-        previousGameObject = previousCamera.gameObject;
         previousCamera.enabled = false;
         menuCamera.enabled = true;
         fader.DoHide(fadeDuration, null);
@@ -233,11 +231,7 @@ public class WeaponSelectMenu : Menu
         //Set up ModManager
 	    ModManager.assignFromPool = false;
         ModManager.rightArmOnLoad = rightArm.GetModType;
-        ModManager.leftArmOnLoad = leftArm.GetModType;
-
-        // Acquire Pause Menu
-        PauseMenu pauseMenu = (PauseMenu)MenuManager.Instance.GetMenuByName (Strings.MenuStrings.PAUSE);
-		pauseMenu.CanPause = true;
+        ModManager.leftArmOnLoad = leftArm.GetModType;                
 
         // Acquire LoadMenu and set target.
         string targetSceneName = SceneTracker.CurrentSceneName;
@@ -254,7 +248,9 @@ public class WeaponSelectMenu : Menu
             targetSceneName = loadMenu.TargetSceneName;
             Action onLoadMenuCompleteSceneLoad = () => {                
                 if (SceneTracker.IsSceneArena(targetSceneName)) {
-                    EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_STARTED, targetSceneName, ModManager.leftArmOnLoad.ToString(), ModManager.rightArmOnLoad.ToString());
+                    PauseMenu pauseMenu = (PauseMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.PAUSE);
+                    pauseMenu.CanPause = true;
+                    EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_STARTED, SceneTracker.CurrentSceneName, ModManager.leftArmOnLoad.ToString(), ModManager.rightArmOnLoad.ToString());
                 }
                 if (onCompleteSceneLoad!=null) {
                     onCompleteSceneLoad();
@@ -263,7 +259,7 @@ public class WeaponSelectMenu : Menu
             loadMenu.SetNavigation(targetSceneName, onLoadMenuCompleteSceneLoad);
         }
         else if (SceneTracker.IsSceneArena(targetSceneName)) {
-            EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_STARTED, targetSceneName, ModManager.leftArmOnLoad.ToString(), ModManager.rightArmOnLoad.ToString());
+            EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_STARTED, SceneTracker.CurrentSceneName, ModManager.leftArmOnLoad.ToString(), ModManager.rightArmOnLoad.ToString());
         }
         
         if (onStartAction!=null) {
@@ -433,7 +429,7 @@ public class WeaponSelectMenu : Menu
         SFXManager.Instance.Play(SFXType.LandmarkBlastShort, transform.position);
     }
 
-    private void ChangeWeaponTextPanel(WeaponLineup lineup)
+    public void ChangeWeaponTextPanel(WeaponLineup lineup)
     {
         ModType type = lineup.GetModType;
 

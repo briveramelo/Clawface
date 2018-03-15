@@ -10,8 +10,8 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
 
     #region Private Fields
     
-    private LevelData ActiveLevelData { get { return DataPersister.ActiveDataSave.ActiveLevelData; } }
-    private List<WaveData> ActiveWaveData { get { return ActiveLevelData.waveData; } }
+    private LevelData WorkingLevelData { get { return DataPersister.ActiveDataSave.workingLevelData; } }
+    private List<WaveData> ActiveWaveData { get { return WorkingLevelData.waveData; } }
     private static int systemMaxWaveIndex = 19;
     #endregion
 
@@ -31,21 +31,23 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
 
     #endregion
 
-
+    private bool hasCycledLevel=false;
     #region Unity Lifecycle
 
     void Start()
     {        
-        EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_STARTED, StartLevelDelayed);
+        EventSystem.Instance.RegisterEvent(Strings.Events.PLE_ON_LEVEL_READY, TryStartLevel);
         EventSystem.Instance.RegisterEvent(Strings.Events.PLE_TEST_END, Reset);
+        //EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_RESTARTED, StartLevel);
     }
 
     public void OnDestroy()
     {
         if (EventSystem.Instance)
         {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_STARTED, StartLevelDelayed);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_ON_LEVEL_READY, TryStartLevel);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_TEST_END, Reset);
+            //EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_RESTARTED, StartLevel);
         }
     }
 
@@ -53,96 +55,88 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
     #endregion
 
     #region Private Interface
+    private void TryStartLevel(params object[] parameters) {
+        if (SceneTracker.IsCurrentScenePlayerLevels || editorInstance.IsTesting) {
+            SyncLevelData();
+            Reset();
+            editorInstance.ToggleCameraGameObject(false);//should match up in same frame where keira's camera comes on
+            CallWave(0);
+        }
+    }
+
     private void CallNextWave(params object[] i_params)
     {
         CurrentWaveIndex++;
         CallWave(CurrentWaveIndex);
     }
 
-    void CallWave(int waveIndex) {
+    private void CallWave(int waveIndex) {
         CurrentWaveIndex = waveIndex;
         editorInstance.EnableCurrentWaveSpawnParents(waveIndex);
-        List<PLESpawn> currentWaveSpawners = ActiveLevelData.GetPLESpawnsFromWave(waveIndex);
+        List<PLESpawn> currentWaveSpawners = WorkingLevelData.GetPLESpawnsFromWave(waveIndex);
 
         for (int i = 0; i < currentWaveSpawners.Count; i++) {
             PLESpawn spawn = currentWaveSpawners[i];
-            spawn.SetOnAllEnemiesDead(OnAllSpawnsInSpawnerDead);
+            spawn.SetOnCriticalEnemiesDead(OnCriticalSpawnsInSpawnerDead);
             spawn.StartSpawning();
         }
         EventSystem.Instance.TriggerEvent(Strings.Events.PLE_CALL_WAVE, waveIndex);
-    }
+    }    
 
-    private void StartLevelDelayed(params object[] i_params)
-    {
-        StartCoroutine(WaitForDataToLoad());        
-    }
-
-    IEnumerator WaitForDataToLoad() {
-        yield return new WaitForEndOfFrame();
-        yield return new WaitForEndOfFrame();
-        RegisterAllSpawns();
-        Reset();
-        editorInstance.ToggleCameraGameObject(false);
-        CallWave(0);
-    }
-
-    private void OnAllSpawnsInSpawnerDead()
+    private void OnCriticalSpawnsInSpawnerDead()
     {
         //check if all spawners in given wave are marked as completed
-        List<PLESpawn> currentWaveSpawners = ActiveLevelData.GetPLESpawnsFromWave(CurrentWaveIndex);
-        bool waveDead = true;
-
-        for (int i = 0; i < currentWaveSpawners.Count; i++)
-        {
-            PLESpawn currentSpawn = currentWaveSpawners[i];
-            if (!currentSpawn.allEnemiesDead && currentSpawn.spawnType!=SpawnType.Keira)
-            {
-                
-                waveDead = false;
-                break;
+        List<PLESpawn> currentWaveSpawners = WorkingLevelData.GetPLESpawnsFromWave(CurrentWaveIndex);
+        bool lastWaveIsComplete = true;
+        if (CurrentWaveIndex>0 || (CurrentWaveIndex == 0 && InfiniteWavesEnabled && hasCycledLevel)) {
+            int lastWaveIndex = CurrentWaveIndex-1;
+            if (lastWaveIndex<0) {
+                lastWaveIndex = MaxWaveIndex;
             }
+            List<PLESpawn> lastWaveSpawners = WorkingLevelData.GetPLESpawnsFromWave(lastWaveIndex);
+            lastWaveIsComplete= lastWaveSpawners.All(spawner => { return spawner.AllEnemiesDead; });
         }
+        bool currentWaveMinEnemiesAreDead = currentWaveSpawners.All(spawner => { return spawner.MinEnemiesDead; });
 
-        if(waveDead)
-        {
-            if (CurrentWaveIndex >= ActiveLevelData.WaveCount - 1 && !InfiniteWavesEnabled)
-            {
+        if (lastWaveIsComplete && currentWaveMinEnemiesAreDead) {
+            if (CurrentWaveIndex >= WorkingLevelData.WaveCount - 1 && !InfiniteWavesEnabled) {
                 EventSystem.Instance.TriggerEvent(
                     Strings.Events.LEVEL_COMPLETED, SceneTracker.CurrentSceneName, 
                     ScoreManager.Instance.GetScore(), ModManager.leftArmOnLoad.ToString(),
                     ModManager.rightArmOnLoad.ToString());
             }
-            else if (CurrentWaveIndex >= ActiveLevelData.WaveCount - 1 && InfiniteWavesEnabled)
-            {
+            else if (CurrentWaveIndex >= WorkingLevelData.WaveCount - 1 && InfiniteWavesEnabled) {
+                hasCycledLevel = true;
                 CallWave(0);
             }
-            else
-            {
+            else {
                 CallNextWave();
             }
         }
-
     }
+
     private void Reset(params object[] parameters)
     {
-        List<PLESpawn> currentWaveSpawners = ActiveLevelData.GetPLESpawnsFromWave(CurrentWaveIndex);
+        List<PLESpawn> currentWaveSpawners = WorkingLevelData.GetPLESpawnsFromWave(CurrentWaveIndex);
         for (int i = 0; i < currentWaveSpawners.Count; i++)
         {
             PLESpawn spawn = currentWaveSpawners[i];
-            spawn.SetOnAllEnemiesDead(null);
+            spawn.SetOnCriticalEnemiesDead(null);
         }
         FindObjectsOfType<EnemyBase>().ToList().ForEach(enemy => { enemy.OnDeath(); });
         CurrentWaveIndex = 0;
+        hasCycledLevel = false;
     }
-
+    
 
 
     #endregion
 
     #region Public Interface
 
-    public void RegisterAllSpawns() {
-        editorInstance.levelDataManager.SaveSpawns();
+    public void SyncLevelData() {
+        editorInstance.levelDataManager.SyncWorkingSpawnData();
+        EventSystem.Instance.TriggerEvent(Strings.Events.PLE_SYNC_LEVEL_UNIT_STATES);
     }
 
     public int SetToWave(int i_wave)

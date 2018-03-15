@@ -80,8 +80,8 @@ public class StageOverMenu : Menu
     {
     }
 
-    public void DefineNavigation(Action i_act) {
-        onExitTest = i_act;
+    public void DefineExitTestAction(Action onExitTest) {
+        this.onExitTest = onExitTest;
     }
 
     public void ExitTestAction()
@@ -99,32 +99,31 @@ public class StageOverMenu : Menu
         LoadMenu loadMenu = (LoadMenu)menu;
         EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_QUIT, SceneTracker.CurrentSceneName, AnalyticsManager.Instance.GetCurrentWave(), ScoreManager.Instance.GetScore());
         loadMenu.SetNavigation(Strings.Scenes.ScenePaths.MainMenu);
-        loadMenu.Fast = true;
-        ObjectPool.Instance.ResetPools();
+        ObjectPool.Instance.ResetPools(); //already done in load menu?
         MenuManager.Instance.DoTransition(loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
     }
 
     public void RestartAction()
     {
+        Action callRestartEventAction = () =>
+        {
+            EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_RESTARTED, SceneTracker.CurrentSceneName, AnalyticsManager.Instance.GetCurrentWave(), ScoreManager.Instance.GetScore());
+        };
         Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
         LoadMenu loadMenu = (LoadMenu)menu;
-        loadMenu.SetNavigation(SceneTracker.CurrentSceneName);
+        loadMenu.SetNavigation(SceneTracker.CurrentSceneName, callRestartEventAction);
 
         PauseMenu p = (PauseMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.PAUSE);
         p.CanPause = true;
 
         ObjectPool.Instance.ResetPools();        
-        EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_RESTARTED, SceneTracker.CurrentSceneName, AnalyticsManager.Instance.GetCurrentWave(), ScoreManager.Instance.GetScore());
-
-
         MenuManager.Instance.DoTransition(loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
     }
 
     public void WeaponSelectAction()
     {
-        
         WeaponSelectMenu weaponMenu = (WeaponSelectMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.WEAPON_SELECT);
-        weaponMenu.DefineNavigation(Strings.Scenes.ScenePaths.MainMenu, Strings.MenuStrings.LOAD);
+        weaponMenu.DefineNavigation(null, Strings.MenuStrings.LOAD);
         LoadMenu lm = (LoadMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
         lm.SetNavigation(SceneTracker.CurrentSceneName);
 
@@ -147,6 +146,10 @@ public class StageOverMenu : Menu
 
 
         MenuManager.Instance.DoTransition(loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+    }
+
+    public void KillAllTransitions() {
+        StopAllCoroutines();
     }
 
     #endregion
@@ -200,8 +203,7 @@ public class StageOverMenu : Menu
         yield return new WaitForSeconds((float)parameter[0]);
         
         title.text = Strings.TextStrings.STAGE_OVER_TEXT;
-        MenuManager.Instance.DoTransition(Strings.MenuStrings.STAGE_OVER,
-            Menu.Transition.SHOW, new Menu.Effect[] { Menu.Effect.EXCLUSIVE });
+        MenuManager.Instance.DoTransition(this, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
     }
 
     private void LevelCompleteStart(params object[] parameter)
@@ -217,8 +219,7 @@ public class StageOverMenu : Menu
         yield return new WaitForSeconds((float)parameter[0]);
 
         title.text = Strings.TextStrings.GAME_OVER_TEXT;
-        MenuManager.Instance.DoTransition(Strings.MenuStrings.STAGE_OVER,
-            Menu.Transition.SHOW, new Menu.Effect[] { Menu.Effect.EXCLUSIVE });
+        MenuManager.Instance.DoTransition(this, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
     }
 
     private void PlayerDeathStart(params object[] parameter)
@@ -228,23 +229,22 @@ public class StageOverMenu : Menu
 
     private void SetButtonStates()
     {
-
         testLevelButton.gameObject.SetActive(false);
         weaponSelectButton.gameObject.SetActive(false);
         restartButton.gameObject.SetActive(false);
         quitButton.gameObject.SetActive(false);
 
-        if(SceneTracker.IsCurrentSceneEditor)
-        {
+        if(SceneTracker.IsCurrentSceneEditor) {
             testLevelButton.gameObject.SetActive(true);
+            CurrentEventSystem.SetSelectedGameObject(testLevelButton.gameObject);
         }
-        else
-        {
+        else {
             weaponSelectButton.gameObject.SetActive(true);
             restartButton.gameObject.SetActive(true);
             quitButton.gameObject.SetActive(true);
-        }
 
+            CurrentEventSystem.SetSelectedGameObject(weaponSelectButton.gameObject);
+        }
     }
 
     #endregion
