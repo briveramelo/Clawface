@@ -57,7 +57,7 @@ public abstract class Menu : RoutineRunner {
         }
     }
     protected bool allowInput;
-
+    protected Coroutine transitionRoutine;
     #endregion
 
     #region Serialized Unity Fields
@@ -99,25 +99,20 @@ public abstract class Menu : RoutineRunner {
         switch (transition)
         {
             case Transition.SHOW:
-                if (Displayed) return;
-                OnTransitionStarted(transition, effects);
-                ShowStarted();
-                CallByEffect(transition, effects);
+                //if (Displayed) return;
+                TransitionWithEffects(transition, effects);
                 return;
             case Transition.HIDE:
-                if (!Displayed) return;
-                OnTransitionStarted(transition, effects);
-                HideStarted();
-                CallByEffect(transition, effects);
+                //if (!Displayed) return;
+                TransitionWithEffects(transition, effects);
                 return;
             case Transition.TOGGLE:
                 MenuManager.Instance.DoTransition(this, Displayed ? Transition.HIDE : Transition.SHOW, effects);
                 return;
-            case Transition.SPECIAL:
-                OnTransitionStarted(transition, effects);
-                SpecialStarted();
-                Special(transition, effects);
-                return;
+            //case Transition.SPECIAL:
+            //    SpecialStarted();
+            //    Special(transition, effects);
+            //    return;
         }
     }
     #endregion
@@ -129,24 +124,15 @@ public abstract class Menu : RoutineRunner {
         if (InitialSelection != null && Displayed)
         {
             InitialSelection.Select();
+            CurrentEventSystem.SetSelectedGameObject(InitialSelection.gameObject);
         }
     }
 
     #endregion
 
     #region Protected Interface
-    protected virtual void OnTransitionStarted(Transition transition, Effect[] effects)
-    {
-        if (TransitionStarted != null) {
-            TransitionStarted(transition, effects);
-        }
-    }
     protected virtual void OnTransitionEnded(Transition transition, Effect[] effects)
     {
-        if (TransitionEnded != null) {
-            TransitionEnded(transition, effects);
-        }
-
         if (!MenuManager.Instance.MouseMode)
         {
             SelectInitialButton();
@@ -156,18 +142,23 @@ public abstract class Menu : RoutineRunner {
     //// Helper Functions for Transitioning between menus
     // Default Show / Hide
     protected virtual void DefaultShow(Transition transition, Effect[] effects) {
+        ShowStarted();
         Fade(transition, effects);
     }
     protected virtual void DefaultHide(Transition transition, Effect[] effects) {
+        HideStarted();
         Fade(transition, effects);
     }
 
     // Effect Based Implementations
     protected virtual void Fade(Transition transition, Effect[] effects)
     {
-        float start = (transition == Transition.SHOW) ? 0F : 1F;
-        float end = (transition == Transition.SHOW) ? 1F : 0F;
-        StartCoroutine(MenuTransitionsCommon.FadeCoroutine(start, end, faderDuration,
+        float startAlpha = (transition == Transition.SHOW) ? 0F : 1F;
+        float endAlpha = (transition == Transition.SHOW) ? 1F : 0F;
+        if (transitionRoutine!=null) {
+            StopCoroutine(transitionRoutine);
+        }
+        transitionRoutine = StartCoroutine(MenuTransitionsCommon.FadeCoroutine(startAlpha, endAlpha, faderDuration,
             canvasGroup, () =>
             {
                 if (transition == Transition.SHOW)
@@ -226,8 +217,15 @@ public abstract class Menu : RoutineRunner {
 
     #region Private Interface
 
-    private void CallByEffect(Transition transition, Effect[] effects)
+    private void TransitionWithEffects(Transition transition, Effect[] effects)
     {
+        if (transition == Transition.SHOW) {
+            ShowStarted();
+        }
+        else if (transition == Transition.HIDE) {
+            HideStarted();
+        }
+
         foreach (Effect effect in effects)
         { // First come, first serve
             if (effect == Effect.FADE)
@@ -274,12 +272,7 @@ public abstract class Menu : RoutineRunner {
         TWEEN,      // Perform a motion tween transition (implementation defined)
     }
 
-    public delegate void TransitionStartedEventHandler(Transition transition,
-            Effect[] effects);
-    public delegate void TransitionEndedEventHandler(Transition transition,
-            Effect[] effects);
-
-    public event TransitionStartedEventHandler TransitionStarted;
-    public event TransitionEndedEventHandler TransitionEnded;
+    public delegate void TransitionStartedEventHandler(Transition transition, Effect[] effects);
+    public delegate void TransitionEndedEventHandler(Transition transition, Effect[] effects);    
     #endregion
 }
