@@ -367,6 +367,8 @@ public class PlayerStateManager : RoutineRunner {
     private void ResetState()
     {
         stateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Idle);
+        //Force reset dash state to prevent invincibility
+        dashState.ResetState();
         playerStates.Clear();
         playerStates.Add(defaultState);
         stateChanged = false;

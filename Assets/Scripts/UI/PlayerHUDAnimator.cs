@@ -36,22 +36,22 @@ public class PlayerHUDAnimator : MonoBehaviour
         scoreOriginalScale = score.localScale;
         healthOriginalScale = health.localScale;
 
-        EventSystem.Instance.RegisterEvent(Strings.Events.COMBO_UPDATED, BounceCombo);
+        EventSystem.Instance.RegisterEvent(Strings.Events.MULTIPLIER_UPDATED, BounceCombo);
         EventSystem.Instance.RegisterEvent(Strings.Events.SCORE_UPDATED, BounceScore);
         EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_DAMAGED, BounceHealth);
         EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_STARTED, HandleLevelStarted);
-        EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_STARTED, HandleLevelRestarted);
+        EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_RESTARTED, HandleLevelRestarted);
     }
 
     private void OnDestroy()
     {
         if (EventSystem.Instance)
         {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.COMBO_UPDATED, BounceCombo);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.MULTIPLIER_UPDATED, BounceCombo);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.SCORE_UPDATED, BounceScore);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_DAMAGED, BounceHealth);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_STARTED, HandleLevelStarted);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_STARTED, HandleLevelRestarted);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_RESTARTED, HandleLevelRestarted);
         }
     }
 
@@ -143,6 +143,7 @@ public class PlayerHUDAnimator : MonoBehaviour
         combo.localRotation = score.localRotation = 
             health.localRotation = Quaternion.identity;
         combo.localScale = comboOriginalScale;
+        comboGraphics[0].color = comboOriginalColor;
         score.localScale = scoreOriginalScale;
         health.localScale = healthOriginalScale;
         StopAllCoroutines();
