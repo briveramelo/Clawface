@@ -6,6 +6,12 @@ using System;
 using UnityEngine.UI;
 namespace ModMan {
 
+    public static class IntExtensions {
+        public static string ToCommaSeparated(this int myValue) {
+            return string.Format("{0:n0}",myValue);
+        }
+
+    }
     public static class BoolExtensions {
         public static int ToInt(this bool myBool) {
             return myBool ? 1 : -1;

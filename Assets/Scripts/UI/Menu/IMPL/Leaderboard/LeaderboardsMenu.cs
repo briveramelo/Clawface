@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using ModMan;
 public class LeaderboardsMenu : Menu
 {
     #region Serialized fields
@@ -31,8 +31,7 @@ public class LeaderboardsMenu : Menu
     [SerializeField]
     private Scrollbar verticalScrollbar;
 
-    [SerializeField]
-    private float scrollSpeed;
+    [SerializeField] private float joystickMaxScrollSpeed, mouseMaxScrollSpeed;
     #endregion
 
     #region private fields
@@ -55,19 +54,27 @@ public class LeaderboardsMenu : Menu
     #region unity lifecycle
     private void Update()
     {
-        if (allowInput && InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN))
-        {
-            OnPressBack();
-        }
+        if (allowInput) {
+            if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN))
+            {
+                OnPressBack();
+            }
+            const float lookThreshold = 0.3f;
+            const float scrollThreshold = 0.1f;
+            float joystickY = Mathf.Clamp(InputManager.Instance.QueryAxes(Strings.Input.Axes.LOOK).y, -1f, 1f);
+            float mouseDeltaY = Mathf.Clamp(Input.mouseScrollDelta.y, -1f, 1f);
 
-        if (allowInput && InputManager.Instance.QueryAxes(Strings.Input.Axes.LOOK).y < -0.3f)
-        {
-            verticalScrollbar.value -= scrollSpeed * Time.deltaTime;
+            if (Mathf.Abs(joystickY)>lookThreshold) {
+                float extraMultiplier = Mathf.Abs(InputManager.Instance.QueryAxes(Strings.Input.UI.NAVIGATION).y) > lookThreshold ? 2f : 1f;
+                MoveScrollBar(joystickMaxScrollSpeed * joystickY * extraMultiplier);
+            }
+            else if (Mathf.Abs(mouseDeltaY) > scrollThreshold) {
+                MoveScrollBar(mouseMaxScrollSpeed * mouseDeltaY);
+            }
         }
-        else if (allowInput && InputManager.Instance.QueryAxes(Strings.Input.Axes.LOOK).y > 0.3f)
-        {
-            verticalScrollbar.value += scrollSpeed * Time.deltaTime;
-        }
+    }
+    void MoveScrollBar(float speed) {
+        verticalScrollbar.value += speed * Time.deltaTime;
     }
     #endregion
 
@@ -168,7 +175,7 @@ public class LeaderboardsMenu : Menu
             for (int i = 0; i < numberOfResults; i++)
             {
                 GenericSteamLeaderBoard.LeaderBoardVars result = results[i];
-                leaderBoardEntries[i].SetData(result.rank.ToString(), result.userID, result.score.ToString());
+                leaderBoardEntries[i].SetData(string.Format("{0}{1}",result.rank.ToCommaSeparated(), "."), result.userID, result.score.ToCommaSeparated());
                 leaderBoardEntries[i].IsVisible(true);
             }
 
@@ -176,11 +183,18 @@ public class LeaderboardsMenu : Menu
             {
                 leaderBoardEntries[i].IsVisible(false);
             }
+
         }
         else
         {
             GetLeaderboardEntries(currentSelectionType);
         }
+        StartCoroutine(DelayPositioningVerticalScrollbar());
+    }
+
+    IEnumerator DelayPositioningVerticalScrollbar() {
+        yield return null;
+        verticalScrollbar.value = 1f;
     }
 
     internal void SetLevelName(string levelName)
