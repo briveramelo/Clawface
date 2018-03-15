@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using ModMan;
 public class LeaderboardsMenu : Menu
 {
     #region Serialized fields
@@ -31,13 +31,11 @@ public class LeaderboardsMenu : Menu
     [SerializeField]
     private Scrollbar verticalScrollbar;
 
-    [SerializeField]
-    private float scrollSpeed;
+    [SerializeField] private float joystickMaxScrollSpeed, mouseMaxScrollSpeed;
     #endregion
 
     #region private fields
-    private List<LeaderboardEntry> leaderBoardEntries;
-    private bool allowInput;
+    private List<LeaderboardEntry> leaderBoardEntries=new List<LeaderboardEntry>();    
     private string currentLevelName;
     private LeaderBoards.SelectionType currentSelectionType;
     #endregion
@@ -55,26 +53,32 @@ public class LeaderboardsMenu : Menu
     #region unity lifecycle
     private void Update()
     {
-        if (allowInput && InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN))
-        {
-            OnPressBack();
-        }
+        if (allowInput) {
+            if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN))
+            {
+                OnPressBack();
+            }
+            const float lookThreshold = 0.3f;
+            const float scrollThreshold = 0.1f;
+            float joystickY = Mathf.Clamp(InputManager.Instance.QueryAxes(Strings.Input.Axes.LOOK).y, -1f, 1f);
+            float mouseDeltaY = Mathf.Clamp(Input.mouseScrollDelta.y, -1f, 1f);
 
-        if (allowInput && InputManager.Instance.QueryAxes(Strings.Input.Axes.LOOK).y < -0.3f)
-        {
-            verticalScrollbar.value -= scrollSpeed * Time.deltaTime;
+            if (Mathf.Abs(joystickY)>lookThreshold) {
+                float extraMultiplier = Mathf.Abs(InputManager.Instance.QueryAxes(Strings.Input.UI.NAVIGATION).y) > lookThreshold ? 2f : 1f;
+                MoveScrollBar(joystickMaxScrollSpeed * joystickY * extraMultiplier);
+            }
+            else if (Mathf.Abs(mouseDeltaY) > scrollThreshold) {
+                MoveScrollBar(mouseMaxScrollSpeed * mouseDeltaY);
+            }
         }
-        else if (allowInput && InputManager.Instance.QueryAxes(Strings.Input.Axes.LOOK).y > 0.3f)
-        {
-            verticalScrollbar.value += scrollSpeed * Time.deltaTime;
-        }
+    }
+    void MoveScrollBar(float speed) {
+        verticalScrollbar.value += speed * Time.deltaTime;
     }
     #endregion
 
     #region Public methods
-    public LeaderboardsMenu() : base(Strings.MenuStrings.LEADER_BOARDS) {
-        leaderBoardEntries = new List<LeaderboardEntry>();
-    }
+    public LeaderboardsMenu() : base(Strings.MenuStrings.LEADER_BOARDS) { }
 
     public void OnPressBack()
     {
@@ -83,6 +87,7 @@ public class LeaderboardsMenu : Menu
             Destroy(entry.gameObject);
         }
         leaderBoardEntries.Clear();
+        StopAllCoroutines();
         MenuManager.Instance.DoTransition(Strings.MenuStrings.LevelEditor.LEVELSELECT_PLE_MENU, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
     }
 
@@ -106,28 +111,27 @@ public class LeaderboardsMenu : Menu
     #endregion
 
     #region protected methods
-    protected override void DefaultHide(Transition transition, Effect[] effects)
-    {
-        Fade(transition, effects);
-    }
-
     protected override void DefaultShow(Transition transition, Effect[] effects)
     {
-        Fade(transition, effects);
+        base.DefaultShow(transition, effects);
         GetLeaderboardEntries(LeaderBoards.SelectionType.GLOBAL);
+    }
 
+    protected override void ShowComplete() {
+        base.ShowComplete();        
+    }
+    protected override void HideComplete() {
+        base.HideComplete();
     }
 
     protected override void ShowStarted()
     {
         base.ShowStarted();
-        allowInput = true;
     }
 
     protected override void HideStarted()
     {
-        base.HideStarted();
-        allowInput = false;
+        base.HideStarted();        
     }
     #endregion
 
@@ -143,7 +147,7 @@ public class LeaderboardsMenu : Menu
         
         loadingObject.GetComponent<LoadingText>().SetError(result);
         loadingObject.SetActive(true);
-
+        verticalScrollbar.value = 1f;
     }
 
     private void OnLeaderBoardEntriesReturned(List<GenericSteamLeaderBoard.LeaderBoardVars> results, bool retry)
@@ -168,7 +172,7 @@ public class LeaderboardsMenu : Menu
             for (int i = 0; i < numberOfResults; i++)
             {
                 GenericSteamLeaderBoard.LeaderBoardVars result = results[i];
-                leaderBoardEntries[i].SetData(result.rank.ToString(), result.userID, result.score.ToString());
+                leaderBoardEntries[i].SetData(string.Format("{0}{1}",result.rank.ToCommaSeparated(), "."), result.userID, result.score.ToCommaSeparated());
                 leaderBoardEntries[i].IsVisible(true);
             }
 
@@ -176,11 +180,18 @@ public class LeaderboardsMenu : Menu
             {
                 leaderBoardEntries[i].IsVisible(false);
             }
+
         }
         else
         {
             GetLeaderboardEntries(currentSelectionType);
         }
+        MEC.Timing.RunCoroutine(DelayPositioningVerticalScrollbar(), coroutineName);
+    }
+
+    IEnumerator<float> DelayPositioningVerticalScrollbar() {
+        yield return 0f;
+        verticalScrollbar.value = 1f;
     }
 
     internal void SetLevelName(string levelName)

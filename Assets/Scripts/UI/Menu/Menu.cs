@@ -56,6 +56,7 @@ public abstract class Menu : RoutineRunner {
             return faderDuration;
         }
     }
+    protected bool allowInput;
 
     #endregion
 
@@ -136,13 +137,15 @@ public abstract class Menu : RoutineRunner {
     #region Protected Interface
     protected virtual void OnTransitionStarted(Transition transition, Effect[] effects)
     {
-        if (TransitionStarted != null)
+        if (TransitionStarted != null) {
             TransitionStarted(transition, effects);
+        }
     }
     protected virtual void OnTransitionEnded(Transition transition, Effect[] effects)
     {
-        if (TransitionEnded != null)
+        if (TransitionEnded != null) {
             TransitionEnded(transition, effects);
+        }
 
         if (!MenuManager.Instance.MouseMode)
         {
@@ -152,8 +155,12 @@ public abstract class Menu : RoutineRunner {
 
     //// Helper Functions for Transitioning between menus
     // Default Show / Hide
-    protected abstract void DefaultShow(Transition transition, Effect[] effects);
-    protected abstract void DefaultHide(Transition transition, Effect[] effects);
+    protected virtual void DefaultShow(Transition transition, Effect[] effects) {
+        Fade(transition, effects);
+    }
+    protected virtual void DefaultHide(Transition transition, Effect[] effects) {
+        Fade(transition, effects);
+    }
 
     // Effect Based Implementations
     protected virtual void Fade(Transition transition, Effect[] effects)
@@ -203,8 +210,11 @@ public abstract class Menu : RoutineRunner {
     protected virtual void ShowComplete()
     {
         displayed = true;
+        allowInput = true;
     }
-    protected virtual void HideStarted() { }
+    protected virtual void HideStarted() {
+        allowInput = false;
+    }
     protected virtual void HideComplete()
     {
         canvas.SetActive(false);

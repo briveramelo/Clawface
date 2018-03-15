@@ -156,16 +156,6 @@ public class StageOverMenu : Menu
 
     #region Protected Interface
 
-    protected override void DefaultShow(Transition transition, Effect[] effects)
-    {
-        Fade(transition, effects);
-    }
-
-    protected override void DefaultHide(Transition transition, Effect[] effects)
-    {
-        Fade(transition, effects);
-    }
-
     protected override void ShowStarted()
     {
         base.ShowStarted();

@@ -159,17 +159,6 @@ public class WeaponSelectMenu : Menu
         });
     }
 
-
-    protected override void DefaultHide (Transition transition, Effect[] effects)
-	{
-		Fade (transition, effects);
-	}
-
-	protected override void DefaultShow (Transition transition, Effect[] effects)
-	{
-		Fade (transition, effects);
-	}
-
     protected override void ShowStarted() {
         base.ShowStarted();
         ResetMenu();

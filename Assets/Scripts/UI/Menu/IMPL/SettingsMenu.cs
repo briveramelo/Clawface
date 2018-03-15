@@ -94,7 +94,6 @@ public class SettingsMenu : Menu {
     #endregion
 
     #region Fields (Private)
-    private bool allowInput;
     #endregion
 
     #region Constructors (Public)
@@ -174,21 +173,9 @@ public class SettingsMenu : Menu {
     #endregion
 
     #region Interface (Protected)
-
-    protected override void DefaultShow(Transition transition, Effect[] effects)
-    {
-        Fade(transition, effects);
-    }
-
-    protected override void DefaultHide(Transition transition, Effect[] effects)
-    {
-        Fade(transition, effects);
-    }
-
     protected override void ShowStarted()
     {
         base.ShowStarted();
-        allowInput = true;
         TransferSettingsFromManager();
         StartCoroutine(RotateCamera(offRotation, onRotation));
     }
@@ -196,7 +183,6 @@ public class SettingsMenu : Menu {
     protected override void HideStarted()
     {
         base.HideStarted();
-        allowInput = false;
         StartCoroutine(RotateCamera(onRotation, offRotation));
     }
 

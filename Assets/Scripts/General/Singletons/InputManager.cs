@@ -36,6 +36,7 @@ public class InputManager : Singleton<InputManager> {
     protected void Start()
     {
         player = ReInput.players.GetPlayer(0); // get the only player
+        Cursor.lockState = CursorLockMode.Confined;
     }
 
     #endregion
