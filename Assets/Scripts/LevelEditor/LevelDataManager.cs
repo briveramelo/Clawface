@@ -98,15 +98,20 @@ public class LevelDataManager : MonoBehaviour {
         for (int i = 0; i < WorkingWaveData.Count; i++) {
             GameObject waveParent = new GameObject(GetWaveName(i));
             waveParent.transform.SetParent(spawnParent);
+
             for (int j = 0; j < WorkingWaveData[i].spawnData.Count; j++) {
                 SpawnData spawnData = WorkingWaveData[i].spawnData[j];
+                int minSpawns = WorkingWaveData[i].GetMinSpawns(spawnData.SpawnType);
+
                 GameObject enemyUIPrefabToSpawn = pleSpawns.Find(spawn=>(int)(spawn.spawnType)==spawnData.spawnType).gameObject;
                 Transform newSpawnTransform = Instantiate(enemyUIPrefabToSpawn, waveParent.transform, false).transform;
                 newSpawnTransform.name = newSpawnTransform.name.TryCleanName(Strings.CLONE);
                 spawnNames.Add(newSpawnTransform.name);
                 PLESpawn pleSpawn = newSpawnTransform.GetComponent<PLESpawn>();
                 spawnData.pleSpawn = pleSpawn;
+                
                 spawnedPLEs.Add(pleSpawn);
+                pleSpawn.minSpawns = minSpawns;
                 pleSpawn.totalSpawnAmount = spawnData.count;
                 pleSpawn.spawnType = (SpawnType)spawnData.spawnType;
                 newSpawnTransform.position = spawnData.position.AsVector;
@@ -225,9 +230,9 @@ public class LevelDataManager : MonoBehaviour {
             Transform waveParent = spawnParent.GetChild(i);
             PLESpawn spawn = waveParent.GetComponent<PLESpawn>();
             if (spawn != null) {
-                AddSpawnData(waveParent, 0);
+                AddSpawnData(waveParent, 0);//keira
             }
-            else {
+            else {//any other baddy
                 int waveChildCount = waveParent.childCount;
                 for (int j = 0; j < waveParent.childCount; j++) {
                     Transform spawnUI = waveParent.GetChild(j);
@@ -251,6 +256,7 @@ public class LevelDataManager : MonoBehaviour {
             WorkingWaveData.Add(new WaveData());
         }
         WorkingWaveData[waveIndex].spawnData.Add(spawnData);
+        WorkingWaveData[waveIndex].SetMinSpawns(spawnType, spawn.MinSpawns);
     }
 
     private void SyncWorkingLevelText() {

@@ -218,7 +218,6 @@
         public const string PLE_ON_LEVEL_DATA_LOADED = "PLE_ON_LEVEL_DATA_LOADED";
         public const string PLE_ON_LEVEL_READY = "PLE_ON_LEVEL_READY";
         public const string PLE_CALL_WAVE = "CallNextWavePLE";
-        public const string PLE_CHANGEWAVE = "PLE_ChangeWave";
         public const string PLE_ADD_WAVE    = "PLE_ADD_WAVE";
         public const string PLE_TEST_END = "PleTestEnd";
         public const string PLE_DELETE_CURRENTWAVE = "PLE_DELETE_CURRENTWAVE";

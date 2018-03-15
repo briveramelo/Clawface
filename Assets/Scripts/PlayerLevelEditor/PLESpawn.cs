@@ -15,18 +15,20 @@ public class PLESpawn : PLEItem {
     private List<GameObject> spawnedEnemies = new List<GameObject>();
     
     private Vector3 ActualSpawnPos { get { return transform.position + Vector3.up * spawnHeightOffset; } }
-    private Action onAllEnemiesDead;
+    private Action onMinEnemiesDead;
     #endregion
     
     #region Public Fields
     [HideInInspector] public int registeredWave = -99;
-    [HideInInspector] public bool allEnemiesDead = false;
+    [HideInInspector] public bool minEnemiesDead = false;
     #endregion
 
     #region Serialized Unity Fields
     public float spawnFrequency = 0.5f;
     public int totalSpawnAmount = 1;
-    public SpawnType spawnType;    
+    public SpawnType spawnType;
+    public int minSpawns;
+    public int MinSpawns { get { return minSpawns; } set { FindObjectsOfType<PLESpawn>().ToList().FindAll(spawn => spawn.spawnType == this.spawnType).ForEach(spawn => spawn.minSpawns = value); } }
     public string DisplayName { get { return spawnType.DisplayName(); } }
     public int MaxPerWave { get { return spawnType.MaxPerWave(); } }
     #endregion
@@ -35,7 +37,6 @@ public class PLESpawn : PLEItem {
 
     protected override void Start() {
         base.Start();
-
         EventSystem.Instance.RegisterEvent(Strings.Events.PLE_TEST_END, ResetSpawnValues);               
     }
 
@@ -47,8 +48,8 @@ public class PLESpawn : PLEItem {
     #endregion
 
     #region Public Interface
-    public void SetOnAllEnemiesDead(Action onAllEnemiesDead) {
-        this.onAllEnemiesDead = onAllEnemiesDead;
+    public void SetOnMinEnemiesDead(Action onMinEnemiesDead) {
+        this.onMinEnemiesDead = onMinEnemiesDead;
     }
 
     public void StartSpawning()
@@ -67,7 +68,7 @@ public class PLESpawn : PLEItem {
 
     private void ReportDeath()
     {
-        if (!allEnemiesDead)
+        if (!minEnemiesDead)
         {
             OnEnemyDeath();
         }
@@ -75,7 +76,7 @@ public class PLESpawn : PLEItem {
 
     private IEnumerator SpawnEnemies()
     {
-        allEnemiesDead = false;
+        minEnemiesDead = false;
         EnableAllMeshes(false);
         currentSpawnAmount = totalSpawnAmount;
         for (int i = 0; i < totalSpawnAmount; i++)
@@ -124,11 +125,11 @@ public class PLESpawn : PLEItem {
 
     private void OnEnemyDeath() {
         currentSpawnAmount--;
-        if (currentSpawnAmount <= 0) {
-            allEnemiesDead = true;
-            if (onAllEnemiesDead != null)
+        if (currentSpawnAmount <= MinSpawns) {
+            minEnemiesDead = true;
+            if (onMinEnemiesDead != null)
             {
-                onAllEnemiesDead();
+                onMinEnemiesDead();
             }
         }
     }
@@ -136,7 +137,7 @@ public class PLESpawn : PLEItem {
     private void ResetSpawnValues(params object[] parameters)
     {
         StopAllCoroutines();
-        allEnemiesDead = false;
+        minEnemiesDead = false;
         currentSpawnAmount = totalSpawnAmount;
         EnableAllMeshes(true);
     }

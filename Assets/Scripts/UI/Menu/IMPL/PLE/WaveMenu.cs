@@ -83,7 +83,7 @@ public class WaveMenu : PlayerLevelEditorMenu
         int currentWaveIndex = PLESpawnManager.Instance.TryDeleteWave(PLESpawnManager.Instance.CurrentWaveIndex);
         EventSystem.Instance.TriggerEvent(Strings.Events.PLE_DELETE_CURRENTWAVE);
         EventSystem.Instance.TriggerEvent(Strings.Events.PLE_SYNC_LEVEL_UNIT_STATES);
-        EventSystem.Instance.TriggerEvent(Strings.Events.PLE_CHANGEWAVE, currentWaveIndex);
+        EventSystem.Instance.TriggerEvent(Strings.Events.PLE_CALL_WAVE, currentWaveIndex);
         levelEditor.EnableCurrentWaveSpawnParents();
         mainPLEMenu.SetMenuButtonInteractabilityByState();
         UpdateWaveText();

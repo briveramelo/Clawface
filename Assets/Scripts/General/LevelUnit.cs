@@ -108,7 +108,6 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
     private void OnEnable() {
         RegisterToNamedStateEvents();
         EventSystem.Instance.RegisterEvent(Strings.Events.PLE_CALL_WAVE, TransitionToWave);
-        EventSystem.Instance.RegisterEvent(Strings.Events.PLE_CHANGEWAVE, TransitionToWave);
     }
 
     protected override void OnDisable() {
@@ -116,7 +115,6 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
         if (EventSystem.Instance) {
             DeRegisterFromNamedStateEvents();
             EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_CALL_WAVE, TransitionToWave);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_CHANGEWAVE, TransitionToWave);
         }
     }
 

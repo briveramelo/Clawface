@@ -243,6 +243,15 @@ public class LevelData {
         }
         return totalSpawnsOfType;
     }
+    public int MinNumSpawns(SpawnType spawnType, int waveIndex) {
+        List<PLESpawn> spawns = GetPLESpawnsFromWave(waveIndex);
+        PLESpawn spawn = spawns.Find(item=>item.spawnType==spawnType);
+        if (spawn) {
+            return spawn.MinSpawns;
+        }
+        return 0;
+    }
+
     public List<PLESpawn> GetPLESpawnsFromWave(int i_wave)
     {
         while (waveData.Count<=i_wave) {
@@ -315,21 +324,55 @@ public class WaveData {
         copy.spawnData.ForEach(spawn => {
             this.spawnData.Add(new SpawnData(spawn));
         });
+        copy.minSpawnsData.ForEach(minSpawns => {
+            this.minSpawnsData.Add(new MinSpawnsData(minSpawns));
+        });
     }
 
 
     public List<SpawnData> spawnData = new List<SpawnData>();
-    //public List<PLESpawn> spawners = new List<PLESpawn>();
-    public List<PLESpawn> GetPleSpawnsFromWave()
-    {
+    public List<MinSpawnsData> minSpawnsData = new List<MinSpawnsData>();
+
+    public List<PLESpawn> GetPleSpawnsFromWave() {
         List<PLESpawn> spawns = spawnData.Select(item => { return item.pleSpawn; }).ToList();
-        //spawners = spawns;
         return spawns;
+    }
+    public void SetMinSpawns(int spawnType, int minCount) {
+        Predicate<MinSpawnsData> typeMatch = data => data.spawnType == spawnType;
+        if (!minSpawnsData.Exists(typeMatch)) {
+            minSpawnsData.Add(new MinSpawnsData(spawnType, minCount));
+        }
+        else {
+            minSpawnsData.FindAll(typeMatch).ForEach(data=>data.minCount = minCount);
+        }
+    }
+    public int GetMinSpawns(SpawnType type) {
+        MinSpawnsData minSpawns = minSpawnsData.Find(data => data.SpawnType == type);
+        if (minSpawns != null) {
+            return minSpawns.minCount;
+        }
+        return 0;
     }
     public int WaveCount { get { return spawnData.Count; } }
 }
 
 [Serializable]
+public class MinSpawnsData {
+    public MinSpawnsData(MinSpawnsData copy) {
+        this.minCount = copy.minCount;
+        this.spawnType = copy.spawnType;
+    }
+    public MinSpawnsData(int count, int spawnType) {
+        this.minCount = count;
+        this.spawnType = spawnType;
+    }
+
+    public int minCount;
+    public int spawnType;
+    public SpawnType SpawnType { get { return (SpawnType)spawnType; } }
+}
+
+    [Serializable]
 public class SpawnData {
     public SpawnData(int spawnType, int count, Vector3 position) {
         this.spawnType = spawnType;

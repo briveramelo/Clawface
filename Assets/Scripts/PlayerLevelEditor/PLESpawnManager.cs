@@ -68,7 +68,7 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
 
         for (int i = 0; i < currentWaveSpawners.Count; i++) {
             PLESpawn spawn = currentWaveSpawners[i];
-            spawn.SetOnAllEnemiesDead(OnAllSpawnsInSpawnerDead);
+            spawn.SetOnMinEnemiesDead(OnMinSpawnsInSpawnerDead);
             spawn.StartSpawning();
         }
         EventSystem.Instance.TriggerEvent(Strings.Events.PLE_CALL_WAVE, waveIndex);
@@ -84,7 +84,7 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
         }
     }
 
-    private void OnAllSpawnsInSpawnerDead()
+    private void OnMinSpawnsInSpawnerDead()
     {
         //check if all spawners in given wave are marked as completed
         List<PLESpawn> currentWaveSpawners = WorkingLevelData.GetPLESpawnsFromWave(CurrentWaveIndex);
@@ -92,7 +92,7 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
 
         for (int i = 0; i < currentWaveSpawners.Count; i++) {
             PLESpawn currentSpawn = currentWaveSpawners[i];
-            if (!currentSpawn.allEnemiesDead && currentSpawn.spawnType!=SpawnType.Keira) {                
+            if (!currentSpawn.minEnemiesDead && currentSpawn.spawnType!=SpawnType.Keira) {                
                 waveDead = false;
                 break;
             }
@@ -124,7 +124,7 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
         for (int i = 0; i < currentWaveSpawners.Count; i++)
         {
             PLESpawn spawn = currentWaveSpawners[i];
-            spawn.SetOnAllEnemiesDead(null);
+            spawn.SetOnMinEnemiesDead(null);
         }
         FindObjectsOfType<EnemyBase>().ToList().ForEach(enemy => { enemy.OnDeath(); });
         CurrentWaveIndex = 0;
