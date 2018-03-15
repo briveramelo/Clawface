@@ -35,8 +35,7 @@ public class LeaderboardsMenu : Menu
     #endregion
 
     #region private fields
-    private List<LeaderboardEntry> leaderBoardEntries;
-    private bool allowInput;
+    private List<LeaderboardEntry> leaderBoardEntries=new List<LeaderboardEntry>();    
     private string currentLevelName;
     private LeaderBoards.SelectionType currentSelectionType;
     #endregion
@@ -79,9 +78,7 @@ public class LeaderboardsMenu : Menu
     #endregion
 
     #region Public methods
-    public LeaderboardsMenu() : base(Strings.MenuStrings.LEADER_BOARDS) {
-        leaderBoardEntries = new List<LeaderboardEntry>();
-    }
+    public LeaderboardsMenu() : base(Strings.MenuStrings.LEADER_BOARDS) { }
 
     public void OnPressBack()
     {
@@ -90,6 +87,7 @@ public class LeaderboardsMenu : Menu
             Destroy(entry.gameObject);
         }
         leaderBoardEntries.Clear();
+        StopAllCoroutines();
         MenuManager.Instance.DoTransition(Strings.MenuStrings.LevelEditor.LEVELSELECT_PLE_MENU, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
     }
 
@@ -113,28 +111,27 @@ public class LeaderboardsMenu : Menu
     #endregion
 
     #region protected methods
-    protected override void DefaultHide(Transition transition, Effect[] effects)
-    {
-        Fade(transition, effects);
-    }
-
     protected override void DefaultShow(Transition transition, Effect[] effects)
     {
-        Fade(transition, effects);
+        base.DefaultShow(transition, effects);
         GetLeaderboardEntries(LeaderBoards.SelectionType.GLOBAL);
+    }
 
+    protected override void ShowComplete() {
+        base.ShowComplete();        
+    }
+    protected override void HideComplete() {
+        base.HideComplete();
     }
 
     protected override void ShowStarted()
     {
         base.ShowStarted();
-        allowInput = true;
     }
 
     protected override void HideStarted()
     {
-        base.HideStarted();
-        allowInput = false;
+        base.HideStarted();        
     }
     #endregion
 
@@ -150,7 +147,7 @@ public class LeaderboardsMenu : Menu
         
         loadingObject.GetComponent<LoadingText>().SetError(result);
         loadingObject.SetActive(true);
-
+        verticalScrollbar.value = 1f;
     }
 
     private void OnLeaderBoardEntriesReturned(List<GenericSteamLeaderBoard.LeaderBoardVars> results, bool retry)
@@ -189,11 +186,11 @@ public class LeaderboardsMenu : Menu
         {
             GetLeaderboardEntries(currentSelectionType);
         }
-        StartCoroutine(DelayPositioningVerticalScrollbar());
+        MEC.Timing.RunCoroutine(DelayPositioningVerticalScrollbar(), coroutineName);
     }
 
-    IEnumerator DelayPositioningVerticalScrollbar() {
-        yield return null;
+    IEnumerator<float> DelayPositioningVerticalScrollbar() {
+        yield return 0f;
         verticalScrollbar.value = 1f;
     }
 

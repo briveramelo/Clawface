@@ -15,22 +15,12 @@ public abstract class PlayerLevelEditorMenu : Menu {
 
     public override Selectable InitialSelection { get { return initiallySelected; } }
 
-    protected bool allowInput;
-
     protected virtual void Update() {
         if (allowInput) {
             if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN)) {
                 BackAction();
             }
         }
-    }
-
-    protected override void DefaultHide(Transition transition, Effect[] effects) {
-        Fade(transition, effects);
-    }
-
-    protected override void DefaultShow(Transition transition, Effect[] effects) {
-        Fade(transition, effects);
     }
 
     public virtual void BackAction() {
@@ -44,12 +34,10 @@ public abstract class PlayerLevelEditorMenu : Menu {
 
     protected override void ShowStarted() {
         base.ShowStarted();
-        SetMenuButtonInteractabilityByState();
-        allowInput = true;
+        SetMenuButtonInteractabilityByState();        
     }
 
     protected override void HideStarted() {
         base.HideStarted();
-        allowInput = false;
     }
 }

@@ -231,7 +231,7 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
     public void OnShowLeaderboard() {
         if (SelectedLevelUI!=null) {
             string levelName = SelectedLevelUI.levelData.UniqueSteamName;
-            MenuManager.Instance.DoTransition(Strings.MenuStrings.LEADER_BOARDS, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+            MenuManager.Instance.DoTransition(Strings.MenuStrings.LEADER_BOARDS, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE, Effect.INSTANT });
             ((LeaderboardsMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LEADER_BOARDS)).SetLevelName(levelName);
         }
     }

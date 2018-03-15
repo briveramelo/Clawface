@@ -117,7 +117,7 @@ public class LevelSelectMenu : Menu
 
 	protected override void DefaultShow (Transition transition, Effect[] effects)
 	{
-		Fade (transition, effects);
+		base.DefaultShow(transition, effects);
 
 		// This menu needs to be exclusive.
 		MenuManager.Instance.DoTransitionOthers (this, Transition.HIDE, new Effect[] { });
