@@ -8,6 +8,7 @@ using MEC;
 public class PlayerStateManager : RoutineRunner {
 
     #region Public fields
+    public static GameObject keiraRootGameObject;
     public StateVariables stateVariables;
     #endregion
 
@@ -61,6 +62,7 @@ public class PlayerStateManager : RoutineRunner {
 
     // Use this for initialization
     void Start () {
+        keiraRootGameObject = transform.root.gameObject;
         stateChanged = false;
         stateVariables.stateFinished = true;
         stateVariables.playerTransform = transform;

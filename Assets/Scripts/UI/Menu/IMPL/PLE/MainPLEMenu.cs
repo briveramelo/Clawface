@@ -52,7 +52,8 @@ public class MainPLEMenu : PlayerLevelEditorMenu {
     }
 
 
-    void InitializeMenuToggles() {        
+    void InitializeMenuToggles() {
+        menuToggles.Clear();
         menuToggles.Add(new MenuToggle(PLEMenu.FLOOR, floorToggle));
         menuToggles.Add(new MenuToggle(PLEMenu.PROPS, propsToggle));
         menuToggles.Add(new MenuToggle(PLEMenu.SPAWN, spawnsToggle));
@@ -78,16 +79,16 @@ public class MainPLEMenu : PlayerLevelEditorMenu {
     public void SetUpMenus() {
         pleMenus.Clear();
         pleMenus = new List<PlayerLevelEditorMenu>() {
-                floorEditorMenu,
-                propsEditorMenu,
-                spawnsEditorMenu,
-                waveEditorMenu,
-                testEditorMenu,
-                saveEditorMenu,
-                levelSelectEditorMenu,
-                helpEditorMenu,
-                exitMenu
-            };
+            floorEditorMenu,
+            propsEditorMenu,
+            spawnsEditorMenu,
+            waveEditorMenu,
+            testEditorMenu,
+            saveEditorMenu,
+            levelSelectEditorMenu,
+            helpEditorMenu,
+            exitMenu
+        };
         //Hide menus that aren't need to be shown yet
         pleMenus.ForEach(menu => {
             MenuManager.Instance.DoTransition(menu, Transition.HIDE, new Effect[] { Effect.INSTANT });
@@ -148,7 +149,6 @@ public class MainPLEMenu : PlayerLevelEditorMenu {
         bool anyTilesOnAndPlayerOn = anyTilesOn && SpawnMenu.playerSpawnInstance != null;
         ToggleMenuInteractable(anyTilesOnAndPlayerOn, PLEMenu.TEST);
 
-
         levelEditor.TryCreateAllWaveParents();
         levelEditor.levelDataManager.SyncWorkingSpawnData();
 
@@ -173,7 +173,7 @@ public class MainPLEMenu : PlayerLevelEditorMenu {
     public void SetMenuButtonInteractabilityByState(PLEMenu menuToSet) {
         GetMenu(menuToSet).SetMenuButtonInteractabilityByState();
     }
-        public void SetMenuToggleOn(PLEMenu menu) {
+    public void SetMenuToggleOn(PLEMenu menu) {
         menuToggles.ForEach(menuToggle => { menuToggle.toggle.onValueChanged.SwitchListenerState(UnityEngine.Events.UnityEventCallState.Off); });
         menuToggles.Find(menuToggle => menuToggle.menu == menu).toggle.isOn = true;
         menuToggles.ForEach(menuToggle => { menuToggle.toggle.onValueChanged.SwitchListenerState(UnityEngine.Events.UnityEventCallState.RuntimeOnly); });
@@ -244,6 +244,29 @@ public class MainPLEMenu : PlayerLevelEditorMenu {
     public void OpenHelpAction() {
         SelectMenuItem(PLEMenu.HELP);
     }
+
+    public void QuitAction() {
+        SelectMenuItem(PLEMenu.EXIT);
+        ConfirmMenu confirmMenu = (ConfirmMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.CONFIRM);
+
+        Action onYesAction = () => {
+            Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
+            LoadMenu loadMenu = (LoadMenu)menu;
+            loadMenu.SetNavigation(Strings.Scenes.ScenePaths.MainMenu);
+            MenuManager.Instance.DoTransition(loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+        };
+
+        Action onNoAction = () => {
+            MenuManager.Instance.DoTransition(Strings.MenuStrings.CONFIRM, Transition.HIDE, new Effect[] { Effect.INSTANT });
+            MenuManager.Instance.DoTransition(confirmMenu, Transition.HIDE, new Effect[] { Effect.INSTANT });
+            OpenFloorSystemAction();
+        };
+
+        confirmMenu.DefineActions("You will lose any unsaved data. Are you sure?", onYesAction, onNoAction);
+
+        MenuManager.Instance.DoTransition(confirmMenu, Transition.SHOW, new Effect[] { Effect.INSTANT });
+    }
+
     public void SelectMenuItem(PLEMenu menu) {
         MenuToggle selectedMenuToggle = menuToggles.Find(menuToggle => menuToggle.menu == menu);
         Toggle selectedToggle = selectedMenuToggle.toggle;
@@ -268,31 +291,7 @@ public class MainPLEMenu : PlayerLevelEditorMenu {
         selectedMenuToggle.toggler.SetState(true);
         CurrentEventSystem.SetSelectedGameObject(selectedToggle.gameObject);
     }
-    public void QuitAction()
-    {
-        SelectMenuItem(PLEMenu.EXIT);
-        ConfirmMenu confirmMenu = (ConfirmMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.CONFIRM);
-
-        Action onYesAction = () =>
-        {
-            Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
-            LoadMenu loadMenu = (LoadMenu)menu;
-            loadMenu.SetNavigation(Strings.Scenes.ScenePaths.MainMenu);
-            MenuManager.Instance.DoTransition(loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
-        };
-
-        Action onNoAction = () =>
-        {
-            MenuManager.Instance.DoTransition(Strings.MenuStrings.CONFIRM, Transition.HIDE, new Effect[] { Effect.INSTANT });
-            MenuManager.Instance.DoTransition(confirmMenu, Transition.HIDE, new Effect[] { Effect.INSTANT });            
-            OpenFloorSystemAction();
-        };
-
-        confirmMenu.DefineActions("You will lose any unsaved data. Are you sure?", onYesAction, onNoAction);
-
-        MenuManager.Instance.DoTransition(confirmMenu, Transition.SHOW, new Effect[] { Effect.INSTANT });
-    }
-
+    
     public PlayerLevelEditorMenu GetMenu(PLEMenu i_menu) {
         switch (i_menu) {
             case PLEMenu.MAIN: return this;

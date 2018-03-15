@@ -75,11 +75,11 @@ public class SpawnMenu : PlacementMenu {
 
     #region Public Interface    
     public void IncrementMinSpawns() {
-        int newMinAmount = Mathf.Clamp(SelectedSpawn.MinSpawns + 1, 0, NumberSpawnsInWave-1);
+        int newMinAmount = Mathf.Clamp(SelectedSpawn.MinSpawns + 1, 0, NumberSpawnsInWave);
         ChangeSpawnAmountsInternally(SelectedSpawn.totalSpawnAmount, newMinAmount);
     }
     public void DecrementMinSpawns() {
-        int newMinAmount = Mathf.Clamp(SelectedSpawn.MinSpawns - 1, 0, NumberSpawnsInWave - 1);
+        int newMinAmount = Mathf.Clamp(SelectedSpawn.MinSpawns - 1, 0, NumberSpawnsInWave);
         ChangeSpawnAmountsInternally(SelectedSpawn.totalSpawnAmount, newMinAmount);
     }
 
@@ -93,8 +93,8 @@ public class SpawnMenu : PlacementMenu {
         ChangeSpawnAmountsInternally(newSpawnAmount, SelectedSpawn.MinSpawns);
 
         int numSpawnsInWave = NumberSpawnsInWave;
-        if (SelectedSpawn.MinSpawns >= numSpawnsInWave - 1) {
-            ChangeSpawnAmountsInternally(SelectedSpawn.totalSpawnAmount, numSpawnsInWave - 1);
+        if (SelectedSpawn.MinSpawns > numSpawnsInWave) {
+            ChangeSpawnAmountsInternally(SelectedSpawn.totalSpawnAmount, numSpawnsInWave);
         }
     }
     public void SetSpawnAmountsOnSelectedSpawn() {
@@ -106,7 +106,7 @@ public class SpawnMenu : PlacementMenu {
                 SelectedSpawn.totalSpawnAmount = spawnCount;
             }
             if (System.Int32.TryParse(minSpawnCountAmountField.text, out minSpawnCount)) {
-                minSpawnCount = Mathf.Clamp(minSpawnCount, 0, NumberSpawnsInWave - 1);
+                minSpawnCount = Mathf.Clamp(minSpawnCount, 0, NumberSpawnsInWave);
                 SelectedSpawn.MinSpawns = minSpawnCount;
             }
             mainPLEMenu.SetMenuButtonInteractabilityByState();
@@ -122,7 +122,7 @@ public class SpawnMenu : PlacementMenu {
         increaseSpawnCountButton.interactable = isItemSelectedAndNotKeira && NumberSpawnsInWave < MaxSpawnsAllowedInWave;
 
         decreaseMinSpawnCountButton.interactable = isItemSelectedAndNotKeira && SelectedSpawn.MinSpawns > 0;
-        increaseMinSpawnCountButton.interactable = isItemSelectedAndNotKeira && SelectedSpawn.MinSpawns < NumberSpawnsInWave -1;
+        increaseMinSpawnCountButton.interactable = isItemSelectedAndNotKeira && SelectedSpawn.MinSpawns < NumberSpawnsInWave;
 
 
         (scrollGroup as SpawnScrollGroup).HandleSpawnUIInteractability(PLESpawnManager.Instance.CurrentWaveIndex);

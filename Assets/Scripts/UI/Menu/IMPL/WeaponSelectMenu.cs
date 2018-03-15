@@ -173,14 +173,14 @@ public class WeaponSelectMenu : Menu
     protected override void ShowStarted() {
         base.ShowStarted();
         ResetMenu();
+        previousCamera = Camera.main;
+        previousGameObject = previousCamera.gameObject;
     }
 
     protected override void ShowComplete()
     {
         base.ShowComplete();
         inputGuard = true;
-        previousCamera = Camera.main;
-        previousGameObject = previousCamera.gameObject;
         previousCamera.enabled = false;
         menuCamera.enabled = true;
         fader.DoHide(fadeDuration, null);

@@ -26,15 +26,7 @@ public class TestMenu : PlayerLevelEditorMenu
         base.Start();
         stageOverMenu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.STAGE_OVER) as StageOverMenu;
         pauseMenu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.PAUSE) as PauseMenu;
-    }
-    protected override void Update() {
-        base.Update();
-        if (allowInput) {
-            if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN)) {
-                BackAction();
-            }
-        }        
-    }    
+    }   
 
     #endregion
 

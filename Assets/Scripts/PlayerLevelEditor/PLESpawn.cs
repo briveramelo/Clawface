@@ -49,19 +49,28 @@ public class PLESpawn : PLEItem {
     #endregion
 
     #region Public Interface
-    public bool MinEnemiesDead { get { return !minEnemiesDead && spawnType != SpawnType.Keira; } }
-    public bool AllEnemiesDead { get { return !allEnemiesDead && spawnType != SpawnType.Keira; } }
+    public bool MinEnemiesDead { get { return minEnemiesDead || spawnType == SpawnType.Keira; } }
+    public bool AllEnemiesDead { get { return allEnemiesDead || spawnType == SpawnType.Keira; } }
     public void SetOnCriticalEnemiesDead(Action onCriticalEnemiesDead) {
         this.onCriticalEnemiesDead = onCriticalEnemiesDead;
     }
 
     public void StartSpawning()
     {
+        minEnemiesDead = false;
+        allEnemiesDead = false;
+        EnableAllMeshes(false);
+        currentSpawnAmount = totalSpawnAmount;
+
         if (spawnType != SpawnType.Keira) {
             StartCoroutine(SpawnEnemies());
         }
         else {
-            gameObject.AddComponent<PlayerSpawner>();
+            PlayerSpawner spawner = gameObject.GetComponent<PlayerSpawner>();
+            if (spawner==null) {
+                gameObject.AddComponent<PlayerSpawner>();
+            }
+            gameObject.SetActive(true);
         }
     }
 
@@ -78,11 +87,7 @@ public class PLESpawn : PLEItem {
     }
 
     private IEnumerator SpawnEnemies()
-    {
-        minEnemiesDead = false;
-        allEnemiesDead = false;
-        EnableAllMeshes(false);
-        currentSpawnAmount = totalSpawnAmount;
+    {        
         for (int i = 0; i < totalSpawnAmount; i++)
         {
             GameObject newSpawnEffect = ObjectPool.Instance.GetObject(PoolObjectType.VFXEnemySpawn);
@@ -149,6 +154,10 @@ public class PLESpawn : PLEItem {
         currentSpawnAmount = totalSpawnAmount;
         Deselect();
         EnableAllMeshes(true);
+        PlayerSpawner keiraSpawner = GetComponent<PlayerSpawner>();
+        if (keiraSpawner!=null) {
+            Destroy(keiraSpawner);
+        }
     }
 
     void EnableAllMeshes(bool isEnabled) {

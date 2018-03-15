@@ -31,7 +31,7 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
 
     #endregion
 
-
+    private bool hasCycledLevel=false;
     #region Unity Lifecycle
 
     void Start()
@@ -55,6 +55,15 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
     #endregion
 
     #region Private Interface
+    private void TryStartLevel(params object[] parameters) {
+        if (SceneTracker.IsCurrentScenePlayerLevels || editorInstance.IsTesting) {
+            SyncLevelData();
+            Reset();
+            editorInstance.ToggleCameraGameObject(false);//should match up in same frame where keira's camera comes on
+            CallWave(0);
+        }
+    }
+
     private void CallNextWave(params object[] i_params)
     {
         CurrentWaveIndex++;
@@ -72,24 +81,14 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
             spawn.StartSpawning();
         }
         EventSystem.Instance.TriggerEvent(Strings.Events.PLE_CALL_WAVE, waveIndex);
-    }
-
-    private void TryStartLevel(params object[] parameters)
-    {
-        if (SceneTracker.IsCurrentScenePlayerLevels || editorInstance.IsTesting) {
-            SyncLevelData();
-            Reset();
-            editorInstance.ToggleCameraGameObject(false);//should match up in same frame where keira's camera comes on
-            CallWave(0);
-        }
-    }
+    }    
 
     private void OnCriticalSpawnsInSpawnerDead()
     {
         //check if all spawners in given wave are marked as completed
         List<PLESpawn> currentWaveSpawners = WorkingLevelData.GetPLESpawnsFromWave(CurrentWaveIndex);
         bool lastWaveIsComplete = true;
-        if (CurrentWaveIndex>0 || (CurrentWaveIndex == MaxWaveIndex && InfiniteWavesEnabled)) {
+        if (CurrentWaveIndex>0 || (CurrentWaveIndex == 0 && InfiniteWavesEnabled && hasCycledLevel)) {
             int lastWaveIndex = CurrentWaveIndex-1;
             if (lastWaveIndex<0) {
                 lastWaveIndex = MaxWaveIndex;
@@ -107,14 +106,15 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
                     ModManager.rightArmOnLoad.ToString());
             }
             else if (CurrentWaveIndex >= WorkingLevelData.WaveCount - 1 && InfiniteWavesEnabled) {
+                hasCycledLevel = true;
                 CallWave(0);
             }
             else {
                 CallNextWave();
             }
         }
-
     }
+
     private void Reset(params object[] parameters)
     {
         List<PLESpawn> currentWaveSpawners = WorkingLevelData.GetPLESpawnsFromWave(CurrentWaveIndex);
@@ -125,6 +125,7 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
         }
         FindObjectsOfType<EnemyBase>().ToList().ForEach(enemy => { enemy.OnDeath(); });
         CurrentWaveIndex = 0;
+        hasCycledLevel = false;
     }
     
 
