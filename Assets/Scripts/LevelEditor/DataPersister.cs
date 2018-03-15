@@ -156,7 +156,9 @@ public class LevelData {
         this.isInfinite = copy.isInfinite;
         this.isHathosLevel = copy.isHathosLevel;
         this.dateString = copy.dateString;
-        this.imageData = copy.imageData.ToArray();
+        if (copy.imageData!=null) {
+            this.imageData = copy.imageData.ToArray();
+        }
         copy.waveData.ForEach(wave => { this.waveData.Add(new WaveData(wave)); });
         copy.tileData.ForEach(tile => { this.tileData.Add(new TileData(tile)); });
         copy.propData.ForEach(prop => { this.propData.Add(new PropData(prop)); });
@@ -359,12 +361,12 @@ public class WaveData {
 [Serializable]
 public class MinSpawnsData {
     public MinSpawnsData(MinSpawnsData copy) {
-        this.minCount = copy.minCount;
         this.spawnType = copy.spawnType;
+        this.minCount = copy.minCount;
     }
-    public MinSpawnsData(int count, int spawnType) {
-        this.minCount = count;
+    public MinSpawnsData(int spawnType, int minCount) {
         this.spawnType = spawnType;
+        this.minCount = minCount;
     }
 
     public int minCount;

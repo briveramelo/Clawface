@@ -40,7 +40,7 @@ public class PropsMenu : PlacementMenu
     #region Protected Interface
     protected override bool SelectUI { get { return base.SelectUI && ScrollGroupHelper.currentUIItem !=null; } }
     protected override bool SelectItem { get { return base.SelectItem && MouseHelper.currentProp != null; } }
-    protected override bool CanDeletedHoveredItem { get { return base.CanDeletedHoveredItem && MouseHelper.currentProp; } }
+    protected override bool CanDeleteHoveredItem { get { return base.CanDeleteHoveredItem && MouseHelper.currentProp; } }
 
     protected override void DeselectAllGameItems() {
         base.DeselectAllGameItems();

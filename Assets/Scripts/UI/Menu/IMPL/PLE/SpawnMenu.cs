@@ -131,8 +131,8 @@ public class SpawnMenu : PlacementMenu {
 
     #region Protected Interface
     protected override bool SelectUI { get { return base.SelectUI && ScrollGroupHelper.currentUIItem != null && ScrollGroupHelper.currentUIItem.isInteractable; } }
-    protected override bool SelectItem { get { return base.SelectUI && MouseHelper.currentSpawn != null; } }
-    protected override bool CanDeletedHoveredItem { get { return base.CanDeletedHoveredItem && MouseHelper.currentSpawn; } }
+    protected override bool SelectItem { get { return base.SelectItem && MouseHelper.currentSpawn != null; } }
+    protected override bool CanDeleteHoveredItem { get { return base.CanDeleteHoveredItem && MouseHelper.currentSpawn; } }
     protected override bool Place { get { return base.Place && !MouseHelper.currentBlockUnit.HasActiveSpawn && !(!MouseHelper.currentBlockUnit.IsFlatAtWave(0) && selectedItemPrefab.GetComponent<PLESpawn>().spawnType==SpawnType.Keira); } }
     protected override bool ReplaceGameItem { get { return base.ReplaceGameItem && !(!MouseHelper.currentBlockUnit.IsFlatAtWave(0) && SelectedSpawn.spawnType == SpawnType.Keira); } }
     protected override bool UpdateGameItem { get { return base.UpdateGameItem && !(!MouseHelper.currentBlockUnit.IsFlatAtWave(0) && SelectedSpawn.spawnType == SpawnType.Keira); } }

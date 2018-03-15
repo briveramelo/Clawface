@@ -24,7 +24,7 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
 
     #region Boolean Helpers
     protected virtual bool SelectUI { get { return Input.GetMouseButtonDown(MouseButtons.LEFT); } }
-    protected virtual bool SelectItem { get { return Input.GetMouseButtonDown(MouseButtons.LEFT) && MouseHelper.HitItem; } }
+    protected virtual bool SelectItem { get { return Input.GetMouseButtonDown(MouseButtons.LEFT) && MouseHelper.currentItem!=null && MouseHelper.currentBlockUnit!=null; } }
     protected virtual bool DeSelectItem { get { return (Input.GetMouseButtonDown(MouseButtons.LEFT) || Input.GetMouseButtonDown(MouseButtons.RIGHT)) && !MouseHelper.HitUI; } }
     protected bool RightClick { get { return Input.GetMouseButtonDown(MouseButtons.RIGHT); } }
     protected virtual bool Place { get { return Input.GetMouseButtonDown(MouseButtons.LEFT) && selectedItemPrefab != null && MouseHelper.currentBlockUnit != null && !MouseHelper.currentBlockUnit.IsOccupied && MouseHelper.currentBlockUnit.IsFlatAtWave(PLESpawnManager.Instance.CurrentWaveIndex); } }
@@ -32,7 +32,7 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
     protected virtual bool UpdatePreview { get { return previewItem != null && IsCurrentTileAvailable; } }
     protected virtual bool UpdateGameItem { get { return selectedPLEItem != null && Input.GetMouseButton(MouseButtons.LEFT) && IsCurrentTileAvailable; } }
     protected virtual bool ReplaceGameItem { get { return selectedPLEItem != null && Input.GetMouseButtonUp(MouseButtons.LEFT) && IsCurrentTileAvailable; } }
-    protected virtual bool CanDeletedHoveredItem { get { return MouseHelper.currentHoveredObject && itemNames.Contains(MouseHelper.currentHoveredObject.name); } }
+    protected virtual bool CanDeleteHoveredItem { get { return Input.GetMouseButtonDown(MouseButtons.RIGHT) && MouseHelper.currentHoveredObject!=null && itemNames.Contains(MouseHelper.currentHoveredObject.name); } }
     #endregion
 
     #region Unity Lifecycle
@@ -48,7 +48,7 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
             else if (DeSelectItem) {
                 bool deletedPreviewItem = DeselectUIItem();
                 DeselectItem();
-                if (!deletedPreviewItem && CanDeletedHoveredItem) {
+                if (!deletedPreviewItem && CanDeleteHoveredItem) {
                     DeleteHoveredItem();
                 }
             }

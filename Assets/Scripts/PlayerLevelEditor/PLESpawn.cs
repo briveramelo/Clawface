@@ -15,12 +15,13 @@ public class PLESpawn : PLEItem {
     private List<GameObject> spawnedEnemies = new List<GameObject>();
     
     private Vector3 ActualSpawnPos { get { return transform.position + Vector3.up * spawnHeightOffset; } }
-    private Action onMinEnemiesDead;
+    private Action onCriticalEnemiesDead;
     #endregion
     
     #region Public Fields
     [HideInInspector] public int registeredWave = -99;
     [HideInInspector] public bool minEnemiesDead = false;
+    [HideInInspector] public bool allEnemiesDead = false;
     #endregion
 
     #region Serialized Unity Fields
@@ -48,8 +49,10 @@ public class PLESpawn : PLEItem {
     #endregion
 
     #region Public Interface
-    public void SetOnMinEnemiesDead(Action onMinEnemiesDead) {
-        this.onMinEnemiesDead = onMinEnemiesDead;
+    public bool MinEnemiesDead { get { return !minEnemiesDead && spawnType != SpawnType.Keira; } }
+    public bool AllEnemiesDead { get { return !allEnemiesDead && spawnType != SpawnType.Keira; } }
+    public void SetOnCriticalEnemiesDead(Action onCriticalEnemiesDead) {
+        this.onCriticalEnemiesDead = onCriticalEnemiesDead;
     }
 
     public void StartSpawning()
@@ -68,7 +71,7 @@ public class PLESpawn : PLEItem {
 
     private void ReportDeath()
     {
-        if (!minEnemiesDead)
+        if (!allEnemiesDead)
         {
             OnEnemyDeath();
         }
@@ -77,6 +80,7 @@ public class PLESpawn : PLEItem {
     private IEnumerator SpawnEnemies()
     {
         minEnemiesDead = false;
+        allEnemiesDead = false;
         EnableAllMeshes(false);
         currentSpawnAmount = totalSpawnAmount;
         for (int i = 0; i < totalSpawnAmount; i++)
@@ -127,9 +131,12 @@ public class PLESpawn : PLEItem {
         currentSpawnAmount--;
         if (currentSpawnAmount <= MinSpawns) {
             minEnemiesDead = true;
-            if (onMinEnemiesDead != null)
-            {
-                onMinEnemiesDead();
+            if (currentSpawnAmount<=0) {
+                allEnemiesDead = true;
+            }
+
+            if (onCriticalEnemiesDead != null) {
+                onCriticalEnemiesDead();
             }
         }
     }
@@ -138,7 +145,9 @@ public class PLESpawn : PLEItem {
     {
         StopAllCoroutines();
         minEnemiesDead = false;
+        allEnemiesDead = false;
         currentSpawnAmount = totalSpawnAmount;
+        Deselect();
         EnableAllMeshes(true);
     }
 

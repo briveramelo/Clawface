@@ -68,7 +68,7 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
 
         for (int i = 0; i < currentWaveSpawners.Count; i++) {
             PLESpawn spawn = currentWaveSpawners[i];
-            spawn.SetOnMinEnemiesDead(OnMinSpawnsInSpawnerDead);
+            spawn.SetOnCriticalEnemiesDead(OnCriticalSpawnsInSpawnerDead);
             spawn.StartSpawning();
         }
         EventSystem.Instance.TriggerEvent(Strings.Events.PLE_CALL_WAVE, waveIndex);
@@ -84,35 +84,32 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
         }
     }
 
-    private void OnMinSpawnsInSpawnerDead()
+    private void OnCriticalSpawnsInSpawnerDead()
     {
         //check if all spawners in given wave are marked as completed
         List<PLESpawn> currentWaveSpawners = WorkingLevelData.GetPLESpawnsFromWave(CurrentWaveIndex);
-        bool waveDead = true;
-
-        for (int i = 0; i < currentWaveSpawners.Count; i++) {
-            PLESpawn currentSpawn = currentWaveSpawners[i];
-            if (!currentSpawn.minEnemiesDead && currentSpawn.spawnType!=SpawnType.Keira) {                
-                waveDead = false;
-                break;
+        bool lastWaveIsComplete = true;
+        if (CurrentWaveIndex>0 || (CurrentWaveIndex == MaxWaveIndex && InfiniteWavesEnabled)) {
+            int lastWaveIndex = CurrentWaveIndex-1;
+            if (lastWaveIndex<0) {
+                lastWaveIndex = MaxWaveIndex;
             }
+            List<PLESpawn> lastWaveSpawners = WorkingLevelData.GetPLESpawnsFromWave(lastWaveIndex);
+            lastWaveIsComplete= lastWaveSpawners.All(spawner => { return spawner.AllEnemiesDead; });
         }
+        bool currentWaveMinEnemiesAreDead = currentWaveSpawners.All(spawner => { return spawner.MinEnemiesDead; });
 
-        if(waveDead)
-        {
-            if (CurrentWaveIndex >= WorkingLevelData.WaveCount - 1 && !InfiniteWavesEnabled)
-            {
+        if (lastWaveIsComplete && currentWaveMinEnemiesAreDead) {
+            if (CurrentWaveIndex >= WorkingLevelData.WaveCount - 1 && !InfiniteWavesEnabled) {
                 EventSystem.Instance.TriggerEvent(
                     Strings.Events.LEVEL_COMPLETED, SceneTracker.CurrentSceneName, 
                     ScoreManager.Instance.GetScore(), ModManager.leftArmOnLoad.ToString(),
                     ModManager.rightArmOnLoad.ToString());
             }
-            else if (CurrentWaveIndex >= WorkingLevelData.WaveCount - 1 && InfiniteWavesEnabled)
-            {
+            else if (CurrentWaveIndex >= WorkingLevelData.WaveCount - 1 && InfiniteWavesEnabled) {
                 CallWave(0);
             }
-            else
-            {
+            else {
                 CallNextWave();
             }
         }
@@ -124,7 +121,7 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
         for (int i = 0; i < currentWaveSpawners.Count; i++)
         {
             PLESpawn spawn = currentWaveSpawners[i];
-            spawn.SetOnMinEnemiesDead(null);
+            spawn.SetOnCriticalEnemiesDead(null);
         }
         FindObjectsOfType<EnemyBase>().ToList().ForEach(enemy => { enemy.OnDeath(); });
         CurrentWaveIndex = 0;
