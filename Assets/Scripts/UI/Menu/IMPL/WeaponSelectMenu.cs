@@ -103,7 +103,6 @@ public class WeaponSelectMenu : Menu
 
     #region Fields (Private)
 
-    private bool inputGuard = false;
     private bool BothArmsSelected { get { return !selectingPlayerRight && !selectingPlayerLeft; } }
     private GameObject previousGameObject;
     private Camera previousCamera;
@@ -128,7 +127,7 @@ public class WeaponSelectMenu : Menu
     
     private void Update ()
 	{
-        if (inputGuard) {
+        if (allowInput) {
             HandleSelectionFlow();
 
             if (isLeftBack) {
@@ -169,7 +168,6 @@ public class WeaponSelectMenu : Menu
     protected override void ShowComplete()
     {
         base.ShowComplete();
-        inputGuard = true;
         previousCamera.enabled = false;
         menuCamera.enabled = true;
         fader.DoHide(fadeDuration, null);
@@ -178,7 +176,6 @@ public class WeaponSelectMenu : Menu
     protected override void HideStarted()
     {
         base.HideStarted();
-        inputGuard = false;
     }
 
     protected override void HideComplete()

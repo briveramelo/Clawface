@@ -109,12 +109,6 @@ public class LevelSelectMenu : Menu
 	#endregion
 
 	#region Interface (Menu)
-
-	protected override void DefaultHide (Transition transition, Effect[] effects)
-	{
-		Fade (transition, effects);
-	}
-
 	protected override void DefaultShow (Transition transition, Effect[] effects)
 	{
 		base.DefaultShow(transition, effects);
