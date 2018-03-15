@@ -31,6 +31,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     [SerializeField] PushDirection pushDirection;
     [SerializeField] GameObject hips;
     [SerializeField] protected SpawnType enemyType;
+    [SerializeField] private GameObject skeletonRoot;
     #endregion
 
     #region 3. Private fields
@@ -39,13 +40,15 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     private bool aboutTobeEaten = false;
     private Collider[] playerColliderList = new Collider[10];
     private Rigidbody[] jointRigidBodies;
-    private List<float> rigidBodyMasses;
-    private Vector3 grabStartPosition;
+    private List<TransformMemento> skeletonTransformMomentos;
+    private Transform[] skeletonTransforms;
+    private List<float> rigidBodyMasses;    
     private bool isIndestructable;
     private int id;
     private bool ragdollOn;
     private float currentStunTime = 0.0f;
     private Vector3 spawnPosition;
+    private TransformMemento grabObjectMomento;
     #endregion
 
     #region 0. Protected fields
@@ -97,14 +100,16 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     public virtual void Awake()
     {
         poolParent = transform.parent;
-        transformMemento.Initialize(transform);        
+        transformMemento.Initialize(transform);
+        InitSkeleton();
         InitRagdoll();        
         if (grabObject != null)
         {
-            grabStartPosition = grabObject.transform.localPosition;
+            grabObjectMomento = new TransformMemento();
+            grabObjectMomento.Initialize(grabObject.transform);
         }        
         ResetForRebirth();        
-    }
+    }  
 
     protected override void OnDisable()
     {
@@ -332,11 +337,11 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
             //Ignore the first entry (its the self rigidbody)
             for (int i = 1; i < jointRigidBodies.Length; i++)
             {
-                RagdollHandler ragdollHandler = jointRigidBodies[i].GetComponent<RagdollHandler>();
-                if (ragdollHandler)
-                {
-                    ragdollHandler.ResetBone();
-                }
+                //RagdollHandler ragdollHandler = jointRigidBodies[i].GetComponent<RagdollHandler>();
+                //if (ragdollHandler)
+                //{
+                //    ragdollHandler.ResetBone();
+                //}
                 jointRigidBodies[i].useGravity = false;
                 jointRigidBodies[i].velocity = Vector3.zero;
                 jointRigidBodies[i].angularVelocity = Vector3.zero;
@@ -347,12 +352,20 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
                 }                
             }
         }
+        //Reset skeleton
+        if (skeletonRoot)
+        {
+            for(int i = 0; i < skeletonTransforms.Length; i++)
+            {
+                skeletonTransformMomentos[i].Reset(skeletonTransforms[i]);
+            }
+        }
+
         animator.enabled = true;        
         if (grabObject)
         {
             grabObject.transform.parent = transform;
-            grabObject.transform.localPosition = grabStartPosition;
-            grabObject.transform.localScale = Vector3.one;
+            grabObjectMomento.Reset(grabObject.transform);
         }        
         ragdollOn = false;
     }
@@ -554,6 +567,20 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         foreach(Rigidbody rb in jointRigidBodies)
         {
             rigidBodyMasses.Add(rb.mass);
+        }
+    }
+
+    private void InitSkeleton()
+    {
+        if (skeletonRoot) {
+            skeletonTransformMomentos = new List<TransformMemento>();
+            skeletonTransforms = skeletonRoot.GetComponentsInChildren<Transform>();
+            foreach(Transform transform in skeletonTransforms)
+            {
+                TransformMemento transformMemento = new TransformMemento();
+                transformMemento.Initialize(transform);
+                skeletonTransformMomentos.Add(transformMemento);
+            }
         }
     }
 
