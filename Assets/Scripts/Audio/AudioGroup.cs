@@ -139,6 +139,8 @@ namespace Turing.Audio
         /// </summary>
         float longestClipLength;
 
+        static Camera mainCamera;
+
         #endregion
         #region Unity Lifecycle
 
@@ -251,8 +253,25 @@ namespace Turing.Audio
                 if (audioSource == null)
                     audioSource = gameObject.AddComponent<AudioSource>();
             }
+
+            if (Application.isPlaying)
+            {
+                audioSource.panStereo = GetPanPosition();
+                audioSource.volume = 1.0f - Mathf.Abs(audioSource.panStereo);
+            }
+            
             audioSource.PlayOneShot (clip, 
                 channel.GetVolume() * uniformVolume);
+        }
+
+        float GetPanPosition ()
+        {
+            if (mainCamera == null || !mainCamera.isActiveAndEnabled)
+                mainCamera = Camera.main;
+
+            Vector3 screenPos = mainCamera.WorldToViewportPoint(transform.position);
+            screenPos = screenPos - Vector3.one + 2.0f * screenPos;
+            return screenPos.x / 2.0f;
         }
 
         public void SetMixer(AudioMixer i_mixer)
@@ -260,8 +279,7 @@ namespace Turing.Audio
             //mixer.FindMatchingGroups("Master")[0]
 
             //audioSource.outputAudioMixerGroup = i_mixer.outputAudioMixerGroup;
-            audioSource.outputAudioMixerGroup = i_mixer.FindMatchingGroups("Master")[0];
-            int x = 3;
+            //audioSource.outputAudioMixerGroup = i_mixer.FindMatchingGroups("Master")[0];
         }
 
         /// <summary>

@@ -48,7 +48,8 @@ public enum SFXType {
     LandmarkBlastShort,
     PLEPlaceObject,
     PLEHoverUI,
-    PLEClickUI
+    PLEClickUI,
+    BoomerangWallImpact
 }
 
 public enum MusicType

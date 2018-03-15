@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 82343220385328698}
   - component: {fileID: 114465718272997332}
   - component: {fileID: 114194473817416828}
+  - component: {fileID: 114702819208490690}
   m_Layer: 0
   m_Name: SFX_LightningGunShoot
   m_TagString: Untagged
@@ -50,12 +51,12 @@ AudioSource:
   m_GameObject: {fileID: 1170875137002706}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 24300002, guid: 7912cd0fac86ed741b76e37da7a81fd1,
+  OutputAudioMixerGroup: {fileID: 243733127483093136, guid: 7912cd0fac86ed741b76e37da7a81fd1,
     type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 0.12
-  m_Pitch: 1
+  m_Volume: 1
+  m_Pitch: 0.9677503
   Loop: 0
   Mute: 0
   Spatialize: 0
@@ -110,7 +111,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -157,22 +158,46 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   channels:
   - {fileID: 114194473817416828}
+  - {fileID: 114702819208490690}
   loop: 0
   playOnStart: 0
   spatialBlend: 1
   maxDistance: 500
   changeVolumeEachLoop: 0
-  uniformVolume: 0.5
+  uniformVolume: 1
   useRandomVolume: 0
   randomVolumeRange:
     minLimit: 0
     maxLimit: 0
     min: 1
     max: 1
-  randomPitch: 0
+  randomPitch: 1
   changePitchEachLoop: 0
-  pitch: 1
+  pitch: 0.9677503
   pitchRange:
+    minLimit: 0
+    maxLimit: 0
+    min: 0.9
+    max: 1.1
+--- !u!114 &114702819208490690
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1170875137002706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e594d69e58e793c47b9d13e384085fc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clips:
+  - {fileID: 8300000, guid: 930f33c2a1a73254d846cb25ee27fb1e, type: 3}
+  - {fileID: 8300000, guid: b3e9cc0d289ddad4eb04e50c1d159fc8, type: 3}
+  - {fileID: 8300000, guid: 34ea4dcf96f4d724681b46991eee6568, type: 3}
+  changeVolumeEachLoop: 0
+  uniformVolume: 1
+  useRandomVolume: 0
+  randomVolumeRange:
     minLimit: 0
     maxLimit: 0
     min: 1
