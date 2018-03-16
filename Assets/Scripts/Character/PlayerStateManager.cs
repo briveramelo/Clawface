@@ -369,7 +369,7 @@ public class PlayerStateManager : RoutineRunner {
         if (!isLevelComplete) {
             playerStates.Add(defaultState);
         }
-        stateVariables.velBody.velocity = Vector3.zero;        
+        stateVariables.velBody.velocity = Vector3.zero;
         stateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.Idle);
         stateChanged = false;
     }
