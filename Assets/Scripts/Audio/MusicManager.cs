@@ -35,6 +35,7 @@ public class MusicManager : Singleton<MusicManager>
     private void Start()
     {
         EventSystem.Instance.RegisterEvent(Strings.Events.SCENE_LOADED, PlayMusicInSceneContext);
+        EventSystem.Instance.RegisterEvent(Strings.Events.MUSIC_INTENSITY_STARTED, PlayMusicInSceneContext);
         musicDictionary = new Dictionary<MusicType, AudioClip>();
         foreach (GameTrack t in gameTracks) {
             musicDictionary.Add(t.type, t.trackClip);
@@ -49,6 +50,7 @@ public class MusicManager : Singleton<MusicManager>
         if(EventSystem.Instance)
         {
             EventSystem.Instance.UnRegisterEvent(Strings.Events.SCENE_LOADED, PlayMusicInSceneContext);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.MUSIC_INTENSITY_STARTED, PlayMusicInSceneContext);
         }
     }
 

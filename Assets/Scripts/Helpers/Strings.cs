@@ -166,6 +166,7 @@
 
     public class Events
     {
+        public const string MUSIC_INTENSITY_STARTED = "MUSIC_INTENSITY_STARTED";
         public const string FACE_OPEN = "FaceOpen";
         public const string CAPTURE_ENEMY = "CaptureEnemy";
         public const string ARM_ANIMATION_COMPLETE = "ArmAnimationComplete";

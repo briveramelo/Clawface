@@ -18,16 +18,17 @@ public class MusicIntensityManager : MonoBehaviour {
     [SerializeField] private LoopingAudioSet loopingAudioSet;
     [SerializeField] private List<string> musicEventsList;
     [SerializeField] private float blendSpeed;
-
-    public bool removeMe;
     #endregion
 
     #region unity lifecycle
-    // Use this for initialization
+    private void Awake() {
+        EventSystem.Instance.TriggerEvent(Strings.Events.MUSIC_INTENSITY_STARTED);
+    }
     void Start () {
-		for (int i = 0; i< musicEventsList.Count; i++)
+        
+        for (int i = 0; i< musicEventsList.Count; i++)
         {
-            //EventSystem.Instance.RegisterEvent(musicEventsList[i], ChangeTrack);         
+            EventSystem.Instance.RegisterEvent(musicEventsList[i], ChangeTrack);         
         }
         loopingAudioSet.Initialize(transform, musicMixerGroup);
         currentTrack = -1;
@@ -41,13 +42,6 @@ public class MusicIntensityManager : MonoBehaviour {
             {
                 EventSystem.Instance.UnRegisterEvent(musicEventsList[i], ChangeTrack);                
             }
-        }
-    }
-
-    private void Update() {
-        if (removeMe) {
-            removeMe = false;
-            ChangeTrack();
         }
     }
     #endregion
