@@ -172,6 +172,7 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
 
     protected override void ShowStarted() {
         base.ShowStarted();
+        allowInput = true;
     }
     protected override void ShowComplete() {
         base.ShowComplete();

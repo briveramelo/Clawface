@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 
-public class MoveState : IPlayerState
-{
+public class MoveState : IPlayerState {
     #region Fields (Unity Serialization)
 
     [SerializeField]
@@ -20,20 +19,19 @@ public class MoveState : IPlayerState
     #endregion
 
     #region Unity lifecycle
-    private void OnEnable()
-    {
+    private void OnEnable() {
         EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_KILLED, PlayerDead);
+        EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_COMPLETED, StopMoving);
     }
 
-    protected override void OnDisable()
-    {
+    protected override void OnDisable() {
         base.OnDisable();
-        if (EventSystem.Instance)
-        {
+        if (EventSystem.Instance) {
             EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_KILLED, PlayerDead);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_COMPLETED, StopMoving);
         }
     }
-    #endregion
+    #endregion      
 
     #region Public Methods    
     public override void Init(ref PlayerStateManager.StateVariables moveStateVariables)
@@ -45,39 +43,32 @@ public class MoveState : IPlayerState
 
     public override void StateUpdate()
     {
-        if (!playerDead)
-        {
+        if (!playerDead && stateVariables.playerCanMove) {
             Vector2 controllerMoveDir = InputManager.Instance.QueryAxes(Strings.Input.Axes.MOVEMENT);
             Vector2 lookDir = InputManager.Instance.QueryAxes(Strings.Input.Axes.LOOK);
 
             bool usesMouse = ShouldUseMouse();
-            if (usesMouse)
-            {
+            if (usesMouse) {
                 lookDir = DetermineMouseLook();
-            } else
-            {
+            } else {
                 lookDir = InputManager.Instance.QueryAxes(Strings.Input.Axes.LOOK);
             }
 
             bool isAnyAxisInput = controllerMoveDir.magnitude > stateVariables.axisThreshold;
-            if (!isAnyAxisInput)
-            {
+            if (!isAnyAxisInput) {
                 controllerMoveDir = Vector2.zero;
             }
-            if (lookDir.magnitude > stateVariables.axisThreshold)
-            {
+            if (lookDir.magnitude > stateVariables.axisThreshold) {
                 lastLookDirection = new Vector3(lookDir.x, 0, lookDir.y);
             }
-            else
-            {
+            else {
                 lastLookDirection = Vector3.zero;
             }
             Vector2 moveModified = new Vector2(controllerMoveDir.x, controllerMoveDir.y);
 
             moveDirection = new Vector3(moveModified.x, 0.0F, moveModified.y);
 
-            if (!canMove)
-            {
+            if (!canMove) {
                 moveDirection = Vector3.zero;
                 lastMoveDirection = Vector3.zero;
             }
@@ -86,25 +77,21 @@ public class MoveState : IPlayerState
             moveDirection.y = 0f;
             moveDirection.Normalize();
 
-            if (!usesMouse)
-            {
+            if (!usesMouse) {
                 lastLookDirection = Camera.main.transform.TransformDirection(lastLookDirection);
             }
             lastLookDirection.y = 0f;
             lastLookDirection.Normalize();
 
-            if (moveDirection != Vector3.zero)
-            {
+            if (moveDirection != Vector3.zero) {
                 lastMoveDirection = moveDirection;
             }
-            else if (lastLookDirection != Vector3.zero)
-            {
+            else if (lastLookDirection != Vector3.zero) {
                 lastMoveDirection = lastLookDirection;
             }
             stateVariables.velBody.MoveDirection = lastMoveDirection;
 
-            switch (stateVariables.velBody.GetMovementMode())
-            {
+            switch (stateVariables.velBody.GetMovementMode()) {
                 case MovementMode.PRECISE:
                     MovePrecise();
                     break;
@@ -127,6 +114,11 @@ public class MoveState : IPlayerState
     #endregion
 
     #region Private Methods
+
+    private void StopMoving(params object[] parameters) {
+        stateVariables.velBody.velocity = Vector3.zero;
+    }
+
     private void MovePrecise() {
         stateVariables.velBody.velocity = moveDirection * stateVariables.statsManager.GetStat(CharacterStatType.MoveSpeed);
         if (moveDirection.magnitude > stateVariables.axisThreshold)

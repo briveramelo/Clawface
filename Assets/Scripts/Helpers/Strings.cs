@@ -115,7 +115,6 @@
         public const string STAGE_OVER = "StageOverMenu";
         public const string SETTINGS = "Settings";
         public const string CONTROLS = "Controls";
-        public const string LEVEL_SELECT = "LevelSelect";
         public const string WEAPON_SELECT = "WeaponSelect";
         public const string LEADER_BOARDS = "LeaderBoards";
         public const string CONFIRM = "ConfirmMenu";

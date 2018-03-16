@@ -57,6 +57,7 @@ public abstract class Menu : RoutineRunner {
         }
     }
     protected bool allowInput;
+    protected DisplayState currentState=DisplayState.HIDE_FINISHED;
     protected Coroutine transitionRoutine;
     #endregion
 
@@ -99,11 +100,13 @@ public abstract class Menu : RoutineRunner {
         switch (transition)
         {
             case Transition.SHOW:
-                //if (Displayed) return;
+                if (Displayed) return;
+                ShowStarted();
                 TransitionWithEffects(transition, effects);
                 return;
             case Transition.HIDE:
-                //if (!Displayed) return;
+                if (!Displayed) return;
+                HideStarted();
                 TransitionWithEffects(transition, effects);
                 return;
             case Transition.TOGGLE:
@@ -142,11 +145,9 @@ public abstract class Menu : RoutineRunner {
     //// Helper Functions for Transitioning between menus
     // Default Show / Hide
     protected virtual void DefaultShow(Transition transition, Effect[] effects) {
-        ShowStarted();
         Fade(transition, effects);
     }
     protected virtual void DefaultHide(Transition transition, Effect[] effects) {
-        HideStarted();
         Fade(transition, effects);
     }
 
@@ -196,20 +197,24 @@ public abstract class Menu : RoutineRunner {
     // "Events" Used Internally by implementations
     protected virtual void ShowStarted()
     {
+        currentState = DisplayState.SHOW_TRANSITIONING;
         canvas.SetActive(true);
     }
     protected virtual void ShowComplete()
     {
+        currentState = DisplayState.SHOW_FINISHED;
         displayed = true;
         allowInput = true;
     }
     protected virtual void HideStarted() {
         allowInput = false;
+        currentState = DisplayState.HIDE_TRANSITIONING;
     }
     protected virtual void HideComplete()
     {
         canvas.SetActive(false);
         displayed = false;
+        currentState = DisplayState.HIDE_FINISHED;
     }
     protected virtual void SpecialStarted() { }
     protected virtual void SpecialComplete() { } 
@@ -218,14 +223,7 @@ public abstract class Menu : RoutineRunner {
     #region Private Interface
 
     private void TransitionWithEffects(Transition transition, Effect[] effects)
-    {
-        if (transition == Transition.SHOW) {
-            ShowStarted();
-        }
-        else if (transition == Transition.HIDE) {
-            HideStarted();
-        }
-
+    {        
         foreach (Effect effect in effects)
         { // First come, first serve
             if (effect == Effect.FADE)
@@ -246,7 +244,7 @@ public abstract class Menu : RoutineRunner {
         if (transition == Transition.SHOW)
         {
             DefaultShow(transition, effects);
-        } else
+        } else if(transition == Transition.HIDE)
         {
             DefaultHide(transition, effects);
         }
@@ -255,6 +253,12 @@ public abstract class Menu : RoutineRunner {
     #endregion
 
     #region Types
+    public enum DisplayState {
+        SHOW_FINISHED,
+        SHOW_TRANSITIONING,
+        HIDE_TRANSITIONING,
+        HIDE_FINISHED,
+    }
     public enum Transition
     {
         SHOW,       // Reveals this menu
