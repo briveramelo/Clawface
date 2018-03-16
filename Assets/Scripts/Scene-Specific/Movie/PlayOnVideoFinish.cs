@@ -33,7 +33,7 @@ public class PlayOnVideoFinish : MonoBehaviour {
             blackScreen.Play();
         }
 
-        if (InputManager.Instance.QueryAction(Strings.Input.UI.SUBMIT, ButtonMode.DOWN) || InputManager.Instance.QueryAction(Strings.Input.Actions.PAUSE, ButtonMode.DOWN) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Escape))
+        if (InputManager.Instance.AnyKey())
         {
             LoadLevel();
         }
