@@ -3,13 +3,16 @@ using System.Collections;
 using UnityEngine.Assertions;
 using UnityEngine;
 using UnityEngine.UI;
-
+using ModMan;
 public class InGameUI : MonoBehaviour {
 
     #region Public Fields
     #endregion
 
     #region Serialized Unity Inspector Fields
+    [Header("Multiplier")]
+    [SerializeField] private Text multiplierText;
+
     [Header("OnScreenCombo")]
     [SerializeField] private Text onScreenCombo;
     [SerializeField] private Image onScreenComboImage;
@@ -58,7 +61,8 @@ public class InGameUI : MonoBehaviour {
         {
             //register events
             EventSystem.Instance.RegisterEvent(Strings.Events.SCORE_UPDATED, UpdateScore);
-            EventSystem.Instance.RegisterEvent(Strings.Events.MULTIPLIER_UPDATED, UpdateCombo);
+            EventSystem.Instance.RegisterEvent(Strings.Events.MULTIPLIER_UPDATED, UpdateMultiplier);
+            EventSystem.Instance.RegisterEvent(Strings.Events.COMBO_UPDATED, UpdateCombo);
             EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_DAMAGED, DoDamageEffect);
             EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_HEALTH_MODIFIED, SetHealth);
             // EventSystem.Instance.RegisterEvent(Strings.Events.COMBO_TIMER_UPDATED, UpdateComboQuadrant);
@@ -71,12 +75,14 @@ public class InGameUI : MonoBehaviour {
             // EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_STARTED, HideCombo);
             // EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_RESTARTED, HideCombo);
         }
+        multiplierText.text = "";
         onScreenCombo.text = "";
         onScreenScoreDelta.text = "";
         onScreenScore.text = "";
         waveCompleteText.text = "";
         UpdateCombo(null);
         HideTutorialText(null);
+        UpdateMultiplier(ScoreManager.Instance.GetDifficultyMultiplier());
         ShowHUD(null);
     }
 
@@ -88,7 +94,8 @@ public class InGameUI : MonoBehaviour {
         if (EventSystem.Instance)
         {
             EventSystem.Instance.UnRegisterEvent(Strings.Events.SCORE_UPDATED, UpdateScore);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.MULTIPLIER_UPDATED, UpdateCombo);
+            EventSystem.Instance.RegisterEvent(Strings.Events.MULTIPLIER_UPDATED, UpdateMultiplier);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.COMBO_UPDATED, UpdateCombo);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_DAMAGED, DoDamageEffect);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_HEALTH_MODIFIED, SetHealth);
             // EventSystem.Instance.UnRegisterEvent(Strings.Events.COMBO_TIMER_UPDATED, UpdateComboQuadrant);
@@ -227,6 +234,13 @@ public class InGameUI : MonoBehaviour {
         StartCoroutine(PopTextAndHide(onScreenScoreDelta.gameObject,1.0f));
     }
 
+    private void UpdateMultiplier(params object[] parameters) {
+        float multiplierValue = (float)parameters[0];
+        bool hasDecimal = !multiplierValue.AboutEqual(Mathf.Round(multiplierValue));
+        string format = hasDecimal ? "x{0:n1}" : "x{0:n0}";
+        multiplierText.text = string.Format(format, multiplierValue);
+    }
+
     private void UpdateCombo(params object[] currentCombo)
     {
         SetAlphaOfText(onScreenCombo, 1.0f);
@@ -236,24 +250,23 @@ public class InGameUI : MonoBehaviour {
 
         if (currentCombo != null && currentCombo[0] != null)
         {
-            combo = Mathf.FloorToInt((float)currentCombo[0]);
+            combo = Mathf.FloorToInt((int)currentCombo[0]);
         }
         else
         {
-            combo = Mathf.FloorToInt(ScoreManager.Instance.GetCurrentPreDifficultyMultiplier());
+            combo = Mathf.FloorToInt(0);
         }
 
         if (combo > 0)
         {
-            onScreenCombo.text = "x " + combo.ToString();
+            onScreenCombo.text = combo.ToString();
             comboAnimation.Play();
         }
         else
         {
             if (onScreenCombo.color.a != 0f)
             {
-                SetAlphaOfText(onScreenCombo, 0.0f);
-                SetAlphaOfImage(onScreenComboImage, 0.0f);
+                HideCombo();
             }
         }
     }

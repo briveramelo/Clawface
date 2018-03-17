@@ -95,9 +95,16 @@ public class ScoreManager : Singleton<ScoreManager> {
     #region Public Methods
     public void ResetCombo()
     {
-        currentCombo = 0;
+        if (GetCurrentMultiplier() != GetDifficultyMultiplier()) {
+            EventSystem.Instance.TriggerEvent(Strings.Events.MULTIPLIER_UPDATED, GetDifficultyMultiplier());
+        }
+
+        if (currentCombo!=0) {
+            currentCombo = 0;
+            EventSystem.Instance.TriggerEvent(Strings.Events.COMBO_UPDATED, 0);
+        }
+
         // EventSystem.Instance.TriggerEvent(Strings.Events.COMBO_TIMER_UPDATED, 0.0f);
-        EventSystem.Instance.TriggerEvent(Strings.Events.MULTIPLIER_UPDATED, GetCurrentPreDifficultyMultiplier());
     }
 
     public void ResetScore()
@@ -141,7 +148,7 @@ public class ScoreManager : Singleton<ScoreManager> {
 
         if (!Mathf.Approximately(beforeMultiplier, afterMultiplier))
         {
-            EventSystem.Instance.TriggerEvent(Strings.Events.MULTIPLIER_UPDATED, GetCurrentPreDifficultyMultiplier());
+            EventSystem.Instance.TriggerEvent(Strings.Events.MULTIPLIER_UPDATED, GetCurrentMultiplier());
         }
 
         CalculateTimerQuadrant();
@@ -176,14 +183,9 @@ public class ScoreManager : Singleton<ScoreManager> {
         float baseMultiplier = (currentCombo < scoreMultiplierPerCombo.Count) ? scoreMultiplierPerCombo[currentCombo] : scoreMultiplierPerCombo[scoreMultiplierPerCombo.Count - 1];
         return baseMultiplier;
     }
-
-    public float GetCurrentMultiplier()
-    {
-        float baseMultiplier = GetCurrentPreDifficultyMultiplier();
+    public float GetDifficultyMultiplier() {
         Difficulty difficulty = SettingsManager.Instance.Difficulty;
-
         float difficultyMultiplier = 0f;
-
         switch (difficulty) {
             case Difficulty.EASY:
                 difficultyMultiplier = easyModeMultiplier;
@@ -197,8 +199,14 @@ public class ScoreManager : Singleton<ScoreManager> {
             default:
                 difficultyMultiplier = normalModeMultiplier;
                 break;
-            }
+        }
+        return difficultyMultiplier;
+    }
 
+    public float GetCurrentMultiplier()
+    {
+        float baseMultiplier = GetCurrentPreDifficultyMultiplier();
+        float difficultyMultiplier = GetDifficultyMultiplier();
         return baseMultiplier * difficultyMultiplier;
     }
 
@@ -333,7 +341,7 @@ public class ScoreManager : Singleton<ScoreManager> {
         currentQuadrant = 0;
 
         CalculateTimerQuadrant();
-        EventSystem.Instance.TriggerEvent(Strings.Events.MULTIPLIER_UPDATED, GetCurrentPreDifficultyMultiplier());
+        EventSystem.Instance.TriggerEvent(Strings.Events.MULTIPLIER_UPDATED, GetDifficultyMultiplier());
     }
 
     private void OnLevelRestart(params object[] parameters)
