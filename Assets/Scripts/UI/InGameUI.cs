@@ -94,7 +94,7 @@ public class InGameUI : MonoBehaviour {
         if (EventSystem.Instance)
         {
             EventSystem.Instance.UnRegisterEvent(Strings.Events.SCORE_UPDATED, UpdateScore);
-            EventSystem.Instance.RegisterEvent(Strings.Events.MULTIPLIER_UPDATED, UpdateMultiplier);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.MULTIPLIER_UPDATED, UpdateMultiplier);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.COMBO_UPDATED, UpdateCombo);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_DAMAGED, DoDamageEffect);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_HEALTH_MODIFIED, SetHealth);

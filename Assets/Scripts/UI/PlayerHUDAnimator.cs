@@ -139,6 +139,8 @@ public class PlayerHUDAnimator : MonoBehaviour
 
     void ResetBounce ()
     {
+        StopAllCoroutines();
+
         multiplierTrans.localRotation = combo.localRotation = score.localRotation = health.localRotation = Quaternion.identity;
 
         multiplierTrans.localScale = multiplierOriginalScale;
@@ -146,10 +148,8 @@ public class PlayerHUDAnimator : MonoBehaviour
         score.localScale = scoreOriginalScale;
         health.localScale = healthOriginalScale;
 
-
         comboGraphics[0].color = comboOriginalColor;
         multiplierGraphics[0].color = multiplierOriginalColor;
-        StopAllCoroutines();
     }
 
     [System.Serializable]
