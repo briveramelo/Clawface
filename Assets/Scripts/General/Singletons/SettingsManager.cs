@@ -1,6 +1,7 @@
 ﻿#region Using Statements
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -239,11 +240,15 @@ public class SettingsManager : Singleton<SettingsManager>
             }
             get
             {
-                return (from resolution in Screen.resolutions
-                        where resolution.width == resolutionData.width
-                        where resolution.height == resolutionData.height
-                        orderby resolution.refreshRate descending
-                        select resolution).First();
+                List<Resolution> resolutions = (from resolution in Screen.resolutions
+                                           where resolution.width == resolutionData.width
+                                           where resolution.height == resolutionData.height
+                                           orderby resolution.refreshRate descending
+                                           select resolution).ToList();
+                if (resolutions.Count==0) {
+                    return new Resolution();
+                }                
+                return resolutions[0];
             }
         }
 
