@@ -144,6 +144,8 @@ public class LoopingAudioSet {
             newSource.clip = clip;
             newSource.volume = 0f;
             newSource.Play();
+            newSource.bypassReverbZones = true;
+            newSource.reverbZoneMix = 0.0f;
             sources.Add(newSource);
         }
 

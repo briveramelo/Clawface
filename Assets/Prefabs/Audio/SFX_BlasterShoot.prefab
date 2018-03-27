@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 82500678604555514}
   - component: {fileID: 114701360835503230}
   - component: {fileID: 114689947579331012}
+  - component: {fileID: 114177415347017868}
   m_Layer: 0
   m_Name: SFX_BlasterShoot
   m_TagString: Untagged
@@ -56,7 +57,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
-  m_Pitch: 1
+  m_Pitch: 0.9781316
   Loop: 0
   Mute: 0
   Spatialize: 0
@@ -124,6 +125,27 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+--- !u!114 &114177415347017868
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1579506943045628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e594d69e58e793c47b9d13e384085fc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clips:
+  - {fileID: 8300000, guid: f7303cd99f684b94c8637b39efce44c4, type: 3}
+  changeVolumeEachLoop: 0
+  uniformVolume: 0.9
+  useRandomVolume: 0
+  randomVolumeRange:
+    minLimit: 0
+    maxLimit: 0
+    min: 1
+    max: 1
 --- !u!114 &114566966861051816
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -138,6 +160,7 @@ MonoBehaviour:
   channels:
   - {fileID: 114701360835503230}
   - {fileID: 114689947579331012}
+  - {fileID: 114177415347017868}
   loop: 0
   playOnStart: 0
   spatialBlend: 1
@@ -150,14 +173,14 @@ MonoBehaviour:
     maxLimit: 0
     min: 1
     max: 1
-  randomPitch: 0
+  randomPitch: 1
   changePitchEachLoop: 0
-  pitch: 1
+  pitch: 0.9781316
   pitchRange:
     minLimit: 0
     maxLimit: 0
-    min: 1
-    max: 1
+    min: 0.92
+    max: 1.08
 --- !u!114 &114689947579331012
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -174,7 +197,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 558780615fee76845b793dce9966b440, type: 3}
   - {fileID: 8300000, guid: 2c2a541fe8fc90944a7558c92dfb23cf, type: 3}
   changeVolumeEachLoop: 0
-  uniformVolume: 1
+  uniformVolume: 0.75
   useRandomVolume: 0
   randomVolumeRange:
     minLimit: 0

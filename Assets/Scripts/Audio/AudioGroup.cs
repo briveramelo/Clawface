@@ -256,8 +256,9 @@ namespace Turing.Audio
 
             if (Application.isPlaying)
             {
-                audioSource.panStereo = GetPanPosition();
-                audioSource.volume = 1.0f - Mathf.Abs(audioSource.panStereo);
+                audioSource.panStereo = Mathf.Lerp(0.0f, GetPanPosition(), spatialBlend);
+                float threeDVolume = channel.GetVolume() * Mathf.Sqrt(1.0f - Mathf.Abs(audioSource.panStereo));
+                audioSource.volume = Mathf.Lerp(channel.GetVolume() * uniformVolume, threeDVolume, spatialBlend);
             }
             
             audioSource.PlayOneShot (clip, 
@@ -271,7 +272,7 @@ namespace Turing.Audio
 
             Vector3 screenPos = mainCamera.WorldToViewportPoint(transform.position);
             screenPos = screenPos - Vector3.one + 2.0f * screenPos;
-            return screenPos.x / 2.0f;
+            return screenPos.x / 3.0f;
         }
 
         public void SetMixer(AudioMixer i_mixer)

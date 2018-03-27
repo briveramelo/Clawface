@@ -33,6 +33,9 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     [SerializeField] GameObject hips;
     [SerializeField] protected SpawnType enemyType;
     [SerializeField] private GameObject skeletonRoot;
+    [SerializeField] protected SFXType vocalizeSound = SFXType.None;
+    [SerializeField] protected Vector2 vocalizeInterval = Vector2.one;
+    [SerializeField] protected SFXType footstepSound = SFXType.None;
     #endregion
 
     #region 3. Private fields
@@ -136,6 +139,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
             EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_KILLED, DoPlayerKilledState);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.ENEMY_INVINCIBLE, SetInvincible);
         }
+        CancelInvoke("Vocalize");
     }
     #endregion
 
@@ -515,11 +519,29 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         if (spaceFound)
         {
             ActivateAIMethods(warpPosition);
+            Vocalize();
         }
         else
         {
             //Kill
             OnDeath();
+        }
+    }
+
+    void Vocalize ()
+    {
+        if (enabled && vocalizeSound != SFXType.None)
+        {
+            SFXManager.Instance.Play(vocalizeSound, transform.position);
+            Invoke ("Vocalize", UnityEngine.Random.Range(vocalizeInterval.x, vocalizeInterval.y));
+        }
+    }
+
+    void PlayFootstepSound ()
+    {
+        if (footstepSound != SFXType.None)
+        {
+            SFXManager.Instance.Play(footstepSound, transform.position);
         }
     }
 
