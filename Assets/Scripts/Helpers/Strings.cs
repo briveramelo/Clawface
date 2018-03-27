@@ -115,7 +115,6 @@
         public const string STAGE_OVER = "StageOverMenu";
         public const string SETTINGS = "Settings";
         public const string CONTROLS = "Controls";
-        public const string LEVEL_SELECT = "LevelSelect";
         public const string WEAPON_SELECT = "WeaponSelect";
         public const string LEADER_BOARDS = "LeaderBoards";
         public const string CONFIRM = "ConfirmMenu";
@@ -167,6 +166,7 @@
 
     public class Events
     {
+        public const string MUSIC_INTENSITY_STARTED = "MUSIC_INTENSITY_STARTED";
         public const string FACE_OPEN = "FaceOpen";
         public const string CAPTURE_ENEMY = "CaptureEnemy";
         public const string ARM_ANIMATION_COMPLETE = "ArmAnimationComplete";
@@ -195,6 +195,7 @@
 
         public const string SCORE_UPDATED = "ScoreUpdated";
         public const string COMBO_UPDATED = "ComboUpdated";
+        public const string MULTIPLIER_UPDATED = "MultiplierUpdated";
         public const string COMBO_TIMER_UPDATED = "ComboTimerUpdated";
         public const string PLAYER_HEALTH_MODIFIED = "PlayerHealthModified";
 

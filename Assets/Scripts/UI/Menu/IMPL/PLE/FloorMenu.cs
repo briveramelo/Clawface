@@ -13,8 +13,6 @@ public class FloorMenu : PlayerLevelEditorMenu {
 
     #region Private Fields
 
-    private bool inputGuard = false;
-    private float raycastDistance = 1000.0f;
     private Vector3 sceneMousePos;
     private Vector3 newItemPos = Vector3.zero;
     #endregion
@@ -89,13 +87,11 @@ public class FloorMenu : PlayerLevelEditorMenu {
     protected override void ShowComplete()
     {
         base.ShowComplete();
-        inputGuard = true;        
     }
 
     protected override void HideStarted()
     {
         base.HideStarted();
-        inputGuard = false;
         levelEditor.gridController.ClearSelectedBlocks();
         levelEditor.gridController.SetGridVisiblity(false);
         levelEditor.gridController.ShowWalls();

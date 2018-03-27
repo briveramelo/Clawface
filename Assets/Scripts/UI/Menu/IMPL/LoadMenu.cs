@@ -71,7 +71,6 @@ public class LoadMenu : Menu {
     private bool loaded = false;
     private bool fast = true;
     private string target = "";
-    private bool allowInput;
     #endregion
 
     #region Unity Lifecycle Methods
@@ -107,27 +106,14 @@ public class LoadMenu : Menu {
 
     #region Protected Interface
 
-    protected override void DefaultShow(Transition transition, Effect[] effects)
-    {
-        Fade(transition, effects);
-    }
-
-    protected override void DefaultHide(Transition transition, Effect[] effects)
-    {
-        Fade(transition, effects);
-    }
-
     protected override void ShowComplete()
     {
         base.ShowComplete();
         StartCoroutine(LoadingCoroutine());
-        allowInput = true;
-        //MusicManager.Instance.SetMusicAudioLevel(0.0f);
     }
 
     protected override void HideStarted() {
         base.HideStarted();
-        allowInput = false;
     }
     protected override void HideComplete()
     {

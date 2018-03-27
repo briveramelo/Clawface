@@ -3,13 +3,16 @@ using System.Collections;
 using UnityEngine.Assertions;
 using UnityEngine;
 using UnityEngine.UI;
-
+using ModMan;
 public class InGameUI : MonoBehaviour {
 
     #region Public Fields
     #endregion
 
     #region Serialized Unity Inspector Fields
+    [Header("Multiplier")]
+    [SerializeField] private Text multiplierText;
+
     [Header("OnScreenCombo")]
     [SerializeField] private Text onScreenCombo;
     [SerializeField] private Image onScreenComboImage;
@@ -51,35 +54,35 @@ public class InGameUI : MonoBehaviour {
     #endregion
 
     #region Unity Lifecycle
-    void Awake()
-    {
-        comboTimer.fillAmount = 0f;
-        
-    }
+
     private void Start()
     {
         if (EventSystem.Instance)
         {
             //register events
             EventSystem.Instance.RegisterEvent(Strings.Events.SCORE_UPDATED, UpdateScore);
+            EventSystem.Instance.RegisterEvent(Strings.Events.MULTIPLIER_UPDATED, UpdateMultiplier);
             EventSystem.Instance.RegisterEvent(Strings.Events.COMBO_UPDATED, UpdateCombo);
             EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_DAMAGED, DoDamageEffect);
             EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_HEALTH_MODIFIED, SetHealth);
-            EventSystem.Instance.RegisterEvent(Strings.Events.COMBO_TIMER_UPDATED, UpdateComboQuadrant);
+            // EventSystem.Instance.RegisterEvent(Strings.Events.COMBO_TIMER_UPDATED, UpdateComboQuadrant);
             EventSystem.Instance.RegisterEvent(Strings.Events.SHOW_TUTORIAL_TEXT, ShowTutorialText);
             EventSystem.Instance.RegisterEvent(Strings.Events.HIDE_TUTORIAL_TEXT, HideTutorialText);
             EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_COMPLETED, HideHUD);
             EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_FAILED, HideHUD);
             EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_KILLED, HideHUD);
             EventSystem.Instance.RegisterEvent(Strings.Events.WAVE_COMPLETE, ShowWaveText);
-            EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_STARTED, HideCombo);
-            EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_RESTARTED, HideCombo);
+            // EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_STARTED, HideCombo);
+            // EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_RESTARTED, HideCombo);
         }
+        multiplierText.text = "";
         onScreenCombo.text = "";
         onScreenScoreDelta.text = "";
         onScreenScore.text = "";
         waveCompleteText.text = "";
+        UpdateCombo(null);
         HideTutorialText(null);
+        UpdateMultiplier(ScoreManager.Instance.GetDifficultyMultiplier());
         ShowHUD(null);
     }
 
@@ -91,18 +94,19 @@ public class InGameUI : MonoBehaviour {
         if (EventSystem.Instance)
         {
             EventSystem.Instance.UnRegisterEvent(Strings.Events.SCORE_UPDATED, UpdateScore);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.MULTIPLIER_UPDATED, UpdateMultiplier);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.COMBO_UPDATED, UpdateCombo);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_DAMAGED, DoDamageEffect);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_HEALTH_MODIFIED, SetHealth);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.COMBO_TIMER_UPDATED, UpdateComboQuadrant);
+            // EventSystem.Instance.UnRegisterEvent(Strings.Events.COMBO_TIMER_UPDATED, UpdateComboQuadrant);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.SHOW_TUTORIAL_TEXT, ShowTutorialText);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.HIDE_TUTORIAL_TEXT, HideTutorialText);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_COMPLETED, HideHUD);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_FAILED, HideHUD);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_KILLED, HideHUD);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.WAVE_COMPLETE, ShowWaveText);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_STARTED, HideCombo);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_RESTARTED, HideCombo);
+            // EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_STARTED, HideCombo);
+            // EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_RESTARTED, HideCombo);
         }
     }
     #endregion
@@ -230,21 +234,39 @@ public class InGameUI : MonoBehaviour {
         StartCoroutine(PopTextAndHide(onScreenScoreDelta.gameObject,1.0f));
     }
 
+    private void UpdateMultiplier(params object[] parameters) {
+        float multiplierValue = (float)parameters[0];
+        bool hasDecimal = !multiplierValue.AboutEqual(Mathf.Round(multiplierValue));
+        string format = hasDecimal ? "x{0:n1}" : "x{0:n0}";
+        multiplierText.text = string.Format(format, multiplierValue);
+    }
+
     private void UpdateCombo(params object[] currentCombo)
     {
         SetAlphaOfText(onScreenCombo, 1.0f);
         SetAlphaOfImage(onScreenComboImage, 1.0f);
-        if ((int)currentCombo[0] > 0)
+
+        int combo;
+
+        if (currentCombo != null && currentCombo[0] != null)
         {
-            onScreenCombo.text = "x " + currentCombo[0].ToString();
+            combo = Mathf.FloorToInt((int)currentCombo[0]);
+        }
+        else
+        {
+            combo = Mathf.FloorToInt(0);
+        }
+
+        if (combo > 0)
+        {
+            onScreenCombo.text = combo.ToString();
             comboAnimation.Play();
         }
         else
         {
             if (onScreenCombo.color.a != 0f)
             {
-                SetAlphaOfText(onScreenCombo, 0.0f);
-                SetAlphaOfImage(onScreenComboImage, 0.0f);
+                HideCombo();
             }
         }
     }

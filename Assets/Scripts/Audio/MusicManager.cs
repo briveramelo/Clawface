@@ -35,6 +35,7 @@ public class MusicManager : Singleton<MusicManager>
     private void Start()
     {
         EventSystem.Instance.RegisterEvent(Strings.Events.SCENE_LOADED, PlayMusicInSceneContext);
+        EventSystem.Instance.RegisterEvent(Strings.Events.MUSIC_INTENSITY_STARTED, PlayMusicInSceneContext);
         musicDictionary = new Dictionary<MusicType, AudioClip>();
         foreach (GameTrack t in gameTracks) {
             musicDictionary.Add(t.type, t.trackClip);
@@ -49,6 +50,7 @@ public class MusicManager : Singleton<MusicManager>
         if(EventSystem.Instance)
         {
             EventSystem.Instance.UnRegisterEvent(Strings.Events.SCENE_LOADED, PlayMusicInSceneContext);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.MUSIC_INTENSITY_STARTED, PlayMusicInSceneContext);
         }
     }
 
@@ -58,8 +60,8 @@ public class MusicManager : Singleton<MusicManager>
    
 
     public void SetMusicAudioLevel(float i_newlevel) {
-        i_newlevel = Mathf.Clamp(i_newlevel, 0.0f, 1.0f);
-        musicMixer.SetFloat("Volume", LinearToDecibel(i_newlevel));
+        i_newlevel = Mathf.Clamp01(i_newlevel);
+        musicMixer.SetFloat("Volume", i_newlevel.ToDecibel());
     }
 
 
@@ -118,19 +120,7 @@ public class MusicManager : Singleton<MusicManager>
         loopMusicSource.Play();
     }
 
-    private float LinearToDecibel(float linear)
-    {
-        float dB;
-        if (linear != 0)
-        {
-            dB = 40F * Mathf.Log10(linear);
-        }
-        else
-        {
-            dB = -80F;
-        }
-        return dB;
-    }
+    
 
 
 

@@ -2,38 +2,33 @@
 using System.Collections.Generic;
 using UnityEngine;
 using MEC;
-
-public class MusicIntensityManager : RoutineRunner {
+using UnityEngine.Audio;
+using ModMan;
+public class MusicIntensityManager : MonoBehaviour {
 
     #region private fields
-    private int currentTrack;
-    private bool isSource2Active;
     private bool isChangingTrack;
+    private List<AudioClip> Clips { get { return loopingAudioSet.clips; } }
+    [SerializeField] AudioMixerGroup musicMixerGroup;
     #endregion
 
     #region serialized fields
-    [SerializeField]
-    private AudioSource source1;
-    [SerializeField]
-    private AudioSource source2;
-    [SerializeField]
-    private List<AudioClip> clips;
-    [SerializeField]
-    private List<string> musicEventsList;
-    [SerializeField]
-    private float blendSpeed = 0.1f;
-    bool stopped;
+    [SerializeField] private LoopingAudioSet loopingAudioSet;
+    [SerializeField] private List<string> musicEventsList;
+    [SerializeField] private float blendSpeed;
     #endregion
 
     #region unity lifecycle
-    // Use this for initialization
+    private void Awake() {
+        EventSystem.Instance.TriggerEvent(Strings.Events.MUSIC_INTENSITY_STARTED);
+    }
     void Start () {
-		for (int i=0;i< musicEventsList.Count; i++)
+        
+        for (int i = 0; i< musicEventsList.Count; i++)
         {
             EventSystem.Instance.RegisterEvent(musicEventsList[i], ChangeTrack);         
         }
-        currentTrack = -1;
-        isSource2Active = false;
+        loopingAudioSet.Initialize(transform, musicMixerGroup);
     }
 
     private void OnDestroy()
@@ -46,40 +41,30 @@ public class MusicIntensityManager : RoutineRunner {
             }
         }
     }
-    #endregion
+    #endregion    
 
     #region public functions
-    public void Stop(params object[] items) {
-        stopped = true;
-        source1.Stop();
-        source2.Stop();
-    }
-
-    public void Play(params object[] items) {
-        source1.Play();
-        source2.Play();
-    }
 
     public void AddMusicTransitionEvent(string eventName, AudioClip clip)
     {
         musicEventsList.Add(eventName);
-        clips.Add(clip);
+        Clips.Add(clip);
     }
 
     public void ClearAll()
     {
-        clips.Clear();
+        Clips.Clear();
         musicEventsList.Clear();
     }
 
-    #if UNITY_EDITOR
+#if UNITY_EDITOR
     public AudioClip GetAudioClipByEventName(string eventName)
     {
         AudioClip result = null;
         int index = musicEventsList.IndexOf(eventName);
-        if(index > -1 && clips.Count > index)
+        if(index > -1 && Clips.Count > index)
         {
-            result = clips[index];
+            result = Clips[index];
         }
         return result;
     }
@@ -90,54 +75,121 @@ public class MusicIntensityManager : RoutineRunner {
     #region private functions
     private void ChangeTrack(params object[] parameters)
     {
-        if (!stopped) {
-            isChangingTrack = true;
-            Timing.KillCoroutines(coroutineName);
-            Timing.RunCoroutine(ChangeTrack(), coroutineName);        
-        }
+        isChangingTrack = true;
+        StopAllCoroutines();
+        StartCoroutine(PanVolume());
     }
 
-    private IEnumerator<float> ChangeTrack()
-    {
-        if (!stopped) {
-            currentTrack++;
-            if (clips.Count > currentTrack) {
-                AudioClip newClip = clips[currentTrack];
-                if (isSource2Active) {
-                    PlayNew(source1, newClip);
-                }
-                else {
-                    PlayNew(source2, newClip);
-                }
-                while (isChangingTrack) {
-                    if (isSource2Active) {
-                        BlendSources(source2, source1);
-                    }
-                    else {
-                        BlendSources(source1, source2);
-                    }
-                    yield return 0f;
-                }
+    private IEnumerator PanVolume() {
+        isChangingTrack = loopingAudioSet.BeginMovingToNextClip();
+        float currentProgress = 0f;
+        while (isChangingTrack) {
+            currentProgress += blendSpeed * Time.deltaTime;
+            if (loopingAudioSet.UpdateActiveAndNextSourceVolumes(currentProgress)) {
+                isChangingTrack = false;
             }
+            yield return null;
         }
-    }
-
-    void PlayNew(AudioSource source, AudioClip newClip) {
-        source.clip = newClip;
-        source.Play();
-    }
-
-    void BlendSources(AudioSource firstSource, AudioSource secondSource) {
-        float volume = firstSource.volume;
-        volume -= blendSpeed;
-        volume = Mathf.Clamp01(volume);
-        firstSource.volume = volume;
-        secondSource.volume = 1.0f - volume;
-        if (volume == 0.0f) {
-            firstSource.Stop();
-            isChangingTrack = false;
-        }
-    }
+    }    
     #endregion
 
+}
+
+[System.Serializable]
+public class LoopingAudioSet {
+    [HideInInspector] public List<AudioSource> sources = new List<AudioSource>();
+    public List<AudioClip> clips = new List<AudioClip>();
+    [HideInInspector] public Transform parent;
+    public int activeSourceIndex;
+    public int ActiveSourceIndex {
+        get { return Mathf.Clamp(activeSourceIndex, 0, sources.Count-1); }
+        set {
+            int newIndex = value;
+            if (newIndex >= sources.Count) {
+                newIndex = 0;
+            }
+            activeSourceIndex = newIndex;
+        }
+    }
+    public int NextSourceIndex {
+        get {
+            int nextIndex = ActiveSourceIndex + 1;
+            if (nextIndex >= sources.Count) {
+                nextIndex = sources.Count - 1;
+            }
+            return nextIndex;
+        }
+    }
+    public int PreviousSourceIndex{
+        get {
+            int previousIndex = ActiveSourceIndex - 1;
+            if (previousIndex< 0) {
+                previousIndex = sources.Count-1;
+            }
+            return previousIndex;
+        }
+    }
+
+    public AudioSource PreviousSource { get { if (ActiveSourceIndex - 1 < 0) return null; return sources[PreviousSourceIndex]; } }
+    public AudioSource ActiveSource { get { return sources[ActiveSourceIndex]; } }
+    public AudioSource NextSource { get { if (ActiveSourceIndex + 1 >= sources.Count) return null; return sources[NextSourceIndex]; } }
+
+    public void Initialize(Transform parent, AudioMixerGroup mixerGroup) {
+        this.parent = parent;
+        sources.Clear();
+        foreach (AudioClip clip in clips) {
+            AudioSource newSource = parent.gameObject.AddComponent<AudioSource>();
+            newSource.loop = true;
+            newSource.outputAudioMixerGroup = mixerGroup;
+            newSource.clip = clip;
+            newSource.volume = 0f;
+            newSource.Play();
+            sources.Add(newSource);
+        }
+
+        if (sources.Count>0) {
+            sources[0].volume = 1f;
+        }        
+    }
+
+    public bool BeginMovingToNextClip() {
+        if (PreviousSource!=null) {
+            PreviousSource.volume = 0f;
+        }
+        bool isNextClipDifferentFromCurrent = false;
+        if (NextSource!=null) {
+            isNextClipDifferentFromCurrent = ActiveSource.clip != NextSource.clip;
+            if (!isNextClipDifferentFromCurrent) {                
+                GameObject.Destroy(NextSource);
+                sources.RemoveAt(NextSourceIndex);
+                clips.RemoveAt(NextSourceIndex);
+            }
+        }
+        return isNextClipDifferentFromCurrent;
+    }
+
+
+    /// <summary>
+    /// Returns true on completion
+    /// </summary>
+    /// <param name="transitionProgress"></param>
+    /// <returns></returns>
+    public bool UpdateActiveAndNextSourceVolumes(float transitionProgress) {
+        float nextSourceVolume = Mathf.Clamp01(transitionProgress.TransformToExp());
+
+        ActiveSource.volume = 1.0f - nextSourceVolume;
+        NextSource.volume = nextSourceVolume;
+
+        if (nextSourceVolume == 1f) {
+            ActiveSourceIndex++;
+            return true;
+        }
+        return false;
+    }
+}
+
+public static class MusicHelper {
+    public static float TransformToExp(this float volume) {
+        return Mathf.Pow(2f, volume) - 1f;
+    }
 }

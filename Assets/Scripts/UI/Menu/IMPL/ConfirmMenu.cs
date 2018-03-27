@@ -126,13 +126,5 @@ public class ConfirmMenu: Menu
         SetYesButtonText("YES");
     }
 
-    protected override void DefaultHide(Transition transition, Effect[] effects) {
-        Fade(transition, effects);
-    }
-
-    protected override void DefaultShow(Transition transition, Effect[] effects) {
-        Fade(transition, effects);
-    }
-
     #endregion
 }

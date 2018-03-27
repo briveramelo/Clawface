@@ -66,7 +66,7 @@ public class EatingState : IPlayerState
 
     public override void StateUpdate()
     {
-        if (!isAnimating)
+        if (!isAnimating && stateVariables.playerCanMove)
         {
             if (stateVariables.eatTargetEnemy && stateVariables.eatTargetEnemy.activeSelf)
             {
@@ -150,8 +150,8 @@ public class EatingState : IPlayerState
             IEatable eatable = stateVariables.eatTargetEnemy.GetComponent<IEatable>();
             if (eatable != null)
             {
-                stateVariables.eatTargetEnemy.transform.position = clawTransform.position;
-                eatable.DisableCollider();
+                stateVariables.eatTargetEnemy.transform.position = clawTransform.position;                
+                eatable.ToggleCollider(false);
                 eatable.EnableRagdoll();
             }
         }
