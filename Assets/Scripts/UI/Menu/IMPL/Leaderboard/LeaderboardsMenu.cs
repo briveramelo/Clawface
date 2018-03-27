@@ -110,12 +110,7 @@ public class LeaderboardsMenu : Menu
     }
     #endregion
 
-    #region protected methods
-    protected override void DefaultShow(Transition transition, Effect[] effects)
-    {
-        base.DefaultShow(transition, effects);
-        GetLeaderboardEntries(LeaderBoards.SelectionType.GLOBAL);
-    }
+    #region protected methods    
 
     protected override void ShowComplete() {
         base.ShowComplete();        
@@ -127,6 +122,7 @@ public class LeaderboardsMenu : Menu
     protected override void ShowStarted()
     {
         base.ShowStarted();
+        GetLeaderboardEntries(LeaderBoards.SelectionType.GLOBAL);
     }
 
     protected override void HideStarted()

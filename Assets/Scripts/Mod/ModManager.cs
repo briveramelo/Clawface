@@ -43,7 +43,7 @@ public class ModManager : MonoBehaviour
     private bool isOkToSwapMods = true;
     List<Mod> overlapMods = new List<Mod>();
     private bool canActivate = true;
-    private bool isDead;
+    private bool isDead, isLevelComplete;
     #endregion
 
     #region Unity Lifecycle
@@ -79,11 +79,13 @@ public class ModManager : MonoBehaviour
             AttachMods(leftArmOnLoad, rightArmOnLoad);
         }
         isDead = false;
+        isLevelComplete = false;
     }
 
     private void OnEnable()
     {
         EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_KILLED, PlayerDead);
+        EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_COMPLETED, OnLevelCompleted);
         EventSystem.Instance.RegisterEvent(Strings.Events.ACTIVATE_MOD, SetCanActivate);
         EventSystem.Instance.RegisterEvent(Strings.Events.DEACTIVATE_MOD, DisableCanActivate);
     }
@@ -93,14 +95,18 @@ public class ModManager : MonoBehaviour
         if (EventSystem.Instance)
         {
             EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_KILLED, PlayerDead);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_COMPLETED, OnLevelCompleted);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.ACTIVATE_MOD, SetCanActivate);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.DEACTIVATE_MOD, DisableCanActivate);
         }
     }
 
+    private void OnLevelCompleted(params object[] parameters) {
+        isLevelComplete = true;
+    }
+
     private void Update()
     {
-        CheckToCollectMod();
         CheckToChargeAndFireMods();
     }
 
@@ -195,17 +201,6 @@ public class ModManager : MonoBehaviour
         }
     }
 
-    private void CheckToCollectMod()
-    {
-        Physics.OverlapSphere(transform.position, modPickupRadius).ToList().ForEach(other =>
-        {
-            if (other.tag == Strings.Tags.MOD)
-            {
-                InitializeAndAttachMod(other.gameObject);
-            }
-        });
-    }
-
     private void InitializeAndAttachMod(GameObject other)
     {
         if (!IsHoldingMod(other.transform))
@@ -233,9 +228,8 @@ public class ModManager : MonoBehaviour
 
     private void CheckToChargeAndFireMods()
     {
-        if (canActivate && !isDead)
+        if (canActivate && !isDead && !isLevelComplete)
         {
-
             CheckForModInput((ModSpot spot) =>
             {
                 modSocketDictionary[spot].mod.Activate();

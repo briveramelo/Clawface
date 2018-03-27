@@ -7,36 +7,26 @@ public class PlayerHUDAnimator : MonoBehaviour
 {
     const float BOUNCE_THRESHOLD = 0.1f;
 
-    [SerializeField]
-    RectTransform combo;
-    [SerializeField]
-    RectTransform score;
-    [SerializeField] RectTransform health;
+    [SerializeField] RectTransform multiplierTrans, combo, score, health;
+    [SerializeField] BounceSettings multiplierSettings, comboSettings, scoreSettings, healthSettings;
 
-    [SerializeField] BounceSettings comboSettings;
-    [SerializeField] BounceSettings scoreSettings;
-    [SerializeField] BounceSettings healthSettings;
+    Vector3 multiplierOriginalScale, comboOriginalScale, scoreOriginalScale, healthOriginalScale;
 
-    Vector3 comboOriginalScale, scoreOriginalScale, healthOriginalScale;
+    [SerializeField] Color multiplierOriginalColor, comboOriginalColor, scoreOriginalColor, healthOriginalColor;
 
-    [SerializeField] Color comboOriginalColor, scoreOriginalColor, healthOriginalColor;
+    [SerializeField] MaskableGraphic[] multiplierGraphics, comboGraphics, scoreGraphics, healthGraphics;
 
-    float comboScale, comboScaleVelocity;
-    float scoreScale, scoreScaleVelocity;
-    float healthScale, healthScaleVelocity;
-
-    [SerializeField]
-    MaskableGraphic[] comboGraphics, scoreGraphics, healthGraphics;
-
-    Coroutine comboBounce, scoreBounce, healthBounce;
+    Coroutine comboBounce, scoreBounce, healthBounce, multiplierBounce;
 
     private void Awake()
     {
+        multiplierOriginalScale = multiplierTrans.localScale;
         comboOriginalScale = combo.localScale;
         scoreOriginalScale = score.localScale;
         healthOriginalScale = health.localScale;
 
-        EventSystem.Instance.RegisterEvent(Strings.Events.MULTIPLIER_UPDATED, BounceCombo);
+        EventSystem.Instance.RegisterEvent(Strings.Events.COMBO_UPDATED, BounceCombo);
+        EventSystem.Instance.RegisterEvent(Strings.Events.MULTIPLIER_UPDATED, BounceMultiplier);
         EventSystem.Instance.RegisterEvent(Strings.Events.SCORE_UPDATED, BounceScore);
         EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_DAMAGED, BounceHealth);
         EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_STARTED, HandleLevelStarted);
@@ -47,12 +37,18 @@ public class PlayerHUDAnimator : MonoBehaviour
     {
         if (EventSystem.Instance)
         {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.MULTIPLIER_UPDATED, BounceCombo);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.COMBO_UPDATED, BounceCombo);
+            EventSystem.Instance.UnRegisterEvent(Strings.Events.MULTIPLIER_UPDATED, BounceMultiplier);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.SCORE_UPDATED, BounceScore);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_DAMAGED, BounceHealth);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_STARTED, HandleLevelStarted);
             EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_RESTARTED, HandleLevelRestarted);
         }
+    }
+
+    void BounceMultiplier(params object[] parameters) {
+        if (multiplierBounce != null) StopCoroutine(multiplierBounce);
+        multiplierBounce = StartCoroutine(DoBounce(multiplierTrans, multiplierSettings));
     }
 
     void BounceCombo(params object[] parameters)
@@ -73,10 +69,10 @@ public class PlayerHUDAnimator : MonoBehaviour
         healthBounce = StartCoroutine(DoBounce(health, healthSettings));
     }
 
-    IEnumerator DoBounce (RectTransform tr, BounceSettings settings, float multiplier=1.0f)
+    IEnumerator DoBounce (RectTransform tr, BounceSettings settings, float scaleMultiplier=1.0f)
     {
         float t = 0.0f;
-        float landRotation = Random.Range(-settings.rotationOffset, settings.rotationOffset) * multiplier;
+        float landRotation = Random.Range(-settings.rotationOffset, settings.rotationOffset) * scaleMultiplier;
         float originalRotation = tr.localEulerAngles.z;
         while (originalRotation > 180.0f) originalRotation -= 360.0f;
         while (originalRotation < -180.0f) originalRotation += 360.0f;
@@ -85,34 +81,36 @@ public class PlayerHUDAnimator : MonoBehaviour
         Color originalColor = Color.white;
         Color targetColor = Color.white;
         MaskableGraphic[] graphics = null;
-        if (tr == combo)
-        {
+        if (tr == combo) {
             originalScale = comboOriginalScale;
             originalColor = comboOriginalColor;
             graphics = comboGraphics;
         }
-        else if (tr == score)
-        {
+        else if (tr == score) {
             originalScale = scoreOriginalScale;
             originalColor = scoreOriginalColor;
             graphics = scoreGraphics;
         }
-        else if (tr == health)
-        {
+        else if (tr == health) {
             originalScale = healthOriginalScale;
             originalColor = healthOriginalColor;
             graphics = healthGraphics;
+        }
+        else if (tr == multiplierTrans) {
+            originalScale = multiplierOriginalScale;
+            originalColor = multiplierOriginalColor;
+            graphics = multiplierGraphics;
         }
 
         while (t <= 1.0f)
         {
             t += Time.deltaTime * settings.speed;
 
-            float scaleVal = multiplier * settings.amplitude * Mathf.Sin (t * Mathf.PI) + originalScale.x;
+            float scaleVal = scaleMultiplier * settings.amplitude * Mathf.Sin (t * Mathf.PI) + originalScale.x;
             tr.localScale = new Vector3(scaleVal, scaleVal, scaleVal);
             tr.localEulerAngles = new Vector3(0.0f, 0.0f, Mathf.Lerp (originalRotation, landRotation, t));
 
-            if (multiplier == 1.0f)
+            if (scaleMultiplier == 1.0f)
             {
                 Color color = Color.Lerp (originalColor, settings.bounceColor, 1.0f - t);
                 foreach (MaskableGraphic graphic in graphics)
@@ -124,8 +122,9 @@ public class PlayerHUDAnimator : MonoBehaviour
             yield return null;
         }
 
-        if (multiplier >= BOUNCE_THRESHOLD)
-            yield return DoBounce(tr, settings, multiplier * settings.bounciness);
+        if (scaleMultiplier >= BOUNCE_THRESHOLD) {
+            yield return DoBounce(tr, settings, scaleMultiplier * settings.bounciness);
+        }
     }
 
     void HandleLevelRestarted (params object[] parameters)
@@ -140,13 +139,17 @@ public class PlayerHUDAnimator : MonoBehaviour
 
     void ResetBounce ()
     {
-        combo.localRotation = score.localRotation = 
-            health.localRotation = Quaternion.identity;
+        StopAllCoroutines();
+
+        multiplierTrans.localRotation = combo.localRotation = score.localRotation = health.localRotation = Quaternion.identity;
+
+        multiplierTrans.localScale = multiplierOriginalScale;
         combo.localScale = comboOriginalScale;
-        comboGraphics[0].color = comboOriginalColor;
         score.localScale = scoreOriginalScale;
         health.localScale = healthOriginalScale;
-        StopAllCoroutines();
+
+        comboGraphics[0].color = comboOriginalColor;
+        multiplierGraphics[0].color = multiplierOriginalColor;
     }
 
     [System.Serializable]

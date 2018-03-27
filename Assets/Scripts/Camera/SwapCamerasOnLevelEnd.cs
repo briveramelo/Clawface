@@ -16,10 +16,7 @@ public class SwapCamerasOnLevelEnd : MonoBehaviour {
     private MoveState moveState;
 
     [SerializeField]
-    private Rigidbody playerRigidbody;
-
-    [SerializeField]
-    private PlayerFaceController playerFace;
+    private Rigidbody playerRigidbody;    
     #endregion
 
     #region Unity Lifetime
@@ -43,7 +40,6 @@ public class SwapCamerasOnLevelEnd : MonoBehaviour {
         endCamera.gameObject.SetActive(true);
         moveState.enabled = false;
         playerRigidbody.velocity = Vector3.zero;
-        playerFace.SetEmotion(PlayerFaceController.Emotion.Happy);
         // keiraMesh.localRotation = Quaternion.Euler(0f, keiraMesh.transform.rotation.y, 0f);
     }
     #endregion

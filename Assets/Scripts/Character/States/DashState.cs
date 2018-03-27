@@ -78,14 +78,7 @@ public class DashState : IPlayerState {
 
     public override void StateFixedUpdate()
     {
-        //currentFrame++;
-        //PlayAnimation();
-        //CheckForIFrames();
-        //MovePlayer();        
-        //PushEnemies();
-        //if (currentFrame >= totalDashFrames) {
-        //    ResetState();
-        //}
+        
     }
 
     public void StartDash()
@@ -102,7 +95,6 @@ public class DashState : IPlayerState {
         
         PlayAnimation();
         MovePlayer();
-        //PushEnemies();
 
         if (dashTimer >= totalDashTime) ResetState();
     }

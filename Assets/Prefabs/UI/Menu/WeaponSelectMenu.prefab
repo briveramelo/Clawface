@@ -7907,25 +7907,25 @@ MonoBehaviour:
   isLeftBack: 0
   isBothBack: 0
   startButton: {fileID: 114201674317650024}
-  leftArm: {fileID: 114536811467650330}
-  rightArm: {fileID: 114958186342356902}
   menuCamera: {fileID: 20256538908822052}
   fader: {fileID: 114658553887307438}
-  fadeDuration: 0.25
+  leftArmAnimator: {fileID: 95272081641784520}
+  rightArmAnimator: {fileID: 95453361551411260}
+  playerFaceController: {fileID: 114727306504529444}
+  leftArm: {fileID: 114536811467650330}
+  rightArm: {fileID: 114958186342356902}
+  weaponNameText: {fileID: 114027298136550322}
+  weaponGraphic: {fileID: 114834123599515006}
+  damageBar: {fileID: 114810029798459002}
+  rangeBar: {fileID: 114536443583294350}
+  rofBar: {fileID: 114123246335736058}
+  difficultyBar: {fileID: 114401392987418920}
   unselectedButtonSprite: {fileID: 21300000, guid: 040c162357fd5574ab6e2bbface697db,
     type: 3}
   selectedButtonSprite: {fileID: 21300000, guid: 6ce9286bfc9ebcc4d9a5fc8a3017b40a,
     type: 3}
   pressedButtonSprite: {fileID: 21300000, guid: 6ce9286bfc9ebcc4d9a5fc8a3017b40a,
     type: 3}
-  queryActionEverySeconds: 0.3
-  weaponNameText: {fileID: 114027298136550322}
-  weaponDescriptionText: {fileID: 0}
-  weaponGraphic: {fileID: 114834123599515006}
-  damageBar: {fileID: 114810029798459002}
-  rangeBar: {fileID: 114536443583294350}
-  rofBar: {fileID: 114123246335736058}
-  difficultyBar: {fileID: 114401392987418920}
   weaponInfos:
   - {fileID: 11400000, guid: f10d4369da982c34c97c96a9d8d5a71a, type: 2}
   - {fileID: 11400000, guid: f6ff10826cd94e04e929414084c70be8, type: 2}
@@ -7933,8 +7933,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4eb326c1967cb34428397f9d18ca4e7a, type: 2}
   - {fileID: 11400000, guid: 70b029450b4441e4a8266ea4fc54774f, type: 2}
   - {fileID: 11400000, guid: ac284f143985ac540a979265537a015c, type: 2}
-  leftArmAnimator: {fileID: 95272081641784520}
-  rightArmAnimator: {fileID: 95453361551411260}
+  fadeDuration: 0.25
+  queryActionEverySeconds: 0.3
 --- !u!114 &114201674317650024
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8917,9 +8917,9 @@ MonoBehaviour:
     minLimit: 0
     maxLimit: 0
     min: 1
-    max: 1
+    max: 3
   blinkDuration: 0.2
-  blinkExpression: {fileID: 0}
+  blinkExpression: {fileID: 2800000, guid: 04448cb6ee122a1489140bc530afa13d, type: 3}
   happyExpression: {fileID: 2800000, guid: c8f1b120b7693cb46a7bd15440d05afb, type: 3}
   happyColor: {r: 0.034482718, g: 1, b: 0, a: 0}
   angryExpression: {fileID: 2800000, guid: e2987098f2e176f4681654c12fef1b9d, type: 3}

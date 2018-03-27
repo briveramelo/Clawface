@@ -255,12 +255,12 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
 
         Action onNoAction = () =>
         {
-            MenuManager.Instance.DoTransition(confirmMenu, Transition.HIDE, new Effect[] { });
+            MenuManager.Instance.DoTransition(confirmMenu, Transition.HIDE, new Effect[] { Effect.INSTANT });
             SelectInitialButton();
         };
         confirmMenu.DefineActions("Are you sure?", onYesAction, onNoAction);
 
-        MenuManager.Instance.DoTransition(confirmMenu, Transition.SHOW, new Effect[] { });
+        MenuManager.Instance.DoTransition(confirmMenu, Transition.SHOW, new Effect[] { Effect.INSTANT });
 
     }
     #endregion
