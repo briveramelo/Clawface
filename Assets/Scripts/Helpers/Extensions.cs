@@ -98,7 +98,7 @@ namespace ModMan {
             return (rDif + gDif + bDif + aDif) < tolerance;
         }
         public static Color ChangeAlpha(this Color color, float newAlpha) {
-            color.a = newAlpha;
+            color.a = newAlpha;           
             return color;
         }
         public static string ToHex(this Color color)
