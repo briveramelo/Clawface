@@ -6,6 +6,12 @@ using System;
 using UnityEngine.UI;
 namespace ModMan {
 
+    public static class IntExtensions {
+        public static string ToCommaSeparated(this int myValue) {
+            return string.Format("{0:n0}",myValue);
+        }
+
+    }
     public static class BoolExtensions {
         public static int ToInt(this bool myBool) {
             return myBool ? 1 : -1;
@@ -92,7 +98,7 @@ namespace ModMan {
             return (rDif + gDif + bDif + aDif) < tolerance;
         }
         public static Color ChangeAlpha(this Color color, float newAlpha) {
-            color.a = newAlpha;
+            color.a = newAlpha;           
             return color;
         }
         public static string ToHex(this Color color)
@@ -105,6 +111,11 @@ namespace ModMan {
         }
     }
     public static class ListExtensions {
+
+        public static void MoveToBack<T>(this List<T> list, T item) {
+            list.Remove(item);
+            list.Add(item);
+        }
         public static void AddUntil<T>(this List<T> list, int index) {
             while (list.Count <= index) {
                 list.Add(default(T));
@@ -150,6 +161,19 @@ namespace ModMan {
 
     public static class FloatExtensions
     {
+        public const float minDB = -80f;
+        public static float ToDecibel(this float linear) {
+            float dB;
+            if (linear != 0) {
+                dB = 40F * Mathf.Log10(linear);
+            }
+            else {
+                dB = minDB;
+            }
+            return dB;
+        }
+
+
         public static bool AboutEqual(this float flo, float other, float tolerance = 0.1f)
         {
             return Mathf.Abs(flo-other)<tolerance;

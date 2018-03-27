@@ -2,11 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-
+using ModMan;
 public abstract class PLEItem : MonoBehaviour {
 
     public Sprite iconPreview;
     protected Color startColor;
+    protected Color StartColor {
+        get {
+            if (startColor.IsAboutEqual(Color.clear)) {
+                startColor = Renderers[0].material.GetColor(ColorTint);
+            }
+            return startColor;
+        }
+    }
+    public GridTile tile;
     public bool IsSelected { get; private set; }
     protected List<Renderer> Renderers {
         get {
@@ -21,14 +30,14 @@ public abstract class PLEItem : MonoBehaviour {
     protected MaterialPropertyBlock MatPropBlock {
         get {
             if (matPropBlock==null) {
-                matPropBlock = new MaterialPropertyBlock();
+                matPropBlock = new MaterialPropertyBlock();                
             }
             return matPropBlock;
         }
     }
 
     protected virtual void Start() {
-        startColor = Renderers[0].material.GetColor(ColorTint);
+        
     }    
 
     protected abstract string ColorTint { get; }
@@ -40,7 +49,7 @@ public abstract class PLEItem : MonoBehaviour {
     }
     public virtual void Deselect() {
         IsSelected = false;
-        MatPropBlock.SetColor(ColorTint, startColor);
+        MatPropBlock.SetColor(ColorTint, StartColor);
         Renderers.ForEach(renderer => { renderer.SetPropertyBlock(MatPropBlock); });
     }
     public virtual void TryHighlight(Color highlightColor) {

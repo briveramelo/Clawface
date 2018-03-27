@@ -48,6 +48,9 @@ public class WaveMenu : PlayerLevelEditorMenu
     public void ChangeToWave(int newWave) {
         int currentWaveIndex = PLESpawnManager.Instance.SetToWave(newWave);
         UpdateWaveText();
+        UpdateLevelUnitState();
+        mainPLEMenu.DeselectAllBlocks();
+        mainPLEMenu.SetMenuButtonInteractabilityByState();
         EventSystem.Instance.TriggerEvent(Strings.Events.PLE_CALL_WAVE, currentWaveIndex);
     }
 
@@ -60,15 +63,11 @@ public class WaveMenu : PlayerLevelEditorMenu
 
     public void NextWave() {
         int currentWaveIndex = PLESpawnManager.Instance.GoToNextWave();
-        UpdateWaveText();
-        UpdateLevelUnitState();
         ChangeToWave(currentWaveIndex);
     }
 
     public void PrevWave() {
         int currentWaveIndex = PLESpawnManager.Instance.GoToPreviousWave();
-        UpdateWaveText();
-        UpdateLevelUnitState();
         ChangeToWave(currentWaveIndex);
     }
 
@@ -77,8 +76,6 @@ public class WaveMenu : PlayerLevelEditorMenu
         EventSystem.Instance.TriggerEvent(Strings.Events.PLE_ADD_WAVE);
         EventSystem.Instance.TriggerEvent(Strings.Events.PLE_SYNC_LEVEL_UNIT_STATES);
         mainPLEMenu.SetMenuButtonInteractabilityByState();
-
-        SetMenuButtonInteractabilityByState();
         UpdateWaveText();
     }
 
@@ -86,11 +83,9 @@ public class WaveMenu : PlayerLevelEditorMenu
         int currentWaveIndex = PLESpawnManager.Instance.TryDeleteWave(PLESpawnManager.Instance.CurrentWaveIndex);
         EventSystem.Instance.TriggerEvent(Strings.Events.PLE_DELETE_CURRENTWAVE);
         EventSystem.Instance.TriggerEvent(Strings.Events.PLE_SYNC_LEVEL_UNIT_STATES);
-        EventSystem.Instance.TriggerEvent(Strings.Events.PLE_CHANGEWAVE, currentWaveIndex);
+        EventSystem.Instance.TriggerEvent(Strings.Events.PLE_CALL_WAVE, currentWaveIndex);
         levelEditor.EnableCurrentWaveSpawnParents();
         mainPLEMenu.SetMenuButtonInteractabilityByState();
-
-        SetMenuButtonInteractabilityByState();
         UpdateWaveText();
     }
 
@@ -118,7 +113,6 @@ public class WaveMenu : PlayerLevelEditorMenu
     protected override void ShowStarted() {
         base.ShowStarted();
         UpdateWaveText();
-        SetMenuButtonInteractabilityByState();
         infWaveObjToggle.isOn = PLESpawnManager.Instance.InfiniteWavesEnabled;
         UpdateInfWaveState();
     }

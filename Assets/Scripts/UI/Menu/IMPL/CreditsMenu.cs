@@ -44,7 +44,7 @@ public class CreditsMenu : Menu
 
     private void Update()
     {
-        if (inputGuard && InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN))
+        if (allowInput && InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN))
         {
             BackAction();
         }
@@ -57,23 +57,11 @@ public class CreditsMenu : Menu
     protected override void ShowComplete()
     {
         base.ShowComplete();
-        inputGuard = true;
     }
 
     protected override void HideStarted()
     {
         base.HideStarted();
-        inputGuard = false;
-    }
-
-    protected override void DefaultShow(Transition transition, Effect[] effects)
-    {
-        Fade(transition, effects);
-    }
-
-    protected override void DefaultHide(Transition transition, Effect[] effects)
-    {
-        Fade(transition, effects);
     }
 
     #endregion

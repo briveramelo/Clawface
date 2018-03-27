@@ -41,10 +41,12 @@ public class LevelDataManager : MonoBehaviour {
     #region Load
     public void LoadSelectedLevel() {
         StartCoroutine(DelayLoadOneFrame());        
-    }    
+    }
 
     private IEnumerator DelayLoadOneFrame() {
-        yield return new WaitForEndOfFrame();
+        propsParent.DestroyAllChildren();
+        spawnParent.DestroyAllChildren();
+        yield return null;
         LoadEntireLevel();
     }
 
@@ -70,8 +72,7 @@ public class LevelDataManager : MonoBehaviour {
     }    
 
     private void LoadProps() {
-        List<string> propNames = new List<string>();
-        propsParent.DestroyAllChildren();
+        List<string> propNames = new List<string>();        
         List<GameObject> propPrefabs = Resources.LoadAll<GameObject>(Strings.Editor.ENV_OBJECTS_PATH).ToList();
         for (int i = 0; i < WorkingPropData.Count; i++) {
             PropData propData = WorkingPropData[i];
@@ -94,24 +95,30 @@ public class LevelDataManager : MonoBehaviour {
         List<GameObject> spawnObjects = Resources.LoadAll<GameObject>(Strings.Editor.SPAWN_OBJECTS_PATH).ToList();
         List<PLESpawn> pleSpawns = spawnObjects.Select(spawn => spawn.GetComponent<PLESpawn>()).ToList();
         List<PLESpawn> spawnedPLEs = new List<PLESpawn>();
-        spawnParent.DestroyAllChildren();
         for (int i = 0; i < WorkingWaveData.Count; i++) {
             GameObject waveParent = new GameObject(GetWaveName(i));
             waveParent.transform.SetParent(spawnParent);
+
             for (int j = 0; j < WorkingWaveData[i].spawnData.Count; j++) {
                 SpawnData spawnData = WorkingWaveData[i].spawnData[j];
+                int minSpawns = WorkingWaveData[i].GetMinSpawns(spawnData.SpawnType);
+
                 GameObject enemyUIPrefabToSpawn = pleSpawns.Find(spawn=>(int)(spawn.spawnType)==spawnData.spawnType).gameObject;
                 Transform newSpawnTransform = Instantiate(enemyUIPrefabToSpawn, waveParent.transform, false).transform;
                 newSpawnTransform.name = newSpawnTransform.name.TryCleanName(Strings.CLONE);
                 spawnNames.Add(newSpawnTransform.name);
                 PLESpawn pleSpawn = newSpawnTransform.GetComponent<PLESpawn>();
                 spawnData.pleSpawn = pleSpawn;
+                
                 spawnedPLEs.Add(pleSpawn);
+                pleSpawn.minSpawns = minSpawns;
                 pleSpawn.totalSpawnAmount = spawnData.count;
                 pleSpawn.spawnType = (SpawnType)spawnData.spawnType;
+                pleSpawn.tile = levelEditor.gridController.GetTileAtPoint(spawnData.position.AsVector);
                 newSpawnTransform.position = spawnData.position.AsVector;
             }
-        }        
+        }
+        
 
         System.Predicate<PLESpawn> keiraSpawn = spawn => spawn.spawnType == SpawnType.Keira;
         if (spawnedPLEs.Exists(keiraSpawn)) {
@@ -138,11 +145,10 @@ public class LevelDataManager : MonoBehaviour {
             tile.IsActive = true;
             LevelUnit levelUnit = tile.levelUnit;
             PLEBlockUnit blockUnit = tile.blockUnit;
-            blockUnit.SetLevelStates(levelStates);
+            blockUnit.SetLevelStates(levelStates, tileData.RiseColor);
             List<GameObject> props = Physics.OverlapBox(tile.realTile.transform.position, new Vector3(1, 10, 1)).ToList().Where(prop => prop.GetComponent<PLEProp>()).Select(item => item.gameObject).ToList();
 
             if (props.Count > 0) {
-                blockUnit.SetOccupation(true);
                 blockUnit.SetProp(props[0]);
             }
 
@@ -185,28 +191,28 @@ public class LevelDataManager : MonoBehaviour {
     }
 
     public void SaveLevel() {
-        SaveTiles();
-        SaveProps();
-        SaveSpawns();
-        SaveLevelText();
-        SaveWaveState();
+        SyncWorkingTileData();
+        SyncWorkingPropData();
+        SyncWorkingSpawnData();
+        SyncWorkingLevelText();
+        SyncWorkingWaveState();
         StartCoroutine(TakePictureAndSave());
     }
-    private void SaveTiles() {
+    private void SyncWorkingTileData() {
         WorkingTileData.Clear();
         for (int i = 0; i < tileParent.childCount; i++) {
             Transform tile = tileParent.GetChild(i);
             PLEBlockUnit blockUnit = tile.GetComponent<PLEBlockUnit>();
             if (blockUnit) {
                 List<LevelUnitStates> levelStates = blockUnit.GetLevelStates();
-                int tileType = 0; //HOW DO I GET THIS FOR REAL
+                int tileType = blockUnit.TileType;
                 TileData tileData = new TileData(tileType, tile.position, levelStates);
                 WorkingTileData.Add(tileData);
             }
         }
     }
 
-    private void SaveProps() {
+    private void SyncWorkingPropData() {
         //List<string> propNames = Resources.LoadAll<GameObject>(Strings.Editor.ENV_OBJECTS_PATH).Select(item=>item.name).ToList();
         WorkingPropData.Clear();
         for (int i = 0; i < propsParent.childCount; i++) {
@@ -216,28 +222,31 @@ public class LevelDataManager : MonoBehaviour {
             WorkingPropData.Add(propData);
         }
     }
-    public void SaveSpawns() {
+    
+    public void SyncWorkingSpawnData() {
         WorkingWaveData.Clear();
         spawnParent.SortChildrenByName();
 
-        for (int i = 1; i < spawnParent.childCount; i++) {
+        for (int i = 0; i < spawnParent.childCount; i++) {
             Transform waveParent = spawnParent.GetChild(i);
-            int waveChildCount = waveParent.childCount;
-            if (waveChildCount>0) {
+            PLESpawn spawn = waveParent.GetComponent<PLESpawn>();
+            if (spawn != null) {
+                AddSpawnData(waveParent, 0);//keira
+            }
+            else {//any other baddy
+                int waveChildCount = waveParent.childCount;
                 for (int j = 0; j < waveParent.childCount; j++) {
                     Transform spawnUI = waveParent.GetChild(j);
-                    AddSpawnData(spawnUI, i-1);
+                    if (spawnUI) {
+                        AddSpawnData(spawnUI, i-1);
+                    }
                 }
             }
-        }
-
-        if (SpawnMenu.playerSpawnInstance) {
-            Transform keira = spawnParent.GetChild(0);
-            AddSpawnData(keira, 0);
         }
     }
 
     void AddSpawnData(Transform spawnUI, int waveIndex) {
+        waveIndex = Mathf.Max(waveIndex, 0);
         PLESpawn spawn = spawnUI.GetComponent<PLESpawn>();
         int spawnType = (int)spawn.spawnType;
         int spawnCount = spawn.totalSpawnAmount;
@@ -248,14 +257,15 @@ public class LevelDataManager : MonoBehaviour {
             WorkingWaveData.Add(new WaveData());
         }
         WorkingWaveData[waveIndex].spawnData.Add(spawnData);
+        WorkingWaveData[waveIndex].SetMinSpawns(spawnType, spawn.MinSpawns);
     }
 
-    private void SaveLevelText() {
+    private void SyncWorkingLevelText() {
         WorkingLevelData.name = levelName.text;
         WorkingLevelData.description = levelDescription.text;
     }
 
-    private void SaveWaveState() {
+    private void SyncWorkingWaveState() {
         WorkingLevelData.isInfinite = PLESpawnManager.Instance.InfiniteWavesEnabled;
     }
 
@@ -292,6 +302,9 @@ public class LevelDataManager : MonoBehaviour {
     public void TryDeleteLevel(string uniqueName) {
         dataPersister.TryDeleteLevel(uniqueName);
         dataPersister.TrySave();
+        if (SceneTracker.IsCurrentSceneEditor) {
+            mainPLEMenu.SetMenuButtonInteractabilityByState();
+        }
     }
     #endregion
 

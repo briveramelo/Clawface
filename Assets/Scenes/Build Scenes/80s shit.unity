@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 0.38
   m_AmbientMode: 3
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 0c4d6eaa7f00c2a4aa4faabf6c8c8829, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -4558,27 +4558,17 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 114774333468769098, guid: f7f0788457a83ae4ab3f8d9af40231a5,
-        type: 2}
-      propertyPath: clips.Array.size
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 114774333468769098, guid: f7f0788457a83ae4ab3f8d9af40231a5,
-        type: 2}
-      propertyPath: musicEventsList.Array.size
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 4996217589287838, guid: f7f0788457a83ae4ab3f8d9af40231a5, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -1.9322853
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4996217589287838, guid: f7f0788457a83ae4ab3f8d9af40231a5, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -2.135994
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4996217589287838, guid: f7f0788457a83ae4ab3f8d9af40231a5, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 4.609457
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4996217589287838, guid: f7f0788457a83ae4ab3f8d9af40231a5, type: 2}
       propertyPath: m_LocalRotation.x
@@ -4599,126 +4589,6 @@ Prefab:
     - target: {fileID: 4996217589287838, guid: f7f0788457a83ae4ab3f8d9af40231a5, type: 2}
       propertyPath: m_RootOrder
       value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 114774333468769098, guid: f7f0788457a83ae4ab3f8d9af40231a5,
-        type: 2}
-      propertyPath: clips.Array.data[0]
-      value: 
-      objectReference: {fileID: 8300000, guid: 8b90cf0c9dc550445bc2ae118c5a4658, type: 3}
-    - target: {fileID: 114774333468769098, guid: f7f0788457a83ae4ab3f8d9af40231a5,
-        type: 2}
-      propertyPath: clips.Array.data[1]
-      value: 
-      objectReference: {fileID: 8300000, guid: 8b90cf0c9dc550445bc2ae118c5a4658, type: 3}
-    - target: {fileID: 114774333468769098, guid: f7f0788457a83ae4ab3f8d9af40231a5,
-        type: 2}
-      propertyPath: clips.Array.data[2]
-      value: 
-      objectReference: {fileID: 8300000, guid: 18d42d4449b442344976c780436d8756, type: 3}
-    - target: {fileID: 114774333468769098, guid: f7f0788457a83ae4ab3f8d9af40231a5,
-        type: 2}
-      propertyPath: musicEventsList.Array.data[0]
-      value: Music_Spawner 1 Wave 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114774333468769098, guid: f7f0788457a83ae4ab3f8d9af40231a5,
-        type: 2}
-      propertyPath: musicEventsList.Array.data[1]
-      value: Music_Spawner 2 Wave 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114774333468769098, guid: f7f0788457a83ae4ab3f8d9af40231a5,
-        type: 2}
-      propertyPath: musicEventsList.Array.data[2]
-      value: Music_Spawner 3 Wave 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 82861820245292524, guid: f7f0788457a83ae4ab3f8d9af40231a5,
-        type: 2}
-      propertyPath: Loop
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 82865288951003610, guid: f7f0788457a83ae4ab3f8d9af40231a5,
-        type: 2}
-      propertyPath: Loop
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114774333468769098, guid: f7f0788457a83ae4ab3f8d9af40231a5,
-        type: 2}
-      propertyPath: clips.Array.data[3]
-      value: 
-      objectReference: {fileID: 8300000, guid: 18d42d4449b442344976c780436d8756, type: 3}
-    - target: {fileID: 114774333468769098, guid: f7f0788457a83ae4ab3f8d9af40231a5,
-        type: 2}
-      propertyPath: musicEventsList.Array.data[3]
-      value: Music_Spawner 4 Wave 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114774333468769098, guid: f7f0788457a83ae4ab3f8d9af40231a5,
-        type: 2}
-      propertyPath: clips.Array.data[4]
-      value: 
-      objectReference: {fileID: 8300000, guid: 44de88c8b5066f14e8ed99bf1bfdba4c, type: 3}
-    - target: {fileID: 114774333468769098, guid: f7f0788457a83ae4ab3f8d9af40231a5,
-        type: 2}
-      propertyPath: clips.Array.data[5]
-      value: 
-      objectReference: {fileID: 8300000, guid: 44de88c8b5066f14e8ed99bf1bfdba4c, type: 3}
-    - target: {fileID: 114774333468769098, guid: f7f0788457a83ae4ab3f8d9af40231a5,
-        type: 2}
-      propertyPath: clips.Array.data[6]
-      value: 
-      objectReference: {fileID: 8300000, guid: 18d42d4449b442344976c780436d8756, type: 3}
-    - target: {fileID: 114774333468769098, guid: f7f0788457a83ae4ab3f8d9af40231a5,
-        type: 2}
-      propertyPath: clips.Array.data[7]
-      value: 
-      objectReference: {fileID: 8300000, guid: 18d42d4449b442344976c780436d8756, type: 3}
-    - target: {fileID: 114774333468769098, guid: f7f0788457a83ae4ab3f8d9af40231a5,
-        type: 2}
-      propertyPath: clips.Array.data[8]
-      value: 
-      objectReference: {fileID: 8300000, guid: 44de88c8b5066f14e8ed99bf1bfdba4c, type: 3}
-    - target: {fileID: 114774333468769098, guid: f7f0788457a83ae4ab3f8d9af40231a5,
-        type: 2}
-      propertyPath: clips.Array.data[9]
-      value: 
-      objectReference: {fileID: 8300000, guid: 44de88c8b5066f14e8ed99bf1bfdba4c, type: 3}
-    - target: {fileID: 114774333468769098, guid: f7f0788457a83ae4ab3f8d9af40231a5,
-        type: 2}
-      propertyPath: clips.Array.data[10]
-      value: 
-      objectReference: {fileID: 8300000, guid: 44de88c8b5066f14e8ed99bf1bfdba4c, type: 3}
-    - target: {fileID: 114774333468769098, guid: f7f0788457a83ae4ab3f8d9af40231a5,
-        type: 2}
-      propertyPath: musicEventsList.Array.data[4]
-      value: Music_Spawner 5 Wave 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114774333468769098, guid: f7f0788457a83ae4ab3f8d9af40231a5,
-        type: 2}
-      propertyPath: musicEventsList.Array.data[5]
-      value: Music_Spawner 6 Wave 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114774333468769098, guid: f7f0788457a83ae4ab3f8d9af40231a5,
-        type: 2}
-      propertyPath: musicEventsList.Array.data[6]
-      value: Music_Spawner 7 Wave 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114774333468769098, guid: f7f0788457a83ae4ab3f8d9af40231a5,
-        type: 2}
-      propertyPath: musicEventsList.Array.data[7]
-      value: Music_Spawner 8 Wave 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114774333468769098, guid: f7f0788457a83ae4ab3f8d9af40231a5,
-        type: 2}
-      propertyPath: musicEventsList.Array.data[8]
-      value: Music_Spawner 9 Wave 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114774333468769098, guid: f7f0788457a83ae4ab3f8d9af40231a5,
-        type: 2}
-      propertyPath: musicEventsList.Array.data[9]
-      value: Music_Spawner 10 Wave 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114774333468769098, guid: f7f0788457a83ae4ab3f8d9af40231a5,
-        type: 2}
-      propertyPath: musicEventsList.Array.data[10]
-      value: Music_Spawner 11 Wave 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f7f0788457a83ae4ab3f8d9af40231a5, type: 2}
@@ -5615,7 +5485,7 @@ Transform:
   m_GameObject: {fileID: 227914448}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.7, y: -49.1, z: -151.1}
-  m_LocalScale: {x: 10, y: 10, z: 10}
+  m_LocalScale: {x: 15, y: 15, z: 15}
   m_Children:
   - {fileID: 403852972}
   m_Father: {fileID: 0}
@@ -34491,7 +34361,7 @@ Light:
   serializedVersion: 8
   m_Type: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 0.5
+  m_Intensity: 0.35
   m_Range: 10
   m_SpotAngle: 30
   m_CookieSize: 10

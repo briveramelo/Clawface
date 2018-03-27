@@ -115,16 +115,15 @@
         public const string STAGE_OVER = "StageOverMenu";
         public const string SETTINGS = "Settings";
         public const string CONTROLS = "Controls";
-        public const string LEVEL_SELECT = "LevelSelect";
         public const string WEAPON_SELECT = "WeaponSelect";
         public const string LEADER_BOARDS = "LeaderBoards";
         public const string CONFIRM = "ConfirmMenu";
 
         //levelEditor
         public class LevelEditor {
-            public const string ADD_PROPS_PLE = "PropsMenu";
-            public const string ADD_SPAWNS_PLE = "SpawnMenu";
-            public const string SET_DYNLEVEL_PLE = "FloorMenu";
+            public const string PROPS_PLE_MENU = "PropsMenu";
+            public const string SPAWNS_PLE_MENU = "SpawnMenu";
+            public const string FLOOR_PLE_MENU = "FloorMenu";
             public const string MAIN_PLE_MENU = "MainPLEMenu";
             public const string INIT_PLE_MENU = "InitPLEMenu";
             public const string SAVE_PLE_MENU = "SaveMenu";
@@ -132,6 +131,7 @@
             public const string HELP_PLE_MENU = "HelpMenu";
             public const string TEST_PLE_MENU = "TestMenu";
             public const string LEVELSELECT_PLE_MENU = "PLELevelSelectMenu";
+            public const string EXIT_PLE_MENU = "ExitMenu";
         }
     }
 
@@ -166,6 +166,7 @@
 
     public class Events
     {
+        public const string MUSIC_INTENSITY_STARTED = "MUSIC_INTENSITY_STARTED";
         public const string FACE_OPEN = "FaceOpen";
         public const string CAPTURE_ENEMY = "CaptureEnemy";
         public const string ARM_ANIMATION_COMPLETE = "ArmAnimationComplete";
@@ -185,7 +186,6 @@
 
         public const string LOCK_SPAWNERS = "LockSpawners";
         public const string CALL_NEXT_WAVE = "CallNextWave";
-        public const string PLE_CALL_WAVE = "CallNextWavePLE";
         public const string ENEMY_SPAWNED = "EnemySpawned";
         public const string WAVE_COMPLETE = "WaveComplete";
 
@@ -195,6 +195,7 @@
 
         public const string SCORE_UPDATED = "ScoreUpdated";
         public const string COMBO_UPDATED = "ComboUpdated";
+        public const string MULTIPLIER_UPDATED = "MultiplierUpdated";
         public const string COMBO_TIMER_UPDATED = "ComboTimerUpdated";
         public const string PLAYER_HEALTH_MODIFIED = "PlayerHealthModified";
 
@@ -217,12 +218,11 @@
 
         public const string PLE_ON_LEVEL_DATA_LOADED = "PLE_ON_LEVEL_DATA_LOADED";
         public const string PLE_ON_LEVEL_READY = "PLE_ON_LEVEL_READY";
-        public const string PLE_CHANGEWAVE = "PLE_ChangeWave";
+        public const string PLE_CALL_WAVE = "CallNextWavePLE";
         public const string PLE_ADD_WAVE    = "PLE_ADD_WAVE";
         public const string PLE_TEST_END = "PleTestEnd";
         public const string PLE_DELETE_CURRENTWAVE = "PLE_DELETE_CURRENTWAVE";
         public const string PLE_SYNC_LEVEL_UNIT_STATES  = "PLE_UPDATE_LEVELSTATE";
-        public const string PLE_RESET_LEVELSTATE   = "PLE_RESET_LEVELSTATE";
 
         public const string ENEMY_INVINCIBLE = "ENEMY_INVINCIBLE";
         public const string GAME_CAN_PAUSE = "GAME_CAN_PAUSE";

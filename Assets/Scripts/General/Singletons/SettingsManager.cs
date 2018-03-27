@@ -1,6 +1,8 @@
 ﻿#region Using Statements
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -31,11 +33,11 @@ public class SettingsManager : Singleton<SettingsManager>
     {
         get
         {
-            return settings.resolution;
+            return settings.Resolution;
         }
         set
         {
-            settings.resolution = value;
+            settings.Resolution = value;
         }
     }
 
@@ -228,15 +230,36 @@ public class SettingsManager : Singleton<SettingsManager>
 
         #endregion
 
+        #region Accessors (Public)
+
+        public Resolution Resolution
+        {
+            set
+            {
+                resolutionData = new ResolutionData(value.width, value.height);
+            }
+            get
+            {
+                List<Resolution> resolutions = (from resolution in Screen.resolutions
+                                           where resolution.width == resolutionData.width
+                                           where resolution.height == resolutionData.height
+                                           orderby resolution.refreshRate descending
+                                           select resolution).ToList();
+                if (resolutions.Count==0) {
+                    return new Resolution();
+                }                
+                return resolutions[0];
+            }
+        }
+
+        #endregion
+
         #region Fields (Public)
 
         //// Graphics Quality Settings
 
         [HideInInspector]
         public int qualityLevel = QualitySettings.GetQualityLevel();
-        
-        [HideInInspector]
-        public Resolution resolution = Screen.currentResolution;
         
         [HideInInspector]
         public bool fullscreen = Screen.fullScreen;
@@ -271,6 +294,10 @@ public class SettingsManager : Singleton<SettingsManager>
         #endregion
 
         #region Fields (Private)
+        
+        [HideInInspector]
+        [SerializeField]
+        private ResolutionData resolutionData;
 
         private static int defaultQualityLevel;
 
@@ -294,7 +321,7 @@ public class SettingsManager : Singleton<SettingsManager>
             if (other != null)
             {
                 qualityLevel = other.qualityLevel;
-                resolution = other.resolution;
+                resolutionData = other.resolutionData;
                 fullscreen = other.fullscreen;
                 goreDetail = other.goreDetail;
 
@@ -318,7 +345,7 @@ public class SettingsManager : Singleton<SettingsManager>
         {
             Settings defaults = new Settings(Instance.defaultSettings);
             defaults.qualityLevel = defaultQualityLevel;
-            defaults.resolution = defaultResolution;
+            defaults.Resolution = defaultResolution;
             defaults.fullscreen = defaultFullscreen;
             return defaults;
         }
@@ -336,10 +363,9 @@ public class SettingsManager : Singleton<SettingsManager>
             // We really only apply the settings that need to be applied.
             // Most others will be queried by other components in the program.
             QualitySettings.SetQualityLevel(qualityLevel);
-            Screen.SetResolution(resolution.width, resolution.height, fullscreen);
+            Screen.SetResolution(resolutionData.width, resolutionData.height, fullscreen);
             MusicManager.Instance.SetMusicAudioLevel(music);
             SFXManager.Instance.SetSFXAudioLevel(sfx);
-            
         }
 
         public void WriteSettings()
@@ -347,23 +373,31 @@ public class SettingsManager : Singleton<SettingsManager>
             string settings = JsonUtility.ToJson(this);
             PlayerPrefs.SetString(SETTINGS, settings);
         }
-        
+
         #endregion
 
-        #region Interface (Private)
+        #region Types (Internal)
 
-        // Sourced from: https://answers.unity.com/questions/283192/
-        private float LinearToDecibel(float linear)
+        [Serializable]
+        internal struct ResolutionData
         {
-            float dB;
-            if (linear != 0)
+            #region Fields (Public)
+
+            public int width;
+
+            public int height;
+
+            #endregion
+
+            #region Constructors (Public)
+
+            public ResolutionData(int width, int height)
             {
-                dB = 40F * Mathf.Log10(linear);
-            } else
-            {
-                dB = -80F;
+                this.width = width;
+                this.height = height;
             }
-            return dB;
+
+            #endregion
         }
 
         #endregion

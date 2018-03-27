@@ -6,6 +6,7 @@ using Turing.VFX;
 using ModMan;
 using MEC;
 using System;
+using System.Linq;
 
 public enum PushDirection{
     BACK,
@@ -31,6 +32,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     [SerializeField] PushDirection pushDirection;
     [SerializeField] GameObject hips;
     [SerializeField] protected SpawnType enemyType;
+    [SerializeField] private GameObject skeletonRoot;
     #endregion
 
     #region 3. Private fields
@@ -39,13 +41,23 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     private bool aboutTobeEaten = false;
     private Collider[] playerColliderList = new Collider[10];
     private Rigidbody[] jointRigidBodies;
-    private List<float> rigidBodyMasses;
-    private Vector3 grabStartPosition;
+    private Rigidbody[] JointRigidBodies {
+        get {
+            if (jointRigidBodies == null) {
+                jointRigidBodies = GetComponentsInChildren<Rigidbody>();
+            }
+            return jointRigidBodies;
+        }
+    }
+    private List<TransformMemento> skeletonTransformMomentos;
+    private Transform[] skeletonTransforms;
+    private List<float> rigidBodyMasses;    
     private bool isIndestructable;
     private int id;
     private bool ragdollOn;
     private float currentStunTime = 0.0f;
     private Vector3 spawnPosition;
+    private TransformMemento grabObjectMomento;
     #endregion
 
     #region 0. Protected fields
@@ -60,6 +72,15 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     protected List<AIState> aiStates;
     protected TransformMemento transformMemento=new TransformMemento();
     protected Transform poolParent;
+    protected List<Collider> myColliders;
+    protected List<Collider> MyColliders {
+        get {
+            if (myColliders==null) {
+                myColliders = GetComponentsInChildren<Collider>().ToList();
+            }
+            return myColliders;
+        }
+    }
     #endregion
 
     #region 4. Unity Lifecycle
@@ -97,14 +118,16 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     public virtual void Awake()
     {
         poolParent = transform.parent;
-        transformMemento.Initialize(transform);        
-        InitRagdoll();        
+        transformMemento.Initialize(transform);
+        InitSkeleton();
+        ExtractRbWeights();
         if (grabObject != null)
         {
-            grabStartPosition = grabObject.transform.localPosition;
+            grabObjectMomento = new TransformMemento();
+            grabObjectMomento.Initialize(grabObject.transform);
         }        
         ResetForRebirth();        
-    }
+    }  
 
     protected override void OnDisable()
     {
@@ -276,8 +299,8 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
 
     public virtual void ResetForRebirth()
     {
-        DisableRagdoll();        
-        GetComponent<CapsuleCollider>().enabled = true;
+        DisableRagdoll();
+        ToggleCollider(true);
         myStats.ResetForRebirth();
         controller.ResetForRebirth();
         velBody.ResetForRebirth();
@@ -290,27 +313,31 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         isIndestructable = false;
     }
 
+    void ToggleColliders(bool enabled) {
+        MyColliders.ForEach(collider => collider.enabled = enabled);
+    }
+
     public virtual void DisableStateResidue()
     {
 
     }
 
-    public void DisableCollider()
+    public void ToggleCollider(bool enabled)
     {
-        GetComponent<CapsuleCollider>().enabled = false;
+        GetComponent<CapsuleCollider>().enabled = enabled;
     }
 
     public void EnableRagdoll(float weight = 1.0f)
     {
         DisableStateResidue();
-        if (jointRigidBodies != null)
+        if (JointRigidBodies != null)
         {
             //Ignore the first entry (its the self rigidbody)
-            for (int i = 1; i < jointRigidBodies.Length; i++)
+            for (int i = 1; i < JointRigidBodies.Length; i++)
             {
-                jointRigidBodies[i].mass *= weight;
-                jointRigidBodies[i].useGravity = true;
-                jointRigidBodies[i].isKinematic = false;                
+                JointRigidBodies[i].mass *= weight;
+                JointRigidBodies[i].useGravity = true;
+                JointRigidBodies[i].isKinematic = false;                
             }
         }
         animator.enabled = false;
@@ -327,32 +354,40 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
 
     public void DisableRagdoll()
     {        
-        if (jointRigidBodies != null)
+        if (JointRigidBodies != null)
         {
             //Ignore the first entry (its the self rigidbody)
-            for (int i = 1; i < jointRigidBodies.Length; i++)
+            for (int i = 1; i < JointRigidBodies.Length; i++)
             {
-                RagdollHandler ragdollHandler = jointRigidBodies[i].GetComponent<RagdollHandler>();
-                if (ragdollHandler)
-                {
-                    ragdollHandler.ResetBone();
-                }
-                jointRigidBodies[i].useGravity = false;
-                jointRigidBodies[i].velocity = Vector3.zero;
-                jointRigidBodies[i].angularVelocity = Vector3.zero;
-                jointRigidBodies[i].isKinematic = true;
+                //RagdollHandler ragdollHandler = jointRigidBodies[i].GetComponent<RagdollHandler>();
+                //if (ragdollHandler)
+                //{
+                //    ragdollHandler.ResetBone();
+                //}
+                JointRigidBodies[i].useGravity = false;
+                JointRigidBodies[i].velocity = Vector3.zero;
+                JointRigidBodies[i].angularVelocity = Vector3.zero;
+                JointRigidBodies[i].isKinematic = true;
                 if (rigidBodyMasses != null)
                 {
-                    jointRigidBodies[i].mass = rigidBodyMasses[i];
+                    JointRigidBodies[i].mass = rigidBodyMasses[i];
                 }                
             }
         }
+        //Reset skeleton
+        if (skeletonRoot)
+        {
+            for(int i = 0; i < skeletonTransforms.Length; i++)
+            {
+                skeletonTransformMomentos[i].Reset(skeletonTransforms[i]);
+            }
+        }
+
         animator.enabled = true;        
         if (grabObject)
         {
             grabObject.transform.parent = transform;
-            grabObject.transform.localPosition = grabStartPosition;
-            grabObject.transform.localScale = Vector3.one;
+            grabObjectMomento.Reset(grabObject.transform);
         }        
         ragdollOn = false;
     }
@@ -527,7 +562,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
 
     private void FallDown()
     {
-        DisableCollider();
+        ToggleCollider(false);
         EnableRagdoll();
     }
 
@@ -545,22 +580,28 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         }
     }
 
+    private void InitSkeleton() {
+        if (skeletonRoot) {
+            skeletonTransformMomentos = new List<TransformMemento>();
+            skeletonTransforms = skeletonRoot.GetComponentsInChildren<Transform>();
+            foreach (Transform transform in skeletonTransforms) {
+                TransformMemento transformMemento = new TransformMemento();
+                transformMemento.Initialize(transform);
+                skeletonTransformMomentos.Add(transformMemento);
+            }
+        }
+    }
+
     private void ExtractRbWeights()
     {
         if(rigidBodyMasses == null)
         {
-            rigidBodyMasses = new List<float>(jointRigidBodies.Length);
+            rigidBodyMasses = new List<float>(JointRigidBodies.Length);
         }
-        foreach(Rigidbody rb in jointRigidBodies)
+        foreach(Rigidbody rb in JointRigidBodies)
         {
             rigidBodyMasses.Add(rb.mass);
         }
-    }
-
-    private void InitRagdoll()
-    {
-        jointRigidBodies = GetComponentsInChildren<Rigidbody>();       
-        ExtractRbWeights();
     }
 
     private void AddForce(Vector3 force)

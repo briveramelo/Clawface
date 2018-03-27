@@ -132,18 +132,22 @@ namespace PlayerLevelEditor
 
         #region Private Interface
         private void TryDestroyPlayer() {
-            GameObject player = GameObject.FindGameObjectWithTag(Strings.Tags.PLAYER);
-
-            if (player) {
-                Destroy(player.transform.root.gameObject);
+            if (PlayerStateManager.keiraRootGameObject) {
+                Helpers.DestroyProper(PlayerStateManager.keiraRootGameObject);
             }
             else {
-                player = GameObject.Find("Keira_GroupV1.5(Clone)");
+                GameObject player = GameObject.FindGameObjectWithTag(Strings.Tags.PLAYER);
+
                 if (player) {
-                    Destroy(player);
+                    Helpers.DestroyProper(player.transform.root.gameObject);
+                }
+                else {
+                    player = GameObject.Find("Keira_GroupV1.5(Clone)");
+                    if (player) {
+                        Helpers.DestroyProper(player.transform.root.gameObject);
+                    }
                 }
             }
-
         }
 
 

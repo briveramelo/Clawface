@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using System;
+using Turing.VFX;
 
 public class WeaponSelectMenu : Menu
 {
@@ -28,62 +29,27 @@ public class WeaponSelectMenu : Menu
 
 	#region Fields (Unity Serialization)
 
-	[SerializeField]
-	private Button startButton = null;
+	[SerializeField] private Button startButton = null;
+    [SerializeField] private Camera menuCamera;
+    [SerializeField] private CanvasFader fader;
+    [SerializeField] private Animator leftArmAnimator;
+    [SerializeField] private Animator rightArmAnimator;
+    [SerializeField] private PlayerFaceController playerFaceController;
+    [SerializeField] private WeaponLineup leftArm;
+    [SerializeField] private WeaponLineup rightArm;
+    [SerializeField] private Text weaponNameText;
+    [SerializeField] private Image weaponGraphic;
+    [SerializeField] private Image damageBar;
+    [SerializeField] private Image rangeBar;
+    [SerializeField] private Image rofBar;
+    [SerializeField] private Image difficultyBar;
+    [SerializeField] private Sprite unselectedButtonSprite;
+    [SerializeField] private Sprite selectedButtonSprite;
+    [SerializeField] private Sprite pressedButtonSprite;
+    [SerializeField] private List<WeaponInfo> weaponInfos;
 
-    [SerializeField]
-    private WeaponLineup leftArm;
-
-    [SerializeField]
-    private WeaponLineup rightArm;
-
-    [SerializeField]
-    private Camera menuCamera;
-
-    [SerializeField]
-    private CanvasFader fader;
-
-    [SerializeField]
-    private float fadeDuration = 0.25F;
-
-    [SerializeField]
-    private Sprite unselectedButtonSprite;
-
-    [SerializeField]
-    private Sprite selectedButtonSprite;
-
-    [SerializeField]
-    private Sprite pressedButtonSprite;
-
-    [SerializeField]
-    private float queryActionEverySeconds = .75f;
-
-    [SerializeField]
-    private Text weaponNameText;
-
-    [SerializeField]
-    private Text weaponDescriptionText;
-
-    [SerializeField]
-    private Image weaponGraphic;
-
-    [SerializeField]
-    private Image damageBar;
-
-    [SerializeField]
-    private Image rangeBar;
-
-    [SerializeField]
-    private Image rofBar;
-
-    [SerializeField]
-    private Image difficultyBar;
-
-    [SerializeField]
-    private List<WeaponInfo> weaponInfos;
-
-    [SerializeField] Animator leftArmAnimator;
-    [SerializeField] Animator rightArmAnimator;
+    [SerializeField] private float fadeDuration = 0.25F;
+    [SerializeField] private float queryActionEverySeconds = .75f;
 
     #endregion
 
@@ -103,7 +69,6 @@ public class WeaponSelectMenu : Menu
 
     #region Fields (Private)
 
-    private bool inputGuard = false;
     private bool BothArmsSelected { get { return !selectingPlayerRight && !selectingPlayerLeft; } }
     private GameObject previousGameObject;
     private Camera previousCamera;
@@ -128,7 +93,7 @@ public class WeaponSelectMenu : Menu
     
     private void Update ()
 	{
-        if (inputGuard) {
+        if (allowInput) {
             HandleSelectionFlow();
 
             if (isLeftBack) {
@@ -159,28 +124,17 @@ public class WeaponSelectMenu : Menu
         });
     }
 
-
-    protected override void DefaultHide (Transition transition, Effect[] effects)
-	{
-		Fade (transition, effects);
-	}
-
-	protected override void DefaultShow (Transition transition, Effect[] effects)
-	{
-		Fade (transition, effects);
-	}
-
     protected override void ShowStarted() {
         base.ShowStarted();
         ResetMenu();
+        previousCamera = Camera.main;
+        previousGameObject = previousCamera.gameObject;
     }
 
     protected override void ShowComplete()
     {
         base.ShowComplete();
-        inputGuard = true;
-        previousCamera = Camera.main;
-        previousGameObject = previousCamera.gameObject;
+        playerFaceController.SetTemporaryEmotion(PlayerFaceController.Emotion.Happy, .3f);
         previousCamera.enabled = false;
         menuCamera.enabled = true;
         fader.DoHide(fadeDuration, null);
@@ -189,15 +143,13 @@ public class WeaponSelectMenu : Menu
     protected override void HideStarted()
     {
         base.HideStarted();
-        inputGuard = false;
     }
 
     protected override void HideComplete()
     {
         base.HideComplete();
         menuCamera.enabled = false;
-        if (!previousGameObject.IsDestroyed())
-        {
+        if (previousCamera){
             previousCamera.enabled = true;
         }
         previousCamera = null;
@@ -228,8 +180,10 @@ public class WeaponSelectMenu : Menu
 
 	public void StartAction ()
 	{
+        playerFaceController.SetTemporaryEmotion(PlayerFaceController.Emotion.Happy, .3f);
+
         //Set up ModManager
-	    ModManager.assignFromPool = false;
+        ModManager.assignFromPool = false;
         ModManager.rightArmOnLoad = rightArm.GetModType;
         ModManager.leftArmOnLoad = leftArm.GetModType;                
 
@@ -414,6 +368,7 @@ public class WeaponSelectMenu : Menu
         rightArm.UnselectArrows();
         leftArm.GlowControl.SetState(WeaponSelectState.Highlighted);
         rightArm.GlowControl.SetState(WeaponSelectState.Confirmed);
+        playerFaceController.SetTemporaryEmotion(PlayerFaceController.Emotion.Happy, .4f);
         SFXManager.Instance.Play(SFXType.LandmarkBlastShort, transform.position);
     }
 
@@ -426,10 +381,11 @@ public class WeaponSelectMenu : Menu
         leftArm.UnselectArrows();
         leftArm.GlowControl.SetState(WeaponSelectState.Confirmed);        
         leftArmAnimator.SetTrigger("DoLock");
+        playerFaceController.SetTemporaryEmotion(PlayerFaceController.Emotion.Happy, .4f);
         SFXManager.Instance.Play(SFXType.LandmarkBlastShort, transform.position);
     }
 
-    private void ChangeWeaponTextPanel(WeaponLineup lineup)
+    public void ChangeWeaponTextPanel(WeaponLineup lineup)
     {
         ModType type = lineup.GetModType;
 
@@ -438,7 +394,6 @@ public class WeaponSelectMenu : Menu
             if (info.weaponType == type)
             {
                 weaponNameText.text = info.weaponName;
-                // weaponDescriptionText.text = info.weaponDescription;
                 weaponGraphic.sprite = info.weaponImage;
 
 

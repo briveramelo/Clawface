@@ -26,15 +26,7 @@ public class TestMenu : PlayerLevelEditorMenu
         base.Start();
         stageOverMenu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.STAGE_OVER) as StageOverMenu;
         pauseMenu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.PAUSE) as PauseMenu;
-    }
-    protected override void Update() {
-        base.Update();
-        if (allowInput) {
-            if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN)) {
-                BackAction();
-            }
-        }        
-    }    
+    }   
 
     #endregion
 
@@ -43,6 +35,7 @@ public class TestMenu : PlayerLevelEditorMenu
     public TestMenu() : base(Strings.MenuStrings.LevelEditor.TEST_PLE_MENU) { }
 
     public override void BackAction() {
+        stageOverMenu.KillAllTransitions();
         MenuManager.Instance.DoTransition(stageOverMenu, Transition.HIDE, new Effect[] { Effect.INSTANT });
         MenuManager.Instance.DoTransition(Strings.MenuStrings.WEAPON_SELECT, Transition.HIDE, new Effect[] { Effect.INSTANT });
 
@@ -56,7 +49,7 @@ public class TestMenu : PlayerLevelEditorMenu
     #region Protected Interface
     protected override void ShowStarted() {
 
-        levelEditor.levelDataManager.SaveSpawns();
+        levelEditor.levelDataManager.SyncWorkingSpawnData();
         ShowWeaponSelectMenu();
 
         //System.Action onExitTestAction = () =>

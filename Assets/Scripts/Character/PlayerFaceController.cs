@@ -102,18 +102,32 @@ namespace Turing.VFX
         #endregion
         #region Unity Lifecycle
 
-        void Awake ()
+        void Start ()
         {
-            // Instantiate material
-            //material = Instantiate (playerMaterial) as Material;
-            //material.CopyPropertiesFromMaterial (playerMaterial);
-            //playerRenderer.material = material;
+            if (gameObject.activeInHierarchy) {
+                SetEmotion (emotion);
+            }
+            EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_COMPLETED,      LevelComplete);
+            EventSystem.Instance.RegisterEvent(Strings.Events.SCENE_LOADED,        ResetToDefaultStates);
+            EventSystem.Instance.RegisterEvent(Strings.Events.PLE_ON_LEVEL_READY,   ResetToDefaultStates);
+        }
 
-            // Set initial emotion
-            SetEmotion (emotion);
+        private void OnDestroy() {
+            if (EventSystem.Instance) {
+                EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_COMPLETED,    LevelComplete);
+                EventSystem.Instance.UnRegisterEvent(Strings.Events.SCENE_LOADED, ResetToDefaultStates);
+                EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_ON_LEVEL_READY, ResetToDefaultStates);
+            }
+        }
 
-            // Start main face coroutine
-            StartCoroutine (FaceCoroutine());
+        bool isLevelComplete = false;
+        private void ResetToDefaultStates(params object[] parameters) {
+            isLevelComplete = false;
+            SetEmotion(Emotion.Idle);
+        }
+        private void LevelComplete(params object[] parameters) {
+            SetEmotion(Emotion.Happy);
+            isLevelComplete = true;
         }
 
         #endregion
@@ -124,27 +138,28 @@ namespace Turing.VFX
         /// </summary>
         public void SetEmotion (Emotion emotion)
         {
-            // Interrupt all face coroutines
-            StopAllCoroutines();
-            this.emotion = emotion;
+            if (!isLevelComplete && gameObject.activeInHierarchy) {
+                StopAllCoroutines();
+                this.emotion = emotion;
 
-            switch (emotion)
-            {
-                case Emotion.Idle:
-                    SetFacialExpression (idleExpression);
-                    SetFacialColor (idleColor);
-                    break;
-                case Emotion.Happy:
-                    SetFacialExpression (happyExpression);
-                    SetFacialColor (happyColor);
-                    break;
-                case Emotion.Angry:
-                    SetFacialExpression (angryExpression);
-                    SetFacialColor (angryColor);
-                    break;
+                switch (emotion)
+                {
+                    case Emotion.Idle:
+                        SetFacialExpression (idleExpression);
+                        SetFacialColor (idleColor);
+                        break;
+                    case Emotion.Happy:
+                        SetFacialExpression (happyExpression);
+                        SetFacialColor (happyColor);
+                        break;
+                    case Emotion.Angry:
+                        SetFacialExpression (angryExpression);
+                        SetFacialColor (angryColor);
+                        break;
+                }
+
+                StartCoroutine(FaceCoroutine());
             }
-
-            StartCoroutine(FaceCoroutine());
         }
 
         #endregion
@@ -201,8 +216,11 @@ namespace Turing.VFX
 
         public void SetTemporaryEmotion (Emotion emotion, float time)
         {
-            SetEmotion (emotion);
-            StartCoroutine (DoTemporaryEmotion(time));
+
+            if (gameObject.activeInHierarchy) {
+                SetEmotion (emotion);
+                StartCoroutine (DoTemporaryEmotion(time));
+            }
         }
 
         /// <summary>

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class PropsMenu : PlacementMenu
 {
-    public PropsMenu() : base(Strings.MenuStrings.LevelEditor.ADD_PROPS_PLE) { }
+    public PropsMenu() : base(Strings.MenuStrings.LevelEditor.PROPS_PLE_MENU) { }
     #region Public Interface
 
     #endregion
@@ -40,13 +40,12 @@ public class PropsMenu : PlacementMenu
     #region Protected Interface
     protected override bool SelectUI { get { return base.SelectUI && ScrollGroupHelper.currentUIItem !=null; } }
     protected override bool SelectItem { get { return base.SelectItem && MouseHelper.currentProp != null; } }
-    protected override bool CanDeletedHoveredItem { get { return base.CanDeletedHoveredItem && MouseHelper.currentProp; } }
+    protected override bool CanDeleteHoveredItem { get { return base.CanDeleteHoveredItem && MouseHelper.currentProp; } }
 
     protected override void DeselectAllGameItems() {
         base.DeselectAllGameItems();
     }
     protected override void PostPlaceItem(GameObject newItem) {
-        MouseHelper.currentBlockUnit.SetOccupation(true);
         MouseHelper.currentBlockUnit.SetProp(newItem);
     }
     protected override void PostSelectUIItemMenuSpecific(GameObject newItem) {
@@ -92,8 +91,8 @@ public class PropsMenu : PlacementMenu
         }
     }
 
-    protected override void SelectGameItem(PLEItem selectedItem) {
-        base.SelectGameItem(selectedItem);        
+    protected override void SelectGameItem(PLEItem selectedItem, bool isPickingUp=false) {
+        base.SelectGameItem(selectedItem, isPickingUp);        
         ApplyRotation(selectedPLEItem.transform.localEulerAngles.y);
         SetMenuButtonInteractabilityByState();
     }

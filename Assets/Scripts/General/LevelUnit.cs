@@ -38,8 +38,9 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
     private GameObject blockingObject;
     private MeshRenderer meshRenderer;
     private MaterialPropertyBlock materialPropertyBlock;
-    private Color startColor, targetColor;
+    private Color startAlbedoColor, targetAlbedoColor, startEmissiveColor, targetEmissiveColor;
     private const string AlbedoTint = "_AlbedoTint";
+    private const string EmissiveColor = "_EmissiveColor";
     private string TintCoroutineName { get { return coroutineName + AlbedoTint; } }
     private List<LevelUnitStates> levelUnitStates = new List<LevelUnitStates>();
     private Splattable splattable;
@@ -55,8 +56,25 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
     [SerializeField] AbsAnim colorShiftAnim;
     [SerializeField] Color riseColor, flatColor, fallColor;
 
+
+    private MaterialPropertyBlock MaterialPropertyBlock {
+        get {
+            if (materialPropertyBlock==null) {
+                materialPropertyBlock = new MaterialPropertyBlock();
+            }
+            return materialPropertyBlock;
+        }
+    }
+    private MeshRenderer MeshRenderer {
+        get {
+            if (meshRenderer == null) {
+                meshRenderer = GetComponent<MeshRenderer>();
+            }
+            return meshRenderer;
+        }
+    }
     private Vector3 pitPosition, flatPosition, risePosition, targetPosition;
-    
+    private Texture2D defaultRenderMask;
     #endregion
 
     #region public variables
@@ -66,16 +84,14 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
     #region unity lifecycle
     private void Awake()
     {
-        splattable = GetComponent<Splattable>();
-        meshRenderer = GetComponent<MeshRenderer>();
+        splattable = GetComponent<Splattable>();        
         Assert.IsNotNull(splattable);
-        if (meshRenderer)
+        defaultRenderMask = splattable.RenderMask;
+        if (MeshRenderer)
         {
             meshSizeX = meshRenderer.bounds.size.x;
             meshSizeY = meshRenderer.bounds.size.y;
             meshSizeZ = meshRenderer.bounds.size.z;
-            materialPropertyBlock = new MaterialPropertyBlock();
-            meshRenderer.GetPropertyBlock(materialPropertyBlock);
             Color emptyColor = new Color(0f, 0f, 0f, 0f);
             if (riseColor.IsAboutEqual(emptyColor) ) {
                 riseColor = Color.cyan.ChangeAlpha(.3f);
@@ -86,13 +102,12 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
         colorShiftAnim.OnUpdate = OnColorChange;
         currentState = defaultState;
         InitializeStatePositions();
-        SetBlockColor(CurrentStateColor);
+        SetAlbedoColor(CurrentStateColor);
     }
 
     private void OnEnable() {
         RegisterToNamedStateEvents();
         EventSystem.Instance.RegisterEvent(Strings.Events.PLE_CALL_WAVE, TransitionToWave);
-        EventSystem.Instance.RegisterEvent(Strings.Events.PLE_CHANGEWAVE, TransitionToWave);
     }
 
     protected override void OnDisable() {
@@ -100,7 +115,6 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
         if (EventSystem.Instance) {
             DeRegisterFromNamedStateEvents();
             EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_CALL_WAVE, TransitionToWave);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_CHANGEWAVE, TransitionToWave);
         }
     }
 
@@ -112,10 +126,10 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
     #endregion
 
     #region Public Interface
-    public Color RiseColor { get { return riseColor; } }
-    public Color FlatColor { get { return flatColor; } }
-    public Color FallColor { get { return fallColor; } }
-    public Color CurrentStateColor { get { return GetStateColor(currentState); } }
+    public Color RiseColor { get { return riseColor; } set { riseColor = value; } }
+    public Color FlatColor { get { return flatColor; } set { flatColor = value; } }
+    public Color FallColor { get { return fallColor; } set { fallColor = value; } }
+    public Color CurrentStateColor { get { return GetAlbedoColor(currentState); } }
 
     public void DeRegisterEvent(string eventName) {
         TryUnRegister(ref pitStateEvents, eventName, TransitionToPitState);
@@ -148,14 +162,13 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
         floorStateEvents.Clear();
         pitStateEvents.Clear();
     }
-    public void SetLevelUnitStates(List<LevelUnitStates> newLevelStates) {
+    public void SetLevelUnitStates(List<LevelUnitStates> newLevelStates, Color riseColor) {
         levelUnitStates.Clear();
         newLevelStates.ForEach(state => {
             levelUnitStates.Add(state);
         });
-    }
-    public void SetCurrentState(int waveIndex) {
-        currentState = levelUnitStates[waveIndex];
+        RiseColor = riseColor;
+        SetEmissiveColor(RiseColor);
     }
 
     public void AddNamedStateEvent(LevelUnitStates state, string eventName) {
@@ -180,17 +193,17 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
 
     public void TransitionToCoverState(params object[] inputs) {
         bool wasToldToChangeColor = (bool)inputs[0];
-        TryTransitionToState(LevelUnitStates.Cover, Texture2D.blackTexture, wasToldToChangeColor);
+        TryTransitionToState(LevelUnitStates.Cover, Texture2D.blackTexture, Texture2D.blackTexture, wasToldToChangeColor);
     }
 
     public void TransitionToFloorState(params object[] inputs) {
         bool wasToldToChangeColor = (bool)inputs[0];
-        TryTransitionToState(LevelUnitStates.Floor, Texture2D.whiteTexture, wasToldToChangeColor);
+        TryTransitionToState(LevelUnitStates.Floor, Texture2D.whiteTexture, defaultRenderMask, wasToldToChangeColor);
     }
 
     public void TransitionToPitState(params object[] inputs) {
         bool wasToldToChangeColor = (bool)inputs[0];
-        TryTransitionToState(LevelUnitStates.Pit, Texture2D.blackTexture, wasToldToChangeColor);
+        TryTransitionToState(LevelUnitStates.Pit, Texture2D.blackTexture, Texture2D.blackTexture, wasToldToChangeColor);
     }
 
     public void TransitionToWave(params object[] parameters)
@@ -307,33 +320,48 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
     }
 
     private void OnColorChange(float progress) {
-        Color newColor = startColor + (targetColor - startColor) * progress;
-        SetBlockColor(newColor);
+        Color newAlbedoColor = startAlbedoColor + (targetAlbedoColor - startAlbedoColor) * progress;
+        SetAlbedoColor(newAlbedoColor);
     }
 
-    private void SetBlockColor(Color newColor) {
-        materialPropertyBlock.SetColor(AlbedoTint, newColor);
-        meshRenderer.SetPropertyBlock(materialPropertyBlock);
+    public void SetAlbedoColor(Color newColor) {
+        MeshRenderer.GetPropertyBlock(MaterialPropertyBlock);
+        MaterialPropertyBlock.SetColor(AlbedoTint, newColor);
+        MeshRenderer.SetPropertyBlock(MaterialPropertyBlock);
+    }
+    public void SetEmissiveColor(Color newColor) {
+        MeshRenderer.GetPropertyBlock(MaterialPropertyBlock);
+        MaterialPropertyBlock.SetColor(EmissiveColor, newColor);
+        MeshRenderer.SetPropertyBlock(MaterialPropertyBlock);
     }
 
 
 
     private void TriggerColorShift(LevelUnitStates newState) {
         Timing.KillCoroutines(TintCoroutineName);
-        startColor = CurrentColor;
-        targetColor = GetStateColor(newState);
+        startAlbedoColor = CurrentAlbedoColor;
+        targetAlbedoColor = GetAlbedoColor(newState);
         colorShiftAnim.Animate(TintCoroutineName);
     }
 
-    private Color CurrentColor { get { return materialPropertyBlock.GetVector(AlbedoTint); } }
+    private Color CurrentAlbedoColor { get { return MaterialPropertyBlock.GetVector(AlbedoTint); } }
+    private Color CurrentEmissiveColor { get { return MaterialPropertyBlock.GetVector(EmissiveColor); } }
 
-    private Color GetStateColor(LevelUnitStates state) {
+    private Color GetAlbedoColor(LevelUnitStates state) {
         switch (state) {
             case LevelUnitStates.Cover: return riseColor;
             case LevelUnitStates.Floor: return flatColor;
             case LevelUnitStates.Pit: return fallColor;
         }
         return flatColor;
+    }
+    private Color GetEmissiveColor(LevelUnitStates state) {
+        switch (state) {
+            case LevelUnitStates.Cover: return riseColor;
+            case LevelUnitStates.Floor: return riseColor;
+            case LevelUnitStates.Pit: return riseColor;
+        }
+        return riseColor;
     }
     private List<string> GetStateEvents(LevelUnitStates state) {
         switch (state) {
@@ -369,9 +397,10 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
         }
     }
 
-    private void TryTransitionToState(LevelUnitStates newState, Texture2D paintMaskTexture, bool wasToldToChangeColor) {
+    private void TryTransitionToState(LevelUnitStates newState, Texture2D paintMaskTexture, Texture2D renderMask, bool wasToldToChangeColor) {
         if ((isTransitioning && currentState==newState) || currentState != newState) {
             splattable.PaintMask = paintMaskTexture;
+            splattable.RenderMask = renderMask;
             nextState = newState;
             targetPosition = GetStatePosition(nextState);
             isBeginningTransition = true;
