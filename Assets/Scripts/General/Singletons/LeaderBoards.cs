@@ -30,6 +30,9 @@ public class LeaderBoards : Singleton<LeaderBoards> {
         bool result = false;
         Steamworks.ELeaderboardDataRequest requestType;
 
+        int startRange = 1;
+        int endRange = numberOfEntries;
+
         switch (selectionType)
         {
             case SelectionType.FRIENDS:
@@ -37,6 +40,12 @@ public class LeaderBoards : Singleton<LeaderBoards> {
                 break;
             case SelectionType.AROUND_USER:
                 requestType = Steamworks.ELeaderboardDataRequest.k_ELeaderboardDataRequestGlobalAroundUser;
+                startRange = -5;
+                endRange = numberOfEntries - 5;
+                if (endRange < 0)
+                {
+                    endRange = 1;
+                }
                 break;
             case SelectionType.GLOBAL:
             default:
@@ -44,7 +53,7 @@ public class LeaderBoards : Singleton<LeaderBoards> {
                 break;
         }
 
-        result = allTimeLeaderBoard.FetchLeaderBoardData(levelName, callBackFunction, numberOfEntries, requestType);
+        result = allTimeLeaderBoard.FetchLeaderBoardData(levelName, callBackFunction, startRange, endRange, requestType);
         return result;
     }
 
