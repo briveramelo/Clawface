@@ -33,8 +33,9 @@ public class InputManager : Singleton<InputManager> {
     #endregion
 
     #region Unity Lifecycle Functions
-    protected void Start()
+    protected override void Start()
     {
+        base.Start();
         player = ReInput.players.GetPlayer(0); // get the only player
         Cursor.lockState = CursorLockMode.Confined;
     }

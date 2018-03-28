@@ -77,7 +77,7 @@ public class InGameUI : EventSubscriber {
 
     #region Unity Lifecycle
 
-    protected override void Start()
+    protected override void Start()//
     {
         base.Start();
         multiplierText.text = "";

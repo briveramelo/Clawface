@@ -192,8 +192,9 @@ public class SettingsManager : Singleton<SettingsManager>
         settings = Settings.ReadSettings();
     }
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         settings.ApplySettings(musicMixer, sfxMixer);
     }
 

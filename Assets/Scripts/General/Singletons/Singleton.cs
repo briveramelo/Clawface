@@ -30,7 +30,7 @@ public class Singleton<T> : EventSubscriber where T : EventSubscriber {
     #endregion
 
     #region Unity Lifecycle Functions
-    protected virtual void Awake() {
+    protected override void Awake() {
         if (instance == null)
         {
             instance = this as T;
@@ -49,9 +49,10 @@ public class Singleton<T> : EventSubscriber where T : EventSubscriber {
             if (!dontDestroyOnLoad) {
                 instance = null;
             }
-            Destroy(gameObject);
             Debug.LogWarning("Destroying duplicate singleton " + typeof(T) +"!");
+            Destroy(gameObject);
         }
+        base.Awake();
     }    
     #endregion
 }

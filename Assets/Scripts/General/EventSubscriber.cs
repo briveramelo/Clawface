@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class EventSubscriber : RoutineRunner {
 
     protected virtual LifeCycle SubscriptionLifecycle { get { return LifeCycle.StartDestroy; } }
-    protected virtual Dictionary<string, FunctionPrototype> EventSubscriptions { get { return null; } }
+    protected virtual Dictionary<string, FunctionPrototype> EventSubscriptions { get { return new Dictionary<string, FunctionPrototype>() { }; } }
 
     protected virtual void Awake() {
         if (SubscriptionLifecycle==LifeCycle.AwakeDestroy) {
@@ -34,13 +34,15 @@ public abstract class EventSubscriber : RoutineRunner {
     }
 
     void RegisterEvents() {
-        foreach (KeyValuePair<string, FunctionPrototype> eventSubscription in EventSubscriptions) {
+        Dictionary<string, FunctionPrototype> dic = EventSubscriptions;
+        foreach (KeyValuePair<string, FunctionPrototype> eventSubscription in dic) {
             EventSystem.Instance.RegisterEvent(eventSubscription.Key, eventSubscription.Value);
         }
     }
 
     void UnRegisterEvents() {
-        foreach (KeyValuePair<string, FunctionPrototype> eventSubscription in EventSubscriptions) {
+        Dictionary<string, FunctionPrototype> dic = EventSubscriptions;
+        foreach (KeyValuePair<string, FunctionPrototype> eventSubscription in dic) {
             EventSystem.Instance.UnRegisterEvent(eventSubscription.Key, eventSubscription.Value);
         }
     }

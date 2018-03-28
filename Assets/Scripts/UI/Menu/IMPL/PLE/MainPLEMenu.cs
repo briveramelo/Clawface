@@ -38,7 +38,8 @@ public class MainPLEMenu : PlayerLevelEditorMenu {
     #endregion  
 
     #region Unity Lifecycle
-    private void Awake() {
+    protected override void Awake() {
+        base.Awake();
         InitializeMenuToggles();
         SetupToggleInteractability();
     }

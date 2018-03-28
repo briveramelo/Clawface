@@ -16,8 +16,9 @@ public class SteamWorkshop : Singleton<SteamWorkshop> {
     private UGCUpdateHandle_t updateHandle;
 
     #region unity lifecycle    
-    private void OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
         createItemResult = CallResult<CreateItemResult_t>.Create(OnCreateItemResult);
         submitItemResult = CallResult<SubmitItemUpdateResult_t>.Create(OnSubmitItemUpdateResult);
     }
