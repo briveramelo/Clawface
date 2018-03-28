@@ -261,9 +261,10 @@ public class PlayerLevelEditorGrid : EventSubscriber {
             }            
         }
     }
-
+    private bool DeleteInputDown { get { return Input.GetMouseButtonDown(MouseButtons.RIGHT) || Input.GetKeyDown(KeyCode.Delete) || Input.GetKeyDown(KeyCode.Backspace); } }
+    private bool DeleteInputUp { get { return Input.GetMouseButtonUp(MouseButtons.RIGHT) || Input.GetKeyUp(KeyCode.Delete) || Input.GetKeyUp(KeyCode.Backspace); } }
     private void HandleDeleteBlockSelection(RaycastHit hit) {
-        if (Input.GetMouseButtonDown(MouseButtons.RIGHT)) {
+        if (DeleteInputDown) {
             DeselectBlocks();
             mainPLEMenu.SetMenuButtonInteractabilityByState(PLEMenu.FLOOR);
         }
@@ -271,7 +272,7 @@ public class PlayerLevelEditorGrid : EventSubscriber {
             DeselectBlocks();
             SelectBlocks(hit, deletePreviewColor);
         }
-        if (Input.GetMouseButtonUp(MouseButtons.RIGHT)) {
+        if (DeleteInputUp) {
             DeselectBlocks();
             if (!OtherCameraInputIsBlocking) {
                 DeleteBlocks(hit);

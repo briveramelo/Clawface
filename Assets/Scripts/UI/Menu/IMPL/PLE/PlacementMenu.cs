@@ -26,13 +26,14 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
     protected virtual bool SelectUI { get { return Input.GetMouseButtonDown(MouseButtons.LEFT); } }
     protected virtual bool SelectItem { get { return Input.GetMouseButtonDown(MouseButtons.LEFT) && MouseHelper.currentItem != null && MouseHelper.currentBlockUnit != null; } }
     protected virtual bool DeSelectItem { get { return (Input.GetMouseButtonDown(MouseButtons.LEFT) || Input.GetMouseButtonDown(MouseButtons.RIGHT)) && !MouseHelper.HitUI; } }
-    protected bool RightClick { get { return Input.GetMouseButtonDown(MouseButtons.RIGHT); } }
     protected virtual bool Place { get { return Input.GetMouseButtonDown(MouseButtons.LEFT) && selectedItemPrefab != null && MouseHelper.currentBlockUnit != null && !MouseHelper.currentBlockUnit.IsOccupied && MouseHelper.currentBlockUnit.IsFlatAtWave(PLESpawnManager.Instance.CurrentWaveIndex); } }
     protected virtual bool IsCurrentTileAvailable { get { return MouseHelper.currentBlockUnit != null && !MouseHelper.currentBlockUnit.IsOccupied && MouseHelper.currentBlockUnit.IsFlatAtWave(PLESpawnManager.Instance.CurrentWaveIndex); } }
     protected virtual bool UpdatePreview { get { return previewItem != null && IsCurrentTileAvailable; } }
     protected virtual bool UpdateGameItem { get { return selectedPLEItem != null && Input.GetMouseButton(MouseButtons.LEFT) && IsCurrentTileAvailable; } }
     protected virtual bool ReplaceGameItem { get { return selectedPLEItem != null && Input.GetMouseButtonUp(MouseButtons.LEFT) && IsCurrentTileAvailable; } }
-    protected virtual bool CanDeleteHoveredItem { get { return Input.GetMouseButtonDown(MouseButtons.RIGHT) && MouseHelper.currentHoveredObject!=null && itemNames.Contains(MouseHelper.currentHoveredObject.name); } }
+    protected virtual bool DeleteInputDown { get { return (Input.GetMouseButtonDown(MouseButtons.RIGHT) || Input.GetKeyDown(KeyCode.Delete) || Input.GetKeyDown(KeyCode.Backspace)); } }
+    protected virtual bool CanDeleteHoveredItem { get { return DeleteInputDown && MouseHelper.currentHoveredObject!=null && itemNames.Contains(MouseHelper.currentHoveredObject.name); } }
+    protected virtual bool CanDeleteSelectedItem { get { return DeleteInputDown && selectedPLEItem != null; } }
     #endregion
 
     #region Unity Lifecycle
@@ -51,6 +52,11 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
                 if (!deletedPreviewItem && CanDeleteHoveredItem) {
                     DeleteHoveredItem();
                 }
+            }
+            else if (CanDeleteSelectedItem) {
+                DeleteItem(selectedPLEItem.gameObject);
+                DeselectUIItem();
+                DeselectItem();
             }
             else if (UpdatePreview) {
                 UpdatePreviewPosition();
@@ -151,8 +157,11 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
     }
 
     protected virtual void DeleteHoveredItem() {
-        itemNames.Remove(MouseHelper.currentHoveredObject.name);
-        Helpers.DestroyProper(MouseHelper.currentHoveredObject);
+        DeleteItem(MouseHelper.currentHoveredObject);
+    }
+    protected virtual void DeleteItem(GameObject item) {
+        itemNames.Remove(item.name);
+        Helpers.DestroyProper(item);
     }
 
     public void ResetMenu(List<string> loadedItemNames) {
