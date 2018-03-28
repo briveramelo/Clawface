@@ -3,27 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 
-public class DeathcamSpin : MonoBehaviour
+public class DeathcamSpin : EventSubscriber
 {
 
     #region Serialized
     [SerializeField] private Transform deathCamera;
     #endregion
 
-    #region Unity Lifecycle
-    // Use this for initialization
-    void Start()
-    {
-        EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_KILLED, OnDeath);
-    }
-
-    private void OnDestroy()
-    {
-        if (EventSystem.Instance)
-        {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_KILLED, OnDeath);
+    #region Event Subscriptions
+    protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.StartDestroy; } }
+    protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+        get {
+            return new Dictionary<string, FunctionPrototype>() {
+                { Strings.Events.PLAYER_KILLED, OnDeath },
+            };
         }
     }
+    #endregion
+
+    #region Unity Lifecycle
     #endregion
 
 

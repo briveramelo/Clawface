@@ -36,7 +36,7 @@ public class ZombieAcider : EnemyBase
     #region 3. Unity Lifecycle
 
 
-    public override void Awake()
+    protected override void Awake()
     {
         myStats = GetComponent<Stats>();
         SetAllStats();

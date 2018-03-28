@@ -3,10 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public delegate void FunctionPrototype(params object[] parameters);
+
 public class EventSystem : Singleton<EventSystem> {
 
     #region Private variables
-    public delegate void FunctionPrototype(params object[] parameters);
     private Dictionary<string, FunctionPrototype> eventMap = new Dictionary<string, FunctionPrototype>();
     #endregion
 

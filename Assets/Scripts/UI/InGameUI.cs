@@ -1,10 +1,11 @@
 ﻿//Garin
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.Assertions;
 using UnityEngine;
 using UnityEngine.UI;
 using ModMan;
-public class InGameUI : MonoBehaviour {
+public class InGameUI : EventSubscriber {
 
     #region Public Fields
     #endregion
@@ -53,28 +54,32 @@ public class InGameUI : MonoBehaviour {
     private bool glitchInProgress = false;
     #endregion
 
+    #region Event Subscriptions
+    protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.StartDestroy; } }
+    protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+        get {
+            return new Dictionary<string, FunctionPrototype>() {
+                { Strings.Events.SCORE_UPDATED, UpdateScore },
+                { Strings.Events.MULTIPLIER_UPDATED, UpdateMultiplier },
+                { Strings.Events.COMBO_UPDATED, UpdateCombo },
+                { Strings.Events.PLAYER_DAMAGED, DoDamageEffect },
+                { Strings.Events.PLAYER_HEALTH_MODIFIED, SetHealth },
+                { Strings.Events.SHOW_TUTORIAL_TEXT, ShowTutorialText },
+                { Strings.Events.HIDE_TUTORIAL_TEXT, HideTutorialText },
+                { Strings.Events.LEVEL_COMPLETED, HideHUD },
+                { Strings.Events.LEVEL_FAILED, HideHUD },
+                { Strings.Events.PLAYER_KILLED, HideHUD },
+                { Strings.Events.WAVE_COMPLETE, ShowWaveText },
+            };
+        }
+    }
+    #endregion
+
     #region Unity Lifecycle
 
-    private void Start()
+    protected override void Start()
     {
-        if (EventSystem.Instance)
-        {
-            //register events
-            EventSystem.Instance.RegisterEvent(Strings.Events.SCORE_UPDATED, UpdateScore);
-            EventSystem.Instance.RegisterEvent(Strings.Events.MULTIPLIER_UPDATED, UpdateMultiplier);
-            EventSystem.Instance.RegisterEvent(Strings.Events.COMBO_UPDATED, UpdateCombo);
-            EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_DAMAGED, DoDamageEffect);
-            EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_HEALTH_MODIFIED, SetHealth);
-            // EventSystem.Instance.RegisterEvent(Strings.Events.COMBO_TIMER_UPDATED, UpdateComboQuadrant);
-            EventSystem.Instance.RegisterEvent(Strings.Events.SHOW_TUTORIAL_TEXT, ShowTutorialText);
-            EventSystem.Instance.RegisterEvent(Strings.Events.HIDE_TUTORIAL_TEXT, HideTutorialText);
-            EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_COMPLETED, HideHUD);
-            EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_FAILED, HideHUD);
-            EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_KILLED, HideHUD);
-            EventSystem.Instance.RegisterEvent(Strings.Events.WAVE_COMPLETE, ShowWaveText);
-            // EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_STARTED, HideCombo);
-            // EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_RESTARTED, HideCombo);
-        }
+        base.Start();
         multiplierText.text = "";
         onScreenCombo.text = "";
         onScreenScoreDelta.text = "";
@@ -84,30 +89,6 @@ public class InGameUI : MonoBehaviour {
         HideTutorialText(null);
         UpdateMultiplier(ScoreManager.Instance.GetDifficultyMultiplier());
         ShowHUD(null);
-    }
-
-
-
-    private void OnDestroy()
-    {
-        
-        if (EventSystem.Instance)
-        {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.SCORE_UPDATED, UpdateScore);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.MULTIPLIER_UPDATED, UpdateMultiplier);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.COMBO_UPDATED, UpdateCombo);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_DAMAGED, DoDamageEffect);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_HEALTH_MODIFIED, SetHealth);
-            // EventSystem.Instance.UnRegisterEvent(Strings.Events.COMBO_TIMER_UPDATED, UpdateComboQuadrant);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.SHOW_TUTORIAL_TEXT, ShowTutorialText);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.HIDE_TUTORIAL_TEXT, HideTutorialText);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_COMPLETED, HideHUD);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_FAILED, HideHUD);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_KILLED, HideHUD);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.WAVE_COMPLETE, ShowWaveText);
-            // EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_STARTED, HideCombo);
-            // EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_RESTARTED, HideCombo);
-        }
     }
     #endregion
 

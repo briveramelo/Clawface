@@ -8,8 +8,7 @@ using UnityEngine.Events;
 /// Editor-friendly singleton base class.
 /// </summary>
 [ExecuteInEditMode]
-public abstract class EditorSingleton<T> : 
-    Singleton<T> where T : MonoBehaviour 
+public abstract class EditorSingleton<T> : Singleton<T> where T : EventSubscriber 
 {
     #region Public Fields
 

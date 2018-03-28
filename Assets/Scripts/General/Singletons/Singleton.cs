@@ -7,8 +7,7 @@
 /// 
 /// As a note, this is made as MonoBehaviour because we need Coroutines.
 /// </summary>
-public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
-{
+public class Singleton<T> : EventSubscriber where T : EventSubscriber {
 
     #region Public Fields
     public static T Instance

@@ -14,26 +14,22 @@ public class DataPersister : Singleton<DataPersister> {
 
     public DataSave dataSave;
 
+    #region Event Subscriptions
+    protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.StartDestroy; } }
+    protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+        get {
+            return new Dictionary<string, FunctionPrototype>() {
+                {Strings.Events.SCENE_LOADED, WipeWorkingData},
+            };
+        }
+    }
+    #endregion
+
     #region Unity Lifecyle
-    void Start() {
-        EventSystem.Instance.RegisterEvent(Strings.Events.SCENE_LOADED, WipeWorkingData);
-    }
-
-    private void OnDestroy() {
-        if (EventSystem.Instance) {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.SCENE_LOADED, WipeWorkingData);
-        }
-    }
-    void WipeWorkingData(params object[] parameters) {
-        if (SceneTracker.IsCurrentSceneEditor) {
-            ActiveDataSave.workingLevelData = new LevelData();
-        }
-    }
-
     protected override void Awake() {
         base.Awake();
         Load();
-    }
+    }    
     #endregion
 
     #region Public Interface
@@ -89,6 +85,11 @@ public class DataPersister : Singleton<DataPersister> {
             while (ActiveDataSave.levelDatas.Exists(containsEmptyLevel)) {
                 ActiveDataSave.levelDatas.Remove(ActiveDataSave.levelDatas.Find(containsEmptyLevel));
             }
+        }
+    }
+    void WipeWorkingData(params object[] parameters) {
+        if (SceneTracker.IsCurrentSceneEditor) {
+            ActiveDataSave.workingLevelData = new LevelData();
         }
     }
     #endregion

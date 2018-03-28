@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Turing.VFX;
 
-public class SwapCamerasOnLevelEnd : MonoBehaviour {
+public class SwapCamerasOnLevelEnd : EventSubscriber {
 
     #region Serialized
     [SerializeField]
@@ -16,23 +16,21 @@ public class SwapCamerasOnLevelEnd : MonoBehaviour {
     private MoveState moveState;
 
     [SerializeField]
-    private Rigidbody playerRigidbody;    
+    private Rigidbody playerRigidbody;
     #endregion
 
     #region Unity Lifetime
-    // Use this for initialization
-    void Start () {
-        EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_COMPLETED, SwitchCameras); 
-	}
-
-    private void OnDestroy()
-    {
-        if (EventSystem.Instance) {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_COMPLETED, SwitchCameras);
-        }
-    }
     #endregion
+    // Use this for initialization
 
+    #region Event Subscriptions
+    protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.StartDestroy; } }
+    protected override Dictionary<string, FunctionPrototype> EventSubscriptions { get {
+        return new Dictionary<string, FunctionPrototype>() {
+            { Strings.Events.LEVEL_COMPLETED, SwitchCameras},            
+        };
+    } }
+    #endregion
 
     #region Private Methods
     void SwitchCameras(params object[] parameters)
