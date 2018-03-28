@@ -21,16 +21,17 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
     protected GameObject selectedItemPrefab = null;
     protected GameObject previewItem = null;
     protected List<string> itemNames = new List<string>();
+    public Transform SelectedItem { get { return selectedPLEItem!=null ? selectedPLEItem.transform : null; } }
 
     #region Boolean Helpers
-    protected virtual bool SelectUI { get { return Input.GetMouseButtonDown(MouseButtons.LEFT); } }
-    protected virtual bool SelectItem { get { return Input.GetMouseButtonDown(MouseButtons.LEFT) && MouseHelper.currentItem != null && MouseHelper.currentBlockUnit != null; } }
-    protected virtual bool DeSelectItem { get { return (Input.GetMouseButtonDown(MouseButtons.LEFT) || Input.GetMouseButtonDown(MouseButtons.RIGHT)) && !MouseHelper.HitUI; } }
+    protected virtual bool SelectUI { get { return Input.GetMouseButtonDown(MouseButtons.LEFT) && !Input.GetKey(KeyCode.LeftAlt); } }
+    protected virtual bool SelectItem { get { return (Input.GetMouseButtonDown(MouseButtons.LEFT) && !Input.GetKey(KeyCode.LeftAlt)) && MouseHelper.currentItem != null && MouseHelper.currentBlockUnit != null; } }
+    protected virtual bool DeSelectItem { get { return ((Input.GetMouseButtonDown(MouseButtons.LEFT) || Input.GetMouseButtonDown(MouseButtons.RIGHT)) && !Input.GetKey(KeyCode.LeftAlt)) && !MouseHelper.HitUI; } }
     protected virtual bool Place { get { return Input.GetMouseButtonDown(MouseButtons.LEFT) && selectedItemPrefab != null && MouseHelper.currentBlockUnit != null && !MouseHelper.currentBlockUnit.IsOccupied && MouseHelper.currentBlockUnit.IsFlatAtWave(PLESpawnManager.Instance.CurrentWaveIndex); } }
     protected virtual bool IsCurrentTileAvailable { get { return MouseHelper.currentBlockUnit != null && !MouseHelper.currentBlockUnit.IsOccupied && MouseHelper.currentBlockUnit.IsFlatAtWave(PLESpawnManager.Instance.CurrentWaveIndex); } }
     protected virtual bool UpdatePreview { get { return previewItem != null && IsCurrentTileAvailable; } }
-    protected virtual bool UpdateGameItem { get { return selectedPLEItem != null && Input.GetMouseButton(MouseButtons.LEFT) && IsCurrentTileAvailable; } }
-    protected virtual bool ReplaceGameItem { get { return selectedPLEItem != null && Input.GetMouseButtonUp(MouseButtons.LEFT) && IsCurrentTileAvailable; } }
+    protected virtual bool UpdateGameItem { get { return selectedPLEItem != null && (Input.GetMouseButton(MouseButtons.LEFT) && !Input.GetKey(KeyCode.LeftAlt) ) && IsCurrentTileAvailable; } }
+    protected virtual bool ReplaceGameItem { get { return selectedPLEItem != null && (Input.GetMouseButtonUp(MouseButtons.LEFT) && !Input.GetKey(KeyCode.LeftAlt)) && IsCurrentTileAvailable; } }
     protected virtual bool DeleteInputDown { get { return (Input.GetMouseButtonDown(MouseButtons.RIGHT) || Input.GetKeyDown(KeyCode.Delete) || Input.GetKeyDown(KeyCode.Backspace)); } }
     protected virtual bool CanDeleteHoveredItem { get { return DeleteInputDown && MouseHelper.currentHoveredObject!=null && itemNames.Contains(MouseHelper.currentHoveredObject.name); } }
     protected virtual bool CanDeleteSelectedItem { get { return DeleteInputDown && selectedPLEItem != null; } }

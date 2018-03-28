@@ -114,6 +114,12 @@ public class PlayerLevelEditorGrid : EventSubscriber {
     public bool AnyTilesSelected() { return selectedGridTiles.Count > 0; }
     public bool AnyTilesActive() { return gridTiles.Any(tile => tile.IsActive); }
     public bool AnyActiveTilesNotFlat() { return gridTiles.Any(tile => tile.IsActive && !tile.blockUnit.IsFlatAtWave(PLESpawnManager.Instance.CurrentWaveIndex)); }
+    public Transform GetFirstSelectedTile() {
+        if (AnyTilesSelected()) {
+            return selectedGridTiles[0].realTile.transform;
+        }
+        return null;
+    }
 
     public void ShowWalls() {
         gridTiles.ForEach(tile => tile.EnableWalls());
