@@ -40,37 +40,33 @@ public class ScoreManager : Singleton<ScoreManager> {
     private bool updateScore;
     #endregion
 
+    #region Event Subscriptions
+    protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.StartDestroy; } }
+    protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+        get {
+            return new Dictionary<string, FunctionPrototype>() {
+                { Strings.Events.DEATH_ENEMY, OnPlayerKilledEnemy },
+                { Strings.Events.EAT_ENEMY, OnPlayerAte },
+                { Strings.Events.PLAYER_DAMAGED, OnPlayerDamaged },
+                { Strings.Events.LEVEL_STARTED, OnLevelStart },
+                { Strings.Events.PLE_ON_LEVEL_READY, OnLevelStart },
+                { Strings.Events.LEVEL_RESTARTED, OnLevelRestart },
+                { Strings.Events.LEVEL_QUIT, OnLevelQuit },
+                { Strings.Events.PLAYER_KILLED, OnPlayerKilled },
+            };
+        }
+    }
+    #endregion
+
     #region Unity Lifecycle
     // Use this for initialization
-    void Start () {
+    protected override void Start () {
+
         highScores = new Dictionary<string, int>();
         OnLevelStart();
 
-        EventSystem.Instance.RegisterEvent(Strings.Events.DEATH_ENEMY, OnPlayerKilledEnemy);
-        EventSystem.Instance.RegisterEvent(Strings.Events.EAT_ENEMY, OnPlayerAte);
-        EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_DAMAGED, OnPlayerDamaged);
-        EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_STARTED, OnLevelStart);
-        EventSystem.Instance.RegisterEvent(Strings.Events.PLE_ON_LEVEL_READY, OnLevelStart);
-        EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_RESTARTED, OnLevelRestart);
-        EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_QUIT, OnLevelQuit);
-        EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_KILLED, OnPlayerKilled);
+        base.Start();
     }       
-
-    private void OnDestroy()
-    {
-        if (EventSystem.Instance)
-        {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.DEATH_ENEMY, OnPlayerKilledEnemy);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.EAT_ENEMY, OnPlayerAte);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_DAMAGED, OnPlayerDamaged);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_STARTED, OnLevelStart);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_ON_LEVEL_READY, OnLevelStart);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_RESTARTED, OnLevelRestart);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_QUIT, OnLevelQuit);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_KILLED, OnPlayerKilled);
-        }
-
-    }
 
     // Update is called once per frame
     void Update() {

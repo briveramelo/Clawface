@@ -4,7 +4,7 @@ using UnityEngine;
 using MEC;
 using UnityEngine.Audio;
 using ModMan;
-public class MusicIntensityManager : MonoBehaviour {
+public class MusicIntensityManager : EventSubscriber {
 
     #region private fields
     private bool isChangingTrack;
@@ -18,29 +18,30 @@ public class MusicIntensityManager : MonoBehaviour {
     [SerializeField] private float blendSpeed;
     #endregion
 
+    #region Event Subscriptions
+    protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.StartDestroy; } }
+    protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+        get {
+            Dictionary<string, FunctionPrototype> dic = new Dictionary<string, FunctionPrototype>() { };
+            for (int i = 0; i < musicEventsList.Count; i++) {
+                dic.Add(musicEventsList[i], ChangeTrack);
+            }
+            return dic;
+        }
+    }
+    #endregion
+    
+
     #region unity lifecycle
-    private void Awake() {
+    protected override void Awake() {
+        base.Awake();
         EventSystem.Instance.TriggerEvent(Strings.Events.MUSIC_INTENSITY_STARTED);
     }
-    void Start () {
-        
-        for (int i = 0; i< musicEventsList.Count; i++)
-        {
-            EventSystem.Instance.RegisterEvent(musicEventsList[i], ChangeTrack);         
-        }
+    protected override void Start () {
+        base.Start();        
         loopingAudioSet.Initialize(transform, musicMixerGroup);
     }
 
-    private void OnDestroy()
-    {
-        if (EventSystem.Instance)
-        {
-            for (int i = 0; i < musicEventsList.Count; i++)
-            {
-                EventSystem.Instance.UnRegisterEvent(musicEventsList[i], ChangeTrack);                
-            }
-        }
-    }
     #endregion    
 
     #region public functions

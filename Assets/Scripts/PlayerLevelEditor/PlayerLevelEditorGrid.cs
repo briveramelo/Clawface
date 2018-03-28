@@ -6,7 +6,7 @@ using ModMan;
 using System.Linq;
 using UnityEngine.AI;
 
-public class PlayerLevelEditorGrid : MonoBehaviour {
+public class PlayerLevelEditorGrid : EventSubscriber {
     #region Private Fields
     private List<GridTile> gridTiles = new List<GridTile>();
 
@@ -67,16 +67,21 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
 
     #endregion
 
-    #region Unity Lifecycle
-    void Awake() {
-        Initialize();
-        EventSystem.Instance.RegisterEvent(Strings.Events.PLE_ON_LEVEL_DATA_LOADED, BakeNavMesh);
-    }
-
-    private void OnDestroy() {
-        if (EventSystem.Instance) {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_ON_LEVEL_DATA_LOADED, BakeNavMesh);
+    #region Event Subscriptions
+    protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.AwakeDestroy; } }
+    protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+        get {
+            return new Dictionary<string, FunctionPrototype>() {
+                { Strings.Events.PLE_ON_LEVEL_DATA_LOADED, BakeNavMesh},
+            };
         }
+    }
+    #endregion
+
+    #region Unity Lifecycle
+    protected override void Awake() {
+        Initialize();
+        base.Awake();
     }
 
     void Update() {

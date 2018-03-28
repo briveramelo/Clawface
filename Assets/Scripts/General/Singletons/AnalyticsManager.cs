@@ -57,34 +57,24 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
 
     #endregion
 
-
-    #region Unity Lifecycle
-    
-    private void OnDestroy()
-    {
-        if (EventSystem.Instance)
-        {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_STARTED, OnLevelStarted);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_KILLED, OnPlayerKilled);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_COMPLETED, OnLevelCompleted);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_QUIT, OnLevelQuit);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_RESTARTED, OnLevelRestart);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.WAVE_COMPLETE, OnWaveComplete);
+    #region Event Subscriptions
+    protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.StartDestroy; } }
+    protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+        get {
+            return new Dictionary<string, FunctionPrototype>() {
+                { Strings.Events.LEVEL_STARTED, OnLevelStarted },
+                { Strings.Events.PLAYER_KILLED, OnPlayerKilled },
+                { Strings.Events.LEVEL_COMPLETED, OnLevelCompleted },
+                { Strings.Events.LEVEL_QUIT, OnLevelQuit },
+                { Strings.Events.LEVEL_RESTARTED, OnLevelRestart },
+                { Strings.Events.WAVE_COMPLETE, OnWaveComplete },
+            };
         }
     }
+    #endregion
 
 
-    // Use this for initialization
-    void Start()
-    {
-        EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_STARTED, OnLevelStarted);
-        EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_KILLED, OnPlayerKilled);
-        EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_COMPLETED, OnLevelCompleted);
-        EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_QUIT, OnLevelQuit);
-        EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_RESTARTED, OnLevelRestart);
-        EventSystem.Instance.RegisterEvent(Strings.Events.WAVE_COMPLETE, OnWaveComplete);
-    }
-
+    #region Unity Lifecycle
 
     // Update is called once per frame
     void Update()
@@ -101,8 +91,6 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         {
             levelDodgePresses++;
         }
-
-
     }
 
     private void OnApplicationQuit()

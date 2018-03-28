@@ -13,8 +13,9 @@ public class AchievementManager : Singleton<AchievementManager> {
     #endregion
 
     #region Unity Lifecycle
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         if (SteamManager.Initialized)
         {
             isInitialized = SteamUserStats.RequestCurrentStats();

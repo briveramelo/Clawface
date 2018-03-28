@@ -2,6 +2,7 @@
 *  @author Cornelia Schultz
 */
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -44,20 +45,18 @@ public class PauseMenu : Menu {
 
     #endregion
 
-    #region Unity Lifecycle Methods
-    private new void Start()
-    {
-        base.Start();
-        EventSystem.Instance.RegisterEvent(Strings.Events.GAME_CAN_PAUSE, GameCanPause);
-    }
-
-    private void OnDestroy()
-    {
-        if (EventSystem.Instance)
-        {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.GAME_CAN_PAUSE, GameCanPause);
+    #region Event Subscriptions
+    protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.StartDestroy; } }
+    protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+        get {
+            return new Dictionary<string, FunctionPrototype>() {
+            { Strings.Events.GAME_CAN_PAUSE, GameCanPause },
+        };
         }
     }
+    #endregion
+
+    #region Unity Lifecycle Methods
 
     void Update ()
 	{
