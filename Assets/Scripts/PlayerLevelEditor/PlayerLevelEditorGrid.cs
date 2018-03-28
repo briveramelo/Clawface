@@ -267,10 +267,9 @@ public class PlayerLevelEditorGrid : EventSubscriber {
             }            
         }
     }
-    private bool DeleteInputDown { get { return Input.GetMouseButtonDown(MouseButtons.RIGHT) || Input.GetKeyDown(KeyCode.Delete) || Input.GetKeyDown(KeyCode.Backspace); } }
-    private bool DeleteInputUp { get { return Input.GetMouseButtonUp(MouseButtons.RIGHT) || Input.GetKeyUp(KeyCode.Delete) || Input.GetKeyUp(KeyCode.Backspace); } }
+    private bool DeleteInputDown { get { return Input.GetKeyDown(KeyCode.Delete) || Input.GetKeyDown(KeyCode.Backspace); } }
     private void HandleDeleteBlockSelection(RaycastHit hit) {
-        if (DeleteInputDown) {
+        if (Input.GetMouseButtonDown(MouseButtons.RIGHT)) {
             DeselectBlocks();
             mainPLEMenu.SetMenuButtonInteractabilityByState(PLEMenu.FLOOR);
         }
@@ -278,13 +277,20 @@ public class PlayerLevelEditorGrid : EventSubscriber {
             DeselectBlocks();
             SelectBlocks(hit, deletePreviewColor);
         }
-        if (DeleteInputUp) {
+        if (Input.GetMouseButtonUp(MouseButtons.RIGHT)) {
             DeselectBlocks();
             if (!OtherCameraInputIsBlocking) {
                 DeleteBlocks(hit);
                 ShowWalls();
                 mainPLEMenu.SetMenuButtonInteractabilityByState();
             }
+        }
+
+        if (DeleteInputDown) {
+            DeleteSelectedBlocks();
+            DeselectBlocks();
+            ShowWalls();
+            mainPLEMenu.SetMenuButtonInteractabilityByState();
         }
     }
 
@@ -311,6 +317,15 @@ public class PlayerLevelEditorGrid : EventSubscriber {
     private void DeleteBlocks(List<GameObject> selectedObjects) {
         for (int i = 0; i < selectedObjects.Count; i++) {
             GridTile selectedTile = gridTiles.Find(tile => tile.realTile == selectedObjects[i]);
+            if (selectedTile != null) {
+                selectedTile.IsActive = false;
+                selectedTile.blockUnit.ClearItems();
+            }
+        }
+    }
+    private void DeleteSelectedBlocks() {
+        for (int i = 0; i < selectedGridTiles.Count; i++) {
+            GridTile selectedTile = selectedGridTiles[i];
             if (selectedTile != null) {
                 selectedTile.IsActive = false;
                 selectedTile.blockUnit.ClearItems();
