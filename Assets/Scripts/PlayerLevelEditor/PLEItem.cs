@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using ModMan;
-public abstract class PLEItem : MonoBehaviour {
+public abstract class PLEItem : EventSubscriber {
 
     public Sprite iconPreview;
     protected Color startColor;
@@ -34,10 +34,6 @@ public abstract class PLEItem : MonoBehaviour {
             }
             return matPropBlock;
         }
-    }
-
-    protected virtual void Start() {
-        
     }    
 
     protected abstract string ColorTint { get; }

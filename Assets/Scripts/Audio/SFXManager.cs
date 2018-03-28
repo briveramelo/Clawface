@@ -13,8 +13,9 @@ public class SFXManager : Singleton<SFXManager>
     [SerializeField] private AudioMixer sfxMixer;
     #endregion
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         sfxDictionary = new Dictionary<SFXType, List<SoundEffect>>();
         foreach (SFXUnit unit in SFXList)
         {

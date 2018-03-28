@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PLEBlockUnit : MonoBehaviour
+public class PLEBlockUnit : EventSubscriber
 {
     #region Public Fields
 
@@ -20,10 +20,21 @@ public class PLEBlockUnit : MonoBehaviour
     [HideInInspector] public GameObject prop;
     [HideInInspector] public List<GameObject> spawns;
     #endregion
-
+    #region Event Subscriptions
+    protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.EnableDisable; } }
+    protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+        get {
+            return new Dictionary<string, FunctionPrototype>() {
+                { Strings.Events.PLE_ADD_WAVE, AddNewWave},
+                { Strings.Events.PLE_DELETE_CURRENTWAVE, DeleteCurrentWave},
+                { Strings.Events.PLE_SYNC_LEVEL_UNIT_STATES, SyncTileStatesAndColors},
+            };
+        }
+    }
+    #endregion
     #region Unity Lifecycle
 
-    IEnumerator Start()
+    new IEnumerator Start()
     {
         yield return new WaitForEndOfFrame();
         yield return new WaitForEndOfFrame();
@@ -32,23 +43,6 @@ public class PLEBlockUnit : MonoBehaviour
                 levelStates.Add(LevelUnitStates.Floor);
             }
         }        
-    }
-
-    private void OnEnable()
-    {
-        EventSystem.Instance.RegisterEvent(Strings.Events.PLE_ADD_WAVE, AddNewWave);
-        EventSystem.Instance.RegisterEvent(Strings.Events.PLE_DELETE_CURRENTWAVE, DeleteCurrentWave);
-        EventSystem.Instance.RegisterEvent(Strings.Events.PLE_SYNC_LEVEL_UNIT_STATES, SyncTileStatesAndColors);
-    }
-
-    private void OnDisable()
-    {
-        if (EventSystem.Instance)
-        {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_ADD_WAVE, AddNewWave);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_DELETE_CURRENTWAVE, DeleteCurrentWave);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_SYNC_LEVEL_UNIT_STATES, SyncTileStatesAndColors);
-        }
     }
 
     #endregion

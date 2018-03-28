@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using MEC;
 
-public class PlayerStateManager : RoutineRunner {
+public class PlayerStateManager : EventSubscriber {
 
     #region Public fields
     public static GameObject keiraRootGameObject;
@@ -54,6 +54,20 @@ public class PlayerStateManager : RoutineRunner {
     private float tutorialTimeScale = 1.0f;
     #endregion
 
+    #region Event Subscriptions
+    protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.StartDestroy; } }
+    protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+        get {
+            return new Dictionary<string, FunctionPrototype>() {
+                { Strings.Events.LEVEL_COMPLETED, BlockInput },
+                { Strings.Events.FINISHED_EATING, FinishedEat},
+                { Strings.Events.PLAYER_KILLED, OnPlayerKilled},
+                { Strings.Events.ENEMY_DEATH_BY_EATING, OnEnemyDeathByEating},
+            };
+        }
+    }
+    #endregion
+
     #region Unity Lifecycle
     protected override void OnDisable() {
         Timing.KillCoroutines(SlowTime);
@@ -62,7 +76,8 @@ public class PlayerStateManager : RoutineRunner {
     }
 
     // Use this for initialization
-    void Start () {
+    protected override void Start () {
+        base.Start();
         keiraRootGameObject = transform.root.gameObject;
         stateChanged = false;
         stateVariables.playerCanMove = true;
@@ -75,24 +90,6 @@ public class PlayerStateManager : RoutineRunner {
         movementState = defaultState;
         playerStates = new List<IPlayerState>(){ defaultState};
         eatCollider.radius = stateVariables.eatRadius;
-
-        //for input blocking 
-        EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_COMPLETED, BlockInput);        
-        EventSystem.Instance.RegisterEvent(Strings.Events.FINISHED_EATING, FinishedEat);
-        EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_KILLED, OnPlayerKilled);
-        EventSystem.Instance.RegisterEvent(Strings.Events.ENEMY_DEATH_BY_EATING, OnEnemyDeathByEating);
-    }
-
-    private void OnDestroy() {
-        EventSystem instance = EventSystem.Instance;
-
-        if (instance) {
-            instance.UnRegisterEvent(Strings.Events.LEVEL_COMPLETED, BlockInput);
-            instance.UnRegisterEvent(Strings.Events.FINISHED_EATING, FinishedEat);
-            instance.UnRegisterEvent(Strings.Events.PLAYER_KILLED, OnPlayerKilled);
-            instance.UnRegisterEvent(Strings.Events.ENEMY_DEATH_BY_EATING, OnEnemyDeathByEating);
-        }
-
     }
 
     // Update is called once per frame

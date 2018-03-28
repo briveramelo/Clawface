@@ -14,7 +14,7 @@ public enum PushDirection{
     BACK_DOWN
 }
 
-public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatable, ISpawnable
+public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEatable, ISpawnable
 {
     #region serialized fields
     [SerializeField] protected AIController controller;
@@ -86,17 +86,25 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     }
     #endregion
 
+    #region Event Subscriptions
+    protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.EnableDisable; } }
+    protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+        get {
+            return new Dictionary<string, FunctionPrototype>() {
+                { Strings.Events.PLAYER_KILLED, DoPlayerKilledState},
+                { Strings.Events.ENEMY_INVINCIBLE, SetInvincible }
+            };
+        }
+    }
+    #endregion
+
     #region 4. Unity Lifecycle
 
-    public void OnEnable()
+    protected override void OnEnable()
     {
-        EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_KILLED, DoPlayerKilledState);
-        EventSystem.Instance.RegisterEvent(Strings.Events.ENEMY_INVINCIBLE, SetInvincible);
+        base.OnEnable();
         id = GetInstanceID();
-        //if (will.willHasBeenWritten)
-        //{
-            ResetForRebirth();
-        //}
+        ResetForRebirth();
     }
 
     void Update()
@@ -118,8 +126,9 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         }       
     }
 
-    public virtual void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         poolParent = transform.parent;
         transformMemento.Initialize(transform);
         InitSkeleton();
@@ -135,12 +144,9 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     protected override void OnDisable()
     {
         base.OnDisable();
-        if (EventSystem.Instance) {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_KILLED, DoPlayerKilledState);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.ENEMY_INVINCIBLE, SetInvincible);
-        }
         CancelInvoke("Vocalize");
     }
+
     #endregion
 
     #region 5. Public Methods   

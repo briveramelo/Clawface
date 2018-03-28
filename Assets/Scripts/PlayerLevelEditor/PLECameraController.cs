@@ -2,13 +2,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using ModMan;
-
+using MEC;
 namespace PlayerLevelEditor
 {
     [RequireComponent(typeof(Camera))]
-    public class PLECameraController : MonoBehaviour
+    public class PLECameraController : RoutineRunner
     {
-        [SerializeField] private PlayerLevelEditorGrid gridController;
+        #region Serialized Fields
+        [SerializeField] private LevelEditor levelEditor;
+        [SerializeField] private MainPLEMenu mainPLEMenu;
+        [SerializeField] private AbsAnim recenterAnim;
+        [SerializeField] private float maxDistanceOnRecenter;
+        //[SerializeField, Range(0f,1f)] private float timeBetweenDoubleClicks;
         [SerializeField] private float panSpeedBase;
         [SerializeField] private float WASDSpeedBase;
         [SerializeField] private float zoomScrollSpeed;
@@ -17,7 +22,9 @@ namespace PlayerLevelEditor
         [SerializeField] private float rotationSpeed;
         [SerializeField] private float heightOffsetSpeedMultiplier;
         [SerializeField] private float minFarClipPlain;
+        #endregion
 
+        #region Getter Helpers
         private float CameraDistanceAway { get { return Vector3.Distance(mainCamera.transform.position, Vector3.zero); } }
         private float CameraYDistanceAway { get { return mainCamera.transform.position.y; } }
         private float CameraYDistanceMuliplier { get { return heightOffsetSpeedMultiplier * CameraYDistanceAway; } }
@@ -28,14 +35,23 @@ namespace PlayerLevelEditor
         private float RotationSpeedAdjusted { get { return rotationSpeed * Time.deltaTime; } }
         private float ScrollSpeedAdjusted { get { return zoomScrollSpeed * Time.deltaTime; } }
         private float ZoomScrubSpeedAdjusted { get { return zoomScrubSpeed; } }
+        //private bool DoubleClicked { get { return Input.GetMouseButtonDown(MouseButtons.LEFT) && Time.time - lastClickTime < timeBetweenDoubleClicks; } }
+        #endregion
 
+        #region Private Fields
+        float lastClickTime;
 
         private Camera mainCamera;
         Vector3 startScreenPosition, startCamPosition;
+        private Vector3 startPosition, targetPosition;
+        private Quaternion startRotation, targetRotation;
 
         private float levelSize;//assumes levelSize is set and unchanged after the start funciton is called
         private float yaw = 0.0f;
         private float pitch = 0.0f;
+        private PlacementMenu spawnMenu;
+        #endregion
+
 
         #region Unused... Delete?
         private Material lineMaterial;
@@ -64,31 +80,67 @@ namespace PlayerLevelEditor
         }
 
         #endregion
-        
-        void Start()
-        {
-            levelSize = gridController.LevelSize;
+
+
+
+        #region Unity LifeCycle
+        private void Start() {
+            spawnMenu = (mainPLEMenu.GetMenu(PLEMenu.SPAWN) as PlacementMenu);
+            recenterAnim.OnUpdate = UpdateCameraRecenter;
+
+            levelSize = levelEditor.gridController.LevelSize;
             mainCamera = Camera.main;
         }
 
-        void Update()
-        {
+        private void Update() {
+            HandleRecentering();
             HandleCameraMovement();
             HandleCameraRotation();
             HandleCameraZooming();
             HandleClippingPlanes();
         }
 
-        void OnApplicationQuit()
-        {
+        private void OnApplicationQuit() {
             DestroyImmediate(lineMaterial);
         }
+        #endregion
 
-        
+        #region Private Interface    
+        private void HandleRecentering() {
+            if (Input.GetKeyDown(KeyCode.F)) {
+                SetupRecenter();
+            }
 
+            //if (DoubleClicked) {                
+            //    SetupRecenter();
+            //}
+            //if (Input.GetMouseButtonDown(MouseButtons.LEFT)) {
+            //    lastClickTime = Time.time;
+            //}
+        }
 
-        
-        void HandleCameraMovement() {
+        private void SetupRecenter() {
+            Transform target = levelEditor.gridController.GetFirstSelectedTile() ?? spawnMenu.SelectedItem;
+            if (target != null) {
+                Recenter(target);
+            }
+        }
+
+        private void Recenter(Transform target) {
+            Timing.KillCoroutines(coroutineName);
+            
+            startPosition = transform.position;
+            startRotation = transform.rotation;
+            targetPosition = target.position - Vector3.ClampMagnitude(target.position - startPosition, maxDistanceOnRecenter);
+            targetRotation = Quaternion.LookRotation(target.position - startPosition, Vector3.up);
+            recenterAnim.Animate(coroutineName);
+        }
+        private void UpdateCameraRecenter(float progress) {
+            transform.position = startPosition + progress * (targetPosition - startPosition);
+            transform.rotation = Quaternion.Slerp(startRotation, targetRotation, progress);
+        }
+
+        private void HandleCameraMovement() {
             HandleCameraWASD();
             HandleCameraPanning();
         }
@@ -96,6 +148,10 @@ namespace PlayerLevelEditor
         private void HandleCameraWASD() {
             if (Input.GetKey(KeyCode.W)) {
                 transform.Translate(WASDSpeedAdjusted * Vector3.forward);
+            }
+
+            if (Input.GetKey(KeyCode.A)) {
+                transform.Translate(WASDSpeedAdjusted * Vector3.left);
             }
 
             if (Input.GetKey(KeyCode.S)) {
@@ -106,66 +162,74 @@ namespace PlayerLevelEditor
                 transform.Translate(WASDSpeedAdjusted * Vector3.right);
             }
 
-            if (Input.GetKey(KeyCode.A)) {
-                transform.Translate(WASDSpeedAdjusted * Vector3.left);
-            }
         }
 
-        void HandleCameraPanning() {
+        private void HandleCameraPanning() {
             if (Input.GetMouseButtonDown(MouseButtons.MIDDLE) || (Input.GetMouseButtonDown(MouseButtons.LEFT) && Input.GetKey(KeyCode.Space))) {
                 startScreenPosition = Input.mousePosition;
-                startCamPosition = mainCamera.transform.position;
+                startCamPosition = transform.position;
             }
 
             if (Input.GetMouseButton(MouseButtons.MIDDLE) || (Input.GetMouseButton(MouseButtons.LEFT) && Input.GetKey(KeyCode.Space))) {
                 Vector3 screenDiff = Input.mousePosition - startScreenPosition;
                 screenDiff.z = screenDiff.y;
                 screenDiff.y = 0;
-                screenDiff = mainCamera.transform.TransformDirection(screenDiff);
+                screenDiff = transform.TransformDirection(screenDiff);
                 screenDiff.y = 0;
-                //what is this zPanSpeed??
-                //screenDiff += ZPanSpeedAdjusted * yShift * mainCamera.transform.forward.NormalizedNoY();
-                mainCamera.transform.position = startCamPosition + screenDiff * PanSpeedAdjusted;
+                transform.position = startCamPosition + screenDiff * PanSpeedAdjusted;
             }
         }
 
-        void HandleCameraZooming() {            
+        private void HandleCameraZooming() {            
             if (Input.GetAxis("Mouse ScrollWheel") < 0) {
-                mainCamera.transform.Translate(Vector3.forward * ScrollSpeedAdjusted);
+                transform.Translate(Vector3.forward * ScrollSpeedAdjusted);
             }
 
             if (Input.GetAxis("Mouse ScrollWheel") > 0) {
-                mainCamera.transform.Translate(Vector3.back * ScrollSpeedAdjusted);
+                transform.Translate(Vector3.back * ScrollSpeedAdjusted);
             }
 
             if (Input.GetMouseButtonDown(MouseButtons.LEFT) && Input.GetKey(KeyCode.Z)) {
                 startScreenPosition = Input.mousePosition;
-                startCamPosition = mainCamera.transform.position;
+                startCamPosition = transform.position;
             }
             if (Input.GetMouseButton(MouseButtons.LEFT) && Input.GetKey(KeyCode.Z)) {
                 Vector3 screenDiff = Input.mousePosition - startScreenPosition;
                 float shift = Vector3.Dot(Vector3.right, screenDiff);
-                mainCamera.transform.position = startCamPosition + mainCamera.transform.forward * shift * ZoomScrubSpeedAdjusted;
+                transform.position = startCamPosition + transform.forward * shift * ZoomScrubSpeedAdjusted;
             }
         }
-
-        //TODO rotate around SelectedObject
-        void HandleCameraRotation() {
+        
+        private void HandleCameraRotation() {
             if (Input.GetMouseButtonDown(MouseButtons.LEFT)) {
                 pitch = transform.eulerAngles.x;
                 yaw = transform.eulerAngles.y;
             }
-            if (Input.GetKey(KeyCode.LeftAlt) && Input.GetMouseButton(MouseButtons.LEFT)) {
-                yaw += RotationSpeedAdjusted * Input.GetAxis("Mouse X");
-                pitch -= RotationSpeedAdjusted * Input.GetAxis("Mouse Y");
-                transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
+
+            if (Input.GetMouseButton(MouseButtons.LEFT) && Input.GetKey(KeyCode.LeftAlt)) {
+                float yawDelta = RotationSpeedAdjusted * Input.GetAxis("Mouse X");
+                float pitchDelta = -RotationSpeedAdjusted * Input.GetAxis("Mouse Y");
+
+                Transform target = levelEditor.gridController.GetFirstSelectedTile() ?? spawnMenu.SelectedItem;
+                if (target != null) {
+                    transform.LookAt(target);
+                    transform.RotateAround(target.position, transform.right, pitchDelta);
+                    transform.RotateAround(target.position, transform.up, yawDelta);
+                }
+                else {
+                    yaw += yawDelta;
+                    pitch += pitchDelta;
+                    transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
+                }
             }
         }
 
-        void HandleClippingPlanes() {
+        private void HandleClippingPlanes() {
             float xDistanceAway = (levelSize * 5f * Mathf.Sqrt(2f)) + CameraDistanceAway;
             mainCamera.farClipPlane = minFarClipPlain + xDistanceAway;
         }
+        #endregion
+
     }
 }
 
