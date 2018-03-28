@@ -141,7 +141,8 @@ public abstract class Menu : EventSubscriber {
     {
         if (!MenuManager.Instance.MouseMode)
         {
-            SelectInitialButton();
+            Invoke ("SelectInitialButton", 0.0f);
+            //SelectInitialButton();
         }
     }
 

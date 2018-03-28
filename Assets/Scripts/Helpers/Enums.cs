@@ -56,7 +56,8 @@ public enum SFXType {
     KamikazeFootstep,
     ZombieVocalize,
     None,
-    AcidZombieVocalize
+    AcidZombieVocalize,
+    TileLift
 }
 
 public enum MusicType

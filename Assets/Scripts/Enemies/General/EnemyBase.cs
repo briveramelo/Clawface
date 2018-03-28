@@ -84,6 +84,7 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
             return myColliders;
         }
     }
+    protected bool canVocalize = true;
     #endregion
 
     #region Event Subscriptions
@@ -92,7 +93,9 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
         get {
             return new Dictionary<string, FunctionPrototype>() {
                 { Strings.Events.PLAYER_KILLED, DoPlayerKilledState},
-                { Strings.Events.ENEMY_INVINCIBLE, SetInvincible }
+                { Strings.Events.ENEMY_INVINCIBLE, SetInvincible },
+                { Strings.Events.SHOW_TUTORIAL_TEXT, DisableVocalization },
+                { Strings.Events.HIDE_TUTORIAL_TEXT, EnableVocalization }
             };
         }
     }
@@ -536,12 +539,15 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
 
     void Vocalize ()
     {
-        if (enabled && vocalizeSound != SFXType.None)
+        if (enabled && vocalizeSound != SFXType.None && canVocalize)
         {
             SFXManager.Instance.Play(vocalizeSound, transform.position);
             Invoke ("Vocalize", UnityEngine.Random.Range(vocalizeInterval.x, vocalizeInterval.y));
         }
     }
+
+    void EnableVocalization (params object[] parameters) { canVocalize = true; }
+    void DisableVocalization (params object[] parameters) { canVocalize = false; }
 
     void PlayFootstepSound ()
     {
