@@ -158,7 +158,7 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
             ConfirmMenu confirmMenu = (ConfirmMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.CONFIRM);
             Action onYesAction = () =>
             {
-                LoadSelectedLevel();
+                TryLoadSelectedLevel();
             };
 
             Action onNoAction = () =>
@@ -172,7 +172,7 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
         }
         else
         {
-            LoadSelectedLevel();
+            TryLoadSelectedLevel();
         }
     }
 
@@ -240,6 +240,7 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
         LevelUI selectedLevelUI = levelUIs[SelectedLevelIndex];
         selectedLevelUI.ToggleIsFavorite();
         selectedLevelFavoriteIcon.enabled = selectedLevelUI.levelData.isFavorite;
+        DataPersister.Instance.TrySaveDataFile();
     }
 
     public void DeleteSelectedLevel() {
@@ -267,27 +268,29 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
 
     #region Protected Interface
 
-    private void LoadSelectedLevel()
+    private void TryLoadSelectedLevel()
     {
-        if (!SelectedLevelUI.levelData.isHathosLevel) {
-            DataPersister.ActiveDataSave.FillWorkingLevelDataWithExistingLevelData(SelectedLevelUI.levelData.UniqueSteamName);
-        }
+        if (SelectedLevelUI!=null) {
+            if (!SelectedLevelUI.levelData.isHathosLevel) {
+                DataPersister.ActiveDataSave.FillWorkingLevelDataWithExistingLevelData(SelectedLevelUI.levelData.UniqueSteamName);
+            }
 
-        if (SceneTracker.IsCurrentSceneEditor)
-        {
-            levelDataManager.LoadSelectedLevel();
-        }
-        else
-        {
-            string loadMenuName = Strings.MenuStrings.LOAD;
-            WeaponSelectMenu weaponSelectMenu = (WeaponSelectMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.WEAPON_SELECT);
-            weaponSelectMenu.DefineNavigation(Strings.MenuStrings.LevelEditor.LEVELSELECT_PLE_MENU, loadMenuName);
+            if (SceneTracker.IsCurrentSceneEditor)
+            {
+                levelDataManager.LoadSelectedLevel();
+            }
+            else
+            {
+                string loadMenuName = Strings.MenuStrings.LOAD;
+                WeaponSelectMenu weaponSelectMenu = (WeaponSelectMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.WEAPON_SELECT);
+                weaponSelectMenu.DefineNavigation(Strings.MenuStrings.LevelEditor.LEVELSELECT_PLE_MENU, loadMenuName);
 
-            LoadMenu loadMenu = (LoadMenu)MenuManager.Instance.GetMenuByName(loadMenuName);
-            loadMenu.SetNavigation(IsHathosLevelSelected ? Strings.Scenes.ScenePaths.Arena : Strings.Scenes.ScenePaths.PlayerLevels);
+                LoadMenu loadMenu = (LoadMenu)MenuManager.Instance.GetMenuByName(loadMenuName);
+                loadMenu.SetNavigation(IsHathosLevelSelected ? Strings.Scenes.ScenePaths.Arena : Strings.Scenes.ScenePaths.PlayerLevels);
 
 
-            MenuManager.Instance.DoTransition(weaponSelectMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+                MenuManager.Instance.DoTransition(weaponSelectMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+            }
         }
     }
     protected override void ShowStarted() {
@@ -298,9 +301,11 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
         ClearAndGenerateLevelUI();
         if (SceneTracker.IsCurrentSceneEditor) {
             deleteButton.gameObject.SetActive(true);
+            leaderboardButton.gameObject.SetActive(false);
         }
         else {
             deleteButton.gameObject.SetActive(false);
+            leaderboardButton.gameObject.SetActive(true);
         }
     }
     #endregion

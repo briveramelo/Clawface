@@ -67,8 +67,11 @@ public class DataPersister : Singleton<DataPersister> {
         ActiveDataSave.TryDeleteLevel(uniqueName);
     }
 
-    public void TrySave() {
+    public void TrySaveWorkingLevel() {
         ActiveDataSave.SaveWorkingLevelData();
+        TrySaveDataFile();
+    }
+    public void TrySaveDataFile() {
         ClearEmptyLevels();
         SaveDataFile();
     }
