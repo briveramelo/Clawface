@@ -247,6 +247,7 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         playerEventDeath.Add("runTime", currentLevelTime);
         playerEventDeath.Add("eats", levelEatPresses);
         playerEventDeath.Add("dodges", levelDodgePresses);
+        playerEventDeath.Add("maxCombo", ScoreManager.Instance.GetHighestCombo());
 
         currentLevelDeaths++;
 
@@ -283,7 +284,7 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         levelRestartDictionary.Add("score", score);
         levelRestartDictionary.Add("leftArm", leftArm);
         levelRestartDictionary.Add("rightArm", rightArm);
-        levelRestartDictionary.Add("deaths", currentLevelDeaths);
+        levelRestartDictionary.Add("maxCombo", ScoreManager.Instance.GetHighestCombo());
         levelRestartDictionary.Add("eats", levelEatPresses);
         levelRestartDictionary.Add("dodges", levelDodgePresses);
 
@@ -325,7 +326,7 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         levelQuitDictionary.Add("score", score);
         levelQuitDictionary.Add("leftArm", leftArm);
         levelQuitDictionary.Add("rightArm", rightArm);
-        levelQuitDictionary.Add("deaths", currentLevelDeaths);
+        levelQuitDictionary.Add("maxCombo", ScoreManager.Instance.GetHighestCombo());
         levelQuitDictionary.Add("eats", levelEatPresses);
         levelQuitDictionary.Add("dodges", levelDodgePresses);
 
@@ -371,6 +372,7 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         waveCompletedDictionary.Add("deaths", currentLevelDeaths);
         waveCompletedDictionary.Add("eats", levelEatPresses);
         waveCompletedDictionary.Add("dodges", levelDodgePresses);
+        waveCompletedDictionary.Add("maxCombo", ScoreManager.Instance.GetHighestCombo());
 
 #if !UNITY_EDITOR
         Analytics.CustomEvent(Strings.Events.WAVE_COMPLETE, waveCompletedDictionary);
@@ -403,6 +405,7 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         levelCompletedDictionary.Add("deaths", currentLevelDeaths);
         levelCompletedDictionary.Add("eats", levelEatPresses);
         levelCompletedDictionary.Add("dodges", levelDodgePresses);
+        levelCompletedDictionary.Add("maxCombo", ScoreManager.Instance.GetHighestCombo());
 
 #if UNITY_EDITOR
 
@@ -419,68 +422,6 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         levelEatPresses = 0;
         levelDodgePresses = 0;
     }
-
-    /*
-    private void WriteOutToTextFile()
-    {
-        string filePath = "./TestInfo.txt";
-
-        // FormatDictionaries();
-
-        System.IO.File.AppendAllText(filePath, Environment.NewLine + "Mod Ratios:" + Environment.NewLine);
-        AppendTextToFileFromModDictionary(filePath, modRatioDictionary);
-
-        System.IO.File.AppendAllText(filePath, Environment.NewLine + "Mod Times (in seconds):" + Environment.NewLine);
-        AppendTextToFileFromModDictionary(filePath, modTimeDictionary);
-
-        System.IO.File.AppendAllText(filePath, Environment.NewLine + "Total Player Mod Damage:" + Environment.NewLine);
-        AppendTextToFileFromModDictionary(filePath, modDamageDictionary);
-
-        System.IO.File.AppendAllText(filePath, Environment.NewLine + "Total Enemy Mod Damage:" + Environment.NewLine);
-        AppendTextToFileFromModDictionary(filePath, enemyModDamageDictionary);
-
-        System.IO.File.AppendAllText(filePath, Environment.NewLine + "Left Arm Mod Button Presses:" + Environment.NewLine);
-        AppendTextToFileFromModDictionary(filePath, modArmLPressesDictionary);
-
-        System.IO.File.AppendAllText(filePath, Environment.NewLine + "Right Arm Mod Button Presses:" + Environment.NewLine);
-        AppendTextToFileFromModDictionary(filePath, modArmRPressesDictionary);
-
-        System.IO.File.AppendAllText(filePath, Environment.NewLine + "Leg Mod Button Presses:" + Environment.NewLine);
-        AppendTextToFileFromModDictionary(filePath, modLegsPressesDictionary);
-
-        System.IO.File.AppendAllText(filePath, Environment.NewLine + "Mod Kills:" + Environment.NewLine);
-        AppendTextToFileFromModDictionary(filePath, modKillsDictionary);
-
-        System.IO.File.AppendAllText(filePath, Environment.NewLine + "Quit Game Dictionary:" + Environment.NewLine);
-        System.IO.File.AppendAllText(filePath, "Left Arm: " + quitGameDictionary["armL"].ToString() + Environment.NewLine);
-        System.IO.File.AppendAllText(filePath, "Right Arm:" + quitGameDictionary["armR"].ToString() + Environment.NewLine);
-        System.IO.File.AppendAllText(filePath, "Legs:" + quitGameDictionary["legs"].ToString() + Environment.NewLine);
-        System.IO.File.AppendAllText(filePath, "Average HP: " + quitGameDictionary["averageHP"] + Environment.NewLine);
-        System.IO.File.AppendAllText(filePath, "Current HP: " + quitGameDictionary["currentHP"] + Environment.NewLine);
-        System.IO.File.AppendAllText(filePath, "Deaths: " + quitGameDictionary["deaths"] + Environment.NewLine);
-        System.IO.File.AppendAllText(filePath, "Swaps: " + quitGameDictionary["swaps"] + Environment.NewLine);
-        System.IO.File.AppendAllText(filePath, "Drops: " + quitGameDictionary["drops"] + Environment.NewLine);
-        System.IO.File.AppendAllText(filePath, "Seesion Time (in Minutes): " + quitGameDictionary["sessionTimeMins"] + Environment.NewLine);
-
-        System.IO.File.AppendAllText(filePath, Environment.NewLine + "Button Presses:" + Environment.NewLine);
-        System.IO.File.AppendAllText(filePath, String.Format("Right Arm: {0}" + Environment.NewLine, (float)buttonPressesDictionary["armR"]));
-        System.IO.File.AppendAllText(filePath, String.Format("Left Arm: {0}" + Environment.NewLine, (float)buttonPressesDictionary["armL"]));
-        System.IO.File.AppendAllText(filePath, String.Format("Legs: {0}" + Environment.NewLine, (float)buttonPressesDictionary["legs"]));
-        System.IO.File.AppendAllText(filePath, String.Format("Dodge: {0}" + Environment.NewLine, (float)buttonPressesDictionary["dodge"]));
-        System.IO.File.AppendAllText(filePath, String.Format("Swap: {0}" + Environment.NewLine, (float)buttonPressesDictionary["swap"]));
-        System.IO.File.AppendAllText(filePath, String.Format("Skin: {0}" + Environment.NewLine, (float)buttonPressesDictionary["skin"]));
-
-    }
-    */
-
-    private void AppendTextToFileFromModDictionary(string fileName, Dictionary<string, object> dict)
-    {
-        foreach (ModType mod in System.Enum.GetValues(typeof(ModType)))
-        {
-            System.IO.File.AppendAllText(fileName, String.Format("{0}, {1}" + Environment.NewLine, mod.ToString(), (float)dict[mod.ToString()]));
-        }
-    }
-    
    
 #endregion
 

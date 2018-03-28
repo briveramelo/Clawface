@@ -30,6 +30,12 @@ public class ScoreManager : Singleton<ScoreManager> {
     [SerializeField]
     private float hardModeMultiplier;
 
+    /// <summary>
+    /// Multiplies your max combo by this value at the end of the stage and the current difficulty multiplier, and adds it to your score
+    /// </summary>
+    [SerializeField]
+    private float maxComboMultiplier;
+
     [SerializeField] private Dictionary<string, int> highScores;
     #endregion
 
@@ -53,6 +59,7 @@ public class ScoreManager : Singleton<ScoreManager> {
                 { Strings.Events.LEVEL_RESTARTED, OnLevelRestart },
                 { Strings.Events.LEVEL_QUIT, OnLevelQuit },
                 { Strings.Events.PLAYER_KILLED, OnPlayerKilled },
+                { Strings.Events.LEVEL_COMPLETED, OnLevelCompleted },
             };
         }
     }
@@ -121,6 +128,8 @@ public class ScoreManager : Singleton<ScoreManager> {
         float beforeMultiplier = GetCurrentPreDifficultyMultiplier();
 
         currentCombo++;
+
+        if (currentCombo > 999) currentCombo = 999;
         
         if (currentCombo > highestCombo)
         {
@@ -172,6 +181,13 @@ public class ScoreManager : Singleton<ScoreManager> {
         int delta = Mathf.FloorToInt(points * GetCurrentMultiplier());
         score += delta;
         EventSystem.Instance.TriggerEvent(Strings.Events.SCORE_UPDATED,score,delta);        
+    }
+
+    public void AddToScoreWithoutComboMultiplier(int points)
+    {
+        if (points <= 0) return;
+        score += points;
+        EventSystem.Instance.TriggerEvent(Strings.Events.SCORE_UPDATED, score, points);
     }
 
     public float GetCurrentPreDifficultyMultiplier()
@@ -239,11 +255,6 @@ public class ScoreManager : Singleton<ScoreManager> {
 
         EventSystem.Instance.TriggerEvent(Strings.Events.SET_LEVEL_SCORE, level, highScores[level]);
         SendScoresToLeaderboard();
-
-        if (SceneTracker.IsCurrentScene80sShit)
-        {
-            AchievementManager.Instance.SetAchievement(Strings.AchievementNames.CLAWFACE);
-        }
     }
 
     public int GetHighScore(string level)
@@ -283,11 +294,7 @@ public class ScoreManager : Singleton<ScoreManager> {
 
     private void OnPlayerAte(params object[] parameters)
     {
-        if (useAlternateScoreMode)
-        {
-            
-            
-        }
+        AddToCombo();
     }
 
     private void OnPlayerKilledEnemy(params object[] parameters)
@@ -352,8 +359,22 @@ public class ScoreManager : Singleton<ScoreManager> {
 
     private void OnPlayerKilled(object[] parameters)
     {
+        AddToScoreWithoutComboMultiplier(GetMaxComboScore());
         updateScore = false;
-        SendScoresToLeaderboard();
+        UpdateHighScore(SceneTracker.CurrentSceneName, GetScore());
+    }
+
+    private int GetMaxComboScore()
+    {
+        int result = Mathf.FloorToInt(highestCombo * maxComboMultiplier * GetDifficultyMultiplier());
+        return result;
+    }
+
+    private void OnLevelCompleted(object[] parameters)
+    {
+        AddToScoreWithoutComboMultiplier(GetMaxComboScore());
+        updateScore = false;
+        UpdateHighScore(SceneTracker.CurrentSceneName, GetScore());
     }
 
     private void SendScoresToLeaderboard()
