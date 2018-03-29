@@ -28,10 +28,9 @@ public class MenuManager : Singleton<MenuManager> {
             if (mouseMode)
             {
                 eventSystem.SetSelectedGameObject(null);
-            } else if (menuStack.Count > 0)
+            } else
             {
-                Menu active = menuStack[menuStack.Count - 1];
-                active.SelectInitialButton();
+                StartCoroutine(SelectNextFrame());
             }
         }
     }
@@ -53,7 +52,7 @@ public class MenuManager : Singleton<MenuManager> {
     private List<Menu> menus = new List<Menu>();
     private Queue<TransitionBundle> transitionQueue = new Queue<TransitionBundle>();
     private List<Menu> menuStack = new List<Menu>();
-    private bool mouseMode = false;
+    private bool mouseMode = true;
     #endregion
 
     #region Unity Lifecycle Functions
@@ -104,10 +103,17 @@ public class MenuManager : Singleton<MenuManager> {
             MouseMode = true;
         } else if (!mouseInput && mouseMode && (
             InputManager.Instance.Player.controllers.Joysticks.Any((joystick) => joystick.GetAnyButton()) ||
-            InputManager.Instance.QueryAxes(Strings.Input.UI.NAVIGATION).sqrMagnitude > 0
+            InputManager.Instance.Player.controllers.Joysticks.Any((joystick) => joystick.Axes.Any((axis) => axis.value != 0))
             ))
         {
             MouseMode = false;
+        }
+
+        // Coerce back to keyboard navigation if necessary
+        if ((UnityES.current.currentSelectedGameObject == null || UnityES.current.currentSelectedGameObject == deadNavButton.gameObject) 
+            && InputManager.Instance.QueryAxes(Strings.Input.UI.NAVIGATION).sqrMagnitude > 0)
+        {
+            StartCoroutine(SelectNextFrame());
         }
     }
     #endregion
@@ -223,6 +229,22 @@ public class MenuManager : Singleton<MenuManager> {
                 break;
         }
     }
+
+    private void SelectInitialButtonIfPossible()
+    {
+        if (menuStack.Count > 0)
+        {
+            Menu active = menuStack[menuStack.Count - 1];
+            active.SelectInitialButton();
+        }
+    }
+
+    private System.Collections.IEnumerator SelectNextFrame()
+    {
+        yield return null;
+        SelectInitialButtonIfPossible();
+    }
+
     #endregion
 
     #region Types
