@@ -60,8 +60,12 @@ public class LeaderBoards : Singleton<LeaderBoards> {
 
     public bool UpdateScore(int score, string levelName)
     {
-        bool result = false;        
-        result = allTimeLeaderBoard.UpdateLeaderBoard(score, levelName);
+        bool result = false;
+        string betaBranchName;
+        if (SteamManager.Initialized && !Steamworks.SteamApps.GetCurrentBetaName(out betaBranchName, 128))
+        {
+            result = allTimeLeaderBoard.UpdateLeaderBoard(score, levelName);
+        }
         return result;
     }
     #endregion
