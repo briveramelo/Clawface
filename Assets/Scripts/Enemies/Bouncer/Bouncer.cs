@@ -146,6 +146,7 @@ public class Bouncer : EnemyBase
 
     public void DoneJumpLanding()
     {
+        SFXManager.Instance.Play(SFXType.BouncerLand, transform.position);
         chase.doneLandingJump = true;
         shadowOutline.gameObject.SetActive(false);
     }

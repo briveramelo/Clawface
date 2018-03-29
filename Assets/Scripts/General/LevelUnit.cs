@@ -24,6 +24,8 @@ public interface ILevelTilable {
 
 public class LevelUnit : EventSubscriber, ILevelTilable {
 
+    private const float TILE_TRANSITION_SOUND_PROB = 0.3f;
+
     #region private variables
     private float meshSizeY;
     private float meshSizeZ;
@@ -417,6 +419,8 @@ public class LevelUnit : EventSubscriber, ILevelTilable {
             targetPosition = GetStatePosition(nextState);
             isBeginningTransition = true;
             isTransitioning = true;
+            if (UnityEngine.Random.value < TILE_TRANSITION_SOUND_PROB)
+                SFXManager.Instance.Play(SFXType.TileLift, transform.position);
         }
         bool shouldChangeColor = wasToldToChangeColor && isTransitioning;
         if (shouldChangeColor) {

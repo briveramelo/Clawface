@@ -58,21 +58,26 @@ public class KamikazeAttackState : AIState {
             controller.DeActivateAI();
             StopCoroutines();
         }
-        else if (Vector3.Distance(controller.transform.position, controller.AttackTarget.transform.position) < blastRadius * 0.5f)
+        else
         {
-            //Set Damage to the player
-            Damage(controller.AttackTarget.gameObject.GetComponent<IDamageable>());
             GameObject effect = ObjectPool.Instance.GetObject(PoolObjectType.VFXKamikazeExplosion);
             if (effect) {
                 effect.transform.position = controller.transform.position;
             }
-            attackDone = true;
-            setToSelfDestruct = true;
-        }
-        else
-        {
-            attackDone = true;
-            setToSelfDestruct = true;
+            SFXManager.Instance.Play(SFXType.KamikazeAttack, controller.transform.position);
+
+            if (Vector3.Distance(controller.transform.position, controller.AttackTarget.transform.position) < blastRadius * 0.5f)
+            {
+                //Set Damage to the player
+                Damage(controller.AttackTarget.gameObject.GetComponent<IDamageable>());
+                attackDone = true;
+                setToSelfDestruct = true;
+            }
+            else
+            {
+                attackDone = true;
+                setToSelfDestruct = true;
+            }
         }
     }
 
