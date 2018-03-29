@@ -102,8 +102,10 @@ public class MenuManager : Singleton<MenuManager> {
             || Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0))
         {
             MouseMode = true;
-        } else if (!mouseInput && mouseMode &&
-            InputManager.Instance.Player.controllers.Joysticks.Any((joystick) => joystick.GetAnyButton()))
+        } else if (!mouseInput && mouseMode && (
+            InputManager.Instance.Player.controllers.Joysticks.Any((joystick) => joystick.GetAnyButton()) ||
+            InputManager.Instance.QueryAxes(Strings.Input.UI.NAVIGATION).sqrMagnitude > 0
+            ))
         {
             MouseMode = false;
         }
