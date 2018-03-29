@@ -2,65 +2,72 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using PlayerLevelEditor;
 
 public class ControlRefsPane : MonoBehaviour {
 
     #region Serialized Unity Fields
 
-    [SerializeField] private GameObject helpClickText;
-
     [SerializeField] private GameObject[] detailPanes;
-
-
-    [SerializeField] private RectTransform myRect;
     // floor 0
     // spawn 1
     // waves 2
-    #endregion
-
-    #region Private Fields
-
-    bool isShowing = false;
+    [SerializeField] private MainPLEMenu mainPLE;
+    [SerializeField] private Text titleBar;
 
     #endregion
 
     #region Unity Lifecycle
-    private void Update()
+
+    private void OnEnable()
     {
-        if (Input.GetKeyUp(KeyCode.RightControl))
-        {
-            print(isShowing + " at " + Time.time);
-            isShowing = !isShowing;
-
-            if (!isShowing)
-            {
-
-                foreach (GameObject g in detailPanes)
-                {
-                    g.SetActive(false);
-                }
-
-                helpClickText.SetActive(true);
-
-                myRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 20);
-
-
-            }
-            else
-            {
-                foreach (GameObject g in detailPanes)
-                {
-                    g.SetActive(true);
-                }
-
-                helpClickText.SetActive(false);
-
-                myRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 150);
-
-
-            }
-        }
+        titleBar.text = "V HELP V";
+        SetDisplayedContent(mainPLE.currentDisplayedMenu);
+    }
+    private void OnDisable()
+    {
+        titleBar.text = "^ HELP ^";
     }
 
     #endregion
+
+    #region Private Fields
+
+    private bool isShowing = true;
+    public PLEMenu currentDisplayedMenu;
+
+    #endregion
+
+    #region Public Interface
+
+    public void SetDisplayedContent(PLEMenu i_menu)
+    {
+
+        foreach (GameObject g in detailPanes)
+        {
+            g.SetActive(false);
+        }
+
+        switch(i_menu)
+        {
+            case PLEMenu.FLOOR:
+                detailPanes[0].SetActive(true);
+                break;
+            case PLEMenu.SPAWN:
+                detailPanes[1].SetActive(true);
+                break;
+            case PLEMenu.WAVE:
+                detailPanes[2].SetActive(true);
+                break;
+        }
+
+    }
+
+
+
+
+    #endregion
+
 }
+
+

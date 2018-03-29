@@ -30,6 +30,7 @@ public class MainPLEMenu : PlayerLevelEditorMenu {
     [SerializeField] private ToggleGroup toggleGroup;
     [SerializeField] private Toggle firstToggle;
     [SerializeField] private Toggle floorToggle, propsToggle, spawnsToggle, waveToggle, testToggle, saveToggle, loadToggle, helpToggle, exitToggle;
+    [SerializeField] private ControlRefsPane refsPane;
     #endregion
 
     #region Private Fields
@@ -103,6 +104,10 @@ public class MainPLEMenu : PlayerLevelEditorMenu {
         MenuManager.Instance.DoTransition(floorEditorMenu, Transition.SHOW, new Effect[] { Effect.INSTANT });
 
         currentDisplayedMenu = PLEMenu.FLOOR;
+
+        //set the state of the refspane
+        refsPane.SetDisplayedContent(currentDisplayedMenu);
+
         OpenFloorSystemAction();
         levelEditor.gridController.SetGridVisiblity(true);
         levelEditor.ToggleCameraController(true);
@@ -120,6 +125,9 @@ public class MainPLEMenu : PlayerLevelEditorMenu {
             MenuManager.Instance.DoTransition(newMenu, Transition.SHOW, new Effect[] { Effect.INSTANT });
 
             currentDisplayedMenu = i_newMenu;
+
+            refsPane.SetDisplayedContent(currentDisplayedMenu);
+
             bool allowCameraMovement = !IsMenu(currentDisplayedMenu, PLEMenu.SAVE, PLEMenu.LEVELSELECT, PLEMenu.TEST);
             levelEditor.ToggleCameraController(allowCameraMovement);
             SetMenuToggleOn(currentDisplayedMenu);
