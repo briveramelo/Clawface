@@ -51,12 +51,6 @@ public class TestMenu : PlayerLevelEditorMenu
 
         levelEditor.levelDataManager.SyncWorkingSpawnData();
         ShowWeaponSelectMenu();
-
-        //System.Action onExitTestAction = () =>
-        //{
-            
-        //    BackAction
-        //};
         stageOverMenu.DefineExitTestAction(BackAction);
         
     }

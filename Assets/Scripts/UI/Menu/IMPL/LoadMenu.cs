@@ -50,20 +50,18 @@ public class LoadMenu : Menu {
     #endregion
 
     #region Serialized Unity Fields
-    [SerializeField]
-    private Scrollbar loadingBar;
-    [SerializeField]
-    private Text loadingText;
+    [SerializeField] private Scrollbar loadingBar;
+    [SerializeField] private Text loadingText;
+    [SerializeField] private Image loadingImage;
+    [SerializeField] private Sprite gameControllerSprite;
+    [SerializeField] private Sprite levelEditorSprite;
 
     [Header("Text Strings")]
-    [SerializeField]
-    private string loading = "L O A D I N G";
+    [SerializeField] private string loading = "L O A D I N G";
 
-    [SerializeField]
-    private string ready = "P R E S S   T O   E X E C U T E";
+    [SerializeField] private string ready = "P R E S S   T O   E X E C U T E";
 
-    [SerializeField]
-    private string starting = "S T A R T I N G"
+    [SerializeField] private string starting = "S T A R T I N G"
         ;
     #endregion
 
@@ -105,7 +103,10 @@ public class LoadMenu : Menu {
     #endregion
 
     #region Protected Interface
-
+    protected override void ShowStarted() {
+        base.ShowStarted();
+        loadingImage.sprite = SceneTracker.IsTargetSceneEditor(TargetSceneName) ? levelEditorSprite : gameControllerSprite;
+    }
     protected override void ShowComplete()
     {
         base.ShowComplete();

@@ -296,7 +296,7 @@ public class PlayerStateManager : EventSubscriber {
         if (!isTutorialDone)
         {
             isTutorialDone = true;
-            EventSystem.Instance.TriggerEvent(Strings.Events.GAME_CAN_PAUSE, true);
+            
             eatCollider.radius /= TutorialRadiusMultiplier;
             stateVariables.eatRadius /= TutorialRadiusMultiplier;            
             Timing.RunCoroutine(StartTutorialSpeedUp(), SpeedTime);
@@ -307,8 +307,7 @@ public class PlayerStateManager : EventSubscriber {
     {
         if (!isDashTutorialDone)
         {
-            isDashTutorialDone = true;
-            EventSystem.Instance.TriggerEvent(Strings.Events.GAME_CAN_PAUSE, true);
+            isDashTutorialDone = true;            
             eatCollider.radius /= TutorialRadiusMultiplier;
             stateVariables.eatRadius /= TutorialRadiusMultiplier;
             Timing.RunCoroutine(StartTutorialSpeedUp(), SpeedTime);
@@ -329,6 +328,7 @@ public class PlayerStateManager : EventSubscriber {
         }
         tutorialTimeScale = 1.0f;
         Time.timeScale = tutorialTimeScale;
+        EventSystem.Instance.TriggerEvent(Strings.Events.GAME_CAN_PAUSE, true);
         EventSystem.Instance.TriggerEvent(Strings.Events.HIDE_TUTORIAL_TEXT);
         isSpeedUpFinished = true;
     }
