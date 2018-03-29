@@ -48,6 +48,7 @@ public class PulseGenerator : MonoBehaviour
             currentPulse++;
             newPulseProjectile.SetRenderQueue(3000 + pulseIndex);
             pulseIndex = (pulseIndex + 1) % maxPulseIndex;
+            SFXManager.Instance.Play(SFXType.KamikazePulse, transform.position);
         }
         if (currentPulse >= maxPulses)
         {
