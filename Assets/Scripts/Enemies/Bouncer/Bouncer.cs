@@ -42,8 +42,8 @@ public class Bouncer : EnemyBase
     #region 4. Unity Lifecycle
 
 
-    public override void Awake()
-    {
+    protected override void Awake()
+    {        
         myStats = GetComponent<Stats>();
         SetAllStats();
         InitilizeStates();

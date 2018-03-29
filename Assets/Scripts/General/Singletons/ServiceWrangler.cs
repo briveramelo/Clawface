@@ -45,7 +45,8 @@ public class ServiceWrangler : Singleton<ServiceWrangler> {
         }
     }
 
-    private void OnEnable () {
+    protected override void OnEnable () {
+        base.OnEnable();
         foreach (KeyValuePair<string, PrefabBool> singletonRegistered in SingletonPrefabRegistry) {
             if (!singletonRegistered.Value.isRegistered) {                
                 GameObject singletonGameObject = Instantiate(singletonRegistered.Value.prefab, gameObject.transform, true) as GameObject;

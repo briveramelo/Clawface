@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class IPlayerState:RoutineRunner {
+public abstract class IPlayerState:EventSubscriber {
 
     #region Serialized Fields    
     [SerializeField]

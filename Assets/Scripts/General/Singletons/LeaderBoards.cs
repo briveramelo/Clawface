@@ -19,7 +19,8 @@ public class LeaderBoards : Singleton<LeaderBoards> {
 
     #region Unity Lifecycle
     // Use this for initialization
-    void Start () {
+    protected override void Start () {
+        base.Start();
         allTimeLeaderBoard = GetComponent<AllTimeLeaderBoard>();
     }
     #endregion

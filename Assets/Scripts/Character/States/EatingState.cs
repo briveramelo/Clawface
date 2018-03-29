@@ -26,29 +26,28 @@ public class EatingState : IPlayerState
     private GameObject dummyObject;
     #endregion
 
-    #region Unity Lifecycle
 
-    private void Start()
-    {
-        dummyObject = new GameObject();
-        dummyObject.name = "Dummy";
-        Assert.IsNotNull(clawArmController);
-    }
-
-    private void OnEnable()
-    {        
-        EventSystem.Instance.RegisterEvent(Strings.Events.FACE_OPEN, DoArmExtension);
-        EventSystem.Instance.RegisterEvent(Strings.Events.CAPTURE_ENEMY, CaptureEnemy);
-        EventSystem.Instance.RegisterEvent(Strings.Events.ARM_ANIMATION_COMPLETE, EndState);
-    }
-    protected override void OnDisable() {
-        base.OnDisable();
-        if (EventSystem.Instance) {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.FACE_OPEN, DoArmExtension);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.CAPTURE_ENEMY, CaptureEnemy);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.ARM_ANIMATION_COMPLETE, EndState);
+    #region Event Subscriptions
+    protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.EnableDisable; } }
+    protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+        get {
+            return new Dictionary<string, FunctionPrototype>() {
+                { Strings.Events.FACE_OPEN, DoArmExtension},
+                { Strings.Events.CAPTURE_ENEMY, CaptureEnemy},
+                { Strings.Events.ARM_ANIMATION_COMPLETE, EndState},
+            };
         }
     }
+    #endregion
+    #region Unity Lifecycle
+
+    protected override void Start()
+    {
+        base.Start();
+        dummyObject = new GameObject("Dummy");
+        Assert.IsNotNull(clawArmController);
+    }
+    
     #endregion
 
     #region Public Methods

@@ -22,7 +22,7 @@ public interface ILevelTilable {
     void HideBlockingObject();
 }
 
-public class LevelUnit : RoutineRunner, ILevelTilable {
+public class LevelUnit : EventSubscriber, ILevelTilable {
 
     #region private variables
     private float meshSizeY;
@@ -81,9 +81,21 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
     public LevelUnitStates defaultState = LevelUnitStates.Floor;
     #endregion
 
+    #region Event Subscriptions
+    protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.EnableDisable; } }
+    protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+        get {
+            return new Dictionary<string, FunctionPrototype>() {
+                { Strings.Events.PLE_CALL_WAVE, TransitionToWave},
+            };
+        }
+    }
+    #endregion
+
     #region unity lifecycle
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         splattable = GetComponent<Splattable>();        
         Assert.IsNotNull(splattable);
         defaultRenderMask = splattable.RenderMask;
@@ -105,16 +117,15 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
         SetAlbedoColor(CurrentStateColor);
     }
 
-    private void OnEnable() {
+    protected override void OnEnable() {
         RegisterToNamedStateEvents();
-        EventSystem.Instance.RegisterEvent(Strings.Events.PLE_CALL_WAVE, TransitionToWave);
+        base.OnEnable();
     }
 
     protected override void OnDisable() {
         base.OnDisable();
         if (EventSystem.Instance) {
-            DeRegisterFromNamedStateEvents();
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_CALL_WAVE, TransitionToWave);
+            DeRegisterFromNamedStateEvents();            
         }
     }
 
@@ -217,7 +228,7 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
     #region Private Interface
     private bool CanTransition { get { return !Physics.CheckBox(transform.position, Vector3.one * 0.5f, Quaternion.identity, LayerMask.GetMask(masks)); } }            
 
-    private void TryUnRegister(ref List<string> eventNames, string eventName, EventSystem.FunctionPrototype func) {
+    private void TryUnRegister(ref List<string> eventNames, string eventName, FunctionPrototype func) {
         if (eventNames != null) {
             if (eventNames.Contains(eventName)) {
                 eventNames.Remove(eventName);
@@ -225,6 +236,24 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
             }
         }
     }
+
+    private void RegisterEvents(ref List<string> eventNames, FunctionPrototype func) {
+        if (eventNames != null) {
+            foreach (string eventName in eventNames) {
+                EventSystem.Instance.RegisterEvent(eventName, func);
+            }
+        }
+    }
+
+    private void UnregisterEvents(ref List<string> eventNames, FunctionPrototype func) {
+        if (eventNames != null) {
+            foreach (string eventName in eventNames) {
+                EventSystem.Instance.UnRegisterEvent(eventName, func);
+            }
+            eventNames.Clear();
+        }
+    }
+
 
     private void InitializeStatePositions()
     {
@@ -378,23 +407,6 @@ public class LevelUnit : RoutineRunner, ILevelTilable {
             case LevelUnitStates.Pit: return pitPosition;
         }
         return flatPosition;
-    }
-
-    private void RegisterEvents(ref List<string> eventNames, EventSystem.FunctionPrototype func) {
-        if (eventNames != null) {
-            foreach (string eventName in eventNames) {
-                EventSystem.Instance.RegisterEvent(eventName, func);
-            }
-        }
-    }
-
-    private void UnregisterEvents(ref List<string> eventNames, EventSystem.FunctionPrototype func) {
-        if (eventNames != null) {
-            foreach (string eventName in eventNames) {
-                EventSystem.Instance.UnRegisterEvent(eventName, func);
-            }
-            eventNames.Clear();
-        }
     }
 
     private void TryTransitionToState(LevelUnitStates newState, Texture2D paintMaskTexture, Texture2D renderMask, bool wasToldToChangeColor) {
