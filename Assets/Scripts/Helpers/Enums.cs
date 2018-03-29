@@ -57,7 +57,13 @@ public enum SFXType {
     ZombieVocalize,
     None,
     AcidZombieVocalize,
-    TileLift
+    TileLift,
+    Score,
+    KamikazeVocalize,
+    KamikazeWarn,
+    GuardVocalize,
+    GuardShotgunAttack,
+    GuardPrepare
 }
 
 public enum MusicType

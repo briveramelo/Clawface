@@ -17,6 +17,8 @@ public class BouncerChaseState : AIState {
     private int maxJumpCount;
     private Vector3 finalPosition;
     private Vector3 targetPosition;
+    private SpriteRenderer shadowOutline;
+    private float originalShadowOutlineScale;
 
     //Smooth Lerping
     float lerpTime = 1.0f;
@@ -27,6 +29,12 @@ public class BouncerChaseState : AIState {
     public bool doneStartingJump;
     public bool doneLandingJump;
     public bool gotStunned;
+
+    public BouncerChaseState (SpriteRenderer shadowOutline)
+    {
+        this.shadowOutline = shadowOutline;
+        originalShadowOutlineScale = shadowOutline.transform.localScale.x;
+    }
 
     public override void OnEnter()
     {
@@ -58,6 +66,17 @@ public class BouncerChaseState : AIState {
         else
         {
             controller.transform.eulerAngles = new Vector3(0.0f, controller.transform.eulerAngles.y, controller.transform.eulerAngles.z);
+        }
+
+        if (shadowOutline.gameObject.activeInHierarchy)
+        {
+            Vector3 targetPosition = Vector3.Lerp (shadowOutline.transform.position, finalPosition, 1.0f);
+            targetPosition.y = shadowOutline.transform.position.y;
+            shadowOutline.transform.position = targetPosition;
+            float heightPercentage = Mathf.Sqrt(controller.transform.position.y / height);
+            float scale = heightPercentage * originalShadowOutlineScale;
+            shadowOutline.SetAlpha (heightPercentage);
+            shadowOutline.transform.localScale = new Vector3(scale, scale, scale);
         }
     }
 

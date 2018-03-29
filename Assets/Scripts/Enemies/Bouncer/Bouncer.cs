@@ -207,7 +207,7 @@ public class Bouncer : EnemyBase
     private void InitilizeStates()
     {
         aiStates = new List<AIState>();
-        chase = new BouncerChaseState();
+        chase = new BouncerChaseState(shadowOutline);
         chase.stateName = "chase";
         fire = new BouncerFireState();
         fire.stateName = "fire";

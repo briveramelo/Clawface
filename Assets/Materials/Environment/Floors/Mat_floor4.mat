@@ -26,6 +26,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: 0e6775693c8cc17498ce62285614d729, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _BloodMask:
+        m_Texture: {fileID: 2800000, guid: ee9dbdb3539e6f94fa4ad912d446c3d8, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BloodSplat1:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -110,7 +114,9 @@ Material:
     - _ASEOutlineWidth: 0
     - _BloodColorationScale: 2
     - _BloodHighlightSmoothness: 0.8
+    - _BloodMaskScale: 0.5
     - _BloodSmoothness: 0.5
+    - _BloodStrength: 0.8
     - _BumpScale: 1
     - _ChromaticAberration: 0.1
     - _Cutoff: 0.5
