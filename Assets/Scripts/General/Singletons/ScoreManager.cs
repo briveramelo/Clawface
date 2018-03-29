@@ -33,8 +33,16 @@ public class ScoreManager : Singleton<ScoreManager> {
     /// <summary>
     /// Multiplies your max combo by this value at the end of the stage and the current difficulty multiplier, and adds it to your score
     /// </summary>
+    [Tooltip("Multiplies your max combo by this value and the current difficulty multiplier at the end of the stage and adds it to your score.")]
     [SerializeField]
     private float maxComboMultiplier;
+
+    /// <summary>
+    /// Hard combo cap. Combo cannot increase past this value.
+    /// </summary>
+    [Tooltip("Hard combo cap. Combo cannot increase past this value.")]
+    [SerializeField]
+    private int comboCap;
 
     [SerializeField] private Dictionary<string, int> highScores;
     #endregion
@@ -129,7 +137,7 @@ public class ScoreManager : Singleton<ScoreManager> {
 
         currentCombo++;
 
-        if (currentCombo > 999) currentCombo = 999;
+        if (currentCombo > comboCap) currentCombo = comboCap;
         
         if (currentCombo > highestCombo)
         {
