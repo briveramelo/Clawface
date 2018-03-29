@@ -34,20 +34,19 @@ public class PLESpawn : PLEItem {
     public int MaxPerWave { get { return spawnType.MaxPerWave(); } }
     #endregion
     protected override string ColorTint { get { return "_Color"; } }
-    #region Unity Lifecycle    
-
-    protected override void Start() {
-        base.Start();
-        EventSystem.Instance.RegisterEvent(Strings.Events.PLE_TEST_END, ResetSpawnValues);               
-    }
-
-    private void OnDestroy() {
-        if (EventSystem.Instance) {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_TEST_END, ResetSpawnValues);
+    #region Event Subscriptions
+    protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.StartDestroy; } }
+    protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+        get {
+            return new Dictionary<string, FunctionPrototype>() {
+            { Strings.Events.PLE_TEST_END, ResetSpawnValues},
+        };
         }
     }
     #endregion
 
+    #region Unity Lifecycle    
+    #endregion
     #region Public Interface
     public bool MinEnemiesDead { get { return minEnemiesDead || spawnType == SpawnType.Keira; } }
     public bool AllEnemiesDead { get { return allEnemiesDead || spawnType == SpawnType.Keira; } }

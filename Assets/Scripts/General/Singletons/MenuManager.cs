@@ -76,8 +76,9 @@ public class MenuManager : Singleton<MenuManager> {
         }
     }
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         MouseMode = !InputManager.Instance.HasJoystick();
     }
 

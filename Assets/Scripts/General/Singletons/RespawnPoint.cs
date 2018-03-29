@@ -7,7 +7,8 @@ public class RespawnPoint : Singleton<RespawnPoint> {
 
     protected RespawnPoint() { }
 
-    void Start() {
+    protected override void Start() {
+        base.Start();
         if (GameObject.Find(Strings.RESPAWN_POINT)) {
         }
         else {

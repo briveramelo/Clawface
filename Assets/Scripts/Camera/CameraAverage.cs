@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 
-public class CameraAverage : MonoBehaviour {
+public class CameraAverage : EventSubscriber {
 
     [SerializeField]
     private CinemachineTargetGroup targetGroup;
@@ -26,21 +26,22 @@ public class CameraAverage : MonoBehaviour {
     [SerializeField]
     private float enemyBaseWeight = 1;
 
-    // Use this for initialization
-    void Start () {
-        activeEnemies = new List<GameObject>();
-
-        EventSystem.Instance.RegisterEvent(Strings.Events.ENEMY_SPAWNED, OnEnemySpawned);
-        EventSystem.Instance.RegisterEvent(Strings.Events.DEATH_ENEMY, OnEnemyKilled);
-    }
-
-    private void OnDestroy()
-    {
-        if (EventSystem.Instance)
-        {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.ENEMY_SPAWNED, OnEnemySpawned);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.DEATH_ENEMY, OnEnemyKilled);
+    #region Event Subscriptions
+    protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.StartDestroy; } }
+    protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+        get {
+            return new Dictionary<string, FunctionPrototype>() {
+                {Strings.Events.ENEMY_SPAWNED, OnEnemySpawned },
+                {Strings.Events.DEATH_ENEMY, OnEnemyKilled},
+            };
         }
+    }
+    #endregion
+
+    // Use this for initialization
+    protected override void Start() {
+        base.Start();
+        activeEnemies = new List<GameObject>();
     }
 
 

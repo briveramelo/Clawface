@@ -2,23 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Deathcam : MonoBehaviour {
+public class Deathcam : EventSubscriber {
 
     [SerializeField]
     private Transform deathCam;
-
-    private void Start()
-    {
-        EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_KILLED, Unparent);
-    }
-
-    private void OnDestroy()
-    {
-        if (EventSystem.Instance)
-        {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_KILLED, Unparent);
+    #region Event Subscriptions
+    protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.StartDestroy; } }
+    protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+        get {
+            return new Dictionary<string, FunctionPrototype>() {
+            { Strings.Events.PLAYER_KILLED, Unparent},
+        };
         }
     }
+    #endregion
 
     public void Unparent(params object[] items)
     {

@@ -33,7 +33,7 @@ public abstract class GenericSteamLeaderBoard : MonoBehaviour {
     #endregion
 
     #region Public Methods
-    public bool FetchLeaderBoardData(string leaderBoardName, ResultsCallBack callbackAction, int numberOfEntries, ELeaderboardDataRequest requestType)
+    public bool FetchLeaderBoardData(string leaderBoardName, ResultsCallBack callbackAction, int startRange, int endRange, ELeaderboardDataRequest requestType)
     {
         bool result = false;
         this.callbackAction = callbackAction;
@@ -42,7 +42,7 @@ public abstract class GenericSteamLeaderBoard : MonoBehaviour {
         {  
             if (leaderBoards.TryGetValue(leaderBoardName, out leaderBoard))
             {
-                SteamAPICall_t apiCall = SteamUserStats.DownloadLeaderboardEntries(leaderBoard, requestType, 1, numberOfEntries);
+                SteamAPICall_t apiCall = SteamUserStats.DownloadLeaderboardEntries(leaderBoard, requestType, startRange, endRange);
                 if (leaderBoardScoresDownloaded.IsActive())
                 {
                     leaderBoardScoresDownloaded.Cancel();

@@ -3611,7 +3611,7 @@ Transform:
   m_GameObject: {fileID: 1136793577799628}
   m_LocalRotation: {x: -0.00037643654, y: 0.7071067, z: -0.00037643654, w: 0.7071067}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 4523943077407590}
   - {fileID: 4303689099959234}
@@ -4159,7 +4159,7 @@ Transform:
   m_GameObject: {fileID: 1627436517291644}
   m_LocalRotation: {x: -0.00037643654, y: 0.7071067, z: -0.00037643654, w: 0.7071067}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4382206706312800}
   - {fileID: 4532182064527784}
@@ -4397,7 +4397,7 @@ Transform:
   m_GameObject: {fileID: 1693770714610290}
   m_LocalRotation: {x: -0.00037643654, y: 0.7071067, z: -0.00037643654, w: 0.7071067}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4605649150505832}
   - {fileID: 4679377858155204}
@@ -4880,7 +4880,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1780810188131102}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.5, y: 0, z: 4}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4297700929139982}
@@ -5107,8 +5107,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1167014581085704}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.5, y: 0, z: 4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4844604543345924}
@@ -5290,8 +5290,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1795102064742648}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.5, y: 0, z: 4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4081724891549314}
@@ -5586,7 +5586,7 @@ Transform:
   m_GameObject: {fileID: 1806724351806748}
   m_LocalRotation: {x: -0.00037643654, y: 0.7071067, z: -0.00037643654, w: 0.7071067}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 4012699515233922}
   - {fileID: 4637590668494210}
@@ -5861,7 +5861,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1103795881358730}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.5, y: 0, z: 4}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4411182149429900}
@@ -8592,16 +8592,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slots:
-  - {fileID: 1780810188131102}
-  - {fileID: 1599350274364234}
   - {fileID: 1167014581085704}
+  - {fileID: 1599350274364234}
+  - {fileID: 1780810188131102}
   - {fileID: 1654977338116014}
   - {fileID: 1111193137625962}
   - {fileID: 1200324862028364}
   weapons:
-  - {fileID: 1627436517291644}
-  - {fileID: 1322706242212498}
   - {fileID: 1806724351806748}
+  - {fileID: 1322706242212498}
+  - {fileID: 1627436517291644}
   - {fileID: 1640847430298010}
   - {fileID: 1122775334729024}
   - {fileID: 1126583235774910}
@@ -8612,7 +8612,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: c646d0bf60ea1724dbcccfab793e82a2, type: 3}
   - {fileID: 21300000, guid: c01b07a0e2b02ec49bd2dc1bf46d9431, type: 3}
   - {fileID: 21300000, guid: 4a8fd85bfa357da4ba62a40840ab85ea, type: 3}
-  selectedWeapon: 4
+  selectedWeapon: 1
   weaponSwapTime: 0.25
   selectedRightSprite: {fileID: 21300000, guid: 989db98680980024f9a3ca92a8eaa2c0,
     type: 3}
@@ -9330,16 +9330,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slots:
-  - {fileID: 1103795881358730}
-  - {fileID: 1036071034667452}
   - {fileID: 1795102064742648}
+  - {fileID: 1036071034667452}
+  - {fileID: 1103795881358730}
   - {fileID: 1855198228428576}
   - {fileID: 1787339560233428}
   - {fileID: 1192994585235128}
   weapons:
-  - {fileID: 1693770714610290}
-  - {fileID: 1766734372713842}
   - {fileID: 1136793577799628}
+  - {fileID: 1766734372713842}
+  - {fileID: 1693770714610290}
   - {fileID: 1002427816278986}
   - {fileID: 1157346259242776}
   - {fileID: 1375568230145462}
@@ -9350,7 +9350,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: c646d0bf60ea1724dbcccfab793e82a2, type: 3}
   - {fileID: 21300000, guid: c01b07a0e2b02ec49bd2dc1bf46d9431, type: 3}
   - {fileID: 21300000, guid: 4a8fd85bfa357da4ba62a40840ab85ea, type: 3}
-  selectedWeapon: 4
+  selectedWeapon: 1
   weaponSwapTime: 0.25
   selectedRightSprite: {fileID: 21300000, guid: 989db98680980024f9a3ca92a8eaa2c0,
     type: 3}

@@ -12,6 +12,7 @@ namespace PlayerLevelEditor
         #region Serialized Unity Fields        
         public PlayerLevelEditorGrid gridController;
         public LevelDataManager levelDataManager;
+
         [SerializeField] private Transform createdSpawnsParent;
         [SerializeField] private GameObject cameraGameObject;        
         [SerializeField] private PLECameraController cameraController;

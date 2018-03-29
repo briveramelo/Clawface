@@ -13,7 +13,8 @@ public class ObjectPool : Singleton<ObjectPool> {
     #endregion
 
     #region Unity LifeCycle
-    private void Start () {
+    protected override void Start () {
+        base.Start();
         pools.ForEach(pool => pool.Initialize(transform));       
     }
     #endregion
@@ -31,9 +32,6 @@ public class ObjectPool : Singleton<ObjectPool> {
     public void ResetPools()
     {
         pools.ForEach(pool => { pool.Reset(); });
-    }
-    void OnDisable() {
-        //pools.ForEach(pool => print(pool.poolObjectType + " uses: " + pool.mostUsed + " stored: " + pool.size));
     }
     #endregion
 

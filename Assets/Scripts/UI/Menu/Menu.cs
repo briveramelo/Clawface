@@ -3,16 +3,18 @@
  */
 
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public abstract class Menu : RoutineRunner {
+public abstract class Menu : EventSubscriber {
 
     #region Properties
     private string menuName;
     protected UnityEngine.EventSystems.EventSystem CurrentEventSystem {get{ return UnityEngine.EventSystems.EventSystem.current; } }
     protected GameObject CurrentEventSystemGameObject { get { return CurrentEventSystem.currentSelectedGameObject; } }
-    protected GameObject lastSelectedGameObject;
+    protected GameObject lastSelectedGameObject;    
+
     public string MenuName
     {
         get { return menuName; }
@@ -73,8 +75,9 @@ public abstract class Menu : RoutineRunner {
     #endregion
 
     #region Unity Lifecycle Methods
-    protected virtual void Start()
+    protected override void Start()
     {
+        base.Start();
         canvasGroup.alpha = 0.0F;
     }
 
@@ -138,7 +141,8 @@ public abstract class Menu : RoutineRunner {
     {
         if (!MenuManager.Instance.MouseMode)
         {
-            SelectInitialButton();
+            Invoke ("SelectInitialButton", 0.0f);
+            //SelectInitialButton();
         }
     }
 

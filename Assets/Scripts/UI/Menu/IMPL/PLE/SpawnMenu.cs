@@ -44,19 +44,19 @@ public class SpawnMenu : PlacementMenu {
 
     #endregion
 
-    #region Unity Lifecycle
-    protected override void Start() {
-        base.Start();
-        EventSystem.Instance.RegisterEvent(Strings.Events.PLE_TEST_END, TryEnableKeira);
-        EventSystem.Instance.RegisterEvent(Strings.Events.PLE_CALL_WAVE, DeselectOnWaveChange);
-    }
-
-    private void OnDestroy() {
-        if (EventSystem.Instance) {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_TEST_END, TryEnableKeira);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_CALL_WAVE, DeselectOnWaveChange);
+    #region Event Subscriptions
+    protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.StartDestroy; } }
+    protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+        get {
+            return new Dictionary<string, FunctionPrototype>() {
+                { Strings.Events.PLE_TEST_END, TryEnableKeira },
+                { Strings.Events.PLE_CALL_WAVE, DeselectOnWaveChange},
+            };
         }
     }
+    #endregion
+
+    #region Unity Lifecycle    
     #endregion
 
     void DeselectOnWaveChange(params object[] parameters) {
