@@ -76,9 +76,14 @@ public class SpawnManager : EventSubscriber
         if(currentSpawner == spawners.Count && LevelClear == true)
         {
             LevelClear = false;
-            ScoreManager.Instance.UpdateHighScore(SceneManager.GetActiveScene().name, ScoreManager.Instance.GetScore());
+            // ScoreManager.Instance.UpdateHighScore(SceneManager.GetActiveScene().name, ScoreManager.Instance.GetScore());
             EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_COMPLETED, 
                 SceneManager.GetActiveScene().name, ScoreManager.Instance.GetScore(), ModManager.leftArmOnLoad.ToString(), ModManager.rightArmOnLoad.ToString() );
+
+            if (SceneTracker.IsCurrentScene80sShit)
+            {
+                AchievementManager.Instance.SetAchievement(Strings.AchievementNames.CLAWFACE);
+            }
         }
     }
 
