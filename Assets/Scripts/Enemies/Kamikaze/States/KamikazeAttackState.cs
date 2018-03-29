@@ -49,6 +49,7 @@ public class KamikazeAttackState : AIState {
         if (explosionWarning) {
             explosionWarning.transform.position = controller.transform.position + new Vector3(0.0f, 0.25f, 0.0f);
         }
+        SFXManager.Instance.Play(SFXType.KamikazeWarn, controller.transform.position);
 
         yield return Timing.WaitForSeconds(waitTimeToDestruct);
         //Make sure the kamikaze is not stunned
